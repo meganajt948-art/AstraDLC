@@ -27,5 +27,5 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: AstraDLC-build
+          name: Astra2Dlc-build
           path: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/*.jar'
