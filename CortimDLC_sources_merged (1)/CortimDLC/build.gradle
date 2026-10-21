@@ -41,8 +41,8 @@ java {
 }
 
 /*
- * Rebrand visible client labels in the nested Flow JAR without changing class
- * names, package names, or the nested mod id needed by its runtime dependencies.
+ * Bundle the original client as a nested Fabric mod. Only update its display
+ * metadata here; do not rewrite compiled class files during the build.
  */
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
 def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/astradlc-core.jar")
@@ -62,85 +62,6 @@ tasks.register("downloadFlowNestedJar") {
     }
 }
 
-/*
- * Safely rewrite CONSTANT_Utf8 entries in class files. The class-file parser
- * preserves all other constant-pool entries and class bytes exactly.
- */
-def patchClassStrings = { byte[] original, String entryName ->
-    def input = new DataInputStream(new ByteArrayInputStream(original))
-    def bytes = new ByteArrayOutputStream(original.length + 128)
-    def output = new DataOutputStream(bytes)
-
-    byte[] header = new byte[8]
-    input.readFully(header)
-    output.write(header)
-    int cpCount = input.readUnsignedShort()
-    output.writeShort(cpCount)
-
-    for (int i = 1; i < cpCount; i++) {
-        int tag = input.readUnsignedByte()
-        output.writeByte(tag)
-        switch (tag) {
-            case 1: // CONSTANT_Utf8
-                int len = input.readUnsignedShort()
-                byte[] raw = new byte[len]
-                input.readFully(raw)
-                String value = new String(raw, "UTF-8")
-                String changed = value
-
-                changed = changed.replace("FlowClient", "AstraDLC")
-                changed = changed.replace("FlowUser", "AstraUser")
-                changed = changed.replace("Flow User", "AstraUser")
-                changed = changed.replace("Flow2User", "AstraUser")
-                changed = changed.replace("Flow2 User", "AstraUser")
-
-                if (value == "Flow") {
-                    changed = "Astra"
-                }
-                if (value == "Flow2") {
-                    changed = "AstraUser"
-                }
-                if (entryName == "flow/splash/Wordmark.class") {
-                    if (value == "Flow") changed = "Astra"
-                    if (value == "Client") changed = "DLC"
-                }
-
-                byte[] encoded = changed.getBytes("UTF-8")
-                output.writeShort(encoded.length)
-                output.write(encoded)
-                break
-            case 3: case 4: case 9: case 10: case 11: case 12: case 17: case 18:
-                byte[] four = new byte[4]
-                input.readFully(four)
-                output.write(four)
-                break
-            case 5: case 6:
-                byte[] eight = new byte[8]
-                input.readFully(eight)
-                output.write(eight)
-                i++
-                break
-            case 7: case 8: case 16: case 19: case 20:
-                byte[] two = new byte[2]
-                input.readFully(two)
-                output.write(two)
-                break
-            case 15:
-                byte[] three = new byte[3]
-                input.readFully(three)
-                output.write(three)
-                break
-            default:
-                throw new GradleException("Unsupported class constant-pool tag ${tag} in ${entryName}")
-        }
-    }
-
-    byte[] remainder = input.readAllBytes()
-    output.write(remainder)
-    output.flush()
-    return bytes.toByteArray()
-}
-
 tasks.register("rebrandFlowNestedJar") {
     dependsOn("downloadFlowNestedJar")
     inputs.file(flowNestedJar)
@@ -152,7 +73,6 @@ tasks.register("rebrandFlowNestedJar") {
 
         def inputZip = new java.util.zip.ZipFile(inputFile)
         def outputZip = new java.util.zip.ZipOutputStream(new FileOutputStream(outputFile))
-        int patchedClasses = 0
         try {
             def entries = inputZip.entries()
             while (entries.hasMoreElements()) {
@@ -169,11 +89,6 @@ tasks.register("rebrandFlowNestedJar") {
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
                         logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
-                    } else if (entry.name.endsWith(".class")) {
-                        byte[] original = stream.readAllBytes()
-                        byte[] changed = patchClassStrings(original, entry.name)
-                        if (!java.util.Arrays.equals(original, changed)) patchedClasses++
-                        outputZip.write(changed)
                     } else {
                         stream.transferTo(outputZip)
                     }
@@ -184,7 +99,6 @@ tasks.register("rebrandFlowNestedJar") {
             outputZip.close()
             inputZip.close()
         }
-        logger.lifecycle("Rebranded visible strings in ${patchedClasses} class files")
     }
 }
 
@@ -197,8 +111,8 @@ tasks.named("jar") {
 }
 
 /*
- * Recovered decompiler source trees still contain intermediary Minecraft
- * symbols and invalid Java, so the wrapper compiles no decompiled copies.
+ * Recovered decompiler source trees contain intermediary Minecraft symbols,
+ * so this wrapper does not compile those copies.
  */
 sourceSets {
     main {
