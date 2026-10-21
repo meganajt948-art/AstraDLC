@@ -113,6 +113,10 @@ def rebrandClassBytes = { byte[] bytes ->
                     // such as shader names, resource identifiers, or "Flow2 ..." internals.
                     if (value == "FlowClient") updated = "AstraDLC"
                     else if (value == "FlowUser") updated = "AstraUser"
+                    else if (value == "Loading FlowClient") updated = "Loading AstraDLC"
+                    else if (value == "Загружаем FlowClient") updated = "Загружаем AstraDLC"
+                    else if (value == "????????? FlowClient") updated = "????????? AstraDLC"
+                    else if (value == "Flow Black") updated = "Astra Black"
                     else if (value == "Flow2") updated = "AstraDLC"
                     else if (value == "Flow") updated = "AstraDLC"
                 }
@@ -190,9 +194,14 @@ tasks.register("rebrandFlowNestedJar") {
                         def metadata = new groovy.json.JsonSlurper().parse(stream)
                         metadata.name = "AstraDLC"
                         metadata.description = "AstraDLC Minecraft client"
+                        metadata.authors = ["AstraDLC"]
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
                         logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
+                    } else if (entry.name == "flow/default-gui.properties") {
+                        String properties = stream.getText("UTF-8")
+                        properties = properties.replace("theme.Theme=Flow Black", "theme.Theme=Astra Black")
+                        outputZip.write(properties.getBytes("UTF-8"))
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
