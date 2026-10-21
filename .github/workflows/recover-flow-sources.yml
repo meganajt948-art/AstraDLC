@@ -1,0 +1,32 @@
+name: Recover Flow sources
+
+on:
+  workflow_dispatch:
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Download original Flow JAR
+        run: |
+          curl -fL --retry 3 "https://github.com/meganajt948-art/AstraDLC/releases/download/release/flow.jar" -o flow.jar
+          test -s flow.jar
+          ls -lh flow.jar
+      - name: Decompile with CFR
+        run: |
+          curl -fL --retry 3 "https://www.benf.org/other/cfr/cfr-0.152.jar" -o cfr.jar
+          mkdir -p recovered-flow-src
+          java -Xmx4g -jar cfr.jar flow.jar --outputdir recovered-flow-src --silent true
+          find recovered-flow-src -type f -name '*.java' | wc -l
+      - name: Package recovered sources
+        run: zip -qr flow-recovered-sources.zip recovered-flow-src
+      - name: Upload recovered sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: flow-recovered-sources
+          path: flow-recovered-sources.zip
