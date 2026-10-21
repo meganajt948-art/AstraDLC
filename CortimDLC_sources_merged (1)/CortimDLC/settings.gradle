@@ -1,5 +1,3 @@
-rootProject.name = 'AstraDLC'
-
 pluginManagement {
     repositories {
         maven {
@@ -9,3 +7,5 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+rootProject.name = 'AstraDLC'
