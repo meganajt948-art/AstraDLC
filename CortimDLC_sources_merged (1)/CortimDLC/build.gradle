@@ -39,3 +39,33 @@ java {
     }
     withSourcesJar()
 }
+
+/*
+ * Bundle the original Flow client inside AstraDLC as a Fabric nested mod.
+ * This preserves the already-compiled Flow functionality while the recovered
+ * decompiled sources are being mapped and integrated.
+ */
+def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
+
+tasks.register("downloadFlowNestedJar") {
+    outputs.file(flowNestedJar)
+    doLast {
+        def output = flowNestedJar.get().asFile
+        output.parentFile.mkdirs()
+        new URL("https://github.com/meganajt948-art/AstraDLC/releases/download/release/flow.jar").withInputStream { input ->
+            output.withOutputStream { stream -> stream << input }
+        }
+        if (output.length() < 1000000) {
+            throw new GradleException("Downloaded Flow JAR is unexpectedly small: ${output.length()} bytes")
+        }
+        logger.lifecycle("Downloaded original Flow JAR (${output.length()} bytes)")
+    }
+}
+
+tasks.named("jar") {
+    dependsOn("downloadFlowNestedJar")
+    from(flowNestedJar) {
+        into("META-INF/jars")
+        rename { "flow.jar" }
+    }
+}
