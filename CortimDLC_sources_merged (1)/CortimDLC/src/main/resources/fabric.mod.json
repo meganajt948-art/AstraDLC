@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "cygnusware",
+  "id": "astradlc",
   "version": "1.0.0",
-  "name": "CygnusWare",
+  "name": "AstraDLC",
   "entrypoints": {
     "client": [
       "dev.dj.cortim.Cortim"
