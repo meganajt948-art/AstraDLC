@@ -1,0 +1,818 @@
+# fill.ps1 — заполняет пустые .java-файлы Cortim
+$root = "src\main\java\dev\dj\cortim"
+
+function Write-File($path, $content) {
+    $full = Join-Path $root $path
+    $dir = Split-Path $full -Parent
+    if (!(Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+    Set-Content -Path $full -Value $content -Encoding UTF8
+    Write-Host "OK: $path"
+}
+
+# ─── CortimConfig.java ───────────────────────────────────────────
+Write-File "CortimConfig.java" @'
+package dev.dj.cortim;
+
+public final class CortimConfig {
+    private static volatile boolean panic = false;
+
+    public static boolean espEnabled = true;
+    public static boolean tracersEnabled = true;
+    public static boolean hudEnabled = true;
+    public static boolean autoSwapEnabled = true;
+    public static boolean guiMoveEnabled = true;
+    public static boolean autoBuyEnabled = false;
+    public static boolean freecamEnabled = false;
+    public static boolean brightnessEnabled = true;
+    public static boolean atmosphereEnabled = true;
+    public static boolean smoothnessEnabled = true;
+    public static boolean saturationEnabled = true;
+
+    public static int espColor = 0xFFFF3B3B;
+    public static int tracerColor = 0xFF3BFF3B;
+    public static int hudColor = 0xFF00E5FF;
+
+    public static float gamma = 10.0f;
+    public static float snowDensity = 1.0f;
+    public static int snowColor = 0xFFFFFFFF;
+    public static boolean permanentSnowBiome = true;
+    public static boolean snowParticles = true;
+
+    public static float rotationSpeed = 0.35f;
+    public static boolean smoothCamera = true;
+    public static float saturation = 1.35f;
+
+    private CortimConfig() {}
+
+    public static boolean isPanic() { return panic; }
+
+    public static void setPanic(boolean v) {
+        panic = v;
+        if (v) {
+            espEnabled = false;
+            tracersEnabled = false;
+            hudEnabled = false;
+            autoSwapEnabled = false;
+            guiMoveEnabled = false;
+            autoBuyEnabled = false;
+            freecamEnabled = false;
+            brightnessEnabled = false;
+            atmosphereEnabled = false;
+            smoothnessEnabled = false;
+            saturationEnabled = false;
+        }
+    }
+
+    public static void restoreFromPanic() { panic = false; }
+}
+'@
+
+# ─── BindManager.java ────────────────────────────────────────────
+Write-File "BindManager.java" @'
+package dev.dj.cortim;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import dev.dj.cortim.module.Module;
+import dev.dj.cortim.module.ModuleRegistry;
+import net.fabricmc.loader.api.FabricLoader;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+
+public final class BindManager {
+
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Path FILE = FabricLoader.getInstance().getConfigDir().resolve("cortim_binds.json");
+
+    private BindManager() {}
+
+    public static void save() {
+        Map<String, Integer> map = new HashMap<>();
+        for (Module m : ModuleRegistry.all()) {
+            if (m.getBoundKey() != -1) map.put(m.getName(), m.getBoundKey());
+        }
+        try {
+            Files.createDirectories(FILE.getParent());
+            Files.writeString(FILE, GSON.toJson(map));
+        } catch (IOException e) {
+            Cortim.LOG.warn("bind save failed", e);
+        }
+    }
+
+    public static void load() {
+        if (!Files.exists(FILE)) return;
+        try {
+            String json = Files.readString(FILE);
+            Map<String, Integer> map = GSON.fromJson(json, new TypeToken<Map<String, Integer>>(){}.getType());
+            if (map == null) return;
+            for (var e : map.entrySet()) {
+                Module m = ModuleRegistry.byName(e.getKey());
+                if (m != null) m.setBoundKey(e.getValue());
+            }
+        } catch (Exception e) {
+            Cortim.LOG.warn("bind load failed", e);
+        }
+    }
+}
+'@
+
+# ─── module/Module.java ──────────────────────────────────────────
+Write-File "module\Module.java" @'
+package dev.dj.cortim.module;
+
+import dev.dj.cortim.CortimConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Module {
+    private final String name;
+    private boolean enabled;
+    private int boundKey = -1;
+
+    private final List<Setting<?>> settings = new ArrayList<>();
+
+    protected Module(String name) { this.name = name; }
+
+    public String getName() { return name; }
+    public boolean isEnabled() { return enabled && !CortimConfig.isPanic(); }
+    public void setEnabled(boolean v) { this.enabled = v; }
+    public void toggle() { this.enabled = !this.enabled; }
+
+    public int getBoundKey() { return boundKey; }
+    public void setBoundKey(int key) { this.boundKey = key; }
+    public void clearBind() { this.boundKey = -1; }
+
+    public List<Setting<?>> getSettings() { return settings; }
+    protected <T> Setting<T> add(Setting<T> s) { settings.add(s); return s; }
+
+    public void onTick() {}
+    public void onRender(float tickDelta) {}
+
+    public static abstract class Setting<T> {
+        private final String name;
+        protected T value;
+        public Setting(String name, T def) { this.name = name; this.value = def; }
+        public String getName() { return name; }
+        public T get() { return value; }
+        public void set(T v) { this.value = v; }
+        public abstract void adjust(int direction);
+        public abstract String display();
+    }
+
+    public static class BoolSetting extends Setting<Boolean> {
+        public BoolSetting(String name, boolean def) { super(name, def); }
+        @Override public void adjust(int dir) { value = !value; }
+        @Override public String display() { return value ? "ON" : "OFF"; }
+    }
+
+    public static class FloatSetting extends Setting<Float> {
+        private final float min, max, step;
+        public FloatSetting(String name, float def, float min, float max, float step) {
+            super(name, def); this.min = min; this.max = max; this.step = step;
+        }
+        @Override public void adjust(int dir) {
+            value = Math.max(min, Math.min(max, value + step * dir));
+        }
+        @Override public String display() { return String.format("%.2f", value); }
+    }
+
+    public static class IntSetting extends Setting<Integer> {
+        private final int min, max;
+        public IntSetting(String name, int def, int min, int max) {
+            super(name, def); this.min = min; this.max = max;
+        }
+        @Override public void adjust(int dir) {
+            value = Math.max(min, Math.min(max, value + dir));
+        }
+        @Override public String display() { return Integer.toString(value); }
+    }
+}
+'@
+
+# ─── module/ModuleRegistry.java ──────────────────────────────────
+Write-File "module\ModuleRegistry.java" @'
+package dev.dj.cortim.module;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class ModuleRegistry {
+    private static final List<Module> MODULES = new ArrayList<>();
+
+    private ModuleRegistry() {}
+
+    public static void add(Module m) { MODULES.add(m); }
+    public static List<Module> all() { return MODULES; }
+
+    public static Module byName(String name) {
+        for (Module m : MODULES) if (m.getName().equalsIgnoreCase(name)) return m;
+        return null;
+    }
+}
+'@
+
+# ─── module/TriggerBot.java ──────────────────────────────────────
+Write-File "module\TriggerBot.java" @'
+package dev.dj.cortim.module;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.SwordItem;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.Vec3d;
+
+public class TriggerBot extends Module {
+
+    private final FloatSetting range = add(new FloatSetting("Range", 3.0f, 2.0f, 6.0f, 0.1f));
+    private final IntSetting minDelay = add(new IntSetting("MinDelay", 90, 30, 500));
+    private final IntSetting maxDelay = add(new IntSetting("MaxDelay", 160, 30, 600));
+    private final FloatSetting cooldown = add(new FloatSetting("Cooldown", 0.92f, 0.5f, 1.0f, 0.01f));
+    private final BoolSetting weaponOnly = add(new BoolSetting("WeaponOnly", true));
+    private final BoolSetting playersOnly = add(new BoolSetting("PlayersOnly", true));
+
+    private long lastAttack = 0L;
+    private long nextDelay = 0L;
+
+    public TriggerBot() { super("TriggerBot"); }
+
+    @Override
+    public void onTick() {
+        if (!isEnabled()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+        if (player == null || client.world == null) return;
+        if (client.currentScreen != null) return;
+        if (player.isUsingItem() || player.isDead()) return;
+
+        if (weaponOnly.get()) {
+            var stack = player.getMainHandStack();
+            if (!(stack.getItem() instanceof SwordItem) && !(stack.getItem() instanceof AxeItem)) return;
+        }
+
+        if (player.getAttackCooldownProgress(0.0F) < cooldown.get()) return;
+
+        long now = System.currentTimeMillis();
+        if (now - lastAttack < nextDelay) return;
+
+        if (!(client.crosshairTarget instanceof EntityHitResult ehr)) return;
+        Entity target = ehr.getEntity();
+        if (target == player || !target.isAlive()) return;
+        if (playersOnly.get() && !(target instanceof PlayerEntity)) return;
+
+        Vec3d eye = player.getEyePos();
+        Vec3d tgt = target.getPos().add(0, target.getHeight() / 2.0, 0);
+        if (eye.distanceTo(tgt) > range.get()) return;
+
+        client.interactionManager.attackEntity(player, target);
+        player.swingHand(Hand.MAIN_HAND);
+        lastAttack = now;
+        int d = maxDelay.get() - minDelay.get();
+        nextDelay = minDelay.get() + (d > 0 ? (long)(Math.random() * d) : 0);
+    }
+}
+'@
+
+# ─── module/AutoSwap.java ────────────────────────────────────────
+Write-File "module\AutoSwap.java" @'
+package dev.dj.cortim.module;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.SwordItem;
+import net.minecraft.util.hit.EntityHitResult;
+
+public class AutoSwap extends Module {
+
+    private int previousSlot = -1;
+    private long swapBackAt = 0L;
+    private final IntSetting swapBackDelay = add(new IntSetting("SwapBack", 350, 100, 1000));
+
+    public AutoSwap() { super("AutoSwap"); }
+
+    @Override
+    public void onTick() {
+        if (!isEnabled()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+        if (player == null || client.currentScreen != null) return;
+
+        if (previousSlot != -1 && System.currentTimeMillis() >= swapBackAt) {
+            player.getInventory().selectedSlot = previousSlot;
+            previousSlot = -1;
+            return;
+        }
+        if (previousSlot != -1) return;
+
+        if (!(client.crosshairTarget instanceof EntityHitResult ehr)) return;
+        Entity target = ehr.getEntity();
+        if (!(target instanceof PlayerEntity p) || p == player) return;
+
+        var current = player.getMainHandStack();
+        if (current.getItem() instanceof SwordItem || current.getItem() instanceof AxeItem) return;
+
+        int found = -1;
+        for (int i = 0; i < 9; i++) {
+            var s = player.getInventory().getStack(i);
+            if (s.getItem() instanceof SwordItem || s.getItem() instanceof AxeItem) { found = i; break; }
+        }
+        if (found == -1) return;
+
+        previousSlot = player.getInventory().selectedSlot;
+        player.getInventory().selectedSlot = found;
+        swapBackAt = System.currentTimeMillis() + swapBackDelay.get();
+    }
+}
+'@
+
+# ─── module/GuiMove.java ─────────────────────────────────────────
+Write-File "module\GuiMove.java" @'
+package dev.dj.cortim.module;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
+
+public class GuiMove extends Module {
+
+    public GuiMove() { super("GuiMove"); }
+
+    @Override
+    public void onTick() {
+        if (!isEnabled()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || client.currentScreen == null) return;
+        GameOptions o = client.options;
+        var input = client.player.input;
+        boolean f = o.forwardKey.isPressed();
+        boolean b = o.backKey.isPressed();
+        boolean l = o.leftKey.isPressed();
+        boolean r = o.rightKey.isPressed();
+        boolean j = o.jumpKey.isPressed();
+        boolean s = o.sneakKey.isPressed();
+        try {
+            input.playerInput.forward(f);
+            input.playerInput.backward(b);
+            input.playerInput.left(l);
+            input.playerInput.right(r);
+            input.playerInput.jump(j);
+            input.playerInput.sneak(s);
+        } catch (Throwable ignored) {}
+    }
+}
+'@
+
+# ─── module/AutoBuy.java ─────────────────────────────────────────
+Write-File "module\AutoBuy.java" @'
+package dev.dj.cortim.module;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.screen.slot.Slot;
+
+public class AutoBuy extends Module {
+
+    private long lastClick = 0L;
+    private final IntSetting clickDelay = add(new IntSetting("Delay", 120, 50, 1000));
+
+    public AutoBuy() { super("AutoBuy"); }
+
+    @Override
+    public void onTick() {
+        if (!isEnabled()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!(client.currentScreen instanceof HandledScreen<?> screen)) return;
+
+        long now = System.currentTimeMillis();
+        if (now - lastClick < clickDelay.get()) return;
+
+        for (Slot slot : screen.getScreenHandler().slots) {
+            if (!slot.hasStack()) continue;
+            String name = slot.getStack().getName().getString().toLowerCase();
+            if (name.contains("buy") || name.contains("купить")) {
+                client.interactionManager.clickSlot(
+                    screen.getScreenHandler().syncId, slot.id, 0,
+                    net.minecraft.screen.slot.SlotActionType.QUICK_MOVE,
+                    client.player
+                );
+                lastClick = now;
+                break;
+            }
+        }
+    }
+}
+'@
+
+# ─── module/Freecam.java ─────────────────────────────────────────
+Write-File "module\Freecam.java" @'
+package dev.dj.cortim.module;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.util.math.Vec3d;
+import org.lwjgl.glfw.GLFW;
+
+public class Freecam extends Module {
+
+    public static Vec3d cameraPos = Vec3d.ZERO;
+    public static float cameraYaw = 0f;
+    public static float cameraPitch = 0f;
+    public static boolean active = false;
+
+    private final FloatSetting speed = add(new FloatSetting("Speed", 0.5f, 0.1f, 3.0f, 0.1f));
+
+    public Freecam() { super("Freecam"); }
+
+    @Override
+    public void onTick() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+        if (player == null) { active = false; return; }
+
+        if (!isEnabled()) { active = false; return; }
+
+        if (!active) {
+            cameraPos = player.getEyePos();
+            cameraYaw = player.getYaw();
+            cameraPitch = player.getPitch();
+            active = true;
+        }
+
+        Vec3d forward = Vec3d.fromPolar(cameraPitch, cameraYaw);
+        Vec3d right = Vec3d.fromPolar(0, cameraYaw + 90);
+
+        long win = client.getWindow().getHandle();
+        double sp = speed.get();
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS) sp *= 3.0;
+
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_W) == GLFW.GLFW_PRESS) cameraPos = cameraPos.add(forward.multiply(sp));
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_S) == GLFW.GLFW_PRESS) cameraPos = cameraPos.add(forward.multiply(-sp));
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_A) == GLFW.GLFW_PRESS) cameraPos = cameraPos.add(right.multiply(-sp));
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_D) == GLFW.GLFW_PRESS) cameraPos = cameraPos.add(right.multiply(sp));
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_SPACE) == GLFW.GLFW_PRESS) cameraPos = cameraPos.add(0, sp, 0);
+        if (GLFW.glfwGetKey(win, GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) cameraPos = cameraPos.add(0, -sp, 0);
+
+        cameraYaw = player.getYaw();
+        cameraPitch = player.getPitch();
+    }
+
+    public static void reset() {
+        active = false;
+        cameraPos = Vec3d.ZERO;
+    }
+}
+'@
+
+# ─── module/Atmosphere.java ──────────────────────────────────────
+Write-File "module\Atmosphere.java" @'
+package dev.dj.cortim.module;
+
+import dev.dj.cortim.CortimConfig;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particle.ParticleTypes;
+
+public class Atmosphere extends Module {
+
+    public Atmosphere() { super("Atmosphere"); }
+
+    public static void registerParticles() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (!CortimConfig.atmosphereEnabled || CortimConfig.isPanic()) return;
+            if (!CortimConfig.snowParticles) return;
+
+            ClientWorld world = client.world;
+            if (world == null || client.player == null) return;
+
+            int count = (int) (12 * CortimConfig.snowDensity);
+            var player = client.player;
+            var rnd = world.random;
+
+            for (int i = 0; i < count; i++) {
+                double dx = (rnd.nextDouble() - 0.5) * 24;
+                double dy = (rnd.nextDouble() - 0.5) * 12 + 8;
+                double dz = (rnd.nextDouble() - 0.5) * 24;
+                world.addParticle(
+                    ParticleTypes.SNOWFLAKE,
+                    player.getX() + dx,
+                    player.getY() + dy,
+                    player.getZ() + dz,
+                    0, -0.05, 0
+                );
+            }
+        });
+    }
+
+    @Override
+    public void onTick() {}
+}
+'@
+
+# ─── module/Smoothness.java ──────────────────────────────────────
+Write-File "module\Smoothness.java" @'
+package dev.dj.cortim.module;
+
+import dev.dj.cortim.CortimConfig;
+import net.minecraft.client.MinecraftClient;
+
+public class Smoothness extends Module {
+
+    private float lastYaw, lastPitch;
+    private boolean initialized = false;
+
+    public Smoothness() { super("Smoothness"); }
+
+    @Override
+    public void onTick() {
+        if (!isEnabled()) { initialized = false; return; }
+
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null) return;
+
+        float yaw = client.player.getYaw();
+        float pitch = client.player.getPitch();
+
+        if (!initialized) {
+            lastYaw = yaw; lastPitch = pitch; initialized = true; return;
+        }
+
+        float speed = CortimConfig.rotationSpeed;
+        float smoothYaw = lerpAngle(lastYaw, yaw, speed);
+        float smoothPitch = lerp(lastPitch, pitch, speed);
+
+        client.player.setYaw(smoothYaw);
+        client.player.setPitch(smoothPitch);
+
+        lastYaw = smoothYaw;
+        lastPitch = smoothPitch;
+    }
+
+    private static float lerp(float a, float b, float t) { return a + (b - a) * t; }
+
+    private static float lerpAngle(float a, float b, float t) {
+        float delta = ((b - a + 540) % 360) - 180;
+        return a + delta * t;
+    }
+}
+'@
+
+# ─── render/EspRenderer.java ─────────────────────────────────────
+Write-File "render\EspRenderer.java" @'
+package dev.dj.cortim.render;
+
+import dev.dj.cortim.CortimConfig;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+
+public class EspRenderer {
+
+    public static void register() {
+        WorldRenderEvents.LAST.register(EspRenderer::render);
+    }
+
+    private static void render(WorldRenderContext context) {
+        if (!CortimConfig.espEnabled || CortimConfig.isPanic()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || client.world == null) return;
+
+        MatrixStack matrices = context.matrixStack();
+        Vec3d cam = context.camera().getPos();
+        VertexConsumerProvider.Immediate consumers = context.consumers();
+        if (consumers == null || matrices == null) return;
+
+        VertexConsumer buffer = consumers.getBuffer(RenderLayer.getLines());
+
+        float r = ((CortimConfig.espColor >> 16) & 0xFF) / 255f;
+        float g = ((CortimConfig.espColor >> 8) & 0xFF) / 255f;
+        float b = (CortimConfig.espColor & 0xFF) / 255f;
+
+        for (Entity entity : client.world.getEntities()) {
+            if (!(entity instanceof PlayerEntity)) continue;
+            if (entity == client.player) continue;
+
+            Box box = entity.getBoundingBox().offset(-cam.x, -cam.y, -cam.z);
+            WorldRenderer.drawBox(matrices, buffer,
+                box.minX, box.minY, box.minZ,
+                box.maxX, box.maxY, box.maxZ,
+                r, g, b, 1.0f);
+        }
+    }
+}
+'@
+
+# ─── render/TracerRenderer.java ──────────────────────────────────
+Write-File "render\TracerRenderer.java" @'
+package dev.dj.cortim.render;
+
+import dev.dj.cortim.CortimConfig;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
+import org.joml.Matrix4f;
+
+public class TracerRenderer {
+
+    public static void register() {
+        WorldRenderEvents.LAST.register(TracerRenderer::render);
+    }
+
+    private static void render(WorldRenderContext context) {
+        if (!CortimConfig.tracersEnabled || CortimConfig.isPanic()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || client.world == null) return;
+
+        MatrixStack matrices = context.matrixStack();
+        Vec3d cam = context.camera().getPos();
+        VertexConsumerProvider.Immediate consumers = context.consumers();
+        if (consumers == null || matrices == null) return;
+
+        VertexConsumer buffer = consumers.getBuffer(RenderLayer.getLines());
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+
+        Vec3d eye = client.player.getEyePos().subtract(cam);
+        float r = ((CortimConfig.tracerColor >> 16) & 0xFF) / 255f;
+        float g = ((CortimConfig.tracerColor >> 8) & 0xFF) / 255f;
+        float b = (CortimConfig.tracerColor & 0xFF) / 255f;
+
+        for (Entity entity : client.world.getEntities()) {
+            if (!(entity instanceof PlayerEntity)) continue;
+            if (entity == client.player) continue;
+
+            Vec3d target = entity.getPos().add(0, entity.getHeight() / 2.0, 0).subtract(cam);
+
+            buffer.vertex(matrix, (float) eye.x, (float) eye.y, (float) eye.z).color(r, g, b, 1.0f).normal(0, 1, 0);
+            buffer.vertex(matrix, (float) target.x, (float) target.y, (float) target.z).color(r, g, b, 1.0f).normal(0, 1, 0);
+        }
+    }
+}
+'@
+
+# ─── render/CortimHud.java ───────────────────────────────────────
+Write-File "render\CortimHud.java" @'
+package dev.dj.cortim.render;
+
+import dev.dj.cortim.CortimConfig;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
+public class CortimHud {
+
+    private static final Identifier HUD_ID = Identifier.of("cortim", "hud");
+
+    public static void register() {
+        HudElementRegistry.attachElementBefore(
+            VanillaHudElements.CHAT,
+            HUD_ID,
+            (context, tickCounter) -> render(context)
+        );
+    }
+
+    private static void render(DrawContext context) {
+        if (!CortimConfig.hudEnabled || CortimConfig.isPanic()) return;
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || client.options.hudHidden) return;
+
+        int x = 4, y = 4;
+        context.drawTextWithShadow(client.textRenderer, Text.literal("Cortim"), x, y, CortimConfig.hudColor);
+
+        int line = y + 12;
+        if (CortimConfig.espEnabled)        line = drawLine(context, client, "ESP",        x, line, 0xFFFF3B3B);
+        if (CortimConfig.tracersEnabled)    line = drawLine(context, client, "Tracers",    x, line, 0xFF3BFF3B);
+        if (CortimConfig.autoSwapEnabled)   line = drawLine(context, client, "AutoSwap",   x, line, 0xFFFFB03B);
+        if (CortimConfig.guiMoveEnabled)    line = drawLine(context, client, "GuiMove",    x, line, 0xFFFFB03B);
+        if (CortimConfig.autoBuyEnabled)    line = drawLine(context, client, "AutoBuy",    x, line, 0xFFFFB03B);
+        if (CortimConfig.freecamEnabled)    line = drawLine(context, client, "Freecam",    x, line, 0xFFB03BFF);
+        if (CortimConfig.brightnessEnabled) line = drawLine(context, client, "Brightness", x, line, 0xFFFFFF3B);
+        if (CortimConfig.atmosphereEnabled) line = drawLine(context, client, "Atmosphere", x, line, 0xFF9BE7FF);
+        if (CortimConfig.smoothnessEnabled) line = drawLine(context, client, "Smoothness", x, line, 0xFF9BE7FF);
+        if (CortimConfig.saturationEnabled) line = drawLine(context, client, "Saturation", x, line, 0xFF9BE7FF);
+    }
+
+    private static int drawLine(DrawContext ctx, MinecraftClient client, String text, int x, int y, int color) {
+        ctx.drawTextWithShadow(client.textRenderer, Text.literal(text), x, y, color);
+        return y + 10;
+    }
+}
+'@
+
+# ─── gui/CortimScreen.java ───────────────────────────────────────
+Write-File "gui\CortimScreen.java" @'
+package dev.dj.cortim.gui;
+
+import dev.dj.cortim.BindManager;
+import dev.dj.cortim.CortimConfig;
+import dev.dj.cortim.module.Module;
+import dev.dj.cortim.module.ModuleRegistry;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
+
+import java.util.List;
+
+public class CortimScreen extends Screen {
+
+    private static final int PANEL_W = 480;
+    private static final int PANEL_H = 300;
+    private static final int ROW_H = 18;
+
+    private int panelX, panelY;
+    private Module selected;
+    private Module bindingModule;
+    private int scroll = 0;
+
+    public CortimScreen() { super(Text.literal("Cortim")); }
+
+    @Override
+    protected void init() {
+        panelX = (width - PANEL_W) / 2;
+        panelY = (height - PANEL_H) / 2;
+    }
+
+    @Override
+    public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+        ctx.fill(0, 0, width, height, 0x80000000);
+        ctx.fill(panelX, panelY, panelX + PANEL_W, panelY + PANEL_H, 0xE0101018);
+        drawBorder(ctx, panelX, panelY, PANEL_W, PANEL_H, 0xFF00E5FF);
+        ctx.drawTextWithShadow(textRenderer, Text.literal("Cortim"), panelX + 8, panelY + 6, 0xFF00E5FF);
+        ctx.drawTextWithShadow(textRenderer, Text.literal("v1.0"), panelX + PANEL_W - 40, panelY + 6, 0xFF808080);
+
+        List<Module> modules = ModuleRegistry.all();
+        int listX = panelX + 8;
+        int listY = panelY + 24;
+        int listW = 180;
+        int listH = PANEL_H - 32;
+        ctx.fill(listX, listY, listX + listW, listY + listH, 0x80000000);
+
+        int visible = listH / ROW_H;
+        for (int i = 0; i < visible && i + scroll < modules.size(); i++) {
+            Module m = modules.get(i + scroll);
+            int rowY = listY + i * ROW_H;
+            boolean hover = mouseX >= listX && mouseX <= listX + listW && mouseY >= rowY && mouseY <= rowY + ROW_H;
+            int bg = m == selected ? 0xFF1A3A4A : (hover ? 0xFF202030 : 0x00000000);
+            if (bg != 0) ctx.fill(listX, rowY, listX + listW, rowY + ROW_H, bg);
+            int color = m.isEnabled() ? 0xFF3BFF3B : 0xFF808080;
+            String label = m.getName();
+            if (m.getBoundKey() != -1) label += " [" + keyName(m.getBoundKey()) + "]";
+            ctx.drawTextWithShadow(textRenderer, Text.literal(label), listX + 4, rowY + 5, color);
+        }
+
+        int setX = listX + listW + 8;
+        int setY = listY;
+        int setW = PANEL_W - (setX - panelX) - 8;
+        int setH = listH;
+        ctx.fill(setX, setY, setX + setW, setY + setH, 0x80000000);
+
+        if (selected != null) {
+            ctx.drawTextWithShadow(textRenderer, Text.literal(selected.getName()), setX + 4, setY + 4, 0xFF00E5FF);
+            ctx.drawTextWithShadow(textRenderer, Text.literal("State: " + (selected.isEnabled() ? "ON" : "OFF")),
+                setX + 4, setY + 16, selected.isEnabled() ? 0xFF3BFF3B : 0xFF808080);
+
+            int row = setY + 32;
+            for (Module.Setting<?> s : selected.getSettings()) {
+                ctx.drawTextWithShadow(textRenderer, Text.literal(s.getName() + ": " + s.display()),
+                    setX + 4, row, 0xFFFFFFFF);
+                row += 14;
+            }
+            ctx.drawTextWithShadow(textRenderer,
+                Text.literal("Bind: " + (selected.getBoundKey() == -1 ? "none" : keyName(selected.getBoundKey()))),
+                setX + 4, setY + setH - 14, 0xFF808080);
+        } else {
+            ctx.drawTextWithShadow(textRenderer, Text.literal("Select a module"), setX + 4, setY + 4, 0xFF808080);
+        }
+
+        String hint =

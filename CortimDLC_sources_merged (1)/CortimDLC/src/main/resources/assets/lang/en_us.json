@@ -1,0 +1,25 @@
+{
+  "cortim.title": "CygnusWare",
+
+  "cortim.tab.combat": "Combat",
+  "cortim.tab.movement": "Movement",
+  "cortim.tab.player": "Player",
+  "cortim.tab.render": "Render",
+  "cortim.tab.misc": "Misc",
+  "cortim.tab.hud": "HUD",
+  "cortim.tab.configs": "Configs",
+  "cortim.tab.waypoints": "Waypoints",
+  "cortim.tab.friends": "Friends",
+  "cortim.tab.cosmetics": "Cosmetics",
+
+  "cortim.search": "Search",
+  "cortim.search.hint": "Ctrl F",
+  "cortim.apply": "Apply",
+  "cortim.power.tooltip": "Panic — disable all modules",
+
+  "cortim.language.title": "Language",
+  "cortim.language.desc": "Choose the client language",
+  "cortim.language.ru": "Русский",
+  "cortim.language.en": "English",
+  "cortim.language.hint": "You can change it at any time: the globe button in the menu"
+}

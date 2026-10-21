@@ -1,0 +1,1 @@
+class|kind|extends|implements|lines|strings|methods

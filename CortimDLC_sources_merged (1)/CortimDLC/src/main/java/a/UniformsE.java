@@ -1,0 +1,122 @@
+/*
+ * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  com.mojang.blaze3d.pipeline.RenderPipeline
+ *  net.minecraft.class_10799
+ *  net.minecraft.class_11231
+ *  net.minecraft.class_11244
+ *  net.minecraft.class_4588
+ *  net.minecraft.class_8030
+ *  org.joml.Matrix3x2f
+ *  org.joml.Matrix3x2fc
+ *  org.jspecify.annotations.Nullable
+ */
+package a;
+
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import java.lang.invoke.MethodHandle;
+import java.lang.runtime.ObjectMethods;
+import net.minecraft.class_10799;
+import net.minecraft.class_11231;
+import net.minecraft.class_11244;
+import net.minecraft.class_4588;
+import net.minecraft.class_8030;
+import org.joml.Matrix3x2f;
+import org.joml.Matrix3x2fc;
+import org.jspecify.annotations.Nullable;
+
+public final class UniformsE
+extends Record
+implements class_11244 {
+    private final class_11231 vfx;
+    private final Matrix3x2f vfy;
+    private final float[] vfz;
+    private final int[] vga;
+    private final int vgb;
+    private final @Nullable class_8030 vgc;
+    private final @Nullable class_8030 vgd;
+    private static /* synthetic */ int vge;
+    private static /* synthetic */ long vgf;
+
+    public UniformsE(class_11231 class_112312, Matrix3x2f matrix3x2f, float[] fArray, int[] nArray, int n, @Nullable class_8030 class_80302, @Nullable class_8030 class_80303) {
+        this.vfx = class_112312;
+        this.vfy = matrix3x2f;
+        this.vfz = fArray;
+        this.vga = nArray;
+        this.vgb = n;
+        this.vgc = class_80302;
+        this.vgd = class_80303;
+    }
+
+    public RenderPipeline comp_4055() {
+        return class_10799.field_56883;
+    }
+
+    public void method_70917(class_4588 class_45882) {
+        for (int i = 0; i < this.vgb; ++i) {
+            int n = i * 8;
+            float f = this.vfz[n];
+            float f2 = this.vfz[n + 1];
+            float f3 = this.vfz[n + 2];
+            float f4 = this.vfz[n + 3];
+            float f5 = this.vfz[n + 4];
+            float f6 = this.vfz[n + 5];
+            float f7 = this.vfz[n + 6];
+            float f8 = this.vfz[n + 7];
+            int n2 = this.vga[i];
+            class_45882.method_70815((Matrix3x2fc)this.vfy, f, f2).method_22913(f5, f6).method_39415(n2);
+            class_45882.method_70815((Matrix3x2fc)this.vfy, f, f4).method_22913(f5, f8).method_39415(n2);
+            class_45882.method_70815((Matrix3x2fc)this.vfy, f3, f4).method_22913(f7, f8).method_39415(n2);
+            class_45882.method_70815((Matrix3x2fc)this.vfy, f3, f2).method_22913(f7, f6).method_39415(n2);
+        }
+    }
+
+    @Override
+    public final String toString() {
+        return ObjectMethods.bootstrap("toString", new MethodHandle[]{UniformsE.class, "textureSetup;pose;quads;colors;count;scissorArea;bounds", "vfx", "vfy", "vfz", "vga", "vgb", "vgc", "vgd"}, this);
+    }
+
+    @Override
+    public final int hashCode() {
+        return (int)ObjectMethods.bootstrap("hashCode", new MethodHandle[]{UniformsE.class, "textureSetup;pose;quads;colors;count;scissorArea;bounds", "vfx", "vfy", "vfz", "vga", "vgb", "vgc", "vgd"}, this);
+    }
+
+    @Override
+    public final boolean equals(Object object) {
+        return (boolean)ObjectMethods.bootstrap("equals", new MethodHandle[]{UniformsE.class, "textureSetup;pose;quads;colors;count;scissorArea;bounds", "vfx", "vfy", "vfz", "vga", "vgb", "vgc", "vgd"}, this, object);
+    }
+
+    public class_11231 comp_4056() {
+        return this.vfx;
+    }
+
+    public Matrix3x2f pose() {
+        return this.vfy;
+    }
+
+    public float[] quads() {
+        return this.vfz;
+    }
+
+    public int[] colors() {
+        return this.vga;
+    }
+
+    public int count() {
+        return this.vgb;
+    }
+
+    public @Nullable class_8030 comp_4069() {
+        return this.vgc;
+    }
+
+    public @Nullable class_8030 comp_4274() {
+        return this.vgd;
+    }
+
+    private static /* synthetic */ int den(int n, int n2) {
+        return n - n2 ^ 0x75A22607;
+    }
+}
+

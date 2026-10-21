@@ -1,0 +1,17 @@
+{
+  "gui.cortim.language.title": "Язык",
+  "gui.cortim.language.subtitle": "Выберите язык клиента",
+  "gui.cortim.language.hint": "Язык можно изменить в любое время через меню",
+  "gui.cortim.search": "Поиск",
+  "gui.cortim.search_results": "Результаты поиска",
+  "gui.cortim.tab.combat": "Боевые",
+  "gui.cortim.tab.movement": "Движение",
+  "gui.cortim.tab.player": "Игрок",
+  "gui.cortim.tab.render": "Визуализация",
+  "gui.cortim.tab.misc": "Разное",
+  "gui.cortim.tab.hud": "HUD",
+  "gui.cortim.tab.configs": "Конфиги",
+  "gui.cortim.tab.waypoints": "Путевые точки",
+  "gui.cortim.tab.friends": "Друзья",
+  "gui.cortim.tab.cosmetics": "Косметика"
+}

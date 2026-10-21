@@ -1,0 +1,479 @@
+﻿old,new,confidence,description
+dry,PanicShutdown,H,"паник-кнопка: выключает модули, чистит хуки"
+dsh,AgentBootstrap,H,копия boot.A: javaagent-загрузчик
+dte,InMemoryClassLoader,H,грузит классы/ресурсы из карт byte[]
+dtv,Bot,H,одна бот-сессия
+dyh,BotCamera,H,камера бота (Flow2 bot camera)
+eao,MapCaptchaDetector,H,ищет карту-капчу и отдаёт на распознавание
+eck,BotChatLog,H,журнал чата бота
+ecr,BotConfigHandler,H,фаза configuration
+edb,BotConnection,H,ClientConnection с очередью пакетов
+edj,ClientContextSwitcher,H,подмена полей MinecraftClient на данные бота
+eff,BotRemoteInput,H,ручное управление ботом
+efz,BotHost,H,интерфейс бота
+ega,FabricAddonsBridge,M,save/restore статических полей аддонов
+egf,BotLoginHandler,H,фаза login
+egl,ItemDisplayNames,M,таблица названий кастомных предметов
+egq,BotManager,H,реестр ботов
+ehq,ResourcePackSimulator,H,имитация загрузки resource pack
+ehy,BotPlayHandler,H,фаза play (ClientPlayNetworkHandler)
+eik,BotPlayerEntity,H,ClientPlayerEntity бота
+eip,BotMinimap,H,радар 96x96 и карта
+ejl,UnsafeUtil,H,обёртка над Unsafe
+ejp,BotRuntime,H,active/LOCK/any
+eke,BotStore,H,сохранение ботов (flow2-bots)
+eky,DummyClientParts,M,заглушки звука/частиц/мыши/рендера
+elb,BotTexture,M,текстура для превью бота
+elh,BotWorld,M,ClientWorld бота
+ell,ProfilerHook,M,"реализует class_5962, отдаёт Profiler"
+elq,SelectionSet,M,"выбор элементов (toggle, selectAll)"
+emu,ItemRuleParser,M,парсер правил предметов (attr/ench/lore)
+enq,MapWallUtil,H,"сборка стены из карт, findWalls, encodePng"
+eqc,OnnxGraph,H,"парсер ONNX-графа (Conv, Relu...)"
+erp,OcrSolver,H,нейросетевой решатель капчи
+eso,CaptchaResult,H,code + message
+esz,DigitCaptchaSolver,H,решатель цифровой капчи
+ett,CameraOffset,M,Camera: viewOffset/releaseView
+eul,AssetStore,H,локальные ассеты (Flow2 assets)
+evi,AvatarCloud,H,/api/avatar
+ewk,CloudSync,H,"/api/data/pull, конфиг в облаке"
+exn,AesGcmBox,H,AES/GCM seal/open
+eya,CloudEndpoint,M,"get(): адрес облака, используют ewk/eyn/evi"
+eyn,CloudConfigs,M,список/удаление облачных конфигов
+eyx,LoadProgress,H,прогресс загрузки
+ezj,AssetPaths,M,"пути /flow/video, /flow/menu..."
+ezo,WorldSetupTest,L,
+fbc,AnimationsTest,M,
+fbk,AutoSellTest,M,
+fbw,AuraTest,H,
+fdp,AuraProfileTest,H,
+fdx,BaseFarmTest,M,
+fga,LanBotTest,M,
+fgv,ServerHelperTest,M,
+fif,ShulkerPreviewTest,M,
+fjv,CollectorEditorTest,M,
+fkm,CosmeticsTest,M,
+flm,AimPatternTest,L,
+fnq,TestBotSpawner,M,спавн тестового бота FlowBot
+fpo,DuelTest,M,
+fug,PlayerEspTest,M,
+fux,TestConnection,L,ClientConnection для тестов
+fvb,ChestScenarioTest,L,
+fvw,HudTest,M,
+fwd,BlackThemeTest,M,
+fwl,MenuLayoutSelfTest,M,
+fwv,TargetMarkerTest,L,
+fxp,SoulEspTest,H,
+fyl,GuiMoveTest,H,
+fzl,DevInject,M,FLOW2_DEV_INJECT
+fzq,LockScreenSelfTest,H,
+gah,LookSelfTest,M,
+gax,SurvivalScenarioTest,L,
+gdh,MenuSelfTest,H,
+gef,MineTest,M,
+ghf,MobEspTest,H,
+ghy,MotionBlurTest,H,
+giw,StrafeTestA,L,
+gjl,StrafeTestB,L,
+gjv,StrafeTestC,L,
+gkm,NeuroRecordTest,M,
+gml,ArmorScenarioTest,L,
+gnr,MovementTest,M,
+gpu,RenderPerfTest,L,
+grd,PartyRelayTest,H,
+grw,EspTest,M,
+gsk,FrameProfiler,M,flow2.prof
+gsz,SeasonTest,M,
+gtq,MainSelfTest,M,самый большой self-test меню
+gwv,SitTest,H,
+gxf,SkyStyleTest,M,
+gyf,SnowSkyTest,H,
+gyv,SplashSelfTest,H,
+gzt,StormTest,H,
+hav,SummerSkyTest,H,
+hbt,AutoTotemTest,H,
+hdj,HandAnimationTest,M,
+hdt,NametagTest,L,
+heb,ThemeTest,M,
+hem,VideoSelfTest,H,
+hfi,TargetEspTest,H,
+hge,AutoMaceTest,H,
+hgq,WeatherTest,H,
+hhf,Friends,H,друзья
+hhs,AutoAccentRow,M,строка Auto accent
+hia,UserProfile,M,"ник пользователя (FlowUser, windowsUser)"
+hiv,ButtonSettingRow,M,строка с кнопками (vkw)
+hjg,ModuleAccessGate,M,Under maintenance / VIP only
+hlc,ClickGuiScreen,H,главное окно GUI (Flow2)
+hrt,CollectorListPopup,H,список AutoCollector
+htj,HudColorRow,M,цвет HUD
+hur,ConfigSaveRow,H,сохранить конфиг
+hva,ConfigFindRow,H,найти конфиг по коду
+hvq,ConfigCardRow,H,карточка конфига
+hwr,CosmeticThumbCard,H,превью косметики
+hxi,ModeDropdown,M,выпадающий список режимов
+hxv,FriendAddRow,H,добавить друга
+hyj,FriendsList,H,список друзей
+hyv,LiquidGlass,H,настройки Liquid Glass
+hyz,GuiConfig,H,"gui-настройки, default-gui.properties"
+hzl,FontPreview,L,
+hzv,HotkeyStore,M,бинды hud/friend/partyMark
+iab,LabelRow,M,текст + Supplier<String>
+iah,TextField,H,"поле ввода (placeholder, фильтры)"
+ibf,ItemPickerPopup,H,выбор предмета
+ict,ClickRow,L,строка с иконкой и кликом
+ida,LanguageScreen,H,выбор языка
+iee,ChooseButton,L,кнопка Choose
+ier,ModeRow,M,строка ModeSetting
+ifj,ChangeNotice,L,Added/Removed
+ifv,StudioStatusLine,M,
+ign,ProfilePopup,M,профили (Walking/Mine/New profile)
+ijy,Popup,M,базовый popup
+ike,PartyCodeCard,H,ваш код party
+iks,PartyInviteRow,H,пригласить по коду
+ild,PartyMembersList,H,участники party
+ilz,ColorRow,M,цвет #%06X
+imn,Widget,H,базовый UI-элемент
+imu,SliderRow,H,строка NumberSetting
+ine,PaletteRow,M,строка ColorSetting
+ino,ToggleRow,H,строка BoolSetting
+inu,TextInputRow,M,поле ввода с примером
+iov,Theme,H,цвета/акцент
+iqp,ThemePicker,H,выбор темы
+irr,UiKit,M,drawSwitch/drawChip/кнопки
+irv,WallpaperRow,M,строка обоев
+isv,WallpaperManager,H,обои меню
+iui,WaypointForm,H,форма вейпоинта
+ivk,WaypointList,H,список вейпоинтов
+iwf,WheelScreen,H,колесо предметов
+ixu,ArmorHudWidget,M,Layout/Durability
+izj,CooldownsWidget,H,кулдауны
+izx,Hud,H,рендер HUD
+jbs,HudEditorScreen,H,редактор HUD
+jcs,HudWidget,H,базовый виджет HUD
+jdc,ItemsWidget,M,items/aura/dust/trap
+jef,KeybindsWidget,H,список биндов
+jeq,TimedWidget,M,виджет с таймерами (expiring)
+jfw,MinesWidget,H,шахты (Mythic)
+jgn,NowPlaying,H,трек из Windows media (now-playing.ps1)
+jie,EffectsWidget,H,эффекты/таймбары
+jip,TpsMeter,H,flow2_tps
+jjx,TargetHudWidget,H,таргет HUD
+jlx,WatermarkWidget,H,watermark
+jos,AccountsScreen,M,аккаунты/ники
+jrn,IasCompat,H,совместимость с IAS
+jrr,PanoramaHook,M,RotatingCubeMapRenderer
+jsi,MenuSnowRenderer,M,снег в меню
+jte,MenuScreen,M,кастомное главное меню
+jyw,IasAccounts,H,аккаунты IAS
+jzh,MenuArtCache,H,кэш картинок меню
+kap,MenuSceneRenderer,H,фон меню
+kbm,TitleLayoutSetting,M,
+kbp,MenuScale,M,"scale(w,h)"
+kbs,WallpaperEntry,H,video:/sky:/image
+kcb,WordmarkDrawer,L,
+kce,WordmarkAnimator,M,анимация логотипа-текста
+kct,WelcomeScreen,H,welcome + язык
+kej,ButtonSkin,H,flow2.buttons
+kfa,ModuleCategory,H,Combat/Movement/Player/Render/Misc
+kfe,Module,H,база модуля
+kfx,ModuleManager,H,менеджер модулей
+kgj,AimAssist,M,Preset/Aim smooth
+kjq,TriggerBotCrits,L,Crits Smart (embedded)
+kmy,AutoMace,M,Скорость/Разброс/Мин.высота
+kqh,TotemSwap,M,Swap key/Totem/Wheel key
+krd,AutoTotem,H,Порог здоровья
+ksp,JumpPhysics,M,
+ktf,CritSimulator,M,critAt/safeAt/airAt для AutoCrits
+kug,TriggerNet,M,hitnet
+kvz,KeyPearl,H,бросок жемчуга по кнопке
+kwf,Aura,M,Rotation Silent/Neural
+kyn,AimSpeed,L,Speed/Slowdown/FOV
+lck,TargetStrafe,L,К цели/От цели
+ldr,AimStudio,M,Studio/profile
+lfa,AutoMine,M,AutoMine/AutoEnd
+lfu,NoFriendDamage,H,
+lfy,TargetFilter,M,Naked/Invisible/Armored
+lgc,AutoCrits,M,Crits Smart/Predict
+ljx,AimContext,M,"цель, box, углы, attackReady"
+lka,GcdFix,M,выравнивание поворота по чувствительности
+lkh,RotationDebug,L,
+lln,AimSmoother,L,
+lme,AimPointPicker,M,точка прицеливания в box
+lmn,SmashPredictor,M,
+lnb,LandingTracker,M,
+lng,AimDriver,L,
+lpy,PathAimPlanner,L,
+lqk,TargetPredictor,M,предсказание позиции цели
+lqq,AncientFarmer,H,
+lre,ChatPlus,H,Long history/Keep chat
+lsg,SoundsModule,M,Toggle/Celestial
+lsx,NameProtect,H,Fake name
+lub,FpsLimiter,H,Frame limit
+lvp,AncientDebrisEsp,H,XRay
+lwh,AutoSprint,H,
+lwq,DragonFly,H,
+lwx,CtrlSprint,H,Sprint on Ctrl
+lxp,NoJumpDelay,H,
+lxy,AuctionSeller,H,ah sell
+mgl,ContainerSearch,M,сундук/бочка/инвентарь
+mix,AutoTpAccept,H,/tpaccept
+mjr,AutoArmor,H,
+mkl,AutoCollector,H,
+mpq,AutoEnd,H,модуль AutoEnd: ломает вазы в Энде, оставляет лут
+nfl,AutoMines,M,Обычные/Мифические шахты
+nmg,AuctionSellerAlt,M,вторая версия ah sell
+nuo,AutoMend,L,Возвращать/Беречь прочность
+nxa,AutoWarden,M,
+oqm,BotsModule,H,модуль Bots/Solve captcha
+oqv,AutoLoot,M,Items/onUseBlock
+osq,InventorySorter,M,Key/Order/Type
+otn,ChestStealer,H,
+ouc,ElytraSwap,H,
+our,AutoRepair,M,XP bottles
+ovh,FreeCam,H,
+owo,ItemScroller,H,
+oxw,ServerHelper,M,FunTime/HolyWorld/ReallyWorld
+pbe,ShulkerPreview,H,
+pbz,StructureTimers,M,
+pdi,AuctionRateLimiter,M,
+pdr,CustomItemInfo,M,
+pej,CollectorState,M,
+pey,ItemSnapshot,M,stack + lore
+pfd,ClaimTooltipParser,M,
+pfl,EnchantNameUtil,M,
+pgb,CollectorPages,M,выбор страниц/слотов
+pgi,HumanDelays,M,задержки по состояниям SETTLE/ACT/BUY
+phm,ItemRule,M,
+phx,TalismanNames,M,
+pim,ModifierFactory,L,flat/scaled/effect
+piq,Cooldown,M,
+pjd,InstanceQueue,M,очередь экземпляров по ключу
+pjn,TeleportTimer,M,
+pjw,AimPersonalizer,M,
+pmf,StashDriver,M,
+pnc,BotModule,H,"база модулей, умеющих работать в ботах"
+pnf,RouteGuide,M,
+pnr,AnarchyQueue,M,очередь на анархию (/an N)
+poi,LobbyWatcher,M,статус подключения/лобби
+ppu,TalismanTable,L,таблица предметов-талисманов
+pqf,PathHelper,L,
+pqx,PathFinder,M,
+prp,MouseQuantizer,M,
+prt,RotationUtil,H,
+psf,Route,M,маршрут из узлов
+psu,RouteRenderer,M,
+pte,ChestFinder,M,
+ptr,SilentRotation,M,
+pua,StandCheck,M,
+pud,CameraOwner,M,
+pve,RouteWalker,M,
+pxd,MoveSolver,M,jumpHelps/reaches
+pyd,WalkDriver,M,
+pzc,Box3,M,minX..maxZ
+pzw,TimerTextParser,M,
+qaj,BuyerSeller,M,скупщик /buyer
+qbo,CraftHelper,M,
+qdz,AutoMineController,M,
+qln,LookModel,M,"FACE/LOOK/NONE, votes"
+qma,AutoEat,M,
+qmh,TrackingError,L,
+qnd,OreTargetMap,M,
+qof,MineTools,M,
+qpw,InventoryCounter,M,
+qqs,HopTimings,M,hop/warp/go
+qrm,GhostBlockTracker,M,
+qsc,BreakQueue,M,
+qsw,StorageRun,M,
+qwj,MineRarity,H,Обычная/Мифическая/Легендарная
+qwo,DiamondEsp,M,
+qxi,SmoothUi,M,Tab/Chat/Inventory
+qyk,RangeIndicator,L,Range/Radius
+qze,AspectRatio,H,
+rae,OreEsp,H,Blocks (diamond_ore...)
+rby,BlockOutline,M,
+rdd,TimeChanger,H,
+rds,Freelook,M,Key Press/Hold/Toggle
+reo,Fullbright,H,
+rfa,HitColor,H,
+rfl,Nametags,L,
+rfp,ItemPhysics,H,
+rfy,TargetRing,L,Theme Ring/Lightning
+rhf,SmashHud,M,
+rhs,MobEsp,H,
+riv,MotionBlur,H,модуль MotionBlur
+rjy,HealthBar,M,
+rkh,NoRender,H,hidesScoreboard...
+rky,PlayerEsp,M,Outline/Box
+rmk,ColorGrading,M,Look Soft/Vivid
+rnk,Trajectories,H,Pearls/Bows/Tridents
+rpj,FoodPreview,H,
+rpt,EnchantGlow,L,Item color/Fill/Glow
+rqf,SkyShader,M,
+rqv,SeeInvisible,M,
+rrx,KillEffects,H,On kill/On totem pop
+rug,HandAnimations,H,
+ruv,HitParticles,H,
+rwo,TransparentFriends,M,модуль прозрачных друзей
+rxa,ItemTransform,L,Turn X/Y/Z
+rxv,SnowRender,L,
+rzy,WardenTimers,M,Timers over Warden chests
+sbp,SeasonWeather,H,Season/Winter/Summer
+sgs,WetEffects,L,Мокрость/Лужи/Капли
+shx,MusicAnchor,L,
+sjl,Zoom,H,
+sle,LyricsParser,H,LRC
+sls,TrackTitleCleaner,M,
+snp,LyricsLine,M,
+spo,ModelMesh,L,
+sql,KillShatter,M,эффект осколков при килле
+ssj,SteveParts,M,
+sss,ParticleBuffer,M,
+stp,ThunderState,M,
+sus,NametagRenderer,M,
+svp,TextSegmenter,M,
+swh,HealthBars,M,отрисовка здоровья
+syq,AimCompare,M,
+szk,AimTrace,M,
+tai,AimSimulator,M,
+tbf,AimFeatures,M,
+tbp,AngleUtil,M,
+tbs,AimScorer,M,
+tbx,DenseLayer,M,
+tck,AimModel,M,
+tcz,RecorderHooks,M,
+tel,AimBrain,M,
+tiq,StudioProfiles,M,
+tjs,AimModelLoaderA,M,
+tjx,AimModelLoaderB,M,
+tkc,AimRecorder,M,
+tkx,DummyPlayer,M,flow2-stand-
+tmh,RecordingReader,M,
+tnl,NeuroWorker,M,
+toq,TurnRateLimiter,M,
+tpn,MineGrid,M,
+tpx,BlockKind,H,AIR/STONE/ORE/HARD...
+tqa,Mlp,M,
+tqm,BrainTrainer,M,
+tra,PlayerState,M,позиция/углы/скорость
+trd,MineScoring,M,
+trj,LegsNet,M,
+trs,LegsTrainer,M,
+tsh,MineSnapshots,M,
+tsr,TrainingPrep,M,
+ttb,MineModelReader,M,
+ttl,MineRecorder,M,
+tvc,MineRecordingReader,M,
+tvf,MineTrainer,M,
+tvn,MineSnap,H,
+tvq,MineStyleStats,M,
+tvt,PathProjection,M,
+tvz,WalkSpeedModel,M,
+txf,WalkHazards,M,
+txl,WalkFeatures,M,
+txs,WalkModelReader,M,
+txv,WalkNet,M,
+tyd,WardenRecorder,M,
+tzg,WalkSnap,H,
+tzs,WalkRecordingReader,M,
+tzy,WalkTrainer,M,
+ucg,PartyClient,H,relay-клиент party
+ufw,PartyCrypto,H,X25519/SHA-256 для party
+ugg,PartyMarkerRenderer,M,метки друзей по party
+uhg,PartySocket,M,сокет party
+uhs,DaylightUtil,M,
+uhx,UniformsA,L,
+uij,SceneCapture,M,
+ujl,CloudHider,M,
+ujt,ColorUtil,H,lerp/shade/withAlpha
+ujw,CompositePass,H,
+ukf,GlassDraw,M,shadow/sheen/inset
+ukl,FxPipeline,M,fx_mask/fx_down/fx_up
+unf,FrameDelta,M,
+unm,GlowSprite,H,
+unr,GradePass,H,Flow2 grade
+uog,PlayerHeadDraw,M,
+uok,GpuTexture,M,
+uor,ItemIconDraw,M,
+uoy,GlassParams,M,
+upi,LiveWallpaper,H,
+upt,LogoRenderer,H,
+uqe,AnimatedLogo,H,
+urc,MotionBlurPass,H,
+urt,UniformsB,L,
+usj,ItemEntityRenderer,M,
+usn,ScreenProjection,H,project/viewSpace
+utf,UniformsC,L,
+utx,UniformsD,L,
+uut,DrawUtil,M,pushAlpha/shadow/circle
+uvq,VertexFormats,M,
+uwt,ShatterPass,H,
+uxi,SkyPass,H,
+uxt,SkyStyle,M,Aurora/Nebula/Galaxy
+uxx,StormPass,H,
+uze,CloudPass,H,
+vaf,FogPass,H,
+vbb,WeatherSeasonPass,M,
+vcj,Spring,M,
+vcq,Easing,H,outCubic...
+vct,SmoothValue,L,
+vdc,Tween,M,
+vdn,FontFace,M,
+veo,Fonts,H,regular/medium/semibold
+vfk,FontBuilder,M,
+vfw,UniformsE,L,
+vgg,IconGlyphs,M,
+vgj,HandRendererHook,M,
+vhf,HandFx,M,
+vhu,HandHooks,M,
+vhz,Icon,H,enum иконок
+vii,SvgPathParser,H,
+vit,IconPainter,M,
+vjf,IconRenderer,M,
+vjs,SecurityGate,M,"проверка вызывающего (flow-sec-boot, tripFromCallerGate)"
+vkl,BoolSetting,H,
+vkw,ButtonSetting,M,buttons
+vla,ColorSetting,H,палитра Theme/Aurora/Sakura
+vlj,ListSetting,M,kind/contains/toggle
+vlq,KeySetting,H,isBound
+vlv,ModeSetting,H,
+vmc,NumberSetting,H,
+vmo,Setting,H,база настройки
+vmu,TextSetting,H,maxLength/example
+vnb,SoundBank,M,
+voa,Sounds,H,
+vpo,SoundLibrary,M,
+vqu,PartyMenu,L,
+vss,WeatherSounds,H,
+vui,EquipUtil,M,equip/best
+vup,StringVault,M,строки из SoftReference
+vvi,EncodedString,M,строка из byte[]
+vvn,CursorStack,M,
+vwy,PacketGate,M,хэндлер flow2_gate в netty pipeline
+vxl,SlotUtil,M,
+vxr,Reflect,H,find/getInt...
+vxu,FormatUtil,M,fixed/clock
+vxz,OverrideHandle,L,override/release
+vyk,BelowNameHook,L,
+vyn,IdleTracker,M,idle/serverIdle
+vza,FileWriter,M,Flow2 file writer
+vzh,CooldownPress,M,Right click press
+vzz,KeyUtil,M,isMouse/combo
+wap,Lang,H,RU/EN
+wbi,LangEntriesA,H,wap.p(...)
+wbl,LangEntriesB,H,
+wbu,OptionOverride,H,
+wcn,PacketHooks,H,
+wdf,PacketHold,H,
+wdq,InventoryClicks,H,
+wdt,ForwardKeyHold,H,
+wee,SwingCounter,M,
+wek,WindowKeyHook,H,
+wet,MediaFoundationVideo,M,Windows MF/d3d11
+wjh,WinComInterop,H,
+wjw,ChatCoordLinker,H,
+wkq,Waypoint,H,
+wkw,WaypointRenderer,H,
+wlk,Waypoints,H,
+boot.A,AgentBoot,H,javaagent-загрузчик (premain/agentmain, ищет Knot)
+flow.dev.a,StringDecryptor,H,расшифровка строк (b/c/d, XOR с ключом)
