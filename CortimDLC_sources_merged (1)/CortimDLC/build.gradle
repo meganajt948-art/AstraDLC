@@ -82,10 +82,14 @@ def rebrandClassBytes = { byte[] bytes ->
                 prefixOut.writeShort(length)
                 prefixOut.write(encoded)
                 String value = new DataInputStream(new ByteArrayInputStream(prefixed.toByteArray())).readUTF()
+                // Replace branding inside both standalone and combined UI strings.
                 String updated = value
-                if (value == "Flow") updated = "Astra"
-                else if (value == "FlowClient") updated = "AstraDLC"
-                else if (value == "FlowUser") updated = "AstraUser"
+                    .replace("FlowClient", "Astra2Dlc")
+                    .replace("FlowUser", "Astra2User")
+                    .replace("Flow", "Astra2")
+                if (updated != value) {
+                    logger.lifecycle("Rebranded class constant '${value}' -> '${updated}'")
+                }
                 if (updated != value) {
                     target.writeUTF(updated)
                     logger.lifecycle("Rebranded class constant '${value}' -> '${updated}'")
