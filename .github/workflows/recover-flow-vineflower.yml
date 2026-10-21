@@ -1,0 +1,35 @@
+name: Recover Flow sources with Vineflower
+
+on:
+  workflow_dispatch:
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Download original Flow JAR
+        run: |
+          curl -fL --retry 3 "https://github.com/meganajt948-art/AstraDLC/releases/download/release/flow.jar" -o flow.jar
+          test -s flow.jar
+          ls -lh flow.jar
+      - name: Download Vineflower
+        run: |
+          curl -fL --retry 3 "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.11.1/vineflower-1.11.1.jar" -o vineflower.jar
+          test -s vineflower.jar
+      - name: Decompile Flow
+        run: |
+          mkdir -p recovered-flow-vineflower
+          java -Xmx4g -jar vineflower.jar flow.jar recovered-flow-vineflower
+          find recovered-flow-vineflower -type f -name '*.java' | wc -l
+      - name: Package recovered sources
+        run: zip -qr flow-vineflower-sources.zip recovered-flow-vineflower
+      - name: Upload recovered sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: flow-vineflower-sources
+          path: flow-vineflower-sources.zip
