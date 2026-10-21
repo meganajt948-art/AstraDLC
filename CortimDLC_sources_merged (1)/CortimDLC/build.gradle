@@ -57,7 +57,7 @@ def rebrandClassBytes = { byte[] bytes ->
     def target = new DataOutputStream(buffer)
 
     int magic = source.readInt()
-    if (magic != 0xCAFEBABE) {
+    if (magic != (int) 0xCAFEBABE) {
         // Some bundled .class-named entries are not ordinary JVM class files.
         // Preserve those bytes unchanged instead of failing the entire build.
         logger.warn("Skipping non-standard .class entry during rebranding (magic: 0x${Integer.toHexString(magic)})")
