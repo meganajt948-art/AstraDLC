@@ -1,5 +1,6 @@
 name: AstraDLC build
 # Re-run packaging after branding constant comparison fix
+# Ensure the class-name-safe string rebrand is rebuilt
 
 on:
   workflow_dispatch:
