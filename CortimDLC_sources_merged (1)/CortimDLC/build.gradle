@@ -47,6 +47,77 @@ java {
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
 def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/astradlc-core.jar")
 
+/*
+ * Safely rewrite only UTF-8 constants in Java class files. This updates constant
+ * pool lengths correctly and leaves bytecode instructions/attributes untouched.
+ */
+def rebrandClassBytes = { byte[] bytes ->
+    def source = new DataInputStream(new ByteArrayInputStream(bytes))
+    def buffer = new ByteArrayOutputStream(bytes.length + 64)
+    def target = new DataOutputStream(buffer)
+
+    int magic = source.readInt()
+    if (magic != 0xCAFEBABE) {
+        throw new GradleException("Invalid class file encountered while rebranding")
+    }
+    target.writeInt(magic)
+    target.writeShort(source.readUnsignedShort()) // minor
+    target.writeShort(source.readUnsignedShort()) // major
+    int cpCount = source.readUnsignedShort()
+    target.writeShort(cpCount)
+
+    for (int i = 1; i < cpCount; i++) {
+        int tag = source.readUnsignedByte()
+        target.writeByte(tag)
+        switch (tag) {
+            case 1: // CONSTANT_Utf8
+                int length = source.readUnsignedShort()
+                byte[] encoded = new byte[length]
+                source.readFully(encoded)
+                def prefixed = new ByteArrayOutputStream(length + 2)
+                def prefixOut = new DataOutputStream(prefixed)
+                prefixOut.writeShort(length)
+                prefixOut.write(encoded)
+                String value = new DataInputStream(new ByteArrayInputStream(prefixed.toByteArray())).readUTF()
+                String updated = value
+                if (value == "Flow") updated = "Astra"
+                else if (value == "FlowClient") updated = "AstraDLC"
+                else if (value == "FlowUser") updated = "AstraUser"
+                if (updated != value) {
+                    target.writeUTF(updated)
+                    logger.lifecycle("Rebranded class constant '${value}' -> '${updated}'")
+                } else {
+                    target.writeShort(length)
+                    target.write(encoded)
+                }
+                break
+            case 3: case 4: // Integer / Float
+                target.writeInt(source.readInt())
+                break
+            case 5: case 6: // Long / Double (occupy two constant-pool slots)
+                target.writeLong(source.readLong())
+                i++
+                break
+            case 7: case 8: case 16: case 19: case 20:
+                target.writeShort(source.readUnsignedShort())
+                break
+            case 9: case 10: case 11: case 12: case 17: case 18:
+                target.writeInt(source.readInt())
+                break
+            case 15:
+                target.writeByte(source.readUnsignedByte())
+                target.writeShort(source.readUnsignedShort())
+                break
+            default:
+                throw new GradleException("Unsupported class constant-pool tag: ${tag}")
+        }
+    }
+    byte[] remainder = source.readAllBytes()
+    target.write(remainder)
+    target.flush()
+    return buffer.toByteArray()
+}
+
 tasks.register("downloadFlowNestedJar") {
     outputs.file(flowNestedJar)
     doLast {
@@ -89,6 +160,10 @@ tasks.register("rebrandFlowNestedJar") {
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
                         logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
+                    } else if (entry.name.endsWith(".class")) {
+                        byte[] originalBytes = stream.readAllBytes()
+                        byte[] patchedBytes = rebrandClassBytes(originalBytes)
+                        outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
                     }
