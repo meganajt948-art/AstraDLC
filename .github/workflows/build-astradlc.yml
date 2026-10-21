@@ -1,0 +1,30 @@
+name: AstraDLC build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [astra-renaming]
+    paths:
+      - 'CortimDLC_sources_merged (1)/CortimDLC/**'
+      - '.github/workflows/build-astradlc.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Build AstraDLC
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: gradle build --no-daemon
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: AstraDLC-build
+          path: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/*.jar'
