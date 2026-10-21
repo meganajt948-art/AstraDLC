@@ -69,3 +69,17 @@ tasks.named("jar") {
         rename { "flow.jar" }
     }
 }
+
+/*
+ * These recovered source trees were produced by a decompiler and contain
+ * invalid Java/intermediary Minecraft symbols. Flow itself is bundled above
+ * from its original compiled JAR, so do not compile those decompiled copies.
+ */
+sourceSets {
+    main {
+        java {
+            exclude "a/**"
+            exclude "flow/**"
+        }
+    }
+}
