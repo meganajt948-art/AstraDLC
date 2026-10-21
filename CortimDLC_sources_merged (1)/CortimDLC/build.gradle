@@ -75,11 +75,9 @@ tasks.named("jar") {
  * invalid Java/intermediary Minecraft symbols. Flow itself is bundled above
  * from its original compiled JAR, so do not compile those decompiled copies.
  */
+// Build a clean Fabric wrapper; the original Flow binary is included as a nested mod.
 sourceSets {
     main {
-        java {
-            exclude "a/**"
-            exclude "flow/**"
-        }
+        java.setSrcDirs([])
     }
 }
