@@ -52,6 +52,31 @@ def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/astradlc-co
  * pool lengths correctly and leaves bytecode instructions/attributes untouched.
  */
 def rebrandClassBytes = { byte[] bytes ->
+    // Only rewrite UTF-8 constants that are referenced by CONSTANT_String.
+    // Class names/descriptors must remain unchanged or Fabric cannot load the entrypoint.
+    def probe = new DataInputStream(new ByteArrayInputStream(bytes))
+    if (probe.readInt() != (int) 0xCAFEBABE) return bytes
+    probe.readUnsignedShort()
+    probe.readUnsignedShort()
+    int probeCount = probe.readUnsignedShort()
+    Set<Integer> stringConstantIndices = new HashSet<>()
+    for (int i = 1; i < probeCount; i++) {
+        int tag = probe.readUnsignedByte()
+        switch (tag) {
+            case 1:
+                int len = probe.readUnsignedShort()
+                probe.skipNBytes(len)
+                break
+            case 3: case 4: probe.skipNBytes(4); break
+            case 5: case 6: probe.skipNBytes(8); i++; break
+            case 7: case 16: case 19: case 20: probe.skipNBytes(2); break
+            case 8: stringConstantIndices.add(probe.readUnsignedShort()); break
+            case 9: case 10: case 11: case 12: case 17: case 18: probe.skipNBytes(4); break
+            case 15: probe.skipNBytes(3); break
+            default: throw new GradleException("Unsupported class constant-pool tag while scanning: ${tag}")
+        }
+    }
+
     def source = new DataInputStream(new ByteArrayInputStream(bytes))
     def buffer = new ByteArrayOutputStream(bytes.length + 64)
     def target = new DataOutputStream(buffer)
@@ -82,17 +107,16 @@ def rebrandClassBytes = { byte[] bytes ->
                 prefixOut.writeShort(length)
                 prefixOut.write(encoded)
                 String value = new DataInputStream(new ByteArrayInputStream(prefixed.toByteArray())).readUTF()
-                // Replace branding inside both standalone and combined UI strings.
                 String updated = value
-                    .replace("FlowClient", "Astra2Dlc")
-                    .replace("FlowUser", "Astra2User")
-                    .replace("Flow", "Astra2")
-                if (updated != value) {
-                    logger.lifecycle("Rebranded class constant '${value}' -> '${updated}'")
+                if (stringConstantIndices.contains(i)) {
+                    updated = value
+                        .replace("FlowClient", "Astra2Dlc")
+                        .replace("FlowUser", "Astra2User")
+                        .replace("Flow", "Astra2")
                 }
                 if (updated != value) {
                     target.writeUTF(updated)
-                    logger.lifecycle("Rebranded class constant '${value}' -> '${updated}'")
+                    logger.lifecycle("Rebranded string constant '${value}' -> '${updated}'")
                 } else {
                     target.writeShort(length)
                     target.write(encoded)
