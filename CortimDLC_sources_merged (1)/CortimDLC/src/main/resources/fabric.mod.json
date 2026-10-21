@@ -3,14 +3,6 @@
   "id": "astradlc",
   "version": "1.0.0",
   "name": "AstraDLC",
-  "entrypoints": {
-    "client": [
-      "dev.dj.cortim.Cortim"
-    ]
-  },
-  "mixins": [
-    "cortim.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=0.15.0",
     "minecraft": "1.21.x",
