@@ -191,11 +191,9 @@ tasks.register("rebrandFlowNestedJar") {
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
                         logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
-                    } else if (entry.name.endsWith(".class")) {
-                        byte[] originalBytes = stream.readAllBytes()
-                        byte[] patchedBytes = rebrandClassBytes(originalBytes)
-                        outputZip.write(patchedBytes)
                     } else {
+                        // Keep every original class/resource byte intact.
+                        // Rewriting arbitrary compiled string constants can break shader/resource IDs and UI rendering.
                         stream.transferTo(outputZip)
                     }
                 }
