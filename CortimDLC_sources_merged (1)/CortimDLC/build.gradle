@@ -58,7 +58,10 @@ def rebrandClassBytes = { byte[] bytes ->
 
     int magic = source.readInt()
     if (magic != 0xCAFEBABE) {
-        throw new GradleException("Invalid class file encountered while rebranding")
+        // Some bundled .class-named entries are not ordinary JVM class files.
+        // Preserve those bytes unchanged instead of failing the entire build.
+        logger.warn("Skipping non-standard .class entry during rebranding (magic: 0x${Integer.toHexString(magic)})")
+        return bytes
     }
     target.writeInt(magic)
     target.writeShort(source.readUnsignedShort()) // minor
