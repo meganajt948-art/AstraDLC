@@ -41,11 +41,12 @@ java {
 }
 
 /*
- * Bundle the original Flow client inside AstraDLC as a Fabric nested mod.
- * This preserves the already-compiled Flow functionality while the recovered
- * decompiled sources are being mapped and integrated.
+ * Package the original Flow client as AstraDLC's internal runtime payload.
+ * Keep the nested mod id unchanged so Fabric dependencies inside the original
+ * client continue to resolve, but replace its displayed Fabric mod name.
  */
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
+def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/astradlc-core.jar")
 
 tasks.register("downloadFlowNestedJar") {
     outputs.file(flowNestedJar)
@@ -58,24 +59,65 @@ tasks.register("downloadFlowNestedJar") {
         if (output.length() < 1000000) {
             throw new GradleException("Downloaded Flow JAR is unexpectedly small: ${output.length()} bytes")
         }
-        logger.lifecycle("Downloaded original Flow JAR (${output.length()} bytes)")
+        logger.lifecycle("Downloaded original client JAR (${output.length()} bytes)")
+    }
+}
+
+tasks.register("rebrandFlowNestedJar") {
+    dependsOn("downloadFlowNestedJar")
+    inputs.file(flowNestedJar)
+    outputs.file(rebrandedNestedJar)
+    doLast {
+        def inputFile = flowNestedJar.get().asFile
+        def outputFile = rebrandedNestedJar.get().asFile
+        outputFile.parentFile.mkdirs()
+
+        def inputZip = new java.util.zip.ZipFile(inputFile)
+        def outputZip = new java.util.zip.ZipOutputStream(new FileOutputStream(outputFile))
+        try {
+            def entries = inputZip.entries()
+            while (entries.hasMoreElements()) {
+                def entry = entries.nextElement()
+                def newEntry = new java.util.zip.ZipEntry(entry.name)
+                if (entry.time > 0) newEntry.time = entry.time
+                outputZip.putNextEntry(newEntry)
+
+                if (entry.name == "fabric.mod.json") {
+                    def metadata
+                    inputZip.getInputStream(entry).withCloseable { stream ->
+                        metadata = new groovy.json.JsonSlurper().parse(stream)
+                    }
+                    metadata.name = "AstraDLC"
+                    metadata.description = "AstraDLC Minecraft client"
+                    def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
+                    outputZip.write(json.getBytes("UTF-8"))
+                    logger.lifecycle("Rebranded nested Fabric metadata to AstraDLC (kept mod id '${metadata.id}')")
+                } else {
+                    inputZip.getInputStream(entry).withCloseable { stream ->
+                        stream.transferTo(outputZip)
+                    }
+                }
+                outputZip.closeEntry()
+            }
+        } finally {
+            outputZip.close()
+            inputZip.close()
+        }
     }
 }
 
 tasks.named("jar") {
-    dependsOn("downloadFlowNestedJar")
-    from(flowNestedJar) {
+    dependsOn("rebrandFlowNestedJar")
+    from(rebrandedNestedJar) {
         into("META-INF/jars")
         rename { "flow.jar" }
     }
 }
 
 /*
- * These recovered source trees were produced by a decompiler and contain
- * invalid Java/intermediary Minecraft symbols. Flow itself is bundled above
- * from its original compiled JAR, so do not compile those decompiled copies.
+ * Recovered decompiler source trees still contain intermediary Minecraft
+ * symbols and invalid Java, so the wrapper compiles no decompiled copies.
  */
-// Build a clean Fabric wrapper; the original Flow binary is included as a nested mod.
 sourceSets {
     main {
         java.setSrcDirs([])
