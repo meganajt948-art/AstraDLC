@@ -268,6 +268,11 @@ def patchEncryptedBranding = { byte[] bytes ->
  * one character at a time with zero-width separators. Rebrand that exact
  * generated title after decoding, without changing its obfuscation or IDs.
  */
+/*
+ * The menu title is a/vvi.get(): it builds "FlowClient" character-by-character,
+ * inserting zero-width separators. For this exact title source, replace the
+ * final returned text with AlbaDLC. Avoid rewriting the obfuscated byte array.
+ */
 def patchVviTitle = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, 0)
@@ -280,66 +285,16 @@ def patchVviTitle = { byte[] bytes ->
                     @Override
                     void visitInsn(int opcode) {
                         if (opcode == Opcodes.ARETURN) {
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/vvi", "rebrandTitle",
-                                "(Ljava/lang/String;)Ljava/lang/String;", false)
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn("AlbaDLC")
+                            super.visitInsn(Opcodes.ARETURN)
+                        } else {
+                            super.visitInsn(opcode)
                         }
-                        super.visitInsn(opcode)
                     }
                 }
             }
             return mv
-        }
-
-        @Override
-        void visitEnd() {
-            MethodVisitor mv = super.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
-                "rebrandTitle", "(Ljava/lang/String;)Ljava/lang/String;", null, null)
-            mv.visitCode()
-            mv.visitVarInsn(Opcodes.ALOAD, 0)
-            mv.visitLdcInsn("\u200c")
-            mv.visitLdcInsn("")
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "replace",
-                "(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;", false)
-            mv.visitVarInsn(Opcodes.ASTORE, 1)
-
-            def mappings = [
-                ["FlowClient", "AlbaDLC"],
-                ["FlowUser", "AlbaUser"],
-                ["AstraDLC", "AlbaDLC"],
-                ["AstraUser", "AlbaUser"]
-            ]
-            def nextLabels = mappings.collect { new Label() }
-            mappings.eachWithIndex { pair, i ->
-                mv.visitVarInsn(Opcodes.ALOAD, 1)
-                mv.visitLdcInsn(pair[0])
-                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals",
-                    "(Ljava/lang/Object;)Z", false)
-                mv.visitJumpInsn(Opcodes.IFEQ, nextLabels[i])
-                mv.visitLdcInsn(pair[1])
-                mv.visitInsn(Opcodes.ARETURN)
-                mv.visitLabel(nextLabels[i])
-            }
-
-            mv.visitVarInsn(Opcodes.ALOAD, 0)
-            mv.visitLdcInsn("\u200c")
-            mv.visitLdcInsn("")
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "replace",
-                "(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;", false)
-            mv.visitVarInsn(Opcodes.ASTORE, 2)
-            mv.visitVarInsn(Opcodes.ALOAD, 2)
-            mv.visitLdcInsn("Flow")
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals",
-                "(Ljava/lang/Object;)Z", false)
-            Label keep = new Label()
-            mv.visitJumpInsn(Opcodes.IFEQ, keep)
-            mv.visitLdcInsn("Alba")
-            mv.visitInsn(Opcodes.ARETURN)
-            mv.visitLabel(keep)
-            mv.visitVarInsn(Opcodes.ALOAD, 0)
-            mv.visitInsn(Opcodes.ARETURN)
-            mv.visitMaxs(3, 3)
-            mv.visitEnd()
-            super.visitEnd()
         }
     }
     reader.accept(visitor, 0)
