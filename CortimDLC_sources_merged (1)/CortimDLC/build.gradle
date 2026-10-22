@@ -59,8 +59,12 @@ java {
  * metadata here; do not rewrite compiled class files during the build.
  */
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
-def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/astradlc-core.jar")
+def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/albadlc-core.jar")
 def albaVideoFile = layout.buildDirectory.file("flow-dependency/alba-background.mp4")
+def albaLogoFile = layout.buildDirectory.file("flow-dependency/alba-logo.png")
+def albaLogoSilverFile = layout.buildDirectory.file("flow-dependency/alba-logo-anim-silver.png")
+def albaLogoInkFile = layout.buildDirectory.file("flow-dependency/alba-logo-anim-ink.png")
+def albaThumbnailFile = layout.buildDirectory.file("flow-dependency/alba-wallpaper-thumb.jpg")
 
 /*
  * Safely rewrite only UTF-8 constants in Java class files. This updates constant
@@ -136,13 +140,8 @@ def rebrandClassBytes = { byte[] bytes ->
                         .replace("Flow Белая", "Alba Белая")
                         .replace("AstraDLC", "AlbaDLC")
                         .replace("AstraUser", "AlbaUser")
-                        .replace("Astra Black", "Alba Black")
-                        .replace("Astra White", "Alba White")
-                        .replace("Astra Чёрная", "Alba Чёрная")
-                        .replace("Astra Черная", "Alba Черная")
-                        .replace("Astra Белая", "Alba Белая")
+                        .replace("Astra", "Alba")
                         .replace("[Flow2]", "[AlbaDLC]")
-                        .replace("[AstraDLC]", "[AlbaDLC]")
                 }
                 if (updated != value) {
                     target.writeUTF(updated)
@@ -237,13 +236,8 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["Flow Белая", "Alba Белая"],
                 ["AstraDLC", "AlbaDLC"],
                 ["AstraUser", "AlbaUser"],
-                ["Astra Black", "Alba Black"],
-                ["Astra White", "Alba White"],
-                ["Astra Чёрная", "Alba Чёрная"],
-                ["Astra Черная", "Alba Черная"],
-                ["Astra Белая", "Alba Белая"],
-                ["[Flow2]", "[AlbaDLC]"],
-                ["[AstraDLC]", "[AlbaDLC]"]
+                ["Astra", "Alba"],
+                ["[Flow2]", "[AlbaDLC]"]
             ]
             replacements.each { pair ->
                 mv.visitLdcInsn(pair[0])
@@ -348,7 +342,7 @@ def patchWallpaperCatalog = { byte[] bytes ->
                 "aurora|аврора|liquid|жидкость|alpine-night|alpine night|альпийская ночь|shibuya|сибуя|" +
                 "dunes|дюны|prism|призма|waves|волны|bloom|flowers|цветени|цветение|" +
                 "living sunset|living-sunset|live sunset|sunset live|живой закат|living clouds|living-clouds|" +
-                "live clouds|clouds live|живые облака|clouds|облака).*")
+                "live clouds|clouds live|clouds-live|sunset-live|живые облака).*")
             hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "matches", "(Ljava/lang/String;)Z", false)
             hide.visitInsn(Opcodes.IRETURN)
             hide.visitMaxs(4, 2)
