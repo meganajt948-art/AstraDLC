@@ -573,9 +573,9 @@ tasks.register("downloadFlowNestedJar") {
 }
 
 tasks.register("rebrandFlowNestedJar") {
-    dependsOn("downloadFlowNestedJar", "prepareAlbaVideo")
+    dependsOn("downloadFlowNestedJar", "prepareAlbaUiAssets")
     inputs.file(flowNestedJar)
-    inputs.file(albaVideoFile)
+    inputs.files(albaVideoFile, albaLogoFile, albaLogoSilverFile, albaLogoInkFile, albaThumbnailFile)
     outputs.file(rebrandedNestedJar)
     doLast {
         def inputFile = flowNestedJar.get().asFile
@@ -609,9 +609,21 @@ tasks.register("rebrandFlowNestedJar") {
                         outputZip.write(json.getBytes("UTF-8"))
                         logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
                     } else if (entry.name == "flow/default-gui.properties") {
-                        String properties = stream.getText("UTF-8")
-                        properties = properties.replace("theme.Theme=Flow Black", "theme.Theme=Alba Black").replace("theme.Theme=Astra Black", "theme.Theme=Alba Black")
-                        outputZip.write(properties.getBytes("UTF-8"))
+                        // Internal theme keys must stay original; only displayed labels are rebranded.
+                        stream.transferTo(outputZip)
+                    } else if (entry.name == "flow/logo.png") {
+                        outputZip.write(albaLogoFile.get().asFile.bytes)
+                        logger.lifecycle("Replaced logo F with metallic Alba A")
+                    } else if (entry.name == "flow/logo_anim_silver.png") {
+                        outputZip.write(albaLogoSilverFile.get().asFile.bytes)
+                    } else if (entry.name == "flow/logo_anim_ink.png") {
+                        outputZip.write(albaLogoInkFile.get().asFile.bytes)
+                    } else if (entry.name == "flow_offline_assets/video/flow-dark.mp4") {
+                        outputZip.write(albaVideoFile.get().asFile.bytes)
+                        logger.lifecycle("Replaced dark wallpaper video with the uploaded Alba MP4")
+                    } else if (entry.name == "flow_offline_assets/video/flow-dark.jpg") {
+                        outputZip.write(albaThumbnailFile.get().asFile.bytes)
+                        logger.lifecycle("Replaced dark wallpaper preview with Alba A")
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
                         if (entry.name == "a/isv.class" || entry.name == "a/isn.class" ||
