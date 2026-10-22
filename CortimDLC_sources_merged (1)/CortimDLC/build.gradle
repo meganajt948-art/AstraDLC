@@ -268,6 +268,14 @@ def patchWordmark = { byte[] bytes ->
     def writer = new ClassWriter(reader, 0)
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            // The main menu header reads these static fields directly; changing only LDC strings leaves "FlowClient" visible.
+            if (name == "FIRST" && value == "Flow") value = "Alba"
+            else if (name == "SECOND" && value == "Client") value = "DLC"
+            return super.visitField(access, name, descriptor, signature, value)
+        }
+
+        @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
             return new MethodVisitor(Opcodes.ASM9, mv) {
