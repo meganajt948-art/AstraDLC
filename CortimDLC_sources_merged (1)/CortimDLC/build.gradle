@@ -870,10 +870,10 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchWallpaperCatalog(patchedBytes)
                             patchedBytes = patchClientBackgroundDefault(patchedBytes)
                             logger.lifecycle("Kept the wallpaper editor and set its fresh-install default to video:flow-dark")
-                        } else if (entry.name == "a/MenuScreen.class") {
+                        } else if (entry.name == "a/jte.class") {
                             patchedBytes = patchMinecraftMenuBackground(patchedBytes)
                             logger.lifecycle("Removed the title-screen wallpaper layer while keeping the custom menu/editor")
-                        } else if (entry.name == "a/PanoramaHook.class") {
+                        } else if (entry.name == "a/jrr.class") {
                             patchedBytes = patchPanoramaHook(patchedBytes)
                             logger.lifecycle("Restored vanilla Minecraft panorama rendering in the title menu")
                         } else if (entry.name == "a/vvi.class") {
