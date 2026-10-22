@@ -134,9 +134,9 @@ def rebrandClassBytes = { byte[] bytes ->
                     updated = value
                         .replace("FlowClient", "AlbaDLC")
                         .replace("FlowUser", "AlbaUser")
-                        .replace("Flow Black", "Alba Black")
+                        .replace("Flow Black", "Alba Video")
                         .replace("Flow White", "Alba White")
-                        .replace("Flow Чёрная", "Alba Чёрная")
+                        .replace("Flow Чёрная", "Alba Видео")
                         .replace("Flow Черная", "Alba Черная")
                         .replace("Flow Белая", "Alba Белая")
                         .replace("AstraDLC", "AlbaDLC")
@@ -275,6 +275,192 @@ def patchPanoramaHook = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * Filter the two unwanted video entries out of the Minecraft title-screen wallpaper list.
+ * The other entries (Sparkle, Cherry, Snow, Sky Meadow, Flowers, Elf, Samurai, Farm, ...)
+ * stay selectable; the resulting first item becomes the default through kbt[0].
+ */
+def patchTitleWallpaperCatalog = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "<clinit>" && descriptor == "()V") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
+                        if (opcode == Opcodes.PUTSTATIC && owner == "a/kbs" &&
+                            fieldName == "kbt" && fieldDescriptor == "[La/kbs;") {
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/kbs", "filterMenuEntries",
+                                "([La/kbs;)[La/kbs;", false)
+                        }
+                        super.visitFieldInsn(opcode, owner, fieldName, fieldDescriptor)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            MethodVisitor filter = super.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "filterMenuEntries", "([La/kbs;)[La/kbs;", null, null)
+            filter.visitCode()
+            filter.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            filter.visitInsn(Opcodes.DUP)
+            filter.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false)
+            filter.visitVarInsn(Opcodes.ASTORE, 1)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 2)
+            org.objectweb.asm.Label loop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label end = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label next = new org.objectweb.asm.Label()
+            filter.visitLabel(loop)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitInsn(Opcodes.ARRAYLENGTH)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, end)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitInsn(Opcodes.AALOAD)
+            filter.visitVarInsn(Opcodes.ASTORE, 3)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "key", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            filter.visitLdcInsn("video:flow-dark")
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFNE, next)
+            filter.visitLdcInsn("video:flow-light")
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFNE, next)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
+            filter.visitInsn(Opcodes.POP)
+            filter.visitLabel(next)
+            filter.visitIincInsn(2, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, loop)
+            filter.visitLabel(end)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitTypeInsn(Opcodes.ANEWARRAY, "a/kbs")
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "toArray",
+                "([Ljava/lang/Object;)[Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "[La/kbs;")
+            filter.visitInsn(Opcodes.ARETURN)
+            filter.visitMaxs(0, 0)
+            filter.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/*
+ * Remove the old Alba Black/White UI presets and use Obsidian + Depth as the initial
+ * interface style. Other presets, palette controls, custom colors and editor features remain.
+ */
+def patchThemePresets = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "<clinit>" && descriptor == "()V") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
+                        if (opcode == Opcodes.PUTSTATIC && owner == "a/iov" &&
+                            fieldName == "PRESETS" && fieldDescriptor == "[La/iom;") {
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/iov", "filterThemePresets",
+                                "([La/iom;)[La/iom;", false)
+                        }
+                        super.visitFieldInsn(opcode, owner, fieldName, fieldDescriptor)
+                    }
+
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.RETURN) {
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/iov", "PRESET", "La/vlv;")
+                            super.visitLdcInsn("Obsidian")
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vlv", "set", "(Ljava/lang/String;)V", false)
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/iov", "STYLE", "La/vlv;")
+                            super.visitLdcInsn("Depth")
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vlv", "set", "(Ljava/lang/String;)V", false)
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            MethodVisitor filter = super.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "filterThemePresets", "([La/iom;)[La/iom;", null, null)
+            filter.visitCode()
+            filter.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            filter.visitInsn(Opcodes.DUP)
+            filter.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false)
+            filter.visitVarInsn(Opcodes.ASTORE, 1)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 2)
+            org.objectweb.asm.Label loop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label end = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label next = new org.objectweb.asm.Label()
+            filter.visitLabel(loop)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitInsn(Opcodes.ARRAYLENGTH)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, end)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitInsn(Opcodes.AALOAD)
+            filter.visitVarInsn(Opcodes.ASTORE, 3)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/iom", "name", "()Ljava/lang/String;", false)
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            ["Alba Black", "Alba White", "Flow Black", "Flow White"].each { hidden ->
+                filter.visitLdcInsn(hidden)
+                filter.visitVarInsn(Opcodes.ALOAD, 4)
+                filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+                filter.visitJumpInsn(Opcodes.IFNE, next)
+            }
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
+            filter.visitInsn(Opcodes.POP)
+            filter.visitLabel(next)
+            filter.visitIincInsn(2, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, loop)
+            filter.visitLabel(end)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitTypeInsn(Opcodes.ANEWARRAY, "a/iom")
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "toArray",
+                "([Ljava/lang/Object;)[Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "[La/iom;")
+            filter.visitInsn(Opcodes.ARETURN)
+            filter.visitMaxs(0, 0)
+            filter.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
 /* Set the background editor's fresh-install default to the playable video entry. */
 def patchClientBackgroundDefault = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -352,10 +538,10 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["Flow Client", "AlbaDLC"],
                 ["FlowUser", "AlbaUser"],
                 ["Flow User", "AlbaUser"],
-                ["Flow Black", "Alba Black"],
+                ["Flow Black", "Alba Video"],
                 ["Flow White", "Alba White"],
-                ["Flow Чёрная", "Alba Чёрная"],
-                ["Flow Черная", "Alba Черная"],
+                ["Flow Чёрная", "Alba Видео"],
+                ["Flow Черная", "Alba Видео"],
                 ["Flow Белая", "Alba Белая"],
                 ["AstraDLC", "AlbaDLC"],
                 ["AstraUser", "AlbaUser"],
@@ -869,13 +1055,13 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "a/isv.class") {
                             patchedBytes = patchWallpaperCatalog(patchedBytes)
                             patchedBytes = patchClientBackgroundDefault(patchedBytes)
-                            logger.lifecycle("Kept the wallpaper editor and set its fresh-install default to video:flow-dark")
-                        } else if (entry.name == "a/jte.class") {
-                            patchedBytes = patchMinecraftMenuBackground(patchedBytes)
-                            logger.lifecycle("Removed the title-screen wallpaper layer while keeping the custom menu/editor")
-                        } else if (entry.name == "a/jrr.class") {
-                            patchedBytes = patchPanoramaHook(patchedBytes)
-                            logger.lifecycle("Restored vanilla Minecraft panorama rendering in the title menu")
+                            logger.lifecycle("Kept the client wallpaper editor video-first; dark video is labelled Alba Video")
+                        } else if (entry.name == "a/kbs.class") {
+                            patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
+                            logger.lifecycle("Removed Alba White/Black from title wallpapers; kept remaining themes")
+                        } else if (entry.name == "a/iov.class") {
+                            patchedBytes = patchThemePresets(patchedBytes)
+                            logger.lifecycle("Applied Obsidian + Depth interface style; removed Alba Black/White presets")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
                             logger.lifecycle("Rebranded obfuscated main-menu title FlowClient to AlbaDLC")
