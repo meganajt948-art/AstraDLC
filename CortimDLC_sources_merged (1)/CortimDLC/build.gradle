@@ -60,6 +60,7 @@ java {
  */
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
 def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/astradlc-core.jar")
+def albaVideoFile = layout.buildDirectory.file("flow-dependency/alba-background.mp4")
 
 /*
  * Safely rewrite only UTF-8 constants in Java class files. This updates constant
@@ -124,17 +125,24 @@ def rebrandClassBytes = { byte[] bytes ->
                 String updated = value
                 if (stringConstantIndices.contains(i) && !value.contains("flow.") && !value.contains("/")) {
                     // Change branding text, not package names or resource paths.
+                    // Change known brand labels only; preserve resource IDs and shader keys.
                     updated = value
-                        .replace("FlowClient", "AstraDLC")
-                        .replace("FlowUser", "AstraUser")
-                        .replace("Flow Black", "Astra Black")
-                        .replace("Flow White", "Astra White")
-                        .replace("Flow Чёрная", "Astra Чёрная")
-                        .replace("Flow Черная", "Astra Черная")
-                        .replace("Flow Белая", "Astra Белая")
-                        .replace("Flow Белая", "Astra Белая")
-                        .replace("Flow2", "AstraDLC")
-                        .replace("Flow", "Astra")
+                        .replace("FlowClient", "AlbaDLC")
+                        .replace("FlowUser", "AlbaUser")
+                        .replace("Flow Black", "Alba Black")
+                        .replace("Flow White", "Alba White")
+                        .replace("Flow Чёрная", "Alba Чёрная")
+                        .replace("Flow Черная", "Alba Черная")
+                        .replace("Flow Белая", "Alba Белая")
+                        .replace("AstraDLC", "AlbaDLC")
+                        .replace("AstraUser", "AlbaUser")
+                        .replace("Astra Black", "Alba Black")
+                        .replace("Astra White", "Alba White")
+                        .replace("Astra Чёрная", "Alba Чёрная")
+                        .replace("Astra Черная", "Alba Черная")
+                        .replace("Astra Белая", "Alba Белая")
+                        .replace("[Flow2]", "[AlbaDLC]")
+                        .replace("[AstraDLC]", "[AlbaDLC]")
                 }
                 if (updated != value) {
                     target.writeUTF(updated)
@@ -220,15 +228,22 @@ def patchEncryptedBranding = { byte[] bytes ->
             mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
             mv.visitVarInsn(Opcodes.ALOAD, 0)
             def replacements = [
-                ["FlowClient", "AstraDLC"],
-                ["FlowUser", "AstraUser"],
-                ["Flow Black", "Astra Black"],
-                ["Flow White", "Astra White"],
-                ["Flow Чёрная", "Astra Чёрная"],
-                ["Flow Черная", "Astra Черная"],
-                ["Flow Белая", "Astra Белая"],
-                ["Flow2", "AstraDLC"],
-                ["Flow", "Astra"]
+                ["FlowClient", "AlbaDLC"],
+                ["FlowUser", "AlbaUser"],
+                ["Flow Black", "Alba Black"],
+                ["Flow White", "Alba White"],
+                ["Flow Чёрная", "Alba Чёрная"],
+                ["Flow Черная", "Alba Черная"],
+                ["Flow Белая", "Alba Белая"],
+                ["AstraDLC", "AlbaDLC"],
+                ["AstraUser", "AlbaUser"],
+                ["Astra Black", "Alba Black"],
+                ["Astra White", "Alba White"],
+                ["Astra Чёрная", "Alba Чёрная"],
+                ["Astra Черная", "Alba Черная"],
+                ["Astra Белая", "Alba Белая"],
+                ["[Flow2]", "[AlbaDLC]"],
+                ["[AstraDLC]", "[AlbaDLC]"]
             ]
             replacements.each { pair ->
                 mv.visitLdcInsn(pair[0])
@@ -326,7 +341,7 @@ def patchWallpaperCatalog = { byte[] bytes ->
             hide.visitFieldInsn(Opcodes.GETSTATIC, "java/util/Locale", "ROOT", "Ljava/util/Locale;")
             hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "toLowerCase",
                 "(Ljava/util/Locale;)Ljava/lang/String;", false)
-            hide.visitLdcInsn(".*(flow-light|flow-white|flow white|flow белая|astra white|astra белая|" +
+            hide.visitLdcInsn(".*(flow-light|flow-white|flow white|flow белая|astra white|astra белая|alba white|alba белая|" +
                 "autumn-cats|autumn cats|осенние котики|castle in clouds|castle-in-clouds|castle|замок в облаках|" +
                 "dark elf|dark-elf|elf|тёмная эльфийка|темная эльфийка|farm at sunset|farm-at-sunset|farm|" +
                 "ферма на закате|living aurora|living-aurora|aurora live|живая аврора|cats|котики|dusk|сумерки|" +
@@ -382,15 +397,15 @@ tasks.register("rebrandFlowNestedJar") {
                 inputZip.getInputStream(entry).withCloseable { stream ->
                     if (entry.name == "fabric.mod.json") {
                         def metadata = new groovy.json.JsonSlurper().parse(stream)
-                        metadata.name = "AstraDLC"
-                        metadata.description = "AstraDLC Minecraft client"
-                        metadata.authors = ["AstraDLC"]
+                        metadata.name = "AlbaDLC"
+                        metadata.description = "AlbaDLC Minecraft client"
+                        metadata.authors = ["AlbaDLC"]
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
                         logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
                     } else if (entry.name == "flow/default-gui.properties") {
                         String properties = stream.getText("UTF-8")
-                        properties = properties.replace("theme.Theme=Flow Black", "theme.Theme=Astra Black")
+                        properties = properties.replace("theme.Theme=Flow Black", "theme.Theme=Alba Black").replace("theme.Theme=Astra Black", "theme.Theme=Alba Black")
                         outputZip.write(properties.getBytes("UTF-8"))
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
