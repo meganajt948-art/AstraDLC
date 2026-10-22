@@ -32,3 +32,5 @@ jobs:
         with:
           name: AlbaDLC-build
           path: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/*.jar'
+
+# Rebuild Alba assets after fixing Java2D stroke argument types
