@@ -431,7 +431,7 @@ def patchThemePresets = { byte[] bytes ->
             filter.visitVarInsn(Opcodes.ALOAD, 3)
             filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/iom", "name", "()Ljava/lang/String;", false)
             filter.visitVarInsn(Opcodes.ASTORE, 4)
-            ["Alba Black", "Alba White", "Flow Black", "Flow White"].each { hidden ->
+            ["Alba Black", "Alba White", "Alba Video", "Alba Видео", "Flow Black", "Flow White"].each { hidden ->
                 filter.visitLdcInsn(hidden)
                 filter.visitVarInsn(Opcodes.ALOAD, 4)
                 filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
