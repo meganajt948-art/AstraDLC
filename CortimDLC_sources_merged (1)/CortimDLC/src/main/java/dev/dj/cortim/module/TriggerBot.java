@@ -20,6 +20,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
+import java.util.Locale;
 
 public class TriggerBot extends Module {
 
@@ -54,7 +55,7 @@ public class TriggerBot extends Module {
 
     private final FloatSetting range = add(new FloatSetting("Дистанция",
             "Максимальная дальность удара", 3.0f, 1.0f, 3.0f, 0.1f) {
-        @Override public String display() { return String.format("%.2f", get()); }
+        @Override public String display() { return String.format(Locale.ROOT, "%.2f", get()); }
     });
 
     private final BoolSetting players = add(new BoolSetting("Игроки", "Бить игроков", true));
@@ -87,7 +88,7 @@ public class TriggerBot extends Module {
 
         MinecraftClient client = MinecraftClient.getInstance();
         ClientPlayerEntity player = client.player;
-        if (player == null || client.world == null || client.interactionManager == null) return;
+        if (player == null || client.world == null || client.interactionManager == null) { hardReset(); return; }
 
         double y = player.getY();
         falling = !Double.isNaN(prevY) && y < prevY - 1.0E-4;
@@ -107,7 +108,7 @@ public class TriggerBot extends Module {
             return;
         }
 
-        boolean fresh = lastTargetId == -1 || now - lastSeen > GRACE_MS;
+        boolean fresh = lastTargetId == -1 || lastTargetId != target.getId() || now - lastSeen > GRACE_MS;
         if (fresh) {
             targetSince = now;
             readyTicks = 0;
@@ -138,6 +139,9 @@ public class TriggerBot extends Module {
         lastSeen = 0L;
         readyTicks = 0;
         critWait = 0;
+        jitter = 0L;
+        prevY = Double.NaN;
+        falling = false;
     }
 
     private boolean weaponAllowed(ItemStack stack) {
