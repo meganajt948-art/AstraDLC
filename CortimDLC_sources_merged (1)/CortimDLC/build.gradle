@@ -185,6 +185,126 @@ def rebrandClassBytes = { byte[] bytes ->
  * flow.dev.a. Brand the resulting UI strings after decoding, but leave package
  * names such as flow.Flow and lowercase resource IDs such as flow-dark intact.
  */
+/*
+ * Remove only the selected wallpaper layer from the Minecraft title screen.
+ * The title controls/particles and the separate background editor stay active.
+ * Calling Screen's normal background method reveals vanilla Minecraft's panorama.
+ */
+def patchMinecraftMenuBackground = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def replaced = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            boolean backdrop = name == "jwe" && descriptor == "(Lnet/minecraft/class_332;FF)V"
+            boolean background = name == "method_25420" && descriptor == "(Lnet/minecraft/class_332;IIF)V"
+            if (backdrop || background) {
+                replaced[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            def background = replaced["method_25420"]
+            if (background != null) {
+                MethodVisitor mv = super.visitMethod(background.access, "method_25420",
+                    background.descriptor, background.signature, background.exceptions as String[])
+                mv.visitCode()
+                mv.visitVarInsn(Opcodes.ALOAD, 0)
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitVarInsn(Opcodes.ILOAD, 2)
+                mv.visitVarInsn(Opcodes.ILOAD, 3)
+                mv.visitVarInsn(Opcodes.FLOAD, 4)
+                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_437", "method_25420",
+                    "(Lnet/minecraft/class_332;IIF)V", false)
+                mv.visitInsn(Opcodes.RETURN)
+                mv.visitMaxs(5, 5)
+                mv.visitEnd()
+            }
+
+            def backdrop = replaced["jwe"]
+            if (backdrop != null) {
+                MethodVisitor mv = super.visitMethod(backdrop.access, "jwe",
+                    backdrop.descriptor, backdrop.signature, backdrop.exceptions as String[])
+                mv.visitCode()
+                mv.visitInsn(Opcodes.RETURN)
+                mv.visitMaxs(0, 3)
+                mv.visitEnd()
+            }
+            if (background == null || backdrop == null) {
+                throw new GradleException("MenuScreen background methods not found: " + replaced.keySet())
+            }
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/* Leave Minecraft's native panorama renderer installed; don't overlay a wallpaper on it. */
+def patchPanoramaHook = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "tick" && descriptor == "(Lnet/minecraft/class_310;)V") {
+                original.putAll([access: access, name: name, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            if (original.isEmpty()) throw new GradleException("PanoramaHook.tick method not found")
+            MethodVisitor mv = super.visitMethod(original.access, original.name, original.descriptor,
+                original.signature, original.exceptions as String[])
+            mv.visitCode()
+            mv.visitInsn(Opcodes.RETURN)
+            mv.visitMaxs(0, 1)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/* Set the background editor's fresh-install default to the playable video entry. */
+def patchClientBackgroundDefault = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "<clinit>" && descriptor == "()V") {
+                found = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.RETURN) {
+                            super.visitLdcInsn("video:flow-dark")
+                            super.visitFieldInsn(Opcodes.PUTSTATIC, "a/isv", "itj", "Ljava/lang/String;")
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Client wallpaper default initializer not found")
+    return writer.toByteArray()
+}
+
 def patchEncryptedBranding = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, 0)
@@ -748,7 +868,14 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Patched encrypted client branding strings")
                         } else if (entry.name == "a/isv.class") {
                             patchedBytes = patchWallpaperCatalog(patchedBytes)
-                            logger.lifecycle("Filtered requested wallpaper entries from the picker")
+                            patchedBytes = patchClientBackgroundDefault(patchedBytes)
+                            logger.lifecycle("Kept the wallpaper editor and set its fresh-install default to video:flow-dark")
+                        } else if (entry.name == "a/MenuScreen.class") {
+                            patchedBytes = patchMinecraftMenuBackground(patchedBytes)
+                            logger.lifecycle("Removed the title-screen wallpaper layer while keeping the custom menu/editor")
+                        } else if (entry.name == "a/PanoramaHook.class") {
+                            patchedBytes = patchPanoramaHook(patchedBytes)
+                            logger.lifecycle("Restored vanilla Minecraft panorama rendering in the title menu")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
                             logger.lifecycle("Rebranded obfuscated main-menu title FlowClient to AlbaDLC")
