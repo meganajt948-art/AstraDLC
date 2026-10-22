@@ -1,3 +1,17 @@
+import org.objectweb.asm.ClassReader
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.Handle
+import org.objectweb.asm.Label
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Type
+
+buildscript {
+    repositories { mavenCentral() }
+    dependencies { classpath "org.ow2.asm:asm:9.7.1" }
+}
+
 plugins {
     id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
     id 'maven-publish'
@@ -108,17 +122,19 @@ def rebrandClassBytes = { byte[] bytes ->
                 prefixOut.write(encoded)
                 String value = new DataInputStream(new ByteArrayInputStream(prefixed.toByteArray())).readUTF()
                 String updated = value
-                if (stringConstantIndices.contains(i)) {
-                    // Replace only whole, exact branding labels. Never rewrite substrings
-                    // such as shader names, resource identifiers, or "Flow2 ..." internals.
-                    if (value == "FlowClient") updated = "AstraDLC"
-                    else if (value == "FlowUser") updated = "AstraUser"
-                    else if (value == "Loading FlowClient") updated = "Loading AstraDLC"
-                    else if (value == "Загружаем FlowClient") updated = "Загружаем AstraDLC"
-                    else if (value == "????????? FlowClient") updated = "????????? AstraDLC"
-                    else if (value == "Flow Black") updated = "Astra Black"
-                    else if (value == "Flow2") updated = "AstraDLC"
-                    else if (value == "Flow") updated = "AstraDLC"
+                if (stringConstantIndices.contains(i) && !value.contains("flow.") && !value.contains("/")) {
+                    // Change branding text, not package names or resource paths.
+                    updated = value
+                        .replace("FlowClient", "AstraDLC")
+                        .replace("FlowUser", "AstraUser")
+                        .replace("Flow Black", "Astra Black")
+                        .replace("Flow White", "Astra White")
+                        .replace("Flow Чёрная", "Astra Чёрная")
+                        .replace("Flow Черная", "Astra Черная")
+                        .replace("Flow Белая", "Astra Белая")
+                        .replace("Flow Белая", "Astra Белая")
+                        .replace("Flow2", "AstraDLC")
+                        .replace("Flow", "Astra")
                 }
                 if (updated != value) {
                     target.writeUTF(updated)
@@ -153,6 +169,177 @@ def rebrandClassBytes = { byte[] bytes ->
     target.write(remainder)
     target.flush()
     return buffer.toByteArray()
+}
+
+
+/*
+ * The bundled Flow client encrypts text constants and decrypts them through
+ * flow.dev.a. Brand the resulting UI strings after decoding, but leave package
+ * names such as flow.Flow and lowercase resource IDs such as flow-dark intact.
+ */
+def patchEncryptedBranding = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            boolean decoder =
+                (name == "b" && descriptor == "(Ljava/lang/String;I)Ljava/lang/String;") ||
+                (name == "c" && descriptor == "(ILjava/lang/String;)Ljava/lang/String;") ||
+                (name == "d" && descriptor == "(Ljava/lang/String;II)Ljava/lang/String;")
+            if (decoder) {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.ARETURN) {
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/dev/a", "rebrandText",
+                                "(Ljava/lang/String;)Ljava/lang/String;", false)
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            MethodVisitor mv = super.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "rebrandText", "(Ljava/lang/String;)Ljava/lang/String;", null, null)
+            mv.visitCode()
+            Label apply = new Label()
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitLdcInsn("flow.")
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "contains",
+                "(Ljava/lang/CharSequence;)Z", false)
+            mv.visitJumpInsn(Opcodes.IFEQ, apply)
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitInsn(Opcodes.ARETURN)
+            mv.visitLabel(apply)
+            mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            def replacements = [
+                ["FlowClient", "AstraDLC"],
+                ["FlowUser", "AstraUser"],
+                ["Flow Black", "Astra Black"],
+                ["Flow White", "Astra White"],
+                ["Flow Чёрная", "Astra Чёрная"],
+                ["Flow Черная", "Astra Черная"],
+                ["Flow Белая", "Astra Белая"],
+                ["Flow2", "AstraDLC"],
+                ["Flow", "Astra"]
+            ]
+            replacements.each { pair ->
+                mv.visitLdcInsn(pair[0])
+                mv.visitLdcInsn(pair[1])
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "replace",
+                    "(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;", false)
+            }
+            mv.visitInsn(Opcodes.ARETURN)
+            mv.visitMaxs(3, 1)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/*
+ * Filter actual wallpaper entries, not only the image files: the picker is
+ * backed by the a.isv entry list. This keeps the selected wallpapers from
+ * appearing as empty/broken tiles in either Russian or English UI.
+ */
+def patchWallpaperCatalog = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "entries" && descriptor == "()Ljava/util/List;") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.ARETURN) {
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/isv", "filterEntries",
+                                "(Ljava/util/List;)Ljava/util/List;", false)
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            MethodVisitor filter = super.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "filterEntries", "(Ljava/util/List;)Ljava/util/List;", null, null)
+            filter.visitCode()
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            Handle bootstrap = new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory",
+                "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;" +
+                "Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)" +
+                "Ljava/lang/invoke/CallSite;", false)
+            filter.visitInvokeDynamicInsn("test", "()Ljava/util/function/Predicate;", bootstrap,
+                Type.getType("(Ljava/lang/Object;)Z"),
+                new Handle(Opcodes.H_INVOKESTATIC, "a/isv", "hideWallpaper", "(Ljava/lang/Object;)Z", false),
+                Type.getType("(Ljava/lang/Object;)Z"))
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "removeIf",
+                "(Ljava/util/function/Predicate;)Z", true)
+            filter.visitInsn(Opcodes.POP)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitInsn(Opcodes.ARETURN)
+            filter.visitMaxs(2, 1)
+            filter.visitEnd()
+
+            MethodVisitor hide = super.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "hideWallpaper", "(Ljava/lang/Object;)Z", null, null)
+            hide.visitCode()
+            hide.visitVarInsn(Opcodes.ALOAD, 0)
+            hide.visitTypeInsn(Opcodes.CHECKCAST, "a/isn")
+            hide.visitVarInsn(Opcodes.ASTORE, 1)
+            hide.visitTypeInsn(Opcodes.NEW, "java/lang/StringBuilder")
+            hide.visitInsn(Opcodes.DUP)
+            hide.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/StringBuilder", "<init>", "()V", false)
+            [
+                ["key", "Ljava/lang/String;"],
+                ["name", "Ljava/lang/String;"],
+                ["resource", "Ljava/lang/String;"],
+                ["video", "Ljava/lang/String;"]
+            ].each { field ->
+                hide.visitVarInsn(Opcodes.ALOAD, 1)
+                hide.visitFieldInsn(Opcodes.GETFIELD, "a/isn", field[0], field[1])
+                hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
+                    "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
+                hide.visitLdcInsn(" ")
+                hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
+                    "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
+            }
+            hide.visitVarInsn(Opcodes.ALOAD, 1)
+            hide.visitMethodInsn(Opcodes.INVOKESTATIC, "a/isv", "label", "(La/isn;)Ljava/lang/String;", false)
+            hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
+                "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false)
+            hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false)
+            hide.visitFieldInsn(Opcodes.GETSTATIC, "java/util/Locale", "ROOT", "Ljava/util/Locale;")
+            hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "toLowerCase",
+                "(Ljava/util/Locale;)Ljava/lang/String;", false)
+            hide.visitLdcInsn(".*(flow-light|flow-white|flow white|flow белая|astra white|astra белая|" +
+                "autumn-cats|autumn cats|осенние котики|castle|замок в облаках|elf|тёмная эльфийка|" +
+                "темная эльфийка|farm|ферма на закате|cats|котики|dusk|сумерки|aurora|аврора|" +
+                "liquid|жидкость|alpine-night|alpine night|альпийская ночь|shibuya|сибуя|dunes|дюны|" +
+                "prism|призма|waves|волны|bloom|flowers|цветени|цветение|sunset|закат|clouds|облака).*")
+            hide.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "matches", "(Ljava/lang/String;)Z", false)
+            hide.visitInsn(Opcodes.IRETURN)
+            hide.visitMaxs(4, 2)
+            hide.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
 }
 
 tasks.register("downloadFlowNestedJar") {
@@ -205,6 +392,13 @@ tasks.register("rebrandFlowNestedJar") {
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
+                        if (entry.name == "flow/dev/a.class") {
+                            patchedBytes = patchEncryptedBranding(patchedBytes)
+                            logger.lifecycle("Patched encrypted client branding strings")
+                        } else if (entry.name == "a/isv.class") {
+                            patchedBytes = patchWallpaperCatalog(patchedBytes)
+                            logger.lifecycle("Filtered requested wallpaper entries from the picker")
+                        }
                         outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
