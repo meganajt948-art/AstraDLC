@@ -10,6 +10,7 @@ on:
     branches: [astra-renaming]
     paths:
       - 'CortimDLC_sources_merged (1)/CortimDLC/**'
+      - 'video-data/**'
       - '.github/workflows/build-astradlc.yml'
 
 jobs:
@@ -35,5 +36,5 @@ jobs:
 
 # Rebuild Alba assets after fixing Java2D stroke argument types
 # Rebuild Wordmark static constants to replace FlowClient in the left menu header
-# Rebuild after fixing the obfuscated a/vvi menu title source
-# Rebuild with the branchless AlbaDLC title replacement
+# Rebuild title-screen background separation and direct MP4 input
+# Keep client background editor video-first
