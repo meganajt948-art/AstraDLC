@@ -376,6 +376,89 @@ tasks.register("prepareAlbaVideo") {
     }
 }
 
+tasks.register("prepareAlbaUiAssets") {
+    dependsOn("prepareAlbaVideo")
+    outputs.files(albaLogoFile, albaLogoSilverFile, albaLogoInkFile, albaThumbnailFile)
+    doLast {
+        def makeLogo = { int w, int h, float phase, boolean ink ->
+            def image = new java.awt.image.BufferedImage(w, h, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+            def g = image.createGraphics()
+            g.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON)
+            g.setRenderingHint(java.awt.RenderingHints.KEY_RENDERING, java.awt.RenderingHints.VALUE_RENDER_QUALITY)
+            g.setRenderingHint(java.awt.RenderingHints.KEY_STROKE_CONTROL, java.awt.RenderingHints.VALUE_STROKE_PURE)
+            int fontSize = Math.max(12, (int)(h * 0.90))
+            def font = new java.awt.Font("SansSerif", java.awt.Font.BOLD | java.awt.Font.ITALIC, fontSize)
+            def glyph = font.createGlyphVector(g.getFontRenderContext(), "A")
+            def raw = glyph.getOutline()
+            def bounds = raw.getBounds2D()
+            double sx = Math.min((w * 0.82d) / Math.max(1d, bounds.width), 1.7d)
+            double sy = Math.min((h * 0.86d) / Math.max(1d, bounds.height), 1.65d)
+            def tx = new java.awt.geom.AffineTransform()
+            tx.translate((w - bounds.width * sx) / 2d - bounds.x * sx,
+                         (h - bounds.height * sy) / 2d - bounds.y * sy)
+            tx.scale(sx, sy)
+            def shape = tx.createTransformedShape(raw)
+            def shadowTx = java.awt.geom.AffineTransform.getTranslateInstance(0d, h * 0.018d)
+            def shadow = shadowTx.createTransformedShape(shape)
+            g.setStroke(new java.awt.BasicStroke(Math.max(1.0f, h * 0.035f),
+                java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND))
+            g.setColor(new java.awt.Color(0, 0, 0, 220))
+            g.draw(shadow)
+            g.fill(shadow)
+            float startX = (float)(-w + phase * 2f * w)
+            float endX = startX + w
+            float[] stops = [0f, 0.30f, 0.47f, 0.66f, 1f] as float[]
+            java.awt.Color[] colors = ink
+                ? ([new java.awt.Color(18, 20, 24), new java.awt.Color(88, 92, 100),
+                    new java.awt.Color(230, 234, 240), new java.awt.Color(32, 35, 40),
+                    new java.awt.Color(148, 153, 160)] as java.awt.Color[])
+                : ([new java.awt.Color(70, 75, 82), new java.awt.Color(205, 210, 218),
+                    new java.awt.Color(255, 255, 255), new java.awt.Color(85, 91, 100),
+                    new java.awt.Color(232, 237, 244)] as java.awt.Color[])
+            g.setPaint(new java.awt.LinearGradientPaint(
+                new java.awt.geom.Point2D.Float(startX, 0f),
+                new java.awt.geom.Point2D.Float(endX, (float)h), stops, colors))
+            g.fill(shape)
+            g.setStroke(new java.awt.BasicStroke(Math.max(1.0f, h * 0.025f),
+                java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND))
+            g.setColor(new java.awt.Color(225, 230, 238, 230))
+            g.draw(shape)
+            g.setStroke(new java.awt.BasicStroke(Math.max(0.5f, h * 0.007f)))
+            g.setColor(new java.awt.Color(255, 255, 255, 140))
+            g.draw(shape)
+            g.dispose()
+            return image
+        }
+
+        def outDir = albaLogoFile.get().asFile.parentFile
+        outDir.mkdirs()
+        javax.imageio.ImageIO.write(makeLogo(512, 512, 0.3f, false), "png", albaLogoFile.get().asFile)
+        def silver = new java.awt.image.BufferedImage(1280, 768, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+        def inkSheet = new java.awt.image.BufferedImage(1280, 768, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+        def sg = silver.createGraphics()
+        def ig = inkSheet.createGraphics()
+        for (int i = 0; i < 60; i++) {
+            int col = i % 10
+            int row = (int)(i / 10)
+            float phase = i / 59f
+            sg.drawImage(makeLogo(128, 128, phase, false), col * 128, row * 128, null)
+            ig.drawImage(makeLogo(128, 128, phase, true), col * 128, row * 128, null)
+        }
+        sg.dispose()
+        ig.dispose()
+        javax.imageio.ImageIO.write(silver, "png", albaLogoSilverFile.get().asFile)
+        javax.imageio.ImageIO.write(inkSheet, "png", albaLogoInkFile.get().asFile)
+        def thumb = new java.awt.image.BufferedImage(512, 512, java.awt.image.BufferedImage.TYPE_INT_RGB)
+        def tg = thumb.createGraphics()
+        tg.setColor(java.awt.Color.BLACK)
+        tg.fillRect(0, 0, 512, 512)
+        tg.drawImage(makeLogo(512, 512, 0.3f, false), 0, 0, null)
+        tg.dispose()
+        javax.imageio.ImageIO.write(thumb, "jpg", albaThumbnailFile.get().asFile)
+        logger.lifecycle("Generated Alba A logo, animated logo sheets and wallpaper thumbnail")
+    }
+}
+
 tasks.register("downloadFlowNestedJar") {
     outputs.file(flowNestedJar)
     doLast {
