@@ -228,7 +228,9 @@ def patchEncryptedBranding = { byte[] bytes ->
             mv.visitVarInsn(Opcodes.ALOAD, 0)
             def replacements = [
                 ["FlowClient", "AlbaDLC"],
+                ["Flow Client", "AlbaDLC"],
                 ["FlowUser", "AlbaUser"],
+                ["Flow User", "AlbaUser"],
                 ["Flow Black", "Alba Black"],
                 ["Flow White", "Alba White"],
                 ["Flow Чёрная", "Alba Чёрная"],
@@ -237,6 +239,7 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["AstraDLC", "AlbaDLC"],
                 ["AstraUser", "AlbaUser"],
                 ["Astra", "Alba"],
+                ["Flow", "Alba"],
                 ["[Flow2]", "[AlbaDLC]"]
             ]
             replacements.each { pair ->
