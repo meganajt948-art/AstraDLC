@@ -501,7 +501,7 @@ tasks.register("prepareAlbaUiAssets") {
             def shape = tx.createTransformedShape(raw)
             def shadowTx = java.awt.geom.AffineTransform.getTranslateInstance(0d, h * 0.018d)
             def shadow = shadowTx.createTransformedShape(shape)
-            g.setStroke(new java.awt.BasicStroke(Math.max(1.0f, h * 0.035f),
+            g.setStroke(new java.awt.BasicStroke((float)Math.max(1.0d, h * 0.035d),
                 java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND))
             g.setColor(new java.awt.Color(0, 0, 0, 220))
             g.draw(shadow)
@@ -520,11 +520,11 @@ tasks.register("prepareAlbaUiAssets") {
                 new java.awt.geom.Point2D.Float(startX, 0f),
                 new java.awt.geom.Point2D.Float(endX, (float)h), stops, colors))
             g.fill(shape)
-            g.setStroke(new java.awt.BasicStroke(Math.max(1.0f, h * 0.025f),
+            g.setStroke(new java.awt.BasicStroke((float)Math.max(1.0d, h * 0.025d),
                 java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND))
             g.setColor(new java.awt.Color(225, 230, 238, 230))
             g.draw(shape)
-            g.setStroke(new java.awt.BasicStroke(Math.max(0.5f, h * 0.007f)))
+            g.setStroke(new java.awt.BasicStroke((float)Math.max(0.5d, h * 0.007d)))
             g.setColor(new java.awt.Color(255, 255, 255, 140))
             g.draw(shape)
             g.dispose()
