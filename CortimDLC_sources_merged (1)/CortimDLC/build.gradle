@@ -360,6 +360,28 @@ def patchWallpaperCatalog = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+tasks.register("prepareAlbaVideo") {
+    def partFiles = (1..10).collect { i ->
+        rootProject.file("../../video-data/alba-video-part" + String.format("%02d", i) + ".b64")
+    }
+    inputs.files(partFiles)
+    outputs.file(albaVideoFile)
+    doLast {
+        if (partFiles.any { !it.isFile() }) {
+            throw new GradleException("Missing encoded Alba background video parts")
+        }
+        String encoded = partFiles.collect { it.getText("UTF-8").trim() }.join("")
+        byte[] video = java.util.Base64.decoder.decode(encoded)
+        if (video.length < 10000 || new String(video, 4, 4, "US-ASCII") != "ftyp") {
+            throw new GradleException("Reconstructed Alba background video failed the MP4 signature check")
+        }
+        def output = albaVideoFile.get().asFile
+        output.parentFile.mkdirs()
+        output.bytes = video
+        logger.lifecycle("Prepared Alba background video (" + video.length + " bytes)")
+    }
+}
+
 tasks.register("downloadFlowNestedJar") {
     outputs.file(flowNestedJar)
     doLast {
@@ -376,8 +398,9 @@ tasks.register("downloadFlowNestedJar") {
 }
 
 tasks.register("rebrandFlowNestedJar") {
-    dependsOn("downloadFlowNestedJar")
+    dependsOn("downloadFlowNestedJar", "prepareAlbaVideo")
     inputs.file(flowNestedJar)
+    inputs.file(albaVideoFile)
     outputs.file(rebrandedNestedJar)
     doLast {
         def inputFile = flowNestedJar.get().asFile
@@ -390,6 +413,13 @@ tasks.register("rebrandFlowNestedJar") {
             def entries = inputZip.entries()
             while (entries.hasMoreElements()) {
                 def entry = entries.nextElement()
+                def entryNameLower = entry.name.toLowerCase(Locale.ROOT)
+                if (entry.name.endsWith(".mp4") || entry.name.endsWith(".webm") ||
+                    entryNameLower.contains("wallpaper") || entryNameLower.contains("logo") ||
+                    entryNameLower.contains("theme") || entryNameLower.contains("loading") ||
+                    entryNameLower.contains("splash")) {
+                    logger.lifecycle("ALBA_SCAN_RESOURCE " + entry.name)
+                }
                 def newEntry = new java.util.zip.ZipEntry(entry.name)
                 if (entry.time > 0) newEntry.time = entry.time
                 outputZip.putNextEntry(newEntry)
@@ -409,6 +439,29 @@ tasks.register("rebrandFlowNestedJar") {
                         outputZip.write(properties.getBytes("UTF-8"))
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
+                        if (entry.name == "a/isv.class" || entry.name == "a/isn.class" ||
+                            entry.name == "flow/dev/a.class") {
+                            try {
+                                new ClassReader(originalBytes).accept(new ClassVisitor(Opcodes.ASM9) {
+                                    @Override
+                                    void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+                                        logger.lifecycle("ALBA_SCAN_CLASS " + name + " extends " + superName)
+                                    }
+                                    @Override
+                                    org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+                                        logger.lifecycle("ALBA_SCAN_FIELD " + name + " " + descriptor)
+                                        return null
+                                    }
+                                    @Override
+                                    MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                                        logger.lifecycle("ALBA_SCAN_METHOD " + name + " " + descriptor)
+                                        return null
+                                    }
+                                }, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+                            } catch (Exception scanError) {
+                                logger.lifecycle("ALBA_SCAN_CLASS_ERROR " + entry.name + ": " + scanError.message)
+                            }
+                        }
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
                         if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
@@ -424,6 +477,12 @@ tasks.register("rebrandFlowNestedJar") {
                 }
                 outputZip.closeEntry()
             }
+            def videoBytes = albaVideoFile.get().asFile.bytes
+            def videoEntry = new java.util.zip.ZipEntry("assets/alba/alba-background.mp4")
+            outputZip.putNextEntry(videoEntry)
+            outputZip.write(videoBytes)
+            outputZip.closeEntry()
+            logger.lifecycle("Bundled Alba background video as assets/alba/alba-background.mp4")
         } finally {
             outputZip.close()
             inputZip.close()
