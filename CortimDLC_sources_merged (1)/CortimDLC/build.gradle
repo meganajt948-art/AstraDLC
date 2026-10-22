@@ -546,7 +546,6 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["AstraDLC", "AlbaDLC"],
                 ["AstraUser", "AlbaUser"],
                 ["Astra", "Alba"],
-                ["Flow", "Alba"],
                 ["[Flow2]", "[AlbaDLC]"]
             ]
             replacements.each { pair ->
