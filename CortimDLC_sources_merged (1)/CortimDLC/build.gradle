@@ -61,6 +61,7 @@ java {
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
 def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/albadlc-core.jar")
 def albaVideoFile = layout.buildDirectory.file("flow-dependency/alba-background.mp4")
+def albaSourceVideoFile = rootProject.file("../../video-data/alba-background.mp4")
 def albaLogoFile = layout.buildDirectory.file("flow-dependency/alba-logo.png")
 def albaLogoSilverFile = layout.buildDirectory.file("flow-dependency/alba-logo-anim-silver.png")
 def albaLogoInkFile = layout.buildDirectory.file("flow-dependency/alba-logo-anim-ink.png")
@@ -505,24 +506,44 @@ def patchWallpaperCatalog = { byte[] bytes ->
 }
 
 tasks.register("prepareAlbaVideo") {
-    def partFiles = (1..10).collect { i ->
-        rootProject.file("../../video-data/alba-video-part" + String.format("%02d", i) + ".b64")
-    }
-    inputs.files(partFiles)
+    dependsOn("downloadFlowNestedJar")
+    inputs.file(albaSourceVideoFile).optional()
+    inputs.file(flowNestedJar)
     outputs.file(albaVideoFile)
     doLast {
-        if (partFiles.any { !it.isFile() }) {
-            throw new GradleException("Missing encoded Alba background video parts")
+        byte[] video = null
+        String sourceDescription = null
+
+        if (albaSourceVideoFile.isFile()) {
+            video = albaSourceVideoFile.bytes
+            sourceDescription = "uploaded video-data/alba-background.mp4"
+        } else {
+            // Until a replacement MP4 is uploaded, reuse the complete original video.
+            // The old base64 fragments were incomplete and could silently produce a blank background.
+            def nestedZip = new java.util.zip.ZipFile(flowNestedJar.get().asFile)
+            try {
+                def original = nestedZip.getEntry("flow_offline_assets/video/flow-dark.mp4")
+                if (original == null) {
+                    throw new GradleException("Original flow-dark.mp4 not found and no uploaded Alba MP4 exists")
+                }
+                nestedZip.getInputStream(original).withCloseable { input ->
+                    video = input.readAllBytes()
+                }
+                sourceDescription = "original bundled flow-dark.mp4 (until Alba MP4 is uploaded)"
+            } finally {
+                nestedZip.close()
+            }
         }
-        String encoded = partFiles.collect { it.getText("UTF-8").trim() }.join("")
-        byte[] video = java.util.Base64.decoder.decode(encoded)
-        if (video.length < 10000 || new String(video, 4, 4, "US-ASCII") != "ftyp") {
-            throw new GradleException("Reconstructed Alba background video failed the MP4 signature check")
+
+        if (video == null || video.length < 10000 || video.length < 12 ||
+            new String(video, 4, 4, "US-ASCII") != "ftyp") {
+            throw new GradleException("Alba background MP4 is invalid or incomplete")
         }
+
         def output = albaVideoFile.get().asFile
         output.parentFile.mkdirs()
         output.bytes = video
-        logger.lifecycle("Prepared Alba background video (" + video.length + " bytes)")
+        logger.lifecycle("Prepared Alba background video from " + sourceDescription + " (" + video.length + " bytes)")
     }
 }
 
@@ -598,14 +619,34 @@ tasks.register("prepareAlbaUiAssets") {
         ig.dispose()
         javax.imageio.ImageIO.write(silver, "png", albaLogoSilverFile.get().asFile)
         javax.imageio.ImageIO.write(inkSheet, "png", albaLogoInkFile.get().asFile)
-        def thumb = new java.awt.image.BufferedImage(512, 512, java.awt.image.BufferedImage.TYPE_INT_RGB)
+        // 16:9 poster for the selected video wallpaper.
+        def thumb = new java.awt.image.BufferedImage(1280, 720, java.awt.image.BufferedImage.TYPE_INT_RGB)
         def tg = thumb.createGraphics()
-        tg.setColor(java.awt.Color.BLACK)
-        tg.fillRect(0, 0, 512, 512)
-        tg.drawImage(makeLogo(512, 512, 0.3f, false), 0, 0, null)
+        tg.setColor(new java.awt.Color(7, 9, 13))
+        tg.fillRect(0, 0, 1280, 720)
+        tg.drawImage(makeLogo(420, 420, 0.3f, false), 430, 150, null)
         tg.dispose()
-        javax.imageio.ImageIO.write(thumb, "jpg", albaThumbnailFile.get().asFile)
-        logger.lifecycle("Generated Alba A logo, animated logo sheets and wallpaper thumbnail")
+        def thumbFile = albaThumbnailFile.get().asFile
+        javax.imageio.ImageIO.write(thumb, "jpg", thumbFile)
+        try {
+            def command = new ProcessBuilder(
+                "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+                "-ss", "0.3", "-i", albaVideoFile.get().asFile.absolutePath,
+                "-frames:v", "1",
+                "-vf", "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720",
+                thumbFile.absolutePath
+            ).redirectErrorStream(true).start()
+            command.inputStream.withCloseable { it.transferTo(new java.io.ByteArrayOutputStream()) }
+            int exitCode = command.waitFor()
+            if (exitCode == 0 && thumbFile.isFile() && thumbFile.length() > 1000) {
+                logger.lifecycle("Extracted a 1280x720 poster frame from the video")
+            } else {
+                logger.lifecycle("ffmpeg could not extract a poster; using the generated 16:9 Alba card")
+            }
+        } catch (Throwable ignored) {
+            logger.lifecycle("ffmpeg unavailable; using the generated 16:9 Alba card")
+        }
+        logger.lifecycle("Generated Alba logos and 16:9 wallpaper thumbnail")
     }
 }
 
