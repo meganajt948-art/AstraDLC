@@ -627,7 +627,7 @@ def patchWallpaperCatalog = { byte[] bytes ->
 
 tasks.register("prepareAlbaVideo") {
     dependsOn("downloadFlowNestedJar")
-    inputs.file(albaSourceVideoFile).optional()
+    // The replacement MP4 is optional until it is uploaded; if absent, use the original complete video.
     inputs.file(flowNestedJar)
     outputs.file(albaVideoFile)
     doLast {
