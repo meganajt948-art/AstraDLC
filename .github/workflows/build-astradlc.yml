@@ -36,3 +36,4 @@ jobs:
 # Rebuild Alba assets after fixing Java2D stroke argument types
 # Rebuild Wordmark static constants to replace FlowClient in the left menu header
 # Rebuild after fixing the obfuscated a/vvi menu title source
+# Rebuild with the branchless AlbaDLC title replacement
