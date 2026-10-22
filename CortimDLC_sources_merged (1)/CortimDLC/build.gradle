@@ -290,12 +290,7 @@ def patchWordmark = { byte[] bytes ->
  */
 def patchFlowSplash = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
-        @Override
-        protected String getCommonSuperClass(String type1, String type2) {
-            return "java/lang/Object"
-        }
-    }
+    def writer = new ClassWriter(reader, 0)
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
@@ -312,6 +307,11 @@ def patchFlowSplash = { byte[] bytes ->
                                 "drawSelectedWallpaper", "(Lnet/minecraft/class_332;II)V", false)
                         }
                         super.visitInsn(opcode)
+                    }
+
+                    @Override
+                    void visitMaxs(int maxStack, int maxLocals) {
+                        super.visitMaxs(Math.max(maxStack, 3), maxLocals)
                     }
                 }
             }
@@ -345,8 +345,11 @@ def patchFlowSplash = { byte[] bytes ->
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "image",
                 "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFI)V", false)
             mv.visitLabel(skip)
+            mv.visitFrame(Opcodes.F_FULL, 4,
+                ["net/minecraft/class_332", Opcodes.INTEGER, Opcodes.INTEGER, "com/mojang/blaze3d/textures/GpuTextureView"] as Object[],
+                0, new Object[0])
             mv.visitInsn(Opcodes.RETURN)
-            mv.visitMaxs(0, 0)
+            mv.visitMaxs(8, 4)
             mv.visitEnd()
             super.visitEnd()
         }
