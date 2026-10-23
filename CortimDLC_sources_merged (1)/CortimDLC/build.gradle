@@ -566,7 +566,8 @@ def patchModuleDisplayNames = { byte[] bytes ->
                     @Override
                     void visitInsn(int opcode) {
                         if (opcode == Opcodes.ARETURN) {
-                            replacements.each { pair ->
+                            for (int i = 0; i < replacements.size(); i++) {
+                                def pair = replacements.get(i)
                                 super.visitLdcInsn(spaced(pair[0]))
                                 super.visitLdcInsn(pair[1])
                                 super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "replace",
@@ -630,7 +631,8 @@ def patchModuleRegistration = { byte[] bytes ->
                     @Override
                     void visitCode() {
                         super.visitCode()
-                        excluded.each { hidden ->
+                        for (int i = 0; i < excluded.size(); i++) {
+                            String hidden = excluded.get(i)
                             org.objectweb.asm.Label keep = new org.objectweb.asm.Label()
                             super.visitVarInsn(Opcodes.ALOAD, 1)
                             super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/kfe", "getName", "()Ljava/lang/String;", false)
@@ -682,7 +684,8 @@ def patchClientPanelCleanup = { byte[] bytes ->
                     private void pushExclusions(List<String> titles) {
                         super.visitInsn(Opcodes.ICONST_0 + titles.size())
                         super.visitTypeInsn(Opcodes.ANEWARRAY, "java/lang/String")
-                        titles.eachWithIndex { title, i ->
+                        for (int i = 0; i < titles.size(); i++) {
+                            String title = titles.get(i)
                             super.visitInsn(Opcodes.DUP)
                             super.visitInsn(Opcodes.ICONST_0 + i)
                             super.visitLdcInsn(title)
@@ -698,7 +701,7 @@ def patchClientPanelCleanup = { byte[] bytes ->
                             if (fieldName == "hlt") {
                                 pushExclusions(["Custom theme"])
                             } else if (fieldName == "hlx") {
-                                pushExclusions(["Party", "Party members", "Party settings"])
+                                pushExclusions(["Party", "Party members", "Party settings", "Options"])
                             } else if (fieldName == "hly") {
                                 super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaComingSoonPanel",
                                     "(Ljava/util/List;)Ljava/util/List;", false)
