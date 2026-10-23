@@ -514,10 +514,9 @@ def patchTitleMenuRenderWarmup = { byte[] bytes ->
                         super.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "key", "Ljava/lang/String;")
                         // Do not restart the video/image loader on every rendered frame.
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/jte", "albaPreloadWallpaper", "(Ljava/lang/String;)V", false)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "net/minecraft/class_310", "method_1551",
-                            "()Lnet/minecraft/class_310;", false)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/jrr", "tick",
-                            "(Lnet/minecraft/class_310;)V", false)
+                        // The title screen already renders its selected wallpaper itself.
+                        // Do not install PanoramaHook into Minecraft's world panorama renderer:
+                        // that second renderer causes the title background to flicker between layers.
                     }
                 }
             }
