@@ -2752,3 +2752,5 @@ sourceSets {
         java.setSrcDirs([])
     }
 }
+
+// Build trigger: October 23 ClickGUI header and bottom-controls refresh.
