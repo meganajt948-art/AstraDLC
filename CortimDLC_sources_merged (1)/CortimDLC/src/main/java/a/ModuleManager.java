@@ -130,12 +130,12 @@ public class ModuleManager {
         this.kgh(new BlockOutline());
         this.kgh(new OreEsp());
         this.kgh(new PlayerEsp());
-        this.kgh(new MobEsp());
-        this.kgh(new TransparentFriends());
+
+
         this.kgh(new SeeInvisible());
         this.kgh(new TargetRing());
         this.kgh(new MusicAnchor());
-        this.kgh(new KillEffects());
+
         this.kgh(new ItemTransform());
         this.kgh(new HandAnimations());
         this.kgh(new EnchantGlow());
@@ -145,7 +145,7 @@ public class ModuleManager {
         this.kgh(new SkyShader());
         this.kgh(new SeasonWeather());
         this.kgh(new SnowRender());
-        this.kgh(new MotionBlur());
+
         this.kgh(new ColorGrading());
         this.kgh(new ItemPhysics());
         this.kgh(new SmoothUi());
@@ -156,15 +156,15 @@ public class ModuleManager {
         this.kgh(new AutoMend());
         this.kgh(new AutoMines());
         this.kgh(new AncientDebrisEsp());
-        this.kgh(new AncientFarmer());
+
         this.kgh(new AutoRepair());
         this.kgh(new AutoArmor());
         this.kgh(new ElytraSwap());
         this.kgh(new ItemScroller());
         this.kgh(new ShulkerPreview());
-        this.kgh(new InventorySorter());
+
         this.kgh(new AutoLoot());
-        this.kgh(new ChestStealer());
+
         this.kgh(new AutoTpAccept());
         this.kgh(new AutoCollector());
         this.kgh(new AuctionSellerAlt());
