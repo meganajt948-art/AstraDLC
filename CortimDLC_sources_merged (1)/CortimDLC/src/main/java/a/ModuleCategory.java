@@ -9,7 +9,7 @@ public enum ModuleCategory {
     COMBAT("Combat"),
     MOVEMENT("Movement"),
     PLAYER("Player"),
-    RENDER("Render"),
+    RENDER("Visuals"),
     MISC("Misc");
 
     private final String kfb;
