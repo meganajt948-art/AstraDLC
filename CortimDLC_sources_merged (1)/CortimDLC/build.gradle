@@ -1192,12 +1192,23 @@ def patchHudVisualPlacement = { byte[] bytes ->
                     void visitInsn(int opcode) {
                         if (opcode == Opcodes.RETURN) {
                             // Filter the HUD tab only after the existing tab state is initialized.
+                            // hlz is a final list field: filter into a temporary local, then mutate the
+                            // existing list instead of illegally assigning the field outside <init>.
                             super.visitVarInsn(Opcodes.ALOAD, 0)
                             super.visitVarInsn(Opcodes.ALOAD, 0)
                             super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
                             super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterHudTab",
                                 "(Ljava/util/List;)Ljava/util/List;", false)
-                            super.visitFieldInsn(Opcodes.PUTFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitVarInsn(Opcodes.ASTORE, 1)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "clear", "()V", true)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "addAll",
+                                "(Ljava/util/Collection;)Z", true)
+                            super.visitInsn(Opcodes.POP)
                         }
                         super.visitInsn(opcode)
                     }
