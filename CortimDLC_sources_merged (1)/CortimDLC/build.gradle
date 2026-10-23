@@ -1723,8 +1723,7 @@ def patchModuleCardVisuals = { byte[] bytes ->
                 @Override
                 void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
                     super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
-                    if (!found.rail && opcode == Opcodes.INVOKESTATIC && callOwner == "a/GlassDraw" &&
-                        callName == "rim" && callDescriptor == "(Lnet/minecraft/class_332;FFFFFFF)V") {
+                    if (!found.rail && callName == "rim") {
                         emitAccentRail()
                     }
                     if (!found.toggle && callName == "drawSwitch") emitCustomToggle()
