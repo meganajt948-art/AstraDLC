@@ -143,7 +143,6 @@ def rebrandClassBytes = { byte[] bytes ->
                         .replace("AstraUser", "AlbaUser")
                         .replace("Astra", "Alba")
                         .replace("Flow2", "AlbaDLC")
-                        .replace("Render", "Visuals")
                         .replace("[Flow2]", "[AlbaDLC]")
                 }
                 if (updated != value) {
@@ -781,7 +780,6 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["AstraUser", "AlbaUser"],
                 ["Astra", "Alba"],
                 ["Flow2", "AlbaDLC"],
-                ["Render", "Visuals"],
                 ["[Flow2]", "[AlbaDLC]"]
             ]
             replacements.each { pair ->
@@ -836,7 +834,7 @@ def patchVviTitle = { byte[] bytes ->
                 if (info == null) {
                     throw new GradleException("Encoded client name method not found: " + methodName)
                 }
-                MethodVisitor mv = super.visitMethod(info.access, methodName, info.descriptor,
+                MethodVisitor mv = writer.visitMethod(info.access, methodName, info.descriptor,
                     info.signature, info.exceptions as String[])
                 mv.visitCode()
                 // Preserve the visual zero-width separators on the left rail logo.
@@ -852,16 +850,22 @@ def patchVviTitle = { byte[] bytes ->
     return writer.toByteArray()
 }
 
-/* The enum ordinal values stay unchanged; only the UI-facing values() order changes. */
+/*
+ * Keep enum ordinals untouched. Click-GUI order is Combat, Player, Visuals,
+ * Misc, then Movement so existing movement modules remain accessible.
+ */
 def patchModuleCategoryOrder = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
     def original = [:]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if (name == "values" && descriptor == "()[La/kfa;") {
-                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+            if ((name == "values" && descriptor == "()[La/kfa;") ||
+                (name == "title" && descriptor == "()Ljava/lang/String;")) {
+                original[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
                 return null
             }
             return super.visitMethod(access, name, descriptor, signature, exceptions)
@@ -869,30 +873,48 @@ def patchModuleCategoryOrder = { byte[] bytes ->
 
         @Override
         void visitEnd() {
-            if (original.isEmpty()) throw new GradleException("Module category values() method not found")
-            MethodVisitor mv = super.visitMethod(original.access, "values", original.descriptor,
-                original.signature, original.exceptions as String[])
-            mv.visitCode()
-            mv.visitInsn(Opcodes.ICONST_5)
-            mv.visitTypeInsn(Opcodes.ANEWARRAY, "a/kfa")
-            ["COMBAT", "PLAYER", "RENDER", "MISC", "MOVEMENT"].eachWithIndex { fieldName, index ->
-                mv.visitInsn(Opcodes.DUP)
-                if (index <= 5) {
-                    mv.visitInsn(Opcodes.ICONST_0 + index)
-                } else {
-                    mv.visitIntInsn(Opcodes.BIPUSH, index)
-                }
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", fieldName, "La/kfa;")
-                mv.visitInsn(Opcodes.AASTORE)
+            if (original.values == null || original.title == null) {
+                throw new GradleException("ModuleCategory.values/title methods not found")
             }
-            mv.visitInsn(Opcodes.ARETURN)
-            mv.visitMaxs(4, 0)
-            mv.visitEnd()
+
+            def valuesInfo = original.values
+            MethodVisitor values = writer.visitMethod(valuesInfo.access, "values", valuesInfo.descriptor,
+                valuesInfo.signature, valuesInfo.exceptions as String[])
+            values.visitCode()
+            values.visitInsn(Opcodes.ICONST_5)
+            values.visitTypeInsn(Opcodes.ANEWARRAY, "a/kfa")
+            ["COMBAT", "PLAYER", "RENDER", "MISC", "MOVEMENT"].eachWithIndex { fieldName, index ->
+                values.visitInsn(Opcodes.DUP)
+                values.visitInsn(Opcodes.ICONST_0 + index)
+                values.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", fieldName, "La/kfa;")
+                values.visitInsn(Opcodes.AASTORE)
+            }
+            values.visitInsn(Opcodes.ARETURN)
+            values.visitMaxs(4, 0)
+            values.visitEnd()
+
+            // Rename only the Render category label; do not rewrite any other renderer text.
+            def titleInfo = original.title
+            MethodVisitor title = writer.visitMethod(titleInfo.access, "title", titleInfo.descriptor,
+                titleInfo.signature, titleInfo.exceptions as String[])
+            title.visitCode()
+            org.objectweb.asm.Label originalTitle = new org.objectweb.asm.Label()
+            title.visitVarInsn(Opcodes.ALOAD, 0)
+            title.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", "RENDER", "La/kfa;")
+            title.visitJumpInsn(Opcodes.IF_ACMPNE, originalTitle)
+            title.visitLdcInsn("Visuals")
+            title.visitInsn(Opcodes.ARETURN)
+            title.visitLabel(originalTitle)
+            title.visitVarInsn(Opcodes.ALOAD, 0)
+            title.visitFieldInsn(Opcodes.GETFIELD, "a/kfa", "kfb", "Ljava/lang/String;")
+            title.visitInsn(Opcodes.ARETURN)
+            title.visitMaxs(2, 1)
+            title.visitEnd()
+
             super.visitEnd()
         }
     }
     reader.accept(visitor, 0)
-    if (original.isEmpty()) throw new GradleException("Category order patch did not find a/kfa.values()")
     return writer.toByteArray()
 }
 
