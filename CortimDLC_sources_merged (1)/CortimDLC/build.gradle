@@ -531,132 +531,154 @@ def patchTitleMenuRenderWarmup = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/* Keep the original ClickGUI geometry: its navigation rail belongs on the left. */
+
 /*
- * Keep the original Obsidian widgets and interaction logic, but rearrange their
- * positions: content occupies the left 404 px and the navigation rail sits right.
- * The transform API descriptors below intentionally match the 1.21.11 bytecode.
+ * Simplify the title-screen wallpaper/settings panel and make the requested
+ * appearance non-configurable: AlbaDLC title enabled, menu buttons centered,
+ * button blur disabled, 100% corner rounding, and no extra background dimming.
+ *
+ * The panel keeps only button style, particles, parallax, and reset. Hidden rows
+ * are moved outside the viewport; remaining rows are compacted without breaking
+ * hit-testing, since rendering and mouse handling share jxt(int).
  */
-def patchClientMenuLayout = { byte[] bytes ->
+def patchMainMenuSettings = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
+    def replacementMethods = [:]
     boolean foundRender = false
-    boolean foundPointer = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if ((name == "jxt" && descriptor == "(I)F") ||
+                (name == "jwl" && descriptor == "()F")) {
+                replacementMethods[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
+            }
+
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-            if (name == "hpz" && descriptor == "(Lnet/minecraft/class_332;)V") {
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
                 foundRender = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
-                    private void beginShift(float dx) {
-                        super.visitVarInsn(Opcodes.ALOAD, 1)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_51448",
-                            "()Lorg/joml/Matrix3x2fStack;", false)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "pushMatrix",
-                            "()Lorg/joml/Matrix3x2fStack;", false)
-                        super.visitInsn(Opcodes.POP)
-                        super.visitVarInsn(Opcodes.ALOAD, 1)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_51448",
-                            "()Lorg/joml/Matrix3x2fStack;", false)
-                        super.visitLdcInsn(dx)
-                        super.visitInsn(Opcodes.FCONST_0)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "translate",
-                            "(FF)Lorg/joml/Matrix3x2f;", false)
-                        super.visitInsn(Opcodes.POP)
-                    }
-
-                    private void endShift() {
-                        super.visitVarInsn(Opcodes.ALOAD, 1)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_51448",
-                            "()Lorg/joml/Matrix3x2fStack;", false)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "popMatrix",
-                            "()Lorg/joml/Matrix3x2fStack;", false)
-                        super.visitInsn(Opcodes.POP)
-                    }
-
                     @Override
-                    void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
-                        Float dx = null
-                        if (owner == "a/hlc" && methodName == "hqc") {
-                            dx = 404.0f
-                        } else if (owner == "a/hlc" &&
-                            ["hqx", "hrd", "hrf", "hqr", "hqq", "hrh"].contains(methodName)) {
-                            dx = -136.0f
-                        } else if (methodName == "render") {
-                            dx = -136.0f
-                        } else if (owner == "a/uut" && methodName == "round" &&
-                            methodDescriptor == "(Lnet/minecraft/class_332;FFFFFFFFI)V") {
-                            // Only shift the two narrow navigation-panel surfaces, not the full background.
-                            dx = 404.0f
-                        } else if (owner == "a/uut" && methodName == "rect" &&
-                            methodDescriptor == "(Lnet/minecraft/class_332;FFFFI)V") {
-                            // The single 1 px divider belongs between the content and right rail.
-                            dx = 267.0f
-                        }
-
-                        if (dx != null) beginShift(dx)
-                        super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
-                        if (dx != null) endShift()
+                    void visitCode() {
+                        super.visitCode()
+                        // TITLE is always on; hide the position control and lock centered layout in jwl().
+                        super.visitFieldInsn(Opcodes.GETSTATIC, "a/kbm", "TITLE", "La/vkl;")
+                        super.visitInsn(Opcodes.ICONST_1)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vkl", "set", "(Z)V", false)
+                        // Fixed appearance values: no button blur, 100% rounding, no extra wallpaper dimming.
+                        super.visitFieldInsn(Opcodes.GETSTATIC, "a/kbm", "BLUR", "La/vmc;")
+                        super.visitInsn(Opcodes.DCONST_0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vmc", "set", "(D)V", false)
+                        super.visitFieldInsn(Opcodes.GETSTATIC, "a/kbm", "ROUND", "La/vmc;")
+                        super.visitInsn(Opcodes.DCONST_1)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vmc", "set", "(D)V", false)
+                        super.visitFieldInsn(Opcodes.GETSTATIC, "a/kbm", "DIM", "La/vmc;")
+                        super.visitInsn(Opcodes.DCONST_0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vmc", "set", "(D)V", false)
                     }
                 }
             }
-            if (name == "hpx" && descriptor == "(D)F") {
-                foundPointer = true
+            if (name == "jww" && descriptor == "()F") {
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override
-                    void visitInsn(int opcode) {
-                        if (opcode == Opcodes.FRETURN) {
-                            org.objectweb.asm.Label right = new org.objectweb.asm.Label()
-                            org.objectweb.asm.Label done = new org.objectweb.asm.Label()
-                            super.visitVarInsn(Opcodes.FSTORE, 3)
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                            super.visitLdcInsn(404.0f)
-                            super.visitInsn(Opcodes.FCMPG)
-                            super.visitJumpInsn(Opcodes.IFGE, right)
-
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                            super.visitInsn(Opcodes.FCONST_0)
-                            super.visitInsn(Opcodes.FCMPG)
-                            super.visitJumpInsn(Opcodes.IFLT, done)
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                            super.visitLdcInsn(404.0f)
-                            super.visitInsn(Opcodes.FCMPG)
-                            super.visitJumpInsn(Opcodes.IFGE, done)
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                            super.visitLdcInsn(136.0f)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitVarInsn(Opcodes.FSTORE, 3)
-                            super.visitJumpInsn(Opcodes.GOTO, done)
-
-                            super.visitLabel(right)
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                            super.visitLdcInsn(540.0f)
-                            super.visitInsn(Opcodes.FCMPG)
-                            super.visitJumpInsn(Opcodes.IFGT, done)
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                            super.visitLdcInsn(404.0f)
-                            super.visitInsn(Opcodes.FSUB)
-                            super.visitVarInsn(Opcodes.FSTORE, 3)
-
-                            super.visitLabel(done)
-                            super.visitVarInsn(Opcodes.FLOAD, 3)
-                        }
-                        super.visitInsn(opcode)
+                    void visitLdcInsn(Object value) {
+                        // Four visible rows (button style, particles, parallax, reset).
+                        if (value instanceof Float && Math.abs(((Float)value) - 171.0F) < 0.001F) value = 76.0F
+                        super.visitLdcInsn(value)
                     }
                 }
             }
             return mv
         }
+
+        @Override
+        void visitEnd() {
+            def layout = replacementMethods["jxt"]
+            if (layout == null || replacementMethods["jwl"] == null || !foundRender) {
+                throw new GradleException("Main-menu settings methods not found: " + replacementMethods.keySet() + ", render=" + foundRender)
+            }
+
+            MethodVisitor row = writer.visitMethod(layout.access, "jxt", layout.descriptor,
+                layout.signature, layout.exceptions as String[])
+            row.visitCode()
+            org.objectweb.asm.Label rowButtonStyle = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label rowParticles = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label rowParallax = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label rowReset = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label compute = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label hidden = new org.objectweb.asm.Label()
+            // Logical rows kept: 2 (button style), 6 (particles), 7 (parallax), 8 (reset).
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitInsn(Opcodes.ICONST_2)
+            row.visitJumpInsn(Opcodes.IF_ICMPEQ, rowButtonStyle)
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitIntInsn(Opcodes.BIPUSH, 6)
+            row.visitJumpInsn(Opcodes.IF_ICMPEQ, rowParticles)
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitIntInsn(Opcodes.BIPUSH, 7)
+            row.visitJumpInsn(Opcodes.IF_ICMPEQ, rowParallax)
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitIntInsn(Opcodes.BIPUSH, 8)
+            row.visitJumpInsn(Opcodes.IF_ICMPEQ, rowReset)
+            row.visitLabel(hidden)
+            row.visitLdcInsn(-10000.0F)
+            row.visitInsn(Opcodes.FRETURN)
+            row.visitLabel(rowButtonStyle)
+            row.visitInsn(Opcodes.ICONST_0)
+            row.visitJumpInsn(Opcodes.GOTO, compute)
+            row.visitLabel(rowParticles)
+            row.visitInsn(Opcodes.ICONST_1)
+            row.visitJumpInsn(Opcodes.GOTO, compute)
+            row.visitLabel(rowParallax)
+            row.visitInsn(Opcodes.ICONST_2)
+            row.visitJumpInsn(Opcodes.GOTO, compute)
+            row.visitLabel(rowReset)
+            row.visitInsn(Opcodes.ICONST_3)
+            row.visitLabel(compute)
+            row.visitVarInsn(Opcodes.ISTORE, 2)
+            row.visitVarInsn(Opcodes.ALOAD, 0)
+            row.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jte", "jwt", "()F", false)
+            row.visitVarInsn(Opcodes.ALOAD, 0)
+            row.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jte", "jwx", "()F", false)
+            row.visitInsn(Opcodes.FADD)
+            row.visitLdcInsn(13.0F)
+            row.visitInsn(Opcodes.FADD)
+            row.visitVarInsn(Opcodes.ILOAD, 2)
+            row.visitInsn(Opcodes.I2F)
+            row.visitLdcInsn(19.0F)
+            row.visitInsn(Opcodes.FMUL)
+            row.visitInsn(Opcodes.FADD)
+            row.visitVarInsn(Opcodes.ALOAD, 0)
+            row.visitFieldInsn(Opcodes.GETFIELD, "a/jte", "jut", "F")
+            row.visitInsn(Opcodes.FSUB)
+            row.visitInsn(Opcodes.FRETURN)
+            row.visitMaxs(0, 0)
+            row.visitEnd()
+
+            def position = replacementMethods["jwl"]
+            MethodVisitor center = writer.visitMethod(position.access, "jwl", position.descriptor,
+                position.signature, position.exceptions as String[])
+            center.visitCode()
+            // x = (screen width - 138 px button width) / 2 regardless of saved preferences.
+            center.visitVarInsn(Opcodes.ALOAD, 0)
+            center.visitFieldInsn(Opcodes.GETFIELD, "a/jte", "jve", "F")
+            center.visitLdcInsn(138.0F)
+            center.visitInsn(Opcodes.FSUB)
+            center.visitLdcInsn(2.0F)
+            center.visitInsn(Opcodes.FDIV)
+            center.visitInsn(Opcodes.FRETURN)
+            center.visitMaxs(0, 0)
+            center.visitEnd()
+            super.visitEnd()
+        }
     }
     reader.accept(visitor, 0)
-    if (!foundRender || !foundPointer) {
-        throw new GradleException("Client GUI layout methods not found: render=" + foundRender + ", pointer=" + foundPointer)
-    }
     return writer.toByteArray()
 }
-
 
 /*
  * Skip Flow2's custom full-screen video splash without replacing the Minecraft
@@ -1308,10 +1330,11 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Applied Obsidian + Depth interface style; removed Alba Black/White presets")
                         } else if (entry.name == "a/jte.class") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
+                            patchedBytes = patchMainMenuSettings(patchedBytes)
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
+                            logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
                         } else if (entry.name == "a/hlc.class") {
-                            patchedBytes = patchClientMenuLayout(patchedBytes)
-                            logger.lifecycle("Changed client GUI layout: workspace left, navigation rail right; mouse coordinates remapped")
+                            logger.lifecycle("Kept native client GUI layout: navigation sidebar stays on the left")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
                             logger.lifecycle("Replaced both encoded client-logo accessors with AlbaDLC")
