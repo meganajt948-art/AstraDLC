@@ -2662,7 +2662,9 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchClientLoadSplash(patchedBytes)
                             logger.lifecycle("Kept startup warming active without video splash or progress strip")
                         }
-                        patchedBytes = patchDiscordInviteUrls(patchedBytes)
+                        if (entry.name == "a/jte.class") {
+                            patchedBytes = patchDiscordInviteUrls(patchedBytes)
+                        }
                         outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
