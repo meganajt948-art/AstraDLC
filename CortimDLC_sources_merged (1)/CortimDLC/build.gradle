@@ -142,6 +142,8 @@ def rebrandClassBytes = { byte[] bytes ->
                         .replace("AstraDLC", "AlbaDLC")
                         .replace("AstraUser", "AlbaUser")
                         .replace("Astra", "Alba")
+                        .replace("Flow2", "AlbaDLC")
+                        .replace("Render", "Visuals")
                         .replace("[Flow2]", "[AlbaDLC]")
                 }
                 if (updated != value) {
@@ -583,7 +585,7 @@ def patchClientMenuLayout = { byte[] bytes ->
                         } else if (owner == "a/hlc" &&
                             ["hqx", "hrd", "hrf", "hqr", "hqq", "hrh"].contains(methodName)) {
                             dx = -136.0f
-                        } else if ((owner == "a/hxi" || owner == "a/ijy") && methodName == "render") {
+                        } else if (methodName == "render") {
                             dx = -136.0f
                         } else if (owner == "a/uut" && methodName == "round" &&
                             methodDescriptor == "(Lnet/minecraft/class_332;FFFFFFFFI)V") {
@@ -778,6 +780,8 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["AstraDLC", "AlbaDLC"],
                 ["AstraUser", "AlbaUser"],
                 ["Astra", "Alba"],
+                ["Flow2", "AlbaDLC"],
+                ["Render", "Visuals"],
                 ["[Flow2]", "[AlbaDLC]"]
             ]
             replacements.each { pair ->
@@ -813,29 +817,82 @@ def patchEncryptedBranding = { byte[] bytes ->
  */
 def patchVviTitle = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, 0)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
             if ((name == "get" || name == "getRaw") && descriptor == "()Ljava/lang/String;") {
-                return new MethodVisitor(Opcodes.ASM9, mv) {
-                    @Override
-                    void visitInsn(int opcode) {
-                        if (opcode == Opcodes.ARETURN) {
-                            super.visitInsn(Opcodes.POP)
-                            super.visitLdcInsn("AlbaDLC")
-                            super.visitInsn(Opcodes.ARETURN)
-                        } else {
-                            super.visitInsn(opcode)
-                        }
-                    }
-                }
+                original[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
             }
-            return mv
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            ["get", "getRaw"].each { methodName ->
+                def info = original[methodName]
+                if (info == null) {
+                    throw new GradleException("Encoded client name method not found: " + methodName)
+                }
+                MethodVisitor mv = super.visitMethod(info.access, methodName, info.descriptor,
+                    info.signature, info.exceptions as String[])
+                mv.visitCode()
+                // Preserve the visual zero-width separators on the left rail logo.
+                mv.visitLdcInsn(methodName == "get" ? "A\u200Cl\u200Cb\u200Ca\u200CD\u200CL\u200CC" : "AlbaDLC")
+                mv.visitInsn(Opcodes.ARETURN)
+                mv.visitMaxs(1, 0)
+                mv.visitEnd()
+            }
+            super.visitEnd()
         }
     }
     reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/* The enum ordinal values stay unchanged; only the UI-facing values() order changes. */
+def patchModuleCategoryOrder = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "values" && descriptor == "()[La/kfa;") {
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            if (original.isEmpty()) throw new GradleException("Module category values() method not found")
+            MethodVisitor mv = super.visitMethod(original.access, "values", original.descriptor,
+                original.signature, original.exceptions as String[])
+            mv.visitCode()
+            mv.visitInsn(Opcodes.ICONST_5)
+            mv.visitTypeInsn(Opcodes.ANEWARRAY, "a/kfa")
+            ["COMBAT", "PLAYER", "RENDER", "MISC", "MOVEMENT"].eachWithIndex { fieldName, index ->
+                mv.visitInsn(Opcodes.DUP)
+                if (index <= 5) {
+                    mv.visitInsn(Opcodes.ICONST_0 + index)
+                } else {
+                    mv.visitIntInsn(Opcodes.BIPUSH, index)
+                }
+                mv.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", fieldName, "La/kfa;")
+                mv.visitInsn(Opcodes.AASTORE)
+            }
+            mv.visitInsn(Opcodes.ARETURN)
+            mv.visitMaxs(4, 0)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (original.isEmpty()) throw new GradleException("Category order patch did not find a/kfa.values()")
     return writer.toByteArray()
 }
 
@@ -1221,6 +1278,9 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "a/kbs.class") {
                             patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
                             logger.lifecycle("Removed Alba White/Black from title wallpapers; kept remaining themes")
+                        } else if (entry.name == "a/kfa.class") {
+                            patchedBytes = patchModuleCategoryOrder(patchedBytes)
+                            logger.lifecycle("Reordered sidebar categories: Combat, Player, Visuals, Misc, Movement")
                         } else if (entry.name == "a/iov.class") {
                             patchedBytes = patchThemePresets(patchedBytes)
                             logger.lifecycle("Applied Obsidian + Depth interface style; removed Alba Black/White presets")
@@ -1232,7 +1292,7 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Changed client GUI layout: workspace left, navigation rail right; mouse coordinates remapped")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
-                            logger.lifecycle("Rebranded obfuscated main-menu title FlowClient to AlbaDLC")
+                            logger.lifecycle("Replaced both encoded client-logo accessors with AlbaDLC")
                         } else if (entry.name == "flow/splash/Wordmark.class") {
                             patchedBytes = patchWordmark(patchedBytes)
                             logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
