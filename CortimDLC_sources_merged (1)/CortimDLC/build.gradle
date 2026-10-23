@@ -1593,148 +1593,176 @@ def patchClickGuiHeaderLayout = { byte[] bytes ->
     return writer.toByteArray()
 }
 
-/* Restyle module cards and their header switches while retaining click/setting behavior. */
+/* Safer module-card restyle: only adjust existing geometry constants; no injected render branches. */
 def patchModuleCardVisuals = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    String ownerClass = reader.className
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
-        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
-    }
-    def found = [render: false, radius: false, rail: false, toggle: false]
+    def writer = new ClassWriter(reader, 0)
+    boolean foundRender = false
+    boolean foundRadius = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
             if (name != "render" || descriptor != "(Lnet/minecraft/class_332;La/hlc;FFF)V") return mv
-            found.render = true
+            foundRender = true
             return new MethodVisitor(Opcodes.ASM9, mv) {
-                @Override void visitLdcInsn(Object value) {
-                    if (!found.radius && value instanceof Float &&
+                @Override
+                void visitLdcInsn(Object value) {
+                    if (!foundRadius && value instanceof Float &&
                         Math.abs(((Float)value).floatValue() - 7.0f) < 0.001f) {
                         value = 4.0f
-                        found.radius = true
+                        foundRadius = true
                     }
                     super.visitLdcInsn(value)
-                }
-                private void emitAccentRail() {
-                    super.visitVarInsn(Opcodes.ALOAD, 1)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "x", "F")
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "y", "F")
-                    super.visitLdcInsn(5.0f)
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitLdcInsn(2.0f)
-                    super.visitLdcInsn(17.0f)
-                    super.visitLdcInsn(1.0f)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "hkd", "()Z", false)
-                    org.objectweb.asm.Label muted = new org.objectweb.asm.Label()
-                    org.objectweb.asm.Label colored = new org.objectweb.asm.Label()
-                    super.visitJumpInsn(Opcodes.IFEQ, muted)
-                    super.visitLdcInsn(-13973)
-                    super.visitJumpInsn(Opcodes.GOTO, colored)
-                    super.visitLabel(muted)
-                    super.visitLdcInsn(-11512222) // muted slate #FF505662
-                    super.visitLabel(colored)
-                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
-                        "(Lnet/minecraft/class_332;FFFFFI)V", false)
-                    found.rail = true
-                }
-                private void emitCustomToggle() {
-                    // Cover the original grey switch with the card colour.
-                    super.visitVarInsn(Opcodes.ALOAD, 1)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "x", "F")
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "w", "F")
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitLdcInsn(34.0f)
-                    super.visitInsn(Opcodes.FSUB)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "y", "F")
-                    super.visitLdcInsn(6.0f)
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitLdcInsn(30.0f)
-                    super.visitLdcInsn(15.0f)
-                    super.visitLdcInsn(4.0f)
-                    super.visitFieldInsn(Opcodes.GETSTATIC, "a/Theme", "card", "I")
-                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
-                        "(Lnet/minecraft/class_332;FFFFFI)V", false)
-
-                    // Toggle track.
-                    super.visitVarInsn(Opcodes.ALOAD, 1)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "x", "F")
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "w", "F")
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitLdcInsn(29.0f)
-                    super.visitInsn(Opcodes.FSUB)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "y", "F")
-                    super.visitLdcInsn(9.0f)
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitLdcInsn(20.0f)
-                    super.visitLdcInsn(9.0f)
-                    super.visitLdcInsn(4.5f)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "hkd", "()Z", false)
-                    org.objectweb.asm.Label toggleOff = new org.objectweb.asm.Label()
-                    org.objectweb.asm.Label toggleColorReady = new org.objectweb.asm.Label()
-                    super.visitJumpInsn(Opcodes.IFEQ, toggleOff)
-                    super.visitLdcInsn(-13973)
-                    super.visitJumpInsn(Opcodes.GOTO, toggleColorReady)
-                    super.visitLabel(toggleOff)
-                    super.visitLdcInsn(-11512222) // muted slate #FF505662
-                    super.visitLabel(toggleColorReady)
-                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
-                        "(Lnet/minecraft/class_332;FFFFFI)V", false)
-
-                    // Thumb, shifted right for enabled modules.
-                    super.visitVarInsn(Opcodes.ALOAD, 1)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "x", "F")
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "w", "F")
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "hkd", "()Z", false)
-                    org.objectweb.asm.Label thumbOff = new org.objectweb.asm.Label()
-                    org.objectweb.asm.Label thumbY = new org.objectweb.asm.Label()
-                    super.visitJumpInsn(Opcodes.IFEQ, thumbOff)
-                    super.visitLdcInsn(14.0f)
-                    super.visitInsn(Opcodes.FSUB)
-                    super.visitJumpInsn(Opcodes.GOTO, thumbY)
-                    super.visitLabel(thumbOff)
-                    super.visitLdcInsn(24.0f)
-                    super.visitInsn(Opcodes.FSUB)
-                    super.visitLabel(thumbY)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "y", "F")
-                    super.visitLdcInsn(13.5f)
-                    super.visitInsn(Opcodes.FADD)
-                    super.visitLdcInsn(2.8f)
-                    super.visitLdcInsn(-1)
-                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "circle",
-                        "(Lnet/minecraft/class_332;FFFI)V", false)
-                    found.toggle = true
-                }
-                @Override
-                void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
-                    super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
-                    if (!found.rail && callName == "rim") {
-                        emitAccentRail()
-                    }
-                    if (!found.toggle && callName == "drawSwitch") emitCustomToggle()
                 }
             }
         }
     }
     reader.accept(visitor, 0)
-    if (!found.render || !found.radius || !found.rail || !found.toggle) {
-        throw new GradleException("Module-card restyle patch points not found in " + ownerClass + ": " + found)
+    if (!foundRender || !foundRadius) {
+        throw new GradleException("Safe module-card geometry patch point not found: render=" + foundRender + ", radius=" + foundRadius)
     }
+    return writer.toByteArray()
+}
+
+/* Give the existing module switch a cleaner, less-pill-shaped track without adding bytecode branches. */
+def isUiKitClass = { byte[] bytes ->
+    def found = [switchMethod: false]
+    new ClassReader(bytes).accept(new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "drawSwitch" && descriptor == "(Lnet/minecraft/class_332;FFFF)V") found.switchMethod = true
+            return null
+        }
+    }, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    return found.switchMethod
+}
+
+def patchUiKitSwitch = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "drawSwitch" || descriptor != "(Lnet/minecraft/class_332;FFFF)V") return mv
+            found = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                private boolean radiusChanged = false
+                @Override
+                void visitLdcInsn(Object value) {
+                    if (!radiusChanged && value instanceof Float &&
+                        Math.abs(((Float)value).floatValue() - 4.75f) < 0.001f) {
+                        value = 4.0f
+                        radiusChanged = true
+                    }
+                    super.visitLdcInsn(value)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("UiKit.drawSwitch method not found")
+    return writer.toByteArray()
+}
+
+/* Replace any stale Discord invite literal, even when the URL appears in a second click handler. */
+def patchDiscordInviteUrls = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    String desired = "https://discord.gg/6NZxdgRv"
+    boolean changed = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        private String replaceInvite(Object value) {
+            if (!(value instanceof String)) return value
+            String text = (String)value
+            if (text.startsWith("https://discord.gg/") ||
+                text.startsWith("http://discord.gg/") ||
+                text.startsWith("https://discord.com/invite/") ||
+                text.startsWith("http://discord.com/invite/")) {
+                if (text != desired) changed = true
+                return desired
+            }
+            return text
+        }
+        @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            Object updated = replaceInvite(value)
+            return super.visitField(access, name, descriptor, signature, updated)
+        }
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitLdcInsn(Object value) {
+                    super.visitLdcInsn(replaceInvite(value))
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (changed) logger.lifecycle("Replaced stale Discord invite with https://discord.gg/6NZxdgRv in " + reader.className)
+    return writer.toByteArray()
+}
+
+/* Remove only the Reset row from the main-menu wallpaper panel; leave the other controls unchanged. */
+def patchRemoveMenuBackgroundReset = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def rowInfo = [:]
+    boolean heightFound = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "jxt" && descriptor == "(I)F") {
+                rowInfo.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalBackgroundRowY", descriptor, signature, exceptions)
+            }
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "jww" && descriptor == "()F") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        // The previous layout maps three visible rows to 57px, excluding Reset.
+                        if (value instanceof Float && Math.abs(((Float)value).floatValue() - 76.0f) < 0.001f) {
+                            value = 57.0f
+                            heightFound = true
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            return mv
+        }
+        @Override
+        void visitEnd() {
+            if (rowInfo.isEmpty()) throw new GradleException("Background settings row-position method jxt(I)F not found")
+            def info = rowInfo
+            MethodVisitor row = writer.visitMethod(info.access, "jxt", info.descriptor, info.signature, info.exceptions as String[])
+            row.visitCode()
+            org.objectweb.asm.Label keep = new org.objectweb.asm.Label()
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitIntInsn(Opcodes.BIPUSH, 8)
+            row.visitJumpInsn(Opcodes.IF_ICMPNE, keep)
+            row.visitLdcInsn(-10000.0f)
+            row.visitInsn(Opcodes.FRETURN)
+            row.visitLabel(keep)
+            row.visitVarInsn(Opcodes.ALOAD, 0)
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "albaOriginalBackgroundRowY", "(I)F", false)
+            row.visitInsn(Opcodes.FRETURN)
+            row.visitMaxs(0, 0)
+            row.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!heightFound) throw new GradleException("Background settings content-height constant 76 not found")
     return writer.toByteArray()
 }
 
@@ -2589,6 +2617,7 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
+                            patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
@@ -2606,7 +2635,10 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
                         } else if (entry.name == "a/hjg.class") {
                             patchedBytes = patchModuleCardVisuals(patchedBytes)
-                            logger.lifecycle("Restyled module cards with sharper corners, Alba status rails, and gold switches")
+                            logger.lifecycle("Safely restyled module card corners without injecting render-time control flow")
+                        } else if (isUiKitClass(originalBytes)) {
+                            patchedBytes = patchUiKitSwitch(patchedBytes)
+                            logger.lifecycle("Refined the native module-switch shape while preserving its original render logic")
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
                             patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
@@ -2631,6 +2663,7 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchClientLoadSplash(patchedBytes)
                             logger.lifecycle("Kept startup warming active without video splash or progress strip")
                         }
+                        patchedBytes = patchDiscordInviteUrls(patchedBytes)
                         outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
