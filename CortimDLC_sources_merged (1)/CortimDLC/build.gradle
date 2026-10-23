@@ -614,7 +614,7 @@ def isMenuSceneRendererClass = { byte[] bytes ->
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "draw" && descriptor == "(Lnet/minecraft/class_332;La/jza;La/kam;FFFZ)Z") found.draw = true
             if (name == "kbi" && descriptor == "(La/jza;La/kam;Z)Z") found.prepare = true
-            if (name == "kbl" && descriptor == "(F)F") found.alpha = true
+            if (name == "kbl" && descriptor == "(F)I") found.alpha = true
             return null
         }
     }
@@ -631,7 +631,7 @@ def isMenuSceneRendererClass = { byte[] bytes ->
 def patchMenuSceneRendererFallback = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     String owner = reader.className
-    def drawHelper = [opcode: -1, owner: null, name: null, descriptor: "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFF)V", isInterface: false]
+    def drawHelper = [opcode: -1, owner: null, name: null, descriptor: "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFI)V", isInterface: false]
     reader.accept(new ClassVisitor(Opcodes.ASM9) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
@@ -686,7 +686,7 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 mv.visitVarInsn(Opcodes.FLOAD, 5)
                 mv.visitInsn(Opcodes.FCONST_0)
                 mv.visitVarInsn(Opcodes.FLOAD, 6)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)F", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)I", false)
                 mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
                     drawHelper.descriptor, drawHelper.isInterface)
                 mv.visitInsn(Opcodes.ICONST_1)
@@ -704,7 +704,7 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 mv.visitVarInsn(Opcodes.FLOAD, 5)
                 mv.visitInsn(Opcodes.FCONST_0)
                 mv.visitVarInsn(Opcodes.FLOAD, 6)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)F", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)I", false)
                 mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
                     drawHelper.descriptor, drawHelper.isInterface)
                 mv.visitInsn(Opcodes.ICONST_1)
