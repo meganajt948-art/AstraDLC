@@ -1426,16 +1426,32 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def found = [clinit: false, click: false, panel: false, wallpaper: false]
+    def found = [clinit: false, click: false, panel: false, wallpaper: false, discordAssigned: false, telegramAssigned: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
             if (name == "<clinit>" && descriptor == "()V") {
-                // Preserve the original class initializer exactly. The general constant replacer
-                // below updates the existing URL literals without adding field writes.
+                // Keep the existing initializer and its field attributes intact. Replace the
+                // computed values exactly where they are assigned, without mutating field metadata.
                 found.clinit = true
-                return mv
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitFieldInsn(int opcode, String fieldOwner, String fieldName, String fieldDescriptor) {
+                        if (opcode == Opcodes.PUTSTATIC && fieldOwner == ownerClass &&
+                            fieldDescriptor == "Ljava/lang/String;" &&
+                            (fieldName == "DISCORD" || fieldName == "TELEGRAM")) {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn(fieldName == "DISCORD"
+                                ? "https://discord.gg/6NZxdgRv"
+                                : "https://t.me/+avaPsqqI2Mw3MTRi")
+                            found[fieldName == "DISCORD" ? "discordAssigned" : "telegramAssigned"] = true
+                            super.visitFieldInsn(opcode, fieldOwner, fieldName, fieldDescriptor)
+                            return
+                        }
+                        super.visitFieldInsn(opcode, fieldOwner, fieldName, fieldDescriptor)
+                    }
+                }
             }
             if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
                 found.click = true
@@ -1536,8 +1552,9 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found.clinit || !found.click || !found.panel || !found.wallpaper) {
-        throw new GradleException("Menu re-style patch points not found in " + ownerClass + ": " + found)
+    if (!found.clinit || !found.click || !found.panel || !found.wallpaper ||
+        !found.discordAssigned || !found.telegramAssigned) {
+        throw new GradleException("Menu re-style/link patch points not found in " + ownerClass + ": " + found)
     }
     return writer.toByteArray()
 }
