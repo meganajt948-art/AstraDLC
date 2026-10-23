@@ -2065,10 +2065,11 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchTitleScreenBackground(patchedBytes)
-                            patchedBytes = patchTitleWallpaperDirectFallback(patchedBytes)
+                            // Do not inject a second title-screen texture renderer here.
+                            // The nested client obfuscates drawing helpers; the scene renderer
+                            // already has a fallback that resolves its real helper from bytecode.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
-                            logger.lifecycle("Restored vanilla panorama as a fallback under the custom title wallpaper")
-                            logger.lifecycle("Added a direct selected-wallpaper draw after the title background pass")
+                            logger.lifecycle("Restored vanilla panorama fallback; retained the client's original wallpaper draw path")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
 
                         } else if (entry.name == "a/kfe.class") {
