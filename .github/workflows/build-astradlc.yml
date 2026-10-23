@@ -1,4 +1,4 @@
-name: AstraDLC build
+name: AlbaDLC build
 # Re-run packaging after branding constant comparison fix
 # Ensure the class-name-safe string rebrand is rebuilt
 # Rebuild exact-label-only branding patch
@@ -31,7 +31,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: AstraDLC-build
+          name: AlbaDLC-build
           path: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/*.jar'
 
 # Rebuild Alba assets after fixing Java2D stroke argument types
