@@ -596,8 +596,64 @@ def patchTitleScreenBackground = { byte[] bytes ->
  * For video wallpapers, MenuArtCache supplies the current frame when available
  * and the poster image as its fallback.
  */
+/*
+ * Detect the menu-scene renderer by its method/field shape. The nested client
+ * obfuscates the class name, so do not rely on a source-file/class-file name.
+ */
+def isMenuSceneRendererClass = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def found = [draw: false, prepare: false, alpha: false, texture: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            if (name == "kav" && descriptor == "La/uok;") found.texture = true
+            return null
+        }
+
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "draw" && descriptor == "(Lnet/minecraft/class_332;La/jza;La/kam;FFFZ)Z") found.draw = true
+            if (name == "kbi" && descriptor == "(La/jza;La/kam;Z)Z") found.prepare = true
+            if (name == "kbl" && descriptor == "(F)F") found.alpha = true
+            return null
+        }
+    }
+    reader.accept(visitor, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    return found.draw && found.prepare && found.alpha && found.texture
+}
+
+/*
+ * If the optional GPU scene pipeline is unavailable, draw the selected wallpaper
+ * texture directly instead of returning with a blank title-screen background.
+ * Capture the original texture-draw helper from the class itself, so this patch
+ * works even when the client uses an obfuscated class/helper name.
+ */
 def patchMenuSceneRendererFallback = { byte[] bytes ->
     def reader = new ClassReader(bytes)
+    String owner = reader.className
+    def drawHelper = [opcode: -1, owner: null, name: null, descriptor: "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFF)V", isInterface: false]
+    reader.accept(new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name != "draw" || descriptor != "(Lnet/minecraft/class_332;La/jza;La/kam;FFFZ)Z") return null
+            return new MethodVisitor(Opcodes.ASM9) {
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                    if (callDescriptor == drawHelper.descriptor &&
+                        (opcode == Opcodes.INVOKESTATIC || opcode == Opcodes.INVOKEINTERFACE || opcode == Opcodes.INVOKEVIRTUAL)) {
+                        drawHelper.opcode = opcode
+                        drawHelper.owner = callOwner
+                        drawHelper.name = callName
+                        drawHelper.isInterface = isInterface
+                    }
+                }
+            }
+        }
+    }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    if (drawHelper.opcode < 0 || drawHelper.owner == null || drawHelper.name == null) {
+        throw new GradleException("Could not discover the original GpuTextureView draw helper in " + owner)
+    }
+
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
@@ -616,14 +672,13 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 mv.visitVarInsn(Opcodes.ALOAD, 2)
                 mv.visitVarInsn(Opcodes.ALOAD, 3)
                 mv.visitVarInsn(Opcodes.ILOAD, 7)
-                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/MenuSceneRenderer", "kbi",
-                    "(La/jza;La/kam;Z)Z", false)
+                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, owner, "kbi", "(La/jza;La/kam;Z)Z", false)
                 mv.visitJumpInsn(Opcodes.IFEQ, fallback)
 
-                // Pipeline succeeded: preserve the full filtered/blurred renderer.
+                // Pipeline succeeded: keep its filtered/blurred output.
                 mv.visitVarInsn(Opcodes.ALOAD, 1)
                 mv.visitVarInsn(Opcodes.ALOAD, 0)
-                mv.visitFieldInsn(Opcodes.GETFIELD, "a/MenuSceneRenderer", "kav", "La/uok;")
+                mv.visitFieldInsn(Opcodes.GETFIELD, owner, "kav", "La/uok;")
                 mv.visitFieldInsn(Opcodes.GETFIELD, "a/uok", "view", "Lcom/mojang/blaze3d/textures/GpuTextureView;")
                 mv.visitInsn(Opcodes.FCONST_0)
                 mv.visitInsn(Opcodes.FCONST_0)
@@ -631,13 +686,13 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 mv.visitVarInsn(Opcodes.FLOAD, 5)
                 mv.visitInsn(Opcodes.FCONST_0)
                 mv.visitVarInsn(Opcodes.FLOAD, 6)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "a/MenuSceneRenderer", "kbl", "(F)F", false)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "image",
-                    "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFF)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)F", false)
+                mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
+                    drawHelper.descriptor, drawHelper.isInterface)
                 mv.visitInsn(Opcodes.ICONST_1)
                 mv.visitInsn(Opcodes.IRETURN)
 
-                // Pipeline failed: draw the source texture directly with the same fit/alpha.
+                // Pipeline failed: draw the selected frame/poster directly.
                 mv.visitLabel(fallback)
                 mv.visitVarInsn(Opcodes.ALOAD, 1)
                 mv.visitVarInsn(Opcodes.ALOAD, 2)
@@ -649,11 +704,12 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 mv.visitVarInsn(Opcodes.FLOAD, 5)
                 mv.visitInsn(Opcodes.FCONST_0)
                 mv.visitVarInsn(Opcodes.FLOAD, 6)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "a/MenuSceneRenderer", "kbl", "(F)F", false)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "image",
-                    "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFF)V", false)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)F", false)
+                mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
+                    drawHelper.descriptor, drawHelper.isInterface)
                 mv.visitInsn(Opcodes.ICONST_1)
                 mv.visitInsn(Opcodes.IRETURN)
+
                 mv.visitMaxs(0, 0)
                 mv.visitEnd()
                 return null
@@ -662,7 +718,7 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found) throw new GradleException("MenuSceneRenderer.draw fallback target not found")
+    if (!found) throw new GradleException("Menu scene renderer draw method not found in " + owner)
     return writer.toByteArray()
 }
 
@@ -1883,7 +1939,10 @@ tasks.register("rebrandFlowNestedJar") {
                             }
                         }
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
-                        if (entry.name == "flow/dev/a.class") {
+                        if (isMenuSceneRendererClass(originalBytes)) {
+                            patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
+                            logger.lifecycle("Added direct wallpaper drawing in " + new ClassReader(originalBytes).className + " when the GPU scene pipeline fails")
+                        } else if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
                             logger.lifecycle("Patched encrypted client branding strings")
                         } else if (entry.name == "a/isv.class") {
@@ -1906,9 +1965,7 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
                             logger.lifecycle("Restored vanilla panorama as a fallback under the custom title wallpaper")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
-                        } else if (entry.name == "a/MenuSceneRenderer.class") {
-                            patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
-                            logger.lifecycle("Added direct wallpaper drawing when the GPU scene pipeline fails")
+
                         } else if (entry.name == "a/kfe.class") {
                             patchedBytes = patchModuleDisplayNames(patchedBytes)
                             logger.lifecycle("Renamed module labels AutoMace -> MaceHelper and KeyPearl -> ClickPearl")
