@@ -656,41 +656,70 @@ def patchClientMenuLayout = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+
 /*
- * Don't show the client-provided video splash over Minecraft's title screen.
- * The resource reload/tick path still runs, while this overlay draws neither
- * that video nor its progress strip.
+ * Skip Flow2's custom full-screen video splash without replacing the Minecraft
+ * loading UI. ClientLoad.show still marks its one-shot request handled, so boot
+ * warming continues in the background and no fallback splash is scheduled.
  */
-def patchSplashNoOverlay = { byte[] bytes ->
+def patchSplashController = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
-        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
-    }
-    def original = [:]
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def found = [preview: false, adopt: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
-                original.putAll([access: access, name: name, descriptor: descriptor, signature: signature, exceptions: exceptions])
+            if (name == "preview" && descriptor == "(Lnet/minecraft/class_310;FZ)V") {
+                found.preview = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 3)
+                out.visitEnd()
+                return null
+            }
+            if (name == "adopt" && descriptor == "(Lnet/minecraft/class_310;Z)V") {
+                found.adopt = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 2)
+                out.visitEnd()
                 return null
             }
             return super.visitMethod(access, name, descriptor, signature, exceptions)
         }
+    }
+    reader.accept(visitor, 0)
+    if (!found.preview || !found.adopt) {
+        throw new GradleException("Splash controller methods not found: " + found)
+    }
+    return writer.toByteArray()
+}
 
+def patchClientLoadSplash = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
-        void visitEnd() {
-            if (original.isEmpty()) throw new GradleException("FlowSplash render method not found")
-            MethodVisitor mv = super.visitMethod(original.access, original.name, original.descriptor,
-                original.signature, original.exceptions as String[])
-            mv.visitCode()
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "frame", "()V", false)
-            mv.visitInsn(Opcodes.RETURN)
-            mv.visitMaxs(0, 0)
-            mv.visitEnd()
-            super.visitEnd()
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "show" && descriptor == "(Lnet/minecraft/class_310;)V") {
+                found = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitInsn(Opcodes.ICONST_1)
+                out.visitFieldInsn(Opcodes.PUTSTATIC, "flow/splash/ClientLoad", "shown", "Z")
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(1, 1)
+                out.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
         }
     }
     reader.accept(visitor, 0)
+    if (!found) throw new GradleException("ClientLoad.show method not found")
     return writer.toByteArray()
 }
 
@@ -1207,9 +1236,12 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "flow/splash/Wordmark.class") {
                             patchedBytes = patchWordmark(patchedBytes)
                             logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
-                        } else if (entry.name == "flow/splash/FlowSplash.class") {
-                            patchedBytes = patchSplashNoOverlay(patchedBytes)
-                            logger.lifecycle("Disabled the video splash and its progress strip so the Minecraft title screen remains visible")
+                        } else if (entry.name == "flow/splash/Splash.class") {
+                            patchedBytes = patchSplashController(patchedBytes)
+                            logger.lifecycle("Skipped Flow2's custom splash takeover; preserved the native Minecraft loading screen")
+                        } else if (entry.name == "flow/splash/ClientLoad.class") {
+                            patchedBytes = patchClientLoadSplash(patchedBytes)
+                            logger.lifecycle("Kept startup warming active without video splash or progress strip")
                         }
                         outputZip.write(patchedBytes)
                     } else {
