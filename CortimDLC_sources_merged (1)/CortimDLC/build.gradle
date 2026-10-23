@@ -1131,9 +1131,9 @@ def patchClientPanelCleanup = { byte[] bytes ->
 
 
 /*
- * Put the language selector beside the power button in the left rail and move
- * the search field slightly to the left. Drawing and click hit-tests share these
- * coordinate methods, so both are moved together.
+ * Center the language selector and power button on the bottom rail, and align
+ * the enlarged search field with the left inset. Drawing and hit-tests share
+ * these coordinate methods, so both move together.
  */
 def patchGuiUtilityButtonLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -1142,7 +1142,7 @@ def patchGuiUtilityButtonLayout = { byte[] bytes ->
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if (descriptor == "()F" && ["hqs", "hqt", "hqv"].contains(name)) {
+            if (descriptor == "()F" && ["hqs", "hqt", "hqv", "hqn"].contains(name)) {
                 originals[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
                 return null
             }
@@ -1151,7 +1151,7 @@ def patchGuiUtilityButtonLayout = { byte[] bytes ->
 
         @Override
         void visitEnd() {
-            def replacements = [hqs: 12.0F, hqt: 152.0F, hqv: 377.0F]
+            def replacements = [hqs: 234.0F, hqt: 20.0F, hqv: 377.0F, hqn: 297.0F]
             replacements.each { methodName, value ->
                 def info = originals[methodName]
                 if (info == null) throw new GradleException("GUI utility-button coordinate method not found: " + methodName)
@@ -1559,13 +1559,14 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
     return writer.toByteArray()
 }
 
-/* Put search in the old category-title slot and show the category name on the right. */
+/* Remove the centered category heading/count and widen search across almost the full header. */
 def patchClickGuiHeaderLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
     boolean found = false
+    def changed = [title: false, subtitle: false, widths: 0]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
@@ -1573,32 +1574,74 @@ def patchClickGuiHeaderLayout = { byte[] bytes ->
             if (name != "hqx" || descriptor != "(Lnet/minecraft/class_332;FF)V") return mv
             found = true
             return new MethodVisitor(Opcodes.ASM9, mv) {
-                private boolean titlePositionChanged = false
-                private boolean titleWidthAdjusted = false
-                @Override void visitLdcInsn(Object value) {
-                    if (!titlePositionChanged && value instanceof Float &&
-                        Math.abs(((Float)value).floatValue() - 152.0f) < 0.001f) {
-                        value = 344.0f
-                        titlePositionChanged = true
+                @Override
+                void visitLdcInsn(Object value) {
+                    // The input's width and its empty-field hint offset must expand together.
+                    if (value instanceof Float &&
+                        Math.abs(((Float)value).floatValue() - 136.0f) < 0.001f) {
+                        value = 496.0f
+                        changed.widths = changed.widths + 1
                     }
                     super.visitLdcInsn(value)
                 }
+
                 @Override
                 void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
-                    if (!titleWidthAdjusted && opcode == Opcodes.INVOKEVIRTUAL &&
-                        callOwner == "a/hlc" && callName == "hqt" && callDescriptor == "()F") {
-                        super.visitInsn(Opcodes.POP)
-                        super.visitLdcInsn(540.0f)
-                        titleWidthAdjusted = true
-                        return
-                    }
                     super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    // Keep category state updated, but turn its displayed title into an empty string.
+                    if (opcode == Opcodes.INVOKESTATIC && callOwner == "a/wap" &&
+                        callName == "t" && callDescriptor == "(Ljava/lang/String;)Ljava/lang/String;") {
+                        super.visitInsn(Opcodes.POP)
+                        super.visitLdcInsn("")
+                        changed.title = true
+                    }
+                    // The subtitle is the old "0 of 6" category count below the heading.
+                    if (opcode == Opcodes.INVOKEVIRTUAL && callOwner == "a/hlc" &&
+                        callName == "hqw" && callDescriptor == "(La/hkv;FF)Ljava/lang/String;") {
+                        super.visitInsn(Opcodes.POP)
+                        super.visitLdcInsn("")
+                        changed.subtitle = true
+                    }
                 }
             }
         }
     }
     reader.accept(visitor, 0)
-    if (!found) throw new GradleException("ClickGUI title/search layout method hqx not found")
+    if (!found || !changed.title || !changed.subtitle || changed.widths < 2) {
+        throw new GradleException("ClickGUI search/header patch points not found: method=" + found +
+            ", title=" + changed.title + ", subtitle=" + changed.subtitle + ", widths=" + changed.widths)
+    }
+    return writer.toByteArray()
+}
+
+/* Do not render the profile/avatar strip when the cursor enters its old hover zone. */
+def patchHideAvatarHoverPopup = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "hqr" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            if (original.isEmpty()) throw new GradleException("ClickGUI avatar hover popup method hqr not found")
+            MethodVisitor mv = super.visitMethod(original.access, "hqr", original.descriptor,
+                original.signature, original.exceptions as String[])
+            mv.visitCode()
+            mv.visitInsn(Opcodes.RETURN)
+            mv.visitMaxs(0, 4)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
     return writer.toByteArray()
 }
 
@@ -2647,7 +2690,10 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
                             patchedBytes = patchHudVisualPlacement(patchedBytes)
                             patchedBytes = patchClickGuiHeaderLayout(patchedBytes)
-                            logger.lifecycle("Moved search above modules into the former category-title slot; aligned category title right and moved language to the far left")
+                            patchedBytes = patchHideAvatarHoverPopup(patchedBytes)
+                            logger.lifecycle("Removed the category heading/count and expanded search across the top header")
+                            logger.lifecycle("Disabled the account-avatar hover popup")
+                            logger.lifecycle("Centered language and power controls along the bottom")
                             logger.lifecycle("Moved HUD panels into Visuals and removed the separate HUD tab")
                             logger.lifecycle("Preserved Theme tab and Custom theme editor; removed Party panels; set Cosmetics to Coming Soon and kept the power button visible")
                         } else if (entry.name == "a/jlx.class") {
