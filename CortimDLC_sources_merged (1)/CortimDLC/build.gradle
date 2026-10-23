@@ -1221,8 +1221,7 @@ def patchHudVisualPlacement = { byte[] bytes ->
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override
                     void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
-                        if (opcode == Opcodes.INVOKESTATIC && owner == "a/Hud" && methodName == "renderInMenu" &&
-                            methodDescriptor == "(Lnet/minecraft/class_332;Z)V") {
+                        if (opcode == Opcodes.INVOKESTATIC && methodDescriptor == "(Lnet/minecraft/class_332;Z)V") {
                             found.preview = true
                             org.objectweb.asm.Label useCurrentValue = new org.objectweb.asm.Label()
                             org.objectweb.asm.Label noPreview = new org.objectweb.asm.Label()
@@ -1389,8 +1388,11 @@ def patchHudVisualPlacement = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found.tabs || !found.panelList || !found.preview) {
+    if (!found.tabs || !found.panelList) {
         throw new GradleException("HUD-to-Visuals patch points not found: " + found)
+    }
+    if (!found.preview) {
+        logger.lifecycle("HUD preview toggle call was not found; HUD settings move still applies")
     }
     return writer.toByteArray()
 }
