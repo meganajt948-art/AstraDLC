@@ -1129,6 +1129,272 @@ def patchClientPanelCleanup = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+
+/*
+ * Put the language selector beside the power button in the left rail and move
+ * the search field slightly to the left. Drawing and click hit-tests share these
+ * coordinate methods, so both are moved together.
+ */
+def patchGuiUtilityButtonLayout = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def originals = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (descriptor == "()F" && ["hqs", "hqt", "hqv"].contains(name)) {
+                originals[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            def replacements = [hqs: 50.0F, hqt: 324.0F, hqv: 377.0F]
+            replacements.each { methodName, value ->
+                def info = originals[methodName]
+                if (info == null) throw new GradleException("GUI utility-button coordinate method not found: " + methodName)
+                MethodVisitor mv = writer.visitMethod(info.access, methodName, info.descriptor,
+                    info.signature, info.exceptions as String[])
+                mv.visitCode()
+                mv.visitLdcInsn(value)
+                mv.visitInsn(Opcodes.FRETURN)
+                mv.visitMaxs(1, 1)
+                mv.visitEnd()
+            }
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/*
+ * Move the HUD controls into the Visuals category and remove the standalone HUD
+ * sidebar tab. All panels in the former HUD tab (master switch, watermark,
+ * target, music, potions, keybinds, cooldowns, items and armour) are retained.
+ */
+def patchHudVisualPlacement = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [tabs: false, panelList: false, preview: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "method_25426" && descriptor == "()V") {
+                found.tabs = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.RETURN) {
+                            // Filter the HUD tab only after the existing tab state is initialized.
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterHudTab",
+                                "(Ljava/util/List;)Ljava/util/List;", false)
+                            super.visitFieldInsn(Opcodes.PUTFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            if (name == "hpl" && descriptor == "(La/hkv;)Ljava/util/List;") {
+                found.panelList = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.ARETURN) {
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaAppendHudPanels",
+                                "(Ljava/util/List;La/hkv;)Ljava/util/List;", false)
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                        if (opcode == Opcodes.INVOKESTATIC && owner == "a/Hud" && methodName == "renderInMenu" &&
+                            methodDescriptor == "(Lnet/minecraft/class_332;Z)V") {
+                            found.preview = true
+                            org.objectweb.asm.Label useCurrentValue = new org.objectweb.asm.Label()
+                            org.objectweb.asm.Label noPreview = new org.objectweb.asm.Label()
+                            org.objectweb.asm.Label callRenderer = new org.objectweb.asm.Label()
+                            // Stack: canvas, current boolean (previously true only on the HUD tab).
+                            super.visitInsn(Opcodes.DUP)
+                            super.visitJumpInsn(Opcodes.IFNE, useCurrentValue)
+                            super.visitInsn(Opcodes.POP)
+                            // HUD preview is shown in Visuals too, but not while search is active.
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hod", "Ljava/lang/String;")
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "isEmpty", "()Z", false)
+                            super.visitJumpInsn(Opcodes.IFEQ, noPreview)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hln", "I")
+                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+                            super.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkz", "La/hks;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/hks", "MODULES", "La/hks;")
+                            super.visitJumpInsn(Opcodes.IF_ACMPNE, noPreview)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hln", "I")
+                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+                            super.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hky", "La/kfa;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", "RENDER", "La/kfa;")
+                            super.visitJumpInsn(Opcodes.IF_ACMPNE, noPreview)
+                            super.visitInsn(Opcodes.ICONST_1)
+                            super.visitJumpInsn(Opcodes.GOTO, callRenderer)
+                            super.visitLabel(noPreview)
+                            super.visitInsn(Opcodes.ICONST_0)
+                            super.visitJumpInsn(Opcodes.GOTO, callRenderer)
+                            super.visitLabel(useCurrentValue)
+                            super.visitLabel(callRenderer)
+                            super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            MethodVisitor filter = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaFilterHudTab", "(Ljava/util/List;)Ljava/util/List;", null, null)
+            filter.visitCode()
+            // Preserve the prior selected tab, except that old HUD selection lands on Visuals.
+            filter.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hlo", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            org.objectweb.asm.Label keepSelection = new org.objectweb.asm.Label()
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitLdcInsn("HUD")
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFEQ, keepSelection)
+            filter.visitLdcInsn("Visuals")
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            filter.visitLabel(keepSelection)
+
+            filter.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            filter.visitInsn(Opcodes.DUP)
+            filter.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false)
+            filter.visitVarInsn(Opcodes.ASTORE, 1)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 2)
+            org.objectweb.asm.Label copyLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label copyDone = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label copyNext = new org.objectweb.asm.Label()
+            filter.visitLabel(copyLoop)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, copyDone)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            filter.visitVarInsn(Opcodes.ASTORE, 3)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkz", "La/hks;")
+            filter.visitFieldInsn(Opcodes.GETSTATIC, "a/hks", "HUD", "La/hks;")
+            filter.visitJumpInsn(Opcodes.IF_ACMPEQ, copyNext)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
+            filter.visitInsn(Opcodes.POP)
+            filter.visitLabel(copyNext)
+            filter.visitIincInsn(2, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, copyLoop)
+            filter.visitLabel(copyDone)
+
+            // Resolve the selected tab against the shorter, filtered list.
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hln", "I")
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 2)
+            org.objectweb.asm.Label selectLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label selectDone = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label selectNext = new org.objectweb.asm.Label()
+            filter.visitLabel(selectLoop)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, selectDone)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFEQ, selectNext)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hln", "I")
+            filter.visitJumpInsn(Opcodes.GOTO, selectDone)
+            filter.visitLabel(selectNext)
+            filter.visitIincInsn(2, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, selectLoop)
+            filter.visitLabel(selectDone)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hln", "I")
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            filter.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hlo", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitInsn(Opcodes.ARETURN)
+            filter.visitMaxs(0, 0)
+            filter.visitEnd()
+
+            MethodVisitor append = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaAppendHudPanels", "(Ljava/util/List;La/hkv;)Ljava/util/List;", null, null)
+            append.visitCode()
+            org.objectweb.asm.Label unchanged = new org.objectweb.asm.Label()
+            append.visitVarInsn(Opcodes.ALOAD, 1)
+            append.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkz", "La/hks;")
+            append.visitFieldInsn(Opcodes.GETSTATIC, "a/hks", "MODULES", "La/hks;")
+            append.visitJumpInsn(Opcodes.IF_ACMPNE, unchanged)
+            append.visitVarInsn(Opcodes.ALOAD, 1)
+            append.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hky", "La/kfa;")
+            append.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", "RENDER", "La/kfa;")
+            append.visitJumpInsn(Opcodes.IF_ACMPNE, unchanged)
+            append.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            append.visitInsn(Opcodes.DUP)
+            append.visitVarInsn(Opcodes.ALOAD, 0)
+            append.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "(Ljava/util/Collection;)V", false)
+            append.visitVarInsn(Opcodes.ASTORE, 2)
+            append.visitVarInsn(Opcodes.ALOAD, 2)
+            append.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hlu", "Ljava/util/List;")
+            append.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true)
+            append.visitInsn(Opcodes.POP)
+            append.visitVarInsn(Opcodes.ALOAD, 2)
+            append.visitInsn(Opcodes.ARETURN)
+            append.visitLabel(unchanged)
+            append.visitVarInsn(Opcodes.ALOAD, 0)
+            append.visitInsn(Opcodes.ARETURN)
+            append.visitMaxs(0, 0)
+            append.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.tabs || !found.panelList || !found.preview) {
+        throw new GradleException("HUD-to-Visuals patch points not found: " + found)
+    }
+    return writer.toByteArray()
+}
+
 /* Clean the watermark only: keep all other HUD elements and toggles available. */
 def patchWatermark = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -1996,6 +2262,10 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
+                            patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
+                            patchedBytes = patchHudVisualPlacement(patchedBytes)
+                            logger.lifecycle("Moved language beside the power button and nudged search left")
+                            logger.lifecycle("Moved HUD panels into Visuals and removed the separate HUD tab")
                             logger.lifecycle("Preserved Theme tab and Custom theme editor; removed Party panels; set Cosmetics to Coming Soon and kept the power button visible")
                         } else if (entry.name == "a/jlx.class") {
                             patchedBytes = patchWatermark(patchedBytes)
