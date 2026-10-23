@@ -860,20 +860,9 @@ def patchClientPanelCleanup = { byte[] bytes ->
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "method_25426" && descriptor == "()V") {
+                // Keep the original sidebar tabs, including Theme, untouched.
                 found.tabs = true
-                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
-                return new MethodVisitor(Opcodes.ASM9, out) {
-                    @Override
-                    void visitInsn(int opcode) {
-                        if (opcode == Opcodes.RETURN) {
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterThemeTab",
-                                "(Ljava/util/List;)V", false)
-                        }
-                        super.visitInsn(opcode)
-                    }
-                }
+                return super.visitMethod(access, name, descriptor, signature, exceptions)
             }
             if (name == "hqm" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
                 found.footer = true
@@ -912,9 +901,7 @@ def patchClientPanelCleanup = { byte[] bytes ->
                     @Override
                     void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
                         if (opcode == Opcodes.PUTSTATIC && owner == "a/hlc" && fieldDescriptor == "Ljava/util/List;") {
-                            if (fieldName == "hlt") {
-                                pushExclusions(["Custom theme"])
-                            } else if (fieldName == "hlx") {
+                            if (fieldName == "hlx") {
                                 pushExclusions(["Party", "Party members", "Party settings"])
                             } else if (fieldName == "hly") {
                                 super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaComingSoonPanel",
@@ -1956,17 +1943,14 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchModuleCategoryOrder(patchedBytes)
                             logger.lifecycle("Reordered sidebar categories: Combat, Player, Visuals, Misc, Movement")
                         } else if (entry.name == "a/iov.class") {
-                            patchedBytes = patchThemePresets(patchedBytes)
-                            logger.lifecycle("Applied Obsidian + Depth interface style; removed Alba Black/White presets")
+                            // Preserve the original Theme settings, presets, and editor behavior.
                         } else if (entry.name == "a/jte.class") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
-                            patchedBytes = patchTitleScreenBackground(patchedBytes)
-                            // Do not inject a second title-screen texture renderer here.
-                            // The nested client obfuscates drawing helpers; the scene renderer
-                            // already has a fallback that resolves its real helper from bytecode.
+                            // Do not replace method_25420 with Minecraft's plain panorama renderer:
+                            // the original title-screen method owns the selected wallpaper layer.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
-                            logger.lifecycle("Restored vanilla panorama fallback; retained the client's original wallpaper draw path")
+                            logger.lifecycle("Preserved the original title-screen wallpaper/background renderer")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
 
                         } else if (entry.name == "a/kfe.class") {
