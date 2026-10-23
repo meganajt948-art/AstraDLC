@@ -664,35 +664,12 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 found = true
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
                 mv.visitCode()
-                org.objectweb.asm.Label fallback = new org.objectweb.asm.Label()
-
-                // First try the original GPU scene pipeline.
-                mv.visitVarInsn(Opcodes.ALOAD, 0)
+                // Use the source frame/poster directly on every frame. The custom scene
+                // shader was intermittently flashing/blanking on some drivers even when its
+                // precompile call reported success. This avoids that off-screen GPU pass.
+                org.objectweb.asm.Label noTexture = new org.objectweb.asm.Label()
                 mv.visitVarInsn(Opcodes.ALOAD, 2)
-                mv.visitVarInsn(Opcodes.ALOAD, 3)
-                mv.visitVarInsn(Opcodes.ILOAD, 7)
-                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, owner, "kbi", "(La/jza;La/kam;Z)Z", false)
-                mv.visitJumpInsn(Opcodes.IFEQ, fallback)
-
-                // Pipeline succeeded: keep its filtered/blurred output.
-                mv.visitVarInsn(Opcodes.ALOAD, 1)
-                mv.visitVarInsn(Opcodes.ALOAD, 0)
-                mv.visitFieldInsn(Opcodes.GETFIELD, owner, "kav", "La/uok;")
-                mv.visitFieldInsn(Opcodes.GETFIELD, "a/uok", "view", "Lcom/mojang/blaze3d/textures/GpuTextureView;")
-                mv.visitInsn(Opcodes.FCONST_0)
-                mv.visitInsn(Opcodes.FCONST_0)
-                mv.visitVarInsn(Opcodes.FLOAD, 4)
-                mv.visitVarInsn(Opcodes.FLOAD, 5)
-                mv.visitInsn(Opcodes.FCONST_0)
-                mv.visitVarInsn(Opcodes.FLOAD, 6)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)I", false)
-                mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
-                    drawHelper.descriptor, drawHelper.isInterface)
-                mv.visitInsn(Opcodes.ICONST_1)
-                mv.visitInsn(Opcodes.IRETURN)
-
-                // Pipeline failed: draw the selected frame/poster directly.
-                mv.visitLabel(fallback)
+                mv.visitJumpInsn(Opcodes.IFNULL, noTexture)
                 mv.visitVarInsn(Opcodes.ALOAD, 1)
                 mv.visitVarInsn(Opcodes.ALOAD, 2)
                 mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jza", "sharp", "()La/uok;", false)
@@ -702,13 +679,14 @@ def patchMenuSceneRendererFallback = { byte[] bytes ->
                 mv.visitVarInsn(Opcodes.FLOAD, 4)
                 mv.visitVarInsn(Opcodes.FLOAD, 5)
                 mv.visitInsn(Opcodes.FCONST_0)
-                mv.visitVarInsn(Opcodes.FLOAD, 6)
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "kbl", "(F)I", false)
+                mv.visitInsn(Opcodes.ICONST_M1)
                 mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
                     drawHelper.descriptor, drawHelper.isInterface)
                 mv.visitInsn(Opcodes.ICONST_1)
                 mv.visitInsn(Opcodes.IRETURN)
-
+                mv.visitLabel(noTexture)
+                mv.visitInsn(Opcodes.ICONST_0)
+                mv.visitInsn(Opcodes.IRETURN)
                 mv.visitMaxs(0, 0)
                 mv.visitEnd()
                 return null
