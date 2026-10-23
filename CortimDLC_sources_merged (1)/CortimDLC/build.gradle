@@ -1635,7 +1635,7 @@ def patchModuleCardVisuals = { byte[] bytes ->
                     super.visitLdcInsn(-13973)
                     super.visitJumpInsn(Opcodes.GOTO, colored)
                     super.visitLabel(muted)
-                    super.visitLdcInsn(-1184275)
+                    super.visitLdcInsn(-11512222) // muted slate #FF505662
                     super.visitLabel(colored)
                     super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
                         "(Lnet/minecraft/class_332;FFFFFI)V", false)
@@ -1686,7 +1686,7 @@ def patchModuleCardVisuals = { byte[] bytes ->
                     super.visitLdcInsn(-13973)
                     super.visitJumpInsn(Opcodes.GOTO, toggleColorReady)
                     super.visitLabel(toggleOff)
-                    super.visitLdcInsn(-1184275)
+                    super.visitLdcInsn(-11512222) // muted slate #FF505662
                     super.visitLabel(toggleColorReady)
                     super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
                         "(Lnet/minecraft/class_332;FFFFFI)V", false)
