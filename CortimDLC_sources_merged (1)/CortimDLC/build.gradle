@@ -1432,18 +1432,10 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
             if (name == "<clinit>" && descriptor == "()V") {
+                // Preserve the original class initializer exactly. The general constant replacer
+                // below updates the existing URL literals without adding field writes.
                 found.clinit = true
-                return new MethodVisitor(Opcodes.ASM9, mv) {
-                    @Override void visitInsn(int opcode) {
-                        if (opcode == Opcodes.RETURN) {
-                            super.visitLdcInsn("https://t.me/+avaPsqqI2Mw3MTRi")
-                            super.visitFieldInsn(Opcodes.PUTSTATIC, ownerClass, "TELEGRAM", "Ljava/lang/String;")
-                            super.visitLdcInsn("https://discord.gg/6NZxdgRv")
-                            super.visitFieldInsn(Opcodes.PUTSTATIC, ownerClass, "DISCORD", "Ljava/lang/String;")
-                        }
-                        super.visitInsn(opcode)
-                    }
-                }
+                return mv
             }
             if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
                 found.click = true
@@ -1687,7 +1679,9 @@ def patchDiscordInviteUrls = { byte[] bytes ->
         }
         @Override
         org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-            Object updated = replaceInvite(value)
+            // ConstantValue can only be replaced on String fields; leave every other field
+            // attribute untouched so the JVM never sees an incompatible constant type.
+            Object updated = descriptor == "Ljava/lang/String;" ? replaceInvite(value) : value
             return super.visitField(access, name, descriptor, signature, updated)
         }
         @Override
