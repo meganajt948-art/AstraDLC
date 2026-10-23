@@ -564,6 +564,30 @@ def patchTitleMenuRenderWarmup = { byte[] bytes ->
  * optional GPU scene shader cannot be created by the current graphics driver.
  */
 def patchTitleWallpaperDirectFallback = { byte[] bytes ->
+    // Resolve the cache class/method from the original screen bytecode. Class names
+    // in the nested client are obfuscated; a readable source filename is not a JVM class name.
+    def cacheCall = [owner: null, name: null, descriptor: "(Ljava/lang/String;)La/jza;"]
+    def scan = new ClassReader(bytes)
+    scan.accept(new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name != "jwe" || descriptor != "(Lnet/minecraft/class_332;FF)V") return null
+            return new MethodVisitor(Opcodes.ASM9) {
+                @Override
+                void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                    if (opcode == Opcodes.INVOKESTATIC && methodDescriptor == cacheCall.descriptor &&
+                        owner != "a/jte") {
+                        cacheCall.owner = owner
+                        cacheCall.name = methodName
+                    }
+                }
+            }
+        }
+    }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    if (cacheCall.owner == null || cacheCall.name == null) {
+        throw new GradleException("Could not resolve the wallpaper cache call from title-screen method jwe")
+    }
+
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
@@ -604,7 +628,7 @@ def patchTitleWallpaperDirectFallback = { byte[] bytes ->
             draw.visitCode()
             org.objectweb.asm.Label done = new org.objectweb.asm.Label()
             draw.visitVarInsn(Opcodes.ALOAD, 1)
-            draw.visitMethodInsn(Opcodes.INVOKESTATIC, "a/MenuArtCache", "get", "(Ljava/lang/String;)La/jza;", false)
+            draw.visitMethodInsn(Opcodes.INVOKESTATIC, cacheCall.owner, cacheCall.name, cacheCall.descriptor, false)
             draw.visitVarInsn(Opcodes.ASTORE, 4)
             draw.visitVarInsn(Opcodes.ALOAD, 4)
             draw.visitJumpInsn(Opcodes.IFNULL, done)
