@@ -542,6 +542,339 @@ def patchTitleMenuRenderWarmup = { byte[] bytes ->
  * are moved outside the viewport; remaining rows are compacted without breaking
  * hit-testing, since rendering and mouse handling share jxt(int).
  */
+
+/*
+ * Display-name-only renames. The underlying module IDs/settings keys remain unchanged.
+ * Module labels are zero-width-separated at runtime; replace those exact visual strings.
+ */
+def patchModuleDisplayNames = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def spaced = { String value -> value.toList().join("\u200C") }
+    def replacements = [
+        ["AutoMace", "MaceHelper"],
+        ["KeyPearl", "ClickPearl"]
+    ]
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "getDisplayName" && descriptor == "()Ljava/lang/String;") {
+                found = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.ARETURN) {
+                            replacements.each { pair ->
+                                super.visitLdcInsn(spaced(pair[0]))
+                                super.visitLdcInsn(pair[1])
+                                super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "replace",
+                                    "(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;", false)
+                            }
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("kfe.getDisplayName method not found")
+    return writer.toByteArray()
+}
+
+/* KeyPearl stays fully functional but is listed under Player rather than Combat. */
+def patchClickPearlCategory = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "<init>") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
+                        if (opcode == Opcodes.GETSTATIC && owner == "a/kfa" &&
+                            fieldName == "COMBAT" && fieldDescriptor == "La/kfa;") {
+                            fieldName = "PLAYER"
+                        }
+                        super.visitFieldInsn(opcode, owner, fieldName, fieldDescriptor)
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/* Omit only the requested modules from registration; their classes and implementations remain bundled. */
+def patchModuleRegistration = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def excluded = ["ChestLooter", "ChestSorter", "SoulESP", "MotionBlur", "MobESP", "TransparentFriends", "AncientFarmer"]
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "kgh" && descriptor == "(La/kfe;)V") {
+                found = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        excluded.each { hidden ->
+                            org.objectweb.asm.Label keep = new org.objectweb.asm.Label()
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/kfe", "getName", "()Ljava/lang/String;", false)
+                            super.visitLdcInsn(hidden)
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase",
+                                "(Ljava/lang/String;)Z", false)
+                            super.visitJumpInsn(Opcodes.IFEQ, keep)
+                            super.visitInsn(Opcodes.RETURN)
+                            super.visitLabel(keep)
+                        }
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("kfx module-registration method kgh(kfe) not found")
+    return writer.toByteArray()
+}
+
+/*
+ * Keep the Friend tools, but hide the three Party panels; remove the Custom theme
+ * panel; replace the Cosmetics panel contents with one "Coming Soon" card. Cosmetic
+ * code, resources, and runtime rendering remain bundled and unchanged.
+ */
+def patchClientPanelCleanup = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [builder: false, footer: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "hqm" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
+                found.footer = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 4)
+                out.visitEnd()
+                return null
+            }
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "hpf" && descriptor == "()V") {
+                found.builder = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private void pushExclusions(List<String> titles) {
+                        super.visitInsn(Opcodes.ICONST_0 + titles.size())
+                        super.visitTypeInsn(Opcodes.ANEWARRAY, "java/lang/String")
+                        titles.eachWithIndex { title, i ->
+                            super.visitInsn(Opcodes.DUP)
+                            super.visitInsn(Opcodes.ICONST_0 + i)
+                            super.visitLdcInsn(title)
+                            super.visitInsn(Opcodes.AASTORE)
+                        }
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterPanels",
+                            "(Ljava/util/List;[Ljava/lang/String;)Ljava/util/List;", false)
+                    }
+
+                    @Override
+                    void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
+                        if (opcode == Opcodes.PUTSTATIC && owner == "a/hlc" && fieldDescriptor == "Ljava/util/List;") {
+                            if (fieldName == "hlt") {
+                                pushExclusions(["Custom theme"])
+                            } else if (fieldName == "hlx") {
+                                pushExclusions(["Party", "Party members", "Party settings"])
+                            } else if (fieldName == "hly") {
+                                super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaComingSoonPanel",
+                                    "(Ljava/util/List;)Ljava/util/List;", false)
+                            }
+                        }
+                        super.visitFieldInsn(opcode, owner, fieldName, fieldDescriptor)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            MethodVisitor filter = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaFilterPanels", "(Ljava/util/List;[Ljava/lang/String;)Ljava/util/List;", null, null)
+            filter.visitCode()
+            filter.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            filter.visitInsn(Opcodes.DUP)
+            filter.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false)
+            filter.visitVarInsn(Opcodes.ASTORE, 2)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 3)
+            org.objectweb.asm.Label loop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label loopNext = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label checkExcluded = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label excludedLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label excludedNext = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label addPanel = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label end = new org.objectweb.asm.Label()
+            filter.visitLabel(loop)
+            filter.visitVarInsn(Opcodes.ILOAD, 3)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, end)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitVarInsn(Opcodes.ILOAD, 3)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hjg")
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hjg", "title", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ASTORE, 5)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 6)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 7)
+            filter.visitLabel(excludedLoop)
+            filter.visitVarInsn(Opcodes.ILOAD, 7)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitInsn(Opcodes.ARRAYLENGTH)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, checkExcluded)
+            filter.visitVarInsn(Opcodes.ALOAD, 5)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ILOAD, 7)
+            filter.visitInsn(Opcodes.AALOAD)
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFEQ, excludedNext)
+            filter.visitInsn(Opcodes.ICONST_1)
+            filter.visitVarInsn(Opcodes.ISTORE, 6)
+            filter.visitJumpInsn(Opcodes.GOTO, checkExcluded)
+            filter.visitLabel(excludedNext)
+            filter.visitIincInsn(7, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, excludedLoop)
+            filter.visitLabel(checkExcluded)
+            filter.visitVarInsn(Opcodes.ILOAD, 6)
+            filter.visitJumpInsn(Opcodes.IFEQ, addPanel)
+            filter.visitJumpInsn(Opcodes.GOTO, loopNext)
+            filter.visitLabel(addPanel)
+            filter.visitVarInsn(Opcodes.ALOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
+            filter.visitInsn(Opcodes.POP)
+            filter.visitLabel(loopNext)
+            filter.visitIincInsn(3, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, loop)
+            filter.visitLabel(end)
+            filter.visitVarInsn(Opcodes.ALOAD, 2)
+            filter.visitInsn(Opcodes.ARETURN)
+            filter.visitMaxs(0, 0)
+            filter.visitEnd()
+
+            MethodVisitor soon = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaComingSoonPanel", "(Ljava/util/List;)Ljava/util/List;", null, null)
+            soon.visitCode()
+            soon.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            soon.visitInsn(Opcodes.DUP)
+            soon.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false)
+            soon.visitVarInsn(Opcodes.ASTORE, 1)
+            soon.visitTypeInsn(Opcodes.NEW, "a/hjg")
+            soon.visitInsn(Opcodes.DUP)
+            soon.visitLdcInsn("Coming Soon")
+            soon.visitLdcInsn("Cosmetics are temporarily hidden.")
+            soon.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/hjg", "<init>",
+                "(Ljava/lang/String;Ljava/lang/String;)V", false)
+            soon.visitVarInsn(Opcodes.ASTORE, 2)
+            soon.visitVarInsn(Opcodes.ALOAD, 2)
+            soon.visitInsn(Opcodes.ICONST_0)
+            soon.visitFieldInsn(Opcodes.PUTFIELD, "a/hjg", "home", "I")
+            soon.visitVarInsn(Opcodes.ALOAD, 1)
+            soon.visitVarInsn(Opcodes.ALOAD, 2)
+            soon.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
+            soon.visitInsn(Opcodes.POP)
+            soon.visitVarInsn(Opcodes.ALOAD, 1)
+            soon.visitInsn(Opcodes.ARETURN)
+            soon.visitMaxs(0, 0)
+            soon.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.builder || !found.footer) {
+        throw new GradleException("Client panel cleanup methods not found: " + found)
+    }
+    return writer.toByteArray()
+}
+
+/* Clean the watermark only: keep all other HUD elements and toggles available. */
+def patchWatermark = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def accountMethod = [:]
+    boolean foundBrandDraw = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "jnx" && descriptor == "(Lnet/minecraft/class_332;FF)F") {
+                accountMethod.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "jnw" && descriptor == "(Lnet/minecraft/class_332;FFZ)F") {
+                foundBrandDraw = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (value instanceof Float && Math.abs(((Float)value) - 14.5F) < 0.001F) value = 0.0F
+                        super.visitLdcInsn(value)
+                    }
+
+                    @Override
+                    void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                        if (opcode == Opcodes.INVOKESTATIC && owner == "a/uqe" && methodName == "draw" &&
+                            methodDescriptor == "(Lnet/minecraft/class_332;FFFZI)Z") {
+                            // Consume the icon-render arguments and report "handled" to skip both logo fallbacks.
+                            for (int i = 0; i < 6; i++) super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.ICONST_1)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            if (accountMethod.isEmpty()) throw new GradleException("Watermark account-drawing method jnx not found")
+            def info = accountMethod
+            MethodVisitor account = writer.visitMethod(info.access, "jnx", info.descriptor,
+                info.signature, info.exceptions as String[])
+            account.visitCode()
+            account.visitVarInsn(Opcodes.FLOAD, 2)
+            account.visitInsn(Opcodes.FRETURN)
+            account.visitMaxs(1, 4)
+            account.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!foundBrandDraw) throw new GradleException("Watermark brand-layout method jnw not found")
+    return writer.toByteArray()
+}
+
+
 def patchMainMenuSettings = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
@@ -802,7 +1135,8 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["AstraUser", "AlbaUser"],
                 ["Astra", "Alba"],
                 ["Flow2", "AlbaDLC"],
-                ["[Flow2]", "[AlbaDLC]"]
+                ["[Flow2]", "[AlbaDLC]"],
+                ["Flow", "AlbaDLC"]
             ]
             replacements.each { pair ->
                 mv.visitLdcInsn(pair[0])
@@ -1333,8 +1667,21 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
+                        } else if (entry.name == "a/kfe.class") {
+                            patchedBytes = patchModuleDisplayNames(patchedBytes)
+                            logger.lifecycle("Renamed module labels AutoMace -> MaceHelper and KeyPearl -> ClickPearl")
+                        } else if (entry.name == "a/kvz.class") {
+                            patchedBytes = patchClickPearlCategory(patchedBytes)
+                            logger.lifecycle("Moved ClickPearl from Combat to Player")
+                        } else if (entry.name == "a/kfx.class") {
+                            patchedBytes = patchModuleRegistration(patchedBytes)
+                            logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
                         } else if (entry.name == "a/hlc.class") {
-                            logger.lifecycle("Kept native client GUI layout: navigation sidebar stays on the left")
+                            patchedBytes = patchClientPanelCleanup(patchedBytes)
+                            logger.lifecycle("Removed Custom theme and Party panels; replaced Cosmetics content with Coming Soon and hid the profile footer")
+                        } else if (entry.name == "a/jlx.class") {
+                            patchedBytes = patchWatermark(patchedBytes)
+                            logger.lifecycle("Removed dog/logo and ProgramData account badge from the HUD watermark")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
                             logger.lifecycle("Replaced both encoded client-logo accessors with AlbaDLC")
