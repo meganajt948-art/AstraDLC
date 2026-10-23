@@ -132,18 +132,15 @@ def rebrandClassBytes = { byte[] bytes ->
                     // Change branding text, not package names or resource paths.
                     // Change known brand labels only; preserve resource IDs and shader keys.
                     updated = value
-                        .replace("FlowClient", "AlbaDLC")
-                        .replace("FlowUser", "AlbaUser")
+                        .replace("FlowClient", "AstraDLC")
+                        .replace("FlowUser", "AstraUser")
                         .replace("Flow Black", "Alba Video")
                         .replace("Flow White", "Alba White")
                         .replace("Flow Чёрная", "Alba Видео")
                         .replace("Flow Черная", "Alba Черная")
                         .replace("Flow Белая", "Alba Белая")
-                        .replace("AstraDLC", "AlbaDLC")
-                        .replace("AstraUser", "AlbaUser")
-                        .replace("Astra", "Alba")
-                        .replace("Flow2", "AlbaDLC")
-                        .replace("[Flow2]", "[AlbaDLC]")
+                        .replace("Flow2", "AstraDLC")
+                        .replace("[Flow2]", "[AstraDLC]")
                 }
                 if (updated != value) {
                     target.writeUTF(updated)
@@ -619,7 +616,7 @@ def patchModuleRegistration = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def excluded = ["ChestLooter", "ChestSorter", "SoulESP", "MotionBlur", "MobESP", "TransparentFriends", "AncientFarmer"]
+    def excluded = ["ChestLooter", "ChestStealer", "ChestSorter", "SoulESP", "MotionBlur", "MobESP", "TransparentFriends", "AncientFarmer"]
     boolean found = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
@@ -664,10 +661,26 @@ def patchClientPanelCleanup = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def found = [builder: false, footer: false]
+    def found = [builder: false, footer: false, tabs: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "method_25426" && descriptor == "()V") {
+                found.tabs = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, out) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.RETURN) {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterThemeTab",
+                                "(Ljava/util/List;)V", false)
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
             if (name == "hqm" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
                 found.footer = true
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
@@ -701,7 +714,7 @@ def patchClientPanelCleanup = { byte[] bytes ->
                             if (fieldName == "hlt") {
                                 pushExclusions(["Custom theme"])
                             } else if (fieldName == "hlx") {
-                                pushExclusions(["Party", "Party members", "Party settings", "Options"])
+                                pushExclusions(["Party", "Party members", "Party settings"])
                             } else if (fieldName == "hly") {
                                 super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaComingSoonPanel",
                                     "(Ljava/util/List;)Ljava/util/List;", false)
@@ -809,11 +822,40 @@ def patchClientPanelCleanup = { byte[] bytes ->
             soon.visitInsn(Opcodes.ARETURN)
             soon.visitMaxs(0, 0)
             soon.visitEnd()
+
+            MethodVisitor tabs = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaFilterThemeTab", "(Ljava/util/List;)V", null, null)
+            tabs.visitCode()
+            tabs.visitVarInsn(Opcodes.ALOAD, 0)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "iterator", "()Ljava/util/Iterator;", true)
+            tabs.visitVarInsn(Opcodes.ASTORE, 1)
+            org.objectweb.asm.Label tabLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label tabNext = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label tabEnd = new org.objectweb.asm.Label()
+            tabs.visitLabel(tabLoop)
+            tabs.visitVarInsn(Opcodes.ALOAD, 1)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Iterator", "hasNext", "()Z", true)
+            tabs.visitJumpInsn(Opcodes.IFEQ, tabEnd)
+            tabs.visitVarInsn(Opcodes.ALOAD, 1)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Iterator", "next", "()Ljava/lang/Object;", true)
+            tabs.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            tabs.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            tabs.visitLdcInsn("Theme")
+            tabs.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            tabs.visitJumpInsn(Opcodes.IFEQ, tabNext)
+            tabs.visitVarInsn(Opcodes.ALOAD, 1)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Iterator", "remove", "()V", true)
+            tabs.visitLabel(tabNext)
+            tabs.visitJumpInsn(Opcodes.GOTO, tabLoop)
+            tabs.visitLabel(tabEnd)
+            tabs.visitInsn(Opcodes.RETURN)
+            tabs.visitMaxs(0, 0)
+            tabs.visitEnd()
             super.visitEnd()
         }
     }
     reader.accept(visitor, 0)
-    if (!found.builder || !found.footer) {
+    if (!found.builder || !found.footer || !found.tabs) {
         throw new GradleException("Client panel cleanup methods not found: " + found)
     }
     return writer.toByteArray()
@@ -839,6 +881,7 @@ def patchWatermark = { byte[] bytes ->
                     @Override
                     void visitLdcInsn(Object value) {
                         if (value instanceof Float && Math.abs(((Float)value) - 14.5F) < 0.001F) value = 0.0F
+                        if (value == "Flow") value = "AstraDLC"
                         super.visitLdcInsn(value)
                     }
 
@@ -1125,21 +1168,18 @@ def patchEncryptedBranding = { byte[] bytes ->
             mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
             mv.visitVarInsn(Opcodes.ALOAD, 0)
             def replacements = [
-                ["FlowClient", "AlbaDLC"],
-                ["Flow Client", "AlbaDLC"],
-                ["FlowUser", "AlbaUser"],
-                ["Flow User", "AlbaUser"],
-                ["Flow Black", "Alba Video"],
-                ["Flow White", "Alba White"],
-                ["Flow Чёрная", "Alba Видео"],
-                ["Flow Черная", "Alba Видео"],
-                ["Flow Белая", "Alba Белая"],
-                ["AstraDLC", "AlbaDLC"],
-                ["AstraUser", "AlbaUser"],
-                ["Astra", "Alba"],
-                ["Flow2", "AlbaDLC"],
-                ["[Flow2]", "[AlbaDLC]"],
-                ["Flow", "AlbaDLC"]
+                ["FlowClient", "AstraDLC"],
+                ["Flow Client", "AstraDLC"],
+                ["FlowUser", "AstraUser"],
+                ["Flow User", "AstraUser"],
+                ["Flow Black", "Astra Video"],
+                ["Flow White", "Astra White"],
+                ["Flow Чёрная", "Astra Видео"],
+                ["Flow Черная", "Astra Видео"],
+                ["Flow Белая", "Astra Белая"],
+                ["Flow2", "AstraDLC"],
+                ["[Flow2]", "[AstraDLC]"],
+                ["Flow", "AstraDLC"]
             ]
             replacements.each { pair ->
                 mv.visitLdcInsn(pair[0])
@@ -1197,7 +1237,7 @@ def patchVviTitle = { byte[] bytes ->
                     info.signature, info.exceptions as String[])
                 mv.visitCode()
                 // Preserve the visual zero-width separators on the left rail logo.
-                mv.visitLdcInsn(methodName == "get" ? "A\u200Cl\u200Cb\u200Ca\u200CD\u200CL\u200CC" : "AlbaDLC")
+                mv.visitLdcInsn(methodName == "get" ? "A\u200Cs\u200Ct\u200Cr\u200Ca\u200CD\u200CL\u200CC" : "AstraDLC")
                 mv.visitInsn(Opcodes.ARETURN)
                 mv.visitMaxs(1, 0)
                 mv.visitEnd()
@@ -1284,7 +1324,7 @@ def patchWordmark = { byte[] bytes ->
         @Override
         org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
             // The main menu header reads these static fields directly; changing only LDC strings leaves "FlowClient" visible.
-            if (name == "FIRST" && value == "Flow") value = "Alba"
+            if (name == "FIRST" && value == "Flow") value = "Astra"
             else if (name == "SECOND" && value == "Client") value = "DLC"
             return super.visitField(access, name, descriptor, signature, value)
         }
@@ -1295,10 +1335,8 @@ def patchWordmark = { byte[] bytes ->
             return new MethodVisitor(Opcodes.ASM9, mv) {
                 @Override
                 void visitLdcInsn(Object value) {
-                    if (value == "Flow") value = "Alba"
+                    if (value == "Flow") value = "Astra"
                     else if (value == "Client") value = "DLC"
-                    else if (value == "AstraDLC") value = "AlbaDLC"
-                    else if (value == "AstraUser") value = "AlbaUser"
                     super.visitLdcInsn(value)
                 }
             }
@@ -1681,16 +1719,16 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
-                            logger.lifecycle("Removed Custom theme and Party panels; replaced Cosmetics content with Coming Soon and hid the profile footer")
+                            logger.lifecycle("Removed Theme tab and Custom theme panel; removed Party panels; replaced Cosmetics content with Coming Soon and hid the profile footer")
                         } else if (entry.name == "a/jlx.class") {
                             patchedBytes = patchWatermark(patchedBytes)
                             logger.lifecycle("Removed dog/logo and ProgramData account badge from the HUD watermark")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
-                            logger.lifecycle("Replaced both encoded client-logo accessors with AlbaDLC")
+                            logger.lifecycle("Replaced both encoded client-logo accessors with AstraDLC")
                         } else if (entry.name == "flow/splash/Wordmark.class") {
                             patchedBytes = patchWordmark(patchedBytes)
-                            logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
+                            logger.lifecycle("Rebranded splash wordmark to AstraDLC")
                         } else if (entry.name == "flow/splash/Splash.class") {
                             patchedBytes = patchSplashController(patchedBytes)
                             logger.lifecycle("Skipped Flow2's custom splash takeover; preserved the native Minecraft loading screen")
