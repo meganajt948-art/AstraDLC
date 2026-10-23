@@ -132,15 +132,15 @@ def rebrandClassBytes = { byte[] bytes ->
                     // Change branding text, not package names or resource paths.
                     // Change known brand labels only; preserve resource IDs and shader keys.
                     updated = value
-                        .replace("FlowClient", "AstraDLC")
-                        .replace("FlowUser", "AstraUser")
+                        .replace("FlowClient", "AlbaDLC")
+                        .replace("FlowUser", "AlbaUser")
                         .replace("Flow Black", "Alba Video")
                         .replace("Flow White", "Alba White")
                         .replace("Flow Чёрная", "Alba Видео")
                         .replace("Flow Черная", "Alba Черная")
                         .replace("Flow Белая", "Alba Белая")
-                        .replace("Flow2", "AstraDLC")
-                        .replace("[Flow2]", "[AstraDLC]")
+                        .replace("Flow2", "AlbaDLC")
+                        .replace("[Flow2]", "[AlbaDLC]")
                 }
                 if (updated != value) {
                     target.writeUTF(updated)
@@ -490,8 +490,60 @@ def patchClientBackgroundDefault = { byte[] bytes ->
 }
 
 /*
- * Warm the selected title wallpaper on every title-screen frame and ensure the
- * panorama hook gets a chance to install before the first visible frame.
+ * Keep main-menu art decoding responsive when the user changes wallpapers quickly.
+ * The original single worker serialized every wallpaper decode/resize/blur operation,
+ * so the newly selected wallpaper could wait behind an old one. Use a small bounded
+ * pool for menu artwork only; thumbnail loading already has its own pool.
+ */
+def patchMenuArtCacheExecutor = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean workerCountInjected = false
+    boolean executorReplaced = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "<clinit>" || descriptor != "()V") return mv
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitInvokeDynamicInsn(String indyName, String indyDescriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+                    // The first ThreadFactory lambda belongs to the menu-art executor.
+                    if (!workerCountInjected && indyDescriptor == "()Ljava/util/concurrent/ThreadFactory;") {
+                        super.visitInsn(Opcodes.ICONST_3)
+                        workerCountInjected = true
+                    }
+                    super.visitInvokeDynamicInsn(indyName, indyDescriptor, bootstrapMethodHandle, bootstrapMethodArguments)
+                }
+
+                @Override
+                void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                    if (!executorReplaced && workerCountInjected && opcode == Opcodes.INVOKESTATIC &&
+                        owner == "java/util/concurrent/Executors" && methodName == "newSingleThreadExecutor" &&
+                        methodDescriptor == "(Ljava/util/concurrent/ThreadFactory;)Ljava/util/concurrent/ExecutorService;") {
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "newFixedThreadPool",
+                            "(ILjava/util/concurrent/ThreadFactory;)Ljava/util/concurrent/ExecutorService;", false)
+                        executorReplaced = true
+                        return
+                    }
+                    super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!workerCountInjected || !executorReplaced) {
+        throw new GradleException("Could not parallelize menu-art loading (workerCountInjected=" +
+            workerCountInjected + ", executorReplaced=" + executorReplaced + ")")
+    }
+    return writer.toByteArray()
+}
+
+/*
+ * Warm the selected title wallpaper on every title-screen frame. Avoid installing
+ * a second panorama renderer: the title screen owns its selected wallpaper layer.
  */
 def patchTitleMenuRenderWarmup = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -1097,7 +1149,7 @@ def patchWatermark = { byte[] bytes ->
                     @Override
                     void visitLdcInsn(Object value) {
                         if (value instanceof Float && Math.abs(((Float)value) - 14.5F) < 0.001F) value = 0.0F
-                        if (value == "Flow") value = "AstraDLC"
+                        if (value == "Flow") value = "AlbaDLC"
                         super.visitLdcInsn(value)
                     }
 
@@ -1384,18 +1436,18 @@ def patchEncryptedBranding = { byte[] bytes ->
             mv.visitFrame(Opcodes.F_SAME, 0, null, 0, null)
             mv.visitVarInsn(Opcodes.ALOAD, 0)
             def replacements = [
-                ["FlowClient", "AstraDLC"],
-                ["Flow Client", "AstraDLC"],
-                ["FlowUser", "AstraUser"],
-                ["Flow User", "AstraUser"],
-                ["Flow Black", "Astra Video"],
-                ["Flow White", "Astra White"],
-                ["Flow Чёрная", "Astra Видео"],
-                ["Flow Черная", "Astra Видео"],
-                ["Flow Белая", "Astra Белая"],
-                ["Flow2", "AstraDLC"],
-                ["[Flow2]", "[AstraDLC]"],
-                ["Flow", "AstraDLC"]
+                ["FlowClient", "AlbaDLC"],
+                ["Flow Client", "AlbaDLC"],
+                ["FlowUser", "AlbaUser"],
+                ["Flow User", "AlbaUser"],
+                ["Flow Black", "Alba Video"],
+                ["Flow White", "Alba White"],
+                ["Flow Чёрная", "Alba Видео"],
+                ["Flow Черная", "Alba Видео"],
+                ["Flow Белая", "Alba Белая"],
+                ["Flow2", "AlbaDLC"],
+                ["[Flow2]", "[AlbaDLC]"],
+                ["Flow", "AlbaDLC"]
             ]
             replacements.each { pair ->
                 mv.visitLdcInsn(pair[0])
@@ -1453,7 +1505,7 @@ def patchVviTitle = { byte[] bytes ->
                     info.signature, info.exceptions as String[])
                 mv.visitCode()
                 // Preserve the visual zero-width separators on the left rail logo.
-                mv.visitLdcInsn(methodName == "get" ? "A\u200Cs\u200Ct\u200Cr\u200Ca\u200CD\u200CL\u200CC" : "AstraDLC")
+                mv.visitLdcInsn(methodName == "get" ? "A\u200Cs\u200Ct\u200Cr\u200Ca\u200CD\u200CL\u200CC" : "AlbaDLC")
                 mv.visitInsn(Opcodes.ARETURN)
                 mv.visitMaxs(1, 0)
                 mv.visitEnd()
@@ -1540,7 +1592,7 @@ def patchWordmark = { byte[] bytes ->
         @Override
         org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
             // The main menu header reads these static fields directly; changing only LDC strings leaves "FlowClient" visible.
-            if (name == "FIRST" && value == "Flow") value = "Astra"
+            if (name == "FIRST" && value == "Flow") value = "Alba"
             else if (name == "SECOND" && value == "Client") value = "DLC"
             return super.visitField(access, name, descriptor, signature, value)
         }
@@ -1551,7 +1603,7 @@ def patchWordmark = { byte[] bytes ->
             return new MethodVisitor(Opcodes.ASM9, mv) {
                 @Override
                 void visitLdcInsn(Object value) {
-                    if (value == "Flow") value = "Astra"
+                    if (value == "Flow") value = "Alba"
                     else if (value == "Client") value = "DLC"
                     super.visitLdcInsn(value)
                 }
@@ -1860,7 +1912,7 @@ tasks.register("rebrandFlowNestedJar") {
                         metadata.authors = ["AlbaDLC"]
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
-                        logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
+                        logger.lifecycle("Set nested Fabric display name to AlbaDLC (kept mod id '${metadata.id}')")
                     } else if (entry.name == "flow/default-gui.properties") {
                         // Internal theme keys must stay original; only displayed labels are rebranded.
                         stream.transferTo(outputZip)
@@ -1905,10 +1957,13 @@ tasks.register("rebrandFlowNestedJar") {
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
                         if (isMenuSceneRendererClass(originalBytes)) {
                             patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
-                            logger.lifecycle("Added direct wallpaper drawing in " + new ClassReader(originalBytes).className + " when the GPU scene pipeline fails")
+                            logger.lifecycle("Patched direct wallpaper drawing in " + new ClassReader(originalBytes).className + " to avoid the unstable scene shader")
                         } else if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
                             logger.lifecycle("Patched encrypted client branding strings")
+                        } else if (entry.name == "a/jzh.class") {
+                            patchedBytes = patchMenuArtCacheExecutor(patchedBytes)
+                            logger.lifecycle("Enabled three parallel menu-art workers to reduce wallpaper-switch delay")
                         } else if (entry.name == "a/isv.class") {
                             patchedBytes = patchWallpaperCatalog(patchedBytes)
                             patchedBytes = patchClientBackgroundDefault(patchedBytes)
@@ -1941,16 +1996,16 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
-                            logger.lifecycle("Removed Theme tab and Custom theme panel; removed Party panels; replaced Cosmetics content with Coming Soon and kept the power button visible")
+                            logger.lifecycle("Preserved Theme tab and Custom theme editor; removed Party panels; set Cosmetics to Coming Soon and kept the power button visible")
                         } else if (entry.name == "a/jlx.class") {
                             patchedBytes = patchWatermark(patchedBytes)
                             logger.lifecycle("Removed dog/logo and ProgramData account badge from the HUD watermark")
                         } else if (entry.name == "a/vvi.class") {
                             patchedBytes = patchVviTitle(patchedBytes)
-                            logger.lifecycle("Replaced both encoded client-logo accessors with AstraDLC")
+                            logger.lifecycle("Replaced both encoded client-logo accessors with AlbaDLC")
                         } else if (entry.name == "flow/splash/Wordmark.class") {
                             patchedBytes = patchWordmark(patchedBytes)
-                            logger.lifecycle("Rebranded splash wordmark to AstraDLC")
+                            logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
                         } else if (entry.name == "flow/splash/Splash.class") {
                             patchedBytes = patchSplashController(patchedBytes)
                             logger.lifecycle("Skipped Flow2's custom splash takeover; preserved the native Minecraft loading screen")
