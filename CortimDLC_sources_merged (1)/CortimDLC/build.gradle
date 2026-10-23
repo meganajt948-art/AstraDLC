@@ -1677,10 +1677,9 @@ def patchDiscordInviteUrls = { byte[] bytes ->
         private String replaceInvite(Object value) {
             if (!(value instanceof String)) return value
             String text = (String)value
-            if (text.startsWith("https://discord.gg/") ||
-                text.startsWith("http://discord.gg/") ||
-                text.startsWith("https://discord.com/invite/") ||
-                text.startsWith("http://discord.com/invite/")) {
+            String lower = text.toLowerCase(java.util.Locale.ROOT)
+            if ((lower.contains("discord.gg/") || lower.contains("discord.com/invite/")) &&
+                (lower.contains("http") || lower.contains("discord.gg/") || lower.contains("discord.com/invite/"))) {
                 if (text != desired) changed = true
                 return desired
             }
