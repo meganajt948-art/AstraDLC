@@ -526,7 +526,7 @@ def patchTitleMenuRenderWarmup = { byte[] bytes ->
 
         @Override
         void visitEnd() {
-            FieldVisitor cache = super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+            org.objectweb.asm.FieldVisitor cache = super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
                 "albaLastPreloadedWallpaper", "Ljava/lang/String;", null, null)
             cache.visitEnd()
 
