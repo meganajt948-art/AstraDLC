@@ -1185,34 +1185,6 @@ def patchHudVisualPlacement = { byte[] bytes ->
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-            if (name == "method_25426" && descriptor == "()V") {
-                found.tabs = true
-                return new MethodVisitor(Opcodes.ASM9, mv) {
-                    @Override
-                    void visitInsn(int opcode) {
-                        if (opcode == Opcodes.RETURN) {
-                            // Filter the HUD tab only after the existing tab state is initialized.
-                            // hlz is a final list field: filter into a temporary local, then mutate the
-                            // existing list instead of illegally assigning the field outside <init>.
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterHudTab",
-                                "(Ljava/util/List;)Ljava/util/List;", false)
-                            super.visitVarInsn(Opcodes.ASTORE, 1)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
-                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "clear", "()V", true)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
-                            super.visitVarInsn(Opcodes.ALOAD, 1)
-                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "addAll",
-                                "(Ljava/util/Collection;)Z", true)
-                            super.visitInsn(Opcodes.POP)
-                        }
-                        super.visitInsn(opcode)
-                    }
-                }
-            }
             if (name == "hpl" && descriptor == "(La/hkv;)Ljava/util/List;") {
                 found.panelList = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
@@ -1228,7 +1200,15 @@ def patchHudVisualPlacement = { byte[] bytes ->
                 }
             }
             if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found.tabs = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        // Normalize tabs on the first render instead of init; never write hlz itself.
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaEnsureHudTabRemoved", "(La/hlc;)V", false)
+                    }
                     @Override
                     void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
                         if (opcode == Opcodes.INVOKESTATIC && methodDescriptor == "(Lnet/minecraft/class_332;Z)V") {
@@ -1280,6 +1260,37 @@ def patchHudVisualPlacement = { byte[] bytes ->
 
         @Override
         void visitEnd() {
+            def normalizedField = super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaHudTabsNormalized", "Z", null, null)
+            normalizedField.visitEnd()
+
+            MethodVisitor normalize = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaEnsureHudTabRemoved", "(La/hlc;)V", null, null)
+            normalize.visitCode()
+            org.objectweb.asm.Label normalizeDone = new org.objectweb.asm.Label()
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "albaHudTabsNormalized", "Z")
+            normalize.visitJumpInsn(Opcodes.IFNE, normalizeDone)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+            normalize.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterHudTab", "(Ljava/util/List;)Ljava/util/List;", false)
+            normalize.visitVarInsn(Opcodes.ASTORE, 1)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+            normalize.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "clear", "()V", true)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+            normalize.visitVarInsn(Opcodes.ALOAD, 1)
+            normalize.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true)
+            normalize.visitInsn(Opcodes.POP)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitInsn(Opcodes.ICONST_1)
+            normalize.visitFieldInsn(Opcodes.PUTFIELD, "a/hlc", "albaHudTabsNormalized", "Z")
+            normalize.visitLabel(normalizeDone)
+            normalize.visitInsn(Opcodes.RETURN)
+            normalize.visitMaxs(0, 0)
+            normalize.visitEnd()
+
             MethodVisitor filter = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
                 "albaFilterHudTab", "(Ljava/util/List;)Ljava/util/List;", null, null)
             filter.visitCode()
