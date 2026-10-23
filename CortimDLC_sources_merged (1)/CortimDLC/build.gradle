@@ -1683,7 +1683,7 @@ def patchDiscordInviteUrls = { byte[] bytes ->
     String desired = "https://discord.gg/6NZxdgRv"
     boolean changed = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        private String replaceInvite(Object value) {
+        private Object replaceInvite(Object value) {
             if (!(value instanceof String)) return value
             String text = (String)value
             String lower = text.toLowerCase(java.util.Locale.ROOT)
