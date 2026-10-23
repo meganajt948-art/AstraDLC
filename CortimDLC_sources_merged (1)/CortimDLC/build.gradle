@@ -1645,6 +1645,84 @@ def patchHideAvatarHoverPopup = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * AutoWarden: after entering a loot anarchy, always attempt the configured
+ * warp/home command instead of trusting cached timer/position data from a
+ * different sub-server. Later checks still validate the actual teleport.
+ * Also respect the global "Teleport by" option when returning to the save base.
+ */
+def patchAutoWardenTeleportFlow = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    if (reader.className != "a/nxa") {
+        throw new GradleException("AutoWarden teleport patch received unexpected class: " + reader.className)
+    }
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [
+        lootState: false,
+        firstWardenCheck: false,
+        firstSavedPositionCheck: false,
+        saveState: false,
+        saveModeSelection: false
+    ]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "olz" && descriptor == "()V") {
+                found.lootState = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        // These are the pre-command early exits. Stale cached timers or a
+                        // previously visited coordinate must not block the configured teleport.
+                        if (callOwner == "a/nxa" && callDescriptor == "()Z" &&
+                            callName == "omg" && !found.firstWardenCheck) {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.ICONST_0)
+                            found.firstWardenCheck = true
+                            return
+                        }
+                        if (callOwner == "a/nxa" && callDescriptor == "()Z" &&
+                            callName == "omc" && !found.firstSavedPositionCheck) {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.ICONST_0)
+                            found.firstSavedPositionCheck = true
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+            if (name == "omn" && descriptor == "()V") {
+                found.saveState = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        // Use the same mode-aware command builder as the loot base:
+                        // "Home" -> home <name>, "Warp" -> warp <name>.
+                        if (callOwner == "a/nxa" && callName == "olu" &&
+                            callDescriptor == "()Ljava/lang/String;") {
+                            callName = "olt"
+                            found.saveModeSelection = true
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.lootState || !found.firstWardenCheck || !found.firstSavedPositionCheck ||
+        !found.saveState || !found.saveModeSelection) {
+        throw new GradleException("AutoWarden teleport patch points not found: " + found)
+    }
+    logger.lifecycle("AutoWarden: force configured warp/home after loot-anarchy join; honor Warp mode on save base")
+    return writer.toByteArray()
+}
+
 /* Safer module-card restyle: only adjust existing geometry constants; no injected render branches. */
 def patchModuleCardVisuals = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -2685,6 +2763,8 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (isUiKitClass(originalBytes)) {
                             patchedBytes = patchUiKitSwitch(patchedBytes)
                             logger.lifecycle("Refined the native module-switch shape while preserving its original render logic")
+                        } else if (entry.name == "a/nxa.class") {
+                            patchedBytes = patchAutoWardenTeleportFlow(patchedBytes)
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
                             patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
