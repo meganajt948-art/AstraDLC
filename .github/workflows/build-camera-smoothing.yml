@@ -1,0 +1,54 @@
+name: Build camera smoothing test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/camera-smoothing
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
+
+      - name: Build Fabric mod
+        working-directory: "CortimDLC_sources_merged (1)/CortimDLC"
+        run: gradle --no-daemon clean build
+
+      - name: Upload built mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlbaDLC-camera-smoothing-test
+          path: |
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/*.jar
+            !CortimDLC_sources_merged (1)/CortimDLC/build/libs/*-sources.jar
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload build diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlbaDLC-build-diagnostics
+          path: |
+            CortimDLC_sources_merged (1)/CortimDLC/build/reports/
+            CortimDLC_sources_merged (1)/CortimDLC/build/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
