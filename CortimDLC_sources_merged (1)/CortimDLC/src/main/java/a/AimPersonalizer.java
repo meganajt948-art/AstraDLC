@@ -214,7 +214,7 @@ public final class AimPersonalizer {
             --this.plq;
         } else {
             this.plp = 8 + this.pki.nextInt(34);
-            this.plq = 25 + this.pki.nextInt(110);
+            this.plq = 100 + this.pki.nextInt(180);
             this.pln = this.pki.nextGaussian() * 8.0;
             this.plo = this.pki.nextGaussian() * 3.0;
         }
