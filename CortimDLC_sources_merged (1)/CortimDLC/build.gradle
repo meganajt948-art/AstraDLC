@@ -1131,9 +1131,9 @@ def patchClientPanelCleanup = { byte[] bytes ->
 
 
 /*
- * Center the language selector and power button on the bottom rail, and align
- * the enlarged search field with the left inset. Drawing and hit-tests share
- * these coordinate methods, so both move together.
+ * Keep the language selector and power button together at the bottom-left.
+ * Align the expanded search field with the sidebar's left inset. These methods
+ * drive both rendering and mouse hit-tests, so update the compiled methods too.
  */
 def patchGuiUtilityButtonLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -1151,7 +1151,7 @@ def patchGuiUtilityButtonLayout = { byte[] bytes ->
 
         @Override
         void visitEnd() {
-            def replacements = [hqs: 234.0F, hqt: 20.0F, hqv: 377.0F, hqn: 297.0F]
+            def replacements = [hqs: 32.0F, hqt: 8.0F, hqv: 377.0F, hqn: 12.0F]
             replacements.each { methodName, value ->
                 def info = originals[methodName]
                 if (info == null) throw new GradleException("GUI utility-button coordinate method not found: " + methodName)
@@ -1559,7 +1559,7 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
     return writer.toByteArray()
 }
 
-/* Remove the centered category heading/count and widen search across almost the full header. */
+/* Remove the centered category heading/count and extend search from the sidebar inset. */
 def patchClickGuiHeaderLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
@@ -1579,7 +1579,7 @@ def patchClickGuiHeaderLayout = { byte[] bytes ->
                     // The input's width and its empty-field hint offset must expand together.
                     if (value instanceof Float &&
                         Math.abs(((Float)value).floatValue() - 136.0f) < 0.001f) {
-                        value = 496.0f
+                        value = 518.0f
                         changed.widths = changed.widths + 1
                     }
                     super.visitLdcInsn(value)
@@ -3156,7 +3156,7 @@ sourceSets {
     }
 }
 
-// Build trigger: October 23 ClickGUI header and bottom-controls refresh.
+// Build trigger: October 25 ClickGUI search width and bottom-left utility controls refresh.
 
 // Build trigger: periodic walking jumps for AutoWarden and AutoEnd (24 October 2026).
 
