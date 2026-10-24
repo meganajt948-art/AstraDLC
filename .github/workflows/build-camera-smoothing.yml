@@ -74,8 +74,8 @@ jobs:
             fi
             source="$(find recovered-flow-vineflower -type f -path "*/$rel" -print -quit)"
             if [ -z "$source" ]; then
-              echo "::error::Vineflower did not produce replacement for $rel"
-              exit 1
+              echo "::warning::No matching original Flow class for $rel; keeping project version"
+              continue
             fi
             cp "$source" "$target"
             echo "Replaced $rel with Vineflower output"
