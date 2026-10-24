@@ -1845,6 +1845,49 @@ def patchAutoWardenLootTeleport = { byte[] bytes ->
 }
 
 /*
+ * On AutoEnd's first visit to a loot anarchy, do not skip the configured portal
+ * command just because a cached coordinate check claims we're already at the
+ * portal. The same check is still used on later stages and retries.
+ */
+def patchAutoEndLootTeleport = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    if (reader.className != "a/mpq") {
+        throw new GradleException("AutoEnd teleport patch received unexpected class: " + reader.className)
+    }
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def found = [method: false, check: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "nao" || descriptor != "()V") return mv
+            found.method = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName,
+                                     String callDescriptor, boolean isInterface) {
+                    if (!found.check && opcode == Opcodes.INVOKEVIRTUAL &&
+                        callOwner == "a/mpq" && callName == "mzh" && callDescriptor == "()Z") {
+                        // Replace the cached "already at target" result with false, preserving stack shape.
+                        super.visitInsn(Opcodes.POP)
+                        super.visitInsn(Opcodes.ICONST_0)
+                        found.check = true
+                        return
+                    }
+                    super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.method || !found.check) {
+        throw new GradleException("AutoEnd loot teleport patch point not found: " + found)
+    }
+    logger.lifecycle("AutoEnd: force configured home/warp after loot-anarchy switch instead of trusting cached coordinates")
+    return writer.toByteArray()
+}
+
+/*
  * Periodic, brief hops while either automation module is already walking forward.
  * The helper is inserted into the bundled client JAR, because the recovered Java
  * source tree below is kept for reference and is not part of the regular source set.
@@ -3027,9 +3070,11 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
                         } else if (entry.name == "a/nxa.class") {
                             patchedBytes = patchPeriodicJumpHooks(patchedBytes)
+                            patchedBytes = patchAutoWardenTeleportFlow(patchedBytes)
                             logger.lifecycle("Added periodic walking jumps to AutoWarden")
                         } else if (entry.name == "a/mpq.class") {
                             patchedBytes = patchPeriodicJumpHooks(patchedBytes)
+                            patchedBytes = patchAutoEndLootTeleport(patchedBytes)
                             logger.lifecycle("Added periodic walking jumps to AutoEnd")
                         } else if (entry.name == "a/hjg.class") {
                             patchedBytes = patchModuleCardVisuals(patchedBytes)
@@ -3037,8 +3082,6 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (isUiKitClass(originalBytes)) {
                             patchedBytes = patchUiKitSwitch(patchedBytes)
                             logger.lifecycle("Refined the native module-switch shape while preserving its original render logic")
-                        } else if (entry.name == "a/nxa.class") {
-                            patchedBytes = patchAutoWardenTeleportFlow(patchedBytes)
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
                             patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
@@ -3050,8 +3093,6 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Centered language and power controls along the bottom")
                             logger.lifecycle("Moved HUD panels into Visuals and removed the separate HUD tab")
                             logger.lifecycle("Preserved Theme tab and Custom theme editor; removed Party panels; set Cosmetics to Coming Soon and kept the power button visible")
-                        } else if (entry.name == "a/nxa.class") {
-                            patchedBytes = patchAutoWardenLootTeleport(patchedBytes)
                         } else if (entry.name == "a/jlx.class") {
                             patchedBytes = patchWatermark(patchedBytes)
                             logger.lifecycle("Removed dog/logo and ProgramData account badge from the HUD watermark")
@@ -3118,3 +3159,5 @@ sourceSets {
 // Build trigger: October 23 ClickGUI header and bottom-controls refresh.
 
 // Build trigger: periodic walking jumps for AutoWarden and AutoEnd (24 October 2026).
+
+// Build trigger: AutoWarden and AutoEnd configured teleport commands plus periodic hops (24 October 2026).
