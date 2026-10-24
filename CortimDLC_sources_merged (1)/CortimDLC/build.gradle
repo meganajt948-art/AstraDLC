@@ -1844,6 +1844,227 @@ def patchAutoWardenLootTeleport = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * Periodic, brief hops while either automation module is already walking forward.
+ * The helper is inserted into the bundled client JAR, because the recovered Java
+ * source tree below is kept for reference and is not part of the regular source set.
+ */
+def createAlbaPeriodicHopClass = {
+    def writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    writer.visit(Opcodes.V17, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL | Opcodes.ACC_SUPER,
+        "a/AlbaPeriodicHop", null, "java/lang/Object", null)
+    writer.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL,
+        "NEXT", "Ljava/util/Map;", null, null).visitEnd()
+    writer.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL,
+        "FORCED", "Ljava/util/Set;", null, null).visitEnd()
+    writer.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL,
+        "RANDOM", "Ljava/util/Random;", null, null).visitEnd()
+
+    MethodVisitor clinit = writer.visitMethod(Opcodes.ACC_STATIC, "<clinit>", "()V", null, null)
+    clinit.visitCode()
+    clinit.visitTypeInsn(Opcodes.NEW, "java/util/WeakHashMap")
+    clinit.visitInsn(Opcodes.DUP)
+    clinit.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/WeakHashMap", "<init>", "()V", false)
+    clinit.visitFieldInsn(Opcodes.PUTSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    clinit.visitTypeInsn(Opcodes.NEW, "java/util/WeakHashMap")
+    clinit.visitInsn(Opcodes.DUP)
+    clinit.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/WeakHashMap", "<init>", "()V", false)
+    clinit.visitMethodInsn(Opcodes.INVOKESTATIC, "java/util/Collections", "newSetFromMap",
+        "(Ljava/util/Map;)Ljava/util/Set;", false)
+    clinit.visitFieldInsn(Opcodes.PUTSTATIC, "a/AlbaPeriodicHop", "FORCED", "Ljava/util/Set;")
+    clinit.visitTypeInsn(Opcodes.NEW, "java/util/Random")
+    clinit.visitInsn(Opcodes.DUP)
+    clinit.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Random", "<init>", "()V", false)
+    clinit.visitFieldInsn(Opcodes.PUTSTATIC, "a/AlbaPeriodicHop", "RANDOM", "Ljava/util/Random;")
+    clinit.visitInsn(Opcodes.RETURN)
+    clinit.visitMaxs(0, 0)
+    clinit.visitEnd()
+
+    // Release only a jump that this helper pressed, before the module processes the next tick.
+    MethodVisitor before = writer.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+        "before", "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", null, null)
+    before.visitCode()
+    org.objectweb.asm.Label beforeDone = new org.objectweb.asm.Label()
+    before.visitVarInsn(Opcodes.ALOAD, 0)
+    before.visitJumpInsn(Opcodes.IFNULL, beforeDone)
+    before.visitVarInsn(Opcodes.ALOAD, 1)
+    before.visitJumpInsn(Opcodes.IFNULL, beforeDone)
+    before.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "FORCED", "Ljava/util/Set;")
+    before.visitVarInsn(Opcodes.ALOAD, 0)
+    before.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Set", "remove", "(Ljava/lang/Object;)Z", true)
+    before.visitJumpInsn(Opcodes.IFEQ, beforeDone)
+    before.visitVarInsn(Opcodes.ALOAD, 1)
+    before.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    before.visitJumpInsn(Opcodes.IFNULL, beforeDone)
+    before.visitVarInsn(Opcodes.ALOAD, 1)
+    before.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    before.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1903", "Lnet/minecraft/class_304;")
+    before.visitInsn(Opcodes.ICONST_0)
+    before.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_23481", "(Z)V", false)
+    before.visitLabel(beforeDone)
+    before.visitInsn(Opcodes.RETURN)
+    before.visitMaxs(0, 0)
+    before.visitEnd()
+
+    // Press jump for one tick every ~1.6–4.6 seconds while moving forward on solid ground.
+    MethodVisitor tick = writer.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+        "tick", "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", null, null)
+    tick.visitCode()
+    org.objectweb.asm.Label done = new org.objectweb.asm.Label()
+    org.objectweb.asm.Label haveNext = new org.objectweb.asm.Label()
+    org.objectweb.asm.Label scheduleFirst = new org.objectweb.asm.Label()
+
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitTypeInsn(Opcodes.CHECKCAST, "a/kfe")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/kfe", "isEnabled", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFEQ, done)
+
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1724", "Lnet/minecraft/class_746;")
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755", "Lnet/minecraft/class_437;")
+    tick.visitJumpInsn(Opcodes.IFNONNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+
+    // Walk forward and be grounded; do not compete with a jump already requested by pathing.
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1894", "Lnet/minecraft/class_304;")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_1434", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFEQ, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1724", "Lnet/minecraft/class_746;")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_1297", "method_24828", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFEQ, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1903", "Lnet/minecraft/class_304;")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_1434", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFNE, done)
+
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "get", "(Ljava/lang/Object;)Ljava/lang/Object;", true)
+    tick.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Long")
+    tick.visitVarInsn(Opcodes.ASTORE, 2)
+    tick.visitVarInsn(Opcodes.ALOAD, 2)
+    tick.visitJumpInsn(Opcodes.IFNONNULL, haveNext)
+
+    // First hop is delayed after enabling to avoid an immediate startup jump.
+    tick.visitLabel(scheduleFirst)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false)
+    tick.visitLdcInsn(1600L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "RANDOM", "Ljava/util/Random;")
+    tick.visitIntInsn(Opcodes.SIPUSH, 3000)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Random", "nextInt", "(I)I", false)
+    tick.visitInsn(Opcodes.I2L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put",
+        "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
+    tick.visitInsn(Opcodes.POP)
+    tick.visitJumpInsn(Opcodes.GOTO, done)
+
+    tick.visitLabel(haveNext)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false)
+    tick.visitVarInsn(Opcodes.LSTORE, 3)
+    tick.visitVarInsn(Opcodes.LLOAD, 3)
+    tick.visitVarInsn(Opcodes.ALOAD, 2)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false)
+    tick.visitInsn(Opcodes.LCMP)
+    tick.visitJumpInsn(Opcodes.IFLT, done)
+
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1903", "Lnet/minecraft/class_304;")
+    tick.visitInsn(Opcodes.ICONST_1)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_23481", "(Z)V", false)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "FORCED", "Ljava/util/Set;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Set", "add", "(Ljava/lang/Object;)Z", true)
+    tick.visitInsn(Opcodes.POP)
+
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitVarInsn(Opcodes.LLOAD, 3)
+    tick.visitLdcInsn(1600L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "RANDOM", "Ljava/util/Random;")
+    tick.visitIntInsn(Opcodes.SIPUSH, 3000)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Random", "nextInt", "(I)I", false)
+    tick.visitInsn(Opcodes.I2L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put",
+        "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
+    tick.visitInsn(Opcodes.POP)
+
+    tick.visitLabel(done)
+    tick.visitInsn(Opcodes.RETURN)
+    tick.visitMaxs(0, 0)
+    tick.visitEnd()
+
+    writer.visitEnd()
+    return writer.toByteArray()
+}
+
+/* Inject the helper without changing the existing movement logic or its control flow. */
+def patchPeriodicJumpHooks = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def found = [start: false, end: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            boolean isStart = name == "onStartTick" && descriptor == "(Lnet/minecraft/class_310;)V"
+            boolean isEnd = name == "onEndTick" && descriptor == "(Lnet/minecraft/class_310;)V"
+            if (isStart) found.start = true
+            if (isEnd) found.end = true
+            if (!isStart && !isEnd) return mv
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitCode() {
+                    super.visitCode()
+                    if (isStart) {
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/AlbaPeriodicHop", "before",
+                            "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", false)
+                    }
+                }
+                @Override
+                void visitInsn(int opcode) {
+                    if (isEnd && opcode == Opcodes.RETURN) {
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/AlbaPeriodicHop", "tick",
+                            "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", false)
+                    }
+                    super.visitInsn(opcode)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.start || !found.end) {
+        throw new GradleException("Periodic-hop patch points missing: onStartTick=" + found.start + ", onEndTick=" + found.end)
+    }
+    return writer.toByteArray()
+}
+
 /* Replace any stale Discord invite literal, even when the URL appears in a second click handler. */
 def patchDiscordInviteUrls = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -2804,6 +3025,12 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "a/kfx.class") {
                             patchedBytes = patchModuleRegistration(patchedBytes)
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
+                        } else if (entry.name == "a/nxa.class") {
+                            patchedBytes = patchPeriodicJumpHooks(patchedBytes)
+                            logger.lifecycle("Added periodic walking jumps to AutoWarden")
+                        } else if (entry.name == "a/mpq.class") {
+                            patchedBytes = patchPeriodicJumpHooks(patchedBytes)
+                            logger.lifecycle("Added periodic walking jumps to AutoEnd")
                         } else if (entry.name == "a/hjg.class") {
                             patchedBytes = patchModuleCardVisuals(patchedBytes)
                             logger.lifecycle("Safely restyled module card corners without injecting render-time control flow")
@@ -2851,6 +3078,12 @@ tasks.register("rebrandFlowNestedJar") {
                 }
                 outputZip.closeEntry()
             }
+            def hopEntry = new java.util.zip.ZipEntry("a/AlbaPeriodicHop.class")
+            outputZip.putNextEntry(hopEntry)
+            outputZip.write(createAlbaPeriodicHopClass())
+            outputZip.closeEntry()
+            logger.lifecycle("Bundled shared periodic-hop helper for AutoWarden and AutoEnd")
+
             def videoBytes = albaVideoFile.get().asFile.bytes
             def videoEntry = new java.util.zip.ZipEntry("assets/alba/alba-background.mp4")
             outputZip.putNextEntry(videoEntry)
