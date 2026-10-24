@@ -12,7 +12,6 @@ public final class AlbaNetworkDemo {
     private static final Color MUTED = new Color(147, 154, 170);
     private static final Color ACCENT = new Color(111, 133, 255);
     private final JFrame frame = new JFrame("Alba Network · Demo");
-    private final JLabel notice = new JLabel("  ДЕМО-ИНТЕРФЕЙС · сетевые подключения пока не выполняются");
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AlbaNetworkDemo().show());
@@ -23,25 +22,12 @@ public final class AlbaNetworkDemo {
         frame.setMinimumSize(new Dimension(900, 580));
         frame.setSize(1040, 680);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setBackground(BG);
-        frame.setLayout(new BorderLayout());
-
-        JPanel root = new JPanel(new BorderLayout(0, 0));
+        JPanel root = new JPanel(new BorderLayout());
         root.setBackground(BG);
         root.setBorder(new EmptyBorder(18, 18, 14, 18));
         root.add(header(), BorderLayout.NORTH);
         root.add(content(), BorderLayout.CENTER);
-        root.add(footer(), BorderLayout.SOUTH);
         frame.setContentPane(root);
-
-        JRootPane rp = frame.getRootPane();
-        rp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control Q"), "alba-shortcut");
-        rp.getActionMap().put("alba-shortcut", new AbstractAction() {
-            @Override public void actionPerformed(ActionEvent e) {
-                notice.setText("  Ctrl + Q · место для запуска второго приложения на следующем этапе");
-                notice.setForeground(new Color(190, 200, 255));
-            }
-        });
         frame.setVisible(true);
     }
 
@@ -49,7 +35,6 @@ public final class AlbaNetworkDemo {
         JPanel panel = new JPanel(new BorderLayout(16, 0));
         panel.setOpaque(false);
         panel.setBorder(new EmptyBorder(0, 0, 18, 0));
-
         JPanel brand = new JPanel(new BorderLayout(12, 0));
         brand.setOpaque(false);
         JLabel logo = new JLabel("A", SwingConstants.CENTER);
@@ -59,21 +44,18 @@ public final class AlbaNetworkDemo {
         logo.setBackground(ACCENT);
         logo.setPreferredSize(new Dimension(46, 46));
         logo.setBorder(new LineBorder(new Color(145, 160, 255), 1, true));
-
         JPanel names = new JPanel();
         names.setOpaque(false);
         names.setLayout(new BoxLayout(names, BoxLayout.Y_AXIS));
-        JLabel title = label("Alba Network", 21, TEXT, Font.BOLD);
-        JLabel sub = label("Виртуальные сети", 12, MUTED, Font.PLAIN);
-        names.add(title); names.add(Box.createVerticalStrut(3)); names.add(sub);
+        names.add(label("Alba Network", 21, TEXT, Font.BOLD));
+        names.add(Box.createVerticalStrut(3));
+        names.add(label("Виртуальные сети", 12, MUTED, Font.PLAIN));
         brand.add(logo, BorderLayout.WEST);
         brand.add(names, BorderLayout.CENTER);
-
         JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 4));
         right.setOpaque(false);
-        JLabel demo = pill("DEMO", new Color(49, 57, 91), new Color(194, 202, 255));
-        JLabel status = pill("●  Не подключено", new Color(39, 47, 44), new Color(153, 211, 175));
-        right.add(demo); right.add(status);
+        right.add(pill("DEMO", new Color(49, 57, 91), new Color(194, 202, 255)));
+        right.add(pill("●  Не подключено", new Color(39, 47, 44), new Color(153, 211, 175)));
         panel.add(brand, BorderLayout.WEST);
         panel.add(right, BorderLayout.EAST);
         return panel;
@@ -82,7 +64,6 @@ public final class AlbaNetworkDemo {
     private JComponent content() {
         JPanel body = new JPanel(new BorderLayout(14, 0));
         body.setOpaque(false);
-        body.setBorder(new EmptyBorder(0, 0, 14, 0));
         body.add(networksPanel(), BorderLayout.WEST);
         body.add(detailsPanel(), BorderLayout.CENTER);
         return body;
@@ -93,15 +74,12 @@ public final class AlbaNetworkDemo {
         outer.setPreferredSize(new Dimension(275, 0));
         outer.setLayout(new BorderLayout(0, 12));
         outer.setBorder(new EmptyBorder(18, 16, 16, 16));
-        JLabel heading = label("МОИ СЕТИ", 11, MUTED, Font.BOLD);
-
         JPanel top = new JPanel(new BorderLayout());
         top.setOpaque(false);
-        top.add(heading, BorderLayout.WEST);
+        top.add(label("МОИ СЕТИ", 11, MUTED, Font.BOLD), BorderLayout.WEST);
         JButton plus = button("+ Создать", ACCENT, Color.WHITE);
         plus.addActionListener(e -> showInfo("Создание сети будет добавлено позже."));
         top.add(plus, BorderLayout.EAST);
-
         JPanel list = new JPanel();
         list.setOpaque(false);
         list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
@@ -109,11 +87,9 @@ public final class AlbaNetworkDemo {
         list.add(Box.createVerticalStrut(8));
         list.add(networkItem("Игровая сеть", "game-room-demo", false, "0"));
         list.add(Box.createVerticalGlue());
-
-        JLabel note = label("Это демонстрационные данные", 11, MUTED, Font.PLAIN);
         outer.add(top, BorderLayout.NORTH);
         outer.add(list, BorderLayout.CENTER);
-        outer.add(note, BorderLayout.SOUTH);
+        outer.add(label("Это демонстрационные данные", 11, MUTED, Font.PLAIN), BorderLayout.SOUTH);
         return outer;
     }
 
@@ -135,7 +111,9 @@ public final class AlbaNetworkDemo {
         text.add(Box.createVerticalStrut(5));
         text.add(label(id, 11, MUTED, Font.PLAIN));
         JLabel badge = pill(count, selected ? new Color(64, 75, 124) : PANEL2, TEXT);
-        p.add(icon, BorderLayout.WEST); p.add(text, BorderLayout.CENTER); p.add(badge, BorderLayout.EAST);
+        p.add(icon, BorderLayout.WEST);
+        p.add(text, BorderLayout.CENTER);
+        p.add(badge, BorderLayout.EAST);
         p.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         return p;
     }
@@ -144,7 +122,6 @@ public final class AlbaNetworkDemo {
         JPanel outer = card();
         outer.setLayout(new BorderLayout(0, 14));
         outer.setBorder(new EmptyBorder(18, 18, 16, 18));
-
         JPanel titleRow = new JPanel(new BorderLayout());
         titleRow.setOpaque(false);
         JPanel heading = new JPanel();
@@ -157,7 +134,6 @@ public final class AlbaNetworkDemo {
         JButton join = button("Подключиться", new Color(44, 51, 72), TEXT);
         join.addActionListener(e -> showInfo("Подключение к VPN в демо-версии отключено."));
         titleRow.add(join, BorderLayout.EAST);
-
         JPanel columns = new JPanel(new BorderLayout());
         columns.setOpaque(false);
         columns.setBorder(new EmptyBorder(8, 0, 0, 0));
@@ -166,7 +142,6 @@ public final class AlbaNetworkDemo {
         colHeader.setBorder(new EmptyBorder(0, 2, 10, 2));
         colHeader.add(label("УЧАСТНИКИ", 11, MUTED, Font.BOLD), BorderLayout.WEST);
         colHeader.add(label("3 участника", 11, MUTED, Font.PLAIN), BorderLayout.EAST);
-
         JPanel people = new JPanel();
         people.setOpaque(false);
         people.setLayout(new BoxLayout(people, BoxLayout.Y_AXIS));
@@ -175,7 +150,6 @@ public final class AlbaNetworkDemo {
         people.add(person("Player_One", "192.168.100.2 · пример", "ОФЛАЙН", new Color(110, 120, 143)));
         people.add(Box.createVerticalStrut(8));
         people.add(person("Player_Two", "192.168.100.3 · пример", "ОФЛАЙН", new Color(110, 120, 143)));
-
         columns.add(colHeader, BorderLayout.NORTH);
         columns.add(people, BorderLayout.CENTER);
         outer.add(titleRow, BorderLayout.NORTH);
@@ -201,19 +175,9 @@ public final class AlbaNetworkDemo {
         text.add(label(name, 13, TEXT, Font.BOLD));
         text.add(Box.createVerticalStrut(5));
         text.add(label(detail, 11, MUTED, Font.PLAIN));
-        p.add(avatar, BorderLayout.WEST); p.add(text, BorderLayout.CENTER);
+        p.add(avatar, BorderLayout.WEST);
+        p.add(text, BorderLayout.CENTER);
         p.add(pill(state, new Color(44, 47, 57), MUTED), BorderLayout.EAST);
-        return p;
-    }
-
-    private JComponent footer() {
-        JPanel p = new JPanel(new BorderLayout(10, 0));
-        p.setOpaque(false);
-        notice.setFont(new Font("Dialog", Font.PLAIN, 11));
-        notice.setForeground(MUTED);
-        p.add(notice, BorderLayout.WEST);
-        JLabel shortcut = label("Ctrl + Q  ·  следующий этап", 11, MUTED, Font.PLAIN);
-        p.add(shortcut, BorderLayout.EAST);
         return p;
     }
 
