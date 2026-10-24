@@ -7,7 +7,7 @@ name: AlbaDLC build
 on:
   workflow_dispatch:
   push:
-    branches: [astra-renaming]
+    branches: [astra-renaming, ui-cleanup-2026-10]
     paths:
       - 'CortimDLC_sources_merged (1)/CortimDLC/**'
       - 'video-data/**'

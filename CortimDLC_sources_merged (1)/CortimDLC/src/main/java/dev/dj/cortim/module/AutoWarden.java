@@ -3002,10 +3002,9 @@ public class AutoWarden
             if (this.oas - this.odc < 30 + this.oat) {
                 return;
             }
-            if (this.omg() || this.omc()) {
-                this.omb();
-                return;
-            }
+            // Always execute the configured warp/home after joining a loot anarchy.
+            // Cached Warden timers/coordinates can belong to another sub-server and must
+            // not suppress the first teleport command for this connection.
             if (this.ocx >= 3) {
                 this.oma();
                 return;
@@ -3185,7 +3184,7 @@ public class AutoWarden
             if (this.oas < 80 + this.oat) {
                 return;
             }
-            this.omi(this.olu());
+            this.omi(this.olt());
             return;
         }
         if (!this.omj() && this.oas - this.oax < 200) {

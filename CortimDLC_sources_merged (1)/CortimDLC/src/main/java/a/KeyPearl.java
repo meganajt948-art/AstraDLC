@@ -25,7 +25,7 @@ extends Module {
     private static /* synthetic */ long kwe;
 
     public KeyPearl() {
-        super("KeyPearl", "Throws an ender pearl on a key", ModuleCategory.COMBAT);
+        super("ClickPearl", "Throws an ender pearl on a key", ModuleCategory.PLAYER);
         kwa = this;
     }
 

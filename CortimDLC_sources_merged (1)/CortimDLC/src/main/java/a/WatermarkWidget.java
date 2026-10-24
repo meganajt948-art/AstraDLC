@@ -356,14 +356,7 @@ extends HudWidget {
 
     private float jnw(class_332 class_3322, float f, float f2, boolean bl) {
         float f3 = f + 7.0f - 1.0f;
-        if (class_3322 != null && !AnimatedLogo.draw(class_3322, f3 - 0.5f, f2 - 5.5f - 0.5f, 12.0f, Theme.isLight(), -1) && !LogoRenderer.draw(class_3322, f3, f2 - 5.5f, 11.0f, Theme.logoTint())) {
-            IconRenderer.draw(class_3322, Icon.LOGO, f3 + 5.5f, f2, 8.6f, Theme.text);
-        }
-        f3 += 14.5f;
-        f3 = WatermarkWidget.joa(class_3322, Hud.BRAND, "Flow", f3, f2, Theme.text);
-        if (ACCOUNT.get()) {
-            f3 = this.jnx(class_3322, WatermarkWidget.job(class_3322, f3, f2), f2);
-        }
+        f3 = WatermarkWidget.joa(class_3322, Hud.BRAND, "AstraDLC", f3, f2, Theme.text);
         for (jlu jlu2 : this.jmr) {
             f3 = WatermarkWidget.job(class_3322, f3, f2);
             float f4 = f3 + jlu2.wide;
@@ -424,7 +417,7 @@ extends HudWidget {
         String string = UserProfile.account();
         if (!string.equals(this.jnk)) {
             this.jnk = string;
-            this.jnl = Hud.VALUE.ellipsize(string.isEmpty() ? "Flow" : string, 70.0f);
+            this.jnl = Hud.VALUE.ellipsize(string.isEmpty() ? "AstraDLC" : string, 70.0f);
         }
         return this.jnl;
     }
