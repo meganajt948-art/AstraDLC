@@ -46,14 +46,14 @@ jobs:
           if-no-files-found: error
           compression-level: 0
 
-      - name: Publish a downloadable periodic-hop pre-release
+      - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-periodic-hops-2026-10-24
+          tag_name: albadlc-auto-navigation-hops-2026-10-24
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC periodic-hop update (24 October 2026)
+          name: AlbaDLC AutoWarden + AutoEnd fix (24 October 2026)
           body: |
-            Automated prerelease with periodic forward-walking jumps in AutoWarden and AutoEnd.
+            Fixes the AutoWarden/AutoEnd configured warp/home command after changing anarchies, and adds periodic walking jumps to both modules.
             Jumps are spaced randomly by about 1.6–4.6 seconds and are only triggered on the ground.
           prerelease: true
           files: |
