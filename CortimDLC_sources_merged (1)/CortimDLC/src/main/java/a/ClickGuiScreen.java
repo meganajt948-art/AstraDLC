@@ -962,7 +962,7 @@ extends class_437 {
     }
 
     private float hqn() {
-        return 113.0f;
+        return 25.0f;
     }
 
     private boolean hqo(float f, float f2) {
@@ -1062,11 +1062,11 @@ extends class_437 {
     }
 
     private float hqs() {
-        return 480.0f;
+        return 48.0f;
     }
 
     private float hqt() {
-        return this.hqs() - 8.0f - 136.0f;
+        return 14.0f;
     }
 
     private float hqu() {
@@ -1074,7 +1074,7 @@ extends class_437 {
     }
 
     private float hqv() {
-        return 13.0f;
+        return 386.0f;
     }
 
     private String hqw(hkv hkv2, float f, float f2) {
@@ -1172,11 +1172,11 @@ extends class_437 {
         DrawUtil.popAlpha();
         this.hoe.x = this.hqt();
         this.hoe.y = this.hqu();
-        this.hoe.w = 136.0f;
+        this.hoe.w = Math.max(136.0f, 540.0f - this.hoe.x - 14.0f);
         this.hoe.h = 20.0f;
         this.hoe.render(class_3322, this, f, f2, this.hop);
         if (this.hoe.text.isEmpty() && this.hof != this.hoe) {
-            UiKit.SMALL.drawRight(class_3322, "Ctrl F", this.hqt() + 136.0f - 8.0f, UiKit.SMALL.centerTop(this.hqu() + 10.0f), ColorUtil.mulAlpha(Theme.textMuted, 0.8f));
+            UiKit.SMALL.drawRight(class_3322, "Ctrl F", this.hqt() + this.hoe.w - 8.0f, UiKit.SMALL.centerTop(this.hqu() + 10.0f), ColorUtil.mulAlpha(Theme.textMuted, 0.8f));
         }
         float f7 = this.hqv();
         float f8 = Theme.lightness();
