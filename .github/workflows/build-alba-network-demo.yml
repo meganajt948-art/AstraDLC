@@ -1,4 +1,4 @@
-name: Build Alba Network demo
+name: Build Alba Network demo EXE
 
 on:
   push:
@@ -19,15 +19,22 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - name: Compile
+      - name: Install WiX Toolset for EXE installer
+        shell: pwsh
+        run: choco install wixtoolset --no-progress -y
+      - name: Compile application
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force out | Out-Null
+          New-Item -ItemType Directory -Force out, input, installer | Out-Null
           javac -encoding UTF-8 -d out AlbaNetworkDemo/src/AlbaNetworkDemo.java
-          jar --create --file AlbaNetworkDemo.jar --main-class AlbaNetworkDemo -C out .
-      - name: Upload runnable JAR
+          jar --create --file input/AlbaNetworkDemo.jar --main-class AlbaNetworkDemo -C out .
+      - name: Package Windows EXE installer
+        shell: pwsh
+        run: |
+          jpackage --type exe --name AlbaNetworkDemo --app-version 1.0.0 --input input --main-jar AlbaNetworkDemo.jar --main-class AlbaNetworkDemo --dest installer --win-menu --win-shortcut
+      - name: Upload Windows EXE
         uses: actions/upload-artifact@v4
         with:
-          name: AlbaNetworkDemo-Windows-Java21
-          path: AlbaNetworkDemo.jar
+          name: AlbaNetworkDemo-Windows-EXE
+          path: installer/*.exe
           if-no-files-found: error
