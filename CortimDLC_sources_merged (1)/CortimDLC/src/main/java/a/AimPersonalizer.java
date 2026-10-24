@@ -207,16 +207,16 @@ public final class AimPersonalizer {
         }
         if (this.plp > 0) {
             if (--this.plp == 0) {
-                this.pln = this.pki.nextGaussian() * 1.5;
-                this.plo = this.pki.nextGaussian() * 0.8;
+                this.pln = this.pki.nextGaussian() * 5.0;
+                this.plo = this.pki.nextGaussian() * 2.0;
             }
         } else if (this.plq > 0) {
             --this.plq;
         } else {
             this.plp = 8 + this.pki.nextInt(34);
             this.plq = 25 + this.pki.nextInt(110);
-            this.pln = this.pki.nextGaussian() * 1.5;
-            this.plo = this.pki.nextGaussian() * 0.8;
+            this.pln = this.pki.nextGaussian() * 8.0;
+            this.plo = this.pki.nextGaussian() * 3.0;
         }
         double d = this.pll + this.pln;
         double d2 = class_3532.method_15350((double)(this.plm + this.plo), (double)-70.0, (double)70.0);
