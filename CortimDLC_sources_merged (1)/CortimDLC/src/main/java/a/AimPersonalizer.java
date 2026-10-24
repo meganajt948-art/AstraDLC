@@ -207,16 +207,16 @@ public final class AimPersonalizer {
         }
         if (this.plp > 0) {
             if (--this.plp == 0) {
-                this.pln = this.pki.nextGaussian() * 3.0;
-                this.plo = this.pki.nextGaussian() * 2.0;
+                this.pln = this.pki.nextGaussian() * 1.5;
+                this.plo = this.pki.nextGaussian() * 0.8;
             }
         } else if (this.plq > 0) {
             --this.plq;
         } else {
             this.plp = 8 + this.pki.nextInt(34);
             this.plq = 25 + this.pki.nextInt(110);
-            this.pln = this.pki.nextGaussian() * 26.0;
-            this.plo = this.pki.nextGaussian() * 11.0;
+            this.pln = this.pki.nextGaussian() * 1.5;
+            this.plo = this.pki.nextGaussian() * 0.8;
         }
         double d = this.pll + this.pln;
         double d2 = class_3532.method_15350((double)(this.plm + this.plo), (double)-70.0, (double)70.0);
@@ -224,8 +224,8 @@ public final class AimPersonalizer {
     }
 
     private void plu() {
-        this.plf = class_3532.method_15350((double)(this.plf * 0.992 + this.pki.nextGaussian() * 0.12), (double)-3.0, (double)3.0);
-        this.plg = class_3532.method_15350((double)(this.plg * 0.99 + this.pki.nextGaussian() * 0.35), (double)-9.0, (double)8.0);
+        this.plf = class_3532.method_15350((double)(this.plf * 0.992 + this.pki.nextGaussian() * 0.025), (double)-0.6, (double)0.6);
+        this.plg = class_3532.method_15350((double)(this.plg * 0.99 + this.pki.nextGaussian() * 0.06), (double)-1.5, (double)1.5);
         if (this.pli > 0) {
             --this.pli;
         } else if (this.plj > 0) {
@@ -233,7 +233,7 @@ public final class AimPersonalizer {
         } else {
             this.pli = 10 + this.pki.nextInt(26);
             this.plj = 160 + this.pki.nextInt(420);
-            this.plh = this.pki.nextGaussian() * 15.0;
+            this.plh = this.pki.nextGaussian() * 1.5;
         }
     }
 
@@ -248,7 +248,7 @@ public final class AimPersonalizer {
         double d6;
         this.pla = d;
         this.plb = d2;
-        if (this.ple && Math.hypot(class_3532.method_15338((double)(d - this.plc)), d2 - this.pld) > 10.0) {
+        if (this.ple && Math.hypot(class_3532.method_15338((double)(d - this.plc)), d2 - this.pld) > 18.0) {
             this.pky = new Object();
         }
         this.ple = true;
