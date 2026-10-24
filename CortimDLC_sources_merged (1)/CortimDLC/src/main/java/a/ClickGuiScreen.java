@@ -962,7 +962,7 @@ extends class_437 {
     }
 
     private float hqn() {
-        return 25.0f;
+        return 12.0f;
     }
 
     private boolean hqo(float f, float f2) {
@@ -1062,11 +1062,11 @@ extends class_437 {
     }
 
     private float hqs() {
-        return 48.0f;
+        return 32.0f;
     }
 
     private float hqt() {
-        return 14.0f;
+        return 4.0f;
     }
 
     private float hqu() {
