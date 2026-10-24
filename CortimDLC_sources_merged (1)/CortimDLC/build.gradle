@@ -1797,6 +1797,53 @@ def patchUiKitSwitch = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * Make AutoWarden issue its configured warp/home once after joining a loot
+ * anarchy. The bundled runtime has cached timer/coordinate checks before the
+ * first command; they can switch it into exploration and skip that command.
+ * Bypass only those first two checks in olz(); later safety/retry checks remain.
+ */
+def patchAutoWardenLootTeleport = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [method: false, omg: false, omc: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "olz" || descriptor != "()V") return mv
+            found.method = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                private final Set<String> bypassed = new HashSet<String>()
+
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName,
+                                     String callDescriptor, boolean isInterface) {
+                    if (opcode == Opcodes.INVOKEVIRTUAL && callOwner == "a/nxa" &&
+                        callDescriptor == "()Z" && ["omg", "omc"].contains(callName) &&
+                        !bypassed.contains(callName)) {
+                        // Drop the instance receiver, then substitute false for this one check.
+                        super.visitInsn(Opcodes.POP)
+                        super.visitInsn(Opcodes.ICONST_0)
+                        bypassed.add(callName)
+                        found[callName] = true
+                        return
+                    }
+                    super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.method || !found.omg || !found.omc) {
+        throw new GradleException("AutoWarden loot teleport patch points missing: " + found)
+    }
+    logger.lifecycle("AutoWarden: first configured warp/home command protected from stale Warden cache checks")
+    return writer.toByteArray()
+}
+
 /* Replace any stale Discord invite literal, even when the URL appears in a second click handler. */
 def patchDiscordInviteUrls = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -2776,6 +2823,8 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Centered language and power controls along the bottom")
                             logger.lifecycle("Moved HUD panels into Visuals and removed the separate HUD tab")
                             logger.lifecycle("Preserved Theme tab and Custom theme editor; removed Party panels; set Cosmetics to Coming Soon and kept the power button visible")
+                        } else if (entry.name == "a/nxa.class") {
+                            patchedBytes = patchAutoWardenLootTeleport(patchedBytes)
                         } else if (entry.name == "a/jlx.class") {
                             patchedBytes = patchWatermark(patchedBytes)
                             logger.lifecycle("Removed dog/logo and ProgramData account badge from the HUD watermark")
