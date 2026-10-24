@@ -46,16 +46,15 @@ jobs:
           if-no-files-found: error
           compression-level: 0
 
-      - name: Publish a downloadable UI-refresh pre-release
+      - name: Publish a downloadable periodic-hop pre-release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-ui-refresh-2026-10-23
+          tag_name: albadlc-periodic-hops-2026-10-24
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC UI refresh (23 October 2026)
+          name: AlbaDLC periodic-hop update (24 October 2026)
           body: |
-            Automated prerelease containing the refreshed ClickGUI layout:
-            expanded search field, hidden category heading/count, disabled avatar hover strip,
-            and language/power controls centered at the bottom.
+            Automated prerelease with periodic forward-walking jumps in AutoWarden and AutoEnd.
+            Jumps are spaced randomly by about 1.6–4.6 seconds and are only triggered on the ground.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
