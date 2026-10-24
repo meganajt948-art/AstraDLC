@@ -1,0 +1,33 @@
+name: Build Alba Network demo
+
+on:
+  push:
+    branches: [alba-network-demo]
+    paths:
+      - "AlbaNetworkDemo/**"
+      - ".github/workflows/build-alba-network-demo.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Compile
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force out | Out-Null
+          javac -encoding UTF-8 -d out AlbaNetworkDemo/src/AlbaNetworkDemo.java
+          jar --create --file AlbaNetworkDemo.jar --main-class AlbaNetworkDemo -C out .
+      - name: Upload runnable JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlbaNetworkDemo-Windows-Java21
+          path: AlbaNetworkDemo.jar
+          if-no-files-found: error
