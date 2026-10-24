@@ -28,11 +28,65 @@ jobs:
         with:
           gradle-version: '9.2.1'
 
+      - name: Download original Flow JAR and Vineflower
+        run: |
+          curl -fL --retry 3 "https://github.com/meganajt948-art/AstraDLC/releases/download/release/flow.jar" -o flow.jar
+          test -s flow.jar
+          curl -fL --retry 3 "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.11.1/vineflower-1.11.1.jar" -o vineflower.jar
+          test -s vineflower.jar
+
+      - name: Decompile Flow with Vineflower
+        run: |
+          mkdir -p recovered-flow-vineflower
+          java -Xmx4g -jar vineflower.jar flow.jar recovered-flow-vineflower
+          find recovered-flow-vineflower -type f -name '*.java' | wc -l
+
+      - name: Replace only known broken decompiled classes
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="CortimDLC_sources_merged (1)/CortimDLC/src/main/java"
+          files=(
+            a/FabricAddonsBridge.java
+            a/SeeInvisible.java
+            a/SecurityGate.java
+            a/AutoMineController.java
+            a/Icon.java
+            a/TimedWidget.java
+            a/TimerTextParser.java
+            a/OnnxGraph.java
+            a/SurvivalScenarioTest.java
+            a/LegsTrainer.java
+            a/Hud.java
+            a/HandRendererHook.java
+            a/TotemSwap.java
+            a/MapWallUtil.java
+            a/ToggleRow.java
+            a/ItemsWidget.java
+            flow/cosmetic/Cosmetics.java
+            flow/Flow.java
+          )
+          for rel in "${files[@]}"; do
+            target="$root/$rel"
+            if [ ! -f "$target" ]; then
+              echo "::error::Expected source not found: $target"
+              exit 1
+            fi
+            source="$(find recovered-flow-vineflower -type f -path "*/$rel" -print -quit)"
+            if [ -z "$source" ]; then
+              echo "::error::Vineflower did not produce replacement for $rel"
+              exit 1
+            fi
+            cp "$source" "$target"
+            echo "Replaced $rel with Vineflower output"
+          done
+
       - name: Build Fabric mod
         working-directory: "CortimDLC_sources_merged (1)/CortimDLC"
         run: gradle --no-daemon clean build
 
       - name: Upload built mod JAR
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: AlbaDLC-camera-smoothing-test
@@ -41,6 +95,15 @@ jobs:
             !CortimDLC_sources_merged (1)/CortimDLC/build/libs/*-sources.jar
           if-no-files-found: error
           retention-days: 14
+
+      - name: Upload recovery sources for inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vineflower-recovery-candidates
+          path: recovered-flow-vineflower/
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Upload build diagnostics on failure
         if: failure()
