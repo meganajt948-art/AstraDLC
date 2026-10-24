@@ -3161,3 +3161,5 @@ sourceSets {
 // Build trigger: periodic walking jumps for AutoWarden and AutoEnd (24 October 2026).
 
 // Build trigger: AutoWarden and AutoEnd configured teleport commands plus periodic hops (24 October 2026).
+
+// Build trigger: ensure the command-fix release workflow runs with the updated release tag.
