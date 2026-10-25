@@ -3184,7 +3184,7 @@ sourceSets {
 
 // IAS is an external runtime mod already required by the recovered account-switcher screens.
 dependencies {
-    recoveredCompileOnly "maven.modrinth:cudtvDnd:MwO8YI2m"
+    recoveredModCompileOnly "maven.modrinth:cudtvDnd:MwO8YI2m"
 }
 
 // Build trigger: October 25 keep search clear of the header label; preserve bottom-left controls.
