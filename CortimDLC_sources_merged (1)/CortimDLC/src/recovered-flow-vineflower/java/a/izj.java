@@ -99,7 +99,8 @@ public final class izj extends jeq<izb> {
             PlayerInventory var19 = var0.getInventory();
             long var20 = System.nanoTime();
 
-            for (Entry<?, ?> var10 : var17.entrySet()) {
+            for (Object var10x : var17.entrySet()) {
+               Entry<?, ?> var10 = (Entry<?, ?>)var10x;
                if (var10.getKey() instanceof Identifier var11 && var10.getValue() != null) {
                   if (izk == null) {
                      RecordComponent[] var21 = var10.getValue().getClass().getRecordComponents();
