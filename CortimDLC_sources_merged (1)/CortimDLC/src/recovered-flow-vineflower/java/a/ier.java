@@ -31,7 +31,7 @@ final class ier extends imn {
    }
 
    void ifg() {
-      List var1 = this.iev.getModes();
+      List<String> var1 = this.iev.getModes();
       float var2 = 3.0F;
 
       for (String var4 : var1) {
@@ -75,7 +75,7 @@ final class ier extends imn {
    }
 
    void ifh(DrawContext var1, float var2, float var3, float var4) {
-      List var5 = this.iev.getModes();
+      List<String> var5 = this.iev.getModes();
       float var6 = this.ifa + 1.5F;
       float var7 = var6;
       float var8 = this.iff((String)var5.get(0));
