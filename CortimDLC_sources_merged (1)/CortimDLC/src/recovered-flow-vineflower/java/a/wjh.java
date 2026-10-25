@@ -35,7 +35,7 @@ final class wjh {
          return var3;
       }
 
-      Object var4 = wjk.get(var0);
+      SharedLibrary var4 = wjk.get(var0);
       if (var4 == null) {
          try {
             var4 = new WindowsLibrary(var0);
@@ -43,7 +43,7 @@ final class wjh {
             throw new IOException("can't load " + var0 + ": " + var7.getMessage());
          }
 
-         wjk.put(var0, (SharedLibrary)var4);
+         wjk.put(var0, var4);
       }
 
       long var5 = var4.getFunctionAddress(var1);
