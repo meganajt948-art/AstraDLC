@@ -55,7 +55,7 @@ final class ibf extends ijy {
    static List<iay> ice(vlg var0) {
       if (var0 != vlg.LOOT) {
          return ibn.computeIfAbsent(var0, var0x -> {
-            ArrayList var1x = new ArrayList();
+            ArrayList<iay> var1x = new ArrayList<>();
             if (var0x == vlg.MOBS) {
                for (EntityType var3x : Registries.ENTITY_TYPE) {
                   SpawnEggItem var4 = SpawnEggItem.forEntity(var3x);
