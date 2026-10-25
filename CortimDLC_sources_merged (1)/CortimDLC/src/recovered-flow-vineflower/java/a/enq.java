@@ -47,7 +47,7 @@ public final class enq {
                && eob(var3x.getAttachedBlockPos(), var3) == var5
                && var3x.getHeldItemStack().getItem() instanceof FilledMapItem
          );
-         List var7 = eoa(var6, var0);
+         List<ItemFrameEntity> var7 = eoa(var6, var0);
          if (var7.isEmpty()) {
             return null;
          }
@@ -56,7 +56,7 @@ public final class enq {
          int var9 = Integer.MIN_VALUE;
          int var10 = Integer.MAX_VALUE;
          int var11 = Integer.MIN_VALUE;
-         HashSet var12 = new HashSet();
+         HashSet<BlockPos> var12 = new HashSet<>();
 
          for (ItemFrameEntity var14 : var7) {
             BlockPos var15 = var14.getAttachedBlockPos();
@@ -131,13 +131,13 @@ public final class enq {
 
    public static List<List<ItemFrameEntity>> findWalls(World var0, Entity var1, double var2) {
       Vec3d var4 = var1.getEyePos();
-      List var5 = var0.getEntitiesByClass(
+      List<ItemFrameEntity> var5 = var0.getEntitiesByClass(
          ItemFrameEntity.class,
          var1.getBoundingBox().expand(var2),
          var1x -> var1x.getHorizontalFacing().getAxis() != Axis.Y && var1x.getHeldItemStack().getItem() instanceof FilledMapItem && enx(var1x, var4)
       );
       Vec3d var6 = var1.getRotationVec(1.0F);
-      List var7 = enz(var5);
+      List<List<ItemFrameEntity>> var7 = enz(var5);
       var7.removeIf(var0x -> var0x.size() < 2);
       var7.sort(Comparator.<List>comparingInt(var0x -> var0x.size() >= 4 ? 0 : 1).thenComparingDouble(var2x -> eny((List<ItemFrameEntity>)var2x, var4, var6)));
       return var7;
@@ -212,7 +212,7 @@ public final class enq {
    }
 
    static List<List<ItemFrameEntity>> enz(List<ItemFrameEntity> var0) {
-      HashMap var1 = new HashMap();
+      HashMap<Long, List<ItemFrameEntity>> var1 = new HashMap<>();
 
       for (ItemFrameEntity var3 : var0) {
          boolean var4 = var3.getHorizontalFacing().getAxis() == Axis.Z;
@@ -220,13 +220,13 @@ public final class enq {
          var1.computeIfAbsent(var5, var0x -> new ArrayList<>()).add(var3);
       }
 
-      ArrayList var7 = new ArrayList();
+      ArrayList<List<ItemFrameEntity>> var7 = new ArrayList<>();
 
-      for (List var9 : var1.values()) {
-         ArrayList var10 = new ArrayList(var9);
+      for (List<ItemFrameEntity> var9 : var1.values()) {
+         ArrayList<ItemFrameEntity> var10 = new ArrayList<>(var9);
 
          while (!var10.isEmpty()) {
-            List var6 = eoa(var10, (ItemFrameEntity)var10.get(0));
+            List<ItemFrameEntity> var6 = eoa(var10, var10.get(0));
             var10.removeAll(var6);
             var7.add(var6);
          }
