@@ -3141,6 +3141,8 @@ tasks.register("rebrandFlowNestedJar") {
 
 tasks.named("jar") {
     dependsOn("rebrandFlowNestedJar")
+    dependsOn("compileRecoveredJava")
+    from({ sourceSets.recovered.output })
     from(rebrandedNestedJar) {
         into("META-INF/jars")
         rename { "flow.jar" }
@@ -3161,9 +3163,10 @@ tasks.named("jar") {
  */
 sourceSets {
     main {
-        // Compile the Alba-owned implementation and the recovered Flow classes
-        // together. Keep only the unfinished legacy AutoWarden port excluded.
-        java.setSrcDirs(["src/main/java", "src/recovered-flow-vineflower/java"])
+        // Keep the existing Alba-owned source root filtered: src/main/java also
+        // contains older experimental package-a/flow copies that do not compile.
+        java.setSrcDirs(["src/main/java"])
+        java.include("dev/dj/cortim/**")
         java.exclude("dev/dj/cortim/module/AutoWarden.java")
     }
 }
