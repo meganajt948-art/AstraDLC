@@ -122,7 +122,7 @@ abstract class jeq<T> extends jcs {
    float jfj() {
       float var1 = Math.max(84.0F, 28.0F + izx.HEAD.width(wap.t(this.name)) + 22.0F);
 
-      for (jen var3 : this.jet) {
+      for (jen<T> var3 : this.jet) {
          if (var3.alive) {
             var1 = Math.max(var1, this.rowWidth(var3.item) + 14.0F);
          }
