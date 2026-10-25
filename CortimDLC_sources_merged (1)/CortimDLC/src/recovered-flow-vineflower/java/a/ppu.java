@@ -532,8 +532,8 @@ public final class ppu {
          Items.HEAVY_CORE,
          var0x -> var0x.is(Items.HEAVY_CORE) || var0x.named(a.c(-1450786264, "옝뾡㕰ꬆ₤ꘝ᰾闂"))
       );
-      ArrayList var0 = new ArrayList();
-      ArrayList var1 = new ArrayList();
+      ArrayList<String> var0 = new ArrayList<>();
+      ArrayList<String> var1 = new ArrayList<>();
 
       for (ppn var3 : ppv) {
          if (!var3.id.equals(a.b("皲༖藈ᮼ遱ᛞ겁╿묑㆙뙙䰯싳", -943360309)) && !var3.id.equals(a.c(564215680, "㿤䙙첈勿\ud912徔\ue5ca氿\uf265"))) {
