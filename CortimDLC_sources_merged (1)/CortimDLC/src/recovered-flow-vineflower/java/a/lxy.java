@@ -1470,7 +1470,7 @@ public class lxy extends kfe {
    static void mfd(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
       if (var0 != null && !var0.isEmpty()) {
          for (RegistryEntry<Enchantment> var3 : var0.getEnchantments()) {
-            String var4 = var3.getKey().map(var0x -> var0x.getValue().getPath()).orElse("");
+            String var4 = var3.getKey().map((RegistryKey<Enchantment> var0x) -> var0x.getValue().getPath()).orElse("");
             if (!var4.isEmpty()) {
                var1.put(var4, var0.getLevel(var3));
             }
