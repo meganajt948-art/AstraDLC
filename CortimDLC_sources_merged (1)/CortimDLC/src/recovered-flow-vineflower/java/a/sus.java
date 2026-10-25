@@ -86,7 +86,7 @@ public final class sus {
       suz.clear();
       double var2 = var1.range.get();
       Box var4 = var0.player.getBoundingBox().expand(var2, var2 * 0.6, var2);
-      List var5 = var0.world.getEntitiesByClass(ItemEntity.class, var4, var0x -> var0x.isAlive() && !var0x.getStack().isEmpty());
+      List<ItemEntity> var5 = var0.world.getEntitiesByClass(ItemEntity.class, var4, var0x -> var0x.isAlive() && !var0x.getStack().isEmpty());
       Vec3d var6 = var0.player.getEyePos();
       var5.sort(Comparator.comparingDouble(var1x -> var1x.squaredDistanceTo(var6)));
       boolean var7 = var1.merge.get();
