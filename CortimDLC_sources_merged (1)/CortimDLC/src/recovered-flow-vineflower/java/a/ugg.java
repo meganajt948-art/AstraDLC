@@ -43,9 +43,9 @@ public final class ugg {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       MinecraftClient var2 = MinecraftClient.getInstance();
-      List var3 = ucg.marks();
+      List<ubj> var3 = ucg.marks();
       if (!var3.isEmpty() && var2.world != null && var2.player != null && !var2.options.hudHidden) {
-         ArrayList var4 = new ArrayList();
+         ArrayList<ubj> var4 = new ArrayList<>();
 
          for (ubj var6 : var3) {
             if (ucg.visible(var6)) {
@@ -73,7 +73,7 @@ public final class ugg {
             long var10 = System.currentTimeMillis();
             float[] var12 = new float[2];
             float[] var13 = new float[2];
-            ArrayList var14 = new ArrayList();
+            ArrayList<Vec3d> var14 = new ArrayList<>();
 
             for (ubj var16 : var4) {
                var14.add(anchor(var16, var8));
@@ -97,8 +97,8 @@ public final class ugg {
 
             for (int var18 = 0; var18 < var17; var18++) {
                int var19 = var51[var18];
-               ubj var20 = (ubj)var4.get(var19);
-               Vec3d var21 = (Vec3d)var14.get(var19);
+               ubj var20 = var4.get(var19);
+               Vec3d var21 = var14.get(var19);
                ugd var22 = ugq.computeIfAbsent(var20, var0x -> new ugd());
                float var23 = var20.age(var10);
                float var24 = (float)(var20.life - (var10 - var20.born)) / 1000.0F;
