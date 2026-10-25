@@ -1066,7 +1066,7 @@ extends class_437 {
     }
 
     private float hqt() {
-        return 4.0f;
+        return 225.0f;
     }
 
     private float hqu() {
@@ -1074,7 +1074,7 @@ extends class_437 {
     }
 
     private float hqv() {
-        return 386.0f;
+        return 377.0f;
     }
 
     private String hqw(hkv hkv2, float f, float f2) {
