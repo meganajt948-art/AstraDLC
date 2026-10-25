@@ -570,7 +570,7 @@ public final class qsw {
 
       for (Entity var18 : var1 instanceof ClientWorld var17 ? var17.getEntities() : List.of()) {
          if (var18 != var2 && var18.getBlockPos().isWithinDistance(var3, 24.0)) {
-            List var20 = pzw.lines(var18);
+            List<String> var20 = pzw.lines(var18);
             if (!var20.isEmpty()) {
                String var21 = role(String.join(a.c(838377754, "ꄻ"), var20));
                if (var21 != null) {
@@ -865,7 +865,7 @@ public final class qsw {
    static Vec3d qvk(World var0, ClientPlayerEntity var1, BlockPos var2) {
       Vec3d var3 = var1.getEyePos();
       Vec3d var4 = var1.getRotationVec(1.0F);
-      ArrayList var5 = new ArrayList();
+      ArrayList<Vec3d> var5 = new ArrayList<>();
       var5.add(qvl(var1, var2));
       Vec3d var6 = Vec3d.ofCenter(var2);
 
