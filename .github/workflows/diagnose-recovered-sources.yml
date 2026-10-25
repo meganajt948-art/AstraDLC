@@ -38,4 +38,4 @@ jobs:
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle compileRecoveredJava --no-daemon --stacktrace
 
-# Diagnostic retrigger for the latest regenerated sources using the narrow switch normalizer.
+# Compile check after safe parser-based normalization of dynamic switch labels.
