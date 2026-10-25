@@ -29,7 +29,9 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
@@ -1319,8 +1321,8 @@ public class nmg extends kfe {
    int nta(List<ItemStack> var1, ItemStack var2, int var3) {
       int var4 = Math.max(0, var1.size() - 36);
       String var5 = nto(this.mc.player.getGameProfile().name());
-      Map var6 = ntk(var2);
-      ArrayList var7 = new ArrayList();
+      Map<String, Integer> var6 = ntk(var2);
+      ArrayList<Integer> var7 = new ArrayList<>();
 
       for (int var8 = 0; var8 < var4; var8++) {
          ItemStack var9 = (ItemStack)var1.get(var8);
@@ -1512,8 +1514,8 @@ public class nmg extends kfe {
 
    static void ntl(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
       if (var0 != null && !var0.isEmpty()) {
-         for (RegistryEntry var3 : var0.getEnchantments()) {
-            String var4 = var3.getKey().map(var0x -> var0x.getValue().getPath()).orElse("");
+         for (RegistryEntry<Enchantment> var3 : var0.getEnchantments()) {
+            String var4 = var3.getKey().map((RegistryKey<Enchantment> var0x) -> var0x.getValue().getPath()).orElse("");
             if (!var4.isEmpty()) {
                var1.put(var4, var0.getLevel(var3));
             }
