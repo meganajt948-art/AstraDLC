@@ -411,7 +411,7 @@ public class oxw extends kfe {
    void paf(final MinecraftClient var1, int var2) {
       ClientPlayerEntity var3 = var1.player;
       if (var3 != null && var1.currentScreen == null) {
-         final ArrayList var4 = new ArrayList();
+         final ArrayList<oxf> var4 = new ArrayList<>();
 
          for (oxf var6 : this.oyg) {
             if (var6.potion() && this.pad(var6) && pag(var3, var6) > 0) {
