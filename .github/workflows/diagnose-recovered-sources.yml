@@ -6,6 +6,8 @@ on:
     branches:
       - fix/alba-standalone-source-recovery
     paths:
+      - '.github/workflows/diagnose-recovered-sources.yml'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/build.gradle'
       - 'CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower/java/**'
 
 permissions:
