@@ -51,7 +51,7 @@ public final class vjs {
             a.d("\uf3dc詧·點ᕐ鎉⧰ꀂ㹅", -124783787, -1098252058),
             a.c(1801729254, "㒊䴱쟡妈툆哉\ueeab杕懶玶")
          };
-         ArrayList var1 = new ArrayList();
+         ArrayList<Class<?>> var1 = new ArrayList<>();
 
          for (String var5 : var0) {
             try {
@@ -60,9 +60,9 @@ public final class vjs {
             }
          }
 
-         LinkedHashMap var14 = new LinkedHashMap();
+         LinkedHashMap<Class<?>, byte[]> var14 = new LinkedHashMap<>();
 
-         for (Class var17 : var1) {
+         for (Class<?> var17 : var1) {
             try {
                var14.put(var17, vki(var17));
             } catch (Throwable var9) {
@@ -76,7 +76,7 @@ public final class vjs {
          } catch (Throwable var8) {
          }
 
-         HashSet var16 = new HashSet();
+         HashSet<String> var16 = new HashSet<>();
 
          try {
             for (Thread var20 : Thread.getAllStackTraces().keySet()) {
@@ -90,7 +90,7 @@ public final class vjs {
          vka = var16;
 
          try {
-            List var19 = ManagementFactory.getRuntimeMXBean().getInputArguments();
+            List<String> var19 = ManagementFactory.getRuntimeMXBean().getInputArguments();
             vkb = new HashSet<>(var19);
          } catch (Throwable var7) {
          }
@@ -108,9 +108,9 @@ public final class vjs {
             vkc = var0 + (var2 < 60000000000L ? 100000000L : 2000000000L);
 
             try {
-               Map var4 = vjy;
+               Map<Class<?>, byte[]> var4 = vjy;
                if (var4 != null) {
-                  for (Entry var6 : var4.entrySet()) {
+                  for (Entry<Class<?>, byte[]> var6 : var4.entrySet()) {
                      byte[] var7 = vki((Class<?>)var6.getKey());
                      if (!vkj(var7, (byte[])var6.getValue())) {
                         vkk(a.b("婘⏡ꤣ㝎벞㨤耳\u0991韔ᵫ髿惍\uee11瞩ﷵ笍셀从푧", 1607096870) + ((Class)var6.getKey()).getName());
@@ -141,7 +141,7 @@ public final class vjs {
                   a.d("훳꽉▟믲", -145154152, 1462749445),
                   a.b("熒࠭芷\u1c8c靉ᇤ", 1936486910)
                };
-               Map var26 = Thread.getAllStackTraces();
+               Map<Thread, StackTraceElement[]> var26 = Thread.getAllStackTraces();
 
                for (Thread var8 : var26.keySet()) {
                   String var9 = var8 == null ? null : var8.getName();
@@ -181,7 +181,7 @@ public final class vjs {
                   a.c(-532209265, "⇬塕틍䳱윪䆘﯂爯\uec27曊\ue10e᭹閬చ")
                };
 
-               for (Entry var34 : var26.entrySet()) {
+               for (Entry<Thread, StackTraceElement[]> var34 : var26.entrySet()) {
                   StackTraceElement[] var35 = (StackTraceElement[])var34.getValue();
                   if (var35 != null) {
                      for (StackTraceElement var15 : var35) {
