@@ -1,0 +1,43 @@
+package a;
+
+record fot(String name, int ticks, boolean jump, double aggression, boolean botJumps, float aim) {
+   private final String fou;
+   private final int fov;
+   private final boolean fow;
+   private final double fox;
+   private final boolean foy;
+   private final float foz;
+
+   private fot(String name, int ticks, boolean jump, double aggression, boolean botJumps, float aim) {
+      this.fou = name;
+      this.fov = ticks;
+      this.fow = jump;
+      this.fox = aggression;
+      this.foy = botJumps;
+      this.foz = aim;
+   }
+
+   public String name() {
+      return this.fou;
+   }
+
+   public int ticks() {
+      return this.fov;
+   }
+
+   public boolean jump() {
+      return this.fow;
+   }
+
+   public double aggression() {
+      return this.fox;
+   }
+
+   public boolean botJumps() {
+      return this.foy;
+   }
+
+   public float aim() {
+      return this.foz;
+   }
+}
