@@ -21,14 +21,14 @@ public final class trs {
       Random var5 = new Random(var2);
       int var6 = var0.n;
       boolean[] var7 = new boolean[var6];
-      HashMap var8 = new HashMap();
+      HashMap<Integer, Boolean> var8 = new HashMap<>();
 
       for (int var9 = 0; var9 < var6; var9++) {
          var7[var9] = var8.computeIfAbsent(var0.block[var9], var1x -> var5.nextDouble() < 0.15);
       }
 
-      ArrayList var45 = new ArrayList();
-      ArrayList var10 = new ArrayList();
+      ArrayList<Integer> var45 = new ArrayList<>();
+      ArrayList<Integer> var10 = new ArrayList<>();
 
       for (int var11 = 0; var11 < var6; var11++) {
          (var7[var11] ? var10 : var45).add(var11);
