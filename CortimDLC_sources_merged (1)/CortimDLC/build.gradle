@@ -3176,7 +3176,7 @@ sourceSets {
  */
 sourceSets {
     recovered {
-        java.setSrcDirs(["src/recovered-flow-vineflower/java"])
+        java.setSrcDirs(["src/recovered-flow-cfr/java"])
         compileClasspath += sourceSets.main.compileClasspath
     }
 }
