@@ -40,7 +40,7 @@ public final class gsk {
 
    public static void report(String var0) {
       if (ON) {
-         ArrayList var1 = new ArrayList<>(gsl.entrySet());
+         ArrayList<Map.Entry<String, long[]>> var1 = new ArrayList<>(gsl.entrySet());
          var1.sort((var0x, var1x) -> Long.compare(((long[])var1x.getValue())[0], ((long[])var0x.getValue())[0]));
          long var2 = Math.max(1L, gsm);
          double var4 = 0.0;
@@ -48,7 +48,7 @@ public final class gsk {
             a.b("鈘\uebab慥＝璌", -1508208019) + var0 + a.b("턖ꢯ", 1367396660) + gsm + a.d("徜♫견㋎뤕㾬藩ే鈔ᣰ鼥攈\ueb96爳\uf873纎쓉䭔퇴", 1109548860, 809959571)
          );
 
-         for (Entry var8 : var1) {
+         for (Map.Entry<String, long[]> var8 : var1) {
             double var9 = ((long[])var8.getValue())[0] / 1000.0 / var2;
             var4 += var9;
             if (var9 >= 1.0) {
