@@ -43,7 +43,7 @@ public final class pdi {
    public static synchronized long nextFree(int var0, int var1, long var2) {
       pdq(var0, var2);
       int var4 = limit(var1);
-      ArrayDeque var5 = pdl[var0];
+      ArrayDeque<Long> var5 = pdl[var0];
       if (var5.size() < var4) {
          return var2;
       }
@@ -73,7 +73,7 @@ public final class pdi {
    }
 
    static void pdq(int var0, long var1) {
-      ArrayDeque var3 = pdl[var0];
+      ArrayDeque<Long> var3 = pdl[var0];
 
       while (!var3.isEmpty() && var1 - var3.peekFirst() > 60000L) {
          var3.pollFirst();
