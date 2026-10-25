@@ -284,12 +284,12 @@ public final class syq {
    }
 
    public static double instantShare(List<tmh> var0) {
-      List var1 = szk.track(var0, false).reactions;
+      List<Integer> var1 = szk.track(var0, false).reactions;
       return var1.isEmpty() ? Double.NaN : (double)var1.stream().filter(var0x -> var0x == 0).count() / var1.size();
    }
 
    public static double medianReaction(List<tmh> var0) {
-      ArrayList var1 = new ArrayList<>(szk.track(var0, false).reactions);
+      ArrayList<Integer> var1 = new ArrayList<>(szk.track(var0, false).reactions);
       var1.removeIf(var0x -> var0x == 0);
       if (var1.isEmpty()) {
          return Double.NaN;
