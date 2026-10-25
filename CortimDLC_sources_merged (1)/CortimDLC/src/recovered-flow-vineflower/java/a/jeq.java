@@ -81,26 +81,26 @@ abstract class jeq<T> extends jcs {
 
       this.jev.clear();
 
-      for (jen var5 : this.jet) {
+      for (jen<T> var5 : this.jet) {
          this.jev.put(var5.key, var5);
       }
 
-      List var8 = this.jeu;
+      List<jen<T>> var8 = this.jeu;
       var8.clear();
 
-      for (Object var6 : var3) {
-         jen var7 = this.jev.remove(this.key((T)var6));
+      for (T var6 : var3) {
+         jen<T> var7 = this.jev.remove(this.key(var6));
          if (var7 == null) {
-            var7 = new jen(this.key((T)var6));
+            var7 = new jen<>(this.key(var6));
          }
 
-         var7.item = (T)var6;
+         var7.item = var6;
          var7.alive = true;
          var8.add(var7);
       }
 
       for (int var10 = 0; var10 < this.jet.size(); var10++) {
-         jen var12 = this.jet.get(var10);
+         jen<T> var12 = this.jet.get(var10);
          if (this.jev.containsKey(var12.key)) {
             var12.alive = false;
             var8.add(Math.min(var10, var8.size()), var12);
