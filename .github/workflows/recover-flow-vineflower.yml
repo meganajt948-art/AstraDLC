@@ -92,6 +92,7 @@ jobs:
           root = Path("recovered-flow-vineflower")
           record_re = re.compile(r"\brecord\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:<[^{};]+>\s*)?\(")
           converted = 0
+          widened_members = 0
           for file in root.rglob("*.java"):
               source = file.read_text(encoding="utf-8")
               cursor = 0
@@ -135,9 +136,18 @@ jobs:
                   cursor = match.start() + len("final class " + class_name)
                   converted += 1
                   changed = True
+              if file.parent.name == "a":
+                  # The obfuscator flattened nestmate/bridge access into separate top-level
+                  # source files. Package-private access restores the access allowed by the
+                  # original nestmate bytecode and keeps the recovered implementation usable.
+                  source, access_count = re.subn(r"(?m)^(\\s*)private\\s+", r"\\1", source)
+                  if access_count:
+                      widened_members += access_count
+                      changed = True
               if changed:
                   file.write_text(source, encoding="utf-8")
           print("Normalized record declarations with duplicate component fields:", converted)
+          print("Widened private members in obfuscated package a:", widened_members)
           PY
 
       - name: Stage recovered Java sources in project
