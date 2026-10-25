@@ -376,11 +376,15 @@ public final class jte extends Screen {
    }
 
    float jwl() {
-      return switch (kbm.POSITION.get()) {
-         case a.c(51235075, "쥋냓㨃ꑠ") -> 34.0F;
-         case a.b("\ue4dc鵖ឋ觵Ⱦ", -655104885) -> this.jve - 34.0F - 138.0F;
-         default -> (this.jve - 138.0F) * 0.5F;
-      };
+      if (kbm.POSITION.get().equals(a.c(51235075, "쥋냓㨃ꑠ"))) {
+         return 34.0F;
+      }
+      else if (kbm.POSITION.get().equals(a.b("\ue4dc鵖ឋ觵Ⱦ", -655104885))) {
+         return this.jve - 34.0F - 138.0F;
+      }
+      else {
+         return (this.jve - 138.0F) * 0.5F;
+      }
    }
 
    void jwm(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, boolean var7) {

@@ -625,17 +625,27 @@ public final class tcz {
 
             tmk var3 = var1.trainerConfig();
 
-            byte var4 = switch (var1.quality()) {
-               case a.d("柢Ṵ钵ૃ", -972900777, 1908527607) -> 25;
-               case a.d("쒜봁㟋", -16719540, 1874404766) -> 70;
-               default -> 45;
-            };
+            byte var4;
+            if (var1.quality().equals(a.d("柢Ṵ钵ૃ", -972900777, 1908527607))) {
+               var4 = 25;
+            }
+            else if (var1.quality().equals(a.d("쒜봁㟋", -16719540, 1874404766))) {
+               var4 = 70;
+            }
+            else {
+               var4 = 45;
+            }
 
-            byte var10 = switch (var1.quality()) {
-               case a.b("듪쵼䞽\ud9cb", 957854888) -> 12;
-               case a.d("솺렧㋭", 1372135260, 1138679464) -> 30;
-               default -> 20;
-            };
+            byte var10;
+            if (var1.quality().equals(a.b("듪쵼䞽\ud9cb", 957854888))) {
+               var10 = 12;
+            }
+            else if (var1.quality().equals(a.d("솺렧㋭", 1372135260, 1138679464))) {
+               var10 = 30;
+            }
+            else {
+               var10 = 20;
+            }
             ttb var12 = tvf.run(var2x, var3, var4, var10, var1.mineBoost(), var0.progress);
             var1.saveMineModel(var12);
             var1.set(a.b("鹿胵ਡ鑛ῇ餬⍹ꪛ㓌빺㦢쏒", 738326817), var12.created);
@@ -669,17 +679,27 @@ public final class tcz {
             if (var2x.isEmpty()) {
                throw new tmt(a.b("\ufdc8葸ສ郐", 1642266018));
             }
-            byte var3 = switch (var1.size()) {
-               case a.d("堔↛ꭄ㔸뻯", -339022630, 1401926808) -> 48;
-               case a.c(-883173187, "\ud8f4ꅨ⮨뗌㸙") -> 96;
-               default -> 64;
-            };
+            byte var3;
+            if (var1.size().equals(a.d("堔↛ꭄ㔸뻯", -339022630, 1401926808))) {
+               var3 = 48;
+            }
+            else if (var1.size().equals(a.c(-883173187, "\ud8f4ꅨ⮨뗌㸙"))) {
+               var3 = 96;
+            }
+            else {
+               var3 = 64;
+            }
 
-            byte var9 = switch (var1.quality()) {
-               case a.d("煯ࣹ舸ᱎ", -484582252, -164319815) -> 25;
-               case a.d("➃帞퓔", -1531697587, 246546816) -> 70;
-               default -> 45;
-            };
+            byte var9;
+            if (var1.quality().equals(a.d("煯ࣹ舸ᱎ", -484582252, -164319815))) {
+               var9 = 25;
+            }
+            else if (var1.quality().equals(a.d("➃帞퓔", -1531697587, 246546816))) {
+               var9 = 70;
+            }
+            else {
+               var9 = 45;
+            }
             txs var11 = tzy.run(var2x, var3, var9, System.nanoTime(), var1.mirror(), var0.progress);
             var1.saveWalkModel(var11);
             var1.set(a.b("Ṧ柁\ued1f獩\uf8fb縐쑅䶧폰奆\ude9e⓮", 549002781), var11.created);

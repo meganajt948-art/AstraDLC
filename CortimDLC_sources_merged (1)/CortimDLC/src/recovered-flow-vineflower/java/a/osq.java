@@ -215,11 +215,15 @@ public class osq extends kfe {
       Comparator var2 = Comparator.comparingInt(ItemStack::getCount).reversed();
       Comparator var3 = Comparator.comparingInt(var0 -> Registries.ITEM.getRawId(var0.getItem()));
 
-      return switch (this.ost.get()) {
-         case a.b("듈쵖䞉\ud9f0", 3257474) -> var1.thenComparing(var3).thenComparing(var2);
-         case a.d("췫둶㺿ꃕ⬘", 1243335245, 327813088) -> var2.thenComparing(var1);
-         default -> Comparator.comparingInt(osq::otm).thenComparing(var3).thenComparing(var1).thenComparing(var2);
-      };
+      if (this.ost.get().equals(a.b("듈쵖䞉\ud9f0", 3257474))) {
+         return var1.thenComparing(var3).thenComparing(var2);
+      }
+      else if (this.ost.get().equals(a.d("췫둶㺿ꃕ⬘", 1243335245, 327813088))) {
+         return var2.thenComparing(var1);
+      }
+      else {
+         return Comparator.comparingInt(osq::otm).thenComparing(var3).thenComparing(var1).thenComparing(var2);
+      }
    }
 
    static int otm(ItemStack var0) {

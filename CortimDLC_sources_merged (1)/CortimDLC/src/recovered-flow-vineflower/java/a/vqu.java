@@ -19,15 +19,27 @@ final class vqu {
    }
 
    static float[] cue(String var0) {
-      return switch (var0) {
-         case a.c(1884096091, "؏羇\uf553欫") -> vqx();
-         case a.d("뚀켔䗈\udbb0健훃", 1249258774, -491021356) -> vqy();
-         case a.d("㩤䏶줩坐", 1016052259, 39026703) -> vqz();
-         case a.d("\uf053觙̔鵼ᚬ途", 1848366372, 425403684) -> vra();
-         case a.c(-1997893113, "鉈\uebde愕ｻ璱\uf211") -> vrb();
-         case a.b("ྲྀ盢ﰷ扁", 233443128) -> vrc();
-         default -> null;
-      };
+      if (var0.equals(a.c(1884096091, "؏羇\uf553欫"))) {
+         return vqx();
+      }
+      else if (var0.equals(a.d("뚀켔䗈\udbb0健훃", 1249258774, -491021356))) {
+         return vqy();
+      }
+      else if (var0.equals(a.d("㩤䏶줩坐", 1016052259, 39026703))) {
+         return vqz();
+      }
+      else if (var0.equals(a.d("\uf053觙̔鵼ᚬ途", 1848366372, 425403684))) {
+         return vra();
+      }
+      else if (var0.equals(a.c(-1997893113, "鉈\uebde愕ｻ璱\uf211"))) {
+         return vrb();
+      }
+      else if (var0.equals(a.b("ྲྀ盢ﰷ扁", 233443128))) {
+         return vrc();
+      }
+      else {
+         return null;
+      }
    }
 
    static float[] vqx() {

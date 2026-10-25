@@ -431,11 +431,16 @@ public class kwf extends kfe {
          if (kyj(var3, var14, var4)) {
             double var15 = kyk(var8, var3, var14);
             if (!(var15 > var6)) {
-               double var17 = switch (this.kws.get()) {
-                  case a.b("慍ᣑ鈘౮螬Ē뭌㊻", -1419878143) -> var14.getBoundingBox().squaredMagnitude(var3);
-                  case a.b("腇\uf8db爌\uec70枿\ue112", -1496088311) -> var14 instanceof LivingEntity var21 ? kyi(var21) : 100.0;
-                  default -> var15;
-               };
+               double var17;
+               if (this.kws.get().equals(a.b("慍ᣑ鈘౮螬Ē뭌㊻", -1419878143))) {
+                  var17 = var14.getBoundingBox().squaredMagnitude(var3);
+               }
+               else if (this.kws.get().equals(a.b("腇\uf8db爌\uec70枿\ue112", -1496088311))) {
+                  var17 = var14 instanceof LivingEntity var21 ? kyi(var21) : 100.0;
+               }
+               else {
+                  var17 = var15;
+               }
                if (var17 < var11) {
                   var11 = var17;
                   var10 = var14;
@@ -488,11 +493,17 @@ public class kwf extends kfe {
    }
 
    boolean kym(ItemStack var1) {
-      return switch (this.kwr.get()) {
-         case a.b("\uf656迈Ԍ", 407696916) -> true;
-         case a.d("䝻㻮됥⩉ꆈ✮", -149477138, -786141248) -> var1.isIn(ItemTags.SWORDS);
-         case a.c(-615311786, "ᘓ澛\ue555笲") -> var1.isIn(ItemTags.AXES);
-         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
-      };
+      if (this.kwr.get().equals(a.b("\uf656迈Ԍ", 407696916))) {
+         return true;
+      }
+      else if (this.kwr.get().equals(a.d("䝻㻮됥⩉ꆈ✮", -149477138, -786141248))) {
+         return var1.isIn(ItemTags.SWORDS);
+      }
+      else if (this.kwr.get().equals(a.c(-615311786, "ᘓ澛\ue555笲"))) {
+         return var1.isIn(ItemTags.AXES);
+      }
+      else {
+         return var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
+      }
    }
 }

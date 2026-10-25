@@ -592,27 +592,39 @@ public final class tiq {
    }
 
    public int needSamples() {
-      return switch (this.size()) {
-         case a.c(1981057923, "试\uf25a碅\ue6f9洮") -> 3000;
-         case a.b("荦\ufafa瀺\uee5e斋", -225541329) -> 10000;
-         default -> 6000;
-      };
+      if (this.size().equals(a.c(1981057923, "试\uf25a碅\ue6f9洮"))) {
+         return 3000;
+      }
+      else if (this.size().equals(a.b("荦\ufafa瀺\uee5e斋", -225541329))) {
+         return 10000;
+      }
+      else {
+         return 6000;
+      }
    }
 
    public int needFlicks() {
-      return switch (this.size()) {
-         case a.d("喚Ⱅꛊ㢶덡", 1381759222, -210064070) -> 60;
-         case a.d("\ue6ad鼱ᗱ讕@", -1644740379, -913463807) -> 200;
-         default -> 120;
-      };
+      if (this.size().equals(a.d("喚Ⱅꛊ㢶덡", 1381759222, -210064070))) {
+         return 60;
+      }
+      else if (this.size().equals(a.d("\ue6ad鼱ᗱ讕@", -1644740379, -913463807))) {
+         return 200;
+      }
+      else {
+         return 120;
+      }
    }
 
    public int needTracking() {
-      return switch (this.size()) {
-         case a.c(-788209363, "\ue17b飴ራ豗ހ") -> 1000;
-         case a.d("廮❲궲㏖렃", -387769901, 609634164) -> 3500;
-         default -> 2000;
-      };
+      if (this.size().equals(a.c(-788209363, "\ue17b飴ራ豗ހ"))) {
+         return 1000;
+      }
+      else if (this.size().equals(a.d("廮❲궲㏖렃", -387769901, 609634164))) {
+         return 3500;
+      }
+      else {
+         return 2000;
+      }
    }
 
    public void saveModel(tck var1, boolean var2) throws IOException {
