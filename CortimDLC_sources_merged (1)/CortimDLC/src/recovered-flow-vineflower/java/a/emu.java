@@ -181,7 +181,7 @@ public final class emu {
 
       for (emi var5 : this.enc) {
          if (var2.world != null) {
-            Optional var6 = var2.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(var5.key());
+            Optional<RegistryEntry<Enchantment>> var6 = var2.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(var5.key());
             int var7 = var6.map(var3::getLevel).orElse(0);
             int var8 = var5.level() == 0 ? 1 : var5.level();
             if (!var5.deny()) {
