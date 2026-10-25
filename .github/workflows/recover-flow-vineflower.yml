@@ -77,7 +77,7 @@ jobs:
             exit 1
           fi
           echo "Checking direct intermediary member references:"
-          residual="$(grep -R -n -E '\\.method_[0-9]+\\(|\\.field_[0-9]+' recovered-flow-cfr --include='*.java' | head -n 20 || true)"
+          residual="$(grep -R -n -E '\.method_[0-9]+\(|\.field_[0-9]+' recovered-flow-cfr --include='*.java' | head -n 20 || true)"
           if [ -n "$residual" ]; then
             printf '%s\n' "$residual"
             echo "Unmapped intermediary member references remain."
