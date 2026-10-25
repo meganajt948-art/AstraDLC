@@ -211,9 +211,9 @@ public class osq extends kfe {
    }
 
    Comparator<ItemStack> otl() {
-      Comparator var1 = Comparator.comparing(var0 -> var0.getName().getString().toLowerCase(Locale.ROOT));
-      Comparator var2 = Comparator.comparingInt(ItemStack::getCount).reversed();
-      Comparator var3 = Comparator.comparingInt(var0 -> Registries.ITEM.getRawId(var0.getItem()));
+      Comparator<ItemStack> var1 = Comparator.comparing((ItemStack var0) -> var0.getName().getString().toLowerCase(Locale.ROOT));
+      Comparator<ItemStack> var2 = Comparator.comparingInt(ItemStack::getCount).reversed();
+      Comparator<ItemStack> var3 = Comparator.comparingInt((ItemStack var0) -> Registries.ITEM.getRawId(var0.getItem()));
 
             if (java.util.Objects.equals(this.ost.get(), a.b("듈쵖䞉\ud9f0", 3257474))) {
          return var1.thenComparing(var3).thenComparing(var2);
