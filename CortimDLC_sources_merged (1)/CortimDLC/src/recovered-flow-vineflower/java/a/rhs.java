@@ -213,7 +213,7 @@ public class rhs extends kfe {
    }
 
    List<LivingEntity> ris(MinecraftClient var1, Vec3d var2, double var3) {
-      ArrayList var5 = new ArrayList();
+      ArrayList<LivingEntity> var5 = new ArrayList<>();
       double var6 = var3 * var3;
 
       for (Entity var9 : var1.world.getEntities()) {
@@ -234,7 +234,7 @@ public class rhs extends kfe {
          List var4 = var1.ris(var2, var3, var1.rhz.get());
          if (!var4.isEmpty()) {
             ukl.style(4).set((float)var1.ric.get(), (float)var1.ria.get(), (float)var1.rib.get(), (float)var1.rid.get(), 0.4F, 0.6F);
-            IdentityHashMap var5 = new IdentityHashMap();
+            IdentityHashMap<EntityType<?>, List<LivingEntityRenderState>> var5 = new IdentityHashMap<>();
 
             for (EntityRenderState var7 : var0.entityRenderStates) {
                if (var7 instanceof LivingEntityRenderState var8 && !(var7 instanceof PlayerEntityRenderState) && var7.entityType != null) {
@@ -243,10 +243,10 @@ public class rhs extends kfe {
             }
 
             float var25 = var2.getRenderTickCounter().getTickProgress(true);
-            IdentityHashMap var26 = new IdentityHashMap();
+            IdentityHashMap<LivingEntityRenderState, Boolean> var26 = new IdentityHashMap<>();
 
             for (LivingEntity var9 : var4) {
-               List var10 = (List)var5.get(var9.getType());
+               List<LivingEntityRenderState> var10 = var5.get(var9.getType());
                if (var10 != null) {
                   Vec3d var11 = var9.getLerpedPos(var25);
                   LivingEntityRenderState var12 = null;
