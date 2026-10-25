@@ -278,8 +278,8 @@ final class ild extends imn {
          return this.hovered(var2, var3);
       }
 
-      List var5 = ilq();
-      List var6 = ilr();
+      List<ubg> var5 = ilq();
+      List<ubm> var6 = ilr();
       int var7 = 0;
 
       for (ubg var9 : List.copyOf(var5)) {
