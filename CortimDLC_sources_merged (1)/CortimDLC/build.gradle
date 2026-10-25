@@ -3162,6 +3162,10 @@ sourceSets {
     main {
         java.setSrcDirs(["src/main/java"])
         java.include("dev/dj/cortim/**")
+        // This abandoned experimental port is disabled in Cortim.java and depends
+        // on unmapped/intermediary Flow classes; the recovered Flow tree is handled
+        // as a separate migration step.
+        java.exclude("dev/dj/cortim/module/AutoWarden.java")
     }
 }
 
