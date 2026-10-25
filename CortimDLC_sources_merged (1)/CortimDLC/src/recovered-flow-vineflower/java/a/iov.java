@@ -419,7 +419,7 @@ public final class iov {
    }
 
    static String[] iqa() {
-      ArrayList var0 = new ArrayList();
+      ArrayList<String> var0 = new ArrayList<>();
 
       for (iom var4 : PRESETS) {
          var0.add(var4.ion);
