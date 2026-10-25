@@ -332,7 +332,7 @@ public final class psf {
          }
       }
 
-      ArrayList var30 = new ArrayList(var27);
+      ArrayList<double[]> var30 = new ArrayList<>(var27);
 
       for (int var31 = 0; var31 < var27; var31++) {
          double[] var33 = var31 != 0 && var31 != var27 - 1 ? psq(var5, var31, var28[var31]) : (double[])var5.get(var31);
