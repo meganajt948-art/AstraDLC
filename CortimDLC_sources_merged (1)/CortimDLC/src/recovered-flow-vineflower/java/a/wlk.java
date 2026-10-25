@@ -62,7 +62,7 @@ public final class wlk {
       wlu();
       String var0 = worldId();
       String var1 = dimensionId();
-      ArrayList var2 = new ArrayList();
+      ArrayList<wkq> var2 = new ArrayList<>();
       if (var0 != null && var1 != null) {
          for (wkq var4 : wln) {
             if (var4.visible && var0.equals(var4.world)) {
@@ -208,7 +208,7 @@ public final class wlk {
          String var0 = ewk.get(a.c(1204147723, "홵꿒┙뭡ォ똞ొ薡\u1bf9"));
          if (var0 != null && !var0.isBlank()) {
             try {
-               List var1 = (List)wlm.fromJson(var0, (new TypeToken<List<wkq>>() {}).getType());
+               List<wkq> var1 = (List<wkq>)wlm.fromJson(var0, (new TypeToken<List<wkq>>() {}).getType());
                if (var1 != null) {
                   for (wkq var3 : var1) {
                      if (var3 != null && var3.name != null) {
