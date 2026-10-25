@@ -55,8 +55,6 @@ public final class sle {
             }
          }
 
-         ArrayList<Raw> var4 = new ArrayList<>();
-
          final class Raw {
             final long sks;
             final String skt;
@@ -80,6 +78,8 @@ public final class sle {
                return this.sku;
             }
          }
+
+         ArrayList<Raw> var4 = new ArrayList<>();
 
          for (String var8 : var0.split("\r?\n")) {
             Matcher var9 = slf.matcher(var8);
