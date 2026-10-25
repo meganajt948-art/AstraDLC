@@ -341,7 +341,7 @@ public final class qnd {
 
    public qmx best(Vec3d var1, Vec3d var2, LongSet var3, LongSet var4) {
       double[] var5 = new double[this.qnl];
-      ArrayList var6 = new ArrayList();
+      ArrayList<Integer> var6 = new ArrayList<>();
 
       for (int var7 = 0; var7 < this.qnl; var7++) {
          int var8 = this.qnj[var7];
