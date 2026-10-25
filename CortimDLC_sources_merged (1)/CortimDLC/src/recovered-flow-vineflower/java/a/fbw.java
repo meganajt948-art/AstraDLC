@@ -335,7 +335,7 @@ final class fbw {
    static void fdm() {
       fdl();
       tiq var0 = tiq.open(fbx);
-      ArrayList var1 = new ArrayList();
+      ArrayList<tmh> var1 = new ArrayList<>();
       if (var0 != null) {
          var1.addAll(var0.tapes());
       }
