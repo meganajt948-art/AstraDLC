@@ -890,10 +890,10 @@ public final class iov {
    }
 
    static String wallpaperOf(String var0) {
-            if (java.util.Objects.equals(var0, a.c(1967915595) || java.util.Objects.equals(var0, "ȇ箜\uf14c漥\ue4a5扶\ud80b凷쾪䔓"))) {
+            if (java.util.Objects.equals(var0, a.c(1967915595, "ȇ箜\uf14c漥\ue4a5扶\ud80b凷쾪䔓"))) {
          return a.b("䪍㌣맽➍걐⪴邻᥀蜜ඵ証瀄ﻖ杴\ued3e", 1113541364);
       }
-      else if (java.util.Objects.equals(var0, a.d("箳Ȩ裸ᚑ鴑ᯗꆻ⡋똉㲩") || java.util.Objects.equals(var0, 106724394) || java.util.Objects.equals(var0, -1651636267))) {
+      else if (java.util.Objects.equals(var0, a.d("箳Ȩ裸ᚑ鴑ᯗꆻ⡋똉㲩", 106724394, -1651636267))) {
          return a.d("ꚨ\udf06嗘쮨䁵욑粞\uf565欹\ue190昙鰩ዻ譄Ę蟵", -414093818, 1911015624);
       }
       else {

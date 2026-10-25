@@ -63,13 +63,13 @@ public final class hia {
    }
 
    static String label(String var0) {
-            if (java.util.Objects.equals(var0, a.c(-1378603983) || java.util.Objects.equals(var0, "ⱂ嗶\udf37"))) {
+            if (java.util.Objects.equals(var0, a.c(-1378603983, "ⱂ嗶\udf37"))) {
          return wap.s(a.b("⒣崷ퟶ", -625924880), a.d("︗螄ൖ鍙\u18f7鹄", 483765601, 1950504812));
       }
-      else if (java.util.Objects.equals(var0, a.d("개햯彩") || java.util.Objects.equals(var0, -1205532875) || java.util.Objects.equals(var0, -1891783863))) {
+      else if (java.util.Objects.equals(var0, a.d("개햯彩", -1205532875, -1891783863))) {
          return wap.s(a.b("刅\u2b96ꅘ㼩듯㉕", -1836428728), a.c(-1133846021, "\ue5e4鱱ᛞ裕̀"));
       }
-      else if (java.util.Objects.equals(var0, a.c(-2057893101) || java.util.Objects.equals(var0, "\u0b7f狖\uf81c"))) {
+      else if (java.util.Objects.equals(var0, a.c(-2057893101, "\u0b7f狖\uf81c"))) {
          return ownReady()
             ? wap.s(a.b("Ԋ粍\uf644栲\ue3e4", -679148202), a.d("ᣧ慅\ueb9a疚", -617669034, 303039124))
             : wap.s(

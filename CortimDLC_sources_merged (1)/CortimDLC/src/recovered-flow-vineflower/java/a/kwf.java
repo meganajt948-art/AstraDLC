@@ -432,10 +432,10 @@ public class kwf extends kfe {
             double var15 = kyk(var8, var3, var14);
             if (!(var15 > var6)) {
                               double var17;
-               if (java.util.Objects.equals(this.kws.get(), a.b("慍ᣑ鈘౮螬Ē뭌㊻") || java.util.Objects.equals(this.kws.get(), -1419878143))) {
+               if (java.util.Objects.equals(this.kws.get(), a.b("慍ᣑ鈘౮螬Ē뭌㊻", -1419878143))) {
                   var17 = var14.getBoundingBox().squaredMagnitude(var3);
                }
-               else if (java.util.Objects.equals(this.kws.get(), a.b("腇\uf8db爌\uec70枿\ue112") || java.util.Objects.equals(this.kws.get(), -1496088311))) {
+               else if (java.util.Objects.equals(this.kws.get(), a.b("腇\uf8db爌\uec70枿\ue112", -1496088311))) {
                   var17 = var14 instanceof LivingEntity var21 ? kyi(var21) : 100.0;
                }
                else {
@@ -493,13 +493,13 @@ public class kwf extends kfe {
    }
 
    boolean kym(ItemStack var1) {
-            if (java.util.Objects.equals(this.kwr.get(), a.b("\uf656迈Ԍ") || java.util.Objects.equals(this.kwr.get(), 407696916))) {
+            if (java.util.Objects.equals(this.kwr.get(), a.b("\uf656迈Ԍ", 407696916))) {
          return true;
       }
-      else if (java.util.Objects.equals(this.kwr.get(), a.d("䝻㻮됥⩉ꆈ✮") || java.util.Objects.equals(this.kwr.get(), -149477138) || java.util.Objects.equals(this.kwr.get(), -786141248))) {
+      else if (java.util.Objects.equals(this.kwr.get(), a.d("䝻㻮됥⩉ꆈ✮", -149477138, -786141248))) {
          return var1.isIn(ItemTags.SWORDS);
       }
-      else if (java.util.Objects.equals(this.kwr.get(), a.c(-615311786) || java.util.Objects.equals(this.kwr.get(), "ᘓ澛\ue555笲"))) {
+      else if (java.util.Objects.equals(this.kwr.get(), a.c(-615311786, "ᘓ澛\ue555笲"))) {
          return var1.isIn(ItemTags.AXES);
       }
       else {

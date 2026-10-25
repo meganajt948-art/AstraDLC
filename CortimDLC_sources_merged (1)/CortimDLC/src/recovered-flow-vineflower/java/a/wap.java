@@ -84,50 +84,50 @@ public final class wap {
       }
 
       if (waq != wam.RU) {
-                  if (java.util.Objects.equals(var0, a.c(1139769630) || java.util.Objects.equals(var0, "蔠ﳬ"))) {
+                  if (java.util.Objects.equals(var0, a.c(1139769630, "蔠ﳬ"))) {
             return a.b("\uf2c5譪", -1114705238);
          }
-         else if (java.util.Objects.equals(var0, a.b("\uf6e9") || java.util.Objects.equals(var0, -957615404))) {
+         else if (java.util.Objects.equals(var0, a.b("\uf6e9", -957615404))) {
             return a.b("믆", -886719574);
          }
-         else if (java.util.Objects.equals(var0, a.c(-663314349) || java.util.Objects.equals(var0, "ꐓ"))) {
+         else if (java.util.Objects.equals(var0, a.c(-663314349, "ꐓ"))) {
             return a.c(1305131563, "멙");
          }
-         else if (java.util.Objects.equals(var0, a.c(-1069821892) || java.util.Objects.equals(var0, "퐃궶❠"))) {
+         else if (java.util.Objects.equals(var0, a.c(-1069821892, "퐃궶❠"))) {
             return a.d("貉\uf53c翨", -2043427308, 998066931);
          }
          else {
             return var0;
          }
       } else {
-                  if (java.util.Objects.equals(var0, a.c(-791610722) || java.util.Objects.equals(var0, "\ufaf1荞"))) {
+                  if (java.util.Objects.equals(var0, a.c(-791610722, "\ufaf1荞"))) {
             return a.d("\uf476趺", -807965417, -545284769);
          }
-         else if (java.util.Objects.equals(var0, a.c(340888366) || java.util.Objects.equals(var0, "譟\uf2f3砪\ue653涜"))) {
+         else if (java.util.Objects.equals(var0, a.c(340888366, "譟\uf2f3砪\ue653涜"))) {
             return a.d("\uf0ed褦Ϸ鶂ᙙ", -513855552, 1429199722);
          }
-         else if (java.util.Objects.equals(var0, a.b("싼") || java.util.Objects.equals(var0, 1490469520))) {
+         else if (java.util.Objects.equals(var0, a.b("싼", 1490469520))) {
             return a.d("眙", 1388249771, -429821553);
          }
-         else if (java.util.Objects.equals(var0, a.b("\ue17c") || java.util.Objects.equals(var0, 813490446))) {
+         else if (java.util.Objects.equals(var0, a.b("\ue17c", 813490446))) {
             return a.d("ᩊ", -195486811, 1708328367);
          }
-         else if (java.util.Objects.equals(var0, a.c(1599446319) || java.util.Objects.equals(var0, "鵁\ue4f4渠"))) {
+         else if (java.util.Objects.equals(var0, a.c(1599446319, "鵁\ue4f4渠"))) {
             return a.d("\u0bfb牎\uf898", 1095920965, -58301823);
          }
-         else if (java.util.Objects.equals(var0, a.b("\uf582") || java.util.Objects.equals(var0, -821299733))) {
+         else if (java.util.Objects.equals(var0, a.b("\uf582", -821299733))) {
             return a.b("ꇿ", -1726634567);
          }
-         else if (java.util.Objects.equals(var0, a.c(-238569730) || java.util.Objects.equals(var0, "뚟콣䗬"))) {
+         else if (java.util.Objects.equals(var0, a.c(-238569730, "뚟콣䗬"))) {
             return a.c(2307164, "ど䧒윕崊");
          }
-         else if (java.util.Objects.equals(var0, a.d("뀃짩䌧\udd5c嚃") || java.util.Objects.equals(var0, -1347744105) || java.util.Objects.equals(var0, 1378795198))) {
+         else if (java.util.Objects.equals(var0, a.d("뀃짩䌧\udd5c嚃", -1347744105, 1378795198))) {
             return a.b("糮Ĳ讛ᗨ", 1883274437);
          }
-         else if (java.util.Objects.equals(var0, a.d("\ueb6c鋕") || java.util.Objects.equals(var0, -55772965) || java.util.Objects.equals(var0, 1452610501))) {
+         else if (java.util.Objects.equals(var0, a.d("\ueb6c鋕", -55772965, 1452610501))) {
             return a.c(1836474430, "搂ᶶ霞");
          }
-         else if (java.util.Objects.equals(var0, a.b("\ud7aa긕Ⓟ몸ㅧ럎") || java.util.Objects.equals(var0, -1991780402))) {
+         else if (java.util.Objects.equals(var0, a.b("\ud7aa긕Ⓟ몸ㅧ럎", -1991780402))) {
             return a.b("\ue512鲩ᙿ蠊ϙ蕤", -2055151323);
          }
          else {

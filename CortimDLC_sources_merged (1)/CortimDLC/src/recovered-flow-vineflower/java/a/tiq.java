@@ -592,10 +592,10 @@ public final class tiq {
    }
 
    public int needSamples() {
-            if (java.util.Objects.equals(this.size(), a.c(1981057923) || java.util.Objects.equals(this.size(), "试\uf25a碅\ue6f9洮"))) {
+            if (java.util.Objects.equals(this.size(), a.c(1981057923, "试\uf25a碅\ue6f9洮"))) {
          return 3000;
       }
-      else if (java.util.Objects.equals(this.size(), a.b("荦\ufafa瀺\uee5e斋") || java.util.Objects.equals(this.size(), -225541329))) {
+      else if (java.util.Objects.equals(this.size(), a.b("荦\ufafa瀺\uee5e斋", -225541329))) {
          return 10000;
       }
       else {
@@ -604,10 +604,10 @@ public final class tiq {
    }
 
    public int needFlicks() {
-            if (java.util.Objects.equals(this.size(), a.d("喚Ⱅꛊ㢶덡") || java.util.Objects.equals(this.size(), 1381759222) || java.util.Objects.equals(this.size(), -210064070))) {
+            if (java.util.Objects.equals(this.size(), a.d("喚Ⱅꛊ㢶덡", 1381759222, -210064070))) {
          return 60;
       }
-      else if (java.util.Objects.equals(this.size(), a.d("\ue6ad鼱ᗱ讕@") || java.util.Objects.equals(this.size(), -1644740379) || java.util.Objects.equals(this.size(), -913463807))) {
+      else if (java.util.Objects.equals(this.size(), a.d("\ue6ad鼱ᗱ讕@", -1644740379, -913463807))) {
          return 200;
       }
       else {
@@ -616,10 +616,10 @@ public final class tiq {
    }
 
    public int needTracking() {
-            if (java.util.Objects.equals(this.size(), a.c(-788209363) || java.util.Objects.equals(this.size(), "\ue17b飴ራ豗ހ"))) {
+            if (java.util.Objects.equals(this.size(), a.c(-788209363, "\ue17b飴ራ豗ހ"))) {
          return 1000;
       }
-      else if (java.util.Objects.equals(this.size(), a.d("廮❲궲㏖렃") || java.util.Objects.equals(this.size(), -387769901) || java.util.Objects.equals(this.size(), 609634164))) {
+      else if (java.util.Objects.equals(this.size(), a.d("廮❲궲㏖렃", -387769901, 609634164))) {
          return 3500;
       }
       else {
@@ -793,30 +793,30 @@ public final class tiq {
    public tmk trainerConfig() {
       tmk var1 = new tmk();
 
-            if (java.util.Objects.equals(this.quality(), a.b("沒ᔄ鿅Ƴ") || java.util.Objects.equals(this.quality(), -561877808))) {
+            if (java.util.Objects.equals(this.quality(), a.b("沒ᔄ鿅Ƴ", -561877808))) {
          var1.epochs = 20;
       }
-      else if (java.util.Objects.equals(this.quality(), a.c(-1936267523) || java.util.Objects.equals(this.quality(), "\ue6b3鼮ᗤ"))) {
+      else if (java.util.Objects.equals(this.quality(), a.c(-1936267523, "\ue6b3鼮ᗤ"))) {
          var1.epochs = 70;
       }
       else {
          var1.epochs = 40;
       }
 
-            if (java.util.Objects.equals(this.quality(), a.b("绁ݗ趖Ꮰ") || java.util.Objects.equals(this.quality(), -1716879741))) {
+            if (java.util.Objects.equals(this.quality(), a.b("绁ݗ趖Ꮰ", -1716879741))) {
          var1.members = 1;
       }
-      else if (java.util.Objects.equals(this.quality(), a.c(-273186366) || java.util.Objects.equals(this.quality(), "膌\uf811狛"))) {
+      else if (java.util.Objects.equals(this.quality(), a.c(-273186366, "膌\uf811狛"))) {
          var1.members = 3;
       }
       else {
          var1.members = 2;
       }
 
-            if (java.util.Objects.equals(this.size(), a.d("覊\uf005竚\ue4a6潱") || java.util.Objects.equals(this.size(), -332008564) || java.util.Objects.equals(this.size(), 1855027792))) {
+            if (java.util.Objects.equals(this.size(), a.d("覊\uf005竚\ue4a6潱", -332008564, 1855027792))) {
          var1.hidden = 32;
       }
-      else if (java.util.Objects.equals(this.size(), a.d("침럴㴴ꍐ⢅") || java.util.Objects.equals(this.size(), -560761412) || java.util.Objects.equals(this.size(), -1502233699))) {
+      else if (java.util.Objects.equals(this.size(), a.d("침럴㴴ꍐ⢅", -560761412, -1502233699))) {
          var1.hidden = 80;
       }
       else {

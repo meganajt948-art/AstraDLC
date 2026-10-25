@@ -358,13 +358,13 @@ public class kyn extends kfe {
    }
 
    boolean lbz(ItemStack var1) {
-            if (java.util.Objects.equals(this.kyu.get(), a.b("㙺俤씠") || java.util.Objects.equals(this.kyu.get(), 1158100536))) {
+            if (java.util.Objects.equals(this.kyu.get(), a.b("㙺俤씠", 1158100536))) {
          return true;
       }
-      else if (java.util.Objects.equals(this.kyu.get(), a.d("\ud91fꂊ⩁됭㿬륊") || java.util.Objects.equals(this.kyu.get(), -1613187249) || java.util.Objects.equals(this.kyu.get(), 961179141))) {
+      else if (java.util.Objects.equals(this.kyu.get(), a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141))) {
          return var1.isIn(ItemTags.SWORDS);
       }
-      else if (java.util.Objects.equals(this.kyu.get(), a.c(1324087958) || java.util.Objects.equals(this.kyu.get(), "䀘荛ক韲"))) {
+      else if (java.util.Objects.equals(this.kyu.get(), a.c(1324087958, "䀘荛ক韲"))) {
          return var1.isIn(ItemTags.AXES);
       }
       else {

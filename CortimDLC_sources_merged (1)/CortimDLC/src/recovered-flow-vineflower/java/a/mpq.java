@@ -1897,10 +1897,10 @@ public class mpq extends pnc {
    BlockPos mzn(String var1) {
       if (this.getWorld() != null && this.getPlayer() != null) {
                   String[] var2;
-         if (java.util.Objects.equals(var1, a.b("椆Ⴒ驮Е迍") || java.util.Objects.equals(var1, -467702469))) {
+         if (java.util.Objects.equals(var1, a.b("椆Ⴒ驮Е迍", -467702469))) {
             var2 = new String[]{a.d("↲堆틚䲡읹", -1600239057, -2112458848), a.d("ᎇ樾\ue0ea纑\uf54a珷즠", 1042776697, 1667798468)};
          }
-         else if (java.util.Objects.equals(var1, a.c(738142290) || java.util.Objects.equals(var1, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁"))) {
+         else if (java.util.Objects.equals(var1, a.c(738142290, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁"))) {
             var2 = new String[]{a.b("侬㙦벱⊾ꤗ\u2fd9閉", -1858057238)};
          }
          else {

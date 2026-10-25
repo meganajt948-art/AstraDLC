@@ -318,7 +318,7 @@ public final class ign extends ijy {
    }
 
    static String iid(String var0, boolean var1, boolean var2, boolean var3) {
-            if (java.util.Objects.equals(var0, a.d("䀜㦮덯") || java.util.Objects.equals(var0, 1327956262) || java.util.Objects.equals(var0, -548847265))) {
+            if (java.util.Objects.equals(var0, a.d("䀜㦮덯", 1327956262, -548847265))) {
          return var3
             ? wap.s(
                a.d("끤짮䌽\udd03嚘퀬橢\ue393緔\uf76c烺諏Н鶹\u17ff酕⬀ꒆ㸣롿\u318f䮕앲庿\ud8cd剙\ueba6旲＂祘\uf2fd౿虶ᾎ駀ጣ겵⛑ꁖ㦫돽초䝉샿婼퐞䷭\ue77a愠謁瓋踝ޱ臡ᬃ镄", 636694457, 2026282929),
@@ -343,10 +343,10 @@ public final class ign extends ijy {
                   )
             );
       }
-      else if (java.util.Objects.equals(var0, a.d("✆庶푤䨞") || java.util.Objects.equals(var0, -717993960) || java.util.Objects.equals(var0, 940207988))) {
+      else if (java.util.Objects.equals(var0, a.d("✆庶푤䨞", -717993960, 940207988))) {
          return wap.s(a.b("暤ἴ閨\u0b8b聋ۼ벣㕏ꬆ↺ꙮ尖틕䬷섽䟐ﶎ", 892102395), a.b("삮뤸㏤궒☼ꃹ᪦靎എ螾i晴烕\ued79朢\ue1a4", -1159281495));
       }
-      else if (java.util.Objects.equals(var0, a.b("ỹ杊\ued96珪\uf83b纃") || java.util.Objects.equals(var0, -1336074596))) {
+      else if (java.util.Objects.equals(var0, a.b("ỹ杊\ued96珪\uf83b纃", -1336074596))) {
          return wap.s(a.b("ᬨ抿\ue87f瘆\ufdd6筠섴䣌훔尦\udbf7↉꽓㛤벾㩏耉࿙", 154147694), a.b("\uebe4鉺ᣛ蚮ഋ讲\u31e4렘≒곽⭒텝徃옺䱡쪘烔", 1419964395));
       }
       else {
@@ -1783,16 +1783,16 @@ public final class ign extends ijy {
          uut.gradientH(var1, var5, var6 + 6.0F, Math.max(6.0F, var16 * var15), 6.0F, 3.0F, iov.accent(), iov.accent2());
 
                   String var17;
-         if (java.util.Objects.equals(var14.phase, a.c(-335544366) || java.util.Objects.equals(var14.phase, "ﾲ蘆ೀ銤"))) {
+         if (java.util.Objects.equals(var14.phase, a.c(-335544366, "ﾲ蘆ೀ銤"))) {
             var17 = wap.s(a.b("ἇ暡\uec76爂律置씴䲂튙堭\udfeb▏謟", -368238728), a.d("䖝㱓뛺⣹ꍐ\u218f鿈ᘽ衯˞蕻罴햰", 1032756526, -775234311));
          }
-         else if (java.util.Objects.equals(var14.phase, a.d("ɇ篹\uf129潂\ue484") || java.util.Objects.equals(var14.phase, 1297481786) || java.util.Objects.equals(var14.phase, 860029467))) {
+         else if (java.util.Objects.equals(var14.phase, a.d("ɇ篹\uf129潂\ue484", 1297481786, 860029467))) {
             var17 = wap.s(
                a.d("뷫쑙亄탰嬪\udd9c柆\uee70災\ufadb紎蝳হ逞ᩀ鲶⛰ꤵ㏕뗂㰡䙭죜區핫徦\ue618栌\uf2b8瓦ｖƝ诃㉰", -1946036247, 2013358668),
                a.c(-539488386, "\u0b53狥\uf835昷\uede3欧텲壽싌䱪쮾㇀뼐⛘곲⸛遌ᾒ脶\u0379誁\uf0da繢\ue5b9揌촋")
             );
          }
-         else if (java.util.Objects.equals(var14.phase, a.c(-1415119186) || java.util.Objects.equals(var14.phase, "ﻉ蝨ඨ鏑᠁"))) {
+         else if (java.util.Objects.equals(var14.phase, a.c(-1415119186, "ﻉ蝨ඨ鏑᠁"))) {
             var17 = wap.s(
                   a.c(387235986, "샪륒㎅귧☬ꂚᫎ錶മ蟆\u0003難璸\ued5b杘\ue1b0寵퐬亇종"), a.d("쉔믡ㄶꬤⓡꈩ᠀釾\u0fdf脎ˌ\uf8b7癥\uefd0文\ue37a崧", 1375153314, 866970276)
                )
@@ -1800,7 +1800,7 @@ public final class ign extends ijy {
                + a.b("〨", -2147143674)
                + var14.epochs;
          }
-         else if (java.util.Objects.equals(var14.phase, a.d("䊵㬍뇜⾹") || java.util.Objects.equals(var14.phase, 1228418593) || java.util.Objects.equals(var14.phase, 1934388476)) || java.util.Objects.equals(var14.phase, a.b("涡ᐆ默®") || java.util.Objects.equals(var14.phase, -2023985710))) {
+         else if (java.util.Objects.equals(var14.phase, a.d("䊵㬍뇜⾹", 1228418593, 1934388476), a.b("涡ᐆ默®", -2023985710))) {
             var17 = wap.s(
                   a.b("ꭾ틆堑왳䶸쬎煚\uf8a2暺\uec52殗釼Ἤ蛏ೋ訬の뾸┉ꍟ⪡傷", -835343612), a.b("揖ᩣ邴દ蔔Ϟ릇『긬⓯ꝟ", 1716676510)
                )
@@ -1808,17 +1808,17 @@ public final class ign extends ijy {
                + a.d("ኴ", -1541322962, -1504881228)
                + var14.epochs;
          }
-         else if (java.util.Objects.equals(var14.phase, a.c(-1819083866) || java.util.Objects.equals(var14.phase, "﯀艺ࢤ雓ᴌ"))) {
+         else if (java.util.Objects.equals(var14.phase, a.c(-1819083866, "﯀艺ࢤ雓ᴌ"))) {
             var17 = wap.s(
                a.c(-725794218, "䈮㮔녊⼽ꓢ≑項ᇽ迥ԛ苉磶\uf674濞\ue590捷\ud938团찟䨙쏸릤㜐곃⪻ꁣ㦑"), a.b("両㟯뵂⌿꣯⸫鑷ᶇ螶च軄炥\ufa6f揝\ue982潿픷廿쀩䘃쿾뗗㬙ꃌʠ", -1760081401)
             );
          }
-         else if (java.util.Objects.equals(var14.phase, a.d("枣ḓ铛ડ") || java.util.Objects.equals(var14.phase, -1376311180) || java.util.Objects.equals(var14.phase, -442478681))) {
+         else if (java.util.Objects.equals(var14.phase, a.d("枣ḓ铛ડ", -1376311180, -442478681))) {
             var17 = wap.s(
                a.d("ひ䧏쌉嵯횳倃\uea57掯ﶷ睾\uf0d5ફ葳ᶻ鞑ᄴ꭪⒦븙㡉놹쯿攏", 1802689158, 2040326798), a.b("틠ꭐ↉뿿㐥늗ࢶ腆᭷閤ሀ\ue87e曒｠甲\uf3c0䦌숾壵\udedc圤\u2d7aꎰ\u181e", 28694215)
             );
          }
-         else if (java.util.Objects.equals(var14.phase, a.b("ਲ玌菱朮\uece3橉") || java.util.Objects.equals(var14.phase, -1367668142))) {
+         else if (java.util.Objects.equals(var14.phase, a.b("ਲ玌菱朮\uece3橉", -1367668142))) {
             var17 = wap.s(a.b("\ud97cꃂ⨖둠㾭뤇͕誣ᓵ븅", 1049418000), a.d("\uef65雓ᰊ艱ফ轠㕌벷⋪ꠥஞ", -164430388, -281340267));
          }
          else {
@@ -2869,19 +2869,19 @@ public final class ign extends ijy {
    }
 
    static String ijk(String var0) {
-            if (java.util.Objects.equals(var0, a.c(-1369665500) || java.util.Objects.equals(var0, "遤\ue9e4挧ﵟ"))) {
+            if (java.util.Objects.equals(var0, a.c(-1369665500, "遤\ue9e4挧ﵟ"))) {
          return wap.s(a.b("ꭤ틤堧왟", 1368238884), a.b("볅씣俾퇹婙", 1242478804));
       }
-      else if (java.util.Objects.equals(var0, a.d("ߍ繛\uf48e櫬\ue13c枎") || java.util.Objects.equals(var0, 1144288218) || java.util.Objects.equals(var0, 39810114))) {
+      else if (java.util.Objects.equals(var0, a.d("ߍ繛\uf48e櫬\ue13c枎", 1144288218, 39810114))) {
          return wap.s(a.b("ꠔ톂字씵以졗", -823285695), a.d("뗇찕䛄\ud8c0匛헗", -565333163, -873725259));
       }
-      else if (java.util.Objects.equals(var0, a.d("㕍䳃예塤펺") || java.util.Objects.equals(var0, 1510993894) || java.util.Objects.equals(var0, 1263590116))) {
+      else if (java.util.Objects.equals(var0, a.d("㕍䳃예塤펺", 1510993894, 1263590116))) {
          return wap.s(a.d("鮴\ue23a棱\uf69d絉", -518275283, 170927318), a.c(-2126759907, "㰄䗪켲儾\udae5屖"));
       }
-      else if (java.util.Objects.equals(var0, a.d("\u0e77矰ﴮ捘") || java.util.Objects.equals(var0, 502026242) || java.util.Objects.equals(var0, -1245422042))) {
+      else if (java.util.Objects.equals(var0, a.d("\u0e77矰ﴮ捘", 502026242, -1245422042))) {
          return wap.s(a.c(-465240696, "\ufdd8葟ກ郷ᬢ鶔⟎"), a.c(312283921, "ᜲ溘\ue441穈\uf1e2睒"));
       }
-      else if (java.util.Objects.equals(var0, a.d("Ɛ砆\uf2c8沼\ue76b") || java.util.Objects.equals(var0, -968460628) || java.util.Objects.equals(var0, 2000516970))) {
+      else if (java.util.Objects.equals(var0, a.d("Ɛ砆\uf2c8沼\ue76b", -968460628, 2000516970))) {
          return wap.s(a.c(1659239501, "ﰖ薀ཆ鄸\u1ae5鱙☍꿵"), a.b("馵\ue067櫈\uf4c8缒", -552362607));
       }
       else {
@@ -2890,10 +2890,10 @@ public final class ign extends ijy {
    }
 
    static String ijl(String var0) {
-            if (java.util.Objects.equals(var0, a.b("뛕콃䖂\udbf4") || java.util.Objects.equals(var0, -1503349097))) {
+            if (java.util.Objects.equals(var0, a.b("뛕콃䖂\udbf4", -1503349097))) {
          return wap.s(a.d("땱쳧䘦\ud850", -1495355796, -1639834785), a.c(691533611, "\uf33c諗\u000e鹼ᖩ鍦"));
       }
-      else if (java.util.Objects.equals(var0, a.d("ࣉ煔ﮞ") || java.util.Objects.equals(var0, -432960288) || java.util.Objects.equals(var0, 919503975))) {
+      else if (java.util.Objects.equals(var0, a.d("ࣉ煔ﮞ", -432960288, 919503975))) {
          return wap.s(a.d("琉ඔ蝞", -2064260870, 719295677), a.d("ᯪ扷\ue8ae皤ﴊ箿솓䠝", 419407606, -38029048));
       }
       else {
@@ -2902,10 +2902,10 @@ public final class ign extends ijy {
    }
 
    static String ijm(String var0) {
-            if (java.util.Objects.equals(var0, a.c(1802573855) || java.util.Objects.equals(var0, "ᡉ懆\ueb19略ﺲ"))) {
+            if (java.util.Objects.equals(var0, a.c(1802573855, "ᡉ懆\ueb19略ﺲ"))) {
          return wap.s(a.c(452122618, "\ud7ac긣⓼몀ㅗ"), a.c(819771376, "돩쩴䂬\uded6啾"));
       }
-      else if (java.util.Objects.equals(var0, a.c(466998349) || java.util.Objects.equals(var0, "퐄궘❘뤼㋩"))) {
+      else if (java.util.Objects.equals(var0, a.c(466998349, "퐄궘❘뤼㋩"))) {
          return wap.s(a.d("鬣\ue2bf桿\uf61b緎", 1665900776, 359349122), a.b("\uf31c誂T鹒ᖁ鍈⥤", -1924729078));
       }
       else {

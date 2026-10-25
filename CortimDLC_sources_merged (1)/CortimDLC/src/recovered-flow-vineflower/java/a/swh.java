@@ -416,10 +416,10 @@ public final class swh {
          float var8 = (float)var1.opacity.get();
 
                   int var9;
-         if (java.util.Objects.equals(var1.tint.get(), a.b("\udcc1ꕕ⾕뇽") || java.util.Objects.equals(var1.tint.get(), -1104946047))) {
+         if (java.util.Objects.equals(var1.tint.get(), a.b("\udcc1ꕕ⾕뇽", -1104946047))) {
             var9 = -16119283;
          }
-         else if (java.util.Objects.equals(var1.tint.get(), a.b("붭쐾仭킚孆\udded") || java.util.Objects.equals(var1.tint.get(), 853786090))) {
+         else if (java.util.Objects.equals(var1.tint.get(), a.b("붭쐾仭킚孆\udded", 853786090))) {
             var9 = ujt.lerp(iov.accent(), -16777216, 0.55F) | 0xFF000000;
          }
          else {

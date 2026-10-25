@@ -301,19 +301,19 @@ public final class vpo {
       if (var7 >= 0 && var2 > 0 && !(var4 <= 0.0)) {
          int var13 = (int)Math.round(var4);
 
-                  if (java.util.Objects.equals(var6, a.d("ᇔ桤\ue2b6糌") || java.util.Objects.equals(var6, 810014142) || java.util.Objects.equals(var6, 1535755296)) || java.util.Objects.equals(var6, a.c(1049836232) || java.util.Objects.equals(var6, "㪸䌊직垬"))) {
+                  if (java.util.Objects.equals(var6, a.d("ᇔ桤\ue2b6糌", 810014142, 1535755296), a.c(1049836232, "㪸䌊직垬"))) {
             return vql(var0, var7, var8, var2, var3, false, false, false, var13);
          }
-         else if (java.util.Objects.equals(var6, a.c(-750946055) || java.util.Objects.equals(var6, "碎ģ诨ᖚ"))) {
+         else if (java.util.Objects.equals(var6, a.c(-750946055, "碎ģ诨ᖚ"))) {
             return vql(var0, var7, var8, var2, var3, true, false, false, var13);
          }
-         else if (java.util.Objects.equals(var6, a.d("蛳ｈ痄\uebb4") || java.util.Objects.equals(var6, 1408371962) || java.util.Objects.equals(var6, -257324437)) || java.util.Objects.equals(var6, a.b("㈘䮣섏彿") || java.util.Objects.equals(var6, -1269550502))) {
+         else if (java.util.Objects.equals(var6, a.d("蛳ｈ痄\uebb4", 1408371962, -257324437), a.b("㈘䮣섏彿", -1269550502))) {
             return vql(var0, var7, var8, var2, 32, false, true, false, var13);
          }
-         else if (java.util.Objects.equals(var6, a.b("Ṋ柱\ued78猋") || java.util.Objects.equals(var6, -649519576)) || java.util.Objects.equals(var6, a.c(-426492421) || java.util.Objects.equals(var6, "㶹䐂캫僘"))) {
+         else if (java.util.Objects.equals(var6, a.b("Ṋ柱\ued78猋", -649519576), a.c(-426492421, "㶹䐂캫僘"))) {
             return vql(var0, var7, var8, var2, 64, false, true, false, var13);
          }
-         else if (java.util.Objects.equals(var6, a.d("\ue9c2遷᪨蒌") || java.util.Objects.equals(var6, -38802511) || java.util.Objects.equals(var6, -1615658466))) {
+         else if (java.util.Objects.equals(var6, a.d("\ue9c2遷᪨蒌", -38802511, -1615658466))) {
             return vqm(var0, var7, var8, var2, var13);
          }
          else {
@@ -362,10 +362,10 @@ public final class vpo {
       if (var7 >= 0 && var5 > 0 && !(var1 <= 0.0)) {
          int var15 = (int)Math.round(var1);
 
-                  if (java.util.Objects.equals(var3, a.c(1837340961) || java.util.Objects.equals(var3, "饉\ue0e4樤\uf45b"))) {
+                  if (java.util.Objects.equals(var3, a.c(1837340961, "饉\ue0e4樤\uf45b"))) {
             return vql(var0, var7, var8, var5, var6, (var4 & 2) != 0, (var4 & 1) != 0, false, var15);
          }
-         else if (java.util.Objects.equals(var3, a.d("曉ὼ閣இ") || java.util.Objects.equals(var3, -34549989) || java.util.Objects.equals(var3, -1552438849))) {
+         else if (java.util.Objects.equals(var3, a.d("曉ὼ閣இ", -34549989, -1552438849))) {
             return vqm(var0, var7, var8, var5, var15);
          }
          else {

@@ -215,10 +215,10 @@ public class osq extends kfe {
       Comparator var2 = Comparator.comparingInt(ItemStack::getCount).reversed();
       Comparator var3 = Comparator.comparingInt(var0 -> Registries.ITEM.getRawId(var0.getItem()));
 
-            if (java.util.Objects.equals(this.ost.get(), a.b("듈쵖䞉\ud9f0") || java.util.Objects.equals(this.ost.get(), 3257474))) {
+            if (java.util.Objects.equals(this.ost.get(), a.b("듈쵖䞉\ud9f0", 3257474))) {
          return var1.thenComparing(var3).thenComparing(var2);
       }
-      else if (java.util.Objects.equals(this.ost.get(), a.d("췫둶㺿ꃕ⬘") || java.util.Objects.equals(this.ost.get(), 1243335245) || java.util.Objects.equals(this.ost.get(), 327813088))) {
+      else if (java.util.Objects.equals(this.ost.get(), a.d("췫둶㺿ꃕ⬘", 1243335245, 327813088))) {
          return var2.thenComparing(var1);
       }
       else {

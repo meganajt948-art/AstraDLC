@@ -653,10 +653,10 @@ public final class qsw {
    static void qva(String var0, BlockPos var1, BlockPos var2, BlockPos[] var3, double[] var4) {
       if (var1 != null) {
                   byte var5;
-         if (java.util.Objects.equals(var0, a.c(1447178763) || java.util.Objects.equals(var0, "㉫䯋섀彬"))) {
+         if (java.util.Objects.equals(var0, a.c(1447178763, "㉫䯋섀彬"))) {
             var5 = 0;
          }
-         else if (java.util.Objects.equals(var0, a.c(1726920595) || java.util.Objects.equals(var0, "럱칉䒚\udae0"))) {
+         else if (java.util.Objects.equals(var0, a.c(1726920595, "럱칉䒚\udae0"))) {
             var5 = 1;
          }
          else {

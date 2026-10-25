@@ -1750,13 +1750,13 @@ public class nfl extends kfe {
    }
 
    static String nlr(String var0) {
-            if (java.util.Objects.equals(var0, a.d("긂\ud7ab") || java.util.Objects.equals(var0, 643588259) || java.util.Objects.equals(var0, 1846267595))) {
+            if (java.util.Objects.equals(var0, a.d("긂\ud7ab", 643588259, 1846267595))) {
          return a.d("ꔍ\udcb0器제䟕섌筇", -1273960703, -1706211785);
       }
-      else if (java.util.Objects.equals(var0, a.d("훾꽖▏믶") || java.util.Objects.equals(var0, -1774369912) || java.util.Objects.equals(var0, -1863871230))) {
+      else if (java.util.Objects.equals(var0, a.d("훾꽖▏믶", -1774369912, -1863871230))) {
          return a.d("\ud95aꃩ⩂둉㾔봵ͽ誉ᓔ鹩ᦿ\ue3b9浭\uf4d2", 1435623102, 1451885520);
       }
-      else if (java.util.Objects.equals(var0, a.d("『䦲썩崔훁偱\uea28揎") || java.util.Objects.equals(var0, 1969823512) || java.util.Objects.equals(var0, 359608186))) {
+      else if (java.util.Objects.equals(var0, a.d("『䦲썩崔훁偱\uea28揎", 1969823512, 359608186))) {
          return a.d("떔찤䛴\ud888卒퇽澾\ue644砜\uf2a1畵輍ǖ", -617383317, 1768868814);
       }
       else {

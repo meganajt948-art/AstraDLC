@@ -19,22 +19,22 @@ final class vqu {
    }
 
    static float[] cue(String var0) {
-            if (java.util.Objects.equals(var0, a.c(1884096091) || java.util.Objects.equals(var0, "؏羇\uf553欫"))) {
+            if (java.util.Objects.equals(var0, a.c(1884096091, "؏羇\uf553欫"))) {
          return vqx();
       }
-      else if (java.util.Objects.equals(var0, a.d("뚀켔䗈\udbb0健훃") || java.util.Objects.equals(var0, 1249258774) || java.util.Objects.equals(var0, -491021356))) {
+      else if (java.util.Objects.equals(var0, a.d("뚀켔䗈\udbb0健훃", 1249258774, -491021356))) {
          return vqy();
       }
-      else if (java.util.Objects.equals(var0, a.d("㩤䏶줩坐") || java.util.Objects.equals(var0, 1016052259) || java.util.Objects.equals(var0, 39026703))) {
+      else if (java.util.Objects.equals(var0, a.d("㩤䏶줩坐", 1016052259, 39026703))) {
          return vqz();
       }
-      else if (java.util.Objects.equals(var0, a.d("\uf053觙̔鵼ᚬ途") || java.util.Objects.equals(var0, 1848366372) || java.util.Objects.equals(var0, 425403684))) {
+      else if (java.util.Objects.equals(var0, a.d("\uf053觙̔鵼ᚬ途", 1848366372, 425403684))) {
          return vra();
       }
-      else if (java.util.Objects.equals(var0, a.c(-1997893113) || java.util.Objects.equals(var0, "鉈\uebde愕ｻ璱\uf211"))) {
+      else if (java.util.Objects.equals(var0, a.c(-1997893113, "鉈\uebde愕ｻ璱\uf211"))) {
          return vrb();
       }
-      else if (java.util.Objects.equals(var0, a.b("ྲྀ盢ﰷ扁") || java.util.Objects.equals(var0, 233443128))) {
+      else if (java.util.Objects.equals(var0, a.b("ྲྀ盢ﰷ扁", 233443128))) {
          return vrc();
       }
       else {

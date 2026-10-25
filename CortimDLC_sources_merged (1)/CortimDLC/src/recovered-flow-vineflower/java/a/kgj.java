@@ -210,10 +210,10 @@ public class kgj extends kfe {
             double var14 = kja(var2, var3, var13);
             if (!(var14 > var6)) {
                               double var16;
-               if (java.util.Objects.equals(this.kgx.get(), a.b("\udec7ꝛⶒ돤㠦뺘ӆ贱") || java.util.Objects.equals(this.kgx.get(), -46866805))) {
+               if (java.util.Objects.equals(this.kgx.get(), a.b("\udec7ꝛⶒ돤㠦뺘ӆ贱", -46866805))) {
                   var16 = var13.getBoundingBox().squaredMagnitude(var3);
                }
-               else if (java.util.Objects.equals(this.kgx.get(), a.b("ꂐ\ud90c叛춧䙨샅") || java.util.Objects.equals(this.kgx.get(), -2138464034))) {
+               else if (java.util.Objects.equals(this.kgx.get(), a.b("ꂐ\ud90c叛춧䙨샅", -2138464034))) {
                   var16 = var13 instanceof LivingEntity var20 ? kiy(var20) : 100.0;
                }
                else {
@@ -301,13 +301,13 @@ public class kgj extends kfe {
    }
 
    boolean kjd(ItemStack var1) {
-            if (java.util.Objects.equals(this.kgw.get(), a.c(138839254) || java.util.Objects.equals(this.kgw.get(), "蒔ﴊ矎"))) {
+            if (java.util.Objects.equals(this.kgw.get(), a.c(138839254, "蒔ﴊ矎"))) {
          return true;
       }
-      else if (java.util.Objects.equals(this.kgw.get(), a.d("Ἲ暯\uec64爈柳罯") || java.util.Objects.equals(this.kgw.get(), 1174444933) || java.util.Objects.equals(this.kgw.get(), -987331350))) {
+      else if (java.util.Objects.equals(this.kgw.get(), a.d("Ἲ暯\uec64爈柳罯", 1174444933, -987331350))) {
          return var1.isIn(ItemTags.SWORDS);
       }
-      else if (java.util.Objects.equals(this.kgw.get(), a.d("ᒜ洔\ue7da禽") || java.util.Objects.equals(this.kgw.get(), 1898114766) || java.util.Objects.equals(this.kgw.get(), 1348401687))) {
+      else if (java.util.Objects.equals(this.kgw.get(), a.d("ᒜ洔\ue7da禽", 1898114766, 1348401687))) {
          return var1.isIn(ItemTags.AXES);
       }
       else {

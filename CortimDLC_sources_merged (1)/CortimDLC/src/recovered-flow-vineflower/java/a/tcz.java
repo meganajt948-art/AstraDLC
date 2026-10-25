@@ -626,10 +626,10 @@ public final class tcz {
             tmk var3 = var1.trainerConfig();
 
                         byte var4;
-            if (java.util.Objects.equals(var1.quality(), a.d("柢Ṵ钵ૃ") || java.util.Objects.equals(var1.quality(), -972900777) || java.util.Objects.equals(var1.quality(), 1908527607))) {
+            if (java.util.Objects.equals(var1.quality(), a.d("柢Ṵ钵ૃ", -972900777, 1908527607))) {
                var4 = 25;
             }
-            else if (java.util.Objects.equals(var1.quality(), a.d("쒜봁㟋") || java.util.Objects.equals(var1.quality(), -16719540) || java.util.Objects.equals(var1.quality(), 1874404766))) {
+            else if (java.util.Objects.equals(var1.quality(), a.d("쒜봁㟋", -16719540, 1874404766))) {
                var4 = 70;
             }
             else {
@@ -637,10 +637,10 @@ public final class tcz {
             }
 
                         byte var10;
-            if (java.util.Objects.equals(var1.quality(), a.b("듪쵼䞽\ud9cb") || java.util.Objects.equals(var1.quality(), 957854888))) {
+            if (java.util.Objects.equals(var1.quality(), a.b("듪쵼䞽\ud9cb", 957854888))) {
                var10 = 12;
             }
-            else if (java.util.Objects.equals(var1.quality(), a.d("솺렧㋭") || java.util.Objects.equals(var1.quality(), 1372135260) || java.util.Objects.equals(var1.quality(), 1138679464))) {
+            else if (java.util.Objects.equals(var1.quality(), a.d("솺렧㋭", 1372135260, 1138679464))) {
                var10 = 30;
             }
             else {
@@ -680,10 +680,10 @@ public final class tcz {
                throw new tmt(a.b("\ufdc8葸ສ郐", 1642266018));
             }
                         byte var3;
-            if (java.util.Objects.equals(var1.size(), a.d("堔↛ꭄ㔸뻯") || java.util.Objects.equals(var1.size(), -339022630) || java.util.Objects.equals(var1.size(), 1401926808))) {
+            if (java.util.Objects.equals(var1.size(), a.d("堔↛ꭄ㔸뻯", -339022630, 1401926808))) {
                var3 = 48;
             }
-            else if (java.util.Objects.equals(var1.size(), a.c(-883173187) || java.util.Objects.equals(var1.size(), "\ud8f4ꅨ⮨뗌㸙"))) {
+            else if (java.util.Objects.equals(var1.size(), a.c(-883173187, "\ud8f4ꅨ⮨뗌㸙"))) {
                var3 = 96;
             }
             else {
@@ -691,10 +691,10 @@ public final class tcz {
             }
 
                         byte var9;
-            if (java.util.Objects.equals(var1.quality(), a.d("煯ࣹ舸ᱎ") || java.util.Objects.equals(var1.quality(), -484582252) || java.util.Objects.equals(var1.quality(), -164319815))) {
+            if (java.util.Objects.equals(var1.quality(), a.d("煯ࣹ舸ᱎ", -484582252, -164319815))) {
                var9 = 25;
             }
-            else if (java.util.Objects.equals(var1.quality(), a.d("➃帞퓔") || java.util.Objects.equals(var1.quality(), -1531697587) || java.util.Objects.equals(var1.quality(), 246546816))) {
+            else if (java.util.Objects.equals(var1.quality(), a.d("➃帞퓔", -1531697587, 246546816))) {
                var9 = 70;
             }
             else {

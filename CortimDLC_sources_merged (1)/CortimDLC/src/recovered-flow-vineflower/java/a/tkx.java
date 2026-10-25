@@ -190,10 +190,10 @@ public final class tkx extends OtherClientPlayerEntity {
                         var24 = var14 * 0.8 + var18 * this.tlk * 0.4;
                      }
                                  double var33;
-                     if (java.util.Objects.equals(this.tlf, a.c(1063187964) || java.util.Objects.equals(this.tlf, "\uf5b3谽۶颚ፄ"))) {
+                     if (java.util.Objects.equals(this.tlf, a.c(1063187964, "\uf5b3谽۶颚ፄ"))) {
                         var33 = 0.55;
                      }
-                     else if (java.util.Objects.equals(this.tlf, a.c(-519171975) || java.util.Objects.equals(this.tlf, "္榹\ue37a紂"))) {
+                     else if (java.util.Objects.equals(this.tlf, a.c(-519171975, "္榹\ue37a紂"))) {
                         var33 = var10 < 3.6 ? 0.2 : 0.04;
                      }
                      else {

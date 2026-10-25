@@ -376,10 +376,10 @@ public final class jte extends Screen {
    }
 
    float jwl() {
-            if (java.util.Objects.equals(kbm.POSITION.get(), a.c(51235075) || java.util.Objects.equals(kbm.POSITION.get(), "쥋냓㨃ꑠ"))) {
+            if (java.util.Objects.equals(kbm.POSITION.get(), a.c(51235075, "쥋냓㨃ꑠ"))) {
          return 34.0F;
       }
-      else if (java.util.Objects.equals(kbm.POSITION.get(), a.b("\ue4dc鵖ឋ觵Ⱦ") || java.util.Objects.equals(kbm.POSITION.get(), -655104885))) {
+      else if (java.util.Objects.equals(kbm.POSITION.get(), a.b("\ue4dc鵖ឋ觵Ⱦ", -655104885))) {
          return this.jve - 34.0F - 138.0F;
       }
       else {
