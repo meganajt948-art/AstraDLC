@@ -322,6 +322,8 @@ final class dye {
       return this.shade(var1, var2, var3, var4, var5, var27, var21, var23, var25);
    }
 
+   // $VF: Unable to simplify switch on enum
+   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    int shade(dxq var1, BlockState var2, int var3, int var4, int var5, Direction var6, double var7, double var9, double var11) {
       double var13 = var7 - Math.floor(var7);
       double var15 = var9 - Math.floor(var9);
