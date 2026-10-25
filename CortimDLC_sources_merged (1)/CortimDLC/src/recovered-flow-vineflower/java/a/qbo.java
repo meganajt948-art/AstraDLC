@@ -239,7 +239,7 @@ final class qbo {
       }
 
       Slot var5 = (Slot)var4.get(4);
-      List var6 = List.of((Slot)var4.get(1), (Slot)var4.get(3), (Slot)var4.get(5), (Slot)var4.get(7));
+      List<Slot> var6 = List.of(var4.get(1), var4.get(3), var4.get(5), var4.get(7));
 
       for (int var10 : new int[]{0, 2, 6, 8}) {
          if (((Slot)var4.get(var10)).hasStack()) {
