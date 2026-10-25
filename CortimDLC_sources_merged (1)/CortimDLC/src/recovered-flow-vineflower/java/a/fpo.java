@@ -1303,7 +1303,7 @@ final class fpo {
             var33 = tiq.open(System.getenv(a.b("箳Ȉ裘ᚱ鴃ᯟꆗ⡷똸㲀뭀䄯쿬噚\udc1a嫵\ue0b7潱\uf5c1", 1054702566)));
          }
 
-         ArrayList var34 = new ArrayList();
+         ArrayList<tmh> var34 = new ArrayList<>();
          if (var33 != null) {
             var34.addAll(var33.tapes());
          }
@@ -1328,7 +1328,7 @@ final class fpo {
          return fpp;
       }
 
-      ArrayList var1 = new ArrayList();
+      ArrayList<fot> var1 = new ArrayList<>();
 
       for (String var5 : var0.split(a.b("啖", 508253563))) {
          for (fot var9 : fpp) {
