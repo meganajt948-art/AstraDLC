@@ -443,7 +443,7 @@ public final class tiq {
             }
          }
 
-         ArrayList var3 = new ArrayList<>(this.tjc);
+         ArrayList<eyg> var3 = new ArrayList<>(this.tjc);
          var3.removeIf(var1x -> var1x.key().equals(var1.key()));
          this.tjc = var3;
          eyn.delete(List.of(var1.key()), null).whenComplete((var1x, var2x) -> this.refreshVersions(true));
@@ -574,7 +574,7 @@ public final class tiq {
 
    public String dataStamp() {
       long var1 = 0L;
-      List var3 = this.tapes();
+      List<tmh> var3 = this.tapes();
 
       for (tmh var5 : var3) {
          var1 += var5.ticks.size();
