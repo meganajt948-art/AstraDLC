@@ -2063,7 +2063,7 @@ public final class qdz {
 
          var43.sort((var1x, var3x) -> Double.compare(var44.get(var3x), var44.get(var1x)));
          long var46 = standing(var1, var2).down().asLong();
-         ArrayList var51 = new ArrayList();
+         ArrayList<qdt> var51 = new ArrayList<>();
          int var54 = 0;
 
          for (int var56 = 0; var56 < var43.size() && var54 < 32; var56++) {
