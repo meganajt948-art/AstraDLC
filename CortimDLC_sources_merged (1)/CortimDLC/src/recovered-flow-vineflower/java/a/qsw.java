@@ -568,7 +568,7 @@ public final class qsw {
          }
       }
 
-      for (Entity var18 : var1 instanceof ClientWorld var17 ? var17.getEntities() : List.of()) {
+      for (Entity var18 : var1 instanceof ClientWorld var17 ? var17.getEntities() : List.<Entity>of()) {
          if (var18 != var2 && var18.getBlockPos().isWithinDistance(var3, 24.0)) {
             List<String> var20 = pzw.lines(var18);
             if (!var20.isEmpty()) {
