@@ -87,7 +87,7 @@ public final class sls {
       String var4 = cleanTitle(var0);
       String var5 = plainArtist(var1);
       String var6 = cleanArtist(var1);
-      ArrayList var7 = new ArrayList();
+      ArrayList<String[]> var7 = new ArrayList<>();
       if (!var5.isEmpty()) {
          var7.add(new String[]{var4, var5});
       }
