@@ -144,12 +144,12 @@ public class ldr extends kfe {
       }
 
       if (!var2.isUsingItem() && !kmy.busy()) {
-                  if (java.util.Objects.equals(this.led.get(), a.c(1817051083) || java.util.Objects.equals(this.led.get(), "ﾍ蘝ಀ銰ᥲ鿃▅걶㈡"))) {
+                  if (java.util.Objects.equals(this.led.get(), a.c(1817051083, "ﾍ蘝ಀ銰ᥲ鿃▅걶㈡"))) {
             if (System.currentTimeMillis() - this.lem > 650L) {
                               return false;
                            }
          }
-         else if (java.util.Objects.equals(this.led.get(), a.b("ᮺ截\ue8b7皍ﵔ篹") || java.util.Objects.equals(this.led.get(), -213836813))) {
+         else if (java.util.Objects.equals(this.led.get(), a.b("ᮺ截\ue8b7皍ﵔ篹", -213836813))) {
             if (!vzz.isDown(var1, this.lee.get())) {
                               return false;
                            }

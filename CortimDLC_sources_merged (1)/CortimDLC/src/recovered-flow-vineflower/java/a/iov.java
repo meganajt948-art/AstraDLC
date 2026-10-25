@@ -851,13 +851,13 @@ public final class iov {
 
    static int[] accentPair(int var0, iom var1) {
       String var2 = ipe[Math.max(0, Math.min(ipe.length - 1, var0))];
-            if (java.util.Objects.equals(var2, a.c(689249227) || java.util.Objects.equals(var2, "ᮎ戉\ue8dc皪ﵦ篕"))) {
+            if (java.util.Objects.equals(var2, a.c(689249227, "ᮎ戉\ue8dc皪ﵦ篕"))) {
          return customAccent();
       }
-      else if (java.util.Objects.equals(var2, a.b("ㅤ䣡숳屙") || java.util.Objects.equals(var2, -1080676063))) {
+      else if (java.util.Objects.equals(var2, a.b("ㅤ䣡숳屙", -1080676063))) {
          return var1.accent();
       }
-      else if (java.util.Objects.equals(var2, a.b("쀂릑㍃괳") || java.util.Objects.equals(var2, -1270169525))) {
+      else if (java.util.Objects.equals(var2, a.b("쀂릑㍃괳", -1270169525))) {
          return var1.light() ? ioy : iox;
       }
       else {

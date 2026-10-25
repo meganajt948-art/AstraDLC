@@ -322,7 +322,7 @@ final class eqc {
       int var12 = -1;
 
       for (epj var14 : var0) {
-                  if (java.util.Objects.equals(var14.op, a.c(2077393181) || java.util.Objects.equals(var14.op, "腚\uf8c7爕\uec7c"))) {
+                  if (java.util.Objects.equals(var14.op, a.c(2077393181, "腚\uf8c7爕\uec7c"))) {
             if (var12 < 0 && var6 == null) {
                               epz var32 = eqv(var1, var14, 1);
                               if (var32.dims.length == 4 && var32.dims[1] == var9) {
@@ -376,7 +376,7 @@ final class eqc {
             
                            throw new IllegalArgumentException(a.b("ᖀ氽\ue6ef碆\uf307痷쾣䙀\ud80e动픩⼛ꇁ㡰", -853928467));
          }
-         else if (java.util.Objects.equals(var14.op, a.b("䊽㬯뇩⾏ꑓ⋄颶ᅚ輚֧艹砍\uf6c9潣\ue525揉\ud980噐") || java.util.Objects.equals(var14.op, -1652014355))) {
+         else if (java.util.Objects.equals(var14.op, a.b("䊽㬯뇩⾏ꑓ⋄颶ᅚ輚֧艹砍\uf6c9潣\ue525揉\ud980噐", -1652014355))) {
             if (!var4.isEmpty() && var4.get(var4.size() - 1) instanceof eof var31) {
                               float[] var37 = eqv(var1, var14, 1).data;
                               float[] var41 = eqv(var1, var14, 2).data;
@@ -399,14 +399,14 @@ final class eqc {
             
                            throw new IllegalArgumentException(a.b("ఛ疦［愝\uead4汸혷忁솄䬴첳㚁롚⇪ꮡ", -2027680650));
          }
-         else if (java.util.Objects.equals(var14.op, a.c(679795488) || java.util.Objects.equals(var14.op, "\udb76ꋰ⠪뙂"))) {
+         else if (java.util.Objects.equals(var14.op, a.c(679795488, "\udb76ꋰ⠪뙂"))) {
             if (var12 >= 0) {
                               throw new IllegalArgumentException(a.d("ᚵ漓\ue5c9管\uf023盓첇䕤\udb2a册혍ⰿꋥ㭔", -2013250838, -657511389));
                            }
             
                            var4.add(eqi);
          }
-         else if (java.util.Objects.equals(var14.op, a.c(2073383087) || java.util.Objects.equals(var14.op, "僥⥸ꎲ㷫똃ゲ諢"))) {
+         else if (java.util.Objects.equals(var14.op, a.c(2073383087, "僥⥸ꎲ㷫똃ゲ諢"))) {
             long[] var30 = var14.ints(a.d("ㄭ䢒쉖尻ퟧ兟\ueb3f拢ﲦ瘞\uf1dcஸ", -2091769260, 1398149918), null);
                            long[] var35 = var14.ints(a.b("檅ጳ駦ތ豖૦낣", -1693619471), var30);
                            long[] var40 = var14.ints(a.c(-1339760515, "\ue009馩\u137f贙"), new long[]{0L, 0L, 0L, 0L});
@@ -428,7 +428,7 @@ final class eqc {
             
                            throw new IllegalArgumentException(a.d("\ue724麊ᑙ訫ư蝀㴆듷⪮ꀄ⟜\uddba卬쫌䂉", 702617025, 1401680538));
          }
-         else if (java.util.Objects.equals(var14.op, a.b("糗չ辭ᇅ") || java.util.Objects.equals(var14.op, 62880927))) {
+         else if (java.util.Objects.equals(var14.op, a.b("糗չ辭ᇅ", 62880927))) {
             if (var12 < 0) {
                               var12 = eqs(var9, var10);
                            }
@@ -470,9 +470,9 @@ final class eqc {
             
                            throw new IllegalArgumentException(a.d("米ם載ᅡ髻ᰋꙍ⾼뇥㭏벗䛱젧冇\udbc2", 1495423430, 1553671638));
          }
-         else if (java.util.Objects.equals(var14.op, a.b("㺼䜡췧厯\ud840廨") || java.util.Objects.equals(var14.op, 1371487991))) {
+         else if (java.util.Objects.equals(var14.op, a.b("㺼䜡췧厯\ud840廨", 1371487991))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.d("\uf473跠ܻ饊") || java.util.Objects.equals(var14.op, 253881502) || java.util.Objects.equals(var14.op, -645982034))) {
+         else if (java.util.Objects.equals(var14.op, a.d("\uf473跠ܻ饊", 253881502, -645982034))) {
             if (var6 != null) {
                               throw new IllegalArgumentException(a.c(-1086056784, "ᛈ潯\ue5ba篇\uf011皪첽䔄\udb56凣혵"));
                            }
@@ -501,7 +501,7 @@ final class eqc {
             
                            throw new IllegalArgumentException(a.b("ᗦ汕\ue68e磿\uf365疕쿓䘢\ud87b勑픉⽯ꆹ㠙뉜", -654043762));
          }
-         else if (java.util.Objects.equals(var14.op, a.b("浊ᓞ鸍") || java.util.Objects.equals(var14.op, 1291611400))) {
+         else if (java.util.Objects.equals(var14.op, a.b("浊ᓞ鸍", 1291611400))) {
             epz var17 = null;
             
                            for (String var19 : var14.inputs) {
@@ -516,33 +516,33 @@ final class eqc {
             
                            var7 = var17.data;
          }
-         else if (java.util.Objects.equals(var14.op, a.d("跓\uf44e纜\ue0f0欠\ued84埘\ude33") || java.util.Objects.equals(var14.op, 654278586) || java.util.Objects.equals(var14.op, 771289634))) {
+         else if (java.util.Objects.equals(var14.op, a.d("跓\uf44e纜\ue0f0欠\ued84埘\ude33", 654278586, 771289634))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("捺\u1ae9逾\u0e5f薈̦륪") || java.util.Objects.equals(var14.op, 163930926))) {
+         else if (java.util.Objects.equals(var14.op, a.b("捺\u1ae9逾\u0e5f薈̦륪", 163930926))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.d("\uecd7镝ᾓ臠ਲ਼貒㛁뼯Ⅿ") || java.util.Objects.equals(var14.op, -1618512148) || java.util.Objects.equals(var14.op, 1031314023))) {
+         else if (java.util.Objects.equals(var14.op, a.d("\uecd7镝ᾓ臠ਲ਼貒㛁뼯Ⅿ", -1618512148, 1031314023))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("좀넗㯗ꖩ\u2e63꣑ኝ魰Թ") || java.util.Objects.equals(var14.op, 742508765))) {
+         else if (java.util.Objects.equals(var14.op, a.b("좀넗㯗ꖩ\u2e63꣑ኝ魰Թ", 742508765))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("週\ue9b7捲ﴘ盆\uf066䨠") || java.util.Objects.equals(var14.op, -1240952732))) {
+         else if (java.util.Objects.equals(var14.op, a.b("週\ue9b7捲ﴘ盆\uf066䨠", -1240952732))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("녛죑䈋\udc6b垩") || java.util.Objects.equals(var14.op, 2073604365))) {
+         else if (java.util.Objects.equals(var14.op, a.b("녛죑䈋\udc6b垩", 2073604365))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.c(522763692) || java.util.Objects.equals(var14.op, "뷭쑺亼탑嬋\uddad"))) {
+         else if (java.util.Objects.equals(var14.op, a.c(522763692, "뷭쑺亼탑嬋\uddad"))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.d("馈\ue015櫇\uf4bb置流") || java.util.Objects.equals(var14.op, 1364202793) || java.util.Objects.equals(var14.op, -2088923932))) {
+         else if (java.util.Objects.equals(var14.op, a.d("馈\ue015櫇\uf4bb置流", 1364202793, -2088923932))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("\uf3ac許ã麏ᕟ鏻⦧ꁌ㸨뒰㍖줜䟂\ude62吤") || java.util.Objects.equals(var14.op, -1621363744))) {
+         else if (java.util.Objects.equals(var14.op, a.b("\uf3ac許ã麏ᕟ鏻⦧ꁌ㸨뒰㍖줜䟂\ude62吤", -1621363744))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("ﭹ苷ࠡ陚ᶋ") || java.util.Objects.equals(var14.op, 588643119))) {
+         else if (java.util.Objects.equals(var14.op, a.b("ﭹ苷ࠡ陚ᶋ", 588643119))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.c(-791360599) || java.util.Objects.equals(var14.op, "쯨뉴㢦ꛜⴑꮽᇳ頏"))) {
+         else if (java.util.Objects.equals(var14.op, a.c(-791360599, "쯨뉴㢦ꛜⴑꮽᇳ頏"))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.d("쨬뎿㥾꜈") || java.util.Objects.equals(var14.op, -944125810) || java.util.Objects.equals(var14.op, 769589989))) {
+         else if (java.util.Objects.equals(var14.op, a.d("쨬뎿㥾꜈", -944125810, 769589989))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.d("ᓈ浏\ue781积\uf227璌컞") || java.util.Objects.equals(var14.op, -1281877129) || java.util.Objects.equals(var14.op, 41422844))) {
+         else if (java.util.Objects.equals(var14.op, a.d("ᓈ浏\ue781积\uf227璌컞", -1281877129, 41422844))) {
          }
-         else if (java.util.Objects.equals(var14.op, a.b("ꄯ\ud8bd剦찣䟈셰笱\uf2d9沊\ue622") || java.util.Objects.equals(var14.op, 2083168617))) {
+         else if (java.util.Objects.equals(var14.op, a.b("ꄯ\ud8bd剦찣䟈셰笱\uf2d9沊\ue622", 2083168617))) {
          }
          else {
             throw new IllegalArgumentException(a.d("鶑\ue43f溼", -1888559261, 960578206) + var14.op);

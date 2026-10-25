@@ -150,36 +150,36 @@ final class fbw {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.c(-11815150, "띑컂䐔\uda65冟휚济\ue4ac"));
 
       for (vmo var4 : var2.getSettings()) {
-                  if (java.util.Objects.equals(var4.getName(), a.c(901710615) || java.util.Objects.equals(var4.getName(), "͍竁\uf009湭\ue5af挃\ud956傦"))) {
+                  if (java.util.Objects.equals(var4.getName(), a.c(901710615, "͍竁\uf009湭\ue5af挃\ud956傦"))) {
             ((vlv)var4).set(a.d("ࠋ熀ﭖ攮\ueef2桙", 175681583, -77809551));
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("皒༒藚᮶遦") || java.util.Objects.equals(var4.getName(), 697800270) || java.util.Objects.equals(var4.getName(), -681647974))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("皒༒藚᮶遦", 697800270, -681647974))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("詵\uf3e6礬\ue74e泜\uea2b偷\ud997") || java.util.Objects.equals(var4.getName(), 565697721) || java.util.Objects.equals(var4.getName(), 146953865))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("詵\uf3e6礬\ue74e泜\uea2b偷\ud997", 565697721, 146953865))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.b("栛ᆖ魈ԡ軪ࡌ눞") || java.util.Objects.equals(var4.getName(), 318990412))) {
+         else if (java.util.Objects.equals(var4.getName(), a.b("栛ᆖ魈ԡ軪ࡌ눞", 318990412))) {
             ((vkl)var4).set(true);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(1628227637) || java.util.Objects.equals(var4.getName(), "졼뇯㬱ꕑ"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(1628227637, "졼뇯㬱ꕑ"))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("浰ᓽ鸴X讕ശ띪㻓ꃛ⩼궢埓\ud91b") || java.util.Objects.equals(var4.getName(), -733271769) || java.util.Objects.equals(var4.getName(), -1242676210))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("浰ᓽ鸴X讕ശ띪㻓ꃛ⩼궢埓\ud91b", -733271769, -1242676210))) {
             ((vkl)var4).set(false);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("鉗\uebdb愙｠璩") || java.util.Objects.equals(var4.getName(), 85436674) || java.util.Objects.equals(var4.getName(), 1991785241))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("鉗\uebdb愙｠璩", 85436674, 1991785241))) {
             ((vlv)var4).set(a.b("츴랪㵮", 548785782));
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(-1450119321) || java.util.Objects.equals(var4.getName(), "\uef31隣ᱥ舔ূ"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(-1450119321, "\uef31隣ᱥ舔ূ"))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("貎\uf50c翈\ue1bf橵\uecce嚟\udf63") || java.util.Objects.equals(var4.getName(), -1678477354) || java.util.Objects.equals(var4.getName(), 1035795206))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("貎\uf50c翈\ue1bf橵\uecce嚟\udf63", -1678477354, 1035795206))) {
             ((vmc)var4).set(1.0);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(490584658) || java.util.Objects.equals(var4.getName(), "먗쎯䥥"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(490584658, "먗쎯䥥"))) {
             ((vmc)var4).set(360.0);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(172477368) || java.util.Objects.equals(var4.getName(), "쯴뉨㢡ꛗⴕꮫᇵ頂"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(172477368, "쯴뉨㢡ꛗⴕꮫᇵ頂"))) {
             ((vmc)var4).set(4.0);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(1737822369) || java.util.Objects.equals(var4.getName(), "ც楳\ue3a4綘\uf607炻쫤䌛\udd4b埦"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(1737822369, "ც楳\ue3a4綘\uf607炻쫤䌛\udd4b埦"))) {
             ((vlv)var4).set(a.b("짟끌㪔ꓤ⼺", -883570281));
          }
       }

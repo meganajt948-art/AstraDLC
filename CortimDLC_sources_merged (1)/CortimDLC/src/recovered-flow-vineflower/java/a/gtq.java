@@ -853,13 +853,13 @@ public final class gtq {
 
             for (vmo var43 : var33.getSettings()) {
                if (var43 instanceof vlq var45) {
-                                    if (java.util.Objects.equals(var45.getName(), a.d("땧체䘗\ud869去픀") || java.util.Objects.equals(var45.getName(), 1260262772) || java.util.Objects.equals(var45.getName(), 856007735))) {
+                                    if (java.util.Objects.equals(var45.getName(), a.d("땧체䘗\ud869去픀", 1260262772, 856007735))) {
                      var45.set(86);
                   }
-                  else if (java.util.Objects.equals(var45.getName(), a.b("樥ᎇ餩ݕ賰ਾ됂㧡Ʝⴉ꫞") || java.util.Objects.equals(var45.getName(), 1822256655))) {
+                  else if (java.util.Objects.equals(var45.getName(), a.b("樥ᎇ餩ݕ賰ਾ됂㧡Ʝⴉ꫞", 1822256655))) {
                      var45.set(90);
                   }
-                  else if (java.util.Objects.equals(var45.getName(), a.b("륻샖䨆퐋徬\ud911挼\ueab0瓬﹖") || java.util.Objects.equals(var45.getName(), -1245528752))) {
+                  else if (java.util.Objects.equals(var45.getName(), a.b("륻샖䨆퐋徬\ud911挼\ueab0瓬﹖", -1245528752))) {
                      var45.set(66);
                   }
                }

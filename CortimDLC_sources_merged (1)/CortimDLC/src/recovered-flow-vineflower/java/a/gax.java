@@ -555,22 +555,22 @@ final class gax {
                      label202: {
                         var38 = (var4.equals(a.c(-574422621, "ǔ硺\uf2aa泃")) ? 10.0 : 45.0) + 0.5;
                         if (var15 <= var38) {
-                                                      if (java.util.Objects.equals(var4, a.c(1130731238) || java.util.Objects.equals(var4, "隃\uef3d旫ﮖ灊\uf6e1"))) {
+                                                      if (java.util.Objects.equals(var4, a.c(1130731238, "隃\uef3d旫ﮖ灊\uf6e1"))) {
                               if (var6 >= var5 - 1 && var7 == var8 && var10 >= var5 - 1 && var11 == var5) {
                                                                   break label202;
                                                                }
                            }
-                           else if (java.util.Objects.equals(var4, a.c(1567587195) || java.util.Objects.equals(var4, "笎ʥ衳ᘋ鷗᭼"))) {
+                           else if (java.util.Objects.equals(var4, a.c(1567587195, "笎ʥ衳ᘋ鷗᭼"))) {
                               if (var6 >= var5 - 1 && var7 == var8 && var12 < 0.01 && var11 == var5) {
                                                                   break label202;
                                                                }
                            }
-                           else if (java.util.Objects.equals(var4, a.c(-1712243932) || java.util.Objects.equals(var4, "㭏䋼젶噘\udd88嬰"))) {
+                           else if (java.util.Objects.equals(var4, a.c(-1712243932, "㭏䋼젶噘\udd88嬰"))) {
                               if (var6 >= var5 - 1 && var7 == var8) {
                                                                   break label202;
                                                                }
                            }
-                           else if (java.util.Objects.equals(var4, a.c(-240740589) || java.util.Objects.equals(var4, "靤\ueeca搚侀"))) {
+                           else if (java.util.Objects.equals(var4, a.c(-240740589, "靤\ueeca搚侀"))) {
                               if (var7 == var8 && var12 < 0.01) {
                                                                   break label202;
                                                                }
@@ -673,33 +673,33 @@ final class gax {
 
    static void gdd(kfe var0, boolean var1, boolean var2, double var3) {
       for (vmo var6 : var0.getSettings()) {
-                  if (java.util.Objects.equals(var6.getName(), a.b("\udd17ꒂ⹔됶㿯뵌ݦ躝Ⴝ驰᷑\ue3b0椄\uf0c2窕ﰔ䘫") || java.util.Objects.equals(var6.getName(), -2113283814))) {
+                  if (java.util.Objects.equals(var6.getName(), a.b("\udd17ꒂ⹔됶㿯뵌ݦ躝Ⴝ驰᷑\ue3b0椄\uf0c2窕ﰔ䘫", -2113283814))) {
             ((vmc)var6).set(var3);
          }
-         else if (java.util.Objects.equals(var6.getName(), a.b("ਁ玜聾杏\ue8f7湈퀉妁쟔䴚쪵ザ멱➣궇⭲配Ử") || java.util.Objects.equals(var6.getName(), 1828195855))) {
+         else if (java.util.Objects.equals(var6.getName(), a.b("ਁ玜聾杏\ue8f7湈퀉妁쟔䴚쪵ザ멱➣궇⭲配Ử", 1828195855))) {
             ((vmc)var6).set(60.0);
          }
-         else if (java.util.Objects.equals(var6.getName(), a.d("㒥䴊장妦툇哈\ueeec") || java.util.Objects.equals(var6.getName(), -635672334) || java.util.Objects.equals(var6.getName(), -1308862352))) {
+         else if (java.util.Objects.equals(var6.getName(), a.d("㒥䴊장妦툇哈\ueeec", -635672334, -1308862352))) {
             ((vlv)var6).set(var1 ? a.d("심뭇\u31e9꿭⑅", 107002353, 7700282) : a.c(-1559172839, "\ued09钙ṉ耵௪贤㝴뻾₫ꩥ"));
          }
-         else if (java.util.Objects.equals(var6.getName(), a.b("椂Ⴈ驿Ѱ这ग덇㪸") || java.util.Objects.equals(var6.getName(), 1252355371))) {
+         else if (java.util.Objects.equals(var6.getName(), a.b("椂Ⴈ驿Ѱ这ग덇㪸", 1252355371))) {
             ((vmc)var6).set(var2 ? 0.3 : 1.0);
          }
-         else if (java.util.Objects.equals(var6.getName(), a.b("숀뮓ㅏ꽄") || java.util.Objects.equals(var6.getName(), -512178664))) {
+         else if (java.util.Objects.equals(var6.getName(), a.b("숀뮓ㅏ꽄", -512178664))) {
          }
-         else if (java.util.Objects.equals(var6.getName(), a.c(1515057882) || java.util.Objects.equals(var6.getName(), "\uf6c5輮օ鮎ၐ"))) {
+         else if (java.util.Objects.equals(var6.getName(), a.c(1515057882, "\uf6c5輮օ鮎ၐ"))) {
          }
-         else if (java.util.Objects.equals(var6.getName(), a.d("ภ瞽ﵧ挓\ue8b6湷푖姅쎈䤼컫㒒먱⏻ꦬ") || java.util.Objects.equals(var6.getName(), -1885777674) || java.util.Objects.equals(var6.getName(), 1563450059))) {
+         else if (java.util.Objects.equals(var6.getName(), a.d("ภ瞽ﵧ挓\ue8b6湷푖姅쎈䤼컫㒒먱⏻ꦬ", -1885777674, 1563450059))) {
          }
-         else if (java.util.Objects.equals(var6.getName(), a.d("益ཨ薹ᯇ鐏ᚣ곽ℜ뭒㆑똺䱀슕孕") || java.util.Objects.equals(var6.getName(), 938611334) || java.util.Objects.equals(var6.getName(), -262512541))) {
+         else if (java.util.Objects.equals(var6.getName(), a.d("益ཨ薹ᯇ鐏ᚣ곽ℜ뭒㆑똺䱀슕孕", 938611334, -262512541))) {
          }
-         else if (java.util.Objects.equals(var6.getName(), a.d("篈ɞ裸ᛴ鵝ᯭꆰⰭ똓㳘묎䄃") || java.util.Objects.equals(var6.getName(), 1528016615) || java.util.Objects.equals(var6.getName(), -1328426703))) {
+         else if (java.util.Objects.equals(var6.getName(), a.d("篈ɞ裸ᛴ鵝ᯭꆰⰭ똓㳘묎䄃", 1528016615, -1328426703))) {
             ((vkl)var6).set(true);
          }
-         else if (java.util.Objects.equals(var6.getName(), a.b("凢⡿ꋕ㲧뜂ㆾ讖ș鰱") || java.util.Objects.equals(var6.getName(), -367634945))) {
+         else if (java.util.Objects.equals(var6.getName(), a.b("凢⡿ꋕ㲧뜂ㆾ讖ș鰱", -367634945))) {
             ((vmc)var6).set(3.0);
          }
-         else if (java.util.Objects.equals(var6.getName(), a.d("㎤䩇샬庖핃台\uedb3恐精璳\uf36fच蟌ṵ鐣ዒ") || java.util.Objects.equals(var6.getName(), 1520702691) || java.util.Objects.equals(var6.getName(), -2002181306))) {
+         else if (java.util.Objects.equals(var6.getName(), a.d("㎤䩇샬庖핃台\uedb3恐精璳\uf36fच蟌ṵ鐣ዒ", 1520702691, -2002181306))) {
             ((vkl)var6).set(System.getenv(a.b("\ue6ce齵ᖥ诌~蚢㳣딞⭃ꇴ☽\udc5d劋쬳䅧잛緔", 61466265)) == null);
          }
       }

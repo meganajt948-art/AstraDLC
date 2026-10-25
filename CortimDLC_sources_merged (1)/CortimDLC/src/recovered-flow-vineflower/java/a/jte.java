@@ -431,15 +431,15 @@ public final class jte extends Screen {
                this.jtt.frosted(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, var10, var13, this.jve, this.jvf, jyh(16777215, var23));
             }
 
-                        if (java.util.Objects.equals(var21, a.b("㺷䜣췣压") || java.util.Objects.equals(var21, 1555906295))) {
+                        if (java.util.Objects.equals(var21, a.b("㺷䜣췣压", 1555906295))) {
                uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(658708, 0.8F - 0.12F * var15));
                                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(var20, 0.04F + 0.12F * var15));
             }
-            else if (java.util.Objects.equals(var21, a.b("睨\u0efc萡\u1a5f醔") || java.util.Objects.equals(var21, -1849133279))) {
+            else if (java.util.Objects.equals(var21, a.b("睨\u0efc萡\u1a5f醔", -1849133279))) {
                uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(16777215, 0.2F + 0.5F * var24 + 0.08F * var15));
                                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(var20, 0.06F + 0.12F * var15));
             }
-            else if (java.util.Objects.equals(var21, a.d("훼꽷▥믌〞뚨\u0cf0") || java.util.Objects.equals(var21, -209606814) || java.util.Objects.equals(var21, -478514730))) {
+            else if (java.util.Objects.equals(var21, a.d("훼꽷▥믌〞뚨\u0cf0", -209606814, -478514730))) {
                uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(790552, 16777215, var24), 0.1F + 0.12F * var15));
             }
             else {

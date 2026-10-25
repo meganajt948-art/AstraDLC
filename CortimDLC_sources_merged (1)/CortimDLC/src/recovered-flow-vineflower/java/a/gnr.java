@@ -596,29 +596,29 @@ final class gnr {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.d("ᡞ懍\ueb1b番ﺐ砕쉁䮣", 1737661281, -2121563268));
 
       for (vmo var4 : var2.getSettings()) {
-                  if (java.util.Objects.equals(var4.getName(), a.b("﹊蟆എ鍪ᢨ鸄\u2451궡") || java.util.Objects.equals(var4.getName(), -1863451120))) {
+                  if (java.util.Objects.equals(var4.getName(), a.b("﹊蟆എ鍪ᢨ鸄\u2451궡", -1863451120))) {
             ((vlv)var4).set(a.d("䀂㦼덪ⴗꛋ\u2060", 1432830316, 1509556491).equals(var1) ? a.b("݅绛\uf40d橰\ue1ac朇", 378734336) : a.c(1379117624, "ꩭ폦夰읈䲔쨿"));
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("ꥁ탘娏") || java.util.Objects.equals(var4.getName(), 1803889754) || java.util.Objects.equals(var4.getName(), 1227457881))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("ꥁ탘娏", 1803889754, 1227457881))) {
             ((vlv)var4)
                               .set(a.d("꾺혀峃습䥱쿍", -517987800, 1569689082).equals(var0) ? a.d("竃͙覚\u17ec鰨᪔", -1507461574, 2082245809) : a.c(1857058074, "界ೆ蘜\u187e鎿"));
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("瓑\u0d51螙᧵鈥") || java.util.Objects.equals(var4.getName(), 918361247) || java.util.Objects.equals(var4.getName(), 1936089096))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("瓑\u0d51螙᧵鈥", 918361247, 1936089096))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.b("䮐㈃룉⚫괹⯎醒ᡲ") || java.util.Objects.equals(var4.getName(), 865356757))) {
+         else if (java.util.Objects.equals(var4.getName(), a.b("䮐㈃룉⚫괹⯎醒ᡲ", 865356757))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("䶼㐱뻯₆ꭍⷫ鞹") || java.util.Objects.equals(var4.getName(), -1862573302) || java.util.Objects.equals(var4.getName(), 733163233))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("䶼㐱뻯₆ꭍⷫ鞹", -1862573302, 733163233))) {
             ((vkl)var4).set(true);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.d("₺天폷䶗") || java.util.Objects.equals(var4.getName(), -1844840840) || java.util.Objects.equals(var4.getName(), -409872757))) {
+         else if (java.util.Objects.equals(var4.getName(), a.d("₺天폷䶗", -1844840840, -409872757))) {
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(641433938) || java.util.Objects.equals(var4.getName(), "脋\uf886牏\uec23柮\ue14d嬑튨䲠옇䇙뮨㕠"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(641433938, "脋\uf886牏\uec23柮\ue14d嬑튨䲠옇䇙뮨㕠"))) {
             ((vkl)var4).set(false);
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(1520863765) || java.util.Objects.equals(var4.getName(), "詍\uf3de礖\ue761沫\uea01偏\ud9b3"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(1520863765, "詍\uf3de礖\ue761沫\uea01偏\ud9b3"))) {
             ((vlv)var4).set(a.b("↾堠틺䲀읞", -1248517638));
          }
-         else if (java.util.Objects.equals(var4.getName(), a.c(240620443) || java.util.Objects.equals(var4.getName(), "鏗\uea5b悙ﻠ甩"))) {
+         else if (java.util.Objects.equals(var4.getName(), a.c(240620443, "鏗\uea5b悙ﻠ甩"))) {
             ((vlv)var4).set(a.b("쬖늕㡂꘢ⷪꭚᄔ", -816657594));
          }
       }

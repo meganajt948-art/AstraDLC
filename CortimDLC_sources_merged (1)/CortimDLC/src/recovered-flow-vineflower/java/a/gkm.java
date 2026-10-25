@@ -92,13 +92,13 @@ final class gkm {
                gkx.save();
 
                for (vmo var5 : glz().getSettings()) {
-                                    if (java.util.Objects.equals(var5.getName(), a.d("㚲伊엀") || java.util.Objects.equals(var5.getName(), -2095181633) || java.util.Objects.equals(var5.getName(), 1183524424))) {
+                                    if (java.util.Objects.equals(var5.getName(), a.d("㚲伊엀", -2095181633, 1183524424))) {
                      ((vmc)var5).set(360.0);
                   }
-                  else if (java.util.Objects.equals(var5.getName(), a.d("髃\ue34f榍\uf7f4簽") || java.util.Objects.equals(var5.getName(), 191620579) || java.util.Objects.equals(var5.getName(), 1211334508))) {
+                  else if (java.util.Objects.equals(var5.getName(), a.d("髃\ue34f榍\uf7f4簽", 191620579, 1211334508))) {
                      ((vlv)var5).set(a.d("湕់鴏", 792875829, 1071463714));
                   }
-                  else if (java.util.Objects.equals(var5.getName(), a.b("턬ꢰ≹및㟍녳ଭ苚") || java.util.Objects.equals(var5.getName(), 565956960))) {
+                  else if (java.util.Objects.equals(var5.getName(), a.b("턬ꢰ≹및㟍녳ଭ苚", 565956960))) {
                      ((vmc)var5).set(8.0);
                   }
                }
@@ -343,19 +343,19 @@ final class gkm {
 
    static void gmd() {
       for (vmo var1 : ldr.get().getSettings()) {
-                  if (java.util.Objects.equals(var1.getName(), a.d("\u18ff慇\ueb8d") || java.util.Objects.equals(var1.getName(), -649256303) || java.util.Objects.equals(var1.getName(), 2113550891))) {
+                  if (java.util.Objects.equals(var1.getName(), a.d("\u18ff慇\ueb8d", -649256303, 2113550891))) {
             ((vmc)var1).set(360.0);
          }
-         else if (java.util.Objects.equals(var1.getName(), a.c(595747638) || java.util.Objects.equals(var1.getName(), "捽\u1aee逪ๆ薎̨륮も껛⑫"))) {
+         else if (java.util.Objects.equals(var1.getName(), a.c(595747638, "捽\u1aee逪ๆ薎̨륮も껛⑫"))) {
             ((vlv)var1).set(a.d("䡟㇃묋╬꺣⠘", 447541621, -436160147));
          }
-         else if (java.util.Objects.equals(var1.getName(), a.c(-822058171) || java.util.Objects.equals(var1.getName(), "按᪅遇\u0e3e藷"))) {
+         else if (java.util.Objects.equals(var1.getName(), a.c(-822058171, "按᪅遇\u0e3e藷"))) {
             ((vlv)var1).set(a.b("皑༏藋", 360871635));
          }
-         else if (java.util.Objects.equals(var1.getName(), a.d("睵\u0ef4萫ᩓ醌\u1779굾⒔몄へ랩䷂쌓媴") || java.util.Objects.equals(var1.getName(), 234270201) || java.util.Objects.equals(var1.getName(), 1959779035))) {
+         else if (java.util.Objects.equals(var1.getName(), a.d("睵\u0ef4萫ᩓ醌\u1779굾⒔몄へ랩䷂쌓媴", 234270201, 1959779035))) {
             ((vkl)var1).set(false);
          }
-         else if (java.util.Objects.equals(var1.getName(), a.d("欜ኀ顉ؿ跽ୃ넝㣪") || java.util.Objects.equals(var1.getName(), 520945119) || java.util.Objects.equals(var1.getName(), 2064225935))) {
+         else if (java.util.Objects.equals(var1.getName(), a.d("欜ኀ顉ؿ跽ୃ넝㣪", 520945119, 2064225935))) {
             ((vmc)var1).set(8.0);
          }
       }

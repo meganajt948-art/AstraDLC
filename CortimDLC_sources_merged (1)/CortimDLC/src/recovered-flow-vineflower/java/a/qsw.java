@@ -633,10 +633,10 @@ public final class qsw {
    }
 
    void quz(String var1, BlockPos var2, ClientPlayerEntity var3) {
-            if (java.util.Objects.equals(var1, a.c(38664506) || java.util.Objects.equals(var1, "讀胺\u0a31鑝"))) {
+            if (java.util.Objects.equals(var1, a.c(38664506, "讀胺\u0a31鑝"))) {
          this.qtp = this.qtp == null ? var2 : this.qtp;
       }
-      else if (java.util.Objects.equals(var1, a.b("鼐\ue6a8汻\uf201") || java.util.Objects.equals(var1, 1469095794))) {
+      else if (java.util.Objects.equals(var1, a.b("鼐\ue6a8汻\uf201", 1469095794))) {
          this.qtq = this.qtq == null ? var2 : this.qtq;
       }
       else {

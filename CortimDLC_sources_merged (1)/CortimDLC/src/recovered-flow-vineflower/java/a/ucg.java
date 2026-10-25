@@ -756,7 +756,7 @@ public final class ucg {
    static void uel(JsonObject var0) {
       String var1 = ufq(var0, a.b("갿", 2077535306));
       if (var1 != null) {
-                  if (java.util.Objects.equals(var1, a.c(877672540) || java.util.Objects.equals(var1, "㠱䆍쭗唦\udef2"))) {
+                  if (java.util.Objects.equals(var1, a.c(877672540, "㠱䆍쭗唦\udef2"))) {
             boolean var9 = udk != null && !udk.equals(ufq(var0, a.b("\ue57a鳇ᘟ衯", 202106141)));
                            udk = ufq(var0, a.d("ʚ笧\uf1ff澏", -1531850247, -1140010236));
                            udj = ucd.ONLINE;
@@ -768,10 +768,10 @@ public final class ucg {
                               ufb(wap.s(a.c(-959931773, "髄\ue35e榟\uf7b9簭敖䃈줸圢"), a.d("㐥䶷읨奠틅偭\uee24柑濾眡", 1825569576, -615462118)) + prettyCode(), false);
                            }
          }
-         else if (java.util.Objects.equals(var1, a.b("ۅ罥\uf5a5毒\ue008") || java.util.Objects.equals(var1, -2110126416))) {
+         else if (java.util.Objects.equals(var1, a.b("ۅ罥\uf5a5毒\ue008", -2110126416))) {
             uem(var0);
          }
-         else if (java.util.Objects.equals(var1, a.d("ᯛ扭\ue8a6盈ﴂ箢") || java.util.Objects.equals(var1, 1594211433) || java.util.Objects.equals(var1, 1487644637))) {
+         else if (java.util.Objects.equals(var1, a.d("ᯛ扭\ue8a6盈ﴂ箢", 1594211433, 1487644637))) {
             ubg var8 = ueq(var0);
                            if (var8 != null) {
                               ucs.removeIf(var1x -> var1x.party.equals(var8.party));
@@ -791,7 +791,7 @@ public final class ucg {
                               ueg(a.b("\u0098礎\uf3c5涫\ue661惁", 711327959), null);
                            }
          }
-         else if (java.util.Objects.equals(var1, a.b("༁皷ﱼ戒\ue9d8潸픽") || java.util.Objects.equals(var1, 47124335))) {
+         else if (java.util.Objects.equals(var1, a.b("༁皷ﱼ戒\ue9d8潸픽", 47124335))) {
             ucs.clear();
             
                            for (JsonElement var10 : ufp(var0, a.b("崄⒰깹』", 1030249836))) {
@@ -803,10 +803,10 @@ public final class ucg {
                               }
                            }
          }
-         else if (java.util.Objects.equals(var1, a.c(-1417419674) || java.util.Objects.equals(var1, "\ue415鶡ᝥ"))) {
+         else if (java.util.Objects.equals(var1, a.c(-1417419674, "\ue415鶡ᝥ"))) {
             uep(var0);
          }
-         else if (java.util.Objects.equals(var1, a.b("ࣩ煎ﮖ旽") || java.util.Objects.equals(var1, -1689450338))) {
+         else if (java.util.Objects.equals(var1, a.b("ࣩ煎ﮖ旽", -1689450338))) {
             ufb(
                               wap.s(a.d("最ẖ鑝ਲ਼臹ݙ뵏㓭ꪤ„ꟗ已퍱䫛샇", 1541824298, -1435944852), a.b("ം瓬﹇怽\uebe2浘흳廿삨䨜췂㎦륯₢ꪌⰂ阽᧮荔ԋ賴\uf6a6簑\ue7da", -2016278267))
                                  + pretty(ufq(var0, a.b("述\uf64d粕\ue2e5", 1184731031)))
@@ -814,14 +814,14 @@ public final class ucg {
                               false
                            );
          }
-         else if (java.util.Objects.equals(var1, a.b("鬳\ue283桖\uf628緺בֿ䄔죤") || java.util.Objects.equals(var1, -978478241))) {
+         else if (java.util.Objects.equals(var1, a.b("鬳\ue283桖\uf628緺בֿ䄔죤", -978478241))) {
             ufb(
                               pretty(ufq(var0, a.b("捻᫆逞\u0e6e", -935435492)))
                                  + wap.s(a.d("猵ી耒ṥ閽ጉ\ua95d₧뻹", -887925578, 417671082), a.b("\uebae阁Ხ芧ॱ迅㖕뱡∽겗⽛핕寺쉀䠛컡瓖ﭺ懁\ue795湯", -542905445)),
                               true
                            );
          }
-         else if (java.util.Objects.equals(var1, a.d("ꫳ퍀妙쟠䰹쪉") || java.util.Objects.equals(var1, -1764129750) || java.util.Objects.equals(var1, -184406348))) {
+         else if (java.util.Objects.equals(var1, a.d("ꫳ퍀妙쟠䰹쪉", -1764129750, -184406348))) {
             ufb(
                               wap.s(
                                  a.c(-1877262937, "㷡䑦캯傋\udb0b嶨\ue7ec渊\uf010竳ﴷݎ覛ဳ驳ᲃꚈ⤟뎸㗴밁옝䣺팷啅\udfd1昲\ue872犖\uf4c1罿"),
@@ -830,14 +830,14 @@ public final class ucg {
                               true
                            );
          }
-         else if (java.util.Objects.equals(var1, a.d("Җ細\uf7e3") || java.util.Objects.equals(var1, -6388362) || java.util.Objects.equals(var1, 1476559238))) {
+         else if (java.util.Objects.equals(var1, a.d("Җ細\uf7e3", -6388362, 1476559238))) {
             if (a.c(1574023984, "덚쫨䀻\ude4e喇팳").equals(ufq(var0, a.d("碏ķ诹", 611692598, -2058893092)))) {
                               ucv.clear();
                            }
             
                            ufb(uez(ufq(var0, a.d("▵", -1803117829, -1930510558))), true);
          }
-         else if (java.util.Objects.equals(var1, a.c(48522051) || java.util.Objects.equals(var1, "挫᪔遛"))) {
+         else if (java.util.Objects.equals(var1, a.c(48522051, "挫᪔遛"))) {
             ucw.add(new ubs(ufq(var0, a.c(1616143161, "捛\u1afe逰ใ")), ufq(var0, a.c(-1552871141, "ᅺ棆\ue202"))));
                            uer();
             
@@ -850,10 +850,10 @@ public final class ucg {
                            uex();
                            uen();
          }
-         else if (java.util.Objects.equals(var1, a.c(1801689423) || java.util.Objects.equals(var1, "餦\ue09c橏\uf43f翧菱䌗"))) {
+         else if (java.util.Objects.equals(var1, a.c(1801689423, "餦\ue09c橏\uf43f翧菱䌗"))) {
             ues(ufq(var0, a.c(300585381, "采\ue862抬ﳟ")));
          }
-         else if (java.util.Objects.equals(var1, a.b("\udd42ꓭ⸪") || java.util.Objects.equals(var1, -905388756))) {
+         else if (java.util.Objects.equals(var1, a.b("\udd42ꓭ⸪", -905388756))) {
             uew(ufq(var0, a.b("梁胟\u0a11鑢", 1657731352)), ufq(var0, a.c(-680061006, "័")));
          }
 

@@ -299,16 +299,16 @@ final class ezo {
 
    static void fax(boolean var0, boolean var1) {
       for (vmo var3 : fay().getSettings()) {
-                  if (java.util.Objects.equals(var3.getName(), a.d("윩뺺㑤ꨄ") || java.util.Objects.equals(var3.getName(), 641918419) || java.util.Objects.equals(var3.getName(), 738140851))) {
+                  if (java.util.Objects.equals(var3.getName(), a.d("윩뺺㑤ꨄ", 641918419, 738140851))) {
             ((vkl)var3).set(var0);
          }
-         else if (java.util.Objects.equals(var3.getName(), a.c(-679125292) || java.util.Objects.equals(var3.getName(), "应✂귉㎧롪㻁蒙൦錰"))) {
+         else if (java.util.Objects.equals(var3.getName(), a.c(-679125292, "应✂귉㎧롪㻁蒙൦錰"))) {
             ((vkl)var3).set(var1);
          }
-         else if (java.util.Objects.equals(var3.getName(), a.b("웝뽥㖯") || java.util.Objects.equals(var3.getName(), -1661221224))) {
+         else if (java.util.Objects.equals(var3.getName(), a.b("웝뽥㖯", -1661221224))) {
             ((vmc)var3).set(180.0);
          }
-         else if (java.util.Objects.equals(var3.getName(), a.d("夲₮ꩧ㐑뿓㥭茳ૄ") || java.util.Objects.equals(var3.getName(), 2016844539) || java.util.Objects.equals(var3.getName(), -2100051067))) {
+         else if (java.util.Objects.equals(var3.getName(), a.d("夲₮ꩧ㐑뿓㥭茳ૄ", 2016844539, -2100051067))) {
             ((vmc)var3).set(3.5);
          }
       }

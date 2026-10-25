@@ -154,11 +154,11 @@ public final class tkx extends OtherClientPlayerEntity {
       double var22 = 0.0;
       double var24 = 0.0;
       boolean var26 = false;
-            if (java.util.Objects.equals(this.tlf, a.c(-1479931684) || java.util.Objects.equals(this.tlf, "ࢊ焜\ufbd2斦\uee71"))) {
+            if (java.util.Objects.equals(this.tlf, a.c(-1479931684, "ࢊ焜\ufbd2斦\uee71"))) {
          var22 = 0.0;
                      var24 = 0.0;
       }
-      else if (java.util.Objects.equals(this.tlf, a.c(1149394098) || java.util.Objects.equals(this.tlf, "峡╦꾸㇎"))) {
+      else if (java.util.Objects.equals(this.tlf, a.c(1149394098, "峡╦꾸㇎"))) {
          if (!this.tlr || Math.hypot(this.tlp - this.getX(), this.tlq - this.getZ()) < 0.4) {
                         double var41 = this.tla.nextDouble() * Math.PI * 2.0;
                         double var44 = this.tlc + this.tla.nextDouble() * (this.tld - this.tlc);
