@@ -76,7 +76,7 @@ public final class wjw {
             return var0;
          }
 
-         List var4 = wkm(var3.toString());
+         List<wjq> var4 = wkm(var3.toString());
          if (var4.isEmpty()) {
             return var0;
          }
