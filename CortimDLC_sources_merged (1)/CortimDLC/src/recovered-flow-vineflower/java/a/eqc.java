@@ -276,7 +276,7 @@ final class eqc {
 
       ArrayList var10 = new ArrayList();
       HashMap var4 = new HashMap();
-      ArrayList var5 = new ArrayList();
+      ArrayList<epm> var5 = new ArrayList<>();
 
       while (var2.more()) {
          int var6 = var2.tag();
