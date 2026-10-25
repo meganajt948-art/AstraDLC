@@ -166,7 +166,7 @@ public final class pzw {
    }
 
    static List<String> lines(Entity var0) {
-      ArrayList var1 = new ArrayList();
+      ArrayList<String> var1 = new ArrayList<>();
       if (var0 instanceof TextDisplayEntity var2) {
          Text var3 = qaf(var2);
          if (var3 != null) {
