@@ -87,7 +87,7 @@ public final class kbs {
    }
 
    static {
-      ArrayList var0 = new ArrayList();
+      ArrayList<kbs> var0 = new ArrayList<>();
       var0.add(
          new kbs(
             a.c(906118871, "䚮㼀뗞⮮ꁳ⚗鲘ᕣ謿Ɩ蘟簧\uf2f5歗\ue11d"),
