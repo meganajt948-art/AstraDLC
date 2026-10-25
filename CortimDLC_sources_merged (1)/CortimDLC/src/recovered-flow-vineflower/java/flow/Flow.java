@@ -738,3 +738,5 @@ public final class Flow implements ClientModInitializer {
       this.openGuiKey = openGuiKey;
    }
 }
+
+// AlbaDLC recovery: source regenerated with Vineflower 1.12.0 and Yarn mappings.
