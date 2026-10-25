@@ -76,16 +76,16 @@ public final class erp {
       int var2 = var0.getWidth();
       int var3 = var0.getHeight();
       if (var2 <= 4096 && var3 <= 4096 && Math.min(var2, var3) >= 16) {
-         List var4 = views(flatten(var0));
-         ArrayList var5 = new ArrayList(var4.size());
+         List<eqw> var4 = views(flatten(var0));
+         ArrayList<Callable<float[][]>> var5 = new ArrayList<>(var4.size());
 
          for (eqw var7 : var4) {
             var5.add(() -> esh(var1.logits(tensor(resize(var7, var1.inputW, var1.inputH)))));
          }
 
-         ArrayList var10 = new ArrayList(var4.size());
+         ArrayList<float[][]> var10 = new ArrayList<>(var4.size());
 
-         for (Future var9 : esa.invokeAll(var5)) {
+         for (Future<float[][]> var9 : esa.invokeAll(var5)) {
             var10.add((float[][])var9.get());
          }
 
@@ -96,7 +96,7 @@ public final class erp {
    }
 
    static erk vote(List<float[][]> var0) {
-      LinkedHashSet var1 = new LinkedHashSet();
+      LinkedHashSet<String> var1 = new LinkedHashSet<>();
 
       for (float[][] var3 : var0) {
          String var4 = ese(var3);
@@ -109,7 +109,7 @@ public final class erp {
          return new erk("", 0.0);
       }
 
-      LinkedHashMap var13 = new LinkedHashMap();
+      LinkedHashMap<String, double[]> var13 = new LinkedHashMap<>();
 
       for (String var16 : var1) {
          double var5 = 0.0;
@@ -131,7 +131,7 @@ public final class erp {
       String var15 = null;
       double var17 = Double.NEGATIVE_INFINITY;
 
-      for (Entry var19 : var13.entrySet()) {
+      for (Map.Entry<String, double[]> var19 : var13.entrySet()) {
          if (((double[])var19.getValue())[0] > var17) {
             var17 = ((double[])var19.getValue())[0];
             var15 = (String)var19.getKey();
