@@ -2,6 +2,11 @@ name: Recover Flow sources with Vineflower
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - fix/alba-standalone-source-recovery
+    paths:
+      - '.github/workflows/recover-flow-vineflower.yml'
 
 jobs:
   decompile:
