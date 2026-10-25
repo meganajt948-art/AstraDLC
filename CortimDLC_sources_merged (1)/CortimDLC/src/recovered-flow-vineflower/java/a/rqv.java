@@ -174,7 +174,7 @@ public class rqv extends kfe {
          return var1;
       }
 
-      ArrayList var2 = new ArrayList();
+      ArrayList<Field> var2 = new ArrayList<>();
 
       for (Class var3 = var0; var3 != null && var3 != Object.class; var3 = var3.getSuperclass()) {
          for (Field var7 : var3.getDeclaredFields()) {
