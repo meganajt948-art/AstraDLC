@@ -13,7 +13,7 @@ final class eou {
 
    static eou read(epm var0) {
       String var1 = "";
-      ArrayList var2 = new ArrayList();
+      ArrayList<Long> var2 = new ArrayList<>();
 
       while (var0.more()) {
          int var3 = var0.tag();
