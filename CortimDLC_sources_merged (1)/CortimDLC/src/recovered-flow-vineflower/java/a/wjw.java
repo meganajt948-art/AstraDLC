@@ -224,7 +224,7 @@ public final class wjw {
    }
 
    static List<wjq> wkm(String var0) {
-      ArrayList var1 = new ArrayList();
+      ArrayList<wjq> var1 = new ArrayList<>();
       if (var0.length() >= 3 && !var0.chars().noneMatch(Character::isDigit)) {
          Matcher var2 = wkb.matcher(var0);
 
