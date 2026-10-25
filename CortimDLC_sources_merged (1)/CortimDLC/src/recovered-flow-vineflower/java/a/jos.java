@@ -125,7 +125,7 @@ public final class jos extends Screen {
 
    void jqr(float var1, boolean var2) {
       this.jph = jyw.accounts();
-      IdentityHashMap var3 = new IdentityHashMap<>(this.jpi);
+      IdentityHashMap<Object, jop> var3 = new IdentityHashMap<>(this.jpi);
       this.jpi.clear();
       int var4 = 0;
 
