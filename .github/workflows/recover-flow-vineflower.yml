@@ -92,19 +92,20 @@ jobs:
           root = Path("recovered-flow-vineflower")
           record_re = re.compile(r"\brecord\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:<[^{};]+>\s*)?\(")
           def normalize_string_switches(source, file):
-              if file.name == "wkw.java":
-                  pattern = re.compile(r"(?m)^([ \t]*)float\s+(\w+)\s*=\s*switch\s*\((\w+)\)\s*\{(.*?)^\s*\};", re.S)
-              elif file.name == "wlk.java":
-                  pattern = re.compile(r"(?m)^([ \t]*)return\s+switch\s*\((\w+)\)\s*\{(.*?)^\s*\};", re.S)
-              else:
-                  return source
+              switch_value_pattern = r"([A-Za-z_$][A-Za-z0-9_$.]*(?:\([^()\n]*\))?)"
 
-              def convert(match):
+              def convert_expression(match, mode):
                   indent = match.group(1)
-                  if file.name == "wkw.java":
-                      target, switch_value, body = match.group(2), match.group(3), match.group(4)
+                  if mode == "return":
+                      target = None
+                      declaration = None
+                      switch_value = match.group(2)
+                      body = match.group(3)
                   else:
-                      target, switch_value, body = None, match.group(2), match.group(3)
+                      declaration = match.group(2)
+                      target = match.group(3)
+                      switch_value = match.group(4)
+                      body = match.group(5)
                   cases = []
                   default_value = None
                   for line in body.splitlines():
@@ -116,27 +117,33 @@ jobs:
                           default_value = item.split("->", 1)[1].strip().removesuffix(";").strip()
                   if not cases or not any(re.match(r"a\.[bcd]\(", label) for label, _ in cases) or default_value is None:
                       return match.group(0)
-
                   output = []
-                  if target is not None:
-                      output.append(indent + "float " + target + ";")
+                  if target is not None and declaration:
+                      output.append(indent + declaration + " " + target + ";")
                   for index, (label, value) in enumerate(cases):
                       keyword = "if" if index == 0 else "else if"
                       output.append(indent + keyword + " (" + switch_value + ".equals(" + label + ")) {")
-                      if target is None:
-                          output.append(indent + "   return " + value + ";")
-                      else:
-                          output.append(indent + "   " + target + " = " + value + ";")
+                      statement = ("return " + value + ";") if mode == "return" else (target + " = " + value + ";")
+                      output.append(indent + "   " + statement)
                       output.append(indent + "}")
                   output.append(indent + "else {")
-                  if target is None:
-                      output.append(indent + "   return " + default_value + ";")
-                  else:
-                      output.append(indent + "   " + target + " = " + default_value + ";")
+                  statement = ("return " + default_value + ";") if mode == "return" else (target + " = " + default_value + ";")
+                  output.append(indent + "   " + statement)
                   output.append(indent + "}")
                   return "\n".join(output)
 
-              return pattern.sub(convert, source)
+              assignment_pattern = re.compile(
+                  r"(?m)^([ \t]*)(?:([A-Za-z_$][A-Za-z0-9_$.<>\[\], ?]*?)\s+)?([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*switch\s*\("
+                  + switch_value_pattern + r"\)\s*\{(.*?)^\s*\};",
+                  re.S
+              )
+              return_pattern = re.compile(
+                  r"(?m)^([ \t]*)return\s+switch\s*\(" + switch_value_pattern + r"\)\s*\{(.*?)^\s*\};",
+                  re.S
+              )
+              source = assignment_pattern.sub(lambda match: convert_expression(match, "assign"), source)
+              source = return_pattern.sub(lambda match: convert_expression(match, "return"), source)
+              return source
 
           converted = 0
           widened_members = 0
