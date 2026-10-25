@@ -231,7 +231,7 @@ public class rhs extends kfe {
       MinecraftClient var2 = MinecraftClient.getInstance();
       if (var1 != null && var1.isEnabled() && var1.rhv.is("Outline") && var2.world != null && var2.player != null) {
          Vec3d var3 = var2.gameRenderer.getCamera().getCameraPos();
-         List var4 = var1.ris(var2, var3, var1.rhz.get());
+         List<LivingEntity> var4 = var1.ris(var2, var3, var1.rhz.get());
          if (!var4.isEmpty()) {
             ukl.style(4).set((float)var1.ric.get(), (float)var1.ria.get(), (float)var1.rib.get(), (float)var1.rid.get(), 0.4F, 0.6F);
             IdentityHashMap<EntityType<?>, List<LivingEntityRenderState>> var5 = new IdentityHashMap<>();
