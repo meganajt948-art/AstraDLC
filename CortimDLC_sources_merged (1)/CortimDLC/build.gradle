@@ -25,6 +25,7 @@ base {
 
 repositories {
     mavenCentral()
+    maven { url = "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -3179,6 +3180,11 @@ sourceSets {
         java.setSrcDirs(["src/recovered-flow-vineflower/java"])
         compileClasspath += sourceSets.main.compileClasspath
     }
+}
+
+// IAS is an external runtime mod already required by the recovered account-switcher screens.
+dependencies {
+    recoveredCompileOnly "maven.modrinth:cudtvDnd:MwO8YI2m"
 }
 
 // Build trigger: October 25 keep search clear of the header label; preserve bottom-left controls.
