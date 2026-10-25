@@ -47,7 +47,7 @@ final class dxq {
          } catch (Throwable var18) {
          }
 
-         List var6 = List.of();
+         List<BlockModelPart> var6 = List.of();
          if (var5 != null) {
             try {
                var6 = var5.getParts(Random.create(42L));
@@ -58,7 +58,7 @@ final class dxq {
          dxl var7 = null;
 
          for (Direction var11 : dyh.dyp) {
-            ArrayList var12 = new ArrayList(2);
+            ArrayList<dxl> var12 = new ArrayList<>(2);
 
             for (BlockModelPart var14 : var6) {
                for (BakedQuad var16 : var14.getQuads(var11)) {
