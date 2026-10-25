@@ -27,6 +27,12 @@ jobs:
       - name: Build AstraDLC
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle build --no-daemon
+
+      - name: Diagnose recovered source compilation (best effort)
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: gradle compileRecoveredJava --no-daemon --stacktrace
+        continue-on-error: true
+
       - name: Upload build artifacts
         if: success()
         uses: actions/upload-artifact@v4
