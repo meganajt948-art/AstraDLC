@@ -1,4 +1,4 @@
-name: Recover Flow sources with CFR
+name: Recover Flow sources with Vineflower
 
 on:
   workflow_dispatch:
@@ -14,6 +14,7 @@ permissions:
 jobs:
   decompile:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -30,7 +31,7 @@ jobs:
           test -s flow.jar
           ls -lh flow.jar
 
-      - name: Download TinyRemapper and Yarn v2 mappings
+      - name: Download TinyRemapper and Yarn mappings
         run: |
           curl -fL --retry 3 "https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.15.0/tiny-remapper-0.15.0-fat.jar" -o tiny-remapper.jar
           curl -fL --retry 3 "https://maven.fabricmc.net/net/fabricmc/yarn/1.21.11+build.1/yarn-1.21.11+build.1-v2.jar" -o yarn-v2.jar
@@ -57,39 +58,35 @@ jobs:
           java -Xmx3g -jar tiny-remapper.jar minecraft-official.jar minecraft-intermediary.jar intermediary.tiny official intermediary --ignoreConflicts
           test -s minecraft-intermediary.jar
 
-      - name: Remap Flow classes and members to Yarn names
+      - name: Remap Flow and Minecraft classpath to Yarn names
         run: |
           java -Xmx2g -jar tiny-remapper.jar flow.jar flow-named.jar yarn-v2.tiny intermediary named minecraft-intermediary.jar --resolveMissing
+          java -Xmx3g -jar tiny-remapper.jar minecraft-intermediary.jar minecraft-named.jar yarn-v2.tiny intermediary named --ignoreConflicts
           test -s flow-named.jar
+          test -s minecraft-named.jar
 
-      - name: Download CFR
+      - name: Download Vineflower 1.12.0
         run: |
-          curl -fL --retry 3 "https://www.benf.org/other/cfr/cfr-0.152.jar" -o cfr.jar
-          test -s cfr.jar
+          curl -fL --retry 3 "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.12.0/vineflower-1.12.0.jar" -o vineflower.jar
+          test -s vineflower.jar
 
-      - name: Decompile remapped Flow
+      - name: Decompile remapped Flow with Minecraft classpath
         run: |
-          mkdir -p recovered-flow-cfr
-          java -Xmx4g -jar cfr.jar flow-named.jar --outputdir recovered-flow-cfr --silent true
-          echo "CFR Java files: $(find recovered-flow-cfr -type f -name '*.java' | wc -l)"
-          if grep -R -n -m 1 'import net\.minecraft\.class_' recovered-flow-cfr --include='*.java'; then
-            echo "Intermediary Minecraft imports remain after remapping."
+          mkdir -p recovered-flow-vineflower
+          java -Xmx4g -jar vineflower.jar --add-external=minecraft-named.jar --decompiler-comments=0 flow-named.jar recovered-flow-vineflower
+          echo "Vineflower Java files: $(find recovered-flow-vineflower -type f -name '*.java' | wc -l)"
+          if grep -R -n -m 1 'import net\.minecraft\.class_' recovered-flow-vineflower --include='*.java'; then
+            echo "Intermediary Minecraft class imports remain after remapping."
             exit 1
-          fi
-          echo "Checking direct intermediary member references:"
-          residual="$(grep -R -n -E '\.method_[0-9]+\(|\.field_[0-9]+' recovered-flow-cfr --include='*.java' | head -n 20 || true)"
-          if [ -n "$residual" ]; then
-            printf '%s\n' "$residual"
-            echo "Unmapped member identifiers remain; continuing to the real Gradle compile check."
           fi
 
       - name: Stage recovered Java sources in project
         shell: bash
         run: |
-          target="CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-cfr/java"
+          target="CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower/java"
           mkdir -p "$target"
-          find recovered-flow-cfr -type f -name '*.java' -print0 | while IFS= read -r -d '' src; do
-            rel="${src#recovered-flow-cfr/}"
+          find recovered-flow-vineflower -type f -name '*.java' -print0 | while IFS= read -r -d '' src; do
+            rel="${src#recovered-flow-vineflower/}"
             mkdir -p "$target/$(dirname "$rel")"
             cp "$src" "$target/$rel"
           done
@@ -97,24 +94,24 @@ jobs:
 
       - name: Package source-only artifact
         run: |
-          cd "CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-cfr"
-          zip -qr "$GITHUB_WORKSPACE/flow-cfr-java-sources.zip" java
+          cd "CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower"
+          zip -qr "$GITHUB_WORKSPACE/flow-vineflower-java-sources.zip" java
 
       - name: Upload recovered Java sources
         uses: actions/upload-artifact@v4
         with:
-          name: flow-cfr-java-sources
-          path: flow-cfr-java-sources.zip
+          name: flow-vineflower-java-sources
+          path: flow-vineflower-java-sources.zip
 
       - name: Commit recovered Java sources to the migration branch
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-cfr/java"
+          git add "CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower/java"
           if git diff --cached --quiet; then
             echo "Recovered sources are already up to date."
           else
-            git commit -m "Add full CFR-recovered Flow Java sources"
+            git commit -m "Add Vineflower 1.12-recovered Flow Java sources"
             git push origin HEAD:"$GITHUB_REF_NAME"
           fi
