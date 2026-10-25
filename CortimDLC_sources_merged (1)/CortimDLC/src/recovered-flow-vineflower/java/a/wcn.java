@@ -76,8 +76,8 @@ public final class wcn {
 
    static void wcw(Packet<?> var0) {
       if (var0 instanceof BundlePacket var5) {
-         for (Packet<?> var3 : var5.getPackets()) {
-            wcw(var3);
+         for (Object var3 : var5.getPackets()) {
+            wcw((Packet<?>)var3);
          }
       } else {
          for (Consumer<Packet<?>> var2 : wcq) {
