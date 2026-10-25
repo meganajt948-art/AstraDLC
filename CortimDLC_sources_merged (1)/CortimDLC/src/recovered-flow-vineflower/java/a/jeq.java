@@ -57,7 +57,7 @@ abstract class jeq<T> extends jcs {
 
       float var6 = 0.0F;
 
-      for (jen var8 : this.jet) {
+      for (jen<T> var8 : this.jet) {
          float var9 = var8.appear.step(var8.alive, var1);
          var6 += this.rowHeight() * vcq.outCubic(var9);
       }
@@ -72,7 +72,7 @@ abstract class jeq<T> extends jcs {
    }
 
    void jfi(boolean var1, boolean var2) {
-      List var3 = var1 ? this.items(false) : List.of();
+      List<T> var3 = var1 ? this.items(false) : List.of();
       this.jfa = false;
       if (var3.isEmpty() && var2 && var1) {
          var3 = this.items(true);
@@ -181,7 +181,7 @@ abstract class jeq<T> extends jcs {
          float var14 = 18.5F;
          float var15 = this.rowHeight();
 
-         for (jen var11 : this.jet) {
+         for (jen<T> var11 : this.jet) {
             float var12 = vcq.outCubic(var11.appear.get());
             float var13 = var15 * var12;
             if (var13 > 0.2F) {
