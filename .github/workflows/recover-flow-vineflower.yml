@@ -359,7 +359,13 @@ jobs:
                               labels = [label.strip() for label in section["label"].split(",")]
                               condition = " || ".join("java.util.Objects.equals(" + selector + ", " + label + ")" for label in labels)
                               output.append(indent + ("if" if index == 0 else "else if") + " (" + condition + ") {")
-                          output.append(indent + "   " + ("return " + expr + ";" if is_return else target + " = " + expr + ";"))
+                          if expr.startswith("throw "):
+                              statement = expr + ";"
+                          elif is_return:
+                              statement = "return " + expr + ";"
+                          else:
+                              statement = target + " = " + expr + ";"
+                          output.append(indent + "   " + statement)
                           output.append(indent + "}")
                       if not output:
                           break
