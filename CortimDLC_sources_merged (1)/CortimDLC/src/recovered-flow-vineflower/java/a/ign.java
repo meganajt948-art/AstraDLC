@@ -1800,7 +1800,7 @@ public final class ign extends ijy {
                + a.b("〨", -2147143674)
                + var14.epochs;
          }
-         else if (java.util.Objects.equals(var14.phase, a.d("䊵㬍뇜⾹", 1228418593, 1934388476), a.b("涡ᐆ默®", -2023985710))) {
+         else if (java.util.Objects.equals(var14.phase, a.d("䊵㬍뇜⾹", 1228418593, 1934388476)) || java.util.Objects.equals(var14.phase, a.b("涡ᐆ默®", -2023985710))) {
             var17 = wap.s(
                   a.b("ꭾ틆堑왳䶸쬎煚\uf8a2暺\uec52殗釼Ἤ蛏ೋ訬の뾸┉ꍟ⪡傷", -835343612), a.b("揖ᩣ邴દ蔔Ϟ릇『긬⓯ꝟ", 1716676510)
                )
