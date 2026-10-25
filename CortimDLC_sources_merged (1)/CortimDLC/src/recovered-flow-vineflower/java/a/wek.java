@@ -17,21 +17,21 @@ public final class wek {
 
    public static void tick(MinecraftClient var0) {
       wer(var0);
-      if (var0.field_1690 != null) {
+      if (var0.options != null) {
          if (weo == null) {
-            weo = var0.field_1690.field_1837;
+            weo = var0.options.pauseOnLostFocus;
          }
 
-         var0.field_1690.field_1837 = false;
+         var0.options.pauseOnLostFocus = false;
       }
    }
 
    public static void shutdown(MinecraftClient var0) {
-      if (weo != null && var0.field_1690 != null && weo != var0.field_1690.field_1837) {
-         var0.field_1690.field_1837 = weo;
+      if (weo != null && var0.options != null && weo != var0.options.pauseOnLostFocus) {
+         var0.options.pauseOnLostFocus = weo;
 
          try {
-            var0.field_1690.method_1640();
+            var0.options.write();
          } catch (Throwable var2) {
             System.out.println(a.b("륮생䨁퐹徽\ud958捌\ueab3瓳﹑秇菹റ钄Ị頽≳궿㝑녚㢡䋼찛垃퇡嬷\ue2d7泖\uf630灵﯀ԇ輀ᚳ郡ᨓꖏ⿷ꤨわ뫖쑴乥짗匂\udd7b擹\uee52", -401295043) + var2);
          }
@@ -39,8 +39,8 @@ public final class wek {
    }
 
    private static void wer(MinecraftClient var0) {
-      if (var0.method_22683() != null) {
-         long var1 = var0.method_22683().method_4490();
+      if (var0.getWindow() != null) {
+         long var1 = var0.getWindow().getHandle();
          if (var1 != 0L && wen != var1) {
             wen = var1;
 

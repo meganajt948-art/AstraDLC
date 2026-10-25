@@ -45,7 +45,7 @@ public final class vgj extends HeldItemRenderer {
    }
 
    public static void ensureInstalled(MinecraftClient var0) {
-      if (!vgs && var0.field_1773 != null) {
+      if (!vgs && var0.gameRenderer != null) {
          try {
             Field var1 = vgu;
             if (var1 == null) {
@@ -64,7 +64,7 @@ public final class vgj extends HeldItemRenderer {
                vgu = var1;
             }
 
-            Object var12 = var1.get(var0.field_1773);
+            Object var12 = var1.get(var0.gameRenderer);
             if (var12 instanceof vgj) {
                return;
             }
@@ -72,7 +72,7 @@ public final class vgj extends HeldItemRenderer {
             vgz();
             HeldItemRenderer var13 = (HeldItemRenderer)var12;
             ItemModelManager var14 = (ItemModelManager)vgq.get(var13);
-            vgj var15 = new vgj(var0, var0.method_1561(), var14);
+            vgj var15 = new vgj(var0, var0.getEntityRenderDispatcher(), var14);
 
             for (Field var9 : HeldItemRenderer.class.getDeclaredFields()) {
                int var10 = var9.getModifiers();
@@ -82,7 +82,7 @@ public final class vgj extends HeldItemRenderer {
                }
             }
 
-            var1.set(var0.field_1773, var15);
+            var1.set(var0.gameRenderer, var15);
             if (!vgt) {
                vgt = true;
                System.out.println("hand renderer ready (view model, hand shaders)");
@@ -138,56 +138,57 @@ public final class vgj extends HeldItemRenderer {
 
             if (var8 == null) {
                throw new IllegalStateException("first-person item method not found");
-            } else {
-               var8.setAccessible(true);
-               vgr = MethodHandles.lookup().unreflect(var8);
             }
+
+            var8.setAccessible(true);
+            vgr = MethodHandles.lookup().unreflect(var8);
          } else {
             throw new IllegalStateException("unexpected hand renderer layout: " + var0.size() + " stacks, " + var1.size() + " floats");
          }
       }
    }
 
-   public void method_22976(float var1, MatrixStack var2, OrderedRenderCommandQueue var3, ClientPlayerEntity var4, int var5) {
+   @Override
+   public void renderItem(float tickProgress, MatrixStack matrices, OrderedRenderCommandQueue var3, ClientPlayerEntity player, int light) {
       if (!vhu.changesHands()) {
-         super.method_22976(var1, var2, var3, var4, var5);
-         vhf.afterHands(var4, var1);
+         super.renderItem(tickProgress, matrices, var3, player, light);
+         vhf.afterHands(player, tickProgress);
       } else {
          try {
-            this.vha(var1, var2, var3, var4, var5);
+            this.vha(tickProgress, matrices, var3, player, light);
          } catch (Throwable var7) {
             vgs = true;
             System.out.println("hand tweaks failed, back to the game's hands: " + var7);
-            super.method_22976(var1, var2, var3, var4, var5);
+            super.renderItem(tickProgress, matrices, var3, player, light);
          }
 
-         vhf.afterHands(var4, var1);
+         vhf.afterHands(player, tickProgress);
       }
    }
 
    private void vha(float var1, MatrixStack var2, OrderedRenderCommandQueue var3, ClientPlayerEntity var4, int var5) throws Throwable {
-      float var6 = var4.method_6055(var1);
-      Hand var7 = var4.field_6266 != null ? var4.field_6266 : Hand.field_5808;
-      float var8 = var4.method_61414(var1);
-      float var9 = MathHelper.method_16439(var1, var4.field_3914, var4.field_3916);
-      float var10 = MathHelper.method_16439(var1, var4.field_3931, var4.field_3932);
-      var2.method_22907(RotationAxis.field_40714.rotationDegrees((var4.method_5695(var1) - var9) * 0.1F));
-      var2.method_22907(RotationAxis.field_40716.rotationDegrees((var4.method_5705(var1) - var10) * 0.1F));
+      float var6 = var4.getHandSwingProgress(var1);
+      Hand var7 = var4.preferredHand != null ? var4.preferredHand : Hand.MAIN_HAND;
+      float var8 = var4.getLerpedPitch(var1);
+      float var9 = MathHelper.lerp(var1, var4.lastRenderPitch, var4.renderPitch);
+      float var10 = MathHelper.lerp(var1, var4.lastRenderYaw, var4.renderYaw);
+      var2.multiply(RotationAxis.POSITIVE_X.rotationDegrees((var4.getPitch(var1) - var9) * 0.1F));
+      var2.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((var4.getYaw(var1) - var10) * 0.1F));
       boolean[] var11 = vhc(var4);
       ItemStack var12 = (ItemStack)vgk.get(this);
       ItemStack var13 = (ItemStack)vgl.get(this);
       if (var11[0]) {
-         float var14 = this.vgw.method_75483(var12) * (1.0F - MathHelper.method_16439(var1, vgn.getFloat(this), vgm.getFloat(this)));
-         this.vhb(var4, var1, var8, Hand.field_5808, var7 == Hand.field_5808 ? var6 : 0.0F, var12, var14, var2, var3, var5);
+         float var14 = this.vgw.getSwapAnimationScale(var12) * (1.0F - MathHelper.lerp(var1, vgn.getFloat(this), vgm.getFloat(this)));
+         this.vhb(var4, var1, var8, Hand.MAIN_HAND, var7 == Hand.MAIN_HAND ? var6 : 0.0F, var12, var14, var2, var3, var5);
       }
 
       if (var11[1]) {
-         float var15 = this.vgw.method_75483(var13) * (1.0F - MathHelper.method_16439(var1, vgp.getFloat(this), vgo.getFloat(this)));
-         this.vhb(var4, var1, var8, Hand.field_5810, var7 == Hand.field_5810 ? var6 : 0.0F, var13, var15, var2, var3, var5);
+         float var15 = this.vgw.getSwapAnimationScale(var13) * (1.0F - MathHelper.lerp(var1, vgp.getFloat(this), vgo.getFloat(this)));
+         this.vhb(var4, var1, var8, Hand.OFF_HAND, var7 == Hand.OFF_HAND ? var6 : 0.0F, var13, var15, var2, var3, var5);
       }
 
-      this.vgv.field_1773.method_72911().method_73002();
-      this.vgv.method_22940().method_23000().method_22993();
+      this.vgv.gameRenderer.getEntityRenderDispatcher().render();
+      this.vgv.getBufferBuilders().getEntityVertexConsumers().draw();
    }
 
    private void vhb(
@@ -202,10 +203,10 @@ public final class vgj extends HeldItemRenderer {
       OrderedRenderCommandQueue var9,
       int var10
    ) throws Throwable {
-      Arm var11 = var4 == Hand.field_5808 ? var1.method_6068() : var1.method_6068().method_5928();
-      boolean var12 = var6.method_31574(Items.field_49814);
+      Arm var11 = var4 == Hand.MAIN_HAND ? var1.getMainArm() : var1.getMainArm().getOpposite();
+      boolean var12 = var6.isOf(Items.MACE);
       boolean var13 = vhu.swings(var1, var4, var6);
-      var8.method_22903();
+      var8.push();
       if (!var12) {
          vhu.viewModel(var8, var11);
       }
@@ -227,31 +228,31 @@ public final class vgj extends HeldItemRenderer {
          (OrderedRenderCommandQueue)var9,
          (int)var10
       );
-      var8.method_22909();
+      var8.pop();
    }
 
    private static boolean[] vhc(ClientPlayerEntity var0) {
-      ItemStack var1 = var0.method_6047();
-      ItemStack var2 = var0.method_6079();
-      boolean var3 = var1.method_31574(Items.field_8102) || var2.method_31574(Items.field_8102);
-      boolean var4 = var1.method_31574(Items.field_8399) || var2.method_31574(Items.field_8399);
+      ItemStack var1 = var0.getMainHandStack();
+      ItemStack var2 = var0.getOffHandStack();
+      boolean var3 = var1.isOf(Items.BOW) || var2.isOf(Items.BOW);
+      boolean var4 = var1.isOf(Items.CROSSBOW) || var2.isOf(Items.CROSSBOW);
       if (!var3 && !var4) {
          return new boolean[]{true, true};
-      } else if (!var0.method_6115()) {
+      } else if (!var0.isUsingItem()) {
          return new boolean[]{true, !vhd(var1)};
       } else {
-         ItemStack var5 = var0.method_6030();
-         Hand var6 = var0.method_6058();
-         if (!var5.method_31574(Items.field_8102) && !var5.method_31574(Items.field_8399)) {
-            boolean var7 = var6 == Hand.field_5808 && vhd(var2);
+         ItemStack var5 = var0.getActiveItem();
+         Hand var6 = var0.getActiveHand();
+         if (!var5.isOf(Items.BOW) && !var5.isOf(Items.CROSSBOW)) {
+            boolean var7 = var6 == Hand.MAIN_HAND && vhd(var2);
             return new boolean[]{true, !var7};
          } else {
-            return new boolean[]{var6 == Hand.field_5808, var6 == Hand.field_5810};
+            return new boolean[]{var6 == Hand.MAIN_HAND, var6 == Hand.OFF_HAND};
          }
       }
    }
 
    private static boolean vhd(ItemStack var0) {
-      return var0.method_31574(Items.field_8399) && CrossbowItem.method_7781(var0);
+      return var0.isOf(Items.CROSSBOW) && CrossbowItem.isCharged(var0);
    }
 }

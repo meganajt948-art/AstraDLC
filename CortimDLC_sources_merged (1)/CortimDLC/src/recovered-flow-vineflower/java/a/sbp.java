@@ -209,8 +209,8 @@ public class sbp extends kfe {
    }
 
    private void sff(MinecraftClient var1) {
-      var1.method_1483().method_4875(SoundEvents.field_14946.comp_3319(), SoundCategory.field_15252);
-      var1.method_1483().method_4875(SoundEvents.field_15020.comp_3319(), SoundCategory.field_15252);
+      var1.getSoundManager().stopSounds(SoundEvents.WEATHER_RAIN.id(), SoundCategory.WEATHER);
+      var1.getSoundManager().stopSounds(SoundEvents.WEATHER_RAIN_ABOVE.id(), SoundCategory.WEATHER);
       if (!this.sex) {
          try {
             if (this.sew.isEmpty()) {
@@ -223,10 +223,10 @@ public class sbp extends kfe {
             }
 
             for (Field var11 : this.sew) {
-               if (var11.get(var1.field_1713) instanceof Map var13) {
+               if (var11.get(var1.particleManager) instanceof Map var13) {
                   for (Object var7 : var13.values()) {
                      if (var7 instanceof ParticleRenderer var8) {
-                        var8.method_74290().removeIf(var0 -> var0.getClass() == RainSplashParticle.class);
+                        var8.getParticles().removeIf(var0 -> var0.getClass() == RainSplashParticle.class);
                      }
                   }
                }
@@ -241,18 +241,18 @@ public class sbp extends kfe {
    public static void afterExtraction(WorldRenderState var0) {
       sbp var1 = sec;
       if (var1 != null && var1.isEnabled() && var1.sev && var0 != null) {
-         var0.field_63085.field_63101.clear();
-         var0.field_63085.field_63102.clear();
-         var0.field_63085.field_63103 = 0.0F;
+         var0.weatherRenderState.rainPieces.clear();
+         var0.weatherRenderState.snowPieces.clear();
+         var0.weatherRenderState.intensity = 0.0F;
       }
    }
 
    @Override
    public void onEndTick(MinecraftClient var1) {
       this.sdl++;
-      ClientWorld var2 = var1.field_1687;
-      if (var2 != null && var1.field_1724 != null) {
-         if (this.sev && var2.method_8430(1.0F) > 0.0F) {
+      ClientWorld var2 = var1.world;
+      if (var2 != null && var1.player != null) {
+         if (this.sev && var2.getRainGradient(1.0F) > 0.0F) {
             this.sff(var1);
          }
 
@@ -266,10 +266,10 @@ public class sbp extends kfe {
          if (this.sfe() && this.scm.get()) {
             this.scs.clear();
 
-            for (PlayerEntity var8 : var2.method_18456()) {
-               if (!var8.method_7325() && !(var8.method_5858(var1.field_1724) > 2304.0)) {
-                  this.scs.add(var8.method_5667());
-                  this.sfg(var8, var3, var8 == var1.field_1724 ? 1.0F : 0.8F);
+            for (PlayerEntity var8 : var2.getPlayers()) {
+               if (!var8.isSpectator() && !(var8.squaredDistanceTo(var1.player) > 2304.0)) {
+                  this.scs.add(var8.getUuid());
+                  this.sfg(var8, var3, var8 == var1.player ? 1.0F : 0.8F);
                }
             }
 
@@ -282,10 +282,10 @@ public class sbp extends kfe {
    }
 
    private void sfg(PlayerEntity var1, long var2, float var4) {
-      sbh var5 = this.scr.computeIfAbsent(var1.method_5667(), var0 -> new sbh());
-      double var6 = var1.method_23317();
-      double var8 = var1.method_23321();
-      boolean var10 = var1.method_24828();
+      sbh var5 = this.scr.computeIfAbsent(var1.getUuid(), var0 -> new sbh());
+      double var6 = var1.getX();
+      double var8 = var1.getZ();
+      boolean var10 = var1.isOnGround();
       if (!var5.sbi) {
          var5.sbi = true;
          var5.sbk = var6;
@@ -301,20 +301,20 @@ public class sbp extends kfe {
             var5.sbj = var10;
          } else {
             if (var10 && !var5.sbj) {
-               float var21 = var1.method_36454() * (float) (Math.PI / 180.0);
+               float var21 = var1.getYaw() * (float) (Math.PI / 180.0);
                float var18 = (float)(-Math.sin(var21));
                float var22 = (float)Math.cos(var21);
-               this.sfh(var6, var1.method_23318(), var8, var18, var22, 1.0F, var2, var4);
-               this.sfh(var6, var1.method_23318(), var8, var18, var22, -1.0F, var2, var4);
+               this.sfh(var6, var1.getY(), var8, var18, var22, 1.0F, var2, var4);
+               this.sfh(var6, var1.getY(), var8, var18, var22, -1.0F, var2, var4);
                var5.sbk = var6;
                var5.sbl = var8;
             } else if (var10) {
-               double var17 = var1.method_5715() ? 0.42 : (var1.method_5624() ? 0.85 : 0.62);
+               double var17 = var1.isSneaking() ? 0.42 : (var1.isSprinting() ? 0.85 : 0.62);
                if (var15 >= var17) {
                   float var19 = (float)(var11 / var15);
                   float var20 = (float)(var13 / var15);
                   var5.sbm = -var5.sbm;
-                  this.sfh(var6, var1.method_23318(), var8, var19, var20, var5.sbm, var2, var4);
+                  this.sfh(var6, var1.getY(), var8, var19, var20, var5.sbm, var2, var4);
                   var5.sbk = var6;
                   var5.sbl = var8;
                }
@@ -344,9 +344,9 @@ public class sbp extends kfe {
       this.sek = false;
       this.sei = 0;
       this.sej = false;
-      ClientWorld var2 = var1.field_1687;
-      Camera var3 = var1.field_1773.method_19418();
-      this.sds = var2 != null && var2.method_8597().comp_5220() == Skybox.field_64386;
+      ClientWorld var2 = var1.world;
+      Camera var3 = var1.gameRenderer.getCamera();
+      this.sds = var2 != null && var2.getDimension().skybox() == Skybox.OVERWORLD;
       this.sev = false;
       vbb.wantEntityMask(!this.sfd() || this.sds);
       boolean var4 = this.sds && this.sbs.is("Summer");
@@ -364,29 +364,29 @@ public class sbp extends kfe {
          this.sed.reset();
       }
 
-      if (var2 != null && var1.field_1724 != null && var3.method_19332() && var3.method_19334() == CameraSubmersionType.field_27888) {
+      if (var2 != null && var1.player != null && var3.isReady() && var3.getSubmersionType() == CameraSubmersionType.NONE) {
          long var5 = System.nanoTime();
          float var7 = this.sdm == 0L ? 0.0F : Math.min(0.1F, (float)(var5 - this.sdm) / 1.0E9F);
          this.sdm = var5;
          this.sdn = (this.sdn + var7) % 3600.0F;
          this.sdp = var7;
          this.sdt += var7;
-         float var8 = var1.method_61966().method_60637(false);
-         Vec3d var9 = var3.method_71156();
-         int var10 = (int)Math.floor(var9.field_1352);
-         int var11 = (int)Math.floor(var9.field_1351);
-         int var12 = (int)Math.floor(var9.field_1350);
+         float var8 = var1.getRenderTickCounter().getTickProgress(false);
+         Vec3d var9 = var3.getCameraPos();
+         int var10 = (int)Math.floor(var9.x);
+         int var11 = (int)Math.floor(var9.y);
+         int var12 = (int)Math.floor(var9.z);
          byte var13 = 64;
          if (!this.sdg || Math.abs(var10 - (this.sdj + var13)) > 24 || Math.abs(var12 - (this.sdk + var13)) > 24 || this.sdl >= 40) {
             this.sfs(var2, var10 - var13, var12 - var13);
          }
 
-         this.scw.rotation(var3.method_23767());
-         EnvironmentAttributeInterpolator var14 = var3.method_75756();
-         float var15 = var2.method_8430(var8);
+         this.scw.rotation(var3.getRotation());
+         EnvironmentAttributeInterpolator var14 = var3.getEnvironmentAttributeInterpolator();
+         float var15 = var2.getRainGradient(var8);
          this.sdr = var15;
          if (this.sds) {
-            Float var16 = (Float)var14.method_75689(EnvironmentAttributes.field_63748, var8);
+            Float var16 = var14.get(EnvironmentAttributes.CLOUD_HEIGHT_VISUAL, var8);
             this.sdq = var16 != null && !var16.isNaN() ? var16 : 192.33F;
          }
 
@@ -395,8 +395,8 @@ public class sbp extends kfe {
          float[] var18 = new float[]{0.5F, 0.65F, 0.9F};
          if (this.sds) {
             float var19 = Math.max(0.0F, 1.0F - 0.85F * var15);
-            float var20 = (Float)var14.method_75689(EnvironmentAttributes.field_64340, var8) * (float) (Math.PI / 180.0);
-            float var21 = (Float)var14.method_75689(EnvironmentAttributes.field_64341, var8) * (float) (Math.PI / 180.0);
+            float var20 = var14.get(EnvironmentAttributes.SUN_ANGLE_VISUAL, var8) * (float) (Math.PI / 180.0);
+            float var21 = var14.get(EnvironmentAttributes.MOON_ANGLE_VISUAL, var8) * (float) (Math.PI / 180.0);
             float var22 = (float)Math.cos(var20);
             float var23 = (float)Math.cos(var21);
             if (var22 > -0.05F) {
@@ -408,16 +408,16 @@ public class sbp extends kfe {
                var17 = new float[]{0.6F, 0.7F, 1.0F};
             }
 
-            int var31 = (Integer)var14.method_75689(EnvironmentAttributes.field_63746, var8);
+            int var31 = var14.get(EnvironmentAttributes.SKY_COLOR_VISUAL, var8);
             var18 = new float[]{(var31 >> 16 & 0xFF) / 255.0F, (var31 >> 8 & 0xFF) / 255.0F, (var31 & 0xFF) / 255.0F};
          }
 
          float var26 = this.sds ? uhs.daylight(var1) : 0.6F;
          float var27 = uhs.boost(var1);
          float var28 = uhs.light(var1);
-         float var29 = var2.method_8314(LightType.field_9284, var3.method_19328()) / 15.0F;
+         float var29 = var2.getLightLevel(LightType.SKY, var3.getBlockPos()) / 15.0F;
          this.sdo = this.sdo < 0.0F ? var29 : this.sdo + (var29 - this.sdo) * Math.min(1.0F, var7 * 2.0F);
-         float var30 = Math.min(var1.field_1690.method_38521() * 16.0F, 200.0F);
+         float var30 = Math.min(var1.options.getClampedViewDistance() * 16.0F, 200.0F);
          if (this.sfd()) {
             this.sfk(var1, var2, var3, var9, var10, var11, var12, var5, var7, var25, var17, var27, var26, var30);
          } else {
@@ -444,19 +444,18 @@ public class sbp extends kfe {
       this.sdd = (this.sdd + var14 * var18) % 65536.0;
       this.sde = (this.sde + var16 * var18) % 65536.0;
       this.sdf = (this.sdf + 0.012 * var13 * var6) % 64.0;
-      boolean var20 = this.sdb != null && this.sdb.method_1025(var2) < 64.0;
+      boolean var20 = this.sdb != null && this.sdb.squaredDistanceTo(var2) < 64.0;
       if (this.sdb == null) {
-         this.sda.set(var1.method_23767());
+         this.sda.set(var1.getRotation());
          this.sdb = var2;
       }
 
       this.scy.rotation(this.sda.conjugate(new Quaternionf()));
-      float var21 = (float)(var2.field_1352 - this.sdb.field_1352);
-      float var22 = (float)(var2.field_1351 - this.sdb.field_1351);
-      float var23 = (float)(var2.field_1350 - this.sdb.field_1350);
-      this.sda.set(var1.method_23767());
+      float var21 = (float)(var2.x - this.sdb.x);
+      float var22 = (float)(var2.y - this.sdb.y);
+      float var23 = (float)(var2.z - this.sdb.z);
+      this.sda.set(var1.getRotation());
       this.sdb = var2;
-      String var32 = this.sco.get();
       float var24;
       float var25;
       byte var26;
@@ -465,7 +464,7 @@ public class sbp extends kfe {
       byte var29;
       float var30;
       float var31;
-      switch (var32) {
+      switch (this.sco.get()) {
          case "Low":
             var24 = 0.34F;
             var25 = 0.03F;
@@ -499,8 +498,8 @@ public class sbp extends kfe {
 
       float var49 = this.sdq;
       float var50 = (float)this.sce.get() * 0.85F;
-      float var34 = sfw(var2.field_1352 - this.sdd, 8192.0);
-      float var35 = sfw(var2.field_1350 - this.sde, 8192.0);
+      float var34 = sfw(var2.x - this.sdd, 8192.0);
+      float var35 = sfw(var2.z - this.sde, 8192.0);
       float var36 = (float)(var14 * var18);
       float var37 = (float)(var16 * var18);
       boolean var38 = var8[2] > var8[0];
@@ -510,20 +509,24 @@ public class sbp extends kfe {
       boolean var42 = this.sdg;
       int var43 = this.sdj - var3;
       int var44 = this.sdk - var5;
+      float[] var45 = var7;
+      float[] var46 = var8;
+      float[] var47 = var9;
+      float var48 = var12;
       uze.draw(var24, var25, var20, (float)this.sdf, var10, var36x -> {
          var36x.putMat4f(this.scw);
          var36x.putMat4f(this.scy);
          var36x.putVec4(var21, var22, var23, 0.0F);
-         var36x.putVec4(var34, (float)var2.field_1351, var35, var12);
-         var36x.putVec4(var7[0], var7[1], var7[2], var7[3]);
-         var36x.putVec4(var8[0], var8[1], var8[2], var38 ? 1.0F : 0.0F);
-         var36x.putVec4(var9[0], var9[1], var9[2], var11);
-         var36x.putVec4(var49, var49 + 150.0F, var50, 1.5F + 0.5F * var12);
+         var36x.putVec4(var34, (float)var2.y, var35, var48);
+         var36x.putVec4(var45[0], var45[1], var45[2], var45[3]);
+         var36x.putVec4(var46[0], var46[1], var46[2], var38 ? 1.0F : 0.0F);
+         var36x.putVec4(var47[0], var47[1], var47[2], var11);
+         var36x.putVec4(var49, var49 + 150.0F, var50, 1.5F + 0.5F * var48);
          var36x.putVec4(var36, var37, (float)var14, (float)var16);
-         var36x.putVec4(var39 * (1.0F - 0.6F * var12), var30, 0.0016F, var40 * (1.0F - 0.7F * var12));
+         var36x.putVec4(var39 * (1.0F - 0.6F * var48), var30, 0.0016F, var40 * (1.0F - 0.7F * var48));
          var36x.putVec4(var41, 7000.0F, var31, 0.0F);
          var36x.putVec4(var43, var44, 128.0F, var42 ? 1.0F : 0.0F);
-         var36x.putVec4((float)(var2.field_1352 - var3), (float)(var2.field_1351 - var4), (float)(var2.field_1350 - var5), var4);
+         var36x.putVec4((float)(var2.x - var3), (float)(var2.y - var4), (float)(var2.z - var5), var4);
          var36x.putVec4(var26, var27, var28, var29);
       });
    }
@@ -588,14 +591,14 @@ public class sbp extends kfe {
       this.sdz += (var33 * 0.94 + var31 * 0.34) * var35 * 2.4;
       float var37 = var15 == 0 && this.sds ? (float)this.sca.get() : 0.0F;
       float var38 = var15 == 0 && var25 ? (float)this.scd.get() : 0.0F;
-      float var39 = Math.max(this.sdq - (float)var2.field_1351, 40.0F);
+      float var39 = Math.max(this.sdq - (float)var2.y, 40.0F);
       float var40 = !this.sds ? -1.0F : (0.0012F + 0.0068F * var22) * (0.55F + 0.45F * var37) * (1.0F + 0.5F * this.sdr);
-      float var41 = sfw((var2.field_1352 - this.sdw) / 80.0, 256.0);
-      float var42 = sfw((var2.field_1350 - this.sdx) / 80.0, 256.0);
-      float var43 = sfw((var2.field_1352 - this.sdw) / 640.0, 256.0);
-      float var44 = sfw((var2.field_1350 - this.sdx) / 640.0, 256.0);
-      float var45 = sfw((var2.field_1352 - this.sdy) / 28.0, 256.0);
-      float var46 = sfw((var2.field_1350 - this.sdz) / 28.0, 256.0);
+      float var41 = sfw((var2.x - this.sdw) / 80.0, 256.0);
+      float var42 = sfw((var2.z - this.sdx) / 80.0, 256.0);
+      float var43 = sfw((var2.x - this.sdw) / 640.0, 256.0);
+      float var44 = sfw((var2.z - this.sdx) / 640.0, 256.0);
+      float var45 = sfw((var2.x - this.sdy) / 28.0, 256.0);
+      float var46 = sfw((var2.z - this.sdz) / 28.0, 256.0);
       this.sea = (this.sea + 0.55 * var24 * this.sdp) % 256.0;
       this.seb = (this.seb + 0.9 * var24 * this.sdp) % 256.0;
       float var47 = (float)this.sea;
@@ -611,7 +614,7 @@ public class sbp extends kfe {
       };
       int var52 = Math.round(var51[0] * var22);
       int var53 = Math.round(var51[1] * var22);
-      this.scx.rotation(var1.field_1773.method_19418().method_23767().conjugate(this.scz));
+      this.scx.rotation(var1.gameRenderer.getCamera().getRotation().conjugate(this.scz));
       this.sct.clear();
       if (var15 == 0) {
          this.sct.addAll(this.scq);
@@ -622,7 +625,7 @@ public class sbp extends kfe {
          var43x.putMat4f(this.scw);
          var43x.putMat4f(this.scx);
          var43x.putVec4(Math.floorMod(var3, 4096), var4, Math.floorMod(var5, 4096), this.sdn);
-         var43x.putVec4((float)(var2.field_1352 - var3), (float)(var2.field_1351 - var4), (float)(var2.field_1350 - var5), var15);
+         var43x.putVec4((float)(var2.x - var3), (float)(var2.y - var4), (float)(var2.z - var5), var15);
          var43x.putVec4(var22, var23, var25 ? 1.0F : 0.0F, var24);
          var43x.putVec4(var11, var12, var16, this.sdo);
          var43x.putVec4(var8[0], var8[1], var8[2], var8[3]);
@@ -702,40 +705,40 @@ public class sbp extends kfe {
          this.sem = (this.sem + var27 * var29) % 491520.0;
          this.sen = (this.sen + var25 * var29 * 2.4) % 1000000.0;
          this.seo = (this.seo + var27 * var29 * 2.4) % 1000000.0;
-         float var31 = Math.max(80.0F, Math.min(600.0F, this.sdq - (float)var4.field_1351 + 60.0F));
-         float var32 = sfw((var4.field_1352 - this.sel) / 240.0, 2048.0);
-         float var33 = sfw((var4.field_1350 - this.sem) / 240.0, 2048.0);
-         float var34 = sfw((var4.field_1352 - this.sen) * 0.0042307692307692315, 256.0);
-         float var35 = sfw((var4.field_1350 - this.seo) * 0.0042307692307692315, 256.0);
+         float var31 = Math.max(80.0F, Math.min(600.0F, this.sdq - (float)var4.y + 60.0F));
+         float var32 = sfw((var4.x - this.sel) / 240.0, 2048.0);
+         float var33 = sfw((var4.z - this.sem) / 240.0, 2048.0);
+         float var34 = sfw((var4.x - this.sen) * 0.0042307692307692315, 256.0);
+         float var35 = sfw((var4.z - this.seo) * 0.0042307692307692315, 256.0);
          float var36 = 1.0F + 0.35F * (float)Math.sin(this.sdt * 0.31) + 0.2F * (float)Math.sin(this.sdt * 0.83 + 1.1);
          float var37 = (1.0F + 1.4F * var36) * (0.4F + 0.6F * var16);
          float var38 = (float)var25 * var37;
          float var39 = (float)var27 * var37;
          float var40 = 8.5F;
-         float var41 = var1.method_1493() ? 0.0F : var10;
+         float var41 = var1.isPaused() ? 0.0F : var10;
          this.sep = (this.sep + var40 * var41) % 54912.0;
          this.set = (this.set + var38 * var41) % 6864.0;
          this.seu = (this.seu + var39 * var41) % 6864.0;
          float var42 = sfw(this.set, 6864.0);
          float var43 = sfw(this.seu, 6864.0);
-         float var44 = sfw(var4.field_1352, 6864.0);
-         float var45 = sfw(var4.field_1350, 6864.0);
-         this.sed.update(var41, (float)this.sbu.get() * (0.35F + 0.65F * var17), var4, var31, Math.min((double)var2.method_8615(), var4.field_1351 - 40.0));
-         boolean var46 = (Boolean)var1.field_1690.method_41784().method_41753();
+         float var44 = sfw(var4.x, 6864.0);
+         float var45 = sfw(var4.z, 6864.0);
+         this.sed.update(var41, (float)this.sbu.get() * (0.35F + 0.65F * var17), var4, var31, Math.min(var2.getSeaLevel(), var4.y - 40.0));
+         boolean var46 = var1.options.getHideLightningFlashes().getValue();
          float var47 = this.sed.brightness() * (var46 ? 0.15F : 1.0F);
          float var48 = Math.max(1.0F, this.sed.distance());
          float var49 = var47 * sfx(1.25F - var48 / 2600.0F, 0.25F, 1.0F) * 0.5F * (0.1F + 0.9F * this.ser);
          float var50 = this.sed.boltBrightness() * (var46 ? 0.4F : 1.6F);
          float var51 = var47 * sfx(1.3F - var48 / 2000.0F, 0.15F, 1.0F) * (0.2F + 0.8F * var21) * 0.7F;
-         float var52 = var1.field_1773.method_32796();
+         float var52 = var1.gameRenderer.getFarPlaneDistance();
          float var53 = this.sfm(var4);
          float var54 = Math.min(1.0F, var52 * 0.8F / Math.max(1.0F, var53));
          if (!var46 && var47 > 0.5F && var48 < 1500.0F) {
-            var2.method_8509(1);
+            var2.setLightningTicksLeft(1);
          }
 
-         float var55 = var1.field_1690.method_71978(SoundCategory.field_15250) * var1.field_1690.method_71978(SoundCategory.field_15252);
-         float var56 = var1.method_1493() ? 0.0F : (float)this.sbw.get() * var55;
+         float var55 = var1.options.getSoundVolume(SoundCategory.MASTER) * var1.options.getSoundVolume(SoundCategory.WEATHER);
+         float var56 = var1.isPaused() ? 0.0F : (float)this.sbw.get() * var55;
 
          sti var57;
          while ((var57 = this.sed.nextThunder()) != null) {
@@ -744,9 +747,9 @@ public class sbp extends kfe {
 
          float var58 = this.ser + (1.0F - this.ser) * 0.7F * Math.max(this.sdo, 0.0F);
          float var59 = sfy(0.35F, 1.0F, var16);
-         vss.listener(var3.method_19330());
+         vss.listener(var3.getYaw());
          vss.rain(var56 * var58 * var59 * 0.9F, var56 * var58 * Math.min(1.0F, var16 * 2.2F) * (1.0F - 0.55F * var59) * 1.5F, 1.0F - this.ser, this.sfp(var4));
-         float var60 = sfx((-var3.method_19329() + 15.0F) / 55.0F, 0.0F, 1.0F);
+         float var60 = sfx((-var3.getPitch() + 15.0F) / 55.0F, 0.0F, 1.0F);
          this.see.update(var41, this.sbx.get() ? var16 * this.ser * var60 * 2.6F : 0.0F, 1.0F - this.ser);
          float var61 = var19 == 0 ? 0.45F : (var19 == 1 ? 0.75F : 1.0F);
          int var62 = Math.round(10000.0F * var16 * var61);
@@ -766,7 +769,7 @@ public class sbp extends kfe {
          boolean var76 = this.scc.get();
          float var77 = var76 ? 0.55F + 0.45F * var18 : 0.0F;
          boolean var78 = this.sbx.get() && this.see.any();
-         this.scx.rotation(var3.method_23767().conjugate(this.scz));
+         this.scx.rotation(var3.getRotation().conjugate(this.scz));
          this.sct.clear();
          this.sct.addAll(this.scq);
          float var79 = (float)this.scn.get();
@@ -774,23 +777,23 @@ public class sbp extends kfe {
          boolean var81 = this.sdg;
          int var82 = this.sdj - var5;
          int var83 = this.sdk - var7;
-         float var84 = (float)(this.sed.x() - var4.field_1352);
-         float var85 = (float)(this.sed.y() - var4.field_1351);
-         float var86 = (float)(this.sed.z() - var4.field_1350);
+         float var84 = (float)(this.sed.x() - var4.x);
+         float var85 = (float)(this.sed.y() - var4.y);
+         float var86 = (float)(this.sed.z() - var4.z);
          int var87 = this.sed.segments();
          float[] var88 = this.sed.segA();
          float[] var89 = this.sed.segB();
          float[] var90 = this.sfl(var88, var87, var84, var85, var86);
          float[] var91 = this.sfl(var89, var87, var84, var85, var86);
          float var92 = var75 ? 1.0F : 0.0F;
-         float var93 = 30.0F * var1.method_1522().field_1481 / 1080.0F;
+         float var93 = 30.0F * var1.getFramebuffer().textureHeight / 1080.0F;
          float var94 = this.ser;
          float var95 = this.sdn;
          boolean var96 = uxx.upload(var63x -> {
             var63x.putMat4f(this.scw);
             var63x.putMat4f(this.scx);
             var63x.putVec4(Math.floorMod(var5, 4096), var6, Math.floorMod(var7, 4096), var95);
-            var63x.putVec4((float)(var4.field_1352 - var5), (float)(var4.field_1351 - var6), (float)(var4.field_1350 - var7), var16);
+            var63x.putVec4((float)(var4.x - var5), (float)(var4.y - var6), (float)(var4.z - var7), var16);
             var63x.putVec4(var11[0], var11[1], var11[2], var68);
             var63x.putVec4(var12[0], var12[1], var12[2], var69);
             var63x.putVec4(var20, var13, var94, var92);
@@ -840,10 +843,10 @@ public class sbp extends kfe {
    }
 
    public void testStrike(float var1, boolean var2, double var3, double var5) {
-      MinecraftClient var7 = MinecraftClient.method_1551();
-      Vec3d var8 = var7.field_1773.method_19418().method_71156();
-      float var9 = Math.max(80.0F, Math.min(600.0F, this.sdq - (float)var8.field_1351 + 60.0F));
-      this.sed.strike(var8, var9, Math.min((double)var7.field_1687.method_8615(), var8.field_1351 - 40.0), var1, var2, var3);
+      MinecraftClient var7 = MinecraftClient.getInstance();
+      Vec3d var8 = var7.gameRenderer.getCamera().getCameraPos();
+      float var9 = Math.max(80.0F, Math.min(600.0F, this.sdq - (float)var8.y + 60.0F));
+      this.sed.strike(var8, var9, Math.min(var7.world.getSeaLevel(), var8.y - 40.0), var1, var2, var3);
       this.sed.freeze(var5);
    }
 
@@ -866,20 +869,20 @@ public class sbp extends kfe {
       int var3 = this.sed.segments();
       if (var3 == 0) {
          return var2;
-      } else {
-         float[] var4 = this.sed.segA();
-         float[] var5 = this.sed.segB();
-         double var6 = this.sed.x() - var1.field_1352;
-         double var8 = this.sed.y() - var1.field_1351;
-         double var10 = this.sed.z() - var1.field_1350;
-
-         for (int var12 = 0; var12 < var3; var12++) {
-            var2 = Math.max(var2, (float)Math.sqrt(sfn(var6 + var4[var12 * 4]) + sfn(var8 + var4[var12 * 4 + 1]) + sfn(var10 + var4[var12 * 4 + 2])));
-            var2 = Math.max(var2, (float)Math.sqrt(sfn(var6 + var5[var12 * 4]) + sfn(var8 + var5[var12 * 4 + 1]) + sfn(var10 + var5[var12 * 4 + 2])));
-         }
-
-         return var2;
       }
+
+      float[] var4 = this.sed.segA();
+      float[] var5 = this.sed.segB();
+      double var6 = this.sed.x() - var1.x;
+      double var8 = this.sed.y() - var1.y;
+      double var10 = this.sed.z() - var1.z;
+
+      for (int var12 = 0; var12 < var3; var12++) {
+         var2 = Math.max(var2, (float)Math.sqrt(sfn(var6 + var4[var12 * 4]) + sfn(var8 + var4[var12 * 4 + 1]) + sfn(var10 + var4[var12 * 4 + 2])));
+         var2 = Math.max(var2, (float)Math.sqrt(sfn(var6 + var5[var12 * 4]) + sfn(var8 + var5[var12 * 4 + 1]) + sfn(var10 + var5[var12 * 4 + 2])));
+      }
+
+      return var2;
    }
 
    private static double sfn(double var0) {
@@ -887,8 +890,8 @@ public class sbp extends kfe {
    }
 
    private void sfo(Camera var1, Vec3d var2, sti var3, float var4) {
-      vss.listener(var1.method_19330());
-      vss.thunder(var3.distance(), var3.bolt(), (float)(var3.x() - var2.field_1352), (float)(var3.z() - var2.field_1350), var4);
+      vss.listener(var1.getYaw());
+      vss.thunder(var3.distance(), var3.bolt(), (float)(var3.x() - var2.x), (float)(var3.z() - var2.z), var4);
    }
 
    private float[] sfp(Vec3d var1) {
@@ -896,74 +899,74 @@ public class sbp extends kfe {
       if (!this.sdg) {
          Arrays.fill(var2, 1.0F);
          return var2;
-      } else {
-         short var3 = 128;
-         double var4 = var1.field_1351 + 0.6;
-         double var6 = var1.field_1351 + 2.0;
+      }
 
-         for (int var8 = 0; var8 < 4; var8++) {
-            double var9 = var8 != 0 && var8 != 3 ? -0.7071 : 0.7071;
-            double var11 = var8 < 2 ? 0.7071 : -0.7071;
-            float var13 = 0.0F;
-            float var14 = 0.0F;
+      short var3 = 128;
+      double var4 = var1.y + 0.6;
+      double var6 = var1.y + 2.0;
 
-            for (int var15 = -1; var15 <= 1; var15++) {
-               double var16 = var15 * 0.45;
-               double var18 = var9 * Math.cos(var16) - var11 * Math.sin(var16);
-               double var20 = var9 * Math.sin(var16) + var11 * Math.cos(var16);
-               float var22 = 1.0F;
+      for (int var8 = 0; var8 < 4; var8++) {
+         double var9 = var8 != 0 && var8 != 3 ? -0.7071 : 0.7071;
+         double var11 = var8 < 2 ? 0.7071 : -0.7071;
+         float var13 = 0.0F;
+         float var14 = 0.0F;
 
-               for (int var23 = 1; var23 <= 8; var23++) {
-                  float var24 = 1.0F / (1.0F + 0.2F * var23);
-                  var14 += var24;
-                  int var25 = (int)Math.floor(var1.field_1352 + var18 * var23) - this.sdj;
-                  int var26 = (int)Math.floor(var1.field_1350 + var20 * var23) - this.sdk;
-                  if (var25 >= 0 && var26 >= 0 && var25 < var3 && var26 < var3) {
-                     int var27 = this.sef[var26 * var3 + var25];
-                     if (var27 <= var4) {
-                        var13 += var22 * var24;
-                     } else if (var27 > var6) {
-                        var22 *= 0.45F;
-                     }
-                  } else {
+         for (int var15 = -1; var15 <= 1; var15++) {
+            double var16 = var15 * 0.45;
+            double var18 = var9 * Math.cos(var16) - var11 * Math.sin(var16);
+            double var20 = var9 * Math.sin(var16) + var11 * Math.cos(var16);
+            float var22 = 1.0F;
+
+            for (int var23 = 1; var23 <= 8; var23++) {
+               float var24 = 1.0F / (1.0F + 0.2F * var23);
+               var14 += var24;
+               int var25 = (int)Math.floor(var1.x + var18 * var23) - this.sdj;
+               int var26 = (int)Math.floor(var1.z + var20 * var23) - this.sdk;
+               if (var25 >= 0 && var26 >= 0 && var25 < var3 && var26 < var3) {
+                  int var27 = this.sef[var26 * var3 + var25];
+                  if (var27 <= var4) {
                      var13 += var22 * var24;
+                  } else if (var27 > var6) {
+                     var22 *= 0.45F;
                   }
+               } else {
+                  var13 += var22 * var24;
                }
             }
-
-            var2[var8] = var14 <= 0.0F ? 1.0F : var13 / var14;
          }
 
-         return var2;
+         var2[var8] = var14 <= 0.0F ? 1.0F : var13 / var14;
       }
+
+      return var2;
    }
 
    private float sfq(Vec3d var1) {
       if (!this.sdg) {
          return 1.0F;
-      } else {
-         short var2 = 128;
-         int var3 = (int)Math.floor(var1.field_1352) - this.sdj;
-         int var4 = (int)Math.floor(var1.field_1350) - this.sdk;
-         float var5 = 0.0F;
-         float var6 = 0.0F;
+      }
 
-         for (int var7 = -4; var7 <= 4; var7++) {
-            for (int var8 = -4; var8 <= 4; var8++) {
-               int var9 = var3 + var8;
-               int var10 = var4 + var7;
-               if (var9 >= 0 && var10 >= 0 && var9 < var2 && var10 < var2) {
-                  float var11 = var8 == 0 && var7 == 0 ? 6.0F : 1.0F / (1.0F + 0.35F * (var8 * var8 + var7 * var7));
-                  var6 += var11;
-                  if (this.sef[var10 * var2 + var9] <= var1.field_1351 + 0.6) {
-                     var5 += var11;
-                  }
+      short var2 = 128;
+      int var3 = (int)Math.floor(var1.x) - this.sdj;
+      int var4 = (int)Math.floor(var1.z) - this.sdk;
+      float var5 = 0.0F;
+      float var6 = 0.0F;
+
+      for (int var7 = -4; var7 <= 4; var7++) {
+         for (int var8 = -4; var8 <= 4; var8++) {
+            int var9 = var3 + var8;
+            int var10 = var4 + var7;
+            if (var9 >= 0 && var10 >= 0 && var9 < var2 && var10 < var2) {
+               float var11 = var8 == 0 && var7 == 0 ? 6.0F : 1.0F / (1.0F + 0.35F * (var8 * var8 + var7 * var7));
+               var6 += var11;
+               if (this.sef[var10 * var2 + var9] <= var1.y + 0.6) {
+                  var5 += var11;
                }
             }
          }
-
-         return var6 <= 0.0F ? 1.0F : var5 / var6;
       }
+
+      return var6 <= 0.0F ? 1.0F : var5 / var6;
    }
 
    private void sfr(Std140Builder var1, List<saw> var2, Vec3d var3, long var4) {
@@ -972,9 +975,9 @@ public class sbp extends kfe {
       float var8 = 0.0F;
 
       for (saw var10 : var2) {
-         var6 += (float)(var10.sax - var3.field_1352);
-         var7 += (float)(var10.say - var3.field_1351);
-         var8 += (float)(var10.saz - var3.field_1350);
+         var6 += (float)(var10.sax - var3.x);
+         var7 += (float)(var10.say - var3.y);
+         var8 += (float)(var10.saz - var3.z);
       }
 
       int var19 = Math.max(1, var2.size());
@@ -984,9 +987,9 @@ public class sbp extends kfe {
       float var20 = 0.0F;
 
       for (saw var12 : var2) {
-         float var13 = (float)(var12.sax - var3.field_1352) - var6;
-         float var14 = (float)(var12.say - var3.field_1351) - var7;
-         float var15 = (float)(var12.saz - var3.field_1350) - var8;
+         float var13 = (float)(var12.sax - var3.x) - var6;
+         float var14 = (float)(var12.say - var3.y) - var7;
+         float var15 = (float)(var12.saz - var3.z) - var8;
          var20 = Math.max(var20, (float)Math.sqrt(var13 * var13 + var14 * var14 + var15 * var15));
       }
 
@@ -995,12 +998,7 @@ public class sbp extends kfe {
       for (int var21 = 0; var21 < 32; var21++) {
          if (var21 < var2.size()) {
             saw var23 = (saw)var2.get(var2.size() - 1 - var21);
-            var1.putVec4(
-               (float)(var23.sax - var3.field_1352),
-               (float)(var23.say - var3.field_1351),
-               (float)(var23.saz - var3.field_1350),
-               (float)(var4 - var23.sbd) / 1.0E9F
-            );
+            var1.putVec4((float)(var23.sax - var3.x), (float)(var23.say - var3.y), (float)(var23.saz - var3.z), (float)(var4 - var23.sbd) / 1.0E9F);
          } else {
             var1.putVec4(0.0F, -1000.0F, 0.0F, 1000.0F);
          }
@@ -1018,34 +1016,34 @@ public class sbp extends kfe {
 
    private void sfs(ClientWorld var1, int var2, int var3) {
       short var4 = 128;
-      int var5 = var1.method_31607();
+      int var5 = var1.getBottomY();
       boolean var6 = false;
 
       for (int var7 = 0; var7 < var4; var7++) {
          for (int var8 = 0; var8 < var4; var8++) {
-            int var9 = var1.method_8624(Type.field_13197, var2 + var8, var3 + var7);
+            int var9 = var1.getTopY(Type.MOTION_BLOCKING, var2 + var8, var3 + var7);
             if (var9 <= var5 && !var6) {
-               var6 = !var1.method_2935().method_12123(var2 + var8 >> 4, var3 + var7 >> 4);
+               var6 = !var1.getChunkManager().isChunkLoaded(var2 + var8 >> 4, var3 + var7 >> 4);
             }
 
-            BlockState var10 = var1.method_8320(this.scv.method_10103(var2 + var8, var9 - 1, var3 + var7));
+            BlockState var10 = var1.getBlockState(this.scv.set(var2 + var8, var9 - 1, var3 + var7));
 
             for (int var11 = 0; var11 < 96 && var9 > var5 && !sft(var10); var11++) {
                var9--;
-               var10 = var1.method_8320(this.scv.method_10103(var2 + var8, var9 - 1, var3 + var7));
+               var10 = var1.getBlockState(this.scv.set(var2 + var8, var9 - 1, var3 + var7));
             }
 
-            boolean var16 = !var10.method_26227().method_15769();
+            boolean var16 = !var10.getFluidState().isEmpty();
             if (!var16 && sfu(var1, var10, this.scv)) {
                var9--;
             }
 
             int var12 = Math.max(0, Math.min(65535, var9 + 64));
-            boolean var13 = var10.method_26164(BlockTags.field_15503);
-            int var14 = var1.method_8314(LightType.field_9282, this.scv.method_10103(var2 + var8, var9, var3 + var7)) * 17;
+            boolean var13 = var10.isIn(BlockTags.LEAVES);
+            int var14 = var1.getLightLevel(LightType.BLOCK, this.scv.set(var2 + var8, var9, var3 + var7)) * 17;
             int var15 = 0;
 
-            while (var15 < 15 && sfv(var1.method_8320(this.scv.method_10103(var2 + var8, var9 + var15, var3 + var7)))) {
+            while (var15 < 15 && sfv(var1.getBlockState(this.scv.set(var2 + var8, var9 + var15, var3 + var7)))) {
                var15++;
             }
 
@@ -1062,24 +1060,24 @@ public class sbp extends kfe {
    }
 
    private static boolean sft(BlockState var0) {
-      return !var0.method_26227().method_15769() ? true : var0.method_51366() && var0.method_26217() != BlockRenderType.field_11455;
+      return !var0.getFluidState().isEmpty() ? true : var0.blocksMovement() && var0.getRenderType() != BlockRenderType.INVISIBLE;
    }
 
    private static boolean sfu(ClientWorld var0, BlockState var1, BlockPos var2) {
-      if (var1.method_26164(BlockTags.field_15503)) {
+      if (var1.isIn(BlockTags.LEAVES)) {
          return false;
-      } else {
-         try {
-            VoxelShape var3 = var1.method_26220(var0, var2);
-            return !var3.method_1110() && var3.method_1105(Axis.field_11052) <= 0.55;
-         } catch (Throwable var4) {
-            return false;
-         }
+      }
+
+      try {
+         VoxelShape var3 = var1.getCollisionShape(var0, var2);
+         return !var3.isEmpty() && var3.getMax(Axis.Y) <= 0.55;
+      } catch (Throwable var4) {
+         return false;
       }
    }
 
    private static boolean sfv(BlockState var0) {
-      Block var1 = var0.method_26204();
+      Block var1 = var0.getBlock();
       return var1 instanceof PlantBlock || var1 instanceof SugarCaneBlock;
    }
 

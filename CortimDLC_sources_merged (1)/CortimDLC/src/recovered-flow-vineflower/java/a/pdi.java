@@ -46,19 +46,19 @@ public final class pdi {
       ArrayDeque var5 = pdl[var0];
       if (var5.size() < var4) {
          return var2;
-      } else {
-         int var6 = var5.size() - var4;
-         long var7 = var2;
-
-         for (long var10 : var5) {
-            if (var6-- <= 0) {
-               var7 = var10 + 60000L;
-               break;
-            }
-         }
-
-         return Math.max(var2, var7);
       }
+
+      int var6 = var5.size() - var4;
+      long var7 = var2;
+
+      for (long var10 : var5) {
+         if (var6-- <= 0) {
+            var7 = var10 + 60000L;
+            break;
+         }
+      }
+
+      return Math.max(var2, var7);
    }
 
    public static synchronized int warn() {

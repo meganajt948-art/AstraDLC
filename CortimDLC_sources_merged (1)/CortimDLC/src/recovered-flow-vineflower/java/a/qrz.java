@@ -19,9 +19,9 @@ final class qrz {
 
       for (int var7 = 0; var7 < this.ores.size(); var7++) {
          long var8 = this.ores.getLong(var7);
-         var1 += BlockPos.method_10061(var8) + 0.5;
-         var3 += BlockPos.method_10071(var8) + 0.5;
-         var5 += BlockPos.method_10083(var8) + 0.5;
+         var1 += BlockPos.unpackLongX(var8) + 0.5;
+         var3 += BlockPos.unpackLongY(var8) + 0.5;
+         var5 += BlockPos.unpackLongZ(var8) + 0.5;
       }
 
       int var10 = Math.max(1, this.ores.size());

@@ -21,18 +21,18 @@ final class ksp {
    private final double[] ksx = new double[22];
 
    void predict(ClientPlayerEntity var1, World var2, boolean var3, int var4, boolean var5, double var6) {
-      Box var8 = var1.method_5829();
-      boolean var9 = var1.method_24828();
+      Box var8 = var1.getBoundingBox();
+      boolean var9 = var1.isOnGround();
       double var10 = var6;
-      double var12 = var1.method_18798().field_1351;
-      double var14 = var1.method_23317() - var1.field_6014;
-      double var16 = var1.method_23321() - var1.field_5969;
-      if (var9 && var1.method_5715()) {
+      double var12 = var1.getVelocity().y;
+      double var14 = var1.getX() - var1.lastX;
+      double var16 = var1.getZ() - var1.lastZ;
+      if (var9 && var1.isSneaking()) {
          var14 = 0.0;
          var16 = 0.0;
       }
 
-      double var18 = var1.method_56989();
+      double var18 = var1.getFinalGravity();
       float var20 = jumpVelocity(var1, var2);
       int var21 = var5 ? 0 : var4;
       double var22 = 0.0;
@@ -56,38 +56,38 @@ final class ksp {
 
          if (var3) {
             if (var9 && var21 == 0 && var20 > 1.0E-5F) {
-               var12 = Math.max((double)var20, var12);
+               var12 = Math.max(var20, var12);
                var21 = var5 ? 0 : 10;
             }
          } else {
             var21 = 0;
          }
 
-         Vec3d var29 = Entity.method_20736(var1, new Vec3d(var14, var12, var16), var8, var2, List.of());
-         boolean var30 = var29.field_1351 != var12;
+         Vec3d var29 = Entity.adjustMovementForCollisions(var1, new Vec3d(var14, var12, var16), var8, var2, List.of());
+         boolean var30 = var29.y != var12;
          var9 = var30 && var12 < 0.0;
-         if (var29.field_1352 != var14) {
+         if (var29.x != var14) {
             var14 = 0.0;
          }
 
-         if (var29.field_1350 != var16) {
+         if (var29.z != var16) {
             var16 = 0.0;
          }
 
-         if (var29.field_1351 > 0.0) {
+         if (var29.y > 0.0) {
             var10 = 0.0;
-         } else if (var29.field_1351 < 0.0) {
-            var10 -= var29.field_1351;
+         } else if (var29.y < 0.0) {
+            var10 -= var29.y;
          }
 
          if (var9) {
             var10 = 0.0;
          }
 
-         var8 = var8.method_997(var29);
-         var22 += var29.field_1352;
-         var24 += var29.field_1351;
-         var26 += var29.field_1350;
+         var8 = var8.offset(var29);
+         var22 += var29.x;
+         var24 += var29.y;
+         var26 += var29.z;
          if (var30) {
             var12 = 0.0;
          }
@@ -148,13 +148,13 @@ final class ksp {
    }
 
    static double headroom(ClientPlayerEntity var0, World var1, double var2) {
-      return Entity.method_20736(var0, new Vec3d(0.0, var2, 0.0), var0.method_5829(), var1, List.of()).field_1351;
+      return Entity.adjustMovementForCollisions(var0, new Vec3d(0.0, var2, 0.0), var0.getBoundingBox(), var1, List.of()).y;
    }
 
    static float jumpVelocity(ClientPlayerEntity var0, World var1) {
-      float var2 = var1.method_8320(var0.method_24515()).method_26204().method_23350();
-      float var3 = var1.method_8320(var0.method_23314()).method_26204().method_23350();
+      float var2 = var1.getBlockState(var0.getBlockPos()).getBlock().getJumpVelocityMultiplier();
+      float var3 = var1.getBlockState(var0.getVelocityAffectingPos()).getBlock().getJumpVelocityMultiplier();
       float var4 = var2 == 1.0F ? var3 : var2;
-      return (float)var0.method_45325(EntityAttributes.field_23728) * var4 + var0.method_37416();
+      return (float)var0.getAttributeValue(EntityAttributes.JUMP_STRENGTH) * var4 + var0.getJumpBoostVelocityModifier();
    }
 }

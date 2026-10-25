@@ -85,17 +85,17 @@ public final class wlk {
    }
 
    private static wkq wlt(wkq var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1687 != null
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.world != null
          && a.d("\uee80霵ᷡ莛ࡊ軪㒪뵜⌑ꧮ\u2e68퐀嫄썢䤴쿝疏懲惻", 742262319, -1756239663).equals(var0.dimension)
-         && !(var1.field_1687.method_8597().comp_646() <= 1.0)) {
-         double var2 = var1.field_1687.method_8597().comp_646();
-         int var4 = var1.field_1687.method_31607();
-         int var5 = var4 + var1.field_1687.method_8597().comp_653() - 2;
+         && !(var1.world.getDimension().coordinateScale() <= 1.0)) {
+         double var2 = var1.world.getDimension().coordinateScale();
+         int var4 = var1.world.getBottomY();
+         int var5 = var4 + var1.world.getDimension().logicalHeight() - 2;
          wkq var6 = wlq.computeIfAbsent(var0, var0x -> new wkq());
          var6.name = var0.name + a.c(-672317879, "㹬䟝춙卿\ud8a8") + dimensionName(var0.dimension);
          var6.x = Math.floor(var0.x / var2);
-         var6.y = Math.max((double)(var4 + 1), Math.min((double)var5, var0.y));
+         var6.y = Math.max(var4 + 1, Math.min(var5, var0.y));
          var6.z = Math.floor(var0.z / var2);
          var6.color = var0.color;
          var6.ownColor = var0.ownColor;
@@ -159,41 +159,41 @@ public final class wlk {
    }
 
    public static String worldId() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      if (var0.field_1687 == null) {
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      if (var0.world == null) {
          return null;
-      } else {
-         try {
-            if (var0.method_1542() && var0.method_1576() != null) {
-               return a.d("䋀㭲뇫", -661889245, 1120214419) + var0.method_1576().method_27728().method_150();
-            }
-         } catch (Throwable var2) {
-         }
-
-         ServerInfo var1 = var0.method_1558();
-         return var1 != null ? a.c(-1514144637, "ﳭ蕁࿘") + var1.field_3761 : a.d("萆ﶬ睺\ue90e拘\ue471帻", 773352640, 315484340);
       }
+
+      try {
+         if (var0.isInSingleplayer() && var0.getServer() != null) {
+            return a.d("䋀㭲뇫", -661889245, 1120214419) + var0.getServer().getSaveProperties().getLevelName();
+         }
+      } catch (Throwable var2) {
+      }
+
+      ServerInfo var1 = var0.getCurrentServerEntry();
+      return var1 != null ? a.c(-1514144637, "ﳭ蕁࿘") + var1.address : a.d("萆ﶬ睺\ue90e拘\ue471帻", 773352640, 315484340);
    }
 
    public static String dimensionId() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      return var0.field_1687 == null ? null : var0.field_1687.method_27983().method_29177().toString();
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      return var0.world == null ? null : var0.world.getRegistryKey().getValue().toString();
    }
 
    public static String dimensionName(String var0) {
       if (var0 == null) {
          return a.b("⪵", 26421899);
-      } else {
-         int var1 = var0.indexOf(58);
-         String var2 = (var1 >= 0 ? var0.substring(var1 + 1) : var0).replace(a.c(-1869341246, "ᶲ搟\ueec1炊"), "").replace('_', ' ');
-
-         return switch (var2) {
-            case a.b("\uf65c迴Դ魒ႀ阩Ⱨꖈ㯟", -300157382) -> wap.s(var2, a.d("\uf711躧Ё驵ᇚ靮ⴼꃔ㪗뀢㞉", -226611629, 1407966587));
-            case a.d("瓟\u0d65螧\u19ca鈐ᒶ", 1410480448, -1545843209) -> wap.s(var2, a.d("롶쇏䬞항廏", 868819401, 1687657863));
-            case a.c(-2117466748, "ע籘\uf681") -> wap.s(var2, a.d("\udc84ꕅ⾟", -1848796671, 893862603));
-            default -> var2;
-         };
       }
+
+      int var1 = var0.indexOf(58);
+      String var2 = (var1 >= 0 ? var0.substring(var1 + 1) : var0).replace(a.c(-1869341246, "ᶲ搟\ueec1炊"), "").replace('_', ' ');
+
+      return switch (var2) {
+         case a.b("\uf65c迴Դ魒ႀ阩Ⱨꖈ㯟", -300157382) -> wap.s(var2, a.d("\uf711躧Ё驵ᇚ靮ⴼꃔ㪗뀢㞉", -226611629, 1407966587));
+         case a.d("瓟\u0d65螧\u19ca鈐ᒶ", 1410480448, -1545843209) -> wap.s(var2, a.d("롶쇏䬞항廏", 868819401, 1687657863));
+         case a.c(-2117466748, "ע籘\uf681") -> wap.s(var2, a.d("\udc84ꕅ⾟", -1848796671, 893862603));
+         default -> var2;
+      };
    }
 
    private static void wlu() {

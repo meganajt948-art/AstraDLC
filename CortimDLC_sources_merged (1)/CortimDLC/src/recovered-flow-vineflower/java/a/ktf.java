@@ -33,14 +33,14 @@ final class ktf {
 
    void sync(ClientPlayerEntity var1) {
       this.ktl = var1;
-      this.ktm = var1.method_23317();
-      this.ktn = var1.method_23318();
-      this.kto = var1.method_23321();
-      this.ktp = var1.method_36454();
-      this.ktq = var1.method_36455();
-      this.ktr = var1.method_24828();
+      this.ktm = var1.getX();
+      this.ktn = var1.getY();
+      this.kto = var1.getZ();
+      this.ktp = var1.getYaw();
+      this.ktq = var1.getPitch();
+      this.ktr = var1.isOnGround();
       this.ktj.ground = this.ktr;
-      this.ktj.velocity = this.ktr ? -var1.method_56989() * 0.98 : var1.method_18798().field_1351;
+      this.ktj.velocity = this.ktr ? -var1.getFinalGravity() * 0.98 : var1.getVelocity().y;
       this.ktj.fall = 0.0;
    }
 
@@ -48,31 +48,31 @@ final class ktf {
       if (var1 != this.ktl) {
          this.sync(var1);
       } else {
-         double var3 = var1.method_23317() - this.ktm;
-         double var5 = var1.method_23318() - this.ktn;
-         double var7 = var1.method_23321() - this.kto;
+         double var3 = var1.getX() - this.ktm;
+         double var5 = var1.getY() - this.ktn;
+         double var7 = var1.getZ() - this.kto;
          double var9 = var3 * var3 + var5 * var5 + var7 * var7;
-         if (!(var9 > 16.0) && !var1.method_5765()) {
-            boolean var11 = var1.method_24828();
+         if (!(var9 > 16.0) && !var1.hasVehicle()) {
+            boolean var11 = var1.isOnGround();
             boolean var12 = var9 > 4.0E-8;
-            boolean var13 = var1.method_36454() != this.ktp || var1.method_36455() != this.ktq;
+            boolean var13 = var1.getYaw() != this.ktp || var1.getPitch() != this.ktq;
             if (var12 || var13 || var11 != this.ktr) {
-               this.ktj.receive(var12 ? var5 : 0.0, var11, ksp.jumpVelocity(var1, var2), var1.method_5799());
+               this.ktj.receive(var12 ? var5 : 0.0, var11, ksp.jumpVelocity(var1, var2), var1.isTouchingWater());
                if (var12) {
-                  this.ktm = var1.method_23317();
-                  this.ktn = var1.method_23318();
-                  this.kto = var1.method_23321();
+                  this.ktm = var1.getX();
+                  this.ktn = var1.getY();
+                  this.kto = var1.getZ();
                }
 
                if (var13) {
-                  this.ktp = var1.method_36454();
-                  this.ktq = var1.method_36455();
+                  this.ktp = var1.getYaw();
+                  this.ktq = var1.getPitch();
                }
 
                this.ktr = var11;
             }
 
-            this.ktj.tick(var1, var2, var1.method_5829(), var1.method_56989());
+            this.ktj.tick(var1, var2, var1.getBoundingBox(), var1.getFinalGravity());
          } else {
             this.sync(var1);
          }
@@ -80,14 +80,14 @@ final class ktf {
    }
 
    void predict(ClientPlayerEntity var1, World var2, boolean var3, int var4, boolean var5) {
-      Box var6 = var1.method_5829();
-      boolean var7 = var1.method_24828();
-      Vec3d var8 = var1.method_18798();
-      double var9 = var8.field_1352;
-      double var11 = var8.field_1351;
-      double var13 = var8.field_1350;
-      double var15 = var1.field_6212;
-      double var17 = var1.field_6250;
+      Box var6 = var1.getBoundingBox();
+      boolean var7 = var1.isOnGround();
+      Vec3d var8 = var1.getVelocity();
+      double var9 = var8.x;
+      double var11 = var8.y;
+      double var13 = var8.z;
+      double var15 = var1.sidewaysSpeed;
+      double var17 = var1.forwardSpeed;
       double var19 = var15 * var15 + var17 * var17;
       if (var19 < 1.0E-7) {
          var15 = 0.0;
@@ -98,26 +98,26 @@ final class ktf {
          var17 /= var21;
       }
 
-      float var57 = var1.method_36454() * (float) (Math.PI / 180.0);
-      double var22 = MathHelper.method_15374(var57);
-      double var24 = MathHelper.method_15362(var57);
+      float var57 = var1.getYaw() * (float) (Math.PI / 180.0);
+      double var22 = MathHelper.sin(var57);
+      double var24 = MathHelper.cos(var57);
       double var26 = var15 * var24 - var17 * var22;
       double var28 = var17 * var24 + var15 * var22;
-      if (var7 && var1.method_5715()) {
+      if (var7 && var1.isSneaking()) {
          var9 = 0.0;
          var13 = 0.0;
          var26 = 0.0;
          var28 = 0.0;
       }
 
-      float var30 = var2.method_8320(var1.method_23314()).method_26204().method_9499();
-      double var31 = var1.method_6029() * (0.21600002 / (var30 * var30 * var30));
-      double var33 = var1.method_5624() ? 0.026 : 0.02;
-      boolean var35 = var1.method_5624();
-      double var36 = var1.method_56989();
+      float var30 = var2.getBlockState(var1.getVelocityAffectingPos()).getBlock().getSlipperiness();
+      double var31 = var1.getMovementSpeed() * (0.21600002 / (var30 * var30 * var30));
+      double var33 = var1.isSprinting() ? 0.026 : 0.02;
+      boolean var35 = var1.isSprinting();
+      double var36 = var1.getFinalGravity();
       float var38 = ksp.jumpVelocity(var1, var2);
       int var39 = var5 ? 0 : var4;
-      boolean var40 = var1.method_5799();
+      boolean var40 = var1.isTouchingWater();
       this.ktk.copy(this.ktj);
       double var41 = 0.0;
       double var43 = 0.0;
@@ -147,7 +147,7 @@ final class ktf {
 
          if (var3) {
             if (var7 && var39 == 0 && var38 > 1.0E-5F) {
-               var11 = Math.max((double)var38, var11);
+               var11 = Math.max(var38, var11);
                var39 = var5 ? 0 : 10;
                if (var35) {
                   var9 -= var22 * 0.2;
@@ -159,24 +159,24 @@ final class ktf {
          }
 
          boolean var48 = var7;
-         double var49 = var7 ? var31 : var33;
+         double var49 = var48 ? var31 : var33;
          var9 += var26 * var49;
          var13 += var28 * var49;
-         Vec3d var51 = Entity.method_20736(var1, new Vec3d(var9, var11, var13), var6, var2, List.of());
-         boolean var52 = var51.field_1351 != var11;
+         Vec3d var51 = Entity.adjustMovementForCollisions(var1, new Vec3d(var9, var11, var13), var6, var2, List.of());
+         boolean var52 = var51.y != var11;
          var7 = var52 && var11 < 0.0;
-         if (var51.field_1352 != var9) {
+         if (var51.x != var9) {
             var9 = 0.0;
          }
 
-         if (var51.field_1350 != var13) {
+         if (var51.z != var13) {
             var13 = 0.0;
          }
 
-         var6 = var6.method_997(var51);
-         var41 += var51.field_1352;
-         var43 += var51.field_1351;
-         var45 += var51.field_1350;
+         var6 = var6.offset(var51);
+         var41 += var51.x;
+         var43 += var51.y;
+         var45 += var51.z;
          if (var52) {
             var11 = 0.0;
          }
@@ -185,7 +185,7 @@ final class ktf {
          double var53 = (var48 ? var30 : 1.0) * 0.91;
          var9 *= var53;
          var13 *= var53;
-         this.ktk.receive(var51.field_1351, var7, var38, var40);
+         this.ktk.receive(var51.y, var7, var38, var40);
          this.ktk.tick(var1, var2, var6, var36);
       }
    }
@@ -213,15 +213,15 @@ final class ktf {
    boolean landsWithin(int var1, int var2) {
       if (!this.airAt(var1)) {
          return false;
-      } else {
-         for (int var3 = 1; var3 <= var2 && var1 + var3 < 20; var3++) {
-            if (!this.ktu[var1 + var3]) {
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      for (int var3 = 1; var3 <= var2 && var1 + var3 < 20; var3++) {
+         if (!this.ktu[var1 + var3]) {
+            return true;
+         }
+      }
+
+      return false;
    }
 
    Vec3d offsetAt(int var1) {
@@ -230,6 +230,6 @@ final class ktf {
    }
 
    private static double kuc(Entity var0, World var1, Box var2, double var3) {
-      return Entity.method_20736(var0, new Vec3d(0.0, var3, 0.0), var2, var1, List.of()).field_1351;
+      return Entity.adjustMovementForCollisions(var0, new Vec3d(0.0, var3, 0.0), var2, var1, List.of()).y;
    }
 }

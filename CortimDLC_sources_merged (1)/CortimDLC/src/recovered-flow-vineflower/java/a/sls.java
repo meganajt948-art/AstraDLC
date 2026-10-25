@@ -60,27 +60,27 @@ public final class sls {
       sle var5 = smb.get(var4);
       if (var5 != null) {
          return var5;
-      } else {
-         Long var6 = smd.get(var4);
-         if (var6 != null && System.currentTimeMillis() < var6) {
-            return null;
-         } else {
-            if (smc.add(var4)) {
-               sma.execute(() -> {
-                  try {
-                     smb.put(var4, smh(var0, var1, var2));
-                     smd.remove(var4);
-                  } catch (Throwable var9) {
-                     smd.put(var4, System.currentTimeMillis() + 20000L);
-                  } finally {
-                     smc.remove(var4);
-                  }
-               });
-            }
-
-            return null;
-         }
       }
+
+      Long var6 = smd.get(var4);
+      if (var6 != null && System.currentTimeMillis() < var6) {
+         return null;
+      }
+
+      if (smc.add(var4)) {
+         sma.execute(() -> {
+            try {
+               smb.put(var4, smh(var0, var1, var2));
+               smd.remove(var4);
+            } catch (Throwable var9) {
+               smd.put(var4, System.currentTimeMillis() + 20000L);
+            } finally {
+               smc.remove(var4);
+            }
+         });
+      }
+
+      return null;
    }
 
    private static sle smh(String var0, String var1, long var2) throws IOException, InterruptedException {
@@ -270,22 +270,22 @@ public final class sls {
    private static String smm(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         StringBuilder var1 = new StringBuilder(var0.length());
-         String var2 = var0.toLowerCase(Locale.ROOT).replace('ё', 'е');
-         int var3 = 0;
+      }
 
-         while (var3 < var2.length()) {
-            int var4 = var2.codePointAt(var3);
-            if (Character.isLetterOrDigit(var4)) {
-               var1.appendCodePoint(var4);
-            }
+      StringBuilder var1 = new StringBuilder(var0.length());
+      String var2 = var0.toLowerCase(Locale.ROOT).replace('ё', 'е');
+      int var3 = 0;
 
-            var3 += Character.charCount(var4);
+      while (var3 < var2.length()) {
+         int var4 = var2.codePointAt(var3);
+         if (Character.isLetterOrDigit(var4)) {
+            var1.appendCodePoint(var4);
          }
 
-         return var1.toString();
+         var3 += Character.charCount(var4);
       }
+
+      return var1.toString();
    }
 
    private static String smn(JsonObject var0, String var1) {

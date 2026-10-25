@@ -38,11 +38,11 @@ public final class izj extends jeq<izb> {
    @Override
    List<izb> items(boolean var1) {
       ArrayList var2 = new ArrayList();
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      ClientPlayerEntity var4 = var3.field_1724;
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      ClientPlayerEntity var4 = var3.player;
       if (var4 != null) {
          try {
-            izv(var4, var3.method_61966().method_60637(true), var2);
+            izv(var4, var3.getRenderTickCounter().getTickProgress(true), var2);
          } catch (Throwable var6) {
             if (!izr) {
                izr = true;
@@ -52,8 +52,8 @@ public final class izj extends jeq<izb> {
       }
 
       if (var2.isEmpty() && var1) {
-         var2.add(izu(Items.field_8634, 0.8F, 0.8F));
-         var2.add(izu(Items.field_49098, 0.3F, 0.6F));
+         var2.add(izu(Items.ENDER_PEARL, 0.8F, 0.8F));
+         var2.add(izu(Items.WIND_CHARGE, 0.3F, 0.6F));
       }
 
       var2.sort(Comparator.comparing(var0 -> -var0.izf));
@@ -63,9 +63,9 @@ public final class izj extends jeq<izb> {
    private static izb izu(Item var0, float var1, float var2) {
       ItemStack var3 = new ItemStack(var0);
       return new izb(
-         a.b("䵕㓦븢⁀ꮈⴵ靴Ỉ", -1985000147) + Registries.field_41178.method_10221(var0),
+         a.b("䵕㓦븢⁀ꮈⴵ靴Ỉ", -1985000147) + Registries.ITEM.getId(var0),
          var3,
-         shortName(var3, Registries.field_41178.method_10221(var0)),
+         shortName(var3, Registries.ITEM.getId(var0)),
          System.nanoTime() + (long)(var1 * 1.0E9F),
          var1 / var2
       );
@@ -73,7 +73,7 @@ public final class izj extends jeq<izb> {
 
    private static void izv(ClientPlayerEntity var0, float var1, List<izb> var2) throws Exception {
       if (!izr) {
-         ItemCooldownManager var3 = var0.method_7357();
+         ItemCooldownManager var3 = var0.getItemCooldownManager();
          if (izp == null) {
             for (Field var7 : ItemCooldownManager.class.getDeclaredFields()) {
                if (!Modifier.isStatic(var7.getModifiers())) {
@@ -96,7 +96,7 @@ public final class izj extends jeq<izb> {
          Map var17 = (Map)izp.get(var3);
          if (!var17.isEmpty()) {
             int var18 = izq.getInt(var3);
-            PlayerInventory var19 = var0.method_31548();
+            PlayerInventory var19 = var0.getInventory();
             long var20 = System.nanoTime();
 
             for (Entry var10 : var17.entrySet()) {
@@ -128,37 +128,49 @@ public final class izj extends jeq<izb> {
    }
 
    static String shortName(ItemStack var0, Identifier var1) {
-      Item var2 = var0.method_7960() ? (Item)Registries.field_41178.method_63535(var1) : var0.method_7909();
-      if (var2 == Items.field_8367) {
+      Item var2 = var0.isEmpty() ? Registries.ITEM.get(var1) : var0.getItem();
+      if (var2 == Items.ENCHANTED_GOLDEN_APPLE) {
          return wap.s(a.d("歎\u12d7頏غ趬ଌ녟㢲ꛤ", 375357988, 871426340), a.b("䏨㩎냭⻦ꔻ", 1677477834));
-      } else if (var2 == Items.field_8463) {
-         return wap.s(a.b("㡐䇇쬅啴\udebf堇", -1734789103), a.c(118144588, "멛쎴䤕흠"));
-      } else if (var2 == Items.field_8634) {
-         return wap.s(a.d("嚰⼴ꗣ㮁끈", -1087293075, 869560200), a.d("玸ਪ胰Ỻ锩Ꮸ", -905268007, -1331575951));
-      } else if (var2 == Items.field_8233) {
-         return wap.s(a.c(-1927313584, "蜕ﺏ瑛\uea37懧\ue750"), a.b("⒗崽힐䧢숷", -969858889));
-      } else if (var2 == Items.field_49098) {
-         return wap.s(a.d("흠껯\u243b멀㇓뜡൹蒁ᫍ適ី", -1413031756, -192082040), a.c(-1244043857, "憳ᠥ銆\u0cf8蝔ױ뮰㉆걮⛝ꅾ"));
-      } else if (var2 == Items.field_8288) {
-         return wap.s(a.b("\u0bac爦\uf8ee暎\ued51", 1141443581), a.c(515004581, "岂┯꾀ㆆ멘"));
-      } else if (var2 == Items.field_8287) {
-         return wap.s(a.d("槱၈髫Ә輂ন돻㨒ꑄ", 1436287464, -483432376), a.d("\ue139飔ታ豾ޢ脂㬺뛑Ⲑ꘠ↇ\udbff啚", -335633187, 1051476470));
-      } else {
-         String var3 = var2 == Items.field_8162 ? var1.method_12832().replace('_', ' ') : var2.method_63680().getString();
-         return var3.isEmpty() ? var1.method_12832() : var3;
       }
+
+      if (var2 == Items.GOLDEN_APPLE) {
+         return wap.s(a.b("㡐䇇쬅啴\udebf堇", -1734789103), a.c(118144588, "멛쎴䤕흠"));
+      }
+
+      if (var2 == Items.ENDER_PEARL) {
+         return wap.s(a.d("嚰⼴ꗣ㮁끈", -1087293075, 869560200), a.d("玸ਪ胰Ỻ锩Ꮸ", -905268007, -1331575951));
+      }
+
+      if (var2 == Items.CHORUS_FRUIT) {
+         return wap.s(a.c(-1927313584, "蜕ﺏ瑛\uea37懧\ue750"), a.b("⒗崽힐䧢숷", -969858889));
+      }
+
+      if (var2 == Items.WIND_CHARGE) {
+         return wap.s(a.d("흠껯\u243b멀㇓뜡൹蒁ᫍ適ី", -1413031756, -192082040), a.c(-1244043857, "憳ᠥ銆\u0cf8蝔ױ뮰㉆걮⛝ꅾ"));
+      }
+
+      if (var2 == Items.TOTEM_OF_UNDYING) {
+         return wap.s(a.b("\u0bac爦\uf8ee暎\ued51", 1141443581), a.c(515004581, "岂┯꾀ㆆ멘"));
+      }
+
+      if (var2 == Items.EXPERIENCE_BOTTLE) {
+         return wap.s(a.d("槱၈髫Ә輂ন돻㨒ꑄ", 1436287464, -483432376), a.d("\ue139飔ታ豾ޢ脂㬺뛑Ⲑ꘠ↇ\udbff啚", -335633187, 1051476470));
+      }
+
+      String var3 = var2 == Items.AIR ? var1.getPath().replace('_', ' ') : var2.getName().getString();
+      return var3.isEmpty() ? var1.getPath() : var3;
    }
 
    private static ItemStack izw(ItemCooldownManager var0, PlayerInventory var1, Identifier var2) {
-      for (int var3 = 0; var3 < var1.method_5439(); var3++) {
-         ItemStack var4 = var1.method_5438(var3);
-         if (!var4.method_7960() && var2.equals(var0.method_62836(var4))) {
-            return new ItemStack(var4.method_7909());
+      for (int var3 = 0; var3 < var1.size(); var3++) {
+         ItemStack var4 = var1.getStack(var3);
+         if (!var4.isEmpty() && var2.equals(var0.getGroup(var4))) {
+            return new ItemStack(var4.getItem());
          }
       }
 
-      Item var5 = (Item)Registries.field_41178.method_63535(var2);
-      return var5 == Items.field_8162 ? ItemStack.field_8037 : new ItemStack(var5);
+      Item var5 = Registries.ITEM.get(var2);
+      return var5 == Items.AIR ? ItemStack.EMPTY : new ItemStack(var5);
    }
 
    static String seconds(float var0) {
@@ -180,14 +192,14 @@ public final class izj extends jeq<izb> {
 
    void drawRow(DrawContext var1, izb var2, float var3, float var4, float var5, float var6, float var7, float var8) {
       float var9 = var4 + 6.0F;
-      if (!var2.izd.method_7960()) {
+      if (!var2.izd.isEmpty()) {
          float var10 = 0.625F * var7;
          uut.pushScissor(var1, var3 - 1.0F, var9 - 5.0F - 1.0F, 12.0F, 12.0F);
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var3 + 5.0F, var9);
-         var1.method_51448().scale(var10, var10);
-         var1.method_51427(var2.izd, -8, -8);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var3 + 5.0F, var9);
+         var1.getMatrices().scale(var10, var10);
+         var1.drawItem(var2.izd, -8, -8);
+         var1.getMatrices().popMatrix();
          uut.popScissor(var1);
       }
 

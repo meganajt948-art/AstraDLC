@@ -16,7 +16,7 @@ final class fwd {
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
       switch (var1) {
          case 1:
-            var0.method_1562().method_45730(a.c(-1837125820, "꼽횑屆숿䦭콏甊ﳪ拡\ue846澓闢ᬵ"));
+            var0.getNetworkHandler().sendChatCommand(a.c(-1837125820, "꼽횑屆숿䦭콏甊ﳪ拡\ue846澓闢ᬵ"));
             fwe = iov.PRESET.get();
             fwf = isv.selected();
             fwi(a.d("뻅읞䶎폧塧\udeb4擉\ued35獨六", 1537582006, -447734465), a.d("\uf155裻ȥ鱕ឈ酬⭣ꊘ㳄뙭\u31e4쯜䔎\udcac囦", -605365332, 390146688));
@@ -46,7 +46,7 @@ final class fwd {
             break;
          case 212:
             fwi(a.b("\uf575賮ؾ顗Ꮧ锄⽹ꚅ㣘뉡", -142019271), a.d("\udca7ꔉ\u2fd7놧㩺벞ڑ轪ᄶ鮟ᰖ\ue62e棼\uf15e笔", -1845516047, -576752593));
-            var0.method_1507(null);
+            var0.setScreen(null);
             break;
          case 250:
             fwk(var0, a.d("ⶪ向\udec1䂨쭤䷖\uf785繰\ue069檝\ued53ᜳ馭S討ೲ뚿㥦", 1822696234, -1019736332));
@@ -85,18 +85,18 @@ final class fwd {
       Field var8 = hlc.class.getDeclaredField(a.b("怟ᦾ鍼ഐ蛄u먹", -1194762165));
       var8.setAccessible(true);
       ((Map)var8.get(null)).clear();
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static void fwk(MinecraftClient var0, String var1) {
       System.out
          .println(
-            a.b("蝌ﻫ琱\uea4a懛\ue73e嵼풛䫃쀦", -369326283) + var1 + a.b("\u1adc挍\ue9be", 944577279) + var0.method_47599() + a.d("뚶콁䖄\udbf6", 507106358, 565535396)
+            a.b("蝌ﻫ琱\uea4a懛\ue73e嵼풛䫃쀦", -369326283) + var1 + a.b("\u1adc挍\ue9be", 944577279) + var0.getCurrentFps() + a.d("뚶콁䖄\udbf6", 507106358, 565535396)
          );
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("ᘿ澄\ue554笽\uf0af瘁", 817397468, -991270781) + var1 + a.d("蜿ﻐ琝\uea65", 1964396508, 1584449737),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

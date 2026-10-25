@@ -41,11 +41,11 @@ public final class qqs {
    }
 
    public void hopTook(long var1) {
-      this.qqy = this.qqy * 0.6 + Math.max(1500.0, Math.min(40000.0, (double)var1)) * 0.4;
+      this.qqy = this.qqy * 0.6 + Math.max(1500.0, Math.min(40000.0, var1)) * 0.4;
    }
 
    public void warpTook(long var1) {
-      this.qqz = this.qqz * 0.6 + Math.max(1000.0, Math.min(30000.0, (double)var1)) * 0.4;
+      this.qqz = this.qqz * 0.6 + Math.max(1000.0, Math.min(30000.0, var1)) * 0.4;
    }
 
    public void block(int var1, long var2) {
@@ -114,31 +114,31 @@ public final class qqs {
       int var14 = this.qrc(var1, var3);
       if (var7 == null) {
          return var14 >= 0 ? new qqg(qqp.SCAN, var14, null) : new qqg(qqp.IDLE, -1, null);
-      } else {
-         long var15 = var7.refreshAt - var1;
-         if (var15 <= var6.waitMs + this.qre(var7, var3, var4)) {
-            return new qqg(qqp.GO, var7.id, var7);
-         } else {
-            qqm var11 = null;
+      }
 
-            for (qqm var13 : this.qqu.values()) {
-               if (var13 != var7
-                  && this.qrd(var13, var1, var3, var4, var6)
-                  && (var14 < 0 || var13.refreshAt - var1 <= var6.waitMs + this.qre(var13, var3, var4))
-                  && var13.refreshAt + var6.minMineMs + this.goMs() + var6.leadMs <= var7.refreshAt
-                  && qrg(var13, var11)) {
-                  var11 = var13;
-               }
-            }
+      long var15 = var7.refreshAt - var1;
+      if (var15 <= var6.waitMs + this.qre(var7, var3, var4)) {
+         return new qqg(qqp.GO, var7.id, var7);
+      }
 
-            if (var11 != null) {
-               return new qqg(qqp.GO, var11.id, var11);
-            } else {
-               return var14 >= 0 && var1 + this.hopMs() + this.goMs() + var6.leadMs <= var7.refreshAt
-                  ? new qqg(qqp.SCAN, var14, null)
-                  : new qqg(qqp.GO, var7.id, var7);
-            }
+      qqm var11 = null;
+
+      for (qqm var13 : this.qqu.values()) {
+         if (var13 != var7
+            && this.qrd(var13, var1, var3, var4, var6)
+            && (var14 < 0 || var13.refreshAt - var1 <= var6.waitMs + this.qre(var13, var3, var4))
+            && var13.refreshAt + var6.minMineMs + this.goMs() + var6.leadMs <= var7.refreshAt
+            && qrg(var13, var11)) {
+            var11 = var13;
          }
+      }
+
+      if (var11 != null) {
+         return new qqg(qqp.GO, var11.id, var11);
+      } else {
+         return var14 >= 0 && var1 + this.hopMs() + this.goMs() + var6.leadMs <= var7.refreshAt
+            ? new qqg(qqp.SCAN, var14, null)
+            : new qqg(qqp.GO, var7.id, var7);
       }
    }
 
@@ -202,33 +202,33 @@ public final class qqs {
       ArrayList var1 = new ArrayList();
       if (var0 == null) {
          return var1;
-      } else {
-         for (String var5 : var0.replaceAll(a.b("똝쾃䔉\udb09储\uf627䱳\ue5cb箕\uf10b皁", 154056266), a.c(-1576389634, "㏒")).split(a.b("氍ᗋ鼏ę諡౾뙛", 66481233))) {
-            String var6 = var5.trim();
-            if (!var6.isEmpty()) {
-               try {
-                  int var7 = var6.indexOf(45, 1);
-                  if (var7 > 0) {
-                     int var12 = Integer.parseInt(var6.substring(0, var7).trim());
-                     int var9 = Integer.parseInt(var6.substring(var7 + 1).trim());
+      }
 
-                     for (int var10 = Math.min(var12, var9); var10 <= Math.max(var12, var9) && var1.size() < 400; var10++) {
-                        if (!var1.contains(var10)) {
-                           var1.add(var10);
-                        }
-                     }
-                  } else {
-                     int var8 = Integer.parseInt(var6);
-                     if (!var1.contains(var8)) {
-                        var1.add(var8);
+      for (String var5 : var0.replaceAll(a.b("똝쾃䔉\udb09储\uf627䱳\ue5cb箕\uf10b皁", 154056266), a.c(-1576389634, "㏒")).split(a.b("氍ᗋ鼏ę諡౾뙛", 66481233))) {
+         String var6 = var5.trim();
+         if (!var6.isEmpty()) {
+            try {
+               int var7 = var6.indexOf(45, 1);
+               if (var7 > 0) {
+                  int var12 = Integer.parseInt(var6.substring(0, var7).trim());
+                  int var9 = Integer.parseInt(var6.substring(var7 + 1).trim());
+
+                  for (int var10 = Math.min(var12, var9); var10 <= Math.max(var12, var9) && var1.size() < 400; var10++) {
+                     if (!var1.contains(var10)) {
+                        var1.add(var10);
                      }
                   }
-               } catch (NumberFormatException var11) {
+               } else {
+                  int var8 = Integer.parseInt(var6);
+                  if (!var1.contains(var8)) {
+                     var1.add(var8);
+                  }
                }
+            } catch (NumberFormatException var11) {
             }
          }
-
-         return var1;
       }
+
+      return var1;
    }
 }

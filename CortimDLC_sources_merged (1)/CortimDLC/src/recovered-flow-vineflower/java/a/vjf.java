@@ -40,11 +40,11 @@ public final class vjf {
             float var14 = var12 + var9 + var10 * 2.0F;
             int var15 = var1.ordinal();
             float[] var16 = var8.uv(var15);
-            Matrix3x2f var17 = new Matrix3x2f(var0.method_51448());
+            Matrix3x2f var17 = new Matrix3x2f(var0.getMatrices());
             ScreenRect var18 = uut.scissor();
             ScreenRect var19 = uut.bounds(var17, var11, var12, var13, var14, var18);
             if (var19 != null) {
-               TextureSetup var20 = TextureSetup.method_70900(var8.view, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+               TextureSetup var20 = TextureSetup.of(var8.view, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                float[] var21 = new float[]{var11, var12, var13, var14, var16[0], var16[1], var16[2], var16[3]};
                uut.submit(var0, new vfw(var20, var17, var21, new int[]{var6}, 1, var18, var19));
             }
@@ -53,8 +53,8 @@ public final class vjf {
    }
 
    private static float vjp() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      int var1 = var0.method_22683() != null ? var0.method_22683().method_4495() : 2;
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      int var1 = var0.getWindow() != null ? var0.getWindow().getScaleFactor() : 2;
       return Math.max(1, var1) * vdn.renderScale();
    }
 
@@ -63,26 +63,28 @@ public final class vjf {
       vjb var3 = vjk.get((long)var2);
       if (var3 != null) {
          return var3;
-      } else if (!RenderSystem.isOnRenderThread()) {
-         return null;
-      } else {
-         try {
-            var3 = vjb.build(var2);
-         } catch (Throwable var5) {
-            vjm = true;
-            System.out.println("icons unavailable: " + var5);
-            return null;
-         }
-
-         vjk.put((long)var2, var3);
-
-         while (vjk.size() > 12) {
-            Long var4 = vjk.keySet().iterator().next();
-            vjl.add(new viw(vjk.remove(var4), unf.frame()));
-         }
-
-         return var3;
       }
+
+      if (!RenderSystem.isOnRenderThread()) {
+         return null;
+      }
+
+      try {
+         var3 = vjb.build(var2);
+      } catch (Throwable var5) {
+         vjm = true;
+         System.out.println("icons unavailable: " + var5);
+         return null;
+      }
+
+      vjk.put((long)var2, var3);
+
+      while (vjk.size() > 12) {
+         Long var4 = vjk.keySet().iterator().next();
+         vjl.add(new viw(vjk.remove(var4), unf.frame()));
+      }
+
+      return var3;
    }
 
    private static void vjr() {

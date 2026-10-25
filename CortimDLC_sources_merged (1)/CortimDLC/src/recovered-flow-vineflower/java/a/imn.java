@@ -19,7 +19,7 @@ abstract class imn {
    }
 
    static imn of(vmo var0) {
-      Object var1;
+      imn var1;
       if (var0 instanceof vkl var3) {
          var1 = new ino(var3);
       } else if (var0 instanceof vmc var4) {
@@ -43,14 +43,14 @@ abstract class imn {
       }
 
       if (var0.activeCondition() != null) {
-         ((imn)var1).activeWhen(var0.activeCondition());
+         var1.activeWhen(var0.activeCondition());
       }
 
       if (var0.visibleCondition() != null) {
-         ((imn)var1).visibleWhen(var0.visibleCondition());
+         var1.visibleWhen(var0.visibleCondition());
       }
 
-      return (imn)var1;
+      return var1;
    }
 
    imn visibleWhen(BooleanSupplier var1) {

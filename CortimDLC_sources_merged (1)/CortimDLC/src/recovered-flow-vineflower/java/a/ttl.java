@@ -73,16 +73,16 @@ public final class ttl {
    }
 
    public void attack(MinecraftClient var1, BlockPos var2, Direction var3) {
-      ClientPlayerEntity var4 = var1.field_1724;
-      if (var4 != null && var1.field_1687 != null) {
-         BlockState var5 = var1.field_1687.method_8320(var2);
-         byte var6 = tsh.kind(var1.field_1687, var2, var5);
+      ClientPlayerEntity var4 = var1.player;
+      if (var4 != null && var1.world != null) {
+         BlockState var5 = var1.world.getBlockState(var2);
+         byte var6 = tsh.kind(var1.world, var2, var5);
          if (tpx.minable(var6)) {
             if (this.tua != null && !this.tua.contains(var2)) {
                var6 = 4;
             }
 
-            this.ttu.add(new tte(var2.method_10062(), var3, tuo(var1, var4, var2, var3), var6));
+            this.ttu.add(new tte(var2.toImmutable(), var3, tuo(var1, var4, var2, var3), var6));
          }
       }
    }
@@ -94,15 +94,13 @@ public final class ttl {
    }
 
    private static Vec3d tuo(MinecraftClient var0, ClientPlayerEntity var1, BlockPos var2, Direction var3) {
-      HitResult var4 = var0.field_1765;
-      if (var4 instanceof BlockHitResult var5 && var4.method_17783() == Type.field_1332 && var5.method_17777().equals(var2)) {
-         return var5.method_17784();
+      HitResult var4 = var0.crosshairTarget;
+      if (var4 instanceof BlockHitResult var5 && var4.getType() == Type.BLOCK && var5.getBlockPos().equals(var2)) {
+         return var5.getPos();
       } else {
-         Vec3d var7 = var1.method_33571();
-         Optional var6 = new Box(var2).method_992(var7, var7.method_1019(var1.method_5828(1.0F).method_1021(6.0)));
-         return var6.isPresent()
-            ? (Vec3d)var6.get()
-            : Vec3d.method_24953(var2).method_1031(var3.method_10148() * 0.5, var3.method_10164() * 0.5, var3.method_10165() * 0.5);
+         Vec3d var7 = var1.getEyePos();
+         Optional var6 = new Box(var2).raycast(var7, var7.add(var1.getRotationVec(1.0F).multiply(6.0)));
+         return var6.isPresent() ? (Vec3d)var6.get() : Vec3d.ofCenter(var2).add(var3.getOffsetX() * 0.5, var3.getOffsetY() * 0.5, var3.getOffsetZ() * 0.5);
       }
    }
 
@@ -115,8 +113,8 @@ public final class ttl {
    }
 
    public void tick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      ClientWorld var3 = var1.field_1687;
+      ClientPlayerEntity var2 = var1.player;
+      ClientWorld var3 = var1.world;
       if (var2 != null && var3 != null) {
          if (var3 != this.ttz) {
             this.ttz = var3;
@@ -126,34 +124,34 @@ public final class ttl {
             this.tuc = null;
          }
 
-         Vec3d var4 = var2.method_33571();
+         Vec3d var4 = var2.getEyePos();
          if (!this.ttw) {
             this.ttw = true;
-            this.ttt.ox = (int)Math.floor(var4.field_1352);
-            this.ttt.oy = (int)Math.floor(var4.field_1351);
-            this.ttt.oz = (int)Math.floor(var4.field_1350);
+            this.ttt.ox = (int)Math.floor(var4.x);
+            this.ttt.oy = (int)Math.floor(var4.y);
+            this.ttt.oz = (int)Math.floor(var4.z);
          }
 
          this.paused = false;
          this.pauseReason = "";
          int var5 = this.ttt.ticks.size();
          this.tup(var1, var2, var5);
-         GameOptions var6 = var1.field_1690;
-         int var7 = (var6.field_1894.method_1434() ? 1 : 0)
-            | (var6.field_1881.method_1434() ? 2 : 0)
-            | (var6.field_1913.method_1434() ? 4 : 0)
-            | (var6.field_1849.method_1434() ? 8 : 0)
-            | (var6.field_1903.method_1434() ? 16 : 0)
-            | (var2.method_5624() ? 32 : 0)
-            | (var6.field_1832.method_1434() ? 64 : 0);
+         GameOptions var6 = var1.options;
+         int var7 = (var6.forwardKey.isPressed() ? 1 : 0)
+            | (var6.backKey.isPressed() ? 2 : 0)
+            | (var6.leftKey.isPressed() ? 4 : 0)
+            | (var6.rightKey.isPressed() ? 8 : 0)
+            | (var6.jumpKey.isPressed() ? 16 : 0)
+            | (var2.isSprinting() ? 32 : 0)
+            | (var6.sneakKey.isPressed() ? 64 : 0);
          tuz var8 = new tuz();
          var8.flags = 1
-            | (var2.method_24828() ? 2 : 0)
+            | (var2.isOnGround() ? 2 : 0)
             | (this.ttx ? 4 : 0)
-            | (var2.method_5624() ? 8 : 0)
-            | (var2.method_5715() ? 16 : 0)
+            | (var2.isSprinting() ? 8 : 0)
+            | (var2.isSneaking() ? 16 : 0)
             | ((var7 & 31) != 0 ? 32 : 0)
-            | (var6.field_1886.method_1434() ? 64 : 0);
+            | (var6.attackKey.isPressed() ? 64 : 0);
          var8.keys = var7;
          if (this.ttx) {
             this.tty = var5;
@@ -161,17 +159,17 @@ public final class ttl {
             this.tuc = null;
          }
 
-         var8.yaw = var2.method_36454();
-         var8.pitch = var2.method_36455();
-         var8.x = (float)(var4.field_1352 - this.ttt.ox);
-         var8.y = (float)(var4.field_1351 - this.ttt.oy);
-         var8.z = (float)(var4.field_1350 - this.ttt.oz);
-         var8.vx = (float)(var2.method_23317() - var2.field_6014);
-         var8.vy = (float)(var2.method_23318() - var2.field_6036);
-         var8.vz = (float)(var2.method_23321() - var2.field_5969);
-         var8.feetY = tsh.standing(var3, var2).method_10264() - this.ttt.oy;
-         tvn var9 = tsh.snap(var3, var2, var2.method_24515(), this.tua, null, null);
-         trd.diff(this.tuc, var9, var4.field_1352, var4.field_1351, var4.field_1350, this.ttv);
+         var8.yaw = var2.getYaw();
+         var8.pitch = var2.getPitch();
+         var8.x = (float)(var4.x - this.ttt.ox);
+         var8.y = (float)(var4.y - this.ttt.oy);
+         var8.z = (float)(var4.z - this.ttt.oz);
+         var8.vx = (float)(var2.getX() - var2.lastX);
+         var8.vy = (float)(var2.getY() - var2.lastY);
+         var8.vz = (float)(var2.getZ() - var2.lastZ);
+         var8.feetY = tsh.standing(var3, var2).getY() - this.ttt.oy;
+         tvn var9 = tsh.snap(var3, var2, var2.getBlockPos(), this.tua, null, null);
+         trd.diff(this.tuc, var9, var4.x, var4.y, var4.z, this.ttv);
          var8.farm = (short)Math.min(32767, this.ttv[0]);
          var8.dia = (byte)Math.min(127, this.ttv[1]);
          this.farmed = this.farmed + this.ttv[0];
@@ -197,7 +195,7 @@ public final class ttl {
    }
 
    private void tup(MinecraftClient var1, ClientPlayerEntity var2, int var3) {
-      Vec3d var4 = var2.method_73189();
+      Vec3d var4 = var2.getEntityPos();
       if (this.tua != null) {
          if (this.tua.distanceTo(var4) <= 24.0) {
             return;
@@ -221,13 +219,13 @@ public final class ttl {
    private void tuq(tte var1, int var2) {
       tuw var3 = new tuw();
       var3.tick = var2;
-      var3.x = var1.pos().method_10263() - this.ttt.ox;
-      var3.y = var1.pos().method_10264() - this.ttt.oy;
-      var3.z = var1.pos().method_10260() - this.ttt.oz;
+      var3.x = var1.pos().getX() - this.ttt.ox;
+      var3.y = var1.pos().getY() - this.ttt.oy;
+      var3.z = var1.pos().getZ() - this.ttt.oz;
       var3.face = (byte)var1.side().ordinal();
-      var3.px = (float)(var1.point().field_1352 - this.ttt.ox);
-      var3.py = (float)(var1.point().field_1351 - this.ttt.oy);
-      var3.pz = (float)(var1.point().field_1350 - this.ttt.oz);
+      var3.px = (float)(var1.point().x - this.ttt.ox);
+      var3.py = (float)(var1.point().y - this.ttt.oy);
+      var3.pz = (float)(var1.point().z - this.ttt.oz);
       var3.cell = var1.cell();
       int var4 = this.ttt.hits.size();
       tuw var5 = var4 > 0 ? this.ttt.hits.get(var4 - 1) : null;

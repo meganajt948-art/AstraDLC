@@ -18,8 +18,8 @@ public record pia(RegistryEntry<EntityAttribute> attribute, double amount, Opera
    }
 
    boolean in(AttributeModifiersComponent var1) {
-      for (Entry var3 : var1.comp_2393()) {
-         if (var3.comp_2395().equals(this.pib) && var3.comp_2396().comp_2450() == this.pid && Math.abs(var3.comp_2396().comp_2449() - this.pic) < 0.001) {
+      for (Entry var3 : var1.modifiers()) {
+         if (var3.attribute().equals(this.pib) && var3.modifier().operation() == this.pid && Math.abs(var3.modifier().value() - this.pic) < 0.001) {
             return true;
          }
       }

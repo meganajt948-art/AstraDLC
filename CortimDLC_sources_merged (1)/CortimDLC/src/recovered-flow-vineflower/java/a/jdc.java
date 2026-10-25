@@ -34,22 +34,22 @@ public final class jdc extends jcs {
       ArrayList var1 = new ArrayList();
       oxw var2 = oxw.get();
       if (var2 != null && var2.isEnabled()) {
-         var1.addAll(var2.entries(MinecraftClient.method_1551().method_61966().method_60637(true)));
+         var1.addAll(var2.entries(MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true)));
       }
 
       if (var1.isEmpty() && var0) {
-         var1.add(jdt(a.d("ॡ烄塚摲", 40181496, -368830468), new ItemStack(Items.field_8614, 15), 90));
-         var1.add(jdt(a.d("\ue670鿐ᔅ譳", -940031681, -401496273), new ItemStack(Items.field_8479, 20), 89));
-         var1.add(jdt(a.b("鸺\ue78d浍\uf32d", 1707449930), new ItemStack(Items.field_22021, 15), 86));
-         var1.add(jdt(a.b("\ue7fe鹓ᒍ諮ľ", 186640267), new ItemStack(Items.field_8551, 18), 66));
-         var1.add(jdt(a.b("ﱘ藮༾酚᪃鰤♢꾂㇊", -341509063), new ItemStack(Items.field_8436, 2), vzz.combo(50, 2)));
+         var1.add(jdt(a.d("ॡ烄塚摲", 40181496, -368830468), new ItemStack(Items.PHANTOM_MEMBRANE, 15), 90));
+         var1.add(jdt(a.d("\ue670鿐ᔅ譳", -940031681, -401496273), new ItemStack(Items.SUGAR, 20), 89));
+         var1.add(jdt(a.b("鸺\ue78d浍\uf32d", 1707449930), new ItemStack(Items.NETHERITE_SCRAP, 15), 86));
+         var1.add(jdt(a.b("\ue7fe鹓ᒍ諮ľ", 186640267), new ItemStack(Items.DRIED_KELP, 18), 66));
+         var1.add(jdt(a.b("ﱘ藮༾酚᪃鰤♢꾂㇊", -341509063), new ItemStack(Items.SPLASH_POTION, 2), vzz.combo(50, 2)));
       }
 
       return var1;
    }
 
    private static oxi jdt(String var0, ItemStack var1, int var2) {
-      return new oxi(a.c(1120294939, "塣⇐ꬔ㕶뺾㠃艂\u0bfe") + var0, var0, var1, var1.method_7947(), var2, 0.0F, 0L, false);
+      return new oxi(a.c(1120294939, "塣⇐ꬔ㕶뺾㠃艂\u0bfe") + var0, var0, var1, var1.getCount(), var2, 0.0F, 0L, false);
    }
 
    @Override
@@ -165,16 +165,16 @@ public final class jdc extends jcs {
          float var11 = jdw(var9.item);
          if (var10 > 0.02F) {
             uut.pushAlpha(Math.min(1.0F, var10 * 1.2F) * (0.45F + 0.55F * var9.owned.get()));
-            var1.method_51448().pushMatrix();
+            var1.getMatrices().pushMatrix();
             float var12 = 0.8F + 0.2F * var10;
-            var1.method_51448().translate(var16 + var11 * var10 * 0.5F, 7.0F);
-            var1.method_51448().scale(var12, var12);
-            var1.method_51448().translate(-var11 * 0.5F, -7.0F);
+            var1.getMatrices().translate(var16 + var11 * var10 * 0.5F, 7.0F);
+            var1.getMatrices().scale(var12, var12);
+            var1.getMatrices().translate(-var11 * 0.5F, -7.0F);
 
             try {
                this.jdx(var1, var9, var11, var10, var4);
             } finally {
-               var1.method_51448().popMatrix();
+               var1.getMatrices().popMatrix();
                uut.popAlpha();
             }
          }
@@ -199,11 +199,11 @@ public final class jdc extends jcs {
 
       float var10 = 7.0F;
       float var11 = 0.5625F * var4;
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(9.5F, var10);
-      var1.method_51448().scale(var11, var11);
-      var1.method_51427(var7.icon(), -8, -8);
-      var1.method_51448().popMatrix();
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate(9.5F, var10);
+      var1.getMatrices().scale(var11, var11);
+      var1.drawItem(var7.icon(), -8, -8);
+      var1.getMatrices().popMatrix();
       float var12 = jdy(var7);
       float var13 = 17.5F;
       String var14 = jdv(var7);
@@ -218,10 +218,10 @@ public final class jdc extends jcs {
    }
 
    private static float jdy(oxi var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      ClientPlayerEntity var2 = var1.field_1724;
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      ClientPlayerEntity var2 = var1.player;
       return var2 != null && var0.count() > 0 && !var0.id().startsWith(a.c(1906302599, "\udeffꝌⶈ돪㠢뺟Ӟ赢"))
-         ? var2.method_7357().method_7905(var0.icon(), var1.method_61966().method_60637(true))
+         ? var2.getItemCooldownManager().getCooldownProgress(var0.icon(), var1.getRenderTickCounter().getTickProgress(true))
          : var0.cooldown();
    }
 }

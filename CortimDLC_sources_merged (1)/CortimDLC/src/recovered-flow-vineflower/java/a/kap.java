@@ -25,19 +25,13 @@ public final class kap {
    public static final float F_HEIGHT = 0.435F;
    private static final float kat = 0.016F;
    private static final float kau = -0.011F;
-   @Nullable
-   private uok kav;
-   @Nullable
-   private uok kaw;
-   @Nullable
-   private uok kax;
-   @Nullable
-   private uok kay;
+   private @Nullable uok kav;
+   private @Nullable uok kaw;
+   private @Nullable uok kax;
+   private @Nullable uok kay;
    private long kaz;
-   @Nullable
-   private GpuBuffer kba;
-   @Nullable
-   private GpuBuffer kbb;
+   private @Nullable GpuBuffer kba;
+   private @Nullable GpuBuffer kbb;
    private boolean kbc;
    private static final float[] kbd = new float[]{1.0F, 1.0F, 0.0F, 0.0F};
    private static final List<uok> kbe = new ArrayList<>();
@@ -50,14 +44,13 @@ public final class kap {
    public boolean draw(DrawContext var1, jza var2, kam var3, float var4, float var5, float var6, boolean var7) {
       if (!this.kbi(var2, var3, var7)) {
          return false;
-      } else {
-         uut.image(var1, this.kav.view, 0.0F, 0.0F, var4, var5, 0.0F, kbl(var6));
-         return true;
       }
+
+      uut.image(var1, this.kav.view, 0.0F, 0.0F, var4, var5, 0.0F, kbl(var6));
+      return true;
    }
 
-   @Nullable
-   public GpuTextureView frost() {
+   public @Nullable GpuTextureView frost() {
       return this.kaw != null && !this.kbc ? this.kaw.view : null;
    }
 
@@ -78,9 +71,9 @@ public final class kap {
    private boolean kbi(jza var1, kam var2, boolean var3) {
       collect();
       if (!this.kbc && uvq.ensure(uvq.MENU_SCENE)) {
-         MinecraftClient var4 = MinecraftClient.method_1551();
-         int var5 = Math.max(4, var4.method_22683().method_4489());
-         int var6 = Math.max(4, var4.method_22683().method_4506());
+         MinecraftClient var4 = MinecraftClient.getInstance();
+         int var5 = Math.max(4, var4.getWindow().getFramebufferWidth());
+         int var6 = Math.max(4, var4.getWindow().getFramebufferHeight());
 
          try {
             this.kbk(var5, var6);
@@ -154,29 +147,13 @@ public final class kap {
          var16.close();
       }
 
-      RenderPass var23 = var0.createRenderPass(() -> a.b("虏ￔ甄\ueb6d惿\ue65c层햻䯯셅䛃볡㈦ꮑ⇉ꜳ", -94927335), var2.view, OptionalInt.empty());
-
-      try {
+      try (RenderPass var23 = var0.createRenderPass(() -> a.b("虏ￔ甄\ueb6d惿\ue65c层햻䯯셅䛃볡㈦ꮑ⇉ꜳ", -94927335), var2.view, OptionalInt.empty())) {
          var23.setPipeline(uvq.MENU_SCENE);
-         GpuSampler var17 = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+         GpuSampler var17 = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
          var23.bindTexture(a.b("\uef1c隊ᱤ舧ৼ轐㔟볧⊯", 1378676572), var3.sharp().view, var17);
          var23.bindTexture(a.d("藲ﱭ皧\ue8d1挧\ue5a4忻혗䡔심䔨", -2025718753, 1751873956), var3.blur().view, var17);
          var23.setUniform(a.b("\ua87d퇦嬶앟京젭牸ﮂ旖", -1281972174), var1);
          var23.draw(0, 3);
-      } catch (Throwable var21) {
-         if (var23 != null) {
-            try {
-               var23.close();
-            } catch (Throwable var19) {
-               var21.addSuppressed(var19);
-            }
-         }
-
-         throw var21;
-      }
-
-      if (var23 != null) {
-         var23.close();
       }
    }
 

@@ -36,7 +36,7 @@ public final class iwf extends Screen {
    private static final int ixb = 37;
 
    public iwf(ivw var1, int var2) {
-      super(Text.method_43470(a.b("ࠦ熨ﭶ攇\ueed9", 251660404)));
+      super(Text.literal(a.b("ࠦ熨ﭶ攇\ueed9", 251660404)));
       this.iwm = var1;
       this.iwn = var2;
       this.iww = var2 == -1;
@@ -52,15 +52,17 @@ public final class iwf extends Screen {
       }
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      this.ixe(var1);
+      this.ixe(context);
       hyv.skip();
-      uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(64.0F * vcq.outCubic(this.iwp.get()))));
+      uut.rect(context, 0.0F, 0.0F, this.width, this.height, ujt.withAlpha(0, Math.round(64.0F * vcq.outCubic(this.iwp.get()))));
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
-      this.ixe(var1);
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+      this.ixe(context);
       this.iws = this.iwm.slots();
       int var5 = this.iws.size();
       if (var5 == 0) {
@@ -71,15 +73,15 @@ public final class iwf extends Screen {
          }
 
          float var6 = vcq.outCubic(this.iwp.get());
-         float var7 = this.field_22789 * 0.5F;
-         float var8 = this.field_22790 * 0.5F;
+         float var7 = this.width * 0.5F;
+         float var8 = this.height * 0.5F;
          float var9 = this.iwq.step(this.iwu >= 0, this.ixa);
-         this.iwt = this.iwu < 0 && !this.iwy ? ixg(var2 - var7, var3 - var8, var5) : -1;
+         this.iwt = this.iwu < 0 && !this.iwy ? ixg(mouseX - var7, mouseY - var8, var5) : -1;
          this.ixi();
          uut.pushAlpha(var6 * (1.0F - 0.6F * var9));
 
          try {
-            this.ixh(var1, var7, var8, var5, 0.9F + 0.1F * var6);
+            this.ixh(context, var7, var8, var5, 0.9F + 0.1F * var6);
          } finally {
             uut.popAlpha();
          }
@@ -88,7 +90,7 @@ public final class iwf extends Screen {
             uut.pushAlpha(var9);
 
             try {
-               this.ixr(var1, var2, var3, var9);
+               this.ixr(context, mouseX, mouseY, var9);
             } finally {
                uut.popAlpha();
             }
@@ -103,14 +105,14 @@ public final class iwf extends Screen {
    private static int ixg(float var0, float var1, int var2) {
       if (var0 * var0 + var1 * var1 < 144.0F) {
          return -1;
-      } else {
-         float var3 = (float)(Math.atan2(var0, -var1) / (float) (Math.PI * 2));
-         if (var3 < 0.0F) {
-            var3++;
-         }
-
-         return (int)Math.floor(var3 * var2 + 0.5F) % var2;
       }
+
+      float var3 = (float)(Math.atan2(var0, -var1) / (float) (Math.PI * 2));
+      if (var3 < 0.0F) {
+         var3++;
+      }
+
+      return (int)Math.floor(var3 * var2 + 0.5F) % var2;
    }
 
    private void ixh(DrawContext var1, float var2, float var3, int var4, float var5) {
@@ -134,16 +136,16 @@ public final class iwf extends Screen {
          float var20 = var2 + (float)Math.sin(var18) * var19;
          float var21 = var3 - (float)Math.cos(var18) * var19;
          boolean var22 = var14.note() != null && !var14.note().isEmpty();
-         if (var14.icon().method_7960()) {
+         if (var14.icon().isEmpty()) {
             vjf.draw(var1, vhz.PLUS, var20, var21, 9.0F * var5, ujt.lerp(iov.textMuted, iov.accent(), var15));
          } else if (!(this.iwq.get() > 0.01F)) {
             float var23 = (var14.usable() ? 1.15F + 0.15F * var15 : 0.8F) * var5 * uut.alpha();
             float var24 = var22 ? 3.0F : 0.0F;
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var20, var21 - var24);
-            var1.method_51448().scale(var23, var23);
-            var1.method_51427(var14.icon(), -8, -8);
-            var1.method_51448().popMatrix();
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var20, var21 - var24);
+            var1.getMatrices().scale(var23, var23);
+            var1.drawItem(var14.icon(), -8, -8);
+            var1.getMatrices().popMatrix();
             if (var14.cooldown() > 0.001F) {
                uut.arc(
                   var1,
@@ -182,7 +184,7 @@ public final class iwf extends Screen {
             var1, irr.SMALL.ellipsize(this.iwm.title(), var25 * 2.0F - 6.0F), var2, irr.SMALL.centerTop(var3), this.iwt >= 0 ? iov.text : iov.textDim
          );
       float var27 = var3 + var8 + 16.0F;
-      if (this.iwt >= 0 && !this.iws.get(this.iwt).icon().method_7960()) {
+      if (this.iwt >= 0 && !this.iws.get(this.iwt).icon().isEmpty()) {
          ivx var29 = this.iws.get(this.iwt);
          String var30 = irr.NAME.ellipsize(var29.title(), 170.0F);
          float var31 = irr.NAME.width(var30) + 18.0F;
@@ -214,8 +216,8 @@ public final class iwf extends Screen {
    }
 
    private void ixi() {
-      if (!this.iwy && this.iwu < 0 && this.field_22787 != null) {
-         boolean var1 = this.iwn != -1 && vzz.isDown(this.field_22787, this.iwn);
+      if (!this.iwy && this.iwu < 0 && this.client != null) {
+         boolean var1 = this.iwn != -1 && vzz.isDown(this.client, this.iwn);
          if (this.iww) {
             if (var1 && !this.iwx) {
                this.ixl();
@@ -236,7 +238,7 @@ public final class iwf extends Screen {
 
    private void ixj(int var1) {
       if (!this.iwy && var1 >= 0 && var1 < this.iws.size()) {
-         if (this.iwm.editable() && this.iws.get(var1).icon().method_7960()) {
+         if (this.iwm.editable() && this.iws.get(var1).icon().isEmpty()) {
             this.ixk(var1);
          } else {
             this.iwm.pick(var1);
@@ -255,42 +257,44 @@ public final class iwf extends Screen {
    private void ixl() {
       if (!this.iwy) {
          this.iwy = true;
-         if (this.field_22787 != null) {
-            this.field_22787.method_63588(() -> {
-               if (this.field_22787.field_1755 == this) {
-                  this.field_22787.method_1507(null);
+         if (this.client != null) {
+            this.client.send(() -> {
+               if (this.client.currentScreen == this) {
+                  this.client.setScreen(null);
                }
             });
          }
       }
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
       if (this.iwy) {
          return true;
-      } else if (this.iwu >= 0) {
-         this.ixt((float)var1.comp_4798(), (float)var1.comp_4799(), var1.method_74245());
-         return true;
-      } else {
-         int var3 = this.iws.isEmpty()
-            ? -1
-            : ixg((float)var1.comp_4798() - this.field_22789 * 0.5F, (float)var1.comp_4799() - this.field_22790 * 0.5F, this.iws.size());
-         if (var3 < 0) {
-            return true;
-         } else {
-            if (var1.method_74245() == 1 && this.iwm.editable()) {
-               this.ixk(var3);
-            } else if (var1.method_74245() == 0 && (!vzz.isMouse(this.iwn) || vzz.mouseButton(this.iwn) != 0)) {
-               this.ixj(var3);
-            }
-
-            return true;
-         }
       }
+
+      if (this.iwu >= 0) {
+         this.ixt((float)click.x(), (float)click.y(), click.button());
+         return true;
+      }
+
+      int var3 = this.iws.isEmpty() ? -1 : ixg((float)click.x() - this.width * 0.5F, (float)click.y() - this.height * 0.5F, this.iws.size());
+      if (var3 < 0) {
+         return true;
+      }
+
+      if (click.button() == 1 && this.iwm.editable()) {
+         this.ixk(var3);
+      } else if (click.button() == 0 && (!vzz.isMouse(this.iwn) || vzz.mouseButton(this.iwn) != 0)) {
+         this.ixj(var3);
+      }
+
+      return true;
    }
 
-   public boolean method_25404(KeyInput var1) {
-      int var2 = var1.comp_4795();
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      int var2 = input.key();
       if (var2 == 256) {
          if (this.iwu >= 0) {
             this.iwu = -1;
@@ -317,19 +321,19 @@ public final class iwf extends Screen {
    }
 
    private float ixp(int var1) {
-      return this.field_22789 * 0.5F - this.ixn() * 0.5F + 9.0F + (var1 < 36 ? var1 % 9 : 0) * 19.0F;
+      return this.width * 0.5F - this.ixn() * 0.5F + 9.0F + (var1 < 36 ? var1 % 9 : 0) * 19.0F;
    }
 
    private float ixq(int var1) {
-      float var2 = this.field_22790 * 0.5F - this.ixo() * 0.5F + 17.0F;
+      float var2 = this.height * 0.5F - this.ixo() * 0.5F + 17.0F;
       return var1 < 27 ? var2 + var1 / 9 * 19.0F : (var1 < 36 ? var2 + 57.0F + 4.0F : var2 + 76.0F + 9.0F);
    }
 
    private void ixr(DrawContext var1, float var2, float var3, float var4) {
       float var5 = this.ixn();
       float var6 = this.ixo();
-      float var7 = this.field_22789 * 0.5F - var5 * 0.5F;
-      float var8 = this.field_22790 * 0.5F - var6 * 0.5F + (1.0F - var4) * 5.0F;
+      float var7 = this.width * 0.5F - var5 * 0.5F;
+      float var8 = this.height * 0.5F - var6 * 0.5F + (1.0F - var4) * 5.0F;
       float var9 = iov.r(8.0F);
       uut.shadow(var1, var7, var8 + 3.0F, var5, var6, var9, 14.0F, iov.shadow);
       uut.round(var1, var7, var8, var5, var6, var9, ujt.withAlpha(iov.window, 255));
@@ -344,24 +348,24 @@ public final class iwf extends Screen {
             irr.VALUE.centerTop(var8 + 9.5F),
             iov.text
          );
-      PlayerInventory var10 = this.field_22787 != null && this.field_22787.field_1724 != null ? this.field_22787.field_1724.method_31548() : null;
+      PlayerInventory var10 = this.client != null && this.client.player != null ? this.client.player.getInventory() : null;
       float var11 = iov.r(3.5F);
 
       for (int var12 = 0; var12 < 37; var12++) {
          float var13 = this.ixp(var12);
          float var14 = this.ixq(var12) + (1.0F - var4) * 5.0F;
-         ItemStack var15 = var10 == null ? ItemStack.field_8037 : var10.method_5438(ixm(var12));
-         boolean var16 = !var15.method_7960() && irr.inside(var2, var3, var13, var14, 17.5F, 17.5F);
+         ItemStack var15 = var10 == null ? ItemStack.EMPTY : var10.getStack(ixm(var12));
+         boolean var16 = !var15.isEmpty() && irr.inside(var2, var3, var13, var14, 17.5F, 17.5F);
          uut.round(var1, var13, var14, 17.5F, 17.5F, var11, var16 ? iov.fieldHover : iov.field);
          if (var16) {
             uut.outline(var1, var13, var14, 17.5F, 17.5F, var11, 1.0F, iov.accent());
          }
 
-         if (!var15.method_7960() && var4 > 0.5F) {
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var13 + 8.75F, var14 + 8.75F);
-            var1.method_51427(var15, -8, -8);
-            var1.method_51448().popMatrix();
+         if (!var15.isEmpty() && var4 > 0.5F) {
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var13 + 8.75F, var14 + 8.75F);
+            var1.drawItem(var15, -8, -8);
+            var1.getMatrices().popMatrix();
          }
       }
 
@@ -395,20 +399,20 @@ public final class iwf extends Screen {
    private void ixt(float var1, float var2, int var3) {
       float var4 = this.ixn();
       float var5 = this.ixo();
-      float var6 = this.field_22789 * 0.5F - var4 * 0.5F;
-      float var7 = this.field_22790 * 0.5F - var5 * 0.5F;
+      float var6 = this.width * 0.5F - var4 * 0.5F;
+      float var7 = this.height * 0.5F - var5 * 0.5F;
       if (var3 == 0 && irr.inside(var1, var2, var6, var7, var4, var5)) {
          float var8 = this.ixq(36) + 8.75F;
          float var9 = this.ixs();
          if (irr.inside(var1, var2, var6 + var4 - 9.0F - var9, var8 - 7.0F, var9, 14.0F)) {
-            this.iwm.assign(this.iwu, ItemStack.field_8037);
+            this.iwm.assign(this.iwu, ItemStack.EMPTY);
             this.iwu = -1;
-         } else if (this.field_22787 != null && this.field_22787.field_1724 != null) {
-            PlayerInventory var10 = this.field_22787.field_1724.method_31548();
+         } else if (this.client != null && this.client.player != null) {
+            PlayerInventory var10 = this.client.player.getInventory();
 
             for (int var11 = 0; var11 < 37; var11++) {
-               ItemStack var12 = var10.method_5438(ixm(var11));
-               if (!var12.method_7960() && irr.inside(var1, var2, this.ixp(var11), this.ixq(var11), 17.5F, 17.5F)) {
+               ItemStack var12 = var10.getStack(ixm(var11));
+               if (!var12.isEmpty() && irr.inside(var1, var2, this.ixp(var11), this.ixq(var11), 17.5F, 17.5F)) {
                   this.iwm.assign(this.iwu, var12);
                   this.iwu = -1;
                   return;
@@ -420,11 +424,13 @@ public final class iwf extends Screen {
       }
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 }

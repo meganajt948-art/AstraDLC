@@ -134,8 +134,8 @@ public class kyn extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.field_1687 != null) {
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.world != null) {
          this.lbx(var1);
          this.laa = this.lby(var1, var2);
          this.kzz = this.laa ? this.lbt(var1, var2) : null;
@@ -151,16 +151,16 @@ public class kyn extends kfe {
       if (var2 != null && var2.isEnabled()) {
          this.setEnabled(false);
       } else {
-         if ((this.kzn == null || !this.kzo) && var1.method_22683() != null) {
-            this.lcb(var1.method_22683().method_4490());
+         if ((this.kzn == null || !this.kzo) && var1.getWindow() != null) {
+            this.lcb(var1.getWindow().getHandle());
          }
 
          long var3 = System.nanoTime();
          double var5 = this.lav == 0L ? 0.016666666666666666 : Math.min(0.1, (var3 - this.lav) / 1.0E9);
          this.lav = var3;
          this.law = this.law + (Math.min(0.05, var5) - this.law) * 0.2;
-         ClientPlayerEntity var7 = var1.field_1724;
-         boolean var8 = var7 != null && var1.field_1755 == null && var1.field_1729.method_1613();
+         ClientPlayerEntity var7 = var1.player;
+         boolean var8 = var7 != null && var1.currentScreen == null && var1.mouse.isCursorLocked();
          LivingEntity var9 = var8 && this.laa ? this.kzz : null;
          if (var9 != null && var9 != this.lac) {
             this.lbo(var9, var3);
@@ -168,7 +168,7 @@ public class kyn extends kfe {
 
          boolean var10 = var9 != null && var9 == this.lac;
          this.lae = var10 ? Math.min(1.0, this.lae + var5 / this.laf) : Math.max(0.0, this.lae - var5 / 0.12);
-         if (this.lac != null && (!var10 && this.lae <= 0.0 || this.lac.method_31481() || !this.lac.method_5805())) {
+         if (this.lac != null && (!var10 && this.lae <= 0.0 || this.lac.isRemoved() || !this.lac.isAlive())) {
             this.lbp();
          }
 
@@ -213,27 +213,13 @@ public class kyn extends kfe {
    private void lbq(MinecraftClient var1, ClientPlayerEntity var2, long var3, double var5) {
       double var7 = (var3 - this.lad) / 1.0E9;
       this.lbr(var7);
-      float var9 = var1.method_61966().method_60637(true);
-      Vec3d var10 = var2.method_5836(var9);
-      Vec3d var11 = this.lac.method_30950(var9);
-      double var12 = this.lac.method_17681() * 0.5;
-      double var14 = this.lac.method_17682();
-      if (tbp.aim(
-            var10.field_1352,
-            var10.field_1351,
-            var10.field_1350,
-            var11.field_1352,
-            var11.field_1351,
-            var11.field_1350,
-            var12,
-            var14,
-            this.lam,
-            this.lan,
-            this.kzi
-         )
-         && tbp.aim(
-            var10.field_1352, var10.field_1351, var10.field_1350, var11.field_1352, var11.field_1351, var11.field_1350, var12, var14, 0.0, 0.5, this.kzj
-         )) {
+      float var9 = var1.getRenderTickCounter().getTickProgress(true);
+      Vec3d var10 = var2.getCameraPosVec(var9);
+      Vec3d var11 = this.lac.getLerpedPos(var9);
+      double var12 = this.lac.getWidth() * 0.5;
+      double var14 = this.lac.getHeight();
+      if (tbp.aim(var10.x, var10.y, var10.z, var11.x, var11.y, var11.z, var12, var14, this.lam, this.lan, this.kzi)
+         && tbp.aim(var10.x, var10.y, var10.z, var11.x, var11.y, var11.z, var12, var14, 0.0, 0.5, this.kzj)) {
          if (this.lbh && var5 > 1.0E-4) {
             double var16 = tbp.wrap(this.kzj.yaw - this.lbi) / var5;
             double var18 = (this.kzj.pitch - this.lbj) / var5;
@@ -255,7 +241,7 @@ public class kyn extends kfe {
          this.lbf = Math.max(1.0, 0.6 * this.kzi.bw);
          this.lax = true;
          double var28 = this.kys.get() * 0.5;
-         double var29 = Math.hypot(tbp.wrap(this.kzi.yaw - var2.method_36454()), this.kzi.pitch - var2.method_36455());
+         double var29 = Math.hypot(tbp.wrap(this.kzi.yaw - var2.getYaw()), this.kzi.pitch - var2.getPitch());
          double var30 = 1.0 - lci(var28 * 0.75, var28 * 1.2, var29);
          double var22 = 0.5 * (Math.sin((Math.PI * 2) * this.lai * var7 + this.lak) + Math.sin((Math.PI * 2) * this.laj * var7 + this.lal));
          double var24 = lcj(1.0 + this.kyp.get() * (this.lah + 0.6 * var22), 0.2, 2.0);
@@ -299,89 +285,84 @@ public class kyn extends kfe {
    }
 
    private LivingEntity lbt(MinecraftClient var1, ClientPlayerEntity var2) {
-      Vec3d var3 = var2.method_33571();
+      Vec3d var3 = var2.getEyePos();
       double var4 = this.kyt.get();
       double var6 = this.kys.get() * 0.5;
       if (this.kzz != null && this.lbu(var2, this.kzz) && lbv(var3, this.kzz, var4) && lbw(var2, var3, this.kzz) <= var6 * 1.2) {
          return this.kzz;
-      } else {
-         LivingEntity var8 = null;
-         double var9 = Double.MAX_VALUE;
+      }
 
-         for (Entity var12 : var1.field_1687.method_8335(var2, var2.method_5829().method_1014(var4 + 1.0))) {
-            if (var12 instanceof LivingEntity var13 && this.lbu(var2, var13) && lbv(var3, var13, var4)) {
-               double var14 = lbw(var2, var3, var13);
-               if (var14 <= var6 && var14 < var9) {
-                  var9 = var14;
-                  var8 = var13;
-               }
+      LivingEntity var8 = null;
+      double var9 = Double.MAX_VALUE;
+
+      for (Entity var12 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var4 + 1.0))) {
+         if (var12 instanceof LivingEntity var13 && this.lbu(var2, var13) && lbv(var3, var13, var4)) {
+            double var14 = lbw(var2, var3, var13);
+            if (var14 <= var6 && var14 < var9) {
+               var9 = var14;
+               var8 = var13;
             }
          }
-
-         return var8;
       }
+
+      return var8;
    }
 
    private boolean lbu(ClientPlayerEntity var1, LivingEntity var2) {
-      if (var2 != var1 && !var2.method_31481() && var2.method_5805() && var2.method_5732() && !(var2 instanceof ArmorStandEntity)) {
+      if (var2 != var1 && !var2.isRemoved() && var2.isAlive() && var2.isAttackable() && !(var2 instanceof ArmorStandEntity)) {
          if (var2 instanceof PlayerEntity var3) {
-            if (!this.kyw.get() || var3.method_7325() || hhf.protects(var3)) {
+            if (!this.kyw.get() || var3.isSpectator() || hhf.protects(var3)) {
                return false;
             }
          } else if (!this.kyx.get() || !(var2 instanceof Monster)) {
             return false;
          }
 
-         return this.kyy.get() || var1.method_6057(var2);
+         return this.kyy.get() || var1.canSee(var2);
       } else {
          return false;
       }
    }
 
    private static boolean lbv(Vec3d var0, Entity var1, double var2) {
-      return var1.method_5829().method_49271(var0) <= var2 * var2;
+      return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
    private static double lbw(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
-      Vec3d var3 = var2.method_5829().method_1005();
-      double var4 = var3.field_1352 - var1.field_1352;
-      double var6 = var3.field_1350 - var1.field_1350;
+      Vec3d var3 = var2.getBoundingBox().getCenter();
+      double var4 = var3.x - var1.x;
+      double var6 = var3.z - var1.z;
       double var8 = tbp.yawTo(var4, var6);
-      double var10 = tbp.pitchTo(var3.field_1351 - var1.field_1351, Math.sqrt(var4 * var4 + var6 * var6));
-      return Math.hypot(tbp.wrap(var8 - var0.method_36454()), var10 - var0.method_36455());
+      double var10 = tbp.pitchTo(var3.y - var1.y, Math.sqrt(var4 * var4 + var6 * var6));
+      return Math.hypot(tbp.wrap(var8 - var0.getYaw()), var10 - var0.getPitch());
    }
 
    private void lbx(MinecraftClient var1) {
-      boolean var2 = var1.field_1690.field_1886.method_1434()
-         || var1.field_1755 == null && var1.method_22683() != null && GLFW.glfwGetMouseButton(var1.method_22683().method_4490(), 0) == 1;
+      boolean var2 = var1.options.attackKey.isPressed()
+         || var1.currentScreen == null && var1.getWindow() != null && GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 0) == 1;
       if (var2) {
          this.lab = System.currentTimeMillis();
       }
    }
 
    private boolean lby(MinecraftClient var1, ClientPlayerEntity var2) {
-      if (var1.field_1755 != null || !var1.method_1569() || !var1.field_1729.method_1613() || !var2.method_5805() || var2.method_7325() || var2.method_6115()) {
+      if (var1.currentScreen != null || !var1.isWindowFocused() || !var1.mouse.isCursorLocked() || !var2.isAlive() || var2.isSpectator() || var2.isUsingItem()) {
          return false;
-      } else if (!var1.field_1690.method_31044().method_31034() || var1.field_1690.field_1914) {
+      } else if (!var1.options.getPerspective().isFirstPerson() || var1.options.smoothCameraEnabled) {
          return false;
-      } else if (var1.field_1761 != null && var1.field_1761.method_2923()) {
+      } else if (var1.interactionManager != null && var1.interactionManager.isBreakingBlock()) {
          return false;
       } else {
-         return !ovh.active() && !kmy.busy() && !nfl.busy() && tcz.mode() != tcw.RECORD && !lqq.busy() ? this.lbz(var2.method_6047()) : false;
+         return !ovh.active() && !kmy.busy() && !nfl.busy() && tcz.mode() != tcw.RECORD && !lqq.busy() ? this.lbz(var2.getMainHandStack()) : false;
       }
    }
 
    private boolean lbz(ItemStack var1) {
-      String var2 = this.kyu.get();
-
-      return switch (var2) {
+      return switch (this.kyu.get()) {
          case a.b("㙺俤씠", 1158100536) -> true;
-         case a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141) -> var1.method_31573(ItemTags.field_42611);
-         case a.c(1324087958, "䀘荛ক韲") -> var1.method_31573(ItemTags.field_42612);
-         default -> var1.method_31573(ItemTags.field_42611)
-            || var1.method_31573(ItemTags.field_42612)
-            || var1.method_7909() instanceof MaceItem
-            || var1.method_7909() instanceof TridentItem;
+         case a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141) -> var1.isIn(ItemTags.SWORDS);
+         case a.c(1324087958, "䀘荛ক韲") -> var1.isIn(ItemTags.AXES);
+         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
       };
    }
 
@@ -438,18 +419,18 @@ public class kyn extends kfe {
       }
 
       if (this.kzo) {
-         MinecraftClient.method_1551().execute(this::lce);
+         MinecraftClient.getInstance().execute(this::lce);
       }
    }
 
    private void lce() {
       if (this.kzo && kzd != null) {
-         MinecraftClient var1 = MinecraftClient.method_1551();
+         MinecraftClient var1 = MinecraftClient.getInstance();
 
          try {
-            double var2 = kzd.getDouble(var1.field_1729);
-            double var4 = kze.getDouble(var1.field_1729);
-            double var6 = kzf.getDouble(var1.field_1729);
+            double var2 = kzd.getDouble(var1.mouse);
+            double var4 = kze.getDouble(var1.mouse);
+            double var6 = kzf.getDouble(var1.mouse);
             if (var6 != this.kzt) {
                double var8 = Double.isNaN(this.kzu) ? 1.0 : var6 - this.kzu;
                this.kzh.frame(var8);
@@ -469,8 +450,8 @@ public class kyn extends kfe {
             this.lcf(var1);
             this.kzr = this.kzp + this.kzk[0];
             this.kzs = this.kzq + this.kzk[1];
-            kzd.setDouble(var1.field_1729, this.kzr);
-            kze.setDouble(var1.field_1729, this.kzs);
+            kzd.setDouble(var1.mouse, this.kzr);
+            kze.setDouble(var1.mouse, this.kzs);
          } catch (IllegalAccessException var11) {
             kzd = null;
             this.kzo = false;
@@ -479,19 +460,19 @@ public class kyn extends kfe {
    }
 
    private void lcf(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != null && (this.kzp != 0.0 || this.kzq != 0.0)) {
          double var3 = lch(var1, var2);
-         double var5 = var1.field_1690.method_72706().method_41753() ? -1.0 : 1.0;
-         double var7 = var1.field_1690.method_42438().method_41753() ? -1.0 : 1.0;
+         double var5 = var1.options.getInvertMouseX().getValue() ? -1.0 : 1.0;
+         double var7 = var1.options.getInvertMouseY().getValue() ? -1.0 : 1.0;
          double var9 = this.kzp * var3 * var5;
          double var11 = this.kzq * var3 * var7;
          boolean var13 = this.isEnabled()
             && this.lax
             && this.lbg > 0.0
-            && var1.field_1755 == null
-            && var1.field_1729.method_1613()
-            && !var1.field_1690.field_1914;
+            && var1.currentScreen == null
+            && var1.mouse.isCursorLocked()
+            && !var1.options.smoothCameraEnabled;
          if (!var13) {
             this.kzh.extra(var9, var11, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, this.kzk);
             this.kzx = this.kzy = 0.0;
@@ -500,8 +481,8 @@ public class kyn extends kfe {
             double var14 = lcj((System.nanoTime() - this.lay) / 1.0E9, 0.0, 0.05);
             double var16 = this.laz + this.lbk * var14;
             double var18 = this.lba + this.lbl * var14;
-            double var20 = tbp.wrap(var16 - var2.method_36454());
-            double var22 = var18 - var2.method_36455();
+            double var20 = tbp.wrap(var16 - var2.getYaw());
+            double var22 = var18 - var2.getPitch();
             double var24 = lcg(var20 + this.lbb * this.lag, var20 + this.lbc * this.lag);
             double var26 = lcg(var22 + this.lbd * this.lag, var22 + this.lbe * this.lag);
             this.kzh.extra(var9, var11, var24, var26, this.lbk * this.law, this.lbl * this.law, this.lbf, this.lbg, this.kzk);
@@ -524,9 +505,9 @@ public class kyn extends kfe {
    }
 
    private static double lch(MinecraftClient var0, ClientPlayerEntity var1) {
-      double var2 = (Double)var0.field_1690.method_42495().method_41753() * 0.6F + 0.2F;
+      double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
-      boolean var6 = var0.field_1690.method_31044().method_31034() && var1.method_31550();
+      boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();
       return (var6 ? var4 : var4 * 8.0) * 0.15;
    }
 

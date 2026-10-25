@@ -99,9 +99,9 @@ public class lsx extends kfe {
             ClientReceiveMessageEvents.ALLOW_CHAT.register((AllowChat)(var0, var1x, var2x, var3, var4) -> {
                lsx var5 = lsy;
                if (var5 != null && var5.isEnabled() && var5.ltq(var0.getString())) {
-                  MinecraftClient var6 = MinecraftClient.method_1551();
-                  Text var7 = var3 == null ? var0 : var3.method_44837(var0);
-                  var6.field_1705.method_1743().method_1812(protect(var7));
+                  MinecraftClient var6 = MinecraftClient.getInstance();
+                  Text var7 = var3 == null ? var0 : var3.applyChatDecoration(var0);
+                  var6.inGameHud.getChatHud().addMessage(protect(var7));
                   return false;
                } else {
                   return true;
@@ -123,11 +123,11 @@ public class lsx extends kfe {
    public static Text protect(Text var0) {
       lsx var1 = lsy;
       if (var1 != null && var1.isEnabled() && var0 != null && var1.ltq(var0.getString())) {
-         MutableText var2 = Text.method_43473();
-         var0.method_27658((var2x, var3) -> {
-            var2.method_10852(Text.method_43470(var1.ltr(var3)).method_10862(var2x));
+         MutableText var2 = Text.empty();
+         var0.visit((var2x, var3) -> {
+            var2.append(Text.literal(var1.ltr(var3)).setStyle(var2x));
             return Optional.empty();
-         }, Style.field_24360);
+         }, Style.EMPTY);
          return var2;
       } else {
          return var0;
@@ -152,8 +152,8 @@ public class lsx extends kfe {
    private String ltr(String var1) {
       Pattern var2 = this.lts();
       if (var2 != null && !var1.isEmpty()) {
-         MinecraftClient var3 = MinecraftClient.method_1551();
-         String var4 = var3.method_1548() == null ? "" : var3.method_1548().method_1676();
+         MinecraftClient var3 = MinecraftClient.getInstance();
+         String var4 = var3.getSession() == null ? "" : var3.getSession().getUsername();
          Matcher var5 = var2.matcher(var1);
          StringBuilder var6 = null;
 
@@ -169,18 +169,18 @@ public class lsx extends kfe {
 
          if (var6 == null) {
             return var1;
-         } else {
-            var5.appendTail(var6);
-            return var6.toString();
          }
+
+         var5.appendTail(var6);
+         return var6.toString();
       } else {
          return var1;
       }
    }
 
    private Pattern lts() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      String var2 = var1.method_1548() == null ? "" : var1.method_1548().method_1676();
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      String var2 = var1.getSession() == null ? "" : var1.getSession().getUsername();
       int var3 = this.lta.get() ? hhf.version() : -2;
       if (!var2.equals(this.ltd) || var3 != this.ltf) {
          this.ltd = var2;
@@ -217,15 +217,15 @@ public class lsx extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayNetworkHandler var2 = var1.method_1562();
+      ClientPlayNetworkHandler var2 = var1.getNetworkHandler();
       if (var2 != null) {
-         for (PlayerListEntry var4 : var2.method_2880()) {
-            String var5 = var4.method_2966().name();
+         for (PlayerListEntry var4 : var2.getPlayerList()) {
+            String var5 = var4.getProfile().name();
             if (this.ltq(var5)) {
-               Text var6 = var4.method_2971();
+               Text var6 = var4.getDisplayName();
                if (var6 == null || this.ltq(var6.getString())) {
-                  this.ltg.putIfAbsent(var4.method_2966().id(), var6);
-                  var4.method_2962((Text)(var6 == null ? Text.method_43470(this.ltr(var5)) : protect(var6)));
+                  this.ltg.putIfAbsent(var4.getProfile().id(), var6);
+                  var4.setDisplayName(var6 == null ? Text.literal(this.ltr(var5)) : protect(var6));
                }
             }
          }
@@ -233,11 +233,11 @@ public class lsx extends kfe {
    }
 
    private void ltt() {
-      ClientPlayNetworkHandler var1 = this.mc.method_1562();
+      ClientPlayNetworkHandler var1 = this.mc.getNetworkHandler();
       if (var1 != null) {
-         for (PlayerListEntry var3 : var1.method_2880()) {
-            if (this.ltg.containsKey(var3.method_2966().id())) {
-               var3.method_2962(this.ltg.get(var3.method_2966().id()));
+         for (PlayerListEntry var3 : var1.getPlayerList()) {
+            if (this.ltg.containsKey(var3.getProfile().id())) {
+               var3.setDisplayName(this.ltg.get(var3.getProfile().id()));
             }
          }
       }
@@ -341,17 +341,17 @@ public class lsx extends kfe {
          IdentityHashMap var3 = new IdentityHashMap();
 
          for (ClientBossBar var5 : pjn.of(var0).values()) {
-            Text var6 = var5.method_5414();
+            Text var6 = var5.getName();
             if (var6 != null && var2.ltq(var6.getString())) {
                var3.put(var5, var6);
-               var5.method_5413(protect(var6));
+               var5.setName(protect(var6));
             }
          }
 
          try {
             var1.run();
          } finally {
-            var3.forEach(BossBar::method_5413);
+            var3.forEach(BossBar::setName);
          }
       } else {
          var1.run();
@@ -363,7 +363,7 @@ public class lsx extends kfe {
          lti = ltz(InGameHud.class);
       }
 
-      lty(var0.field_1705, lti, var1);
+      lty(var0.inGameHud, lti, var1);
    }
 
    public static void playerList(MinecraftClient var0, Runnable var1) {
@@ -371,11 +371,9 @@ public class lsx extends kfe {
          ltj = ltz(PlayerListHud.class);
       }
 
-      lty(var0.field_1705 == null ? null : var0.field_1705.method_1750(), ltj, var1);
+      lty(var0.inGameHud == null ? null : var0.inGameHud.getPlayerListHud(), ltj, var1);
    }
 
-   // $VF: Could not verify finally blocks. A semaphore variable has been added to preserve control flow.
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private static void lty(Object var0, Field[] var1, Runnable var2) {
       lsx var3 = lsy;
       if (var3 != null && var3.isEnabled() && var0 != null && var1.length != 0) {
@@ -388,42 +386,27 @@ public class lsx extends kfe {
                   var4[var5] = var6;
                   var1[var5].set(var0, protect(var6));
                }
-            } catch (Throwable var18) {
+            } catch (Throwable var16) {
             }
          }
-
-         boolean var14 = false /* VF: Semaphore variable */;
 
          try {
-            var14 = true;
             var2.run();
-            var14 = false;
          } finally {
-            if (var14) {
-               int var8 = 0;
+            int var8 = 0;
 
-               while (true) {
-                  if (var8 >= var1.length) {
-                     ;
-                  } else {
-                     if (var4[var8] != null) {
-                        try {
-                           var1[var8].set(var0, var4[var8]);
-                        } catch (Throwable var15) {
-                        }
+            while (true) {
+               if (var8 >= var1.length) {
+                  ;
+               } else {
+                  if (var4[var8] != null) {
+                     try {
+                        var1[var8].set(var0, var4[var8]);
+                     } catch (Throwable var14) {
                      }
-
-                     var8++;
                   }
-               }
-            }
-         }
 
-         for (int var19 = 0; var19 < var1.length; var19++) {
-            if (var4[var19] != null) {
-               try {
-                  var1[var19].set(var0, var4[var19]);
-               } catch (Throwable var16) {
+                  var8++;
                }
             }
          }
@@ -450,75 +433,75 @@ public class lsx extends kfe {
 
    public static boolean sidebar(DrawContext var0, MinecraftClient var1) {
       lsx var2 = lsy;
-      if (var2 != null && var2.isEnabled() && var1.field_1687 != null && var1.field_1724 != null) {
-         Scoreboard var3 = var1.field_1687.method_8428();
+      if (var2 != null && var2.isEnabled() && var1.world != null && var1.player != null) {
+         Scoreboard var3 = var1.world.getScoreboard();
          ScoreboardObjective var4 = null;
-         Team var5 = var3.method_1164(var1.field_1724.method_5820());
+         Team var5 = var3.getScoreHolderTeam(var1.player.getNameForScoreboard());
          if (var5 != null) {
-            ScoreboardDisplaySlot var6 = ScoreboardDisplaySlot.method_52622(var5.method_1202());
+            ScoreboardDisplaySlot var6 = ScoreboardDisplaySlot.fromFormatting(var5.getColor());
             if (var6 != null) {
-               var4 = var3.method_1189(var6);
+               var4 = var3.getObjectiveForSlot(var6);
             }
          }
 
          if (var4 == null) {
-            var4 = var3.method_1189(ScoreboardDisplaySlot.field_45157);
+            var4 = var3.getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR);
          }
 
          if (var4 == null) {
             return false;
-         } else {
-            NumberFormat var25 = var4.method_55380(StyledNumberFormat.field_47567);
-            List var7 = var3.method_1184(var4).stream().filter(var0x -> !var0x.method_55385()).sorted(lua()).limit(15L).toList();
-            int var8 = var7.size();
-            Text var9 = var4.method_1114();
-            Text[] var10 = new Text[var8];
-            Text[] var11 = new Text[var8];
-            boolean var12 = var2.ltq(var9.getString());
-
-            for (int var13 = 0; var13 < var8; var13++) {
-               ScoreboardEntry var14 = (ScoreboardEntry)var7.get(var13);
-               var10[var13] = Team.method_1142(var3.method_1164(var14.comp_2127()), var14.method_55387());
-               var11[var13] = var14.method_55386(var25);
-               var12 |= var2.ltq(var10[var13].getString()) || var2.ltq(var11[var13].getString());
-            }
-
-            if (!var12) {
-               return false;
-            } else {
-               TextRenderer var27 = var1.field_1772;
-               var9 = protect(var9);
-               int var28 = var27.method_27525(var9);
-               int var15 = var28;
-               int var16 = var27.method_1727(a.c(1642204628, "෬瑇"));
-               int[] var17 = new int[var8];
-
-               for (int var18 = 0; var18 < var8; var18++) {
-                  var10[var18] = protect(var10[var18]);
-                  var11[var18] = protect(var11[var18]);
-                  var17[var18] = var27.method_27525(var11[var18]);
-                  var15 = Math.max(var15, var27.method_27525(var10[var18]) + (var17[var18] > 0 ? var16 + var17[var18] : 0));
-               }
-
-               var0.method_71048();
-               byte var29 = 9;
-               int var19 = var0.method_51443() / 2 + var8 * var29 / 3;
-               int var20 = var0.method_51421() - var15 - 3;
-               int var21 = var0.method_51421() - 3 + 2;
-               int var22 = var19 - var8 * var29;
-               var0.method_25294(var20 - 2, var22 - var29 - 1, var21, var22 - 1, var1.field_1690.method_19345(0.4F));
-               var0.method_25294(var20 - 2, var22 - 1, var21, var19, var1.field_1690.method_19345(0.3F));
-               var0.method_51439(var27, var9, var20 + var15 / 2 - var28 / 2, var22 - var29, -1, false);
-
-               for (int var23 = 0; var23 < var8; var23++) {
-                  int var24 = var19 - (var8 - var23) * var29;
-                  var0.method_51439(var27, var10[var23], var20, var24, -1, false);
-                  var0.method_51439(var27, var11[var23], var21 - var17[var23], var24, -1, false);
-               }
-
-               return true;
-            }
          }
+
+         NumberFormat var25 = var4.getNumberFormatOr(StyledNumberFormat.RED);
+         List var7 = var3.getScoreboardEntries(var4).stream().filter(var0x -> !var0x.hidden()).sorted(lua()).limit(15L).toList();
+         int var8 = var7.size();
+         Text var9 = var4.getDisplayName();
+         Text[] var10 = new Text[var8];
+         Text[] var11 = new Text[var8];
+         boolean var12 = var2.ltq(var9.getString());
+
+         for (int var13 = 0; var13 < var8; var13++) {
+            ScoreboardEntry var14 = (ScoreboardEntry)var7.get(var13);
+            var10[var13] = Team.decorateName(var3.getScoreHolderTeam(var14.owner()), var14.name());
+            var11[var13] = var14.formatted(var25);
+            var12 |= var2.ltq(var10[var13].getString()) || var2.ltq(var11[var13].getString());
+         }
+
+         if (!var12) {
+            return false;
+         }
+
+         TextRenderer var27 = var1.textRenderer;
+         var9 = protect(var9);
+         int var28 = var27.getWidth(var9);
+         int var15 = var28;
+         int var16 = var27.getWidth(a.c(1642204628, "෬瑇"));
+         int[] var17 = new int[var8];
+
+         for (int var18 = 0; var18 < var8; var18++) {
+            var10[var18] = protect(var10[var18]);
+            var11[var18] = protect(var11[var18]);
+            var17[var18] = var27.getWidth(var11[var18]);
+            var15 = Math.max(var15, var27.getWidth(var10[var18]) + (var17[var18] > 0 ? var16 + var17[var18] : 0));
+         }
+
+         var0.createNewRootLayer();
+         byte var29 = 9;
+         int var19 = var0.getScaledWindowHeight() / 2 + var8 * var29 / 3;
+         int var20 = var0.getScaledWindowWidth() - var15 - 3;
+         int var21 = var0.getScaledWindowWidth() - 3 + 2;
+         int var22 = var19 - var8 * var29;
+         var0.fill(var20 - 2, var22 - var29 - 1, var21, var22 - 1, var1.options.getTextBackgroundColor(0.4F));
+         var0.fill(var20 - 2, var22 - 1, var21, var19, var1.options.getTextBackgroundColor(0.3F));
+         var0.drawText(var27, var9, var20 + var15 / 2 - var28 / 2, var22 - var29, -1, false);
+
+         for (int var23 = 0; var23 < var8; var23++) {
+            int var24 = var19 - (var8 - var23) * var29;
+            var0.drawText(var27, var10[var23], var20, var24, -1, false);
+            var0.drawText(var27, var11[var23], var21 - var17[var23], var24, -1, false);
+         }
+
+         return true;
       } else {
          return false;
       }
@@ -538,8 +521,7 @@ public class lsx extends kfe {
          }
 
          if (ltl == null) {
-            ltl = Comparator.comparing(ScoreboardEntry::comp_2128, Comparator.reverseOrder())
-               .thenComparing(ScoreboardEntry::comp_2127, String.CASE_INSENSITIVE_ORDER);
+            ltl = Comparator.comparing(ScoreboardEntry::value, Comparator.reverseOrder()).thenComparing(ScoreboardEntry::owner, String.CASE_INSENSITIVE_ORDER);
          }
       }
 
@@ -549,13 +531,13 @@ public class lsx extends kfe {
    public static void afterExtraction(WorldRenderState var0) {
       lsx var1 = lsy;
       if (var1 != null && var1.isEnabled() && var0 != null) {
-         for (EntityRenderState var3 : var0.field_61735) {
-            if (var3.field_53337 != null && var1.ltq(var3.field_53337.getString())) {
-               var3.field_53337 = protect(var3.field_53337);
+         for (EntityRenderState var3 : var0.entityRenderStates) {
+            if (var3.displayName != null && var1.ltq(var3.displayName.getString())) {
+               var3.displayName = protect(var3.displayName);
             }
 
-            if (var3 instanceof PlayerEntityRenderState var4 && var4.field_53525 != null && var1.ltq(var4.field_53525.getString())) {
-               var4.field_53525 = protect(var4.field_53525);
+            if (var3 instanceof PlayerEntityRenderState var4 && var4.playerName != null && var1.ltq(var4.playerName.getString())) {
+               var4.playerName = protect(var4.playerName);
             }
          }
       }

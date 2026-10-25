@@ -32,29 +32,19 @@ public final class uok implements AutoCloseable {
       int var7 = var3 ? 0 : -16777216;
       GpuDevice var8 = RenderSystem.getDevice();
       GpuTexture var9 = var8.createTexture(() -> "Flow2 " + var0, 5, TextureFormat.RGBA8, var4, var5, 1, 1);
-      NativeImage var10 = new NativeImage(var4, var5, false);
 
-      try {
+      try (NativeImage var10 = new NativeImage(var4, var5, false)) {
          for (int var11 = 0; var11 < var5; var11++) {
             int var12 = (var2 ? var5 - 1 - var11 : var11) * var4;
 
             for (int var13 = 0; var13 < var4; var13++) {
-               var10.method_61941(var13, var11, var6[var12 + var13] | var7);
+               var10.setColorArgb(var13, var11, var6[var12 + var13] | var7);
             }
          }
 
          var8.createCommandEncoder().writeToTexture(var9, var10);
-      } catch (Throwable var15) {
-         try {
-            var10.close();
-         } catch (Throwable var14) {
-            var15.addSuppressed(var14);
-         }
-
-         throw var15;
       }
 
-      var10.close();
       return new uok(var4, var5, var9, var8.createTextureView(var9));
    }
 

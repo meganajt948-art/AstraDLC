@@ -28,14 +28,11 @@ import org.lwjgl.system.MemoryStack;
 public final class vaf {
    public static final int UNIFORM_SIZE = 624;
    private static final int vag = 256;
-   @Nullable
-   private static GpuTexture vah;
-   @Nullable
-   private static GpuTextureView vai;
+   private static @Nullable GpuTexture vah;
+   private static @Nullable GpuTextureView vai;
    private static final GpuTexture[] vaj = new GpuTexture[3];
    private static final GpuTextureView[] vak = new GpuTextureView[3];
-   @Nullable
-   private static GpuBuffer val;
+   private static @Nullable GpuBuffer val;
    private static int vam = -1;
    private static int van = -1;
    private static int vao = 1;
@@ -54,13 +51,13 @@ public final class vaf {
       if (!var && uvq.ensure(uvq.FOG_MARCH) && uvq.ensure(uvq.FOG_RESOLVE) && uvq.ensure(uvq.FOG_COMPOSITE)) {
          GpuBufferSlice var3 = RenderSystem.getProjectionMatrixBuffer();
          GpuBufferSlice var4 = RenderSystem.getShaderFog();
-         Framebuffer var5 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var6 = var5.method_71639();
-         GpuTextureView var7 = var5.method_71640();
-         if (var3 != null && var4 != null && var6 != null && var7 != null && var5.field_1482 >= 4 && var5.field_1481 >= 4) {
+         Framebuffer var5 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var6 = var5.getColorAttachmentView();
+         GpuTextureView var7 = var5.getDepthAttachmentView();
+         if (var3 != null && var4 != null && var6 != null && var7 != null && var5.textureWidth >= 4 && var5.textureHeight >= 4) {
             try {
-               int var8 = Math.max(1, Math.round(var5.field_1482 * var0));
-               int var9 = Math.max(1, Math.round(var5.field_1481 * var0));
+               int var8 = Math.max(1, Math.round(var5.textureWidth * var0));
+               int var9 = Math.max(1, Math.round(var5.textureHeight * var0));
                vaz(var8, var9);
                GpuDevice var10 = RenderSystem.getDevice();
                CommandEncoder var11 = var10.createCommandEncoder();
@@ -70,7 +67,7 @@ public final class vaf {
 
                try {
                   Std140Builder var14 = Std140Builder.onStack(var13, 624)
-                     .putVec4(var8, var9, var5.field_1482, var5.field_1481)
+                     .putVec4(var8, var9, var5.textureWidth, var5.textureHeight)
                      .putVec4(vaq, var12 ? 1.0F : 0.0F, 0.0F, 0.0F);
                   var2.accept(var14);
                   ByteBuffer var15 = var14.get();
@@ -95,81 +92,34 @@ public final class vaf {
                GpuTextureView var30 = vak[vao];
                GpuTextureView var31 = vak[3 - vao];
                GpuQuery var16 = vas ? var11.timerQueryBegin() : null;
-               RenderPass var17 = var11.createRenderPass(() -> "Flow2 fog march", var29, OptionalInt.empty());
 
-               try {
+               try (RenderPass var17 = var11.createRenderPass(() -> "Flow2 fog march", var29, OptionalInt.empty())) {
                   var17.setPipeline(uvq.FOG_MARCH);
-                  var17.bindTexture("DepthSampler", var7, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var17.bindTexture("NoiseSampler", vai, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
+                  var17.bindTexture("DepthSampler", var7, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var17.bindTexture("NoiseSampler", vai, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
                   var17.setUniform("Projection", var3);
                   var17.setUniform("Fog", var4);
                   var17.setUniform("FlowFog", val);
                   var17.draw(0, 3);
-               } catch (Throwable var26) {
-                  if (var17 != null) {
-                     try {
-                        var17.close();
-                     } catch (Throwable var22) {
-                        var26.addSuppressed(var22);
-                     }
-                  }
-
-                  throw var26;
                }
 
-               if (var17 != null) {
-                  var17.close();
+               try (RenderPass var32 = var11.createRenderPass(() -> "Flow2 fog resolve", var31, OptionalInt.empty())) {
+                  var32.setPipeline(uvq.FOG_RESOLVE);
+                  var32.bindTexture("RawSampler", var29, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var32.bindTexture("HistorySampler", var30, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var32.bindTexture("DepthSampler", var7, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var32.setUniform("Projection", var3);
+                  var32.setUniform("FlowFog", val);
+                  var32.draw(0, 3);
                }
 
-               var17 = var11.createRenderPass(() -> "Flow2 fog resolve", var31, OptionalInt.empty());
-
-               try {
-                  var17.setPipeline(uvq.FOG_RESOLVE);
-                  var17.bindTexture("RawSampler", var29, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var17.bindTexture("HistorySampler", var30, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var17.bindTexture("DepthSampler", var7, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var17.setUniform("Projection", var3);
-                  var17.setUniform("FlowFog", val);
-                  var17.draw(0, 3);
-               } catch (Throwable var25) {
-                  if (var17 != null) {
-                     try {
-                        var17.close();
-                     } catch (Throwable var21) {
-                        var25.addSuppressed(var21);
-                     }
-                  }
-
-                  throw var25;
-               }
-
-               if (var17 != null) {
-                  var17.close();
-               }
-
-               var17 = var11.createRenderPass(() -> "Flow2 fog composite", var6, OptionalInt.empty());
-
-               try {
-                  var17.setPipeline(uvq.FOG_COMPOSITE);
-                  var17.bindTexture("FogSampler", var31, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var17.bindTexture("DepthSampler", var7, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var17.setUniform("Projection", var3);
-                  var17.setUniform("FlowFog", val);
-                  var17.draw(0, 3);
-               } catch (Throwable var24) {
-                  if (var17 != null) {
-                     try {
-                        var17.close();
-                     } catch (Throwable var20) {
-                        var24.addSuppressed(var20);
-                     }
-                  }
-
-                  throw var24;
-               }
-
-               if (var17 != null) {
-                  var17.close();
+               try (RenderPass var33 = var11.createRenderPass(() -> "Flow2 fog composite", var6, OptionalInt.empty())) {
+                  var33.setPipeline(uvq.FOG_COMPOSITE);
+                  var33.bindTexture("FogSampler", var31, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var33.bindTexture("DepthSampler", var7, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var33.setUniform("Projection", var3);
+                  var33.setUniform("FlowFog", val);
+                  var33.draw(0, 3);
                }
 
                if (var16 != null) {
@@ -280,14 +230,12 @@ public final class vaf {
          var3[var4] = var1.nextInt(256);
       }
 
-      NativeImage var11 = new NativeImage(Format.field_4997, 256, 256, false);
-
-      try {
+      try (NativeImage var11 = new NativeImage(Format.RGBA, 256, 256, false)) {
          for (int var5 = 0; var5 < 256; var5++) {
             for (int var6 = 0; var6 < 256; var6++) {
                int var7 = (var5 + 17 & 0xFF) * 256 + (var6 + 37 & 0xFF);
                int var8 = var5 * 256 + var6;
-               var11.method_61941(var6, var5, var3[var8] << 24 | var2[var7] << 16 | var2[var8] << 8 | var3[var7]);
+               var11.setColorArgb(var6, var5, var3[var8] << 24 | var2[var7] << 16 | var2[var8] << 8 | var3[var7]);
             }
          }
 
@@ -295,16 +243,6 @@ public final class vaf {
          vah = var0.createTexture(() -> "Flow2 fog noise", var12, TextureFormat.RGBA8, 256, 256, 1, 1);
          vai = var0.createTextureView(vah);
          var0.createCommandEncoder().writeToTexture(vah, var11);
-      } catch (Throwable var10) {
-         try {
-            var11.close();
-         } catch (Throwable var9) {
-            var10.addSuppressed(var9);
-         }
-
-         throw var10;
       }
-
-      var11.close();
    }
 }

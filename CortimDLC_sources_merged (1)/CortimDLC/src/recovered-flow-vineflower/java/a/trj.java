@@ -84,19 +84,19 @@ public final class trj {
             double var21 = var36 + 0.5 - var1.pz;
             double var23 = Math.hypot(var19, var21);
             if (!(var23 < 0.5) && !(var23 > 5.5)) {
-               double var44 = Math.toDegrees(Math.atan2(var19 * var10 + var21 * var12, var19 * var6 + var21 * var8));
-               int var48 = ((int)Math.round(var44 / 45.0) % 8 + 8) % 8;
-               int var50 = var3 + var48 * 7;
+               double var45 = Math.toDegrees(Math.atan2(var19 * var10 + var21 * var12, var19 * var6 + var21 * var8));
+               int var49 = ((int)Math.round(var45 / 45.0) % 8 + 8) % 8;
+               int var51 = var3 + var49 * 7;
 
-               for (int var51 = var16 - 2; var51 <= var16 + 4; var51++) {
-                  byte var53 = var0.at(var34, var51, var36);
-                  if (tpx.minable(var53)) {
-                     if (var23 <= 4.5 && var51 >= var16 - 1 && var51 <= var16 + 3) {
-                        var2[var50 + 5] = var2[var50 + 5] + 0.05;
+               for (int var53 = var16 - 2; var53 <= var16 + 4; var53++) {
+                  byte var55 = var0.at(var34, var53, var36);
+                  if (tpx.minable(var55)) {
+                     if (var23 <= 4.5 && var53 >= var16 - 1 && var53 <= var16 + 3) {
+                        var2[var51 + 5] = var2[var51 + 5] + 0.05;
                      }
 
-                     if (tpx.target(var53)) {
-                        var2[var50 + 6] = var2[var50 + 6] + 0.3333333333333333;
+                     if (tpx.target(var55)) {
+                        var2[var51 + 6] = var2[var51 + 6] + 0.3333333333333333;
                      }
                   }
                }
@@ -118,10 +118,12 @@ public final class trj {
          var2[var35 + 7] = (var37 * var10 + var40 * var12) / 4.0;
          var2[var35 + 8] = (var1.ty - var16) / 3.0;
          double var42 = Math.toRadians(var1.pitch);
-         double var46 = var1.ty + 0.5 - var1.eyeY;
-         double var54 = Math.sqrt(var37 * var37 + var46 * var46 + var40 * var40);
-         if (var54 > 1.0E-6) {
-            double var32 = (var37 * var6 * Math.cos(var42) - var46 * Math.sin(var42) + var40 * var8 * Math.cos(var42)) / var54;
+         double var44 = var37;
+         double var47 = var1.ty + 0.5 - var1.eyeY;
+         double var52 = var40;
+         double var56 = Math.sqrt(var44 * var44 + var47 * var47 + var52 * var52);
+         if (var56 > 1.0E-6) {
+            double var32 = (var44 * var6 * Math.cos(var42) - var47 * Math.sin(var42) + var52 * var8 * Math.cos(var42)) / var56;
             var2[var35 + 9] = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, var32)))) / 90.0;
          }
       }
@@ -135,17 +137,17 @@ public final class trj {
          double var41 = 0.0;
          double var43 = 0.0;
 
-         for (int var45 = var14 - 7 + 1; var45 <= var14 + 7 - 1; var45++) {
-            for (int var47 = var15 - 7 + 1; var47 <= var15 + 7 - 1; var47++) {
-               double var49 = var45 + 0.5 - var1.px;
-               double var52 = var47 + 0.5 - var1.pz;
-               double var31 = Math.hypot(var49, var52);
+         for (int var46 = var14 - 7 + 1; var46 <= var14 + 7 - 1; var46++) {
+            for (int var48 = var15 - 7 + 1; var48 <= var15 + 7 - 1; var48++) {
+               double var50 = var46 + 0.5 - var1.px;
+               double var54 = var48 + 0.5 - var1.pz;
+               double var31 = Math.hypot(var50, var54);
                if (!(var31 >= var39)) {
                   for (int var33 = var16; var33 <= var16 + 3; var33++) {
-                     if (tpx.minable(var0.at(var45, var33, var47))) {
+                     if (tpx.minable(var0.at(var46, var33, var48))) {
                         var39 = var31;
-                        var41 = var49;
-                        var43 = var52;
+                        var41 = var50;
+                        var43 = var54;
                         break;
                      }
                   }
@@ -223,24 +225,24 @@ public final class trj {
       int var1 = var0.readInt();
       if (var1 != 71) {
          throw new IOException(a.d("웆뽾㖯ꯊ⁎ꚬ᳤锜\u0b52臶", 2018157232, -508992496));
+      }
+
+      double[] var2 = new double[71];
+      double[] var3 = new double[71];
+
+      for (int var4 = 0; var4 < 71; var4++) {
+         var2[var4] = var0.readFloat();
+         var3[var4] = var0.readFloat();
+      }
+
+      tbx var6 = tbx.read(var0);
+      if (var6.in == 71 && var6.out == 11) {
+         trj var5 = new trj(var6);
+         System.arraycopy(var2, 0, var5.mu, 0, 71);
+         System.arraycopy(var3, 0, var5.sd, 0, 71);
+         return var5;
       } else {
-         double[] var2 = new double[71];
-         double[] var3 = new double[71];
-
-         for (int var4 = 0; var4 < 71; var4++) {
-            var2[var4] = var0.readFloat();
-            var3[var4] = var0.readFloat();
-         }
-
-         tbx var6 = tbx.read(var0);
-         if (var6.in == 71 && var6.out == 11) {
-            trj var5 = new trj(var6);
-            System.arraycopy(var2, 0, var5.mu, 0, 71);
-            System.arraycopy(var3, 0, var5.sd, 0, 71);
-            return var5;
-         } else {
-            throw new IOException(a.b("谬\uf594罅\ue120檤\uec46嘎\udff6䆸쬜", 1791003722));
-         }
+         throw new IOException(a.b("谬\uf594罅\ue120檤\uec46嘎\udff6䆸쬜", 1791003722));
       }
    }
 }

@@ -53,7 +53,7 @@ final class hbt {
    }
 
    static boolean totem(MinecraftClient var0, int var1) throws Exception {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       hcc = var1;
       switch (var1) {
          case 1:
@@ -219,7 +219,7 @@ final class hbt {
                )
             );
             hdf(var0, a.c(-397640895, "筪ˆ蠄ᙽ鷧ᬄꅀ⢤뛧㱛뮊䇽콯嚛\udcc3娨\ue07a澶\uf508猀流胵ต閍Ᏽ餼ₜ껆㐫뉡㧏윕䴍퓥务\ud847枎\uede2欭\uf2d4磆س豧\u0bdd鄌ὬꚬⰚꩇ㇘뿥䔯첃䫃퀸幛\ue5d4挌\ue946炽︑葊Τ觥ᜭ麕"));
-            var2.method_31548().method_61496(0);
+            var2.getInventory().setSelectedSlot(0);
             hcs(var0, 20.0F);
             break;
          case 20:
@@ -238,8 +238,8 @@ final class hbt {
             hcz(var0, a.d("灜", 1942573851, 182657799), var1);
             break;
          case 50:
-            hdb(a.b("躮", -1571189010), hcu(var0).method_31574(Items.field_8288) && !hcu(var0).method_7958(), a.b("廬❔궇㏸렦㺘蓁൩", -361472373) + hcy(hcu(var0)));
-            hdb(a.b("撶", 46818550), hcv(var0, 15).method_31574(Items.field_8255), a.b("\uf4ce赠ް駚ቈ铽⺦", -421595974) + hcy(hcv(var0, 15)));
+            hdb(a.b("躮", -1571189010), hcu(var0).isOf(Items.TOTEM_OF_UNDYING) && !hcu(var0).hasGlint(), a.b("廬❔궇㏸렦㺘蓁൩", -361472373) + hcy(hcu(var0)));
+            hdb(a.b("撶", 46818550), hcv(var0, 15).isOf(Items.SHIELD), a.b("\uf4ce赠ް駚ቈ铽⺦", -421595974) + hcy(hcv(var0, 15)));
             hdc(a.d("硺", 1264791601, 1761101835));
             break;
          case 55:
@@ -253,8 +253,8 @@ final class hbt {
             hcz(var0, a.c(-721231674, "\ue085"), var1);
             break;
          case 70:
-            hdb(a.b("宻", 1831164920), hcu(var0).method_31574(Items.field_8255), a.d("\uab18튠塳옌䷒쭬焵\uf89d", 1039122175, 197924224) + hcy(hcu(var0)));
-            hdb(a.b("ᝁ", -771549438), hcv(var0, 15).method_31574(Items.field_8288), a.d("┷岙홉䠣쎱䔄｟", -786174657, -1615017860) + hcy(hcv(var0, 15)));
+            hdb(a.b("宻", 1831164920), hcu(var0).isOf(Items.SHIELD), a.d("\uab18튠塳옌䷒쭬焵\uf89d", 1039122175, 197924224) + hcy(hcu(var0)));
+            hdb(a.b("ᝁ", -771549438), hcv(var0, 15).isOf(Items.TOTEM_OF_UNDYING), a.d("┷岙홉䠣쎱䔄｟", -786174657, -1615017860) + hcy(hcv(var0, 15)));
             hdc(a.d("⏣", -1657563059, 1034140653));
             break;
          case 75:
@@ -272,10 +272,10 @@ final class hbt {
             hcz(var0, a.d("䔴", 1751377408, 55223158), var1);
             break;
          case 105:
-            hdb(a.d("\uf318", -1466843589, 732056929), var0.field_1724.method_5805() && hct(var0).method_5805(), a.b("\uf83a膊ଢ଼锩", 1630402650));
-            hdb(a.d("빭", 1275066045, 853100690), hcu(var0).method_31574(Items.field_8288), a.d("㒪䴒쟁妾퉠哞\uee87术", 218480637, 1598524208) + hcy(hcu(var0)));
-            hdb(a.b("䮎", 1068649420), hcv(var0, 16).method_7960(), a.d("⫼卒\ud982䟨챺䫌\uf094", -964062088, -64307472) + hcy(hcv(var0, 16)));
-            hdb(a.d("霈", -319383903, -746061333), hcv(var0, 15).method_31574(Items.field_8255), a.c(-282030906, "貲\uf51c翌\ue1a6樴\uec81囚") + hcy(hcv(var0, 15)));
+            hdb(a.d("\uf318", -1466843589, 732056929), var0.player.isAlive() && hct(var0).isAlive(), a.b("\uf83a膊ଢ଼锩", 1630402650));
+            hdb(a.d("빭", 1275066045, 853100690), hcu(var0).isOf(Items.TOTEM_OF_UNDYING), a.d("㒪䴒쟁妾퉠哞\uee87术", 218480637, 1598524208) + hcy(hcu(var0)));
+            hdb(a.b("䮎", 1068649420), hcv(var0, 16).isEmpty(), a.d("⫼卒\ud982䟨챺䫌\uf094", -964062088, -64307472) + hcy(hcv(var0, 16)));
+            hdb(a.d("霈", -319383903, -746061333), hcv(var0, 15).isOf(Items.SHIELD), a.c(-282030906, "貲\uf51c翌\ue1a6樴\uec81囚") + hcy(hcv(var0, 15)));
             hdc(a.b("녛", 478523673));
             break;
          case 110:
@@ -285,8 +285,8 @@ final class hbt {
             hcs(var0, 20.0F);
             break;
          case 125:
-            hdb(a.c(607994011, "䃞"), hcu(var0).method_31574(Items.field_8255), a.b("듾쵆䞕\ud9ea刴풊滓\ue77b", -651840359) + hcy(hcu(var0)));
-            hdb(a.d("㺔", 2038519779, 1064790322), hcv(var0, 15).method_31574(Items.field_8288), a.c(1306167922, "訆\uf3a8祸\ue712沀\uea35偮") + hcy(hcv(var0, 15)));
+            hdb(a.c(607994011, "䃞"), hcu(var0).isOf(Items.SHIELD), a.b("듾쵆䞕\ud9ea刴풊滓\ue77b", -651840359) + hcy(hcu(var0)));
+            hdb(a.d("㺔", 2038519779, 1064790322), hcv(var0, 15).isOf(Items.TOTEM_OF_UNDYING), a.c(1306167922, "訆\uf3a8祸\ue712沀\uea35偮") + hcy(hcv(var0, 15)));
             hdc(a.d("쩼", 1814975009, 325228568));
             break;
          case 130:
@@ -304,8 +304,8 @@ final class hbt {
             hcz(var0, a.c(70459413, "⁑"), var1);
             break;
          case 155:
-            hdb(a.c(-396979589, "鈿"), hcu(var0).method_31574(Items.field_8288), a.b("ᓃ浻\ue7a8秗\uf209璷컮䝆", 431559844) + hcy(hcu(var0)));
-            hdb(a.b("幚", 1169645086), var0.field_1690.field_1832.method_1434(), a.b("辷\uf61b糃\ue2b6楫\uef91喌\udc7c䈸죝作딺㯻ꉍ⠅껩ᒱ魡", 1128107990));
+            hdb(a.c(-396979589, "鈿"), hcu(var0).isOf(Items.TOTEM_OF_UNDYING), a.b("ᓃ浻\ue7a8秗\uf209璷컮䝆", 431559844) + hcy(hcu(var0)));
+            hdb(a.b("幚", 1169645086), var0.options.sneakKey.isPressed(), a.b("辷\uf61b糃\ue2b6楫\uef91喌\udc7c䈸죝作딺㯻ꉍ⠅껩ᒱ魡", 1128107990));
             hdc(a.c(1984102125, "ﺩ"));
             hcp(var0, false);
             break;
@@ -321,14 +321,14 @@ final class hbt {
       }
 
       if (var1 > 20 && var1 < 130) {
-         var0.field_1690.field_1894.method_23481(true);
+         var0.options.forwardKey.setPressed(true);
       }
 
       return false;
    }
 
    static boolean tool(MinecraftClient var0, int var1) throws Exception {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       hcc = var1;
       hcq(var0);
       switch (var1) {
@@ -550,33 +550,33 @@ final class hbt {
                var0,
                a.c(419860496, "逹\ue995捗ﴮ皴\uf057䨓쏷嶴휈僙ꪮ\u243c뷈㞐녻\u0b29蓥ṛ顓ᇄ殦\ue546绞\uf8a6牯쯏䖕\udf78夲튜ⱆꙞ㾳맲㌔賝ڱ聾ᦇ鎕\ued60朴\ue08e穟\uf43f䷿읉䄔\uda8b咦깺⟅ꆘ㭩딹ຌ衦ȹ鯳ᕃ漋\ue8eb抳")
             );
-            var2.method_31548().method_61496(0);
-            BlockPos var4 = var2.method_24515();
+            var2.getInventory().setSelectedSlot(0);
+            BlockPos var4 = var2.getBlockPos();
             hdf(
                var0,
                a.d("紿Ҋ踉ဘ鯼ᴞ", -944704064, -702642035)
-                  + (var4.method_10263() + 0.5)
+                  + (var4.getX() + 0.5)
                   + a.c(-320636272, "窱")
-                  + var4.method_10264()
+                  + var4.getY()
                   + a.d("寗", 62482547, 68694917)
-                  + (var4.method_10260() + 0.5)
+                  + (var4.getZ() + 0.5)
                   + a.c(889561278, "ꂚ\ud93b司춙")
             );
-            hcg = var4.method_10069(0, 1, 2);
+            hcg = var4.add(0, 1, 2);
             hdf(
                var0,
                a.b("废✡귷㎆렝", -191078660)
-                  + (hcg.method_10263() - 1)
+                  + (hcg.getX() - 1)
                   + a.b("㩇", 1784422)
-                  + (hcg.method_10264() - 1)
+                  + (hcg.getY() - 1)
                   + a.c(-1821074457, "鯆")
-                  + hcg.method_10260()
+                  + hcg.getZ()
                   + a.b("龰", 1857134481)
-                  + (hcg.method_10263() + 1)
+                  + (hcg.getX() + 1)
                   + a.c(-1665400354, "ǿ")
-                  + (hcg.method_10264() + 2)
+                  + (hcg.getY() + 2)
                   + a.b("겫", 1502653578)
-                  + (hcg.method_10260() + 1)
+                  + (hcg.getZ() + 1)
                   + a.b("姣‟\uaac8㒾뽢㧕莗ੵ鐭Ẏ餓挹\uede6瑌", -1544005171)
             );
             break;
@@ -601,10 +601,10 @@ final class hbt {
          case 70:
             hdb(
                a.c(608030638, "쿮"),
-               hcw(var0).method_31574(Items.field_8802) && hcx(var0) == 0,
+               hcw(var0).isOf(Items.DIAMOND_SWORD) && hcx(var0) == 0,
                a.c(587762196, "詹\uf3c1礝\ue766注") + hcy(hcw(var0)) + a.c(-220529706, "ﯰ舒ࣞ隬ᵠ鮘") + hcx(var0)
             );
-            hdb(a.b("뫲", 1549122226), hcv(var0, 10).method_31574(Items.field_8377), a.b("憅ᠫ鋻\u0c91蜃Ƴ믭", 521495025) + hcy(hcv(var0, 10)));
+            hdb(a.b("뫲", 1549122226), hcv(var0, 10).isOf(Items.DIAMOND_PICKAXE), a.b("憅ᠫ鋻\u0c91蜃Ƴ믭", 521495025) + hcy(hcv(var0, 10)));
             hdb(a.d("ꕎ", 1496227005, -682280525), !nuo.busy(), a.d("뭑싧䠩홝嶊\udb77慦\ue880盙ﱢ", 1342529673, 1120787361));
             hdc(a.d("꒷", -182078014, -1851715275));
             break;
@@ -639,22 +639,22 @@ final class hbt {
          case 130:
             hdb(
                a.b("ॏ", -1710749428),
-               hcw(var0).method_31574(Items.field_8802) && hcx(var0) == 0,
+               hcw(var0).isOf(Items.DIAMOND_SWORD) && hcx(var0) == 0,
                a.b("ᚕ漭\ue5f1箊\uf004", -1877534984) + hcy(hcw(var0)) + a.d("〷䧕쌙嵫횧偟", 1333834835, 697795650) + hcx(var0)
             );
-            hdb(a.b("ꌔ", -1018846377), hcv(var0, 11).method_31574(Items.field_8250), a.d("姖⁸ꪨ㓂뽐㧡莾", 1089220075, 1928754249) + hcy(hcv(var0, 11)));
+            hdb(a.b("ꌔ", -1018846377), hcv(var0, 11).isOf(Items.DIAMOND_SHOVEL), a.d("姖⁸ꪨ㓂뽐㧡莾", 1089220075, 1928754249) + hcy(hcv(var0, 11)));
             hdc(a.c(-1380291182, "淑"));
             break;
          case 131:
-            BlockPos var3 = hcg.method_10069(0, -1, -2);
+            BlockPos var3 = hcg.add(0, -1, -2);
             hdf(
                var0,
                a.c(262612842, "✘庭퐮䨿쇛䜹")
-                  + (var3.method_10263() + 0.5)
+                  + (var3.getX() + 0.5)
                   + a.c(285118072, "蹙")
-                  + var3.method_10264()
+                  + var3.getY()
                   + a.b("弄", -434413787)
-                  + (var3.method_10260() + 0.5)
+                  + (var3.getZ() + 0.5)
                   + a.b("쳛땺㾹ꇘ", -540881665)
             );
             break;
@@ -677,7 +677,7 @@ final class hbt {
          case 185:
             hdb(
                a.b("\udab7", -1386358027),
-               hcx(var0) == 0 && hcw(var0).method_31574(Items.field_8802),
+               hcx(var0) == 0 && hcw(var0).isOf(Items.DIAMOND_SWORD),
                a.d("⃗奯펳䷈왆", 429074013, -1683749145) + hcy(hcw(var0)) + a.b("婇⎥ꥩ㜛볗㨯", 1676565089) + hcx(var0)
             );
             hdd(a.b("‡", -782032797), false);
@@ -715,10 +715,10 @@ final class hbt {
          case 232:
             hdb(
                a.b("꺷", -656429326),
-               hcw(var0).method_31574(Items.field_8802) && hcv(var0, 10).method_31574(Items.field_8377),
+               hcw(var0).isOf(Items.DIAMOND_SWORD) && hcv(var0, 10).isOf(Items.DIAMOND_PICKAXE),
                a.b("⧲偊\uda96䓭콣", 1978673567) + hcy(hcw(var0)) + a.d("嚮⽌ꖀ㯲뀾㛊貘դ", 516086856, 382372558) + hcy(hcv(var0, 10))
             );
-            hdb(a.c(1876634645, "ⱐ"), var0.field_1690.field_1832.method_1434(), a.d("렉솥䭽픈廕\ud82f戲\uebc2疆｣磢芄\u0c45闳Ά饗⌏곟", -2111747915, -134947));
+            hdb(a.c(1876634645, "ⱐ"), var0.options.sneakKey.isPressed(), a.d("렉솥䭽픈廕\ud82f戲\uebc2疆｣磢芄\u0c45闳Ά饗⌏곟", -2111747915, -134947));
             hdc(a.d("숁", -1523871485, -423799993));
             hcp(var0, false);
             break;
@@ -739,14 +739,14 @@ final class hbt {
       }
 
       if (hcf) {
-         var0.field_1690.field_1886.method_23481(true);
-         if (hch == 0 && hcg != null && var0.method_1576().method_30002().method_8320(hcg).method_26215()) {
+         var0.options.attackKey.setPressed(true);
+         if (hch == 0 && hcg != null && var0.getServer().getOverworld().getBlockState(hcg).isAir()) {
             hch = var1;
          }
       }
 
       if (hbu.contains(87)) {
-         var0.field_1690.field_1894.method_23481(true);
+         var0.options.forwardKey.setPressed(true);
       }
 
       return false;
@@ -756,11 +756,11 @@ final class hbt {
       hdf(
          var0,
          a.c(734464194, "ࢸ焟ﯝ斺\uee63棑튎孷앣")
-            + hcg.method_10263()
+            + hcg.getX()
             + a.b("蜊", 1298237227)
-            + hcg.method_10264()
+            + hcg.getY()
             + a.d("雷", -1682575794, 622204710)
-            + hcg.method_10260()
+            + hcg.getZ()
             + a.d("\u1a8e", 1212318067, 1963498460)
             + var1
       );
@@ -768,35 +768,35 @@ final class hbt {
 
    private static void hcm(MinecraftClient var0, boolean var1, int var2) {
       hcf = var1;
-      KeyBinding var3 = var0.field_1690.field_1886;
+      KeyBinding var3 = var0.options.attackKey;
       if (var1) {
          hci = var2;
          hch = 0;
-         KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var3));
-         var3.method_23481(true);
+         KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var3));
+         var3.setPressed(true);
       } else {
-         var3.method_23481(false);
+         var3.setPressed(false);
       }
    }
 
    private static void hcn(ClientPlayerEntity var0) {
-      var0.method_36456(0.0F);
-      var0.method_36457(0.0F);
+      var0.setYaw(0.0F);
+      var0.setPitch(0.0F);
    }
 
    private static void hco(MinecraftClient var0, boolean var1, boolean var2) {
       if (var1) {
          hbu.add(87);
-         var0.field_1690.field_1894.method_23481(true);
+         var0.options.forwardKey.setPressed(true);
          if (var2) {
             hbu.add(341);
-            var0.field_1690.field_1867.method_23481(true);
+            var0.options.sprintKey.setPressed(true);
          }
       } else {
          hbu.remove(87);
          hbu.remove(341);
-         var0.field_1690.field_1894.method_23481(false);
-         var0.field_1690.field_1867.method_23481(false);
+         var0.options.forwardKey.setPressed(false);
+         var0.options.sprintKey.setPressed(false);
       }
    }
 
@@ -807,14 +807,14 @@ final class hbt {
          hbu.remove(340);
       }
 
-      var0.field_1690.field_1832.method_23481(var1);
+      var0.options.sneakKey.setPressed(var1);
    }
 
    private static void hcq(MinecraftClient var0) throws Exception {
       for (Field var4 : Mouse.class.getDeclaredFields()) {
          if (var4.getName().equals(a.d("ᅍ棪\ue23e籎\uf785焩쭄䊖\udcc5噼톡⯑", 1805990665, 1680681515))) {
             var4.setAccessible(true);
-            var4.setBoolean(var0.field_1729, true);
+            var4.setBoolean(var0.mouse, true);
          }
       }
    }
@@ -829,38 +829,38 @@ final class hbt {
    }
 
    private static void hcs(MinecraftClient var0, float var1) {
-      IntegratedServer var2 = var0.method_1576();
+      IntegratedServer var2 = var0.getServer();
       ServerPlayerEntity var3 = hct(var0);
-      var2.execute(() -> var3.method_6033(var1));
+      var2.execute(() -> var3.setHealth(var1));
    }
 
    private static ServerPlayerEntity hct(MinecraftClient var0) {
-      return var0.method_1576().method_3760().method_14602(var0.field_1724.method_5667());
+      return var0.getServer().getPlayerManager().getPlayer(var0.player.getUuid());
    }
 
    private static ItemStack hcu(MinecraftClient var0) {
-      return hct(var0).method_6079();
+      return hct(var0).getOffHandStack();
    }
 
    private static ItemStack hcv(MinecraftClient var0, int var1) {
-      return hct(var0).method_31548().method_5438(var1);
+      return hct(var0).getInventory().getStack(var1);
    }
 
    private static ItemStack hcw(MinecraftClient var0) {
-      return hct(var0).method_6047();
+      return hct(var0).getMainHandStack();
    }
 
    private static int hcx(MinecraftClient var0) {
-      return hct(var0).method_31548().method_67532();
+      return hct(var0).getInventory().getSelectedSlot();
    }
 
    private static String hcy(ItemStack var0) {
-      Item var1 = var0.method_7909();
-      return var0.method_7960() ? a.d("猡ઘ聖ḣ闹", 1703722534, 773377383) : var1 + (var0.method_7958() ? a.d("겙", 899128468, 1416376358) : "");
+      Item var1 = var0.getItem();
+      return var0.isEmpty() ? a.d("猡ઘ聖ḣ闹", 1703722534, 773377383) : var1 + (var0.hasGlint() ? a.d("겙", 899128468, 1416376358) : "");
    }
 
    private static void hcz(MinecraftClient var0, String var1, int var2) {
-      ClientPlayerEntity var3 = var0.field_1724;
+      ClientPlayerEntity var3 = var0.player;
       System.out
          .println(
             a.c(1542174098, "뗤챑䚔\ud8f4即")
@@ -868,11 +868,11 @@ final class hbt {
                + a.d("긖ퟳ", -1161273423, -204148347)
                + var2
                + a.b("ﺐ蜻ච鏉ᡓ", -352125265)
-               + var3.method_6032()
+               + var3.getHealth()
                + a.d("橉Ꮇ饭ܜ貐", -1613372681, 943229083)
-               + hcy(var3.method_6079())
+               + hcy(var3.getOffHandStack())
                + a.c(707826779, "鑽\ued84杞鸞狽\uf415")
-               + hcy(var3.method_6047())
+               + hcy(var3.getMainHandStack())
                + a.d("⼷囒\udc1a䉰즶伏\uf573粵\ue2ec桗\uefc0", 541188480, 123719324)
                + krd.busy()
                + a.b("\ue29d魸ᆰ迁Е芊㣮넙⽌ꖹ", 295101111)
@@ -880,19 +880,19 @@ final class hbt {
                + a.b("䦱ぉ몗⓮꼰⧙", -1300870761)
                + vyn.serverIdle(var3)
                + a.b("퇎꠹⋻벙㜗", 418238955)
-               + var0.field_1690.field_1894.method_1434()
+               + var0.options.forwardKey.isPressed()
                + a.b("젔뇤㬢ꕌ⻍", 1764542513)
-               + var0.field_1690.field_1886.method_1434()
+               + var0.options.attackKey.isPressed()
                + a.d("픍곾☽롛㎈딳ར蚔ᣂ鈩", 1223729231, -366381720)
-               + var0.field_1761.method_2923()
+               + var0.interactionManager.isBreakingBlock()
                + a.b("쌕뫥〾깋◌", -521616592)
-               + (var0.field_1765 == null ? a.d("\u177c滖\ue41c穭", 1926913607, 930367825) : var0.field_1765.method_17783())
+               + (var0.crosshairTarget == null ? a.d("\u177c滖\ue41c穭", 1926913607, 930367825) : var0.crosshairTarget.getType())
                + a.c(-1756083821, "䦰せ뫏")
-               + String.format(a.c(-2110751949, "笒ʨ衧ᙂ"), var3.method_23321())
+               + String.format(a.c(-2110751949, "笒ʨ衧ᙂ"), var3.getZ())
                + a.b(" 姶팢䴊", -1143463904)
                + hda(var0, a.b("깒ퟶ崥썁䢔츭瑖ﶋ揔\ue966溽铇ᨈ莠", -912544195))
                + a.d("\ue05d馠፰贍ے聭㨿뎗", -214994533, 372937198)
-               + var0.field_1729.method_1613()
+               + var0.mouse.isCursorLocked()
          );
    }
 
@@ -957,7 +957,7 @@ final class hbt {
    }
 
    private static void hdf(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void hdg(MinecraftClient var0) throws Exception {
@@ -968,7 +968,7 @@ final class hbt {
          for (Field var6 : ServerCommonNetworkHandler.class.getDeclaredFields()) {
             if (var6.getType() == ClientConnection.class) {
                var6.setAccessible(true);
-               var2 = (ClientConnection)var6.get(var1.field_13987);
+               var2 = (ClientConnection)var6.get(var1.networkHandler);
             }
          }
 
@@ -998,29 +998,29 @@ final class hbt {
 
    private static void hdh(Object var0) {
       if (var0 instanceof PlayerInputC2SPacket var1) {
-         PlayerInput var5 = var1.comp_3139();
-         boolean var6 = var5.comp_3159() || var5.comp_3160() || var5.comp_3161() || var5.comp_3162() || var5.comp_3163();
-         if (hcb && (var6 != hby || var5.comp_3164() != hbz)) {
-            hdi(!var6 && !var5.comp_3164() ? a.b("➚带퓽䪅", -1410062345) : a.c(-974392198, "\uf416趠ݭ餙ዏ"));
+         PlayerInput var5 = var1.input();
+         boolean var6 = var5.forward() || var5.backward() || var5.left() || var5.right() || var5.jump();
+         if (hcb && (var6 != hby || var5.sneak() != hbz)) {
+            hdi(!var6 && !var5.sneak() ? a.b("➚带퓽䪅", -1410062345) : a.c(-974392198, "\uf416趠ݭ餙ዏ"));
          }
 
          hby = var6;
-         hbz = var5.comp_3164();
+         hbz = var5.sneak();
       } else if (var0 instanceof ClientCommandC2SPacket var2) {
-         if (var2.method_12365() == Mode.field_12981) {
+         if (var2.getMode() == Mode.START_SPRINTING) {
             hca = true;
             hdi(a.c(976424471, "\u0e62矐ﴁ捫\ue8bb渐"));
-         } else if (var2.method_12365() == Mode.field_12985) {
+         } else if (var2.getMode() == Mode.STOP_SPRINTING) {
             hca = false;
             hdi(a.b("렙솯䭧픉廽\ud86f戾\uebd4疌Ｇ", -1861961632));
          }
       } else if (var0 instanceof PlayerActionC2SPacket var3) {
-         Action var7 = var3.method_12363();
-         if (var7 == Action.field_12968 || var7 == Action.field_12971 || var7 == Action.field_12973) {
+         Action var7 = var3.getAction();
+         if (var7 == Action.START_DESTROY_BLOCK || var7 == Action.ABORT_DESTROY_BLOCK || var7 == Action.STOP_DESTROY_BLOCK) {
             hdi(var7.name());
          }
       } else if (var0 instanceof UpdateSelectedSlotC2SPacket var4) {
-         hdi(a.c(1398952013, "倸⦟ꍅ㴽뛬お") + var4.method_12442());
+         hdi(a.c(1398952013, "倸⦟ꍅ㴽뛬お") + var4.getSelectedSlot());
       } else if (var0 instanceof ClickSlotC2SPacket || var0 instanceof CloseHandledScreenC2SPacket) {
          boolean var8 = var0 instanceof ClickSlotC2SPacket;
          if (var8) {

@@ -17,7 +17,7 @@ import net.minecraft.world.chunk.WorldChunk;
 public final class eip {
    public static final int SIZE = 96;
    private static final int eiq = 12;
-   private static final MinecraftClient eir = MinecraftClient.method_1551();
+   private static final MinecraftClient eir = MinecraftClient.getInstance();
    private final dtv eis;
    private final int[] eit = new int[9216];
    private final Mutable eiu = new Mutable();
@@ -62,16 +62,16 @@ public final class eip {
 
    void tick() {
       if (System.currentTimeMillis() <= this.ejd) {
-         ClientPlayerEntity var1 = eir.field_1724;
-         ClientWorld var2 = eir.field_1687;
+         ClientPlayerEntity var1 = eir.player;
+         ClientWorld var2 = eir.world;
          if (var1 != null && var2 != null) {
             if (this.eix == 0) {
-               this.eiy = var1.method_31477();
-               this.eiz = var1.method_31479();
+               this.eiy = var1.getBlockX();
+               this.eiz = var1.getBlockZ();
             }
 
-            int var3 = var1.method_31478();
-            int var4 = var2.method_31607();
+            int var3 = var1.getBlockY();
+            int var4 = var2.getBottomY();
             int var5 = Math.min(96, this.eix + 12);
 
             for (int var6 = this.eix; var6 < var5; var6++) {
@@ -96,55 +96,53 @@ public final class eip {
    }
 
    private int ejk(ClientWorld var1, int var2, int var3, int var4, int var5) {
-      WorldChunk var6 = var1.method_2935().method_12126(var2 >> 4, var3 >> 4, false);
+      WorldChunk var6 = var1.getChunkManager().getWorldChunk(var2 >> 4, var3 >> 4, false);
       if (var6 == null) {
          return 0;
-      } else {
-         int var7 = var6.method_12005(Type.field_13202, var2 & 15, var3 & 15);
-         int var8 = Math.min(var7, var4 + 6);
-         int var9 = Math.max(var5, var8 - 40);
+      }
 
-         for (int var10 = var8; var10 >= var9; var10--) {
-            this.eiu.method_10103(var2, var10, var3);
-            BlockState var11 = var6.method_8320(this.eiu);
-            if (!var11.method_26215()) {
-               MapColor var12 = var11.method_26205(var1, this.eiu);
-               if (var12 != MapColor.field_16008) {
-                  int var13 = var10 - var4;
-                  Brightness var14 = var13 > 1
-                     ? Brightness.field_34761
-                     : (var13 >= -2 ? Brightness.field_34760 : (var13 >= -8 ? Brightness.field_34759 : Brightness.field_34762));
-                  return var12.method_15820(var14);
-               }
+      int var7 = var6.sampleHeightmap(Type.WORLD_SURFACE, var2 & 15, var3 & 15);
+      int var8 = Math.min(var7, var4 + 6);
+      int var9 = Math.max(var5, var8 - 40);
+
+      for (int var10 = var8; var10 >= var9; var10--) {
+         this.eiu.set(var2, var10, var3);
+         BlockState var11 = var6.getBlockState(this.eiu);
+         if (!var11.isAir()) {
+            MapColor var12 = var11.getMapColor(var1, this.eiu);
+            if (var12 != MapColor.CLEAR) {
+               int var13 = var10 - var4;
+               Brightness var14 = var13 > 1 ? Brightness.HIGH : (var13 >= -2 ? Brightness.NORMAL : (var13 >= -8 ? Brightness.LOW : Brightness.LOWEST));
+               return var12.getRenderColor(var14);
             }
          }
-
-         return 0;
       }
+
+      return 0;
    }
 
    public elb texture() {
       if (!this.ejc) {
          return null;
-      } else {
-         if (this.eiv == null) {
-            this.eiv = new elb(a.c(-1093687452, "꜓\udeb1呧쨓䇗"), 96, 96);
-            this.eiw = true;
-         }
-
-         if (this.eiw) {
-            for (int var1 = 0; var1 < 96; var1++) {
-               for (int var2 = 0; var2 < 96; var2++) {
-                  this.eiv.set(var2, var1, this.eit[var1 * 96 + var2]);
-               }
-            }
-
-            this.eiv.upload();
-            this.eiw = false;
-         }
-
-         return this.eiv;
       }
+
+      if (this.eiv == null) {
+         this.eiv = new elb(a.c(-1093687452, "꜓\udeb1呧쨓䇗"), 96, 96);
+         this.eiw = true;
+      }
+
+      if (this.eiw) {
+         for (int var1 = 0; var1 < 96; var1++) {
+            for (int var2 = 0; var2 < 96; var2++) {
+               this.eiv.set(var2, var1, this.eit[var1 * 96 + var2]);
+            }
+         }
+
+         this.eiv.upload();
+         this.eiw = false;
+      }
+
+      return this.eiv;
    }
 
    public int getCenterX() {
@@ -158,26 +156,26 @@ public final class eip {
    public elb mapTexture() {
       ClientWorld var1 = this.eis.getWorld();
       if (this.eje != null && var1 != null && System.currentTimeMillis() - this.ejf <= 120000L) {
-         MapState var2 = var1.method_17891(this.eje);
+         MapState var2 = var1.getMapState(this.eje);
          if (var2 == null) {
             return null;
-         } else {
-            if (this.ejg == null) {
-               this.ejg = new elb(a.c(-847230806, "䣄ㅹ뮻"), 128, 128);
-               this.ejh = true;
-            }
-
-            if (this.ejh) {
-               for (int var3 = 0; var3 < 16384; var3++) {
-                  this.ejg.set(var3 % 128, var3 / 128, MapColor.method_38480(var2.field_122[var3]));
-               }
-
-               this.ejg.upload();
-               this.ejh = false;
-            }
-
-            return this.ejg;
          }
+
+         if (this.ejg == null) {
+            this.ejg = new elb(a.c(-847230806, "䣄ㅹ뮻"), 128, 128);
+            this.ejh = true;
+         }
+
+         if (this.ejh) {
+            for (int var3 = 0; var3 < 16384; var3++) {
+               this.ejg.set(var3 % 128, var3 / 128, MapColor.getRenderColor(var2.colors[var3]));
+            }
+
+            this.ejg.upload();
+            this.ejh = false;
+         }
+
+         return this.ejg;
       } else {
          return null;
       }

@@ -157,16 +157,17 @@ public final class BotScreen extends Screen {
    private float viewW;
    private float viewH;
    private boolean viewShown;
-   private ItemStack hoveredStack = ItemStack.field_8037;
+   private ItemStack hoveredStack = ItemStack.EMPTY;
    private Slot hoveredSlot;
    private ScreenHandler hoveredHandler;
    private BotScreen.ChatCache chatCache;
 
    public BotScreen() {
-      super(Text.method_43470("Боты"));
+      super(Text.literal("Боты"));
    }
 
-   protected void method_25426() {
+   @Override
+   protected void init() {
       if (this.addressField.text.isEmpty()) {
          this.addressField.setText(egq.get().suggestAddress());
       }
@@ -182,41 +183,43 @@ public final class BotScreen extends Screen {
       this.syncBotFields();
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public void method_25432() {
+   @Override
+   public void removed() {
       this.setControl(false);
       this.commitSettingFields();
    }
 
-   public void method_25420(DrawContext context, int mouseX, int mouseY, float delta) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
       unf.observe(context);
       iov.update(unf.delta());
       float dim = (float)iov.DIM.get();
-      if (this.field_22787 != null && this.field_22787.field_1687 != null) {
+      if (this.client != null && this.client.world != null) {
          hyv.capture(context, iov.BG_BLUR.getInt(), 1.0F, null);
-         uut.gradientV(
-            context, 0.0F, 0.0F, this.field_22789, this.field_22790, 0.0F, ujt.withAlpha(0, (int)(255.0F * dim * 0.65F)), ujt.withAlpha(0, (int)(255.0F * dim))
-         );
+         uut.gradientV(context, 0.0F, 0.0F, this.width, this.height, 0.0F, ujt.withAlpha(0, (int)(255.0F * dim * 0.65F)), ujt.withAlpha(0, (int)(255.0F * dim)));
       } else {
          hyv.skip();
-         this.method_57728(context, delta);
-         uut.rect(context, 0.0F, 0.0F, this.field_22789, this.field_22790, ujt.withAlpha(0, (int)(255.0F * Math.max(0.3F, dim))));
+         this.renderPanoramaBackground(context, deltaTicks);
+         uut.rect(context, 0.0F, 0.0F, this.width, this.height, ujt.withAlpha(0, (int)(255.0F * Math.max(0.3F, dim))));
       }
    }
 
-   public void method_25394(DrawContext context, int realX, int realY, float delta) {
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       this.ctx = context;
-      this.scale = Math.min(1.0F, Math.min((this.field_22789 - 8.0F) / 600.0F, (this.field_22790 - 8.0F) / 318.0F));
+      this.scale = Math.min(1.0F, Math.min((this.width - 8.0F) / 600.0F, (this.height - 8.0F) / 318.0F));
       this.scale = Math.max(0.3F, this.scale);
-      int mouseX = Math.round(realX / this.scale);
-      int mouseY = Math.round(realY / this.scale);
+      int mouseXx = Math.round(mouseX / this.scale);
+      int mouseYx = Math.round(mouseY / this.scale);
       this.zones.clear();
       this.viewShown = false;
-      this.hoveredStack = ItemStack.field_8037;
+      this.hoveredStack = ItemStack.EMPTY;
       this.hoveredSlot = null;
       this.hoveredHandler = null;
       this.captchaExpand = false;
@@ -225,15 +228,15 @@ public final class BotScreen extends Screen {
          field.visible = false;
       }
 
-      float screenW = this.field_22789 / this.scale;
-      float screenH = this.field_22790 / this.scale;
+      float screenW = this.width / this.scale;
+      float screenH = this.height / this.scale;
       if (Float.isNaN(posX)) {
          posX = (screenW - 600.0F) / 2.0F;
          posY = (screenH - 318.0F) / 2.0F;
       }
 
-      posX = MathHelper.method_15363(posX, 0.0F, Math.max(0.0F, screenW - 600.0F));
-      posY = MathHelper.method_15363(posY, 0.0F, Math.max(0.0F, screenH - 318.0F));
+      posX = MathHelper.clamp(posX, 0.0F, Math.max(0.0F, screenW - 600.0F));
+      posY = MathHelper.clamp(posY, 0.0F, Math.max(0.0F, screenH - 318.0F));
       this.x = Math.round(posX);
       this.y = Math.round(posY);
       if (selected != null && !egq.get().getBots().contains(selected)) {
@@ -249,33 +252,33 @@ public final class BotScreen extends Screen {
       }
 
       vdn.setRenderScale(this.scale);
-      context.method_51448().pushMatrix();
-      context.method_51448().scale(this.scale, this.scale);
+      context.getMatrices().pushMatrix();
+      context.getMatrices().scale(this.scale, this.scale);
 
       try {
          this.renderShell();
-         this.renderList(mouseX, mouseY);
+         this.renderList(mouseXx, mouseYx);
          if (selected == null) {
             this.renderEmpty();
          } else {
-            this.renderBot(selected, mouseX, mouseY);
+            this.renderBot(selected, mouseXx, mouseYx);
             if (this.captchaExpand) {
                this.renderCaptchaExpand(selected.getCaptcha());
             }
          }
       } finally {
-         context.method_51448().popMatrix();
+         context.getMatrices().popMatrix();
          vdn.setRenderScale(1.0F);
       }
 
       if (selected != null) {
          ClientPlayerEntity player = selected.getPlayer();
-         if (player != null && !player.field_7512.method_34255().method_7960()) {
-            ItemStack cursor = player.field_7512.method_34255();
-            context.method_51427(cursor, realX - 8, realY - 8);
-            context.method_51431(this.field_22793, cursor, realX - 8, realY - 8);
-         } else if (!this.hoveredStack.method_7960()) {
-            context.method_51446(this.field_22793, this.hoveredStack, realX, realY);
+         if (player != null && !player.currentScreenHandler.getCursorStack().isEmpty()) {
+            ItemStack cursor = player.currentScreenHandler.getCursorStack();
+            context.drawItem(cursor, mouseX - 8, mouseY - 8);
+            context.drawStackOverlay(this.textRenderer, cursor, mouseX - 8, mouseY - 8);
+         } else if (!this.hoveredStack.isEmpty()) {
+            context.drawItemTooltip(this.textRenderer, this.hoveredStack, mouseX, mouseY);
          }
       }
 
@@ -316,7 +319,7 @@ public final class BotScreen extends Screen {
       this.text(medium(6.5F), count, this.x + 14.0F + bold.width("Боты") + 8.0F, this.y + 10.0F, textDim());
       float closeX = this.x + 600.0F - 18.0F;
       this.centered(medium(7.0F), "x", closeX + 6.0F, this.y + 10.0F, textDim());
-      this.zone(closeX, this.y + 3.0F, 12.0F, 14.0F, b -> this.method_25419());
+      this.zone(closeX, this.y + 3.0F, 12.0F, 14.0F, b -> this.close());
    }
 
    private void renderEmpty() {
@@ -337,7 +340,7 @@ public final class BotScreen extends Screen {
       List<dtv> bots = egq.get().getBots();
       float content = bots.size() * 33.0F;
       float visible = listBottom - top - 6.0F;
-      this.listScroll = MathHelper.method_15363(this.listScroll, -Math.max(0.0F, content - visible), 0.0F);
+      this.listScroll = MathHelper.clamp(this.listScroll, -Math.max(0.0F, content - visible), 0.0F);
       uut.pushScissor(this.ctx, left, top + 2.0F, 146.0F, listBottom - top - 4.0F);
       float rowY = top + 3.0F + this.listScroll;
 
@@ -401,7 +404,7 @@ public final class BotScreen extends Screen {
       ClientPlayerEntity player = bot.getPlayer();
       if (player != null && !hover) {
          float barW = 30.0F;
-         float ratio = MathHelper.method_15363(player.method_6032() / Math.max(1.0F, player.method_6063()), 0.0F, 1.0F);
+         float ratio = MathHelper.clamp(player.getHealth() / Math.max(1.0F, player.getMaxHealth()), 0.0F, 1.0F);
          uut.round(this.ctx, rx + rw - barW - 6.0F, ry + 7.5F, barW, 3.0F, 1.5F, iov.track);
          uut.round(
             this.ctx,
@@ -477,7 +480,7 @@ public final class BotScreen extends Screen {
       float contentBottom = this.y + 318.0F - 6.0F;
       float rightX = left + 226.0F + 6.0F;
       ClientPlayerEntity player = bot.getPlayer();
-      boolean container = player != null && player.field_7512 != player.field_7498;
+      boolean container = player != null && player.currentScreenHandler != player.playerScreenHandler;
       vlj picker = openPicker(bot);
       if (container) {
          this.renderContainer(bot, player, left, contentTop, 226.0F, contentBottom - contentTop, mouseX, mouseY);
@@ -506,19 +509,19 @@ public final class BotScreen extends Screen {
       if (player == null) {
          info = bot.getStatusText();
       } else {
-         BlockPos pos = player.method_24515();
+         BlockPos pos = player.getBlockPos();
          ClientWorld level = bot.getWorld();
-         String dim = level == null ? "?" : dimensionName(level.method_27983().method_29177().method_12832());
+         String dim = level == null ? "?" : dimensionName(level.getRegistryKey().getValue().getPath());
          info = String.format(
             Locale.ROOT,
             "%.0f/%.0f hp   еда %d   %s   %d %d %d   пинг %s   %.1f мс",
-            player.method_6032(),
-            player.method_6063(),
-            player.method_7344().method_7586(),
+            player.getHealth(),
+            player.getMaxHealth(),
+            player.getHungerManager().getFoodLevel(),
             dim,
-            pos.method_10263(),
-            pos.method_10264(),
-            pos.method_10260(),
+            pos.getX(),
+            pos.getY(),
+            pos.getZ(),
             bot.getPing() < 0 ? "-" : String.valueOf(bot.getPing()),
             bot.getTickMillis()
          );
@@ -598,8 +601,8 @@ public final class BotScreen extends Screen {
       radar.demand();
       elb texture = radar.texture();
       float scale = vw / 96.0F;
-      double offsetX = (player.method_23317() - (radar.getCenterX() + 0.5)) * scale;
-      double offsetZ = (player.method_23321() - (radar.getCenterZ() + 0.5)) * scale;
+      double offsetX = (player.getX() - (radar.getCenterX() + 0.5)) * scale;
+      double offsetZ = (player.getZ() - (radar.getCenterZ() + 0.5)) * scale;
       float cx = vx + vw / 2.0F;
       float cy = vy + vh / 2.0F;
       uut.pushScissor(this.ctx, vx + 1.0F, vy + 1.0F, vw - 2.0F, vh - 2.0F);
@@ -616,16 +619,16 @@ public final class BotScreen extends Screen {
          if (path != null) {
             for (int i = Math.max(0, fE.getBotPathIndex()); i < path.size(); i++) {
                BlockPos node = path.get(i);
-               float px = cx + (float)((node.method_10263() + 0.5 - player.method_23317()) * scale);
-               float pz = cy + (float)((node.method_10260() + 0.5 - player.method_23321()) * scale);
+               float px = cx + (float)((node.getX() + 0.5 - player.getX()) * scale);
+               float pz = cy + (float)((node.getZ() + 0.5 - player.getZ()) * scale);
                uut.round(this.ctx, px - 1.25F, pz - 1.25F, 2.5F, 2.5F, 1.0F, accent(200));
             }
          }
 
          BlockPos target = fE.getBotTarget();
          if (target != null) {
-            float px = cx + (float)((target.method_10263() + 0.5 - player.method_23317()) * scale);
-            float pz = cy + (float)((target.method_10260() + 0.5 - player.method_23321()) * scale);
+            float px = cx + (float)((target.getX() + 0.5 - player.getX()) * scale);
+            float pz = cy + (float)((target.getZ() + 0.5 - player.getZ()) * scale);
             uut.round(this.ctx, px - 4.0F, pz - 4.0F, 8.0F, 8.0F, 3.5F, accent(230));
             uut.round(this.ctx, px - 2.5F, pz - 2.5F, 5.0F, 5.0F, 2.0F, -435681012);
          }
@@ -633,20 +636,20 @@ public final class BotScreen extends Screen {
 
       nxa fW = bot.f1ref();
       if (fW.isEnabled()) {
-         List<BlockPos> pathx = fW.getBotPath();
-         if (pathx != null) {
-            for (int i = Math.max(0, fW.getBotPathIndex()); i < pathx.size(); i++) {
-               BlockPos node = pathx.get(i);
-               float px = cx + (float)((node.method_10263() + 0.5 - player.method_23317()) * scale);
-               float pz = cy + (float)((node.method_10260() + 0.5 - player.method_23321()) * scale);
+         List<BlockPos> path = fW.getBotPath();
+         if (path != null) {
+            for (int i = Math.max(0, fW.getBotPathIndex()); i < path.size(); i++) {
+               BlockPos node = path.get(i);
+               float px = cx + (float)((node.getX() + 0.5 - player.getX()) * scale);
+               float pz = cy + (float)((node.getZ() + 0.5 - player.getZ()) * scale);
                uut.round(this.ctx, px - 1.25F, pz - 1.25F, 2.5F, 2.5F, 1.0F, accent(200));
             }
          }
 
          BlockPos target = fW.getBotTarget();
          if (target != null) {
-            float px = cx + (float)((target.method_10263() + 0.5 - player.method_23317()) * scale);
-            float pz = cy + (float)((target.method_10260() + 0.5 - player.method_23321()) * scale);
+            float px = cx + (float)((target.getX() + 0.5 - player.getX()) * scale);
+            float pz = cy + (float)((target.getZ() + 0.5 - player.getZ()) * scale);
             uut.round(this.ctx, px - 4.0F, pz - 4.0F, 8.0F, 8.0F, 3.5F, -1526966);
             uut.round(this.ctx, px - 2.5F, pz - 2.5F, 5.0F, 5.0F, 2.0F, -435681012);
          }
@@ -655,14 +658,14 @@ public final class BotScreen extends Screen {
       ClientWorld level = bot.getWorld();
       vdn font = medium(5.5F);
       if (level != null) {
-         for (Entity entity : level.method_18112()) {
+         for (Entity entity : level.getEntities()) {
             if (entity != player) {
-               float px = cx + (float)((entity.method_23317() - player.method_23317()) * scale);
-               float pz = cy + (float)((entity.method_23321() - player.method_23321()) * scale);
+               float px = cx + (float)((entity.getX() - player.getX()) * scale);
+               float pz = cy + (float)((entity.getZ() - player.getZ()) * scale);
                if (!(px < vx) && !(px > vx + vw) && !(pz < vy) && !(pz > vy + vh)) {
                   if (entity instanceof OtherClientPlayerEntity other) {
                      uut.round(this.ctx, px - 2.5F, pz - 2.5F, 5.0F, 5.0F, 2.0F, -2073765);
-                     this.text(font, other.method_5477().getString(), px + 4.0F, pz, -12080);
+                     this.text(font, other.getName().getString(), px + 4.0F, pz, -12080);
                   } else if (entity instanceof ItemEntity) {
                      uut.round(this.ctx, px - 1.5F, pz - 1.5F, 3.0F, 3.0F, 1.2F, -10166);
                   } else if (entity instanceof HostileEntity) {
@@ -673,7 +676,7 @@ public final class BotScreen extends Screen {
          }
       }
 
-      double yaw = Math.toRadians(player.method_36454());
+      double yaw = Math.toRadians(player.getYaw());
       float dx = (float)(-Math.sin(yaw));
       float dz = (float)Math.cos(yaw);
 
@@ -737,8 +740,8 @@ public final class BotScreen extends Screen {
       if (texture != null) {
          int imageW = Math.max(1, captcha.getWidth());
          int imageH = Math.max(1, captcha.getHeight());
-         float maxW = Math.min(580.0F, this.field_22789 / this.scale - 10.0F);
-         float maxH = Math.min(298.0F, this.field_22790 / this.scale - 10.0F);
+         float maxW = Math.min(580.0F, this.width / this.scale - 10.0F);
+         float maxH = Math.min(298.0F, this.height / this.scale - 10.0F);
          float scale = Math.min(maxW / imageW, maxH / imageH);
          float drawW = Math.round(imageW * scale);
          float drawH = Math.round(imageH * scale);
@@ -771,9 +774,9 @@ public final class BotScreen extends Screen {
 
          float bw = 110.0F;
          float bx = vx + vw / 2.0F - bw / 2.0F;
-         this.styledCentered(bar.method_5414(), vx + vw / 2.0F, barY, 6.5F, bw + 60.0F);
+         this.styledCentered(bar.getName(), vx + vw / 2.0F, barY, 6.5F, bw + 60.0F);
          uut.round(this.ctx, bx, barY + 5.0F, bw, 3.0F, 1.5F, 855638015);
-         uut.round(this.ctx, bx, barY + 5.0F, Math.max(3.0F, bw * bar.method_5412()), 3.0F, 1.5F, -2039584);
+         uut.round(this.ctx, bx, barY + 5.0F, Math.max(3.0F, bw * bar.getPercent()), 3.0F, 1.5F, -2039584);
          barY += 15.0F;
       }
 
@@ -792,7 +795,7 @@ public final class BotScreen extends Screen {
          this.styledCentered(actionBar, vx + vw / 2.0F, vy + vh - (this.control ? 18.0F : 9.0F), 6.5F, vw - 10.0F);
       }
 
-      if (bot.getPlayer() != null && bot.getPlayer().method_29504()) {
+      if (bot.getPlayer() != null && bot.getPlayer().isDead()) {
          this.centered(semibold(7.0F), "бот погиб - возрождение...", vx + vw / 2.0F, vy + vh / 2.0F + 22.0F, -2073765);
       }
 
@@ -806,7 +809,7 @@ public final class BotScreen extends Screen {
       uut.round(this.ctx, ix, iy, iw, ih, 7.0F, iov.card);
       ClientPlayerEntity player = bot.getPlayer();
       if (player != null) {
-         ScreenHandler handler = player.field_7498;
+         ScreenHandler handler = player.playerScreenHandler;
          float gridW = 180.0F;
          float gx = ix + (iw - gridW - 20.0F - 4.0F) / 2.0F + 20.0F + 4.0F;
          float gy = iy + 5.0F;
@@ -818,7 +821,7 @@ public final class BotScreen extends Screen {
          }
 
          float hotbarY = gy + 60.0F + 4.0F;
-         int selectedSlot = player.method_31548().method_67532();
+         int selectedSlot = player.getInventory().getSelectedSlot();
 
          for (int col = 0; col < 9; col++) {
             this.slot(bot, handler, 36 + col, gx + col * 20.0F, hotbarY, col == selectedSlot, mouseX, mouseY);
@@ -835,12 +838,12 @@ public final class BotScreen extends Screen {
 
    private void renderContainer(dtv bot, ClientPlayerEntity player, float cx, float cy, float cw, float ch, int mouseX, int mouseY) {
       uut.round(this.ctx, cx, cy, cw, ch, 7.0F, iov.card);
-      ScreenHandler handler = player.field_7512;
+      ScreenHandler handler = player.currentScreenHandler;
       vdn bold = semibold(7.5F);
       String title = bot.getOpenedScreenTitle() == null ? "контейнер" : bot.getOpenedScreenTitle();
       this.text(bold, trim(bold, title, cw - 60.0F), cx + 7.0F, cy + 9.0F, text());
       this.smallButton(cx + cw - 50.0F, cy + 3.0F, 44.0F, 12.0F, "закрыть", mouseX, mouseY, b -> bot.closeScreen());
-      int total = handler.field_7761.size();
+      int total = handler.slots.size();
       int own = Math.min(36, total);
       int containerSlots = Math.max(0, total - own);
       int rows = (containerSlots + 8) / 9;
@@ -863,8 +866,8 @@ public final class BotScreen extends Screen {
    }
 
    private void slot(dtv bot, ScreenHandler handler, int index, float sx, float sy, boolean highlight, int mouseX, int mouseY) {
-      if (index >= 0 && index < handler.field_7761.size()) {
-         Slot slot = (Slot)handler.field_7761.get(index);
+      if (index >= 0 && index < handler.slots.size()) {
+         Slot slot = handler.slots.get(index);
          boolean hover = hovered(mouseX, mouseY, sx, sy, 19.0F, 19.0F);
          if (highlight) {
             uut.round(this.ctx, sx - 1.0F, sy - 1.0F, 21.0F, 21.0F, 5.0F, accent(200));
@@ -872,12 +875,12 @@ public final class BotScreen extends Screen {
          }
 
          uut.round(this.ctx, sx, sy, 19.0F, 19.0F, 4.5F, hover ? iov.fieldHover : iov.field);
-         ItemStack stack = slot.method_7677();
-         if (!stack.method_7960()) {
+         ItemStack stack = slot.getStack();
+         if (!stack.isEmpty()) {
             int ix = Math.round(sx + 1.5F);
             int iy = Math.round(sy + 1.5F);
-            this.ctx.method_51427(stack, ix, iy);
-            this.ctx.method_51431(this.field_22793, stack, ix, iy);
+            this.ctx.drawItem(stack, ix, iy);
+            this.ctx.drawStackOverlay(this.textRenderer, stack, ix, iy);
          }
 
          if (hover) {
@@ -886,7 +889,7 @@ public final class BotScreen extends Screen {
             this.hoveredHandler = handler;
          }
 
-         int syncId = handler.field_7763;
+         int syncId = handler.syncId;
          this.zone(
             sx,
             sy,
@@ -895,18 +898,18 @@ public final class BotScreen extends Screen {
             button -> {
                ClientPlayerEntity owner = bot.getPlayer();
                if (owner != null) {
-                  boolean shift = this.field_22787 != null && this.field_22787.method_74187();
-                  if (handler == owner.field_7498
+                  boolean shift = this.client != null && this.client.isShiftPressed();
+                  if (handler == owner.playerScreenHandler
                      && index >= 36
                      && index <= 44
                      && button == 0
                      && !shift
-                     && owner.field_7512 == handler
-                     && handler.method_34255().method_7960()
+                     && owner.currentScreenHandler == handler
+                     && handler.getCursorStack().isEmpty()
                      && this.control) {
                      bot.selectSlot(index - 36);
                   } else {
-                     SlotActionType action = shift ? SlotActionType.field_7794 : SlotActionType.field_7790;
+                     SlotActionType action = shift ? SlotActionType.QUICK_MOVE : SlotActionType.PICKUP;
                      bot.clickSlot(syncId, index, button == 1 ? 1 : 0, action);
                   }
                }
@@ -920,8 +923,9 @@ public final class BotScreen extends Screen {
       float narrow = 33.0F;
       float gap = 2.0F;
       float tabW = (tw - wide * 3.0F - narrow - gap * 6.0F) / 3.0F;
-      this.tabButton(tx, ty, tabW, "Чат", BotScreen.Tab.CHAT, mouseX, mouseY);
-      float cursor = tx + (tabW + gap);
+      float cursor = tx;
+      this.tabButton(cursor, ty, tabW, "Чат", BotScreen.Tab.CHAT, mouseX, mouseY);
+      cursor += tabW + gap;
       this.tabButton(cursor, ty, wide, vup.e(), BotScreen.Tab.TAB_E, mouseX, mouseY);
       cursor += wide + gap;
       this.tabButton(cursor, ty, wide, "Варден", BotScreen.Tab.TAB_W, mouseX, mouseY);
@@ -989,7 +993,7 @@ public final class BotScreen extends Screen {
       List<List<BotScreen.Seg>> lines = this.chatCache.lines;
       float content = lines.size() * lineH;
       float visible = logBottom - logTop;
-      this.chatScroll = MathHelper.method_15363(this.chatScroll, 0.0F, Math.max(0.0F, content - visible));
+      this.chatScroll = MathHelper.clamp(this.chatScroll, 0.0F, Math.max(0.0F, content - visible));
       uut.pushScissor(this.ctx, cx, logTop, cw, visible);
       float lineY = logBottom - lineH / 2.0F + this.chatScroll;
 
@@ -1279,7 +1283,7 @@ public final class BotScreen extends Screen {
       float footer = 34.0F;
       int visibleRows = Math.max(1, (int)((ph - 19.0F - footer) / 20.0F));
       int rows = (entries.size() + cols - 1) / cols;
-      this.pickerRow = MathHelper.method_15340(this.pickerRow, 0, Math.max(0, rows - visibleRows));
+      this.pickerRow = MathHelper.clamp(this.pickerRow, 0, Math.max(0, rows - visibleRows));
       int first = this.pickerRow * cols;
       int last = Math.min(entries.size(), (this.pickerRow + visibleRows) * cols);
 
@@ -1298,7 +1302,7 @@ public final class BotScreen extends Screen {
          int fill = hover ? iov.fieldHover : (chosen ? ujt.lerp(iov.field, iov.accent(), 0.28F) : ujt.shade(iov.field, 0.6F));
          uut.round(this.ctx, sx, sy, 19.0F, 19.0F, 4.5F, fill);
          ItemStack icon = entry.icon();
-         this.ctx.method_51427(icon, Math.round(sx + 1.5F), Math.round(sy + 1.5F));
+         this.ctx.drawItem(icon, Math.round(sx + 1.5F), Math.round(sy + 1.5F));
          if (chosen) {
             uut.round(this.ctx, sx + 20.0F - 8.0F, sy + 1.5F, 5.5F, 5.5F, 2.75F, accent());
          }
@@ -1508,22 +1512,22 @@ public final class BotScreen extends Screen {
             String line = "обломки  ·  " + bot.f3ref().mined() + "  ·  " + bot.f3ref().status();
             this.text(font, trim(font, line, restW), restX, cy, textDim());
          } else if (!bot.f1Run() && bot.f1ref().getTotalChests() <= 0) {
-            mpq fEx = bot.f0ref();
-            String line = duration(fEx.getFarmMillis())
+            mpq fE = bot.f0ref();
+            String line = duration(fE.getFarmMillis())
                + "  ·  "
-               + fEx.getTotalVases()
+               + fE.getTotalVases()
                + " ваз"
-               + (fEx.getTotalBrushes() > 0 ? "  ·  " + fEx.getTotalBrushes() + " кист." : "");
+               + (fE.getTotalBrushes() > 0 ? "  ·  " + fE.getTotalBrushes() + " кист." : "");
             this.text(font, trim(font, line, restW), restX, cy, textDim());
          } else {
-            nxa fWx = bot.f1ref();
-            String line = fWx.getCurrentLootAnarchy()
+            nxa fW = bot.f1ref();
+            String line = fW.getCurrentLootAnarchy()
                + "  ·  "
-               + duration(fWx.getFarmMillis())
+               + duration(fW.getFarmMillis())
                + "  ·  "
-               + fWx.getTotalChests()
+               + fW.getTotalChests()
                + " сунд."
-               + (fWx.isEnabled() ? "  ·  " + f1StateLabel(fWx.getStateIndex()) : "");
+               + (fW.isEnabled() ? "  ·  " + f1StateLabel(fW.getStateIndex()) : "");
             this.text(font, trim(font, line, restW), restX, cy, textDim());
          }
 
@@ -1681,10 +1685,11 @@ public final class BotScreen extends Screen {
       }
    }
 
-   public boolean method_25402(Click click, boolean doubled) {
-      double mouseX = click.comp_4798() / this.scale;
-      double mouseY = click.comp_4799() / this.scale;
-      int button = click.method_74245();
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
+      double mouseX = click.x() / this.scale;
+      double mouseY = click.y() / this.scale;
+      int button = click.button();
       BotScreen.Field previous = this.focused;
       this.focused = null;
 
@@ -1702,7 +1707,9 @@ public final class BotScreen extends Screen {
 
       if (this.focused != null) {
          return true;
-      } else if (this.control && this.viewShown && selected != null && hovered(mouseX, mouseY, this.viewX, this.viewY + 16.0F, this.viewW, this.viewH - 16.0F)) {
+      }
+
+      if (this.control && this.viewShown && selected != null && hovered(mouseX, mouseY, this.viewX, this.viewY + 16.0F, this.viewW, this.viewH - 16.0F)) {
          if (button == 0) {
             this.mouseAttack = true;
          } else if (button == 1) {
@@ -1728,13 +1735,14 @@ public final class BotScreen extends Screen {
             this.dragY = mouseY - posY;
             return true;
          } else {
-            return hovered(mouseX, mouseY, this.x, this.y, 600.0F, 318.0F) || super.method_25402(click, doubled);
+            return hovered(mouseX, mouseY, this.x, this.y, 600.0F, 318.0F) || super.mouseClicked(click, doubled);
          }
       }
    }
 
-   public boolean method_25406(Click click) {
-      int button = click.method_74245();
+   @Override
+   public boolean mouseReleased(Click click) {
+      int button = click.button();
       this.dragging = false;
       if (button == 2) {
          this.rotating = false;
@@ -1750,73 +1758,80 @@ public final class BotScreen extends Screen {
          selected.getControl().setMouse(this.mouseAttack, this.mouseUse);
       }
 
-      return super.method_25406(click);
+      return super.mouseReleased(click);
    }
 
-   public boolean method_25403(Click click, double deltaX, double deltaY) {
+   @Override
+   public boolean mouseDragged(Click click, double offsetX, double offsetY) {
       if (this.dragging) {
-         posX = (float)(click.comp_4798() / this.scale - this.dragX);
-         posY = (float)(click.comp_4799() / this.scale - this.dragY);
+         posX = (float)(click.x() / this.scale - this.dragX);
+         posY = (float)(click.y() / this.scale - this.dragY);
          return true;
-      } else if (this.rotating && this.control && selected != null && this.field_22787 != null) {
-         double scale = this.field_22787.method_22683().method_4495();
-         selected.getControl().addLook(deltaX * scale, deltaY * scale);
+      } else if (this.rotating && this.control && selected != null && this.client != null) {
+         double scale = this.client.getWindow().getScaleFactor();
+         selected.getControl().addLook(offsetX * scale, offsetY * scale);
          return true;
       } else {
-         return super.method_25403(click, deltaX, deltaY);
+         return super.mouseDragged(click, offsetX, offsetY);
       }
    }
 
-   public boolean method_25401(double realX, double realY, double horizontalAmount, double verticalAmount) {
-      double mouseX = realX / this.scale;
-      double mouseY = realY / this.scale;
+   @Override
+   public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+      double mouseXx = mouseX / this.scale;
+      double mouseYx = mouseY / this.scale;
       float listRight = this.x + 6.0F + 146.0F;
-      if (mouseX < listRight && hovered(mouseX, mouseY, this.x, this.y, 600.0F, 318.0F)) {
+      if (mouseXx < listRight && hovered(mouseXx, mouseYx, this.x, this.y, 600.0F, 318.0F)) {
          this.listScroll += (float)verticalAmount * 20.0F;
          return true;
-      } else {
-         float middle = this.x + 6.0F + 146.0F + 6.0F;
-         if (openPicker(selected) != null && mouseX >= middle && mouseX <= middle + 226.0F && hovered(mouseX, mouseY, this.x, this.y, 600.0F, 318.0F)) {
-            this.pickerRow = this.pickerRow - (int)Math.signum(verticalAmount);
-            return true;
-         } else if ((tab == BotScreen.Tab.TAB_M || tab == BotScreen.Tab.TAB_D) && mouseX > this.x + 6.0F + 146.0F + 6.0F + 226.0F && selected != null) {
-            int count = 0;
+      }
 
-            for (vmo setting : tab == BotScreen.Tab.TAB_D ? selected.f3ref().botSettings() : selected.f2ref().botSettings()) {
-               if (isVisible(setting)) {
-                  count++;
-               }
+      float middle = this.x + 6.0F + 146.0F + 6.0F;
+      if (openPicker(selected) != null && mouseXx >= middle && mouseXx <= middle + 226.0F && hovered(mouseXx, mouseYx, this.x, this.y, 600.0F, 318.0F)) {
+         this.pickerRow = this.pickerRow - (int)Math.signum(verticalAmount);
+         return true;
+      }
+
+      if ((tab == BotScreen.Tab.TAB_M || tab == BotScreen.Tab.TAB_D) && mouseXx > this.x + 6.0F + 146.0F + 6.0F + 226.0F && selected != null) {
+         int count = 0;
+
+         for (vmo setting : tab == BotScreen.Tab.TAB_D ? selected.f3ref().botSettings() : selected.f2ref().botSettings()) {
+            if (isVisible(setting)) {
+               count++;
             }
-
-            this.mineScroll = MathHelper.method_15340(this.mineScroll - (int)Math.signum(verticalAmount), 0, Math.max(0, count - 5));
-            return true;
-         } else if (tab == BotScreen.Tab.CHAT && mouseX > this.x + 6.0F + 146.0F + 6.0F + 226.0F) {
-            this.chatScroll += (float)verticalAmount * 17.0F;
-            return true;
-         } else if (this.control
-            && this.viewShown
-            && selected != null
-            && selected.getPlayer() != null
-            && hovered(mouseX, mouseY, this.viewX, this.viewY, this.viewW, this.viewH)) {
-            int slot = selected.getPlayer().method_31548().method_67532();
-            slot = Math.floorMod(slot - (int)Math.signum(verticalAmount), 9);
-            selected.selectSlot(slot);
-            return true;
-         } else {
-            return super.method_25401(realX, realY, horizontalAmount, verticalAmount);
          }
+
+         this.mineScroll = MathHelper.clamp(this.mineScroll - (int)Math.signum(verticalAmount), 0, Math.max(0, count - 5));
+         return true;
+      } else if (tab == BotScreen.Tab.CHAT && mouseXx > this.x + 6.0F + 146.0F + 6.0F + 226.0F) {
+         this.chatScroll += (float)verticalAmount * 17.0F;
+         return true;
+      } else if (this.control
+         && this.viewShown
+         && selected != null
+         && selected.getPlayer() != null
+         && hovered(mouseXx, mouseYx, this.viewX, this.viewY, this.viewW, this.viewH)) {
+         int slot = selected.getPlayer().getInventory().getSelectedSlot();
+         slot = Math.floorMod(slot - (int)Math.signum(verticalAmount), 9);
+         selected.selectSlot(slot);
+         return true;
+      } else {
+         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
       }
    }
 
-   public boolean method_25404(KeyInput input) {
-      int keyCode = input.comp_4795();
-      int modifiers = input.comp_4797();
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      int keyCode = input.key();
+      int modifiers = input.modifiers();
       if (this.focused != null) {
          if (keyCode == 256) {
             this.focused.commit();
             this.focused = null;
             return true;
-         } else if (keyCode != 257 && keyCode != 335) {
+         }
+
+         if (keyCode != 257 && keyCode != 335) {
             if ((this.focused == this.chatField || this.focused == this.broadcastField) && (keyCode == 265 || keyCode == 264)) {
                this.browseHistory(this.focused, keyCode == 265 ? 1 : -1);
                return true;
@@ -1828,16 +1843,18 @@ public final class BotScreen extends Screen {
             this.submit(this.focused);
             return true;
          }
-      } else if (keyCode == 256) {
-         this.method_25419();
-         return true;
       } else {
+         if (keyCode == 256) {
+            this.close();
+            return true;
+         }
+
          boolean ctrl = (modifiers & 2) != 0;
          if (selected != null && selected.getPlayer() != null) {
             if (keyCode >= 49 && keyCode <= 57) {
                int index = keyCode - 49;
                if (this.hoveredSlot != null && this.hoveredHandler != null) {
-                  selected.clickSlot(this.hoveredHandler.field_7763, this.hoveredHandler.field_7761.indexOf(this.hoveredSlot), index, SlotActionType.field_7791);
+                  selected.clickSlot(this.hoveredHandler.syncId, this.hoveredHandler.slots.indexOf(this.hoveredSlot), index, SlotActionType.SWAP);
                } else if (this.control) {
                   selected.selectSlot(index);
                }
@@ -1847,9 +1864,7 @@ public final class BotScreen extends Screen {
 
             if (keyCode == 81) {
                if (this.hoveredSlot != null && this.hoveredHandler != null) {
-                  selected.clickSlot(
-                     this.hoveredHandler.field_7763, this.hoveredHandler.field_7761.indexOf(this.hoveredSlot), ctrl ? 1 : 0, SlotActionType.field_7795
-                  );
+                  selected.clickSlot(this.hoveredHandler.syncId, this.hoveredHandler.slots.indexOf(this.hoveredSlot), ctrl ? 1 : 0, SlotActionType.THROW);
                   return true;
                }
 
@@ -1887,56 +1902,58 @@ public final class BotScreen extends Screen {
 
             return true;
          } else {
-            return super.method_25404(input);
+            return super.keyPressed(input);
          }
       }
    }
 
-   public boolean method_16803(KeyInput input) {
-      return this.control && this.movementKey(input, false) ? true : super.method_16803(input);
+   @Override
+   public boolean keyReleased(KeyInput input) {
+      return this.control && this.movementKey(input, false) ? true : super.keyReleased(input);
    }
 
-   public boolean method_25400(CharInput input) {
+   @Override
+   public boolean charTyped(CharInput input) {
       if (this.focused == null) {
-         return super.method_25400(input);
-      } else {
-         if (input.method_74227()) {
-            for (char c : input.method_74226().toCharArray()) {
-               this.focused.type(c);
-            }
-         }
-
-         return true;
+         return super.charTyped(input);
       }
+
+      if (input.isValidChar()) {
+         for (char c : input.asString().toCharArray()) {
+            this.focused.type(c);
+         }
+      }
+
+      return true;
    }
 
    private boolean movementKey(KeyInput input, boolean down) {
-      if (this.field_22787 == null) {
+      if (this.client == null) {
          return false;
-      } else {
-         GameOptions options = this.field_22787.field_1690;
-         if (options.field_1894.method_1417(input)) {
-            this.keyForward = down;
-         } else if (options.field_1881.method_1417(input)) {
-            this.keyBack = down;
-         } else if (options.field_1913.method_1417(input)) {
-            this.keyLeft = down;
-         } else if (options.field_1849.method_1417(input)) {
-            this.keyRight = down;
-         } else if (options.field_1903.method_1417(input)) {
-            this.keyJump = down;
-         } else if (options.field_1832.method_1417(input)) {
-            this.keySneak = down;
-         } else {
-            if (!options.field_1867.method_1417(input)) {
-               return false;
-            }
+      }
 
-            this.keySprint = down;
+      GameOptions options = this.client.options;
+      if (options.forwardKey.matchesKey(input)) {
+         this.keyForward = down;
+      } else if (options.backKey.matchesKey(input)) {
+         this.keyBack = down;
+      } else if (options.leftKey.matchesKey(input)) {
+         this.keyLeft = down;
+      } else if (options.rightKey.matchesKey(input)) {
+         this.keyRight = down;
+      } else if (options.jumpKey.matchesKey(input)) {
+         this.keyJump = down;
+      } else if (options.sneakKey.matchesKey(input)) {
+         this.keySneak = down;
+      } else {
+         if (!options.sprintKey.matchesKey(input)) {
+            return false;
          }
 
-         return true;
+         this.keySprint = down;
       }
+
+      return true;
    }
 
    private void submit(BotScreen.Field field) {
@@ -1972,7 +1989,7 @@ public final class BotScreen extends Screen {
 
    private void browseHistory(BotScreen.Field field, int direction) {
       if (!this.sentHistory.isEmpty()) {
-         this.historyIndex = MathHelper.method_15340(this.historyIndex + direction, -1, this.sentHistory.size() - 1);
+         this.historyIndex = MathHelper.clamp(this.historyIndex + direction, -1, this.sentHistory.size() - 1);
          field.setText(this.historyIndex < 0 ? "" : this.sentHistory.get(this.historyIndex));
       }
    }
@@ -2033,12 +2050,12 @@ public final class BotScreen extends Screen {
 
    private static List<BotScreen.Seg> segments(Text text, int base) {
       List<BotScreen.Seg> out = new ArrayList<>();
-      text.method_27658((style, string) -> {
-         TextColor color = style.method_10973();
-         int styleColor = color == null ? base : 0xFF000000 | color.method_27716();
+      text.visit((style, string) -> {
+         TextColor color = style.getColor();
+         int styleColor = color == null ? base : 0xFF000000 | color.getRgb();
          legacy(string, styleColor, out);
          return Optional.empty();
-      }, Style.field_24360);
+      }, Style.EMPTY);
       return out;
    }
 
@@ -2196,7 +2213,9 @@ public final class BotScreen extends Screen {
    private static String trim(vdn font, String string, float maxWidth) {
       if (string == null) {
          return "";
-      } else if (!(maxWidth <= 0.0F) && !(font.width(string) <= maxWidth)) {
+      }
+
+      if (!(maxWidth <= 0.0F) && !(font.width(string) <= maxWidth)) {
          StringBuilder builder = new StringBuilder();
 
          for (char c : string.toCharArray()) {
@@ -2251,7 +2270,7 @@ public final class BotScreen extends Screen {
          this.h = fh;
          this.visible = true;
          boolean isFocused = BotScreen.this.focused == this;
-         boolean hover = BotScreen.hovered((double)mouseX, (double)mouseY, fx, fy, fw, fh);
+         boolean hover = BotScreen.hovered(mouseX, mouseY, fx, fy, fw, fh);
          if (isFocused) {
             uut.round(BotScreen.this.ctx, fx - 1.0F, fy - 1.0F, fw + 2.0F, fh + 2.0F, 5.5F, BotScreen.accent(170));
          }
@@ -2291,8 +2310,8 @@ public final class BotScreen extends Screen {
             this.cursor = 0;
          } else if (keyCode == 269) {
             this.cursor = this.text.length();
-         } else if (ctrl && keyCode == 86 && BotScreen.this.field_22787 != null) {
-            String clip = BotScreen.this.field_22787.field_1774.method_1460();
+         } else if (ctrl && keyCode == 86 && BotScreen.this.client != null) {
+            String clip = BotScreen.this.client.keyboard.getClipboard();
             if (clip != null) {
                for (char c : clip.toCharArray()) {
                   this.type(c);
@@ -2314,7 +2333,7 @@ public final class BotScreen extends Screen {
    private record Seg(String text, int color) {
    }
 
-   private static enum Tab {
+   private enum Tab {
       CHAT,
       TAB_E,
       TAB_W,

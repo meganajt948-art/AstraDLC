@@ -13,11 +13,11 @@ public final class lqk {
    private final Box[] lqn = new Box[40];
 
    public void predict(Entity var1, World var2) {
-      Box var3 = var1.method_5829();
-      double var4 = var1.method_23317() - var1.field_6014;
-      double var6 = var1.method_23318() - var1.field_6036;
-      double var8 = var1.method_23321() - var1.field_5969;
-      boolean var10 = var1.method_24828();
+      Box var3 = var1.getBoundingBox();
+      double var4 = var1.getX() - var1.lastX;
+      double var6 = var1.getY() - var1.lastY;
+      double var8 = var1.getZ() - var1.lastZ;
+      boolean var10 = var1.isOnGround();
       if (var10) {
          var6 = 0.0;
       } else {
@@ -30,9 +30,9 @@ public final class lqk {
          double var14 = var11 < 5 ? var8 : 0.0;
          double var16 = var10 ? 0.0 : var6;
          if (var12 != 0.0 || var16 != 0.0 || var14 != 0.0) {
-            Vec3d var18 = Entity.method_20736(var1, new Vec3d(var12, var16, var14), var3, var2, List.of());
+            Vec3d var18 = Entity.adjustMovementForCollisions(var1, new Vec3d(var12, var16, var14), var3, var2, List.of());
             if (!var10) {
-               if (var18.field_1351 != var16 && var16 < 0.0) {
+               if (var18.y != var16 && var16 < 0.0) {
                   var10 = true;
                   var6 = 0.0;
                } else {
@@ -40,12 +40,12 @@ public final class lqk {
                }
             }
 
-            var3 = var3.method_997(var18);
+            var3 = var3.offset(var18);
          }
       }
    }
 
    public Box box(int var1) {
-      return this.lqn[MathHelper.method_15340(var1, 0, this.lqn.length - 1)];
+      return this.lqn[MathHelper.clamp(var1, 0, this.lqn.length - 1)];
    }
 }

@@ -25,8 +25,8 @@ public class lxp extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      if (vxr.getInt(lxq, var1.field_1724, 0) > 0) {
-         vxr.setInt(lxq, var1.field_1724, 0);
+      if (vxr.getInt(lxq, var1.player, 0) > 0) {
+         vxr.setInt(lxq, var1.player, 0);
       }
    }
 }

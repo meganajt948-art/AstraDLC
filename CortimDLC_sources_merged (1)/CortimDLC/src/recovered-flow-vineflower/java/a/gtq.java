@@ -22,7 +22,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.screen.world.WorldCreator;
-import net.minecraft.client.gui.screen.world.WorldCreator.WorldType;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.input.MouseInput;
@@ -118,20 +117,20 @@ public final class gtq {
       try {
          switch (gtr) {
             case 0:
-               if (var0.method_18506() == null && var0.field_1755 != null && gts > 40) {
-                  CreateWorldScreen.method_64248(var0, () -> var0.method_1507(new TitleScreen()));
+               if (var0.getOverlay() == null && var0.currentScreen != null && gts > 40) {
+                  CreateWorldScreen.showTestWorld(var0, () -> var0.setScreen(new TitleScreen()));
                   gwo();
                }
                break;
             case 1:
-               if (var0.field_1755 instanceof CreateWorldScreen var4 && gts > 20) {
+               if (var0.currentScreen instanceof CreateWorldScreen var4 && gts > 20) {
                   if (a.d("\uf4ef赎ޛ駡ሽ钛⻃", 20342427, -1565421056).equals(gtt)
                      || a.c(29790974, "銊\ueb26懴ﾝ瑎\uf2e7䢦").equals(gtt)
                      || a.c(1859302949, "뙟쿨䔣\udb52傍혫汹\ue590篝").equals(gtt)
                      || a.b("\udd89ꐿ\u2ef7낛㭓", -2054431233).equals(gtt)) {
-                     WorldCreator var5 = var4.method_48657();
-                     var5.method_48705((WorldType)var5.method_48732().get(0));
-                     var5.method_48716(System.getenv().getOrDefault(a.d("俖㙭벽⋔ꥦ⾺闥ᰂ艝࣭", 1737432814, 1927893364), a.c(1581267823, "㬃䊸졨嘁\uddc2孼\ue12a棗\uf683簨")));
+                     WorldCreator var5 = var4.getWorldCreator();
+                     var5.setWorldType(var5.getNormalWorldTypes().get(0));
+                     var5.setSeed(System.getenv().getOrDefault(a.d("俖㙭벽⋔ꥦ⾺闥ᰂ艝࣭", 1737432814, 1927893364), a.c(1581267823, "㬃䊸졨嘁\uddc2孼\ue12a棗\uf683簨")));
                   }
 
                   Method var6 = CreateWorldScreen.class.getDeclaredMethod(a.b("捁\u1ae1逥๐薒̲륈ゐ껜⑾ꎤ", -83795159));
@@ -141,7 +140,7 @@ public final class gtq {
                }
                break;
             case 2:
-               if (var0.field_1687 != null && var0.field_1724 != null && var0.field_1755 == null) {
+               if (var0.world != null && var0.player != null && var0.currentScreen == null) {
                   if (gts > 100 && a.b("サ䤋쏔嶭홫像\uea9a捿", -1941884717).equals(gtt)) {
                      gtr = 4;
                      gts = 0;
@@ -315,7 +314,7 @@ public final class gtq {
                      var1.setAccessible(true);
                      var1.set(null, a.b("໌睑ﶀ揾\ue82a溎", 1997082249));
                      gvn();
-                     var0.method_1507(new hlc());
+                     var0.setScreen(new hlc());
                      gwo();
                   }
                } else {
@@ -355,19 +354,19 @@ public final class gtq {
                break;
             case 13:
                if (flm.crit(var0)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 14:
                if (flm.mace(var0)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 15:
                if (hfi.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
@@ -376,13 +375,13 @@ public final class gtq {
                break;
             case 17:
                if (gpu.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 18:
                if (fvb.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
             case 19:
@@ -432,248 +431,248 @@ public final class gtq {
                break;
             case 42:
                if (fyl.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 43:
                if (ghy.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 44:
                if (hbt.totem(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 45:
                if (hbt.tool(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 46:
                if (fwv.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 47:
                if (fug.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 48:
                if (hgq.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 49:
                if (gax.tick(var0)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 50:
                if (fgv.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 51:
                if (heb.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 52:
                if (fjv.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 53:
                if (hdt.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 54:
                if (gxf.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 56:
                if (gkm.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 58:
                if (gsz.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 60:
                if (fif.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 61:
                if (grw.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 62:
                if (fbc.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 63:
                if (fpo.tick(var0)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 64:
                if (fdp.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 65:
                if (fbw.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 66:
                if (gnr.tick(var0)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 70:
                if (grd.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 72:
                if (gef.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 73:
                if (fdx.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 74:
                if (fga.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 81:
                if (gyf.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 82:
                if (hav.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 83:
                if (gzt.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 84:
                if (fxp.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 85:
                if (hdj.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 86:
                if (hge.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 87:
                if (fbk.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 88:
                if (gwv.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 89:
                if (fkm.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 90:
                if (fwd.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 91:
                if (fvw.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 93:
                if (gml.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
                break;
             case 94:
                if (ghf.tick(var0, gts)) {
-                  var0.method_1592();
+                  var0.scheduleStop();
                   gtr = 99;
                }
          }
       } catch (Throwable var3) {
          System.out.println(a.b("\ue2db魼ᆦ违ь芩㣫넌⽔ꖱ∤\ud852嚍켹䕣쎓禂\uf649", 711123642) + var3);
          var3.printStackTrace();
-         var0.method_1592();
+         var0.scheduleStop();
          gtr = 99;
       }
    }
 
    private static void gux(MinecraftClient var0) throws Exception {
-      Screen var1 = var0.field_1755;
+      Screen var1 = var0.currentScreen;
       switch (gts) {
          case 1:
             kfe var25 = Flow.getInstance().getModuleManager().getByName(a.d("決ᗭ鼥Ś認ా뙺㾻ꇉ⭣", 1566273967, 1962614155));
@@ -719,9 +718,9 @@ public final class gtq {
             gwq(var1, 264);
             break;
          case 105:
-            int var23 = var0.field_1724.method_31477();
-            int var36 = var0.field_1724.method_31478();
-            int var42 = var0.field_1724.method_31479();
+            int var23 = var0.player.getBlockX();
+            int var36 = var0.player.getBlockY();
+            int var42 = var0.player.getBlockZ();
             gws(var1, 220.0F, 100.0F, 0);
             gwr(var1, a.b("㕬䳾옿塘", -1340066518));
             gwq(var1, 258);
@@ -733,9 +732,9 @@ public final class gtq {
             gwq(var1, 257);
             break;
          case 110:
-            int var22 = var0.field_1724.method_31477();
-            int var35 = var0.field_1724.method_31478();
-            int var41 = var0.field_1724.method_31479();
+            int var22 = var0.player.getBlockX();
+            int var35 = var0.player.getBlockY();
+            int var41 = var0.player.getBlockZ();
             gws(var1, 220.0F, 100.0F, 0);
             gwr(var1, a.d("畛\u0cce蘚ᡠ", 1507992169, 330651515));
             gwq(var1, 258);
@@ -753,9 +752,9 @@ public final class gtq {
             gwq(var1, 257);
             break;
          case 120:
-            int var21 = var0.field_1724.method_31477();
-            int var34 = var0.field_1724.method_31478();
-            int var40 = var0.field_1724.method_31479();
+            int var21 = var0.player.getBlockX();
+            int var34 = var0.player.getBlockY();
+            int var40 = var0.player.getBlockZ();
             wlk.add(a.c(-819087867, "뙈쿞䔞\udb3d傼혒汄\ue5b5篧\uf150皁"), var21 + 420, var34 + 8, var40 - 610, wlk.COLORS[4]);
             break;
          case 138:
@@ -778,9 +777,9 @@ public final class gtq {
             jjx.onAttack(guc);
             break;
          case 166:
-            guc.method_6033(9.0F);
-            guc.field_6235 = 10;
-            guc.field_6254 = 10;
+            guc.setHealth(9.0F);
+            guc.hurtTime = 10;
+            guc.maxHurtTime = 10;
             break;
          case 169:
             gwp(var0, a.c(204640063, "輂\uf6b4籽\ue255榗\uef35啳\udc80䋎젦侰뗀㬊"));
@@ -789,14 +788,14 @@ public final class gtq {
             gwp(var0, a.c(-581742801, "伕㚣밥∛ꦕ⼱镱Ვ苈ࡨ"));
             break;
          case 185:
-            guc.method_5648(true);
+            guc.setInvisible(true);
             break;
          case 195:
             gwp(var0, a.c(1072181565, "ㄙ䢯숨尗힙儽\ueb7d抙ﳄ癤\uf1ee\u0bdb蔋Ტ雮စ꩐▊뼷㥯"));
             break;
          case 196:
-            var0.field_1687.method_2945(guc.method_5628(), RemovalReason.field_26999);
-            var0.method_1507(new hlc());
+            var0.world.removeEntity(guc.getId(), RemovalReason.DISCARDED);
+            var0.setScreen(new hlc());
             break;
          case 212:
             gwp(var0, a.b("\uf16a裓ȕ鰻\u17fb酀⬌ꋨ㲼뙎㇃쮠䕻\udcc2囙큱樫\ue5f9", -2076774072));
@@ -813,7 +812,7 @@ public final class gtq {
             gwq(var1, 256);
             break;
          case 250:
-            var0.method_1507(new hlc());
+            var0.setScreen(new hlc());
             break;
          case 275:
             gwp(var0, a.c(-1844247811, "˘筠\uf1a7澉\ue449拲\ud8be党켎䗼쉱㠒뛉⽰ꕫ⏄馛ᙛ賵ધ荐"));
@@ -844,18 +843,17 @@ public final class gtq {
             var20.getByName(a.c(-173327307, "㱫䗼켴克\uda9c尯\ue66b澪\uf1d8筲")).setKey(82);
             var20.getByName(a.b("盎བྷ薀ᯝ逸ᚉ곀┫뭳", -1214220666)).setKey(71);
             var20.getByName(a.c(1903306840, "⠑冔\udb46䔬컇䡒\uf217篷")).setKey(88);
-            var0.field_1724.method_6092(new StatusEffectInstance(StatusEffects.field_5904, 2400, 1));
-            var0.field_1724.method_6092(new StatusEffectInstance(StatusEffects.field_5910, 900, 0));
-            var0.field_1724.method_6092(new StatusEffectInstance(StatusEffects.field_5899, 180, 0));
-            var0.field_1724.method_31548().method_5447(1, new ItemStack(Items.field_8634, 16));
-            var0.field_1724.method_7357().method_62835(new ItemStack(Items.field_8634), 400);
+            var0.player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 2400, 1));
+            var0.player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 900, 0));
+            var0.player.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 180, 0));
+            var0.player.getInventory().setStack(1, new ItemStack(Items.ENDER_PEARL, 16));
+            var0.player.getItemCooldownManager().set(new ItemStack(Items.ENDER_PEARL), 400);
             kfe var33 = var20.getByName(a.b("ꉥ\udbe2儦콓䒗숱硘\uf184濒\ue57f抹食", 1292149306));
             var33.setEnabled(true);
 
             for (vmo var43 : var33.getSettings()) {
                if (var43 instanceof vlq var45) {
-                  String var7 = var45.getName();
-                  switch (var7) {
+                  switch (var45.getName()) {
                      case a.d("땧체䘗\ud869去픀", 1260262772, 856007735):
                         var45.set(86);
                         break;
@@ -868,13 +866,13 @@ public final class gtq {
                }
             }
 
-            ItemStack var39 = new ItemStack(Items.field_22021, 6);
-            var39.method_57379(DataComponentTypes.field_49631, Text.method_43470(a.b("岯╼꿟ㆡ멳㳈", 743200907)));
-            var0.field_1724.method_31548().method_5447(12, var39);
-            ItemStack var44 = new ItemStack(Items.field_8436, 2);
-            var44.method_57379(DataComponentTypes.field_49631, Text.method_43470(a.c(770437488, "\uf55a賸ٖ頪ᎏ镁⭽ꚞ㣍뉶㖡")));
-            var0.field_1724.method_31548().method_5447(20, var44);
-            var0.field_1724.method_7357().method_62835(var39, 300);
+            ItemStack var39 = new ItemStack(Items.NETHERITE_SCRAP, 6);
+            var39.set(DataComponentTypes.CUSTOM_NAME, Text.literal(a.b("岯╼꿟ㆡ멳㳈", 743200907)));
+            var0.player.getInventory().setStack(12, var39);
+            ItemStack var44 = new ItemStack(Items.SPLASH_POTION, 2);
+            var44.set(DataComponentTypes.CUSTOM_NAME, Text.literal(a.c(770437488, "\uf55a賸ٖ頪ᎏ镁⭽ꚞ㣍뉶㖡")));
+            var0.player.getInventory().setStack(20, var44);
+            var0.player.getItemCooldownManager().set(var39, 300);
             break;
          case 360:
             gwp(var0, a.d("䌻㪈끅\u2e71ꖻ⌛", 366801436, -477253360));
@@ -886,7 +884,7 @@ public final class gtq {
             gwp(var0, a.d("ꗖ\udc62嚨좝䍐엾羠\uf65e栋\ue2f3敬鼐ᇎ表Ƚ", -1005608849, 81724807));
             break;
          case 400:
-            var0.method_1507(new ChatScreen("", false));
+            var0.setScreen(new ChatScreen("", false));
             break;
          case 425:
             gwp(var0, a.d("㙩俜씗嬣탩噉\uec53旬﮸焀\uf6c6", -785130367, 1407838930));
@@ -895,13 +893,13 @@ public final class gtq {
             Field var19 = hlc.class.getDeclaredField(a.d("읻뻟㐏꩗↮꜃", -2032123304, -1695906479));
             var19.setAccessible(true);
             var19.set(null, a.d("\uea47鏫ᤩ", -1181746092, -1692002728));
-            var0.method_1507(new hlc());
+            var0.setScreen(new hlc());
             break;
          case 455:
             gwp(var0, a.b("㕯䳙옑堥폯問\uef55曽\uf8b7爅", -928893612));
             break;
          case 456:
-            var0.method_1507(new jbs());
+            var0.setScreen(new jbs());
             break;
          case 480:
             gwp(var0, a.d("Τ稓\uf0da滮\ue524掄\ud99e倧칹䓅쌋㥡랫", 682813124, 576185692));
@@ -910,18 +908,18 @@ public final class gtq {
             float var18 = gvo(izx.KEYBINDS, a.c(1906330302, "䫇"));
             float var32 = gvo(izx.KEYBINDS, a.b("簹", -1094615999));
             float var37 = gvo(izx.KEYBINDS, a.c(-1925402679, "꾿"));
-            var1.method_25402(new Click(var18 + 10.0F, var32 + 6.0F, new MouseInput(0, 0)), false);
-            var1.method_25403(new Click(var1.field_22789 - var37 + 8.0F, var32 + 26.0F, new MouseInput(0, 0)), 0.0, 0.0);
+            var1.mouseClicked(new Click(var18 + 10.0F, var32 + 6.0F, new MouseInput(0, 0)), false);
+            var1.mouseDragged(new Click(var1.width - var37 + 8.0F, var32 + 26.0F, new MouseInput(0, 0)), 0.0, 0.0);
             break;
          case 490:
             gwp(var0, a.b("鄰\ue888扎ﱺ瞰\uf110䬊슲峻홙册", 579178762));
             break;
          case 491:
-            var1.method_25406(new Click(0.0, 0.0, new MouseInput(0, 0)));
+            var1.mouseReleased(new Click(0.0, 0.0, new MouseInput(0, 0)));
             gwq(var1, 256);
             break;
          case 500:
-            gwq(var0.field_1755, 256);
+            gwq(var0.currentScreen, 256);
             break;
          case 520:
             iov.PRESET.set(a.c(1177681311, "\ufddc葙ທ郺ᬪ"));
@@ -965,22 +963,22 @@ public final class gtq {
             break;
          case 661:
             for (String var5 : new String[]{a.c(927842855, "쉮믴ㄭ꽝⒝ꉾᡉ醎࿂蕵ʮ\uf8de"), a.b("쮹눶㣸ꚕⵏꯩ", 183487464)}) {
-               ServerBossBar var6 = new ServerBossBar(Text.method_43470(var5), Color.field_5783, Style.field_5795);
+               ServerBossBar var6 = new ServerBossBar(Text.literal(var5), Color.PURPLE, Style.PROGRESS);
                gue.add(var6);
-               var0.field_1705.method_1740().method_1795(BossBarS2CPacket.method_34089(var6));
+               var0.inGameHud.getBossBarHud().handlePacket(BossBarS2CPacket.add(var6));
             }
             break;
          case 690:
             gwp(var0, a.d("륒샣䨯퐑忋\ud966挵\uea9a璊︸秸莈", 1921365337, 722078773));
             break;
          case 691:
-            var0.method_1507(new ChatScreen("", false));
+            var0.setScreen(new ChatScreen("", false));
             break;
          case 700:
             float var15 = gvo(izx.KEYBINDS, a.d("⥜", -1662892191, -126063036));
             float var29 = gvo(izx.KEYBINDS, a.c(1261559127, "\udd2f"));
             izx.mouseClicked(var15 + 12.0F, var29 + 6.0F, 0);
-            izx.mouseDragged(var0.method_22683().method_4486() * 0.5 - 40.0, var0.method_22683().method_4502() * 0.62);
+            izx.mouseDragged(var0.getWindow().getScaledWidth() * 0.5 - 40.0, var0.getWindow().getScaledHeight() * 0.62);
             break;
          case 712:
             gwp(var0, a.b("\ue394騤ჩ軖Ԋ莲㧴끜⹊ꓭ⌭\ud95a", 2131026858));
@@ -989,10 +987,10 @@ public final class gtq {
             izx.mouseReleased();
 
             for (ServerBossBar var28 : gue) {
-               var0.field_1705.method_1740().method_1795(BossBarS2CPacket.method_34090(var28.method_5407()));
+               var0.inGameHud.getBossBarHud().handlePacket(BossBarS2CPacket.remove(var28.getUuid()));
             }
 
-            var0.method_1507(null);
+            var0.setScreen(null);
             izx.resetLayout();
             break;
          case 720:
@@ -1001,17 +999,17 @@ public final class gtq {
             Field var13 = hlc.class.getDeclaredField(a.d("筳˗蠇ᙟ鶦ᬋ", -1427046630, -2117827557));
             var13.setAccessible(true);
             var13.set(null, a.d("畢\u0cff蘮ᡐ鎄ᔠ", -1413107149, -1271937260));
-            var0.method_1507(new hlc());
+            var0.setScreen(new hlc());
             break;
          case 745:
             gwp(var0, a.d("埔\u2e63꒩㪘녇㟽趵М騞Ⴓ靭洔\ue3c4", 1486328961, 1578615658));
             break;
          case 746:
-            gwq(var0.field_1755, 264);
+            gwq(var0.currentScreen, 264);
             break;
          case 747:
             for (int var12 = 0; var12 < 4; var12++) {
-               gwq(var0.field_1755, 264);
+               gwq(var0.currentScreen, 264);
             }
             break;
          case 765:
@@ -1019,7 +1017,7 @@ public final class gtq {
             break;
          case 766:
             isv.select(gud);
-            var0.method_1507(null);
+            var0.setScreen(null);
             break;
          case 770:
             iov.PRESET.set(a.b("ೳ畹ﾮ懍\uea0c泲훏弙셈䯶찹", -1141109588));
@@ -1059,13 +1057,13 @@ public final class gtq {
             gvm(var0, a.d("跰\uf46d线\ue0c6欞\ueda1埦", -547564049, 45242459));
             break;
          case 875:
-            gwt(var0.field_1755, 330.0F, 200.0F, -10.0);
+            gwt(var0.currentScreen, 330.0F, 200.0F, -10.0);
             break;
          case 895:
             gwp(var0, a.c(396552189, "\ue7c4鹶ᒸ誌Ŝ蟶㶺둅⨆ꂽ"));
             break;
          case 896:
-            var0.method_1507(null);
+            var0.setScreen(null);
             break;
          case 925:
             gwp(var0, a.c(974439639, "쓵뵆㞉ꦸ≣꓁ẋ靴़莌Ё︼烩\ue958挍\ue5f7徢"));
@@ -1101,7 +1099,7 @@ public final class gtq {
    }
 
    private static void guy(MinecraftClient var0) throws Exception {
-      Screen var1 = var0.field_1755;
+      Screen var1 = var0.currentScreen;
       switch (gts) {
          case 1:
             wap.set(wam.RU);
@@ -1109,7 +1107,7 @@ public final class gtq {
             var5.setAccessible(true);
             var5.set(null, a.c(2130942973, "鮸\ue225棴\uf68a絞ﯺ"));
             gvn();
-            var0.method_1507(new hlc());
+            var0.setScreen(new hlc());
             break;
          case 25:
             gwp(var0, a.c(594996679, "\ueda5鐙ễ肽ଠ趌㟞븳•ꪟⵎ휰姤쁀"));
@@ -1136,10 +1134,10 @@ public final class gtq {
             break;
          case 100:
             gwp(var0, a.c(-636291389, "\uf6be輂מ鮦ျ隗ⳁꔨ㬩놎㙙찻䋽\udb47兑\ud7ff涷"));
-            var1.method_25419();
+            var1.close();
             break;
          case 120:
-            var0.method_1507(new hlc());
+            var0.setScreen(new hlc());
             break;
          case 140:
             gwp(var0, a.c(-1609000816, "飯\ue153殏\uf5f7繪\uf8c6䊓쭹啸\udfdf堈ꉪⲬ딖㼀릷϶谲ᚅ"));
@@ -1150,31 +1148,31 @@ public final class gtq {
             Field var4 = hlc.class.getDeclaredField(a.b("\ueb04銠ᡰ蘨ෑ譼", -312611978));
             var4.setAccessible(true);
             var4.set(null, a.c(1659057765, "㘱侷앯嬔탂噤"));
-            var0.method_1507(new hlc());
+            var0.setScreen(new hlc());
             break;
          case 160:
             gwp(var0, a.c(-946742426, "\udb04ꊸ⡤똜㶁묭Ź袒ᚒ鰴ᯬ\ue197潁\uf6e7"));
-            guz(var0, var0.field_1755, 26.0F, 362.0F);
+            guz(var0, var0.currentScreen, 26.0F, 362.0F);
             break;
          case 180:
             gwp(var0, a.c(-902835222, "펓ꨯ\u20f3뺋㔖뎺ৡ者Ḗ钰፴\ue910柒ﹰ瑼\uf2d0䢆읝左\udbb9剙"));
             break;
          case 181:
-            guz(var0, var0.field_1755, 500.0F, 23.0F);
-            var0.method_1507(new ida(var0.field_1755));
+            guz(var0, var0.currentScreen, 500.0F, 23.0F);
+            var0.setScreen(new ida(var0.currentScreen));
             break;
          case 200:
             gwp(var0, a.b("\udef7ꝋ\u2d97돯㡲뻞҄赡\u137f駃ḟ\ue467檢\uf307祒ﾡ䖦쨪傀훛弤╻ꯟ", 339009164));
             break;
          case 201:
             wap.set(wam.EN);
-            var0.method_1507(null);
+            var0.setScreen(null);
             Flow.getInstance().getModuleManager().getByName(a.d("誈\uf31b租\ue7af汵\ueace傊\ud966䜿춏䩁", -51837954, 1234602285)).setEnabled(true);
-            ItemStack var2 = new ItemStack(Items.field_8399);
-            ItemStack var3 = new ItemStack(Items.field_8107);
-            var2.method_57379(DataComponentTypes.field_49649, ChargedProjectilesComponent.method_57441(List.of(var3, var3.method_7972(), var3.method_7972())));
-            var0.field_1724.method_31548().method_5447(var0.field_1724.method_31548().method_67532(), var2);
-            var0.field_1724.method_36457(-12.0F);
+            ItemStack var2 = new ItemStack(Items.CROSSBOW);
+            ItemStack var3 = new ItemStack(Items.ARROW);
+            var2.set(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.of(List.of(var3, var3.copy(), var3.copy())));
+            var0.player.getInventory().setStack(var0.player.getInventory().getSelectedSlot(), var2);
+            var0.player.setPitch(-12.0F);
             break;
          case 220:
             gwp(var0, a.d("敜᳠阼ࡄ菙մ뼦㛊꣕≼ꖶ忟턕䢾싶䐀﹔", -717523428, -372042947));
@@ -1182,7 +1180,7 @@ public final class gtq {
          case 225:
             Flow.getInstance().getModuleManager().getByName(a.d("㼯䚼챸刈\ud9d2彩\ue52d況\uf298砨￦", 692029487, -280643749)).setEnabled(false);
             hyz.save();
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
@@ -1192,8 +1190,8 @@ public final class gtq {
       float var5 = gva(var1, a.d("㡲䇞쬖啩\udeb0堆\ue262", -165481251, 1770179783));
       float var6 = gva(var1, a.c(-1285709508, "ꅊ\ud8eb刺챆䞘"));
       float var7 = gva(var1, a.c(-741277156, "ɩ篈\uf119潥\ue4bb戶"));
-      double var8 = var0.method_22683().method_4495();
-      GLFW.glfwSetCursorPos(var0.method_22683().method_4490(), (var4 + var2 * var6) * var8, (var5 + var3 * var7) * var8);
+      double var8 = var0.getWindow().getScaleFactor();
+      GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), (var4 + var2 * var6) * var8, (var5 + var3 * var7) * var8);
    }
 
    private static float gva(Object var0, String var1) throws Exception {
@@ -1204,34 +1202,32 @@ public final class gtq {
 
    private static void gvb(MinecraftClient var0) throws Exception {
       rjy var1 = rjy.get();
-      Screen var2 = var0.field_1755;
+      Screen var2 = var0.currentScreen;
       switch (gts) {
          case 1:
             var1.setEnabled(true);
             PlayerEntity var9 = gvi(var0, a.b("猛ઙ聝Ḷ闦ፎꤎ\u20f4뺶㐀돑䦹", -1534037183), 4.6, -1.8, 10.0F);
-            var9.method_5673(EquipmentSlot.field_6169, gvj(Items.field_22027));
-            var9.method_5673(EquipmentSlot.field_6174, gvj(Items.field_22028));
-            var9.method_5673(EquipmentSlot.field_6172, gvj(Items.field_22029));
-            var9.method_5673(EquipmentSlot.field_6166, gvj(Items.field_22030));
-            var9.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_8367, 58));
+            var9.equipStack(EquipmentSlot.HEAD, gvj(Items.NETHERITE_HELMET));
+            var9.equipStack(EquipmentSlot.CHEST, gvj(Items.NETHERITE_CHESTPLATE));
+            var9.equipStack(EquipmentSlot.LEGS, gvj(Items.NETHERITE_LEGGINGS));
+            var9.equipStack(EquipmentSlot.FEET, gvj(Items.NETHERITE_BOOTS));
+            var9.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 58));
             PlayerEntity var11 = gvi(var0, a.d("䃥㤴뎆ⷷ꘠", 1679540086, -1012924476), 10.5, 4.6, 2.0F);
-            var11.method_5673(EquipmentSlot.field_6169, gvl(Items.field_8743, 0.6F));
-            var11.method_5673(EquipmentSlot.field_6174, gvl(Items.field_8523, 0.3F));
-            var11.method_5673(EquipmentSlot.field_6173, gvl(Items.field_8802, 0.2F));
-            var11.method_5673(EquipmentSlot.field_6171, new ItemStack(Items.field_8288));
+            var11.equipStack(EquipmentSlot.HEAD, gvl(Items.IRON_HELMET, 0.6F));
+            var11.equipStack(EquipmentSlot.CHEST, gvl(Items.IRON_CHESTPLATE, 0.3F));
+            var11.equipStack(EquipmentSlot.MAINHAND, gvl(Items.DIAMOND_SWORD, 0.2F));
+            var11.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
             PlayerEntity var5 = gvi(var0, a.b("様ၤ骽ӎ輓\u09a9돷㨏ꐏ⺾ꥭ匜\uddcb", -816092743), 22.0, -9.0, 17.0F);
-            var5.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_8058));
-            var5.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_8102));
+            var5.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+            var5.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
             PlayerEntity var6 = gvi(var0, a.c(1865238867, "䤝よ멘\u243c꿳"), 7.0, 1.2, 20.0F);
-            var6.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_22022));
-            var6.method_6073(4.0F);
-            Scoreboard var7 = var0.field_1687.method_8428();
-            gtv = var7.method_1171(a.c(-1714558707, "\ue962郙ᨉ葠\u0ff2褅㍇몠⓸"));
-            gtv.method_1138(
-               Text.method_43470(a.d("ᴫ撄\uee5e瀪ﯠ絀윋亇", -238686938, 592244830)).method_27695(new Formatting[]{Formatting.field_1065, Formatting.field_1067})
-            );
-            gtv.method_1139(Text.method_43470(a.c(-1172129434, "륂쁴䩣\uf315")));
-            var7.method_1172(a.d("ꛏ\udf4d喉쯢䀲욚糚\uf520止\ue1d4昅鱭", 1280257182, 1359514123), gtv);
+            var6.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
+            var6.setAbsorptionAmount(4.0F);
+            Scoreboard var7 = var0.world.getScoreboard();
+            gtv = var7.addTeam(a.c(-1714558707, "\ue962郙ᨉ葠\u0ff2褅㍇몠⓸"));
+            gtv.setPrefix(Text.literal(a.d("ᴫ撄\uee5e瀪ﯠ絀윋亇", -238686938, 592244830)).formatted(Formatting.GOLD, Formatting.BOLD));
+            gtv.setSuffix(Text.literal(a.c(-1172129434, "륂쁴䩣\uf315")));
+            var7.addScoreHolderToTeam(a.d("ꛏ\udf4d喉쯢䀲욚糚\uf520止\ue1d4昅鱭", 1280257182, 1359514123), gtv);
             hhf.add(a.d("璟ഊ蟚ᦾ鉱", -2120045444, 1795676333));
             break;
          case 40:
@@ -1265,9 +1261,9 @@ public final class gtq {
          case 86:
             var1.background.set(a.d("ꉖ\udbcc儒콱䒦", 985360281, 1170261389));
             PlayerEntity var8 = gtu.get(1);
-            Vec3d var10 = var8.method_33571().method_1020(var0.field_1724.method_33571());
-            var0.field_1724.method_36456((float)Math.toDegrees(Math.atan2(-var10.field_1352, var10.field_1350)));
-            var0.field_1724.method_36457((float)(-Math.toDegrees(Math.atan2(var10.field_1351, Math.hypot(var10.field_1352, var10.field_1350)))));
+            Vec3d var10 = var8.getEyePos().subtract(var0.player.getEyePos());
+            var0.player.setYaw((float)Math.toDegrees(Math.atan2(-var10.x, var10.z)));
+            var0.player.setPitch((float)(-Math.toDegrees(Math.atan2(var10.y, Math.hypot(var10.x, var10.z)))));
             hhf.toggleAimed();
             break;
          case 94:
@@ -1305,15 +1301,15 @@ public final class gtq {
             break;
          case 161:
             for (PlayerEntity var4 : gtu) {
-               var0.field_1687.method_2945(var4.method_5628(), RemovalReason.field_26999);
+               var0.world.removeEntity(var4.getId(), RemovalReason.DISCARDED);
             }
 
             gtu.clear();
-            var0.field_1687.method_8428().method_1191(gtv);
+            var0.world.getScoreboard().removeTeam(gtv);
             hhf.remove(a.d("䋩㭼놬⿈ꐇ", -427658780, 178074435));
             hhf.remove(a.c(1506934745, "ﾎ號೭銜᥋"));
             hyz.save();
-            var0.method_1592();
+            var0.scheduleStop();
       }
    }
 
@@ -1325,22 +1321,22 @@ public final class gtq {
             var2.setEnabled(true);
             var1.getByName(a.c(-1651905955, "\uea1d鎍\u1943蜅\u0cfe詌〜맰")).setEnabled(true);
             var1.getByName(a.d("鋼\ueb79憫\uffc1琪\uf2b8䣩섃彛헰", -61033399, -1958140162)).setEnabled(true);
-            var0.field_1724.method_36457(8.0F);
+            var0.player.setPitch(8.0F);
             guc = gvk(var0);
             ruv.onAttack(guc);
-            var0.field_1724.method_5673(EquipmentSlot.field_6169, gvl(Items.field_22027, 0.05F));
-            var0.field_1724.method_5673(EquipmentSlot.field_6174, gvl(Items.field_22028, 0.4F));
-            var0.field_1724.method_5673(EquipmentSlot.field_6172, gvl(Items.field_8348, 0.7F));
-            var0.field_1724.method_5673(EquipmentSlot.field_6166, gvl(Items.field_8285, 0.93F));
-            ItemStack var11 = new ItemStack(Items.field_8367, 12);
-            var11.method_57379(
-               DataComponentTypes.field_49631,
-               Text.method_43470(a.b("\ude10肧\u0a11鑋ᾑ餫⍱ꪏ㓊빪㦸쎍䴽풤廴\ud80d扃\ued99睤\uf154碒˃豬឴醎ᬐꊪⲽ똞こ믭䕹콗嚉탗婬\ue5b7濍\ue904烡𥉉萆๒觪ጩ鴋⒣긅⡣뎰㷁윛亦죲划\udc48染\ue17f䰊", 2056780045))
+            var0.player.equipStack(EquipmentSlot.HEAD, gvl(Items.NETHERITE_HELMET, 0.05F));
+            var0.player.equipStack(EquipmentSlot.CHEST, gvl(Items.NETHERITE_CHESTPLATE, 0.4F));
+            var0.player.equipStack(EquipmentSlot.LEGS, gvl(Items.DIAMOND_LEGGINGS, 0.7F));
+            var0.player.equipStack(EquipmentSlot.FEET, gvl(Items.DIAMOND_BOOTS, 0.93F));
+            ItemStack var11 = new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 12);
+            var11.set(
+               DataComponentTypes.CUSTOM_NAME,
+               Text.literal(a.b("\ude10肧\u0a11鑋ᾑ餫⍱ꪏ㓊빪㦸쎍䴽풤廴\ud80d扃\ued99睤\uf154碒˃豬឴醎ᬐꊪⲽ똞こ믭䕹콗嚉탗婬\ue5b7濍\ue904烡𥉉萆๒觪ጩ鴋⒣긅⡣뎰㷁윛亦죲划\udc48染\ue17f䰊", 2056780045))
             );
-            var0.field_1724.method_31548().method_5447(2, var11);
-            var0.field_1724.method_7357().method_62835(var11, 600);
-            var0.field_1724.method_31548().method_5447(1, new ItemStack(Items.field_8634, 16));
-            var0.field_1724.method_7357().method_62835(new ItemStack(Items.field_8634), 300);
+            var0.player.getInventory().setStack(2, var11);
+            var0.player.getItemCooldownManager().set(var11, 600);
+            var0.player.getInventory().setStack(1, new ItemStack(Items.ENDER_PEARL, 16));
+            var0.player.getItemCooldownManager().set(new ItemStack(Items.ENDER_PEARL), 300);
             izx.TARGET.enabled.set(false);
             break;
          case 14:
@@ -1407,7 +1403,7 @@ public final class gtq {
             izx.TARGET.enabled.set(true);
             break;
          case 116:
-            var0.method_1507(new ChatScreen("", false));
+            var0.setScreen(new ChatScreen("", false));
             break;
          case 125:
             ixu var10 = izx.ARMOR;
@@ -1423,14 +1419,14 @@ public final class gtq {
             break;
          case 136:
             izx.mouseReleased();
-            var0.method_1507(null);
+            var0.setScreen(null);
             break;
          case 138:
-            var0.field_1690.field_1894.method_23481(true);
+            var0.options.forwardKey.setPressed(true);
             break;
          case 144:
-            System.out.println(a.c(1543196175, "乔㟳봩⍒ꣃ⸦鑤ᶃ菛ा躌瓉﨟掵\ue9da漈핅媏쀻䙰쿓뗕㭰ꂬ⛔갇ᖳ鯫Ł蜊೪\uf238硵\ue19f柋\ued60努\ud8dc帆쟰") + var0.field_1724.method_5624());
-            var0.field_1690.field_1894.method_23481(false);
+            System.out.println(a.c(1543196175, "乔㟳봩⍒ꣃ⸦鑤ᶃ菛ा躌瓉﨟掵\ue9da漈핅媏쀻䙰쿓뗕㭰ꂬ⛔갇ᖳ鯫Ł蜊೪\uf238硵\ue19f柋\ued60努\ud8dc帆쟰") + var0.player.isSprinting());
+            var0.options.forwardKey.setPressed(false);
             break;
          case 150:
             gwp(var0, a.c(-59673738, "獕૩耯ḛ闑፱ꥫ⃖뺚㐴돥䦉윁廾풡剐\ue81c柅ﵽ笴\uf2da袖"));
@@ -1440,7 +1436,7 @@ public final class gtq {
                      + String.format(a.c(1681791731, "\u1ad2捨\ue9a4瞂"), izx.cpuMicros())
                      + a.b("蜑ﻵ琠\uea0d憓\ue736嵶풋䫜", -1141930184)
                );
-            System.out.println(a.c(-1093256841, "㤐䂷쩭吖\udf87奢\ue320櫇\uf49f繺狀Έ赝ᓷ麣ᡈꈚⷌ띶ㅠ") + var0.field_1724.method_5624());
+            System.out.println(a.c(-1093256841, "㤐䂷쩭吖\udf87奢\ue320櫇\uf49f繺狀Έ赝ᓷ麣ᡈꈚⷌ띶ㅠ") + var0.player.isSprinting());
             break;
          case 151:
             gvh(izx.ARMOR);
@@ -1452,7 +1448,7 @@ public final class gtq {
             izx.BACKGROUND.set(a.b("驅\ue3df椁\uf762粵", -1759405561));
             rjy.get().setEnabled(false);
             var2.setEnabled(true);
-            var0.field_1687.method_2945(guc.method_5628(), RemovalReason.field_26999);
+            var0.world.removeEntity(guc.getId(), RemovalReason.DISCARDED);
             gvm(var0, a.c(-263356906, "繂߄贜፧颱ḗ"));
             break;
          case 1017:
@@ -1463,7 +1459,7 @@ public final class gtq {
             var1.getByName(a.c(1457476812, "和ⴜ\ua7d2㦔뉯㓝躍ݡ")).setEnabled(false);
             var1.getByName(a.b("圩⺬ꑾ㨔뇿㝭贼Ӗ骎ဥ", 212621154)).setEnabled(false);
             hyz.save();
-            var0.method_1592();
+            var0.scheduleStop();
             break;
          default:
             int var3 = gts - 151;
@@ -1471,7 +1467,7 @@ public final class gtq {
                int var4 = var3 / 70;
                int var5 = var3 % 70;
                if (gty[var4] >= 8) {
-                  var0.field_1724.method_36456(var0.field_1724.method_36454() + 3.0F);
+                  var0.player.setYaw(var0.player.getYaw() + 3.0F);
                }
 
                if (var5 == 0) {
@@ -1505,8 +1501,8 @@ public final class gtq {
    }
 
    private static void gve(MinecraftClient var0, ruv var1, int var2) {
-      if (var0.field_1755 != null) {
-         var0.method_1507(null);
+      if (var0.currentScreen != null) {
+         var0.setScreen(null);
       }
 
       boolean var3 = var2 == 7 || var2 == 8;
@@ -1519,9 +1515,9 @@ public final class gtq {
    }
 
    private static void gvf(PlayerEntity var0) {
-      var0.method_6033(Math.max(2.0F, var0.method_6032() - 5.0F));
-      var0.field_6235 = 10;
-      var0.field_6254 = 10;
+      var0.setHealth(Math.max(2.0F, var0.getHealth() - 5.0F));
+      var0.hurtTime = 10;
+      var0.maxHurtTime = 10;
    }
 
    private static float gvg(jcs var0, String var1) throws Exception {
@@ -1537,42 +1533,42 @@ public final class gtq {
    }
 
    private static PlayerEntity gvi(MinecraftClient var0, String var1, double var2, double var4, float var6) {
-      OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), var1));
-      Vec3d var8 = var0.field_1724.method_5828(1.0F).method_18805(1.0, 0.0, 1.0).method_1029();
-      Vec3d var9 = new Vec3d(-var8.field_1350, 0.0, var8.field_1352);
-      Vec3d var10 = var0.field_1724.method_73189().method_1019(var8.method_1021(var2)).method_1019(var9.method_1021(var4));
-      var7.method_5808(var10.field_1352, var0.field_1724.method_23318(), var10.field_1350, var0.field_1724.method_36454() + 180.0F, 0.0F);
-      var7.method_6033(var6);
-      var0.field_1687.method_53875(var7);
+      OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
+      Vec3d var8 = var0.player.getRotationVec(1.0F).multiply(1.0, 0.0, 1.0).normalize();
+      Vec3d var9 = new Vec3d(-var8.z, 0.0, var8.x);
+      Vec3d var10 = var0.player.getEntityPos().add(var8.multiply(var2)).add(var9.multiply(var4));
+      var7.refreshPositionAndAngles(var10.x, var0.player.getY(), var10.z, var0.player.getYaw() + 180.0F, 0.0F);
+      var7.setHealth(var6);
+      var0.world.addEntity(var7);
       gtu.add(var7);
       return var7;
    }
 
    private static ItemStack gvj(Item var0) {
       ItemStack var1 = new ItemStack(var0);
-      var1.method_57379(DataComponentTypes.field_49641, true);
+      var1.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
       return var1;
    }
 
    private static PlayerEntity gvk(MinecraftClient var0) {
-      OtherClientPlayerEntity var1 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), a.c(-36600509, "蔂ﲅ癁\ue834揯")));
-      Vec3d var2 = var0.field_1724.method_5828(1.0F).method_18805(1.0, 0.0, 1.0).method_1029();
-      Vec3d var3 = var0.field_1724.method_73189().method_1019(var2.method_1021(3.2));
-      var1.method_5808(var3.field_1352, var0.field_1724.method_23318(), var3.field_1350, var0.field_1724.method_36454() + 180.0F, 0.0F);
-      var1.method_5673(EquipmentSlot.field_6169, gvl(Items.field_22027, 0.1F));
-      var1.method_5673(EquipmentSlot.field_6174, gvl(Items.field_8058, 0.45F));
-      var1.method_5673(EquipmentSlot.field_6172, gvl(Items.field_8348, 0.7F));
-      var1.method_5673(EquipmentSlot.field_6166, gvl(Items.field_8660, 0.9F));
-      var1.method_5673(EquipmentSlot.field_6173, gvl(Items.field_22022, 0.3F));
-      var1.method_5673(EquipmentSlot.field_6171, new ItemStack(Items.field_8288));
-      var1.method_6073(4.0F);
-      var0.field_1687.method_53875(var1);
+      OtherClientPlayerEntity var1 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), a.c(-36600509, "蔂ﲅ癁\ue834揯")));
+      Vec3d var2 = var0.player.getRotationVec(1.0F).multiply(1.0, 0.0, 1.0).normalize();
+      Vec3d var3 = var0.player.getEntityPos().add(var2.multiply(3.2));
+      var1.refreshPositionAndAngles(var3.x, var0.player.getY(), var3.z, var0.player.getYaw() + 180.0F, 0.0F);
+      var1.equipStack(EquipmentSlot.HEAD, gvl(Items.NETHERITE_HELMET, 0.1F));
+      var1.equipStack(EquipmentSlot.CHEST, gvl(Items.DIAMOND_CHESTPLATE, 0.45F));
+      var1.equipStack(EquipmentSlot.LEGS, gvl(Items.DIAMOND_LEGGINGS, 0.7F));
+      var1.equipStack(EquipmentSlot.FEET, gvl(Items.IRON_BOOTS, 0.9F));
+      var1.equipStack(EquipmentSlot.MAINHAND, gvl(Items.NETHERITE_SWORD, 0.3F));
+      var1.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.TOTEM_OF_UNDYING));
+      var1.setAbsorptionAmount(4.0F);
+      var0.world.addEntity(var1);
       return var1;
    }
 
    private static ItemStack gvl(Item var0, float var1) {
       ItemStack var2 = new ItemStack(var0);
-      var2.method_7974(Math.round(var2.method_7936() * var1));
+      var2.setDamage(Math.round(var2.getMaxDamage() * var1));
       return var2;
    }
 
@@ -1584,7 +1580,7 @@ public final class gtq {
       var3.setAccessible(true);
       ((Map)var3.get(null)).clear();
       gvn();
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static void gvn() throws Exception {
@@ -1602,7 +1598,7 @@ public final class gtq {
    }
 
    private static void gvp(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.c(230570316, "㤓䂔쩐吥\udfe1奇\ue32e櫲\uf4a4縉紐Ω"));
       vlq var3 = null;
       vkl var4 = null;
@@ -1620,9 +1616,9 @@ public final class gtq {
 
       byte var11 = 74;
       if (gts > 1) {
-         guh = Math.max(guh, var1.method_23318());
+         guh = Math.max(guh, var1.getY());
          if (Float.isNaN(gug) && !oxw.busy()) {
-            gug = var1.method_36455();
+            gug = var1.getPitch();
          }
       }
 
@@ -1647,7 +1643,7 @@ public final class gtq {
             gwl(var0, a.d("\uebd0", -622550451, 836061661));
             break;
          case 90:
-            gwm(var0, a.b("\uf8bc", -1658062596), Items.field_49814, 20, 7, 0, 9.0, 99.0);
+            gwm(var0, a.b("\uf8bc", -1658062596), Items.MACE, 20, 7, 0, 9.0, 99.0);
             break;
          case 100:
             gwj(var0, a.b("Ｗ蚁\u0c49鈮᧺齘╗겻", 1824587607), a.b("鱨\ue5de漖\uf171窥ﰇ䘈쿢", -2031838200), 0);
@@ -1663,7 +1659,7 @@ public final class gtq {
             gwl(var0, a.b("\u000b", -2083061688));
             break;
          case 190:
-            gwm(var0, a.d("뭚", -822917511, 1656421728), Items.field_49814, 3, 7, 5, 9.0, 99.0);
+            gwm(var0, a.d("뭚", -822917511, 1656421728), Items.MACE, 3, 7, 5, 9.0, 99.0);
             break;
          case 200:
             var4.set(false);
@@ -1680,7 +1676,7 @@ public final class gtq {
             gwl(var0, a.b("辿", 1350340605));
             break;
          case 290:
-            gwm(var0, a.d("\uf1c6", 83616783, 1989350795), Items.field_8802, 20, 7, 0, 9.0, 99.0);
+            gwm(var0, a.d("\uf1c6", 83616783, 1989350795), Items.DIAMOND_SWORD, 20, 7, 0, 9.0, 99.0);
             break;
          case 300:
             var4.set(true);
@@ -1698,20 +1694,20 @@ public final class gtq {
             gwl(var0, a.d("\uefdb", 1629311860, 1996209386));
             break;
          case 390:
-            gwm(var0, a.c(127299328, "潅"), Items.field_49814, 3, 7, 5, 5.0, 8.0);
+            gwm(var0, a.c(127299328, "潅"), Items.MACE, 3, 7, 5, 5.0, 8.0);
             var5.set(true);
             System.out
                .println(
                   a.b("偎⧡ꌵ㵎뛝〸詺Ν鷅ᜠ", -807776205)
                      + (guj == 0 ? a.b("須\ue1a8歩\uf518", -1615292324) : a.b("鎷\uea01惚ﺮ甕\uf3ac", 185308151) + guj + a.d("끀", 315447173, 237168621))
                );
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
 
    private static void gvq(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       if (gts == 1) {
          gwi(var0, a.d("\u16ff潈\ue597篮\uf031皂쳚䔪\udb30凒혇ⱱꊢ㬌녀㞦跤", 1033529558, -1361674657));
          gwi(var0, a.d("ἂ暰\uec63爑燎罦액䳗튆堨\udfe8◜꭫㋩룩㹊萒\u0bd5酼\u1737黇\ue483樿\uf1e3瞚ﴎ䒤쫼個홊巭ꌨ⤳냄㚐백", -1482692515, 345372446));
@@ -1719,13 +1715,13 @@ public final class gtq {
          gwi(
             var0, a.d("韱\uee5d撟\ufae6煼\uf79f䷛쐿婼타圑굦⏴먀じ뚳ೡ茭ᦓ龛ᘌ汮\ue28e礗ｯ疥찀䉒\ud8b6庻픖⯗ꇏ㠠빮㓃譜Š螷ḁ鑕\ueaa2惠\ue742綒\uf3f1䩬삐䛁\udd17卮ꦄ\u200fꙕ㲯닭े辔֢鱥ዐ", 1545912420, -62302271)
          );
-         var1.method_31548().method_61496(0);
+         var1.getInventory().setSelectedSlot(0);
       } else {
          int var2 = (gts - 40) / 70;
          if (gts >= 40) {
             if (var2 >= guk.length) {
                System.out.println(a.b("鍇\ueae8怼﹇疞\uf330䥻삗庘푭厵꧅✙", 163353405));
-               var0.method_1592();
+               var0.scheduleStop();
                gtr = 99;
             } else {
                int var3 = guk[var2];
@@ -1733,24 +1729,24 @@ public final class gtq {
                int var5 = var4 ? var3 : 0;
                int var6 = 40 + var2 * 70 + 20;
                int var7 = gts - var6;
-               var1.method_36457(90.0F);
+               var1.setPitch(90.0F);
                if (var7 == -12) {
-                  guf = var1.method_23318();
+                  guf = var1.getY();
                   guh = guf;
                }
 
                if (var7 > -12) {
-                  guh = Math.max(guh, var1.method_23318());
+                  guh = Math.max(guh, var1.getY());
                }
 
                if (var4 && var7 == -1) {
-                  var0.field_1690.field_1903.method_23481(true);
+                  var0.options.jumpKey.setPressed(true);
                } else if (var4 && var7 == 0) {
-                  var0.field_1690.field_1903.method_23481(false);
+                  var0.options.jumpKey.setPressed(false);
                }
 
                if (var7 == var5 - 1) {
-                  KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var0.field_1690.field_1904));
+                  KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var0.options.useKey));
                }
 
                if (var7 >= Math.min(-1, var5 - 1) && var7 <= Math.max(var5, 0) + 8) {
@@ -1761,11 +1757,11 @@ public final class gtq {
                            + a.c(1579513375, "瘺࿙蔝᭥郣")
                            + var7
                            + a.d("柙ḱ钦", 851896837, -415265281)
-                           + gwn(var1.method_23318() - guf)
+                           + gwn(var1.getY() - guf)
                            + a.d("몭썊䦖힣", 1035458850, -1793039445)
-                           + gwn(var1.method_18798().field_1351)
+                           + gwn(var1.getVelocity().y)
                            + a.b("ႎ楸\ue3be緒\uf61f炵쫬䍄", 27660454)
-                           + var1.method_24828()
+                           + var1.isOnGround()
                      );
                }
 
@@ -1784,7 +1780,7 @@ public final class gtq {
    }
 
    private static void gvr(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.b("랞츁䓎\uda96兴ퟁ涁\ue46e", 1589491677));
       byte var3 = 75;
       switch (gts) {
@@ -1833,7 +1829,7 @@ public final class gtq {
             gvs(var0, a.c(-964669963, "䶐㐦뻭\u208fꭓⷸ鞰Ṝ耈૮财睓"));
             break;
          case 160:
-            var0.field_1690.field_1894.method_23481(true);
+            var0.options.forwardKey.setPressed(true);
             break;
          case 165:
             gvt(var0, var2, var3);
@@ -1847,7 +1843,7 @@ public final class gtq {
             break;
          case 210:
             gvv(var0, a.c(1252205632, "␂"), 20);
-            if (var0.field_1690.field_1894.method_1434()) {
+            if (var0.options.forwardKey.isPressed()) {
                gum++;
                System.out.println(a.d("\u0b58狼\uf82b晉\ued80歽텍壟웦䱐쮋ㇿ뽄⚳곩⨅遏ᾈ蔨ͯ諜\uf0de繪\ue5a6揜\ue90d僲\udeeb䐑쉉䧲", -1868916409, 1791988336));
             }
@@ -1870,12 +1866,12 @@ public final class gtq {
                .println(
                   a.c(-1768112385, "뺄유䷷펕塜\udea1撦\ued46猏惡績") + (gum == 0 ? a.c(-600502780, "๐矰ﴱ捀") : a.c(369175211, "⫫卝\ud986䟲챉䫰") + gum + a.c(525126677, "창"))
                );
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
 
       if (var1 != null && gts > 30) {
-         gun = Math.max(gun, var0.field_1687.method_8390(EnderPearlEntity.class, var1.method_5829().method_1014(64.0), var0x -> true).size());
+         gun = Math.max(gun, var0.world.getEntitiesByClass(EnderPearlEntity.class, var1.getBoundingBox().expand(64.0), var0x -> true).size());
       }
    }
 
@@ -1883,28 +1879,28 @@ public final class gtq {
       gwi(var0, a.c(1683506763, "䘠㾞땄⬱ꃵ☖鰥ᗧ"));
       gwi(var0, a.b("\ud8f2ꅞ⮜뗥㹿뢜˘謼ᕿ鿃᠒\ue265泷\uf503罛聆䏢찮嚐킘夏⍭궍㘔끬㪦范\u0d51鞵ᆸ騕擔\ueecc眣\uf16d節쑟乣좴儂\udb56ꖡ\u2fe3ꡁ㊑볲կ辀ূ鈛ᱤ\ue6b7漁\ue95a玒\ufdef䙔삝䫳팴", -844441433));
       gwi(var0, a.b("\uf716躺Ѹ騁ᆛ靸ⴼꓘ㪛뀧㟶춁䌓\udae7傿화氆\ue3ca祴ｼ盫ಉ艩", 671151976) + var1 + a.c(-1016843499, "㌫䫍쀀幬햧卞\ue940悵ﻭ瑗\uf382ৢ蜦Ẑ铑ቮ\ua87e➤봝㭍늭죑䙍\udd89寲터條\ue680籦侮"));
-      var0.field_1724.method_31548().method_61496(0);
+      var0.player.getInventory().setSelectedSlot(0);
       gun = 0;
    }
 
    private static void gvt(MinecraftClient var0, kfe var1, int var2) {
-      ClientPlayerEntity var3 = var0.field_1724;
-      var3.method_31548().method_61496(0);
-      var3.method_36457(-35.0F);
+      ClientPlayerEntity var3 = var0.player;
+      var3.getInventory().setSelectedSlot(0);
+      var3.setPitch(-35.0F);
       System.out
          .println(
             a.b("Ӻ絞\uf789槫\ue222擟\udedc圯쥧䏀쐓㸫냦⤟ꍁ▹鿾ၶ", 1960772760)
-               + var3.method_6047().method_7909()
+               + var3.getMainHandStack().getItem()
                + a.d("ꌙ\udae1倿칆䖘썱", 336048640, -294186689)
                + vyn.serverIdle(var3)
                + a.c(1011328644, "ꚭ\udf5a喀쯬䀾욙糙\uf53e欸")
-               + var0.field_1690.field_1894.method_1434()
+               + var0.options.forwardKey.isPressed()
          );
       var1.onKey(var0, var2);
    }
 
    private static void gvu(MinecraftClient var0, String var1) {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       System.out
          .println(
             a.d("\uf82e膊ଢ଼锿Ỷ頋", 1541921167, 677192151)
@@ -1914,31 +1910,31 @@ public final class gtq {
                + a.b("\ude50ꟻ\u2d6a댌㣝빦ѱ", 1359863405)
                + kvz.busy()
                + a.b("灚ণ荹ᴇ雚ဲ", -1987022724)
-               + var2.method_6047().method_7909()
+               + var2.getMainHandStack().getItem()
                + a.b("ጌ櫮\ue022繐\uf59c獤", 204215082)
-               + var2.method_31548().method_67532()
+               + var2.getInventory().getSelectedSlot()
                + a.d("\ufada茭৷鞛᱉髮₮ꥉ㝏", 856602379, 1048464888)
-               + var0.field_1690.field_1894.method_1434()
+               + var0.options.forwardKey.isPressed()
                + a.c(-886743732, "嵪⒒까〵믫㴂")
                + vyn.serverIdle(var2)
          );
    }
 
    private static void gvv(MinecraftClient var0, String var1, int var2) {
-      ClientPlayerEntity var3 = var0.field_1724;
-      PlayerInventory var4 = var3.method_31548();
-      ItemStack var5 = var4.method_5438(var2);
+      ClientPlayerEntity var3 = var0.player;
+      PlayerInventory var4 = var3.getInventory();
+      ItemStack var5 = var4.getStack(var2);
       StringBuilder var6 = new StringBuilder();
-      if (!var3.method_6047().method_31574(Items.field_8802)) {
-         var6.append(a.c(-571063204, "䑺㶃띙⤧ꋺ␒")).append(var3.method_6047().method_7909());
+      if (!var3.getMainHandStack().isOf(Items.DIAMOND_SWORD)) {
+         var6.append(a.c(-571063204, "䑺㶃띙⤧ꋺ␒")).append(var3.getMainHandStack().getItem());
       }
 
-      if (!var5.method_31574(Items.field_8634) || var5.method_7947() != 15) {
+      if (!var5.isOf(Items.ENDER_PEARL) || var5.getCount() != 15) {
          var6.append(a.c(1590289386, "\ue3c2騣ქ躐Ք菻㦷끵")).append(var2).append('=').append(var5);
       }
 
-      if (var4.method_67532() != 0) {
-         var6.append(a.c(1013203374, "䆈㡪늦Ⳕꜘ⇠")).append(var4.method_67532());
+      if (var4.getSelectedSlot() != 0) {
+         var6.append(a.c(1013203374, "䆈㡪늦Ⳕꜘ⇠")).append(var4.getSelectedSlot());
       }
 
       if (gun == 0) {
@@ -1962,14 +1958,14 @@ public final class gtq {
    }
 
    private static void gvw(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       pbz var2 = pbz.get();
       switch (gts) {
          case 1:
             var2.setEnabled(true);
             gwi(var0, a.c(-63501420, "\u0be2牕\uf88a曳\ued2c殟퇇堷옭䳟쬝ㅻ뾨☌걂⪬郰"));
-            var1.method_36456(0.0F);
-            var1.method_36457(10.0F);
+            var1.setYaw(0.0F);
+            var1.setPitch(10.0F);
             break;
          case 10:
             gwi(var0, a.d("\ufbc4艺ࢬ雝ᵆ鮩↩ꡇ㘊볥㭨셇俖홿屲\udacf悒\uef1d痤\uf3a1稈\u001f躴ᔨ鍓ᦅꀽ\u2e6a뒌㋎륺䞹춸吚퉃壴", -483470946, 1764502040));
@@ -2012,7 +2008,7 @@ public final class gtq {
                   a.d("⤼傊\uda5f䐩쿨䥎\uf31c竪\ue4a2清\ue985Ꭰ鵦Ӂ躕࠰", -481792533, 1766343860)
                      + (guo == 0 ? a.b("࣫煋ﮊ旻", -1449457473) : a.c(1137940641, "飡\ue157殌\uf5f8繃\uf8fa") + guo + a.d("ῦ", 2066435982, 881414208))
                );
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
@@ -2026,8 +2022,8 @@ public final class gtq {
             gwi(var0, a.d("뉵쯂䄝\udf64咻툈桐\ue1a0羺\uf548犊裬ؿ龛ᗕ錻⥧", -478624440, 1572829003));
             gwi(var0, a.d("৪灆晴擨\uef7a榘폝娽쐶亖쥄㌵뷢", -182190085, -333515160));
             gwi(var0, a.d("ꁖ\ud9f5匢쵆䚍쀱穵\uf3d6淊\ue774悮髛ᐟ", -376913244, 910385800));
-            var0.field_1724.method_36456(-90.0F);
-            var0.field_1724.method_36457(4.0F);
+            var0.player.setYaw(-90.0F);
+            var0.player.setPitch(4.0F);
             break;
          case 4:
             gwi(var0, a.d("\uee43韽ᴫ荚ࣁ踮㐶뷒⏓ꤼ⺱풓婛쏸䧵콏甕漢恡\ue626澏ᖍ鬡â蛐అ떱㯫ꄚ❚곺刬\ud871䇎쟈䵷\uf2aa磯️枽\uedea", 1535949828, 1015304712));
@@ -2076,21 +2072,21 @@ public final class gtq {
             gwd(a.d("\uf0c8襡υ鶺ᙯ邮", -1882970629, -1079193322));
             gwp(var0, a.b("\ud8a9ꄑ⯊뗱㸻뢋ʋ謵ᔲ龚ᡑ\ue226波", -1592338238));
             var3.set(a.c(1987320649, "\u1f5c暴\uec6d牣聆缅앝"));
-            var0.field_1724.method_36456(90.0F);
+            var0.player.setYaw(90.0F);
             break;
          case 300:
             gwp(var0, a.c(183539709, "鞈\uee30擫𢡄焚\uf7a9䷥쑊娓킹坶괜⏑멶ね뛆ಛ荜᧨"));
             break;
          case 301:
             gwi(var0, a.c(-486815204, "쩥돉㤞ꝧ\u2cf5ꨗၒ馲\u07b9贞ો\uf0ba繭"));
-            var0.field_1724.method_36456(-60.0F);
+            var0.player.setYaw(-60.0F);
             break;
          case 340:
             gwp(var0, a.d("釚\ue862抹ﲂ睈\uf1fa䮷숅屛훪儸", -1252261475, 214470698));
             break;
          case 341:
             gwi(var0, a.b("ր簬\uf6fb梂\ue310旲\udfb7噗졜䋼씬㽛놈⠹", 665388538));
-            var0.field_1724.method_36456(90.0F);
+            var0.player.setYaw(90.0F);
             break;
          case 380:
             gwp(var0, a.c(2087187079, "\uf2ec譔Ə龴ᑾ鋋⢁ꄮ㽷뗝㈓존䚲"));
@@ -2103,12 +2099,12 @@ public final class gtq {
             break;
          case 421:
             gwi(var0, a.b("쉏믣ㄴ꽍ⓟꈽᡸ醘ྒྷ蔰ˡ\uf890癇", 313573942));
-            var0.field_1724.method_31549().field_7479 = true;
+            var0.player.getAbilities().flying = true;
             gwi(var0, a.d("ഘ璭︮怿\uebdb洹휴庛삚䩧춴㟗륞", 1101760650, -553024021));
             break;
          case 425:
-            var0.field_1724.method_36457(35.0F);
-            var0.field_1724.method_36456(-60.0F);
+            var0.player.setPitch(35.0F);
+            var0.player.setYaw(-60.0F);
             break;
          case 470:
             gwp(var0, a.d("섧뢟㉄걿➵ꄂᭊ鋷ಫ蘗ǝ﮿", -2118641421, -1335305794));
@@ -2117,8 +2113,8 @@ public final class gtq {
             gwi(var0, a.d("\uea9a錯\u19ac螽ౙ誻ザ뤙✘귺⨶큇庂읭", 53758000, 2006229712));
             break;
          case 475:
-            var0.field_1724.method_36457(10.0F);
-            var0.field_1724.method_36456(-90.0F);
+            var0.player.setPitch(10.0F);
+            var0.player.setYaw(-90.0F);
             ((vla)gwg(var2, a.c(-213674425, "鉥\uebc0愔２"))).set(a.d("삥뤠㏴궘♒ꃰ", -4736142, -1299350640));
             break;
          case 510:
@@ -2126,16 +2122,16 @@ public final class gtq {
             break;
          case 511:
             ((vla)gwg(var2, a.d("賥\uf540羔\ue192", 859654287, 205570120))).set(a.d("ℷ墻퉩䰀", -578872668, 1930705860));
-            var0.field_1690.method_31043(Perspective.field_26665);
-            var0.field_1724.method_36457(22.0F);
-            var0.field_1724.method_36456(0.0F);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
+            var0.player.setPitch(22.0F);
+            var0.player.setYaw(0.0F);
             break;
          case 550:
             gwp(var0, a.c(-261601352, "䟑㹩뒲⪉ꅃ⟺鶼ᐓ詋ï蜳絈\uf3d6橹\ue069"));
       }
 
       if (gts > 552 && gts <= 590) {
-         var0.field_1724.method_5814(var0.field_1724.method_23317(), var0.field_1724.method_23318(), var0.field_1724.method_23321() + 0.28);
+         var0.player.setPosition(var0.player.getX(), var0.player.getY(), var0.player.getZ() + 0.28);
       }
 
       switch (gts) {
@@ -2146,7 +2142,7 @@ public final class gtq {
             gwp(var0, a.d("\u07b3縋\uf4d0櫫\ue120析\uddde呵쨼䂇읚㵣돵⩉ꀏ⛯鲷", 982728806, -294041694));
             break;
          case 621:
-            var0.field_1690.method_31043(Perspective.field_26664);
+            var0.options.setPerspective(Perspective.FIRST_PERSON);
             break;
          case 660:
             gwd(a.d("聶杻猀\ued70暠\ue045婆펢䷪읚䂕뫥", -646326993, -1576577741));
@@ -2159,7 +2155,7 @@ public final class gtq {
          case 690:
             gwp(var0, a.b("㟷乏쒔媯텤埖\ued9a搩奔烎\uf756൫莺ᨍ遖ᚠ", 666974081));
             System.out.println(a.d("孍⋵\ua82e㘘붛㬻腾࢈隃ᱶ鮮懞\uef02", 1292597639, 1247748769));
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
@@ -2208,7 +2204,7 @@ public final class gtq {
             gvz(var0, 180.0F, -2.0F, a.d("\u1f5e曮\uec20牗列", 890193299, -2089657690));
             break;
          case 211:
-            var0.field_1724.method_31549().field_7479 = true;
+            var0.player.getAbilities().flying = true;
             gwi(var0, a.b("煑ࣤ艧ᱶ鞒ᅰꬳ⋒볓㘮뇿䮞앙", -1018662616));
             break;
          case 260:
@@ -2252,16 +2248,16 @@ public final class gtq {
          case 450:
             Flow.getInstance().getModuleManager().getByName(a.c(-554216664, "卤⫦ꀬ㹝떤㌥襭\u0092黂ᑯ")).setEnabled(false);
             var1.setEnabled(false);
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
 
    private static void gvz(MinecraftClient var0, float var1, float var2, String var3) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
       guq = var3;
       gus = gts + 8;
    }
@@ -2338,7 +2334,7 @@ public final class gtq {
             break;
          case 96:
             if (System.getenv(a.d("낸줃䏓\uddba嘈탔檋\ue361紹\uf795灀", -1278611935, -789029164)) != null) {
-               var0.method_1592();
+               var0.scheduleStop();
                gtr = 99;
             }
             break;
@@ -2353,17 +2349,17 @@ public final class gtq {
       }
 
       if (gts > 130 && gts <= 160) {
-         var0.field_1724.method_36456(-90.0F);
-         var0.field_1724.method_5814(var0.field_1724.method_23317() + 0.22, var0.field_1724.method_23318(), var0.field_1724.method_23321());
+         var0.player.setYaw(-90.0F);
+         var0.player.setPosition(var0.player.getX() + 0.22, var0.player.getY(), var0.player.getZ());
       }
 
       switch (gts) {
          case 163:
-            var0.field_1690.method_31043(Perspective.field_26665);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
             gvz(var0, -90.0F, 45.0F, a.c(1297525424, "\uaac6퍵妽쟋䰆쪰"));
             break;
          case 180:
-            var0.field_1690.method_31043(Perspective.field_26664);
+            var0.options.setPerspective(Perspective.FIRST_PERSON);
             gvz(var0, 90.0F, 55.0F, a.d("\ud912ꂡ⩩됟㿒륤ͩ諗ᒋ鸸᧣", -1609147074, 361137239));
             break;
          case 200:
@@ -2437,7 +2433,7 @@ public final class gtq {
          case 430:
             var3.setEnabled(false);
             var1.setEnabled(false);
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
@@ -2521,8 +2517,8 @@ public final class gtq {
       }
 
       if (gts > 203 && gts <= 233) {
-         var0.field_1724.method_36456(-90.0F);
-         var0.field_1724.method_5814(var0.field_1724.method_23317() + 0.2, var0.field_1724.method_23318(), var0.field_1724.method_23321());
+         var0.player.setYaw(-90.0F);
+         var0.player.setPosition(var0.player.getX() + 0.2, var0.player.getY(), var0.player.getZ());
       }
 
       switch (gts) {
@@ -2558,8 +2554,8 @@ public final class gtq {
             break;
          case 360:
             ((vmc)gwg(var1, a.d("ஏ爏\uf8cf暸\ued72毉톕塭오", 177237836, -1829477222))).set(0.6);
-            var0.field_1724.method_36456(-90.0F);
-            var0.field_1724.method_36457(30.0F);
+            var0.player.setYaw(-90.0F);
+            var0.player.setPitch(30.0F);
             break;
          case 380:
             vbb.gpuMillis();
@@ -2569,7 +2565,7 @@ public final class gtq {
             break;
          case 445:
             var1.setEnabled(false);
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
@@ -2586,8 +2582,8 @@ public final class gtq {
          case 1:
             gwi(var0, a.c(1469341506, "弴⚃걜㈥맺㽉蔑ೡ鋻᠉鿋断\ueb7e狚\uf894繺쐦"));
             gwi(var0, a.b("\uea9b錷᧠螙ఋ諩ガ륌❇균⨵큄库", -2085623070));
-            var0.field_1724.method_36456(0.0F);
-            var0.field_1724.method_36457(15.0F);
+            var0.player.setYaw(0.0F);
+            var0.player.setPitch(15.0F);
             break;
          case 5:
             gwi(var0, a.b("屒◬꼺ㅋ뫐㰿蘿࿗醜᭳鳳暞\ue858熷﮷絟위䢋퉲吷\udd9eꞅ⤢늭㒘빝ޣ觶ጆ镜ứ\ue029橵\uf383痂］䂣쫕䰝햭忹⅍ꭖⳠ똴㡅膕଼", 283008004));
@@ -2624,7 +2620,7 @@ public final class gtq {
          case 260:
             gwp(var0, a.d("└岵홽䠂쏚䕷ｽ盏\ue897戨\ue5f4ᾙ鄗࣪芭ѝ븉", -907104148, 1262523659));
             gwf(var0, a.b("\uda78ꏎ⤓띭㲦멃Q覴\u17ea鵀", 187226652), 1.2, 1.7);
-            long var9 = Math.floorMod(var0.field_1687.method_8532(), 24000L);
+            long var9 = Math.floorMod(var0.world.getTimeOfDay(), 24000L);
             boolean var13 = var9 == 18000L;
             if (!var13) {
                gut++;
@@ -2643,7 +2639,7 @@ public final class gtq {
             break;
          case 280:
             gwp(var0, a.b("씱벐㙘ꠧ⏿ꕒ\u1f58雪ࢲ舍בﾼ焲\ue8c1抛\ue46a", -1587034813));
-            double var8 = (Double)var0.field_1690.method_42473().method_41753();
+            double var8 = var0.options.getGamma().getValue();
             boolean var12 = var8 >= 0.0 && var8 <= 1.0;
             if (!var12) {
                gut++;
@@ -2661,10 +2657,10 @@ public final class gtq {
             var2.setEnabled(true);
             break;
          case 300:
-            var0.field_1690.method_1640();
+            var0.options.write();
             String var7 = a.b("\ueb3a", -1559368956);
 
-            for (String var11 : Files.readAllLines(var0.field_1697.toPath().resolve(a.c(23898258, "ꣶ텘宏엣串좂狌ﭠ敥\uefd8标")))) {
+            for (String var11 : Files.readAllLines(var0.runDirectory.toPath().resolve(a.c(23898258, "ꣶ텘宏엣串좂狌ﭠ敥\uefd8标")))) {
                if (var11.startsWith(a.b("鲳\ue504濛\uf1aa穱ﲛ", -523920174))) {
                   var7 = var11.substring(6);
                }
@@ -2682,7 +2678,7 @@ public final class gtq {
                      + a.b("࣒焬ﯠ斕\uee5f棨튺孖암便졠㈝벞╨꼽⧀鎏᱒蚽", -2018637599)
                      + var7
                      + a.c(316644406, "鰐\ue5ed漻\uf155窑ﱸ")
-                     + var0.field_1690.method_42473().method_41753()
+                     + var0.options.getGamma().getValue()
                );
             break;
          case 301:
@@ -2690,7 +2686,7 @@ public final class gtq {
             var3.setEnabled(false);
             break;
          case 310:
-            long var4 = Math.floorMod(var0.field_1687.method_8532(), 24000L);
+            long var4 = Math.floorMod(var0.world.getTimeOfDay(), 24000L);
             boolean var6 = var4 != 18000L;
             if (!var6) {
                gut++;
@@ -2709,13 +2705,13 @@ public final class gtq {
                   a.d("〯䦎썆崹훡偌\uea4b揮ﶠ眇\uf0d3\u0af6", -677737159, -530334344)
                      + (gut == 0 ? a.d("퐥궅❄뤵", -938493382, 324628043) : a.c(-1454373841, "ѯ緙\uf702楶\ue2cd摴") + gut + a.c(-630462664, "\ue710"))
                );
-            var0.method_1592();
+            var0.scheduleStop();
             gtr = 99;
       }
    }
 
    private static void gwf(MinecraftClient var0, String var1, double var2, double var4) {
-      double var6 = (Double)var0.field_1690.method_42473().method_41753();
+      double var6 = var0.options.getGamma().getValue();
       boolean var8 = var6 >= var2 && var6 <= var4;
       if (!var8) {
          gut++;
@@ -2754,7 +2750,7 @@ public final class gtq {
          for (Field var9 : BossBarHud.class.getDeclaredFields()) {
             if (Map.class.isAssignableFrom(var9.getType())) {
                var9.setAccessible(true);
-               var5 = ((Map)var9.get(var0.field_1705.method_1740())).size();
+               var5 = ((Map)var9.get(var0.inGameHud.getBossBarHud())).size();
             }
          }
       } catch (ReflectiveOperationException var10) {
@@ -2781,7 +2777,7 @@ public final class gtq {
    }
 
    private static void gwi(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void gwj(MinecraftClient var0, String var1, String var2, int var3) {
@@ -2794,33 +2790,33 @@ public final class gtq {
             + a.d("㡶䆐쭝唱\udefa堃\ue21d毨\uf5b0缊\uf8dfʿ豻ᗍ龌ᤳꌱ⳾뙊】망쎰䴈훐傼\uda78揉\ueddd眲", -1921453858, 1014876309)
       );
       gwi(var0, a.d("ᓰ浜\ue79e秧\uf27d璞컚䜾\ud97d叁퐐\u2e67ꃵ㤁덙㖲迠,骒Ლ锍\uef6f憏", -845358937, 273206313) + var2 + a.b("앾벘㙕꠹⏲ꔋἕ雠ࢸ舂חﾷ煳\ue8c5抄\ue43b帣퇾䭏촘", 993772874));
-      var0.field_1724.method_31548().method_61496(var3);
+      var0.player.getInventory().setSelectedSlot(var3);
    }
 
    private static void gwk(MinecraftClient var0, kfe var1, int var2, float var3) {
-      ClientPlayerEntity var4 = var0.field_1724;
-      var4.method_31548().method_61496(0);
-      var4.method_36457(var3);
+      ClientPlayerEntity var4 = var0.player;
+      var4.getInventory().setSelectedSlot(0);
+      var4.setPitch(var3);
       gui = var3;
       gug = Float.NaN;
-      guf = var4.method_23318();
+      guf = var4.getY();
       guh = guf;
       System.out
          .println(
             a.d("㹕䟺촮单\ud8c6帧\ue476涐\uf3d9票ﻲҙ訁Ꮁ駋Ἇꕝ⪖뀾㙥뿋", 491472758, 1215723841)
-               + var4.method_24828()
+               + var4.isOnGround()
                + a.b("埋⸣꒴", -846440472)
-               + gwn(var4.method_23318())
+               + gwn(var4.getY())
                + a.b("뗕찬䛲\ud88a单햽", 1637201395)
-               + var4.method_6047().method_7909()
+               + var4.getMainHandStack().getItem()
                + a.d("焗ࣵ船\u1c4b鞇ᅿ", 1261483360, 1911931985)
-               + var4.method_31548().method_67532()
+               + var4.getInventory().getSelectedSlot()
          );
       var1.onKey(var0, var2);
    }
 
    private static void gwl(MinecraftClient var0, String var1) {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       System.out
          .println(
             a.d("⡭凂\udb16䕭컾", 144123815, 15077304)
@@ -2830,37 +2826,37 @@ public final class gtq {
                + a.b("䙰㿛땊⬬ꃽ♆鱑", 1780172365)
                + oxw.busy()
                + a.b("猽ૄ耞Ṡ閽ፕ", 1035432731)
-               + var2.method_6047().method_7909()
+               + var2.getMainHandStack().getItem()
                + a.b("䎞㩼낰⻂ꔎ⏶", 1785938872)
-               + var2.method_31548().method_67532()
+               + var2.getInventory().getSelectedSlot()
                + a.b("非\ueebf摵神燙\uf763䵥", 1745131385)
-               + gwn(var2.method_36455())
+               + gwn(var2.getPitch())
                + a.d("迫\uf603粔", -1302285060, 1823095604)
-               + gwn(var2.method_23318())
+               + gwn(var2.getY())
                + a.d("뻀윧䷻폎", -111721954, 55573754)
-               + gwn(var2.method_18798().field_1351)
+               + gwn(var2.getVelocity().y)
          );
    }
 
    private static void gwm(MinecraftClient var0, String var1, Item var2, int var3, int var4, int var5, double var6, double var8) {
-      ClientPlayerEntity var10 = var0.field_1724;
-      PlayerInventory var11 = var10.method_31548();
-      ItemStack var12 = var11.method_5438(var3);
+      ClientPlayerEntity var10 = var0.player;
+      PlayerInventory var11 = var10.getInventory();
+      ItemStack var12 = var11.getStack(var3);
       boolean var13 = true;
       StringBuilder var14 = new StringBuilder();
-      if (!var10.method_6047().method_31574(var2)) {
+      if (!var10.getMainHandStack().isOf(var2)) {
          var13 = false;
-         var14.append(a.b("ʳ筊\uf190濮\ue433招", -155909483)).append(var10.method_6047().method_7909());
+         var14.append(a.b("ʳ筊\uf190濮\ue433招", -155909483)).append(var10.getMainHandStack().getItem());
       }
 
-      if (!var12.method_31574(Items.field_49098) || var12.method_7947() != var4) {
+      if (!var12.isOf(Items.WIND_CHARGE) || var12.getCount() != var4) {
          var13 = false;
          var14.append(a.b("灮জ荄ᴼ雸ၜꨍ⏙", 216559686)).append(var3).append('=').append(var12);
       }
 
-      if (var11.method_67532() != var5) {
+      if (var11.getSelectedSlot() != var5) {
          var13 = false;
-         var14.append(a.d("\udd0cꓮ⸢끐㮜뵤", 1121388467, 433183385)).append(var11.method_67532());
+         var14.append(a.d("\udd0cꓮ⸢끐㮜뵤", 1121388467, 433183385)).append(var11.getSelectedSlot());
       }
 
       if (Float.isNaN(gug) || Math.abs(gug - gui) > 0.01F) {
@@ -2897,7 +2893,7 @@ public final class gtq {
                + a.b("䭒㋣렸☓귙\u2b74鄱ᢅ", -1249096838)
                + gwn(guh - guf)
                + a.c(73767034, "顑\ue1ec歷\uf50f绗\uf86c䉻")
-               + var10.method_6047().method_7909()
+               + var10.getMainHandStack().getItem()
                + a.c(-31845278, "ᑊ")
          );
    }
@@ -2917,14 +2913,14 @@ public final class gtq {
             a.c(2030422834, "쭋달㠶ꙍⷜꬹᅻ颜ۄ谡")
                + var1
                + a.b("\udfdaꘋⲸ", 1520164857)
-               + var0.method_47599()
+               + var0.getCurrentFps()
                + a.b("ᵒ撥\uee60瀒ﮚ紧윧仆킈娮\uddfd➇꤃", -1595859585)
-               + (var0.field_1755 == null ? a.d("䷦㑖뺄\u20fe", 787818442, -386373050) : var0.field_1755.getClass().getSimpleName())
+               + (var0.currentScreen == null ? a.d("䷦㑖뺄\u20fe", 787818442, -386373050) : var0.currentScreen.getClass().getSimpleName())
          );
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.b("碫Đ诀ᖩ鸻ᢕ", -2065401653) + var1 + a.d("봖쓹临큌", -1404631574, -1589135146),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );
@@ -2932,14 +2928,14 @@ public final class gtq {
 
    private static void gwq(Screen var0, int var1) {
       if (var0 != null) {
-         var0.method_25404(new KeyInput(var1, 0, 0));
+         var0.keyPressed(new KeyInput(var1, 0, 0));
       }
    }
 
    private static void gwr(Screen var0, String var1) {
       if (var0 != null) {
          for (char var5 : var1.toCharArray()) {
-            var0.method_25400(new CharInput(var5, 0));
+            var0.charTyped(new CharInput(var5, 0));
          }
       }
    }
@@ -2949,7 +2945,7 @@ public final class gtq {
          float var4 = gwu(var0, a.b("\ud867ꇋ⬃땼㺥렓ɶ", 1040242703));
          float var5 = gwu(var0, a.d("⢘儴\udbfc䖃칚䣬\uf288", -1828865134, -1146252446));
          float var6 = gwu(var0, a.b("沂ᔣ鿲Ǝ詐", 1346923764));
-         var0.method_25402(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
+         var0.mouseClicked(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
       }
    }
 
@@ -2958,7 +2954,7 @@ public final class gtq {
          float var5 = gwu(var0, a.d("쌒몾ぶ급◐ꍦᤃ", 1228529131, 1881087633));
          float var6 = gwu(var0, a.d("⇯塃튋䳴윭䆛ﯿ", 1138024897, -1296252858));
          float var7 = gwu(var0, a.b("椉Ⴈ驹Ѕ进", -1108579969));
-         var0.method_25401(var5 + var1 * var7, var6 + var2 * var7, 0.0, var3);
+         var0.mouseScrolled(var5 + var1 * var7, var6 + var2 * var7, 0.0, var3);
       }
    }
 

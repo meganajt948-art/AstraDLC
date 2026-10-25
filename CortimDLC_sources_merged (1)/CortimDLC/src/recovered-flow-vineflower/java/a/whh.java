@@ -130,10 +130,10 @@ final class whh implements Runnable {
       } catch (IOException var4) {
          if (!var2) {
             throw var4;
-         } else {
-            System.out.println("video " + this.this$0.whx + ": no hardware decoding (" + var4.getMessage() + ")");
-            return this.whk(var1, false);
          }
+
+         System.out.println("video " + this.this$0.whx + ": no hardware decoding (" + var4.getMessage() + ")");
+         return this.whk(var1, false);
       }
    }
 }

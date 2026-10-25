@@ -76,7 +76,6 @@ public final class tmh {
    }
 
    public static tmh read(InputStream var0) throws IOException {
-      tmh var12;
       try (DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0, 65536), 65536))) {
          if (var1.readInt() != 1177702979) {
             throw new IOException(a.d("\uf7b3踃Ӌ髮ᅸ鞈ⶉꑯ㨶낋㝅촢䏸\uda4e倔", 873623202, -96036496));
@@ -127,9 +126,7 @@ public final class tmh {
             var3.ticks.add(var6);
          }
 
-         var12 = var3;
+         return var3;
       }
-
-      return var12;
    }
 }

@@ -61,10 +61,10 @@ public final class ptr {
 
    public static void later(Runnable var0) {
       pth var1 = ptt;
-      MinecraftClient var2 = MinecraftClient.method_1551();
+      MinecraftClient var2 = MinecraftClient.getInstance();
       if (var0 != null && var1.ptn.size() < 4) {
          var1.ptn.add(var0);
-         var1.pto = var2.field_1724 != null ? var2.field_1724.field_6012 : 0;
+         var1.pto = var2.player != null ? var2.player.age : 0;
       }
    }
 
@@ -95,11 +95,7 @@ public final class ptr {
 
    private static void ptw(pth var0, MinecraftClient var1) {
       if (!var0.ptn.isEmpty()) {
-         if (var1 != null
-            && var1.field_1724 != null
-            && var1.field_1687 != null
-            && var1.field_1724.field_6012 - var0.pto <= 3
-            && var1.field_1724.field_6012 >= var0.pto) {
+         if (var1 != null && var1.player != null && var1.world != null && var1.player.age - var0.pto <= 3 && var1.player.age >= var0.pto) {
             Runnable var2;
             while ((var2 = var0.ptn.poll()) != null) {
                try {
@@ -116,19 +112,18 @@ public final class ptr {
    private static void ptx(pth var0, MinecraftClient var1) {
       if (var0.ptl > 0 && (var0.pti != null || var0.ptm)) {
          var0.ptl--;
-         if (var1 != null && var1.field_1724 != null && var1.field_1687 != null) {
-            Vec3d var2 = var1.field_1724.method_33571();
-            Vec3d var3 = Vec3d.method_1030(var0.ptk, var0.ptj);
-            double var4 = var1.field_1724.method_55754();
-            Vec3d var6 = var2.method_1031(var3.field_1352 * var4, var3.field_1351 * var4, var3.field_1350 * var4);
+         if (var1 != null && var1.player != null && var1.world != null) {
+            Vec3d var2 = var1.player.getEyePos();
+            Vec3d var3 = Vec3d.fromPolar(var0.ptk, var0.ptj);
+            double var4 = var1.player.getBlockInteractionRange();
+            Vec3d var6 = var2.add(var3.x * var4, var3.y * var4, var3.z * var4);
             if (var0.ptm) {
-               var1.field_1765 = BlockHitResult.method_17778(var6, Direction.field_11036, BlockPos.method_49638(var6));
+               var1.crosshairTarget = BlockHitResult.createMissed(var6, Direction.UP, BlockPos.ofFloored(var6));
             } else {
-               BlockHitResult var7 = var1.field_1687
-                  .method_17742(new RaycastContext(var2, var6, ShapeType.field_17559, FluidHandling.field_1348, var1.field_1724));
-               var1.field_1765 = var7.method_17783() == Type.field_1332 && var7.method_17777().equals(var0.pti)
+               BlockHitResult var7 = var1.world.raycast(new RaycastContext(var2, var6, ShapeType.OUTLINE, FluidHandling.NONE, var1.player));
+               var1.crosshairTarget = var7.getType() == Type.BLOCK && var7.getBlockPos().equals(var0.pti)
                   ? var7
-                  : BlockHitResult.method_17778(var6, Direction.field_11036, BlockPos.method_49638(var6));
+                  : BlockHitResult.createMissed(var6, Direction.UP, BlockPos.ofFloored(var6));
             }
          }
       }
@@ -137,24 +132,24 @@ public final class ptr {
    private static void pty(pth var0, MinecraftClient var1) {
       if (var0.ptl > 0 && (var0.pti != null || var0.ptm)) {
          var0.ptl--;
-         if (var1 != null && var1.field_1724 != null && var1.field_1687 != null && var1.field_1690 != null && var1.field_1761 != null) {
+         if (var1 != null && var1.player != null && var1.world != null && var1.options != null && var1.interactionManager != null) {
             if (var0.ptm) {
                ptz(var1);
             } else {
-               ClientPlayerEntity var2 = var1.field_1724;
-               Vec3d var3 = var2.method_33571();
-               Vec3d var4 = Vec3d.method_1030(var2.method_36455(), var2.method_36454());
-               double var5 = var2.method_55754();
-               Vec3d var7 = var3.method_1031(var4.field_1352 * var5, var4.field_1351 * var5, var4.field_1350 * var5);
-               BlockHitResult var8 = var1.field_1687.method_17742(new RaycastContext(var3, var7, ShapeType.field_17559, FluidHandling.field_1348, var2));
-               if (var8.method_17783() != Type.field_1332 || !var8.method_17777().equals(var0.pti)) {
-                  var1.field_1690.field_1886.method_23481(false);
-                  var1.field_1690.field_1904.method_23481(false);
+               ClientPlayerEntity var2 = var1.player;
+               Vec3d var3 = var2.getEyePos();
+               Vec3d var4 = Vec3d.fromPolar(var2.getPitch(), var2.getYaw());
+               double var5 = var2.getBlockInteractionRange();
+               Vec3d var7 = var3.add(var4.x * var5, var4.y * var5, var4.z * var5);
+               BlockHitResult var8 = var1.world.raycast(new RaycastContext(var3, var7, ShapeType.OUTLINE, FluidHandling.NONE, var2));
+               if (var8.getType() != Type.BLOCK || !var8.getBlockPos().equals(var0.pti)) {
+                  var1.options.attackKey.setPressed(false);
+                  var1.options.useKey.setPressed(false);
 
-                  while (var1.field_1690.field_1886.method_1436()) {
+                  while (var1.options.attackKey.wasPressed()) {
                   }
 
-                  while (var1.field_1690.field_1904.method_1436()) {
+                  while (var1.options.useKey.wasPressed()) {
                   }
                }
             }
@@ -163,23 +158,23 @@ public final class ptr {
    }
 
    private static void ptz(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
 
-      while (var0.field_1690.field_1904.method_1436()) {
+      while (var0.options.useKey.wasPressed()) {
       }
 
-      if (var0.field_1690.field_1904.method_1434() && !var1.method_6115()) {
+      if (var0.options.useKey.isPressed() && !var1.isUsingItem()) {
          int var2 = vxr.getInt(pts, var0, 0);
-         if (var2 <= 0 && !var0.field_1761.method_2923() && !var1.method_3144()) {
+         if (var2 <= 0 && !var0.interactionManager.isBreakingBlock() && !var1.isRiding()) {
             for (Hand var6 : Hand.values()) {
-               ItemStack var7 = var1.method_5998(var6);
-               if (!var7.method_45435(var0.field_1687.method_45162())) {
+               ItemStack var7 = var1.getStackInHand(var6);
+               if (!var7.isItemEnabled(var0.world.getEnabledFeatures())) {
                   break;
                }
 
-               if (!var7.method_7960() && var0.field_1761.method_2919(var1, var6) instanceof Success var9) {
-                  if (var9.comp_2909() == SwingSource.field_52427) {
-                     var1.method_6104(var6);
+               if (!var7.isEmpty() && var0.interactionManager.interactItem(var1, var6) instanceof Success var9) {
+                  if (var9.swingSource() == SwingSource.CLIENT) {
+                     var1.swingHand(var6);
                   }
                   break;
                }

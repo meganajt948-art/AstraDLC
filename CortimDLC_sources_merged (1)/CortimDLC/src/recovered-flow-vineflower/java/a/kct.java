@@ -32,18 +32,20 @@ public final class kct extends Screen {
    private float kdm = 270.0F;
 
    public kct(Screen var1) {
-      super(Text.method_43470(a.d("긆힅嵟쌡䣺칉琒", 1951642780, -2068833590)));
+      super(Text.literal(a.d("긆힅嵟쌡䣺칉琒", 1951642780, -2068833590)));
       this.kcy = var1;
       this.kdd = wap.chosen() && !wap.ru() ? 1 : 0;
       jzh.preload(this.kdb.key);
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      unf.observe(var1);
+      unf.observe(context);
       long var5 = System.nanoTime();
       this.kdj = this.kdi == 0L ? 0.016666668F : Math.min(0.1F, (float)(var5 - this.kdi) / 1.0E9F);
       this.kdi = var5;
@@ -54,13 +56,13 @@ public final class kct extends Screen {
 
       float var8 = var7 - this.kde;
       float var9 = this.kdf >= 0.0F ? vcq.clamp01((var7 - this.kdf) / 0.42F) : 0.0F;
-      this.kdk = kbp.scale(this.field_22789, this.field_22790);
-      this.kdl = this.field_22789 / this.kdk;
-      this.kdm = this.field_22790 / this.kdk;
-      float var10 = var2 / this.kdk;
-      float var11 = var3 / this.kdk;
+      this.kdk = kbp.scale(this.width, this.height);
+      this.kdl = this.width / this.kdk;
+      this.kdm = this.height / this.kdk;
+      float var10 = mouseX / this.kdk;
+      float var11 = mouseY / this.kdk;
       GpuTextureView var12 = unm.view();
-      uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, -16315888);
+      uut.rect(context, 0.0F, 0.0F, this.width, this.height, -16315888);
       jza var13 = jzh.get(this.kdb.key);
       if (var13 != null) {
          this.kda.time = var7;
@@ -69,10 +71,10 @@ public final class kct extends Screen {
          this.kda.zoom = 1.06F;
          this.kda.tint = this.kdb.tint;
          this.kda.tintAmount = 0.3F;
-         this.kcz.draw(var1, var13, this.kda, this.field_22789, this.field_22790, 1.0F, true);
+         this.kcz.draw(context, var13, this.kda, this.width, this.height, 1.0F, true);
       }
 
-      Matrix3x2fStack var14 = var1.method_51448();
+      Matrix3x2fStack var14 = context.getMatrices();
       var14.pushMatrix();
       var14.scale(this.kdk, this.kdk);
       vdn.setRenderScaleStepped(this.kdk);
@@ -83,19 +85,19 @@ public final class kct extends Screen {
          uut.pushAlpha(var15);
          float var16 = this.kdm * 0.5F - 46.0F - 38.0F + (1.0F - var15) * 6.0F;
          vdn var17 = veo.semibold(12.0F);
-         var17.drawCentered(var1, a.c(662017462, "闡\uec7b暯\uf8de猕\uf5b2侤옌塅틮唺꼙ↂ렾㉢뒚\u0ec7脂᮷鷤"), this.kdl * 0.5F, var17.centerTop(var16), kdu(16777215, 0.97F));
+         var17.drawCentered(context, a.c(662017462, "闡\uec7b暯\uf8de猕\uf5b2侤옌塅틮唺꼙ↂ렾㉢뒚\u0ec7脂᮷鷤"), this.kdl * 0.5F, var17.centerTop(var16), kdu(16777215, 0.97F));
          vdn var18 = veo.medium(7.6F);
-         var18.drawCentered(var1, a.c(237958896, "\uf2ef謇Ʈ鿛ᑹ銰⢙ꄟ㭕떋㈠젭䚋"), this.kdl * 0.5F, var18.centerTop(var16 + 15.0F), kdu(14149365, 0.72F));
+         var18.drawCentered(context, a.c(237958896, "\uf2ef謇Ʈ鿛ᑹ銰⢙ꄟ㭕떋㈠젭䚋"), this.kdl * 0.5F, var18.centerTop(var16 + 15.0F), kdu(14149365, 0.72F));
          uut.popAlpha();
 
          for (int var19 = 0; var19 < kcx.length; var19++) {
-            this.kdr(var1, var12, var19, var10, var11, var8, var9);
+            this.kdr(context, var12, var19, var10, var11, var8, var9);
          }
 
          vdn var25 = veo.medium(6.2F);
          uut.pushAlpha(vcq.clamp01((var8 - 0.7F) / 0.6F));
          var25.drawCentered(
-            var1,
+            context,
             a.c(
                738804110,
                "䗌㱠뚺⣃ꌑ◚龇ሚ衚˪蕅罈\uf19d氪\ue663撈\udec0儒쮠䷴쐉멈゚꼪ⵆꞟḩ遷\u0af2財ݭ料短\uea0e桏\ue699失팺円찦䙰㢉늩ㅶꮡ╇鰃ᚲ邞\u0b64蔞翀\uf67e瀭\uea9b撃\udf21妤펛䩇쓥뺥㥁던ⶍꑨḧ飛ዉ贿ߧ膕硇\uf2f1泧\ue754愔\udba4剷찝䛓샌묶㗠꿙♜ꃳ\u1aaf锕༇覿c塚瓔\uef33椯\ue3e8嶒푚"
@@ -114,9 +116,9 @@ public final class kct extends Screen {
 
       if (var9 >= 1.0F && !this.kdh) {
          this.kdh = true;
-         MinecraftClient var23 = this.field_22787;
-         Object var24 = var23.field_1687 == null ? jte.afterWelcome() : this.kcy;
-         var23.method_63588(() -> var23.method_1507(var24));
+         MinecraftClient var23 = this.client;
+         Screen var24 = var23.world == null ? jte.afterWelcome() : this.kcy;
+         var23.send(() -> var23.setScreen(var24));
       }
    }
 
@@ -146,7 +148,7 @@ public final class kct extends Screen {
          float var17 = (0.92F + 0.08F * var9) * (1.0F + 0.03F * var15) * (this.kdg >= 0 && this.kdg != var3 ? 1.0F - 0.05F * var7 : 1.0F);
          float var18 = 13.0F;
          int var19 = this.kdb.accent;
-         Matrix3x2fStack var20 = var1.method_51448();
+         Matrix3x2fStack var20 = var1.getMatrices();
          var20.pushMatrix();
          var20.translate(var10 + 58.0F, var16 + 46.0F);
          var20.scale(var17, var17);
@@ -225,25 +227,27 @@ public final class kct extends Screen {
       }
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
-      if (var1.method_74245() != 0) {
-         return true;
-      } else {
-         float var3 = (float)var1.comp_4798() / this.kdk;
-         float var4 = (float)var1.comp_4799() / this.kdk;
-
-         for (int var5 = 0; var5 < kcx.length; var5++) {
-            if (kdt(var3, var4, this.kdp(var5), this.kdq(), 116.0F, 92.0F)) {
-               this.kds(var5);
-            }
-         }
-
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
+      if (click.button() != 0) {
          return true;
       }
+
+      float var3 = (float)click.x() / this.kdk;
+      float var4 = (float)click.y() / this.kdk;
+
+      for (int var5 = 0; var5 < kcx.length; var5++) {
+         if (kdt(var3, var4, this.kdp(var5), this.kdq(), 116.0F, 92.0F)) {
+            this.kds(var5);
+         }
+      }
+
+      return true;
    }
 
-   public boolean method_25404(KeyInput var1) {
-      switch (var1.comp_4795()) {
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      switch (input.key()) {
          case 32:
          case 257:
          case 335:
@@ -260,15 +264,18 @@ public final class kct extends Screen {
       return true;
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public void method_25432() {
+   @Override
+   public void removed() {
       this.kcz.close();
       vdn.setRenderScale(1.0F);
    }

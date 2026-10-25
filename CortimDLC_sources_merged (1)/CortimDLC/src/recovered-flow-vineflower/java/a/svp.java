@@ -21,19 +21,19 @@ final class svp {
 
    static List<svi> of(Text var0, swb var1) {
       ArrayList var2 = new ArrayList();
-      var0.method_27658((var2x, var3) -> {
+      var0.visit((var2x, var3) -> {
          svu(var2, var2x, var3, var1);
          return Optional.empty();
-      }, Style.field_24360);
+      }, Style.EMPTY);
       return var2;
    }
 
    private static void svu(List<svi> var0, Style var1, String var2, swb var3) {
-      int var4 = var1.method_10973() != null ? 0xFF000000 | var1.method_10973().method_27716() : -1;
-      boolean var5 = var1.method_27708() != null && !StyleSpriteSource.field_61972.equals(var1.method_27708());
+      int var4 = var1.getColor() != null ? 0xFF000000 | var1.getColor().getRgb() : -1;
+      boolean var5 = var1.getFont() != null && !StyleSpriteSource.DEFAULT.equals(var1.getFont());
       int var6 = var4;
-      boolean var7 = var1.method_10984();
-      boolean var8 = var1.method_10987();
+      boolean var7 = var1.isBold();
+      boolean var8 = var1.isObfuscated();
       StringBuilder var9 = new StringBuilder();
       StringBuilder var10 = new StringBuilder();
       int var11 = 0;
@@ -43,19 +43,19 @@ final class svp {
          var11 += Character.charCount(var12);
          if (var12 == 167 && var11 < var2.length()) {
             svv(var0, var9, var10, var1, var6, var7);
-            Formatting var14 = Formatting.method_544(var2.charAt(var11++));
+            Formatting var14 = Formatting.byCode(var2.charAt(var11++));
             if (var14 != null) {
-               if (var14 == Formatting.field_1070) {
+               if (var14 == Formatting.RESET) {
                   var6 = var4;
-                  var7 = var1.method_10984();
-                  var8 = var1.method_10987();
-               } else if (var14.method_543() && var14.method_532() != null) {
-                  var6 = 0xFF000000 | var14.method_532();
+                  var7 = var1.isBold();
+                  var8 = var1.isObfuscated();
+               } else if (var14.isColor() && var14.getColorValue() != null) {
+                  var6 = 0xFF000000 | var14.getColorValue();
                   var7 = false;
                   var8 = false;
-               } else if (var14 == Formatting.field_1067) {
+               } else if (var14 == Formatting.BOLD) {
                   var7 = true;
-               } else if (var14 == Formatting.field_1051) {
+               } else if (var14 == Formatting.OBFUSCATED) {
                   var8 = true;
                }
             }
@@ -87,8 +87,8 @@ final class svp {
       }
 
       if (var2 != null && !var2.isEmpty()) {
-         Style var6 = var3.method_27703(TextColor.method_27717(var4 & 16777215)).method_10982(var5);
-         var0.add(new svi(var2.toString(), var4, var5, Text.method_43470(var2.toString()).method_10862(var6)));
+         Style var6 = var3.withColor(TextColor.fromRgb(var4 & 16777215)).withBold(var5);
+         var0.add(new svi(var2.toString(), var4, var5, Text.literal(var2.toString()).setStyle(var6)));
          var2.setLength(0);
       }
    }
@@ -102,29 +102,29 @@ final class svp {
    }
 
    static float width(List<svi> var0, swb var1, swb var2) {
-      TextRenderer var3 = MinecraftClient.method_1551().field_1772;
+      TextRenderer var3 = MinecraftClient.getInstance().textRenderer;
       float var4 = 0.0F;
 
       for (svi var6 : var0) {
-         var4 += var6.svm != null ? var3.method_27525(var6.svm) * svx(var1) : (var6.svl ? var2 : var1).width(var6.svj);
+         var4 += var6.svm != null ? var3.getWidth(var6.svm) * svx(var1) : (var6.svl ? var2 : var1).width(var6.svj);
       }
 
       return var4;
    }
 
    static float draw(DrawContext var0, List<svi> var1, float var2, float var3, swb var4, swb var5, int var6) {
-      TextRenderer var7 = MinecraftClient.method_1551().field_1772;
+      TextRenderer var7 = MinecraftClient.getInstance().textRenderer;
       float var8 = var3 + var4.capHeight() * 0.5F;
 
       for (svi var10 : var1) {
          if (var10.svm != null) {
             float var11 = svx(var4);
-            var0.method_51448().pushMatrix();
-            var0.method_51448().translate(var2, var8 - 7.0F * var11);
-            var0.method_51448().scale(var11, var11);
-            var0.method_51439(var7, var10.svm, 0, 0, uut.fade(-1), false);
-            var0.method_51448().popMatrix();
-            var2 += var7.method_27525(var10.svm) * var11;
+            var0.getMatrices().pushMatrix();
+            var0.getMatrices().translate(var2, var8 - 7.0F * var11);
+            var0.getMatrices().scale(var11, var11);
+            var0.drawText(var7, var10.svm, 0, 0, uut.fade(-1), false);
+            var0.getMatrices().popMatrix();
+            var2 += var7.getWidth(var10.svm) * var11;
          } else {
             swb var13 = var10.svl ? var5 : var4;
             float var12 = var13.centerTop(var3);

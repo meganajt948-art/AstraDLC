@@ -18,88 +18,68 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class ujw {
-   @Nullable
-   private static GpuTexture ujx;
-   @Nullable
-   private static GpuTextureView ujy;
-   @Nullable
-   private static GpuBuffer ujz;
+   private static @Nullable GpuTexture ujx;
+   private static @Nullable GpuTextureView ujy;
+   private static @Nullable GpuBuffer ujz;
    private static int uka = -1;
    private static int ukb = -1;
 
    private ujw() {
    }
 
-   @Nullable
-   public static GpuTextureView worldWith(GpuTextureView var0, float var1, float var2, float var3, float var4, float var5, int var6) {
+   public static @Nullable GpuTextureView worldWith(GpuTextureView var0, float var1, float var2, float var3, float var4, float var5, int var6) {
       if (!uvq.ensure(uvq.COMPOSITE)) {
          return null;
-      } else {
-         try {
-            Framebuffer var7 = MinecraftClient.method_1551().method_1522();
-            GpuTextureView var8 = var7.method_71639();
-            if (var8 != null && var7.field_1482 >= 4 && var7.field_1481 >= 4) {
-               uke(var7.field_1482, var7.field_1481);
-               GpuDevice var9 = RenderSystem.getDevice();
-               CommandEncoder var10 = var9.createCommandEncoder();
-               float var11 = var7.field_1482;
-               float var12 = var7.field_1481;
-               MemoryStack var13 = MemoryStack.stackPush();
+      }
 
-               try {
-                  ByteBuffer var14 = Std140Builder.onStack(var13, 32)
-                     .putVec4(var1 / var11, 1.0F - var4 / var12, var3 / var11, 1.0F - var2 / var12)
-                     .putVec4(var5, (var6 >> 16 & 0xFF) / 255.0F, (var6 >> 8 & 0xFF) / 255.0F, (var6 & 0xFF) / 255.0F)
-                     .get();
-                  var10.writeToBuffer(ujz.slice(), var14);
-               } catch (Throwable var19) {
-                  if (var13 != null) {
-                     try {
-                        var13.close();
-                     } catch (Throwable var17) {
-                        var19.addSuppressed(var17);
-                     }
-                  }
+      try {
+         Framebuffer var7 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var8 = var7.getColorAttachmentView();
+         if (var8 != null && var7.textureWidth >= 4 && var7.textureHeight >= 4) {
+            uke(var7.textureWidth, var7.textureHeight);
+            GpuDevice var9 = RenderSystem.getDevice();
+            CommandEncoder var10 = var9.createCommandEncoder();
+            float var11 = var7.textureWidth;
+            float var12 = var7.textureHeight;
+            MemoryStack var13 = MemoryStack.stackPush();
 
-                  throw var19;
-               }
-
+            try {
+               ByteBuffer var14 = Std140Builder.onStack(var13, 32)
+                  .putVec4(var1 / var11, 1.0F - var4 / var12, var3 / var11, 1.0F - var2 / var12)
+                  .putVec4(var5, (var6 >> 16 & 0xFF) / 255.0F, (var6 >> 8 & 0xFF) / 255.0F, (var6 & 0xFF) / 255.0F)
+                  .get();
+               var10.writeToBuffer(ujz.slice(), var14);
+            } catch (Throwable var19) {
                if (var13 != null) {
-                  var13.close();
-               }
-
-               RenderPass var21 = var10.createRenderPass(() -> "Flow2 composite", ujy, OptionalInt.empty());
-
-               try {
-                  var21.setPipeline(uvq.COMPOSITE);
-                  var21.bindTexture("InSampler", var8, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var21.bindTexture("WallSampler", var0, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var21.setUniform("FlowComposite", ujz);
-                  var21.draw(0, 3);
-               } catch (Throwable var18) {
-                  if (var21 != null) {
-                     try {
-                        var21.close();
-                     } catch (Throwable var16) {
-                        var18.addSuppressed(var16);
-                     }
+                  try {
+                     var13.close();
+                  } catch (Throwable var17) {
+                     var19.addSuppressed(var17);
                   }
-
-                  throw var18;
                }
 
-               if (var21 != null) {
-                  var21.close();
-               }
-
-               return ujy;
-            } else {
-               return null;
+               throw var19;
             }
-         } catch (Throwable var20) {
-            System.out.println("composite failed: " + var20);
+
+            if (var13 != null) {
+               var13.close();
+            }
+
+            try (RenderPass var21 = var10.createRenderPass(() -> "Flow2 composite", ujy, OptionalInt.empty())) {
+               var21.setPipeline(uvq.COMPOSITE);
+               var21.bindTexture("InSampler", var8, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+               var21.bindTexture("WallSampler", var0, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+               var21.setUniform("FlowComposite", ujz);
+               var21.draw(0, 3);
+            }
+
+            return ujy;
+         } else {
             return null;
          }
+      } catch (Throwable var20) {
+         System.out.println("composite failed: " + var20);
+         return null;
       }
    }
 

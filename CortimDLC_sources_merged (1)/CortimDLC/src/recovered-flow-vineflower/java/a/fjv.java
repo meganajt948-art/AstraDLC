@@ -51,7 +51,7 @@ final class fjv {
             var6.setFloat(null, Float.NaN);
          }
 
-         var0.method_1507(new hlc());
+         var0.setScreen(new hlc());
       }
 
       if (var1 == 20) {
@@ -60,7 +60,7 @@ final class fjv {
 
       if (var1 == 40) {
          fkl(var0, a.c(1696401020, "؏羲\uf562欓\ue0cd智\udc3e嗔쮖䅸웣㲓뉉⯥ꆭ❁"));
-         var0.method_1507(null);
+         var0.setScreen(null);
       }
 
       if (var1 == 60) {
@@ -80,8 +80,8 @@ final class fjv {
          fkk(var0);
       }
 
-      if (fkb > 0 && var0.field_1755 instanceof GameMenuScreen) {
-         var0.method_1507(null);
+      if (fkb > 0 && var0.currentScreen instanceof GameMenuScreen) {
+         var0.setScreen(null);
       }
 
       if (var1 > 60 && var1 % 100 == 0) {
@@ -90,9 +90,9 @@ final class fjv {
                a.c(-2021947974, "藈ﱵ皥\ue8d4挊\ue5bd忹혓䡑슲䔵뽕㆔ꠢ∥ꒀẆ")
                   + var1
                   + a.d("㲪䕚쾘凩\uda22岚\ue6df潠", -1049685970, -754111316)
-                  + fkf(var0, Items.field_8463)
+                  + fkf(var0, Items.GOLDEN_APPLE)
                   + a.b("㔁䳤올塆펀唹\uef74曋", 1608332585)
-                  + fkf(var0, Items.field_8288)
+                  + fkf(var0, Items.TOTEM_OF_UNDYING)
                   + a.c(1285554454, "ľ磌\uf210汤\ue7b9愀\udb4b勴")
                   + fjz
                   + a.b("\uf72b軉Ќ驹ᆽ霝ⵅ꒹㫰뀏", 1173812993)
@@ -100,7 +100,7 @@ final class fjv {
             );
       }
 
-      boolean var9 = fkf(var0, Items.field_8463) >= 16 && fkf(var0, Items.field_8288) >= 1 && var0.field_1755 == null && mkl.collecting() == null;
+      boolean var9 = fkf(var0, Items.GOLDEN_APPLE) >= 16 && fkf(var0, Items.TOTEM_OF_UNDYING) >= 1 && var0.currentScreen == null && mkl.collecting() == null;
       if (fkb > 0 && (var9 || var1 > 2460)) {
          for (String var15 : fjy) {
             System.out.println(a.c(-1205244786, "泼ᕁ龑Ǡ訾ಉ뛍㼧ꅥ⮆갗噫\ud8a6䄅쭙䶴\uf7af") + var15);
@@ -141,9 +141,9 @@ final class fjv {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 41; var3++) {
-         ItemStack var4 = var0.field_1724.method_31548().method_5438(var3);
-         if (var4.method_31574(var1)) {
-            var2 += var4.method_7947();
+         ItemStack var4 = var0.player.getInventory().getStack(var3);
+         if (var4.isOf(var1)) {
+            var2 += var4.getCount();
          }
       }
 
@@ -151,35 +151,35 @@ final class fjv {
    }
 
    private static void fkg(MinecraftClient var0) {
-      var0.field_1690.field_1837 = false;
+      var0.options.pauseOnLostFocus = false;
       fjw.clear();
-      fjw.add(List.of(new fjo(Items.field_8463, 16, 100, false), new fjo(Items.field_8463, 8, 90, false), new fjo(Items.field_8477, 1, 5, false)));
-      fjw.add(List.of(new fjo(Items.field_8463, 16, 80, false), new fjo(Items.field_8463, 64, 10, false)));
-      fjw.add(List.of(new fjo(Items.field_8463, 16, 50, false), new fjo(Items.field_8463, 16, 120, false)));
+      fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 100, false), new fjo(Items.GOLDEN_APPLE, 8, 90, false), new fjo(Items.DIAMOND, 1, 5, false)));
+      fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 80, false), new fjo(Items.GOLDEN_APPLE, 64, 10, false)));
+      fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 50, false), new fjo(Items.GOLDEN_APPLE, 16, 120, false)));
       fjx.clear();
-      fjx.add(List.of(new fjo(Items.field_8288, 1, 5, true), new fjo(Items.field_8288, 1, 300, false)));
-      fjx.add(List.of(new fjo(Items.field_8288, 1, 200, false)));
+      fjx.add(List.of(new fjo(Items.TOTEM_OF_UNDYING, 1, 5, true), new fjo(Items.TOTEM_OF_UNDYING, 1, 300, false)));
+      fjx.add(List.of(new fjo(Items.TOTEM_OF_UNDYING, 1, 200, false)));
       fjy.clear();
-      var0.method_1576()
+      var0.getServer()
          .execute(
-            () -> var0.method_1576()
-               .method_3734()
-               .method_9235()
+            () -> var0.getServer()
+               .getCommandManager()
+               .getDispatcher()
                .register(
-                  (LiteralArgumentBuilder)CommandManager.method_9247(a.c(-394057898, "✵庍"))
+                  (LiteralArgumentBuilder)CommandManager.literal(a.c(-394057898, "✵庍"))
                      .then(
-                        CommandManager.method_9247(a.c(1943436757, "綠Ї軐Ⴒ魴᷎"))
+                        CommandManager.literal(a.c(1943436757, "綠Ї軐Ⴒ魴᷎"))
                            .then(
-                              CommandManager.method_9244(a.b("\udf93", -140714013), StringArgumentType.greedyString())
+                              CommandManager.argument(a.b("\udf93", -140714013), StringArgumentType.greedyString())
                                  .executes(
                                     var0xx -> {
-                                       ServerPlayerEntity var1 = ((ServerCommandSource)var0xx.getSource()).method_9207();
+                                       ServerPlayerEntity var1 = ((ServerCommandSource)var0xx.getSource()).getPlayerOrThrow();
                                        fka++;
                                        String var2 = StringArgumentType.getString(var0xx, a.b("珏", -860523585));
-                                       Object var3 = var2.toLowerCase().contains(a.b("\ud87dꆲ⭫딟㻌롹", -231809996))
+                                       List var3 = var2.toLowerCase().contains(a.b("\ud87dꆲ⭫딟㻌롹", -231809996))
                                           ? fjw
                                           : (var2.toLowerCase().contains(a.c(-307971912, "볿씲依톛婅")) ? fjx : new ArrayList());
-                                       fkh(var1, var2, (List<List<fjo>>)var3);
+                                       fkh(var1, var2, var3);
                                        return 1;
                                     }
                                  )
@@ -187,17 +187,17 @@ final class fjv {
                      )
                )
          );
-      var0.method_1562().method_45730(a.b("\udf80\ua637⳨늑㥎뿽֥豕\u124f颭ὸ\ue50e毝\uf273砿ﻙ䒛", 1991761910));
-      var0.method_1562().method_45730(a.c(-1101271582, "\ued89鐷ử肘ଡ଼趿㞌빎"));
+      var0.getNetworkHandler().sendChatCommand(a.b("\udf80\ua637⳨늑㥎뿽֥豕\u124f颭ὸ\ue50e毝\uf273砿ﻙ䒛", 1991761910));
+      var0.getNetworkHandler().sendChatCommand(a.c(-1101271582, "\ued89鐷ử肘ଡ଼趿㞌빎"));
    }
 
    private static void fkh(ServerPlayerEntity var0, String var1, List<List<fjo>> var2) {
-      var0.method_51469()
-         .method_8503()
+      var0.getEntityWorld()
+         .getServer()
          .execute(
-            () -> var0.method_17355(
+            () -> var0.openHandledScreen(
                new SimpleNamedScreenHandlerFactory(
-                  (var2xx, var3, var4) -> new fjf(var2xx, var3, var1, var2), Text.method_43470(a.d("\ued0d铯ṅ聈\u0be1赖㜆뺁⒵꺟⧗", 948621306, 1188898540) + var1)
+                  (var2xx, var3, var4) -> new fjf(var2xx, var3, var1, var2), Text.literal(a.d("\ued0d铯ṅ聈\u0be1赖㜆뺁⒵꺟⧗", 948621306, 1188898540) + var1)
                )
             )
          );
@@ -205,20 +205,20 @@ final class fjv {
 
    private static ItemStack fki(fjo var0) {
       ItemStack var1 = new ItemStack(var0.item(), var0.count());
-      var1.method_57379(
-         DataComponentTypes.field_49632,
+      var1.set(
+         DataComponentTypes.LORE,
          new LoreComponent(
             List.of(
-               Text.method_43470(a.d("鏇", -793090041, -862782495)),
-               Text.method_43470(
+               Text.literal(a.d("鏇", -793090041, -862782495)),
+               Text.literal(
                   a.d("薌ﲬ癭\ue818柉\ue53b嬰횝䢙숲䕦뿕", 1343909004, -1735202389) + String.format(a.c(149046876, "䙺㿂땙"), var0.price() * var0.count()).replace(',', ' ')
                ),
-               Text.method_43470(a.d("ኟ殾\ue545筫\uf0c2癹찮䗝\udb85兇틨⢃꘧㾠뗺㌋襍ڋ", 372596788, -494767586))
+               Text.literal(a.d("ኟ殾\ue545筫\uf0c2癹찮䗝\udb85兇틨⢃꘧㾠뗺㌋襍ڋ", 372596788, -494767586))
             )
          )
       );
       if (var0.glint()) {
-         var1.method_57379(DataComponentTypes.field_49641, true);
+         var1.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
       }
 
       return var1;
@@ -226,7 +226,7 @@ final class fjv {
 
    private static ItemStack fkj(Item var0, String var1) {
       ItemStack var2 = new ItemStack(var0);
-      var2.method_57379(DataComponentTypes.field_49631, Text.method_43470(var1));
+      var2.set(DataComponentTypes.CUSTOM_NAME, Text.literal(var1));
       return var2;
    }
 
@@ -236,10 +236,10 @@ final class fjv {
 
    private static void fkl(MinecraftClient var0, String var1) {
       System.out.println(a.d("룋셬䮶헍幜\ud8b9拻\ueb1c畄ﾡ", -1257100161, -1836018483) + var1);
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(1705350918, "靦\ueedd損賓燶\uf758") + var1 + a.b("\ue0fe餑Ꮬ趤", -612441900),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

@@ -81,72 +81,74 @@ public final class vpo {
       String var15 = var1.toString();
       if (var15.equals(vpu.signature())) {
          return false;
-      } else {
-         HashMap var16 = new HashMap();
-         ArrayList var4 = new ArrayList();
+      }
 
-         for (Path var6 : var0) {
-            String var7 = vqf(var6);
-            String var8 = vqd(var7);
-            Boolean var9 = null;
-            if (var8.endsWith(a.d("龒\ue613況", 705246752, 672377326))) {
-               var9 = Boolean.TRUE;
-               var8 = var8.substring(0, var8.length() - 3);
-               var7 = var7.substring(0, var7.length() - 3);
-            } else if (var8.endsWith(a.c(-335423594, "ퟍ까⒖뫧"))) {
-               var9 = Boolean.FALSE;
-               var8 = var8.substring(0, var8.length() - 4);
-               var7 = var7.substring(0, var7.length() - 4);
-            }
+      HashMap var16 = new HashMap();
+      ArrayList var4 = new ArrayList();
 
-            if (!var8.isEmpty() && !var8.equals(a.b("퉖\uabeeℽ", -1041116614)) && !var8.equals(a.c(719615023, "瑛\u0dfd蜪ᥞ銀ᐹ"))) {
-               Object[] var10 = vpt.get(var8);
-               String var11 = var7.strip();
-               if (var10 != null) {
-                  var11 = (String)var10[0];
-                  if (var9 == null) {
-                     var9 = (Boolean)var10[1];
-                  }
-               } else if (!var16.containsKey(var8)) {
-                  if (var4.size() >= 12) {
-                     continue;
-                  }
+      for (Path var6 : var0) {
+         String var7 = vqf(var6);
+         String var8 = vqd(var7);
+         Boolean var9 = null;
+         if (var8.endsWith(a.d("龒\ue613況", 705246752, 672377326))) {
+            var9 = Boolean.TRUE;
+            var8 = var8.substring(0, var8.length() - 3);
+            var7 = var7.substring(0, var7.length() - 3);
+         } else if (var8.endsWith(a.c(-335423594, "ퟍ까⒖뫧"))) {
+            var9 = Boolean.FALSE;
+            var8 = var8.substring(0, var8.length() - 4);
+            var7 = var7.substring(0, var7.length() - 4);
+         }
 
-                  var4.add(var11);
+         if (!var8.isEmpty() && !var8.equals(a.b("퉖\uabeeℽ", -1041116614)) && !var8.equals(a.c(719615023, "瑛\u0dfd蜪ᥞ銀ᐹ"))) {
+            Object[] var10 = vpt.get(var8);
+            String var11 = var7.strip();
+            if (var10 != null) {
+               var11 = (String)var10[0];
+               if (var9 == null) {
+                  var9 = (Boolean)var10[1];
+               }
+            } else if (!var16.containsKey(var8)) {
+               if (var4.size() >= 12) {
+                  continue;
                }
 
-               String var12 = var10 != null ? vqd(var11) : var8;
-               vow var13 = var16.getOrDefault(var12, new vow(var11, null, null, null));
-               var16.put(var12, var13.with(var9, var6));
+               var4.add(var11);
             }
-         }
 
-         var4.sort(String.CASE_INSENSITIVE_ORDER);
-         vpu = new voq(var15, Map.copyOf(var16), List.copyOf(var4));
-         vpv++;
-         if (!var0.isEmpty()) {
-            System.out.println(a.b("唔ⲹ꙰㠚돇㔲輧ۙ颃ሻ闾濆\ue10b", -564963990) + var16.keySet());
+            String var12 = var10 != null ? vqd(var11) : var8;
+            vow var13 = var16.getOrDefault(var12, new vow(var11, null, null, null));
+            var16.put(var12, var13.with(var9, var6));
          }
-
-         return true;
       }
+
+      var4.sort(String.CASE_INSENSITIVE_ORDER);
+      vpu = new voq(var15, Map.copyOf(var16), List.copyOf(var4));
+      vpv++;
+      if (!var0.isEmpty()) {
+         System.out.println(a.b("唔ⲹ꙰㠚돇㔲輧ۙ颃ሻ闾濆\ue10b", -564963990) + var16.keySet());
+      }
+
+      return true;
    }
 
    static vpd find(String var0, boolean var1) {
       vow var2 = vpu.sounds().get(vqd(var0));
       if (var2 == null) {
          return null;
-      } else {
-         Path var3 = var1 ? var2.on() : var2.off();
-         if (var3 != null) {
-            return new vpd(var3, true);
-         } else if (var2.both() != null) {
-            return new vpd(var2.both(), false);
-         } else {
-            Path var4 = var1 ? var2.off() : var2.on();
-            return var4 != null ? new vpd(var4, false) : null;
-         }
       }
+
+      Path var3 = var1 ? var2.on() : var2.off();
+      if (var3 != null) {
+         return new vpd(var3, true);
+      }
+
+      if (var2.both() != null) {
+         return new vpd(var2.both(), false);
+      }
+
+      Path var4 = var1 ? var2.off() : var2.on();
+      return var4 != null ? new vpd(var4, false) : null;
    }
 
    public static void openFolder() {
@@ -224,7 +226,7 @@ public final class vpo {
       int var3 = 0;
       int var4 = 0;
       int var5 = -1;
-      int var6 = 0;
+      byte var6 = 0;
       int var7 = 12;
 
       while (var7 + 8 <= var0.length) {
@@ -240,7 +242,7 @@ public final class vpo {
             }
          } else if (vqn(var0, var7, a.c(646063297, "⒡崕ퟓ䦷"))) {
             var5 = var9;
-            var6 = var8 >= 0 && var8 <= var0.length - var9 ? var8 : var0.length - var9;
+            var6 = (byte)(var8 >= 0 && var8 <= var0.length - var9 ? var8 : var0.length - var9);
             break;
          }
 
@@ -334,7 +336,7 @@ public final class vpo {
          } else if (vqn(var0, var9, a.d("\ue51d鲩ᙯ蠋", -86101395, 1910560528))) {
             var7 = var12 + 4;
             long var13 = var10 < 0L ? var0.length - var7 : var10 - 4L;
-            var8 = (int)Math.max(0L, Math.min(var13, (long)(var0.length - var7)));
+            var8 = (int)Math.max(0L, Math.min(var13, var0.length - var7));
             if (var10 < 0L) {
                break;
             }
@@ -499,15 +501,15 @@ public final class vpo {
    private static boolean vqn(byte[] var0, int var1, String var2) {
       if (var1 + 4 > var0.length) {
          return false;
-      } else {
-         for (int var3 = 0; var3 < 4; var3++) {
-            if (var0[var1 + var3] != (byte)var2.charAt(var3)) {
-               return false;
-            }
-         }
-
-         return true;
       }
+
+      for (int var3 = 0; var3 < 4; var3++) {
+         if (var0[var1 + var3] != (byte)var2.charAt(var3)) {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    private static int vqo(byte[] var0, int var1) {
@@ -535,15 +537,15 @@ public final class vpo {
       long var3 = 0L;
 
       for (int var5 = 0; var5 < 8; var5++) {
-         var3 = var3 << 8 | var0[var1 + 2 + var5] & 255;
+         var3 = var3 << 8 | var0[var1 + 2 + var5] & 0xFF;
       }
 
       if (var2 == 0 && var3 == 0L) {
          return 0.0;
-      } else {
-         double var7 = (var3 >>> 1) * Math.pow(2.0, var2 - 16383 - 62);
-         return (var0[var1] & 128) != 0 ? -var7 : var7;
       }
+
+      double var7 = (var3 >>> 1) * Math.pow(2.0, var2 - 16383 - 62);
+      return (var0[var1] & 128) != 0 ? -var7 : var7;
    }
 
    static {

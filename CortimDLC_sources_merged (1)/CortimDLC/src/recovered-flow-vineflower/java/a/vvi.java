@@ -24,7 +24,7 @@ public final class vvi {
             var3.append('\u200c');
          }
 
-         var3.append((char)(var0[var2] & 255));
+         var3.append((char)(var0[var2] & 0xFF));
       }
 
       Arrays.fill(var0, (byte)0);

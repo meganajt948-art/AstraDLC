@@ -539,47 +539,47 @@ public final class iov {
       var0 = var0 * 31L + ipd;
       if (ips != null && var0 == ipr) {
          return ips;
-      } else {
-         ipr = var0;
-         float var2 = (float)BG_HUE.get();
-         float var3 = (float)BG_SATURATION.get();
-         float var4 = (float)BG_BRIGHTNESS.get();
-         float var5 = (float)CONTRAST.get();
-         float var6 = (float)OPACITY.get();
-         int var7 = ujt.hsv(var2, var3, var4);
-         boolean var8 = ujt.luminance(var7) > 0.55F;
-         boolean var9 = var6 < 0.9F;
-         int[] var10;
-         int[] var11;
-         if (var8) {
-            int var12 = ujt.hsv(var2, Math.max(0.45F, var3), 0.55F);
-            var10 = var9 ? iqe(var7, var12, var5) : iqc(var7, var12, var5);
-            var11 = new int[]{ujt.hsv(var2, Math.max(0.55F, var3), 0.72F), ujt.hsv(var2, Math.max(0.4F, var3 * 0.8F), 0.85F)};
-         } else {
-            int var19 = ujt.hsv(var2, Math.min(1.0F, 0.25F + var3 * 0.6F), 1.0F);
-            var10 = var9 ? iqd(var7, var19, var5) : iqb(var7, var19, var5);
-            var11 = var3 < 0.08F
-               ? iox
-               : new int[]{ujt.hsv(var2, Math.min(1.0F, 0.35F + var3 * 0.5F), 0.95F), ujt.hsv(var2 + 0.06F, Math.min(1.0F, 0.25F + var3 * 0.4F), 1.0F)};
-         }
-
-         var10 = (int[])var10.clone();
-
-         for (int var20 = 1; var20 < 15; var20++) {
-            if (ipa[var20]) {
-               var10[var20] = ioz[var20];
-            }
-         }
-
-         if (ipa[15] || ipa[16]) {
-            int var21 = ipa[15] ? ioz[15] : var11[0];
-            int var13 = ipa[16] ? ioz[16] : (ipa[15] ? ujt.lerp(var21, -1, 0.3F) : var11[1]);
-            var11 = new int[]{var21, var13};
-         }
-
-         ips = new iom(a.c(-281498519, "갬햫彾섈䫄챷"), a.b("\uf7e3蹤ұ髇ᄋ鞸", 102496166), var10, var9 ? var6 : 1.0F, var8, var11);
-         return ips;
       }
+
+      ipr = var0;
+      float var2 = (float)BG_HUE.get();
+      float var3 = (float)BG_SATURATION.get();
+      float var4 = (float)BG_BRIGHTNESS.get();
+      float var5 = (float)CONTRAST.get();
+      float var6 = (float)OPACITY.get();
+      int var7 = ujt.hsv(var2, var3, var4);
+      boolean var8 = ujt.luminance(var7) > 0.55F;
+      boolean var9 = var6 < 0.9F;
+      int[] var10;
+      int[] var11;
+      if (var8) {
+         int var12 = ujt.hsv(var2, Math.max(0.45F, var3), 0.55F);
+         var10 = var9 ? iqe(var7, var12, var5) : iqc(var7, var12, var5);
+         var11 = new int[]{ujt.hsv(var2, Math.max(0.55F, var3), 0.72F), ujt.hsv(var2, Math.max(0.4F, var3 * 0.8F), 0.85F)};
+      } else {
+         int var19 = ujt.hsv(var2, Math.min(1.0F, 0.25F + var3 * 0.6F), 1.0F);
+         var10 = var9 ? iqd(var7, var19, var5) : iqb(var7, var19, var5);
+         var11 = var3 < 0.08F
+            ? iox
+            : new int[]{ujt.hsv(var2, Math.min(1.0F, 0.35F + var3 * 0.5F), 0.95F), ujt.hsv(var2 + 0.06F, Math.min(1.0F, 0.25F + var3 * 0.4F), 1.0F)};
+      }
+
+      var10 = (int[])var10.clone();
+
+      for (int var20 = 1; var20 < 15; var20++) {
+         if (ipa[var20]) {
+            var10[var20] = ioz[var20];
+         }
+      }
+
+      if (ipa[15] || ipa[16]) {
+         int var21 = ipa[15] ? ioz[15] : var11[0];
+         int var13 = ipa[16] ? ioz[16] : (ipa[15] ? ujt.lerp(var21, -1, 0.3F) : var11[1]);
+         var11 = new int[]{var21, var13};
+      }
+
+      ips = new iom(a.c(-281498519, "갬햫彾섈䫄챷"), a.b("\uf7e3蹤ұ髇ᄋ鞸", 102496166), var10, var9 ? var6 : 1.0F, var8, var11);
+      return ips;
    }
 
    static void customFromCurrent() {
@@ -591,7 +591,7 @@ public final class iov {
       BG_HUE.set(var3[0]);
       BG_SATURATION.set(var3[1]);
       BG_BRIGHTNESS.set(var3[2]);
-      OPACITY.set(Math.max(0.3, Math.min(1.0, (double)var0.tintScale())));
+      OPACITY.set(Math.max(0.3, Math.min(1.0, var0.tintScale())));
       CONTRAST.reset();
 
       for (int var5 = 1; var5 < 15; var5++) {
@@ -630,17 +630,19 @@ public final class iov {
    static int paintColor(iog var0) {
       if (var0.hud() && ipc[var0.slot()]) {
          return ipb[var0.slot()];
-      } else if (var0.hud() && var0.slot() == 16 && ipc[15]) {
-         return ujt.lerp(ipb[15], -1, 0.3F);
-      } else {
-         iom var1 = custom();
-
-         return switch (var0.slot()) {
-            case 15 -> var1.accent()[0];
-            case 16 -> var1.accent()[1];
-            default -> var1.color(var0.slot());
-         };
       }
+
+      if (var0.hud() && var0.slot() == 16 && ipc[15]) {
+         return ujt.lerp(ipb[15], -1, 0.3F);
+      }
+
+      iom var1 = custom();
+
+      return switch (var0.slot()) {
+         case 15 -> var1.accent()[0];
+         case 16 -> var1.accent()[1];
+         default -> var1.color(var0.slot());
+      };
    }
 
    static void setPaint(iog var0, int var1, float var2, float var3, float var4) {
@@ -711,12 +713,12 @@ public final class iov {
    private static Integer iqi(String var0) {
       if (var0 == null) {
          return null;
-      } else {
-         try {
-            return (int)Long.parseLong(var0.trim().replace(a.b("몛", -1746879815), ""), 16);
-         } catch (NumberFormatException var2) {
-            return null;
-         }
+      }
+
+      try {
+         return (int)Long.parseLong(var0.trim().replace(a.b("몛", -1746879815), ""), 16);
+      } catch (NumberFormatException var2) {
+         return null;
       }
    }
 
@@ -784,10 +786,10 @@ public final class iov {
    static iom preset() {
       if (PRESET.is(a.b("閊\uec0d曘\uf8ae獢\uf5d1", 2012452303))) {
          return custom();
-      } else {
-         int var0 = PRESET.index();
-         return PRESETS[Math.max(0, Math.min(PRESETS.length - 1, var0))];
       }
+
+      int var0 = PRESET.index();
+      return PRESETS[Math.max(0, Math.min(PRESETS.length - 1, var0))];
    }
 
    public static void update(float var0) {

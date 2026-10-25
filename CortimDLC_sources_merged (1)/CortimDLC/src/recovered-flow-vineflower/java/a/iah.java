@@ -117,27 +117,27 @@ final class iah {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (!this.contains(var2, var3)) {
          return false;
-      } else {
-         var1.focus(this);
-         if (var4 == 1) {
-            this.setText("");
-            return true;
-         } else {
-            this.iam = false;
-            float var5 = var2 - this.iau() + this.iaq.get();
-            int var6 = this.text.length();
+      }
 
-            for (int var7 = 0; var7 <= this.text.length(); var7++) {
-               if (irr.LABEL.width(this.text.substring(0, var7)) >= var5 - 2.0F) {
-                  var6 = var7;
-                  break;
-               }
-            }
+      var1.focus(this);
+      if (var4 == 1) {
+         this.setText("");
+         return true;
+      }
 
-            this.ial = var6;
-            return true;
+      this.iam = false;
+      float var5 = var2 - this.iau() + this.iaq.get();
+      int var6 = this.text.length();
+
+      for (int var7 = 0; var7 <= this.text.length(); var7++) {
+         if (irr.LABEL.width(this.text.substring(0, var7)) >= var5 - 2.0F) {
+            var6 = var7;
+            break;
          }
       }
+
+      this.ial = var6;
+      return true;
    }
 
    boolean keyPressed(hlc var1, int var2, int var3) {
@@ -156,14 +156,14 @@ final class iah {
                return false;
             }
 
-            MinecraftClient.method_1551().field_1774.method_1455(this.text);
+            MinecraftClient.getInstance().keyboard.setClipboard(this.text);
             break;
          case 86:
             if (!var4) {
                return false;
             }
 
-            String var5 = MinecraftClient.method_1551().field_1774.method_1460();
+            String var5 = MinecraftClient.getInstance().keyboard.getClipboard();
             if (var5 != null) {
                this.iaw(var5.replace(a.d("㘄", -2127784439, 425762822), a.d("㴅", -775079790, 171640246)).replace(a.d("ࣜ", -445323027, 128704573), ""));
             }

@@ -73,11 +73,11 @@ public final class emu {
    }
 
    public emu flat(RegistryEntry<EntityAttribute> var1, double var2) {
-      return this.attr(var1, var2, Operation.field_6328);
+      return this.attr(var1, var2, Operation.ADD_VALUE);
    }
 
    public emu scaled(RegistryEntry<EntityAttribute> var1, double var2) {
-      return this.attr(var1, var2, Operation.field_6330);
+      return this.attr(var1, var2, Operation.ADD_MULTIPLIED_BASE);
    }
 
    public emu ench(RegistryKey<Enchantment> var1, int var2) {
@@ -141,123 +141,121 @@ public final class emu {
    }
 
    public boolean matches(ItemStack var1) {
-      return var1.method_31574(this.ena) && this.enj(var1) && this.enk(var1) && this.enl(var1) && this.enm(var1);
+      return var1.isOf(this.ena) && this.enj(var1) && this.enk(var1) && this.enl(var1) && this.enm(var1);
    }
 
    private boolean enj(ItemStack var1) {
       if (this.enb.isEmpty()) {
          return true;
-      } else {
-         AttributeModifiersComponent var2 = (AttributeModifiersComponent)var1.method_58695(
-            DataComponentTypes.field_49636, AttributeModifiersComponent.field_49326
-         );
+      }
 
-         for (elw var4 : this.enb) {
-            boolean var5 = false;
+      AttributeModifiersComponent var2 = var1.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
 
-            for (Entry var7 : var2.comp_2393()) {
-               if (var7.comp_2395().equals(var4.attribute())
-                  && Math.abs(var7.comp_2396().comp_2449() - var4.amount()) < 9.9999942618434E-4
-                  && var7.comp_2396().comp_2450() == var4.operation()) {
-                  var5 = true;
-                  break;
-               }
-            }
+      for (elw var4 : this.enb) {
+         boolean var5 = false;
 
-            if (!var5) {
-               return false;
+         for (Entry var7 : var2.modifiers()) {
+            if (var7.attribute().equals(var4.attribute())
+               && Math.abs(var7.modifier().value() - var4.amount()) < 9.9999942618434E-4
+               && var7.modifier().operation() == var4.operation()) {
+               var5 = true;
+               break;
             }
          }
 
-         return true;
+         if (!var5) {
+            return false;
+         }
       }
+
+      return true;
    }
 
    private boolean enk(ItemStack var1) {
       if (this.enc.isEmpty()) {
          return true;
-      } else {
-         MinecraftClient var2 = MinecraftClient.method_1551();
-         ItemEnchantmentsComponent var3 = (ItemEnchantmentsComponent)var1.method_58695(DataComponentTypes.field_49633, ItemEnchantmentsComponent.field_49385);
+      }
 
-         for (emi var5 : this.enc) {
-            if (var2.field_1687 != null) {
-               Optional var6 = var2.field_1687.method_30349().method_30530(RegistryKeys.field_41265).method_46746(var5.key());
-               int var7 = var6.<Integer>map(var3::method_57536).orElse(0);
-               int var8 = var5.level() == 0 ? 1 : var5.level();
-               if (!var5.deny()) {
-                  if (var3.method_57543() || var7 < var8) {
-                     return false;
-                  }
-               } else if (var7 >= var8) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      ItemEnchantmentsComponent var3 = var1.getOrDefault(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
+
+      for (emi var5 : this.enc) {
+         if (var2.world != null) {
+            Optional var6 = var2.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(var5.key());
+            int var7 = var6.map(var3::getLevel).orElse(0);
+            int var8 = var5.level() == 0 ? 1 : var5.level();
+            if (!var5.deny()) {
+               if (var3.isEmpty() || var7 < var8) {
                   return false;
                }
-            } else if (!var5.deny()) {
+            } else if (var7 >= var8) {
                return false;
             }
+         } else if (!var5.deny()) {
+            return false;
          }
-
-         return true;
       }
+
+      return true;
    }
 
    private boolean enl(ItemStack var1) {
       if (this.end.isEmpty()) {
          return true;
-      } else {
-         MinecraftClient var2 = MinecraftClient.method_1551();
+      }
 
-         String var3;
-         try {
-            var3 = var1.method_7950(TooltipContext.field_51353, var2.field_1724, TooltipType.field_41070)
-               .stream()
-               .skip(1L)
-               .map(var0 -> normalize(var0.getString()))
-               .collect(Collectors.joining(a.c(-1628386956, "쥿")));
-         } catch (RuntimeException var7) {
-            return false;
-         }
+      MinecraftClient var2 = MinecraftClient.getInstance();
 
-         for (emo var5 : this.end) {
-            String var6 = normalize(var5.text());
-            if (var5.deny()) {
-               if (var3.contains(var6)) {
-                  return false;
-               }
-            } else if (var5.level() == 0) {
-               if (!var3.contains(var6)) {
-                  return false;
-               }
-            } else if (enn(var3, var6) < var5.level()) {
+      String var3;
+      try {
+         var3 = var1.getTooltip(TooltipContext.DEFAULT, var2.player, TooltipType.BASIC)
+            .stream()
+            .skip(1L)
+            .map(var0 -> normalize(var0.getString()))
+            .collect(Collectors.joining(a.c(-1628386956, "쥿")));
+      } catch (RuntimeException var7) {
+         return false;
+      }
+
+      for (emo var5 : this.end) {
+         String var6 = normalize(var5.text());
+         if (var5.deny()) {
+            if (var3.contains(var6)) {
                return false;
             }
+         } else if (var5.level() == 0) {
+            if (!var3.contains(var6)) {
+               return false;
+            }
+         } else if (enn(var3, var6) < var5.level()) {
+            return false;
          }
-
-         return true;
       }
+
+      return true;
    }
 
    private boolean enm(ItemStack var1) {
       if (this.ene.isEmpty()) {
          return true;
-      } else {
-         PotionContentsComponent var2 = (PotionContentsComponent)var1.method_58694(DataComponentTypes.field_49651);
-         if (var2 == null) {
-            return false;
-         } else {
-            for (emc var4 : this.ene) {
-               boolean var5 = StreamSupport.<StatusEffectInstance>stream(var2.method_57397().spliterator(), false)
-                  .anyMatch(
-                     var1x -> var1x.method_5579().equals(var4.effect()) && var1x.method_5578() + 1 == var4.level() && var1x.method_5584() >= var4.duration()
-                  );
-               if (!var5) {
-                  return false;
-               }
-            }
+      }
 
-            return StreamSupport.stream(var2.method_57397().spliterator(), false).count() == this.ene.size();
+      PotionContentsComponent var2 = var1.get(DataComponentTypes.POTION_CONTENTS);
+      if (var2 == null) {
+         return false;
+      }
+
+      for (emc var4 : this.ene) {
+         boolean var5 = StreamSupport.stream(var2.getEffects().spliterator(), false)
+            .anyMatch(
+               var1x -> var1x.getEffectType().equals(var4.effect()) && var1x.getAmplifier() + 1 == var4.level() && var1x.getDuration() >= var4.duration()
+            );
+         if (!var5) {
+            return false;
          }
       }
+
+      return StreamSupport.stream(var2.getEffects().spliterator(), false).count() == this.ene.size();
    }
 
    public ItemStack buildStack() {
@@ -269,7 +267,7 @@ public final class emu {
             var2.add(new StatusEffectInstance(var4.effect(), Math.max(1, var4.duration()), Math.max(0, var4.level() - 1)));
          }
 
-         var1.method_57379(DataComponentTypes.field_49651, new PotionContentsComponent(Optional.empty(), Optional.of(this.enf), var2, Optional.empty()));
+         var1.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(Optional.empty(), Optional.of(this.enf), var2, Optional.empty()));
       }
 
       if (this.eng != null) {
@@ -278,7 +276,7 @@ public final class emu {
             a.c(-437830553, "㰅") + Math.abs(this.emz.hashCode() % 100000),
             new PropertyMap(ImmutableMultimap.of(a.c(-818731191, "✵底푛䨦쇰䝆ﴂ瓥"), new Property(a.c(-1673893696, "梼ᄜ鯒֯蹹࣏늋㭬"), this.eng)))
          );
-         var1.method_57379(DataComponentTypes.field_49617, ProfileComponent.method_73307(var5));
+         var1.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(var5));
       }
 
       return var1;

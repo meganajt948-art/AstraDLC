@@ -146,7 +146,6 @@ public final class tvc {
    }
 
    public static tvc read(InputStream var0) throws IOException {
-      tvc var16;
       try (DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0, 65536), 65536))) {
          if (var1.readInt() != 1177701716) {
             throw new IOException(a.b("⨞厮\ud966䝃쳕䨥\uf03b秎\ue796洬\ueaba႙鹙߮趱ଢ଼넄㻘ꑬ∴", 1681402468));
@@ -248,10 +247,8 @@ public final class tvc {
             }
          }
 
-         var16 = var2;
+         return var2;
       }
-
-      return var16;
    }
 
    public tvn snap(int var1) {
@@ -262,7 +259,6 @@ public final class tvc {
    public static byte[] pack(byte[] var0) {
       Deflater var1 = new Deflater(1, true);
 
-      byte[] var4;
       try {
          var1.setInput(var0);
          var1.finish();
@@ -275,39 +271,34 @@ public final class tvc {
             }
          }
 
-         var4 = Arrays.copyOf(var2, var3);
+         return Arrays.copyOf(var2, var3);
       } finally {
          var1.end();
       }
-
-      return var4;
    }
 
    public static byte[] unpack(byte[] var0) {
       Inflater var1 = new Inflater(true);
 
-      byte[] var3;
       try {
          var1.setInput(var0);
          byte[] var2 = new byte[2475];
-         int var10 = 0;
+         int var3 = 0;
 
-         while (var10 < var2.length && !var1.finished()) {
-            int var4 = var1.inflate(var2, var10, var2.length - var10);
+         while (var3 < var2.length && !var1.finished()) {
+            int var4 = var1.inflate(var2, var3, var2.length - var3);
             if (var4 == 0 && (var1.needsInput() || var1.needsDictionary())) {
                break;
             }
 
-            var10 += var4;
+            var3 += var4;
          }
 
          return var2;
       } catch (DataFormatException var8) {
-         var3 = new byte[2475];
+         return new byte[2475];
       } finally {
          var1.end();
       }
-
-      return var3;
    }
 }

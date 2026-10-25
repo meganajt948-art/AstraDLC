@@ -83,7 +83,7 @@ final class wet implements AutoCloseable {
 
       try {
          this.wgz(var1);
-      } catch (RuntimeException | IOException var4) {
+      } catch (IOException | RuntimeException var4) {
          this.close();
          throw var4;
       }
@@ -101,65 +101,65 @@ final class wet implements AutoCloseable {
 
       if (this.wgq == 0L) {
          throw new IOException("SHCreateMemStream failed");
-      } else {
-         MemoryStack var4 = MemoryStack.stackPush();
+      }
+
+      MemoryStack var4 = MemoryStack.stackPush();
+
+      try {
+         long var5 = var4.ncalloc(8, 1, 8);
+         wjh.check((int)wjh.call(wjh.function("mfplat.dll", "MFCreateMFByteStreamOnStream"), this.wgq, var5), "MFCreateMFByteStreamOnStream");
+         this.wgr = MemoryUtil.memGetAddress(var5);
+         long var7 = wjh.query(this.wgr, "2cd2d921-c447-44a7-a13c-4adabfc247e3");
 
          try {
-            long var5 = var4.ncalloc(8, 1, 8);
-            wjh.check((int)wjh.call(wjh.function("mfplat.dll", "MFCreateMFByteStreamOnStream"), this.wgq, var5), "MFCreateMFByteStreamOnStream");
-            this.wgr = MemoryUtil.memGetAddress(var5);
-            long var7 = wjh.query(this.wgr, "2cd2d921-c447-44a7-a13c-4adabfc247e3");
-
-            try {
-               wjh.check(wjh.com(var7, 25, wjh.guid("fc358289-3cb6-460c-a424-b6681260375a"), MemoryUtil.memAddress(var4.UTF16("video/mp4"))), "content type");
-            } finally {
-               wjh.release(var7);
-            }
-
-            MemoryUtil.memPutAddress(var5, 0L);
-            wjh.check((int)wjh.call(wjh.function("mfplat.dll", "MFCreateAttributes"), var5, 4L), "MFCreateAttributes");
-            this.wgs = MemoryUtil.memGetAddress(var5);
-            if (this.hardware) {
-               this.wha(var4);
-            }
-
-            MemoryUtil.memPutAddress(var5, 0L);
-            wjh.check(
-               (int)wjh.call(wjh.function("mfreadwrite.dll", "MFCreateSourceReaderFromByteStream"), this.wgr, this.wgs, var5),
-               "MFCreateSourceReaderFromByteStream"
-            );
-            this.wgt = MemoryUtil.memGetAddress(var5);
-            wjh.check(wjh.com(this.wgt, 4, 4294967294L, 0L), "deselect streams");
-            wjh.check(wjh.com(this.wgt, 4, 4294967292L, 1L), "select video");
-            MemoryUtil.memPutAddress(var5, 0L);
-            wjh.check((int)wjh.call(wjh.function("mfplat.dll", "MFCreateMediaType"), var5), "MFCreateMediaType");
-            long var9 = MemoryUtil.memGetAddress(var5);
-
-            try {
-               wjh.check(wjh.com(var9, 24, wjh.guid("48eba18e-f8c9-4687-bf11-0a74c9f96a8f"), wjh.guid("73646976-0000-0010-8000-00aa00389b71")), "major type");
-               wjh.check(wjh.com(var9, 24, wjh.guid("f7e34c9a-42e8-4714-b74b-cb29d72c35e5"), wjh.guid("3231564e-0000-0010-8000-00aa00389b71")), "subtype");
-               wjh.check(wjh.com(this.wgt, 7, 4294967292L, 0L, var9), "NV12 output");
-            } finally {
-               wjh.release(var9);
-            }
-         } catch (Throwable var31) {
-            if (var4 != null) {
-               try {
-                  var4.close();
-               } catch (Throwable var27) {
-                  var31.addSuppressed(var27);
-               }
-            }
-
-            throw var31;
+            wjh.check(wjh.com(var7, 25, wjh.guid("fc358289-3cb6-460c-a424-b6681260375a"), MemoryUtil.memAddress(var4.UTF16("video/mp4"))), "content type");
+         } finally {
+            wjh.release(var7);
          }
 
+         MemoryUtil.memPutAddress(var5, 0L);
+         wjh.check((int)wjh.call(wjh.function("mfplat.dll", "MFCreateAttributes"), var5, 4L), "MFCreateAttributes");
+         this.wgs = MemoryUtil.memGetAddress(var5);
+         if (this.hardware) {
+            this.wha(var4);
+         }
+
+         MemoryUtil.memPutAddress(var5, 0L);
+         wjh.check(
+            (int)wjh.call(wjh.function("mfreadwrite.dll", "MFCreateSourceReaderFromByteStream"), this.wgr, this.wgs, var5),
+            "MFCreateSourceReaderFromByteStream"
+         );
+         this.wgt = MemoryUtil.memGetAddress(var5);
+         wjh.check(wjh.com(this.wgt, 4, 4294967294L, 0L), "deselect streams");
+         wjh.check(wjh.com(this.wgt, 4, 4294967292L, 1L), "select video");
+         MemoryUtil.memPutAddress(var5, 0L);
+         wjh.check((int)wjh.call(wjh.function("mfplat.dll", "MFCreateMediaType"), var5), "MFCreateMediaType");
+         long var9 = MemoryUtil.memGetAddress(var5);
+
+         try {
+            wjh.check(wjh.com(var9, 24, wjh.guid("48eba18e-f8c9-4687-bf11-0a74c9f96a8f"), wjh.guid("73646976-0000-0010-8000-00aa00389b71")), "major type");
+            wjh.check(wjh.com(var9, 24, wjh.guid("f7e34c9a-42e8-4714-b74b-cb29d72c35e5"), wjh.guid("3231564e-0000-0010-8000-00aa00389b71")), "subtype");
+            wjh.check(wjh.com(this.wgt, 7, 4294967292L, 0L, var9), "NV12 output");
+         } finally {
+            wjh.release(var9);
+         }
+      } catch (Throwable var31) {
          if (var4 != null) {
-            var4.close();
+            try {
+               var4.close();
+            } catch (Throwable var27) {
+               var31.addSuppressed(var27);
+            }
          }
 
-         this.whb();
+         throw var31;
       }
+
+      if (var4 != null) {
+         var4.close();
+      }
+
+      this.whb();
    }
 
    private void wha(MemoryStack var1) throws IOException {
@@ -379,18 +379,18 @@ final class wet implements AutoCloseable {
    private void whd(long var1, int var3, long var4, long var6) throws IOException {
       if (var3 < this.width) {
          throw new IOException("pitch " + var3);
-      } else {
-         long var8 = var1 + (long)this.wgp * var3 + this.wgo;
+      }
 
-         for (int var10 = 0; var10 < this.height; var10++) {
-            MemoryUtil.memCopy(var8 + (long)var10 * var3, var4 + (long)var10 * this.width, this.width);
-         }
+      long var8 = var1 + (long)this.wgp * var3 + this.wgo;
 
-         long var13 = var1 + (long)this.wgm * var3 + (long)(this.wgp / 2) * var3 + this.wgo;
+      for (int var10 = 0; var10 < this.height; var10++) {
+         MemoryUtil.memCopy(var8 + (long)var10 * var3, var4 + (long)var10 * this.width, this.width);
+      }
 
-         for (int var12 = 0; var12 < this.height / 2; var12++) {
-            MemoryUtil.memCopy(var13 + (long)var12 * var3, var6 + (long)var12 * this.width, this.width);
-         }
+      long var13 = var1 + (long)this.wgm * var3 + (long)(this.wgp / 2) * var3 + this.wgo;
+
+      for (int var12 = 0; var12 < this.height / 2; var12++) {
+         MemoryUtil.memCopy(var13 + (long)var12 * var3, var6 + (long)var12 * this.width, this.width);
       }
    }
 

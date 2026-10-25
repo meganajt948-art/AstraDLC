@@ -8,7 +8,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class lkh {
-   private static final MinecraftClient lki = MinecraftClient.method_1551();
+   private static final MinecraftClient lki = MinecraftClient.getInstance();
    private static final double lkj = 33.5;
    private static final double lkk = 15.0;
    private static final double lkl = 0.021321961620469083;
@@ -49,20 +49,20 @@ public final class lkh {
    }
 
    public boolean rotate(float var1, float var2) {
-      if (lki.field_1724 != null && this.lku.target != null) {
+      if (lki.player != null && this.lku.target != null) {
          double var3 = 1.0;
          if (this.lku.attackReady) {
             var3 = 0.5;
          }
 
-         float var5 = MathHelper.method_15393(this.lku.yawToTarget - var1);
-         float var6 = MathHelper.method_15363(this.lku.pitchToTarget - var2, -90.0F, 90.0F);
+         float var5 = MathHelper.wrapDegrees(this.lku.yawToTarget - var1);
+         float var6 = MathHelper.clamp(this.lku.pitchToTarget - var2, -90.0F, 90.0F);
          var5 += Math.signum(var5) * 25.0F;
          double var7 = this.llh(var1, var2, var3);
          float var9 = (float)(Math.sin(var7) * 33.5 * var3 + var5 * 0.2);
          float var10 = (float)(Math.cos(var7) * 15.0 * var3 + var6 * 0.1);
          this.llc = var1 + this.lkv.fix(var9, true);
-         this.lld = MathHelper.method_15363(var2 + this.lkv.fix(var10, false), -90.0F, 90.0F);
+         this.lld = MathHelper.clamp(var2 + this.lkv.fix(var10, false), -90.0F, 90.0F);
          return true;
       } else {
          return false;
@@ -74,21 +74,21 @@ public final class lkh {
          this.lkz = System.currentTimeMillis();
          this.lky = this.lkz * 0.021321961620469083;
          return this.lky;
-      } else {
-         double var5 = 1.0660980810234542;
-         int var7 = this.llk();
-         this.lle = var7;
-         this.lll(Math.min(var7 + 2, 15));
-         double var8 = this.llm(true);
-         double var10 = this.llm(false);
-         this.lli(var5, var1, var2, var3, var7, var7, var8, var10);
-         if (this.llb > 0.0) {
-            this.lli(var5, var1, var2, var3, var7, var7 + 2, var8, var10);
-         }
-
-         this.lky = this.lky + var5 * this.lla;
-         return this.lky;
       }
+
+      double var5 = 1.0660980810234542;
+      int var7 = this.llk();
+      this.lle = var7;
+      this.lll(Math.min(var7 + 2, 15));
+      double var8 = this.llm(true);
+      double var10 = this.llm(false);
+      this.lli(var5, var1, var2, var3, var7, var7, var8, var10);
+      if (this.llb > 0.0) {
+         this.lli(var5, var1, var2, var3, var7, var7 + 2, var8, var10);
+      }
+
+      this.lky = this.lky + var5 * this.lla;
+      return this.lky;
    }
 
    private void lli(double var1, float var3, float var4, double var5, int var7, int var8, double var9, double var11) {
@@ -120,12 +120,12 @@ public final class lkh {
       for (int var19 = 0; var19 <= var8; var19++) {
          var13 += var1;
          double var20 = var19 >= var7 ? Math.min(var5, 0.5) : var5;
-         float var22 = MathHelper.method_15393(this.lkw[var19] - var15);
-         float var23 = MathHelper.method_15363(this.lkx[var19] - var16, -90.0F, 90.0F);
+         float var22 = MathHelper.wrapDegrees(this.lkw[var19] - var15);
+         float var23 = MathHelper.clamp(this.lkx[var19] - var16, -90.0F, 90.0F);
          var15 += (float)(Math.sin(var13) * 33.5 * var20 + (var22 + Math.signum(var22) * 25.0F) * 0.2);
-         var16 = MathHelper.method_15363(var16 + (float)(Math.cos(var13) * 15.0 * var20 + var23 * 0.1), -90.0F, 90.0F);
+         var16 = MathHelper.clamp(var16 + (float)(Math.cos(var13) * 15.0 * var20 + var23 * 0.1), -90.0F, 90.0F);
          if (var19 >= var7) {
-            double var24 = Math.max(0.0, Math.abs(MathHelper.method_15393(this.lkw[var19] - var15)) - var9);
+            double var24 = Math.max(0.0, Math.abs(MathHelper.wrapDegrees(this.lkw[var19] - var15)) - var9);
             double var26 = Math.max(0.0, Math.abs(this.lkx[var19] - var16) - var11);
             var17 = Math.min(var17, var24 + var26);
          }
@@ -135,7 +135,7 @@ public final class lkh {
    }
 
    private int llk() {
-      return MathHelper.method_15340(this.lku.strikeIn, 0, 12);
+      return MathHelper.clamp(this.lku.strikeIn, 0, 12);
    }
 
    private void lll(int var1) {
@@ -146,9 +146,9 @@ public final class lkh {
          Vec3d var3 = this.lku.eyeAt[var2];
          Vec3d var4 = this.lku.targetAt[var2];
          if (var3 != null && var4 != null) {
-            double var5 = var4.field_1352 - var3.field_1352;
-            double var7 = var4.field_1351 - var3.field_1351;
-            double var9 = var4.field_1350 - var3.field_1350;
+            double var5 = var4.x - var3.x;
+            double var7 = var4.y - var3.y;
+            double var9 = var4.z - var3.z;
             this.lkw[var2] = (float)(Math.toDegrees(Math.atan2(var9, var5)) - 90.0);
             this.lkx[var2] = (float)(-Math.toDegrees(Math.atan2(var7, Math.hypot(var5, var9))));
          } else {
@@ -160,10 +160,10 @@ public final class lkh {
 
    private double llm(boolean var1) {
       Box var2 = this.lku.box;
-      double var3 = var1 ? Math.min(var2.method_17939(), var2.method_17941()) : var2.method_17940();
-      Vec3d var5 = lki.field_1724.method_33571();
-      Vec3d var6 = var2.method_1005();
-      double var7 = Math.max(0.05, Math.hypot(var6.field_1352 - var5.field_1352, var6.field_1350 - var5.field_1350));
+      double var3 = var1 ? Math.min(var2.getLengthX(), var2.getLengthZ()) : var2.getLengthY();
+      Vec3d var5 = lki.player.getEyePos();
+      Vec3d var6 = var2.getCenter();
+      double var7 = Math.max(0.05, Math.hypot(var6.x - var5.x, var6.z - var5.z));
       return Math.toDegrees(Math.atan2(var3 * 0.4, var7));
    }
 

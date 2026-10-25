@@ -99,7 +99,7 @@ public final class jte extends Screen {
    private static final int jwa = 3;
 
    public jte() {
-      super(Text.method_43470(vvi.get()));
+      super(Text.literal(vvi.get()));
 
       for (int var1 = 0; var1 < 4; var1++) {
          this.jty[var1] = new vcj(14.0F);
@@ -128,9 +128,10 @@ public final class jte extends Screen {
       return var0;
    }
 
-   protected void method_25426() {
-      if (dry.armed() && this.field_22787 != null) {
-         this.field_22787.method_1507(new TitleScreen());
+   @Override
+   protected void init() {
+      if (dry.armed() && this.client != null) {
+         this.client.setScreen(new TitleScreen());
       } else {
          if (this.jup) {
             this.jup = false;
@@ -141,17 +142,19 @@ public final class jte extends Screen {
       }
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      unf.observe(var1);
+      unf.observe(context);
       long var5 = System.nanoTime();
-      if (this.field_22789 >= 64 && this.field_22790 >= 64) {
-         if (this.field_22789 != this.jvh || this.field_22790 != this.jvi) {
-            this.jvh = this.field_22789;
-            this.jvi = this.field_22790;
+      if (this.width >= 64 && this.height >= 64) {
+         if (this.width != this.jvh || this.height != this.jvi) {
+            this.jvh = this.width;
+            this.jvi = this.height;
             this.jvg = -1.0F;
          }
 
@@ -166,18 +169,18 @@ public final class jte extends Screen {
 
          float var8 = var7 - this.jun;
          float var9 = var7 - this.jvq;
-         this.jvd = kbp.scale(this.field_22789, this.field_22790);
-         this.jve = this.field_22789 / this.jvd;
-         this.jvf = this.field_22790 / this.jvd;
-         float var10 = var2 / this.jvd;
-         float var11 = var3 / this.jvd;
+         this.jvd = kbp.scale(this.width, this.height);
+         this.jve = this.width / this.jvd;
+         this.jvf = this.height / this.jvd;
+         float var10 = mouseX / this.jvd;
+         float var11 = mouseY / this.jvd;
          float var12 = 1.0F - (float)Math.exp(-this.jvc * 2.2F);
          if (!kbm.PARALLAX.get()) {
             this.juz = this.juz - this.juz * var12;
             this.jva = this.jva - this.jva * var12;
-         } else if (var2 >= 0 && var3 >= 0 && var2 <= this.field_22789 && var3 <= this.field_22790) {
-            this.juz = this.juz + ((float)var2 / this.field_22789 - 0.5F - this.juz) * var12;
-            this.jva = this.jva + ((float)var3 / this.field_22790 - 0.5F - this.jva) * var12;
+         } else if (mouseX >= 0 && mouseY >= 0 && mouseX <= this.width && mouseY <= this.height) {
+            this.juz = this.juz + ((float)mouseX / this.width - 0.5F - this.juz) * var12;
+            this.jva = this.jva + ((float)mouseY / this.height - 0.5F - this.jva) * var12;
          }
 
          float var13 = this.jwl();
@@ -187,21 +190,21 @@ public final class jte extends Screen {
          this.jvl.step(this.jug.light, this.jvc);
          float var15 = this.jvm.step(kbm.PARTICLES.get(), this.jvc);
          GpuTextureView var16 = unm.view();
-         this.jwe(var1, var7, var8);
-         Matrix3x2fStack var17 = var1.method_51448();
+         this.jwe(context, var7, var8);
+         Matrix3x2fStack var17 = context.getMatrices();
          var17.pushMatrix();
          var17.scale(this.jvd, this.jvd);
          vdn.setRenderScaleStepped(this.jvd);
 
          try {
-            this.jwf(var1);
+            this.jwf(context);
             float var18 = this.jwd();
             if (this.juj != null && var18 > 0.0F) {
-               this.juj.draw(var1, var16, this.jve, this.jvf, var7, false, this.juz, this.jva, var18 * var15);
+               this.juj.draw(context, var16, this.jve, this.jvf, var7, false, this.juz, this.jva, var18 * var15);
             }
 
-            this.juh.draw(var1, var16, this.jve, this.jvf, var7, false, this.juz, this.jva, vcq.clamp01(var8 / 1.2F) * (1.0F - var18) * var15);
-            float var19 = this.jvd * MinecraftClient.method_1551().method_22683().method_4495();
+            this.juh.draw(context, var16, this.jve, this.jvf, var7, false, this.juz, this.jva, vcq.clamp01(var8 / 1.2F) * (1.0F - var18) * var15);
+            float var19 = this.jvd * MinecraftClient.getInstance().getWindow().getScaleFactor();
             float var20 = vcq.clamp01((var9 - 0.1F) / 1.25F);
             if (var14 > 0.01F) {
                float var21 = this.jtx.width(var19) * 0.5F + 14.0F;
@@ -209,7 +212,7 @@ public final class jte extends Screen {
                uut.pushAlpha(var14);
                this.jtx
                   .draw(
-                     var1,
+                     context,
                      var16,
                      var22 - this.juz * 5.0F,
                      this.jvf * 0.5F - 75.0F - this.jva * 3.0F - (1.0F - var14) * 8.0F,
@@ -227,29 +230,29 @@ public final class jte extends Screen {
             boolean var33 = this.juq && this.jxb(var10, var11);
 
             for (int var34 = 0; var34 < 4; var34++) {
-               this.jwm(var1, var16, var34, var10, var11, var7, var33);
+               this.jwm(context, var16, var34, var10, var11, var7, var33);
             }
 
             if (this.juj != null && var18 > 0.0F) {
-               this.juj.draw(var1, var16, this.jve, this.jvf, var7, true, this.juz, this.jva, var18 * var15);
+               this.juj.draw(context, var16, this.jve, this.jvf, var7, true, this.juz, this.jva, var18 * var15);
             }
 
-            this.juh.draw(var1, var16, this.jve, this.jvf, var7, true, this.juz, this.jva, vcq.clamp01(var8 / 1.2F) * (1.0F - var18) * var15);
+            this.juh.draw(context, var16, this.jve, this.jvf, var7, true, this.juz, this.jva, vcq.clamp01(var8 / 1.2F) * (1.0F - var18) * var15);
             float var35 = vcq.outCubic(vcq.clamp01((var9 - 0.6F) / 0.7F));
             uut.pushAlpha(var35);
 
             try {
                for (int var23 = 0; var23 < 4; var23++) {
-                  this.jwo(var1, var16, var23, var10, var11, var35);
+                  this.jwo(context, var16, var23, var10, var11, var35);
                }
 
-               this.jwp(var1);
+               this.jwp(context);
             } finally {
                uut.popAlpha();
             }
 
-            this.jxd(var1, var10, var11);
-            this.jxk(var1, var16, var10, var11, var7);
+            this.jxd(context, var10, var11);
+            this.jxk(context, var16, var10, var11, var7);
          } finally {
             uut.additive(false);
             var17.popMatrix();
@@ -264,7 +267,7 @@ public final class jte extends Screen {
 
          if (this.juy >= 0.0F && var7 >= this.juy) {
             this.juy = -1.0F;
-            this.field_22787.method_1592();
+            this.client.scheduleStop();
          }
       } else {
          this.jvb = 0L;
@@ -295,7 +298,7 @@ public final class jte extends Screen {
       }
 
       float var5 = this.jwd();
-      uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, -16118250);
+      uut.rect(var1, 0.0F, 0.0F, this.width, this.height, -16118250);
       float var6 = this.jum ? vcq.inOutCubic(vcq.clamp01((var3 - 0.1F) / 1.3F)) : 1.0F;
       if (var4 != null) {
          this.jtv.time = var2;
@@ -309,7 +312,7 @@ public final class jte extends Screen {
          this.jtv.fall = null;
          this.jtv.pool = null;
          this.jwh(this.jtv, var6);
-         this.jtt.draw(var1, var4, this.jtv, this.field_22789, this.field_22790, 1.0F, true);
+         this.jtt.draw(var1, var4, this.jtv, this.width, this.height, 1.0F, true);
       }
 
       if (var5 > 0.0F) {
@@ -327,7 +330,7 @@ public final class jte extends Screen {
             this.jtw.fall = null;
             this.jtw.pool = null;
             this.jwh(this.jtw, 1.0F);
-            this.jtu.draw(var1, var7, this.jtw, this.field_22789, this.field_22790, var5, false);
+            this.jtu.draw(var1, var7, this.jtw, this.width, this.height, var5, false);
          }
       }
    }
@@ -373,9 +376,7 @@ public final class jte extends Screen {
    }
 
    private float jwl() {
-      String var1 = kbm.POSITION.get();
-
-      return switch (var1) {
+      return switch (kbm.POSITION.get()) {
          case a.c(51235075, "쥋냓㨃ꑠ") -> 34.0F;
          case a.b("\ue4dc鵖ឋ觵Ⱦ", -655104885) -> this.jve - 34.0F - 138.0F;
          default -> (this.jve - 138.0F) * 0.5F;
@@ -402,7 +403,7 @@ public final class jte extends Screen {
          float var23 = (float)kbm.BLUR.get();
          float var24 = var21.equals(a.b("ﶅ萑໑邹", -2113274427)) ? 0.0F : this.jvl.get();
          int var25 = jyg(16777215, 1842982, var24);
-         Matrix3x2fStack var26 = var1.method_51448();
+         Matrix3x2fStack var26 = var1.getMatrices();
          var26.pushMatrix();
          var26.translate(var10 + 69.0F, var13 + 12.5F);
          var26.scale(var18, var18);
@@ -459,10 +460,10 @@ public final class jte extends Screen {
             }
 
             if (var16 < 1.0F) {
-               float var34 = 138.0F * vcq.outCubic(var16);
-               float var36 = Math.max(0.0F, this.juw - var34);
-               float var29 = Math.min(138.0F, this.juw + var34);
-               uut.round(var1, var36, 0.0F, var29 - var36, 25.0F, var19, jyh(jyg(16777215, var20, 0.5F), 0.3F * (1.0F - var16)));
+               float var35 = 138.0F * vcq.outCubic(var16);
+               float var37 = Math.max(0.0F, this.juw - var35);
+               float var29 = Math.min(138.0F, this.juw + var35);
+               uut.round(var1, var37, 0.0F, var29 - var37, 25.0F, var19, jyh(jyg(16777215, var20, 0.5F), 0.3F * (1.0F - var16)));
             }
 
             uut.outlineGradientV(
@@ -477,23 +478,23 @@ public final class jte extends Screen {
                jyh(jyg(var25, var20, var15), ((var22 ? 0.42F : 0.08F) + 0.3F * var15) * (1.0F + 0.4F * var24))
             );
 
-            vhz var35 = switch (var3) {
+            vhz var36 = switch (var3) {
                case 0 -> vhz.PLAYER;
                case 1 -> vhz.FRIENDS;
                case 2 -> vhz.ACCOUNTS;
                default -> vhz.SETTINGS;
             };
 
-            String var37 = switch (var3) {
+            String var38 = switch (var3) {
                case 0 -> wap.s(a.c(518566841, "돦쩭䂹\udec1唝펥槣\ue00e繜\uf4f5猺襜"), a.b("ᑏ淔\ue70b祿\uf2ab瑣칊䞶\ud996坈풃\u2ef9ꁝ㦜", -1282404257));
                case 1 -> wap.s(a.d("摞ᷗ霝ॴ芾Ж빙㞥ꧢ⍏ꒋ", 44600145, -652480695), a.d("螭︈璬\ueaaa慺\ue7c9工큻䨼삆䜦봧", -1912415222, -1087217782));
                case 2 -> wap.s(a.c(-1828125110, "\u0600羜\uf557歲\ue0e8晕\udc09嗷쮮䄝웙"), a.c(1429706336, "鉽\uebe7慃＼炉\uf224䡾솇忐할励ꣃ♡"));
                default -> wap.s(a.d("年耉ો钺ὰ駆⎜꩹", -1976864895, -1582131628), a.b("\ue543鳟ᙽ蠏Ϛ蔕㽁뚳⣮", -1612062377));
             };
-            int var38 = jyg(jyg(15922682, 16777215, var15), 1447965, var24);
-            vjf.draw(var1, var35, 16.0F + 2.0F * var15, 12.5F, 10.5F, jyh(jyg(jyg(14541806, 3817290, var24), var20, var15), 0.9F + 0.1F * var15));
+            int var39 = jyg(jyg(15922682, 16777215, var15), 1447965, var24);
+            vjf.draw(var1, var36, 16.0F + 2.0F * var15, 12.5F, 10.5F, jyh(jyg(jyg(14541806, 3817290, var24), var20, var15), 0.9F + 0.1F * var15));
             vdn var30 = veo.semibold(8.4F);
-            var30.drawCentered(var1, var37, 69.0F + 3.0F * var15, var30.centerTop(12.5F), jyh(var38, 1.0F));
+            var30.drawCentered(var1, var38, 69.0F + 3.0F * var15, var30.centerTop(12.5F), jyh(var39, 1.0F));
             if (var15 > 0.01F) {
                uut.pushAlpha(var15);
                vjf.draw(var1, vhz.CHEVRON_RIGHT, 122.0F - 4.0F * (1.0F - var15), 12.5F, 8.0F, jyh(var20, 1.0F));
@@ -527,7 +528,7 @@ public final class jte extends Screen {
       float var14 = 10.5F;
       float var15 = var7 + var14;
       float var16 = var8 + var14;
-      Matrix3x2fStack var17 = var1.method_51448();
+      Matrix3x2fStack var17 = var1.getMatrices();
       var17.pushMatrix();
       var17.translate(var15, var16);
       float var18 = 1.0F + 0.08F * var10 - 0.14F * var12;
@@ -606,7 +607,7 @@ public final class jte extends Screen {
 
    private void jwp(DrawContext var1) {
       vdn var2 = veo.medium(6.2F);
-      String var3 = a.d("妄‑\uaac5㒿뽮㧎莎\u0a78鐵Ố", -2045428213, 1438345160) + SharedConstants.method_16673().comp_4025();
+      String var3 = a.d("妄‑\uaac5㒿뽮㧎莎\u0a78鐵Ố", -2045428213, 1438345160) + SharedConstants.getGameVersion().name();
       var2.drawRight(var1, var3, this.jve - 12.0F, var2.centerTop(this.jvf - 12.0F), jyh(jyg(16777215, 2764342, this.jvl.get()), 0.55F));
    }
 
@@ -661,17 +662,17 @@ public final class jte extends Screen {
    private int jxc(float var1, float var2) {
       if (!jyf(var1, var2, this.jwq(), this.jwt(), 254.0F, this.jwu())) {
          return -1;
-      } else {
-         kbs[] var3 = kbs.values();
-
-         for (int var4 = 0; var4 < var3.length; var4++) {
-            if (jyf(var1, var2, this.jwz(var4), this.jxa(var4), 74.0F, 54.0F)) {
-               return var4;
-            }
-         }
-
-         return -1;
       }
+
+      kbs[] var3 = kbs.values();
+
+      for (int var4 = 0; var4 < var3.length; var4++) {
+         if (jyf(var1, var2, this.jwz(var4), this.jxa(var4), 74.0F, 54.0F)) {
+            return var4;
+         }
+      }
+
+      return -1;
    }
 
    private void jxd(DrawContext var1, float var2, float var3) {
@@ -682,7 +683,7 @@ public final class jte extends Screen {
          float var7 = this.jwr();
          float var8 = this.jws();
          float var9 = 11.0F;
-         Matrix3x2fStack var10 = var1.method_51448();
+         Matrix3x2fStack var10 = var1.getMatrices();
          var10.pushMatrix();
          float var11 = this.jwn(2) + 10.5F;
          var10.translate(var11, var7);
@@ -767,7 +768,7 @@ public final class jte extends Screen {
       boolean var11 = var2 == this.jug;
       float var12 = vcq.clamp01((kap.clock() - this.juf[var3]) / 0.45F);
       float var13 = var12 < 1.0F ? (float)Math.sin(Math.PI * vcq.clamp01(var12 * 2.4F)) * (1.0F - var12 * 0.5F) : 0.0F;
-      Matrix3x2fStack var14 = var1.method_51448();
+      Matrix3x2fStack var14 = var1.getMatrices();
       var14.pushMatrix();
       var14.translate(var5 + var8 * 0.5F, var6 + var9 * 0.5F);
       var14.scale(1.0F - 0.06F * var13, 1.0F - 0.06F * var13);
@@ -858,7 +859,7 @@ public final class jte extends Screen {
          float var9 = this.jxg();
          float var10 = this.jxh();
          float var11 = 14.0F;
-         Matrix3x2fStack var12 = var1.method_51448();
+         Matrix3x2fStack var12 = var1.getMatrices();
          var12.pushMatrix();
          var12.translate(var9 + 114.0F, var10 + 59.0F);
          float var13 = 0.9F + 0.1F * Math.min(1.05F, var7);
@@ -1042,15 +1043,15 @@ public final class jte extends Screen {
    private int jxx(float var1, float var2) {
       if (!jyf(var1, var2, this.jwq(), this.jwt(), 254.0F, this.jwu())) {
          return -1;
-      } else {
-         for (int var3 = 0; var3 < 9; var3++) {
-            if (jyf(var1, var2, this.jwq() + 6.0F, this.jxt(var3), 242.0F, 19.0F)) {
-               return var3;
-            }
-         }
-
-         return -1;
       }
+
+      for (int var3 = 0; var3 < 9; var3++) {
+         if (jyf(var1, var2, this.jwq() + 6.0F, this.jxt(var3), 242.0F, 19.0F)) {
+            return var3;
+         }
+      }
+
+      return -1;
    }
 
    private void jxy(int var1, float var2) {
@@ -1189,156 +1190,161 @@ public final class jte extends Screen {
       }
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
-      if (var1.method_74245() != 0) {
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
+      if (click.button() != 0) {
          return true;
-      } else {
-         float var3 = (float)var1.comp_4798() / this.jvd;
-         float var4 = (float)var1.comp_4799() / this.jvd;
-         if (this.jux < 0 && !(this.juy >= 0.0F)) {
-            if (this.jur) {
-               float var9 = 96.0F;
-               if (jyf(var3, var4, this.jxi(0), this.jxj(), var9, 20.0F)) {
-                  jye(
-                     a.c(
-                        -95082218,
-                        "⤳傞\uda4d䐸쿬䤔\uf352窣\ue4be渍\ue9d5Ꮂ鵾ӈ躁\u086c뉥㷹Ꝇℕꢠ튳専쟘䇬쭻狏ﳝ晠\ue037殈镑ὖ蛫º訋㗐뾻㥳ꃘ⫞呱\ude26妉썃䴥\uf4fd繁\uf819掕\uedbf\u177d黝ᢍ艤ళ랍ㅁ뭾⋷갚홇冫\udbe6䔪첄盈\uf039穹\ue582漀\ue92aჲ驀Ѓ迩\u09b4"
-                     )
-                  );
-                  this.jur = false;
-               } else if (jyf(var3, var4, this.jxi(1), this.jxj(), var9, 20.0F) || !jyf(var3, var4, this.jxg(), this.jxh(), 228.0F, 118.0F)) {
-                  this.jur = false;
-               }
+      }
 
-               return true;
-            } else {
-               if (this.juq) {
-                  if (this.jxb(var3, var4)) {
-                     int var8 = this.jxc(var3, var4);
-                     if (var8 >= 0) {
-                        this.juf[var8] = kap.clock();
-                        this.jxm(kbs.values()[var8]);
-                     } else {
-                        int var10 = this.jxx(var3, var4);
-                        if (var10 >= 0) {
-                           this.jxy(var10, var3);
-                        }
-                     }
-
-                     return true;
-                  }
-
-                  if (!jyf(var3, var4, this.jwn(2), 12.0F, 21.0F, 21.0F)) {
-                     this.juq = false;
-                  }
-               }
-
-               for (int var5 = 0; var5 < 4; var5++) {
-                  if (jyf(var3, var4, this.jwn(var5), 12.0F, 21.0F, 21.0F)) {
-                     this.jue[var5] = kap.clock();
-                     switch (var5) {
-                        case 0:
-                           jye(TELEGRAM);
-                           break;
-                        case 1:
-                           jye(a.c(-239718413, "⾇嘪\udcf9䊌쥘侠\uf5e6簗\ue203梿\uef76ᔗ鯌ɠ蠥ພ뒘㭉ꆲ➫긏퐌媴셑䜚췡瑰猪"));
-                           break;
-                        case 2:
-                           this.juq = !this.juq;
-                           if (this.juq) {
-                              float var6 = this.jxa(this.jug.ordinal()) + this.jut - this.jwt();
-                              this.juu = this.jut = Math.max(0.0F, Math.min(this.jwy(), var6 - this.jwu() * 0.35F));
-                           }
-                           break;
-                        default:
-                           this.juy = kap.clock() + 0.28F;
-                     }
-
-                     return true;
-                  }
-               }
-
-               for (int var7 = 0; var7 < 4; var7++) {
-                  if (jyf(var3, var4, this.jwk(), this.jwj(var7), 138.0F, 25.0F)) {
-                     this.jus = var7;
-                     this.juv = kap.clock();
-                     this.juw = var3 - this.jwk();
-                     if (var7 == 2 && !jrn.available()) {
-                        this.jur = true;
-                     } else {
-                        this.jux = var7;
-                     }
-
-                     return true;
-                  }
-               }
-
-               return true;
+      float var3 = (float)click.x() / this.jvd;
+      float var4 = (float)click.y() / this.jvd;
+      if (this.jux < 0 && !(this.juy >= 0.0F)) {
+         if (this.jur) {
+            float var9 = 96.0F;
+            if (jyf(var3, var4, this.jxi(0), this.jxj(), var9, 20.0F)) {
+               jye(
+                  a.c(
+                     -95082218,
+                     "⤳傞\uda4d䐸쿬䤔\uf352窣\ue4be渍\ue9d5Ꮂ鵾ӈ躁\u086c뉥㷹Ꝇℕꢠ튳専쟘䇬쭻狏ﳝ晠\ue037殈镑ὖ蛫º訋㗐뾻㥳ꃘ⫞呱\ude26妉썃䴥\uf4fd繁\uf819掕\uedbf\u177d黝ᢍ艤ళ랍ㅁ뭾⋷갚홇冫\udbe6䔪첄盈\uf039穹\ue582漀\ue92aჲ驀Ѓ迩\u09b4"
+                  )
+               );
+               this.jur = false;
+            } else if (jyf(var3, var4, this.jxi(1), this.jxj(), var9, 20.0F) || !jyf(var3, var4, this.jxg(), this.jxh(), 228.0F, 118.0F)) {
+               this.jur = false;
             }
+
+            return true;
          } else {
+            if (this.juq) {
+               if (this.jxb(var3, var4)) {
+                  int var8 = this.jxc(var3, var4);
+                  if (var8 >= 0) {
+                     this.juf[var8] = kap.clock();
+                     this.jxm(kbs.values()[var8]);
+                  } else {
+                     int var10 = this.jxx(var3, var4);
+                     if (var10 >= 0) {
+                        this.jxy(var10, var3);
+                     }
+                  }
+
+                  return true;
+               }
+
+               if (!jyf(var3, var4, this.jwn(2), 12.0F, 21.0F, 21.0F)) {
+                  this.juq = false;
+               }
+            }
+
+            for (int var5 = 0; var5 < 4; var5++) {
+               if (jyf(var3, var4, this.jwn(var5), 12.0F, 21.0F, 21.0F)) {
+                  this.jue[var5] = kap.clock();
+                  switch (var5) {
+                     case 0:
+                        jye(TELEGRAM);
+                        break;
+                     case 1:
+                        jye(a.c(-239718413, "⾇嘪\udcf9䊌쥘侠\uf5e6簗\ue203梿\uef76ᔗ鯌ɠ蠥ພ뒘㭉ꆲ➫긏퐌媴셑䜚췡瑰猪"));
+                        break;
+                     case 2:
+                        this.juq = !this.juq;
+                        if (this.juq) {
+                           float var6 = this.jxa(this.jug.ordinal()) + this.jut - this.jwt();
+                           this.juu = this.jut = Math.max(0.0F, Math.min(this.jwy(), var6 - this.jwu() * 0.35F));
+                        }
+                        break;
+                     default:
+                        this.juy = kap.clock() + 0.28F;
+                  }
+
+                  return true;
+               }
+            }
+
+            for (int var7 = 0; var7 < 4; var7++) {
+               if (jyf(var3, var4, this.jwk(), this.jwj(var7), 138.0F, 25.0F)) {
+                  this.jus = var7;
+                  this.juv = kap.clock();
+                  this.juw = var3 - this.jwk();
+                  if (var7 == 2 && !jrn.available()) {
+                     this.jur = true;
+                  } else {
+                     this.jux = var7;
+                  }
+
+                  return true;
+               }
+            }
+
             return true;
          }
+      } else {
+         return true;
       }
    }
 
-   public boolean method_25403(Click var1, double var2, double var4) {
+   @Override
+   public boolean mouseDragged(Click click, double offsetX, double offsetY) {
       if (this.jvp >= 0) {
-         this.jxz(this.jvp, (float)var1.comp_4798() / this.jvd);
+         this.jxz(this.jvp, (float)click.x() / this.jvd);
          return true;
       } else {
-         return super.method_25403(var1, var2, var4);
+         return super.mouseDragged(click, offsetX, offsetY);
       }
    }
 
-   public boolean method_25406(Click var1) {
+   @Override
+   public boolean mouseReleased(Click click) {
       if (this.jvp >= 0) {
          this.jvp = -1;
          hyz.saveLater();
          return true;
       } else {
-         return super.method_25406(var1);
+         return super.mouseReleased(click);
       }
    }
 
-   public boolean method_25401(double var1, double var3, double var5, double var7) {
-      if (this.juq && this.jxb((float)var1 / this.jvd, (float)var3 / this.jvd)) {
-         this.juu = Math.max(0.0F, Math.min(this.jwy(), this.juu - (float)var7 * 28.0F));
+   @Override
+   public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+      if (this.juq && this.jxb((float)mouseX / this.jvd, (float)mouseY / this.jvd)) {
+         this.juu = Math.max(0.0F, Math.min(this.jwy(), this.juu - (float)verticalAmount * 28.0F));
       }
 
       return true;
    }
 
    private void jyd(int var1) {
-      MinecraftClient var2 = this.field_22787;
+      MinecraftClient var2 = this.client;
       switch (var1) {
          case 0:
-            var2.method_1507(new SelectWorldScreen(this));
+            var2.setScreen(new SelectWorldScreen(this));
             break;
          case 1:
-            var2.method_1507((Screen)(var2.field_1690.field_21840 ? new MultiplayerScreen(this) : new MultiplayerWarningScreen(this)));
+            var2.setScreen(var2.options.skipMultiplayerWarning ? new MultiplayerScreen(this) : new MultiplayerWarningScreen(this));
             break;
          case 2:
             if (jrn.available()) {
-               var2.method_1507(new jos(this));
+               var2.setScreen(new jos(this));
             } else {
                this.jur = true;
             }
             break;
          default:
-            var2.method_1507(new OptionsScreen(this, var2.field_1690));
+            var2.setScreen(new OptionsScreen(this, var2.options));
       }
    }
 
    private static void jye(String var0) {
       try {
-         Util.method_668().method_673(URI.create(var0));
+         Util.getOperatingSystem().open(URI.create(var0));
       } catch (Exception var2) {
          System.out.println(a.c(945862716, "롔쇧䬻픃庇\ud862找\ueb90痚｠磽") + var0 + a.b("맚쁱", 382122466) + var2);
       }
    }
 
-   public boolean method_25404(KeyInput var1) {
-      if (var1.comp_4795() == 256) {
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      if (input.key() == 256) {
          if (this.jur) {
             this.jur = false;
          } else if (this.juq) {
@@ -1349,15 +1355,18 @@ public final class jte extends Screen {
       return true;
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public void method_25432() {
+   @Override
+   public void removed() {
       this.jup = true;
       this.juq = false;
       this.jvp = -1;

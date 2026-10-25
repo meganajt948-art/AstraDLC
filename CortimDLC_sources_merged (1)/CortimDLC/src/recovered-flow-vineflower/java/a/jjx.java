@@ -37,9 +37,7 @@ public final class jjx extends jcs {
    private static final int jkk = -865972;
    private static final int jkl = -1092784;
    private static final int jkm = -670639;
-   private static final EquipmentSlot[] jkn = new EquipmentSlot[]{
-      EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166
-   };
+   private static final EquipmentSlot[] jkn = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
    private static LivingEntity jko;
    private static long jkp;
    private LivingEntity jkq;
@@ -73,7 +71,7 @@ public final class jjx extends jcs {
 
    @Override
    void update(float var1, boolean var2) {
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       long var4 = System.currentTimeMillis();
       LivingEntity var6 = this.enabled.get() ? jle(var3, var4) : null;
       if (var6 != null) {
@@ -84,7 +82,7 @@ public final class jjx extends jcs {
             }
 
             this.jkq = var6;
-            this.jku = var6.field_6235;
+            this.jku = var6.hurtTime;
             vyd var7 = vyk.of(var6);
             float var8 = var7.fraction();
             this.jkv.set(var8);
@@ -99,8 +97,8 @@ public final class jjx extends jcs {
       this.jkt = false;
       if (this.jkq != null) {
          this.jks = jlg(this.jkq, var3);
-      } else if (var2 && var3.field_1724 != null) {
-         this.jks = jlh(var3.field_1724);
+      } else if (var2 && var3.player != null) {
+         this.jks = jlh(var3.player);
          this.jkt = true;
       }
 
@@ -119,11 +117,11 @@ public final class jjx extends jcs {
 
          this.jkx.step(this.jks.jjp ? 0.0F : Math.min(1.0F, this.jks.jjo / Math.max(1.0F, this.jks.jjn)), var1);
          this.jkz.step(var9 < 0.3F ? 1.0F : 0.0F, var1);
-         if (this.jkq != null && this.jkq.field_6235 > this.jku) {
+         if (this.jkq != null && this.jkq.hurtTime > this.jku) {
             this.jky.set(1.0F);
          }
 
-         this.jku = this.jkq != null ? this.jkq.field_6235 : 0;
+         this.jku = this.jkq != null ? this.jkq.hurtTime : 0;
          this.jky.step(0.0F, var1);
          this.jla.step(0.0F, var1);
       }
@@ -132,23 +130,23 @@ public final class jjx extends jcs {
    private static LivingEntity jle(MinecraftClient var0, long var1) {
       if (jko != null && var1 - jkp < 6000L && jlf(var0, jko)) {
          return jko;
-      } else if (var0.field_1692 instanceof LivingEntity var3 && !(var3 instanceof ArmorStandEntity) && jlf(var0, var3)) {
+      } else if (var0.targetedEntity instanceof LivingEntity var3 && !(var3 instanceof ArmorStandEntity) && jlf(var0, var3)) {
          return var3;
       } else {
-         ClientPlayerEntity var16 = var0.field_1724;
-         if (var16 != null && var0.field_1687 != null) {
-            Vec3d var17 = var16.method_33571();
-            Vec3d var5 = var16.method_5828(1.0F);
+         ClientPlayerEntity var16 = var0.player;
+         if (var16 != null && var0.world != null) {
+            Vec3d var17 = var16.getEyePos();
+            Vec3d var5 = var16.getRotationVec(1.0F);
             PlayerEntity var6 = null;
             double var7 = Math.cos(Math.toRadians(5.0));
 
-            for (PlayerEntity var10 : var0.field_1687.method_18456()) {
+            for (PlayerEntity var10 : var0.world.getPlayers()) {
                if (var10 != var16 && jlf(var0, var10)) {
-                  Vec3d var11 = var10.method_5829().method_1005().method_1020(var17);
-                  double var12 = var11.method_1033();
+                  Vec3d var11 = var10.getBoundingBox().getCenter().subtract(var17);
+                  double var12 = var11.length();
                   if (!(var12 > 10.0) && !(var12 < 0.01)) {
-                     double var14 = var11.method_1021(1.0 / var12).method_1026(var5);
-                     if (var14 > var7 && var16.method_6057(var10)) {
+                     double var14 = var11.multiply(1.0 / var12).dotProduct(var5);
+                     if (var14 > var7 && var16.canSee(var10)) {
                         var7 = var14;
                         var6 = var10;
                      }
@@ -164,57 +162,57 @@ public final class jjx extends jcs {
    }
 
    private static boolean jlf(MinecraftClient var0, LivingEntity var1) {
-      if (var0.field_1687 == null
-         || var0.field_1724 == null
-         || var1 == var0.field_1724
-         || !var1.method_5805()
-         || var1.method_31481()
-         || var0.field_1687.method_8469(var1.method_5628()) != var1) {
+      if (var0.world == null
+         || var0.player == null
+         || var1 == var0.player
+         || !var1.isAlive()
+         || var1.isRemoved()
+         || var0.world.getEntityById(var1.getId()) != var1) {
          return false;
       } else {
-         return PLAYERS_ONLY.get() && !(var1 instanceof PlayerEntity) ? false : var0.field_1724.method_5858(var1) < 576.0;
+         return PLAYERS_ONLY.get() && !(var1 instanceof PlayerEntity) ? false : var0.player.squaredDistanceTo(var1) < 576.0;
       }
    }
 
    private static jjj jlg(LivingEntity var0, MinecraftClient var1) {
-      SkinTextures var2 = var0 instanceof AbstractClientPlayerEntity var3 ? var3.method_52814() : null;
+      SkinTextures var2 = var0 instanceof AbstractClientPlayerEntity var3 ? var3.getSkin() : null;
       vyd var6 = vyk.of(var0);
       ItemStack[] var4 = new ItemStack[4];
 
       for (int var5 = 0; var5 < 4; var5++) {
-         var4[var5] = var0.method_6118(jkn[var5]);
+         var4[var5] = var0.getEquippedStack(jkn[var5]);
       }
 
-      float var7 = var1.field_1724 != null ? (float)Math.sqrt(var1.field_1724.method_5858(var0)) : 0.0F;
+      float var7 = var1.player != null ? (float)Math.sqrt(var1.player.squaredDistanceTo(var0)) : 0.0F;
       return new jjj(
-         lsx.protect(var0.method_5477().getString()),
+         lsx.protect(var0.getName().getString()),
          var2,
          var6.health(),
          var6.max(),
          var6.absorption(),
          var6.unknown(),
          var4,
-         var0.method_6047(),
-         var0.method_6079(),
+         var0.getMainHandStack(),
+         var0.getOffHandStack(),
          var7,
-         var0.field_6235
+         var0.hurtTime
       );
    }
 
    private static jjj jlh(ClientPlayerEntity var0) {
       ItemStack[] var1 = new ItemStack[]{
-         jli(Items.field_22027, 0.08F), jli(Items.field_22028, 0.35F), jli(Items.field_8348, 0.62F), jli(Items.field_8285, 0.86F)
+         jli(Items.NETHERITE_HELMET, 0.08F), jli(Items.NETHERITE_CHESTPLATE, 0.35F), jli(Items.DIAMOND_LEGGINGS, 0.62F), jli(Items.DIAMOND_BOOTS, 0.86F)
       };
       return new jjj(
-         lsx.protect(var0.method_5477().getString()),
-         var0.method_52814(),
+         lsx.protect(var0.getName().getString()),
+         var0.getSkin(),
          13.5F,
          20.0F,
          4.0F,
          false,
          var1,
-         jli(Items.field_22022, 0.2F),
-         new ItemStack(Items.field_8288),
+         jli(Items.NETHERITE_SWORD, 0.2F),
+         new ItemStack(Items.TOTEM_OF_UNDYING),
          3.4F,
          0
       );
@@ -222,8 +220,8 @@ public final class jjx extends jcs {
 
    private static ItemStack jli(Item var0, float var1) {
       ItemStack var2 = new ItemStack(var0);
-      if (var2.method_7963()) {
-         var2.method_7974(Math.round(var2.method_7936() * var1));
+      if (var2.isDamageable()) {
+         var2.setDamage(Math.round(var2.getMaxDamage() * var1));
       }
 
       return var2;
@@ -263,16 +261,16 @@ public final class jjx extends jcs {
          float var7 = iov.r(9.0F);
          izx.panel(var1, var5, var6, var7);
          float var8 = vcq.outCubic(this.jla.get());
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(0.0F, var6 * 0.5F);
-         var1.method_51448().scale(1.0F, 1.0F - 0.18F * var8);
-         var1.method_51448().translate(0.0F, -var6 * 0.5F);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(0.0F, var6 * 0.5F);
+         var1.getMatrices().scale(1.0F, 1.0F - 0.18F * var8);
+         var1.getMatrices().translate(0.0F, -var6 * 0.5F);
          uut.pushAlpha(1.0F - 0.85F * var8);
          this.jlj(var1, var4, 8.0F, (var6 - 30.0F) * 0.5F);
          this.jlk(var1, var4, 46.0F, var6);
          this.jln(var1, var4, var5 - 8.0F - 15.0F, var6 * 0.5F);
          uut.popAlpha();
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
       }
    }
 
@@ -280,9 +278,9 @@ public final class jjx extends jcs {
       float var5 = Math.min(15.0F, iov.r(7.0F));
       float var6 = vcq.outCubic(this.jky.get());
       float var7 = 1.0F - 0.07F * var6;
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(var3 + 15.0F, var4 + 15.0F);
-      var1.method_51448().scale(var7, var7);
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate(var3 + 15.0F, var4 + 15.0F);
+      var1.getMatrices().scale(var7, var7);
       float var8 = -15.0F;
       ukf.shadow(var1, var8, var8, 30.0F, 30.0F, var5, 0.8F, iov.lightness());
       int var9 = ujt.lerp(-1, -34182, var6);
@@ -294,7 +292,7 @@ public final class jjx extends jcs {
       }
 
       uut.outlineGradientV(var1, var8, var8, 30.0F, 30.0F, var5, 1.0F, 956301311, 184549375);
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
    }
 
    private void jlk(DrawContext var1, jjj var2, float var3, float var4) {
@@ -333,19 +331,19 @@ public final class jjx extends jcs {
    }
 
    private void jll(DrawContext var1, ItemStack var2, float var3, float var4) {
-      if (var2 != null && !var2.method_7960()) {
+      if (var2 != null && !var2.isEmpty()) {
          float var5 = uut.alpha();
          float var6 = 0.65625F * Math.min(1.0F, var5 * 2.5F);
          if (var6 > 0.02F) {
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var3 + 5.25F, var4 + 5.25F);
-            var1.method_51448().scale(var6, var6);
-            var1.method_51427(var2, -8, -8);
-            var1.method_51448().popMatrix();
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var3 + 5.25F, var4 + 5.25F);
+            var1.getMatrices().scale(var6, var6);
+            var1.drawItem(var2, -8, -8);
+            var1.getMatrices().popMatrix();
          }
 
-         if (var2.method_7963() && var2.method_7936() > 0) {
-            float var7 = 1.0F - (float)var2.method_7919() / var2.method_7936();
+         if (var2.isDamageable() && var2.getMaxDamage() > 0) {
+            float var7 = 1.0F - (float)var2.getDamage() / var2.getMaxDamage();
             float var8 = 8.5F;
             float var9 = var4 + 10.5F + 2.2F;
             uut.round(var1, var3 + 1.0F, var9, var8, 1.3F, 0.65F, iov.track);

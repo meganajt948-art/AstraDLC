@@ -54,10 +54,10 @@ final class fgv {
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
       fhe = var1;
-      if (var0.field_1724 != null && var1 > 10) {
-         var0.field_1724.method_36456(0.0F);
+      if (var0.player != null && var1 > 10) {
+         var0.player.setYaw(0.0F);
          if (!oxw.busy()) {
-            var0.field_1724.method_36457(0.0F);
+            var0.player.setPitch(0.0F);
          }
       }
 
@@ -98,7 +98,7 @@ final class fgv {
                   -655085098
                )
             );
-            var0.field_1724.method_31548().method_61496(0);
+            var0.player.getInventory().setSelectedSlot(0);
             break;
          case 20:
             fho(var0, true);
@@ -108,9 +108,9 @@ final class fgv {
             break;
          case 70:
             fho(var0, false);
-            fhr(var0, a.d("汒", 551280286, 22786700), Items.field_8802);
-            fht(var0, a.c(-785915601, "\ue16f"), 12, Items.field_49098, 4);
-            fht(var0, a.b("䡌", -1565177844), 12, Items.field_8107, 10);
+            fhr(var0, a.d("汒", 551280286, 22786700), Items.DIAMOND_SWORD);
+            fht(var0, a.c(-785915601, "\ue16f"), 12, Items.WIND_CHARGE, 4);
+            fht(var0, a.b("䡌", -1565177844), 12, Items.ARROW, 10);
             fhv(var0, a.c(-759465548, "秴"));
             fhx(a.c(855086810, "隚"));
             break;
@@ -128,7 +128,7 @@ final class fgv {
                   1512886984
                )
             );
-            var0.field_1724.method_31548().method_61496(0);
+            var0.player.getInventory().setSelectedSlot(0);
             break;
          case 100:
             fho(var0, true);
@@ -138,12 +138,12 @@ final class fgv {
             break;
          case 140:
             fho(var0, false);
-            fhr(var0, a.b("燲", 1343451569), Items.field_8802);
-            fhs(var0, a.b("ꬖ", -1042961579), 5, Items.field_8634, 4);
-            fht(var0, a.c(1411108673, "켂"), 12, Items.field_8543, 7);
-            fht(var0, a.b("ᧄ", 565320071), 12, Items.field_8107, 32);
-            fht(var0, a.c(663858111, "\uabfc"), 12, Items.field_8634, 0);
-            fhu(var0, a.d("昰", -1421646715, -579403018), Items.field_8831, 2112);
+            fhr(var0, a.b("燲", 1343451569), Items.DIAMOND_SWORD);
+            fhs(var0, a.b("ꬖ", -1042961579), 5, Items.ENDER_PEARL, 4);
+            fht(var0, a.c(1411108673, "켂"), 12, Items.SNOWBALL, 7);
+            fht(var0, a.b("ᧄ", 565320071), 12, Items.ARROW, 32);
+            fht(var0, a.c(663858111, "\uabfc"), 12, Items.ENDER_PEARL, 0);
+            fhu(var0, a.d("昰", -1421646715, -579403018), Items.DIRT, 2112);
             fhw(var0, a.b("캊", 654560969));
             fhx(a.c(-154456710, "ⴹ"));
             break;
@@ -158,16 +158,16 @@ final class fgv {
                   -1427676481
                )
             );
-            var0.field_1724.method_31548().method_61496(0);
+            var0.player.getInventory().setSelectedSlot(0);
             break;
          case 170:
             fhn(var0, fhi);
             break;
          case 200:
-            fhr(var0, a.b("ꢈ", -557143862), Items.field_8802);
-            fht(var0, a.b("놓", -651972143), 12, Items.field_8543, 7);
-            fht(var0, a.d("녭", 2072286785, -878565522), 12, Items.field_8107, 32);
-            fhu(var0, a.d("牱", 966105098, -1756304839), Items.field_8831, 2176);
+            fhr(var0, a.b("ꢈ", -557143862), Items.DIAMOND_SWORD);
+            fht(var0, a.b("놓", -651972143), 12, Items.SNOWBALL, 7);
+            fht(var0, a.d("녭", 2072286785, -878565522), 12, Items.ARROW, 32);
+            fhu(var0, a.d("牱", 966105098, -1756304839), Items.DIRT, 2176);
             fhw(var0, a.b("ギ", 408367340));
             fhx(a.d("衫", 332097813, 1909317948));
             break;
@@ -181,15 +181,15 @@ final class fgv {
                   "沰ᔜ鿞Ƨ訽ೞ뚚㽾ꄽ⮁걐嘧\ud8b5䅁쬙䷲\uf7a0硬\ue2d2據\ued4d霯\u19cf艗Я軦㝆뤜⏱ꖻ⸕탏嫗쌻䕻쾝灔器糷\ue50e漜ᇩ鮽ᰇ蛖ࢶ녶㯀붝☂꠩勯\udb43崘쟣䦻\uf23a瓒ﺶ杼\ue9c1鎘ᑢ鸉ú襇㌕뗾㾸ꀂ⫋경唬\udffb䆈쩫䰱\uf6de缕\ue12b毠\uedb6阎ᣙ芿\u0b7d跉㞊렻∱꒑ⵀ휪姣숅䑚컚炧葉揄\ue589渶ၮ高͌蕬\u0fe8끋㨑벾⛵꼋净\udb96屮옹䢟\uf15d笩\ufdea昛\ue803鋭ᒽ鴒ߖ覦㉺됵㻊ꜗ⤩폲呙\ude11䃺쫫獘\uf59f羡\ue07a櫉\uec87镩ἧ臽\u0a45谎㛾룦℔ꮜⶬ홹壍슗䭦촦瞆\uf850戍\ue4b2溸ᜟ駎θ葰ໃ낮㥮ꌲ▏깐偦\udaad䌄셈䮅\uf5fe縬\uf893拆\uef2f镩ῑ頌ɽ賒㔛뽃㦽ꏦ⠻틕咆\udd57䜀"
                )
             );
-            var0.field_1724.method_31548().method_61496(0);
+            var0.player.getInventory().setSelectedSlot(0);
             break;
          case 230:
             fhn(var0, fhi);
             break;
          case 260:
-            fhr(var0, a.c(1014080994, "ꖧ"), Items.field_8162);
-            fht(var0, a.b("ꝫ", 1308010286), 12, Items.field_8543, 7);
-            fht(var0, a.d("꾺", -1905158281, 1744844936), 12, Items.field_8107, 16);
+            fhr(var0, a.c(1014080994, "ꖧ"), Items.AIR);
+            fht(var0, a.b("ꝫ", 1308010286), 12, Items.SNOWBALL, 7);
+            fht(var0, a.d("꾺", -1905158281, 1744844936), 12, Items.ARROW, 16);
             fhw(var0, a.c(1294228714, "岯"));
             fhx(a.d("ଐ", -520123174, -1692956785));
             break;
@@ -204,7 +204,7 @@ final class fgv {
             return true;
       }
 
-      if (var1 > fhk && var1 < fhk + 8 && var0.field_1724 != null) {
+      if (var1 > fhk && var1 < fhk + 8 && var0.player != null) {
          System.out
             .println(
                a.b("ఐ疶ｾ愅\ueada汢홴忑", 1746537594)
@@ -212,11 +212,11 @@ final class fgv {
                   + a.d("⧩偂\udad3䒵콤䧟\uf3c8", -826878956, -658571840)
                   + oxw.busy()
                   + a.b("중냨㨲ꑌ⾑ꥹ", 602130743)
-                  + var0.field_1724.method_6047()
+                  + var0.player.getMainHandStack()
                   + a.c(1647239394, "\ue0ca餸ᏽ趋ٝ胰㪾대")
-                  + var0.field_1724.field_7498.method_34255()
+                  + var0.player.playerScreenHandler.getCursorStack()
                   + a.d("Ẕ杵\uedbf珓\uf813纩쒯", 1263301123, 1747872944)
-                  + var0.field_1724.method_36455()
+                  + var0.player.getPitch()
             );
       }
 
@@ -243,8 +243,8 @@ final class fgv {
          fgx.remove(Integer.valueOf(var3));
       }
 
-      var0.field_1690.field_1894.method_23481(var1);
-      var0.field_1690.field_1867.method_23481(var1);
+      var0.options.forwardKey.setPressed(var1);
+      var0.options.sprintKey.setPressed(var1);
    }
 
    private static void fhp(MinecraftClient var0, String var1) {
@@ -264,32 +264,32 @@ final class fgv {
    }
 
    private static ServerPlayerEntity fhq(MinecraftClient var0) {
-      return var0.method_1576().method_3760().method_14602(var0.field_1724.method_5667());
+      return var0.getServer().getPlayerManager().getPlayer(var0.player.getUuid());
    }
 
    private static void fhr(MinecraftClient var0, String var1, Item var2) {
-      ItemStack var3 = fhq(var0).method_6047();
-      fhy(var1, var2 == Items.field_8162 ? var3.method_7960() : var3.method_31574(var2), a.c(1389889576, "ࡅ燽ﬡ敚\ueed4") + var3);
+      ItemStack var3 = fhq(var0).getMainHandStack();
+      fhy(var1, var2 == Items.AIR ? var3.isEmpty() : var3.isOf(var2), a.c(1389889576, "ࡅ燽ﬡ敚\ueed4") + var3);
       fhy(
          var1,
-         var0.field_1724.field_7498.method_34255().method_7960() && fhq(var0).field_7498.method_34255().method_7960(),
+         var0.player.playerScreenHandler.getCursorStack().isEmpty() && fhq(var0).playerScreenHandler.getCursorStack().isEmpty(),
          a.c(1491390755, "텐ꣷ∣뱓㞘넴ଵ芊᳔陾ᇹ\uebcd攒ﲾ盩\uf015")
       );
       fhy(var1, !oxw.busy(), a.b("ᦾ怈\ueac6璲･禘쎉䩯퐶庍", 1209276871));
    }
 
    private static void fhs(MinecraftClient var0, String var1, int var2, Item var3, int var4) {
-      ItemStack var5 = fhq(var0).method_31548().method_5438(var2);
-      fhy(var1, var5.method_31574(var3) && var5.method_7947() == var4, a.b("胠漏玞\uedf4", 1199669399) + var2 + a.b("䡧", -1880995749) + var5);
+      ItemStack var5 = fhq(var0).getInventory().getStack(var2);
+      fhy(var1, var5.isOf(var3) && var5.getCount() == var4, a.b("胠漏玞\uedf4", 1199669399) + var2 + a.b("䡧", -1880995749) + var5);
    }
 
    private static void fht(MinecraftClient var0, String var1, int var2, Item var3, int var4) {
-      BundleContentsComponent var5 = vvn.contents(fhq(var0).method_31548().method_5438(var2));
+      BundleContentsComponent var5 = vvn.contents(fhq(var0).getInventory().getStack(var2));
       int var6 = 0;
       if (var5 != null) {
-         for (ItemStack var8 : var5.method_57421()) {
-            if (var8.method_31574(var3)) {
-               var6 += var8.method_7947();
+         for (ItemStack var8 : var5.iterate()) {
+            if (var8.isOf(var3)) {
+               var6 += var8.getCount();
             }
          }
       }
@@ -310,12 +310,12 @@ final class fgv {
    }
 
    private static void fhu(MinecraftClient var0, String var1, Item var2, int var3) {
-      PlayerInventory var4 = fhq(var0).method_31548();
+      PlayerInventory var4 = fhq(var0).getInventory();
       int var5 = 0;
 
       for (int var6 = 0; var6 < 36; var6++) {
-         if (var4.method_5438(var6).method_31574(var2)) {
-            var5 += var4.method_5438(var6).method_7947();
+         if (var4.getStack(var6).isOf(var2)) {
+            var5 += var4.getStack(var6).getCount();
          }
       }
 
@@ -327,17 +327,17 @@ final class fgv {
    }
 
    private static void fhv(MinecraftClient var0, String var1) {
-      PlayerInventory var2 = fhq(var0).method_31548();
+      PlayerInventory var2 = fhq(var0).getInventory();
 
       for (int var3 = 0; var3 < 36; var3++) {
-         ItemStack var4 = var2.method_5438(var3);
-         fhy(var1, var3 == 0 || var3 == 12 || var4.method_7960(), a.d("쬏늷㡧ꘄⷈꭠᄠ飆ۋ谩\u0be5\uf197罛", -617149226, 1630062520) + var3 + a.b("ᙯ", -1154214317) + var4);
+         ItemStack var4 = var2.getStack(var3);
+         fhy(var1, var3 == 0 || var3 == 12 || var4.isEmpty(), a.d("쬏늷㡧ꘄⷈꭠᄠ飆ۋ谩\u0be5\uf197罛", -617149226, 1630062520) + var3 + a.b("ᙯ", -1154214317) + var4);
       }
    }
 
    private static void fhw(MinecraftClient var0, String var1) {
       ServerPlayerEntity var2 = fhq(var0);
-      int var3 = var2.method_51469().method_8390(ItemEntity.class, var2.method_5829().method_1014(16.0), var0x -> true).size();
+      int var3 = var2.getEntityWorld().getEntitiesByClass(ItemEntity.class, var2.getBoundingBox().expand(16.0), var0x -> true).size();
       fhy(var1, var3 == 0, a.d("舤ﮃ煍\uef23擴\ue250堂톷価씍䋏뢶㙿꾀", -339271658, -1234001320) + var3);
    }
 
@@ -374,7 +374,7 @@ final class fgv {
    }
 
    private static void fia(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void fib(MinecraftClient var0) throws Exception {
@@ -385,7 +385,7 @@ final class fgv {
          for (Field var6 : ServerCommonNetworkHandler.class.getDeclaredFields()) {
             if (var6.getType() == ClientConnection.class) {
                var6.setAccessible(true);
-               var2 = (ClientConnection)var6.get(var1.field_13987);
+               var2 = (ClientConnection)var6.get(var1.networkHandler);
             }
          }
 
@@ -411,30 +411,30 @@ final class fgv {
 
    private static void fic(Object var0) {
       if (var0 instanceof PlayerInputC2SPacket var1) {
-         PlayerInput var6 = var1.comp_3139();
-         boolean var7 = var6.comp_3159() || var6.comp_3160() || var6.comp_3161() || var6.comp_3162() || var6.comp_3163() || var6.comp_3164();
+         PlayerInput var6 = var1.input();
+         boolean var7 = var6.forward() || var6.backward() || var6.left() || var6.right() || var6.jump() || var6.sneak();
          if (var7 != fha) {
             fie(var7 ? a.b("羝ث賦ኒ饄", -479035407) : a.c(-1505566785, "\udfd2ꙮⲵ닍"));
          }
 
          fha = var7;
       } else if (var0 instanceof ClientCommandC2SPacket var2) {
-         if (var2.method_12365() == Mode.field_12981) {
+         if (var2.getMode() == Mode.START_SPRINTING) {
             fhb = true;
             fie(a.c(52130303, "熊࠸苩ᲃ靓ᇸ"));
-         } else if (var2.method_12365() == Mode.field_12985) {
+         } else if (var2.getMode() == Mode.STOP_SPRINTING) {
             fhb = false;
             fie(a.b("蜮ﺘ瑐\uea3e懊\ue758崉퓣䪻쀐", 1910802263));
          }
       } else if (var0 instanceof UpdateSelectedSlotC2SPacket var3) {
-         fie(a.b("\ue56d鳊ᘐ表ι蔟", 349693208) + var3.method_12442());
+         fie(a.b("\ue56d鳊ᘐ表ι蔟", 349693208) + var3.getSelectedSlot());
       } else if (var0 instanceof PlayerInteractItemC2SPacket) {
          fie(a.b("䖩㰞뛛", 1344947711));
       } else if (var0 instanceof BundleItemSelectedC2SPacket var4) {
-         fie(a.c(-2113610157, "\ude35ꞕⵐ댨") + var4.comp_2894() + a.d("迴", -1129324171, -1543606609) + var4.comp_2895());
+         fie(a.c(-2113610157, "\ude35ꞕⵐ댨") + var4.slotId() + a.d("迴", -1129324171, -1543606609) + var4.selectedItemIndex());
       } else if (var0 instanceof ClickSlotC2SPacket var5) {
          fhc++;
-         fie(a.b("슧묙㇏꾴⑫", 506905313) + var5.comp_3844() + a.d("똉", -1575539551, -1214276986) + var5.comp_3845() + a.b("驀", -427910546) + var5.comp_3846());
+         fie(a.b("슧묙㇏꾴⑫", 506905313) + var5.slot() + a.d("똉", -1575539551, -1214276986) + var5.button() + a.b("驀", -427910546) + var5.actionType());
          fid();
       } else if (var0 instanceof CloseHandledScreenC2SPacket) {
          fie(a.c(-2036118680, "䬮㊐례☭귬"));

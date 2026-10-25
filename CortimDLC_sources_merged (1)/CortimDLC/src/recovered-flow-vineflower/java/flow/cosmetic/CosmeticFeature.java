@@ -17,7 +17,7 @@ public final class CosmeticFeature extends FeatureRenderer<PlayerEntityRenderSta
 
    public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
       if (this.lead) {
-         Cosmetics.renderWorn((PlayerEntityModel)this.method_17165(), matrices, queue, light, state);
+         Cosmetics.renderWorn(this.getContextModel(), matrices, queue, light, state);
       } else {
          Cosmetics.restoreArms();
       }

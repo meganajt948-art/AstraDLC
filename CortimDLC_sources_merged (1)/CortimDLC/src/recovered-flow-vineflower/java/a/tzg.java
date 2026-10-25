@@ -24,12 +24,12 @@ public final class tzg {
    public tzg(int var1, int var2, int var3, byte[] var4) {
       if (var4.length != 1183) {
          throw new IllegalArgumentException(a.d("㾑䘶쳨办\ud902忠\ue5ae汐\uf21e磿ｿԔ诐ቾ", 1055866778, 2069823602));
-      } else {
-         this.x0 = var1;
-         this.y0 = var2;
-         this.z0 = var3;
-         this.cells = var4;
       }
+
+      this.x0 = var1;
+      this.y0 = var2;
+      this.z0 = var3;
+      this.cells = var4;
    }
 
    public static int index(int var0, int var1, int var2) {

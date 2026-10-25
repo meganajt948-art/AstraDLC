@@ -58,63 +58,63 @@ final class ezo {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       fba(var0);
       if (var1 == 1) {
          faq(var0, var2);
          return false;
-      } else if (var1 < 60) {
-         return false;
-      } else {
-         far(var0, var1);
-         int var3 = var1 - ezz;
-         switch (ezy) {
-            case 0:
-               fax(true, false);
-               fay().setEnabled(true);
-               faz(var1);
-               break;
-            case 1:
-               fas(var0, var2);
-               if (var3 >= 1200) {
-                  faz(var1);
-                  fax(false, false);
-                  fak = false;
-               }
-               break;
-            case 2:
-               fat(var0, var2, var3);
-               if (var3 >= 300) {
-                  faz(var1);
-                  fax(true, false);
-                  fbb(
-                     var0, a.c(470625424, "ⲵ唇\udfd4䆦쩷䳑\uf6d6罠\ue131殟\uec5fᙫ飜ň謥\u0dfb랹㡡ꋇⓎ굩휼妈쉒䐫컫睋欄揸\ue5e7渆郊᪃荪ԏ迃そ먫㳠ꕎ⼋几\udbb8専원䢤\uf16a篖ﷀ晘\ue82cድ魍ᴛ蟯ণ눍㒙뻺✻꧘펏呻\ude3a")
-                  );
-                  fak = false;
-               }
-               break;
-            case 3:
-               fat(var0, var2, var3);
-               if (var3 >= 300) {
-                  return faw();
-               }
-               break;
-            default:
-               return true;
-         }
+      }
 
+      if (var1 < 60) {
          return false;
       }
+
+      far(var0, var1);
+      int var3 = var1 - ezz;
+      switch (ezy) {
+         case 0:
+            fax(true, false);
+            fay().setEnabled(true);
+            faz(var1);
+            break;
+         case 1:
+            fas(var0, var2);
+            if (var3 >= 1200) {
+               faz(var1);
+               fax(false, false);
+               fak = false;
+            }
+            break;
+         case 2:
+            fat(var0, var2, var3);
+            if (var3 >= 300) {
+               faz(var1);
+               fax(true, false);
+               fbb(var0, a.c(470625424, "ⲵ唇\udfd4䆦쩷䳑\uf6d6罠\ue131殟\uec5fᙫ飜ň謥\u0dfb랹㡡ꋇⓎ굩휼妈쉒䐫컫睋欄揸\ue5e7渆郊᪃荪ԏ迃そ먫㳠ꕎ⼋几\udbb8専원䢤\uf16a篖ﷀ晘\ue82cድ魍ᴛ蟯ণ눍㒙뻺✻꧘펏呻\ude3a"));
+               fak = false;
+            }
+            break;
+         case 3:
+            fat(var0, var2, var3);
+            if (var3 >= 300) {
+               return faw();
+            }
+            break;
+         default:
+            return true;
+      }
+
+      return false;
    }
 
    private static void faq(MinecraftClient var0, ClientPlayerEntity var1) {
-      var0.field_1690.field_1837 = false;
-      long var2 = var0.method_22683().method_4490();
+      var0.options.pauseOnLostFocus = false;
+      long var2 = var0.getWindow().getHandle();
       GLFW.glfwSetCursorPosCallback(var2, (var0x, var2x, var4x) -> {});
       GLFW.glfwSetMouseButtonCallback(var2, (var0x, var2x, var3, var4x) -> {});
-      ezv = Math.floor(var1.method_23317()) + 0.5;
-      ezw = Math.floor(var1.method_23318());
-      ezx = Math.floor(var1.method_23321()) + 0.5;
+      ezv = Math.floor(var1.getX()) + 0.5;
+      ezw = Math.floor(var1.getY());
+      ezx = Math.floor(var1.getZ()) + 0.5;
       fbb(var0, a.d("ꢃ턴寫얒乍죾犦ﭖ敌\uefae桻鈍᳞蕰༼觚㎘", 242148558, -2144842693));
       fbb(var0, a.c(1509462003, "辊\uf626糱\ue288椚\ueff8喽\udc5d䉖좩佻딊㯜"));
       fbb(var0, a.d("閭耱૮钗ὗ駡⎫꩓㑉뺼㥤쌷䷂푾帜\ud8ce抐\ued57矽\uf1ab硛ȃ賷ᝠ鄘ᯄꉨⰯ", -1388819991, 1667018772));
@@ -151,7 +151,7 @@ final class ezo {
             806455104
          )
       );
-      var1.method_31548().method_61496(0);
+      var1.getInventory().setSelectedSlot(0);
 
       for (String var7 : new String[]{a.b("뛺콭䖥\udbda倍횾泺\ue53b等\uf1e3", -560679260), a.c(1104694707, "䷺㑿뺭\u20c7ꬲ\u2daf韾ḉ"), a.c(1094963974, "퍏\uaaca‘빲㖙댌ॉ肩")}) {
          kfe var8 = Flow.getInstance().getModuleManager().getByName(var7);
@@ -196,9 +196,9 @@ final class ezo {
          double var3 = (ezt.nextBoolean() ? 1 : -1) * (20.0 + ezt.nextDouble() * 35.0);
          double var5 = tcz.unit(var0);
          long var7 = Math.round(var3 / var5);
-         var1.method_5872(var7 * var5 / 0.15, 0.0);
-         fal = var1.method_36454();
-         fam = var1.method_36455();
+         var1.changeLookDirection(var7 * var5 / 0.15, 0.0);
+         fal = var1.getYaw();
+         fam = var1.getPitch();
          fan = true;
          faf = false;
          fae = 0;
@@ -207,23 +207,23 @@ final class ezo {
    }
 
    private static void fat(MinecraftClient var0, ClientPlayerEntity var1, int var2) {
-      float var3 = var1.method_36454();
-      float var4 = var1.method_36455();
+      float var3 = var1.getYaw();
+      float var4 = var1.getPitch();
       if (fak && var2 > 20) {
-         faj = faj + (Math.abs(MathHelper.method_15393(var3 - fal)) + Math.abs(var4 - fam));
+         faj = faj + (Math.abs(MathHelper.wrapDegrees(var3 - fal)) + Math.abs(var4 - fam));
       }
 
       fal = var3;
       fam = var4;
       fak = true;
       if (var2 == 1) {
-         var1.method_5872(200.0, 0.0);
+         var1.changeLookDirection(200.0, 0.0);
       }
    }
 
    private static void fau(MinecraftClient var0, ClientPlayerEntity var1) {
-      float var2 = var1.method_36454();
-      float var3 = var1.method_36455();
+      float var2 = var1.getYaw();
+      float var3 = var1.getPitch();
       if (fak) {
          double var4 = var2 - fal;
          double var6 = var3 - fam;
@@ -234,7 +234,7 @@ final class ezo {
             fag++;
          }
 
-         double var12 = Math.hypot(MathHelper.method_15338(var4), var6);
+         double var12 = Math.hypot(MathHelper.wrapDegrees(var4), var6);
          fai = Math.max(fai, var12);
          if (var12 > 0.5) {
             ezu.add(var12);
@@ -247,13 +247,13 @@ final class ezo {
    }
 
    private static boolean fav(MinecraftClient var0, ClientPlayerEntity var1) {
-      Vec3d var2 = var1.method_33571();
-      Vec3d var3 = var2.method_1019(var1.method_5828(1.0F).method_1021(6.0));
+      Vec3d var2 = var1.getEyePos();
+      Vec3d var3 = var2.add(var1.getRotationVec(1.0F).multiply(6.0));
 
-      for (Entity var5 : var0.field_1687.method_18112()) {
+      for (Entity var5 : var0.world.getEntities()) {
          if (var5 instanceof HuskEntity) {
-            Box var6 = var5.method_5829();
-            if (var6.method_992(var2, var3).isPresent()) {
+            Box var6 = var5.getBoundingBox();
+            if (var6.raycast(var2, var3).isPresent()) {
                return true;
             }
          }
@@ -299,8 +299,7 @@ final class ezo {
 
    private static void fax(boolean var0, boolean var1) {
       for (vmo var3 : fay().getSettings()) {
-         String var4 = var3.getName();
-         switch (var4) {
+         switch (var3.getName()) {
             case a.d("윩뺺㑤ꨄ", 641918419, 738140851):
                ((vkl)var3).set(var0);
                break;
@@ -327,8 +326,8 @@ final class ezo {
 
    private static void fba(MinecraftClient var0) {
       try {
-         if (ezr != null && var0.field_1755 == null) {
-            ezr.setBoolean(var0.field_1729, true);
+         if (ezr != null && var0.currentScreen == null) {
+            ezr.setBoolean(var0.mouse, true);
          }
 
          if (ezs != null) {
@@ -339,6 +338,6 @@ final class ezo {
    }
 
    private static void fbb(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

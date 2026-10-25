@@ -34,7 +34,7 @@ final class iee extends imn {
 
          for (String var2 : this.iej.ids()) {
             ItemStack var3 = ibf.iconOf(this.iej.kind(), var2);
-            if (!var3.method_7960()) {
+            if (!var3.isEmpty()) {
                this.ien.add(var3);
                if (this.ien.size() >= 5) {
                   break;
@@ -82,11 +82,11 @@ final class iee extends imn {
             break;
          }
 
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var15, var6 - 6.5F);
-         var1.method_51448().scale(0.8125F, 0.8125F);
-         var1.method_51427(this.ien.get(var14), 0, 0);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var15, var6 - 6.5F);
+         var1.getMatrices().scale(0.8125F, 0.8125F);
+         var1.drawItem(this.ien.get(var14), 0, 0);
+         var1.getMatrices().popMatrix();
          var11 = var15 - 1.5F;
       }
    }

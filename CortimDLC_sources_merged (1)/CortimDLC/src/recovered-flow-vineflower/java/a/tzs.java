@@ -141,7 +141,6 @@ public final class tzs {
    }
 
    public static tzs read(InputStream var0) throws IOException {
-      tzs var15;
       try (DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0, 65536), 65536))) {
          if (var1.readInt() != 1177704276) {
             throw new IOException(a.b("栙ᆩ魡Մ軒ࠢ눦㯁ꖓ⼥ꢽ办\udc5e䗩쾶䥚\uf303糟\ue66b怳", 1706125411));
@@ -238,16 +237,13 @@ public final class tzs {
             var2.ticks.add(var17);
          }
 
-         var15 = var2;
+         return var2;
       }
-
-      return var15;
    }
 
    public static byte[] pack(byte[] var0) {
       Deflater var1 = new Deflater(1, true);
 
-      byte[] var4;
       try {
          var1.setInput(var0);
          var1.finish();
@@ -260,40 +256,35 @@ public final class tzs {
             }
          }
 
-         var4 = Arrays.copyOf(var2, var3);
+         return Arrays.copyOf(var2, var3);
       } finally {
          var1.end();
       }
-
-      return var4;
    }
 
    public static byte[] unpack(byte[] var0) {
       Inflater var1 = new Inflater(true);
 
-      byte[] var3;
       try {
          var1.setInput(var0);
          byte[] var2 = new byte[1183];
-         int var10 = 0;
+         int var3 = 0;
 
-         while (var10 < var2.length && !var1.finished()) {
-            int var4 = var1.inflate(var2, var10, var2.length - var10);
+         while (var3 < var2.length && !var1.finished()) {
+            int var4 = var1.inflate(var2, var3, var2.length - var3);
             if (var4 == 0 && (var1.needsInput() || var1.needsDictionary())) {
                break;
             }
 
-            var10 += var4;
+            var3 += var4;
          }
 
          return var2;
       } catch (DataFormatException var8) {
-         var3 = new byte[1183];
+         return new byte[1183];
       } finally {
          var1.end();
       }
-
-      return var3;
    }
 
    public static int move(int var0) {

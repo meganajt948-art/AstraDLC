@@ -114,8 +114,8 @@ final class hvq extends imn {
             float var15 = var11.hover.step(var14, var5);
             boolean var16 = var10.name().equals(var7);
             uut.pushAlpha(var13);
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate((1.0F - var13) * 18.0F, 0.0F);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate((1.0F - var13) * 18.0F, 0.0F);
             int var17 = var16 ? iov.accent(26) : ujt.withAlpha(iov.hover, (int)(ujt.alpha(iov.hover) * (0.6F + 1.4F * var15)));
             uut.round(var1, this.x, var12, this.w, 30.0F, var8, var17);
             if (var16 || var15 > 0.01F) {
@@ -177,7 +177,7 @@ final class hvq extends imn {
                }
             }
 
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
       }
@@ -298,7 +298,7 @@ final class hvq extends imn {
                   false
                );
          }
-      } catch (RuntimeException | IOException var5) {
+      } catch (IOException | RuntimeException var5) {
          var1.toast(wap.s(a.d("ᧁ恗\uea8c瓸Ｆ禖쎛䩰", -141036065, 1725164624), a.d("Ꭱ橆\ue0e5纝\uf541珺춣䑈", -891043748, 258856939)) + var5.getMessage(), vhz.INFO, true);
       }
 
@@ -316,7 +316,7 @@ final class hvq extends imn {
                   if (var3 != null) {
                      var1.toast(ConfigShare.describe(var3), vhz.INFO, true);
                   } else {
-                     MinecraftClient.method_1551().field_1774.method_1455(var2x);
+                     MinecraftClient.getInstance().keyboard.setClipboard(var2x);
                      var1.toast(
                         wap.s(
                            a.d("颶\ue12b毳\uf583縑\uf8e3䊼쭒唔\udfa9塻ꉔⲙ", 987904556, 1637982932) + var2x,
@@ -327,7 +327,7 @@ final class hvq extends imn {
                      );
                   }
                },
-               MinecraftClient.method_1551()
+               MinecraftClient.getInstance()
             );
       }
    }

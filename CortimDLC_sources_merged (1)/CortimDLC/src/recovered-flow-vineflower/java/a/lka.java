@@ -3,12 +3,12 @@ package a;
 import net.minecraft.client.MinecraftClient;
 
 public final class lka {
-   private static final MinecraftClient lkb = MinecraftClient.method_1551();
+   private static final MinecraftClient lkb = MinecraftClient.getInstance();
    private double lkc;
    private double lkd;
 
    private double lkg() {
-      double var1 = (Double)lkb.field_1690.method_42495().method_41753();
+      double var1 = lkb.options.getMouseSensitivity().getValue();
       double var3 = var1 * 0.6 + 0.2;
       double var5 = var3 * var3 * var3 * 1.2;
       return var5 * 0.15;

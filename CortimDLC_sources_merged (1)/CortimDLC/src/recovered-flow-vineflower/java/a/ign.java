@@ -60,13 +60,13 @@ public final class ign extends ijy {
    }
 
    public static void open() {
-      if (MinecraftClient.method_1551().field_1755 instanceof hlc var0) {
+      if (MinecraftClient.getInstance().currentScreen instanceof hlc var0) {
          var0.openOverlay(new ign(540.0F, 409.0F));
       }
    }
 
    public static void openMine() {
-      if (MinecraftClient.method_1551().field_1755 instanceof hlc var0) {
+      if (MinecraftClient.getInstance().currentScreen instanceof hlc var0) {
          ign var2 = new ign(540.0F, 409.0F);
          var2.ihx();
          var0.openOverlay(var2);
@@ -74,7 +74,7 @@ public final class ign extends ijy {
    }
 
    public static void openWalk(String var0) {
-      if (MinecraftClient.method_1551().field_1755 instanceof hlc var1) {
+      if (MinecraftClient.getInstance().currentScreen instanceof hlc var1) {
          ign var3 = new ign(540.0F, 409.0F);
          var3.ihw(var0);
          var1.openOverlay(var3);
@@ -232,11 +232,11 @@ public final class ign extends ijy {
          float var10 = iov.lightness();
          uut.round(var1, 0.0F, 0.0F, var6, var7, iov.r(12.0F), ujt.withAlpha(0, Math.round(110.0F * var8)));
          uut.pushAlpha(var8);
-         var1.method_51448().pushMatrix();
+         var1.getMatrices().pushMatrix();
          float var11 = 0.96F + 0.04F * var8;
-         var1.method_51448().translate(this.igy + 255.0F, this.igz + 180.0F + (1.0F - var8) * 6.0F);
-         var1.method_51448().scale(var11, var11);
-         var1.method_51448().translate(-(this.igy + 255.0F), -(this.igz + 180.0F));
+         var1.getMatrices().translate(this.igy + 255.0F, this.igz + 180.0F + (1.0F - var8) * 6.0F);
+         var1.getMatrices().scale(var11, var11);
+         var1.getMatrices().translate(-(this.igy + 255.0F), -(this.igz + 180.0F));
          uut.shadow(var1, this.igy, this.igz + 4.0F, 510.0F, 360.0F, var9, 18.0F, iov.shadow);
          uut.round(var1, this.igy, this.igz, 510.0F, 360.0F, var9, ujt.withAlpha(iov.window, 252));
          uut.round(var1, this.igy, this.igz, 510.0F, 360.0F, var9, iov.card);
@@ -257,7 +257,7 @@ public final class ign extends ijy {
          }
 
          this.iju(var1);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          uut.popAlpha();
       }
    }
@@ -385,19 +385,19 @@ public final class ign extends ijy {
       boolean var12 = var6 ? var10 : var9 != null;
       float var13 = this.igy + 12.0F + 16.0F + irr.CARD_TITLE.width(var5) + 8.0F + Math.max(16.0F, irr.SMALL.width(var11) + 9.0F);
       irr.drawChip(var1, var11, var13, var4, var12 ? iov.accent() : iov.textMuted, iov.stroke, 0.0F);
-      Object var14 = var6 ? Flow.getInstance().getModuleManager().getByName(a.c(1469056758, "ڵ缦\uf5f0殁\ue07b曾\udcaa啈")) : lfa.get();
+      kfe var14 = var6 ? Flow.getInstance().getModuleManager().getByName(a.c(1469056758, "ڵ缦\uf5f0殁\ue07b曾\udcaa啈")) : lfa.get();
       if (var14 != null) {
-         String var15 = ((kfe)var14).getDisplayName();
+         String var15 = var14.getDisplayName();
          String var16 = var15
             + (
-               ((kfe)var14).isEnabled()
+               var14.isEnabled()
                   ? wap.s(a.b("ᣰ愎\uebdc", -1209132845), a.d("ﲾ脝ெ閶", 269147324, -1263001562))
                   : wap.s(a.c(-382497617, "貋\uf575羯\ue1de"), a.c(125804501, "鿰\ue253棹\uf6f9累"))
             );
          float var17 = Math.max(16.0F, irr.SMALL.width(var16) + 9.0F);
          float var18 = var13 + 6.0F;
          boolean var19 = irr.inside(var2, var3, var18, var4 - 5.5F, var17, 11.0F);
-         irr.drawChip(var1, var16, var18 + var17, var4, ((kfe)var14).isEnabled() ? iov.accent() : iov.textMuted, iov.stroke, var19 ? 1.0F : 0.0F);
+         irr.drawChip(var1, var16, var18 + var17, var4, var14.isEnabled() ? iov.accent() : iov.textMuted, iov.stroke, var19 ? 1.0F : 0.0F);
          this.ihc.add(new ige(var18, var4 - 5.5F, var17, 11.0F, var14::toggle, null));
          if (var19) {
             this.iho = var6
@@ -544,14 +544,15 @@ public final class ign extends ijy {
                   irr.SMALL.centerTop(var16 + 20.5F),
                   var22 ? iov.accent() : iov.textMuted
                );
+            tiq var34 = var14;
             if (var17 || this.ihp == var14) {
-               float var34 = 14.0F;
-               float var25 = var6 + 146.0F - var34 - 5.0F;
-               float var26 = var16 + (30.0F - var34) * 0.5F;
+               float var35 = 14.0F;
+               float var25 = var6 + 146.0F - var35 - 5.0F;
+               float var26 = var16 + (30.0F - var35) * 0.5F;
                boolean var27 = this.ihp == var14 && System.currentTimeMillis() - this.ihq < 3000L;
-               boolean var28 = irr.inside(var3, var4, var25, var26, var34, var34);
-               irr.iconButton(var1, vhz.TRASH, var25, var26, var34, var28 ? 1.0F : 0.0F, var27, 1.0F);
-               this.ihc.add(new ige(var25, var26, var34, var34, () -> this.iij(var14), null));
+               boolean var28 = irr.inside(var3, var4, var25, var26, var35, var35);
+               irr.iconButton(var1, vhz.TRASH, var25, var26, var35, var28 ? 1.0F : 0.0F, var27, 1.0F);
+               this.ihc.add(new ige(var25, var26, var35, var35, () -> this.iij(var34), null));
                if (var28) {
                   this.iho = var27
                      ? wap.s(
@@ -562,16 +563,16 @@ public final class ign extends ijy {
                }
             }
 
-            this.ihc.add(new ige(var6, var16, 146.0F, 30.0F, () -> this.iiw(var14), () -> {
-               this.iiw(var14);
-               if (var14.aura()) {
-                  kwf.useStudio(var14);
-               } else if (var14.walk()) {
-                  lfa.useForWalk(var14);
-               } else if (var14.mine()) {
-                  lfa.useForMine(var14);
+            this.ihc.add(new ige(var6, var16, 146.0F, 30.0F, () -> this.iiw(var34), () -> {
+               this.iiw(var34);
+               if (var34.aura()) {
+                  kwf.useStudio(var34);
+               } else if (var34.walk()) {
+                  lfa.useForWalk(var34);
+               } else if (var34.mine()) {
+                  lfa.useForMine(var34);
                } else {
-                  lfa.activate(var14);
+                  lfa.activate(var34);
                }
             }));
             if (var17 && this.iho == null) {
@@ -790,7 +791,7 @@ public final class ign extends ijy {
             tcz.startMining(var7);
             this.close();
             if (this.iht != null) {
-               this.iht.method_25419();
+               this.iht.close();
             }
          }, null));
       }
@@ -891,7 +892,7 @@ public final class ign extends ijy {
       }
 
       var8 += 4.0F;
-      double var43 = tcz.unit(MinecraftClient.method_1551());
+      double var43 = tcz.unit(MinecraftClient.getInstance());
       ttb var44 = var7.mineModel();
       String var45 = wap.s(a.b("⦬倫\udaf3䒟콒䧾\uf3b0穞\ue41e溲\ue96c፞鶓", -1348982286), a.c(-1070830805, "漍ᚨ鱳ɾ觘ୣ넪"))
          + ijx(var43)
@@ -1011,7 +1012,7 @@ public final class ign extends ijy {
             tcz.startWalking(var7, iim(var7));
             this.close();
             if (this.iht != null) {
-               this.iht.method_25419();
+               this.iht.close();
             }
          }, null));
       }
@@ -1098,7 +1099,7 @@ public final class ign extends ijy {
       }
 
       var8 += 4.0F;
-      double var43 = tcz.unit(MinecraftClient.method_1551());
+      double var43 = tcz.unit(MinecraftClient.getInstance());
       String var44 = wap.s(a.c(-792372005, "岅│꿚ㆶ멻㳗蚙ཷ鄷ᮛ鱅晷\ue8ba"), a.b("襦\uf0c3稘\ue415澳\ued08坁", 1492356416))
          + ijx(var43)
          + wap.s(a.c(1616488958, "ꥉ큧嫸쒅佈짢玫"), a.b("ꢏ톡彣셮䪺찍癈ﾪ", 1520347191))
@@ -1414,7 +1415,7 @@ public final class ign extends ijy {
                tcz.startRecording(var7);
                this.close();
                if (this.iht != null) {
-                  this.iht.method_25419();
+                  this.iht.close();
                }
             }, null));
          }
@@ -1549,7 +1550,7 @@ public final class ign extends ijy {
             )
          );
          var8 += 20.0F;
-         double var25 = tcz.unit(MinecraftClient.method_1551());
+         double var25 = tcz.unit(MinecraftClient.getInstance());
          tck var27 = var7.model(var7.aura());
          String var28 = wap.s(a.b("倔⦓ꍋ㴧뛪う計Ϧ鶦ᜊ郔櫦\ue42b", -1297592246), a.d("囱⽔ꖏ㮂뀤㊟裖", 1389692553, 1133597790))
             + ijx(var25)
@@ -1774,9 +1775,8 @@ public final class ign extends ijy {
          float var16 = var7 - 56.0F;
          uut.round(var1, var5, var6 + 6.0F, var16, 6.0F, 3.0F, iov.track);
          uut.gradientH(var1, var5, var6 + 6.0F, Math.max(6.0F, var16 * var15), 6.0F, 3.0F, iov.accent(), iov.accent2());
-         String var18 = var14.phase;
 
-         String var17 = switch (var18) {
+         String var17 = switch (var14.phase) {
             case a.c(-335544366, "ﾲ蘆ೀ銤") -> wap.s(a.b("ἇ暡\uec76爂律置씴䲂튙堭\udfeb▏謟", -368238728), a.d("䖝㱓뛺⣹ꍐ\u218f鿈ᘽ衯˞蕻罴햰", 1032756526, -775234311));
             case a.d("ɇ篹\uf129潂\ue484", 1297481786, 860029467) -> wap.s(
                a.d("뷫쑙亄탰嬪\udd9c柆\uee70災\ufadb紎蝳হ逞ᩀ鲶⛰ꤵ㏕뗂㰡䙭죜區핫徦\ue618栌\uf2b8瓦ｖƝ诃㉰", -1946036247, 2013358668),
@@ -2207,7 +2207,7 @@ public final class ign extends ijy {
             tcz.startTest(var4);
             this.close();
             if (this.iht != null) {
-               this.iht.method_25419();
+               this.iht.close();
             }
          }
       }, null));
@@ -3048,27 +3048,31 @@ public final class ign extends ijy {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (this.ihn) {
          return true;
-      } else if (!irr.inside(var2, var3, this.igy, this.igz, 510.0F, 360.0F)) {
+      }
+
+      if (!irr.inside(var2, var3, this.igy, this.igz, 510.0F, 360.0F)) {
          this.close();
          return true;
-      } else if (this.igx.mouseClicked(var1, var2, var3, var4)) {
-         return true;
-      } else {
-         var1.focus(null);
+      }
 
-         for (int var5 = this.ihc.size() - 1; var5 >= 0; var5--) {
-            ige var6 = this.ihc.get(var5);
-            if (irr.inside(var2, var3, var6.x(), var6.y(), var6.w(), var6.h())) {
-               Runnable var7 = var4 == 1 ? var6.right() : (var4 == 0 ? var6.left() : null);
-               if (var7 != null) {
-                  var7.run();
-                  return true;
-               }
-            }
-         }
-
+      if (this.igx.mouseClicked(var1, var2, var3, var4)) {
          return true;
       }
+
+      var1.focus(null);
+
+      for (int var5 = this.ihc.size() - 1; var5 >= 0; var5--) {
+         ige var6 = this.ihc.get(var5);
+         if (irr.inside(var2, var3, var6.x(), var6.y(), var6.w(), var6.h())) {
+            Runnable var7 = var4 == 1 ? var6.right() : (var4 == 0 ? var6.left() : null);
+            if (var7 != null) {
+               var7.run();
+               return true;
+            }
+         }
+      }
+
+      return true;
    }
 
    @Override

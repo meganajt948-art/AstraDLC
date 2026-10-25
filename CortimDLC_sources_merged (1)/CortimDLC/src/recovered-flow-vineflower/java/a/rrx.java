@@ -123,47 +123,27 @@ public class rrx extends kfe {
 
    public static void trigger(LivingEntity var0, boolean var1) {
       if (rry != null && rry.isEnabled()) {
-         rsr.add(
-            new rrj(
-               var0.method_5628(),
-               var0.method_23317(),
-               var0.method_23318(),
-               var0.method_23321(),
-               var0.field_6283,
-               var0.method_17682(),
-               var0 instanceof PlayerEntity,
-               var1
-            )
-         );
+         rsr.add(new rrj(var0.getId(), var0.getX(), var0.getY(), var0.getZ(), var0.bodyYaw, var0.getHeight(), var0 instanceof PlayerEntity, var1));
       }
    }
 
    public static void onAttack(Entity var0) {
       if (rry != null && rry.isEnabled()) {
-         rss.put(var0.method_5628(), System.currentTimeMillis());
+         rss.put(var0.getId(), System.currentTimeMillis());
       }
    }
 
    private static void rtw(Packet<?> var0) {
       rrx var1 = rry;
       if (var1 != null && var1.isEnabled() && var0 instanceof EntityStatusS2CPacket var2) {
-         byte var3 = var2.method_11470();
+         byte var3 = var2.getStatus();
          if (var3 == 3 || var3 == 35) {
-            ClientWorld var4 = MinecraftClient.method_1551().field_1687;
+            ClientWorld var4 = MinecraftClient.getInstance().world;
             if (var4 != null) {
-               Entity var5 = var2.method_11469(var4);
-               if (var5 instanceof LivingEntity var6 && var5 != MinecraftClient.method_1551().field_1724) {
+               Entity var5 = var2.getEntity(var4);
+               if (var5 instanceof LivingEntity var6 && var5 != MinecraftClient.getInstance().player) {
                   rsr.add(
-                     new rrj(
-                        var5.method_5628(),
-                        var5.method_23317(),
-                        var5.method_23318(),
-                        var5.method_23321(),
-                        var6.field_6283,
-                        var5.method_17682(),
-                        var5 instanceof PlayerEntity,
-                        var3 == 35
-                     )
+                     new rrj(var5.getId(), var5.getX(), var5.getY(), var5.getZ(), var6.bodyYaw, var5.getHeight(), var5 instanceof PlayerEntity, var3 == 35)
                   );
                   if (rsr.size() > 32) {
                      rsr.poll();
@@ -222,15 +202,15 @@ public class rrx extends kfe {
       if (this.rsx.isEmpty() && this.rsy.isEmpty()) {
          this.rte = 0L;
       } else {
-         ClientWorld var2 = var1.field_1687;
-         if (var2 != null && var1.field_1724 != null) {
+         ClientWorld var2 = var1.world;
+         if (var2 != null && var1.player != null) {
             long var3 = System.nanoTime();
             float var5 = this.rte == 0L ? 0.0F : Math.min(0.1F, (float)(var3 - this.rte) / 1.0E9F);
             this.rte = var3;
-            float var6 = var1.method_61966().method_60637(false);
+            float var6 = var1.getRenderTickCounter().getTickProgress(false);
 
             for (rrj var8 : this.rsx) {
-               Entity var9 = var2.method_8469(var8.rrk);
+               Entity var9 = var2.getEntityById(var8.rrk);
                int var10 = (var8.rrr ? this.rsf : this.rse).color();
                sql var11 = sql.create(
                   var1,
@@ -267,14 +247,14 @@ public class rrx extends kfe {
             }
 
             if (!this.rsy.isEmpty()) {
-               Camera var17 = var1.field_1773.method_19418();
-               Vec3d var19 = var17.method_71156();
+               Camera var17 = var1.gameRenderer.getCamera();
+               Vec3d var19 = var17.getCameraPos();
                ByteBuffer var20 = uwt.staging(var15);
                this.rsz.clear();
                int var21 = 0;
 
                for (sql var13 : this.rsy) {
-                  int var14 = var13.write(var20, var19.field_1352, var19.field_1351, var19.field_1350);
+                  int var14 = var13.write(var20, var19.x, var19.y, var19.z);
                   this.rsz
                      .add(
                         new uwg(
@@ -284,8 +264,8 @@ public class rrx extends kfe {
                            var13.green,
                            var13.blue,
                            var13.alpha(),
-                           (float)(var13.y + var13.scan() - var19.field_1351),
-                           (float)(var13.y + var13.sweep() - var19.field_1351),
+                           (float)(var13.y + var13.scan() - var19.y),
+                           (float)(var13.y + var13.sweep() - var19.y),
                            var13.flash(),
                            var13.broken()
                         )
@@ -293,7 +273,7 @@ public class rrx extends kfe {
                   var21 += var14;
                }
 
-               this.rta.rotation(var17.method_23767().conjugate(this.rtb));
+               this.rta.rotation(var17.getRotation().conjugate(this.rtb));
                uwt.draw(this.rta, 0.36F, 0.86F, 0.36F, 1.0F, this.rsz, var20);
             }
          } else {
@@ -311,42 +291,44 @@ public class rrx extends kfe {
          double var8 = var2.centerZ();
          if (this.rsl.get()) {
             if ((var3 & 1) != 0) {
-               var1.method_8486(var4, var6, var8, SoundEvents.field_26980, SoundCategory.field_15248, 0.9F, 1.4F, false);
+               var1.playSoundClient(var4, var6, var8, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 0.9F, 1.4F, false);
             }
 
             if ((var3 & 2) != 0) {
                if (var2.totem) {
-                  var1.method_8486(var4, var6, var8, SoundEvents.field_26942, SoundCategory.field_15248, 0.9F, 1.2F, false);
+                  var1.playSoundClient(var4, var6, var8, SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.PLAYERS, 0.9F, 1.2F, false);
                } else {
-                  var1.method_8486(var4, var6, var8, SoundEvents.field_14583, SoundCategory.field_15248, 0.8F, 0.7F, false);
+                  var1.playSoundClient(var4, var6, var8, SoundEvents.BLOCK_GLASS_HIT, SoundCategory.PLAYERS, 0.8F, 0.7F, false);
                }
             }
 
             if ((var3 & 4) != 0) {
                if (var2.totem) {
-                  var1.method_8486(var4, var6, var8, SoundEvents.field_15081, SoundCategory.field_15248, 0.35F, 1.6F, false);
+                  var1.playSoundClient(var4, var6, var8, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 0.35F, 1.6F, false);
                } else {
-                  var1.method_8486(var4, var6, var8, SoundEvents.field_15081, SoundCategory.field_15248, 1.0F, 0.92F + this.rtc.nextFloat() * 0.14F, false);
-                  var1.method_8486(var4, var6, var8, SoundEvents.field_26979, SoundCategory.field_15248, 0.5F, 1.35F, false);
+                  var1.playSoundClient(
+                     var4, var6, var8, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1.0F, 0.92F + this.rtc.nextFloat() * 0.14F, false
+                  );
+                  var1.playSoundClient(var4, var6, var8, SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK, SoundCategory.PLAYERS, 0.5F, 1.35F, false);
                }
             }
          }
 
          if (this.rsm.get() && (var3 & 4) != 0) {
-            BlockStateParticleEffect var10 = new BlockStateParticleEffect(ParticleTypes.field_11217, Blocks.field_10033.method_9564());
+            BlockStateParticleEffect var10 = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.GLASS.getDefaultState());
             int var11 = var2.totem ? 8 : 40;
 
             for (int var12 = 0; var12 < var11; var12++) {
                if (var2.sample(this.rtc, this.rtd)) {
-                  var1.method_8406(var10, this.rtd[0], this.rtd[1], this.rtd[2], this.rtd[3] * 0.3, this.rtd[4] * 0.3, this.rtd[5] * 0.3);
+                  var1.addParticleClient(var10, this.rtd[0], this.rtd[1], this.rtd[2], this.rtd[3] * 0.3, this.rtd[4] * 0.3, this.rtd[5] * 0.3);
                }
             }
 
             int var14 = var2.totem ? 5 : 14;
 
             for (int var13 = 0; var13 < var14; var13++) {
-               var1.method_8406(
-                  ParticleTypes.field_11207,
+               var1.addParticleClient(
+                  ParticleTypes.END_ROD,
                   var4 + (this.rtc.nextDouble() - 0.5) * 0.6,
                   var6 + (this.rtc.nextDouble() - 0.5) * 1.4,
                   var8 + (this.rtc.nextDouble() - 0.5) * 0.6,
@@ -361,13 +343,8 @@ public class rrx extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rrx var2 = rry;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      if (var2 != null
-         && var2.isEnabled()
-         && !var2.rst.isEmpty()
-         && var3.field_1687 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      if (var2 != null && var2.isEnabled() && !var2.rst.isEmpty() && var3.world != null && !var3.options.hudHidden && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.rsu) {
             var2.rsu = unf.frame();
@@ -376,7 +353,7 @@ public class rrx extends kfe {
 
             usn var5;
             try {
-               var5 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var5 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var12) {
                return;
             }
@@ -490,7 +467,7 @@ public class rrx extends kfe {
             double var28 = (this.rtj[var27[0]][0] + this.rtj[var27[2]][0]) * 0.5;
             double var30 = (this.rtj[var27[0]][1] + this.rtj[var27[2]][1]) * 0.5;
             double var32 = (this.rtj[var27[0]][2] + this.rtj[var27[2]][2]) * 0.5;
-            if (!(this.rtg.x * (var21.field_1352 - var28) + this.rtg.y * (var21.field_1351 - var30) + this.rtg.z * (var21.field_1350 - var32) <= 0.0)) {
+            if (!(this.rtg.x * (var21.x - var28) + this.rtg.y * (var21.y - var30) + this.rtg.z * (var21.z - var32) <= 0.0)) {
                for (int var34 = 0; var34 < 4; var34++) {
                   this.rto[var34] = (var27[var34] & 2) != 0 ? var24 : var25;
                }

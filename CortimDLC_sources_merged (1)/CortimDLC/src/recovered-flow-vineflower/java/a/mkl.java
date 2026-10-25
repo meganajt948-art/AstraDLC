@@ -100,7 +100,7 @@ public class mkl extends kfe {
    private double mmp = 6.0;
    private long mmq = System.currentTimeMillis();
    private int mmr = -1;
-   private SlotActionType mms = SlotActionType.field_7790;
+   private SlotActionType mms = SlotActionType.PICKUP;
    private boolean mmt;
    private int mmu;
    private int mmv;
@@ -110,7 +110,7 @@ public class mkl extends kfe {
    private int mmz;
    private int mna;
    private int mnb;
-   private ItemStack mnc = ItemStack.field_8037;
+   private ItemStack mnc = ItemStack.EMPTY;
    private boolean mnd;
    private int mne;
    private boolean mnf;
@@ -182,7 +182,7 @@ public class mkl extends kfe {
    }
 
    private void mnt() {
-      if (this.mc.field_1724 != null) {
+      if (this.mc.player != null) {
          if (!this.isEnabled()) {
             this.setEnabled(true);
          }
@@ -216,8 +216,8 @@ public class mkl extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       this.mmg.release(var1);
-      if (var1.field_1724 != null) {
-         if (this.mmh != null && var1.field_1755 instanceof HandledScreen) {
+      if (var1.player != null) {
+         if (this.mmh != null && var1.currentScreen instanceof HandledScreen) {
             this.mmg.hold(var1);
          }
 
@@ -227,8 +227,8 @@ public class mkl extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      if (var1.field_1724 != null && var1.field_1687 != null) {
-         if (!(var1.field_1755 instanceof GenericContainerScreen)) {
+      if (var1.player != null && var1.world != null) {
+         if (!(var1.currentScreen instanceof GenericContainerScreen)) {
             this.mmy = -1;
             this.mmr = -1;
          }
@@ -237,7 +237,7 @@ public class mkl extends kfe {
          if (this.mmh == null) {
             this.mpb();
          } else if (!this.mpk(var1)) {
-            if (var1.field_1724.method_31548().method_7376() == -1) {
+            if (var1.player.getInventory().getEmptySlot() == -1) {
                this.mpl(
                   wap.s(
                      a.b("ᑪ淺\ue766祑\uf292琴칧䟓\ud9c5即풸⻚ꀆ㦭돥㔉轍Å騥ᱫ閟\uefd5慡", -431287245),
@@ -257,9 +257,9 @@ public class mkl extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      if (this.mmh != null && var1.field_1724 != null) {
-         if (var1.method_61964() != null) {
-            var1.method_61964().method_61939();
+      if (this.mmh != null && var1.player != null) {
+         if (var1.getInactivityFpsLimiter() != null) {
+            var1.getInactivityFpsLimiter().onInput();
          }
 
          this.mnv();
@@ -267,15 +267,15 @@ public class mkl extends kfe {
    }
 
    private void mnv() {
-      if (this.mmh != null && !this.mmj.isEmpty() && this.mc.field_1724 != null && this.mc.method_1562() != null) {
-         if (this.mc.field_1755 instanceof GenericContainerScreen var1) {
+      if (this.mmh != null && !this.mmj.isEmpty() && this.mc.player != null && this.mc.getNetworkHandler() != null) {
+         if (this.mc.currentScreen instanceof GenericContainerScreen var1) {
             this.moa(var1);
-         } else if (this.mc.field_1755 == null && this.mnj <= 0) {
-            if (this.mc.field_1724.field_6012 >= 200 && this.mme.ready()) {
+         } else if (this.mc.currentScreen == null && this.mnj <= 0) {
+            if (this.mc.player.age >= 200 && this.mme.ready()) {
                if (this.mmm >= 3) {
                   this.mon();
                } else if (this.mph()) {
-                  this.mc.method_1562().method_45730(a.b("\ueacd鍵᧮蟌\u0c0d誸ヸ뤘❌궵", -1430000986) + this.mmj);
+                  this.mc.getNetworkHandler().sendChatCommand(a.b("\ueacd鍵᧮蟌\u0c0d誸ヸ뤘❌궵", -1430000986) + this.mmj);
                   this.mme.arm(this.mlz.draw(4, this.mpi()));
                   this.mml = 0;
                   this.mmm++;
@@ -310,7 +310,7 @@ public class mkl extends kfe {
 
    private void mnx(MinecraftClient var1) {
       if (this.mnj > 0) {
-         if (var1.field_1755 != null) {
+         if (var1.currentScreen != null) {
             this.mnj = 0;
             this.mny();
          } else {
@@ -321,17 +321,17 @@ public class mkl extends kfe {
                this.mnl = var2.nextInt(5);
             }
 
-            KeyBinding[] var3 = mnz(var1.field_1690);
+            KeyBinding[] var3 = mnz(var1.options);
 
             for (int var4 = 0; var4 < var3.length; var4++) {
-               var3[var4].method_23481(this.mnl == var4);
+               var3[var4].setPressed(this.mnl == var4);
             }
 
             this.mnm = this.mnm * 0.85F + (float)var2.nextGaussian() * 0.9F;
             this.mnn = this.mnn * 0.85F + (float)var2.nextGaussian() * 0.45F;
-            float var6 = var1.field_1724.method_36455();
+            float var6 = var1.player.getPitch();
             float var5 = !(var6 + this.mnn > 80.0F) && !(var6 + this.mnn < -80.0F) ? this.mnn : -this.mnn;
-            var1.field_1724.method_5872(this.mnm / 0.15, var5 / 0.15);
+            var1.player.changeLookDirection(this.mnm / 0.15, var5 / 0.15);
             if (this.mnj == 0) {
                this.mny();
             }
@@ -340,24 +340,24 @@ public class mkl extends kfe {
    }
 
    private void mny() {
-      if (this.mnl >= 0 && this.mc.field_1690 != null && this.mc.method_22683() != null) {
+      if (this.mnl >= 0 && this.mc.options != null && this.mc.getWindow() != null) {
          this.mnl = -1;
 
-         for (KeyBinding var4 : mnz(this.mc.field_1690)) {
-            var4.method_23481(vzz.isPhysicallyDown(this.mc, var4));
+         for (KeyBinding var4 : mnz(this.mc.options)) {
+            var4.setPressed(vzz.isPhysicallyDown(this.mc, var4));
          }
       }
    }
 
    private static KeyBinding[] mnz(GameOptions var0) {
-      return new KeyBinding[]{var0.field_1894, var0.field_1881, var0.field_1913, var0.field_1849};
+      return new KeyBinding[]{var0.forwardKey, var0.backKey, var0.leftKey, var0.rightKey};
    }
 
    private void moa(GenericContainerScreen var1) {
-      ScreenHandler var2 = var1.method_17577();
-      String var3 = pfl.title(var1.method_25440().getString());
-      if (var2.field_7763 != this.mmy) {
-         this.mmy = var2.field_7763;
+      ScreenHandler var2 = var1.getScreenHandler();
+      String var3 = pfl.title(var1.getTitle().getString());
+      if (var2.syncId != this.mmy) {
+         this.mmy = var2.syncId;
          this.mmb.arm(this.mlz.draw(0));
          this.mmd.restart();
          if (this.mmr >= 0) {
@@ -366,7 +366,7 @@ public class mkl extends kfe {
             this.mmv = 0;
             this.mmr = -1;
          }
-      } else if (vyn.serverIdle(this.mc.field_1724)) {
+      } else if (vyn.serverIdle(this.mc.player)) {
          if (mob(var3)) {
             if (this.mnd) {
                if (this.mma.elapsed(1400L)) {
@@ -387,7 +387,7 @@ public class mkl extends kfe {
                if (this.mmb.ready() && this.mma.ready()) {
                   Slot var8 = moj(mor(var2), a.c(56465371, "鏧\uea2f悀ﻶ畛\uf3e4"));
                   if (var8 != null) {
-                     this.mop(var2, var8.field_7874, SlotActionType.field_7794);
+                     this.mop(var2, var8.id, SlotActionType.QUICK_MOVE);
                      this.mnd = true;
                   } else if (++this.mne >= 4) {
                      this.mpl(
@@ -410,7 +410,7 @@ public class mkl extends kfe {
             this.mnd = false;
             this.mne = 0;
             if (this.mnf) {
-               if (var2.field_7763 == this.mng && !this.mma.elapsed(1400L)) {
+               if (var2.syncId == this.mng && !this.mma.elapsed(1400L)) {
                   return;
                }
 
@@ -466,7 +466,7 @@ public class mkl extends kfe {
 
    private static boolean moc(List<Slot> var0) {
       for (Slot var2 : var0) {
-         if (!var2.method_7677().method_7960()) {
+         if (!var2.getStack().isEmpty()) {
             return true;
          }
       }
@@ -488,8 +488,8 @@ public class mkl extends kfe {
             int var12 = Integer.MAX_VALUE;
 
             for (Slot var9 : mos(var1)) {
-               if (this.mou(var9.method_7677())) {
-                  int var10 = pfd.of(var9.method_7677());
+               if (this.mou(var9.getStack())) {
+                  int var10 = pfd.of(var9.getStack());
                   if (var10 <= var5.price() && var10 < var12) {
                      var11 = var9;
                      var12 = var10;
@@ -498,7 +498,7 @@ public class mkl extends kfe {
             }
 
             if (var11 != null) {
-               this.moo(var1, var11.field_7874);
+               this.moo(var1, var11.id);
             } else {
                this.mpl(
                   wap.s(
@@ -517,8 +517,8 @@ public class mkl extends kfe {
       } else {
          if (this.mly.markPage(var2)) {
             for (Slot var7 : mos(var1)) {
-               if (this.mou(var7.method_7677())) {
-                  this.mly.offer(var2, pfd.of(var7.method_7677()));
+               if (this.mou(var7.getStack())) {
+                  this.mly.offer(var2, pfd.of(var7.getStack()));
                }
             }
          }
@@ -537,9 +537,9 @@ public class mkl extends kfe {
       int[] var2 = mof(var1);
       if (var2 == null) {
          for (Slot var4 : mot(var0)) {
-            ItemStack var5 = var4.method_7677();
-            if (!var5.method_7960()) {
-               var2 = mof(pfl.title(var5.method_7964().getString()));
+            ItemStack var5 = var4.getStack();
+            if (!var5.isEmpty()) {
+               var2 = mof(pfl.title(var5.getName().getString()));
                if (var2 != null) {
                   break;
                }
@@ -549,10 +549,10 @@ public class mkl extends kfe {
 
       if (var2 == null) {
          return new int[]{1, 1, 0};
-      } else {
-         int var6 = Math.max(1, var2[1]);
-         return new int[]{Math.min(Math.max(1, var2[0]), var6), var6, 1};
       }
+
+      int var6 = Math.max(1, var2[1]);
+      return new int[]{Math.min(Math.max(1, var2[0]), var6), var6, 1};
    }
 
    private static int[] mof(String var0) {
@@ -571,17 +571,21 @@ public class mkl extends kfe {
    private boolean mog(int var1) {
       if (this.mmr < 0) {
          return false;
-      } else if (var1 != this.mmr) {
+      }
+
+      if (var1 != this.mmr) {
          this.mmr = -1;
          this.mmt = true;
          this.mmu = 0;
          this.mmv = 0;
          return false;
-      } else if (this.mmc.elapsed(1500L)) {
+      }
+
+      if (this.mmc.elapsed(1500L)) {
          this.mmr = -1;
          this.mmv++;
          if (!this.mmt && ++this.mmu >= 2) {
-            this.mms = this.mms == SlotActionType.field_7790 ? SlotActionType.field_7794 : SlotActionType.field_7790;
+            this.mms = this.mms == SlotActionType.PICKUP ? SlotActionType.QUICK_MOVE : SlotActionType.PICKUP;
             this.mmu = 0;
          }
 
@@ -598,7 +602,7 @@ public class mkl extends kfe {
             this.mok(var1);
          } else {
             this.mmx = 0;
-            this.mop(var1, var4.field_7874, this.mms);
+            this.mop(var1, var4.id, this.mms);
             this.mmr = var2;
             this.mmc.restart();
             this.mma.arm(this.mlz.draw(2));
@@ -628,8 +632,8 @@ public class mkl extends kfe {
 
    private static Slot moj(List<Slot> var0, String var1) {
       for (Slot var3 : var0) {
-         ItemStack var4 = var3.method_7677();
-         if (!var4.method_7960() && pfl.title(var4.method_7964().getString()).contains(var1)) {
+         ItemStack var4 = var3.getStack();
+         if (!var4.isEmpty() && pfl.title(var4.getName().getString()).contains(var1)) {
             return var3;
          }
       }
@@ -652,7 +656,7 @@ public class mkl extends kfe {
          this.moq();
          Slot var2 = this.mol(var1);
          if (var2 != null) {
-            this.moo(var1, var2.field_7874);
+            this.moo(var1, var2.id);
          } else {
             this.mom();
          }
@@ -663,41 +667,41 @@ public class mkl extends kfe {
       int var2 = Integer.MAX_VALUE;
 
       for (Slot var4 : mos(var1)) {
-         if (this.mou(var4.method_7677())) {
-            var2 = Math.min(var2, pfd.of(var4.method_7677()));
+         if (this.mou(var4.getStack())) {
+            var2 = Math.min(var2, pfd.of(var4.getStack()));
          }
       }
 
       if (var2 == Integer.MAX_VALUE) {
          return null;
-      } else {
-         int var9 = this.mmh.count() - this.mmz;
-         Slot var10 = null;
-         Slot var5 = null;
+      }
 
-         for (Slot var7 : mos(var1)) {
-            if (this.mov(var7.method_7677()) == 0) {
-               int var8 = pfd.of(var7.method_7677());
-               if (var8 <= var2 * 2) {
-                  if (var5 == null || var8 < pfd.of(var5.method_7677())) {
-                     var5 = var7;
-                  }
+      int var9 = this.mmh.count() - this.mmz;
+      Slot var10 = null;
+      Slot var5 = null;
 
-                  if (var7.method_7677().method_7947() >= var9 && (var10 == null || var8 < pfd.of(var10.method_7677()))) {
-                     var10 = var7;
-                  }
+      for (Slot var7 : mos(var1)) {
+         if (this.mov(var7.getStack()) == 0) {
+            int var8 = pfd.of(var7.getStack());
+            if (var8 <= var2 * 2) {
+               if (var5 == null || var8 < pfd.of(var5.getStack())) {
+                  var5 = var7;
+               }
+
+               if (var7.getStack().getCount() >= var9 && (var10 == null || var8 < pfd.of(var10.getStack()))) {
+                  var10 = var7;
                }
             }
          }
-
-         return var10 != null ? var10 : var5;
       }
+
+      return var10 != null ? var10 : var5;
    }
 
    private void mom() {
       this.moq();
       this.mpj();
-      String var1 = this.mmh.item().method_63680().getString();
+      String var1 = this.mmh.item().getName().getString();
       if (this.mml == 0 && !this.mmk && !this.mmh.hasQuery() && !var1.equalsIgnoreCase(this.mmj)) {
          this.mmk = true;
          this.mmj = var1;
@@ -727,8 +731,8 @@ public class mkl extends kfe {
    }
 
    private void moo(ScreenHandler var1, int var2) {
-      this.mop(var1, var2, SlotActionType.field_7794);
-      this.mng = var1.field_7763;
+      this.mop(var1, var2, SlotActionType.QUICK_MOVE);
+      this.mng = var1.syncId;
       this.mma.arm(this.mlz.draw(3));
       this.mme.arm(this.mlz.draw(6));
       this.moq();
@@ -738,7 +742,7 @@ public class mkl extends kfe {
    }
 
    private void mop(ScreenHandler var1, int var2, SlotActionType var3) {
-      this.mc.field_1761.method_2906(var1.field_7763, var2, 0, var3, this.mc.field_1724);
+      this.mc.interactionManager.clickSlot(var1.syncId, var2, 0, var3, this.mc.player);
    }
 
    private void moq() {
@@ -750,8 +754,8 @@ public class mkl extends kfe {
    }
 
    private static List<Slot> mor(ScreenHandler var0) {
-      int var1 = var0 instanceof GenericContainerScreenHandler var2 ? var2.method_17388() * 9 : var0.field_7761.size();
-      return var0.field_7761.subList(0, Math.min(Math.max(var1, 0), var0.field_7761.size()));
+      int var1 = var0 instanceof GenericContainerScreenHandler var2 ? var2.getRows() * 9 : var0.slots.size();
+      return var0.slots.subList(0, Math.min(Math.max(var1, 0), var0.slots.size()));
    }
 
    private static List<Slot> mos(ScreenHandler var0) {
@@ -766,7 +770,7 @@ public class mkl extends kfe {
 
    private boolean mou(ItemStack var1) {
       int var2 = this.mov(var1);
-      if (this.mmh != null && var1.method_31574(this.mmh.item())) {
+      if (this.mmh != null && var1.isOf(this.mmh.item())) {
          this.mnh[var2]++;
          this.mml++;
       }
@@ -775,46 +779,60 @@ public class mkl extends kfe {
    }
 
    private int mov(ItemStack var1) {
-      if (var1.method_7960() || this.mmh == null || !this.mmh.matches(var1, new pey(var1))) {
+      if (var1.isEmpty() || this.mmh == null || !this.mmh.matches(var1, new pey(var1))) {
          return 1;
-      } else if (!this.mmh.hasEffects()
-         && !this.mnc.method_7960()
-         && !Objects.equals(var1.method_58694(DataComponentTypes.field_49651), this.mnc.method_58694(DataComponentTypes.field_49651))) {
+      }
+
+      if (!this.mmh.hasEffects()
+         && !this.mnc.isEmpty()
+         && !Objects.equals(var1.get(DataComponentTypes.POTION_CONTENTS), this.mnc.get(DataComponentTypes.POTION_CONTENTS))) {
          return 2;
-      } else if (pfd.claimed(var1)) {
+      }
+
+      if (pfd.claimed(var1)) {
          return 3;
-      } else if (pfd.of(var1) <= 0) {
+      }
+
+      if (pfd.of(var1) <= 0) {
          return 4;
-      } else if (var1.method_7947() > this.mnb) {
+      }
+
+      if (var1.getCount() > this.mnb) {
          return 7;
-      } else if (this.mmh.item() == Items.field_8288 && !this.mmh.hasAttrs() && var1.method_7958()) {
+      }
+
+      if (this.mmh.item() == Items.TOTEM_OF_UNDYING && !this.mmh.hasAttrs() && var1.hasGlint()) {
          return 5;
-      } else {
-         Integer var2 = (Integer)var1.method_58694(DataComponentTypes.field_49629);
-         int var3 = var1.method_7936();
-         if (var2 == null || var3 <= 0) {
-            return 0;
-         } else if (this.mmh.item() == Items.field_8833) {
-            return (float)(var3 - var2) / var3 >= 0.5F ? 0 : 6;
-         } else if (!mow(var1)) {
-            return 0;
-         } else {
-            boolean var4 = false;
+      }
 
-            for (phm var6 : this.mmh.rules()) {
-               if (var6.state() == phj.ON && Enchantments.field_9101.method_29177().toString().equals(var6.key())) {
-                  var4 = true;
-               }
-            }
+      Integer var2 = var1.get(DataComponentTypes.DAMAGE);
+      int var3 = var1.getMaxDamage();
+      if (var2 == null || var3 <= 0) {
+         return 0;
+      }
 
-            return !var4 && !((float)(var3 - var2) / var3 >= 0.7F) ? 6 : 0;
+      if (this.mmh.item() == Items.ELYTRA) {
+         return (float)(var3 - var2) / var3 >= 0.5F ? 0 : 6;
+      }
+
+      if (!mow(var1)) {
+         return 0;
+      }
+
+      boolean var4 = false;
+
+      for (phm var6 : this.mmh.rules()) {
+         if (var6.state() == phj.ON && Enchantments.MENDING.getValue().toString().equals(var6.key())) {
+            var4 = true;
          }
       }
+
+      return !var4 && !((float)(var3 - var2) / var3 >= 0.7F) ? 6 : 0;
    }
 
    private static boolean mow(ItemStack var0) {
-      EquippableComponent var1 = (EquippableComponent)var0.method_58694(DataComponentTypes.field_54196);
-      return var1 != null && var1.comp_3174().method_46643();
+      EquippableComponent var1 = var0.get(DataComponentTypes.EQUIPPABLE);
+      return var1 != null && var1.slot().isArmorSlot();
    }
 
    private String mox() {
@@ -916,7 +934,7 @@ public class mkl extends kfe {
 
    private void mpd() {
       this.mpc();
-      this.mms = SlotActionType.field_7790;
+      this.mms = SlotActionType.PICKUP;
       this.mmt = false;
       this.mmu = 0;
       this.mne = 0;
@@ -929,7 +947,7 @@ public class mkl extends kfe {
       this.mmz = 0;
       this.mna = 0;
       this.mnb = 0;
-      this.mnc = ItemStack.field_8037;
+      this.mnc = ItemStack.EMPTY;
       this.mno = false;
       this.mnp = false;
       this.mnq = false;
@@ -939,41 +957,41 @@ public class mkl extends kfe {
       if (this.mmh != null && (var1 || --this.mna <= 0)) {
          this.mna = 4;
          this.mmz = this.mpf(this.mmh);
-         this.mnc = this.mmh.isPotion() && !this.mmh.hasEffects() ? this.mpg(this.mmh) : ItemStack.field_8037;
+         this.mnc = this.mmh.isPotion() && !this.mmh.hasEffects() ? this.mpg(this.mmh) : ItemStack.EMPTY;
          int var2 = this.mmh.count() + Math.round(this.mmh.count() * 0.2F);
          this.mnb = Math.max(var2 - this.mmz, this.mmh.count());
       }
    }
 
    private int mpf(pdr var1) {
-      if (this.mc.field_1724 == null) {
+      if (this.mc.player == null) {
          return 0;
-      } else {
-         PlayerInventory var2 = this.mc.field_1724.method_31548();
-         int var3 = 0;
-
-         for (int var4 = 0; var4 < 41; var4++) {
-            ItemStack var5 = var2.method_5438(var4);
-            if (!var5.method_7960() && var1.matches(var5)) {
-               var3 += var5.method_7947();
-            }
-         }
-
-         return var3;
       }
+
+      PlayerInventory var2 = this.mc.player.getInventory();
+      int var3 = 0;
+
+      for (int var4 = 0; var4 < 41; var4++) {
+         ItemStack var5 = var2.getStack(var4);
+         if (!var5.isEmpty() && var1.matches(var5)) {
+            var3 += var5.getCount();
+         }
+      }
+
+      return var3;
    }
 
    private ItemStack mpg(pdr var1) {
-      PlayerInventory var2 = this.mc.field_1724.method_31548();
+      PlayerInventory var2 = this.mc.player.getInventory();
 
       for (int var3 = 0; var3 < 41; var3++) {
-         ItemStack var4 = var2.method_5438(var3);
-         if (!var4.method_7960() && var1.matches(var4)) {
+         ItemStack var4 = var2.getStack(var3);
+         if (!var4.isEmpty() && var1.matches(var4)) {
             return var4;
          }
       }
 
-      return ItemStack.field_8037;
+      return ItemStack.EMPTY;
    }
 
    private boolean mph() {
@@ -982,10 +1000,10 @@ public class mkl extends kfe {
       this.mmq = var1;
       if (this.mmp < 1.0) {
          return false;
-      } else {
-         this.mmp--;
-         return true;
       }
+
+      this.mmp--;
+      return true;
    }
 
    private double mpi() {
@@ -996,15 +1014,15 @@ public class mkl extends kfe {
       this.mmr = -1;
       this.mmx = 0;
       this.mmy = -1;
-      ClientPlayerEntity var1 = this.mc.field_1724;
-      if (var1 != null && this.mc.field_1755 instanceof GenericContainerScreen) {
-         var1.method_7346();
+      ClientPlayerEntity var1 = this.mc.player;
+      if (var1 != null && this.mc.currentScreen instanceof GenericContainerScreen) {
+         var1.closeHandledScreen();
       }
    }
 
    private boolean mpk(MinecraftClient var1) {
       boolean var2 = vzz.isDown(var1, 256);
-      if (var1.field_1755 instanceof hlc) {
+      if (var1.currentScreen instanceof hlc) {
          this.mni = var2;
          return false;
       } else if (var2 && !this.mni) {

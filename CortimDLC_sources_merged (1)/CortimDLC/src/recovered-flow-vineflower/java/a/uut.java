@@ -27,14 +27,11 @@ public final class uut {
    private static boolean uuy;
    private static Field uuz;
    private static boolean uva;
-   @Nullable
-   private static DrawContext uvb;
-   @Nullable
-   private static GuiRenderState uvc;
+   private static @Nullable DrawContext uvb;
+   private static @Nullable GuiRenderState uvc;
    private static final List<uhx> uvd = new ArrayList<>();
    private static int uve;
-   @Nullable
-   private static GuiRenderState uvf;
+   private static @Nullable GuiRenderState uvf;
    public static final int COSMOS = 0;
    public static final int WINTER = 1;
    public static final int LAVA = 2;
@@ -61,7 +58,7 @@ public final class uut {
 
    private static void uvi(GuiRenderState var0, SimpleGuiElementRenderState var1) {
       if (uve == 0) {
-         var0.method_70919(var1);
+         var0.addSimpleElement(var1);
       } else {
          if (uvf != var0) {
             uvj();
@@ -87,7 +84,7 @@ public final class uut {
       if (var0 != null) {
          for (uhx var2 : uvd) {
             if (!var2.isEmpty()) {
-               var0.method_70919(var2);
+               var0.addSimpleElement(var2);
             }
          }
       }
@@ -98,7 +95,7 @@ public final class uut {
 
    public static void pushAlpha(float var0) {
       uuw.push(uux);
-      uux = uux * MathHelper.method_15363(var0, 0.0F, 1.0F);
+      uux = uux * MathHelper.clamp(var0, 0.0F, 1.0F);
    }
 
    public static void popAlpha() {
@@ -112,33 +109,32 @@ public final class uut {
    public static int fade(int var0) {
       if (uux >= 0.999F) {
          return var0;
-      } else {
-         int var1 = Math.round((var0 >>> 24 & 0xFF) * uux);
-         return var1 << 24 | var0 & 16777215;
       }
+
+      int var1 = Math.round((var0 >>> 24 & 0xFF) * uux);
+      return var1 << 24 | var0 & 16777215;
    }
 
    public static void pushScissor(DrawContext var0, float var1, float var2, float var3, float var4) {
-      int var5 = MathHelper.method_15375(var1);
-      int var6 = MathHelper.method_15375(var2);
-      int var7 = MathHelper.method_15386(var1 + var3);
-      int var8 = MathHelper.method_15386(var2 + var4);
-      ScreenRect var9 = new ScreenRect(var5, var6, Math.max(0, var7 - var5), Math.max(0, var8 - var6)).method_71523(var0.method_51448());
+      int var5 = MathHelper.floor(var1);
+      int var6 = MathHelper.floor(var2);
+      int var7 = MathHelper.ceil(var1 + var3);
+      int var8 = MathHelper.ceil(var2 + var4);
+      ScreenRect var9 = new ScreenRect(var5, var6, Math.max(0, var7 - var5), Math.max(0, var8 - var6)).transformEachVertex(var0.getMatrices());
       ScreenRect var10 = uuv.peek();
-      ScreenRect var11 = var10 == null ? var9 : var10.method_49701(var9);
+      ScreenRect var11 = var10 == null ? var9 : var10.intersection(var9);
       uuv.push(var11 == null ? uuu : var11);
-      var0.method_44379(var5, var6, var7, var8);
+      var0.enableScissor(var5, var6, var7, var8);
    }
 
    public static void popScissor(DrawContext var0) {
       if (!uuv.isEmpty()) {
          uuv.pop();
-         var0.method_44380();
+         var0.disableScissor();
       }
    }
 
-   @Nullable
-   public static ScreenRect scissor() {
+   public static @Nullable ScreenRect scissor() {
       return uuv.peek();
    }
 
@@ -163,19 +159,19 @@ public final class uut {
    }
 
    public static void rect(DrawContext var0, float var1, float var2, float var3, float var4, int var5) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, 0.0F, 0.0F, 0.0F, 0.0F, var5, var5, var5, var5, 0.0F, 0.0F);
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, 0.0F, 0.0F, 0.0F, 0.0F, var5, var5, var5, var5, 0.0F, 0.0F);
    }
 
    public static void round(DrawContext var0, float var1, float var2, float var3, float var4, float var5, int var6) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var5, var5, var5, var6, var6, var6, var6, 0.0F, 0.0F);
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var5, var5, var5, var6, var6, var6, var6, 0.0F, 0.0F);
    }
 
    public static void round(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8, int var9) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var6, var7, var8, var9, var9, var9, var9, 0.0F, 0.0F);
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var6, var7, var8, var9, var9, var9, var9, 0.0F, 0.0F);
    }
 
    public static void gradient(DrawContext var0, float var1, float var2, float var3, float var4, float var5, int var6, int var7, int var8, int var9) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var5, var5, var5, var6, var7, var8, var9, 0.0F, 0.0F);
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var5, var5, var5, var6, var7, var8, var9, 0.0F, 0.0F);
    }
 
    public static void gradient(
@@ -193,7 +189,7 @@ public final class uut {
       int var11,
       int var12
    ) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, 0.0F, 0.0F);
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, 0.0F, 0.0F);
    }
 
    public static void gradientH(DrawContext var0, float var1, float var2, float var3, float var4, float var5, int var6, int var7) {
@@ -205,15 +201,15 @@ public final class uut {
    }
 
    public static void outline(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, int var7) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var5, var5, var5, var7, var7, var7, var7, 0.0F, Math.max(0.05F, var6));
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var5, var5, var5, var7, var7, var7, var7, 0.0F, Math.max(0.05F, var6));
    }
 
    public static void outlineGradientH(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var5, var5, var5, var7, var8, var8, var7, 0.0F, Math.max(0.05F, var6));
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var5, var5, var5, var7, var8, var8, var7, 0.0F, Math.max(0.05F, var6));
    }
 
    public static void outlineGradientV(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8) {
-      uvl(var0, uvq.RECT, TextureSetup.method_70899(), var1, var2, var3, var4, var5, var5, var5, var5, var7, var7, var8, var8, 0.0F, Math.max(0.05F, var6));
+      uvl(var0, uvq.RECT, TextureSetup.empty(), var1, var2, var3, var4, var5, var5, var5, var5, var7, var7, var8, var8, 0.0F, Math.max(0.05F, var6));
    }
 
    public static boolean arc(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8, int var9, int var10) {
@@ -224,31 +220,33 @@ public final class uut {
          int var14 = fade(var10);
          if ((var11 | var12 | var13 | var14) >>> 24 == 0) {
             return true;
-         } else if (!uvq.ensure(uvq.ARC)) {
-            return false;
-         } else {
-            float var15 = var5 - (float)Math.floor(var5);
-            int var16 = Math.round(var15 * 65535.0F) & 65535;
-            int var17 = Math.round(Math.min(1.0F, var6) * 65535.0F) & 65535;
-            return uvo(
-               var0,
-               uvq.ARC,
-               TextureSetup.method_70899(),
-               var1 - var3,
-               var2 - var3,
-               var3 * 2.0F,
-               var3 * 2.0F,
-               var16,
-               var17,
-               var11,
-               var12,
-               var13,
-               var14,
-               0.0F,
-               utx.pad(0.0F),
-               var4
-            );
          }
+
+         if (!uvq.ensure(uvq.ARC)) {
+            return false;
+         }
+
+         float var15 = var5 - (float)Math.floor(var5);
+         int var16 = Math.round(var15 * 65535.0F) & 65535;
+         int var17 = Math.round(Math.min(1.0F, var6) * 65535.0F) & 65535;
+         return uvo(
+            var0,
+            uvq.ARC,
+            TextureSetup.empty(),
+            var1 - var3,
+            var2 - var3,
+            var3 * 2.0F,
+            var3 * 2.0F,
+            var16,
+            var17,
+            var11,
+            var12,
+            var13,
+            var14,
+            0.0F,
+            utx.pad(0.0F),
+            var4
+         );
       } else {
          return true;
       }
@@ -262,7 +260,7 @@ public final class uut {
       uvl(
          var0,
          uvq.RECT,
-         TextureSetup.method_70899(),
+         TextureSetup.empty(),
          var1,
          var2,
          var3,
@@ -297,7 +295,7 @@ public final class uut {
       if (var12 >>> 24 != 0) {
          RenderPipeline var13 = uuy ? uvq.RECT_ADD : uvq.RECT;
          if (uvq.ensure(var13)) {
-            Matrix3x2f var14 = new Matrix3x2f(var0.method_51448()).translate(var1, var2);
+            Matrix3x2f var14 = new Matrix3x2f(var0.getMatrices()).translate(var1, var2);
             if (var10 > 0.001F) {
                var14.rotate((float)Math.atan2(var9, var8));
             }
@@ -308,7 +306,7 @@ public final class uut {
                var0,
                var14,
                var13,
-               TextureSetup.method_70899(),
+               TextureSetup.empty(),
                -var11,
                -var11,
                var10 + var5,
@@ -326,10 +324,10 @@ public final class uut {
                0.0F
             );
          } else {
-            var0.method_51448().pushMatrix();
-            var0.method_51448().translate(var1, var2);
+            var0.getMatrices().pushMatrix();
+            var0.getMatrices().translate(var1, var2);
             if (var10 > 0.001F) {
-               var0.method_51448().rotate((float)Math.atan2(var9, var8));
+               var0.getMatrices().rotate((float)Math.atan2(var9, var8));
             }
 
             if (var6 > 0.0F) {
@@ -338,7 +336,7 @@ public final class uut {
                round(var0, -var11, -var11, var10 + var5, var5, var11, var7);
             }
 
-            var0.method_51448().popMatrix();
+            var0.getMatrices().popMatrix();
          }
       }
    }
@@ -360,17 +358,19 @@ public final class uut {
    ) {
       if (var1 == null) {
          return false;
-      } else {
-         float var9 = MathHelper.method_15363(var8 * uux, 0.0F, 1.0F);
-         if (var9 <= 0.002F || var4 <= 0.0F || var5 <= 0.0F) {
-            return true;
-         } else if (!uvq.ensure(uvq.GLASS)) {
-            return false;
-         } else {
-            TextureSetup var10 = TextureSetup.method_70900(var1, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-            return uvm(var0, uvq.GLASS, var10, var2, var3, var4, var5, var6, var6, var6, var6, var7, var7, var7, var7, 0.0F, utx.pad(0.0F), var9);
-         }
       }
+
+      float var9 = MathHelper.clamp(var8 * uux, 0.0F, 1.0F);
+      if (var9 <= 0.002F || var4 <= 0.0F || var5 <= 0.0F) {
+         return true;
+      }
+
+      if (!uvq.ensure(uvq.GLASS)) {
+         return false;
+      }
+
+      TextureSetup var10 = TextureSetup.of(var1, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+      return uvm(var0, uvq.GLASS, var10, var2, var3, var4, var5, var6, var6, var6, var6, var7, var7, var7, var7, 0.0F, utx.pad(0.0F), var9);
    }
 
    public static boolean liquid(DrawContext var0, float var1, float var2, float var3, float var4, float var5, int var6, float var7, uoy var8) {
@@ -382,44 +382,46 @@ public final class uut {
    ) {
       if (var1 == null) {
          return false;
-      } else {
-         float var10 = MathHelper.method_15363(var8 * uux, 0.0F, 1.0F);
-         if (var10 <= 0.004F || var4 <= 0.0F || var5 <= 0.0F) {
-            return true;
-         } else if (!uvq.ensure(uvq.LIQUID)) {
-            return glass(var0, var1, var2, var3, var4, var5, var6, var7, var8);
-         } else {
-            TextureSetup var11 = TextureSetup.method_70900(var1, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-            float var12 = Math.min(var4, var5) * 0.5F;
-            return uvm(
-               var0,
-               uvq.LIQUID,
-               var11,
-               var2,
-               var3,
-               var4,
-               var5,
-               var6,
-               var6,
-               var6,
-               var6,
-               var7,
-               var7,
-               var7,
-               var7,
-               var9.packShape(var12),
-               utx.pad(0.0F),
-               var9.packLight(var10)
-            );
-         }
       }
+
+      float var10 = MathHelper.clamp(var8 * uux, 0.0F, 1.0F);
+      if (var10 <= 0.004F || var4 <= 0.0F || var5 <= 0.0F) {
+         return true;
+      }
+
+      if (!uvq.ensure(uvq.LIQUID)) {
+         return glass(var0, var1, var2, var3, var4, var5, var6, var7, var8);
+      }
+
+      TextureSetup var11 = TextureSetup.of(var1, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+      float var12 = Math.min(var4, var5) * 0.5F;
+      return uvm(
+         var0,
+         uvq.LIQUID,
+         var11,
+         var2,
+         var3,
+         var4,
+         var5,
+         var6,
+         var6,
+         var6,
+         var6,
+         var7,
+         var7,
+         var7,
+         var7,
+         var9.packShape(var12),
+         utx.pad(0.0F),
+         var9.packLight(var10)
+      );
    }
 
    public static void image(DrawContext var0, GpuTextureView var1, float var2, float var3, float var4, float var5, float var6, int var7) {
       int var8 = fade(var7);
       RenderPipeline var9 = uuy ? uvq.IMAGE_ADD : uvq.IMAGE;
       if (var8 >>> 24 != 0 && !(var4 <= 0.0F) && !(var5 <= 0.0F) && uvq.ensure(var9)) {
-         TextureSetup var10 = TextureSetup.method_70900(var1, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+         TextureSetup var10 = TextureSetup.of(var1, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
          uvm(var0, var9, var10, var2, var3, var4, var5, var6, var6, var6, var6, var8, var8, var8, var8, 0.0F, utx.pad(0.0F), 0.0F);
       }
    }
@@ -445,7 +447,7 @@ public final class uut {
          int var15 = Math.max(0, Math.min(4095, Math.round(var8 * 4095.0F)));
          int var16 = Math.max(1, Math.min(4095, Math.round((var9 - var7) * 4095.0F)));
          int var17 = Math.max(1, Math.min(4095, Math.round((var10 - var8) * 4095.0F)));
-         TextureSetup var18 = TextureSetup.method_70900(var1, RenderSystem.getSamplerCache().method_75294(var12 ? FilterMode.NEAREST : FilterMode.LINEAR));
+         TextureSetup var18 = TextureSetup.of(var1, RenderSystem.getSamplerCache().get(var12 ? FilterMode.NEAREST : FilterMode.LINEAR));
          uvm(
             var0,
             uvq.IMAGE,
@@ -492,7 +494,7 @@ public final class uut {
          RenderPipeline var17 = uuy ? uvq.QUAD_ADD : uvq.QUAD;
          GuiRenderState var18 = state(var0);
          if (var18 != null && uvq.ensure(var17)) {
-            Matrix3x2fStack var19 = var0.method_51448();
+            Matrix3x2fStack var19 = var0.getMatrices();
             float var20 = var19.m00() * var1 + var19.m10() * var2 + var19.m20();
             float var21 = var19.m01() * var1 + var19.m11() * var2 + var19.m21();
             float var22 = var19.m00() * var4 + var19.m10() * var5 + var19.m20();
@@ -501,15 +503,15 @@ public final class uut {
             float var25 = var19.m01() * var7 + var19.m11() * var8 + var19.m21();
             float var26 = var19.m00() * var10 + var19.m10() * var11 + var19.m20();
             float var27 = var19.m01() * var10 + var19.m11() * var11 + var19.m21();
-            int var28 = MathHelper.method_15375(Math.min(Math.min(var20, var22), Math.min(var24, var26)));
-            int var29 = MathHelper.method_15375(Math.min(Math.min(var21, var23), Math.min(var25, var27)));
-            int var30 = MathHelper.method_15386(Math.max(Math.max(var20, var22), Math.max(var24, var26)));
-            int var31 = MathHelper.method_15386(Math.max(Math.max(var21, var23), Math.max(var25, var27)));
+            int var28 = MathHelper.floor(Math.min(Math.min(var20, var22), Math.min(var24, var26)));
+            int var29 = MathHelper.floor(Math.min(Math.min(var21, var23), Math.min(var25, var27)));
+            int var30 = MathHelper.ceil(Math.max(Math.max(var20, var22), Math.max(var24, var26)));
+            int var31 = MathHelper.ceil(Math.max(Math.max(var21, var23), Math.max(var25, var27)));
             if (var30 > var28 && var31 > var29) {
                ScreenRect var32 = uuv.peek();
                ScreenRect var33 = new ScreenRect(var28, var29, var30 - var28, var31 - var29);
                if (var32 != null) {
-                  var33 = var32.method_49701(var33);
+                  var33 = var32.intersection(var33);
                   if (var33 == null) {
                      return;
                   }
@@ -527,7 +529,7 @@ public final class uut {
          RenderPipeline var9 = uuy ? uvq.PATTERN_ADD : uvq.PATTERN;
          GuiRenderState var10 = state(var0);
          if (var10 != null && uvq.ensure(var9)) {
-            Matrix3x2fStack var11 = var0.method_51448();
+            Matrix3x2fStack var11 = var0.getMatrices();
             float[] var12 = new float[20];
             float var13 = Float.MAX_VALUE;
             float var14 = Float.MAX_VALUE;
@@ -551,15 +553,15 @@ public final class uut {
                var16 = Math.max(var16, var22);
             }
 
-            int var24 = MathHelper.method_15375(var13);
-            int var25 = MathHelper.method_15375(var14);
-            int var26 = MathHelper.method_15386(var15);
-            int var27 = MathHelper.method_15386(var16);
+            int var24 = MathHelper.floor(var13);
+            int var25 = MathHelper.floor(var14);
+            int var26 = MathHelper.ceil(var15);
+            int var27 = MathHelper.ceil(var16);
             if (var26 > var24 && var27 > var25) {
                ScreenRect var28 = uuv.peek();
                ScreenRect var29 = new ScreenRect(var24, var25, var26 - var24, var27 - var25);
                if (var28 != null) {
-                  var29 = var28.method_49701(var29);
+                  var29 = var28.intersection(var29);
                   if (var29 == null) {
                      return;
                   }
@@ -598,24 +600,24 @@ public final class uut {
          int var20 = fade(var14);
          if ((var17 | var18 | var19 | var20) >>> 24 == 0) {
             return true;
-         } else {
-            if (uuy && var1 == uvq.RECT) {
-               if (!uvq.ensure(uvq.RECT_ADD)) {
-                  return false;
-               }
+         }
 
-               var1 = uvq.RECT_ADD;
-            }
-
-            if (!uvq.ensure(var1)) {
-               if (var1 == uvq.RECT && var15 == 0.0F) {
-                  uvp(var0, var3, var4, var5, var6, var17, var20, var16);
-               }
-
+         if (uuy && var1 == uvq.RECT) {
+            if (!uvq.ensure(uvq.RECT_ADD)) {
                return false;
-            } else {
-               return uvm(var0, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var17, var18, var19, var20, var15, utx.pad(var15), var16);
             }
+
+            var1 = uvq.RECT_ADD;
+         }
+
+         if (!uvq.ensure(var1)) {
+            if (var1 == uvq.RECT && var15 == 0.0F) {
+               uvp(var0, var3, var4, var5, var6, var17, var20, var16);
+            }
+
+            return false;
+         } else {
+            return uvm(var0, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var17, var18, var19, var20, var15, utx.pad(var15), var16);
          }
       } else {
          return true;
@@ -669,43 +671,43 @@ public final class uut {
       GuiRenderState var19 = state(var0);
       if (var19 == null) {
          return false;
-      } else {
-         if (var1 == null) {
-            var1 = new Matrix3x2f(var0.method_51448());
-         }
-
-         ScreenRect var20 = uuv.peek();
-         ScreenRect var21 = bounds(var1, var4 - var17, var5 - var17, var4 + var6 + var17, var5 + var7 + var17, var20);
-         if (var21 == null) {
-            return true;
-         } else {
-            float var22 = Math.min(var6, var7) * 0.5F;
-            uvi(
-               var19,
-               new utx(
-                  var2,
-                  var3,
-                  var1,
-                  var4,
-                  var5,
-                  var6,
-                  var7,
-                  var12,
-                  var13,
-                  var14,
-                  var15,
-                  utx.packRadii(Math.min(var8, var22), Math.min(var9, var22)),
-                  utx.packRadii(Math.min(var10, var22), Math.min(var11, var22)),
-                  var16,
-                  var17,
-                  var18,
-                  var20,
-                  var21
-               )
-            );
-            return true;
-         }
       }
+
+      if (var1 == null) {
+         var1 = new Matrix3x2f(var0.getMatrices());
+      }
+
+      ScreenRect var20 = uuv.peek();
+      ScreenRect var21 = bounds(var1, var4 - var17, var5 - var17, var4 + var6 + var17, var5 + var7 + var17, var20);
+      if (var21 == null) {
+         return true;
+      }
+
+      float var22 = Math.min(var6, var7) * 0.5F;
+      uvi(
+         var19,
+         new utx(
+            var2,
+            var3,
+            var1,
+            var4,
+            var5,
+            var6,
+            var7,
+            var12,
+            var13,
+            var14,
+            var15,
+            utx.packRadii(Math.min(var8, var22), Math.min(var9, var22)),
+            utx.packRadii(Math.min(var10, var22), Math.min(var11, var22)),
+            var16,
+            var17,
+            var18,
+            var20,
+            var21
+         )
+      );
+      return true;
    }
 
    private static boolean uvo(
@@ -729,17 +731,17 @@ public final class uut {
       GuiRenderState var16 = state(var0);
       if (var16 == null) {
          return false;
-      } else {
-         Matrix3x2f var17 = new Matrix3x2f(var0.method_51448());
-         ScreenRect var18 = uuv.peek();
-         ScreenRect var19 = bounds(var17, var3 - var14, var4 - var14, var3 + var5 + var14, var4 + var6 + var14, var18);
-         if (var19 == null) {
-            return true;
-         } else {
-            uvi(var16, new utx(var1, var2, var17, var3, var4, var5, var6, var9, var10, var11, var12, var7, var8, var13, var14, var15, var18, var19));
-            return true;
-         }
       }
+
+      Matrix3x2f var17 = new Matrix3x2f(var0.getMatrices());
+      ScreenRect var18 = uuv.peek();
+      ScreenRect var19 = bounds(var17, var3 - var14, var4 - var14, var3 + var5 + var14, var4 + var6 + var14, var18);
+      if (var19 == null) {
+         return true;
+      }
+
+      uvi(var16, new utx(var1, var2, var17, var3, var4, var5, var6, var9, var10, var11, var12, var7, var8, var13, var14, var15, var18, var19));
+      return true;
    }
 
    public static void submit(DrawContext var0, SimpleGuiElementRenderState var1) {
@@ -749,15 +751,14 @@ public final class uut {
       }
    }
 
-   @Nullable
-   public static ScreenRect bounds(Matrix3x2f var0, float var1, float var2, float var3, float var4, @Nullable ScreenRect var5) {
-      int var6 = MathHelper.method_15375(var1);
-      int var7 = MathHelper.method_15375(var2);
-      int var8 = MathHelper.method_15386(var3) - var6;
-      int var9 = MathHelper.method_15386(var4) - var7;
+   public static @Nullable ScreenRect bounds(Matrix3x2f var0, float var1, float var2, float var3, float var4, @Nullable ScreenRect var5) {
+      int var6 = MathHelper.floor(var1);
+      int var7 = MathHelper.floor(var2);
+      int var8 = MathHelper.ceil(var3) - var6;
+      int var9 = MathHelper.ceil(var4) - var7;
       if (var8 > 0 && var9 > 0) {
-         ScreenRect var10 = new ScreenRect(var6, var7, var8, var9).method_71523(var0);
-         return var5 != null ? var5.method_49701(var10) : var10;
+         ScreenRect var10 = new ScreenRect(var6, var7, var8, var9).transformEachVertex(var0);
+         return var5 != null ? var5.intersection(var10) : var10;
       } else {
          return null;
       }
@@ -769,16 +770,15 @@ public final class uut {
       int var10 = Math.round(var1 + var3);
       int var11 = Math.round(var2 + var4);
       if (var7 > 0.0F) {
-         var0.method_73198(var8, var9, var10 - var8, var11 - var9, var5);
+         var0.drawStrokedRectangle(var8, var9, var10 - var8, var11 - var9, var5);
       } else if (var5 == var6) {
-         var0.method_25294(var8, var9, var10, var11, var5);
+         var0.fill(var8, var9, var10, var11, var5);
       } else {
-         var0.method_25296(var8, var9, var10, var11, var5, var6);
+         var0.fillGradient(var8, var9, var10, var11, var5, var6);
       }
    }
 
-   @Nullable
-   static GuiRenderState state(DrawContext var0) {
+   static @Nullable GuiRenderState state(DrawContext var0) {
       if (uuz == null && !uva) {
          for (Field var4 : DrawContext.class.getDeclaredFields()) {
             if (var4.getType() == GuiRenderState.class) {
@@ -796,17 +796,19 @@ public final class uut {
 
       if (uuz == null) {
          return null;
-      } else if (var0 == uvb) {
+      }
+
+      if (var0 == uvb) {
          return uvc;
-      } else {
-         try {
-            GuiRenderState var6 = (GuiRenderState)uuz.get(var0);
-            uvb = var0;
-            uvc = var6;
-            return var6;
-         } catch (IllegalAccessException var5) {
-            return null;
-         }
+      }
+
+      try {
+         GuiRenderState var6 = (GuiRenderState)uuz.get(var0);
+         uvb = var0;
+         uvc = var6;
+         return var6;
+      } catch (IllegalAccessException var5) {
+         return null;
       }
    }
 }

@@ -193,10 +193,10 @@ public final class Wordmark {
          for (int y = 0; y < h; y++) {
             float acc = 0.0F;
 
-            for (int ix = -r; ix <= r; ix++) {
-               int yy = y + ix;
+            for (int i = -r; i <= r; i++) {
+               int yy = y + i;
                if (yy >= 0 && yy < h) {
-                  acc += tmp[yy * w + x] * k[ix + r];
+                  acc += tmp[yy * w + x] * k[i + r];
                }
             }
 
@@ -211,22 +211,22 @@ public final class Wordmark {
       Font f = FACES.get(resource);
       if (f != null) {
          return f;
-      } else {
-         try (InputStream in = Wordmark.class.getResourceAsStream(resource)) {
-            if (in == null) {
-               throw new IllegalStateException("missing " + resource);
-            }
+      }
 
-            f = Font.createFont(0, in);
-         } catch (RuntimeException var7) {
-            throw var7;
-         } catch (Exception var8) {
-            throw new IllegalStateException(var8);
+      try (InputStream in = Wordmark.class.getResourceAsStream(resource)) {
+         if (in == null) {
+            throw new IllegalStateException("missing " + resource);
          }
 
-         FACES.put(resource, f);
-         return f;
+         f = Font.createFont(0, in);
+      } catch (RuntimeException e) {
+         throw e;
+      } catch (Exception e) {
+         throw new IllegalStateException(e);
       }
+
+      FACES.put(resource, f);
+      return f;
    }
 
    public void close() {

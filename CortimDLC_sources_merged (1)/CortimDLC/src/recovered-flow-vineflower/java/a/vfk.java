@@ -156,30 +156,20 @@ final class vfk {
 
             GpuDevice var42 = RenderSystem.getDevice();
             GpuTexture var23 = var42.createTexture(() -> "Flow2 font " + var0, 5, TextureFormat.RGBA8, var31, var32, 1, 1);
-            NativeImage var24 = new NativeImage(var31, var32, false);
 
-            try {
+            try (NativeImage var24 = new NativeImage(var31, var32, false)) {
                for (int var25 = 0; var25 < var32; var25++) {
                   int var26 = var25 * var31;
 
                   for (int var27 = 0; var27 < var31; var27++) {
                      int var28 = var21[var41[var26 + var27] >>> 24 & 0xFF];
-                     var24.method_61941(var27, var25, var28 << 24 | 16777215);
+                     var24.setColorArgb(var27, var25, var28 << 24 | 16777215);
                   }
                }
 
                RenderSystem.getDevice().createCommandEncoder().writeToTexture(var23, var24);
-            } catch (Throwable var30) {
-               try {
-                  var24.close();
-               } catch (Throwable var29) {
-                  var30.addSuppressed(var29);
-               }
-
-               throw var30;
             }
 
-            var24.close();
             GpuTextureView var43 = var42.createTextureView(var23);
             return new vfk(var3, var38, var39, var40, var23, var43, var36, var6);
          }

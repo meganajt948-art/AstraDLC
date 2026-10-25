@@ -29,7 +29,7 @@ public final class dry {
          dsd(hyz::saveLater);
          drz = true;
          dsa = System.currentTimeMillis();
-         MinecraftClient var0 = MinecraftClient.method_1551();
+         MinecraftClient var0 = MinecraftClient.getInstance();
          dsd(() -> {
             kfx var0x = Flow.getInstance().getModuleManager();
             if (var0x != null) {
@@ -55,8 +55,8 @@ public final class dry {
                dsd(ukl::restoreVanilla);
                dsd(whl::stopAll);
                dsd(() -> {
-                  if (ours(var0.field_1755)) {
-                     var0.method_1507(var0.field_1687 == null ? new TitleScreen() : null);
+                  if (ours(var0.currentScreen)) {
+                     var0.setScreen(var0.world == null ? new TitleScreen() : null);
                   }
                });
             });
@@ -76,9 +76,9 @@ public final class dry {
    }
 
    public static void shut(MinecraftClient var0, Screen var1) {
-      var0.method_63588(() -> {
-         if (var0.field_1755 == var1) {
-            var0.method_1507(var0.field_1687 == null ? new TitleScreen() : null);
+      var0.send(() -> {
+         if (var0.currentScreen == var1) {
+            var0.setScreen(var0.world == null ? new TitleScreen() : null);
          }
       });
    }

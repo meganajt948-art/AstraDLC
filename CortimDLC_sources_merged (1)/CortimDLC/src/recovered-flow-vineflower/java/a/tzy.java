@@ -36,12 +36,12 @@ public final class tzy {
       if ((var0.flags & 1) != 0 && (var1.flags & 1) != 0 && (var1.flags & 4) == 0) {
          if (Math.abs(tvt.wrap(var1.yaw - var0.yaw)) > 90.0) {
             return false;
-         } else {
-            double var2 = var1.x - var0.x;
-            double var4 = var1.y - var0.y;
-            double var6 = var1.z - var0.z;
-            return var2 * var2 + var4 * var4 + var6 * var6 < 6.25;
          }
+
+         double var2 = var1.x - var0.x;
+         double var4 = var1.y - var0.y;
+         double var6 = var1.z - var0.z;
+         return var2 * var2 + var4 * var4 + var6 * var6 < 6.25;
       } else {
          return false;
       }
@@ -77,8 +77,8 @@ public final class tzy {
          tzg var28 = null;
          int var29 = 0;
          int var30 = -1;
-         int var31 = 0;
-         int var32 = 0;
+         byte var31 = 0;
+         byte var32 = 0;
          int var33 = 20;
          boolean var34 = false;
 
@@ -121,10 +121,10 @@ public final class tzy {
                      double var46 = var37.pitch - var36.pitch;
                      double var48 = Math.hypot(var36.vx, var36.vz);
                      boolean var50 = var36.keys == 0 && var37.keys == 0 && Math.abs(var44) < 0.05 && Math.abs(var46) < 0.05 && var48 < 0.01;
-                     var31 = var50 ? var31 + 1 : 0;
+                     var31 = (byte)(var50 ? var31 + 1 : 0);
                      if (var31 <= 30) {
                         boolean var51 = (var36.keys & 15) == 0 && var48 < 0.02;
-                        var32 = var51 ? var32 + 1 : 0;
+                        var32 = (byte)(var51 ? var32 + 1 : 0);
                         if (!var51 || (var37.keys & 15) != 0 || var32 <= 3 || !(Math.abs(var44) < 1.5) || !(var39.length() - var40 > 1.2)) {
                            if (var36.snap != var57) {
                               var57 = var36.snap;
@@ -217,166 +217,166 @@ public final class tzy {
       tzv var8 = build(var0, var6, var7.style);
       if (var8.n < 2400) {
          throw new tmt(a.b("또쾢䕣", -2136820107));
-      } else {
-         Random var9 = new Random(var3);
-         boolean[] var10 = new boolean[var8.n];
-         HashMap var11 = new HashMap();
-
-         for (int var12 = 0; var12 < var8.n; var12++) {
-            var10[var12] = var11.computeIfAbsent(var8.block[var12], var1x -> var9.nextDouble() < 0.15);
-         }
-
-         ArrayList var49 = new ArrayList();
-         ArrayList var13 = new ArrayList();
-
-         for (int var14 = 0; var14 < var8.n; var14++) {
-            (var10[var14] ? var13 : var49).add(var14);
-         }
-
-         if (var13.size() < 200 || var49.size() < 1000) {
-            var13 = new ArrayList(var49);
-         }
-
-         tbx var50 = new tbx(uam, var1, var1, txv.OUT);
-         txv var15 = new txv(var50);
-         boolean[] var16 = uay(var8, var49, var15);
-         var50.init(var9, uau(var8, var49));
-
-         for (int var17 = 0; var17 < uam; var17++) {
-            if (var16[var17]) {
-               for (int var18 = 0; var18 < var50.h1; var18++) {
-                  var50.p[var18 * uam + var17] = 0.0;
-               }
-            }
-         }
-
-         double[] var51 = new double[var50.size()];
-         double[] var52 = new double[var50.size()];
-         double[] var19 = new double[var50.size()];
-         double[] var20 = (double[])var50.p.clone();
-         double var21 = Double.POSITIVE_INFINITY;
-         int var23 = 0;
-         int var24 = 0;
-         int[] var25 = var49.stream().mapToInt(Integer::intValue).toArray();
-         int var26 = var2 * Math.max(1, (var25.length + 128 - 1) / 128);
-         double[] var27 = new double[uam];
-         double[] var28 = new double[uam];
-         double[] var29 = new double[uam];
-         double[] var30 = new double[var50.h1];
-         double[] var31 = new double[var50.h2];
-         double[] var32 = new double[txv.OUT];
-         double[] var33 = new double[txv.OUT];
-         double[] var34 = new double[var50.h1];
-         double[] var35 = new double[var50.h2];
-         double[] var36 = new double[txv.YAW.length];
-         ArrayList var37 = new ArrayList();
-         var6.epochs = var2;
-
-         for (int var38 = 0; var38 < var2; var38++) {
-            if (var6.cancel) {
-               throw new tmt(a.c(-979848570, "닣쭐䆌\udff0吡튙"));
-            }
-
-            var6.phase = a.c(-540564268, "꒧\udd00埞즨");
-            var6.epoch = var38;
-            ubb(var25, var9);
-
-            for (short var39 = 0; var39 < var25.length; var39 += 128) {
-               Arrays.fill(var51, 0.0);
-               int var40 = Math.min(var25.length, var39 + 128);
-               double var41 = 0.0;
-
-               for (int var43 = var39; var43 < var40; var43++) {
-                  int var44 = var25[var43];
-                  uaz(var8, var44, var27);
-                  int var45 = var8.move[var44];
-                  int var46 = var8.yaw[var44];
-                  if (var5 && var9.nextBoolean()) {
-                     txl.mirror(var27, 0, var28, 0);
-                     System.arraycopy(var28, 0, var27, 0, uam);
-                     var45 = txv.MIRROR[var45];
-                     var46 = txv.YAW.length - 1 - var46;
-                  }
-
-                  if (var9.nextDouble() < 0.2) {
-                     var27[txl.I_VF] = 0.0;
-                     var27[txl.I_VL] = 0.0;
-                     var27[txl.I_HS] = 0.0;
-                     var27[txl.I_SPRINT] = 0.0;
-                  }
-
-                  var27[txl.I_DYAW1] = var27[txl.I_DYAW1] + var9.nextGaussian() * 0.04;
-                  var27[txl.I_DYAW2] = var27[txl.I_DYAW2] + var9.nextGaussian() * 0.04;
-                  var27[txl.I_DPITCH1] = var27[txl.I_DPITCH1] + var9.nextGaussian() * 0.04;
-                  var27[txl.I_DPITCH2] = var27[txl.I_DPITCH2] + var9.nextGaussian() * 0.04;
-                  var15.normalize(var27, 0, var29);
-                  var50.forward(var29, var30, var31, var32);
-                  var41++;
-                  uav(var32, var45, var8.jump[var44], var8.sprint[var44], var46, var8.pitch[var44], var33, var36);
-                  var50.backward(var29, var30, var31, var33, var51, null, var34, var35);
-               }
-
-               if (!(var41 <= 0.0)) {
-                  double var56 = 0.0;
-
-                  for (int var58 = 0; var58 < var51.length; var58++) {
-                     var51[var58] /= var41;
-                     var56 += var51[var58] * var51[var58];
-                  }
-
-                  var56 = Math.sqrt(var56);
-                  if (var56 > 5.0) {
-                     for (int var59 = 0; var59 < var51.length; var59++) {
-                        var51[var59] *= 5.0 / var56;
-                     }
-                  }
-
-                  var24++;
-                  double var60 = Math.min(1.0, var24 / 100.0);
-                  double var47 = 0.5 * (1.0 + Math.cos(Math.PI * Math.min(1.0, (double)var24 / var26)));
-                  uba(var50.p, var51, var52, var19, var24, (2.0E-4 + 0.0018 * var47) * var60);
-               }
-            }
-
-            double var54 = uax(var8, var13, var15, null, var9, uao);
-            var37.add((float)var54);
-            var6.curve = ubc(var37);
-            if (var54 < var21 - 1.0E-4) {
-               var21 = var54;
-               System.arraycopy(var50.p, 0, var20, 0, var20.length);
-               var23 = 0;
-            } else if (var38 >= 6) {
-               if (++var23 >= 5) {
-                  break;
-               }
-            }
-         }
-
-         System.arraycopy(var20, 0, var50.p, 0, var20.length);
-         var6.phase = a.d("ၺ槀\ue31e絩\uf6b6", 426022683, 3442439);
-         double[] var53 = uaw(var8, var13, var15, var3);
-         var7.yawTemp = var53[0];
-         var7.yawJitter = var53[1];
-         var7.pitchTemp = var53[2];
-         var7.pitchJitter = var53[3];
-         var7.jumpThreshold = var53[4];
-         double[] var55 = new double[8];
-         uax(var8, var13, var15, var55, new Random(var3 ^ 25214903917L), var53);
-         var7.net = var15;
-         var7.samples = var8.n;
-         var7.valSamples = var13.size();
-         var7.keysAcc = var55[0];
-         var7.keysBase = var55[1];
-         var7.jumpAcc = var55[2];
-         var7.sprintAcc = var55[3];
-         var7.yawSim = var55[4];
-         var7.pitchSim = var55[5];
-         var7.yawCeil = var55[6];
-         var7.modelJumps = var55[7];
-         var7.created = System.currentTimeMillis();
-         var6.phase = a.d("쯕뉫㢿ꛉⴄꮮ", 1904144018, 497165607);
-         return var7;
       }
+
+      Random var9 = new Random(var3);
+      boolean[] var10 = new boolean[var8.n];
+      HashMap var11 = new HashMap();
+
+      for (int var12 = 0; var12 < var8.n; var12++) {
+         var10[var12] = var11.computeIfAbsent(var8.block[var12], var1x -> var9.nextDouble() < 0.15);
+      }
+
+      ArrayList var49 = new ArrayList();
+      ArrayList var13 = new ArrayList();
+
+      for (int var14 = 0; var14 < var8.n; var14++) {
+         (var10[var14] ? var13 : var49).add(var14);
+      }
+
+      if (var13.size() < 200 || var49.size() < 1000) {
+         var13 = new ArrayList(var49);
+      }
+
+      tbx var50 = new tbx(uam, var1, var1, txv.OUT);
+      txv var15 = new txv(var50);
+      boolean[] var16 = uay(var8, var49, var15);
+      var50.init(var9, uau(var8, var49));
+
+      for (int var17 = 0; var17 < uam; var17++) {
+         if (var16[var17]) {
+            for (int var18 = 0; var18 < var50.h1; var18++) {
+               var50.p[var18 * uam + var17] = 0.0;
+            }
+         }
+      }
+
+      double[] var51 = new double[var50.size()];
+      double[] var52 = new double[var50.size()];
+      double[] var19 = new double[var50.size()];
+      double[] var20 = (double[])var50.p.clone();
+      double var21 = Double.POSITIVE_INFINITY;
+      int var23 = 0;
+      int var24 = 0;
+      int[] var25 = var49.stream().mapToInt(Integer::intValue).toArray();
+      int var26 = var2 * Math.max(1, (var25.length + 128 - 1) / 128);
+      double[] var27 = new double[uam];
+      double[] var28 = new double[uam];
+      double[] var29 = new double[uam];
+      double[] var30 = new double[var50.h1];
+      double[] var31 = new double[var50.h2];
+      double[] var32 = new double[txv.OUT];
+      double[] var33 = new double[txv.OUT];
+      double[] var34 = new double[var50.h1];
+      double[] var35 = new double[var50.h2];
+      double[] var36 = new double[txv.YAW.length];
+      ArrayList var37 = new ArrayList();
+      var6.epochs = var2;
+
+      for (int var38 = 0; var38 < var2; var38++) {
+         if (var6.cancel) {
+            throw new tmt(a.c(-979848570, "닣쭐䆌\udff0吡튙"));
+         }
+
+         var6.phase = a.c(-540564268, "꒧\udd00埞즨");
+         var6.epoch = var38;
+         ubb(var25, var9);
+
+         for (short var39 = 0; var39 < var25.length; var39 += 128) {
+            Arrays.fill(var51, 0.0);
+            int var40 = Math.min(var25.length, var39 + 128);
+            double var41 = 0.0;
+
+            for (int var43 = var39; var43 < var40; var43++) {
+               int var44 = var25[var43];
+               uaz(var8, var44, var27);
+               int var45 = var8.move[var44];
+               int var46 = var8.yaw[var44];
+               if (var5 && var9.nextBoolean()) {
+                  txl.mirror(var27, 0, var28, 0);
+                  System.arraycopy(var28, 0, var27, 0, uam);
+                  var45 = txv.MIRROR[var45];
+                  var46 = txv.YAW.length - 1 - var46;
+               }
+
+               if (var9.nextDouble() < 0.2) {
+                  var27[txl.I_VF] = 0.0;
+                  var27[txl.I_VL] = 0.0;
+                  var27[txl.I_HS] = 0.0;
+                  var27[txl.I_SPRINT] = 0.0;
+               }
+
+               var27[txl.I_DYAW1] = var27[txl.I_DYAW1] + var9.nextGaussian() * 0.04;
+               var27[txl.I_DYAW2] = var27[txl.I_DYAW2] + var9.nextGaussian() * 0.04;
+               var27[txl.I_DPITCH1] = var27[txl.I_DPITCH1] + var9.nextGaussian() * 0.04;
+               var27[txl.I_DPITCH2] = var27[txl.I_DPITCH2] + var9.nextGaussian() * 0.04;
+               var15.normalize(var27, 0, var29);
+               var50.forward(var29, var30, var31, var32);
+               var41++;
+               uav(var32, var45, var8.jump[var44], var8.sprint[var44], var46, var8.pitch[var44], var33, var36);
+               var50.backward(var29, var30, var31, var33, var51, null, var34, var35);
+            }
+
+            if (!(var41 <= 0.0)) {
+               double var56 = 0.0;
+
+               for (int var58 = 0; var58 < var51.length; var58++) {
+                  var51[var58] /= var41;
+                  var56 += var51[var58] * var51[var58];
+               }
+
+               var56 = Math.sqrt(var56);
+               if (var56 > 5.0) {
+                  for (int var59 = 0; var59 < var51.length; var59++) {
+                     var51[var59] *= 5.0 / var56;
+                  }
+               }
+
+               var24++;
+               double var60 = Math.min(1.0, var24 / 100.0);
+               double var47 = 0.5 * (1.0 + Math.cos(Math.PI * Math.min(1.0, (double)var24 / var26)));
+               uba(var50.p, var51, var52, var19, var24, (2.0E-4 + 0.0018 * var47) * var60);
+            }
+         }
+
+         double var54 = uax(var8, var13, var15, null, var9, uao);
+         var37.add((float)var54);
+         var6.curve = ubc(var37);
+         if (var54 < var21 - 1.0E-4) {
+            var21 = var54;
+            System.arraycopy(var50.p, 0, var20, 0, var20.length);
+            var23 = 0;
+         } else if (var38 >= 6) {
+            if (++var23 >= 5) {
+               break;
+            }
+         }
+      }
+
+      System.arraycopy(var20, 0, var50.p, 0, var20.length);
+      var6.phase = a.d("ၺ槀\ue31e絩\uf6b6", 426022683, 3442439);
+      double[] var53 = uaw(var8, var13, var15, var3);
+      var7.yawTemp = var53[0];
+      var7.yawJitter = var53[1];
+      var7.pitchTemp = var53[2];
+      var7.pitchJitter = var53[3];
+      var7.jumpThreshold = var53[4];
+      double[] var55 = new double[8];
+      uax(var8, var13, var15, var55, new Random(var3 ^ 25214903917L), var53);
+      var7.net = var15;
+      var7.samples = var8.n;
+      var7.valSamples = var13.size();
+      var7.keysAcc = var55[0];
+      var7.keysBase = var55[1];
+      var7.jumpAcc = var55[2];
+      var7.sprintAcc = var55[3];
+      var7.yawSim = var55[4];
+      var7.pitchSim = var55[5];
+      var7.yawCeil = var55[6];
+      var7.modelJumps = var55[7];
+      var7.created = System.currentTimeMillis();
+      var6.phase = a.d("쯕뉫㢿ꛉⴄꮮ", 1904144018, 497165607);
+      return var7;
    }
 
    private static double[] uau(tzv var0, List<Integer> var1) {
@@ -509,34 +509,34 @@ public final class tzy {
       if (var17 == 0) {
          var39[4] = 0.5;
          return var39;
-      } else {
-         double var41 = -1.0;
+      }
 
-         for (double var42 = 0.05; var42 <= 0.8001; var42 += 0.025) {
-            int var24 = 0;
-            int var43 = 0;
-            int var44 = 0;
+      double var41 = -1.0;
 
-            for (int var45 = 0; var45 < var6; var45++) {
-               boolean var47 = var8[var45] > var42;
-               if (var47 && var9[var45]) {
-                  var24++;
-               } else if (var47) {
-                  var43++;
-               } else if (var9[var45]) {
-                  var44++;
-               }
-            }
+      for (double var42 = 0.05; var42 <= 0.8001; var42 += 0.025) {
+         int var24 = 0;
+         int var43 = 0;
+         int var44 = 0;
 
-            double var46 = 2.0 * var24 / Math.max(1, 2 * var24 + var43 + var44);
-            if (var46 > var41 + 1.0E-6) {
-               var41 = var46;
-               var39[4] = var42;
+         for (int var45 = 0; var45 < var6; var45++) {
+            boolean var47 = var8[var45] > var42;
+            if (var47 && var9[var45]) {
+               var24++;
+            } else if (var47) {
+               var43++;
+            } else if (var9[var45]) {
+               var44++;
             }
          }
 
-         return var39;
+         double var46 = 2.0 * var24 / Math.max(1, 2 * var24 + var43 + var44);
+         if (var46 > var41 + 1.0E-6) {
+            var41 = var46;
+            var39[4] = var42;
+         }
       }
+
+      return var39;
    }
 
    private static double uax(tzv var0, List<Integer> var1, txv var2, double[] var3, Random var4, double[] var5) {
@@ -727,11 +727,11 @@ public final class tzy {
    static double quantile(List<Double> var0, double var1) {
       if (var0.isEmpty()) {
          return 0.0;
-      } else {
-         double[] var3 = var0.stream().mapToDouble(Double::doubleValue).sorted().toArray();
-         int var4 = (int)Math.min((long)(var3.length - 1), Math.max(0L, Math.round(var1 * (var3.length - 1))));
-         return var3[var4];
       }
+
+      double[] var3 = var0.stream().mapToDouble(Double::doubleValue).sorted().toArray();
+      int var4 = (int)Math.min(var3.length - 1, Math.max(0L, Math.round(var1 * (var3.length - 1))));
+      return var3[var4];
    }
 
    private static float[] ubc(List<Float> var0) {

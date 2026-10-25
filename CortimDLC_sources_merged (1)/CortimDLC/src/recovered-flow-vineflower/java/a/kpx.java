@@ -11,15 +11,15 @@ enum kpx {
 
    final String title;
 
-   private kpx(String var3) {
+   kpx(String var3) {
       this.title = var3;
    }
 
    boolean matches(ItemStack var1) {
       return switch (this) {
-         case TOTEM -> var1.method_31574(Items.field_8288) && !var1.method_7958();
-         case ENCH_TOTEM -> var1.method_31574(Items.field_8288) && var1.method_7958();
-         case SPHERE -> var1.method_31574(Items.field_8575);
+         case TOTEM -> var1.isOf(Items.TOTEM_OF_UNDYING) && !var1.hasGlint();
+         case ENCH_TOTEM -> var1.isOf(Items.TOTEM_OF_UNDYING) && var1.hasGlint();
+         case SPHERE -> var1.isOf(Items.PLAYER_HEAD);
       };
    }
 

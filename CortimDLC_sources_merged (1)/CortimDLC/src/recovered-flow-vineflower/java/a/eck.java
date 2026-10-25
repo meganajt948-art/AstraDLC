@@ -17,11 +17,11 @@ public final class eck {
    }
 
    void own(String var1) {
-      this.ecq(new ech(Text.method_43470(var1).method_27692(Formatting.field_1068), ece.OWN));
+      this.ecq(new ech(Text.literal(var1).formatted(Formatting.WHITE), ece.OWN));
    }
 
    void system(String var1) {
-      this.ecq(new ech(Text.method_43470(var1).method_27692(Formatting.field_1080), ece.SYSTEM));
+      this.ecq(new ech(Text.literal(var1).formatted(Formatting.GRAY), ece.SYSTEM));
    }
 
    private void ecq(ech var1) {

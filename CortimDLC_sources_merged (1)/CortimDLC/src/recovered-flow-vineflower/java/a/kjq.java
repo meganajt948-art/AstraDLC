@@ -123,7 +123,7 @@ final class kjq extends kfe {
    }
 
    int strikeIn(MinecraftClient var1, ClientPlayerEntity var2, Entity var3, boolean var4) {
-      this.kkp.predict(var2, var1.field_1687, var1.field_1690.field_1903.method_1434(), vxr.getInt(kko, var2, 0), lxp.active(), this.kla);
+      this.kkp.predict(var2, var1.world, var1.options.jumpKey.isPressed(), vxr.getInt(kko, var2, 0), lxp.active(), this.kla);
       int var5 = wdt.serverSprinting(var2) ? 1 : 0;
       if (var4 && this.kmr(var1, var2)) {
          int var6 = this.kma(var2, var5, true, false);
@@ -175,23 +175,23 @@ final class kjq extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      double var3 = var2.method_23318();
+      ClientPlayerEntity var2 = var1.player;
+      double var3 = var2.getY();
       double var5 = Double.isNaN(this.klb) ? 0.0 : var3 - this.klb;
       this.klb = var3;
       if (var5 > 0.0 || var5 < -4.0) {
          this.kla = 0.0;
-      } else if (var5 < 0.0 && !var2.method_5799()) {
+      } else if (var5 < 0.0 && !var2.isTouchingWater()) {
          this.kla -= var5;
       }
 
-      this.kla = Math.min(this.kla, var2.field_6017);
-      this.klc = var2.method_24828() ? Math.min(this.klc, 2147483646) + 1 : 0;
+      this.kla = Math.min(this.kla, var2.fallDistance);
+      this.klc = var2.isOnGround() ? Math.min(this.klc, 2147483646) + 1 : 0;
    }
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (this.kkz > 0) {
          this.kkz--;
       }
@@ -200,11 +200,11 @@ final class kjq extends kfe {
          this.klk++;
       }
 
-      if (var1.field_1755 == null
-         && !var2.method_7325()
-         && var2.method_5805()
-         && !var2.method_6115()
-         && !var2.method_3144()
+      if (var1.currentScreen == null
+         && !var2.isSpectator()
+         && var2.isAlive()
+         && !var2.isUsingItem()
+         && !var2.isRiding()
          && !this.kmu(var1)
          && !oxw.busy()
          && !kvz.busy()
@@ -216,7 +216,7 @@ final class kjq extends kfe {
          if (!var3) {
             this.kkt = false;
          } else if (this.kkt) {
-            if (!var2.method_5624()) {
+            if (!var2.isSprinting()) {
                this.kkv = true;
             }
 
@@ -225,7 +225,7 @@ final class kjq extends kfe {
             }
          }
 
-         boolean var4 = var2.method_24828();
+         boolean var4 = var2.isOnGround();
          if (this.kkx && !var4) {
             this.kkw = klx();
          }
@@ -233,25 +233,25 @@ final class kjq extends kfe {
          this.kkx = var4;
          boolean var5 = this.kju.get();
          kjn var6 = var5 ? kjn.NONE : this.kkq;
-         if (var6 == kjn.STOP && var2.method_24828() && var1.field_1690.field_1903.method_1434()) {
+         if (var6 == kjn.STOP && var2.isOnGround() && var1.options.jumpKey.isPressed()) {
             var6 = kjn.START;
          }
 
-         var1.field_1773.method_3190(1.0F);
+         var1.gameRenderer.updateCrosshairTarget(1.0F);
          Entity var7 = this.kmv(var1);
          this.kli = Integer.bitCount(this.klh) >= 2;
          this.klh = (this.klh << 1 | (var7 != null ? 1 : 0)) & 65535;
          boolean var8 = this.kmc(var7);
-         boolean var9 = this.kjv.get() && var2.method_6047().method_31574(Items.field_49814);
+         boolean var9 = this.kjv.get() && var2.getMainHandStack().isOf(Items.MACE);
          boolean var10 = var7 != null
             && var8
             && this.kkz == 0
-            && kme(var1, var2, this.kln != null ? this.klo : var1.field_1765.method_17784())
+            && kme(var1, var2, this.kln != null ? this.klo : var1.crosshairTarget.getPos())
             && (!var9 || !this.kmp(var7));
          boolean var11 = this.kjr.is(a.b("\uea47鏈ᤗ蝵ತ", -1627919855)) && this.kmr(var1, var2) && (!var5 || !var3 || this.kkt);
          boolean var12 = var9 && this.kmq(var1, var2);
          if (var11 || var12) {
-            this.kkp.predict(var2, var1.field_1687, var1.field_1690.field_1903.method_1434(), vxr.getInt(kko, var2, 0), lxp.active(), this.kla);
+            this.kkp.predict(var2, var1.world, var1.options.jumpKey.isPressed(), vxr.getInt(kko, var2, 0), lxp.active(), this.kla);
          }
 
          int var13 = !var5 && var3 ? 1 : 0;
@@ -272,7 +272,7 @@ final class kjq extends kfe {
                var14 = this.klw(var2, var13, false);
             }
 
-            var16 = var14 < 0 && var2.method_24828() && this.klc <= 5 && this.kli && ksp.headroom(var2, var1.field_1687, 1.25) < 1.25;
+            var16 = var14 < 0 && var2.isOnGround() && this.klc <= 5 && this.kli && ksp.headroom(var2, var1.world, 1.25) < 1.25;
             if (var14 > 0 && kmd(var2, 0) && this.kmb(var2, var7, var14)) {
                int var17 = this.kma(var2, var13, true, false);
                if (var17 < 0) {
@@ -348,28 +348,28 @@ final class kjq extends kfe {
    private int klw(ClientPlayerEntity var1, int var2, boolean var3) {
       if (!this.kli) {
          return this.kma(var1, var2, var3, false);
-      } else {
-         int var4 = -1;
+      }
 
-         for (int var5 = var2; var5 < 20; var5++) {
-            boolean var6 = var3 ? this.kkp.critAt(var5) : this.kkp.rawCritAt(var5);
-            if (!var6) {
-               if (var4 >= 0) {
-                  break;
-               }
-            } else if (kmd(var1, var5)) {
-               if (var4 < 0) {
-                  var4 = var5;
-               }
+      int var4 = -1;
 
-               if (this.kkp.fallAt(var5) >= this.kkw) {
-                  return var5;
-               }
+      for (int var5 = var2; var5 < 20; var5++) {
+         boolean var6 = var3 ? this.kkp.critAt(var5) : this.kkp.rawCritAt(var5);
+         if (!var6) {
+            if (var4 >= 0) {
+               break;
+            }
+         } else if (kmd(var1, var5)) {
+            if (var4 < 0) {
+               var4 = var5;
+            }
+
+            if (this.kkp.fallAt(var5) >= this.kkw) {
+               return var5;
             }
          }
-
-         return var4;
       }
+
+      return var4;
    }
 
    private static double klx() {
@@ -383,7 +383,7 @@ final class kjq extends kfe {
    }
 
    private static boolean klz(ClientPlayerEntity var0, int var1) {
-      return var0.method_7261(0.5F - var1) > 0.9F;
+      return var0.getAttackCooldownProgress(0.5F - var1) > 0.9F;
    }
 
    private int kma(ClientPlayerEntity var1, int var2, boolean var3, boolean var4) {
@@ -420,42 +420,42 @@ final class kjq extends kfe {
    }
 
    private static boolean kmd(ClientPlayerEntity var0, int var1) {
-      return var0.method_7261(0.5F + var1) > 0.9F;
+      return var0.getAttackCooldownProgress(0.5F + var1) > 0.9F;
    }
 
    private static boolean kme(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2) {
       if (vxr.getInt(kkn, var0, 0) > 0) {
          return false;
-      } else {
-         ItemStack var3 = var1.method_6047();
-         if (var1.method_75202(var3, 0)) {
-            return false;
-         } else {
-            AttackRangeComponent var4 = (AttackRangeComponent)var3.method_58694(DataComponentTypes.field_64680);
-            return var4 == null || var4.method_76736(var1, var2);
-         }
       }
+
+      ItemStack var3 = var1.getMainHandStack();
+      if (var1.isBelowMinimumAttackCharge(var3, 0)) {
+         return false;
+      }
+
+      AttackRangeComponent var4 = var3.get(DataComponentTypes.ATTACK_RANGE);
+      return var4 == null || var4.isWithinRange(var1, var2);
    }
 
    private static double kmf(ClientPlayerEntity var0) {
-      AttackRangeComponent var1 = (AttackRangeComponent)var0.method_6047().method_58694(DataComponentTypes.field_64680);
-      return var1 != null ? var1.method_76739(var0) : var0.method_55755();
+      AttackRangeComponent var1 = var0.getMainHandStack().get(DataComponentTypes.ATTACK_RANGE);
+      return var1 != null ? var1.getEffectiveMaxRange(var0) : var0.getEntityInteractionRange();
    }
 
    private boolean kmg(ClientPlayerEntity var1, Entity var2, int var3) {
       int var4 = Math.min(var3, 3);
       double var5 = kmf(var1);
-      Vec3d var7 = var1.method_33571().method_1019(this.kkp.offsetAt(var4));
-      Box var8 = var2.method_5829().method_989((var2.method_23317() - var2.field_6014) * var4, 0.0, (var2.method_23321() - var2.field_5969) * var4);
-      return var8.method_49271(var7) > var5 * var5;
+      Vec3d var7 = var1.getEyePos().add(this.kkp.offsetAt(var4));
+      Box var8 = var2.getBoundingBox().offset((var2.getX() - var2.lastX) * var4, 0.0, (var2.getZ() - var2.lastZ) * var4);
+      return var8.squaredMagnitude(var7) > var5 * var5;
    }
 
    private boolean kmh(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = kmf(var2) + 1.0;
-      Vec3d var5 = var2.method_33571();
+      Vec3d var5 = var2.getEyePos();
 
-      for (Entity var7 : var1.field_1687.method_8333(var2, var2.method_5829().method_1014(var3 + 1.0), var2x -> this.kmx(var1, var2x))) {
-         if (var7.method_5829().method_49271(var5) <= var3 * var3) {
+      for (Entity var7 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var3 + 1.0), var2x -> this.kmx(var1, var2x))) {
+         if (var7.getBoundingBox().squaredMagnitude(var5) <= var3 * var3) {
             return true;
          }
       }
@@ -465,21 +465,18 @@ final class kjq extends kfe {
 
    private boolean kmi(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = kmf(var2);
-      Vec3d var5 = var2.method_33571();
-      Vec3d var6 = var5.method_1019(var2.method_5828(1.0F).method_1021(var3));
-      float var7 = MathHelper.method_15363(2.0F * var2.method_36455() - var2.field_6004, -90.0F, 90.0F);
-      float var8 = 2.0F * var2.method_36454() - var2.field_5982;
-      Vec3d var9 = var5.method_1019(Vec3d.method_1030(var7, var8).method_1021(var3));
+      Vec3d var5 = var2.getEyePos();
+      Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
+      float var7 = MathHelper.clamp(2.0F * var2.getPitch() - var2.lastPitch, -90.0F, 90.0F);
+      float var8 = 2.0F * var2.getYaw() - var2.lastYaw;
+      Vec3d var9 = var5.add(Vec3d.fromPolar(var7, var8).multiply(var3));
       Vec3d var10 = kmj(var1, var2, var5, var6);
       Vec3d var11 = kmj(var1, var2, var5, var9);
-      Box var12 = var2.method_5829().method_1014(var3 + 2.0);
+      Box var12 = var2.getBoundingBox().expand(var3 + 2.0);
 
-      for (Entity var14 : var1.field_1687.method_8333(var2, var12, var2x -> this.kmx(var1, var2x))) {
-         Box var15 = var14.method_5829();
-         Box var16 = var15.method_991(
-               var15.method_989(var14.method_23317() - var14.field_6014, var14.method_23318() - var14.field_6036, var14.method_23321() - var14.field_5969)
-            )
-            .method_1014(0.1);
+      for (Entity var14 : var1.world.getOtherEntities(var2, var12, var2x -> this.kmx(var1, var2x))) {
+         Box var15 = var14.getBoundingBox();
+         Box var16 = var15.union(var15.offset(var14.getX() - var14.lastX, var14.getY() - var14.lastY, var14.getZ() - var14.lastZ)).expand(0.1);
          if (kmk(var16, var5, var6, var10) || kmk(var16, var5, var9, var11)) {
             return true;
          }
@@ -489,23 +486,23 @@ final class kjq extends kfe {
    }
 
    private static Vec3d kmj(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2, Vec3d var3) {
-      BlockHitResult var4 = var0.field_1687.method_17742(new RaycastContext(var2, var3, ShapeType.field_17559, FluidHandling.field_1348, var1));
-      return var4.method_17783() == Type.field_1333 ? var3 : var4.method_17784();
+      BlockHitResult var4 = var0.world.raycast(new RaycastContext(var2, var3, ShapeType.OUTLINE, FluidHandling.NONE, var1));
+      return var4.getType() == Type.MISS ? var3 : var4.getPos();
    }
 
    private static boolean kmk(Box var0, Vec3d var1, Vec3d var2, Vec3d var3) {
-      if (var0.method_1006(var1)) {
+      if (var0.contains(var1)) {
          return true;
-      } else {
-         double var4 = var1.method_1025(var3);
-         return var0.method_992(var1, var2).filter(var3x -> var1.method_1025(var3x) <= var4).isPresent();
       }
+
+      double var4 = var1.squaredDistanceTo(var3);
+      return var0.raycast(var1, var2).filter(var3x -> var1.squaredDistanceTo(var3x) <= var4).isPresent();
    }
 
    private void kml(MinecraftClient var1) {
       wdf.hold(var1, kmm());
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (wdt.serverSprinting(var2) && var2.method_7261(0.5F) > 0.9F) {
+      ClientPlayerEntity var2 = var1.player;
+      if (wdt.serverSprinting(var2) && var2.getAttackCooldownProgress(0.5F) > 0.9F) {
          this.kkt = true;
          this.kku = 0;
          this.kkv = false;
@@ -514,11 +511,11 @@ final class kjq extends kfe {
 
       this.kky = kly();
       if (this.kln != null) {
-         var1.field_1761.method_2918(var1.field_1724, this.kln);
-         var1.field_1724.method_6104(Hand.field_5808);
+         var1.interactionManager.attackEntity(var1.player, this.kln);
+         var1.player.swingHand(Hand.MAIN_HAND);
          this.klj = this.kln;
       } else {
-         KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var1.field_1690.field_1886));
+         KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var1.options.attackKey));
          this.klj = this.kmv(var1);
       }
 
@@ -535,7 +532,7 @@ final class kjq extends kfe {
 
    private int kmo(MinecraftClient var1, ClientPlayerEntity var2) {
       for (int var3 = this.kks; var3 > 0; var3--) {
-         if (!kmd(var2, var3) && (!var2.method_24828() || kmd(var2, var3 + 1) && !var1.field_1690.field_1903.method_1434())) {
+         if (!kmd(var2, var3) && (!var2.isOnGround() || kmd(var2, var3 + 1) && !var1.options.jumpKey.isPressed())) {
             return var3;
          }
       }
@@ -544,28 +541,28 @@ final class kjq extends kfe {
    }
 
    private boolean kmp(Entity var1) {
-      return var1 instanceof LivingEntity var2 && var2.field_6235 > 0 || var1 == this.klj && this.klk < 10;
+      return var1 instanceof LivingEntity var2 && var2.hurtTime > 0 || var1 == this.klj && this.klk < 10;
    }
 
    private boolean kmq(MinecraftClient var1, ClientPlayerEntity var2) {
-      return !var2.method_6101()
-         && !var2.method_5799()
-         && !var2.method_5771()
-         && !var2.method_5765()
-         && !var2.method_6128()
-         && !var2.method_31549().field_7479
-         && !var2.field_27857
-         && !var2.method_6059(StatusEffects.field_5902)
-         && !var2.method_6059(StatusEffects.field_5906)
-         && var1.field_1687.method_29546(var2.method_5829().method_1011(1.0E-7)).noneMatch(kjq::kms);
+      return !var2.isClimbing()
+         && !var2.isTouchingWater()
+         && !var2.isInLava()
+         && !var2.hasVehicle()
+         && !var2.isGliding()
+         && !var2.getAbilities().flying
+         && !var2.inPowderSnow
+         && !var2.hasStatusEffect(StatusEffects.LEVITATION)
+         && !var2.hasStatusEffect(StatusEffects.SLOW_FALLING)
+         && var1.world.getStatesInBox(var2.getBoundingBox().contract(1.0E-7)).noneMatch(kjq::kms);
    }
 
    private boolean kmr(MinecraftClient var1, ClientPlayerEntity var2) {
-      return !var2.method_6059(StatusEffects.field_5919) && this.kmq(var1, var2);
+      return !var2.hasStatusEffect(StatusEffects.BLINDNESS) && this.kmq(var1, var2);
    }
 
    private static boolean kms(BlockState var0) {
-      return var0.method_27852(Blocks.field_10343) || var0.method_27852(Blocks.field_16999) || var0.method_27852(Blocks.field_27879);
+      return var0.isOf(Blocks.COBWEB) || var0.isOf(Blocks.SWEET_BERRY_BUSH) || var0.isOf(Blocks.POWDER_SNOW);
    }
 
    private void kmt(MinecraftClient var1) {
@@ -579,20 +576,20 @@ final class kjq extends kfe {
    }
 
    private boolean kmu(MinecraftClient var1) {
-      return var1.field_1761 != null && var1.field_1761.method_2923()
+      return var1.interactionManager != null && var1.interactionManager.isBreakingBlock()
          ? true
-         : var1.field_1690.field_1886.method_1434() && var1.field_1765 != null && var1.field_1765.method_17783() == Type.field_1332;
+         : var1.options.attackKey.isPressed() && var1.crosshairTarget != null && var1.crosshairTarget.getType() == Type.BLOCK;
    }
 
    private Entity kmv(MinecraftClient var1) {
       this.kln = null;
-      HitResult var2 = var1.field_1765;
-      if (var2 != null && var2.method_17783() == Type.field_1331) {
-         Entity var3 = ((EntityHitResult)var2).method_17782();
+      HitResult var2 = var1.crosshairTarget;
+      if (var2 != null && var2.getType() == Type.ENTITY) {
+         Entity var3 = ((EntityHitResult)var2).getEntity();
          if (this.kmx(var1, var3)) {
             return var3;
          } else if (this.kka.get() && var3 instanceof PlayerEntity && hhf.isFriend(var3)) {
-            this.kln = this.kmw(var1, var1.field_1724);
+            this.kln = this.kmw(var1, var1.player);
             return this.kln;
          } else {
             return null;
@@ -604,17 +601,17 @@ final class kjq extends kfe {
 
    private Entity kmw(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = kmf(var2);
-      Vec3d var5 = var2.method_33571();
-      Vec3d var6 = var5.method_1019(var2.method_5828(1.0F).method_1021(var3));
-      double var7 = var5.method_1025(kmj(var1, var2, var5, var6));
+      Vec3d var5 = var2.getEyePos();
+      Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
+      double var7 = var5.squaredDistanceTo(kmj(var1, var2, var5, var6));
       Entity var9 = null;
       double var10 = Double.MAX_VALUE;
 
-      for (Entity var13 : var1.field_1687.method_8333(var2, var2.method_5829().method_1014(var3 + 1.0), var2x -> this.kmx(var1, var2x))) {
-         Box var14 = var13.method_5829().method_1014(var13.method_5871());
-         Vec3d var15 = var14.method_1006(var5) ? var5 : (Vec3d)var14.method_992(var5, var6).orElse(null);
+      for (Entity var13 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var3 + 1.0), var2x -> this.kmx(var1, var2x))) {
+         Box var14 = var13.getBoundingBox().expand(var13.getTargetingMargin());
+         Vec3d var15 = var14.contains(var5) ? var5 : var14.raycast(var5, var6).orElse(null);
          if (var15 != null) {
-            double var16 = var5.method_1025(var15);
+            double var16 = var5.squaredDistanceTo(var15);
             if (var16 <= var7 && var16 < var10) {
                var9 = var13;
                var10 = var16;
@@ -627,8 +624,8 @@ final class kjq extends kfe {
    }
 
    private boolean kmx(MinecraftClient var1, Entity var2) {
-      if (var2 != null && var2 != var1.field_1724) {
-         if (!(var2 instanceof LivingEntity var3 && var3.method_5805() && var2.method_5732())) {
+      if (var2 != null && var2 != var1.player) {
+         if (!(var2 instanceof LivingEntity var3 && var3.isAlive() && var2.isAttackable())) {
             return false;
          } else if (this.klm != null) {
             return this.klm.test(var2);

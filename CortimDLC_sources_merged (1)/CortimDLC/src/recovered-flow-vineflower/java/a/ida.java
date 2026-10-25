@@ -29,7 +29,7 @@ public final class ida extends Screen {
    private float idt;
 
    public ida(Screen var1) {
-      super(Text.method_43470(a.b("㫨䍴즨埐\udc15媰\ue0e5椖", -1252902228)));
+      super(Text.literal(a.b("㫨䍴즨埐\udc15媰\ue0e5椖", -1252902228)));
       this.idi = var1;
       this.idm = !wap.ru() && wap.chosen() ? 1 : 0;
 
@@ -45,9 +45,9 @@ public final class ida extends Screen {
          this.idq = unf.delta() * (float)iov.ANIMATION.get();
          iov.update(this.idq);
          this.idj.update(this.idq);
-         if (this.idn && this.idj.finished() && !this.ido && this.field_22787 != null) {
+         if (this.idn && this.idj.finished() && !this.ido && this.client != null) {
             this.ido = true;
-            this.field_22787.method_63588(() -> this.field_22787.method_1507(this.idi));
+            this.client.send(() -> this.client.setScreen(this.idi));
          }
       }
    }
@@ -57,42 +57,44 @@ public final class ida extends Screen {
       return this.idn ? vcq.outCubic(var1) : vcq.outQuint(var1);
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      this.idw(var1);
+      this.idw(context);
       float var5 = this.idx();
-      if (this.field_22787 != null && this.field_22787.field_1687 != null) {
-         hyv.capture(var1, Math.max(1, iov.BG_BLUR.getInt()), var5, null);
-         uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(140.0F * var5)));
+      if (this.client != null && this.client.world != null) {
+         hyv.capture(context, Math.max(1, iov.BG_BLUR.getInt()), var5, null);
+         uut.rect(context, 0.0F, 0.0F, this.width, this.height, ujt.withAlpha(0, Math.round(140.0F * var5)));
       } else {
          hyv.skip();
-         this.method_57728(var1, var4);
-         var1.method_71278();
-         uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(120.0F * var5)));
+         this.renderPanoramaBackground(context, deltaTicks);
+         context.applyBlur();
+         uut.rect(context, 0.0F, 0.0F, this.width, this.height, ujt.withAlpha(0, Math.round(120.0F * var5)));
       }
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
-      this.idw(var1);
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+      this.idw(context);
       float var5 = this.idx();
-      float var6 = Math.min((this.field_22789 - 16.0F) / 240.0F, (this.field_22790 - 16.0F) / 150.0F);
+      float var6 = Math.min((this.width - 16.0F) / 240.0F, (this.height - 16.0F) / 150.0F);
       float var7 = Math.max(0.4F, Math.min((float)iov.SCALE.get() * 1.1F, var6));
       this.idr = var7 * (0.96F + 0.04F * var5);
-      this.ids = this.field_22789 * 0.5F - 120.0F * this.idr;
-      this.idt = this.field_22790 * 0.5F - 75.0F * this.idr + (1.0F - var5) * 8.0F;
-      float var8 = (var2 - this.ids) / this.idr;
-      float var9 = (var3 - this.idt) / this.idr;
+      this.ids = this.width * 0.5F - 120.0F * this.idr;
+      this.idt = this.height * 0.5F - 75.0F * this.idr + (1.0F - var5) * 8.0F;
+      float var8 = (mouseX - this.ids) / this.idr;
+      float var9 = (mouseY - this.idt) / this.idr;
       vdn.setRenderScale(var7);
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(this.ids, this.idt);
-      var1.method_51448().scale(this.idr, this.idr);
+      context.getMatrices().pushMatrix();
+      context.getMatrices().translate(this.ids, this.idt);
+      context.getMatrices().scale(this.idr, this.idr);
       uut.pushAlpha(var5);
 
       try {
-         this.iea(var1, var8, var9);
+         this.iea(context, var8, var9);
       } finally {
          uut.popAlpha();
-         var1.method_51448().popMatrix();
+         context.getMatrices().popMatrix();
          vdn.setRenderScale(1.0F);
       }
    }
@@ -179,12 +181,12 @@ public final class ida extends Screen {
          float var15 = var5 + var6 - 12.0F;
          float var16 = var11 + 12.0F;
          float var17 = vcq.outBack(var10);
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var15, var16);
-         var1.method_51448().scale(var17, var17);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var15, var16);
+         var1.getMatrices().scale(var17, var17);
          uut.circle(var1, 0.0F, 0.0F, 5.5F, iov.accent());
          vjf.draw(var1, vhz.CHECK, 0.0F, 0.0F, 7.0F, iov.onAccent());
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
       } else if (var8 > 0.01F) {
          uut.pushAlpha(var8);
          vjf.draw(var1, vhz.CHEVRON_RIGHT, var5 + var6 - 12.0F, var11 + 32.0F, 8.0F, iov.accent());
@@ -230,14 +232,15 @@ public final class ida extends Screen {
       if (!this.idn) {
          wap.set(idh[var1]);
          hyz.saveLater();
-         this.method_25419();
+         this.close();
       }
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
-      if (!this.idn && var1.method_74245() == 0) {
-         float var3 = (float)((var1.comp_4798() - this.ids) / this.idr);
-         float var4 = (float)((var1.comp_4799() - this.idt) / this.idr);
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
+      if (!this.idn && click.button() == 0) {
+         float var3 = (float)((click.x() - this.ids) / this.idr);
+         float var4 = (float)((click.y() - this.idt) / this.idr);
 
          for (int var5 = 0; var5 < idh.length; var5++) {
             if (irr.inside(var3, var4, this.idz(var5), 52.0F, this.idy(), 64.0F)) {
@@ -252,50 +255,55 @@ public final class ida extends Screen {
       }
    }
 
-   public boolean method_25404(KeyInput var1) {
-      int var2 = var1.comp_4795();
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      int var2 = input.key();
       if (this.idn) {
          return true;
-      } else {
-         switch (var2) {
-            case 32:
-            case 257:
-            case 335:
-               this.ied(this.idm);
-               break;
-            case 256:
-               this.method_25419();
-               break;
-            case 258:
-            case 262:
-            case 264:
-               this.idm = this.idm == 0 ? 1 : 0;
-               break;
-            case 263:
-            case 265:
-               this.idm = 0;
-         }
-
-         return true;
       }
+
+      switch (var2) {
+         case 32:
+         case 257:
+         case 335:
+            this.ied(this.idm);
+            break;
+         case 256:
+            this.close();
+            break;
+         case 258:
+         case 262:
+         case 264:
+            this.idm = this.idm == 0 ? 1 : 0;
+            break;
+         case 263:
+         case 265:
+            this.idm = 0;
+      }
+
+      return true;
    }
 
-   public void method_25419() {
+   @Override
+   public void close() {
       if (!this.idn) {
          this.idn = true;
          this.idj.backward();
       }
    }
 
-   public void method_25432() {
+   @Override
+   public void removed() {
       vdn.setRenderScale(1.0F);
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 }

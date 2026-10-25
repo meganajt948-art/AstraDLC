@@ -175,42 +175,42 @@ final class ike extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return false;
-      } else {
-         float var5 = this.y + 4.0F + 13.0F;
-         String var6 = ucg.prettyCode();
-         if (irr.inside(var2, var3, this.ikr(), var5 - 9.0F, 18.0F, 18.0F)) {
-            if (var6 == null) {
-               return true;
-            } else {
-               if (System.currentTimeMillis() < this.ikn) {
-                  this.ikn = 0L;
-                  ucg.newCode();
-               } else {
-                  this.ikn = System.currentTimeMillis() + 2500L;
-               }
+      }
 
-               return true;
-            }
-         } else if (irr.inside(var2, var3, this.x, this.y + 4.0F, this.ikr() - this.x - 2.0F, 26.0F)) {
-            if (var6 == null) {
-               var1.toast(
-                  wap.s(
-                     a.c(-1684667425, "\u038b稛\uf087溵\ue56e揔\ud986倲츴䒙썛㥤랩⹖ꐄ⋮飵ᝧ跘ஈ艿\uf825皐\ued56欸\ue1e8"),
-                     a.d("祡ô設ᑘ鮟ᤱꍣ⪖듃㩢리䏕쵵傼\udaf5堙\ue25e淸\uf329焙\uf89d花౺鞤", -1722530915, -1382400258)
-                  ),
-                  vhz.INFO,
-                  true
-               );
-               return true;
-            } else {
-               MinecraftClient.method_1551().field_1774.method_1455(var6);
-               this.ikl.set(1.0F);
-               var1.toast(wap.s(a.b("閲\uec2f曷\uf887猕\uf5e7侸왖堐튭啿꽐↝", -401631748), a.c(725901426, "摸ᷭ霴\u0d51苧Э빺㞊꧒⌛꒶廋퀞䦢쟶䄝")) + var6, vhz.COPY, false);
-               return true;
-            }
-         } else {
-            return false;
+      float var5 = this.y + 4.0F + 13.0F;
+      String var6 = ucg.prettyCode();
+      if (irr.inside(var2, var3, this.ikr(), var5 - 9.0F, 18.0F, 18.0F)) {
+         if (var6 == null) {
+            return true;
          }
+
+         if (System.currentTimeMillis() < this.ikn) {
+            this.ikn = 0L;
+            ucg.newCode();
+         } else {
+            this.ikn = System.currentTimeMillis() + 2500L;
+         }
+
+         return true;
+      } else if (irr.inside(var2, var3, this.x, this.y + 4.0F, this.ikr() - this.x - 2.0F, 26.0F)) {
+         if (var6 == null) {
+            var1.toast(
+               wap.s(
+                  a.c(-1684667425, "\u038b稛\uf087溵\ue56e揔\ud986倲츴䒙썛㥤랩⹖ꐄ⋮飵ᝧ跘ஈ艿\uf825皐\ued56欸\ue1e8"),
+                  a.d("祡ô設ᑘ鮟ᤱꍣ⪖듃㩢리䏕쵵傼\udaf5堙\ue25e淸\uf329焙\uf89d花౺鞤", -1722530915, -1382400258)
+               ),
+               vhz.INFO,
+               true
+            );
+            return true;
+         } else {
+            MinecraftClient.getInstance().keyboard.setClipboard(var6);
+            this.ikl.set(1.0F);
+            var1.toast(wap.s(a.b("閲\uec2f曷\uf887猕\uf5e7侸왖堐튭啿꽐↝", -401631748), a.c(725901426, "摸ᷭ霴\u0d51苧Э빺㞊꧒⌛꒶廋퀞䦢쟶䄝")) + var6, vhz.COPY, false);
+            return true;
+         }
+      } else {
+         return false;
       }
    }
 }

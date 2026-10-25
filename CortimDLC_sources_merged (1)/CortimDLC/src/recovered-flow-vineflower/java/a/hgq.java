@@ -174,10 +174,10 @@ final class hgq {
    }
 
    private static void hgv(MinecraftClient var0, float var1, float var2, String var3, int var4) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
       hgr = var3;
       hgs = var4 + 10;
    }
@@ -193,15 +193,15 @@ final class hgq {
    }
 
    private static void hgx(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void hgy(MinecraftClient var0, String var1) {
-      System.out.println(a.c(118715274, "珳\u0a54肎ỵ镤ᎁ꧃․빼㒙") + var1 + a.b("섀룑㉢", -1503739613) + var0.method_47599() + a.b("▆山횴䣆", -87480926));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.c(118715274, "珳\u0a54肎ỵ镤ᎁ꧃․빼㒙") + var1 + a.b("섀룑㉢", -1503739613) + var0.getCurrentFps() + a.b("▆山횴䣆", -87480926));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.b("ꦲ퀉嫙쒰伢즌", -812537390) + var1 + a.d("͍窢\uf06f渗", -883199394, -1723895495),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

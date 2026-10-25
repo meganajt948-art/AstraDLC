@@ -66,17 +66,17 @@ public class kqh extends kfe implements ivw {
 
    @Override
    public void onKey(MinecraftClient var1, int var2) {
-      if (var1.field_1724 != null) {
+      if (var1.player != null) {
          if (var2 == this.kqn.get()) {
-            if (var1.field_1755 == null) {
-               var1.method_1507(new iwf(this, var2));
+            if (var1.currentScreen == null) {
+               var1.setScreen(new iwf(this, var2));
             }
          } else {
             if (var2 == this.kqm.get()) {
                this.kqt = -1;
                this.kqs = true;
                this.kqu = 0;
-               if (kqx(var1.field_1724) && !oxw.busy() && !kvz.busy()) {
+               if (kqx(var1.player) && !oxw.busy() && !kvz.busy()) {
                   this.kqz(var1);
                }
             }
@@ -87,7 +87,7 @@ public class kqh extends kfe implements ivw {
    @Override
    public void onStartTick(MinecraftClient var1) {
       if (this.kqs) {
-         ClientPlayerEntity var2 = var1.field_1724;
+         ClientPlayerEntity var2 = var1.player;
          if (++this.kqu > 10) {
             this.kqy(var1);
          } else if (wdq.canClick(var2) && !oxw.busy() && !kvz.busy()) {
@@ -95,8 +95,8 @@ public class kqh extends kfe implements ivw {
                this.kqz(var1);
             } else {
                this.kqq.hold(var1);
-               if (var2.method_6115()) {
-                  var1.field_1761.method_2897(var2);
+               if (var2.isUsingItem()) {
+                  var1.interactionManager.stopUsingItem(var2);
                }
             }
          }
@@ -105,7 +105,7 @@ public class kqh extends kfe implements ivw {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      if (this.kqs && kqx(var1.field_1724) && !oxw.busy() && !kvz.busy()) {
+      if (this.kqs && kqx(var1.player) && !oxw.busy() && !kvz.busy()) {
          this.kqz(var1);
       }
    }
@@ -123,23 +123,23 @@ public class kqh extends kfe implements ivw {
    @Override
    public List<ivx> slots() {
       ArrayList var1 = new ArrayList(3);
-      ClientPlayerEntity var2 = this.mc.field_1724;
+      ClientPlayerEntity var2 = this.mc.player;
 
       for (int var3 = 0; var3 < 3; var3++) {
          kqa var4 = kqa.parse(this.kqo[var3].get());
          if (var4 != null && var2 != null) {
-            ItemStack var5 = var2.method_6079();
+            ItemStack var5 = var2.getOffHandStack();
             boolean var6 = var4.matches(var5);
             int var7 = var6 ? -1 : krc(var2, var4::matches);
-            ItemStack var8 = var6 ? var5 : (var7 >= 0 ? var2.method_31548().method_5438(var7) : ItemStack.field_8037);
-            ItemStack var9 = var8.method_7960() ? new ItemStack(var4.item()) : var8;
-            String var10 = !var8.method_7960() ? var8.method_7964().getString() : (var4.name().isEmpty() ? var9.method_7964().getString() : var4.name());
+            ItemStack var8 = var6 ? var5 : (var7 >= 0 ? var2.getInventory().getStack(var7) : ItemStack.EMPTY);
+            ItemStack var9 = var8.isEmpty() ? new ItemStack(var4.item()) : var8;
+            String var10 = !var8.isEmpty() ? var8.getName().getString() : (var4.name().isEmpty() ? var9.getName().getString() : var4.name());
             String var11 = var6
                ? wap.s(a.b("샜률㎺귃", -1551187792), a.d("⭔囷\ud844䘶춘䬦", 1607784061, 1379465501))
-               : (var8.method_7960() ? wap.s(a.c(834091486, "㦴䀄쫖咬"), a.b("⌡媘퀼", 800401183)) : "");
-            var1.add(new ivx(var9, var10, var11, 0.0F, !var8.method_7960() && !var6));
+               : (var8.isEmpty() ? wap.s(a.c(834091486, "㦴䀄쫖咬"), a.b("⌡媘퀼", 800401183)) : "");
+            var1.add(new ivx(var9, var10, var11, 0.0F, !var8.isEmpty() && !var6));
          } else {
-            var1.add(new ivx(ItemStack.field_8037, "", "", 0.0F, false));
+            var1.add(new ivx(ItemStack.EMPTY, "", "", 0.0F, false));
          }
       }
 
@@ -158,12 +158,12 @@ public class kqh extends kfe implements ivw {
    @Override
    public void assign(int var1, ItemStack var2) {
       if (var1 >= 0 && var1 < 3) {
-         this.kqo[var1].set(var2.method_7960() ? "" : kqa.of(var2).text());
+         this.kqo[var1].set(var2.isEmpty() ? "" : kqa.of(var2).text());
       }
    }
 
    private static boolean kqx(ClientPlayerEntity var0) {
-      return wdq.canClick(var0) && vyn.serverIdle(var0) && !var0.method_6115();
+      return wdq.canClick(var0) && vyn.serverIdle(var0) && !var0.isUsingItem();
    }
 
    private void kqy(MinecraftClient var1) {
@@ -172,14 +172,14 @@ public class kqh extends kfe implements ivw {
    }
 
    private void kqz(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      ItemStack var3 = var2.method_6079();
+      ClientPlayerEntity var2 = var1.player;
+      ItemStack var3 = var2.getOffHandStack();
       int var4;
       boolean var5;
       if (this.kqt == -1) {
          kpx var6 = kpx.of(this.kqk);
          kpx var7 = kpx.of(this.kql);
-         boolean var8 = var7.matches(var3) || var7.isTotem() && var3.method_31574(Items.field_8288) && !var6.matches(var3);
+         boolean var8 = var7.matches(var3) || var7.isTotem() && var3.isOf(Items.TOTEM_OF_UNDYING) && !var6.matches(var3);
          kpx var9 = var8 ? var6 : var7;
          var5 = var9.isTotem();
          var4 = !var5 && kra(var3) ? -1 : this.krb(var2, var9, var3);
@@ -190,7 +190,7 @@ public class kqh extends kfe implements ivw {
             return;
          }
 
-         var5 = var10.item() == Items.field_8288;
+         var5 = var10.item() == Items.TOTEM_OF_UNDYING;
          var4 = !var5 && kra(var3) ? -1 : krc(var2, var10::matches);
          if (var4 < 0 && (var5 || !kra(var3))) {
             izx.alert(
@@ -212,7 +212,7 @@ public class kqh extends kfe implements ivw {
       } else if (var4 >= 0) {
          for (kpx var14 : kpx.values()) {
             if (var14.matches(var3)) {
-               this.kqr.put(var14, var3.method_7972());
+               this.kqr.put(var14, var3.copy());
             }
          }
 
@@ -223,14 +223,14 @@ public class kqh extends kfe implements ivw {
    }
 
    private static boolean kra(ItemStack var0) {
-      return krd.needsTotem() && var0.method_31574(Items.field_8288);
+      return krd.needsTotem() && var0.isOf(Items.TOTEM_OF_UNDYING);
    }
 
    private int krb(ClientPlayerEntity var1, kpx var2, ItemStack var3) {
-      Predicate var4 = var1x -> !ItemStack.method_31577(var1x, var3);
-      ItemStack var5 = this.kqr.getOrDefault(var2, ItemStack.field_8037);
-      if (!var5.method_7960() && var4.test(var5)) {
-         int var6 = krc(var1, var1x -> ItemStack.method_31577(var1x, var5));
+      Predicate var4 = var1x -> !ItemStack.areItemsAndComponentsEqual(var1x, var3);
+      ItemStack var5 = this.kqr.getOrDefault(var2, ItemStack.EMPTY);
+      if (!var5.isEmpty() && var4.test(var5)) {
+         int var6 = krc(var1, var1x -> ItemStack.areItemsAndComponentsEqual(var1x, var5));
          if (var6 >= 0) {
             return var6;
          }
@@ -238,28 +238,28 @@ public class kqh extends kfe implements ivw {
 
       int var7 = krc(var1, var2x -> var2.matches(var2x) && var4.test(var2x));
       if (var7 < 0 && var2.isTotem()) {
-         var7 = krc(var1, var1x -> var1x.method_31574(Items.field_8288) && var4.test(var1x));
+         var7 = krc(var1, var1x -> var1x.isOf(Items.TOTEM_OF_UNDYING) && var4.test(var1x));
       }
 
       return var7;
    }
 
    private static int krc(ClientPlayerEntity var0, Predicate<ItemStack> var1) {
-      PlayerInventory var2 = var0.method_31548();
-      int var3 = var2.method_67532();
+      PlayerInventory var2 = var0.getInventory();
+      int var3 = var2.getSelectedSlot();
 
       for (int var4 = 9; var4 < 36; var4++) {
-         if (var1.test(var2.method_5438(var4))) {
+         if (var1.test(var2.getStack(var4))) {
             return var4;
          }
       }
 
       for (int var5 = 0; var5 < 9; var5++) {
-         if (var5 != var3 && var1.test(var2.method_5438(var5))) {
+         if (var5 != var3 && var1.test(var2.getStack(var5))) {
             return var5;
          }
       }
 
-      return var1.test(var2.method_5438(var3)) ? var3 : -1;
+      return var1.test(var2.getStack(var3)) ? var3 : -1;
    }
 }

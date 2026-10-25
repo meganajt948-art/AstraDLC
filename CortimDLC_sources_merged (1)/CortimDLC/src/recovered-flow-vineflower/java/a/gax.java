@@ -83,13 +83,13 @@ final class gax {
 
    static boolean tick(MinecraftClient var0) {
       gcc++;
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       gde();
       if (gcc == 1) {
          gcy();
-         int var5 = MathHelper.method_15357(var1.method_23317());
-         int var6 = MathHelper.method_15357(var1.method_23318());
-         int var4 = MathHelper.method_15357(var1.method_23321());
+         int var5 = MathHelper.floor(var1.getX());
+         int var6 = MathHelper.floor(var1.getY());
+         int var4 = MathHelper.floor(var1.getZ());
          gcd = var5 + 4.5;
          gce = var6;
          gcf = var4 + 0.5;
@@ -122,15 +122,17 @@ final class gax {
             )
          );
          gdg(var0, a.d("䋶㭄놗\u2fe5ꐴ⊒颕ᄣ轲ל舜砨\uf69f漋\ue566掸\ud9fa嘢첄䪍쌪륿㟋갑⩨ꂨᤈ非ර认Eﺉ瓀\ued29歌\ue180帅푣劦쬍䅈㾾뗸㉆ꢜ⛫齽ᖅ鏍ࠔ虨精\uf50e獂\ue9a0枴\udc18嫚탽䤪잚뷛", -956233788, -1948367511));
-         var1.method_31548().method_61496(1);
+         var1.getInventory().setSelectedSlot(1);
          return false;
-      } else if (gcc == 30) {
-         for (Entity var3 : var0.field_1687.method_18112()) {
+      }
+
+      if (gcc == 30) {
+         for (Entity var3 : var0.world.getEntities()) {
             if (var3 instanceof HuskEntity) {
-               gca = var3.method_5628();
-               gcd = var3.method_23317();
-               gce = var3.method_23318();
-               gcf = var3.method_23321();
+               gca = var3.getId();
+               gcd = var3.getX();
+               gce = var3.getY();
+               gcf = var3.getZ();
             }
          }
 
@@ -143,26 +145,28 @@ final class gax {
             gdf(a.d("\ue366髣ေ蹛ְ茢㥳낙⻁ꑪ", -338757580, -708699367));
             return false;
          }
-      } else if (gcc < 40) {
-         return false;
       } else {
+         if (gcc < 40) {
+            return false;
+         }
+
          gct.update(var1);
-         if (var0.field_1729.method_1613()) {
-            var0.field_1729.method_1610();
+         if (var0.mouse.isCursorLocked()) {
+            var0.mouse.unlockCursor();
          }
 
          if (gcg >= 0 && gch != 3) {
             gda(var0, var1, gbb.get(gcg));
             return false;
-         } else {
-            gcg++;
-            if (gcg >= gbb.size()) {
-               return gdb();
-            } else {
-               gcz(var0, var1, gbb.get(gcg));
-               return false;
-            }
          }
+
+         gcg++;
+         if (gcg >= gbb.size()) {
+            return gdb();
+         }
+
+         gcz(var0, var1, gbb.get(gcg));
+         return false;
       }
    }
 
@@ -241,7 +245,7 @@ final class gax {
          );
       }
 
-      var1.method_31548().method_61496(var3 ? 0 : 1);
+      var1.getInventory().setSelectedSlot(var3 ? 0 : 1);
       double var5 = gcv.nextDouble() * Math.PI * 2.0;
       double var7 = gcd + Math.cos(var5) * var2.offset();
       double var9 = gcf + Math.sin(var5) * var2.offset();
@@ -280,14 +284,14 @@ final class gax {
       }
 
       if (gch == 0) {
-         if (var1.method_23318() > gce + var2.height() - 0.5 || gci > 20) {
+         if (var1.getY() > gce + var2.height() - 0.5 || gci > 20) {
             gch = 1;
             gci = 0;
-            gcm = var1.method_36454();
-            gcn = var1.method_36455();
+            gcm = var1.getYaw();
+            gcn = var1.getPitch();
          }
       } else {
-         boolean var3 = var1.method_24828();
+         boolean var3 = var1.isOnGround();
          if (!var3) {
             gcq = true;
          }
@@ -298,7 +302,7 @@ final class gax {
          gbo = var6 != gbn ? 0 : gbo + 1;
          gbn = var6;
          if (!Float.isNaN(gbl) && gci > 2 && var2.sweep() == 0) {
-            double var7 = Math.sqrt(MathHelper.method_27285(MathHelper.method_15393(var4 - gbl)) + MathHelper.method_27285(var5 - gbm));
+            double var7 = Math.sqrt(MathHelper.square(MathHelper.wrapDegrees(var4 - gbl)) + MathHelper.square(var5 - gbm));
             gbi[gcg] = Math.max(gbi[gcg], var7);
             if (gbo == 0) {
                gbj[gcg] = Math.max(gbj[gcg], var7);
@@ -314,9 +318,9 @@ final class gax {
          }
 
          gcp = var3;
-         float var17 = var1.method_36454();
-         float var8 = var1.method_36455();
-         double var9 = MathHelper.method_15393(var17 - gck);
+         float var17 = var1.getYaw();
+         float var8 = var1.getPitch();
+         double var9 = MathHelper.wrapDegrees(var17 - gck);
          double var11 = var8 - gcl;
          double var13 = Math.sqrt(var9 * var9 + var11 * var11);
          if (var2.phase().equals(a.c(1458140965, "睐\u0efb萭ᩕ醉ᜢ"))) {
@@ -341,7 +345,7 @@ final class gax {
                gbx[gcg]++;
             }
 
-            double var15 = Math.sqrt(MathHelper.method_27285(MathHelper.method_15393(var17 - gcm)) + MathHelper.method_27285(var8 - gcn));
+            double var15 = Math.sqrt(MathHelper.square(MathHelper.wrapDegrees(var17 - gcm)) + MathHelper.square(var8 - gcn));
             if (var15 > 2.0) {
                gcs.add(var15);
             }
@@ -371,10 +375,10 @@ final class gax {
          gcm = var17;
          gcn = var8;
          if (var2.sweep() > 0) {
-            gcu.predict(var1, var0.field_1687, gct.get());
+            gcu.predict(var1, var0.world, gct.get());
             if (!var3 && !gcr && gcu.landing() == var2.sweep()) {
                gcr = true;
-               KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var0.field_1690.field_1886));
+               KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var0.options.attackKey));
             }
          }
 
@@ -387,7 +391,7 @@ final class gax {
 
          if (gcj > 24 || gci > (var2.phase().equals(a.c(-72865706, "⠱冗\udb43䔳컣")) ? 440 : 140)) {
             gbt[gcg] = var13 < 1.5;
-            gbu[gcg] = var1.method_31548().method_67532() == (var2.sweep() > 0 ? 0 : 1);
+            gbu[gcg] = var1.getInventory().getSelectedSlot() == (var2.sweep() > 0 ? 0 : 1);
             System.out
                .println(
                   String.format(
@@ -522,13 +526,13 @@ final class gax {
                   for (int var39 = 1; var39 <= 4; var39++) {
                      int var40 = 0;
                      int var41 = 0;
-                     StringBuilder var24 = new StringBuilder();
+                     StringBuilder var42 = new StringBuilder();
 
-                     for (int var42 = 0; var42 < gbb.size(); var42++) {
-                        if (gbb.get(var42).phase().equals(a.d("䟎㹻뒺⫋ꄉ", 1864266670, -1165741034)) && gbb.get(var42).sweep() == var39) {
-                           var40 += gbp[var42];
-                           var41 += gbq[var42];
-                           var24.append(String.format(Locale.ROOT, a.c(531964509, "≸富턔佹쓺"), gbs[var42]));
+                     for (int var43 = 0; var43 < gbb.size(); var43++) {
+                        if (gbb.get(var43).phase().equals(a.d("䟎㹻뒺⫋ꄉ", 1864266670, -1165741034)) && gbb.get(var43).sweep() == var39) {
+                           var40 += gbp[var43];
+                           var41 += gbq[var43];
+                           var42.append(String.format(Locale.ROOT, a.c(531964509, "≸富턔佹쓺"), gbs[var43]));
                         }
                      }
 
@@ -541,7 +545,7 @@ final class gax {
                               + a.c(-2041620204, "夳⃑ꨜ㑡뾤㤎茈")
                               + var41
                               + a.c(586991857, "죝넿㯺ꖜ⹏꣭ኩ魬Ԕ辨ࡻ\uf25b")
-                              + var24
+                              + var42
                         );
                   }
                } else {
@@ -663,15 +667,14 @@ final class gax {
    private static float gdc(Field var0, ClientPlayerEntity var1) {
       try {
          return var0.getFloat(var1);
-      } catch (RuntimeException | ReflectiveOperationException var3) {
+      } catch (ReflectiveOperationException | RuntimeException var3) {
          return 0.0F;
       }
    }
 
    private static void gdd(kfe var0, boolean var1, boolean var2, double var3) {
       for (vmo var6 : var0.getSettings()) {
-         String var7 = var6.getName();
-         switch (var7) {
+         switch (var6.getName()) {
             case a.b("\udd17ꒂ⹔됶㿯뵌ݦ躝Ⴝ驰᷑\ue3b0椄\uf0c2窕ﰔ䘫", -2113283814):
                ((vmc)var6).set(var3);
                break;
@@ -707,11 +710,11 @@ final class gax {
             .register(
                (AttackEntityCallback)(var0, var1, var2, var3, var4) -> {
                   int var5 = gbz;
-                  if (!var1.method_8608() && var5 >= 0 && var3.method_5628() == gca) {
-                     float var6 = var0.method_7261(0.5F);
-                     boolean var7 = var6 > 0.9F && var0.field_6017 > 0.0 && !var0.method_24828() && !var0.method_5624();
-                     boolean var8 = var0.method_6047().method_31574(Items.field_49814) && var0.field_6017 > 1.5 && !var0.method_6128();
-                     boolean var9 = var3 instanceof LivingEntity var10 && var10.field_6008 > 10;
+                  if (!var1.isClient() && var5 >= 0 && var3.getId() == gca) {
+                     float var6 = var0.getAttackCooldownProgress(0.5F);
+                     boolean var7 = var6 > 0.9F && var0.fallDistance > 0.0 && !var0.isOnGround() && !var0.isSprinting();
+                     boolean var8 = var0.getMainHandStack().isOf(Items.MACE) && var0.fallDistance > 1.5 && !var0.isGliding();
+                     boolean var9 = var3 instanceof LivingEntity var10 && var10.timeUntilRegen > 10;
                      gbp[var5]++;
                      if (var8) {
                         gbq[var5]++;
@@ -721,7 +724,7 @@ final class gax {
                         gbr[var5]++;
                      }
 
-                     gbs[var5] = var0.field_6017;
+                     gbs[var5] = var0.fallDistance;
                      System.out
                         .println(
                            String.format(
@@ -732,18 +735,18 @@ final class gax {
                                  -645060365
                               ),
                               var5,
-                              var0.method_23318() - gce,
-                              var0.field_6017,
-                              var0.method_24828(),
+                              var0.getY() - gce,
+                              var0.fallDistance,
+                              var0.isOnGround(),
                               var6,
                               var8,
                               var7,
                               var9
                            )
                         );
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   } else {
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   }
                }
             );
@@ -758,6 +761,6 @@ final class gax {
    }
 
    private static void gdg(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

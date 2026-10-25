@@ -56,8 +56,8 @@ final class vii {
                vir(var1, var2, var3, var24, var28, var31, var33, var34, var19, var20);
                var2 = var19;
                var3 = var20;
-               var6 = var19;
-               var7 = var20;
+               var6 = var2;
+               var7 = var3;
                break;
             case 'B':
             case 'D':
@@ -151,8 +151,8 @@ final class vii {
                var1.closePath();
                var2 = var4;
                var3 = var5;
-               var6 = var4;
-               var7 = var5;
+               var6 = var2;
+               var7 = var3;
          }
 
          var8 = var9;

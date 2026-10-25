@@ -191,21 +191,7 @@ public final class tel {
 
          try {
             double var6 = this.tfc;
-            this.thu(
-               var1,
-               var2,
-               var3,
-               new Box(
-                  var4.field_1352 - var6,
-                  var4.field_1351 - var6,
-                  var4.field_1350 - var6,
-                  var4.field_1352 + var6,
-                  var4.field_1351 + var6,
-                  var4.field_1350 + var6
-               ),
-               var5,
-               false
-            );
+            this.thu(var1, var2, var3, new Box(var4.x - var6, var4.y - var6, var4.z - var6, var4.x + var6, var4.y + var6, var4.z + var6), var5, false);
          } finally {
             this.tfa = false;
             this.tfb = false;
@@ -218,17 +204,9 @@ public final class tel {
    public void assistBlock(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Box var4, Vec3d var5, int var6) {
       if (var3 != null && var4 != null && var5 != null) {
          if (var3 != this.tey) {
-            Vec3d var7 = var2.method_33571();
-            this.tfh = tbp.hitU(
-               var7.field_1352,
-               var7.field_1350,
-               (var4.field_1323 + var4.field_1320) * 0.5,
-               (var4.field_1321 + var4.field_1324) * 0.5,
-               (var4.field_1320 - var4.field_1323) * 0.5,
-               var5.field_1352,
-               var5.field_1350
-            );
-            this.tfi = tbp.hitV(var4.field_1322, var4.field_1325 - var4.field_1322, var5.field_1351);
+            Vec3d var7 = var2.getEyePos();
+            this.tfh = tbp.hitU(var7.x, var7.z, (var4.minX + var4.maxX) * 0.5, (var4.minZ + var4.maxZ) * 0.5, (var4.maxX - var4.minX) * 0.5, var5.x, var5.z);
+            this.tfi = tbp.hitV(var4.minY, var4.maxY - var4.minY, var5.y);
          }
 
          this.tfa = true;
@@ -248,19 +226,19 @@ public final class tel {
    }
 
    private void tht(MinecraftClient var1, ClientPlayerEntity var2, Entity var3, int var4, boolean var5) {
-      this.thu(var1, var2, var3, var3 == null ? null : var3.method_5829(), var4, var5);
+      this.thu(var1, var2, var3, var3 == null ? null : var3.getBoundingBox(), var4, var5);
    }
 
    private void thu(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Box var4, int var5, boolean var6) {
       this.tgx = var6;
-      float var7 = var2.method_36454();
-      float var8 = var2.method_36455();
+      float var7 = var2.getYaw();
+      float var8 = var2.getPitch();
       this.thv(var7, var8);
       double var9 = this.thl;
       double var11 = this.thm;
       this.thl = this.thm = 0.0;
       this.tgz = false;
-      if (this.thw(var2, var3, var4, var2.method_33571(), var5, var6, var9, var11, var7, var8)) {
+      if (this.thw(var2, var3, var4, var2.getEyePos(), var5, var6, var9, var11, var7, var8)) {
          double var13 = Math.hypot(this.tha, this.thb);
          if (this.tfd > 0.0 && var13 > this.tfd) {
             this.tha = this.tha * (this.tfd / var13);
@@ -276,8 +254,8 @@ public final class tel {
             this.the = this.tha;
             this.thf = this.thb;
             this.tgz = false;
-            this.thj = var2.method_36454();
-            this.thk = var2.method_36455();
+            this.thj = var2.getYaw();
+            this.thk = var2.getPitch();
          }
       }
    }
@@ -287,11 +265,11 @@ public final class tel {
       this.tgz = false;
       if (!this.thw(var1, var2, var3, var4, var5, false, 0.0, 0.0, var6, var7)) {
          return false;
-      } else {
-         var8[0] = this.tha;
-         var8[1] = this.thb;
-         return true;
       }
+
+      var8[0] = this.tha;
+      var8[1] = this.thb;
+      return true;
    }
 
    public boolean steerAt(
@@ -301,14 +279,11 @@ public final class tel {
       this.tff = var5;
       this.tfg = var7;
 
-      boolean var13;
       try {
-         var13 = this.steer(var1, var2, var3, var4, var9, var10, var11, var12);
+         return this.steer(var1, var2, var3, var4, var9, var10, var11, var12);
       } finally {
          this.tfa = false;
       }
-
-      return var13;
    }
 
    public boolean steerTo(ClientPlayerEntity var1, Object var2, double var3, double var5, int var7, float var8, float var9, double[] var10) {
@@ -325,15 +300,12 @@ public final class tel {
       this.tfm = var7;
       this.tfn = var9;
 
-      boolean var19;
       try {
-         var19 = this.steerTo(var1, var2, var3, var5, var11, var12, var13, var14);
+         return this.steerTo(var1, var2, var3, var5, var11, var12, var13, var14);
       } finally {
          this.tfm = var15;
          this.tfn = var17;
       }
-
-      return var19;
    }
 
    public void idle(float var1, float var2) {
@@ -374,132 +346,134 @@ public final class tel {
       if (this.tev == null || var2 == null) {
          this.drop();
          return false;
-      } else if (this.tgp > 0) {
+      }
+
+      if (this.tgp > 0) {
          this.tgp--;
          this.drop();
          this.tev.settle();
          return false;
+      }
+
+      if (var2 != this.tey) {
+         this.tfz = var3 == null || this.thx(var4, var3, var11, var12);
+         this.thy(var2, var3 == null, var5);
+      }
+
+      if (var3 == null) {
+         this.thz();
       } else {
-         if (var2 != this.tey) {
-            this.tfz = var3 == null || this.thx(var4, var3, var11, var12);
-            this.thy(var2, var3 == null, var5);
+         if (this.tfa) {
+            this.tfo = this.tff;
+            this.tfp = this.tfg;
+         } else if (!this.tez) {
+            this.tif();
          }
 
-         if (var3 == null) {
-            this.thz();
-         } else {
-            if (this.tfa) {
-               this.tfo = this.tff;
-               this.tfp = this.tfg;
-            } else if (!this.tez) {
-               this.tif();
-            }
-
-            if (!tbp.aim(
-               var4.field_1352,
-               var4.field_1351,
-               var4.field_1350,
-               (var3.field_1323 + var3.field_1320) * 0.5,
-               var3.field_1322,
-               (var3.field_1321 + var3.field_1324) * 0.5,
-               (var3.field_1320 - var3.field_1323) * 0.5,
-               var3.field_1325 - var3.field_1322,
-               this.tfo,
-               this.tfp,
-               this.tet
-            )) {
-               this.tga = false;
-               return false;
-            }
-         }
-
-         double var13 = tbp.wrap(this.tet.yaw - var11);
-         double var15 = this.tet.pitch - var12;
-         if (!this.tga) {
-            for (byte var17 = 0; var17 < 8; var17 += 2) {
-               this.tgj[var17] = var13;
-               this.tgj[var17 + 1] = var15;
-            }
-
-            this.tgd = this.tge = this.tgf = this.tgg = this.tgh = this.tgi = 0.0;
-         }
-
-         this.tgm = this.tga ? tbp.wrap(this.tet.yaw - this.tgb) : 0.0;
-         this.tgn = this.tga ? this.tet.pitch - this.tgc : 0.0;
-         this.ter[2] = this.tgj[2];
-         this.ter[3] = this.tgj[3];
-         this.ter[4] = this.tgj[6];
-         this.ter[5] = this.tgj[7];
-         this.ter[8] = this.tgd;
-         this.ter[9] = this.tge;
-         this.ter[10] = this.tgf;
-         this.ter[11] = this.tgg;
-         this.ter[12] = this.tgh;
-         this.ter[13] = this.tgi;
-         System.arraycopy(this.tgj, 0, this.tgj, 2, 6);
-         this.tgj[0] = var13;
-         this.tgj[1] = var15;
-         this.tgh = this.tgf;
-         this.tgi = this.tgg;
-         this.tgf = this.tgd;
-         this.tgg = this.tge;
-         this.tgd = this.tgm;
-         this.tge = this.tgn;
-         this.tgb = this.tet.yaw;
-         this.tgc = this.tet.pitch;
-         this.tga = true;
-         this.tgk = this.tet.bw;
-         this.tgl = this.tet.bh;
-         if (var6) {
-            double var21 = Math.hypot(var7, var9);
-            double var19 = Math.hypot(var13, var15);
-            if (var21 > Math.max(2.5, 1.3 * this.thp) && var7 * var13 + var9 * var15 < -0.25 * var21 * var19) {
-               this.tgp = 8 + this.tep.nextInt(7);
-               this.drop();
-               return false;
-            }
-         }
-
-         if (this.tgo > 0) {
-            this.tgo--;
+         if (!tbp.aim(
+            var4.x,
+            var4.y,
+            var4.z,
+            (var3.minX + var3.maxX) * 0.5,
+            var3.minY,
+            (var3.minZ + var3.maxZ) * 0.5,
+            (var3.maxX - var3.minX) * 0.5,
+            var3.maxY - var3.minY,
+            this.tfo,
+            this.tfp,
+            this.tet
+         )) {
+            this.tga = false;
             return false;
-         } else {
-            this.ter[0] = var13;
-            this.ter[1] = var15;
-            this.ter[6] = this.tgm;
-            this.ter[7] = this.tgn;
-            this.ter[22] = this.tet.bw;
-            this.ter[23] = this.tet.bh;
-            this.ter[24] = this.tfo;
-            this.ter[25] = this.tfp;
-            this.ter[26] = this.tet.dist;
-            this.ter[27] = var3 != null && !this.tfb ? var1.method_7261(0.5F) : 1.0;
-            this.ter[28] = this.tet.la;
-            this.ter[29] = this.tet.ra;
-            this.ter[30] = this.tet.ta;
-            this.ter[31] = this.tet.ba;
-            double var22 = Math.abs(var13) * Math.cos(Math.toRadians(var12));
-            this.tev.step(this.ter, this.teq, this.tes, this.tgy && Math.abs(var15) > 1.5 * var22 + 2.0);
-            this.tha = this.tes[0];
-            this.thb = this.tes[1];
-            this.thp = Math.hypot(this.tha, this.thb);
-            this.thq = System.currentTimeMillis() + 300L;
-            return true;
          }
+      }
+
+      double var13 = tbp.wrap(this.tet.yaw - var11);
+      double var15 = this.tet.pitch - var12;
+      if (!this.tga) {
+         for (byte var17 = 0; var17 < 8; var17 += 2) {
+            this.tgj[var17] = var13;
+            this.tgj[var17 + 1] = var15;
+         }
+
+         this.tgd = this.tge = this.tgf = this.tgg = this.tgh = this.tgi = 0.0;
+      }
+
+      this.tgm = this.tga ? tbp.wrap(this.tet.yaw - this.tgb) : 0.0;
+      this.tgn = this.tga ? this.tet.pitch - this.tgc : 0.0;
+      this.ter[2] = this.tgj[2];
+      this.ter[3] = this.tgj[3];
+      this.ter[4] = this.tgj[6];
+      this.ter[5] = this.tgj[7];
+      this.ter[8] = this.tgd;
+      this.ter[9] = this.tge;
+      this.ter[10] = this.tgf;
+      this.ter[11] = this.tgg;
+      this.ter[12] = this.tgh;
+      this.ter[13] = this.tgi;
+      System.arraycopy(this.tgj, 0, this.tgj, 2, 6);
+      this.tgj[0] = var13;
+      this.tgj[1] = var15;
+      this.tgh = this.tgf;
+      this.tgi = this.tgg;
+      this.tgf = this.tgd;
+      this.tgg = this.tge;
+      this.tgd = this.tgm;
+      this.tge = this.tgn;
+      this.tgb = this.tet.yaw;
+      this.tgc = this.tet.pitch;
+      this.tga = true;
+      this.tgk = this.tet.bw;
+      this.tgl = this.tet.bh;
+      if (var6) {
+         double var21 = Math.hypot(var7, var9);
+         double var19 = Math.hypot(var13, var15);
+         if (var21 > Math.max(2.5, 1.3 * this.thp) && var7 * var13 + var9 * var15 < -0.25 * var21 * var19) {
+            this.tgp = 8 + this.tep.nextInt(7);
+            this.drop();
+            return false;
+         }
+      }
+
+      if (this.tgo > 0) {
+         this.tgo--;
+         return false;
+      } else {
+         this.ter[0] = var13;
+         this.ter[1] = var15;
+         this.ter[6] = this.tgm;
+         this.ter[7] = this.tgn;
+         this.ter[22] = this.tet.bw;
+         this.ter[23] = this.tet.bh;
+         this.ter[24] = this.tfo;
+         this.ter[25] = this.tfp;
+         this.ter[26] = this.tet.dist;
+         this.ter[27] = var3 != null && !this.tfb ? var1.getAttackCooldownProgress(0.5F) : 1.0;
+         this.ter[28] = this.tet.la;
+         this.ter[29] = this.tet.ra;
+         this.ter[30] = this.tet.ta;
+         this.ter[31] = this.tet.ba;
+         double var22 = Math.abs(var13) * Math.cos(Math.toRadians(var12));
+         this.tev.step(this.ter, this.teq, this.tes, this.tgy && Math.abs(var15) > 1.5 * var22 + 2.0);
+         this.tha = this.tes[0];
+         this.thb = this.tes[1];
+         this.thp = Math.hypot(this.tha, this.thb);
+         this.thq = System.currentTimeMillis() + 300L;
+         return true;
       }
    }
 
    private boolean thx(Vec3d var1, Box var2, float var3, float var4) {
       tbm var5 = new tbm();
       return !tbp.aim(
-            var1.field_1352,
-            var1.field_1351,
-            var1.field_1350,
-            (var2.field_1323 + var2.field_1320) * 0.5,
-            var2.field_1322,
-            (var2.field_1321 + var2.field_1324) * 0.5,
-            (var2.field_1320 - var2.field_1323) * 0.5,
-            var2.field_1325 - var2.field_1322,
+            var1.x,
+            var1.y,
+            var1.z,
+            (var2.minX + var2.maxX) * 0.5,
+            var2.minY,
+            (var2.minZ + var2.maxZ) * 0.5,
+            (var2.maxX - var2.minX) * 0.5,
+            var2.maxY - var2.minY,
             0.0,
             0.5,
             var5
@@ -566,7 +540,7 @@ public final class tel {
       } else if (this.teu != null && this.teu.aimU.length != 0) {
          int var1 = this.tep.nextInt(this.teu.aimU.length);
          double var2 = this.teu.aimU[var1] * (this.teu.mirror && this.tep.nextBoolean() ? -1.0 : 1.0);
-         return new double[]{Math.max(-0.9, Math.min(0.9, var2)), Math.max(0.1, Math.min(0.95, (double)this.teu.aimV[var1]))};
+         return new double[]{Math.max(-0.9, Math.min(0.9, var2)), Math.max(0.1, Math.min(0.95, this.teu.aimV[var1]))};
       } else {
          return new double[]{this.tep.nextGaussian() * 0.25, 0.62 + this.tep.nextDouble() * 0.22};
       }
@@ -581,7 +555,7 @@ public final class tel {
    }
 
    private double tid(int var1) {
-      return Math.max(0.02, Math.min(0.98, (double)this.teu.chainV[var1]));
+      return Math.max(0.02, Math.min(0.98, this.teu.chainV[var1]));
    }
 
    private void tie() {
@@ -637,10 +611,10 @@ public final class tel {
    private static double tig(double var0, double var2) {
       if (var0 * var2 <= 0.0) {
          return 0.0;
-      } else {
-         double var4 = 3.0 * Math.abs(var2);
-         return Math.abs(var0) > var4 ? Math.copySign(var4, var2) : var0;
       }
+
+      double var4 = 3.0 * Math.abs(var2);
+      return Math.abs(var0) > var4 ? Math.copySign(var4, var2) : var0;
    }
 
    private static double tih(double var0, double var2, double var4) {
@@ -657,15 +631,15 @@ public final class tel {
       }
 
       this.thn = var3;
-      float var30 = var2.method_36454();
-      float var6 = var2.method_36455();
+      float var30 = var2.getYaw();
+      float var6 = var2.getPitch();
       if (this.thi) {
          this.thl = this.thl + tbp.wrap(var30 - this.thj);
          this.thm = this.thm + (var6 - this.thk);
       }
 
       if (this.tgz) {
-         float var7 = var1.method_61966().method_60637(true);
+         float var7 = var1.getRenderTickCounter().getTickProgress(true);
          double var8 = Math.max(0.5, Math.min(1.0, 1.0 - this.tho * 0.9));
          double var10 = Math.min(1.0, var7 / var8);
          double var12 = tih(var10, this.thc, this.tha) - this.the;
@@ -689,8 +663,8 @@ public final class tel {
          this.thf += var14;
       }
 
-      this.thj = var2.method_36454();
-      this.thk = var2.method_36455();
+      this.thj = var2.getYaw();
+      this.thk = var2.getPitch();
       this.thi = true;
    }
 
@@ -725,7 +699,7 @@ public final class tel {
          this.thh -= var16;
          if (var15 != 0L || var16 != 0L) {
             double var17 = var7 / 0.15;
-            var2.method_5872(var15 * var17, var16 * var17);
+            var2.changeLookDirection(var15 * var17, var16 * var17);
             this.tgv += var15 * var7;
             this.tgw += var16 * var7;
             this.tfe = this.tfe + Math.hypot(var15 * var7, var16 * var7);

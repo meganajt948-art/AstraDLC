@@ -41,25 +41,25 @@ public final class PetFollowTest {
          m = new Motion(-1);
       }
 
-      PlayerEntity p = mc.field_1724;
-      m.bodyYaw = p.method_73188();
-      Vec3d pp = p.method_73189();
+      PlayerEntity p = mc.player;
+      m.bodyYaw = p.getBodyYaw();
+      Vec3d pp = p.getEntityPos();
       Vec3d target = Cosmetics.groundSpot(mc, p, pp, m, pet);
-      if (m.petPos != null && m.petWorld == mc.field_1687 && !(m.petPos.method_1025(target) > 196.0)) {
+      if (m.petPos != null && m.petWorld == mc.world && !(m.petPos.squaredDistanceTo(target) > 196.0)) {
          Cosmetics.follow(m, target, dt, true);
       } else {
          m.petPos = target;
-         m.petVel = Vec3d.field_1353;
-         m.petWorld = mc.field_1687;
+         m.petVel = Vec3d.ZERO;
+         m.petWorld = mc.world;
       }
 
-      double feet = m.petPos.field_1351 - 0.25;
+      double feet = m.petPos.y - 0.25;
       return String.format(
          Locale.ROOT,
          "feet-over-player-floor %.2f, distance %.2f, speed %.2f, running %s",
-         feet - pp.field_1351,
-         Math.hypot(m.petPos.field_1352 - pp.field_1352, m.petPos.field_1350 - pp.field_1350),
-         Math.hypot(m.petVel.field_1352, m.petVel.field_1350),
+         feet - pp.y,
+         Math.hypot(m.petPos.x - pp.x, m.petPos.z - pp.z),
+         Math.hypot(m.petVel.x, m.petVel.z),
          m.petRun
       );
    }

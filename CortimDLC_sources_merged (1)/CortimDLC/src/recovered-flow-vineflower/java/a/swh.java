@@ -50,12 +50,7 @@ public final class swh {
    private static final int sxf = -15368131;
    private static final int sxg = -1258291201;
    private static final EquipmentSlot[] sxh = new EquipmentSlot[]{
-      EquipmentSlot.field_6169,
-      EquipmentSlot.field_6174,
-      EquipmentSlot.field_6172,
-      EquipmentSlot.field_6166,
-      EquipmentSlot.field_6173,
-      EquipmentSlot.field_6171
+      EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND
    };
    private static final int sxi = 14;
    private static final float[] sxj = sxq();
@@ -82,31 +77,31 @@ public final class swh {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      if (!(MinecraftClient.method_1551().field_1755 instanceof hlc)) {
+      if (!(MinecraftClient.getInstance().currentScreen instanceof hlc)) {
          uut.beginFrame();
-         sxu(var0, var1.method_60637(true));
+         sxu(var0, var1.getTickProgress(true));
       }
    }
 
    public static void renderInMenu(DrawContext var0) {
-      sxu(var0, MinecraftClient.method_1551().method_61966().method_60637(true));
+      sxu(var0, MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true));
    }
 
    public static void hideVanilla(WorldRenderState var0) {
       rjy var1 = rjy.get();
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var1 != null && var1.isEnabled() && var2.field_1687 != null) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var1 != null && var1.isEnabled() && var2.world != null) {
          boolean var3 = var1.mobs.get() && sxr();
 
-         for (EntityRenderState var5 : var0.field_61735) {
+         for (EntityRenderState var5 : var0.entityRenderStates) {
             if (var5 instanceof PlayerEntityRenderState var6
-               && (var6.field_53337 != null || var6.field_53525 != null)
-               && var2.field_1687.method_8469(var6.field_53528) instanceof PlayerEntity var7
+               && (var6.displayName != null || var6.playerName != null)
+               && var2.world.getEntityById(var6.id) instanceof PlayerEntity var7
                && var1.shows(var2, var7)) {
-               var6.field_53337 = null;
-               var6.field_53525 = null;
-            } else if (var3 && var5.field_53337 != null && var5 instanceof LivingEntityRenderState && !(var5 instanceof PlayerEntityRenderState) && sxs(var5)) {
-               var5.field_53337 = null;
+               var6.displayName = null;
+               var6.playerName = null;
+            } else if (var3 && var5.displayName != null && var5 instanceof LivingEntityRenderState && !(var5 instanceof PlayerEntityRenderState) && sxs(var5)) {
+               var5.displayName = null;
             }
          }
       }
@@ -124,10 +119,10 @@ public final class swh {
 
    private static boolean sxs(EntityRenderState var0) {
       for (svy var2 : sxm.values()) {
-         if (var2.mob && var2.player.method_5864() == var0.field_58171) {
-            double var3 = var2.player.method_23317() - var0.field_53325;
-            double var5 = var2.player.method_23321() - var0.field_53327;
-            double var7 = var2.player.method_23318() - var0.field_53326;
+         if (var2.mob && var2.player.getType() == var0.entityType) {
+            double var3 = var2.player.getX() - var0.x;
+            double var5 = var2.player.getZ() - var0.z;
+            double var7 = var2.player.getY() - var0.y;
             if (var3 * var3 + var7 * var7 + var5 * var5 < 1.0) {
                return true;
             }
@@ -147,16 +142,16 @@ public final class swh {
    }
 
    private static void sxu(DrawContext var0, float var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
+      MinecraftClient var2 = MinecraftClient.getInstance();
       rjy var3 = rjy.get();
-      if (var3 != null && var3.isEnabled() && var2.field_1687 != null && var2.field_1724 != null && !var2.field_1690.field_1842) {
+      if (var3 != null && var3.isEnabled() && var2.world != null && var2.player != null && !var2.options.hudHidden) {
          unf.observe(var0);
          if (unf.frame() != sxn) {
             sxn = unf.frame();
             float var4 = unf.delta() * (float)iov.ANIMATION.get();
             iov.update(var4);
-            float var5 = var0.method_51421();
-            float var6 = var0.method_51443();
+            float var5 = var0.getScaledWindowWidth();
+            float var6 = var0.getScaledWindowHeight();
 
             usn var7;
             try {
@@ -165,18 +160,18 @@ public final class swh {
                return;
             }
 
-            sxm.values().removeIf(var1x -> var1x.player.method_31481() || var2.field_1687.method_8469(var1x.player.method_5628()) != var1x.player);
+            sxm.values().removeIf(var1x -> var1x.player.isRemoved() || var2.world.getEntityById(var1x.player.getId()) != var1x.player);
 
-            for (PlayerEntity var9 : var2.field_1687.method_18456()) {
+            for (PlayerEntity var9 : var2.world.getPlayers()) {
                if (var3.shows(var2, var9)) {
-                  sxm.computeIfAbsent(var9.method_5628(), var1x -> new svy(var9));
+                  sxm.computeIfAbsent(var9.getId(), var1x -> new svy(var9));
                }
             }
 
             if (var3.mobs.get() && rhs.get() != null) {
-               for (Entity var27 : var2.field_1687.method_18112()) {
+               for (Entity var27 : var2.world.getEntities()) {
                   if (var27 instanceof LivingEntity var10 && !(var27 instanceof PlayerEntity) && sxt(var3, var2, var10)) {
-                     sxm.computeIfAbsent(var10.method_5628(), var1x -> new svy(var10));
+                     sxm.computeIfAbsent(var10.getId(), var1x -> new svy(var10));
                   }
                }
             }
@@ -187,10 +182,10 @@ public final class swh {
             for (Entry var11 : sxm.entrySet()) {
                svy var12 = (svy)var11.getValue();
                LivingEntity var13 = var12.player;
-               Vec3d var14 = var13.method_30950(var1);
-               double var15 = var14.field_1352;
-               double var17 = var14.field_1351 + var13.method_17682() + 0.3;
-               double var19 = var14.field_1350;
+               Vec3d var14 = var13.getLerpedPos(var1);
+               double var15 = var14.x;
+               double var17 = var14.y + var13.getHeight() + 0.3;
+               double var19 = var14.z;
                boolean var21 = sxt(var3, var2, var13);
                boolean var22 = var7.project(var15, var17, var19, var12.screen);
                float var23 = var12.shown.step(var21 && var22, var4);
@@ -216,7 +211,7 @@ public final class swh {
                   var31 = uij.TAGS.result(var0);
                }
 
-               float var33 = Math.max(1, var2.method_22683().method_4495());
+               float var33 = Math.max(1, var2.getWindow().getScaleFactor());
 
                for (svy var35 : var26) {
                   if (!var35.folded) {
@@ -240,13 +235,13 @@ public final class swh {
 
       for (int var5 = var0.size() - 1; var5 >= 0; var5--) {
          svy var7 = (svy)var0.get(var5);
-         if (var7.mob && !var7.player.method_16914()) {
+         if (var7.mob && !var7.player.hasCustomName()) {
             for (int var3 = var0.size() - 1; var3 > var5; var3--) {
                svy var4 = (svy)var0.get(var3);
                if (var4.mob
                   && !var4.folded
-                  && var4.player.method_5864() == var7.player.method_5864()
-                  && !var4.player.method_16914()
+                  && var4.player.getType() == var7.player.getType()
+                  && !var4.player.hasCustomName()
                   && Math.abs(var4.screen[0] - var7.screen[0]) < 56.0F
                   && Math.abs(var4.screen[1] - var7.screen[1]) < 16.0F) {
                   var7.folded = true;
@@ -284,7 +279,7 @@ public final class swh {
       LivingEntity var7 = var3.player;
       step = stepFor(sxw(var2, var3.distance));
       float var8 = sxj[step];
-      long var9 = var1.field_1687.method_75260();
+      long var9 = var1.world.getTime();
       var3.info(var1, var9);
       boolean var11 = var2.friends.get() && var3.friend;
       List var12 = var3.name(var9);
@@ -341,19 +336,19 @@ public final class swh {
       float var34 = var30 * 0.5F * (float)var2.rounding.get();
       float var35 = var3.shown.get();
       float var36 = vcq.outCubic(var35);
-      float var37 = var35 * (var7.method_5767() ? 0.55F : 1.0F);
+      float var37 = var35 * (var7.isInvisible() ? 0.55F : 1.0F);
       float var38 = Math.round(var3.screen[0] * var6) / var6;
       float var39 = Math.round(var3.screen[1] * var6) / var6;
       float var40 = var8 * (0.86F + 0.14F * var36);
       float var41 = (!var21 && !var20.isEmpty() ? var32 - 2.0F - 10.0F : var32) - 2.0F;
       float var42 = var39 + (1.0F - var36) * 4.0F;
-      if (!(var38 + (var31 - 2.0F) * var40 > var0.method_51421())
+      if (!(var38 + (var31 - 2.0F) * var40 > var0.getScaledWindowWidth())
          && !(var38 - (var31 - 2.0F) * var40 < 0.0F)
-         && !(var42 + var41 * var40 > var0.method_51443())
+         && !(var42 + var41 * var40 > var0.getScaledWindowHeight())
          && !(var42 + 4.0F * var40 < 0.0F)) {
-         var0.method_51448().pushMatrix();
-         var0.method_51448().translate(var38, var39 + (1.0F - var36) * 4.0F);
-         var0.method_51448().scale(var40, var40);
+         var0.getMatrices().pushMatrix();
+         var0.getMatrices().translate(var38, var39 + (1.0F - var36) * 4.0F);
+         var0.getMatrices().scale(var40, var40);
          uut.pushAlpha(var37);
 
          try {
@@ -411,7 +406,7 @@ public final class swh {
             }
          } finally {
             uut.popAlpha();
-            var0.method_51448().popMatrix();
+            var0.getMatrices().popMatrix();
          }
       }
    }
@@ -419,9 +414,8 @@ public final class swh {
    private static void sxy(DrawContext var0, rjy var1, GpuTextureView var2, float var3, float var4, float var5, float var6, float var7) {
       if (!var1.background.is(a.c(1139034866, "䪸㌨맺➀"))) {
          float var8 = (float)var1.opacity.get();
-         String var10 = var1.tint.get();
 
-         int var9 = switch (var10) {
+         int var9 = switch (var1.tint.get()) {
             case a.b("\udcc1ꕕ⾕뇽", -1104946047) -> -16119283;
             case a.b("붭쐾仭킚孆\udded", 853786090) -> ujt.lerp(iov.accent(), -16777216, 0.55F) | 0xFF000000;
             default -> ujt.lerp(iov.window, -16316661, 0.2F + 0.7F * iov.lightness()) | 0xFF000000;
@@ -461,22 +455,22 @@ public final class swh {
 
       for (ItemStack var7 : var1) {
          if (var5 > 0.02F) {
-            var0.method_51448().pushMatrix();
-            var0.method_51448().translate(var2 + 5.0F, var3 + 5.0F);
-            var0.method_51448().scale(var5, var5);
-            var0.method_51427(var7, -8, -8);
-            var0.method_51448().popMatrix();
+            var0.getMatrices().pushMatrix();
+            var0.getMatrices().translate(var2 + 5.0F, var3 + 5.0F);
+            var0.getMatrices().scale(var5, var5);
+            var0.drawItem(var7, -8, -8);
+            var0.getMatrices().popMatrix();
          }
 
-         if (var7.method_7963() && var7.method_7986() && var7.method_7936() > 0) {
-            float var8 = 1.0F - (float)var7.method_7919() / var7.method_7936();
+         if (var7.isDamageable() && var7.isDamaged() && var7.getMaxDamage() > 0) {
+            float var8 = 1.0F - (float)var7.getDamage() / var7.getMaxDamage();
             float var9 = 8.0F;
             uut.round(var0, var2 + 1.0F, var3 + 10.0F + 0.6F, var9, 1.1F, 0.55F, 1711276032);
             uut.round(var0, var2 + 1.0F, var3 + 10.0F + 0.6F, Math.max(1.1F, var9 * var8), 1.1F, 0.55F, healthColor(var8));
          }
 
-         if (var7.method_7947() > 1) {
-            String var11 = String.valueOf(var7.method_7947());
+         if (var7.getCount() > 1) {
+            String var11 = String.valueOf(var7.getCount());
             float var12 = var2 + 10.0F + 0.8F - sxl.width(var11);
             float var10 = sxl.centerTop(var3 + 10.0F - 1.4F);
             sxl.draw(var0, var11, var12 + 0.5F, var10 + 0.5F, -1073741824);
@@ -502,10 +496,10 @@ public final class swh {
 
    private static void syc(DrawContext var0, vhz var1, float var2, float var3, float var4, int var5) {
       float var6 = sxj[step];
-      var0.method_51448().pushMatrix();
-      var0.method_51448().scale(1.0F / var6, 1.0F / var6);
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().scale(1.0F / var6, 1.0F / var6);
       vjf.draw(var0, var1, var2 * var6, var3 * var6, var4 * var6, var5);
-      var0.method_51448().popMatrix();
+      var0.getMatrices().popMatrix();
    }
 
    private static void syd(svy var0, float var1, float var2) {
@@ -536,9 +530,9 @@ public final class swh {
    }
 
    private static int sye(MinecraftClient var0, PlayerEntity var1) {
-      ClientPlayNetworkHandler var2 = var0.method_1562();
-      PlayerListEntry var3 = var2 != null ? var2.method_2871(var1.method_5667()) : null;
-      return var3 != null ? var3.method_2959() : -1;
+      ClientPlayNetworkHandler var2 = var0.getNetworkHandler();
+      PlayerListEntry var3 = var2 != null ? var2.getPlayerListEntry(var1.getUuid()) : null;
+      return var3 != null ? var3.getLatency() : -1;
    }
 
    private static int syf(int var0) {

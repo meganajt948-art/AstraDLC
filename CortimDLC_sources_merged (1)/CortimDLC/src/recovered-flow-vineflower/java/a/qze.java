@@ -3,7 +3,6 @@ package a;
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -27,16 +26,16 @@ import org.lwjgl.system.MemoryStack;
 public class qze extends kfe {
    private static qze qzf;
    private final vmc qzg = this.add(new vmc("Ratio", 1.33, 0.5, 3.0, 0.01).format(var0 -> vxu.fixed(var0, 2) + " : 1"));
-   private static final RenderPipeline qzh = RenderPipeline.builder(new Snippet[0])
-      .withLocation(Identifier.method_60655("flow2", "pipeline/stretch"))
-      .withVertexShader(Identifier.method_60655("flow2", "core/blur"))
-      .withFragmentShader(Identifier.method_60655("flow2", "core/stretch"))
+   private static final RenderPipeline qzh = RenderPipeline.builder()
+      .withLocation(Identifier.of("flow2", "pipeline/stretch"))
+      .withVertexShader(Identifier.of("flow2", "core/blur"))
+      .withFragmentShader(Identifier.of("flow2", "core/stretch"))
       .withSampler("InSampler")
-      .withUniform("FlowStretch", UniformType.field_60031)
+      .withUniform("FlowStretch", UniformType.UNIFORM_BUFFER)
       .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
       .withDepthWrite(false)
       .withCull(false)
-      .withVertexFormat(VertexFormats.field_60033, DrawMode.field_27379)
+      .withVertexFormat(VertexFormats.EMPTY, DrawMode.TRIANGLES)
       .build();
    private GpuTexture qzi;
    private GpuTextureView qzj;
@@ -63,10 +62,10 @@ public class qze extends kfe {
    }
 
    private void qzq() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      Framebuffer var2 = var1.method_1522();
-      if (var1.field_1687 != null && var2 != null && var2.method_30277() != null && var2.field_1482 >= 4 && var2.field_1481 >= 4) {
-         float var3 = (float)var2.field_1482 / var2.field_1481;
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      Framebuffer var2 = var1.getFramebuffer();
+      if (var1.world != null && var2 != null && var2.getColorAttachment() != null && var2.textureWidth >= 4 && var2.textureHeight >= 4) {
+         float var3 = (float)var2.textureWidth / var2.textureHeight;
          float var4 = (float)this.qzg.get();
          if (!(Math.abs(var4 - var3) < 0.005F) && uvq.ensure(qzh)) {
             float var5 = Math.min(1.0F, var4 / var3);
@@ -74,9 +73,9 @@ public class qze extends kfe {
 
             try {
                GpuDevice var7 = RenderSystem.getDevice();
-               this.qzr(var7, var2.field_1482, var2.field_1481);
+               this.qzr(var7, var2.textureWidth, var2.textureHeight);
                CommandEncoder var8 = var7.createCommandEncoder();
-               var8.copyTextureToTexture(var2.method_30277(), this.qzi, 0, 0, 0, 0, 0, var2.field_1482, var2.field_1481);
+               var8.copyTextureToTexture(var2.getColorAttachment(), this.qzi, 0, 0, 0, 0, 0, var2.textureWidth, var2.textureHeight);
                MemoryStack var9 = MemoryStack.stackPush();
 
                try {
@@ -97,27 +96,11 @@ public class qze extends kfe {
                   var9.close();
                }
 
-               RenderPass var17 = var8.createRenderPass(() -> "Flow2 aspect ratio", var2.method_71639(), OptionalInt.empty());
-
-               try {
+               try (RenderPass var17 = var8.createRenderPass(() -> "Flow2 aspect ratio", var2.getColorAttachmentView(), OptionalInt.empty())) {
                   var17.setPipeline(qzh);
-                  var17.bindTexture("InSampler", this.qzj, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                  var17.bindTexture("InSampler", this.qzj, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                   var17.setUniform("FlowStretch", this.qzk);
                   var17.draw(0, 3);
-               } catch (Throwable var14) {
-                  if (var17 != null) {
-                     try {
-                        var17.close();
-                     } catch (Throwable var12) {
-                        var14.addSuppressed(var12);
-                     }
-                  }
-
-                  throw var14;
-               }
-
-               if (var17 != null) {
-                  var17.close();
                }
             } catch (Throwable var16) {
                this.qzn = true;

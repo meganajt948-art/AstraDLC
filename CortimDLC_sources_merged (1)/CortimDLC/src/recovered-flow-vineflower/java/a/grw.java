@@ -67,8 +67,8 @@ final class grw {
       if (var1 == 1) {
          gsj(var0, a.d("㒗䴠쟿妆퉙哪\ueeb2杂菱玪\uf468ฎ胝\u1979錷ᗙ꾅", -1829215174, 537809115));
          gsj(var0, a.c(963842908, "ጥ檉\ue05e縧\uf5b5獗줒䃲\udef9呞펋⧺ꜭ"));
-         var0.field_1724.method_36456(0.0F);
-         var0.field_1724.method_36457(10.0F);
+         var0.player.setYaw(0.0F);
+         var0.player.setPitch(10.0F);
 
          for (int var3 = 0; var3 < 14; var3++) {
             double var4 = var3 * 0.45;
@@ -92,9 +92,9 @@ final class grw {
          }
 
          gsj(var0, a.d("篵ɋ袝᛬鵷ᮘꆘ⡲똻㳔뭔䄻쿿嘐\udc05嫬\ue0fd潤\uf5c1珎頻耧\u0e85锊ጺ駮⁉깕㒦닰㥈잟䷁퐣剷\ud8d4杍\ued62殼\uf205硖ڥ賷ୌ醠ῡ\ua62fⲉ", -1222931860, 682750415));
-         var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_8634, 16));
-         var0.field_1724.method_31548().method_61496(0);
-         var0.field_1690.method_61970().method_41748(InactivityFpsLimit.field_52743);
+         var0.player.getInventory().setStack(0, new ItemStack(Items.ENDER_PEARL, 16));
+         var0.player.getInventory().setSelectedSlot(0);
+         var0.options.getInactivityFpsLimit().setValue(InactivityFpsLimit.MINIMIZED);
          if (!gsf) {
             gsf = true;
             HudRenderCallback.EVENT.register((HudRenderCallback)(var0x, var1x) -> gsd++);
@@ -117,15 +117,15 @@ final class grw {
                }
             }
 
-            if (var6 && var0.field_1724.method_24828()) {
-               var0.field_1724.method_6043();
+            if (var6 && var0.player.isOnGround()) {
+               var0.player.jump();
             }
          } else if (var16 == 20) {
             gsd = 0L;
             gse = System.nanoTime();
             if (var13 == 1 || var13 == 2) {
-               ScreenshotRecorder.method_22690(
-                  var0.field_1697, a.d("懊ᡱ銡ೈ蝚Ǵ믺㈞걖⛳ꅫ孒햓䰡옯", 200820232, 1278093227) + var13 + a.c(573334041, "戳ᯜ鄑ཀྵ"), var0.method_1522(), 1, var0x -> {}
+               ScreenshotRecorder.saveScreenshot(
+                  var0.runDirectory, a.d("懊ᡱ銡ೈ蝚Ǵ믺㈞걖⛳ꅫ孒햓䰡옯", 200820232, 1278093227) + var13 + a.c(573334041, "戳ᯜ鄑ཀྵ"), var0.getFramebuffer(), 1, var0x -> {}
                );
             }
          } else if (var16 == 99) {
@@ -154,41 +154,41 @@ final class grw {
 
       if (var1 <= 20 + 100 * gry.length) {
          return false;
-      } else {
-         ukl.noScissor = false;
-         ukl.devMode = 0;
-
-         for (String var21 : grx) {
-            kfe var23 = var2.getByName(var21);
-            if (var23 != null) {
-               var23.setEnabled(false);
-            }
-         }
-
-         for (Entity var18 : gsc) {
-            var0.field_1687.method_2945(var18.method_5628(), RemovalReason.field_26999);
-         }
-
-         gsc.clear();
-         hhf.remove(a.b("㾋䙙", -1709162535));
-         gsj(var0, a.c(-398590876, "ﰝ薮ླྀ鄉᪒鱃☵꿺ㆊ묶㳬욈䠇퇢宬\udd4c朋\ue8ea"));
-         gsj(var0, a.c(126412072, "\ue564鳚ᘌ衽Ϧ蔉㼉뛣⢪ꉅ◅\udfaa兮좁䊔쑽繬\uf1f5歐\ued5f擻Ặ途\u0b9b趫ݿ뻘ツ\uaa37ⱡꟙ夎퍐䪲쳦䙅隆珤\uf530沚\ue6c4頾"));
-         return true;
       }
+
+      ukl.noScissor = false;
+      ukl.devMode = 0;
+
+      for (String var21 : grx) {
+         kfe var23 = var2.getByName(var21);
+         if (var23 != null) {
+            var23.setEnabled(false);
+         }
+      }
+
+      for (Entity var18 : gsc) {
+         var0.world.removeEntity(var18.getId(), RemovalReason.DISCARDED);
+      }
+
+      gsc.clear();
+      hhf.remove(a.b("㾋䙙", -1709162535));
+      gsj(var0, a.c(-398590876, "ﰝ薮ླྀ鄉᪒鱃☵꿺ㆊ묶㳬욈䠇퇢宬\udd4c朋\ue8ea"));
+      gsj(var0, a.c(126412072, "\ue564鳚ᘌ衽Ϧ蔉㼉뛣⢪ꉅ◅\udfaa兮좁䊔쑽繬\uf1f5歐\ued5f擻Ặ途\u0b9b趫ݿ뻘ツ\uaa37ⱡꟙ夎퍐䪲쳦䙅隆珤\uf530沚\ue6c4頾"));
+      return true;
    }
 
    private static Entity gsi(MinecraftClient var0, String var1, double var2, double var4) {
-      OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), var1));
-      Vec3d var7 = var0.field_1724.method_73189().method_1031(-var4, 0.0, var2);
-      var6.method_5808(var7.field_1352, var0.field_1724.method_23318(), var7.field_1350, 180.0F, 0.0F);
-      var6.method_5673(EquipmentSlot.field_6169, new ItemStack(Items.field_8805));
-      var6.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_22028));
-      var6.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_8802));
-      var0.field_1687.method_53875(var6);
+      OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
+      Vec3d var7 = var0.player.getEntityPos().add(-var4, 0.0, var2);
+      var6.refreshPositionAndAngles(var7.x, var0.player.getY(), var7.z, 180.0F, 0.0F);
+      var6.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+      var6.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.NETHERITE_CHESTPLATE));
+      var6.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
+      var0.world.addEntity(var6);
       return var6;
    }
 
    private static void gsj(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

@@ -66,16 +66,16 @@ final class hiv extends imn {
       float var5 = this.y + 3.5F;
       if (var4 != 0) {
          return false;
-      } else {
-         for (int var6 = 0; var6 < this.hiz.length; var6++) {
-            if (irr.inside(var2, var3, this.hjf(var6), var5, this.hje(), 17.0F)) {
-               this.hiz[var6].action().run();
-               this.hjb[var6].set(1.0F);
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      for (int var6 = 0; var6 < this.hiz.length; var6++) {
+         if (irr.inside(var2, var3, this.hjf(var6), var5, this.hje(), 17.0F)) {
+            this.hiz[var6].action().run();
+            this.hjb[var6].set(1.0F);
+            return true;
+         }
+      }
+
+      return false;
    }
 }

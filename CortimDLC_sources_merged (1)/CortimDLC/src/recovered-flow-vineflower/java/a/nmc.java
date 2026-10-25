@@ -17,7 +17,7 @@ enum nmc {
 
    private final long nmd;
 
-   private nmc(long var3) {
+   nmc(long var3) {
       this.nmd = var3;
    }
 }

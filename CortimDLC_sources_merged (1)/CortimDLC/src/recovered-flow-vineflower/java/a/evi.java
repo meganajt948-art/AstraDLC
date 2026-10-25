@@ -116,7 +116,6 @@ public final class evi {
    }
 
    private static BufferedImage evx(byte[] var0) throws Exception {
-      Object var4;
       try (ImageInputStream var1 = ImageIO.createImageInputStream(new ByteArrayInputStream(var0))) {
          Iterator var2 = ImageIO.getImageReaders(var1);
          if (!var2.hasNext()) {
@@ -127,16 +126,10 @@ public final class evi {
 
          try {
             var3.setInput(var1, true, true);
-            if (var3.getWidth(0) <= 4096 && var3.getHeight(0) <= 4096) {
-               return var3.read(0);
-            }
-
-            var4 = null;
+            return var3.getWidth(0) <= 4096 && var3.getHeight(0) <= 4096 ? var3.read(0) : null;
          } finally {
             var3.dispose();
          }
       }
-
-      return (BufferedImage)var4;
    }
 }

@@ -11,7 +11,7 @@ public enum qwj {
    private final String qwk;
    private final int qwl;
 
-   private qwj(String var3, int var4) {
+   qwj(String var3, int var4) {
       this.qwk = var3;
       this.qwl = var4;
    }

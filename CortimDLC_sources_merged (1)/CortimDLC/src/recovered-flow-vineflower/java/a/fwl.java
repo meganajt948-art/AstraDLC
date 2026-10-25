@@ -29,12 +29,12 @@ public final class fwl {
 
       try {
          if (fwo == null) {
-            if (var0.method_18506() == null && var0.field_1755 instanceof AccessibilityOnboardingScreen) {
-               var0.field_1690.field_41785 = false;
-               var0.method_1507(new TitleScreen());
+            if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
+               var0.options.onboardAccessibility = false;
+               var0.setScreen(new TitleScreen());
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof jte var1 && fwn > 60) {
+            if (var0.getOverlay() == null && var0.currentScreen instanceof jte var1 && fwn > 60) {
                fwo = var1;
                fwn = 0;
             }
@@ -91,27 +91,27 @@ public final class fwl {
                break;
             case 12:
                fwt(a.c(1210179599, "\ue075駝ጄ赽ڤ耂㩬뎢ⷨꝒ"), false);
-               var0.method_1521();
+               var0.reloadResources();
                fwn = 30;
                break;
             case 13:
                fwu(var0, a.d("\uefbd阆᳖芿ॲ迋㖓뱹≾ꢐ⽔픬寸쉇䠑", -115584705, 2013970155));
                break;
             default:
-               if (var0.method_18506() != null) {
+               if (var0.getOverlay() != null) {
                   fwm--;
                   return;
                }
 
                kbm.reset();
                System.out.println(a.c(1859703475, "틆ꭽ↭뿄㑄늸ࣣ脙Ὕ閹ሾ\ue85e暟Ｉ甮\uf3af䧱옲岁"));
-               var0.method_1592();
+               var0.scheduleStop();
                fwn = Integer.MIN_VALUE;
          }
       } catch (Throwable var3) {
          System.out.println(a.c(1722832086, "咥ⴞ\ua7ce㦧눧㓛躀ݺ餾Ꮪ鑝渽\ue0fc祊\uf34d痚쾒䁋\udafd峚픷") + var3);
          var3.printStackTrace();
-         var0.method_1592();
+         var0.scheduleStop();
          fwn = Integer.MIN_VALUE;
       }
    }
@@ -130,8 +130,8 @@ public final class fwl {
 
    private static void fwu(MinecraftClient var0, String var1) {
       System.out.println(a.b("\uf25a诡ı齘ᓘ鈤⡿ꆅ㿁딥㊢죂䘃\udfb5喲", 195752499) + var1);
-      ScreenshotRecorder.method_22690(
-         var0.field_1697, a.d("䂚㤡돱\u2d98ꘊ₤", 1867066142, 771714020) + var1 + a.c(757021108, "㦞䁱쪼哄"), var0.method_1522(), 1, var0x -> {}
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.d("䂚㤡돱\u2d98ꘊ₤", 1867066142, 771714020) + var1 + a.c(757021108, "㦞䁱쪼哄"), var0.getFramebuffer(), 1, var0x -> {}
       );
    }
 }

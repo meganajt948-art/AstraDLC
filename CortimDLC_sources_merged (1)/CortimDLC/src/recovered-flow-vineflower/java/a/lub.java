@@ -41,17 +41,17 @@ public class lub extends kfe {
    private final vkl lup = this.add(new vkl(a.b("讧\uf231磰\ue686洅\uebf8冢\ud857䘟첽䭸", 986090474), false));
    private final vkl luq = this.add(new vkl(a.b("䭽㋭롱♓궚⬩酺ᢐ蛓ప讵燁８暦\uece9樅큍徕", 54479649), false));
    private static lub lur;
-   private static final wbu<Integer> lus = new wbu<>(var0 -> var0.field_1690.method_42524());
-   private static final wbu<Boolean> lut = new wbu<>(var0 -> var0.field_1690.method_42433());
-   private static final wbu<Boolean> luu = new wbu<>(var0 -> var0.field_1690.method_42435());
-   private static final wbu<CloudRenderMode> luv = new wbu<>(var0 -> var0.field_1690.method_42528());
-   private static final wbu<ParticlesMode> luw = new wbu<>(var0 -> var0.field_1690.method_42475());
-   private static final wbu<Integer> lux = new wbu<>(var0 -> var0.field_1690.method_41805());
-   private static final wbu<Integer> luy = new wbu<>(var0 -> var0.field_1690.method_57702());
-   private static final wbu<Boolean> luz = new wbu<>(var0 -> var0.field_1690.method_75337());
-   private static final wbu<Double> lva = new wbu<>(var0 -> var0.field_1690.method_42517());
-   private static final wbu<Boolean> lvb = new wbu<>(var0 -> var0.field_1690.method_75334());
-   private static final wbu<Boolean> lvc = new wbu<>(var0 -> var0.field_1690.method_41792());
+   private static final wbu<Integer> lus = new wbu<>(var0 -> var0.options.getMaxFps());
+   private static final wbu<Boolean> lut = new wbu<>(var0 -> var0.options.getEnableVsync());
+   private static final wbu<Boolean> luu = new wbu<>(var0 -> var0.options.getEntityShadows());
+   private static final wbu<CloudRenderMode> luv = new wbu<>(var0 -> var0.options.getCloudRenderMode());
+   private static final wbu<ParticlesMode> luw = new wbu<>(var0 -> var0.options.getParticles());
+   private static final wbu<Integer> lux = new wbu<>(var0 -> var0.options.getBiomeBlendRadius());
+   private static final wbu<Integer> luy = new wbu<>(var0 -> var0.options.getMenuBackgroundBlurriness());
+   private static final wbu<Boolean> luz = new wbu<>(var0 -> var0.options.getImprovedTransparency());
+   private static final wbu<Double> lva = new wbu<>(var0 -> var0.options.getEntityDistanceScaling());
+   private static final wbu<Boolean> lvb = new wbu<>(var0 -> var0.options.getCutoutLeaves());
+   private static final wbu<Boolean> lvc = new wbu<>(var0 -> var0.options.getAo());
    private static final int lvd = 260;
    private int lve = -1;
    private int lvf = -1;
@@ -78,22 +78,22 @@ public class lub extends kfe {
          if (var2 || var3) {
             double var4 = var1.lum.get() * var1.lum.get();
             double var6 = var1.luo.get() * var1.luo.get();
-            MinecraftClient var8 = MinecraftClient.method_1551();
-            int var9 = var8.field_1724 != null ? var8.field_1724.method_5628() : Integer.MIN_VALUE;
-            Iterator var10 = var0.field_61735.iterator();
+            MinecraftClient var8 = MinecraftClient.getInstance();
+            int var9 = var8.player != null ? var8.player.getId() : Integer.MIN_VALUE;
+            Iterator var10 = var0.entityRenderStates.iterator();
 
             while (var10.hasNext()) {
                EntityRenderState var11 = (EntityRenderState)var10.next();
                if (!var3
-                  || !(var11.field_53332 > var6)
+                  || !(var11.squaredDistanceToCamera > var6)
                   || !(var11 instanceof ItemDisplayEntityRenderState) && !(var11 instanceof BlockDisplayEntityRenderState)) {
                   if (var2
-                     && var11.field_53332 > var4
+                     && var11.squaredDistanceToCamera > var4
                      && var11 instanceof ArmedEntityRenderState var12
-                     && !(var11 instanceof PlayerEntityRenderState var13 && var13.field_53528 == var9)) {
-                     var12.field_55305.method_65605();
-                     var12.field_55307.method_65605();
-                     var12.field_53467.method_65605();
+                     && !(var11 instanceof PlayerEntityRenderState var13 && var13.id == var9)) {
+                     var12.rightHandItemState.clear();
+                     var12.leftHandItemState.clear();
+                     var12.headItemRenderState.clear();
                   }
                } else {
                   var10.remove();
@@ -112,8 +112,8 @@ public class lub extends kfe {
    @Override
    protected void onDisable() {
       lvk();
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1 != null && var1.field_1690 != null) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1 != null && var1.options != null) {
          this.lvm(var1);
          if (this.lve >= 0 && this.lve != lvl()) {
             lvn(var1);
@@ -130,7 +130,7 @@ public class lub extends kfe {
          lvk();
          this.lvm(var1);
       } else {
-         int var3 = var1.method_22683() != null ? var1.method_22683().method_22092() : 0;
+         int var3 = var1.getWindow() != null ? var1.getWindow().getRefreshRate() : 0;
          if (this.luc.is(a.c(-597070565, "浇ᓍ鸜h讻എ띀㺠ꃾ"))) {
             lvo(lus, true, 260);
          } else {
@@ -139,8 +139,8 @@ public class lub extends kfe {
 
          lvo(lut, this.lud.get() || this.luc.is(a.c(-2029731414, "쇶롼㊭곙✊ꆿᯱ鈑\u0c4f")), false);
          lvo(luu, this.lue.get(), false);
-         lvo(luv, this.luf.get(), CloudRenderMode.field_18162);
-         lvo(luw, this.lug.get() && luw.own() == ParticlesMode.field_18197, ParticlesMode.field_18198);
+         lvo(luv, this.luf.get(), CloudRenderMode.OFF);
+         lvo(luw, this.lug.get() && luw.own() == ParticlesMode.ALL, ParticlesMode.DECREASED);
          lvo(luy, this.lui.get(), 0);
          Double var4 = lva.own();
          lvo(lva, this.luk.get() && var4 != null && var4 > 0.75, 0.75);
@@ -149,9 +149,9 @@ public class lub extends kfe {
          lvo(lvb, this.lup.get(), false);
          lvo(lvc, this.luq.get(), false);
          this.lvm(var1);
-         int var5 = (Boolean.TRUE.equals(var1.field_1690.method_75337().method_41753()) ? 1 : 0)
-            | (Boolean.TRUE.equals(var1.field_1690.method_75334().method_41753()) ? 2 : 0)
-            | (Boolean.TRUE.equals(var1.field_1690.method_41792().method_41753()) ? 4 : 0);
+         int var5 = (Boolean.TRUE.equals(var1.options.getImprovedTransparency().getValue()) ? 1 : 0)
+            | (Boolean.TRUE.equals(var1.options.getCutoutLeaves().getValue()) ? 2 : 0)
+            | (Boolean.TRUE.equals(var1.options.getAo().getValue()) ? 4 : 0);
          if (this.lve < 0) {
             this.lve = lvl();
          }
@@ -168,22 +168,22 @@ public class lub extends kfe {
    }
 
    private void lvm(MinecraftClient var1) {
-      Integer var2 = (Integer)var1.field_1690.method_42524().method_41753();
+      Integer var2 = var1.options.getMaxFps().getValue();
       if (var2 != null && var2 != this.lvf) {
          this.lvf = var2;
-         var1.method_61964().method_61938(var2);
+         var1.getInactivityFpsLimiter().setMaxFps(var2);
       }
 
-      Boolean var3 = (Boolean)var1.field_1690.method_42433().method_41753();
-      if (var3 != null && !var3.equals(this.lvg) && var1.method_22683() != null) {
+      Boolean var3 = var1.options.getEnableVsync().getValue();
+      if (var3 != null && !var3.equals(this.lvg) && var1.getWindow() != null) {
          this.lvg = var3;
-         var1.method_22683().method_4497(var3);
+         var1.getWindow().setVsync(var3);
       }
    }
 
    private static void lvn(MinecraftClient var0) {
-      if (var0.field_1769 != null && var0.field_1687 != null) {
-         var0.field_1769.method_3279();
+      if (var0.worldRenderer != null && var0.world != null) {
+         var0.worldRenderer.reload();
       }
    }
 

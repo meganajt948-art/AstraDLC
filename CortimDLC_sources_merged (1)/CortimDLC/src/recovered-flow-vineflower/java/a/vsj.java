@@ -66,85 +66,87 @@ final class vsj {
 
       if (var2 == 0L) {
          throw new IllegalStateException(a.d("\uf505貵ة頷Ꮯ镻⼣\ua6fd㢯뉲㗥쾕䅑\ud8ff劦푑", 1763258389, 964937070));
-      } else {
-         boolean var4 = false;
-         boolean var5 = false;
+      }
 
-         try {
-            var4 = ALC10.alcIsExtensionPresent(var2, a.b("㳽䕁쾝凰\uda3d岑\ue6ce漴\uf171篃ﰎ", -2057683785));
-            var5 = ALC10.alcIsExtensionPresent(var2, a.b("仺㝆붚⏷꠬⺁铛ᴸ荬\u09ca踃瑴缾", 1325485750));
-         } catch (Throwable var18) {
+      boolean var4 = false;
+      boolean var5 = false;
+
+      try {
+         var4 = ALC10.alcIsExtensionPresent(var2, a.b("㳽䕁쾝凰\uda3d岑\ue6ce漴\uf171篃ﰎ", -2057683785));
+         var5 = ALC10.alcIsExtensionPresent(var2, a.b("仺㝆붚⏷꠬⺁铛ᴸ荬\u09ca踃瑴缾", 1325485750));
+      } catch (Throwable var18) {
+      }
+
+      MemoryStack var8 = MemoryStack.stackPush();
+
+      long var6;
+      try {
+         IntBuffer var9 = var8.mallocInt(5);
+         if (var4) {
+            var9.put(131075).put(2);
          }
 
-         MemoryStack var8 = MemoryStack.stackPush();
-
-         long var6;
-         try {
-            IntBuffer var9 = var8.mallocInt(5);
-            if (var4) {
-               var9.put(131075).put(2);
-            }
-
-            if (var5) {
-               var9.put(6546).put(var1 ? 1 : 0);
-            }
-
-            var9.put(0).flip();
-            var6 = ALC10.alcCreateContext(var2, var9);
-         } catch (Throwable var19) {
-            if (var8 != null) {
-               try {
-                  var8.close();
-               } catch (Throwable var14) {
-                  var19.addSuppressed(var14);
-               }
-            }
-
-            throw var19;
+         if (var5) {
+            var9.put(6546).put(var1 ? 1 : 0);
          }
 
+         var9.put(0).flip();
+         var6 = ALC10.alcCreateContext(var2, var9);
+      } catch (Throwable var19) {
          if (var8 != null) {
-            var8.close();
-         }
-
-         if (var6 == 0L) {
-            ALC10.alcCloseDevice(var2);
-            throw new IllegalStateException(a.b("⇟塯틳䳭윅䆡ﯹ爧\uec75暨\ue138ᭅ間స虺\u0096뫕", -316923488));
-         } else if (!EXTThreadLocalContext.alcSetThreadContext(var6)) {
-            ALC10.alcDestroyContext(var6);
-            ALC10.alcCloseDevice(var2);
-            throw new UnsupportedOperationException(a.c(-1002985363, "ꠝ톭嬱씔仟존爰\ufbc5斟\uef67棵銇ᱜ藯ྱ褌㌬볂♤ꀾ⧦厺\udd65䛷삄䩔\uf3fd綽\ue757愊"));
-         } else {
-            int var20 = 0;
-            if (var4) {
-               try {
-                  var20 = ALC10.alcGetInteger(var2, 131075);
-               } catch (Throwable var17) {
-               }
-            }
-
-            boolean var21 = false;
-            if (var5) {
-               try {
-                  var21 = ALC10.alcGetInteger(var2, 6546) == 1;
-               } catch (Throwable var16) {
-               }
-            }
-
-            vsj var10 = new vsj(var2, var6, var4, var20, var21);
-
             try {
-               var10.vsm();
-               return var10;
-            } catch (Throwable var15) {
-               try {
-                  var10.close();
-               } catch (Throwable var13) {
-               }
-
-               throw var15;
+               var8.close();
+            } catch (Throwable var14) {
+               var19.addSuppressed(var14);
             }
          }
+
+         throw var19;
+      }
+
+      if (var8 != null) {
+         var8.close();
+      }
+
+      if (var6 == 0L) {
+         ALC10.alcCloseDevice(var2);
+         throw new IllegalStateException(a.b("⇟塯틳䳭윅䆡ﯹ爧\uec75暨\ue138ᭅ間స虺\u0096뫕", -316923488));
+      }
+
+      if (!EXTThreadLocalContext.alcSetThreadContext(var6)) {
+         ALC10.alcDestroyContext(var6);
+         ALC10.alcCloseDevice(var2);
+         throw new UnsupportedOperationException(a.c(-1002985363, "ꠝ톭嬱씔仟존爰\ufbc5斟\uef67棵銇ᱜ藯ྱ褌㌬볂♤ꀾ⧦厺\udd65䛷삄䩔\uf3fd綽\ue757愊"));
+      }
+
+      int var20 = 0;
+      if (var4) {
+         try {
+            var20 = ALC10.alcGetInteger(var2, 131075);
+         } catch (Throwable var17) {
+         }
+      }
+
+      boolean var21 = false;
+      if (var5) {
+         try {
+            var21 = ALC10.alcGetInteger(var2, 6546) == 1;
+         } catch (Throwable var16) {
+         }
+      }
+
+      vsj var10 = new vsj(var2, var6, var4, var20, var21);
+
+      try {
+         var10.vsm();
+         return var10;
+      } catch (Throwable var15) {
+         try {
+            var10.close();
+         } catch (Throwable var13) {
+         }
+
+         throw var15;
       }
    }
 
@@ -200,19 +202,19 @@ final class vsj {
       AL10.alGetError();
       EXTEfx.alEffecti(this.farEffect, 32769, 32768);
       this.eax = AL10.alGetError() == 0;
-      int var1 = this.eax ? '耀' : 1;
+      int var1 = this.eax ? 32768 : 1;
       EXTEfx.alEffecti(this.farEffect, 32769, var1);
       EXTEfx.alEffecti(this.nearEffect, 32769, var1);
       this.vso(this.farEffect, 1.0F, 0.6F, 0.5F, 0.2F, 1.0F, 5.5F, 0.35F, 0.25F, 0.22F, 1.2F, 0.09F, 0.25F, 0.35F);
       this.vso(this.nearEffect, 0.8F, 0.9F, 0.32F, 0.5F, 1.0F, 1.6F, 0.6F, 0.35F, 0.02F, 0.9F, 0.03F, 0.1F, 0.0F);
       if (AL10.alGetError() != 0) {
          throw new IllegalStateException(a.c(1816605253, "㈭䮋셋弩퓩剈\ue859懸ﾶ甔\uf2d4ࢩ虶ῖ閔፲ꤼ⚾뱟㨙돡즿䜊\udccc媢큲"));
-      } else {
-         this.farSlot = EXTEfx.alGenAuxiliaryEffectSlots();
-         EXTEfx.alAuxiliaryEffectSloti(this.farSlot, 1, this.farEffect);
-         this.nearSlot = EXTEfx.alGenAuxiliaryEffectSlots();
-         EXTEfx.alAuxiliaryEffectSloti(this.nearSlot, 1, this.nearEffect);
       }
+
+      this.farSlot = EXTEfx.alGenAuxiliaryEffectSlots();
+      EXTEfx.alAuxiliaryEffectSloti(this.farSlot, 1, this.farEffect);
+      this.nearSlot = EXTEfx.alGenAuxiliaryEffectSlots();
+      EXTEfx.alAuxiliaryEffectSloti(this.nearSlot, 1, this.nearEffect);
    }
 
    private void vso(
@@ -263,31 +265,31 @@ final class vsj {
       Integer var2 = this.buffers.get(var1);
       if (var2 != null) {
          return var2;
-      } else {
-         boolean var3 = var1.endsWith(a.c(-1464036961, "醹\ue846抗ﳧ眱"));
-         vsd var4 = vss.vtx(var3 ? var1.substring(0, var1.length() - a.b("읥뺚㑋\uaa3b⇭", 557565763).length()) : var1);
-         if (var4 == null) {
-            throw new IllegalStateException(a.d("Ⅴ壔퉈䱪잡䄊\ufb42犹\ueca2", -1660836609, -660568580) + var1);
-         } else {
-            if (var3) {
-               var4 = vss.vty(var4);
-            }
-
-            float var5 = (float)var4.data().remaining() / var4.channels() / var4.rate();
-
-            int var6;
-            try {
-               var6 = AL10.alGenBuffers();
-               AL10.alBufferData(var6, var4.channels() == 2 ? 4355 : 4353, var4.data(), var4.rate());
-            } finally {
-               MemoryUtil.memFree(var4.data());
-            }
-
-            this.buffers.put(var1, var6);
-            this.lengths.put(var1, var5);
-            return var6;
-         }
       }
+
+      boolean var3 = var1.endsWith(a.c(-1464036961, "醹\ue846抗ﳧ眱"));
+      vsd var4 = vss.vtx(var3 ? var1.substring(0, var1.length() - a.b("읥뺚㑋\uaa3b⇭", 557565763).length()) : var1);
+      if (var4 == null) {
+         throw new IllegalStateException(a.d("Ⅴ壔퉈䱪잡䄊\ufb42犹\ueca2", -1660836609, -660568580) + var1);
+      }
+
+      if (var3) {
+         var4 = vss.vty(var4);
+      }
+
+      float var5 = (float)var4.data().remaining() / var4.channels() / var4.rate();
+
+      int var6;
+      try {
+         var6 = AL10.alGenBuffers();
+         AL10.alBufferData(var6, var4.channels() == 2 ? 4355 : 4353, var4.data(), var4.rate());
+      } finally {
+         MemoryUtil.memFree(var4.data());
+      }
+
+      this.buffers.put(var1, var6);
+      this.lengths.put(var1, var5);
+      return var6;
    }
 
    int loop(String var1, boolean var2) {

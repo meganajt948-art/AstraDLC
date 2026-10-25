@@ -36,12 +36,12 @@ final class gec {
    }
 
    boolean inMine(BlockPos var1) {
-      return var1.method_10263() >= this.cx - 8
-         && var1.method_10263() <= this.cx + 8
-         && var1.method_10260() >= this.cz - 8
-         && var1.method_10260() <= this.cz + 8
-         && var1.method_10264() >= this.y0 - gef.gen
-         && var1.method_10264() <= this.y0 - 1;
+      return var1.getX() >= this.cx - 8
+         && var1.getX() <= this.cx + 8
+         && var1.getZ() >= this.cz - 8
+         && var1.getZ() <= this.cz + 8
+         && var1.getY() >= this.y0 - gef.gen
+         && var1.getY() <= this.y0 - 1;
    }
 
    String tier() {

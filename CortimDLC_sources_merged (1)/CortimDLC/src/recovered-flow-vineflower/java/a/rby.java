@@ -24,7 +24,7 @@ public class rby extends kfe {
    private final vkl rcg = this.add(new vkl("Smooth", true));
    private final double[] rch = new double[6];
    private boolean rci;
-   private Direction rcj = Direction.field_11036;
+   private Direction rcj = Direction.UP;
    private final vcj rck = new vcj(14.0F);
    private long rcl = -1L;
    private final double[][] rcm = new double[8][3];
@@ -34,9 +34,7 @@ public class rby extends kfe {
    private final boolean[] rcq = new boolean[8];
    private final boolean[] rcr = new boolean[6];
    private static final int[][] rcs = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-   private static final Direction[] rct = new Direction[]{
-      Direction.field_11033, Direction.field_11036, Direction.field_11043, Direction.field_11035, Direction.field_11039, Direction.field_11034
-   };
+   private static final Direction[] rct = new Direction[]{Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
    private static final int[][] rcu = new int[][]{
       {0, 1, 0, 2},
       {2, 3, 1, 2},
@@ -64,17 +62,12 @@ public class rby extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rby var2 = rbz;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      if (var2 != null
-         && var2.isEnabled()
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      if (var2 != null && var2.isEnabled() && var3.world != null && var3.player != null && !var3.options.hudHidden && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.rcl) {
             var2.rcl = unf.frame();
-            var2.rcx(var0, var3, var1.method_60637(true), unf.delta());
+            var2.rcx(var0, var3, var1.getTickProgress(true), unf.delta());
          }
       } else {
          if (var2 != null) {
@@ -86,14 +79,14 @@ public class rby extends kfe {
 
    private void rcx(DrawContext var1, MinecraftClient var2, float var3, float var4) {
       Box var5 = null;
-      if (var2.field_1765 instanceof BlockHitResult var6 && var6.method_17783() == Type.field_1332) {
-         BlockPos var15 = var6.method_17777();
-         BlockState var8 = var2.field_1687.method_8320(var15);
-         if (!var8.method_26215() && var2.field_1687.method_8621().method_11952(var15)) {
-            VoxelShape var9 = var8.method_26172(var2.field_1687, var15, ShapeContext.method_16195(var2.method_1560()));
-            if (!var9.method_1110()) {
-               var5 = var9.method_1107().method_996(var15);
-               this.rcj = var6.method_17780();
+      if (var2.crosshairTarget instanceof BlockHitResult var6 && var6.getType() == Type.BLOCK) {
+         BlockPos var15 = var6.getBlockPos();
+         BlockState var8 = var2.world.getBlockState(var15);
+         if (!var8.isAir() && var2.world.getWorldBorder().contains(var15)) {
+            VoxelShape var9 = var8.getOutlineShape(var2.world, var15, ShapeContext.of(var2.getCameraEntity()));
+            if (!var9.isEmpty()) {
+               var5 = var9.getBoundingBox().offset(var15);
+               this.rcj = var6.getSide();
             }
          }
       }
@@ -102,12 +95,12 @@ public class rby extends kfe {
       if (var5 != null) {
          if (this.rci && this.rcg.get() && !(var14 < 0.05F)) {
             double var16 = 1.0 - Math.exp(-var4 * 26.0);
-            this.rch[0] = this.rch[0] + (var5.field_1323 - this.rch[0]) * var16;
-            this.rch[1] = this.rch[1] + (var5.field_1322 - this.rch[1]) * var16;
-            this.rch[2] = this.rch[2] + (var5.field_1321 - this.rch[2]) * var16;
-            this.rch[3] = this.rch[3] + (var5.field_1320 - this.rch[3]) * var16;
-            this.rch[4] = this.rch[4] + (var5.field_1325 - this.rch[4]) * var16;
-            this.rch[5] = this.rch[5] + (var5.field_1324 - this.rch[5]) * var16;
+            this.rch[0] = this.rch[0] + (var5.minX - this.rch[0]) * var16;
+            this.rch[1] = this.rch[1] + (var5.minY - this.rch[1]) * var16;
+            this.rch[2] = this.rch[2] + (var5.minZ - this.rch[2]) * var16;
+            this.rch[3] = this.rch[3] + (var5.maxX - this.rch[3]) * var16;
+            this.rch[4] = this.rch[4] + (var5.maxY - this.rch[4]) * var16;
+            this.rch[5] = this.rch[5] + (var5.maxZ - this.rch[5]) * var16;
          } else {
             this.rdb(var5);
          }
@@ -118,7 +111,7 @@ public class rby extends kfe {
       if (this.rci && !(var14 <= 0.01F)) {
          usn var17;
          try {
-            var17 = usn.capture(var3, var1.method_51421(), var1.method_51443());
+            var17 = usn.capture(var3, var1.getScaledWindowWidth(), var1.getScaledWindowHeight());
          } catch (Throwable var13) {
             return;
          }
@@ -224,22 +217,22 @@ public class rby extends kfe {
    }
 
    private void rdb(Box var1) {
-      this.rch[0] = var1.field_1323;
-      this.rch[1] = var1.field_1322;
-      this.rch[2] = var1.field_1321;
-      this.rch[3] = var1.field_1320;
-      this.rch[4] = var1.field_1325;
-      this.rch[5] = var1.field_1324;
+      this.rch[0] = var1.minX;
+      this.rch[1] = var1.minY;
+      this.rch[2] = var1.minZ;
+      this.rch[3] = var1.maxX;
+      this.rch[4] = var1.maxY;
+      this.rch[5] = var1.maxZ;
    }
 
    private boolean rdc(int var1, Vec3d var2) {
       return switch (var1) {
-         case 0 -> var2.field_1351 < this.rch[1];
-         case 1 -> var2.field_1351 > this.rch[4];
-         case 2 -> var2.field_1350 < this.rch[2];
-         case 3 -> var2.field_1350 > this.rch[5];
-         case 4 -> var2.field_1352 < this.rch[0];
-         default -> var2.field_1352 > this.rch[3];
+         case 0 -> var2.y < this.rch[1];
+         case 1 -> var2.y > this.rch[4];
+         case 2 -> var2.z < this.rch[2];
+         case 3 -> var2.z > this.rch[5];
+         case 4 -> var2.x < this.rch[0];
+         default -> var2.x > this.rch[3];
       };
    }
 }

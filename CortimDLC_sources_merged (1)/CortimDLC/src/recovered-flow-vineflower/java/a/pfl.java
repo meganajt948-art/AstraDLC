@@ -49,21 +49,21 @@ public final class pfl {
    public static String title(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         String var1 = var0.replaceAll(a.d("姷\u20cf", 1304323519, -2736915), "")
-            .toLowerCase()
-            .replaceAll(a.b("椼ႊ驶Ш迖ढ덱㫱ꓟ⸂꧸収\udd1b䒪컾䡤\uf202綔\ue725慶\ue8f5銿ᱺ", -506500752), a.d("\ued7b", -457283411, 1292862967))
-            .trim();
-         StringBuilder var2 = new StringBuilder(var1.length());
-
-         for (int var3 = 0; var3 < var1.length(); var3++) {
-            char var4 = var1.charAt(var3);
-            int var5 = a.d("誶\uf305秐\ue7af汼\uead2傉\ud979", -1709089634, 514119233).indexOf(var4);
-            var2.append(var5 < 0 ? var4 : a.b("阷\ueff7敐אַ烽\uf632䱤얓", 2110165519).charAt(var5));
-         }
-
-         return var2.toString();
       }
+
+      String var1 = var0.replaceAll(a.d("姷\u20cf", 1304323519, -2736915), "")
+         .toLowerCase()
+         .replaceAll(a.b("椼ႊ驶Ш迖ढ덱㫱ꓟ⸂꧸収\udd1b䒪컾䡤\uf202綔\ue725慶\ue8f5銿ᱺ", -506500752), a.d("\ued7b", -457283411, 1292862967))
+         .trim();
+      StringBuilder var2 = new StringBuilder(var1.length());
+
+      for (int var3 = 0; var3 < var1.length(); var3++) {
+         char var4 = var1.charAt(var3);
+         int var5 = a.d("誶\uf305秐\ue7af汼\uead2傉\ud979", -1709089634, 514119233).indexOf(var4);
+         var2.append(var5 < 0 ? var4 : a.b("阷\ueff7敐אַ烽\uf632䱤얓", 2110165519).charAt(var5));
+      }
+
+      return var2.toString();
    }
 
    public static int levelOf(String var0, String var1) {
@@ -100,28 +100,28 @@ public final class pfl {
       String var1 = normalize(var0);
       if (var1.isEmpty()) {
          return 0;
-      } else {
-         for (int var2 = 0; var2 < pfn.length; var2++) {
-            if (var1.equals(pfn[var2])) {
-               return var2 + 1;
-            }
-         }
-
-         String var4 = var1.replaceAll(a.d("踫\uf79f索\ue34e梍\uee58", -1779658696, -1460003250), "");
-         if (!var4.isEmpty() && var4.length() < 3) {
-            int var3 = Integer.parseInt(var4);
-            if (var3 >= 1 && var3 <= 10) {
-               return var3;
-            }
-         }
-
-         for (int var5 = pfn.length - 1; var5 >= 0; var5--) {
-            if (var1.contains(pfn[var5])) {
-               return var5 + 1;
-            }
-         }
-
-         return 0;
       }
+
+      for (int var2 = 0; var2 < pfn.length; var2++) {
+         if (var1.equals(pfn[var2])) {
+            return var2 + 1;
+         }
+      }
+
+      String var4 = var1.replaceAll(a.d("踫\uf79f索\ue34e梍\uee58", -1779658696, -1460003250), "");
+      if (!var4.isEmpty() && var4.length() < 3) {
+         int var3 = Integer.parseInt(var4);
+         if (var3 >= 1 && var3 <= 10) {
+            return var3;
+         }
+      }
+
+      for (int var5 = pfn.length - 1; var5 >= 0; var5--) {
+         if (var1.contains(pfn[var5])) {
+            return var5 + 1;
+         }
+      }
+
+      return 0;
    }
 }

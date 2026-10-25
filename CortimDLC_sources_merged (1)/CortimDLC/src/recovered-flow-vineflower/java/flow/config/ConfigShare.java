@@ -44,27 +44,27 @@ public final class ConfigShare {
    public static String normalize(String text) {
       if (text == null) {
          return null;
-      } else {
-         StringBuilder sb = new StringBuilder();
+      }
 
-         for (char c : text.toUpperCase(Locale.ROOT).toCharArray()) {
-            if (Character.isLetterOrDigit(c)) {
-               sb.append(c);
-            }
-         }
+      StringBuilder sb = new StringBuilder();
 
-         if (sb.length() != 12) {
-            return null;
-         } else {
-            for (int i = 0; i < 12; i++) {
-               if ("ABCDEFGHJKLMNPQRSTUVWXYZ23456789".indexOf(sb.charAt(i)) < 0) {
-                  return null;
-               }
-            }
-
-            return sb.toString();
+      for (char c : text.toUpperCase(Locale.ROOT).toCharArray()) {
+         if (Character.isLetterOrDigit(c)) {
+            sb.append(c);
          }
       }
+
+      if (sb.length() != 12) {
+         return null;
+      }
+
+      for (int i = 0; i < 12; i++) {
+         if ("ABCDEFGHJKLMNPQRSTUVWXYZ23456789".indexOf(sb.charAt(i)) < 0) {
+            return null;
+         }
+      }
+
+      return sb.toString();
    }
 
    public static String pretty(String code) {
@@ -121,29 +121,26 @@ public final class ConfigShare {
       ConfigShare.Keys k = KEYS.get(code);
       if (k != null) {
          return k;
-      } else {
-         PBEKeySpec spec = new PBEKeySpec(code.toCharArray(), SALT, 60000, 384);
+      }
 
-         ConfigShare.Keys var12;
-         try {
-            byte[] out = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(spec).getEncoded();
-            StringBuilder id = new StringBuilder();
+      PBEKeySpec spec = new PBEKeySpec(code.toCharArray(), SALT, 60000, 384);
 
-            for (int i = 32; i < 48; i++) {
-               id.append(Character.forDigit(out[i] >> 4 & 15, 16)).append(Character.forDigit(out[i] & 15, 16));
-            }
+      try {
+         byte[] out = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(spec).getEncoded();
+         StringBuilder id = new StringBuilder();
 
-            k = new ConfigShare.Keys(Arrays.copyOf(out, 32), id.toString());
-            Arrays.fill(out, (byte)0);
-            KEYS.put(code, k);
-            var12 = k;
-         } catch (Exception var9) {
-            throw new CompletionException(new IOException("crypto"));
-         } finally {
-            spec.clearPassword();
+         for (int i = 32; i < 48; i++) {
+            id.append(Character.forDigit(out[i] >> 4 & 15, 16)).append(Character.forDigit(out[i] & 15, 16));
          }
 
-         return var12;
+         k = new ConfigShare.Keys(Arrays.copyOf(out, 32), id.toString());
+         Arrays.fill(out, (byte)0);
+         KEYS.put(code, k);
+         return k;
+      } catch (Exception e) {
+         throw new CompletionException(new IOException("crypto"));
+      } finally {
+         spec.clearPassword();
       }
    }
 
@@ -154,31 +151,31 @@ public final class ConfigShare {
    public static CompletableFuture<String> share(String name) {
       if (!ewk.online()) {
          return CompletableFuture.failedFuture(new IOException("offline"));
-      } else {
-         if (name.equals(ConfigManager.active())) {
-            ConfigManager.autoSaveLater();
-         }
-
-         REFRESH.computeIfAbsent(name, k -> new AtomicInteger()).incrementAndGet();
-         evy cfg = ewk.configs().get(name);
-         if (cfg == null) {
-            return CompletableFuture.failedFuture(new IOException("missing"));
-         } else {
-            String existing = map().get(name);
-            String code = existing != null ? existing : newCode();
-            return upload(code, name, cfg).thenApply(v -> {
-               if (existing == null) {
-                  synchronized (ConfigShare.class) {
-                     Map<String, String> m = map();
-                     m.put(name, code);
-                     store(m);
-                  }
-               }
-
-               return pretty(code);
-            });
-         }
       }
+
+      if (name.equals(ConfigManager.active())) {
+         ConfigManager.autoSaveLater();
+      }
+
+      REFRESH.computeIfAbsent(name, k -> new AtomicInteger()).incrementAndGet();
+      evy cfg = ewk.configs().get(name);
+      if (cfg == null) {
+         return CompletableFuture.failedFuture(new IOException("missing"));
+      }
+
+      String existing = map().get(name);
+      String code = existing != null ? existing : newCode();
+      return upload(code, name, cfg).thenApply(v -> {
+         if (existing == null) {
+            synchronized (ConfigShare.class) {
+               Map<String, String> m = map();
+               m.put(name, code);
+               store(m);
+            }
+         }
+
+         return pretty(code);
+      });
    }
 
    private static CompletableFuture<Void> upload(String code, String name, evy cfg) {
@@ -194,12 +191,12 @@ public final class ConfigShare {
          String sealed = exn.sealWith(k.key(), aad(k), text);
          if (sealed == null) {
             throw new CompletionException(new IOException("crypto"));
-         } else {
-            JsonObject req = new JsonObject();
-            req.addProperty("id", k.id());
-            req.addProperty("data", sealed);
-            return req;
          }
+
+         JsonObject req = new JsonObject();
+         req.addProperty("id", k.id());
+         req.addProperty("data", sealed);
+         return req;
       }).thenCompose(req -> ewk.call("/api/share/put", req)).thenApply(r -> {
          if (!r.ok()) {
             throw new CompletionException(new IOException(r.error()));
@@ -229,45 +226,44 @@ public final class ConfigShare {
       String code = normalize(text);
       if (code == null) {
          return CompletableFuture.failedFuture(new IOException("format"));
-      } else if (!ewk.online()) {
-         return CompletableFuture.failedFuture(new IOException("offline"));
-      } else {
-         Executor main = MinecraftClient.method_1551();
-         return CompletableFuture.<ConfigShare.Keys>supplyAsync(() -> keys(code)).thenCompose(k -> {
-            JsonObject req = new JsonObject();
-            req.addProperty("id", k.id());
-            return ewk.call("/api/share/get", req).thenApply(r -> decode(k, r));
-         }).thenApplyAsync(ConfigShare::add, main);
       }
+
+      if (!ewk.online()) {
+         return CompletableFuture.failedFuture(new IOException("offline"));
+      }
+
+      Executor main = MinecraftClient.getInstance();
+      return CompletableFuture.<ConfigShare.Keys>supplyAsync(() -> keys(code)).thenCompose(k -> {
+         JsonObject req = new JsonObject();
+         req.addProperty("id", k.id());
+         return ewk.call("/api/share/get", req).thenApply(r -> decode(k, r));
+      }).thenApplyAsync(ConfigShare::add, main);
    }
 
    private static ConfigShare.Found decode(ConfigShare.Keys k, ewf r) {
       if (!r.ok()) {
          throw new CompletionException(new IOException(r.error()));
-      } else {
-         String sealed = r.body().has("data") ? r.body().get("data").getAsString() : null;
-         String clear = exn.openWith(k.key(), aad(k), sealed);
-         if (clear == null) {
-            throw new CompletionException(new IOException("corrupt"));
-         } else {
-            try {
-               JsonObject o = JsonParser.parseString(clear).getAsJsonObject();
-               String data = o.get("data").getAsString();
-               if (!JsonParser.parseString(data).getAsJsonObject().get("modules").isJsonObject()) {
-                  throw new IllegalStateException();
-               } else {
-                  String name = o.has("name") ? ConfigManager.sanitize(o.get("name").getAsString()) : null;
-                  return new ConfigShare.Found(
-                     name == null ? "Config" : name,
-                     data,
-                     o.has("enabled") ? o.get("enabled").getAsInt() : 0,
-                     o.has("modules") ? o.get("modules").getAsInt() : 0
-                  );
-               }
-            } catch (RuntimeException var7) {
-               throw new CompletionException(new IOException("corrupt"));
-            }
+      }
+
+      String sealed = r.body().has("data") ? r.body().get("data").getAsString() : null;
+      String clear = exn.openWith(k.key(), aad(k), sealed);
+      if (clear == null) {
+         throw new CompletionException(new IOException("corrupt"));
+      }
+
+      try {
+         JsonObject o = JsonParser.parseString(clear).getAsJsonObject();
+         String data = o.get("data").getAsString();
+         if (!JsonParser.parseString(data).getAsJsonObject().get("modules").isJsonObject()) {
+            throw new IllegalStateException();
          }
+
+         String name = o.has("name") ? ConfigManager.sanitize(o.get("name").getAsString()) : null;
+         return new ConfigShare.Found(
+            name == null ? "Config" : name, data, o.has("enabled") ? o.get("enabled").getAsInt() : 0, o.has("modules") ? o.get("modules").getAsInt() : 0
+         );
+      } catch (RuntimeException e) {
+         throw new CompletionException(new IOException("corrupt"));
       }
    }
 

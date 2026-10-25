@@ -27,18 +27,14 @@ public final class uij {
    private final String uik;
    private final GpuTexture[] uil = new GpuTexture[6];
    private final GpuTextureView[] uim = new GpuTextureView[6];
-   @Nullable
-   private GpuTexture uin;
-   @Nullable
-   private GpuTextureView uio;
+   private @Nullable GpuTexture uin;
+   private @Nullable GpuTextureView uio;
    private int uip = -1;
    private int uiq = -1;
-   @Nullable
-   private GpuTextureView uir;
+   private @Nullable GpuTextureView uir;
    private long uis = -1L;
    private int uit;
-   @Nullable
-   private Object uiu;
+   private @Nullable Object uiu;
    private boolean uiv;
    private boolean uiw;
    private double uix;
@@ -56,91 +52,93 @@ public final class uij {
       unf.observe(var1);
       var2 = Math.max(0, Math.min(6, var2));
       long var4 = unf.frame();
-      Framebuffer var6 = MinecraftClient.method_1551().method_1522();
-      GpuTextureView var7 = var3 != null ? var3 : var6.method_71639();
+      Framebuffer var6 = MinecraftClient.getInstance().getFramebuffer();
+      GpuTextureView var7 = var3 != null ? var3 : var6.getColorAttachmentView();
       if (this.uis == var4 && this.uit == var2 && this.uiu == var7 && this.uir != null) {
          return true;
-      } else {
-         for (uij var11 : ujf()) {
-            if (var11 != this && var11.uis == var4 && var11.uit == var2 && var11.uiu == var7 && var11.uir != null) {
-               this.uir = var11.uir;
-               this.uis = var4;
-               this.uit = var2;
-               this.uiu = var7;
-               this.uiv = true;
-               return true;
-            }
-         }
+      }
 
-         if (var3 == null
-            && this.uir != null
-            && !this.uiv
-            && !this.uiw
-            && this.uis == var4 - 1L
-            && this.uit == var2
-            && this.uiu == var7
-            && var6.field_1482 == this.uip
-            && var6.field_1481 == this.uiq
-            && this.ujh()) {
+      for (uij var11 : ujf()) {
+         if (var11 != this && var11.uis == var4 && var11.uit == var2 && var11.uiu == var7 && var11.uir != null) {
+            this.uir = var11.uir;
             this.uis = var4;
-            this.uiw = true;
+            this.uit = var2;
+            this.uiu = var7;
+            this.uiv = true;
             return true;
-         } else {
-            this.uiw = false;
-            this.uiv = false;
-            this.uir = null;
-            if (var7 == null || var6.field_1482 < 4 || var6.field_1481 < 4) {
-               return false;
-            } else if (uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP) && uvq.ensure(uvq.BLUR_COPY) && uvq.ensure(uvq.GLASS)) {
-               try {
-                  this.ujj(var6.field_1482, var6.field_1481);
-                  CommandEncoder var15 = RenderSystem.getDevice().createCommandEncoder();
-                  GpuSampler var16 = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
-                  if (var2 == 0) {
-                     if (this.uio == null) {
-                        GpuDevice var17 = RenderSystem.getDevice();
-                        byte var19 = 12;
-                        this.uin = var17.createTexture(() -> "Flow2 " + this.uik + " copy", var19, TextureFormat.RGBA8, this.uip, this.uiq, 1, 1);
-                        this.uio = var17.createTextureView(this.uin);
-                     }
-
-                     uji(var15, uvq.BLUR_COPY, var7, this.uio, var16);
-                     this.uir = this.uio;
-                  } else {
-                     int var18 = var2;
-
-                     while (var18 > 1 && this.uip >> var18 < 2) {
-                        var18--;
-                     }
-
-                     GpuTextureView var20 = var7;
-
-                     for (int var12 = 0; var12 < var18; var12++) {
-                        uji(var15, uvq.BLUR_DOWN, var20, this.uim[var12], var16);
-                        var20 = this.uim[var12];
-                     }
-
-                     for (int var21 = var18 - 1; var21 > 0; var21--) {
-                        uji(var15, uvq.BLUR_UP, this.uim[var21], this.uim[var21 - 1], var16);
-                     }
-
-                     this.uir = this.uim[0];
-                  }
-
-                  this.uis = var4;
-                  this.uit = var2;
-                  this.uiu = var7;
-                  this.ujg();
-                  return true;
-               } catch (Throwable var13) {
-                  System.out.println("blur (" + this.uik + ") failed: " + var13);
-                  this.uir = null;
-                  return false;
-               }
-            } else {
-               return false;
-            }
          }
+      }
+
+      if (var3 == null
+         && this.uir != null
+         && !this.uiv
+         && !this.uiw
+         && this.uis == var4 - 1L
+         && this.uit == var2
+         && this.uiu == var7
+         && var6.textureWidth == this.uip
+         && var6.textureHeight == this.uiq
+         && this.ujh()) {
+         this.uis = var4;
+         this.uiw = true;
+         return true;
+      }
+
+      this.uiw = false;
+      this.uiv = false;
+      this.uir = null;
+      if (var7 == null || var6.textureWidth < 4 || var6.textureHeight < 4) {
+         return false;
+      }
+
+      if (uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP) && uvq.ensure(uvq.BLUR_COPY) && uvq.ensure(uvq.GLASS)) {
+         try {
+            this.ujj(var6.textureWidth, var6.textureHeight);
+            CommandEncoder var15 = RenderSystem.getDevice().createCommandEncoder();
+            GpuSampler var16 = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
+            if (var2 == 0) {
+               if (this.uio == null) {
+                  GpuDevice var17 = RenderSystem.getDevice();
+                  byte var19 = 12;
+                  this.uin = var17.createTexture(() -> "Flow2 " + this.uik + " copy", var19, TextureFormat.RGBA8, this.uip, this.uiq, 1, 1);
+                  this.uio = var17.createTextureView(this.uin);
+               }
+
+               uji(var15, uvq.BLUR_COPY, var7, this.uio, var16);
+               this.uir = this.uio;
+            } else {
+               int var18 = var2;
+
+               while (var18 > 1 && this.uip >> var18 < 2) {
+                  var18--;
+               }
+
+               GpuTextureView var20 = var7;
+
+               for (int var12 = 0; var12 < var18; var12++) {
+                  uji(var15, uvq.BLUR_DOWN, var20, this.uim[var12], var16);
+                  var20 = this.uim[var12];
+               }
+
+               for (int var21 = var18 - 1; var21 > 0; var21--) {
+                  uji(var15, uvq.BLUR_UP, this.uim[var21], this.uim[var21 - 1], var16);
+               }
+
+               this.uir = this.uim[0];
+            }
+
+            this.uis = var4;
+            this.uit = var2;
+            this.uiu = var7;
+            this.ujg();
+            return true;
+         } catch (Throwable var13) {
+            System.out.println("blur (" + this.uik + ") failed: " + var13);
+            this.uir = null;
+            return false;
+         }
+      } else {
+         return false;
       }
    }
 
@@ -153,55 +151,38 @@ public final class uij {
    }
 
    private void ujg() {
-      Camera var1 = MinecraftClient.method_1551().field_1773.method_19418();
-      Vec3d var2 = var1.method_71156();
-      this.uix = var2.field_1352;
-      this.uiy = var2.field_1351;
-      this.uiz = var2.field_1350;
-      this.uja = var1.method_19330();
-      this.ujb = var1.method_19329();
+      Camera var1 = MinecraftClient.getInstance().gameRenderer.getCamera();
+      Vec3d var2 = var1.getCameraPos();
+      this.uix = var2.x;
+      this.uiy = var2.y;
+      this.uiz = var2.z;
+      this.uja = var1.getYaw();
+      this.ujb = var1.getPitch();
    }
 
    private boolean ujh() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1773 != null && var1.field_1687 != null) {
-         Camera var2 = var1.field_1773.method_19418();
-         Vec3d var3 = var2.method_71156();
-         return var3.method_1028(this.uix, this.uiy, this.uiz) < 1.0E-6
-            && Math.abs(var2.method_19330() - this.uja) < 0.01F
-            && Math.abs(var2.method_19329() - this.ujb) < 0.01F;
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.gameRenderer != null && var1.world != null) {
+         Camera var2 = var1.gameRenderer.getCamera();
+         Vec3d var3 = var2.getCameraPos();
+         return var3.squaredDistanceTo(this.uix, this.uiy, this.uiz) < 1.0E-6
+            && Math.abs(var2.getYaw() - this.uja) < 0.01F
+            && Math.abs(var2.getPitch() - this.ujb) < 0.01F;
       } else {
          return false;
       }
    }
 
-   @Nullable
-   public GpuTextureView result(DrawContext var1) {
+   public @Nullable GpuTextureView result(DrawContext var1) {
       unf.observe(var1);
       return this.uis == unf.frame() ? this.uir : null;
    }
 
    private static void uji(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuSampler var4) {
-      RenderPass var5 = var0.createRenderPass(() -> "Flow2 blur", var3, OptionalInt.empty());
-
-      try {
+      try (RenderPass var5 = var0.createRenderPass(() -> "Flow2 blur", var3, OptionalInt.empty())) {
          var5.setPipeline(var1);
          var5.bindTexture("InSampler", var2, var4);
          var5.draw(0, 3);
-      } catch (Throwable var9) {
-         if (var5 != null) {
-            try {
-               var5.close();
-            } catch (Throwable var8) {
-               var9.addSuppressed(var8);
-            }
-         }
-
-         throw var9;
-      }
-
-      if (var5 != null) {
-         var5.close();
       }
    }
 

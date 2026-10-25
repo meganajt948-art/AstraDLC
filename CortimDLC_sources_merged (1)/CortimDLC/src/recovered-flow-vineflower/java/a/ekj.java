@@ -7,16 +7,20 @@ final class ekj extends Mouse {
       super(null);
    }
 
-   public boolean method_1613() {
+   @Override
+   public boolean isCursorLocked() {
       return true;
    }
 
-   public void method_1612() {
+   @Override
+   public void lockCursor() {
    }
 
-   public void method_1610() {
+   @Override
+   public void unlockCursor() {
    }
 
-   public void method_55793() {
+   @Override
+   public void tick() {
    }
 }

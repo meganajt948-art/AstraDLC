@@ -76,7 +76,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.chunk.WorldChunk;
 
 public final class dtv implements efz {
-   private static final MinecraftClient dtw = MinecraftClient.method_1551();
+   private static final MinecraftClient dtw = MinecraftClient.getInstance();
    private static final long dtx = 50000000L;
    private static final long dty = 6000000L;
    private static final String dtz = a.d("躕\uf767綷\ue3ce栗\ueea1咼", -1482419073, -1385784638);
@@ -159,7 +159,7 @@ public final class dtv implements efz {
 
    dtv(String var1, String var2) {
       this.dud = var1;
-      this.due = Uuids.method_43344(var1);
+      this.due = Uuids.getOfflinePlayerUuid(var1);
       this.address = var2;
       this.dug = duc[this.duf.nextInt(duc.length)];
       this.duw = new mpq();
@@ -225,7 +225,7 @@ public final class dtv implements efz {
             this.dul = true;
             this.dxa(dts.CONNECTING, a.b("蝆ﻶ琯\uea50憆\ue742崘풛䫌쁸䞦", 162890610));
             String var1 = this.address;
-            Util.method_27958().execute(() -> this.dwg(var1));
+            Util.getIoWorkerExecutor().execute(() -> this.dwg(var1));
          }
       }
    }
@@ -236,8 +236,8 @@ public final class dtv implements efz {
 
    private void dwg(String var1) {
       try {
-         ServerAddress var2 = ServerAddress.method_2950(var1);
-         Optional var10 = AllowedAddressResolver.field_33745.method_36907(var2).map(Address::method_36902);
+         ServerAddress var2 = ServerAddress.parse(var1);
+         Optional var10 = AllowedAddressResolver.DEFAULT.resolve(var2).map(Address::getInetSocketAddress);
          if (var10.isEmpty()) {
             this.dwh(a.b("묫싮䡈홋嶛\udb5f敬\ue880盗\uf873箽臁༟隣ᳱ騈", -1664761990));
             return;
@@ -245,11 +245,11 @@ public final class dtv implements efz {
 
          InetSocketAddress var4 = (InetSocketAddress)var10.get();
          edb var5 = new edb(this);
-         ClientConnection.method_52271(var4, NetworkingBackend.method_75867(dtw.field_1690.method_1639()), var5).syncUninterruptibly();
+         ClientConnection.connect(var4, NetworkingBackend.remote(dtw.options.shouldUseNativeTransport()), var5).syncUninterruptibly();
          synchronized (this) {
             this.dul = false;
             if (this.duk) {
-               var5.method_10747(Text.method_43471(a.d("ࢅ焬ﯦ斏\uee45棭튢孞씙侴조㉝볗╡꼧⧃鎍ᱚ蚴º襉\uf304綪\ue67b怙\ueacf卵", -1215154949, -482460664)));
+               var5.disconnect(Text.translatable(a.d("ࢅ焬ﯦ斏\uee45棭튢孞씙侴조㉝볗╡꼧⧃鎍ᱚ蚴º襉\uf304綪\ue67b怙\ueacf卵", -1215154949, -482460664)));
                this.dxa(dts.OFFLINE, a.c(1061586037, "聃年猥\ued55曷\ue04f娊펗"));
                return;
             }
@@ -257,8 +257,8 @@ public final class dtv implements efz {
             this.connection = var5;
          }
 
-         var5.method_56326(var4.getHostName(), var4.getPort(), LoginStates.field_48247, LoginStates.field_48248, new egf(this, var5), false);
-         var5.method_10743(new LoginHelloC2SPacket(this.dud, this.due));
+         var5.connect(var4.getHostName(), var4.getPort(), LoginStates.C2S, LoginStates.S2C, new egf(this, var5), false);
+         var5.send(new LoginHelloC2SPacket(this.dud, this.due));
          this.dxa(dts.LOGIN, a.b("맇쀁䪩퓒", -562709007));
       } catch (Throwable var9) {
          Throwable var3 = var9.getCause() != null ? var9.getCause() : var9;
@@ -285,7 +285,7 @@ public final class dtv implements efz {
 
       edb var1 = this.connection;
       if (var1 != null) {
-         var1.method_10747(Text.method_43471(a.d("\ud97eꃗ⨝둴㾾뤖͙誥ᓢ鹏ᦋ\ue3a6洬\uf49a络\uf838䉶춡坏텁墲⋿걑㞀뇢㬴芎", 1921927102, 850894518)));
+         var1.disconnect(Text.translatable(a.d("\ud97eꃗ⨝둴㾾뤖͙誥ᓢ鹏ᦋ\ue3a6洬\uf49a络\uf838䉶춡坏텁墲⋿걑㞀뇢㬴芎", 1921927102, 850894518)));
       } else {
          if (this.duh == dts.CONNECTING || this.duh == dts.LOGIN || this.duh == dts.QUEUED) {
             this.dxa(dts.OFFLINE, a.b("⭾劳\ud818䙨췊䭲\uf137碪", -809685176));
@@ -294,8 +294,8 @@ public final class dtv implements efz {
    }
 
    ServerInfo serverInfo() {
-      ServerInfo var1 = new ServerInfo(this.dud, this.address, ServerType.field_45611);
-      var1.method_2995(ResourcePackPolicy.field_3768);
+      ServerInfo var1 = new ServerInfo(this.dud, this.address, ServerType.OTHER);
+      var1.setResourcePackPolicy(ResourcePackPolicy.ENABLED);
       return var1;
    }
 
@@ -303,13 +303,11 @@ public final class dtv implements efz {
       int var1 = 0;
 
       for (PlayerModelPart var5 : PlayerModelPart.values()) {
-         var1 |= var5.method_7430();
+         var1 |= var5.getBitFlag();
       }
 
-      String var6 = dtw.field_1690 == null ? a.b("樲ᎈ饪ܱ賠", 317418066) : dtw.field_1690.field_1883;
-      return new SyncedClientOptions(
-         var6, egq.get().getViewDistance(), ChatVisibility.field_7538, true, var1, Arm.field_6183, false, true, ParticlesMode.field_18197
-      );
+      String var6 = dtw.options == null ? a.b("樲ᎈ饪ܱ賠", 317418066) : dtw.options.language;
+      return new SyncedClientOptions(var6, egq.get().getViewDistance(), ChatVisibility.FULL, true, var1, Arm.RIGHT, false, true, ParticlesMode.ALL);
    }
 
    void onLoginSuccess(GameProfile var1) {
@@ -362,13 +360,13 @@ public final class dtv implements efz {
    }
 
    void onReconfigure() {
-      dtw.field_1724 = null;
-      dtw.field_1687 = null;
-      dtw.field_1761 = null;
-      dtw.field_1755 = null;
+      dtw.player = null;
+      dtw.world = null;
+      dtw.interactionManager = null;
+      dtw.currentScreen = null;
       edj.camera(null);
-      dtw.field_1765 = null;
-      dtw.field_1692 = null;
+      dtw.crosshairTarget = null;
+      dtw.targetedEntity = null;
       this.handler = null;
       this.bossBars.clear();
       this.dxa(dts.JOINING, a.b("풾괅➣릧㉿듊ບ蜒ᤱ鎋ᐨ\uee5a惽鷺猗\uf591", 1981993105));
@@ -381,19 +379,19 @@ public final class dtv implements efz {
    }
 
    void tickLoading(ehy var1) {
-      ClientPlayerEntity var2 = dtw.field_1724;
-      ClientWorld var3 = dtw.field_1687;
+      ClientPlayerEntity var2 = dtw.player;
+      ClientWorld var3 = dtw.world;
       if (var2 != null && var3 != null && !var1.method_76760()) {
          if (this.dvf == 0 && ++this.dvg > 100) {
             this.dvf = 1;
          }
 
          if (this.dvf == 1) {
-            BlockPos var4 = var2.method_24515();
-            boolean var5 = var3.method_31601(var4.method_10264())
-               || var3.method_2935().method_12126(var4.method_10263() >> 4, var4.method_10260() >> 4, false) != null
-               || var2.method_7325()
-               || !var2.method_5805();
+            BlockPos var4 = var2.getBlockPos();
+            boolean var5 = var3.isOutOfHeightLimit(var4.getY())
+               || var3.getChunkManager().getWorldChunk(var4.getX() >> 4, var4.getZ() >> 4, false) != null
+               || var2.isSpectator()
+               || !var2.isAlive();
             if (var5) {
                this.dvf = 2;
                var1.markLoaded();
@@ -550,7 +548,7 @@ public final class dtv implements efz {
             }
          }
       } else {
-         for (Packet var4 : var2.method_48324()) {
+         for (Packet var4 : var2.getPackets()) {
             this.beforePacket(var4);
          }
       }
@@ -596,13 +594,13 @@ public final class dtv implements efz {
       }
 
       if (ejp.current() == this) {
-         dtw.field_1724 = null;
-         dtw.field_1687 = null;
-         dtw.field_1761 = null;
-         dtw.field_1755 = null;
+         dtw.player = null;
+         dtw.world = null;
+         dtw.interactionManager = null;
+         dtw.currentScreen = null;
          edj.camera(null);
-         dtw.field_1765 = null;
-         dtw.field_1692 = null;
+         dtw.crosshairTarget = null;
+         dtw.targetedEntity = null;
       }
 
       this.player = null;
@@ -671,7 +669,7 @@ public final class dtv implements efz {
    private void dwj() {
       if (this.connection != null && this.duy.wantsBotFrame() && edj.enter(this)) {
          try {
-            if (dtw.field_1724 != null && dtw.field_1687 != null && dtw.field_1761 != null) {
+            if (dtw.player != null && dtw.world != null && dtw.interactionManager != null) {
                this.duy.onBotFrame();
             }
          } catch (Throwable var5) {
@@ -706,12 +704,12 @@ public final class dtv implements efz {
          try {
             var1.drain(6000000L);
             if (this.connection != null) {
-               if (dtw.field_1724 != null && dtw.field_1687 != null && dtw.field_1761 != null && this.handler != null) {
+               if (dtw.player != null && dtw.world != null && dtw.interactionManager != null && this.handler != null) {
                   this.dwm();
                   return;
                }
 
-               var1.method_10754();
+               var1.tick();
                return;
             }
          } catch (Throwable var11) {
@@ -738,7 +736,7 @@ public final class dtv implements efz {
       Runnable var1;
       while ((var1 = this.dum.poll()) != null) {
          var1.run();
-         if (dtw.field_1724 == null || dtw.field_1687 == null) {
+         if (dtw.player == null || dtw.world == null) {
             return;
          }
       }
@@ -759,31 +757,31 @@ public final class dtv implements efz {
          this.dvc.onStartTick(dtw);
       }
 
-      if (dtw.field_1724 != null && dtw.field_1687 != null) {
-         ClientWorld var2 = dtw.field_1687;
-         var2.method_54719().method_54755();
+      if (dtw.player != null && dtw.world != null) {
+         ClientWorld var2 = dtw.world;
+         var2.getTickManager().step();
          int var3 = this.dwy();
          if (var3 > 0) {
             this.dwz(var3 - 1);
          }
 
          this.control.apply(this);
-         dtw.field_1773.method_3190(1.0F);
-         dtw.field_1761.method_2927();
-         if (this.connection != null && dtw.field_1724 != null && dtw.field_1687 != null) {
-            var2 = dtw.field_1687;
-            ClientPlayerEntity var4 = dtw.field_1724;
+         dtw.gameRenderer.updateCrosshairTarget(1.0F);
+         dtw.interactionManager.tick();
+         if (this.connection != null && dtw.player != null && dtw.world != null) {
+            var2 = dtw.world;
+            ClientPlayerEntity var4 = dtw.player;
             this.dwo(var4, this.duy.isEnabled());
-            if (dtw.field_1755 != null) {
+            if (dtw.currentScreen != null) {
                this.dvj = 10000;
 
                try {
-                  dtw.field_1755.method_25393();
+                  dtw.currentScreen.tick();
                } catch (Throwable var6) {
                }
             }
 
-            if (dtw.field_1755 == null) {
+            if (dtw.currentScreen == null) {
                this.dwq(var4);
                if (this.dvj > 0) {
                   this.dvj--;
@@ -791,26 +789,26 @@ public final class dtv implements efz {
             }
 
             this.dwn(var2, var4);
-            var2.method_8441(() -> true);
-            var2.method_38534();
-            var2.method_2935().method_12130().method_15516();
+            var2.tick(() -> true);
+            var2.runQueuedChunkUpdates();
+            var2.getChunkManager().getLightingProvider().doLightUpdates();
             if (this.handler != null) {
-               this.handler.method_52787(ClientTickEndC2SPacket.field_52333);
+               this.handler.sendPacket(ClientTickEndC2SPacket.INSTANCE);
             }
 
-            if (this.duw.isEnabled() && dtw.field_1724 != null) {
+            if (this.duw.isEnabled() && dtw.player != null) {
                this.duw.onEndTick(dtw);
             }
 
-            if (this.duy.isEnabled() && dtw.field_1724 != null) {
+            if (this.duy.isEnabled() && dtw.player != null) {
                this.duy.onEndTick(dtw);
             }
 
-            if (this.dva.isEnabled() && dtw.field_1724 != null) {
+            if (this.dva.isEnabled() && dtw.player != null) {
                this.dva.onEndTick(dtw);
             }
 
-            if (this.dvc.isEnabled() && dtw.field_1724 != null) {
+            if (this.dvc.isEnabled() && dtw.player != null) {
                this.dvc.onEndTick(dtw);
             }
 
@@ -822,31 +820,31 @@ public final class dtv implements efz {
    }
 
    private void dwn(ClientWorld var1, ClientPlayerEntity var2) {
-      Entity var3 = var2.method_5668();
-      if (!var3.method_31481()) {
-         var1.method_18646(var3);
+      Entity var3 = var2.getRootVehicle();
+      if (!var3.isRemoved()) {
+         var1.tickEntity(var3);
       }
 
-      for (Entity var5 : var1.method_18112()) {
-         if (var5 != var3 && var5 != var2 && !var5.method_31481() && !var3.method_5821(var5)) {
+      for (Entity var5 : var1.getEntities()) {
+         if (var5 != var3 && var5 != var2 && !var5.isRemoved() && !var3.hasPassengerDeep(var5)) {
             if ((var5 instanceof LivingEntity && !(var5 instanceof PlayerEntity) || var5 instanceof ItemEntity)
-               && !var5.method_5765()
-               && var5.method_5858(var2) < 2304.0) {
+               && !var5.hasVehicle()
+               && var5.squaredDistanceTo(var2) < 2304.0) {
                try {
-                  var1.method_18646(var5);
+                  var1.tickEntity(var5);
                } catch (Throwable var10) {
                }
             } else {
-               var5.method_22862();
-               PositionInterpolator var6 = var5.method_66233();
-               if (var6 != null && var6.method_66270()) {
-                  Vec3d var7 = var6.method_66265();
-                  float var8 = var6.method_66268();
-                  float var9 = var6.method_66269();
-                  var6.method_66272();
-                  var5.method_33574(var7);
-                  var5.method_36456(var8);
-                  var5.method_36457(var9);
+               var5.resetPosition();
+               PositionInterpolator var6 = var5.getInterpolator();
+               if (var6 != null && var6.isInterpolating()) {
+                  Vec3d var7 = var6.getLerpedPos();
+                  float var8 = var6.getLerpedYaw();
+                  float var9 = var6.getLerpedPitch();
+                  var6.clear();
+                  var5.setPosition(var7);
+                  var5.setYaw(var8);
+                  var5.setPitch(var9);
                }
             }
          }
@@ -854,7 +852,7 @@ public final class dtv implements efz {
    }
 
    private void dwo(ClientPlayerEntity var1, boolean var2) {
-      if (!var1.method_29504()) {
+      if (!var1.isDead()) {
          this.dvh = 0;
       } else {
          if (++this.dvh == 1) {
@@ -862,7 +860,7 @@ public final class dtv implements efz {
          }
 
          if (!var2 && this.dvh == this.dvi || this.dvh % 200 == 0) {
-            var1.method_7331();
+            var1.requestRespawn();
          }
       }
    }
@@ -871,7 +869,7 @@ public final class dtv implements efz {
       if (this.dvx > 0 && --this.dvx == 0) {
          this.dvx = -1;
          if (this.dvw != null && this.handler != null) {
-            this.handler.method_45730(this.dvw.substring(1));
+            this.handler.sendChatCommand(this.dvw.substring(1));
             this.chat.system(a.c(-433003123, "\ue18a頚ዅ賄ݯ膠㮎눉Ⱔꊌ⅍\udb4b嗧챜䈛샴竇\uf56b澧\ue986恳ᨫ钖ཏ"));
          }
 
@@ -882,16 +880,16 @@ public final class dtv implements efz {
 
       if (this.dvz > 0 && --this.dvz == 0) {
          this.dvz = -1;
-         if (this.dux && !this.duw.isEnabled() && dtw.field_1724 != null) {
+         if (this.dux && !this.duw.isEnabled() && dtw.player != null) {
             this.duw.setBotRunning(true);
             this.chat.system(a.c(-1345598965, "쩟돚㤈Ꝣⲟꨅၜ駩ϗ褚໊\uf4b7穢\ue7c3榇\uef71唱\uda9c䀥예俷"));
-         } else if (this.duz && !this.duy.isEnabled() && dtw.field_1724 != null) {
+         } else if (this.duz && !this.duy.isEnabled() && dtw.player != null) {
             this.duy.setBotRunning(true);
             this.chat.system(a.d("\uda02ꎇ⥕뜿㳐멗\u0017觰ឮ鴔᪉\ue499樲\uf380租Ｌ䅳쪵倁홟忔▏ꭀ゙", -165975432, -1921929181));
-         } else if (this.dvb && !this.dva.isEnabled() && dtw.field_1724 != null) {
+         } else if (this.dvb && !this.dva.isEnabled() && dtw.player != null) {
             this.dva.setEnabledSilently(true);
             this.chat.system(a.b("콖뛓㰁ꉫ⦞꼋ᕟ鲥ʿ豯ீ\uf1b2罩\ue6da梙\uea7f倷\udfe9䔦썽䫶ク", 1023790849));
-         } else if (this.dvd && !this.dvc.isEnabled() && dtw.field_1724 != null) {
+         } else if (this.dvd && !this.dvc.isEnabled() && dtw.player != null) {
             this.dvc.setBotRunning(true);
             this.chat.system(a.b("ꜞ\ude80呞쨥䇾을納\uf4ce檶\ue014柘鶡፡誂Ұ舽㡱랬ⴝ꽜⊼壪홖䷻쮎䄣\uf898", 1969334084));
          }
@@ -899,58 +897,58 @@ public final class dtv implements efz {
    }
 
    private void dwq(ClientPlayerEntity var1) {
-      GameOptions var2 = dtw.field_1690;
+      GameOptions var2 = dtw.options;
 
       for (int var3 = 0; var3 < 9; var3++) {
-         if (var2.field_1852[var3].method_1436() && !var1.method_7325()) {
-            var1.method_31548().method_61496(var3);
+         if (var2.hotbarKeys[var3].wasPressed() && !var1.isSpectator()) {
+            var1.getInventory().setSelectedSlot(var3);
          }
       }
 
-      while (var2.field_1831.method_1436()) {
-         if (!var1.method_7325() && this.handler != null) {
-            this.handler.method_52787(new PlayerActionC2SPacket(Action.field_12969, BlockPos.field_10980, Direction.field_11033));
+      while (var2.swapHandsKey.wasPressed()) {
+         if (!var1.isSpectator() && this.handler != null) {
+            this.handler.sendPacket(new PlayerActionC2SPacket(Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
          }
       }
 
-      while (var2.field_1869.method_1436()) {
-         if (!var1.method_7325() && var1.method_7290(false)) {
-            var1.method_6104(Hand.field_5808);
+      while (var2.dropKey.wasPressed()) {
+         if (!var1.isSpectator() && var1.dropSelectedItem(false)) {
+            var1.swingHand(Hand.MAIN_HAND);
          }
       }
 
       boolean var4 = false;
-      if (var1.method_6115()) {
-         if (!var2.field_1904.method_1434()) {
-            dtw.field_1761.method_2897(var1);
+      if (var1.isUsingItem()) {
+         if (!var2.useKey.isPressed()) {
+            dtw.interactionManager.stopUsingItem(var1);
          }
 
-         while (var2.field_1886.method_1436()) {
+         while (var2.attackKey.wasPressed()) {
          }
 
-         while (var2.field_1904.method_1436()) {
+         while (var2.useKey.wasPressed()) {
          }
 
-         while (var2.field_1871.method_1436()) {
+         while (var2.pickItemKey.wasPressed()) {
          }
       } else {
-         while (var2.field_1886.method_1436()) {
+         while (var2.attackKey.wasPressed()) {
             var4 |= this.dws(var1);
          }
 
-         while (var2.field_1904.method_1436()) {
+         while (var2.useKey.wasPressed()) {
             this.dwt(var1);
          }
 
-         while (var2.field_1871.method_1436()) {
+         while (var2.pickItemKey.wasPressed()) {
          }
       }
 
-      if (var2.field_1904.method_1434() && this.dwy() == 0 && !var1.method_6115()) {
+      if (var2.useKey.isPressed() && this.dwy() == 0 && !var1.isUsingItem()) {
          this.dwt(var1);
       }
 
-      this.dwr(var1, dtw.field_1755 == null && !var4 && var2.field_1886.method_1434());
+      this.dwr(var1, dtw.currentScreen == null && !var4 && var2.attackKey.isPressed());
    }
 
    private void dwr(ClientPlayerEntity var1, boolean var2) {
@@ -958,16 +956,16 @@ public final class dtv implements efz {
          this.dvj = 0;
       }
 
-      if (this.dvj <= 0 && !var1.method_6115()) {
-         if (!var1.method_5998(Hand.field_5808).method_57826(DataComponentTypes.field_63631)) {
-            if (var2 && dtw.field_1765 != null && dtw.field_1765.method_17783() == Type.field_1332) {
-               BlockHitResult var3 = (BlockHitResult)dtw.field_1765;
-               BlockPos var4 = var3.method_17777();
-               if (!dtw.field_1687.method_8320(var4).method_26215() && dtw.field_1761.method_2902(var4, var3.method_17780())) {
-                  var1.method_6104(Hand.field_5808);
+      if (this.dvj <= 0 && !var1.isUsingItem()) {
+         if (!var1.getStackInHand(Hand.MAIN_HAND).contains(DataComponentTypes.PIERCING_WEAPON)) {
+            if (var2 && dtw.crosshairTarget != null && dtw.crosshairTarget.getType() == Type.BLOCK) {
+               BlockHitResult var3 = (BlockHitResult)dtw.crosshairTarget;
+               BlockPos var4 = var3.getBlockPos();
+               if (!dtw.world.getBlockState(var4).isAir() && dtw.interactionManager.updateBlockBreakingProgress(var4, var3.getSide())) {
+                  var1.swingHand(Hand.MAIN_HAND);
                }
             } else {
-               dtw.field_1761.method_2925();
+               dtw.interactionManager.cancelBlockBreaking();
             }
          }
       }
@@ -978,101 +976,107 @@ public final class dtv implements efz {
    private boolean dws(ClientPlayerEntity var1) {
       if (this.dvj > 0) {
          return false;
-      } else if (dtw.field_1765 == null) {
-         if (dtw.field_1761.method_2924()) {
+      }
+
+      if (dtw.crosshairTarget == null) {
+         if (dtw.interactionManager.hasLimitedAttackSpeed()) {
             this.dvj = 10;
          }
 
          return false;
-      } else if (var1.method_3144()) {
-         return false;
       } else {
-         ItemStack var2 = var1.method_5998(Hand.field_5808);
-         if (!var2.method_45435(dtw.field_1687.method_45162())) {
+         if (var1.isRiding()) {
             return false;
-         } else if (var1.method_75202(var2, 0)) {
-            return false;
-         } else {
-            PiercingWeaponComponent var3 = (PiercingWeaponComponent)var2.method_58694(DataComponentTypes.field_63631);
-            if (var3 != null && !dtw.field_1761.method_2928()) {
-               dtw.field_1761.method_75407(var3);
-               var1.method_6104(Hand.field_5808);
-               return true;
-            } else {
-               boolean var4 = false;
-               switch (dtw.field_1765.method_17783()) {
-                  case field_1331:
-                     AttackRangeComponent var7 = (AttackRangeComponent)var2.method_58694(DataComponentTypes.field_64680);
-                     if (var7 == null || var7.method_76736(var1, dtw.field_1765.method_17784())) {
-                        dtw.field_1761.method_2918(var1, ((EntityHitResult)dtw.field_1765).method_17782());
-                     }
-                     break;
-                  case field_1332:
-                     BlockHitResult var5 = (BlockHitResult)dtw.field_1765;
-                     BlockPos var6 = var5.method_17777();
-                     if (!dtw.field_1687.method_8320(var6).method_26215()) {
-                        dtw.field_1761.method_2910(var6, var5.method_17780());
-                        if (dtw.field_1687.method_8320(var6).method_26215()) {
-                           var4 = true;
-                        }
-                        break;
-                     }
-                  case field_1333:
-                     if (dtw.field_1761.method_2924()) {
-                        this.dvj = 10;
-                     }
-
-                     var1.method_7350();
-               }
-
-               if (!var1.method_7325()) {
-                  var1.method_6104(Hand.field_5808);
-               }
-
-               return var4;
-            }
          }
+
+         ItemStack var2 = var1.getStackInHand(Hand.MAIN_HAND);
+         if (!var2.isItemEnabled(dtw.world.getEnabledFeatures())) {
+            return false;
+         }
+
+         if (var1.isBelowMinimumAttackCharge(var2, 0)) {
+            return false;
+         }
+
+         PiercingWeaponComponent var3 = var2.get(DataComponentTypes.PIERCING_WEAPON);
+         if (var3 != null && !dtw.interactionManager.isFlyingLocked()) {
+            dtw.interactionManager.attackWithPiercingWeapon(var3);
+            var1.swingHand(Hand.MAIN_HAND);
+            return true;
+         }
+
+         boolean var4 = false;
+         switch (dtw.crosshairTarget.getType()) {
+            case ENTITY:
+               AttackRangeComponent var7 = var2.get(DataComponentTypes.ATTACK_RANGE);
+               if (var7 == null || var7.isWithinRange(var1, dtw.crosshairTarget.getPos())) {
+                  dtw.interactionManager.attackEntity(var1, ((EntityHitResult)dtw.crosshairTarget).getEntity());
+               }
+               break;
+            case BLOCK:
+               BlockHitResult var5 = (BlockHitResult)dtw.crosshairTarget;
+               BlockPos var6 = var5.getBlockPos();
+               if (!dtw.world.getBlockState(var6).isAir()) {
+                  dtw.interactionManager.attackBlock(var6, var5.getSide());
+                  if (dtw.world.getBlockState(var6).isAir()) {
+                     var4 = true;
+                  }
+                  break;
+               }
+            case MISS:
+               if (dtw.interactionManager.hasLimitedAttackSpeed()) {
+                  this.dvj = 10;
+               }
+
+               var1.resetTicksSince();
+         }
+
+         if (!var1.isSpectator()) {
+            var1.swingHand(Hand.MAIN_HAND);
+         }
+
+         return var4;
       }
    }
 
    private void dwt(ClientPlayerEntity var1) {
-      if (!dtw.field_1761.method_2923()) {
+      if (!dtw.interactionManager.isBreakingBlock()) {
          this.dwz(4);
-         if (!var1.method_3144()) {
+         if (!var1.isRiding()) {
             for (Hand var5 : Hand.values()) {
-               ItemStack var6 = var1.method_5998(var5);
-               if (!var6.method_45435(dtw.field_1687.method_45162())) {
+               ItemStack var6 = var1.getStackInHand(var5);
+               if (!var6.isItemEnabled(dtw.world.getEnabledFeatures())) {
                   return;
                }
 
-               HitResult var7 = dtw.field_1765;
+               HitResult var7 = dtw.crosshairTarget;
                if (var7 != null) {
-                  if (var7.method_17783() == Type.field_1331) {
+                  if (var7.getType() == Type.ENTITY) {
                      EntityHitResult var8 = (EntityHitResult)var7;
-                     Entity var9 = var8.method_17782();
-                     if (!dtw.field_1687.method_8621().method_11952(var9.method_24515())) {
+                     Entity var9 = var8.getEntity();
+                     if (!dtw.world.getWorldBorder().contains(var9.getBlockPos())) {
                         return;
                      }
 
-                     if (var1.method_56094(var9, 0.0)) {
-                        ActionResult var10 = dtw.field_1761.method_2917(var1, var9, var8, var5);
-                        if (!var10.method_23665()) {
-                           var10 = dtw.field_1761.method_2905(var1, var9, var5);
+                     if (var1.canInteractWithEntity(var9, 0.0)) {
+                        ActionResult var10 = dtw.interactionManager.interactEntityAtLocation(var1, var9, var8, var5);
+                        if (!var10.isAccepted()) {
+                           var10 = dtw.interactionManager.interactEntity(var1, var9, var5);
                         }
 
                         if (var10 instanceof Success var11) {
-                           if (var11.comp_2909() == SwingSource.field_52427) {
-                              var1.method_6104(var5);
+                           if (var11.swingSource() == SwingSource.CLIENT) {
+                              var1.swingHand(var5);
                            }
 
                            return;
                         }
                      }
-                  } else if (var7.method_17783() == Type.field_1332) {
-                     ActionResult var12 = dtw.field_1761.method_2896(var1, var5, (BlockHitResult)var7);
+                  } else if (var7.getType() == Type.BLOCK) {
+                     ActionResult var12 = dtw.interactionManager.interactBlock(var1, var5, (BlockHitResult)var7);
                      if (var12 instanceof Success var15) {
-                        if (var15.comp_2909() == SwingSource.field_52427) {
-                           var1.method_6104(var5);
+                        if (var15.swingSource() == SwingSource.CLIENT) {
+                           var1.swingHand(var5);
                         }
 
                         return;
@@ -1084,9 +1088,9 @@ public final class dtv implements efz {
                   }
                }
 
-               if (!var6.method_7960() && dtw.field_1761.method_2919(var1, var5) instanceof Success var14) {
-                  if (var14.comp_2909() == SwingSource.field_52427) {
-                     var1.method_6104(var5);
+               if (!var6.isEmpty() && dtw.interactionManager.interactItem(var1, var5) instanceof Success var14) {
+                  if (var14.swingSource() == SwingSource.CLIENT) {
+                     var1.swingHand(var5);
                   }
 
                   return;
@@ -1102,7 +1106,7 @@ public final class dtv implements efz {
    }
 
    float partialTick() {
-      return MathHelper.method_15363((float)(System.nanoTime() - this.dvo) / 5.0E7F, 0.0F, 1.0F);
+      return MathHelper.clamp((float)(System.nanoTime() - this.dvo) / 5.0E7F, 0.0F, 1.0F);
    }
 
    double mouseMultiplier() {
@@ -1117,17 +1121,17 @@ public final class dtv implements efz {
 
    @Override
    public void look(float var1, float var2) {
-      ClientPlayerEntity var3 = dtw.field_1724;
+      ClientPlayerEntity var3 = dtw.player;
       if (var3 != null && ejp.current() == this && Float.isFinite(var1) && Float.isFinite(var2)) {
          double var4 = this.mouseMultiplier();
-         float var6 = var3.method_36454();
-         float var7 = var3.method_36455();
+         float var6 = var3.getYaw();
+         float var7 = var3.getPitch();
          double var8 = (double)var1 - var6;
          double var10 = Math.floor((var8 + 180.0) / 360.0) * 360.0;
          float var12 = (float)(var6 + var10) + prp.quantize(var8 - var10, var4);
-         float var13 = MathHelper.method_15363(var7 + prp.quantize((double)var2 - var7, var4), -90.0F, 90.0F);
-         var3.method_36456(var12);
-         var3.method_36457(var13);
+         float var13 = MathHelper.clamp(var7 + prp.quantize((double)var2 - var7, var4), -90.0F, 90.0F);
+         var3.setYaw(var12);
+         var3.setPitch(var13);
       }
    }
 
@@ -1230,9 +1234,9 @@ public final class dtv implements efz {
                if (this.handler != null) {
                   this.dup = System.currentTimeMillis();
                   if (var4.startsWith(a.b("湆", -912626072))) {
-                     this.handler.method_45730(var4.substring(1));
+                     this.handler.sendChatCommand(var4.substring(1));
                   } else {
-                     this.handler.method_45729(var4);
+                     this.handler.sendChatMessage(var4);
                   }
                }
             });
@@ -1300,7 +1304,7 @@ public final class dtv implements efz {
       }
 
       this.post(() -> {
-         if (dtw.field_1724 != null) {
+         if (dtw.player != null) {
             if (var1) {
                this.dwx();
             }
@@ -1335,7 +1339,7 @@ public final class dtv implements efz {
       }
 
       this.post(() -> {
-         if (dtw.field_1724 != null) {
+         if (dtw.player != null) {
             if (var1) {
                this.dwx();
                if (this.duw.isEnabled()) {
@@ -1369,7 +1373,7 @@ public final class dtv implements efz {
       }
 
       this.post(() -> {
-         if (dtw.field_1724 != null) {
+         if (dtw.player != null) {
             if (var1) {
                this.dwx();
                if (this.duw.isEnabled()) {
@@ -1404,7 +1408,7 @@ public final class dtv implements efz {
          }
 
          this.post(() -> {
-            if (dtw.field_1724 != null) {
+            if (dtw.player != null) {
                if (var1) {
                   if (this.duw.isEnabled()) {
                      this.duw.setBotRunning(false);
@@ -1477,27 +1481,27 @@ public final class dtv implements efz {
 
    public void selectSlot(int var1) {
       this.post(() -> {
-         if (dtw.field_1724 != null && var1 >= 0 && var1 < 9) {
-            dtw.field_1724.method_31548().method_61496(var1);
+         if (dtw.player != null && var1 >= 0 && var1 < 9) {
+            dtw.player.getInventory().setSelectedSlot(var1);
          }
       });
    }
 
    public void clickSlot(int var1, int var2, int var3, SlotActionType var4) {
       this.post(() -> {
-         if (dtw.field_1724 != null && dtw.field_1761 != null && dtw.field_1724.field_7512.field_7763 == var1) {
-            dtw.field_1761.method_2906(var1, var2, var3, var4, dtw.field_1724);
+         if (dtw.player != null && dtw.interactionManager != null && dtw.player.currentScreenHandler.syncId == var1) {
+            dtw.interactionManager.clickSlot(var1, var2, var3, var4, dtw.player);
          }
       });
    }
 
    public void closeScreen() {
       this.post(() -> {
-         if (dtw.field_1724 != null) {
-            if (dtw.field_1724.field_7512 != dtw.field_1724.field_7498) {
-               dtw.field_1724.method_7346();
-            } else if (dtw.field_1755 != null) {
-               dtw.method_1507(null);
+         if (dtw.player != null) {
+            if (dtw.player.currentScreenHandler != dtw.player.playerScreenHandler) {
+               dtw.player.closeHandledScreen();
+            } else if (dtw.currentScreen != null) {
+               dtw.setScreen(null);
             }
 
             this.duv = null;
@@ -1507,16 +1511,16 @@ public final class dtv implements efz {
 
    public void dropSelected(boolean var1) {
       this.post(() -> {
-         if (dtw.field_1724 != null && !dtw.field_1724.method_7325() && dtw.field_1724.method_7290(var1)) {
-            dtw.field_1724.method_6104(Hand.field_5808);
+         if (dtw.player != null && !dtw.player.isSpectator() && dtw.player.dropSelectedItem(var1)) {
+            dtw.player.swingHand(Hand.MAIN_HAND);
          }
       });
    }
 
    public void swapHands() {
       this.post(() -> {
-         if (this.handler != null && dtw.field_1724 != null && !dtw.field_1724.method_7325()) {
-            this.handler.method_52787(new PlayerActionC2SPacket(Action.field_12969, BlockPos.field_10980, Direction.field_11033));
+         if (this.handler != null && dtw.player != null && !dtw.player.isSpectator()) {
+            this.handler.sendPacket(new PlayerActionC2SPacket(Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
          }
       });
    }
@@ -1524,15 +1528,15 @@ public final class dtv implements efz {
    void syncOptionsLive() {
       this.post(() -> {
          if (this.handler != null) {
-            this.handler.method_62149(this.syncedOptions());
+            this.handler.syncOptions(this.syncedOptions());
          }
       });
    }
 
    public void respawn() {
       this.post(() -> {
-         if (dtw.field_1724 != null && dtw.field_1724.method_29504()) {
-            dtw.field_1724.method_7331();
+         if (dtw.player != null && dtw.player.isDead()) {
+            dtw.player.requestRespawn();
          }
       });
    }
@@ -1592,7 +1596,7 @@ public final class dtv implements efz {
 
    void notifyHud(String var1, boolean var2) {
       try {
-         dtw.method_63588(() -> {
+         dtw.send(() -> {
             try {
                izx.alert(this.dud, var1, vhz.INFO, var2);
             } catch (Throwable var4x) {
@@ -1783,10 +1787,10 @@ public final class dtv implements efz {
       ehy var1 = this.handler;
       if (var1 == null) {
          return -1;
-      } else {
-         PlayerListEntry var2 = var1.method_2871(this.due);
-         return var2 == null ? -1 : var2.method_2959();
       }
+
+      PlayerListEntry var2 = var1.getPlayerListEntry(this.due);
+      return var2 == null ? -1 : var2.getLatency();
    }
 
    public float takePeakTickMillis() {

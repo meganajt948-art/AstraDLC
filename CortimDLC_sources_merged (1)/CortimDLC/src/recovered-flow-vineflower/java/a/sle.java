@@ -120,24 +120,24 @@ public final class sle {
 
          if (var4.isEmpty()) {
             return NONE;
-         } else {
-            var4.sort((var0x, var1x) -> Long.compare(var0x.sks, var1x.sks));
-            ArrayList var21 = new ArrayList(var4.size());
-
-            for (int var22 = 0; var22 < var4.size(); var22++) {
-               Raw var24 = (Raw)var4.get(var22);
-               long var26 = var22 + 1 < var4.size() ? ((Raw)var4.get(var22 + 1)).sks : var24.sks + 7000L;
-               var21.add(new skx(var24.sks, Math.max(var24.sks + 1L, var26), var24.skt, var24.sku));
-            }
-
-            boolean var23 = false;
-
-            for (skx var27 : var21) {
-               var23 |= !var27.blank();
-            }
-
-            return var23 ? new sle(List.copyOf(var21)) : NONE;
          }
+
+         var4.sort((var0x, var1x) -> Long.compare(var0x.sks, var1x.sks));
+         ArrayList var21 = new ArrayList(var4.size());
+
+         for (int var22 = 0; var22 < var4.size(); var22++) {
+            Raw var24 = (Raw)var4.get(var22);
+            long var26 = var22 + 1 < var4.size() ? ((Raw)var4.get(var22 + 1)).sks : var24.sks + 7000L;
+            var21.add(new skx(var24.sks, Math.max(var24.sks + 1L, var26), var24.skt, var24.sku));
+         }
+
+         boolean var23 = false;
+
+         for (skx var27 : var21) {
+            var23 |= !var27.blank();
+         }
+
+         return var23 ? new sle(List.copyOf(var21)) : NONE;
       } else {
          return NONE;
       }
@@ -146,15 +146,15 @@ public final class sle {
    private static long[] slm(long[] var0, long var1) {
       if (var1 == 0L) {
          return var0;
-      } else {
-         long[] var3 = Arrays.copyOf(var0, var0.length);
-
-         for (int var4 = 0; var4 < var3.length; var4++) {
-            var3[var4] += var1;
-         }
-
-         return var3;
       }
+
+      long[] var3 = Arrays.copyOf(var0, var0.length);
+
+      for (int var4 = 0; var4 < var3.length; var4++) {
+         var3[var4] += var1;
+      }
+
+      return var3;
    }
 
    private static long sln(Matcher var0) {

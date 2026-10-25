@@ -13,12 +13,9 @@ public final class kam {
    public int tint = 16777215;
    public float tintAmount;
    public float grain = 1.5F;
-   @Nullable
-   public float[] fall;
-   @Nullable
-   public float[] shape;
-   @Nullable
-   public float[] pool;
+   public float @Nullable [] fall;
+   public float @Nullable [] shape;
+   public float @Nullable [] pool;
    public float logoX = 0.5F;
    public float logoY = 0.5F;
    public float logoSize;

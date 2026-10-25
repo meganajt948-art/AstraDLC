@@ -46,8 +46,8 @@ public final class ConfigManager {
    public static Path gameDir() {
       try {
          return FabricLoader.getInstance().getGameDir();
-      } catch (Throwable var1) {
-         return MinecraftClient.method_1551().field_1697.toPath();
+      } catch (Throwable t) {
+         return MinecraftClient.getInstance().runDirectory.toPath();
       }
    }
 
@@ -67,21 +67,21 @@ public final class ConfigManager {
    public static String sanitize(String name) {
       if (name == null) {
          return null;
-      } else {
-         StringBuilder sb = new StringBuilder();
-         name.codePoints().filter(c -> Character.isLetterOrDigit(c) || c == 32 || c == 45 || c == 95 || c == 46).forEach(sb::appendCodePoint);
-         String s = sb.toString().trim();
-
-         while (s.startsWith(".")) {
-            s = s.substring(1).trim();
-         }
-
-         if (s.length() > 32) {
-            s = s.substring(0, 32).trim();
-         }
-
-         return s.isEmpty() ? null : s;
       }
+
+      StringBuilder sb = new StringBuilder();
+      name.codePoints().filter(c -> Character.isLetterOrDigit(c) || c == 32 || c == 45 || c == 95 || c == 46).forEach(sb::appendCodePoint);
+      String s = sb.toString().trim();
+
+      while (s.startsWith(".")) {
+         s = s.substring(1).trim();
+      }
+
+      if (s.length() > 32) {
+         s = s.substring(0, 32).trim();
+      }
+
+      return s.isEmpty() ? null : s;
    }
 
    public static boolean exists(String name) {
@@ -172,65 +172,65 @@ public final class ConfigManager {
       String raw = ewk.getConfig(name);
       if (raw == null) {
          throw new IOException(wap.s("no config ", "нет конфига ") + name);
-      } else {
-         byte[] fileBytes = raw.getBytes(StandardCharsets.UTF_8);
+      }
 
-         JsonObject root;
-         try (InputStreamReader r = new InputStreamReader(new ByteArrayInputStream(fileBytes), StandardCharsets.UTF_8)) {
-            root = JsonParser.parseReader(r).getAsJsonObject();
-         } finally {
-            Arrays.fill(fileBytes, (byte)0);
-         }
+      byte[] fileBytes = raw.getBytes(StandardCharsets.UTF_8);
 
-         JsonObject mods = root.getAsJsonObject("modules");
-         if (mods == null) {
-            throw new IOException(wap.s("no modules in ", "нет модулей в ") + name);
-         } else {
-            for (kfe m : Flow.getInstance().getModuleManager().getModules()) {
-               JsonElement el = mods.get(m.getName());
-               if (el != null && el.isJsonObject()) {
-                  JsonObject o = el.getAsJsonObject();
-                  JsonObject settings = o.getAsJsonObject("settings");
-                  if (settings != null) {
-                     for (vmo s : m.getSettings()) {
-                        JsonElement v = settings.get(s.getName());
-                        if (v != null) {
-                           try {
-                              if (s instanceof vkl b) {
-                                 b.set(v.getAsBoolean());
-                              } else if (s instanceof vmc n) {
-                                 n.set(v.getAsDouble());
-                              } else if (s instanceof vlv mode) {
-                                 mode.set(v.getAsString());
-                              } else if (s instanceof vlq key) {
-                                 key.set(v.getAsInt());
-                              } else if (s instanceof vmu text) {
-                                 text.set(v.getAsString());
-                              } else if (s instanceof vlj list && v.isJsonArray()) {
-                                 List<String> ids = new ArrayList<>();
-                                 v.getAsJsonArray().forEach(e -> ids.add(e.getAsString()));
-                                 list.set(ids);
-                              }
-                           } catch (RuntimeException var25) {
-                           }
+      JsonObject root;
+      try (InputStreamReader r = new InputStreamReader(new ByteArrayInputStream(fileBytes), StandardCharsets.UTF_8)) {
+         root = JsonParser.parseReader(r).getAsJsonObject();
+      } finally {
+         Arrays.fill(fileBytes, (byte)0);
+      }
+
+      JsonObject mods = root.getAsJsonObject("modules");
+      if (mods == null) {
+         throw new IOException(wap.s("no modules in ", "нет модулей в ") + name);
+      }
+
+      for (kfe m : Flow.getInstance().getModuleManager().getModules()) {
+         JsonElement el = mods.get(m.getName());
+         if (el != null && el.isJsonObject()) {
+            JsonObject o = el.getAsJsonObject();
+            JsonObject settings = o.getAsJsonObject("settings");
+            if (settings != null) {
+               for (vmo s : m.getSettings()) {
+                  JsonElement v = settings.get(s.getName());
+                  if (v != null) {
+                     try {
+                        if (s instanceof vkl b) {
+                           b.set(v.getAsBoolean());
+                        } else if (s instanceof vmc n) {
+                           n.set(v.getAsDouble());
+                        } else if (s instanceof vlv mode) {
+                           mode.set(v.getAsString());
+                        } else if (s instanceof vlq key) {
+                           key.set(v.getAsInt());
+                        } else if (s instanceof vmu text) {
+                           text.set(v.getAsString());
+                        } else if (s instanceof vlj list && v.isJsonArray()) {
+                           List<String> ids = new ArrayList<>();
+                           v.getAsJsonArray().forEach(e -> ids.add(e.getAsString()));
+                           list.set(ids);
                         }
+                     } catch (RuntimeException var25) {
                      }
-                  }
-
-                  if (o.has("key")) {
-                     m.setKey(o.get("key").getAsInt());
-                  }
-
-                  m.onConfigLoaded(o.has("enabled"));
-                  if (o.has("enabled") && !m.isAction()) {
-                     m.setEnabled(o.get("enabled").getAsBoolean());
                   }
                }
             }
 
-            setActive(name);
+            if (o.has("key")) {
+               m.setKey(o.get("key").getAsInt());
+            }
+
+            m.onConfigLoaded(o.has("enabled"));
+            if (o.has("enabled") && !m.isAction()) {
+               m.setEnabled(o.get("enabled").getAsBoolean());
+            }
          }
       }
+
+      setActive(name);
    }
 
    public static void delete(String name) throws IOException {
@@ -247,16 +247,16 @@ public final class ConfigManager {
       if (!from.equals(to)) {
          if (exists(to)) {
             throw new IOException(wap.s("\"" + to + "\" already exists", "«" + to + "» уже есть"));
-         } else {
-            ewk.renameConfig(from, to);
-            ConfigShare.forget(to);
-            ConfigShare.renamed(from, to);
-            if (from.equals(active)) {
-               active = to;
-            }
-
-            version++;
          }
+
+         ewk.renameConfig(from, to);
+         ConfigShare.forget(to);
+         ConfigShare.renamed(from, to);
+         if (from.equals(active)) {
+            active = to;
+         }
+
+         version++;
       }
    }
 
@@ -272,8 +272,8 @@ public final class ConfigManager {
       if (AUTO_SAVE.get() && active != null && !dry.armed()) {
          try {
             save(active);
-         } catch (IOException var1) {
-            System.out.println("auto-save of " + active + " failed: " + var1);
+         } catch (IOException e) {
+            System.out.println("auto-save of " + active + " failed: " + e);
          }
       }
    }

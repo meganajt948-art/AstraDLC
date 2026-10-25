@@ -127,12 +127,12 @@ final class gef {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       ghc(var0);
       boolean var3 = geg.equals(a.c(165453408, "鸌\ue7b0浫\uf316磃ﹳ䐪췌"));
       boolean var4 = geg.equals(a.b("暃Ἷ闢", -34380060)) || var3 || gel;
       if (var1 == 1) {
-         GLFW.glfwSetCursorPosCallback(var0.method_22683().method_4490(), (var0x, var2x, var4x) -> {});
+         GLFW.glfwSetCursorPosCallback(var0.getWindow().getHandle(), (var0x, var2x, var4x) -> {});
          ghb(var0, a.d("\uf5d5豌ڛ飆ጣ閒\u2fdb\ua630㡨", 1887683373, 1204958896), false);
          ghb(var0, a.d("濃ᙆ鲂˳褍ྟ뗌㰹", -672883749, -1220479914), false);
          ghe(var0, a.c(982801653, "岃┴꿫㆒멍㳾蚦བ酌ᮮ鱻昍\ue8de煰לּ線잘"));
@@ -143,40 +143,38 @@ final class gef {
          ghe(var0, a.b("ႆ椪\ue3fd綄\uf616烴쪱䍑\udd5a垯큹⨐", 116789502));
          ghe(var0, a.b("\u3098䤯쏰嶉홉僿\ueab5捍ﵗ瞢\uf07aਠ蓒ᵻ霽ᇉꮈ\u2456뻹㢟녒쬙䖥\ude7d塇틐此\ue538翐聯", 1747661025));
          ghe(var0, a.d("뾖옡䳾튇奇\udff1斻\uec43牙\uf8ac罴蔧\u0bd2鉮᠌點⒀ꭇ\u31ed랻㹋䐓쫧兰휈巔\ue478樿", 1508632464, 1544378493));
-         var0.field_1690.method_42503().method_41748(12);
+         var0.options.getViewDistance().setValue(12);
       }
 
       if (var1 == 5) {
-         BlockPos var5 = var2.method_24515();
-         gfn = var2.method_5477().getString();
-         IntegratedServer var6 = var0.method_1576();
+         BlockPos var5 = var2.getBlockPos();
+         gfn = var2.getName().getString();
+         IntegratedServer var6 = var0.getServer();
          var6.execute(() -> ggp(var6, var5, var4));
       }
 
       if (var1 == 40) {
-         IntegratedServer var14 = var0.method_1576();
+         IntegratedServer var14 = var0.getServer();
          var14.execute(
             () -> {
-               ServerPlayerEntity var2x = var14.method_3760().method_14566(gfn);
-               ItemStack var3x = new ItemStack(Items.field_22024);
-               var3x.method_7978(var14.method_30611().method_30530(RegistryKeys.field_41265).method_46747(Enchantments.field_9131), 10);
-               var3x.method_57379(
-                  DataComponentTypes.field_49632,
-                  new LoreComponent(
-                     List.of(Text.method_43470(a.c(-2035397662, "䭋㉪벟⊼ꤓ⿕闾ᰅ艓࣠轆煗￩晘")), Text.method_43470(a.d("墜↽꽅ㄘ뫌㱳蘥ྮ間Ὃ", -1566566347, 1320239108)))
-                  )
+               ServerPlayerEntity var2x = var14.getPlayerManager().getPlayer(gfn);
+               ItemStack var3x = new ItemStack(Items.NETHERITE_PICKAXE);
+               var3x.addEnchantment(var14.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Enchantments.EFFICIENCY), 10);
+               var3x.set(
+                  DataComponentTypes.LORE,
+                  new LoreComponent(List.of(Text.literal(a.c(-2035397662, "䭋㉪벟⊼ꤓ⿕闾ᰅ艓࣠轆煗￩晘")), Text.literal(a.d("墜↽꽅ㄘ뫌㱳蘥ྮ間Ὃ", -1566566347, 1320239108))))
                );
-               var2x.method_31548().method_5447(3, new ItemStack(Items.field_8802));
-               var2x.method_31548().method_5447(20, var3x);
+               var2x.getInventory().setStack(3, new ItemStack(Items.DIAMOND_SWORD));
+               var2x.getInventory().setStack(20, var3x);
 
                for (int var4x = 9; var4x < 36; var4x++) {
                   if (var4x != 20 && var4x != 35) {
-                     var2x.method_31548().method_5447(var4x, new ItemStack(Items.field_20412, 64));
+                     var2x.getInventory().setStack(var4x, new ItemStack(Items.COBBLESTONE, 64));
                   }
                }
 
                for (int var6x = 5; var6x < 9; var6x++) {
-                  var2x.method_31548().method_5447(var6x, new ItemStack(Items.field_20394, 64));
+                  var2x.getInventory().setStack(var6x, new ItemStack(Items.GRANITE, 64));
                }
 
                gec var7x = gez.get(0);
@@ -188,7 +186,7 @@ final class gef {
       }
 
       if (var1 == 60) {
-         var2.method_31548().method_61496(3);
+         var2.getInventory().setSelectedSlot(3);
       }
 
       if (!ggc && var1 >= 140 && var2 != null && ggn(var2)) {
@@ -198,11 +196,11 @@ final class gef {
          nfi.anarchies = a.b("귇푷庥색䬒춲矠︕恒\ueaef洭靝ᦈ耧\u0a78貘㛖뤄", -519197212);
          nfi.minMineMs = 15000L;
          nfi.maxMineMs = gel ? 110000L : (var4 ? 75000L : 45000L);
-         gev = var2.method_31548().method_18861(Items.field_8477);
+         gev = var2.getInventory().count(Items.DIAMOND);
          ghb(var0, a.d("縱ި赿ጢ飇Ṷꐿⷔ뎌", -30546963, 405511572), false);
          ghb(var0, a.c(1578336311, "聩茶猶\ued49暞\ue02d婩펨䷚읰"), false);
          ghb(var0, a.c(1937055168, "ᶉ搌\ueede炴ﭘ緒잁乳"), false);
-         var0.method_1576().execute(() -> {
+         var0.getServer().execute(() -> {
             long var0x = gfe;
 
             for (gec var3x : gez) {
@@ -222,10 +220,10 @@ final class gef {
       }
 
       if (ggc && var1 > gfp && var2 != null) {
-         float var16 = var2.method_36454();
-         float var18 = var2.method_36455();
+         float var16 = var2.getYaw();
+         float var18 = var2.getPitch();
          if (gft) {
-            double var7 = MathHelper.method_15393(var16 - gfr);
+            double var7 = MathHelper.wrapDegrees(var16 - gfr);
             double var9 = var18 - gfs;
             double var11 = Math.sqrt(var7 * var7 + var9 * var9);
             gfu.add(var11);
@@ -236,7 +234,7 @@ final class gef {
                      String.format(
                            Locale.ROOT,
                            a.d("䎳㨆냒⺨ꔺ⏉馑ၮ蹶ғ荁礷\uf7fc渃\ue404押\ud8eb圱춞䮛숪렢㚉굎⭦ꆲ᠊附\u0ce4諾Şﾔ痐\uec3e樺\ue0cd彊픢召쩊䀞㺧등㍋ꦃ➥鸽ᒟ鋋ऑ蝽緻\uf40a爝\ue8e7暺\udd13寄퇹", 541572881, 127073524)
-                              + var0.method_1569()
+                              + var0.isWindowFocused()
                               + a.d("ᮢ或\ue893皱ﴶ箘쇗䡨혯峈", 405123969, 1953474569),
                            (var1 - gfp) / 20.0,
                            gfr,
@@ -244,7 +242,7 @@ final class gef {
                            gfs,
                            var18,
                            var13.substring(0, var13.indexOf(32)),
-                           var2.method_73189()
+                           var2.getEntityPos()
                         )
                         + a.b("孜", 1314020221)
                         + ((nfl)Flow.getInstance().getModuleManager().getByName(a.d("껉흌嶞쏴䠁캔瓀ﴺ", 1209790223, -62963313))).action()
@@ -289,7 +287,7 @@ final class gef {
                      + a.d("嗔ⰶ", 1752225080, 2032763037)
                      + var8
                      + a.d("奆₧ꩫ㐆뾟", 2066111919, -1701772084)
-                     + var2.method_24515().method_23854()
+                     + var2.getBlockPos().toShortString()
                );
          }
       }
@@ -353,7 +351,7 @@ final class gef {
       }
 
       var9.sort(Double::compare);
-      double var28 = var9.isEmpty() ? 0.0 : (Double)var9.get(var9.size() - 1);
+      double var29 = var9.isEmpty() ? 0.0 : (Double)var9.get(var9.size() - 1);
       double var12 = var9.isEmpty() ? 0.0 : (Double)var9.get((int)(var9.size() * 0.95));
       long var14 = var9.stream().filter(var0x -> var0x > 30.0).count();
       System.out
@@ -367,15 +365,16 @@ final class gef {
                ),
                var9.size(),
                var12,
-               var28,
+               var29,
                var14
             )
          );
-      ServerWorld var16 = var0.method_1576().method_30002();
+      var27 = var29;
+      ServerWorld var16 = var0.getServer().getOverworld();
       int var17 = 0;
 
       for (BlockPos var19 : gfa) {
-         if (!var16.method_8320(var19).method_26215()) {
+         if (!var16.getBlockState(var19).isAir()) {
             var17++;
          }
       }
@@ -387,11 +386,11 @@ final class gef {
       }
 
       ggo(var17 == gfa.size(), a.b("\udf11ꚡⱴ눉㧃뼠Լ賐ኘ頿᾿\ue582歜\uf2ee碯︊", -374153371) + var17 + a.c(35258113, "Ｏ") + gfa.size());
-      ggo(var28 <= 118.0, a.d("搔ᶤ靰झ芄Ѹ븧㟏꧈", -48410396, 1346385037) + var28);
+      ggo(var27 <= 118.0, a.d("搔ᶤ靰झ芄Ѹ븧㟏꧈", -48410396, 1346385037) + var27);
       if (gel) {
-         gec var29 = gez.get(0);
-         int var32 = 289 * gen;
-         int var20 = var0.field_1724 == null ? 0 : var0.field_1724.method_31548().method_18861(Items.field_8477) - gev;
+         gec var30 = gez.get(0);
+         int var33 = 289 * gen;
+         int var20 = var0.player == null ? 0 : var0.player.getInventory().count(Items.DIAMOND) - gev;
          double var21 = ggj;
          System.out
             .println(
@@ -401,16 +400,16 @@ final class gef {
                      -180534992,
                      "䇧㡒늆⳼Ꝯ\u218c鯛ሸ豧ۃ腚笱\uf5e3氓\ue604悺\udafc啫쿝䧍쁾멭㓐꼂⥱ꎨᨃ鐁ິ裵͛ﶎ矏\uee35栤\ue299嵋흻凬접䉇㲵뛴ㄝꯆ◻鰡ᚓ郎ୋ蕬羡\uf61b瀏\ueab1擤\udf5c妆펰䨠쒂뺇㥱댫ⷻꐝḈ颪ኢ负߉膳硳\uf295沀\ue733慪\udbd8切챾䚩삤뭋㗅꾾☫ꂕᫌ锿ཬ觞\u0005贈瓧\uef51楁\ue3ca已퐦仙죚䌷㵩랝⸏\ua87a⊮鴔ᜊ釷\u0ba1艑糚\uf6c7焽\ueb6f旊\udc4f噵킣䭒않뾤㦭뀖⫂ꓰὥ饺Ꮢ訋Ѳﺫ礛\uf30c涨\ue7f2帟\ud8c0労촢䟗쇇령㉳겨✓ꅚ᯾閧ఙ蛃 ﬥ痐\uefc3昺\ue068嫗픎余짻䏩㨙뒍⻳ꤥ⎞鷉ᑺ踬\u0891荃絳\uf7e4渐\ue854抟\udcf1圽톇䮏숴뱤㛆널"
                   ),
-                  var29.mined,
-                  var32,
+                  var30.mined,
+                  var33,
                   geq,
                   var21,
-                  var29.mined / Math.max(1.0, var21 > 0.0 ? var21 : (gfq - gfp) / 20.0),
+                  var30.mined / Math.max(1.0, var21 > 0.0 ? var21 : (gfq - gfp) / 20.0),
                   ger,
                   ges,
                   var20,
                   gew,
-                  (double)var29.mined / Math.max(1, gew),
+                  (double)var30.mined / Math.max(1, gew),
                   geu
                )
             );
@@ -418,39 +417,39 @@ final class gef {
          ggo(ges >= 0 && ges <= 4, a.b("㮘䈤죿嚂\udd57寧\ue1be桘\uf654粩ﭳā迄ᘡ鰻ᫍꃌ⽉뗦㎺먈쀔亣핵匁\ud995", 1104100326) + ges);
          ggo(geu == 0, a.d("셈룸㈶갓➐ꄽ᭣鋗\u0cc5虶ƨﮛ生\ueca9曯\ue011婔했似쥤䃔㫌둸\u2fe7꧌⌁骿ᒫ踋ࡌ菧絯", -1053360144, 1004814064) + geu + a.b("ᇟ栺\ue2f4粁\uf75e燹", 2080379385));
       } else if (var3) {
-         gec var30 = gez.get(0);
+         gec var31 = gez.get(0);
          System.out
             .println(
                a.d("됸춍䝙\ud923励푄渚\ue7e3禰\uf303瓑躪j馒Ꮫ", -1291904548, -1231114874)
-                  + var30.minedDiamonds
+                  + var31.minedDiamonds
                   + a.b("媩⍜ꦂ㟻밠㪓胁ऺ靲ᶜ驃", -847488382)
-                  + (var30.minedOres - var30.minedDiamonds)
+                  + (var31.minedOres - var31.minedDiamonds)
                   + a.d("뙙쾧䕯\udb02僘홾汿\ue5c1箃\uf125盠賎ȕ鯠ᆲ靃ⴙꋝ㡸븮㞍䶈쌮壬\ude86呕\uedf7掷論罔\uf4beਫ", 1835788029, 672092324)
                   + ggi
                   + a.d("죐녩㯦ꖌ⹄ꢥኯ鬚", 2138602915, -995248805)
-                  + (var30.y0 - 1)
+                  + (var31.y0 - 1)
                   + a.c(979438034, "৶灋\ufadc撬\uef6e槛펔娭")
                   + 3
                   + a.b("얀밴㛫꣖⌈ꖺΏ陞ࡕ苸Ԧ２熈\ue83d扩\ue493庙턉䮯춪", 833799613)
                   + ggj
                   + a.c(1892522599, "驅\ue3a7")
             );
-         ggo(var30.minedDiamonds >= 4, a.c(-312276384, "\u0a0b玷塞朑\uecc4橴퀭始쟇䴻쫬゚빆⟶귡") + var30.minedDiamonds);
-         ggo(ggi >= var30.y0 - 3, a.b("⫈卨\ud9a9䞟찊䪼\uf0e6礔\ue753涵\uea32ၟ麅ݱ赦\u0b96뇌㸙꒶⊯ꬔ텀忷쐢䉀죟煶ｾ旍", -684512591) + ggi);
+         ggo(var31.minedDiamonds >= 4, a.c(-312276384, "\u0a0b玷塞朑\uecc4橴퀭始쟇䴻쫬゚빆⟶귡") + var31.minedDiamonds);
+         ggo(ggi >= var31.y0 - 3, a.b("⫈卨\ud9a9䞟찊䪼\uf0e6礔\ue753涵\uea32ၟ麅ݱ赦\u0b96뇌㸙꒶⊯ꬔ텀忷쐢䉀죟煶ｾ旍", -684512591) + ggi);
          ggo(ggj > 0.0 && ggj < 70.0, a.d("寜≠ꢾ㛅뵛㮹膾ࠃ陕᳠鬤慆\uefd4瘪ﱸ窄샍余햾右\uda09ꀝ⻪딶㍁릜-蹽ᒀ鋆ᤦ\ue7a5淹\uf407爚\uf8e4䜩쵙䯄퉯", 333789177, 86994025) + ggj);
       } else if (var2) {
          ggo(gez.get(0).minedOres >= 25, a.c(-709099924, "︈螤ൠ錇ᢃ鹿\u2428귞㎊뤺㺭") + gez.get(0).minedOres);
       } else {
-         gec var31 = gez.get(0);
-         gec var33 = gez.get(1);
-         ggo(var31.minedOres >= 10, a.c(2042564770, "ႚ椪\ue3f8綘\uf600炬쫨䌏\udd03") + var31.minedOres);
-         ggo(var33.minedOres >= 10, a.b("\ue34a髺ါ蹈א荼㤸냟⻓", 2046747506) + var33.minedOres);
+         gec var32 = gez.get(0);
+         gec var34 = gez.get(1);
+         ggo(var32.minedOres >= 10, a.c(2042564770, "ႚ椪\ue3f8綘\uf600炬쫨䌏\udd03") + var32.minedOres);
+         ggo(var34.minedOres >= 10, a.b("\ue34a髺ါ蹈א荼㤸냟⻓", 2046747506) + var34.minedOres);
          ggo(
-            var31.events.stream().anyMatch(var0x -> var0x.startsWith(a.c(984170285, "㽒䛴찤剁\ud981弦\ue56e泆\uf288硷ﾯך謞"))),
+            var32.events.stream().anyMatch(var0x -> var0x.startsWith(a.c(984170285, "㽒䛴찤剁\ud981弦\ue56e泆\uf288硷ﾯך謞"))),
             a.d("മ璞﹖恳\uebe5流흆度샸䩈춊㞴륢\u209dꪇⱫ阣ᦡ荀Ԇ賲\uf6b7砓\ue3d4新", -1477220033, 1545102438)
          );
          ggo(
-            var33.events.stream().anyMatch(var0x -> var0x.startsWith(a.c(-2048182920, "㔇䲡왱堔폔啳\uef3b暓\uf8dd爢\uf5faྏ腋"))),
+            var34.events.stream().anyMatch(var0x -> var0x.startsWith(a.c(-2048182920, "㔇䲡왱堔폔啳\uef3b暓\uf8dd爢\uf5faྏ腋"))),
             a.b("ꆜ\ud82c勤쳁䝗쇳篴\uf214汊\ue6f9愸鬆ᗐ谯ص胙㪑딓⿲ꦴ⁀娅풡佦줂", -1181769237)
          );
       }
@@ -468,7 +467,7 @@ final class gef {
 
    private static boolean ggn(ClientPlayerEntity var0) {
       for (int var1 = 0; var1 < 36; var1++) {
-         if (var0.method_31548().method_5438(var1).method_31574(Items.field_22024)) {
+         if (var0.getInventory().getStack(var1).isOf(Items.NETHERITE_PICKAXE)) {
             return true;
          }
       }
@@ -484,43 +483,33 @@ final class gef {
    }
 
    private static void ggp(MinecraftServer var0, BlockPos var1, boolean var2) {
-      ServerWorld var3 = var0.method_30002();
+      ServerWorld var3 = var0.getOverworld();
       gez.clear();
       gfa.clear();
-      int var4 = var1.method_10264() + 10;
-      gfg = new BlockPos(var1.method_10263() + 100, var1.method_10264(), var1.method_10260() - 250);
+      int var4 = var1.getY() + 10;
+      gfg = new BlockPos(var1.getX() + 100, var1.getY(), var1.getZ() - 250);
 
-      for (int var5 = (gfg.method_10263() >> 4) - 2; var5 <= (gfg.method_10263() >> 4) + 2; var5++) {
-         for (int var6 = (gfg.method_10260() >> 4) - 2; var6 <= (gfg.method_10260() >> 4) + 2; var6++) {
-            var3.method_8497(var5, var6);
+      for (int var5 = (gfg.getX() >> 4) - 2; var5 <= (gfg.getX() >> 4) + 2; var5++) {
+         for (int var6 = (gfg.getZ() >> 4) - 2; var6 <= (gfg.getZ() >> 4) + 2; var6++) {
+            var3.getChunk(var5, var6);
          }
       }
 
       if (gel) {
-         gez.add(new gec(0, var1.method_10263(), var1.method_10260() + 40, var4, false, 8000L, 8000L, a.c(-1226431568, "➩帷풞䫣셎䟲\ufdde")));
+         gez.add(new gec(0, var1.getX(), var1.getZ() + 40, var4, false, 8000L, 8000L, a.c(-1226431568, "➩帷풞䫣셎䟲\ufdde")));
       } else if (var2) {
-         gez.add(
-            new gec(0, var1.method_10263(), var1.method_10260() + 40, var4, false, 120L, 1800L, a.b("햖갈⚡룜㍱뗍\u0fe1", 38523279), a.b("쓕뵀㟯ꧢ≊ꒉẮ霤ॱ莿", -466698045))
-         );
+         gez.add(new gec(0, var1.getX(), var1.getZ() + 40, var4, false, 120L, 1800L, a.b("햖갈⚡룜㍱뗍\u0fe1", 38523279), a.b("쓕뵀㟯ꧢ≊ꒉẮ霤ॱ莿", -466698045)));
       } else {
          gez.add(
             new gec(
-               101,
-               var1.method_10263(),
-               var1.method_10260() + 40,
-               var4,
-               false,
-               1000L,
-               2000L,
-               a.d("蟝﹈瓧\ueaea慂\ue781嶦퐬䩹삷", 1170327791, -568898780),
-               a.c(419298126, "ｗ蛉ౠ鈝ᦰ鼌┠")
+               101, var1.getX(), var1.getZ() + 40, var4, false, 1000L, 2000L, a.d("蟝﹈瓧\ueaea慂\ue781嶦퐬䩹삷", 1170327791, -568898780), a.c(419298126, "ｗ蛉ౠ鈝ᦰ鼌┠")
             )
          );
          gez.add(
             new gec(
                102,
-               var1.method_10263() + 220,
-               var1.method_10260() + 40,
+               var1.getX() + 220,
+               var1.getZ() + 40,
                var4,
                true,
                2400L,
@@ -532,8 +521,8 @@ final class gef {
          gez.add(
             new gec(
                103,
-               var1.method_10263() + 440,
-               var1.method_10260() + 40,
+               var1.getX() + 440,
+               var1.getZ() + 40,
                var4,
                false,
                4000L,
@@ -545,17 +534,17 @@ final class gef {
       }
 
       for (gec var11 : gez) {
-         ggv(var3, var11, var1.method_10264());
+         ggv(var3, var11, var1.getY());
       }
 
       if (gel) {
-         VillagerEntity var9 = (VillagerEntity)EntityType.field_6077.method_5883(var3, SpawnReason.field_16462);
+         VillagerEntity var9 = EntityType.VILLAGER.create(var3, SpawnReason.COMMAND);
          gec var12 = gez.get(0);
-         var9.method_5808(var12.cx + 0.5, var12.y0, var12.cz + 0.5, 0.0F, 0.0F);
-         var9.method_5977(true);
-         var9.method_5684(true);
-         var9.method_5803(true);
-         var3.method_8649(var9);
+         var9.refreshPositionAndAngles(var12.cx + 0.5, var12.y0, var12.cz + 0.5, 0.0F, 0.0F);
+         var9.setAiDisabled(true);
+         var9.setInvulnerable(true);
+         var9.setSilent(true);
+         var3.spawnEntity(var9);
          get = var9;
       }
 
@@ -563,7 +552,7 @@ final class gef {
          gfc = true;
          ServerTickEvents.END_SERVER_TICK.register(gef::ggt);
          PlayerBlockBreakEvents.BEFORE.register((Before)(var0x, var1x, var2x, var3x, var4x) -> {
-            if (gfd && !var0x.method_8608()) {
+            if (gfd && !var0x.isClient()) {
                for (gec var6x : gez) {
                   if (var6x.inMine(var2x)) {
                      return true;
@@ -571,21 +560,21 @@ final class gef {
                }
 
                gfk++;
-               gfb.add(a.b("ꎩ\uda1a僔캾䕸쏏禋\uf06b渵\ue4c0", -61496365) + var2x.method_23854() + a.d("둳", 1358619015, -62237227) + var3x.method_26204());
+               gfb.add(a.b("ꎩ\uda1a僔캾䕸쏏禋\uf06b渵\ue4c0", -61496365) + var2x.toShortString() + a.d("둳", 1358619015, -62237227) + var3x.getBlock());
                return false;
             } else {
                return true;
             }
          });
          PlayerBlockBreakEvents.AFTER.register((After)(var0x, var1x, var2x, var3x, var4x) -> {
-            if (gfd && !var0x.method_8608() && var1x instanceof ServerPlayerEntity var5x) {
+            if (gfd && !var0x.isClient() && var1x instanceof ServerPlayerEntity var5x) {
                for (gec var7x : gez) {
                   if (var7x.inMine(var2x)) {
                      if (geh) {
-                        System.out.println(a.b("О綮\uf779楞\ue2cb摪\ude24埑즀䍴", -648018841) + var2x.method_23854() + a.c(-831419046, "赹\uf49c縆") + gfe);
+                        System.out.println(a.b("О綮\uf779楞\ue2cb摪\ude24埑즀䍴", -648018841) + var2x.toShortString() + a.c(-831419046, "赹\uf49c縆") + gfe);
                      }
 
-                     ggi = Math.min(ggi, var2x.method_10264());
+                     ggi = Math.min(ggi, var2x.getY());
                      ggr(var7x, var3x);
                      ggs((ServerWorld)var0x, var5x, var7x, var2x);
                   }
@@ -594,13 +583,13 @@ final class gef {
          });
       }
 
-      CommandDispatcher var10 = var0.method_3734().method_9235();
+      CommandDispatcher var10 = var0.getCommandManager().getDispatcher();
 
       for (gec var7 : gez) {
-         var10.register((LiteralArgumentBuilder)CommandManager.method_9247(a.d("콤뛚", 312840183, -1160494864) + var7.id).executes(var1x -> {
-            ServerPlayerEntity var2x = ((ServerCommandSource)var1x.getSource()).method_9207();
+         var10.register((LiteralArgumentBuilder)CommandManager.literal(a.d("콤뛚", 312840183, -1160494864) + var7.id).executes(var1x -> {
+            ServerPlayerEntity var2x = ((ServerCommandSource)var1x.getSource()).getPlayerOrThrow();
             if (gff == var7) {
-               var2x.method_64398(Text.method_43470(a.b("木ṝ郿໗腫ι릟ねꨧ⒋ꍕ契\ud7fd乆쐙䊒\uf8aa眏\uedb1澌\ue266頺ኙ败୕臸㡉누Ⲓꪷⅱ\udfd2喚찞䨸쒝", -692426837)));
+               var2x.sendMessage(Text.literal(a.b("木ṝ郿໗腫ι릟ねꨧ⒋ꍕ契\ud7fd乆쐙䊒\uf8aa眏\uedb1澌\ue266頺ኙ败୕臸㡉누Ⲓꪷⅱ\udfd2喚찞䨸쒝", -692426837)));
                return 1;
             } else {
                gfh = var7;
@@ -611,42 +600,40 @@ final class gef {
       }
 
       var10.register(
-         (LiteralArgumentBuilder)CommandManager.method_9247(a.c(-554375817, "\ue504鲣ᙣ蠐"))
+         (LiteralArgumentBuilder)CommandManager.literal(a.c(-554375817, "\ue504鲣ᙣ蠐"))
             .then(
-               CommandManager.method_9247(a.d("쒽봈㟜ꦦ", -1597473755, -2145601295))
+               CommandManager.literal(a.d("쒽봈㟜ꦦ", -1597473755, -2145601295))
                   .executes(
                      var0x -> {
-                        ServerPlayerEntity var1x = ((ServerCommandSource)var0x.getSource()).method_9207();
+                        ServerPlayerEntity var1x = ((ServerCommandSource)var0x.getSource()).getPlayerOrThrow();
                         if (gfj >= 0L) {
                            gfl++;
                            gfb.add(a.d("㠡䇙", -2035115413, 421372476) + gfe / 20.0 + a.b("圓⻑ꐔ㩣놸㜈赑ӄ髬။鞋淸\ue35f窹\uf0f5瘅챏䎗\ud961彤횂곚≠릤㿄딈ಽ英᠁鹙", 1586517805));
                         }
 
                         gfj = gfe + 140L;
-                        var1x.method_64398(Text.method_43470(a.b("訛\uf33b彿\ue78f泟\ueaaf咅\udd5e䍴즰乪됒㪹ꍴ⤯꿛ᖙ鹝ó蚯ୈ甋﮺怛\ue61b棕퇡彲얍䏘졬㚶밻┋ꌐ", -1861121377)));
-                        var1x.method_64398(
-                           Text.method_43470(a.b("ୀ爵\uf8de䁕\ued7e殲헣尅쉔䣫켲㕂믫≘\ua879\u2efe铏᭩薴Ϥ誔\uf004竎\ue135朿\ued9b吡\uda79䃲웟䵤뎰㧲ꐖ☢곡ፃ饇ᾖ舰ࣨ盟ﳚ筼\ue5ca每툓", -118551608))
+                        var1x.sendMessage(Text.literal(a.b("訛\uf33b彿\ue78f泟\ueaaf咅\udd5e䍴즰乪됒㪹ꍴ⤯꿛ᖙ鹝ó蚯ୈ甋﮺怛\ue61b棕퇡彲얍䏘졬㚶밻┋ꌐ", -1861121377)));
+                        var1x.sendMessage(
+                           Text.literal(a.b("ୀ爵\uf8de䁕\ued7e殲헣尅쉔䣫켲㕂믫≘\ua879\u2efe铏᭩薴Ϥ誔\uf004竎\ue135朿\ued9b吡\uda79䃲웟䵤뎰㧲ꐖ☢곡ፃ饇ᾖ舰ࣨ盟ﳚ筼\ue5ca每툓", -118551608))
                         );
-                        var1x.method_64398(
-                           Text.method_43470(
-                              a.d("彺☏곤ᑯ륄㾈臩࠷陭᳘鬇慻\uefa9瘕\uf852红쑪䭺햲友\ude29ꁧ⻕딁㌆맓\u0017蹏ᓃ鋥ᵃ\ue315榞\uf44f爟\uf8d0䜄쥨似홌塋⛆ꣷ⭞놂㾀蘭ಘ諓ᄎ魮", -590989279, 1566205903)
-                           )
+                        var1x.sendMessage(
+                           Text.literal(a.d("彺☏곤ᑯ륄㾈臩࠷陭᳘鬇慻\uefa9瘕\uf852红쑪䭺햲友\ude29ꁧ⻕딁㌆맓\u0017蹏ᓃ鋥ᵃ\ue315榞\uf44f爟\uf8d0䜄쥨似홌塋⛆ꣷ⭞놂㾀蘭ಘ諓ᄎ魮", -590989279, 1566205903))
                         );
-                        var1x.method_64398(Text.method_43470(a.d("\uecbf闊\u1f5a脫ૼ豍㘞뿯↰ꬁⲩ튝尖엙侃쥺猰ﲛ昦\ue41b榎Ꭸ鴕ۊ肿੯뎢㷱ꌙ", 1408165053, 1252591800)));
+                        var1x.sendMessage(Text.literal(a.d("\uecbf闊\u1f5a脫ૼ豍㘞뿯↰ꬁⲩ튝尖엙侃쥺猰ﲛ昦\ue41b榎Ꭸ鴕ۊ肿੯뎢㷱ꌙ", 1408165053, 1252591800)));
                         return 1;
                      }
                   )
             )
       );
       var10.register(
-         (LiteralArgumentBuilder)CommandManager.method_9247(a.d("⸇垹\udd35䍅좖", -275467316, 1988795823))
+         (LiteralArgumentBuilder)CommandManager.literal(a.d("⸇垹\udd35䍅좖", -275467316, 1988795823))
             .executes(
                var0x -> {
                   gfm++;
                   ((ServerCommandSource)var0x.getSource())
-                     .method_9207()
-                     .method_64398(
-                        Text.method_43470(
+                     .getPlayerOrThrow()
+                     .sendMessage(
+                        Text.literal(
                            a.b(
                               "ὄ昱\ue8a0盅ﵧ箤쇰䡴퉋峧\udb39╘꾕㘠및㪂肳ཀྵ閨០騥\ue02d櫵\uf53b猰裡䀩칽哽틛夜Ꟁ⧣됍㉟룤ܽ赍௫鉓ᡳ書\ueca5欙\uf1c0篞옟䢼쫧儲\udf4c▝걜⩿뒕㻘蕥ζ觌ပ黝\ue0ee挀\ue959瞗︬䐀싲䢤흩嶰\udbc9☊",
                               1783832490
@@ -657,9 +644,9 @@ final class gef {
                }
             )
       );
-      ServerPlayerEntity var14 = var0.method_3760().method_14566(gfn);
+      ServerPlayerEntity var14 = var0.getPlayerManager().getPlayer(gfn);
       if (var14 != null) {
-         var0.method_3760().method_14576(var14);
+         var0.getPlayerManager().sendCommandTree(var14);
          ggq(var0, var14);
       }
    }
@@ -671,7 +658,7 @@ final class gef {
          for (Field var6 : ServerCommonNetworkHandler.class.getDeclaredFields()) {
             if (var6.getType() == ClientConnection.class) {
                var6.setAccessible(true);
-               var2 = (ClientConnection)var6.get(var1.field_13987);
+               var2 = (ClientConnection)var6.get(var1.networkHandler);
             }
          }
 
@@ -690,15 +677,15 @@ final class gef {
                a.d("┸岃홓䠺쎨䕴５盠\ue8b8戂\ue5ebᾷ酷ࣀ芟ѳ븪ㇺꭞ", -1715231539, -1686732416),
                new ChannelInboundHandlerAdapter() {
                   public void channelRead(ChannelHandlerContext var1, Object var2x) throws Exception {
-                     if (var2x instanceof PlayerMoveC2SPacket var3 && var3.method_36172()) {
-                        float var4 = var3.method_12271(0.0F);
-                        float var5 = var3.method_12270(0.0F);
+                     if (var2x instanceof PlayerMoveC2SPacket var3 && var3.changesLook()) {
+                        float var4 = var3.getYaw(0.0F);
+                        float var5 = var3.getPitch(0.0F);
                         if (gef.gfe < gef.gfz) {
                            gef.gfy = false;
                         } else if (gef.gfy && gef.gfd) {
-                           double var6x = MathHelper.method_15393(var4 - gef.gfw);
-                           double var8x = var5 - gef.gfx;
-                           double var10 = Math.sqrt(var6x * var6x + var8x * var8x);
+                           double var6 = MathHelper.wrapDegrees(var4 - gef.gfw);
+                           double var8 = var5 - gef.gfx;
+                           double var10 = Math.sqrt(var6 * var6 + var8 * var8);
                            gef.gfv.add(var10);
                            if (var10 > 30.0) {
                               System.out
@@ -726,9 +713,9 @@ final class gef {
                         gef.gfy = true;
                      }
 
-                     if (var2x instanceof PlayerActionC2SPacket var12 && var12.method_12363() == Action.field_12968) {
-                        gef.gej = var12.method_12362().method_10062();
-                        gef.gek = var12.method_12360();
+                     if (var2x instanceof PlayerActionC2SPacket var12 && var12.getAction() == Action.START_DESTROY_BLOCK) {
+                        gef.gej = var12.getPos().toImmutable();
+                        gef.gek = var12.getDirection();
                         if (gef.gfd) {
                            gef.gew++;
                         }
@@ -741,21 +728,21 @@ final class gef {
                      if (gef.geh && var2x instanceof PlayerActionC2SPacket var13) {
                         var0.execute(
                            () -> {
-                              ServerPlayerEntity var2xx = var0.method_3760().method_14566(gef.gfn);
-                              BlockState var3x = var2xx.method_51469().method_8320(var13.method_12362());
+                              ServerPlayerEntity var2x = var0.getPlayerManager().getPlayer(gef.gfn);
+                              BlockState var3x = var2x.getEntityWorld().getBlockState(var13.getPos());
                               System.out
                                  .println(
                                     String.format(
                                        Locale.ROOT,
                                        a.c(341530865, "墺ℊꯝ㗺븨㣏苏\u0b3b锲ῐ顗扯\ueca0畐ｇ秲쎼䱤훏傋\ud920ꍩⷑ똝〷몠͔贐\u17fa醱ᨙ\ue4c2滔\uf73d焸ﯚ䑅츽䣡텚孜▵꾰⡒닁㲽蕴࿂规ል鱵暸\uef5b楌\uf3ba綽"),
-                                       var13.method_12363(),
-                                       var13.method_12362().method_23854(),
+                                       var13.getAction(),
+                                       var13.getPos().toShortString(),
                                        gef.gfe,
-                                       var3x.method_26165(var2xx, var2xx.method_51469(), var13.method_12362()),
-                                       var2xx.method_24828(),
-                                       var2xx.method_6047().method_7909(),
-                                       Math.sqrt(new Box(var13.method_12362()).method_49271(var2xx.method_33571())),
-                                       var3x.method_26204()
+                                       var3x.calcBlockBreakingDelta(var2x, var2x.getEntityWorld(), var13.getPos()),
+                                       var2x.isOnGround(),
+                                       var2x.getMainHandStack().getItem(),
+                                       Math.sqrt(new Box(var13.getPos()).squaredMagnitude(var2x.getEyePos())),
+                                       var3x.getBlock()
                                     )
                                  );
                            }
@@ -773,7 +760,7 @@ final class gef {
 
    private static void ggr(gec var0, BlockState var1) {
       var0.mined++;
-      String var2 = Registries.field_41175.method_10221(var1.method_26204()).method_12832();
+      String var2 = Registries.BLOCK.getId(var1.getBlock()).getPath();
       if (var2.endsWith(a.b("ⲉ唵\udfee䆓쩆䳶\uf6af罥\ue10a殦\uec62", 457518310))) {
          var0.minedDiamonds++;
       }
@@ -793,37 +780,37 @@ final class gef {
 
    private static void ggs(ServerWorld var0, ServerPlayerEntity var1, gec var2, BlockPos var3) {
       if (!gei.equals(a.c(1392639718, "ﺌ蜼෮鎔"))) {
-         float var4 = var1.method_36455();
+         float var4 = var1.getPitch();
          ArrayList var5 = new ArrayList();
-         float var6 = MathHelper.method_15393(var1.method_36454());
+         float var6 = MathHelper.wrapDegrees(var1.getYaw());
          boolean var7 = Math.abs(var6) < 45.0F || Math.abs(var6) > 135.0F;
-         Axis var8 = Math.abs(var4) > 50.0F ? Axis.field_11052 : (var7 ? Axis.field_11051 : Axis.field_11048);
+         Axis var8 = Math.abs(var4) > 50.0F ? Axis.Y : (var7 ? Axis.Z : Axis.X);
          if (gei.equals(a.b("\udda2ꐔ⻅낲", 1133632960)) && var3.equals(gej) && gek != null) {
-            var8 = gek.method_10166();
+            var8 = gek.getAxis();
          }
 
          for (int var9 = -1; var9 <= 1; var9++) {
             for (int var10 = -1; var10 <= 1; var10++) {
                if (var9 != 0 || var10 != 0) {
-                  if (var8 == Axis.field_11052) {
-                     var5.add(var3.method_10069(var9, 0, var10));
-                  } else if (var8 == Axis.field_11051) {
-                     var5.add(var3.method_10069(var9, var10, 0));
+                  if (var8 == Axis.Y) {
+                     var5.add(var3.add(var9, 0, var10));
+                  } else if (var8 == Axis.Z) {
+                     var5.add(var3.add(var9, var10, 0));
                   } else {
-                     var5.add(var3.method_10069(0, var10, var9));
+                     var5.add(var3.add(0, var10, var9));
                   }
                }
             }
          }
 
          for (BlockPos var15 : var5) {
-            BlockState var11 = var0.method_8320(var15);
-            if (var2.inMine(var15) && !var11.method_26215()) {
-               for (ItemStack var13 : Block.method_9609(var11, var0, var15, null, var1, var1.method_6047())) {
-                  var1.method_31548().method_7394(var13);
+            BlockState var11 = var0.getBlockState(var15);
+            if (var2.inMine(var15) && !var11.isAir()) {
+               for (ItemStack var13 : Block.getDroppedStacks(var11, var0, var15, null, var1, var1.getMainHandStack())) {
+                  var1.getInventory().insertStack(var13);
                }
 
-               var0.method_8652(var15, Blocks.field_10124.method_9564(), 3);
+               var0.setBlockState(var15, Blocks.AIR.getDefaultState(), 3);
                ggr(var2, var11);
             }
          }
@@ -833,8 +820,8 @@ final class gef {
    private static void ggt(MinecraftServer var0) {
       if (gfd || !gez.isEmpty()) {
          gfe++;
-         ServerWorld var1 = var0.method_30002();
-         ServerPlayerEntity var2 = gfn == null ? null : var0.method_3760().method_14566(gfn);
+         ServerWorld var1 = var0.getOverworld();
+         ServerPlayerEntity var2 = gfn == null ? null : var0.getPlayerManager().getPlayer(gfn);
          if (gfi >= 0L && gfe >= gfi && var2 != null) {
             gfi = -1L;
             gff = gfh;
@@ -846,7 +833,7 @@ final class gef {
             gfj = -1L;
             if (gff != null) {
                ggz(var0, gff.warp, 180.0F, 15.0F);
-               var2.method_6092(new StatusEffectInstance(StatusEffects.field_5919, 50, 0));
+               var2.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0));
                gfb.add(a.b("赪\uf492", 934710556) + gfe / 20.0 + a.c(1077131345, "롹솟䭚픸廭\ud849戛\uebae") + gff.id);
             }
          }
@@ -865,12 +852,12 @@ final class gef {
                for (int var7 = var3.cx - 8; var7 <= var3.cx + 8; var7++) {
                   for (int var8 = var3.cz - 8; var8 <= var3.cz + 8; var8++) {
                      for (int var9 = var3.y0 - gen; var9 <= var3.y0 - 1; var9++) {
-                        BlockState var10 = var1.method_8320(new BlockPos(var7, var9, var8));
-                        if (var10.method_27852(Blocks.field_10442)) {
+                        BlockState var10 = var1.getBlockState(new BlockPos(var7, var9, var8));
+                        if (var10.isOf(Blocks.DIAMOND_ORE)) {
                            var5++;
                         }
 
-                        if (!var10.method_26215()) {
+                        if (!var10.isAir()) {
                            var4++;
                            if (var6.size() < 80) {
                               var6.add(var7 - var3.cx + a.c(-68451006, "蕯") + (var9 - var3.y0) + a.c(1598297430, "ᕻ") + (var8 - var3.cz));
@@ -888,8 +875,8 @@ final class gef {
                geq = var4;
                ges = var5;
                if (get != null && var2 != null && gfe % 40L == 0L) {
-                  Vec3d var17 = var2.method_5720().method_18805(1.0, 0.0, 1.0).method_1029();
-                  get.method_5808(var2.method_23317() + var17.field_1352 * 1.6, var2.method_23318(), var2.method_23321() + var17.field_1350 * 1.6, 0.0F, 0.0F);
+                  Vec3d var17 = var2.getRotationVector().multiply(1.0, 0.0, 1.0).normalize();
+                  get.refreshPositionAndAngles(var2.getX() + var17.x * 1.6, var2.getY(), var2.getZ() + var17.z * 1.6, 0.0F, 0.0F);
                }
 
                int var18 = 289 * gen;
@@ -917,7 +904,7 @@ final class gef {
                   var14.tierAt++;
                   var14.refreshes++;
                   ggw(var1, var14, new Random(var14.id * 31L + var14.refreshes), 0.0);
-                  String var15 = var2 != null && var2.method_24515().method_19771(var14.warp, 30.0) ? a.c(2047603691, "\uf381註ì麎") : a.c(874314334, "層莜ख़霰");
+                  String var15 = var2 != null && var2.getBlockPos().isWithinDistance(var14.warp, 30.0) ? a.c(2047603691, "\uf381註ì麎") : a.c(874314334, "層莜ख़霰");
                   var14.events
                      .add(
                         a.b("檍ጫ駻ޞ豞ૹ낱", 1518365432)
@@ -944,13 +931,13 @@ final class gef {
    private static void ggu(ServerWorld var0, ServerPlayerEntity var1, gec var2) {
       Box var3 = new Box(var2.cx - 8 - 2, var2.y0 - gen - 2, var2.cz - 8 - 2, var2.cx + 8 + 3, var2.y0 + 4, var2.cz + 8 + 3);
 
-      for (ItemEntity var5 : var0.method_8390(ItemEntity.class, var3, var0x -> var0x.method_24921() == null)) {
-         ItemStack var6 = var5.method_6983().method_7972();
-         var1.method_31548().method_7394(var6);
-         if (var6.method_7960()) {
-            var5.method_31472();
+      for (ItemEntity var5 : var0.getEntitiesByClass(ItemEntity.class, var3, var0x -> var0x.getOwner() == null)) {
+         ItemStack var6 = var5.getStack().copy();
+         var1.getInventory().insertStack(var6);
+         if (var6.isEmpty()) {
+            var5.discard();
          } else {
-            var5.method_6979(var6);
+            var5.setStack(var6);
          }
       }
    }
@@ -958,13 +945,13 @@ final class gef {
    private static void ggv(ServerWorld var0, gec var1, int var2) {
       for (int var3 = var1.cx - 40 >> 4; var3 <= var1.cx + 40 >> 4; var3++) {
          for (int var4 = var1.cz - 140 >> 4; var4 <= var1.cz + 40 >> 4; var4++) {
-            var0.method_8497(var3, var4);
+            var0.getChunk(var3, var4);
          }
       }
 
       for (int var15 = var1.cx - 8 - 6 >> 4; var15 <= var1.cx + 8 + 6 >> 4; var15++) {
          for (int var17 = var1.cz - 8 - 6 >> 4; var17 <= var1.cz + 8 + 6 >> 4; var17++) {
-            var0.method_17988(var15, var17, true);
+            var0.setChunkForced(var15, var17, true);
          }
       }
 
@@ -974,14 +961,14 @@ final class gef {
          for (int var5 = var1.cz - var16; var5 <= var1.cz + var16; var5++) {
             for (int var6 = var1.y0 - gen - 1; var6 <= var1.y0 + 5; var6++) {
                boolean var7 = Math.abs(var18 - var1.cx) == var16 || Math.abs(var5 - var1.cz) == var16;
-               BlockState var8 = Blocks.field_10124.method_9564();
+               BlockState var8 = Blocks.AIR.getDefaultState();
                if (var6 < var1.y0) {
-                  var8 = Blocks.field_10056.method_9564();
+                  var8 = Blocks.STONE_BRICKS.getDefaultState();
                } else if (var7 && var6 <= var1.y0 + 2 && (var5 != var1.cz + var16 || Math.abs(var18 - var1.cx) > 1)) {
-                  var8 = Blocks.field_10056.method_9564();
+                  var8 = Blocks.STONE_BRICKS.getDefaultState();
                }
 
-               var0.method_8652(new BlockPos(var18, var6, var5), var8, 3);
+               var0.setBlockState(new BlockPos(var18, var6, var5), var8, 3);
             }
          }
       }
@@ -993,7 +980,7 @@ final class gef {
          for (int var19 = var1.cx - 8; var19 <= var1.cx + 8; var19++) {
             for (int var21 = var1.cz - 8; var21 <= var1.cz + 8; var21++) {
                for (int var25 = var1.y0 - gen; var25 <= var1.y0 - 1; var25++) {
-                  if (var0.method_8320(new BlockPos(var19, var25, var21)).method_27852(Blocks.field_10442)) {
+                  if (var0.getBlockState(new BlockPos(var19, var25, var21)).isOf(Blocks.DIAMOND_ORE)) {
                      ger++;
                   }
                }
@@ -1010,16 +997,16 @@ final class gef {
       };
 
       for (BlockPos var30 : var20) {
-         var0.method_8652(var30, Blocks.field_10442.method_9564(), 3);
+         var0.setBlockState(var30, Blocks.DIAMOND_ORE.getDefaultState(), 3);
          gfa.add(var30);
       }
 
       var1.warp = new BlockPos(var1.cx, var1.y0, var1.cz + 8 + 2);
       var1.spawn = var1.id != 101 && var1.id != 0 ? new BlockPos(var1.cx + 3, var1.y0, var1.cz + 8 + 4 + 18) : new BlockPos(var1.cx, var2, var1.cz - 100);
       if (var1.id != 101 && var1.id != 0) {
-         for (int var23 = var1.spawn.method_10263() - 3; var23 <= var1.spawn.method_10263() + 3; var23++) {
-            for (int var27 = var1.spawn.method_10260() - 3; var27 <= var1.spawn.method_10260() + 3; var27++) {
-               var0.method_8652(new BlockPos(var23, var1.y0 - 1, var27), Blocks.field_10566.method_9564(), 3);
+         for (int var23 = var1.spawn.getX() - 3; var23 <= var1.spawn.getX() + 3; var23++) {
+            for (int var27 = var1.spawn.getZ() - 3; var27 <= var1.spawn.getZ() + 3; var27++) {
+               var0.setBlockState(new BlockPos(var23, var1.y0 - 1, var27), Blocks.DIRT.getDefaultState(), 3);
             }
          }
       }
@@ -1030,9 +1017,9 @@ final class gef {
       if (var1.armor) {
          for (int var11 = 0; var11 < 4; var11++) {
             ArmorStandEntity var12 = new ArmorStandEntity(var0, var24, var29 + 0.27 * (3 - var11), var9);
-            var12.method_5648(true);
-            var12.method_5875(true);
-            var12.method_5880(true);
+            var12.setInvisible(true);
+            var12.setNoGravity(true);
+            var12.setCustomNameVisible(true);
 
             try {
                Method var13 = ArmorStandEntity.class.getDeclaredMethod(a.b("慀ᣧ鈥౭螖Ĵ뭾㊁곉", 1131569466), boolean.class);
@@ -1042,13 +1029,13 @@ final class gef {
                throw new RuntimeException(var14);
             }
 
-            var0.method_8649(var12);
+            var0.spawnEntity(var12);
             var1.labels.add(var12);
          }
       } else {
-         TextDisplayEntity var31 = (TextDisplayEntity)EntityType.field_42457.method_5883(var0, SpawnReason.field_16462);
-         var31.method_5808(var24, var29, var9, 0.0F, 0.0F);
-         var0.method_8649(var31);
+         TextDisplayEntity var31 = EntityType.TEXT_DISPLAY.create(var0, SpawnReason.COMMAND);
+         var31.refreshPositionAndAngles(var24, var29, var9, 0.0F, 0.0F);
+         var0.spawnEntity(var31);
          var1.labels.add(var31);
       }
 
@@ -1056,7 +1043,7 @@ final class gef {
    }
 
    private static void ggw(ServerWorld var0, gec var1, Random var2, double var3) {
-      Block[] var5 = new Block[]{Blocks.field_10418, Blocks.field_10212, Blocks.field_10571, Blocks.field_10080, Blocks.field_10090, Blocks.field_10442};
+      Block[] var5 = new Block[]{Blocks.COAL_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.LAPIS_ORE, Blocks.DIAMOND_ORE};
       double[] var6 = new double[]{0.04, 0.035, 0.025, 0.02, 0.018, 0.012};
 
       for (int var7 = var1.cx - 8; var7 <= var1.cx + 8; var7++) {
@@ -1065,7 +1052,7 @@ final class gef {
                double var10 = (double)(var1.y0 - 1 - var9) / gen;
                BlockState var12;
                if (var3 > 0.0 && var2.nextDouble() < var3 * (1.0 - var10)) {
-                  var12 = Blocks.field_10124.method_9564();
+                  var12 = Blocks.AIR.getDefaultState();
                } else {
                   double var13 = var2.nextDouble();
                   Block var15 = null;
@@ -1081,13 +1068,13 @@ final class gef {
 
                   if (var15 == null) {
                      double var20 = var2.nextDouble();
-                     var15 = var20 < 0.35 ? Blocks.field_10474 : (var20 < 0.68 ? Blocks.field_10445 : Blocks.field_10508);
+                     var15 = var20 < 0.35 ? Blocks.GRANITE : (var20 < 0.68 ? Blocks.COBBLESTONE : Blocks.DIORITE);
                   }
 
-                  var12 = var15.method_9564();
+                  var12 = var15.getDefaultState();
                }
 
-               var0.method_8652(new BlockPos(var7, var9, var8), var12, 3);
+               var0.setBlockState(new BlockPos(var7, var9, var8), var12, 3);
             }
          }
       }
@@ -1109,10 +1096,10 @@ final class gef {
       };
       if (var0.armor) {
          for (int var7 = 0; var7 < 4 && var7 < var0.labels.size(); var7++) {
-            var0.labels.get(var7).method_5665(Text.method_43470(var6[var7]));
+            var0.labels.get(var7).setCustomName(Text.literal(var6[var7]));
          }
       } else if (!var0.labels.isEmpty()) {
-         ggy((TextDisplayEntity)var0.labels.get(0), Text.method_43470(String.join(a.d("肼", -1584902860, -413741693), var6)));
+         ggy((TextDisplayEntity)var0.labels.get(0), Text.literal(String.join(a.d("肼", -1584902860, -413741693), var6)));
       }
    }
 
@@ -1123,7 +1110,7 @@ final class gef {
                try {
                   var5.setAccessible(true);
                   TrackedData var6 = (TrackedData)var5.get(null);
-                  if (var6.comp_2328() == TrackedDataHandlerRegistry.field_13317) {
+                  if (var6.dataType() == TrackedDataHandlerRegistry.TEXT_COMPONENT) {
                      gfo = var6;
                      break;
                   }
@@ -1134,22 +1121,22 @@ final class gef {
          }
       }
 
-      var0.method_5841().method_12778(gfo, var1);
+      var0.getDataTracker().set(gfo, var1);
    }
 
    private static void ggz(MinecraftServer var0, BlockPos var1, float var2, float var3) {
       gfy = false;
       gfz = gfe + 20L;
-      var0.method_3734()
-         .method_44252(
-            var0.method_3739(),
+      var0.getCommandManager()
+         .parseAndExecute(
+            var0.getCommandSource(),
             String.format(
                Locale.ROOT,
                a.d("㍞䫫쁨帜햝卿\ue929惓ﺓ瑵\uf3e0ঔ蜂ỷ钡ቛꠋ➍뵸㬬닐좟䙺\udded宗텍棠\ue6e7", 1665173619, -1577075899),
                gfn,
-               var1.method_10263() + 0.5,
-               var1.method_10264(),
-               var1.method_10260() + 0.5,
+               var1.getX() + 0.5,
+               var1.getY(),
+               var1.getZ() + 0.5,
                var2,
                var3
             )
@@ -1181,22 +1168,22 @@ final class gef {
       for (Field var4 : Mouse.class.getDeclaredFields()) {
          if (var4.getName().equals(a.c(1445306881, "ꉮ\udbc9儝콭䒦숊硧\uf1b5濦\ue55f抂飲"))) {
             var4.setAccessible(true);
-            var4.setBoolean(var0.field_1729, true);
+            var4.setBoolean(var0.mouse, true);
          }
       }
    }
 
    private static void ghd(MinecraftClient var0, String var1) {
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(-782319865, "뽧웜䰌퉥姷\udf59") + var1 + a.d("譂\uf2ad硠\ue618", -1649406285, -78674469),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );
    }
 
    private static void ghe(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

@@ -34,19 +34,19 @@ public class lwq extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       this.lwv();
-      ClientPlayerEntity var2 = var1.field_1724;
-      PlayerAbilities var3 = var2.method_31549();
-      if (var3.field_7479 && !var2.method_7325() && !var2.method_5765() && var2.field_6235 <= 0 && !ovh.active() && !lqq.busy()) {
-         GameOptions var4 = var1.field_1690;
-         double var5 = lww(var4.field_1894.method_1434(), var4.field_1881.method_1434());
-         double var7 = lww(var4.field_1913.method_1434(), var4.field_1849.method_1434());
-         double var9 = lww(var4.field_1903.method_1434(), var4.field_1832.method_1434());
+      ClientPlayerEntity var2 = var1.player;
+      PlayerAbilities var3 = var2.getAbilities();
+      if (var3.flying && !var2.isSpectator() && !var2.hasVehicle() && var2.hurtTime <= 0 && !ovh.active() && !lqq.busy()) {
+         GameOptions var4 = var1.options;
+         double var5 = lww(var4.forwardKey.isPressed(), var4.backKey.isPressed());
+         double var7 = lww(var4.leftKey.isPressed(), var4.rightKey.isPressed());
+         double var9 = lww(var4.jumpKey.isPressed(), var4.sneakKey.isPressed());
          double var11 = 0.0;
          double var13 = 0.0;
          double var15 = Math.hypot(var5, var7);
          if (var15 > 0.0) {
             double var17 = 2.0 / var15;
-            double var19 = Math.toRadians(var2.method_36454());
+            double var19 = Math.toRadians(var2.getYaw());
             double var21 = Math.sin(var19);
             double var23 = Math.cos(var19);
             var11 = (var7 * var23 - var5 * var21) * var17;
@@ -55,11 +55,11 @@ public class lwq extends kfe {
 
          double var25 = var9 * 25.0 / 20.0;
          Vec3d var26 = new Vec3d(var11, var25, var13);
-         double var20 = var26.method_1033();
-         var2.method_18799(var20 > 9.5 ? var26.method_1021(9.5 / var20) : var26);
+         double var20 = var26.length();
+         var2.setVelocity(var20 > 9.5 ? var26.multiply(9.5 / var20) : var26);
          this.lwr = var3;
-         this.lws = var3.method_7252();
-         var3.method_7248(0.0F);
+         this.lws = var3.getFlySpeed();
+         var3.setFlySpeed(0.0F);
       }
    }
 
@@ -70,7 +70,7 @@ public class lwq extends kfe {
 
    private void lwv() {
       if (this.lwr != null) {
-         this.lwr.method_7248(this.lws);
+         this.lwr.setFlySpeed(this.lws);
          this.lwr = null;
       }
    }

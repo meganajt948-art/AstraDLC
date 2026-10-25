@@ -37,16 +37,16 @@ public final class fzl {
                         + (System.currentTimeMillis() - var4x)
                         + a.c(360838496, "\uf55c負٭顏᎐镽⼲ꛎ㣔눩㗹쾆䅔\ud8e4加퐃清\ue1ce笮ﴻ瓇ທ耯ᮻ鶊\u175a껱\u20fe")
                   );
-               MinecraftClient var6 = MinecraftClient.method_1551();
+               MinecraftClient var6 = MinecraftClient.getInstance();
 
                for (int var7 = 0; var7 < var3; var7++) {
                   fzp(1000L);
                   int var8 = var7;
                   var6.execute(
-                     () -> ScreenshotRecorder.method_22690(
-                        var6.field_1697,
+                     () -> ScreenshotRecorder.saveScreenshot(
+                        var6.runDirectory,
                         a.b("赫\uf4d0縀\ue069毻\ued55坂\udeb4䃯쩑䶄럢㥬", 1400147200) + var8 + a.c(2027250248, "扢ᮍ酀༸"),
-                        var6.method_1522(),
+                        var6.getFramebuffer(),
                         1,
                         var0xxx -> {}
                      )

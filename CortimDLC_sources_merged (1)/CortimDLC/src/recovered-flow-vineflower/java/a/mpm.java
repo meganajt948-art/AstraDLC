@@ -20,7 +20,7 @@ enum mpm {
 
    private final String mpn;
 
-   private mpm(String var3) {
+   mpm(String var3) {
       this.mpn = var3;
    }
 }

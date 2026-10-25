@@ -30,30 +30,18 @@ public final class vbb {
    public static final int UNIFORM_SIZE = 1328;
    public static final int SEASON_UNIFORM_SIZE = 1408;
    public static final int HEIGHT_SIZE = 128;
-   @Nullable
-   private static GpuTexture vbc;
-   @Nullable
-   private static GpuTextureView vbd;
-   @Nullable
-   private static GpuTexture vbe;
-   @Nullable
-   private static GpuTextureView vbf;
-   @Nullable
-   private static GpuTexture vbg;
-   @Nullable
-   private static GpuTextureView vbh;
-   @Nullable
-   private static GpuBuffer vbi;
-   @Nullable
-   private static GpuBuffer vbj;
-   @Nullable
-   private static GpuTexture vbk;
-   @Nullable
-   private static GpuTextureView vbl;
-   @Nullable
-   private static GpuTexture vbm;
-   @Nullable
-   private static GpuTextureView vbn;
+   private static @Nullable GpuTexture vbc;
+   private static @Nullable GpuTextureView vbd;
+   private static @Nullable GpuTexture vbe;
+   private static @Nullable GpuTextureView vbf;
+   private static @Nullable GpuTexture vbg;
+   private static @Nullable GpuTextureView vbh;
+   private static @Nullable GpuBuffer vbi;
+   private static @Nullable GpuBuffer vbj;
+   private static @Nullable GpuTexture vbk;
+   private static @Nullable GpuTextureView vbl;
+   private static @Nullable GpuTexture vbm;
+   private static @Nullable GpuTextureView vbn;
    private static int vbo = -1;
    private static int vbp = -1;
    private static int vbq = -1;
@@ -78,8 +66,7 @@ public final class vbb {
       return vcc(uvq.SEASON, true, 1408, "FlowSeason", var0);
    }
 
-   @Nullable
-   public static GpuTextureView heightView() {
+   public static @Nullable GpuTextureView heightView() {
       return vbh;
    }
 
@@ -91,13 +78,11 @@ public final class vbb {
       return vbf;
    }
 
-   @Nullable
-   public static GpuTextureView terrainDepthView() {
+   public static @Nullable GpuTextureView terrainDepthView() {
       return vbl;
    }
 
-   @Nullable
-   public static GpuTextureView entityDepthView() {
+   public static @Nullable GpuTextureView entityDepthView() {
       return vbn;
    }
 
@@ -115,19 +100,19 @@ public final class vbb {
    }
 
    public static boolean entityMask() {
-      Framebuffer var0 = MinecraftClient.method_1551().method_1522();
-      return vbt && vbu && vbn != null && vbq == var0.field_1482 && vbr == var0.field_1481;
+      Framebuffer var0 = MinecraftClient.getInstance().getFramebuffer();
+      return vbt && vbu && vbn != null && vbq == var0.textureWidth && vbr == var0.textureHeight;
    }
 
    public static void captureDepth(boolean var0) {
       if (vbs && !vbv) {
-         Framebuffer var1 = MinecraftClient.method_1551().method_1522();
-         GpuTexture var2 = var1.method_30278();
-         if (var2 != null && var1.field_1482 >= 4 && var1.field_1481 >= 4) {
+         Framebuffer var1 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTexture var2 = var1.getDepthAttachment();
+         if (var2 != null && var1.textureWidth >= 4 && var1.textureHeight >= 4) {
             try {
                GpuDevice var3 = RenderSystem.getDevice();
-               vcf(var3, var1.field_1482, var1.field_1481);
-               var3.createCommandEncoder().copyTextureToTexture(var2, var0 ? vbm : vbk, 0, 0, 0, 0, 0, var1.field_1482, var1.field_1481);
+               vcf(var3, var1.textureWidth, var1.textureHeight);
+               var3.createCommandEncoder().copyTextureToTexture(var2, var0 ? vbm : vbk, 0, 0, 0, 0, 0, var1.textureWidth, var1.textureHeight);
                if (var0) {
                   vbu = vbt;
                } else {
@@ -147,35 +132,20 @@ public final class vbb {
    public static void drawParticles(int var0) {
       if (!vbv && var0 > 0 && vbj != null && uvq.ensure(uvq.SEASON_PARTICLES)) {
          GpuBufferSlice var1 = RenderSystem.getProjectionMatrixBuffer();
-         Framebuffer var2 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var3 = var2.method_71639();
-         GpuTextureView var4 = var2.method_71640();
+         Framebuffer var2 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var3 = var2.getColorAttachmentView();
+         GpuTextureView var4 = var2.getDepthAttachmentView();
          if (var1 != null && var3 != null && var4 != null && vbh != null) {
             try {
                CommandEncoder var5 = RenderSystem.getDevice().createCommandEncoder();
                GpuQuery var6 = vbw ? var5.timerQueryBegin() : null;
-               RenderPass var7 = var5.createRenderPass(() -> "Flow2 season particles", var3, OptionalInt.empty(), var4, OptionalDouble.empty());
 
-               try {
+               try (RenderPass var7 = var5.createRenderPass(() -> "Flow2 season particles", var3, OptionalInt.empty(), var4, OptionalDouble.empty())) {
                   var7.setPipeline(uvq.SEASON_PARTICLES);
-                  var7.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var7.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var7.setUniform("Projection", var1);
                   var7.setUniform("FlowSeason", vbj);
                   var7.draw(0, var0 * 6);
-               } catch (Throwable var11) {
-                  if (var7 != null) {
-                     try {
-                        var7.close();
-                     } catch (Throwable var10) {
-                        var11.addSuppressed(var10);
-                     }
-                  }
-
-                  throw var11;
-               }
-
-               if (var7 != null) {
-                  var7.close();
                }
 
                if (var6 != null) {
@@ -194,56 +164,25 @@ public final class vbb {
    public static void gradeSeason() {
       if (!vbv && vbj != null && vbd != null && uvq.ensure(uvq.SEASON_GRADE) && uvq.ensure(uvq.BLUR_COPY)) {
          GpuBufferSlice var0 = RenderSystem.getProjectionMatrixBuffer();
-         Framebuffer var1 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var2 = var1.method_71639();
-         if (var0 != null && var2 != null && var1.field_1482 == vbo && var1.field_1481 == vbp) {
+         Framebuffer var1 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var2 = var1.getColorAttachmentView();
+         if (var0 != null && var2 != null && var1.textureWidth == vbo && var1.textureHeight == vbp) {
             try {
                CommandEncoder var3 = RenderSystem.getDevice().createCommandEncoder();
                GpuQuery var4 = vbw ? var3.timerQueryBegin() : null;
-               RenderPass var5 = var3.createRenderPass(() -> "Flow2 season grade copy", vbd, OptionalInt.empty());
 
-               try {
+               try (RenderPass var5 = var3.createRenderPass(() -> "Flow2 season grade copy", vbd, OptionalInt.empty())) {
                   var5.setPipeline(uvq.BLUR_COPY);
-                  var5.bindTexture("InSampler", var2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var5.bindTexture("InSampler", var2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var5.draw(0, 3);
-               } catch (Throwable var11) {
-                  if (var5 != null) {
-                     try {
-                        var5.close();
-                     } catch (Throwable var9) {
-                        var11.addSuppressed(var9);
-                     }
-                  }
-
-                  throw var11;
                }
 
-               if (var5 != null) {
-                  var5.close();
-               }
-
-               var5 = var3.createRenderPass(() -> "Flow2 season grade", var2, OptionalInt.empty());
-
-               try {
-                  var5.setPipeline(uvq.SEASON_GRADE);
-                  var5.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var5.setUniform("Projection", var0);
-                  var5.setUniform("FlowSeason", vbj);
-                  var5.draw(0, 3);
-               } catch (Throwable var10) {
-                  if (var5 != null) {
-                     try {
-                        var5.close();
-                     } catch (Throwable var8) {
-                        var10.addSuppressed(var8);
-                     }
-                  }
-
-                  throw var10;
-               }
-
-               if (var5 != null) {
-                  var5.close();
+               try (RenderPass var13 = var3.createRenderPass(() -> "Flow2 season grade", var2, OptionalInt.empty())) {
+                  var13.setPipeline(uvq.SEASON_GRADE);
+                  var13.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var13.setUniform("Projection", var0);
+                  var13.setUniform("FlowSeason", vbj);
+                  var13.draw(0, 3);
                }
 
                if (var4 != null) {
@@ -263,20 +202,26 @@ public final class vbb {
       if (!vbv && uvq.ensure(var0) && uvq.ensure(uvq.BLUR_COPY)) {
          GpuBufferSlice var5 = RenderSystem.getProjectionMatrixBuffer();
          GpuBufferSlice var6 = RenderSystem.getShaderFog();
-         Framebuffer var7 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var8 = var7.method_71639();
-         GpuTextureView var9 = var7.method_71640();
-         if (var5 != null && var6 != null && var8 != null && var9 != null && var7.method_30277() != null && var7.field_1482 >= 4 && var7.field_1481 >= 4) {
+         Framebuffer var7 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var8 = var7.getColorAttachmentView();
+         GpuTextureView var9 = var7.getDepthAttachmentView();
+         if (var5 != null
+            && var6 != null
+            && var8 != null
+            && var9 != null
+            && var7.getColorAttachment() != null
+            && var7.textureWidth >= 4
+            && var7.textureHeight >= 4) {
             try {
                GpuDevice var10 = RenderSystem.getDevice();
-               vcg(var10, var7.field_1482, var7.field_1481);
+               vcg(var10, var7.textureWidth, var7.textureHeight);
                GpuBuffer var11 = var1 ? vbj : vbi;
                CommandEncoder var12 = var10.createCommandEncoder();
                MemoryStack var13 = MemoryStack.stackPush();
 
                try {
                   Std140Builder var14 = Std140Builder.onStack(var13, var2)
-                     .putVec4(var7.field_1482, var7.field_1481, 1.0F / var7.field_1482, 1.0F / var7.field_1481);
+                     .putVec4(var7.textureWidth, var7.textureHeight, 1.0F / var7.textureWidth, 1.0F / var7.textureHeight);
                   var4.accept(var14);
                   var12.writeToBuffer(var11.slice(), var14.get());
                } catch (Throwable var21) {
@@ -296,60 +241,29 @@ public final class vbb {
                }
 
                GpuQuery var24 = vbw ? var12.timerQueryBegin() : null;
-               RenderPass var25 = var12.createRenderPass(() -> "Flow2 weather scene copy", vbd, OptionalInt.empty());
 
-               try {
+               try (RenderPass var25 = var12.createRenderPass(() -> "Flow2 weather scene copy", vbd, OptionalInt.empty())) {
                   var25.setPipeline(uvq.BLUR_COPY);
-                  var25.bindTexture("InSampler", var8, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var25.bindTexture("InSampler", var8, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var25.draw(0, 3);
-               } catch (Throwable var20) {
-                  if (var25 != null) {
-                     try {
-                        var25.close();
-                     } catch (Throwable var18) {
-                        var20.addSuppressed(var18);
-                     }
-                  }
-
-                  throw var20;
                }
 
-               if (var25 != null) {
-                  var25.close();
-               }
-
-               var25 = var12.createRenderPass(() -> "Flow2 weather", var8, OptionalInt.empty());
-
-               try {
-                  var25.setPipeline(var0);
-                  var25.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var25.bindTexture("DepthSampler", var9, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var25.bindTexture("NoiseSampler", vbf, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var25.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+               try (RenderPass var26 = var12.createRenderPass(() -> "Flow2 weather", var8, OptionalInt.empty())) {
+                  var26.setPipeline(var0);
+                  var26.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var26.bindTexture("DepthSampler", var9, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var26.bindTexture("NoiseSampler", vbf, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var26.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   if (var1) {
                      boolean var15 = entityMask();
-                     var25.bindTexture("TerrainDepthSampler", var15 ? vbl : var9, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                     var25.bindTexture("EntityDepthSampler", var15 ? vbn : var9, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                     var26.bindTexture("TerrainDepthSampler", var15 ? vbl : var9, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                     var26.bindTexture("EntityDepthSampler", var15 ? vbn : var9, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   }
 
-                  var25.setUniform("Projection", var5);
-                  var25.setUniform("Fog", var6);
-                  var25.setUniform(var3, var11);
-                  var25.draw(0, 3);
-               } catch (Throwable var22) {
-                  if (var25 != null) {
-                     try {
-                        var25.close();
-                     } catch (Throwable var17) {
-                        var22.addSuppressed(var17);
-                     }
-                  }
-
-                  throw var22;
-               }
-
-               if (var25 != null) {
-                  var25.close();
+                  var26.setUniform("Projection", var5);
+                  var26.setUniform("Fog", var6);
+                  var26.setUniform(var3, var11);
+                  var26.draw(0, 3);
                }
 
                if (var1) {
@@ -414,27 +328,16 @@ public final class vbb {
          try {
             GpuDevice var1 = RenderSystem.getDevice();
             vch(var1);
-            NativeImage var2 = new NativeImage(Format.field_4997, 128, 128, false);
 
-            try {
+            try (NativeImage var2 = new NativeImage(Format.RGBA, 128, 128, false)) {
                for (int var3 = 0; var3 < 128; var3++) {
                   for (int var4 = 0; var4 < 128; var4++) {
-                     var2.method_61941(var4, var3, var0[var3 * 128 + var4]);
+                     var2.setColorArgb(var4, var3, var0[var3 * 128 + var4]);
                   }
                }
 
                var1.createCommandEncoder().writeToTexture(vbg, var2);
-            } catch (Throwable var6) {
-               try {
-                  var2.close();
-               } catch (Throwable var5) {
-                  var6.addSuppressed(var5);
-               }
-
-               throw var6;
             }
-
-            var2.close();
          } catch (Throwable var7) {
             vbv = true;
             System.out.println("weather heights failed: " + var7);
@@ -532,12 +435,11 @@ public final class vbb {
 
    private static void vci(GpuDevice var0) {
       Random var1 = new Random(65532160L);
-      NativeImage var2 = new NativeImage(Format.field_4997, 256, 256, false);
 
-      try {
+      try (NativeImage var2 = new NativeImage(Format.RGBA, 256, 256, false)) {
          for (int var3 = 0; var3 < 256; var3++) {
             for (int var4 = 0; var4 < 256; var4++) {
-               var2.method_61941(var4, var3, var1.nextInt());
+               var2.setColorArgb(var4, var3, var1.nextInt());
             }
          }
 
@@ -545,16 +447,6 @@ public final class vbb {
          vbe = var0.createTexture(() -> "Flow2 weather noise", var7, TextureFormat.RGBA8, 256, 256, 1, 1);
          vbf = var0.createTextureView(vbe);
          var0.createCommandEncoder().writeToTexture(vbe, var2);
-      } catch (Throwable var6) {
-         try {
-            var2.close();
-         } catch (Throwable var5) {
-            var6.addSuppressed(var5);
-         }
-
-         throw var6;
       }
-
-      var2.close();
    }
 }

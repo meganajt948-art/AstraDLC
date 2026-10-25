@@ -81,11 +81,11 @@ public final class hyz {
 
       try {
          label153: {
-            try (Object var3 = var1
+            try (InputStream var3 = var1
                   ? hyz.class.getResourceAsStream(a.d("烆ा菧ᶕ陚Ⴓꪫ⍛봇㞱끶䨞쓑崹휠凃\ueb90搆ﻫ碸\uf152謜ֺ鹼᠅鋉⭶ꔱ", -1790576267, 1112377728))
                   : new ByteArrayInputStream(var0.getBytes(StandardCharsets.ISO_8859_1))) {
                if (var3 != null) {
-                  var2.load((InputStream)var3);
+                  var2.load(var3);
                   break label153;
                }
             }

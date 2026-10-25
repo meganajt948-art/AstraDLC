@@ -231,33 +231,33 @@ public final class sql {
       }
 
       spo var21 = spo.build(var17, var12, var15);
-      Vec3d var19 = var0.field_1724 != null ? var0.field_1724.method_33571() : new Vec3d(var16[0], var16[1] + 1.6, var16[2] + 3.0);
-      float var20 = ssd(var0.field_1687, var16[0], var16[1], var16[2]);
-      return new sql(var21, var16[0], var16[1], var16[2], var19.field_1352, var19.field_1350, var20, var11, var13, var15);
+      Vec3d var19 = var0.player != null ? var0.player.getEyePos() : new Vec3d(var16[0], var16[1] + 1.6, var16[2] + 3.0);
+      float var20 = ssd(var0.world, var16[0], var16[1], var16[2]);
+      return new sql(var21, var16[0], var16[1], var16[2], var19.x, var19.z, var20, var11, var13, var15);
    }
 
    private static float ssd(@Nullable ClientWorld var0, double var1, double var3, double var5) {
       if (var0 == null) {
          return 0.0F;
-      } else {
-         Mutable var7 = new Mutable();
-         int var8 = MathHelper.method_15357(var1);
-         int var9 = MathHelper.method_15357(var5);
-         int var10 = MathHelper.method_15357(var3 + 0.5);
+      }
 
-         for (int var11 = var10; var11 > var10 - 10; var11--) {
-            var7.method_10103(var8, var11, var9);
-            VoxelShape var12 = var0.method_8320(var7).method_26220(var0, var7);
-            if (!var12.method_1110()) {
-               double var13 = var11 + var12.method_1105(Axis.field_11052);
-               if (var13 <= var3 + 0.6) {
-                  return (float)(var13 - var3);
-               }
+      Mutable var7 = new Mutable();
+      int var8 = MathHelper.floor(var1);
+      int var9 = MathHelper.floor(var5);
+      int var10 = MathHelper.floor(var3 + 0.5);
+
+      for (int var11 = var10; var11 > var10 - 10; var11--) {
+         var7.set(var8, var11, var9);
+         VoxelShape var12 = var0.getBlockState(var7).getCollisionShape(var0, var7);
+         if (!var12.isEmpty()) {
+            double var13 = var11 + var12.getMax(Axis.Y);
+            if (var13 <= var3 + 0.6) {
+               return (float)(var13 - var3);
             }
          }
-
-         return -10.0F;
       }
+
+      return -10.0F;
    }
 
    public boolean update(float var1) {

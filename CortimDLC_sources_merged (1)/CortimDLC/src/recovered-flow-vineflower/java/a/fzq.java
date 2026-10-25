@@ -57,19 +57,19 @@ public final class fzq {
          System.out.println(a.c(1116441229, "諱\uf343禜\ue7e5汹\uea9c僞\ud939䝡춄䨱끇㺘Ꜭⴉꯢ") + var2);
          var2.printStackTrace();
          fzr = 99;
-         var0.method_1592();
+         var0.scheduleStop();
       }
    }
 
    private static void gab(MinecraftClient var0) throws Exception {
       switch (fzr) {
          case 0:
-            if (var0.method_18506() == null && var0.field_1755 instanceof AccessibilityOnboardingScreen) {
-               var0.field_1690.field_41785 = false;
-               var0.method_1507(new TitleScreen());
+            if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
+               var0.options.onboardAccessibility = false;
+               var0.setScreen(new TitleScreen());
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof jte var7 && fzs > 20) {
+            if (var0.getOverlay() == null && var0.currentScreen instanceof jte var7 && fzs > 20) {
                fzv = var7;
                if (!gac()) {
                   throw new IllegalStateException(a.c(-1504920801, "뭳싞䠀혴嶮\udb17慏\ue8a5皯ﱑ箝臹༥隟\u1ccd驸\u2062꾨㔙덋㪰䃩칔善"));
@@ -85,17 +85,17 @@ public final class fzq {
                gag(var0, a.c(1387646873, "쿳뙁㲞ꋧ⥶꿚") + fzu + a.d("妝\u2068ꪼ", 520292062, -284008595));
                fzu++;
             } else if (fzu == var6.length) {
-               gad(fzv.field_22789 * 0.5F, fzv.field_22790 - 10.0F);
+               gad(fzv.width * 0.5F, fzv.height - 10.0F);
                fzz();
                fzr = 2;
             }
             break;
          case 2:
-            float var5 = fzv.field_22790 - 10.0F - Math.min(1.0F, fzy() / 0.4F) * fzv.field_22790 * 0.12F;
-            gae(fzv.field_22789 * 0.5F, var5);
+            float var5 = fzv.height - 10.0F - Math.min(1.0F, fzy() / 0.4F) * fzv.height * 0.12F;
+            gae(fzv.width * 0.5F, var5);
             if (fzy() > 0.45F && fzu == 0) {
                gag(var0, a.b("愶ᢄ鉛ఢ螳Ğ뭌㊠겡☔ꇙ宱핳䲊욇䁨飼痷\uef44", -882155191));
-               gaf(fzv.field_22789 * 0.5F, var5);
+               gaf(fzv.width * 0.5F, var5);
                fzu++;
             } else if (fzu == 1 && fzy() > 1.1F) {
                gag(var0, a.c(-1807498508, "슋묹\u31e6꾟␎ꊣᣰ鄝༜薮ɿ\uf81d盅\uef7d敤\ue3da妖홅䳾"));
@@ -103,7 +103,7 @@ public final class fzq {
                   throw new IllegalStateException(a.c(-245255457, "늨쭘䇘\udfb2呢틎梛\ue13e缲\uf587牊蠢۠鼔ᔒ鏸⦵ꙧ㳘몁㍸䤨"));
                }
 
-               fzv.method_25404(new KeyInput(32, 0, 0));
+               fzv.keyPressed(new KeyInput(32, 0, 0));
                fzz();
                fzr = 3;
             }
@@ -135,19 +135,19 @@ public final class fzq {
                   throw new IllegalStateException(a.b("㸴䞆쵙匠\ud8d2幂\ue409涯\uf3b4礈ﻖҭ訳Ꮡ駖Ὣꔧ⫺끁", 1509768779));
                }
 
-               gad(fzv.field_22789 * 0.5F, fzv.field_22790 * 0.7F);
+               gad(fzv.width * 0.5F, fzv.height * 0.7F);
                fzz();
                fzr = 5;
             }
             break;
          case 5:
-            float var1 = fzv.field_22790 * 0.7F - Math.min(1.0F, fzy() / 0.3F) * fzv.field_22790 * 0.4F;
-            gae(fzv.field_22789 * 0.5F, var1);
+            float var1 = fzv.height * 0.7F - Math.min(1.0F, fzy() / 0.3F) * fzv.height * 0.4F;
+            gae(fzv.width * 0.5F, var1);
             if (fzu == 0 && fzy() > 0.18F) {
                gag(var0, a.b("\ue25b鯩ᄶ轏Ӟ艶㠡뇍⿌ꕹ⊴\ud8dc嘞쿧䗴쌁祃", 1487987238));
                fzu++;
             } else if (fzu == 1 && fzy() > 0.32F) {
-               gaf(fzv.field_22789 * 0.5F, var1);
+               gaf(fzv.width * 0.5F, var1);
                fzu++;
                fzz();
                fzu = 2;
@@ -166,7 +166,7 @@ public final class fzq {
 
                System.out.println(a.d("ﰟ薭ི鄋᪗鱲☰꿗\u318f뭪㳉용䡬퇝", -985682515, -482651696));
                fzr = 99;
-               var0.method_1592();
+               var0.scheduleStop();
             }
       }
    }
@@ -178,21 +178,21 @@ public final class fzq {
    }
 
    private static void gad(float var0, float var1) {
-      fzv.method_25402(new Click(var0, var1, new MouseInput(0, 0)), false);
+      fzv.mouseClicked(new Click(var0, var1, new MouseInput(0, 0)), false);
    }
 
    private static void gae(float var0, float var1) {
-      fzv.method_25403(new Click(var0, var1, new MouseInput(0, 0)), 0.0, 0.0);
+      fzv.mouseDragged(new Click(var0, var1, new MouseInput(0, 0)), 0.0, 0.0);
    }
 
    private static void gaf(float var0, float var1) {
-      fzv.method_25406(new Click(var0, var1, new MouseInput(0, 0)));
+      fzv.mouseReleased(new Click(var0, var1, new MouseInput(0, 0)));
    }
 
    private static void gag(MinecraftClient var0, String var1) {
-      System.out.println(a.b("ᄏ梽\ue262簛\uf787煢쬠䋇\udc9f噺", 1941639529) + var1 + a.b("긅ퟔ嵧", 1010937382) + var0.method_47599() + a.c(1821759149, "횉꽾▻믉"));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697, a.d("넀좻䉫\udc02垐턾", -800622465, -670775009) + var1 + a.c(-2005816376, "ꯢ툍壀울"), var0.method_1522(), 1, var0x -> {}
+      System.out.println(a.b("ᄏ梽\ue262簛\uf787煢쬠䋇\udc9f噺", 1941639529) + var1 + a.b("긅ퟔ嵧", 1010937382) + var0.getCurrentFps() + a.c(1821759149, "횉꽾▻믉"));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.d("넀좻䉫\udc02垐턾", -800622465, -670775009) + var1 + a.c(-2005816376, "ꯢ툍壀울"), var0.getFramebuffer(), 1, var0x -> {}
       );
    }
 }

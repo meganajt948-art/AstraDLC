@@ -55,17 +55,17 @@ public final class toq {
    public void tick(World var1, ClientPlayerEntity var2, pzc var3) {
       this.tov[2] = this.tov[1];
       this.tov[1] = this.tov[0];
-      this.tov[0] = var2.method_36454();
+      this.tov[0] = var2.getYaw();
       this.tow[2] = this.tow[1];
       this.tow[1] = this.tow[0];
-      this.tow[0] = var2.method_36455();
+      this.tow[0] = var2.getPitch();
       this.tpb++;
-      this.tpc = tsh.snap(var1, var2, var2.method_24515(), var3, null, null);
-      Vec3d var4 = var2.method_33571();
-      trd.diff(this.tpd, this.tpc, var4.field_1352, var4.field_1351, var4.field_1350, this.tox);
+      this.tpc = tsh.snap(var1, var2, var2.getBlockPos(), var3, null, null);
+      Vec3d var4 = var2.getEyePos();
+      trd.diff(this.tpd, this.tpc, var4.x, var4.y, var4.z, this.tox);
       this.farmed = this.farmed + this.tox[0];
       this.farmedDia = this.farmedDia + this.tox[1];
-      trd.reach(this.tpc, var4.field_1352, var4.field_1351, var4.field_1350, this.toy);
+      trd.reach(this.tpc, var4.x, var4.y, var4.z, this.toy);
       if (this.toy[0] >= 8) {
          double var5 = trd.value(this.tox[0], this.tox[1]);
          this.tpi++;
@@ -97,22 +97,22 @@ public final class toq {
    public void planLegs(World var1, ClientPlayerEntity var2, BlockPos var3) {
       if (this.model.legs != null && this.tpc != null) {
          trg var4 = new trg();
-         var4.px = var2.method_23317();
-         var4.py = var2.method_23318();
-         var4.pz = var2.method_23321();
-         var4.eyeY = var2.method_23320();
-         var4.yaw = var2.method_36454();
-         var4.pitch = var2.method_36455();
-         var4.vx = var2.method_23317() - var2.field_6014;
-         var4.vy = var2.method_23318() - var2.field_6036;
-         var4.vz = var2.method_23321() - var2.field_5969;
-         var4.ground = var2.method_24828();
-         var4.feetY = tsh.standing(var1, var2).method_10264();
+         var4.px = var2.getX();
+         var4.py = var2.getY();
+         var4.pz = var2.getZ();
+         var4.eyeY = var2.getEyeY();
+         var4.yaw = var2.getYaw();
+         var4.pitch = var2.getPitch();
+         var4.vx = var2.getX() - var2.lastX;
+         var4.vy = var2.getY() - var2.lastY;
+         var4.vz = var2.getZ() - var2.lastZ;
+         var4.ground = var2.isOnGround();
+         var4.feetY = tsh.standing(var1, var2).getY();
          if (var3 != null) {
             var4.hasTarget = true;
-            var4.tx = var3.method_10263();
-            var4.ty = var3.method_10264();
-            var4.tz = var3.method_10260();
+            var4.tx = var3.getX();
+            var4.ty = var3.getY();
+            var4.tz = var3.getZ();
          }
 
          trj.features(this.tpc, var4, this.toz, 0);
@@ -158,14 +158,14 @@ public final class toq {
    }
 
    public long[] rank(World var1, ClientPlayerEntity var2, pzc var3, LongPredicate var4, LongPredicate var5, BlockPos var6, int var7) {
-      tvn var8 = tsh.snap(var1, var2, var2.method_24515(), var3, var4, var5);
+      tvn var8 = tsh.snap(var1, var2, var2.getBlockPos(), var3, var4, var5);
       tra var9 = new tra();
-      Vec3d var10 = var2.method_33571();
-      var9.ex = var10.field_1352;
-      var9.ey = var10.field_1351;
-      var9.ez = var10.field_1350;
-      var9.yaw = var2.method_36454();
-      var9.pitch = var2.method_36455();
+      Vec3d var10 = var2.getEyePos();
+      var9.ex = var10.x;
+      var9.ey = var10.y;
+      var9.ez = var10.z;
+      var9.yaw = var2.getYaw();
+      var9.pitch = var2.getPitch();
       if (this.tpb >= 3) {
          var9.vyaw = (float)(tbp.wrap(this.tov[0] - this.tov[2]) * 0.5);
          var9.vpitch = (this.tow[0] - this.tow[2]) * 0.5F;
@@ -174,77 +174,77 @@ public final class toq {
          var9.vpitch = this.tow[0] - this.tow[1];
       }
 
-      var9.vx = var2.method_23317() - var2.field_6014;
-      var9.vz = var2.method_23321() - var2.field_5969;
-      var9.ground = var2.method_24828();
-      var9.feetY = tsh.standing(var1, var2).method_10264();
+      var9.vx = var2.getX() - var2.lastX;
+      var9.vz = var2.getZ() - var2.lastZ;
+      var9.ground = var2.isOnGround();
+      var9.feetY = tsh.standing(var1, var2).getY();
       if (var6 != null) {
          var9.hasPrev = true;
-         var9.px = var6.method_10263();
-         var9.py = var6.method_10264();
-         var9.pz = var6.method_10260();
+         var9.px = var6.getX();
+         var9.py = var6.getY();
+         var9.pz = var6.getZ();
       }
 
       tpn var11 = tpn.of(var8, var9);
       int var12 = var11.n;
       if (var12 == 0) {
          return new long[0];
-      } else {
-         double[] var13 = this.model.brain.scores(var11);
-         double var14 = 0.6 - this.tpe;
-         double var16 = this.tpe * 3.0;
-
-         for (int var18 = 0; var18 < var12; var18++) {
-            int var19 = var18 * 32;
-            double var20 = (var11.f[var19 + 16] * 8.0 + 4.0 * var11.f[var19 + 17] * 3.0 + 6.0 * var11.f[var19 + 11]) / 10.0;
-            var13[var18] = var13[var18] / var14 + var16 * var20;
-         }
-
-         double var32 = Double.NEGATIVE_INFINITY;
-
-         for (double var23 : var13) {
-            var32 = Math.max(var32, var23);
-         }
-
-         double[] var34 = new double[var12];
-         double var35 = 0.0;
-
-         for (int var36 = 0; var36 < var12; var36++) {
-            var34[var36] = Math.exp(var13[var36] - var32);
-            var35 += var34[var36];
-         }
-
-         double var37 = this.tou.nextDouble() * var35;
-         int var25 = var12 - 1;
-
-         for (int var26 = 0; var26 < var12; var26++) {
-            var37 -= var34[var26];
-            if (var37 <= 0.0) {
-               var25 = var26;
-               break;
-            }
-         }
-
-         Integer[] var38 = new Integer[var12];
-
-         for (int var27 = 0; var27 < var12; var27++) {
-            var38[var27] = var27;
-         }
-
-         Arrays.sort(var38, (var1x, var2x) -> Double.compare(var13[var2x], var13[var1x]));
-         int var39 = Math.min(var7, var12);
-         long[] var28 = new long[var39];
-         var28[0] = BlockPos.method_10064(var11.x[var25], var11.y[var25], var11.z[var25]);
-         int var29 = 1;
-
-         for (int var30 = 0; var30 < var12 && var29 < var39; var30++) {
-            int var31 = var38[var30];
-            if (var31 != var25) {
-               var28[var29++] = BlockPos.method_10064(var11.x[var31], var11.y[var31], var11.z[var31]);
-            }
-         }
-
-         return var28;
       }
+
+      double[] var13 = this.model.brain.scores(var11);
+      double var14 = 0.6 - this.tpe;
+      double var16 = this.tpe * 3.0;
+
+      for (int var18 = 0; var18 < var12; var18++) {
+         int var19 = var18 * 32;
+         double var20 = (var11.f[var19 + 16] * 8.0 + 4.0 * var11.f[var19 + 17] * 3.0 + 6.0 * var11.f[var19 + 11]) / 10.0;
+         var13[var18] = var13[var18] / var14 + var16 * var20;
+      }
+
+      double var32 = Double.NEGATIVE_INFINITY;
+
+      for (double var23 : var13) {
+         var32 = Math.max(var32, var23);
+      }
+
+      double[] var34 = new double[var12];
+      double var35 = 0.0;
+
+      for (int var36 = 0; var36 < var12; var36++) {
+         var34[var36] = Math.exp(var13[var36] - var32);
+         var35 += var34[var36];
+      }
+
+      double var37 = this.tou.nextDouble() * var35;
+      int var25 = var12 - 1;
+
+      for (int var26 = 0; var26 < var12; var26++) {
+         var37 -= var34[var26];
+         if (var37 <= 0.0) {
+            var25 = var26;
+            break;
+         }
+      }
+
+      Integer[] var38 = new Integer[var12];
+
+      for (int var27 = 0; var27 < var12; var27++) {
+         var38[var27] = var27;
+      }
+
+      Arrays.sort(var38, (var1x, var2x) -> Double.compare(var13[var2x], var13[var1x]));
+      int var39 = Math.min(var7, var12);
+      long[] var28 = new long[var39];
+      var28[0] = BlockPos.asLong(var11.x[var25], var11.y[var25], var11.z[var25]);
+      int var29 = 1;
+
+      for (int var30 = 0; var30 < var12 && var29 < var39; var30++) {
+         int var31 = var38[var30];
+         if (var31 != var25) {
+            var28[var29++] = BlockPos.asLong(var11.x[var31], var11.y[var31], var11.z[var31]);
+         }
+      }
+
+      return var28;
    }
 }

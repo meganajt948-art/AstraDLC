@@ -62,38 +62,35 @@ public final class jzh {
       jza var1 = jzo.get(var0);
       if (var1 != null) {
          return jzw(var0, var1);
-      } else {
-         preload(var0);
-         CompletableFuture var2 = jzn.get(var0);
-         if (var2 != null && var2.isDone()) {
-            jzn.remove(var0);
-            BufferedImage[] var3 = (BufferedImage[])var2.getNow(null);
-            if (var3 == null) {
-               jzr.add(var0);
-               return null;
-            } else {
-               try {
-                  var1 = new jza(
-                     uok.upload(a.b("⮳刊\ud8d2䚸촺", -10474533) + var0, var3[0], false), uok.upload(a.c(265182911, "廘❡궹㏓롑㺢蓿ഗ鍏\u19ac") + var0, var3[1], false)
-                  );
-               } catch (Throwable var5) {
-                  jzr.add(var0);
-                  System.out
-                     .println(
-                        a.d("⣜入\udbbd䗗칕䢴\uf2fe笅\ue54d濽\ue829\u124f鳝", 1313727225, -1760638395)
-                           + var0
-                           + a.b("㋄䬶쇧徙퐇勥\ue8e2慑）痽\uf27bࠏ蛄ὶ锫Ꮯꦑ♁벬㫧", 1208627952)
-                           + var5
-                     );
-                  return null;
-               }
+      }
 
-               jzo.put(var0, var1);
-               return jzw(var0, var1);
-            }
-         } else {
+      preload(var0);
+      CompletableFuture var2 = jzn.get(var0);
+      if (var2 != null && var2.isDone()) {
+         jzn.remove(var0);
+         BufferedImage[] var3 = (BufferedImage[])var2.getNow(null);
+         if (var3 == null) {
+            jzr.add(var0);
             return null;
          }
+
+         try {
+            var1 = new jza(
+               uok.upload(a.b("⮳刊\ud8d2䚸촺", -10474533) + var0, var3[0], false), uok.upload(a.c(265182911, "廘❡궹㏓롑㺢蓿ഗ鍏\u19ac") + var0, var3[1], false)
+            );
+         } catch (Throwable var5) {
+            jzr.add(var0);
+            System.out
+               .println(
+                  a.d("⣜入\udbbd䗗칕䢴\uf2fe笅\ue54d濽\ue829\u124f鳝", 1313727225, -1760638395) + var0 + a.b("㋄䬶쇧徙퐇勥\ue8e2慑）痽\uf27bࠏ蛄ὶ锫Ꮯꦑ♁벬㫧", 1208627952) + var5
+               );
+            return null;
+         }
+
+         jzo.put(var0, var1);
+         return jzw(var0, var1);
+      } else {
+         return null;
       }
    }
 
@@ -102,10 +99,10 @@ public final class jzh {
       int var3 = var2 != null ? var2.fill : -1;
       if (!whl.is(var0)) {
          return var3 >= 0 ? new jza(var1.sharp(), var1.blur(), false, var3) : var1;
-      } else {
-         uok var4 = whl.get(var0.substring(a.b("찴떚㽄ꄴ⫩갍", -1047999420).length())).frame();
-         return new jza(var4 != null ? var4 : var1.sharp(), var1.blur(), var4 != null, var3);
       }
+
+      uok var4 = whl.get(var0.substring(a.b("찴떚㽄ꄴ⫩갍", -1047999420).length())).frame();
+      return new jza(var4 != null ? var4 : var1.sharp(), var1.blur(), var4 != null, var3);
    }
 
    public static synchronized uok thumb(String var0) {
@@ -204,16 +201,12 @@ public final class jzh {
    }
 
    private static BufferedImage kaa(String var0) throws Exception {
-      BufferedImage var2;
       try (InputStream var1 = kac(var0)) {
-         var2 = var1 == null ? null : ImageIO.read(var1);
+         return var1 == null ? null : ImageIO.read(var1);
       }
-
-      return var2;
    }
 
    private static BufferedImage kab(String var0, int var1) throws Exception {
-      BufferedImage var8;
       try (
          InputStream var2 = kac(var0);
          ImageInputStream var3 = var2 == null ? null : ImageIO.createImageInputStream(var2);
@@ -223,24 +216,22 @@ public final class jzh {
          }
 
          Iterator var4 = ImageIO.getImageReaders(var3);
-         if (!var4.hasNext()) {
+         if (var4.hasNext()) {
+            ImageReader var21 = (ImageReader)var4.next();
+
+            try {
+               var21.setInput(var3, true, true);
+               int var6 = Math.max(1, var21.getWidth(0) / (var1 * 2));
+               ImageReadParam var7 = var21.getDefaultReadParam();
+               var7.setSourceSubsampling(var6, var6, 0, 0);
+               return var21.read(0, var7);
+            } finally {
+               var21.dispose();
+            }
+         } else {
             return null;
          }
-
-         ImageReader var21 = (ImageReader)var4.next();
-
-         try {
-            var21.setInput(var3, true, true);
-            int var6 = Math.max(1, var21.getWidth(0) / (var1 * 2));
-            ImageReadParam var7 = var21.getDefaultReadParam();
-            var7.setSourceSubsampling(var6, var6, 0, 0);
-            var8 = var21.read(0, var7);
-         } finally {
-            var21.dispose();
-         }
       }
-
-      return var8;
    }
 
    private static InputStream kac(String var0) throws Exception {
@@ -255,10 +246,10 @@ public final class jzh {
 
    private static BufferedImage kad(BufferedImage var0, int var1, int var2) {
       BufferedImage var3 = var0;
-      int var4 = var0.getWidth();
+      int var4 = var3.getWidth();
 
       int var5;
-      for (var5 = var0.getHeight(); var4 / 2 >= var1 && var5 / 2 >= var2; var3 = kaj(var3, var4, var5)) {
+      for (var5 = var3.getHeight(); var4 / 2 >= var1 && var5 / 2 >= var2; var3 = kaj(var3, var4, var5)) {
          var4 /= 2;
          var5 /= 2;
       }

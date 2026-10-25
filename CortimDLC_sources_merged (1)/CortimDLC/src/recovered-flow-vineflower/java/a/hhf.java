@@ -97,16 +97,16 @@ public final class hhf {
    }
 
    public static String nameOf(PlayerEntity var0) {
-      return var0.method_5477().getString();
+      return var0.getName().getString();
    }
 
    public static String clean(String var0) {
       if (var0 == null) {
          return null;
-      } else {
-         String var1 = var0.trim();
-         return !var1.isEmpty() && var1.length() <= 20 && !var1.chars().anyMatch(var0x -> var0x <= 32 || var0x == 167) ? var1 : null;
       }
+
+      String var1 = var0.trim();
+      return !var1.isEmpty() && var1.length() <= 20 && !var1.chars().anyMatch(var0x -> var0x <= 32 || var0x == 167) ? var1 : null;
    }
 
    private static String hho(String var0) {
@@ -114,28 +114,28 @@ public final class hhf {
    }
 
    public static PlayerEntity aimed(MinecraftClient var0, double var1) {
-      Entity var3 = var0.method_1560();
-      if (var3 != null && var0.field_1687 != null && var0.field_1724 != null) {
-         if (var0.field_1692 instanceof PlayerEntity var4 && var4 != var0.field_1724) {
+      Entity var3 = var0.getCameraEntity();
+      if (var3 != null && var0.world != null && var0.player != null) {
+         if (var0.targetedEntity instanceof PlayerEntity var4 && var4 != var0.player) {
             return var4;
          } else {
-            Vec3d var18 = var3.method_5836(1.0F);
-            Vec3d var19 = var3.method_5828(1.0F);
+            Vec3d var18 = var3.getCameraPosVec(1.0F);
+            Vec3d var19 = var3.getRotationVec(1.0F);
             double var6 = var1;
-            HitResult var8 = var3.method_5745(var1, 1.0F, false);
-            if (var8 != null && var8.method_17783() != Type.field_1333) {
-               var6 = var8.method_17784().method_1022(var18);
+            HitResult var8 = var3.raycast(var1, 1.0F, false);
+            if (var8 != null && var8.getType() != Type.MISS) {
+               var6 = var8.getPos().distanceTo(var18);
             }
 
-            Vec3d var9 = var18.method_1019(var19.method_1021(var6));
+            Vec3d var9 = var18.add(var19.multiply(var6));
             PlayerEntity var10 = null;
             double var11 = Double.MAX_VALUE;
 
-            for (PlayerEntity var14 : var0.field_1687.method_18456()) {
-               if (var14 != var0.field_1724 && var14 != var3 && !var14.method_7325() && var14.method_5805()) {
-                  Optional var15 = var14.method_5829().method_1014(0.3).method_992(var18, var9);
+            for (PlayerEntity var14 : var0.world.getPlayers()) {
+               if (var14 != var0.player && var14 != var3 && !var14.isSpectator() && var14.isAlive()) {
+                  Optional var15 = var14.getBoundingBox().expand(0.3).raycast(var18, var9);
                   if (var15.isPresent()) {
-                     double var16 = ((Vec3d)var15.get()).method_1025(var18);
+                     double var16 = ((Vec3d)var15.get()).squaredDistanceTo(var18);
                      if (var16 < var11) {
                         var11 = var16;
                         var10 = var14;
@@ -153,7 +153,7 @@ public final class hhf {
 
    public static void toggleAimed() {
       if (CLICK.get()) {
-         MinecraftClient var0 = MinecraftClient.method_1551();
+         MinecraftClient var0 = MinecraftClient.getInstance();
          PlayerEntity var1 = aimed(var0, CLICK_RANGE.get());
          if (var1 != null) {
             String var2 = nameOf(var1);
@@ -169,24 +169,24 @@ public final class hhf {
    }
 
    public static SkinTextures skinOf(String var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1687 != null) {
-         for (PlayerEntity var3 : var1.field_1687.method_18456()) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.world != null) {
+         for (PlayerEntity var3 : var1.world.getPlayers()) {
             if (nameOf(var3).equalsIgnoreCase(var0) && var3 instanceof AbstractClientPlayerEntity var4) {
-               return var4.method_52814();
+               return var4.getSkin();
             }
          }
       }
 
       PlayerListEntry var5 = listEntry(var0);
-      return var5 != null ? var5.method_52810() : null;
+      return var5 != null ? var5.getSkinTextures() : null;
    }
 
    public static PlayerListEntry listEntry(String var0) {
-      ClientPlayNetworkHandler var1 = MinecraftClient.method_1551().method_1562();
+      ClientPlayNetworkHandler var1 = MinecraftClient.getInstance().getNetworkHandler();
       if (var1 != null && var0 != null) {
          try {
-            return var1.method_73471(var0);
+            return var1.getCaseInsensitivePlayerInfo(var0);
          } catch (RuntimeException var3) {
             return null;
          }
@@ -196,18 +196,18 @@ public final class hhf {
    }
 
    public static PlayerEntity inWorld(String var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1687 == null) {
-         return null;
-      } else {
-         for (PlayerEntity var3 : var1.field_1687.method_18456()) {
-            if (nameOf(var3).equalsIgnoreCase(var0)) {
-               return var3;
-            }
-         }
-
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.world == null) {
          return null;
       }
+
+      for (PlayerEntity var3 : var1.world.getPlayers()) {
+         if (nameOf(var3).equalsIgnoreCase(var0)) {
+            return var3;
+         }
+      }
+
+      return null;
    }
 
    private static void hhp() {

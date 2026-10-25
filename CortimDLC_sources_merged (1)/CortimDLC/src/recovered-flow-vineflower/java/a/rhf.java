@@ -21,15 +21,15 @@ public final class rhf {
    private static boolean rho() {
       if (Flow.getInstance().getModuleManager() == null) {
          return false;
-      } else {
-         for (kfe var1 : Flow.getInstance().getModuleManager().getModules()) {
-            if (var1 instanceof rxa var2 && var2.maceCharge()) {
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      for (kfe var1 : Flow.getInstance().getModuleManager().getModules()) {
+         if (var1 instanceof rxa var2 && var2.maceCharge()) {
+            return true;
+         }
+      }
+
+      return false;
    }
 
    static float smashBonus(double var0) {
@@ -43,18 +43,18 @@ public final class rhf {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      ClientPlayerEntity var3 = var2.field_1724;
-      if (var3 != null && !var2.field_1690.field_1842 && var2.field_1755 == null && var2.field_1690.method_31044().method_31034()) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      ClientPlayerEntity var3 = var2.player;
+      if (var3 != null && !var2.options.hudHidden && var2.currentScreen == null && var2.options.getPerspective().isFirstPerson()) {
          unf.observe(var0);
          if (unf.frame() != rhk) {
             rhk = unf.frame();
             float var4 = unf.delta();
-            boolean var5 = var3.method_6047().method_31574(Items.field_49814) && rho();
-            float var6 = var1.method_60637(true);
-            float var7 = var5 ? var3.method_7261(var6) : 1.0F;
-            double var8 = var3.field_6017;
-            boolean var10 = var5 && !var3.method_24828() && !var3.method_6128() && var8 > 1.5;
+            boolean var5 = var3.getMainHandStack().isOf(Items.MACE) && rho();
+            float var6 = var1.getTickProgress(true);
+            float var7 = var5 ? var3.getAttackCooldownProgress(var6) : 1.0F;
+            double var8 = var3.fallDistance;
+            boolean var10 = var5 && !var3.isOnGround() && !var3.isGliding() && var8 > 1.5;
             rhl = var7 >= 0.999F ? rhl + var4 : 0.0F;
             boolean var11 = var5 && (var7 < 0.999F || rhl < 0.6F || var10);
             float var12 = rhh.step(var11, var4);
@@ -62,8 +62,8 @@ public final class rhf {
             float var14 = rhj.step(var7 >= 0.999F, var4);
             if (!(var12 <= 0.01F)) {
                uut.beginFrame();
-               float var15 = var0.method_51421() * 0.5F;
-               float var16 = var0.method_51443() * 0.5F;
+               float var15 = var0.getScaledWindowWidth() * 0.5F;
+               float var16 = var0.getScaledWindowHeight() * 0.5F;
                float var17 = 11.0F;
                int var18 = ujt.lerp(iov.accent() | 0xFF000000, -11443, var13);
                uut.pushAlpha(var12);

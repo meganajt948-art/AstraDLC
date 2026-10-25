@@ -167,20 +167,20 @@ public final class pdr {
    }
 
    public boolean isPotion() {
-      return this.pds == Items.field_8574 || this.pds == Items.field_8436 || this.pds == Items.field_8150;
+      return this.pds == Items.POTION || this.pds == Items.SPLASH_POTION || this.pds == Items.LINGERING_POTION;
    }
 
    public boolean stackable() {
-      return this.peb.isEmpty() && (this.pds.method_7882() > 1 || this.pds == Items.field_8288 || this.isPotion());
+      return this.peb.isEmpty() && (this.pds.getMaxCount() > 1 || this.pds == Items.TOTEM_OF_UNDYING || this.isPotion());
    }
 
    public int maxCount() {
       if (!this.stackable()) {
          return 1;
-      } else if (this.pds == Items.field_8574) {
+      } else if (this.pds == Items.POTION) {
          return 16;
       } else {
-         return this.pds != Items.field_8288 && !this.isPotion() ? this.pds.method_7882() : 6;
+         return this.pds != Items.TOTEM_OF_UNDYING && !this.isPotion() ? this.pds.getMaxCount() : 6;
       }
    }
 
@@ -212,21 +212,25 @@ public final class pdr {
    }
 
    public boolean matches(ItemStack var1, pey var2) {
-      if (!var1.method_31574(this.pds)) {
+      if (!var1.isOf(this.pds)) {
          return false;
-      } else if (!this.peb.isEmpty() && !pim.attrs(var1, this.peb)) {
-         return false;
-      } else if (!this.pec.isEmpty() && !pim.effects(var1, this.pec)) {
-         return false;
-      } else {
-         for (phm var4 : this.pea) {
-            if (!var4.matches(var1, var2)) {
-               return false;
-            }
-         }
-
-         return true;
       }
+
+      if (!this.peb.isEmpty() && !pim.attrs(var1, this.peb)) {
+         return false;
+      }
+
+      if (!this.pec.isEmpty() && !pim.effects(var1, this.pec)) {
+         return false;
+      }
+
+      for (phm var4 : this.pea) {
+         if (!var4.matches(var1, var2)) {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    public ItemStack icon() {
@@ -238,7 +242,7 @@ public final class pdr {
                a.d("㳡", -79550546, 1747458861) + Math.abs(this.pdt.hashCode() % 100000),
                new PropertyMap(ImmutableMultimap.of(a.b("呮ⷎ꜀㥽늫㐝蹙\u07be", 2066895890), new Property(a.b("ᖸ氘\ue6d6碫\uf37d痋쾏䙨", -399305276), this.pdz)))
             );
-            var1.method_57379(DataComponentTypes.field_49617, ProfileComponent.method_73307(var2));
+            var1.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(var2));
          }
 
          if (this.pdy != 0) {
@@ -248,7 +252,7 @@ public final class pdr {
                var5.add(new StatusEffectInstance(var4.effect(), Math.max(1, var4.duration()), Math.max(0, var4.level() - 1)));
             }
 
-            var1.method_57379(DataComponentTypes.field_49651, new PotionContentsComponent(Optional.empty(), Optional.of(this.pdy), var5, Optional.empty()));
+            var1.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(Optional.empty(), Optional.of(this.pdy), var5, Optional.empty()));
          }
 
          this.pef = var1;

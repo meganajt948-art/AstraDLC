@@ -18,8 +18,8 @@ public class rpj extends kfe {
    private static rpj rpk;
    private final vkl rpl = this.add(new vkl("Food preview", true));
    private final vkl rpm = this.add(new vkl("Number", false));
-   private static final Identifier rpn = Identifier.method_60656("hud/food_full");
-   private static final Identifier rpo = Identifier.method_60656("hud/food_half");
+   private static final Identifier rpn = Identifier.ofVanilla("hud/food_full");
+   private static final Identifier rpo = Identifier.ofVanilla("hud/food_half");
    private static final int rpp = -670639;
    private static final vdn rpq = veo.semibold(5.8F);
 
@@ -30,24 +30,24 @@ public class rpj extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rpj var2 = rpk;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      ClientPlayerEntity var4 = var3.field_1724;
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      ClientPlayerEntity var4 = var3.player;
       if (var2 != null
          && var2.isEnabled()
          && var4 != null
-         && var3.field_1761 != null
-         && var3.field_1761.method_2908()
-         && !(var4.method_5854() instanceof LivingEntity)) {
-         HungerManager var5 = var4.method_7344();
-         int var6 = var5.method_7586();
-         float var7 = var5.method_7589();
-         int var8 = var0.method_51421() / 2 + 91;
-         int var9 = var0.method_51443() - 39;
+         && var3.interactionManager != null
+         && var3.interactionManager.hasStatusBars()
+         && !(var4.getVehicle() instanceof LivingEntity)) {
+         HungerManager var5 = var4.getHungerManager();
+         int var6 = var5.getFoodLevel();
+         float var7 = var5.getSaturationLevel();
+         int var8 = var0.getScaledWindowWidth() / 2 + 91;
+         int var9 = var0.getScaledWindowHeight() - 39;
          FoodComponent var10 = null;
          if (var2.rpl.get()) {
             for (Hand var14 : Hand.values()) {
-               ItemStack var15 = var4.method_5998(var14);
-               FoodComponent var16 = (FoodComponent)var15.method_58694(DataComponentTypes.field_50075);
+               ItemStack var15 = var4.getStackInHand(var14);
+               FoodComponent var16 = var15.get(DataComponentTypes.FOOD);
                if (var16 != null) {
                   var10 = var16;
                   break;
@@ -57,7 +57,7 @@ public class rpj extends kfe {
 
          float var18 = 0.35F + 0.3F * (float)Math.sin(System.currentTimeMillis() / 180.0);
          if (var10 != null && var6 < 20) {
-            int var19 = Math.min(20, var6 + var10.comp_2491());
+            int var19 = Math.min(20, var6 + var10.nutrition());
             int var21 = ujt.withAlpha(-1, Math.round(255.0F * var18));
 
             for (int var23 = 0; var23 < 10; var23++) {
@@ -65,7 +65,7 @@ public class rpj extends kfe {
                int var27 = var25 < var6 ? 2 : (var25 == var6 ? 1 : 0);
                int var17 = var25 < var19 ? 2 : (var25 == var19 ? 1 : 0);
                if (var17 > var27) {
-                  var0.method_52707(RenderPipelines.field_56883, var17 == 2 ? rpn : rpo, var8 - var23 * 8 - 9, var9, 9, 9, var21);
+                  var0.drawGuiTexture(RenderPipelines.GUI_TEXTURED, var17 == 2 ? rpn : rpo, var8 - var23 * 8 - 9, var9, 9, 9, var21);
                }
             }
          }
@@ -77,7 +77,7 @@ public class rpj extends kfe {
          uut.round(var0, var8 - var20 - 0.5F, var24, var20, var22, var22 * 0.5F, 1426063360);
          float var26 = var20 * Math.max(0.0F, Math.min(20.0F, var7)) / 20.0F;
          if (var10 != null) {
-            float var28 = Math.min(Math.min(20.0F, (float)(var6 + var10.comp_2491())), var7 + var10.comp_2492());
+            float var28 = Math.min(Math.min(20.0F, var6 + var10.nutrition()), var7 + var10.saturation());
             float var30 = var20 * Math.max(0.0F, var28) / 20.0F;
             if (var30 > var26) {
                uut.round(var0, var8 - var30 - 0.5F, var24, var30, var22, var22 * 0.5F, ujt.withAlpha(-670639, Math.round(255.0F * var18)));

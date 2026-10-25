@@ -111,19 +111,19 @@ public class rae extends kfe {
       rae var1 = raf;
       if (var1 != null && var1.isEnabled()) {
          if (var0 instanceof BlockUpdateS2CPacket var2) {
-            BlockPos var5 = var2.method_11309();
-            rau.add(ChunkPos.method_8331(var5.method_10263() >> 4, var5.method_10260() >> 4));
+            BlockPos var5 = var2.getPos();
+            rau.add(ChunkPos.toLong(var5.getX() >> 4, var5.getZ() >> 4));
          } else if (var0 instanceof ChunkDeltaUpdateS2CPacket var3) {
             long[] var6 = new long[]{Long.MIN_VALUE};
-            var3.method_30621((var1x, var2x) -> {
-               long var3x = ChunkPos.method_8331(var1x.method_10263() >> 4, var1x.method_10260() >> 4);
+            var3.visitUpdates((var1x, var2x) -> {
+               long var3x = ChunkPos.toLong(var1x.getX() >> 4, var1x.getZ() >> 4);
                if (var3x != var6[0]) {
                   var6[0] = var3x;
                   rau.add(var3x);
                }
             });
          } else if (var0 instanceof ChunkDataS2CPacket var4) {
-            rau.add(ChunkPos.method_8331(var4.method_11523(), var4.method_11524()));
+            rau.add(ChunkPos.toLong(var4.getChunkX(), var4.getChunkZ()));
          }
       }
    }
@@ -149,13 +149,13 @@ public class rae extends kfe {
    }
 
    private void rbo() {
-      boolean[] var1 = new boolean[Registries.field_41175.method_10204()];
+      boolean[] var1 = new boolean[Registries.BLOCK.size()];
 
       for (String var3 : this.rag.ids()) {
-         Identifier var4 = Identifier.method_12829(var3);
-         if (var4 != null && Registries.field_41175.method_10250(var4)) {
-            Block var5 = (Block)Registries.field_41175.method_63535(var4);
-            int var6 = Registries.field_41175.method_10206(var5);
+         Identifier var4 = Identifier.tryParse(var3);
+         if (var4 != null && Registries.BLOCK.containsId(var4)) {
+            Block var5 = Registries.BLOCK.get(var4);
+            int var6 = Registries.BLOCK.getRawId(var5);
             if (var6 >= 0 && var6 < var1.length) {
                var1[var6] = true;
             }
@@ -167,15 +167,15 @@ public class rae extends kfe {
    }
 
    private boolean rbp(BlockState var1) {
-      int var2 = Registries.field_41175.method_10206(var1.method_26204());
+      int var2 = Registries.BLOCK.getRawId(var1.getBlock());
       return var2 >= 0 && var2 < this.rav.length && this.rav[var2];
    }
 
    @Override
    public void onEndTick(MinecraftClient var1) {
       wcn.ensure(var1);
-      if (var1.field_1687 != this.rax) {
-         this.rax = var1.field_1687;
+      if (var1.world != this.rax) {
+         this.rax = var1.world;
          this.rbn();
       }
 
@@ -184,14 +184,14 @@ public class rae extends kfe {
          this.rbo();
       }
 
-      int var2 = var1.field_1724.method_31477() >> 4;
-      int var3 = var1.field_1724.method_31479() >> 4;
+      int var2 = var1.player.getBlockX() >> 4;
+      int var3 = var1.player.getBlockZ() >> 4;
       int var4 = (int)Math.ceil(this.rak.get() / 16.0) + 1;
       LongIterator var5 = this.rar.keySet().iterator();
 
       while (var5.hasNext()) {
          long var6 = var5.nextLong();
-         if (Math.abs(ChunkPos.method_8325(var6) - var2) > var4 + 1 || Math.abs(ChunkPos.method_8332(var6) - var3) > var4 + 1) {
+         if (Math.abs(ChunkPos.getPackedX(var6) - var2) > var4 + 1 || Math.abs(ChunkPos.getPackedZ(var6) - var3) > var4 + 1) {
             var5.remove();
          }
       }
@@ -200,7 +200,7 @@ public class rae extends kfe {
 
       while (var10.hasNext()) {
          long var14 = var10.nextLong();
-         if (Math.abs(ChunkPos.method_8325(var14) - var2) > var4 + 1 || Math.abs(ChunkPos.method_8332(var14) - var3) > var4 + 1) {
+         if (Math.abs(ChunkPos.getPackedX(var14) - var2) > var4 + 1 || Math.abs(ChunkPos.getPackedZ(var14) - var3) > var4 + 1) {
             var10.remove();
          }
       }
@@ -214,7 +214,7 @@ public class rae extends kfe {
 
       for (int var12 = -var4; var12 <= var4; var12++) {
          for (int var16 = -var4; var16 <= var4; var16++) {
-            long var7 = ChunkPos.method_8331(var2 + var16, var3 + var12);
+            long var7 = ChunkPos.toLong(var2 + var16, var3 + var12);
             if (!this.rat.contains(var7)) {
                this.ras.add(var7);
             }
@@ -226,12 +226,10 @@ public class rae extends kfe {
 
       while (!this.ras.isEmpty() && System.nanoTime() - var13 < 1500000L) {
          long var17 = this.ras.removeFirstLong();
-         if (Math.abs(ChunkPos.method_8325(var17) - var2) <= var4 && Math.abs(ChunkPos.method_8332(var17) - var3) <= var4) {
-            WorldChunk var9 = var1.field_1687
-               .method_2935()
-               .method_2857(ChunkPos.method_8325(var17), ChunkPos.method_8332(var17), ChunkStatus.field_12803, false);
+         if (Math.abs(ChunkPos.getPackedX(var17) - var2) <= var4 && Math.abs(ChunkPos.getPackedZ(var17) - var3) <= var4) {
+            WorldChunk var9 = var1.world.getChunkManager().getChunk(ChunkPos.getPackedX(var17), ChunkPos.getPackedZ(var17), ChunkStatus.FULL, false);
             if (var9 != null) {
-               this.rbq(var1.field_1687, var9, var17);
+               this.rbq(var1.world, var9, var17);
                this.rat.add(var17);
             }
          }
@@ -245,23 +243,23 @@ public class rae extends kfe {
 
    private void rbq(ClientWorld var1, WorldChunk var2, long var3) {
       ArrayList var5 = null;
-      ChunkSection[] var6 = var2.method_12006();
-      int var7 = var2.method_32891();
-      int var8 = ChunkPos.method_8325(var3) << 4;
-      int var9 = ChunkPos.method_8332(var3) << 4;
+      ChunkSection[] var6 = var2.getSectionArray();
+      int var7 = var2.getBottomSectionCoord();
+      int var8 = ChunkPos.getPackedX(var3) << 4;
+      int var9 = ChunkPos.getPackedZ(var3) << 4;
       Mutable var10 = new Mutable();
 
       for (int var11 = 0; var11 < var6.length; var11++) {
          ChunkSection var12 = var6[var11];
-         if (var12 != null && !var12.method_38292() && var12.method_19523(this::rbp)) {
+         if (var12 != null && !var12.isEmpty() && var12.hasAny(this::rbp)) {
             int var13 = var7 + var11 << 4;
 
             for (int var14 = 0; var14 < 16; var14++) {
                for (int var15 = 0; var15 < 16; var15++) {
                   for (int var16 = 0; var16 < 16; var16++) {
-                     BlockState var17 = var12.method_12254(var16, var14, var15);
+                     BlockState var17 = var12.getBlockState(var16, var14, var15);
                      if (this.rbp(var17)) {
-                        var10.method_10103(var8 + var16, var13 + var14, var9 + var15);
+                        var10.set(var8 + var16, var13 + var14, var9 + var15);
                         if (var5 == null) {
                            var5 = new ArrayList();
                         }
@@ -286,30 +284,21 @@ public class rae extends kfe {
       Box var4 = new Box(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
 
       try {
-         VoxelShape var5 = var3.method_26218(var1, var2);
-         if (!var5.method_1110()) {
-            var4 = var5.method_1107();
+         VoxelShape var5 = var3.getOutlineShape(var1, var2);
+         if (!var5.isEmpty()) {
+            var4 = var5.getBoundingBox();
          }
       } catch (RuntimeException var6) {
       }
 
-      return new qzt(
-         var2.method_10063(),
-         this.rbu(var3),
-         (float)var4.field_1323,
-         (float)var4.field_1322,
-         (float)var4.field_1321,
-         (float)var4.field_1320,
-         (float)var4.field_1325,
-         (float)var4.field_1324
-      );
+      return new qzt(var2.asLong(), this.rbu(var3), (float)var4.minX, (float)var4.minY, (float)var4.minZ, (float)var4.maxX, (float)var4.maxY, (float)var4.maxZ);
    }
 
    private void rbs(MinecraftClient var1) {
       this.ray.clear();
       double var2 = this.rak.get();
       double var4 = var2 * var2;
-      Vec3d var6 = var1.field_1724.method_33571();
+      Vec3d var6 = var1.player.getEyePos();
       ArrayList var7 = new ArrayList();
       ObjectIterator var8 = this.rar.values().iterator();
 
@@ -317,9 +306,9 @@ public class rae extends kfe {
          List var9 = (List)var8.next();
 
          for (qzt var11 : var9) {
-            double var12 = BlockPos.method_10061(var11.qzu) + 0.5 - var6.field_1352;
-            double var14 = BlockPos.method_10071(var11.qzu) + 0.5 - var6.field_1351;
-            double var16 = BlockPos.method_10083(var11.qzu) + 0.5 - var6.field_1350;
+            double var12 = BlockPos.unpackLongX(var11.qzu) + 0.5 - var6.x;
+            double var14 = BlockPos.unpackLongY(var11.qzu) + 0.5 - var6.y;
+            double var16 = BlockPos.unpackLongZ(var11.qzu) + 0.5 - var6.z;
             if (var12 * var12 + var14 * var14 + var16 * var16 <= var4) {
                var7.add(var11);
             }
@@ -333,9 +322,9 @@ public class rae extends kfe {
 
          for (int var24 = 0; var24 < var7.size(); var24++) {
             qzt var26 = (qzt)var7.get(var24);
-            double var13 = BlockPos.method_10061(var26.qzu) - var6.field_1352;
-            double var15 = BlockPos.method_10071(var26.qzu) - var6.field_1351;
-            double var17 = BlockPos.method_10083(var26.qzu) - var6.field_1350;
+            double var13 = BlockPos.unpackLongX(var26.qzu) - var6.x;
+            double var15 = BlockPos.unpackLongY(var26.qzu) - var6.y;
+            double var17 = BlockPos.unpackLongZ(var26.qzu) - var6.z;
             var20[var24] = var13 * var13 + var15 * var15 + var17 * var17;
             var22[var24] = var24;
          }
@@ -359,17 +348,17 @@ public class rae extends kfe {
    }
 
    private boolean rbt(long var1, int var3, int var4, int var5, int var6, boolean var7) {
-      long var8 = BlockPos.method_10096(var1, var3, var4, var5);
+      long var8 = BlockPos.add(var1, var3, var4, var5);
       return this.rap.containsKey(var8) && (var7 || this.rap.get(var8) == var6);
    }
 
    private int rbu(BlockState var1) {
-      Block var2 = var1.method_26204();
+      Block var2 = var1.getBlock();
       if (var2 instanceof ShulkerBoxBlock var6) {
-         DyeColor var7 = var6.method_10528();
-         return var7 != null ? 0xFF000000 | var7.method_7787() : -4944682;
+         DyeColor var7 = var6.getColor();
+         return var7 != null ? 0xFF000000 | var7.getEntityColor() : -4944682;
       } else {
-         String var3 = Registries.field_41175.method_10221(var2).method_12832();
+         String var3 = Registries.BLOCK.getId(var2).getPath();
          if (var3.contains("diamond")) {
             return -11541505;
          } else if (var3.contains("emerald")) {
@@ -397,7 +386,7 @@ public class rae extends kfe {
          } else if (var3.contains("chest") || var3.contains("barrel")) {
             return -1529776;
          } else if (!var3.contains("beacon") && !var3.contains("conduit")) {
-            int var4 = var2.method_26403().field_16011;
+            int var4 = var2.getDefaultMapColor().color;
             int var5 = 0xFF000000 | var4;
             return ujt.luminance(var5) < 0.4F ? ujt.lerp(var5, -1, 0.45F) : var5;
          } else {
@@ -408,21 +397,21 @@ public class rae extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rae var2 = raf;
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       if (var2 != null
          && var2.isEnabled()
          && !var2.ray.isEmpty()
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+         && var3.world != null
+         && var3.player != null
+         && !var3.options.hudHidden
+         && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.rba) {
             var2.rba = unf.frame();
 
             usn var4;
             try {
-               var4 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var4 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var34) {
                return;
             }
@@ -442,9 +431,9 @@ public class rae extends kfe {
 
             try {
                for (qzt var16 : var2.ray) {
-                  double var17 = BlockPos.method_10061(var16.qzu);
-                  double var19 = BlockPos.method_10071(var16.qzu);
-                  double var21 = BlockPos.method_10083(var16.qzu);
+                  double var17 = BlockPos.unpackLongX(var16.qzu);
+                  double var19 = BlockPos.unpackLongY(var16.qzu);
+                  double var21 = BlockPos.unpackLongZ(var16.qzu);
                   double var23 = var17 + (var16.qzw + var16.qzz) * 0.5;
                   double var25 = var19 + (var16.qzx + var16.raa) * 0.5;
                   double var27 = var21 + (var16.qzy + var16.rab) * 0.5;
@@ -510,12 +499,12 @@ public class rae extends kfe {
             && var2.project(this.rbb[var33][0], this.rbb[var33][1], this.rbb[var33][2], this.rbc[var33]);
       }
 
-      this.rbe[0] = var3.field_1351 < var23;
-      this.rbe[1] = var3.field_1351 > var29;
-      this.rbe[2] = var3.field_1350 < var25;
-      this.rbe[3] = var3.field_1350 > var31;
-      this.rbe[4] = var3.field_1352 < var21;
-      this.rbe[5] = var3.field_1352 > var27;
+      this.rbe[0] = var3.y < var23;
+      this.rbe[1] = var3.y > var29;
+      this.rbe[2] = var3.z < var25;
+      this.rbe[3] = var3.z > var31;
+      this.rbe[4] = var3.x < var21;
+      this.rbe[5] = var3.x > var27;
       if ((var12 || !var13) && var14 > 0.005F) {
          int var41 = ujt.withAlpha(var11, Math.round(255.0F * var14));
 
@@ -569,18 +558,20 @@ public class rae extends kfe {
       boolean var10 = this.rbt(var1.qzu, var8[0] + var9[0], var8[1] + var9[1], var8[2] + var9[2], var1.qzv, var5);
       if (!var6 && !var7 && !var10) {
          return this.rbe[var2] || this.rbe[var3];
-      } else if ((var6 == var7 || var10) && (!var6 || !var7 || !var10)) {
+      }
+
+      if ((var6 == var7 || var10) && (!var6 || !var7 || !var10)) {
          long var11 = var1.qzu;
          if (var6) {
-            var11 = Math.min(var11, BlockPos.method_10096(var1.qzu, var8[0], var8[1], var8[2]));
+            var11 = Math.min(var11, BlockPos.add(var1.qzu, var8[0], var8[1], var8[2]));
          }
 
          if (var7) {
-            var11 = Math.min(var11, BlockPos.method_10096(var1.qzu, var9[0], var9[1], var9[2]));
+            var11 = Math.min(var11, BlockPos.add(var1.qzu, var9[0], var9[1], var9[2]));
          }
 
          if (var10) {
-            var11 = Math.min(var11, BlockPos.method_10096(var1.qzu, var8[0] + var9[0], var8[1] + var9[1], var8[2] + var9[2]));
+            var11 = Math.min(var11, BlockPos.add(var1.qzu, var8[0] + var9[0], var8[1] + var9[1], var8[2] + var9[2]));
          }
 
          return var11 == var1.qzu;

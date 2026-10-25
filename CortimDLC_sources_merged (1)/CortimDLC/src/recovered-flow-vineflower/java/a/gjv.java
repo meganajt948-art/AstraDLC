@@ -30,7 +30,7 @@ final class gjv {
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.d("\u2fda噉\udc80䋷줶侣\uf5c2簳\ue276棝\uef09", -2116994137, -1714678725));
       if (var1 == 1) {
-         var0.field_1690.field_1837 = false;
+         var0.options.pauseOnLostFocus = false;
          gka = vxr.find(
             Mouse.class, a.c(19577844, "뮍숷䣵훞嵊\udbff憫\ue851瘈ﲨ筨脞\u0fdb阰ᰮ髐ₒ꽑㗢뎟㨄䁗컧"), a.c(551400012, "눠쮞䅁\udf39哦퉬桑\ue1a6翶\uf54c"), a.c(-1513700863, "쉚")
          );
@@ -53,69 +53,69 @@ final class gjv {
                679493645
             )
          );
-         System.out.println(a.d("⊂嬱퇸侏쑎䊺\uf8ba煝\uef09斥\ue225", -61365662, -1919778682) + var0.field_1690.method_42495().method_41753());
+         System.out.println(a.d("⊂嬱퇸侏쑎䊺\uf8ba煝\uef09斥\ue225", -61365662, -1919778682) + var0.options.getMouseSensitivity().getValue());
          return false;
-      } else {
-         gkh(var0);
-         if (var1 < 40) {
-            return false;
-         } else {
-            byte var3 = 26;
-            int var4 = (var1 - 40) / var3;
-            int var5 = (var1 - 40) % var3;
-            if (var4 >= gjz.length) {
-               var2.setEnabled(false);
-               return true;
-            } else {
-               if (var5 == 0) {
-                  var2.setEnabled(var4 >= 2);
-                  var0.field_1724.method_36456(0.0F);
-                  var0.field_1724.method_36457(0.0F);
-                  var0.field_1724.field_5982 = 0.0F;
-               } else if (var5 == 10) {
-                  gkd = var0.field_1724.method_36454();
-               } else if (var5 > 10 && var5 <= 16) {
-                  int var14 = gjz[var4].contains(a.b("쓄뵮㞳꧍∆", 1861534899)) ? 1 : -1;
-                  int var15 = gjz[var4].contains(a.d("\uf85b臭ବ镚", -696234716, 1012708637)) ? 8 : 1;
-                  GLFWCursorPosCallback var8 = gkg(var0);
-                  long var16 = var0.method_22683().method_4490();
-
-                  for (int var17 = 0; var17 < 3 * var15; var17++) {
-                     gkc += var14 * 2;
-                     var8.invoke(var16, gkc, 500.0);
-                  }
-               } else if (var5 == 24) {
-                  int var6 = gjz[var4].contains(a.c(1976430957, "\uf10f袹ɸ鰎")) ? 8 : 1;
-                  double var7 = 36 * var6;
-                  double var9 = (Double)var0.field_1690.method_42495().method_41753() * 0.6 + 0.2;
-                  double var11 = var7 * var9 * var9 * var9 * 8.0 * 0.15;
-                  float var13 = var0.field_1724.method_36454() - gkd;
-                  System.out
-                     .printf(
-                        a.b("\udbb8ꈋ⣂뚵㵴뮀ǖ衱ᙧ鳌ᭋ\ue13b濫\uf646簞\ufaee䃥켱喉폅婧⁰꺇㕗댪㦰耏จ铨\u12b6餂柖\ued99瑥\uf277磃윟䵳쯵刂\ud819ꛩⲸꭂ㆙뾺ٺ賞ઌ酛ὧ\ue5b3氏\uea43烥ﻷ䔃", -1974084628),
-                        gjz[var4],
-                        var13,
-                        var11,
-                        Math.abs(var13) / var11
-                     );
-               }
-
-               return false;
-            }
-         }
       }
+
+      gkh(var0);
+      if (var1 < 40) {
+         return false;
+      }
+
+      byte var3 = 26;
+      int var4 = (var1 - 40) / var3;
+      int var5 = (var1 - 40) % var3;
+      if (var4 >= gjz.length) {
+         var2.setEnabled(false);
+         return true;
+      }
+
+      if (var5 == 0) {
+         var2.setEnabled(var4 >= 2);
+         var0.player.setYaw(0.0F);
+         var0.player.setPitch(0.0F);
+         var0.player.lastYaw = 0.0F;
+      } else if (var5 == 10) {
+         gkd = var0.player.getYaw();
+      } else if (var5 > 10 && var5 <= 16) {
+         int var14 = gjz[var4].contains(a.b("쓄뵮㞳꧍∆", 1861534899)) ? 1 : -1;
+         int var15 = gjz[var4].contains(a.d("\uf85b臭ବ镚", -696234716, 1012708637)) ? 8 : 1;
+         GLFWCursorPosCallback var8 = gkg(var0);
+         long var16 = var0.getWindow().getHandle();
+
+         for (int var17 = 0; var17 < 3 * var15; var17++) {
+            gkc += var14 * 2;
+            var8.invoke(var16, gkc, 500.0);
+         }
+      } else if (var5 == 24) {
+         int var6 = gjz[var4].contains(a.c(1976430957, "\uf10f袹ɸ鰎")) ? 8 : 1;
+         double var7 = 36 * var6;
+         double var9 = var0.options.getMouseSensitivity().getValue() * 0.6 + 0.2;
+         double var11 = var7 * var9 * var9 * var9 * 8.0 * 0.15;
+         float var13 = var0.player.getYaw() - gkd;
+         System.out
+            .printf(
+               a.b("\udbb8ꈋ⣂뚵㵴뮀ǖ衱ᙧ鳌ᭋ\ue13b濫\uf646簞\ufaee䃥켱喉폅婧⁰꺇㕗댪㦰耏จ铨\u12b6餂柖\ued99瑥\uf277磃윟䵳쯵刂\ud819ꛩⲸꭂ㆙뾺ٺ賞ઌ酛ὧ\ue5b3氏\uea43烥ﻷ䔃", -1974084628),
+               gjz[var4],
+               var13,
+               var11,
+               Math.abs(var13) / var11
+            );
+      }
+
+      return false;
    }
 
    private static GLFWCursorPosCallback gkg(MinecraftClient var0) {
-      long var1 = var0.method_22683().method_4490();
+      long var1 = var0.getWindow().getHandle();
       GLFWCursorPosCallback var3 = GLFW.glfwSetCursorPosCallback(var1, null);
       GLFW.glfwSetCursorPosCallback(var1, var3);
       return var3;
    }
 
    private static void gkh(MinecraftClient var0) throws Exception {
-      if (gka != null && var0.field_1755 == null) {
-         gka.setBoolean(var0.field_1729, true);
+      if (gka != null && var0.currentScreen == null) {
+         gka.setBoolean(var0.mouse, true);
       }
 
       if (gkb != null) {
@@ -124,6 +124,6 @@ final class gjv {
    }
 
    private static void gki(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

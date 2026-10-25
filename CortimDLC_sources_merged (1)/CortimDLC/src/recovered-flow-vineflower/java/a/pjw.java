@@ -113,7 +113,7 @@ public final class pjw {
    }
 
    private void plt(float var1, float var2, pjt var3, double var4) {
-      var2 = MathHelper.method_15363(var2, -89.0F, 89.0F);
+      var2 = MathHelper.clamp(var2, -89.0F, 89.0F);
       this.plk = false;
       if (!this.pkt) {
          this.reset(var1, var2);
@@ -132,7 +132,7 @@ public final class pjw {
                var6 += this.plf;
             }
 
-            var8 = MathHelper.method_15350(var2 + this.plg + this.plv(), -78.0, 78.0);
+            var8 = MathHelper.clamp(var2 + this.plg + this.plv(), -78.0, 78.0);
          }
 
          this.plw(var6, var8, var3, var4);
@@ -156,7 +156,7 @@ public final class pjw {
          this.pkw -= var5;
          this.pkx -= var7;
          double var9 = var5 * this.pku;
-         double var11 = MathHelper.method_15350(this.pks + var7 * this.pku, -90.0, 90.0);
+         double var11 = MathHelper.clamp(this.pks + var7 * this.pku, -90.0, 90.0);
          this.pkr += var9;
          this.pks = var11;
          this.pla = this.pkr;
@@ -204,14 +204,14 @@ public final class pjw {
          }
 
          double var1 = this.pll + this.pln;
-         double var3 = MathHelper.method_15350(this.plm + this.plo, -70.0, 70.0);
+         double var3 = MathHelper.clamp(this.plm + this.plo, -70.0, 70.0);
          this.plw(var1, var3, pjt.IDLE, 0.0);
       }
    }
 
    private void plu() {
-      this.plf = MathHelper.method_15350(this.plf * 0.992 + this.pki.nextGaussian() * 0.12, -3.0, 3.0);
-      this.plg = MathHelper.method_15350(this.plg * 0.99 + this.pki.nextGaussian() * 0.35, -9.0, 8.0);
+      this.plf = MathHelper.clamp(this.plf * 0.992 + this.pki.nextGaussian() * 0.12, -3.0, 3.0);
+      this.plg = MathHelper.clamp(this.plg * 0.99 + this.pki.nextGaussian() * 0.35, -9.0, 8.0);
       if (this.pli > 0) {
          this.pli--;
       } else if (this.plj > 0) {
@@ -230,7 +230,7 @@ public final class pjw {
    private void plw(double var1, double var3, pjt var5, double var6) {
       this.pla = var1;
       this.plb = var3;
-      if (this.ple && Math.hypot(MathHelper.method_15338(var1 - this.plc), var3 - this.pld) > 10.0) {
+      if (this.ple && Math.hypot(MathHelper.wrapDegrees(var1 - this.plc), var3 - this.pld) > 10.0) {
          this.pky = new Object();
       }
 
@@ -241,7 +241,7 @@ public final class pjw {
          this.pkj.idle((float)this.pkr, (float)this.pks);
          this.pkv = false;
       } else {
-         double var8 = MathHelper.method_15338(var1 - this.pkr);
+         double var8 = MathHelper.wrapDegrees(var1 - this.pkr);
          double var10 = var3 - this.pks;
          double var12;
          double var14;
@@ -277,10 +277,10 @@ public final class pjw {
             tck var19 = this.pkl == null ? null : lfa.model(this.pkl);
             this.pkj.use(var19 != null ? var19 : tck.profile1());
             this.pkj.tune((var19 != null ? 1.0 : this.pkm) * (1.0 + 1.2 * var38), var19 != null ? 1.0 : this.pkn, 1.0);
-            MinecraftClient var20 = MinecraftClient.method_1551();
+            MinecraftClient var20 = MinecraftClient.getInstance();
             int var21 = this.pky == this.pkz ? 0 : 2;
             this.pkz = this.pky;
-            if (!this.pkj.steerTo(var20.field_1724, this.pky, this.pkr + var8, var3, var12, var14, var21, (float)this.pkr, (float)this.pks, this.pkk)) {
+            if (!this.pkj.steerTo(var20.player, this.pky, this.pkr + var8, var3, var12, var14, var21, (float)this.pkr, (float)this.pks, this.pkk)) {
                this.pkv = false;
             } else {
                double var22 = this.pkk[0];
@@ -298,7 +298,7 @@ public final class pjw {
                this.pkw -= var28;
                this.pkx -= var30;
                double var32 = var28 * this.pku;
-               double var34 = MathHelper.method_15350(this.pks + var30 * this.pku, -90.0, 90.0);
+               double var34 = MathHelper.clamp(this.pks + var30 * this.pku, -90.0, 90.0);
                double var36 = var34 - this.pks;
                this.pkr += var32;
                this.pks = var34;
@@ -310,7 +310,7 @@ public final class pjw {
    }
 
    private static double plx(double var0) {
-      var0 = MathHelper.method_15350(var0, 0.0, 1.0);
+      var0 = MathHelper.clamp(var0, 0.0, 1.0);
       return var0 * var0 * (3.0 - 2.0 * var0);
    }
 
@@ -327,7 +327,7 @@ public final class pjw {
    }
 
    public float getPitch() {
-      return (float)MathHelper.method_15350(this.pks, -90.0, 90.0);
+      return (float)MathHelper.clamp(this.pks, -90.0, 90.0);
    }
 
    public boolean isMoving() {
@@ -335,7 +335,7 @@ public final class pjw {
    }
 
    public double error() {
-      return this.pkt ? Math.hypot(MathHelper.method_15338(this.pla - this.pkr), this.plb - this.pks) : 0.0;
+      return this.pkt ? Math.hypot(MathHelper.wrapDegrees(this.pla - this.pkr), this.plb - this.pks) : 0.0;
    }
 
    public boolean isOn(double var1) {

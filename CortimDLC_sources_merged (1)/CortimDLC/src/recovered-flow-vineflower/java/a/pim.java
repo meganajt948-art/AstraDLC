@@ -18,11 +18,11 @@ public final class pim {
    }
 
    public static pia flat(RegistryEntry<EntityAttribute> var0, double var1) {
-      return new pia(var0, var1, Operation.field_6328);
+      return new pia(var0, var1, Operation.ADD_VALUE);
    }
 
    public static pia scaled(RegistryEntry<EntityAttribute> var0, double var1) {
-      return new pia(var0, var1, Operation.field_6330);
+      return new pia(var0, var1, Operation.ADD_MULTIPLIED_BASE);
    }
 
    public static pig effect(RegistryEntry<StatusEffect> var0, int var1, int var2) {
@@ -30,7 +30,7 @@ public final class pim {
    }
 
    static boolean attrs(ItemStack var0, List<pia> var1) {
-      AttributeModifiersComponent var2 = (AttributeModifiersComponent)var0.method_58695(DataComponentTypes.field_49636, AttributeModifiersComponent.field_49326);
+      AttributeModifiersComponent var2 = var0.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent.DEFAULT);
 
       for (pia var4 : var1) {
          if (!var4.in(var2)) {
@@ -42,27 +42,27 @@ public final class pim {
    }
 
    static boolean effects(ItemStack var0, List<pig> var1) {
-      PotionContentsComponent var2 = (PotionContentsComponent)var0.method_58694(DataComponentTypes.field_49651);
+      PotionContentsComponent var2 = var0.get(DataComponentTypes.POTION_CONTENTS);
       if (var2 == null) {
          return false;
-      } else {
-         int var3 = 0;
+      }
 
-         for (StatusEffectInstance var5 : var2.method_57397()) {
-            var3++;
-         }
+      int var3 = 0;
 
-         if (var3 != var1.size()) {
+      for (StatusEffectInstance var5 : var2.getEffects()) {
+         var3++;
+      }
+
+      if (var3 != var1.size()) {
+         return false;
+      }
+
+      for (pig var7 : var1) {
+         if (!var7.in(var2)) {
             return false;
-         } else {
-            for (pig var7 : var1) {
-               if (!var7.in(var2)) {
-                  return false;
-               }
-            }
-
-            return true;
          }
       }
+
+      return true;
    }
 }

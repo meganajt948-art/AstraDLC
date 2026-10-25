@@ -61,7 +61,7 @@ final class hfi {
             hgb(var0, a.b("䱩㗊뼝ⅹꪲⰎ陊Ῡ臵ୋ貑盤\uf820", -1201714157));
             hfw(var0, 0.0F, 8.0F);
             hfk = hfy(var0, a.c(-1415440344, "ᡩ懮\ueb2a畟ﺄ"), 3.2, 0.0);
-            hfk.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_22022));
+            hfk.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
             ruv.onAttack(hfk);
             var3.mode.set(a.d("썿뫡〵깘█ꌾ", 1150096127, -177745471));
             var3.setEnabled(true);
@@ -95,8 +95,8 @@ final class hfi {
             var3.mode.set(a.c(-21445475, "쓘뵌㞑ꧯ∤\ua48fớ霭ॻ"));
             break;
          case 90:
-            hfk.field_6235 = 10;
-            hfk.field_6254 = 10;
+            hfk.hurtTime = 10;
+            hfk.maxHurtTime = 10;
             ruv.onAttack(hfk);
             break;
          case 91:
@@ -166,8 +166,8 @@ final class hfi {
          case 141:
             hgb(var0, a.b("㏋䩸삮廟필厕\ue9e3怬﹜瓠\uf33aफ़蟑Ḵ鑺ኚ\ua8dd✼", -1173605454));
             hfu(var2, a.d("ꎲ\uda3e僼캅䕺쏝禍", -803660341, -1876312521), false);
-            var0.field_1724.method_31548().method_61496(0);
-            var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_8634, 16));
+            var0.player.getInventory().setSelectedSlot(0);
+            var0.player.getInventory().setStack(0, new ItemStack(Items.ENDER_PEARL, 16));
             hfu(var2, a.b("櫚ፉ馍߽谧જ냘㤴ꝭⷝꨓ", 1036610177), true);
             hfw(var0, 0.0F, -12.0F);
             break;
@@ -182,18 +182,11 @@ final class hfi {
             break;
          case 161:
             hfu(var2, a.c(-396307395, "푦귵✱륁㊛될\u0e64螈᧑鍡ᒯ"), false);
-            var0.field_1724.method_31548().method_5447(0, ItemStack.field_8037);
+            var0.player.getInventory().setStack(0, ItemStack.EMPTY);
             hgb(var0, a.c(605698820, "㭗䋰젲噕\udd8c嬾\ue161梘\uf68c籣ﯿƟ輖\u16f9鳴ᩈꀔ⾈딿㍩몕샂习햢叚\ud919惤\ueefc琌\uf246秴蜮"));
             hgb(var0, a.d("ᐩ涎\ue74c礫\uf2f2瑀츟䟦\ud9f2匝풐⺿ꀶ㧙돇㔥輧ò驆ᰜ闭\uefad愍\ufadb粶\uf629俏손孭\udd08嚈ꡚ∝", -1065952444, 1138872127));
             hfu(var2, a.b("⼃嚜\udc4c䈱짮佻\uf512糢\ue2a5树\uefc5ᖿ", -526241971), true);
-            hfx(
-               var0,
-               new Vec3d(
-                  Math.floor(var0.field_1724.method_23317()) + 0.5,
-                  Math.floor(var0.field_1724.method_23318()) + 0.6,
-                  Math.floor(var0.field_1724.method_23321()) + 3.5
-               )
-            );
+            hfx(var0, new Vec3d(Math.floor(var0.player.getX()) + 0.5, Math.floor(var0.player.getY()) + 0.6, Math.floor(var0.player.getZ()) + 3.5));
             break;
          case 172:
             hgd(var0, a.d("甧\u0cd0蘊ᡯ鏺ᕑ꼃⛪뢰㈆뗞", 1593671134, 850593924));
@@ -225,18 +218,18 @@ final class hfi {
             hfj.clear();
             hhf.remove(a.c(-713189088, "饮\ue0fb樫\uf44f羀"));
             hgb(var0, a.c(-1374378505, "ꖁ\udc36囩좐䍏염群\uf654桎\ue2ac敹鼏ᇜ衲Ⱦ蓘㺚"));
-            var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_8176, 8));
+            var0.player.getInventory().setStack(0, new ItemStack(Items.COOKED_BEEF, 8));
             break;
          case 190:
-            var0.field_1724.method_7344().method_7580(11);
-            var0.field_1724.method_7344().method_7581(4.5F);
+            var0.player.getHungerManager().setFoodLevel(11);
+            var0.player.getHungerManager().setSaturationLevel(4.5F);
             break;
          case 192:
             hgd(var0, a.b("呫\u2d9dꝎ㤣늪㐉蹏\u07bf駧ፅ钃滯\ue03e禎", -540126189));
             break;
          case 193:
             hgb(var0, a.b("秄s説ᓕ鼊ᦹꏡ⨑됋㻹뤻䍝춎吪\ude64墊\ue2d6", 1496152498));
-            var0.field_1724.method_31548().method_5447(0, ItemStack.field_8037);
+            var0.player.getInventory().setStack(0, ItemStack.EMPTY);
             hfw(var0, 35.0F, 4.0F);
             break;
          case 200:
@@ -275,30 +268,30 @@ final class hfi {
             kfe var17 = var2.getByName(a.d("퀲ꦶ⍥봖", 2010665989, -1125350295));
             ((vlv)hfv(var17, a.b("쌡몲ぶ긑◆", 708690804))).set(a.b("ꑻ\udded圽쥄", 542286903));
             var17.setEnabled(false);
-            System.out.println(a.b("盬ག薋᯼逿ᚃ겜┷뭽㇌똝䰡슴嬆텗垮\uedb0扻\uf88e绖\uf738贿", 985101964) + var0.field_1690.method_41808().method_41753());
+            System.out.println(a.b("盬ག薋᯼逿ᚃ겜┷뭽㇌똝䰡슴嬆텗垮\uedb0扻\uf88e绖\uf738贿", 985101964) + var0.options.getFov().getValue());
             break;
          case 256:
             hfk = hfy(var0, a.d("㋼䭻솿忊퐑", -1674618759, 1012099780), 3.2, 0.0);
             hfu(var2, a.c(-1624805604, "潝ᛘ鰜ɭ覜༏땐"), true);
-            var0.field_1690.field_1894.method_23481(true);
-            var0.field_1690.field_1903.method_23481(true);
+            var0.options.forwardKey.setPressed(true);
+            var0.options.jumpKey.setPressed(true);
             break;
          case 266:
-            var0.field_1690.field_1894.method_23481(false);
-            var0.field_1690.field_1903.method_23481(false);
-            var0.field_1724.method_36456(var0.field_1724.method_36454() + 180.0F);
-            var0.field_1724.method_36457(25.0F);
+            var0.options.forwardKey.setPressed(false);
+            var0.options.jumpKey.setPressed(false);
+            var0.player.setYaw(var0.player.getYaw() + 180.0F);
+            var0.player.setPitch(25.0F);
             break;
          case 276:
             hgd(var0, a.c(-704559858, "䕳㲅뙑⠻ꎧ│齆ᚷ裮ɝ薂"));
             System.out
                .println(
                   a.b("襧\uf0c9稀\ue477澴\ue908北\udaa0䓫칍䦞돩㴼ꒁ⺅ꡮቢ鶱\u070e腗ࢷ狵ﰇ", 1594853638)
-                     + var0.method_1560().getClass().getSimpleName()
+                     + var0.getCameraEntity().getClass().getSimpleName()
                      + a.c(1432191976, "菌屮烺\ueedf")
-                     + hgc(var0.method_1560().method_23318())
+                     + hgc(var0.getCameraEntity().getY())
                      + a.c(-818678624, "\uf480贽\u07be駓ሉ钠⻯꜉㤄돴㐲츗")
-                     + hgc(var0.field_1724.method_23318())
+                     + hgc(var0.player.getY())
                );
             break;
          case 277:
@@ -311,16 +304,16 @@ final class hfi {
             var16.onKey(var0, ((vlq)hfv(var16, a.c(743270327, "柿Ṡ钯"))).get());
             break;
          case 283:
-            var0.field_1724.method_36456(var0.field_1724.method_36454() + 140.0F);
+            var0.player.setYaw(var0.player.getYaw() + 140.0F);
             break;
          case 295:
             hgd(var0, a.c(1768789185, "钻\ued4d枘麟牯\uf4ca于읿天펛呈긽"));
             System.out
                .println(
                   a.d("蒙ﴷ矾\ue989扊\ue4f6廩흞䤕쎳䑠븘ヌ\ua97d〉ꖊ῟遌\u0af2貨Ղ罊\uf1a0橩\uec00暆", 664758633, -410260068)
-                     + hgc(var0.field_1724.field_6283)
+                     + hgc(var0.player.bodyYaw)
                      + a.c(-196679254, "\ue986遴᪥蓘༇覡㏡멑\u2457껾⤻팝")
-                     + hgc(var0.field_1773.method_19418().method_19330())
+                     + hgc(var0.gameRenderer.getCamera().getYaw())
                );
             break;
          case 296:
@@ -373,7 +366,7 @@ final class hfi {
             hgd(var0, a.c(-631067390, "굸풍幟쀰䮭촎睁ﻴ惫\uea5e涗韶"));
             break;
          case 446:
-            var0.method_1507(null);
+            var0.setScreen(null);
             hft();
             hfw(var0, 0.0F, 12.0F);
             hfk = hfy(var0, a.d("곮합徭쇘䨃", 410241330, -1500224099), 3.2, 0.0);
@@ -406,7 +399,7 @@ final class hfi {
                )
             );
             hgb(var0, a.d("ᴜ撻\uee79瀞\ufbc7絵윪仓탇娨\udda5➊꤃レ뫷㰐蘒ে鍳ᔩ鳘\ue698核\uf3ee疃＜䛦좰剜퐌徴", 266247674, 463437962));
-            var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_8634, 16));
+            var0.player.getInventory().setStack(0, new ItemStack(Items.ENDER_PEARL, 16));
             var3.mode.set(a.c(-1706255069, "鵸\ue4ea渨\uf04a箄ﴲ䝨캏"));
             break;
          default:
@@ -460,7 +453,7 @@ final class hfi {
                hfj.clear();
                hgb(var0, a.d("뺁윲䷤펕堎\udedf撩\ued66猖寧繰萔છ鍾ᤰ鿐▗ꩶ", 403356954, -1726479390));
                hgb(var0, a.b("뾲옕䳗튰奩\udfdb斄\uec7d物\uf886缋蔤\u0bad鉂ᡙ麾Ⓖꭩ㇝랇㹶䐶쪖兀휭嶲\ue45a樃\uf0ef", -421150756));
-               var0.field_1724.method_31548().method_5447(0, ItemStack.field_8037);
+               var0.player.getInventory().setStack(0, ItemStack.EMPTY);
                hyz.save();
                return true;
             }
@@ -491,39 +484,35 @@ final class hfi {
    }
 
    private static void hfw(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static void hfx(MinecraftClient var0, Vec3d var1) {
-      Vec3d var2 = var1.method_1020(var0.field_1724.method_33571());
-      hfw(
-         var0,
-         (float)Math.toDegrees(Math.atan2(-var2.field_1352, var2.field_1350)),
-         (float)(-Math.toDegrees(Math.atan2(var2.field_1351, Math.hypot(var2.field_1352, var2.field_1350))))
-      );
+      Vec3d var2 = var1.subtract(var0.player.getEyePos());
+      hfw(var0, (float)Math.toDegrees(Math.atan2(-var2.x, var2.z)), (float)(-Math.toDegrees(Math.atan2(var2.y, Math.hypot(var2.x, var2.z)))));
    }
 
    private static PlayerEntity hfy(MinecraftClient var0, String var1, double var2, double var4) {
-      OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), var1));
+      OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var7 = new Vec3d(0.0, 0.0, 1.0);
       Vec3d var8 = new Vec3d(-1.0, 0.0, 0.0);
-      Vec3d var9 = var0.field_1724.method_73189().method_1019(var7.method_1021(var2)).method_1019(var8.method_1021(var4));
-      var6.method_5808(var9.field_1352, var0.field_1724.method_23318(), var9.field_1350, 180.0F, 0.0F);
-      var6.method_5636(180.0F);
-      var6.method_5847(180.0F);
-      var6.field_6220 = 180.0F;
-      var6.field_6259 = 180.0F;
-      var6.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_8058));
-      var0.field_1687.method_53875(var6);
+      Vec3d var9 = var0.player.getEntityPos().add(var7.multiply(var2)).add(var8.multiply(var4));
+      var6.refreshPositionAndAngles(var9.x, var0.player.getY(), var9.z, 180.0F, 0.0F);
+      var6.setBodyYaw(180.0F);
+      var6.setHeadYaw(180.0F);
+      var6.lastBodyYaw = 180.0F;
+      var6.lastHeadYaw = 180.0F;
+      var6.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+      var0.world.addEntity(var6);
       return var6;
    }
 
    private static void hfz(MinecraftClient var0, Entity var1) {
       if (var1 != null) {
-         var0.field_1687.method_2945(var1.method_5628(), RemovalReason.field_26999);
+         var0.world.removeEntity(var1.getId(), RemovalReason.DISCARDED);
       }
    }
 
@@ -541,11 +530,11 @@ final class hfi {
          var8.setFloat(null, Float.NaN);
       }
 
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static void hgb(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static String hgc(double var0) {
@@ -553,11 +542,11 @@ final class hfi {
    }
 
    private static void hgd(MinecraftClient var0, String var1) {
-      System.out.println(a.b("ી獧尿柆\uec57檲탰夗읏䶪", 334564025) + var1 + a.c(915238833, "澒ᙃ鳰") + var0.method_47599() + a.b("뱟얨佭턟", 828357755));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.b("ી獧尿柆\uec57檲탰夗읏䶪", 334564025) + var1 + a.c(915238833, "澒ᙃ鳰") + var0.getCurrentFps() + a.b("뱟얨佭턟", 828357755));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.b("\uf51e貥ٵ頜ᎎ锠", 958788990) + var1 + a.c(112637340, "떶챙䚔\ud8ec"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

@@ -108,7 +108,7 @@ public final class jos extends Screen {
    };
 
    public jos(Screen var1) {
-      super(Text.method_43470(a.b("㴰䒬칧偂\udbd8嵥\ue739滇\uf09e稭\ufde9", -1369686662)));
+      super(Text.literal(a.b("㴰䒬칧偂\udbd8嵥\ue739滇\uf09e稭\ufde9", -1369686662)));
       this.jpc = var1;
       jzh.preload(this.jpf.key);
       this.jqr(kap.clock(), true);
@@ -145,12 +145,14 @@ public final class jos extends Screen {
       }
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      unf.observe(var1);
+      unf.observe(context);
       long var5 = System.nanoTime();
       this.jqj = this.jqi == 0L ? 0.016666668F : Math.min(0.1F, (float)(var5 - this.jqi) / 1.0E9F);
       this.jqi = var5;
@@ -161,19 +163,19 @@ public final class jos extends Screen {
 
       float var8 = var7 - this.jqd;
       float var9 = this.jqe >= 0.0F ? vcq.clamp01((var7 - this.jqe) / 0.22F) : 0.0F;
-      this.jqk = kbp.scale(this.field_22789, this.field_22790);
-      this.jql = this.field_22789 / this.jqk;
-      this.jqm = this.field_22790 / this.jqk;
-      float var10 = var2 / this.jqk;
-      float var11 = var3 / this.jqk;
+      this.jqk = kbp.scale(this.width, this.height);
+      this.jql = this.width / this.jqk;
+      this.jqm = this.height / this.jqk;
+      float var10 = mouseX / this.jqk;
+      float var11 = mouseY / this.jqk;
       float var12 = 1.0F - (float)Math.exp(-this.jqj * 2.2F);
-      if (var2 >= 0 && var3 >= 0 && var2 <= this.field_22789 && var3 <= this.field_22790) {
-         this.jqg = this.jqg + ((float)var2 / this.field_22789 - 0.5F - this.jqg) * var12;
-         this.jqh = this.jqh + ((float)var3 / this.field_22790 - 0.5F - this.jqh) * var12;
+      if (mouseX >= 0 && mouseY >= 0 && mouseX <= this.width && mouseY <= this.height) {
+         this.jqg = this.jqg + ((float)mouseX / this.width - 0.5F - this.jqg) * var12;
+         this.jqh = this.jqh + ((float)mouseY / this.height - 0.5F - this.jqh) * var12;
       }
 
       GpuTextureView var13 = unm.view();
-      uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, -16118250);
+      uut.rect(context, 0.0F, 0.0F, this.width, this.height, -16118250);
       jza var14 = jzh.get(this.jpf.key);
       if (var14 != null) {
          float var15 = vcq.outCubic(vcq.clamp01(var8 / 0.5F)) * (1.0F - vcq.inOutCubic(var9));
@@ -187,16 +189,16 @@ public final class jos extends Screen {
          this.jpe.tintAmount = 0.3F;
          this.jpe.fall = null;
          this.jpe.pool = null;
-         this.jpd.draw(var1, var14, this.jpe, this.field_22789, this.field_22790, 1.0F, true);
+         this.jpd.draw(context, var14, this.jpe, this.width, this.height, 1.0F, true);
       }
 
-      Matrix3x2fStack var30 = var1.method_51448();
+      Matrix3x2fStack var30 = context.getMatrices();
       var30.pushMatrix();
       var30.scale(this.jqk, this.jqk);
       vdn.setRenderScaleStepped(this.jqk);
 
       try {
-         this.jpg.draw(var1, var13, this.jql, this.jqm, var7, false, this.jqg, this.jqh, 1.0F);
+         this.jpg.draw(context, var13, this.jql, this.jqm, var7, false, this.jqg, this.jqh, 1.0F);
          float var16 = vcq.clamp01(var8 / 0.42F);
          float var17 = vcq.outBack(var16) * (1.0F - var9) + 0.0F;
          float var18 = vcq.clamp01(var16 * 1.6F) * (1.0F - vcq.inCubic(var9));
@@ -210,7 +212,7 @@ public final class jos extends Screen {
          uut.pushAlpha(var18);
 
          try {
-            this.jqu(var1, var13, var10 - var19, var11 - var20, var7, var19, var20);
+            this.jqu(context, var13, var10 - var19, var11 - var20, var7, var19, var20);
          } finally {
             uut.popAlpha();
             var30.popMatrix();
@@ -223,7 +225,7 @@ public final class jos extends Screen {
 
       if (var9 >= 1.0F && !this.jqf) {
          this.jqf = true;
-         this.field_22787.method_63588(() -> this.field_22787.method_1507(this.jpc));
+         this.client.send(() -> this.client.setScreen(this.jpc));
       }
    }
 
@@ -263,7 +265,7 @@ public final class jos extends Screen {
          jrm(16777215, 0.97F)
       );
       vdn var6 = veo.medium(6.4F);
-      String var7 = this.field_22787.method_1548().method_1676();
+      String var7 = this.client.getSession().getUsername();
       String var8 = wap.s(a.c(896021282, "㍹䫴쀪幃햄匲\ue968惞ﻀ瑣\uf3e3"), a.c(-194294653, "䢪ㄏ믐◟깿⢿隗ὼ"));
       float var9 = var6.width(var8);
       var6.draw(var1, var8, 44.0F, var6.centerTop(31.5F), jrm(16777215, 0.5F));
@@ -382,7 +384,7 @@ public final class jos extends Screen {
       float var11 = vcq.outCubic(vcq.clamp01((var8 - var2.bornAt) / 0.4F));
       if (!(var11 <= 0.0F)) {
          jyi var12 = var2.alt;
-         boolean var13 = var12.name().equals(this.field_22787.method_1548().method_1676());
+         boolean var13 = var12.name().equals(this.client.getSession().getUsername());
          boolean var14 = this.jpy == var12.handle();
          boolean var15 = var7 && this.jqe < 0.0F && jrk(var5, var6, var3, var4, var10, 28.0F);
          float var16 = var2.hover.step(var15 || var14, this.jqj);
@@ -394,7 +396,7 @@ public final class jos extends Screen {
          float var22 = var2.loginHover.step(var20, this.jqj);
          boolean var23 = this.jpz == var12.handle() && var8 - this.jqa < 2.5F;
          float var24 = vcq.clamp01((var8 - var2.pressAt) / 0.45F);
-         Matrix3x2fStack var25 = var1.method_51448();
+         Matrix3x2fStack var25 = var1.getMatrices();
          var25.pushMatrix();
          var25.translate((1.0F - var11) * 14.0F, 0.0F);
          uut.pushAlpha(var11);
@@ -501,10 +503,11 @@ public final class jos extends Screen {
 
       float var20 = var5 - this.jps < 0.4F ? (float)Math.sin((var5 - this.jps) * 50.0F) * 3.0F * (1.0F - (var5 - this.jps) / 0.4F) : 0.0F;
       float var21 = this.jpo.step(this.jpr, this.jqj);
+      float var14 = var7;
       boolean var15 = joz.matcher(this.jpq).matches();
-      uut.round(var1, var8 + var20, var7, var10, var9, var9 * 0.5F, jrm(329741, 0.4F + 0.12F * var21));
-      uut.outline(var1, var8 + var20, var7, var10, var9, var9 * 0.5F, 0.7F, jrm(kce.mix(16777215, var6, var21), 0.12F + 0.4F * var21));
-      vjf.draw(var1, vhz.PLAYER, var8 + var20 + 12.0F, var7 + var9 * 0.5F, 8.5F, jrm(16777215, 0.45F + 0.3F * var21));
+      uut.round(var1, var8 + var20, var14, var10, var9, var9 * 0.5F, jrm(329741, 0.4F + 0.12F * var21));
+      uut.outline(var1, var8 + var20, var14, var10, var9, var9 * 0.5F, 0.7F, jrm(kce.mix(16777215, var6, var21), 0.12F + 0.4F * var21));
+      vjf.draw(var1, vhz.PLAYER, var8 + var20 + 12.0F, var14 + var9 * 0.5F, 8.5F, jrm(16777215, 0.45F + 0.3F * var21));
       vdn var16 = veo.medium(7.2F);
       float var17 = var8 + var20 + 22.0F;
       if (this.jpq.isEmpty()) {
@@ -512,16 +515,16 @@ public final class jos extends Screen {
             var1,
             wap.s(a.d("믠쉺䢻횝崅\udbbd懮\ue815癏ﳹ笡脕ྌ防ᱭ骔", -1371542404, 1293768642), a.d("ᡎ懚\ueb0b煠ﺣ砝숺侤헦彔\ud88b⋶갬㖐믝㤼荹ನ阑ဳ馺\ue394浕", 1758637937, 177713973)),
             var17,
-            var16.centerTop(var7 + var9 * 0.5F),
+            var16.centerTop(var14 + var9 * 0.5F),
             jrm(16777215, 0.32F)
          );
       } else {
-         var16.draw(var1, this.jpq, var17, var16.centerTop(var7 + var9 * 0.5F), jrm(16777215, var15 ? 0.95F : 0.8F));
+         var16.draw(var1, this.jpq, var17, var16.centerTop(var14 + var9 * 0.5F), jrm(16777215, var15 ? 0.95F : 0.8F));
       }
 
       if (this.jpr && (int)(var5 * 2.0F) % 2 == 0) {
          float var18 = var17 + (this.jpq.isEmpty() ? 0.0F : var16.width(this.jpq) + 0.8F);
-         uut.rect(var1, var18, var7 + 6.0F, 0.8F, var9 - 12.0F, jrm(var6, 0.95F));
+         uut.rect(var1, var18, var14 + 6.0F, 0.8F, var9 - 12.0F, jrm(var6, 0.95F));
       }
 
       if (!this.jpq.isEmpty()) {
@@ -530,21 +533,21 @@ public final class jos extends Screen {
             var1,
             this.jpq.length() + a.c(1695022765, "ﺁ蜮\u0dfa"),
             var8 + var20 + var10 - 10.0F,
-            var22.centerTop(var7 + var9 * 0.5F),
+            var22.centerTop(var14 + var9 * 0.5F),
             jrm(var15 ? 16777215 : 16747146, var15 ? 0.35F : 0.8F)
          );
       }
 
       float var23 = var8 + var10 + 6.0F;
-      this.jrd(var1, var23, var7, var9, vhz.DICE, this.jpn.step(jrk(var3, var4, var23, var7, var9, var9), this.jqj), this.jpu, var5, 16777215, var6, false);
+      this.jrd(var1, var23, var14, var9, vhz.DICE, this.jpn.step(jrk(var3, var4, var23, var14, var9, var9), this.jqj), this.jpu, var5, 16777215, var6, false);
       float var19 = var23 + var9 + 6.0F;
-      this.jrd(var1, var19, var7, var9, vhz.PLUS, this.jpm.step(jrk(var3, var4, var19, var7, var9, var9), this.jqj), this.jpt, var5, var6, var6, var15);
+      this.jrd(var1, var19, var14, var9, vhz.PLUS, this.jpm.step(jrk(var3, var4, var19, var14, var9, var9), this.jqj), this.jpt, var5, var6, var6, var15);
    }
 
    private void jrd(DrawContext var1, float var2, float var3, float var4, vhz var5, float var6, float var7, float var8, int var9, int var10, boolean var11) {
       float var12 = vcq.clamp01((var8 - var7) / 0.4F);
       float var13 = var12 < 1.0F ? (float)Math.sin(Math.PI * vcq.clamp01(var12 * 2.4F)) : 0.0F;
-      Matrix3x2fStack var14 = var1.method_51448();
+      Matrix3x2fStack var14 = var1.getMatrices();
       var14.pushMatrix();
       var14.translate(var2 + var4 * 0.5F, var3 + var4 * 0.5F);
       float var15 = 1.0F + 0.06F * var6 - 0.1F * var13;
@@ -574,24 +577,24 @@ public final class jos extends Screen {
       SkinTextures var2 = jpa.get(var1);
       if (var2 != null) {
          return var2;
-      } else {
-         SkinTextures var3 = DefaultSkinHelper.method_4648(var1);
-         if (var0.microsoft() && !jpb.containsKey(var1)) {
-            MinecraftClient var4 = MinecraftClient.method_1551();
-            jpb.put(
-               var1,
-               CompletableFuture.<GameProfile>supplyAsync(() -> {
-                     ProfileResult var2x = var4.method_73361().comp_837().fetchProfile(var1, false);
-                     return var2x != null ? var2x.profile() : null;
-                  })
-                  .thenCompose(var1x -> var1x == null ? CompletableFuture.completedFuture(Optional.empty()) : var4.method_1582().method_52863(var1x))
-                  .thenAcceptAsync(var1x -> var1x.ifPresent(var1xx -> jpa.put(var1, var1xx)), var4)
-                  .exceptionally(var0x -> null)
-            );
-         }
-
-         return var3;
       }
+
+      SkinTextures var3 = DefaultSkinHelper.getSkinTextures(var1);
+      if (var0.microsoft() && !jpb.containsKey(var1)) {
+         MinecraftClient var4 = MinecraftClient.getInstance();
+         jpb.put(
+            var1,
+            CompletableFuture.<GameProfile>supplyAsync(() -> {
+                  ProfileResult var2x = var4.getApiServices().sessionService().fetchProfile(var1, false);
+                  return var2x != null ? var2x.profile() : null;
+               })
+               .thenCompose(var1x -> var1x == null ? CompletableFuture.completedFuture(Optional.empty()) : var4.getSkinProvider().fetchSkinTextures(var1x))
+               .thenAcceptAsync(var1x -> var1x.ifPresent(var1xx -> jpa.put(var1, var1xx)), var4)
+               .exceptionally(var0x -> null)
+         );
+      }
+
+      return var3;
    }
 
    private void jrf(String var1, int var2) {
@@ -684,92 +687,100 @@ public final class jos extends Screen {
       }
    }
 
-   public void method_25419() {
+   @Override
+   public void close() {
       if (this.jqe < 0.0F) {
          this.jqe = kap.clock();
       }
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
       if (this.jqe >= 0.0F) {
          return true;
-      } else {
-         float var3 = (float)var1.comp_4798() / this.jqk - this.jqs();
-         float var4 = (float)var1.comp_4799() / this.jqk - this.jqt();
-         if (var1.method_74245() != 0) {
-            return true;
-         } else {
-            float var5 = kap.clock();
-            if (!jrk(var3, var4, 0.0F, 0.0F, 268.0F, 218.0F)) {
-               this.method_25419();
-               return true;
-            } else if (jrl(var3, var4, 246.0F, 22.0F) < 9.0F) {
-               this.method_25419();
-               return true;
-            } else {
-               vdn var6 = veo.medium(6.4F);
-               float var7 = var6.width(a.d("⌀媕큌丬엦䍋滑烼\ueeb1", 171419603, -2096659305)) + 22.0F;
-               if (jrk(var3, var4, 232.0F - var7, 14.0F, var7, 16.0F)) {
-                  jyw.openOriginal(this);
-                  return true;
-               } else {
-                  float var8 = 184.0F;
-                  float var9 = 22.0F;
-                  float var10 = 244.0F - 2.0F * (var9 + 6.0F);
-                  this.jpr = jrk(var3, var4, 12.0F, var8, var10, var9) || this.jpr && !jrk(var3, var4, 10.0F, this.jqx(), 248.0F, this.jqy());
-                  if (jrk(var3, var4, 12.0F + var10 + 6.0F, var8, var9, var9)) {
-                     this.jrh();
-                     return true;
-                  } else if (jrk(var3, var4, 12.0F + var10 + 12.0F + var9, var8, var9, var9)) {
-                     this.jrg();
-                     return true;
+      }
+
+      float var3 = (float)click.x() / this.jqk - this.jqs();
+      float var4 = (float)click.y() / this.jqk - this.jqt();
+      if (click.button() != 0) {
+         return true;
+      }
+
+      float var5 = kap.clock();
+      if (!jrk(var3, var4, 0.0F, 0.0F, 268.0F, 218.0F)) {
+         this.close();
+         return true;
+      }
+
+      if (jrl(var3, var4, 246.0F, 22.0F) < 9.0F) {
+         this.close();
+         return true;
+      }
+
+      vdn var6 = veo.medium(6.4F);
+      float var7 = var6.width(a.d("⌀媕큌丬엦䍋滑烼\ueeb1", 171419603, -2096659305)) + 22.0F;
+      if (jrk(var3, var4, 232.0F - var7, 14.0F, var7, 16.0F)) {
+         jyw.openOriginal(this);
+         return true;
+      }
+
+      float var8 = 184.0F;
+      float var9 = 22.0F;
+      float var10 = 244.0F - 2.0F * (var9 + 6.0F);
+      this.jpr = jrk(var3, var4, 12.0F, var8, var10, var9) || this.jpr && !jrk(var3, var4, 10.0F, this.jqx(), 248.0F, this.jqy());
+      if (jrk(var3, var4, 12.0F + var10 + 6.0F, var8, var9, var9)) {
+         this.jrh();
+         return true;
+      }
+
+      if (jrk(var3, var4, 12.0F + var10 + 12.0F + var9, var8, var9, var9)) {
+         this.jrg();
+         return true;
+      }
+
+      if (jrk(var3, var4, 10.0F, this.jqx(), 248.0F, this.jqy())) {
+         float var11 = this.jqx() - this.jqb;
+
+         for (jyi var13 : this.jph) {
+            jop var14 = this.jpi.get(var13.handle());
+            if (var14 != null && jrk(var3, var4, 10.0F, var11, 248.0F, 28.0F)) {
+               float var15 = 232.0F;
+               if (jrk(var3, var4, var15, var11 + 5.0F, 20.0F, 18.0F)) {
+                  if (this.jpz == var13.handle() && var5 - this.jqa < 2.5F) {
+                     this.jpz = null;
+                     jyw.remove(var13);
+                     this.jqr(var5, false);
+                     this.jrf(wap.s(a.c(-1247646000, "溊ᜌ鷗Τ衪່뒚㴯"), a.c(25662220, "霨\uee8e摙﨣熞\uf743䤍")) + var13.name(), 16762475);
                   } else {
-                     if (jrk(var3, var4, 10.0F, this.jqx(), 248.0F, this.jqy())) {
-                        float var11 = this.jqx() - this.jqb;
-
-                        for (jyi var13 : this.jph) {
-                           jop var14 = this.jpi.get(var13.handle());
-                           if (var14 != null && jrk(var3, var4, 10.0F, var11, 248.0F, 28.0F)) {
-                              float var15 = 232.0F;
-                              if (jrk(var3, var4, var15, var11 + 5.0F, 20.0F, 18.0F)) {
-                                 if (this.jpz == var13.handle() && var5 - this.jqa < 2.5F) {
-                                    this.jpz = null;
-                                    jyw.remove(var13);
-                                    this.jqr(var5, false);
-                                    this.jrf(wap.s(a.c(-1247646000, "溊ᜌ鷗Τ衪່뒚㴯"), a.c(25662220, "霨\uee8e摙﨣熞\uf743䤍")) + var13.name(), 16762475);
-                                 } else {
-                                    this.jpz = var13.handle();
-                                    this.jqa = var5;
-                                 }
-                              } else {
-                                 var14.pressAt = var5;
-                                 var14.px = var3 - 10.0F;
-                                 this.jri(var14);
-                              }
-
-                              return true;
-                           }
-
-                           var11 += 32.0F;
-                        }
-                     }
-
-                     return true;
+                     this.jpz = var13.handle();
+                     this.jqa = var5;
                   }
+               } else {
+                  var14.pressAt = var5;
+                  var14.px = var3 - 10.0F;
+                  this.jri(var14);
                }
+
+               return true;
             }
+
+            var11 += 32.0F;
          }
       }
-   }
 
-   public boolean method_25401(double var1, double var3, double var5, double var7) {
-      this.jqc -= (float)var7 * 32.0F;
       return true;
    }
 
-   public boolean method_25400(CharInput var1) {
+   @Override
+   public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+      this.jqc -= (float)verticalAmount * 32.0F;
+      return true;
+   }
+
+   @Override
+   public boolean charTyped(CharInput input) {
       if (this.jpr && !(this.jqe >= 0.0F)) {
-         String var2 = var1.method_74226();
+         String var2 = input.asString();
          StringBuilder var3 = new StringBuilder(this.jpq);
 
          for (char var7 : var2.toCharArray()) {
@@ -785,39 +796,42 @@ public final class jos extends Screen {
       }
    }
 
-   public boolean method_25404(KeyInput var1) {
-      int var2 = var1.comp_4795();
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      int var2 = input.key();
       if (var2 == 256) {
-         this.method_25419();
-         return true;
-      } else if (!this.jpr) {
-         return true;
-      } else {
-         boolean var3 = (var1.comp_4797() & 10) != 0;
-         switch (var2) {
-            case 86:
-               if (var3) {
-                  this.jrj();
-               }
-               break;
-            case 257:
-            case 335:
-               this.jrg();
-               break;
-            case 259:
-               if (var3) {
-                  this.jpq = "";
-               } else if (!this.jpq.isEmpty()) {
-                  this.jpq = this.jpq.substring(0, this.jpq.length() - 1);
-               }
-         }
-
+         this.close();
          return true;
       }
+
+      if (!this.jpr) {
+         return true;
+      }
+
+      boolean var3 = (input.modifiers() & 10) != 0;
+      switch (var2) {
+         case 86:
+            if (var3) {
+               this.jrj();
+            }
+            break;
+         case 257:
+         case 335:
+            this.jrg();
+            break;
+         case 259:
+            if (var3) {
+               this.jpq = "";
+            } else if (!this.jpq.isEmpty()) {
+               this.jpq = this.jpq.substring(0, this.jpq.length() - 1);
+            }
+      }
+
+      return true;
    }
 
    private void jrj() {
-      String var1 = this.field_22787.field_1774.method_1460();
+      String var1 = this.client.keyboard.getClipboard();
       StringBuilder var2 = new StringBuilder(this.jpq);
 
       for (char var6 : var1.toCharArray()) {
@@ -829,15 +843,18 @@ public final class jos extends Screen {
       this.jpq = var2.toString();
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public void method_25432() {
+   @Override
+   public void removed() {
       this.jpd.close();
       vdn.setRenderScale(1.0F);
    }

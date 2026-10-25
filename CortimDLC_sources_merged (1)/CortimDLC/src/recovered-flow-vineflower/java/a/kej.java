@@ -98,14 +98,14 @@ public final class kej {
    }
 
    private static void ket(DrawContext var0, ClickableWidget var1, int var2, int var3, float var4, float var5) {
-      if (var1.field_22764) {
-         float var6 = var1.method_75798();
-         var1.method_25350(0.0F);
+      if (var1.visible) {
+         float var6 = var1.getAlpha();
+         var1.setAlpha(0.0F);
 
          try {
-            var1.method_25394(var0, var2, var3, var4);
+            var1.render(var0, var2, var3, var4);
          } finally {
-            var1.method_25350(var6);
+            var1.setAlpha(var6);
          }
 
          keu(var0, var1, var2, var3, var6, var5);
@@ -120,27 +120,27 @@ public final class kej {
          float var8 = unf.delta();
          float var9 = vcq.outCubic(vcq.clamp01((var7 - var6.born - var6.delay) / 0.26F));
          if (!(var9 <= 0.0F)) {
-            boolean var10 = var1.field_22763;
-            MinecraftClient var11 = MinecraftClient.method_1551();
-            boolean var12 = var1.method_25370() && var11.method_48186().method_48183();
-            float var13 = var6.hover.step(var10 && (var1.method_49606() || var12), var8);
-            boolean var14 = GLFW.glfwGetMouseButton(var11.method_22683().method_4490(), 0) == 1;
-            if (var14 && !var6.down && var10 && var1.method_49606()) {
+            boolean var10 = var1.active;
+            MinecraftClient var11 = MinecraftClient.getInstance();
+            boolean var12 = var1.isFocused() && var11.getNavigationType().isKeyboard();
+            float var13 = var6.hover.step(var10 && (var1.isHovered() || var12), var8);
+            boolean var14 = GLFW.glfwGetMouseButton(var11.getWindow().getHandle(), 0) == 1;
+            if (var14 && !var6.down && var10 && var1.isHovered()) {
                var6.pressAt = var7;
-               var6.px = var2 - var1.method_46426();
+               var6.px = var2 - var1.getX();
             }
 
             var6.down = var14;
             float var15 = vcq.clamp01((var7 - var6.pressAt) / 0.5F);
             float var16 = var15 < 1.0F ? (float)Math.sin(Math.PI * vcq.clamp01(var15 * 2.6F)) : 0.0F;
-            float var17 = var1.method_25368();
-            float var18 = var1.method_25364();
+            float var17 = var1.getWidth();
+            float var18 = var1.getHeight();
             float var19 = Math.min(var18 * 0.5F, 5.0F);
             int var20 = kbs.selected().accent;
             float var21 = 1.0F - 0.035F * var16;
-            Matrix3x2fStack var22 = var0.method_51448();
+            Matrix3x2fStack var22 = var0.getMatrices();
             var22.pushMatrix();
-            var22.translate(var1.method_46426() + var17 * 0.5F, var1.method_46427() + var18 * 0.5F + (1.0F - var9) * 4.0F);
+            var22.translate(var1.getX() + var17 * 0.5F, var1.getY() + var18 * 0.5F + (1.0F - var9) * 4.0F);
             var22.scale(var21, var21);
             var22.translate(-var17 * 0.5F, -var18 * 0.5F);
             float var23 = var4 * var9;
@@ -222,7 +222,7 @@ public final class kej {
    }
 
    private static void kew(DrawContext var0, ClickableWidget var1, float var2, float var3, float var4, boolean var5, float var6) {
-      net.minecraft.text.Text var7 = var1.method_25369();
+      net.minecraft.text.Text var7 = var1.getMessage();
       String var8 = var7.getString();
       int var9 = var5 ? kce.mix(15133683, 16777215, var4) : 8028814;
       vdn var10 = veo.semibold(6.9F);
@@ -230,17 +230,16 @@ public final class kej {
          String var15 = var10.ellipsize(var8, var2 - 8.0F);
          var10.drawCentered(var0, var15, var2 * 0.5F, var10.centerTop(var3 * 0.5F), kez(var9, 1.0F));
       } else {
-         TextRenderer var11 = MinecraftClient.method_1551().field_1772;
+         TextRenderer var11 = MinecraftClient.getInstance().textRenderer;
          int var12 = Math.round(255.0F * Math.max(0.0F, Math.min(1.0F, var6)));
          if (var12 >= 5) {
-            int var13 = var11.method_27525(var7);
+            int var13 = var11.getWidth(var7);
             if (var13 <= var2 - 6.0F) {
-               var0.method_51439(var11, var7, Math.round((var2 - var13) * 0.5F), Math.round(var3 * 0.5F - 4.0F), var12 << 24 | 16777215, false);
+               var0.drawText(var11, var7, Math.round((var2 - var13) * 0.5F), Math.round(var3 * 0.5F - 4.0F), var12 << 24 | 16777215, false);
             } else {
-               String var14 = var11.method_27523(var8, Math.max(0, Math.round(var2 - 6.0F) - var11.method_1727(a.b("泳ᕂ龑", -825398050))))
-                  + a.b("㬱䊀졓", -478790884);
-               var0.method_51433(
-                  var11, var14, Math.round((var2 - var11.method_1727(var14)) * 0.5F), Math.round(var3 * 0.5F - 4.0F), var12 << 24 | var9 & 16777215, false
+               String var14 = var11.trimToWidth(var8, Math.max(0, Math.round(var2 - 6.0F) - var11.getWidth(a.b("泳ᕂ龑", -825398050)))) + a.b("㬱䊀졓", -478790884);
+               var0.drawText(
+                  var11, var14, Math.round((var2 - var11.getWidth(var14)) * 0.5F), Math.round(var3 * 0.5F - 4.0F), var12 << 24 | var9 & 16777215, false
                );
             }
          }
@@ -248,7 +247,7 @@ public final class kej {
    }
 
    private static boolean kex(net.minecraft.text.Text var0) {
-      Optional var1 = var0.method_27658((var0x, var1x) -> var0x.method_10973() != null ? Optional.of(Boolean.TRUE) : Optional.empty(), Style.field_24360);
+      Optional var1 = var0.visit((var0x, var1x) -> var0x.getColor() != null ? Optional.of(Boolean.TRUE) : Optional.empty(), Style.EMPTY);
       return var1.isEmpty();
    }
 

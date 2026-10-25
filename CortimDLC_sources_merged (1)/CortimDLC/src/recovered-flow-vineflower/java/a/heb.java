@@ -97,7 +97,7 @@ final class heb {
 
       if (var1 == var5 + 24) {
          hel(var0, a.d("쨰뎝㥃Ꜻ⳥ꩂ၏駰\u07be贔ૃ\uf0ac繧\ue7d7淇\ueb78儻\udee8䑔숆䯤", -2034779261, 1176990162));
-         var0.method_1507(null);
+         var0.setScreen(null);
       }
 
       if (var1 == var5 + 50) {
@@ -128,14 +128,14 @@ final class heb {
       if (var1 == var5 + 150) {
          hel(var0, a.c(-1063172167, "䟘㹵뒫⫒ꄍ➪鶧ᐈ詁ô蜴絔\uf388橼\ue061暟\udcd9匌즬俪옜"));
          iov.PRESET.set(hee);
-         var0.method_1507(null);
+         var0.setScreen(null);
       }
 
       return var1 >= var5 + 154;
    }
 
    private static void heh(MinecraftClient var0) throws Exception {
-      if (!(var0.field_1755 instanceof hlc var1)) {
+      if (!(var0.currentScreen instanceof hlc var1)) {
          System.out.println(a.b("둋췬䜻\ud959功퐥渾\ue79b秕\uf372璦躙T馫ᏹ镇⽅ꂜ㨤뱮", -1087523796));
       } else {
          Method var15 = hlc.class.getDeclaredMethod(a.b("ꋅ\udb62冠쿶䐗슢磢\uf102潖", 264282815), String.class);
@@ -174,7 +174,7 @@ final class heb {
    }
 
    private static void hei(MinecraftClient var0) throws Exception {
-      if (var0.field_1755 instanceof hlc var1) {
+      if (var0.currentScreen instanceof hlc var1) {
          Method var3 = hlc.class.getDeclaredMethod(a.d("곇할徢쇴䨕철盠\uff00慔", -2031593148, -955124231), String.class);
          var3.setAccessible(true);
          var3.invoke(var1, "");
@@ -195,19 +195,19 @@ final class heb {
       Field var8 = hlc.class.getDeclaredField(a.b("䕕㳴똶⡚ꎎ┿齳", 1361921281));
       var8.setAccessible(true);
       ((Map)var8.get(null)).clear();
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static void hek(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void hel(MinecraftClient var0, String var1) {
-      System.out.println(a.b("뫒썵䦯ퟔ居\udaa0惢\ue905睝ﶸ", -414729557) + var1 + a.c(787828274, "丑㟀뵳") + var0.method_47599() + a.c(-1513143353, "䏣㨔냑⺣"));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.b("뫒썵䦯ퟔ居\udaa0惢\ue905睝ﶸ", -414729557) + var1 + a.c(787828274, "丑㟀뵳") + var0.getCurrentFps() + a.c(-1513143353, "䏣㨔냑⺣"));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.b("꾰혋峛슲䤠쾎", -1970556976) + var1 + a.c(-1948281975, "鎣\uea4c悁ﻹ"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

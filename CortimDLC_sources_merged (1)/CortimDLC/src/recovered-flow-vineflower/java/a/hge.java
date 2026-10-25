@@ -21,7 +21,7 @@ final class hge {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       if (var1 == 1) {
          hgp(var0, a.d("캩뜞㷁ꎸ⡧껔ᒌ鵼ͦ覄๑\uf427竴\ue35a椖\ueff0喲", -481329984, -1142836705));
          hgp(var0, a.d("\udd3c꒐⹇뀾㮬뵎܋軫რ驇ᶒ\ue7e3椴", -912220701, 732512422));
@@ -42,17 +42,17 @@ final class hge {
       }
 
       if (var1 == 110) {
-         PlayerInventory var3 = var2.method_31548();
+         PlayerInventory var3 = var2.getInventory();
          hgo(hgi, a.b("↴堂틉䲫읷䇜ﮔ牸\uec2c曞\ue117ᬲ闹\u0c45虓ï몬㕿꿊⧞ꁧ\uda3d咝콟䤷쎴穄\uf417滬\ue8b5捃鷛ន蹸࠰苎㵍뜠ㇾꠊ∝峥횹儂", -1615584783));
          hgo(
-            var3.method_5438(20).method_31574(Items.field_49814),
+            var3.getStack(20).isOf(Items.MACE),
             a.b("\uf6cc轺ֱ鯓ဏ隤ⳬꔀ㭔놦㙯챊䊁\udb3d儫힗淔\ue207碲ﺦ眕\u0d49菷ᠬ鸚ᒘ굿⍩릖㾈둹䪫샦够\udf07嗢\uea2e怐\ue6d1罢\uf52d诔Ǜ虶Წ鋊⬎ꇠ➵", -625936748)
-               + var3.method_5438(20)
+               + var3.getStack(20)
                + a.d("\udc75", 504865572, 563642233)
          );
          hgo(
-            var3.method_5438(0).method_31574(Items.field_49098),
-            a.d("ᩈ揾\ue935睗ﲋ稠쁨䦄ퟐ崢\udaeb\u20c9긁㞳뷻㭞脁ເ鐺ቱ鮛\ue183潣\uf4e6狍\uf800䆾쾪唊퍅壱ꘪⰡ떓㏋륳ڷ賓ਂ鏬ᦩ", 2069072120, 228102896) + var3.method_5438(0)
+            var3.getStack(0).isOf(Items.WIND_CHARGE),
+            a.d("ᩈ揾\ue935睗ﲋ稠쁨䦄ퟐ崢\udaeb\u20c9긁㞳뷻㭞脁ເ鐺ቱ鮛\ue183潣\uf4e6狍\uf800䆾쾪唊퍅壱ꘪⰡ떓㏋륳ڷ賓ਂ鏬ᦩ", 2069072120, 228102896) + var3.getStack(0)
          );
          hgi = false;
          hgl(var0, 5);
@@ -67,13 +67,13 @@ final class hge {
       }
 
       if (var1 == 205) {
-         PlayerInventory var4 = var2.method_31548();
+         PlayerInventory var4 = var2.getInventory();
          hgo(hgi, a.c(1226082837, "詔\uf3e2礪\ue74d沙\uea3b倠\ud9cb䟀쵭䪳낇㸝Ꞡⷱꬆᄌ麓Ы艩\u0b8d燋Ｊ撸\ue2c5栘톣德씉䍟죶㘼밼▙ꏖ⥪雸᳁騛Υ觰"));
          hgo(
-            var4.method_67532() == 0,
-            a.d("缀ڶ豾ሙ駍Ὧꕴⲟ는㠹뿧䗓쭗勹\ud8a9幃\ue458母\uf173眯ﻒ蓊ਪ醯ន鵎⓿ꪦ〔똇㶷썤䤣킙嚞\udc34掬\ue9cd演\uf6bf", -1707324956, 1523201700) + var4.method_67532()
+            var4.getSelectedSlot() == 0,
+            a.d("缀ڶ豾ሙ駍Ὧꕴⲟ는㠹뿧䗓쭗勹\ud8a9幃\ue458母\uf173眯ﻒ蓊ਪ醯ន鵎⓿ꪦ〔똇㶷썤䤣킙嚞\udc34掬\ue9cd演\uf6bf", -1707324956, 1523201700) + var4.getSelectedSlot()
          );
-         hgo(var4.method_5438(5).method_31574(Items.field_49814), a.c(-2145105708, "䢪ㄜ믔△깧⣅鋞ᬵ蔾ྒྷ衍特ﳣ敞\uef0f槸폲屮웟䂗쥳댣"));
+         hgo(var4.getStack(5).isOf(Items.MACE), a.c(-2145105708, "䢪ㄜ믔△깧⣅鋞ᬵ蔾ྒྷ衍特ﳣ敞\uef0f槸폲屮웟䂗쥳댣"));
          Flow.getInstance().getModuleManager().getByName(a.d("ꏴ\uda71傣컉䔼쎡称\uf007", -593157387, -482311864)).setEnabled(false);
          System.out
             .println(
@@ -91,31 +91,31 @@ final class hge {
    }
 
    private static void hgl(MinecraftClient var0, int var1) {
-      var0.method_1576().execute(() -> {
-         ServerPlayerEntity var2 = var0.method_1576().method_3760().method_14566(var0.field_1724.method_5477().getString());
-         var2.method_31548().method_5448();
-         var2.method_31548().method_5447(0, new ItemStack(Items.field_49098, 16));
-         var2.method_31548().method_5447(1, new ItemStack(Items.field_8802));
-         var2.method_31548().method_5447(var1, new ItemStack(Items.field_49814));
+      var0.getServer().execute(() -> {
+         ServerPlayerEntity var2 = var0.getServer().getPlayerManager().getPlayer(var0.player.getName().getString());
+         var2.getInventory().clear();
+         var2.getInventory().setStack(0, new ItemStack(Items.WIND_CHARGE, 16));
+         var2.getInventory().setStack(1, new ItemStack(Items.DIAMOND_SWORD));
+         var2.getInventory().setStack(var1, new ItemStack(Items.MACE));
       });
-      var0.field_1724.method_31548().method_61496(0);
+      var0.player.getInventory().setSelectedSlot(0);
    }
 
    private static void hgm(MinecraftClient var0) {
-      var0.field_1724.method_36457(89.0F);
-      var0.field_1724.field_6004 = 89.0F;
-      var0.field_1761.method_2919(var0.field_1724, Hand.field_5808);
-      var0.field_1724.method_6104(Hand.field_5808);
+      var0.player.setPitch(89.0F);
+      var0.player.lastPitch = 89.0F;
+      var0.interactionManager.interactItem(var0.player, Hand.MAIN_HAND);
+      var0.player.swingHand(Hand.MAIN_HAND);
       System.out
          .println(
             a.b("쬦늉㡝꘦ⶵꭉᄖ飥ڼ豈\u0bcf\uf1af置\ue6d8泅\uea2e倵\udff8䕑쌝䫲ズ빋▖ꎪ⥷郄ẖ葩ȳ覘睐ﵑ", 900713328)
-               + var0.field_1724.method_7357().method_7904(new ItemStack(Items.field_49098))
+               + var0.player.getItemCooldownManager().isCoolingDown(new ItemStack(Items.WIND_CHARGE))
          );
    }
 
    private static void hgn(ClientPlayerEntity var0, String var1, int var2) {
-      boolean var3 = var0.method_6047().method_31574(Items.field_49814);
-      hgi = hgi | (var3 && !var0.method_24828());
+      boolean var3 = var0.getMainHandStack().isOf(Items.MACE);
+      hgi = hgi | (var3 && !var0.isOnGround());
       if (var2 % 5 == 0) {
          System.out
             .println(
@@ -124,13 +124,13 @@ final class hge {
                   + a.b("ઔ獱匿", 465308343)
                   + var2
                   + a.b("曉Ἷ闹க聘۲벫㔃", 1157261025)
-                  + var0.method_24828()
+                  + var0.isOnGround()
                   + a.b("搑᷹靮", -2058394574)
-                  + String.format(Locale.ROOT, a.b("鯱\ue24b梄\uf6a1", 328506320), var0.method_23318())
+                  + String.format(Locale.ROOT, a.b("鯱\ue24b梄\uf6a1", 328506320), var0.getY())
                   + a.d("\udd06꓿⸡끙㮆뵮", 329127786, -1195718070)
-                  + var0.method_31548().method_67532()
+                  + var0.getInventory().getSelectedSlot()
                   + a.c(-1910086354, "攈ᳱ阫ࡕ莈ՠ")
-                  + var0.method_6047().method_7909()
+                  + var0.getMainHandStack().getItem()
             );
       }
    }
@@ -143,6 +143,6 @@ final class hge {
    }
 
    private static void hgp(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

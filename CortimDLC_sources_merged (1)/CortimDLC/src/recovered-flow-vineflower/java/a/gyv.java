@@ -35,20 +35,20 @@ public final class gyv {
    private static void gzf(MinecraftClient var0) {
       switch (gyy) {
          case 0:
-            if (var0.method_18506() instanceof FlowSplash) {
+            if (var0.getOverlay() instanceof FlowSplash) {
                gyz = System.nanoTime();
                gyy = 1;
             }
             break;
          case 1:
-            if (var0.method_18506() == null) {
+            if (var0.getOverlay() == null) {
                System.out.println(a.c(1738700540, "皫༙藖᮪遯ᛅ곞╻묵㆒뙆䱣싶孊턙埳\uede8扶\uf8dc纞\uf77e贱Ώ顆Ṡ银ⵍꌝ㧡뿵㐇쫑䂌\ud96c弨헋") + gze() + a.b("变⨺", 16536570));
                gyy = 2;
                gzb = 0;
             }
             break;
          case 2:
-            if (var0.field_1687 != null && var0.field_1724 != null && var0.field_1755 == null && var0.method_18506() == null) {
+            if (var0.world != null && var0.player != null && var0.currentScreen == null && var0.getOverlay() == null) {
                if (++gzb == 1) {
                   gzh();
                }
@@ -72,12 +72,12 @@ public final class gyv {
                gza++;
             }
 
-            if (gza >= gyx.length && var0.method_18506() == null) {
+            if (gza >= gyx.length && var0.getOverlay() == null) {
                System.out.println(a.b("ⴷ咅\ude4a䀶쯳䵙\uf742继\ue0a9樎\uedda\u17ff饸Ë誏౭똽㧠ꍁ╇곷횮堜쏆䗼콬盘\uf89b扽\ue43b濚", -7721637) + var2 + a.c(1490806940, "\ue8be酜"));
                if (gyw) {
                   gzi(var0, a.c(-305119411, "㼫䚙챖刪\ud9ef彅\ue553泸\uf2b5砍\uffd1֬譹ዀ飛Ṵꐫ⯫녏㜞뻢"), var2);
                   gzg(true);
-                  var0.method_1507(null);
+                  var0.setScreen(null);
                }
 
                gyy = 4;
@@ -85,7 +85,7 @@ public final class gyv {
             } else if (var2 > 20.0F) {
                System.out.println(a.b("ꔐ\udca2噭접䏔앾罥\uf6c0梎\ue229旽鿘ᅩ裟ʄ葰㹟놂⭡괲ⓒ庐퀼䯡춌䜊ﻪ炼\uea56氂\ue7b1\u192c錶ૂ賁ر맡㎂땀⳦ꛫ\ud808剙헸佼", -1703434930));
                gyy = 9;
-               var0.method_1592();
+               var0.scheduleStop();
             }
             break;
          case 4:
@@ -97,12 +97,12 @@ public final class gyv {
             break;
          case 5:
             float var1 = gze();
-            if (var0.method_18506() instanceof FlowSplash && gzb > 0) {
+            if (var0.getOverlay() instanceof FlowSplash && gzb > 0) {
                gzb = -1;
                System.out.println(a.d("悉᤻鏴ඈ虍ç뫼㍙괗➰ꁤ婁퓄䵢융䇉\ufbca瑉\ueeed梵\ue141鬞ᖨ踽ࠃ苗㭯딡⿒ꦒ∠", 1124949631, 1472544410));
             }
 
-            if (gzb < 0 && var0.method_18506() == null) {
+            if (gzb < 0 && var0.getOverlay() == null) {
                System.out
                   .println(
                      a.b("ﵜ蓮ม遝ᮘ鴲✩꺌ヂ멥㶱잔䤳킓嫒\udc23易\ue9ce猯\uf569粚ۆ蠹Ꮊ闒Ἂꚺ⣥눗㐂뿾䄶쭪劌퓁幽\ue1b2殚\ued0e璷ﻩ耓ਅ践ᜥ饆₄ꨢⰿ", -825754338)
@@ -110,11 +110,11 @@ public final class gyv {
                         + a.d("\udedfꜽ", -1053383851, -1439793752)
                   );
                gyy = 9;
-               var0.method_1592();
+               var0.scheduleStop();
             } else if (var1 > 40.0F) {
-               System.out.println(a.b("튢\uab10⇟뾣㑦닌ࣗ腲Ἴ閛\u124f\ue86a曛ｭ甶\uf3c2䧭옰峑\uda97卤⤸Ꟈ㱄먬ヴ襄ܛ鷩᯦遏", -281423154) + var0.method_18506());
+               System.out.println(a.b("튢\uab10⇟뾣㑦닌ࣗ腲Ἴ閛\u124f\ue86a曛ｭ甶\uf3c2䧭옰峑\uda97卤⤸Ꟈ㱄먬ヴ襄ܛ鷩᯦遏", -281423154) + var0.getOverlay());
                gyy = 9;
-               var0.method_1592();
+               var0.scheduleStop();
             }
       }
    }
@@ -147,11 +147,11 @@ public final class gyv {
                + a.c(441512652, "\uf2ef謊Ɛ")
                + var2
                + a.c(135231358, "睝ຌ萿")
-               + var0.method_47599()
+               + var0.getCurrentFps()
                + a.c(1389960858, "Ế杉\ued8c現")
          );
-      ScreenshotRecorder.method_22690(
-         var0.field_1697, a.d("\ueaf1鍊ᦚ蟳ౡ諏", 2062906485, -2022662428) + var1 + a.b("蛜Ｓ痾\ueb86", 391350006), var0.method_1522(), 1, var0x -> {}
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.d("\ueaf1鍊ᦚ蟳ౡ諏", 2062906485, -2022662428) + var1 + a.b("蛜Ｓ痾\ueb86", 391350006), var0.getFramebuffer(), 1, var0x -> {}
       );
    }
 }

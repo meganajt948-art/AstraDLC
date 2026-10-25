@@ -86,18 +86,18 @@ public class qxi extends kfe {
    }
 
    private static void qyd(DrawContext var0, RenderTickCounter var1, HudElement var2) {
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       long var4 = System.nanoTime();
       float var6 = qxq == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - qxq) / 1.0E9F);
       qxq = var4;
-      Scoreboard var7 = var3.field_1687.method_8428();
-      ScoreboardObjective var8 = var7.method_1189(ScoreboardDisplaySlot.field_45156);
-      int var9 = var3.field_1724.field_3944.method_45732().size();
-      boolean var10 = var3.field_1690.field_1907.method_1434() && (!var3.method_1542() || var9 > 1 || var8 != null);
+      Scoreboard var7 = var3.world.getScoreboard();
+      ScoreboardObjective var8 = var7.getObjectiveForSlot(ScoreboardDisplaySlot.LIST);
+      int var9 = var3.player.networkHandler.getListedPlayerListEntries().size();
+      boolean var10 = var3.options.playerListKey.isPressed() && (!var3.isInSingleplayer() || var9 > 1 || var8 != null);
       qxp = vcq.clamp01(qxp + (var10 ? var6 / qya(0.24F) : -var6 / qya(0.16F)));
       if (!(qxp <= 0.0F) && (!(qxp >= 1.0F) || !var10)) {
          float var11 = qxp * qxp * (3.0F - 2.0F * qxp);
-         int var12 = var0.method_51421();
+         int var12 = var0.getScaledWindowWidth();
          int var13 = var9;
 
          for (int var14 = 1; var13 > 20; var13 = (var9 + var14 - 1) / var14) {
@@ -105,8 +105,8 @@ public class qxi extends kfe {
          }
 
          float var15 = 10.0F + var13 * 9.0F + 50.0F;
-         var0.method_44379(0, 0, var12, Math.max(1, Math.round(4.0F + var11 * var15)));
-         Matrix3x2fStack var16 = var0.method_51448();
+         var0.enableScissor(0, 0, var12, Math.max(1, Math.round(4.0F + var11 * var15)));
+         Matrix3x2fStack var16 = var0.getMatrices();
          var16.pushMatrix();
          float var17 = 0.94F + 0.06F * var11;
          var16.translate(var12 * 0.5F, 10.0F - (1.0F - var11) * 6.0F);
@@ -117,12 +117,12 @@ public class qxi extends kfe {
             if (var10) {
                var2.render(var0, var1);
             } else {
-               var0.method_71048();
-               var3.field_1705.method_1750().method_1919(var0, var12, var7, var8);
+               var0.createNewRootLayer();
+               var3.inGameHud.getPlayerListHud().render(var0, var12, var7, var8);
             }
          } finally {
             var16.popMatrix();
-            var0.method_44380();
+            var0.disableScissor();
          }
       } else {
          var2.render(var0, var1);
@@ -135,7 +135,7 @@ public class qxi extends kfe {
             float var3 = 0.0F;
 
             try {
-               var3 = qyf(MinecraftClient.method_1551());
+               var3 = qyf(MinecraftClient.getInstance());
             } catch (Throwable var9) {
                qxs = true;
                System.out.println("chat animation unavailable: " + var9);
@@ -144,7 +144,7 @@ public class qxi extends kfe {
             if (var3 < 0.05F) {
                var0.render(var1, var2);
             } else {
-               Matrix3x2fStack var4 = var1.method_51448();
+               Matrix3x2fStack var4 = var1.getMatrices();
                var4.pushMatrix();
                var4.translate(0.0F, var3);
 
@@ -161,7 +161,7 @@ public class qxi extends kfe {
    }
 
    private static float qyf(MinecraftClient var0) throws IllegalAccessException {
-      ChatHud var1 = var0.field_1705.method_1743();
+      ChatHud var1 = var0.inGameHud.getChatHud();
       if (qxr == null) {
          for (Field var5 : ChatHud.class.getDeclaredFields()) {
             if (!Modifier.isStatic(var5.getModifiers())
@@ -193,12 +193,12 @@ public class qxi extends kfe {
       float var15 = vcq.clamp01((float)(var14 - qxu) / 1.0E9F / qya(0.28F));
       if (var15 >= 1.0F) {
          return 0.0F;
-      } else {
-         double var16 = (Double)var0.field_1690.method_42546().method_41753();
-         double var9 = (Double)var0.field_1690.method_42554().method_41753();
-         float var11 = (float)(9.0 * (var16 + 1.0) * var9);
-         return (1.0F - vcq.outCubic(var15)) * var11;
       }
+
+      double var16 = var0.options.getChatLineSpacing().getValue();
+      double var9 = var0.options.getChatScale().getValue();
+      float var11 = (float)(9.0 * (var16 + 1.0) * var9);
+      return (1.0F - vcq.outCubic(var15)) * var11;
    }
 
    public static void attach(Screen var0) {
@@ -217,15 +217,15 @@ public class qxi extends kfe {
          if (qxz(var3 ? qxj.qxm : qxj.qxn)) {
             float var4 = vcq.clamp01((float)(System.nanoTime() - var2) / 1.0E9F / qya(var3 ? 0.2F : 0.26F));
             if (!(var4 >= 1.0F)) {
-               Matrix3x2fStack var5 = var1.method_51448();
+               Matrix3x2fStack var5 = var1.getMatrices();
                var5.pushMatrix();
                qxw = true;
                if (var3) {
                   var5.translate(0.0F, (1.0F - vcq.outCubic(var4)) * 16.0F);
                } else {
                   float var6 = vcq.outBack(var4);
-                  int var7 = var0.field_22789;
-                  int var8 = var0.field_22790;
+                  int var7 = var0.width;
+                  int var8 = var0.height;
                   float var9 = 0.9F + 0.1F * var6;
                   float var10 = (1.0F - vcq.outCubic(var4)) * 10.0F;
                   if (var9 < 1.0F) {
@@ -250,7 +250,7 @@ public class qxi extends kfe {
 
    private static void qyh(DrawContext var0, int var1, int var2, int var3, int var4, int var5) {
       if (var3 > var1 && var4 > var2) {
-         var0.method_25296(var1, var2, var3, var4, qyi((float)var2 / var5), qyi((float)var4 / var5));
+         var0.fillGradient(var1, var2, var3, var4, qyi((float)var2 / var5), qyi((float)var4 / var5));
       }
    }
 
@@ -262,7 +262,7 @@ public class qxi extends kfe {
    private static void qyj(DrawContext var0) {
       if (qxw) {
          qxw = false;
-         var0.method_51448().popMatrix();
+         var0.getMatrices().popMatrix();
       }
    }
 }

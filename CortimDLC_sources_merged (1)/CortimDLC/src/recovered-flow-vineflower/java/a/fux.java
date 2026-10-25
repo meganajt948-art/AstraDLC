@@ -13,7 +13,7 @@ final class fux extends ClientConnection {
    private final EmbeddedChannel fuy = new EmbeddedChannel();
 
    fux() {
-      super(NetworkSide.field_11941);
+      super(NetworkSide.SERVERBOUND);
 
       try {
          for (Field var4 : ClientConnection.class.getDeclaredFields()) {
@@ -31,15 +31,19 @@ final class fux extends ClientConnection {
       this.fuy.releaseOutbound();
    }
 
-   public <T extends PacketListener> void method_56330(NetworkState<T> var1, T var2) {
+   @Override
+   public <T extends PacketListener> void transitionInbound(NetworkState<T> state, T packetListener) {
    }
 
-   public void method_56329(NetworkState<?> var1) {
+   @Override
+   public void transitionOutbound(NetworkState<?> newState) {
    }
 
-   public void method_10768() {
+   @Override
+   public void handleDisconnection() {
    }
 
-   public void method_10757() {
+   @Override
+   public void tryDisableAutoRead() {
    }
 }

@@ -19,9 +19,9 @@ public final class wee {
    }
 
    public static void ensure(MinecraftClient var0) {
-      ClientPlayNetworkHandler var1 = var0.method_1562();
+      ClientPlayNetworkHandler var1 = var0.getNetworkHandler();
       if (var1 != null && !ejp.isActive()) {
-         Channel var2 = wcn.channel(var1.method_48296());
+         Channel var2 = wcn.channel(var1.getConnection());
          if (var2 != null && var2.isOpen()) {
             ChannelPipeline var3 = var2.pipeline();
             if (var3.get(a.d("\uef1b隠ᱰ舙ঋ轗㔨볝⊜꠪⿰", -1147047637, -1657364899)) == null && var3.get(a.b("닋쭫䆺\udfc3吚튺棂\ue104罒\uf5ec爵行ڒ鼴", -993611083)) != null) {

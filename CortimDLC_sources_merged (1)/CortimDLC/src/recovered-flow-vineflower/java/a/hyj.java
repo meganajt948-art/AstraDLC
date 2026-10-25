@@ -70,7 +70,7 @@ final class hyj extends imn {
             this.hyp = null;
          }
 
-         MinecraftClient var7 = MinecraftClient.method_1551();
+         MinecraftClient var7 = MinecraftClient.getInstance();
          float var8 = iov.r(6.0F);
 
          for (int var9 = 0; var9 < var6.size(); var9++) {
@@ -82,8 +82,8 @@ final class hyj extends imn {
             boolean var15 = var2.canHover() && irr.inside(var3, var4, this.x, var13, this.w, 26.0F);
             float var16 = var12.hover.step(var15, var5);
             uut.pushAlpha(var14);
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate((1.0F - var14) * 18.0F, 0.0F);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate((1.0F - var14) * 18.0F, 0.0F);
             uut.round(var1, this.x, var13, this.w, 26.0F, var8, ujt.withAlpha(iov.hover, (int)(ujt.alpha(iov.hover) * (0.6F + 1.4F * var16))));
             float var17 = var13 + 13.0F;
             PlayerEntity var18 = hhf.inWorld(var10.name);
@@ -94,9 +94,9 @@ final class hyj extends imn {
             irr.CARD_TITLE.draw(var1, irr.CARD_TITLE.ellipsize(var10.name, var21), var20, irr.CARD_TITLE.centerTop(var17 - 4.0F), iov.text);
             String var22;
             int var23;
-            if (var18 != null && var7.field_1724 != null) {
-               double var24 = Math.sqrt(var7.field_1724.method_5858(var18));
-               var22 = var18 == var7.field_1724
+            if (var18 != null && var7.player != null) {
+               double var24 = Math.sqrt(var7.player.squaredDistanceTo(var18));
+               var22 = var18 == var7.player
                   ? wap.s(a.b("\uef67雠ᰩ", 189722429), a.d("趂\uf46a", 1976972903, 737656821))
                   : wap.s(a.c(1935009727, "\ue7fe鹢ᒦ諀Œ蟣㴧둁⨞"), a.d("\uf2b1譯Ǉ龼ᑩ雄ⲗꗱ㬹놈", -89447506, -1989290699))
                      + Math.round(var24)
@@ -129,7 +129,7 @@ final class hyj extends imn {
                );
             }
 
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
       }

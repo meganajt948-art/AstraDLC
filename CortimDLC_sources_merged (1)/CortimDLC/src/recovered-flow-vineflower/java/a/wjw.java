@@ -63,7 +63,7 @@ public final class wjw {
          StringBuilder var3 = new StringBuilder();
 
          try {
-            var0.method_27658((var3x, var4x) -> {
+            var0.visit((var3x, var4x) -> {
                if (!var4x.isEmpty()) {
                   var1.add(var4x);
                   var2.add(var3x);
@@ -71,7 +71,7 @@ public final class wjw {
                }
 
                return Optional.empty();
-            }, Style.field_24360);
+            }, Style.EMPTY);
          } catch (RuntimeException var17) {
             return var0;
          }
@@ -79,65 +79,65 @@ public final class wjw {
          List var4 = wkm(var3.toString());
          if (var4.isEmpty()) {
             return var0;
-         } else {
-            MutableText var5 = Text.method_43473();
-            boolean var6 = false;
-            int var7 = 0;
+         }
 
-            for (int var8 = 0; var8 < var1.size(); var8++) {
-               String var9 = (String)var1.get(var8);
-               Style var10 = (Style)var2.get(var8);
-               int var11 = var7 + var9.length();
-               int var12 = var7;
+         MutableText var5 = Text.empty();
+         boolean var6 = false;
+         int var7 = 0;
 
-               while (var12 < var11) {
-                  wjq var13 = null;
-                  int var14 = var11;
+         for (int var8 = 0; var8 < var1.size(); var8++) {
+            String var9 = (String)var1.get(var8);
+            Style var10 = (Style)var2.get(var8);
+            int var11 = var7 + var9.length();
+            int var12 = var7;
 
-                  for (wjq var16 : var4) {
-                     if (var12 >= var16.wjr && var12 < var16.wjs) {
-                        var13 = var16;
-                        var14 = Math.min(var11, var16.wjs);
-                        break;
-                     }
+            while (var12 < var11) {
+               wjq var13 = null;
+               int var14 = var11;
 
-                     if (var16.wjr > var12 && var16.wjr < var14) {
-                        var14 = var16.wjr;
-                     }
+               for (wjq var16 : var4) {
+                  if (var12 >= var16.wjr && var12 < var16.wjs) {
+                     var13 = var16;
+                     var14 = Math.min(var11, var16.wjs);
+                     break;
                   }
 
-                  String var18 = var9.substring(var12 - var7, var14 - var7);
-                  if (var13 != null && var10.method_10970() == null) {
-                     var5.method_10852(
-                        Text.method_43470(var18)
-                           .method_10862(
-                              var10.method_10958(wkk(var13.wjt))
-                                 .method_10949(
-                                    new ShowText(
-                                       Text.method_43470(
-                                          wap.s(
-                                             a.c(-964489543, "\u0ee0睾ﶨ揓\ue80c滬풥崕썏䧾칩㑙뫏〈ꥬ⾅闃ᨍ肸ۮ較\uf506篽\ue021晉\uec8f"),
-                                             a.b("有ẕ鑀\u0a3b臨ܣ봇ヹ꺼‒Ꟁ巎팚䫙삈䙳ﱆ玙\ued46漋\ue6f5鳓መ覰\u0bac蕪㳚늊⠉깕", 220226314)
-                                          )
+                  if (var16.wjr > var12 && var16.wjr < var14) {
+                     var14 = var16.wjr;
+                  }
+               }
+
+               String var18 = var9.substring(var12 - var7, var14 - var7);
+               if (var13 != null && var10.getClickEvent() == null) {
+                  var5.append(
+                     Text.literal(var18)
+                        .setStyle(
+                           var10.withClickEvent(wkk(var13.wjt))
+                              .withHoverEvent(
+                                 new ShowText(
+                                    Text.literal(
+                                       wap.s(
+                                          a.c(-964489543, "\u0ee0睾ﶨ揓\ue80c滬풥崕썏䧾칩㑙뫏〈ꥬ⾅闃ᨍ肸ۮ較\uf506篽\ue021晉\uec8f"),
+                                          a.b("有ẕ鑀\u0a3b臨ܣ봇ヹ꺼‒Ꟁ巎팚䫙삈䙳ﱆ玙\ued46漋\ue6f5鳓መ覰\u0bac蕪㳚늊⠉깕", 220226314)
                                        )
                                     )
                                  )
-                                 .method_30938(true)
-                           )
-                     );
-                     var6 = true;
-                  } else {
-                     var5.method_10852(Text.method_43470(var18).method_10862(var10));
-                  }
-
-                  var12 = var14;
+                              )
+                              .withUnderline(true)
+                        )
+                  );
+                  var6 = true;
+               } else {
+                  var5.append(Text.literal(var18).setStyle(var10));
                }
 
-               var7 = var11;
+               var12 = var14;
             }
 
-            return (Text)(var6 ? var5 : var0);
+            var7 = var11;
          }
+
+         return var6 ? var5 : var0;
       } else {
          return var0;
       }
@@ -158,7 +158,7 @@ public final class wjw {
    }
 
    public static boolean click(Style var0) {
-      ClickEvent var1 = var0 != null && !dry.armed() ? var0.method_10970() : null;
+      ClickEvent var1 = var0 != null && !dry.armed() ? var0.getClickEvent() : null;
       if (var1 instanceof CopyToClipboard var2) {
          synchronized (wkg) {
             if (!wkg.contains(var1)) {
@@ -166,7 +166,7 @@ public final class wjw {
             }
          }
 
-         wkl(var2.comp_3503());
+         wkl(var2.value());
          return true;
       } else {
          return false;
@@ -174,8 +174,8 @@ public final class wjw {
    }
 
    private static void wkl(String var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1724 != null && var1.field_1687 != null) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.player != null && var1.world != null) {
          String[] var2 = var0.split(a.c(-1584130995, "ᑬ"));
 
          int var3;
@@ -184,7 +184,7 @@ public final class wjw {
          try {
             var3 = Integer.parseInt(var2[0]);
             var5 = Integer.parseInt(var2[var2.length - 1]);
-            var4 = var2.length == 3 ? Integer.parseInt(var2[1]) : var1.field_1724.method_31478();
+            var4 = var2.length == 3 ? Integer.parseInt(var2[1]) : var1.player.getBlockY();
          } catch (RuntimeException var9) {
             return;
          }

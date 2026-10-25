@@ -18,9 +18,9 @@ public final class wdf {
 
    public static void hold(MinecraftClient var0, long var1) {
       if (var1 > 0L && !ejp.isActive()) {
-         ClientPlayNetworkHandler var3 = var0.method_1562();
+         ClientPlayNetworkHandler var3 = var0.getNetworkHandler();
          if (var3 != null) {
-            Channel var4 = wcn.channel(var3.method_48296());
+            Channel var4 = wcn.channel(var3.getConnection());
             if (var4 != null && var4.isOpen()) {
                wcy var5 = wdm(var4.pipeline());
                if (var5 != null) {
@@ -36,9 +36,11 @@ public final class wdf {
    private static wcy wdm(ChannelPipeline var0) {
       if (var0.get(a.c(-387363752, "䰲㖉뽙ℰꪢⱾ阘Ὺ膨ଙ賛皽")) instanceof wcy var5) {
          return var5;
-      } else if (var0.get(a.d("\ue381騡ჰ躉Ր菰㦈끎⸘꒦⍿\ud906埘칾", -1344428306, -1485159151)) == null) {
-         return null;
       } else {
+         if (var0.get(a.d("\ue381騡ჰ躉Ր菰㦈끎⸘꒦⍿\ud906埘칾", -1344428306, -1485159151)) == null) {
+            return null;
+         }
+
          wcy var2 = new wcy();
 
          try {

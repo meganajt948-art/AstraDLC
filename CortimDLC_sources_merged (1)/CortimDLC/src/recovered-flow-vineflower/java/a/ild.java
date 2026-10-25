@@ -179,8 +179,8 @@ final class ild extends imn {
       boolean var10 = var2.canHover() && irr.inside(var5, var6, this.x, var4, this.w, 26.0F);
       float var11 = var8[1].step(var10, var7);
       uut.pushAlpha(var9);
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate((1.0F - var9) * 18.0F, 0.0F);
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate((1.0F - var9) * 18.0F, 0.0F);
       float var12 = iov.r(6.0F);
       uut.round(var1, this.x, var4, this.w, 26.0F, var12, ujt.withAlpha(iov.hover, (int)(ujt.alpha(iov.hover) * (0.6F + 1.4F * var11))));
       float var13 = var4 + 13.0F;
@@ -197,7 +197,7 @@ final class ild extends imn {
       }
 
       PlayerEntity var21 = hhf.inWorld(var3.name);
-      MinecraftClient var22 = MinecraftClient.method_1551();
+      MinecraftClient var22 = MinecraftClient.getInstance();
       String var19;
       int var20;
       if (var14) {
@@ -209,8 +209,9 @@ final class ild extends imn {
       } else if (!var3.online) {
          var19 = wap.s(a.b("ꒈ\udd10埃즸䉪쓜纄", 1468835008), a.b("䃵㥬랪ⷉꈌ⃜髻\u137d赘", 1529496801));
          var20 = iov.textMuted;
-      } else if (var21 != null && var22.field_1724 != null) {
-         var19 = wap.s(a.b("禥9諽ᒛ鼉ᦸꍼ⨚둅", -1075021340), a.b("₣好폕䶮왻䓖ﺅ矣\ue92b掚", 1905468553)) + wkw.formatDistance(Math.sqrt(var22.field_1724.method_5858(var21)));
+      } else if (var21 != null && var22.player != null) {
+         var19 = wap.s(a.b("禥9諽ᒛ鼉ᦸꍼ⨚둅", -1075021340), a.b("₣好폕䶮왻䓖ﺅ矣\ue92b掚", 1905468553))
+            + wkw.formatDistance(Math.sqrt(var22.player.squaredDistanceTo(var21)));
          var20 = -11870592;
       } else if (ucg.sameWorld(var3)) {
          var19 = wap.s(a.d("\ueefb靫᷶菓࠘躨㓡뵃⍏ꧨ⸬푙媝쌻", 296163623, 1806104477), a.c(-1114316876, "\udba6ꈺ⳹뛥㴽믰ơ豌ᙲ鲷ᬑ\ue112濂\uf606簠"));
@@ -259,7 +260,7 @@ final class ild extends imn {
          }
       }
 
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
       uut.popAlpha();
    }
 
@@ -275,62 +276,62 @@ final class ild extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return this.hovered(var2, var3);
-      } else {
-         List var5 = ilq();
-         List var6 = ilr();
-         int var7 = 0;
-
-         for (ubg var9 : List.copyOf(var5)) {
-            float var10 = this.ils(var7++) + 13.0F;
-            if (irr.inside(var2, var3, this.ilv(), var10 - 9.0F, 18.0F, 18.0F)) {
-               if (!ucg.online()) {
-                  var1.toast(
-                     wap.s(
-                        a.c(-200927750, "ᖕ氅\ue6cd磨\uf37c痁쾓䙢\ud836劁핅⼥ꇳ㠆눁㓫軫Ů鯁ᶝ鐯\uee2e悌פֿ紷\uf7eb丁쀃嫢\udca4圓꧑⎉"),
-                        a.d("㚹传얄得퀡団\ueccd敄ﬔ疽\uf60fࠟ芩᭬酊៉궁∥루㺻덐촞䎢\ud801帄", -1739446594, -2024467453)
-                     ),
-                     vhz.INFO,
-                     true
-                  );
-                  return true;
-               }
-
-               ucg.accept(var9);
-               return true;
-            }
-
-            if (irr.inside(var2, var3, this.ilu(), var10 - 9.0F, 18.0F, 18.0F)) {
-               ucg.decline(var9);
-               return true;
-            }
-         }
-
-         for (ubm var13 : List.copyOf(var6)) {
-            float var15 = this.ils(var7++) + 13.0F;
-            if (ucg.isLeader() && !var13.code.equals(ucg.code()) && irr.inside(var2, var3, this.ilu(), var15 - 9.0F, 18.0F, 18.0F)) {
-               if (var13.code.equals(this.ilm)) {
-                  this.ilm = null;
-                  ucg.kick(var13);
-               } else {
-                  this.ilm = var13.code;
-                  this.iln = System.currentTimeMillis() + 2500L;
-               }
-
-               return true;
-            }
-         }
-
-         if (ucg.inParty()) {
-            float var12 = this.ils(var7) + 2.0F;
-            float var14 = Math.min(this.w, 110.0F);
-            float var16 = this.x + (this.w - var14) * 0.5F;
-            if (irr.inside(var2, var3, var16, var12, var14, 17.0F)) {
-               ucg.leave();
-               return true;
-            }
-         }
-
-         return this.hovered(var2, var3);
       }
+
+      List var5 = ilq();
+      List var6 = ilr();
+      int var7 = 0;
+
+      for (ubg var9 : List.copyOf(var5)) {
+         float var10 = this.ils(var7++) + 13.0F;
+         if (irr.inside(var2, var3, this.ilv(), var10 - 9.0F, 18.0F, 18.0F)) {
+            if (!ucg.online()) {
+               var1.toast(
+                  wap.s(
+                     a.c(-200927750, "ᖕ氅\ue6cd磨\uf37c痁쾓䙢\ud836劁핅⼥ꇳ㠆눁㓫軫Ů鯁ᶝ鐯\uee2e悌פֿ紷\uf7eb丁쀃嫢\udca4圓꧑⎉"),
+                     a.d("㚹传얄得퀡団\ueccd敄ﬔ疽\uf60fࠟ芩᭬酊៉궁∥루㺻덐촞䎢\ud801帄", -1739446594, -2024467453)
+                  ),
+                  vhz.INFO,
+                  true
+               );
+               return true;
+            }
+
+            ucg.accept(var9);
+            return true;
+         }
+
+         if (irr.inside(var2, var3, this.ilu(), var10 - 9.0F, 18.0F, 18.0F)) {
+            ucg.decline(var9);
+            return true;
+         }
+      }
+
+      for (ubm var13 : List.copyOf(var6)) {
+         float var15 = this.ils(var7++) + 13.0F;
+         if (ucg.isLeader() && !var13.code.equals(ucg.code()) && irr.inside(var2, var3, this.ilu(), var15 - 9.0F, 18.0F, 18.0F)) {
+            if (var13.code.equals(this.ilm)) {
+               this.ilm = null;
+               ucg.kick(var13);
+            } else {
+               this.ilm = var13.code;
+               this.iln = System.currentTimeMillis() + 2500L;
+            }
+
+            return true;
+         }
+      }
+
+      if (ucg.inParty()) {
+         float var12 = this.ils(var7) + 2.0F;
+         float var14 = Math.min(this.w, 110.0F);
+         float var16 = this.x + (this.w - var14) * 0.5F;
+         if (irr.inside(var2, var3, var16, var12, var14, 17.0F)) {
+            ucg.leave();
+            return true;
+         }
+      }
+
+      return this.hovered(var2, var3);
    }
 }

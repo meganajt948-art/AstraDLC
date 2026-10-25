@@ -158,21 +158,21 @@ final class Signature {
          float lo = Float.MAX_VALUE;
          float hi = -Float.MAX_VALUE;
 
-         for (int ix = stream; ix < strokes.length; ix++) {
-            for (int jx = 0; jx < strokes[ix].length; jx += 3) {
-               lo = Math.min(lo, strokes[ix][jx]);
-               hi = Math.max(hi, strokes[ix][jx]);
+         for (int i = stream; i < strokes.length; i++) {
+            for (int j = 0; j < strokes[i].length; j += 3) {
+               lo = Math.min(lo, strokes[i][j]);
+               hi = Math.max(hi, strokes[i][j]);
             }
          }
 
          float[] st = strokes[stream];
          float[] path = new float[st.length / 3 * 2];
-         int jx = 0;
+         int j = 0;
 
-         for (int k = 0; jx < st.length; k += 2) {
-            path[k] = st[jx];
-            path[k + 1] = st[jx + 1];
-            jx += 3;
+         for (int k = 0; j < st.length; k += 2) {
+            path[k] = st[j];
+            path[k + 1] = st[j + 1];
+            j += 3;
          }
 
          this.streamS = startS[stream];
@@ -198,31 +198,31 @@ final class Signature {
       int[] inside = new int[fg];
       fg = 0;
 
-      for (int ix = 0; ix < alpha.length; ix++) {
-         if ((alpha[ix] & 255) > 140) {
-            inside[fg++] = ix;
+      for (int i = 0; i < alpha.length; i++) {
+         if ((alpha[i] & 255) > 140) {
+            inside[fg++] = i;
          }
       }
 
       int count = Math.min(2400, fg);
       float[][] picks = new float[count][];
 
-      for (int ixx = 0; ixx < count; ixx++) {
+      for (int i = 0; i < count; i++) {
          int at = inside[random.nextInt(fg)];
          float x = at % width + random.nextFloat();
          float y = at / width + random.nextFloat();
-         picks[ixx] = new float[]{x, y, x + (noise(x / size * 3.0F, y / size * 3.0F) - 0.5F) * size * 0.5F};
+         picks[i] = new float[]{x, y, x + (noise(x / size * 3.0F, y / size * 3.0F) - 0.5F) * size * 0.5F};
       }
 
-      Arrays.sort(picks, (a, bx) -> Float.compare(a[2], bx[2]));
+      Arrays.sort(picks, (a, b) -> Float.compare(a[2], b[2]));
       this.sampleX = new float[count];
       this.sampleY = new float[count];
       this.sampleK = new float[count];
 
-      for (int ixx = 0; ixx < count; ixx++) {
-         this.sampleX[ixx] = picks[ixx][0];
-         this.sampleY[ixx] = picks[ixx][1];
-         this.sampleK[ixx] = picks[ixx][2];
+      for (int i = 0; i < count; i++) {
+         this.sampleX[i] = picks[i][0];
+         this.sampleY[i] = picks[i][1];
+         this.sampleK[i] = picks[i][2];
       }
    }
 
@@ -273,7 +273,6 @@ final class Signature {
    }
 
    static Signature load() throws IOException {
-      Signature var15;
       try (InputStream raw = Signature.class.getResourceAsStream("/flow/intro/sig.bin")) {
          if (raw == null) {
             throw new IOException("missing");
@@ -319,39 +318,27 @@ final class Signature {
          }
 
          in.readFully(alpha);
-         var15 = new Signature(size, width, height, x0, x1, base, strokes, dropStroke, dx, dy, dr, alpha);
+         return new Signature(size, width, height, x0, x1, base, strokes, dropStroke, dx, dy, dr, alpha);
       }
-
-      return var15;
    }
 
    GpuTextureView view() {
       if (this.view == null && this.texels != null) {
          GpuDevice device = RenderSystem.getDevice();
          this.texture = device.createTexture(() -> "Flow2 signature", 5, TextureFormat.RGBA8, this.width, this.height, 1, 1);
-         NativeImage image = new NativeImage(this.width, this.height, false);
 
-         try {
+         try (NativeImage image = new NativeImage(this.width, this.height, false)) {
             for (int y = 0; y < this.height; y++) {
                int row = y * this.width;
 
                for (int x = 0; x < this.width; x++) {
-                  image.method_61941(x, y, this.texels[row + x]);
+                  image.setColorArgb(x, y, this.texels[row + x]);
                }
             }
 
             device.createCommandEncoder().writeToTexture(this.texture, image);
-         } catch (Throwable var7) {
-            try {
-               image.close();
-            } catch (Throwable var6) {
-               var7.addSuppressed(var6);
-            }
-
-            throw var7;
          }
 
-         image.close();
          this.view = device.createTextureView(this.texture);
          this.texels = null;
       }
@@ -419,22 +406,22 @@ final class Signature {
    boolean streamPoint(float x, float[] out) {
       if (this.streamPath == null) {
          return false;
-      } else {
-         float best = Float.MAX_VALUE;
-
-         for (int k = 0; k < this.streamPath.length; k += 2) {
-            float d = Math.abs(this.streamPath[k] - x) - this.streamPath[k + 1] * 0.001F;
-            if (d < best) {
-               best = d;
-               out[0] = this.streamPath[k];
-               out[1] = this.streamPath[k + 1];
-            }
-         }
-
-         out[2] = 1.0F;
-         out[3] = 0.0F;
-         return true;
       }
+
+      float best = Float.MAX_VALUE;
+
+      for (int k = 0; k < this.streamPath.length; k += 2) {
+         float d = Math.abs(this.streamPath[k] - x) - this.streamPath[k + 1] * 0.001F;
+         if (d < best) {
+            best = d;
+            out[0] = this.streamPath[k];
+            out[1] = this.streamPath[k + 1];
+         }
+      }
+
+      out[2] = 1.0F;
+      out[3] = 0.0F;
+      return true;
    }
 
    void close() {

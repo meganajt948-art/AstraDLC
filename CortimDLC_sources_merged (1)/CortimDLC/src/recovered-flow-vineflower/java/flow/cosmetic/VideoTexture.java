@@ -21,13 +21,13 @@ final class VideoTexture extends AbstractTexture {
       this.width = width;
       this.height = height;
       this.fallback = fallback;
-      this.field_63613 = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+      this.sampler = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
    }
 
    void refresh() {
       try {
          this.frame = whl.get(this.name).fittedImage(this.width, this.height);
-      } catch (Throwable var2) {
+      } catch (Throwable t) {
          this.frame = null;
       }
 
@@ -38,14 +38,17 @@ final class VideoTexture extends AbstractTexture {
       return this.live && this.frame != null;
    }
 
-   public GpuTexture method_68004() {
-      return this.live() ? this.frame.gpuTexture() : this.fallback.method_68004();
+   @Override
+   public GpuTexture getGlTexture() {
+      return this.live() ? this.frame.gpuTexture() : this.fallback.getGlTexture();
    }
 
-   public GpuTextureView method_71659() {
-      return this.live() ? this.frame.view : this.fallback.method_71659();
+   @Override
+   public GpuTextureView getGlTextureView() {
+      return this.live() ? this.frame.view : this.fallback.getGlTextureView();
    }
 
+   @Override
    public void close() {
    }
 }

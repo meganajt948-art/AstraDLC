@@ -226,7 +226,7 @@ public final class szk {
       for (int var9 = var3; var9 <= var4; var9++) {
          tme var10 = (tme)var7.get(var9);
          if (var10.hitId == var2) {
-            var8.add(new syx(var9, var2, (double)var10.hitU, (double)var10.hitV));
+            var8.add(new syx(var9, var2, var10.hitU, var10.hitV));
             this.stats.hits++;
          }
       }
@@ -431,7 +431,7 @@ public final class szk {
 
             tme var13 = (tme)var3.get(var22);
             if ((var13.flags & 1) != 0 && var13.hitId != 0) {
-               syx var14 = new syx(var22, var13.hitId, (double)var13.hitU, (double)var13.hitV);
+               syx var14 = new syx(var22, var13.hitId, var13.hitU, var13.hitV);
                int var15 = Math.max(var22 - 60, var5[var22] + 6);
                var15 = Math.max(var15, var20);
                if (var21 != null && var21.syz != var14.syz) {

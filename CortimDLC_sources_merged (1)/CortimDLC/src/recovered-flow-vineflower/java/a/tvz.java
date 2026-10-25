@@ -59,9 +59,9 @@ public final class tvz {
       long var8 = System.currentTimeMillis();
       boolean var10 = var8 - this.twr > 140L;
       this.twr = var8;
-      int var11 = (int)Math.floor(var2.method_23317());
-      int var12 = (int)Math.floor(var2.method_23318() + 0.001);
-      int var13 = (int)Math.floor(var2.method_23321());
+      int var11 = (int)Math.floor(var2.getX());
+      int var12 = (int)Math.floor(var2.getY() + 0.001);
+      int var13 = (int)Math.floor(var2.getZ());
       if (this.twl == null || var1 != this.twm || var11 != this.twn || var12 != this.two || var13 != this.twp || ++this.twq >= 10) {
          this.twl = txf.snap(var1, var11, var12, var13);
          this.twm = var1;
@@ -91,21 +91,21 @@ public final class tvz {
          this.twz = this.twy;
       }
 
-      this.twj.x = var2.method_23317();
-      this.twj.y = var2.method_23318();
-      this.twj.z = var2.method_23321();
+      this.twj.x = var2.getX();
+      this.twj.y = var2.getY();
+      this.twj.z = var2.getZ();
       this.twj.yaw = var5;
       this.twj.pitch = var6;
-      this.twj.vx = var2.method_23317() - var2.field_6014;
-      this.twj.vy = var2.method_23318() - var2.field_6036;
-      this.twj.vz = var2.method_23321() - var2.field_5969;
-      this.twj.ground = var2.method_24828();
-      this.twj.water = var2.method_5799();
-      this.twj.climb = var2.method_6101();
-      this.twj.collide = var2.field_5976;
-      this.twj.sprinting = var2.method_5624();
-      double var18 = var2.method_45325(EntityAttributes.field_23719);
-      this.twj.speed = var2.method_5624() ? var18 / 1.3 : var18;
+      this.twj.vx = var2.getX() - var2.lastX;
+      this.twj.vy = var2.getY() - var2.lastY;
+      this.twj.vz = var2.getZ() - var2.lastZ;
+      this.twj.ground = var2.isOnGround();
+      this.twj.water = var2.isTouchingWater();
+      this.twj.climb = var2.isClimbing();
+      this.twj.collide = var2.horizontalCollision;
+      this.twj.sprinting = var2.isSprinting();
+      double var18 = var2.getAttributeValue(EntityAttributes.MOVEMENT_SPEED);
+      this.twj.speed = var2.isSprinting() ? var18 / 1.3 : var18;
       this.twj.sinceJump = this.txa;
       txl.features(this.twj, var3, var4, this.twl, this.twf, 0);
       double[] var20 = this.twd.forward(this.twf);

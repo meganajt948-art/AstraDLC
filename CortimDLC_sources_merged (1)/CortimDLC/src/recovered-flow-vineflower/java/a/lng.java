@@ -78,7 +78,7 @@ public final class lng {
    }
 
    public float cameraYaw(ClientPlayerEntity var1) {
-      return this.loe ? this.lof : var1.method_36454();
+      return this.loe ? this.lof : var1.getYaw();
    }
 
    public double maxTurn() {
@@ -125,18 +125,18 @@ public final class lng {
    }
 
    public float serverYaw(ClientPlayerEntity var1) {
-      return this.lnx && !this.loe ? (float)(var1.method_36454() + this.loa) : var1.method_36454();
+      return this.lnx && !this.loe ? (float)(var1.getYaw() + this.loa) : var1.getYaw();
    }
 
    public float serverPitch(ClientPlayerEntity var1) {
-      return this.lnx && !this.loe ? MathHelper.method_15363((float)(var1.method_36455() + this.lob), -90.0F, 90.0F) : var1.method_36455();
+      return this.lnx && !this.loe ? MathHelper.clamp((float)(var1.getPitch() + this.lob), -90.0F, 90.0F) : var1.getPitch();
    }
 
    public void begin(ClientPlayerEntity var1) {
       if (var1 != null) {
          if (!this.loe && this.loo == var1) {
-            double var2 = var1.method_36454() - this.lop - this.lor;
-            double var4 = var1.method_36455() - this.loq - this.los;
+            double var2 = var1.getYaw() - this.lop - this.lor;
+            double var4 = var1.getPitch() - this.loq - this.los;
             if (this.lnx) {
                if ((this.loj || this.lol > 0) && !this.idle()) {
                   this.loa -= var2;
@@ -154,8 +154,8 @@ public final class lng {
 
          if (this.lnx && !this.loe && !this.idle()) {
             this.loy(var1);
-            var1.method_36456((float)(this.lof + this.loa));
-            var1.method_36457(MathHelper.method_15363((float)(this.log + this.lob), -90.0F, 90.0F));
+            var1.setYaw((float)(this.lof + this.loa));
+            var1.setPitch(MathHelper.clamp((float)(this.log + this.lob), -90.0F, 90.0F));
          }
       }
    }
@@ -164,14 +164,14 @@ public final class lng {
       if (this.loe) {
          this.loe = false;
          if (var1 != null) {
-            var1.method_36456(this.lof);
-            var1.method_36457(this.log);
-            var1.field_5982 = this.lof;
-            var1.field_6004 = this.log;
-            var1.field_3931 = this.loh;
-            var1.field_3914 = this.loi;
-            var1.field_3932 = this.loh + (this.lof - this.loh) * 0.5F;
-            var1.field_3916 = this.loi + (this.log - this.loi) * 0.5F;
+            var1.setYaw(this.lof);
+            var1.setPitch(this.log);
+            var1.lastYaw = this.lof;
+            var1.lastPitch = this.log;
+            var1.lastRenderYaw = this.loh;
+            var1.lastRenderPitch = this.loi;
+            var1.renderYaw = this.loh + (this.lof - this.loh) * 0.5F;
+            var1.renderPitch = this.loi + (this.log - this.loi) * 0.5F;
          }
       }
    }
@@ -181,8 +181,8 @@ public final class lng {
       this.lor = this.los = 0.0;
       this.loo = var1;
       if (var1 != null) {
-         this.lop = var1.method_36454();
-         this.loq = var1.method_36455();
+         this.lop = var1.getYaw();
+         this.loq = var1.getPitch();
       }
    }
 
@@ -190,7 +190,7 @@ public final class lng {
       float var5 = this.serverYaw(var2);
       float var6 = this.serverPitch(var2);
       if (!this.loj) {
-         double var7 = MathHelper.method_15393(var3.yaw() - var5);
+         double var7 = MathHelper.wrapDegrees(var3.yaw() - var5);
          double var9 = var3.pitch() - var6;
          if (var3.tick() > 10 && Math.sqrt(var7 * var7 + var9 * var9) < 8.0 * this.lny * var3.tick()) {
             return false;
@@ -204,15 +204,9 @@ public final class lng {
       Vec3d var8 = var3.eye();
       Vec3d var15 = var3.aim();
       double var10 = tbp.hitU(
-         var8.field_1352,
-         var8.field_1350,
-         (var14.field_1323 + var14.field_1320) * 0.5,
-         (var14.field_1321 + var14.field_1324) * 0.5,
-         (var14.field_1320 - var14.field_1323) * 0.5,
-         var15.field_1352,
-         var15.field_1350
+         var8.x, var8.z, (var14.minX + var14.maxX) * 0.5, (var14.minZ + var14.maxZ) * 0.5, (var14.maxX - var14.minX) * 0.5, var15.x, var15.z
       );
-      double var12 = tbp.hitV(var14.field_1322, var14.field_1325 - var14.field_1322, var15.field_1351);
+      double var12 = tbp.hitV(var14.minY, var14.maxY - var14.minY, var15.y);
       if (this.lnu.steerAt(var2, var3.target(), var4, var8, var10, var12, 1, var5, var6, this.lnw)) {
          this.lov(var1, var2);
       }
@@ -227,7 +221,7 @@ public final class lng {
       this.lok = null;
       this.lol = 0;
       this.lom = 0;
-      if (this.lnu.steer(var2, var3, var3.method_5829(), var2.method_33571(), var4, var5, var6, this.lnw)) {
+      if (this.lnu.steer(var2, var3, var3.getBoundingBox(), var2.getEyePos(), var4, var5, var6, this.lnw)) {
          this.lov(var1, var2);
       }
    }
@@ -259,30 +253,32 @@ public final class lng {
          this.lol--;
          this.lnu.idle(var3, var4);
          return false;
-      } else if (this.idle()) {
+      }
+
+      if (this.idle()) {
          this.lom = 0;
          this.lnu.idle(var3, var4);
          return true;
-      } else {
-         this.lom++;
-         this.low(var2);
-         double var5 = MathHelper.method_15350(-this.loa, -150.0, 150.0);
-         double var7 = var4 - this.lob;
-         boolean var9 = this.lnu.steerTo(var2, lnt, var3 + var5, var7, 2, var3, var4, this.lnw);
-         if (this.lom > 12) {
-            this.lox(var1, var2, 0.5 + this.lnv.nextDouble() * 0.3, this.maxTurn());
-         } else if (var9 && this.offset() < 4.0) {
-            this.lox(var1, var2, 0.5 + this.lnv.nextDouble() * 0.3, 4.0);
-         } else if (var9) {
-            this.lov(var1, var2);
-         }
+      }
 
-         if (this.offset() <= Math.max(0.3, lpa(var1, var2) * 1.5)) {
-            this.forget();
-            return true;
-         } else {
-            return false;
-         }
+      this.lom++;
+      this.low(var2);
+      double var5 = MathHelper.clamp(-this.loa, -150.0, 150.0);
+      double var7 = var4 - this.lob;
+      boolean var9 = this.lnu.steerTo(var2, lnt, var3 + var5, var7, 2, var3, var4, this.lnw);
+      if (this.lom > 12) {
+         this.lox(var1, var2, 0.5 + this.lnv.nextDouble() * 0.3, this.maxTurn());
+      } else if (var9 && this.offset() < 4.0) {
+         this.lox(var1, var2, 0.5 + this.lnv.nextDouble() * 0.3, 4.0);
+      } else if (var9) {
+         this.lov(var1, var2);
+      }
+
+      if (this.offset() <= Math.max(0.3, lpa(var1, var2) * 1.5)) {
+         this.forget();
+         return true;
+      } else {
+         return false;
       }
    }
 
@@ -292,11 +288,11 @@ public final class lng {
    }
 
    private void low(ClientPlayerEntity var1) {
-      float var2 = var1.method_36455();
+      float var2 = var1.getPitch();
       if (this.lnx) {
-         this.lob = MathHelper.method_15363((float)(var2 + this.lob), -90.0F, 90.0F) - var2;
+         this.lob = MathHelper.clamp((float)(var2 + this.lob), -90.0F, 90.0F) - var2;
       } else {
-         this.lob = var2 - MathHelper.method_15350(var2 - this.lob, -90.0, 90.0);
+         this.lob = var2 - MathHelper.clamp(var2 - this.lob, -90.0, 90.0);
       }
    }
 
@@ -305,8 +301,8 @@ public final class lng {
          this.loy(var2);
       }
 
-      double var5 = MathHelper.method_15393(var3 - var2.method_36454());
-      double var7 = var4 - var2.method_36455();
+      double var5 = MathHelper.wrapDegrees(var3 - var2.getYaw());
+      double var7 = var4 - var2.getPitch();
       double var9 = Math.sqrt(var5 * var5 + var7 * var7);
       double var11 = Math.max(0.0, this.maxTurn() - this.lon);
       if (!(var9 < 1.0E-4) && !(var11 <= 0.0)) {
@@ -324,10 +320,10 @@ public final class lng {
    }
 
    private void loy(ClientPlayerEntity var1) {
-      this.lof = var1.method_36454();
-      this.log = var1.method_36455();
-      this.loh = var1.field_3932;
-      this.loi = var1.field_3916;
+      this.lof = var1.getYaw();
+      this.log = var1.getPitch();
+      this.loh = var1.renderYaw;
+      this.loi = var1.renderPitch;
       this.loe = true;
    }
 
@@ -358,21 +354,21 @@ public final class lng {
                var16 = (float)(var12 * var8) * 0.15F;
                var18 = (float)(var14 * var8) * 0.15F;
             } else {
-               float var20 = var2.method_36454();
-               float var21 = var2.method_36455();
-               float var22 = var2.field_5982;
-               float var23 = var2.field_6004;
-               var2.method_5872(var12 * var8, var14 * var8);
-               var16 = var2.method_36454() - var20;
-               var18 = var2.method_36455() - var21;
+               float var20 = var2.getYaw();
+               float var21 = var2.getPitch();
+               float var22 = var2.lastYaw;
+               float var23 = var2.lastPitch;
+               var2.changeLookDirection(var12 * var8, var14 * var8);
+               var16 = var2.getYaw() - var20;
+               var18 = var2.getPitch() - var21;
                if (!this.lnx) {
                   this.lor += var16;
                   this.los += var18;
                }
 
                if (var7) {
-                  var2.field_5982 = var22;
-                  var2.field_6004 = var23;
+                  var2.lastYaw = var22;
+                  var2.lastPitch = var23;
                }
             }
 
@@ -389,9 +385,9 @@ public final class lng {
    }
 
    private static double lpb(MinecraftClient var0, ClientPlayerEntity var1) {
-      double var2 = (Double)var0.field_1690.method_42495().method_41753() * 0.6F + 0.2F;
+      double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
-      boolean var6 = var0.field_1690.method_31044().method_31034() && var1.method_31550();
+      boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();
       return var6 ? var4 : var4 * 8.0;
    }
 }

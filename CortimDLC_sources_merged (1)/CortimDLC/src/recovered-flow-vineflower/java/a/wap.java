@@ -81,7 +81,9 @@ public final class wap {
    public static String unit(String var0) {
       if (var0 == null) {
          return null;
-      } else if (waq != wam.RU) {
+      }
+
+      if (waq != wam.RU) {
          return switch (var0) {
             case a.c(1139769630, "蔠ﳬ") -> a.b("\uf2c5譪", -1114705238);
             case a.b("\uf6e9", -957615404) -> a.b("믆", -886719574);
@@ -109,51 +111,51 @@ public final class wap {
    public static String both(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         int var1 = var0.hashCode();
-         String var2 = was.get(var1);
-         String var3 = wat.get(var1);
-         String var4 = wau.get(var1);
-         String var5 = wav.get(var1);
-         StringBuilder var6 = new StringBuilder(var0);
-         if (var2 != null) {
-            var6.append(' ').append(var2);
-         }
-
-         if (var3 != null) {
-            var6.append(' ').append(var3);
-         }
-
-         if (var4 != null) {
-            var6.append(' ').append(var4);
-         }
-
-         if (var5 != null) {
-            var6.append(' ').append(var5);
-         }
-
-         return var6.toString();
       }
+
+      int var1 = var0.hashCode();
+      String var2 = was.get(var1);
+      String var3 = wat.get(var1);
+      String var4 = wau.get(var1);
+      String var5 = wav.get(var1);
+      StringBuilder var6 = new StringBuilder(var0);
+      if (var2 != null) {
+         var6.append(' ').append(var2);
+      }
+
+      if (var3 != null) {
+         var6.append(' ').append(var3);
+      }
+
+      if (var4 != null) {
+         var6.append(' ').append(var4);
+      }
+
+      if (var5 != null) {
+         var6.append(' ').append(var5);
+      }
+
+      return var6.toString();
    }
 
    public static String names(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         StringBuilder var1 = new StringBuilder(var0);
-         int var2 = var0.hashCode();
-         String var3 = was.get(var2);
-         String var4 = wat.get(var2);
-         if (var3 != null) {
-            var1.append('\n').append(var3);
-         }
-
-         if (var4 != null) {
-            var1.append('\n').append(var4);
-         }
-
-         return var1.toString();
       }
+
+      StringBuilder var1 = new StringBuilder(var0);
+      int var2 = var0.hashCode();
+      String var3 = was.get(var2);
+      String var4 = wat.get(var2);
+      if (var3 != null) {
+         var1.append('\n').append(var3);
+      }
+
+      if (var4 != null) {
+         var1.append('\n').append(var4);
+      }
+
+      return var1.toString();
    }
 
    public static String aliases(String var0) {
@@ -182,15 +184,15 @@ public final class wap {
          int var10 = var6.score(var5);
          if (wbf(var5).length() < 2) {
             return var10;
-         } else {
-            for (String var14 : new String[]{var7, var8, var9}) {
-               if (!var14.equals(var5)) {
-                  var10 = Math.max(var10, var6.score(var14) - 2);
-               }
-            }
-
-            return Math.max(0, var10);
          }
+
+         for (String var14 : new String[]{var7, var8, var9}) {
+            if (!var14.equals(var5)) {
+               var10 = Math.max(var10, var6.score(var14) - 2);
+            }
+         }
+
+         return Math.max(0, var10);
       } else {
          return 0;
       }

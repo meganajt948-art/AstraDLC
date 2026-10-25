@@ -169,11 +169,11 @@ abstract class jeq<T> extends jcs {
          String var8 = String.valueOf(this.jey);
          float var9 = this.jex.get();
          float var10 = 1.0F + 0.25F * var9;
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var4 - 7.0F - izx.SMALL.width(var8) * 0.5F, var7);
-         var1.method_51448().scale(var10, var10);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var4 - 7.0F - izx.SMALL.width(var8) * 0.5F, var7);
+         var1.getMatrices().scale(var10, var10);
          izx.SMALL.drawCentered(var1, var8, 0.0F, izx.SMALL.centerTop(0.0F), ujt.lerp(iov.textMuted, iov.text, var9));
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
       }
 
       if (!(var5 <= 16.5F)) {
@@ -186,10 +186,10 @@ abstract class jeq<T> extends jcs {
             float var13 = var15 * var12;
             if (var13 > 0.2F) {
                uut.pushAlpha(Math.min(1.0F, var12 * 1.2F));
-               var1.method_51448().pushMatrix();
-               var1.method_51448().translate((1.0F - var12) * 8.0F * this.slideSide(), 0.0F);
+               var1.getMatrices().pushMatrix();
+               var1.getMatrices().translate((1.0F - var12) * 8.0F * this.slideSide(), 0.0F);
                this.drawRow(var1, var11.item, 7.0F, var14, var4 - 14.0F, var15, var12, var2);
-               var1.method_51448().popMatrix();
+               var1.getMatrices().popMatrix();
                uut.popAlpha();
             }
 

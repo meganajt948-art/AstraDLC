@@ -47,7 +47,7 @@ final class svy {
 
    List<svi> name(long var1) {
       if (this.name == null || var1 != this.nameTick) {
-         this.name = svp.of(lsx.protect(this.player.method_5476()), swh.NAME);
+         this.name = svp.of(lsx.protect(this.player.getDisplayName()), swh.NAME);
          this.nameTick = var1;
       }
 
@@ -64,8 +64,8 @@ final class svy {
          this.gear.clear();
 
          for (EquipmentSlot var7 : swh.sxh) {
-            ItemStack var8 = this.player.method_6118(var7);
-            if (!var8.method_7960()) {
+            ItemStack var8 = this.player.getEquippedStack(var7);
+            if (!var8.isEmpty()) {
                this.gear.add(var8);
             }
          }

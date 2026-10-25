@@ -36,7 +36,7 @@ public final class pqx {
    private static final double pra = 8.0;
    private static final int[][] prb = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
    private static final int[][] prc = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-   private static final Direction[] prd = new Direction[]{Direction.field_11043, Direction.field_11035, Direction.field_11034, Direction.field_11039};
+   private static final Direction[] prd = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
    private pqx() {
    }
@@ -46,8 +46,8 @@ public final class pqx {
    }
 
    public static List<BlockPos> findPath(BlockPos var0, BlockPos var1, List<BlockPos> var2, double var3, boolean var5, Set<BlockPos> var6) {
-      MinecraftClient var7 = MinecraftClient.method_1551();
-      return var7.field_1687 == null ? null : findPath(var7.field_1687, var7.field_1724, var0, var1, var2, var3, var5, var6);
+      MinecraftClient var7 = MinecraftClient.getInstance();
+      return var7.world == null ? null : findPath(var7.world, var7.player, var0, var1, var2, var3, var5, var6);
    }
 
    public static List<BlockPos> findPath(
@@ -93,7 +93,7 @@ public final class pqx {
                if (!var13.contains(var25)) {
                   double var26 = prn(var20.pqk, var25);
                   if (var9 != null) {
-                     var26 *= var9.at(var25.method_10263(), var25.method_10260());
+                     var26 *= var9.at(var25.getX(), var25.getZ());
                   }
 
                   double var28 = getStandY(var0, var25) - var21;
@@ -113,7 +113,7 @@ public final class pqx {
                      var26 += prh(var0, var25, var10) * (var9 == null ? 1.0 : var9.wall);
                   }
 
-                  if (isClimbable(var0, var25) || isClimbable(var0, var25.method_10084())) {
+                  if (isClimbable(var0, var25) || isClimbable(var0, var25.up())) {
                      var26 += 8.0;
                   }
 
@@ -136,9 +136,9 @@ public final class pqx {
    }
 
    public static double getStandY(BlockView var0, BlockPos var1) {
-      BlockPos var2 = var1.method_10074();
-      VoxelShape var3 = var0.method_8320(var2).method_26220(var0, var2);
-      return var3.method_1110() ? var1.method_10264() : var2.method_10264() + var3.method_1105(Axis.field_11052);
+      BlockPos var2 = var1.down();
+      VoxelShape var3 = var0.getBlockState(var2).getCollisionShape(var0, var2);
+      return var3.isEmpty() ? var1.getY() : var2.getY() + var3.getMax(Axis.Y);
    }
 
    static List<BlockPos> neighbors(BlockView var0, BlockPos var1, List<BlockPos> var2, double var3, Set<BlockPos> var5, List<Boolean> var6) {
@@ -151,18 +151,15 @@ public final class pqx {
          int var15 = var13[1];
          boolean var16 = var14 != 0 && var15 != 0;
          if (!var16
-            || prl(var0, var1.method_10069(var14, 0, 0))
-               && prl(var0, var1.method_10069(0, 0, var15))
-               && prl(var0, var1.method_10069(var14, 1, 0))
-               && prl(var0, var1.method_10069(0, 1, var15))) {
-            BlockPos var17 = var1.method_10069(var14, 0, var15);
+            || prl(var0, var1.add(var14, 0, 0)) && prl(var0, var1.add(0, 0, var15)) && prl(var0, var1.add(var14, 1, 0)) && prl(var0, var1.add(0, 1, var15))) {
+            BlockPos var17 = var1.add(var14, 0, var15);
             if (prj(var0, var17, var2, var3)) {
                if (!var5.contains(var17)) {
                   var7.add(var17);
                   var6.add(false);
                }
             } else {
-               BlockPos var18 = var17.method_10084();
+               BlockPos var18 = var17.up();
                if (prj(var0, var18, var2, var3)) {
                   if (!var5.contains(var18)) {
                      double var26 = getStandY(var0, var18);
@@ -170,19 +167,17 @@ public final class pqx {
                      boolean var23 = var21 <= 0.6 || !var16 && prg(var0, var17, var14, var15, var8);
                      boolean var24 = !var23 && var21 <= 1.2 && !pri(var0, var17);
                      if (var23 || var24) {
-                        boolean var25 = var24 || var26 + 1.8 > var1.method_10264() + 2.0 + 1.0E-4;
-                        if (!var25
-                           || prl(var0, var1.method_10086(2))
-                              && (!var16 || prl(var0, var1.method_10069(var14, 2, 0)) && prl(var0, var1.method_10069(0, 2, var15)))) {
+                        boolean var25 = var24 || var26 + 1.8 > var1.getY() + 2.0 + 1.0E-4;
+                        if (!var25 || prl(var0, var1.up(2)) && (!var16 || prl(var0, var1.add(var14, 2, 0)) && prl(var0, var1.add(0, 2, var15)))) {
                            var7.add(var18);
                            var6.add(var24);
                         }
                      }
                   }
-               } else if (prl(var0, var17.method_10084())) {
+               } else if (prl(var0, var17.up())) {
                   for (int var19 = 1; var19 <= 100; var19++) {
-                     BlockPos var20 = var17.method_10087(var19);
-                     if (!prl(var0, var20.method_10084()) || isClimbable(var0, var20.method_10084())) {
+                     BlockPos var20 = var17.down(var19);
+                     if (!prl(var0, var20.up()) || isClimbable(var0, var20.up())) {
                         break;
                      }
 
@@ -203,58 +198,56 @@ public final class pqx {
    }
 
    private static boolean prg(BlockView var0, BlockPos var1, int var2, int var3, double var4) {
-      VoxelShape var6 = var0.method_8320(var1).method_26220(var0, var1);
-      if (var6.method_1110()) {
+      VoxelShape var6 = var0.getBlockState(var1).getCollisionShape(var0, var1);
+      if (var6.isEmpty()) {
          return false;
-      } else {
-         double var7 = var6.method_1105(Axis.field_11052);
-         double var9 = var2 < 0 ? 0.5 : 0.0;
-         double var11 = var2 > 0 ? 0.5 : 1.0;
-         double var13 = var3 < 0 ? 0.5 : 0.0;
-         double var15 = var3 > 0 ? 0.5 : 1.0;
-         double var17 = 0.0;
-
-         for (Box var20 : var6.method_1090()) {
-            if (var20.field_1320 > var9 + 1.0E-4 && var20.field_1323 < var11 - 1.0E-4 && var20.field_1324 > var13 + 1.0E-4 && var20.field_1321 < var15 - 1.0E-4
-               )
-             {
-               var17 = Math.max(var17, var20.field_1325);
-            }
-         }
-
-         return var17 >= var7 - 1.0E-4 ? false : var1.method_10264() + var17 - var4 <= 0.6001 && var7 - var17 <= 0.6001;
       }
+
+      double var7 = var6.getMax(Axis.Y);
+      double var9 = var2 < 0 ? 0.5 : 0.0;
+      double var11 = var2 > 0 ? 0.5 : 1.0;
+      double var13 = var3 < 0 ? 0.5 : 0.0;
+      double var15 = var3 > 0 ? 0.5 : 1.0;
+      double var17 = 0.0;
+
+      for (Box var20 : var6.getBoundingBoxes()) {
+         if (var20.maxX > var9 + 1.0E-4 && var20.minX < var11 - 1.0E-4 && var20.maxZ > var13 + 1.0E-4 && var20.minZ < var15 - 1.0E-4) {
+            var17 = Math.max(var17, var20.maxY);
+         }
+      }
+
+      return var17 >= var7 - 1.0E-4 ? false : var1.getY() + var17 - var4 <= 0.6001 && var7 - var17 <= 0.6001;
    }
 
    private static double prh(BlockView var0, BlockPos var1, Map<BlockPos, Double> var2) {
       Double var3 = (Double)var2.get(var1);
       if (var3 != null) {
          return var3;
-      } else {
-         double var4 = 0.0;
-
-         for (Direction var9 : prd) {
-            BlockPos var10 = var1.method_10093(var9);
-            if (!prl(var0, var10) || !prl(var0, var10.method_10084())) {
-               var4 += 0.32;
-            }
-         }
-
-         for (int[] var14 : prc) {
-            if (!prl(var0, var1.method_10069(var14[0], 0, var14[1])) || !prl(var0, var1.method_10069(var14[0], 1, var14[1]))) {
-               var4 += 0.14;
-            }
-         }
-
-         var2.put(var1.method_10062(), var4);
-         return var4;
       }
+
+      double var4 = 0.0;
+
+      for (Direction var9 : prd) {
+         BlockPos var10 = var1.offset(var9);
+         if (!prl(var0, var10) || !prl(var0, var10.up())) {
+            var4 += 0.32;
+         }
+      }
+
+      for (int[] var14 : prc) {
+         if (!prl(var0, var1.add(var14[0], 0, var14[1])) || !prl(var0, var1.add(var14[0], 1, var14[1]))) {
+            var4 += 0.14;
+         }
+      }
+
+      var2.put(var1.toImmutable(), var4);
+      return var4;
    }
 
    private static boolean pri(BlockView var0, BlockPos var1) {
-      BlockState var2 = var0.method_8320(var1);
-      VoxelShape var3 = var2.method_26220(var0, var1);
-      return var3.method_1110() ? false : var3.method_1105(Axis.field_11052) > 1.0;
+      BlockState var2 = var0.getBlockState(var1);
+      VoxelShape var3 = var2.getCollisionShape(var0, var1);
+      return var3.isEmpty() ? false : var3.getMax(Axis.Y) > 1.0;
    }
 
    private static boolean prj(BlockView var0, BlockPos var1, List<BlockPos> var2, double var3) {
@@ -262,35 +255,39 @@ public final class pqx {
          double var5 = var3 * var3;
 
          for (BlockPos var8 : var2) {
-            if (var1.method_10262(var8) <= var5) {
+            if (var1.getSquaredDistance(var8) <= var5) {
                return false;
             }
          }
       }
 
-      if (prl(var0, var1) && prl(var0, var1.method_10084())) {
-         BlockPos var13 = var1.method_10074();
-         BlockState var6 = var0.method_8320(var13);
-         if (prl(var0, var13) && !var6.method_27852(Blocks.field_10382)) {
+      if (prl(var0, var1) && prl(var0, var1.up())) {
+         BlockPos var13 = var1.down();
+         BlockState var6 = var0.getBlockState(var13);
+         if (prl(var0, var13) && !var6.isOf(Blocks.WATER)) {
             return false;
-         } else if (pri(var0, var13)) {
-            return false;
-         } else if (prk(var6)) {
-            return false;
-         } else {
-            BlockState var14 = var0.method_8320(var1);
-            if (!var14.method_27852(Blocks.field_10164) && !var14.method_27852(Blocks.field_10036)) {
-               for (Direction var11 : prd) {
-                  BlockPos var12 = var1.method_10093(var11);
-                  if (prk(var0.method_8320(var12)) || prk(var0.method_8320(var12.method_10074()))) {
-                     return false;
-                  }
-               }
+         }
 
-               return true;
-            } else {
-               return false;
+         if (pri(var0, var13)) {
+            return false;
+         }
+
+         if (prk(var6)) {
+            return false;
+         }
+
+         BlockState var14 = var0.getBlockState(var1);
+         if (!var14.isOf(Blocks.LAVA) && !var14.isOf(Blocks.FIRE)) {
+            for (Direction var11 : prd) {
+               BlockPos var12 = var1.offset(var11);
+               if (prk(var0.getBlockState(var12)) || prk(var0.getBlockState(var12.down()))) {
+                  return false;
+               }
             }
+
+            return true;
+         } else {
+            return false;
          }
       } else {
          return false;
@@ -298,40 +295,35 @@ public final class pqx {
    }
 
    private static boolean prk(BlockState var0) {
-      return var0.method_27852(Blocks.field_10164)
-         || var0.method_27852(Blocks.field_10036)
-         || var0.method_27852(Blocks.field_17350)
-         || var0.method_27852(Blocks.field_10092);
+      return var0.isOf(Blocks.LAVA) || var0.isOf(Blocks.FIRE) || var0.isOf(Blocks.CAMPFIRE) || var0.isOf(Blocks.MAGMA_BLOCK);
    }
 
    private static boolean prl(BlockView var0, BlockPos var1) {
-      BlockState var2 = var0.method_8320(var1);
-      return var2.method_26220(var0, var1).method_1110() && !var2.method_27852(Blocks.field_10164);
+      BlockState var2 = var0.getBlockState(var1);
+      return var2.getCollisionShape(var0, var1).isEmpty() && !var2.isOf(Blocks.LAVA);
    }
 
    public static boolean isClimbable(BlockView var0, BlockPos var1) {
-      return var0.method_8320(var1).method_26164(BlockTags.field_22414);
+      return var0.getBlockState(var1).isIn(BlockTags.CLIMBABLE);
    }
 
    private static boolean prm(BlockView var0, Entity var1, BlockPos var2, BlockPos var3) {
       if (prn(var2, var3) > 4.0) {
          return false;
-      } else {
-         Vec3d var4 = new Vec3d(var2.method_10263() + 0.5, getStandY(var0, var2) + 1.62, var2.method_10260() + 0.5);
-         Vec3d var5 = Vec3d.method_24953(var3);
-         BlockHitResult var6 = var0.method_17742(
-            new RaycastContext(
-               var4, var5, ShapeType.field_17558, FluidHandling.field_1348, var1 == null ? ShapeContext.method_16194() : ShapeContext.method_16195(var1)
-            )
-         );
-         return var6.method_17783() == Type.field_1333 || var6.method_17777().equals(var3);
       }
+
+      Vec3d var4 = new Vec3d(var2.getX() + 0.5, getStandY(var0, var2) + 1.62, var2.getZ() + 0.5);
+      Vec3d var5 = Vec3d.ofCenter(var3);
+      BlockHitResult var6 = var0.raycast(
+         new RaycastContext(var4, var5, ShapeType.COLLIDER, FluidHandling.NONE, var1 == null ? ShapeContext.absent() : ShapeContext.of(var1))
+      );
+      return var6.getType() == Type.MISS || var6.getBlockPos().equals(var3);
    }
 
    private static double prn(BlockPos var0, BlockPos var1) {
-      double var2 = var0.method_10263() - var1.method_10263();
-      double var4 = var0.method_10264() - var1.method_10264();
-      double var6 = var0.method_10260() - var1.method_10260();
+      double var2 = var0.getX() - var1.getX();
+      double var4 = var0.getY() - var1.getY();
+      double var6 = var0.getZ() - var1.getZ();
       return Math.sqrt(var2 * var2 + var4 * var4 + var6 * var6);
    }
 

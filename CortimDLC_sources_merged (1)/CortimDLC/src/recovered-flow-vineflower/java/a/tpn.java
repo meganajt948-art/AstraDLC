@@ -314,7 +314,7 @@ public final class tpn {
                if (var64 != 0 || var51 != 0) {
                   int var52 = var61 == 0 ? 0 : var64;
                   int var53 = var61 == 1 ? 0 : (var61 == 0 ? var64 : var51);
-                  int var54 = var61 == 2 ? 0 : var51;
+                  byte var54 = (byte)(var61 == 2 ? 0 : var51);
                   byte var55 = var1.at(var17 + var52, var18 + var53, var19 + var54);
                   if (tpx.minable(var55)) {
                      var62++;

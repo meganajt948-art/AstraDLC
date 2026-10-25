@@ -257,10 +257,10 @@ public final class syq {
       double var4 = var1.rate();
       if (var2 + var4 < 1.0E-9) {
          return 1.0;
-      } else {
-         double var6 = 1.0 - Math.abs(var2 - var4) / Math.max(1.0, Math.max(var2, var4));
-         return var0.depth.size() >= 20 && var1.depth.size() >= 20 ? 0.5 * var6 + 0.5 * (1.0 - ks(syv(var0.depth), syv(var1.depth))) : var6;
       }
+
+      double var6 = 1.0 - Math.abs(var2 - var4) / Math.max(1.0, Math.max(var2, var4));
+      return var0.depth.size() >= 20 && var1.depth.size() >= 20 ? 0.5 * var6 + 0.5 * (1.0 - ks(syv(var0.depth), syv(var1.depth))) : var6;
    }
 
    private static double[] syv(List<Double> var0) {
@@ -276,11 +276,11 @@ public final class syq {
    public static double[] overshootRates(List<tmh> var0) {
       if (var0.isEmpty()) {
          return new double[]{Double.NaN, Double.NaN};
-      } else {
-         List var1 = tnl.windows(szk.track(var0, false).segments);
-         syn var2 = user(var1);
-         return new double[]{overshoots(var2, var1, false).rate(), overshoots(var2, var1, true).rate()};
       }
+
+      List var1 = tnl.windows(szk.track(var0, false).segments);
+      syn var2 = user(var1);
+      return new double[]{overshoots(var2, var1, false).rate(), overshoots(var2, var1, true).rate()};
    }
 
    public static double instantShare(List<tmh> var0) {
@@ -293,10 +293,10 @@ public final class syq {
       var1.removeIf(var0x -> var0x == 0);
       if (var1.isEmpty()) {
          return Double.NaN;
-      } else {
-         var1.sort(Integer::compare);
-         return ((Integer)var1.get(var1.size() / 2)).intValue();
       }
+
+      var1.sort(Integer::compare);
+      return ((Integer)var1.get(var1.size() / 2)).intValue();
    }
 
    public static List<String> report(List<double[]> var0, List<double[]> var1, List<tmh> var2) {
@@ -357,25 +357,25 @@ public final class syq {
    public static double[] onTarget(List<tmh> var0) {
       if (var0.isEmpty()) {
          return new double[]{0.0, 0.0};
-      } else {
-         byte var1 = 32;
-         int var2 = 0;
-         int var3 = 0;
+      }
 
-         for (sze var5 : szk.track(var0, false).segments) {
-            for (int var6 = 1; var6 <= var5.m; var6++) {
-               int var7 = var6 * var1;
-               double var8 = -var5.st[var7 + 0];
-               double var10 = -var5.st[var7 + 1];
-               var2++;
-               if (var8 >= var5.st[var7 + 28] && var8 <= var5.st[var7 + 29] && var10 >= var5.st[var7 + 30] && var10 <= var5.st[var7 + 31]) {
-                  var3++;
-               }
+      byte var1 = 32;
+      int var2 = 0;
+      int var3 = 0;
+
+      for (sze var5 : szk.track(var0, false).segments) {
+         for (int var6 = 1; var6 <= var5.m; var6++) {
+            int var7 = var6 * var1;
+            double var8 = -var5.st[var7 + 0];
+            double var10 = -var5.st[var7 + 1];
+            var2++;
+            if (var8 >= var5.st[var7 + 28] && var8 <= var5.st[var7 + 29] && var10 >= var5.st[var7 + 30] && var10 <= var5.st[var7 + 31]) {
+               var3++;
             }
          }
-
-         return new double[]{var2 == 0 ? 0.0 : (double)var3 / var2, var2};
       }
+
+      return new double[]{var2 == 0 ? 0.0 : (double)var3 / var2, var2};
    }
 
    private static String syw(String var0, List<double[]> var1) {
@@ -383,29 +383,29 @@ public final class syq {
       double[] var3 = diff(var1, 1);
       if (var2.length == 0) {
          return var0 + a.b("復☕", -1287299189);
-      } else {
-         Arrays.sort(var2);
-         Arrays.sort(var3);
-         int var4 = 0;
-
-         for (double var8 : var2) {
-            if (var8 < 0.001) {
-               var4++;
-            }
-         }
-
-         return String.format(
-            Locale.ROOT,
-            a.c(-1877163923, "쀏맨㍨굅⚊ꀣᨬ鎐\u0dc7蝷à杖瑈\uede5柢\ue155孊퓒乨젩䇛㮁딮⺫ꢒ∓鯩ᖸ轖ं芺籷\uf66c濗\ue988捣\udcab囍퀃䧽쎧뵝㜐냷⩣ꐒ᷈靵ᅦ說ӛ︊瞢\uf1af欑\ue548延\ud863刕쯏䕤㽡룔㋕걓◫龨ᥜ錀ಭ蘪"),
-            var0,
-            var2[var2.length / 2],
-            var2[(int)(var2.length * 0.9)],
-            var2[(int)(var2.length * 0.99)],
-            100.0 * var4 / var2.length,
-            var3.length == 0 ? 0.0 : var3[var3.length / 2],
-            var3.length == 0 ? 0.0 : var3[(int)(var3.length * 0.9)]
-         );
       }
+
+      Arrays.sort(var2);
+      Arrays.sort(var3);
+      int var4 = 0;
+
+      for (double var8 : var2) {
+         if (var8 < 0.001) {
+            var4++;
+         }
+      }
+
+      return String.format(
+         Locale.ROOT,
+         a.c(-1877163923, "쀏맨㍨굅⚊ꀣᨬ鎐\u0dc7蝷à杖瑈\uede5柢\ue155孊퓒乨젩䇛㮁딮⺫ꢒ∓鯩ᖸ轖ं芺籷\uf66c濗\ue988捣\udcab囍퀃䧽쎧뵝㜐냷⩣ꐒ᷈靵ᅦ說ӛ︊瞢\uf1af欑\ue548延\ud863刕쯏䕤㽡룔㋕걓◫龨ᥜ錀ಭ蘪"),
+         var0,
+         var2[var2.length / 2],
+         var2[(int)(var2.length * 0.9)],
+         var2[(int)(var2.length * 0.99)],
+         100.0 * var4 / var2.length,
+         var3.length == 0 ? 0.0 : var3[var3.length / 2],
+         var3.length == 0 ? 0.0 : var3[(int)(var3.length * 0.9)]
+      );
    }
 
    static double[] diff(List<double[]> var0, int var1) {

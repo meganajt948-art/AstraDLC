@@ -147,29 +147,29 @@ final class hjg {
    private float hki() {
       if (this.rows.isEmpty()) {
          return 0.0F;
-      } else {
-         float var1 = 5.0F;
-
-         for (imn var3 : this.rows) {
-            var1 += var3.currentHeight();
-         }
-
-         return var1 + 6.0F;
       }
+
+      float var1 = 5.0F;
+
+      for (imn var3 : this.rows) {
+         var1 += var3.currentHeight();
+      }
+
+      return var1 + 6.0F;
    }
 
    private float hkj() {
       if (this.rows.isEmpty()) {
          return 0.0F;
-      } else {
-         float var1 = 11.0F;
-
-         for (imn var3 : this.rows) {
-            var1 += var3.targetHeight();
-         }
-
-         return var1;
       }
+
+      float var1 = 11.0F;
+
+      for (imn var3 : this.rows) {
+         var1 += var3.targetHeight();
+      }
+
+      return var1;
    }
 
    float targetHeight() {
@@ -202,7 +202,7 @@ final class hjg {
       float var26 = this.height();
       float var27 = iov.r(7.0F);
       float var12 = iov.lightness();
-      var1.method_51448().pushMatrix();
+      var1.getMatrices().pushMatrix();
       ukf.shadow(var1, this.x, this.y, this.w, var26, var27, 0.3F, var12);
       int var13 = ujt.lerp(iov.card, iov.cardHover, var7);
       boolean var14 = hyv.surface(var1, this.x, this.y, this.w, var26, var27, hyv.tint(iov.window, Math.min(0.95F, iov.windowTint())), var13, 7.0F, hyv.CARDS);
@@ -232,11 +232,11 @@ final class hjg {
          var16 -= 23.0F;
       } else if (!this.rows.isEmpty()) {
          float var28 = this.hju.get();
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var16 - 4.0F, var15);
-         var1.method_51448().rotate((float) (-Math.PI / 2) * (1.0F - var28));
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var16 - 4.0F, var15);
+         var1.getMatrices().rotate((float) (-Math.PI / 2) * (1.0F - var28));
          vjf.draw(var1, vhz.CHEVRON_DOWN, 0.0F, 0.0F, 7.0F, ujt.lerp(iov.textMuted, iov.textDim, Math.max(var7, var28 * 0.5F)));
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          var16 -= 14.0F;
       }
 
@@ -289,7 +289,7 @@ final class hjg {
          uut.popAlpha();
       }
 
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
    }
 
    private float hkk(float var1) {
@@ -344,20 +344,22 @@ final class hjg {
       float var14 = this.hjv.step(var2.canHover() && irr.inside(var5, var6, this.hjz, var4 - 5.5F, this.hka, 11.0F), var7);
       if (var13 <= 0.01F) {
          return var3;
-      } else {
-         uut.pushAlpha(var13);
-         float var15 = var9 > 0.01F ? 0.55F + 0.45F * (float)Math.sin(System.nanoTime() / 1.6E8) : 0.0F;
-         int var16 = !var11 && !(var9 > 0.01F) ? iov.textMuted : ujt.lerp(iov.textDim, iov.accent(), var9);
-         irr.drawChip(var1, var12, var3, var4, ujt.lerp(var16, iov.text, var14), ujt.lerp(iov.stroke, iov.accent((int)(120.0F + 110.0F * var15)), var9), var14);
-         uut.popAlpha();
-         return this.hjz - 4.0F;
       }
+
+      uut.pushAlpha(var13);
+      float var15 = var9 > 0.01F ? 0.55F + 0.45F * (float)Math.sin(System.nanoTime() / 1.6E8) : 0.0F;
+      int var16 = !var11 && !(var9 > 0.01F) ? iov.textMuted : ujt.lerp(iov.textDim, iov.accent(), var9);
+      irr.drawChip(var1, var12, var3, var4, ujt.lerp(var16, iov.text, var14), ujt.lerp(iov.stroke, iov.accent((int)(120.0F + 110.0F * var15)), var9), var14);
+      uut.popAlpha();
+      return this.hjz - 4.0F;
    }
 
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (!this.hovered(var2, var3)) {
          return false;
-      } else if (this.headerHovered(var2, var3)) {
+      }
+
+      if (this.headerHovered(var2, var3)) {
          boolean var7 = this.hjr != null && irr.inside(var2, var3, this.hjz, this.y + 13.5F - 5.5F, this.hka, 11.0F);
          if (this.hjr == null || var4 != 2 && (var4 != 0 || !var7)) {
             if (var4 == 1 && !this.rows.isEmpty()) {

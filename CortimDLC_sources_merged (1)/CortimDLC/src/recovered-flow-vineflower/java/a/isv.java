@@ -268,7 +268,9 @@ public final class isv {
    static String label(isn var0) {
       if (var0.isWorld()) {
          return wap.value(a.c(-204771466, "漤ᚭ鱣Ȍ觓"));
-      } else if (!var0.isUser() && wap.ru()) {
+      }
+
+      if (!var0.isUser() && wap.ru()) {
          if (var0.isLive()) {
             return switch (var0.sky) {
                case AURORA -> a.d("隮\uef31旨ﮛ瀳\uf2ed䲮앝孰톿嘒갓", 2137722992, -335969596);
@@ -282,15 +284,15 @@ public final class isv {
             kbs var1 = kbs.byKey(var0.key);
             if (var1 != null) {
                return var1.title();
-            } else {
-               for (String[] var5 : isz) {
-                  if (var0.key.equals(a.b("ꬑ튷塸옌䷃쭯焻\uf89e", -1358845061) + var5[1])) {
-                     return var5[2];
-                  }
-               }
-
-               return var0.name;
             }
+
+            for (String[] var5 : isz) {
+               if (var0.key.equals(a.b("ꬑ튷塸옌䷃쭯焻\uf89e", -1358845061) + var5[1])) {
+                  return var5[2];
+               }
+            }
+
+            return var0.name;
          }
       } else {
          return var0.name;
@@ -321,19 +323,21 @@ public final class isv {
                ? whl.get(var2.video).placed(var10, var6, hlc.contentCenterX(), hlc.contentCenterY(), 0.95F, var2.fill)
                : whl.get(var2.video).fitted(var10, var6);
             return var7 != null ? var7 : (var8 != null ? var8.view : null);
-         } else if (var8 == null) {
-            return null;
-         } else {
-            float var4 = (float)MOTION.get();
-            if (var4 > 0.001F) {
-               GpuTextureView var5 = upi.photo(var8, uxt.time(), var4, PARTICLES.get(), iov.tone());
-               if (var5 != null) {
-                  return var5;
-               }
-            }
-
-            return var8.view;
          }
+
+         if (var8 == null) {
+            return null;
+         }
+
+         float var4 = (float)MOTION.get();
+         if (var4 > 0.001F) {
+            GpuTextureView var5 = upi.photo(var8, uxt.time(), var4, PARTICLES.get(), iov.tone());
+            if (var5 != null) {
+               return var5;
+            }
+         }
+
+         return var8.view;
       } else {
          if (itk != null) {
             iug(itk);
@@ -359,34 +363,34 @@ public final class isv {
       itq = var5;
       if (itk != null && var5.equals(itl)) {
          return itk;
-      } else {
-         if (ito == null || !var5.equals(itp)) {
-            itp = var5;
-            String var6 = FIT.get();
-            ito = CompletableFuture.supplyAsync(() -> var5.equals(itq) ? iub(itz(var0), var3, var4, var6) : itr, ite);
-         }
-
-         if (ito.isDone()) {
-            BufferedImage var7 = ito.getNow(null);
-            ito = null;
-            if (var7 == itr) {
-               itp = null;
-            } else if (var7 == null) {
-               var0.failed = true;
-               System.out.println(a.c(-664270660, "࣊煹ﮥ斝\uee19棼틣嬑앀俴졣㉅버┸꽫⦆鏘ᰘ蚾ø襝") + var0.name);
-            } else {
-               if (itk != null) {
-                  iug(itk);
-               }
-
-               itk = uok.upload(a.d("瘪ྍ蕓ᬢ郩ᙉ갋◯뮧", -1125567290, 1535132306), var7, false);
-               itl = var5;
-               itm = ity(var7);
-            }
-         }
-
-         return itk;
       }
+
+      if (ito == null || !var5.equals(itp)) {
+         itp = var5;
+         String var6 = FIT.get();
+         ito = CompletableFuture.supplyAsync(() -> var5.equals(itq) ? iub(itz(var0), var3, var4, var6) : itr, ite);
+      }
+
+      if (ito.isDone()) {
+         BufferedImage var7 = ito.getNow(null);
+         ito = null;
+         if (var7 == itr) {
+            itp = null;
+         } else if (var7 == null) {
+            var0.failed = true;
+            System.out.println(a.c(-664270660, "࣊煹ﮥ斝\uee19棼틣嬑앀俴졣㉅버┸꽫⦆鏘ᰘ蚾ø襝") + var0.name);
+         } else {
+            if (itk != null) {
+               iug(itk);
+            }
+
+            itk = uok.upload(a.d("瘪ྍ蕓ᬢ郩ᙉ갋◯뮧", -1125567290, 1535132306), var7, false);
+            itl = var5;
+            itm = ity(var7);
+         }
+      }
+
+      return itk;
    }
 
    static float luminance() {
@@ -413,7 +417,9 @@ public final class isv {
    static uok thumbnail(isn var0) {
       if (var0.thumb != null || var0.isWorld() || var0.failed) {
          return var0.thumb;
-      } else if (var0.isLive()) {
+      }
+
+      if (var0.isLive()) {
          if (RenderSystem.isOnRenderThread()) {
             var0.thumb = upi.still(var0.sky, 384, 216, 63.0F);
             var0.failed = var0.thumb == null;
@@ -439,12 +445,9 @@ public final class isv {
    private static BufferedImage itz(isn var0) {
       try {
          if (var0.resource != null) {
-            BufferedImage var2;
             try (InputStream var1 = ezj.open(var0.resource)) {
-               var2 = ImageIO.read(var1);
+               return ImageIO.read(var1);
             }
-
-            return var2;
          } else {
             return ImageIO.read(var0.file.toFile());
          }
@@ -455,21 +458,16 @@ public final class isv {
    }
 
    private static BufferedImage iua(isn var0, int var1, int var2) {
-      try {
-         BufferedImage var9;
-         try (
-            InputStream var3 = var0.resource != null ? ezj.open(var0.resource) : Files.newInputStream(var0.file);
-            ImageInputStream var4 = var3 == null ? null : ImageIO.createImageInputStream(var3);
-         ) {
-            if (var4 == null) {
-               return null;
-            }
+      try (
+         InputStream var3 = var0.resource != null ? ezj.open(var0.resource) : Files.newInputStream(var0.file);
+         ImageInputStream var4 = var3 == null ? null : ImageIO.createImageInputStream(var3);
+      ) {
+         if (var4 == null) {
+            return null;
+         }
 
-            Iterator var5 = ImageIO.getImageReaders(var4);
-            if (!var5.hasNext()) {
-               return null;
-            }
-
+         Iterator var5 = ImageIO.getImageReaders(var4);
+         if (var5.hasNext()) {
             ImageReader var24 = (ImageReader)var5.next();
 
             try {
@@ -477,13 +475,13 @@ public final class isv {
                int var7 = Math.max(1, Math.min(var24.getWidth(0) / var1, var24.getHeight(0) / var2));
                ImageReadParam var8 = var24.getDefaultReadParam();
                var8.setSourceSubsampling(var7, var7, 0, 0);
-               var9 = var24.read(0, var8);
+               return var24.read(0, var8);
             } finally {
                var24.dispose();
             }
+         } else {
+            return null;
          }
-
-         return var9;
       } catch (Exception var22) {
          return itz(var0);
       }
@@ -492,28 +490,28 @@ public final class isv {
    private static BufferedImage iub(BufferedImage var0, int var1, int var2, String var3) {
       if (var0 == null) {
          return null;
-      } else {
-         float var4 = (float)var0.getWidth() / var0.getHeight();
-         float var5 = (float)var1 / var2;
-         boolean var6 = var3.equals(a.c(-251317271, "㎬䨲샼")) || var3.equals(a.c(1063451959, "ﵲ蓷ล遏")) && var4 < var5 * 0.72F;
-         BufferedImage var7 = new BufferedImage(var1, var2, 1);
-         Graphics2D var8 = var7.createGraphics();
-         iuf(var8);
-         iuc(var8, var0, var1, var2);
-         if (var6) {
-            BufferedImage var9 = iud(var7, Math.max(1, var1 / 28), Math.max(1, var2 / 28));
-            var8.drawImage(var9, 0, 0, var1, var2, null);
-            var8.setColor(new Color(0, 0, 0, 90));
-            var8.fillRect(0, 0, var1, var2);
-            float var10 = Math.min((float)var1 / var0.getWidth(), (float)var2 / var0.getHeight());
-            int var11 = Math.round(var0.getWidth() * var10);
-            int var12 = Math.round(var0.getHeight() * var10);
-            var8.drawImage(iud(var0, var11, var12), (var1 - var11) / 2, (var2 - var12) / 2, null);
-         }
-
-         var8.dispose();
-         return var7;
       }
+
+      float var4 = (float)var0.getWidth() / var0.getHeight();
+      float var5 = (float)var1 / var2;
+      boolean var6 = var3.equals(a.c(-251317271, "㎬䨲샼")) || var3.equals(a.c(1063451959, "ﵲ蓷ล遏")) && var4 < var5 * 0.72F;
+      BufferedImage var7 = new BufferedImage(var1, var2, 1);
+      Graphics2D var8 = var7.createGraphics();
+      iuf(var8);
+      iuc(var8, var0, var1, var2);
+      if (var6) {
+         BufferedImage var9 = iud(var7, Math.max(1, var1 / 28), Math.max(1, var2 / 28));
+         var8.drawImage(var9, 0, 0, var1, var2, null);
+         var8.setColor(new Color(0, 0, 0, 90));
+         var8.fillRect(0, 0, var1, var2);
+         float var10 = Math.min((float)var1 / var0.getWidth(), (float)var2 / var0.getHeight());
+         int var11 = Math.round(var0.getWidth() * var10);
+         int var12 = Math.round(var0.getHeight() * var10);
+         var8.drawImage(iud(var0, var11, var12), (var1 - var11) / 2, (var2 - var12) / 2, null);
+      }
+
+      var8.dispose();
+      return var7;
    }
 
    private static void iuc(Graphics2D var0, BufferedImage var1, int var2, int var3) {
@@ -525,10 +523,10 @@ public final class isv {
 
    private static BufferedImage iud(BufferedImage var0, int var1, int var2) {
       BufferedImage var3 = var0;
-      int var4 = var0.getWidth();
+      int var4 = var3.getWidth();
 
       int var5;
-      for (var5 = var0.getHeight(); var4 / 2 >= var1 && var5 / 2 >= var2; var3 = iue(var3, var4, var5)) {
+      for (var5 = var3.getHeight(); var4 / 2 >= var1 && var5 / 2 >= var2; var3 = iue(var3, var4, var5)) {
          var4 /= 2;
          var5 /= 2;
       }

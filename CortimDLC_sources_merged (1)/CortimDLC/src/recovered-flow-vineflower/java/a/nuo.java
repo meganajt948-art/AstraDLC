@@ -41,7 +41,7 @@ public class nuo extends kfe {
    private int nve = -1;
    private int nvf = -1;
    private int nvg = -1;
-   private ItemStack nvh = ItemStack.field_8037;
+   private ItemStack nvh = ItemStack.EMPTY;
    private boolean nvi;
    private int nvj;
    private int nvk = -1;
@@ -74,9 +74,9 @@ public class nuo extends kfe {
    @Override
    protected void onDisable() {
       this.nwc();
-      ClientPlayerEntity var1 = this.mc.field_1724;
+      ClientPlayerEntity var1 = this.mc.player;
       if (var1 != null && var1 == this.nvd && this.nvg >= 0 && wdq.canClick(var1) && this.nwe(var1)) {
-         this.nvx(var1.method_31548());
+         this.nvx(var1.getInventory());
       }
 
       this.nwd();
@@ -84,7 +84,7 @@ public class nuo extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != this.nvd) {
          this.nvd = var2;
          this.nwd();
@@ -97,14 +97,14 @@ public class nuo extends kfe {
       if (lqq.busy()) {
          this.nwc();
       } else {
-         PlayerInventory var3 = var2.method_31548();
-         if (this.nvf >= 0 && var3.method_67532() != this.nvf) {
+         PlayerInventory var3 = var2.getInventory();
+         if (this.nvf >= 0 && var3.getSelectedSlot() != this.nvf) {
             this.nvi = true;
          }
 
          BlockState var4 = this.nvs(var2);
          this.nvj = var4 != null ? 0 : Math.min(this.nvj + 1, 1000);
-         if (var2.method_5805() && !var2.method_7325()) {
+         if (var2.isAlive() && !var2.isSpectator()) {
             int var5 = this.nvr(var2, var4);
             if (var5 == -1) {
                this.nwc();
@@ -140,7 +140,7 @@ public class nuo extends kfe {
    @Override
    public void onEndTick(MinecraftClient var1) {
       if (this.nvk != -1) {
-         ClientPlayerEntity var2 = var1.field_1724;
+         ClientPlayerEntity var2 = var1.player;
          if (wdq.canClick(var2) && this.nwe(var2) && !oxw.busy() && !kvz.busy()) {
             int var3 = this.nvk;
             this.nvw(var2, var3);
@@ -155,13 +155,13 @@ public class nuo extends kfe {
       if (var2 != null) {
          if (this.nvi) {
             return -1;
-         } else {
-            boolean var5 = this.nux.get() && (this.nwe(var1) || !nwf(var1));
-            return this.nvt(var1, var2, var5);
          }
-      } else if (this.nve >= 0 && !var1.method_6115()) {
-         HitResult var3 = this.mc.field_1765;
-         boolean var4 = var3 != null && var3.method_17783() == Type.field_1331;
+
+         boolean var5 = this.nux.get() && (this.nwe(var1) || !nwf(var1));
+         return this.nvt(var1, var2, var5);
+      } else if (this.nve >= 0 && !var1.isUsingItem()) {
+         HitResult var3 = this.mc.crosshairTarget;
+         boolean var4 = var3 != null && var3.getType() == Type.ENTITY;
          if (!var4 && this.nvj <= this.nuz.getInt()) {
             return -1;
          } else {
@@ -173,17 +173,17 @@ public class nuo extends kfe {
    }
 
    private BlockState nvs(ClientPlayerEntity var1) {
-      if (this.mc.field_1755 == null
-         && this.mc.field_1687 != null
-         && !var1.method_68878()
-         && !var1.method_7325()
-         && !var1.method_6115()
-         && this.mc.field_1690.field_1886.method_1434()) {
-         this.mc.field_1773.method_3190(1.0F);
-         if (this.mc.field_1765 instanceof BlockHitResult var2 && var2.method_17783() == Type.field_1332) {
-            BlockPos var5 = var2.method_17777();
-            BlockState var4 = this.mc.field_1687.method_8320(var5);
-            return !var4.method_26215() && !(var4.method_26214(this.mc.field_1687, var5) <= 0.0F) ? var4 : null;
+      if (this.mc.currentScreen == null
+         && this.mc.world != null
+         && !var1.isCreative()
+         && !var1.isSpectator()
+         && !var1.isUsingItem()
+         && this.mc.options.attackKey.isPressed()) {
+         this.mc.gameRenderer.updateCrosshairTarget(1.0F);
+         if (this.mc.crosshairTarget instanceof BlockHitResult var2 && var2.getType() == Type.BLOCK) {
+            BlockPos var5 = var2.getBlockPos();
+            BlockState var4 = this.mc.world.getBlockState(var5);
+            return !var4.isAir() && !(var4.getHardness(this.mc.world, var5) <= 0.0F) ? var4 : null;
          } else {
             return null;
          }
@@ -193,14 +193,14 @@ public class nuo extends kfe {
    }
 
    private int nvt(ClientPlayerEntity var1, BlockState var2, boolean var3) {
-      PlayerInventory var4 = var1.method_31548();
-      int var5 = var4.method_67532();
-      float var6 = this.nvu(var4.method_5438(var5), var2);
+      PlayerInventory var4 = var1.getInventory();
+      int var5 = var4.getSelectedSlot();
+      float var6 = this.nvu(var4.getStack(var5), var2);
       int var7 = -1;
 
       for (int var8 = 0; var8 < 9; var8++) {
          if (var8 != var5) {
-            float var9 = this.nvu(var4.method_5438(var8), var2);
+            float var9 = this.nvu(var4.getStack(var8), var2);
             if (var9 > var6 + 0.01F) {
                var6 = var9;
                var7 = var8;
@@ -210,7 +210,7 @@ public class nuo extends kfe {
 
       if (var3) {
          for (int var10 = 9; var10 < 36; var10++) {
-            float var11 = this.nvu(var4.method_5438(var10), var2);
+            float var11 = this.nvu(var4.getStack(var10), var2);
             if (var11 > var6 + 0.01F && var11 > 1.0F) {
                var6 = var11;
                var7 = var10;
@@ -222,24 +222,24 @@ public class nuo extends kfe {
    }
 
    private float nvu(ItemStack var1, BlockState var2) {
-      if (this.nva.get() && var1.method_7963() && var1.method_7936() - var1.method_7919() <= 10) {
+      if (this.nva.get() && var1.isDamageable() && var1.getMaxDamage() - var1.getDamage() <= 10) {
          return -1.0F;
-      } else {
-         float var3 = var1.method_7924(var2);
-         if (var3 > 1.0F) {
-            int var4 = nvv(var1);
-            if (var4 > 0) {
-               var3 += var4 * var4 + 1;
-            }
-         }
-
-         return var2.method_29291() && !var1.method_7951(var2) ? var3 * 0.3F : var3;
       }
+
+      float var3 = var1.getMiningSpeedMultiplier(var2);
+      if (var3 > 1.0F) {
+         int var4 = nvv(var1);
+         if (var4 > 0) {
+            var3 += var4 * var4 + 1;
+         }
+      }
+
+      return var2.isToolRequired() && !var1.isSuitableFor(var2) ? var3 * 0.3F : var3;
    }
 
    private static int nvv(ItemStack var0) {
-      for (Entry var2 : var0.method_58657().method_57539()) {
-         if (((RegistryEntry)var2.getKey()).method_40225(Enchantments.field_9131)) {
+      for (Entry var2 : var0.getEnchantments().getEnchantmentEntries()) {
+         if (((RegistryEntry)var2.getKey()).matchesKey(Enchantments.EFFICIENCY)) {
             return var2.getIntValue();
          }
       }
@@ -248,26 +248,26 @@ public class nuo extends kfe {
    }
 
    private void nvw(ClientPlayerEntity var1, int var2) {
-      PlayerInventory var3 = var1.method_31548();
+      PlayerInventory var3 = var1.getInventory();
       if (var2 == -2) {
          this.nvx(var3);
       } else {
          if (this.nve < 0) {
-            this.nve = var3.method_67532();
+            this.nve = var3.getSelectedSlot();
          }
 
          if (this.nvg >= 0 && this.nvz(var3)) {
             wdq.click(this.mc, this.nvg, this.nve);
             if (var2 == this.nvg) {
                this.nvg = -1;
-               this.nvh = ItemStack.field_8037;
+               this.nvh = ItemStack.EMPTY;
                wdq.close(this.mc);
                this.nvy(var3, this.nve);
                return;
             }
          }
 
-         this.nvh = var3.method_5438(this.nve).method_7972();
+         this.nvh = var3.getStack(this.nve).copy();
          wdq.click(this.mc, var2, this.nve);
          this.nvg = var2;
          wdq.close(this.mc);
@@ -280,8 +280,8 @@ public class nuo extends kfe {
          wdq.swap(this.mc, this.nvg, this.nve);
       }
 
-      if (!this.nvi && this.nve >= 0 && var1.method_67532() == this.nvf && this.nvf != this.nve) {
-         var1.method_61496(this.nve);
+      if (!this.nvi && this.nve >= 0 && var1.getSelectedSlot() == this.nvf && this.nvf != this.nve) {
+         var1.setSelectedSlot(this.nve);
       }
 
       this.nwd();
@@ -289,45 +289,45 @@ public class nuo extends kfe {
 
    private void nvy(PlayerInventory var1, int var2) {
       if (this.nve < 0) {
-         this.nve = var1.method_67532();
+         this.nve = var1.getSelectedSlot();
       }
 
-      if (var1.method_67532() != var2) {
-         var1.method_61496(var2);
+      if (var1.getSelectedSlot() != var2) {
+         var1.setSelectedSlot(var2);
       }
 
       this.nvf = var2;
    }
 
    private boolean nvz(PlayerInventory var1) {
-      return ItemStack.method_31577(var1.method_5438(this.nvg), this.nvh);
+      return ItemStack.areItemsAndComponentsEqual(var1.getStack(this.nvg), this.nvh);
    }
 
    private void nwa(ClientPlayerEntity var1) {
       this.nvc.hold(this.mc);
-      KeyBinding var2 = this.mc.field_1690.field_1886;
+      KeyBinding var2 = this.mc.options.attackKey;
 
-      while (var2.method_1436()) {
+      while (var2.wasPressed()) {
          this.nvm = true;
       }
 
-      var2.method_23481(false);
+      var2.setPressed(false);
       this.nvl = true;
-      if (var1.method_6115()) {
-         this.mc.field_1761.method_2897(var1);
+      if (var1.isUsingItem()) {
+         this.mc.interactionManager.stopUsingItem(var1);
       }
    }
 
    private void nwb() {
       if (this.nvl) {
          this.nvl = false;
-         if (this.mc.field_1690 != null && this.mc.method_22683() != null) {
-            KeyBinding var1 = this.mc.field_1690.field_1886;
-            var1.method_23481(vzz.isPhysicallyDown(this.mc, var1));
+         if (this.mc.options != null && this.mc.getWindow() != null) {
+            KeyBinding var1 = this.mc.options.attackKey;
+            var1.setPressed(vzz.isPhysicallyDown(this.mc, var1));
             if (this.nvm) {
                Key var2 = KeyBindingHelper.getBoundKeyOf(var1);
-               if (!var2.equals(InputUtil.field_16237)) {
-                  KeyBinding.method_1420(var2);
+               if (!var2.equals(InputUtil.UNKNOWN_KEY)) {
+                  KeyBinding.onKeyPressed(var2);
                }
             }
          }
@@ -351,29 +351,29 @@ public class nuo extends kfe {
       this.nve = -1;
       this.nvf = -1;
       this.nvg = -1;
-      this.nvh = ItemStack.field_8037;
+      this.nvh = ItemStack.EMPTY;
       this.nvi = false;
    }
 
    private boolean nwe(ClientPlayerEntity var1) {
-      return vyn.serverIdle(var1) && !var1.method_6115() && (this.mc.field_1761 == null || !this.mc.field_1761.method_2923());
+      return vyn.serverIdle(var1) && !var1.isUsingItem() && (this.mc.interactionManager == null || !this.mc.interactionManager.isBreakingBlock());
    }
 
    private static boolean nwf(ClientPlayerEntity var0) {
-      boolean var1 = var0.method_5715() || vyn.lastSent(var0).comp_3164();
-      if (var1 && var0.method_24828()) {
-         Box var2 = var0.method_5829();
-         Vec3d var3 = var0.method_18798();
-         double var4 = var0.method_49476();
+      boolean var1 = var0.isSneaking() || vyn.lastSent(var0).sneak();
+      if (var1 && var0.isOnGround()) {
+         Box var2 = var0.getBoundingBox();
+         Vec3d var3 = var0.getVelocity();
+         double var4 = var0.getStepHeight();
          Box var6 = new Box(
-            var2.field_1323 + var3.field_1352 + 1.0E-7,
-            var2.field_1322 - var4 - 1.0E-7,
-            var2.field_1321 + var3.field_1350 + 1.0E-7,
-            var2.field_1320 + var3.field_1352 - 1.0E-7,
-            var2.field_1322,
-            var2.field_1324 + var3.field_1350 - 1.0E-7
+            var2.minX + var3.x + 1.0E-7,
+            var2.minY - var4 - 1.0E-7,
+            var2.minZ + var3.z + 1.0E-7,
+            var2.maxX + var3.x - 1.0E-7,
+            var2.minY,
+            var2.maxZ + var3.z - 1.0E-7
          );
-         return var0.method_73183().method_8587(var0, var6);
+         return var0.getEntityWorld().isSpaceEmpty(var0, var6);
       } else {
          return false;
       }

@@ -54,17 +54,14 @@ public final class ezj {
 
       if (!ezn(var0)) {
          throw new IOException(a.c(-1081457980, "䊷㬅뇓\u2fe6ꑣ⋅颀ᅭ輨֞艜砫\uf6b9潘\ue51a揾\ud9ad"));
-      } else {
-         byte[] var8;
-         try (InputStream var7 = ezj.class.getResourceAsStream(var0)) {
-            if (var7 == null) {
-               throw new IOException(a.d("셋룾㈷걆➋ꄽ᭧鋑", -177354787, -869857549) + var0);
-            }
+      }
 
-            var8 = var7.readAllBytes();
+      try (InputStream var7 = ezj.class.getResourceAsStream(var0)) {
+         if (var7 == null) {
+            throw new IOException(a.d("셋룾㈷걆➋ꄽ᭧鋑", -177354787, -869857549) + var0);
+         } else {
+            return var7.readAllBytes();
          }
-
-         return var8;
       }
    }
 }

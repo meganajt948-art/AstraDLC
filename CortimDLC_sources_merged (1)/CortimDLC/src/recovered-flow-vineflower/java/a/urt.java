@@ -27,10 +27,8 @@ record urt(
    private final int urz;
    private final float usa;
    private final float usb;
-   @Nullable
-   private final ScreenRect usc;
-   @Nullable
-   private final ScreenRect usd;
+   private final @Nullable ScreenRect usc;
+   private final @Nullable ScreenRect usd;
 
    urt(
       RenderPipeline pipeline,
@@ -56,11 +54,13 @@ record urt(
       this.usd = bounds;
    }
 
-   public TextureSetup comp_4056() {
-      return TextureSetup.method_70899();
+   @Override
+   public TextureSetup textureSetup() {
+      return TextureSetup.empty();
    }
 
-   public void method_70917(VertexConsumer var1) {
+   @Override
+   public void setupVertices(VertexConsumer vertices) {
       int var2 = this.urx >> 16 & 0xFF;
       int var3 = this.urx >> 8 & 0xFF;
       int var4 = this.urx & 0xFF;
@@ -71,16 +71,17 @@ record urt(
       for (int var8 = 0; var8 < 4; var8++) {
          int var9 = var8 * 5;
          float var10 = this.urv[var9 + 4];
-         var1.method_22912(this.urv[var9], this.urv[var9 + 1], this.usb)
-            .method_39415(this.urw)
-            .method_22913(this.urv[var9 + 2] * var10, this.urv[var9 + 3] * var10)
-            .method_60796(this.ury, this.urz)
-            .method_22921(var6, var7)
-            .method_75298(var10);
+         vertices.vertex(this.urv[var9], this.urv[var9 + 1], this.usb)
+            .color(this.urw)
+            .texture(this.urv[var9 + 2] * var10, this.urv[var9 + 3] * var10)
+            .overlay(this.ury, this.urz)
+            .light(var6, var7)
+            .lineWidth(var10);
       }
    }
 
-   public RenderPipeline comp_4055() {
+   @Override
+   public RenderPipeline pipeline() {
       return this.uru;
    }
 
@@ -112,13 +113,13 @@ record urt(
       return this.usb;
    }
 
-   @Nullable
-   public ScreenRect comp_4069() {
+   @Override
+   public @Nullable ScreenRect scissorArea() {
       return this.usc;
    }
 
-   @Nullable
-   public ScreenRect comp_4274() {
+   @Override
+   public @Nullable ScreenRect bounds() {
       return this.usd;
    }
 }

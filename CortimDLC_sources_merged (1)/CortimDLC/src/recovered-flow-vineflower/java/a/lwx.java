@@ -45,7 +45,7 @@ public class lwx extends kfe {
       if (var1 != null) {
          if (var0 instanceof HandledScreen) {
             ScreenKeyboardEvents.allowKeyPress(var0)
-               .register((AllowKeyPress)(var1x, var2) -> !var1.isEnabled() || !var1.lxc.get() || !var1.mc.field_1690.field_1903.method_1417(var2) || lxk(var1x));
+               .register((AllowKeyPress)(var1x, var2) -> !var1.isEnabled() || !var1.lxc.get() || !var1.mc.options.jumpKey.matchesKey(var2) || lxk(var1x));
          }
 
          if (var1.isEnabled() && var1.lxj(var0) && !var1.lxf.isHeld()) {
@@ -59,7 +59,7 @@ public class lwx extends kfe {
    protected void onDisable() {
       vwy.setActive(false);
       this.lxf.release(this.mc);
-      if (this.mc.field_1755 != null && this.mc.field_1690 != null) {
+      if (this.mc.currentScreen != null && this.mc.options != null) {
          lxm(this.mc);
       }
 
@@ -79,7 +79,7 @@ public class lwx extends kfe {
 
       boolean var2 = this.lxf.isHeld();
       this.lxf.release(var1);
-      Screen var3 = var1.field_1755;
+      Screen var3 = var1.currentScreen;
       if (var3 == null) {
          if (this.lxg) {
             lxn(var1);
@@ -111,16 +111,16 @@ public class lwx extends kfe {
    }
 
    private static boolean lxk(Screen var0) {
-      for (Element var2 : var0.method_25396()) {
-         if (var2 instanceof TextFieldWidget var3 && var3.method_25370() && var3.method_1885()) {
+      for (Element var2 : var0.children()) {
+         if (var2 instanceof TextFieldWidget var3 && var3.isFocused() && var3.isVisible()) {
             return true;
          }
       }
 
       if (var0 instanceof RecipeBookScreen && lwy != null && lwz != null) {
          try {
-            return lwy.get(var0) instanceof RecipeBookWidget var6 && var6.method_2605() && lwz.get(var6) instanceof TextFieldWidget var5 && var5.method_25370();
-         } catch (RuntimeException | IllegalAccessException var4) {
+            return lwy.get(var0) instanceof RecipeBookWidget var6 && var6.isOpen() && lwz.get(var6) instanceof TextFieldWidget var5 && var5.isFocused();
+         } catch (IllegalAccessException | RuntimeException var4) {
          }
       }
 
@@ -128,56 +128,56 @@ public class lwx extends kfe {
    }
 
    private void lxl(MinecraftClient var1) {
-      GameOptions var2 = var1.field_1690;
-      lxo(var1, var2.field_1894, true);
-      lxo(var1, var2.field_1881, true);
-      lxo(var1, var2.field_1913, true);
-      lxo(var1, var2.field_1849, true);
-      lxo(var1, var2.field_1903, this.lxc.get());
-      if (!(Boolean)var2.method_42450().method_41753()) {
-         lxo(var1, var2.field_1867, this.lxb.get());
+      GameOptions var2 = var1.options;
+      lxo(var1, var2.forwardKey, true);
+      lxo(var1, var2.backKey, true);
+      lxo(var1, var2.leftKey, true);
+      lxo(var1, var2.rightKey, true);
+      lxo(var1, var2.jumpKey, this.lxc.get());
+      if (!var2.getSprintToggled().getValue()) {
+         lxo(var1, var2.sprintKey, this.lxb.get());
       }
 
-      if (!(Boolean)var2.method_42449().method_41753()) {
-         var2.field_1832.method_23481(false);
+      if (!var2.getSneakToggled().getValue()) {
+         var2.sneakKey.setPressed(false);
       }
 
-      var2.field_1904.method_23481(false);
+      var2.useKey.setPressed(false);
    }
 
    private static void lxm(MinecraftClient var0) {
-      GameOptions var1 = var0.field_1690;
+      GameOptions var1 = var0.options;
 
-      for (KeyBinding var5 : new KeyBinding[]{var1.field_1894, var1.field_1881, var1.field_1913, var1.field_1849, var1.field_1903, var1.field_1904}) {
-         var5.method_23481(false);
+      for (KeyBinding var5 : new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey, var1.useKey}) {
+         var5.setPressed(false);
       }
 
-      if (!(Boolean)var1.method_42450().method_41753()) {
-         var1.field_1867.method_23481(false);
+      if (!var1.getSprintToggled().getValue()) {
+         var1.sprintKey.setPressed(false);
       }
 
-      if (!(Boolean)var1.method_42449().method_41753()) {
-         var1.field_1832.method_23481(false);
+      if (!var1.getSneakToggled().getValue()) {
+         var1.sneakKey.setPressed(false);
       }
    }
 
    private static void lxn(MinecraftClient var0) {
-      GameOptions var1 = var0.field_1690;
+      GameOptions var1 = var0.options;
 
-      for (KeyBinding var5 : new KeyBinding[]{var1.field_1894, var1.field_1881, var1.field_1913, var1.field_1849, var1.field_1903}) {
+      for (KeyBinding var5 : new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey}) {
          lxo(var0, var5, true);
       }
 
-      if (!(Boolean)var1.method_42450().method_41753()) {
-         lxo(var0, var1.field_1867, true);
+      if (!var1.getSprintToggled().getValue()) {
+         lxo(var0, var1.sprintKey, true);
       }
 
-      if (!(Boolean)var1.method_42449().method_41753()) {
-         lxo(var0, var1.field_1832, true);
+      if (!var1.getSneakToggled().getValue()) {
+         lxo(var0, var1.sneakKey, true);
       }
    }
 
    private static void lxo(MinecraftClient var0, KeyBinding var1, boolean var2) {
-      var1.method_23481(var2 && vzz.isPhysicallyDown(var0, var1));
+      var1.setPressed(var2 && vzz.isPhysicallyDown(var0, var1));
    }
 }

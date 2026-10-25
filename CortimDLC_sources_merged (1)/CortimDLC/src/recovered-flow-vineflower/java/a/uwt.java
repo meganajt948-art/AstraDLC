@@ -28,15 +28,11 @@ public final class uwt {
    public static final int MAX_BATCHES = 8;
    private static final int uwu = 128;
    private static final GpuBuffer[] uwv = new GpuBuffer[8];
-   @Nullable
-   private static GpuBuffer uww;
+   private static @Nullable GpuBuffer uww;
    private static long uwx;
-   @Nullable
-   private static ByteBuffer uwy;
-   @Nullable
-   private static GpuTexture uwz;
-   @Nullable
-   private static GpuTextureView uxa;
+   private static @Nullable ByteBuffer uwy;
+   private static @Nullable GpuTexture uwz;
+   private static @Nullable GpuTextureView uxa;
    private static int uxb = -1;
    private static int uxc = -1;
    private static boolean uxd;
@@ -59,87 +55,71 @@ public final class uwt {
    public static boolean draw(Matrix4f var0, float var1, float var2, float var3, float var4, List<uwg> var5, ByteBuffer var6) {
       if (!uxd && !var5.isEmpty() && uvq.ensure(uvq.SHATTER_BACK) && uvq.ensure(uvq.SHATTER_FRONT) && uvq.ensure(uvq.BLUR_COPY)) {
          GpuBufferSlice var7 = RenderSystem.getProjectionMatrixBuffer();
-         Framebuffer var8 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var9 = var8.method_71639();
-         GpuTextureView var10 = var8.method_71640();
-         if (var7 != null && var9 != null && var10 != null && var8.field_1482 >= 4 && var8.field_1481 >= 4) {
+         Framebuffer var8 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var9 = var8.getColorAttachmentView();
+         GpuTextureView var10 = var8.getDepthAttachmentView();
+         if (var7 != null && var9 != null && var10 != null && var8.textureWidth >= 4 && var8.textureHeight >= 4) {
             int var11 = var6.position();
             if (var11 <= 0) {
                return false;
-            } else {
-               var6.flip();
+            }
+
+            var6.flip();
+
+            try {
+               GpuDevice var12 = RenderSystem.getDevice();
+               uxh(var12, var8.textureWidth, var8.textureHeight, var11);
+               CommandEncoder var13 = var12.createCommandEncoder();
+               var13.writeToBuffer(uww.slice(0L, var11), var6);
+               int var14 = Math.min(var5.size(), 8);
+               float var15 = var8.textureWidth;
+               float var16 = var8.textureHeight;
+               MemoryStack var17 = MemoryStack.stackPush();
 
                try {
-                  GpuDevice var12 = RenderSystem.getDevice();
-                  uxh(var12, var8.field_1482, var8.field_1481, var11);
-                  CommandEncoder var13 = var12.createCommandEncoder();
-                  var13.writeToBuffer(uww.slice(0L, var11), var6);
-                  int var14 = Math.min(var5.size(), 8);
-                  float var15 = var8.field_1482;
-                  float var16 = var8.field_1481;
-                  MemoryStack var17 = MemoryStack.stackPush();
-
-                  try {
-                     for (int var18 = 0; var18 < var14; var18++) {
-                        uwg var19 = (uwg)var5.get(var18);
-                        var13.writeToBuffer(
-                           uwv[var18].slice(),
-                           Std140Builder.onStack(var17, 128)
-                              .putMat4f(var0)
-                              .putVec4(var15, var16, 1.0F / var15, 1.0F / var16)
-                              .putVec4(var19.r(), var19.g(), var19.b(), var19.a())
-                              .putVec4(var1, var2, var3, var4)
-                              .putVec4(var19.scan(), var19.sweep(), var19.flash(), var19.broken())
-                              .get()
-                        );
-                     }
-                  } catch (Throwable var23) {
-                     if (var17 != null) {
-                        try {
-                           var17.close();
-                        } catch (Throwable var21) {
-                           var23.addSuppressed(var21);
-                        }
-                     }
-
-                     throw var23;
+                  for (int var18 = 0; var18 < var14; var18++) {
+                     uwg var19 = (uwg)var5.get(var18);
+                     var13.writeToBuffer(
+                        uwv[var18].slice(),
+                        Std140Builder.onStack(var17, 128)
+                           .putMat4f(var0)
+                           .putVec4(var15, var16, 1.0F / var15, 1.0F / var16)
+                           .putVec4(var19.r(), var19.g(), var19.b(), var19.a())
+                           .putVec4(var1, var2, var3, var4)
+                           .putVec4(var19.scan(), var19.sweep(), var19.flash(), var19.broken())
+                           .get()
+                     );
                   }
-
+               } catch (Throwable var23) {
                   if (var17 != null) {
-                     var17.close();
-                  }
-
-                  RenderPass var25 = var13.createRenderPass(() -> "Flow2 shatter scene copy", uxa, OptionalInt.empty());
-
-                  try {
-                     var25.setPipeline(uvq.BLUR_COPY);
-                     var25.bindTexture("InSampler", var9, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                     var25.draw(0, 3);
-                  } catch (Throwable var22) {
-                     if (var25 != null) {
-                        try {
-                           var25.close();
-                        } catch (Throwable var20) {
-                           var22.addSuppressed(var20);
-                        }
+                     try {
+                        var17.close();
+                     } catch (Throwable var21) {
+                        var23.addSuppressed(var21);
                      }
-
-                     throw var22;
                   }
 
-                  if (var25 != null) {
-                     var25.close();
-                  }
-
-                  uxg(var13, uvq.SHATTER_BACK, var9, var10, var7, var5, var14);
-                  uxg(var13, uvq.SHATTER_FRONT, var9, var10, var7, var5, var14);
-                  return true;
-               } catch (Throwable var24) {
-                  uxd = true;
-                  System.out.println("shatter pass failed: " + var24);
-                  var24.printStackTrace();
-                  return false;
+                  throw var23;
                }
+
+               if (var17 != null) {
+                  var17.close();
+               }
+
+               try (RenderPass var25 = var13.createRenderPass(() -> "Flow2 shatter scene copy", uxa, OptionalInt.empty())) {
+                  var25.setPipeline(uvq.BLUR_COPY);
+                  var25.bindTexture("InSampler", var9, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var25.draw(0, 3);
+               }
+
+               uxg(var13, uvq.SHATTER_BACK, var9, var10, var7, var5, var14);
+               uxg(var13, uvq.SHATTER_FRONT, var9, var10, var7, var5, var14);
+               return true;
+            } catch (Throwable var24) {
+               uxd = true;
+               System.out.println("shatter pass failed: " + var24);
+               var24.printStackTrace();
+               return false;
             }
          } else {
             return false;
@@ -150,11 +130,9 @@ public final class uwt {
    }
 
    private static void uxg(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuBufferSlice var4, List<uwg> var5, int var6) {
-      RenderPass var7 = var0.createRenderPass(() -> "Flow2 shatter", var2, OptionalInt.empty(), var3, OptionalDouble.empty());
-
-      try {
+      try (RenderPass var7 = var0.createRenderPass(() -> "Flow2 shatter", var2, OptionalInt.empty(), var3, OptionalDouble.empty())) {
          var7.setPipeline(var1);
-         var7.bindTexture("SceneSampler", uxa, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+         var7.bindTexture("SceneSampler", uxa, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
          var7.setUniform("Projection", var4);
          var7.setVertexBuffer(0, uww);
 
@@ -165,20 +143,6 @@ public final class uwt {
                var7.draw(var9.first(), var9.count());
             }
          }
-      } catch (Throwable var11) {
-         if (var7 != null) {
-            try {
-               var7.close();
-            } catch (Throwable var10) {
-               var11.addSuppressed(var10);
-            }
-         }
-
-         throw var11;
-      }
-
-      if (var7 != null) {
-         var7.close();
       }
    }
 
@@ -195,7 +159,7 @@ public final class uwt {
             uww.close();
          }
 
-         uwx = Math.max((long)var3, Math.max(262144L, uwx * 2L));
+         uwx = Math.max(var3, Math.max(262144L, uwx * 2L));
          uww = var0.createBuffer(() -> "Flow2 shatter vertices", 40, uwx);
       }
 

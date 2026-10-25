@@ -20,10 +20,10 @@ public final class pnr {
    public static String anarchy(String var0) {
       if (var0 == null) {
          return null;
-      } else {
-         Matcher var1 = pns.matcher(var0.trim());
-         return var1.matches() ? var1.group(1) : null;
       }
+
+      Matcher var1 = pns.matcher(var0.trim());
+      return var1.matches() ? var1.group(1) : null;
    }
 
    public static boolean allow(String var0) {
@@ -63,8 +63,8 @@ public final class pnr {
    }
 
    public static void tick(MinecraftClient var0) {
-      ClientPlayNetworkHandler var1 = var0.method_1562();
-      if (var1 != null && var0.field_1724 != null && !var0.method_1542()) {
+      ClientPlayNetworkHandler var1 = var0.getNetworkHandler();
+      if (var1 != null && var0.player != null && !var0.isInSingleplayer()) {
          pjd.keep(pjd.MAIN);
          if (pnu != null && !dry.armed() && ++pnw % 20 == 0) {
             if (pjd.enter(pjd.MAIN, pnv)) {
@@ -76,7 +76,7 @@ public final class pnr {
                      + pnv
                      + a.d("诎\uf661糍\ue2cf椔\uefaa嗶\udc0d䉞죬伺딴㯮\ua633\u0c54ꪑᓁ鬚ǜ蟸\u0e7f瑕\ufaee慊", -1130124162, 704849800)
                );
-               var1.method_45730(var2.startsWith(a.d("쌳", -1469336528, -1251444947)) ? var2.substring(1) : var2);
+               var1.sendChatCommand(var2.startsWith(a.d("쌳", -1469336528, -1251444947)) ? var2.substring(1) : var2);
             }
          }
       } else {

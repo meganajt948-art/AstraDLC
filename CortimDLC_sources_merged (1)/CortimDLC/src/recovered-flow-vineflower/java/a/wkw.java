@@ -20,8 +20,8 @@ public final class wkw {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (wlk.ENABLED.get() && var2.field_1687 != null && var2.field_1724 != null && !var2.field_1690.field_1842 && !dry.armed()) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (wlk.ENABLED.get() && var2.world != null && var2.player != null && !var2.options.hudHidden && !dry.armed()) {
          List var3 = wlk.drawable();
          if (var3.isEmpty()) {
             wlc.clear();
@@ -29,12 +29,12 @@ public final class wkw {
             unf.observe(var0);
             float var4 = unf.delta();
             iov.update(var4 * (float)iov.ANIMATION.get());
-            float var5 = var0.method_51421();
-            float var6 = var0.method_51443();
+            float var5 = var0.getScaledWindowWidth();
+            float var6 = var0.getScaledWindowHeight();
 
             usn var7;
             try {
-               var7 = usn.capture(var1.method_60637(true), var5, var6);
+               var7 = usn.capture(var1.getTickProgress(true), var5, var6);
             } catch (Throwable var21) {
                return;
             }
@@ -70,13 +70,13 @@ public final class wkw {
       uut.pushAlpha(var6 * var9);
       float var13 = var10 * (1.0F + 0.1F * var7);
       float var14 = (1.0F - var11) * -5.0F - var7 * 1.5F;
-      var0.method_51448().pushMatrix();
-      var0.method_51448().translate(var2, var3);
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().translate(var2, var3);
       uut.shadow(var0, -3.0F * var13, -1.0F * var13, 6.0F * var13, 2.0F * var13, 1.0F * var13, 2.5F * var13, 1174405120);
-      var0.method_51448().translate(0.0F, var14);
-      var0.method_51448().scale(var13, var13);
+      var0.getMatrices().translate(0.0F, var14);
+      var0.getMatrices().scale(var13, var13);
       pin(var0, 0.0F, -20.0F * var8 * 0.41666666F, 20.0F * var8, var12, 0.8F + 0.2F * var7);
-      var0.method_51448().popMatrix();
+      var0.getMatrices().popMatrix();
       wlg(var0, var1, var2, var3 + 4.0F * var13, var4, var12, var7);
       uut.popAlpha();
    }
@@ -102,10 +102,10 @@ public final class wkw {
          case a.d("ശ璦︻怋\uebd4浡", 1201546216, 195964567) -> vcq.outCubic(var7);
          default -> 0.0F;
       };
-      String var10 = var1.name;
-      String var29 = wlk.DISTANCE.get() ? formatDistance(var4) : null;
-      float var12 = wkx.width(var10);
-      float var13 = var29 != null ? wky.width(var29) + 4.5F : 0.0F;
+      String var29 = var1.name;
+      String var30 = wlk.DISTANCE.get() ? formatDistance(var4) : null;
+      float var12 = wkx.width(var29);
+      float var13 = var30 != null ? wky.width(var30) + 4.5F : 0.0F;
       float var14 = var12 + var13;
       String[] var15 = new String[]{a.c(-317636526, "䀋"), a.d("\u0c50", -2067591857, -1272315577), a.c(1104049565, "痆")};
       String[] var16 = new String[]{String.valueOf((int)Math.floor(var1.x)), String.valueOf((int)Math.floor(var1.y)), String.valueOf((int)Math.floor(var1.z))};
@@ -117,13 +117,13 @@ public final class wkw {
          var19 += wky.width(var15[var20]) + var17 + wky.width(var16[var20]) + (var20 < 2 ? var18 : 0.0F);
       }
 
-      float var30 = Math.max(var14, var19 * var9);
+      float var31 = Math.max(var14, var19 * var9);
       float var21 = 9.0F + 8.0F * var9;
       uut.shadow(
          var0,
-         var2 - var30 * 0.5F - 2.0F,
+         var2 - var31 * 0.5F - 2.0F,
          var3 + 1.0F,
-         var30 + 4.0F,
+         var31 + 4.0F,
          var21 - 1.0F,
          (var21 - 1.0F) * 0.5F,
          7.0F,
@@ -131,9 +131,9 @@ public final class wkw {
       );
       float var22 = var3 + 4.5F;
       float var23 = var2 - var14 * 0.5F;
-      wkx.draw(var0, var10, var23, wkx.centerTop(var22), -592136);
-      if (var29 != null) {
-         wky.draw(var0, var29, var23 + var12 + 4.5F, wky.centerTop(var22), ujt.withAlpha(-1, Math.round(150.0F + 50.0F * var7)));
+      wkx.draw(var0, var29, var23, wkx.centerTop(var22), -592136);
+      if (var30 != null) {
+         wky.draw(var0, var30, var23 + var12 + 4.5F, wky.centerTop(var22), ujt.withAlpha(-1, Math.round(150.0F + 50.0F * var7)));
       }
 
       if (var9 > 0.02F) {

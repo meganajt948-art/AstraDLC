@@ -36,9 +36,9 @@ public final class ppu {
          var0,
          var1,
          var2,
-         Items.field_8288,
+         Items.TOTEM_OF_UNDYING,
          a.d("샐鼿㎴궸", -45210801, 1910498240) + var1,
-         var1x -> var1x.is(Items.field_8288) && var1x.named(a.b("겦핥徽쇏䩡청盲．", 1504749804)) && var1x.named(var3)
+         var1x -> var1x.is(Items.TOTEM_OF_UNDYING) && var1x.named(a.b("겦핥徽쇏䩡청盲．", 1504749804)) && var1x.named(var3)
       );
    }
 
@@ -47,41 +47,41 @@ public final class ppu {
          var0,
          var1,
          var2,
-         Items.field_8575,
+         Items.PLAYER_HEAD,
          a.d("햲詝⛖룚", -945253084, 1679638729) + var1,
-         var1x -> var1x.is(Items.field_8575) && var1x.named(a.c(-303489311, "᪤挐\ue9b2瞶")) && var1x.named(var3)
+         var1x -> var1x.is(Items.PLAYER_HEAD) && var1x.named(a.c(-303489311, "᪤挐\ue9b2瞶")) && var1x.named(var3)
       );
    }
 
    private static boolean pqc(ppi var0) {
-      return var0.is(Items.field_8626)
+      return var0.is(Items.TNT)
          && (var0.named(a.c(551348825, "\uee6f韜ᴆ茌")) || var0.lore().contains(a.c(-1636467348, "祎ӭ踯ၟ鮘᥉ꍪ⪜냔㸄릮䏜쵼咼\udee7堖")))
          && !var0.lore().contains(a.c(-747489610, "㋭䬢쇰忾푖勨\ue8bf慆ﬄ疧\uf271ࠉ蚠ὣ锲Ꮁ꧰≍볠㪾댹중䞮\udc73娄탘"));
    }
 
    private static boolean pqd(ppi var0) {
-      return var0.is(Items.field_8626)
+      return var0.is(Items.TNT)
          && (var0.named(a.d("矂\u0e79蓜\u1ada", -47719745, 847882568)) || var0.lore().contains(a.b("砤ǫ謹ᔷ麟ᠡꉶ⮏뇍㽮뢸䋀챩喪\udffb奸\ue339梄\uf629灷藺菘൧隺Ⴭ騑", -2080015233)));
    }
 
    private static boolean pqe(ItemStack var0) {
-      PotionContentsComponent var1 = (PotionContentsComponent)var0.method_58694(DataComponentTypes.field_49651);
+      PotionContentsComponent var1 = var0.get(DataComponentTypes.POTION_CONTENTS);
       if (var1 == null) {
          return false;
-      } else {
-         boolean var2 = false;
-         boolean var3 = false;
-
-         for (StatusEffectInstance var5 : var1.method_57397()) {
-            if (var5.method_5579() == StatusEffects.field_5909 && var5.method_5578() >= 5) {
-               var2 = true;
-            } else if (var5.method_5579() == StatusEffects.field_5901) {
-               var3 = true;
-            }
-         }
-
-         return var2 && var3;
       }
+
+      boolean var2 = false;
+      boolean var3 = false;
+
+      for (StatusEffectInstance var5 : var1.getEffects()) {
+         if (var5.getEffectType() == StatusEffects.SLOWNESS && var5.getAmplifier() >= 5) {
+            var2 = true;
+         } else if (var5.getEffectType() == StatusEffects.MINING_FATIGUE) {
+            var3 = true;
+         }
+      }
+
+      return var2 && var3;
    }
 
    static String norm(String var0) {
@@ -103,7 +103,7 @@ public final class ppu {
    }
 
    public static boolean known(ItemStack var0) {
-      if (var0 != null && !var0.method_7960()) {
+      if (var0 != null && !var0.isEmpty()) {
          ppi var1 = new ppi(var0);
 
          for (ppn var3 : ppv) {
@@ -119,7 +119,7 @@ public final class ppu {
    }
 
    public static boolean picked(ItemStack var0, Collection<String> var1) {
-      if (var0 != null && !var0.method_7960() && var1 != null && !var1.isEmpty()) {
+      if (var0 != null && !var0.isEmpty() && var1 != null && !var1.isEmpty()) {
          ppi var2 = new ppi(var0);
 
          for (ppn var4 : ppv) {
@@ -135,33 +135,33 @@ public final class ppu {
    }
 
    static {
-      ppy(a.b("很☰곶㊊륛㿹", 1992122347), a.b("\u2fe4噃\udc93䊘쥍俷", 8072143), a.b("窣̻觽ខ鱐\u1af2", 1621129952), Items.field_8833, var0x -> var0x.is(Items.field_8833));
+      ppy(a.b("很☰곶㊊륛㿹", 1992122347), a.b("\u2fe4噃\udc93䊘쥍俷", 8072143), a.b("窣̻觽ខ鱐\u1af2", 1621129952), Items.ELYTRA, var0x -> var0x.is(Items.ELYTRA));
       ppy(
          a.d("픦겜♞렳㏩땏༇蛫ᢥ鈮ᗃ\uefa1慩\uf8da犔", 1179686682, 2135245405),
          a.b("鲷\ue52e濿\uf18c種ﳧ䛎콃儐\udba3小ꈑ⣗넗㬺뷈ߵ", -632710981),
          a.c(1554930742, "屨◲꼰ㅝ몇㰡虩྅釋ᬿ鲭曏\ue807熴ﯽ紋"),
-         Items.field_22028,
-         var0x -> var0x.is(Items.field_22027, Items.field_22028, Items.field_22029, Items.field_22030)
+         Items.NETHERITE_CHESTPLATE,
+         var0x -> var0x.is(Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS)
       );
       ppy(
          a.d("\ud8c6ꅼ⮢뗘㸆뢸˱謑ᕏ鿅ᠨ\ue248沟\uf532罨", -982452078, -1805901762),
          a.c(-1467032061, "\uda21ꎇ⤤뜯㳲"),
          a.d("蚮Ｔ痪\ueb90恎\ue6f0岹학䬇쇲䙦밟㋋ꭲ℠\ua7daᷛ鉋ࣩ躸ݓ紋", 825121515, -1441276906),
-         Items.field_8367,
-         var0x -> var0x.is(Items.field_8367)
+         Items.ENCHANTED_GOLDEN_APPLE,
+         var0x -> var0x.is(Items.ENCHANTED_GOLDEN_APPLE)
       );
       ppy(
          a.c(493346155, "\udd00꒹\u2e69뀐㯆뵼ܞ軑႟騮ᷡ\ue799"),
          a.d("礀ï詎ᐻ", -1441007588, 1837270283),
          a.b("ꆝ\ud804勔청䝻쇁篜\uf26c氢\ue693慜鬤", 370778582),
-         Items.field_8463,
-         var0x -> var0x.is(Items.field_8463)
+         Items.GOLDEN_APPLE,
+         var0x -> var0x.is(Items.GOLDEN_APPLE)
       );
       ppz(
          a.c(-1205783175, "㔆䲨왠堌폝啭\uef0f曀\uf88d爼\uf5fdྞ腉ᣢ銶"),
          a.b("\u09d1灂犯撙\uef37涓폰婐쐏仏쥭㍥붷␋", 1725959624),
          a.b("檉ጊ駙\u07ba豿\u0ace낇㥱Ꝡⶁꩍ倧\udeed䝚초", -1256953145),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.b("⛸礗햜䮐쑰䋣\uf8be焸\uef1e憺\ue259\u1879隮\u0f6e蕌τ릎㙒", 1828595377),
          var0x -> var0x.potion() && var0x.named(a.d("痠ఠ蛳ᣳ鍕ᖝ꿋", 1985594937, 1800189934))
       );
@@ -169,7 +169,7 @@ public final class ppu {
          a.b("ŕ磻\uf233江\ue78e愾\udb5c劂쳌䙰솮㯚딀Ⲷ", 435224875),
          a.c(1619101214, "舆ﮕ煈\uef4e擠\ue644堨퇶侢씓䋋뢾㙥꿑▏"),
          a.c(-1366289518, "Ꮜ橌\ue092绮\uf53c玀짔䁫\ude64哊팂⥮ꞿ㸏"),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.d("\uf474ꮛܐ餜\u16fc遯⨲ꎴ㶒댶ペ쪄䑘\udde9垱텄欇\ue4d3繭", 123527339, -1655171945),
          var0x -> var0x.potion() && var0x.named(a.c(-993828030, "杴Ỏ鐖\u0a63膸܌"))
       );
@@ -177,7 +177,7 @@ public final class ppu {
          a.c(-38489841, "녭죛䈋\udc6f垞턇歂\ue2a6糨\uf64e"),
          a.d("尾▜꼲ㅎ뫫㰥舙\u0ffa醩ᬒ鳅", -653846741, 951930687),
          a.c(-1117748023, "蒋ﴝ矍\ue9a9戧\ue4c1庄흠䤮쎈"),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.c(1261188329, "㒽歒쟙姕혃傡\uea8f捳ﵞ瞐\uf42c\u0a4f蒔ᴯ靸"),
          var0x -> var0x.potion() && var0x.named(a.b("뎓쩑䃿\ude83", 10270678), a.b("ᵆ擻\uee22", 2127305079))
       );
@@ -185,7 +185,7 @@ public final class ppu {
          a.d("䈵㮛녓⼿ꓮ≞頼ᇠ辬Ԙ苆碿\uf67d濑\ue584捴", 1245408680, 1400319997),
          a.d("鰱\ue5a2潿\uf179竗\uf873䘠쿁冚\udb27峼\ua6fb⡒뇣", -522086188, -1452080900),
          a.c(1706467736, "ꇚ\ud858劎쳲䜭솉篇\uf230汮\ue691愒魼ᖰ谜ى肹"),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.c(-1338719422, "쌋鳤は깣Ↄ꜐ᵍ铋૭葉ޚﷻ猨\uea95惎\ue649屸펩"),
          var0x -> var0x.potion() && var0x.named(a.c(-293906100, "崊Ⓥ긜ち뮾㵹"))
       );
@@ -193,35 +193,35 @@ public final class ppu {
          a.b("ꌘ\udaa4偿츂䗗썧社", 1674945403),
          a.d("兽⣧ꈳ㱎랞", 985145774, -1207536442),
          a.c(2001530860, "\uefaf阳᳨芕ी述㖩"),
-         Items.field_8477,
-         var0x -> var0x.is(Items.field_8477)
+         Items.DIAMOND,
+         var0x -> var0x.is(Items.DIAMOND)
       );
       ppy(
          a.b("㳭䕆쾐击\uda3f岙", -80069480),
          a.c(-1975569187, "・䥞쏸巼혯僯\ueac2"),
          a.d("뎪쨡䃷\ude9c啘폾", -401249092, -181149885),
-         Items.field_8675,
-         var0x -> var0x.is(Items.field_8675) || var0x.named(a.c(2048451876, "\ue163颦ሀ谄ߗ脗"))
+         Items.IRON_NUGGET,
+         var0x -> var0x.is(Items.IRON_NUGGET) || var0x.named(a.c(2048451876, "\ue163颦ሀ谄ߗ脗"))
       );
       ppy(
          a.d("\uf42d趗ݕ餸ዢ鑄⸌\ua7e0㦮댥㓚캻䁽\ud9df厝", -1801098853, 1785634263),
          a.c(-1856546800, "専▛꽊ㄹ몛㱒虻\u0ff6醥᭭鳌护\ue868燜ﮍ"),
          a.c(-1039906447, "䤰オ멨␅꿟⥹錱\u1add蒓\u0e67觧玆﵀擢\ueea0"),
-         Items.field_22021,
-         var0x -> var0x.is(Items.field_22021) && !var0x.says(a.c(-1745747946, "ё緢\uf741椿\ue2ed")) && !var0x.says(a.b("盄ཽ藛ᮩ遵ᚴ곣┞묾㗠똩䱙슀孆텭垖", 1498378985))
+         Items.NETHERITE_SCRAP,
+         var0x -> var0x.is(Items.NETHERITE_SCRAP) && !var0x.says(a.c(-1745747946, "ё緢\uf741椿\ue2ed")) && !var0x.says(a.b("盄ཽ藛ᮩ遵ᚴ곣┞묾㗠똩䱙슀孆텭垖", 1498378985))
       );
       ppy(
          a.d("櫘።馠ߍ谗\u0ab1냹㤕ꝛⷐꨵ偃\ude9d䜤쵬", 541523191, -287271346),
          a.c(2086506760, "锇\uec9e晏\uf83c玞\uf557佾웳墠퉨嗉ꮡ℗룜㊌됇ิ臡"),
          a.c(-1676022844, "\ueb85鈟ᣝ蚰൪诌ㆄ롨☦곒⭈턾忠왙䰑"),
-         Items.field_22020,
-         var0x -> var0x.is(Items.field_22020)
+         Items.NETHERITE_INGOT,
+         var0x -> var0x.is(Items.NETHERITE_INGOT)
       );
       ppz(
          a.b("濱ᙜ鲂ˡ褱", 1170173828),
          a.c(-1120623904, "\ua6fa\udf6f喷쮷䁣"),
          a.b("銘\ueb15懋ﾨ瑸", -2040098099),
-         Items.field_8551,
+         Items.DRIED_KELP,
          a.d("ꆯ﹀勋쳇䌯얺翢\uf662栾", 618015154, -1402042289),
          var0x -> var0x.named(a.d("\uf3bc訉Ñ黑ᔅ", 726831236, -714971390)) || var0x.lore().contains(a.b("ᦾ怇\ueaa1瓓／秎쎙䩤푄媚\ud928⍚귺㑃븝", -1005904500))
       );
@@ -229,7 +229,7 @@ public final class ppu {
          a.d("럵칂䒂\udae2", 538464726, 639100499),
          a.d("䵧㒴븗\u2069ꮻⴀ", -1732131992, -45446613),
          a.d("逨\ue9bf捿ﴟ", -1391792039, 296968225),
-         Items.field_22021,
+         Items.NETHERITE_SCRAP,
          a.d("閞쩱曺\uf8f6眣\uf1f0䯓숭屷훌", 223401160, 2008105223),
          var0x -> var0x.named(a.d("繁菪ॉ霷᳥", 1371283130, -955719516)) || var0x.lore().contains(a.d("䚠㼙떿⯍ꀑ⛐鲇ᕺ譚ք虍簽\uf2e4欢\ue109柲", -1292669463, 1684352868))
       );
@@ -237,7 +237,7 @@ public final class ppu {
          a.b("﵏蓳ฺ遗ᮝ鴷❨꺒プ", 1104084258),
          a.b("⧷偧\udab6䓎콧䦮\uf3f0稉\ue429滪\ue94fፀ鷠", -1809633810),
          a.c(1409999717, "\ue32f骳ၺ踗ם荷㤨냒⺗ꐳ⏵\ud999坈컸"),
-         Items.field_8449,
+         Items.ENDER_EYE,
          a.d("檘㕷駼߰蠓\u0e83듒㴪ꌋ⧂긜呥\udacd䌎줫侤\uf59c", 1423153719, 1119613157),
          var0x -> var0x.named(a.d("队\uefaf敾ﬆ炯\uf666䰸엁寡", 1310121864, 1058622890))
             || var0x.lore().contains(a.b("ᬚ抮\ue80c瘄\ufdd7筪섻䢵튅尦\udbf9\u218d꽜㛠", -747495645))
@@ -246,7 +246,7 @@ public final class ppu {
          a.b("鷝\ue47d溨\uf0de", -1126916675),
          a.c(435515271, "殢ሎ飒ڮ贆࿘놔㠑\ua63e\u2cf8"),
          a.b("\uea63鏽ᤧ蝒ಖ詵ぢ릂⟛국", 3729962),
-         Items.field_8479,
+         Items.SUGAR,
          a.d("엓騼㚷ꢻ❣ꇏᮓ鉯\u0c4f芑ŝﭘ痿\uec39", 1022584, 851927038),
          var0x -> var0x.named(a.c(-228622604, "窱ͽ覡៝鱵ẫꃧ⥢띍㶋")) || var0x.lore().contains(a.b("ⵢ咠\ude74䁲쯙䵤\uf735纻\ue48b樨\ued88ជ餤\u0096誷ౌ", 469510451))
       );
@@ -254,43 +254,43 @@ public final class ppu {
          a.b("䨬㎖륔✹곣⩅逍᧡螯ത諛炮﹡柍\ued88", -1395963315),
          a.c(1631283885, "溿ᜦ鷷΄蠦\u0eef듆㵋ꌘ⧐깱候\udad2䍪쥋"),
          a.b("领\ue11c毞\uf5b3繩\uf8cf䊇쭫唥\udfd1塑ꈤⳫ땇㼂", -184510265),
-         Items.field_22022,
-         var0x -> var0x.is(Items.field_22022)
+         Items.NETHERITE_SWORD,
+         var0x -> var0x.is(Items.NETHERITE_SWORD)
       );
       ppy(
          a.d("᭲招\ue806百ﶠ笀셈䢸훖屋\udb80⇯꼡㚐", 711787658, 909975429),
          a.b("䳕㕶뿐⇔ꨉ⢧隕\u1f1f腏௰谭瘫\uf88e", 950683903),
          a.d("⌞媗큊串여䍌滑烴\ueee5搇\ue3ccᦣ靭ໜ", 2002283328, -263305213),
-         Items.field_8398,
-         var0x -> var0x.is(Items.field_8398)
+         Items.SKELETON_SKULL,
+         var0x -> var0x.is(Items.SKELETON_SKULL)
       );
       ppy(
          a.d("䇲㡝늓⳾Ꜥↂ鯼ሡ豦ۉ脃筲", 961595070, -282228937),
          a.c(950326828, "툘ꮻℝ뼙㓄뙪ࠫ臐ᾀ锳ን\uec89昲\ufff8疤\uf35b䤚욼屽"),
          a.c(594610565, "ে灈惘擫\uef31榗펖娴쑳仌줖㍮붨␂깐⣯鋳ᴺ螗ǟ蠨"),
-         Items.field_8791,
-         var0x -> var0x.is(Items.field_8791)
+         Items.WITHER_SKELETON_SKULL,
+         var0x -> var0x.is(Items.WITHER_SKELETON_SKULL)
       );
       ppy(
          a.b("ꍠ\udac7倇칰䖯쌟祽\uf0bb滩\ue45c掊", 1792058127),
          a.b("槜၀骖Ӣ輹ঊ량㨬ꐇ⻆ꤟ卪\uddbe䐂", -1890751039),
          a.d("㖧䰠웠増퍈嗸\uefe5晜\uf80e犻\uf56d", 1475361449, -266858687),
-         Items.field_8712,
-         var0x -> var0x.is(Items.field_8712)
+         Items.DRAGON_HEAD,
+         var0x -> var0x.is(Items.DRAGON_HEAD)
       );
       ppy(
          a.b("림쀜䫘풩彫\ud9cf掋\uea57琿ﺃ祔茠", 376617427),
          a.c(257180978, "䄯㢳뉥Ⱁꟊⅹ鼺ዑ賴ؽ臩箒\uf530泱"),
          a.d("\uda82ꌂ⧆랷㱵뫑\u0095褶ᜡ鶝ᩊ\ue03e", -1828484852, -1606331455),
-         Items.field_8681,
-         var0x -> var0x.is(Items.field_8681)
+         Items.CREEPER_HEAD,
+         var0x -> var0x.is(Items.CREEPER_HEAD)
       );
       ppy(
          a.b("䚌㼨뗹⮇ꁛ⛦鲏ᕉ講Ʈ虸", -715569411),
          a.c(1583419353, "ெ牚\uf88c書\ued23殐헓堵왣䳐쬎ㅶ"),
          a.b("\ueae3鍧ᦶ蟈ఔ誩タ뤆❔귡⨷", -161158478),
-         Items.field_8470,
-         var0x -> var0x.is(Items.field_8470)
+         Items.ZOMBIE_HEAD,
+         var0x -> var0x.is(Items.ZOMBIE_HEAD)
       );
       pqa(
          a.b("쌑몵に긟◒ꍽᤢ郜າ萨϶歷睈\ueef6撿", -1533623446),
@@ -357,22 +357,22 @@ public final class ppu {
          a.b("뭼싇䠒홙嶰\udb12慁\ue8ad盪", -666518756),
          a.c(-1717581917, "쎐멂ん꺗╎ꏴᶷ遘จ蒳ͮ爛矈\uee71搪\ue2d3墙휿"),
          a.d("딓첈䙝\ud869叿핝漎\ue6e2碥", -502354647, 1982732410),
-         Items.field_8087,
+         Items.TIPPED_ARROW,
          a.b("Ꟁ\ude12哃쫇䄞잤秧\uf408橘\ue0e3朾鵎᎘訡z蚃㳉덯", -87251981),
-         var0x -> var0x.is(Items.field_8087, Items.field_8107, Items.field_8236) && (var0x.named(a.b("⟾幀풙䫦섰䞀\ufddb", 483009479)) || pqe(var0x.stack))
+         var0x -> var0x.is(Items.TIPPED_ARROW, Items.ARROW, Items.SPECTRAL_ARROW) && (var0x.named(a.b("⟾幀풙䫦섰䞀\ufddb", 483009479)) || pqe(var0x.stack))
       );
       ppy(
          a.d("穳ϊ褚ᝣ鲵ᨏꁭ⦠럽㵟몌䃠츬", 1241889509, 581746940),
          a.c(-528931311, "∉宑텇伳쒘䉛\uf877痩\uefaa攙\ue2b4ᢿ陬࿑藼"),
          a.c(28539829, "篿ɦ袶ᛏ鴙ᮣꆾ⠌뙑㳳묠䅌쾀"),
-         Items.field_8071,
-         var0x -> var0x.is(Items.field_8071)
+         Items.GOLDEN_CARROT,
+         var0x -> var0x.is(Items.GOLDEN_CARROT)
       );
       ppz(
          a.c(788737602, "⸭垔\udd4c䌆죯乊\uf41e緼"),
          a.c(1620625019, "쉠믾ㄥ꼮⓺꘤ᡧ釥ྐྵ蕸"),
          a.c(-600921045, "걦헿弧섕䪖챴癦ﾃ懛\ueb79"),
-         Items.field_8614,
+         Items.PHANTOM_MEMBRANE,
          a.d("螞\ud871瓺\ueaf6攐\ue38e姕큞丂샜䌟뤝㟉금", 1201463737, 1944413810),
          var0x -> var0x.named(a.b("\uee39鞇ᵜ荗ࢃ詝㐞붜⏀꤁", 801040898)) || var0x.lore().contains(a.c(-401036654, "꺲휌巗쎥䠆캴璗ﵡ挶\ue987湙鑗ữ荎८辜㖣"))
       );
@@ -380,14 +380,14 @@ public final class ppu {
          a.d("ࣃ煺ﮆ旊\uee10梺틩嬀앖", -331341151, 433662483),
          a.d("㼊䚚창剅\uddf0孉\ue500沂\uf2a9簍\uffc1\u05cc譯ኢ飺ṳꀭ", -158234232, -423054707),
          a.b("ᅾ棇\ue264簝\uf783焿쭬䋑\udccc噰톸⯉ꔆ㲾뛻ぐ", 1904021814),
-         Items.field_8287,
-         var0x -> var0x.is(Items.field_8287) || var0x.named(a.d("⣨儥\udb82䖏칓", -64566524, -1095505962), a.b("\ue8de酮ᯉ薱", 1190259940))
+         Items.EXPERIENCE_BOTTLE,
+         var0x -> var0x.is(Items.EXPERIENCE_BOTTLE) || var0x.named(a.d("⣨儥\udb82䖏칓", -64566524, -1095505962), a.b("\ue8de酮ᯉ薱", 1190259940))
       );
       ppz(
          a.d("숼뮏ㅗ꼝⓳ꉍ᠏", 1526512223, 578320393),
          a.d("㛙佊얓寮큅嚈\uecd9攢\ufb0f燂\uf66fࡾ芶ᬆ鄬អ귨∾뢏", -266329091, -417328853),
          a.b("鸞肦\u0a60鐀῟饵⍴\uaac8㒕븯㧱쎏䵗퓪庮", -1977222787),
-         Items.field_27063,
+         Items.AMETHYST_SHARD,
          a.c(830177205, "翹₲貝ኑ鵺ᯩꆰ⡍뙮㲣뭲䄉쾬噡\udc4c廝\ue08d潝\uf597玹碑耝ຬ"),
          var0x -> var0x.named(a.b("揅᩶邯໒蕹", -318347268), a.c(-1471142272, "⊹嬉톣侭쑿䋉")) || var0x.lore().contains(a.d("앃벻㙧ꠇ", -2043381265, 1998896263))
       );
@@ -395,23 +395,23 @@ public final class ppu {
          a.c(752452763, "蓿﵌瞔\ue9de户\ue489廂휬䥶"),
          a.b("霬\ueebf摦福熰\uf77d䴬쓗嫺퀷垚ꦋ⍁뫽イ뙑ఒ菁\u1979齟ᛙ沍", -1486449882),
          a.d("쒞봀㟋ꦥ≷ꒊẔ靧ळ莏ѓ︭烶\ue950", -15122157, -919697982),
-         Items.field_8782,
+         Items.ANVIL,
          var0x -> var0x.named(a.c(-177161691, "븜잯䵶팋墠"), a.c(864407516, "쯨뉔㢍\ua6f8ⴣꮐᇈ顎٠")) || var0x.lore().contains(a.c(258996763, "免菍ऑ靸Ჰ騄"))
       );
       ppz(
          a.d("\ue00c馿፧购ۃ聸㨾", 670561634, -1379920636),
          a.b("퍥꫶ 빒㗹댴॥肞ẳ鑾Ꮣ\uedc2朊ﺺ瓬\uf277䠫있", 1080219499),
          a.c(-1926107569, "\uee06鞝ᵋ茴࣬蹁㑆뷺⎧ꤝ⻃풽婥쏘䦜"),
-         Items.field_8153,
+         Items.FEATHER,
          a.d("鹶섽洒\uf31e糵辶䀿짂埡\udd2c嫽ꂆ⸣럮㷃뽒Ă軒ᑤ鉟ᮻ憘", -1022346221, -1282235864),
          var0x -> var0x.named(a.b("爿\u0b8c腕Ἠ钃", -397642234), a.b("幵⟅괓㍬료", 387471951)) || var0x.lore().contains(a.c(-370318277, "搐ᷨ霱ॕ"))
       );
-      ppy(a.b("ꭔ틢堵왆䶝쬭", -1246909648), a.c(1413715739, "錃\uea9e怲︶"), a.c(475317492, "쒰봦㟱ꦂ≙ꓩ"), Items.field_8668, var0x -> var0x.is(Items.field_8668));
+      ppy(a.b("ꭔ틢堵왆䶝쬭", -1246909648), a.c(1413715739, "錃\uea9e怲︶"), a.c(475317492, "쒰봦㟱ꦂ≙ꓩ"), Items.BEACON, var0x -> var0x.is(Items.BEACON));
       ppz(
          a.b("皤༝藕᮲遳ᛟ겓", -1470138686),
          a.c(1717550364, "뤋삒䨹퐼徟\ud950挂"),
          a.c(1213492644, "淢ᑻ麳Ô謕ඹ럵"),
-         Items.field_8530,
+         Items.REDSTONE_TORCH,
          a.b("㺋慤췯口\udc04媝\ue0b6椳\uf718緗洞", -487244069),
          var0x -> var0x.says(a.d("پ翇\uf56c歩\ue0ca昅\udc57", 515868926, -46495049)) || var0x.says(a.b("縠ޙ赑ጶ飷ṛꐗ", 429293126))
       );
@@ -419,14 +419,14 @@ public final class ppu {
          a.b("㈅䮯셶弆퓕剡\ue809懆ﾔ甽\uf2fb࢙", -890883460),
          a.b("ज炆館搯\uef88椵휊嫦쒱七짞㏕뵸", -1270739711),
          a.b("偝⧗ꌎ㵾뚭〙討ξ鷬ᝅ邃櫡", -46379004),
-         Items.field_23141,
+         Items.RESPAWN_ANCHOR,
          var0x -> var0x.named(a.b("콑뛫㱁ꉂ⧥", 371575652))
       );
       ppz(
          a.d("훯꽁▓믿〹뚲ೊ蔡᭤", 728374698, 17746747),
          a.b("冘⠋ꋑ㳛", 1076254094),
          a.c(161929615, "\ud9d1ꁟ⪍듡㼧맓ϴ訟ᑚ"),
-         Items.field_8626,
+         Items.TNT,
          a.b("\ue16c뺃ለ谄ϡ蕲㼨뚢", -2079465153),
          ppu::pqc
       );
@@ -434,7 +434,7 @@ public final class ppu {
          a.c(511588213, "㜞亡쑿娌퇓坖\ued2e擅婢"),
          a.d("쟓빈㓭ꫫ", 1907055573, 1403361299),
          a.d("\ue194頋ዕ貦ݹ膃㮤뉏Ⰺ", -766324956, -1867567365),
-         Items.field_8626,
+         Items.TNT,
          a.d("昍㧢镩\u0b65蒃Ș렽ㆻ", 1187915557, 757285243),
          ppu::pqd
       );
@@ -442,28 +442,28 @@ public final class ppu {
          a.d("\uf3fb詐\u0099", 433585094, -543225782),
          a.b("봠쒮乂", 1654700289),
          a.d("䧌で몮", -2040388159, 2130472026),
-         Items.field_8626,
-         var0x -> var0x.is(Items.field_8626) && !pqc(var0x) && !pqd(var0x)
+         Items.TNT,
+         var0x -> var0x.is(Items.TNT) && !pqc(var0x) && !pqd(var0x)
       );
       ppy(
          a.b("箒ȫ裰ᚖ鵒ᯮꆵ⡿또㲼뭸", -507806724),
          a.b("ｈ蛖\u0c71鉿᧔齦╂겺㋨렦㮚얋䭟튙壎", 305920863),
          a.d("梤ᄽ鯦ր蹄ࣸ늣㬖ꔆ⾪ꡮ", 80330609, -229779557),
-         Items.field_8837,
-         var0x -> var0x.is(Items.field_8837, Items.field_29216)
+         Items.EMERALD_ORE,
+         var0x -> var0x.is(Items.EMERALD_ORE, Items.DEEPSLATE_EMERALD_ORE)
       );
       ppy(
          a.b("蘸ﾁ畑\ueb28惄\ue643尗헯䮸섒", 28804693),
          a.b("檣ጻ駭ޙ谲ઊ낧㵃Ᵹⶶꩦ偭\udec2䝱", -1885835590),
          a.b("獓\u0aca耚ṣ闰ገ\ua95c₤뻳㑙뎍", 1948218143),
-         Items.field_8695,
-         var0x -> var0x.is(Items.field_8695)
+         Items.GOLD_INGOT,
+         var0x -> var0x.is(Items.GOLD_INGOT)
       );
       ppz(
          a.b("剌⯾ꄡ㽘뒔㈼补Ɯ", 1919111720),
          a.b("⒬嵁ퟬ䧪숱䓽ﺬ獅\ued12掹\ue419Ḝ铗", 1502093503),
          a.d("豬\uf5fe缡\ue158檔\uec3c噥\udf9c䇛쬹䳢뛚㠀ꆱ⮧", 755428469, 1054367834),
-         Items.field_8366,
+         Items.TRIPWIRE_HOOK,
          a.b("朮㣁鑊\u0a46薯͂륯ラ꺺⑶ꎯ巎휃䪨쓺䉮\uf850矴\ued37歪", 568747873),
          var0x -> var0x.named(a.c(1071882697, "ꗱ\udc3c嚑좗䍌얀"))
       );
@@ -471,28 +471,28 @@ public final class ppu {
          a.d("述\uf654粅\ue2fb椧\uef9a嗳\udc2b䉫죟伌땰㮡ꈒ⡖꺊ᓿ鬬Ɵ", -481212018, -1144207849),
          a.c(706705522, "籃פ轈ᅁ麈ᰦꘊ⾃뇓㬞벴䛇찀冦\udbfc崏\ue74d梕\uf633瑵ﷸ蟜छ鋉ᒸ鹪➫\ua9ff㌍땑"),
          a.d("끈짌䌝\udd63嚿퀂樔\ue3b3緳\uf747炔諨й鶊៎酭⭱꒣㸁롆ㆨ䮷앁庒\ud8ed", -1488811659, 1166227838),
-         Items.field_8136,
-         var0x -> var0x.is(Items.field_8136)
+         Items.ZOMBIE_VILLAGER_SPAWN_EGG,
+         var0x -> var0x.is(Items.ZOMBIE_VILLAGER_SPAWN_EGG)
       );
       ppy(
          a.c(1406428896, "暚ἴ闢ஓ聉۾벯㕉ꬻ↰ꙡ尐"),
          a.c(-1263965053, "梴ᄓ鮿ֶ詿࣑닽㭴ꔤ\u2fe9ꡃ到\ud8f7䕜콵䧱\uf3ca簘\ue6a5惷\ue972錦ᶐ虌"),
          a.d("䐣㶭띻⤊ꋐ⑧鸶័觝̿蓯纏\uf04e槦\ue3fb敏\udf02僓", -389978299, 624108322),
-         Items.field_8086,
-         var0x -> var0x.is(Items.field_8086)
+         Items.VILLAGER_SPAWN_EGG,
+         var0x -> var0x.is(Items.VILLAGER_SPAWN_EGG)
       );
       ppy(
          a.b("\ue074駎ጌ赡ڻ耝㩣뎾ⷦꝂ₂", -1796284399),
          a.d("ㅐ䣄숐屣ힷ儂\uef41抍ﳺ癉\uf198ஜ蔻", -1818981322, 2138093948),
          a.d("\uee32鞨ᵪ茇ࣝ蹻㑺뷘⎀ꤤ⻤", 213035091, -2069936604),
-         Items.field_8137,
-         var0x -> var0x.is(Items.field_8137)
+         Items.NETHER_STAR,
+         var0x -> var0x.is(Items.NETHER_STAR)
       );
       ppz(
          a.c(1657008156, "\uf073觔̔鵣ᚼ逌⩮ꎳ㷴띇ん"),
          a.c(-1972314615, "\uda10ꏵ⥖뜭㳾멌\u001a觪Ꭼ鵼\u1ad4\ue0a7湵"),
          a.c(1838766282, "墅ℂꯂ㖵빪㣚苇\u0b65锢ᾑ顅"),
-         Items.field_8407,
+         Items.PAPER,
          a.c(1738150982, "ᐌ䯣\ue768祤\uf687灢쩁䎺\udde1坓킅⫵ꀻ㷫럃\u3130譺"),
          var0x -> var0x.says(a.d("蒟ﵚ矹\ue982扑\ue4e3庵흅䴃쏓䑻븈ペ", -770411799, -487198129))
       );
@@ -500,24 +500,24 @@ public final class ppu {
          a.d("퓴굂➚맸㈰뒜\u0eda蜨\u1979鏁ᐨ\uee75悺契獝", -1694811504, 349367810),
          a.d("ʘ笁\uf1df澡\ue470担\ud895兯콆䖅왏㡟뛳⽀ꔖ", 2008182811, 1051096721),
          a.d("㬉䊟졇嘥\udded孁\ue107棵\uf6a4簜ﮊƨ轧ᛔ鲀", 130342645, -543627846),
-         Items.field_8407,
+         Items.PAPER,
          a.d("䀲῝덖ⵚꊰ\u2429鹷ញ觐ͥ蒵经\uf06e榭\ue7e7敷\udf43傐쨦", -2022593794, 885713540),
          var0x -> var0x.says(a.c(210283351, "꽥훜専쉼䦭켘畈ﲲ抛\ue858殒閂ᬮ芝࣋"))
       );
-      ppy(a.b("鱑\ue5f2漺\uf155窝ﰴ䙴쾄凌", 954113087), a.b("∜完턡伮쒂", 1477649926), a.c(-571710519, "掇ᨄ郌ຣ蕫ς릂ひ긺"), Items.field_8054, var0x -> var0x.is(Items.field_8054));
+      ppy(a.b("鱑\ue5f2漺\uf155窝ﰴ䙴쾄凌", 954113087), a.b("∜完턡伮쒂", 1477649926), a.c(-571710519, "掇ᨄ郌ຣ蕫ς릂ひ긺"), Items.GUNPOWDER, var0x -> var0x.is(Items.GUNPOWDER));
       ppy(
          a.b("堒↴꭫㔝뻂㡺舴\u0bd4閍Ἵ飕抟\uec49痸ﾾ祌쌜䳀홦倦", 420829300),
          a.b("潵ᛝ鱴ɰ覭༘딡㲼ꋣ⠤꾅凭\udb29䊐좻丸\uf47e箪\ue119朾\ueebb郳ᨡ膊߾财㒙못", -1404802230),
          a.c(1705574857, "Ə砉\uf2d6沠\ue77f懇\udb89剩찰䚀섗㬢뗴ⱅꘃ\u20f1骡ᕽ进ছ"),
-         Items.field_38418,
-         var0x -> var0x.is(Items.field_38418)
+         Items.REINFORCED_DEEPSLATE,
+         var0x -> var0x.is(Items.REINFORCED_DEEPSLATE)
       );
       ppy(
          a.b("靲\ueec0搄頻熵\uf70f䵆쒦嫸큲垛귶⌽", 226400025),
          a.d("꺮휳嶐쎙䡋컹璦ﵕ指\ue9b6渓鐐Ở荰ब辮㗥멋\u20f9ꊱ⽕唌\udbb4䁢", 78109679, 1977643333),
          a.b("⮌刞\ud8da䚴쵫䯑\uf198硸\ue626泓\ueb53ᄡ鿯ٓ谁૧냺㽮ꗁ⎌", 1132800990),
-         Items.field_8711,
-         var0x -> var0x.is(Items.field_8711)
+         Items.FERMENTED_SPIDER_EYE,
+         var0x -> var0x.is(Items.FERMENTED_SPIDER_EYE)
       );
       pqa(
          a.c(-1308272221, "姚⁾ꪠ㓔뼙㦶菩ਗ鑹ự餱捇\ued9b"),
@@ -529,8 +529,8 @@ public final class ppu {
          a.c(189845985, "톅꠸⋩벞㝳뇵\u0bab艞ᰄ"),
          a.c(-14872251, "ᕗ泋\ue61a硬\uf3ce畷코䚨\udce2剂헣\u2feaꄶ㢅늯"),
          a.b("涀ᐝ黌»謩ැ랎㹻ꀡ", -1637585468),
-         Items.field_49813,
-         var0x -> var0x.is(Items.field_49813) || var0x.named(a.c(-1450786264, "옝뾡㕰ꬆ₤ꘝ᰾闂"))
+         Items.HEAVY_CORE,
+         var0x -> var0x.is(Items.HEAVY_CORE) || var0x.named(a.c(-1450786264, "옝뾡㕰ꬆ₤ꘝ᰾闂"))
       );
       ArrayList var0 = new ArrayList();
       ArrayList var1 = new ArrayList();

@@ -37,7 +37,7 @@ final class giw {
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.d("鍳\ueae0怩﹞疟\uf30a䥫삚廟푴厠", -337836748, -192178687));
       if (var1 == 1) {
-         var0.field_1690.field_1837 = false;
+         var0.options.pauseOnLostFocus = false;
          giz = vxr.find(
             Mouse.class, a.d("꒕\udd2f埭짆䉒쓧纳\uf749椐\ue3b0摰鸆Ⴣ褨̶藈㾊끉⫺겇├彏퇿", -900973984, 632790668), a.b("ㅲ䣌숓屫ힴ儾\ueb03拴ﲤ瘞", 1053176094), a.c(2052076535, "㎬")
          );
@@ -66,53 +66,53 @@ final class giw {
          gjj(var0);
          if (var1 < 40) {
             return false;
-         } else {
-            byte var3 = 26;
-            int var4 = (var1 - 40) / var3;
-            int var5 = (var1 - 40) % var3;
-            if (var4 >= gix.length) {
-               gjc = 0;
-               var2.setEnabled(false);
-               return true;
-            } else {
-               String var6 = gix[var4];
-               if (var5 == 0) {
-                  var2.setEnabled(!var6.startsWith(a.c(-2039700502, "ꎆ\uda3e僭")));
-                  var0.field_1724.method_36456(0.0F);
-                  var0.field_1724.method_36457(0.0F);
-               } else if (var5 == 4) {
-                  gjf = var0.field_1724.method_36454();
-                  gje = 0L;
-                  int var7 = Integer.parseInt(var6.substring(var6.lastIndexOf(45) + 1));
-                  boolean var8 = var6.contains(a.b("喿Ⱅꛈ㢶덽", -1586539064)) || var6.startsWith(a.c(1340571852, "肩癩珋\ueda2"));
-                  gjc = var8 ? var7 : -var7;
-               } else if (var5 == 14) {
-                  gjc = 0;
-               } else if (var5 == 22) {
-                  double var12 = (Double)var0.field_1690.method_42495().method_41753() * 0.6 + 0.2;
-                  double var9 = gje * var12 * var12 * var12 * 8.0 * 0.15;
-                  float var11 = var0.field_1724.method_36454() - gjf;
-                  System.out
-                     .printf(
-                        a.b("퍋\uaaf8‱빆㖇댵ॲ肐ể鑺Ꮼ\ue998朙ﻡ璨\uf20d䡃잕崺\udb60劖⢃\ua635㷯뮍ㄉ裼۩鰟ᩌ醴潩\ue570粖響灼쾮䗟쌁嫱킫깑␟ꏻ㥪띟ຍ萾Ⱥ駧ំ\ued04撦\ue2ea砟\uf601䶻쭡䄏\ud88b噿ⱥ", 1689572120),
-                        var6,
-                        var11,
-                        var9,
-                        Math.abs(var11) / Math.abs(var9)
-                     );
-               }
-
-               return false;
-            }
          }
+
+         byte var3 = 26;
+         int var4 = (var1 - 40) / var3;
+         int var5 = (var1 - 40) % var3;
+         if (var4 >= gix.length) {
+            gjc = 0;
+            var2.setEnabled(false);
+            return true;
+         }
+
+         String var6 = gix[var4];
+         if (var5 == 0) {
+            var2.setEnabled(!var6.startsWith(a.c(-2039700502, "ꎆ\uda3e僭")));
+            var0.player.setYaw(0.0F);
+            var0.player.setPitch(0.0F);
+         } else if (var5 == 4) {
+            gjf = var0.player.getYaw();
+            gje = 0L;
+            int var7 = Integer.parseInt(var6.substring(var6.lastIndexOf(45) + 1));
+            boolean var8 = var6.contains(a.b("喿Ⱅꛈ㢶덽", -1586539064)) || var6.startsWith(a.c(1340571852, "肩癩珋\ueda2"));
+            gjc = var8 ? var7 : -var7;
+         } else if (var5 == 14) {
+            gjc = 0;
+         } else if (var5 == 22) {
+            double var12 = var0.options.getMouseSensitivity().getValue() * 0.6 + 0.2;
+            double var9 = gje * var12 * var12 * var12 * 8.0 * 0.15;
+            float var11 = var0.player.getYaw() - gjf;
+            System.out
+               .printf(
+                  a.b("퍋\uaaf8‱빆㖇댵ॲ肐ể鑺Ꮼ\ue998朙ﻡ璨\uf20d䡃잕崺\udb60劖⢃\ua635㷯뮍ㄉ裼۩鰟ᩌ醴潩\ue570粖響灼쾮䗟쌁嫱킫깑␟ꏻ㥪띟ຍ萾Ⱥ駧ំ\ued04撦\ue2ea砟\uf601䶻쭡䄏\ud88b噿ⱥ", 1689572120),
+                  var6,
+                  var11,
+                  var9,
+                  Math.abs(var11) / Math.abs(var9)
+               );
+         }
+
+         return false;
       }
    }
 
    private static void gji() {
       int var0 = gjc;
       if (var0 != 0) {
-         MinecraftClient var1 = MinecraftClient.method_1551();
-         long var2 = var1.method_22683().method_4490();
+         MinecraftClient var1 = MinecraftClient.getInstance();
+         long var2 = var1.getWindow().getHandle();
          GLFWCursorPosCallback var4 = GLFW.glfwSetCursorPosCallback(var2, null);
          GLFW.glfwSetCursorPosCallback(var2, var4);
          gjd += var0;
@@ -122,8 +122,8 @@ final class giw {
    }
 
    private static void gjj(MinecraftClient var0) throws Exception {
-      if (giz != null && var0.field_1755 == null) {
-         giz.setBoolean(var0.field_1729, true);
+      if (giz != null && var0.currentScreen == null) {
+         giz.setBoolean(var0.mouse, true);
       }
 
       if (gja != null) {
@@ -132,6 +132,6 @@ final class giw {
    }
 
    private static void gjk(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

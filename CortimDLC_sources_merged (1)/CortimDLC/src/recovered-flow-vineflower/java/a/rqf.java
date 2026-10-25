@@ -40,9 +40,9 @@ public class rqf extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      Camera var2 = var1.field_1773.method_19418();
-      Skybox var3 = var1.field_1687.method_8597().comp_5220();
-      boolean var4 = var3 != Skybox.field_64385 && var2.method_19332() && var2.method_19334() == CameraSubmersionType.field_27888;
+      Camera var2 = var1.gameRenderer.getCamera();
+      Skybox var3 = var1.world.getDimension().skybox();
+      boolean var4 = var3 != Skybox.NONE && var2.isReady() && var2.getSubmersionType() == CameraSubmersionType.NONE;
       ujl.hide(this, var4 && this.rqo.get());
       long var5 = System.nanoTime();
       this.rqs = this.rqs + (this.rqr == 0L ? 0.0F : Math.min(0.1F, (float)(var5 - this.rqr) / 1.0E9F) * (float)this.rql.get());
@@ -57,8 +57,8 @@ public class rqf extends kfe {
             var9 = var10[1];
          }
 
-         this.rqq.rotation(var2.method_23767());
-         float var11 = var3 == Skybox.field_64386 ? (float)this.rqn.get() : 0.0F;
+         this.rqq.rotation(var2.getRotation());
+         float var11 = var3 == Skybox.OVERWORLD ? (float)this.rqn.get() : 0.0F;
          uxi.draw(this.rqq, var7, 40.0F + this.rqs, (float)this.rqk.get(), var11, var8, var9, this.rqp.is("Low") ? 3 : 4, var7.stars * (float)this.rqm.get());
       }
    }

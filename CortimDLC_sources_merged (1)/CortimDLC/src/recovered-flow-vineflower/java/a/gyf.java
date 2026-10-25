@@ -60,103 +60,102 @@ final class gyf {
             }
          }
 
-         var0.field_1690.field_1842 = true;
-         var0.field_1690.field_1837 = false;
-         var0.field_1690.method_42503().method_41748(12);
-         var0.field_1690.method_41808().method_41748(70);
+         var0.options.hudHidden = true;
+         var0.options.pauseOnLostFocus = false;
+         var0.options.getViewDistance().setValue(12);
+         var0.options.getFov().setValue(70);
          gyt(var0, a.d("쌽몊さ긬◳ꍀᤘ部\u0ef2萀ς捻睷\ueed3撝\ue273堯", 1618221021, 822727830));
          gyt(var0, a.c(1050601701, "\ue89c鄫\u1bf4薍ํ裻㊱뭉╓꾦⡾툤峖앿伹짍玌ﱒ曽\ue09b楖ጝ鶡ٹ聃\u0ad4덠㴼\ua7d4↓"));
          gyt(var0, a.c(-988955079, "빃쟴䴫퍒墒\ude24摮\ued96玌凉纡蓨\u0a0d鎸᧾鼓║ꪗ〕뙾㾓䗍쭷僣훚尌\ue5b2毼\uf11d"));
          gyt(var0, a.c(1727764634, "飠\ue143殔\uf5f0縻\uf887䋃쭠啼\udfc2堘ꉭⲩ"));
-         GLFW.glfwSetWindowSize(var0.method_22683().method_4490(), 1920, 1080);
+         GLFW.glfwSetWindowSize(var0.getWindow().getHandle(), 1920, 1080);
          gyq(var0);
          return false;
-      } else if (var1 < 10) {
-         return false;
-      } else if (gyn < 0) {
-         if (!gym) {
+      } else {
+         if (var1 < 10) {
             return false;
+         }
+
+         if (gyn < 0) {
+            if (!gym) {
+               return false;
+            } else {
+               BlockPos var13 = gyl;
+               if (var13 == null) {
+                  System.out.println(a.b("\uf632辞Ռ鬥ჶ陟Ⱎꖬ㯩넖㛄쳺䉾\udbd2冀흩洨\ue2a0硑︋矺ඩ茒ᢆ麿ᑧ귎⎄륹", -1958414756));
+                  return true;
+               } else {
+                  System.out.println(a.d("ꘪ\udf86啔쬽䃮왇簆\uf5ae殰\ue114暓", -391784404, 94928510) + var13.toShortString());
+                  gyt(
+                     var0,
+                     a.b("ꉐ\udbe5兦콷䒓쉱", 1153802786) + var13.getX() + a.b("몒", -1421034829) + (var13.getY() + 7) + a.b("\ue034", 1230888981) + var13.getZ()
+                  );
+                  gyt(var0, a.c(1676439914, "焓ࢿ艨ᰑ鞃ᅡꬤ⋄볏㙨놽䯌씛"));
+                  ((vlv)gys(var2, a.c(1458586027, "䇾㡹늮ⳍ꜆↶"))).set(a.d("秲}誩ᓂ鼄ᦢ", 389692322, -4046335));
+                  ((vmc)gys(var2, a.c(-1925699973, "☢徢핢䬕샟䙤ﰸ痀\ueb89"))).set(0.6);
+                  ((vmc)gys(var2, a.b("\uf3bb訥õ麞ᕘ鏾", -2072513538))).set(0.9);
+                  ((vmc)gys(var2, a.b("\uf3f6詫»黂", -2031619151))).set(0.7);
+                  ((vkl)gys(var2, a.c(1127850614, "ꈹ\udba4兴켆䓋쉽硼\uf1ca澀\ue522拴预"))).set(true);
+                  var2.setEnabled(true);
+                  vbb.timing(true);
+                  gyn = var1;
+                  return false;
+               }
+            }
          } else {
-            BlockPos var13 = gyl;
-            if (var13 == null) {
-               System.out.println(a.b("\uf632辞Ռ鬥ჶ陟Ⱎꖬ㯩넖㛄쳺䉾\udbd2冀흩洨\ue2a0硑︋矺ඩ茒ᢆ麿ᑧ귎⎄륹", -1958414756));
+            var0.player.getAbilities().flying = true;
+            if (var0.currentScreen != null) {
+               var0.setScreen(null);
+            }
+
+            int var3 = var1 - gyn - 520;
+            if (var3 == -40) {
+               vbb.gpuMillis();
+            }
+
+            if (var3 == -1) {
+               System.out.println(a.c(-1898928621, "Ꙭ\udfc0唒쭻䂨영籀\uf5e8毰\ue156暀鲤") + vbb.gpuMillis() + a.c(416545865, "ﱪ薖ཛ"));
+            }
+
+            for (gxv var7 : gyi) {
+               if (gyh == null || var7.gxx.startsWith(gyh)) {
+                  if (var3 != var7.gxw - 40) {
+                     if (var3 == var7.gxw - 2) {
+                        gyr(var0, var7.gxz, var7.gya);
+                     } else if (var3 == var7.gxw) {
+                        gyu(var0, a.d("闦\uec4a暘\uf8f1猢\uf58b俊왯", -1694075445, 955375702) + var7.gxx);
+                     }
+                  } else {
+                     gyt(var0, a.b("\ue9d0遼᪫蓒ཀ覢㏧먇␌", -2070091347) + var7.gxy);
+                     var2.setEnabled(var7.gyb);
+
+                     for (String var11 : gyj) {
+                        kfe var12 = Flow.getInstance().getModuleManager().getByName(var11);
+                        if (var12 != null) {
+                           var12.setEnabled(var11.equals(var7.gyc));
+                        }
+                     }
+
+                     gyr(var0, var7.gxz, var7.gya);
+                  }
+               }
+            }
+
+            if (var3 > gyi[gyi.length - 1].gxw + 10) {
+               vbb.timing(false);
+               var0.options.hudHidden = false;
+
+               for (int var15 = 0; var15 < gyj.length; var15++) {
+                  kfe var17 = Flow.getInstance().getModuleManager().getByName(gyj[var15]);
+                  if (var17 != null) {
+                     var17.setEnabled(gyk[var15]);
+                  }
+               }
+
                return true;
             } else {
-               System.out.println(a.d("ꘪ\udf86啔쬽䃮왇簆\uf5ae殰\ue114暓", -391784404, 94928510) + var13.method_23854());
-               gyt(
-                  var0,
-                  a.b("ꉐ\udbe5兦콷䒓쉱", 1153802786)
-                     + var13.method_10263()
-                     + a.b("몒", -1421034829)
-                     + (var13.method_10264() + 7)
-                     + a.b("\ue034", 1230888981)
-                     + var13.method_10260()
-               );
-               gyt(var0, a.c(1676439914, "焓ࢿ艨ᰑ鞃ᅡꬤ⋄볏㙨놽䯌씛"));
-               ((vlv)gys(var2, a.c(1458586027, "䇾㡹늮ⳍ꜆↶"))).set(a.d("秲}誩ᓂ鼄ᦢ", 389692322, -4046335));
-               ((vmc)gys(var2, a.c(-1925699973, "☢徢핢䬕샟䙤ﰸ痀\ueb89"))).set(0.6);
-               ((vmc)gys(var2, a.b("\uf3bb訥õ麞ᕘ鏾", -2072513538))).set(0.9);
-               ((vmc)gys(var2, a.b("\uf3f6詫»黂", -2031619151))).set(0.7);
-               ((vkl)gys(var2, a.c(1127850614, "ꈹ\udba4兴켆䓋쉽硼\uf1ca澀\ue522拴预"))).set(true);
-               var2.setEnabled(true);
-               vbb.timing(true);
-               gyn = var1;
                return false;
             }
-         }
-      } else {
-         var0.field_1724.method_31549().field_7479 = true;
-         if (var0.field_1755 != null) {
-            var0.method_1507(null);
-         }
-
-         int var3 = var1 - gyn - 520;
-         if (var3 == -40) {
-            vbb.gpuMillis();
-         }
-
-         if (var3 == -1) {
-            System.out.println(a.c(-1898928621, "Ꙭ\udfc0唒쭻䂨영籀\uf5e8毰\ue156暀鲤") + vbb.gpuMillis() + a.c(416545865, "ﱪ薖ཛ"));
-         }
-
-         for (gxv var7 : gyi) {
-            if (gyh == null || var7.gxx.startsWith(gyh)) {
-               if (var3 != var7.gxw - 40) {
-                  if (var3 == var7.gxw - 2) {
-                     gyr(var0, var7.gxz, var7.gya);
-                  } else if (var3 == var7.gxw) {
-                     gyu(var0, a.d("闦\uec4a暘\uf8f1猢\uf58b俊왯", -1694075445, 955375702) + var7.gxx);
-                  }
-               } else {
-                  gyt(var0, a.b("\ue9d0遼᪫蓒ཀ覢㏧먇␌", -2070091347) + var7.gxy);
-                  var2.setEnabled(var7.gyb);
-
-                  for (String var11 : gyj) {
-                     kfe var12 = Flow.getInstance().getModuleManager().getByName(var11);
-                     if (var12 != null) {
-                        var12.setEnabled(var11.equals(var7.gyc));
-                     }
-                  }
-
-                  gyr(var0, var7.gxz, var7.gya);
-               }
-            }
-         }
-
-         if (var3 > gyi[gyi.length - 1].gxw + 10) {
-            vbb.timing(false);
-            var0.field_1690.field_1842 = false;
-
-            for (int var15 = 0; var15 < gyj.length; var15++) {
-               kfe var17 = Flow.getInstance().getModuleManager().getByName(gyj[var15]);
-               if (var17 != null) {
-                  var17.setEnabled(gyk[var15]);
-               }
-            }
-
-            return true;
-         } else {
-            return false;
          }
       }
    }
@@ -164,17 +163,17 @@ final class gyf {
    private static void gyq(MinecraftClient var0) {
       gyl = null;
       gym = false;
-      IntegratedServer var1 = var0.method_1576();
-      BlockPos var2 = var0.field_1724.method_24515();
+      IntegratedServer var1 = var0.getServer();
+      BlockPos var2 = var0.player.getBlockPos();
       var1.execute(() -> {
          try {
-            ServerWorld var2x = var1.method_30002();
-            Pair var3 = var2x.method_42108(var0xx -> var0xx.method_40225(BiomeKeys.field_35117), var2, 6400, 32, 64);
+            ServerWorld var2x = var1.getOverworld();
+            Pair var3 = var2x.locateBiome(var0xx -> var0xx.matchesKey(BiomeKeys.SNOWY_PLAINS), var2, 6400, 32, 64);
             if (var3 != null) {
                BlockPos var4 = (BlockPos)var3.getFirst();
-               var2x.method_8500(var4);
-               int var5 = var2x.method_8624(Type.field_13197, var4.method_10263(), var4.method_10260());
-               gyl = new BlockPos(var4.method_10263(), var5, var4.method_10260());
+               var2x.getWorldChunk(var4);
+               int var5 = var2x.getTopY(Type.MOTION_BLOCKING, var4.getX(), var4.getZ());
+               gyl = new BlockPos(var4.getX(), var5, var4.getZ());
             }
          } catch (Throwable var6) {
             System.out.println(a.d("嶶␚껈ァ뭲㷛螚า逡᪓鵌朿\ue9fd灝碑糼운䥭폛喃\udc75ꙺ⣓", -927411646, 1204457360) + var6);
@@ -185,10 +184,10 @@ final class gyf {
    }
 
    private static void gyr(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static vmo gys(kfe var0, String var1) {
@@ -202,15 +201,15 @@ final class gyf {
    }
 
    private static void gyt(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void gyu(MinecraftClient var0, String var1) {
-      System.out.println(a.c(-100638969, "彾⛙갃㉸맩㼌蕎\u0ca9鋱᠔") + var1 + a.c(210580171, "㋨䬹솊") + var0.method_47599() + a.d("ﵶ蒁ไ逶", 593010428, 928801710));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.c(-100638969, "彾⛙갃㉸맩㼌蕎\u0ca9鋱᠔") + var1 + a.c(210580171, "㋨䬹솊") + var0.getCurrentFps() + a.d("ﵶ蒁ไ逶", 593010428, 928801710));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("碼ć诗ᖾ鸬ᢂ", -97740393, 974643531) + var1 + a.c(672632092, "贶\uf4d9縔\ue06c"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

@@ -182,53 +182,53 @@ final class iui extends imn {
 
       if (var4 != 0) {
          return false;
-      } else {
-         float var11 = this.iuz(2);
+      }
 
-         for (int var12 = 0; var12 < wlk.COLORS.length; var12++) {
-            if (irr.inside(var2, var3, this.iva(var12) - 2.0F, var11 - 2.0F, 15.0F, 15.0F)) {
-               this.iul = var12;
-               this.ium = true;
-               if (this.iun != null) {
-                  this.iun.color = wlk.COLORS[var12];
-                  this.iun.ownColor = true;
-                  wlk.changed();
-               }
+      float var11 = this.iuz(2);
 
-               return true;
+      for (int var12 = 0; var12 < wlk.COLORS.length; var12++) {
+         if (irr.inside(var2, var3, this.iva(var12) - 2.0F, var11 - 2.0F, 15.0F, 15.0F)) {
+            this.iul = var12;
+            this.ium = true;
+            if (this.iun != null) {
+               this.iun.color = wlk.COLORS[var12];
+               this.iun.ownColor = true;
+               wlk.changed();
             }
-         }
 
-         float var13 = this.iuz(3);
-         float var14 = 58.0F;
-         if (irr.inside(var2, var3, this.x, var13, var14, 17.0F)) {
-            this.ius.set(1.0F);
-            this.ivb();
+            return true;
+         }
+      }
+
+      float var13 = this.iuz(3);
+      float var14 = 58.0F;
+      if (irr.inside(var2, var3, this.x, var13, var14, 17.0F)) {
+         this.ius.set(1.0F);
+         this.ivb();
+         return true;
+      } else {
+         float var15 = this.iun != null ? 58.0F : 0.0F;
+         float var9 = this.w - var14 - 6.0F - (var15 > 0.0F ? var15 + 6.0F : 0.0F);
+         float var10 = this.x + var14 + 6.0F;
+         if (irr.inside(var2, var3, var10, var13, var9, 17.0F)) {
+            this.iuu.set(1.0F);
+            this.ivg();
+            return true;
+         } else if (this.iun != null && irr.inside(var2, var3, var10 + var9 + 6.0F, var13, var15, 17.0F)) {
+            this.ivc();
             return true;
          } else {
-            float var15 = this.iun != null ? 58.0F : 0.0F;
-            float var9 = this.w - var14 - 6.0F - (var15 > 0.0F ? var15 + 6.0F : 0.0F);
-            float var10 = this.x + var14 + 6.0F;
-            if (irr.inside(var2, var3, var10, var13, var9, 17.0F)) {
-               this.iuu.set(1.0F);
-               this.ivg();
-               return true;
-            } else if (this.iun != null && irr.inside(var2, var3, var10 + var9 + 6.0F, var13, var15, 17.0F)) {
-               this.ivc();
-               return true;
-            } else {
-               return false;
-            }
+            return false;
          }
       }
    }
 
    private void ivb() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1724 != null) {
-         this.fx.setText(String.valueOf(var1.field_1724.method_31477()));
-         this.fy.setText(String.valueOf(var1.field_1724.method_31478()));
-         this.fz.setText(String.valueOf(var1.field_1724.method_31479()));
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.player != null) {
+         this.fx.setText(String.valueOf(var1.player.getBlockX()));
+         this.fy.setText(String.valueOf(var1.player.getBlockY()));
+         this.fz.setText(String.valueOf(var1.player.getBlockZ()));
       }
    }
 

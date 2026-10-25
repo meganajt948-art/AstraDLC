@@ -103,7 +103,7 @@ public enum vhz {
    private List<Shape> vib;
    private List<Shape> vic;
 
-   private vhz(String... var3) {
+   vhz(String... var3) {
       this.via = var3;
    }
 
@@ -120,13 +120,12 @@ public enum vhz {
    private synchronized void vif() {
       if (this.vib == null) {
          ArrayList var1 = new ArrayList();
-         Object var2 = new ArrayList();
+         List var2 = new ArrayList();
          ArrayList var3 = new ArrayList();
 
          for (String var7 : this.via) {
             String[] var8 = var7.trim().split("\\s+");
-            String var9 = var8[0];
-            switch (var9) {
+            switch (var8[0]) {
                case "circle":
                   var1.add(vig(var8));
                   break;
@@ -161,7 +160,7 @@ public enum vhz {
             var2 = List.of(var11);
          }
 
-         this.vic = (List<Shape>)var2;
+         this.vic = var2;
          this.vib = var1;
       }
    }

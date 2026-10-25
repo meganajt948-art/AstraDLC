@@ -90,32 +90,32 @@ public class rxv extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      ClientWorld var3 = var1.field_1687;
-      Camera var4 = var1.field_1773.method_19418();
+      ClientPlayerEntity var2 = var1.player;
+      ClientWorld var3 = var1.world;
+      Camera var4 = var1.gameRenderer.getCamera();
       this.rzn(this.ryj.get());
-      if (var2 != null && var3 != null && var4.method_19332() && var4.method_19334() == CameraSubmersionType.field_27888) {
+      if (var2 != null && var3 != null && var4.isReady() && var4.getSubmersionType() == CameraSubmersionType.NONE) {
          long var5 = System.nanoTime();
          float var7 = this.ryx == 0L ? 0.0F : Math.min(0.1F, (float)(var5 - this.ryx) / 1.0E9F);
          this.ryx = var5;
-         float var8 = var1.method_61966().method_60637(false);
+         float var8 = var1.getRenderTickCounter().getTickProgress(false);
          float var9 = (float)this.ryg.get();
          this.ryy += var7 * var9;
          this.ryz += var7 * var9 * 0.55;
          this.rza += var7 * var9 * 0.16;
          this.rzb += var7 * var9 * 0.32;
-         Vec3d var10 = var2.method_30950(var8);
-         int var11 = var3.method_8624(Type.field_13197, (int)Math.floor(var10.field_1352), (int)Math.floor(var10.field_1350));
-         double var12 = Math.min((double)var11, var10.field_1351) - 1.0;
+         Vec3d var10 = var2.getLerpedPos(var8);
+         int var11 = var3.getTopY(Type.MOTION_BLOCKING, (int)Math.floor(var10.x), (int)Math.floor(var10.z));
+         double var12 = Math.min(var11, var10.y) - 1.0;
          if (!Double.isNaN(this.rzc) && !(Math.abs(var12 - this.rzc) > 48.0)) {
             this.rzc = this.rzc + (var12 - this.rzc) * (1.0 - Math.exp(-var7 / 1.4));
          } else {
             this.rzc = var12;
          }
 
-         BlockPos var14 = var4.method_19328();
-         float var15 = var3.method_8314(LightType.field_9284, var14) / 15.0F;
-         float var16 = var3.method_8314(LightType.field_9282, var14) / 15.0F;
+         BlockPos var14 = var4.getBlockPos();
+         float var15 = var3.getLightLevel(LightType.SKY, var14) / 15.0F;
+         float var16 = var3.getLightLevel(LightType.BLOCK, var14) / 15.0F;
          if (this.rzd < 0.0F) {
             this.rzd = var15;
             this.rze = var16;
@@ -125,14 +125,13 @@ public class rxv extends kfe {
             this.rze = this.rze + (var16 - this.rze) * var17;
          }
 
-         this.rzo(var10.method_1031(0.0, 0.9, 0.0), var7, var5);
-         String var22 = this.ryk.get();
+         this.rzo(var10.add(0.0, 0.9, 0.0), var7, var5);
          byte var18;
          byte var19;
          byte var20;
          float var21;
          float var46;
-         switch (var22) {
+         switch (this.ryk.get()) {
             case "Низкое":
                var46 = 0.35F;
                var18 = 18;
@@ -162,16 +161,16 @@ public class rxv extends kfe {
                var21 = 80.0F;
          }
 
-         EnvironmentAttributeInterpolator var47 = var4.method_75756();
-         boolean var48 = var3.method_8597().comp_5220() == Skybox.field_64386;
+         EnvironmentAttributeInterpolator var47 = var4.getEnvironmentAttributeInterpolator();
+         boolean var48 = var3.getDimension().skybox() == Skybox.OVERWORLD;
          float[] var24 = new float[]{0.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F};
          float[] var25 = new float[]{0.0F, 0.0F, 0.0F, 0.0F};
          if (var48) {
-            float var26 = var3.method_8430(var8);
-            float var27 = var3.method_8478(var8);
+            float var26 = var3.getRainGradient(var8);
+            float var27 = var3.getThunderGradient(var8);
             float var28 = Math.max(0.0F, 1.0F - 0.7F * var26 - 0.2F * var27);
-            float var29 = (Float)var47.method_75689(EnvironmentAttributes.field_64340, var8) * (float) (Math.PI / 180.0);
-            float var30 = (Float)var47.method_75689(EnvironmentAttributes.field_64341, var8) * (float) (Math.PI / 180.0);
+            float var29 = var47.get(EnvironmentAttributes.SUN_ANGLE_VISUAL, var8) * (float) (Math.PI / 180.0);
+            float var30 = var47.get(EnvironmentAttributes.MOON_ANGLE_VISUAL, var8) * (float) (Math.PI / 180.0);
             float var31 = (float)Math.cos(var29);
             float var32 = (float)Math.cos(var30);
             float var33 = rzr(-0.06F, 0.18F, var31) * var28 * 0.4F;
@@ -184,7 +183,7 @@ public class rxv extends kfe {
                var24 = new float[]{(float)(-Math.sin(var30)), var32, 0.0F, var34 * var35, 0.52F, 0.62F, 0.95F};
             }
 
-            int var59 = (Integer)var47.method_75689(EnvironmentAttributes.field_63746, var8);
+            int var59 = var47.get(EnvironmentAttributes.SKY_COLOR_VISUAL, var8);
             var25 = new float[]{(var59 >> 16 & 0xFF) / 255.0F, (var59 >> 8 & 0xFF) / 255.0F, (var59 & 0xFF) / 255.0F, 0.3F};
          }
 
@@ -193,22 +192,22 @@ public class rxv extends kfe {
          float var51 = this.rze * 0.25F * (1.0F - 0.75F * this.rzd);
          float var52 = var48 ? (0.13F + 0.55F * var49) * (1.0F - 0.8F * uhs.daylight(var1)) : 0.12F + 0.5F * var49;
          float var53 = (float)(0.005 * Math.pow(80.0, this.rya.get()));
-         float var54 = Math.max(128.0F, Math.min(1536.0F, var1.field_1690.method_38521() * 24.0F));
+         float var54 = Math.max(128.0F, Math.min(1536.0F, var1.options.getClampedViewDistance() * 24.0F));
          int var55 = this.rxz.color();
          int var56 = this.rxz.color2();
-         Vec3d var57 = var4.method_71156();
-         boolean var58 = this.ryw != null && this.ryw.method_1025(var57) < 64.0;
+         Vec3d var57 = var4.getCameraPos();
+         boolean var58 = this.ryw != null && this.ryw.squaredDistanceTo(var57) < 64.0;
          if (this.ryw == null) {
-            this.ryv.set(var4.method_23767());
+            this.ryv.set(var4.getRotation());
             this.ryw = var57;
          }
 
-         this.ryt.rotation(var4.method_23767());
+         this.ryt.rotation(var4.getRotation());
          this.ryu.rotation(this.ryv.conjugate(new Quaternionf()));
-         float var60 = (float)(var57.field_1352 - this.ryw.field_1352);
-         float var37 = (float)(var57.field_1351 - this.ryw.field_1351);
-         float var38 = (float)(var57.field_1350 - this.ryw.field_1350);
-         this.ryv.set(var4.method_23767());
+         float var60 = (float)(var57.x - this.ryw.x);
+         float var37 = (float)(var57.y - this.ryw.y);
+         float var38 = (float)(var57.z - this.ryw.z);
+         this.ryv.set(var4.getRotation());
          this.ryw = var57;
          float[] var39 = var24;
          float[] var40 = var25;
@@ -216,11 +215,12 @@ public class rxv extends kfe {
          byte var42 = var19;
          byte var43 = var20;
          float var44 = var21;
+         float var45 = var52;
          vaf.draw(var46, var58, var20x -> {
             var20x.putMat4f(this.ryt);
             var20x.putMat4f(this.ryu);
-            var20x.putVec4(var60, var37, var38, var52);
-            var20x.putVec4((float)var57.field_1352, (float)var57.field_1351, (float)var57.field_1350, var54);
+            var20x.putVec4(var60, var37, var38, var45);
+            var20x.putVec4((float)var57.x, (float)var57.y, (float)var57.z, var54);
             var20x.putVec4(var39[0], var39[1], var39[2], var39[3]);
             var20x.putVec4(var39[4], var39[5], var39[6], 0.0F);
             var20x.putVec4(var40[0], var40[1], var40[2], var40[3]);
@@ -245,10 +245,10 @@ public class rxv extends kfe {
 
    private void rzo(Vec3d var1, float var2, long var3) {
       if (this.rzf != null && var2 > 0.0F) {
-         double var5 = (var1.field_1352 - this.rzf.field_1352) / var2;
-         double var7 = (var1.field_1351 - this.rzf.field_1351) / var2;
-         double var9 = (var1.field_1350 - this.rzf.field_1350) / var2;
-         if (this.rzf.method_1025(var1) > 36.0) {
+         double var5 = (var1.x - this.rzf.x) / var2;
+         double var7 = (var1.y - this.rzf.y) / var2;
+         double var9 = (var1.z - this.rzf.z) / var2;
+         if (this.rzf.squaredDistanceTo(var1) > 36.0) {
             Arrays.fill(this.rys, 0L);
             this.rzg = null;
             var5 = 0.0;
@@ -263,7 +263,7 @@ public class rxv extends kfe {
       }
 
       this.rzf = var1;
-      if (this.rzg == null || this.rzg.method_1025(var1) > 0.64) {
+      if (this.rzg == null || this.rzg.squaredDistanceTo(var1) > 0.64) {
          for (int var13 = 6; var13 > 0; var13--) {
             this.rym[var13] = this.rym[var13 - 1];
             this.ryn[var13] = this.ryn[var13 - 1];
@@ -274,9 +274,9 @@ public class rxv extends kfe {
             this.rys[var13] = this.rys[var13 - 1];
          }
 
-         this.rym[0] = var1.field_1352;
-         this.ryn[0] = var1.field_1351;
-         this.ryo[0] = var1.field_1350;
+         this.rym[0] = var1.x;
+         this.ryn[0] = var1.y;
+         this.ryo[0] = var1.z;
          this.ryp[0] = (float)this.rzh;
          this.ryq[0] = (float)this.rzi;
          this.ryr[0] = (float)this.rzj;
@@ -289,7 +289,7 @@ public class rxv extends kfe {
       float[][] var4 = new float[8][4];
       float[][] var5 = new float[8][4];
       if (this.ryl.get() && this.rzf != null) {
-         var4[0] = new float[]{(float)this.rzf.field_1352, (float)this.rzf.field_1351, (float)this.rzf.field_1350, 1.0F};
+         var4[0] = new float[]{(float)this.rzf.x, (float)this.rzf.y, (float)this.rzf.z, 1.0F};
          var5[0] = rzq((float)this.rzh, (float)this.rzi, (float)this.rzj, 1.25F);
 
          for (int var6 = 0; var6 < 7; var6++) {

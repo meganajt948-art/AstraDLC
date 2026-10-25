@@ -79,9 +79,9 @@ public final class stp {
 
    private void sul(Vec3d var1, float var2, double var3, float var5, boolean var6, double var7) {
       this.suh = var5;
-      this.sue = var1.field_1352 + Math.cos(var7) * var5;
-      this.sug = var1.field_1350 + Math.sin(var7) * var5;
-      this.suf = var1.field_1351 + var2 + 30.0 + this.str.nextDouble() * 80.0;
+      this.sue = var1.x + Math.cos(var7) * var5;
+      this.sug = var1.z + Math.sin(var7) * var5;
+      this.suf = var1.y + var2 + 30.0 + this.str.nextDouble() * 80.0;
       this.stz = var6;
       int var9 = var6 ? 1 + this.str.nextInt(4) : 3 + this.str.nextInt(5);
       this.suc = new float[var9];
@@ -114,20 +114,20 @@ public final class stp {
    public float brightness() {
       if (!this.sty) {
          return 0.0F;
-      } else {
-         float var1 = 0.0F;
-
-         for (int var2 = 0; var2 < this.suc.length; var2++) {
-            float var3 = (float)this.sua - this.suc[var2];
-            if (!(var3 < 0.0F)) {
-               float var4 = Math.min(1.0F, var3 / 0.008F);
-               var1 += this.sud[var2] * var4 * (float)Math.exp(-var3 / (this.stz ? 0.05F : 0.07F));
-            }
-         }
-
-         float var5 = (float)this.sua;
-         return var1 + (this.stz ? 0.16F : 0.08F) * (float)Math.exp(-var5 / 0.28F) * Math.min(1.0F, var5 / 0.02F);
       }
+
+      float var1 = 0.0F;
+
+      for (int var2 = 0; var2 < this.suc.length; var2++) {
+         float var3 = (float)this.sua - this.suc[var2];
+         if (!(var3 < 0.0F)) {
+            float var4 = Math.min(1.0F, var3 / 0.008F);
+            var1 += this.sud[var2] * var4 * (float)Math.exp(-var3 / (this.stz ? 0.05F : 0.07F));
+         }
+      }
+
+      float var5 = (float)this.sua;
+      return var1 + (this.stz ? 0.16F : 0.08F) * (float)Math.exp(-var5 / 0.28F) * Math.min(1.0F, var5 / 0.02F);
    }
 
    public float boltBrightness() {

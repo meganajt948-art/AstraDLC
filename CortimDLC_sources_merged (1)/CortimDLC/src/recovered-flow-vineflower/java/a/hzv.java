@@ -75,44 +75,44 @@ public final class hzv {
       ArrayList var2 = new ArrayList();
       if (var0 == -1) {
          return var2;
-      } else {
-         for (kfe var4 : Flow.getInstance().getModuleManager().getModules()) {
-            if (var4.getKey() == var0 && !var4.getName().equals(var1) && !var4.getDisplayName().equals(var1)) {
-               var2.add(var4.getDisplayName());
-            }
-
-            for (vmo var6 : var4.getSettings()) {
-               if (var6 instanceof vlq var7 && var7.get() == var0 && !var7.getName().equals(var1)) {
-                  var2.add(var4.getDisplayName() + a.d("ᦔ", -1304769950, -1483615273) + wap.t(var7.getName()));
-               }
-            }
-         }
-
-         for (hzq var9 : ALL) {
-            if (var9.key == var0 && !var9.name.equals(var1)) {
-               var2.add(wap.t(var9.name));
-            }
-         }
-
-         return var2;
       }
+
+      for (kfe var4 : Flow.getInstance().getModuleManager().getModules()) {
+         if (var4.getKey() == var0 && !var4.getName().equals(var1) && !var4.getDisplayName().equals(var1)) {
+            var2.add(var4.getDisplayName());
+         }
+
+         for (vmo var6 : var4.getSettings()) {
+            if (var6 instanceof vlq var7 && var7.get() == var0 && !var7.getName().equals(var1)) {
+               var2.add(var4.getDisplayName() + a.d("ᦔ", -1304769950, -1483615273) + wap.t(var7.getName()));
+            }
+         }
+      }
+
+      for (hzq var9 : ALL) {
+         if (var9.key == var0 && !var9.name.equals(var1)) {
+            var2.add(wap.t(var9.name));
+         }
+      }
+
+      return var2;
    }
 
    private static void hzy() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      if (var0.field_1724 != null && var0.field_1687 != null) {
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      if (var0.player != null && var0.world != null) {
          int var1 = wlk.inWorld().size();
          String var2 = wap.s(a.d("嶖␑껚ア뭪㷝螉\u0e62適", -1021880999, -672069487), a.c(-1194970411, "㛏佗엳寺퀧劆")) + (var1 + 1);
-         wlk.add(var2, var0.field_1724.method_31477(), var0.field_1724.method_31478(), var0.field_1724.method_31479(), wlk.COLORS[var1 % wlk.COLORS.length]);
+         wlk.add(var2, var0.player.getBlockX(), var0.player.getBlockY(), var0.player.getBlockZ(), wlk.COLORS[var1 % wlk.COLORS.length]);
          iaa(
             wap.s(a.d("뤇삓䩀퐰忦\ud913", -1115218932, -1284397748), a.b("㙀俛씇孷킢嘚\uec47斾ﯬ畍", -1412222370))
                + var2
                + a.b("\u0feb癚", -1506013239)
-               + var0.field_1724.method_31477()
+               + var0.player.getBlockX()
                + a.d("했", 1863008517, 1501009068)
-               + var0.field_1724.method_31478()
+               + var0.player.getBlockY()
                + a.d("深", 121919909, -471976843)
-               + var0.field_1724.method_31479()
+               + var0.player.getBlockZ()
          );
       }
    }

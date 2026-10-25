@@ -67,222 +67,218 @@ final class gkm {
       if (var1 == 1) {
          gmb(var0);
          return false;
-      } else {
-         gmc(var0);
-         if (var1 < 60) {
-            return false;
-         } else {
-            ClientPlayerEntity var2 = var0.field_1724;
-            switch (gkv) {
-               case 0:
-                  tiq var11 = tiq.open(a.b("㳁䕆쾜凧\uda02岂\ue6c7漱", 1780628634));
-                  if (var11 != null) {
-                     tiq.delete(var11);
-                  }
+      }
 
-                  gkx = tiq.create(a.d("쐻붼㝦ꤝ⋸ꑸḽ韋", 1925992372, -1430680620));
-                  if (gkp) {
-                     gkx.set(a.d("\ue009馿፹贇ۚ聼㩲돎\u2d9dꜶ\u20fe\uda95", -416062819, 1846248171), 1);
-                     gkx.set(a.d("译\uf267碡\ue6df洂\ueba4冪\ud818䙅쳿䬭", -1396128702, -2046930965), a.b("兇⣑ꈄ㱦랶\u3104", 285102354));
-                     gkx.set(a.b("컸띎㶈ꏶ⠫꺍ᒃ鴲ͦ觓ณ", 825216640), 2.0);
-                     gkx.set(a.c(625822132, "䧍ほ몽Ⓝ꼞⦸鎶ᨏ著\u0ef5"), 3.2);
-                     gkx.set(a.b("놐젦䋠\udc9e坃퇥毫\ue247簛\uf6bf煬謜", 799519215), 1.6);
-                     gkx.save();
+      gmc(var0);
+      if (var1 < 60) {
+         return false;
+      }
 
-                     for (vmo var5 : glz().getSettings()) {
-                        String var6 = var5.getName();
-                        switch (var6) {
-                           case a.d("㚲伊엀", -2095181633, 1183524424):
-                              ((vmc)var5).set(360.0);
-                              break;
-                           case a.d("髃\ue34f榍\uf7f4簽", 191620579, 1211334508):
-                              ((vlv)var5).set(a.d("湕់鴏", 792875829, 1071463714));
-                              break;
-                           case a.b("턬ꢰ≹및㟍녳ଭ苚", 565956960):
-                              ((vmc)var5).set(8.0);
-                        }
-                     }
-
-                     tcz.startTest(gkx);
-                     if (gkr) {
-                        ldr.activate(tiq.open(a.b("殑ቿ飒ۙ赲ீ뇤㱹ꈷ", 2086236039)));
-                        gmd();
-
-                        for (vmo var16 : ldr.get().getSettings()) {
-                           if (var16.getName().equals(a.d("\uefb2阳ᳬ芔ो达㖹뱓≃ꢿ⽮픅寔쉳", -16820338, -1952597909))) {
-                              ((vkl)var16).set(true);
-                           }
-                        }
-
-                        ldr.get().setEnabled(true);
-                     } else {
-                        glz().setEnabled(true);
-                     }
-
-                     gls = false;
-                     glp = 20;
-                     gkv = 4;
-                     gkw = var1;
-                     return false;
-                  }
-
-                  gkx.set(a.c(-636719267, "漢ᚔ鱒Ȭ觱བྷ땙㳥ꊶ⠝꿕喾"), 2);
-                  gkx.set(a.b("卑⫧ꀡ㹟떂㌤褪\u0098黅ᑿ鎭", -1478864087), a.c(-793764349, "ṍ柘\ued1a"));
-                  gkx.set(a.b("饂\ue0f5樵\uf44c羜臘䍢쫏哏\ude7a妽ꏁⴓ뒿㻡", -1082746567), a.b("\uda94ꌂ⧃략", -1484072234));
-                  gkx.save();
-                  ldr.activate(gkx);
-                  tcz.startRecording(gkx);
-                  gma(var1);
-                  break;
-               case 1:
-                  int var10 = var1 - gkw;
-                  if (tcz.recorder() != null && tcz.recorder().paused) {
-                     glb.merge(tcz.recorder().pauseReason, 1, Integer::sum);
-                  }
-
-                  gme(var0, var2);
-                  if (var10 == 200) {
-                     gmk(var0, a.d("䏛㩡낢⻔ꔞ⏭馣ၓ踐Ӿ茺祍\uf796渺\ue47f抃\ud8cb圓", -300546295, 1770276014));
-                  }
-
-                  if (var10 >= gkn) {
-                     System.out
-                        .println(
-                           a.c(395866913, "獕૯耬Ṛ閐፮ꥩ₉뻀㑶돱䧒윒庥퓺刖\ue84f枟ﴻ笢\uf2cf裖٤鶨ᯐ酒")
-                              + tcz.recorder().hits
-                              + a.d("嗕Ⱒ\ua6fe㢊덅㗥辡ه頙ዬ", -444321357, -942840756)
-                              + tcz.recorder().failures
-                              + a.c(-70499842, "䇙㠼닲ⲉꝖ⇿鯿")
-                              + tcz.recorder().recorded
-                              + a.d("琛\u0dfa蜸ᥝ銌ᐫ깮⟌", 13753241, -1423986774)
-                              + glb
-                        );
-                     tcz.stop();
-                     System.out.println(a.b("ꢲ턈寋얽乷좉犎ﭮ攧\uef91栖", -1017272105) + gky.report());
-                     tcz.train(gkx);
-                     gma(var1);
-                  }
-                  break;
-               case 2:
-                  tct var9 = tcz.job();
-                  if ((var1 - gkw) % 100 == 0) {
-                     System.out
-                        .println(
-                           a.c(-2025442772, "㉖䯬섯彙풓剭\ue86a憊ￃ畵\uf2f2ࣗ蘆ᾤ闿ጉꥁ⚗밭㨻")
-                              + var9.progress.phase
-                              + a.c(642589983, "┾")
-                              + (var9.progress.epoch + 1)
-                              + a.d("ᒇ", -1945029987, -472373708)
-                              + var9.progress.epochs
-                              + a.c(-477601634, "悻ᥜ鎘\u0de4虿")
-                              + var9.progress.valLoss
-                        );
-                  }
-
-                  if (var9.done) {
-                     if (var9.result == null) {
-                        System.out.println(a.d("鮱\ue20b棈\uf6be絴ﮊ䆍졭嘤\udc92嬕ꄂ⿒뙫㰽몠»转ᗌ鎕ᩥ怳\uee87畟\uf37d禶", -1846368712, 817053181) + var9.error);
-                        return true;
-                     }
-
-                     tck var13 = var9.result;
-                     System.out
-                        .println(
-                           String.format(
-                              Locale.ROOT,
-                              a.c(
-                                 -655294796,
-                                 "ﹼ蟆അ鍳ᢹ鹇⑀궠㏩륟㻘쓽䨬펎姕\udf23敧\ueab7灀\uf658羨ַ謁მ隻᰽ꗈ⯊녴㜿볉䈍졝冠ퟸ嵒\ue2d6梢\uee30矅\ufdd2茢६軚ᑞ騪⎸ꥍ⽑뒇㫥쀡䦕쾗啡\udb71悊\ue608污\uf5b4笇œ蚭೯鈻ᮗꇉ❡괳㊉롅㹣쟺䴘퍈墬\udefb摋\ueddc玨塞缡ӆ詑ၲ馾Ἁꕐ⫪낾㘆뿋䗨쭿傟훕尓\ue273段\uf141眓ﳩ芦ࡃ釚៤鴮⊌\ua8cc⸼둴㷂쌍䥇컠哤\uda55排\ue9f6潵\uf4cf窕z虿ྎ锒᭣ꂹ⛷걏㗐뮤䅸웕䳒퉥塪\ue1ce朙\ued62狾\uf84a縒߿跤፼飅ẟꑴ⩱뎄㤐뽤䒯쨚偀\ud9ee徺\ue502櫏\uf0d4癬ﰵ薏ୄ酡"
-                              ),
-                              (var9.finished - var9.started) / 1000.0,
-                              var13.epochs,
-                              var13.hits,
-                              var13.steps,
-                              var13.similarity,
-                              var13.speedMatch,
-                              var13.timeMatch,
-                              var13.shapeMatch,
-                              var13.overshootUser,
-                              var13.overshootModel,
-                              var13.userPeak,
-                              var13.modelPeak,
-                              var13.userEntry,
-                              var13.modelEntry
-                           )
-                        );
-                     gma(var1);
-                  }
-                  break;
-               case 3:
-                  int var8 = var1 - gkw;
-                  if (var8 == 1) {
-                     var0.method_1507(new hlc());
-                  }
-
-                  if (var8 == 10) {
-                     ign.open();
-                  }
-
-                  if (var8 == 40) {
-                     gmk(var0, a.b("鍳\ueac9怊ﹼ疶\uf345䤋샸庸푗厃꧳✵뺉㓜", -1664380142));
-                  }
-
-                  if (var8 == 50) {
-                     var0.method_1507(null);
-                  }
-
-                  if (var8 == 70) {
-                     gmd();
-                     tcz.startTest(gkx);
-                     ldr var12 = ldr.get();
-                     var12.setEnabled(true);
-                     gls = false;
-                     glp = 20;
-                     gma(var1);
-                  }
-                  break;
-               case 4:
-                  int var3 = var1 - gkw;
-                  gmf(var0, var2);
-                  if (var3 == 300) {
-                     gmk(var0, a.b("伐㚪뱩∟꧕⼦镨Ლ苛࠳迱疖צּ", -593145997));
-                  }
-
-                  if (var3 >= 1600) {
-                     System.out.println(a.c(-779495075, "\ud938ꂂ⩁됷㿽뤃̄諤ᒭ鸛ᦜ") + gky.report());
-                     System.out.println(a.c(-1801777671, "ග琦ﻥ悓\ueb59涧힠幀쀉䪿촸") + gkz.report());
-                     System.out
-                        .println(
-                           String.format(
-                              Locale.ROOT,
-                              a.c(
-                                 2007196590,
-                                 "掄ᨾ都\u0e8b蕁ο릸じ긑⒧ꌠ夒ퟔ乸쐷䋆\uf892睊\uedf1殻\ue21e頀ᚲ购ଓ膃㡣똵ⳗꪉℰ\udfa5嗯찕䩙삿缫\uf55a玌\uea72怤ẓ钁ጽ觪ߗ빐㓼늹⥠꜋嶅퐾刣죙䚙ﵲ篤\uf19f栁\ue6b3鲣ᬔ鄑࿃虶㰭뫊"
-                              ),
-                              100.0 * glu / Math.max(1, glt),
-                              glv
-                           )
-                        );
-                     Files.write(var0.field_1697.toPath().resolve(a.c(-625204932, "ⅎ壵툥䱌쟞䅰ﭠ犚\uecd5晣\ue1adᮞ锐ರ蛵\u0003먖㖊꼩⥽")), gla);
-                     tcz.stop();
-                     ldr.get().setEnabled(false);
-                     glz().setEnabled(false);
-                     boolean var4 = gkz.overshoots <= Math.max(2, gky.overshoots / 4) && gkz.acquired >= gkz.episodes * 0.8 && gkz.offGrid == 0;
-                     System.out
-                        .println(
-                           a.d("ݺ绀\uf403橵\ue1bf杁\udd46咦쫯䁙쟞", -2012051141, -2141221340)
-                              + (var4 ? a.d("胛糧玺\uedcb", -1873085776, 1331264063) : a.c(-1435804078, "帔➮군㌇룘"))
-                        );
-                     return true;
-                  }
-                  break;
-               default:
-                  return true;
+      ClientPlayerEntity var2 = var0.player;
+      switch (gkv) {
+         case 0:
+            tiq var11 = tiq.open(a.b("㳁䕆쾜凧\uda02岂\ue6c7漱", 1780628634));
+            if (var11 != null) {
+               tiq.delete(var11);
             }
 
-            return false;
-         }
+            gkx = tiq.create(a.d("쐻붼㝦ꤝ⋸ꑸḽ韋", 1925992372, -1430680620));
+            if (gkp) {
+               gkx.set(a.d("\ue009馿፹贇ۚ聼㩲돎\u2d9dꜶ\u20fe\uda95", -416062819, 1846248171), 1);
+               gkx.set(a.d("译\uf267碡\ue6df洂\ueba4冪\ud818䙅쳿䬭", -1396128702, -2046930965), a.b("兇⣑ꈄ㱦랶\u3104", 285102354));
+               gkx.set(a.b("컸띎㶈ꏶ⠫꺍ᒃ鴲ͦ觓ณ", 825216640), 2.0);
+               gkx.set(a.c(625822132, "䧍ほ몽Ⓝ꼞⦸鎶ᨏ著\u0ef5"), 3.2);
+               gkx.set(a.b("놐젦䋠\udc9e坃퇥毫\ue247簛\uf6bf煬謜", 799519215), 1.6);
+               gkx.save();
+
+               for (vmo var5 : glz().getSettings()) {
+                  switch (var5.getName()) {
+                     case a.d("㚲伊엀", -2095181633, 1183524424):
+                        ((vmc)var5).set(360.0);
+                        break;
+                     case a.d("髃\ue34f榍\uf7f4簽", 191620579, 1211334508):
+                        ((vlv)var5).set(a.d("湕់鴏", 792875829, 1071463714));
+                        break;
+                     case a.b("턬ꢰ≹및㟍녳ଭ苚", 565956960):
+                        ((vmc)var5).set(8.0);
+                  }
+               }
+
+               tcz.startTest(gkx);
+               if (gkr) {
+                  ldr.activate(tiq.open(a.b("殑ቿ飒ۙ赲ீ뇤㱹ꈷ", 2086236039)));
+                  gmd();
+
+                  for (vmo var16 : ldr.get().getSettings()) {
+                     if (var16.getName().equals(a.d("\uefb2阳ᳬ芔ो达㖹뱓≃ꢿ⽮픅寔쉳", -16820338, -1952597909))) {
+                        ((vkl)var16).set(true);
+                     }
+                  }
+
+                  ldr.get().setEnabled(true);
+               } else {
+                  glz().setEnabled(true);
+               }
+
+               gls = false;
+               glp = 20;
+               gkv = 4;
+               gkw = var1;
+               return false;
+            }
+
+            gkx.set(a.c(-636719267, "漢ᚔ鱒Ȭ觱བྷ땙㳥ꊶ⠝꿕喾"), 2);
+            gkx.set(a.b("卑⫧ꀡ㹟떂㌤褪\u0098黅ᑿ鎭", -1478864087), a.c(-793764349, "ṍ柘\ued1a"));
+            gkx.set(a.b("饂\ue0f5樵\uf44c羜臘䍢쫏哏\ude7a妽ꏁⴓ뒿㻡", -1082746567), a.b("\uda94ꌂ⧃략", -1484072234));
+            gkx.save();
+            ldr.activate(gkx);
+            tcz.startRecording(gkx);
+            gma(var1);
+            break;
+         case 1:
+            int var10 = var1 - gkw;
+            if (tcz.recorder() != null && tcz.recorder().paused) {
+               glb.merge(tcz.recorder().pauseReason, 1, Integer::sum);
+            }
+
+            gme(var0, var2);
+            if (var10 == 200) {
+               gmk(var0, a.d("䏛㩡낢⻔ꔞ⏭馣ၓ踐Ӿ茺祍\uf796渺\ue47f抃\ud8cb圓", -300546295, 1770276014));
+            }
+
+            if (var10 >= gkn) {
+               System.out
+                  .println(
+                     a.c(395866913, "獕૯耬Ṛ閐፮ꥩ₉뻀㑶돱䧒윒庥퓺刖\ue84f枟ﴻ笢\uf2cf裖٤鶨ᯐ酒")
+                        + tcz.recorder().hits
+                        + a.d("嗕Ⱒ\ua6fe㢊덅㗥辡ه頙ዬ", -444321357, -942840756)
+                        + tcz.recorder().failures
+                        + a.c(-70499842, "䇙㠼닲ⲉꝖ⇿鯿")
+                        + tcz.recorder().recorded
+                        + a.d("琛\u0dfa蜸ᥝ銌ᐫ깮⟌", 13753241, -1423986774)
+                        + glb
+                  );
+               tcz.stop();
+               System.out.println(a.b("ꢲ턈寋얽乷좉犎ﭮ攧\uef91栖", -1017272105) + gky.report());
+               tcz.train(gkx);
+               gma(var1);
+            }
+            break;
+         case 2:
+            tct var9 = tcz.job();
+            if ((var1 - gkw) % 100 == 0) {
+               System.out
+                  .println(
+                     a.c(-2025442772, "㉖䯬섯彙풓剭\ue86a憊ￃ畵\uf2f2ࣗ蘆ᾤ闿ጉꥁ⚗밭㨻")
+                        + var9.progress.phase
+                        + a.c(642589983, "┾")
+                        + (var9.progress.epoch + 1)
+                        + a.d("ᒇ", -1945029987, -472373708)
+                        + var9.progress.epochs
+                        + a.c(-477601634, "悻ᥜ鎘\u0de4虿")
+                        + var9.progress.valLoss
+                  );
+            }
+
+            if (var9.done) {
+               if (var9.result == null) {
+                  System.out.println(a.d("鮱\ue20b棈\uf6be絴ﮊ䆍졭嘤\udc92嬕ꄂ⿒뙫㰽몠»转ᗌ鎕ᩥ怳\uee87畟\uf37d禶", -1846368712, 817053181) + var9.error);
+                  return true;
+               }
+
+               tck var13 = var9.result;
+               System.out
+                  .println(
+                     String.format(
+                        Locale.ROOT,
+                        a.c(
+                           -655294796,
+                           "ﹼ蟆അ鍳ᢹ鹇⑀궠㏩륟㻘쓽䨬펎姕\udf23敧\ueab7灀\uf658羨ַ謁მ隻᰽ꗈ⯊녴㜿볉䈍졝冠ퟸ嵒\ue2d6梢\uee30矅\ufdd2茢६軚ᑞ騪⎸ꥍ⽑뒇㫥쀡䦕쾗啡\udb71悊\ue608污\uf5b4笇œ蚭೯鈻ᮗꇉ❡괳㊉롅㹣쟺䴘퍈墬\udefb摋\ueddc玨塞缡ӆ詑ၲ馾Ἁꕐ⫪낾㘆뿋䗨쭿傟훕尓\ue273段\uf141眓ﳩ芦ࡃ釚៤鴮⊌\ua8cc⸼둴㷂쌍䥇컠哤\uda55排\ue9f6潵\uf4cf窕z虿ྎ锒᭣ꂹ⛷걏㗐뮤䅸웕䳒퉥塪\ue1ce朙\ued62狾\uf84a縒߿跤፼飅ẟꑴ⩱뎄㤐뽤䒯쨚偀\ud9ee徺\ue502櫏\uf0d4癬ﰵ薏ୄ酡"
+                        ),
+                        (var9.finished - var9.started) / 1000.0,
+                        var13.epochs,
+                        var13.hits,
+                        var13.steps,
+                        var13.similarity,
+                        var13.speedMatch,
+                        var13.timeMatch,
+                        var13.shapeMatch,
+                        var13.overshootUser,
+                        var13.overshootModel,
+                        var13.userPeak,
+                        var13.modelPeak,
+                        var13.userEntry,
+                        var13.modelEntry
+                     )
+                  );
+               gma(var1);
+            }
+            break;
+         case 3:
+            int var8 = var1 - gkw;
+            if (var8 == 1) {
+               var0.setScreen(new hlc());
+            }
+
+            if (var8 == 10) {
+               ign.open();
+            }
+
+            if (var8 == 40) {
+               gmk(var0, a.b("鍳\ueac9怊ﹼ疶\uf345䤋샸庸푗厃꧳✵뺉㓜", -1664380142));
+            }
+
+            if (var8 == 50) {
+               var0.setScreen(null);
+            }
+
+            if (var8 == 70) {
+               gmd();
+               tcz.startTest(gkx);
+               ldr var12 = ldr.get();
+               var12.setEnabled(true);
+               gls = false;
+               glp = 20;
+               gma(var1);
+            }
+            break;
+         case 4:
+            int var3 = var1 - gkw;
+            gmf(var0, var2);
+            if (var3 == 300) {
+               gmk(var0, a.b("伐㚪뱩∟꧕⼦镨Ლ苛࠳迱疖צּ", -593145997));
+            }
+
+            if (var3 >= 1600) {
+               System.out.println(a.c(-779495075, "\ud938ꂂ⩁됷㿽뤃̄諤ᒭ鸛ᦜ") + gky.report());
+               System.out.println(a.c(-1801777671, "ග琦ﻥ悓\ueb59涧힠幀쀉䪿촸") + gkz.report());
+               System.out
+                  .println(
+                     String.format(
+                        Locale.ROOT,
+                        a.c(2007196590, "掄ᨾ都\u0e8b蕁ο릸じ긑⒧ꌠ夒ퟔ乸쐷䋆\uf892睊\uedf1殻\ue21e頀ᚲ购ଓ膃㡣똵ⳗꪉℰ\udfa5嗯찕䩙삿缫\uf55a玌\uea72怤ẓ钁ጽ觪ߗ빐㓼늹⥠꜋嶅퐾刣죙䚙ﵲ篤\uf19f栁\ue6b3鲣ᬔ鄑࿃虶㰭뫊"),
+                        100.0 * glu / Math.max(1, glt),
+                        glv
+                     )
+                  );
+               Files.write(var0.runDirectory.toPath().resolve(a.c(-625204932, "ⅎ壵툥䱌쟞䅰ﭠ犚\uecd5晣\ue1adᮞ锐ರ蛵\u0003먖㖊꼩⥽")), gla);
+               tcz.stop();
+               ldr.get().setEnabled(false);
+               glz().setEnabled(false);
+               boolean var4 = gkz.overshoots <= Math.max(2, gky.overshoots / 4) && gkz.acquired >= gkz.episodes * 0.8 && gkz.offGrid == 0;
+               System.out
+                  .println(
+                     a.d("ݺ绀\uf403橵\ue1bf杁\udd46咦쫯䁙쟞", -2012051141, -2141221340)
+                        + (var4 ? a.d("胛糧玺\uedcb", -1873085776, 1331264063) : a.c(-1435804078, "帔➮군㌇룘"))
+                  );
+               return true;
+            }
+            break;
+         default:
+            return true;
       }
+
+      return false;
    }
 
    private static kgj glz() {
@@ -295,7 +291,7 @@ final class gkm {
    }
 
    private static void gmb(MinecraftClient var0) {
-      var0.field_1690.field_1837 = false;
+      var0.options.pauseOnLostFocus = false;
       gmj(var0, a.c(1377092853, "쒃봴㟫ꦒ≍꓾Ầ靖ौ莮ѻ︍烞\ue970挼\ue5da徘"));
       gmj(var0, a.c(624971756, "侕㘹볮⊗꤅\u2fe7関᱂艉ࢶ轤甕\ufbc3"));
       gmj(var0, a.d("鿨\ue65f沀\uf2f9礹ﾏ䗅창刧\ud8d2弊ꕐ⮢눋㡍뺹Ӹ謦ᆉ韯Ḣ摩\uead5焍\uf737綠쐔䩈킠囧", 2059195844, -1422243243));
@@ -317,11 +313,11 @@ final class gkm {
          a.d("尕▫꽴ㄌ뫓㱙虤ྒ釂\u1b7f", 1304887905, 1801215512),
          a.b("ग़", -2046031615)
       );
-      long var1 = var0.method_22683().method_4490();
+      long var1 = var0.getWindow().getHandle();
       GLFW.glfwSetCursorPosCallback(var1, (var0x, var2, var4) -> {});
       GLFW.glfwSetMouseButtonCallback(var1, (var0x, var2, var3, var4) -> {});
       GLFW.glfwSetScrollCallback(var1, (var0x, var2, var4) -> {});
-      var0.field_1724.method_31548().method_61496(0);
+      var0.player.getInventory().setSelectedSlot(0);
 
       for (String var6 : new String[]{
          a.d("ꠅ톒孚씥仲졁爅\ufbc4斶\uef1c", 2048177307, -1097982784),
@@ -337,8 +333,8 @@ final class gkm {
    }
 
    private static void gmc(MinecraftClient var0) throws Exception {
-      if (gkt != null && var0.field_1755 == null) {
-         gkt.setBoolean(var0.field_1729, true);
+      if (gkt != null && var0.currentScreen == null) {
+         gkt.setBoolean(var0.mouse, true);
       }
 
       if (gku != null) {
@@ -348,8 +344,7 @@ final class gkm {
 
    private static void gmd() {
       for (vmo var1 : ldr.get().getSettings()) {
-         String var2 = var1.getName();
-         switch (var2) {
+         switch (var1.getName()) {
             case a.d("\u18ff慇\ueb8d", -649256303, 2113550891):
                ((vmc)var1).set(360.0);
                break;
@@ -371,7 +366,7 @@ final class gkm {
    private static void gme(MinecraftClient var0, ClientPlayerEntity var1) {
       List var2 = tcz.stands();
       if (!var2.isEmpty()) {
-         if (glc == null || glc.method_31481() || --gld <= 0) {
+         if (glc == null || glc.isRemoved() || --gld <= 0) {
             tkx var3 = (tkx)var2.get(gks.nextInt(var2.size()));
             if (var3 != glc || glc == null) {
                glc = var3;
@@ -385,18 +380,18 @@ final class gkm {
             gld = 40 + gks.nextInt(70);
          }
 
-         Vec3d var38 = var1.method_33571();
-         Box var4 = glc.method_5829();
+         Vec3d var38 = var1.getEyePos();
+         Box var4 = glc.getBoundingBox();
          tbm var5 = new tbm();
          if (tbp.aim(
-            var38.field_1352,
-            var38.field_1351,
-            var38.field_1350,
-            (var4.field_1323 + var4.field_1320) * 0.5,
-            var4.field_1322,
-            (var4.field_1321 + var4.field_1324) * 0.5,
-            (var4.field_1320 - var4.field_1323) * 0.5,
-            var4.field_1325 - var4.field_1322,
+            var38.x,
+            var38.y,
+            var38.z,
+            (var4.minX + var4.maxX) * 0.5,
+            var4.minY,
+            (var4.minZ + var4.maxZ) * 0.5,
+            (var4.maxX - var4.minX) * 0.5,
+            var4.maxY - var4.minY,
             gle,
             glf,
             var5
@@ -410,8 +405,8 @@ final class gkm {
             double[] var7 = glg.size() >= 5 ? glg.get(glg.size() - 5) : var6;
             double var8 = tbp.wrap(var6[0] - var7[0]);
             double var10 = var6[1] - var7[1];
-            double var12 = tbp.wrap(var6[0] + var8 * 3.0 - var1.method_36454());
-            double var14 = var6[1] + var10 * 3.0 - var1.method_36455();
+            double var12 = tbp.wrap(var6[0] + var8 * 3.0 - var1.getYaw());
+            double var14 = var6[1] + var10 * 3.0 - var1.getPitch();
             double var16 = 0.0;
             double var18 = 0.0;
             if (glk < glj) {
@@ -448,21 +443,22 @@ final class gkm {
             long var47 = (long)glo;
             gln -= var46;
             glo -= var47;
-            float var26 = var1.method_36454();
-            float var27 = var1.method_36455();
-            var1.method_5872(var46 * var44 / 0.15, var47 * var44 / 0.15);
-            double var28 = var1.method_36454() - var26;
-            double var30 = var1.method_36455() - var27;
+            float var26 = var1.getYaw();
+            float var27 = var1.getPitch();
+            var1.changeLookDirection(var46 * var44 / 0.15, var47 * var44 / 0.15);
+            double var28 = var1.getYaw() - var26;
+            double var30 = var1.getPitch() - var27;
             boolean var32 = gmg(var1, var4);
-            double var33 = tbp.wrap(var1.method_36454() - var5.yaw);
+            double var33 = tbp.wrap(var1.getYaw() - var5.yaw);
             gky.sample(var28, var30, var32, var33, var5.la, var5.ra, var5.bw, tbp.wrap(var6[0] - var7[0]));
             boolean var35 = false;
 
             for (tkx var37 : var2) {
-               var35 |= gmg(var1, var37.method_5829());
+               var35 |= gmg(var1, var37.getBoundingBox());
             }
 
-            if (var1.method_7261(0.5F) >= 0.9F && (var32 && gks.nextDouble() < 0.75 || var35 && gks.nextDouble() < 0.3) || gks.nextDouble() < 0.02) {
+            if (var1.getAttackCooldownProgress(0.5F) >= 0.9F && (var32 && gks.nextDouble() < 0.75 || var35 && gks.nextDouble() < 0.3)
+               || gks.nextDouble() < 0.02) {
                gmh(var0);
             }
          }
@@ -470,8 +466,8 @@ final class gkm {
    }
 
    private static void gmf(MinecraftClient var0, ClientPlayerEntity var1) {
-      float var2 = var1.method_36454();
-      float var3 = var1.method_36455();
+      float var2 = var1.getYaw();
+      float var3 = var1.getPitch();
       if (gls) {
          double var4 = var2 - glq;
          double var6 = var3 - glr;
@@ -484,18 +480,18 @@ final class gkm {
          }
 
          if (var8 != null) {
-            Box var13 = var8.method_5829();
-            Vec3d var14 = var1.method_33571();
+            Box var13 = var8.getBoundingBox();
+            Vec3d var14 = var1.getEyePos();
             tbm var15 = new tbm();
             if (tbp.aim(
-               var14.field_1352,
-               var14.field_1351,
-               var14.field_1350,
-               (var13.field_1323 + var13.field_1320) * 0.5,
-               var13.field_1322,
-               (var13.field_1321 + var13.field_1324) * 0.5,
-               (var13.field_1320 - var13.field_1323) * 0.5,
-               var13.field_1325 - var13.field_1322,
+               var14.x,
+               var14.y,
+               var14.z,
+               (var13.minX + var13.maxX) * 0.5,
+               var13.minY,
+               (var13.minZ + var13.maxZ) * 0.5,
+               (var13.maxX - var13.minX) * 0.5,
+               var13.maxY - var13.minY,
                0.0,
                0.7,
                var15
@@ -523,7 +519,7 @@ final class gkm {
          double var17 = (gks.nextBoolean() ? 1 : -1) * (35.0 + gks.nextDouble() * 70.0);
          double var21 = tcz.unit(var0);
          long var23 = Math.round(var17 / var21);
-         var1.method_5872(var23 * var21 / 0.15, 0.0);
+         var1.changeLookDirection(var23 * var21 / 0.15, 0.0);
          gkz.episode();
       } else if (gkq) {
          gll = 0.85 * gll + gks.nextGaussian() * 0.9;
@@ -539,16 +535,16 @@ final class gkm {
          long var24 = (long)glo;
          gln -= var22;
          glo -= var24;
-         var1.method_5872(var22 * var18 / 0.15, var24 * var18 / 0.15);
+         var1.changeLookDirection(var22 * var18 / 0.15, var24 * var18 / 0.15);
       }
 
-      glq = var1.method_36454();
-      glr = var1.method_36455();
+      glq = var1.getYaw();
+      glr = var1.getPitch();
       gls = true;
       glt++;
 
       for (tkx var5 : tcz.stands()) {
-         if (gmg(var1, var5.method_5829())) {
+         if (gmg(var1, var5.getBoundingBox())) {
             glu++;
             break;
          }
@@ -560,19 +556,19 @@ final class gkm {
       }
 
       glw = var20 != null;
-      if (var1.method_7261(0.5F) >= 0.9F && var0.field_1692 instanceof tkx) {
+      if (var1.getAttackCooldownProgress(0.5F) >= 0.9F && var0.targetedEntity instanceof tkx) {
          gmh(var0);
       }
    }
 
    private static boolean gmg(ClientPlayerEntity var0, Box var1) {
-      Vec3d var2 = var0.method_33571();
-      Vec3d var3 = var2.method_1019(var0.method_5828(1.0F).method_1021(6.0));
-      return var1.method_992(var2, var3).isPresent() || var1.method_1006(var2);
+      Vec3d var2 = var0.getEyePos();
+      Vec3d var3 = var2.add(var0.getRotationVec(1.0F).multiply(6.0));
+      return var1.raycast(var2, var3).isPresent() || var1.contains(var2);
    }
 
    private static void gmh(MinecraftClient var0) {
-      KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var0.field_1690.field_1886));
+      KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var0.options.attackKey));
    }
 
    private static double gmi(double var0) {
@@ -581,15 +577,15 @@ final class gkm {
    }
 
    private static void gmj(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void gmk(MinecraftClient var0, String var1) {
       System.out.println(a.b("撫ᴌ韖ভ舼ә뺛㝼ꤤ⏁", -367958830) + var1);
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(1175503320, "솸렃㋓겺✨ꆆ") + var1 + a.d("ࣕ焺ﯷ斏", -475594086, -2036463003),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

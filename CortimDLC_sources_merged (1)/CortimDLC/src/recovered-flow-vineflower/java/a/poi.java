@@ -14,9 +14,7 @@ import net.minecraft.text.Text;
 public final class poi {
    private static final long poj = 1500L;
    private static final int pok = 9;
-   private static final EquipmentSlot[] pol = new EquipmentSlot[]{
-      EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166
-   };
+   private static final EquipmentSlot[] pol = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
    private static final long pom = 1000L;
    private static final long pon = 15000L;
    private static final int poo = 3;
@@ -42,29 +40,29 @@ public final class poi {
    }
 
    public static boolean inLobby(PlayerEntity var0) {
-      PlayerInventory var1 = var0.method_31548();
-      boolean var2 = var0.method_6079().method_31574(Items.field_8251);
-      int var3 = var0.method_6079().method_7960() ? 0 : 1;
+      PlayerInventory var1 = var0.getInventory();
+      boolean var2 = var0.getOffHandStack().isOf(Items.COMPASS);
+      int var3 = var0.getOffHandStack().isEmpty() ? 0 : 1;
 
       for (int var4 = 0; var4 < 36; var4++) {
-         ItemStack var5 = var1.method_5438(var4);
-         if (!var5.method_7960()) {
+         ItemStack var5 = var1.getStack(var4);
+         if (!var5.isEmpty()) {
             var3++;
-            var2 |= var5.method_31574(Items.field_8251);
+            var2 |= var5.isOf(Items.COMPASS);
          }
       }
 
       if (!var2) {
          return false;
-      } else {
-         for (EquipmentSlot var7 : pol) {
-            if (!var0.method_6118(var7).method_7960()) {
-               var3++;
-            }
-         }
-
-         return var3 <= 9;
       }
+
+      for (EquipmentSlot var7 : pol) {
+         if (!var0.getEquippedStack(var7).isEmpty()) {
+            var3++;
+         }
+      }
+
+      return var3 <= 9;
    }
 
    public boolean active() {
@@ -118,15 +116,17 @@ public final class poi {
             }
          } else {
             this.ppa = true;
-            this.ppb = MinecraftClient.method_1551().field_1687;
+            this.ppb = MinecraftClient.getInstance().world;
          }
       }
    }
 
    public boolean tick(MinecraftClient var1, ClientPlayerEntity var2, Object var3, String var4, long var5) {
-      if (var2 == null || var1.method_1562() == null) {
+      if (var2 == null || var1.getNetworkHandler() == null) {
          return false;
-      } else if (!inLobby(var2)) {
+      }
+
+      if (!inLobby(var2)) {
          if (this.por == pof.HOP) {
             this.poy = true;
             pjd.at(var3, this.pox);
@@ -142,7 +142,7 @@ public final class poi {
          this.ppd = "";
          return false;
       } else {
-         if (this.ppa && var1.field_1687 != this.ppb) {
+         if (this.ppa && var1.world != this.ppb) {
             this.ppa = false;
          }
 
@@ -163,62 +163,62 @@ public final class poi {
             if (!var7.isEmpty() && var7.chars().allMatch(Character::isDigit)) {
                if (this.por == pof.NONE && var5 - this.pos < 1500L) {
                   return true;
-               } else {
-                  if (this.por == pof.NONE) {
-                     this.por = pof.WAIT;
-                     this.pot = var5;
-                     this.pox = var7;
-                     this.pou = 0L;
-                     this.pov = 0L;
-                     this.pow = 0;
-                     pjd.leave(var3);
-                     this.ppe.accept(a.c(109342932, "瓯६螤᧐鈈ᒹ껣⌊뵝㏾됩乚삎夰팒冂\uefdf搜龜糥\uf517輺ǻ驟ᡌ銔ଓꕶ㮙뷄㘀첲䋠\udb1c奟힏栣\ue253撋﴾獵") + var7);
-                  }
-
-                  switch (this.por) {
-                     case WAIT:
-                        if (var5 < this.pov) {
-                           this.ppd = a.b("룲셦䮺헋帕\udca6曯\ueb7f畛￫砳艆ࢅ", -1135559452)
-                              + this.pox
-                              + a.d("䎍㸡듺⺞ꅖ➛鷊ᑀ訕¡蜅礚\uf7c1橯\ue03d曀\udcff卒즟䮮옾밝㋛\ua97f⼂ꇄ", -955300825, 1681262480)
-                              + (this.pov - var5 + 999L) / 1000L
-                              + a.d("踁\uf3d1", 617470108, 267540159);
-                        } else if (var5 >= this.pou) {
-                           this.pou = var5 + 1000L;
-                           if (pjd.enter(var3, this.pox)) {
-                              this.pph(var1, var5);
-                           } else {
-                              this.ppd = a.d("旝᱉隕ࣤ茺Ɖ므㘬\ua87e⛟ꕭ彧톱䠋쉜䒬\ufaf6", 1246302321, 1179611558)
-                                 + this.pox
-                                 + a.d("\ue8d3锁ᾧ臕ท", -1157833919, -1735052361)
-                                 + 3
-                                 + a.d("\ue852闾ἠ脩\u0a8e豂㉴鮱◚ꭽⲬ횪尞솱䮛촘眢\uf886戴\ue469榆Ꮯ", -702390510, 1903277942)
-                                 + Math.max(1, pjd.position(var3))
-                                 + a.b("ꩪퟏ夌", 874228292);
-                           }
-                        }
-                        break;
-                     case HOP:
-                        if (this.poz || var5 - this.pot > 15000L) {
-                           this.por = pof.WAIT;
-                           this.pov = this.poz ? var5 + 4000L : 0L;
-                           this.poz = false;
-                           if (++this.pow >= 3) {
-                              this.pow = 0;
-                              this.pov = var5 + 30000L;
-                              pjd.leave(var3);
-                              this.ppe
-                                 .accept(
-                                    a.b("罼ۥ蠣ቍ駦ὕꔅⲎ닒㡦뮫䗂쬚嚼\ud8f4帀\ue440殑\uf12b獢ﺈ蓔\u0e77采ៃ鴓⒫\uaafe㐝", -1399096452)
-                                       + this.pox
-                                       + a.b("ꈌﮉ兮쬀䃖왫籈\uf5c5毤\ue535暁鲂ሠ诤Ƶ荓㤏뛝Ȿ깎", -1156734408)
-                                 );
-                           }
-                        }
-                  }
-
-                  return true;
                }
+
+               if (this.por == pof.NONE) {
+                  this.por = pof.WAIT;
+                  this.pot = var5;
+                  this.pox = var7;
+                  this.pou = 0L;
+                  this.pov = 0L;
+                  this.pow = 0;
+                  pjd.leave(var3);
+                  this.ppe.accept(a.c(109342932, "瓯६螤᧐鈈ᒹ껣⌊뵝㏾됩乚삎夰팒冂\uefdf搜龜糥\uf517輺ǻ驟ᡌ銔ଓꕶ㮙뷄㘀첲䋠\udb1c奟힏栣\ue253撋﴾獵") + var7);
+               }
+
+               switch (this.por) {
+                  case WAIT:
+                     if (var5 < this.pov) {
+                        this.ppd = a.b("룲셦䮺헋帕\udca6曯\ueb7f畛￫砳艆ࢅ", -1135559452)
+                           + this.pox
+                           + a.d("䎍㸡듺⺞ꅖ➛鷊ᑀ訕¡蜅礚\uf7c1橯\ue03d曀\udcff卒즟䮮옾밝㋛\ua97f⼂ꇄ", -955300825, 1681262480)
+                           + (this.pov - var5 + 999L) / 1000L
+                           + a.d("踁\uf3d1", 617470108, 267540159);
+                     } else if (var5 >= this.pou) {
+                        this.pou = var5 + 1000L;
+                        if (pjd.enter(var3, this.pox)) {
+                           this.pph(var1, var5);
+                        } else {
+                           this.ppd = a.d("旝᱉隕ࣤ茺Ɖ므㘬\ua87e⛟ꕭ彧톱䠋쉜䒬\ufaf6", 1246302321, 1179611558)
+                              + this.pox
+                              + a.d("\ue8d3锁ᾧ臕ท", -1157833919, -1735052361)
+                              + 3
+                              + a.d("\ue852闾ἠ脩\u0a8e豂㉴鮱◚ꭽⲬ횪尞솱䮛촘眢\uf886戴\ue469榆Ꮯ", -702390510, 1903277942)
+                              + Math.max(1, pjd.position(var3))
+                              + a.b("ꩪퟏ夌", 874228292);
+                        }
+                     }
+                     break;
+                  case HOP:
+                     if (this.poz || var5 - this.pot > 15000L) {
+                        this.por = pof.WAIT;
+                        this.pov = this.poz ? var5 + 4000L : 0L;
+                        this.poz = false;
+                        if (++this.pow >= 3) {
+                           this.pow = 0;
+                           this.pov = var5 + 30000L;
+                           pjd.leave(var3);
+                           this.ppe
+                              .accept(
+                                 a.b("罼ۥ蠣ቍ駦ὕꔅⲎ닒㡦뮫䗂쬚嚼\ud8f4帀\ue440殑\uf12b獢ﺈ蓔\u0e77采ៃ鴓⒫\uaafe㐝", -1399096452)
+                                    + this.pox
+                                    + a.b("ꈌﮉ兮쬀䃖왫籈\uf5c5毤\ue535暁鲂ሠ诤Ƶ荓㤏뛝Ȿ깎", -1156734408)
+                              );
+                        }
+                     }
+               }
+
+               return true;
             } else {
                if (!this.ppc && var5 - this.pos >= 1500L) {
                   this.ppc = true;
@@ -238,6 +238,6 @@ public final class poi {
       this.ppd = a.d("\udd22꒶\u2e6a뀛㯅륶̿軙ႁ驅ᷭ\ue794椶\uf4e4窪ﱖ䈉즹危픡峝⚈갯", -1660041644, 1776361338)
          + this.pox
          + (this.pow > 0 ? a.d("囿⽆ꆂ㿲됩㋨裇ň魷", 966225484, -167102310) + this.pow + a.b("俞", -809611274) : "");
-      var1.method_1562().method_45730(a.d("ᛍ潳", -1990197013, -282651067) + this.pox);
+      var1.getNetworkHandler().sendChatCommand(a.d("ᛍ潳", -1990197013, -282651067) + this.pox);
    }
 }

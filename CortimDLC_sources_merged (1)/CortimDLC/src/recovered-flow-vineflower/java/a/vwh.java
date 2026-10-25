@@ -30,7 +30,7 @@ final class vwh extends ChannelOutboundHandlerAdapter {
 
    void reset(PlayerInput var1, boolean var2) {
       this.vwk = vwy.vxk(var1);
-      this.vwl = var1.comp_3164();
+      this.vwl = var1.sneak();
       this.vwm = var2;
    }
 
@@ -71,12 +71,12 @@ final class vwh extends ChannelOutboundHandlerAdapter {
 
    private void vwq(Object var1) {
       if (var1 instanceof PlayerInputC2SPacket var2) {
-         this.vwk = vwy.vxk(var2.comp_3139());
-         this.vwl = var2.comp_3139().comp_3164();
+         this.vwk = vwy.vxk(var2.input());
+         this.vwl = var2.input().sneak();
       } else if (var1 instanceof ClientCommandC2SPacket var3) {
-         if (var3.method_12365() == Mode.field_12981) {
+         if (var3.getMode() == Mode.START_SPRINTING) {
             this.vwm = true;
-         } else if (var3.method_12365() == Mode.field_12985) {
+         } else if (var3.getMode() == Mode.STOP_SPRINTING) {
             this.vwm = false;
          }
       }

@@ -28,7 +28,6 @@ import net.minecraft.network.packet.s2c.config.ReadyS2CPacket;
 import net.minecraft.network.packet.s2c.config.SelectKnownPacksS2CPacket;
 import net.minecraft.network.state.NetworkState;
 import net.minecraft.network.state.PlayStateFactories;
-import net.minecraft.network.state.PlayStateFactories.PacketCodecModifierContext;
 import net.minecraft.registry.DynamicRegistryManager.Immutable;
 import net.minecraft.resource.LifecycledResourceManager;
 import net.minecraft.resource.ResourceFactory;
@@ -49,154 +48,145 @@ final class ecr extends ClientConfigurationNetworkHandler {
       this.ecs = var4;
       this.ect = var5;
       this.ecu = var6;
-      this.ecx = var3.comp_1614();
+      this.ecx = var3.enabledFeatures();
    }
 
    static ecr create(MinecraftClient var0, ClientConnection var1, ClientConnectionState var2, dtv var3, GameProfile var4, Immutable var5) {
       boolean var6 = ejp.current() == var3;
       Object[] var7 = ega.saveAddons();
 
-      ecr var9;
       try {
          ecr var8 = new ecr(var0, var1, var2, var3, var4, var5);
          var3.fabricAddons = ega.created(var7, var6 ? var3.fabricAddons : null);
-         var9 = var8;
+         return var8;
       } finally {
          if (!var6) {
             ega.restoreAddons(var7);
          }
       }
-
-      return var9;
    }
 
-   public void method_52795(DynamicRegistriesS2CPacket var1) {
-      NetworkThreadUtils.method_11074(var1, this, this.field_45588.method_74186());
-      this.ecv.method_56583(var1.comp_2258(), var1.comp_2259());
+   @Override
+   public void onDynamicRegistries(DynamicRegistriesS2CPacket packet) {
+      NetworkThreadUtils.forceMainThread(packet, this, this.client.getPacketApplyBatcher());
+      this.ecv.putDynamicRegistry(packet.registry(), packet.entries());
    }
 
-   public void method_11126(SynchronizeTagsS2CPacket var1) {
-      NetworkThreadUtils.method_11074(var1, this, this.field_45588.method_74186());
-      this.ecv.method_56586(var1.method_12000());
+   @Override
+   public void onSynchronizeTags(SynchronizeTagsS2CPacket packet) {
+      NetworkThreadUtils.forceMainThread(packet, this, this.client.getPacketApplyBatcher());
+      this.ecv.putTags(packet.getGroups());
    }
 
-   public void method_52796(FeaturesS2CPacket var1) {
-      super.method_52796(var1);
-      this.ecx = FeatureFlags.field_40180.method_45387(var1.comp_1113());
+   @Override
+   public void onFeatures(FeaturesS2CPacket packet) {
+      super.onFeatures(packet);
+      this.ecx = FeatureFlags.FEATURE_MANAGER.featureSetOf(packet.features());
    }
 
-   public void method_57045(SelectKnownPacksS2CPacket var1) {
-      NetworkThreadUtils.method_11074(var1, this, this.field_45588.method_74186());
+   @Override
+   public void onSelectKnownPacks(SelectKnownPacksS2CPacket packet) {
+      NetworkThreadUtils.forceMainThread(packet, this, this.client.getPacketApplyBatcher());
       if (this.ecw == null) {
          this.ecw = new ClientDataPackManager();
       }
 
-      this.method_52787(new SelectKnownPacksC2SPacket(this.ecw.method_57049(var1.comp_2356())));
+      this.sendPacket(new SelectKnownPacksC2SPacket(this.ecw.getCommonKnownPacks(packet.knownPacks())));
    }
 
-   public void method_73257(CodeOfConductS2CPacket var1) {
-      NetworkThreadUtils.method_11074(var1, this, this.field_45588.method_74186());
-      this.method_52787(AcceptCodeOfConductC2SPacket.field_62060);
+   @Override
+   public void onCodeOfConduct(CodeOfConductS2CPacket packet) {
+      NetworkThreadUtils.forceMainThread(packet, this, this.client.getPacketApplyBatcher());
+      this.sendPacket(AcceptCodeOfConductC2SPacket.INSTANCE);
       this.ecs.chat.system(a.d("⏫婎탨仫씻䏿\ufdcc瀢\uee02擋\ue361ᥪ鞶ฌ聄ʪ뢚㜻궊⯑ꈥ\ud87f勜준佲솼硰\uf659沫\uea88愶鿮", 294139560, -444001982));
    }
 
-   public void method_52794(ReadyS2CPacket var1) {
-      NetworkThreadUtils.method_11074(var1, this, this.field_45588.method_74186());
+   @Override
+   public void onReady(ReadyS2CPacket packet) {
+      NetworkThreadUtils.forceMainThread(packet, this, this.client.getPacketApplyBatcher());
       Immutable var2 = this.eda();
       ClientConnectionState var3 = new ClientConnectionState(
          null,
          this.ect,
-         this.field_45592,
+         this.worldSession,
          var2,
          this.ecx,
-         this.field_45591,
-         this.field_45590,
+         this.brand,
+         this.serverInfo,
          null,
-         this.field_48399,
+         this.serverCookies,
          null,
-         this.field_52154,
-         this.method_72016(),
-         this.field_62019,
-         this.field_62020
+         this.customReportDetails,
+         this.getServerLinks(),
+         this.seenPlayers,
+         this.seenInsecureChatWarning
       );
       ega.clearConfiguration();
-      ehy var4 = ehy.create(this.field_45588, this.field_45589, var3, this.ecs);
-      NetworkState var5 = PlayStateFactories.field_48173.method_68874(RegistryByteBuf.method_56350(var2));
-      NetworkState var6 = PlayStateFactories.field_48172.method_68875(RegistryByteBuf.method_56350(var2), (PacketCodecModifierContext)() -> true);
-      ClientConnection var7 = this.field_45589;
+      ehy var4 = ehy.create(this.client, this.connection, var3, this.ecs);
+      NetworkState var5 = PlayStateFactories.S2C.bind(RegistryByteBuf.makeFactory(var2));
+      NetworkState var6 = PlayStateFactories.C2S.bind(RegistryByteBuf.makeFactory(var2), () -> true);
+      ClientConnection var7 = this.connection;
       ((edb)var7).runInLoop(() -> {
-         var7.method_56330(var5, var4);
-         var7.method_10743(ReadyC2SPacket.field_48700);
-         var7.method_56329(var6);
+         var7.transitionInbound(var5, var4);
+         var7.send(ReadyC2SPacket.INSTANCE);
+         var7.transitionOutbound(var6);
       });
    }
 
    private Immutable eda() {
       if (this.ecw == null) {
-         return this.ecv.method_56585(ResourceFactory.field_49043, this.ecu, this.field_45589.method_10756());
-      } else {
-         LifecycledResourceManager var1 = this.ecw.method_57046();
+         return this.ecv.createRegistryManager(ResourceFactory.MISSING, this.ecu, this.connection.isLocal());
+      }
 
-         Immutable var2;
-         try {
-            var2 = this.ecv.method_56585(var1, this.ecu, this.field_45589.method_10756());
-         } catch (Throwable var5) {
-            if (var1 != null) {
-               try {
-                  var1.close();
-               } catch (Throwable var4) {
-                  var5.addSuppressed(var4);
-               }
-            }
-
-            throw var5;
-         }
-
-         if (var1 != null) {
-            var1.close();
-         }
-
-         return var2;
+      try (LifecycledResourceManager var1 = this.ecw.createResourceManager()) {
+         return this.ecv.createRegistryManager(var1, this.ecu, this.connection.isLocal());
       }
    }
 
-   public void method_52784(ResourcePackSendS2CPacket var1) {
-      this.ecs.packs.offer(var1, this.field_45589);
+   @Override
+   public void onResourcePackSend(ResourcePackSendS2CPacket packet) {
+      this.ecs.packs.offer(packet, this.connection);
    }
 
-   public void method_55512(ResourcePackRemoveS2CPacket var1) {
+   @Override
+   public void onResourcePackRemove(ResourcePackRemoveS2CPacket packet) {
    }
 
-   public void method_56150(ServerTransferS2CPacket var1) {
-      this.field_45589
-         .method_10747(
-            Text.method_43470(
-               a.c(-1161073812, "潯ᛊ鱬ɯ覿ཻ녈㲦ꋳ⠷꾑嗯\udb3a䊎좣个\uf07e箲\ue10c捍\ueeae钋ᨻ膚ߨ贾ゔ뫕…ꘃⷅ퍠嵔쒿") + var1.comp_2240() + a.c(2064868421, "摾") + var1.comp_2241()
-            )
+   @Override
+   public void onServerTransfer(ServerTransferS2CPacket packet) {
+      this.connection
+         .disconnect(
+            Text.literal(a.c(-1161073812, "潯ᛊ鱬ɯ覿ཻ녈㲦ꋳ⠷꾑嗯\udb3a䊎좣个\uf07e箲\ue10c捍\ueeae钋ᨻ膚ߨ贾ゔ뫕…ꘃⷅ퍠嵔쒿") + packet.host() + a.c(2064868421, "摾") + packet.port())
          );
    }
 
-   public void method_71666(ShowDialogS2CPacket var1) {
+   @Override
+   public void onShowDialog(ShowDialogS2CPacket packet) {
       this.ecs.chat.system(a.d("赾\uf4db繽\ue07e殮\ued6a卙\udeb7䃩쩜䶅럳㤣ꂙ⻑갴ᙷ馮̖蕂ಸ狺ﱄ枘\ue5f8潖횛壋쉀䐛쿔ㄍ", 1411637423, 1611622864));
    }
 
-   public void method_71665(ClearDialogS2CPacket var1) {
+   @Override
+   public void onClearDialog(ClearDialogS2CPacket packet) {
    }
 
-   public void method_18784() {
-      super.method_18784();
-      this.ecs.packs.tick(this.field_45589);
+   @Override
+   public void tick() {
+      super.tick();
+      this.ecs.packs.tick(this.connection);
    }
 
-   public void method_10839(DisconnectionInfo var1) {
-      this.ecs.onDisconnected(var1.comp_2853());
+   @Override
+   public void onDisconnected(DisconnectionInfo info) {
+      this.ecs.onDisconnected(info.reason());
    }
 
-   public DisconnectionInfo method_60881(Text var1, Throwable var2) {
-      return new DisconnectionInfo(var1);
+   @Override
+   public DisconnectionInfo createDisconnectionInfo(Text reason, Throwable exception) {
+      return new DisconnectionInfo(reason);
    }
 
-   public void method_59807(Packet var1, Exception var2) {
-      this.ecs.onPacketError(var1, var2);
+   @Override
+   public void onPacketException(Packet packet, Exception exception) {
+      this.ecs.onPacketError(packet, exception);
    }
 }

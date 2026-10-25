@@ -48,8 +48,8 @@ public class lre extends kfe {
 
       try {
          ClientPlayConnectionEvents.JOIN.register((Join)(var0, var1, var2x) -> var2x.execute(() -> {
-            if (lrw() && lrf.lri.get() && var2x.field_1705 != null) {
-               var2x.field_1705.method_1743().method_1817();
+            if (lrw() && lrf.lri.get() && var2x.inGameHud != null) {
+               var2x.inGameHud.getChatHud().reset();
             }
          }));
       } catch (Throwable var2) {
@@ -68,8 +68,8 @@ public class lre extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      if (!lrp && var1.field_1705 != null && var1.field_1705.method_1743() != lrq) {
-         lrx(var1.field_1705.method_1743());
+      if (!lrp && var1.inGameHud != null && var1.inGameHud.getChatHud() != lrq) {
+         lrx(var1.inGameHud.getChatHud());
       }
    }
 
@@ -123,13 +123,13 @@ public class lre extends kfe {
    }
 
    private static void lrz(List<Visible> var0, ChatHudLine var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      double var3 = (Double)var2.field_1690.method_42554().method_41753();
-      int var5 = MathHelper.method_15357(ChatHud.method_1806((Double)var2.field_1690.method_42556().method_41753()) / var3);
-      List var6 = var1.method_75757(var2.field_1772, var5);
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      double var3 = var2.options.getChatScale().getValue();
+      int var5 = MathHelper.floor(ChatHud.getWidth(var2.options.getChatWidth().getValue()) / var3);
+      List var6 = var1.breakLines(var2.textRenderer, var5);
 
       for (int var7 = 0; var7 < var6.size(); var7++) {
-         var0.addFirst(new Visible(var1.comp_892(), (OrderedText)var6.get(var7), var1.comp_894(), var7 == var6.size() - 1));
+         var0.addFirst(new Visible(var1.creationTick(), (OrderedText)var6.get(var7), var1.indicator(), var7 == var6.size() - 1));
       }
    }
 
@@ -137,7 +137,7 @@ public class lre extends kfe {
       StringBuilder var2 = new StringBuilder();
 
       for (int var3 = var1 - 1; var3 >= 0; var3--) {
-         ((Visible)var0.get(var3)).comp_896().accept((var1x, var2x, var3x) -> {
+         ((Visible)var0.get(var3)).content().accept((var1x, var2x, var3x) -> {
             var2.appendCodePoint(var3x);
             return true;
          });
@@ -151,10 +151,10 @@ public class lre extends kfe {
    }
 
    private static int lsc(List<Visible> var0, int var1) {
-      if (var1 < var0.size() && ((Visible)var0.get(var1)).comp_898()) {
+      if (var1 < var0.size() && ((Visible)var0.get(var1)).endOfEntry()) {
          int var2 = 1;
 
-         while (var1 + var2 < var0.size() && !((Visible)var0.get(var1 + var2)).comp_898()) {
+         while (var1 + var2 < var0.size() && !((Visible)var0.get(var1 + var2)).endOfEntry()) {
             var2++;
          }
 
@@ -169,22 +169,24 @@ public class lre extends kfe {
          ScreenMouseEvents.allowMouseClick(var0)
             .register(
                (AllowMouseClick)(var0x, var1) -> {
-                  if (var1.method_74245() == 0) {
-                     return !wjw.click(lse(var1.comp_4798(), var1.comp_4799()));
-                  } else if (var1.method_74245() == 1 && lrw() && lrf.lrk.get()) {
-                     String var2 = lsf(var1.comp_4798(), var1.comp_4799());
+                  if (var1.button() == 0) {
+                     return !wjw.click(lse(var1.x(), var1.y()));
+                  }
+
+                  if (var1.button() == 1 && lrw() && lrf.lrk.get()) {
+                     String var2 = lsf(var1.x(), var1.y());
                      if (var2 == null) {
                         return true;
-                     } else {
-                        MinecraftClient.method_1551().field_1774.method_1455(var2);
-                        izx.alert(
-                           lrf.getName(),
-                           wap.s(a.d("ꁦ\ud9fb匷쵟䚄쀴", 629863611, 686970008), a.d("\ue9a6逌\u1adb蒫ཻ覲㎟멢\u243f꺃⥓", -2046083955, -360132351)),
-                           vhz.CHECK,
-                           true
-                        );
-                        return false;
                      }
+
+                     MinecraftClient.getInstance().keyboard.setClipboard(var2);
+                     izx.alert(
+                        lrf.getName(),
+                        wap.s(a.d("ꁦ\ud9fb匷쵟䚄쀴", 629863611, 686970008), a.d("\ue9a6逌\u1adb蒫ཻ覲㎟멢\u243f꺃⥓", -2046083955, -360132351)),
+                        vhz.CHECK,
+                        true
+                     );
+                     return false;
                   } else {
                      return true;
                   }
@@ -194,18 +196,18 @@ public class lre extends kfe {
    }
 
    private static int lsd(List<Visible> var0, ChatHud var1, double var2, double var4) throws IllegalAccessException {
-      MinecraftClient var6 = MinecraftClient.method_1551();
+      MinecraftClient var6 = MinecraftClient.getInstance();
       int var7 = lro.getInt(var1);
-      double var8 = (Double)var6.field_1690.method_42554().method_41753();
-      double var10 = (Double)var6.field_1690.method_42546().method_41753();
+      double var8 = var6.options.getChatScale().getValue();
+      double var10 = var6.options.getChatLineSpacing().getValue();
       int var12 = (int)(9.0 * (var10 + 1.0));
-      int var13 = MathHelper.method_15357((var6.method_22683().method_4502() - 40) / var8);
+      int var13 = MathHelper.floor((var6.getWindow().getScaledHeight() - 40) / var8);
       double var14 = var2 / var8 - 4.0;
       double var16 = var4 / var8;
-      int var18 = MathHelper.method_15384(ChatHud.method_1806((Double)var6.field_1690.method_42556().method_41753()) / var8);
+      int var18 = MathHelper.ceil(ChatHud.getWidth(var6.options.getChatWidth().getValue()) / var8);
       if (!(var14 < -4.0) && !(var14 > var18 + 8.0) && !(var16 > var13)) {
          int var19 = (int)Math.floor((var13 - var16) / var12);
-         if (var19 >= 0 && var19 < var1.method_1813()) {
+         if (var19 >= 0 && var19 < var1.getVisibleLineCount()) {
             int var20 = var19 + var7;
             return var20 < var0.size() ? var20 : -1;
          } else {
@@ -217,18 +219,18 @@ public class lre extends kfe {
    }
 
    private static Style lse(double var0, double var2) {
-      MinecraftClient var4 = MinecraftClient.method_1551();
+      MinecraftClient var4 = MinecraftClient.getInstance();
       if (lrn != null && lro != null) {
          try {
-            ChatHud var5 = var4.field_1705.method_1743();
+            ChatHud var5 = var4.inGameHud.getChatHud();
             List var6 = (List)lrn.get(var5);
             int var7 = lsd(var6, var5, var0, var2);
-            double var8 = var0 / (Double)var4.field_1690.method_42554().method_41753() - 4.0;
+            double var8 = var0 / var4.options.getChatScale().getValue() - 4.0;
             if (var7 >= 0 && !(var8 < 0.0)) {
                float[] var10 = new float[]{0.0F};
                Style[] var11 = new Style[]{null};
-               ((Visible)var6.get(var7)).comp_896().accept((var5x, var6x, var7x) -> {
-                  float var8x = var4.field_1772.method_30880(OrderedText.method_30741(var7x, var6x));
+               ((Visible)var6.get(var7)).content().accept((var5x, var6x, var7x) -> {
+                  float var8x = var4.textRenderer.getWidth(OrderedText.styled(var7x, var6x));
                   if (var8 < var10[0] + var8x) {
                      var11[0] = var6x;
                      return false;
@@ -250,38 +252,38 @@ public class lre extends kfe {
    }
 
    private static String lsf(double var0, double var2) {
-      MinecraftClient var4 = MinecraftClient.method_1551();
-      ChatHud var5 = var4.field_1705.method_1743();
+      MinecraftClient var4 = MinecraftClient.getInstance();
+      ChatHud var5 = var4.inGameHud.getChatHud();
       if (lrn != null && lro != null) {
          try {
             List var6 = (List)lrn.get(var5);
             int var7 = lsd(var6, var5, var0, var2);
             if (var7 < 0) {
                return null;
-            } else {
-               int var8 = var7;
-
-               while (var8 > 0 && !((Visible)var6.get(var8)).comp_898()) {
-                  var8--;
-               }
-
-               int var9 = lsc(var6, var8);
-               if (var9 <= 0) {
-                  return null;
-               } else {
-                  StringBuilder var10 = new StringBuilder();
-
-                  for (int var11 = var8 + var9 - 1; var11 >= var8; var11--) {
-                     ((Visible)var6.get(var11)).comp_896().accept((var1, var2x, var3) -> {
-                        var10.appendCodePoint(var3);
-                        return true;
-                     });
-                  }
-
-                  String var13 = var10.toString().trim();
-                  return var13.isEmpty() ? null : var13;
-               }
             }
+
+            int var8 = var7;
+
+            while (var8 > 0 && !((Visible)var6.get(var8)).endOfEntry()) {
+               var8--;
+            }
+
+            int var9 = lsc(var6, var8);
+            if (var9 <= 0) {
+               return null;
+            }
+
+            StringBuilder var10 = new StringBuilder();
+
+            for (int var11 = var8 + var9 - 1; var11 >= var8; var11--) {
+               ((Visible)var6.get(var11)).content().accept((var1, var2x, var3) -> {
+                  var10.appendCodePoint(var3);
+                  return true;
+               });
+            }
+
+            String var13 = var10.toString().trim();
+            return var13.isEmpty() ? null : var13;
          } catch (Throwable var12) {
             return null;
          }

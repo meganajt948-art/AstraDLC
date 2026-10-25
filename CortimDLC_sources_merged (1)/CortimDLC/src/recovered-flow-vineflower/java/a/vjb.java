@@ -54,28 +54,18 @@ final class vjb {
       int[] var18 = ((DataBufferInt)var7.getRaster().getDataBuffer()).getData();
       GpuDevice var19 = RenderSystem.getDevice();
       GpuTexture var20 = var19.createTexture(() -> "Flow2 icons " + var0, 5, TextureFormat.RGBA8, var5, var6, 1, 1);
-      NativeImage var12 = new NativeImage(var5, var6, false);
 
-      try {
+      try (NativeImage var12 = new NativeImage(var5, var6, false)) {
          for (int var13 = 0; var13 < var6; var13++) {
             for (int var14 = 0; var14 < var5; var14++) {
                int var15 = var18[var13 * var5 + var14] >>> 24 & 0xFF;
-               var12.method_61941(var14, var13, var15 << 24 | 16777215);
+               var12.setColorArgb(var14, var13, var15 << 24 | 16777215);
             }
          }
 
          var19.createCommandEncoder().writeToTexture(var20, var12);
-      } catch (Throwable var17) {
-         try {
-            var12.close();
-         } catch (Throwable var16) {
-            var17.addSuppressed(var16);
-         }
-
-         throw var17;
       }
 
-      var12.close();
       return new vjb(var0, var2, var5, var6, var20, var19.createTextureView(var20));
    }
 

@@ -272,41 +272,41 @@ final class eqc {
 
       if (var2 == null) {
          throw new IllegalArgumentException(a.c(-1373751528, "㝾从쑒婤톦圄\ued46撯"));
-      } else {
-         ArrayList var10 = new ArrayList();
-         HashMap var4 = new HashMap();
-         ArrayList var5 = new ArrayList();
+      }
 
-         while (var2.more()) {
-            int var6 = var2.tag();
-            int var7 = var6 >>> 3;
-            if (var7 == 1 && (var6 & 7) == 2) {
-               var10.add(epj.read(var2.sub()));
-            } else if (var7 == 5 && (var6 & 7) == 2) {
-               epz var8 = epz.read(var2.sub());
-               var4.put(var8.name, var8);
-            } else if (var7 == 11 && (var6 & 7) == 2) {
-               var5.add(var2.sub());
-            } else {
-               var2.skip(var6 & 7);
-            }
-         }
+      ArrayList var10 = new ArrayList();
+      HashMap var4 = new HashMap();
+      ArrayList var5 = new ArrayList();
 
-         long[] var11 = null;
-
-         for (epm var13 : var5) {
-            eou var9 = eou.read(var13);
-            if (!var4.containsKey(var9.eov)) {
-               var11 = var9.eow;
-               break;
-            }
-         }
-
-         if (var11 != null && var11.length == 4 && var11[1] == 3L && var11[2] > 0L && var11[3] > 0L) {
-            return eqr(var10, var4, (int)var11[2], (int)var11[3]);
+      while (var2.more()) {
+         int var6 = var2.tag();
+         int var7 = var6 >>> 3;
+         if (var7 == 1 && (var6 & 7) == 2) {
+            var10.add(epj.read(var2.sub()));
+         } else if (var7 == 5 && (var6 & 7) == 2) {
+            epz var8 = epz.read(var2.sub());
+            var4.put(var8.name, var8);
+         } else if (var7 == 11 && (var6 & 7) == 2) {
+            var5.add(var2.sub());
          } else {
-            throw new IllegalArgumentException(a.d("ⱍ嗻\udf36䅂쪔䱱\uf671羛\ue1cd歭\uecab", -200490044, 1818292203));
+            var2.skip(var6 & 7);
          }
+      }
+
+      long[] var11 = null;
+
+      for (epm var13 : var5) {
+         eou var9 = eou.read(var13);
+         if (!var4.containsKey(var9.eov)) {
+            var11 = var9.eow;
+            break;
+         }
+      }
+
+      if (var11 != null && var11.length == 4 && var11[1] == 3L && var11[2] > 0L && var11[3] > 0L) {
+         return eqr(var10, var4, (int)var11[2], (int)var11[3]);
+      } else {
+         throw new IllegalArgumentException(a.d("ⱍ嗻\udf36䅂쪔䱱\uf671羛\ue1cd歭\uecab", -200490044, 1818292203));
       }
    }
 
@@ -322,8 +322,7 @@ final class eqc {
       int var12 = -1;
 
       for (epj var14 : var0) {
-         String var15 = var14.op;
-         switch (var15) {
+         switch (var14.op) {
             case a.c(2077393181, "腚\uf8c7爕\uec7c"):
                if (var12 < 0 && var6 == null) {
                   epz var32 = eqv(var1, var14, 1);

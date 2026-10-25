@@ -10,27 +10,34 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.world.World;
 
 final class ekp extends SearchManager {
-   public void method_60348() {
+   @Override
+   public void refresh() {
    }
 
-   public void method_60352(ClientRecipeBook var1, World var2) {
+   @Override
+   public void addRecipeOutputReloader(ClientRecipeBook recipeBook, World world) {
    }
 
-   public SearchProvider<RecipeResultCollection> method_60364() {
+   @Override
+   public SearchProvider<RecipeResultCollection> getRecipeOutputReloadFuture() {
       return SearchProvider.empty();
    }
 
-   public void method_60355(List<ItemStack> var1) {
+   @Override
+   public void addItemTagReloader(List<ItemStack> stacks) {
    }
 
-   public SearchProvider<ItemStack> method_60370() {
+   @Override
+   public SearchProvider<ItemStack> getItemTagReloadFuture() {
       return SearchProvider.empty();
    }
 
-   public void method_60357(WrapperLookup var1, List<ItemStack> var2) {
+   @Override
+   public void addItemTooltipReloader(WrapperLookup registries, List<ItemStack> stacks) {
    }
 
-   public SearchProvider<ItemStack> method_60372() {
+   @Override
+   public SearchProvider<ItemStack> getItemTooltipReloadFuture() {
       return SearchProvider.empty();
    }
 }

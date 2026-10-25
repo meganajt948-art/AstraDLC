@@ -67,14 +67,14 @@ public final class jgn {
       jgd var0 = jgt;
       if (var0 == null) {
          return wap.t(jgu);
-      } else {
-         String var1 = var0.jgg.isEmpty() ? var0.jgf : var0.jgf + a.c(-1089893826, "訝페祿") + var0.jgg;
-         return (var0.jgh ? "" : wap.s(a.b("醸\ue838拿ﲈ睉\uf1f9䯮슈局", -1635806751), a.c(1549672490, "\u243d嶣휃䤆싖䁷荒珕"))) + var1;
       }
+
+      String var1 = var0.jgg.isEmpty() ? var0.jgf : var0.jgf + a.c(-1089893826, "訝페祿") + var0.jgg;
+      return (var0.jgh ? "" : wap.s(a.b("醸\ue838拿ﲈ睉\uf1f9䯮슈局", -1635806751), a.c(1549672490, "\u243d嶣휃䤆싖䁷荒珕"))) + var1;
    }
 
    public static boolean supported() {
-      return Util.method_668() == OperatingSystem.field_1133;
+      return Util.getOperatingSystem() == OperatingSystem.WINDOWS;
    }
 
    public static synchronized void tick(boolean var0) {
@@ -358,10 +358,10 @@ public final class jgn {
 
       if (var7 <= 0.0) {
          return -1;
-      } else {
-         float[] var19 = Color.RGBtoHSB((int)(var1 / var7), (int)(var3 / var7), (int)(var5 / var7), null);
-         return 0xFF000000 | Color.HSBtoRGB(var19[0], Math.min(1.0F, var19[1] * 1.25F), Math.max(0.75F, var19[2])) & 16777215;
       }
+
+      float[] var19 = Color.RGBtoHSB((int)(var1 / var7), (int)(var3 / var7), (int)(var5 / var7), null);
+      return 0xFF000000 | Color.HSBtoRGB(var19[0], Math.min(1.0F, var19[1] * 1.25F), Math.max(0.75F, var19[2])) & 16777215;
    }
 
    private static void jhs() {

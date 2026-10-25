@@ -28,12 +28,12 @@ public final class oxf {
    }
 
    boolean matches(ItemStack var1) {
-      return !var1.method_7960()
-         && (var1.method_31574(this.item) || this.anyItem && this.match != null)
-         && (this.match == null || oxw.pbd(var1.method_7964().getString()).contains(this.match));
+      return !var1.isEmpty()
+         && (var1.isOf(this.item) || this.anyItem && this.match != null)
+         && (this.match == null || oxw.pbd(var1.getName().getString()).contains(this.match));
    }
 
    boolean potion() {
-      return this.match != null && (this.item == Items.field_8436 || this.item == Items.field_8150 || this.item == Items.field_8574);
+      return this.match != null && (this.item == Items.SPLASH_POTION || this.item == Items.LINGERING_POTION || this.item == Items.POTION);
    }
 }

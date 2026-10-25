@@ -169,7 +169,7 @@ public final class jsi {
    }
 
    private void jtb(DrawContext var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8, boolean var9) {
-      Matrix3x2fStack var10 = var1.method_51448();
+      Matrix3x2fStack var10 = var1.getMatrices();
       var10.pushMatrix();
       var10.translate(var2, var3);
       var10.rotate(this.jsu[var7] + var6 * this.jsv[var7] * 0.6F);

@@ -16,7 +16,7 @@ public class sjl extends kfe {
    private final vkl sjr = this.add(new vkl("Scroll", true));
    private final vkl sjs = this.add(new vkl("Slow mouse", true));
    private final vkl sjt = this.add(new vkl("Cinematic", false));
-   private static final wbu<Double> sju = new wbu<>(var0 -> var0.field_1690.method_42495());
+   private static final wbu<Double> sju = new wbu<>(var0 -> var0.options.getMouseSensitivity());
    private static Field sjv;
    private static Field sjw;
    private static boolean sjx;
@@ -46,7 +46,7 @@ public class sjl extends kfe {
    protected void onDisable() {
       this.sjy = false;
       this.ska = 1.0;
-      this.skn(MinecraftClient.method_1551());
+      this.skn(MinecraftClient.getInstance());
    }
 
    @Override
@@ -85,7 +85,7 @@ public class sjl extends kfe {
    }
 
    private boolean skl(MinecraftClient var1) {
-      if (var1.field_1755 == null && var1.field_1724 != null) {
+      if (var1.currentScreen == null && var1.player != null) {
          return this.sjo.is("Toggle") ? this.sjy : vzz.isDown(var1, this.sjn.get());
       } else {
          return this.sjo.is("Toggle") && this.sjy;
@@ -93,19 +93,18 @@ public class sjl extends kfe {
    }
 
    private void skm(MinecraftClient var1) {
-      if (var1.field_1724 != null && var1.field_1773 != null) {
+      if (var1.player != null && var1.gameRenderer != null) {
          if (this.ska <= 1.001) {
             this.skn(var1);
          } else if (sko()) {
             this.skc = true;
-            float var2 = var1.field_1724
-               .method_3118(var1.field_1690.method_31044().method_31034(), ((Double)var1.field_1690.method_42454().method_41753()).floatValue());
+            float var2 = var1.player.getFovMultiplier(var1.options.getPerspective().isFirstPerson(), var1.options.getFovEffectScale().getValue().floatValue());
             float var3 = (float)(var2 / this.ska);
 
             try {
-               sjv.setFloat(var1.field_1773, var3);
-               sjw.setFloat(var1.field_1773, var3);
-            } catch (RuntimeException | IllegalAccessException var9) {
+               sjv.setFloat(var1.gameRenderer, var3);
+               sjw.setFloat(var1.gameRenderer, var3);
+            } catch (IllegalAccessException | RuntimeException var9) {
                sjx = true;
             }
 
@@ -121,8 +120,8 @@ public class sjl extends kfe {
             }
 
             if (this.sjt.get() && !this.ske) {
-               this.skd = var1.field_1690.field_1914;
-               var1.field_1690.field_1914 = true;
+               this.skd = var1.options.smoothCameraEnabled;
+               var1.options.smoothCameraEnabled = true;
                this.ske = true;
             }
          }
@@ -130,21 +129,20 @@ public class sjl extends kfe {
    }
 
    private void skn(MinecraftClient var1) {
-      if (this.skc && var1.field_1724 != null && var1.field_1773 != null && sko()) {
-         float var2 = var1.field_1724
-            .method_3118(var1.field_1690.method_31044().method_31034(), ((Double)var1.field_1690.method_42454().method_41753()).floatValue());
+      if (this.skc && var1.player != null && var1.gameRenderer != null && sko()) {
+         float var2 = var1.player.getFovMultiplier(var1.options.getPerspective().isFirstPerson(), var1.options.getFovEffectScale().getValue().floatValue());
 
          try {
-            sjv.setFloat(var1.field_1773, var2);
-            sjw.setFloat(var1.field_1773, var2);
-         } catch (RuntimeException | IllegalAccessException var4) {
+            sjv.setFloat(var1.gameRenderer, var2);
+            sjw.setFloat(var1.gameRenderer, var2);
+         } catch (IllegalAccessException | RuntimeException var4) {
          }
       }
 
       this.skc = false;
       sju.release();
       if (this.ske) {
-         var1.field_1690.field_1914 = this.skd;
+         var1.options.smoothCameraEnabled = this.skd;
          this.ske = false;
       }
    }
@@ -160,8 +158,8 @@ public class sjl extends kfe {
    }
 
    private static void skp(MinecraftClient var0) {
-      if (var0.method_22683() != null) {
-         long var1 = var0.method_22683().method_4490();
+      if (var0.getWindow() != null) {
+         long var1 = var0.getWindow().getHandle();
          if (skh != var1 || skf == null) {
             try {
                if (skf == null) {
@@ -182,8 +180,8 @@ public class sjl extends kfe {
 
    private static void skq(long var0, double var2, double var4) {
       sjl var6 = sjm;
-      MinecraftClient var7 = MinecraftClient.method_1551();
-      if (var6 != null && var6.isEnabled() && var6.sjr.get() && var7.field_1755 == null && var6.ski && var4 != 0.0) {
+      MinecraftClient var7 = MinecraftClient.getInstance();
+      if (var6 != null && var6.isEnabled() && var6.sjr.get() && var7.currentScreen == null && var6.ski && var4 != 0.0) {
          var6.sjz = Math.max(1.5, Math.min(40.0, var6.sjz * Math.pow(1.18, var4)));
       } else {
          if (skg != null) {

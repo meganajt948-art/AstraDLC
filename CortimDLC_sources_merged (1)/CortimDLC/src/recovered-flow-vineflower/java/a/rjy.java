@@ -49,14 +49,14 @@ public class rjy extends kfe {
    }
 
    public boolean shows(MinecraftClient var1, PlayerEntity var2) {
-      if (this.isEnabled() && var1.field_1724 != null && !var2.method_7325() && var2.method_5805() && !var2.method_31481()) {
-         if (var2 != var1.field_1724 || this.self.get() && !var1.field_1690.method_31044().method_31034()) {
-            if (var2 == var1.method_1560() && var2 != var1.field_1724) {
+      if (this.isEnabled() && var1.player != null && !var2.isSpectator() && var2.isAlive() && !var2.isRemoved()) {
+         if (var2 != var1.player || this.self.get() && !var1.options.getPerspective().isFirstPerson()) {
+            if (var2 == var1.getCameraEntity() && var2 != var1.player) {
                return false;
-            } else {
-               double var3 = this.range.get();
-               return var1.field_1773.method_19418().method_71156().method_1025(var2.method_73189()) <= var3 * var3;
             }
+
+            double var3 = this.range.get();
+            return var1.gameRenderer.getCamera().getCameraPos().squaredDistanceTo(var2.getEntityPos()) <= var3 * var3;
          } else {
             return false;
          }
@@ -66,9 +66,9 @@ public class rjy extends kfe {
    }
 
    public boolean showsMob(MinecraftClient var1, LivingEntity var2) {
-      if (this.isEnabled() && this.mobs.get() && var1.field_1724 != null && var2.method_5805() && !var2.method_31481() && var2 != var1.method_1560()) {
+      if (this.isEnabled() && this.mobs.get() && var1.player != null && var2.isAlive() && !var2.isRemoved() && var2 != var1.getCameraEntity()) {
          double var3 = this.mobRange.get();
-         return var1.field_1773.method_19418().method_71156().method_1025(var2.method_73189()) <= var3 * var3;
+         return var1.gameRenderer.getCamera().getCameraPos().squaredDistanceTo(var2.getEntityPos()) <= var3 * var3;
       } else {
          return false;
       }

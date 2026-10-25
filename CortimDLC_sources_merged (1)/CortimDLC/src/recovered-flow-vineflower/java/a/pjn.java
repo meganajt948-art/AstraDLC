@@ -38,10 +38,10 @@ public final class pjn {
 
    public static Map<UUID, ClientBossBar> of(MinecraftClient var0) {
       Field var1 = field();
-      if (var1 != null && var0.field_1705 != null) {
+      if (var1 != null && var0.inGameHud != null) {
          try {
-            return var1.get(var0.field_1705.method_1740()) instanceof Map var3 ? var3 : Collections.emptyMap();
-         } catch (RuntimeException | ReflectiveOperationException var4) {
+            return var1.get(var0.inGameHud.getBossBarHud()) instanceof Map var3 ? var3 : Collections.emptyMap();
+         } catch (ReflectiveOperationException | RuntimeException var4) {
             return Collections.emptyMap();
          }
       } else {
@@ -51,7 +51,7 @@ public final class pjn {
 
    public static boolean contains(MinecraftClient var0, String var1) {
       for (ClientBossBar var3 : of(var0).values()) {
-         if (var3.method_5414().getString().contains(var1)) {
+         if (var3.getName().getString().contains(var1)) {
             return true;
          }
       }
@@ -61,7 +61,7 @@ public final class pjn {
 
    public static int teleportSeconds(MinecraftClient var0, String var1) {
       for (ClientBossBar var3 : of(var0).values()) {
-         String var4 = var3.method_5414().getString();
+         String var4 = var3.getName().getString();
          if (var4.contains(var1)) {
             Matcher var5 = pjo.matcher(var4);
             if (var5.find()) {

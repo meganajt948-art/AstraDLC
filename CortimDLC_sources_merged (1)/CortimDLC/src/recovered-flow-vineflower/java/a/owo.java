@@ -54,13 +54,13 @@ public class owo extends kfe {
    @Override
    public void onEndTick(MinecraftClient var1) {
       if (!this.owt.isEmpty()) {
-         if (var1.field_1755 instanceof HandledScreen var2 && var1.field_1724 != null && var2.method_17577().field_7763 == this.owv) {
-            ScreenHandler var6 = var2.method_17577();
+         if (var1.currentScreen instanceof HandledScreen var2 && var1.player != null && var2.getScreenHandler().syncId == this.owv) {
+            ScreenHandler var6 = var2.getScreenHandler();
 
             for (int var4 = 0; var4 < this.ows.getInt() && !this.owt.isEmpty(); var4++) {
                int var5 = this.owt.poll();
-               if (var5 >= 0 && var5 < var6.field_7761.size() && ((Slot)var6.field_7761.get(var5)).method_7681() && var6.method_34255().method_7960()) {
-                  var1.field_1761.method_2906(var6.field_7763, var5, 0, SlotActionType.field_7794, var1.field_1724);
+               if (var5 >= 0 && var5 < var6.slots.size() && var6.slots.get(var5).hasStack() && var6.getCursorStack().isEmpty()) {
+                  var1.interactionManager.clickSlot(var6.syncId, var5, 0, SlotActionType.QUICK_MOVE, var1.player);
                }
             }
          } else {
@@ -72,7 +72,7 @@ public class owo extends kfe {
    private boolean owz(HandledScreen<?> var1, double var2) {
       if (this.isEnabled() && this.owr.get() && var2 != 0.0) {
          Slot var4 = vxl.hovered(var1);
-         if (var4 != null && var4.method_7681()) {
+         if (var4 != null && var4.hasStack()) {
             this.oxb(var1, var4);
             return true;
          } else {
@@ -84,21 +84,21 @@ public class owo extends kfe {
    }
 
    private void oxa(HandledScreen<?> var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (this.isEnabled() && this.owq.get() && var2.method_22683() != null) {
-         long var3 = var2.method_22683().method_4490();
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (this.isEnabled() && this.owq.get() && var2.getWindow() != null) {
+         long var3 = var2.getWindow().getHandle();
          boolean var5 = GLFW.glfwGetKey(var3, 340) == 1 || GLFW.glfwGetKey(var3, 344) == 1;
          boolean var6 = GLFW.glfwGetMouseButton(var3, 0) == 1;
-         if (var5 && var6 && var1.method_17577().method_34255().method_7960()) {
+         if (var5 && var6 && var1.getScreenHandler().getCursorStack().isEmpty()) {
             Slot var7 = vxl.hovered(var1);
             if (!this.oww) {
                this.oww = true;
                this.owu.clear();
                if (var7 != null) {
-                  this.owu.add(var7.field_7874);
+                  this.owu.add(var7.id);
                }
             } else {
-               if (var7 != null && var7.method_7681() && this.owu.add(var7.field_7874)) {
+               if (var7 != null && var7.hasStack() && this.owu.add(var7.id)) {
                   this.oxb(var1, var7);
                }
             }
@@ -112,14 +112,14 @@ public class owo extends kfe {
    }
 
    private void oxb(HandledScreen<?> var1, Slot var2) {
-      int var3 = var1.method_17577().field_7763;
+      int var3 = var1.getScreenHandler().syncId;
       if (var3 != this.owv) {
          this.owt.clear();
          this.owv = var3;
       }
 
-      if (!this.owt.contains(var2.field_7874)) {
-         this.owt.add(var2.field_7874);
+      if (!this.owt.contains(var2.id)) {
+         this.owt.add(var2.id);
       }
    }
 }

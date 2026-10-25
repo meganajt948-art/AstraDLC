@@ -106,30 +106,30 @@ public class kmy extends kfe {
    public static String debug() {
       if (kng == null) {
          return a.d("厜⨤ꃷ", -1192130798, -1300310814);
-      } else {
-         lpp var0 = kng.kny;
-         ClientPlayerEntity var1 = MinecraftClient.method_1551().field_1724;
-         String var2 = var1 == null ? "" : String.format(Locale.ROOT, a.c(-2091713341, "ﳬ蔋࿇醺᩿鲄⛏꼵ㅵ뮓㰉왲䢮턀嬄"), kng.knv.serverYaw(var1), kng.knv.serverPitch(var1));
-         return (
-               var0 == null
-                  ? a.b("싿뭒ㆌ꿲⑶ꊔᣆ鄶ར", -283721082)
-                  : a.c(430627158, "\ud923ꂎ⩐됮㾪")
-                     + var0.tick()
-                     + (var0.crit() ? a.d("峙", 2031811795, 496279656) : "")
-                     + a.c(112238335, "黗\ue732淴\uf396硔ﻧ䒥총")
-                     + var0.target().method_5628()
-                     + String.format(Locale.ROOT, a.b("蓬ﴜ矇\ue9b2戵\ue49c廄휪䤢쏚䐃빹ケ\ua957", -79985470), var0.yaw(), var0.pitch())
-            )
-            + var2
-            + a.d("ꂔ\ud968县췔䘃샼", 1830141145, 741743723)
-            + kng.koe
-            + a.b("큙ꦧ⍽봌㛎끩ਫ莓", 599969905)
-            + String.format(Locale.ROOT, a.c(-1347338979, "㴼䒆칊偬"), kng.knv.offset())
-            + a.d("ᝍ溺\ue46e稒\uf1c5眥", -121085666, 225408629)
-            + String.format(Locale.ROOT, a.c(128587733, "៴湎\ue481窤"), kng.knt.get())
-            + a.d("辖\uf674粠\ue2d7椛\uefa8嗵\udc12䈃", -1738929872, 1088915087)
-            + kng.kod;
       }
+
+      lpp var0 = kng.kny;
+      ClientPlayerEntity var1 = MinecraftClient.getInstance().player;
+      String var2 = var1 == null ? "" : String.format(Locale.ROOT, a.c(-2091713341, "ﳬ蔋࿇醺᩿鲄⛏꼵ㅵ뮓㰉왲䢮턀嬄"), kng.knv.serverYaw(var1), kng.knv.serverPitch(var1));
+      return (
+            var0 == null
+               ? a.b("싿뭒ㆌ꿲⑶ꊔᣆ鄶ར", -283721082)
+               : a.c(430627158, "\ud923ꂎ⩐됮㾪")
+                  + var0.tick()
+                  + (var0.crit() ? a.d("峙", 2031811795, 496279656) : "")
+                  + a.c(112238335, "黗\ue732淴\uf396硔ﻧ䒥총")
+                  + var0.target().getId()
+                  + String.format(Locale.ROOT, a.b("蓬ﴜ矇\ue9b2戵\ue49c廄휪䤢쏚䐃빹ケ\ua957", -79985470), var0.yaw(), var0.pitch())
+         )
+         + var2
+         + a.d("ꂔ\ud968县췔䘃샼", 1830141145, 741743723)
+         + kng.koe
+         + a.b("큙ꦧ⍽봌㛎끩ਫ莓", 599969905)
+         + String.format(Locale.ROOT, a.c(-1347338979, "㴼䒆칊偬"), kng.knv.offset())
+         + a.d("ᝍ溺\ue46e稒\uf1c5眥", -121085666, 225408629)
+         + String.format(Locale.ROOT, a.c(128587733, "៴湎\ue481窤"), kng.knt.get())
+         + a.d("辖\uf674粠\ue2d7椛\uefa8嗵\udc12䈃", -1738929872, 1088915087)
+         + kng.kod;
    }
 
    @Override
@@ -144,7 +144,7 @@ public class kmy extends kfe {
       this.kol = false;
       this.kom = -1;
       this.koo = 0;
-      this.kok = this.mc.field_1724 != null && kpg(this.mc.field_1724);
+      this.kok = this.mc.player != null && kpg(this.mc.player);
       this.kot = false;
       this.kox = -1;
       this.kow = false;
@@ -152,7 +152,7 @@ public class kmy extends kfe {
 
    @Override
    protected void onDisable() {
-      this.knv.end(this.mc.field_1724);
+      this.knv.end(this.mc.player);
       this.knv.reset();
       this.knw.release(this.mc);
       this.kny = null;
@@ -166,8 +166,8 @@ public class kmy extends kfe {
       this.kol = false;
       this.kom = -1;
       this.koo = 0;
-      if (this.mc.field_1724 != null) {
-         this.kpe(this.mc, this.mc.field_1724, true);
+      if (this.mc.player != null) {
+         this.kpe(this.mc, this.mc.player, true);
       }
 
       this.kow = false;
@@ -179,7 +179,7 @@ public class kmy extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (this.koo != 0 && !this.kop) {
          this.koj.hold(var1);
          this.kop = true;
@@ -219,7 +219,7 @@ public class kmy extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       this.kpc(var1, var2);
       this.kpd(var1, var2);
    }
@@ -229,7 +229,7 @@ public class kmy extends kfe {
       this.knv.end(var2);
       this.knv.newTick(var2);
       this.knt.update(var2);
-      if (var2.method_24828()) {
+      if (var2.isOnGround()) {
          this.kot = false;
       }
 
@@ -237,7 +237,7 @@ public class kmy extends kfe {
       if (!this.kpq(var1, var2)) {
          this.kny = null;
          this.knu.forget();
-         if (!var2.method_5805()) {
+         if (!var2.isAlive()) {
             this.knv.forget();
          } else {
             this.kpn(var1, var2);
@@ -256,12 +256,12 @@ public class kmy extends kfe {
             this.knk.get(),
             Math.max(this.knl.get(), this.knk.get() + 0.5)
          );
-         this.kny = this.knu.plan(var2, var1.field_1687, this.knt.get(), this.kpu(var1, var2, var3), this::kpp, var5);
+         this.kny = this.knu.plan(var2, var1.world, this.knt.get(), this.kpu(var1, var2, var3), this::kpp, var5);
          this.kpi(var2);
          if (this.kny == null) {
             this.kpn(var1, var2);
          } else {
-            Box var6 = this.kny.tick() <= 3 ? this.kny.box() : this.kny.target().method_5829();
+            Box var6 = this.kny.tick() <= 3 ? this.kny.box() : this.kny.target().getBoundingBox();
             if (!this.knv.approach(var1, var2, this.kny, var6)) {
                this.kpn(var1, var2);
             }
@@ -275,7 +275,7 @@ public class kmy extends kfe {
             this.koz++;
          }
 
-         if (this.kox >= 0 && (this.kny == null || this.kny.tick() > 1 || this.koz > 8 || !var2.method_5805())) {
+         if (this.kox >= 0 && (this.kny == null || this.kny.tick() > 1 || this.koz > 8 || !var2.isAlive())) {
             this.kpe(var1, var2, false);
          }
 
@@ -283,7 +283,7 @@ public class kmy extends kfe {
             && this.knn.get()
             && this.kny != null
             && this.kny.tick() <= 2
-            && var2.method_5805()
+            && var2.isAlive()
             && this.kpr(var2) < 0
             && kpf(var2) >= 0
             && this.koo == 0;
@@ -297,8 +297,8 @@ public class kmy extends kfe {
 
    private void kpe(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
       if (this.kox >= 0) {
-         PlayerInventory var4 = var2.method_31548();
-         if (var2.method_5805() && kps(var4.method_5438(this.koy)) && wdq.canClick(var2) && var1.field_1755 == null && (var3 || vyn.serverIdle(var2))) {
+         PlayerInventory var4 = var2.getInventory();
+         if (var2.isAlive() && kps(var4.getStack(this.koy)) && wdq.canClick(var2) && var1.currentScreen == null && (var3 || vyn.serverIdle(var2))) {
             wdq.swap(var1, this.kox, this.koy);
          }
 
@@ -308,10 +308,10 @@ public class kmy extends kfe {
    }
 
    private static int kpf(ClientPlayerEntity var0) {
-      PlayerInventory var1 = var0.method_31548();
+      PlayerInventory var1 = var0.getInventory();
 
       for (int var2 = 9; var2 < 36; var2++) {
-         if (kps(var1.method_5438(var2))) {
+         if (kps(var1.getStack(var2))) {
             return var2;
          }
       }
@@ -321,19 +321,19 @@ public class kmy extends kfe {
 
    private static boolean kpg(ClientPlayerEntity var0) {
       if (koi == null) {
-         koi = new ItemStack(Items.field_49098);
+         koi = new ItemStack(Items.WIND_CHARGE);
       }
 
-      return var0.method_7357().method_7904(koi);
+      return var0.getItemCooldownManager().isCoolingDown(koi);
    }
 
    private void kph(MinecraftClient var1, ClientPlayerEntity var2) {
       if (this.kop) {
-         if (var2.method_5805() && wdq.canClick(var2) && vyn.serverIdle(var2) && var1.field_1755 == null) {
-            PlayerInventory var3 = var2.method_31548();
-            if (this.koo == 1 && kps(var3.method_5438(this.kom))) {
+         if (var2.isAlive() && wdq.canClick(var2) && vyn.serverIdle(var2) && var1.currentScreen == null) {
+            PlayerInventory var3 = var2.getInventory();
+            if (this.koo == 1 && kps(var3.getStack(this.kom))) {
                wdq.swap(var1, this.kom, this.kon);
-            } else if (this.koo == 2 && kps(var3.method_5438(this.kon))) {
+            } else if (this.koo == 2 && kps(var3.getStack(this.kon))) {
                wdq.swap(var1, this.kom, this.kon);
                this.kom = -1;
             } else {
@@ -349,9 +349,9 @@ public class kmy extends kfe {
       }
 
       boolean var8 = kpg(var2);
-      if (var8 && !this.kok && this.knp.get() && var2.method_5805()) {
+      if (var8 && !this.kok && this.knp.get() && var2.isAlive()) {
          this.kos = System.currentTimeMillis();
-         this.koq = !var2.method_24828();
+         this.koq = !var2.isOnGround();
          this.kor = 0;
          if (this.kom < 0) {
             this.kol = true;
@@ -359,12 +359,12 @@ public class kmy extends kfe {
       }
 
       this.kok = var8;
-      if ((this.knp.get() || this.knq.get()) && var2.method_5805()) {
-         if (this.kol && this.koo == 0 && !oxw.busy() && !kvz.busy() && var1.field_1755 == null && wdq.canClick(var2)) {
+      if ((this.knp.get() || this.knq.get()) && var2.isAlive()) {
+         if (this.kol && this.koo == 0 && !oxw.busy() && !kvz.busy() && var1.currentScreen == null && wdq.canClick(var2)) {
             this.kol = false;
             this.kpj(var2);
          } else if (this.kom >= 0 && this.koo == 0) {
-            if (!var2.method_24828()) {
+            if (!var2.isOnGround()) {
                this.koq = true;
                this.kor = 0;
             } else {
@@ -374,13 +374,13 @@ public class kmy extends kfe {
             long var4 = System.currentTimeMillis() - this.kos;
             boolean var6 = this.koq && this.kor >= 2;
             boolean var7 = !this.koq && var4 > 1500L;
-            if ((var6 || var7 || var4 > 8000L) && var2.method_24828() && this.kny == null) {
+            if ((var6 || var7 || var4 > 8000L) && var2.isOnGround() && this.kny == null) {
                this.kpk(var2);
             }
          }
       } else {
          this.kol = false;
-         if (!var2.method_5805()) {
+         if (!var2.isAlive()) {
             this.kom = -1;
          }
       }
@@ -390,14 +390,14 @@ public class kmy extends kfe {
       if (this.knq.get()
          && this.knn.get()
          && !this.kot
-         && !var1.method_24828()
+         && !var1.isOnGround()
          && this.kom < 0
          && !this.kol
          && this.koo == 0
-         && !(var1.method_18798().field_1351 >= 0.0)
+         && !(var1.getVelocity().y >= 0.0)
          && !(this.knt.get() < this.knk.get())) {
          this.kot = true;
-         if (!kps(var1.method_6047())) {
+         if (!kps(var1.getMainHandStack())) {
             this.kos = System.currentTimeMillis();
             this.koq = true;
             this.kor = 0;
@@ -411,15 +411,15 @@ public class kmy extends kfe {
    }
 
    private void kpj(ClientPlayerEntity var1) {
-      PlayerInventory var2 = var1.method_31548();
-      int var3 = var2.method_67532();
-      if (!kps(var2.method_5438(var3))) {
+      PlayerInventory var2 = var1.getInventory();
+      int var3 = var2.getSelectedSlot();
+      if (!kps(var2.getStack(var3))) {
          for (int var4 = 0; var4 < 36; var4++) {
-            if (kps(var2.method_5438(var4))) {
+            if (kps(var2.getStack(var4))) {
                if (var4 < 9) {
                   this.kom = var4;
                   this.kon = var3;
-                  var2.method_61496(var4);
+                  var2.setSelectedSlot(var4);
                } else {
                   this.kom = var4;
                   this.kon = var3;
@@ -433,15 +433,15 @@ public class kmy extends kfe {
    }
 
    private void kpk(ClientPlayerEntity var1) {
-      PlayerInventory var2 = var1.method_31548();
+      PlayerInventory var2 = var1.getInventory();
       if (this.kom < 9) {
-         if (var2.method_67532() == this.kom && this.kon >= 0) {
-            var2.method_61496(this.kon);
+         if (var2.getSelectedSlot() == this.kom && this.kon >= 0) {
+            var2.setSelectedSlot(this.kon);
          }
 
          this.kom = -1;
       } else {
-         if (kps(var2.method_5438(this.kon)) && wdq.canClick(var1)) {
+         if (kps(var2.getStack(this.kon)) && wdq.canClick(var1)) {
             this.koo = 2;
          } else {
             this.kom = -1;
@@ -450,7 +450,7 @@ public class kmy extends kfe {
    }
 
    private void kpl(MinecraftClient var1, ClientPlayerEntity var2, lpp var3) {
-      PlayerInventory var4 = var2.method_31548();
+      PlayerInventory var4 = var2.getInventory();
       int var5 = this.kpr(var2);
       if (var5 < 0) {
          int var6 = this.knn.get() ? kpf(var2) : -1;
@@ -459,32 +459,32 @@ public class kmy extends kfe {
             return;
          }
 
-         int var7 = var4.method_67532();
+         int var7 = var4.getSelectedSlot();
          wdq.swap(var1, var6, var7);
          this.kox = var6;
          this.koy = var7;
          var5 = var7;
       }
 
-      int var9 = var4.method_67532();
+      int var9 = var4.getSelectedSlot();
       if (var5 != var9) {
-         var4.method_61496(var5);
+         var4.setSelectedSlot(var5);
          this.koc = var5;
          if (this.kno.get() && this.kob < 0) {
             this.kob = var9;
          }
       }
 
-      var1.field_1773.method_3190(1.0F);
+      var1.gameRenderer.updateCrosshairTarget(1.0F);
       if (!kpm(var1, var3)) {
-         Vec3d var10 = this.knu.aimNow(var1.field_1687, var2, var3.target(), this.kpt(var2));
+         Vec3d var10 = this.knu.aimNow(var1.world, var2, var3.target(), this.kpt(var2));
          if (var10 == null) {
             var10 = var3.aim();
          }
 
-         Vec3d var8 = var2.method_33571();
+         Vec3d var8 = var2.getEyePos();
          this.knv.snap(var1, var2, lme.yaw(var8, var10), lme.pitch(var8, var10));
-         var1.field_1773.method_3190(1.0F);
+         var1.gameRenderer.updateCrosshairTarget(1.0F);
       }
 
       this.koe = !kpm(var1, var3)
@@ -492,10 +492,10 @@ public class kmy extends kfe {
          : (
             !kpw(var1, var2)
                ? a.c(-825155715, "Ἐ暢\uec78爚律罫")
-               : (!(this.knt.get() <= this.knu.path().threshold()) && !var2.method_24828() ? a.d("㲩", -1090070510, -339811177) : a.c(-1580107221, "穉Ͽ褡ᝐ"))
+               : (!(this.knt.get() <= this.knu.path().threshold()) && !var2.isOnGround() ? a.d("㲩", -1090070510, -339811177) : a.c(-1580107221, "穉Ͽ褡ᝐ"))
          );
       if (a.d("紵", 671782830, 1383918263).equals(this.koe)) {
-         KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var1.field_1690.field_1886));
+         KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var1.options.attackKey));
          this.knv.hit(1 + this.knx.nextInt(3));
          this.knt.landed();
          this.knz = var3.target();
@@ -508,7 +508,7 @@ public class kmy extends kfe {
    }
 
    private static boolean kpm(MinecraftClient var0, lpp var1) {
-      return var0.field_1765 instanceof EntityHitResult var2 && var2.method_17782() == var1.target();
+      return var0.crosshairTarget instanceof EntityHitResult var2 && var2.getEntity() == var1.target();
    }
 
    private void kpn(MinecraftClient var1, ClientPlayerEntity var2) {
@@ -517,9 +517,9 @@ public class kmy extends kfe {
 
    private void kpo(ClientPlayerEntity var1) {
       if (this.kob >= 0) {
-         PlayerInventory var2 = var1.method_31548();
-         if (var2.method_67532() == this.koc) {
-            var2.method_61496(this.kob);
+         PlayerInventory var2 = var1.getInventory();
+         if (var2.getSelectedSlot() == this.koc) {
+            var2.setSelectedSlot(this.kob);
          }
 
          this.kob = -1;
@@ -529,43 +529,45 @@ public class kmy extends kfe {
 
    private int kpp(LivingEntity var1) {
       int var2 = var1 == this.knz ? 10 - this.koa - 1 : 0;
-      return Math.max(var1.field_6235, var2);
+      return Math.max(var1.hurtTime, var2);
    }
 
    private boolean kpq(MinecraftClient var1, ClientPlayerEntity var2) {
-      return var1.field_1755 == null
-         && var2.method_5805()
-         && !var2.method_7325()
-         && !var2.method_6115()
-         && !var2.method_3144()
+      return var1.currentScreen == null
+         && var2.isAlive()
+         && !var2.isSpectator()
+         && !var2.isUsingItem()
+         && !var2.isRiding()
          && !ovh.active()
          && !oxw.busy()
          && !kvz.busy()
          && !nuo.busy()
-         && (var1.field_1761 == null || !var1.field_1761.method_2923())
+         && (var1.interactionManager == null || !var1.interactionManager.isBreakingBlock())
          && (this.kpr(var2) >= 0 || this.kox >= 0 || this.knn.get() && kpf(var2) >= 0)
-         && lmn.environment(var2, var1.field_1687);
+         && lmn.environment(var2, var1.world);
    }
 
    private int kpr(ClientPlayerEntity var1) {
-      PlayerInventory var2 = var1.method_31548();
-      if (kps(var1.method_6047())) {
-         return var2.method_67532();
-      } else if (!this.knn.get()) {
-         return -1;
-      } else {
-         for (int var3 = 0; var3 < PlayerInventory.method_7368(); var3++) {
-            if (kps(var2.method_5438(var3))) {
-               return var3;
-            }
-         }
+      PlayerInventory var2 = var1.getInventory();
+      if (kps(var1.getMainHandStack())) {
+         return var2.getSelectedSlot();
+      }
 
+      if (!this.knn.get()) {
          return -1;
       }
+
+      for (int var3 = 0; var3 < PlayerInventory.getHotbarSize(); var3++) {
+         if (kps(var2.getStack(var3))) {
+            return var3;
+         }
+      }
+
+      return -1;
    }
 
    private static boolean kps(ItemStack var0) {
-      return var0.method_31574(Items.field_49814) || var0.method_7909() instanceof MaceItem;
+      return var0.isOf(Items.MACE) || var0.getItem() instanceof MaceItem;
    }
 
    private double kpt(ClientPlayerEntity var1) {
@@ -574,18 +576,18 @@ public class kmy extends kfe {
          var2 = kpf(var1);
       }
 
-      ItemStack var3 = var2 >= 0 ? var1.method_31548().method_5438(var2) : var1.method_6047();
-      AttackRangeComponent var4 = (AttackRangeComponent)var3.method_58694(DataComponentTypes.field_64680);
-      double var5 = var4 != null ? var4.method_76739(var1) : var1.method_55755();
+      ItemStack var3 = var2 >= 0 ? var1.getInventory().getStack(var2) : var1.getMainHandStack();
+      AttackRangeComponent var4 = var3.get(DataComponentTypes.ATTACK_RANGE);
+      double var5 = var4 != null ? var4.getEffectiveMaxRange(var1) : var1.getEntityInteractionRange();
       return Math.min(this.knj.get(), var5) - 0.05;
    }
 
    private List<LivingEntity> kpu(MinecraftClient var1, ClientPlayerEntity var2, double var3) {
-      double var5 = Math.max(4.0, Math.abs(Math.min(0.0, var2.method_18798().field_1351)) * 16.0 + 8.0);
-      Box var7 = var2.method_5829().method_1012(0.0, -var5, 0.0).method_1014(var3 + 2.5);
+      double var5 = Math.max(4.0, Math.abs(Math.min(0.0, var2.getVelocity().y)) * 16.0 + 8.0);
+      Box var7 = var2.getBoundingBox().stretch(0.0, -var5, 0.0).expand(var3 + 2.5);
       ArrayList var8 = new ArrayList();
 
-      for (Entity var10 : var1.field_1687.method_8333(var2, var7, var2x -> this.kpv(var2, var2x))) {
+      for (Entity var10 : var1.world.getOtherEntities(var2, var7, var2x -> this.kpv(var2, var2x))) {
          var8.add((LivingEntity)var10);
       }
 
@@ -593,24 +595,24 @@ public class kmy extends kfe {
    }
 
    private boolean kpv(ClientPlayerEntity var1, Entity var2) {
-      if (!(var2 != var1 && var2 instanceof LivingEntity var3) || !var3.method_5805() || !var2.method_5732()) {
+      if (!(var2 != var1 && var2 instanceof LivingEntity var3) || !var3.isAlive() || !var2.isAttackable()) {
          return false;
       } else {
-         return var2 instanceof PlayerEntity var4 ? this.knr.get() && !var4.method_7325() && !hhf.protects(var4) : this.kns.get() && var2 instanceof MobEntity;
+         return var2 instanceof PlayerEntity var4 ? this.knr.get() && !var4.isSpectator() && !hhf.protects(var4) : this.kns.get() && var2 instanceof MobEntity;
       }
    }
 
    private static boolean kpw(MinecraftClient var0, ClientPlayerEntity var1) {
       if (vxr.getInt(knf, var0, 0) > 0) {
          return false;
-      } else {
-         ItemStack var2 = var1.method_6047();
-         if (var1.method_75202(var2, 0)) {
-            return false;
-         } else {
-            AttackRangeComponent var3 = (AttackRangeComponent)var2.method_58694(DataComponentTypes.field_64680);
-            return var3 == null || var3.method_76736(var1, var0.field_1765.method_17784());
-         }
       }
+
+      ItemStack var2 = var1.getMainHandStack();
+      if (var1.isBelowMinimumAttackCharge(var2, 0)) {
+         return false;
+      }
+
+      AttackRangeComponent var3 = var2.get(DataComponentTypes.ATTACK_RANGE);
+      return var3 == null || var3.isWithinRange(var1, var0.crosshairTarget.getPos());
    }
 }

@@ -439,11 +439,11 @@ public final class tsr {
    static double quantile(List<Double> var0, double var1) {
       if (var0.isEmpty()) {
          return 0.0;
-      } else {
-         ArrayList var3 = new ArrayList(var0);
-         Collections.sort(var3);
-         int var4 = (int)Math.min((long)(var3.size() - 1), Math.max(0L, Math.round(var1 * (var3.size() - 1))));
-         return (Double)var3.get(var4);
       }
+
+      ArrayList var3 = new ArrayList(var0);
+      Collections.sort(var3);
+      int var4 = (int)Math.min(var3.size() - 1, Math.max(0L, Math.round(var1 * (var3.size() - 1))));
+      return (Double)var3.get(var4);
    }
 }

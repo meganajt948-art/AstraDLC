@@ -28,12 +28,12 @@ public final class gah {
 
       try {
          if (gak == null) {
-            if (var0.method_18506() == null && var0.field_1755 instanceof AccessibilityOnboardingScreen) {
-               var0.field_1690.field_41785 = false;
-               var0.method_1507(new TitleScreen());
+            if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
+               var0.options.onboardAccessibility = false;
+               var0.setScreen(new TitleScreen());
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof jte var1 && gaj > 60) {
+            if (var0.getOverlay() == null && var0.currentScreen instanceof jte var1 && gaj > 60) {
                gak = var1;
                gaj = 0;
             }
@@ -88,13 +88,13 @@ public final class gah {
                kbm.reset();
                gao(a.b("崲⒚깃〺믣㵅蜫\u0ee5邯ᨕ", 1847549256), false);
                System.out.println(a.b("≆寴턧佒쓎䈫\uf869熎\uefd6攳\ue290ᣰ阵྄", 1414668836));
-               var0.method_1592();
+               var0.scheduleStop();
                gaj = Integer.MIN_VALUE;
          }
       } catch (Throwable var3) {
          System.out.println(a.d("陗\uefe5收ףּ烟\uf63a䱸얟寇턢嚗곡∾뮊ㆯ띄", 1581932315, 1981729072) + var3);
          var3.printStackTrace();
-         var0.method_1592();
+         var0.scheduleStop();
          gaj = Integer.MIN_VALUE;
       }
    }
@@ -107,8 +107,8 @@ public final class gah {
 
    private static void gap(MinecraftClient var0, String var1) {
       System.out.println(a.d("귪푘庋샾䭢춇矅︢恺\uea9f", -1702102730, -1614588742) + var1);
-      ScreenshotRecorder.method_22690(
-         var0.field_1697, a.b("\ueebd霆ᷖ莿࠭躃", 1098837725) + var1 + a.d("멉쎦䥫휓", 1308586951, -234239580), var0.method_1522(), 1, var0x -> {}
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.b("\ueebd霆ᷖ莿࠭躃", 1098837725) + var1 + a.d("멉쎦䥫휓", 1308586951, -234239580), var0.getFramebuffer(), 1, var0x -> {}
       );
    }
 }

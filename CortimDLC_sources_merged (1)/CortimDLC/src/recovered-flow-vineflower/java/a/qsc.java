@@ -31,22 +31,22 @@ public final class qsc {
    public BlockPos headCenter() {
       if (this.qsf.isEmpty()) {
          return null;
-      } else {
-         qrz var1 = this.qsf.get(0);
-         return BlockPos.method_49637(var1.x, var1.y, var1.z);
       }
+
+      qrz var1 = this.qsf.get(0);
+      return BlockPos.ofFloored(var1.x, var1.y, var1.z);
    }
 
    public LongOpenHashSet head() {
       if (this.qsf.isEmpty()) {
          return null;
-      } else {
-         if (this.qsh == null) {
-            this.qsh = new LongOpenHashSet(this.qsf.get(0).ores);
-         }
-
-         return this.qsh;
       }
+
+      if (this.qsh == null) {
+         this.qsh = new LongOpenHashSet(this.qsf.get(0).ores);
+      }
+
+      return this.qsh;
    }
 
    public void dropHead() {
@@ -148,21 +148,21 @@ public final class qsc {
          long var3 = var2.removeLong(var2.size() - 1);
          qrz var5 = new qrz();
          var5.ores.add(var3);
-         int var6 = BlockPos.method_10061(var3);
-         int var7 = BlockPos.method_10071(var3);
-         int var8 = BlockPos.method_10083(var3);
+         int var6 = BlockPos.unpackLongX(var3);
+         int var7 = BlockPos.unpackLongY(var3);
+         int var8 = BlockPos.unpackLongZ(var3);
 
          for (int var9 = 0; var9 < var5.ores.size(); var9++) {
             long var10 = var5.ores.getLong(var9);
-            int var12 = BlockPos.method_10061(var10);
-            int var13 = BlockPos.method_10071(var10);
-            int var14 = BlockPos.method_10083(var10);
+            int var12 = BlockPos.unpackLongX(var10);
+            int var13 = BlockPos.unpackLongY(var10);
+            int var14 = BlockPos.unpackLongZ(var10);
 
             for (int var15 = var2.size() - 1; var15 >= 0; var15--) {
                long var16 = var2.getLong(var15);
-               int var18 = BlockPos.method_10061(var16);
-               int var19 = BlockPos.method_10071(var16);
-               int var20 = BlockPos.method_10083(var16);
+               int var18 = BlockPos.unpackLongX(var16);
+               int var19 = BlockPos.unpackLongY(var16);
+               int var20 = BlockPos.unpackLongZ(var16);
                if (Math.abs(var18 - var12) <= 2
                   && Math.abs(var19 - var13) <= 2
                   && Math.abs(var20 - var14) <= 2

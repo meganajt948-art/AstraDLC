@@ -9,11 +9,13 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 
 enum pbs {
-   DRAGON_TRAP(a.c(438606992, "颋\ue16e母\uf5b6繥\uf8d7䋵쬇儷\udfe4堵ꈴⳬ땘㼁"), 30000L, Items.field_22021, true, new int[]{7, 7, 7}, new int[]{7, 7, 6}),
-   TRAP(a.c(-558032212, "Ẉ杛\uedf8玆\uf854绯"), 15000L, Items.field_22021, true, new int[]{5, 5, 5}, new int[]{5, 5, 4}, new int[]{5, 6, 5}, new int[]{5, 6, 4}),
-   DRAGON_PLAST(a.b("冨⡍ꋮ㲕띆ㇴ订ɒ頔ᚺ酭欗\ue5b1簃", 574903730), 20000L, Items.field_8551, true, new int[]{7, 7, 2}, new int[]{7, 7, 1}),
-   PLAST(a.d("沽ᔨ鿰ǰ訤", 1833275932, 1677195963), 20000L, Items.field_8551, true, new int[]{5, 5, 2}, new int[]{5, 5, 1}),
-   ACCORDION(a.c(1079872998, "觼\uf069窱\ue4b1潥"), 20000L, Items.field_8551, false, new int[]{5, 5, 5}, new int[]{5, 6, 5});
+   DRAGON_TRAP(a.c(438606992, "颋\ue16e母\uf5b6繥\uf8d7䋵쬇儷\udfe4堵ꈴⳬ땘㼁"), 30000L, Items.NETHERITE_SCRAP, true, new int[]{7, 7, 7}, new int[]{7, 7, 6}),
+   TRAP(
+      a.c(-558032212, "Ẉ杛\uedf8玆\uf854绯"), 15000L, Items.NETHERITE_SCRAP, true, new int[]{5, 5, 5}, new int[]{5, 5, 4}, new int[]{5, 6, 5}, new int[]{5, 6, 4}
+   ),
+   DRAGON_PLAST(a.b("冨⡍ꋮ㲕띆ㇴ订ɒ頔ᚺ酭欗\ue5b1簃", 574903730), 20000L, Items.DRIED_KELP, true, new int[]{7, 7, 2}, new int[]{7, 7, 1}),
+   PLAST(a.d("沽ᔨ鿰ǰ訤", 1833275932, 1677195963), 20000L, Items.DRIED_KELP, true, new int[]{5, 5, 2}, new int[]{5, 5, 1}),
+   ACCORDION(a.c(1079872998, "觼\uf069窱\ue4b1潥"), 20000L, Items.DRIED_KELP, false, new int[]{5, 5, 5}, new int[]{5, 6, 5});
 
    final String title;
    final long duration;
@@ -21,7 +23,7 @@ enum pbs {
    final boolean hollow;
    final int[][] sizes;
 
-   private pbs(String var3, long var4, Item var6, boolean var7, int[]... var8) {
+   pbs(String var3, long var4, Item var6, boolean var7, int[]... var8) {
       this.title = var3;
       this.duration = var4;
       this.icon = var6;
@@ -35,7 +37,7 @@ enum pbs {
    }
 
    boolean matches(BlockBox var1, List<BlockPos> var2) {
-      int[] var3 = new int[]{var1.method_35414(), var1.method_14660(), var1.method_14663()};
+      int[] var3 = new int[]{var1.getBlockCountX(), var1.getBlockCountY(), var1.getBlockCountZ()};
       Arrays.sort(var3);
 
       for (int[] var7 : this.sizes) {
@@ -48,11 +50,11 @@ enum pbs {
    }
 
    private static boolean pbv(BlockBox var0, BlockPos var1) {
-      return var1.method_10263() > var0.method_35415()
-         && var1.method_10263() < var0.method_35418()
-         && var1.method_10264() > var0.method_35416()
-         && var1.method_10264() < var0.method_35419()
-         && var1.method_10260() > var0.method_35417()
-         && var1.method_10260() < var0.method_35420();
+      return var1.getX() > var0.getMinX()
+         && var1.getX() < var0.getMaxX()
+         && var1.getY() > var0.getMinY()
+         && var1.getY() < var0.getMaxY()
+         && var1.getZ() > var0.getMinZ()
+         && var1.getZ() < var0.getMaxZ();
    }
 }

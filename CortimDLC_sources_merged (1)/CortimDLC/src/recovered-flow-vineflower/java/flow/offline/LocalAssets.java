@@ -14,43 +14,40 @@ public final class LocalAssets {
    public static byte[] bytes(String name) throws IOException {
       if (name == null) {
          throw new IOException("Empty resource name");
-      } else {
-         String key = name.replace('\\', '/').trim();
+      }
 
-         while (key.startsWith("/")) {
-            key = key.substring(1);
+      String key = name.replace('\\', '/').trim();
+
+      while (key.startsWith("/")) {
+         key = key.substring(1);
+      }
+
+      if (key.startsWith("flow/")) {
+         key = key.substring(5);
+      }
+
+      for (String part : key.split("/")) {
+         if (part.isEmpty() || part.equals(".") || part.equals("..")) {
+            throw new IOException("Invalid resource name");
+         }
+      }
+
+      byte[] cached = CACHE.get(key);
+      if (cached != null) {
+         return cached;
+      }
+
+      try (InputStream in = LocalAssets.class.getResourceAsStream("/flow_offline_assets/" + key)) {
+         if (in == null) {
+            throw new FileNotFoundException("Resource was not present in the supplied dump: " + key);
          }
 
-         if (key.startsWith("flow/")) {
-            key = key.substring(5);
+         byte[] data = in.readAllBytes();
+         if (data.length <= 2097152) {
+            CACHE.putIfAbsent(key, data);
          }
 
-         for (String part : key.split("/")) {
-            if (part.isEmpty() || part.equals(".") || part.equals("..")) {
-               throw new IOException("Invalid resource name");
-            }
-         }
-
-         byte[] cached = CACHE.get(key);
-         if (cached != null) {
-            return cached;
-         } else {
-            byte[] var11;
-            try (InputStream in = LocalAssets.class.getResourceAsStream("/flow_offline_assets/" + key)) {
-               if (in == null) {
-                  throw new FileNotFoundException("Resource was not present in the supplied dump: " + key);
-               }
-
-               byte[] data = in.readAllBytes();
-               if (data.length <= 2097152) {
-                  CACHE.putIfAbsent(key, data);
-               }
-
-               var11 = data;
-            }
-
-            return var11;
-         }
+         return data;
       }
    }
 }

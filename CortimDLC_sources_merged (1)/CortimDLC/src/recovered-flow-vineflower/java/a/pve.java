@@ -91,9 +91,9 @@ public final class pve {
 
    public int track(PlayerEntity var1, psf var2) {
       tvt var3 = var2.track;
-      double var4 = var1.method_23317();
-      double var6 = var1.method_23318();
-      double var8 = var1.method_23321();
+      double var4 = var1.getX();
+      double var6 = var1.getY();
+      double var8 = var1.getZ();
       if (var2 != this.pvq) {
          this.pvq = var2;
          this.pvr = var3.closest(var4, var6, var8, 0, 0, var3.n);
@@ -105,7 +105,7 @@ public final class pve {
       this.pvs = var3.project(var4, var8, this.pvr);
       double var10 = var3.offset(var4, var8, this.pvs);
       double var12 = var6 - var3.y[this.pvr];
-      boolean var14 = var1.method_24828() || var1.method_5799();
+      boolean var14 = var1.isOnGround() || var1.isTouchingWater();
       if (!var14 || !(var10 > 2.2) && !(var12 < -1.9) && !(var12 > 2.6)) {
          if (var10 < 1.6 && var12 > -1.6) {
             this.pvt = 0;
@@ -116,12 +116,12 @@ public final class pve {
 
       if (this.pvt > 3) {
          return 2;
-      } else {
-         double var15 = var3.length() - this.pvs;
-         double var17 = Math.hypot(var4 - var1.field_6014, var8 - var1.field_5969);
-         this.pvu = var17 < 0.02 ? this.pvu + 1 : 0;
-         return !var14 || !(Math.abs(var12) < 1.2) || !(var15 < 0.32) && (!(var15 < 1.3) || this.pvu < 3) ? 0 : 1;
       }
+
+      double var15 = var3.length() - this.pvs;
+      double var17 = Math.hypot(var4 - var1.lastX, var8 - var1.lastZ);
+      this.pvu = var17 < 0.02 ? this.pvu + 1 : 0;
+      return !var14 || !(Math.abs(var12) < 1.2) || !(var15 < 0.32) && (!(var15 < 1.3) || this.pvu < 3) ? 0 : 1;
    }
 
    public pvb drive(PlayerEntity var1, World var2, float var3, float var4, Vec3d var5, boolean var6, boolean var7) {
@@ -136,14 +136,14 @@ public final class pve {
 
       this.pvv = var8;
       tvt var10 = this.pvq.track;
-      double var11 = var1.method_23317();
-      double var13 = var1.method_23318();
-      double var15 = var1.method_23321();
-      double var17 = var11 - var1.field_6014;
-      double var19 = var15 - var1.field_5969;
+      double var11 = var1.getX();
+      double var13 = var1.getY();
+      double var15 = var1.getZ();
+      double var17 = var11 - var1.lastX;
+      double var19 = var15 - var1.lastZ;
       double var21 = Math.hypot(var17, var19);
-      boolean var23 = var1.method_24828();
-      boolean var24 = var1.method_5799();
+      boolean var23 = var1.isOnGround();
+      boolean var24 = var1.isTouchingWater();
       double var25 = var10.length() - this.pvs;
       double var27 = pww(1.05 + 5.0 * var21, 1.25, 2.7) * this.pvi;
       var10.at(this.pvs + var27, this.pwm);
@@ -162,19 +162,19 @@ public final class pve {
       double var39 = this.pwm[2] - var15;
       double var41 = Math.hypot(var37, var39) > 0.3 ? tvt.yawOf(var37, var39) : var33;
       double var43 = var33 + pwv(tvt.wrap(var41 - var33) * 0.45, 24.0);
-      Vec3d var45 = var1.method_33571();
+      Vec3d var45 = var1.getEyePos();
       double var46;
       if (var5 != null) {
-         double var48 = var5.field_1352 - var45.field_1352;
-         double var50 = var5.field_1351 - var45.field_1351;
-         double var52 = var5.field_1350 - var45.field_1350;
+         double var48 = var5.x - var45.x;
+         double var50 = var5.y - var45.y;
+         double var52 = var5.z - var45.z;
          var43 = tvt.yawOf(var48, var52);
          var46 = -Math.toDegrees(Math.atan2(var50, Math.max(0.2, Math.hypot(var48, var52))));
          this.pwb = 0;
       } else {
          var10.at(this.pvs + 3.2 + 5.5 * var21, this.pwm);
          double var85 = Math.max(1.5, Math.hypot(this.pwm[0] - var11, this.pwm[2] - var15));
-         double var87 = Math.toDegrees(Math.atan2(var45.field_1351 - this.pwm[1], var85));
+         double var87 = Math.toDegrees(Math.atan2(var45.y - this.pwm[1], var85));
          var46 = pww(0.55 * this.pvm + 0.45 * var87, -12.0, 50.0);
          this.pwq(var10, var25, var6);
          if (this.pwb > 0) {
@@ -229,7 +229,7 @@ public final class pve {
 
          double var91 = var10.next(this.pvs, 2.5, (byte)2, var13, this.pwn);
          double var73 = var91 >= 0.0 ? this.pwn[0] : 0.0;
-         boolean var75 = var1.field_5976;
+         boolean var75 = var1.horizontalCollision;
          this.pwh = var75 && var23 ? this.pwh + 1 : 0;
          if (this.pwh >= 3 && pvf[var68][0] > 0.0F) {
             int var76 = pwt(var2, var1, var33);
@@ -249,7 +249,7 @@ public final class pve {
          var62.back = var92 < 0.0F;
          var62.left = var77 > 0.0F;
          var62.right = var77 < 0.0F;
-         boolean var78 = var1.method_5624();
+         boolean var78 = var1.isSprinting();
          var62.sprint = var7 && var62.forward && !var24 && (var6 || var25 > 1.4 + 5.0 * var21) && var73 <= 2.0;
          boolean var79 = false;
          if (var24) {
@@ -298,20 +298,20 @@ public final class pve {
 
    public double aheadYaw(PlayerEntity var1, double var2) {
       if (this.pvq == null) {
-         return var1.method_36454();
-      } else {
-         this.pvq.track.at(this.pvs + var2, this.pwm);
-         double var4 = this.pwm[0] - var1.method_23317();
-         double var6 = this.pwm[2] - var1.method_23321();
-         return Math.hypot(var4, var6) < 0.1 ? this.pvq.track.heading(this.pvs) : tvt.yawOf(var4, var6);
+         return var1.getYaw();
       }
+
+      this.pvq.track.at(this.pvs + var2, this.pwm);
+      double var4 = this.pwm[0] - var1.getX();
+      double var6 = this.pwm[2] - var1.getZ();
+      return Math.hypot(var4, var6) < 0.1 ? this.pvq.track.heading(this.pvs) : tvt.yawOf(var4, var6);
    }
 
    public boolean mustJump(PlayerEntity var1, double var2) {
-      if (this.pvq != null && var1.method_24828() && !var1.method_5799()) {
-         boolean var4 = var1.method_5624();
-         double var5 = this.pvq.track.next(this.pvs, 2.2, (byte)1, var1.method_23318(), this.pwn);
-         return var5 >= 0.0 && var5 < 0.95 + (var4 ? 0.3 : 0.15) ? true : var1.field_5976 && pxd.jumpHelps(var1, (float)var2, var4, 3);
+      if (this.pvq != null && var1.isOnGround() && !var1.isTouchingWater()) {
+         boolean var4 = var1.isSprinting();
+         double var5 = this.pvq.track.next(this.pvs, 2.2, (byte)1, var1.getY(), this.pwn);
+         return var5 >= 0.0 && var5 < 0.95 + (var4 ? 0.3 : 0.15) ? true : var1.horizontalCollision && pxd.jumpHelps(var1, (float)var2, var4, 3);
       } else {
          return false;
       }
@@ -328,7 +328,7 @@ public final class pve {
          float var12 = var3 ? 1.0F : (var4 ? -1.0F : 0.0F);
          float var13 = var5 ? 1.0F : (var6 ? -1.0F : 0.0F);
          double var14 = Math.toDegrees(pud.inputDirection((float)var9, var12, var13));
-         pxa var16 = pxd.run(var1, (float)var14, var7 && var3, var8 && var1.method_24828(), var11);
+         pxa var16 = pxd.run(var1, (float)var14, var7 && var3, var8 && var1.isOnGround(), var11);
          double var17 = var16.endX;
          double var19 = var16.endZ;
          tvt var21 = this.pvq.track;
@@ -336,10 +336,10 @@ public final class pve {
          double var23 = var21.project(var17, var19, var22);
          if (var21.offset(var17, var19, var23) > 2.4) {
             return false;
-         } else {
-            double var25 = Math.min(var21.y[var22], var21.y[Math.max(0, var22 - 2)]);
-            return var16.minY < var25 - 0.9 && var16.minY < var1.method_23318() - 0.9 ? false : !pua.hazard(var2, var17, var16.endY, var19);
          }
+
+         double var25 = Math.min(var21.y[var22], var21.y[Math.max(0, var22 - 2)]);
+         return var16.minY < var25 - 0.9 && var16.minY < var1.getY() - 0.9 ? false : !pua.hazard(var2, var17, var16.endY, var19);
       } else {
          return true;
       }
@@ -362,36 +362,33 @@ public final class pve {
 
    private boolean pwr(PlayerEntity var1, tvt var2, double var3, boolean var5, boolean var6, double var7, double var9) {
       double var11 = var5 ? Math.max(0.75, this.pvn) : this.pvn;
-      if (var6 && !(var11 <= 0.0) && var1.method_7344().method_7586() >= 14) {
-         boolean var13 = var3 > 6.0
-            && var2.flatAhead(this.pvs, 6.0, var1.method_23318()) >= 5.5
-            && var2.bend(this.pvs, 6.0) < 14.0
-            && (var7 < 0.0 || var7 > 5.0);
+      if (var6 && !(var11 <= 0.0) && var1.getHungerManager().getFoodLevel() >= 14) {
+         boolean var13 = var3 > 6.0 && var2.flatAhead(this.pvs, 6.0, var1.getY()) >= 5.5 && var2.bend(this.pvs, 6.0) < 14.0 && (var7 < 0.0 || var7 > 5.0);
          if (!var13) {
             this.pwf = 0;
             return false;
-         } else {
-            if (this.pwf <= 0) {
-               if (this.pwg > 0) {
-                  this.pwg--;
-                  return false;
-               }
+         }
 
-               this.pwg = 15 + this.pvh.nextInt(40);
-               if (this.pvh.nextDouble() > var11) {
-                  return false;
-               }
-
-               this.pwf = 2 + this.pvh.nextInt(var5 ? 10 : 6);
-            }
-
-            pxa var14 = pxd.run(var1, (float)var9, true, true, 12);
-            if (var14.firstBlockTick >= 0) {
-               this.pwf = 0;
+         if (this.pwf <= 0) {
+            if (this.pwg > 0) {
+               this.pwg--;
                return false;
-            } else {
-               return true;
             }
+
+            this.pwg = 15 + this.pvh.nextInt(40);
+            if (this.pvh.nextDouble() > var11) {
+               return false;
+            }
+
+            this.pwf = 2 + this.pvh.nextInt(var5 ? 10 : 6);
+         }
+
+         pxa var14 = pxd.run(var1, (float)var9, true, true, 12);
+         if (var14.firstBlockTick >= 0) {
+            this.pwf = 0;
+            return false;
+         } else {
+            return true;
          }
       } else {
          this.pwf = 0;
@@ -424,7 +421,7 @@ public final class pve {
    public pvb cautious(PlayerEntity var1, World var2, float var3) {
       tvt var4 = this.pvq.track;
       var4.at(this.pvs + 0.7, this.pwm);
-      double var5 = tvt.yawOf(this.pwm[0] - var1.method_23317(), this.pwm[2] - var1.method_23321());
+      double var5 = tvt.yawOf(this.pwm[0] - var1.getX(), this.pwm[2] - var1.getZ());
       pvb var7 = this.pwl;
       var7.forward = false;
       var7.back = false;
@@ -462,13 +459,14 @@ public final class pve {
       double var6 = -Math.sin(var4);
       double var8 = Math.cos(var4);
       double var10 = -var8;
-      double var14 = var1.method_23317() + var6 * 0.5;
-      double var16 = var1.method_23321() + var8 * 0.5;
-      double var18 = var1.method_23318();
-      boolean var20 = pua.bodyFits(var0, var1, var14 + var10 * 0.5, var16 + var6 * 0.5, var18, 0.3)
-         && !Double.isNaN(pua.standAt(var0, var14 + var10 * 0.5, var18, var16 + var6 * 0.5, 1.0));
-      boolean var21 = pua.bodyFits(var0, var1, var14 - var10 * 0.5, var16 - var6 * 0.5, var18, 0.3)
-         && !Double.isNaN(pua.standAt(var0, var14 - var10 * 0.5, var18, var16 - var6 * 0.5, 1.0));
+      double var12 = var6;
+      double var14 = var1.getX() + var6 * 0.5;
+      double var16 = var1.getZ() + var8 * 0.5;
+      double var18 = var1.getY();
+      boolean var20 = pua.bodyFits(var0, var1, var14 + var10 * 0.5, var16 + var12 * 0.5, var18, 0.3)
+         && !Double.isNaN(pua.standAt(var0, var14 + var10 * 0.5, var18, var16 + var12 * 0.5, 1.0));
+      boolean var21 = pua.bodyFits(var0, var1, var14 - var10 * 0.5, var16 - var12 * 0.5, var18, 0.3)
+         && !Double.isNaN(pua.standAt(var0, var14 - var10 * 0.5, var18, var16 - var12 * 0.5, 1.0));
       if (var20 == var21) {
          return 0;
       } else {

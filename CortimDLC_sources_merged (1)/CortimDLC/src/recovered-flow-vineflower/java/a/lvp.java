@@ -57,13 +57,13 @@ public class lvp extends kfe {
       lvp var1 = lvt;
       if (var1 != null && var1.isEnabled()) {
          if (var0 instanceof ChunkDeltaUpdateS2CPacket var2) {
-            var2.method_30621((var0x, var1x) -> {
-               if (var1x.method_27852(Blocks.field_22109)) {
-                  lvs.add(var0x.method_10063());
+            var2.visitUpdates((var0x, var1x) -> {
+               if (var1x.isOf(Blocks.ANCIENT_DEBRIS)) {
+                  lvs.add(var0x.asLong());
                }
             });
-         } else if (var0 instanceof BlockUpdateS2CPacket var3 && var3.method_11308().method_27852(Blocks.field_22109)) {
-            lvs.add(var3.method_11309().method_10063());
+         } else if (var0 instanceof BlockUpdateS2CPacket var3 && var3.getState().isOf(Blocks.ANCIENT_DEBRIS)) {
+            lvs.add(var3.getPos().asLong());
          }
       }
    }
@@ -92,8 +92,8 @@ public class lvp extends kfe {
    public void onEndTick(MinecraftClient var1) {
       this.lwc++;
       wcn.ensure(var1);
-      ClientWorld var2 = var1.field_1687;
-      ClientPlayerEntity var3 = var1.field_1724;
+      ClientWorld var2 = var1.world;
+      ClientPlayerEntity var3 = var1.player;
       if (var2 != null && var3 != null) {
          Long var4;
          while ((var4 = lvs.poll()) != null) {
@@ -108,7 +108,7 @@ public class lvp extends kfe {
          while (var6.hasNext()) {
             Entry var7 = (Entry)var6.next();
             long var8 = var7.getLongKey();
-            if (var2.method_8320(var5.method_16363(var8)).method_27852(Blocks.field_22109)) {
+            if (var2.getBlockState(var5.set(var8)).isOf(Blocks.ANCIENT_DEBRIS)) {
                var6.remove();
                if (this.lvx.add(var8)) {
                   this.lvy.put(var8, this.lwc);
@@ -131,16 +131,16 @@ public class lvp extends kfe {
             );
          }
 
-         Vec3d var13 = var3.method_73189();
+         Vec3d var13 = var3.getEntityPos();
          Mutable var14 = new Mutable();
          LongListIterator var15 = this.lvx.iterator();
 
          while (var15.hasNext()) {
             long var9 = var15.nextLong();
-            var14.method_16363(var9);
-            BlockState var11 = var2.method_8320(var14);
-            boolean var12 = !var11.method_27852(Blocks.field_22109);
-            if (var12 || var14.method_19770(var13) >= 6400.0 || !var2.method_2935().method_12123(var14.method_10263() >> 4, var14.method_10260() >> 4)) {
+            var14.set(var9);
+            BlockState var11 = var2.getBlockState(var14);
+            boolean var12 = !var11.isOf(Blocks.ANCIENT_DEBRIS);
+            if (var12 || var14.getSquaredDistance(var13) >= 6400.0 || !var2.getChunkManager().isChunkLoaded(var14.getX() >> 4, var14.getZ() >> 4)) {
                var15.remove();
                this.lvy.remove(var9);
             }
@@ -155,15 +155,15 @@ public class lvp extends kfe {
    public static void render(DrawContext var0, RenderTickCounter var1) {
       lvp var2 = lvt;
       long[] var3 = var2 != null && var2.isEnabled() ? lvv : new long[0];
-      MinecraftClient var4 = MinecraftClient.method_1551();
-      if (var3.length != 0 && var4.field_1687 != null && var4.field_1724 != null && !var4.field_1690.field_1842 && !(var4.field_1755 instanceof hlc)) {
+      MinecraftClient var4 = MinecraftClient.getInstance();
+      if (var3.length != 0 && var4.world != null && var4.player != null && !var4.options.hudHidden && !(var4.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != lvw) {
             lvw = unf.frame();
 
             usn var5;
             try {
-               var5 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var5 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var21) {
                return;
             }
@@ -174,9 +174,9 @@ public class lvp extends kfe {
 
             try {
                for (long var10 : var3) {
-                  double var12 = BlockPos.method_10061(var10);
-                  double var14 = BlockPos.method_10071(var10);
-                  double var16 = BlockPos.method_10083(var10);
+                  double var12 = BlockPos.unpackLongX(var10);
+                  double var14 = BlockPos.unpackLongY(var10);
+                  double var16 = BlockPos.unpackLongZ(var10);
                   if (!(var5.depth(var12 + 0.5, var14 + 0.5, var16 + 0.5) < -1.0F)) {
                      qwo.cube(var0, var5, var6, var12, var14, var16, -23296, 0, 1.0F, 0.16F);
                   }

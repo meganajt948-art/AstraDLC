@@ -38,7 +38,8 @@ public final class wbu<T> {
          try {
             Object var3 = wbw.get(var2);
             if (!this.wcb || !Objects.equals(var3, this.wcd)) {
-               this.wcc = (T)var3;
+               Object var4 = var3;
+               this.wcc = (T)var4;
             }
 
             this.wcb = true;
@@ -48,7 +49,7 @@ public final class wbu<T> {
 
             this.wcd = var1;
             return true;
-         } catch (RuntimeException | ReflectiveOperationException var5) {
+         } catch (ReflectiveOperationException | RuntimeException var5) {
             wcj(var5);
             return false;
          }
@@ -64,7 +65,7 @@ public final class wbu<T> {
          if (var1 != null && wbw != null) {
             try {
                wbw.set(var1, this.wcc);
-            } catch (RuntimeException | ReflectiveOperationException var3) {
+            } catch (ReflectiveOperationException | RuntimeException var3) {
                wcj(var3);
             }
          }
@@ -78,10 +79,10 @@ public final class wbu<T> {
    public T own() {
       if (this.wcb) {
          return this.wcc;
-      } else {
-         SimpleOption var1 = this.wcg();
-         return (T)(var1 == null ? null : var1.method_41753());
       }
+
+      SimpleOption var1 = this.wcg();
+      return (T)(var1 == null ? null : var1.getValue());
    }
 
    public static void releaseAll() {
@@ -93,60 +94,60 @@ public final class wbu<T> {
    }
 
    public static boolean suspended(MinecraftClient var0) {
-      return var0.field_1755 instanceof GameOptionsScreen;
+      return var0.currentScreen instanceof GameOptionsScreen;
    }
 
    private SimpleOption<T> wcg() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      return var1 != null && var1.field_1690 != null ? this.wbz.apply(var1) : null;
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      return var1 != null && var1.options != null ? this.wbz.apply(var1) : null;
    }
 
    private boolean wch(SimpleOption<T> var1) {
       if (wby) {
          return false;
-      } else {
-         if (wbw == null) {
-            wbw = vxr.find(
-               SimpleOption.class,
-               a.d("\uf4e7赝ޟ馴ሠ钕⻁ꜻ㥢돂㐂카䂱\ud95a卄햺濸\ue03b窈ﳵ番༽膈ᩜ", -316789129, -887170330),
-               a.c(-2120991219, "㹠䟞촁卹\ud8a6帬\ue413淦\uf3b6礉ﻔ"),
-               a.d("ۅ罒\uf58a毬\ue02c曓\udcc3唿쭯䇗왌㱝늧⬞ꅂ➵鷭ታ", 342774442, -1189129167)
-            );
-            wbx = vxr.find(
-               SimpleOption.class,
-               a.b("呇ⷽꜿ㤔늀㐵蹡ޛ駂።钢滔\ue011秺\uf3e4甚콘䂛\uda28展헊꾝ℨ뫼", 1812616241),
-               a.c(-275416092, "箉ȷ裨ᚐ鵏ᯅꇺ⠀뙕㳡물"),
-               a.b("䯭㉳뢬⛟굊⮹釨\u181c虈\u0cf6謬焕ﾞ昹\uec7d檗탐弌얺䏸쨔끐㻾ꔩ⍗꧇ဘ鹥ҙ苉ॼ\uf7f5", -262714495)
-            );
-            if (wbw == null) {
-               wby = true;
-               return false;
-            }
-         }
-
-         if (this.wca != var1) {
-            this.wca = var1;
-            this.wci(var1);
-         }
-
-         return true;
       }
+
+      if (wbw == null) {
+         wbw = vxr.find(
+            SimpleOption.class,
+            a.d("\uf4e7赝ޟ馴ሠ钕⻁ꜻ㥢돂㐂카䂱\ud95a卄햺濸\ue03b窈ﳵ番༽膈ᩜ", -316789129, -887170330),
+            a.c(-2120991219, "㹠䟞촁卹\ud8a6帬\ue413淦\uf3b6礉ﻔ"),
+            a.d("ۅ罒\uf58a毬\ue02c曓\udcc3唿쭯䇗왌㱝늧⬞ꅂ➵鷭ታ", 342774442, -1189129167)
+         );
+         wbx = vxr.find(
+            SimpleOption.class,
+            a.b("呇ⷽꜿ㤔늀㐵蹡ޛ駂።钢滔\ue011秺\uf3e4甚콘䂛\uda28展헊꾝ℨ뫼", 1812616241),
+            a.c(-275416092, "箉ȷ裨ᚐ鵏ᯅꇺ⠀뙕㳡물"),
+            a.b("䯭㉳뢬⛟굊⮹釨\u181c虈\u0cf6謬焕ﾞ昹\uec7d檗탐弌얺䏸쨔끐㻾ꔩ⍗꧇ဘ鹥ҙ苉ॼ\uf7f5", -262714495)
+         );
+         if (wbw == null) {
+            wby = true;
+            return false;
+         }
+      }
+
+      if (this.wca != var1) {
+         this.wca = var1;
+         this.wci(var1);
+      }
+
+      return true;
    }
 
    private void wci(SimpleOption<T> var1) {
       if (wbx != null) {
          try {
-            final Codec var2 = var1.method_42404();
+            final Codec var2 = var1.getCodec();
             wbx.set(var1, new Codec<T>() {
-               public <R> DataResult<R> encode(T var1, DynamicOps<R> var2x, R var3x) {
-                  return var2.encode(wbu.this.wcb && wbu.this.wcc != null ? wbu.this.wcc : var1, var2x, var3x);
+               public <R> DataResult<R> encode(T var1, DynamicOps<R> var2x, R var3) {
+                  return var2.encode(wbu.this.wcb && wbu.this.wcc != null ? wbu.this.wcc : var1, var2x, var3);
                }
 
                public <R> DataResult<Pair<T, R>> decode(DynamicOps<R> var1, R var2x) {
                   return var2.decode(var1, var2x);
                }
             });
-         } catch (RuntimeException | ReflectiveOperationException var3) {
+         } catch (ReflectiveOperationException | RuntimeException var3) {
             System.out
                .println(a.c(-603311661, "ㆅ䠻슦岘흐凥\uebab扜ﰂ盽\uf167ଌ薈ᱪ阫Ⴭꪑ╁뾶㦦끃쩁䒻\udf77奜폄橭\ue46f经\uf881猳跧ޡ鸕᠇鋷\u2d6dꜞ⇆롦㈠䳘웎䄼\udbe0喘\uec44曼\ue0b1筶\uf556࿎虤{骒") + var3);
          }

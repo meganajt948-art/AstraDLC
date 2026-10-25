@@ -55,7 +55,7 @@ public final class phm {
    }
 
    public String key() {
-      return this.phn != null ? this.phn.method_29177().toString() : this.pho;
+      return this.phn != null ? this.phn.getValue().toString() : this.pho;
    }
 
    public phj state() {
@@ -89,11 +89,11 @@ public final class phm {
 
    public int maxLevel() {
       if (this.phn != null) {
-         if (this.phn.equals(Enchantments.field_9118)) {
+         if (this.phn.equals(Enchantments.SHARPNESS)) {
             return 7;
-         } else if (!this.phn.equals(Enchantments.field_9111) && !this.phn.equals(Enchantments.field_9119)) {
+         } else if (!this.phn.equals(Enchantments.PROTECTION) && !this.phn.equals(Enchantments.UNBREAKING)) {
             Optional var1 = this.phw();
-            return var1.<Integer>map(var0 -> Math.max(1, ((Enchantment)var0.comp_349()).method_8183())).orElse(Math.max(1, this.phr));
+            return var1.<Integer>map(var0 -> Math.max(1, ((Enchantment)var0.value()).getMaxLevel())).orElse(Math.max(1, this.phr));
          } else {
             return 5;
          }
@@ -105,11 +105,11 @@ public final class phm {
    public String label() {
       String var1 = this.pho != null
          ? this.pho
-         : Text.method_43471(
+         : Text.translatable(
                a.c(857770670, "談\uf37d禣\ue7d9氇\ueab9僰\ud918䝏췵䨼뀗")
-                  + this.phn.method_29177().method_12836()
+                  + this.phn.getValue().getNamespace()
                   + a.d("僂", -1870339655, -458116780)
-                  + this.phn.method_29177().method_12832().replace('/', '.')
+                  + this.phn.getValue().getPath().replace('/', '.')
             )
             .getString();
       if (this.pht == 0) {
@@ -122,16 +122,18 @@ public final class phm {
    public boolean matches(ItemStack var1, pey var2) {
       if (this.phs == phj.OFF) {
          return true;
-      } else if (this.phn != null) {
+      }
+
+      if (this.phn != null) {
          Optional var7 = this.phw();
          if (var7.isEmpty()) {
             return this.phs == phj.DENY;
-         } else {
-            ItemEnchantmentsComponent var4 = (ItemEnchantmentsComponent)var1.method_58695(DataComponentTypes.field_49633, ItemEnchantmentsComponent.field_49385);
-            int var5 = var4.method_57536((RegistryEntry)var7.get());
-            int var6 = Math.max(1, this.pht);
-            return this.phs == phj.DENY ? var5 < var6 : var5 >= var6;
          }
+
+         ItemEnchantmentsComponent var4 = var1.getOrDefault(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent.DEFAULT);
+         int var5 = var4.getLevel((RegistryEntry<Enchantment>)var7.get());
+         int var6 = Math.max(1, this.pht);
+         return this.phs == phj.DENY ? var5 < var6 : var5 >= var6;
       } else {
          String var3 = var2.lore();
          if (this.phs == phj.DENY) {
@@ -143,12 +145,12 @@ public final class phm {
    }
 
    private Optional<Reference<Enchantment>> phw() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1687 == null) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.world == null) {
          return Optional.empty();
-      } else {
-         Registry var2 = var1.field_1687.method_30349().method_30530(RegistryKeys.field_41265);
-         return var2.method_46746(this.phn);
       }
+
+      Registry var2 = var1.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+      return var2.getOptional(this.phn);
    }
 }

@@ -63,7 +63,6 @@ public final class txs {
    }
 
    public static txs read(InputStream var0) throws IOException {
-      txs var4;
       try (DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0, 65536), 65536))) {
          if (var1.readInt() != 1177704269) {
             throw new IOException(a.d("Ｆ蚖\u0c5e鉻᧭鼝┙곾㊬렚㾂얾䭫틑境\ude7b", -445606313, -280598257));
@@ -93,9 +92,7 @@ public final class txs {
          var3.jumpThreshold = var1.readDouble();
          var3.style = txp.read(var1);
          var3.net = txv.read(var1);
-         var4 = var3;
+         return var3;
       }
-
-      return var4;
    }
 }

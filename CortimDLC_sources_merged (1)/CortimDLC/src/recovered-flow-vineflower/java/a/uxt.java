@@ -14,7 +14,7 @@ public enum uxt {
    public final float luminance;
    private static final long uxu = System.nanoTime();
 
-   private uxt(String var3, int var4, int var5, float var6, float var7) {
+   uxt(String var3, int var4, int var5, float var6, float var7) {
       this.title = var3;
       this.color1 = var4;
       this.color2 = var5;

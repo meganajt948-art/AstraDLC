@@ -12,26 +12,32 @@ final class ekm extends ParticleManager {
       super(null, null);
    }
 
-   public void method_3061(Entity var1, ParticleEffect var2) {
+   @Override
+   public void addEmitter(Entity entity, ParticleEffect parameters) {
    }
 
-   public void method_3051(Entity var1, ParticleEffect var2, int var3) {
+   @Override
+   public void addEmitter(Entity entity, ParticleEffect parameters, int maxAge) {
    }
 
-   @Nullable
-   public Particle method_3056(ParticleEffect var1, double var2, double var4, double var6, double var8, double var10, double var12) {
+   @Override
+   public @Nullable Particle addParticle(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
       return null;
    }
 
-   public void method_3058(Particle var1) {
+   @Override
+   public void addParticle(Particle particle) {
    }
 
-   public void method_3057() {
+   @Override
+   public void tick() {
    }
 
-   public void method_3045(@Nullable ClientWorld var1) {
+   @Override
+   public void setWorld(@Nullable ClientWorld world) {
    }
 
-   public void method_48015() {
+   @Override
+   public void clearParticles() {
    }
 }

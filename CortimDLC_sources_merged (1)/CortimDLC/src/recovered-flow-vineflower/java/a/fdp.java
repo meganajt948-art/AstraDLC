@@ -14,7 +14,7 @@ final class fdp {
 
    static boolean tick(MinecraftClient var0, int var1) {
       if (var1 == 1) {
-         GLFW.glfwSetWindowSize(var0.method_22683().method_4490(), 1600, 900);
+         GLFW.glfwSetWindowSize(var0.getWindow().getHandle(), 1600, 900);
       }
 
       if (var1 == 20) {
@@ -31,7 +31,7 @@ final class fdp {
                   )
             );
          ldr.activate(var2);
-         var0.method_1507(new hlc());
+         var0.setScreen(new hlc());
       }
 
       if (var1 == 32) {
@@ -40,13 +40,13 @@ final class fdp {
 
       if (var1 == 65) {
          System.out.println(a.c(2095983040, "⦦倁\udadb䒠켱䧔\uf396穱\ue429滌\ue95eጻ鷫щ蹖ࣹ늱㵡ꟃ↟ꡮ"));
-         ScreenshotRecorder.method_22690(
-            var0.field_1697, a.c(111842120, "錻\uea80恐︹疫\uf305䤚샿座퐅厚ꦵ❥뻕㒗뉫ࠢ螲ᵟ鬐ዮ"), var0.method_1522(), 1, var0x -> System.out.println("" + var0x.getString())
+         ScreenshotRecorder.saveScreenshot(
+            var0.runDirectory, a.c(111842120, "錻\uea80恐︹疫\uf305䤚샿座퐅厚ꦵ❥뻕㒗뉫ࠢ螲ᵟ鬐ዮ"), var0.getFramebuffer(), 1, var0x -> System.out.println("" + var0x.getString())
          );
       }
 
       if (var1 == 75) {
-         var0.method_1507(null);
+         var0.setScreen(null);
          return true;
       } else {
          return false;

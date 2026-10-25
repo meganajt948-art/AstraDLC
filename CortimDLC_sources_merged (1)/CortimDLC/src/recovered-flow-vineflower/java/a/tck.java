@@ -156,7 +156,7 @@ public final class tck {
          if (!(var3 <= this.qIn[0]) && !(var3 < 1.0E-6)) {
             double var5;
             if (var3 >= this.qIn[var2 - 1]) {
-               var5 = var3 * this.qOut[var2 - 1] / Math.max(1.0E-6, (double)this.qIn[var2 - 1]);
+               var5 = var3 * this.qOut[var2 - 1] / Math.max(1.0E-6, this.qIn[var2 - 1]);
             } else {
                int var7 = 1;
 
@@ -363,7 +363,6 @@ public final class tck {
    }
 
    public static tck read(InputStream var0) throws IOException {
-      tck var22;
       try (DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0, 65536), 65536))) {
          if (var1.readInt() != 1177701965) {
             throw new IOException(a.d("ᚡ漑\ue5d9篼\uf06a皚첄䕷\udb23冓홉", 1672856540, -1377446632));
@@ -473,7 +472,6 @@ public final class tck {
             var3.axes = tcs(var1);
          }
 
-         label142:
          if (var2 >= 4) {
             var3.turnCap = var1.readFloat();
             int var21 = var1.readInt();
@@ -491,27 +489,21 @@ public final class tck {
                int var23 = var1.readInt();
                if (var23 >= 0 && var23 <= 100000) {
                   var3.reactions = new int[var23];
-                  int var12 = 0;
 
-                  while (true) {
-                     if (var12 >= var23) {
-                        break label142;
-                     }
-
+                  for (int var12 = 0; var12 < var23; var12++) {
                      var3.reactions[var12] = var1.readUnsignedByte();
-                     var12++;
                   }
+
+                  return var3;
+               } else {
+                  throw new IOException(a.b("賩\uf55b羍\ue1b8樽\uec9b囌\udf3f䅷쯛䰎뙾㢴", 788171910));
                }
-
-               throw new IOException(a.b("賩\uf55b羍\ue1b8樽\uec9b囌\udf3f䅷쯛䰎뙾㢴", 788171910));
+            } else {
+               throw new IOException(a.d("泮ᕜ龊ƿ訩ಐ뛇㽻ꅧ⯝갇噾\ud8ae䄂", 192544216, 1666158938));
             }
-
-            throw new IOException(a.d("泮ᕜ龊ƿ訩ಐ뛇㽻ꅧ⯝갇噾\ud8ae䄂", 192544216, 1666158938));
+         } else {
+            return var3;
          }
-
-         var22 = var3;
       }
-
-      return var22;
    }
 }

@@ -60,14 +60,14 @@ public final class ett extends Camera {
       }
 
       if (eub != 0.0F || euc != 0.0F) {
-         this.method_19325(this.method_19330() - eub, Math.max(-90.0F, Math.min(90.0F, this.method_19329() - euc)));
+         this.setRotation(this.getYaw() - eub, Math.max(-90.0F, Math.min(90.0F, this.getPitch() - euc)));
       }
    }
 
    public static void install(MinecraftClient var0) {
-      if (!etx && etw == null && var0 != null && var0.field_1773 != null && !dry.armed()) {
+      if (!etx && etw == null && var0 != null && var0.gameRenderer != null && !dry.armed()) {
          try {
-            GameRenderer var1 = var0.field_1773;
+            GameRenderer var1 = var0.gameRenderer;
             Unsafe var2 = euk();
             long var3 = -1L;
 
@@ -98,9 +98,9 @@ public final class ett extends Camera {
    }
 
    public static void uninstall(MinecraftClient var0) {
-      if (etw != null && var0 != null && var0.field_1773 != null) {
+      if (etw != null && var0 != null && var0.gameRenderer != null) {
          try {
-            euk().putObject(var0.field_1773, etv, etw);
+            euk().putObject(var0.gameRenderer, etv, etw);
          } catch (Throwable var2) {
          }
 
@@ -109,55 +109,57 @@ public final class ett extends Camera {
       }
    }
 
-   public void method_19321(World var1, Entity var2, boolean var3, boolean var4, float var5) {
-      MinecraftClient var6 = MinecraftClient.method_1551();
-      if (!var3 || var2 == null || dry.armed() || var2 instanceof LivingEntity var7 && var7.method_6113()) {
-         this.eua = var3;
-         super.method_19321(var1, var2, var3, var4, var5);
-         if (!var3 && var2 == var6.field_1724) {
+   @Override
+   public void update(World area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickProgress) {
+      MinecraftClient var6 = MinecraftClient.getInstance();
+      if (!thirdPerson || focusedEntity == null || dry.armed() || focusedEntity instanceof LivingEntity var7 && var7.isSleeping()) {
+         this.eua = thirdPerson;
+         super.update(area, focusedEntity, thirdPerson, inverseView, tickProgress);
+         if (!thirdPerson && focusedEntity == var6.player) {
             this.eui();
          }
 
          euj(var6, false);
       } else {
-         super.method_19321(var1, var2, false, var4, var5);
+         super.update(area, focusedEntity, false, inverseView, tickProgress);
          this.eua = true;
-         if (var2 == var6.field_1724) {
+         if (focusedEntity == var6.player) {
             this.eui();
          }
 
-         if (var4) {
-            this.method_19325(this.method_19330() + 180.0F, -this.method_19329());
+         if (inverseView) {
+            this.setRotation(this.getYaw() + 180.0F, -this.getPitch());
          }
 
          float var15 = 4.0F;
          float var8 = 1.0F;
-         if (var2 instanceof LivingEntity var9) {
-            var8 = var9.method_55693();
-            var15 = (float)var9.method_45325(EntityAttributes.field_59674);
+         if (focusedEntity instanceof LivingEntity var9) {
+            var8 = var9.getScale();
+            var15 = (float)var9.getAttributeValue(EntityAttributes.CAMERA_DISTANCE);
          }
 
          float var16 = var8;
          float var10 = var15;
-         if (var2.method_5765() && var2.method_5854() instanceof LivingEntity var11) {
-            var16 = var11.method_55693();
-            var10 = (float)var11.method_45325(EntityAttributes.field_59674);
+         if (focusedEntity.hasVehicle() && focusedEntity.getVehicle() instanceof LivingEntity var11) {
+            var16 = var11.getScale();
+            var10 = (float)var11.getAttributeValue(EntityAttributes.CAMERA_DISTANCE);
          }
 
          float var17 = Math.max(var8 * var15, var16 * var10);
-         this.method_19324(-(etz > 0.0F ? etz * var8 : var17), 0.0F, 0.0F);
+         this.moveBy(-(etz > 0.0F ? etz * var8 : var17), 0.0F, 0.0F);
          boolean var18 = false;
-         if (var1 != null) {
-            BlockPos var13 = this.method_19328();
-            BlockState var14 = var1.method_8320(var13);
-            var18 = var14.method_26216();
+         if (area != null) {
+            BlockPos var13 = this.getBlockPos();
+            BlockState var14 = area.getBlockState(var13);
+            var18 = var14.isOpaqueFullCube();
          }
 
          euj(var6, var18);
       }
    }
 
-   public boolean method_19333() {
+   @Override
+   public boolean isThirdPerson() {
       return this.eua;
    }
 
@@ -165,10 +167,10 @@ public final class ett extends Camera {
       if (var0 != null && var1 != ety) {
          ety = var1;
          if (var1) {
-            euf = var0.field_1730;
-            var0.field_1730 = false;
+            euf = var0.chunkCullingEnabled;
+            var0.chunkCullingEnabled = false;
          } else {
-            var0.field_1730 = euf;
+            var0.chunkCullingEnabled = euf;
          }
       }
    }

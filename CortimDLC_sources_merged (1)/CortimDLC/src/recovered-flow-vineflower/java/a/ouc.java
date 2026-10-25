@@ -12,7 +12,7 @@ public class ouc extends kfe {
    private static final int oud = 6;
    private final vlq oue = this.add(new vlq(a.b("ꧮ큻媾쓞余즣現﨓", 95922613)));
    private final vlq ouf = this.add(new vlq(a.d("\uf05b觅̍鵫ᚮ逇⩉ꎡ㶵띏を쫿", 1374212688, 1801200193)));
-   private final vzh oug = new vzh(Items.field_8639);
+   private final vzh oug = new vzh(Items.FIREWORK_ROCKET);
    private final vyn ouh = new vyn();
    private boolean oui;
    private boolean ouj;
@@ -29,7 +29,7 @@ public class ouc extends kfe {
 
    @Override
    protected void onEnable() {
-      if (!this.oue.isBound() && !this.ouf.isBound() && this.mc.field_1724 != null) {
+      if (!this.oue.isBound() && !this.ouf.isBound() && this.mc.player != null) {
          izx.alert(
             this.getName(),
             wap.s(
@@ -70,7 +70,7 @@ public class ouc extends kfe {
          this.ouq();
       }
 
-      if (this.ouj && !this.oui && var1.field_1724 != null && !vyn.serverIdle(var1.field_1724)) {
+      if (this.ouj && !this.oui && var1.player != null && !vyn.serverIdle(var1.player)) {
          this.ouh.hold(var1);
          this.oui = true;
       }
@@ -79,9 +79,9 @@ public class ouc extends kfe {
    @Override
    public void onEndTick(MinecraftClient var1) {
       this.oug.endTick(var1);
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (this.ouj && var2 != null) {
-         if (!wdq.canClick(var2) || var1.field_1755 != null || oxw.busy() || kvz.busy() || this.oug.busy()) {
+         if (!wdq.canClick(var2) || var1.currentScreen != null || oxw.busy() || kvz.busy() || this.oug.busy()) {
             if (++this.ouk > 6) {
                this.ouj = false;
                this.oup();
@@ -100,15 +100,15 @@ public class ouc extends kfe {
    }
 
    private void ouo(MinecraftClient var1, ClientPlayerEntity var2) {
-      ItemStack var3 = var2.method_6118(EquipmentSlot.field_6174);
-      boolean var4 = !var3.method_31574(Items.field_8833);
+      ItemStack var3 = var2.getEquippedStack(EquipmentSlot.CHEST);
+      boolean var4 = !var3.isOf(Items.ELYTRA);
       vuc var5 = vui.best(
-         var2.method_31548(),
+         var2.getInventory(),
          true,
          var1x -> {
             if (!var4) {
-               if (vui.wornIn(var1x) == EquipmentSlot.field_6174 && !var1x.method_31574(Items.field_8833)) {
-                  String var2x = Registries.field_41178.method_10221(var1x.method_7909()).method_12832();
+               if (vui.wornIn(var1x) == EquipmentSlot.CHEST && !var1x.isOf(Items.ELYTRA)) {
+                  String var2x = Registries.ITEM.getId(var1x.getItem()).getPath();
                   int var3x = var2x.startsWith(a.c(744795749, "긁ힻ嵹쌔䣎침琠\ufdcc掂\ue909"))
                      ? 6
                      : (
@@ -125,7 +125,7 @@ public class ouc extends kfe {
                   return 0;
                }
             } else {
-               return var1x.method_31574(Items.field_8833) && vui.left(var1x) > 1 ? 1 + Math.min(9999, vui.left(var1x)) : 0;
+               return var1x.isOf(Items.ELYTRA) && vui.left(var1x) > 1 ? 1 + Math.min(9999, vui.left(var1x)) : 0;
             }
          }
       );
@@ -138,7 +138,7 @@ public class ouc extends kfe {
             vhz.INFO,
             false
          );
-      } else if (!vui.roomFor(var2.method_31548(), var5, var3)) {
+      } else if (!vui.roomFor(var2.getInventory(), var5, var3)) {
          izx.alert(
             this.getName(),
             wap.s(a.d("ۓ罃\uf5df毼\ue036暇\udcd6啪쭼䇊왗㱲늹⬅ꄓ➫鷣ሪ袊໐蜽ﵷ珙\ue803", 85146633, 954415756), a.c(118085557, "펽ꨤ₀몓㕘돠ে耵Ḙ邹፸\ued1b柔﹠琼\uf2ca䢍윣巢\udbc3剁")),
@@ -146,8 +146,8 @@ public class ouc extends kfe {
             false
          );
       } else {
-         if (vui.equip(var1, EquipmentSlot.field_6174, var5) && var4 && !var2.method_24828() && !var2.method_6128() && !var2.method_31549().field_7479) {
-            var1.field_1690.field_1903.method_23481(true);
+         if (vui.equip(var1, EquipmentSlot.CHEST, var5) && var4 && !var2.isOnGround() && !var2.isGliding() && !var2.getAbilities().flying) {
+            var1.options.jumpKey.setPressed(true);
             this.oul = 2;
          }
       }
@@ -161,8 +161,8 @@ public class ouc extends kfe {
    }
 
    private void ouq() {
-      if (this.mc.field_1690 != null && this.mc.method_22683() != null) {
-         this.mc.field_1690.field_1903.method_23481(vzz.isPhysicallyDown(this.mc, this.mc.field_1690.field_1903));
+      if (this.mc.options != null && this.mc.getWindow() != null) {
+         this.mc.options.jumpKey.setPressed(vzz.isPhysicallyDown(this.mc, this.mc.options.jumpKey));
       }
 
       this.oul = 0;

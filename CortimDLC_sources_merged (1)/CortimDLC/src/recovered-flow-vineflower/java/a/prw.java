@@ -48,7 +48,7 @@ final class prw {
          double var21 = pua.standAt(this.world, var17, var12, var19, 0.6);
          if (!Double.isNaN(var21) && !(Math.abs(var21 - var12) > 0.601)) {
             if (pua.bodyFits(this.world, this.viewer, var17, var19, var21, var3) && !pua.hazard(this.world, var17, var21, var19)) {
-               if (pua.blocked(BlockPos.method_49637(var17, var21 + 0.01, var19), this.lim.danger, this.lim.radius, this.lim.avoid)) {
+               if (pua.blocked(BlockPos.ofFloored(var17, var21 + 0.01, var19), this.lim.danger, this.lim.radius, this.lim.avoid)) {
                   return false;
                }
 
@@ -69,6 +69,6 @@ final class prw {
    boolean fits(double var1, double var3, double var5) {
       return pua.bodyFits(this.world, this.viewer, var1, var5, var3, 0.32)
          && !pua.hazard(this.world, var1, var3, var5)
-         && !pua.blocked(BlockPos.method_49637(var1, var3 + 0.01, var5), this.lim.danger, this.lim.radius, this.lim.avoid);
+         && !pua.blocked(BlockPos.ofFloored(var1, var3 + 0.01, var5), this.lim.danger, this.lim.radius, this.lim.avoid);
    }
 }

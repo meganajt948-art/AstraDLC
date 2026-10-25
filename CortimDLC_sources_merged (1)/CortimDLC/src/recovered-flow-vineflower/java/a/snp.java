@@ -482,7 +482,7 @@ public final class snp {
          int var9 = spd(var8);
          vdn var10 = spe(var1.weight, var9);
          float var11 = var8 * var5 / (16.0F * sns[var9]);
-         Matrix3x2fStack var12 = var0.method_51448();
+         Matrix3x2fStack var12 = var0.getMatrices();
          var12.pushMatrix();
          var12.translate(var2, var3);
          if (var6 != 0.0F) {

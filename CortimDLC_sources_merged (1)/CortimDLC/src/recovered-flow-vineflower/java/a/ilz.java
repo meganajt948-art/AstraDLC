@@ -97,22 +97,22 @@ final class ilz extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return false;
-      } else {
-         float var5 = this.imk();
-         if (irr.inside(var2, var3, this.x - 2.0F, var5 - 2.0F, this.iml() + 4.0F, 54.0F)) {
-            this.imh = 1;
-         } else {
-            if (!irr.inside(var2, var3, this.x + this.iml() + 7.0F - 3.0F, var5 - 3.0F, 15.0F, 56.0F)) {
-               return false;
-            }
+      }
 
-            this.imh = 2;
+      float var5 = this.imk();
+      if (irr.inside(var2, var3, this.x - 2.0F, var5 - 2.0F, this.iml() + 4.0F, 54.0F)) {
+         this.imh = 1;
+      } else {
+         if (!irr.inside(var2, var3, this.x + this.iml() + 7.0F - 3.0F, var5 - 3.0F, 15.0F, 56.0F)) {
+            return false;
          }
 
-         var1.startDrag(this);
-         this.mouseDragged(var2, var3);
-         return true;
+         this.imh = 2;
       }
+
+      var1.startDrag(this);
+      this.mouseDragged(var2, var3);
+      return true;
    }
 
    @Override

@@ -34,13 +34,13 @@ public final class qln {
    public double p(int var1) {
       if (!this.qlr) {
          return var1 == 2 ? 1.0 : 0.0;
-      } else {
-         double var2 = Math.pow(3.0, this.qlq[0]);
-         double var4 = Math.pow(3.0, this.qlq[1]);
-         double var6 = Math.pow(3.0, this.qlq[2]);
-         double var8 = var1 == 0 ? var2 : (var1 == 1 ? var4 : var6);
-         return var8 / (var2 + var4 + var6);
       }
+
+      double var2 = Math.pow(3.0, this.qlq[0]);
+      double var4 = Math.pow(3.0, this.qlq[1]);
+      double var6 = Math.pow(3.0, this.qlq[2]);
+      double var8 = var1 == 0 ? var2 : (var1 == 1 ? var4 : var6);
+      return var8 / (var2 + var4 + var6);
    }
 
    public int lag() {
@@ -69,32 +69,32 @@ public final class qln {
    public double expect(long var1, long var3, int var5, double[] var6) {
       if (var1 == var3) {
          return 1.0;
-      } else {
-         int var7 = BlockPos.method_10061(var1) - BlockPos.method_10061(var3);
-         int var8 = BlockPos.method_10071(var1) - BlockPos.method_10071(var3);
-         int var9 = BlockPos.method_10083(var1) - BlockPos.method_10083(var3);
-         if (Math.abs(var7) <= 1 && Math.abs(var8) <= 1 && Math.abs(var9) <= 1) {
-            if (!this.qlr) {
-               return 0.0;
-            } else {
-               double var10 = 0.0;
-               if (qlx(var7, var8, var9, var5) == 0) {
-                  var10 += this.p(0);
-               }
+      }
 
-               double var12 = this.p(1);
-
-               for (int var14 = 0; var14 < 3; var14++) {
-                  if (var6[var14] > 0.0 && qlx(var7, var8, var9, var14) == 0) {
-                     var10 += var12 * var6[var14];
-                  }
-               }
-
-               return var10;
-            }
-         } else {
+      int var7 = BlockPos.unpackLongX(var1) - BlockPos.unpackLongX(var3);
+      int var8 = BlockPos.unpackLongY(var1) - BlockPos.unpackLongY(var3);
+      int var9 = BlockPos.unpackLongZ(var1) - BlockPos.unpackLongZ(var3);
+      if (Math.abs(var7) <= 1 && Math.abs(var8) <= 1 && Math.abs(var9) <= 1) {
+         if (!this.qlr) {
             return 0.0;
          }
+
+         double var10 = 0.0;
+         if (qlx(var7, var8, var9, var5) == 0) {
+            var10 += this.p(0);
+         }
+
+         double var12 = this.p(1);
+
+         for (int var14 = 0; var14 < 3; var14++) {
+            if (var6[var14] > 0.0 && qlx(var7, var8, var9, var14) == 0) {
+               var10 += var12 * var6[var14];
+            }
+         }
+
+         return var10;
+      } else {
+         return 0.0;
       }
    }
 
@@ -109,9 +109,9 @@ public final class qln {
    public void open(long var1, int var3, int var4, double[] var5, LongPredicate var6, LongOpenHashSet var7) {
       if (this.qlr) {
          qlk var8 = new qlk(var1, var3, var4, var5);
-         int var9 = BlockPos.method_10061(var1);
-         int var10 = BlockPos.method_10071(var1);
-         int var11 = BlockPos.method_10083(var1);
+         int var9 = BlockPos.unpackLongX(var1);
+         int var10 = BlockPos.unpackLongY(var1);
+         int var11 = BlockPos.unpackLongZ(var1);
 
          for (int var12 = -1; var12 <= 1; var12++) {
             for (int var13 = -1; var13 <= 1; var13++) {
@@ -129,7 +129,7 @@ public final class qln {
                      }
 
                      if (var15 != 0) {
-                        long var18 = BlockPos.method_10064(var9 + var12, var10 + var13, var11 + var14);
+                        long var18 = BlockPos.asLong(var9 + var12, var10 + var13, var11 + var14);
                         if (!var7.contains(var18) && var6.test(var18)) {
                            var8.blocks.put(var18, var15);
                         }

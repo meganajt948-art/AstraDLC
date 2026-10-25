@@ -40,7 +40,7 @@ public class rfy extends kfe {
    @Override
    protected void onEnable() {
       this.rgi.clear();
-      this.rgk = this.mc.field_1724 == null || this.mc.field_1724.method_24828();
+      this.rgk = this.mc.player == null || this.mc.player.isOnGround();
    }
 
    @Override
@@ -50,20 +50,14 @@ public class rfy extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      boolean var3 = var2.method_24828();
+      ClientPlayerEntity var2 = var1.player;
+      boolean var3 = var2.isOnGround();
       if (var3) {
-         this.rgl = var2.method_23318();
+         this.rgl = var2.getY();
       }
 
-      if (this.rgk
-         && !var3
-         && var2.method_18798().field_1351 > 0.06
-         && !var2.method_5765()
-         && !var2.method_7325()
-         && !var2.method_5799()
-         && !var2.method_6101()) {
-         this.rgv(var2.method_23317(), this.rgl, var2.method_23321());
+      if (this.rgk && !var3 && var2.getVelocity().y > 0.06 && !var2.hasVehicle() && !var2.isSpectator() && !var2.isTouchingWater() && !var2.isClimbing()) {
+         this.rgv(var2.getX(), this.rgl, var2.getZ());
       }
 
       this.rgk = var3;
@@ -146,14 +140,14 @@ public class rfy extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rfy var2 = rfz;
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       if (var2 != null
          && var2.isEnabled()
          && !var2.rgi.isEmpty()
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+         && var3.world != null
+         && var3.player != null
+         && !var3.options.hudHidden
+         && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.rgm) {
             var2.rgm = unf.frame();
@@ -162,7 +156,7 @@ public class rfy extends kfe {
 
             usn var5;
             try {
-               var5 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var5 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var12) {
                return;
             }
@@ -378,8 +372,8 @@ public class rfy extends kfe {
                   var21 += Math.cos(var3.age * 2.1F + var17) * 0.15;
                   break;
                case "Ocean":
-                  double var36 = 1.6 * var16;
-                  double var30 = var36 * var3.age - 4.5 * var3.age * var3.age;
+                  double var37 = 1.6 * var16;
+                  double var30 = var37 * var3.age - 4.5 * var3.age * var3.age;
                   if (var30 < 0.0) {
                      continue;
                   }
@@ -402,12 +396,12 @@ public class rfy extends kfe {
             }
 
             if (var2.project(var19, var23, var21, this.rgr)) {
-               float var26 = Math.min(14.0F, Math.max(2.0F, var10 * 0.09F * var18));
-               float var35 = var6 * var25;
-               if (!(var35 <= 0.02F)) {
-                  int var37 = var13 % 3 == 0 ? var8[1] : var8[0];
-                  uut.sprite(var1, var9, this.rgr[0], this.rgr[1], var26 * 3.0F, ujt.withAlpha(var37, Math.round(90.0F * var35)));
-                  uut.sprite(var1, var9, this.rgr[0], this.rgr[1], var26, ujt.withAlpha(ujt.lerp(var37, -1, 0.6F), Math.round(230.0F * var35)));
+               float var35 = Math.min(14.0F, Math.max(2.0F, var10 * 0.09F * var18));
+               float var36 = var6 * var25;
+               if (!(var36 <= 0.02F)) {
+                  int var38 = var13 % 3 == 0 ? var8[1] : var8[0];
+                  uut.sprite(var1, var9, this.rgr[0], this.rgr[1], var35 * 3.0F, ujt.withAlpha(var38, Math.round(90.0F * var36)));
+                  uut.sprite(var1, var9, this.rgr[0], this.rgr[1], var35, ujt.withAlpha(ujt.lerp(var38, -1, 0.6F), Math.round(230.0F * var36)));
                }
             }
          }

@@ -64,9 +64,9 @@ public final class voa {
 
          try {
             var5 = ALC10.alcGetCurrentContext();
-            MinecraftClient var8 = MinecraftClient.method_1551();
-            if (var8.field_1690 != null) {
-               var7 = (String)var8.field_1690.method_42477().method_41753();
+            MinecraftClient var8 = MinecraftClient.getInstance();
+            if (var8.options != null) {
+               var7 = var8.options.getSoundDevice().getValue();
             }
          } catch (Throwable var9) {
          }

@@ -31,6 +31,7 @@ import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.WardenEntity;
@@ -425,24 +426,24 @@ public class nxa extends pnc {
    }
 
    private boolean oht(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
-      } else {
-         vlj var2 = this.lootList();
-         if (this.ocs != this.nzd || this.oct != var2.version() || this.ocr.size() > 256) {
-            this.ocr.clear();
-            this.ocs = this.nzd;
-            this.oct = var2.version();
-         }
-
-         Boolean var3 = this.ocr.get(var1);
-         if (var3 == null) {
-            var3 = ppu.picked(var1, var2.ids());
-            this.ocr.put(var1, var3);
-         }
-
-         return var3;
       }
+
+      vlj var2 = this.lootList();
+      if (this.ocs != this.nzd || this.oct != var2.version() || this.ocr.size() > 256) {
+         this.ocr.clear();
+         this.ocs = this.nzd;
+         this.oct = var2.version();
+      }
+
+      Boolean var3 = this.ocr.get(var1);
+      if (var3 == null) {
+         var3 = ppu.picked(var1, var2.ids());
+         this.ocr.put(var1, var3);
+      }
+
+      return var3;
    }
 
    public String queueNote() {
@@ -549,7 +550,7 @@ public class nxa extends pnc {
    @Override
    protected void onEnable() {
       if (this.getPlayer() != null) {
-         this.oeh = this.getPlayer().method_6032();
+         this.oeh = this.getPlayer().getHealth();
       }
 
       if (this.driver == null) {
@@ -656,8 +657,8 @@ public class nxa extends pnc {
       this.ocu = 0;
       this.ocx = 0;
       this.nzs.clear();
-      if (this.mc.field_1761 != null) {
-         this.mc.field_1761.method_2925();
+      if (this.mc.interactionManager != null) {
+         this.mc.interactionManager.cancelBlockBreaking();
       }
 
       ptr.clear();
@@ -710,12 +711,12 @@ public class nxa extends pnc {
    private rzy ohz() {
       if (this.driver != null) {
          return this.ogg;
-      } else {
-         try {
-            return Flow.getInstance().getModuleManager().get(rzy.class);
-         } catch (Exception var2) {
-            return null;
-         }
+      }
+
+      try {
+         return Flow.getInstance().getModuleManager().get(rzy.class);
+      } catch (Exception var2) {
+         return null;
       }
    }
 
@@ -727,23 +728,23 @@ public class nxa extends pnc {
    }
 
    public void onPacket(Packet<?> var1) {
-      if (var1 instanceof InventoryS2CPacket var2 && var2.comp_3837() != 0) {
-         this.obe = var2.comp_3837();
+      if (var1 instanceof InventoryS2CPacket var2 && var2.syncId() != 0) {
+         this.obe = var2.syncId();
       } else if (var1 instanceof GameMessageS2CPacket var7) {
          if (this.nzs.size() < 64) {
-            this.nzs.add(var7.comp_763().getString());
+            this.nzs.add(var7.content().getString());
          }
       } else {
          RegistryEntry var6 = null;
          if (var1 instanceof PlaySoundS2CPacket var3) {
-            var6 = var3.method_11894();
+            var6 = var3.getSound();
          } else if (var1 instanceof PlaySoundFromEntityS2CPacket var4) {
-            var6 = var4.method_11882();
+            var6 = var4.getSound();
          }
 
          if (var6 != null) {
             try {
-               String var8 = ((SoundEvent)var6.comp_349()).comp_3319().method_12832();
+               String var8 = ((SoundEvent)var6.value()).id().getPath();
                if (var8.contains(a.d("溬ᜋ鷋ά衺ເ듓㵾ꌼ⦃깃", 1977503822, 657604254))
                   || var8.contains(a.d("ྰ瘗ﳗ抰\ue966濜헏山숡䢙콟㔥", 1667287867, 1060553968))
                   || var8.contains(a.c(-1113763147, "勎⭩ꆩ㿎되㊢袱ĝ齞ᗮ鈺桁"))) {
@@ -757,14 +758,14 @@ public class nxa extends pnc {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      if (this.mc.field_1690 != null) {
-         this.mc.field_1690.field_1886.method_23481(this.oho);
-         this.mc.field_1690.field_1904.method_23481(this.ohp);
+      if (this.mc.options != null) {
+         this.mc.options.attackKey.setPressed(this.oho);
+         this.mc.options.useKey.setPressed(this.ohp);
 
-         while (this.mc.field_1690.field_1886.method_1436()) {
+         while (this.mc.options.attackKey.wasPressed()) {
          }
 
-         while (this.mc.field_1690.field_1904.method_1436()) {
+         while (this.mc.options.useKey.wasPressed()) {
          }
 
          if (this.obw || this.oaz != nwg.NONE) {
@@ -776,11 +777,11 @@ public class nxa extends pnc {
             var2.tickTimers(false);
          }
 
-         if (this.mc.field_1724 != null && this.mc.field_1687 != null) {
+         if (this.mc.player != null && this.mc.world != null) {
             if (this.driver == null) {
                wcn.ensure(this.mc);
                if (!this.ohq && this.ohn && this.ogn && !this.obw && this.oaz == nwg.NONE) {
-                  this.ogm.remapHumanKeys(this.mc, this.ogm.cameraYaw(this.mc.field_1724), this.ogv);
+                  this.ogm.remapHumanKeys(this.mc, this.ogm.cameraYaw(this.mc.player), this.ogv);
                }
             }
 
@@ -813,13 +814,13 @@ public class nxa extends pnc {
          this.ogk = var2;
          pjd.keep(this.ohu());
          this.ook();
-         this.ohm = this.getPlayer().method_36454();
+         this.ohm = this.getPlayer().getYaw();
          this.ohn = true;
          this.ofe.beginTick();
          boolean var4 = this.oib();
-         if (var4 && this.mc.field_1690 != null) {
-            this.ofi = this.mc.field_1690.field_1867.method_1434();
-            this.ofj = this.mc.field_1690.field_1832.method_1434();
+         if (var4 && this.mc.options != null) {
+            this.ofi = this.mc.options.sprintKey.isPressed();
+            this.ofj = this.mc.options.sneakKey.isPressed();
          }
 
          try {
@@ -831,14 +832,14 @@ public class nxa extends pnc {
 
             this.oox();
             this.ofz = this.ohq;
-            if ((this.obw || this.oaz != nwg.NONE) && this.mc.field_1690 != null) {
-               this.mc.field_1690.field_1886.method_23481(false);
-               this.mc.field_1690.field_1904.method_23481(false);
+            if ((this.obw || this.oaz != nwg.NONE) && this.mc.options != null) {
+               this.mc.options.attackKey.setPressed(false);
+               this.mc.options.useKey.setPressed(false);
             }
 
             this.ojd();
-            this.oho = this.mc.field_1690 != null && this.mc.field_1690.field_1886.method_1434();
-            this.ohp = this.mc.field_1690 != null && this.mc.field_1690.field_1904.method_1434();
+            this.oho = this.mc.options != null && this.mc.options.attackKey.isPressed();
+            this.ohp = this.mc.options != null && this.mc.options.useKey.isPressed();
             if (this.driver == null) {
                pnf.publish(this.ofe.shown(), this.ofe.shownAt(), var4, var4 && this.oic(), this.nyz.get(), this.getName());
             }
@@ -857,7 +858,7 @@ public class nxa extends pnc {
    }
 
    private boolean oic() {
-      return this.ofk || this.getPlayer().method_6115() || this.obw || this.ocf || this.oaz != nwg.NONE || this.mc.field_1755 != null;
+      return this.ofk || this.getPlayer().isUsingItem() || this.obw || this.ocf || this.oaz != nwg.NONE || this.mc.currentScreen != null;
    }
 
    private int oid(int var1) {
@@ -869,28 +870,28 @@ public class nxa extends pnc {
    }
 
    private void oif() {
-      GameOptions var1 = this.mc.field_1690;
+      GameOptions var1 = this.mc.options;
       if (var1 != null && !this.obw && this.oaz == nwg.NONE && !this.ocf) {
-         KeyBinding[] var2 = new KeyBinding[]{var1.field_1894, var1.field_1881, var1.field_1913, var1.field_1849, var1.field_1903};
+         KeyBinding[] var2 = new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey};
 
          for (KeyBinding var6 : var2) {
-            var6.method_23481(this.heldByHuman(var6));
+            var6.setPressed(this.heldByHuman(var6));
          }
 
-         if ((Boolean)var1.method_42450().method_41753()) {
-            if (var1.field_1867.method_1434() != this.ofi) {
-               var1.field_1867.method_23481(true);
+         if (var1.getSprintToggled().getValue()) {
+            if (var1.sprintKey.isPressed() != this.ofi) {
+               var1.sprintKey.setPressed(true);
             }
          } else {
-            var1.field_1867.method_23481(this.heldByHuman(var1.field_1867));
+            var1.sprintKey.setPressed(this.heldByHuman(var1.sprintKey));
          }
 
-         if ((Boolean)var1.method_42449().method_41753()) {
-            if (var1.field_1832.method_1434() != this.ofj) {
-               var1.field_1832.method_23481(true);
+         if (var1.getSneakToggled().getValue()) {
+            if (var1.sneakKey.isPressed() != this.ofj) {
+               var1.sneakKey.setPressed(true);
             }
          } else {
-            var1.field_1832.method_23481(this.heldByHuman(var1.field_1832));
+            var1.sneakKey.setPressed(this.heldByHuman(var1.sneakKey));
          }
       }
    }
@@ -927,8 +928,8 @@ public class nxa extends pnc {
       this.ohq = false;
       this.ofa = false;
       this.ohk = false;
-      if (this.oga <= 0 && this.mc.field_1690.field_1881.method_1434() && !this.heldByHuman(this.mc.field_1690.field_1881)) {
-         this.mc.field_1690.field_1881.method_23481(false);
+      if (this.oga <= 0 && this.mc.options.backKey.isPressed() && !this.heldByHuman(this.mc.options.backKey)) {
+         this.mc.options.backKey.setPressed(false);
       }
 
       if (this.ofd > 0) {
@@ -983,7 +984,7 @@ public class nxa extends pnc {
          pqf.resetKeys();
       } else if (this.oel) {
          pqf.resetKeys();
-         if (++this.oem >= 40 && !this.getPlayer().method_29504()) {
+         if (++this.oem >= 40 && !this.getPlayer().isDead()) {
             this.ohv();
             this.ohy(nwx.TELEPORT_TO_SAVE);
          }
@@ -1012,11 +1013,11 @@ public class nxa extends pnc {
          }
 
          this.ocu = pqf.onClimbable(this.getPlayer()) ? this.ocu + 1 : 0;
-         if (this.mc.field_1755 instanceof AbstractSignEditScreen) {
-            this.mc.field_1755.method_25419();
+         if (this.mc.currentScreen instanceof AbstractSignEditScreen) {
+            this.mc.currentScreen.close();
          } else if (this.oaz == nwg.NONE && this.oil() && !this.ojh(var1)) {
             this.olh();
-            this.mc.field_1724.method_7346();
+            this.mc.player.closeHandledScreen();
          } else if (this.oaz != nwg.NONE) {
             pqf.resetKeys();
             this.oot();
@@ -1026,24 +1027,24 @@ public class nxa extends pnc {
                this.ohy(nwx.EXPLORING);
             }
 
-            this.mc.field_1690.field_1832.method_23481(this.mc.field_1690.field_1904.method_1434() && this.oli(this.getPlayer().method_6047()) && !this.opb());
-            if (!(this.getPlayer().method_6032() <= 0.0F) && !this.getPlayer().method_29504()) {
+            this.mc.options.sneakKey.setPressed(this.mc.options.useKey.isPressed() && this.oli(this.getPlayer().getMainHandStack()) && !this.opb());
+            if (!(this.getPlayer().getHealth() <= 0.0F) && !this.getPlayer().isDead()) {
                if (this.oej > 0) {
                   this.oej--;
                }
 
-               if (this.getPlayer().field_6017 > 3.0) {
+               if (this.getPlayer().fallDistance > 3.0) {
                   this.oei = true;
                } else if (this.oei) {
                   this.oei = false;
                   this.oej = 6;
                }
 
-               float var5 = this.getPlayer().method_6032();
+               float var5 = this.getPlayer().getHealth();
                if (var5 < this.oeh && this.oej <= 0 && this.oik() && this.nzb != nwx.ESCAPING) {
                   WardenEntity var6 = this.onu(20.0);
                   PlayerEntity var7 = this.ooh();
-                  this.ooa(var6 != null && (var7 == null || var6.method_5858(this.getPlayer()) < var7.method_5858(this.getPlayer())));
+                  this.ooa(var6 != null && (var7 == null || var6.squaredDistanceTo(this.getPlayer()) < var7.squaredDistanceTo(this.getPlayer())));
                }
 
                this.oeh = var5;
@@ -1051,11 +1052,11 @@ public class nxa extends pnc {
                   this.oek = this.nzd;
                }
 
-               if (!this.odj && !this.mc.field_1690.field_1904.method_1434()) {
+               if (!this.odj && !this.mc.options.useKey.isPressed()) {
                   this.okd(var1);
                   if (this.ocg == -1 && !this.obw && !this.ocf && this.nzb != nwx.ESCAPING) {
-                     ItemStack var8 = this.getPlayer().method_6047();
-                     if (!var8.method_7960() && !this.oqd(var8)) {
+                     ItemStack var8 = this.getPlayer().getMainHandStack();
+                     if (!var8.isEmpty() && !this.oqd(var8)) {
                         this.olj();
                      }
                   }
@@ -1141,12 +1142,12 @@ public class nxa extends pnc {
    }
 
    private void oii() {
-      BlockPos var1 = this.getPlayer().method_24515();
+      BlockPos var1 = this.getPlayer().getBlockPos();
       rzy var2 = this.ohz();
       String var3 = this.oij();
       if (var2 != null) {
          for (rzv var5 : var2.getCachedTimers()) {
-            if (var3.equals(var5.dimension) && var5.pos.method_1025(this.getPlayer().method_73189()) < 6400.0) {
+            if (var3.equals(var5.dimension) && var5.pos.squaredDistanceTo(this.getPlayer().getEntityPos()) < 6400.0) {
                this.nzh = var1;
                pjd.at(this.ohu(), this.olr());
                this.ohy(nwx.EXPLORING);
@@ -1164,7 +1165,7 @@ public class nxa extends pnc {
    }
 
    private String oij() {
-      return this.mc.field_1687 == null ? "" : this.mc.field_1687.method_27983().method_29177().toString();
+      return this.mc.world == null ? "" : this.mc.world.getRegistryKey().getValue().toString();
    }
 
    private boolean oik() {
@@ -1177,7 +1178,9 @@ public class nxa extends pnc {
    }
 
    private boolean oil() {
-      return this.mc.field_1755 instanceof HandledScreen var1 && !(var1 instanceof InventoryScreen) && !(var1.method_17577() instanceof PlayerScreenHandler);
+      return this.mc.currentScreen instanceof HandledScreen var1
+         && !(var1 instanceof InventoryScreen)
+         && !(var1.getScreenHandler() instanceof PlayerScreenHandler);
    }
 
    private void oim() {
@@ -1223,7 +1226,7 @@ public class nxa extends pnc {
    private void oio() {
       if (this.nzd - this.oee <= 100) {
          ClientPlayerEntity var1 = this.getPlayer();
-         boolean var2 = var1.method_29504() || var1.method_6032() <= 0.0F;
+         boolean var2 = var1.isDead() || var1.getHealth() <= 0.0F;
          boolean var3 = this.nzb == nwx.TELEPORT_TO_LOOT
             || this.nzb == nwx.TELEPORT_TO_SAVE
             || this.nzb == nwx.WARPING_TO_SAVE_BASE
@@ -1249,20 +1252,20 @@ public class nxa extends pnc {
    }
 
    private boolean oiq() {
-      if (!(this.mc.field_1755 instanceof DeathScreen)) {
+      if (!(this.mc.currentScreen instanceof DeathScreen)) {
          this.oen = 0;
          this.oep = false;
          this.oeo = 26 + this.nzf.nextInt(34);
          return false;
-      } else {
-         this.oip();
-         if (++this.oen >= this.oeo && !this.oep && this.mc.field_1724 != null) {
-            this.mc.field_1724.method_7331();
-            this.oep = true;
-         }
-
-         return true;
       }
+
+      this.oip();
+      if (++this.oen >= this.oeo && !this.oep && this.mc.player != null) {
+         this.mc.player.requestRespawn();
+         this.oep = true;
+      }
+
+      return true;
    }
 
    private boolean oir() {
@@ -1270,17 +1273,19 @@ public class nxa extends pnc {
          this.oes--;
       }
 
-      Vec3d var1 = this.getPlayer().method_73189();
-      if (this.oeq != null && !(var1.method_1025(this.oeq) > 2.25)) {
+      Vec3d var1 = this.getPlayer().getEntityPos();
+      if (this.oeq != null && !(var1.squaredDistanceTo(this.oeq) > 2.25)) {
          this.oer++;
          if (this.nzb == nwx.RESTOCK && this.ody) {
             this.oer = 0;
             return false;
-         } else if (this.oer >= 2400 && this.oes <= 0) {
+         }
+
+         if (this.oer >= 2400 && this.oes <= 0) {
             pqf.resetKeys();
             this.olh();
-            if (this.mc.field_1724 != null && this.mc.field_1755 != null) {
-               this.mc.field_1724.method_7346();
+            if (this.mc.player != null && this.mc.currentScreen != null) {
+               this.mc.player.closeHandledScreen();
             }
 
             if (this.nzg == 0 && this.nzb != nwx.TELEPORT_TO_SAVE && this.nzb != nwx.TELEPORT_TO_LOOT) {
@@ -1312,7 +1317,7 @@ public class nxa extends pnc {
 
    private void ois(boolean var1) {
       boolean var2 = var1 && this.ofz && this.ohi <= 0 && !this.obw && this.oga <= 0;
-      Vec3d var3 = this.getPlayer().method_73189();
+      Vec3d var3 = this.getPlayer().getEntityPos();
       if (!var2) {
          this.ofu = null;
          this.ofv = 0;
@@ -1329,21 +1334,21 @@ public class nxa extends pnc {
    }
 
    private static double oit(Vec3d var0, Vec3d var1) {
-      return Math.hypot(var0.field_1352 - var1.field_1352, var0.field_1350 - var1.field_1350);
+      return Math.hypot(var0.x - var1.x, var0.z - var1.z);
    }
 
    private void oiu(boolean var1) {
       ClientPlayerEntity var2 = this.getPlayer();
-      boolean var3 = var2.method_24828();
+      boolean var3 = var2.isOnGround();
       if (var3 || Double.isNaN(this.ogf)) {
-         this.ogf = var2.method_23318();
+         this.ogf = var2.getY();
       }
 
-      if (this.oge && !var3 && var2.method_18798().field_1351 > 0.2) {
-         this.ogd = var2.method_73189();
+      if (this.oge && !var3 && var2.getVelocity().y > 0.2) {
+         this.ogd = var2.getEntityPos();
       } else if (!this.oge && var3 && this.ogd != null) {
-         double var4 = oit(var2.method_73189(), this.ogd);
-         double var6 = var2.method_23318() - this.ogd.field_1351;
+         double var4 = oit(var2.getEntityPos(), this.ogd);
+         double var6 = var2.getY() - this.ogd.y;
          this.ogd = null;
          if (var1 && this.ofz && var4 < 0.55 && var6 < 0.3) {
             if (++this.ogc >= 2) {
@@ -1383,23 +1388,23 @@ public class nxa extends pnc {
          this.ofs.clear();
       }
 
-      this.ofs.put(var1.method_10062(), System.currentTimeMillis() + var2);
+      this.ofs.put(var1.toImmutable(), System.currentTimeMillis() + var2);
    }
 
    private Set<BlockPos> oix() {
       if (this.ofs.isEmpty()) {
          return Set.of();
-      } else {
-         long var1 = System.currentTimeMillis();
-         this.ofs.values().removeIf(var2 -> var2 <= var1);
-         return (Set<BlockPos>)(this.ofs.isEmpty() ? Set.of() : new HashSet<>(this.ofs.keySet()));
       }
+
+      long var1 = System.currentTimeMillis();
+      this.ofs.values().removeIf(var2 -> var2 <= var1);
+      return this.ofs.isEmpty() ? Set.of() : new HashSet<>(this.ofs.keySet());
    }
 
    private void oiy() {
       this.oga = 0;
       ClientPlayerEntity var1 = this.getPlayer();
-      if (var1 != null && var1.method_24828()) {
+      if (var1 != null && var1.isOnGround()) {
          float var2 = this.oow();
          float[] var3 = new float[]{180.0F, 135.0F, -135.0F, 90.0F, -90.0F};
          int var4 = this.nzf.nextBoolean() ? 1 : 2;
@@ -1408,7 +1413,7 @@ public class nxa extends pnc {
             int var6 = var5 == 0 ? 0 : (var5 == 1 ? var4 : (var5 == 2 ? 3 - var4 : var5));
             float var7 = var2 + var3[var6];
             pxa var8 = pxd.run(var1, var7, false, false, 8);
-            if (var8.progress > 0.35 && var8.endY > var1.method_23318() - 0.7 && !var8.blockedWithin(2)) {
+            if (var8.progress > 0.35 && var8.endY > var1.getY() - 0.7 && !var8.blockedWithin(2)) {
                this.ogb = var7;
                this.oga = 5 + this.nzf.nextInt(6);
                return;
@@ -1420,20 +1425,20 @@ public class nxa extends pnc {
    private void oiz() {
       if (this.ocu >= 6 && this.oga <= 0) {
          ClientPlayerEntity var1 = this.getPlayer();
-         if (!this.opb() || !(pqf.getStandY(this.ofb.get(this.ofc)) > var1.method_23318() + 0.6)) {
+         if (!this.opb() || !(pqf.getStandY(this.ofb.get(this.ofc)) > var1.getY() + 0.6)) {
             if (this.ocu > 200) {
                this.ocu = 0;
                this.oiv(false);
             }
 
-            BlockPos var2 = var1.method_24515();
+            BlockPos var2 = var1.getBlockPos();
             this.oiw(var2, 30000L);
-            this.oiw(var2.method_10074(), 30000L);
+            this.oiw(var2.down(), 30000L);
             this.ofb = null;
             this.ofc = 0;
             this.ofd = 0;
             Vec3d var3 = pqf.awayFromClimbable(var1);
-            this.ogb = var3 != null ? (float)Math.toDegrees(Math.atan2(-var3.field_1352, var3.field_1350)) : this.oow() + 180.0F;
+            this.ogb = var3 != null ? (float)Math.toDegrees(Math.atan2(-var3.x, var3.z)) : this.oow() + 180.0F;
             this.oga = 6 + this.nzf.nextInt(5);
          }
       }
@@ -1448,7 +1453,7 @@ public class nxa extends pnc {
          for (float var5 = -1.0F; var5 <= 1.0F; var5++) {
             if (var4 != 0.0F || var5 != 0.0F) {
                double var6 = Math.toDegrees(pud.inputDirection(this.ogv, var4, var5));
-               float var8 = Math.abs(MathHelper.method_15393((float)var6 - this.ogb));
+               float var8 = Math.abs(MathHelper.wrapDegrees((float)var6 - this.ogb));
                if (var8 < var3) {
                   var3 = var8;
                   var1 = var4;
@@ -1460,12 +1465,12 @@ public class nxa extends pnc {
 
       this.ohq = true;
       this.ofa = true;
-      this.mc.field_1690.field_1894.method_23481(var1 > 0.0F);
-      this.mc.field_1690.field_1881.method_23481(var1 < 0.0F);
-      this.mc.field_1690.field_1913.method_23481(var2 > 0.0F);
-      this.mc.field_1690.field_1849.method_23481(var2 < 0.0F);
-      this.mc.field_1690.field_1867.method_23481(false);
-      this.mc.field_1690.field_1903.method_23481(false);
+      this.mc.options.forwardKey.setPressed(var1 > 0.0F);
+      this.mc.options.backKey.setPressed(var1 < 0.0F);
+      this.mc.options.leftKey.setPressed(var2 > 0.0F);
+      this.mc.options.rightKey.setPressed(var2 < 0.0F);
+      this.mc.options.sprintKey.setPressed(false);
+      this.mc.options.jumpKey.setPressed(false);
    }
 
    private void ojb() {
@@ -1483,7 +1488,7 @@ public class nxa extends pnc {
    }
 
    private void ojc(boolean var1) {
-      boolean var2 = this.mc.field_1690.field_1894.method_1434();
+      boolean var2 = this.mc.options.forwardKey.isPressed();
       if (var1 && var2 && pqf.isBlockedHorizontally()) {
          this.oey++;
          if (this.oey >= 8) {
@@ -1492,8 +1497,8 @@ public class nxa extends pnc {
                this.oez = -this.oez;
             }
 
-            this.mc.field_1690.field_1849.method_23481(this.oez > 0);
-            this.mc.field_1690.field_1913.method_23481(this.oez < 0);
+            this.mc.options.rightKey.setPressed(this.oez > 0);
+            this.mc.options.leftKey.setPressed(this.oez < 0);
             if (this.oey > 30) {
                this.oew = (this.oew + 1) % nyh.length;
                this.oiv(false);
@@ -1502,67 +1507,67 @@ public class nxa extends pnc {
       } else {
          this.oey = 0;
          if (!this.ofa) {
-            this.mc.field_1690.field_1913.method_23481(false);
-            this.mc.field_1690.field_1849.method_23481(false);
+            this.mc.options.leftKey.setPressed(false);
+            this.mc.options.rightKey.setPressed(false);
          }
       }
    }
 
    private void ojd() {
-      if (this.mc.field_1690 != null && !this.obw && this.oaz == nwg.NONE) {
+      if (this.mc.options != null && !this.obw && this.oaz == nwg.NONE) {
          KeyBinding[] var1 = new KeyBinding[]{
-            this.mc.field_1690.field_1894,
-            this.mc.field_1690.field_1881,
-            this.mc.field_1690.field_1913,
-            this.mc.field_1690.field_1849,
-            this.mc.field_1690.field_1903,
-            this.mc.field_1690.field_1832,
-            this.mc.field_1690.field_1867
+            this.mc.options.forwardKey,
+            this.mc.options.backKey,
+            this.mc.options.leftKey,
+            this.mc.options.rightKey,
+            this.mc.options.jumpKey,
+            this.mc.options.sneakKey,
+            this.mc.options.sprintKey
          };
 
          for (KeyBinding var5 : var1) {
             if (this.heldByHuman(var5)) {
-               var5.method_23481(true);
+               var5.setPressed(true);
             }
          }
       }
    }
 
    private void oje() {
-      if (this.mc.field_1690 != null) {
+      if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
-            this.mc.field_1690.field_1894,
-            this.mc.field_1690.field_1881,
-            this.mc.field_1690.field_1913,
-            this.mc.field_1690.field_1849,
-            this.mc.field_1690.field_1903,
-            this.mc.field_1690.field_1867,
-            this.mc.field_1690.field_1832,
-            this.mc.field_1690.field_1886,
-            this.mc.field_1690.field_1904
+            this.mc.options.forwardKey,
+            this.mc.options.backKey,
+            this.mc.options.leftKey,
+            this.mc.options.rightKey,
+            this.mc.options.jumpKey,
+            this.mc.options.sprintKey,
+            this.mc.options.sneakKey,
+            this.mc.options.attackKey,
+            this.mc.options.useKey
          };
 
          for (KeyBinding var5 : var1) {
             if (!this.heldByHuman(var5)) {
-               var5.method_23481(false);
+               var5.setPressed(false);
             }
          }
       }
    }
 
    private void ojf() {
-      if (this.mc.field_1690 != null) {
+      if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
-            this.mc.field_1690.field_1894,
-            this.mc.field_1690.field_1881,
-            this.mc.field_1690.field_1913,
-            this.mc.field_1690.field_1849,
-            this.mc.field_1690.field_1903,
-            this.mc.field_1690.field_1867
+            this.mc.options.forwardKey,
+            this.mc.options.backKey,
+            this.mc.options.leftKey,
+            this.mc.options.rightKey,
+            this.mc.options.jumpKey,
+            this.mc.options.sprintKey
          };
 
          for (KeyBinding var5 : var1) {
-            var5.method_23481(this.heldByHuman(var5));
+            var5.setPressed(this.heldByHuman(var5));
          }
       }
    }
@@ -1578,13 +1583,13 @@ public class nxa extends pnc {
    }
 
    private boolean ojh(long var1) {
-      if (this.mc.field_1755 instanceof HandledScreen var3) {
-         ScreenHandler var7 = var3.method_17577();
+      if (this.mc.currentScreen instanceof HandledScreen var3) {
+         ScreenHandler var7 = var3.getScreenHandler();
          if (var7 instanceof GenericContainerScreenHandler var5 && this.obs != null && this.obu != nwg.NONE && var1 - this.obt <= 2500L) {
             int var6 = this.oji(this.obs);
-            if (var6 > 0 && var5.method_17388() * 9 == var6) {
+            if (var6 > 0 && var5.getRows() * 9 == var6) {
                this.oaz = this.obu;
-               this.oba = var7.field_7763;
+               this.oba = var7.syncId;
                this.obb = this.obs;
                this.obd = var1;
                this.obf = false;
@@ -1599,8 +1604,8 @@ public class nxa extends pnc {
                this.obq = null;
                this.obr = 0;
                this.obj = 88.0;
-               this.obk = (114.0 + var5.method_17388() * 18.0) / 2.0;
-               this.obc = var1 + Math.round(MathHelper.method_15350(230.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 150.0, 480.0));
+               this.obk = (114.0 + var5.getRows() * 18.0) / 2.0;
+               this.obc = var1 + Math.round(MathHelper.clamp(230.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 150.0, 480.0));
                this.obs = null;
                this.obu = nwg.NONE;
                if (this.oaz == nwg.LOOT) {
@@ -1626,17 +1631,17 @@ public class nxa extends pnc {
       if (this.getWorld() == null) {
          return 0;
       } else {
-         BlockState var2 = this.getWorld().method_8320(var1);
-         if (!(var2.method_26204() instanceof ChestBlock)) {
+         BlockState var2 = this.getWorld().getBlockState(var1);
+         if (!(var2.getBlock() instanceof ChestBlock)) {
             return 0;
          } else {
-            return var2.method_11654(ChestBlock.field_10770) == ChestType.field_12569 ? 27 : 54;
+            return var2.get(ChestBlock.CHEST_TYPE) == ChestType.SINGLE ? 27 : 54;
          }
       }
    }
 
    private HandledScreen<?> ojj() {
-      return this.mc.field_1755 instanceof HandledScreen var1 && var1.method_17577().field_7763 == this.oba ? var1 : null;
+      return this.mc.currentScreen instanceof HandledScreen var1 && var1.getScreenHandler().syncId == this.oba ? var1 : null;
    }
 
    private void ojk(long var1) {
@@ -1645,14 +1650,14 @@ public class nxa extends pnc {
          if (var3 == null) {
             this.ojz();
          } else {
-            ScreenHandler var4 = var3.method_17577();
+            ScreenHandler var4 = var3.getScreenHandler();
             if (this.obf) {
                if (var1 >= this.obc) {
                   if (this.ojp(var4, var1)) {
                      return;
                   }
 
-                  this.mc.field_1724.method_7346();
+                  this.mc.player.closeHandledScreen();
                   this.ojz();
                }
             } else if (var1 >= this.obc) {
@@ -1667,7 +1672,7 @@ public class nxa extends pnc {
                      this.obc = var1 + pmf.settleDelay(this.nzf);
                   }
                } else if (!this.ojp(var4, var1)) {
-                  if (!var4.method_34255().method_7960()) {
+                  if (!var4.getCursorStack().isEmpty()) {
                      this.ojy(var1);
                   } else {
                      switch (this.oaz) {
@@ -1697,17 +1702,17 @@ public class nxa extends pnc {
    }
 
    private void ojl(ScreenHandler var1, int var2, int var3, SlotActionType var4) {
-      this.getInteractionManager().method_2906(var1.field_7763, var2, var3, var4, this.getPlayer());
+      this.getInteractionManager().clickSlot(var1.syncId, var2, var3, var4, this.getPlayer());
       this.obh = System.currentTimeMillis();
-      if (var2 >= 0 && var2 < var1.field_7761.size()) {
-         Slot var5 = (Slot)var1.field_7761.get(var2);
-         this.obj = var5.field_7873 + 8.0;
-         this.obk = var5.field_7872 + 8.0;
+      if (var2 >= 0 && var2 < var1.slots.size()) {
+         Slot var5 = var1.slots.get(var2);
+         this.obj = var5.x + 8.0;
+         this.obk = var5.y + 8.0;
       }
    }
 
    private void ojm(ScreenHandler var1, long var2) {
-      Slot var4 = this.obi >= 0 && this.oju(var1, this.obi) ? (Slot)var1.field_7761.get(this.obi) : this.ojt(var1, -1, true);
+      Slot var4 = this.obi >= 0 && this.oju(var1, this.obi) ? var1.slots.get(this.obi) : this.ojt(var1, -1, true);
       if (var4 == null) {
          if (this.obh > 0L && var2 - this.obh < 240L) {
             this.obc = this.obh + 240L;
@@ -1717,26 +1722,26 @@ public class nxa extends pnc {
             this.ojy(var2);
          }
       } else {
-         int var5 = this.obo.merge(var4.field_7874, 1, Integer::sum);
+         int var5 = this.obo.merge(var4.id, 1, Integer::sum);
          if (var5 > 3) {
-            this.obp.add(var4.field_7874);
+            this.obp.add(var4.id);
             this.obi = -1;
          } else {
-            this.ojl(var1, var4.field_7874, 0, SlotActionType.field_7794);
+            this.ojl(var1, var4.id, 0, SlotActionType.QUICK_MOVE);
             if (var5 == 1) {
                this.obl++;
             }
 
-            Slot var6 = this.ojt(var1, var4.field_7874, true);
-            this.obi = var6 == null ? -1 : var6.field_7874;
-            double var7 = var6 == null ? 0.0 : Math.hypot(var6.field_7873 - var4.field_7873, var6.field_7872 - var4.field_7872) / 18.0;
+            Slot var6 = this.ojt(var1, var4.id, true);
+            this.obi = var6 == null ? -1 : var6.id;
+            double var7 = var6 == null ? 0.0 : Math.hypot(var6.x - var4.x, var6.y - var4.y) / 18.0;
             this.obc = var2 + this.okc(var7, 1.0);
          }
       }
    }
 
    private void ojn(ScreenHandler var1, long var2) {
-      Slot var4 = this.obi >= 0 && this.ojv(var1, this.obi) ? (Slot)var1.field_7761.get(this.obi) : this.ojt(var1, -1, false);
+      Slot var4 = this.obi >= 0 && this.ojv(var1, this.obi) ? var1.slots.get(this.obi) : this.ojt(var1, -1, false);
       if (var4 == null) {
          if (this.obh > 0L && var2 - this.obh < 240L) {
             this.obc = this.obh + 240L;
@@ -1745,27 +1750,27 @@ public class nxa extends pnc {
             this.ojy(var2);
          }
       } else {
-         int var5 = this.obo.merge(var4.field_7874, 1, Integer::sum);
+         int var5 = this.obo.merge(var4.id, 1, Integer::sum);
          if (var5 > 3) {
-            this.obp.add(var4.field_7874);
+            this.obp.add(var4.id);
             this.obi = -1;
          } else {
-            this.ojl(var1, var4.field_7874, 0, SlotActionType.field_7794);
-            Slot var6 = this.ojt(var1, var4.field_7874, false);
-            this.obi = var6 == null ? -1 : var6.field_7874;
-            double var7 = var6 == null ? 0.0 : Math.hypot(var6.field_7873 - var4.field_7873, var6.field_7872 - var4.field_7872) / 18.0;
+            this.ojl(var1, var4.id, 0, SlotActionType.QUICK_MOVE);
+            Slot var6 = this.ojt(var1, var4.id, false);
+            this.obi = var6 == null ? -1 : var6.id;
+            double var7 = var6 == null ? 0.0 : Math.hypot(var6.x - var4.x, var6.y - var4.y) / 18.0;
             this.obc = var2 + this.okc(var7, 1.15);
          }
       }
    }
 
    private void ojo(ScreenHandler var1, long var2) {
-      int var4 = this.oqh(Items.field_8071);
+      int var4 = this.oqh(Items.GOLDEN_CARROT);
       if (var4 > this.oal && this.obm < 6) {
-         int var5 = this.ojr(var1, var0 -> var0.method_31574(Items.field_8071));
+         int var5 = this.ojr(var1, var0 -> var0.isOf(Items.GOLDEN_CARROT));
          if (var5 != -1) {
             this.obm++;
-            this.ojl(var1, var5, 0, SlotActionType.field_7794);
+            this.ojl(var1, var5, 0, SlotActionType.QUICK_MOVE);
             this.obc = var2 + this.okc(1.0, 1.4);
             return;
          }
@@ -1773,7 +1778,7 @@ public class nxa extends pnc {
 
       if (var4 < this.oal && this.obm < 6) {
          this.obm++;
-         this.obq = pmf.plan(var1, this.getPlayer().method_31548(), var0 -> var0.method_31574(Items.field_8071), this.oal - var4, this.nzf, var2);
+         this.obq = pmf.plan(var1, this.getPlayer().getInventory(), var0 -> var0.isOf(Items.GOLDEN_CARROT), this.oal - var4, this.nzf, var2);
          if (this.obq == null) {
             this.obg = true;
             this.ojy(var2);
@@ -1785,42 +1790,42 @@ public class nxa extends pnc {
    }
 
    private boolean ojp(ScreenHandler var1, long var2) {
-      ItemStack var4 = var1.method_34255();
-      if (!var4.method_7960() && this.obr < 8) {
+      ItemStack var4 = var1.getCursorStack();
+      if (!var4.isEmpty() && this.obr < 8) {
          boolean var5 = this.oaz == nwg.DUMP
-            || this.oaz == nwg.FOOD && var4.method_31574(Items.field_8071)
+            || this.oaz == nwg.FOOD && var4.isOf(Items.GOLDEN_CARROT)
             || this.oaz == nwg.INVIS && this.oqf(var4, true)
             || this.oaz == nwg.SPEED && this.oqf(var4, false);
-         int var6 = var5 ? pmf.stashSlot(var1, this.getPlayer().method_31548(), var4, -1) : this.ojq(var1, var4);
+         int var6 = var5 ? pmf.stashSlot(var1, this.getPlayer().getInventory(), var4, -1) : this.ojq(var1, var4);
          if (var6 == -1) {
-            var6 = var5 ? this.ojq(var1, var4) : pmf.stashSlot(var1, this.getPlayer().method_31548(), var4, -1);
+            var6 = var5 ? this.ojq(var1, var4) : pmf.stashSlot(var1, this.getPlayer().getInventory(), var4, -1);
          }
 
          if (var6 == -1) {
             return false;
-         } else {
-            this.obr++;
-            this.ojl(var1, var6, 0, SlotActionType.field_7790);
-            this.obc = var2 + pmf.settleDelay(this.nzf);
-            return true;
          }
+
+         this.obr++;
+         this.ojl(var1, var6, 0, SlotActionType.PICKUP);
+         this.obc = var2 + pmf.settleDelay(this.nzf);
+         return true;
       } else {
          return false;
       }
    }
 
    private int ojq(ScreenHandler var1, ItemStack var2) {
-      PlayerInventory var3 = this.getPlayer().method_31548();
+      PlayerInventory var3 = this.getPlayer().getInventory();
       int var4 = -1;
 
-      for (int var5 = 0; var5 < var1.field_7761.size(); var5++) {
-         Slot var6 = (Slot)var1.field_7761.get(var5);
-         if (var6.field_7871 == var3 && var6.method_34266() < 36) {
-            if (!var6.method_7681()) {
+      for (int var5 = 0; var5 < var1.slots.size(); var5++) {
+         Slot var6 = var1.slots.get(var5);
+         if (var6.inventory == var3 && var6.getIndex() < 36) {
+            if (!var6.hasStack()) {
                if (var4 == -1) {
                   var4 = var5;
                }
-            } else if (ItemStack.method_31577(var6.method_7677(), var2) && var6.method_7677().method_7947() < var6.method_7677().method_7914()) {
+            } else if (ItemStack.areItemsAndComponentsEqual(var6.getStack(), var2) && var6.getStack().getCount() < var6.getStack().getMaxCount()) {
                return var5;
             }
          }
@@ -1830,18 +1835,14 @@ public class nxa extends pnc {
    }
 
    private int ojr(ScreenHandler var1, Predicate<ItemStack> var2) {
-      PlayerInventory var3 = this.getPlayer().method_31548();
+      PlayerInventory var3 = this.getPlayer().getInventory();
       int var4 = -1;
       int var5 = 0;
 
-      for (int var6 = 0; var6 < var1.field_7761.size(); var6++) {
-         Slot var7 = (Slot)var1.field_7761.get(var6);
-         if (var7.field_7871 == var3
-            && var7.method_34266() < 36
-            && var7.method_7681()
-            && var2.test(var7.method_7677())
-            && var7.method_7677().method_7947() > var5) {
-            var5 = var7.method_7677().method_7947();
+      for (int var6 = 0; var6 < var1.slots.size(); var6++) {
+         Slot var7 = var1.slots.get(var6);
+         if (var7.inventory == var3 && var7.getIndex() < 36 && var7.hasStack() && var2.test(var7.getStack()) && var7.getStack().getCount() > var5) {
+            var5 = var7.getStack().getCount();
             var4 = var6;
          }
       }
@@ -1853,10 +1854,10 @@ public class nxa extends pnc {
       int var5 = this.oqg(var4);
       if (var5 != 1 && this.obm <= 4) {
          if (var5 > 1) {
-            for (int var6 = 0; var6 < var1.field_7761.size(); var6++) {
-               Slot var7 = (Slot)var1.field_7761.get(var6);
-               if (var7.field_7871 == this.getPlayer().method_31548() && this.oqf(var7.method_7677(), var4)) {
-                  this.ojl(var1, var6, 0, SlotActionType.field_7794);
+            for (int var6 = 0; var6 < var1.slots.size(); var6++) {
+               Slot var7 = var1.slots.get(var6);
+               if (var7.inventory == this.getPlayer().getInventory() && this.oqf(var7.getStack(), var4)) {
+                  this.ojl(var1, var6, 0, SlotActionType.QUICK_MOVE);
                   this.obc = var2 + this.okc(1.0, 1.4);
                   return;
                }
@@ -1865,7 +1866,7 @@ public class nxa extends pnc {
             this.obm++;
          } else {
             this.obm++;
-            this.obq = pmf.plan(var1, this.getPlayer().method_31548(), var2x -> this.oqf(var2x, var4), 1, this.nzf, var2);
+            this.obq = pmf.plan(var1, this.getPlayer().getInventory(), var2x -> this.oqf(var2x, var4), 1, this.nzf, var2);
             if (this.obq == null) {
                this.obg = true;
                this.ojy(var2);
@@ -1881,10 +1882,10 @@ public class nxa extends pnc {
       Slot var4 = null;
       double var5 = Double.MAX_VALUE;
 
-      for (int var7 = 0; var7 < var1.field_7761.size(); var7++) {
+      for (int var7 = 0; var7 < var1.slots.size(); var7++) {
          if (var7 != var2 && (var3 ? this.oju(var1, var7) : this.ojv(var1, var7))) {
-            Slot var8 = (Slot)var1.field_7761.get(var7);
-            double var9 = Math.hypot(var8.field_7873 + 8.0 - this.obj, var8.field_7872 + 8.0 - this.obk);
+            Slot var8 = var1.slots.get(var7);
+            double var9 = Math.hypot(var8.x + 8.0 - this.obj, var8.y + 8.0 - this.obk);
             if (var9 < var5) {
                var5 = var9;
                var4 = var8;
@@ -1896,12 +1897,12 @@ public class nxa extends pnc {
    }
 
    private boolean oju(ScreenHandler var1, int var2) {
-      if (var2 >= 0 && var2 < var1.field_7761.size() && !this.obp.contains(var2)) {
-         Slot var3 = (Slot)var1.field_7761.get(var2);
-         PlayerInventory var4 = this.getPlayer().method_31548();
-         if (var3.field_7871 != var4 && var3.method_7681()) {
-            ItemStack var5 = var3.method_7677();
-            return !this.oqa(var5) && var3.method_7674(this.getPlayer()) && ojx(var4, var5);
+      if (var2 >= 0 && var2 < var1.slots.size() && !this.obp.contains(var2)) {
+         Slot var3 = var1.slots.get(var2);
+         PlayerInventory var4 = this.getPlayer().getInventory();
+         if (var3.inventory != var4 && var3.hasStack()) {
+            ItemStack var5 = var3.getStack();
+            return !this.oqa(var5) && var3.canTakeItems(this.getPlayer()) && ojx(var4, var5);
          } else {
             return false;
          }
@@ -1911,10 +1912,10 @@ public class nxa extends pnc {
    }
 
    private boolean ojv(ScreenHandler var1, int var2) {
-      if (var2 >= 0 && var2 < var1.field_7761.size() && !this.obp.contains(var2)) {
-         Slot var3 = (Slot)var1.field_7761.get(var2);
-         if (var3.field_7871 == this.getPlayer().method_31548() && var3.method_7681() && var3.method_34266() < 36) {
-            ItemStack var4 = var3.method_7677();
+      if (var2 >= 0 && var2 < var1.slots.size() && !this.obp.contains(var2)) {
+         Slot var3 = var1.slots.get(var2);
+         if (var3.inventory == this.getPlayer().getInventory() && var3.hasStack() && var3.getIndex() < 36) {
+            ItemStack var4 = var3.getStack();
             return !this.oqe(var4) && !this.oqb(var4);
          } else {
             return false;
@@ -1925,10 +1926,10 @@ public class nxa extends pnc {
    }
 
    private boolean ojw(ScreenHandler var1) {
-      PlayerInventory var2 = this.getPlayer().method_31548();
+      PlayerInventory var2 = this.getPlayer().getInventory();
 
-      for (Slot var4 : var1.field_7761) {
-         if (var4.field_7871 != var2 && var4.method_7681() && !this.oqa(var4.method_7677()) && !ojx(var2, var4.method_7677())) {
+      for (Slot var4 : var1.slots) {
+         if (var4.inventory != var2 && var4.hasStack() && !this.oqa(var4.getStack()) && !ojx(var2, var4.getStack())) {
             return true;
          }
       }
@@ -1938,12 +1939,12 @@ public class nxa extends pnc {
 
    private static boolean ojx(PlayerInventory var0, ItemStack var1) {
       for (int var2 = 0; var2 < 36; var2++) {
-         ItemStack var3 = var0.method_5438(var2);
-         if (var3.method_7960()) {
+         ItemStack var3 = var0.getStack(var2);
+         if (var3.isEmpty()) {
             return true;
          }
 
-         if (var3.method_7947() < var3.method_7914() && ItemStack.method_31577(var3, var1)) {
+         if (var3.getCount() < var3.getMaxCount() && ItemStack.areItemsAndComponentsEqual(var3, var1)) {
             return true;
          }
       }
@@ -1953,7 +1954,7 @@ public class nxa extends pnc {
 
    private void ojy(long var1) {
       this.obf = true;
-      this.obc = var1 + Math.round(MathHelper.method_15350(160.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 90.0, 400.0));
+      this.obc = var1 + Math.round(MathHelper.clamp(160.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 90.0, 400.0));
    }
 
    private void ojz() {
@@ -2043,12 +2044,12 @@ public class nxa extends pnc {
          var7 += var5 * (1.0 + this.nzf.nextDouble() * 1.6);
       }
 
-      return Math.round(MathHelper.method_15350(var7, var5 * 0.6, var5 * 5.0));
+      return Math.round(MathHelper.clamp(var7, var5 * 0.6, var5 * 5.0));
    }
 
    private void okd(long var1) {
       if (!this.okv()) {
-         if (!this.obw && this.oaz == nwg.NONE && this.mc.field_1755 == null) {
+         if (!this.obw && this.oaz == nwg.NONE && this.mc.currentScreen == null) {
             if (this.nzb != nwx.ESCAPING
                && this.nzb != nwx.BOOT
                && this.nzb != nwx.CHECK_PVP_COOLDOWN
@@ -2070,7 +2071,7 @@ public class nxa extends pnc {
                }
 
                if (this.ocd <= 0 && this.odl <= 60) {
-                  PlayerInventory var12 = this.getPlayer().method_31548();
+                  PlayerInventory var12 = this.getPlayer().getInventory();
                   boolean var4 = this.okr();
                   int var5 = 0;
                   int var6 = 0;
@@ -2078,8 +2079,8 @@ public class nxa extends pnc {
                   int var8 = 0;
 
                   for (int var9 = 9; var9 < 36; var9++) {
-                     ItemStack var10 = var12.method_5438(var9);
-                     if (var10.method_7960()) {
+                     ItemStack var10 = var12.getStack(var9);
+                     if (var10.isEmpty()) {
                         var6++;
                      } else if (var4 && this.oqb(var10)) {
                         var5++;
@@ -2087,8 +2088,8 @@ public class nxa extends pnc {
                   }
 
                   for (int var13 = 0; var13 < 9; var13++) {
-                     ItemStack var15 = var12.method_5438(var13);
-                     if (var15.method_7960()) {
+                     ItemStack var15 = var12.getStack(var13);
+                     if (var15.isEmpty()) {
                         var8++;
                      } else if (!this.oqb(var15) && !this.oqd(var15)) {
                         var7++;
@@ -2125,14 +2126,14 @@ public class nxa extends pnc {
          this.occ = -1;
          this.oca = this.nzd;
          this.obz = var1;
-         this.oby = var1 + Math.round(MathHelper.method_15350(190.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 120.0, 420.0));
+         this.oby = var1 + Math.round(MathHelper.clamp(190.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 120.0, 420.0));
          this.silenceMovement();
       }
    }
 
    private void okg(long var1) {
       if (this.obw) {
-         if (this.getPlayer() == null || this.mc.field_1755 != null || this.nzb == nwx.ESCAPING || var1 - this.obz > 9000L) {
+         if (this.getPlayer() == null || this.mc.currentScreen != null || this.nzb == nwx.ESCAPING || var1 - this.obz > 9000L) {
             this.okh();
          } else if (var1 >= this.oby && this.nzd - this.oca >= 1 && this.isMovementSilent()) {
             if (this.obx) {
@@ -2144,7 +2145,7 @@ public class nxa extends pnc {
                   this.oby = var1 + (this.ocb == 0 ? 40L + this.nzf.nextInt(60) : this.okn());
                } else {
                   this.oko(var3.slot(), var3.button(), var3.type());
-                  if (var3.type() == SlotActionType.field_7795) {
+                  if (var3.type() == SlotActionType.THROW) {
                      this.ocq = this.nzd;
                   }
 
@@ -2175,14 +2176,14 @@ public class nxa extends pnc {
    }
 
    private nwj oki() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
+      PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = this.occ != -1 ? this.occ : 13;
       int var3 = -1;
       double var4 = Double.MAX_VALUE;
       boolean var6 = this.okr();
 
       for (int var7 = 0; var7 < 36; var7++) {
-         if (var6 && this.oqb(var1.method_5438(var7))) {
+         if (var6 && this.oqb(var1.getStack(var7))) {
             double var8 = okl(var2, var7);
             if (var8 < var4) {
                var4 = var8;
@@ -2192,31 +2193,31 @@ public class nxa extends pnc {
       }
 
       if (var3 != -1) {
-         return new nwj(var3, 1, SlotActionType.field_7795, var3);
-      } else {
-         nwj var11 = this.okj();
-         if (var11 != null) {
-            return var11;
-         } else {
-            for (int var12 = 0; var12 < 9; var12++) {
-               ItemStack var9 = var1.method_5438(var12);
-               if (!var9.method_7960() && !this.oqd(var9)) {
-                  int var10 = this.okk(var2);
-                  if (var10 == -1) {
-                     return null;
-                  }
+         return new nwj(var3, 1, SlotActionType.THROW, var3);
+      }
 
-                  return new nwj(var10, var12, SlotActionType.field_7791, var10);
-               }
+      nwj var11 = this.okj();
+      if (var11 != null) {
+         return var11;
+      }
+
+      for (int var12 = 0; var12 < 9; var12++) {
+         ItemStack var9 = var1.getStack(var12);
+         if (!var9.isEmpty() && !this.oqd(var9)) {
+            int var10 = this.okk(var2);
+            if (var10 == -1) {
+               return null;
             }
 
-            return null;
+            return new nwj(var10, var12, SlotActionType.SWAP, var10);
          }
       }
+
+      return null;
    }
 
    private nwj okj() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
+      PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = -1;
       if (this.oqi(var1x -> this.oqf(var1x, true)) == -1) {
          var2 = this.oqj(var1x -> this.oqf(var1x, true));
@@ -2226,38 +2227,38 @@ public class nxa extends pnc {
          var2 = this.oqj(var1x -> this.oqf(var1x, false));
       }
 
-      if (var2 == -1 && this.oqi(var0 -> var0.method_31574(Items.field_8071)) == -1) {
-         var2 = this.oqj(var0 -> var0.method_31574(Items.field_8071));
+      if (var2 == -1 && this.oqi(var0 -> var0.isOf(Items.GOLDEN_CARROT)) == -1) {
+         var2 = this.oqj(var0 -> var0.isOf(Items.GOLDEN_CARROT));
       }
 
       if (var2 == -1) {
          return null;
-      } else {
-         int var3 = -1;
-
-         for (int var4 = 0; var4 < 9 && var3 == -1; var4++) {
-            if (var1.method_5438(var4).method_7960()) {
-               var3 = var4;
-            }
-         }
-
-         for (int var5 = 0; var5 < 9 && var3 == -1; var5++) {
-            if (!this.oqd(var1.method_5438(var5))) {
-               var3 = var5;
-            }
-         }
-
-         return var3 == -1 ? null : new nwj(var2, var3, SlotActionType.field_7791, var2);
       }
+
+      int var3 = -1;
+
+      for (int var4 = 0; var4 < 9 && var3 == -1; var4++) {
+         if (var1.getStack(var4).isEmpty()) {
+            var3 = var4;
+         }
+      }
+
+      for (int var5 = 0; var5 < 9 && var3 == -1; var5++) {
+         if (!this.oqd(var1.getStack(var5))) {
+            var3 = var5;
+         }
+      }
+
+      return var3 == -1 ? null : new nwj(var2, var3, SlotActionType.SWAP, var2);
    }
 
    private int okk(int var1) {
-      PlayerInventory var2 = this.getPlayer().method_31548();
+      PlayerInventory var2 = this.getPlayer().getInventory();
       int var3 = -1;
       double var4 = Double.MAX_VALUE;
 
       for (int var6 = 9; var6 < 36; var6++) {
-         if (var2.method_5438(var6).method_7960()) {
+         if (var2.getStack(var6).isEmpty()) {
             double var7 = okl(var1, var6);
             if (var7 < var4) {
                var4 = var7;
@@ -2283,18 +2284,18 @@ public class nxa extends pnc {
          var3 += 120.0 + this.nzf.nextDouble() * 180.0;
       }
 
-      return Math.round(MathHelper.method_15350(var3, 55.0, 520.0));
+      return Math.round(MathHelper.clamp(var3, 55.0, 520.0));
    }
 
    private long okn() {
-      return Math.round(MathHelper.method_15350(150.0 * Math.exp(this.nzf.nextGaussian() * 0.3), 80.0, 420.0));
+      return Math.round(MathHelper.clamp(150.0 * Math.exp(this.nzf.nextGaussian() * 0.3), 80.0, 420.0));
    }
 
    private void oko(int var1, int var2, SlotActionType var3) {
       if (this.getInteractionManager() != null && this.getPlayer() != null) {
          int var4 = var1 < 9 ? var1 + 36 : var1;
-         this.getInteractionManager().method_2906(this.getPlayer().field_7498.field_7763, var4, var2, var3, this.getPlayer());
-         if (this.mc.field_1755 == null) {
+         this.getInteractionManager().clickSlot(this.getPlayer().playerScreenHandler.syncId, var4, var2, var3, this.getPlayer());
+         if (this.mc.currentScreen == null) {
             this.ocf = true;
          }
       }
@@ -2303,21 +2304,21 @@ public class nxa extends pnc {
    private void okp() {
       if (this.ocf) {
          this.ocf = false;
-         if (this.mc.field_1755 == null && this.getPlayer() != null && this.getNetworkHandler() != null) {
-            this.getNetworkHandler().method_52787(new CloseHandledScreenC2SPacket(this.getPlayer().field_7498.field_7763));
+         if (this.mc.currentScreen == null && this.getPlayer() != null && this.getNetworkHandler() != null) {
+            this.getNetworkHandler().sendPacket(new CloseHandledScreenC2SPacket(this.getPlayer().playerScreenHandler.syncId));
          }
       }
    }
 
    private boolean okq() {
-      return this.mc.field_1755 == null
+      return this.mc.currentScreen == null
          && !this.ocf
          && !this.obw
          && this.oaz == nwg.NONE
-         && !this.mc.field_1690.field_1886.method_1434()
-         && !this.mc.field_1690.field_1904.method_1434()
-         && !this.getPlayer().method_6115()
-         && !this.getPlayer().method_7325()
+         && !this.mc.options.attackKey.isPressed()
+         && !this.mc.options.useKey.isPressed()
+         && !this.getPlayer().isUsingItem()
+         && !this.getPlayer().isSpectator()
          && this.nzb != nwx.ESCAPING
          && this.nzd - this.ohl > 10
          && !this.ohb
@@ -2332,12 +2333,12 @@ public class nxa extends pnc {
    }
 
    private int oks() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
-      int var2 = var1.method_67532();
+      PlayerInventory var1 = this.getPlayer().getInventory();
+      int var2 = var1.getSelectedSlot();
       int var3 = -1;
 
       for (int var4 = 0; var4 < 9; var4++) {
-         if (this.oqb(var1.method_5438(var4)) && (var3 == -1 || Math.abs(var4 - var2) < Math.abs(var3 - var2))) {
+         if (this.oqb(var1.getStack(var4)) && (var3 == -1 || Math.abs(var4 - var2) < Math.abs(var3 - var2))) {
             var3 = var4;
          }
       }
@@ -2348,10 +2349,10 @@ public class nxa extends pnc {
    private void okt(int var1) {
       this.oku();
       this.ocg = var1;
-      boolean var2 = this.getPlayer().method_31548().method_67532() == var1;
+      boolean var2 = this.getPlayer().getInventory().getSelectedSlot() == var1;
       float var3 = this.nzf.nextFloat();
       this.och = var2 ? 0 : (var3 < 0.2F ? 0 : (var3 < 0.6F ? 1 : (var3 < 0.9F ? 2 : 3)));
-      this.getPlayer().method_31548().method_61496(var1);
+      this.getPlayer().getInventory().setSelectedSlot(var1);
    }
 
    private void oku() {
@@ -2365,41 +2366,43 @@ public class nxa extends pnc {
    private boolean okv() {
       if (this.ocg == -1) {
          return false;
-      } else if (this.ocj) {
+      }
+
+      if (this.ocj) {
          if (this.ocl == 0 && ++this.ock <= 3) {
             return true;
-         } else {
-            boolean var4 = this.ocl > 0;
-            this.oku();
-            if (var4) {
-               this.ocn++;
-               this.oci = this.nzf.nextInt(3);
-               this.ocq = this.nzd;
-            } else {
-               this.oci = 8 + this.nzf.nextInt(12);
-            }
-
-            return false;
          }
+
+         boolean var4 = this.ocl > 0;
+         this.oku();
+         if (var4) {
+            this.ocn++;
+            this.oci = this.nzf.nextInt(3);
+            this.ocq = this.nzd;
+         } else {
+            this.oci = 8 + this.nzf.nextInt(12);
+         }
+
+         return false;
       } else {
-         PlayerInventory var1 = this.getPlayer().method_31548();
-         if (this.okq() && this.oqb(var1.method_5438(this.ocg)) && var1.method_67532() == this.ocg) {
+         PlayerInventory var1 = this.getPlayer().getInventory();
+         if (this.okq() && this.oqb(var1.getStack(this.ocg)) && var1.getSelectedSlot() == this.ocg) {
             if (this.och-- > 0) {
                return true;
-            } else {
-               int var2 = this.ocg;
-               int var3 = ++this.ocm;
-               this.ocj = true;
-               this.ock = 0;
-               this.ocl = 0;
-               ptr.later(() -> {
-                  boolean var3x = this.okw(var2, var3);
-                  if (var3 == this.ocm) {
-                     this.ocl = var3x ? 1 : -1;
-                  }
-               });
-               return true;
             }
+
+            int var2 = this.ocg;
+            int var3 = ++this.ocm;
+            this.ocj = true;
+            this.ock = 0;
+            this.ocl = 0;
+            ptr.later(() -> {
+               boolean var3x = this.okw(var2, var3);
+               if (var3 == this.ocm) {
+                  this.ocl = var3x ? 1 : -1;
+               }
+            });
+            return true;
          } else {
             this.oku();
             this.oci = 6 + this.nzf.nextInt(10);
@@ -2409,17 +2412,21 @@ public class nxa extends pnc {
    }
 
    private boolean okw(int var1, int var2) {
-      ClientPlayerEntity var3 = this.mc.field_1724;
-      if (var2 == this.ocm && this.ocj && var3 != null && this.mc.field_1755 == null && !var3.method_7325() && var3.method_31548().method_67532() == var1) {
-         ItemStack var4 = var3.method_6047();
+      ClientPlayerEntity var3 = this.mc.player;
+      if (var2 == this.ocm && this.ocj && var3 != null && this.mc.currentScreen == null && !var3.isSpectator() && var3.getInventory().getSelectedSlot() == var1
+         )
+       {
+         ItemStack var4 = var3.getMainHandStack();
          if (!this.oqb(var4)) {
             return false;
-         } else if (!var3.method_7290(var4.method_7947() > 1)) {
-            return false;
-         } else {
-            var3.method_6104(Hand.field_5808);
-            return true;
          }
+
+         if (!var3.dropSelectedItem(var4.getCount() > 1)) {
+            return false;
+         }
+
+         var3.swingHand(Hand.MAIN_HAND);
+         return true;
       } else {
          return false;
       }
@@ -2433,7 +2440,8 @@ public class nxa extends pnc {
          boolean var4 = this.oky(true, var3);
          boolean var5 = this.nyt.get() && this.oky(false, var3);
          if (var4 || var5) {
-            int var7 = this.oqi(var2x -> this.oqf(var2x, var4));
+            boolean var6 = var4;
+            int var7 = this.oqi(var2x -> this.oqf(var2x, var6));
             if (var7 == -1) {
                if (this.ocd > 0) {
                   return false;
@@ -2451,8 +2459,8 @@ public class nxa extends pnc {
 
             pqf.resetKeys();
             this.oot();
-            if (this.getPlayer().method_31548().method_67532() != var7) {
-               this.getPlayer().method_31548().method_61496(var7);
+            if (this.getPlayer().getInventory().getSelectedSlot() != var7) {
+               this.getPlayer().getInventory().setSelectedSlot(var7);
                this.olh();
                this.odk = 0;
                this.odj = true;
@@ -2461,14 +2469,14 @@ public class nxa extends pnc {
 
             this.odj = true;
             this.odk++;
-            if (this.getPlayer().method_31548().method_5438(var7).method_31574(Items.field_8574) || this.old(86.0F) && !(this.ogw < 78.0F)) {
-               this.odm = var4 ? 0 : 1;
+            if (this.getPlayer().getInventory().getStack(var7).isOf(Items.POTION) || this.old(86.0F) && !(this.ogw < 78.0F)) {
+               this.odm = var6 ? 0 : 1;
                this.odn = this.nzd;
                this.olg(true);
-               if (!this.getPlayer().method_6115() && this.odk % 5 == 0) {
+               if (!this.getPlayer().isUsingItem() && this.odk % 5 == 0) {
                   ptr.later(() -> {
-                     if (this.mc.field_1724 != null && this.mc.field_1761 != null && !this.mc.field_1724.method_6115()) {
-                        this.mc.field_1761.method_2919(this.mc.field_1724, Hand.field_5808);
+                     if (this.mc.player != null && this.mc.interactionManager != null && !this.mc.player.isUsingItem()) {
+                        this.mc.interactionManager.interactItem(this.mc.player, Hand.MAIN_HAND);
                      }
                   });
                }
@@ -2477,7 +2485,7 @@ public class nxa extends pnc {
                   this.olh();
                   this.odk = 0;
                   this.odl = 100;
-                  int var8 = var4 ? 0 : 1;
+                  int var8 = var6 ? 0 : 1;
                   if (++this.ods[var8] >= 3) {
                      this.ola(var8);
                   }
@@ -2501,7 +2509,7 @@ public class nxa extends pnc {
          this.odk = 0;
          this.odm = -1;
          this.olh();
-         if (!this.oqb(this.getPlayer().method_6047())) {
+         if (!this.oqb(this.getPlayer().getMainHandStack())) {
             this.olj();
          }
       }
@@ -2561,19 +2569,19 @@ public class nxa extends pnc {
    }
 
    private int olb(boolean var1) {
-      StatusEffectInstance var2 = this.getPlayer().method_6112(var1 ? StatusEffects.field_5905 : StatusEffects.field_5904);
-      return var2 == null ? 0 : (var2.method_48559() ? Integer.MAX_VALUE : var2.method_5584());
+      StatusEffectInstance var2 = this.getPlayer().getStatusEffect(var1 ? StatusEffects.INVISIBILITY : StatusEffects.SPEED);
+      return var2 == null ? 0 : (var2.isInfinite() ? Integer.MAX_VALUE : var2.getDuration());
    }
 
    private boolean olc() {
-      boolean var1 = this.getPlayer().method_7344().method_7586() < 14;
-      int var2 = this.oqi(var0 -> var0.method_31574(Items.field_8071));
+      boolean var1 = this.getPlayer().getHungerManager().getFoodLevel() < 14;
+      int var2 = this.oqi(var0 -> var0.isOf(Items.GOLDEN_CARROT));
       boolean var3 = this.opb();
       if (this.odg == 0) {
          if (!var1 || var2 == -1) {
-            if (this.mc.field_1690.field_1904.method_1434() && !this.ohk) {
+            if (this.mc.options.useKey.isPressed() && !this.ohk) {
                this.olh();
-               if (this.getPlayer().method_6047().method_31574(Items.field_8071)) {
+               if (this.getPlayer().getMainHandStack().isOf(Items.GOLDEN_CARROT)) {
                   this.olj();
                }
             }
@@ -2608,7 +2616,7 @@ public class nxa extends pnc {
                this.old(-55.0F);
             }
 
-            this.getPlayer().method_31548().method_61496(var2);
+            this.getPlayer().getInventory().setSelectedSlot(var2);
             this.olg(!var3);
             if (++this.odi > 200) {
                this.olh();
@@ -2635,8 +2643,8 @@ public class nxa extends pnc {
    private void ole() {
       if (this.opb()) {
          this.opq();
-         pyd.setSprint(this.mc.field_1690, false);
-         this.mc.field_1690.field_1903.method_23481(false);
+         pyd.setSprint(this.mc.options, false);
+         this.mc.options.jumpKey.setPressed(false);
       } else {
          pqf.resetKeys();
          this.oot();
@@ -2650,35 +2658,35 @@ public class nxa extends pnc {
    }
 
    private void olg(boolean var1) {
-      this.mc.field_1690.field_1832.method_23481(var1);
-      this.mc.field_1690.field_1904.method_23481(true);
+      this.mc.options.sneakKey.setPressed(var1);
+      this.mc.options.useKey.setPressed(true);
       ptr.miss();
    }
 
    private void olh() {
-      if (this.mc.field_1690 != null) {
-         this.mc.field_1690.field_1904.method_23481(false);
-         this.mc.field_1690.field_1832.method_23481(false);
+      if (this.mc.options != null) {
+         this.mc.options.useKey.setPressed(false);
+         this.mc.options.sneakKey.setPressed(false);
       }
    }
 
    private boolean oli(ItemStack var1) {
-      return !var1.method_7960() && (var1.method_31574(Items.field_8071) || this.oqf(var1, true) || this.oqf(var1, false));
+      return !var1.isEmpty() && (var1.isOf(Items.GOLDEN_CARROT) || this.oqf(var1, true) || this.oqf(var1, false));
    }
 
    private void olj() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
+      PlayerInventory var1 = this.getPlayer().getInventory();
 
       for (int var2 = 0; var2 < 9; var2++) {
-         if (var1.method_5438(var2).method_7960()) {
-            var1.method_61496(var2);
+         if (var1.getStack(var2).isEmpty()) {
+            var1.setSelectedSlot(var2);
             return;
          }
       }
 
       for (int var3 = 0; var3 < 9; var3++) {
-         if (!this.oli(var1.method_5438(var3))) {
-            var1.method_61496(var3);
+         if (!this.oli(var1.getStack(var3))) {
+            var1.setSelectedSlot(var3);
             return;
          }
       }
@@ -2698,7 +2706,7 @@ public class nxa extends pnc {
          this.oaj = true;
       }
 
-      if (!this.oah && this.oqh(Items.field_8071) == this.oal) {
+      if (!this.oah && this.oqh(Items.GOLDEN_CARROT) == this.oal) {
          this.oah = true;
       }
 
@@ -2784,11 +2792,11 @@ public class nxa extends pnc {
             pqf.resetKeys();
             Vec3d var3 = this.onl(this.oam);
             if (var3 == null) {
-               if (this.getPlayer().method_33571().method_1025(Vec3d.method_24953(this.oam)) > 16.0) {
+               if (this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(this.oam)) > 16.0) {
                   this.opc(this.oam, false);
                }
 
-               var3 = Vec3d.method_24953(this.oam);
+               var3 = Vec3d.ofCenter(this.oam);
             }
 
             this.ooq(this.oam, var3);
@@ -2847,15 +2855,15 @@ public class nxa extends pnc {
    }
 
    private boolean olo(BlockPos var1) {
-      return this.getPlayer().method_24828() && this.getPlayer().method_33571().method_1025(Vec3d.method_24953(var1)) <= 12.0 && this.onl(var1) != null;
+      return this.getPlayer().isOnGround() && this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(var1)) <= 12.0 && this.onl(var1) != null;
    }
 
    private BlockPos olp(String... var1) {
-      return this.getWorld() != null && this.getPlayer() != null ? pte.find(this.mc, this.getPlayer().method_24515(), var1) : null;
+      return this.getWorld() != null && this.getPlayer() != null ? pte.find(this.mc, this.getPlayer().getBlockPos(), var1) : null;
    }
 
    private boolean olq(BlockPos var1) {
-      return this.getWorld() != null && this.getWorld().method_8320(var1).method_26204() instanceof ChestBlock;
+      return this.getWorld() != null && this.getWorld().getBlockState(var1).getBlock() instanceof ChestBlock;
    }
 
    private String olr() {
@@ -2920,7 +2928,7 @@ public class nxa extends pnc {
       this.oia();
       this.ocz = this.getWorld();
       this.oda = this.getPlayer();
-      this.odb = this.getPlayer() == null ? null : this.getPlayer().method_73189();
+      this.odb = this.getPlayer() == null ? null : this.getPlayer().getEntityPos();
       this.odc = -1;
       this.odd = false;
       this.oeb = false;
@@ -2951,7 +2959,7 @@ public class nxa extends pnc {
          this.oly(a.c(-1412527208, "辩\uf64b糬\ue688楏\ueff3喧\udc54䘓좹伒땢㯇Ꙧ⠢껔ᒖ鬵Ƌ蟓\u0a4f瀓ﺭ慪\ue717涣푽帰샙䛱촰㎔릮⁞ꘁ"), false);
       } else {
          this.odf = "";
-         this.getNetworkHandler().method_45730(var4);
+         this.getNetworkHandler().sendChatCommand(var4);
          this.olv();
          this.ogi++;
          this.nzg = 0;
@@ -3039,7 +3047,7 @@ public class nxa extends pnc {
 
    private void omb() {
       BlockPos var1 = this.omc() ? this.odz.get(pjd.key(this.olr())) : null;
-      this.nzh = var1 != null ? var1 : this.getPlayer().method_24515();
+      this.nzh = var1 != null ? var1 : this.getPlayer().getBlockPos();
       this.oaa = 0;
       this.oay = 0;
       this.ohy(nwx.EXPLORING);
@@ -3049,7 +3057,7 @@ public class nxa extends pnc {
       String var1 = pjd.key(this.olr());
       BlockPos var2 = this.odz.get(var1);
       double var3 = 100.0;
-      return var2 != null && this.oij().equals(this.oea.get(var1)) && this.getPlayer().method_24515().method_10262(var2) < var3 * var3;
+      return var2 != null && this.oij().equals(this.oea.get(var1)) && this.getPlayer().getBlockPos().getSquaredDistance(var2) < var3 * var3;
    }
 
    private void omd(String var1) {
@@ -3060,36 +3068,36 @@ public class nxa extends pnc {
    private boolean ome() {
       if (this.odv < 3) {
          return false;
-      } else {
-         if (!this.odx) {
-            this.notifyUser(
-               wap.s(
-                  a.b("\u2454巂휊䥤슳䐗﹅矪\ue9af", 1370235918)
-                     + this.odv
-                     + a.b("瞿๚蒏\u1ae5鄫យ궙␡멹ゆ뜔䴤쎡娍큆因\uecec挿呂翙\uf66b豸ˈ餛Ὤ闶Ⱂꉝ㢷뻺㔁쮞䇐\ud83a幵퓅欕\ue16d柹﹀", -345278537)
-                     + this.odw
-                     + a.b(
-                        "\u19ce恸\ueaa5璷ｋ秷쎢䩛푏庪\ud965⌙궋㑪븦㣌芞\u0d49韻ᆷ頟\ue242沥\uf768焚ﮎ䉪찭囉킚孹ꖧ\u2fe7뙞《몹զ轒ী遾ᨫ撞\uee99椴\uf3ee線쑈件좶却\udd16⟌깺⠧닂㳌蝿Ǻ讕\u1249鳵\ue6ea慍\ueb1d痕ﱸ䙥생䪗핲忮\ud99e\u200f\uaaff㒪뽝㤂莴",
-                        1007360425
-                     ),
-                  a.c(-22107395, "껯휁巑쏒䠈캺瓥ﴝ捌\ue9f5模遊")
-                     + this.odv
-                     + a.c(1851661904, "Ṩ揎\ue91a眞ﲲ稉쁞䶿\ud7ff嵏\uda96ₓ깋㞁맆㬥腧໊鑻ሩ鯟\ue183歞\uf087")
-                     + this.odw
-                     + a.d("騭\ue39b楆\uf308碀﹏䐐췦双\ud971嫎꒨⩽돂㧦뼔ĸ軥၄阗ᾐ斾\uef12瓌\uf2bc簈엀䮓핸圱\ud89a≛ꠙ\u31e5럆㵲苘ࢩ詢់馌\ue36f椴\uee84琦艹䏲쵛併퓘媨ꁵ⧀", -563519013, 606534634)
-               ),
-               false
-            );
-            this.odx = true;
-         }
-
-         return true;
       }
+
+      if (!this.odx) {
+         this.notifyUser(
+            wap.s(
+               a.b("\u2454巂휊䥤슳䐗﹅矪\ue9af", 1370235918)
+                  + this.odv
+                  + a.b("瞿๚蒏\u1ae5鄫យ궙␡멹ゆ뜔䴤쎡娍큆因\uecec挿呂翙\uf66b豸ˈ餛Ὤ闶Ⱂꉝ㢷뻺㔁쮞䇐\ud83a幵퓅欕\ue16d柹﹀", -345278537)
+                  + this.odw
+                  + a.b(
+                     "\u19ce恸\ueaa5璷ｋ秷쎢䩛푏庪\ud965⌙궋㑪븦㣌芞\u0d49韻ᆷ頟\ue242沥\uf768焚ﮎ䉪찭囉킚孹ꖧ\u2fe7뙞《몹զ轒ী遾ᨫ撞\uee99椴\uf3ee線쑈件좶却\udd16⟌깺⠧닂㳌蝿Ǻ讕\u1249鳵\ue6ea慍\ueb1d痕ﱸ䙥생䪗핲忮\ud99e\u200f\uaaff㒪뽝㤂莴",
+                     1007360425
+                  ),
+               a.c(-22107395, "껯휁巑쏒䠈캺瓥ﴝ捌\ue9f5模遊")
+                  + this.odv
+                  + a.c(1851661904, "Ṩ揎\ue91a眞ﲲ稉쁞䶿\ud7ff嵏\uda96ₓ깋㞁맆㬥腧໊鑻ሩ鯟\ue183歞\uf087")
+                  + this.odw
+                  + a.d("騭\ue39b楆\uf308碀﹏䐐췦双\ud971嫎꒨⩽돂㧦뼔ĸ軥၄阗ᾐ斾\uef12瓌\uf2bc簈엀䮓핸圱\ud89a≛ꠙ\u31e5럆㵲苘ࢩ詢់馌\ue36f椴\uee84琦艹䏲쵛併퓘媨ꁵ⧀", -563519013, 606534634)
+            ),
+            false
+         );
+         this.odx = true;
+      }
+
+      return true;
    }
 
    private boolean omf() {
       ClientPlayerEntity var1 = this.getPlayer();
-      return this.odd || this.getWorld() != this.ocz || var1 != this.oda || this.odb != null && var1.method_73189().method_1022(this.odb) > 48.0;
+      return this.odd || this.getWorld() != this.ocz || var1 != this.oda || this.odb != null && var1.getEntityPos().distanceTo(this.odb) > 48.0;
    }
 
    private boolean omg() {
@@ -3098,32 +3106,32 @@ public class nxa extends pnc {
          rzy var2 = this.ohz();
          if (var2 != null) {
             String var3 = this.oij();
-            Vec3d var4 = var1.method_73189();
+            Vec3d var4 = var1.getEntityPos();
 
             for (rzv var6 : var2.getCachedTimers()) {
-               if (!var6.untimed && var3.equals(var6.dimension) && var6.pos.method_1025(var4) < 10000.0) {
+               if (!var6.untimed && var3.equals(var6.dimension) && var6.pos.squaredDistanceTo(var4) < 10000.0) {
                   return true;
                }
             }
          }
 
-         return this.omv(2).size() >= 4 && pte.find(this.mc, var1.method_24515(), 24, 8, a.b("髌\ue30d榯\uf7a0簈", -1748722040)) == null;
+         return this.omv(2).size() >= 4 && pte.find(this.mc, var1.getBlockPos(), 24, 8, a.b("髌\ue30d榯\uf7a0簈", -1748722040)) == null;
       } else {
          return false;
       }
    }
 
    private void omh() {
-      if (pqf.onClimbable(this.getPlayer()) && this.mc.field_1690 != null) {
-         this.mc.field_1690.field_1832.method_23481(true);
+      if (pqf.onClimbable(this.getPlayer()) && this.mc.options != null) {
+         this.mc.options.sneakKey.setPressed(true);
       }
    }
 
    private void omi(String var1) {
-      this.getNetworkHandler().method_45730(var1);
+      this.getNetworkHandler().sendChatCommand(var1);
       this.oau = true;
       this.ocx++;
-      this.oaw = this.getPlayer().method_24515();
+      this.oaw = this.getPlayer().getBlockPos();
       this.ocy = this.getWorld();
       this.oax = this.oas;
       this.oay = 0;
@@ -3134,11 +3142,11 @@ public class nxa extends pnc {
    }
 
    private boolean omj() {
-      return this.oaw != null && this.getPlayer().method_24515().method_10262(this.oaw) > 9.0;
+      return this.oaw != null && this.getPlayer().getBlockPos().getSquaredDistance(this.oaw) > 9.0;
    }
 
    private boolean omk() {
-      return this.oec != null && (this.getWorld() != this.oed || this.getPlayer().method_24515().method_10262(this.oec) > 576.0);
+      return this.oec != null && (this.getWorld() != this.oed || this.getPlayer().getBlockPos().getSquaredDistance(this.oec) > 576.0);
    }
 
    private void oml(String var1) {
@@ -3171,7 +3179,7 @@ public class nxa extends pnc {
       } else {
          this.odf = "";
          pqf.resetKeys();
-         this.getNetworkHandler().method_45730(var1);
+         this.getNetworkHandler().sendChatCommand(var1);
          this.olv();
          this.ohw();
          this.oam = null;
@@ -3213,7 +3221,7 @@ public class nxa extends pnc {
 
    private void omq(long var1) {
       if (this.nzh == null) {
-         this.nzh = this.getPlayer().method_24515();
+         this.nzh = this.getPlayer().getBlockPos();
       }
 
       if (this.odu != null) {
@@ -3223,7 +3231,7 @@ public class nxa extends pnc {
       } else if (this.nzg >= this.nyq.get()) {
          this.oml(a.b("\uec6d閾ἓ腫ો调㙒뮻ↅꭋⲗ횗堰소䮩줳獱ﲭ戃\ue45f榸ឈ饏ʒ蓦", -1627592619));
       } else if (this.olb(true) >= 100 || this.oqg(true) != 0 && !this.odt[0]) {
-         if (this.getPlayer().method_7344().method_7586() < 8 && this.oqh(Items.field_8071) == 0) {
+         if (this.getPlayer().getHungerManager().getFoodLevel() < 8 && this.oqh(Items.GOLDEN_CARROT) == 0) {
             this.oml(a.b("\u2fdd噄\udce0䛳줱侁\uf5ad砷\ue665泙\uef17ᕫ龬ɼ衛\u0ea6듢", -2085344303));
          } else {
             if (this.oaa <= 0) {
@@ -3257,7 +3265,7 @@ public class nxa extends pnc {
 
    private void oms(long var1) {
       if (this.oab != null) {
-         double var3 = this.getPlayer().method_24515().method_10262(this.oab);
+         double var3 = this.getPlayer().getBlockPos().getSquaredDistance(this.oab);
          if (!this.olq(this.oab) || var3 <= 144.0) {
             this.omt();
             this.oab = null;
@@ -3288,31 +3296,31 @@ public class nxa extends pnc {
    }
 
    private void omt() {
-      BlockPos var1 = this.getPlayer().method_24515();
+      BlockPos var1 = this.getPlayer().getBlockPos();
 
       for (BlockPos var3 : this.omv(1)) {
-         if (var3.method_10262(var1) <= 196.0) {
+         if (var3.getSquaredDistance(var1) <= 196.0) {
             this.nzk.add(var3);
          }
       }
    }
 
    private void omu(long var1) {
-      BlockPos var3 = this.getPlayer().method_24515();
+      BlockPos var3 = this.getPlayer().getBlockPos();
       this.omt();
       ArrayList var4 = new ArrayList();
 
       for (BlockPos var6 : this.omv(4)) {
          if (!this.nzk.contains(var6)) {
             Long var7 = this.nzl.get(var6);
-            if ((var7 == null || var7 <= var1) && (this.nzh == null || !(var6.method_10262(this.nzh) > 14400.0)) && !this.ont(var6, 7.0)) {
+            if ((var7 == null || var7 <= var1) && (this.nzh == null || !(var6.getSquaredDistance(this.nzh) > 14400.0)) && !this.ont(var6, 7.0)) {
                var4.add(var6);
             }
          }
       }
 
       if (!var4.isEmpty()) {
-         var4.sort((var1x, var2) -> Double.compare(var1x.method_10262(var3), var2.method_10262(var3)));
+         var4.sort((var1x, var2) -> Double.compare(var1x.getSquaredDistance(var3), var2.getSquaredDistance(var3)));
 
          for (int var8 = 0; var8 < Math.min(2, var4.size()); var8++) {
             BlockPos var9 = (BlockPos)var4.get(var8);
@@ -3330,90 +3338,90 @@ public class nxa extends pnc {
 
    private List<BlockPos> omv(int var1) {
       ArrayList var2 = new ArrayList();
-      if (this.mc.field_1687 == null) {
+      if (this.mc.world == null) {
          return var2;
-      } else {
-         BlockPos var3 = this.getPlayer().method_24515();
-         int var4 = var3.method_10263() >> 4;
-         int var5 = var3.method_10260() >> 4;
+      }
 
-         for (int var6 = -var1; var6 <= var1; var6++) {
-            for (int var7 = -var1; var7 <= var1; var7++) {
-               WorldChunk var8 = this.mc.field_1687.method_2935().method_12126(var4 + var6, var5 + var7, false);
-               if (var8 != null) {
-                  for (BlockEntity var10 : var8.method_12214().values()) {
-                     if (var10 instanceof ChestBlockEntity && Math.abs(var10.method_11016().method_10264() - var3.method_10264()) <= 16) {
-                        var2.add(var10.method_11016());
-                     }
+      BlockPos var3 = this.getPlayer().getBlockPos();
+      int var4 = var3.getX() >> 4;
+      int var5 = var3.getZ() >> 4;
+
+      for (int var6 = -var1; var6 <= var1; var6++) {
+         for (int var7 = -var1; var7 <= var1; var7++) {
+            WorldChunk var8 = this.mc.world.getChunkManager().getWorldChunk(var4 + var6, var5 + var7, false);
+            if (var8 != null) {
+               for (BlockEntity var10 : var8.getBlockEntities().values()) {
+                  if (var10 instanceof ChestBlockEntity && Math.abs(var10.getPos().getY() - var3.getY()) <= 16) {
+                     var2.add(var10.getPos());
                   }
                }
             }
          }
-
-         return var2;
       }
+
+      return var2;
    }
 
    private nwq omw(long var1) {
       rzy var3 = this.ohz();
       if (var3 == null) {
          return null;
-      } else {
-         String var4 = this.oij();
-         Vec3d var5 = this.getPlayer().method_33571();
-         nwq var6 = null;
+      }
 
-         for (rzv var8 : var3.getCachedTimers()) {
-            if (var4.equals(var8.dimension)) {
-               BlockPos var9 = this.onc(var8);
-               if (var9 != null) {
-                  Long var10 = this.nzj.get(var9);
-                  if (var10 == null || var10 <= var1) {
-                     Long var11 = this.nzi.get(var9);
-                     if ((var11 == null || var8.lastNumericUpdate > var11 + 1500L) && (this.nzh == null || !(var9.method_10262(this.nzh) > 14400.0))) {
-                        long var12 = omx(var8, var1);
-                        boolean var14 = var12 <= 0L;
-                        double var15 = var5.method_1025(Vec3d.method_24953(var9));
-                        byte var17;
-                        if (var14 && var15 <= 25.0) {
-                           var17 = 0;
-                        } else if (!var14 && var12 <= 5000L && var15 <= 144.0) {
-                           var17 = 1;
-                        } else if (var14 && var15 <= 144.0) {
-                           var17 = 2;
-                        } else if (!var14 && var12 <= 15000L && var15 <= 625.0) {
-                           var17 = 3;
-                        } else if (var14) {
-                           var17 = 4;
-                        } else {
-                           if (var12 > 30000L) {
-                              continue;
-                           }
+      String var4 = this.oij();
+      Vec3d var5 = this.getPlayer().getEyePos();
+      nwq var6 = null;
 
-                           var17 = 5;
+      for (rzv var8 : var3.getCachedTimers()) {
+         if (var4.equals(var8.dimension)) {
+            BlockPos var9 = this.onc(var8);
+            if (var9 != null) {
+               Long var10 = this.nzj.get(var9);
+               if (var10 == null || var10 <= var1) {
+                  Long var11 = this.nzi.get(var9);
+                  if ((var11 == null || var8.lastNumericUpdate > var11 + 1500L) && (this.nzh == null || !(var9.getSquaredDistance(this.nzh) > 14400.0))) {
+                     long var12 = omx(var8, var1);
+                     boolean var14 = var12 <= 0L;
+                     double var15 = var5.squaredDistanceTo(Vec3d.ofCenter(var9));
+                     byte var17;
+                     if (var14 && var15 <= 25.0) {
+                        var17 = 0;
+                     } else if (!var14 && var12 <= 5000L && var15 <= 144.0) {
+                        var17 = 1;
+                     } else if (var14 && var15 <= 144.0) {
+                        var17 = 2;
+                     } else if (!var14 && var12 <= 15000L && var15 <= 625.0) {
+                        var17 = 3;
+                     } else if (var14) {
+                        var17 = 4;
+                     } else {
+                        if (var12 > 30000L) {
+                           continue;
                         }
 
-                        if (!this.ont(var9, 7.0) && !this.onv(var9)) {
-                           double var18 = var9.method_10264() + 0.5 - var5.field_1351;
-                           double var20 = var9.method_10263() + 0.5 - this.getPlayer().method_23317();
-                           double var22 = var9.method_10260() + 0.5 - this.getPlayer().method_23321();
-                           double var24 = var20 * var20 + var22 * var22 + (var18 > 0.0 ? 2.0 : 1.0) * var18 * var18;
-                           if (var6 == null || var17 < var6.tier() || var17 == var6.tier() && var24 < var6.score()) {
-                              var6 = new nwq(var8, var9, var17, var24);
-                           }
+                        var17 = 5;
+                     }
+
+                     if (!this.ont(var9, 7.0) && !this.onv(var9)) {
+                        double var18 = var9.getY() + 0.5 - var5.y;
+                        double var20 = var9.getX() + 0.5 - this.getPlayer().getX();
+                        double var22 = var9.getZ() + 0.5 - this.getPlayer().getZ();
+                        double var24 = var20 * var20 + var22 * var22 + (var18 > 0.0 ? 2.0 : 1.0) * var18 * var18;
+                        if (var6 == null || var17 < var6.tier() || var17 == var6.tier() && var24 < var6.score()) {
+                           var6 = new nwq(var8, var9, var17, var24);
                         }
                      }
                   }
                }
             }
          }
+      }
 
-         if (var6 != null && this.onj(var6.chest()) == null) {
-            this.nzj.put(var6.chest(), var1 + 20000L);
-            return null;
-         } else {
-            return var6;
-         }
+      if (var6 != null && this.onj(var6.chest()) == null) {
+         this.nzj.put(var6.chest(), var1 + 20000L);
+         return null;
+      } else {
+         return var6;
       }
    }
 
@@ -3448,16 +3456,16 @@ public class nxa extends pnc {
                return false;
             }
          });
-         Vec3d var15 = this.getPlayer().method_33571();
+         Vec3d var15 = this.getPlayer().getEyePos();
          double var16 = 196.0;
          HashSet var17 = new HashSet();
 
          for (BlockPos var11 : this.omv(1)) {
-            if (!(var15.method_1025(Vec3d.method_24953(var11)) > var16) && !var5.contains(var11)) {
+            if (!(var15.squaredDistanceTo(Vec3d.ofCenter(var11)) > var16) && !var5.contains(var11)) {
                BlockPos var12 = this.onb(var11);
                if (var17.add(var12)) {
                   long var13 = this.nzm.computeIfAbsent(var12, var2 -> var1);
-                  if (var1 - var13 >= 250L && !this.omz(var12, var1) && (this.nzh == null || !(var12.method_10262(this.nzh) > 14400.0))) {
+                  if (var1 - var13 >= 250L && !this.omz(var12, var1) && (this.nzh == null || !(var12.getSquaredDistance(this.nzh) > 14400.0))) {
                      var3.markUntimedReady(var12, var4);
                   }
                }
@@ -3472,20 +3480,20 @@ public class nxa extends pnc {
       Long var4 = this.nzi.get(var1);
       if (var4 != null && var2 - var4 < 600000L) {
          return true;
-      } else {
-         BlockPos var5 = this.ona(var1);
-         Long var6 = var5 == null ? null : this.nzi.get(var5);
-         return var6 != null && var2 - var6 < 600000L;
       }
+
+      BlockPos var5 = this.ona(var1);
+      Long var6 = var5 == null ? null : this.nzi.get(var5);
+      return var6 != null && var2 - var6 < 600000L;
    }
 
    private BlockPos ona(BlockPos var1) {
       if (this.getWorld() == null) {
          return null;
       } else {
-         BlockState var2 = this.getWorld().method_8320(var1);
-         if (var2.method_26204() instanceof ChestBlock && var2.method_11654(ChestBlock.field_10770) != ChestType.field_12569) {
-            BlockPos var3 = var1.method_10093(ChestBlock.method_9758(var2));
+         BlockState var2 = this.getWorld().getBlockState(var1);
+         if (var2.getBlock() instanceof ChestBlock && var2.get(ChestBlock.CHEST_TYPE) != ChestType.SINGLE) {
+            BlockPos var3 = var1.offset(ChestBlock.getFacing(var2));
             return this.olq(var3) ? var3 : null;
          } else {
             return null;
@@ -3498,21 +3506,21 @@ public class nxa extends pnc {
       if (var2 == null) {
          return var1;
       } else {
-         return var2.method_10063() < var1.method_10063() ? var2 : var1;
+         return var2.asLong() < var1.asLong() ? var2 : var1;
       }
    }
 
    private BlockPos onc(rzv var1) {
-      BlockPos var2 = BlockPos.method_49637(var1.pos.field_1352, var1.pos.field_1351, var1.pos.field_1350);
+      BlockPos var2 = BlockPos.ofFloored(var1.pos.x, var1.pos.y, var1.pos.z);
 
       for (int var3 = 0; var3 >= -3; var3--) {
-         if (this.olq(var2.method_10069(0, var3, 0))) {
-            return var2.method_10069(0, var3, 0);
+         if (this.olq(var2.add(0, var3, 0))) {
+            return var2.add(0, var3, 0);
          }
 
          for (int var4 = -1; var4 <= 1; var4++) {
             for (int var5 = -1; var5 <= 1; var5++) {
-               BlockPos var6 = var2.method_10069(var4, var3, var5);
+               BlockPos var6 = var2.add(var4, var3, var5);
                if (this.olq(var6)) {
                   return var6;
                }
@@ -3576,7 +3584,7 @@ public class nxa extends pnc {
                      }
                   } else {
                      this.oad = 0;
-                     if (this.oli(this.getPlayer().method_6047())) {
+                     if (this.oli(this.getPlayer().getMainHandStack())) {
                         this.olj();
                      }
 
@@ -3617,15 +3625,15 @@ public class nxa extends pnc {
          this.ohx();
          this.ohy(nwx.EXPLORING);
       } else {
-         Vec3d var4 = new Vec3d(this.nzw.method_10263() + 0.5, pqf.getStandY(this.nzw), this.nzw.method_10260() + 0.5);
-         double var5 = Math.hypot(var4.field_1352 - this.getPlayer().method_23317(), var4.field_1350 - this.getPlayer().method_23321());
-         double var7 = var4.field_1351 - this.getPlayer().method_23318();
+         Vec3d var4 = new Vec3d(this.nzw.getX() + 0.5, pqf.getStandY(this.nzw), this.nzw.getZ() + 0.5);
+         double var5 = Math.hypot(var4.x - this.getPlayer().getX(), var4.z - this.getPlayer().getZ());
+         double var7 = var4.y - this.getPlayer().getY();
          boolean var9 = var5 < 5.0 && var7 > -1.6 && var7 < 1.2 && (Math.abs(var7) < 0.6 ? this.opt(var4) : this.opu(var4));
          if (var9) {
             this.ofb = null;
             this.opo(var4, true);
             if (var5 < 2.0) {
-               this.mc.field_1690.field_1867.method_23481(false);
+               this.mc.options.sprintKey.setPressed(false);
             }
          } else {
             if (!this.opb()) {
@@ -3634,7 +3642,7 @@ public class nxa extends pnc {
 
             if (this.opb()) {
                Vec3d var10 = this.onl(var1);
-               double var11 = this.getPlayer().method_33571().method_1025(Vec3d.method_24953(var1));
+               double var11 = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(var1));
                if (!this.ohb && var10 != null && var11 <= 25.0 && this.opt(var4)) {
                   this.ohb = true;
                }
@@ -3668,10 +3676,8 @@ public class nxa extends pnc {
          this.oad = 10 + this.nzf.nextInt(16);
          double var1 = Math.toRadians(this.ogv + 90.0 + (this.nzf.nextDouble() - 0.5) * 140.0);
          double var3 = 6.0 + this.nzf.nextDouble() * 8.0;
-         Vec3d var5 = this.getPlayer().method_33571();
-         this.oaf = new Vec3d(
-            var5.field_1352 + Math.cos(var1) * var3, var5.field_1351 + (this.nzf.nextDouble() - 0.6) * 3.0, var5.field_1350 + Math.sin(var1) * var3
-         );
+         Vec3d var5 = this.getPlayer().getEyePos();
+         this.oaf = new Vec3d(var5.x + Math.cos(var1) * var3, var5.y + (this.nzf.nextDouble() - 0.6) * 3.0, var5.z + Math.sin(var1) * var3);
          return true;
       }
    }
@@ -3680,18 +3686,18 @@ public class nxa extends pnc {
       if (this.nzw == null) {
          return false;
       } else {
-         double var1 = this.getPlayer().method_23317() - (this.nzw.method_10263() + 0.5);
-         double var3 = this.getPlayer().method_23321() - (this.nzw.method_10260() + 0.5);
-         double var5 = this.getPlayer().method_23318() - pqf.getStandY(this.nzw);
+         double var1 = this.getPlayer().getX() - (this.nzw.getX() + 0.5);
+         double var3 = this.getPlayer().getZ() - (this.nzw.getZ() + 0.5);
+         double var5 = this.getPlayer().getY() - pqf.getStandY(this.nzw);
          double var7 = var1 * var1 + var3 * var3;
-         if (!this.getPlayer().method_24828() || Math.abs(var5) > 0.6) {
+         if (!this.getPlayer().isOnGround() || Math.abs(var5) > 0.6) {
             return false;
          } else {
             return var7 < 0.36
                ? true
                : var7 < 2.25
                   && this.nzu != null
-                  && this.getPlayer().method_33571().method_1025(Vec3d.method_24953(this.nzu)) <= 15.0
+                  && this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(this.nzu)) <= 15.0
                   && this.onl(this.nzu) != null;
          }
       }
@@ -3699,9 +3705,9 @@ public class nxa extends pnc {
 
    private BlockPos onj(BlockPos var1) {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         double var2 = this.getPlayer().method_18381(EntityPose.field_18076);
-         Vec3d var4 = Vec3d.method_24953(var1);
-         Vec3d var5 = this.getPlayer().method_73189();
+         double var2 = this.getPlayer().getEyeHeight(EntityPose.STANDING);
+         Vec3d var4 = Vec3d.ofCenter(var1);
+         Vec3d var5 = this.getPlayer().getEntityPos();
          BlockPos var6 = null;
          double var7 = Double.MAX_VALUE;
 
@@ -3709,13 +3715,13 @@ public class nxa extends pnc {
             for (int var10 = -2; var10 <= 2; var10++) {
                for (int var11 = -2; var11 <= 2; var11++) {
                   if (var10 != 0 || var11 != 0 || var9 == 1) {
-                     BlockPos var12 = var1.method_10069(var10, var9, var11);
+                     BlockPos var12 = var1.add(var10, var9, var11);
                      if (this.onk(var12) && !this.ont(var12, 7.0)) {
                         double var13 = pqf.getStandY(var12);
-                        Vec3d var15 = new Vec3d(var12.method_10263() + 0.5, var13 + var2, var12.method_10260() + 0.5);
-                        if (!(var15.method_1025(var4) > 12.9) && this.onm(var15, var1) != null) {
+                        Vec3d var15 = new Vec3d(var12.getX() + 0.5, var13 + var2, var12.getZ() + 0.5);
+                        if (!(var15.squaredDistanceTo(var4) > 12.9) && this.onm(var15, var1) != null) {
                            double var16 = Math.max(Math.abs(var10), Math.abs(var11));
-                           double var18 = Math.sqrt(var5.method_1025(Vec3d.method_24955(var12)))
+                           double var18 = Math.sqrt(var5.squaredDistanceTo(Vec3d.ofBottomCenter(var12)))
                               + (var16 > 1.0 ? 1.2 : 0.0)
                               + (var9 != 0 ? 0.8 : 0.0)
                               + (var10 == 0 && var11 == 0 ? 1.5 : 0.0);
@@ -3739,48 +3745,48 @@ public class nxa extends pnc {
    private boolean onk(BlockPos var1) {
       return this.getWorld() == null
          ? false
-         : this.getWorld().method_8320(var1).method_26220(this.getWorld(), var1).method_1110()
-            && this.getWorld().method_8320(var1.method_10084()).method_26220(this.getWorld(), var1.method_10084()).method_1110()
-            && !this.getWorld().method_8320(var1.method_10074()).method_26220(this.getWorld(), var1.method_10074()).method_1110();
+         : this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty()
+            && this.getWorld().getBlockState(var1.up()).getCollisionShape(this.getWorld(), var1.up()).isEmpty()
+            && !this.getWorld().getBlockState(var1.down()).getCollisionShape(this.getWorld(), var1.down()).isEmpty();
    }
 
    private Vec3d onl(BlockPos var1) {
-      return this.onm(this.getPlayer().method_33571(), var1);
+      return this.onm(this.getPlayer().getEyePos(), var1);
    }
 
    private Vec3d onm(Vec3d var1, BlockPos var2) {
-      Vec3d var3 = Vec3d.method_24953(var2).method_1031(0.0, -0.06, 0.0);
-      Vec3d var4 = var3.method_1031(this.ohf, this.ohg * 0.6, this.ohh);
+      Vec3d var3 = Vec3d.ofCenter(var2).add(0.0, -0.06, 0.0);
+      Vec3d var4 = var3.add(this.ohf, this.ohg * 0.6, this.ohh);
       if (this.onn(var1, var4, var2)) {
          return var4;
-      } else {
-         Vec3d var5 = null;
-         double var6 = Double.MAX_VALUE;
+      }
 
-         for (double var8 = -0.3; var8 <= 0.31; var8 += 0.3) {
-            for (double var10 = -0.3; var10 <= 0.31; var10 += 0.3) {
-               for (double var12 = -0.3; var12 <= 0.31; var12 += 0.3) {
-                  Vec3d var14 = var3.method_1031(var8, var10, var12);
-                  double var15 = var14.method_1025(var3);
-                  if (var15 < var6 && this.onn(var1, var14, var2)) {
-                     var6 = var15;
-                     var5 = var14;
-                  }
+      Vec3d var5 = null;
+      double var6 = Double.MAX_VALUE;
+
+      for (double var8 = -0.3; var8 <= 0.31; var8 += 0.3) {
+         for (double var10 = -0.3; var10 <= 0.31; var10 += 0.3) {
+            for (double var12 = -0.3; var12 <= 0.31; var12 += 0.3) {
+               Vec3d var14 = var3.add(var8, var10, var12);
+               double var15 = var14.squaredDistanceTo(var3);
+               if (var15 < var6 && this.onn(var1, var14, var2)) {
+                  var6 = var15;
+                  var5 = var14;
                }
             }
          }
-
-         return var5;
       }
+
+      return var5;
    }
 
    private boolean onn(Vec3d var1, Vec3d var2, BlockPos var3) {
-      BlockHitResult var4 = this.getWorld().method_17742(new RaycastContext(var1, var2, ShapeType.field_17559, FluidHandling.field_1348, this.getPlayer()));
-      return var4.method_17783() == Type.field_1332 && var4.method_17777().equals(var3);
+      BlockHitResult var4 = this.getWorld().raycast(new RaycastContext(var1, var2, ShapeType.OUTLINE, FluidHandling.NONE, this.getPlayer()));
+      return var4.getType() == Type.BLOCK && var4.getBlockPos().equals(var3);
    }
 
    private void ono(BlockPos var1, nwg var2, long var3) {
-      if (this.mc.field_1755 == null) {
+      if (this.mc.currentScreen == null) {
          this.ohk = true;
          this.ohl = this.nzd;
          BlockHitResult var5 = this.opa(var1);
@@ -3793,13 +3799,13 @@ public class nxa extends pnc {
             } else if (var3 - this.oar > this.nzz) {
                var6 = true;
             }
-         } else if (++this.oaq > 40 && var3 - this.oar > this.nzz && this.getPlayer().method_33571().method_1025(Vec3d.method_24953(var1)) < 16.0) {
+         } else if (++this.oaq > 40 && var3 - this.oar > this.nzz && this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(var1)) < 16.0) {
             BlockHitResult var7 = this.onq(var1);
             if (var7 != null) {
                ptr.later(() -> {
-                  if (this.mc.field_1761 != null && this.mc.field_1724 != null && this.mc.field_1755 == null) {
-                     this.mc.field_1761.method_2896(this.mc.field_1724, Hand.field_5808, var7);
-                     this.mc.field_1724.method_6104(Hand.field_5808);
+                  if (this.mc.interactionManager != null && this.mc.player != null && this.mc.currentScreen == null) {
+                     this.mc.interactionManager.interactBlock(this.mc.player, Hand.MAIN_HAND, var7);
+                     this.mc.player.swingHand(Hand.MAIN_HAND);
                   }
                });
                this.onp(var1, var2, var3);
@@ -3810,8 +3816,8 @@ public class nxa extends pnc {
             this.onp(var1, var2, var3);
          }
 
-         this.mc.field_1690.field_1904.method_23481(var6);
-         this.mc.field_1690.field_1832.method_23481(false);
+         this.mc.options.useKey.setPressed(var6);
+         this.mc.options.sneakKey.setPressed(false);
       }
    }
 
@@ -3823,26 +3829,28 @@ public class nxa extends pnc {
    }
 
    private BlockHitResult onq(BlockPos var1) {
-      Vec3d var2 = this.getPlayer().method_33571();
-      Vec3d var3 = Vec3d.method_24953(var1);
-      BlockHitResult var4 = this.getWorld().method_17742(new RaycastContext(var2, var3, ShapeType.field_17558, FluidHandling.field_1348, this.getPlayer()));
-      if (var4.method_17783() == Type.field_1332 && var4.method_17777().equals(var1)) {
+      Vec3d var2 = this.getPlayer().getEyePos();
+      Vec3d var3 = Vec3d.ofCenter(var1);
+      BlockHitResult var4 = this.getWorld().raycast(new RaycastContext(var2, var3, ShapeType.COLLIDER, FluidHandling.NONE, this.getPlayer()));
+      if (var4.getType() == Type.BLOCK && var4.getBlockPos().equals(var1)) {
          return var4;
-      } else if (this.oaq <= 80) {
-         return null;
-      } else {
-         Direction var5 = Direction.method_10142(var2.field_1352 - var3.field_1352, var2.field_1351 - var3.field_1351, var2.field_1350 - var3.field_1350);
-         Vec3d var6 = var3.method_1031(var5.method_10148() * 0.5, var5.method_10164() * 0.5, var5.method_10165() * 0.5);
-         return new BlockHitResult(var6, var5, var1, false);
       }
+
+      if (this.oaq <= 80) {
+         return null;
+      }
+
+      Direction var5 = Direction.getFacing(var2.x - var3.x, var2.y - var3.y, var2.z - var3.z);
+      Vec3d var6 = var3.add(var5.getOffsetX() * 0.5, var5.getOffsetY() * 0.5, var5.getOffsetZ() * 0.5);
+      return new BlockHitResult(var6, var5, var1, false);
    }
 
    private void onr() {
-      if (this.mc.field_1687 != null) {
+      if (this.mc.world != null) {
          boolean var1 = false;
 
-         for (Entity var3 : this.mc.field_1687.method_18112()) {
-            if (var3 instanceof WardenEntity var4 && var4.method_5805() && this.nzp.put(var4.method_24515(), this.nzd + 100) == null) {
+         for (Entity var3 : this.mc.world.getEntities()) {
+            if (var3 instanceof WardenEntity var4 && var4.isAlive() && this.nzp.put(var4.getBlockPos(), this.nzd + 100) == null) {
                var1 = true;
             }
          }
@@ -3870,7 +3878,7 @@ public class nxa extends pnc {
       double var4 = var2 * var2;
 
       for (BlockPos var7 : this.nzp.keySet()) {
-         if (var7.method_10262(var1) < var4) {
+         if (var7.getSquaredDistance(var1) < var4) {
             return true;
          }
       }
@@ -3879,37 +3887,37 @@ public class nxa extends pnc {
    }
 
    private WardenEntity onu(double var1) {
-      if (this.mc.field_1687 == null) {
+      if (this.mc.world == null) {
          return null;
-      } else {
-         WardenEntity var3 = null;
-         double var4 = var1 * var1;
+      }
 
-         for (Entity var7 : this.mc.field_1687.method_18112()) {
-            if (var7 instanceof WardenEntity var8 && var8.method_5805()) {
-               double var9 = var8.method_5858(this.getPlayer());
-               if (var9 < var4) {
-                  var4 = var9;
-                  var3 = var8;
-               }
+      WardenEntity var3 = null;
+      double var4 = var1 * var1;
+
+      for (Entity var7 : this.mc.world.getEntities()) {
+         if (var7 instanceof WardenEntity var8 && var8.isAlive()) {
+            double var9 = var8.squaredDistanceTo(this.getPlayer());
+            if (var9 < var4) {
+               var4 = var9;
+               var3 = var8;
             }
          }
-
-         return var3;
       }
+
+      return var3;
    }
 
    private boolean onv(BlockPos var1) {
-      Vec3d var2 = Vec3d.method_24953(var1);
+      Vec3d var2 = Vec3d.ofCenter(var1);
 
-      for (PlayerEntity var4 : this.mc.field_1687.method_18456()) {
+      for (PlayerEntity var4 : this.mc.world.getPlayers()) {
          if (var4 != this.getPlayer()
-            && !(var4.method_5707(var2) >= 20.0)
+            && !(var4.squaredDistanceTo(var2) >= 20.0)
             && (
-               onw(var4.method_6118(EquipmentSlot.field_6169))
-                  || onw(var4.method_6118(EquipmentSlot.field_6174))
-                  || onw(var4.method_6118(EquipmentSlot.field_6172))
-                  || onw(var4.method_6118(EquipmentSlot.field_6166))
+               onw(var4.getEquippedStack(EquipmentSlot.HEAD))
+                  || onw(var4.getEquippedStack(EquipmentSlot.CHEST))
+                  || onw(var4.getEquippedStack(EquipmentSlot.LEGS))
+                  || onw(var4.getEquippedStack(EquipmentSlot.FEET))
             )) {
             return true;
          }
@@ -3919,21 +3927,16 @@ public class nxa extends pnc {
    }
 
    private static boolean onw(ItemStack var0) {
-      return !var0.method_7960()
-         && (
-            var0.method_31573(ItemTags.field_48297)
-               || var0.method_31573(ItemTags.field_48296)
-               || var0.method_31573(ItemTags.field_48295)
-               || var0.method_31573(ItemTags.field_48294)
-         );
+      return !var0.isEmpty()
+         && (var0.isIn(ItemTags.HEAD_ARMOR) || var0.isIn(ItemTags.CHEST_ARMOR) || var0.isIn(ItemTags.LEG_ARMOR) || var0.isIn(ItemTags.FOOT_ARMOR));
    }
 
    private boolean onx() {
       boolean var1 = System.currentTimeMillis() - this.nzr < 5000L;
 
-      for (Entity var3 : this.mc.field_1687.method_18112()) {
-         if (var3 instanceof WardenEntity var4 && var4.method_5805()) {
-            double var5 = var4.method_5858(this.getPlayer());
+      for (Entity var3 : this.mc.world.getEntities()) {
+         if (var3 instanceof WardenEntity var4 && var4.isAlive()) {
+            double var5 = var4.squaredDistanceTo(this.getPlayer());
             if (var5 < 36.0 || var1 && var5 < 900.0 && this.ony(var4) && (var5 < 64.0 || this.onz(var4))) {
                this.ooa(true);
                return true;
@@ -3941,9 +3944,9 @@ public class nxa extends pnc {
          }
       }
 
-      if (this.getPlayer().method_6059(StatusEffects.field_5912)) {
+      if (this.getPlayer().hasStatusEffect(StatusEffects.GLOWING)) {
          PlayerEntity var7 = this.ooh();
-         if (var7 != null && var7.method_5858(this.getPlayer()) < 576.0) {
+         if (var7 != null && var7.squaredDistanceTo(this.getPlayer()) < 576.0) {
             this.ooa(false);
             return true;
          }
@@ -3953,14 +3956,12 @@ public class nxa extends pnc {
    }
 
    private boolean ony(WardenEntity var1) {
-      double var2 = Math.toDegrees(Math.atan2(-(this.getPlayer().method_23317() - var1.method_23317()), this.getPlayer().method_23321() - var1.method_23321()));
-      return Math.abs(MathHelper.method_15338(var1.method_73188() - var2)) < 30.0;
+      double var2 = Math.toDegrees(Math.atan2(-(this.getPlayer().getX() - var1.getX()), this.getPlayer().getZ() - var1.getZ()));
+      return Math.abs(MathHelper.wrapDegrees(var1.getBodyYaw() - var2)) < 30.0;
    }
 
    private boolean onz(WardenEntity var1) {
-      return (this.getPlayer().method_23317() - var1.method_23317()) * (var1.method_23317() - var1.field_6014)
-            + (this.getPlayer().method_23321() - var1.method_23321()) * (var1.method_23321() - var1.field_5969)
-         > 0.01;
+      return (this.getPlayer().getX() - var1.getX()) * (var1.getX() - var1.lastX) + (this.getPlayer().getZ() - var1.getZ()) * (var1.getZ() - var1.lastZ) > 0.01;
    }
 
    private void ooa(boolean var1) {
@@ -3981,29 +3982,29 @@ public class nxa extends pnc {
 
    private void oob() {
       this.oev++;
-      this.mc.field_1690.field_1886.method_23481(false);
+      this.mc.options.attackKey.setPressed(false);
       this.olh();
-      Object var1 = this.oex ? this.onu(48.0) : this.ooh();
-      double var2 = var1 != null ? var1.method_5858(this.getPlayer()) : Double.MAX_VALUE;
+      LivingEntity var1 = this.oex ? this.onu(48.0) : this.ooh();
+      double var2 = var1 != null ? var1.squaredDistanceTo(this.getPlayer()) : Double.MAX_VALUE;
       double var4 = this.oex ? 576.0 : 1600.0;
       if ((this.oev <= 30 || !(var2 > var4)) && this.oev <= 240) {
          boolean var9 = !this.opb() || this.oev % 25 == 0;
          if (var1 != null && var9 && this.ofd <= 0) {
             this.ofd = 10;
-            this.ood(var1.method_73189());
+            this.ood(var1.getEntityPos());
          }
 
          if (this.opb()) {
             this.opq();
          } else if (var1 != null) {
-            Vec3d var7 = ooc(this.getPlayer().method_73189().method_1020(var1.method_73189()).method_1029(), Math.toRadians(nyh[this.oew]));
-            Vec3d var8 = this.getPlayer().method_73189().method_1019(var7.method_1021(12.0));
-            this.opn(new Vec3d(var8.field_1352, this.getPlayer().method_23318(), var8.field_1350));
+            Vec3d var7 = ooc(this.getPlayer().getEntityPos().subtract(var1.getEntityPos()).normalize(), Math.toRadians(nyh[this.oew]));
+            Vec3d var8 = this.getPlayer().getEntityPos().add(var7.multiply(12.0));
+            this.opn(new Vec3d(var8.x, this.getPlayer().getY(), var8.z));
          } else {
             this.oot();
             this.ohq = true;
-            this.mc.field_1690.field_1894.method_23481(true);
-            pyd.setSprint(this.mc.field_1690, true);
+            this.mc.options.forwardKey.setPressed(true);
+            pyd.setSprint(this.mc.options, true);
          }
       } else {
          pqf.resetKeys();
@@ -4017,19 +4018,19 @@ public class nxa extends pnc {
    private static Vec3d ooc(Vec3d var0, double var1) {
       double var3 = Math.cos(var1);
       double var5 = Math.sin(var1);
-      return new Vec3d(var0.field_1352 * var3 - var0.field_1350 * var5, 0.0, var0.field_1352 * var5 + var0.field_1350 * var3).method_1029();
+      return new Vec3d(var0.x * var3 - var0.z * var5, 0.0, var0.x * var5 + var0.z * var3).normalize();
    }
 
    private void ood(Vec3d var1) {
-      Vec3d var2 = this.getPlayer().method_73189().method_1020(var1).method_1029();
-      BlockPos var3 = this.getPlayer().method_24515();
+      Vec3d var2 = this.getPlayer().getEntityPos().subtract(var1).normalize();
+      BlockPos var3 = this.getPlayer().getBlockPos();
 
       for (int var4 = 0; var4 < 2; var4++) {
          int var5 = (this.oew + var4) % nyh.length;
          double var6 = nyh[var5] + this.nzf.nextGaussian() * 12.0;
          Vec3d var8 = ooc(var2, Math.toRadians(var6));
          double var9 = 22.0 + this.nzf.nextDouble() * 12.0;
-         BlockPos var11 = this.ooe(this.oph(var3.method_10069((int)(var8.field_1352 * var9), 0, (int)(var8.field_1350 * var9))));
+         BlockPos var11 = this.ooe(this.oph(var3.add((int)(var8.x * var9), 0, (int)(var8.z * var9))));
          List var12 = this.opd(var11);
          if (var12 != null && var12.size() >= 5) {
             this.opf(var12);
@@ -4046,18 +4047,18 @@ public class nxa extends pnc {
    private BlockPos ooe(BlockPos var1) {
       if (this.nzh == null) {
          return var1;
-      } else {
-         double var2 = var1.method_10263() - this.nzh.method_10263();
-         double var4 = var1.method_10260() - this.nzh.method_10260();
-         double var6 = Math.hypot(var2, var4);
-         double var8 = 100.0;
-         if (var6 <= var8) {
-            return var1;
-         } else {
-            double var10 = var8 / var6;
-            return this.oph(new BlockPos(this.nzh.method_10263() + (int)(var2 * var10), var1.method_10264(), this.nzh.method_10260() + (int)(var4 * var10)));
-         }
       }
+
+      double var2 = var1.getX() - this.nzh.getX();
+      double var4 = var1.getZ() - this.nzh.getZ();
+      double var6 = Math.hypot(var2, var4);
+      double var8 = 100.0;
+      if (var6 <= var8) {
+         return var1;
+      }
+
+      double var10 = var8 / var6;
+      return this.oph(new BlockPos(this.nzh.getX() + (int)(var2 * var10), var1.getY(), this.nzh.getZ() + (int)(var4 * var10)));
    }
 
    private void oof() {
@@ -4072,20 +4073,20 @@ public class nxa extends pnc {
 
    private void oog() {
       PlayerEntity var1 = this.ooh();
-      BlockPos var2 = this.getPlayer().method_24515();
+      BlockPos var2 = this.getPlayer().getBlockPos();
       if (this.ofd <= 0) {
-         if (var1 == null || this.oeu != null && !(this.oeu.method_10262(var2) < 10.0) && !(var1.method_5858(this.getPlayer()) < 400.0)) {
-            if (var1 == null && (this.oeu == null || this.oeu.method_10262(var2) < 4.0) && (this.oeu == null || this.nzf.nextInt(120) == 0)) {
+         if (var1 == null || this.oeu != null && !(this.oeu.getSquaredDistance(var2) < 10.0) && !(var1.squaredDistanceTo(this.getPlayer()) < 400.0)) {
+            if (var1 == null && (this.oeu == null || this.oeu.getSquaredDistance(var2) < 4.0) && (this.oeu == null || this.nzf.nextInt(120) == 0)) {
                double var7 = this.nzf.nextDouble() * Math.PI * 2.0;
                double var5 = 12.0 + this.nzf.nextDouble() * 14.0;
-               this.oeu = this.ooe(this.oph(var2.method_10069((int)Math.round(Math.cos(var7) * var5), 0, (int)Math.round(Math.sin(var7) * var5))));
+               this.oeu = this.ooe(this.oph(var2.add((int)Math.round(Math.cos(var7) * var5), 0, (int)Math.round(Math.sin(var7) * var5))));
                this.ofd = 10;
                this.opf(this.opd(this.oeu));
             }
          } else {
-            Vec3d var3 = ooc(this.getPlayer().method_73189().method_1020(var1.method_73189()).method_1029(), Math.toRadians(this.nzf.nextGaussian() * 20.0));
+            Vec3d var3 = ooc(this.getPlayer().getEntityPos().subtract(var1.getEntityPos()).normalize(), Math.toRadians(this.nzf.nextGaussian() * 20.0));
             double var4 = 24.0 + this.nzf.nextDouble() * 14.0;
-            this.oeu = this.ooe(this.oph(var2.method_10069((int)(var3.field_1352 * var4), 0, (int)(var3.field_1350 * var4))));
+            this.oeu = this.ooe(this.oph(var2.add((int)(var3.x * var4), 0, (int)(var3.z * var4))));
             this.ofd = 10;
             this.opf(this.opd(this.oeu));
          }
@@ -4103,9 +4104,9 @@ public class nxa extends pnc {
       PlayerEntity var1 = null;
       double var2 = 2500.0;
 
-      for (PlayerEntity var5 : this.mc.field_1687.method_18456()) {
+      for (PlayerEntity var5 : this.mc.world.getPlayers()) {
          if (var5 != this.getPlayer()) {
-            double var6 = var5.method_5858(this.getPlayer());
+            double var6 = var5.squaredDistanceTo(this.getPlayer());
             if (var6 < var2) {
                var2 = var6;
                var1 = var5;
@@ -4120,10 +4121,10 @@ public class nxa extends pnc {
       this.ogx = this.getPlayer();
       if (this.ogx != null) {
          this.ool(this.ogx);
-         this.ogl.reset(this.ogx.method_36454(), this.ogx.method_36455());
-         this.ogv = this.ogx.method_36454();
-         this.ogw = this.ogx.method_36455();
-         this.ogy = this.ogx.method_73189();
+         this.ogl.reset(this.ogx.getYaw(), this.ogx.getPitch());
+         this.ogv = this.ogx.getYaw();
+         this.ogw = this.ogx.getPitch();
+         this.ogy = this.ogx.getEntityPos();
       }
 
       this.ogn = false;
@@ -4139,7 +4140,7 @@ public class nxa extends pnc {
       if (this.ogn) {
          this.ogn = false;
          if (this.driver == null && this.ogm.ownedBy(this)) {
-            this.ogm.release(this.mc.field_1724);
+            this.ogm.release(this.mc.player);
          }
       }
    }
@@ -4147,7 +4148,7 @@ public class nxa extends pnc {
    private void ook() {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 != null) {
-         boolean var2 = this.ogx != var1 || this.ogy == null || var1.method_73189().method_1025(this.ogy) > 400.0;
+         boolean var2 = this.ogx != var1 || this.ogy == null || var1.getEntityPos().squaredDistanceTo(this.ogy) > 400.0;
          if (var2) {
             this.nzn = System.currentTimeMillis();
             this.nzm.clear();
@@ -4159,9 +4160,9 @@ public class nxa extends pnc {
                this.ool(var1);
             }
 
-            this.ogl.reset(var1.method_36454(), var1.method_36455());
-            this.ogv = var1.method_36454();
-            this.ogw = var1.method_36455();
+            this.ogl.reset(var1.getYaw(), var1.getPitch());
+            this.ogv = var1.getYaw();
+            this.ogw = var1.getPitch();
             this.ogx = var1;
             this.ogn = false;
             this.ofb = null;
@@ -4170,12 +4171,12 @@ public class nxa extends pnc {
             this.ofe.reset();
          }
 
-         this.ogy = var1.method_73189();
+         this.ogy = var1.getEntityPos();
       }
    }
 
    private void ool(PlayerEntity var1) {
-      String var2 = var1.method_7334() != null ? var1.method_7334().name() : null;
+      String var2 = var1.getGameProfile() != null ? var1.getGameProfile().name() : null;
       long var3 = 1125899906842597L;
       if (var2 != null) {
          for (int var5 = 0; var5 < var2.length(); var5++) {
@@ -4218,21 +4219,18 @@ public class nxa extends pnc {
 
    private double oor(BlockPos var1, Vec3d var2) {
       if (this.getWorld() != null && this.getPlayer() != null && var1 != null && var2 != null) {
-         VoxelShape var3 = this.getWorld().method_8320(var1).method_26218(this.getWorld(), var1);
-         Box var4 = var3.method_1110() ? new Box(var1) : var3.method_1107().method_996(var1);
+         VoxelShape var3 = this.getWorld().getBlockState(var1).getOutlineShape(this.getWorld(), var1);
+         Box var4 = var3.isEmpty() ? new Box(var1) : var3.getBoundingBox().offset(var1);
          double var5 = Math.min(
-            Math.min(
-               Math.min(var2.field_1352 - var4.field_1323, var4.field_1320 - var2.field_1352),
-               Math.min(var2.field_1351 - var4.field_1322, var4.field_1325 - var2.field_1351)
-            ),
-            Math.min(var2.field_1350 - var4.field_1321, var4.field_1324 - var2.field_1350)
+            Math.min(Math.min(var2.x - var4.minX, var4.maxX - var2.x), Math.min(var2.y - var4.minY, var4.maxY - var2.y)),
+            Math.min(var2.z - var4.minZ, var4.maxZ - var2.z)
          );
          if (var5 <= 0.02) {
             return 0.25;
-         } else {
-            double var7 = Math.max(0.5, this.getPlayer().method_33571().method_1022(var2));
-            return MathHelper.method_15350(Math.toDegrees(Math.atan2(var5, var7)) * 0.55, 0.25, 4.0);
          }
+
+         double var7 = Math.max(0.5, this.getPlayer().getEyePos().distanceTo(var2));
+         return MathHelper.clamp(Math.toDegrees(Math.atan2(var5, var7)) * 0.55, 0.25, 4.0);
       } else {
          return 0.0;
       }
@@ -4284,7 +4282,7 @@ public class nxa extends pnc {
          if (this.oib() && !this.ofk) {
             this.ooy();
          } else {
-            if (this.mc.field_1755 == null) {
+            if (this.mc.currentScreen == null) {
                this.ogl.setMouseStep(this.driver != null ? this.driver.mouseStep() : prp.step());
                if (this.obw || this.ocf) {
                   this.ogl.freeze();
@@ -4311,15 +4309,15 @@ public class nxa extends pnc {
             this.ogo = false;
             this.ogp = false;
             if (this.driver != null) {
-               if (this.mc.field_1755 == null) {
-                  this.driver.look(this.ogv, MathHelper.method_15363(this.ogw, -90.0F, 90.0F));
+               if (this.mc.currentScreen == null) {
+                  this.driver.look(this.ogv, MathHelper.clamp(this.ogw, -90.0F, 90.0F));
                }
             } else {
-               this.ogm.set(this, this.ogv, MathHelper.method_15363(this.ogw, -90.0F, 90.0F));
+               this.ogm.set(this, this.ogv, MathHelper.clamp(this.ogw, -90.0F, 90.0F));
             }
 
             this.ogn = true;
-            if (this.mc.field_1755 != null) {
+            if (this.mc.currentScreen != null) {
                ptr.clear();
             } else if (this.ogz != null) {
                ptr.aimAt(this.ogz, this.ogv, this.ogw);
@@ -4334,17 +4332,17 @@ public class nxa extends pnc {
       this.ogo = false;
       this.ogp = false;
       ClientPlayerEntity var1 = this.getPlayer();
-      this.ogl.reset(var1.method_36454(), var1.method_36455());
-      this.ogv = var1.method_36454();
-      this.ogw = var1.method_36455();
+      this.ogl.reset(var1.getYaw(), var1.getPitch());
+      this.ogv = var1.getYaw();
+      this.ogw = var1.getPitch();
       if (this.ogn) {
          this.ogn = false;
          if (this.ogm.ownedBy(this)) {
-            this.ogm.release(this.mc.field_1724);
+            this.ogm.release(this.mc.player);
          }
       }
 
-      if (this.mc.field_1755 != null) {
+      if (this.mc.currentScreen != null) {
          ptr.clear();
       } else if (this.ogz != null) {
          ptr.aimAt(this.ogz, this.ogv, this.ogw);
@@ -4355,11 +4353,11 @@ public class nxa extends pnc {
 
    private BlockHitResult ooz() {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         Vec3d var1 = this.getPlayer().method_33571();
-         Vec3d var2 = Vec3d.method_1030(this.ogw, this.ogv);
+         Vec3d var1 = this.getPlayer().getEyePos();
+         Vec3d var2 = Vec3d.fromPolar(this.ogw, this.ogv);
          double var3 = 4.5;
-         Vec3d var5 = var1.method_1031(var2.field_1352 * var3, var2.field_1351 * var3, var2.field_1350 * var3);
-         return this.getWorld().method_17742(new RaycastContext(var1, var5, ShapeType.field_17559, FluidHandling.field_1348, this.getPlayer()));
+         Vec3d var5 = var1.add(var2.x * var3, var2.y * var3, var2.z * var3);
+         return this.getWorld().raycast(new RaycastContext(var1, var5, ShapeType.OUTLINE, FluidHandling.NONE, this.getPlayer()));
       } else {
          return null;
       }
@@ -4367,7 +4365,7 @@ public class nxa extends pnc {
 
    private BlockHitResult opa(BlockPos var1) {
       BlockHitResult var2 = this.ooz();
-      if (var2 != null && var2.method_17783() == Type.field_1332 && var2.method_17777().equals(var1)) {
+      if (var2 != null && var2.getType() == Type.BLOCK && var2.getBlockPos().equals(var1)) {
          this.ogz = var1;
          return var2;
       } else {
@@ -4382,13 +4380,15 @@ public class nxa extends pnc {
    private boolean opc(BlockPos var1, boolean var2) {
       if (var1 == null) {
          return false;
-      } else if (!var2 && this.ofd > 0) {
-         return this.opb();
-      } else {
-         this.ofd = 8;
-         this.opf(this.opd(var1));
-         return this.ofb != null && !this.ofb.isEmpty();
       }
+
+      if (!var2 && this.ofd > 0) {
+         return this.opb();
+      }
+
+      this.ofd = 8;
+      this.opf(this.opd(var1));
+      return this.ofb != null && !this.ofb.isEmpty();
    }
 
    private List<BlockPos> opd(BlockPos var1) {
@@ -4404,19 +4404,19 @@ public class nxa extends pnc {
 
    private BlockPos ope() {
       ClientPlayerEntity var1 = this.getPlayer();
-      BlockPos var2 = BlockPos.method_49637(var1.method_23317(), var1.method_23318() + 0.001, var1.method_23321());
+      BlockPos var2 = BlockPos.ofFloored(var1.getX(), var1.getY() + 0.001, var1.getZ());
       if (!this.opz(var2)) {
-         var2 = var2.method_10084();
+         var2 = var2.up();
       }
 
-      if (!var1.method_24828() && !var1.method_5799()) {
-         Mutable var3 = var2.method_25503();
+      if (!var1.isOnGround() && !var1.isTouchingWater()) {
+         Mutable var3 = var2.mutableCopy();
 
-         for (int var4 = 0; var4 < 6 && this.opz(var3.method_10074()); var4++) {
-            var3.method_10098(Direction.field_11033);
+         for (int var4 = 0; var4 < 6 && this.opz(var3.down()); var4++) {
+            var3.move(Direction.DOWN);
          }
 
-         return var3.method_10062();
+         return var3.toImmutable();
       } else {
          return var2;
       }
@@ -4461,24 +4461,24 @@ public class nxa extends pnc {
    private BlockPos oph(BlockPos var1) {
       if (this.getWorld() == null) {
          return var1;
-      } else {
-         Mutable var2 = new Mutable();
+      }
 
-         for (int var3 = 0; var3 <= 10; var3++) {
-            for (byte var4 = 1; var4 >= -1; var4 -= 2) {
-               var2.method_10103(var1.method_10263(), var1.method_10264() + var3 * var4, var1.method_10260());
-               if (this.onk(var2)) {
-                  return var2.method_10062();
-               }
+      Mutable var2 = new Mutable();
 
-               if (var3 == 0) {
-                  break;
-               }
+      for (int var3 = 0; var3 <= 10; var3++) {
+         for (byte var4 = 1; var4 >= -1; var4 -= 2) {
+            var2.set(var1.getX(), var1.getY() + var3 * var4, var1.getZ());
+            if (this.onk(var2)) {
+               return var2.toImmutable();
+            }
+
+            if (var3 == 0) {
+               break;
             }
          }
-
-         return var1;
       }
+
+      return var1;
    }
 
    private void opi() {
@@ -4507,14 +4507,14 @@ public class nxa extends pnc {
    }
 
    private void opj() {
-      BlockPos var1 = this.getPlayer().method_24515();
+      BlockPos var1 = this.getPlayer().getBlockPos();
       this.opl(var1);
       if (Double.isNaN(this.ofm)) {
          this.ofm = Math.toRadians(this.oow() + 90.0);
       }
 
-      if (this.nzh != null && var1.method_10262(this.nzh) > 4900.0) {
-         this.ofm = Math.atan2(this.nzh.method_10260() - var1.method_10260(), this.nzh.method_10263() - var1.method_10263());
+      if (this.nzh != null && var1.getSquaredDistance(this.nzh) > 4900.0) {
+         this.ofm = Math.atan2(this.nzh.getZ() - var1.getZ(), this.nzh.getX() - var1.getX());
       }
 
       double[] var2 = new double[]{0.0, 0.9, -0.9, 2.1, -2.1, Math.PI};
@@ -4523,7 +4523,7 @@ public class nxa extends pnc {
       for (int var4 = 0; var4 < var2.length && var3 < 2; var4++) {
          double var5 = this.ofm + var2[(var4 + this.ofo) % var2.length] + this.nzf.nextGaussian() * 0.28;
          double var7 = 14.0 + this.nzf.nextDouble() * 16.0;
-         BlockPos var9 = var1.method_10069((int)Math.round(Math.cos(var5) * var7), 0, (int)Math.round(Math.sin(var5) * var7));
+         BlockPos var9 = var1.add((int)Math.round(Math.cos(var5) * var7), 0, (int)Math.round(Math.sin(var5) * var7));
          if (!this.opm(var9) || this.ofn >= 2) {
             var3++;
             List var10 = this.opd(this.ooe(this.oph(var9)));
@@ -4544,7 +4544,7 @@ public class nxa extends pnc {
    }
 
    private static long opk(BlockPos var0) {
-      return (long)(var0.method_10263() >> 4) << 32 ^ var0.method_10260() >> 4 & 4294967295L;
+      return (long)(var0.getX() >> 4) << 32 ^ var0.getZ() >> 4 & 4294967295L;
    }
 
    private void opl(BlockPos var1) {
@@ -4574,8 +4574,8 @@ public class nxa extends pnc {
    }
 
    private double opp(BlockPos var1) {
-      double var2 = this.getPlayer().method_23317() - (var1.method_10263() + 0.5);
-      double var4 = this.getPlayer().method_23321() - (var1.method_10260() + 0.5);
+      double var2 = this.getPlayer().getX() - (var1.getX() + 0.5);
+      double var4 = this.getPlayer().getZ() - (var1.getZ() + 0.5);
       return var2 * var2 + var4 * var4;
    }
 
@@ -4647,7 +4647,7 @@ public class nxa extends pnc {
 
    private double opr() {
       ClientPlayerEntity var1 = this.getPlayer();
-      return !var1.method_24828() && !Double.isNaN(this.ogf) ? this.ogf : var1.method_23318();
+      return !var1.isOnGround() && !Double.isNaN(this.ogf) ? this.ogf : var1.getY();
    }
 
    private boolean ops() {
@@ -4676,31 +4676,31 @@ public class nxa extends pnc {
 
    private boolean opv(Vec3d var1, boolean var2) {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         Vec3d var3 = this.getPlayer().method_73189();
-         double var4 = var1.field_1352 - var3.field_1352;
-         double var6 = var1.field_1350 - var3.field_1350;
+         Vec3d var3 = this.getPlayer().getEntityPos();
+         double var4 = var1.x - var3.x;
+         double var6 = var1.z - var3.z;
          double var8 = Math.hypot(var4, var6);
          if (var8 < 0.1) {
             return true;
-         } else {
-            double var10 = this.opw();
-            int var12 = (int)Math.ceil(var8 / 0.45);
+         }
 
-            for (int var13 = 1; var13 <= var12; var13++) {
-               double var14 = (double)var13 / var12;
-               double var16 = var3.field_1352 + var4 * var14;
-               double var18 = var3.field_1350 + var6 * var14;
-               if (!this.opx(var16, var18, var10)) {
-                  return false;
-               }
+         double var10 = this.opw();
+         int var12 = (int)Math.ceil(var8 / 0.45);
 
-               if (var2 && this.opz(BlockPos.method_49637(var16, var10 - 0.2, var18))) {
-                  return false;
-               }
+         for (int var13 = 1; var13 <= var12; var13++) {
+            double var14 = (double)var13 / var12;
+            double var16 = var3.x + var4 * var14;
+            double var18 = var3.z + var6 * var14;
+            if (!this.opx(var16, var18, var10)) {
+               return false;
             }
 
-            return true;
+            if (var2 && this.opz(BlockPos.ofFloored(var16, var10 - 0.2, var18))) {
+               return false;
+            }
          }
+
+         return true;
       } else {
          return false;
       }
@@ -4710,11 +4710,11 @@ public class nxa extends pnc {
       double var1 = this.opr();
       if (!this.opb()) {
          return var1;
-      } else {
-         double var3 = pqf.getStandY(this.ofb.get(this.ofc));
-         double var5 = var3 - var1;
-         return var5 > 0.0 && var5 <= 0.6 ? var3 : var1;
       }
+
+      double var3 = pqf.getStandY(this.ofb.get(this.ofc));
+      double var5 = var3 - var1;
+      return var5 > 0.0 && var5 <= 0.6 ? var3 : var1;
    }
 
    private boolean opx(double var1, double var3, double var5) {
@@ -4722,8 +4722,8 @@ public class nxa extends pnc {
    }
 
    private boolean opy(Box var1) {
-      for (VoxelShape var3 : this.getWorld().method_20812(this.getPlayer(), var1)) {
-         if (!var3.method_1110()) {
+      for (VoxelShape var3 : this.getWorld().getBlockCollisions(this.getPlayer(), var1)) {
+         if (!var3.isEmpty()) {
             return false;
          }
       }
@@ -4732,11 +4732,11 @@ public class nxa extends pnc {
    }
 
    private boolean opz(BlockPos var1) {
-      return this.getWorld().method_8320(var1).method_26220(this.getWorld(), var1).method_1110();
+      return this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty();
    }
 
    private boolean oqa(ItemStack var1) {
-      if (!var1.method_7960() && !var1.method_31574(Items.field_8469)) {
+      if (!var1.isEmpty() && !var1.isOf(Items.GLASS_BOTTLE)) {
          return !this.oqf(var1, true) && (!this.nyt.get() || !this.oqf(var1, false)) ? !this.oht(var1) : false;
       } else {
          return true;
@@ -4744,42 +4744,42 @@ public class nxa extends pnc {
    }
 
    private boolean oqb(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
       } else {
-         return var1.method_31574(Items.field_8469) ? true : !this.oqd(var1) && oqc(var1) && !this.oht(var1);
+         return var1.isOf(Items.GLASS_BOTTLE) ? true : !this.oqd(var1) && oqc(var1) && !this.oht(var1);
       }
    }
 
    private static boolean oqc(ItemStack var0) {
-      Item var1 = var0.method_7909();
+      Item var1 = var0.getItem();
       return var1 instanceof ShovelItem
          || var1 instanceof AxeItem
          || var1 instanceof BannerItem
-         || var1 instanceof SmithingTemplateItem && !var0.method_31574(Items.field_41946)
-         || var0.method_31574(Items.field_8894)
-         || var0.method_31574(Items.field_8598)
-         || var0.method_31574(Items.field_8547)
-         || var0.method_31574(Items.field_8448)
-         || var0.method_31574(Items.field_37523)
-         || var0.method_31574(Items.field_28101)
-         || var0.method_31574(Items.field_8466)
-         || var0.method_31574(Items.field_38418)
-         || var0.method_31574(Items.field_8323)
-         || var0.method_31574(Items.field_20417)
-         || var0.method_31574(Items.field_8711)
-         || var0.method_31574(Items.field_8782)
-         || var0.method_31574(Items.field_8261);
+         || var1 instanceof SmithingTemplateItem && !var0.isOf(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+         || var0.isOf(Items.BLAZE_ROD)
+         || var0.isOf(Items.ENCHANTED_BOOK)
+         || var0.isOf(Items.TRIDENT)
+         || var0.isOf(Items.NAME_TAG)
+         || var0.isOf(Items.SCULK)
+         || var0.isOf(Items.SCULK_SENSOR)
+         || var0.isOf(Items.ENDER_CHEST)
+         || var0.isOf(Items.REINFORCED_DEEPSLATE)
+         || var0.isOf(Items.PUFFERFISH)
+         || var0.isOf(Items.HONEY_BOTTLE)
+         || var0.isOf(Items.FERMENTED_SPIDER_EYE)
+         || var0.isOf(Items.ANVIL)
+         || var0.isOf(Items.COOKED_PORKCHOP);
    }
 
    private boolean oqd(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return true;
-      } else if (var1.method_31574(Items.field_8071) || var1.method_31574(Items.field_8288) || var1.method_31574(Items.field_49814)) {
+      } else if (var1.isOf(Items.GOLDEN_CARROT) || var1.isOf(Items.TOTEM_OF_UNDYING) || var1.isOf(Items.MACE)) {
          return true;
       } else {
          return !this.oqf(var1, true) && !this.oqf(var1, false)
-            ? var1.method_7909().method_7876().contains(a.d("鷜\ue441準\uf0ff笵ﶒ", 1568403408, -906464683))
+            ? var1.getItem().getTranslationKey().contains(a.d("鷜\ue441準\uf0ff笵ﶒ", 1568403408, -906464683))
             : true;
       }
    }
@@ -4788,47 +4788,49 @@ public class nxa extends pnc {
       if (this.oqf(var1, true) || this.oqf(var1, false)) {
          return true;
       } else {
-         return var1.method_31574(Items.field_8071) ? this.oqh(Items.field_8071) <= this.oal : this.oqd(var1) && !this.oht(var1);
+         return var1.isOf(Items.GOLDEN_CARROT) ? this.oqh(Items.GOLDEN_CARROT) <= this.oal : this.oqd(var1) && !this.oht(var1);
       }
    }
 
    private boolean oqf(ItemStack var1, boolean var2) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
-      } else if (!var1.method_31574(Items.field_8574) && !var1.method_31574(Items.field_8436) && !var1.method_31574(Items.field_8150)) {
+      }
+
+      if (!var1.isOf(Items.POTION) && !var1.isOf(Items.SPLASH_POTION) && !var1.isOf(Items.LINGERING_POTION)) {
          return false;
-      } else {
-         PotionContentsComponent var3 = (PotionContentsComponent)var1.method_58694(DataComponentTypes.field_49651);
-         if (var3 != null) {
-            int var4 = 0;
-            boolean var5 = false;
+      }
 
-            for (StatusEffectInstance var7 : var3.method_57397()) {
-               var4++;
-               if (var7.method_5579() == (var2 ? StatusEffects.field_5905 : StatusEffects.field_5904)) {
-                  var5 = true;
-               }
-            }
+      PotionContentsComponent var3 = var1.get(DataComponentTypes.POTION_CONTENTS);
+      if (var3 != null) {
+         int var4 = 0;
+         boolean var5 = false;
 
-            if (var4 > 0) {
-               return var4 == 1 && var5;
+         for (StatusEffectInstance var7 : var3.getEffects()) {
+            var4++;
+            if (var7.getEffectType() == (var2 ? StatusEffects.INVISIBILITY : StatusEffects.SPEED)) {
+               var5 = true;
             }
          }
 
-         String var8 = var1.method_7964().getString().toLowerCase();
-         return var2
-            ? var8.contains(a.d("邅\ue93c揨ﶓ癈\uf0f5䪢", -166002153, -559573336))
-            : var8.contains(a.c(252853652, "㧒䀘쫏哀\udf69妧\ue3f7")) || var8.contains(a.d("ণ瀑𧻓撦\uef70", 897879409, -15498076));
+         if (var4 > 0) {
+            return var4 == 1 && var5;
+         }
       }
+
+      String var8 = var1.getName().getString().toLowerCase();
+      return var2
+         ? var8.contains(a.d("邅\ue93c揨ﶓ癈\uf0f5䪢", -166002153, -559573336))
+         : var8.contains(a.c(252853652, "㧒䀘쫏哀\udf69妧\ue3f7")) || var8.contains(a.d("ণ瀑𧻓撦\uef70", 897879409, -15498076));
    }
 
    private int oqg(boolean var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
-         ItemStack var4 = this.getPlayer().method_31548().method_5438(var3);
+         ItemStack var4 = this.getPlayer().getInventory().getStack(var3);
          if (this.oqf(var4, var1)) {
-            var2 += var4.method_7947();
+            var2 += var4.getCount();
          }
       }
 
@@ -4839,9 +4841,9 @@ public class nxa extends pnc {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
-         ItemStack var4 = this.getPlayer().method_31548().method_5438(var3);
-         if (var4.method_31574(var1)) {
-            var2 += var4.method_7947();
+         ItemStack var4 = this.getPlayer().getInventory().getStack(var3);
+         if (var4.isOf(var1)) {
+            var2 += var4.getCount();
          }
       }
 
@@ -4850,7 +4852,7 @@ public class nxa extends pnc {
 
    private int oqi(Predicate<ItemStack> var1) {
       for (int var2 = 0; var2 < 9; var2++) {
-         if (var1.test(this.getPlayer().method_31548().method_5438(var2))) {
+         if (var1.test(this.getPlayer().getInventory().getStack(var2))) {
             return var2;
          }
       }
@@ -4860,7 +4862,7 @@ public class nxa extends pnc {
 
    private int oqj(Predicate<ItemStack> var1) {
       for (int var2 = 9; var2 < 36; var2++) {
-         if (var1.test(this.getPlayer().method_31548().method_5438(var2))) {
+         if (var1.test(this.getPlayer().getInventory().getStack(var2))) {
             return var2;
          }
       }
@@ -4872,7 +4874,7 @@ public class nxa extends pnc {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {
-         if (this.oqb(this.getPlayer().method_31548().method_5438(var2))) {
+         if (this.oqb(this.getPlayer().getInventory().getStack(var2))) {
             var1++;
          }
       }
@@ -4884,8 +4886,8 @@ public class nxa extends pnc {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {
-         ItemStack var3 = this.getPlayer().method_31548().method_5438(var2);
-         if (var3.method_7960() || this.oqb(var3)) {
+         ItemStack var3 = this.getPlayer().getInventory().getStack(var2);
+         if (var3.isEmpty() || this.oqb(var3)) {
             var1++;
          }
       }

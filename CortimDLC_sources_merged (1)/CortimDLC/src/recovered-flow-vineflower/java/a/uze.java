@@ -24,21 +24,16 @@ import org.lwjgl.system.MemoryStack;
 public final class uze {
    public static final int UNIFORM_SIZE = 368;
    private static final int uzf = 528;
-   @Nullable
-   private static GpuTexture uzg;
-   @Nullable
-   private static GpuTextureView uzh;
-   @Nullable
-   private static GpuTexture uzi;
-   @Nullable
-   private static GpuTextureView uzj;
+   private static @Nullable GpuTexture uzg;
+   private static @Nullable GpuTextureView uzh;
+   private static @Nullable GpuTexture uzi;
+   private static @Nullable GpuTextureView uzj;
    private static boolean uzk;
    private static final GpuTexture[] uzl = new GpuTexture[4];
    private static final GpuTextureView[] uzm = new GpuTextureView[4];
    private static int uzn = -1;
    private static int uzo = -1;
-   @Nullable
-   private static GpuBuffer uzp;
+   private static @Nullable GpuBuffer uzp;
    private static int uzq = -1;
    private static int uzr = -1;
    private static int uzs = 2;
@@ -63,58 +58,26 @@ public final class uze {
          && uvq.ensure(uvq.CLOUD_COMPOSITE)) {
          GpuBufferSlice var6 = RenderSystem.getProjectionMatrixBuffer();
          GpuBufferSlice var7 = RenderSystem.getShaderFog();
-         Framebuffer var8 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var9 = var8.method_71639();
-         GpuTextureView var10 = var8.method_71640();
+         Framebuffer var8 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var9 = var8.getColorAttachmentView();
+         GpuTextureView var10 = var8.getDepthAttachmentView();
          GpuTextureView var11 = vbb.heightView();
-         if (var6 != null && var7 != null && var9 != null && var10 != null && var11 != null && var8.field_1482 >= 4 && var8.field_1481 >= 4) {
+         if (var6 != null && var7 != null && var9 != null && var10 != null && var11 != null && var8.textureWidth >= 4 && var8.textureHeight >= 4) {
             try {
-               int var12 = Math.max(1, Math.round(var8.field_1482 * var0));
-               int var13 = Math.max(1, Math.round(var8.field_1481 * var0));
+               int var12 = Math.max(1, Math.round(var8.textureWidth * var0));
+               int var13 = Math.max(1, Math.round(var8.textureHeight * var0));
                GpuDevice var14 = RenderSystem.getDevice();
-               vae(var14, var12, var13, var8.field_1482, var8.field_1481);
+               vae(var14, var12, var13, var8.textureWidth, var8.textureHeight);
                CommandEncoder var15 = var14.createCommandEncoder();
                if (!uzk) {
-                  RenderPass var16 = var15.createRenderPass(() -> "Flow2 cloud noise", uzh, OptionalInt.empty());
-
-                  try {
+                  try (RenderPass var16 = var15.createRenderPass(() -> "Flow2 cloud noise", uzh, OptionalInt.empty())) {
                      var16.setPipeline(uvq.CLOUD_NOISE);
                      var16.draw(0, 3);
-                  } catch (Throwable var38) {
-                     if (var16 != null) {
-                        try {
-                           var16.close();
-                        } catch (Throwable var31) {
-                           var38.addSuppressed(var31);
-                        }
-                     }
-
-                     throw var38;
                   }
 
-                  if (var16 != null) {
-                     var16.close();
-                  }
-
-                  var16 = var15.createRenderPass(() -> "Flow2 cloud weather", uzj, OptionalInt.empty());
-
-                  try {
-                     var16.setPipeline(uvq.CLOUD_W);
-                     var16.draw(0, 3);
-                  } catch (Throwable var37) {
-                     if (var16 != null) {
-                        try {
-                           var16.close();
-                        } catch (Throwable var30) {
-                           var37.addSuppressed(var30);
-                        }
-                     }
-
-                     throw var37;
-                  }
-
-                  if (var16 != null) {
-                     var16.close();
+                  try (RenderPass var40 = var15.createRenderPass(() -> "Flow2 cloud weather", uzj, OptionalInt.empty())) {
+                     var40.setPipeline(uvq.CLOUD_W);
+                     var40.draw(0, 3);
                   }
 
                   uzk = true;
@@ -126,7 +89,7 @@ public final class uze {
 
                try {
                   Std140Builder var18 = Std140Builder.onStack(var17, 368)
-                     .putVec4(var12, var13, var8.field_1482, var8.field_1481)
+                     .putVec4(var12, var13, var8.textureWidth, var8.textureHeight)
                      .putVec4(uzu, var41 ? 1.0F : 0.0F, var3, var4);
                   var5.accept(var18);
                   var18.putVec4(vad(uzu & 15, 2), vad(uzu & 15, 3), var1, 0.0F);
@@ -152,112 +115,49 @@ public final class uze {
                GpuTextureView var19 = uzm[uzs];
                GpuTextureView var20 = uzm[5 - uzs];
                GpuQuery var21 = uzw ? var15.timerQueryBegin() : null;
-               RenderPass var22 = var15.createRenderPass(() -> "Flow2 cloud march", var42, OptionalInt.empty());
 
-               try {
+               try (RenderPass var22 = var15.createRenderPass(() -> "Flow2 cloud march", var42, OptionalInt.empty())) {
                   var22.setPipeline(uvq.CLOUD_MARCH);
-                  var22.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var22.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var22.bindTexture("HeightSampler", var11, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var22.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var22.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var22.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var22.bindTexture("HeightSampler", var11, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var22.setUniform("Projection", var6);
                   var22.setUniform("Fog", var7);
                   var22.setUniform("FlowCloud", uzp);
                   var22.draw(0, 3);
-               } catch (Throwable var35) {
-                  if (var22 != null) {
-                     try {
-                        var22.close();
-                     } catch (Throwable var28) {
-                        var35.addSuppressed(var28);
-                     }
-                  }
-
-                  throw var35;
                }
 
-               if (var22 != null) {
-                  var22.close();
+               try (RenderPass var44 = var15.createRenderPass(() -> "Flow2 cloud resolve", var20, OptionalInt.empty())) {
+                  var44.setPipeline(uvq.CLOUD_RESOLVE);
+                  var44.bindTexture("RawSampler", var42, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var44.bindTexture("HistorySampler", var19, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var44.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var44.setUniform("Projection", var6);
+                  var44.setUniform("FlowCloud", uzp);
+                  var44.draw(0, 3);
                }
 
-               var22 = var15.createRenderPass(() -> "Flow2 cloud resolve", var20, OptionalInt.empty());
-
-               try {
-                  var22.setPipeline(uvq.CLOUD_RESOLVE);
-                  var22.bindTexture("RawSampler", var42, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.bindTexture("HistorySampler", var19, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var22.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.setUniform("Projection", var6);
-                  var22.setUniform("FlowCloud", uzp);
-                  var22.draw(0, 3);
-               } catch (Throwable var34) {
-                  if (var22 != null) {
-                     try {
-                        var22.close();
-                     } catch (Throwable var27) {
-                        var34.addSuppressed(var27);
-                     }
-                  }
-
-                  throw var34;
+               try (RenderPass var45 = var15.createRenderPass(() -> "Flow2 sun rays", var43, OptionalInt.empty())) {
+                  var45.setPipeline(uvq.CLOUD_RAYS);
+                  var45.bindTexture("CloudSampler", var20, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var45.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var45.setUniform("Projection", var6);
+                  var45.setUniform("FlowCloud", uzp);
+                  var45.draw(0, 3);
                }
 
-               if (var22 != null) {
-                  var22.close();
-               }
-
-               var22 = var15.createRenderPass(() -> "Flow2 sun rays", var43, OptionalInt.empty());
-
-               try {
-                  var22.setPipeline(uvq.CLOUD_RAYS);
-                  var22.bindTexture("CloudSampler", var20, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var22.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.setUniform("Projection", var6);
-                  var22.setUniform("FlowCloud", uzp);
-                  var22.draw(0, 3);
-               } catch (Throwable var33) {
-                  if (var22 != null) {
-                     try {
-                        var22.close();
-                     } catch (Throwable var26) {
-                        var33.addSuppressed(var26);
-                     }
-                  }
-
-                  throw var33;
-               }
-
-               if (var22 != null) {
-                  var22.close();
-               }
-
-               var22 = var15.createRenderPass(() -> "Flow2 cloud composite", var9, OptionalInt.empty());
-
-               try {
-                  var22.setPipeline(uvq.CLOUD_COMPOSITE);
-                  var22.bindTexture("CloudSampler", var20, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.bindTexture("RaysSampler", var43, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var22.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var22.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var22.bindTexture("HeightSampler", var11, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var22.setUniform("Projection", var6);
-                  var22.setUniform("FlowCloud", uzp);
-                  var22.draw(0, 3);
-               } catch (Throwable var32) {
-                  if (var22 != null) {
-                     try {
-                        var22.close();
-                     } catch (Throwable var25) {
-                        var32.addSuppressed(var25);
-                     }
-                  }
-
-                  throw var32;
-               }
-
-               if (var22 != null) {
-                  var22.close();
+               try (RenderPass var46 = var15.createRenderPass(() -> "Flow2 cloud composite", var9, OptionalInt.empty())) {
+                  var46.setPipeline(uvq.CLOUD_COMPOSITE);
+                  var46.bindTexture("CloudSampler", var20, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var46.bindTexture("RaysSampler", var43, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var46.bindTexture("DepthSampler", var10, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var46.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var46.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var46.bindTexture("HeightSampler", var11, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var46.setUniform("Projection", var6);
+                  var46.setUniform("FlowCloud", uzp);
+                  var46.draw(0, 3);
                }
 
                if (var21 != null) {

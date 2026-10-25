@@ -52,17 +52,19 @@ public class rky extends kfe {
    }
 
    private boolean rmd(MinecraftClient var1, PlayerEntity var2) {
-      if (var2 != var1.field_1724) {
-         if (!var2.method_5805() || var2.method_7325() || var2 == var1.method_1560()) {
+      if (var2 != var1.player) {
+         if (!var2.isAlive() || var2.isSpectator() || var2 == var1.getCameraEntity()) {
             return false;
-         } else if (!this.rlc.get() && hhf.isFriend(var2)) {
-            return false;
-         } else {
-            double var3 = this.rll.get();
-            return var1.field_1724.method_5858(var2) <= var3 * var3;
          }
+
+         if (!this.rlc.get() && hhf.isFriend(var2)) {
+            return false;
+         }
+
+         double var3 = this.rll.get();
+         return var1.player.squaredDistanceTo(var2) <= var3 * var3;
       } else {
-         return this.rlm.get() && !var1.field_1690.method_31044().method_31034();
+         return this.rlm.get() && !var1.options.getPerspective().isFirstPerson();
       }
    }
 
@@ -82,18 +84,16 @@ public class rky extends kfe {
 
    public static void afterExtraction(WorldRenderState var0) {
       rky var1 = rkz;
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var1 != null && var1.isEnabled() && var1.rla.is("Outline") && var2.field_1687 != null && var2.field_1724 != null) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var1 != null && var1.isEnabled() && var1.rla.is("Outline") && var2.world != null && var2.player != null) {
          ukl.style(0)
             .set((float)var1.rlh.get(), (float)var1.rlf.get(), (float)var1.rlg.get(), (float)var1.rli.get(), (float)var1.rlj.get(), (float)var1.rlk.get());
          int var3 = var1.rlb.color() | 0xFF000000;
          int var4 = var1.rlb.color2() | 0xFF000000;
          boolean var5 = var1.rld.get();
 
-         for (EntityRenderState var7 : var0.field_61735) {
-            if (var7 instanceof PlayerEntityRenderState var8
-               && var2.field_1687.method_8469(var8.field_53528) instanceof PlayerEntity var9
-               && var1.rmd(var2, var9)) {
+         for (EntityRenderState var7 : var0.entityRenderStates) {
+            if (var7 instanceof PlayerEntityRenderState var8 && var2.world.getEntityById(var8.id) instanceof PlayerEntity var9 && var1.rmd(var2, var9)) {
                boolean var13 = hhf.isFriend(var9);
                int var11 = var13 ? -10686326 : (var5 ? ujt.lerp(-45730, -10686326, vyk.of(var9).fraction()) : var3);
                int var12 = !var13 && !var5 ? var4 : ujt.lerp(var11, -1, 0.35F);
@@ -105,22 +105,22 @@ public class rky extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rky var2 = rkz;
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       if (var2 != null
          && var2.isEnabled()
          && !var2.rla.is("Outline")
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+         && var3.world != null
+         && var3.player != null
+         && !var3.options.hudHidden
+         && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.rln) {
             var2.rln = unf.frame();
-            float var4 = var1.method_60637(true);
+            float var4 = var1.getTickProgress(true);
 
             usn var5;
             try {
-               var5 = usn.capture(var4, var0.method_51421(), var0.method_51443());
+               var5 = usn.capture(var4, var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var13) {
                return;
             }
@@ -129,9 +129,9 @@ public class rky extends kfe {
             uut.beginBatch();
 
             try {
-               for (PlayerEntity var7 : var3.field_1687.method_18456()) {
+               for (PlayerEntity var7 : var3.world.getPlayers()) {
                   if (var2.rmd(var3, var7)) {
-                     Vec3d var8 = var7.method_30950(var4);
+                     Vec3d var8 = var7.getLerpedPos(var4);
                      int var9 = var2.rme(var7);
                      var2.rmg(var0, var5, var7, var8, var9);
                   }
@@ -152,8 +152,8 @@ public class rky extends kfe {
    }
 
    private void rmg(DrawContext var1, usn var2, PlayerEntity var3, Vec3d var4, int var5) {
-      double var6 = var3.method_17681() * 0.5 + 0.02;
-      this.rmf(var4.field_1352, var4.field_1351, var4.field_1350, var6, var3.method_17682() + 0.02);
+      double var6 = var3.getWidth() * 0.5 + 0.02;
+      this.rmf(var4.x, var4.y, var4.z, var6, var3.getHeight() + 0.02);
 
       for (int var8 = 0; var8 < 8; var8++) {
          this.rlt[var8] = var2.depth(this.rlr[var8][0], this.rlr[var8][1], this.rlr[var8][2]) > 0.05F
@@ -168,7 +168,7 @@ public class rky extends kfe {
 
          for (int var12 = 0; var12 < 6; var12++) {
             int[] var13 = rlv[var12];
-            if (this.rlt[var13[0]] && this.rlt[var13[1]] && this.rlt[var13[2]] && this.rlt[var13[3]] && this.rmh(var12, var9, var4, var6, var3.method_17682())) {
+            if (this.rlt[var13[0]] && this.rlt[var13[1]] && this.rlt[var13[2]] && this.rlt[var13[3]] && this.rmh(var12, var9, var4, var6, var3.getHeight())) {
                uut.quad(
                   var1,
                   this.rls[var13[0]][0],
@@ -209,12 +209,12 @@ public class rky extends kfe {
 
    private boolean rmh(int var1, Vec3d var2, Vec3d var3, double var4, double var6) {
       return switch (var1) {
-         case 0 -> var2.field_1351 < var3.field_1351;
-         case 1 -> var2.field_1351 > var3.field_1351 + var6;
-         case 2 -> var2.field_1350 < var3.field_1350 - var4;
-         case 3 -> var2.field_1350 > var3.field_1350 + var4;
-         case 4 -> var2.field_1352 < var3.field_1352 - var4;
-         default -> var2.field_1352 > var3.field_1352 + var4;
+         case 0 -> var2.y < var3.y;
+         case 1 -> var2.y > var3.y + var6;
+         case 2 -> var2.z < var3.z - var4;
+         case 3 -> var2.z > var3.z + var4;
+         case 4 -> var2.x < var3.x - var4;
+         default -> var2.x > var3.x + var4;
       };
    }
 
@@ -241,7 +241,7 @@ public class rky extends kfe {
    }
 
    private void rmj(DrawContext var1, PlayerEntity var2) {
-      float var3 = MathHelper.method_15363(vyk.of(var2).fraction(), 0.0F, 1.0F);
+      float var3 = MathHelper.clamp(vyk.of(var2).fraction(), 0.0F, 1.0F);
       float var4 = this.rlz - this.rlx;
       float var5 = Math.max(1.5F, Math.min(3.0F, var4 * 0.025F));
       float var6 = this.rlw - var5 - 3.0F;

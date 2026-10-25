@@ -124,42 +124,46 @@ final class ier extends imn {
       irr.VALUE.draw(var1, var4, this.ifa + 7.0F, irr.VALUE.centerTop(var5), ujt.lerp(iov.textDim, iov.text, 0.6F + var2 * 0.4F));
       float var6 = this.ifa + this.ifc - 8.5F;
       int var7 = ujt.lerp(iov.textMuted, iov.accent(), Math.max(var3, var2 * 0.5F));
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(var6, var5);
-      var1.method_51448().rotate((float) Math.PI * var3);
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate(var6, var5);
+      var1.getMatrices().rotate((float) Math.PI * var3);
       vjf.draw(var1, vhz.CHEVRON_DOWN, 0.0F, 0.0F, 7.0F, var7);
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
    }
 
    @Override
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (!this.hovered(var2, var3)) {
          return false;
-      } else if (var4 == 1) {
+      }
+
+      if (var4 == 1) {
          this.iev.cyclePrev();
          return true;
-      } else if (var4 != 0) {
+      }
+
+      if (var4 != 0) {
          return false;
-      } else {
-         if (this.iez) {
-            float var5 = this.ifa + 1.5F;
+      }
 
-            for (String var7 : this.iev.getModes()) {
-               float var8 = this.iff(var7);
-               if (var2 >= var5 && var2 < var5 + var8) {
-                  this.iev.set(var7);
-                  return true;
-               }
+      if (this.iez) {
+         float var5 = this.ifa + 1.5F;
 
-               var5 += var8;
+         for (String var7 : this.iev.getModes()) {
+            float var8 = this.iff(var7);
+            if (var2 >= var5 && var2 < var5 + var8) {
+               this.iev.set(var7);
+               return true;
             }
 
-            this.iev.cycle();
-         } else {
-            var1.openDropdown(this.iev, this.ifa, this.ifb + 14.0F + 3.0F, this.ifc, this.ifb);
+            var5 += var8;
          }
 
-         return true;
+         this.iev.cycle();
+      } else {
+         var1.openDropdown(this.iev, this.ifa, this.ifb + 14.0F + 3.0F, this.ifc, this.ifb);
       }
+
+      return true;
    }
 }

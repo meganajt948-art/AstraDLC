@@ -64,8 +64,8 @@ final class CosmeticParticles {
          p.vy = em.vy * jy / 16.0 + r.nextDouble(-0.3, 0.3) / 16.0;
          p.gravity = em.gravity / 16.0F;
          p.drag = em.drag;
-         p.life = (float)r.nextDouble(em.lifeMin, Math.max(em.lifeMin + 0.001, (double)em.lifeMax));
-         p.size = (float)r.nextDouble(em.sizeMin, Math.max(em.sizeMin + 0.001, (double)em.sizeMax)) * 1.5F / 16.0F;
+         p.life = (float)r.nextDouble(em.lifeMin, Math.max(em.lifeMin + 0.001, em.lifeMax));
+         p.size = (float)r.nextDouble(em.sizeMin, Math.max(em.sizeMin + 0.001, em.sizeMax)) * 1.5F / 16.0F;
          p.color = em.colors[r.nextInt(em.colors.length)];
          p.kind = Math.max(0, Math.min(7, em.kind));
          p.additive = em.additive;
@@ -148,15 +148,15 @@ final class CosmeticParticles {
    private static int tint(CosmeticParticles.P p, float t) {
       if (p.kind != 2) {
          return p.color;
-      } else {
-         int r = p.color >> 16 & 0xFF;
-         int g = p.color >> 8 & 0xFF;
-         int b = p.color & 0xFF;
-         g = (int)(g * (1.0F - 0.55F * t));
-         b = (int)(b * (1.0F - 0.7F * t));
-         r = (int)(r * (1.0F - 0.1F * t));
-         return r << 16 | g << 8 | b;
       }
+
+      int r = p.color >> 16 & 0xFF;
+      int g = p.color >> 8 & 0xFF;
+      int b = p.color & 0xFF;
+      g = (int)(g * (1.0F - 0.55F * t));
+      b = (int)(b * (1.0F - 0.7F * t));
+      r = (int)(r * (1.0F - 0.1F * t));
+      return r << 16 | g << 8 | b;
    }
 
    static void step(float dt) {
@@ -197,8 +197,8 @@ final class CosmeticParticles {
             failed = true;
             return null;
          } else {
-            sheet = Identifier.method_60655("flow2", "cosmetic/particles");
-            MinecraftClient.method_1551().method_1531().method_4616(sheet, new NativeImageBackedTexture(() -> "Flow2 cosmetic particles", img));
+            sheet = Identifier.of("flow2", "cosmetic/particles");
+            MinecraftClient.getInstance().getTextureManager().registerTexture(sheet, new NativeImageBackedTexture(() -> "Flow2 cosmetic particles", img));
             return sheet;
          }
       } else {
@@ -221,7 +221,7 @@ final class CosmeticParticles {
 
             Quaternionf q = new Quaternionf(camRot);
             if (!add.isEmpty()) {
-               queue.method_73483(matrices, RenderLayers.method_76014(tex), (entry, vc) -> quads(add, entry, vc, cam, q, true));
+               queue.submitCustom(matrices, RenderLayers.eyes(tex), (entry, vc) -> quads(add, entry, vc, cam, q, true));
                if (CosmeticGlow.active()) {
                   glow(add, tex, cam, q);
                }
@@ -229,14 +229,14 @@ final class CosmeticParticles {
 
             if (!blend.isEmpty()) {
                for (CosmeticParticles.P p : blend) {
-                  double dx = p.x - cam.field_1352;
-                  double dy = p.y - cam.field_1351;
-                  double dz = p.z - cam.field_1350;
+                  double dx = p.x - cam.x;
+                  double dy = p.y - cam.y;
+                  double dz = p.z - cam.z;
                   p.depth = dx * dx + dy * dy + dz * dz;
                }
 
                blend.sort((a, b) -> Double.compare(b.depth, a.depth));
-               queue.method_73483(matrices, RenderLayers.method_76000(tex), (entry, vc) -> quads(blend, entry, vc, cam, q, false));
+               queue.submitCustom(matrices, RenderLayers.entityTranslucent(tex), (entry, vc) -> quads(blend, entry, vc, cam, q, false));
             }
          }
       }
@@ -261,9 +261,9 @@ final class CosmeticParticles {
          float sn = (float)Math.sin(rot) * size;
          a.set(right).mul(cs).add(up.x * sn, up.y * sn, up.z * sn);
          b.set(up).mul(cs).sub(right.x * sn, right.y * sn, right.z * sn);
-         float cx = (float)(p.x - cam.field_1352);
-         float cy = (float)(p.y - cam.field_1351);
-         float cz = (float)(p.z - cam.field_1350);
+         float cx = (float)(p.x - cam.x);
+         float cy = (float)(p.y - cam.y);
+         float cz = (float)(p.z - cam.z);
          float u0 = p.kind / 8.0F;
          float u1 = (p.kind + 1) / 8.0F;
          set(c[0], uv[0], cx - a.x - b.x, cy - a.y - b.y, cz - a.z - b.z, u0, 1.0F);
@@ -302,7 +302,7 @@ final class CosmeticParticles {
       Vector3f a = new Vector3f();
       Vector3f b = new Vector3f();
       int light = 15728880;
-      int overlay = OverlayTexture.field_21444;
+      int overlay = OverlayTexture.DEFAULT_UV;
 
       for (CosmeticParticles.P p : list) {
          float t = p.age / p.life;
@@ -325,9 +325,9 @@ final class CosmeticParticles {
          float s = (float)Math.sin(rot) * size;
          a.set(right).mul(c).add(up.x * s, up.y * s, up.z * s);
          b.set(up).mul(c).sub(right.x * s, right.y * s, right.z * s);
-         float cx = (float)(p.x - cam.field_1352);
-         float cy = (float)(p.y - cam.field_1351);
-         float cz = (float)(p.z - cam.field_1350);
+         float cx = (float)(p.x - cam.x);
+         float cy = (float)(p.y - cam.y);
+         float cz = (float)(p.z - cam.z);
          float u0 = p.kind / 8.0F;
          float u1 = (p.kind + 1) / 8.0F;
          vertex(vc, entry, cx - a.x - b.x, cy - a.y - b.y, cz - a.z - b.z, argb, u0, 1.0F, overlay, light, normal);
@@ -338,8 +338,8 @@ final class CosmeticParticles {
    }
 
    private static void vertex(VertexConsumer vc, Entry entry, float x, float y, float z, int argb, float u, float v, int overlay, int light, Vector3f n) {
-      Vector3f p = entry.method_23761().transformPosition(x, y, z, VERTEX);
-      vc.method_23919(p.x, p.y, p.z, argb, u, v, overlay, light, n.x, n.y, n.z);
+      Vector3f p = entry.getPositionMatrix().transformPosition(x, y, z, VERTEX);
+      vc.vertex(p.x, p.y, p.z, argb, u, v, overlay, light, n.x, n.y, n.z);
    }
 
    private static final class P {

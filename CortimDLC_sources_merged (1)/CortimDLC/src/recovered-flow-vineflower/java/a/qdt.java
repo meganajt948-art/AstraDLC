@@ -15,7 +15,7 @@ final class qdt {
 
    qdt(qda var1, double var2, double var4) {
       this.hit = var1;
-      this.key = var1.pos().method_10063();
+      this.key = var1.pos().asLong();
       this.own = var2;
       this.ticks = var4;
    }

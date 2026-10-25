@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.entity.effect.StatusEffect;
 import org.lwjgl.glfw.GLFW;
 
 public final class hrt extends ijy {
@@ -42,7 +41,7 @@ public final class hrt extends ijy {
    }
 
    public static void open() {
-      if (MinecraftClient.method_1551().field_1755 instanceof hlc var0) {
+      if (MinecraftClient.getInstance().currentScreen instanceof hlc var0) {
          var0.openOverlay(new hrt(540.0F, 409.0F));
       }
    }
@@ -130,11 +129,11 @@ public final class hrt extends ijy {
          float var11 = iov.lightness();
          uut.round(var1, 0.0F, 0.0F, var6, var7, iov.r(12.0F), ujt.withAlpha(0, Math.round(110.0F * var8)));
          uut.pushAlpha(var8);
-         var1.method_51448().pushMatrix();
+         var1.getMatrices().pushMatrix();
          float var12 = 0.96F + 0.04F * var8;
-         var1.method_51448().translate(this.hse + 235.0F, this.hsf + 168.0F + (1.0F - var8) * 6.0F);
-         var1.method_51448().scale(var12, var12);
-         var1.method_51448().translate(-(this.hse + 235.0F), -(this.hsf + 168.0F));
+         var1.getMatrices().translate(this.hse + 235.0F, this.hsf + 168.0F + (1.0F - var8) * 6.0F);
+         var1.getMatrices().scale(var12, var12);
+         var1.getMatrices().translate(-(this.hse + 235.0F), -(this.hsf + 168.0F));
          uut.shadow(var1, this.hse, this.hsf + 4.0F, 470.0F, 336.0F, var10, 18.0F, iov.shadow);
          uut.round(var1, this.hse, this.hsf, 470.0F, 336.0F, var10, ujt.withAlpha(iov.window, 252));
          uut.round(var1, this.hse, this.hsf, 470.0F, 336.0F, var10, iov.card);
@@ -146,7 +145,7 @@ public final class hrt extends ijy {
          this.htc(var1, var3, var4, var5);
          this.htd(var1, var3, var4);
          this.hti(var1);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          uut.popAlpha();
       }
    }
@@ -248,10 +247,10 @@ public final class hrt extends ijy {
                uut.outline(var1, var15, var16, 26.0F, 26.0F, var12, 1.0F, iov.accent(90));
             }
 
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var15 + 5.0F, var16 + 5.0F);
-            var1.method_51427(var14.icon(), 0, 0);
-            var1.method_51448().popMatrix();
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var15 + 5.0F, var16 + 5.0F);
+            var1.drawItem(var14.icon(), 0, 0);
+            var1.getMatrices().popMatrix();
             if (!var18) {
                uut.round(var1, var15, var16, 26.0F, 26.0F, var12, ujt.withAlpha(iov.window, 150));
             }
@@ -269,9 +268,10 @@ public final class hrt extends ijy {
                this.hsn = var14.name() + (var18 ? "" : wap.s(a.d("\ue315骤რ踆ב茯㥵낄", 769328025, 282255524), a.d("珇੶耲Ổ锃ហ궊␊메ゐ띊䵉쎖", 113131924, 1294283390)));
             }
 
-            this.hsi.add(new hrk(var15, var16, 26.0F, 26.0F, () -> this.hsm = var14, () -> {
-               var14.setActive(!var14.active());
-               this.hsm = var14;
+            pdr var24 = var14;
+            this.hsi.add(new hrk(var15, var16, 26.0F, 26.0F, () -> this.hsm = var24, () -> {
+               var24.setActive(!var24.active());
+               this.hsm = var24;
                this.hsr();
             }));
          }
@@ -296,10 +296,10 @@ public final class hrt extends ijy {
       if (var8 != null) {
          float var9 = var4 + 8.0F;
          float var10 = var5 + 8.0F;
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var9, var10);
-         var1.method_51427(var8.icon(), 0, 0);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var9, var10);
+         var1.drawItem(var8.icon(), 0, 0);
+         var1.getMatrices().popMatrix();
          float var11 = var9 + 22.0F;
          irr.NAME.draw(var1, irr.NAME.ellipsize(var8.name(), var6 - 34.0F), var11, irr.NAME.centerTop(var10 + 4.0F), iov.text);
          String var12 = var8.hasQuery()
@@ -392,7 +392,7 @@ public final class hrt extends ijy {
             );
 
             for (pig var31 : var8.effects()) {
-               String var33 = ((StatusEffect)var31.effect().comp_349()).method_5560().getString() + a.b("黲", -82207021) + pfl.roman(var31.level());
+               String var33 = var31.effect().value().getName().getString() + a.b("黲", -82207021) + pfl.roman(var31.level());
                String var35 = var31.duration() > 0 ? htf(var31.duration()) : "";
                irr.LABEL.draw(var1, irr.LABEL.ellipsize(var33, var15 - 30.0F), var14 + 2.0F, irr.LABEL.centerTop(var13 + 7.0F), iov.textDim);
                irr.SMALL.drawRight(var1, var35, var14 + var15, irr.SMALL.centerTop(var13 + 7.0F), iov.textMuted);
@@ -436,7 +436,7 @@ public final class hrt extends ijy {
    }
 
    private static int hte(pdr var0) {
-      long var1 = MinecraftClient.method_1551().method_22683().method_4490();
+      long var1 = MinecraftClient.getInstance().getWindow().getHandle();
       boolean var3 = GLFW.glfwGetKey(var1, 340) == 1 || GLFW.glfwGetKey(var1, 344) == 1;
       return var3 && var0.maxCount() > 16 ? 8 : 1;
    }
@@ -488,27 +488,31 @@ public final class hrt extends ijy {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (this.hsl) {
          return true;
-      } else if (!irr.inside(var2, var3, this.hse, this.hsf, 470.0F, 336.0F)) {
+      }
+
+      if (!irr.inside(var2, var3, this.hse, this.hsf, 470.0F, 336.0F)) {
          this.close();
          return true;
-      } else if (this.search.mouseClicked(var1, var2, var3, var4)) {
-         return true;
-      } else {
-         var1.focus(null);
+      }
 
-         for (int var5 = this.hsi.size() - 1; var5 >= 0; var5--) {
-            hrk var6 = this.hsi.get(var5);
-            if (irr.inside(var2, var3, var6.x(), var6.y(), var6.w(), var6.h())) {
-               Runnable var7 = var4 == 1 ? var6.right() : (var4 == 0 ? var6.left() : null);
-               if (var7 != null) {
-                  var7.run();
-                  return true;
-               }
-            }
-         }
-
+      if (this.search.mouseClicked(var1, var2, var3, var4)) {
          return true;
       }
+
+      var1.focus(null);
+
+      for (int var5 = this.hsi.size() - 1; var5 >= 0; var5--) {
+         hrk var6 = this.hsi.get(var5);
+         if (irr.inside(var2, var3, var6.x(), var6.y(), var6.w(), var6.h())) {
+            Runnable var7 = var4 == 1 ? var6.right() : (var4 == 0 ? var6.left() : null);
+            if (var7 != null) {
+               var7.run();
+               return true;
+            }
+         }
+      }
+
+      return true;
    }
 
    @Override
@@ -522,13 +526,13 @@ public final class hrt extends ijy {
          if (var1.focusedField() == this.search) {
             this.search.keyPressed(var1, var2, var3);
             return true;
-         } else {
-            if ((var3 & 2) != 0 && var2 == 70) {
-               var1.focus(this.search);
-            }
-
-            return true;
          }
+
+         if ((var3 & 2) != 0 && var2 == 70) {
+            var1.focus(this.search);
+         }
+
+         return true;
       } else {
          if (var1.focusedField() == this.search && !this.search.text.isEmpty()) {
             this.search.setText("");

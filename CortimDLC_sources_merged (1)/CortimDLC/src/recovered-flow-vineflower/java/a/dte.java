@@ -63,37 +63,37 @@ public final class dte extends ClassLoader {
    protected URL findResource(String var1) {
       if (var1 == null) {
          return null;
-      } else {
-         String var2 = var1.startsWith(a.d("풰", 1063486810, -435662396)) ? var1.substring(1) : var1;
-         final byte[] var3 = this.dtg != null ? this.dtg.get(var2) : null;
-         if (var3 == null) {
-            return super.findResource(var1);
-         } else {
-            try {
-               return new URL(a.d("뽣웘䰈퉡姳\udf1d敆\uecbf", -1337683116, 172239961), "", -1, a.c(-1697411817, "费") + var2, new URLStreamHandler() {
+      }
+
+      String var2 = var1.startsWith(a.d("풰", 1063486810, -435662396)) ? var1.substring(1) : var1;
+      final byte[] var3 = this.dtg != null ? this.dtg.get(var2) : null;
+      if (var3 == null) {
+         return super.findResource(var1);
+      }
+
+      try {
+         return new URL(a.d("뽣웘䰈퉡姳\udf1d敆\uecbf", -1337683116, 172239961), "", -1, a.c(-1697411817, "费") + var2, new URLStreamHandler() {
+            @Override
+            protected URLConnection openConnection(URL var1) {
+               return new URLConnection(var1) {
                   @Override
-                  protected URLConnection openConnection(URL var1) {
-                     return new URLConnection(var1) {
-                        @Override
-                        public void connect() {
-                        }
-
-                        @Override
-                        public InputStream getInputStream() {
-                           return new ByteArrayInputStream(var3);
-                        }
-
-                        @Override
-                        public int getContentLength() {
-                           return var3.length;
-                        }
-                     };
+                  public void connect() {
                   }
-               });
-            } catch (Exception var5) {
-               return null;
+
+                  @Override
+                  public InputStream getInputStream() {
+                     return new ByteArrayInputStream(var3);
+                  }
+
+                  @Override
+                  public int getContentLength() {
+                     return var3.length;
+                  }
+               };
             }
-         }
+         });
+      } catch (Exception var5) {
+         return null;
       }
    }
 
@@ -101,11 +101,11 @@ public final class dte extends ClassLoader {
    public InputStream getResourceAsStream(String var1) {
       if (var1 == null) {
          return null;
-      } else {
-         String var2 = var1.startsWith(a.d("鹞", -1661489860, 1897280332)) ? var1.substring(1) : var1;
-         byte[] var3 = this.dtg != null ? this.dtg.get(var2) : null;
-         return (InputStream)(var3 != null ? new ByteArrayInputStream(var3) : super.getResourceAsStream(var1));
       }
+
+      String var2 = var1.startsWith(a.d("鹞", -1661489860, 1897280332)) ? var1.substring(1) : var1;
+      byte[] var3 = this.dtg != null ? this.dtg.get(var2) : null;
+      return var3 != null ? new ByteArrayInputStream(var3) : super.getResourceAsStream(var1);
    }
 
    @Override

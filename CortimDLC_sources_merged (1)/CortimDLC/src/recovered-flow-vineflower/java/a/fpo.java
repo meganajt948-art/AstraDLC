@@ -156,18 +156,18 @@ final class fpo {
 
    static boolean tick(MinecraftClient var0) {
       frh++;
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       fub(var0);
       wcn.ensure(var0);
       if (frh == 1) {
-         int var8 = MathHelper.method_15357(var1.method_23317());
-         int var9 = MathHelper.method_15357(var1.method_23318());
-         int var10 = MathHelper.method_15357(var1.method_23321());
+         int var8 = MathHelper.floor(var1.getX());
+         int var9 = MathHelper.floor(var1.getY());
+         int var10 = MathHelper.floor(var1.getZ());
          fri = var8 + 0.5;
          frj = var9;
          frk = var10 + 0.5;
-         frd = var1.method_5667();
-         frc = var1.method_5628();
+         frd = var1.getUuid();
+         frc = var1.getId();
          fuf(var0, a.d("ꯙ퉮墱웈䴗쮤燼\uf80c昖\uecf4次酗ᾄ蘪౦誀ヂ", -307556399, -364993410));
          fuf(var0, a.d("⸛垷\udd60䌙좋乩\uf42c緌\ue3c7椲\ueee4ᒍ", -574092651, 232137974));
          fuf(var0, a.b("쭡닂㠕꙱ⶺꬆᅂ飡۽豃ங\uf1ec缨", -2032481509));
@@ -197,100 +197,102 @@ final class fpo {
             )
          );
          fuf(var0, String.format(Locale.ROOT, a.b("섰뢅㈆갗⟳ꄑᭇ銽\u0cfd蘛Ǝﯺ畬\uec99曏\ue035婥헣伖쥊䂩㫱둒⾓", -892878500), fri, var9, frk));
-         var1.method_31548().method_61496(0);
+         var1.getInventory().setSelectedSlot(0);
          return false;
-      } else if (frh == 8) {
+      }
+
+      if (frh == 8) {
          double var7 = fri + 3.0;
-         var0.method_1576().execute(() -> fnq.spawn(var0.method_1576(), frd, var7, frj, frk));
+         var0.getServer().execute(() -> fnq.spawn(var0.getServer(), frd, var7, frj, frk));
          return false;
-      } else {
-         if (frh == 40) {
-            fuc();
+      }
+
+      if (frh == 40) {
+         fuc();
+      }
+
+      if (frh < 100) {
+         if (frh > 20) {
+            fua(var0);
          }
 
-         if (frh < 100) {
-            if (frh > 20) {
-               fua(var0);
+         return false;
+      } else {
+         Entity var2 = fua(var0);
+         if (var2 == null) {
+            System.out.println(a.d("쯜뉼㢿ꛇⵜꮹᇻ頜ل財ଔ\uf162羽\ue609氶\uea89僇\udf59䖨쏴䨘", 843544986, 1544139319));
+            return true;
+         }
+
+         if (var0.mouse.isCursorLocked()) {
+            var0.mouse.unlockCursor();
+         }
+
+         int var3 = frh - 100;
+         int var4 = 0;
+
+         for (int var5 = 0; var4 < fpq.length && var3 >= var5 + fpq[var4].fov; var4++) {
+            var5 += fpq[var4].fov;
+         }
+
+         if (var4 >= fpq.length) {
+            fre = false;
+            fnq.active = false;
+            ftz(var0);
+            vzz.simulated = null;
+            ftw();
+            fud();
+            return true;
+         }
+
+         fot var6 = fpq[var4];
+         if (var4 != frf) {
+            if (frf >= 0) {
+               ftf[frf] = fnq.hits - frm;
+               ftg[frf] = fnq.critHits - frn;
             }
 
-            return false;
-         } else {
-            Entity var2 = fua(var0);
-            if (var2 == null) {
-               System.out.println(a.d("쯜뉼㢿ꛇⵜꮹᇻ頜ل財ଔ\uf162羽\ue609氶\uea89僇\udf59䖨쏴䨘", 843544986, 1544139319));
-               return true;
+            frf = var4;
+            frl = frh;
+            frm = fnq.hits;
+            frn = fnq.critHits;
+            fnq.aggression = var6.fox;
+            fnq.jumping = var6.foy;
+            fnq.strafing = true;
+            fnq.active = true;
+            fre = true;
+            System.out.println(a.b("缠ڀ豃ሻ馠ὁꔊⳲ늿㠘뾎", 2089254735) + var6.fou);
+         }
+
+         ftf[var4] = fnq.hits - frm;
+         ftg[var4] = fnq.critHits - frn;
+         if (fpt && frw && fry != fra) {
+            System.out.println(a.b("\ud896ꄶ⯵떍㸖룴ʿ譌ᔊ鿫", -897263368) + var6.fou + a.c(-1547238408, "ϙ") + frx);
+         }
+
+         frw = false;
+         if (fpu == null) {
+            if (frh - frl < 20) {
+               ftx(var0, var1, var2, var6, var4);
+               fty(var0, var1, var2, false);
+               return false;
             } else {
-               if (var0.field_1729.method_1613()) {
-                  var0.field_1729.method_1610();
-               }
-
-               int var3 = frh - 100;
-               int var4 = 0;
-
-               for (int var5 = 0; var4 < fpq.length && var3 >= var5 + fpq[var4].fov; var4++) {
-                  var5 += fpq[var4].fov;
-               }
-
-               if (var4 >= fpq.length) {
-                  fre = false;
-                  fnq.active = false;
-                  ftz(var0);
-                  vzz.simulated = null;
-                  ftw();
-                  fud();
-                  return true;
-               } else {
-                  fot var6 = fpq[var4];
-                  if (var4 != frf) {
-                     if (frf >= 0) {
-                        ftf[frf] = fnq.hits - frm;
-                        ftg[frf] = fnq.critHits - frn;
-                     }
-
-                     frf = var4;
-                     frl = frh;
-                     frm = fnq.hits;
-                     frn = fnq.critHits;
-                     fnq.aggression = var6.fox;
-                     fnq.jumping = var6.foy;
-                     fnq.strafing = true;
-                     fnq.active = true;
-                     fre = true;
-                     System.out.println(a.b("缠ڀ豃ሻ馠ὁꔊⳲ늿㠘뾎", 2089254735) + var6.fou);
-                  }
-
-                  ftf[var4] = fnq.hits - frm;
-                  ftg[var4] = fnq.critHits - frn;
-                  if (fpt && frw && fry != fra) {
-                     System.out.println(a.b("\ud896ꄶ⯵떍㸖룴ʿ譌ᔊ鿫", -897263368) + var6.fou + a.c(-1547238408, "ϙ") + frx);
-                  }
-
-                  frw = false;
-                  if (fpu == null) {
-                     if (frh - frl < 20) {
-                        ftx(var0, var1, var2, var6, var4);
-                        fty(var0, var1, var2, false);
-                        return false;
-                     } else {
-                        ftx(var0, var1, var2, var6, var4);
-                        fty(var0, var1, var2, var6.fow);
-                        return false;
-                     }
-                  } else {
-                     ftk(var0, var1, var2, var6.fow && frh - frl >= 20);
-                     return false;
-                  }
-               }
+               ftx(var0, var1, var2, var6, var4);
+               fty(var0, var1, var2, var6.fow);
+               return false;
             }
+         } else {
+            ftk(var0, var1, var2, var6.fow && frh - frl >= 20);
+            return false;
          }
       }
    }
 
    private static void ftk(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
-      float var4 = vxr.getFloat(fpv, var1, var1.method_36454());
-      float var5 = vxr.getFloat(fpw, var1, var1.method_36455());
+      float var4 = vxr.getFloat(fpv, var1, var1.getYaw());
+      float var5 = vxr.getFloat(fpw, var1, var1.getPitch());
       if (!Float.isNaN(fqd)) {
-         double var6 = MathHelper.method_15393(var4 - fqd);
+         double var6 = MathHelper.wrapDegrees(var4 - fqd);
          double var8 = var5 - fqe;
          fpy.add(Math.sqrt(var6 * var6 + var8 * var8));
          if (kwf.target() != null) {
@@ -314,8 +316,8 @@ final class fpo {
                      fqe,
                      var4,
                      var5,
-                     var1.method_36454(),
-                     var1.method_36455(),
+                     var1.getYaw(),
+                     var1.getPitch(),
                      kwf.target(),
                      kwf.debug()
                   )
@@ -329,24 +331,24 @@ final class fpo {
          ftm(var1, var4, var5);
       }
 
-      Vec3d var33 = var1.method_33571();
-      Vec3d var7 = var2.method_73189();
-      double var34 = Math.toDegrees(Math.atan2(var7.field_1350 - var33.field_1350, var7.field_1352 - var33.field_1352)) - 90.0;
+      Vec3d var33 = var1.getEyePos();
+      Vec3d var7 = var2.getEntityPos();
+      double var34 = Math.toDegrees(Math.atan2(var7.z - var33.z, var7.x - var33.x)) - 90.0;
       if (a.b("쯟뉴㢢ꛚⴆꮭ", 798280618).equals(fpu)) {
          if (--fsh <= 0) {
             fsh = 30 + fro.nextInt(60);
             fqf = (fro.nextDouble() - 0.5) * 6.0;
          }
 
-         var1.method_5872(fqf / 0.15, 0.0);
-         if (Math.abs(MathHelper.method_15338(var34 - var1.method_36454())) > 90.0) {
+         var1.changeLookDirection(fqf / 0.15, 0.0);
+         if (Math.abs(MathHelper.wrapDegrees(var34 - var1.getYaw())) > 90.0) {
             fqg++;
          }
       }
 
       fqh++;
-      double var10 = var7.field_1352 - var1.method_23317();
-      double var12 = var7.field_1350 - var1.method_23321();
+      double var10 = var7.x - var1.getX();
+      double var12 = var7.z - var1.getZ();
       double var14 = Math.max(0.001, Math.sqrt(var10 * var10 + var12 * var12));
       fqi += var14;
       if (--fsl <= 0) {
@@ -354,7 +356,7 @@ final class fpo {
          fsm = fro.nextInt(3) - 1;
       }
 
-      boolean var16 = Math.abs(var1.method_23317() - fri) > 12.0 || Math.abs(var1.method_23321() - frk) > 12.0;
+      boolean var16 = Math.abs(var1.getX() - fri) > 12.0 || Math.abs(var1.getZ() - frk) > 12.0;
       double var17 = var14 > 2.6 ? 1.0 : (var14 < 1.4 ? -1.0 : 0.0);
       double var19 = var16 ? 0.0 : fsm;
       double var21 = var10 / var14 * var17 + var12 / var14 * var19;
@@ -363,18 +365,18 @@ final class fpo {
       double var27 = 0.0;
       double var29 = 0.0;
       if (var25 > 1.0E-6) {
-         double var31 = Math.toRadians(var1.method_36454());
+         double var31 = Math.toRadians(var1.getYaw());
          var27 = (var23 * Math.cos(var31) - var21 * Math.sin(var31)) / var25;
          var29 = (var21 * Math.cos(var31) + var23 * Math.sin(var31)) / var25;
       }
 
       double var35 = Math.sin(Math.toRadians(22.5));
       fpx.clear();
-      ftn(var0, var0.field_1690.field_1894, var27 > var35);
-      ftn(var0, var0.field_1690.field_1881, var27 < -var35);
-      ftn(var0, var0.field_1690.field_1913, var29 > var35);
-      ftn(var0, var0.field_1690.field_1849, var29 < -var35);
-      var0.field_1690.field_1903.method_23481(var3);
+      ftn(var0, var0.options.forwardKey, var27 > var35);
+      ftn(var0, var0.options.backKey, var27 < -var35);
+      ftn(var0, var0.options.leftKey, var29 > var35);
+      ftn(var0, var0.options.rightKey, var29 < -var35);
+      var0.options.jumpKey.setPressed(var3);
       vzz.simulated = fpx::contains;
    }
 
@@ -397,7 +399,7 @@ final class fpo {
             fqn = Math.max(fqn, fpy.get(fpy.size() - 1));
          }
 
-         double var6 = Math.hypot(MathHelper.method_15393(var1 - var0.method_36454()), var2 - var0.method_36455());
+         double var6 = Math.hypot(MathHelper.wrapDegrees(var1 - var0.getYaw()), var2 - var0.getPitch());
          if (fqo < 0 && var5 > 0 && var6 < 1.0) {
             fqo = var5;
          }
@@ -435,7 +437,7 @@ final class fpo {
 
       if (var4 == 0 && var3.isEnabled()) {
          fql = fra;
-         fqm = Math.hypot(MathHelper.method_15393(var1 - var0.method_36454()), var2 - var0.method_36455());
+         fqm = Math.hypot(MathHelper.wrapDegrees(var1 - var0.getYaw()), var2 - var0.getPitch());
          fqn = 0.0;
          fqo = -1;
          var3.setEnabled(false);
@@ -445,19 +447,19 @@ final class fpo {
    }
 
    private static void ftn(MinecraftClient var0, KeyBinding var1, boolean var2) {
-      var1.method_23481(var2);
+      var1.setPressed(var2);
       Key var3 = KeyBindingHelper.getBoundKeyOf(var1);
       if (var2) {
-         fpx.add(var3.method_1444());
+         fpx.add(var3.getCode());
       }
    }
 
    private static void fto(MinecraftClient var0) {
       fra++;
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       if (fre && var1 != null && frb >= 0) {
          int var2 = frf;
-         Entity var3 = var0.field_1687.method_8469(frb);
+         Entity var3 = var0.world.getEntityById(frb);
          if (var3 != null) {
             if (System.getenv(a.d("쬝늦㡶ꘟⶭꭱᄹ飙ږ谮௮\uf181罂\ue6f4沴\uea5b借\udfc8䕨쌻䫊", 9974764, -796526430)) != null) {
                System.out
@@ -466,9 +468,9 @@ final class fpo {
                         Locale.ROOT,
                         a.d("댡쪁䁂\ude3a喡퍱椶\ue0c0續\uf45c珜親ݨ黊ᒟ鈺⠡ꞹ㴒묂㊱䢹옒巕\udbe0儩\ue891曟ﱿ穨\uf188ཏ蔋᳠髺ၓ꾏◡ꍥ㪒낁칽䐼쎊夔흽溥\ue40b戓", -571099507, -2046622215),
                         fra,
-                        var1.method_36454(),
+                        var1.getYaw(),
                         vxr.getFloat(fpv, var1, Float.NaN),
-                        var1.field_5982
+                        var1.lastYaw
                      )
                   );
             }
@@ -476,15 +478,15 @@ final class fpo {
             Integer var4;
             while ((var4 = fqx.poll()) != null) {
                frt = var4;
-               fru = !var1.method_24828() && var1.field_6017 > 0.0;
+               fru = !var1.isOnGround() && var1.fallDistance > 0.0;
                fsw[var2]++;
                if (fru) {
                   fsx[var2]++;
                }
             }
 
-            double var5 = var1.method_23318() - var1.field_6036;
-            boolean var7 = var1.method_24828();
+            double var5 = var1.getY() - var1.lastY;
+            boolean var7 = var1.isOnGround();
             if (!var7 && var5 < 0.0) {
                frq++;
             } else {
@@ -505,9 +507,9 @@ final class fpo {
             }
 
             frp = var7;
-            HitResult var18 = var0.field_1765;
-            boolean var19 = var18 != null && var18.method_17783() == Type.field_1331 && ((EntityHitResult)var18).method_17782() == var3;
-            boolean var10 = var1.method_7261(0.5F) > 0.9F;
+            HitResult var18 = var0.crosshairTarget;
+            boolean var19 = var18 != null && var18.getType() == Type.ENTITY && ((EntityHitResult)var18).getEntity() == var3;
+            boolean var10 = var1.getAttackCooldownProgress(0.5F) > 0.9F;
             frw = var19 && var10;
             if (fpt && frw) {
                frx = String.format(
@@ -521,10 +523,10 @@ final class fpo {
                   var7,
                   frq,
                   var5,
-                  var1.field_6017,
-                  var1.method_18798().field_1351,
+                  var1.fallDistance,
+                  var1.getVelocity().y,
                   wdt.serverSprinting(var1),
-                  var1.method_7261(0.5F),
+                  var1.getAttackCooldownProgress(0.5F),
                   fra - frt,
                   fsa < 0 ? -1 : fra - fsa
                );
@@ -555,7 +557,7 @@ final class fpo {
                }
             }
 
-            float var11 = var3 instanceof LivingEntity var12 ? var12.method_6032() : 0.0F;
+            float var11 = var3 instanceof LivingEntity var12 ? var12.getHealth() : 0.0F;
             if (frv >= 0.0F && var11 < frv - 0.01F) {
                fpc var20 = fts(fra);
                if (var20 != null && var20.damage == 0.0F) {
@@ -628,33 +630,33 @@ final class fpo {
       String var4 = System.getenv(var0);
       if (var4 == null) {
          return var1;
-      } else {
-         String[] var5 = var4.split(a.d("⸼", -1031349015, 690811640));
-         return Double.parseDouble(var5[Math.min(var3, var5.length - 1)].trim());
       }
+
+      String[] var5 = var4.split(a.d("⸼", -1031349015, 690811640));
+      return Double.parseDouble(var5[Math.min(var3, var5.length - 1)].trim());
    }
 
    private static void ftr(MinecraftClient var0, Entity var1) {
-      ClientPlayerEntity var2 = var0.field_1724;
-      if (fre && var1.method_5628() == frb && var2 != null) {
-         if (var0.field_1765 instanceof EntityHitResult var3 && var3.method_17782() == var1) {
-            Box var6 = var1.method_5829();
-            fqj.add((var3.method_17784().field_1351 - var6.field_1322) / (var6.field_1325 - var6.field_1322));
+      ClientPlayerEntity var2 = var0.player;
+      if (fre && var1.getId() == frb && var2 != null) {
+         if (var0.crosshairTarget instanceof EntityHitResult var3 && var3.getEntity() == var1) {
+            Box var6 = var1.getBoundingBox();
+            fqj.add((var3.getPos().y - var6.minY) / (var6.maxY - var6.minY));
          }
 
          fpc var5 = new fpc();
          var5.phase = frf;
          var5.tick = fra;
          var5.nanos = System.nanoTime();
-         var5.charge = var2.method_7261(0.5F);
+         var5.charge = var2.getAttackCooldownProgress(0.5F);
          var5.sprintSent = wdt.serverSprinting(var2);
          var5.clientCrit = var5.charge > 0.9F
-            && var2.field_6017 > 0.0
-            && !var2.method_24828()
-            && !var2.method_6101()
-            && !var2.method_5799()
-            && !var2.method_6059(StatusEffects.field_5919)
-            && !var2.method_5765()
+            && var2.fallDistance > 0.0
+            && !var2.isOnGround()
+            && !var2.isClimbing()
+            && !var2.isTouchingWater()
+            && !var2.hasStatusEffect(StatusEffects.BLINDNESS)
+            && !var2.hasVehicle()
             && !var5.sprintSent;
          var5.fallTick = frq;
          fry = fra;
@@ -743,7 +745,7 @@ final class fpo {
 
    private static void ftx(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, fot var3, int var4) {
       System.arraycopy(fsd, 0, fsd, 1, fsd.length - 1);
-      fsd[0] = var2.method_73189();
+      fsd[0] = var2.getEntityPos();
 
       for (int var5 = 1; var5 < fsd.length; var5++) {
          if (fsd[var5] == null) {
@@ -760,19 +762,19 @@ final class fpo {
 
       int var35 = 2 + fro.nextInt(2);
       Vec3d var6 = fsd[var35];
-      Vec3d var7 = fsd[var35].method_1020(fsd[var35 + 1]);
-      Vec3d var8 = var6.method_1019(var7.method_1021(var35 * 0.6));
-      Vec3d var9 = var1.method_33571();
-      double var10 = var8.field_1352 - var9.field_1352;
-      double var12 = var8.field_1350 - var9.field_1350;
+      Vec3d var7 = fsd[var35].subtract(fsd[var35 + 1]);
+      Vec3d var8 = var6.add(var7.multiply(var35 * 0.6));
+      Vec3d var9 = var1.getEyePos();
+      double var10 = var8.x - var9.x;
+      double var12 = var8.z - var9.z;
       double var14 = Math.max(0.001, Math.sqrt(var10 * var10 + var12 * var12));
       double var16 = -var12 / var14;
       double var18 = var10 / var14;
-      double var20 = var8.field_1352 + var16 * fsf - var9.field_1352;
-      double var22 = var8.field_1350 + var18 * fsf - var9.field_1350;
-      double var24 = var8.field_1351 + fsg - var9.field_1351;
-      float var26 = (float)(MathHelper.method_15349(var22, var20) * 180.0F / (float)Math.PI) - 90.0F;
-      float var27 = (float)(-(MathHelper.method_15349(var24, Math.sqrt(var20 * var20 + var22 * var22)) * 180.0F / (float)Math.PI));
+      double var20 = var8.x + var16 * fsf - var9.x;
+      double var22 = var8.z + var18 * fsf - var9.z;
+      double var24 = var8.y + fsg - var9.y;
+      float var26 = (float)(MathHelper.atan2(var22, var20) * 180.0F / (float)Math.PI) - 90.0F;
+      float var27 = (float)(-(MathHelper.atan2(var24, Math.sqrt(var20 * var20 + var22 * var22)) * 180.0F / (float)Math.PI));
       if (fsi > 0) {
          fsi--;
          var26 += fsk;
@@ -783,11 +785,11 @@ final class fpo {
       }
 
       float var28 = var3.foz * fse;
-      float var29 = MathHelper.method_15393(var26 - var1.method_36454());
-      float var30 = var27 - var1.method_36455();
-      float var31 = MathHelper.method_15363(var29 * 0.55F, -var28, var28) + (float)fro.nextGaussian() * 0.35F;
-      float var32 = MathHelper.method_15363(var30 * 0.35F, -var28 * 0.6F, var28 * 0.6F) + (float)fro.nextGaussian() * 0.2F;
-      var1.method_5872(var31 / 0.15F, var32 / 0.15F);
+      float var29 = MathHelper.wrapDegrees(var26 - var1.getYaw());
+      float var30 = var27 - var1.getPitch();
+      float var31 = MathHelper.clamp(var29 * 0.55F, -var28, var28) + (float)fro.nextGaussian() * 0.35F;
+      float var32 = MathHelper.clamp(var30 * 0.35F, -var28 * 0.6F, var28 * 0.6F) + (float)fro.nextGaussian() * 0.2F;
+      var1.changeLookDirection(var31 / 0.15F, var32 / 0.15F);
       double var33 = Math.sqrt(var31 * var31 + var32 * var32);
       ftb[var4] = ftb[var4] + var33;
       ftc[var4] = Math.max(ftc[var4], var33);
@@ -796,41 +798,41 @@ final class fpo {
    }
 
    private static void fty(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
-      double var4 = var2.method_23317() - var1.method_23317();
-      double var6 = var2.method_23321() - var1.method_23321();
+      double var4 = var2.getX() - var1.getX();
+      double var6 = var2.getZ() - var1.getZ();
       double var8 = Math.sqrt(var4 * var4 + var6 * var6);
       if (--fsl <= 0) {
          fsl = 15 + fro.nextInt(30);
          fsm = fro.nextInt(3) - 1;
       }
 
-      boolean var10 = Math.abs(var1.method_23317() - fri) > 12.0 || Math.abs(var1.method_23321() - frk) > 12.0;
-      var0.field_1690.field_1894.method_23481(var8 > 2.6);
-      var0.field_1690.field_1881.method_23481(var8 < 1.4);
-      var0.field_1690.field_1913.method_23481(!var10 && fsm < 0);
-      var0.field_1690.field_1849.method_23481(!var10 && fsm > 0);
-      var0.field_1690.field_1903.method_23481(var3);
+      boolean var10 = Math.abs(var1.getX() - fri) > 12.0 || Math.abs(var1.getZ() - frk) > 12.0;
+      var0.options.forwardKey.setPressed(var8 > 2.6);
+      var0.options.backKey.setPressed(var8 < 1.4);
+      var0.options.leftKey.setPressed(!var10 && fsm < 0);
+      var0.options.rightKey.setPressed(!var10 && fsm > 0);
+      var0.options.jumpKey.setPressed(var3);
    }
 
    private static void ftz(MinecraftClient var0) {
-      var0.field_1690.field_1894.method_23481(false);
-      var0.field_1690.field_1881.method_23481(false);
-      var0.field_1690.field_1913.method_23481(false);
-      var0.field_1690.field_1849.method_23481(false);
-      var0.field_1690.field_1903.method_23481(false);
+      var0.options.forwardKey.setPressed(false);
+      var0.options.backKey.setPressed(false);
+      var0.options.leftKey.setPressed(false);
+      var0.options.rightKey.setPressed(false);
+      var0.options.jumpKey.setPressed(false);
    }
 
    private static Entity fua(MinecraftClient var0) {
       if (frb >= 0) {
-         Entity var1 = var0.field_1687.method_8469(frb);
+         Entity var1 = var0.world.getEntityById(frb);
          if (var1 != null) {
             return var1;
          }
       }
 
-      for (PlayerEntity var2 : var0.field_1687.method_18456()) {
-         if (a.b("ㄭ䢶쉦小ퟭ共\ueb39", 1180709228).equals(var2.method_7334().name())) {
-            frb = var2.method_5628();
+      for (PlayerEntity var2 : var0.world.getPlayers()) {
+         if (a.b("ㄭ䢶쉦小ퟭ共\ueb39", 1180709228).equals(var2.getGameProfile().name())) {
+            frb = var2.getId();
             return var2;
          }
       }
@@ -845,34 +847,34 @@ final class fpo {
          AttackEntityCallback.EVENT
             .register(
                (AttackEntityCallback)(var0x, var1, var2, var3, var4) -> {
-                  if (var1.method_8608()) {
-                     ftr(MinecraftClient.method_1551(), var3);
-                     return ActionResult.field_5811;
-                  } else if (fre && var3.method_5628() == fnq.spawned && var0x.method_5667().equals(frd)) {
-                     float var5 = var0x.method_7261(0.5F);
+                  if (var1.isClient()) {
+                     ftr(MinecraftClient.getInstance(), var3);
+                     return ActionResult.PASS;
+                  } else if (fre && var3.getId() == fnq.spawned && var0x.getUuid().equals(frd)) {
+                     float var5 = var0x.getAttackCooldownProgress(0.5F);
                      boolean var6 = var5 > 0.9F
-                        && var0x.field_6017 > 0.0
-                        && !var0x.method_24828()
-                        && !var0x.method_6101()
-                        && !var0x.method_5799()
-                        && !var0x.method_5765()
-                        && !var0x.method_5624();
-                     fqu.add(new fpf(System.nanoTime(), var6, var5, var0x.field_6017, var0x.method_24828(), var0x.method_5624()));
-                     return ActionResult.field_5811;
+                        && var0x.fallDistance > 0.0
+                        && !var0x.isOnGround()
+                        && !var0x.isClimbing()
+                        && !var0x.isTouchingWater()
+                        && !var0x.hasVehicle()
+                        && !var0x.isSprinting();
+                     fqu.add(new fpf(System.nanoTime(), var6, var5, var0x.fallDistance, var0x.isOnGround(), var0x.isSprinting()));
+                     return ActionResult.PASS;
                   } else {
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   }
                }
             );
          ServerLivingEntityEvents.AFTER_DAMAGE.register((AfterDamage)(var0x, var1, var2, var3, var4) -> {
-            if (fre && var0x.method_5628() == fnq.spawned) {
+            if (fre && var0x.getId() == fnq.spawned) {
                fqv.add(new foo(System.nanoTime(), var3));
             }
          });
          wcn.listen(var0x -> {
-            if (var0x instanceof EntityAnimationS2CPacket var1 && var1.method_11269() == frb && var1.method_11267() == 4) {
+            if (var0x instanceof EntityAnimationS2CPacket var1 && var1.getEntityId() == frb && var1.getAnimationId() == 4) {
                fqw.add(fra);
-            } else if (var0x instanceof EntityVelocityUpdateS2CPacket var2 && var2.method_11818() == frc && fre) {
+            } else if (var0x instanceof EntityVelocityUpdateS2CPacket var2 && var2.getEntityId() == frc && fre) {
                fqx.add(fra);
             }
          });
@@ -883,8 +885,7 @@ final class fpo {
       kfe var0 = Flow.getInstance().getModuleManager().getByName(a.d("훣꽴▼믃〔뚧ೣ蔢᭐釺", 974682502, 1151512379));
 
       for (vmo var2 : var0.getSettings()) {
-         String var3 = var2.getName();
-         switch (var3) {
+         switch (var2.getName()) {
             case a.c(1880711168, "恆ᧆ錎ൢ蚲"):
                ((vlv)var2).set(a.c(2121573387, "ꑝ\uddd2圍쥯䊾"));
                break;
@@ -910,8 +911,7 @@ final class fpo {
          kfe var6 = Flow.getInstance().getModuleManager().getByName(a.b("娭⎾ꥨ㜙볣㩦耲\u09d0", 586439278));
 
          for (vmo var11 : var6.getSettings()) {
-            String var14 = var11.getName();
-            switch (var14) {
+            switch (var11.getName()) {
                case a.b("豁\uf5cd缅\ue161檣\uec0f噚\udfaa", 1418365979):
                   ((vlv)var11).set(a.d("授ᨶ郠ຝ蕁Ϫ", 1785558030, 1599281123).equals(fpu) ? a.c(1295193606, "ᙃ濝\ue50b筶\uf0aa瘁") : a.c(-320494210, "ꔫ\udca0噶젎䏒앹"));
                   break;
@@ -1319,22 +1319,22 @@ final class fpo {
       String var0 = System.getenv(a.b("䷓㑨뺸⃑ꭣ\u2dbf韷ḗ聘ૠ贠睁聯怤\uea62", -531083878));
       if (var0 == null) {
          return fpp;
-      } else {
-         ArrayList var1 = new ArrayList();
+      }
 
-         for (String var5 : var0.split(a.b("啖", 508253563))) {
-            for (fot var9 : fpp) {
-               if (var9.fou.equals(var5.trim())) {
-                  var1.add(var9);
-               }
+      ArrayList var1 = new ArrayList();
+
+      for (String var5 : var0.split(a.b("啖", 508253563))) {
+         for (fot var9 : fpp) {
+            if (var9.fou.equals(var5.trim())) {
+               var1.add(var9);
             }
          }
-
-         return var1.toArray(new fot[0]);
       }
+
+      return var1.toArray(new fot[0]);
    }
 
    private static void fuf(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

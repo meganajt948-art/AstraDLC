@@ -55,7 +55,7 @@ public final class gdh {
          System.out.println(a.d("酷\ue8ce或ﱼ矾\uf11b䭙슾峦혃冶ꯀ┟벫㚎끥", 178343621, 410378191) + var2);
          var2.printStackTrace();
          gdj = 99;
-         var0.method_1592();
+         var0.scheduleStop();
       }
    }
 
@@ -66,18 +66,18 @@ public final class gdh {
                System.out
                   .println(
                      a.b("랱츈䓐\udaba儸ퟝ涟\ue478稠\uf0c5睁账Ϲ驕ရ雭ⲫꌧ㦎뾐㙾䰼슘套\udf25嗬\uec06", -890914873)
-                        + var0.method_18506()
+                        + var0.getOverlay()
                         + a.d("錫\uea96怖ﹷ疱\uf317䥄삾庯", 1206376091, -1067039339)
-                        + var0.field_1755
+                        + var0.currentScreen
                   );
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof AccessibilityOnboardingScreen) {
-               var0.field_1690.field_41785 = false;
-               var0.method_1507(new TitleScreen());
+            if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
+               var0.options.onboardAccessibility = false;
+               var0.setScreen(new TitleScreen());
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof jte && gdm > 60) {
+            if (var0.getOverlay() == null && var0.currentScreen instanceof jte && gdm > 60) {
                Splash.preview(var0, 3.0F, true);
                gdr();
                gdj = 1;
@@ -89,12 +89,14 @@ public final class gdh {
                gdl++;
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof kct) {
+            if (var0.getOverlay() == null && var0.currentScreen instanceof kct) {
                System.out.println(a.d("맺쁃䪛퓱彳\ud996揔\uea33瑫ﺎ礔荢ද鐘Ṗ飨⋨괠㞀뇆㡣䉳쳇圄텪宬\ue24d", 624610583, -1093897061) + gdq() + a.c(355875940, "㱆䖤"));
                gdr();
                gdj = 2;
             } else if (gdq() > 15.0F) {
-               throw new IllegalStateException(a.c(844215414, "됏춹䝰\ud907勍퐳渳\ue7c5禇\uf333瓠軝_駫Ᏺ错") + var0.method_18506() + a.c(-833465596, "匥") + var0.field_1755);
+               throw new IllegalStateException(
+                  a.c(844215414, "됏춹䝰\ud907勍퐳渳\ue7c5禇\uf333瓠軝_駫Ᏺ错") + var0.getOverlay() + a.c(-833465596, "匥") + var0.currentScreen
+               );
             }
             break;
          case 2:
@@ -109,18 +111,18 @@ public final class gdh {
                gdy(var0, a.b("┝岤홼䠖쎙䔵･皊\ue88f戬\ue5f6ᾈ酓࣠芻Ђ븈㇞ꭴⴶꓖ", 437527909));
                gdl++;
             } else if (gdl == 3 && var11 > 1.8F) {
-               gdw(var0.field_1755, a.d("恍᧥錼\u0d45", 26472708, -1684696771), new Class[]{int.class}, 0);
+               gdw(var0.currentScreen, a.d("恍᧥錼\u0d45", 26472708, -1684696771), new Class[]{int.class}, 0);
                gdl++;
             } else if (gdl == 4 && var11 > 2.0F) {
                gdy(var0, a.b("ꢿ턆寞어主좗狀ﬨ攭\uef8e桔鈪ᳱ蕂༙覠㎲뱺⛃ꂚ⥣匳", 1752082628));
                gdl++;
-            } else if (gdl == 5 && var0.field_1755 instanceof jte var15) {
+            } else if (gdl == 5 && var0.currentScreen instanceof jte var15) {
                gdn = var15;
                gdv(var0, 0.1F, 0.9F);
                gdr();
                gdj = 3;
             } else if (var11 > 8.0F) {
-               throw new IllegalStateException(a.c(-905309119, "ᐷ涇\ue71b礧\uf2f8瑂츊䞮\ud9b0匆퓇⺧ꁧ㦄뎃㕮輬¸驛ᰓ问\uefb7慕爵") + var0.field_1755);
+               throw new IllegalStateException(a.c(-905309119, "ᐷ涇\ue71b礧\uf2f8瑂츊䞮\ud9b0匆퓇⺧ꁧ㦄뎃㕮輬¸驛ᰓ问\uefb7慕爵") + var0.currentScreen);
             }
             break;
          case 3:
@@ -130,13 +132,13 @@ public final class gdh {
                gdy(var0, a.d("鱕\ue5ec漴\uf15e竑ﱽ䘫쿂凟\udb71岷ꛍ⡙", -248593381, -2102372306) + gdl);
                gdl++;
             } else if (gdl == var14.length && var10 > 3.7F) {
-               float var19 = kbp.scale(gdn.field_22789, gdn.field_22790);
-               gdv(var0, 0.5F, (gdn.field_22790 * 0.5F + -13.1F * var19) / gdn.field_22790);
+               float var19 = kbp.scale(gdn.width, gdn.height);
+               gdv(var0, 0.5F, (gdn.height * 0.5F + -13.1F * var19) / gdn.height);
                gdl++;
             } else if (gdl == var14.length + 1 && var10 > 4.3F) {
                gdy(var0, a.d("塈⇱ꬩ㕃뻌㡠舵\u0bdf闅έ颹招\uec1b痵\ufff8礓썛䲃혻偣", -1119998022, 1213429643));
-               float var18 = kbp.scale(gdn.field_22789, gdn.field_22790);
-               gdv(var0, 1.0F - 49.5F * var18 / gdn.field_22789, 22.5F * var18 / gdn.field_22790);
+               float var18 = kbp.scale(gdn.width, gdn.height);
+               gdv(var0, 1.0F - 49.5F * var18 / gdn.width, 22.5F * var18 / gdn.height);
                gdl++;
             } else if (gdl == var14.length + 2 && var10 > 4.9F) {
                gdy(var0, a.c(-2122506847, "ᷜ摥\ueebd烗ﭘ練잠之큑嫧\udd2d❏ꦏち멽㲉"));
@@ -163,7 +165,7 @@ public final class gdh {
             int var13 = gdl / 2;
             if (var13 >= var9.length) {
                gdx(gdn, a.d("ꗻ\udc53嚊죳䌪얌翢\uf62c桦\ue2dc", 1877898806, 1494012855), false);
-               var0.method_1507(new OptionsScreen(gdn, var0.field_1690));
+               var0.setScreen(new OptionsScreen(gdn, var0.options));
                gdr();
                gdj = 5;
                return;
@@ -190,24 +192,24 @@ public final class gdh {
                gdl++;
             } else if (gdl == 2 && var8 > 1.5F) {
                gdy(var0, a.c(-495551394, "簣֚轂ᄨ骧ᰊꙘ⿻뇫㬘볔䚡졫凜\udb8e嵢"));
-               var0.method_1507(new MultiplayerScreen(gdn));
+               var0.setScreen(new MultiplayerScreen(gdn));
                gdl++;
             } else if (gdl == 3 && var8 > 2.6F) {
                gdy(var0, a.d("ݯ绖\uf40e橤\ue1eb杆\udd14咶쪧䁖잝㷵댺⪖ꃜ☱鱳Ꮊ褕ན", 1161807441, -1264664249));
-               var0.method_1507(new VideoOptionsScreen(gdn, var0, var0.field_1690));
+               var0.setScreen(new VideoOptionsScreen(gdn, var0, var0.options));
                gdl++;
             } else if (gdl == 4 && var8 > 3.6F) {
                gdy(var0, a.b("孱⋈ꠐ㙺뷵㭘脊ࢯ隹᱓鮟懣\uef35皎", 363748114));
-               var0.method_1507(gdn);
+               var0.setScreen(gdn);
                gdl++;
             } else if (gdl == 5 && var8 > 4.0F) {
                gdy(var0, a.d("粁Ը迠ᆊ騅Შ\ua6fa⼖넆㮴뱥䘜", 1363497314, -1842074238));
                gdl++;
             } else if (gdl == 6 && var8 > 5.2F) {
-               float var12 = kbp.scale(gdn.field_22789, gdn.field_22790);
-               float var17 = (gdn.field_22789 / var12 - 138.0F) * 0.5F + 40.0F;
-               float var21 = gdn.field_22790 / var12 * 0.5F - 25.6F + 64.0F + 12.5F;
-               gdn.method_25402(new Click(var17 * var12, var21 * var12, new MouseInput(0, 0)), false);
+               float var12 = kbp.scale(gdn.width, gdn.height);
+               float var17 = (gdn.width / var12 - 138.0F) * 0.5F + 40.0F;
+               float var21 = gdn.height / var12 * 0.5F - 25.6F + 64.0F + 12.5F;
+               gdn.mouseClicked(new Click(var17 * var12, var21 * var12, new MouseInput(0, 0)), false);
                gdr();
                gdj = 7;
             }
@@ -219,10 +221,10 @@ public final class gdh {
                gdl++;
             }
 
-            if (gdl >= var7.length && !(var0.method_18506() instanceof FlowSplash)) {
+            if (gdl >= var7.length && !(var0.getOverlay() instanceof FlowSplash)) {
                System.out.println(a.b("叀⩹ꂡ㻋땉㎬觮\t鹑ᒴ錗楷\ue7b2縃\uf42f狒죏䜉\uddb3寡툘ꡌ⚻봭㭚놊࠲蘦Ა髆ᅧ\uefa7旿ﱜ", -882355313) + gdq() + a.d("渀២", -2130805363, -935259217));
                gdj = 99;
-               var0.method_1592();
+               var0.scheduleStop();
             } else if (gdq() > 12.0F) {
                throw new IllegalStateException(a.b("ﴉ蒯\u0e75逇ᯞ鵪❽껟ょ먫㷽잌䤗탳媥", -2069889676));
             }
@@ -236,12 +238,12 @@ public final class gdh {
                gdy(var0, a.b("ኀ欹\ue1e1羋\uf404犩죸䄗\udf04喸퉳", 997266150));
                gdl++;
             } else if (gdl == 2 && var1 > 1.1F) {
-               if (var0.field_1755 instanceof jos var2) {
+               if (var0.currentScreen instanceof jos var2) {
                   for (char var6 : a.d("爱ப腺ἓ铧ቧꠢ⇔뾚㔼", -1249154405, -781641498).toCharArray()) {
-                     var2.method_25400(new CharInput(var6, 0));
+                     var2.charTyped(new CharInput(var6, 0));
                   }
 
-                  var2.method_25404(new KeyInput(257, 0, 0));
+                  var2.keyPressed(new KeyInput(257, 0, 0));
                }
 
                gdl++;
@@ -259,7 +261,7 @@ public final class gdh {
                gdl++;
             } else if (gdl == 6 && var1 > 3.8F) {
                gdy(var0, a.b("䪊㌳맫➁갎⪣郶ᤝ蜎\u0db2詹灑ﻙ板\ued24毗톁幃쓱", -1632089356));
-               var0.method_1507(gdn);
+               var0.setScreen(gdn);
                gdx(gdn, a.b("盙ཀྵ薡ᯍ逐ᚧ곞┐뭚㇠", -153389379), false);
                gdl++;
             } else if (gdl == 7 && var1 > 5.0F) {
@@ -271,19 +273,19 @@ public final class gdh {
    }
 
    private static void gdu(MinecraftClient var0, float var1) {
-      if (var0.field_1755 instanceof jos var2) {
-         float var6 = kbp.scale(var2.field_22789, var2.field_22790);
-         float var4 = (var2.field_22789 / var6 - 268.0F) * 0.5F;
-         float var5 = (var2.field_22790 / var6 - 218.0F) * 0.5F + 4.0F;
-         var2.method_25402(new Click((var4 + var1) * var6, (var5 + 52.0F + 14.0F) * var6, new MouseInput(0, 0)), false);
+      if (var0.currentScreen instanceof jos var2) {
+         float var6 = kbp.scale(var2.width, var2.height);
+         float var4 = (var2.width / var6 - 268.0F) * 0.5F;
+         float var5 = (var2.height / var6 - 218.0F) * 0.5F + 4.0F;
+         var2.mouseClicked(new Click((var4 + var1) * var6, (var5 + 52.0F + 14.0F) * var6, new MouseInput(0, 0)), false);
       }
    }
 
    private static void gdv(MinecraftClient var0, float var1, float var2) {
       int[] var3 = new int[1];
       int[] var4 = new int[1];
-      GLFW.glfwGetWindowSize(var0.method_22683().method_4490(), var3, var4);
-      GLFW.glfwSetCursorPos(var0.method_22683().method_4490(), var1 * var3[0], var2 * var4[0]);
+      GLFW.glfwGetWindowSize(var0.getWindow().getHandle(), var3, var4);
+      GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), var1 * var3[0], var2 * var4[0]);
    }
 
    private static void gdw(Object var0, String var1, Class<?>[] var2, Object... var3) throws Exception {
@@ -300,9 +302,9 @@ public final class gdh {
 
    private static void gdy(MinecraftClient var0, String var1) {
       System.out
-         .println(a.b("뗤챝䚅\ud8ef卭했濊\ue62d硵\uf290", 181253507) + var1 + a.d("坂⺓ꐠ", -281767153, -1212038034) + var0.method_47599() + a.b("킥ꥒ⎗뷥", 371642497));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697, a.d("ﭰ苋ࠛ陲ᷠ魎", 1311239405, 1851987965) + var1 + a.c(660726025, "\ue123飌ሁ豹"), var0.method_1522(), 1, var0x -> {}
+         .println(a.b("뗤챝䚅\ud8ef卭했濊\ue62d硵\uf290", 181253507) + var1 + a.d("坂⺓ꐠ", -281767153, -1212038034) + var0.getCurrentFps() + a.b("킥ꥒ⎗뷥", 371642497));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.d("ﭰ苋ࠛ陲ᷠ魎", 1311239405, 1851987965) + var1 + a.c(660726025, "\ue123飌ሁ豹"), var0.getFramebuffer(), 1, var0x -> {}
       );
    }
 }

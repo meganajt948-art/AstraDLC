@@ -42,19 +42,19 @@ public final class jie extends jeq<jht> {
 
    @Override
    List<jht> items(boolean var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
+      MinecraftClient var2 = MinecraftClient.getInstance();
       ArrayList var3 = new ArrayList();
       HashSet var4 = new HashSet();
-      if (var2.field_1724 != null) {
-         for (StatusEffectInstance var6 : var2.field_1724.method_6026()) {
-            if (var6.method_5592()) {
-               String var7 = var6.method_5579().method_55840();
+      if (var2.player != null) {
+         for (StatusEffectInstance var6 : var2.player.getStatusEffects()) {
+            if (var6.shouldShowIcon()) {
+               String var7 = var6.getEffectType().getIdAsString();
                var4.add(var7);
-               int var8 = var6.method_5584();
+               int var8 = var6.getDuration();
                int var9 = Math.max(var8, this.jih.getOrDefault(var7, 0));
                this.jih.put(var7, var9);
                var3.add(
-                  jik(var7, var6.method_5579(), var6.method_5578(), var8, var6.method_48559(), var6.method_48559() ? 1.0F : (float)var8 / Math.max(1, var9))
+                  jik(var7, var6.getEffectType(), var6.getAmplifier(), var8, var6.isInfinite(), var6.isInfinite() ? 1.0F : (float)var8 / Math.max(1, var9))
                );
             }
          }
@@ -62,9 +62,9 @@ public final class jie extends jeq<jht> {
 
       this.jih.keySet().retainAll(var4);
       if (var3.isEmpty() && var1) {
-         var3.add(jik(a.d("퇬ꡟ⊛볹㜱놌்艱ᱧ雕ᄓ\ueb62斴", -1872825723, 1786848020), StatusEffects.field_5904, 1, 1640, false, 0.72F));
-         var3.add(jik(a.b("襰\uf0c3稇\ue465澭\ue910卑\udaed䓻칍䦘돾㴢꒚⻚꠷", -592672496), StatusEffects.field_5910, 0, 780, false, 0.35F));
-         var3.add(jik(a.c(-60203935, "尝▮꽪ㄈ뫀㱽蘼ྀ醃ᬽ鳵暓"), StatusEffects.field_5918, 0, 150, false, 0.08F));
+         var3.add(jik(a.d("퇬ꡟ⊛볹㜱놌்艱ᱧ雕ᄓ\ueb62斴", -1872825723, 1786848020), StatusEffects.SPEED, 1, 1640, false, 0.72F));
+         var3.add(jik(a.b("襰\uf0c3稇\ue465澭\ue910卑\udaed䓻칍䦘돾㴢꒚⻚꠷", -592672496), StatusEffects.STRENGTH, 0, 780, false, 0.35F));
+         var3.add(jik(a.c(-60203935, "尝▮꽪ㄈ뫀㱽蘼ྀ醃ᬽ鳵暓"), StatusEffects.FIRE_RESISTANCE, 0, 150, false, 0.08F));
       }
 
       var3.sort(Comparator.<jht, Boolean>comparing(var0 -> !var0.jhy).thenComparing(var0 -> -var0.jhx));
@@ -72,13 +72,13 @@ public final class jie extends jeq<jht> {
    }
 
    private static jht jik(String var0, RegistryEntry<StatusEffect> var1, int var2, int var3, boolean var4, float var5) {
-      StatusEffect var6 = (StatusEffect)var1.comp_349();
-      String var7 = var6.method_5560().getString();
+      StatusEffect var6 = (StatusEffect)var1.value();
+      String var7 = var6.getName().getString();
       if (var2 > 0) {
          var7 = var7 + a.b("잏", -1793538130) + jil(var2 + 1);
       }
 
-      return new jht(var0, var1, var7, var3, var4, var5, 0xFF000000 | var6.method_5556(), var6.method_18792() == StatusEffectCategory.field_18272);
+      return new jht(var0, var1, var7, var3, var4, var5, 0xFF000000 | var6.getColor(), var6.getCategory() == StatusEffectCategory.HARMFUL);
    }
 
    private static String jil(int var0) {
@@ -118,11 +118,11 @@ public final class jie extends jeq<jht> {
       boolean var9 = BARS.get();
       float var10 = var4 + (var9 ? 6.0F : var6 * 0.5F);
       int var11 = ujt.withAlpha(16777215, Math.round(255.0F * uut.alpha()));
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(var3, var10 - 5.0F);
-      var1.method_51448().scale(0.5555556F, 0.5555556F);
-      var1.method_52707(RenderPipelines.field_56883, InGameHud.method_71644(var2.jhv), 0, 0, 18, 18, var11);
-      var1.method_51448().popMatrix();
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate(var3, var10 - 5.0F);
+      var1.getMatrices().scale(0.5555556F, 0.5555556F);
+      var1.drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.getEffectTexture(var2.jhv), 0, 0, 18, 18, var11);
+      var1.getMatrices().popMatrix();
       float var12 = var3 + 10.0F + 4.0F;
       String var13 = time(var2.jhx, var2.jhy);
       float var14 = izx.VALUE.width(var13);

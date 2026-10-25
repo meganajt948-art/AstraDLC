@@ -13,8 +13,7 @@ public final class unm {
    private unm() {
    }
 
-   @Nullable
-   public static GpuTextureView view() {
+   public static @Nullable GpuTextureView view() {
       if (unn == null && !uno) {
          try (InputStream var0 = unm.class.getResourceAsStream("/flow/glow.png")) {
             BufferedImage var1 = var0 == null ? null : ImageIO.read(var0);

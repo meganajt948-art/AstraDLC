@@ -67,7 +67,7 @@ final class fbw {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       if (var2 == null) {
          return false;
       } else if (var1 == 1) {
@@ -113,10 +113,10 @@ final class fbw {
          a.d("䒍㴳러⦔ꉋⓁ黼ᜊ襚ϧ", -789126292, -591812723),
          a.d("㞘", -1857656419, 1284333150)
       );
-      long var1 = var0.method_22683().method_4490();
+      long var1 = var0.getWindow().getHandle();
       GLFW.glfwSetCursorPosCallback(var1, (var0x, var2, var4) -> {});
       GLFW.glfwSetMouseButtonCallback(var1, (var0x, var2, var3, var4) -> {});
-      var0.field_1724.method_31548().method_61496(0);
+      var0.player.getInventory().setSelectedSlot(0);
 
       for (String var6 : new String[]{
          a.d("䑡㷶뜾⥁ꊖ␥鹡ហ角\u0378", 2057064799, -1076357792),
@@ -136,60 +136,59 @@ final class fbw {
       tiq var1 = tiq.open(fbx);
       if (var1 == null) {
          throw new IllegalStateException(a.b("ⱈ嗸\udf64䅅쪐䰼\uf666羘\ue1c2歺\uecec", 645475373) + fbx);
-      } else {
-         var1.set(a.b("㻰䝆춀叾\ud823庅\ue48b洷\uf364秏︇Ѭ", 1332166287), 1);
-         var1.set(
-            a.b("錡\uea97恑︯痲\uf354䥚샨庵퐏叝", 1739559769),
-            System.getenv().getOrDefault(a.c(-814160754, "\ue4d9鵢ឲ觛ɩ蒵㻸뜝⥅ꏧ\u242a\ude57傇줣䍿얄翜"), a.d("踥\uf7b3給\ue304棔\uee66", -1322815012, -358547540))
-         );
-         var1.set(a.d("︽螋്錳ᣮ鹈⑆귷㎣뤖㻖", 1616466373, -773345408), 2.0);
-         var1.set(a.c(1555997550, "ꌗ\udaa1偧츙䗄썢祬\uf0d5溍\ue42f"), 3.2);
-         var1.set(a.b("輣\uf695籓\ue22d槰\uef56啘\udcf4䊨젌俟떯", 699961180), 1.6);
-         var1.save();
-         kfe var2 = Flow.getInstance().getModuleManager().getByName(a.c(-11815150, "띑컂䐔\uda65冟휚济\ue4ac"));
-
-         for (vmo var4 : var2.getSettings()) {
-            String var5 = var4.getName();
-            switch (var5) {
-               case a.c(901710615, "͍竁\uf009湭\ue5af挃\ud956傦"):
-                  ((vlv)var4).set(a.d("ࠋ熀ﭖ攮\ueef2桙", 175681583, -77809551));
-                  break;
-               case a.d("皒༒藚᮶遦", 697800270, -681647974):
-               case a.d("詵\uf3e6礬\ue74e泜\uea2b偷\ud997", 565697721, 146953865):
-               case a.b("栛ᆖ魈ԡ軪ࡌ눞", 318990412):
-                  ((vkl)var4).set(true);
-                  break;
-               case a.c(1628227637, "졼뇯㬱ꕑ"):
-               case a.d("浰ᓽ鸴X讕ശ띪㻓ꃛ⩼궢埓\ud91b", -733271769, -1242676210):
-                  ((vkl)var4).set(false);
-                  break;
-               case a.d("鉗\uebdb愙｠璩", 85436674, 1991785241):
-                  ((vlv)var4).set(a.b("츴랪㵮", 548785782));
-                  break;
-               case a.c(-1450119321, "\uef31隣ᱥ舔ূ"):
-               case a.d("貎\uf50c翈\ue1bf橵\uecce嚟\udf63", -1678477354, 1035795206):
-                  ((vmc)var4).set(1.0);
-                  break;
-               case a.c(490584658, "먗쎯䥥"):
-                  ((vmc)var4).set(360.0);
-                  break;
-               case a.c(172477368, "쯴뉨㢡ꛗⴕꮫᇵ頂"):
-                  ((vmc)var4).set(4.0);
-                  break;
-               case a.c(1737822369, "ც楳\ue3a4綘\uf607炻쫤䌛\udd4b埦"):
-                  ((vlv)var4).set(a.b("짟끌㪔ꓤ⼺", -883570281));
-            }
-         }
-
-         kwf.useStudio(fby ? null : var1);
-         System.out
-            .println(
-               a.d("ぞ䧻쌯嵍훛倹\uea6d掉\ufdd9睢\uf0a6\u0a84萇ᶧ韢ᄔꬕⓞ", -1975724845, -456596226)
-                  + (fby ? a.b("뤅삖䩘퐠忸\ud94c挖\ueaa2瓬", 497138012) : var1.name + a.d("秙)諮ᒘ齜ᦢꎹ⨜된㻠", 980957280, 2128757139) + (var1.auraModel() != null))
-            );
-         tcz.startTest(var1);
-         var2.setEnabled(true);
       }
+
+      var1.set(a.b("㻰䝆춀叾\ud823庅\ue48b洷\uf364秏︇Ѭ", 1332166287), 1);
+      var1.set(
+         a.b("錡\uea97恑︯痲\uf354䥚샨庵퐏叝", 1739559769),
+         System.getenv().getOrDefault(a.c(-814160754, "\ue4d9鵢ឲ觛ɩ蒵㻸뜝⥅ꏧ\u242a\ude57傇줣䍿얄翜"), a.d("踥\uf7b3給\ue304棔\uee66", -1322815012, -358547540))
+      );
+      var1.set(a.d("︽螋്錳ᣮ鹈⑆귷㎣뤖㻖", 1616466373, -773345408), 2.0);
+      var1.set(a.c(1555997550, "ꌗ\udaa1偧츙䗄썢祬\uf0d5溍\ue42f"), 3.2);
+      var1.set(a.b("輣\uf695籓\ue22d槰\uef56啘\udcf4䊨젌俟떯", 699961180), 1.6);
+      var1.save();
+      kfe var2 = Flow.getInstance().getModuleManager().getByName(a.c(-11815150, "띑컂䐔\uda65冟휚济\ue4ac"));
+
+      for (vmo var4 : var2.getSettings()) {
+         switch (var4.getName()) {
+            case a.c(901710615, "͍竁\uf009湭\ue5af挃\ud956傦"):
+               ((vlv)var4).set(a.d("ࠋ熀ﭖ攮\ueef2桙", 175681583, -77809551));
+               break;
+            case a.d("皒༒藚᮶遦", 697800270, -681647974):
+            case a.d("詵\uf3e6礬\ue74e泜\uea2b偷\ud997", 565697721, 146953865):
+            case a.b("栛ᆖ魈ԡ軪ࡌ눞", 318990412):
+               ((vkl)var4).set(true);
+               break;
+            case a.c(1628227637, "졼뇯㬱ꕑ"):
+            case a.d("浰ᓽ鸴X讕ശ띪㻓ꃛ⩼궢埓\ud91b", -733271769, -1242676210):
+               ((vkl)var4).set(false);
+               break;
+            case a.d("鉗\uebdb愙｠璩", 85436674, 1991785241):
+               ((vlv)var4).set(a.b("츴랪㵮", 548785782));
+               break;
+            case a.c(-1450119321, "\uef31隣ᱥ舔ূ"):
+            case a.d("貎\uf50c翈\ue1bf橵\uecce嚟\udf63", -1678477354, 1035795206):
+               ((vmc)var4).set(1.0);
+               break;
+            case a.c(490584658, "먗쎯䥥"):
+               ((vmc)var4).set(360.0);
+               break;
+            case a.c(172477368, "쯴뉨㢡ꛗⴕꮫᇵ頂"):
+               ((vmc)var4).set(4.0);
+               break;
+            case a.c(1737822369, "ც楳\ue3a4綘\uf607炻쫤䌛\udd4b埦"):
+               ((vlv)var4).set(a.b("짟끌㪔ꓤ⼺", -883570281));
+         }
+      }
+
+      kwf.useStudio(fby ? null : var1);
+      System.out
+         .println(
+            a.d("ぞ䧻쌯嵍훛倹\uea6d掉\ufdd9睢\uf0a6\u0a84萇ᶧ韢ᄔꬕⓞ", -1975724845, -456596226)
+               + (fby ? a.b("뤅삖䩘퐠忸\ud94c挖\ueaa2瓬", 497138012) : var1.name + a.d("秙)諮ᒘ齜ᦢꎹ⨜된㻠", 980957280, 2128757139) + (var1.auraModel() != null))
+         );
+      tcz.startTest(var1);
+      var2.setEnabled(true);
    }
 
    private static void fdf(MinecraftClient var0, ClientPlayerEntity var1) {
@@ -199,23 +198,23 @@ final class fbw {
       }
 
       fcd.clear();
-      fdg(var0.field_1690.field_1913, fcp < 0);
-      fdg(var0.field_1690.field_1849, fcp > 0);
-      fdg(var0.field_1690.field_1894, fcc.nextInt(4) == 0);
-      var0.field_1690.field_1903.method_23481(var1.method_24828() && fcc.nextInt(25) == 0);
+      fdg(var0.options.leftKey, fcp < 0);
+      fdg(var0.options.rightKey, fcp > 0);
+      fdg(var0.options.forwardKey, fcc.nextInt(4) == 0);
+      var0.options.jumpKey.setPressed(var1.isOnGround() && fcc.nextInt(25) == 0);
       vzz.simulated = fcd::contains;
    }
 
    private static void fdg(KeyBinding var0, boolean var1) {
-      var0.method_23481(var1);
+      var0.setPressed(var1);
       if (var1) {
-         fcd.add(KeyBindingHelper.getBoundKeyOf(var0).method_1444());
+         fcd.add(KeyBindingHelper.getBoundKeyOf(var0).getCode());
       }
    }
 
    private static void fdh(MinecraftClient var0, ClientPlayerEntity var1) {
-      float var2 = vxr.getFloat(fca, var1, var1.method_36454());
-      float var3 = vxr.getFloat(fcb, var1, var1.method_36455());
+      float var2 = vxr.getFloat(fca, var1, var1.getYaw());
+      float var3 = vxr.getFloat(fcb, var1, var1.getPitch());
       Entity var4 = kwf.target();
       if (var4 != fcx) {
          fcx = var4;
@@ -228,7 +227,7 @@ final class fbw {
       }
 
       if (!Float.isNaN(fck) && var4 != null) {
-         double var5 = MathHelper.method_15393(var2 - fck);
+         double var5 = MathHelper.wrapDegrees(var2 - fck);
          fcg.add(var5);
          fch.add((double)(var3 - fcl));
          fcn++;
@@ -257,17 +256,17 @@ final class fbw {
    }
 
    private static double fdi(ClientPlayerEntity var0, Entity var1, float var2, float var3) {
-      Vec3d var4 = var0.method_33571();
-      Box var5 = var1.method_5829();
+      Vec3d var4 = var0.getEyePos();
+      Box var5 = var1.getBoundingBox();
       return !tbp.aim(
-            var4.field_1352,
-            var4.field_1351,
-            var4.field_1350,
-            (var5.field_1323 + var5.field_1320) * 0.5,
-            var5.field_1322,
-            (var5.field_1321 + var5.field_1324) * 0.5,
-            (var5.field_1320 - var5.field_1323) * 0.5,
-            var5.field_1325 - var5.field_1322,
+            var4.x,
+            var4.y,
+            var4.z,
+            (var5.minX + var5.maxX) * 0.5,
+            var5.minY,
+            (var5.minZ + var5.maxZ) * 0.5,
+            (var5.maxX - var5.minX) * 0.5,
+            var5.maxY - var5.minY,
             0.0,
             0.5,
             fcr
@@ -277,17 +276,17 @@ final class fbw {
    }
 
    private static void fdj(ClientPlayerEntity var0, Entity var1, float var2, double var3) {
-      Vec3d var5 = var0.method_33571();
-      Box var6 = var1.method_5829();
+      Vec3d var5 = var0.getEyePos();
+      Box var6 = var1.getBoundingBox();
       if (tbp.aim(
-         var5.field_1352,
-         var5.field_1351,
-         var5.field_1350,
-         (var6.field_1323 + var6.field_1320) * 0.5,
-         var6.field_1322,
-         (var6.field_1321 + var6.field_1324) * 0.5,
-         (var6.field_1320 - var6.field_1323) * 0.5,
-         var6.field_1325 - var6.field_1322,
+         var5.x,
+         var5.y,
+         var5.z,
+         (var6.minX + var6.maxX) * 0.5,
+         var6.minY,
+         (var6.minZ + var6.maxZ) * 0.5,
+         (var6.maxX - var6.minX) * 0.5,
+         var6.maxY - var6.minY,
          0.0,
          0.5,
          fcr
@@ -314,10 +313,10 @@ final class fbw {
    }
 
    private static boolean fdk(ClientPlayerEntity var0, Entity var1, float var2, float var3) {
-      Vec3d var4 = var0.method_33571();
-      Vec3d var5 = Vec3d.method_1030(var3, var2);
-      Box var6 = var1.method_5829().method_1014(var1.method_5871());
-      return var6.method_992(var4, var4.method_1019(var5.method_1021(8.0))).isPresent();
+      Vec3d var4 = var0.getEyePos();
+      Vec3d var5 = Vec3d.fromPolar(var3, var2);
+      Box var6 = var1.getBoundingBox().expand(var1.getTargetingMargin());
+      return var6.raycast(var4, var4.add(var5.multiply(8.0))).isPresent();
    }
 
    private static void fdl() {
@@ -381,8 +380,8 @@ final class fbw {
 
    private static void fdn(MinecraftClient var0) {
       try {
-         if (fci != null && var0.field_1755 == null) {
-            fci.setBoolean(var0.field_1729, true);
+         if (fci != null && var0.currentScreen == null) {
+            fci.setBoolean(var0.mouse, true);
          }
 
          if (fcj != null) {
@@ -393,6 +392,6 @@ final class fbw {
    }
 
    private static void fdo(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

@@ -60,25 +60,25 @@ final class dye {
          long var6 = (long)var4 << 32 ^ var5 & 4294967295L;
          if (var6 != this.chunkKey) {
             this.chunkKey = var6;
-            this.chunk = this.world.method_2935().method_12126(var4, var5, false);
-            this.sections = this.chunk == null ? null : this.chunk.method_12006();
+            this.chunk = this.world.getChunkManager().getWorldChunk(var4, var5, false);
+            this.sections = this.chunk == null ? null : this.chunk.getSectionArray();
             this.chunkTop = this.chunk == null ? this.scene.topY + 1 : this.scene.top(var6, this.chunk);
-            this.sectionBase = this.world.method_32891();
+            this.sectionBase = this.world.getBottomSectionCoord();
          }
 
          if (this.sections == null) {
             return null;
-         } else {
-            int var8 = (var2 >> 4) - this.sectionBase;
-            return var8 >= 0 && var8 < this.sections.length ? this.sections[var8] : null;
          }
+
+         int var8 = (var2 >> 4) - this.sectionBase;
+         return var8 >= 0 && var8 < this.sections.length ? this.sections[var8] : null;
       } else {
          return null;
       }
    }
 
    int sky(double var1) {
-      double var3 = MathHelper.method_15350(var1 * 1.6 + 0.15, 0.0, 1.0);
+      double var3 = MathHelper.clamp(var1 * 1.6 + 0.15, 0.0, 1.0);
       return dyh.mix(this.scene.skyHorizon, this.scene.skyTop, var3);
    }
 
@@ -89,9 +89,9 @@ final class dye {
       double var19 = 1.0;
       boolean var21 = false;
       double var22 = 0.0;
-      int var24 = MathHelper.method_15357(var1);
-      int var25 = MathHelper.method_15357(var3);
-      int var26 = MathHelper.method_15357(var5);
+      int var24 = MathHelper.floor(var1);
+      int var25 = MathHelper.floor(var3);
+      int var26 = MathHelper.floor(var5);
       int var27 = var7 > 0.0 ? 1 : -1;
       int var28 = var9 > 0.0 ? 1 : -1;
       int var29 = var11 > 0.0 ? 1 : -1;
@@ -101,13 +101,13 @@ final class dye {
       double var36 = (var7 > 0.0 ? var24 + 1 - var1 : var1 - var24) * var30;
       double var38 = (var9 > 0.0 ? var25 + 1 - var3 : var3 - var25) * var32;
       double var40 = (var11 > 0.0 ? var26 + 1 - var5 : var5 - var26) * var34;
-      int var42 = -1;
+      byte var42 = -1;
       this.hitDistance = 56.0;
 
       while (var22 < 56.0 && (var25 >= this.scene.bottomY || !(var9 <= 0.0)) && (var25 <= this.scene.topY || !(var9 >= 0.0))) {
          ChunkSection var43 = this.section(var24, var25, var26);
          double var44 = -1.0;
-         if (var43 != null && !var43.method_38292()) {
+         if (var43 != null && !var43.isEmpty()) {
             if (var25 >= this.chunkTop) {
                double var46 = this.columnExit(var24, var26, var1, var5, var7, var11);
                if (var9 < 0.0) {
@@ -139,20 +139,20 @@ final class dye {
             double var64 = var1 + var7 * var22;
             double var65 = var3 + var9 * var22;
             double var68 = var5 + var11 * var22;
-            int var70 = MathHelper.method_15357(var64);
-            int var72 = MathHelper.method_15357(var65);
-            int var74 = MathHelper.method_15357(var68);
-            var42 = var70 != var24 ? 0 : (var72 != var25 ? 1 : 2);
+            int var70 = MathHelper.floor(var64);
+            int var72 = MathHelper.floor(var65);
+            int var74 = MathHelper.floor(var68);
+            var42 = (byte)(var70 != var24 ? 0 : (var72 != var25 ? 1 : 2));
             var24 = var70;
             var25 = var72;
             var26 = var74;
-            var36 = var22 + (var7 > 0.0 ? var70 + 1 - var64 : var64 - var70) * var30;
-            var38 = var22 + (var9 > 0.0 ? var72 + 1 - var65 : var65 - var72) * var32;
-            var40 = var22 + (var11 > 0.0 ? var74 + 1 - var68 : var68 - var74) * var34;
+            var36 = var22 + (var7 > 0.0 ? var24 + 1 - var64 : var64 - var24) * var30;
+            var38 = var22 + (var9 > 0.0 ? var25 + 1 - var65 : var65 - var25) * var32;
+            var40 = var22 + (var11 > 0.0 ? var26 + 1 - var68 : var68 - var26) * var34;
          } else {
-            BlockState var63 = var43.method_12254(var24 & 15, var25 & 15, var26 & 15);
+            BlockState var63 = var43.getBlockState(var24 & 15, var25 & 15, var26 & 15);
             dxq var47;
-            if (var63.method_26215()) {
+            if (var63.isAir()) {
                var47 = null;
             } else if (var63 == this.lastState) {
                var47 = this.lastLook;
@@ -188,28 +188,24 @@ final class dye {
                   double var51 = var22;
                   int var50;
                   if (!var47.fullCube && !var47.fluidOnly) {
-                     this.pos.method_10103(var24, var25, var26);
+                     this.pos.set(var24, var25, var26);
 
                      VoxelShape var53;
                      try {
-                        var53 = var63.method_26218(this.world, this.pos);
+                        var53 = var63.getOutlineShape(this.world, this.pos);
                      } catch (Throwable var59) {
                         var53 = null;
                      }
 
                      var50 = -1;
-                     if (var53 != null && !var53.method_1110()) {
+                     if (var53 != null && !var53.isEmpty()) {
                         Vec3d var54 = new Vec3d(var1 + var7 * (var22 - 0.001), var3 + var9 * (var22 - 0.001), var5 + var11 * (var22 - 0.001));
                         Vec3d var55 = new Vec3d(var1 + var7 * (var48 + 0.001), var3 + var9 * (var48 + 0.001), var5 + var11 * (var48 + 0.001));
-                        BlockHitResult var56 = var53.method_1092(var54, var55, this.pos);
+                        BlockHitResult var56 = var53.raycast(var54, var55, this.pos);
                         if (var56 != null) {
-                           Vec3d var57 = var56.method_17784();
-                           var51 = Math.sqrt(
-                              (var57.field_1352 - var1) * (var57.field_1352 - var1)
-                                 + (var57.field_1351 - var3) * (var57.field_1351 - var3)
-                                 + (var57.field_1350 - var5) * (var57.field_1350 - var5)
-                           );
-                           var50 = this.shade(var47, var63, var24, var25, var26, var56.method_17780(), var57.field_1352, var57.field_1351, var57.field_1350);
+                           Vec3d var57 = var56.getPos();
+                           var51 = Math.sqrt((var57.x - var1) * (var57.x - var1) + (var57.y - var3) * (var57.y - var3) + (var57.z - var5) * (var57.z - var5));
+                           var50 = this.shade(var47, var63, var24, var25, var26, var56.getSide(), var57.x, var57.y, var57.z);
                         }
                      }
                   } else {
@@ -314,18 +310,20 @@ final class dye {
       double var25 = var11 + var17 * var19;
       Direction var27;
       if (var6 == 0) {
-         var27 = var13 > 0.0 ? Direction.field_11039 : Direction.field_11034;
+         var27 = var13 > 0.0 ? Direction.WEST : Direction.EAST;
       } else if (var6 == 1) {
-         var27 = var15 > 0.0 ? Direction.field_11033 : Direction.field_11036;
+         var27 = var15 > 0.0 ? Direction.DOWN : Direction.UP;
       } else if (var6 == 2) {
-         var27 = var17 > 0.0 ? Direction.field_11043 : Direction.field_11035;
+         var27 = var17 > 0.0 ? Direction.NORTH : Direction.SOUTH;
       } else {
-         var27 = Direction.field_11036;
+         var27 = Direction.UP;
       }
 
       return this.shade(var1, var2, var3, var4, var5, var27, var21, var23, var25);
    }
 
+   // $VF: Unable to simplify switch on enum
+   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    int shade(dxq var1, BlockState var2, int var3, int var4, int var5, Direction var6, double var7, double var9, double var11) {
       double var13 = var7 - Math.floor(var7);
       double var15 = var9 - Math.floor(var9);
@@ -333,23 +331,23 @@ final class dye {
       double var19;
       double var21;
       switch (var6) {
-         case field_11036:
+         case UP:
             var19 = var13;
             var21 = var17;
             break;
-         case field_11033:
+         case DOWN:
             var19 = var13;
             var21 = 1.0 - var17;
             break;
-         case field_11043:
+         case NORTH:
             var19 = 1.0 - var13;
             var21 = 1.0 - var15;
             break;
-         case field_11035:
+         case SOUTH:
             var19 = var13;
             var21 = 1.0 - var15;
             break;
-         case field_11039:
+         case WEST:
             var19 = var17;
             var21 = 1.0 - var15;
             break;
@@ -384,19 +382,19 @@ final class dye {
          var23 = var1.mapColor;
       }
       double var35 = switch (var6) {
-         case field_11036 -> 1.0;
-         case field_11033 -> 0.5;
-         case field_11043, field_11035 -> 0.8;
+         case UP -> 1.0;
+         case DOWN -> 0.5;
+         case NORTH, SOUTH -> 0.8;
          default -> 0.62;
       };
-      this.light.method_10103(var3 + var6.method_10148(), var4 + var6.method_10164(), var5 + var6.method_10165());
+      this.light.set(var3 + var6.getOffsetX(), var4 + var6.getOffsetY(), var5 + var6.getOffsetZ());
       double var36;
       if (!var1.lava && var1.luminance < 12) {
-         int var37 = this.light(this.light.method_10263(), this.light.method_10264(), this.light.method_10260());
+         int var37 = this.light(this.light.getX(), this.light.getY(), this.light.getZ());
          int var39 = var37 >> 4;
          int var32 = var37 & 15;
-         double var33 = Math.max(var39 * this.scene.daylight, (double)Math.max(var32, var1.luminance));
-         var36 = dyh.dys[MathHelper.method_15340((int)(var33 * 4.0 + 0.5), 0, 60)];
+         double var33 = Math.max(var39 * this.scene.daylight, Math.max(var32, var1.luminance));
+         var36 = dyh.dys[MathHelper.clamp((int)(var33 * 4.0 + 0.5), 0, 60)];
          if (!this.scene.skyLight) {
             var36 = Math.max(var36, 0.42);
          }
@@ -405,10 +403,7 @@ final class dye {
       }
 
       double var38 = var35 * var36;
-      if (this.scene.target != null
-         && this.scene.target.method_10263() == var3
-         && this.scene.target.method_10264() == var4
-         && this.scene.target.method_10260() == var5) {
+      if (this.scene.target != null && this.scene.target.getX() == var3 && this.scene.target.getY() == var4 && this.scene.target.getZ() == var5) {
          double var40 = Math.min(Math.min(var19, 1.0 - var19), Math.min(var21, 1.0 - var21));
          var38 = var40 < 0.035 ? 0.15 : var38 * 1.15;
       }
@@ -418,53 +413,53 @@ final class dye {
    }
 
    int light(int var1, int var2, int var3) {
-      long var4 = BlockPos.method_10064(var1, var2, var3);
+      long var4 = BlockPos.asLong(var1, var2, var3);
       int var6 = (int)(var4 ^ var4 >>> 21 ^ var4 >>> 42) & 2047;
       if (this.lightKeys[var6] == var4 + 1L) {
          return this.lightValues[var6];
-      } else {
-         int var7 = 0;
-         int var8 = 0;
+      }
 
-         try {
-            this.light.method_10103(var1, var2, var3);
-            boolean var9 = false;
-            if (this.scene.skyLight) {
-               WorldChunk var10 = this.world.method_2935().method_12126(var1 >> 4, var3 >> 4, false);
-               var9 = var10 != null && var2 > var10.method_12005(Type.field_13197, var1 & 15, var3 & 15);
-               var7 = var9 ? 15 : this.world.method_8314(LightType.field_9284, this.light);
-            }
+      byte var7 = 0;
+      byte var8 = 0;
 
-            var8 = var9 && this.scene.daylight > 0.95 ? 0 : this.world.method_8314(LightType.field_9282, this.light);
-         } catch (Throwable var11) {
+      try {
+         this.light.set(var1, var2, var3);
+         boolean var9 = false;
+         if (this.scene.skyLight) {
+            WorldChunk var10 = this.world.getChunkManager().getWorldChunk(var1 >> 4, var3 >> 4, false);
+            var9 = var10 != null && var2 > var10.sampleHeightmap(Type.MOTION_BLOCKING, var1 & 15, var3 & 15);
+            var7 = (byte)(var9 ? 15 : this.world.getLightLevel(LightType.SKY, this.light));
          }
 
-         int var12 = var7 << 4 | var8;
-         this.lightKeys[var6] = var4 + 1L;
-         this.lightValues[var6] = var12;
-         return var12;
+         var8 = (byte)(var9 && this.scene.daylight > 0.95 ? 0 : this.world.getLightLevel(LightType.BLOCK, this.light));
+      } catch (Throwable var11) {
       }
+
+      int var12 = var7 << 4 | var8;
+      this.lightKeys[var6] = var4 + 1L;
+      this.lightValues[var6] = var12;
+      return var12;
    }
 
    int tint(BlockState var1, int var2, int var3, int var4, int var5) {
-      long var6 = BlockPos.method_10064(var2 >> 1, var5, var4 >> 1);
+      long var6 = BlockPos.asLong(var2 >> 1, var5, var4 >> 1);
       int var8 = (int)(var6 ^ var6 >>> 19 ^ var1.hashCode()) & 1023;
       if (this.tintKeys[var8] == var6 + 1L && this.tintStates[var8] == var1) {
          return this.tintValues[var8];
-      } else {
-         int var9;
-         try {
-            this.pos.method_10103(var2, var3, var4);
-            int var10 = dyh.dyq.method_1505().method_1697(var1, this.world, this.pos, var5);
-            var9 = var10 == -1 ? -1 : 0xFF000000 | var10;
-         } catch (Throwable var11) {
-            var9 = -1;
-         }
-
-         this.tintKeys[var8] = var6 + 1L;
-         this.tintStates[var8] = var1;
-         this.tintValues[var8] = var9;
-         return var9;
       }
+
+      int var9;
+      try {
+         this.pos.set(var2, var3, var4);
+         int var10 = dyh.dyq.getBlockColors().getColor(var1, this.world, this.pos, var5);
+         var9 = var10 == -1 ? -1 : 0xFF000000 | var10;
+      } catch (Throwable var11) {
+         var9 = -1;
+      }
+
+      this.tintKeys[var8] = var6 + 1L;
+      this.tintStates[var8] = var1;
+      this.tintValues[var8] = var9;
+      return var9;
    }
 }

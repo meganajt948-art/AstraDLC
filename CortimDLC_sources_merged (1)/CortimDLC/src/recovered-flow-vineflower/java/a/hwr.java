@@ -71,21 +71,16 @@ final class hwr extends imn {
    static uok thumb(String var0) {
       uok var1 = hwv.get(var0);
       if (var1 == null && !hww.contains(var0)) {
-         try {
-            uok var4;
-            try (InputStream var2 = ezj.open(a.c(641356438, "劮⭖ꆏ㿽됲㋛裄Ĺ齺ᗕ鈎桮\ue6a4缟\uf55c珱짥䘨\udc86嫏팷ꥷ➘") + var0 + a.b("⣠儏\udbc2䖺", 1931487434))) {
-               BufferedImage var3 = var2 == null ? null : ImageIO.read(var2);
-               if (var3 == null) {
-                  hww.add(var0);
-                  return null;
-               }
-
+         try (InputStream var2 = ezj.open(a.c(641356438, "劮⭖ꆏ㿽됲㋛裄Ĺ齺ᗕ鈎桮\ue6a4缟\uf55c珱짥䘨\udc86嫏팷ꥷ➘") + var0 + a.b("⣠儏\udbc2䖺", 1931487434))) {
+            BufferedImage var3 = var2 == null ? null : ImageIO.read(var2);
+            if (var3 == null) {
+               hww.add(var0);
+               return null;
+            } else {
                var1 = uok.upload(a.b("훖꽫▤믋〔뚴\u0cfa蔁ᬝ釸ᘷ\uec5b抔שׁ焻", -636430662) + var0, var3, false, true);
                hwv.put(var0, var1);
-               var4 = var1;
+               return var1;
             }
-
-            return var4;
          } catch (Exception var7) {
             hww.add(var0);
             return null;
@@ -133,12 +128,12 @@ final class hwr extends imn {
             float var20 = var16 + 6.0F;
             float var21 = vcq.outBack(var15);
             uut.pushAlpha(var15);
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var22, var20);
-            var1.method_51448().scale(var21, var21);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var22, var20);
+            var1.getMatrices().scale(var21, var21);
             uut.circle(var1, 0.0F, 0.0F, 4.0F, var17);
             vjf.draw(var1, vhz.CHECK, 0.0F, 0.0F, 5.5F, -16052972);
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
 
@@ -168,18 +163,18 @@ final class hwr extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return false;
-      } else {
-         List var5 = this.hxc();
-         float var6 = this.hxe();
-
-         for (int var7 = 0; var7 < var5.size(); var7++) {
-            if (irr.inside(var2, var3, this.hxg(var7), this.hxh(var7), var6, var6 + 12.0F)) {
-               Cosmetics.toggle((CosmeticItem)var5.get(var7));
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      List var5 = this.hxc();
+      float var6 = this.hxe();
+
+      for (int var7 = 0; var7 < var5.size(); var7++) {
+         if (irr.inside(var2, var3, this.hxg(var7), this.hxh(var7), var6, var6 + 12.0F)) {
+            Cosmetics.toggle((CosmeticItem)var5.get(var7));
+            return true;
+         }
+      }
+
+      return false;
    }
 }

@@ -79,11 +79,11 @@ public final class vss {
          vtl = System.nanoTime();
 
          try {
-            MinecraftClient var4 = MinecraftClient.method_1551();
-            if (var4.field_1690 != null) {
-               String var5 = (String)var4.field_1690.method_42477().method_41753();
+            MinecraftClient var4 = MinecraftClient.getInstance();
+            if (var4.options != null) {
+               String var5 = var4.options.getSoundDevice().getValue();
                vtm = var5 == null ? "" : var5;
-               vtn = Boolean.TRUE.equals(var4.field_1690.method_42444().method_41753());
+               vtn = Boolean.TRUE.equals(var4.options.getDirectionalAudio().getValue());
             }
          } catch (Throwable var6) {
          }
@@ -261,78 +261,78 @@ public final class vss {
       try (InputStream var1 = ezj.open(a.b("鼴\ue6cc氕\uf267禨ａ䕎첣勦\ud84c徕ꗳ⭸늑㣐븥ѿ讲ᄌ靊Ỡ", 1083416334) + var0 + a.b("⽒嚢\udc79䈈", -28102792))) {
          if (var1 == null) {
             return null;
-         } else {
-            byte[] var2 = var1.readAllBytes();
-            ByteBuffer var3 = MemoryUtil.memAlloc(var2.length);
+         }
 
-            try {
-               MemoryStack var4 = MemoryStack.stackPush();
+         byte[] var2 = var1.readAllBytes();
+         ByteBuffer var3 = MemoryUtil.memAlloc(var2.length);
 
-               Object var38;
+         try {
+            MemoryStack var4 = MemoryStack.stackPush();
+
+            Object var38;
+            label313: {
+               vsd var13;
                label314: {
-                  vsd var13;
-                  label315: {
-                     Object var11;
+                  Object var11;
+                  try {
+                     var3.put(var2).flip();
+                     IntBuffer var5 = var4.mallocInt(1);
+                     long var6 = STBVorbis.stb_vorbis_open_memory(var3, var5, null);
+                     if (var6 == 0L) {
+                        var38 = null;
+                        break label313;
+                     }
+
                      try {
-                        var3.put(var2).flip();
-                        IntBuffer var5 = var4.mallocInt(1);
-                        long var6 = STBVorbis.stb_vorbis_open_memory(var3, var5, null);
-                        if (var6 == 0L) {
-                           var38 = null;
+                        STBVorbisInfo var8 = STBVorbisInfo.malloc(var4);
+                        STBVorbis.stb_vorbis_get_info(var6, var8);
+                        int var9 = var8.channels();
+                        int var10 = STBVorbis.stb_vorbis_stream_length_in_samples(var6);
+                        if (var9 >= 1 && var9 <= 2 && var10 > 0) {
+                           ShortBuffer var39 = MemoryUtil.memAllocShort(var10 * var9);
+                           int var12 = STBVorbis.stb_vorbis_get_samples_short_interleaved(var6, var9, var39);
+                           var39.limit(Math.max(0, var12) * var9);
+                           var13 = new vsd(var39, var9, var8.sample_rate());
                            break label314;
                         }
 
-                        try {
-                           STBVorbisInfo var8 = STBVorbisInfo.malloc(var4);
-                           STBVorbis.stb_vorbis_get_info(var6, var8);
-                           int var9 = var8.channels();
-                           int var10 = STBVorbis.stb_vorbis_stream_length_in_samples(var6);
-                           if (var9 >= 1 && var9 <= 2 && var10 > 0) {
-                              ShortBuffer var39 = MemoryUtil.memAllocShort(var10 * var9);
-                              int var12 = STBVorbis.stb_vorbis_get_samples_short_interleaved(var6, var9, var39);
-                              var39.limit(Math.max(0, var12) * var9);
-                              var13 = new vsd(var39, var9, var8.sample_rate());
-                              break label315;
-                           }
-
-                           var11 = null;
-                        } finally {
-                           STBVorbis.stb_vorbis_close(var6);
-                        }
-                     } catch (Throwable var33) {
-                        if (var4 != null) {
-                           try {
-                              var4.close();
-                           } catch (Throwable var31) {
-                              var33.addSuppressed(var31);
-                           }
-                        }
-
-                        throw var33;
+                        var11 = null;
+                     } finally {
+                        STBVorbis.stb_vorbis_close(var6);
                      }
-
+                  } catch (Throwable var33) {
                      if (var4 != null) {
-                        var4.close();
+                        try {
+                           var4.close();
+                        } catch (Throwable var31) {
+                           var33.addSuppressed(var31);
+                        }
                      }
 
-                     return (vsd)var11;
+                     throw var33;
                   }
 
                   if (var4 != null) {
                      var4.close();
                   }
 
-                  return var13;
+                  return (vsd)var11;
                }
 
                if (var4 != null) {
                   var4.close();
                }
 
-               return (vsd)var38;
-            } finally {
-               MemoryUtil.memFree(var3);
+               return var13;
             }
+
+            if (var4 != null) {
+               var4.close();
+            }
+
+            return (vsd)var38;
+         } finally {
+            MemoryUtil.memFree(var3);
          }
       } catch (Exception var36) {
          System.out.println(a.c(679209354, "\ue9f0遃\u1a9f蒧༣视㏙먫⑺껎⥙퍿嶺쐏义좤狦ﴠ柁\ue1c3栨ባ鳋ܐ脫") + var0 + a.b("ං琩", -1217262150) + var36);
@@ -343,17 +343,17 @@ public final class vss {
    private static vsd vty(vsd var0) {
       if (var0.channels() == 1) {
          return var0;
-      } else {
-         ShortBuffer var1 = var0.data();
-         int var2 = var1.remaining() / 2;
-         ShortBuffer var3 = MemoryUtil.memAllocShort(var2);
-
-         for (int var4 = 0; var4 < var2; var4++) {
-            var3.put(var4, (short)((var1.get(var4 * 2) + var1.get(var4 * 2 + 1)) / 2));
-         }
-
-         MemoryUtil.memFree(var1);
-         return new vsd(var3, 1, var0.rate());
       }
+
+      ShortBuffer var1 = var0.data();
+      int var2 = var1.remaining() / 2;
+      ShortBuffer var3 = MemoryUtil.memAllocShort(var2);
+
+      for (int var4 = 0; var4 < var2; var4++) {
+         var3.put(var4, (short)((var1.get(var4 * 2) + var1.get(var4 * 2 + 1)) / 2));
+      }
+
+      MemoryUtil.memFree(var1);
+      return new vsd(var3, 1, var0.rate());
    }
 }

@@ -48,7 +48,7 @@ final class gpu {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
-      Screen var2 = var0.field_1755;
+      Screen var2 = var0.currentScreen;
       kfx var3 = Flow.getInstance().getModuleManager();
       switch (var1) {
          case 1:
@@ -93,9 +93,9 @@ final class gpu {
             float var41 = gqq(var20, a.c(-461887444, "⡔")) + 2.0F + 48.0F + 4.0F;
             float var42 = var37 - 30.0F;
             gql(var2, var30 + var42 + 6.0F + 4.5F, var41 + 34.72F, 0);
-            var2.method_25406(new Click(0.0, 0.0, new MouseInput(0, 0)));
+            var2.mouseReleased(new Click(0.0, 0.0, new MouseInput(0, 0)));
             gql(var2, var30 + var42 * 0.55F, var41 + 40.32F, 0);
-            var2.method_25406(new Click(0.0, 0.0, new MouseInput(0, 0)));
+            var2.mouseReleased(new Click(0.0, 0.0, new MouseInput(0, 0)));
             gqk(a.d("㨙䎠쥸園\udccf婱\ue033槊\uf792紹\ufaed", -794702008, -1149962985), 15, -34215);
             break;
          case 122:
@@ -120,7 +120,7 @@ final class gpu {
             gqt(var0, a.d("싢묓㇆꾬\u243eꊒᣐ酨ཹ藄Ȕ\uf866皬\uef1c攑\ue3a0姧혽䲕", -1420103590, -1746390309));
             break;
          case 141:
-            var0.method_1507(null);
+            var0.setScreen(null);
             break;
          case 160:
             gqt(var0, a.c(-237381433, "\ud8a4ꅕ⮁뗪㹸룔ʖ謮ᔿ龂ᡒ\ue220泪\uf55a罗溺䎥챸囃"));
@@ -147,23 +147,23 @@ final class gpu {
             gqt(var0, a.c(-1769408246, "索肛ੁ鐤᾿餃⍙꪿㓦빐㧝쏵䴾풕廑\ud820"));
             break;
          case 185:
-            long var18 = var0.method_22683().method_4490();
+            long var18 = var0.getWindow().getHandle();
             GLFWKeyCallback var35 = GLFW.glfwSetKeyCallback(var18, null);
             GLFW.glfwSetKeyCallback(var18, var35);
-            gpz = (NarratorMode)var0.field_1690.method_42476().method_41753();
+            gpz = var0.options.getNarrator().getValue();
             var35.invoke(var18, 66, 48, 1, 2);
             var35.invoke(var18, 66, 48, 0, 2);
             break;
          case 190:
-            gqa = var0.field_1690.method_42476().method_41753();
-            long var17 = var0.method_22683().method_4490();
+            gqa = var0.options.getNarrator().getValue();
+            long var17 = var0.getWindow().getHandle();
             GLFWKeyCallbackI var34 = (GLFWKeyCallbackI)gqo(wek.class, a.c(-99010379, "㣒䅾쮶嗉\ude10墦\ue2fa欆"));
             var34.invoke(var17, 66, 48, 1, 2);
             var34.invoke(var17, 66, 48, 0, 2);
             break;
          case 195:
-            Object var16 = var0.field_1690.method_42476().method_41753();
-            var0.field_1690.method_42476().method_41748(gpz);
+            Object var16 = var0.options.getNarrator().getValue();
+            var0.options.getNarrator().setValue(gpz);
             System.out
                .println(
                   a.b("蹢\uf7c2紙\ue36f梢\uee47呗\uddb1䏨쥇仓듫㩤ꏏ⧒꼬ᕰ骡\u0001虅ྩ痥ﬄ", 2110426629)
@@ -173,21 +173,21 @@ final class gpu {
                      + a.c(1968977813, "㞯丒쒆嫱턪垓\ued85搷頻烖\uf705ൺ莮\u1a1d遆\u16fc곲⌮릞㿎똲찦")
                      + var16
                      + a.b("Ҙ紡\uf7b4槊\ue20e撿\udeff圛쥟䏳쑲㹂낂⤤ꍿ▋鿉ရ誦\u0cfe蕑", 596247725)
-                     + var0.method_44713().method_1791()
+                     + var0.getNarratorManager().isActive()
                      + a.b("\uf184蠹ʢ鳔\u1718醶⯫ꈆ㰀뛾ㄲ쭇䖍\udc3a器탊", 1499525560)
-                     + var0.field_1690.method_53530().method_41753()
+                     + var0.options.getNarratorHotkey().getValue()
                      + a.c(-2146941349, "䙳")
                );
-            System.out.println(a.b("謽\uf29d硆\ue630淽\ueb18儛\ud8fb䚰찇䯂놙㽯\ua6fcⲌꩡဩ鿊Ր茍૬炻﹆", 2048428890) + var0.field_1690.field_1837);
-            var0.method_15995(false);
+            System.out.println(a.b("謽\uf29d硆\ue630淽\ueb18儛\ud8fb䚰찇䯂놙㽯\ua6fcⲌꩡဩ鿊Ր茍૬炻﹆", 2048428890) + var0.options.pauseOnLostFocus);
+            var0.onWindowFocusChanged(false);
             break;
          case 225:
             System.out
                .println(
                   a.b("ꢓ턳寨얞乓좶犣ﭛ攈\uefaf桺鉘᳃蕱༾览㏓밓⚿ꃵ⤗匕\uddef䘤쀈䫉\uf36b紭\ue7da憀\uea60", 1248372988)
-                     + (var0.field_1755 == null ? a.d("居◵꼧ㅝ", -1992056527, 1063845150) : var0.field_1755.getClass().getSimpleName())
+                     + (var0.currentScreen == null ? a.d("居◵꼧ㅝ", -1992056527, 1063845150) : var0.currentScreen.getClass().getSimpleName())
                );
-            var0.method_15995(true);
+            var0.onWindowFocusChanged(true);
             break;
          case 230:
             gqt(var0, a.d("喃ⱳꚡ㣍덖㗪辰ٖ頏ኹ锴漏\ue1d0硠\uf238", -2000150747, -1730065703));
@@ -195,8 +195,8 @@ final class gpu {
          case 231:
             kfe var15 = var3.getByName(a.b("顺\ue1e4欲\uf54f纓\uf838䉌쮁嗄\udf6e墷ꋑ", 420911157));
             var15.setEnabled(true);
-            gpy = (Double)var0.field_1690.method_45578(SoundCategory.field_15250).method_41753();
-            var0.field_1690.method_45578(SoundCategory.field_15250).method_41748(0.0);
+            gpy = var0.options.getSoundVolumeOption(SoundCategory.MASTER).getValue();
+            var0.options.getSoundVolumeOption(SoundCategory.MASTER).setValue(0.0);
             Files.write(vpo.dir().resolve(a.b("薎ﰒ盖\ue8ba挬\ue5c4征홧", 1410827726)), gqn(660.0, 0.4));
             vpo.scan();
             break;
@@ -230,7 +230,7 @@ final class gpu {
             System.out
                .println(
                   a.c(-1210629745, "䇫㡋느⳦ꜫ⇎鯎ሣ豦ی脕笠\uf5ff氋\ue654悷\udaff唿쾛䦘")
-                     + var0.field_1690.method_45578(SoundCategory.field_15250).method_41753()
+                     + var0.options.getSoundVolumeOption(SoundCategory.MASTER).getValue()
                      + a.d("୴狖\uf81f", 1899963230, 360458240)
                      + voa.report()
                );
@@ -246,21 +246,13 @@ final class gpu {
                );
             break;
          case 280:
-            var0.field_1690.method_45578(SoundCategory.field_15250).method_41748(gpy);
-            var0.field_1724.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_8802));
-            float var13 = var0.field_1724.method_36454();
-            Vec3d var27 = Vec3d.method_1030(0.0F, var13 + 180.0F).method_1021(3.0);
-            OtherClientPlayerEntity var33 = new OtherClientPlayerEntity(
-               var0.field_1687, new GameProfile(UUID.randomUUID(), a.d("앚볌㘒ꡢ⎲ꔉ", -431405035, 1883147531))
-            );
-            var33.method_5808(
-               var0.field_1724.method_23317() + var27.field_1352,
-               var0.field_1724.method_23318(),
-               var0.field_1724.method_23321() + var27.field_1350,
-               var13,
-               0.0F
-            );
-            var0.field_1687.method_53875(var33);
+            var0.options.getSoundVolumeOption(SoundCategory.MASTER).setValue(gpy);
+            var0.player.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
+            float var13 = var0.player.getYaw();
+            Vec3d var27 = Vec3d.fromPolar(0.0F, var13 + 180.0F).multiply(3.0);
+            OtherClientPlayerEntity var33 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), a.d("앚볌㘒ꡢ⎲ꔉ", -431405035, 1883147531)));
+            var33.refreshPositionAndAngles(var0.player.getX() + var27.x, var0.player.getY(), var0.player.getZ() + var27.z, var13, 0.0F);
+            var0.world.addEntity(var33);
             gqb = var33;
             kfe var39 = var3.getByName(a.b("樄\u139d饊ܗ賲\u0a43뀊㧡ꞹ", 97086028));
             ((vmc)gqr(var39, a.c(1812985404, "\uf679迁ԋ"))).set(360.0);
@@ -268,10 +260,10 @@ final class gpu {
             gqc = var13;
             break;
          case 330:
-            Vec3d var12 = gqb.method_73189().method_1020(var0.field_1724.method_73189());
-            double var26 = Math.toDegrees(Math.atan2(var12.field_1350, var12.field_1352)) - 90.0;
-            double var38 = Math.abs(MathHelper.method_15338(var26 - var0.field_1724.method_36454()));
-            double var9 = Math.abs(MathHelper.method_15338(var26 - gqc));
+            Vec3d var12 = gqb.getEntityPos().subtract(var0.player.getEntityPos());
+            double var26 = Math.toDegrees(Math.atan2(var12.z, var12.x)) - 90.0;
+            double var38 = Math.abs(MathHelper.wrapDegrees(var26 - var0.player.getYaw()));
+            double var9 = Math.abs(MathHelper.wrapDegrees(var26 - gqc));
             System.out
                .println(
                   a.c(-1078022794, "괈풨平쀅䯈촭眿ﻆ悝\uea72涤韓ᤎ肥")
@@ -279,9 +271,9 @@ final class gpu {
                      + a.c(1905824567, "鎉\ueaa8怴﹌疛\uf36c䥽삋廗푯厡꧇❙뻤")
                      + Math.round(var38)
                      + a.d("옴뼕㖉꯱…ꛑ᳃锵\u0b78臘\u061cﰿ狺\ueb57感\ue7fb巧퉥䣞컁䜿㵢돇⠐깹⒩鵃", 1102463177, 312116822)
-                     + var0.method_1569()
+                     + var0.isWindowFocused()
                      + a.c(-795068820, "㙐俭약嬚탊噺\uec35旙ﯔ焩\uf6f9಄艛ᯤ醶\u171e")
-                     + var0.field_1729.method_1613()
+                     + var0.mouse.isCursorLocked()
                      + a.c(1702414066, "웚")
                );
             gqt(var0, a.d("뭿슏䡜혱嶪\udb13慄\ue8eb皱ﰆ", -673350509, -618477674));
@@ -291,7 +283,7 @@ final class gpu {
             var11.setEnabled(false);
             ((vmc)gqr(var11, a.d("٥翝\uf517", -1530284642, 1256108990))).reset();
             if (gqb != null) {
-               var0.field_1687.method_2945(gqb.method_5628(), RemovalReason.field_26999);
+               var0.world.removeEntity(gqb.getId(), RemovalReason.DISCARDED);
             }
 
             for (String var8 : gpv) {
@@ -322,7 +314,7 @@ final class gpu {
             gqt(var0, a.d("\ue79a鹪ᒺ諔ō蟳㶥둘⨌ꂧ✭\udd02叉쩢䀪웑粉", 1735798482, -1837971159));
             break;
          case 351:
-            var0.method_1507(null);
+            var0.setScreen(null);
             Files.deleteIfExists(vpo.dir().resolve(a.b("曒\u1f4e閊௦聰ژ볝㔻", -94214510)));
             vpo.scan();
             break;
@@ -345,7 +337,7 @@ final class gpu {
       Field var7 = hlc.class.getDeclaredField(a.c(-882047409, "ؽ羙\uf549欑\ue0e8晅"));
       var7.setAccessible(true);
       var7.set(null, var1);
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static List<?> gqg(String var0) throws Exception {
@@ -393,14 +385,14 @@ final class gpu {
       float var4 = gqq(var0, a.c(1598578063, "巧\u244b꺃ー묥㶓蟶"));
       float var5 = gqq(var0, a.d("崦⒊깂〽믤㵒蜶", -924067320, 1131251526));
       float var6 = gqq(var0, a.d("啧Ⳇꘗ㡫뎵", -161907536, -1335088735));
-      var0.method_25402(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
+      var0.mouseClicked(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
    }
 
    private static void gqm(Screen var0, float var1, float var2, double var3) throws Exception {
       float var5 = gqq(var0, a.c(-1251054510, "氺ᖖ齞ġ諸\u0c4e똫"));
       float var6 = gqq(var0, a.b("뉷쯛䄓\udf6c咵툃桧", 1314304543));
       float var7 = gqq(var0, a.b("\uf0ee襏Ξ鷢ᘼ", -331157352));
-      var0.method_25401(var5 + var1 * var7, var6 + var2 * var7, 0.0, var3);
+      var0.mouseScrolled(var5 + var1 * var7, var6 + var2 * var7, 0.0, var3);
    }
 
    private static byte[] gqn(double var0, double var2) {
@@ -464,11 +456,11 @@ final class gpu {
 
    private static void gqt(MinecraftClient var0, String var1) {
       System.out
-         .println(a.d("䑲㷕뜏⥴ꋥ␀鹂ឥ觽̘", 1518544043, -8626016) + var1 + a.d("棺ᄫ鮘", -383990543, -261837784) + var0.method_47599() + a.b("늨쭟䆚\udfe8", 715305612));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+         .println(a.d("䑲㷕뜏⥴ꋥ␀鹂ឥ觽̘", 1518544043, -8626016) + var1 + a.d("棺ᄫ鮘", -383990543, -261837784) + var0.getCurrentFps() + a.b("늨쭟䆚\udfe8", 715305612));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.b("晴莩ॹ霐ᲂ騬", 1393293938) + var1 + a.c(1472288848, "塺↕ꭘ㔠"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

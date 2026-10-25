@@ -32,12 +32,7 @@ public final class ixu extends jcs {
    private static final int iyb = -865972;
    private static final int iyc = -1092784;
    private static final EquipmentSlot[] iyd = new EquipmentSlot[]{
-      EquipmentSlot.field_6169,
-      EquipmentSlot.field_6174,
-      EquipmentSlot.field_6172,
-      EquipmentSlot.field_6166,
-      EquipmentSlot.field_6173,
-      EquipmentSlot.field_6171
+      EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND
    };
    private final ItemStack[] iye = new ItemStack[iyd.length];
    private final int[] iyf = new int[iyd.length];
@@ -53,7 +48,7 @@ public final class ixu extends jcs {
       super(a.c(1506693919, "卻⫙ꀕ㹦떬"), a.c(-1430329951, "\ue5e5鱧ᚫ裘̒"), true, 1, 2, 152.0F, 3.0F);
 
       for (int var1 = 0; var1 < iyd.length; var1++) {
-         this.iye[var1] = ItemStack.field_8037;
+         this.iye[var1] = ItemStack.EMPTY;
          this.iyg[var1] = new vcj(5.0F);
       }
    }
@@ -66,22 +61,20 @@ public final class ixu extends jcs {
    @Override
    void update(float var1, boolean var2) {
       this.iyj = HANDS.get() ? 6 : 4;
-      ClientPlayerEntity var3 = MinecraftClient.method_1551().field_1724;
+      ClientPlayerEntity var3 = MinecraftClient.getInstance().player;
       boolean var4 = false;
       if (var3 != null) {
          for (int var5 = 0; var5 < 4; var5++) {
-            var4 |= !var3.method_6118(iyd[var5]).method_7960();
+            var4 |= !var3.getEquippedStack(iyd[var5]).isEmpty();
          }
       }
 
       this.iyl = !var4 && var2;
 
       for (int var8 = 0; var8 < iyd.length; var8++) {
-         ItemStack var6 = var8 >= this.iyj
-            ? ItemStack.field_8037
-            : (this.iyl ? iyp(var8) : (var3 != null ? var3.method_6118(iyd[var8]) : ItemStack.field_8037));
-         int var7 = var6.method_7963() ? var6.method_7919() : 0;
-         if (!this.iyl && var6.method_7909() == this.iye[var8].method_7909() && var7 > this.iyf[var8]) {
+         ItemStack var6 = var8 >= this.iyj ? ItemStack.EMPTY : (this.iyl ? iyp(var8) : (var3 != null ? var3.getEquippedStack(iyd[var8]) : ItemStack.EMPTY));
+         int var7 = var6.isDamageable() ? var6.getDamage() : 0;
+         if (!this.iyl && var6.getItem() == this.iye[var8].getItem() && var7 > this.iyf[var8]) {
             this.iyg[var8].set(1.0F);
          }
 
@@ -97,14 +90,16 @@ public final class ixu extends jcs {
 
    private static ItemStack iyp(int var0) {
       if (iym == null) {
-         Item[] var1 = new Item[]{Items.field_22027, Items.field_22028, Items.field_8348, Items.field_8285, Items.field_22022, Items.field_8288};
+         Item[] var1 = new Item[]{
+            Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.NETHERITE_SWORD, Items.TOTEM_OF_UNDYING
+         };
          float[] var2 = new float[]{0.06F, 0.31F, 0.64F, 0.9F, 0.15F, 0.0F};
          iym = new ItemStack[var1.length];
 
          for (int var3 = 0; var3 < var1.length; var3++) {
             ItemStack var4 = new ItemStack(var1[var3]);
-            if (var4.method_7963()) {
-               var4.method_7974(Math.round(var4.method_7936() * var2[var3]));
+            if (var4.isDamageable()) {
+               var4.setDamage(Math.round(var4.getMaxDamage() * var2[var3]));
             }
 
             iym[var3] = var4;
@@ -176,7 +171,7 @@ public final class ixu extends jcs {
          uut.rect(var1, var3 - 0.75F - 0.5F, var4 + 2.0F, 1.0F, this.height() - 10.0F - 4.0F, ujt.mulAlpha(iov.textMuted, 0.3F));
       }
 
-      if (var5.method_7960()) {
+      if (var5.isEmpty()) {
          uut.circle(var1, var6, var4 + 6.0F, 1.3F, ujt.mulAlpha(iov.textMuted, 0.4F));
       } else {
          iyv(var1, var5, var6, var4 + 6.0F);
@@ -197,7 +192,7 @@ public final class ixu extends jcs {
    private void iyu(DrawContext var1, int var2, float var3, float var4, float var5) {
       ItemStack var6 = this.iye[var2];
       float var7 = var4 + 6.0F + 0.5F;
-      if (var6.method_7960()) {
+      if (var6.isEmpty()) {
          uut.circle(var1, var3 + 6.0F, var7, 1.3F, ujt.mulAlpha(iov.textMuted, 0.4F));
       } else {
          iyv(var1, var6, var3 + 6.0F, var7);
@@ -217,21 +212,21 @@ public final class ixu extends jcs {
    private static void iyv(DrawContext var0, ItemStack var1, float var2, float var3) {
       float var4 = 0.75F * Math.min(1.0F, uut.alpha() * 2.5F);
       if (var4 > 0.02F) {
-         var0.method_51448().pushMatrix();
-         var0.method_51448().translate(var2, var3);
-         var0.method_51448().scale(var4, var4);
-         var0.method_51427(var1, -8, -8);
-         var0.method_51448().popMatrix();
+         var0.getMatrices().pushMatrix();
+         var0.getMatrices().translate(var2, var3);
+         var0.getMatrices().scale(var4, var4);
+         var0.drawItem(var1, -8, -8);
+         var0.getMatrices().popMatrix();
       }
    }
 
    private static float iyw(ItemStack var0) {
-      return var0.method_7963() && var0.method_7936() > 0 ? Math.max(0.0F, 1.0F - (float)var0.method_7919() / var0.method_7936()) : -1.0F;
+      return var0.isDamageable() && var0.getMaxDamage() > 0 ? Math.max(0.0F, 1.0F - (float)var0.getDamage() / var0.getMaxDamage()) : -1.0F;
    }
 
    private static String iyx(ItemStack var0, float var1) {
       if (var1 < 0.0F) {
-         return var0.method_7947() > 1 ? a.b("鏼", 2119340933) + var0.method_7947() : "";
+         return var0.getCount() > 1 ? a.b("鏼", 2119340933) + var0.getCount() : "";
       } else {
          return Math.round(var1 * 100.0F) + a.d("폯", 471154364, 1698557303);
       }

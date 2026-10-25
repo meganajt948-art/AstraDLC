@@ -88,48 +88,48 @@ public final class eul {
       HttpClient var0 = euu;
       if (var0 != null) {
          return var0;
-      } else {
-         synchronized (eul.class) {
-            if (euu == null) {
-               euu = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
-               euv = (ThreadPoolExecutor)Executors.newFixedThreadPool(4, var0x -> {
-                  Thread var1 = new Thread(var0x, a.c(1557565890, "醈\ue813拃ﲪ眸\uf19b䮉쉪尵횒児ꬦ"));
-                  var1.setDaemon(true);
-                  return var1;
-               });
-            }
+      }
 
-            return euu;
+      synchronized (eul.class) {
+         if (euu == null) {
+            euu = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
+            euv = (ThreadPoolExecutor)Executors.newFixedThreadPool(4, var0x -> {
+               Thread var1 = new Thread(var0x, a.c(1557565890, "醈\ue813拃ﲪ眸\uf19b䮉쉪尵횒児ꬦ"));
+               var1.setDaemon(true);
+               return var1;
+            });
          }
+
+         return euu;
       }
    }
 
    private static String evc(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         String var1 = var0.replace('\\', '/').trim();
+      }
 
-         while (var1.startsWith(a.b("\ue74b", 1190979429))) {
-            var1 = var1.substring(1);
-         }
+      String var1 = var0.replace('\\', '/').trim();
 
-         if (var1.startsWith(a.c(739659443, "仐㝫붻⏒ꡝ"))) {
-            var1 = var1.substring(a.c(-1313949918, "띁컺䐪\uda43凌").length());
-         }
+      while (var1.startsWith(a.b("\ue74b", 1190979429))) {
+         var1 = var1.substring(1);
+      }
 
-         if (!euq.matcher(var1).matches()) {
+      if (var1.startsWith(a.c(739659443, "仐㝫붻⏒ꡝ"))) {
+         var1 = var1.substring(a.c(-1313949918, "띁컺䐪\uda43凌").length());
+      }
+
+      if (!euq.matcher(var1).matches()) {
+         return "";
+      }
+
+      for (String var5 : var1.split(a.c(-2933635, "㱓"))) {
+         if (var5.isEmpty() || var5.equals(a.d("挣", 274787962, -1357607562)) || var5.equals(a.d("匡⪐", -952182484, -1744270815))) {
             return "";
-         } else {
-            for (String var5 : var1.split(a.c(-2933635, "㱓"))) {
-               if (var5.isEmpty() || var5.equals(a.d("挣", 274787962, -1357607562)) || var5.equals(a.d("匡⪐", -952182484, -1744270815))) {
-                  return "";
-               }
-            }
-
-            return var1;
          }
       }
+
+      return var1;
    }
 
    private static byte[] evd(String var0) {

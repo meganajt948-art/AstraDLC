@@ -25,7 +25,7 @@ public final class elb implements AutoCloseable {
    }
 
    void set(int var1, int var2, int var3) {
-      this.elc.method_61941(var1, var2, var3);
+      this.elc.setColorArgb(var1, var2, var3);
    }
 
    void upload() {

@@ -40,7 +40,7 @@ final class fxp {
          fyg(var0, a.b("쐠붞㝈ꤹ⊢ꑍṍ鞥৮茁ҝ\ufefd灴\ue983揈\ue567彻킴䨔찛䖡㿣넎⪙곾♢鿕ᆃ譿ന蚊硈\uf200毣\uedfe朇\ud8c7劷푟䷆잁륰㌠", -741161875));
          fyg(var0, a.c(-1161171553, "\uedd3鑭ẻ胊\u0b51趾㞠빂⁃ꪽ⵿흐姁쁨䩥쳞皅金援\ue5b6氟ᘈ颣̿蕄ྒ똪㡽ꊛⓙ꽭冮\udbaf䈆쑛仳\uf134筿ﶄ搭\uee72邀"));
          fyg(var0, a.d("ೆ畸ﾮ懟\uea44沫횫彆섈䯧챸㘛뢒Ⅵꬮⶁ鞁ᡁ芬ұ赔\uf75b禮\ue267摕\uee80圴\ud96e䎟엟乿납㫴ꍋ╅꿿ါ驂Ვ蔣ཧ熗\ufbcf", -1276858182, 1699068977));
-         var0.field_1690.method_31043(Perspective.field_26664);
+         var0.options.setPerspective(Perspective.FIRST_PERSON);
          izx.TARGET.enabled.set(false);
          fyd(var3, a.d("ۏ罙\uf587毣\ue03d", 1073549776, -1348921527), a.d("鹷\ue7ed洳\uf350碇", -1888879784, 1472423277));
          fyd(var3, a.b("Ự杸\ueda7珐\uf801约", 1969692326), a.c(1151542322, "⑧巭휷䥕슔䐲"));
@@ -62,7 +62,7 @@ final class fxp {
       }
 
       if (var1 == 38 && fxv != null) {
-         fxv.method_6104(Hand.field_5808);
+         fxv.swingHand(Hand.MAIN_HAND);
       }
 
       if (var1 == 40) {
@@ -151,28 +151,28 @@ final class fxp {
          rrx.onAttack(var0);
          rrx.trigger(var0, var1);
          if (!var1) {
-            var0.method_6033(0.0F);
+            var0.setHealth(0.0F);
          }
       }
    }
 
    private static OtherClientPlayerEntity fyb(MinecraftClient var0, String var1, double var2) {
-      OtherClientPlayerEntity var4 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), var1));
-      Vec3d var5 = var0.field_1724.method_73189().method_1031(0.0, 0.0, var2);
-      var4.method_5808(var5.field_1352, var0.field_1724.method_23318(), var5.field_1350, 160.0F, 0.0F);
-      var4.method_5636(160.0F);
-      var4.method_5847(170.0F);
-      var4.field_6220 = 160.0F;
-      var4.field_6259 = 170.0F;
-      var4.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_8058));
-      var4.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_22022));
-      var0.field_1687.method_53875(var4);
+      OtherClientPlayerEntity var4 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
+      Vec3d var5 = var0.player.getEntityPos().add(0.0, 0.0, var2);
+      var4.refreshPositionAndAngles(var5.x, var0.player.getY(), var5.z, 160.0F, 0.0F);
+      var4.setBodyYaw(160.0F);
+      var4.setHeadYaw(170.0F);
+      var4.lastBodyYaw = 160.0F;
+      var4.lastHeadYaw = 170.0F;
+      var4.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+      var4.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
+      var0.world.addEntity(var4);
       return var4;
    }
 
    private static void fyc(MinecraftClient var0, Entity var1) {
-      if (var1 != null && var0.field_1687.method_8469(var1.method_5628()) != null) {
-         var0.field_1687.method_2945(var1.method_5628(), RemovalReason.field_26999);
+      if (var1 != null && var0.world.getEntityById(var1.getId()) != null) {
+         var0.world.removeEntity(var1.getId(), RemovalReason.DISCARDED);
       }
    }
 
@@ -191,22 +191,22 @@ final class fxp {
    }
 
    private static void fyf(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static void fyg(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void fyh(MinecraftClient var0, String var1) {
-      System.out.println(a.c(-129992095, "稘ο襥\u171e鲏ᩪꀨ⧏랗㵲") + var1 + a.b("琟\u0dce蝽", -861309892) + var0.method_47599() + a.c(1440106112, "䚤㽓떖⯤"));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.c(-129992095, "稘ο襥\u171e鲏ᩪꀨ⧏랗㵲") + var1 + a.b("琟\u0dce蝽", -861309892) + var0.getCurrentFps() + a.c(1440106112, "䚤㽓떖⯤"));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("ϔ穯\uf0bf滖\ue544揪", 1691498866, 1212037830) + var1 + a.d("\uea83鍬ᦡ蟙", 439445360, -1020031527),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

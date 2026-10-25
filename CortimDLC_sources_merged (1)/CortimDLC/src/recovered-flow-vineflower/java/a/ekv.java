@@ -14,43 +14,56 @@ final class ekv extends WorldRenderer {
       super(null, null, null, null, null, null);
    }
 
-   public void method_3252(Camera var1) {
+   @Override
+   public void tick(Camera camera) {
    }
 
-   public void method_3244(@Nullable ClientWorld var1) {
+   @Override
+   public void setWorld(@Nullable ClientWorld world) {
    }
 
-   public void method_8570(BlockView var1, BlockPos var2, BlockState var3, BlockState var4, int var5) {
+   @Override
+   public void updateBlock(BlockView world, BlockPos pos, BlockState oldState, BlockState newState, int flags) {
    }
 
-   public void method_18146(int var1, int var2, int var3, int var4, int var5, int var6) {
+   @Override
+   public void scheduleBlockRenders(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
    }
 
-   public void method_21596(BlockPos var1, BlockState var2, BlockState var3) {
+   @Override
+   public void scheduleBlockRerenderIfNeeded(BlockPos pos, BlockState old, BlockState updated) {
    }
 
-   public void method_18145(int var1, int var2, int var3) {
+   @Override
+   public void scheduleChunkRenders3x3x3(int x, int y, int z) {
    }
 
-   public void method_62219(int var1, int var2, int var3, int var4, int var5, int var6) {
+   @Override
+   public void scheduleChunkRenders(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
    }
 
-   public void method_8571(int var1, int var2, int var3) {
+   @Override
+   public void scheduleChunkRender(int chunkX, int chunkY, int chunkZ) {
    }
 
-   public void method_62908(long var1) {
+   @Override
+   public void onChunkUnload(long sectionPos) {
    }
 
-   public void method_8569(int var1, BlockPos var2, int var3) {
+   @Override
+   public void setBlockBreakingInfo(int entityId, BlockPos pos, int stage) {
    }
 
-   public void method_65201(ChunkPos var1) {
+   @Override
+   public void scheduleNeighborUpdates(ChunkPos chunkPos) {
    }
 
-   public void method_3292() {
+   @Override
+   public void scheduleTerrainUpdate() {
    }
 
-   public boolean method_40050(BlockPos var1) {
+   @Override
+   public boolean isRenderingReady(BlockPos pos) {
       return true;
    }
 }

@@ -64,16 +64,16 @@ public final class eyn {
    private static <T> CompletableFuture<T> eyv(Callable<T> var0) {
       if (!online()) {
          return CompletableFuture.failedFuture(new IOException(a.c(278616441, "夑₩ꩺ㐁뿓㥥茽")));
-      } else {
-         eyt();
-         return CompletableFuture.supplyAsync(() -> {
-            try {
-               return (T)var0.call();
-            } catch (Exception var2) {
-               throw new CompletionException(var2);
-            }
-         }, eyq);
       }
+
+      eyt();
+      return CompletableFuture.supplyAsync(() -> {
+         try {
+            return (T)var0.call();
+         } catch (Exception var2) {
+            throw new CompletionException(var2);
+         }
+      }, eyq);
    }
 
    public static CompletableFuture<List<eyg>> list(String var0) {
@@ -213,15 +213,15 @@ public final class eyn {
       LinkedHashMap var1 = new LinkedHashMap();
       if (var0 == null) {
          return var1;
-      } else {
-         for (String var5 : var0.split(a.d("뚮", -126428214, 878603614))) {
-            int var6 = var5.indexOf(61);
-            if (var6 > 0) {
-               var1.put(var5.substring(0, var6), var5.substring(var6 + 1));
-            }
-         }
-
-         return var1;
       }
+
+      for (String var5 : var0.split(a.d("뚮", -126428214, 878603614))) {
+         int var6 = var5.indexOf(61);
+         if (var6 > 0) {
+            var1.put(var5.substring(0, var6), var5.substring(var6 + 1));
+         }
+      }
+
+      return var1;
    }
 }

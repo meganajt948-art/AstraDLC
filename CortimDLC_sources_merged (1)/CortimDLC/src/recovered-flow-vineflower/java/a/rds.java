@@ -29,7 +29,7 @@ public class rds extends kfe {
    @Override
    protected void onDisable() {
       this.rdz = false;
-      this.ren(MinecraftClient.method_1551());
+      this.ren(MinecraftClient.getInstance());
    }
 
    @Override
@@ -45,9 +45,9 @@ public class rds extends kfe {
          this.rdz = false;
       }
 
-      boolean var2 = var1.field_1755 == null
+      boolean var2 = var1.currentScreen == null
          && !ovh.active()
-         && var1.field_1724 != null
+         && var1.player != null
          && (this.rdu.is("Toggle") ? this.rdz : vzz.isDown(var1, this.rdt.get()));
       if (var2 && !this.rdy) {
          this.rem(var1);
@@ -59,23 +59,23 @@ public class rds extends kfe {
          Perspective var3 = this.rel();
          if (var3 != this.reh) {
             this.reh = var3;
-            var1.field_1690.method_31043(var3);
+            var1.options.setPerspective(var3);
          }
 
          ett.distance(this.rdv.is("First person") ? 0.0F : (float)this.rdw.get());
-         this.rek(var1.field_1724);
+         this.rek(var1.player);
       }
    }
 
    private void rek(ClientPlayerEntity var1) {
       double var2 = this.rdx.get();
-      float var4 = var1.method_36454();
-      float var5 = var1.method_36455();
+      float var4 = var1.getYaw();
+      float var5 = var1.getPitch();
       if (var2 != 1.0) {
          var4 = this.ree + (float)((var4 - this.ree) * var2);
          var5 = Math.max(-90.0F, Math.min(90.0F, this.ref + (float)((var5 - this.ref) * var2)));
-         var1.method_36456(var4);
-         var1.method_36457(var5);
+         var1.setYaw(var4);
+         var1.setPitch(var5);
       }
 
       this.ree = var4;
@@ -85,54 +85,52 @@ public class rds extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       if (this.rdy) {
-         ClientPlayerEntity var2 = var1.field_1724;
-         this.rec = var2.method_36454();
-         this.red = var2.method_36455();
-         var2.method_36456(this.rea);
-         var2.method_36457(this.reb);
-         var2.field_5982 = this.rea;
-         var2.field_6004 = this.reb;
+         ClientPlayerEntity var2 = var1.player;
+         this.rec = var2.getYaw();
+         this.red = var2.getPitch();
+         var2.setYaw(this.rea);
+         var2.setPitch(this.reb);
+         var2.lastYaw = this.rea;
+         var2.lastPitch = this.reb;
       }
    }
 
    @Override
    public void onEndTick(MinecraftClient var1) {
       if (this.rdy) {
-         ClientPlayerEntity var2 = var1.field_1724;
-         this.rea = var2.method_36454();
-         this.reb = var2.method_36455();
-         var2.method_36456(this.rec);
-         var2.method_36457(this.red);
-         var2.field_5982 = this.rec;
-         var2.field_6004 = this.red;
+         ClientPlayerEntity var2 = var1.player;
+         this.rea = var2.getYaw();
+         this.reb = var2.getPitch();
+         var2.setYaw(this.rec);
+         var2.setPitch(this.red);
+         var2.lastYaw = this.rec;
+         var2.lastPitch = this.red;
          this.ree = this.rec;
          this.ref = this.red;
       }
    }
 
    private Perspective rel() {
-      String var1 = this.rdv.get();
-
-      return switch (var1) {
-         case "Front" -> Perspective.field_26666;
-         case "First person" -> Perspective.field_26664;
-         default -> Perspective.field_26665;
+      return switch (this.rdv.get()) {
+         case "Front" -> Perspective.THIRD_PERSON_FRONT;
+         case "First person" -> Perspective.FIRST_PERSON;
+         default -> Perspective.THIRD_PERSON_BACK;
       };
    }
 
    private void rem(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != null) {
          this.rdy = true;
-         this.rea = var2.method_36454();
-         this.reb = var2.method_36455();
+         this.rea = var2.getYaw();
+         this.reb = var2.getPitch();
          this.rec = this.rea;
          this.red = this.reb;
          this.ree = this.rea;
          this.ref = this.reb;
-         this.reg = var1.field_1690.method_31044();
+         this.reg = var1.options.getPerspective();
          this.reh = this.rel();
-         var1.field_1690.method_31043(this.reh);
+         var1.options.setPerspective(this.reh);
       }
    }
 
@@ -140,16 +138,16 @@ public class rds extends kfe {
       if (this.rdy) {
          this.rdy = false;
          ett.distance(0.0F);
-         ClientPlayerEntity var2 = var1.field_1724;
+         ClientPlayerEntity var2 = var1.player;
          if (var2 != null) {
-            var2.method_36456(this.rea);
-            var2.method_36457(this.reb);
-            var2.field_5982 = this.rea;
-            var2.field_6004 = this.reb;
+            var2.setYaw(this.rea);
+            var2.setPitch(this.reb);
+            var2.lastYaw = this.rea;
+            var2.lastPitch = this.reb;
          }
 
          if (this.reg != null) {
-            var1.field_1690.method_31043(this.reg);
+            var1.options.setPerspective(this.reg);
             this.reg = null;
          }
 

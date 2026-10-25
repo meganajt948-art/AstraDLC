@@ -90,7 +90,7 @@ public final class LoaderInfo {
       Class<?> caller;
       try {
          caller = StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE).walk(s -> s.skip(2L).findFirst().map(StackFrame::getDeclaringClass).orElse(null));
-      } catch (Throwable var4) {
+      } catch (Throwable ignored) {
          return;
       }
 
@@ -164,11 +164,11 @@ public final class LoaderInfo {
             URI uri = URI.create(url);
             if (!"https".equalsIgnoreCase(uri.getScheme())) {
                return false;
-            } else {
-               String host = uri.getHost();
-               return host != null && API_HOSTS.contains(host.toLowerCase(Locale.ROOT));
             }
-         } catch (Exception var3) {
+
+            String host = uri.getHost();
+            return host != null && API_HOSTS.contains(host.toLowerCase(Locale.ROOT));
+         } catch (Exception e) {
             return false;
          }
       } else {

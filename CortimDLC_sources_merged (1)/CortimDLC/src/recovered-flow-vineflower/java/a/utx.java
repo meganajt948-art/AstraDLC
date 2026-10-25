@@ -45,10 +45,8 @@ record utx(
    private final float uul;
    private final float uum;
    private final float uun;
-   @Nullable
-   private final ScreenRect uuo;
-   @Nullable
-   private final ScreenRect uup;
+   private final @Nullable ScreenRect uuo;
+   private final @Nullable ScreenRect uup;
 
    utx(
       RenderPipeline pipeline,
@@ -94,7 +92,8 @@ record utx(
       return var0 + 1.5F;
    }
 
-   public void method_70917(VertexConsumer var1) {
+   @Override
+   public void setupVertices(VertexConsumer vertices) {
       float var2 = this.uub - this.uum;
       float var3 = this.uuc - this.uum;
       float var4 = this.uub + this.uud + this.uum;
@@ -104,20 +103,15 @@ record utx(
       int var8 = Math.min(32767, Math.round(this.uud * 4.0F));
       int var9 = Math.min(32767, Math.round(this.uue * 4.0F));
       Vector2f var10 = new Vector2f();
-      this.uus(var1, var10, var2, var3, var2 - var6, var3 - var7, this.uuf, var8, var9);
-      this.uus(var1, var10, var2, var5, var2 - var6, var5 - var7, this.uui, var8, var9);
-      this.uus(var1, var10, var4, var5, var4 - var6, var5 - var7, this.uuh, var8, var9);
-      this.uus(var1, var10, var4, var3, var4 - var6, var3 - var7, this.uug, var8, var9);
+      this.uus(vertices, var10, var2, var3, var2 - var6, var3 - var7, this.uuf, var8, var9);
+      this.uus(vertices, var10, var2, var5, var2 - var6, var5 - var7, this.uui, var8, var9);
+      this.uus(vertices, var10, var4, var5, var4 - var6, var5 - var7, this.uuh, var8, var9);
+      this.uus(vertices, var10, var4, var3, var4 - var6, var3 - var7, this.uug, var8, var9);
    }
 
    private void uus(VertexConsumer var1, Vector2f var2, float var3, float var4, float var5, float var6, int var7, int var8, int var9) {
       this.uua.transformPosition(var3, var4, var2);
-      var1.method_22912(var2.x, var2.y, this.uul)
-         .method_39415(var7)
-         .method_22913(var5, var6)
-         .method_60796(var8, var9)
-         .method_22921(this.uuj, this.uuk)
-         .method_75298(this.uun);
+      var1.vertex(var2.x, var2.y, this.uul).color(var7).texture(var5, var6).overlay(var8, var9).light(this.uuj, this.uuk).lineWidth(this.uun);
    }
 
    static int packRadii(float var0, float var1) {
@@ -126,11 +120,13 @@ record utx(
       return var2 | var3 << 8;
    }
 
-   public RenderPipeline comp_4055() {
+   @Override
+   public RenderPipeline pipeline() {
       return this.uty;
    }
 
-   public TextureSetup comp_4056() {
+   @Override
+   public TextureSetup textureSetup() {
       return this.utz;
    }
 
@@ -190,13 +186,13 @@ record utx(
       return this.uun;
    }
 
-   @Nullable
-   public ScreenRect comp_4069() {
+   @Override
+   public @Nullable ScreenRect scissorArea() {
       return this.uuo;
    }
 
-   @Nullable
-   public ScreenRect comp_4274() {
+   @Override
+   public @Nullable ScreenRect bounds() {
       return this.uup;
    }
 }

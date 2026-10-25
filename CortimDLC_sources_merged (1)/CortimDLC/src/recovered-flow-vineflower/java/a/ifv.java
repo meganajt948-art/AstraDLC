@@ -15,12 +15,12 @@ public final class ifv {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var2.field_1724 != null && !var2.field_1690.field_1842) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var2.player != null && !var2.options.hudHidden) {
          unf.observe(var0);
          float var3 = unf.delta();
          String var4 = null;
-         int var5 = 0;
+         byte var5 = 0;
          tcw var6 = tcz.mode();
          int var7 = lfa.stopKey();
          String var8 = var7 == -1
@@ -39,7 +39,7 @@ public final class ifv {
             var4 = var16.paused
                ? wap.s(a.b("突菳द霴Ჳ験⁔ꦣ㟪뵚㫗삼", 793901579), a.c(1567620151, "ﱮ藈༝鄏ệ项≙ꯜ㖄묿㳶")) + reasonText(var16.pauseReason)
                : a.b("䨦㎀륕❇겐", -1857140111) + var19 + a.c(1713187789, "⯨剙\ud81d䛻촬") + var8;
-            var5 = var16.paused ? 1 : 2;
+            var5 = (byte)(var16.paused ? 1 : 2);
          } else if (var6 == tcw.RECORD && tcz.mineRecorder() != null) {
             ttl var15 = tcz.mineRecorder();
             String var18 = wap.s(a.b("쭆닳㠧ꙝ\u2dcfꭾᆺ飜ڃ豱\u0bad\uf1d9缄\ue6bd泶\uea54", 2016856891), a.b("쩩뎠㤆ꝰⳕ깴ᐧ鵁Ή褸૱\uf081繕\ue7e6涷\uef5e", -546451919))
@@ -52,7 +52,7 @@ public final class ifv {
             var4 = var15.paused
                ? wap.s(a.c(81517239, "\udae9ꍏ⦚랈㰏몯è褟\u1756鷦ᩫ\ue000"), a.d("㔸䲞왋塙힑儯\ueb0f把ﳒ物\uf5a0", 68495484, 1096883485)) + reasonText(var15.pauseReason)
                : a.b("\ud98aꀬ⫹듫㼼", 1946737117) + var18 + a.c(649424678, "漃ᚲ鳶Ȑ觇") + var8;
-            var5 = var15.paused ? 1 : 2;
+            var5 = (byte)(var15.paused ? 1 : 2);
          } else if (var6 == tcw.RECORD && tcz.recorder() != null) {
             tkc var14 = tcz.recorder();
             String var10 = wap.s(a.d("ᠹ憉\ueb47由ﺵ", 1825186910, 1269447690), a.b("權ዌ頛ؚ跆༜", -1735954609))
@@ -68,14 +68,14 @@ public final class ifv {
             var4 = var14.paused
                ? wap.s(a.c(-200470623, "\u0fff癙ﲌ択\ue919澹헾尉쉀䣰콽㔖"), a.d("嚹⼟ꗊ㯘됐㊮袎ċ齓ᇨ阡", 573540466, 117825170)) + reasonText(var14.pauseReason)
                : a.d("䘣㾅땐⭂ꂕ", -372659877, 125628207) + var10 + a.c(1742511268, "鲁\ue530潴\uf192穅") + var8;
-            var5 = var14.paused ? 1 : 2;
+            var5 = (byte)(var14.paused ? 1 : 2);
          } else if (var6 == tcw.TEST) {
             var4 = wap.s(a.d("猳\u0a80聘Ḩ闶ጫꤌ⃬뺥㐓", -1928614708, 234020792), a.d("宐∖꣱㚃륖㯛膊ࡱ阯Ა魀", 459144305, -415652920)) + a.b("䥀ヱ몵\u2453꾄", 1683376485) + var8;
             var5 = 3;
          } else if (tcz.fightRecorder() != null && !tcz.fightRecorder().paused) {
             var4 = wap.s(a.b("懡ᡇ銒ಀ蜑Ư믲㈌걏⛹ꅹ嬈핈䱮옽䂄響甆\uefb2榰", 990339495), a.d("慕ᣳ鈦ఴ菲Ռ뼙㋰겯⚉ꇍ宼턈䣎슙䐘﹜痦", -1797200319, 40732500)) + tcz.fightRecorder().hits;
             var5 = 2;
-         } else if (tcz.training() && var2.field_1755 == null) {
+         } else if (tcz.training() && var2.currentScreen == null) {
             tct var9 = tcz.job();
             var4 = wap.s(a.c(1071492648, "깵ퟢ崢썛䢋츽瑩\ufd91掉"), a.c(1429970535, "驰\ue3ee楏\uf73a粟都䁰즌叆"))
                + (var9.progress.epoch + 1)
@@ -104,7 +104,7 @@ public final class ifv {
    }
 
    private static void igc(DrawContext var0, String var1, int var2, float var3) {
-      float var4 = var0.method_51421();
+      float var4 = var0.getScaledWindowWidth();
       float var5 = var2 == 0 ? 0.0F : 9.0F;
       float var6 = 10.0F + var5 + irr.VALUE.width(var1) + 10.0F;
       float var7 = (var4 - var6) * 0.5F;

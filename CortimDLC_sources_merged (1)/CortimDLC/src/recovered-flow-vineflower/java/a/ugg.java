@@ -31,8 +31,8 @@ public final class ugg {
       if (var0.target != null) {
          PlayerEntity var2 = hhf.inWorld(var0.target);
          if (var2 != null) {
-            Vec3d var3 = var2.method_30950(var1);
-            return new Vec3d(var3.field_1352, var3.field_1351 + var2.method_17682() + 0.3, var3.field_1350);
+            Vec3d var3 = var2.getLerpedPos(var1);
+            return new Vec3d(var3.x, var3.y + var2.getHeight() + 0.3, var3.z);
          } else {
             return new Vec3d(var0.x, var0.y + 2.1, var0.z);
          }
@@ -42,9 +42,9 @@ public final class ugg {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
+      MinecraftClient var2 = MinecraftClient.getInstance();
       List var3 = ucg.marks();
-      if (!var3.isEmpty() && var2.field_1687 != null && var2.field_1724 != null && !var2.field_1690.field_1842) {
+      if (!var3.isEmpty() && var2.world != null && var2.player != null && !var2.options.hudHidden) {
          ArrayList var4 = new ArrayList();
 
          for (ubj var6 : var3) {
@@ -58,9 +58,9 @@ public final class ugg {
             unf.observe(var0);
             float var47 = unf.delta();
             iov.update(var47 * (float)iov.ANIMATION.get());
-            float var48 = var0.method_51421();
-            float var7 = var0.method_51443();
-            float var8 = var1.method_60637(true);
+            float var48 = var0.getScaledWindowWidth();
+            float var7 = var0.getScaledWindowHeight();
+            float var8 = var1.getTickProgress(true);
 
             usn var9;
             try {
@@ -88,12 +88,12 @@ public final class ugg {
             Arrays.sort(
                var49,
                (var2x, var3x) -> Double.compare(
-                  var9.distance(((Vec3d)var14.get(var3x)).field_1352, ((Vec3d)var14.get(var3x)).field_1351, ((Vec3d)var14.get(var3x)).field_1350),
-                  var9.distance(((Vec3d)var14.get(var2x)).field_1352, ((Vec3d)var14.get(var2x)).field_1351, ((Vec3d)var14.get(var2x)).field_1350)
+                  var9.distance(((Vec3d)var14.get(var3x)).x, ((Vec3d)var14.get(var3x)).y, ((Vec3d)var14.get(var3x)).z),
+                  var9.distance(((Vec3d)var14.get(var2x)).x, ((Vec3d)var14.get(var2x)).y, ((Vec3d)var14.get(var2x)).z)
                )
             );
             Integer[] var51 = var49;
-            int var17 = var49.length;
+            int var17 = var51.length;
 
             for (int var18 = 0; var18 < var17; var18++) {
                int var19 = var51[var18];
@@ -104,11 +104,11 @@ public final class ugg {
                float var24 = (float)(var20.life - (var10 - var20.born)) / 1000.0F;
                float var25 = Math.min(1.0F, var23 / 0.15F) * Math.min(1.0F, Math.max(0.0F, var24 / 1.2F));
                if (!(var25 <= 0.01F)) {
-                  double var26 = var9.distance(var21.field_1352, var21.field_1351, var21.field_1350);
-                  boolean var28 = var9.project(var21.field_1352, var21.field_1351, var21.field_1350, var12);
+                  double var26 = var9.distance(var21.x, var21.y, var21.z);
+                  boolean var28 = var9.project(var21.x, var21.y, var21.z, var12);
                   float var29 = 28.0F;
                   boolean var30 = var28 && var12[0] > var29 && var12[0] < var48 - var29 && var12[1] > var29 + 22.0F && var12[1] < var7 - var29;
-                  var9.direction(var21.field_1352, var21.field_1351, var21.field_1350, var13);
+                  var9.direction(var21.x, var21.y, var21.z, var13);
                   float var31 = 32.0F;
                   float var32 = var7 - 24.0F - 40.0F;
                   float var33 = (var31 + var32) * 0.5F;
@@ -171,18 +171,18 @@ public final class ugg {
       float var11 = var9 * uhb(var6) * (1.0F + 0.1F * var7);
       float var12 = (1.0F - var10) * -6.0F - var7 * 1.5F;
       vhz var13 = var1.danger() ? vhz.MARK_ALERT : vhz.MARK;
-      var0.method_51448().pushMatrix();
-      var0.method_51448().translate(var2, var3);
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().translate(var2, var3);
       ugx(var0, var8, var1.danger(), var6, var9);
       uut.shadow(var0, -3.0F * var9, -1.0F * var9, 6.0F * var9, 2.0F * var9, 1.0F * var9, 2.5F * var9, 1174405120);
-      var0.method_51448().translate(0.0F, var12);
-      var0.method_51448().scale(var11, var11);
+      var0.getMatrices().translate(0.0F, var12);
+      var0.getMatrices().scale(var11, var11);
       if (var1.danger()) {
          ugy(var0, var8, 0.0F, -11.916666F, 6.6000004F, var6);
       }
 
       wkw.pin(var0, var13, 0.0F, -9.166666F, 22.0F, var8, 0.85F + 0.15F * var7);
-      var0.method_51448().popMatrix();
+      var0.getMatrices().popMatrix();
       ugz(var0, var1, var2, var3 + var12 - 18.333332F * var11 - 2.0F, var4, var7);
    }
 
@@ -192,19 +192,19 @@ public final class ugg {
       float var10 = ugu(var4) * (1.0F + 0.1F * var7);
       float var11 = 15.0F * (1.0F + 0.8F * (1.0F - var9));
       float var12 = var3 - 7.5F * var10 - 1.5F;
-      var0.method_51448().pushMatrix();
-      var0.method_51448().translate(var2, var12);
-      var0.method_51448().scale(var10, var10);
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().translate(var2, var12);
+      var0.getMatrices().scale(var10, var10);
       if (var1.danger()) {
          ugy(var0, var8, 0.0F, 0.0F, 7.5F, var6);
       }
 
       float var13 = var11 * 0.5F;
       uut.shadow(var0, -var13, -var13, var13 * 2.0F, var13 * 2.0F, var13, var11 * 0.55F, ujt.withAlpha(var8, Math.round(110.0F + 40.0F * var7)));
-      var0.method_51448().rotate((1.0F - var9) * (float) Math.PI * 0.5F);
+      var0.getMatrices().rotate((1.0F - var9) * (float) Math.PI * 0.5F);
       vjf.draw(var0, vhz.MARK_TARGET, 0.0F, Math.max(0.5F, var11 * 0.04F), var11, 1426063360);
       vjf.draw(var0, vhz.MARK_TARGET, 0.0F, 0.0F, var11, var8);
-      var0.method_51448().popMatrix();
+      var0.getMatrices().popMatrix();
       ugz(var0, var1, var2, var12 - 7.5F * var10 - 2.5F, var4, var7);
    }
 
@@ -218,10 +218,10 @@ public final class ugg {
             float var9 = (2.0F + 13.0F * vcq.outCubic(var8)) * var4;
             int var10 = Math.round(190.0F * (1.0F - var8) * (1.0F - var8));
             if (var10 >= 3) {
-               var0.method_51448().pushMatrix();
-               var0.method_51448().scale(1.0F, 0.36F);
+               var0.getMatrices().pushMatrix();
+               var0.getMatrices().scale(1.0F, 0.36F);
                uut.circleOutline(var0, 0.0F, 0.0F, var9, 2.4F, ujt.withAlpha(var1, var10));
-               var0.method_51448().popMatrix();
+               var0.getMatrices().popMatrix();
             }
          }
       }
@@ -275,15 +275,15 @@ public final class ugg {
 
       float var12 = (float)Math.atan2(var5, var4) + (float) (Math.PI / 2);
       float var13 = 0.8F + 0.8F * (float)Math.sin(var8 * 5.0);
-      var0.method_51448().pushMatrix();
-      var0.method_51448().translate(var2 + var4 * (var11 + 4.5F + var13), var3 + var5 * (var11 + 4.5F + var13));
-      var0.method_51448().rotate(var12);
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().translate(var2 + var4 * (var11 + 4.5F + var13), var3 + var5 * (var11 + 4.5F + var13));
+      var0.getMatrices().rotate(var12);
       vjf.draw(var0, vhz.NAV, 0.0F, 0.6F, 7.5F * var10, 1426063360);
       vjf.draw(var0, vhz.NAV, 0.0F, 0.0F, 7.5F * var10, var9);
-      var0.method_51448().popMatrix();
-      var0.method_51448().pushMatrix();
-      var0.method_51448().translate(var2, var3);
-      var0.method_51448().scale(var10, var10);
+      var0.getMatrices().popMatrix();
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().translate(var2, var3);
+      var0.getMatrices().scale(var10, var10);
       if (var1.target != null) {
          float var14 = 7.5F;
          uut.shadow(var0, -var14, -var14, var14 * 2.0F, var14 * 2.0F, var14, 8.25F, ujt.withAlpha(var9, 110));
@@ -293,7 +293,7 @@ public final class ugg {
          wkw.pin(var0, var1.danger() ? vhz.MARK_ALERT : vhz.MARK, 0.0F, 1.875F, 15.0F, var9, 1.0F);
       }
 
-      var0.method_51448().popMatrix();
+      var0.getMatrices().popMatrix();
       String var18 = wkw.formatDistance(var6);
       float var15 = ugi.width(var18);
       float var16 = var3 - var5 * (var11 + 7.0F);
@@ -305,9 +305,9 @@ public final class ugg {
    private static float uhb(float var0) {
       if (var0 >= 0.45F) {
          return 1.0F;
-      } else {
-         float var1 = var0 / 0.45F;
-         return 0.5F + 0.5F * vcq.outBack(var1);
       }
+
+      float var1 = var0 / 0.45F;
+      return 0.5F + 0.5F * vcq.outBack(var1);
    }
 }

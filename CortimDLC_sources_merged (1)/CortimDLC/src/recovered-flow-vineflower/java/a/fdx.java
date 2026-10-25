@@ -18,7 +18,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.StartT
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.EndTick;
 import net.minecraft.SharedConstants;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.WallSignBlock;
 import net.minecraft.block.entity.ChestBlockEntity;
@@ -102,7 +101,7 @@ final class fdx {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       ffx(var0);
       if (var1 == 1) {
          if (System.getenv(a.d("Ǣ硙\uf289泠\ue752憎\udbcf刺챢䛘섑㭫떺Ⱈꙉ₾", 138791207, 1291438227)) != null) {
@@ -125,25 +124,25 @@ final class fdx {
             ClientTickEvents.START_CLIENT_TICK
                .register(
                   (StartTick)var0x -> {
-                     if (var0x.field_1724 != null && fel == 11 && fem % 20 == 0 && System.getenv(a.c(294736627, "劥⬞ꇎ㾧됕㋉袈Ž鼥ᖟ鉖栬\ue6fd罟\uf50e珹")) != null) {
+                     if (var0x.player != null && fel == 11 && fem % 20 == 0 && System.getenv(a.c(294736627, "劥⬞ꇎ㾧됕㋉袈Ž鼥ᖟ鉖栬\ue6fd罟\uf50e珹")) != null) {
                         System.out
                            .println(
                               a.c(-1560111989, "铳\ued41枀裏牵\uf490仒융奭펈合깾₼뤞㍋뗣\u0ff5耹᪀鳙ᕿ漴\ue1d2稅ﱬ盥")
-                                 + var0x.field_1690.field_1904.method_1434()
+                                 + var0x.options.useKey.isPressed()
                                  + a.b("ၡ榃\ue340素\uf6e0灑쨉䎫", -649916343)
-                                 + var0x.field_1755
+                                 + var0x.currentScreen
                                  + a.d("鐬\uedde朁殺犤\uf41d久재姪팈", 1061314130, -792999340)
-                                 + var0x.field_1724.method_7357().method_7904(var0x.field_1724.method_6047())
+                                 + var0x.player.getItemCooldownManager().isCoolingDown(var0x.player.getMainHandStack())
                            );
                      }
 
-                     if (fer && var0x.field_1724 != null) {
+                     if (fer && var0x.player != null) {
                         feq.startTick(var0x);
                      }
 
-                     if (few && var0x.field_1724 != null) {
+                     if (few && var0x.player != null) {
                         feu.newTick();
-                        fet.startTick(var0x, var0x.field_1724);
+                        fet.startTick(var0x, var0x.player);
                      }
                   }
                );
@@ -151,9 +150,9 @@ final class fdx {
       }
 
       if (var1 == 5) {
-         fdz = var2.method_5477().getString();
-         BlockPos var3 = var2.method_24515();
-         IntegratedServer var4 = var0.method_1576();
+         fdz = var2.getName().getString();
+         BlockPos var3 = var2.getBlockPos();
+         IntegratedServer var4 = var0.getServer();
          var4.execute(() -> ffh(var4, var3));
       }
 
@@ -162,17 +161,14 @@ final class fdx {
       }
 
       if (var1 >= 40 && !fez && var1 % 20 == 0) {
-         IntegratedServer var7 = var0.method_1576();
+         IntegratedServer var7 = var0.getServer();
+         int var16 = var1;
          var7.execute(
             () -> {
-               boolean var2x = var7.method_3772()
-                  .method_8130(
-                     RegistryKey.method_29179(
-                        RegistryKeys.field_52178, Identifier.method_60655(a.c(-111277964, "ࠚ熡ﭱ攘\ueecc桬툩察"), a.b("᪀挹\ue9c5瞉ﱓ竹삪䥃휕", -192931087))
-                     )
-                  )
+               boolean var2x = var7.getRecipeManager()
+                  .get(RegistryKey.of(RegistryKeys.RECIPE, Identifier.of(a.c(-111277964, "ࠚ熡ﭱ攘\ueecc桬툩察"), a.b("᪀挹\ue9c5瞉ﱓ竹삪䥃휕", -192931087))))
                   .isPresent();
-               if (!fez && (var2x || var1 > 1200)) {
+               if (!fez && (var2x || var16 > 1200)) {
                   System.out.println(a.c(1517545227, "\ue775黇ᐆ詡ǳ蜖㵔뒳⫫ꀔ⟝\uddd4匋쫊䃋옭籤\uf3bf椕\uef51曣\u1cfe鉎\u0991迫Ի벉㊁") + var2x);
                   ffi(var7);
                   fez = true;
@@ -193,23 +189,23 @@ final class fdx {
                break;
             case 1:
                ffs(var0, var0x -> {
-                  PlayerInventory var1x = var0x.method_31548();
-                  var1x.method_5448();
-                  var1x.method_5447(4, ffp(var0x, 1800));
-                  var1x.method_5447(0, new ItemStack(Items.field_20412, 64));
-                  var1x.method_5447(7, new ItemStack(Items.field_8477, 40));
-                  var1x.method_5447(12, new ItemStack(Items.field_8695, 30));
-                  var1x.method_5447(20, new ItemStack(Items.field_8725, 12));
-                  var1x.method_5447(21, new ItemStack(Items.field_8725, 7));
-                  var1x.method_5447(22, new ItemStack(Items.field_8759, 9));
-                  var1x.method_5447(25, new ItemStack(Items.field_8620, 3));
-                  var1x.method_5447(26, new ItemStack(Items.field_8713, 5));
-                  var1x.method_5447(30, new ItemStack(Items.field_22019, 1));
-                  var1x.method_5447(31, new ItemStack(Items.field_20394, 33));
-                  var1x.method_5447(33, new ItemStack(Items.field_33400, 4));
-                  var1x.method_5447(34, new ItemStack(Items.field_8071, 20));
-                  var1x.method_5447(35, new ItemStack(Items.field_8288));
-                  var0x.field_7512.method_7623();
+                  PlayerInventory var1x = var0x.getInventory();
+                  var1x.clear();
+                  var1x.setStack(4, ffp(var0x, 1800));
+                  var1x.setStack(0, new ItemStack(Items.COBBLESTONE, 64));
+                  var1x.setStack(7, new ItemStack(Items.DIAMOND, 40));
+                  var1x.setStack(12, new ItemStack(Items.GOLD_INGOT, 30));
+                  var1x.setStack(20, new ItemStack(Items.REDSTONE, 12));
+                  var1x.setStack(21, new ItemStack(Items.REDSTONE, 7));
+                  var1x.setStack(22, new ItemStack(Items.LAPIS_LAZULI, 9));
+                  var1x.setStack(25, new ItemStack(Items.IRON_INGOT, 3));
+                  var1x.setStack(26, new ItemStack(Items.COAL, 5));
+                  var1x.setStack(30, new ItemStack(Items.ANCIENT_DEBRIS, 1));
+                  var1x.setStack(31, new ItemStack(Items.GRANITE, 33));
+                  var1x.setStack(33, new ItemStack(Items.RAW_IRON, 4));
+                  var1x.setStack(34, new ItemStack(Items.GOLDEN_CARROT, 20));
+                  var1x.setStack(35, new ItemStack(Items.TOTEM_OF_UNDYING));
+                  var0x.currentScreenHandler.sendContentUpdates();
                });
                fff(2);
                break;
@@ -223,47 +219,44 @@ final class fdx {
                   feq.layout();
                } else if (fem > 20 && !feq.busy()) {
                   fer = false;
-                  PlayerInventory var15 = var2.method_31548();
-                  StringBuilder var18 = new StringBuilder();
+                  PlayerInventory var15 = var2.getInventory();
+                  StringBuilder var19 = new StringBuilder();
 
-                  for (int var19 = 0; var19 < 36; var19++) {
-                     ItemStack var6 = var15.method_5438(var19);
-                     var18.append(var19)
+                  for (int var20 = 0; var20 < 36; var20++) {
+                     ItemStack var6 = var15.getStack(var20);
+                     var19.append(var20)
                         .append('=')
-                        .append(
-                           var6.method_7960() ? a.b("\uea27", 119794187) : fft(var6.method_7909()) + a.d("\ue931", 537940214, -1907967554) + var6.method_7947()
-                        )
+                        .append(var6.isEmpty() ? a.b("\uea27", 119794187) : fft(var6.getItem()) + a.d("\ue931", 537940214, -1907967554) + var6.getCount())
                         .append(' ');
                   }
 
                   System.out
                      .println(
                         a.b("媠⌒꧓㞴밦㫃肁०霾ᷛ驄怸\ueef7睐ﴙ篩쇨丣", -1791534384)
-                           + var18
+                           + var19
                            + a.b("䗨㰖뛌⢽ꌱ", -2062006835)
-                           + fft(var2.method_6079().method_7909())
+                           + fft(var2.getOffHandStack().getItem())
                            + a.b("ࠃ", 1218971770)
-                           + var2.method_6079().method_7947()
+                           + var2.getOffHandStack().getCount()
                      );
-                  int var20 = qpw.misplaced(var15, qpw.targets(var15, var2.method_6079()));
+                  int var21 = qpw.misplaced(var15, qpw.targets(var15, var2.getOffHandStack()));
                   ffu(feq.laidOut(), a.c(1874885331, "窱̍视ឡ鱬\u1adcꃛ⥭뜴㶒멒䁦커坐"));
-                  ffu(var20 == 0, a.b("㭅䋹젲噕\udd98嬨\ue12f梓\uf6c8籣﮳Ǟ輄ᚷ鳢ᨒꀙ", 1006975800) + var20);
-                  ffu(var15.method_5438(0).method_31574(Items.field_22024), a.b("믰쉘䢁훸崥\udb8d懃\ue877癦ﳖ笞脻ྥ阓ᰎ骬\u20fc꼮㖆뎃㩤", -887112811));
+                  ffu(var21 == 0, a.b("㭅䋹젲噕\udd98嬨\ue12f梓\uf6c8籣﮳Ǟ輄ᚷ鳢ᨒꀙ", 1006975800) + var21);
+                  ffu(var15.getStack(0).isOf(Items.NETHERITE_PICKAXE), a.b("믰쉘䢁훸崥\udb8d懃\ue877癦ﳖ笞脻ྥ阓ᰎ骬\u20fc꼮㖆뎃㩤", -887112811));
                   ffu(
-                     var2.method_6079().method_31574(Items.field_8071),
-                     a.d("ᢣ愐\uebd0疡﹫磁슕䬷픦徖\ud85e≻곥㕓뽎㧫莸\u0c64隒ႌ饲\ue323涞\uf646瀶\ufaed", 1905017172, -1143187058)
+                     var2.getOffHandStack().isOf(Items.GOLDEN_CARROT), a.d("ᢣ愐\uebd0疡﹫磁슕䬷픦徖\ud85e≻곥㕓뽎㧫莸\u0c64隒ႌ饲\ue323涞\uf646瀶\ufaed", 1905017172, -1143187058)
                   );
                   ffu(
-                     qpw.count(var15, Items.field_8477) == 40 && qpw.count(var15, Items.field_8695) == 30,
+                     qpw.count(var15, Items.DIAMOND) == 40 && qpw.count(var15, Items.GOLD_INGOT) == 30,
                      a.d("斪ᰖ雍ࢰ荥ו뾌㙪ꡩ⊐ꕋ弹퇦䠓숌䓾ﺭ煻\ueb86淍", 1216049576, -2146429838)
-                        + qpw.count(var15, Items.field_8477)
+                        + qpw.count(var15, Items.DIAMOND)
                         + a.c(1156368751, "쥁")
-                        + qpw.count(var15, Items.field_8695)
+                        + qpw.count(var15, Items.GOLD_INGOT)
                   );
-                  ffu(qpw.count(var15, Items.field_20412) == 0 && qpw.count(var15, Items.field_20394) == 0, a.b("⎃娭탥云씍䏯僚灗\uee0d撼\ue323ᤆ韍\u0e71萵˓", 238822393));
-                  ffu(qpw.count(var15, Items.field_8725) >= 1 && qpw.count(var15, Items.field_8725) <= 12, a.b("⹇埡\udd33䍕종丯\uf47d綇", 859844157));
-                  ffu(qpw.count(var15, Items.field_8288) == 1, a.b("ꬭ튇塏옯䷰쬌焋\uf8e6暣\uec0f毄醬", 645704533));
-                  ffu(var15.method_5438(32).method_31574(Items.field_22019), a.b("㥬䃜쨈呩\udfa5夎\ue30e檱\uf4ef繅蓼Ϻ贪ᓕ黏ᠣꉫⷩ뜉ㅇ뢳싹", -1513801442));
+                  ffu(qpw.count(var15, Items.COBBLESTONE) == 0 && qpw.count(var15, Items.GRANITE) == 0, a.b("⎃娭탥云씍䏯僚灗\uee0d撼\ue323ᤆ韍\u0e71萵˓", 238822393));
+                  ffu(qpw.count(var15, Items.REDSTONE) >= 1 && qpw.count(var15, Items.REDSTONE) <= 12, a.b("⹇埡\udd33䍕종丯\uf47d綇", 859844157));
+                  ffu(qpw.count(var15, Items.TOTEM_OF_UNDYING) == 1, a.b("ꬭ튇塏옯䷰쬌焋\uf8e6暣\uec0f毄醬", 645704533));
+                  ffu(var15.getStack(32).isOf(Items.ANCIENT_DEBRIS), a.b("㥬䃜쨈呩\udfa5夎\ue30e檱\uf4ef繅蓼Ϻ贪ᓕ黏ᠣꉫⷩ뜉ㅇ뢳싹", -1513801442));
                   ffy(var0, a.d("竢͗覃៹鰩\u1a9bꃚ⤽뜪㷚먄䁭캬圇\udd55", 285540812, 839678796));
                   fff(fdy.contains(a.c(1687638, "쀰릂㍃괤")) ? 10 : (fdy.contains(a.c(-1751761189, "㺼䜚췅厨\ud868")) ? 20 : 30));
                } else if (fem > 600) {
@@ -275,38 +268,38 @@ final class fdx {
                break;
             case 10:
                ffs(var0, var1x -> {
-                  PlayerInventory var2x = var1x.method_31548();
-                  var2x.method_5448();
-                  var2x.method_5447(0, ffp(var1x, 90));
+                  PlayerInventory var2x = var1x.getInventory();
+                  var2x.clear();
+                  var2x.setStack(0, ffp(var1x, 90));
 
                   for (int var3x = 1; var3x <= 8; var3x++) {
-                     var2x.method_5447(var3x, new ItemStack(Items.field_8477, 64));
+                     var2x.setStack(var3x, new ItemStack(Items.DIAMOND, 64));
                   }
 
-                  var2x.method_5447(9, new ItemStack(Items.field_8725, 5));
-                  var2x.method_5447(10, new ItemStack(Items.field_8759, 3));
-                  var2x.method_5447(11, new ItemStack(Items.field_8620, 1));
-                  var2x.method_5447(12, new ItemStack(Items.field_8713, 2));
-                  var2x.method_5447(13, new ItemStack(Items.field_8695, 64));
-                  var2x.method_5447(14, new ItemStack(Items.field_8695, 64));
-                  var2x.method_5447(15, new ItemStack(Items.field_8695, 40));
+                  var2x.setStack(9, new ItemStack(Items.REDSTONE, 5));
+                  var2x.setStack(10, new ItemStack(Items.LAPIS_LAZULI, 3));
+                  var2x.setStack(11, new ItemStack(Items.IRON_INGOT, 1));
+                  var2x.setStack(12, new ItemStack(Items.COAL, 2));
+                  var2x.setStack(13, new ItemStack(Items.GOLD_INGOT, 64));
+                  var2x.setStack(14, new ItemStack(Items.GOLD_INGOT, 64));
+                  var2x.setStack(15, new ItemStack(Items.GOLD_INGOT, 40));
 
                   for (int var7x = 16; var7x <= 26; var7x++) {
-                     var2x.method_5447(var7x, new ItemStack(Items.field_8695, 1));
+                     var2x.setStack(var7x, new ItemStack(Items.GOLD_INGOT, 1));
                   }
 
-                  var2x.method_5447(27, new ItemStack(Items.field_8477, 64));
-                  var2x.method_5447(28, new ItemStack(Items.field_8477, 30));
+                  var2x.setStack(27, new ItemStack(Items.DIAMOND, 64));
+                  var2x.setStack(28, new ItemStack(Items.DIAMOND, 30));
 
                   for (int var6x : new int[]{29, 30, 31, 33, 34}) {
-                     var2x.method_5447(var6x, new ItemStack(Items.field_8477, 1));
+                     var2x.setStack(var6x, new ItemStack(Items.DIAMOND, 1));
                   }
 
-                  var2x.method_5447(35, new ItemStack(Items.field_20412, 64));
-                  var2x.method_5447(32, new ItemStack(Items.field_22019, 3));
-                  var1x.method_31548().method_5447(40, new ItemStack(Items.field_8071, 2));
-                  var1x.field_7512.method_7623();
-                  feo = ffo(ffn(var1x.method_51469(), fed), Items.field_8287);
+                  var2x.setStack(35, new ItemStack(Items.COBBLESTONE, 64));
+                  var2x.setStack(32, new ItemStack(Items.ANCIENT_DEBRIS, 3));
+                  var1x.getInventory().setStack(40, new ItemStack(Items.GOLDEN_CARROT, 2));
+                  var1x.currentScreenHandler.sendContentUpdates();
+                  feo = ffo(ffn(var1x.getEntityWorld(), fed), Items.EXPERIENCE_BOTTLE);
                   ffq(ffr(var0), feg);
                });
                fff(11);
@@ -324,16 +317,16 @@ final class fdx {
                   System.out.println(a.d("䟼㹎뒏⫨ꅺ➟鷝ᐺ詢\u009d蝔組\uf3a7樗\ue05f暌\udce7匱즉依옥뱵", -1427954175, 1796366729));
                } else if (fem > 30) {
                   nfl var14 = (nfl)Flow.getInstance().getModuleManager().getByName(a.b("\ud97dꃸ⨪둀㾵뤠ʹ誎", -1941710540));
-                  String var17 = nfl.hudStatus();
+                  String var18 = nfl.hudStatus();
                   if (fem % 40 == 0) {
                      System.out
                         .println(
                            a.d("ﾑ蘣ೢ銅ᤗ鿲▰걗㈏룪㽭압", -2079425755, 1751418074)
                               + fem / 20.0
                               + a.d("Վ粬", -1563558148, 396164035)
-                              + var17
+                              + var18
                               + a.d("\uea41鎠ᥬ蜁ಘ", -778999576, 842498700)
-                              + var2.method_24515().method_23854()
+                              + var2.getBlockPos().toShortString()
                               + a.c(1611293639, "揢ᨗ郕ຣ蔻")
                               + qpw.pickaxeDurability(var2)
                         );
@@ -345,7 +338,7 @@ final class fdx {
 
                   boolean var5 = fem > 200 && !var14.debug().startsWith(a.d("\uf4bc贎ߏ馨", 1401547029, -132243985));
                   if (var5 || fem > 4800) {
-                     System.out.println(a.c(233969619, "ឧ渕\ue4d4窳\uf121矄춆䑡\uda39僆휏ⴼꏨ㩋뀎㚺貺Ͳ駒ᾔ阫\uec60") + var17 + a.c(2054524464, "踑") + var14.debug());
+                     System.out.println(a.c(233969619, "ឧ渕\ue4d4窳\uf121矄춆䑡\uda39僆휏ⴼꏨ㩋뀎㚺貺Ͳ駒ᾔ阫\uec60") + var18 + a.c(2054524464, "踑") + var14.debug());
                      var14.setEnabled(false);
                      ffg(var0, var2);
                      fff(fdy.contains(a.d("굯퓉帖쁻䮻", -1016724713, -1339642337)) ? 20 : (fdy.contains(a.b("䱔㗣뼣⅃", -775140316)) ? 30 : 99));
@@ -374,7 +367,7 @@ final class fdx {
                         );
                      ffu(fes.ok(), a.b("\ue9c0遦᪹蓔༔觭㎤", -100931163) + fes.result());
                      ffs(var0, var0x -> {
-                        for (Item var4x : new Item[]{Items.field_8725, Items.field_8759, Items.field_8713, Items.field_8620}) {
+                        for (Item var4x : new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.COAL, Items.IRON_INGOT}) {
                            ffu(ffc.contains(var4x), a.b("鈴耗ૈ钥ὥ馆⎙ꩡ㐽뺞㤙", -1884292648) + fft(var4x) + a.d("㑩䶗읍夼", 173344004, 1582248265));
                         }
                      });
@@ -387,69 +380,69 @@ final class fdx {
                break;
             case 30:
                if (fem == 5) {
-                  BlockPos var9 = fea.method_10069(-6, 0, -6);
+                  BlockPos var9 = fea.add(-6, 0, -6);
                   ffs(var0, var2x -> {
                      ffq(ffr(var0), var9);
-                     var2x.method_31548().method_5447(0, ffp(var2x, 1500));
-                     var2x.method_31548().method_61496(0);
+                     var2x.getInventory().setStack(0, ffp(var2x, 1500));
+                     var2x.getInventory().setSelectedSlot(0);
                   });
-                  fex = var9.method_10084();
+                  fex = var9.up();
                } else if (fem == 30) {
                   fet = new qdz();
                   fet.configure(fev, false, false);
-                  fet.guard(pzc.empty(var2.method_24515()));
+                  fet.guard(pzc.empty(var2.getBlockPos()));
                   feu.use(tck.profile1());
                   few = true;
-                  BlockPos var10 = BlockPos.method_49638(var2.method_33571());
+                  BlockPos var10 = BlockPos.ofFloored(var2.getEyePos());
                   fex = var10;
                   ffs(var0, var1x -> {
-                     ServerWorld var2x = var1x.method_51469();
+                     ServerWorld var2x = var1x.getEntityWorld();
 
-                     for (Direction var4x : Type.field_11062) {
-                        var2x.method_8501(var10.method_10093(var4x), Blocks.field_10340.method_9564());
-                        var2x.method_8501(var10.method_10074().method_10093(var4x), Blocks.field_10340.method_9564());
+                     for (Direction var4x : Type.HORIZONTAL) {
+                        var2x.setBlockState(var10.offset(var4x), Blocks.STONE.getDefaultState());
+                        var2x.setBlockState(var10.down().offset(var4x), Blocks.STONE.getDefaultState());
                      }
 
-                     var2x.method_8501(var10.method_10084(), Blocks.field_10340.method_9564());
-                     var2x.method_8501(var10, Blocks.field_10340.method_9564());
-                     var2x.method_8501(var10.method_10074(), Blocks.field_10340.method_9564());
+                     var2x.setBlockState(var10.up(), Blocks.STONE.getDefaultState());
+                     var2x.setBlockState(var10, Blocks.STONE.getDefaultState());
+                     var2x.setBlockState(var10.down(), Blocks.STONE.getDefaultState());
                   });
-                  System.out.println(a.b("髳\ue341榀\uf7e7籵敖䃒줵坭\udd92婛ꁹ⺩뜃㵑뮫ơ踠ᒖ鋆᭥慽\uefc9瑖\uf27d碰섎会향叹\ud84e⚚겑㔡덧㦂", 1090362037) + var10.method_23854());
+                  System.out.println(a.b("髳\ue341榀\uf7e7籵敖䃒줵坭\udd92婛ꁹ⺩뜃㵑뮫ơ踠ᒖ鋆᭥慽\uefc9瑖\uf27d碰섎会향叹\ud84e⚚겑㔡덧㦂", 1090362037) + var10.toShortString());
                } else if (fem > 32) {
                   fet.endTick(var0, var2, feu);
                   if (fem % 20 == 0) {
-                     Box var11 = var2.method_5829().method_1011(0.001);
+                     Box var11 = var2.getBoundingBox().contract(0.001);
                      System.out
                         .println(
                            a.c(-650781963, "\uda83ꌱ⧰랗㰅뫠¢襅\u171d鷸᩿\ue008滌\uf76c絵ﮞ䆔칙哶틿")
-                              + var2.method_33571()
+                              + var2.getEyePos()
                               + a.d("ﯠ舁࣍隠ᴹ", -1199788952, 107042733)
-                              + var2.method_73189()
+                              + var2.getEntityPos()
                               + a.d("\ue8b1酅ᮞ藲ม袝㊊", 771710341, -1276725997)
-                              + var0.field_1687.method_8587(var2, var11)
+                              + var0.world.isSpaceEmpty(var2, var11)
                               + a.b("鷲\ue417滂\uf0a0筦\ufdd7䞑칡偧", 1036426715)
-                              + qdz.trapped(var0.field_1687, var2)
+                              + qdz.trapped(var0.world, var2)
                               + a.b("㔶䳂옍塠펐唏\uef5f暢\uf8f5爒", -193776356)
-                              + var0.field_1687.method_8320(BlockPos.method_49638(var2.method_33571()))
+                              + var0.world.getBlockState(BlockPos.ofFloored(var2.getEyePos()))
                               + a.c(1948688459, "ꁧ\ud99f卋촧䛪쁖稄\uf3c7涮\ue712惁髡")
-                              + var2.method_5757()
+                              + var2.isInsideWall()
                         );
                      System.out
                         .println(
                            a.d("얿밍㛌ꢫ⌹ꗜᾞ陹ࠡ苄ՃＴ燰\ue850扉\ue4a2庾텹䯃췃", 1968006014, -775641417)
-                              + var2.method_31548().method_67532()
+                              + var2.getInventory().getSelectedSlot()
                               + a.d("釗\ue82b拴ﲍ睝\uf1bf", 1768947368, 846688089)
-                              + var2.method_6047()
+                              + var2.getMainHandStack()
                               + a.c(-1895574493, "퐄균✵륞㊎됶฿")
-                              + var2.method_6115()
+                              + var2.isUsingItem()
                               + a.d("弟⛻갮㉉맆", -1622353864, -135362814)
-                              + var0.field_1690.field_1904.method_1434()
+                              + var0.options.useKey.isPressed()
                               + a.c(1794907848, "Ỡ朐\uedd6玧\uf865绖쒍䴪")
-                              + var0.field_1690.field_1886.method_1434()
+                              + var0.options.attackKey.isPressed()
                               + a.d("㲽䕟쾜凼\uda3c岍\ue6d5潷", 734713273, 566028588)
-                              + var0.field_1755
+                              + var0.currentScreen
                               + a.c(-579507464, "櫝ጤ駶ޚ谄")
-                              + var0.field_1765.method_17783()
+                              + var0.crosshairTarget.getType()
                               + a.b("轥", -1723560124)
                               + fet.action()
                               + a.d("诗\uf235磡\ue685浇\uebf7冢\ud81d", 866157505, 174983230)
@@ -457,7 +450,7 @@ final class fdx {
                         );
                   }
 
-                  boolean var12 = var0.field_1687.method_8320(fex).method_26215() && var0.field_1687.method_8320(fex.method_10074()).method_26215();
+                  boolean var12 = var0.world.getBlockState(fex).isAir() && var0.world.getBlockState(fex.down()).isAir();
                   if (var12) {
                      System.out.println(a.c(-1214745475, "琉ර蝺ᤝ銏ᑪ긨⟏릗㍨뒡五쁒姱폥啛\uef0e惞塀簡\uf5d1迎") + (fem - 30) + a.d("Ὣ暎\uec40爻理罍", 943867712, 279599117));
                      ffu(fem - 30 <= 40, a.c(-127329933, "ᤙ悥\uea78瑃ￖ祽쌯䪊풆帨\ud9f8⎑괋㒠") + (fem - 30) + a.c(1424269031, "黁\ue724淪\uf391硎ﻧ"));
@@ -465,7 +458,7 @@ final class fdx {
                      fet.stop(var0);
                      fff(99);
                   } else if (fem > 200) {
-                     ffu(false, a.d("\u1774滎\ue40e穬\uf1ac睏쵘䒸\udaf5倃힟ⷴꌢ㫇냛㘣谪", -112920905, 2031477180) + fex.method_23854());
+                     ffu(false, a.d("\u1774滎\ue40e穬\uf1ac睏쵘䒸\udaf5倃힟ⷴꌢ㫇냛㘣谪", -112920905, 2031477180) + fex.toShortString());
                      few = false;
                      fet.stop(var0);
                      fff(99);
@@ -473,8 +466,8 @@ final class fdx {
                }
                break;
             default:
-               for (String var16 : fep) {
-                  System.out.println(a.b("䲺㔈뿉↮\uaa3cⳁ隑Ὠ腰", 1264930001) + var16);
+               for (String var17 : fep) {
+                  System.out.println(a.b("䲺㔈뿉↮\uaa3cⳁ隑Ὠ腰", 1264930001) + var17);
                }
 
                System.out
@@ -497,60 +490,55 @@ final class fdx {
    }
 
    private static void ffg(MinecraftClient var0, ClientPlayerEntity var1) {
-      PlayerInventory var2 = var1.method_31548();
+      PlayerInventory var2 = var1.getInventory();
       int var3 = qpw.pickaxeDurability(var1);
       System.out
          .println(
             a.d("\udff3ꙁⲀ닧㥵뾐ג谵ቭ颒Ὓ\ue56e殨\uf21e砂", 412799013, -1700393029)
                + var3
                + a.d("ア䥗쎉巰혫傘\ueaca挱ﵹ瞆", 1893658362, 1788730994)
-               + qpw.count(var2, Items.field_8477)
+               + qpw.count(var2, Items.DIAMOND)
                + a.c(-1438098032, "嶶⑀꺛ラ묶㷞")
-               + qpw.count(var2, Items.field_8695)
+               + qpw.count(var2, Items.GOLD_INGOT)
                + a.b("猍૿耮Ṍ閛ጷ\ua97f₉뺘", -309497052)
                + qpw.food(var1)
                + a.c(-1321241323, "甼\u0ccf蘑\u187b鎬ᔅ꽟⚸뢩")
-               + qpw.count(var2, Items.field_8287)
+               + qpw.count(var2, Items.EXPERIENCE_BOTTLE)
          );
       ffu(var3 >= 1500, a.b("ӳ絛\uf782槻\ue226撎\udec0坴쥥䏕쐝㸸낽⤛ꍝ▽鿺ူ誔ೄ蕭Ｆ", 1951663253) + var3);
-      ffu(var2.method_5438(0).method_31574(Items.field_22024), a.b("煀ࣨ舱᱈鞕ᄽꭳ⋇볖㙦놮䮋씞岬훽倄\uea00斘Ｌ礳\uf097諙ѩ龣ᦈ鍉", -11439830));
+      ffu(var2.getStack(0).isOf(Items.NETHERITE_PICKAXE), a.b("煀ࣨ舱᱈鞕ᄽꭳ⋇볖㙦놮䮋씞岬훽倄\uea00斘Ｌ礳\uf097諙ѩ龣ᦈ鍉", -11439830));
       ffu(qpw.food(var1) == 64, a.d("㍿䫌쀌幽햷匝\ue949惫", 705319038, -1646632086) + qpw.food(var1) + a.d("\ue180頹ኵ賒܊膡㮦뉁Ⱌꚰ", -291509722, -1591407732));
-      ffu(var1.method_6079().method_31574(Items.field_8071), a.b("穓Ϡ褠ᝑ鲛ᨱꁥ⧇럖㵦몮䂋츕垣\uddbe嬛\ue148溔\uf462牼ﮂ臓\u0f6e钶\u12c6頝", -1316324822));
+      ffu(var1.getOffHandStack().isOf(Items.GOLDEN_CARROT), a.b("穓Ϡ褠ᝑ鲛ᨱꁥ⧇럖㵦몮䂋츕垣\uddbe嬛\ue148溔\uf462牼ﮂ臓\u0f6e钶\u12c6頝", -1316324822));
+      ffu(qpw.count(var2, Items.DIAMOND) >= 16 && qpw.count(var2, Items.DIAMOND) < 34, a.b("潒ᛮ鰵Ɉ覝༭땴㲒ꊞ⡤꾹嗝\udb0e䋫", -2051313864) + qpw.count(var2, Items.DIAMOND));
+      ffu(qpw.count(var2, Items.ANCIENT_DEBRIS) == 0, a.b("ᅐ棠\ue234籕\uf799焲쬲䊍\udcd3噹퇾⯋ꔍ㲤뛪『詀ו", 1237061926) + qpw.count(var2, Items.ANCIENT_DEBRIS));
+      ffu(var2.getStack(32).isOf(Items.GOLD_INGOT), a.c(44093101, "컛띫㶿ꏞ⠒꺹ᒹ鴛͛觩ม\uf404窛\ue32d楽\uef84嗜\uda5e") + var2.getStack(32));
       ffu(
-         qpw.count(var2, Items.field_8477) >= 16 && qpw.count(var2, Items.field_8477) < 34,
-         a.b("潒ᛮ鰵Ɉ覝༭땴㲒ꊞ⡤꾹嗝\udb0e䋫", -2051313864) + qpw.count(var2, Items.field_8477)
-      );
-      ffu(qpw.count(var2, Items.field_22019) == 0, a.b("ᅐ棠\ue234籕\uf799焲쬲䊍\udcd3噹퇾⯋ꔍ㲤뛪『詀ו", 1237061926) + qpw.count(var2, Items.field_22019));
-      ffu(var2.method_5438(32).method_31574(Items.field_8695), a.c(44093101, "컛띫㶿ꏞ⠒꺹ᒹ鴛͛觩ม\uf404窛\ue32d楽\uef84嗜\uda5e") + var2.method_5438(32));
-      ffu(
-         qpw.count(var2, Items.field_8725) == 5,
+         qpw.count(var2, Items.REDSTONE) == 5,
          a.d("誆\uf320秲\ue794汄\ueaee傼\ud946䝜", -819132110, 199787471)
-            + qpw.count(var2, Items.field_8725)
+            + qpw.count(var2, Items.REDSTONE)
             + a.d("ꐛ\udda2圮쥉䊑쐺總\uf78d槟\ue36e擱麕ၞ", -527512244, -1739822726)
       );
-      ffu(qpw.count(var2, Items.field_20412) == 0, a.b("\uea5e鏰ᤸ蝌\u0cd0訶び릐⟒괪⪪킏希잡䷨쬄煓ﺛ摦\ue275殅ᇗ齭ҡ苉\u085d놺㿷ꔍ⌙ꣾ嘩\udc7d䖕", 502852118));
-      ffu(qpw.count(var2, Items.field_8603) == 0 && qpw.count(var2, Items.field_8494) == 0, a.b("\ud93bꂄ⩔됩㿶륟͟諠ᒾ鸔ᦓ\ue3a6浠\uf4c9纇\uf863䈭", -1880696504));
+      ffu(qpw.count(var2, Items.COBBLESTONE) == 0, a.b("\uea5e鏰ᤸ蝌\u0cd0訶び릐⟒괪⪪킏希잡䷨쬄煓ﺛ摦\ue275殅ᇗ齭ҡ苉\u085d놺㿷ꔍ⌙ꣾ嘩\udc7d䖕", 502852118));
+      ffu(qpw.count(var2, Items.DIAMOND_BLOCK) == 0 && qpw.count(var2, Items.GOLD_BLOCK) == 0, a.b("\ud93bꂄ⩔됩㿶륟͟諠ᒾ鸔ᦓ\ue3a6浠\uf4c9纇\uf863䈭", -1880696504));
       ffs(
          var0,
          var0x -> {
-            ServerWorld var1x = var0x.method_51469();
+            ServerWorld var1x = var0x.getEntityWorld();
             Inventory var2x = ffn(var1x, feb);
-            int var3x = ffo(var2x, Items.field_8603);
-            int var4 = ffo(var2x, Items.field_8494);
-            int var5 = ffo(var2x, Items.field_22019);
+            int var3x = ffo(var2x, Items.DIAMOND_BLOCK);
+            int var4 = ffo(var2x, Items.GOLD_BLOCK);
+            int var5 = ffo(var2x, Items.ANCIENT_DEBRIS);
             int var6 = 0;
 
-            for (int var7 = 0; var7 < var2x.method_5439(); var7++) {
-               ItemStack var8 = var2x.method_5438(var7);
-               if (!var8.method_7960() && !var8.method_31574(Items.field_8603) && !var8.method_31574(Items.field_8494) && !var8.method_31574(Items.field_22019)
-                  )
-                {
-                  var6 += var8.method_7947();
+            for (int var7 = 0; var7 < var2x.size(); var7++) {
+               ItemStack var8 = var2x.getStack(var7);
+               if (!var8.isEmpty() && !var8.isOf(Items.DIAMOND_BLOCK) && !var8.isOf(Items.GOLD_BLOCK) && !var8.isOf(Items.ANCIENT_DEBRIS)) {
+                  var6 += var8.getCount();
                }
             }
 
-            int var9 = var1x.method_8390(ItemEntity.class, new Box(feb).method_1014(16.0), var0xx -> true).size();
-            int var10 = ffo(ffn(var1x, fed), Items.field_8287);
+            int var9 = var1x.getEntitiesByClass(ItemEntity.class, new Box(feb).expand(16.0), var0xx -> true).size();
+            int var10 = ffo(ffn(var1x, fed), Items.EXPERIENCE_BOTTLE);
             System.out
                .println(
                   a.b("ᔣ沑\ue650砷\uf3a5畀켂䛥\ud8bd剘허⾲ꅨ㣏늛㑭蹫Ơ魗ᴗ铸\ueeb4恗﯂綰\uf769他삅婳\udc28垠ꥌ⌍뫿㲠똙ঘ", 719394148)
@@ -568,7 +556,7 @@ final class fdx {
                      + a.d("帏➳굳㌜", -1132465508, -226644809)
                      + var10
                      + a.b("ꏫ\uda06傉캾䕠쏑禉\uf03c港\ue497捇餤ឧ", -500522042)
-                     + ffo(ffn(var1x, fec), Items.field_8071)
+                     + ffo(ffn(var1x, fec), Items.GOLDEN_CARROT)
                );
             ffu(var3x >= 40, a.c(-1896778220, "癫࿗蔌᭱邤ᘔ걍◸믥ㅚ뚊䳷숨宁톁圹\ued71拮\uf809繄\uf7be趪͝额Ỻ鐶ⷕ") + var3x);
             ffu(var4 >= 3, a.b("Ⱓ喚\udf4a䄳쪠䱓\uf60e翼\ue1af欖\uecdd\u16ff顡Ǘ诊൯뜼㣠ꈖ␃귥\ud7ac夂슃", -1667683236) + var4);
@@ -576,69 +564,69 @@ final class fdx {
             ffu(var6 == 0, a.d("न炅穀搭\uefeb楆팔嫢쒴乂짔㎬뵤Ⓝ껕⡰鈣᷻蝇Ř裭\uf2b2簂\ue7df憨\ueb61劁\udc99䙩쁶䮑땜㼞ꚪ₽ꨝᗒ龾ᤧ肌", 1474322924, -2073794401) + var6);
             ffu(var9 == 0, a.d("⽻囗\udc15䉬즥佇\uf540粭\ue2e8桄\uef8fᗧ魾ʀ裉ู됢㮲ꄔ✑꺲퓿婁쇕䟹촯璉響怦\ue625涌", 1840988829, -397775472) + var9);
             ffu(var10 > feo, a.c(174739957, "冄⠴ꊨ㲡띾ㆿ讯ɏ鰃ᚵ酴欔\ue5c2簷\uf62d烛쪎䕄\udfb8妽큖ꨊ⓼뽕㤢뎃ੳ萩ồ颔ጠ"));
-            ffu(ffo(ffn(var1x, fec), Items.field_8071) == 66, a.d("홲꿁━뭰ズ또ౄ藦ᯭ酉ᚐ\uecef戳\ufbcc燈\uf73c䵮슾堄", 253673193, -698914581));
+            ffu(ffo(ffn(var1x, fec), Items.GOLDEN_CARROT) == 66, a.d("홲꿁━뭰ズ또ౄ藦ᯭ酉ᚐ\uecef戳\ufbcc燈\uf73c䵮슾堄", 253673193, -698914581));
          }
       );
    }
 
    private static void ffh(MinecraftServer var0, BlockPos var1) {
-      ServerWorld var2 = var0.method_30002();
-      fea = var1.method_10069(0, 0, 200);
-      feg = var1.method_10069(4, 0, 4);
+      ServerWorld var2 = var0.getOverworld();
+      fea = var1.add(0, 0, 200);
+      feg = var1.add(4, 0, 4);
 
-      for (int var3 = (fea.method_10263() >> 4) - 2; var3 <= (fea.method_10263() >> 4) + 2; var3++) {
-         for (int var4 = (fea.method_10260() >> 4) - 2; var4 <= (fea.method_10260() >> 4) + 2; var4++) {
-            var2.method_8497(var3, var4);
-            var2.method_17988(var3, var4, true);
+      for (int var3 = (fea.getX() >> 4) - 2; var3 <= (fea.getX() >> 4) + 2; var3++) {
+         for (int var4 = (fea.getZ() >> 4) - 2; var4 <= (fea.getZ() >> 4) + 2; var4++) {
+            var2.getChunk(var3, var4);
+            var2.setChunkForced(var3, var4, true);
          }
       }
 
       for (int var8 = -12; var8 <= 12; var8++) {
          for (int var10 = -12; var10 <= 12; var10++) {
-            var2.method_8652(fea.method_10069(var8, -1, var10), Blocks.field_10340.method_9564(), 3);
+            var2.setBlockState(fea.add(var8, -1, var10), Blocks.STONE.getDefaultState(), 3);
 
             for (int var5 = 0; var5 <= 4; var5++) {
-               var2.method_8652(fea.method_10069(var8, var5, var10), Blocks.field_10124.method_9564(), 3);
+               var2.setBlockState(fea.add(var8, var5, var10), Blocks.AIR.getDefaultState(), 3);
             }
          }
       }
 
-      feb = fea.method_10069(1, 0, 0);
-      fec = fea.method_10069(4, 0, 0);
-      fed = fea.method_10069(7, 0, 0);
-      fee = fea.method_10069(8, 0, 0);
-      fef = fea.method_10069(3, 0, -4);
-      BlockPos var9 = fea.method_10069(-3, 0, 0);
+      feb = fea.add(1, 0, 0);
+      fec = fea.add(4, 0, 0);
+      fed = fea.add(7, 0, 0);
+      fee = fea.add(8, 0, 0);
+      fef = fea.add(3, 0, -4);
+      BlockPos var9 = fea.add(-3, 0, 0);
 
       for (BlockPos var7 : new BlockPos[]{feb, fec, fed, var9}) {
-         var2.method_8652(var7, Blocks.field_10034.method_9564(), 3);
+         var2.setBlockState(var7, Blocks.CHEST.getDefaultState(), 3);
       }
 
-      var2.method_8652(fee, Blocks.field_9980.method_9564(), 3);
-      ffm(var2, feb.method_10095(), a.b("廗❶귔㏛롳", -1756144909));
-      ffm(var2, fec.method_10095(), a.d("ﮖ舎ࣘ隬ᴇ鯄⇨", 669578056, -1923674930), a.d("䁟㧬덁ⵊꚙ․騉", 560690363, -227266337));
-      ffm(var2, fed.method_10095(), a.d("淤ᒞ騿ѯ迌ॴ", -313918324, -1932160567));
-      ffm(var2, var9.method_10095(), a.c(1678566624, "\ue0c6饧Ꮃ跈\u061c肦"));
+      var2.setBlockState(fee, Blocks.CRAFTING_TABLE.getDefaultState(), 3);
+      ffm(var2, feb.north(), a.b("廗❶귔㏛롳", -1756144909));
+      ffm(var2, fec.north(), a.d("ﮖ舎ࣘ隬ᴇ鯄⇨", 669578056, -1923674930), a.d("䁟㧬덁ⵊꚙ․騉", 560690363, -227266337));
+      ffm(var2, fed.north(), a.d("淤ᒞ騿ѯ迌ॴ", -313918324, -1932160567));
+      ffm(var2, var9.north(), a.c(1678566624, "\ue0c6饧Ꮃ跈\u061c肦"));
       Inventory var12 = ffn(var2, fec);
-      var12.method_5447(3, new ItemStack(Items.field_8071, 64));
-      var12.method_5447(5, new ItemStack(Items.field_8071, 64));
+      var12.setStack(3, new ItemStack(Items.GOLDEN_CARROT, 64));
+      var12.setStack(5, new ItemStack(Items.GOLDEN_CARROT, 64));
       Inventory var14 = ffn(var2, fed);
 
       for (int var15 = 0; var15 < 3; var15++) {
-         var14.method_5447(var15 * 2, new ItemStack(Items.field_8287, 64));
+         var14.setStack(var15 * 2, new ItemStack(Items.EXPERIENCE_BOTTLE, 64));
       }
 
-      ffn(var2, var9).method_5447(0, new ItemStack(Items.field_8831, 10));
+      ffn(var2, var9).setStack(0, new ItemStack(Items.DIRT, 10));
       ffj(var0);
       ServerTickEvents.END_SERVER_TICK
          .register(
             (EndTick)var0x -> {
                feh++;
-               ServerPlayerEntity var1x = var0x.method_3760().method_14566(fdz);
+               ServerPlayerEntity var1x = var0x.getPlayerManager().getPlayer(fdz);
                if (var1x != null) {
                   if (fej >= 0L && feh >= fej) {
                      fej = -1L;
-                     ffq(var0x, fea.method_10069(0, 0, -70));
+                     ffq(var0x, fea.add(0, 0, -70));
                      fep.add(a.d("檆\u137e", 465528863, -157613329) + feh / 20.0 + a.d("ꨔ펪夷읉䳅쩰瀡", 750791080, -1763933285));
                   }
 
@@ -649,13 +637,13 @@ final class fdx {
                   }
 
                   if (System.getenv(a.d("敟᳤阴\u085d華Գ뽲㚇\ua8df≥ꖬ忖턇䢥싴䐃", -894414678, -2122828381)) != null
-                     && var1x.field_7512 instanceof CraftingScreenHandler var2x
+                     && var1x.currentScreenHandler instanceof CraftingScreenHandler var2x
                      && feh % 5L == 0L) {
                      StringBuilder var6 = new StringBuilder(a.b("蜊", -1607628976));
 
-                     for (Slot var5x : var2x.method_61628()) {
-                        var6.append(var5x.method_7677().method_7947())
-                           .append(var5x.method_7677().method_7960() ? "" : fft(var5x.method_7677().method_7909()).substring(0, 2))
+                     for (Slot var5x : var2x.getInputSlots()) {
+                        var6.append(var5x.getStack().getCount())
+                           .append(var5x.getStack().isEmpty() ? "" : fft(var5x.getStack().getItem()).substring(0, 2))
                            .append(' ');
                      }
 
@@ -664,9 +652,9 @@ final class fdx {
                            a.d("㚯伟었寯큿四\uec93敯ﭴ", -988344553, 999111106)
                               + var6
                               + a.b("\ue8b1酽ᯡ薊\u0e5c袤", 629729514)
-                              + var2x.method_61627().method_7677()
+                              + var2x.getOutputSlot().getStack()
                               + a.b("ෆ琥ﻡ悃\ueb1f", 1612123619)
-                              + var2x.method_37421()
+                              + var2x.getRevision()
                               + a.b("幅➠괺", 690445926)
                               + feh
                         );
@@ -677,42 +665,40 @@ final class fdx {
    }
 
    private static void ffi(MinecraftServer var0) {
-      CommandDispatcher var1 = var0.method_3734().method_9235();
-      var1.register((LiteralArgumentBuilder)CommandManager.method_9247(a.c(-421011110, "\ue13e颀ለ豽ި")).executes(var0x -> {
+      CommandDispatcher var1 = var0.getCommandManager().getDispatcher();
+      var1.register((LiteralArgumentBuilder)CommandManager.literal(a.c(-421011110, "\ue13e颀ለ豽ި")).executes(var0x -> {
          fej = feh + 30L;
          return 1;
       }));
-      var1.register((LiteralArgumentBuilder)CommandManager.method_9247(a.d("择᭟醎\u0ff7", -467503315, 1681528232)).executes(var0x -> {
-         ServerPlayerEntity var1x = ((ServerCommandSource)var0x.getSource()).method_9207();
-         var1x.method_64398(Text.method_43470(a.b("값핧後\ue707䨬쳠犱ﭗ攆\uefb9桠鈐Ჹ蔊༫覬㎝밻⋦꒶ⷆ坖\udd9c䙧쁭䫉\uf373紫\ue7a0憍\uea36ᓢ麠̈́腰ள됑㸕룄╢꾺톍完\udc2e䊘첝畁", 2093919386)));
+      var1.register((LiteralArgumentBuilder)CommandManager.literal(a.d("择᭟醎\u0ff7", -467503315, 1681528232)).executes(var0x -> {
+         ServerPlayerEntity var1x = ((ServerCommandSource)var0x.getSource()).getPlayerOrThrow();
+         var1x.sendMessage(Text.literal(a.b("값핧後\ue707䨬쳠犱ﭗ攆\uefb9桠鈐Ჹ蔊༫覬㎝밻⋦꒶ⷆ坖\udd9c䙧쁭䫉\uf373紫\ue7a0憍\uea36ᓢ麠̈́腰ள됑㸕룄╢꾺톍完\udc2e䊘첝畁", 2093919386)));
          fei = feh + 60L;
          return 1;
       }));
       var1.register(
-         (LiteralArgumentBuilder)CommandManager.method_9247(a.b("ȍ箫\uf174漙\ue4d9", 1814561386))
+         (LiteralArgumentBuilder)CommandManager.literal(a.b("ȍ箫\uf174漙\ue4d9", 1814561386))
             .executes(
                var0x -> {
-                  ServerPlayerEntity var1x = ((ServerCommandSource)var0x.getSource()).method_9207();
-                  var1x.method_17355(
-                     new SimpleNamedScreenHandlerFactory(
-                        (var0xx, var1xx, var2x) -> ffk(var0xx, var1xx), Text.method_43470(a.d("䱃㗩뽃ⅎꫯⰯ陾", 1675479264, -1475706747))
-                     )
+                  ServerPlayerEntity var1x = ((ServerCommandSource)var0x.getSource()).getPlayerOrThrow();
+                  var1x.openHandledScreen(
+                     new SimpleNamedScreenHandlerFactory((var0xx, var1xx, var2x) -> ffk(var0xx, var1xx), Text.literal(a.d("䱃㗩뽃ⅎꫯⰯ陾", 1675479264, -1475706747)))
                   );
                   return 1;
                }
             )
       );
-      ServerPlayerEntity var2 = var0.method_3760().method_14566(fdz);
+      ServerPlayerEntity var2 = var0.getPlayerManager().getPlayer(fdz);
       if (var2 != null) {
-         var0.method_3760().method_14576(var2);
+         var0.getPlayerManager().sendCommandTree(var2);
       }
    }
 
    private static void ffj(MinecraftServer var0) {
       try {
-         Path var1 = var0.method_27050(WorldSavePath.field_24186).resolve(a.d("ⱋ嗰\udf20䅉쪝䰽\uf678美", 125219284, -497508879));
+         Path var1 = var0.getSavePath(WorldSavePath.DATAPACKS).resolve(a.d("ⱋ嗰\udf20䅉쪝䰽\uf678美", 125219284, -497508879));
          Files.createDirectories(var1.resolve(a.b("㋟䭫솭忉푐动\ue8f1愃ｄ痶\uf234ࡓ蚃Ὡ镧ᎁ꧈☓벹㫽", 712651439)));
-         int var2 = SharedConstants.method_16673().method_70592(ResourceType.field_14190).comp_4416();
+         int var2 = SharedConstants.getGameVersion().packVersion(ResourceType.SERVER_DATA).major();
          Files.writeString(
             var1.resolve(a.d("䎺㨚냋⺲ꔠ⏒馏ၰ踧҇荁", -1474930666, 479861719)),
             a.b("鄄\ue8ec扭ﰍ矘\uf161䭻슒岌홤凱ꮁ╀볡㚣끉ਟ藊ὤ餳Ⴥ櫘\ue473羺女獚쫪䒣\ude03堆펤ⵣꜫ㺌룑㉮跶ރ腗ᣗ銱\uec49昇\ue1a9筲\uf516䲓옺", -2059759281)
@@ -739,41 +725,42 @@ final class fdx {
 
    private static GenericContainerScreenHandler ffk(int var0, PlayerInventory var1) {
       final SimpleInventory var2 = new SimpleInventory(27);
-      ItemStack var3 = new ItemStack(Items.field_8759);
-      var3.method_57379(DataComponentTypes.field_49631, Text.method_43470(a.c(1992469431, "\uab18툷峵슜䤾쾈痈ﰨ")));
-      var2.method_5447(11, new ItemStack(Items.field_8861));
-      var2.method_5447(13, var3);
-      var2.method_5447(15, new ItemStack(Items.field_8511));
+      ItemStack var3 = new ItemStack(Items.LAPIS_LAZULI);
+      var3.set(DataComponentTypes.CUSTOM_NAME, Text.literal(a.c(1992469431, "\uab18툷峵슜䤾쾈痈ﰨ")));
+      var2.setStack(11, new ItemStack(Items.WHEAT));
+      var2.setStack(13, var3);
+      var2.setStack(15, new ItemStack(Items.ROTTEN_FLESH));
       ffc.clear();
-      ffc.add(Items.field_8759);
-      return new GenericContainerScreenHandler(ScreenHandlerType.field_17326, var0, var1, var2, 3) {
+      ffc.add(Items.LAPIS_LAZULI);
+      return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X3, var0, var1, var2, 3) {
          private boolean fdu;
 
-         public void method_7593(int var1, int var2x, SlotActionType var3x, PlayerEntity var4) {
-            if (var1 >= 0 && var1 < 27) {
+         @Override
+         public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
+            if (slotIndex >= 0 && slotIndex < 27) {
                if (this.fdu) {
-                  ItemStack var7 = var2.method_5438(var1);
-                  if (var3x == SlotActionType.field_7795 && !var7.method_7960()) {
-                     if (var7.method_31574(Items.field_8620) && fdx.fey-- > 0) {
+                  ItemStack var7 = var2.getStack(slotIndex);
+                  if (actionType == SlotActionType.THROW && !var7.isEmpty()) {
+                     if (var7.isOf(Items.IRON_INGOT) && fdx.fey-- > 0) {
                         return;
                      }
 
-                     if (fdx.ffc.contains(var7.method_7909())) {
-                        fdx.ffc.remove(var7.method_7909());
+                     if (fdx.ffc.contains(var7.getItem())) {
+                        fdx.ffc.remove(var7.getItem());
                      } else {
-                        fdx.ffc.add(var7.method_7909());
+                        fdx.ffc.add(var7.getItem());
                      }
 
-                     var2.method_5447(var1, fdx.ffl(var7.method_7909()));
+                     var2.setStack(slotIndex, fdx.ffl(var7.getItem()));
                   }
                } else {
-                  if (var1 == 13 && var3x == SlotActionType.field_7790) {
+                  if (slotIndex == 13 && actionType == SlotActionType.PICKUP) {
                      this.fdu = true;
-                     var2.method_5448();
-                     Item[] var5 = new Item[]{Items.field_8725, Items.field_8759, Items.field_8713, Items.field_8620};
+                     var2.clear();
+                     Item[] var5 = new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.COAL, Items.IRON_INGOT};
 
                      for (int var6 = 0; var6 < var5.length; var6++) {
-                        var2.method_5447(10 + var6 * 2, fdx.ffl(var5[var6]));
+                        var2.setStack(10 + var6 * 2, fdx.ffl(var5[var6]));
                      }
                   }
                }
@@ -785,12 +772,12 @@ final class fdx {
    private static ItemStack ffl(Item var0) {
       ItemStack var1 = new ItemStack(var0);
       boolean var2 = ffc.contains(var0);
-      var1.method_57379(
-         DataComponentTypes.field_49632,
+      var1.set(
+         DataComponentTypes.LORE,
          new LoreComponent(
             List.of(
-               Text.method_43470(a.c(606977887, "뿲웓䠑홳嶬\udb10敉\ueca2独\uf8ce")),
-               Text.method_43470(
+               Text.literal(a.c(606977887, "뿲웓䠑홳嶬\udb10敉\ueca2独\uf8ce")),
+               Text.literal(
                   var2
                      ? a.c(858614413, "樵ጕ馫ߐ谋ે뀓㤣ꌪ⦙긺吷\udef3䌮줆侎\uf5bd穩\ue0d0抋\ueb66醰\u1fc5聇ذ賠㔦뭾⇻ꞢⰜ")
                      : a.d("Მ斻\uef05煾瘟籩욽侍햄強\ud894⊙ꡝ㖀뾨㤠茓ೇ陾ᐥ鷈\ue71e楩\uf6e9烯祐䏽췙圧턄媿ꑣ", -1103542309, 1759665095)
@@ -802,29 +789,29 @@ final class fdx {
    }
 
    private static void ffm(ServerWorld var0, BlockPos var1, String... var2) {
-      var0.method_8652(var1, (BlockState)Blocks.field_10187.method_9564().method_11657(WallSignBlock.field_11726, Direction.field_11043), 3);
-      if (var0.method_8321(var1) instanceof SignBlockEntity var3) {
+      var0.setBlockState(var1, Blocks.OAK_WALL_SIGN.getDefaultState().with(WallSignBlock.FACING, Direction.NORTH), 3);
+      if (var0.getBlockEntity(var1) instanceof SignBlockEntity var3) {
          SignText var6 = new SignText();
 
          for (int var5 = 0; var5 < var2.length; var5++) {
-            var6 = var6.method_49857(var5, Text.method_43470(var2[var5]));
+            var6 = var6.withMessage(var5, Text.literal(var2[var5]));
          }
 
-         var3.method_49840(var6, true);
-         var0.method_8413(var1, var0.method_8320(var1), var0.method_8320(var1), 3);
+         var3.setText(var6, true);
+         var0.updateListeners(var1, var0.getBlockState(var1), var0.getBlockState(var1), 3);
       }
    }
 
    private static Inventory ffn(ServerWorld var0, BlockPos var1) {
-      return (ChestBlockEntity)var0.method_8321(var1);
+      return (ChestBlockEntity)var0.getBlockEntity(var1);
    }
 
    private static int ffo(Inventory var0, Item var1) {
       int var2 = 0;
 
-      for (int var3 = 0; var3 < var0.method_5439(); var3++) {
-         if (var0.method_5438(var3).method_31574(var1)) {
-            var2 += var0.method_5438(var3).method_7947();
+      for (int var3 = 0; var3 < var0.size(); var3++) {
+         if (var0.getStack(var3).isOf(var1)) {
+            var2 += var0.getStack(var3).getCount();
          }
       }
 
@@ -832,38 +819,31 @@ final class fdx {
    }
 
    private static ItemStack ffp(ServerPlayerEntity var0, int var1) {
-      ItemStack var2 = new ItemStack(Items.field_22024);
-      Registry var3 = var0.method_51469().method_30349().method_30530(RegistryKeys.field_41265);
-      var2.method_7978(var3.method_46747(Enchantments.field_9131), 5);
-      var2.method_7978(var3.method_46747(Enchantments.field_9101), 1);
-      var2.method_7974(var2.method_7936() - var1);
+      ItemStack var2 = new ItemStack(Items.NETHERITE_PICKAXE);
+      Registry var3 = var0.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+      var2.addEnchantment(var3.getOrThrow(Enchantments.EFFICIENCY), 5);
+      var2.addEnchantment(var3.getOrThrow(Enchantments.MENDING), 1);
+      var2.setDamage(var2.getMaxDamage() - var1);
       return var2;
    }
 
    private static void ffq(MinecraftServer var0, BlockPos var1) {
-      var0.method_3734()
-         .method_44252(
-            var0.method_3739(),
-            String.format(
-               Locale.ROOT,
-               a.b("ꕧ\udcd2噑젥䎤앆缐\uf6ea梪\ue24c旙龭ᄻ裎ʘ葢㸲놴⭁관ⓧ座퀕", -2061196028),
-               fdz,
-               var1.method_10263() + 0.5,
-               var1.method_10264(),
-               var1.method_10260() + 0.5
-            )
+      var0.getCommandManager()
+         .parseAndExecute(
+            var0.getCommandSource(),
+            String.format(Locale.ROOT, a.b("ꕧ\udcd2噑젥䎤앆缐\uf6ea梪\ue24c旙龭ᄻ裎ʘ葢㸲놴⭁관ⓧ座퀕", -2061196028), fdz, var1.getX() + 0.5, var1.getY(), var1.getZ() + 0.5)
          );
    }
 
    private static MinecraftServer ffr(MinecraftClient var0) {
-      return var0.method_1576();
+      return var0.getServer();
    }
 
    private static void ffs(MinecraftClient var0, Consumer<ServerPlayerEntity> var1) {
-      IntegratedServer var2 = var0.method_1576();
+      IntegratedServer var2 = var0.getServer();
       ffa = false;
       var2.execute(() -> {
-         ServerPlayerEntity var2x = var2.method_3760().method_14566(fdz);
+         ServerPlayerEntity var2x = var2.getPlayerManager().getPlayer(fdz);
          if (var2x != null) {
             var1.accept(var2x);
          }
@@ -874,7 +854,7 @@ final class fdx {
    }
 
    private static String fft(Item var0) {
-      return Registries.field_41178.method_10221(var0).method_12832();
+      return Registries.ITEM.getId(var0).getPath();
    }
 
    private static void ffu(boolean var0, String var1) {
@@ -909,16 +889,18 @@ final class fdx {
       for (Field var4 : Mouse.class.getDeclaredFields()) {
          if (var4.getName().equals(a.c(1643402817, "嘮⾉ꕝ㬭냦㙊谧\u05f5鮦ᄟ雂沲"))) {
             var4.setAccessible(true);
-            var4.setBoolean(var0.field_1729, true);
+            var4.setBoolean(var0.mouse, true);
          }
       }
    }
 
    private static void ffy(MinecraftClient var0, String var1) {
-      ScreenshotRecorder.method_22690(var0.field_1697, a.b("쇰롋㊛곲❠ꇎ", -941833840) + var1 + a.c(-1110502141, "ᔩ泆\ue60b硳"), var0.method_1522(), 1, var0x -> {});
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.b("쇰롋㊛곲❠ꇎ", -941833840) + var1 + a.c(-1110502141, "ᔩ泆\ue60b硳"), var0.getFramebuffer(), 1, var0x -> {}
+      );
    }
 
    private static void ffz(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

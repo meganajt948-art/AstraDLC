@@ -11,9 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 
 public class mjr extends kfe {
-   private static final EquipmentSlot[] mjs = new EquipmentSlot[]{
-      EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6169, EquipmentSlot.field_6166
-   };
+   private static final EquipmentSlot[] mjs = new EquipmentSlot[]{EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.FEET};
    private static final int mjt = 6;
    private final vmc mju = this.add(new vmc(a.b("㮗䈂죇嚧\udd20寓\ue187桿\uf623粊\ufb0eĻ追ᙋ鰋\u1af9ꂽ⽩뗟㎓멩", -1943454767), 2.0, 1.0, 100.0, 1.0));
    private final vkl mjv = this.add(new vkl(a.c(318390738, "䆘㠝닓ⲠꜺ⇉鮍ቧ谲ڋ腑笶"), true));
@@ -47,7 +45,7 @@ public class mjr extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      if (this.mjz && !this.mjy && var1.field_1724 != null) {
+      if (this.mjz && !this.mjy && var1.player != null) {
          this.mjx.hold(var1);
          this.mjy = true;
          this.mka = 0;
@@ -56,7 +54,7 @@ public class mjr extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != null) {
          if (this.mkb > 0) {
             this.mkb--;
@@ -90,15 +88,15 @@ public class mjr extends kfe {
    }
 
    private boolean mkf(MinecraftClient var1, ClientPlayerEntity var2) {
-      if (!var2.method_5805() || var2.method_7325() || !wdq.canClick(var2)) {
+      if (!var2.isAlive() || var2.isSpectator() || !wdq.canClick(var2)) {
          return false;
       } else {
-         return var1.field_1755 != null && !mkg(var1, var2) ? false : !oxw.busy() && !kvz.busy() && !var2.method_6115();
+         return var1.currentScreen != null && !mkg(var1, var2) ? false : !oxw.busy() && !kvz.busy() && !var2.isUsingItem();
       }
    }
 
    private static boolean mkg(MinecraftClient var0, ClientPlayerEntity var1) {
-      return var0.field_1755 instanceof HandledScreen var2 && var2.method_17577() == var1.field_7498;
+      return var0.currentScreen instanceof HandledScreen var2 && var2.getScreenHandler() == var1.playerScreenHandler;
    }
 
    private boolean mkh(ClientPlayerEntity var1) {
@@ -121,33 +119,33 @@ public class mjr extends kfe {
    }
 
    private vuc mkj(ClientPlayerEntity var1, EquipmentSlot var2) {
-      ItemStack var3 = var1.method_6118(var2);
-      if (var2 == EquipmentSlot.field_6174 && this.mjw.get() && var3.method_31574(Items.field_8833)) {
+      ItemStack var3 = var1.getEquippedStack(var2);
+      if (var2 == EquipmentSlot.CHEST && this.mjw.get() && var3.isOf(Items.ELYTRA)) {
          return null;
-      } else {
-         int var4 = this.mju.getInt();
-         boolean var5 = var3.method_7960();
-         boolean var6 = !var5 && var3.method_7963() && vui.left(var3) <= var4;
-         if (!var5 && !var6) {
-            return null;
-         } else {
-            int var7 = var5 ? 0 : vui.left(var3);
-            PlayerInventory var8 = var1.method_31548();
-            vuc var9 = vui.best(var8, this.mjv.get(), var4x -> {
-               if (vui.wornIn(var4x) == var2 && mkk(var4x) != 0) {
-                  int var5x = vui.left(var4x);
-                  return var5x > var4 && (var5 || var5x > var7) ? mkk(var4x) * 100000 + Math.min(99999, var5x) : 0;
-               } else {
-                  return 0;
-               }
-            });
-            return var9 != null && vui.roomFor(var8, var9, var3) ? var9 : null;
-         }
       }
+
+      int var4 = this.mju.getInt();
+      boolean var5 = var3.isEmpty();
+      boolean var6 = !var5 && var3.isDamageable() && vui.left(var3) <= var4;
+      if (!var5 && !var6) {
+         return null;
+      }
+
+      int var7 = var5 ? 0 : vui.left(var3);
+      PlayerInventory var8 = var1.getInventory();
+      vuc var9 = vui.best(var8, this.mjv.get(), var4x -> {
+         if (vui.wornIn(var4x) == var2 && mkk(var4x) != 0) {
+            int var5x = vui.left(var4x);
+            return var5x > var4 && (var5 || var5x > var7) ? mkk(var4x) * 100000 + Math.min(99999, var5x) : 0;
+         } else {
+            return 0;
+         }
+      });
+      return var9 != null && vui.roomFor(var8, var9, var3) ? var9 : null;
    }
 
    private static int mkk(ItemStack var0) {
-      String var1 = Registries.field_41178.method_10221(var0.method_7909()).method_12832();
+      String var1 = Registries.ITEM.getId(var0.getItem()).getPath();
       if (var1.startsWith(a.c(1739830118, "댂쪸䁺\ude17嗍퍫椣\ue0cf纁\uf40a"))) {
          return 2;
       } else {

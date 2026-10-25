@@ -16,22 +16,22 @@ final class fvw {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
-      Screen var2 = var0.field_1755;
+      Screen var2 = var0.currentScreen;
       switch (var1) {
          case 1:
-            var0.method_1562().method_45730(a.c(206856521, "愰ᢜ鉋ల螠ł묇㋧곬♋ꆞ寯픸"));
+            var0.getNetworkHandler().sendChatCommand(a.c(206856521, "愰ᢜ鉋ల螠ł묇㋧곬♋ꆞ寯픸"));
             break;
          case 60:
             fwc(var0, a.b("娄⎺ꥲ㜂볒㩿耱\u09d1韇ᴬ髧悋\uee42矻", 1038375532));
             break;
          case 62:
-            var0.method_1507(new ChatScreen("", false));
+            var0.setScreen(new ChatScreen("", false));
             break;
          case 100:
             fwc(var0, a.d("\uabee퉐墘웨䴸쮕燛\uf83b昭\uecd2權酲ᾰ", -1380226419, -1992507128));
             break;
          case 102:
-            var0.method_1507(null);
+            var0.setScreen(null);
             wap.set(wam.RU);
             fvz(var0);
             break;
@@ -42,7 +42,7 @@ final class fvw {
             fwa(var2, 400.0F, 23.0F, 0);
 
             for (char var6 : a.c(1995684410, "멊쏽䤵흊").toCharArray()) {
-               var2.method_25400(new CharInput(var6, 0));
+               var2.charTyped(new CharInput(var6, 0));
             }
             break;
          case 170:
@@ -53,7 +53,7 @@ final class fvw {
             break;
          case 202:
             for (int var3 = 0; var3 < 3; var3++) {
-               var2.method_25404(new KeyInput(256, 0, 0));
+               var2.keyPressed(new KeyInput(256, 0, 0));
             }
       }
 
@@ -71,7 +71,7 @@ final class fvw {
          var6.setFloat(null, Float.NaN);
       }
 
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static void fwa(Screen var0, float var1, float var2, int var3) throws Exception {
@@ -79,7 +79,7 @@ final class fvw {
          float var4 = fwb(var0, a.c(204217489, "᳹敕\uef9d燢層粍웨"));
          float var5 = fwb(var0, a.b("眽ຑ葙ᨦ釿ᝉ괭", 1636071253));
          float var6 = fwb(var0, a.d("䲵㔔뿅↹ꩧ", 1629125131, -118999352));
-         var0.method_25402(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
+         var0.mouseClicked(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
       }
    }
 
@@ -90,11 +90,12 @@ final class fvw {
    }
 
    private static void fwc(MinecraftClient var0, String var1) {
-      System.out.println(a.d("磀ŧ讽ᗆ鹗ᢲꋰ⬗땏㾪", 1758870791, -1813559874) + var1 + a.c(-462910363, "豆\uf597缤") + var0.method_47599() + a.c(-1650675153, "눋쯼䄹\udf4b"));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out
+         .println(a.d("磀ŧ讽ᗆ鹗ᢲꋰ⬗땏㾪", 1758870791, -1813559874) + var1 + a.c(-462910363, "豆\uf597缤") + var0.getCurrentFps() + a.c(-1650675153, "눋쯼䄹\udf4b"));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(-1692160232, "꽸훃尓쉺䧨콆") + var1 + a.d("䂆㥩뎤ⷜ", 554766139, 1322143639),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

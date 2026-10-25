@@ -84,36 +84,31 @@ public class rnk extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rnk var2 = rnl;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      if (var2 != null
-         && var2.isEnabled()
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      if (var2 != null && var2.isEnabled() && var3.world != null && var3.player != null && !var3.options.hudHidden && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.ros) {
             var2.ros = unf.frame();
-            var2.roy(var0, var3, var1.method_60637(true));
+            var2.roy(var0, var3, var1.getTickProgress(true));
          }
       }
    }
 
    private void roy(DrawContext var1, MinecraftClient var2, float var3) {
-      ClientPlayerEntity var4 = var2.field_1724;
-      long var5 = var2.field_1687.method_75260();
+      ClientPlayerEntity var4 = var2.player;
+      long var5 = var2.world.getTime();
       if (var5 != this.roi) {
          this.roi = var5;
          this.rpd(var2);
       }
 
       rnb var7 = null;
-      ItemStack var8 = ItemStack.field_8037;
+      ItemStack var8 = ItemStack.EMPTY;
       this.rod = false;
       this.roe = 1;
 
       for (Hand var12 : Hand.values()) {
-         ItemStack var13 = var4.method_5998(var12);
+         ItemStack var13 = var4.getStackInHand(var12);
          var7 = this.rpc(var4, var13);
          if (var7 != null) {
             break;
@@ -123,7 +118,7 @@ public class rnk extends kfe {
       if (var7 != null || !this.roc.isEmpty()) {
          usn var19;
          try {
-            var19 = usn.capture(var3, var1.method_51421(), var1.method_51443());
+            var19 = usn.capture(var3, var1.getScaledWindowWidth(), var1.getScaledWindowHeight());
          } catch (Throwable var18) {
             return;
          }
@@ -147,10 +142,10 @@ public class rnk extends kfe {
       }
 
       if (var5 != null) {
-         Vec3d var17 = var3.method_5836(var6).method_1023(0.0, 0.1, 0.0);
-         float var18 = var3.method_36455();
-         float var10 = var3.method_36454();
-         Vec3d var11 = var3.method_18798();
+         Vec3d var17 = var3.getCameraPosVec(var6).subtract(0.0, 0.1, 0.0);
+         float var18 = var3.getPitch();
+         float var10 = var3.getYaw();
+         Vec3d var11 = var3.getVelocity();
          boolean var12 = Objects.equals(var5, this.roj)
             && this.rok == this.rod
             && this.rol == this.roe
@@ -159,7 +154,7 @@ public class rnk extends kfe {
             && var11.equals(this.roo)
             && var18 == this.rop
             && var10 == this.roq
-            && this.ror == var3.method_24828();
+            && this.ror == var3.isOnGround();
          this.roj = var5;
          this.rok = this.rod;
          this.rol = this.roe;
@@ -168,7 +163,7 @@ public class rnk extends kfe {
          this.roo = var11;
          this.rop = var18;
          this.roq = var10;
-         this.ror = var3.method_24828();
+         this.ror = var3.isOnGround();
          if (var12) {
             for (int var20 = 0; var20 < (this.rod ? this.roe : 1); var20++) {
                this.rpg(var1, var4, this.rob[var20], var7, var20 == 0 ? 1.0F : 0.85F, 3);
@@ -183,14 +178,14 @@ public class rnk extends kfe {
 
             for (int var15 = 0; var15 < this.roe; var15++) {
                Vec3d var16 = rpb(var13, var14, roa[var15] * (float) (Math.PI / 180.0));
-               this.rpf(var2.field_1687, var3, var17, var16.method_1021(var5.rnc), var5, this.rob[var15]);
+               this.rpf(var2.world, var3, var17, var16.multiply(var5.rnc), var5, this.rob[var15]);
                this.rpg(var1, var4, this.rob[var15], var7, var15 == 0 ? 1.0F : 0.85F, 3);
             }
          } else {
             Vec3d var19 = rpe(var18 + var5.rng, var10, var18);
-            Vec3d var21 = var19.method_1021(var5.rnc);
-            var21 = var21.method_1031(var11.field_1352, var3.method_24828() ? 0.0 : var11.field_1351, var11.field_1350);
-            this.rpf(var2.field_1687, var3, var17, var21, var5, this.rob[0]);
+            Vec3d var21 = var19.multiply(var5.rnc);
+            var21 = var21.add(var11.x, var3.isOnGround() ? 0.0 : var11.y, var11.z);
+            this.rpf(var2.world, var3, var17, var21, var5, this.rob[0]);
             this.rpg(var1, var4, this.rob[0], var7, 1.0F, 3);
          }
       }
@@ -200,61 +195,63 @@ public class rnk extends kfe {
       float var2 = (float) (Math.PI / 180.0);
       float var3 = var0 * var2;
       float var4 = -var1 * var2;
-      float var5 = MathHelper.method_15362(var4);
-      float var6 = MathHelper.method_15374(var4);
-      float var7 = MathHelper.method_15362(var3);
-      float var8 = MathHelper.method_15374(var3);
+      float var5 = MathHelper.cos(var4);
+      float var6 = MathHelper.sin(var4);
+      float var7 = MathHelper.cos(var3);
+      float var8 = MathHelper.sin(var3);
       return new Vec3d(var6 * var7, -var8, var5 * var7);
    }
 
    private static Vec3d rpb(Vec3d var0, Vec3d var1, float var2) {
       if (var2 == 0.0F) {
          return var0;
-      } else {
-         double var3 = Math.cos(var2);
-         double var5 = Math.sin(var2);
-         Vec3d var7 = var1.method_1036(var0);
-         return var0.method_1021(var3).method_1019(var7.method_1021(var5)).method_1019(var1.method_1021(var1.method_1026(var0) * (1.0 - var3)));
       }
+
+      double var3 = Math.cos(var2);
+      double var5 = Math.sin(var2);
+      Vec3d var7 = var1.crossProduct(var0);
+      return var0.multiply(var3).add(var7.multiply(var5)).add(var1.multiply(var1.dotProduct(var0) * (1.0 - var3)));
    }
 
    private rnb rpc(ClientPlayerEntity var1, ItemStack var2) {
-      if (var2.method_7960()) {
+      if (var2.isEmpty()) {
          return null;
-      } else if (var2.method_7909() instanceof BowItem) {
-         if (this.rnn.get() && var1.method_6115() && var1.method_6030() == var2) {
-            float var4 = BowItem.method_7722(var1.method_6048());
+      }
+
+      if (var2.getItem() instanceof BowItem) {
+         if (this.rnn.get() && var1.isUsingItem() && var1.getActiveItem() == var2) {
+            float var4 = BowItem.getPullProgress(var1.getItemUseTime());
             return var4 < 0.1F ? null : new rnb(var4 * 3.0, 0.05, 0.99, 0.6, 0.0F, true);
          } else {
             return null;
          }
-      } else if (var2.method_7909() instanceof CrossbowItem) {
-         if (this.rnn.get() && CrossbowItem.method_7781(var2)) {
-            ChargedProjectilesComponent var3 = (ChargedProjectilesComponent)var2.method_58694(DataComponentTypes.field_49649);
-            if (var3 != null && var3.method_57438(Items.field_8639)) {
+      } else if (var2.getItem() instanceof CrossbowItem) {
+         if (this.rnn.get() && CrossbowItem.isCharged(var2)) {
+            ChargedProjectilesComponent var3 = var2.get(DataComponentTypes.CHARGED_PROJECTILES);
+            if (var3 != null && var3.contains(Items.FIREWORK_ROCKET)) {
                return null;
-            } else {
-               this.rod = true;
-               this.roe = var3 != null && var3.method_57437().size() >= 3 ? 3 : 1;
-               return new rnb(3.15, 0.05, 0.99, 0.6, 0.0F, true);
             }
+
+            this.rod = true;
+            this.roe = var3 != null && var3.getProjectiles().size() >= 3 ? 3 : 1;
+            return new rnb(3.15, 0.05, 0.99, 0.6, 0.0F, true);
          } else {
             return null;
          }
-      } else if (!(var2.method_7909() instanceof TridentItem)) {
-         if (var2.method_7909() instanceof EnderPearlItem) {
+      } else if (!(var2.getItem() instanceof TridentItem)) {
+         if (var2.getItem() instanceof EnderPearlItem) {
             return this.rnm.get() ? rnw : null;
          } else if (!this.rnp.get()) {
             return null;
-         } else if (var2.method_7909() instanceof SnowballItem || var2.method_7909() instanceof EggItem) {
+         } else if (var2.getItem() instanceof SnowballItem || var2.getItem() instanceof EggItem) {
             return rnw;
-         } else if (var2.method_7909() instanceof ThrowablePotionItem) {
+         } else if (var2.getItem() instanceof ThrowablePotionItem) {
             return rnx;
          } else {
-            return var2.method_7909() instanceof ExperienceBottleItem ? rny : null;
+            return var2.getItem() instanceof ExperienceBottleItem ? rny : null;
          }
       } else {
-         return this.rno.get() && var1.method_6115() && var1.method_6030() == var2 ? rnz : null;
+         return this.rno.get() && var1.isUsingItem() && var1.getActiveItem() == var2 ? rnz : null;
       }
    }
 
@@ -262,13 +259,13 @@ public class rnk extends kfe {
       this.rog.clear();
       this.roh.clear();
       this.rof.clear();
-      Box var2 = var1.field_1724.method_5829().method_1009(96.0, 64.0, 96.0);
+      Box var2 = var1.player.getBoundingBox().expand(96.0, 64.0, 96.0);
 
-      for (Entity var4 : var1.field_1687.method_8335(var1.field_1724, var2)) {
-         if (var4 instanceof LivingEntity var5 && var5.method_5805() && !var4.method_7325() && var4.method_5863()) {
+      for (Entity var4 : var1.world.getOtherEntities(var1.player, var2)) {
+         if (var4 instanceof LivingEntity var5 && var5.isAlive() && !var4.isSpectator() && var4.canHit()) {
             this.rog.add(var4);
-            this.roh.add(var4.method_5829().method_1014(0.3));
-         } else if (var4 instanceof EnderPearlEntity var6 && this.rnq.get() && !var6.method_31481()) {
+            this.roh.add(var4.getBoundingBox().expand(0.3));
+         } else if (var4 instanceof EnderPearlEntity var6 && this.rnq.get() && !var6.isRemoved()) {
             this.rof.add(var6);
          }
       }
@@ -283,32 +280,32 @@ public class rnk extends kfe {
 
       for (int var7 = 0; var7 < this.rof.size(); var7++) {
          EnderPearlEntity var8 = this.rof.get(var7);
-         rnb var9 = new rnb(0.0, var8.method_56989(), 0.99, 0.8, 0.0F, false);
-         this.rpf(var1.field_1687, var8.method_24921(), var8.method_73189(), var8.method_18798(), var9, this.roc.get(var7));
+         rnb var9 = new rnb(0.0, var8.getFinalGravity(), 0.99, 0.8, 0.0F, false);
+         this.rpf(var1.world, var8.getOwner(), var8.getEntityPos(), var8.getVelocity(), var9, this.roc.get(var7));
       }
    }
 
    private static Vec3d rpe(float var0, float var1, float var2) {
       float var3 = (float) (Math.PI / 180.0);
-      double var4 = -MathHelper.method_15374(var1 * var3) * MathHelper.method_15362(var2 * var3);
-      double var6 = -MathHelper.method_15374(var0 * var3);
-      double var8 = MathHelper.method_15362(var1 * var3) * MathHelper.method_15362(var2 * var3);
-      return new Vec3d(var4, var6, var8).method_1029();
+      double var4 = -MathHelper.sin(var1 * var3) * MathHelper.cos(var2 * var3);
+      double var6 = -MathHelper.sin(var0 * var3);
+      double var8 = MathHelper.cos(var1 * var3) * MathHelper.cos(var2 * var3);
+      return new Vec3d(var4, var6, var8).normalize();
    }
 
    private void rpf(World var1, Entity var2, Vec3d var3, Vec3d var4, rnb var5, rmy var6) {
       var6.n = 0;
-      var6.hit = Type.field_1333;
+      var6.hit = Type.MISS;
       var6.entity = null;
-      double var7 = var3.field_1352;
-      double var9 = var3.field_1351;
-      double var11 = var3.field_1350;
-      double var13 = var4.field_1352;
-      double var15 = var4.field_1351;
-      double var17 = var4.field_1350;
+      double var7 = var3.x;
+      double var9 = var3.y;
+      double var11 = var3.z;
+      double var13 = var4.x;
+      double var15 = var4.y;
+      double var17 = var4.z;
       var6.add(var7, var9, var11);
       boolean var19 = false;
-      int var20 = var1.method_31607() - 32;
+      int var20 = var1.getBottomY() - 32;
 
       for (int var21 = 1; var21 <= 240; var21++) {
          if (!var5.rnh) {
@@ -324,12 +321,12 @@ public class rnk extends kfe {
          double var26 = var11 + var17;
          Vec3d var28 = new Vec3d(var7, var9, var11);
          Vec3d var29 = new Vec3d(var56, var24, var26);
-         BlockHitResult var30 = var1.method_17742(
+         BlockHitResult var30 = var1.raycast(
             var2 == null
-               ? new RaycastContext(var28, var29, ShapeType.field_17558, FluidHandling.field_1348, ShapeContext.method_16194())
-               : new RaycastContext(var28, var29, ShapeType.field_17558, FluidHandling.field_1348, var2)
+               ? new RaycastContext(var28, var29, ShapeType.COLLIDER, FluidHandling.NONE, ShapeContext.absent())
+               : new RaycastContext(var28, var29, ShapeType.COLLIDER, FluidHandling.NONE, var2)
          );
-         double var31 = var30.method_17783() == Type.field_1333 ? Double.MAX_VALUE : var30.method_17784().method_1025(var28);
+         double var31 = var30.getType() == Type.MISS ? Double.MAX_VALUE : var30.getPos().squaredDistanceTo(var28);
          Entity var33 = null;
          Vec3d var34 = null;
          double var35 = Math.min(var7, var56);
@@ -344,15 +341,15 @@ public class rnk extends kfe {
             Entity var49 = this.rog.get(var47);
             if (var49 != var2 || var21 >= 5) {
                Box var50 = this.roh.get(var47);
-               if (!(var50.field_1320 < var35)
-                  && !(var50.field_1323 > var41)
-                  && !(var50.field_1325 < var37)
-                  && !(var50.field_1322 > var43)
-                  && !(var50.field_1324 < var39)
-                  && !(var50.field_1321 > var45)) {
-                  Optional var51 = var50.method_992(var28, var29);
+               if (!(var50.maxX < var35)
+                  && !(var50.minX > var41)
+                  && !(var50.maxY < var37)
+                  && !(var50.minY > var43)
+                  && !(var50.maxZ < var39)
+                  && !(var50.minZ > var45)) {
+                  Optional var51 = var50.raycast(var28, var29);
                   if (var51.isPresent()) {
-                     double var52 = ((Vec3d)var51.get()).method_1025(var28);
+                     double var52 = ((Vec3d)var51.get()).squaredDistanceTo(var28);
                      if (var52 < var31) {
                         var31 = var52;
                         var33 = var49;
@@ -364,24 +361,24 @@ public class rnk extends kfe {
          }
 
          if (var33 != null) {
-            var6.hit = Type.field_1331;
+            var6.hit = Type.ENTITY;
             var6.entity = var33;
-            var6.hx = var34.field_1352;
-            var6.hy = var34.field_1351;
-            var6.hz = var34.field_1350;
-            var6.add(var34.field_1352, var34.field_1351, var34.field_1350);
+            var6.hx = var34.x;
+            var6.hy = var34.y;
+            var6.hz = var34.z;
+            var6.add(var34.x, var34.y, var34.z);
             var6.ticks = var21;
             return;
          }
 
-         if (var30.method_17783() != Type.field_1333) {
-            Vec3d var58 = var30.method_17784();
-            var6.hit = Type.field_1332;
-            var6.hx = var58.field_1352;
-            var6.hy = var58.field_1351;
-            var6.hz = var58.field_1350;
-            var6.face = var30.method_17780();
-            var6.add(var58.field_1352, var58.field_1351, var58.field_1350);
+         if (var30.getType() != Type.MISS) {
+            Vec3d var58 = var30.getPos();
+            var6.hit = Type.BLOCK;
+            var6.hx = var58.x;
+            var6.hy = var58.y;
+            var6.hz = var58.z;
+            var6.face = var30.getSide();
+            var6.add(var58.x, var58.y, var58.z);
             var6.ticks = var21;
             return;
          }
@@ -389,7 +386,7 @@ public class rnk extends kfe {
          var7 = var56;
          var9 = var24;
          var11 = var26;
-         var6.add(var56, var24, var26);
+         var6.add(var7, var9, var11);
          if (var5.rnh) {
             double var57 = var19 ? var5.rnf : var5.rne;
             var13 *= var57;
@@ -398,8 +395,8 @@ public class rnk extends kfe {
             var15 -= var5.rnd;
          }
 
-         var19 = var1.method_8316(BlockPos.method_49637(var56, var24, var26)).method_15767(FluidTags.field_15517);
-         if (var24 < var20) {
+         var19 = var1.getFluidState(BlockPos.ofFloored(var7, var9, var11)).isIn(FluidTags.WATER);
+         if (var9 < var20) {
             return;
          }
       }
@@ -412,15 +409,15 @@ public class rnk extends kfe {
             this.rph(var1, var2, var3, var4, var6);
          }
 
-         if (var3.hit == Type.field_1332) {
+         if (var3.hit == Type.BLOCK) {
             this.rpi(var1, var2, var3.hx, var3.hy, var3.hz, var3.face, 0.32, var4);
-         } else if (var3.hit == Type.field_1331 && var3.entity != null) {
-            Vec3d var7 = var3.entity.method_73189();
+         } else if (var3.hit == Type.ENTITY && var3.entity != null) {
+            Vec3d var7 = var3.entity.getEntityPos();
             int var8 = ujt.lerp(var4, -45730, 0.65F);
-            this.rpi(var1, var2, var7.field_1352, var7.field_1351 + 0.02, var7.field_1350, Direction.field_11036, var3.entity.method_17681() * 0.5 + 0.25, var8);
+            this.rpi(var1, var2, var7.x, var7.y + 0.02, var7.z, Direction.UP, var3.entity.getWidth() * 0.5 + 0.25, var8);
          }
 
-         if (this.rns.get() && var3.hit != Type.field_1333 && var2.project(var3.hx, var3.hy, var3.hz, this.rot)) {
+         if (this.rns.get() && var3.hit != Type.MISS && var2.project(var3.hx, var3.hy, var3.hz, this.rot)) {
             String var9 = vxu.fixed(var3.ticks / 20.0, 1) + wap.unit("s");
             float var10 = rnv.width(var9);
             rnv.draw(var1, var9, this.rot[0] - var10 * 0.5F + 0.5F, rnv.centerTop(this.rot[1] + 12.0F) + 0.5F, -1879048192);
@@ -461,8 +458,8 @@ public class rnk extends kfe {
       double var19;
       double var21;
       double var23;
-      switch (var9.method_10166()) {
-         case field_11052:
+      switch (var9.getAxis()) {
+         case Y:
             var13 = 1.0;
             var15 = 0.0;
             var17 = 0.0;
@@ -470,7 +467,7 @@ public class rnk extends kfe {
             var21 = 0.0;
             var23 = 1.0;
             break;
-         case field_11051:
+         case Z:
             var13 = 1.0;
             var15 = 0.0;
             var17 = 0.0;
@@ -487,9 +484,9 @@ public class rnk extends kfe {
             var23 = 0.0;
       }
 
-      var3 += var9.method_10148() * 0.01;
-      var5 += var9.method_10164() * 0.01;
-      var7 += var9.method_10165() * 0.01;
+      var3 += var9.getOffsetX() * 0.01;
+      var5 += var9.getOffsetY() * 0.01;
+      var7 += var9.getOffsetZ() * 0.01;
       float var25 = var2.unitsPerBlock(var3, var5, var7);
       if (!(var25 <= 0.0F)) {
          float var26 = Math.max(1.1F, Math.min(3.2F, var25 * 0.05F));

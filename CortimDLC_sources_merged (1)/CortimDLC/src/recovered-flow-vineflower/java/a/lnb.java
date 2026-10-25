@@ -12,16 +12,16 @@ public final class lnb {
    }
 
    public void update(ClientPlayerEntity var1) {
-      double var2 = var1.method_23318();
+      double var2 = var1.getY();
       double var4 = Double.isNaN(this.lnd) ? 0.0 : var2 - this.lnd;
       this.lnd = var2;
       if (var4 > 0.0 || var4 < -4.0) {
          this.lnc = 0.0;
-      } else if (var4 < 0.0 && !var1.method_5799()) {
+      } else if (var4 < 0.0 && !var1.isTouchingWater()) {
          this.lnc -= var4;
       }
 
-      this.lnc = Math.min(this.lnc, var1.field_6017);
+      this.lnc = Math.min(this.lnc, var1.fallDistance);
    }
 
    public void landed() {

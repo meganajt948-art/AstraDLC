@@ -21,13 +21,13 @@ public final class uor {
    }
 
    public static void draw(DrawContext var0, ItemStack var1, int var2, int var3) {
-      if (!var1.method_7960()) {
-         MinecraftClient var4 = MinecraftClient.method_1551();
+      if (!var1.isEmpty()) {
+         MinecraftClient var4 = MinecraftClient.getInstance();
          GuiRenderState var5 = uut.state(var0);
-         if (var5 != null && var4.field_1687 != null && uut.scissor() == null) {
+         if (var5 != null && var4.world != null && uut.scissor() == null) {
             unf.observe(var0);
             long var6 = unf.frame();
-            long var8 = var4.field_1687.method_75260();
+            long var8 = var4.world.getTime();
             uoo var10 = uos.get(var1);
             if (var10 == null) {
                var10 = new uoo();
@@ -36,11 +36,11 @@ public final class uor {
 
             if (var10.tick != var8) {
                var10.tick = var8;
-               var4.method_65386().method_65598(var10.state, var1, ItemDisplayContext.field_4317, var4.field_1687, var4.field_1724, 0);
+               var4.getItemModelManager().clearAndUpdate(var10.state, var1, ItemDisplayContext.GUI, var4.world, var4.player, 0);
             }
 
             var10.frame = var6;
-            var5.method_70920(new ItemGuiElementRenderState(uox(var1.method_7909()), new Matrix3x2f(var0.method_51448()), var10.state, var2, var3, null));
+            var5.addItem(new ItemGuiElementRenderState(uox(var1.getItem()), new Matrix3x2f(var0.getMatrices()), var10.state, var2, var3, null));
             if (var6 - uou > 120L) {
                uou = var6;
                Iterator var11 = uos.values().iterator();
@@ -52,12 +52,12 @@ public final class uor {
                }
             }
          } else {
-            var0.method_51427(var1, var2, var3);
+            var0.drawItem(var1, var2, var3);
          }
       }
    }
 
    private static String uox(Item var0) {
-      return uot.computeIfAbsent(var0, var0x -> var0x.method_63680().toString());
+      return uot.computeIfAbsent(var0, var0x -> var0x.getName().toString());
    }
 }

@@ -42,33 +42,33 @@ public final class uqe {
    public static boolean draw(DrawContext var0, float var1, float var2, float var3, boolean var4, int var5) {
       if (uqq) {
          return false;
-      } else {
-         uqy();
-         int var6 = var4 ? 1 : 0;
-         MinecraftClient var7 = MinecraftClient.method_1551();
-         float var8 = var7.method_22683() != null ? Math.max(1, var7.method_22683().method_4495()) : 2.0F;
-         int var9 = Math.max(8, Math.min(128, Math.round(var3 * var8 * vdn.renderScale())));
-         uok var10 = uqx(var6, var9);
-         int var11 = var9;
-         if (var10 == null) {
-            var10 = uqw(var6);
-            var11 = 128;
-         }
-
-         if (var10 == null) {
-            return false;
-         } else {
-            float var12 = (float)(System.nanoTime() - uqr) / 1.0E9F * 10.0F;
-            int var13 = (int)var12 % 60;
-            float var14 = var12 - (int)var12;
-            uqu(var0, var10, var11, var13, var1, var2, var3, var5);
-            if (var14 > 0.02F) {
-               uqu(var0, var10, var11, (var13 + 1) % 60, var1, var2, var3, ujt.mulAlpha(var5, var14));
-            }
-
-            return true;
-         }
       }
+
+      uqy();
+      int var6 = var4 ? 1 : 0;
+      MinecraftClient var7 = MinecraftClient.getInstance();
+      float var8 = var7.getWindow() != null ? Math.max(1, var7.getWindow().getScaleFactor()) : 2.0F;
+      int var9 = Math.max(8, Math.min(128, Math.round(var3 * var8 * vdn.renderScale())));
+      uok var10 = uqx(var6, var9);
+      int var11 = var9;
+      if (var10 == null) {
+         var10 = uqw(var6);
+         var11 = 128;
+      }
+
+      if (var10 == null) {
+         return false;
+      }
+
+      float var12 = (float)(System.nanoTime() - uqr) / 1.0E9F * 10.0F;
+      int var13 = (int)var12 % 60;
+      float var14 = var12 - (int)var12;
+      uqu(var0, var10, var11, var13, var1, var2, var3, var5);
+      if (var14 > 0.02F) {
+         uqu(var0, var10, var11, (var13 + 1) % 60, var1, var2, var3, ujt.mulAlpha(var5, var14));
+      }
+
+      return true;
    }
 
    private static void uqu(DrawContext var0, uok var1, int var2, int var3, float var4, float var5, float var6, int var7) {
@@ -119,37 +119,39 @@ public final class uqe {
       uok var3 = uqn.get(var2);
       if (var3 != null) {
          return var3;
-      } else {
-         CompletableFuture var4 = uqo.get(var2);
-         if (var4 == null) {
-            BufferedImage var9 = uqv(var0);
-            if (var9 == null) {
-               return null;
-            } else {
-               uqo.put(var2, CompletableFuture.supplyAsync(() -> urb(var9, var1), uqk));
-               return null;
-            }
-         } else if (!var4.isDone()) {
+      }
+
+      CompletableFuture var4 = uqo.get(var2);
+      if (var4 == null) {
+         BufferedImage var9 = uqv(var0);
+         if (var9 == null) {
             return null;
-         } else {
-            uqo.remove(var2);
-            BufferedImage var5 = (BufferedImage)var4.getNow(null);
-            if (var5 == null) {
-               return null;
-            } else {
-               var3 = uok.upload("logo frames " + var2, var5, false, true);
-               uqn.put(var2, var3);
-
-               while (uqn.size() > 4) {
-                  Iterator var6 = uqn.entrySet().iterator();
-                  uok var7 = (uok)((Entry)var6.next()).getValue();
-                  var6.remove();
-                  uqp.put(var7, unf.frame());
-               }
-
-               return var3;
-            }
          }
+
+         uqo.put(var2, CompletableFuture.supplyAsync(() -> urb(var9, var1), uqk));
+         return null;
+      } else {
+         if (!var4.isDone()) {
+            return null;
+         }
+
+         uqo.remove(var2);
+         BufferedImage var5 = (BufferedImage)var4.getNow(null);
+         if (var5 == null) {
+            return null;
+         }
+
+         var3 = uok.upload("logo frames " + var2, var5, false, true);
+         uqn.put(var2, var3);
+
+         while (uqn.size() > 4) {
+            Iterator var6 = uqn.entrySet().iterator();
+            uok var7 = (uok)((Entry)var6.next()).getValue();
+            var6.remove();
+            uqp.put(var7, unf.frame());
+         }
+
+         return var3;
       }
    }
 

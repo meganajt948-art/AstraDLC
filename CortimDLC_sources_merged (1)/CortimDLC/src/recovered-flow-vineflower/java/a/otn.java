@@ -29,7 +29,7 @@ public class otn extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      Screen var2 = var1.field_1755;
+      Screen var2 = var1.currentScreen;
       long var3 = System.currentTimeMillis();
       if (var2 != this.otv) {
          this.otv = var2;
@@ -39,21 +39,21 @@ public class otn extends kfe {
       }
 
       if (var2 instanceof HandledScreen var5 && vxl.isStorage(var2) && !oqv.busy() && !osq.busy() && !oub()) {
-         ScreenHandler var6 = var5.method_17577();
-         if (var6.method_34255().method_7960() && var3 >= this.otx) {
-            PlayerInventory var7 = var1.field_1724.method_31548();
+         ScreenHandler var6 = var5.getScreenHandler();
+         if (var6.getCursorStack().isEmpty() && var3 >= this.otx) {
+            PlayerInventory var7 = var1.player.getInventory();
 
             for (Slot var9 : vxl.own(var6, var7)) {
-               if (var9.method_7681() && var9.method_7674(var1.field_1724) && vxl.room(var6, var7, var9.method_7677(), !this.otr.get()) != null) {
+               if (var9.hasStack() && var9.canTakeItems(var1.player) && vxl.room(var6, var7, var9.getStack(), !this.otr.get()) != null) {
                   if (this.otr.get()) {
-                     Slot var10 = vxl.room(var6, var7, var9.method_7677(), false);
-                     vxl.click(var1, var6, var9.field_7874, 0, SlotActionType.field_7790);
-                     vxl.click(var1, var6, var10.field_7874, 0, SlotActionType.field_7790);
-                     if (!var6.method_34255().method_7960()) {
-                        vxl.click(var1, var6, var9.field_7874, 0, SlotActionType.field_7790);
+                     Slot var10 = vxl.room(var6, var7, var9.getStack(), false);
+                     vxl.click(var1, var6, var9.id, 0, SlotActionType.PICKUP);
+                     vxl.click(var1, var6, var10.id, 0, SlotActionType.PICKUP);
+                     if (!var6.getCursorStack().isEmpty()) {
+                        vxl.click(var1, var6, var9.id, 0, SlotActionType.PICKUP);
                      }
                   } else {
-                     vxl.click(var1, var6, var9.field_7874, 0, SlotActionType.field_7794);
+                     vxl.click(var1, var6, var9.id, 0, SlotActionType.QUICK_MOVE);
                   }
 
                   this.oty = var3;
@@ -63,7 +63,7 @@ public class otn extends kfe {
             }
 
             if (this.otq.get() && var3 - this.oty > 300L && var3 - this.otw > 480L) {
-               var5.method_25419();
+               var5.close();
             }
          }
       }
@@ -73,9 +73,9 @@ public class otn extends kfe {
       nxa var0 = nxa.mainInstance();
       if (var0 != null && var0.isEnabled() && var0.busy()) {
          return true;
-      } else {
-         mpq var1 = mpq.mainInstance();
-         return var1 != null && var1.isEnabled() && var1.busy();
       }
+
+      mpq var1 = mpq.mainInstance();
+      return var1 != null && var1.isEnabled() && var1.busy();
    }
 }

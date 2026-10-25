@@ -41,19 +41,19 @@ public class rqv extends kfe {
    public static void afterExtraction(WorldRenderState var0) {
       rqz.clear();
       rqv var1 = rqw;
-      if (var1 != null && var1.isEnabled() && MinecraftClient.method_1551().field_1687 != null) {
+      if (var1 != null && var1.isEnabled() && MinecraftClient.getInstance().world != null) {
          boolean var2 = ukl.canFade();
          ArrayList var3 = null;
 
-         for (EntityRenderState var5 : var0.field_61735) {
+         for (EntityRenderState var5 : var0.entityRenderStates) {
             if (var5 instanceof LivingEntityRenderState var6
-               && var6.field_53461
+               && var6.invisibleToPlayer
                && (var5 instanceof PlayerEntityRenderState || var1.rrd.get())
                && !Cosmetics.hidesBody(var5)) {
-               var6.field_53461 = false;
+               var6.invisibleToPlayer = false;
                if (var2) {
-                  var6.field_53333 = false;
-                  boolean var7 = var5 instanceof PlayerEntityRenderState var8 && Cosmetics.wears(var8.field_53528);
+                  var6.invisible = false;
+                  boolean var7 = var5 instanceof PlayerEntityRenderState var8 && Cosmetics.wears(var8.id);
                   if (var5 instanceof BipedEntityRenderState var10 && (var7 || rrg(var10))) {
                      BipedEntityRenderState var9 = rrh(var10);
                      if (var9 != null) {
@@ -66,10 +66,10 @@ public class rqv extends kfe {
                            rqz.add(var5);
                         }
 
-                        var10.field_55309 = ItemStack.field_8037;
-                        var10.field_53418 = ItemStack.field_8037;
-                        var10.field_53419 = ItemStack.field_8037;
-                        var10.field_53420 = ItemStack.field_8037;
+                        var10.equippedHeadStack = ItemStack.EMPTY;
+                        var10.equippedChestStack = ItemStack.EMPTY;
+                        var10.equippedLegsStack = ItemStack.EMPTY;
+                        var10.equippedFeetStack = ItemStack.EMPTY;
                      }
                   }
 
@@ -79,92 +79,92 @@ public class rqv extends kfe {
          }
 
          if (var3 != null) {
-            var0.field_61735.addAll(var3);
+            var0.entityRenderStates.addAll(var3);
          }
       }
    }
 
    private static boolean rrg(BipedEntityRenderState var0) {
-      return !var0.field_55309.method_7960() || !var0.field_53418.method_7960() || !var0.field_53419.method_7960() || !var0.field_53420.method_7960();
+      return !var0.equippedHeadStack.isEmpty() || !var0.equippedChestStack.isEmpty() || !var0.equippedLegsStack.isEmpty() || !var0.equippedFeetStack.isEmpty();
    }
 
    private static BipedEntityRenderState rrh(BipedEntityRenderState var0) {
       if (rrb) {
          return null;
-      } else {
-         try {
-            Class var1 = var0.getClass();
-            Constructor var2 = rqy.get(var1);
-            if (var2 == null) {
-               var2 = var1.getDeclaredConstructor();
-               var2.setAccessible(true);
-               rqy.put(var1, var2);
-            }
+      }
 
-            BipedEntityRenderState var3 = (BipedEntityRenderState)var2.newInstance();
-
-            for (Field var5 : rri(var1)) {
-               var5.set(var3, var5.get(var0));
-            }
-
-            var3.field_53333 = true;
-            var3.field_53461 = true;
-            var3.field_61821 = 0;
-            var3.field_53337 = null;
-            var3.field_53338 = null;
-            var3.field_60160 = null;
-            var3.field_61822 = 0.0F;
-            if (rra != null) {
-               rra.set(var3, new ArrayList());
-            }
-
-            return var3;
-         } catch (Throwable var6) {
-            rrb = true;
-            System.out
-               .println(
-                  new String(
-                        new char[]{
-                           '[',
-                           'F',
-                           'l',
-                           'o',
-                           'w',
-                           '2',
-                           ']',
-                           ' ',
-                           's',
-                           'o',
-                           'l',
-                           'i',
-                           'd',
-                           ' ',
-                           'a',
-                           'r',
-                           'm',
-                           'o',
-                           'u',
-                           'r',
-                           ' ',
-                           'u',
-                           'n',
-                           'a',
-                           'v',
-                           'a',
-                           'i',
-                           'l',
-                           'a',
-                           'b',
-                           'l',
-                           'e',
-                           ':',
-                           ' '
-                        }
-                     )
-                     + var6
-               );
-            return null;
+      try {
+         Class var1 = var0.getClass();
+         Constructor var2 = rqy.get(var1);
+         if (var2 == null) {
+            var2 = var1.getDeclaredConstructor();
+            var2.setAccessible(true);
+            rqy.put(var1, var2);
          }
+
+         BipedEntityRenderState var3 = (BipedEntityRenderState)var2.newInstance();
+
+         for (Field var5 : rri(var1)) {
+            var5.set(var3, var5.get(var0));
+         }
+
+         var3.invisible = true;
+         var3.invisibleToPlayer = true;
+         var3.outlineColor = 0;
+         var3.displayName = null;
+         var3.nameLabelPos = null;
+         var3.leashDatas = null;
+         var3.shadowRadius = 0.0F;
+         if (rra != null) {
+            rra.set(var3, new ArrayList());
+         }
+
+         return var3;
+      } catch (Throwable var6) {
+         rrb = true;
+         System.out
+            .println(
+               new String(
+                     new char[]{
+                        '[',
+                        'F',
+                        'l',
+                        'o',
+                        'w',
+                        '2',
+                        ']',
+                        ' ',
+                        's',
+                        'o',
+                        'l',
+                        'i',
+                        'd',
+                        ' ',
+                        'a',
+                        'r',
+                        'm',
+                        'o',
+                        'u',
+                        'r',
+                        ' ',
+                        'u',
+                        'n',
+                        'a',
+                        'v',
+                        'a',
+                        'i',
+                        'l',
+                        'a',
+                        'b',
+                        'l',
+                        'e',
+                        ':',
+                        ' '
+                     }
+                  )
+                  + var6
+            );
+         return null;
       }
    }
 
@@ -172,31 +172,31 @@ public class rqv extends kfe {
       List var1 = rqx.get(var0);
       if (var1 != null) {
          return var1;
-      } else {
-         ArrayList var2 = new ArrayList();
-
-         for (Class var3 = var0; var3 != null && var3 != Object.class; var3 = var3.getSuperclass()) {
-            for (Field var7 : var3.getDeclaredFields()) {
-               if (!Modifier.isStatic(var7.getModifiers())) {
-                  var7.setAccessible(true);
-                  var2.add(var7);
-                  if (var3 == EntityRenderState.class && var7.getType() == List.class && var7.getName().equals("shadowPieces")) {
-                     rra = var7;
-                  }
-               }
-            }
-         }
-
-         if (rra == null) {
-            for (Field var9 : var2) {
-               if (var9.getDeclaringClass() == EntityRenderState.class && var9.getType() == List.class && Modifier.isFinal(var9.getModifiers())) {
-                  rra = var9;
-               }
-            }
-         }
-
-         rqx.put(var0, var2);
-         return var2;
       }
+
+      ArrayList var2 = new ArrayList();
+
+      for (Class var3 = var0; var3 != null && var3 != Object.class; var3 = var3.getSuperclass()) {
+         for (Field var7 : var3.getDeclaredFields()) {
+            if (!Modifier.isStatic(var7.getModifiers())) {
+               var7.setAccessible(true);
+               var2.add(var7);
+               if (var3 == EntityRenderState.class && var7.getType() == List.class && var7.getName().equals("shadowPieces")) {
+                  rra = var7;
+               }
+            }
+         }
+      }
+
+      if (rra == null) {
+         for (Field var9 : var2) {
+            if (var9.getDeclaringClass() == EntityRenderState.class && var9.getType() == List.class && Modifier.isFinal(var9.getModifiers())) {
+               rra = var9;
+            }
+         }
+      }
+
+      rqx.put(var0, var2);
+      return var2;
    }
 }

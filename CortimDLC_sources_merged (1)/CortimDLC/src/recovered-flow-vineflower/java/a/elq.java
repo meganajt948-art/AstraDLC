@@ -57,17 +57,17 @@ public final class elq {
    }
 
    public emu match(ItemStack var1) {
-      if (var1 != null && !var1.method_7960() && !this.elr.isEmpty()) {
+      if (var1 != null && !var1.isEmpty() && !this.elr.isEmpty()) {
          String var2 = null;
 
          for (emu var4 : this.entries()) {
-            if (this.elr.contains(var4.getName()) && var1.method_31574(var4.getItem())) {
+            if (this.elr.contains(var4.getName()) && var1.isOf(var4.getItem())) {
                if (var4.matches(var1)) {
                   return var4;
                }
 
                if (var2 == null) {
-                  var2 = elv(var1.method_7964().getString());
+                  var2 = elv(var1.getName().getString());
                }
 
                String var5 = elv(var4.getSearchQuery());
@@ -86,20 +86,20 @@ public final class elq {
    private static String elv(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         StringBuilder var1 = new StringBuilder(var0.length());
-
-         for (int var2 = 0; var2 < var0.length(); var2++) {
-            char var3 = var0.charAt(var2);
-            if (var3 == 167) {
-               var2++;
-            } else if (Character.isLetterOrDigit(var3)) {
-               var3 = Character.toLowerCase(var3);
-               var1.append(var3 == 1105 ? 'е' : var3);
-            }
-         }
-
-         return var1.toString();
       }
+
+      StringBuilder var1 = new StringBuilder(var0.length());
+
+      for (int var2 = 0; var2 < var0.length(); var2++) {
+         char var3 = var0.charAt(var2);
+         if (var3 == 167) {
+            var2++;
+         } else if (Character.isLetterOrDigit(var3)) {
+            var3 = Character.toLowerCase(var3);
+            var1.append(var3 == 1105 ? 'е' : var3);
+         }
+      }
+
+      return var1.toString();
    }
 }

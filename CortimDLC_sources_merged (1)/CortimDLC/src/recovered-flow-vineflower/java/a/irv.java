@@ -130,12 +130,12 @@ final class irv extends imn {
             float var19 = var17 + 5.5F;
             float var20 = vcq.outBack(var16);
             uut.pushAlpha(var16);
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var21, var19);
-            var1.method_51448().scale(var20, var20);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var21, var19);
+            var1.getMatrices().scale(var20, var20);
             uut.circle(var1, 0.0F, 0.0F, 3.8F, iov.accent());
             vjf.draw(var1, vhz.CHECK, 0.0F, 0.0F, 5.5F, iov.onAccent());
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
 
@@ -154,19 +154,19 @@ final class irv extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return false;
-      } else {
-         List var5 = this.isd();
-         float var6 = this.isf();
-         float var7 = this.isg();
-
-         for (int var8 = 0; var8 < var5.size(); var8++) {
-            if (irr.inside(var2, var3, this.isi(var8), this.isj(var8), var6, var7 + 10.0F)) {
-               isv.select(((isn)var5.get(var8)).key);
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      List var5 = this.isd();
+      float var6 = this.isf();
+      float var7 = this.isg();
+
+      for (int var8 = 0; var8 < var5.size(); var8++) {
+         if (irr.inside(var2, var3, this.isi(var8), this.isj(var8), var6, var7 + 10.0F)) {
+            isv.select(((isn)var5.get(var8)).key);
+            return true;
+         }
+      }
+
+      return false;
    }
 }

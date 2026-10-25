@@ -56,9 +56,9 @@ final class hdj {
 
       if (var1 == 18) {
          var2.getByName(a.c(1960988967, "兹⣳ꈧ㱎랧ㄱ譺ʔ鳑ᙺ醢毝\ue503")).setEnabled(false);
-         var0.field_1687.method_2945(hdl.method_5628(), RemovalReason.field_26999);
-         var0.field_1724.method_31548().method_61496(0);
-         var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_8802));
+         var0.world.removeEntity(hdl.getId(), RemovalReason.DISCARDED);
+         var0.player.getInventory().setSelectedSlot(0);
+         var0.player.getInventory().setStack(0, new ItemStack(Items.DIAMOND_SWORD));
          var2.getByName(a.c(1310351504, "惌ᥙ鎔\u0de2蘼«뫗㌡굺⟇ꀁ婭풼䴌읂")).setEnabled(true);
       }
 
@@ -71,7 +71,7 @@ final class hdj {
          if (var1 == var4) {
             ((vlv)hdp(var2.getByName(a.b("᪺振\ue9e2瞔ﱊ竝삡䥗휌嶱\uda77‛껊㝺봴", 1090919142)), a.d("파ꪟ⁇븷", 1042341301, 2102464240))).set(hdk[var3]);
          } else if (var1 == var4 + 2) {
-            var0.field_1724.method_6104(Hand.field_5808);
+            var0.player.swingHand(Hand.MAIN_HAND);
          } else if (var1 == var4 + 5) {
             hds(var0, a.d("\ue437鶂ᝏ褹˧萜", -328261857, -1850606755) + hdk[var3].toLowerCase());
          }
@@ -79,7 +79,7 @@ final class hdj {
 
       int var5 = 26 + hdk.length * 14 + 30;
       if (var1 == var5 - 28) {
-         var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_49814));
+         var0.player.getInventory().setStack(0, new ItemStack(Items.MACE));
       }
 
       if (var1 == var5 - 2) {
@@ -107,20 +107,20 @@ final class hdj {
    }
 
    private static Entity hdo(MinecraftClient var0, String var1, double var2) {
-      OtherClientPlayerEntity var4 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), var1));
-      Vec3d var5 = var0.field_1724.method_73189().method_1031(0.0, 0.0, var2);
-      var4.method_5808(var5.field_1352, var0.field_1724.method_23318(), var5.field_1350, 180.0F, 0.0F);
-      var4.method_5636(180.0F);
-      var4.method_5847(180.0F);
-      var4.field_6220 = 180.0F;
-      var4.field_6259 = 180.0F;
-      var4.method_5673(EquipmentSlot.field_6169, new ItemStack(Items.field_8805));
-      var4.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_8058));
-      var4.method_5673(EquipmentSlot.field_6172, new ItemStack(Items.field_8348));
-      var4.method_5673(EquipmentSlot.field_6166, new ItemStack(Items.field_8285));
-      var4.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_22022));
-      var4.method_5648(true);
-      var0.field_1687.method_53875(var4);
+      OtherClientPlayerEntity var4 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
+      Vec3d var5 = var0.player.getEntityPos().add(0.0, 0.0, var2);
+      var4.refreshPositionAndAngles(var5.x, var0.player.getY(), var5.z, 180.0F, 0.0F);
+      var4.setBodyYaw(180.0F);
+      var4.setHeadYaw(180.0F);
+      var4.lastBodyYaw = 180.0F;
+      var4.lastHeadYaw = 180.0F;
+      var4.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+      var4.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+      var4.equipStack(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
+      var4.equipStack(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
+      var4.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
+      var4.setInvisible(true);
+      var0.world.addEntity(var4);
       return var4;
    }
 
@@ -135,22 +135,22 @@ final class hdj {
    }
 
    private static void hdq(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static void hdr(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void hds(MinecraftClient var0, String var1) {
       System.out.println(a.c(-136605166, "鉫\uebcc愖ｭ瓼\uf219䡛솼忤픁") + var1);
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(954352280, "䋸㭃놓⿺ꑨ⋆") + var1 + a.d("冚⡵ꊸ㳀", -1991321152, -537884560),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

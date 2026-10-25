@@ -129,20 +129,20 @@ public class kwf extends kfe {
       kwf var0 = kxf;
       if (var0 == null) {
          return null;
-      } else {
-         String var1 = var0.kwj.get();
-         if (var1 != null && !var1.isBlank()) {
-            if (var0.kxr == null || !var1.equals(var0.kxs)) {
-               var0.kxs = var1;
-               var0.kxr = tiq.open(var1);
-            }
+      }
 
-            return var0.kxr;
-         } else {
-            var0.kxr = null;
-            var0.kxs = "";
-            return null;
+      String var1 = var0.kwj.get();
+      if (var1 != null && !var1.isBlank()) {
+         if (var0.kxr == null || !var1.equals(var0.kxs)) {
+            var0.kxs = var1;
+            var0.kxr = tiq.open(var1);
          }
+
+         return var0.kxr;
+      } else {
+         var0.kxr = null;
+         var0.kxs = "";
+         return null;
       }
    }
 
@@ -166,16 +166,16 @@ public class kwf extends kfe {
    private tck kxy() {
       if (!this.kwi.is(a.c(1647453411, "Ⓐ崠ퟲ䦒쉈䓿"))) {
          return tck.profile1();
-      } else {
-         long var1 = System.currentTimeMillis();
-         if (var1 - this.kxu > 1000L) {
-            this.kxu = var1;
-            tiq var3 = studioProfile();
-            this.kxt = var3 == null ? null : var3.auraModel();
-         }
-
-         return this.kxt != null ? this.kxt : tck.profile1();
       }
+
+      long var1 = System.currentTimeMillis();
+      if (var1 - this.kxu > 1000L) {
+         this.kxu = var1;
+         tiq var3 = studioProfile();
+         this.kxt = var3 == null ? null : var3.auraModel();
+      }
+
+      return this.kxt != null ? this.kxt : tck.profile1();
    }
 
    public static Entity target() {
@@ -185,20 +185,20 @@ public class kwf extends kfe {
    public static String debug() {
       if (kxf == null) {
          return a.b("麼\ue704淗", -178938160);
-      } else {
-         ClientPlayerEntity var0 = MinecraftClient.method_1551().field_1724;
-         return String.format(
-            Locale.ROOT,
-            a.d("\ued0a钲ṡ者\u0bc4赤㝾뺗\u209eꩼⷩ힗奎샰䪿챓瘛遼挪\ue563泂ᛀ頺Ϧ薑ཉ뚢㣫ꉊ⑈꾭兣\udb20䋃쓚乳\uf1af篁﵅撽\ueee8递ᩞ鶸ܩ褋ッ멻㰧\ua7e0⦬팃嫢\udc9d䘓저玲\uf578缤\ue68b桪ሕ", -728323603, 1423393974),
-            kxf.kxg.debugOffsets(),
-            kxf.kxo,
-            kxf.kxg.idle(),
-            var0 == null ? 0.0 : kxf.kxg.serverYaw(var0),
-            var0 == null ? 0.0 : kxf.kxg.serverPitch(var0),
-            kxf.kxj.debug(),
-            kxf.kxh.trace()
-         );
       }
+
+      ClientPlayerEntity var0 = MinecraftClient.getInstance().player;
+      return String.format(
+         Locale.ROOT,
+         a.d("\ued0a钲ṡ者\u0bc4赤㝾뺗\u209eꩼⷩ힗奎샰䪿챓瘛遼挪\ue563泂ᛀ頺Ϧ薑ཉ뚢㣫ꉊ⑈꾭兣\udb20䋃쓚乳\uf1af篁﵅撽\ueee8递ᩞ鶸ܩ褋ッ멻㰧\ua7e0⦬팃嫢\udc9d䘓저玲\uf578缤\ue68b桪ሕ", -728323603, 1423393974),
+         kxf.kxg.debugOffsets(),
+         kxf.kxo,
+         kxf.kxg.idle(),
+         var0 == null ? 0.0 : kxf.kxg.serverYaw(var0),
+         var0 == null ? 0.0 : kxf.kxg.serverPitch(var0),
+         kxf.kxj.debug(),
+         kxf.kxh.trace()
+      );
    }
 
    public static boolean returning() {
@@ -227,8 +227,8 @@ public class kwf extends kfe {
    protected void onDisable() {
       this.kxh.onDisable();
       this.kxo = false;
-      ClientPlayerEntity var1 = this.mc.field_1724;
-      if (this.kwg.is(a.c(1014196903, "櫲፹馯ߗ谋ઠ")) && var1 != null && var1.method_5805() && !this.kxg.idle()) {
+      ClientPlayerEntity var1 = this.mc.player;
+      if (this.kwg.is(a.c(1014196903, "櫲፹馯ߗ谋ઠ")) && var1 != null && var1.isAlive() && !this.kxg.idle()) {
          this.kxg.hit(2 + this.kxe.nextInt(3));
          this.kxp = true;
          this.kxq = var1;
@@ -241,11 +241,11 @@ public class kwf extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (!this.isEnabled()) {
          if (this.kxp && var2 == this.kxq) {
             this.kxg.begin(var2);
-            if (this.kwu.get() && !this.kxg.idle() && var1.field_1755 == null) {
+            if (this.kwu.get() && !this.kxg.idle() && var1.currentScreen == null) {
                this.kyd(var1, var2);
             }
          }
@@ -253,11 +253,11 @@ public class kwf extends kfe {
          boolean var3 = this.kwg.is(a.d("澿ᘴ鳢ʚ襆\u0fed", -717577097, -817247331));
          this.kxg.mode(var3, var2);
          this.kxg.begin(var2);
-         if (var3 && this.kwu.get() && !this.kxg.idle() && var1.field_1755 == null) {
+         if (var3 && this.kwu.get() && !this.kxg.idle() && var1.currentScreen == null) {
             this.kyd(var1, var2);
          }
 
-         if (this.kyl(var1, var2) && this.kym(var2.method_6047()) && !lgc.moduleOn()) {
+         if (this.kyl(var1, var2) && this.kym(var2.getMainHandStack()) && !lgc.moduleOn()) {
             this.kxh.crits(this.kwt.get());
             this.kxh.onStartTick(var1);
          }
@@ -266,7 +266,7 @@ public class kwf extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       this.kxg.end(var2);
       this.kxg.newTick(var2);
       this.kye(var1);
@@ -287,13 +287,13 @@ public class kwf extends kfe {
          this.kyb(var1, var2);
       } else {
          this.kxh.onEndTick(var1);
-         Entity var5 = this.kyl(var1, var2) && this.kym(var2.method_6047()) ? this.kyf(var1, var2) : null;
+         Entity var5 = this.kyl(var1, var2) && this.kym(var2.getMainHandStack()) ? this.kyf(var1, var2) : null;
          if (var5 == null) {
             this.kxj.targetNull();
             this.kxi.target = null;
             this.kxk = null;
             this.kxl = null;
-            if (this.kxo && var2.method_5805()) {
+            if (this.kxo && var2.isAlive()) {
                this.kxg.hit(8 + this.kxe.nextInt(5));
             }
 
@@ -313,12 +313,12 @@ public class kwf extends kfe {
    private void kxz(MinecraftClient var1, ClientPlayerEntity var2, Entity var3) {
       float var4 = this.kxg.serverYaw(var2);
       float var5 = this.kxg.serverPitch(var2);
-      Box var6 = var3.method_5829();
-      Vec3d var7 = var2.method_33571();
-      Vec3d var8 = var6.method_1005();
-      double var9 = var8.field_1352 - var7.field_1352;
-      double var11 = var8.field_1351 - var7.field_1351;
-      double var13 = var8.field_1350 - var7.field_1350;
+      Box var6 = var3.getBoundingBox();
+      Vec3d var7 = var2.getEyePos();
+      Vec3d var8 = var6.getCenter();
+      double var9 = var8.x - var7.x;
+      double var11 = var8.y - var7.y;
+      double var13 = var8.z - var7.z;
       this.kxi.target = var3;
       this.kxi.box = var6;
       this.kxi.yawToTarget = (float)(Math.toDegrees(Math.atan2(var13, var9)) - 90.0);
@@ -332,29 +332,29 @@ public class kwf extends kfe {
    }
 
    private void kya(Entity var1, Vec3d var2, Vec3d var3) {
-      Vec3d var4 = var1.method_73189();
-      Vec3d var5 = var1 == this.kxk && this.kxl != null ? var4.method_1020(this.kxl) : Vec3d.field_1353;
-      if (var5.method_1027() > 1.0) {
-         var5 = Vec3d.field_1353;
+      Vec3d var4 = var1.getEntityPos();
+      Vec3d var5 = var1 == this.kxk && this.kxl != null ? var4.subtract(this.kxl) : Vec3d.ZERO;
+      if (var5.lengthSquared() > 1.0) {
+         var5 = Vec3d.ZERO;
       }
 
-      if (var1 != this.kxk || var1.method_24828()) {
-         this.kxm = var4.field_1351;
+      if (var1 != this.kxk || var1.isOnGround()) {
+         this.kxm = var4.y;
       }
 
       this.kxk = var1;
       this.kxl = var4;
-      double var6 = var3.field_1352;
-      double var8 = var3.field_1351;
-      double var10 = var3.field_1350;
-      double var12 = var1.method_24828() ? 0.0 : var5.field_1351;
-      double var14 = var3.field_1351 - (var4.field_1351 - this.kxm);
+      double var6 = var3.x;
+      double var8 = var3.y;
+      double var10 = var3.z;
+      double var12 = var1.isOnGround() ? 0.0 : var5.y;
+      double var14 = var3.y - (var4.y - this.kxm);
 
       for (int var16 = 0; var16 < 16; var16++) {
-         this.kxi.eyeAt[var16] = var2.method_1019(this.kxh.selfOffset(var16));
+         this.kxi.eyeAt[var16] = var2.add(this.kxh.selfOffset(var16));
          this.kxi.targetAt[var16] = new Vec3d(var6, var8, var10);
-         var6 += var5.field_1352;
-         var10 += var5.field_1350;
+         var6 += var5.x;
+         var10 += var5.z;
          if (var12 != 0.0 || var8 > var14) {
             var8 += var12;
             var12 = (var12 - 0.08) * 0.98;
@@ -367,7 +367,7 @@ public class kwf extends kfe {
    }
 
    private void kyb(MinecraftClient var1, ClientPlayerEntity var2) {
-      if (var2 != this.kxq || var2 == null || !var2.method_5805() || !this.kwg.is(a.b("ꢙ턒寄얼习죋", 1240377548)) || this.kxg.home(var1, var2)) {
+      if (var2 != this.kxq || var2 == null || !var2.isAlive() || !this.kwg.is(a.b("ꢙ턒寄얼习죋", 1240377548)) || this.kxg.home(var1, var2)) {
          this.kxg.reset();
          this.kxp = false;
          this.kxq = null;
@@ -375,7 +375,7 @@ public class kwf extends kfe {
    }
 
    private void kyc(MinecraftClient var1, ClientPlayerEntity var2) {
-      if (!var2.method_5805()) {
+      if (!var2.isAlive()) {
          this.kxg.forget();
       } else if (!this.kwv.get() && !this.kwg.is(a.b("ᛎ潅\ue593篫\uf037皜", -1848633701))) {
          this.kxg.release();
@@ -385,79 +385,75 @@ public class kwf extends kfe {
    }
 
    private void kyd(MinecraftClient var1, ClientPlayerEntity var2) {
-      GameOptions var3 = var1.field_1690;
-      double var4 = (vzz.isPhysicallyDown(var1, var3.field_1894) ? 1 : 0) - (vzz.isPhysicallyDown(var1, var3.field_1881) ? 1 : 0);
-      double var6 = (vzz.isPhysicallyDown(var1, var3.field_1913) ? 1 : 0) - (vzz.isPhysicallyDown(var1, var3.field_1849) ? 1 : 0);
+      GameOptions var3 = var1.options;
+      double var4 = (vzz.isPhysicallyDown(var1, var3.forwardKey) ? 1 : 0) - (vzz.isPhysicallyDown(var1, var3.backKey) ? 1 : 0);
+      double var6 = (vzz.isPhysicallyDown(var1, var3.leftKey) ? 1 : 0) - (vzz.isPhysicallyDown(var1, var3.rightKey) ? 1 : 0);
       if (var4 != 0.0 || var6 != 0.0) {
          double var8 = Math.toRadians(this.kxg.cameraYaw(var2));
          double var10 = var6 * Math.cos(var8) - var4 * Math.sin(var8);
          double var12 = var4 * Math.cos(var8) + var6 * Math.sin(var8);
          double var14 = Math.hypot(var10, var12);
-         double var16 = Math.toRadians(var2.method_36454());
+         double var16 = Math.toRadians(var2.getYaw());
          double var18 = (var12 * Math.cos(var16) - var10 * Math.sin(var16)) / var14;
          double var20 = (var10 * Math.cos(var16) + var12 * Math.sin(var16)) / var14;
-         var3.field_1894.method_23481(var18 > kxb);
-         var3.field_1881.method_23481(var18 < -kxb);
-         var3.field_1913.method_23481(var20 > kxb);
-         var3.field_1849.method_23481(var20 < -kxb);
+         var3.forwardKey.setPressed(var18 > kxb);
+         var3.backKey.setPressed(var18 < -kxb);
+         var3.leftKey.setPressed(var20 > kxb);
+         var3.rightKey.setPressed(var20 < -kxb);
          this.kxn = true;
       }
    }
 
    private void kye(MinecraftClient var1) {
-      if (this.kxn && var1.field_1690 != null) {
+      if (this.kxn && var1.options != null) {
          this.kxn = false;
 
-         for (KeyBinding var5 : new KeyBinding[]{
-            var1.field_1690.field_1894, var1.field_1690.field_1881, var1.field_1690.field_1913, var1.field_1690.field_1849
-         }) {
-            var5.method_23481(var1.field_1755 == null && vzz.isPhysicallyDown(var1, var5));
+         for (KeyBinding var5 : new KeyBinding[]{var1.options.forwardKey, var1.options.backKey, var1.options.leftKey, var1.options.rightKey}) {
+            var5.setPressed(var1.currentScreen == null && vzz.isPhysicallyDown(var1, var5));
          }
       }
    }
 
    private Entity kyf(MinecraftClient var1, ClientPlayerEntity var2) {
-      Vec3d var3 = var2.method_33571();
+      Vec3d var3 = var2.getEyePos();
       double var4 = this.kwq.get();
       double var6 = this.kwp.get() * 0.5;
       float var8 = this.kxg.serverYaw(var2);
       Entity var9 = this.kxg.target();
       if (var9 != null && this.kyh(var2, var9) && kyj(var3, var9, var4) && kyk(var8, var3, var9) <= var6 * 1.2) {
          return var9;
-      } else {
-         Entity var10 = null;
-         double var11 = Double.MAX_VALUE;
+      }
 
-         for (Entity var14 : var1.field_1687.method_8333(var2, var2.method_5829().method_1014(var4 + 1.0), var2x -> this.kyh(var2, var2x))) {
-            if (kyj(var3, var14, var4)) {
-               double var15 = kyk(var8, var3, var14);
-               if (!(var15 > var6)) {
-                  String var19 = this.kws.get();
+      Entity var10 = null;
+      double var11 = Double.MAX_VALUE;
 
-                  double var17 = switch (var19) {
-                     case a.b("慍ᣑ鈘౮螬Ē뭌㊻", -1419878143) -> var14.method_5829().method_49271(var3);
-                     case a.b("腇\uf8db爌\uec70枿\ue112", -1496088311) -> var14 instanceof LivingEntity var21 ? kyi(var21) : 100.0;
-                     default -> var15;
-                  };
-                  if (var17 < var11) {
-                     var11 = var17;
-                     var10 = var14;
-                  }
+      for (Entity var14 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var4 + 1.0), var2x -> this.kyh(var2, var2x))) {
+         if (kyj(var3, var14, var4)) {
+            double var15 = kyk(var8, var3, var14);
+            if (!(var15 > var6)) {
+               double var17 = switch (this.kws.get()) {
+                  case a.b("慍ᣑ鈘౮螬Ē뭌㊻", -1419878143) -> var14.getBoundingBox().squaredMagnitude(var3);
+                  case a.b("腇\uf8db爌\uec70枿\ue112", -1496088311) -> var14 instanceof LivingEntity var21 ? kyi(var21) : 100.0;
+                  default -> var15;
+               };
+               if (var17 < var11) {
+                  var11 = var17;
+                  var10 = var14;
                }
             }
          }
-
-         return var10;
       }
+
+      return var10;
    }
 
    private boolean kyg(Entity var1) {
-      return var1 instanceof PlayerEntity var2 ? this.kww.get() && !var2.method_7325() && !hhf.protects(var2) : this.kwx.get() && var1 instanceof Monster;
+      return var1 instanceof PlayerEntity var2 ? this.kww.get() && !var2.isSpectator() && !hhf.protects(var2) : this.kwx.get() && var1 instanceof Monster;
    }
 
    private boolean kyh(ClientPlayerEntity var1, Entity var2) {
-      return var2 != var1 && var2 instanceof LivingEntity var3 && var3.method_5805() && var2.method_5732() && this.kyg(var2)
-         ? this.kwy.get() || var1.method_6057(var2)
+      return var2 != var1 && var2 instanceof LivingEntity var3 && var3.isAlive() && var2.isAttackable() && this.kyg(var2)
+         ? this.kwy.get() || var1.canSee(var2)
          : false;
    }
 
@@ -467,41 +463,36 @@ public class kwf extends kfe {
    }
 
    private static boolean kyj(Vec3d var0, Entity var1, double var2) {
-      return var1.method_5829().method_49271(var0) <= var2 * var2;
+      return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
    private static double kyk(float var0, Vec3d var1, Entity var2) {
-      Vec3d var3 = var2.method_73189();
-      double var4 = Math.toDegrees(Math.atan2(var3.field_1350 - var1.field_1350, var3.field_1352 - var1.field_1352)) - 90.0;
-      return Math.abs(MathHelper.method_15338(var4 - var0));
+      Vec3d var3 = var2.getEntityPos();
+      double var4 = Math.toDegrees(Math.atan2(var3.z - var1.z, var3.x - var1.x)) - 90.0;
+      return Math.abs(MathHelper.wrapDegrees(var4 - var0));
    }
 
    private boolean kyl(MinecraftClient var1, ClientPlayerEntity var2) {
-      return var1.field_1755 == null
-         && var2.method_5805()
-         && !var2.method_7325()
-         && !var2.method_6115()
-         && !var2.method_3144()
+      return var1.currentScreen == null
+         && var2.isAlive()
+         && !var2.isSpectator()
+         && !var2.isUsingItem()
+         && !var2.isRiding()
          && !ovh.active()
          && !oxw.busy()
          && !kvz.busy()
          && !nuo.busy()
          && !kmy.busy()
          && tcz.mode() != tcw.RECORD
-         && (var1.field_1761 == null || !var1.field_1761.method_2923());
+         && (var1.interactionManager == null || !var1.interactionManager.isBreakingBlock());
    }
 
    private boolean kym(ItemStack var1) {
-      String var2 = this.kwr.get();
-
-      return switch (var2) {
+      return switch (this.kwr.get()) {
          case a.b("\uf656迈Ԍ", 407696916) -> true;
-         case a.d("䝻㻮됥⩉ꆈ✮", -149477138, -786141248) -> var1.method_31573(ItemTags.field_42611);
-         case a.c(-615311786, "ᘓ澛\ue555笲") -> var1.method_31573(ItemTags.field_42612);
-         default -> var1.method_31573(ItemTags.field_42611)
-            || var1.method_31573(ItemTags.field_42612)
-            || var1.method_7909() instanceof MaceItem
-            || var1.method_7909() instanceof TridentItem;
+         case a.d("䝻㻮됥⩉ꆈ✮", -149477138, -786141248) -> var1.isIn(ItemTags.SWORDS);
+         case a.c(-615311786, "ᘓ澛\ue555笲") -> var1.isIn(ItemTags.AXES);
+         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
       };
    }
 }

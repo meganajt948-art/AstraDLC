@@ -28,7 +28,7 @@ public class lsg extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      boolean var2 = var1.field_1755 instanceof hlc;
+      boolean var2 = var1.currentScreen instanceof hlc;
       long var3 = System.currentTimeMillis();
       if (var2 && var3 - this.lsn > 1200L) {
          this.lsn = var3;
@@ -83,8 +83,8 @@ public class lsg extends kfe {
    }
 
    private static boolean lsw() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      return lsh != null && lsh.isEnabled() && var0.field_1724 != null;
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      return lsh != null && lsh.isEnabled() && var0.player != null;
    }
 
    public static void toggled(kfe var0) {

@@ -138,7 +138,7 @@ public class kgj extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 == null) {
          this.khx = null;
       } else {
@@ -170,8 +170,8 @@ public class kgj extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      if ((this.kia == null || !this.kib) && var1.method_22683() != null) {
-         this.kje(var1.method_22683().method_4490());
+      if ((this.kia == null || !this.kib) && var1.getWindow() != null) {
+         this.kje(var1.getWindow().getHandle());
       }
 
       long var2 = System.nanoTime();
@@ -180,8 +180,8 @@ public class kgj extends kfe {
       }
 
       this.kih = var2;
-      ClientPlayerEntity var4 = var1.field_1724;
-      if (var4 != null && var1.field_1755 == null && var1.field_1729.method_1613()) {
+      ClientPlayerEntity var4 = var1.player;
+      if (var4 != null && var1.currentScreen == null && var1.mouse.isCursorLocked()) {
          this.kht.frame(var1, var4);
       } else {
          this.kht.forgetFrame();
@@ -189,7 +189,7 @@ public class kgj extends kfe {
    }
 
    private Entity kiu(MinecraftClient var1, ClientPlayerEntity var2) {
-      Vec3d var3 = var2.method_33571();
+      Vec3d var3 = var2.getEyePos();
       double var4 = this.kgu.get();
       double var6 = this.kgt.get() * 0.5;
       Entity var8 = this.kht.target();
@@ -199,43 +199,43 @@ public class kgj extends kfe {
 
       if (var8 != null && this.kiv(var2, var3, var8, var4, var6)) {
          return var8;
-      } else {
-         this.kiq = 0;
-         Entity var9 = null;
-         double var10 = Double.MAX_VALUE;
+      }
 
-         for (Entity var13 : var1.field_1687.method_8333(var2, var2.method_5829().method_1014(var4 + 1.0), var2x -> this.kiw(var2, var2x))) {
-            if (kiz(var3, var13, var4)) {
-               double var14 = kja(var2, var3, var13);
-               if (!(var14 > var6)) {
-                  String var18 = this.kgx.get();
+      this.kiq = 0;
+      Entity var9 = null;
+      double var10 = Double.MAX_VALUE;
 
-                  double var16 = switch (var18) {
-                     case a.b("\udec7ꝛⶒ돤㠦뺘ӆ贱", -46866805) -> var13.method_5829().method_49271(var3);
-                     case a.b("ꂐ\ud90c叛춧䙨샅", -2138464034) -> var13 instanceof LivingEntity var20 ? kiy(var20) : 100.0;
-                     default -> var14;
-                  };
-                  if (var16 < var10) {
-                     var10 = var16;
-                     var9 = var13;
-                  }
+      for (Entity var13 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var4 + 1.0), var2x -> this.kiw(var2, var2x))) {
+         if (kiz(var3, var13, var4)) {
+            double var14 = kja(var2, var3, var13);
+            if (!(var14 > var6)) {
+               double var16 = switch (this.kgx.get()) {
+                  case a.b("\udec7ꝛⶒ돤㠦뺘ӆ贱", -46866805) -> var13.getBoundingBox().squaredMagnitude(var3);
+                  case a.b("ꂐ\ud90c叛춧䙨샅", -2138464034) -> var13 instanceof LivingEntity var20 ? kiy(var20) : 100.0;
+                  default -> var14;
+               };
+               if (var16 < var10) {
+                  var10 = var16;
+                  var9 = var13;
                }
             }
          }
-
-         return var9;
       }
+
+      return var9;
    }
 
    private boolean kiv(ClientPlayerEntity var1, Vec3d var2, Entity var3, double var4, double var6) {
-      if (var3.method_31481() || !this.kix(var1, var3, false) || !kiz(var2, var3, var4 + 1.5) || kja(var1, var2, var3) > var6 * 1.2) {
+      if (var3.isRemoved() || !this.kix(var1, var3, false) || !kiz(var2, var3, var4 + 1.5) || kja(var1, var2, var3) > var6 * 1.2) {
          return false;
-      } else if (!this.khb.get() && !var1.method_6057(var3)) {
-         return ++this.kiq <= 12;
-      } else {
-         this.kiq = 0;
-         return true;
       }
+
+      if (!this.khb.get() && !var1.canSee(var3)) {
+         return ++this.kiq <= 12;
+      }
+
+      this.kiq = 0;
+      return true;
    }
 
    private boolean kiw(ClientPlayerEntity var1, Entity var2) {
@@ -243,16 +243,16 @@ public class kgj extends kfe {
    }
 
    private boolean kix(ClientPlayerEntity var1, Entity var2, boolean var3) {
-      if (var2 != var1 && var2 instanceof LivingEntity var4 && var4.method_5805() && var2.method_5732()) {
+      if (var2 != var1 && var2 instanceof LivingEntity var4 && var4.isAlive() && var2.isAttackable()) {
          if (var2 instanceof PlayerEntity var5) {
-            if (!this.kgz.get() || var5.method_7325() || hhf.protects(var5)) {
+            if (!this.kgz.get() || var5.isSpectator() || hhf.protects(var5)) {
                return false;
             }
          } else if (!this.kha.get() || !(var2 instanceof Monster)) {
             return false;
          }
 
-         return !this.khc.allows(var2) ? false : !var3 || this.khb.get() || var1.method_6057(var2);
+         return !this.khc.allows(var2) ? false : !var3 || this.khb.get() || var1.canSee(var2);
       } else {
          return false;
       }
@@ -264,48 +264,43 @@ public class kgj extends kfe {
    }
 
    private static boolean kiz(Vec3d var0, Entity var1, double var2) {
-      return var1.method_5829().method_49271(var0) <= var2 * var2;
+      return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
    private static double kja(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
-      Vec3d var3 = var2.method_73189();
-      double var4 = Math.toDegrees(Math.atan2(var3.field_1350 - var1.field_1350, var3.field_1352 - var1.field_1352)) - 90.0;
-      return Math.abs(MathHelper.method_15338(var4 - var0.method_36454()));
+      Vec3d var3 = var2.getEntityPos();
+      double var4 = Math.toDegrees(Math.atan2(var3.z - var1.z, var3.x - var1.x)) - 90.0;
+      return Math.abs(MathHelper.wrapDegrees(var4 - var0.getYaw()));
    }
 
    private void kjb(MinecraftClient var1) {
-      boolean var2 = var1.field_1690.field_1886.method_1434()
-         || var1.field_1755 == null && var1.method_22683() != null && GLFW.glfwGetMouseButton(var1.method_22683().method_4490(), 0) == 1;
+      boolean var2 = var1.options.attackKey.isPressed()
+         || var1.currentScreen == null && var1.getWindow() != null && GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 0) == 1;
       if (var2) {
          this.khw = System.currentTimeMillis();
       }
    }
 
    private boolean kjc(MinecraftClient var1, ClientPlayerEntity var2) {
-      if (var1.field_1755 != null || !var1.method_1569() || !var1.field_1729.method_1613() || !var2.method_5805() || var2.method_7325()) {
+      if (var1.currentScreen != null || !var1.isWindowFocused() || !var1.mouse.isCursorLocked() || !var2.isAlive() || var2.isSpectator()) {
          return false;
-      } else if (var1.field_1761 != null && var1.field_1761.method_2923()) {
+      } else if (var1.interactionManager != null && var1.interactionManager.isBreakingBlock()) {
          return false;
-      } else if (var2.method_6115()) {
+      } else if (var2.isUsingItem()) {
          return false;
       } else if (kmy.busy() || tcz.mode() == tcw.RECORD || nfl.busy() || lqq.busy()) {
          return false;
       } else {
-         return this.kgy.get() && System.currentTimeMillis() - this.khw > 650L ? false : this.kjd(var2.method_6047());
+         return this.kgy.get() && System.currentTimeMillis() - this.khw > 650L ? false : this.kjd(var2.getMainHandStack());
       }
    }
 
    private boolean kjd(ItemStack var1) {
-      String var2 = this.kgw.get();
-
-      return switch (var2) {
+      return switch (this.kgw.get()) {
          case a.c(138839254, "蒔ﴊ矎") -> true;
-         case a.d("Ἲ暯\uec64爈柳罯", 1174444933, -987331350) -> var1.method_31573(ItemTags.field_42611);
-         case a.d("ᒜ洔\ue7da禽", 1898114766, 1348401687) -> var1.method_31573(ItemTags.field_42612);
-         default -> var1.method_31573(ItemTags.field_42611)
-            || var1.method_31573(ItemTags.field_42612)
-            || var1.method_7909() instanceof MaceItem
-            || var1.method_7909() instanceof TridentItem;
+         case a.d("Ἲ暯\uec64爈柳罯", 1174444933, -987331350) -> var1.isIn(ItemTags.SWORDS);
+         case a.d("ᒜ洔\ue7da禽", 1898114766, 1348401687) -> var1.isIn(ItemTags.AXES);
+         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
       };
    }
 
@@ -357,18 +352,18 @@ public class kgj extends kfe {
       }
 
       if (this.kib) {
-         MinecraftClient.method_1551().execute(this::kjh);
+         MinecraftClient.getInstance().execute(this::kjh);
       }
    }
 
    private void kjh() {
       if (this.kib && khq != null) {
-         MinecraftClient var1 = MinecraftClient.method_1551();
+         MinecraftClient var1 = MinecraftClient.getInstance();
 
          try {
-            double var2 = khq.getDouble(var1.field_1729);
-            double var4 = khr.getDouble(var1.field_1729);
-            double var6 = khs.getDouble(var1.field_1729);
+            double var2 = khq.getDouble(var1.mouse);
+            double var4 = khr.getDouble(var1.mouse);
+            double var6 = khs.getDouble(var1.mouse);
             if (var6 == this.kig) {
                this.kic = this.kic + (var2 - this.kie);
                this.kid = this.kid + (var4 - this.kif);
@@ -389,8 +384,8 @@ public class kgj extends kfe {
             this.kji(var1);
             this.kie = this.kic + this.khv[0];
             this.kif = this.kid + this.khv[1];
-            khq.setDouble(var1.field_1729, this.kie);
-            khr.setDouble(var1.field_1729, this.kif);
+            khq.setDouble(var1.mouse, this.kie);
+            khr.setDouble(var1.mouse, this.kif);
          } catch (IllegalAccessException var9) {
             khq = null;
             this.kib = false;
@@ -400,43 +395,30 @@ public class kgj extends kfe {
 
    private void kji(MinecraftClient var1) {
       this.khv[0] = this.khv[1] = 0.0;
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       Entity var3 = this.khx;
       if ((this.kic != 0.0 || this.kid != 0.0)
          && this.isEnabled()
          && var2 != null
          && var3 != null
-         && var3.method_5805()
-         && !var3.method_31481()
-         && var1.field_1755 == null
-         && var1.field_1729.method_1613()
-         && !var1.field_1690.field_1914
-         && var1.field_1690.method_31044().method_31034()
+         && var3.isAlive()
+         && !var3.isRemoved()
+         && var1.currentScreen == null
+         && var1.mouse.isCursorLocked()
+         && !var1.options.smoothCameraEnabled
+         && var1.options.getPerspective().isFirstPerson()
          && !ovh.active()) {
          double var4 = kjl(var1, var2);
-         float var6 = var1.method_61966().method_60637(true);
-         Vec3d var7 = var2.method_5836(var6);
-         Vec3d var8 = var3.method_30950(var6);
-         if (!(var4 <= 0.0)
-            && tbp.aim(
-               var7.field_1352,
-               var7.field_1351,
-               var7.field_1350,
-               var8.field_1352,
-               var8.field_1351,
-               var8.field_1350,
-               var3.method_17681() * 0.5,
-               var3.method_17682(),
-               0.0,
-               0.5,
-               this.khu
-            )) {
-            double var9 = var1.field_1690.method_72706().method_41753() ? -1.0 : 1.0;
-            double var11 = var1.field_1690.method_42438().method_41753() ? -1.0 : 1.0;
+         float var6 = var1.getRenderTickCounter().getTickProgress(true);
+         Vec3d var7 = var2.getCameraPosVec(var6);
+         Vec3d var8 = var3.getLerpedPos(var6);
+         if (!(var4 <= 0.0) && tbp.aim(var7.x, var7.y, var7.z, var8.x, var8.y, var8.z, var3.getWidth() * 0.5, var3.getHeight(), 0.0, 0.5, this.khu)) {
+            double var9 = var1.options.getInvertMouseX().getValue() ? -1.0 : 1.0;
+            double var11 = var1.options.getInvertMouseY().getValue() ? -1.0 : 1.0;
             double var13 = this.kic * var4 * var9;
             double var15 = this.kid * var4 * var11;
-            double var17 = tbp.wrap(this.khu.yaw - var2.method_36454());
-            double var19 = this.khu.pitch - var2.method_36455();
+            double var17 = tbp.wrap(this.khu.yaw - var2.getYaw());
+            double var19 = this.khu.pitch - var2.getPitch();
             double var21 = kjk(var17 + this.khu.la, var17 + this.khu.ra);
             double var23 = kjk(var19 + this.khu.ta, var19 + this.khu.ba);
             double var25 = 1.0 - kjm(1.5, 8.0, Math.hypot(var21, var23));
@@ -460,18 +442,20 @@ public class kgj extends kfe {
    private double kjj(double var1, double var3, double var5, double var7) {
       if (var1 == 0.0) {
          return 0.0;
-      } else {
-         boolean var9 = var3 != 0.0 ? var1 * var3 > 0.0 : var1 * var5 > 0.0;
-         if (!var9) {
-            return var1 * MathHelper.method_16436(var7, 1.0, this.kgs.get());
-         } else if (var3 == 0.0) {
-            return var1;
-         } else {
-            double var10 = var1 * this.kgr.get();
-            double var12 = Math.max(Math.abs(var1), Math.abs(var5));
-            return Math.abs(var10) > var12 ? Math.copySign(var12, var1) : var10;
-         }
       }
+
+      boolean var9 = var3 != 0.0 ? var1 * var3 > 0.0 : var1 * var5 > 0.0;
+      if (!var9) {
+         return var1 * MathHelper.lerp(var7, 1.0, this.kgs.get());
+      }
+
+      if (var3 == 0.0) {
+         return var1;
+      }
+
+      double var10 = var1 * this.kgr.get();
+      double var12 = Math.max(Math.abs(var1), Math.abs(var5));
+      return Math.abs(var10) > var12 ? Math.copySign(var12, var1) : var10;
    }
 
    private static double kjk(double var0, double var2) {
@@ -479,14 +463,14 @@ public class kgj extends kfe {
    }
 
    private static double kjl(MinecraftClient var0, ClientPlayerEntity var1) {
-      double var2 = (Double)var0.field_1690.method_42495().method_41753() * 0.6F + 0.2F;
+      double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
-      boolean var6 = var0.field_1690.method_31044().method_31034() && var1.method_31550();
+      boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();
       return (var6 ? var4 : var4 * 8.0) * 0.15;
    }
 
    private static double kjm(double var0, double var2, double var4) {
-      double var6 = MathHelper.method_15350((var4 - var0) / (var2 - var0), 0.0, 1.0);
+      double var6 = MathHelper.clamp((var4 - var0) / (var2 - var0), 0.0, 1.0);
       return var6 * var6 * (3.0 - 2.0 * var6);
    }
 }

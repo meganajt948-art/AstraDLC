@@ -22,14 +22,11 @@ import org.lwjgl.system.MemoryStack;
 public final class unr {
    private static final int uns = 3;
    private static final int unt = 48;
-   @Nullable
-   private static GpuTexture unu;
-   @Nullable
-   private static GpuTextureView unv;
+   private static @Nullable GpuTexture unu;
+   private static @Nullable GpuTextureView unv;
    private static final GpuTexture[] unw = new GpuTexture[3];
    private static final GpuTextureView[] unx = new GpuTextureView[3];
-   @Nullable
-   private static GpuBuffer uny;
+   private static @Nullable GpuBuffer uny;
    private static int unz = -1;
    private static int uoa = -1;
    private static boolean uob;
@@ -39,20 +36,20 @@ public final class unr {
 
    public static void apply(float var0, float var1, float var2, float var3, float var4, float var5, float var6) {
       if (!uob && uvq.ensure(uvq.GRADE) && uvq.ensure(uvq.BLUR_COPY) && (!(var5 > 0.0F) || uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP))) {
-         Framebuffer var7 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var8 = var7.method_71639();
-         if (var8 != null && var7.field_1482 >= 8 && var7.field_1481 >= 8) {
+         Framebuffer var7 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var8 = var7.getColorAttachmentView();
+         if (var8 != null && var7.textureWidth >= 8 && var7.textureHeight >= 8) {
             try {
-               uof(var7.field_1482, var7.field_1481);
+               uof(var7.textureWidth, var7.textureHeight);
                GpuDevice var9 = RenderSystem.getDevice();
                CommandEncoder var10 = var9.createCommandEncoder();
-               GpuSampler var11 = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+               GpuSampler var11 = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
                MemoryStack var12 = MemoryStack.stackPush();
 
                try {
                   ByteBuffer var13 = Std140Builder.onStack(var12, 48)
                      .putVec4(var0, var1, var2, var3)
-                     .putVec4(var4, var5, 1.0F / var7.field_1482, 1.0F / var7.field_1481)
+                     .putVec4(var4, var5, 1.0F / var7.textureWidth, 1.0F / var7.textureHeight)
                      .putVec4(var6, 0.62F, 0.0F, 0.0F)
                      .get();
                   var10.writeToBuffer(uny.slice(), var13);
@@ -88,31 +85,15 @@ public final class unr {
                   var21 = unx[0];
                }
 
-               RenderPass var23 = var10.createRenderPass(() -> "Flow2 grade", unv, OptionalInt.empty());
-
-               try {
+               try (RenderPass var23 = var10.createRenderPass(() -> "Flow2 grade", unv, OptionalInt.empty())) {
                   var23.setPipeline(uvq.GRADE);
                   var23.bindTexture("InSampler", var8, var11);
                   var23.bindTexture("BloomSampler", var21, var11);
                   var23.setUniform("FlowGrade", uny);
                   var23.draw(0, 3);
-               } catch (Throwable var18) {
-                  if (var23 != null) {
-                     try {
-                        var23.close();
-                     } catch (Throwable var16) {
-                        var18.addSuppressed(var16);
-                     }
-                  }
-
-                  throw var18;
                }
 
-               if (var23 != null) {
-                  var23.close();
-               }
-
-               uoe(var10, uvq.BLUR_COPY, unv, var8, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+               uoe(var10, uvq.BLUR_COPY, unv, var8, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
             } catch (Throwable var20) {
                uob = true;
                System.out.println("grading failed: " + var20);
@@ -122,26 +103,10 @@ public final class unr {
    }
 
    private static void uoe(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuSampler var4) {
-      RenderPass var5 = var0.createRenderPass(() -> "Flow2 grade glow", var3, OptionalInt.empty());
-
-      try {
+      try (RenderPass var5 = var0.createRenderPass(() -> "Flow2 grade glow", var3, OptionalInt.empty())) {
          var5.setPipeline(var1);
          var5.bindTexture("InSampler", var2, var4);
          var5.draw(0, 3);
-      } catch (Throwable var9) {
-         if (var5 != null) {
-            try {
-               var5.close();
-            } catch (Throwable var8) {
-               var9.addSuppressed(var8);
-            }
-         }
-
-         throw var9;
-      }
-
-      if (var5 != null) {
-         var5.close();
       }
    }
 

@@ -63,52 +63,52 @@ final class fnq {
       }
 
       fnv = var1;
-      ServerWorld var8 = var0.method_30002();
+      ServerWorld var8 = var0.getOverworld();
       UUID var9 = UUID.nameUUIDFromBytes(a.c(-425270718, "\ue218鮀ᅓ輨Ӻ艌㠔뇐⾳ꔏ⋄\ud8a9噩쾐䖿썤礨\uf6e1汧\uea1b揷").getBytes(StandardCharsets.UTF_8));
       GameProfile var10 = new GameProfile(var9, a.d("⊺嬡퇱侘쑺䋦\uf8ae", 825027198, -1867593595));
-      ServerPlayerEntity var11 = new ServerPlayerEntity(var0, var8, var10, SyncedClientOptions.method_53821());
-      var11.method_5808(var2, var4, var6, 90.0F, 0.0F);
+      ServerPlayerEntity var11 = new ServerPlayerEntity(var0, var8, var10, SyncedClientOptions.createDefault());
+      var11.refreshPositionAndAngles(var2, var4, var6, 90.0F, 0.0F);
       fnu = new fux();
-      var0.method_3760().method_14570(fnu, var11, new ConnectedClientData(var10, 0, var11.method_53823(), false));
-      var11.method_7336(GameMode.field_9215);
-      var11.method_5996(EntityAttributes.field_23716).method_6192(1024.0);
-      var11.method_6033(1024.0F);
-      var11.method_31548().method_5447(0, new ItemStack(Items.field_8802));
-      var11.method_31548().method_61496(0);
+      var0.getPlayerManager().onPlayerConnect(fnu, var11, new ConnectedClientData(var10, 0, var11.getClientOptions(), false));
+      var11.changeGameMode(GameMode.SURVIVAL);
+      var11.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(1024.0);
+      var11.setHealth(1024.0F);
+      var11.getInventory().setStack(0, new ItemStack(Items.DIAMOND_SWORD));
+      var11.getInventory().setSelectedSlot(0);
       fnt = var11;
-      spawned = var11.method_5628();
+      spawned = var11.getId();
    }
 
    private static void fol(MinecraftServer var0) {
       if (fnt != null) {
          fnu.drain();
-         if (fnt.method_31481()) {
+         if (fnt.isRemoved()) {
             fnt = null;
          } else {
-            fnt.method_7344().method_7580(20);
-            if (fnt.method_6032() < 600.0F) {
-               fnt.method_6033(1024.0F);
+            fnt.getHungerManager().setFoodLevel(20);
+            if (fnt.getHealth() < 600.0F) {
+               fnt.setHealth(1024.0F);
             }
 
-            ServerPlayerEntity var1 = fnv == null ? null : var0.method_3760().method_14602(fnv);
+            ServerPlayerEntity var1 = fnv == null ? null : var0.getPlayerManager().getPlayer(fnv);
             if (var1 != null && active && orbit != 0) {
                fom(var1);
             } else if (var1 != null && active) {
                fon(var1);
             } else {
-               fnt.field_6250 = 0.0F;
-               fnt.field_6212 = 0.0F;
-               fnt.method_6100(false);
-               fnt.method_5728(false);
+               fnt.forwardSpeed = 0.0F;
+               fnt.sidewaysSpeed = 0.0F;
+               fnt.setJumping(false);
+               fnt.setSprinting(false);
             }
 
-            double var2 = fnt.method_23318();
-            fnt.method_14226();
-            double var4 = fnt.method_23318() - var2;
-            if (fnt.method_24828() || var4 > 0.0) {
-               fnt.field_6017 = 0.0;
+            double var2 = fnt.getY();
+            fnt.playerTick();
+            double var4 = fnt.getY() - var2;
+            if (fnt.isOnGround() || var4 > 0.0) {
+               fnt.fallDistance = 0.0;
             } else if (var4 < 0.0) {
-               fnt.field_6017 -= var4;
+               fnt.fallDistance -= var4;
             }
          }
       }
@@ -120,14 +120,14 @@ final class fnq {
          foe = fnx.nextBoolean() ? 1 : -1;
       }
 
-      double var1 = var0.method_23317() - fnt.method_23317();
-      double var3 = var0.method_23321() - fnt.method_23321();
+      double var1 = var0.getX() - fnt.getX();
+      double var3 = var0.getZ() - fnt.getZ();
       double var5 = Math.max(0.001, Math.hypot(var1, var3));
       float var7 = (float)Math.toDegrees(Math.atan2(var3, var1)) - 90.0F;
-      double var8 = MathHelper.method_15350((var5 - (orbitMin + orbitMax) * 0.5) / 0.3, -1.0, 1.0);
+      double var8 = MathHelper.clamp((var5 - (orbitMin + orbitMax) * 0.5) / 0.3, -1.0, 1.0);
       double var10 = Math.toDegrees(Math.atan2(-var3, -var1));
       if (!Double.isNaN(fog)) {
-         orbitTurnSum = orbitTurnSum + Math.abs(MathHelper.method_15338(var10 - fog));
+         orbitTurnSum = orbitTurnSum + Math.abs(MathHelper.wrapDegrees(var10 - fog));
          orbitRadiusSum += var5;
          orbitTicks++;
       }
@@ -136,50 +136,50 @@ final class fnq {
       float var12;
       if (orbit == 1) {
          var12 = var7;
-         fnt.field_6250 = (float)var8;
-         fnt.field_6212 = foe;
-         fnt.method_5728(false);
+         fnt.forwardSpeed = (float)var8;
+         fnt.sidewaysSpeed = foe;
+         fnt.setSprinting(false);
       } else {
          foi = Double.isNaN(foi) ? var5 : foi + (var5 - foi) * 0.02;
          double var13 = (orbitMin + orbitMax) * 0.5;
-         foh = MathHelper.method_15350(foh + (var13 - foi) * 0.01, 1.6, var13);
-         double var15 = MathHelper.method_15350((var5 - foh) / 0.25, -1.0, 1.0);
+         foh = MathHelper.clamp(foh + (var13 - foi) * 0.01, 1.6, var13);
+         double var15 = MathHelper.clamp((var5 - foh) / 0.25, -1.0, 1.0);
          var12 = var7 + foe * (float)(90.0 - var15 * 60.0);
-         fnt.field_6250 = 1.0F;
-         fnt.field_6212 = 0.0F;
-         fnt.method_5728(true);
+         fnt.forwardSpeed = 1.0F;
+         fnt.sidewaysSpeed = 0.0F;
+         fnt.setSprinting(true);
       }
 
-      Vec3d var22 = fnt.method_33571();
-      double var14 = var0.method_23320() - var22.field_1351;
-      fnt.method_36456(var12);
-      fnt.method_5847(orbit == 1 ? var12 : var7);
-      fnt.method_5636(var12);
-      fnt.method_36457((float)(-Math.toDegrees(Math.atan2(var14, var5))));
-      fnt.method_6100(jumping);
+      Vec3d var22 = fnt.getEyePos();
+      double var14 = var0.getEyeY() - var22.y;
+      fnt.setYaw(var12);
+      fnt.setHeadYaw(orbit == 1 ? var12 : var7);
+      fnt.setBodyYaw(var12);
+      fnt.setPitch((float)(-Math.toDegrees(Math.atan2(var14, var5))));
+      fnt.setJumping(jumping);
       if (!(aggression <= 0.0)) {
          if (fod > 0) {
             fod--;
          }
 
-         double var16 = var0.method_5829().method_49271(var22);
-         boolean var18 = fnt.field_6017 > 0.0 && !fnt.method_24828();
+         double var16 = var0.getBoundingBox().squaredMagnitude(var22);
+         boolean var18 = fnt.fallDistance > 0.0 && !fnt.isOnGround();
          boolean var19 = var18 || fnx.nextDouble() < aggression * 0.08;
-         if (var16 <= 9.0 && fnt.method_7261(0.5F) > 0.9F && fod == 0 && var19 && fnx.nextDouble() < 0.2 + 0.8 * aggression) {
-            boolean var20 = fnt.method_5624();
+         if (var16 <= 9.0 && fnt.getAttackCooldownProgress(0.5F) > 0.9F && fod == 0 && var19 && fnx.nextDouble() < 0.2 + 0.8 * aggression) {
+            boolean var20 = fnt.isSprinting();
             if (var18) {
-               fnt.method_5728(false);
+               fnt.setSprinting(false);
             }
 
-            boolean var21 = var18 && !fnt.method_5624();
-            fnt.method_7324(var0);
-            fnt.method_6104(Hand.field_5808);
+            boolean var21 = var18 && !fnt.isSprinting();
+            fnt.attack(var0);
+            fnt.swingHand(Hand.MAIN_HAND);
             hits++;
             if (var21) {
                critHits++;
             }
 
-            fnt.method_5728(var20);
+            fnt.setSprinting(var20);
             fod = aggression < 0.5 ? 10 + fnx.nextInt(20) : 0;
          }
       }
@@ -192,20 +192,20 @@ final class fnq {
          foc = 0.7F + fnx.nextFloat() * 0.8F;
       }
 
-      Vec3d var1 = fnt.method_33571();
-      Vec3d var2 = var0.method_73189().method_1031(0.0, foc, 0.0);
-      double var3 = var2.field_1352 - var1.field_1352;
-      double var5 = var2.field_1351 - var1.field_1351;
-      double var7 = var2.field_1350 - var1.field_1350;
+      Vec3d var1 = fnt.getEyePos();
+      Vec3d var2 = var0.getEntityPos().add(0.0, foc, 0.0);
+      double var3 = var2.x - var1.x;
+      double var5 = var2.y - var1.y;
+      double var7 = var2.z - var1.z;
       double var9 = Math.sqrt(var3 * var3 + var7 * var7);
-      float var11 = (float)(MathHelper.method_15349(var7, var3) * 180.0F / (float)Math.PI) - 90.0F + fob;
-      float var12 = (float)(-(MathHelper.method_15349(var5, var9) * 180.0F / (float)Math.PI));
-      float var13 = fnt.method_36454() + MathHelper.method_15363(MathHelper.method_15393(var11 - fnt.method_36454()), -30.0F, 30.0F);
-      float var14 = MathHelper.method_15363(fnt.method_36455() + MathHelper.method_15363(var12 - fnt.method_36455(), -20.0F, 20.0F), -90.0F, 90.0F);
-      fnt.method_36456(var13);
-      fnt.method_5847(var13);
-      fnt.method_5636(var13);
-      fnt.method_36457(var14);
+      float var11 = (float)(MathHelper.atan2(var7, var3) * 180.0F / (float)Math.PI) - 90.0F + fob;
+      float var12 = (float)(-(MathHelper.atan2(var5, var9) * 180.0F / (float)Math.PI));
+      float var13 = fnt.getYaw() + MathHelper.clamp(MathHelper.wrapDegrees(var11 - fnt.getYaw()), -30.0F, 30.0F);
+      float var14 = MathHelper.clamp(fnt.getPitch() + MathHelper.clamp(var12 - fnt.getPitch(), -20.0F, 20.0F), -90.0F, 90.0F);
+      fnt.setYaw(var13);
+      fnt.setHeadYaw(var13);
+      fnt.setBodyYaw(var13);
+      fnt.setPitch(var14);
       if (--fny <= 0) {
          fny = 10 + fnx.nextInt(30);
          int var15 = fnx.nextInt(3);
@@ -213,14 +213,14 @@ final class fnq {
       }
 
       float var24 = var9 > 2.7 ? 1.0F : (var9 < 1.5 ? -0.7F : 0.3F);
-      fnt.field_6250 = var24;
-      fnt.field_6212 = strafing ? fnz : 0.0F;
-      fnt.method_6100(jumping);
+      fnt.forwardSpeed = var24;
+      fnt.sidewaysSpeed = strafing ? fnz : 0.0F;
+      fnt.setJumping(jumping);
       boolean var16 = var24 > 0.5F && var9 > 2.2;
-      double var17 = var0.method_5829().method_49271(var1);
-      float var19 = fnt.method_7261(0.5F);
-      boolean var20 = fnt.field_6017 > 0.0 && !fnt.method_24828();
-      float var21 = Math.abs(MathHelper.method_15393(var11 - fob - var13));
+      double var17 = var0.getBoundingBox().squaredMagnitude(var1);
+      float var19 = fnt.getAttackCooldownProgress(0.5F);
+      boolean var20 = fnt.fallDistance > 0.0 && !fnt.isOnGround();
+      float var21 = Math.abs(MathHelper.wrapDegrees(var11 - fob - var13));
       if (fod > 0) {
          fod--;
       }
@@ -231,10 +231,10 @@ final class fnq {
             var16 = false;
          }
 
-         fnt.method_5728(var16);
-         boolean var23 = var20 && !fnt.method_5624();
-         fnt.method_7324(var0);
-         fnt.method_6104(Hand.field_5808);
+         fnt.setSprinting(var16);
+         boolean var23 = var20 && !fnt.isSprinting();
+         fnt.attack(var0);
+         fnt.swingHand(Hand.MAIN_HAND);
          hits++;
          if (var23) {
             critHits++;
@@ -242,7 +242,7 @@ final class fnq {
 
          fod = aggression < 0.5 ? 10 + fnx.nextInt(20) : 0;
       } else {
-         fnt.method_5728(var16);
+         fnt.setSprinting(var16);
       }
    }
 }

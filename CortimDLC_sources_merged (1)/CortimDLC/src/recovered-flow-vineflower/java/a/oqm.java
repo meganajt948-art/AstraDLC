@@ -27,10 +27,10 @@ public class oqm extends kfe {
    @Override
    public void toggle() {
       if (!this.isMaintenance()) {
-         if (this.mc.field_1755 instanceof BotScreen) {
-            this.mc.method_1507(null);
+         if (this.mc.currentScreen instanceof BotScreen) {
+            this.mc.setScreen(null);
          } else {
-            this.mc.method_1507(new BotScreen());
+            this.mc.setScreen(new BotScreen());
          }
       }
    }

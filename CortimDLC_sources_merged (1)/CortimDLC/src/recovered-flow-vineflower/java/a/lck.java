@@ -51,15 +51,15 @@ public class lck extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      if (this.lcy == null && var1.method_22683() != null) {
-         this.ldl(var1.method_22683().method_4490());
+      if (this.lcy == null && var1.getWindow() != null) {
+         this.ldl(var1.getWindow().getHandle());
       }
    }
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.field_1687 != null) {
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.world != null) {
          double var3 = this.lco.get();
          if (this.lcv == null || !this.ldh(var2, this.lcv) || !ldi(var2, this.lcv, var3) || ldj(var2, this.lcv) > this.lcp.get() * 0.5) {
             this.lcv = this.ldg(var1, var2, var3);
@@ -74,7 +74,7 @@ public class lck extends kfe {
       double var6 = Double.MAX_VALUE;
       double var8 = this.lcp.get() * 0.5;
 
-      for (Entity var11 : var1.field_1687.method_8335(var2, var2.method_5829().method_1014(var3))) {
+      for (Entity var11 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var3))) {
          if (var11 instanceof LivingEntity var12 && this.ldh(var2, var12) && ldi(var2, var12, var3)) {
             double var13 = ldj(var2, var12);
             if (var13 <= var8 && var13 < var6) {
@@ -88,33 +88,33 @@ public class lck extends kfe {
    }
 
    private boolean ldh(ClientPlayerEntity var1, LivingEntity var2) {
-      if (var2 != var1 && !var2.method_31481() && var2.method_5805() && !var2.method_29504() && !(var2 instanceof ArmorStandEntity)) {
+      if (var2 != var1 && !var2.isRemoved() && var2.isAlive() && !var2.isDead() && !(var2 instanceof ArmorStandEntity)) {
          if (var2 instanceof PlayerEntity var3) {
-            if (!this.lcq.get() || var3.method_7325() || hhf.protects(var3)) {
+            if (!this.lcq.get() || var3.isSpectator() || hhf.protects(var3)) {
                return false;
             }
          } else if (!this.lcr.get()) {
             return false;
          }
 
-         return this.lcs.get() || var1.method_6057(var2);
+         return this.lcs.get() || var1.canSee(var2);
       } else {
          return false;
       }
    }
 
    private static boolean ldi(ClientPlayerEntity var0, Entity var1, double var2) {
-      return var0.method_5858(var1) <= var2 * var2;
+      return var0.squaredDistanceTo(var1) <= var2 * var2;
    }
 
    private static double ldj(ClientPlayerEntity var0, Entity var1) {
-      return Math.abs(ldk(var0, var1.method_5829().method_1005()));
+      return Math.abs(ldk(var0, var1.getBoundingBox().getCenter()));
    }
 
    private static double ldk(ClientPlayerEntity var0, Vec3d var1) {
-      Vec3d var2 = var0.method_33571();
-      double var3 = Math.toDegrees(Math.atan2(-(var1.field_1352 - var2.field_1352), var1.field_1350 - var2.field_1350));
-      return MathHelper.method_15338(var3 - var0.method_36454());
+      Vec3d var2 = var0.getEyePos();
+      double var3 = Math.toDegrees(Math.atan2(-(var1.x - var2.x), var1.z - var2.z));
+      return MathHelper.wrapDegrees(var3 - var0.getYaw());
    }
 
    private void ldl(long var1) {
@@ -155,17 +155,17 @@ public class lck extends kfe {
       }
 
       if (lct != null && lcu != null) {
-         MinecraftClient.method_1551().execute(this::ldo);
+         MinecraftClient.getInstance().execute(this::ldo);
       }
    }
 
    private void ldo() {
       if (this.lcy != null) {
-         MinecraftClient var1 = MinecraftClient.method_1551();
+         MinecraftClient var1 = MinecraftClient.getInstance();
 
          try {
-            double var2 = lct.getDouble(var1.field_1729);
-            double var4 = lcu.getDouble(var1.field_1729);
+            double var2 = lct.getDouble(var1.mouse);
+            double var4 = lcu.getDouble(var1.mouse);
             if (var4 != this.ldb) {
                this.ldc = var4 - this.ldb < 0.25 ? this.ldd : 0.0;
                this.ldd = 0.0;
@@ -176,7 +176,7 @@ public class lck extends kfe {
             }
 
             this.lda = this.lcz + this.ldp(var1, this.lcz);
-            lct.setDouble(var1.field_1729, this.lda);
+            lct.setDouble(var1.mouse, this.lda);
          } catch (IllegalAccessException var6) {
             lct = null;
          }
@@ -184,27 +184,27 @@ public class lck extends kfe {
    }
 
    private double ldp(MinecraftClient var1, double var2) {
-      ClientPlayerEntity var4 = var1.field_1724;
+      ClientPlayerEntity var4 = var1.player;
       if (var2 != 0.0
          && this.isEnabled()
          && var4 != null
          && this.lcv != null
-         && this.lcv.method_5805()
-         && var1.field_1729.method_1613()
-         && var1.field_1755 == null
-         && !var1.field_1690.field_1914
+         && this.lcv.isAlive()
+         && var1.mouse.isCursorLocked()
+         && var1.currentScreen == null
+         && !var1.options.smoothCameraEnabled
          && !ovh.active()
          && !kmy.busy()
          && tcz.mode() != tcw.RECORD) {
          double var5 = var2 * ldq(var1, var4);
-         if ((Boolean)var1.field_1690.method_72706().method_41753()) {
+         if (var1.options.getInvertMouseX().getValue()) {
             var5 = -var5;
          }
 
-         double var7 = ldk(var4, this.lcv.method_5829().method_1005());
+         double var7 = ldk(var4, this.lcv.getBoundingBox().getCenter());
          double var9 = var5 * var7 > 0.0 ? this.lcl.get() : this.lcm.get();
-         double var11 = MathHelper.method_15350(1.0 - Math.abs(var5) / this.lcn.get(), 0.0, 1.0);
-         var9 = MathHelper.method_16436(var11, 1.0, var9);
+         double var11 = MathHelper.clamp(1.0 - Math.abs(var5) / this.lcn.get(), 0.0, 1.0);
+         var9 = MathHelper.lerp(var11, 1.0, var9);
          double var13 = var2 * (var9 - 1.0) + this.ldc;
          double var15 = Math.rint(var13);
          this.ldd = var13 - var15;
@@ -216,9 +216,9 @@ public class lck extends kfe {
    }
 
    private static double ldq(MinecraftClient var0, ClientPlayerEntity var1) {
-      double var2 = (Double)var0.field_1690.method_42495().method_41753() * 0.6F + 0.2F;
+      double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
-      boolean var6 = var0.field_1690.method_31044().method_31034() && var1.method_31550();
+      boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();
       return var6 ? var4 : var4 * 8.0;
    }
 }

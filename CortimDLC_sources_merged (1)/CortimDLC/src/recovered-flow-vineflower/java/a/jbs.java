@@ -33,7 +33,7 @@ public final class jbs extends Screen {
    private float jcj = 0.016666668F;
 
    public jbs() {
-      super(Text.method_43470(a.c(-1011260187, "撧ᴋ韉ড়艎Ӿ뺠㝌꤈⎤")));
+      super(Text.literal(a.c(-1011260187, "撧ᴋ韉ড়艎Ӿ뺠㝌꤈⎤")));
    }
 
    private void jcm(DrawContext var1) {
@@ -45,38 +45,40 @@ public final class jbs extends Screen {
       }
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      this.jcm(var1);
+      this.jcm(context);
       float var5 = vcq.outCubic(this.jbv.linear());
-      uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(80.0F * var5)));
-      float var6 = this.field_22787 != null ? Math.max(1, this.field_22787.method_22683().method_4495()) : 2.0F;
+      uut.rect(context, 0.0F, 0.0F, this.width, this.height, ujt.withAlpha(0, Math.round(80.0F * var5)));
+      float var6 = this.client != null ? Math.max(1, this.client.getWindow().getScaleFactor()) : 2.0F;
       float var7 = 1.0F / var6;
       int var8 = ujt.withAlpha(16777215, Math.round(9.0F * var5));
 
-      for (float var9 = this.field_22789 * 0.5F % 24.0F; var9 < this.field_22789; var9 += 24.0F) {
-         uut.rect(var1, var9, 0.0F, var7, this.field_22790, var8);
+      for (float var9 = this.width * 0.5F % 24.0F; var9 < this.width; var9 += 24.0F) {
+         uut.rect(context, var9, 0.0F, var7, this.height, var8);
       }
 
-      for (float var10 = this.field_22790 * 0.5F % 24.0F; var10 < this.field_22790; var10 += 24.0F) {
-         uut.rect(var1, 0.0F, var10, this.field_22789, var7, var8);
+      for (float var10 = this.height * 0.5F % 24.0F; var10 < this.height; var10 += 24.0F) {
+         uut.rect(context, 0.0F, var10, this.width, var7, var8);
       }
 
       int var11 = iov.accent(Math.round(40.0F * var5));
-      uut.rect(var1, this.field_22789 * 0.5F, 0.0F, var7, this.field_22790, var11);
-      uut.rect(var1, 0.0F, this.field_22790 * 0.5F, this.field_22789, var7, var11);
-      izx.renderEditor(var1);
+      uut.rect(context, this.width * 0.5F, 0.0F, var7, this.height, var11);
+      uut.rect(context, 0.0F, this.height * 0.5F, this.width, var7, var11);
+      izx.renderEditor(context);
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
-      this.jcm(var1);
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+      this.jcm(context);
       float var5 = vcq.outCubic(this.jbv.linear());
       uut.pushAlpha(var5);
 
       try {
-         this.jcn(var1, var2, var3);
-         this.jco(var1);
-         this.jcp(var1, var2, var3);
+         this.jcn(context, mouseX, mouseY);
+         this.jco(context);
+         this.jcp(context, mouseX, mouseY);
       } finally {
          uut.popAlpha();
       }
@@ -96,7 +98,7 @@ public final class jbs extends Screen {
                   + a.c(1722438881, "哄\u2d75ꜱ㧗눀")
                   + (var6 != izx.resizing() && var6.size == 1.0F ? jcq(var6) : Math.round(var6.size * 100.0F) + a.b("ᛵ", -1433004335));
                float var10 = izx.SMALL.width(var9) + 10.0F;
-               float var11 = Math.max(2.0F, Math.min(this.field_22789 - var10 - 2.0F, var6.x + (var6.w - var10) * 0.5F));
+               float var11 = Math.max(2.0F, Math.min(this.width - var10 - 2.0F, var6.x + (var6.w - var10) * 0.5F));
                boolean var12 = var6.y < 16.0F;
                float var13 = var12 ? var6.y + var6.h + 5.0F : var6.y - 16.0F;
                uut.pushAlpha(var7);
@@ -110,14 +112,14 @@ public final class jbs extends Screen {
 
    private void jco(DrawContext var1) {
       if (this.jcc != null) {
-         float var2 = this.field_22787 != null ? Math.max(1, this.field_22787.method_22683().method_4495()) : 2.0F;
+         float var2 = this.client != null ? Math.max(1, this.client.getWindow().getScaleFactor()) : 2.0F;
          int var3 = iov.accent(200);
          if (!Float.isNaN(this.jcg)) {
-            uut.rect(var1, this.jcg - 0.5F / var2, 0.0F, 1.0F / var2 * 1.5F, this.field_22790, var3);
+            uut.rect(var1, this.jcg - 0.5F / var2, 0.0F, 1.0F / var2 * 1.5F, this.height, var3);
          }
 
          if (!Float.isNaN(this.jch)) {
-            uut.rect(var1, 0.0F, this.jch - 0.5F / var2, this.field_22789, 1.0F / var2 * 1.5F, var3);
+            uut.rect(var1, 0.0F, this.jch - 0.5F / var2, this.width, 1.0F / var2 * 1.5F, var3);
          }
       }
    }
@@ -140,14 +142,14 @@ public final class jbs extends Screen {
       this.jby.add(new jbj(a.c(298688786, "ꅅ\ud8c3分챡䞧"), vhz.RESET, izx::resetLayout, null, var4, var25));
       var4 += var25 + 4.0F;
       float var26 = izx.TEXT.width(wap.t(a.d("ⴅ咟\ude4d䀷", -1082537933, 2147345782))) + 22.0F;
-      this.jby.add(new jbj(a.d("裶\uf16c箾\ue5c4", -1409287148, 777614498), vhz.CHECK, this::method_25419, null, var4, var26));
+      this.jby.add(new jbj(a.d("裶\uf16c箾\ue5c4", -1409287148, 777614498), vhz.CHECK, this::close, null, var4, var26));
       var4 += var26 + 9.0F;
       this.jcb = var4;
-      this.jbz = Math.round((this.field_22789 - this.jcb) * 0.5F);
+      this.jbz = Math.round((this.width - this.jcb) * 0.5F);
       float var27 = (1.0F - vcq.outCubic(this.jbv.linear())) * 12.0F;
-      this.jca = this.field_22790 - 22.0F - 12.0F + var27;
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(this.jbz, this.jca);
+      this.jca = this.height - 22.0F - 12.0F + var27;
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate(this.jbz, this.jca);
       izx.panel(var1, this.jcb, 22.0F, Math.min(11.0F, iov.r(9.0F)));
       float var10 = 11.0F;
       vjf.draw(var1, vhz.MOVE, 13.5F, var10, 8.5F, iov.accent());
@@ -182,7 +184,7 @@ public final class jbs extends Screen {
          }
       }
 
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
       String var28 = wap.s(
          a.c(
             1787483494,
@@ -193,7 +195,7 @@ public final class jbs extends Screen {
             1322299067
          )
       );
-      izx.SMALL.drawCentered(var1, var28, this.field_22789 * 0.5F, izx.SMALL.centerTop(this.jca - 7.0F), ujt.withAlpha(16777215, 150));
+      izx.SMALL.drawCentered(var1, var28, this.width * 0.5F, izx.SMALL.centerTop(this.jca - 7.0F), ujt.withAlpha(16777215, 150));
    }
 
    private static String jcq(jcs var0) {
@@ -227,10 +229,11 @@ public final class jbs extends Screen {
       return null;
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
-      double var3 = var1.comp_4798();
-      double var5 = var1.comp_4799();
-      if (var1.method_74245() == 1) {
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
+      double var3 = click.x();
+      double var5 = click.y();
+      if (click.button() == 1) {
          jcs var10 = this.jcr(var3, var5);
          if (var10 != null) {
             this.jcd = var10;
@@ -238,53 +241,60 @@ public final class jbs extends Screen {
          }
 
          return true;
-      } else if (var1.method_74245() != 0) {
-         return true;
-      } else if (var3 >= this.jbz && var3 < this.jbz + this.jcb && var5 >= this.jca && var5 < this.jca + 22.0F) {
-         for (jbj var8 : this.jby) {
-            if (var3 - this.jbz >= var8.jbo && var3 - this.jbz < var8.jbo + var8.jbp) {
-               var8.jbm.run();
-               return true;
-            }
-         }
-
-         return true;
       } else {
-         jcs var7 = this.jcr(var3, var5);
-         if (var7 != null) {
-            this.jcd = var7;
-            if (var2) {
-               var7.resetPosition();
-               return true;
-            }
-
-            this.jcc = var7;
-            this.jce = (float)var3 - var7.x;
-            this.jcf = (float)var5 - var7.y;
-            var7.push.set(0.0F);
+         if (click.button() != 0) {
+            return true;
          }
 
-         return true;
+         if (var3 >= this.jbz && var3 < this.jbz + this.jcb && var5 >= this.jca && var5 < this.jca + 22.0F) {
+            for (jbj var8 : this.jby) {
+               if (var3 - this.jbz >= var8.jbo && var3 - this.jbz < var8.jbo + var8.jbp) {
+                  var8.jbm.run();
+                  return true;
+               }
+            }
+
+            return true;
+         } else {
+            jcs var7 = this.jcr(var3, var5);
+            if (var7 != null) {
+               this.jcd = var7;
+               if (doubled) {
+                  var7.resetPosition();
+                  return true;
+               }
+
+               this.jcc = var7;
+               this.jce = (float)var3 - var7.x;
+               this.jcf = (float)var5 - var7.y;
+               var7.push.set(0.0F);
+            }
+
+            return true;
+         }
       }
    }
 
-   public boolean method_25403(Click var1, double var2, double var4) {
-      boolean var6 = this.field_22787 != null
-         && (InputUtil.method_15987(this.field_22787.method_22683(), 342) || InputUtil.method_15987(this.field_22787.method_22683(), 346));
+   @Override
+   public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+      boolean var6 = this.client != null && (InputUtil.isKeyPressed(this.client.getWindow(), 342) || InputUtil.isKeyPressed(this.client.getWindow(), 346));
       if (izx.resizing() != null) {
-         izx.resize((float)var1.comp_4798(), (float)var1.comp_4799(), var6);
-         return true;
-      } else if (this.jcc == null) {
-         return true;
-      } else {
-         float[] var7 = izx.drag(this.jcc, (float)var1.comp_4798() - this.jce, (float)var1.comp_4799() - this.jcf, this.field_22789, this.field_22790, var6);
-         this.jcg = var7[0];
-         this.jch = var7[1];
+         izx.resize((float)click.x(), (float)click.y(), var6);
          return true;
       }
+
+      if (this.jcc == null) {
+         return true;
+      }
+
+      float[] var7 = izx.drag(this.jcc, (float)click.x() - this.jce, (float)click.y() - this.jcf, this.width, this.height, var6);
+      this.jcg = var7[0];
+      this.jch = var7[1];
+      return true;
    }
 
-   public boolean method_25406(Click var1) {
+   @Override
+   public boolean mouseReleased(Click click) {
       izx.endResize();
       this.jcc = null;
       this.jcg = Float.NaN;
@@ -292,47 +302,52 @@ public final class jbs extends Screen {
       return true;
    }
 
-   public boolean method_25404(KeyInput var1) {
-      int var2 = var1.comp_4795();
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      int var2 = input.key();
       if (var2 == 256) {
-         this.method_25419();
+         this.close();
          return true;
-      } else {
-         if (this.jcd != null && this.jcd.w > 0.0F) {
-            float var3 = (var1.comp_4797() & 1) != 0 ? 5.0F : 1.0F;
-            float var4 = var2 == 263 ? -var3 : (var2 == 262 ? var3 : 0.0F);
-            float var5 = var2 == 265 ? -var3 : (var2 == 264 ? var3 : 0.0F);
-            if (var4 != 0.0F || var5 != 0.0F) {
-               this.jcd
-                  .moveTo(
-                     Math.max(0.0F, Math.min(this.field_22789 - this.jcd.w, this.jcd.x + var4)),
-                     Math.max(0.0F, Math.min(this.field_22790 - this.jcd.h, this.jcd.y + var5)),
-                     this.field_22789,
-                     this.field_22790
-                  );
-               return true;
-            }
+      }
+
+      if (this.jcd != null && this.jcd.w > 0.0F) {
+         float var3 = (input.modifiers() & 1) != 0 ? 5.0F : 1.0F;
+         float var4 = var2 == 263 ? -var3 : (var2 == 262 ? var3 : 0.0F);
+         float var5 = var2 == 265 ? -var3 : (var2 == 264 ? var3 : 0.0F);
+         if (var4 != 0.0F || var5 != 0.0F) {
+            this.jcd
+               .moveTo(
+                  Math.max(0.0F, Math.min(this.width - this.jcd.w, this.jcd.x + var4)),
+                  Math.max(0.0F, Math.min(this.height - this.jcd.h, this.jcd.y + var5)),
+                  this.width,
+                  this.height
+               );
+            return true;
          }
+      }
 
-         return true;
+      return true;
+   }
+
+   @Override
+   public void close() {
+      if (this.client != null) {
+         this.client.setScreen(new hlc());
       }
    }
 
-   public void method_25419() {
-      if (this.field_22787 != null) {
-         this.field_22787.method_1507(new hlc());
-      }
-   }
-
-   public void method_25432() {
+   @Override
+   public void removed() {
       hyz.saveLater();
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 }

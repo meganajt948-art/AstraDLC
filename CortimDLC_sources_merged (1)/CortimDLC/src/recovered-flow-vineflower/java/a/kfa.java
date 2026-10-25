@@ -11,7 +11,7 @@ public enum kfa {
 
    private final String kfb;
 
-   private kfa(String var3) {
+   kfa(String var3) {
       this.kfb = var3;
    }
 

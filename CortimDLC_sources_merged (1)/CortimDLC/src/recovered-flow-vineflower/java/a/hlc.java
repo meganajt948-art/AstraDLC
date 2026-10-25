@@ -131,7 +131,7 @@ public class hlc extends Screen {
    private static final float hpc = 46.0F;
 
    public hlc() {
-      super(Text.method_43470(a.d("씘벃㙓\ua83a⎨", -449570389, 2014764272)));
+      super(Text.literal(a.d("씘벃㙓\ua83a⎨", -449570389, 2014764272)));
       evi.refresh();
       this.hod = hoa;
       this.hoe.text = hoa;
@@ -172,7 +172,8 @@ public class hlc extends Screen {
       return 0.5562347F;
    }
 
-   protected void method_25426() {
+   @Override
+   protected void init() {
       if (!this.hlz.isEmpty()) {
          this.hpj();
       } else {
@@ -562,22 +563,22 @@ public class hlc extends Screen {
    }
 
    private float hpi() {
-      float var1 = Math.min((this.field_22789 - 16.0F) / 540.0F, (this.field_22790 - 16.0F) / 409.0F);
+      float var1 = Math.min((this.width - 16.0F) / 540.0F, (this.height - 16.0F) / 409.0F);
       return Math.max(0.3F, Math.min((float)iov.SCALE.get(), var1));
    }
 
    private void hpj() {
-      if (this.field_22789 >= 64 && this.field_22790 >= 64) {
+      if (this.width >= 64 && this.height >= 64) {
          float var1 = this.hpi();
          float var2 = 540.0F * var1;
          float var3 = 409.0F * var1;
          if (Float.isNaN(hlp) || Float.isNaN(hlq)) {
-            hlp = (this.field_22789 - var2) * 0.5F;
-            hlq = (this.field_22790 - var3) * 0.5F;
+            hlp = (this.width - var2) * 0.5F;
+            hlq = (this.height - var3) * 0.5F;
          }
 
-         hlp = Math.max(60.0F - var2, Math.min(this.field_22789 - 60.0F, hlp));
-         hlq = Math.max(0.0F, Math.min(this.field_22790 - 30.0F, hlq));
+         hlp = Math.max(60.0F - var2, Math.min(this.width - 60.0F, hlp));
+         hlq = Math.max(0.0F, Math.min(this.height - 30.0F, hlq));
       }
    }
 
@@ -589,7 +590,7 @@ public class hlc extends Screen {
    }
 
    private List<hjg> hpl(hkv var1) {
-      return (List<hjg>)(switch (var1.hkz) {
+      return switch (var1.hkz) {
          case MODULES -> {
             ArrayList var2 = new ArrayList();
 
@@ -605,7 +606,7 @@ public class hlc extends Screen {
          case WAYPOINTS -> hlw;
          case FRIENDS -> hlx;
          case COSMETICS -> hly;
-      });
+      };
    }
 
    private void hpm(boolean var1) {
@@ -872,9 +873,9 @@ public class hlc extends Screen {
             this.hne = null;
          }
 
-         if (this.hmx && this.hmc.finished() && !this.hmy && this.field_22787 != null) {
+         if (this.hmx && this.hmc.finished() && !this.hmy && this.client != null) {
             this.hmy = true;
-            this.field_22787.method_63588(() -> access$001(this));
+            this.client.send(() -> access$001(this));
          }
       }
    }
@@ -884,14 +885,15 @@ public class hlc extends Screen {
       return this.hmx ? vcq.outCubic(var1) : vcq.outQuint(var1);
    }
 
-   public void method_25420(DrawContext var1, int var2, int var3, float var4) {
+   @Override
+   public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       uut.beginFrame();
-      this.hpu(var1);
+      this.hpu(context);
       float var5 = this.hpv();
       float var6 = (float)iov.DIM.get();
-      if (this.field_22787 != null && this.field_22787.field_1687 != null) {
+      if (this.client != null && this.client.world != null) {
          this.hpw();
-         float var7 = Math.max(1, this.field_22787.method_22683().method_4495());
+         float var7 = Math.max(1, this.client.getWindow().getScaleFactor());
          float var8 = this.hpi();
          this.how = isv.frame(Math.round(540.0F * var8 * var7), Math.round(409.0F * var8 * var7));
          GpuTextureView var9 = null;
@@ -901,28 +903,28 @@ public class hlc extends Screen {
             );
          }
 
-         hyv.capture(var1, iov.BG_BLUR.getInt(), var5, var9);
+         hyv.capture(context, iov.BG_BLUR.getInt(), var5, var9);
          uut.gradientV(
-            var1,
+            context,
             0.0F,
             0.0F,
-            this.field_22789,
-            this.field_22790,
+            this.width,
+            this.height,
             0.0F,
             ujt.withAlpha(0, (int)(255.0F * var6 * 0.65F * var5)),
             ujt.withAlpha(0, (int)(255.0F * var6 * var5))
          );
-         swh.renderInMenu(var1);
-         izx.renderInMenu(var1, this.hod.isEmpty() && this.hlz.get(hln).hkz == hks.HUD);
+         swh.renderInMenu(context);
+         izx.renderInMenu(context, this.hod.isEmpty() && this.hlz.get(hln).hkz == hks.HUD);
       } else {
          this.how = null;
          hyv.skip();
-         this.method_57728(var1, var4);
+         this.renderPanoramaBackground(context, deltaTicks);
          if (iov.BG_BLUR.getInt() > 0) {
-            var1.method_71278();
+            context.applyBlur();
          }
 
-         uut.rect(var1, 0.0F, 0.0F, this.field_22789, this.field_22790, ujt.withAlpha(0, (int)(255.0F * Math.max(0.3F, var6) * var5)));
+         uut.rect(context, 0.0F, 0.0F, this.width, this.height, ujt.withAlpha(0, (int)(255.0F * Math.max(0.3F, var6) * var5)));
       }
    }
 
@@ -935,31 +937,32 @@ public class hlc extends Screen {
       float var4 = hlq + 409.0F * var2 * 0.5F + (1.0F - var1) * 10.0F;
       this.hos = var3 - 270.0F * this.hoq;
       this.hot = var4 - 204.5F * this.hor;
-      if (var1 >= 0.999F && var2 == 1.0F && this.field_22787 != null) {
-         float var5 = Math.max(1, this.field_22787.method_22683().method_4495());
+      if (var1 >= 0.999F && var2 == 1.0F && this.client != null) {
+         float var5 = Math.max(1, this.client.getWindow().getScaleFactor());
          this.hos = Math.round(this.hos * var5) / var5;
          this.hot = Math.round(this.hot * var5) / var5;
       }
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
-      this.hpu(var1);
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+      this.hpu(context);
       float var5 = this.hpv();
       float var6 = this.hpi();
       this.hpw();
-      this.hou = this.hpx(var2);
-      this.hov = this.hpy(var3);
+      this.hou = this.hpx(mouseX);
+      this.hov = this.hpy(mouseY);
       vdn.setRenderScale(var6);
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(this.hos, this.hot);
-      var1.method_51448().scale(this.hoq, this.hor);
+      context.getMatrices().pushMatrix();
+      context.getMatrices().translate(this.hos, this.hot);
+      context.getMatrices().scale(this.hoq, this.hor);
       uut.pushAlpha(var5);
 
       try {
-         this.hpz(var1);
+         this.hpz(context);
       } finally {
          uut.popAlpha();
-         var1.method_51448().popMatrix();
+         context.getMatrices().popMatrix();
          vdn.setRenderScale(1.0F);
       }
    }
@@ -1072,8 +1075,8 @@ public class hlc extends Screen {
          float var18 = this.hmh.get(var13).step(var17, this.hop);
          float var19 = var13 == hln && !var6 ? 1.0F : 0.0F;
          uut.pushAlpha(var16);
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(-(1.0F - var16) * 10.0F, 0.0F);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(-(1.0F - var16) * 10.0F, 0.0F);
          if (var18 > 0.01F && var19 < 1.0F) {
             uut.round(var1, 8.0F, var15, var8, 23.0F, var9, ujt.withAlpha(iov.hover, Math.round(ujt.alpha(iov.hover) * var18)));
          }
@@ -1103,14 +1106,14 @@ public class hlc extends Screen {
          if (var23 > 0) {
             String var25 = String.valueOf(var23);
             float var26 = 1.0F + 0.25F * var24;
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(116.0F, var20);
-            var1.method_51448().scale(var26, var26);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(116.0F, var20);
+            var1.getMatrices().scale(var26, var26);
             irr.SMALL.drawCentered(var1, var25, 0.0F, irr.SMALL.centerTop(0.0F), ujt.lerp(iov.textMuted, iov.text, Math.max(var24, var19 * 0.6F)));
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
          }
 
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          uut.popAlpha();
       }
 
@@ -1218,8 +1221,8 @@ public class hlc extends Screen {
          float var10 = iov.r(6.0F);
          float var11 = var9 + var7 * 0.5F;
          uut.pushAlpha(var2);
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(0.0F, (1.0F - var2) * 3.0F);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(0.0F, (1.0F - var2) * 3.0F);
          uut.shadow(var1, var8, var9 + 2.0F, var6, var7, var10, 12.0F, iov.shadow);
          hyv.surface(
             var1,
@@ -1237,7 +1240,7 @@ public class hlc extends Screen {
          uut.circle(var1, var8 + 7.0F + 2.0F, var11, 2.0F, -1750963);
          irr.SUBTITLE.draw(var1, var3, var8 + 7.0F + 9.0F, irr.SUBTITLE.centerTop(var11), iov.text);
          irr.SUBTITLE.draw(var1, var4, var8 + 7.0F + 9.0F + var5, irr.SUBTITLE.centerTop(var11), iov.textMuted);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          uut.popAlpha();
       }
    }
@@ -1315,7 +1318,9 @@ public class hlc extends Screen {
    private String hqw(hkv var1, float var2, float var3) {
       if (this.hnm != null) {
          return this.hnm;
-      } else if (!this.hod.isEmpty()) {
+      }
+
+      if (!this.hod.isEmpty()) {
          int var10 = this.hmb.size();
          return var10
             + wap.s(
@@ -1325,64 +1330,62 @@ public class hlc extends Screen {
                      var10, a.c(-2057249334, "\ud983ꁇ⪖뒓㼼맺Χ訤ᐉ"), a.d("컼뜸㷩ꏬ⡃꺅ᓘ鵛Ͷ覵", -820053705, -477023359), a.d("簽\u05f9輨ᄭ骂᱄ꘙ⾚놷㭺벥", 1225019192, -815188146)
                   )
             );
-      } else {
-         return switch (var1.hkz) {
-            case MODULES -> {
-               int var9 = 0;
-
-               for (hjg var6 : this.hmb) {
-                  if (var6.module != null && var6.module.isEnabled()) {
-                     var9++;
-                  }
-               }
-
-               yield var9
-                  + wap.s(a.d("ꑶ\udd88坒쥥", 814882692, 1111473110), a.b("ᘷ殞\ue142笤", 543495699))
-                  + this.hmb.size()
-                  + wap.s(a.d("㓦䴘쟊", 1557234015, 1883354522), a.b("冰Ⱃꛈ㢸", 372265364));
-            }
-            case THEME -> iov.shownName(iov.presetName());
-            case HUD -> izx.enabledCount() + wap.s(a.c(-314033867, "㤖䃨쨺"), a.b("垳⨐ꃋ㺻", -1123526761));
-            case CONFIGS -> ConfigManager.active() != null
-               ? ConfigManager.active()
-               : wap.s(a.d("ꙹ\udfe9啵쭇䂜올籷\uf589毘\ue12e暤鳉ሏ", -859376192, 1181963258), a.b("\uf6d8轍֝鮕ှ隄Ⳕꄵ㭵뇅㘒챩䚮\udb02兙ퟟ", -1952714030));
-            case WAYPOINTS -> {
-               int var8 = wlk.inWorld().size();
-               yield var8
-                  + wap.s(
-                     var8 == 1 ? a.c(-1404173969, "Ł碧\uf262氋\ue7d5慻\udb2e勘첝䙸쇣㮟땟⳹") : a.c(598118076, "躓\uf775綰\ue3d9标\ueea9哼\udd0a䍏짹乹둀㪚ꌼ⥸"),
-                     a.b("≓", 328802930)
-                        + plural(var8, a.c(1050864595, "\uefea陒ᳶ苿ढ"), a.b("翀ٸ賜ዕ餀", 326990841), a.b("黠\ue758淼\uf3f1砢", -1746887975))
-                        + a.c(1767930853, "篃٥貵ዅ饦Ὶ")
-                  );
-            }
-            case FRIENDS -> {
-               int var7 = hhf.all().size();
-               yield var7 == 0
-                  ? wap.s(a.b("\uf2f1譡Ƴ鿉ᑛ銳⣼ꄜ㼗떦㋢전䛓", 1888219826), a.c(1881814284, "ㄞ䢎쉙尢폥光\ueb12抔\uf8a9爘\uf55cྺ腭"))
-                     + irr.keyName(hzv.friendKey().key())
-                     + wap.s(a.d("蝷ﺉ瑛\uea64懲\ue702崁퓬䪾쀗䟘붾", -1903316659, -2057488874), a.c(208684447, "䖵㠛닉⢦ꝩ⇓鯳ቼ谧ۯ"))
-                  : var7
-                     + wap.s(
-                        var7 == 1 ? a.d("ꥭ킚婝쐷俬쥖猏", 60846475, 34920641) : a.d("Ӟ紩\uf7ee榄\ue25f擥\udebc坚", 647252734, 1621839368),
-                        a.c(-1963512272, "⸑") + plural(var7, a.c(-2125725809, "﮿艺ࢪ隫"), a.c(204096617, "䁘㦝덍ⵌꚘ"), a.c(-767416036, "\u2d2e哫\ude3b䀾쯫䵖"))
-                     );
-            }
-            case COSMETICS -> {
-               int var4 = Cosmetics.wornCount();
-               yield var4 == 0
-                  ? wap.s(a.b("硕ǅ謍ᕠ麶᠀ꉚ⯬뗼㽌룑䋹찲喒", 1464694805), a.b("\ue9ea遺᪭蓖\u0b11覽㏫멥⑈껿⤡흎嶄쐽䩻좗狕ﴀ枲\ue194栟", 64876000))
-                  : var4
-                     + wap.s(
-                        a.c(-358461486, "俷㘑볚⊶\ua97d"),
-                        a.d("䵒", 1144395020, 812472447)
-                           + plural(
-                              var4, a.c(-1283386946, "ᖇ氱\ue69e磪\uf751痽쾣䙖\ud808勎핯"), a.c(-1380457530, "\ue7ff鹉ᓦ諦ԩ螅㷛됮⩰ꂶ❬"), a.c(-1713351746, "垀⸶꒙㪔녏㏧趩ѕ騎Ⴞ霚洗")
-                           )
-                     );
-            }
-         };
       }
+
+      return switch (var1.hkz) {
+         case MODULES -> {
+            int var9 = 0;
+
+            for (hjg var6 : this.hmb) {
+               if (var6.module != null && var6.module.isEnabled()) {
+                  var9++;
+               }
+            }
+
+            yield var9
+               + wap.s(a.d("ꑶ\udd88坒쥥", 814882692, 1111473110), a.b("ᘷ殞\ue142笤", 543495699))
+               + this.hmb.size()
+               + wap.s(a.d("㓦䴘쟊", 1557234015, 1883354522), a.b("冰Ⱃꛈ㢸", 372265364));
+         }
+         case THEME -> iov.shownName(iov.presetName());
+         case HUD -> izx.enabledCount() + wap.s(a.c(-314033867, "㤖䃨쨺"), a.b("垳⨐ꃋ㺻", -1123526761));
+         case CONFIGS -> ConfigManager.active() != null
+            ? ConfigManager.active()
+            : wap.s(a.d("ꙹ\udfe9啵쭇䂜올籷\uf589毘\ue12e暤鳉ሏ", -859376192, 1181963258), a.b("\uf6d8轍֝鮕ှ隄Ⳕꄵ㭵뇅㘒챩䚮\udb02兙ퟟ", -1952714030));
+         case WAYPOINTS -> {
+            int var8 = wlk.inWorld().size();
+            yield var8
+               + wap.s(
+                  var8 == 1 ? a.c(-1404173969, "Ł碧\uf262氋\ue7d5慻\udb2e勘첝䙸쇣㮟땟⳹") : a.c(598118076, "躓\uf775綰\ue3d9标\ueea9哼\udd0a䍏짹乹둀㪚ꌼ⥸"),
+                  a.b("≓", 328802930)
+                     + plural(var8, a.c(1050864595, "\uefea陒ᳶ苿ढ"), a.b("翀ٸ賜ዕ餀", 326990841), a.b("黠\ue758淼\uf3f1砢", -1746887975))
+                     + a.c(1767930853, "篃٥貵ዅ饦Ὶ")
+               );
+         }
+         case FRIENDS -> {
+            int var7 = hhf.all().size();
+            yield var7 == 0
+               ? wap.s(a.b("\uf2f1譡Ƴ鿉ᑛ銳⣼ꄜ㼗떦㋢전䛓", 1888219826), a.c(1881814284, "ㄞ䢎쉙尢폥光\ueb12抔\uf8a9爘\uf55cྺ腭"))
+                  + irr.keyName(hzv.friendKey().key())
+                  + wap.s(a.d("蝷ﺉ瑛\uea64懲\ue702崁퓬䪾쀗䟘붾", -1903316659, -2057488874), a.c(208684447, "䖵㠛닉⢦ꝩ⇓鯳ቼ谧ۯ"))
+               : var7
+                  + wap.s(
+                     var7 == 1 ? a.d("ꥭ킚婝쐷俬쥖猏", 60846475, 34920641) : a.d("Ӟ紩\uf7ee榄\ue25f擥\udebc坚", 647252734, 1621839368),
+                     a.c(-1963512272, "⸑") + plural(var7, a.c(-2125725809, "﮿艺ࢪ隫"), a.c(204096617, "䁘㦝덍ⵌꚘ"), a.c(-767416036, "\u2d2e哫\ude3b䀾쯫䵖"))
+                  );
+         }
+         case COSMETICS -> {
+            int var4 = Cosmetics.wornCount();
+            yield var4 == 0
+               ? wap.s(a.b("硕ǅ謍ᕠ麶᠀ꉚ⯬뗼㽌룑䋹찲喒", 1464694805), a.b("\ue9ea遺᪭蓖\u0b11覽㏫멥⑈껿⤡흎嶄쐽䩻좗狕ﴀ枲\ue194栟", 64876000))
+               : var4
+                  + wap.s(
+                     a.c(-358461486, "俷㘑볚⊶\ua97d"),
+                     a.d("䵒", 1144395020, 812472447)
+                        + plural(var4, a.c(-1283386946, "ᖇ氱\ue69e磪\uf751痽쾣䙖\ud808勎핯"), a.c(-1380457530, "\ue7ff鹉ᓦ諦ԩ螅㷛됮⩰ꂶ❬"), a.c(-1713351746, "垀⸶꒙㪔녏㏧趩ѕ騎Ⴞ霚洗"))
+                  );
+         }
+      };
    }
 
    static String plural(int var0, String var1, String var2, String var3) {
@@ -1456,11 +1459,11 @@ public class hlc extends Screen {
       uut.outline(var1, var15, var16, 46.0F, 20.0F, var14, 1.0F, ujt.lerp(iov.stroke, iov.accent(150), var13));
       ukf.rim(var1, var15, var16, 46.0F, 20.0F, var14, var12, 0.8F + 0.4F * var13);
       int var17 = ujt.lerp(iov.textDim, iov.text, var13);
-      var1.method_51448().pushMatrix();
-      var1.method_51448().translate(var15 + 11.0F, var16 + 10.0F);
-      var1.method_51448().rotate(0.50265485F * var13);
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().translate(var15 + 11.0F, var16 + 10.0F);
+      var1.getMatrices().rotate(0.50265485F * var13);
       vjf.draw(var1, vhz.GLOBE, 0.0F, 0.0F, 9.0F, var17);
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
       irr.VALUE.draw(var1, wap.ru() ? a.c(-823456020, "ຼ眊") : a.c(1388713720, "ᚿ漅"), var15 + 20.0F, irr.VALUE.centerTop(var16 + 10.0F), var17);
       vjf.draw(var1, vhz.CHEVRON_DOWN, var15 + 46.0F - 8.0F, var16 + 10.0F + 0.5F, 6.0F, ujt.lerp(iov.textMuted, iov.accent(), var13));
       if (var13 > 0.5F) {
@@ -1550,10 +1553,10 @@ public class hlc extends Screen {
             float var21 = vcq.outCubic((var25 * 1.9F - Math.min(var17++, 9) * 0.12F) / 0.8F);
             if (!(var21 <= 0.01F)) {
                uut.pushAlpha(var21);
-               var1.method_51448().pushMatrix();
-               var1.method_51448().translate((1.0F - var21) * 16.0F * this.hms, (1.0F - var21) * 10.0F);
+               var1.getMatrices().pushMatrix();
+               var1.getMatrices().translate((1.0F - var21) * 16.0F * this.hms, (1.0F - var21) * 10.0F);
                var19.render(var1, this, var15, var16, this.hop);
-               var1.method_51448().popMatrix();
+               var1.getMatrices().popMatrix();
                uut.popAlpha();
             }
          }
@@ -1651,8 +1654,8 @@ public class hlc extends Screen {
             var14 = Math.max(50.0F, Math.min(403.0F - var12, var14));
             float var15 = iov.r(6.0F);
             uut.pushAlpha(var8);
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(0.0F, (1.0F - var8) * -3.0F);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(0.0F, (1.0F - var8) * -3.0F);
             uut.shadow(var1, var13, var14 + 2.0F, var11, var12, var15, 12.0F, iov.shadow);
             hyv.surface(
                var1,
@@ -1674,7 +1677,7 @@ public class hlc extends Screen {
                irr.SUBTITLE.draw(var1, this.hnw.get(var17), var13 + 7.0F, irr.SUBTITLE.centerTop(var18), var16);
             }
 
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
       }
@@ -1727,10 +1730,10 @@ public class hlc extends Screen {
          float var12 = iov.r(7.0F);
          float var13 = 1.0F + 0.05F * this.hmo.step(0.0F, this.hop);
          uut.pushAlpha(var3);
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var10 + var8 * 0.5F, var11 + var9 * 0.5F);
-         var1.method_51448().scale(var13, var13);
-         var1.method_51448().translate(-var8 * 0.5F, -var9 * 0.5F);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var10 + var8 * 0.5F, var11 + var9 * 0.5F);
+         var1.getMatrices().scale(var13, var13);
+         var1.getMatrices().translate(-var8 * 0.5F, -var9 * 0.5F);
          uut.shadow(var1, 0.0F, 0.0F, var8, var9, var12, 12.0F, iov.shadow);
          hyv.surface(
             var1,
@@ -1747,70 +1750,77 @@ public class hlc extends Screen {
          uut.outline(var1, 0.0F, 0.0F, var8, var9, var12, 1.0F, ujt.withAlpha(var7, 130));
          vjf.draw(var1, var5, 14.0F, var9 * 0.5F, 9.0F, var7);
          irr.LABEL.draw(var1, irr.LABEL.ellipsize(var4, var8 - 32.0F), 24.0F, irr.LABEL.centerTop(var9 * 0.5F), iov.text);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          uut.popAlpha();
       }
    }
 
-   public boolean method_25402(Click var1, boolean var2) {
+   @Override
+   public boolean mouseClicked(Click click, boolean doubled) {
       if (this.hmx) {
          return true;
+      }
+
+      float var3 = this.hpx(click.x());
+      float var4 = this.hpy(click.y());
+      int var5 = click.button();
+      this.hnv = this.hns;
+      if (this.hnf != null) {
+         if (var5 >= 2 && this.hnf.clearable()) {
+            this.hpt(vzz.mouse(var5));
+         } else {
+            this.hnf = null;
+         }
+
+         return true;
+      } else if (this.hne != null) {
+         if (this.hps()) {
+            this.hne.mouseClicked(this, var3, var4, var5);
+         }
+
+         return true;
+      } else if (this.hpr()) {
+         if (!this.hnd.mouseClicked(var3, var4)) {
+            this.hnd.close();
+         }
+
+         return true;
       } else {
-         float var3 = this.hpx(var1.comp_4798());
-         float var4 = this.hpy(var1.comp_4799());
-         int var5 = var1.method_74245();
-         this.hnv = this.hns;
-         if (this.hnf != null) {
-            if (var5 >= 2 && this.hnf.clearable()) {
-               this.hpt(vzz.mouse(var5));
-            } else {
-               this.hnf = null;
-            }
-
+         this.hof = null;
+         if (!irr.inside(var3, var4, 0.0F, 0.0F, 540.0F, 409.0F)) {
             return true;
-         } else if (this.hne != null) {
-            if (this.hps()) {
-               this.hne.mouseClicked(this, var3, var4, var5);
-            }
+         }
 
-            return true;
-         } else if (this.hpr()) {
-            if (!this.hnd.mouseClicked(var3, var4)) {
-               this.hnd.close();
+         if (this.hoh.get() > 0.5F && this.hql(var3, var4)) {
+            for (int var9 = 0; var9 < hia.SLOTS.length; var9++) {
+               String var10 = hia.SLOTS[var9];
+               if (var5 == 0 && irr.inside(var3, var4, this.hqj(var9) - 2.0F, this.hqi() + 6.0F, 28.0F, 28.0F)) {
+                  if (a.b("౻痒８", -1606874089).equals(var10) && !hia.ownReady()) {
+                     evi.refresh();
+                  } else {
+                     hia.select(var10);
+                     hyz.saveLater();
+                  }
+               }
             }
 
             return true;
          } else {
-            this.hof = null;
-            if (!irr.inside(var3, var4, 0.0F, 0.0F, 540.0F, 409.0F)) {
+            if (this.hoe.mouseClicked(this, var3, var4, var5)) {
                return true;
-            } else if (this.hoh.get() > 0.5F && this.hql(var3, var4)) {
-               for (int var9 = 0; var9 < hia.SLOTS.length; var9++) {
-                  String var10 = hia.SLOTS[var9];
-                  if (var5 == 0 && irr.inside(var3, var4, this.hqj(var9) - 2.0F, this.hqi() + 6.0F, 28.0F, 28.0F)) {
-                     if (a.b("౻痒８", -1606874089).equals(var10) && !hia.ownReady()) {
-                        evi.refresh();
-                     } else {
-                        hia.select(var10);
-                        hyz.saveLater();
-                     }
-                  }
-               }
+            }
 
-               return true;
-            } else if (this.hoe.mouseClicked(this, var3, var4, var5)) {
-               return true;
-            } else if (var5 == 0 && this.hqo(var3, var4)) {
+            if (var5 == 0 && this.hqo(var3, var4)) {
                this.hol.set(1.0F);
                dry.trigger();
-               if (this.field_22787 != null) {
-                  this.field_22787.method_1507(null);
+               if (this.client != null) {
+                  this.client.setScreen(null);
                }
 
                return true;
             } else if (var5 == 0 && irr.inside(var3, var4, this.hqs(), this.hqv(), 46.0F, 20.0F)) {
-               if (this.field_22787 != null) {
-                  this.field_22787.method_1507(new ida(this));
+               if (this.client != null) {
+                  this.client.setScreen(new ida(this));
                }
 
                return true;
@@ -1834,8 +1844,8 @@ public class hlc extends Screen {
                   return true;
                } else {
                   this.hmz = true;
-                  this.hna = (float)var1.comp_4798() - hlp;
-                  this.hnb = (float)var1.comp_4799() - hlq;
+                  this.hna = (float)click.x() - hlp;
+                  this.hnb = (float)click.y() - hlq;
                   return true;
                }
             }
@@ -1843,65 +1853,76 @@ public class hlc extends Screen {
       }
    }
 
-   public boolean method_25406(Click var1) {
+   @Override
+   public boolean mouseReleased(Click click) {
       this.hmz = false;
       this.hnc = null;
       return true;
    }
 
-   public boolean method_25403(Click var1, double var2, double var4) {
+   @Override
+   public boolean mouseDragged(Click click, double offsetX, double offsetY) {
       if (this.hmz) {
-         hlp = (float)var1.comp_4798() - this.hna;
-         hlq = (float)var1.comp_4799() - this.hnb;
+         hlp = (float)click.x() - this.hna;
+         hlq = (float)click.y() - this.hnb;
          this.hpj();
          return true;
       } else if (this.hnc != null) {
-         this.hnc.mouseDragged(this.hpx(var1.comp_4798()), this.hpy(var1.comp_4799()));
+         this.hnc.mouseDragged(this.hpx(click.x()), this.hpy(click.y()));
          return true;
       } else {
          return true;
       }
    }
 
-   public boolean method_25401(double var1, double var3, double var5, double var7) {
-      float var9 = this.hpx(var1);
-      float var10 = this.hpy(var3);
+   @Override
+   public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+      float var9 = this.hpx(mouseX);
+      float var10 = this.hpy(mouseY);
       if (this.hne != null) {
-         this.hne.scrolled(var7);
-         return true;
-      } else if (this.hpr()) {
-         return true;
-      } else {
-         if (irr.inside(var9, var10, 136.0F, 46.0F, 404.0F, 363.0F)) {
-            this.hmp -= (float)var7 * 32.0F;
-            this.hmr = System.nanoTime();
-         }
-
+         this.hne.scrolled(verticalAmount);
          return true;
       }
+
+      if (this.hpr()) {
+         return true;
+      }
+
+      if (irr.inside(var9, var10, 136.0F, 46.0F, 404.0F, 363.0F)) {
+         this.hmp -= (float)verticalAmount * 32.0F;
+         this.hmr = System.nanoTime();
+      }
+
+      return true;
    }
 
-   public boolean method_16803(KeyInput var1) {
-      if (this.hnf != null && this.hnh != -1 && var1.comp_4795() == this.hnh) {
+   @Override
+   public boolean keyReleased(KeyInput input) {
+      if (this.hnf != null && this.hnh != -1 && input.key() == this.hnh) {
          this.hnh = -1;
-         this.hpt(var1.comp_4795());
+         this.hpt(input.key());
          return true;
       } else {
-         return super.method_16803(var1);
+         return super.keyReleased(input);
       }
    }
 
-   public boolean method_25404(KeyInput var1) {
-      int var2 = var1.comp_4795();
+   @Override
+   public boolean keyPressed(KeyInput input) {
+      int var2 = input.key();
       if (this.hmx) {
          return true;
-      } else if (this.hnf == null) {
+      }
+
+      if (this.hnf == null) {
          if (this.hpr() && var2 == 256) {
             this.hnd.close();
             return true;
-         } else if (this.hne != null) {
+         }
+
+         if (this.hne != null) {
             if (this.hps()) {
-               this.hne.keyPressed(this, var2, var1.comp_4797());
+               this.hne.keyPressed(this, var2, input.modifiers());
             }
 
             return true;
@@ -1910,24 +1931,28 @@ public class hlc extends Screen {
                this.hoe.setText("");
                return true;
             } else {
-               this.hof.keyPressed(this, var2, var1.comp_4797());
+               this.hof.keyPressed(this, var2, input.modifiers());
                return true;
             }
          } else {
-            boolean var5 = (var1.comp_4797() & 2) != 0;
+            boolean var5 = (input.modifiers() & 2) != 0;
             if (var5 && var2 == 70) {
                this.focus(this.hoe);
                return true;
-            } else if (var2 == 256 || var2 == Flow.getInstance().getOpenGuiKey()) {
-               this.method_25419();
-               return true;
-            } else if (var2 != 265 && var2 != 264) {
-               return true;
-            } else {
-               int var4 = hln + (var2 == 265 ? -1 : 1);
-               this.hrj((var4 + this.hlz.size()) % this.hlz.size());
+            }
+
+            if (var2 == 256 || var2 == Flow.getInstance().getOpenGuiKey()) {
+               this.close();
                return true;
             }
+
+            if (var2 != 265 && var2 != 264) {
+               return true;
+            }
+
+            int var4 = hln + (var2 == 265 ? -1 : 1);
+            this.hrj((var4 + this.hlz.size()) % this.hlz.size());
+            return true;
          }
       } else {
          boolean var3 = var2 == 256 || var2 == 261 || var2 == 259;
@@ -1942,7 +1967,7 @@ public class hlc extends Screen {
             if (this.hnf.clearable() && vzz.isModifier(var2)) {
                this.hnh = var2;
             } else {
-               this.hpt(this.hnf.clearable() ? vzz.combo(var2, var1.comp_4797() | vzz.heldMods(this.field_22787)) : var2);
+               this.hpt(this.hnf.clearable() ? vzz.combo(var2, input.modifiers() | vzz.heldMods(this.client)) : var2);
             }
 
             return true;
@@ -1950,9 +1975,10 @@ public class hlc extends Screen {
       }
    }
 
-   public boolean method_25400(CharInput var1) {
-      if (!this.hmx && this.hnf == null && this.hof != null && var1.method_74227()) {
-         this.hof.charTyped(var1.method_74226());
+   @Override
+   public boolean charTyped(CharInput input) {
+      if (!this.hmx && this.hnf == null && this.hof != null && input.isValidChar()) {
+         this.hof.charTyped(input.asString());
          return true;
       } else {
          return false;
@@ -1997,7 +2023,8 @@ public class hlc extends Screen {
       }
    }
 
-   public void method_25419() {
+   @Override
+   public void close() {
       if (!this.hmx) {
          this.hmx = true;
          lsg.menu(false);
@@ -2011,18 +2038,21 @@ public class hlc extends Screen {
       }
    }
 
-   public void method_25432() {
+   @Override
+   public void removed() {
       vdn.setRenderScale(1.0F);
       this.hpp();
       ConfigManager.autoSaveLater();
       hyz.saveLater();
    }
 
-   public boolean method_25421() {
+   @Override
+   public boolean shouldPause() {
       return false;
    }
 
-   public boolean method_25422() {
+   @Override
+   public boolean shouldCloseOnEsc() {
       return false;
    }
 }

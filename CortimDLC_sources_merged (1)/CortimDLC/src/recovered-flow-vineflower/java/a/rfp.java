@@ -28,8 +28,8 @@ public class rfp extends kfe {
          rfr = true;
 
          try {
-            EntityRendererRegistry.register(EntityType.field_6052, usj::new);
-            var1.method_1561().method_14491(var1.method_1478());
+            EntityRendererRegistry.register(EntityType.ITEM, usj::new);
+            var1.getEntityRenderDispatcher().reload(var1.getResourceManager());
          } catch (Throwable var3) {
             System.out.println("item physics unavailable: " + var3);
          }

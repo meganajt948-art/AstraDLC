@@ -91,19 +91,21 @@ public class vmc extends vmo {
    public String display() {
       if (this.vml != null) {
          return this.vml.apply(this.vmd);
-      } else if (this.vmk) {
-         return Math.round(this.vmd * 100.0) + a.b("\uf4e2", -1588857658);
-      } else {
-         String var1;
-         if (this.vmh >= 1.0) {
-            var1 = String.valueOf(this.getInt());
-         } else {
-            int var2 = this.vmh >= 0.099999999 ? 1 : 2;
-            var1 = vxu.fixed(this.vmd, var2);
-         }
-
-         return this.vmi.isEmpty() ? var1 : var1 + (this.vmj ? "" : a.c(1908555782, "䀧")) + wap.unit(this.vmi);
       }
+
+      if (this.vmk) {
+         return Math.round(this.vmd * 100.0) + a.b("\uf4e2", -1588857658);
+      }
+
+      String var1;
+      if (this.vmh >= 1.0) {
+         var1 = String.valueOf(this.getInt());
+      } else {
+         int var2 = this.vmh >= 0.099999999 ? 1 : 2;
+         var1 = vxu.fixed(this.vmd, var2);
+      }
+
+      return this.vmi.isEmpty() ? var1 : var1 + (this.vmj ? "" : a.c(1908555782, "䀧")) + wap.unit(this.vmi);
    }
 
    public double getFraction() {

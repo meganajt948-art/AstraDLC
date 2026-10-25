@@ -36,10 +36,10 @@ public final class vwy {
    }
 
    public static void ensure(MinecraftClient var0) {
-      ClientPlayNetworkHandler var1 = var0.method_1562();
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayNetworkHandler var1 = var0.getNetworkHandler();
+      ClientPlayerEntity var2 = var0.player;
       if (var1 != null && var2 != null) {
-         Channel var3 = wcn.channel(var1.method_48296());
+         Channel var3 = wcn.channel(var1.getConnection());
          if (var3 != null && var3.isOpen()) {
             ChannelPipeline var4 = var3.pipeline();
             vwh var5 = vxe;
@@ -91,6 +91,6 @@ public final class vwy {
    }
 
    private static boolean vxk(PlayerInput var0) {
-      return var0.comp_3159() || var0.comp_3160() || var0.comp_3161() || var0.comp_3162() || var0.comp_3163();
+      return var0.forward() || var0.backward() || var0.left() || var0.right() || var0.jump();
    }
 }

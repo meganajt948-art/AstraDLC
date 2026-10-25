@@ -9,7 +9,6 @@ import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderPipeline.Builder;
-import com.mojang.blaze3d.pipeline.RenderPipeline.Snippet;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.CommandEncoder;
 import com.mojang.blaze3d.systems.GpuDevice;
@@ -45,16 +44,16 @@ final class Intro {
    private static final float[] WHITE = new float[]{1.0F, 0.894F, 0.965F};
    private static final RenderPipeline EMIT = screen("intro_emit", "GlyphSampler", "SMapSampler");
    private static final RenderPipeline COMPOSITE = screen("intro_composite", "GlyphSampler", "SMapSampler", "EmitSampler", "MidSampler", "WideSampler");
-   private static final RenderPipeline FX = RenderPipeline.builder(new Snippet[0])
+   private static final RenderPipeline FX = RenderPipeline.builder()
       .withLocation(uvq.id("pipeline/intro_fx"))
       .withVertexShader(uvq.id("core/intro_fx"))
       .withFragmentShader(uvq.id("core/intro_fx"))
-      .withUniform("FlowIntro", UniformType.field_60031)
+      .withUniform("FlowIntro", UniformType.UNIFORM_BUFFER)
       .withBlend(BlendFunction.ADDITIVE)
       .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
       .withDepthWrite(false)
       .withCull(false)
-      .withVertexFormat(VertexFormats.field_1575, DrawMode.field_27379)
+      .withVertexFormat(VertexFormats.POSITION_TEXTURE_COLOR, DrawMode.TRIANGLES)
       .build();
    private static CompletableFuture<Signature> loading;
    private static final List<AutoCloseable> RETIRED = new ArrayList<>();
@@ -128,8 +127,8 @@ final class Intro {
          loading = CompletableFuture.supplyAsync(() -> {
             try {
                return Signature.load();
-            } catch (Throwable var1) {
-               throw new IllegalStateException(var1);
+            } catch (Throwable t) {
+               throw new IllegalStateException(t);
             }
          });
       }
@@ -205,11 +204,11 @@ final class Intro {
    private float head(float t) {
       if (t < 0.5F) {
          return -1.0F;
-      } else {
-         float k = clamp((t - 0.5F) / this.write, 0.0F, 1.0F);
-         float e = k < 0.5F ? 2.0F * k * k : 1.0F - (-2.0F * k + 2.0F) * (-2.0F * k + 2.0F) / 2.0F;
-         return this.sig.length * (0.45F * k + 0.55F * e);
       }
+
+      float k = clamp((t - 0.5F) / this.write, 0.0F, 1.0F);
+      float e = k < 0.5F ? 2.0F * k * k : 1.0F - (-2.0F * k + 2.0F) * (-2.0F * k + 2.0F) / 2.0F;
+      return this.sig.length * (0.45F * k + 0.55F * e);
    }
 
    private float progress(float t) {
@@ -307,17 +306,17 @@ final class Intro {
          }
       }
 
-      for (int ix = this.ripples - 1; ix >= 0; ix--) {
-         if (this.time > this.rt[ix] + this.rdur[ix]) {
+      for (int i = this.ripples - 1; i >= 0; i--) {
+         if (this.time > this.rt[i] + this.rdur[i]) {
             int last = --this.ripples;
-            this.rx[ix] = this.rx[last];
-            this.ry[ix] = this.ry[last];
-            this.rt[ix] = this.rt[last];
-            this.rdur[ix] = this.rdur[last];
-            this.r0[ix] = this.r0[last];
-            this.r1[ix] = this.r1[last];
-            this.ru[ix] = this.ru[last];
-            this.ra[ix] = this.ra[last];
+            this.rx[i] = this.rx[last];
+            this.ry[i] = this.ry[last];
+            this.rt[i] = this.rt[last];
+            this.rdur[i] = this.rdur[last];
+            this.r0[i] = this.r0[last];
+            this.r1[i] = this.r1[last];
+            this.ru[i] = this.ru[last];
+            this.ra[i] = this.ra[last];
          }
       }
    }
@@ -346,25 +345,25 @@ final class Intro {
    private boolean add(float x, float y, float vx0, float vy0, float life0, float size0, float fs0, float tx0, float ty0, float drag0, float a, int rgb) {
       if (this.count >= 4096) {
          return false;
-      } else {
-         int i = this.count++;
-         this.px[i] = x;
-         this.py[i] = y;
-         this.vx[i] = vx0;
-         this.vy[i] = vy0;
-         this.age[i] = 0.0F;
-         this.life[i] = life0;
-         this.size[i] = size0;
-         this.fs[i] = fs0;
-         this.tx[i] = tx0;
-         this.ty[i] = ty0;
-         this.drag[i] = drag0;
-         this.a0[i] = a;
-         this.tw[i] = 6.0F + this.rnd() * 10.0F;
-         this.ph[i] = this.rnd() * 6.3F;
-         this.color[i] = rgb;
-         return true;
       }
+
+      int i = this.count++;
+      this.px[i] = x;
+      this.py[i] = y;
+      this.vx[i] = vx0;
+      this.vy[i] = vy0;
+      this.age[i] = 0.0F;
+      this.life[i] = life0;
+      this.size[i] = size0;
+      this.fs[i] = fs0;
+      this.tx[i] = tx0;
+      this.ty[i] = ty0;
+      this.drag[i] = drag0;
+      this.a0[i] = a;
+      this.tw[i] = 6.0F + this.rnd() * 10.0F;
+      this.ph[i] = this.rnd() * 6.3F;
+      this.color[i] = rgb;
+      return true;
    }
 
    private void remove(int i) {
@@ -499,12 +498,14 @@ final class Intro {
    boolean render(DrawContext ctx, int guiW, int guiH, float alpha) {
       if (this.failed || this.closed) {
          return false;
-      } else if (uvq.ensure(EMIT) && uvq.ensure(COMPOSITE) && uvq.ensure(FX) && uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP)) {
+      }
+
+      if (uvq.ensure(EMIT) && uvq.ensure(COMPOSITE) && uvq.ensure(FX) && uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP)) {
          try {
             unf.observe(ctx);
-            MinecraftClient mc = MinecraftClient.method_1551();
-            int w = Math.max(8, mc.method_22683().method_4489());
-            int h = Math.max(8, mc.method_22683().method_4506());
+            MinecraftClient mc = MinecraftClient.getInstance();
+            int w = Math.max(8, mc.getWindow().getFramebufferWidth());
+            int h = Math.max(8, mc.getWindow().getFramebufferHeight());
             GpuDevice device = RenderSystem.getDevice();
             this.targets(device, w, h);
             GpuTextureView glyph = this.sig.view();
@@ -513,30 +514,15 @@ final class Intro {
             this.rectY = (h - this.sig.height * this.fit) * 0.5F - h * 0.035F;
             CommandEncoder encoder = device.createCommandEncoder();
             this.writeUniforms(encoder, w, h);
-            GpuSampler linear = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
-            GpuSampler nearest = RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST);
-            RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro emit", this.emit.view, OptionalInt.empty());
+            GpuSampler linear = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
+            GpuSampler nearest = RenderSystem.getSamplerCache().get(FilterMode.NEAREST);
 
-            try {
+            try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro emit", this.emit.view, OptionalInt.empty())) {
                pass.setPipeline(EMIT);
                pass.bindTexture("GlyphSampler", glyph, linear);
                pass.bindTexture("SMapSampler", glyph, nearest);
                pass.setUniform("FlowIntro", this.uniforms);
                pass.draw(0, 3);
-            } catch (Throwable var22) {
-               if (pass != null) {
-                  try {
-                     pass.close();
-                  } catch (Throwable var20) {
-                     var22.addSuppressed(var20);
-                  }
-               }
-
-               throw var22;
-            }
-
-            if (pass != null) {
-               pass.close();
             }
 
             GpuTextureView in = this.emit.view;
@@ -551,57 +537,26 @@ final class Intro {
                in = this.up[i].view;
             }
 
-            RenderPass passx = encoder.createRenderPass(() -> "Flow2 intro", this.scene.view, OptionalInt.empty());
-
-            try {
-               passx.setPipeline(COMPOSITE);
-               passx.bindTexture("GlyphSampler", glyph, linear);
-               passx.bindTexture("SMapSampler", glyph, nearest);
-               passx.bindTexture("EmitSampler", this.emit.view, linear);
-               passx.bindTexture("MidSampler", this.down[0].view, linear);
-               passx.bindTexture("WideSampler", this.up[0].view, linear);
-               passx.setUniform("FlowIntro", this.uniforms);
-               passx.draw(0, 3);
-            } catch (Throwable var21) {
-               if (passx != null) {
-                  try {
-                     passx.close();
-                  } catch (Throwable var19) {
-                     var21.addSuppressed(var19);
-                  }
-               }
-
-               throw var21;
-            }
-
-            if (passx != null) {
-               passx.close();
+            try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro", this.scene.view, OptionalInt.empty())) {
+               pass.setPipeline(COMPOSITE);
+               pass.bindTexture("GlyphSampler", glyph, linear);
+               pass.bindTexture("SMapSampler", glyph, nearest);
+               pass.bindTexture("EmitSampler", this.emit.view, linear);
+               pass.bindTexture("MidSampler", this.down[0].view, linear);
+               pass.bindTexture("WideSampler", this.up[0].view, linear);
+               pass.setUniform("FlowIntro", this.uniforms);
+               pass.draw(0, 3);
             }
 
             int verts = this.particles(device, encoder);
-            RenderPass passxx = encoder.createRenderPass(() -> "Flow2 intro fx", this.fx.view, OptionalInt.of(0));
 
-            try {
+            try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro fx", this.fx.view, OptionalInt.of(0))) {
                if (verts > 0) {
-                  passxx.setPipeline(FX);
-                  passxx.setUniform("FlowIntro", this.uniforms);
-                  passxx.setVertexBuffer(0, this.vertices);
-                  passxx.draw(0, verts);
+                  pass.setPipeline(FX);
+                  pass.setUniform("FlowIntro", this.uniforms);
+                  pass.setVertexBuffer(0, this.vertices);
+                  pass.draw(0, verts);
                }
-            } catch (Throwable var23) {
-               if (passxx != null) {
-                  try {
-                     passxx.close();
-                  } catch (Throwable var18) {
-                     var23.addSuppressed(var18);
-                  }
-               }
-
-               throw var23;
-            }
-
-            if (passxx != null) {
-               passxx.close();
             }
 
             float layer = this.layer() * alpha;
@@ -616,9 +571,9 @@ final class Intro {
             }
 
             return true;
-         } catch (Throwable var24) {
+         } catch (Throwable t) {
             this.failed = true;
-            System.out.println("intro failed: " + var24);
+            System.out.println("intro failed: " + t);
             return false;
          }
       } else {
@@ -699,8 +654,8 @@ final class Intro {
             }
          }
 
-         for (int ix = 0; ix < 6; ix++) {
-            float[] c = palette(ix < this.ripples ? this.ru[ix] : 0.0F);
+         for (int i = 0; i < 6; i++) {
+            float[] c = palette(i < this.ripples ? this.ru[i] : 0.0F);
             b.putVec4(c[0], c[1], c[2], line);
          }
 
@@ -727,61 +682,61 @@ final class Intro {
       int need = this.count * 6 * 24;
       if (need == 0) {
          return 0;
-      } else {
-         if (this.staging == null || this.staging.capacity() < need) {
-            if (this.staging != null) {
-               MemoryUtil.memFree(this.staging);
-            }
+      }
 
-            this.staging = MemoryUtil.memAlloc(Math.max(need, 65536));
+      if (this.staging == null || this.staging.capacity() < need) {
+         if (this.staging != null) {
+            MemoryUtil.memFree(this.staging);
          }
 
-         this.staging.clear();
-         int verts = 0;
+         this.staging = MemoryUtil.memAlloc(Math.max(need, 65536));
+      }
 
-         for (int i = 0; i < this.count; i++) {
-            float q = this.age[i] / this.life[i];
-            float a = this.a0[i]
-               * smooth(0.0F, 0.1F, q)
-               * (1.0F - smooth(0.4F, 1.0F, q))
-               * (0.75F + 0.25F * (float)Math.sin(this.age[i] * this.tw[i] + this.ph[i]))
-               * pf;
-            if (!(a <= 0.004F)) {
-               float r = this.size[i] * this.fit * 5.5F;
-               float cx = this.rectX + this.px[i] * this.fit;
-               float cy = this.rectY + this.py[i] * this.fit;
-               byte cr = (byte)(this.color[i] >> 16 & 0xFF);
-               byte cg = (byte)(this.color[i] >> 8 & 0xFF);
-               byte cb = (byte)(this.color[i] & 0xFF);
-               byte ca = (byte)Math.round(clamp(a, 0.0F, 1.0F) * 255.0F);
-               this.vertex(cx - r, cy - r, -1.0F, -1.0F, cr, cg, cb, ca);
-               this.vertex(cx + r, cy - r, 1.0F, -1.0F, cr, cg, cb, ca);
-               this.vertex(cx + r, cy + r, 1.0F, 1.0F, cr, cg, cb, ca);
-               this.vertex(cx - r, cy - r, -1.0F, -1.0F, cr, cg, cb, ca);
-               this.vertex(cx + r, cy + r, 1.0F, 1.0F, cr, cg, cb, ca);
-               this.vertex(cx - r, cy + r, -1.0F, 1.0F, cr, cg, cb, ca);
-               verts += 6;
-            }
-         }
+      this.staging.clear();
+      int verts = 0;
 
-         if (verts == 0) {
-            return 0;
-         } else {
-            int bytes = verts * 24;
-            if (this.vertices == null || this.capacity < bytes) {
-               if (this.vertices != null) {
-                  this.vertices.close();
-               }
-
-               this.capacity = Math.max((long)bytes, Math.max(262144L, this.capacity * 2L));
-               this.vertices = device.createBuffer(() -> "Flow2 intro particles", 40, this.capacity);
-            }
-
-            this.staging.flip();
-            encoder.writeToBuffer(this.vertices.slice(0L, bytes), this.staging);
-            return verts;
+      for (int i = 0; i < this.count; i++) {
+         float q = this.age[i] / this.life[i];
+         float a = this.a0[i]
+            * smooth(0.0F, 0.1F, q)
+            * (1.0F - smooth(0.4F, 1.0F, q))
+            * (0.75F + 0.25F * (float)Math.sin(this.age[i] * this.tw[i] + this.ph[i]))
+            * pf;
+         if (!(a <= 0.004F)) {
+            float r = this.size[i] * this.fit * 5.5F;
+            float cx = this.rectX + this.px[i] * this.fit;
+            float cy = this.rectY + this.py[i] * this.fit;
+            byte cr = (byte)(this.color[i] >> 16 & 0xFF);
+            byte cg = (byte)(this.color[i] >> 8 & 0xFF);
+            byte cb = (byte)(this.color[i] & 0xFF);
+            byte ca = (byte)Math.round(clamp(a, 0.0F, 1.0F) * 255.0F);
+            this.vertex(cx - r, cy - r, -1.0F, -1.0F, cr, cg, cb, ca);
+            this.vertex(cx + r, cy - r, 1.0F, -1.0F, cr, cg, cb, ca);
+            this.vertex(cx + r, cy + r, 1.0F, 1.0F, cr, cg, cb, ca);
+            this.vertex(cx - r, cy - r, -1.0F, -1.0F, cr, cg, cb, ca);
+            this.vertex(cx + r, cy + r, 1.0F, 1.0F, cr, cg, cb, ca);
+            this.vertex(cx - r, cy + r, -1.0F, 1.0F, cr, cg, cb, ca);
+            verts += 6;
          }
       }
+
+      if (verts == 0) {
+         return 0;
+      }
+
+      int bytes = verts * 24;
+      if (this.vertices == null || this.capacity < bytes) {
+         if (this.vertices != null) {
+            this.vertices.close();
+         }
+
+         this.capacity = Math.max(bytes, Math.max(262144L, this.capacity * 2L));
+         this.vertices = device.createBuffer(() -> "Flow2 intro particles", 40, this.capacity);
+      }
+
+      this.staging.flip();
+      encoder.writeToBuffer(this.vertices.slice(0L, bytes), this.staging);
+      return verts;
    }
 
    private void vertex(float x, float y, float u, float v, byte r, byte g, byte b, byte a) {
@@ -813,26 +768,10 @@ final class Intro {
    }
 
    private static void blit(CommandEncoder encoder, RenderPipeline pipeline, GpuTextureView in, GpuTextureView out, GpuSampler sampler) {
-      RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro bloom", out, OptionalInt.empty());
-
-      try {
+      try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro bloom", out, OptionalInt.empty())) {
          pass.setPipeline(pipeline);
          pass.bindTexture("InSampler", in, sampler);
          pass.draw(0, 3);
-      } catch (Throwable var9) {
-         if (pass != null) {
-            try {
-               pass.close();
-            } catch (Throwable var8) {
-               var9.addSuppressed(var8);
-            }
-         }
-
-         throw var9;
-      }
-
-      if (pass != null) {
-         pass.close();
       }
    }
 
@@ -895,15 +834,15 @@ final class Intro {
    }
 
    private static RenderPipeline screen(String name, String... samplers) {
-      Builder builder = RenderPipeline.builder(new Snippet[0])
+      Builder builder = RenderPipeline.builder()
          .withLocation(uvq.id("pipeline/" + name))
          .withVertexShader(uvq.id("core/blur"))
          .withFragmentShader(uvq.id("core/" + name))
-         .withUniform("FlowIntro", UniformType.field_60031)
+         .withUniform("FlowIntro", UniformType.UNIFORM_BUFFER)
          .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
          .withDepthWrite(false)
          .withCull(false)
-         .withVertexFormat(VertexFormats.field_60033, DrawMode.field_27379);
+         .withVertexFormat(VertexFormats.EMPTY, DrawMode.TRIANGLES);
 
       for (String s : samplers) {
          builder.withSampler(s);

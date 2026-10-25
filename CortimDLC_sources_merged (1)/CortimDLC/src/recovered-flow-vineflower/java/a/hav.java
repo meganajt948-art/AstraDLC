@@ -80,101 +80,105 @@ final class hav {
             }
          }
 
-         var0.field_1690.field_1842 = true;
-         var0.field_1690.field_1837 = false;
-         var0.field_1690.method_42503().method_41748(12);
-         var0.field_1690.method_41808().method_41748(70);
+         var0.options.hudHidden = true;
+         var0.options.pauseOnLostFocus = false;
+         var0.options.getViewDistance().setValue(12);
+         var0.options.getFov().setValue(70);
          hbo(var0, a.d("䝁㻶됩⩐ꆏ✼鵤ᒔ誎|螾緘\uf30b檯\ue0e1昏\udc53", -1572610255, -1307994106));
          hbo(var0, a.d("⏴婃킜以씥䎓慄瀡\uee3b擎\ue316᥌鞾ท葑ʥ룤㜺궕⯳ꈾ\ud875囉촑䬫솼砈\uf654沼\ueafb", -1818013770, -2041680837));
          hbo(var0, a.b("仒㝥붺⏃ꠃ⺵铿ᴇ茝২踰瑹煮挩\ue96f澂헀娆삄䛯켂땜㯦ꁲ♋겝ᔣ魭ƌ", -1012248920));
          hbo(var0, a.d("↋堨틿䲛읐䇬ﮨ爋\uec17暩\ue173ᬆ闂", -1765912565, -1984794118));
-         GLFW.glfwSetWindowSize(var0.method_22683().method_4490(), 1920, 1080);
+         GLFW.glfwSetWindowSize(var0.getWindow().getHandle(), 1920, 1080);
          hbj(var0);
          return false;
-      } else if (var1 < 10) {
-         return false;
-      } else if (hbe < 0) {
-         if (!hbd) {
-            return false;
-         } else if (hbc == null) {
-            System.out.println(a.d("䟈㹿뒴⫅ꄚ➼鷮ᐇ詊¸蝱絎\uf398橦\ue073暋\udcd9匟즺俬왏뱘㋢ꤩ⽍ꖖ", 424227595, -1101826902));
-            return true;
-         } else {
-            System.out.println(a.c(655411913, "쪷대㧋Ꞻⱥ\uaac3႑饸ܵ距\u0a4f\uf02b纨") + hbc.method_23854());
-            hbi(var0, 2);
-            hbo(var0, a.c(-1938870532, "⺅圩\uddfe䎇정价\uf4b2絒\ue359槾\uee2bᑚ骍"));
-            ((vlv)hbn(var2, a.c(793307129, "\ue7ac鸫ᓼ誟Ŕ蟤"))).set(a.d("\udb92ꈅ⣎뚿㵠믆", -1953456993, 1671513944));
-            ((vlv)hbn(var2, a.b("Č碙\uf25e氢\ue7f0慜\udb02", -576454310))).set(hay);
-            ((vmc)hbn(var2, a.c(-796938429, "꼚횚屚숭䧧콜甀ﳸ抱"))).set(0.6);
-            ((vmc)hbn(var2, a.b("桪ᇭ鬦Տ躁ࠩ뉼", -1262655442))).set(0.5);
-            ((vmc)hbn(var2, a.c(-988393300, "僷⥠ꎨ㶗똒グ諻̀"))).set(0.7);
-            ((vmc)hbn(var2, a.d("㺸䜬췱厏\ud844庡\ue4a1测\uf31d禫﹪М", -1869731792, -976611640))).set(0.6);
-            ((vkl)hbn(var2, a.c(178064093, "ઓ猍利架\uec70檅킅奯윹䶍쩕〼뻯"))).set(true);
-            ((vkl)hbn(var2, a.d("䮰㈭룽⚏굂⯴釵ᡃ蘉ಫ譽焍", -1451883717, -1811855164))).set(true);
-            var2.setEnabled(true);
-            uze.timing(true);
-            hbe = var1;
-            return false;
-         }
       } else {
-         var0.field_1724.method_31549().field_7479 = true;
-         if (var0.field_1755 != null) {
-            var0.method_1507(null);
-         }
-
-         int var3 = var1 - hbe - 560;
-         if (var3 == -40) {
-            uze.gpuMillis();
-         }
-
-         if (var3 == -1) {
-            System.out.println(a.b("Ǆ硳\uf2b8泉\ue716憰\udbe2刋챆䚮섺㭜떎ⱪ", -1134165575) + uze.gpuMillis() + a.c(1190163248, "猓૯耢"));
-         }
-
-         for (haj var7 : haz) {
-            if (hax == null || var7.hal.startsWith(hax)) {
-               if (var3 == var7.hak - 50) {
-                  hbo(var0, a.c(-82440434, "ཱི盟ﰈ扱\ue9e3漁필岤슯") + var7.ham);
-                  hbo(var0, a.b("㤎䂭쩺吞\udfd5奩\ue32d檎", 1222785393) + var7.har);
-                  if (var7.hap != hbf) {
-                     hbi(var0, var7.hap);
-                  }
-
-                  var2.setEnabled(var7.haq);
-                  ((vlv)hbn(var2, a.d("峯╺꾽㇁먓㲿蛡", 1006273857, -1823942152))).set(var7.has);
-                  hbm(var0, var7.han, var7.hao);
-               } else if (var3 == var7.hak - 20) {
-                  uze.gpuMillis();
-                  hbm(var0, var7.han, var7.hao);
-               } else if (var7.hal.endsWith(a.c(-1933322089, "\ud8e4ꅄ⮘")) && var3 > var7.hak - 25 && var3 < var7.hak) {
-                  hbm(var0, var7.han + (var3 - (var7.hak - 25)) * 1.6F, var7.hao);
-               } else if (var3 == var7.hak - 2) {
-                  hbm(var0, var7.han, var7.hao);
-               } else if (var3 == var7.hak) {
-                  System.out
-                     .println(
-                        a.b("ꟷ\ude40咋쫺䄥잃緑\uf438橵\ue09d", 399157134) + var7.hal + a.b("엡밗㛓ꢧ⌥", -1349007932) + uze.gpuMillis() + a.c(-772547484, "\udc47ꖻ⽶")
-                     );
-                  hbp(var0, a.c(694147488, "\ud9d9ꁮ⪥듔㼋릭Ͽ訖ᑛ麾") + var7.hal);
-               }
-            }
-         }
-
-         if (var3 > haz[haz.length - 1].hak + 10) {
-            uze.timing(false);
-            hbo(var0, a.c(2008863721, "펓ꨰ⃧뺃㕈돴র耓ḏ钱፫\ue91e柚"));
-            var0.field_1690.field_1842 = false;
-
-            for (int var9 = 0; var9 < hba.length; var9++) {
-               kfe var11 = Flow.getInstance().getModuleManager().getByName(hba[var9]);
-               if (var11 != null) {
-                  var11.setEnabled(hbb[var9]);
-               }
-            }
-
-            return true;
-         } else {
+         if (var1 < 10) {
             return false;
+         }
+
+         if (hbe < 0) {
+            if (!hbd) {
+               return false;
+            } else if (hbc == null) {
+               System.out.println(a.d("䟈㹿뒴⫅ꄚ➼鷮ᐇ詊¸蝱絎\uf398橦\ue073暋\udcd9匟즺俬왏뱘㋢ꤩ⽍ꖖ", 424227595, -1101826902));
+               return true;
+            } else {
+               System.out.println(a.c(655411913, "쪷대㧋Ꞻⱥ\uaac3႑饸ܵ距\u0a4f\uf02b纨") + hbc.toShortString());
+               hbi(var0, 2);
+               hbo(var0, a.c(-1938870532, "⺅圩\uddfe䎇정价\uf4b2絒\ue359槾\uee2bᑚ骍"));
+               ((vlv)hbn(var2, a.c(793307129, "\ue7ac鸫ᓼ誟Ŕ蟤"))).set(a.d("\udb92ꈅ⣎뚿㵠믆", -1953456993, 1671513944));
+               ((vlv)hbn(var2, a.b("Č碙\uf25e氢\ue7f0慜\udb02", -576454310))).set(hay);
+               ((vmc)hbn(var2, a.c(-796938429, "꼚횚屚숭䧧콜甀ﳸ抱"))).set(0.6);
+               ((vmc)hbn(var2, a.b("桪ᇭ鬦Տ躁ࠩ뉼", -1262655442))).set(0.5);
+               ((vmc)hbn(var2, a.c(-988393300, "僷⥠ꎨ㶗똒グ諻̀"))).set(0.7);
+               ((vmc)hbn(var2, a.d("㺸䜬췱厏\ud844庡\ue4a1测\uf31d禫﹪М", -1869731792, -976611640))).set(0.6);
+               ((vkl)hbn(var2, a.c(178064093, "ઓ猍利架\uec70檅킅奯윹䶍쩕〼뻯"))).set(true);
+               ((vkl)hbn(var2, a.d("䮰㈭룽⚏굂⯴釵ᡃ蘉ಫ譽焍", -1451883717, -1811855164))).set(true);
+               var2.setEnabled(true);
+               uze.timing(true);
+               hbe = var1;
+               return false;
+            }
+         } else {
+            var0.player.getAbilities().flying = true;
+            if (var0.currentScreen != null) {
+               var0.setScreen(null);
+            }
+
+            int var3 = var1 - hbe - 560;
+            if (var3 == -40) {
+               uze.gpuMillis();
+            }
+
+            if (var3 == -1) {
+               System.out.println(a.b("Ǆ硳\uf2b8泉\ue716憰\udbe2刋챆䚮섺㭜떎ⱪ", -1134165575) + uze.gpuMillis() + a.c(1190163248, "猓૯耢"));
+            }
+
+            for (haj var7 : haz) {
+               if (hax == null || var7.hal.startsWith(hax)) {
+                  if (var3 == var7.hak - 50) {
+                     hbo(var0, a.c(-82440434, "ཱི盟ﰈ扱\ue9e3漁필岤슯") + var7.ham);
+                     hbo(var0, a.b("㤎䂭쩺吞\udfd5奩\ue32d檎", 1222785393) + var7.har);
+                     if (var7.hap != hbf) {
+                        hbi(var0, var7.hap);
+                     }
+
+                     var2.setEnabled(var7.haq);
+                     ((vlv)hbn(var2, a.d("峯╺꾽㇁먓㲿蛡", 1006273857, -1823942152))).set(var7.has);
+                     hbm(var0, var7.han, var7.hao);
+                  } else if (var3 == var7.hak - 20) {
+                     uze.gpuMillis();
+                     hbm(var0, var7.han, var7.hao);
+                  } else if (var7.hal.endsWith(a.c(-1933322089, "\ud8e4ꅄ⮘")) && var3 > var7.hak - 25 && var3 < var7.hak) {
+                     hbm(var0, var7.han + (var3 - (var7.hak - 25)) * 1.6F, var7.hao);
+                  } else if (var3 == var7.hak - 2) {
+                     hbm(var0, var7.han, var7.hao);
+                  } else if (var3 == var7.hak) {
+                     System.out
+                        .println(
+                           a.b("ꟷ\ude40咋쫺䄥잃緑\uf438橵\ue09d", 399157134) + var7.hal + a.b("엡밗㛓ꢧ⌥", -1349007932) + uze.gpuMillis() + a.c(-772547484, "\udc47ꖻ⽶")
+                        );
+                     hbp(var0, a.c(694147488, "\ud9d9ꁮ⪥듔㼋릭Ͽ訖ᑛ麾") + var7.hal);
+                  }
+               }
+            }
+
+            if (var3 > haz[haz.length - 1].hak + 10) {
+               uze.timing(false);
+               hbo(var0, a.c(2008863721, "펓ꨰ⃧뺃㕈돴র耓ḏ钱፫\ue91e柚"));
+               var0.options.hudHidden = false;
+
+               for (int var9 = 0; var9 < hba.length; var9++) {
+                  kfe var11 = Flow.getInstance().getModuleManager().getByName(hba[var9]);
+                  if (var11 != null) {
+                     var11.setEnabled(hbb[var9]);
+                  }
+               }
+
+               return true;
+            } else {
+               return false;
+            }
          }
       }
    }
@@ -182,26 +186,18 @@ final class hav {
    private static void hbi(MinecraftClient var0, int var1) {
       hbf = var1;
       BlockPos var2 = hbc;
-      hbo(
-         var0,
-         a.b("桱ᇄ魇Ֆ躲ࡐ", -1251710973)
-            + var2.method_10263()
-            + a.b("\uf435", -1131416556)
-            + (var2.method_10264() + var1)
-            + a.b("舁", 706380320)
-            + var2.method_10260()
-      );
+      hbo(var0, a.b("桱ᇄ魇Ֆ躲ࡐ", -1251710973) + var2.getX() + a.b("\uf435", -1131416556) + (var2.getY() + var1) + a.b("舁", 706380320) + var2.getZ());
    }
 
    private static void hbj(MinecraftClient var0) {
       hbc = null;
       hbd = false;
-      IntegratedServer var1 = var0.method_1576();
-      BlockPos var2 = var0.field_1724.method_24515();
+      IntegratedServer var1 = var0.getServer();
+      BlockPos var2 = var0.player.getBlockPos();
       var1.execute(() -> {
          try {
-            ServerWorld var2x = var1.method_30002();
-            Pair var3 = var2x.method_42108(var0xx -> var0xx.method_40225(BiomeKeys.field_9409), var2, 6400, 32, 64);
+            ServerWorld var2x = var1.getOverworld();
+            Pair var3 = var2x.locateBiome(var0xx -> var0xx.matchesKey(BiomeKeys.FOREST), var2, 6400, 32, 64);
             if (var3 != null) {
                BlockPos var4 = (BlockPos)var3.getFirst();
                BlockPos var5 = null;
@@ -209,12 +205,12 @@ final class hav {
 
                for (byte var7 = -64; var7 <= 64; var7 += 4) {
                   for (byte var8 = -64; var8 <= 64; var8 += 4) {
-                     int var9 = var4.method_10263() + var8;
-                     int var10 = var4.method_10260() + var7;
+                     int var9 = var4.getX() + var8;
+                     int var10 = var4.getZ() + var7;
                      int var11 = hbl(var2x, var9, var10);
                      if (var11 > var6) {
                         var6 = var11;
-                        var5 = new BlockPos(var9, hbk(var2x, Type.field_13197, var9, var10), var10);
+                        var5 = new BlockPos(var9, hbk(var2x, Type.MOTION_BLOCKING, var9, var10), var10);
                      }
                   }
                }
@@ -230,8 +226,8 @@ final class hav {
    }
 
    private static int hbk(ServerWorld var0, Type var1, int var2, int var3) {
-      var0.method_8497(var2 >> 4, var3 >> 4);
-      return var0.method_8624(var1, var2, var3);
+      var0.getChunk(var2 >> 4, var3 >> 4);
+      return var0.getTopY(var1, var2, var3);
    }
 
    private static int hbl(ServerWorld var0, int var1, int var2) {
@@ -240,9 +236,9 @@ final class hav {
 
       for (byte var5 = -12; var5 <= 12; var5 += 2) {
          for (byte var6 = -12; var6 <= 12; var6 += 2) {
-            int var7 = hbk(var0, Type.field_13197, var1 + var6, var2 + var5);
-            int var8 = hbk(var0, Type.field_13203, var1 + var6, var2 + var5);
-            boolean var9 = Math.abs((int)var6) <= 4 && Math.abs((int)var5) <= 4;
+            int var7 = hbk(var0, Type.MOTION_BLOCKING, var1 + var6, var2 + var5);
+            int var8 = hbk(var0, Type.MOTION_BLOCKING_NO_LEAVES, var1 + var6, var2 + var5);
+            boolean var9 = Math.abs(var6) <= 4 && Math.abs(var5) <= 4;
             if (var7 == var8) {
                if (var9) {
                   var3++;
@@ -257,10 +253,10 @@ final class hav {
    }
 
    private static void hbm(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static vmo hbn(kfe var0, String var1) {
@@ -274,7 +270,7 @@ final class hav {
    }
 
    private static void hbo(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void hbp(MinecraftClient var0, String var1) {
@@ -283,13 +279,13 @@ final class hav {
             a.b("讼\uf21b磁\ue6ba洫\uebce册\ud86b䘳쳖", 387877829)
                + var1
                + a.d("놆졗䋤", -2081660703, -1918774972)
-               + var0.method_47599()
+               + var0.getCurrentFps()
                + a.b("\uf4b2赅ހ駲", -1447955306)
          );
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.b("꼿횄屔숽䦯켁", -1107120289) + var1 + a.c(2121033031, "敭ᲂ陏࠷"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

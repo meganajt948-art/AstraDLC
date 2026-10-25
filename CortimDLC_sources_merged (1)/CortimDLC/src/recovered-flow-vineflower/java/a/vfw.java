@@ -17,10 +17,8 @@ public record vfw(
    private final float[] vfz;
    private final int[] vga;
    private final int vgb;
-   @Nullable
-   private final ScreenRect vgc;
-   @Nullable
-   private final ScreenRect vgd;
+   private final @Nullable ScreenRect vgc;
+   private final @Nullable ScreenRect vgd;
 
    public vfw(TextureSetup textureSetup, Matrix3x2f pose, float[] quads, int[] colors, int count, @Nullable ScreenRect scissorArea, @Nullable ScreenRect bounds) {
       this.vfx = textureSetup;
@@ -32,11 +30,13 @@ public record vfw(
       this.vgd = bounds;
    }
 
-   public RenderPipeline comp_4055() {
-      return RenderPipelines.field_56883;
+   @Override
+   public RenderPipeline pipeline() {
+      return RenderPipelines.GUI_TEXTURED;
    }
 
-   public void method_70917(VertexConsumer var1) {
+   @Override
+   public void setupVertices(VertexConsumer vertices) {
       for (int var2 = 0; var2 < this.vgb; var2++) {
          int var3 = var2 * 8;
          float var4 = this.vfz[var3];
@@ -48,14 +48,15 @@ public record vfw(
          float var10 = this.vfz[var3 + 6];
          float var11 = this.vfz[var3 + 7];
          int var12 = this.vga[var2];
-         var1.method_70815(this.vfy, var4, var5).method_22913(var8, var9).method_39415(var12);
-         var1.method_70815(this.vfy, var4, var7).method_22913(var8, var11).method_39415(var12);
-         var1.method_70815(this.vfy, var6, var7).method_22913(var10, var11).method_39415(var12);
-         var1.method_70815(this.vfy, var6, var5).method_22913(var10, var9).method_39415(var12);
+         vertices.vertex(this.vfy, var4, var5).texture(var8, var9).color(var12);
+         vertices.vertex(this.vfy, var4, var7).texture(var8, var11).color(var12);
+         vertices.vertex(this.vfy, var6, var7).texture(var10, var11).color(var12);
+         vertices.vertex(this.vfy, var6, var5).texture(var10, var9).color(var12);
       }
    }
 
-   public TextureSetup comp_4056() {
+   @Override
+   public TextureSetup textureSetup() {
       return this.vfx;
    }
 
@@ -75,13 +76,13 @@ public record vfw(
       return this.vgb;
    }
 
-   @Nullable
-   public ScreenRect comp_4069() {
+   @Override
+   public @Nullable ScreenRect scissorArea() {
       return this.vgc;
    }
 
-   @Nullable
-   public ScreenRect comp_4274() {
+   @Override
+   public @Nullable ScreenRect bounds() {
       return this.vgd;
    }
 }

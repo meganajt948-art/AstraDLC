@@ -21,7 +21,7 @@ record kqa(String id, boolean glint, String name) {
    }
 
    static kqa of(ItemStack var0) {
-      return new kqa(Registries.field_41178.method_10221(var0.method_7909()).toString(), var0.method_7958(), kqg(var0));
+      return new kqa(Registries.ITEM.getId(var0.getItem()).toString(), var0.hasGlint(), kqg(var0));
    }
 
    static kqa parse(String var0) {
@@ -42,19 +42,16 @@ record kqa(String id, boolean glint, String name) {
    }
 
    boolean matches(ItemStack var1) {
-      return !var1.method_7960()
-         && Registries.field_41178.method_10221(var1.method_7909()).toString().equals(this.kqb)
-         && var1.method_7958() == this.kqc
-         && kqg(var1).equals(this.kqd);
+      return !var1.isEmpty() && Registries.ITEM.getId(var1.getItem()).toString().equals(this.kqb) && var1.hasGlint() == this.kqc && kqg(var1).equals(this.kqd);
    }
 
    Item item() {
-      Identifier var1 = Identifier.method_12829(this.kqb);
-      return var1 == null ? Items.field_8162 : (Item)Registries.field_41178.method_63535(var1);
+      Identifier var1 = Identifier.tryParse(this.kqb);
+      return var1 == null ? Items.AIR : Registries.ITEM.get(var1);
    }
 
    private static String kqg(ItemStack var0) {
-      Text var1 = (Text)var0.method_58694(DataComponentTypes.field_49631);
+      Text var1 = var0.get(DataComponentTypes.CUSTOM_NAME);
       return var1 == null ? "" : var1.getString();
    }
 

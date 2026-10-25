@@ -38,10 +38,10 @@ public class rkh extends kfe {
    public final vkl rain = this.add(new vkl("Rain", false));
    public final vkl vignette = this.add(new vkl("Vignette", true));
    public final vkl pumpkin = this.add(new vkl("Pumpkin", true));
-   private static final wbu<Double> rkj = new wbu<>(var0 -> var0.field_1690.method_48974());
-   private static final wbu<Boolean> rkk = new wbu<>(var0 -> var0.field_1690.method_42448());
-   private static final wbu<AttackIndicator> rkl = new wbu<>(var0 -> var0.field_1690.method_42565());
-   private static final wbu<Double> rkm = new wbu<>(var0 -> var0.field_1690.method_42472());
+   private static final wbu<Double> rkj = new wbu<>(var0 -> var0.options.getDamageTiltStrength());
+   private static final wbu<Boolean> rkk = new wbu<>(var0 -> var0.options.getBobView());
+   private static final wbu<AttackIndicator> rkl = new wbu<>(var0 -> var0.options.getAttackIndicator());
+   private static final wbu<Double> rkm = new wbu<>(var0 -> var0.options.getDarknessEffectScale());
    private static boolean rkn;
    private static TrackedData<List<ParticleEffect>> rko;
    private static boolean rkp;
@@ -74,9 +74,9 @@ public class rkh extends kfe {
    public static boolean hidesPumpkin(MinecraftClient var0) {
       return rki != null
          && rks(rki.pumpkin)
-         && var0.field_1724 != null
-         && var0.field_1690.method_31044().method_31034()
-         && var0.field_1724.method_6118(EquipmentSlot.field_6169).method_31574(Items.field_17519);
+         && var0.player != null
+         && var0.options.getPerspective().isFirstPerson()
+         && var0.player.getEquippedStack(EquipmentSlot.HEAD).isOf(Items.CARVED_PUMPKIN);
    }
 
    @Override
@@ -95,7 +95,7 @@ public class rkh extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       if (this.effects.get()) {
-         rkw(var1.field_1687);
+         rkw(var1.world);
       }
 
       this.rkt(var1);
@@ -118,26 +118,26 @@ public class rkh extends kfe {
       boolean var2 = wbu.suspended(var1);
       rku(rkj, this.hurtShake.get() && !var2, 0.0);
       rku(rkk, this.walkShake.get() && !var2, false);
-      rku(rkl, this.attackIndicator.get() && !var2, AttackIndicator.field_18151);
+      rku(rkl, this.attackIndicator.get() && !var2, AttackIndicator.OFF);
       rku(rkm, this.darkness.get() && !var2, 0.0);
-      ClientPlayerEntity var3 = var1.field_1724;
+      ClientPlayerEntity var3 = var1.player;
       if (var3 != null) {
          if (this.fire.get()) {
             rkv(var1);
          }
 
          if (this.nausea.get()) {
-            var3.field_44911 = 0.0F;
-            var3.field_44912 = 0.0F;
+            var3.nauseaIntensity = 0.0F;
+            var3.lastNauseaIntensity = 0.0F;
          }
 
-         if (this.rain.get() && var1.field_1687 != null) {
-            var1.field_1687.method_8519(0.0F);
-            var1.field_1687.method_8496(0.0F);
+         if (this.rain.get() && var1.world != null) {
+            var1.world.setRainGradient(0.0F);
+            var1.world.setThunderGradient(0.0F);
          }
 
          if (this.vignette.get()) {
-            var1.field_1705.field_2013 = 0.0F;
+            var1.inGameHud.vignetteDarkness = 0.0F;
          }
       }
    }
@@ -151,8 +151,8 @@ public class rkh extends kfe {
    }
 
    private static void rkv(MinecraftClient var0) {
-      if (var0.field_1724 != null && var0.field_1724.method_5809()) {
-         var0.field_1724.method_33572(false);
+      if (var0.player != null && var0.player.isOnFire()) {
+         var0.player.setOnFire(false);
       }
    }
 
@@ -164,15 +164,15 @@ public class rkh extends kfe {
 
             try {
                rko = var1 == null ? null : (TrackedData)var1.get(null);
-            } catch (RuntimeException | ReflectiveOperationException var4) {
+            } catch (ReflectiveOperationException | RuntimeException var4) {
                rko = null;
             }
          }
 
          if (rko != null) {
-            for (Entity var2 : var0.method_18112()) {
-               if (var2 instanceof LivingEntity var3 && !((List)var3.method_5841().method_12789(rko)).isEmpty()) {
-                  var3.method_5841().method_12778(rko, List.of());
+            for (Entity var2 : var0.getEntities()) {
+               if (var2 instanceof LivingEntity var3 && !var3.getDataTracker().get(rko).isEmpty()) {
+                  var3.getDataTracker().set(rko, List.of());
                }
             }
          }
@@ -181,8 +181,8 @@ public class rkh extends kfe {
 
    public static void afterExtraction(WorldRenderState var0) {
       if (rki != null && rks(rki.glowing)) {
-         for (EntityRenderState var2 : var0.field_61735) {
-            var2.field_61821 = 0;
+         for (EntityRenderState var2 : var0.entityRenderStates) {
+            var2.outlineColor = 0;
          }
       }
    }

@@ -29,28 +29,28 @@ final class dxq {
    final int mapColor;
 
    dxq(BlockState var1) {
-      FluidState var2 = var1.method_26227();
-      this.water = var2.method_15767(FluidTags.field_15517);
-      this.lava = var2.method_15767(FluidTags.field_15518);
-      VoxelShape var3 = var1.method_26218(EmptyBlockView.field_12294, BlockPos.field_10980);
-      this.air = var1.method_26215() || var3.method_1110() && var2.method_15769();
-      this.fluidOnly = var3.method_1110() && !var2.method_15769();
-      this.fullCube = !var3.method_1110() && Block.method_9614(var3);
-      this.luminance = var1.method_26213();
-      MapColor var4 = var1.method_26205(EmptyBlockView.field_12294, BlockPos.field_10980);
-      this.mapColor = var4 != null && var4 != MapColor.field_16008 ? 0xFF000000 | var4.field_16011 : -8355712;
+      FluidState var2 = var1.getFluidState();
+      this.water = var2.isIn(FluidTags.WATER);
+      this.lava = var2.isIn(FluidTags.LAVA);
+      VoxelShape var3 = var1.getOutlineShape(EmptyBlockView.INSTANCE, BlockPos.ORIGIN);
+      this.air = var1.isAir() || var3.isEmpty() && var2.isEmpty();
+      this.fluidOnly = var3.isEmpty() && !var2.isEmpty();
+      this.fullCube = !var3.isEmpty() && Block.isShapeFullCube(var3);
+      this.luminance = var1.getLuminance();
+      MapColor var4 = var1.getMapColor(EmptyBlockView.INSTANCE, BlockPos.ORIGIN);
+      this.mapColor = var4 != null && var4 != MapColor.CLEAR ? 0xFF000000 | var4.color : -8355712;
       if (!this.air) {
          BlockStateModel var5 = null;
 
          try {
-            var5 = dyh.dyq.method_1541().method_3349(var1);
+            var5 = dyh.dyq.getBlockRenderManager().getModel(var1);
          } catch (Throwable var18) {
          }
 
          List var6 = List.of();
          if (var5 != null) {
             try {
-               var6 = var5.method_68512(Random.method_43049(42L));
+               var6 = var5.getParts(Random.create(42L));
             } catch (Throwable var17) {
             }
          }
@@ -61,12 +61,12 @@ final class dxq {
             ArrayList var12 = new ArrayList(2);
 
             for (BlockModelPart var14 : var6) {
-               for (BakedQuad var16 : var14.method_68509(var11)) {
+               for (BakedQuad var16 : var14.getQuads(var11)) {
                   dxt(var12, var16);
                }
 
-               for (BakedQuad var20 : var14.method_68509(null)) {
-                  if (var20.comp_3723() == var11) {
+               for (BakedQuad var20 : var14.getQuads(null)) {
+                  if (var20.face() == var11) {
                      dxt(var12, var20);
                   }
                }
@@ -89,19 +89,19 @@ final class dxq {
 
    private static void dxt(List<dxl> var0, BakedQuad var1) {
       if (var0.size() < 2) {
-         dxy var2 = dyh.ean(var1.comp_3724());
+         dxy var2 = dyh.ean(var1.sprite());
          if (var2 != null) {
-            var0.add(new dxl(var2, var1.method_3360() ? var1.comp_3722() : -1));
+            var0.add(new dxl(var2, var1.hasTint() ? var1.tintIndex() : -1));
          }
       }
    }
 
    private static dxl dxu(BlockState var0, BlockStateModel var1, List<BlockModelPart> var2) {
       for (BlockModelPart var4 : var2) {
-         for (BakedQuad var6 : var4.method_68509(null)) {
-            dxy var7 = dyh.ean(var6.comp_3724());
+         for (BakedQuad var6 : var4.getQuads(null)) {
+            dxy var7 = dyh.ean(var6.sprite());
             if (var7 != null) {
-               return new dxl(var7, var6.method_3360() ? var6.comp_3722() : -1);
+               return new dxl(var7, var6.hasTint() ? var6.tintIndex() : -1);
             }
          }
       }
@@ -109,16 +109,16 @@ final class dxq {
       Sprite var9 = null;
 
       try {
-         if (var0.method_26227().method_15767(FluidTags.field_15517) && var0.method_26204() != Blocks.field_10382) {
-            var9 = dyh.dyq.method_1541().method_3351().method_3339(Blocks.field_10382.method_9564());
+         if (var0.getFluidState().isIn(FluidTags.WATER) && var0.getBlock() != Blocks.WATER) {
+            var9 = dyh.dyq.getBlockRenderManager().getModels().getModelParticleSprite(Blocks.WATER.getDefaultState());
          } else {
-            var9 = var1 != null ? var1.method_68511() : dyh.dyq.method_1541().method_3351().method_3339(var0);
+            var9 = var1 != null ? var1.particleSprite() : dyh.dyq.getBlockRenderManager().getModels().getModelParticleSprite(var0);
          }
       } catch (Throwable var8) {
       }
 
       dxy var10 = var9 == null ? null : dyh.ean(var9);
-      boolean var11 = var0.method_26227().method_15767(FluidTags.field_15517);
+      boolean var11 = var0.getFluidState().isIn(FluidTags.WATER);
       return var10 == null ? null : new dxl(var10, var11 ? 0 : -1);
    }
 }

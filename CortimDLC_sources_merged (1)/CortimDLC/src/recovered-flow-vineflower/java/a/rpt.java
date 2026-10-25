@@ -60,7 +60,7 @@ public class rpt extends kfe implements vhe {
    @Override
    public int[] colors(ClientPlayerEntity var1) {
       if (this.rpv.get()) {
-         int var2 = rqe(var1.method_6047().method_7960() ? var1.method_6079() : var1.method_6047());
+         int var2 = rqe(var1.getMainHandStack().isEmpty() ? var1.getOffHandStack() : var1.getMainHandStack());
          if (var2 != 0) {
             return new int[]{var2, ujt.lerp(var2, -1, 0.45F)};
          }
@@ -70,10 +70,10 @@ public class rpt extends kfe implements vhe {
    }
 
    private static int rqe(ItemStack var0) {
-      if (var0.method_7960()) {
+      if (var0.isEmpty()) {
          return 0;
       } else {
-         String var1 = Registries.field_41178.method_10221(var0.method_7909()).method_12832();
+         String var1 = Registries.ITEM.getId(var0.getItem()).getPath();
          if (var1.contains("netherite")) {
             return -7573584;
          } else if (var1.contains("diamond")) {

@@ -52,43 +52,47 @@ public final class tkx extends OtherClientPlayerEntity {
       this.tly();
    }
 
-   public boolean method_5810() {
+   @Override
+   public boolean isPushable() {
       return false;
    }
 
-   public void method_5697(Entity var1) {
+   @Override
+   public void pushAwayFrom(Entity entity) {
    }
 
-   protected void method_6070() {
+   @Override
+   protected void tickCramming() {
    }
 
-   public void method_5773() {
-      ClientPlayerEntity var1 = MinecraftClient.method_1551().field_1724;
-      if (var1 != null && !this.method_31481()) {
+   @Override
+   public void tick() {
+      ClientPlayerEntity var1 = MinecraftClient.getInstance().player;
+      if (var1 != null && !this.isRemoved()) {
          this.tlz(var1);
          this.tma();
       }
 
-      super.method_5773();
-      this.field_5960 = true;
+      super.tick();
+      this.noClip = true;
       if (var1 != null) {
          this.tmb(var1);
       }
    }
 
    public void knock(Vec3d var1, boolean var2) {
-      double var3 = this.method_23317() - var1.field_1352;
-      double var5 = this.method_23321() - var1.field_1350;
+      double var3 = this.getX() - var1.x;
+      double var5 = this.getZ() - var1.z;
       double var7 = Math.max(0.001, Math.sqrt(var3 * var3 + var5 * var5));
       double var9 = var2 ? 0.55 : 0.4;
       this.tlh = this.tlh * 0.5 + var3 / var7 * var9;
       this.tlj = this.tlj * 0.5 + var5 / var7 * var9;
-      if (this.method_24828()) {
+      if (this.isOnGround()) {
          this.tli = Math.min(0.4, this.tli * 0.5 + 0.36);
       }
 
       this.tlv = 8 + this.tla.nextInt(8);
-      this.method_5879((float)Math.toDegrees(Math.atan2(var5, var3)));
+      this.animateDamage((float)Math.toDegrees(Math.atan2(var5, var3)));
    }
 
    private void tly() {
@@ -136,27 +140,27 @@ public final class tkx extends OtherClientPlayerEntity {
    }
 
    private void tma() {
-      ClientPlayerEntity var1 = MinecraftClient.method_1551().field_1724;
-      double var2 = var1.method_23317();
-      double var4 = var1.method_23321();
-      double var6 = this.method_23317() - var2;
-      double var8 = this.method_23321() - var4;
+      ClientPlayerEntity var1 = MinecraftClient.getInstance().player;
+      double var2 = var1.getX();
+      double var4 = var1.getZ();
+      double var6 = this.getX() - var2;
+      double var8 = this.getZ() - var4;
       double var10 = Math.max(0.05, Math.sqrt(var6 * var6 + var8 * var8));
       double var12 = var6 / var10;
       double var14 = var8 / var10;
       double var16 = -var14;
+      double var18 = var12;
       double var20 = 0.0;
       double var22 = 0.0;
       double var24 = 0.0;
       boolean var26 = false;
-      String var27 = this.tlf;
-      switch (var27) {
+      switch (this.tlf) {
          case a.c(-1479931684, "ࢊ焜\ufbd2斦\uee71"):
             var22 = 0.0;
             var24 = 0.0;
             break;
          case a.c(1149394098, "峡╦꾸㇎"):
-            if (!this.tlr || Math.hypot(this.tlp - this.method_23317(), this.tlq - this.method_23321()) < 0.4) {
+            if (!this.tlr || Math.hypot(this.tlp - this.getX(), this.tlq - this.getZ()) < 0.4) {
                double var41 = this.tla.nextDouble() * Math.PI * 2.0;
                double var44 = this.tlc + this.tla.nextDouble() * (this.tld - this.tlc);
                this.tlp = var2 + Math.cos(var41) * var44;
@@ -164,17 +168,17 @@ public final class tkx extends OtherClientPlayerEntity {
                this.tlr = true;
             }
 
-            double var42 = this.tlp - this.method_23317();
-            double var45 = this.tlq - this.method_23321();
+            double var42 = this.tlp - this.getX();
+            double var45 = this.tlq - this.getZ();
             double var47 = Math.max(0.001, Math.sqrt(var42 * var42 + var45 * var45));
             var22 = var42 / var47;
             var24 = var45 / var47;
             var20 = 0.216;
             break;
          default:
-            double var29 = MathHelper.method_15350((this.tln - var10) * 0.9, -1.0, 1.0);
+            double var29 = MathHelper.clamp((this.tln - var10) * 0.9, -1.0, 1.0);
             var22 = var16 * this.tlk + var12 * var29;
-            var24 = var12 * this.tlk + var14 * var29;
+            var24 = var18 * this.tlk + var14 * var29;
             double var31 = Math.sqrt(var22 * var22 + var24 * var24);
             if (var31 > 1.0) {
                var22 /= var31;
@@ -184,12 +188,9 @@ public final class tkx extends OtherClientPlayerEntity {
             var20 = this.tlf.equals(a.b("䣸ㅸ뮻◃", -197310280)) ? 0.28 : 0.216;
             if (this.tlf.equals(a.d("餗\ue097橔\uf42c", 284568698, -1601129171)) && this.tlv > 0) {
                var22 = var12 * 0.8 + var16 * this.tlk * 0.4;
-               var24 = var14 * 0.8 + var12 * this.tlk * 0.4;
+               var24 = var14 * 0.8 + var18 * this.tlk * 0.4;
             }
-
-            String var35 = this.tlf;
-
-            double var33 = switch (var35) {
+            double var33 = switch (this.tlf) {
                case a.c(1063187964, "\uf5b3谽۶颚ፄ") -> 0.55;
                case a.c(-519171975, "္榹\ue37a紂") -> var10 < 3.6 ? 0.2 : 0.04;
                default -> 0.03;
@@ -217,37 +218,37 @@ public final class tkx extends OtherClientPlayerEntity {
       var20 *= this.tle;
       double var40 = var22 * var20;
       double var43 = var24 * var20;
-      double var46 = this.method_24828() ? 0.42 : 0.08;
+      double var46 = this.isOnGround() ? 0.42 : 0.08;
       this.tlh = this.tlh + (var40 - this.tlh) * var46;
       this.tlj = this.tlj + (var43 - this.tlj) * var46;
-      if (var26 && this.method_24828()) {
+      if (var26 && this.isOnGround()) {
          this.tli = 0.42;
       }
 
       this.tli = (this.tli - 0.08) * 0.98;
-      Vec3d var48 = this.method_73189();
-      this.field_5960 = false;
-      this.method_5784(MovementType.field_6308, new Vec3d(this.tlh, this.tli, this.tlj));
-      this.field_5960 = true;
-      if (this.field_5992 && this.tli < 0.0) {
+      Vec3d var48 = this.getEntityPos();
+      this.noClip = false;
+      this.move(MovementType.SELF, new Vec3d(this.tlh, this.tli, this.tlj));
+      this.noClip = true;
+      if (this.verticalCollision && this.tli < 0.0) {
          this.tli = 0.0;
       }
 
-      if (this.field_5992 && this.tli > 0.0) {
+      if (this.verticalCollision && this.tli > 0.0) {
          this.tli = 0.0;
       }
 
-      if (this.field_5976) {
-         Vec3d var34 = this.method_73189().method_1020(var48);
-         if (Math.abs(var34.field_1352) < Math.abs(this.tlh) * 0.5) {
+      if (this.horizontalCollision) {
+         Vec3d var34 = this.getEntityPos().subtract(var48);
+         if (Math.abs(var34.x) < Math.abs(this.tlh) * 0.5) {
             this.tlh = 0.0;
          }
 
-         if (Math.abs(var34.field_1350) < Math.abs(this.tlj) * 0.5) {
+         if (Math.abs(var34.z) < Math.abs(this.tlj) * 0.5) {
             this.tlj = 0.0;
          }
 
-         if (this.method_24828()) {
+         if (this.isOnGround()) {
             this.tli = 0.42;
          }
 
@@ -258,33 +259,33 @@ public final class tkx extends OtherClientPlayerEntity {
          this.tls = Math.max(0, this.tls - 1);
       }
 
-      if (this.method_23318() < var1.method_23318() - 6.0 || var10 > this.tld + 10.0 || this.tls > 40) {
+      if (this.getY() < var1.getY() - 6.0 || var10 > this.tld + 10.0 || this.tls > 40) {
          this.relocate(var1);
       }
    }
 
    private void tmb(ClientPlayerEntity var1) {
-      Vec3d var2 = var1.method_33571();
-      double var3 = var2.field_1352 - this.method_23317();
-      double var5 = var2.field_1350 - this.method_23321();
-      double var7 = var2.field_1351 - this.method_23320();
+      Vec3d var2 = var1.getEyePos();
+      double var3 = var2.x - this.getX();
+      double var5 = var2.z - this.getZ();
+      double var7 = var2.y - this.getEyeY();
       float var9 = (float)(Math.toDegrees(Math.atan2(var5, var3)) - 90.0);
       float var10 = (float)(-Math.toDegrees(Math.atan2(var7, Math.sqrt(var3 * var3 + var5 * var5))));
-      this.tlt = this.tlt + MathHelper.method_15393(var9 + (float)this.tla.nextGaussian() * 4.0F - this.tlt) * 0.45F;
+      this.tlt = this.tlt + MathHelper.wrapDegrees(var9 + (float)this.tla.nextGaussian() * 4.0F - this.tlt) * 0.45F;
       this.tlu = this.tlu + (var10 + (float)this.tla.nextGaussian() * 2.0F - this.tlu) * 0.4F;
-      this.method_36456(this.tlt);
-      this.method_36457(MathHelper.method_15363(this.tlu, -60.0F, 60.0F));
-      this.method_5847(this.tlt);
+      this.setYaw(this.tlt);
+      this.setPitch(MathHelper.clamp(this.tlu, -60.0F, 60.0F));
+      this.setHeadYaw(this.tlt);
    }
 
    public void relocate(ClientPlayerEntity var1) {
-      double var2 = Math.toRadians(var1.method_36454() + 90.0);
+      double var2 = Math.toRadians(var1.getYaw() + 90.0);
 
       for (int var4 = 0; var4 < 24; var4++) {
          double var5 = var2 + (this.tla.nextDouble() - 0.5) * Math.PI * (var4 < 12 ? 1.2 : 2.0);
          double var7 = this.tlc + this.tla.nextDouble() * (this.tld - this.tlc);
-         double var9 = var1.method_23317() + Math.cos(var5) * var7;
-         double var11 = var1.method_23321() + Math.sin(var5) * var7;
+         double var9 = var1.getX() + Math.cos(var5) * var7;
+         double var11 = var1.getZ() + Math.sin(var5) * var7;
          Double var13 = this.tmc(var1, var9, var11);
          if (var13 != null) {
             this.tmd(var9, var13, var11);
@@ -292,17 +293,17 @@ public final class tkx extends OtherClientPlayerEntity {
          }
       }
 
-      this.tmd(var1.method_23317() + Math.cos(var2) * this.tlc, var1.method_23318(), var1.method_23321() + Math.sin(var2) * this.tlc);
+      this.tmd(var1.getX() + Math.cos(var2) * this.tlc, var1.getY(), var1.getZ() + Math.sin(var2) * this.tlc);
    }
 
    private Double tmc(ClientPlayerEntity var1, double var2, double var4) {
-      double var6 = this.method_17681() * 0.5;
+      double var6 = this.getWidth() * 0.5;
 
       for (int var8 = 2; var8 >= -4; var8--) {
-         double var9 = Math.floor(var1.method_23318()) + var8;
-         Box var11 = new Box(var2 - var6, var9, var4 - var6, var2 + var6, var9 + this.method_17682(), var4 + var6);
-         Box var12 = var11.method_989(0.0, -0.2, 0.0);
-         if (this.method_73183().method_8587(this, var11) && !this.method_73183().method_8587(this, var12)) {
+         double var9 = Math.floor(var1.getY()) + var8;
+         Box var11 = new Box(var2 - var6, var9, var4 - var6, var2 + var6, var9 + this.getHeight(), var4 + var6);
+         Box var12 = var11.offset(0.0, -0.2, 0.0);
+         if (this.getEntityWorld().isSpaceEmpty(this, var11) && !this.getEntityWorld().isSpaceEmpty(this, var12)) {
             return var9;
          }
       }
@@ -312,10 +313,10 @@ public final class tkx extends OtherClientPlayerEntity {
 
    private void tmd(double var1, double var3, double var5) {
       this.tlh = this.tli = this.tlj = 0.0;
-      this.method_5808(var1, var3, var5, this.method_36454(), this.method_36455());
-      this.field_6038 = var1;
-      this.field_5971 = var3;
-      this.field_5989 = var5;
+      this.refreshPositionAndAngles(var1, var3, var5, this.getYaw(), this.getPitch());
+      this.lastRenderX = var1;
+      this.lastRenderY = var3;
+      this.lastRenderZ = var5;
       this.tls = 0;
       this.tlr = false;
    }

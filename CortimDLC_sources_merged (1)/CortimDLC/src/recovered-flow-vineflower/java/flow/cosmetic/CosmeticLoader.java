@@ -46,38 +46,29 @@ final class CosmeticLoader {
       JsonObject index = readJson("index.json");
       if (index == null) {
          return out;
-      } else {
-         for (JsonElement e : index.getAsJsonArray("items")) {
-            String id = e.getAsString();
-
-            try {
-               JsonObject doc = readJson(id + ".json");
-               if (doc != null) {
-                  out.add(parse(doc));
-               }
-            } catch (Throwable var6) {
-               System.out.println("cosmetic " + id + " skipped: " + var6);
-            }
-         }
-
-         return out;
       }
+
+      for (JsonElement e : index.getAsJsonArray("items")) {
+         String id = e.getAsString();
+
+         try {
+            JsonObject doc = readJson(id + ".json");
+            if (doc != null) {
+               out.add(parse(doc));
+            }
+         } catch (Throwable t) {
+            System.out.println("cosmetic " + id + " skipped: " + t);
+         }
+      }
+
+      return out;
    }
 
    private static JsonObject readJson(String name) {
-      try {
-         JsonObject var2;
-         try (InputStream in = ezj.open("/flow/cosmetics/" + name)) {
-            if (in == null) {
-               return null;
-            }
-
-            var2 = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
-         }
-
-         return var2;
-      } catch (Exception var6) {
-         System.out.println("can't read cosmetic " + name + ": " + var6);
+      try (InputStream in = ezj.open("/flow/cosmetics/" + name)) {
+         return in == null ? null : JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
+      } catch (Exception e) {
+         System.out.println("can't read cosmetic " + name + ": " + e);
          return null;
       }
    }
@@ -196,31 +187,29 @@ final class CosmeticLoader {
       rig(bones, perBone, s(doc, "slot", "wings"));
 
       for (Entry<Integer, String> e : roles.entrySet()) {
-         CosmeticItem.Bone bx = bones[e.getKey()];
-         String var52 = e.getValue();
-         switch (var52) {
+         CosmeticItem.Bone b = bones[e.getKey()];
+         switch ((String)e.getValue()) {
             case "chain":
-               bx.role = 2;
+               b.role = 2;
                break;
             case "ear":
-               bx.role = 3;
-               bx.side = bx.px < 0.0F ? -1 : 1;
+               b.role = 3;
+               b.side = b.px < 0.0F ? -1 : 1;
                break;
             case "head":
-               bx.role = 4;
+               b.role = 4;
                break;
             case "blink":
-               bx.role = 5;
+               b.role = 5;
                break;
             case "jiggle":
             case "jiggle_l":
             case "jiggle_r":
             case "glute_l":
             case "glute_r":
-               bx.role = 7;
-               String var60 = e.getValue();
+               b.role = 7;
 
-               bx.side = switch (var60) {
+               b.side = switch ((String)e.getValue()) {
                   case "jiggle_l" -> 1;
                   case "jiggle_r" -> 2;
                   case "glute_l" -> 3;
@@ -232,18 +221,18 @@ final class CosmeticLoader {
             case "show_air":
             case "show_happy":
             case "hide_happy":
-               bx.role = 8;
-               bx.side = e.getValue().startsWith("hide") ? 3 : (e.getValue().endsWith("hurt") ? 0 : (e.getValue().endsWith("air") ? 1 : 2));
+               b.role = 8;
+               b.side = e.getValue().startsWith("hide") ? 3 : (e.getValue().endsWith("hurt") ? 0 : (e.getValue().endsWith("air") ? 1 : 2));
                break;
             case "skirt_f":
             case "skirt_b":
             case "skirt_l":
             case "skirt_r":
-               bx.role = 6;
-               bx.side = "fblr".indexOf(e.getValue().charAt(6));
+               b.role = 6;
+               b.side = "fblr".indexOf(e.getValue().charAt(6));
                break;
             default:
-               bx.role = 0;
+               b.role = 0;
          }
       }
 
@@ -291,8 +280,7 @@ final class CosmeticLoader {
                   if (bi != null) {
                      for (Entry<String, JsonElement> ch : be.getValue().getAsJsonObject().entrySet()) {
                         CosmeticItem.Track track = track(ch.getValue().getAsJsonObject());
-                        String cols = ch.getKey();
-                        switch (cols) {
+                        switch ((String)ch.getKey()) {
                            case "rotation":
                               clip.rotation[bi] = track;
                               break;
@@ -317,7 +305,7 @@ final class CosmeticLoader {
             JsonObject p = pe.getAsJsonObject();
             Integer bi = index.get(p.get("bone").getAsString());
             if (bi != null) {
-               CosmeticItem.Bone bonex = bones[bi];
+               CosmeticItem.Bone bone = bones[bi];
                float[] off = vec(p.getAsJsonArray("offset"));
                float[] vel = vec(p.getAsJsonArray("velocity"));
                JsonArray life = p.getAsJsonArray("life");
@@ -325,8 +313,8 @@ final class CosmeticLoader {
                JsonArray cols = p.getAsJsonArray("colors");
                int[] colors = new int[cols.size()];
 
-               for (int ix = 0; ix < colors.length; ix++) {
-                  colors[ix] = color(cols.get(ix).getAsString());
+               for (int i = 0; i < colors.length; i++) {
+                  colors[i] = color(cols.get(i).getAsString());
                }
 
                String kind = s(p, "kind", "sparkle").toLowerCase(Locale.ROOT);
@@ -336,9 +324,9 @@ final class CosmeticLoader {
                emitters.add(
                   new CosmeticItem.Emitter(
                      bi,
-                     ox - bonex.px,
-                     off[1] - bonex.py,
-                     off[2] - bonex.pz,
+                     ox - bone.px,
+                     off[1] - bone.py,
+                     off[2] - bone.pz,
                      f(p, "rate", 1.0F),
                      life.get(0).getAsFloat(),
                      life.get(1).getAsFloat(),
@@ -618,21 +606,21 @@ final class CosmeticLoader {
       Vector3f u = new Vector3f(a.p[1]).sub(a.p[0]);
       if (u.lengthSquared() < 1.0E-10F) {
          return false;
-      } else {
-         u.normalize();
-         Vector3f w = new Vector3f(a.n).cross(u).normalize();
-         float[][] pa = new float[4][2];
-         float[][] pb = new float[4][2];
-
-         for (int k = 0; k < 4; k++) {
-            pa[k][0] = a.p[k].dot(u);
-            pa[k][1] = a.p[k].dot(w);
-            pb[k][0] = b.p[k].dot(u);
-            pb[k][1] = b.p[k].dot(w);
-         }
-
-         return !separated(pa, pa, pb) && !separated(pb, pa, pb);
       }
+
+      u.normalize();
+      Vector3f w = new Vector3f(a.n).cross(u).normalize();
+      float[][] pa = new float[4][2];
+      float[][] pb = new float[4][2];
+
+      for (int k = 0; k < 4; k++) {
+         pa[k][0] = a.p[k].dot(u);
+         pa[k][1] = a.p[k].dot(w);
+         pb[k][0] = b.p[k].dot(u);
+         pb[k][1] = b.p[k].dot(w);
+      }
+
+      return !separated(pa, pa, pb) && !separated(pb, pa, pb);
    }
 
    private static boolean separated(float[][] edges, float[][] pa, float[][] pb) {
@@ -701,13 +689,13 @@ final class CosmeticLoader {
       }
 
       for (int i = 0; i < bones.length; i++) {
-         CosmeticItem.Bone bx = bones[i];
-         if (bx.role == 2 || bx.role == 6) {
+         CosmeticItem.Bone b = bones[i];
+         if (b.role == 2 || b.role == 6) {
             Vector3f h = null;
 
             for (int j = 0; j < bones.length; j++) {
                if (bones[j].parent == i) {
-                  h = new Vector3f(bones[j].px - bx.px, bones[j].py - bx.py, bones[j].pz - bx.pz);
+                  h = new Vector3f(bones[j].px - b.px, bones[j].py - b.py, bones[j].pz - b.pz);
                   break;
                }
             }
@@ -733,9 +721,9 @@ final class CosmeticLoader {
             }
 
             h.normalize();
-            bx.hx = h.x;
-            bx.hy = h.y;
-            bx.hz = h.z;
+            b.hx = h.x;
+            b.hy = h.y;
+            b.hz = h.z;
          }
       }
    }
@@ -786,43 +774,38 @@ final class CosmeticLoader {
                }
             }
 
-            MinecraftClient mc = MinecraftClient.method_1551();
-            item.albedo = Identifier.method_60655("flow2", "cosmetic/" + item.id);
-            mc.method_1531().method_4616(item.albedo, new NativeImageBackedTexture(() -> "Flow2 cosmetic " + item.id, albedo));
+            MinecraftClient mc = MinecraftClient.getInstance();
+            item.albedo = Identifier.of("flow2", "cosmetic/" + item.id);
+            mc.getTextureManager().registerTexture(item.albedo, new NativeImageBackedTexture(() -> "Flow2 cosmetic " + item.id, albedo));
             if (item.emissivePath != null) {
                NativeImage em = image(item.emissivePath);
                if (em != null) {
-                  item.emissive = Identifier.method_60655("flow2", "cosmetic/" + item.id + "_e");
-                  mc.method_1531().method_4616(item.emissive, new NativeImageBackedTexture(() -> "Flow2 cosmetic glow " + item.id, em));
+                  item.emissive = Identifier.of("flow2", "cosmetic/" + item.id + "_e");
+                  mc.getTextureManager().registerTexture(item.emissive, new NativeImageBackedTexture(() -> "Flow2 cosmetic glow " + item.id, em));
                }
             }
 
             if (item.video != null) {
                int vw = Math.round(item.videoRect[4] > 0.0F ? item.videoRect[4] : 256.0F);
                int vh = Math.round(item.videoRect[5] > 0.0F ? item.videoRect[5] : 256.0F);
-               item.videoTexture = new VideoTexture(item.video, vw, vh, mc.method_1531().method_4619(item.albedo));
-               item.videoId = Identifier.method_60655("flow2", "cosmetic/" + item.id + "_video");
-               mc.method_1531().method_4616(item.videoId, item.videoTexture);
+               item.videoTexture = new VideoTexture(item.video, vw, vh, mc.getTextureManager().getTexture(item.albedo));
+               item.videoId = Identifier.of("flow2", "cosmetic/" + item.id + "_video");
+               mc.getTextureManager().registerTexture(item.videoId, item.videoTexture);
             }
 
             item.loaded = true;
-         } catch (Throwable var11) {
+         } catch (Throwable t) {
             item.failed = true;
-            System.out.println("cosmetic " + item.id + " textures failed: " + var11);
+            System.out.println("cosmetic " + item.id + " textures failed: " + t);
          }
       }
    }
 
    static NativeImage image(String name) {
-      try {
-         NativeImage var2;
-         try (InputStream in = ezj.open("/flow/cosmetics/" + name)) {
-            var2 = in == null ? null : NativeImage.method_4309(in);
-         }
-
-         return var2;
-      } catch (Exception var6) {
-         System.out.println("can't read cosmetic texture " + name + ": " + var6);
+      try (InputStream in = ezj.open("/flow/cosmetics/" + name)) {
+         return in == null ? null : NativeImage.read(in);
+      } catch (Exception e) {
+         System.out.println("can't read cosmetic texture " + name + ": " + e);
          return null;
       }
    }
@@ -833,20 +816,20 @@ final class CosmeticLoader {
       int x1;
       int y1;
       if (p.nu0 >= 0.0F) {
-         x0 = Math.max(0, (int)Math.floor(p.nu0 * img.method_4307()));
-         y0 = Math.max(0, (int)Math.floor(p.nv0 * img.method_4323()));
-         x1 = Math.min(img.method_4307(), (int)Math.ceil(p.nu1 * img.method_4307()));
-         y1 = Math.min(img.method_4323(), (int)Math.ceil(p.nv1 * img.method_4323()));
+         x0 = Math.max(0, (int)Math.floor(p.nu0 * img.getWidth()));
+         y0 = Math.max(0, (int)Math.floor(p.nv0 * img.getHeight()));
+         x1 = Math.min(img.getWidth(), (int)Math.ceil(p.nu1 * img.getWidth()));
+         y1 = Math.min(img.getHeight(), (int)Math.ceil(p.nv1 * img.getHeight()));
       } else {
          x0 = Math.max(0, p.u);
          y0 = Math.max(0, p.v);
-         x1 = Math.min(img.method_4307(), p.u + p.w);
-         y1 = Math.min(img.method_4323(), p.v + p.h);
+         x1 = Math.min(img.getWidth(), p.u + p.w);
+         y1 = Math.min(img.getHeight(), p.v + p.h);
       }
 
       for (int y = y0; y < y1; y++) {
          for (int x = x0; x < x1; x++) {
-            int a = img.method_61940(x, y) >>> 24;
+            int a = img.getColorArgb(x, y) >>> 24;
             if (a > 6 && a < 248) {
                return true;
             }

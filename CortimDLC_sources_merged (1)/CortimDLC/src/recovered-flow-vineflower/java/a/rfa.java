@@ -44,47 +44,47 @@ public class rfa extends kfe {
    private static boolean rfk(int var0) {
       if (rfg) {
          return false;
-      } else {
-         MinecraftClient var1 = MinecraftClient.method_1551();
-         if (var1.field_1773 == null) {
-            return false;
-         } else {
-            try {
-               OverlayTexture var2 = var1.field_1773.method_22975();
-               if (rff == null) {
-                  for (Field var6 : OverlayTexture.class.getDeclaredFields()) {
-                     if (var6.getType() == NativeImageBackedTexture.class) {
-                        var6.setAccessible(true);
-                        rff = var6;
-                        break;
-                     }
-                  }
+      }
 
-                  if (rff == null) {
-                     throw new IllegalStateException("overlay texture field not found");
-                  }
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.gameRenderer == null) {
+         return false;
+      }
+
+      try {
+         OverlayTexture var2 = var1.gameRenderer.getOverlayTexture();
+         if (rff == null) {
+            for (Field var6 : OverlayTexture.class.getDeclaredFields()) {
+               if (var6.getType() == NativeImageBackedTexture.class) {
+                  var6.setAccessible(true);
+                  rff = var6;
+                  break;
                }
+            }
 
-               NativeImageBackedTexture var8 = (NativeImageBackedTexture)rff.get(var2);
-               NativeImage var9 = var8.method_4525();
-               if (var9 == null) {
-                  return false;
-               } else {
-                  for (int var10 = 0; var10 < 8; var10++) {
-                     for (int var11 = 0; var11 < 16; var11++) {
-                        var9.method_61941(var11, var10, var0);
-                     }
-                  }
-
-                  var8.method_4524();
-                  return true;
-               }
-            } catch (Throwable var7) {
-               rfg = true;
-               System.out.println("hit colour unavailable: " + var7);
-               return false;
+            if (rff == null) {
+               throw new IllegalStateException("overlay texture field not found");
             }
          }
+
+         NativeImageBackedTexture var8 = (NativeImageBackedTexture)rff.get(var2);
+         NativeImage var9 = var8.getImage();
+         if (var9 == null) {
+            return false;
+         }
+
+         for (int var10 = 0; var10 < 8; var10++) {
+            for (int var11 = 0; var11 < 16; var11++) {
+               var9.setColorArgb(var11, var10, var0);
+            }
+         }
+
+         var8.upload();
+         return true;
+      } catch (Throwable var7) {
+         rfg = true;
+         System.out.println("hit colour unavailable: " + var7);
+         return false;
       }
    }
 }

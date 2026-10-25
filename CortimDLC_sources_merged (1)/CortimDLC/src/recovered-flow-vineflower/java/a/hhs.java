@@ -82,20 +82,20 @@ final class hhs extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return false;
-      } else {
-         List var5 = iov.ACCENT.getModes();
-         int var6 = var5.size();
-         float var7 = this.y + 11.0F;
-
-         for (int var8 = 0; var8 < var6; var8++) {
-            float var9 = this.hhz(var8, var6);
-            if (irr.inside(var2, var3, var9 - 6.0F - 2.0F, var7 - 6.0F - 2.0F, 16.0F, 16.0F)) {
-               iov.ACCENT.set((String)var5.get(var8));
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      List var5 = iov.ACCENT.getModes();
+      int var6 = var5.size();
+      float var7 = this.y + 11.0F;
+
+      for (int var8 = 0; var8 < var6; var8++) {
+         float var9 = this.hhz(var8, var6);
+         if (irr.inside(var2, var3, var9 - 6.0F - 2.0F, var7 - 6.0F - 2.0F, 16.0F, 16.0F)) {
+            iov.ACCENT.set((String)var5.get(var8));
+            return true;
+         }
+      }
+
+      return false;
    }
 }

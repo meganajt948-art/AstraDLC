@@ -93,7 +93,7 @@ public class ldr extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != null) {
          long var3 = System.currentTimeMillis();
          if (var3 - this.len > 1000L) {
@@ -113,8 +113,8 @@ public class ldr extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.field_1755 == null && var1.field_1729.method_1613()) {
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.currentScreen == null && var1.mouse.isCursorLocked()) {
          this.lel.frame(var1, var2);
       } else {
          this.lel.forgetFrame();
@@ -122,26 +122,29 @@ public class ldr extends kfe {
    }
 
    private void leq(MinecraftClient var1) {
-      if (var1.field_1690.field_1886.method_1434()
-         || var1.field_1755 == null && var1.method_22683() != null && GLFW.glfwGetMouseButton(var1.method_22683().method_4490(), 0) == 1) {
+      if (var1.options.attackKey.isPressed()
+         || var1.currentScreen == null && var1.getWindow() != null && GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 0) == 1) {
          this.lem = System.currentTimeMillis();
       }
    }
 
    private boolean ler(MinecraftClient var1, ClientPlayerEntity var2) {
       if (!this.lel.ready()
-         || var1.field_1755 != null
-         || !var1.method_1569()
-         || !var1.field_1729.method_1613()
-         || !var2.method_5805()
-         || var2.method_7325()
+         || var1.currentScreen != null
+         || !var1.isWindowFocused()
+         || !var1.mouse.isCursorLocked()
+         || !var2.isAlive()
+         || var2.isSpectator()
          || tcz.mode() == tcw.RECORD) {
          return false;
-      } else if (var1.field_1761 != null && var1.field_1761.method_2923()) {
+      }
+
+      if (var1.interactionManager != null && var1.interactionManager.isBreakingBlock()) {
          return false;
-      } else if (!var2.method_6115() && !kmy.busy()) {
-         String var3 = this.led.get();
-         switch (var3) {
+      }
+
+      if (!var2.isUsingItem() && !kmy.busy()) {
+         switch (this.led.get()) {
             case a.c(1817051083, "ﾍ蘝ಀ銰ᥲ鿃▅걶㈡"):
                if (System.currentTimeMillis() - this.lem > 650L) {
                   return false;
@@ -153,7 +156,7 @@ public class ldr extends kfe {
                }
          }
 
-         return this.les(var2.method_6047());
+         return this.les(var2.getMainHandStack());
       } else {
          return false;
       }
@@ -162,67 +165,64 @@ public class ldr extends kfe {
    private boolean les(ItemStack var1) {
       return this.lef.is(a.d("栋ᆕ魑", -650041140, -1607712635))
          ? true
-         : var1.method_31573(ItemTags.field_42611)
-            || var1.method_31573(ItemTags.field_42612)
-            || var1.method_7909() instanceof MaceItem
-            || var1.method_7909() instanceof TridentItem;
+         : var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
    }
 
    private Entity let(MinecraftClient var1, ClientPlayerEntity var2) {
-      Vec3d var3 = var2.method_33571();
+      Vec3d var3 = var2.getEyePos();
       double var4 = this.leb.get();
       double var6 = this.lea.get() * 0.5;
       Entity var8 = this.lel.target();
       if (var8 != null && this.leu(var2, var8) && lev(var3, var8, var4) && lew(var2, var3, var8) <= Math.min(180.0, var6 * 1.25)) {
          return var8;
-      } else {
-         Entity var9 = null;
-         double var10 = Double.MAX_VALUE;
+      }
 
-         for (Entity var13 : var1.field_1687.method_8333(var2, var2.method_5829().method_1014(var4 + 1.0), var2x -> this.leu(var2, var2x))) {
-            if (lev(var3, var13, var4)) {
-               double var14 = lew(var2, var3, var13);
-               if (!(var14 > var6) && var14 < var10) {
-                  var10 = var14;
-                  var9 = var13;
-               }
+      Entity var9 = null;
+      double var10 = Double.MAX_VALUE;
+
+      for (Entity var13 : var1.world.getOtherEntities(var2, var2.getBoundingBox().expand(var4 + 1.0), var2x -> this.leu(var2, var2x))) {
+         if (lev(var3, var13, var4)) {
+            double var14 = lew(var2, var3, var13);
+            if (!(var14 > var6) && var14 < var10) {
+               var10 = var14;
+               var9 = var13;
             }
          }
-
-         return var9;
       }
+
+      return var9;
    }
 
    private boolean leu(ClientPlayerEntity var1, Entity var2) {
-      if (!(var2 != var1 && var2 instanceof LivingEntity var3) || !var3.method_5805() || !var2.method_5732()) {
+      if (!(var2 != var1 && var2 instanceof LivingEntity var3) || !var3.isAlive() || !var2.isAttackable()) {
          return false;
-      } else if (var2 instanceof tkx) {
-         return tcz.mode() == tcw.TEST;
       } else {
+         if (var2 instanceof tkx) {
+            return tcz.mode() == tcw.TEST;
+         }
+
          if (var2 instanceof PlayerEntity var4) {
-            if (!this.leg.get() || var4.method_7325() || hhf.protects(var4)) {
+            if (!this.leg.get() || var4.isSpectator() || hhf.protects(var4)) {
                return false;
             }
          } else if (!this.leh.get() || !(var2 instanceof Monster)) {
             return false;
          }
 
-         return this.lei.get() || var1.method_6057(var2);
+         return this.lei.get() || var1.canSee(var2);
       }
    }
 
    private static boolean lev(Vec3d var0, Entity var1, double var2) {
-      return var1.method_5829().method_49271(var0) <= var2 * var2;
+      return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
    private static double lew(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
-      Vec3d var3 = var2.method_5829().method_1005();
-      double var4 = Math.toDegrees(Math.atan2(var3.field_1350 - var1.field_1350, var3.field_1352 - var1.field_1352)) - 90.0;
-      double var6 = -Math.toDegrees(
-         Math.atan2(var3.field_1351 - var1.field_1351, Math.hypot(var3.field_1352 - var1.field_1352, var3.field_1350 - var1.field_1350))
-      );
-      double var8 = MathHelper.method_15338(var4 - var0.method_36454());
-      double var10 = var6 - var0.method_36455();
+      Vec3d var3 = var2.getBoundingBox().getCenter();
+      double var4 = Math.toDegrees(Math.atan2(var3.z - var1.z, var3.x - var1.x)) - 90.0;
+      double var6 = -Math.toDegrees(Math.atan2(var3.y - var1.y, Math.hypot(var3.x - var1.x, var3.z - var1.z)));
+      double var8 = MathHelper.wrapDegrees(var4 - var0.getYaw());
+      double var10 = var6 - var0.getPitch();
       return Math.sqrt(var8 * var8 + var10 * var10 * 0.25);
    }
 }

@@ -18,7 +18,7 @@ final class sup {
 
    sup(ItemEntity var1) {
       this.first = var1;
-      this.stack = var1.method_6983();
-      this.count = this.stack.method_7947();
+      this.stack = var1.getStack();
+      this.count = this.stack.getCount();
    }
 }

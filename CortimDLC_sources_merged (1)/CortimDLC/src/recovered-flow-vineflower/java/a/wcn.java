@@ -35,9 +35,9 @@ public final class wcn {
    }
 
    public static void ensure(MinecraftClient var0) {
-      ClientPlayNetworkHandler var1 = var0.method_1562();
+      ClientPlayNetworkHandler var1 = var0.getNetworkHandler();
       if (var1 != null && !wct && !ejp.isActive()) {
-         Channel var2 = channel(var1.method_48296());
+         Channel var2 = channel(var1.getConnection());
          if (var2 != null && var2.isOpen()) {
             ChannelPipeline var3 = var2.pipeline();
             if (var3.get(a.c(2101498861, "厇⨼ꃬ㺅딗㏋覵S鸈ᒼ鍮椈")) == null && var3.get(a.d("垝⸽ꓬ㪕녌㟬趔ђ騄Ⴚ靣洚\ue3c4穢", -2063449462, 55645545)) != null) {
@@ -67,7 +67,7 @@ public final class wcn {
          }
 
          return (Channel)wcs.get(var0);
-      } catch (RuntimeException | ReflectiveOperationException var5) {
+      } catch (ReflectiveOperationException | RuntimeException var5) {
          wct = true;
          System.out.println(a.d("\ud93aꂚ⩋됲㿫륋͌諵ᒭ鸜\u19cb\ue3f1浳\uf4d9纅\uf863䈻췢坔턈壼⊣같㞗뇲", -2125612801, 506683820) + var5);
          return null;
@@ -76,7 +76,7 @@ public final class wcn {
 
    private static void wcw(Packet<?> var0) {
       if (var0 instanceof BundlePacket var5) {
-         for (Packet var3 : var5.method_48324()) {
+         for (Packet var3 : var5.getPackets()) {
             wcw(var3);
          }
       } else {

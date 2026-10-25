@@ -45,7 +45,7 @@ public final class dyh {
    private static final Map<Sprite, dxy> dyn = new ConcurrentHashMap<>();
    private static final long dyo = ead();
    private static final Direction[] dyp = Direction.values();
-   private static final MinecraftClient dyq = MinecraftClient.method_1551();
+   private static final MinecraftClient dyq = MinecraftClient.getInstance();
    private static final Set<dyh> dyr = Collections.newSetFromMap(new IdentityHashMap<>());
    private static final double[] dys = eac();
    private final dtv dyt;
@@ -248,7 +248,7 @@ public final class dyh {
       ClientPlayerEntity var1 = this.dyt.getPlayer();
       ClientWorld var2 = this.dyt.getWorld();
       if (var1 != null && var2 != null) {
-         BakedModelManager var3 = dyq.method_1554();
+         BakedModelManager var3 = dyq.getBakedModelManager();
          if (var3 != this.dzk) {
             this.dzk = var3;
             dym.clear();
@@ -256,12 +256,12 @@ public final class dyh {
          }
 
          float var4 = this.dyt.partialTick();
-         Vec3d var5 = var1.method_5836(var4);
-         float var6 = var1.method_5705(var4);
-         float var7 = var1.method_5695(var4);
-         this.dzn = var5.field_1352;
-         this.dzo = var5.field_1351;
-         this.dzp = var5.field_1350;
+         Vec3d var5 = var1.getCameraPosVec(var4);
+         float var6 = var1.getYaw(var4);
+         float var7 = var1.getPitch(var4);
+         this.dzn = var5.x;
+         this.dzo = var5.y;
+         this.dzp = var5.z;
          double var8 = Math.toRadians(var6);
          double var10 = Math.toRadians(var7);
          this.dzq = -Math.sin(var8) * Math.cos(var10);
@@ -272,7 +272,7 @@ public final class dyh {
          this.dzv = -this.dzu * this.dzr;
          this.dzw = this.dzu * this.dzq - this.dzt * this.dzs;
          this.dzx = this.dzt * this.dzr;
-         double var12 = dyq.field_1690 == null ? 70.0 : ((Integer)dyq.field_1690.method_41808().method_41753()).intValue();
+         double var12 = dyq.options == null ? 70.0 : dyq.options.getFov().getValue().intValue();
          this.dzz = Math.tan(Math.toRadians(var12) * 0.5);
          this.dzy = this.dzz * 256.0 / 170.0;
          dxv var14 = new dxv(var2, var1, this.dyt.crosshair);
@@ -343,42 +343,38 @@ public final class dyh {
       double var14 = var8 * this.dzq + var10 * this.dzr + var12 * this.dzs;
       if (var14 <= 0.05) {
          return false;
-      } else {
-         double var16 = var8 * this.dzt + var12 * this.dzu;
-         double var18 = var8 * this.dzv + var10 * this.dzw + var12 * this.dzx;
-         var7[0] = (var16 / var14 / this.dzy + 1.0) * 0.5 * 256.0;
-         var7[1] = (1.0 - var18 / var14 / this.dzz) * 0.5 * 170.0;
-         var7[2] = var14;
-         return true;
       }
+
+      double var16 = var8 * this.dzt + var12 * this.dzu;
+      double var18 = var8 * this.dzv + var10 * this.dzw + var12 * this.dzx;
+      var7[0] = (var16 / var14 / this.dzy + 1.0) * 0.5 * 256.0;
+      var7[1] = (1.0 - var18 / var14 / this.dzz) * 0.5 * 170.0;
+      var7[2] = var14;
+      return true;
    }
 
    private void eak(ClientWorld var1, ClientPlayerEntity var2, float var3) {
       this.dyw.clear();
       double[] var4 = new double[3];
-      Entity var5 = var2.method_5668();
+      Entity var5 = var2.getRootVehicle();
 
-      for (Entity var7 : var1.method_18112()) {
-         if (var7 != var2 && var7 != var5 && !var7.method_31481() && !(var7 instanceof DisplayEntity) && !var7.method_5767()) {
-            Vec3d var8 = var7.method_30950(var3);
-            double var9 = var8.field_1352 - this.dzn;
-            double var11 = var8.field_1351 - this.dzo;
-            double var13 = var8.field_1350 - this.dzp;
+      for (Entity var7 : var1.getEntities()) {
+         if (var7 != var2 && var7 != var5 && !var7.isRemoved() && !(var7 instanceof DisplayEntity) && !var7.isInvisible()) {
+            Vec3d var8 = var7.getLerpedPos(var3);
+            double var9 = var8.x - this.dzn;
+            double var11 = var8.y - this.dzo;
+            double var13 = var8.z - this.dzp;
             if (!(var9 * var9 + var11 * var11 + var13 * var13 > 3136.0)) {
-               Box var15 = var7.method_5829().method_997(var8.method_1020(var7.method_73189()));
+               Box var15 = var7.getBoundingBox().offset(var8.subtract(var7.getEntityPos()));
                int var16 = eal(var7);
                if (var7 instanceof OtherClientPlayerEntity) {
-                  double var17 = Math.min(0.5, var15.method_17940() * 0.28);
-                  this.eam(var15.method_35575(var15.field_1325 - var17).method_1009(0.02, 0.0, 0.02), -2050932);
-                  this.eam(var15.method_35578(var15.field_1325 - var17), var16);
-                  if (this.eaj(var8.field_1352, var15.field_1325 + 0.35, var8.field_1350, var4)
-                     && var4[0] >= 0.0
-                     && var4[0] < 256.0
-                     && var4[1] >= 0.0
-                     && var4[1] < 170.0) {
+                  double var17 = Math.min(0.5, var15.getLengthY() * 0.28);
+                  this.eam(var15.withMinY(var15.maxY - var17).expand(0.02, 0.0, 0.02), -2050932);
+                  this.eam(var15.withMaxY(var15.maxY - var17), var16);
+                  if (this.eaj(var8.x, var15.maxY + 0.35, var8.z, var4) && var4[0] >= 0.0 && var4[0] < 256.0 && var4[1] >= 0.0 && var4[1] < 170.0) {
                      int var19 = (int)var4[1] * 256 + (int)var4[0];
                      if (this.dyv[var19] + 0.5 >= var4[2] || var4[2] < 6.0) {
-                        this.dyw.add(new dxe(var7.method_5477().getString(), (float)(var4[0] / 256.0), (float)(var4[1] / 170.0), -1));
+                        this.dyw.add(new dxe(var7.getName().getString(), (float)(var4[0] / 256.0), (float)(var4[1] / 170.0), -1));
                      }
                   }
                } else {
@@ -410,9 +406,9 @@ public final class dyh {
       int var12 = 0;
 
       for (int var13 = 0; var13 < 8; var13++) {
-         double var14 = (var13 & 1) == 0 ? var1.field_1323 : var1.field_1320;
-         double var16 = (var13 & 2) == 0 ? var1.field_1322 : var1.field_1325;
-         double var18 = (var13 & 4) == 0 ? var1.field_1321 : var1.field_1324;
+         double var14 = (var13 & 1) == 0 ? var1.minX : var1.maxX;
+         double var16 = (var13 & 2) == 0 ? var1.minY : var1.maxY;
+         double var18 = (var13 & 4) == 0 ? var1.minZ : var1.maxZ;
          if (this.eaj(var14, var16, var18, var3)) {
             var12++;
             var4 = Math.min(var4, var3[0]);
@@ -445,8 +441,8 @@ public final class dyh {
                int var35 = -1;
                double[] var36 = new double[]{this.dzn, this.dzo, this.dzp};
                double[] var37 = new double[]{var23, var25, var27};
-               double[] var38 = new double[]{var1.field_1323, var1.field_1322, var1.field_1321};
-               double[] var39 = new double[]{var1.field_1320, var1.field_1325, var1.field_1324};
+               double[] var38 = new double[]{var1.minX, var1.minY, var1.minZ};
+               double[] var39 = new double[]{var1.maxX, var1.maxY, var1.maxZ};
                boolean var40 = false;
 
                for (int var41 = 0; var41 < 3; var41++) {
@@ -513,16 +509,16 @@ public final class dyh {
    private static dxy ean(Sprite var0) {
       return var0 != null && dyo >= 0L ? dyn.computeIfAbsent(var0, var0x -> {
          try {
-            SpriteContents var1 = var0x.method_45851();
+            SpriteContents var1 = var0x.getContents();
             NativeImage var2 = (NativeImage)ejl.get(var1, dyo);
-            int var3 = var1.method_45807();
-            int var4 = var1.method_45815();
+            int var3 = var1.getWidth();
+            int var4 = var1.getHeight();
             if (var2 != null && var3 > 0 && var4 > 0) {
                int[] var5 = new int[var3 * var4];
 
                for (int var6 = 0; var6 < var4; var6++) {
                   for (int var7 = 0; var7 < var3; var7++) {
-                     var5[var6 * var3 + var7] = var2.method_61940(var7, var6);
+                     var5[var6 * var3 + var7] = var2.getColorArgb(var7, var6);
                   }
                }
 

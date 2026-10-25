@@ -35,9 +35,7 @@ public final class pzc {
    }
 
    public static pzc empty(BlockPos var0) {
-      return new pzc(
-         var0.method_10263(), var0.method_10264(), var0.method_10260(), var0.method_10263() - 1, var0.method_10264() - 1, var0.method_10260() - 1, 0
-      );
+      return new pzc(var0.getX(), var0.getY(), var0.getZ(), var0.getX() - 1, var0.getY() - 1, var0.getZ() - 1, 0);
    }
 
    public boolean contains(int var1, int var2, int var3) {
@@ -45,7 +43,7 @@ public final class pzc {
    }
 
    public boolean contains(BlockPos var1) {
-      return this.contains(var1.method_10263(), var1.method_10264(), var1.method_10260());
+      return this.contains(var1.getX(), var1.getY(), var1.getZ());
    }
 
    public int volume() {
@@ -66,9 +64,9 @@ public final class pzc {
    }
 
    public double distanceTo(Vec3d var1) {
-      double var2 = Math.max(0.0, Math.max(this.minX - var1.field_1352, var1.field_1352 - (this.maxX + 1)));
-      double var4 = Math.max(0.0, Math.max(this.minY - var1.field_1351, var1.field_1351 - (this.maxY + 1)));
-      double var6 = Math.max(0.0, Math.max(this.minZ - var1.field_1350, var1.field_1350 - (this.maxZ + 1)));
+      double var2 = Math.max(0.0, Math.max(this.minX - var1.x, var1.x - (this.maxX + 1)));
+      double var4 = Math.max(0.0, Math.max(this.minY - var1.y, var1.y - (this.maxY + 1)));
+      double var6 = Math.max(0.0, Math.max(this.minZ - var1.z, var1.z - (this.maxZ + 1)));
       return Math.sqrt(var2 * var2 + var4 * var4 + var6 * var6);
    }
 
@@ -92,10 +90,10 @@ public final class pzc {
    }
 
    public static boolean isOre(BlockState var0) {
-      Block var1 = var0.method_26204();
+      Block var1 = var0.getBlock();
       Boolean var2 = pzg.get(var1);
       if (var2 == null) {
-         String var3 = Registries.field_41175.method_10221(var1).method_12832();
+         String var3 = Registries.BLOCK.getId(var1).getPath();
          var2 = var3.endsWith(a.d("觇\uf046窈\ue4ee", 677064703, -1548704157)) || var3.equals(a.d("\ue6d2齬ᖲ诉\u0012蚨㳡딻⭟ꇯ☻\udc5a劖쬽", 1293802267, -383828570));
          pzg.put(var1, var2);
       }
@@ -104,12 +102,12 @@ public final class pzc {
    }
 
    public static boolean loaded(World var0, Vec3d var1) {
-      int var2 = (int)Math.floor(var1.field_1352);
-      int var3 = (int)Math.floor(var1.field_1350);
+      int var2 = (int)Math.floor(var1.x);
+      int var3 = (int)Math.floor(var1.z);
 
       for (int var4 = var2 - 40 >> 4; var4 <= var2 + 40 >> 4; var4++) {
          for (int var5 = var3 - 40 >> 4; var5 <= var3 + 40 >> 4; var5++) {
-            if (!var0.method_8393(var4, var5)) {
+            if (!var0.isChunkLoaded(var4, var5)) {
                return false;
             }
          }
@@ -119,9 +117,9 @@ public final class pzc {
    }
 
    public static pzc detect(World var0, Vec3d var1) {
-      int var2 = (int)Math.floor(var1.field_1352);
-      int var3 = (int)Math.floor(var1.field_1351);
-      int var4 = (int)Math.floor(var1.field_1350);
+      int var2 = (int)Math.floor(var1.x);
+      int var3 = (int)Math.floor(var1.y);
+      int var4 = (int)Math.floor(var1.z);
       byte var5 = 81;
       byte var6 = 35;
       int[] var7 = new int[var5];
@@ -134,10 +132,10 @@ public final class pzc {
          for (int var13 = 0; var13 < var5; var13++) {
             int var14 = var2 - 40 + var12;
             int var15 = var4 - 40 + var13;
-            if (var0.method_8393(var14 >> 4, var15 >> 4)) {
+            if (var0.isChunkLoaded(var14 >> 4, var15 >> 4)) {
                for (int var16 = 0; var16 < var6; var16++) {
-                  var11.method_10103(var14, var3 - 26 + var16, var15);
-                  if (isOre(var0.method_8320(var11))) {
+                  var11.set(var14, var3 - 26 + var16, var15);
+                  if (isOre(var0.getBlockState(var11))) {
                      var7[var12]++;
                      var8[var13]++;
                      var9[var16]++;
@@ -150,37 +148,37 @@ public final class pzc {
 
       if (var10 < 12) {
          return null;
-      } else {
-         int[] var23 = pzj(var7);
-         int[] var24 = pzj(var8);
-         int[] var25 = pzj(var9);
-         if (var23 != null && var24 != null && var25 != null) {
-            int var26 = var23[1] - var23[0] + 1;
-            int var27 = var24[1] - var24[0] + 1;
-            int var17 = var25[1] - var25[0] + 1;
-            if (var26 >= 4 && var27 >= 4 && var26 <= 90 && var27 <= 90 && var17 >= 1 && var17 <= 32) {
-               pzc var18 = new pzc(
-                  var2 - 40 + var23[0], var3 - 26 + var25[0], var4 - 40 + var24[0], var2 - 40 + var23[1], var3 - 26 + var25[1], var4 - 40 + var24[1], 0
-               );
-               int var19 = 0;
+      }
 
-               for (int var20 = var18.minX; var20 <= var18.maxX; var20++) {
-                  for (int var21 = var18.minZ; var21 <= var18.maxZ; var21++) {
-                     for (int var22 = var18.minY; var22 <= var18.maxY; var22++) {
-                        if (isOre(var0.method_8320(var11.method_10103(var20, var22, var21)))) {
-                           var19++;
-                        }
+      int[] var23 = pzj(var7);
+      int[] var24 = pzj(var8);
+      int[] var25 = pzj(var9);
+      if (var23 != null && var24 != null && var25 != null) {
+         int var26 = var23[1] - var23[0] + 1;
+         int var27 = var24[1] - var24[0] + 1;
+         int var17 = var25[1] - var25[0] + 1;
+         if (var26 >= 4 && var27 >= 4 && var26 <= 90 && var27 <= 90 && var17 >= 1 && var17 <= 32) {
+            pzc var18 = new pzc(
+               var2 - 40 + var23[0], var3 - 26 + var25[0], var4 - 40 + var24[0], var2 - 40 + var23[1], var3 - 26 + var25[1], var4 - 40 + var24[1], 0
+            );
+            int var19 = 0;
+
+            for (int var20 = var18.minX; var20 <= var18.maxX; var20++) {
+               for (int var21 = var18.minZ; var21 <= var18.maxZ; var21++) {
+                  for (int var22 = var18.minY; var22 <= var18.maxY; var22++) {
+                     if (isOre(var0.getBlockState(var11.set(var20, var22, var21)))) {
+                        var19++;
                      }
                   }
                }
-
-               return !(var19 < var10 * 0.6) && var19 >= 10 ? new pzc(var18.minX, var18.minY, var18.minZ, var18.maxX, var18.maxY, var18.maxZ, var19) : null;
-            } else {
-               return null;
             }
+
+            return !(var19 < var10 * 0.6) && var19 >= 10 ? new pzc(var18.minX, var18.minY, var18.minZ, var18.maxX, var18.maxY, var18.maxZ, var19) : null;
          } else {
             return null;
          }
+      } else {
+         return null;
       }
    }
 

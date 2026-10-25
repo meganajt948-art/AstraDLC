@@ -97,12 +97,12 @@ public class oqv extends kfe {
    }
 
    public static void onUseBlock(BlockPos var0) {
-      orn = var0.method_10062();
+      orn = var0.toImmutable();
       oro = System.currentTimeMillis();
    }
 
    public static boolean wantsItem(Item var0) {
-      return oqw != null && oqw.oqx.contains(Registries.field_41178.method_10221(var0).toString());
+      return oqw != null && oqw.oqx.contains(Registries.ITEM.getId(var0).toString());
    }
 
    public static boolean listEmpty() {
@@ -131,7 +131,7 @@ public class oqv extends kfe {
             var3.remove();
          }
 
-         orl.put(var1.method_10062(), new oqq(var2 ? 2 : 1, System.currentTimeMillis()));
+         orl.put(var1.toImmutable(), new oqq(var2 ? 2 : 1, System.currentTimeMillis()));
       }
    }
 
@@ -157,12 +157,12 @@ public class oqv extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      if (var1.field_1687 != orm) {
-         orm = var1.field_1687;
+      if (var1.world != orm) {
+         orm = var1.world;
          orl.clear();
       }
 
-      boolean var2 = var1.field_1755 instanceof HandledScreen && vxl.isStorage(var1.field_1755);
+      boolean var2 = var1.currentScreen instanceof HandledScreen && vxl.isStorage(var1.currentScreen);
       boolean var3 = var2 && this.oqy.isBound() && vzz.isDown(var1, this.oqy.get());
       if (var3 && !this.orr && !this.orq && !osq.busy()) {
          this.osk(var1);
@@ -170,19 +170,19 @@ public class oqv extends kfe {
 
       this.orr = var3;
       if (this.orq) {
-         if (var1.field_1755 instanceof HandledScreen var4 && var4.method_17577().field_7763 == this.ors) {
+         if (var1.currentScreen instanceof HandledScreen var4 && var4.getScreenHandler().syncId == this.ors) {
             long var11 = System.currentTimeMillis();
             if (var11 >= this.orw) {
-               ScreenHandler var7 = var4.method_17577();
-               PlayerInventory var8 = var1.field_1724.method_31548();
+               ScreenHandler var7 = var4.getScreenHandler();
+               PlayerInventory var8 = var1.player.getInventory();
 
                while (!this.orp.isEmpty()) {
                   int var9 = this.orp.poll();
-                  Slot var10 = (Slot)var7.field_7761.get(var9);
-                  if (var10.method_7681() && this.osj(var10)) {
-                     if (vxl.hasRoom(var7, var8, var10.method_7677())) {
-                        vxl.click(var1, var7, var9, 0, SlotActionType.field_7794);
-                        if (var10.method_7681() && this.osj(var10)) {
+                  Slot var10 = var7.slots.get(var9);
+                  if (var10.hasStack() && this.osj(var10)) {
+                     if (vxl.hasRoom(var7, var8, var10.getStack())) {
+                        vxl.click(var1, var7, var9, 0, SlotActionType.QUICK_MOVE);
+                        if (var10.hasStack() && this.osj(var10)) {
                            this.orv++;
                         }
 
@@ -209,12 +209,12 @@ public class oqv extends kfe {
    }
 
    private boolean osj(Slot var1) {
-      return this.oqx.contains(Registries.field_41178.method_10221(var1.method_7677().method_7909()).toString());
+      return this.oqx.contains(Registries.ITEM.getId(var1.getStack().getItem()).toString());
    }
 
    private void osk(MinecraftClient var1) {
-      HandledScreen var2 = (HandledScreen)var1.field_1755;
-      ScreenHandler var3 = var2.method_17577();
+      HandledScreen var2 = (HandledScreen)var1.currentScreen;
+      ScreenHandler var3 = var2.getScreenHandler();
       long var4 = System.currentTimeMillis();
       this.orx = orn != null && var4 - oro < 5000L ? orn : null;
       this.orp.clear();
@@ -228,15 +228,15 @@ public class oqv extends kfe {
             ),
             false
          );
-      } else if (!var3.method_34255().method_7960()) {
+      } else if (!var3.getCursorStack().isEmpty()) {
          this.osn(
             wap.s(a.d("튽ꬩ⇻뿞㑝닰ࢮ脚Ἄ閠ቢ\ue81b暁ｿ甭\uf392䦉완峺\udaee博⤝ꞩ㱹먚ブ褷ܢ鷞ᮗ逽", 183186264, 446685610), a.b("笨ʋ衜ᙘ鷷ᬼꄘ⳼뚼㱲믔䆤콻囃\udce7年\ue05a毪\uf543獫犯胏ฃ閬Ꭳ", 356351762)),
             false
          );
       } else {
-         for (Slot var7 : vxl.own(var3, var1.field_1724.method_31548())) {
-            if (var7.method_7681() && this.osj(var7)) {
-               this.orp.add(var7.field_7874);
+         for (Slot var7 : vxl.own(var3, var1.player.getInventory())) {
+            if (var7.hasStack() && this.osj(var7)) {
+               this.orp.add(var7.id);
             }
          }
 
@@ -247,7 +247,7 @@ public class oqv extends kfe {
             this.osm(1);
          } else {
             this.orq = true;
-            this.ors = var3.field_7763;
+            this.ors = var3.syncId;
             this.orw = var4;
          }
       }
@@ -273,7 +273,7 @@ public class oqv extends kfe {
          this.osm(1);
          this.osn(wap.s(a.d("\ud98fꀋ⫒뒭㽱릎", -1728190778, -1501020389), a.b("斆ᰐ雂ࣂ荥י뾉㉦", 1918591385)) + this.ort, true);
          if (this.ora.get()) {
-            var2.method_25419();
+            var2.close();
          }
       }
 
@@ -303,7 +303,7 @@ public class oqv extends kfe {
          uut.beginFrame();
          float var2 = ork.width(this.ory) + 16.0F;
          float var3 = 13.0F;
-         float var4 = (var1.method_51421() - var2) * 0.5F;
+         float var4 = (var1.getScaledWindowWidth() - var2) * 0.5F;
          float var5 = 6.0F;
          uut.shadow(var1, var4, var5 + 1.0F, var2, var3, var3 * 0.5F, 6.0F, 1610612736);
          uut.round(var1, var4, var5, var2, var3, var3 * 0.5F, ujt.withAlpha(iov.window, 240));
@@ -314,22 +314,22 @@ public class oqv extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       oqv var2 = oqw;
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       if (var2 != null
          && var2.isEnabled()
          && var2.orb.get()
          && !orl.isEmpty()
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+         && var3.world != null
+         && var3.player != null
+         && !var3.options.hudHidden
+         && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.osa) {
             var2.osa = unf.frame();
 
             usn var4;
             try {
-               var4 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var4 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var15) {
                return;
             }
@@ -342,7 +342,7 @@ public class oqv extends kfe {
 
                for (Entry var8 : orl.entrySet()) {
                   BlockPos var9 = (BlockPos)var8.getKey();
-                  if (!(var4.distance(var9.method_10263() + 0.5, var9.method_10264() + 0.5, var9.method_10260() + 0.5) > 160.0)) {
+                  if (!(var4.distance(var9.getX() + 0.5, var9.getY() + 0.5, var9.getZ() + 0.5) > 160.0)) {
                      float var10 = Math.min(1.0F, (float)(var5 - ((oqq)var8.getValue()).at()) / 650.0F);
                      int var11 = ((oqq)var8.getValue()).state() == 1 ? -45730 : -15795;
                      var2.osp(var0, var4, var9, var11, var10);
@@ -357,12 +357,12 @@ public class oqv extends kfe {
 
    private void osp(DrawContext var1, usn var2, BlockPos var3, int var4, float var5) {
       double var6 = 0.06 * (1.0 - var5);
-      double var8 = var3.method_10263() + 0.0625 - var6;
-      double var10 = var3.method_10264() - var6;
-      double var12 = var3.method_10260() + 0.0625 - var6;
-      double var14 = var3.method_10263() + 0.9375 + var6;
-      double var16 = var3.method_10264() + 0.875 + var6;
-      double var18 = var3.method_10260() + 0.9375 + var6;
+      double var8 = var3.getX() + 0.0625 - var6;
+      double var10 = var3.getY() - var6;
+      double var12 = var3.getZ() + 0.0625 - var6;
+      double var14 = var3.getX() + 0.9375 + var6;
+      double var16 = var3.getY() + 0.875 + var6;
+      double var18 = var3.getZ() + 0.9375 + var6;
       int var20 = ujt.withAlpha(var4, Math.round(210.0F * var5));
       double[][] var21 = this.osf;
 
@@ -380,7 +380,7 @@ public class oqv extends kfe {
          }
       }
 
-      if (var2.project(var3.method_10263() + 0.5, var3.method_10264() + 1.15, var3.method_10260() + 0.5, this.osb)) {
+      if (var2.project(var3.getX() + 0.5, var3.getY() + 1.15, var3.getZ() + 0.5, this.osb)) {
          uut.circle(var1, this.osb[0], this.osb[1], 2.2F, ujt.withAlpha(var4, Math.round(230.0F * var5)));
       }
    }

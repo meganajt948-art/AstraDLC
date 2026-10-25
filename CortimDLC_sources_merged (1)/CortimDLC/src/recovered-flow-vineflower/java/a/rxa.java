@@ -59,7 +59,7 @@ public class rxa extends kfe implements vht {
 
    @Override
    public void apply(MatrixStack var1, Arm var2) {
-      boolean var3 = var2 == Arm.field_6183;
+      boolean var3 = var2 == Arm.RIGHT;
       boolean var4 = !var3 && !this.rxi.get();
       float var5 = var3 ? 1.0F : -1.0F;
       float var6 = (float)(var4 ? this.rxj.get() : this.rxb.get());
@@ -70,13 +70,13 @@ public class rxa extends kfe implements vht {
       float var11 = (float)(var4 ? this.rxo.get() : this.rxg.get());
       float var12 = (float)(var4 ? this.rxp.get() : this.rxh.get());
       if (var6 != 0.0F || var7 != 0.0F || var8 != 0.0F || var9 != 1.0F || var10 != 0.0F || var11 != 0.0F || var12 != 0.0F) {
-         var1.method_46416(var6 * var5, var7, var8);
-         var1.method_46416(0.56F * var5, -0.52F, -0.72F);
-         var1.method_22907(RotationAxis.field_40716.rotationDegrees(var11 * var5));
-         var1.method_22907(RotationAxis.field_40714.rotationDegrees(var10));
-         var1.method_22907(RotationAxis.field_40718.rotationDegrees(var12 * var5));
-         var1.method_22905(var9, var9, var9);
-         var1.method_46416(-0.56F * var5, 0.52F, 0.72F);
+         var1.translate(var6 * var5, var7, var8);
+         var1.translate(0.56F * var5, -0.52F, -0.72F);
+         var1.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(var11 * var5));
+         var1.multiply(RotationAxis.POSITIVE_X.rotationDegrees(var10));
+         var1.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(var12 * var5));
+         var1.scale(var9, var9, var9);
+         var1.translate(-0.56F * var5, 0.52F, 0.72F);
       }
    }
 }

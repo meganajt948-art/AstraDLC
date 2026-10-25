@@ -354,56 +354,56 @@ public final class esz {
       float var2 = eto(var0);
       if (var2 < 1.0E-4F) {
          return -1;
-      } else {
-         float[] var3 = new float[10];
-         Arrays.fill(var3, -1.0F);
-
-         for (est var7 : var1) {
-            float var8 = 0.0F;
-            float[] var9 = var7.esv;
-
-            for (int var10 = 0; var10 < 560; var10++) {
-               var8 += var0[var10] * var9[var10];
-            }
-
-            float var16 = var8 / (var2 * var7.esw);
-            if (var16 > var3[var7.esu]) {
-               var3[var7.esu] = var16;
-            }
-         }
-
-         int var11 = -1;
-         float var12 = -1.0F;
-         float var13 = -1.0F;
-
-         for (int var14 = 0; var14 < 10; var14++) {
-            float var15 = var3[var14];
-            if (var15 > var12) {
-               var13 = var12;
-               var12 = var15;
-               var11 = var14;
-            } else if (var15 > var13) {
-               var13 = var15;
-            }
-         }
-
-         return !(var12 < 0.55F) && !(var12 - var13 < 0.04F) ? var11 : -1;
       }
+
+      float[] var3 = new float[10];
+      Arrays.fill(var3, -1.0F);
+
+      for (est var7 : var1) {
+         float var8 = 0.0F;
+         float[] var9 = var7.esv;
+
+         for (int var10 = 0; var10 < 560; var10++) {
+            var8 += var0[var10] * var9[var10];
+         }
+
+         float var16 = var8 / (var2 * var7.esw);
+         if (var16 > var3[var7.esu]) {
+            var3[var7.esu] = var16;
+         }
+      }
+
+      int var11 = -1;
+      float var12 = -1.0F;
+      float var13 = -1.0F;
+
+      for (int var14 = 0; var14 < 10; var14++) {
+         float var15 = var3[var14];
+         if (var15 > var12) {
+            var13 = var12;
+            var12 = var15;
+            var11 = var14;
+         } else if (var15 > var13) {
+            var13 = var15;
+         }
+      }
+
+      return !(var12 < 0.55F) && !(var12 - var13 < 0.04F) ? var11 : -1;
    }
 
    private static est[] etq() {
       est[] var0 = etd;
       if (var0 != null) {
          return var0;
-      } else {
-         synchronized (esz.class) {
-            if (etd != null) {
-               return etd;
-            } else {
-               etd = etr();
-               return etd;
-            }
+      }
+
+      synchronized (esz.class) {
+         if (etd != null) {
+            return etd;
          }
+
+         etd = etr();
+         return etd;
       }
    }
 
@@ -502,20 +502,20 @@ public final class esz {
 
       if (var14 < 0) {
          return null;
-      } else {
-         int var23 = var14 - var13 + 1;
-         int var24 = var16 - var15 + 1;
-         boolean[] var25 = new boolean[var23 * var24];
-
-         for (int var20 = 0; var20 < var24; var20++) {
-            int var21 = (var15 + var20) * var4 + var13;
-
-            for (int var22 = 0; var22 < var23; var22++) {
-               var25[var20 * var23 + var22] = (var12[var21 + var22] & 255) < 128;
-            }
-         }
-
-         return etn(var25, var23, var24);
       }
+
+      int var23 = var14 - var13 + 1;
+      int var24 = var16 - var15 + 1;
+      boolean[] var25 = new boolean[var23 * var24];
+
+      for (int var20 = 0; var20 < var24; var20++) {
+         int var21 = (var15 + var20) * var4 + var13;
+
+         for (int var22 = 0; var22 < var23; var22++) {
+            var25[var20 * var23 + var22] = (var12[var21 + var22] & 255) < 128;
+         }
+      }
+
+      return etn(var25, var23, var24);
    }
 }

@@ -22,11 +22,11 @@ public class rdd extends kfe {
 
    @Override
    protected void onEnable() {
-      ClientWorld var1 = this.mc.field_1687;
+      ClientWorld var1 = this.mc.world;
       if (var1 != null) {
-         rdi = var1.method_8532();
+         rdi = var1.getTimeOfDay();
          rdj = true;
-         rdk = var1.method_75260();
+         rdk = var1.getTime();
          wcn.ensure(this.mc);
       }
 
@@ -38,10 +38,10 @@ public class rdd extends kfe {
    @Override
    protected void onDisable() {
       rdg = false;
-      ClientWorld var1 = this.mc.field_1687;
+      ClientWorld var1 = this.mc.world;
       if (var1 != null) {
-         long var2 = rdj ? Math.max(0L, var1.method_75260() - rdk) : 0L;
-         var1.method_29089(var1.method_75260(), rdi + var2, rdj);
+         long var2 = rdj ? Math.max(0L, var1.getTime() - rdk) : 0L;
+         var1.setTime(var1.getTime(), rdi + var2, rdj);
       }
    }
 
@@ -53,21 +53,21 @@ public class rdd extends kfe {
    }
 
    private static void rdn(MinecraftClient var0) {
-      ClientWorld var1 = var0.field_1687;
+      ClientWorld var1 = var0.world;
       if (var1 != null) {
-         long var2 = rdp(var1.method_8532());
-         if (var1.method_8532() != var2) {
-            var1.method_29089(var1.method_75260(), var2, false);
+         long var2 = rdp(var1.getTimeOfDay());
+         if (var1.getTimeOfDay() != var2) {
+            var1.setTime(var1.getTime(), var2, false);
          }
       }
    }
 
    private static Packet<?> rdo(Packet<?> var0) {
       if (rdg && var0 instanceof WorldTimeUpdateS2CPacket var1) {
-         rdi = var1.comp_3220();
-         rdj = var1.comp_3221();
-         rdk = var1.comp_3219();
-         return new WorldTimeUpdateS2CPacket(var1.comp_3219(), rdp(var1.comp_3220()), false);
+         rdi = var1.timeOfDay();
+         rdj = var1.tickDayTime();
+         rdk = var1.time();
+         return new WorldTimeUpdateS2CPacket(var1.time(), rdp(var1.timeOfDay()), false);
       } else {
          return var0;
       }

@@ -20,7 +20,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 
 public final class eao {
-   private static final MinecraftClient eap = MinecraftClient.method_1551();
+   private static final MinecraftClient eap = MinecraftClient.getInstance();
    private static final int eaq = 128;
    private static final int ear = 8;
    private static final long eas = 120000L;
@@ -61,10 +61,10 @@ public final class eao {
          erc var1 = erp.solve(var0);
          if (!var1.code().isEmpty()) {
             return new eso(var1.code(), var1.message());
-         } else {
-            eso var4 = esz.solve(var0);
-            return var4.code().isEmpty() ? new eso("", var1.message()) : var4;
          }
+
+         eso var4 = esz.solve(var0);
+         return var4.code().isEmpty() ? new eso("", var1.message()) : var4;
       } catch (erh var3) {
          eso var2 = esz.solve(var0);
          return var2.code().isEmpty() ? new eso("", var3.getMessage()) : var2;
@@ -109,8 +109,8 @@ public final class eao {
 
    void tick() {
       if (++this.eay % 4 == 0) {
-         ClientPlayerEntity var1 = eap.field_1724;
-         ClientWorld var2 = eap.field_1687;
+         ClientPlayerEntity var1 = eap.player;
+         ClientWorld var2 = eap.world;
          if (var1 != null && var2 != null) {
             if (this.ebd != null || System.currentTimeMillis() <= this.eax) {
                boolean var3 = this.ebw(var1, var2) || this.eby(var1, var2);
@@ -139,9 +139,9 @@ public final class eao {
    }
 
    private boolean ebx(List<ItemFrameEntity> var1, ClientWorld var2) {
-      Direction var3 = ((ItemFrameEntity)var1.get(0)).method_5735();
-      boolean var4 = var3.method_10166() == Axis.field_11051;
-      boolean var5 = var3 == Direction.field_11043 || var3 == Direction.field_11034;
+      Direction var3 = ((ItemFrameEntity)var1.get(0)).getHorizontalFacing();
+      boolean var4 = var3.getAxis() == Axis.Z;
+      boolean var5 = var3 == Direction.NORTH || var3 == Direction.EAST;
       int var6 = Integer.MAX_VALUE;
       int var7 = Integer.MIN_VALUE;
       int var8 = Integer.MAX_VALUE;
@@ -149,92 +149,96 @@ public final class eao {
       long var10 = var3.ordinal();
 
       for (ItemFrameEntity var13 : var1) {
-         BlockPos var14 = var13.method_59940();
-         int var15 = var4 ? var14.method_10263() : var14.method_10260();
+         BlockPos var14 = var13.getAttachedBlockPos();
+         int var15 = var4 ? var14.getX() : var14.getZ();
          var6 = Math.min(var6, var15);
          var7 = Math.max(var7, var15);
-         var8 = Math.min(var8, var14.method_10264());
-         var9 = Math.max(var9, var14.method_10264());
-         var10 = var10 * 31L + var13.method_5628();
-         var10 = var10 * 31L + var14.method_10063();
-         var10 = var10 * 31L + var13.method_6934();
-         var10 = var10 * 31L + ebz(var13.method_6940());
+         var8 = Math.min(var8, var14.getY());
+         var9 = Math.max(var9, var14.getY());
+         var10 = var10 * 31L + var13.getId();
+         var10 = var10 * 31L + var14.asLong();
+         var10 = var10 * 31L + var13.getRotation();
+         var10 = var10 * 31L + ebz(var13.getHeldItemStack());
       }
 
       int var28 = var7 - var6 + 1;
       int var29 = var9 - var8 + 1;
       if (var28 > 8 || var29 > 8) {
          return false;
-      } else if (var10 == this.ebb && !this.eba && this.ebd != null) {
+      }
+
+      if (var10 == this.ebb && !this.eba && this.ebd != null) {
          return true;
-      } else if (var10 == this.ebc && !this.eba) {
+      }
+
+      if (var10 == this.ebc && !this.eba) {
+         return false;
+      }
+
+      int var30 = var28 * 128;
+      int var31 = var29 * 128;
+      int[] var16 = new int[var30 * var31];
+      int var17 = 0;
+
+      for (ItemFrameEntity var19 : var1) {
+         MapState var20 = FilledMapItem.getMapState(var19.getHeldItemStack(), var2);
+         if (var20 != null && var20.colors != null && var20.colors.length == 16384) {
+            var17++;
+            BlockPos var21 = var19.getAttachedBlockPos();
+            int var22 = var4 ? var21.getX() : var21.getZ();
+            int var23 = (var5 ? var7 - var22 : var22 - var6) * 128;
+            int var24 = (var9 - var21.getY()) * 128;
+            eca(var20.colors, var19.getRotation() & 3, var16, var30, var23, var24);
+         }
+      }
+
+      if (var17 == var1.size() && enq.seamRatio(var16, var30, var31) > 2.0) {
+         this.ebc = var10;
          return false;
       } else {
-         int var30 = var28 * 128;
-         int var31 = var29 * 128;
-         int[] var16 = new int[var30 * var31];
-         int var17 = 0;
-
-         for (ItemFrameEntity var19 : var1) {
-            MapState var20 = FilledMapItem.method_8001(var19.method_6940(), var2);
-            if (var20 != null && var20.field_122 != null && var20.field_122.length == 16384) {
-               var17++;
-               BlockPos var21 = var19.method_59940();
-               int var22 = var4 ? var21.method_10263() : var21.method_10260();
-               int var23 = (var5 ? var7 - var22 : var22 - var6) * 128;
-               int var24 = (var9 - var21.method_10264()) * 128;
-               eca(var20.field_122, var19.method_6934() & 3, var16, var30, var23, var24);
-            }
-         }
-
-         if (var17 == var1.size() && enq.seamRatio(var16, var30, var31) > 2.0) {
-            this.ebc = var10;
-            return false;
-         } else {
-            boolean var32 = var10 != this.ebb;
-            this.ebb = var10;
-            this.eba = false;
-            this.ecb(var16, var30, var31, var17, var1.size(), var32);
-            return true;
-         }
+         boolean var32 = var10 != this.ebb;
+         this.ebb = var10;
+         this.eba = false;
+         this.ecb(var16, var30, var31, var17, var1.size(), var32);
+         return true;
       }
    }
 
    private boolean eby(ClientPlayerEntity var1, ClientWorld var2) {
-      ItemStack var3 = var1.method_6047();
-      if (!(var3.method_7909() instanceof FilledMapItem)) {
+      ItemStack var3 = var1.getMainHandStack();
+      if (!(var3.getItem() instanceof FilledMapItem)) {
          return false;
-      } else {
-         MapState var4 = FilledMapItem.method_8001(var3, var2);
-         if (var4 != null && var4.field_122 != null && var4.field_122.length == 16384) {
-            long var5 = 55150044793L + ebz(var3);
-            if (var5 == this.ebb && !this.eba && this.ebd != null) {
-               return true;
-            } else {
-               boolean var7 = var5 != this.ebb;
-               this.ebb = var5;
-               this.eba = false;
-               int[] var8 = new int[16384];
-               eca(var4.field_122, 0, var8, 128, 0, 0);
-               this.ecb(var8, 128, 128, 1, 1, var7);
-               return true;
-            }
-         } else {
-            return false;
+      }
+
+      MapState var4 = FilledMapItem.getMapState(var3, var2);
+      if (var4 != null && var4.colors != null && var4.colors.length == 16384) {
+         long var5 = 55150044793L + ebz(var3);
+         if (var5 == this.ebb && !this.eba && this.ebd != null) {
+            return true;
          }
+
+         boolean var7 = var5 != this.ebb;
+         this.ebb = var5;
+         this.eba = false;
+         int[] var8 = new int[16384];
+         eca(var4.colors, 0, var8, 128, 0, 0);
+         this.ecb(var8, 128, 128, 1, 1, var7);
+         return true;
+      } else {
+         return false;
       }
    }
 
    private static int ebz(ItemStack var0) {
-      MapIdComponent var1 = (MapIdComponent)var0.method_58694(DataComponentTypes.field_49646);
-      return var1 == null ? -1 : var1.comp_2315();
+      MapIdComponent var1 = var0.get(DataComponentTypes.MAP_ID);
+      return var1 == null ? -1 : var1.id();
    }
 
    private static void eca(byte[] var0, int var1, int[] var2, int var3, int var4, int var5) {
       for (int var6 = 0; var6 < 128; var6++) {
          for (int var7 = 0; var7 < 128; var7++) {
             int var8 = var0[var6 * 128 + var7] & 255;
-            int var9 = var8 < 4 ? 0 : MapColor.method_38480(var8);
+            int var9 = var8 < 4 ? 0 : MapColor.getRenderColor(var8);
             int var10;
             int var11;
             switch (var1) {
@@ -405,30 +409,30 @@ public final class eao {
       int[] var1 = this.ebd;
       if (var1 == null) {
          return null;
-      } else {
-         if (this.ebt != null && (this.ebt.width != this.ebe || this.ebt.height != this.ebf)) {
-            this.close();
-         }
-
-         if (this.ebt == null) {
-            this.ebt = new elb(a.c(-129124801, "뙛쿨䔪\udb5f傟혥汿"), this.ebe, this.ebf);
-            this.ebl = true;
-         }
-
-         if (this.ebl) {
-            for (int var2 = 0; var2 < this.ebf; var2++) {
-               for (int var3 = 0; var3 < this.ebe; var3++) {
-                  int var4 = var1[var2 * this.ebe + var3];
-                  this.ebt.set(var3, var2, var4 == 0 ? -15066078 : var4);
-               }
-            }
-
-            this.ebt.upload();
-            this.ebl = false;
-         }
-
-         return this.ebt;
       }
+
+      if (this.ebt != null && (this.ebt.width != this.ebe || this.ebt.height != this.ebf)) {
+         this.close();
+      }
+
+      if (this.ebt == null) {
+         this.ebt = new elb(a.c(-129124801, "뙛쿨䔪\udb5f傟혥汿"), this.ebe, this.ebf);
+         this.ebl = true;
+      }
+
+      if (this.ebl) {
+         for (int var2 = 0; var2 < this.ebf; var2++) {
+            for (int var3 = 0; var3 < this.ebe; var3++) {
+               int var4 = var1[var2 * this.ebe + var3];
+               this.ebt.set(var3, var2, var4 == 0 ? -15066078 : var4);
+            }
+         }
+
+         this.ebt.upload();
+         this.ebl = false;
+      }
+
+      return this.ebt;
    }
 
    void close() {

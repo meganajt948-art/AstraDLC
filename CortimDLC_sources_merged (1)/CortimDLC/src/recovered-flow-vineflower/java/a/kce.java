@@ -29,7 +29,7 @@ public final class kce {
    ) {
       this.kcs();
       Wordmark var12 = this.kcr(var6 * var5);
-      Matrix3x2fStack var13 = var1.method_51448();
+      Matrix3x2fStack var13 = var1.getMatrices();
       var13.pushMatrix();
       var13.translate(var3, var4);
       var13.scale(var5, var5);
@@ -132,25 +132,25 @@ public final class kce {
       float var2 = var1 % 5.5F / 1.6F;
       if (var2 > 1.0F) {
          return 0.0F;
-      } else {
-         float var3 = (var0 - (-0.2F + 1.4F * var2)) / 0.09F;
-         return 0.55F * (float)Math.exp(-var3 * var3);
       }
+
+      float var3 = (var0 - (-0.2F + 1.4F * var2)) / 0.09F;
+      return 0.55F * (float)Math.exp(-var3 * var3);
    }
 
    private Wordmark kcr(float var1) {
       int var2 = Math.max(12, Math.round(this.kcg * var1));
       if (this.kch != null && this.kch.px == var2) {
          return this.kch;
-      } else {
-         if (this.kch != null) {
-            this.kci.add(this.kch);
-            this.kcj.add(unf.frame());
-         }
-
-         this.kch = Wordmark.build(this.kcg, var1, true);
-         return this.kch;
       }
+
+      if (this.kch != null) {
+         this.kci.add(this.kch);
+         this.kcj.add(unf.frame());
+      }
+
+      this.kch = Wordmark.build(this.kcg, var1, true);
+      return this.kch;
    }
 
    private void kcs() {

@@ -56,14 +56,14 @@ public final class A {
 
             try {
                flow.getMethod("injected").invoke(instance);
-            } catch (Throwable var7) {
-               log("splash request failed: " + var7);
+            } catch (Throwable t) {
+               log("splash request failed: " + t);
             }
 
             started = true;
             log("bootstrap complete — press Right Shift in game for the GUI");
-         } catch (Throwable var8) {
-            Throwable cause = var8 instanceof InvocationTargetException && var8.getCause() != null ? var8.getCause() : var8;
+         } catch (Throwable t) {
+            Throwable cause = t instanceof InvocationTargetException && t.getCause() != null ? t.getCause() : t;
             log("ERROR: bootstrap failed: " + cause);
             logStack(cause);
          }
@@ -80,7 +80,7 @@ public final class A {
                   if (name.startsWith("flow.")) {
                      try {
                         c = this.findClass(name);
-                     } catch (ClassNotFoundException var7) {
+                     } catch (ClassNotFoundException ignored) {
                         c = super.loadClass(name, false);
                      }
                   } else {
@@ -124,7 +124,7 @@ public final class A {
    private static String selfJar() {
       try {
          return new File(A.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
-      } catch (Throwable var1) {
+      } catch (Throwable t) {
          return "flow2.jar";
       }
    }

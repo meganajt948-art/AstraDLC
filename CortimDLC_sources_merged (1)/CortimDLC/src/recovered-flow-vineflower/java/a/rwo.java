@@ -31,30 +31,30 @@ public class rwo extends kfe {
 
    public static void afterExtraction(WorldRenderState var0) {
       rwo var1 = rwp;
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var1 != null && var1.isEnabled() && var2.field_1687 != null) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var1 != null && var1.isEnabled() && var2.world != null) {
          ukl.style(1)
             .set((float)var1.rwu.get(), (float)var1.rws.get(), (float)var1.rwt.get(), (float)var1.rwv.get(), (float)var1.rww.get(), (float)var1.rwx.get());
          int var3 = var1.rwr.color() | 0xFF000000;
          int var4 = var1.rwr.color2() | 0xFF000000;
          boolean var5 = ukl.canFade();
 
-         for (EntityRenderState var7 : var0.field_61735) {
+         for (EntityRenderState var7 : var0.entityRenderStates) {
             if (var7 instanceof PlayerEntityRenderState var8
-               && var2.field_1687.method_8469(var8.field_53528) instanceof PlayerEntity var9
-               && var9 != var2.field_1724
+               && var2.world.getEntityById(var8.id) instanceof PlayerEntity var9
+               && var9 != var2.player
                && hhf.isFriend(var9)) {
                boolean var11 = Cosmetics.hidesBody(var8);
                if (var5) {
                   if (!var11) {
-                     var8.field_53333 = false;
-                     var8.field_53461 = false;
+                     var8.invisible = false;
+                     var8.invisibleToPlayer = false;
                   }
 
                   ukl.fade(var7, 1.0F - (float)var1.rwq.get());
                } else if (var1.rwq.get() > 0.0 && !var11) {
-                  var8.field_53333 = true;
-                  var8.field_53461 = false;
+                  var8.invisible = true;
+                  var8.invisibleToPlayer = false;
                }
 
                ukl.paint(var7, 1, var3, var4);

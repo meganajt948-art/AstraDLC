@@ -175,7 +175,7 @@ final class CosmeticMesh {
                jiggle(m, b, d, origin);
                break;
             case 8:
-               boolean var10000 = switch (b.side) {
+               boolean on = switch (b.side) {
                   case 0 -> d.hurt;
                   case 1 -> d.air;
                   default -> {
@@ -187,8 +187,6 @@ final class CosmeticMesh {
                   }
                   case 3 -> !d.happy || d.hurt || d.air;
                };
-
-               boolean on = var10000;
                if (!on) {
                   about(m, Q.identity().scale(0.001F), origin);
                }
@@ -301,10 +299,10 @@ final class CosmeticMesh {
    private static float wrap(float t, float length) {
       if (length <= 1.0E-4F) {
          return 0.0F;
-      } else {
-         float m = t % length;
-         return m < 0.0F ? m + length : m;
       }
+
+      float m = t % length;
+      return m < 0.0F ? m + length : m;
    }
 
    static void emit(CosmeticItem item, Matrix4f[] bones, Matrix4f base, Entry entry, VertexConsumer vc, int pass, int light, int argb, int frame) {
@@ -331,14 +329,14 @@ final class CosmeticMesh {
       boolean blink,
       boolean liveVideo
    ) {
-      Matrix4f pos = E_POS.set(entry.method_23761()).mul(base);
-      Matrix3f nrm = E_NRM.set(entry.method_23762()).mul(E_TMP.set(base).invert().transpose());
+      Matrix4f pos = E_POS.set(entry.getPositionMatrix()).mul(base);
+      Matrix3f nrm = E_NRM.set(entry.getNormalMatrix()).mul(E_TMP.set(base).invert().transpose());
       int frames = Math.max(1, item.frames);
       float vScale = 1.0F / frames;
       float vOff = (float)(frame % frames) / frames;
       Vector4f p = E_P;
       Vector3f n = E_N;
-      int overlay = OverlayTexture.field_21444;
+      int overlay = OverlayTexture.DEFAULT_UV;
 
       for (int i = 0; i < item.bones.length; i++) {
          CosmeticItem.Bone bone = item.bones[i];
@@ -376,7 +374,7 @@ final class CosmeticMesh {
 
             float u = Math.min(1.0F, Math.max(0.0F, (v[k + 3] - r[0]) / du));
             float w = Math.min(1.0F, Math.max(0.0F, (v[k + 4] - r[1]) / dv));
-            vc.method_23919(p.x, p.y, p.z, argb, u, w, overlay, light, n.x, n.y, n.z);
+            vc.vertex(p.x, p.y, p.z, argb, u, w, overlay, light, n.x, n.y, n.z);
          }
       }
    }
@@ -407,7 +405,7 @@ final class CosmeticMesh {
                n.div(len);
             }
 
-            vc.method_23919(p.x, p.y, p.z, argb, v[k + 3] + bu, vOff + (v[k + 4] + bv) * vScale, overlay, light, n.x, n.y, n.z);
+            vc.vertex(p.x, p.y, p.z, argb, v[k + 3] + bu, vOff + (v[k + 4] + bv) * vScale, overlay, light, n.x, n.y, n.z);
          }
       }
    }
@@ -445,30 +443,30 @@ final class CosmeticMesh {
    private static int glowQuads(float[] v, Matrix4f m, ByteBuffer out, int argb, float vScale, float vOff, Vector3f[] c, float bu, float bv) {
       if (v == null) {
          return 0;
-      } else {
-         int written = 0;
-         byte r = (byte)(argb >> 16);
-         byte g = (byte)(argb >> 8);
-         byte b = (byte)argb;
-         byte a = (byte)(argb >>> 24);
+      }
 
-         for (int q = 0; q + 31 < v.length; q += 32) {
-            for (int k = 0; k < 4; k++) {
-               m.transformPosition(v[q + k * 8], v[q + k * 8 + 1], v[q + k * 8 + 2], c[k]);
-            }
+      int written = 0;
+      byte r = (byte)(argb >> 16);
+      byte g = (byte)(argb >> 8);
+      byte b = (byte)argb;
+      byte a = (byte)(argb >>> 24);
 
-            for (int k : TRI) {
-               int o = q + k * 8;
-               out.putFloat(c[k].x).putFloat(c[k].y).putFloat(c[k].z);
-               out.putFloat(v[o + 3] + bu).putFloat(vOff + (v[o + 4] + bv) * vScale);
-               out.put(r).put(g).put(b).put(a);
-            }
-
-            written += 6;
+      for (int q = 0; q + 31 < v.length; q += 32) {
+         for (int k = 0; k < 4; k++) {
+            m.transformPosition(v[q + k * 8], v[q + k * 8 + 1], v[q + k * 8 + 2], c[k]);
          }
 
-         return written;
+         for (int k : TRI) {
+            int o = q + k * 8;
+            out.putFloat(c[k].x).putFloat(c[k].y).putFloat(c[k].z);
+            out.putFloat(v[o + 3] + bu).putFloat(vOff + (v[o + 4] + bv) * vScale);
+            out.put(r).put(g).put(b).put(a);
+         }
+
+         written += 6;
       }
+
+      return written;
    }
 
    static boolean hasGlass(CosmeticItem item) {

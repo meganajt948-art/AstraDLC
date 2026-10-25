@@ -83,6 +83,6 @@ final class uhg {
    }
 
    private static void uhr(Runnable var0) {
-      MinecraftClient.method_1551().execute(var0);
+      MinecraftClient.getInstance().execute(var0);
    }
 }

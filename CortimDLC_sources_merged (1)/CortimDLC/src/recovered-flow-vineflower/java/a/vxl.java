@@ -44,20 +44,20 @@ public final class vxl {
 
       if (vxm == null) {
          return null;
-      } else {
-         try {
-            return (Slot)vxm.get(var0);
-         } catch (RuntimeException | IllegalAccessException var2) {
-            return null;
-         }
+      }
+
+      try {
+         return (Slot)vxm.get(var0);
+      } catch (IllegalAccessException | RuntimeException var2) {
+         return null;
       }
    }
 
    public static List<Slot> own(ScreenHandler var0, PlayerInventory var1) {
       ArrayList var2 = new ArrayList();
 
-      for (Slot var4 : var0.field_7761) {
-         if (var4.field_7871 != var1) {
+      for (Slot var4 : var0.slots) {
+         if (var4.inventory != var1) {
             var2.add(var4);
          }
       }
@@ -66,17 +66,17 @@ public final class vxl {
    }
 
    public static Slot room(ScreenHandler var0, PlayerInventory var1, ItemStack var2, boolean var3) {
-      for (Slot var5 : var0.field_7761) {
-         if (var5.field_7871 == var1 && vxq(var5, var3) && var5.method_7681()) {
-            ItemStack var6 = var5.method_7677();
-            if (ItemStack.method_31577(var2, var6) && var6.method_7947() < var6.method_7914()) {
+      for (Slot var5 : var0.slots) {
+         if (var5.inventory == var1 && vxq(var5, var3) && var5.hasStack()) {
+            ItemStack var6 = var5.getStack();
+            if (ItemStack.areItemsAndComponentsEqual(var2, var6) && var6.getCount() < var6.getMaxCount()) {
                return var5;
             }
          }
       }
 
-      for (Slot var8 : var0.field_7761) {
-         if (var8.field_7871 == var1 && vxq(var8, var3) && !var8.method_7681()) {
+      for (Slot var8 : var0.slots) {
+         if (var8.inventory == var1 && vxq(var8, var3) && !var8.hasStack()) {
             return var8;
          }
       }
@@ -85,7 +85,7 @@ public final class vxl {
    }
 
    private static boolean vxq(Slot var0, boolean var1) {
-      int var2 = var0.method_34266();
+      int var2 = var0.getIndex();
       return var2 >= 9 && var2 < 36 || var1 && var2 >= 0 && var2 < 9;
    }
 
@@ -94,6 +94,6 @@ public final class vxl {
    }
 
    public static void click(MinecraftClient var0, ScreenHandler var1, int var2, int var3, SlotActionType var4) {
-      var0.field_1761.method_2906(var1.field_7763, var2, var3, var4, var0.field_1724);
+      var0.interactionManager.clickSlot(var1.syncId, var2, var3, var4, var0.player);
    }
 }

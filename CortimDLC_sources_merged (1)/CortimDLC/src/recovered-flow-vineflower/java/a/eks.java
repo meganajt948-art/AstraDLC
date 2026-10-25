@@ -15,50 +15,65 @@ final class eks extends SoundManager {
       super(null);
    }
 
-   public void method_22140(TickableSoundInstance var1) {
+   @Override
+   public void playNextTick(TickableSoundInstance sound) {
    }
 
-   public PlayResult method_4873(SoundInstance var1) {
-      return PlayResult.field_60956;
+   @Override
+   public PlayResult play(SoundInstance sound) {
+      return PlayResult.NOT_STARTED;
    }
 
-   public void method_4872(SoundInstance var1, int var2) {
+   @Override
+   public void play(SoundInstance sound, int delay) {
    }
 
-   public void method_4876(Camera var1) {
+   @Override
+   public void updateListenerPosition(Camera camera) {
    }
 
-   public void method_71939(SoundCategory... var1) {
+   @Override
+   public void pauseAllExcept(SoundCategory... categories) {
    }
 
-   public void method_4881() {
+   @Override
+   public void stopAll() {
    }
 
-   public void method_18670(boolean var1) {
+   @Override
+   public void tick(boolean paused) {
    }
 
-   public void method_4880() {
+   @Override
+   public void resumeAll() {
    }
 
-   public void method_76569(SoundCategory var1) {
+   @Override
+   public void refreshSoundVolumes(SoundCategory category) {
    }
 
-   public void method_4870(SoundInstance var1) {
+   @Override
+   public void stop(SoundInstance sound) {
    }
 
-   public void method_76570(SoundCategory var1, float var2) {
+   @Override
+   public void setVolume(SoundCategory category, float volume) {
    }
 
-   public boolean method_4877(SoundInstance var1) {
+   @Override
+   public boolean isPlaying(SoundInstance sound) {
       return false;
    }
 
-   public void method_4878(SoundInstanceListener var1) {
+   @Override
+   public void registerListener(SoundInstanceListener listener) {
    }
 
-   public void method_4866(SoundInstanceListener var1) {
+   @Override
+   public void unregisterListener(SoundInstanceListener listener) {
    }
 
-   public void method_4875(@Nullable Identifier var1, @Nullable SoundCategory var2) {
+   @Override
+   public void stopSounds(@Nullable Identifier id, @Nullable SoundCategory soundCategory) {
    }
 }

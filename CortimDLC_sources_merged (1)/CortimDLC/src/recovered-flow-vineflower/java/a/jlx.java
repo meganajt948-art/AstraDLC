@@ -242,12 +242,12 @@ public final class jlx extends jcs {
       if (var4 || var1 - this.jmt >= 200L) {
          this.jmt = var1;
          this.jmu = var3;
-         MinecraftClient var5 = MinecraftClient.method_1551();
+         MinecraftClient var5 = MinecraftClient.getInstance();
          this.jmr.clear();
          int var6 = 0;
          if (FPS.get()) {
             jlu var7 = this.jms[var6++];
-            jnt(var7, "", String.valueOf(var5.method_47599()), a.b("咧ⴀꟐ", -1889971006), 0, 0);
+            jnt(var7, "", String.valueOf(var5.getCurrentFps()), a.b("咧ⴀꟐ", -1889971006), 0, 0);
             this.jmr.add(var7);
          }
 
@@ -273,10 +273,10 @@ public final class jlx extends jcs {
          }
 
          if (COORDS.get()) {
-            ClientPlayerEntity var13 = var5.field_1724;
+            ClientPlayerEntity var13 = var5.player;
             String var17 = var13 == null
                ? a.b("⎿娞택亼앻", -1454627958)
-               : var13.method_31477() + a.d("䦿", 125077958, -661274536) + var13.method_31478() + a.c(1154353709, "\u0a0c") + var13.method_31479();
+               : var13.getBlockX() + a.d("䦿", 125077958, -661274536) + var13.getBlockY() + a.c(1154353709, "\u0a0c") + var13.getBlockZ();
             jlu var20 = this.jms[var6++];
             jnt(var20, a.c(501304440, "䰣㖓뽃"), var17, "", 0, 0);
             this.jmr.add(var20);
@@ -343,10 +343,10 @@ public final class jlx extends jcs {
 
       float var9 = this.jmq == this.jmp ? 1.0F : vcq.outCubic(Math.max(0.0F, (var7 - 0.25F) / 0.75F));
       if (var9 > 0.01F) {
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(0.0F, (1.0F - var9) * 3.0F);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(0.0F, (1.0F - var9) * 3.0F);
          this.jnv(var1, this.jmp, var4, var5, var9, var2);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
       }
 
       uut.popScissor(var1);
@@ -390,7 +390,7 @@ public final class jlx extends jcs {
          if (var1 != null) {
             float var9 = var5;
             if (!var7.label.isEmpty()) {
-               var9 = izx.SMALL.draw(var1, var7.label, var5, izx.SMALL.centerTop(var3), iov.textMuted) + 3.0F;
+               var9 = izx.SMALL.draw(var1, var7.label, var9, izx.SMALL.centerTop(var3), iov.textMuted) + 3.0F;
             }
 
             if (var7.dot != 0) {
@@ -439,16 +439,16 @@ public final class jlx extends jcs {
       float var5 = 13.0F + izx.VALUE.width(var4);
       if (var1 == null) {
          return var2 + var5;
-      } else {
-         float var6 = var3 - 4.5F;
-         if (!hia.drawSelected(var1, var2, var6, 9.0F)) {
-            uut.circle(var1, var2 + 4.5F, var3, 4.5F, iov.accent());
-            izx.TINY.drawCentered(var1, var4.substring(0, 1).toUpperCase(Locale.ROOT), var2 + 4.5F, izx.TINY.centerTop(var3), iov.onAccent());
-         }
-
-         izx.VALUE.draw(var1, var4, var2 + 9.0F + 4.0F, izx.VALUE.centerTop(var3), iov.text);
-         return var2 + var5;
       }
+
+      float var6 = var3 - 4.5F;
+      if (!hia.drawSelected(var1, var2, var6, 9.0F)) {
+         uut.circle(var1, var2 + 4.5F, var3, 4.5F, iov.accent());
+         izx.TINY.drawCentered(var1, var4.substring(0, 1).toUpperCase(Locale.ROOT), var2 + 4.5F, izx.TINY.centerTop(var3), iov.onAccent());
+      }
+
+      izx.VALUE.draw(var1, var4, var2 + 9.0F + 4.0F, izx.VALUE.centerTop(var3), iov.text);
+      return var2 + var5;
    }
 
    private String jny() {
@@ -485,9 +485,9 @@ public final class jlx extends jcs {
    }
 
    private static int joc(MinecraftClient var0) {
-      if (var0.method_1562() != null && var0.field_1724 != null) {
-         PlayerListEntry var1 = var0.method_1562().method_2871(var0.field_1724.method_5667());
-         return var1 != null ? Math.max(0, var1.method_2959()) : 0;
+      if (var0.getNetworkHandler() != null && var0.player != null) {
+         PlayerListEntry var1 = var0.getNetworkHandler().getPlayerListEntry(var0.player.getUuid());
+         return var1 != null ? Math.max(0, var1.getLatency()) : 0;
       } else {
          return 0;
       }
@@ -568,8 +568,8 @@ public final class jlx extends jcs {
             if (!(var19 <= 0.01F)) {
                float var20 = vcq.outCubic(var16);
                uut.pushAlpha(Math.min(1.0F, var16 * 1.4F) * var19);
-               var1.method_51448().pushMatrix();
-               var1.method_51448().translate(0.0F, (1.0F - var20) * 3.0F);
+               var1.getMatrices().pushMatrix();
+               var1.getMatrices().translate(0.0F, (1.0F - var20) * 3.0F);
                float var21 = vcq.clamp01(var15.flip.get());
                float var22 = vcq.outBack(vcq.clamp01((float)(var4 - var15.at) / 320.0F));
                float var23 = var7 + 2.3F;
@@ -581,7 +581,7 @@ public final class jlx extends jcs {
                float var24 = var7 + 4.6F + 5.5F;
                var24 = izx.HEAD.draw(var1, var15.name, var24, izx.HEAD.centerTop(var17), iov.text) + 5.0F;
                izx.VALUE.draw(var1, var15.state, var24, izx.VALUE.centerTop(var17), ujt.lerp(iov.textMuted, var11, var21));
-               var1.method_51448().popMatrix();
+               var1.getMatrices().popMatrix();
                uut.popAlpha();
             }
          }
@@ -605,9 +605,9 @@ public final class jlx extends jcs {
          float var10 = Math.min(15.0F, iov.r(6.0F));
          uok var11 = this.jnc;
          float var12 = 0.9F + 0.1F * vcq.outCubic(this.jnd.get());
-         var1.method_51448().pushMatrix();
-         var1.method_51448().translate(var8 + 15.0F, var9 + 15.0F);
-         var1.method_51448().scale(var12, var12);
+         var1.getMatrices().pushMatrix();
+         var1.getMatrices().translate(var8 + 15.0F, var9 + 15.0F);
+         var1.getMatrices().scale(var12, var12);
          uut.shadow(var1, -15.0F, -13.5F, 30.0F, 30.0F, var10, 5.0F, 1879048192);
          if (var11 != null) {
             uut.image(var1, var11.view, -15.0F, -15.0F, 30.0F, 30.0F, var10, -1);
@@ -617,7 +617,7 @@ public final class jlx extends jcs {
          }
 
          uut.outlineGradientV(var1, -15.0F, -15.0F, 30.0F, 30.0F, var10, 1.0F, 822083583, 150994943);
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          float var13 = var8 + 30.0F + 8.0F;
          float var14 = var6 + 200.0F - 8.0F;
          boolean var15 = izx.pointer();
@@ -656,9 +656,9 @@ public final class jlx extends jcs {
                this.jnh[var28] = var29;
                float var30 = this.jnf[var28].step(var35 >= var29 && var35 < var29 + 12.0F && var27 >= this.jni && var27 < this.jni + 12.0F, var4);
                float var31 = 1.0F - 0.12F * this.jng[var28].get();
-               var1.method_51448().pushMatrix();
-               var1.method_51448().translate(var29 + 6.0F, var33);
-               var1.method_51448().scale(var31, var31);
+               var1.getMatrices().pushMatrix();
+               var1.getMatrices().translate(var29 + 6.0F, var33);
+               var1.getMatrices().scale(var31, var31);
                boolean var32 = var28 == 1;
                if (var32) {
                   uut.shadow(var1, -6.0F, -5.2F, 12.0F, 12.0F, 6.0F, 2.0F, 1879048192);
@@ -675,7 +675,7 @@ public final class jlx extends jcs {
                   var32 ? 6.5F : 7.0F,
                   var32 ? iov.onAccent() : ujt.lerp(iov.textDim, iov.text, var30)
                );
-               var1.method_51448().popMatrix();
+               var1.getMatrices().popMatrix();
             }
          } else {
             this.jni = -100.0F;

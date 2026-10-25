@@ -38,35 +38,27 @@ public final class whl {
    private final String whx;
    private volatile long why;
    private volatile boolean whz;
-   private volatile whh wia;
+   private volatile whh/* @Nullable */ wia;
    private long wib;
-   private whh wic;
+   private whh/* @Nullable */ wic;
    private long wid;
-   @Nullable
-   private GpuTexture wie;
-   @Nullable
-   private GpuTexture wif;
-   @Nullable
-   private GpuTextureView wig;
-   @Nullable
-   private GpuTextureView wih;
+   private @Nullable GpuTexture wie;
+   private @Nullable GpuTexture wif;
+   private @Nullable GpuTextureView wig;
+   private @Nullable GpuTextureView wih;
    private int wii;
    private int wij;
    private long wik;
-   @Nullable
-   private uok wil;
+   private @Nullable uok wil;
    private long wim = -1L;
-   @Nullable
-   private uok win;
+   private @Nullable uok win;
    private long wio = -1L;
-   @Nullable
-   private uok wip;
+   private @Nullable uok wip;
    private long wiq = -1L;
    private long wir;
    private final float[] wis = new float[4];
    private int wit;
-   @Nullable
-   private GpuBuffer wiu;
+   private @Nullable GpuBuffer wiu;
    private boolean wiv;
 
    private whl(String var1) {
@@ -115,37 +107,34 @@ public final class whl {
       }
    }
 
-   @Nullable
-   public uok frame() {
+   public @Nullable uok frame() {
       if (!this.wiz()) {
          return null;
-      } else {
-         if (this.wil == null || this.wil.width != this.wii || this.wil.height != this.wij) {
-            wjf(this.wil);
-            this.wil = uok.target("video " + this.whx, this.wii, this.wij);
-            this.wim = -1L;
-         }
-
-         if (this.wim != this.wik) {
-            if (!this.wjc(this.wil, 0.0F, 0.0F, 1.0F, 1.0F)) {
-               return null;
-            }
-
-            this.wim = this.wik;
-         }
-
-         return this.wil;
       }
+
+      if (this.wil == null || this.wil.width != this.wii || this.wil.height != this.wij) {
+         wjf(this.wil);
+         this.wil = uok.target("video " + this.whx, this.wii, this.wij);
+         this.wim = -1L;
+      }
+
+      if (this.wim != this.wik) {
+         if (!this.wjc(this.wil, 0.0F, 0.0F, 1.0F, 1.0F)) {
+            return null;
+         }
+
+         this.wim = this.wik;
+      }
+
+      return this.wil;
    }
 
-   @Nullable
-   public GpuTextureView fitted(int var1, int var2) {
+   public @Nullable GpuTextureView fitted(int var1, int var2) {
       uok var3 = this.fittedImage(var1, var2);
       return var3 == null ? null : var3.view;
    }
 
-   @Nullable
-   public uok fittedImage(int var1, int var2) {
+   public @Nullable uok fittedImage(int var1, int var2) {
       if (var1 >= 4 && var2 >= 4 && this.wiz()) {
          if (this.win == null || this.win.width != var1 || this.win.height != var2) {
             wjf(this.win);
@@ -171,8 +160,7 @@ public final class whl {
       }
    }
 
-   @Nullable
-   public GpuTextureView placed(int var1, int var2, float var3, float var4, float var5, int var6) {
+   public @Nullable GpuTextureView placed(int var1, int var2, float var3, float var4, float var5, int var6) {
       if (var1 >= 4 && var2 >= 4 && this.wiz()) {
          if (this.wip == null || this.wip.width != var1 || this.wip.height != var2) {
             wjf(this.wip);
@@ -209,8 +197,8 @@ public final class whl {
 
    public static void tick() {
       long var0 = System.nanoTime();
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      boolean var3 = var2 != null && !var2.method_1569();
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      boolean var3 = var2 != null && !var2.isWindowFocused();
 
       for (whl var5 : wht.values()) {
          whh var6 = var5.wia;
@@ -327,8 +315,8 @@ public final class whl {
       }
 
       CommandEncoder var4 = var2.createCommandEncoder();
-      var4.writeToTexture(this.wie, var1.y.clear(), Format.field_4998, 0, 0, 0, 0, this.wii, this.wij);
-      var4.writeToTexture(this.wif, var1.uv.clear(), Format.field_4998, 0, 0, 0, 0, this.wii, this.wij / 2);
+      var4.writeToTexture(this.wie, var1.y.clear(), Format.LUMINANCE, 0, 0, 0, 0, this.wii, this.wij);
+      var4.writeToTexture(this.wif, var1.uv.clear(), Format.LUMINANCE, 0, 0, 0, 0, this.wii, this.wij / 2);
       this.wik++;
    }
 
@@ -368,28 +356,12 @@ public final class whl {
             var8.close();
          }
 
-         RenderPass var16 = var7.createRenderPass(() -> "Flow2 video", var1.view, OptionalInt.empty());
-
-         try {
+         try (RenderPass var16 = var7.createRenderPass(() -> "Flow2 video", var1.view, OptionalInt.empty())) {
             var16.setPipeline(uvq.VIDEO);
-            var16.bindTexture("YSampler", this.wig, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-            var16.bindTexture("UVSampler", this.wih, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+            var16.bindTexture("YSampler", this.wig, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+            var16.bindTexture("UVSampler", this.wih, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
             var16.setUniform("FlowVideo", this.wiu);
             var16.draw(0, 3);
-         } catch (Throwable var13) {
-            if (var16 != null) {
-               try {
-                  var16.close();
-               } catch (Throwable var11) {
-                  var13.addSuppressed(var11);
-               }
-            }
-
-            throw var13;
-         }
-
-         if (var16 != null) {
-            var16.close();
          }
 
          return true;

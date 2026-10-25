@@ -29,13 +29,13 @@ final class qrm {
    void echo(Packet<?> var1) {
       if (!this.qro.isEmpty()) {
          if (var1 instanceof BlockUpdateS2CPacket var2) {
-            this.qrw(var2.method_11309().method_10063());
+            this.qrw(var2.getPos().asLong());
          } else if (var1 instanceof ChunkDeltaUpdateS2CPacket var3) {
-            var3.method_30621((var1x, var2x) -> this.qrw(var1x.method_10063()));
+            var3.visitUpdates((var1x, var2x) -> this.qrw(var1x.asLong()));
          } else if (var1 instanceof ChunkDataS2CPacket var4) {
-            this.qrq.add(ChunkPos.method_8331(var4.method_11523(), var4.method_11524()));
+            this.qrq.add(ChunkPos.toLong(var4.getChunkX(), var4.getChunkZ()));
          } else if (var1 instanceof BundlePacket var5) {
-            for (Packet var7 : var5.method_48324()) {
+            for (Packet var7 : var5.getPackets()) {
                this.echo(var7);
             }
          }
@@ -62,13 +62,13 @@ final class qrm {
          this.qrr = var1;
       }
 
-      long var4 = var2.method_10063();
-      BlockState var6 = var1.method_8320(var2);
-      if (!var6.method_26215() && !this.qrn.containsKey(var4)) {
-         BlockState var7 = var1.method_8316(var2).method_15759();
+      long var4 = var2.asLong();
+      BlockState var6 = var1.getBlockState(var2);
+      if (!var6.isAir() && !this.qrn.containsKey(var4)) {
+         BlockState var7 = var1.getFluidState(var2).getBlockState();
          this.qrn.put(var4, new qrh(var6, var3));
          this.qro.add(var4);
-         var1.method_8652(var2, var7, 11);
+         var1.setBlockState(var2, var7, 11);
          this.qrs++;
       }
    }
@@ -85,14 +85,14 @@ final class qrm {
             while (var3.hasNext()) {
                Entry var4 = (Entry)var3.next();
                if (((qrh)var4.getValue()).until() <= var2) {
-                  BlockPos var5 = BlockPos.method_10092(var4.getLongKey());
-                  if (var1.method_8320(var5).method_26215() && var1.method_8393(var5.method_10263() >> 4, var5.method_10260() >> 4)) {
-                     var1.method_8652(var5, ((qrh)var4.getValue()).was(), 11);
+                  BlockPos var5 = BlockPos.fromLong(var4.getLongKey());
+                  if (var1.getBlockState(var5).isAir() && var1.isChunkLoaded(var5.getX() >> 4, var5.getZ() >> 4)) {
+                     var1.setBlockState(var5, ((qrh)var4.getValue()).was(), 11);
                      this.qrt++;
                   }
 
                   var3.remove();
-                  this.qro.remove(var5.method_10063());
+                  this.qro.remove(var5.asLong());
                }
             }
          }
@@ -113,7 +113,7 @@ final class qrm {
 
          while (var4.hasNext()) {
             long var5 = ((Entry)var4.next()).getLongKey();
-            if (ChunkPos.method_8331(BlockPos.method_10061(var5) >> 4, BlockPos.method_10083(var5) >> 4) == var2) {
+            if (ChunkPos.toLong(BlockPos.unpackLongX(var5) >> 4, BlockPos.unpackLongZ(var5) >> 4) == var2) {
                var4.remove();
                this.qro.remove(var5);
             }
@@ -128,9 +128,9 @@ final class qrm {
 
          while (var2.hasNext()) {
             Entry var3 = (Entry)var2.next();
-            BlockPos var4 = BlockPos.method_10092(var3.getLongKey());
-            if (var1.method_8320(var4).method_26215() && var1.method_8393(var4.method_10263() >> 4, var4.method_10260() >> 4)) {
-               var1.method_8652(var4, ((qrh)var3.getValue()).was(), 11);
+            BlockPos var4 = BlockPos.fromLong(var3.getLongKey());
+            if (var1.getBlockState(var4).isAir() && var1.isChunkLoaded(var4.getX() >> 4, var4.getZ() >> 4)) {
+               var1.setBlockState(var4, ((qrh)var3.getValue()).was(), 11);
             }
          }
       }

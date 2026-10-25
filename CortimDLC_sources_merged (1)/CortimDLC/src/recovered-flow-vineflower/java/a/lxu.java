@@ -17,7 +17,7 @@ enum lxu {
 
    private final long lxv;
 
-   private lxu(long var3) {
+   lxu(long var3) {
       this.lxv = var3;
    }
 }

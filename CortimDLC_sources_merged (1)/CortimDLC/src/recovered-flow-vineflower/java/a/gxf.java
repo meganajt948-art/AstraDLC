@@ -59,7 +59,7 @@ final class gxf {
                      + a.c(-877436460, "懱᠇鋃ಷ蜵")
                      + uxi.gpuMillis()
                      + a.c(-2018424916, "䞊㹶뒻⪙ꄮ⟿")
-                     + var0.method_47599()
+                     + var0.getCurrentFps()
                      + a.b("錏\ueaf8怽﹏", -1476422869)
                );
             gxo(var0, 140.0F, -50.0F, gxg[var9].toLowerCase() + a.d("웋뼢㗴", -2012466074, -895421821), var1);
@@ -142,33 +142,33 @@ final class gxf {
          gxt(var0, a.c(-507755810, "䊋㬧뇥⾜ꐆ⋥颡ᅅ輆ֺ艫砜\uf68e潺\ue522揉\ud99b噗쳩䫡썶뤔㟴걭⨕ꃟ\u197a霨\u0dcc证lﺭ璵\ued5a欔\ue1b9带퐚勍쭻䄯㿘떚㈸꣨⚋鼖ᗹ鎻ࡢ蘝糎\uf578猣\ue9eb枖\udc2d嫤킊䥍"));
       } else if (var1 == gxi + 15) {
          var3.setEnabled(true);
-         var0.method_1507(new iwf((ivw)var3, -1));
+         var0.setScreen(new iwf((ivw)var3, -1));
          gxp(a.b("\udf4bꛥⰻ뉊㦔뽤ռ貙ዑ顠", -1272455370), var1);
       } else if (var1 == gxi + 30) {
          Method var5 = iwf.class.getDeclaredMethod(a.d("⽾囎\udc10䉼", -1716200507, -214502182), int.class);
          var5.setAccessible(true);
-         var5.invoke(var0.field_1755, 1);
+         var5.invoke(var0.currentScreen, 1);
          gxp(a.d("숟뮱ㅯ꼞Ⓚꈰᠾ釞ྎ蔴ˮ", 2146113667, 700635872), var1);
       } else if (var1 == gxi + 45) {
-         PlayerInventory var7 = var0.field_1724.method_31548();
+         PlayerInventory var7 = var0.player.getInventory();
          ivw var6 = (ivw)var3;
-         var6.assign(0, var7.method_5438(12));
-         var6.assign(1, var7.method_5438(13));
-         var6.assign(2, var7.method_5438(14));
-         var0.method_1507(new iwf(var6, -1));
+         var6.assign(0, var7.getStack(12));
+         var6.assign(1, var7.getStack(13));
+         var6.assign(2, var7.getStack(14));
+         var0.setScreen(new iwf(var6, -1));
          gxp(a.b("\uf694輺פ鮕။隻ⲣꕝ㬇놶㙬찜", 840627951), var1);
       } else if (var1 == gxi + 49) {
          gxq(var0, 0.5F, 0.32F);
       } else if (var1 == gxi + 60) {
          ((ivw)var3).pick(2);
-         var0.method_1507(null);
+         var0.setScreen(null);
       } else if (var1 == gxi + 70) {
          System.out
             .println(
                a.b("介㝢붣⎋ꠋ⺥铻ᴊ荜ড踡瑔歹挵\ue92c濇헇娟사䛳켍땓㯪ꁢ", 1980059296)
-                  + var0.field_1724.method_6079().method_7964().getString()
+                  + var0.player.getOffHandStack().getName().getString()
                   + (
-                     var0.field_1724.method_6079().method_7964().getString().contains(a.d("焦ࣲ艐᱔音", 1499429615, -1918955539))
+                     var0.player.getOffHandStack().getName().getString().contains(a.d("焦ࣲ艐᱔音", 1499429615, -1918955539))
                         ? a.c(-1372385264, "ဵ槴\ue336絕\uf682")
                         : a.b("ꄩ\ud8fe刪챓䞁", 356229388)
                   )
@@ -181,13 +181,13 @@ final class gxf {
       } else if (var1 == gxi + 74) {
          gxq(var0, 0.62F, 0.42F);
       } else if (var1 == gxi + 85) {
-         var0.method_1507(null);
+         var0.setScreen(null);
          ((vlq)gxs(var4, a.b("敊᳆阄ࡽ菧ԁ뽍㚱꣮≖", 1981768969))).set(-1);
          var4.setEnabled(false);
          var3.setEnabled(false);
          gxl = isv.selected();
          isv.select(a.c(-1020334405, "\ueec2靫ᶪ莘ࠔ躱㓥봉⍋ꧩ"));
-         var0.method_1507(new hlc());
+         var0.setScreen(new hlc());
          gxp(a.d("䌀㪹끡⸋ꖄ⍹餾\u10c8躊Ц菦", 1396068737, -629271833), var1 + 10);
       } else if (var1 == gxi + 110) {
          isv.select(a.c(-1393836138, "뿯왆䲇튵夶\udf8c旘\uec3e牸\uf8c4"));
@@ -202,7 +202,7 @@ final class gxf {
          gxp(a.d("襬\uf0d5稍\ue467濨\ue904协\udab9䓽칗䧆돶㴬ꒈ⻊꠬", 832447595, -2064863878), var1);
       } else if (var1 == gxi + 185) {
          isv.select(gxl);
-         var0.method_1507(null);
+         var0.setScreen(null);
          var2.setEnabled(false);
          gxt(var0, a.b("騱\ue386楙\uf720糠節䀜짤埾\udd0b嫓ꂉ\u2e7b럒㶔뭠ġ軿ᑐ鈶\u1bfb憰\uef0c瓔\uf2ee硫쇞侈핯", 90413643));
          gxt(var0, a.b("맍쁺䪥퓜弃\ud9b0揨\uea18琂ﻰ礲荔ඇ鐣ṭ颃⋟", -1530349125));
@@ -213,10 +213,10 @@ final class gxf {
    }
 
    private static void gxo(MinecraftClient var0, float var1, float var2, String var3, int var4) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
       gxp(var3, var4);
    }
 
@@ -228,8 +228,8 @@ final class gxf {
    private static void gxq(MinecraftClient var0, float var1, float var2) {
       int[] var3 = new int[1];
       int[] var4 = new int[1];
-      GLFW.glfwGetWindowSize(var0.method_22683().method_4490(), var3, var4);
-      GLFW.glfwSetCursorPos(var0.method_22683().method_4490(), var3[0] * var1, var4[0] * var2);
+      GLFW.glfwGetWindowSize(var0.getWindow().getHandle(), var3, var4);
+      GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), var3[0] * var1, var4[0] * var2);
    }
 
    private static kfe gxr(String var0) {
@@ -252,16 +252,16 @@ final class gxf {
    }
 
    private static void gxt(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void gxu(MinecraftClient var0, String var1) {
       System.out
-         .println(a.b("폝ꩺ₠뻛㕊뎯৭耊Ṓ钷", -1202728028) + var1 + a.d("儥⣴ꉇ", -1595525772, -944544654) + var0.method_47599() + a.d("\ud862ꆕ⭐딢", -1519773701, -73674819));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+         .println(a.b("폝ꩺ₠뻛㕊뎯৭耊Ṓ钷", -1202728028) + var1 + a.d("儥⣴ꉇ", -1595525772, -944544654) + var0.getCurrentFps() + a.d("\ud862ꆕ⭐딢", -1519773701, -73674819));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("읈뻳㐣ꩊ⇘ꝶ", 2105204273, -146532071) + var1 + a.b("睨ງ葊ᨲ", -497649854),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

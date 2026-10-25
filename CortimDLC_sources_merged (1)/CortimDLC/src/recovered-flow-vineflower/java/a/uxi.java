@@ -21,8 +21,7 @@ import org.lwjgl.system.MemoryStack;
 
 public final class uxi {
    private static final int uxj = 128;
-   @Nullable
-   private static GpuBuffer uxk;
+   private static @Nullable GpuBuffer uxk;
    private static boolean uxl;
    private static boolean uxm;
    private static final ArrayDeque<GpuQuery> uxn = new ArrayDeque<>();
@@ -36,10 +35,10 @@ public final class uxi {
       if (!uxl && uvq.ensure(uvq.SKY)) {
          GpuBufferSlice var9 = RenderSystem.getProjectionMatrixBuffer();
          GpuBufferSlice var10 = RenderSystem.getShaderFog();
-         Framebuffer var11 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var12 = var11.method_71639();
-         GpuTextureView var13 = var11.method_71640();
-         if (var9 != null && var10 != null && var12 != null && var13 != null && var11.field_1482 >= 4 && var11.field_1481 >= 4) {
+         Framebuffer var11 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var12 = var11.getColorAttachmentView();
+         GpuTextureView var13 = var11.getDepthAttachmentView();
+         if (var9 != null && var10 != null && var12 != null && var13 != null && var11.textureWidth >= 4 && var11.textureHeight >= 4) {
             try {
                GpuDevice var14 = RenderSystem.getDevice();
                if (uxk == null) {
@@ -53,7 +52,7 @@ public final class uxi {
                   var15.writeToBuffer(
                      uxk.slice(),
                      Std140Builder.onStack(var16, 128)
-                        .putVec4(var11.field_1482, var11.field_1481, 1.0F / var11.field_1482, 1.0F / var11.field_1481)
+                        .putVec4(var11.textureWidth, var11.textureHeight, 1.0F / var11.textureWidth, 1.0F / var11.textureHeight)
                         .putMat4f(var0)
                         .putVec4(var1.id(), var2, var3, var4)
                         .putVec4(r(var5), g(var5), b(var5), var7)
@@ -77,29 +76,14 @@ public final class uxi {
                }
 
                GpuQuery var25 = uxm ? var15.timerQueryBegin() : null;
-               RenderPass var17 = var15.createRenderPass(() -> "Flow2 sky", var12, OptionalInt.empty());
 
-               try {
+               try (RenderPass var17 = var15.createRenderPass(() -> "Flow2 sky", var12, OptionalInt.empty())) {
                   var17.setPipeline(uvq.SKY);
-                  var17.bindTexture("DepthSampler", var13, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var17.bindTexture("DepthSampler", var13, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var17.setUniform("Projection", var9);
                   var17.setUniform("Fog", var10);
                   var17.setUniform("FlowSky", uxk);
                   var17.draw(0, 3);
-               } catch (Throwable var22) {
-                  if (var17 != null) {
-                     try {
-                        var17.close();
-                     } catch (Throwable var20) {
-                        var22.addSuppressed(var20);
-                     }
-                  }
-
-                  throw var22;
-               }
-
-               if (var17 != null) {
-                  var17.close();
                }
 
                if (var25 != null) {

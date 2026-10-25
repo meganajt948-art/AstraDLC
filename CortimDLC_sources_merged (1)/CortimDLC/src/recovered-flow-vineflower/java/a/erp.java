@@ -49,7 +49,7 @@ public final class erp {
       try {
          eqc var0 = esm();
          var0.logits(new float[3 * var0.inputH * var0.inputW]);
-      } catch (InterruptedException | RuntimeException | erh var1) {
+      } catch (erh | InterruptedException | RuntimeException var1) {
       }
    }
 
@@ -66,8 +66,8 @@ public final class erp {
       } catch (InterruptedException var5) {
          Thread.currentThread().interrupt();
          return new erc("", a.c(1993195927, "쇵롃㊊곪✪ꆛᯏ鈻ౠ蛀Ē"));
-      } catch (ExecutionException | RuntimeException var6) {
-         Object var3 = var6 instanceof ExecutionException && var6.getCause() != null ? var6.getCause() : var6;
+      } catch (RuntimeException | ExecutionException var6) {
+         Throwable var3 = var6 instanceof ExecutionException && var6.getCause() != null ? var6.getCause() : var6;
          return new erc("", a.c(1766866921, "㾭䘐쳒勑\ud943忥\ue5b6汚\uf218磡Ｈ") + var3);
       }
    }
@@ -107,46 +107,46 @@ public final class erp {
 
       if (var1.isEmpty()) {
          return new erk("", 0.0);
-      } else {
-         LinkedHashMap var13 = new LinkedHashMap();
-
-         for (String var16 : var1) {
-            double var5 = 0.0;
-            double var7 = 0.0;
-
-            for (float[][] var10 : var0) {
-               double var11 = esf(var10, var16);
-               var5 += var11;
-               var7 += Math.exp(var11);
-            }
-
-            if (var16.length() != 5) {
-               var5 -= 2.0;
-            }
-
-            var13.put(var16, new double[]{var5, var7 / var0.size()});
-         }
-
-         String var15 = null;
-         double var17 = Double.NEGATIVE_INFINITY;
-
-         for (Entry var19 : var13.entrySet()) {
-            if (((double[])var19.getValue())[0] > var17) {
-               var17 = ((double[])var19.getValue())[0];
-               var15 = (String)var19.getKey();
-            }
-         }
-
-         double var18 = 0.0;
-
-         for (double[] var21 : var13.values()) {
-            var18 += Math.exp(var21[0] - var17);
-         }
-
-         double var20 = Math.exp(((double[])var13.get(var15))[0] - var17) / var18;
-         double var22 = ((double[])var13.get(var15))[1];
-         return new erk(var15, var20 * Math.min(1.0, var22 * 2.5));
       }
+
+      LinkedHashMap var13 = new LinkedHashMap();
+
+      for (String var16 : var1) {
+         double var5 = 0.0;
+         double var7 = 0.0;
+
+         for (float[][] var10 : var0) {
+            double var11 = esf(var10, var16);
+            var5 += var11;
+            var7 += Math.exp(var11);
+         }
+
+         if (var16.length() != 5) {
+            var5 -= 2.0;
+         }
+
+         var13.put(var16, new double[]{var5, var7 / var0.size()});
+      }
+
+      String var15 = null;
+      double var17 = Double.NEGATIVE_INFINITY;
+
+      for (Entry var19 : var13.entrySet()) {
+         if (((double[])var19.getValue())[0] > var17) {
+            var17 = ((double[])var19.getValue())[0];
+            var15 = (String)var19.getKey();
+         }
+      }
+
+      double var18 = 0.0;
+
+      for (double[] var21 : var13.values()) {
+         var18 += Math.exp(var21[0] - var17);
+      }
+
+      double var20 = Math.exp(((double[])var13.get(var15))[0] - var17) / var18;
+      double var22 = ((double[])var13.get(var15))[1];
+      return new erk(var15, var20 * Math.min(1.0, var22 * 2.5));
    }
 
    private static String ese(float[][] var0) {
@@ -214,10 +214,10 @@ public final class erp {
    private static double esg(double var0, double var2) {
       if (var0 == var2) {
          return var0 + erv;
-      } else {
-         double var4 = var0 - var2;
-         return var4 > 0.0 ? var0 + Math.log1p(Math.exp(-var4)) : var2 + Math.log1p(Math.exp(var4));
       }
+
+      double var4 = var0 - var2;
+      return var4 > 0.0 ? var0 + Math.log1p(Math.exp(-var4)) : var2 + Math.log1p(Math.exp(var4));
    }
 
    private static float[][] esh(float[][] var0) {
@@ -321,8 +321,8 @@ public final class erp {
 
    static eqw resize(eqw var0, int var1, int var2) {
       eqw var3 = var0;
-      if (var1 != var0.w()) {
-         var3 = esk(var0, var1, true);
+      if (var1 != var3.w()) {
+         var3 = esk(var3, var1, true);
       }
 
       if (var2 != var3.h()) {
@@ -337,7 +337,7 @@ public final class erp {
       double var4 = (double)var3 / var1;
       double var6 = Math.max(1.0, var4);
       double var8 = var6;
-      int var10 = (int)Math.ceil(var6) * 2 + 1;
+      int var10 = (int)Math.ceil(var8) * 2 + 1;
       int[] var11 = new int[var1 * 2];
       int[] var12 = new int[var1 * var10];
       double[] var13 = new double[var10];
@@ -430,42 +430,37 @@ public final class erp {
       eqc var0 = erz;
       if (var0 != null) {
          return var0;
-      } else {
-         synchronized (ery) {
-            if (erz != null) {
-               return erz;
-            } else {
-               byte[] var2 = esn(erx);
-               if (var2 == null) {
-                  throw new erh(a.c(-330721377, "鎂\uea31惨ﺘ畁\uf387䶸쁓帆풸匓ꤝ⏒빽㑒늠࣭蜽ᶍ鯟ቘ桸\ue6bd紛＆燅챤䙔\udcd3媍텀\u2febꖫ"));
-               } else {
-                  try {
-                     erz = eqc.parse(var2);
-                  } catch (RuntimeException var5) {
-                     throw new erh(a.b("훙꽪△믃〚뛜ࣣ蔈᭝釣ᙈ\uec46暉ﬥ煾\uf39a䶲순壕\udef6圄ⴢꎒ㡍멇れ", -1965567233) + var5.getMessage());
-                  }
+      }
 
-                  return erz;
-               }
-            }
+      synchronized (ery) {
+         if (erz != null) {
+            return erz;
          }
+
+         byte[] var2 = esn(erx);
+         if (var2 == null) {
+            throw new erh(a.c(-330721377, "鎂\uea31惨ﺘ畁\uf387䶸쁓帆풸匓ꤝ⏒빽㑒늠࣭蜽ᶍ鯟ቘ桸\ue6bd紛＆燅챤䙔\udcd3媍텀\u2febꖫ"));
+         }
+
+         try {
+            erz = eqc.parse(var2);
+         } catch (RuntimeException var5) {
+            throw new erh(a.b("훙꽪△믃〚뛜ࣣ蔈᭝釣ᙈ\uec46暉ﬥ煾\uf39a䶲순壕\udef6圄ⴢꎒ㡍멇れ", -1965567233) + var5.getMessage());
+         }
+
+         return erz;
       }
    }
 
    private static byte[] esn(String var0) {
-      try {
-         byte[] var3;
-         try (InputStream var1 = ezj.open(a.c(-1900730780, "♊") + erw + a.c(-1866488690, "꒠") + var0)) {
-            if (var1 == null) {
-               return null;
-            }
-
-            ByteArrayOutputStream var2 = new ByteArrayOutputStream();
-            var1.transferTo(var2);
-            var3 = var2.toByteArray();
+      try (InputStream var1 = ezj.open(a.c(-1900730780, "♊") + erw + a.c(-1866488690, "꒠") + var0)) {
+         if (var1 == null) {
+            return null;
          }
 
-         return var3;
+         ByteArrayOutputStream var2 = new ByteArrayOutputStream();
+         var1.transferTo(var2);
+         return var2.toByteArray();
       } catch (IOException var6) {
          return null;
       }

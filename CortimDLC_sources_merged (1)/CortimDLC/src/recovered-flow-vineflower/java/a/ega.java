@@ -40,18 +40,18 @@ final class ega {
    static Object[] saveAddons() {
       if (egb.length == 0) {
          return null;
-      } else {
-         Object[] var0 = new Object[egb.length];
+      }
 
-         try {
-            for (int var1 = 0; var1 < egb.length; var1++) {
-               var0[var1] = egb[var1].get(null);
-            }
+      Object[] var0 = new Object[egb.length];
 
-            return var0;
-         } catch (Throwable var2) {
-            return null;
+      try {
+         for (int var1 = 0; var1 < egb.length; var1++) {
+            var0[var1] = egb[var1].get(null);
          }
+
+         return var0;
+      } catch (Throwable var2) {
+         return null;
       }
    }
 
@@ -81,15 +81,15 @@ final class ega {
       Object[] var2 = saveAddons();
       if (var2 == null) {
          return var1;
-      } else {
-         Object[] var3 = new Object[var2.length];
-
-         for (int var4 = 0; var4 < var2.length; var4++) {
-            boolean var5 = var0 == null || var4 >= var0.length || var2[var4] != var0[var4];
-            var3[var4] = var5 ? var2[var4] : (var1 != null && var4 < var1.length ? var1[var4] : null);
-         }
-
-         return var3;
       }
+
+      Object[] var3 = new Object[var2.length];
+
+      for (int var4 = 0; var4 < var2.length; var4++) {
+         boolean var5 = var0 == null || var4 >= var0.length || var2[var4] != var0[var4];
+         var3[var4] = var5 ? var2[var4] : (var1 != null && var4 < var1.length ? var1[var4] : null);
+      }
+
+      return var3;
    }
 }

@@ -16,11 +16,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 
 final class edj {
-   private static final MinecraftClient edk = MinecraftClient.method_1551();
-   private static final long edl = ejl.offsetOf(edk, edk.method_1483());
-   private static final long edm = ejl.offsetOf(edk, edk.field_1713);
-   private static final long edn = ejl.offsetOf(edk, edk.field_1729);
-   private static final long edo = ejl.offsetOf(edk, edk.field_1769);
+   private static final MinecraftClient edk = MinecraftClient.getInstance();
+   private static final long edl = ejl.offsetOf(edk, edk.getSoundManager());
+   private static final long edm = ejl.offsetOf(edk, edk.particleManager);
+   private static final long edn = ejl.offsetOf(edk, edk.mouse);
+   private static final long edo = ejl.offsetOf(edk, edk.worldRenderer);
    private static final Field edp = vxr.find(
       MinecraftClient.class,
       a.d("梙ᄣ鯡\u05ca蹞࣫늿㭅ꔜ⾼\ua87c刊\udccf䔤켺䧄\uf386籅\ue6f6悋\ue910鍃ᷱ", 1340244188, -820320196),
@@ -79,15 +79,15 @@ final class edj {
             if (!Modifier.isStatic(var8.getModifiers())) {
                long var9 = ejl.U.objectFieldOffset(var8);
                if (var8.getType() == boolean.class && var0 < 0L) {
-                  var4.method_23481(true);
+                  var4.setPressed(true);
                   boolean var11 = ejl.U.getBoolean(var4, var9);
-                  var4.method_23481(false);
+                  var4.setPressed(false);
                   if (var11 && !ejl.U.getBoolean(var4, var9)) {
                      var0 = var9;
                   }
                } else if (var8.getType() == int.class && var2 < 0L) {
                   ejl.U.putInt(var4, var9, 1);
-                  if (var4.method_1436() && ejl.U.getInt(var4, var9) == 0) {
+                  if (var4.wasPressed() && ejl.U.getInt(var4, var9) == 0) {
                      var2 = var9;
                   } else {
                      ejl.U.putInt(var4, var9, 0);
@@ -130,7 +130,7 @@ final class edj {
    }
 
    private static Entity eez() {
-      return edr < 0L ? edk.method_1560() : (Entity)ejl.U.getObject(edk, edr);
+      return edr < 0L ? edk.getCameraEntity() : (Entity)ejl.U.getObject(edk, edr);
    }
 
    static void camera(Entity var0) {
@@ -140,7 +140,7 @@ final class edj {
    }
 
    static boolean enter(dtv var0) {
-      if (ejp.active == null && edk.method_18854()) {
+      if (ejp.active == null && edk.isOnThread()) {
          try {
             if (!ejp.LOCK.tryLock() && !ejp.LOCK.tryLock(60L, TimeUnit.MILLISECONDS)) {
                return false;
@@ -150,18 +150,18 @@ final class edj {
             return false;
          }
 
-         edv = edk.field_1724;
-         edw = edk.field_1687;
-         edx = edk.field_1761;
-         edy = edk.field_1755;
-         edz = edk.field_1765;
-         eea = edk.field_1692;
+         edv = edk.player;
+         edw = edk.world;
+         edx = edk.interactionManager;
+         edy = edk.currentScreen;
+         edz = edk.crosshairTarget;
+         eea = edk.targetedEntity;
          eeb = eez();
          eec = ejl.get(edk, edl);
          eed = ejl.get(edk, edm);
          eee = ejl.get(edk, edn);
          eef = ejl.get(edk, edo);
-         eej = edk.field_1705 == null ? null : edk.field_1705.method_1740();
+         eej = edk.inGameHud == null ? null : edk.inGameHud.getBossBarHud();
          Field var1 = pjn.field();
 
          try {
@@ -172,12 +172,12 @@ final class edj {
 
          try {
             ejp.active = var0;
-            edk.field_1724 = var0.player;
-            edk.field_1687 = var0.world;
-            edk.field_1761 = var0.interaction;
-            edk.field_1755 = var0.screen;
-            edk.field_1765 = var0.crosshair;
-            edk.field_1692 = var0.targeted;
+            edk.player = var0.player;
+            edk.world = var0.world;
+            edk.interactionManager = var0.interaction;
+            edk.currentScreen = var0.screen;
+            edk.crosshairTarget = var0.crosshair;
+            edk.targetedEntity = var0.targeted;
             camera(var0.camera);
             ejl.put(edk, edl, eky.SOUND);
             ejl.put(edk, edm, eky.PARTICLES);
@@ -214,12 +214,12 @@ final class edj {
    static void exit() {
       dtv var0 = ejp.active;
       if (var0 != null) {
-         var0.player = edk.field_1724;
-         var0.world = edk.field_1687;
-         var0.interaction = edk.field_1761;
-         var0.screen = edk.field_1755;
-         var0.crosshair = edk.field_1765;
-         var0.targeted = edk.field_1692;
+         var0.player = edk.player;
+         var0.world = edk.world;
+         var0.interaction = edk.interactionManager;
+         var0.screen = edk.currentScreen;
+         var0.crosshair = edk.crosshairTarget;
+         var0.targeted = edk.targetedEntity;
          var0.camera = eez();
          efa(var0);
       }
@@ -227,12 +227,12 @@ final class edj {
 
    private static void efa(dtv var0) {
       try {
-         edk.field_1724 = edv;
-         edk.field_1687 = edw;
-         edk.field_1761 = edx;
-         edk.field_1755 = edy;
-         edk.field_1765 = edz;
-         edk.field_1692 = eea;
+         edk.player = edv;
+         edk.world = edw;
+         edk.interactionManager = edx;
+         edk.currentScreen = edy;
+         edk.crosshairTarget = edz;
+         edk.targetedEntity = eea;
          camera(eeb);
          if (eec != null) {
             ejl.put(edk, edl, eec);
@@ -315,7 +315,7 @@ final class edj {
    }
 
    private static void efb(dtv var0) {
-      KeyBinding[] var1 = edk.field_1690.field_1839;
+      KeyBinding[] var1 = edk.options.allKeys;
       if (eem.length != var1.length) {
          eem = new boolean[var1.length];
          een = new int[var1.length];
@@ -337,7 +337,7 @@ final class edj {
    }
 
    private static void efc(dtv var0) {
-      KeyBinding[] var1 = edk.field_1690.field_1839;
+      KeyBinding[] var1 = edk.options.allKeys;
       int var2 = Math.min(var1.length, eem.length);
 
       for (int var3 = 0; var3 < var2; var3++) {
@@ -353,45 +353,45 @@ final class edj {
    }
 
    private static void efd() {
-      GameOptions var0 = edk.field_1690;
-      eep = (Boolean)var0.method_42449().method_41753();
-      eeq = (Boolean)var0.method_42450().method_41753();
-      eer = (Boolean)var0.method_42423().method_41753();
-      ees = (Double)var0.method_42495().method_41753();
+      GameOptions var0 = edk.options;
+      eep = var0.getSneakToggled().getValue();
+      eeq = var0.getSprintToggled().getValue();
+      eer = var0.getAutoJump().getValue();
+      ees = var0.getMouseSensitivity().getValue();
       eet = true;
       dtv var1 = ejp.active;
       if (var1 != null) {
-         var0.method_42495().method_41748(var1.sensitivity());
+         var0.getMouseSensitivity().setValue(var1.sensitivity());
       }
 
       if (eep) {
-         var0.method_42449().method_41748(false);
+         var0.getSneakToggled().setValue(false);
       }
 
       if (eeq) {
-         var0.method_42450().method_41748(false);
+         var0.getSprintToggled().setValue(false);
       }
 
       if (eer) {
-         var0.method_42423().method_41748(false);
+         var0.getAutoJump().setValue(false);
       }
    }
 
    private static void efe() {
-      GameOptions var0 = edk.field_1690;
+      GameOptions var0 = edk.options;
       if (eep) {
-         var0.method_42449().method_41748(true);
+         var0.getSneakToggled().setValue(true);
       }
 
       if (eeq) {
-         var0.method_42450().method_41748(true);
+         var0.getSprintToggled().setValue(true);
       }
 
       if (eer) {
-         var0.method_42423().method_41748(true);
+         var0.getAutoJump().setValue(true);
       }
 
-      var0.method_42495().method_41748(ees);
+      var0.getMouseSensitivity().setValue(ees);
    }
 
    static {

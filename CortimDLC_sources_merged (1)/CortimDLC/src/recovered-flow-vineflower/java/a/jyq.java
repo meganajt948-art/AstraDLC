@@ -11,7 +11,7 @@ import ru.vidtu.ias.utils.exceptions.FriendlyException;
 
 final class jyq implements LoginHandler {
    private final jyv jyr;
-   private final MinecraftClient jys = MinecraftClient.method_1551();
+   private final MinecraftClient jys = MinecraftClient.getInstance();
 
    jyq(jyv var1) {
       this.jyr = var1;
@@ -22,7 +22,7 @@ final class jyq implements LoginHandler {
    }
 
    public void stage(String var1, Object... var2) {
-      String var3 = Text.method_43469(var1, var2).getString();
+      String var3 = Text.translatable(var1, var2).getString();
       this.jys.execute(() -> this.jyr.stage(var3));
    }
 
@@ -35,7 +35,7 @@ final class jyq implements LoginHandler {
          jyw.jyz();
       }
 
-      this.jys.execute(() -> this.jyr.stage(Text.method_43471(a.c(1226454407, "㗼䱅욄墨팽喏\uefd4昫\uf873犂\uf50cཫ膫\u181e鉒ᒩ껠℧")).getString()));
+      this.jys.execute(() -> this.jyr.stage(Text.translatable(a.c(1226454407, "㗼䱅욄墨팽喏\uefd4昫\uf873犂\uf50cཫ膫\u181e鉒ᒩ껠℧")).getString()));
       IASMinecraft.account(this.jys, var1).thenRunAsync(() -> this.jyr.done(var1.name()), this.jys).exceptionally(var1x -> {
          this.error(var1x);
          return null;
@@ -47,7 +47,7 @@ final class jyq implements LoginHandler {
       if ((!(var1 instanceof IllegalStateException) || !a.d("茦惘灇\uee36日\ue34c夂탥", -1180101964, -2141416982).equals(var1.getMessage()))
          && (!(var1.getCause() instanceof IllegalStateException) || !a.d("䩬㏌뤍❼겯⨆遈\u19af", -769308786, -1914630758).equals(var1.getCause().getMessage()))) {
          FriendlyException var3 = FriendlyException.friendlyInChain(var1);
-         var2 = var3 != null ? Text.method_43471(var3.key()).getString() : String.valueOf(var1.getMessage() != null ? var1.getMessage() : var1);
+         var2 = var3 != null ? Text.translatable(var3.key()).getString() : String.valueOf(var1.getMessage() != null ? var1.getMessage() : var1);
       } else {
          var2 = wap.s(
             a.d("睻\u0ef6萤ᩏ釋\u173b굪⒛뫈っ랫䷀썃媺탠嘃\uec1f掏諒罼\uf69a賙ɪ馿Ῐ锔ⲱꊾ㡓빑㗸쬧䅡\ud8de廄푲毫\ue1ce朁ﺪ瓨ਃ聂\u07fc鵣፻ꪠ ", -1780845877, 1007224276),

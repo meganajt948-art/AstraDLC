@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -130,20 +131,20 @@ public final class tiq {
       String var1 = clean(var0);
       if (var1.isEmpty()) {
          throw new IOException(a.d("裎\uf177箹\ue5cc渖", -2025652906, 599356920));
-      } else {
-         tjl();
-         if (tiu.containsKey(var1)) {
-            throw new IOException(a.c(-524366033, "콌뛠㰢ꉉ⦙꼯"));
-         } else {
-            tiq var2 = new tiq(var1, null);
-            var2.set(a.b("⤬傌\uda48䐽쿿䥟\uf30d", -1691080376), System.currentTimeMillis());
-            var2.id();
-            tiu.put(var1, var2);
-            tjm();
-            var2.saveNow();
-            return var2;
-         }
       }
+
+      tjl();
+      if (tiu.containsKey(var1)) {
+         throw new IOException(a.c(-524366033, "콌뛠㰢ꉉ⦙꼯"));
+      }
+
+      tiq var2 = new tiq(var1, null);
+      var2.set(a.b("⤬傌\uda48䐽쿿䥟\uf30d", -1691080376), System.currentTimeMillis());
+      var2.id();
+      tiu.put(var1, var2);
+      tjm();
+      var2.saveNow();
+      return var2;
    }
 
    public static synchronized void delete(tiq var0) throws IOException {
@@ -323,7 +324,7 @@ public final class tiq {
                               this.tix.putIfAbsent(var6x, var15);
                            }
                         }
-                     } catch (RuntimeException | IOException var13) {
+                     } catch (IOException | RuntimeException var13) {
                      }
 
                      this.tjg++;
@@ -360,7 +361,7 @@ public final class tiq {
          this.tjd = var2;
          eyn.list(a.c(1357005596, "䍮㪀")).whenComplete((var1x, var2x) -> {
             if (var1x != null) {
-               ArrayList var3 = new ArrayList<>(var1x);
+               ArrayList var3 = new ArrayList<>((Collection<? extends eyg>)var1x);
                var3.sort(Comparator.comparingLong(eyg::uploaded).reversed());
                this.tjc = var3;
             }
@@ -526,47 +527,49 @@ public final class tiq {
       String var3 = this.activeKey(var1);
       if (var3.isEmpty() || var3.equals(var2.key) || var2.loading || System.currentTimeMillis() < var2.retryAt) {
          return var2.model;
-      } else if (!eyn.online()) {
-         return var2.model;
-      } else {
-         var2.loading = true;
-         eyn.get(var3)
-            .whenComplete(
-               (var4, var5) -> {
-                  Object var6 = null;
-                  String var7 = "";
-                  if (var4 != null) {
-                     try {
-                        var6 = a.b("捼᫉逝\u0e67", -689741035).equals(var1)
-                           ? ttb.read(new ByteArrayInputStream(var4))
-                           : (a.b("\udf04ꚣⱽ눋", 912318327).equals(var1) ? txs.read(new ByteArrayInputStream(var4)) : tck.read(new ByteArrayInputStream(var4)));
-                     } catch (RuntimeException | IOException var11) {
-                        var7 = String.valueOf(var11.getMessage()).startsWith(a.d("Ģ碐\uf24b汾\ue7e4慗\udb0f勿첩", -2022362133, 2130129583))
-                           ? a.d("臘肔\u0a4f", 147274160, 497271034)
-                           : a.c(-184036973, "퇷ꡖ⊘볭㜴놎");
-                     }
-                  } else {
-                     var7 = a.d("炫ञ菗ᶦ陫ოꪇ", -1749288695, 635013576);
-                  }
+      }
 
-                  synchronized (this) {
-                     var2.loading = false;
-                     if (var4 == null) {
-                        var2.retryAt = System.currentTimeMillis() + 30000L;
-                        var2.issue = var7;
-                     } else if (var3.equals(this.activeKey(var1))) {
-                        var2.key = var3;
-                        var2.issue = var7;
-                        if (var6 != null) {
-                           var2.model = var6;
-                           var2.cloud = tik.SAVED;
-                        }
+      if (!eyn.online()) {
+         return var2.model;
+      }
+
+      var2.loading = true;
+      eyn.get(var3)
+         .whenComplete(
+            (var4, var5) -> {
+               Object var6 = null;
+               String var7 = "";
+               if (var4 != null) {
+                  try {
+                     var6 = a.b("捼᫉逝\u0e67", -689741035).equals(var1)
+                        ? ttb.read(new ByteArrayInputStream(var4))
+                        : (a.b("\udf04ꚣⱽ눋", 912318327).equals(var1) ? txs.read(new ByteArrayInputStream(var4)) : tck.read(new ByteArrayInputStream(var4)));
+                  } catch (IOException | RuntimeException var11) {
+                     var7 = String.valueOf(var11.getMessage()).startsWith(a.d("Ģ碐\uf24b汾\ue7e4慗\udb0f勿첩", -2022362133, 2130129583))
+                        ? a.d("臘肔\u0a4f", 147274160, 497271034)
+                        : a.c(-184036973, "퇷ꡖ⊘볭㜴놎");
+                  }
+               } else {
+                  var7 = a.d("炫ञ菗ᶦ陫ოꪇ", -1749288695, 635013576);
+               }
+
+               synchronized (this) {
+                  var2.loading = false;
+                  if (var4 == null) {
+                     var2.retryAt = System.currentTimeMillis() + 30000L;
+                     var2.issue = var7;
+                  } else if (var3.equals(this.activeKey(var1))) {
+                     var2.key = var3;
+                     var2.issue = var7;
+                     if (var6 != null) {
+                        var2.model = var6;
+                        var2.cloud = tik.SAVED;
                      }
                   }
                }
-            );
-         return var2.model;
-      }
+            }
+         );
+      return var2.model;
    }
 
    public String dataStamp() {
@@ -589,9 +592,7 @@ public final class tiq {
    }
 
    public int needSamples() {
-      String var1 = this.size();
-
-      return switch (var1) {
+      return switch (this.size()) {
          case a.c(1981057923, "试\uf25a碅\ue6f9洮") -> 3000;
          case a.b("荦\ufafa瀺\uee5e斋", -225541329) -> 10000;
          default -> 6000;
@@ -599,9 +600,7 @@ public final class tiq {
    }
 
    public int needFlicks() {
-      String var1 = this.size();
-
-      return switch (var1) {
+      return switch (this.size()) {
          case a.d("喚Ⱅꛊ㢶덡", 1381759222, -210064070) -> 60;
          case a.d("\ue6ad鼱ᗱ讕@", -1644740379, -913463807) -> 200;
          default -> 120;
@@ -609,9 +608,7 @@ public final class tiq {
    }
 
    public int needTracking() {
-      String var1 = this.size();
-
-      return switch (var1) {
+      return switch (this.size()) {
          case a.c(-788209363, "\ue17b飴ራ豗ހ") -> 1000;
          case a.d("廮❲궲㏖렃", -387769901, 609634164) -> 3500;
          default -> 2000;
@@ -783,23 +780,20 @@ public final class tiq {
 
    public tmk trainerConfig() {
       tmk var1 = new tmk();
-      String var2 = this.quality();
 
-      var1.epochs = switch (var2) {
+      var1.epochs = switch (this.quality()) {
          case a.b("沒ᔄ鿅Ƴ", -561877808) -> 20;
          case a.c(-1936267523, "\ue6b3鼮ᗤ") -> 70;
          default -> 40;
       };
-      var2 = this.quality();
 
-      var1.members = switch (var2) {
+      var1.members = switch (this.quality()) {
          case a.b("绁ݗ趖Ꮰ", -1716879741) -> 1;
          case a.c(-273186366, "膌\uf811狛") -> 3;
          default -> 2;
       };
-      var2 = this.size();
 
-      var1.hidden = switch (var2) {
+      var1.hidden = switch (this.size()) {
          case a.d("覊\uf005竚\ue4a6潱", -332008564, 1855027792) -> 32;
          case a.d("침럴㴴ꍐ⢅", -560761412, -1502233699) -> 80;
          default -> 48;

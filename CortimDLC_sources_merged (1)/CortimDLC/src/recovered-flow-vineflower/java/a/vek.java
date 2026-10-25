@@ -8,7 +8,7 @@ public enum vek {
 
    private final String vel;
 
-   private vek(String var3) {
+   vek(String var3) {
       this.vel = var3;
    }
 }

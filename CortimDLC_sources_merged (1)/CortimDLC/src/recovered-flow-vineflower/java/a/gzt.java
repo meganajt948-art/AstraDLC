@@ -69,168 +69,174 @@ final class gzt {
             }
          }
 
-         var0.field_1690.field_1842 = true;
-         var0.field_1690.field_1837 = false;
-         var0.field_1690.method_42503().method_41748(12);
-         var0.field_1690.method_41808().method_41748(70);
+         var0.options.hudHidden = true;
+         var0.options.pauseOnLostFocus = false;
+         var0.options.getViewDistance().setValue(12);
+         var0.options.getFov().setValue(70);
          hah(var0, a.c(2088924329, "瓟൨螷\u19ce鈑ᒢ껺✊뤐㏢될乆삕失퍿喑\uefcd"));
          hah(var0, a.c(929463682, "緻ь躓ც鬪ᶜꟖ⸮뀴㫁봙䝃즱倘\uda5e岪\ue6eb椵\uf39a痼ﰱ虺ࣆ錞ᔤ龳☇ꡛ㊳듴"));
          hah(var0, a.c(-2031809362, "\u0cd4畣ﾼ懅\uea05河훹弁섛䯮찶㙿뢚ℯꭩⶄ韆᠀节ө贄\uf75a秠\ue274摍\uee9b圥\ud96b䎊"));
          hah(var0, a.b("峣╀꾗ㇳ머㲄蛀ལ酿ᯁ鰛普\ue8aa", -466527079));
-         GLFW.glfwSetWindowSize(var0.method_22683().method_4490(), 1920, 1080);
+         GLFW.glfwSetWindowSize(var0.getWindow().getHandle(), 1920, 1080);
          hae(var0);
          return false;
-      } else if (var1 < 10) {
-         return false;
-      } else if (hab < 0) {
-         if (!haa) {
-            return false;
-         } else {
-            BlockPos var13 = gzz;
-            if (var13 == null) {
-               System.out.println(a.d("뚤켒䗚\udbb6偾횘泑\ue56e笰\uf1ce癍谠˺魃ᄗ韻ⷧꉰ㣊뺁㝭䴶", -1066735519, -975544672));
-               return true;
-            } else {
-               System.out.println(a.b("圡⺗ꑟ㨳뇻㜇贕ӱ髺", 845436763) + var13.method_23854());
-               hah(
-                  var0,
-                  a.b("熏࠺芹Შ靌ᆮ", -1708297731)
-                     + var13.method_10263()
-                     + a.d("\uf382", -612820508, 1748757063)
-                     + var13.method_10264()
-                     + a.b("\uf2ff", -368184610)
-                     + var13.method_10260()
-                     + a.c(393713989, "饡\ue0c0樃\uf462")
-               );
-               hah(var0, a.d("櫒\u137e馩ߐ豂ઠ냥㤅꜎ⶩꩼ倍\udeda", 143055043, -1572425112));
-               ((vlv)hag(var2, a.c(-1035039376, "败\uf4a2繵\ue016毝\ued6d"))).set(a.d("ﯧ艥ࢾ雈", 893300861, 618089420));
-               ((vmc)hag(var2, a.d("圥⺧ꑼ㨊뇕㝣贽ӌ", 966683043, -1209909540))).set(0.7);
-               ((vmc)hag(var2, a.d("\uf8b1脥௸閆ṍ飦⊲ꭄ㔒", -415442843, 1256136849))).set(0.0);
-               ((vmc)hag(var2, a.d("說耿૯钄ὂ駤", -2060895661, 1597555639))).set(0.9);
-               ((vmc)hag(var2, a.d("穥Ͽ褯\u175e鲋", 1092827518, 1117733721))).set(0.6);
-               ((vmc)hag(var2, a.d("\udc56ꗛ⼒노㪥밃", 2032628115, 1257549200)))
-                  .set(
-                     Double.parseDouble(System.getenv().getOrDefault(a.c(-41168118, "퍝ꫦ‶빟㗭댱८肘Ờ鑰Ꮌ\ue9df朄ﺩ瓠\uf20a䡏"), a.d("阉\uefa6敩ײַ", 924644733, -1993907392)))
-                  );
-               ((vkl)hag(var2, a.c(-364400684, "꾛혆峖스䥩쿟痞ﱨ戢\ue880潖锦"))).set(true);
-               ((vkl)hag(var2, a.d("켉뚑㱉ꈥ⦡꽔ᔑ鳽ʽ蠏", 1964666462, 1378590993))).set(true);
-               ((vlv)hag(var2, a.b("籞\u05cb輌ᅰ骢ᰎꙐ", 671841288))).set(a.c(-1234508476, "\ue508鲘ᙅ蠻"));
-               var2.setEnabled(true);
-               hab = var1;
-               return false;
-            }
-         }
       } else {
-         int var3 = var1 - hab - 520;
-         if (var3 == -500) {
-            hah(var0, a.d("\udaa2ꌜ⧊랻㰠뫏Ï褢\u177e鷝ᩐ\ue07f滶\uf714絛ﮩ䇴칻咇틕嬰ℿ꿊㐃눢㢼脌ཏ闹Ꭰ須", -1389541723, -1483498370));
-            hah(var0, a.d("쐕붫㝽ꤌ⊗ꑸṸ鞕\u09c9荪ӧﻅ瀎\ue9ae掣\ue501归킀䨡찮䖖㿄녥⫪곆☋龩ᆦ謞ൌ蛭硻\uf221毃\ued82朳\ud8c8劄푙䷫잸륁", 558560400, 2007380169));
-            hah(var0, a.c(375565197, "꯴퉊墜웭䵶쮙熙\uf877昺\uecd5歕鄸῾蘑ఏ諭ー뽡◀ꏏ⩫倦\ude84䔋쌼䧻\uf01f繘\ue4ba拺\ue95e"));
-            hah(var0, a.d("ᢊ愴\uebe2疓︈磧싾䬛픚念\ud878≚겔㔱뼼㦇菜\u0c53隭ჯ饆\ue35d淺\uf678瀀響䍸촢埯톃娠ꓪ⺯띖ㄝ", -10025834, 1188895833));
-            hah(var0, a.c(-367724837, "\uf695輫\u05fd鮌ဗ雸\u2cf8ꔕ㭛놴㘴챙䊟\udb70兰힝淑\ue212磿ﻡ眇ഈ菨ᠥ鹋ᓄ괤⍫릏㾝됢䫾삱奎\udf14喳\uea63怉\ue6db罡"));
-            hah(var0, a.b("䇚㡤늲ⳃꝘ↷鮷ቝ谔ۻ腶筙\uf5dd汷\ue632悝\uda81啋쿮䧡쁚먙㓴꽶⤒ꏕᨩ鑶\u0e8b裮ͮﶼ矻", -785301091));
-            hah(var0, a.d("\ueb46鋸ᠮ號හ謫ㄴ룇⚈걧⯪퇅彁웩䲾쩟灎ￕ敧\ue323檊႔鸤ק菆ॄ냩㺳ꑜ≞ꧪ圠\udd6e䒔싽䡱\uf7b6緜ﬅ押\ue8fb", -256150883, 1014602132));
-            hah(var0, a.b("뫜썢䦴ퟅ属\udab1悮\ue95d眒﷽穽耐໖霹ᴹ鯖↝깛㒶늭㭛䄟쿲呰툓壓\ue13e漼\uf5d5率\uf824ڲ賨ᔊ鍋᧺ꘁⱍꪐ㌢륱있", 2040838800));
+         if (var1 < 10) {
+            return false;
          }
 
-         if (var3 == -480) {
-            var0.field_1724.method_31549().field_7479 = false;
-         }
+         if (hab < 0) {
+            if (!haa) {
+               return false;
+            } else {
+               BlockPos var13 = gzz;
+               if (var13 == null) {
+                  System.out.println(a.d("뚤켒䗚\udbb6偾횘泑\ue56e笰\uf1ce癍谠˺魃ᄗ韻ⷧꉰ㣊뺁㝭䴶", -1066735519, -975544672));
+                  return true;
+               } else {
+                  System.out.println(a.b("圡⺗ꑟ㨳뇻㜇贕ӱ髺", 845436763) + var13.toShortString());
+                  hah(
+                     var0,
+                     a.b("熏࠺芹Შ靌ᆮ", -1708297731)
+                        + var13.getX()
+                        + a.d("\uf382", -612820508, 1748757063)
+                        + var13.getY()
+                        + a.b("\uf2ff", -368184610)
+                        + var13.getZ()
+                        + a.c(393713989, "饡\ue0c0樃\uf462")
+                  );
+                  hah(var0, a.d("櫒\u137e馩ߐ豂ઠ냥㤅꜎ⶩꩼ倍\udeda", 143055043, -1572425112));
+                  ((vlv)hag(var2, a.c(-1035039376, "败\uf4a2繵\ue016毝\ued6d"))).set(a.d("ﯧ艥ࢾ雈", 893300861, 618089420));
+                  ((vmc)hag(var2, a.d("圥⺧ꑼ㨊뇕㝣贽ӌ", 966683043, -1209909540))).set(0.7);
+                  ((vmc)hag(var2, a.d("\uf8b1脥௸閆ṍ飦⊲ꭄ㔒", -415442843, 1256136849))).set(0.0);
+                  ((vmc)hag(var2, a.d("說耿૯钄ὂ駤", -2060895661, 1597555639))).set(0.9);
+                  ((vmc)hag(var2, a.d("穥Ͽ褯\u175e鲋", 1092827518, 1117733721))).set(0.6);
+                  ((vmc)hag(var2, a.d("\udc56ꗛ⼒노㪥밃", 2032628115, 1257549200)))
+                     .set(
+                        Double.parseDouble(
+                           System.getenv().getOrDefault(a.c(-41168118, "퍝ꫦ‶빟㗭댱८肘Ờ鑰Ꮌ\ue9df朄ﺩ瓠\uf20a䡏"), a.d("阉\uefa6敩ײַ", 924644733, -1993907392))
+                        )
+                     );
+                  ((vkl)hag(var2, a.c(-364400684, "꾛혆峖스䥩쿟痞ﱨ戢\ue880潖锦"))).set(true);
+                  ((vkl)hag(var2, a.d("켉뚑㱉ꈥ⦡꽔ᔑ鳽ʽ蠏", 1964666462, 1378590993))).set(true);
+                  ((vlv)hag(var2, a.b("籞\u05cb輌ᅰ骢ᰎꙐ", 671841288))).set(a.c(-1234508476, "\ue508鲘ᙅ蠻"));
+                  var2.setEnabled(true);
+                  hab = var1;
+                  return false;
+               }
+            }
+         } else {
+            int var3 = var1 - hab - 520;
+            if (var3 == -500) {
+               hah(var0, a.d("\udaa2ꌜ⧊랻㰠뫏Ï褢\u177e鷝ᩐ\ue07f滶\uf714絛ﮩ䇴칻咇틕嬰ℿ꿊㐃눢㢼脌ཏ闹Ꭰ須", -1389541723, -1483498370));
+               hah(var0, a.d("쐕붫㝽ꤌ⊗ꑸṸ鞕\u09c9荪ӧﻅ瀎\ue9ae掣\ue501归킀䨡찮䖖㿄녥⫪곆☋龩ᆦ謞ൌ蛭硻\uf221毃\ued82朳\ud8c8劄푙䷫잸륁", 558560400, 2007380169));
+               hah(var0, a.c(375565197, "꯴퉊墜웭䵶쮙熙\uf877昺\uecd5歕鄸῾蘑ఏ諭ー뽡◀ꏏ⩫倦\ude84䔋쌼䧻\uf01f繘\ue4ba拺\ue95e"));
+               hah(var0, a.d("ᢊ愴\uebe2疓︈磧싾䬛픚念\ud878≚겔㔱뼼㦇菜\u0c53隭ჯ饆\ue35d淺\uf678瀀響䍸촢埯톃娠ꓪ⺯띖ㄝ", -10025834, 1188895833));
+               hah(var0, a.c(-367724837, "\uf695輫\u05fd鮌ဗ雸\u2cf8ꔕ㭛놴㘴챙䊟\udb70兰힝淑\ue212磿ﻡ眇ഈ菨ᠥ鹋ᓄ괤⍫릏㾝됢䫾삱奎\udf14喳\uea63怉\ue6db罡"));
+               hah(var0, a.b("䇚㡤늲ⳃꝘ↷鮷ቝ谔ۻ腶筙\uf5dd汷\ue632悝\uda81啋쿮䧡쁚먙㓴꽶⤒ꏕᨩ鑶\u0e8b裮ͮﶼ矻", -785301091));
+               hah(var0, a.d("\ueb46鋸ᠮ號හ謫ㄴ룇⚈걧⯪퇅彁웩䲾쩟灎ￕ敧\ue323檊႔鸤ק菆ॄ냩㺳ꑜ≞ꧪ圠\udd6e䒔싽䡱\uf7b6緜ﬅ押\ue8fb", -256150883, 1014602132));
+               hah(var0, a.b("뫜썢䦴ퟅ属\udab1悮\ue95d眒﷽穽耐໖霹ᴹ鯖↝깛㒶늭㭛䄟쿲呰툓壓\ue13e漼\uf5d5率\uf824ڲ賨ᔊ鍋᧺ꘁⱍꪐ㌢륱있", 2040838800));
+            }
 
-         if (var0.field_1755 != null) {
-            var0.method_1507(null);
-         }
+            if (var3 == -480) {
+               var0.player.getAbilities().flying = false;
+            }
 
-         if (var3 == -40) {
-            uxx.timing(true);
-            uxx.gpuMillis();
-         }
+            if (var0.currentScreen != null) {
+               var0.setScreen(null);
+            }
 
-         if (var3 == -1) {
-            System.out.println(a.b("௹牏\uf887曫\ued23毟퇋堭왷䲓", -1257501824) + uxx.gpuReport());
-         }
+            if (var3 == -40) {
+               uxx.timing(true);
+               uxx.gpuMillis();
+            }
 
-         for (gzj var7 : gzw) {
-            if (gzv == null || var7.gzl.startsWith(gzv)) {
-               int var8 = var7.gzq.equals(a.b("\udd1d꒱\u2e73", 1334238582)) ? 90 : (var7.gzq.equals(a.b("\uf5ea豈ړ飥", 439874972)) ? 130 : 36);
-               if (var3 == var7.gzk - var8) {
-                  hah(var0, a.c(-209631884, "䔉㲥뙲⠋ꎙ╻鼾ᛞ裕") + var7.gzm);
-                  var2.setEnabled(var7.gzp);
-                  var0.field_1690.field_1842 = !var7.gzq.equals(a.b("\uf221讍ŏ", -160501174));
-                  if (var7.gzq.equals(a.c(1159962363, "麴\ue726淭"))
-                     || var7.gzq.equals(a.d("맙쁀䪒퓮弥\ud98c", -978177975, 1316129243))
-                     || var7.gzq.equals(a.d("聼溺猱\ued4f", -1488011237, -597278677))) {
-                     ((vlv)hag(var2, a.d("莜降烎\ueeb2敠\ue3cc妒", 420493145, -233524077))).set(var7.gzq);
-                  }
+            if (var3 == -1) {
+               System.out.println(a.b("௹牏\uf887曫\ued23毟퇋堭왷䲓", -1257501824) + uxx.gpuReport());
+            }
 
-                  haf(var0, var7.gzn, var7.gzo);
-                  if (var7.gzq.equals(a.d("Ⲻ唘\udfc3䆵", 174860185, 1521486677))) {
-                     hah(var0, a.b("騀\ue3a3楴\uf710糛逸䀣즀垍\udd2f嫴ꂂ", 2105580155));
-                  }
-               } else if (var3 != var7.gzk - 30
-                  || !var7.gzq.equals(a.c(-46849522, "≁寓턘"))
-                     && !var7.gzq.equals(a.c(-1378828215, "쀂릛㍉괵⛾ꁗ"))
-                     && !var7.gzq.equals(a.d("\u0bd8版\uf895曫", -131874378, -894514654))) {
-                  if (var3 != var7.gzk - 3 || !var7.gzq.startsWith(a.b("累胳ਣ鑊ΐ", 725350696)) && !var7.gzq.startsWith(a.c(-1329097185, "陿\uefc4攚ﭹ炵\uf656"))) {
-                     if (var3 == var7.gzk - 2) {
-                        haf(var0, var7.gzn, var7.gzo);
-                     } else if (var3 == var7.gzk) {
-                        if (var7.gzq.equals(a.b("艺ﯨ焣", 1441169973))
-                           || var7.gzq.equals(a.b("碄ĝ诏ᖳ鹸ᣑ", -1753515825))
-                           || var7.gzq.equals(a.c(1280185584, "ᒼ洬\ue7f1福"))) {
+            for (gzj var7 : gzw) {
+               if (gzv == null || var7.gzl.startsWith(gzv)) {
+                  int var8 = var7.gzq.equals(a.b("\udd1d꒱\u2e73", 1334238582)) ? 90 : (var7.gzq.equals(a.b("\uf5ea豈ړ飥", 439874972)) ? 130 : 36);
+                  if (var3 == var7.gzk - var8) {
+                     hah(var0, a.c(-209631884, "䔉㲥뙲⠋ꎙ╻鼾ᛞ裕") + var7.gzm);
+                     var2.setEnabled(var7.gzp);
+                     var0.options.hudHidden = !var7.gzq.equals(a.b("\uf221讍ŏ", -160501174));
+                     if (var7.gzq.equals(a.c(1159962363, "麴\ue726淭"))
+                        || var7.gzq.equals(a.d("맙쁀䪒퓮弥\ud98c", -978177975, 1316129243))
+                        || var7.gzq.equals(a.d("聼溺猱\ued4f", -1488011237, -597278677))) {
+                        ((vlv)hag(var2, a.d("莜降烎\ueeb2敠\ue3cc妒", 420493145, -233524077))).set(var7.gzq);
+                     }
+
+                     haf(var0, var7.gzn, var7.gzo);
+                     if (var7.gzq.equals(a.d("Ⲻ唘\udfc3䆵", 174860185, 1521486677))) {
+                        hah(var0, a.b("騀\ue3a3楴\uf710糛逸䀣즀垍\udd2f嫴ꂂ", 2105580155));
+                     }
+                  } else if (var3 != var7.gzk - 30
+                     || !var7.gzq.equals(a.c(-46849522, "≁寓턘"))
+                        && !var7.gzq.equals(a.c(-1378828215, "쀂릛㍉괵⛾ꁗ"))
+                        && !var7.gzq.equals(a.d("\u0bd8版\uf895曫", -131874378, -894514654))) {
+                     if (var3 != var7.gzk - 3 || !var7.gzq.startsWith(a.b("累胳ਣ鑊ΐ", 725350696)) && !var7.gzq.startsWith(a.c(-1329097185, "陿\uefc4攚ﭹ炵\uf656"))) {
+                        if (var3 == var7.gzk - 2) {
+                           haf(var0, var7.gzn, var7.gzo);
+                        } else if (var3 == var7.gzk) {
+                           if (var7.gzq.equals(a.b("艺ﯨ焣", 1441169973))
+                              || var7.gzq.equals(a.b("碄ĝ诏ᖳ鹸ᣑ", -1753515825))
+                              || var7.gzq.equals(a.c(1280185584, "ᒼ洬\ue7f1福"))) {
+                              System.out
+                                 .println(
+                                    a.c(838323896, "컍띻㶳ꏟ⠗껫")
+                                       + var7.gzl
+                                       + a.d("콎뚸㱼ꈈ⦊", 899869419, -333830784)
+                                       + uxx.gpuReport()
+                                       + a.b("缐ہ豲", 256278323)
+                                       + var0.getCurrentFps()
+                                       + a.c(-395673399, "胭駱珟\uedad")
+                                 );
+                           }
+
+                           hai(var0, a.b("䐱㶇띏⤣ꋫ␚", -1219148732) + var7.gzl);
+                           System.out.println(a.b("蘑ﾧ畯\ueb03惋\ue637尥헀䮎섲䛧볙", -1073117586) + vss.report());
+                        } else if (var3 == var7.gzk + 2 && var7.gzq.equals(a.d("మ疌ｗ愡", 1620330410, 767118322))) {
                            System.out
                               .println(
-                                 a.c(838323896, "컍띻㶳ꏟ⠗껫")
-                                    + var7.gzl
-                                    + a.d("콎뚸㱼ꈈ⦊", 899869419, -333830784)
-                                    + uxx.gpuReport()
-                                    + a.b("缐ہ豲", 256278323)
-                                    + var0.method_47599()
-                                    + a.c(-395673399, "胭駱珟\uedad")
+                                 a.b("ꞌ\ude3a哲쪞䅖잪綪\uf44d樅\ue0b0杰鴖᎓詰0蛉㲁댞⧪꾮♊尞튠䥽켉䗂ﰥ", 792438756)
+                                    + var0.world.getRainGradient(1.0F)
+                                    + a.d("悎ᥭ鎭ු蘄²뫦㌞괆", -965558439, 789766142)
+                                    + var0.world.isRaining()
                               );
+                           hah(var0, a.b("擑ᵲ鞥ু舊Ҷ뻲㝑ꥍ⏳ꐩ幜킘", -32676693));
+                        } else if (var3 == var7.gzk + 4
+                           && (var7.gzq.startsWith(a.d("铉\ued75枥琉牕", 1833965833, -619868761)) || var7.gzq.startsWith(a.b("\ue547鳼ᘢ衁\u038d蕮", -1916541657)))) {
+                           ((sbp)var2).testStrike(100000.0F, false, 0.0, 10.0);
                         }
-
-                        hai(var0, a.b("䐱㶇띏⤣ꋫ␚", -1219148732) + var7.gzl);
-                        System.out.println(a.b("蘑ﾧ畯\ueb03惋\ue637尥헀䮎섲䛧볙", -1073117586) + vss.report());
-                     } else if (var3 == var7.gzk + 2 && var7.gzq.equals(a.d("మ疌ｗ愡", 1620330410, 767118322))) {
-                        System.out
-                           .println(
-                              a.b("ꞌ\ude3a哲쪞䅖잪綪\uf44d樅\ue0b0杰鴖᎓詰0蛉㲁댞⧪꾮♊尞튠䥽켉䗂ﰥ", 792438756)
-                                 + var0.field_1687.method_8430(1.0F)
-                                 + a.d("悎ᥭ鎭ු蘄²뫦㌞괆", -965558439, 789766142)
-                                 + var0.field_1687.method_8419()
-                           );
-                        hah(var0, a.b("擑ᵲ鞥ু舊Ҷ뻲㝑ꥍ⏳ꐩ幜킘", -32676693));
-                     } else if (var3 == var7.gzk + 4
-                        && (var7.gzq.startsWith(a.d("铉\ued75枥琉牕", 1833965833, -619868761)) || var7.gzq.startsWith(a.b("\ue547鳼ᘢ衁\u038d蕮", -1916541657)))) {
-                        ((sbp)var2).testStrike(100000.0F, false, 0.0, 10.0);
+                     } else {
+                        float var9 = Float.parseFloat(var7.gzq.substring(var7.gzq.indexOf(58) + 1));
+                        float var10 = var7.gzn * (float) (Math.PI / 180.0);
+                        double var11 = Math.atan2(Math.cos(var10), -Math.sin(var10));
+                        ((sbp)var2).testStrike(var9, var7.gzq.startsWith(a.b("湼ៀ鴐\u0379裠", 380923419)), var11, 0.03);
                      }
                   } else {
-                     float var9 = Float.parseFloat(var7.gzq.substring(var7.gzq.indexOf(58) + 1));
-                     float var10 = var7.gzn * (float) (Math.PI / 180.0);
-                     double var11 = Math.atan2(Math.cos(var10), -Math.sin(var10));
-                     ((sbp)var2).testStrike(var9, var7.gzq.startsWith(a.b("湼ៀ鴐\u0379裠", 380923419)), var11, 0.03);
+                     uxx.gpuMillis();
                   }
-               } else {
-                  uxx.gpuMillis();
-               }
-            }
-         }
-
-         if (var3 > gzw[gzw.length - 1].gzk + 10) {
-            uxx.timing(false);
-            var0.field_1690.field_1842 = false;
-
-            for (int var15 = 0; var15 < gzx.length; var15++) {
-               kfe var17 = Flow.getInstance().getModuleManager().getByName(gzx[var15]);
-               if (var17 != null) {
-                  var17.setEnabled(gzy[var15]);
                }
             }
 
-            return true;
-         } else {
-            return false;
+            if (var3 > gzw[gzw.length - 1].gzk + 10) {
+               uxx.timing(false);
+               var0.options.hudHidden = false;
+
+               for (int var15 = 0; var15 < gzx.length; var15++) {
+                  kfe var17 = Flow.getInstance().getModuleManager().getByName(gzx[var15]);
+                  if (var17 != null) {
+                     var17.setEnabled(gzy[var15]);
+                  }
+               }
+
+               return true;
+            } else {
+               return false;
+            }
          }
       }
    }
@@ -238,17 +244,17 @@ final class gzt {
    private static void hae(MinecraftClient var0) {
       gzz = null;
       haa = false;
-      IntegratedServer var1 = var0.method_1576();
-      BlockPos var2 = var0.field_1724.method_24515();
+      IntegratedServer var1 = var0.getServer();
+      BlockPos var2 = var0.player.getBlockPos();
       var1.execute(() -> {
          try {
-            ServerWorld var2x = var1.method_30002();
-            Pair var3 = var2x.method_42108(var0xx -> var0xx.method_40225(BiomeKeys.field_9451), var2, 6400, 32, 64);
+            ServerWorld var2x = var1.getOverworld();
+            Pair var3 = var2x.locateBiome(var0xx -> var0xx.matchesKey(BiomeKeys.PLAINS), var2, 6400, 32, 64);
             if (var3 != null) {
                BlockPos var4 = (BlockPos)var3.getFirst();
-               var2x.method_8500(var4);
-               int var5 = var2x.method_8624(Type.field_13203, var4.method_10263(), var4.method_10260());
-               gzz = new BlockPos(var4.method_10263(), var5, var4.method_10260());
+               var2x.getWorldChunk(var4);
+               int var5 = var2x.getTopY(Type.MOTION_BLOCKING_NO_LEAVES, var4.getX(), var4.getZ());
+               gzz = new BlockPos(var4.getX(), var5, var4.getZ());
             }
          } catch (Throwable var6) {
             System.out.println(a.b("弾⚈걀㈬매㼘蔇\u0cf5銦᠕鿓斳\ueb21狖\uf882繻쐱䯩텛坔\udeb9", 787439448) + var6);
@@ -259,10 +265,10 @@ final class gzt {
    }
 
    private static void haf(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static vmo hag(kfe var0, String var1) {
@@ -276,15 +282,15 @@ final class gzt {
    }
 
    private static void hah(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void hai(MinecraftClient var0, String var1) {
-      System.out.println(a.b("ㄼ䢛쉁尺\ud7ab兎\ueb0c拫ﲳ癖", 1767715141) + var1 + a.c(-678339050, "帵⟤굗") + var0.method_47599() + a.d("䩗㎠륥✗", -1698887769, 701779412));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.b("ㄼ䢛쉁尺\ud7ab兎\ueb0c拫ﲳ癖", 1767715141) + var1 + a.c(-678339050, "帵⟤굗") + var0.getCurrentFps() + a.d("䩗㎠륥✗", -1698887769, 701779412));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("Ｑ蚊ౚ鈳ᦡ鼏", -406698519, 135838392) + var1 + a.b("蚖ｹ疴\uebcc", 1204324028),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

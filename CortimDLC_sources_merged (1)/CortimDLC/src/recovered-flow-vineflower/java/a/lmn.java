@@ -39,19 +39,19 @@ public final class lmn {
    }
 
    public void predict(ClientPlayerEntity var1, World var2, double var3) {
-      Box var5 = var1.method_5829();
-      boolean var6 = var1.method_24828();
+      Box var5 = var1.getBoundingBox();
+      boolean var6 = var1.isOnGround();
       double var7 = var3;
-      Vec3d var9 = var1.method_18798();
-      double var10 = var9.field_1352;
-      double var12 = var9.field_1351;
-      double var14 = var9.field_1350;
-      double var16 = var1.method_23320() - var1.method_23318();
-      double var18 = var1.method_56989();
+      Vec3d var9 = var1.getVelocity();
+      double var10 = var9.x;
+      double var12 = var9.y;
+      double var14 = var9.z;
+      double var16 = var1.getEyeY() - var1.getY();
+      double var18 = var1.getFinalGravity();
       double var20 = 0.0;
       double var22 = 0.0;
-      double var24 = var1.field_6212;
-      double var26 = var1.field_6250;
+      double var24 = var1.sidewaysSpeed;
+      double var26 = var1.forwardSpeed;
       double var28 = var24 * var24 + var26 * var26;
       if (var28 > 1.0E-7) {
          if (var28 > 1.0) {
@@ -60,17 +60,17 @@ public final class lmn {
             var26 /= var30;
          }
 
-         double var41 = var1.method_5624() ? 0.026 : 0.02;
-         float var32 = var1.method_36454() * (float) (Math.PI / 180.0);
-         double var33 = MathHelper.method_15374(var32);
-         double var35 = MathHelper.method_15362(var32);
+         double var41 = var1.isSprinting() ? 0.026 : 0.02;
+         float var32 = var1.getYaw() * (float) (Math.PI / 180.0);
+         double var33 = MathHelper.sin(var32);
+         double var35 = MathHelper.cos(var32);
          var20 = (var24 * var35 - var26 * var33) * var41;
          var22 = (var26 * var35 + var24 * var33) * var41;
       }
 
-      double var42 = var1.method_23317();
-      double var43 = var1.method_23318();
-      double var34 = var1.method_23321();
+      double var42 = var1.getX();
+      double var43 = var1.getY();
+      double var34 = var1.getZ();
       this.lmv = 43;
 
       for (int var36 = 0; var36 < 43; var36++) {
@@ -98,31 +98,31 @@ public final class lmn {
 
             var10 += var20;
             var14 += var22;
-            Vec3d var37 = Entity.method_20736(var1, new Vec3d(var10, var12, var14), var5, var2, List.of());
-            boolean var38 = var37.field_1351 != var12;
+            Vec3d var37 = Entity.adjustMovementForCollisions(var1, new Vec3d(var10, var12, var14), var5, var2, List.of());
+            boolean var38 = var37.y != var12;
             var6 = var38 && var12 < 0.0;
-            if (var37.field_1352 != var10) {
+            if (var37.x != var10) {
                var10 = 0.0;
             }
 
-            if (var37.field_1350 != var14) {
+            if (var37.z != var14) {
                var14 = 0.0;
             }
 
-            if (var37.field_1351 > 0.0) {
+            if (var37.y > 0.0) {
                var7 = 0.0;
-            } else if (var37.field_1351 < 0.0) {
-               var7 -= var37.field_1351;
+            } else if (var37.y < 0.0) {
+               var7 -= var37.y;
             }
 
             if (var6) {
                var7 = 0.0;
             }
 
-            var5 = var5.method_997(var37);
-            var42 += var37.field_1352;
-            var43 += var37.field_1351;
-            var34 += var37.field_1350;
+            var5 = var5.offset(var37);
+            var42 += var37.x;
+            var43 += var37.y;
+            var34 += var37.z;
             if (var38) {
                var12 = 0.0;
             }
@@ -141,24 +141,24 @@ public final class lmn {
    public boolean safe(int var1) {
       if (!this.smash(var1)) {
          return false;
-      } else {
-         for (int var2 = 1; var2 <= 2; var2++) {
-            if (this.lmu[var1 + var2]) {
-               return false;
-            }
-         }
-
-         return true;
       }
+
+      for (int var2 = 1; var2 <= 2; var2++) {
+         if (this.lmu[var1 + var2]) {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    public Vec3d eye(int var1) {
-      int var2 = MathHelper.method_15340(var1, 0, 42);
+      int var2 = MathHelper.clamp(var1, 0, 42);
       return new Vec3d(this.lmq[var2], this.lmr[var2], this.lms[var2]);
    }
 
    public double fall(int var1) {
-      return this.lmt[MathHelper.method_15340(var1, 0, 42)];
+      return this.lmt[MathHelper.clamp(var1, 0, 42)];
    }
 
    public int landing() {
@@ -166,24 +166,24 @@ public final class lmn {
    }
 
    public Box sweep(ClientPlayerEntity var1) {
-      Vec3d var2 = this.eye(39).method_1020(this.eye(0));
-      return var1.method_5829().method_18804(var2);
+      Vec3d var2 = this.eye(39).subtract(this.eye(0));
+      return var1.getBoundingBox().stretch(var2);
    }
 
    public static boolean environment(ClientPlayerEntity var0, World var1) {
-      return !var0.method_6101()
-         && !var0.method_5799()
-         && !var0.method_5771()
-         && !var0.method_5765()
-         && !var0.method_6128()
-         && !var0.method_31549().field_7479
-         && !var0.field_27857
-         && !var0.method_6059(StatusEffects.field_5902)
-         && !var0.method_6059(StatusEffects.field_5906)
-         && var1.method_29546(var0.method_5829().method_1011(1.0E-7)).noneMatch(lmn::lna);
+      return !var0.isClimbing()
+         && !var0.isTouchingWater()
+         && !var0.isInLava()
+         && !var0.hasVehicle()
+         && !var0.isGliding()
+         && !var0.getAbilities().flying
+         && !var0.inPowderSnow
+         && !var0.hasStatusEffect(StatusEffects.LEVITATION)
+         && !var0.hasStatusEffect(StatusEffects.SLOW_FALLING)
+         && var1.getStatesInBox(var0.getBoundingBox().contract(1.0E-7)).noneMatch(lmn::lna);
    }
 
    private static boolean lna(BlockState var0) {
-      return var0.method_27852(Blocks.field_10343) || var0.method_27852(Blocks.field_16999) || var0.method_27852(Blocks.field_27879);
+      return var0.isOf(Blocks.COBWEB) || var0.isOf(Blocks.SWEET_BERRY_BUSH) || var0.isOf(Blocks.POWDER_SNOW);
    }
 }

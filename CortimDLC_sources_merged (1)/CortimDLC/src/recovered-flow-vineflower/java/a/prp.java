@@ -10,14 +10,14 @@ public final class prp {
    }
 
    public static double multiplier() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      if (var0.field_1690 == null) {
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      if (var0.options == null) {
          return 0.0;
-      } else {
-         double var1 = (Double)var0.field_1690.method_42495().method_41753() * 0.6F + 0.2F;
-         double var3 = var1 * var1 * var1;
-         return var0.field_1724 != null && var0.field_1690.method_31044().method_31034() && var0.field_1724.method_31550() ? var3 : var3 * 8.0;
       }
+
+      double var1 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
+      double var3 = var1 * var1 * var1;
+      return var0.player != null && var0.options.getPerspective().isFirstPerson() && var0.player.isUsingSpyglass() ? var3 : var3 * 8.0;
    }
 
    public static double step() {
@@ -43,7 +43,7 @@ public final class prp {
          double var6 = (double)var2 - var0;
          double var8 = Math.floor((var6 + 180.0) / 360.0) * 360.0;
          float var10 = (float)(var0 + var8) + quantize(var6 - var8, var4);
-         float var11 = MathHelper.method_15363(var1 + quantize((double)var3 - var1, var4), -90.0F, 90.0F);
+         float var11 = MathHelper.clamp(var1 + quantize((double)var3 - var1, var4), -90.0F, 90.0F);
          return new float[]{Float.isFinite(var10) ? var10 : var2, Float.isFinite(var11) ? var11 : var3};
       } else {
          return new float[]{var2, var3};

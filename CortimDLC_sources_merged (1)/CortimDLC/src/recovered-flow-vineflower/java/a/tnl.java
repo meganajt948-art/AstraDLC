@@ -59,8 +59,8 @@ public final class tnl {
             }
          }
 
-         Object var30 = var7.isEmpty() ? var6 : var7;
-         lastEpisodes = (List<tmn>)var30;
+         List var30 = var7.isEmpty() ? var6 : var7;
+         lastEpisodes = var30;
          ArrayList var31 = new ArrayList(var5);
          if (var1.mirror) {
             for (sze var34 : var5) {
@@ -106,7 +106,7 @@ public final class tnl {
                      var33,
                      var31,
                      var8,
-                     (List<tmn>)var30,
+                     var30,
                      var16,
                      var35,
                      var36,
@@ -151,17 +151,17 @@ public final class tnl {
             var33.kind = 1;
             ownHand(var3, var5, var33, var4);
             var2.phase = a.d("ⵛ哫\ude23䁙", 157518392, 500606739);
-            tuneTexture(var33, (List<tmn>)(var39.size() > 400 ? var39.subList(0, 400) : var39), var1.seed, var2);
+            tuneTexture(var33, var39.size() > 400 ? var39.subList(0, 400) : var39, var1.seed, var2);
          } else {
-            tune(var33, (List<tmn>)(var39.size() > 240 ? var39.subList(0, 240) : var39), var1.seed);
+            tune(var33, var39.size() > 240 ? var39.subList(0, 240) : var39, var1.seed);
          }
 
-         tbs.score(var33, (List<tmn>)var30, new Random(var1.seed ^ 25214903917L));
+         tbs.score(var33, var30, new Random(var1.seed ^ 25214903917L));
          if (var1.dropOvershoot) {
             var33.overshootUser = (double)var3.stats.overshoots / Math.max(1, var3.stats.overshoots + var3.stats.usedHits);
          }
 
-         scoreAxes(var33, (List<tmn>)var30, var39, var1.seed);
+         scoreAxes(var33, var30, var39, var1.seed);
          if (var1.track) {
             var33.similarity = var33.axisScore(0) * 0.5 + var33.axisScore(1) * 0.5;
          }
@@ -991,16 +991,16 @@ public final class tnl {
    static double quantile(List<Double> var0, double var1) {
       if (var0.isEmpty()) {
          return Double.NaN;
-      } else {
-         double[] var3 = new double[var0.size()];
-
-         for (int var4 = 0; var4 < var3.length; var4++) {
-            var3[var4] = (Double)var0.get(var4);
-         }
-
-         Arrays.sort(var3);
-         return var3[Math.min(var3.length - 1, (int)Math.floor(var1 * (var3.length - 1)))];
       }
+
+      double[] var3 = new double[var0.size()];
+
+      for (int var4 = 0; var4 < var3.length; var4++) {
+         var3[var4] = (Double)var0.get(var4);
+      }
+
+      Arrays.sort(var3);
+      return var3[Math.min(var3.length - 1, (int)Math.floor(var1 * (var3.length - 1)))];
    }
 
    private static void too(szk var0, tck var1, Random var2) {

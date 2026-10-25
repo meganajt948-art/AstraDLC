@@ -97,17 +97,17 @@ final class gnr {
 
    static boolean tick(MinecraftClient var0) {
       goi++;
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       gps();
       if (goi == 1) {
-         int var14 = MathHelper.method_15357(var1.method_23317());
-         int var15 = MathHelper.method_15357(var1.method_23318());
-         int var16 = MathHelper.method_15357(var1.method_23321());
+         int var14 = MathHelper.floor(var1.getX());
+         int var15 = MathHelper.floor(var1.getY());
+         int var16 = MathHelper.floor(var1.getZ());
          gok = var14 + 0.5;
          gol = var15;
          gom = var16 + 0.5;
-         gof = var1.method_5667();
-         gpb = var1.method_5628();
+         gof = var1.getUuid();
+         gpb = var1.getId();
          gpt(var0, a.d("簮֙轆ᄿ髠᱓ꘋ⿻뇡㬃볖䚠졳凝\udb91嵷\ue735", 1663005300, 1826295340));
          gpt(var0, a.c(811379863, "곯핃徔쇭䩿첝盘Ｘ愳\uebc6氐陹"));
          gpt(var0, a.c(14001628, "ꖦ\udc05囒좶䍽엁羅\uf626栺\ue284敞鼫ᇯ"));
@@ -130,156 +130,158 @@ final class gnr {
             )
          );
          gpt(var0, String.format(Locale.ROOT, a.b("⛒彧헤䯵쀑䛳ﲥ畟\ueb1f懹\ue66cᰘ銎\u0b7b脭ߗ붇㈁ꣴ⺨ꝋ\udd13厰족", 61023934), gok, var15, gom));
-         var1.method_31548().method_61496(0);
+         var1.getInventory().setSelectedSlot(0);
          return false;
-      } else if (goi == 8) {
+      }
+
+      if (goi == 8) {
          double var13 = gok + 2.7;
-         var0.method_1576().execute(() -> fnq.spawn(var0.method_1576(), gof, var13, gol, gom));
+         var0.getServer().execute(() -> fnq.spawn(var0.getServer(), gof, var13, gol, gom));
+         return false;
+      }
+
+      if (goi == 40) {
+         gpq();
+      }
+
+      if (goi < 100) {
+         if (goi > 20) {
+            gpr(var0);
+         }
+
          return false;
       } else {
-         if (goi == 40) {
-            gpq();
+         wcn.ensure(var0);
+         Entity var2 = gpr(var0);
+         if (var2 == null) {
+            System.out.println(a.c(-468677319, "赀\uf4ec縯\ue055殟\ued7a坽\ude9d䃔쩢䷥럲㤢ꂛ⫍걐ᙑ馁ͽ蕮ಔ盞"));
+            return true;
          }
 
-         if (goi < 100) {
-            if (goi > 20) {
-               gpr(var0);
-            }
-
-            return false;
-         } else {
-            wcn.ensure(var0);
-            Entity var2 = gpr(var0);
-            if (var2 == null) {
-               System.out.println(a.c(-468677319, "赀\uf4ec縯\ue055殟\ued7a坽\ude9d䃔쩢䷥럲㤢ꂛ⫍걐ᙑ馁ͽ蕮ಔ盞"));
-               return true;
-            } else {
-               if (var0.field_1729.method_1613()) {
-                  var0.field_1729.method_1610();
-               }
-
-               int var3 = goi - 100;
-               int var4 = 0;
-
-               for (int var5 = 0; var4 < gnt.length && var3 >= var5 + gnt[var4].gmz; var4++) {
-                  var5 += gnt[var4].gmz;
-               }
-
-               if (var4 >= gnt.length) {
-                  goc = false;
-                  fnq.active = false;
-                  fnq.orbit = 0;
-                  var0.field_1690.field_1903.method_23481(false);
-                  gpk(var0);
-                  gpp();
-                  return true;
-               } else {
-                  gmx var6 = gnt[var4];
-                  if (var4 != gog) {
-                     gpl();
-                     if (gor && gog >= 0) {
-                        gpo(gnz[gog]);
-                     }
-
-                     gor = false;
-                     gog = var4;
-                     goj = goi;
-                     gnz[var4] = new gnl();
-                     fnq.orbit = var6.gna;
-                     fnq.jumping = true;
-                     fnq.aggression = var6.gnc;
-                     fnq.active = true;
-                     fnq.orbitRadiusSum = 0.0;
-                     fnq.orbitTurnSum = 0.0;
-                     fnq.orbitTicks = 0;
-                     goo = null;
-                     gop = -1;
-                     goc = true;
-                     System.out.println(a.d("\uecf6镚ᾙ臣\u0a29賌㛏뼦ⅰꯓⰖ혢", 473211277, 670518552) + var6.gmy);
-                  }
-
-                  if (--gox <= 0) {
-                     gox = 30 + gob.nextInt(60);
-                     gow = (gob.nextDouble() - 0.5) * 6.0;
-                  }
-
-                  var1.method_5872(gow / 0.15, 0.0);
-                  var0.field_1690.field_1903.method_23481(var6.gnb && goi - goj >= 20);
-                  gpi(var0, var1, var2, var6.gnd && goi - goj >= 20);
-                  float var7 = vxr.getFloat(gnx, var1, var1.method_36454());
-                  float var8 = vxr.getFloat(gny, var1, var1.method_36455());
-                  if (!Float.isNaN(gou) && goi - goj >= 20) {
-                     double var9 = MathHelper.method_15393(var7 - gou);
-                     double var11 = var8 - gov;
-                     gnz[var4].turns.add(Math.sqrt(var9 * var9 + var11 * var11));
-                  }
-
-                  gou = var7;
-                  gov = var8;
-                  return false;
-               }
-            }
+         if (var0.mouse.isCursorLocked()) {
+            var0.mouse.unlockCursor();
          }
+
+         int var3 = goi - 100;
+         int var4 = 0;
+
+         for (int var5 = 0; var4 < gnt.length && var3 >= var5 + gnt[var4].gmz; var4++) {
+            var5 += gnt[var4].gmz;
+         }
+
+         if (var4 >= gnt.length) {
+            goc = false;
+            fnq.active = false;
+            fnq.orbit = 0;
+            var0.options.jumpKey.setPressed(false);
+            gpk(var0);
+            gpp();
+            return true;
+         }
+
+         gmx var6 = gnt[var4];
+         if (var4 != gog) {
+            gpl();
+            if (gor && gog >= 0) {
+               gpo(gnz[gog]);
+            }
+
+            gor = false;
+            gog = var4;
+            goj = goi;
+            gnz[var4] = new gnl();
+            fnq.orbit = var6.gna;
+            fnq.jumping = true;
+            fnq.aggression = var6.gnc;
+            fnq.active = true;
+            fnq.orbitRadiusSum = 0.0;
+            fnq.orbitTurnSum = 0.0;
+            fnq.orbitTicks = 0;
+            goo = null;
+            gop = -1;
+            goc = true;
+            System.out.println(a.d("\uecf6镚ᾙ臣\u0a29賌㛏뼦ⅰꯓⰖ혢", 473211277, 670518552) + var6.gmy);
+         }
+
+         if (--gox <= 0) {
+            gox = 30 + gob.nextInt(60);
+            gow = (gob.nextDouble() - 0.5) * 6.0;
+         }
+
+         var1.changeLookDirection(gow / 0.15, 0.0);
+         var0.options.jumpKey.setPressed(var6.gnb && goi - goj >= 20);
+         gpi(var0, var1, var2, var6.gnd && goi - goj >= 20);
+         float var7 = vxr.getFloat(gnx, var1, var1.getYaw());
+         float var8 = vxr.getFloat(gny, var1, var1.getPitch());
+         if (!Float.isNaN(gou) && goi - goj >= 20) {
+            double var9 = MathHelper.wrapDegrees(var7 - gou);
+            double var11 = var8 - gov;
+            gnz[var4].turns.add(Math.sqrt(var9 * var9 + var11 * var11));
+         }
+
+         gou = var7;
+         gov = var8;
+         return false;
       }
    }
 
    private static void gpi(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
       gpa.clear();
       if (!var3) {
-         gpj(var0.field_1690.field_1894, false);
-         gpj(var0.field_1690.field_1881, false);
-         gpj(var0.field_1690.field_1913, false);
-         gpj(var0.field_1690.field_1849, false);
+         gpj(var0.options.forwardKey, false);
+         gpj(var0.options.backKey, false);
+         gpj(var0.options.leftKey, false);
+         gpj(var0.options.rightKey, false);
          vzz.simulated = gpa::contains;
       } else {
-         double var4 = var2.method_23317() - var1.method_23317();
-         double var6 = var2.method_23321() - var1.method_23321();
+         double var4 = var2.getX() - var1.getX();
+         double var6 = var2.getZ() - var1.getZ();
          double var8 = Math.max(0.001, Math.sqrt(var4 * var4 + var6 * var6));
          if (--gpd <= 0) {
             gpd = 15 + gob.nextInt(30);
             gpe = gob.nextInt(3) - 1;
          }
 
-         boolean var10 = Math.abs(var1.method_23317() - gok) > 11.0 || Math.abs(var1.method_23321() - gom) > 11.0;
+         boolean var10 = Math.abs(var1.getX() - gok) > 11.0 || Math.abs(var1.getZ() - gom) > 11.0;
          double var11 = var8 > 3.0 ? 1.0 : (var8 < 2.0 ? -1.0 : 0.0);
          double var13 = var10 ? 0.0 : gpe;
          double var15 = var4 / var8 * var11 + var6 / var8 * var13;
          double var17 = var6 / var8 * var11 - var4 / var8 * var13;
          if (var10) {
-            var15 = gok - var1.method_23317();
-            var17 = gom - var1.method_23321();
+            var15 = gok - var1.getX();
+            var17 = gom - var1.getZ();
          }
 
          double var19 = Math.hypot(var15, var17);
          double var21 = 0.0;
          double var23 = 0.0;
          if (var19 > 1.0E-6) {
-            double var25 = Math.toRadians(var1.method_36454());
+            double var25 = Math.toRadians(var1.getYaw());
             var21 = (var17 * Math.cos(var25) - var15 * Math.sin(var25)) / var19;
             var23 = (var15 * Math.cos(var25) + var17 * Math.sin(var25)) / var19;
          }
 
          double var27 = Math.sin(Math.toRadians(22.5));
-         gpj(var0.field_1690.field_1894, var21 > var27);
-         gpj(var0.field_1690.field_1881, var21 < -var27);
-         gpj(var0.field_1690.field_1913, var23 > var27);
-         gpj(var0.field_1690.field_1849, var23 < -var27);
+         gpj(var0.options.forwardKey, var21 > var27);
+         gpj(var0.options.backKey, var21 < -var27);
+         gpj(var0.options.leftKey, var23 > var27);
+         gpj(var0.options.rightKey, var23 < -var27);
          vzz.simulated = gpa::contains;
       }
    }
 
    private static void gpj(KeyBinding var0, boolean var1) {
-      var0.method_23481(var1);
+      var0.setPressed(var1);
       if (var1) {
-         gpa.add(KeyBindingHelper.getBoundKeyOf(var0).method_1444());
+         gpa.add(KeyBindingHelper.getBoundKeyOf(var0).getCode());
       }
    }
 
    private static void gpk(MinecraftClient var0) {
-      var0.field_1690.field_1894.method_23481(false);
-      var0.field_1690.field_1881.method_23481(false);
-      var0.field_1690.field_1913.method_23481(false);
-      var0.field_1690.field_1849.method_23481(false);
+      var0.options.forwardKey.setPressed(false);
+      var0.options.backKey.setPressed(false);
+      var0.options.leftKey.setPressed(false);
+      var0.options.rightKey.setPressed(false);
       vzz.simulated = null;
    }
 
@@ -294,9 +296,9 @@ final class gnr {
 
    private static void gpm(MinecraftClient var0) {
       god++;
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       if (goc && var1 != null && goe >= 0 && gog >= 0) {
-         Entity var2 = var0.field_1687.method_8469(goe);
+         Entity var2 = var0.world.getEntityById(goe);
          if (var2 != null) {
             gnl var3 = gnz[gog];
             long var4 = System.nanoTime();
@@ -328,19 +330,19 @@ final class gnr {
             if (goi - goj < 20) {
                goo = null;
             } else {
-               Vec3d var7 = var1.method_33571();
-               Box var8 = var2.method_5829();
-               Vec3d var9 = var7.method_1019(var1.method_5828(1.0F).method_1021(3.0));
+               Vec3d var7 = var1.getEyePos();
+               Box var8 = var2.getBoundingBox();
+               Vec3d var9 = var7.add(var1.getRotationVec(1.0F).multiply(3.0));
                gno var10 = new gno();
                var10.tick = god;
                var10.phase = gog;
-               var10.charged = var1.method_7261(0.5F) > 0.9F;
-               var10.reach = var8.method_49271(var7) <= 9.0;
-               var10.aimed = var8.method_1006(var7) || var8.method_992(var7, var9).isPresent();
-               var10.ground = var1.method_24828();
-               var10.crit = !var10.ground && var1.field_6017 > 0.0;
+               var10.charged = var1.getAttackCooldownProgress(0.5F) > 0.9F;
+               var10.reach = var8.squaredMagnitude(var7) <= 9.0;
+               var10.aimed = var8.contains(var7) || var8.raycast(var7, var9).isPresent();
+               var10.ground = var1.isOnGround();
+               var10.crit = !var10.ground && var1.fallDistance > 0.0;
                var10.why = kwf.debug();
-               double var11 = var8.method_49271(var7);
+               double var11 = var8.squaredMagnitude(var7);
                if (var11 <= 16.0) {
                   var3.nearTicks++;
                   if (kwf.target() == null) {
@@ -352,12 +354,12 @@ final class gnr {
                   var3.farTicks++;
                }
 
-               Vec3d var13 = var8.method_1005();
-               double var14 = var13.field_1352 - var7.field_1352;
-               double var16 = var13.field_1350 - var7.field_1350;
-               var10.yawErr = MathHelper.method_15338(Math.toDegrees(Math.atan2(var16, var14)) - 90.0 - var1.method_36454());
-               var10.pitchErr = -Math.toDegrees(Math.atan2(var13.field_1351 - var7.field_1351, Math.hypot(var14, var16))) - var1.method_36455();
-               if (goq && !var10.ground && var1.method_18798().field_1351 > 0.0) {
+               Vec3d var13 = var8.getCenter();
+               double var14 = var13.x - var7.x;
+               double var16 = var13.z - var7.z;
+               var10.yawErr = MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(var16, var14)) - 90.0 - var1.getYaw());
+               var10.pitchErr = -Math.toDegrees(Math.atan2(var13.y - var7.y, Math.hypot(var14, var16))) - var1.getPitch();
+               if (goq && !var10.ground && var1.getVelocity().y > 0.0) {
                   if (gor) {
                      gpo(var3);
                   }
@@ -594,8 +596,7 @@ final class gnr {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.d("ᡞ懍\ueb1b番ﺐ砕쉁䮣", 1737661281, -2121563268));
 
       for (vmo var4 : var2.getSettings()) {
-         String var5 = var4.getName();
-         switch (var5) {
+         switch (var4.getName()) {
             case a.b("﹊蟆എ鍪ᢨ鸄\u2451궡", -1863451120):
                ((vlv)var4).set(a.d("䀂㦼덪ⴗꛋ\u2060", 1432830316, 1509556491).equals(var1) ? a.b("݅绛\uf40d橰\ue1ac朇", 378734336) : a.c(1379117624, "ꩭ폦夰읈䲔쨿"));
                break;
@@ -640,15 +641,15 @@ final class gnr {
 
    private static Entity gpr(MinecraftClient var0) {
       if (goe >= 0) {
-         Entity var1 = var0.field_1687.method_8469(goe);
+         Entity var1 = var0.world.getEntityById(goe);
          if (var1 != null) {
             return var1;
          }
       }
 
-      for (PlayerEntity var2 : var0.field_1687.method_18456()) {
-         if (a.b("༤皿ﱯ戆\ue9e4潸픰", -1451815067).equals(var2.method_7334().name())) {
-            goe = var2.method_5628();
+      for (PlayerEntity var2 : var0.world.getPlayers()) {
+         if (a.b("༤皿ﱯ戆\ue9e4潸픰", -1451815067).equals(var2.getGameProfile().name())) {
+            goe = var2.getId();
             return var2;
          }
       }
@@ -661,31 +662,31 @@ final class gnr {
          goh = true;
          ClientTickEvents.START_CLIENT_TICK.register(gnr::gpm);
          wcn.listen(var0 -> {
-            if (goc && var0 instanceof EntityVelocityUpdateS2CPacket var1 && var1.method_11818() == gpb) {
+            if (goc && var0 instanceof EntityVelocityUpdateS2CPacket var1 && var1.getEntityId() == gpb) {
                gpc.add(god);
             }
          });
          AttackEntityCallback.EVENT
             .register(
                (AttackEntityCallback)(var0, var1, var2, var3, var4) -> {
-                  if (var1.method_8608()) {
-                     if (goc && var3.method_5628() == goe) {
+                  if (var1.isClient()) {
+                     if (goc && var3.getId() == goe) {
                         gon = god;
                      }
 
-                     return ActionResult.field_5811;
-                  } else if (goc && var3.method_5628() == fnq.spawned && var0.method_5667().equals(gof)) {
-                     boolean var5 = var0.method_7261(0.5F) > 0.9F
-                        && var0.field_6017 > 0.0
-                        && !var0.method_24828()
-                        && !var0.method_6101()
-                        && !var0.method_5799()
-                        && !var0.method_5765()
-                        && !var0.method_5624();
+                     return ActionResult.PASS;
+                  } else if (goc && var3.getId() == fnq.spawned && var0.getUuid().equals(gof)) {
+                     boolean var5 = var0.getAttackCooldownProgress(0.5F) > 0.9F
+                        && var0.fallDistance > 0.0
+                        && !var0.isOnGround()
+                        && !var0.isClimbing()
+                        && !var0.isTouchingWater()
+                        && !var0.hasVehicle()
+                        && !var0.isSprinting();
                      goa.add(new gng(god, var5));
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   } else {
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   }
                }
             );
@@ -693,6 +694,6 @@ final class gnr {
    }
 
    private static void gpt(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

@@ -59,7 +59,7 @@ public final class hyv {
       if (var1 > 0) {
          uij var5 = var1 == var4 && var3 == null ? uij.SCENE : uij.BACKDROP;
          if (var5.capture(var0, var1, null)) {
-            uut.glass(var0, var5.result(var0), 0.0F, 0.0F, var0.method_51421(), var0.method_51443(), 0.0F, 0, var2);
+            uut.glass(var0, var5.result(var0), 0.0F, 0.0F, var0.getScaledWindowWidth(), var0.getScaledWindowHeight(), 0.0F, 0, var2);
          }
       }
 

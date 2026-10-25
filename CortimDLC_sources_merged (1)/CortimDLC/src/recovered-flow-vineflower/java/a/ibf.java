@@ -57,59 +57,56 @@ final class ibf extends ijy {
          return ibn.computeIfAbsent(var0, var0x -> {
             ArrayList var1x = new ArrayList();
             if (var0x == vlg.MOBS) {
-               for (EntityType var3x : Registries.field_41177) {
-                  SpawnEggItem var4 = SpawnEggItem.method_8019(var3x);
+               for (EntityType var3x : Registries.ENTITY_TYPE) {
+                  SpawnEggItem var4 = SpawnEggItem.forEntity(var3x);
                   if (var4 != null) {
-                     var1x.add(icf(Registries.field_41177.method_10221(var3x).toString(), new ItemStack(var4), var3x.method_5897().getString()));
+                     var1x.add(icf(Registries.ENTITY_TYPE.getId(var3x).toString(), new ItemStack(var4), var3x.getName().getString()));
                   }
                }
 
                var1x.sort((var0xx, var1xx) -> var0xx.ibb.compareToIgnoreCase(var1xx.ibb));
             } else if (var0x == vlg.BLOCKS) {
-               for (Block var8 : Registries.field_41175) {
-                  if (var8 != Blocks.field_10124 && var8 != Blocks.field_10543 && var8 != Blocks.field_10243) {
-                     Item var10 = var8.method_8389();
-                     if (var8 == Blocks.field_10382) {
-                        var10 = Items.field_8705;
-                     } else if (var8 == Blocks.field_10164) {
-                        var10 = Items.field_8187;
-                     } else if (var8 == Blocks.field_10316 || var8 == Blocks.field_10027) {
-                        var10 = Items.field_8449;
+               for (Block var8 : Registries.BLOCK) {
+                  if (var8 != Blocks.AIR && var8 != Blocks.CAVE_AIR && var8 != Blocks.VOID_AIR) {
+                     Item var10 = var8.asItem();
+                     if (var8 == Blocks.WATER) {
+                        var10 = Items.WATER_BUCKET;
+                     } else if (var8 == Blocks.LAVA) {
+                        var10 = Items.LAVA_BUCKET;
+                     } else if (var8 == Blocks.NETHER_PORTAL || var8 == Blocks.END_PORTAL) {
+                        var10 = Items.ENDER_EYE;
                      }
 
-                     if (var10 != Items.field_8162) {
-                        String var5 = Registries.field_41175.method_10221(var8).toString();
-                        var1x.add(icf(var5, new ItemStack(var10), var8.method_9518().getString()));
+                     if (var10 != Items.AIR) {
+                        String var5 = Registries.BLOCK.getId(var8).toString();
+                        var1x.add(icf(var5, new ItemStack(var10), var8.getName().getString()));
                      }
                   }
                }
             } else {
-               for (Item var9 : Registries.field_41178) {
-                  if (var9 != Items.field_8162) {
+               for (Item var9 : Registries.ITEM) {
+                  if (var9 != Items.AIR) {
                      ItemStack var11 = new ItemStack(var9);
-                     var1x.add(icf(Registries.field_41178.method_10221(var9).toString(), var11, var11.method_7964().getString()));
+                     var1x.add(icf(Registries.ITEM.getId(var9).toString(), var11, var11.getName().getString()));
                   }
                }
             }
 
             return var1x;
          });
-      } else {
-         ArrayList var1 = new ArrayList();
-
-         for (ppn var3 : ppu.entries()) {
-            var1.add(
-               new iay(
-                  var3.id,
-                  var3.icon(),
-                  var3.shownName(),
-                  var3.name + a.c(1303515078, "\u0fe7") + var3.nameEn + a.b("캵", -420884844) + var3.id.replace('_', ' ')
-               )
-            );
-         }
-
-         return var1;
       }
+
+      ArrayList var1 = new ArrayList();
+
+      for (ppn var3 : ppu.entries()) {
+         var1.add(
+            new iay(
+               var3.id, var3.icon(), var3.shownName(), var3.name + a.c(1303515078, "\u0fe7") + var3.nameEn + a.b("캵", -420884844) + var3.id.replace('_', ' ')
+            )
+         );
+      }
+
+      return var1;
    }
 
    private static iay icf(String var0, ItemStack var1, String var2) {
@@ -124,7 +121,7 @@ final class ibf extends ijy {
          }
       }
 
-      return ItemStack.field_8037;
+      return ItemStack.EMPTY;
    }
 
    private void icg() {
@@ -224,11 +221,11 @@ final class ibf extends ijy {
          float var11 = iov.lightness();
          uut.round(var1, 0.0F, 0.0F, var6, var7, iov.r(12.0F), ujt.withAlpha(0, Math.round(110.0F * var8)));
          uut.pushAlpha(var8);
-         var1.method_51448().pushMatrix();
+         var1.getMatrices().pushMatrix();
          float var12 = 0.96F + 0.04F * var8;
-         var1.method_51448().translate(this.ibo + 215.0F, this.ibp + 159.0F + (1.0F - var8) * 6.0F);
-         var1.method_51448().scale(var12, var12);
-         var1.method_51448().translate(-(this.ibo + 215.0F), -(this.ibp + 159.0F));
+         var1.getMatrices().translate(this.ibo + 215.0F, this.ibp + 159.0F + (1.0F - var8) * 6.0F);
+         var1.getMatrices().scale(var12, var12);
+         var1.getMatrices().translate(-(this.ibo + 215.0F), -(this.ibp + 159.0F));
          uut.shadow(var1, this.ibo, this.ibp + 4.0F, 430.0F, 318.0F, var10, 18.0F, iov.shadow);
          uut.round(var1, this.ibo, this.ibp, 430.0F, 318.0F, var10, ujt.withAlpha(iov.window, 252));
          uut.round(var1, this.ibo, this.ibp, 430.0F, 318.0F, var10, iov.card);
@@ -324,7 +321,7 @@ final class ibf extends ijy {
             irr.SMALL.draw(var1, var31, this.ibo + 12.0F, irr.SMALL.centerTop(var30), iov.textMuted);
          }
 
-         var1.method_51448().popMatrix();
+         var1.getMatrices().popMatrix();
          uut.popAlpha();
       }
    }
@@ -374,10 +371,10 @@ final class ibf extends ijy {
                uut.outline(var1, var24, var25 - var28, var14, var15, var19, 1.0F, iov.accent(200));
             }
 
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var24 + (var16 ? 2.0F : 3.0F), var25 + (var15 - 16.0F) * 0.5F - var28);
-            var1.method_51427(var23.iba, 0, 0);
-            var1.method_51448().popMatrix();
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var24 + (var16 ? 2.0F : 3.0F), var25 + (var15 - 16.0F) * 0.5F - var28);
+            var1.drawItem(var23.iba, 0, 0);
+            var1.getMatrices().popMatrix();
             if (var16) {
                float var30 = var24 + 21.0F;
                float var31 = var14 - 21.0F - (var27 ? 14.0F : 4.0F);
@@ -412,60 +409,65 @@ final class ibf extends ijy {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (this.ibw) {
          return true;
-      } else if (!this.contains(var2, var3)) {
+      }
+
+      if (!this.contains(var2, var3)) {
          this.close();
          return true;
-      } else {
-         float var5 = 16.0F;
-         if (var4 == 0 && irr.inside(var2, var3, this.ibo + 430.0F - 12.0F - var5, this.ibp + (30.0F - var5) * 0.5F + 1.0F, var5, var5)) {
-            this.close();
-            return true;
-         } else if (this.search.mouseClicked(var1, var2, var3, var4)) {
-            return true;
-         } else {
-            var1.focus(null);
-            float var6 = this.ibp + 30.0F + 2.0F;
-            float var7 = this.search.x + this.search.w + 8.0F;
-            float var8 = 128.0F;
-            float var9 = var6 + 3.0F;
-            if (var4 == 0 && irr.inside(var2, var3, var7, var9, var8, 16.0F)) {
-               this.ibv = var2 >= var7 + var8 * 0.5F;
-               this.ibu = 0.0F;
-               this.icg();
-               return true;
-            } else {
-               float var10 = (this.ibo + 430.0F - 12.0F - (var7 + var8 + 8.0F) - 6.0F) * 0.5F;
-               float var11 = var7 + var8 + 8.0F;
-               if (var4 == 0 && irr.inside(var2, var3, var11, var9, var10, 16.0F)) {
-                  this.setting.clear();
-                  this.icg();
-                  var1.toast(wap.s(a.d("빴쟠䴩퍟壜\ude2e摲\ued8a珑拾纷蓇", -2126027166, -1186277290), a.b("癲\u0fdd蔉ᬁ邩ᘜꡕ►뮜ㅒ뛰䳽숢", -1979026850)), vhz.TRASH, false);
-                  return true;
-               } else if (var4 == 0 && irr.inside(var2, var3, var11 + var10 + 6.0F, var9, var10, 16.0F)) {
-                  this.setting.reset();
-                  this.icg();
-                  var1.toast(
-                     wap.s(
-                        a.c(-492904007, "\ue1e3顱አ賙݅膠㯨뉖ⱝ꛰℮\udb1a喉찹䙩삟竄\uf50c澧\ue9a2怙ᩍ铤༲"),
-                        a.b("肟契环\ueda3昊\ue0c3媓흺䵄잋䁟멗㓿굊⌃ꇭᮣ遬ຼ袒ŧ笳\uf5fc湚\ue828拼\udb39", -107510634)
-                     ),
-                     vhz.RESET,
-                     false
-                  );
-                  return true;
-               } else if (var4 == 0 && irr.inside(var2, var3, this.ich(), this.ici(), this.icj(), this.ick()) && this.ica >= 0 && this.ica < this.ibx.size()) {
-                  iay var12 = this.ibx.get(this.ica);
-                  this.setting.toggle(var12.iaz);
-                  if (this.ibv && !this.setting.contains(var12.iaz)) {
-                     this.icg();
-                  }
+      }
 
-                  return true;
-               } else {
-                  return true;
-               }
-            }
+      float var5 = 16.0F;
+      if (var4 == 0 && irr.inside(var2, var3, this.ibo + 430.0F - 12.0F - var5, this.ibp + (30.0F - var5) * 0.5F + 1.0F, var5, var5)) {
+         this.close();
+         return true;
+      }
+
+      if (this.search.mouseClicked(var1, var2, var3, var4)) {
+         return true;
+      }
+
+      var1.focus(null);
+      float var6 = this.ibp + 30.0F + 2.0F;
+      float var7 = this.search.x + this.search.w + 8.0F;
+      float var8 = 128.0F;
+      float var9 = var6 + 3.0F;
+      if (var4 == 0 && irr.inside(var2, var3, var7, var9, var8, 16.0F)) {
+         this.ibv = var2 >= var7 + var8 * 0.5F;
+         this.ibu = 0.0F;
+         this.icg();
+         return true;
+      }
+
+      float var10 = (this.ibo + 430.0F - 12.0F - (var7 + var8 + 8.0F) - 6.0F) * 0.5F;
+      float var11 = var7 + var8 + 8.0F;
+      if (var4 == 0 && irr.inside(var2, var3, var11, var9, var10, 16.0F)) {
+         this.setting.clear();
+         this.icg();
+         var1.toast(wap.s(a.d("빴쟠䴩퍟壜\ude2e摲\ued8a珑拾纷蓇", -2126027166, -1186277290), a.b("癲\u0fdd蔉ᬁ邩ᘜꡕ►뮜ㅒ뛰䳽숢", -1979026850)), vhz.TRASH, false);
+         return true;
+      }
+
+      if (var4 == 0 && irr.inside(var2, var3, var11 + var10 + 6.0F, var9, var10, 16.0F)) {
+         this.setting.reset();
+         this.icg();
+         var1.toast(
+            wap.s(a.c(-492904007, "\ue1e3顱አ賙݅膠㯨뉖ⱝ꛰℮\udb1a喉찹䙩삟竄\uf50c澧\ue9a2怙ᩍ铤༲"), a.b("肟契环\ueda3昊\ue0c3媓흺䵄잋䁟멗㓿굊⌃ꇭᮣ遬ຼ袒ŧ笳\uf5fc湚\ue828拼\udb39", -107510634)),
+            vhz.RESET,
+            false
+         );
+         return true;
+      }
+
+      if (var4 == 0 && irr.inside(var2, var3, this.ich(), this.ici(), this.icj(), this.ick()) && this.ica >= 0 && this.ica < this.ibx.size()) {
+         iay var12 = this.ibx.get(this.ica);
+         this.setting.toggle(var12.iaz);
+         if (this.ibv && !this.setting.contains(var12.iaz)) {
+            this.icg();
          }
+
+         return true;
+      } else {
+         return true;
       }
    }
 
@@ -480,14 +482,14 @@ final class ibf extends ijy {
          if (var1.focusedField() == this.search) {
             this.search.keyPressed(var1, var2, var3);
             return true;
-         } else {
-            boolean var4 = (var3 & 2) != 0;
-            if (var4 && var2 == 70) {
-               var1.focus(this.search);
-            }
-
-            return true;
          }
+
+         boolean var4 = (var3 & 2) != 0;
+         if (var4 && var2 == 70) {
+            var1.focus(this.search);
+         }
+
+         return true;
       } else {
          if (var1.focusedField() == this.search && !this.search.text.isEmpty()) {
             this.search.setText("");

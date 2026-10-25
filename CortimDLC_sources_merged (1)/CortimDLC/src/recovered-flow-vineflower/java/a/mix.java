@@ -90,16 +90,16 @@ public class mix extends kfe {
    }
 
    private static String mjq(Text var0, String var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      ClientPlayNetworkHandler var3 = var2.method_1562();
-      if (var3 != null && var2.field_1724 != null) {
-         String var4 = var2.field_1724.method_5477().getString();
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      ClientPlayNetworkHandler var3 = var2.getNetworkHandler();
+      if (var3 != null && var2.player != null) {
+         String var4 = var2.player.getName().getString();
          String[] var5 = new String[1];
-         var0.method_27658(
+         var0.visit(
             (var2x, var3x) -> {
-               String var4x = var2x.method_10970() instanceof RunCommand var6x
-                  ? var6x.comp_3506()
-                  : (var2x.method_10970() instanceof SuggestCommand var5x ? var5x.comp_3507() : null);
+               String var4x = var2x.getClickEvent() instanceof RunCommand var6x
+                  ? var6x.command()
+                  : (var2x.getClickEvent() instanceof SuggestCommand var5x ? var5x.command() : null);
                if (var4x != null) {
                   Matcher var8x = mji.matcher(var4x.trim());
                   if (var8x.find() && !var8x.group(3).equalsIgnoreCase(var4)) {
@@ -110,30 +110,30 @@ public class mix extends kfe {
 
                return Optional.empty();
             },
-            Style.field_24360
+            Style.EMPTY
          );
          if (var5[0] != null) {
-            PlayerListEntry var9 = var3.method_73471(var5[0]);
-            return var9 != null ? var9.method_2966().name() : var5[0];
-         } else {
-            Matcher var6 = mjh.matcher(var1);
+            PlayerListEntry var9 = var3.getCaseInsensitivePlayerInfo(var5[0]);
+            return var9 != null ? var9.getProfile().name() : var5[0];
+         }
 
-            while (var6.find()) {
-               String var7 = var6.group();
-               if (!var7.equalsIgnoreCase(var4)) {
-                  if (hhf.isFriend(var7)) {
-                     return var7;
-                  }
+         Matcher var6 = mjh.matcher(var1);
 
-                  PlayerListEntry var8 = var3.method_73471(var7);
-                  if (var8 != null) {
-                     return var8.method_2966().name();
-                  }
+         while (var6.find()) {
+            String var7 = var6.group();
+            if (!var7.equalsIgnoreCase(var4)) {
+               if (hhf.isFriend(var7)) {
+                  return var7;
+               }
+
+               PlayerListEntry var8 = var3.getCaseInsensitivePlayerInfo(var7);
+               if (var8 != null) {
+                  return var8.getProfile().name();
                }
             }
-
-            return null;
          }
+
+         return null;
       } else {
          return null;
       }
@@ -144,14 +144,14 @@ public class mix extends kfe {
       if (this.mjk != null && System.currentTimeMillis() >= this.mjl) {
          String var2 = this.mjk;
          this.mjk = null;
-         if (System.currentTimeMillis() - this.mjm >= 1500L && var1.method_1562() != null) {
+         if (System.currentTimeMillis() - this.mjm >= 1500L && var1.getNetworkHandler() != null) {
             String var3 = this.mja.get().trim().replace(a.c(-152315449, "\ud9baꀞ⫂뒿㽠막"), var2);
             if (!var3.isEmpty()) {
                this.mjm = System.currentTimeMillis();
                if (var3.startsWith(a.c(1948725704, "\u31e6"))) {
-                  var1.method_1562().method_45730(var3.substring(1));
+                  var1.getNetworkHandler().sendChatCommand(var3.substring(1));
                } else {
-                  var1.method_1562().method_45729(var3);
+                  var1.getNetworkHandler().sendChatMessage(var3);
                }
 
                izx.alert(

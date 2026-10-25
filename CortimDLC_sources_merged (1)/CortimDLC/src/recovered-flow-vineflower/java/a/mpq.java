@@ -40,7 +40,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -396,30 +395,30 @@ public class mpq extends pnc {
    private String mxt() {
       if (!a.c(1694846919, "侔㘓볓⊠").equals(this.mqj.get())) {
          return a.c(2020307053, "瀌\u09ba荫ᴒ隀ၹꨭ⏞붉");
-      } else {
-         String var1 = this.mqk.get();
-         var1 = var1 == null ? "" : var1.trim();
-
-         while (var1.startsWith(a.c(-1685469480, "웶"))) {
-            var1 = var1.substring(1).trim();
-         }
-
-         if (var1.toLowerCase().startsWith(a.b("ࡔ燳דּ敀\ueec7", -1152514010))) {
-            var1 = var1.substring(5).trim();
-         }
-
-         if (var1.isEmpty()) {
-            var1 = a.c(990254011, "Ꮭ橧\ue0be");
-         }
-
-         return a.d("嫹⍞ꦞ㟭뱪", -1223607346, -57908923) + var1;
       }
+
+      String var1 = this.mqk.get();
+      var1 = var1 == null ? "" : var1.trim();
+
+      while (var1.startsWith(a.c(-1685469480, "웶"))) {
+         var1 = var1.substring(1).trim();
+      }
+
+      if (var1.toLowerCase().startsWith(a.b("ࡔ燳דּ敀\ueec7", -1152514010))) {
+         var1 = var1.substring(5).trim();
+      }
+
+      if (var1.isEmpty()) {
+         var1 = a.c(990254011, "Ꮭ橧\ue0be");
+      }
+
+      return a.d("嫹⍞ꦞ㟭뱪", -1223607346, -57908923) + var1;
    }
 
    @Override
    protected void onEnable() {
       if (this.getPlayer() != null) {
-         this.mtc = this.getPlayer().method_6032();
+         this.mtc = this.getPlayer().getHealth();
       }
 
       if (this.driver == null) {
@@ -520,8 +519,8 @@ public class mpq extends pnc {
       this.msn = 0;
       this.mso = Double.MAX_VALUE;
       this.msp = -1;
-      if (this.mc.field_1761 != null) {
-         this.mc.field_1761.method_2925();
+      if (this.mc.interactionManager != null) {
+         this.mc.interactionManager.cancelBlockBreaking();
       }
 
       ptr.clear();
@@ -575,15 +574,15 @@ public class mpq extends pnc {
    }
 
    private void mxw(boolean var1) {
-      this.mc.field_1690.field_1832.method_23481(var1);
-      this.mc.field_1690.field_1904.method_23481(true);
+      this.mc.options.sneakKey.setPressed(var1);
+      this.mc.options.useKey.setPressed(true);
       ptr.miss();
    }
 
    private void mxx() {
-      if (this.mc.field_1690 != null) {
-         this.mc.field_1690.field_1904.method_23481(false);
-         this.mc.field_1690.field_1832.method_23481(false);
+      if (this.mc.options != null) {
+         this.mc.options.useKey.setPressed(false);
+         this.mc.options.sneakKey.setPressed(false);
       }
    }
 
@@ -593,14 +592,14 @@ public class mpq extends pnc {
    }
 
    private boolean mxz() {
-      boolean var1 = this.getPlayer().method_7344().method_7586() < 18;
-      int var2 = this.nei(Items.field_8071);
+      boolean var1 = this.getPlayer().getHungerManager().getFoodLevel() < 18;
+      int var2 = this.nei(Items.GOLDEN_CARROT);
       boolean var3 = this.nci();
       if (this.mtf == 0) {
          if (!var1 || var2 == -1) {
-            if (this.mc.field_1690.field_1904.method_1434() && this.mqq != mpm.BRUSHING_SAND) {
+            if (this.mc.options.useKey.isPressed() && this.mqq != mpm.BRUSHING_SAND) {
                this.mxx();
-               if (this.getPlayer().method_6047().method_7909() == Items.field_8071) {
+               if (this.getPlayer().getMainHandStack().getItem() == Items.GOLDEN_CARROT) {
                   this.nat();
                }
             }
@@ -635,7 +634,7 @@ public class mpq extends pnc {
                this.mxy(-55.0F);
             }
 
-            this.getPlayer().method_31548().method_61496(var2);
+            this.getPlayer().getInventory().setSelectedSlot(var2);
             this.mxw(!var3);
             this.mth++;
             if (this.mth > 200) {
@@ -658,8 +657,8 @@ public class mpq extends pnc {
    private void mya() {
       if (this.nci()) {
          this.ncr();
-         this.mc.field_1690.field_1867.method_23481(false);
-         this.mc.field_1690.field_1903.method_23481(false);
+         this.mc.options.sprintKey.setPressed(false);
+         this.mc.options.jumpKey.setPressed(false);
       } else {
          pqf.resetKeys();
          this.ncf();
@@ -673,7 +672,7 @@ public class mpq extends pnc {
    }
 
    private boolean myc(ItemStack var1) {
-      return var1.method_7960() ? false : var1.method_7909() == Items.field_8071 || var1.method_7909() == Items.field_8705 || this.nel(var1) || this.neo(var1);
+      return var1.isEmpty() ? false : var1.getItem() == Items.GOLDEN_CARROT || var1.getItem() == Items.WATER_BUCKET || this.nel(var1) || this.neo(var1);
    }
 
    private void myd(mpm var1) {
@@ -749,7 +748,7 @@ public class mpq extends pnc {
       int var1 = this.mxl;
       if (this.mwa - var1 <= 100) {
          ClientPlayerEntity var2 = this.getPlayer();
-         boolean var3 = var2.method_29504() || var2.method_6032() <= 0.0F;
+         boolean var3 = var2.isDead() || var2.getHealth() <= 0.0F;
          boolean var4 = this.mqq == mpm.TELEPORT_TO_LOOT
             || this.mqq == mpm.TELEPORT_TO_SAVE
             || this.mqq == mpm.WARPING_TO_SAVE_BASE
@@ -763,18 +762,18 @@ public class mpq extends pnc {
    }
 
    private boolean myh() {
-      StatusEffectInstance var1 = this.getPlayer().method_6112(StatusEffects.field_5905);
-      return var1 != null ? var1.method_5584() > 600 : false;
+      StatusEffectInstance var1 = this.getPlayer().getStatusEffect(StatusEffects.INVISIBILITY);
+      return var1 != null ? var1.getDuration() > 600 : false;
    }
 
    private boolean myi() {
-      StatusEffectInstance var1 = this.getPlayer().method_6112(StatusEffects.field_5904);
-      return var1 != null ? var1.method_5584() > 600 : false;
+      StatusEffectInstance var1 = this.getPlayer().getStatusEffect(StatusEffects.SPEED);
+      return var1 != null ? var1.getDuration() > 600 : false;
    }
 
    private int myj(boolean var1) {
-      StatusEffectInstance var2 = this.getPlayer().method_6112(var1 ? StatusEffects.field_5905 : StatusEffects.field_5904);
-      return var2 == null ? 0 : (var2.method_48559() ? Integer.MAX_VALUE : var2.method_5584());
+      StatusEffectInstance var2 = this.getPlayer().getStatusEffect(var1 ? StatusEffects.INVISIBILITY : StatusEffects.SPEED);
+      return var2 == null ? 0 : (var2.isInfinite() ? Integer.MAX_VALUE : var2.getDuration());
    }
 
    private boolean myk(boolean var1) {
@@ -856,32 +855,32 @@ public class mpq extends pnc {
       int var1 = Math.max(this.mxg, this.mxh);
       if (var1 < 3) {
          return false;
-      } else {
-         if (!this.mxj) {
-            this.notifyUser(
-               wap.s(
-                  a.b("牕\u0bc3脋ὥ钲ሖꡄ⇫뾮", -214207985)
-                     + var1
-                     + a.b("态᧤錱൛蚕'먧㎟귇✸ꂪ媚퐟䶳쟸䅞ﭒ璁\uee3e桧\ue1d5鯆ᕶ躥࣒艈㮬뗣⼉ꥄ⊿\udc20噮쾄䧋썻粫\uf6d3灇\ue9fe", 372006921)
-                     + this.mxi
-                     + a.d(
-                        "\uf846臰ଭ锿ể顿∪ꯓ㗇뼢㣭슑䰃헢微\ud944挖\uecc1癳\uf03f禗ϊ购ᛠ邒ᨆꏢⶥ띁ㄒ뫱䐯칯埖톂嬱\ue4ee滚\ue848燶ﮣ蔖༑袼ቦ鱒◀꽾⤾닼㲞완俲즯半\udd44曷\ue072樝\uf3c1絽ݢ胅ક鑝ᷰ\ua7ed⅕\uab1f㓺빦㠖솇䭷픢廕\ud88a戼",
-                        -429999544,
-                        637485673
-                     ),
-                  a.b("谋\uf5e5缵\ue136櫬\uec5e嘁\udff9䆨쬑䣅늮", -247953383)
-                     + var1
-                     + a.c(180115865, "妡␇껓プ뭻㷀螗੶逶᪆鵟杚\ue982灈️糬욮䤃펲嗠\udc16Ꙋⲗ띎")
-                     + this.mxi
-                     + a.d("랅츳䓮\udea0唨폧榸\ue04e繤\uf4d9睦褀ߕ鹪ᑎ銼Ⲑꍍ㷬뮿㈸䠖슺奤\udf14冠\ue868昻\uf8d0窙\uf532\u0ff3薱ᱍ驮ლ꽰━ꟊ㩣됤컇䒜쌬妎ퟶ湚\ue0f3拝殺眀距Ѩ", -1030383577, -1029689410)
-               ),
-               false
-            );
-            this.mxj = true;
-         }
-
-         return true;
       }
+
+      if (!this.mxj) {
+         this.notifyUser(
+            wap.s(
+               a.b("牕\u0bc3脋ὥ钲ሖꡄ⇫뾮", -214207985)
+                  + var1
+                  + a.b("态᧤錱൛蚕'먧㎟귇✸ꂪ媚퐟䶳쟸䅞ﭒ璁\uee3e桧\ue1d5鯆ᕶ躥࣒艈㮬뗣⼉ꥄ⊿\udc20噮쾄䧋썻粫\uf6d3灇\ue9fe", 372006921)
+                  + this.mxi
+                  + a.d(
+                     "\uf846臰ଭ锿ể顿∪ꯓ㗇뼢㣭슑䰃헢微\ud944挖\uecc1癳\uf03f禗ϊ购ᛠ邒ᨆꏢⶥ띁ㄒ뫱䐯칯埖톂嬱\ue4ee滚\ue848燶ﮣ蔖༑袼ቦ鱒◀꽾⤾닼㲞완俲즯半\udd44曷\ue072樝\uf3c1絽ݢ胅ક鑝ᷰ\ua7ed⅕\uab1f㓺빦㠖솇䭷픢廕\ud88a戼",
+                     -429999544,
+                     637485673
+                  ),
+               a.b("谋\uf5e5缵\ue136櫬\uec5e嘁\udff9䆨쬑䣅늮", -247953383)
+                  + var1
+                  + a.c(180115865, "妡␇껓プ뭻㷀螗੶逶᪆鵟杚\ue982灈️糬욮䤃펲嗠\udc16Ꙋⲗ띎")
+                  + this.mxi
+                  + a.d("랅츳䓮\udea0唨폧榸\ue04e繤\uf4d9睦褀ߕ鹪ᑎ銼Ⲑꍍ㷬뮿㈸䠖슺奤\udf14冠\ue868昻\uf8d0窙\uf532\u0ff3薱ᱍ驮ლ꽰━ꟊ㩣됤컇䒜쌬妎ퟶ湚\ue0f3拝殺眀距Ѩ", -1030383577, -1029689410)
+            ),
+            false
+         );
+         this.mxj = true;
+      }
+
+      return true;
    }
 
    @Override
@@ -917,13 +916,13 @@ public class mpq extends pnc {
          this.myw();
          pjd.keep(this.mxs());
          this.nbx();
-         this.mtz = this.getPlayer().method_36454();
+         this.mtz = this.getPlayer().getYaw();
          this.mua = true;
          this.mvl.beginTick();
          boolean var2 = this.myq();
-         if (var2 && this.mc.field_1690 != null) {
-            this.mvp = this.mc.field_1690.field_1867.method_1434();
-            this.mvq = this.mc.field_1690.field_1832.method_1434();
+         if (var2 && this.mc.options != null) {
+            this.mvp = this.mc.options.sprintKey.isPressed();
+            this.mvq = this.mc.options.sneakKey.isPressed();
          }
 
          try {
@@ -934,14 +933,14 @@ public class mpq extends pnc {
             }
 
             this.nck();
-            if (this.mud > 0 && this.mc.field_1690 != null) {
-               this.mc.field_1690.field_1886.method_23481(false);
-               this.mc.field_1690.field_1904.method_23481(false);
+            if (this.mud > 0 && this.mc.options != null) {
+               this.mc.options.attackKey.setPressed(false);
+               this.mc.options.useKey.setPressed(false);
             }
 
             this.myx();
-            this.mub = this.mc.field_1690 != null && this.mc.field_1690.field_1886.method_1434();
-            this.muc = this.mc.field_1690 != null && this.mc.field_1690.field_1904.method_1434();
+            this.mub = this.mc.options != null && this.mc.options.attackKey.isPressed();
+            this.muc = this.mc.options != null && this.mc.options.useKey.isPressed();
             if (this.driver == null) {
                pnf.publish(this.mvl.shown(), this.mvl.shownAt(), var2, var2 && this.myr(), this.mql.get(), this.getName());
             }
@@ -954,7 +953,7 @@ public class mpq extends pnc {
    }
 
    private boolean myr() {
-      return this.mvr || this.getPlayer().method_6115() || this.ncm() || this.mrf != null || this.muw || this.mc.field_1755 != null;
+      return this.mvr || this.getPlayer().isUsingItem() || this.ncm() || this.mrf != null || this.muw || this.mc.currentScreen != null;
    }
 
    private int mys(int var1) {
@@ -966,28 +965,28 @@ public class mpq extends pnc {
    }
 
    private void myu() {
-      GameOptions var1 = this.mc.field_1690;
+      GameOptions var1 = this.mc.options;
       if (var1 != null && !this.ncm() && this.mrf == null && !this.muw) {
-         KeyBinding[] var2 = new KeyBinding[]{var1.field_1894, var1.field_1881, var1.field_1913, var1.field_1849, var1.field_1903};
+         KeyBinding[] var2 = new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey};
 
          for (KeyBinding var6 : var2) {
-            var6.method_23481(this.heldByHuman(var6));
+            var6.setPressed(this.heldByHuman(var6));
          }
 
-         if ((Boolean)var1.method_42450().method_41753()) {
-            if (var1.field_1867.method_1434() != this.mvp) {
-               var1.field_1867.method_23481(true);
+         if (var1.getSprintToggled().getValue()) {
+            if (var1.sprintKey.isPressed() != this.mvp) {
+               var1.sprintKey.setPressed(true);
             }
          } else {
-            var1.field_1867.method_23481(this.heldByHuman(var1.field_1867));
+            var1.sprintKey.setPressed(this.heldByHuman(var1.sprintKey));
          }
 
-         if ((Boolean)var1.method_42449().method_41753()) {
-            if (var1.field_1832.method_1434() != this.mvq) {
-               var1.field_1832.method_23481(true);
+         if (var1.getSneakToggled().getValue()) {
+            if (var1.sneakKey.isPressed() != this.mvq) {
+               var1.sneakKey.setPressed(true);
             }
          } else {
-            var1.field_1832.method_23481(this.heldByHuman(var1.field_1832));
+            var1.sneakKey.setPressed(this.heldByHuman(var1.sneakKey));
          }
       }
    }
@@ -1005,13 +1004,13 @@ public class mpq extends pnc {
    }
 
    private void myw() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
+      PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = 0;
 
-      for (int var3 = 0; var3 < var1.method_5439(); var3++) {
-         ItemStack var4 = var1.method_5438(var3);
+      for (int var3 = 0; var3 < var1.size(); var3++) {
+         ItemStack var4 = var1.getStack(var3);
          if (ndf(var4)) {
-            var2 += var4.method_7947();
+            var2 += var4.getCount();
          }
       }
 
@@ -1023,7 +1022,7 @@ public class mpq extends pnc {
          || this.mqq == mpm.CHECK_PVP_COOLDOWN
          || this.mqq == mpm.ESCAPING
          || this.mqq == mpm.RUN_TO_FARM_COORDS;
-      boolean var6 = this.getPlayer().field_7512 != this.getPlayer().field_7498;
+      boolean var6 = this.getPlayer().currentScreenHandler != this.getPlayer().playerScreenHandler;
       if (this.mqx >= 0 && var2 > this.mqx && var5 && !var6) {
          this.mqw = this.mqw + (var2 - this.mqx);
       }
@@ -1033,23 +1032,23 @@ public class mpq extends pnc {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      if (this.mc.field_1690 != null) {
-         this.mc.field_1690.field_1886.method_23481(this.mub);
-         this.mc.field_1690.field_1904.method_23481(this.muc);
+      if (this.mc.options != null) {
+         this.mc.options.attackKey.setPressed(this.mub);
+         this.mc.options.useKey.setPressed(this.muc);
 
-         while (this.mc.field_1690.field_1886.method_1436()) {
+         while (this.mc.options.attackKey.wasPressed()) {
          }
 
-         while (this.mc.field_1690.field_1904.method_1436()) {
+         while (this.mc.options.useKey.wasPressed()) {
          }
 
          if (this.mud > 0) {
             this.silenceMovement();
          }
 
-         if (this.mc.field_1724 != null && this.mc.field_1687 != null) {
+         if (this.mc.player != null && this.mc.world != null) {
             if (this.driver == null && !this.mux && this.mua && this.mtn && this.mud == 0) {
-               this.mtm.remapHumanKeys(this.mc, this.mtm.cameraYaw(this.mc.field_1724), this.mtu);
+               this.mtm.remapHumanKeys(this.mc, this.mtm.cameraYaw(this.mc.player), this.mtu);
             }
 
             ptr.applyOwn(this.mc);
@@ -1058,42 +1057,42 @@ public class mpq extends pnc {
    }
 
    private void myx() {
-      if (this.mc.field_1690 != null && this.mud <= 0) {
+      if (this.mc.options != null && this.mud <= 0) {
          KeyBinding[] var1 = new KeyBinding[]{
-            this.mc.field_1690.field_1894,
-            this.mc.field_1690.field_1881,
-            this.mc.field_1690.field_1913,
-            this.mc.field_1690.field_1849,
-            this.mc.field_1690.field_1903,
-            this.mc.field_1690.field_1832,
-            this.mc.field_1690.field_1867
+            this.mc.options.forwardKey,
+            this.mc.options.backKey,
+            this.mc.options.leftKey,
+            this.mc.options.rightKey,
+            this.mc.options.jumpKey,
+            this.mc.options.sneakKey,
+            this.mc.options.sprintKey
          };
 
          for (KeyBinding var5 : var1) {
             if (this.heldByHuman(var5)) {
-               var5.method_23481(true);
+               var5.setPressed(true);
             }
          }
       }
    }
 
    private void myy() {
-      if (this.mc.field_1690 != null) {
+      if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
-            this.mc.field_1690.field_1894,
-            this.mc.field_1690.field_1881,
-            this.mc.field_1690.field_1913,
-            this.mc.field_1690.field_1849,
-            this.mc.field_1690.field_1903,
-            this.mc.field_1690.field_1867,
-            this.mc.field_1690.field_1832,
-            this.mc.field_1690.field_1886,
-            this.mc.field_1690.field_1904
+            this.mc.options.forwardKey,
+            this.mc.options.backKey,
+            this.mc.options.leftKey,
+            this.mc.options.rightKey,
+            this.mc.options.jumpKey,
+            this.mc.options.sprintKey,
+            this.mc.options.sneakKey,
+            this.mc.options.attackKey,
+            this.mc.options.useKey
          };
 
          for (KeyBinding var5 : var1) {
             if (!this.heldByHuman(var5)) {
-               var5.method_23481(false);
+               var5.setPressed(false);
             }
          }
       }
@@ -1145,15 +1144,15 @@ public class mpq extends pnc {
       } else if (!this.mza()) {
          boolean var1 = this.mqq != mpm.WARPING_TO_LOOT_BASE && this.mqq != mpm.WARPING_TO_SAVE_BASE && this.mqq != mpm.RESTOCK_AND_DUMP;
          if (this.mwo != null
-            && this.getPlayer().method_73189().method_1025(this.mwo) < 1.0E-4
+            && this.getPlayer().getEntityPos().squaredDistanceTo(this.mwo) < 1.0E-4
             && var1
             && this.mvi <= 0
             && this.mud == 0
             && !this.myq()
-            && (this.mc.field_1690.field_1894.method_1434() || this.mqy != null)) {
+            && (this.mc.options.forwardKey.isPressed() || this.mqy != null)) {
             this.mwp++;
-            if (this.mwp > 6 && this.getPlayer().method_24828() && pqf.isJumpUseful(this.ncj())) {
-               this.mc.field_1690.field_1903.method_23481(true);
+            if (this.mwp > 6 && this.getPlayer().isOnGround() && pqf.isJumpUseful(this.ncj())) {
+               this.mc.options.jumpKey.setPressed(true);
             }
 
             if (this.mwp > 16) {
@@ -1177,30 +1176,30 @@ public class mpq extends pnc {
             }
 
             this.mwp = 0;
-            this.mwo = this.getPlayer().method_73189();
+            this.mwo = this.getPlayer().getEntityPos();
          }
 
          this.mwf = pqf.onClimbable(this.getPlayer()) ? this.mwf + 1 : 0;
-         if (this.mc.field_1755 instanceof AbstractSignEditScreen) {
-            this.mc.field_1755.method_25419();
-         } else if (this.mqq != mpm.RESTOCK_AND_DUMP && this.mc.field_1755 instanceof HandledScreen && !(this.mc.field_1755 instanceof InventoryScreen)) {
+         if (this.mc.currentScreen instanceof AbstractSignEditScreen) {
+            this.mc.currentScreen.close();
+         } else if (this.mqq != mpm.RESTOCK_AND_DUMP && this.mc.currentScreen instanceof HandledScreen && !(this.mc.currentScreen instanceof InventoryScreen)) {
             this.mxx();
-            this.mc.field_1724.method_7346();
+            this.mc.player.closeHandledScreen();
          } else {
-            this.mc.field_1690.field_1832.method_23481(this.mc.field_1690.field_1904.method_1434() && this.myc(this.getPlayer().method_6047()) && !this.nci());
-            if (!(this.getPlayer().method_6032() <= 0.0F) && !this.getPlayer().method_29504()) {
+            this.mc.options.sneakKey.setPressed(this.mc.options.useKey.isPressed() && this.myc(this.getPlayer().getMainHandStack()) && !this.nci());
+            if (!(this.getPlayer().getHealth() <= 0.0F) && !this.getPlayer().isDead()) {
                if (this.mte > 0) {
                   this.mte--;
                }
 
-               if (this.getPlayer().field_6017 > 3.0) {
+               if (this.getPlayer().fallDistance > 3.0) {
                   this.mtd = true;
                } else if (this.mtd) {
                   this.mtd = false;
                   this.mte = 6;
                }
 
-               float var2 = this.getPlayer().method_6032();
+               float var2 = this.getPlayer().getHealth();
                if (var2 < this.mtc
                   && this.mte <= 0
                   && this.mqq != mpm.ESCAPING
@@ -1222,15 +1221,15 @@ public class mpq extends pnc {
                   this.mwb = this.mwa;
                }
 
-               if (!this.mst && !this.mc.field_1690.field_1904.method_1434()) {
+               if (!this.mst && !this.mc.options.useKey.isPressed()) {
                   this.nee();
                   this.ndo();
                   if (this.muk == -1 && !this.ncm() && !this.muw && this.mqq != mpm.BRUSHING_SAND && this.mqq != mpm.ESCAPING) {
-                     ItemStack var3 = this.getPlayer().method_6047();
-                     if (!var3.method_7960()
-                        && !var3.method_7909().method_7876().contains(a.b("馄\ue031櫺\uf496罗", -2090100238))
-                        && !var3.method_7909().method_7876().contains(a.b("ﾂ蘿೮銙", -937033749))
-                        && var3.method_7909() != Items.field_8071
+                     ItemStack var3 = this.getPlayer().getMainHandStack();
+                     if (!var3.isEmpty()
+                        && !var3.getItem().getTranslationKey().contains(a.b("馄\ue031櫺\uf496罗", -2090100238))
+                        && !var3.getItem().getTranslationKey().contains(a.b("ﾂ蘿೮銙", -937033749))
+                        && var3.getItem() != Items.GOLDEN_CARROT
                         && !this.nel(var3)
                         && !this.neo(var3)) {
                         this.nat();
@@ -1260,12 +1259,12 @@ public class mpq extends pnc {
                      this.msz = 0;
                      this.muj = 0;
                      this.mzy();
-                     if (this.mc.field_1724 != null && this.mc.field_1755 != null) {
-                        this.mc.field_1724.method_7346();
+                     if (this.mc.player != null && this.mc.currentScreen != null) {
+                        this.mc.player.closeHandledScreen();
                      }
                   } else {
                      this.msz++;
-                     boolean var8 = this.mc.field_1755 instanceof GenericContainerScreen;
+                     boolean var8 = this.mc.currentScreen instanceof GenericContainerScreen;
                      if (this.msz >= (var8 ? 4 : 2)) {
                         this.msy.poll().run();
                         this.msz = 0;
@@ -1317,8 +1316,8 @@ public class mpq extends pnc {
 
                         if (var5 != -1) {
                            pqf.resetKeys();
-                           if (this.getPlayer().method_31548().method_67532() != var5) {
-                              this.getPlayer().method_31548().method_61496(var5);
+                           if (this.getPlayer().getInventory().getSelectedSlot() != var5) {
+                              this.getPlayer().getInventory().setSelectedSlot(var5);
                               this.mxx();
                               this.msw = 0;
                               return;
@@ -1326,14 +1325,14 @@ public class mpq extends pnc {
 
                            int var11 = var7 ? 0 : 1;
                            this.msw++;
-                           if (this.getPlayer().method_31548().method_5438(var5).method_31574(Items.field_8574) || this.mxy(86.0F) && !(this.mtv < 78.0F)) {
+                           if (this.getPlayer().getInventory().getStack(var5).isOf(Items.POTION) || this.mxy(86.0F) && !(this.mtv < 78.0F)) {
                               this.mwr = var11;
                               this.mws = this.mwa;
                               this.mxv();
-                              if (!this.getPlayer().method_6115() && this.msw % 5 == 0) {
+                              if (!this.getPlayer().isUsingItem() && this.msw % 5 == 0) {
                                  ptr.later(() -> {
-                                    if (this.mc.field_1724 != null && this.mc.field_1761 != null && !this.mc.field_1724.method_6115()) {
-                                       this.mc.field_1761.method_2919(this.mc.field_1724, Hand.field_5808);
+                                    if (this.mc.player != null && this.mc.interactionManager != null && !this.mc.player.isUsingItem()) {
+                                       this.mc.interactionManager.interactItem(this.mc.player, Hand.MAIN_HAND);
                                     }
                                  });
                               }
@@ -1383,10 +1382,10 @@ public class mpq extends pnc {
                   }
 
                   if (this.mqf.get() && this.nde() && (this.mqq == mpm.FARMING || this.mqq == mpm.LOOTING_VASE)) {
-                     this.mc.field_1690.field_1886.method_23481(false);
-                     this.mc.field_1690.field_1904.method_23481(false);
-                     if (this.mc.field_1761 != null) {
-                        this.mc.field_1761.method_2925();
+                     this.mc.options.attackKey.setPressed(false);
+                     this.mc.options.useKey.setPressed(false);
+                     if (this.mc.interactionManager != null) {
+                        this.mc.interactionManager.cancelBlockBreaking();
                      }
 
                      this.mrr = null;
@@ -1474,17 +1473,19 @@ public class mpq extends pnc {
          this.mtk--;
       }
 
-      Vec3d var1 = this.getPlayer().method_73189();
-      if (this.mti != null && !(var1.method_1025(this.mti) > 2.25)) {
+      Vec3d var1 = this.getPlayer().getEntityPos();
+      if (this.mti != null && !(var1.squaredDistanceTo(this.mti) > 2.25)) {
          this.mtj++;
          if (this.mqq == mpm.RESTOCK_AND_DUMP && this.mxk) {
             this.mtj = 0;
             return false;
-         } else if (this.mtj >= 2400 && this.mtk <= 0) {
+         }
+
+         if (this.mtj >= 2400 && this.mtk <= 0) {
             pqf.resetKeys();
             this.mxx();
-            if (this.mc.field_1724 != null && this.mc.field_1755 != null) {
-               this.mc.field_1724.method_7346();
+            if (this.mc.player != null && this.mc.currentScreen != null) {
+               this.mc.player.closeHandledScreen();
             }
 
             if (this.mqq == mpm.WARPING_TO_LOOT_BASE
@@ -1516,7 +1517,7 @@ public class mpq extends pnc {
    }
 
    private void mzb(boolean var1) {
-      boolean var2 = this.mc.field_1690.field_1894.method_1434();
+      boolean var2 = this.mc.options.forwardKey.isPressed();
       if (var1 && var2 && pqf.isBlockedHorizontally()) {
          this.mrw++;
          if (this.mrw >= 8) {
@@ -1526,11 +1527,11 @@ public class mpq extends pnc {
             }
 
             if (this.mrx > 0) {
-               this.mc.field_1690.field_1849.method_23481(true);
-               this.mc.field_1690.field_1913.method_23481(false);
+               this.mc.options.rightKey.setPressed(true);
+               this.mc.options.leftKey.setPressed(false);
             } else {
-               this.mc.field_1690.field_1913.method_23481(true);
-               this.mc.field_1690.field_1849.method_23481(false);
+               this.mc.options.leftKey.setPressed(true);
+               this.mc.options.rightKey.setPressed(false);
             }
 
             if (this.mrw > 30) {
@@ -1544,8 +1545,8 @@ public class mpq extends pnc {
       } else {
          this.mrw = 0;
          if (!this.mry) {
-            this.mc.field_1690.field_1913.method_23481(false);
-            this.mc.field_1690.field_1849.method_23481(false);
+            this.mc.options.leftKey.setPressed(false);
+            this.mc.options.rightKey.setPressed(false);
          }
       }
    }
@@ -1559,7 +1560,7 @@ public class mpq extends pnc {
          for (float var6 = -1.0F; var6 <= 1.0F; var6++) {
             if (var5 != 0.0F || var6 != 0.0F) {
                double var7 = Math.toDegrees(pud.inputDirection(this.mtu, var5, var6));
-               float var9 = Math.abs(MathHelper.method_15393((float)var7 - var1));
+               float var9 = Math.abs(MathHelper.wrapDegrees((float)var7 - var1));
                if (var9 < var4) {
                   var4 = var9;
                   var2 = var5;
@@ -1571,10 +1572,10 @@ public class mpq extends pnc {
 
       this.mux = true;
       this.mry = true;
-      this.mc.field_1690.field_1894.method_23481(var2 > 0.0F);
-      this.mc.field_1690.field_1881.method_23481(var2 < 0.0F);
-      this.mc.field_1690.field_1913.method_23481(var3 > 0.0F);
-      this.mc.field_1690.field_1849.method_23481(var3 < 0.0F);
+      this.mc.options.forwardKey.setPressed(var2 > 0.0F);
+      this.mc.options.backKey.setPressed(var2 < 0.0F);
+      this.mc.options.leftKey.setPressed(var3 > 0.0F);
+      this.mc.options.rightKey.setPressed(var3 < 0.0F);
    }
 
    private static float mzd(double var0, double var2) {
@@ -1584,36 +1585,36 @@ public class mpq extends pnc {
    private boolean mze() {
       if (this.mwf < 6) {
          return false;
-      } else {
-         ClientPlayerEntity var1 = this.getPlayer();
-         if (this.nci() && pqf.getStandY(this.mqy.get(this.mqz)) > var1.method_23318() + 0.6) {
-            return false;
-         } else {
-            this.mqy = null;
-            this.mqz = 0;
-            this.mse = 0;
-            this.ncf();
-            Vec3d var2 = pqf.awayFromClimbable(var1);
-            pqf.resetKeys();
-            this.mzc(var2 != null ? mzd(var2.field_1352, var2.field_1350) : this.ncj() + 180.0F);
-            this.mc.field_1690.field_1867.method_23481(false);
-            if (this.mwf > 200) {
-               this.mwf = 0;
-               if (this.mrr != null) {
-                  this.nay(true);
-               } else if (this.mrz != null) {
-                  this.ncz(true);
-               }
-            }
+      }
 
-            return true;
+      ClientPlayerEntity var1 = this.getPlayer();
+      if (this.nci() && pqf.getStandY(this.mqy.get(this.mqz)) > var1.getY() + 0.6) {
+         return false;
+      }
+
+      this.mqy = null;
+      this.mqz = 0;
+      this.mse = 0;
+      this.ncf();
+      Vec3d var2 = pqf.awayFromClimbable(var1);
+      pqf.resetKeys();
+      this.mzc(var2 != null ? mzd(var2.x, var2.z) : this.ncj() + 180.0F);
+      this.mc.options.sprintKey.setPressed(false);
+      if (this.mwf > 200) {
+         this.mwf = 0;
+         if (this.mrr != null) {
+            this.nay(true);
+         } else if (this.mrz != null) {
+            this.ncz(true);
          }
       }
+
+      return true;
    }
 
    private void mzf() {
-      if (pqf.onClimbable(this.getPlayer()) && this.mc.field_1690 != null) {
-         this.mc.field_1690.field_1832.method_23481(true);
+      if (pqf.onClimbable(this.getPlayer()) && this.mc.options != null) {
+         this.mc.options.sneakKey.setPressed(true);
       }
    }
 
@@ -1626,10 +1627,10 @@ public class mpq extends pnc {
    }
 
    private boolean mzh() {
-      if (this.mc.field_1687 != null && this.getPlayer() != null) {
-         String var1 = this.mc.field_1687.method_27983().method_29177().toString().toLowerCase();
-         Optional var2 = this.mc.field_1687.method_23753(this.getPlayer().method_24515()).method_40230();
-         String var3 = var2.isPresent() ? ((RegistryKey)var2.get()).method_29177().toString().toLowerCase() : "";
+      if (this.mc.world != null && this.getPlayer() != null) {
+         String var1 = this.mc.world.getRegistryKey().getValue().toString().toLowerCase();
+         Optional var2 = this.mc.world.getBiome(this.getPlayer().getBlockPos()).getKey();
+         String var3 = var2.isPresent() ? ((RegistryKey)var2.get()).getValue().toString().toLowerCase() : "";
          return var1.contains(a.b("얇밽㛤", -832584223)) || var3.contains(a.c(-30972929, "掙ᨣ郺"));
       } else {
          return false;
@@ -1638,14 +1639,14 @@ public class mpq extends pnc {
 
    private void mzi() {
       this.mru++;
-      this.mc.field_1690.field_1886.method_23481(false);
+      this.mc.options.attackKey.setPressed(false);
       this.mxx();
-      if (this.mc.field_1761 != null) {
-         this.mc.field_1761.method_2925();
+      if (this.mc.interactionManager != null) {
+         this.mc.interactionManager.cancelBlockBreaking();
       }
 
       PlayerEntity var1 = this.neh();
-      double var2 = var1 != null ? var1.method_5858(this.getPlayer()) : Double.MAX_VALUE;
+      double var2 = var1 != null ? var1.squaredDistanceTo(this.getPlayer()) : Double.MAX_VALUE;
       if (this.mru > 20 && var2 > 1600.0) {
          pqf.resetKeys();
          this.myd(mpm.FARMING);
@@ -1659,14 +1660,14 @@ public class mpq extends pnc {
          if (this.mqy != null && this.mqz < this.mqy.size()) {
             this.ncr();
          } else if (var1 != null) {
-            Vec3d var5 = this.mzj(this.getPlayer().method_73189().method_1020(var1.method_73189()).method_1029(), Math.toRadians(mpu[this.mrv]));
-            Vec3d var6 = this.getPlayer().method_73189().method_1019(var5.method_1021(12.0));
-            this.ncp(new Vec3d(var6.field_1352, this.getPlayer().method_23318(), var6.field_1350));
+            Vec3d var5 = this.mzj(this.getPlayer().getEntityPos().subtract(var1.getEntityPos()).normalize(), Math.toRadians(mpu[this.mrv]));
+            Vec3d var6 = this.getPlayer().getEntityPos().add(var5.multiply(12.0));
+            this.ncp(new Vec3d(var6.x, this.getPlayer().getY(), var6.z));
          } else {
             this.ncf();
             this.mux = true;
-            this.mc.field_1690.field_1894.method_23481(true);
-            pyd.setSprint(this.mc.field_1690, true);
+            this.mc.options.forwardKey.setPressed(true);
+            pyd.setSprint(this.mc.options, true);
          }
 
          if (this.mru > 200) {
@@ -1679,19 +1680,19 @@ public class mpq extends pnc {
    private Vec3d mzj(Vec3d var1, double var2) {
       double var4 = Math.cos(var2);
       double var6 = Math.sin(var2);
-      return new Vec3d(var1.field_1352 * var4 - var1.field_1350 * var6, 0.0, var1.field_1352 * var6 + var1.field_1350 * var4).method_1029();
+      return new Vec3d(var1.x * var4 - var1.z * var6, 0.0, var1.x * var6 + var1.z * var4).normalize();
    }
 
    private void mzk(PlayerEntity var1) {
-      Vec3d var2 = this.getPlayer().method_73189().method_1020(var1.method_73189()).method_1029();
-      BlockPos var3 = this.getPlayer().method_24515();
+      Vec3d var2 = this.getPlayer().getEntityPos().subtract(var1.getEntityPos()).normalize();
+      BlockPos var3 = this.getPlayer().getBlockPos();
 
       for (int var4 = 0; var4 < 3; var4++) {
          int var5 = (this.mrv + var4) % mpu.length;
          double var6 = mpu[var5] + this.mty.nextGaussian() * 12.0;
          Vec3d var8 = this.mzj(var2, Math.toRadians(var6));
          double var9 = 26.0 + this.mty.nextDouble() * 12.0;
-         BlockPos var11 = this.nbd(var3.method_10069((int)(var8.field_1352 * var9), 0, (int)(var8.field_1350 * var9)));
+         BlockPos var11 = this.nbd(var3.add((int)(var8.x * var9), 0, (int)(var8.z * var9)));
          List var12 = this.nbb(var3, var11);
          if (var12 != null && var12.size() >= 5) {
             this.nbc(var12);
@@ -1739,10 +1740,10 @@ public class mpq extends pnc {
             this.msh = 600;
          }
       } else {
-         if (this.mrl != null && !(this.mc.field_1755 instanceof GenericContainerScreen) && this.mwa - this.mwh > 400) {
+         if (this.mrl != null && !(this.mc.currentScreen instanceof GenericContainerScreen) && this.mwa - this.mwh > 400) {
             this.mrl = null;
             this.mqy = null;
-            this.mc.field_1690.field_1904.method_23481(false);
+            this.mc.options.useKey.setPressed(false);
             this.msh = 40;
             if (++this.mwi >= 3) {
                this.mwi = 0;
@@ -1780,13 +1781,13 @@ public class mpq extends pnc {
          } else {
             pqf.resetKeys();
             Vec3d var5 = this.nbo(this.mrl);
-            this.ncb(this.mrl, var5 != null ? var5 : Vec3d.method_24953(this.mrl));
-            if (this.mc.field_1755 instanceof GenericContainerScreen var6 && !this.mzp(var6)) {
-               this.mc.field_1724.method_7346();
+            this.ncb(this.mrl, var5 != null ? var5 : Vec3d.ofCenter(this.mrl));
+            if (this.mc.currentScreen instanceof GenericContainerScreen var6 && !this.mzp(var6)) {
+               this.mc.player.closeHandledScreen();
                return;
             }
 
-            if (!(this.mc.field_1755 instanceof GenericContainerScreen)) {
+            if (!(this.mc.currentScreen instanceof GenericContainerScreen)) {
                BlockHitResult var7 = this.nco(this.mrl);
                boolean var9 = false;
                if (var7 != null && this.mvc > 0) {
@@ -1795,13 +1796,13 @@ public class mpq extends pnc {
                   var9 = System.currentTimeMillis() - this.mta > 500L;
                } else {
                   this.mvg++;
-                  if (this.mvg > 40 && this.getPlayer().method_24515().method_10262(this.mrl) < 16.0 && System.currentTimeMillis() - this.mta > 500L) {
+                  if (this.mvg > 40 && this.getPlayer().getBlockPos().getSquaredDistance(this.mrl) < 16.0 && System.currentTimeMillis() - this.mta > 500L) {
                      BlockHitResult var4 = this.mzr(this.mrl);
                      if (var4 != null) {
                         ptr.later(() -> {
-                           if (this.mc.field_1761 != null && this.mc.field_1724 != null && this.mc.field_1755 == null) {
-                              this.mc.field_1761.method_2896(this.mc.field_1724, Hand.field_5808, var4);
-                              this.mc.field_1724.method_6104(Hand.field_5808);
+                           if (this.mc.interactionManager != null && this.mc.player != null && this.mc.currentScreen == null) {
+                              this.mc.interactionManager.interactBlock(this.mc.player, Hand.MAIN_HAND, var4);
+                              this.mc.player.swingHand(Hand.MAIN_HAND);
                            }
                         });
                         this.mta = System.currentTimeMillis();
@@ -1815,30 +1816,30 @@ public class mpq extends pnc {
                   this.mzo(this.mrl);
                }
 
-               this.mc.field_1690.field_1904.method_23481(var9);
+               this.mc.options.useKey.setPressed(var9);
             } else {
-               this.mc.field_1690.field_1904.method_23481(false);
-               GenericContainerScreen var8 = (GenericContainerScreen)this.mc.field_1755;
+               this.mc.options.useKey.setPressed(false);
+               GenericContainerScreen var8 = (GenericContainerScreen)this.mc.currentScreen;
                if (this.mrm.equals(a.c(-1340484654, "힖깗⓵뫺ㅒ"))) {
                   this.mzt(var8);
                   this.msy.add(() -> {
                      this.mrh = true;
-                     this.mc.field_1724.method_7346();
+                     this.mc.player.closeHandledScreen();
                      this.mrl = null;
                   });
                } else if (this.mrm.equals(a.d("륌샼䨫", 1143429311, 1234232773))) {
                   if (this.msy.isEmpty()) {
                      int var10 = 0;
 
-                     for (int var11 = 0; var11 < this.getPlayer().method_31548().method_5439(); var11++) {
-                        if (this.getPlayer().method_31548().method_5438(var11).method_7909() == Items.field_8071) {
-                           var10 += this.getPlayer().method_31548().method_5438(var11).method_7947();
+                     for (int var11 = 0; var11 < this.getPlayer().getInventory().size(); var11++) {
+                        if (this.getPlayer().getInventory().getStack(var11).getItem() == Items.GOLDEN_CARROT) {
+                           var10 += this.getPlayer().getInventory().getStack(var11).getCount();
                         }
                      }
 
                      if (var10 > this.mre && this.mrc < 4) {
                         this.mrc++;
-                        if (!this.nae(var8, var0 -> var0.method_7909() == Items.field_8071)) {
+                        if (!this.nae(var8, var0 -> var0.getItem() == Items.GOLDEN_CARROT)) {
                            this.mrc = 4;
                         }
                      } else if (var10 < this.mre && this.mrc < 4) {
@@ -1847,7 +1848,7 @@ public class mpq extends pnc {
                            this.mrc = 0;
                            this.msy.add(() -> {
                               this.mri = true;
-                              this.mc.field_1724.method_7346();
+                              this.mc.player.closeHandledScreen();
                               this.mrl = null;
                            });
                         }
@@ -1855,7 +1856,7 @@ public class mpq extends pnc {
                         this.mrc = 0;
                         this.msy.add(() -> {
                            this.mri = true;
-                           this.mc.field_1724.method_7346();
+                           this.mc.player.closeHandledScreen();
                            this.mrl = null;
                         });
                      }
@@ -1870,9 +1871,9 @@ public class mpq extends pnc {
    }
 
    private void mzm() {
-      if (this.mc.field_1755 == null && !this.msu && !this.mus) {
+      if (this.mc.currentScreen == null && !this.msu && !this.mus) {
          for (int var1 = 0; var1 < 9; var1++) {
-            if (this.getPlayer().method_31548().method_5438(var1).method_7909() == Items.field_8469) {
+            if (this.getPlayer().getInventory().getStack(var1).getItem() == Items.GLASS_BOTTLE) {
                if (this.muk == -1 && this.mum <= 0 && this.ndx()) {
                   this.ndz(var1);
                }
@@ -1883,9 +1884,9 @@ public class mpq extends pnc {
 
          if (this.msy.isEmpty() && this.mud <= 0) {
             for (int var3 = 9; var3 < 36; var3++) {
-               if (this.getPlayer().method_31548().method_5438(var3).method_7909() == Items.field_8469) {
+               if (this.getPlayer().getInventory().getStack(var3).getItem() == Items.GLASS_BOTTLE) {
                   int var2 = var3;
-                  this.msy.add(() -> this.ndv(var2, 1, SlotActionType.field_7795));
+                  this.msy.add(() -> this.ndv(var2, 1, SlotActionType.THROW));
                   return;
                }
             }
@@ -1900,7 +1901,7 @@ public class mpq extends pnc {
             case a.c(738142290, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁") -> new String[]{a.b("侬㙦벱⊾ꤗ\u2fd9閉", -1858057238)};
             default -> new String[]{var1};
          };
-         return pte.find(this.mc, this.getPlayer().method_24515(), var2);
+         return pte.find(this.mc, this.getPlayer().getBlockPos(), var2);
       } else {
          return null;
       }
@@ -1912,22 +1913,24 @@ public class mpq extends pnc {
    }
 
    private boolean mzp(GenericContainerScreen var1) {
-      int var2 = ((GenericContainerScreenHandler)var1.method_17577()).field_7763;
+      int var2 = var1.getScreenHandler().syncId;
       if (var2 == this.mwl) {
          return true;
-      } else if (this.mwj != null && this.mwj.equals(this.mrl) && System.currentTimeMillis() - this.mwk <= 3000L) {
-         BlockState var3 = this.getWorld().method_8320(this.mwj);
-         if (!(var3.method_26204() instanceof ChestBlock)) {
+      }
+
+      if (this.mwj != null && this.mwj.equals(this.mrl) && System.currentTimeMillis() - this.mwk <= 3000L) {
+         BlockState var3 = this.getWorld().getBlockState(this.mwj);
+         if (!(var3.getBlock() instanceof ChestBlock)) {
             return false;
-         } else {
-            int var4 = var3.method_11654(ChestBlock.field_10770) == ChestType.field_12569 ? 27 : 54;
-            if (((GenericContainerScreenHandler)var1.method_17577()).method_17388() * 9 != var4) {
-               return false;
-            } else {
-               this.mwl = var2;
-               return true;
-            }
          }
+
+         int var4 = var3.get(ChestBlock.CHEST_TYPE) == ChestType.SINGLE ? 27 : 54;
+         if (var1.getScreenHandler().getRows() * 9 != var4) {
+            return false;
+         }
+
+         this.mwl = var2;
+         return true;
       } else {
          return false;
       }
@@ -1950,76 +1953,84 @@ public class mpq extends pnc {
    }
 
    private BlockHitResult mzr(BlockPos var1) {
-      Vec3d var2 = this.getPlayer().method_33571();
-      Vec3d var3 = Vec3d.method_24953(var1);
-      BlockHitResult var4 = this.getWorld().method_17742(new RaycastContext(var2, var3, ShapeType.field_17558, FluidHandling.field_1348, this.getPlayer()));
-      if (var4.method_17783() == Type.field_1332 && var4.method_17777().equals(var1)) {
+      Vec3d var2 = this.getPlayer().getEyePos();
+      Vec3d var3 = Vec3d.ofCenter(var1);
+      BlockHitResult var4 = this.getWorld().raycast(new RaycastContext(var2, var3, ShapeType.COLLIDER, FluidHandling.NONE, this.getPlayer()));
+      if (var4.getType() == Type.BLOCK && var4.getBlockPos().equals(var1)) {
          return var4;
-      } else if (this.mvg <= 80) {
-         return null;
-      } else {
-         Direction var5 = Direction.method_10142(var2.field_1352 - var3.field_1352, var2.field_1351 - var3.field_1351, var2.field_1350 - var3.field_1350);
-         Vec3d var6 = var3.method_1031(var5.method_10148() * 0.5, var5.method_10164() * 0.5, var5.method_10165() * 0.5);
-         return new BlockHitResult(var6, var5, var1, false);
       }
+
+      if (this.mvg <= 80) {
+         return null;
+      }
+
+      Direction var5 = Direction.getFacing(var2.x - var3.x, var2.y - var3.y, var2.z - var3.z);
+      Vec3d var6 = var3.add(var5.getOffsetX() * 0.5, var5.getOffsetY() * 0.5, var5.getOffsetZ() * 0.5);
+      return new BlockHitResult(var6, var5, var1, false);
    }
 
    private boolean mzs(BlockPos var1) {
       if (this.getWorld() == null) {
          return false;
-      } else {
-         String var2 = this.getWorld().method_8320(var1).method_26204().method_63499().toLowerCase();
-         return var2.contains(a.d("\uf851臫ଵ镒Ẃ", 842418189, 574402618)) && !var2.contains(a.b("泉ᕳ龪ǚ訚ಆ뛩㼓ꅁ⯦갲", 1928031399));
       }
+
+      String var2 = this.getWorld().getBlockState(var1).getBlock().getTranslationKey().toLowerCase();
+      return var2.contains(a.d("\uf851臫ଵ镒Ẃ", 842418189, 574402618)) && !var2.contains(a.b("泉ᕳ龪ǚ訚ಆ뛩㼓ꅁ⯦갲", 1928031399));
    }
 
    private void mzt(GenericContainerScreen var1) {
-      int var2 = this.mzv(Items.field_8071);
-      int var3 = ((GenericContainerScreenHandler)var1.method_17577()).method_7629().method_5439();
+      int var2 = this.mzv(Items.GOLDEN_CARROT);
+      int var3 = var1.getScreenHandler().getInventory().size();
 
-      for (int var4 = var3; var4 < ((GenericContainerScreenHandler)var1.method_17577()).field_7761.size(); var4++) {
-         Slot var5 = (Slot)((GenericContainerScreenHandler)var1.method_17577()).field_7761.get(var4);
-         if (var5.field_7871 == this.getPlayer().method_31548() && var5.method_34266() < 36) {
-            ItemStack var6 = var5.method_7677();
-            if (!var6.method_7960()
-               && !var6.method_31574(Items.field_42716)
-               && !var6.method_31574(Items.field_8469)
+      for (int var4 = var3; var4 < var1.getScreenHandler().slots.size(); var4++) {
+         Slot var5 = var1.getScreenHandler().slots.get(var4);
+         if (var5.inventory == this.getPlayer().getInventory() && var5.getIndex() < 36) {
+            ItemStack var6 = var5.getStack();
+            if (!var6.isEmpty()
+               && !var6.isOf(Items.BRUSH)
+               && !var6.isOf(Items.GLASS_BOTTLE)
                && !this.isTrashItem(var6)
                && !this.nel(var6)
                && !this.neo(var6)
-               && !var6.method_31574(Items.field_8705)
+               && !var6.isOf(Items.WATER_BUCKET)
                && (
-                  var6.method_31574(Items.field_8071)
+                  var6.isOf(Items.GOLDEN_CARROT)
                      ? var2 > this.mre
                      : this.mxr(var6)
-                        || !var6.method_7909().method_7876().contains(a.b("ꮱ툄壏욣䵢", -1008227385))
-                           && !var6.method_7909().method_7876().contains(a.b("ぞ䧣쌲嵅", -662491081))
-                           && !var6.method_31574(Items.field_8288)
+                        || !var6.getItem().getTranslationKey().contains(a.b("ꮱ툄壏욣䵢", -1008227385))
+                           && !var6.getItem().getTranslationKey().contains(a.b("ぞ䧣쌲嵅", -662491081))
+                           && !var6.isOf(Items.TOTEM_OF_UNDYING)
                )) {
                int var7 = var4;
-               int var8 = ((GenericContainerScreenHandler)var1.method_17577()).field_7763;
-               this.msy.add(() -> {
-                  if (this.mc.field_1761 != null && this.getPlayer() != null && this.getPlayer().field_7512.field_7763 == var8 && !this.mzu(var7)) {
-                     this.mc.field_1761.method_2906(var8, var7, 0, SlotActionType.field_7794, this.getPlayer());
-                  }
-               });
+               int var8 = var1.getScreenHandler().syncId;
+               this.msy
+                  .add(
+                     () -> {
+                        if (this.mc.interactionManager != null
+                           && this.getPlayer() != null
+                           && this.getPlayer().currentScreenHandler.syncId == var8
+                           && !this.mzu(var7)) {
+                           this.mc.interactionManager.clickSlot(var8, var7, 0, SlotActionType.QUICK_MOVE, this.getPlayer());
+                        }
+                     }
+                  );
             }
          }
       }
    }
 
    private boolean mzu(int var1) {
-      ScreenHandler var2 = this.getPlayer().field_7512;
-      return var1 >= 0 && var1 < var2.field_7761.size() && ((Slot)var2.field_7761.get(var1)).method_7677().method_31574(Items.field_42716);
+      ScreenHandler var2 = this.getPlayer().currentScreenHandler;
+      return var1 >= 0 && var1 < var2.slots.size() && var2.slots.get(var1).getStack().isOf(Items.BRUSH);
    }
 
    private int mzv(Item var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
-         ItemStack var4 = this.getPlayer().method_31548().method_5438(var3);
-         if (var4.method_31574(var1)) {
-            var2 += var4.method_7947();
+         ItemStack var4 = this.getPlayer().getInventory().getStack(var3);
+         if (var4.isOf(var1)) {
+            var2 += var4.getCount();
          }
       }
 
@@ -2028,22 +2039,24 @@ public class mpq extends pnc {
 
    private boolean mzw(GenericContainerScreen var1, int var2) {
       this.mrf = pmf.plan(
-         var1.method_17577(), this.getPlayer().method_31548(), var0 -> var0.method_7909() == Items.field_8071, var2, this.mty, System.currentTimeMillis()
+         var1.getScreenHandler(), this.getPlayer().getInventory(), var0 -> var0.getItem() == Items.GOLDEN_CARROT, var2, this.mty, System.currentTimeMillis()
       );
       this.mrg = 0;
       return this.mrf != null;
    }
 
    private void mzx() {
-      if (this.mc.field_1755 instanceof GenericContainerScreen var1 && this.mc.field_1761 != null && this.getPlayer() != null) {
-         ScreenHandler var4 = var1.method_17577();
+      if (this.mc.currentScreen instanceof GenericContainerScreen var1 && this.mc.interactionManager != null && this.getPlayer() != null) {
+         ScreenHandler var4 = var1.getScreenHandler();
          if (++this.mrg == 120) {
             this.mrf.abort();
          }
 
          pmc var3 = this.mrf
             .drive(
-               var4, System.currentTimeMillis(), (var2, var3x, var4x) -> this.mc.field_1761.method_2906(var4.field_7763, var2, var3x, var4x, this.getPlayer())
+               var4,
+               System.currentTimeMillis(),
+               (var2, var3x, var4x) -> this.mc.interactionManager.clickSlot(var4.syncId, var2, var3x, var4x, this.getPlayer())
             );
          if (var3 == pmc.DONE || var3 == pmc.GAVE_UP || this.mrg > 160) {
             this.mrf = null;
@@ -2057,11 +2070,11 @@ public class mpq extends pnc {
    }
 
    private void mzy() {
-      if (this.mc.field_1755 instanceof GenericContainerScreen var1 && this.mc.field_1761 != null && this.getPlayer() != null) {
-         ScreenHandler var4 = var1.method_17577();
-         int var3 = pmf.stashSlot(var4, this.getPlayer().method_31548(), var4.method_34255(), -1);
+      if (this.mc.currentScreen instanceof GenericContainerScreen var1 && this.mc.interactionManager != null && this.getPlayer() != null) {
+         ScreenHandler var4 = var1.getScreenHandler();
+         int var3 = pmf.stashSlot(var4, this.getPlayer().getInventory(), var4.getCursorStack(), -1);
          if (var3 != -1) {
-            this.mc.field_1761.method_2906(var4.field_7763, var3, 0, SlotActionType.field_7790, this.getPlayer());
+            this.mc.interactionManager.clickSlot(var4.syncId, var3, 0, SlotActionType.PICKUP, this.getPlayer());
          }
       }
    }
@@ -2095,9 +2108,9 @@ public class mpq extends pnc {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
-         ItemStack var4 = this.getPlayer().method_31548().method_5438(var3);
+         ItemStack var4 = this.getPlayer().getInventory().getStack(var3);
          if (var1 ? this.nel(var4) : this.neo(var4)) {
-            var2 += var4.method_7947();
+            var2 += var4.getCount();
          }
       }
 
@@ -2105,7 +2118,7 @@ public class mpq extends pnc {
    }
 
    private int nac(GenericContainerScreen var1, int var2) {
-      int var3 = ((GenericContainerScreenHandler)var1.method_17577()).method_7629().method_5439();
+      int var3 = var1.getScreenHandler().getInventory().size();
       return var2 < 9 ? var3 + 27 + var2 : var3 + (var2 - 9);
    }
 
@@ -2117,15 +2130,10 @@ public class mpq extends pnc {
       boolean var3 = false;
 
       for (int var4 = 0; var4 < 36; var4++) {
-         ItemStack var5 = this.getPlayer().method_31548().method_5438(var4);
+         ItemStack var5 = this.getPlayer().getInventory().getStack(var4);
          if (var2.test(var5)) {
             int var6 = this.nac(var1, var4);
-            this.msy
-               .add(
-                  () -> this.mc
-                     .field_1761
-                     .method_2906(((GenericContainerScreenHandler)var1.method_17577()).field_7763, var6, 0, SlotActionType.field_7794, this.getPlayer())
-               );
+            this.msy.add(() -> this.mc.interactionManager.clickSlot(var1.getScreenHandler().syncId, var6, 0, SlotActionType.QUICK_MOVE, this.getPlayer()));
             var3 = true;
          }
       }
@@ -2162,13 +2170,13 @@ public class mpq extends pnc {
       }
 
       this.mrb = 0;
-      this.mc.field_1724.method_7346();
+      this.mc.player.closeHandledScreen();
       this.mrl = null;
    }
 
    private boolean nah(GenericContainerScreen var1, boolean var2) {
       this.mrf = pmf.plan(
-         var1.method_17577(), this.getPlayer().method_31548(), var2x -> var2 ? this.nel(var2x) : this.neo(var2x), 1, this.mty, System.currentTimeMillis()
+         var1.getScreenHandler(), this.getPlayer().getInventory(), var2x -> var2 ? this.nel(var2x) : this.neo(var2x), 1, this.mty, System.currentTimeMillis()
       );
       this.mrg = 0;
       return this.mrf != null;
@@ -2238,7 +2246,7 @@ public class mpq extends pnc {
          this.nal(a.b("䟏㸭뒊⻮ꄩ➕鷁ᐲ蹵ß蝴約\uf3a1渀\ue044暲\udcf0卓짭侵숩롵㛋ꤌ⽱ꗅᰛ陖ࢿ躗Ֆﯲ燈\ue838湧", 1834370046));
       } else {
          this.mwn = "";
-         this.getNetworkHandler().method_45730(var4);
+         this.getNetworkHandler().sendChatCommand(var4);
          this.mrn = 0;
          this.mro = false;
          this.mrp = null;
@@ -2250,7 +2258,7 @@ public class mpq extends pnc {
          this.mut = this.getWorld();
          this.mwz = this.getWorld();
          this.mxa = this.getPlayer();
-         this.mxb = this.getPlayer() == null ? null : this.getPlayer().method_73189();
+         this.mxb = this.getPlayer() == null ? null : this.getPlayer().getEntityPos();
          this.mxc = -1;
          this.mxd = false;
          this.mxe = 0;
@@ -2261,7 +2269,7 @@ public class mpq extends pnc {
 
    private boolean nan() {
       ClientPlayerEntity var1 = this.getPlayer();
-      return this.mxd || this.getWorld() != this.mwz || var1 != this.mxa || this.mxb != null && var1.method_73189().method_1022(this.mxb) > 48.0;
+      return this.mxd || this.getWorld() != this.mwz || var1 != this.mxa || this.mxb != null && var1.getEntityPos().distanceTo(this.mxb) > 48.0;
    }
 
    private void nao() {
@@ -2294,11 +2302,11 @@ public class mpq extends pnc {
          if (var1 > 0) {
             this.mrq = 0;
          } else {
-            if (this.mc.field_1690 != null) {
-               this.mc.field_1690.field_1904.method_23481(false);
+            if (this.mc.options != null) {
+               this.mc.options.useKey.setPressed(false);
             }
 
-            boolean var2 = this.mrp != null && this.getPlayer().method_24515().method_10262(this.mrp) > 9.0;
+            boolean var2 = this.mrp != null && this.getPlayer().getBlockPos().getSquaredDistance(this.mrp) > 9.0;
             if (var2 || this.mrn - this.mxf >= 200) {
                if (!var2 && this.mxe < 2) {
                   this.nap();
@@ -2314,10 +2322,10 @@ public class mpq extends pnc {
    }
 
    private void nap() {
-      this.getNetworkHandler().method_45730(this.mxt());
+      this.getNetworkHandler().sendChatCommand(this.mxt());
       this.mro = true;
       this.mxe++;
-      this.mrp = this.getPlayer().method_24515();
+      this.mrp = this.getPlayer().getBlockPos();
       this.mxf = this.mrn;
       this.mrq = 0;
    }
@@ -2330,9 +2338,9 @@ public class mpq extends pnc {
       } else {
          this.ncf();
          this.mux = true;
-         this.mc.field_1690.field_1894.method_23481(true);
-         this.mc.field_1690.field_1867.method_23481(true);
-         this.mc.field_1690.field_1903.method_23481(this.getPlayer().field_5976 && this.getPlayer().method_24828());
+         this.mc.options.forwardKey.setPressed(true);
+         this.mc.options.sprintKey.setPressed(true);
+         this.mc.options.jumpKey.setPressed(this.getPlayer().horizontalCollision && this.getPlayer().isOnGround());
          this.msc++;
          if (this.msc > 600) {
             this.msc = 0;
@@ -2351,9 +2359,7 @@ public class mpq extends pnc {
 
    private void nar() {
       BlockPos var1 = new BlockPos(0, 66, 1);
-      if (Math.abs(this.getPlayer().method_23317()) <= 10.0
-         && Math.abs(this.getPlayer().method_23321() - 1.0) <= 10.0
-         && Math.abs(this.getPlayer().method_23318() - 66.0) <= 3.0) {
+      if (Math.abs(this.getPlayer().getX()) <= 10.0 && Math.abs(this.getPlayer().getZ() - 1.0) <= 10.0 && Math.abs(this.getPlayer().getY() - 66.0) <= 3.0) {
          pqf.resetKeys();
          this.mqy = null;
          this.mxg = 0;
@@ -2375,10 +2381,10 @@ public class mpq extends pnc {
             pqf.resetKeys();
          }
 
-         if (this.getPlayer().field_6017 > 3.0) {
-            int var2 = this.nei(Items.field_8705);
+         if (this.getPlayer().fallDistance > 3.0) {
+            int var2 = this.nei(Items.WATER_BUCKET);
             if (var2 != -1) {
-               this.getPlayer().method_31548().method_61496(var2);
+               this.getPlayer().getInventory().setSelectedSlot(var2);
                this.nby(this.mtl.intentYaw(), 89.0F);
                if (this.mtl.intentPitch() > 65.0F) {
                   this.mxv();
@@ -2392,22 +2398,22 @@ public class mpq extends pnc {
       this.msq = true;
       this.mst = false;
       this.mss = this.mrn;
-      this.mc.field_1690.field_1904.method_23481(false);
+      this.mc.options.useKey.setPressed(false);
       this.nat();
    }
 
    private void nat() {
       for (int var1 = 0; var1 < 9; var1++) {
-         if (this.getPlayer().method_31548().method_5438(var1).method_7960()) {
-            this.getPlayer().method_31548().method_61496(var1);
+         if (this.getPlayer().getInventory().getStack(var1).isEmpty()) {
+            this.getPlayer().getInventory().setSelectedSlot(var1);
             return;
          }
       }
 
       for (int var3 = 0; var3 < 9; var3++) {
-         ItemStack var2 = this.getPlayer().method_31548().method_5438(var3);
-         if (!this.nel(var2) && !this.neo(var2) && var2.method_7909() != Items.field_8071) {
-            this.getPlayer().method_31548().method_61496(var3);
+         ItemStack var2 = this.getPlayer().getInventory().getStack(var3);
+         if (!this.nel(var2) && !this.neo(var2) && var2.getItem() != Items.GOLDEN_CARROT) {
+            this.getPlayer().getInventory().setSelectedSlot(var3);
             return;
          }
       }
@@ -2416,12 +2422,13 @@ public class mpq extends pnc {
    private void nau(int var1) {
       int var2 = this.nav();
       int var3 = var2 != -1 ? var2 : 8;
-      this.msy.add(() -> this.ndv(var1, var3, SlotActionType.field_7791));
+      int var4 = var1;
+      this.msy.add(() -> this.ndv(var4, var3, SlotActionType.SWAP));
    }
 
    private int nav() {
       for (int var1 = 0; var1 < 9; var1++) {
-         if (this.getPlayer().method_31548().method_5438(var1).method_7960()) {
+         if (this.getPlayer().getInventory().getStack(var1).isEmpty()) {
             return var1;
          }
       }
@@ -2436,7 +2443,7 @@ public class mpq extends pnc {
    private void nax() {
       this.msu = false;
       this.msv = 0;
-      if (!(this.mqr >= this.mqd.get()) && this.getPlayer().method_31548().method_7376() != -1) {
+      if (!(this.mqr >= this.mqd.get()) && this.getPlayer().getInventory().getEmptySlot() != -1) {
          if (this.mrr != null && (this.mra.contains(this.mrr) || !this.nbl(this.mrr))) {
             this.nay(false);
          }
@@ -2457,7 +2464,7 @@ public class mpq extends pnc {
             this.nbf();
          } else {
             this.msi++;
-            double var1 = this.getPlayer().method_33571().method_1025(Vec3d.method_24953(this.mrr));
+            double var1 = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(this.mrr));
             boolean var3 = this.nbm(this.mrr);
             if (var3 && var1 <= 16.0) {
                this.mqy = null;
@@ -2469,7 +2476,7 @@ public class mpq extends pnc {
             } else if (this.msi > this.mys(300)) {
                this.nay(true);
             } else {
-               if (!this.mvh && var3 && var1 <= 36.0 && this.ncs(Vec3d.method_24953(this.mrr))) {
+               if (!this.mvh && var3 && var1 <= 36.0 && this.ncs(Vec3d.ofCenter(this.mrr))) {
                   this.mvh = true;
                }
 
@@ -2486,7 +2493,7 @@ public class mpq extends pnc {
                      this.nay(true);
                   } else {
                      if (var3 && var1 < 100.0) {
-                        this.ncp(Vec3d.method_24953(this.mrr));
+                        this.ncp(Vec3d.ofCenter(this.mrr));
                      } else if (!this.naz(this.mrr, false)) {
                         pqf.resetKeys();
                      }
@@ -2510,27 +2517,29 @@ public class mpq extends pnc {
       this.mqz = 0;
       this.msx = 0;
       this.msi = 0;
-      if (this.mc.field_1761 != null) {
-         this.mc.field_1761.method_2925();
+      if (this.mc.interactionManager != null) {
+         this.mc.interactionManager.cancelBlockBreaking();
       }
 
-      this.mc.field_1690.field_1886.method_23481(false);
+      this.mc.options.attackKey.setPressed(false);
    }
 
    private boolean naz(BlockPos var1, boolean var2) {
       if (var1 == null) {
          return false;
-      } else if (!var2 && this.mse > 0) {
-         return this.mqy != null && this.mqz < this.mqy.size();
-      } else {
-         this.mse = 8;
-         this.nbc(this.nba(var1));
-         return this.mqy != null && !this.mqy.isEmpty();
       }
+
+      if (!var2 && this.mse > 0) {
+         return this.mqy != null && this.mqz < this.mqy.size();
+      }
+
+      this.mse = 8;
+      this.nbc(this.nba(var1));
+      return this.mqy != null && !this.mqy.isEmpty();
    }
 
    private List<BlockPos> nba(BlockPos var1) {
-      return this.nbb(this.getPlayer().method_24515(), var1);
+      return this.nbb(this.getPlayer().getBlockPos(), var1);
    }
 
    private List<BlockPos> nbb(BlockPos var1, BlockPos var2) {
@@ -2560,32 +2569,32 @@ public class mpq extends pnc {
    private BlockPos nbd(BlockPos var1) {
       if (this.getWorld() == null) {
          return var1;
-      } else {
-         Mutable var2 = new Mutable();
+      }
 
-         for (int var3 = 0; var3 <= 10; var3++) {
-            for (byte var4 = 1; var4 >= -1; var4 -= 2) {
-               var2.method_10103(var1.method_10263(), var1.method_10264() + var3 * var4, var1.method_10260());
-               if (this.nbe(var2)) {
-                  return var2.method_10062();
-               }
+      Mutable var2 = new Mutable();
 
-               if (var3 == 0) {
-                  break;
-               }
+      for (int var3 = 0; var3 <= 10; var3++) {
+         for (byte var4 = 1; var4 >= -1; var4 -= 2) {
+            var2.set(var1.getX(), var1.getY() + var3 * var4, var1.getZ());
+            if (this.nbe(var2)) {
+               return var2.toImmutable();
+            }
+
+            if (var3 == 0) {
+               break;
             }
          }
-
-         return var1;
       }
+
+      return var1;
    }
 
    private boolean nbe(BlockPos var1) {
       return this.getWorld() == null
          ? false
-         : this.getWorld().method_8320(var1).method_26220(this.getWorld(), var1).method_1110()
-            && this.getWorld().method_8320(var1.method_10084()).method_26220(this.getWorld(), var1.method_10084()).method_1110()
-            && !this.getWorld().method_8320(var1.method_10074()).method_26220(this.getWorld(), var1.method_10074()).method_1110();
+         : this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty()
+            && this.getWorld().getBlockState(var1.up()).getCollisionShape(this.getWorld(), var1.up()).isEmpty()
+            && !this.getWorld().getBlockState(var1.down()).getCollisionShape(this.getWorld(), var1.down()).isEmpty();
    }
 
    private void nbf() {
@@ -2614,7 +2623,7 @@ public class mpq extends pnc {
    }
 
    private void nbg() {
-      BlockPos var1 = this.getPlayer().method_24515();
+      BlockPos var1 = this.getPlayer().getBlockPos();
       this.nbi(var1);
       if (Double.isNaN(this.mvt)) {
          this.mvt = Math.toRadians(this.ncj() + 90.0);
@@ -2626,7 +2635,7 @@ public class mpq extends pnc {
       for (int var4 = 0; var4 < var2.length && var3 < 2; var4++) {
          double var5 = this.mvt + var2[(var4 + this.mvv) % var2.length] + this.mty.nextGaussian() * 0.28;
          double var7 = 17.0 + this.mty.nextDouble() * 19.0;
-         BlockPos var9 = var1.method_10069((int)Math.round(Math.cos(var5) * var7), 0, (int)Math.round(Math.sin(var5) * var7));
+         BlockPos var9 = var1.add((int)Math.round(Math.cos(var5) * var7), 0, (int)Math.round(Math.sin(var5) * var7));
          if (!this.nbj(var9) || this.mvu >= 2) {
             var3++;
             List var10 = this.nbb(var1, this.nbd(var9));
@@ -2647,7 +2656,7 @@ public class mpq extends pnc {
    }
 
    private static long nbh(BlockPos var0) {
-      return (long)(var0.method_10263() >> 4) << 32 ^ var0.method_10260() >> 4 & 4294967295L;
+      return (long)(var0.getX() >> 4) << 32 ^ var0.getZ() >> 4 & 4294967295L;
    }
 
    private void nbi(BlockPos var1) {
@@ -2663,13 +2672,13 @@ public class mpq extends pnc {
    }
 
    private BlockPos nbk() {
-      BlockPos var1 = this.getPlayer().method_24515();
+      BlockPos var1 = this.getPlayer().getBlockPos();
       Mutable var2 = new Mutable();
       ArrayList var3 = new ArrayList();
       if (this.getWorld() != null) {
-         for (PlayerEntity var5 : this.getWorld().method_18456()) {
+         for (PlayerEntity var5 : this.getWorld().getPlayers()) {
             if (var5 != this.getPlayer()) {
-               var3.add(var5.method_73189());
+               var3.add(var5.getEntityPos());
             }
          }
       }
@@ -2684,19 +2693,19 @@ public class mpq extends pnc {
             for (int var11 = -var9; var11 <= var9; var11++) {
                if (Math.max(Math.abs(var10), Math.abs(var11)) == var9) {
                   for (int var12 = -8; var12 <= 8; var12++) {
-                     int var13 = var1.method_10264() + var12;
+                     int var13 = var1.getY() + var12;
                      if (var13 < 80 || var13 > 90) {
-                        var2.method_10103(var1.method_10263() + var10, var13, var1.method_10260() + var11);
+                        var2.set(var1.getX() + var10, var13, var1.getZ() + var11);
                         if (this.nbl(var2) && !this.mra.contains(var2)) {
-                           double var14 = var2.method_10262(var1) * (0.8 + this.mty.nextDouble() * 0.65);
+                           double var14 = var2.getSquaredDistance(var1) * (0.8 + this.mty.nextDouble() * 0.65);
                            if (!this.nbn(var2)) {
                               var14 *= 2.4;
                            }
 
-                           Vec3d var16 = Vec3d.method_24953(var2);
+                           Vec3d var16 = Vec3d.ofCenter(var2);
 
                            for (Vec3d var18 : var3) {
-                              if (var18.method_1025(var16) < 1600.0) {
+                              if (var18.squaredDistanceTo(var16) < 1600.0) {
                                  var14 += 100000.0;
                                  break;
                               }
@@ -2705,7 +2714,7 @@ public class mpq extends pnc {
                            var7++;
                            if (var14 < var20) {
                               var20 = var14;
-                              var19 = var2.method_10062();
+                              var19 = var2.toImmutable();
                            }
                         }
                      }
@@ -2729,7 +2738,7 @@ public class mpq extends pnc {
    }
 
    private boolean nbl(BlockPos var1) {
-      return this.getWorld() != null && var1 != null ? this.getWorld().method_8320(var1).method_27852(Blocks.field_42752) : false;
+      return this.getWorld() != null && var1 != null ? this.getWorld().getBlockState(var1).isOf(Blocks.DECORATED_POT) : false;
    }
 
    private boolean nbm(BlockPos var1) {
@@ -2737,12 +2746,12 @@ public class mpq extends pnc {
    }
 
    private boolean nbn(BlockPos var1) {
-      Vec3d var2 = this.getPlayer().method_33571();
-      Vec3d[] var3 = new Vec3d[]{Vec3d.method_24953(var1), Vec3d.method_24953(var1).method_1031(0.0, 0.4, 0.0)};
+      Vec3d var2 = this.getPlayer().getEyePos();
+      Vec3d[] var3 = new Vec3d[]{Vec3d.ofCenter(var1), Vec3d.ofCenter(var1).add(0.0, 0.4, 0.0)};
 
       for (Vec3d var7 : var3) {
-         BlockHitResult var8 = this.getWorld().method_17742(new RaycastContext(var2, var7, ShapeType.field_17559, FluidHandling.field_1348, this.getPlayer()));
-         if (var8.method_17783() == Type.field_1333 || var8.method_17777().equals(var1)) {
+         BlockHitResult var8 = this.getWorld().raycast(new RaycastContext(var2, var7, ShapeType.OUTLINE, FluidHandling.NONE, this.getPlayer()));
+         if (var8.getType() == Type.MISS || var8.getBlockPos().equals(var1)) {
             return true;
          }
       }
@@ -2752,22 +2761,21 @@ public class mpq extends pnc {
 
    private Vec3d nbo(BlockPos var1) {
       if (this.getWorld() != null && this.getPlayer() != null && var1 != null) {
-         Vec3d var2 = this.getPlayer().method_33571();
-         Vec3d var3 = Vec3d.method_24953(var1);
+         Vec3d var2 = this.getPlayer().getEyePos();
+         Vec3d var3 = Vec3d.ofCenter(var1);
          Vec3d[] var4 = new Vec3d[]{
-            var3.method_1031(this.muz, this.mva, this.mvb),
-            var3.method_1031(0.0, 0.35, 0.0),
-            var3.method_1031(0.0, -0.35, 0.0),
-            var3.method_1031(0.3, 0.0, 0.0),
-            var3.method_1031(-0.3, 0.0, 0.0),
-            var3.method_1031(0.0, 0.0, 0.3),
-            var3.method_1031(0.0, 0.0, -0.3)
+            var3.add(this.muz, this.mva, this.mvb),
+            var3.add(0.0, 0.35, 0.0),
+            var3.add(0.0, -0.35, 0.0),
+            var3.add(0.3, 0.0, 0.0),
+            var3.add(-0.3, 0.0, 0.0),
+            var3.add(0.0, 0.0, 0.3),
+            var3.add(0.0, 0.0, -0.3)
          };
 
          for (Vec3d var8 : var4) {
-            BlockHitResult var9 = this.getWorld()
-               .method_17742(new RaycastContext(var2, var8, ShapeType.field_17559, FluidHandling.field_1348, this.getPlayer()));
-            if (var9.method_17783() == Type.field_1333 || var9.method_17777().equals(var1)) {
+            BlockHitResult var9 = this.getWorld().raycast(new RaycastContext(var2, var8, ShapeType.OUTLINE, FluidHandling.NONE, this.getPlayer()));
+            if (var9.getType() == Type.MISS || var9.getBlockPos().equals(var1)) {
                return var8;
             }
          }
@@ -2789,18 +2797,18 @@ public class mpq extends pnc {
       this.msl.clear();
       this.mqy = null;
       this.mqz = 0;
-      this.mc.field_1690.field_1886.method_23481(false);
+      this.mc.options.attackKey.setPressed(false);
       this.mxx();
-      if (this.mc.field_1761 != null) {
-         this.mc.field_1761.method_2925();
+      if (this.mc.interactionManager != null) {
+         this.mc.interactionManager.cancelBlockBreaking();
       }
 
       this.msj = var1;
       this.msm.clear();
-      if (this.mc.field_1687 != null) {
-         for (Entity var3 : this.mc.field_1687.method_18112()) {
-            if (var3 instanceof ItemEntity var4 && var4.method_5707(var1) < 100.0 && var4.method_6985() > 20) {
-               this.msm.add(var4.method_5628());
+      if (this.mc.world != null) {
+         for (Entity var3 : this.mc.world.getEntities()) {
+            if (var3 instanceof ItemEntity var4 && var4.squaredDistanceTo(var1) < 100.0 && var4.getItemAge() > 20) {
+               this.msm.add(var4.getId());
             }
          }
       }
@@ -2810,13 +2818,13 @@ public class mpq extends pnc {
       if (this.mrr != null && this.nbl(this.mrr)) {
          this.mrs++;
          Vec3d var5 = this.nbo(this.mrr);
-         double var2 = this.getPlayer().method_33571().method_1025(Vec3d.method_24953(this.mrr));
+         double var2 = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(this.mrr));
          if (var5 != null && !(var2 > 20.25)) {
             if (this.nbr(this.mrr)) {
                this.mux = true;
-               this.mc.field_1690.field_1894.method_23481(true);
-               this.mc.field_1690.field_1867.method_23481(true);
-               this.mc.field_1690.field_1903.method_23481(false);
+               this.mc.options.forwardKey.setPressed(true);
+               this.mc.options.sprintKey.setPressed(true);
+               this.mc.options.jumpKey.setPressed(false);
             } else {
                pqf.resetKeys();
             }
@@ -2829,15 +2837,15 @@ public class mpq extends pnc {
                var4 = false;
             }
 
-            this.mc.field_1690.field_1886.method_23481(var4);
+            this.mc.options.attackKey.setPressed(var4);
             if (this.mrs > this.mys(100)) {
                this.nay(true);
                this.myd(mpm.FARMING);
             }
          } else {
-            this.mc.field_1690.field_1886.method_23481(false);
-            if (this.mc.field_1761 != null) {
-               this.mc.field_1761.method_2925();
+            this.mc.options.attackKey.setPressed(false);
+            if (this.mc.interactionManager != null) {
+               this.mc.interactionManager.cancelBlockBreaking();
             }
 
             if (this.mqy == null || this.mqz >= this.mqy.size()) {
@@ -2857,7 +2865,7 @@ public class mpq extends pnc {
          }
       } else {
          if (!this.msu) {
-            Vec3d var1 = this.mrr != null ? Vec3d.method_24953(this.mrr) : this.getPlayer().method_73189();
+            Vec3d var1 = this.mrr != null ? Vec3d.ofCenter(this.mrr) : this.getPlayer().getEntityPos();
             if (this.mrr != null) {
                this.mra.add(this.mrr);
                this.mqu++;
@@ -2872,23 +2880,20 @@ public class mpq extends pnc {
    }
 
    private boolean nbr(BlockPos var1) {
-      if (this.getPlayer().method_24828() && !this.getPlayer().method_5799()) {
-         if (Math.abs(var1.method_10264() - this.getPlayer().method_23318()) > 1.0) {
+      if (this.getPlayer().isOnGround() && !this.getPlayer().isTouchingWater()) {
+         if (Math.abs(var1.getY() - this.getPlayer().getY()) > 1.0) {
             return false;
-         } else {
-            double var2 = var1.method_10263() + 0.5 - this.getPlayer().method_23317();
-            double var4 = var1.method_10260() + 0.5 - this.getPlayer().method_23321();
-            double var6 = Math.hypot(var2, var4);
-            if (var6 < 2.0) {
-               return false;
-            } else {
-               double var8 = (var6 - 1.3) / var6;
-               return this.nct(
-                  new Vec3d(this.getPlayer().method_23317() + var2 * var8, this.getPlayer().method_23318(), this.getPlayer().method_23321() + var4 * var8),
-                  true
-               );
-            }
          }
+
+         double var2 = var1.getX() + 0.5 - this.getPlayer().getX();
+         double var4 = var1.getZ() + 0.5 - this.getPlayer().getZ();
+         double var6 = Math.hypot(var2, var4);
+         if (var6 < 2.0) {
+            return false;
+         }
+
+         double var8 = (var6 - 1.3) / var6;
+         return this.nct(new Vec3d(this.getPlayer().getX() + var2 * var8, this.getPlayer().getY(), this.getPlayer().getZ() + var4 * var8), true);
       } else {
          return false;
       }
@@ -2896,20 +2901,22 @@ public class mpq extends pnc {
 
    private void nbs(mpm var1) {
       this.mrs++;
-      this.mc.field_1690.field_1886.method_23481(false);
-      this.mc.field_1690.field_1904.method_23481(false);
-      Vec3d var2 = this.msj != null ? this.msj : this.getPlayer().method_73189();
+      this.mc.options.attackKey.setPressed(false);
+      this.mc.options.useKey.setPressed(false);
+      Vec3d var2 = this.msj != null ? this.msj : this.getPlayer().getEntityPos();
       ItemEntity var3 = null;
       double var4 = Double.MAX_VALUE;
-      if (this.mc.field_1687 != null) {
-         for (Entity var7 : this.mc.field_1687.method_18112()) {
-            if (var7 instanceof ItemEntity var8 && var8.method_5805() && (!(var8.method_5707(var2) > 64.0) || !(var8.method_5858(this.getPlayer()) > 36.0))) {
-               if (!this.msm.contains(var8.method_5628())) {
+      if (this.mc.world != null) {
+         for (Entity var7 : this.mc.world.getEntities()) {
+            if (var7 instanceof ItemEntity var8
+               && var8.isAlive()
+               && (!(var8.squaredDistanceTo(var2) > 64.0) || !(var8.squaredDistanceTo(this.getPlayer()) > 36.0))) {
+               if (!this.msm.contains(var8.getId())) {
                   this.msk = true;
                }
 
-               if (!this.isTrashItem(var8.method_6983()) && !this.msl.contains(var8.method_5628())) {
-                  double var9 = var8.method_5858(this.getPlayer());
+               if (!this.isTrashItem(var8.getStack()) && !this.msl.contains(var8.getId())) {
+                  double var9 = var8.squaredDistanceTo(this.getPlayer());
                   if (var9 < var4) {
                      var4 = var9;
                      var3 = var8;
@@ -2921,8 +2928,8 @@ public class mpq extends pnc {
 
       if (var3 != null) {
          this.msv = 0;
-         if (var3.method_5628() != this.msp) {
-            this.msp = var3.method_5628();
+         if (var3.getId() != this.msp) {
+            this.msp = var3.getId();
             this.msn = 0;
             this.mso = var4;
             this.mqy = null;
@@ -2937,7 +2944,7 @@ public class mpq extends pnc {
 
          int var11 = this.mys(var4 < 2.25 ? 30 : 60);
          if (this.msn > var11) {
-            this.msl.add(var3.method_5628());
+            this.msl.add(var3.getId());
             this.msp = -1;
             this.mqy = null;
             this.mqz = 0;
@@ -2946,35 +2953,35 @@ public class mpq extends pnc {
          }
 
          if (var4 > 6.25) {
-            BlockPos var14 = var3.method_24515();
-            if (this.mqy == null || this.mqy.isEmpty() || this.mqz >= this.mqy.size() || this.mqy.get(this.mqy.size() - 1).method_10262(var14) > 4.0) {
+            BlockPos var14 = var3.getBlockPos();
+            if (this.mqy == null || this.mqy.isEmpty() || this.mqz >= this.mqy.size() || this.mqy.get(this.mqy.size() - 1).getSquaredDistance(var14) > 4.0) {
                this.naz(var14, false);
             }
 
             if (this.mqy != null && this.mqz < this.mqy.size()) {
                this.ncr();
             } else {
-               this.ncq(var3.method_73189(), true);
+               this.ncq(var3.getEntityPos(), true);
             }
          } else if (pqf.isBlockedHorizontally() && this.msn > 12) {
             if (this.mqy == null || this.mqz >= this.mqy.size()) {
-               this.naz(var3.method_24515(), false);
+               this.naz(var3.getBlockPos(), false);
             }
 
             if (this.mqy != null && this.mqz < this.mqy.size()) {
                this.ncr();
             } else {
-               this.nbt(var3.method_73189());
+               this.nbt(var3.getEntityPos());
             }
          } else {
             this.mqy = null;
-            this.nbt(var3.method_73189());
+            this.nbt(var3.getEntityPos());
          }
       } else {
          this.msv++;
-         double var12 = Math.hypot(var2.field_1352 - this.getPlayer().method_23317(), var2.field_1350 - this.getPlayer().method_23321());
-         if (!this.msk && this.msj != null && this.mrs < 12 && var12 > 1.1 && this.ncx(BlockPos.method_49638(this.msj))) {
-            this.ncq(new Vec3d(var2.field_1352, this.getPlayer().method_23318(), var2.field_1350), true);
+         double var12 = Math.hypot(var2.x - this.getPlayer().getX(), var2.z - this.getPlayer().getZ());
+         if (!this.msk && this.msj != null && this.mrs < 12 && var12 > 1.1 && this.ncx(BlockPos.ofFloored(this.msj))) {
+            this.ncq(new Vec3d(var2.x, this.getPlayer().getY(), var2.z), true);
          } else {
             pqf.resetKeys();
          }
@@ -2989,7 +2996,7 @@ public class mpq extends pnc {
 
    private void nbt(Vec3d var1) {
       ClientPlayerEntity var2 = this.getPlayer();
-      Vec3d var3 = new Vec3d(var1.field_1352, var2.method_33571().field_1351 - 0.6, var1.field_1350);
+      Vec3d var3 = new Vec3d(var1.x, var2.getEyePos().y - 0.6, var1.z);
       int var4 = this.mvl.walkTo(this.mc, var2, this.getWorld(), var1, this.mtu, this.mtv, var3, false, this.myq(), this.myt());
       if (var4 != 0 && !this.myq()) {
          pqf.resetKeys();
@@ -3027,10 +3034,10 @@ public class mpq extends pnc {
       this.mtw = this.getPlayer();
       if (this.mtw != null) {
          this.nce(this.mtw);
-         this.mtl.reset(this.mtw.method_36454(), this.mtw.method_36455());
-         this.mtu = this.mtw.method_36454();
-         this.mtv = this.mtw.method_36455();
-         this.mtx = this.mtw.method_73189();
+         this.mtl.reset(this.mtw.getYaw(), this.mtw.getPitch());
+         this.mtu = this.mtw.getYaw();
+         this.mtv = this.mtw.getPitch();
+         this.mtx = this.mtw.getEntityPos();
       }
 
       this.mtn = false;
@@ -3045,7 +3052,7 @@ public class mpq extends pnc {
       if (this.mtn) {
          this.mtn = false;
          if (this.driver == null && this.mtm.ownedBy(this)) {
-            this.mtm.release(this.mc.field_1724);
+            this.mtm.release(this.mc.player);
          }
       }
    }
@@ -3054,31 +3061,31 @@ public class mpq extends pnc {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 == null) {
          return false;
-      } else {
-         boolean var2 = this.mtw != var1 || this.mtx == null || var1.method_73189().method_1025(this.mtx) > 400.0;
-         if (var2) {
-            if (this.driver == null) {
-               this.mtm.reset();
-            }
+      }
 
-            if (this.mtw != var1) {
-               this.nce(var1);
-            }
-
-            this.mtl.reset(var1.method_36454(), var1.method_36455());
-            this.mtu = var1.method_36454();
-            this.mtv = var1.method_36455();
-            this.mtw = var1;
-            this.mtn = false;
-            this.mqy = null;
-            this.mqz = 0;
-            this.mvm = null;
-            this.mvl.reset();
+      boolean var2 = this.mtw != var1 || this.mtx == null || var1.getEntityPos().squaredDistanceTo(this.mtx) > 400.0;
+      if (var2) {
+         if (this.driver == null) {
+            this.mtm.reset();
          }
 
-         this.mtx = var1.method_73189();
-         return var2;
+         if (this.mtw != var1) {
+            this.nce(var1);
+         }
+
+         this.mtl.reset(var1.getYaw(), var1.getPitch());
+         this.mtu = var1.getYaw();
+         this.mtv = var1.getPitch();
+         this.mtw = var1;
+         this.mtn = false;
+         this.mqy = null;
+         this.mqz = 0;
+         this.mvm = null;
+         this.mvl.reset();
       }
+
+      this.mtx = var1.getEntityPos();
+      return var2;
    }
 
    private void nby(float var1, float var2) {
@@ -3107,21 +3114,18 @@ public class mpq extends pnc {
 
    private double ncc(BlockPos var1, Vec3d var2) {
       if (this.getWorld() != null && this.getPlayer() != null && var1 != null && var2 != null) {
-         VoxelShape var3 = this.getWorld().method_8320(var1).method_26218(this.getWorld(), var1);
-         Box var4 = var3.method_1110() ? new Box(var1) : var3.method_1107().method_996(var1);
+         VoxelShape var3 = this.getWorld().getBlockState(var1).getOutlineShape(this.getWorld(), var1);
+         Box var4 = var3.isEmpty() ? new Box(var1) : var3.getBoundingBox().offset(var1);
          double var5 = Math.min(
-            Math.min(
-               Math.min(var2.field_1352 - var4.field_1323, var4.field_1320 - var2.field_1352),
-               Math.min(var2.field_1351 - var4.field_1322, var4.field_1325 - var2.field_1351)
-            ),
-            Math.min(var2.field_1350 - var4.field_1321, var4.field_1324 - var2.field_1350)
+            Math.min(Math.min(var2.x - var4.minX, var4.maxX - var2.x), Math.min(var2.y - var4.minY, var4.maxY - var2.y)),
+            Math.min(var2.z - var4.minZ, var4.maxZ - var2.z)
          );
          if (var5 <= 0.02) {
             return 0.25;
-         } else {
-            double var7 = Math.max(0.5, this.getPlayer().method_33571().method_1022(var2));
-            return MathHelper.method_15350(Math.toDegrees(Math.atan2(var5, var7)) * 0.55, 0.25, 4.0);
          }
+
+         double var7 = Math.max(0.5, this.getPlayer().getEyePos().distanceTo(var2));
+         return MathHelper.clamp(Math.toDegrees(Math.atan2(var5, var7)) * 0.55, 0.25, 4.0);
       } else {
          return 0.0;
       }
@@ -3138,7 +3142,7 @@ public class mpq extends pnc {
    }
 
    private void nce(PlayerEntity var1) {
-      String var2 = var1.method_7334() != null ? var1.method_7334().name() : null;
+      String var2 = var1.getGameProfile() != null ? var1.getGameProfile().name() : null;
       long var3 = 1125899906842597L;
       if (var2 != null) {
          for (int var5 = 0; var5 < var2.length(); var5++) {
@@ -3197,7 +3201,7 @@ public class mpq extends pnc {
          if (this.myq() && !this.mvr) {
             this.ncl();
          } else {
-            if (this.mc.field_1755 == null) {
+            if (this.mc.currentScreen == null) {
                this.mtl.setMouseStep(this.driver != null ? this.driver.mouseStep() : prp.step());
                if (this.ncm()) {
                   this.mtl.freeze();
@@ -3224,15 +3228,15 @@ public class mpq extends pnc {
             this.mto = false;
             this.mtp = false;
             if (this.driver != null) {
-               if (this.mc.field_1755 == null) {
-                  this.driver.look(this.mtu, MathHelper.method_15363(this.mtv, -90.0F, 90.0F));
+               if (this.mc.currentScreen == null) {
+                  this.driver.look(this.mtu, MathHelper.clamp(this.mtv, -90.0F, 90.0F));
                }
             } else {
-               this.mtm.set(this, this.mtu, MathHelper.method_15363(this.mtv, -90.0F, 90.0F));
+               this.mtm.set(this, this.mtu, MathHelper.clamp(this.mtv, -90.0F, 90.0F));
             }
 
             this.mtn = true;
-            if (this.mc.field_1755 != null) {
+            if (this.mc.currentScreen != null) {
                ptr.clear();
             } else if (this.mvk != null) {
                ptr.aimAt(this.mvk, this.mtu, this.mtv);
@@ -3247,17 +3251,17 @@ public class mpq extends pnc {
       this.mto = false;
       this.mtp = false;
       ClientPlayerEntity var1 = this.getPlayer();
-      this.mtl.reset(var1.method_36454(), var1.method_36455());
-      this.mtu = var1.method_36454();
-      this.mtv = var1.method_36455();
+      this.mtl.reset(var1.getYaw(), var1.getPitch());
+      this.mtu = var1.getYaw();
+      this.mtv = var1.getPitch();
       if (this.mtn) {
          this.mtn = false;
          if (this.mtm.ownedBy(this)) {
-            this.mtm.release(this.mc.field_1724);
+            this.mtm.release(this.mc.player);
          }
       }
 
-      if (this.mc.field_1755 != null) {
+      if (this.mc.currentScreen != null) {
          ptr.clear();
       } else if (this.mvk != null) {
          ptr.aimAt(this.mvk, this.mtu, this.mtv);
@@ -3272,11 +3276,11 @@ public class mpq extends pnc {
 
    private BlockHitResult ncn() {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         Vec3d var1 = this.getPlayer().method_33571();
-         Vec3d var2 = Vec3d.method_1030(this.mtv, this.mtu);
+         Vec3d var1 = this.getPlayer().getEyePos();
+         Vec3d var2 = Vec3d.fromPolar(this.mtv, this.mtu);
          double var3 = 4.5;
-         Vec3d var5 = var1.method_1031(var2.field_1352 * var3, var2.field_1351 * var3, var2.field_1350 * var3);
-         return this.getWorld().method_17742(new RaycastContext(var1, var5, ShapeType.field_17559, FluidHandling.field_1348, this.getPlayer()));
+         Vec3d var5 = var1.add(var2.x * var3, var2.y * var3, var2.z * var3);
+         return this.getWorld().raycast(new RaycastContext(var1, var5, ShapeType.OUTLINE, FluidHandling.NONE, this.getPlayer()));
       } else {
          return null;
       }
@@ -3284,7 +3288,7 @@ public class mpq extends pnc {
 
    private BlockHitResult nco(BlockPos var1) {
       BlockHitResult var2 = this.ncn();
-      if (var2 != null && var2.method_17783() == Type.field_1332 && var2.method_17777().equals(var1)) {
+      if (var2 != null && var2.getType() == Type.BLOCK && var2.getBlockPos().equals(var1)) {
          this.mvk = var1;
          return var2;
       } else {
@@ -3354,38 +3358,38 @@ public class mpq extends pnc {
 
    private boolean nct(Vec3d var1, boolean var2) {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         Vec3d var3 = this.getPlayer().method_73189();
-         double var4 = var1.field_1352 - var3.field_1352;
-         double var6 = var1.field_1350 - var3.field_1350;
+         Vec3d var3 = this.getPlayer().getEntityPos();
+         double var4 = var1.x - var3.x;
+         double var6 = var1.z - var3.z;
          double var8 = Math.hypot(var4, var6);
          if (var8 < 0.1) {
             return true;
-         } else {
-            double var10 = this.ncu();
-            int var12 = (int)Math.ceil(var8 / 0.45);
+         }
 
-            for (int var13 = 1; var13 <= var12; var13++) {
-               double var14 = (double)var13 / var12;
-               double var16 = var3.field_1352 + var4 * var14;
-               double var18 = var3.field_1350 + var6 * var14;
-               if (!this.ncv(var16, var18, var10)) {
-                  return false;
-               }
+         double var10 = this.ncu();
+         int var12 = (int)Math.ceil(var8 / 0.45);
 
-               if (var2 && this.ncx(BlockPos.method_49637(var16, var10 - 0.2, var18))) {
-                  return false;
-               }
+         for (int var13 = 1; var13 <= var12; var13++) {
+            double var14 = (double)var13 / var12;
+            double var16 = var3.x + var4 * var14;
+            double var18 = var3.z + var6 * var14;
+            if (!this.ncv(var16, var18, var10)) {
+               return false;
             }
 
-            return true;
+            if (var2 && this.ncx(BlockPos.ofFloored(var16, var10 - 0.2, var18))) {
+               return false;
+            }
          }
+
+         return true;
       } else {
          return false;
       }
    }
 
    private double ncu() {
-      return this.nci() ? pqf.getStandY(this.mqy.get(this.mqz)) : this.getPlayer().method_23318();
+      return this.nci() ? pqf.getStandY(this.mqy.get(this.mqz)) : this.getPlayer().getY();
    }
 
    private boolean ncv(double var1, double var3, double var5) {
@@ -3393,8 +3397,8 @@ public class mpq extends pnc {
    }
 
    private boolean ncw(Box var1) {
-      for (VoxelShape var3 : this.getWorld().method_20812(this.getPlayer(), var1)) {
-         if (!var3.method_1110()) {
+      for (VoxelShape var3 : this.getWorld().getBlockCollisions(this.getPlayer(), var1)) {
+         if (!var3.isEmpty()) {
             return false;
          }
       }
@@ -3403,7 +3407,7 @@ public class mpq extends pnc {
    }
 
    private boolean ncx(BlockPos var1) {
-      return this.getWorld().method_8320(var1).method_26220(this.getWorld(), var1).method_1110();
+      return this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty();
    }
 
    private void ncy() {
@@ -3432,7 +3436,7 @@ public class mpq extends pnc {
             this.nbf();
          } else {
             this.msi++;
-            double var1 = this.getPlayer().method_33571().method_1025(Vec3d.method_24953(this.mrz));
+            double var1 = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(this.mrz));
             boolean var3 = this.nbm(this.mrz);
             if (var3 && var1 <= 16.0) {
                pqf.resetKeys();
@@ -3445,7 +3449,7 @@ public class mpq extends pnc {
             } else if (this.msi > this.mys(300)) {
                this.ncz(true);
             } else {
-               if (!this.mvh && var3 && var1 <= 36.0 && this.ncs(Vec3d.method_24953(this.mrz))) {
+               if (!this.mvh && var3 && var1 <= 36.0 && this.ncs(Vec3d.ofCenter(this.mrz))) {
                   this.mvh = true;
                }
 
@@ -3462,7 +3466,7 @@ public class mpq extends pnc {
                      this.ncz(true);
                   } else {
                      if (var3 && var1 < 100.0) {
-                        this.ncp(Vec3d.method_24953(this.mrz));
+                        this.ncp(Vec3d.ofCenter(this.mrz));
                      } else if (!this.naz(this.mrz, false)) {
                         pqf.resetKeys();
                      }
@@ -3485,17 +3489,17 @@ public class mpq extends pnc {
       this.msx = 0;
       this.msi = 0;
       this.msb = false;
-      this.mc.field_1690.field_1904.method_23481(false);
+      this.mc.options.useKey.setPressed(false);
    }
 
    private BlockPos nda() {
-      BlockPos var1 = this.getPlayer().method_24515();
+      BlockPos var1 = this.getPlayer().getBlockPos();
       Mutable var2 = new Mutable();
       ArrayList var3 = new ArrayList();
 
-      for (PlayerEntity var5 : this.getWorld().method_18456()) {
+      for (PlayerEntity var5 : this.getWorld().getPlayers()) {
          if (var5 != this.getPlayer()) {
-            var3.add(var5.method_73189());
+            var3.add(var5.getEntityPos());
          }
       }
 
@@ -3507,13 +3511,13 @@ public class mpq extends pnc {
             for (int var9 = -var7; var9 <= var7; var9++) {
                if (Math.max(Math.abs(var8), Math.abs(var9)) == var7) {
                   for (int var10 = -8; var10 <= 8; var10++) {
-                     var2.method_10103(var1.method_10263() + var8, var1.method_10264() + var10, var1.method_10260() + var9);
+                     var2.set(var1.getX() + var8, var1.getY() + var10, var1.getZ() + var9);
                      if (this.ndb(var2) && !this.mra.contains(var2)) {
-                        double var11 = var2.method_10262(var1);
-                        Vec3d var13 = Vec3d.method_24953(var2);
+                        double var11 = var2.getSquaredDistance(var1);
+                        Vec3d var13 = Vec3d.ofCenter(var2);
 
                         for (Vec3d var15 : var3) {
-                           if (var15.method_1025(var13) < 1600.0) {
+                           if (var15.squaredDistanceTo(var13) < 1600.0) {
                               var11 += 100000.0;
                               break;
                            }
@@ -3521,7 +3525,7 @@ public class mpq extends pnc {
 
                         if (var11 < var17) {
                            var17 = var11;
-                           var16 = var2.method_10062();
+                           var16 = var2.toImmutable();
                         }
                      }
                   }
@@ -3538,13 +3542,13 @@ public class mpq extends pnc {
    }
 
    private boolean ndb(BlockPos var1) {
-      return this.getWorld() != null && var1 != null ? this.getWorld().method_8320(var1).method_27852(Blocks.field_42728) : false;
+      return this.getWorld() != null && var1 != null ? this.getWorld().getBlockState(var1).isOf(Blocks.SUSPICIOUS_SAND) : false;
    }
 
    private void ndc() {
       if (!this.nde()) {
-         this.mc.field_1690.field_1904.method_23481(false);
-         this.msj = this.mrz != null ? Vec3d.method_24953(this.mrz) : this.getPlayer().method_73189();
+         this.mc.options.useKey.setPressed(false);
+         this.msj = this.mrz != null ? Vec3d.ofCenter(this.mrz) : this.getPlayer().getEntityPos();
          this.mrz = null;
          this.msu = false;
          this.myd(mpm.LOOTING_SAND);
@@ -3560,11 +3564,12 @@ public class mpq extends pnc {
                }
 
                int var8 = var3;
-               this.msy.add(() -> this.ndv(var7, var8, SlotActionType.field_7791));
+               int var9 = var7;
+               this.msy.add(() -> this.ndv(var9, var8, SlotActionType.SWAP));
             }
          } else {
-            this.getPlayer().method_31548().method_61496(var1);
-            double var2 = this.getPlayer().method_33571().method_1025(Vec3d.method_24953(this.mrz));
+            this.getPlayer().getInventory().setSelectedSlot(var1);
+            double var2 = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(this.mrz));
             if (!(var2 > 5.0)) {
                if (!this.msb) {
                   this.msb = true;
@@ -3574,7 +3579,7 @@ public class mpq extends pnc {
                }
 
                pqf.resetKeys();
-               this.ncb(this.mrz, Vec3d.method_24953(this.mrz));
+               this.ncb(this.mrz, Vec3d.ofCenter(this.mrz));
                BlockHitResult var4 = this.nco(this.mrz);
                boolean var5 = var4 != null;
                this.ncd(var5);
@@ -3585,17 +3590,17 @@ public class mpq extends pnc {
                }
 
                if (var5) {
-                  this.mc.field_1690.field_1904.method_23481(true);
-                  if (!this.getPlayer().method_6115()) {
+                  this.mc.options.useKey.setPressed(true);
+                  if (!this.getPlayer().isUsingItem()) {
                      BlockHitResult var6 = var4;
                      ptr.later(
                         () -> {
-                           if (this.mc.field_1761 != null
-                              && this.mc.field_1724 != null
-                              && !this.mc.field_1724.method_6115()
-                              && ndf(this.mc.field_1724.method_6047())) {
-                              this.mc.field_1761.method_2896(this.mc.field_1724, Hand.field_5808, var6);
-                              this.mc.field_1724.method_6019(Hand.field_5808);
+                           if (this.mc.interactionManager != null
+                              && this.mc.player != null
+                              && !this.mc.player.isUsingItem()
+                              && ndf(this.mc.player.getMainHandStack())) {
+                              this.mc.interactionManager.interactBlock(this.mc.player, Hand.MAIN_HAND, var6);
+                              this.mc.player.setCurrentHand(Hand.MAIN_HAND);
                            }
                         }
                      );
@@ -3603,7 +3608,7 @@ public class mpq extends pnc {
 
                   this.msx = 0;
                } else {
-                  this.mc.field_1690.field_1904.method_23481(false);
+                  this.mc.options.useKey.setPressed(false);
                   this.msx++;
                   if (this.msx > 40) {
                      this.mra.add(this.mrz);
@@ -3617,18 +3622,18 @@ public class mpq extends pnc {
 
                if (this.msa > 200) {
                   this.mra.add(this.mrz);
-                  this.msj = Vec3d.method_24953(this.mrz);
+                  this.msj = Vec3d.ofCenter(this.mrz);
                   this.mrz = null;
                   this.msb = false;
-                  this.mc.field_1690.field_1904.method_23481(false);
+                  this.mc.options.useKey.setPressed(false);
                   this.msu = false;
                   this.myd(mpm.LOOTING_SAND);
                }
             } else {
                this.msb = false;
-               this.mc.field_1690.field_1904.method_23481(false);
+               this.mc.options.useKey.setPressed(false);
                if (this.nbm(this.mrz)) {
-                  this.ncp(Vec3d.method_24953(this.mrz));
+                  this.ncp(Vec3d.ofCenter(this.mrz));
                } else {
                   if (this.mqy == null || this.mqz >= this.mqy.size()) {
                      this.naz(this.mrz, false);
@@ -3644,14 +3649,14 @@ public class mpq extends pnc {
                if (this.msa > this.mys(120)) {
                   this.mra.add(this.mrz);
                   this.mrz = null;
-                  this.mc.field_1690.field_1904.method_23481(false);
+                  this.mc.options.useKey.setPressed(false);
                   this.myd(mpm.FARMING_SAND);
                }
             }
          }
       } else {
-         this.mc.field_1690.field_1904.method_23481(false);
-         this.msj = this.mrz != null ? Vec3d.method_24953(this.mrz) : this.getPlayer().method_73189();
+         this.mc.options.useKey.setPressed(false);
+         this.msj = this.mrz != null ? Vec3d.ofCenter(this.mrz) : this.getPlayer().getEntityPos();
          if (this.mrz != null) {
             this.mra.add(this.mrz);
             this.mqv++;
@@ -3665,7 +3670,7 @@ public class mpq extends pnc {
 
    private void ndd() {
       if (!this.msu) {
-         this.nbp(this.msj != null ? this.msj : this.getPlayer().method_73189());
+         this.nbp(this.msj != null ? this.msj : this.getPlayer().getEntityPos());
       }
 
       this.nbs(this.nde() ? mpm.FARMING_SAND : mpm.CHECK_PVP_COOLDOWN);
@@ -3676,29 +3681,31 @@ public class mpq extends pnc {
    }
 
    private static boolean ndf(ItemStack var0) {
-      if (!var0.method_31574(Items.field_42716)) {
+      if (!var0.isOf(Items.BRUSH)) {
          return false;
-      } else if (var0.method_57826(DataComponentTypes.field_49630)) {
-         return true;
-      } else {
-         LoreComponent var1 = (LoreComponent)var0.method_58694(DataComponentTypes.field_49632);
-         if (var1 == null) {
-            return false;
-         } else {
-            for (Text var3 : var1.comp_2400()) {
-               if (var3.getString().toLowerCase().contains(a.b("㾐䘩첏劎\ud95e徘\ue5c8氲\uf215碡ｻ", 1763457958))) {
-                  return true;
-               }
-            }
+      }
 
-            return false;
+      if (var0.contains(DataComponentTypes.UNBREAKABLE)) {
+         return true;
+      }
+
+      LoreComponent var1 = var0.get(DataComponentTypes.LORE);
+      if (var1 == null) {
+         return false;
+      }
+
+      for (Text var3 : var1.lines()) {
+         if (var3.getString().toLowerCase().contains(a.b("㾐䘩첏劎\ud95e徘\ue5c8氲\uf215碡ｻ", 1763457958))) {
+            return true;
          }
       }
+
+      return false;
    }
 
    private int ndg(int var1, int var2) {
       for (int var3 = var1; var3 < var2; var3++) {
-         if (ndf(this.getPlayer().method_31548().method_5438(var3))) {
+         if (ndf(this.getPlayer().getInventory().getStack(var3))) {
             return var3;
          }
       }
@@ -3719,21 +3726,18 @@ public class mpq extends pnc {
    private void ndi() {
       PlayerEntity var1 = this.neh();
       if (var1 != null) {
-         if (this.mse <= 0 && (this.mrt == null || this.mrt.method_10262(this.getPlayer().method_24515()) < 10.0 || var1.method_5858(this.getPlayer()) < 400.0)
-            )
-          {
-            Vec3d var2 = this.mzj(
-               this.getPlayer().method_73189().method_1020(var1.method_73189()).method_1029(), Math.toRadians(this.mty.nextGaussian() * 20.0)
-            );
+         if (this.mse <= 0
+            && (this.mrt == null || this.mrt.getSquaredDistance(this.getPlayer().getBlockPos()) < 10.0 || var1.squaredDistanceTo(this.getPlayer()) < 400.0)) {
+            Vec3d var2 = this.mzj(this.getPlayer().getEntityPos().subtract(var1.getEntityPos()).normalize(), Math.toRadians(this.mty.nextGaussian() * 20.0));
             double var3 = 26.0 + this.mty.nextDouble() * 14.0;
-            this.mrt = this.nbd(this.getPlayer().method_24515().method_10069((int)(var2.field_1352 * var3), 0, (int)(var2.field_1350 * var3)));
+            this.mrt = this.nbd(this.getPlayer().getBlockPos().add((int)(var2.x * var3), 0, (int)(var2.z * var3)));
             this.mse = 10;
             this.nbc(this.nba(this.mrt));
          }
-      } else if (this.mse <= 0 && (this.mrt == null || this.mrt.method_10262(this.getPlayer().method_24515()) < 4.0)) {
+      } else if (this.mse <= 0 && (this.mrt == null || this.mrt.getSquaredDistance(this.getPlayer().getBlockPos()) < 4.0)) {
          double var6 = this.mty.nextDouble() * Math.PI * 2.0;
          double var4 = 18.0 + this.mty.nextDouble() * 20.0;
-         this.mrt = this.nbd(this.getPlayer().method_24515().method_10069((int)Math.round(Math.cos(var6) * var4), 0, (int)Math.round(Math.sin(var6) * var4)));
+         this.mrt = this.nbd(this.getPlayer().getBlockPos().add((int)Math.round(Math.cos(var6) * var4), 0, (int)Math.round(Math.sin(var6) * var4)));
          this.mse = 10;
          this.nbc(this.nba(this.mrt));
       }
@@ -3755,7 +3759,7 @@ public class mpq extends pnc {
          this.nal(a.c(-1477713762, "\ue4a0鴼\u13ff觯Ɍ蓱㺩띟ⴕꏇ②\ude13哑쵳䜳엟羝\uf034櫷\uecdb慉ᬕ閫੬谑ڥ뽻㔶ꯟⷷ\ua636墒튨䭘촇"));
       } else {
          this.mwn = "";
-         this.getNetworkHandler().method_45730(var1);
+         this.getNetworkHandler().sendChatCommand(var1);
          this.mrh = false;
          this.mri = false;
          this.mrj = false;
@@ -3787,121 +3791,121 @@ public class mpq extends pnc {
    }
 
    public boolean isTrashItem(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
-      } else {
-         vlj var2 = this.lootList();
-         if (this.mwd != this.mwa || this.mwe != var2.version() || this.mwc.size() > 512) {
-            this.mwc.clear();
-            this.mwd = this.mwa;
-            this.mwe = var2.version();
-         }
-
-         Boolean var3 = this.mwc.get(var1);
-         if (var3 == null) {
-            var3 = this.ndm(var1, var2);
-            this.mwc.put(var1, var3);
-         }
-
-         return var3;
       }
+
+      vlj var2 = this.lootList();
+      if (this.mwd != this.mwa || this.mwe != var2.version() || this.mwc.size() > 512) {
+         this.mwc.clear();
+         this.mwd = this.mwa;
+         this.mwe = var2.version();
+      }
+
+      Boolean var3 = this.mwc.get(var1);
+      if (var3 == null) {
+         var3 = this.ndm(var1, var2);
+         this.mwc.put(var1, var3);
+      }
+
+      return var3;
    }
 
    private boolean ndm(ItemStack var1, vlj var2) {
       if (this.neg(var1)) {
          return false;
-      } else if (var1.method_31574(Items.field_42716)) {
+      } else if (var1.isOf(Items.BRUSH)) {
          return true;
       } else if (ppu.picked(var1, var2.ids())) {
          return false;
       } else if (ppu.known(var1)) {
          return true;
       } else {
-         Item var3 = var1.method_7909();
-         String var4 = var3.method_7876().toLowerCase();
-         if (var3 == Items.field_8712) {
+         Item var3 = var1.getItem();
+         String var4 = var3.getTranslationKey().toLowerCase();
+         if (var3 == Items.DRAGON_HEAD) {
             return false;
-         } else if (var3 == Items.field_8071) {
+         } else if (var3 == Items.GOLDEN_CARROT) {
             return false;
-         } else if (var3 == Items.field_8086 || var3 == Items.field_8136) {
+         } else if (var3 == Items.VILLAGER_SPAWN_EGG || var3 == Items.ZOMBIE_VILLAGER_SPAWN_EGG) {
             return false;
-         } else if (var3 == Items.field_8463 || var3 == Items.field_8367) {
+         } else if (var3 == Items.GOLDEN_APPLE || var3 == Items.ENCHANTED_GOLDEN_APPLE) {
             return false;
-         } else if (var3 == Items.field_49813) {
+         } else if (var3 == Items.HEAVY_CORE) {
             return false;
          } else if (var4.contains(a.d("蕫ﳗ瘀\ue874", -1352822735, 531371318)) || var4.contains(a.d("\uf3e2詋\u0086黮ᔹ", 1696324825, -305647795))) {
             return false;
-         } else if (var3 == Items.field_8675) {
+         } else if (var3 == Items.IRON_NUGGET) {
             return false;
          } else {
-            String var5 = var1.method_7964().getString().toLowerCase();
+            String var5 = var1.getName().getString().toLowerCase();
             if (var4.contains(a.b("绠݂趑ᏽ頲", 302743172))) {
                return var5.contains(a.d("풛괨⟼맾", -805642075, 1178742797))
                      || var5.contains(a.d("\uf0f4褿Β鷯ᘺ邉", -630686278, 1317964146))
                      || var5.contains(a.c(2070976211, "鋦\ueb28懿\ufff1瑜\uf29a䣇셁彯"))
                   ? true
-                  : var3 != Items.field_8087 && !var1.method_57826(DataComponentTypes.field_49631);
+                  : var3 != Items.TIPPED_ARROW && !var1.contains(DataComponentTypes.CUSTOM_NAME);
             } else if (var5.contains(a.d("줚냕㨃ꑳ\u2fd8ꥢፃ", -1753364669, 1573915163))) {
                return true;
-            } else if (var3 == Items.field_8719) {
+            } else if (var3 == Items.LEAD) {
                return true;
-            } else if (var3 == Items.field_8613) {
+            } else if (var3 == Items.DRAGON_BREATH) {
                return true;
-            } else if (var3 == Items.field_8803) {
+            } else if (var3 == Items.EGG) {
                return true;
-            } else if (var3 == Items.field_8469) {
+            } else if (var3 == Items.GLASS_BOTTLE) {
                return true;
-            } else if (var3 == Items.field_8153) {
-               return !var1.method_57826(DataComponentTypes.field_49631);
-            } else if (var3 == Items.field_20417 || var3 == Items.field_20414) {
+            } else if (var3 == Items.FEATHER) {
+               return !var1.contains(DataComponentTypes.CUSTOM_NAME);
+            } else if (var3 == Items.HONEY_BOTTLE || var3 == Items.HONEYCOMB) {
                return true;
-            } else if (var3 == Items.field_8657) {
+            } else if (var3 == Items.ENCHANTING_TABLE) {
                return true;
-            } else if (var3 == Items.field_8536) {
+            } else if (var3 == Items.BOOKSHELF) {
                return true;
-            } else if (var3 == Items.field_8070) {
+            } else if (var3 == Items.GHAST_TEAR) {
                return true;
-            } else if (var3 == Items.field_8815) {
+            } else if (var3 == Items.SHULKER_SHELL) {
                return true;
-            } else if (var3 == Items.field_8711) {
+            } else if (var3 == Items.FERMENTED_SPIDER_EYE) {
                return true;
-            } else if (var3 == Items.field_8301) {
+            } else if (var3 == Items.END_CRYSTAL) {
                return true;
-            } else if (var3 == Items.field_8102) {
+            } else if (var3 == Items.BOW) {
                return true;
-            } else if (var3 == Items.field_8745) {
+            } else if (var3 == Items.LEATHER) {
                return true;
-            } else if (var3 == Items.field_8687) {
+            } else if (var3 == Items.EMERALD) {
                return true;
-            } else if (var3 == Items.field_8620) {
+            } else if (var3 == Items.IRON_INGOT) {
                return true;
-            } else if (var3 == Items.field_8695 || var3 == Items.field_8397) {
+            } else if (var3 == Items.GOLD_INGOT || var3 == Items.GOLD_NUGGET) {
                return true;
-            } else if (var3 == Items.field_8864) {
+            } else if (var3 == Items.NAUTILUS_SHELL) {
                return true;
-            } else if (var3 == Items.field_8054) {
+            } else if (var3 == Items.GUNPOWDER) {
                return true;
-            } else if (var3 == Items.field_8233 || var3 == Items.field_8882) {
+            } else if (var3 == Items.CHORUS_FRUIT || var3 == Items.POPPED_CHORUS_FRUIT) {
                return true;
             } else if (var4.contains(a.c(753118924, "꺕휈巟쎶䡼컛"))) {
                return true;
-            } else if (var3 == Items.field_8606) {
+            } else if (var3 == Items.BONE) {
                return true;
             } else if (var4.contains(a.b("\uf296謠Ǯ龞ᑟ鋔⢹ꅛ㼛떨㉦", 2075063029)) || var4.contains(a.b("鷋\ue462溲\uf0c9笧ﶨ䟨츆偛\udaf7", 1642700214))) {
                return true;
-            } else if (var3 == Items.field_8894) {
+            } else if (var3 == Items.BLAZE_ROD) {
                return true;
-            } else if (var3 == Items.field_8777) {
+            } else if (var3 == Items.SLIME_BALL) {
                return true;
-            } else if (var1.method_57826(DataComponentTypes.field_50075)) {
+            } else if (var1.contains(DataComponentTypes.FOOD)) {
                return true;
             } else if (var4.contains(a.d("ꢥ턗寕얲乼주犕ﭦ改", -244918230, -2124713739))) {
                return true;
-            } else if (var3 == Items.field_8466) {
+            } else if (var3 == Items.ENDER_CHEST) {
                return true;
-            } else if (var3 == Items.field_8639) {
+            } else if (var3 == Items.FIREWORK_ROCKET) {
                return true;
-            } else if (var3 == Items.field_8598 || var3 == Items.field_8529 || var3 == Items.field_8360 || var3 == Items.field_8674) {
+            } else if (var3 == Items.ENCHANTED_BOOK || var3 == Items.BOOK || var3 == Items.WRITTEN_BOOK || var3 == Items.WRITABLE_BOOK) {
                return true;
             } else if (var4.contains(a.c(201042272, "꤄킺婱쐟俍"))) {
                return true;
@@ -3909,27 +3913,27 @@ public class mpq extends pnc {
                return true;
             } else if (var4.contains(a.d("ῳ晙\uec8d狥嵐羙", 690090973, 1491856475))) {
                return true;
-            } else if (var3 == Items.field_17515) {
+            } else if (var3 == Items.WITHER_ROSE) {
                return true;
-            } else if (var3 == Items.field_8547) {
+            } else if (var3 == Items.TRIDENT) {
                return true;
-            } else if (var3 == Items.field_8140) {
+            } else if (var3 == Items.CONDUIT) {
                return true;
             } else if (var4.contains(a.b("誟\uf336秣\ue788汕\uead8傰\ud94c䜉춨", 1858439928))) {
                return true;
             } else if (var4.contains(a.d("๓矵ﴲ捚\ue895", -123881445, -206719429))) {
                return true;
-            } else if (var3 == Items.field_8323) {
+            } else if (var3 == Items.PUFFERFISH) {
                return true;
-            } else if (var3 == Items.field_8666 || var3 == Items.field_8714 || var3 == Items.field_8478 || var3 == Items.field_8108) {
+            } else if (var3 == Items.COD_BUCKET || var3 == Items.SALMON_BUCKET || var3 == Items.TROPICAL_FISH_BUCKET || var3 == Items.PUFFERFISH_BUCKET) {
                return true;
             } else if (var4.contains(a.c(-1623003556, "\uee38鞊ᵖ茧ࣻ蹝"))) {
                return true;
-            } else if (var3 == Items.field_8276) {
+            } else if (var3 == Items.STRING) {
                return true;
-            } else if (var3 == Items.field_8448) {
+            } else if (var3 == Items.NAME_TAG) {
                return true;
-            } else if (var3 == Items.field_8207) {
+            } else if (var3 == Items.HEART_OF_THE_SEA) {
                return true;
             } else if ((
                   var4.endsWith(a.b("\ueb8f鈉ᣗ蚯൹诀ㆂ", 120908759))
@@ -3943,7 +3947,7 @@ public class mpq extends pnc {
                return true;
             } else {
                return !var4.contains(a.c(-385664684, "㤫䂑쩓吾\udfe4奂\ue30a櫦\uf4a8縣履η赪ᓓ麊ᡢꈰ")) && !var4.contains(a.c(376136199, "扤ᯞ鄜ཱ蒫ȍ롅ㆩ꿧╬ꊁ壩혣"))
-                  ? var3 == Items.field_8062
+                  ? var3 == Items.STONE_AXE
                   : true;
             }
          }
@@ -3980,7 +3984,7 @@ public class mpq extends pnc {
 
    private void ndo() {
       if (!this.nec()) {
-         if (this.mc.field_1755 == null && this.msy.isEmpty() && this.mud <= 0) {
+         if (this.mc.currentScreen == null && this.msy.isEmpty() && this.mud <= 0) {
             if (this.mum <= 0 && this.ndx()) {
                int var1 = this.ndy();
                if (var1 != -1) {
@@ -3995,14 +3999,14 @@ public class mpq extends pnc {
             }
 
             if (!this.mus && this.mqq != mpm.ESCAPING) {
-               if (!this.mc.field_1690.field_1886.method_1434()) {
-                  if (!this.msu || this.getPlayer().method_31548().method_7376() == -1) {
+               if (!this.mc.options.attackKey.isPressed()) {
+                  if (!this.msu || this.getPlayer().getInventory().getEmptySlot() == -1) {
                      int var5 = 0;
                      int var2 = 0;
 
                      for (int var3 = 9; var3 < 36; var3++) {
-                        ItemStack var4 = this.getPlayer().method_31548().method_5438(var3);
-                        if (var4.method_7960()) {
+                        ItemStack var4 = this.getPlayer().getInventory().getStack(var3);
+                        if (var4.isEmpty()) {
                            var2++;
                         } else if (this.isTrashItem(var4)) {
                            var5++;
@@ -4010,11 +4014,11 @@ public class mpq extends pnc {
                      }
 
                      if (var5 != 0) {
-                        if (this.muv > 0 || var2 <= 3 || var5 >= 5 || this.getPlayer().method_31548().method_7376() == -1) {
+                        if (this.muv > 0 || var2 <= 3 || var5 >= 5 || this.getPlayer().getInventory().getEmptySlot() == -1) {
                            this.muv = 0;
 
                            for (int var6 = 0; var6 < 9; var6++) {
-                              if (this.isTrashItem(this.getPlayer().method_31548().method_5438(var6))) {
+                              if (this.isTrashItem(this.getPlayer().getInventory().getStack(var6))) {
                                  var5++;
                               }
                            }
@@ -4036,7 +4040,7 @@ public class mpq extends pnc {
 
    private void ndp() {
       this.mug++;
-      if (this.mug > this.muh || this.mc.field_1755 != null || this.getPlayer() == null || this.mqq == mpm.ESCAPING || this.mus) {
+      if (this.mug > this.muh || this.mc.currentScreen != null || this.getPlayer() == null || this.mqq == mpm.ESCAPING || this.mus) {
          this.ndq();
       } else if (this.muf > 0) {
          this.muf--;
@@ -4049,7 +4053,7 @@ public class mpq extends pnc {
                this.mue = 0;
                this.muf = 1 + this.mty.nextInt(2);
             } else {
-               this.ndv(var1, 1, SlotActionType.field_7795);
+               this.ndv(var1, 1, SlotActionType.THROW);
                this.mui = var1;
                this.mue--;
                int var2 = this.mue > 0 ? this.ndr() : -1;
@@ -4076,13 +4080,13 @@ public class mpq extends pnc {
    }
 
    private int ndr() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
+      PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = this.mui != -1 ? this.mui : 13;
       int var3 = -1;
       double var4 = Double.MAX_VALUE;
 
       for (int var6 = 0; var6 < 36; var6++) {
-         if (this.isTrashItem(var1.method_5438(var6))) {
+         if (this.isTrashItem(var1.getStack(var6))) {
             double var7 = nds(var2, var6);
             if (var7 < var4) {
                var4 = var7;
@@ -4115,27 +4119,27 @@ public class mpq extends pnc {
    }
 
    private void ndu() {
-      if (this.mc.field_1690 != null) {
+      if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
-            this.mc.field_1690.field_1894,
-            this.mc.field_1690.field_1881,
-            this.mc.field_1690.field_1913,
-            this.mc.field_1690.field_1849,
-            this.mc.field_1690.field_1903,
-            this.mc.field_1690.field_1867
+            this.mc.options.forwardKey,
+            this.mc.options.backKey,
+            this.mc.options.leftKey,
+            this.mc.options.rightKey,
+            this.mc.options.jumpKey,
+            this.mc.options.sprintKey
          };
 
          for (KeyBinding var5 : var1) {
-            var5.method_23481(this.heldByHuman(var5));
+            var5.setPressed(this.heldByHuman(var5));
          }
       }
    }
 
    private void ndv(int var1, int var2, SlotActionType var3) {
-      if (this.mc.field_1761 != null && this.getPlayer() != null) {
+      if (this.mc.interactionManager != null && this.getPlayer() != null) {
          int var4 = var1 < 9 ? var1 + 36 : var1;
-         this.mc.field_1761.method_2906(this.getPlayer().field_7498.field_7763, var4, var2, var3, this.getPlayer());
-         if (this.mc.field_1755 == null) {
+         this.mc.interactionManager.clickSlot(this.getPlayer().playerScreenHandler.syncId, var4, var2, var3, this.getPlayer());
+         if (this.mc.currentScreen == null) {
             this.muw = true;
          }
       }
@@ -4144,22 +4148,22 @@ public class mpq extends pnc {
    private void ndw() {
       if (this.muw) {
          this.muw = false;
-         if (this.mc.field_1755 == null && this.getPlayer() != null && this.getNetworkHandler() != null) {
-            this.getNetworkHandler().method_52787(new CloseHandledScreenC2SPacket(this.getPlayer().field_7498.field_7763));
+         if (this.mc.currentScreen == null && this.getPlayer() != null && this.getNetworkHandler() != null) {
+            this.getNetworkHandler().sendPacket(new CloseHandledScreenC2SPacket(this.getPlayer().playerScreenHandler.syncId));
          }
       }
    }
 
    private boolean ndx() {
-      return this.mc.field_1755 == null
+      return this.mc.currentScreen == null
          && !this.muw
          && this.msy.isEmpty()
          && this.mud == 0
          && !this.mus
-         && !this.mc.field_1690.field_1886.method_1434()
-         && !this.mc.field_1690.field_1904.method_1434()
-         && !this.getPlayer().method_6115()
-         && !this.getPlayer().method_7325()
+         && !this.mc.options.attackKey.isPressed()
+         && !this.mc.options.useKey.isPressed()
+         && !this.getPlayer().isUsingItem()
+         && !this.getPlayer().isSpectator()
          && this.mqq != mpm.BRUSHING_SAND
          && this.mqq != mpm.ESCAPING
          && this.mqq != mpm.LOOTING_VASE
@@ -4167,12 +4171,12 @@ public class mpq extends pnc {
    }
 
    private int ndy() {
-      PlayerInventory var1 = this.getPlayer().method_31548();
-      int var2 = var1.method_67532();
+      PlayerInventory var1 = this.getPlayer().getInventory();
+      int var2 = var1.getSelectedSlot();
       int var3 = -1;
 
       for (int var4 = 0; var4 < 9; var4++) {
-         if (this.isTrashItem(var1.method_5438(var4)) && (var3 == -1 || Math.abs(var4 - var2) < Math.abs(var3 - var2))) {
+         if (this.isTrashItem(var1.getStack(var4)) && (var3 == -1 || Math.abs(var4 - var2) < Math.abs(var3 - var2))) {
             var3 = var4;
          }
       }
@@ -4183,9 +4187,9 @@ public class mpq extends pnc {
    private void ndz(int var1) {
       this.neb();
       this.muk = var1;
-      boolean var2 = this.getPlayer().method_31548().method_67532() == var1;
+      boolean var2 = this.getPlayer().getInventory().getSelectedSlot() == var1;
       this.mul = var2 ? 0 : this.nea();
-      this.getPlayer().method_31548().method_61496(var1);
+      this.getPlayer().getInventory().setSelectedSlot(var1);
    }
 
    private int nea() {
@@ -4204,44 +4208,48 @@ public class mpq extends pnc {
    private boolean nec() {
       if (this.muk == -1) {
          return false;
-      } else if (this.mun) {
+      }
+
+      if (this.mun) {
          if (this.mup == 0 && ++this.muo <= 3) {
             return true;
-         } else {
-            boolean var4 = this.mup > 0;
-            this.neb();
-            if (var4) {
-               this.mur++;
-               this.mum = this.mty.nextInt(3);
-            } else {
-               this.mum = 8 + this.mty.nextInt(12);
-            }
-
-            return false;
          }
+
+         boolean var4 = this.mup > 0;
+         this.neb();
+         if (var4) {
+            this.mur++;
+            this.mum = this.mty.nextInt(3);
+         } else {
+            this.mum = 8 + this.mty.nextInt(12);
+         }
+
+         return false;
       } else {
-         PlayerInventory var1 = this.getPlayer().method_31548();
-         if (this.ndx() && this.isTrashItem(var1.method_5438(this.muk))) {
-            if (var1.method_67532() != this.muk) {
+         PlayerInventory var1 = this.getPlayer().getInventory();
+         if (this.ndx() && this.isTrashItem(var1.getStack(this.muk))) {
+            if (var1.getSelectedSlot() != this.muk) {
                this.neb();
                this.mum = 10 + this.mty.nextInt(10);
                return false;
-            } else if (this.mul-- > 0) {
-               return true;
-            } else {
-               int var2 = this.muk;
-               int var3 = ++this.muq;
-               this.mun = true;
-               this.muo = 0;
-               this.mup = 0;
-               ptr.later(() -> {
-                  boolean var3x = this.ned(var2, var3);
-                  if (var3 == this.muq) {
-                     this.mup = var3x ? 1 : -1;
-                  }
-               });
+            }
+
+            if (this.mul-- > 0) {
                return true;
             }
+
+            int var2 = this.muk;
+            int var3 = ++this.muq;
+            this.mun = true;
+            this.muo = 0;
+            this.mup = 0;
+            ptr.later(() -> {
+               boolean var3x = this.ned(var2, var3);
+               if (var3 == this.muq) {
+                  this.mup = var3x ? 1 : -1;
+               }
+            });
+            return true;
          } else {
             this.neb();
             this.mum = 4 + this.mty.nextInt(8);
@@ -4251,39 +4259,43 @@ public class mpq extends pnc {
    }
 
    private boolean ned(int var1, int var2) {
-      ClientPlayerEntity var3 = this.mc.field_1724;
-      if (var2 == this.muq && this.mun && var3 != null && this.mc.field_1755 == null && !var3.method_7325() && var3.method_31548().method_67532() == var1) {
-         ItemStack var4 = var3.method_6047();
+      ClientPlayerEntity var3 = this.mc.player;
+      if (var2 == this.muq && this.mun && var3 != null && this.mc.currentScreen == null && !var3.isSpectator() && var3.getInventory().getSelectedSlot() == var1
+         )
+       {
+         ItemStack var4 = var3.getMainHandStack();
          if (!this.isTrashItem(var4)) {
             return false;
-         } else if (!var3.method_7290(var4.method_7947() > 1)) {
-            return false;
-         } else {
-            var3.method_6104(Hand.field_5808);
-            return true;
          }
+
+         if (!var3.dropSelectedItem(var4.getCount() > 1)) {
+            return false;
+         }
+
+         var3.swingHand(Hand.MAIN_HAND);
+         return true;
       } else {
          return false;
       }
    }
 
    public boolean busy() {
-      return !this.msy.isEmpty() || this.mud > 0 || this.mtb > 0 || this.mc.field_1755 instanceof GenericContainerScreen;
+      return !this.msy.isEmpty() || this.mud > 0 || this.mtb > 0 || this.mc.currentScreen instanceof GenericContainerScreen;
    }
 
    private void nee() {
-      if (this.mc.field_1755 == null && this.msy.isEmpty() && this.mud <= 0 && this.muk == -1) {
+      if (this.mc.currentScreen == null && this.msy.isEmpty() && this.mud <= 0 && this.muk == -1) {
          int var1 = 0;
 
          for (int var2 = 0; var2 < 9; var2++) {
-            if (this.getPlayer().method_31548().method_5438(var2).method_7960()) {
+            if (this.getPlayer().getInventory().getStack(var2).isEmpty()) {
                var1++;
             }
          }
 
          if (var1 < 2) {
             for (int var7 = 0; var7 < 9; var7++) {
-               ItemStack var3 = this.getPlayer().method_31548().method_5438(var7);
+               ItemStack var3 = this.getPlayer().getInventory().getStack(var7);
                if (!this.isTrashItem(var3) && !this.neg(var3)) {
                   int var4 = this.nef();
                   if (var4 == -1) {
@@ -4291,7 +4303,8 @@ public class mpq extends pnc {
                   }
 
                   int var5 = var7;
-                  this.msy.add(() -> this.ndv(var4, var5, SlotActionType.field_7791));
+                  int var6 = var4;
+                  this.msy.add(() -> this.ndv(var6, var5, SlotActionType.SWAP));
                   return;
                }
             }
@@ -4301,7 +4314,7 @@ public class mpq extends pnc {
 
    private int nef() {
       for (int var1 = 9; var1 < 36; var1++) {
-         if (this.getPlayer().method_31548().method_5438(var1).method_7960()) {
+         if (this.getPlayer().getInventory().getStack(var1).isEmpty()) {
             return var1;
          }
       }
@@ -4310,10 +4323,10 @@ public class mpq extends pnc {
    }
 
    private boolean neg(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return true;
       } else {
-         return var1.method_7909() != Items.field_8071 && !ndf(var1) && var1.method_7909() != Items.field_8705 ? this.nel(var1) || this.neo(var1) : true;
+         return var1.getItem() != Items.GOLDEN_CARROT && !ndf(var1) && var1.getItem() != Items.WATER_BUCKET ? this.nel(var1) || this.neo(var1) : true;
       }
    }
 
@@ -4321,9 +4334,9 @@ public class mpq extends pnc {
       PlayerEntity var1 = null;
       double var2 = 2500.0;
 
-      for (PlayerEntity var5 : this.getWorld().method_18456()) {
+      for (PlayerEntity var5 : this.getWorld().getPlayers()) {
          if (var5 != this.getPlayer()) {
-            double var6 = var5.method_5858(this.getPlayer());
+            double var6 = var5.squaredDistanceTo(this.getPlayer());
             if (var6 < var2) {
                var2 = var6;
                var1 = var5;
@@ -4336,7 +4349,7 @@ public class mpq extends pnc {
 
    private int nei(Item var1) {
       for (int var2 = 0; var2 < 9; var2++) {
-         if (this.getPlayer().method_31548().method_5438(var2).method_7909() == var1) {
+         if (this.getPlayer().getInventory().getStack(var2).getItem() == var1) {
             return var2;
          }
       }
@@ -4346,7 +4359,7 @@ public class mpq extends pnc {
 
    private int nej() {
       for (int var1 = 0; var1 < 9; var1++) {
-         if (this.nel(this.getPlayer().method_31548().method_5438(var1))) {
+         if (this.nel(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
          }
       }
@@ -4356,7 +4369,7 @@ public class mpq extends pnc {
 
    private int nek() {
       for (int var1 = 9; var1 < 36; var1++) {
-         if (this.nel(this.getPlayer().method_31548().method_5438(var1))) {
+         if (this.nel(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
          }
       }
@@ -4365,36 +4378,38 @@ public class mpq extends pnc {
    }
 
    private boolean nel(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
-      } else if (var1.method_7909() != Items.field_8574 && var1.method_7909() != Items.field_8436 && var1.method_7909() != Items.field_8150) {
+      }
+
+      if (var1.getItem() != Items.POTION && var1.getItem() != Items.SPLASH_POTION && var1.getItem() != Items.LINGERING_POTION) {
          return false;
-      } else {
-         PotionContentsComponent var2 = (PotionContentsComponent)var1.method_58694(DataComponentTypes.field_49651);
-         if (var2 != null) {
-            int var3 = 0;
-            boolean var4 = false;
+      }
 
-            for (StatusEffectInstance var6 : var2.method_57397()) {
-               var3++;
-               if (var6.method_5579() == StatusEffects.field_5905) {
-                  var4 = true;
-               }
-            }
+      PotionContentsComponent var2 = var1.get(DataComponentTypes.POTION_CONTENTS);
+      if (var2 != null) {
+         int var3 = 0;
+         boolean var4 = false;
 
-            if (var3 > 0) {
-               return var3 == 1 && var4;
+         for (StatusEffectInstance var6 : var2.getEffects()) {
+            var3++;
+            if (var6.getEffectType() == StatusEffects.INVISIBILITY) {
+               var4 = true;
             }
          }
 
-         String var7 = var1.method_7964().getString().toLowerCase();
-         return var7.contains(a.d("諹\uf340禔\ue7ef水\uea89僞", -425032786, 1206390125));
+         if (var3 > 0) {
+            return var3 == 1 && var4;
+         }
       }
+
+      String var7 = var1.getName().getString().toLowerCase();
+      return var7.contains(a.d("諹\uf340禔\ue7ef水\uea89僞", -425032786, 1206390125));
    }
 
    private int nem() {
       for (int var1 = 0; var1 < 9; var1++) {
-         if (this.neo(this.getPlayer().method_31548().method_5438(var1))) {
+         if (this.neo(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
          }
       }
@@ -4404,7 +4419,7 @@ public class mpq extends pnc {
 
    private int nen() {
       for (int var1 = 9; var1 < 36; var1++) {
-         if (this.neo(this.getPlayer().method_31548().method_5438(var1))) {
+         if (this.neo(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
          }
       }
@@ -4413,30 +4428,32 @@ public class mpq extends pnc {
    }
 
    private boolean neo(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
-      } else if (var1.method_7909() != Items.field_8574 && var1.method_7909() != Items.field_8436 && var1.method_7909() != Items.field_8150) {
+      }
+
+      if (var1.getItem() != Items.POTION && var1.getItem() != Items.SPLASH_POTION && var1.getItem() != Items.LINGERING_POTION) {
          return false;
-      } else {
-         PotionContentsComponent var2 = (PotionContentsComponent)var1.method_58694(DataComponentTypes.field_49651);
-         if (var2 != null) {
-            int var3 = 0;
-            boolean var4 = false;
+      }
 
-            for (StatusEffectInstance var6 : var2.method_57397()) {
-               var3++;
-               if (var6.method_5579() == StatusEffects.field_5904) {
-                  var4 = true;
-               }
-            }
+      PotionContentsComponent var2 = var1.get(DataComponentTypes.POTION_CONTENTS);
+      if (var2 != null) {
+         int var3 = 0;
+         boolean var4 = false;
 
-            if (var3 > 0) {
-               return var3 == 1 && var4;
+         for (StatusEffectInstance var6 : var2.getEffects()) {
+            var3++;
+            if (var6.getEffectType() == StatusEffects.SPEED) {
+               var4 = true;
             }
          }
 
-         String var7 = var1.method_7964().getString().toLowerCase();
-         return var7.contains(a.b("釙\ue813拄ﳋ睢\uf1ac䯼", -1835756129)) || var7.contains(a.c(-96193484, "㑂䷰윶奇튑"));
+         if (var3 > 0) {
+            return var3 == 1 && var4;
+         }
       }
+
+      String var7 = var1.getName().getString().toLowerCase();
+      return var7.contains(a.b("釙\ue813拄ﳋ睢\uf1ac䯼", -1835756129)) || var7.contains(a.c(-96193484, "㑂䷰윶奇튑"));
    }
 }

@@ -130,77 +130,75 @@ public final class hia {
       uok var6 = hin(var1, var5);
       if (var6 == null) {
          return false;
-      } else {
-         uut.image(var0, var6.view, var2, var3, var4, var4, var4 * 0.5F, -1);
-         return true;
       }
+
+      uut.image(var0, var6.view, var2, var3, var4, var4, var4 * 0.5F, -1);
+      return true;
    }
 
    private static uok hin(String var0, float var1) {
       if (hid.contains(var0)) {
          return null;
-      } else {
-         MinecraftClient var2 = MinecraftClient.method_1551();
-         float var3 = var2.method_22683() != null ? Math.max(1, var2.method_22683().method_4495()) : 2.0F;
-         int var4 = Math.max(8, Math.min(256, Math.round(var1 * var3 * vdn.renderScale())));
-         String var5 = var0 + a.d("徨", 462345909, 848529756) + var4;
-         uok var6 = hie.get(var5);
-         if (var6 != null) {
-            return var6;
-         } else {
-            try {
-               BufferedImage var7 = hic.get(var0);
-               if (var7 == null && a.b("\uf04f触̬", 1233317923).equals(var0)) {
-                  var7 = evi.image();
-                  if (var7 == null) {
-                     return null;
-                  }
+      }
 
-                  hic.put(var0, var7);
-               }
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      float var3 = var2.getWindow() != null ? Math.max(1, var2.getWindow().getScaleFactor()) : 2.0F;
+      int var4 = Math.max(8, Math.min(256, Math.round(var1 * var3 * vdn.renderScale())));
+      String var5 = var0 + a.d("徨", 462345909, 848529756) + var4;
+      uok var6 = hie.get(var5);
+      if (var6 != null) {
+         return var6;
+      }
 
-               if (var7 == null) {
-                  try (InputStream var8 = ezj.open(a.b("냪줒䏋\uddb9噶킟檂\ue364紬\uf788灎訬Ӻ鴗", -1090211637) + var0 + a.b("峝┲꿿ㆇ", -1934861065))) {
-                     if (var8 == null) {
-                        throw new IllegalStateException(
-                           a.b("\uf889脼௵閄ṉ飿⊥ꬓ㕃뾻㡢숐䳟픶弫\ud9cd掕\uec51盷\uf0b5祃͎", 112457970) + var0 + a.d("銺\ueb55憘￠", 542382319, 2103544447)
-                        );
-                     }
-
-                     var7 = ImageIO.read(var8);
-                  }
-
-                  hic.put(var0, var7);
-               }
-
-               var6 = uok.upload(a.c(-1649601498, "ᑀ淦\ue722祆\uf284琦츧") + var5, hio(var7, var4), false);
-            } catch (Throwable var13) {
-               hid.add(var0);
-               System.out.println(a.d("嚕⼳ꗷ㮓끑㛳賲", -1512563420, 1249725399) + var0 + a.c(-1662569589, "㎥䩁삉廷픷厑\ue9ca怾\ufe6c瓞\uf303ॻ蟳Ṙ") + var13);
+      try {
+         BufferedImage var7 = hic.get(var0);
+         if (var7 == null && a.b("\uf04f触̬", 1233317923).equals(var0)) {
+            var7 = evi.image();
+            if (var7 == null) {
                return null;
             }
 
-            hie.put(var5, var6);
+            hic.put(var0, var7);
+         }
 
-            while (hie.size() > 8) {
-               Iterator var15 = hie.entrySet().iterator();
-               uok var17 = (uok)((Entry)var15.next()).getValue();
-               var15.remove();
-               hif.put(var17, unf.frame());
+         if (var7 == null) {
+            try (InputStream var8 = ezj.open(a.b("냪줒䏋\uddb9噶킟檂\ue364紬\uf788灎訬Ӻ鴗", -1090211637) + var0 + a.b("峝┲꿿ㆇ", -1934861065))) {
+               if (var8 == null) {
+                  throw new IllegalStateException(a.b("\uf889脼௵閄ṉ飿⊥ꬓ㕃뾻㡢숐䳟픶弫\ud9cd掕\uec51盷\uf0b5祃͎", 112457970) + var0 + a.d("銺\ueb55憘￠", 542382319, 2103544447));
+               }
+
+               var7 = ImageIO.read(var8);
             }
 
-            long var16 = unf.frame();
-            hif.entrySet().removeIf(var2x -> {
-               if (var16 - var2x.getValue() > 3L) {
-                  var2x.getKey().close();
-                  return true;
-               } else {
-                  return false;
-               }
-            });
-            return var6;
+            hic.put(var0, var7);
          }
+
+         var6 = uok.upload(a.c(-1649601498, "ᑀ淦\ue722祆\uf284琦츧") + var5, hio(var7, var4), false);
+      } catch (Throwable var13) {
+         hid.add(var0);
+         System.out.println(a.d("嚕⼳ꗷ㮓끑㛳賲", -1512563420, 1249725399) + var0 + a.c(-1662569589, "㎥䩁삉廷픷厑\ue9ca怾\ufe6c瓞\uf303ॻ蟳Ṙ") + var13);
+         return null;
       }
+
+      hie.put(var5, var6);
+
+      while (hie.size() > 8) {
+         Iterator var15 = hie.entrySet().iterator();
+         uok var17 = (uok)((Entry)var15.next()).getValue();
+         var15.remove();
+         hif.put(var17, unf.frame());
+      }
+
+      long var16 = unf.frame();
+      hif.entrySet().removeIf(var2x -> {
+         if (var16 - var2x.getValue() > 3L) {
+            var2x.getKey().close();
+            return true;
+         } else {
+            return false;
+         }
+      });
+      return var6;
    }
 
    private static BufferedImage hio(BufferedImage var0, int var1) {
@@ -222,13 +220,13 @@ public final class hia {
 
       if (var3.getWidth() == var1) {
          return var3;
-      } else {
-         BufferedImage var8 = new BufferedImage(var1, var1, 1);
-         Graphics2D var9 = var8.createGraphics();
-         Image var10 = var3.getScaledInstance(var1, var1, 16);
-         var9.drawImage(var10, 0, 0, null);
-         var9.dispose();
-         return var8;
       }
+
+      BufferedImage var8 = new BufferedImage(var1, var1, 1);
+      Graphics2D var9 = var8.createGraphics();
+      Image var10 = var3.getScaledInstance(var1, var1, 16);
+      var9.drawImage(var10, 0, 0, null);
+      var9.dispose();
+      return var8;
    }
 }

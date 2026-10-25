@@ -75,12 +75,12 @@ public final class izx {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (!(var2.field_1755 instanceof hlc) && !(var2.field_1755 instanceof jbs)) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (!(var2.currentScreen instanceof hlc) && !(var2.currentScreen instanceof jbs)) {
          uut.beginFrame();
-         boolean var3 = var2.field_1755 instanceof ChatScreen;
-         float var4 = var3 ? (float)var2.field_1729.method_68879(var2.method_22683()) : -1000.0F;
-         float var5 = var3 ? (float)var2.field_1729.method_68883(var2.method_22683()) : -1000.0F;
+         boolean var3 = var2.currentScreen instanceof ChatScreen;
+         float var4 = var3 ? (float)var2.mouse.getScaledX(var2.getWindow()) : -1000.0F;
+         float var5 = var3 ? (float)var2.mouse.getScaledY(var2.getWindow()) : -1000.0F;
          if (!var3) {
             mouseReleased();
          }
@@ -108,13 +108,13 @@ public final class izx {
    }
 
    private static void jba(DrawContext var0, boolean var1, boolean var2, float var3, float var4) {
-      MinecraftClient var5 = MinecraftClient.method_1551();
+      MinecraftClient var5 = MinecraftClient.getInstance();
       unf.observe(var0);
       if (unf.frame() != jad) {
          jad = unf.frame();
-         boolean var6 = ENABLED.get() && var5.field_1724 != null && var5.field_1687 != null;
-         jgn.tick(var6 && WATERMARK.enabled.get() && jlx.MUSIC.get() || var5.field_1724 != null && var5.field_1687 != null && shx.wantsMusic());
-         if (var6 && !var5.field_1690.field_1842) {
+         boolean var6 = ENABLED.get() && var5.player != null && var5.world != null;
+         jgn.tick(var6 && WATERMARK.enabled.get() && jlx.MUSIC.get() || var5.player != null && var5.world != null && shx.wantsMusic());
+         if (var6 && !var5.options.hudHidden) {
             float var7 = unf.delta() * (float)iov.ANIMATION.get();
             iov.update(var7);
             jag = var2;
@@ -132,16 +132,16 @@ public final class izx {
    }
 
    private static void jbb(DrawContext var0, boolean var1, boolean var2, float var3) {
-      MinecraftClient var4 = MinecraftClient.method_1551();
+      MinecraftClient var4 = MinecraftClient.getInstance();
       jae = null;
       if (jaf && BACKGROUND.is(a.c(-1330669848, "險\uef30旮ﮍ灚")) && hyv.ENABLED.get() && uij.HUD.capture(var0, hyv.FROST.getInt(), null)) {
          jae = uij.HUD.result(var0);
       }
 
       jaj = (float)SCALE.get();
-      float var5 = var0.method_51421();
-      float var6 = var0.method_51443();
-      float var7 = Math.max(1, var4.method_22683().method_4495());
+      float var5 = var0.getScaledWindowWidth();
+      float var6 = var0.getScaledWindowHeight();
+      float var7 = Math.max(1, var4.getWindow().getScaleFactor());
       float var8 = jbe(var4, var5, var6);
       boolean var9 = var2 && ARRANGE.get();
       boolean var10 = false;
@@ -167,18 +167,18 @@ public final class izx {
                float var19 = (1.0F - var16) * 5.0F * (var12.ay == 2 ? 1.0F : -1.0F);
                float var20 = var12.pivotX();
                float var21 = var12.pivotY();
-               var0.method_51448().pushMatrix();
-               var0.method_51448().translate(var12.x + var20, var12.y + var21 + var19);
-               var0.method_51448().scale(var17, var18);
-               var0.method_51448().translate(-var20, -var21);
-               var0.method_51448().scale(var15, var15);
+               var0.getMatrices().pushMatrix();
+               var0.getMatrices().translate(var12.x + var20, var12.y + var21 + var19);
+               var0.getMatrices().scale(var17, var18);
+               var0.getMatrices().translate(-var20, -var21);
+               var0.getMatrices().scale(var15, var15);
                uut.pushAlpha(var14 * (var13 && var12.isSample() ? 0.4F : 1.0F));
 
                try {
                   var12.draw(var0, var3, var1);
                } finally {
                   uut.popAlpha();
-                  var0.method_51448().popMatrix();
+                  var0.getMatrices().popMatrix();
                }
             }
          }
@@ -212,11 +212,11 @@ public final class izx {
          int var10 = iov.accent(170);
          float var11 = 1.0F / var2;
          if (!Float.isNaN(jan)) {
-            uut.rect(var0, jan - var11 * 0.5F, 0.0F, var11, var0.method_51443(), var10);
+            uut.rect(var0, jan - var11 * 0.5F, 0.0F, var11, var0.getScaledWindowHeight(), var10);
          }
 
          if (!Float.isNaN(jao)) {
-            uut.rect(var0, 0.0F, jao - var11 * 0.5F, var0.method_51421(), var11, var10);
+            uut.rect(var0, 0.0F, jao - var11 * 0.5F, var0.getScaledWindowWidth(), var11, var10);
          }
       }
    }
@@ -232,8 +232,8 @@ public final class izx {
          );
       float var5 = SMALL.width(var4) + 10.0F;
       float var6 = 11.0F;
-      MinecraftClient var7 = MinecraftClient.method_1551();
-      float var8 = var7.method_22683().method_4486();
+      MinecraftClient var7 = MinecraftClient.getInstance();
+      float var8 = var7.getWindow().getScaledWidth();
       float var9 = Math.max(2.0F, Math.min(var8 - var5 - 2.0F, var1.x + (var1.w - var5) * 0.5F));
       boolean var10 = var1.y < var6 + 8.0F;
       float var11 = var10 ? var1.y + var1.h + 5.0F : var1.y - var6 - 5.0F;
@@ -254,7 +254,7 @@ public final class izx {
          for (Object var8 : var3.values()) {
             var5++;
             if (var8 instanceof ClientBossBar var9) {
-               var6 = Math.max(var6, var0.field_1772.method_27525(var9.method_5414()) * 0.5F);
+               var6 = Math.max(var6, var0.textRenderer.getWidth(var9.getName()) * 0.5F);
             }
 
             var4 += 19;
@@ -271,9 +271,9 @@ public final class izx {
    }
 
    private static Map<?, ?> jbf(MinecraftClient var0) {
-      if (!jar && var0.field_1705 != null) {
+      if (!jar && var0.inGameHud != null) {
          try {
-            BossBarHud var1 = var0.field_1705.method_1740();
+            BossBarHud var1 = var0.inGameHud.getBossBarHud();
             if (jaq == null) {
                for (Field var5 : BossBarHud.class.getDeclaredFields()) {
                   if (!Modifier.isStatic(var5.getModifiers()) && Map.class.isAssignableFrom(var5.getType())) {
@@ -311,25 +311,27 @@ public final class izx {
    public static boolean mouseClicked(double var0, double var2, int var4) {
       if (!ENABLED.get()) {
          return false;
-      } else {
-         jcs var5 = at((float)var0, (float)var2);
-         if (var5 == null) {
-            return false;
-         } else if (var5.mouseClicked((float)((var0 - var5.x) / var5.scale), (float)((var2 - var5.y) / var5.scale), var4)) {
-            return true;
-         } else {
-            if (var4 == 0) {
-               jak = var5;
-               jal = (float)var0 - var5.x;
-               jam = (float)var2 - var5.y;
-               var5.push.set(0.0F);
-            } else if (var4 == 1) {
-               startResize(var5, (float)var0, (float)var2);
-            }
-
-            return true;
-         }
       }
+
+      jcs var5 = at((float)var0, (float)var2);
+      if (var5 == null) {
+         return false;
+      }
+
+      if (var5.mouseClicked((float)((var0 - var5.x) / var5.scale), (float)((var2 - var5.y) / var5.scale), var4)) {
+         return true;
+      }
+
+      if (var4 == 0) {
+         jak = var5;
+         jal = (float)var0 - var5.x;
+         jam = (float)var2 - var5.y;
+         var5.push.set(0.0F);
+      } else if (var4 == 1) {
+         startResize(var5, (float)var0, (float)var2);
+      }
+
+      return true;
    }
 
    static void startResize(jcs var0, float var1, float var2) {
@@ -364,21 +366,23 @@ public final class izx {
 
    public static boolean mouseDragged(double var0, double var2) {
       if (jav != null) {
-         MinecraftClient var9 = MinecraftClient.method_1551();
-         resize((float)var0, (float)var2, InputUtil.method_15987(var9.method_22683(), 342) || InputUtil.method_15987(var9.method_22683(), 346));
-         return true;
-      } else if (jak == null) {
-         return false;
-      } else {
-         MinecraftClient var4 = MinecraftClient.method_1551();
-         float var5 = var4.method_22683().method_4486();
-         float var6 = var4.method_22683().method_4502();
-         boolean var7 = InputUtil.method_15987(var4.method_22683(), 342) || InputUtil.method_15987(var4.method_22683(), 346);
-         float[] var8 = drag(jak, (float)var0 - jal, (float)var2 - jam, var5, var6, var7);
-         jan = var8[0];
-         jao = var8[1];
+         MinecraftClient var9 = MinecraftClient.getInstance();
+         resize((float)var0, (float)var2, InputUtil.isKeyPressed(var9.getWindow(), 342) || InputUtil.isKeyPressed(var9.getWindow(), 346));
          return true;
       }
+
+      if (jak == null) {
+         return false;
+      }
+
+      MinecraftClient var4 = MinecraftClient.getInstance();
+      float var5 = var4.getWindow().getScaledWidth();
+      float var6 = var4.getWindow().getScaledHeight();
+      boolean var7 = InputUtil.isKeyPressed(var4.getWindow(), 342) || InputUtil.isKeyPressed(var4.getWindow(), 346);
+      float[] var8 = drag(jak, (float)var0 - jal, (float)var2 - jam, var5, var6, var7);
+      jan = var8[0];
+      jao = var8[1];
+      return true;
    }
 
    public static boolean mouseReleased() {
@@ -386,15 +390,17 @@ public final class izx {
          jav = null;
          hyz.saveLater();
          return true;
-      } else if (jak == null) {
-         return false;
-      } else {
-         jak = null;
-         jan = Float.NaN;
-         jao = Float.NaN;
-         hyz.saveLater();
-         return true;
       }
+
+      if (jak == null) {
+         return false;
+      }
+
+      jak = null;
+      jan = Float.NaN;
+      jao = Float.NaN;
+      hyz.saveLater();
+      return true;
    }
 
    static float[] drag(jcs var0, float var1, float var2, float var3, float var4, boolean var5) {
@@ -505,15 +511,15 @@ public final class izx {
    }
 
    public static void moduleToggled(kfe var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1724 != null && var1.field_1687 != null && (!var0.isAction() || var0.isEnabled())) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.player != null && var1.world != null && (!var0.isAction() || var0.isEnabled())) {
          WATERMARK.toggled(var0);
       }
    }
 
    public static void alert(String var0, String var1, vhz var2, boolean var3) {
-      MinecraftClient var4 = MinecraftClient.method_1551();
-      if (!var4.method_18854()) {
+      MinecraftClient var4 = MinecraftClient.getInstance();
+      if (!var4.isOnThread()) {
          var4.execute(() -> alert(var0, var1, var2, var3));
       } else {
          if (ENABLED.get() && WATERMARK.enabled.get() && jlx.ALERTS.get()) {
@@ -527,7 +533,7 @@ public final class izx {
    }
 
    public static void openEditor() {
-      MinecraftClient.method_1551().method_1507(new jbs());
+      MinecraftClient.getInstance().setScreen(new jbs());
    }
 
    public static void resetLayout() {

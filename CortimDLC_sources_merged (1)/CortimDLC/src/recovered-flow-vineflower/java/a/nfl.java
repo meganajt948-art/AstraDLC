@@ -294,80 +294,85 @@ public class nfl extends kfe {
    }
 
    public String status() {
-      if (!this.isEnabled()) {
+      nfl var1 = this;
+      if (!var1.isEnabled()) {
          return null;
-      } else {
-         long var2 = System.currentTimeMillis();
-         if (this.nhk.active()) {
-            return this.nhk.status();
-         } else if (this.nhe.active()) {
-            return a.c(1985731854, "\ud90fꂖ⩄둀㾞류͵軪ᒥ鸖ᦵ\ue3b8楼\uf4a1纉\uf801䈲췦圬");
-         } else if (this.nhf.active()) {
-            return a.b("\uecea镲", -982652675);
-         } else {
-            return switch (this.nhp) {
-               case START, DECIDE -> a.d("ၻ榓\ue33a終\uf6ed瀬쨁䞞\udda9坠탆⪰ꑦ", 1915102252, -2020659128);
-               case HOP -> a.b("呺ⷬꝊ㥀늟㑛詫އ駕\u1774", -1050980249)
-                  + this.nhv
-                  + (this.nid > 0 ? a.d("蘼ﾅ煁\uef31擪\ue22b堄톋䮴", -330349232, 757646149) + this.nid + a.b("ણ", -2124543349) : "");
-               case ARRIVE -> a.b("\ue204鮨ᅹ轴ҡ舞㰣놰⾝ꔭ⋴\ud886嘮쿢䗈읚礈\uf6d4桷", 2147280438) + this.nhr;
-               case WARP -> this.nim > 0L
-                  ? a.b("쒷봛㟊꧇−꒭᪐霃म莞ч︵炝\ue951捻", -534789991)
-                  : (
-                     this.nik > var2
-                        ? a.c(-1247726053, "㈙䮊섩弧탯剃\ue81d旼ￋ甂\uf2a4࣒蘄ᯖ鄒\u1774") + (this.nik - var2 + 999L) / 1000L + a.b("ọ挝", -1949557009)
-                        : a.c(303126522, "句⩶ꃕ㻛넓㎿觡Ѐ鸷ᓾ鍘椮\ue7f8")
-                  );
-               case WAIT -> {
-                  qqm var4 = this.ngx.entry(this.nhr);
-                  String var5 = !this.njf
-                     ? a.b("ᖲ氡\ue685粗", -931393120)
-                     : (
-                        this.ngz.parked()
-                           ? (
-                              this.mc.field_1724 != null && this.mc.field_1724.method_5765()
-                                 ? a.d("䫩㍁릜➘꠬⪀郞ᴿ蜁ඳ詡灬ﺱ月\ued2a殭퇨幌삖䛋쬪녹㾽ꀏ", -163365951, 690320657)
-                                 : a.c(-2021787155, "\ufdde聬ໞ邬᭺鶷⟮긗\u3040뫾㤻썆䦇퀴娐\ud882")
-                           )
-                           : a.d("뻘읅䷡ퟳ堾\uda95撧\ued55猋阮縟葦ી錇ᥞ龣⇼긡や뛗㽗䅥", -1334101007, 1841922343)
-                     );
-                  yield var5
-                     + (this.niy == null ? a.c(711954127, "誂\uf34b秭\ue79b汍") : this.niy.title())
-                     + (var4 == null ? "" : a.c(-607763068, "䖧㲁뛅") + clock(var4.refreshAt - var2));
-               }
-               case SETTLE -> a.c(-1211701687, "\ue271鯘ᅾ輈ҭ蘌㡁놿\u2fecꕞ⊁\ud8fa嘮쾔䖶썊");
-               case MINE -> a.b("⑽巨휺䥄십䀲", -1141825439)
-                  + (this.niz == null ? a.b("돍쨄䂢\uded4唂", -1870153856) : this.niz.title())
-                  + a.d("醬\ue88a拎", -526365120, -1414996017)
-                  + this.ngz.mined()
-                  + a.c(1299589695, "⨚垻\udd63䌕쳐")
-                  + (this.ngz.hasBrain() ? a.c(1965951536, "ਘ猾梁挖\ue8c9湴푞巑") + this.njw() : "");
-               case IDLE -> a.d("\ud89bꄈ⮬", 1216322443, 328681221);
-               case BASE -> {
-                  switch (this.nin) {
-                     case -1:
-                        yield a.c(1218314701, "ך籆\uf285梕\ue339斉\udfd1嘤챯䛖")
-                           + this.niq
-                           + a.b("롈쇰䮴핒媘\udc24执", 9484390)
-                           + this.nln()
-                           + a.b("踳\uf3e1祇\ue735棷", -2050519530)
-                           + 3
-                           + a.c(-869306110, "焷ಛ虅ᡌ鏫ᔧ\uab1d⋠뢩㈚떾䮬셥墭튌合\uee32懢ﭝ礔\uf0eb")
-                           + Math.max(1, pjd.position(this.nmb()))
-                           + a.d("鮦\ue603检", -1186172628, 603056804);
-                     case 0:
-                        yield a.c(-685897817, "ΰ稬\uf4ef滿\ue553揣\ud9bb偎쨅䂼") + this.niq + a.c(-290035785, "析Ḩ鑬ઊ蕊ϼ맚ぐ긇Ⓝꝳ够ퟅ䩤") + this.nln();
-                     case 1:
-                        yield this.nik > var2
-                           ? a.c(-2045954688, "ㆶ䠐싍岲흯凟\uebf2戁\uf83c皐\uf14e༯薙᱓阁჻ꪰⅵ뭑㶗") + (this.nik - var2 + 999L) / 1000L + a.c(2006479108, "焦\u0cf6")
-                           : a.c(1349525712, "ⓣ嵅힘䧧숺䒊ﺧ睔\ued69揅\ue41b᩺郌आ荔֮뿥");
-                     default:
-                        yield this.nhd.status();
-                  }
-               }
-            };
-         }
       }
+
+      long var2 = System.currentTimeMillis();
+      if (var1.nhk.active()) {
+         return var1.nhk.status();
+      }
+
+      if (var1.nhe.active()) {
+         return a.c(1985731854, "\ud90fꂖ⩄둀㾞류͵軪ᒥ鸖ᦵ\ue3b8楼\uf4a1纉\uf801䈲췦圬");
+      }
+
+      if (var1.nhf.active()) {
+         return a.b("\uecea镲", -982652675);
+      }
+
+      return switch (var1.nhp) {
+         case START, DECIDE -> a.d("ၻ榓\ue33a終\uf6ed瀬쨁䞞\udda9坠탆⪰ꑦ", 1915102252, -2020659128);
+         case HOP -> a.b("呺ⷬꝊ㥀늟㑛詫އ駕\u1774", -1050980249)
+            + var1.nhv
+            + (var1.nid > 0 ? a.d("蘼ﾅ煁\uef31擪\ue22b堄톋䮴", -330349232, 757646149) + var1.nid + a.b("ણ", -2124543349) : "");
+         case ARRIVE -> a.b("\ue204鮨ᅹ轴ҡ舞㰣놰⾝ꔭ⋴\ud886嘮쿢䗈읚礈\uf6d4桷", 2147280438) + var1.nhr;
+         case WARP -> var1.nim > 0L
+            ? a.b("쒷봛㟊꧇−꒭᪐霃म莞ч︵炝\ue951捻", -534789991)
+            : (
+               var1.nik > var2
+                  ? a.c(-1247726053, "㈙䮊섩弧탯剃\ue81d旼ￋ甂\uf2a4࣒蘄ᯖ鄒\u1774") + (var1.nik - var2 + 999L) / 1000L + a.b("ọ挝", -1949557009)
+                  : a.c(303126522, "句⩶ꃕ㻛넓㎿觡Ѐ鸷ᓾ鍘椮\ue7f8")
+            );
+         case WAIT -> {
+            qqm var4 = var1.ngx.entry(var1.nhr);
+            String var5 = !var1.njf
+               ? a.b("ᖲ氡\ue685粗", -931393120)
+               : (
+                  var1.ngz.parked()
+                     ? (
+                        var1.mc.player != null && var1.mc.player.hasVehicle()
+                           ? a.d("䫩㍁릜➘꠬⪀郞ᴿ蜁ඳ詡灬ﺱ月\ued2a殭퇨幌삖䛋쬪녹㾽ꀏ", -163365951, 690320657)
+                           : a.c(-2021787155, "\ufdde聬ໞ邬᭺鶷⟮긗\u3040뫾㤻썆䦇퀴娐\ud882")
+                     )
+                     : a.d("뻘읅䷡ퟳ堾\uda95撧\ued55猋阮縟葦ી錇ᥞ龣⇼긡や뛗㽗䅥", -1334101007, 1841922343)
+               );
+            yield var5
+               + (var1.niy == null ? a.c(711954127, "誂\uf34b秭\ue79b汍") : var1.niy.title())
+               + (var4 == null ? "" : a.c(-607763068, "䖧㲁뛅") + clock(var4.refreshAt - var2));
+         }
+         case SETTLE -> a.c(-1211701687, "\ue271鯘ᅾ輈ҭ蘌㡁놿\u2fecꕞ⊁\ud8fa嘮쾔䖶썊");
+         case MINE -> a.b("⑽巨휺䥄십䀲", -1141825439)
+            + (var1.niz == null ? a.b("돍쨄䂢\uded4唂", -1870153856) : var1.niz.title())
+            + a.d("醬\ue88a拎", -526365120, -1414996017)
+            + var1.ngz.mined()
+            + a.c(1299589695, "⨚垻\udd63䌕쳐")
+            + (var1.ngz.hasBrain() ? a.c(1965951536, "ਘ猾梁挖\ue8c9湴푞巑") + var1.njw() : "");
+         case IDLE -> a.d("\ud89bꄈ⮬", 1216322443, 328681221);
+         case BASE -> {
+            switch (var1.nin) {
+               case -1:
+                  yield a.c(1218314701, "ך籆\uf285梕\ue339斉\udfd1嘤챯䛖")
+                     + var1.niq
+                     + a.b("롈쇰䮴핒媘\udc24执", 9484390)
+                     + var1.nln()
+                     + a.b("踳\uf3e1祇\ue735棷", -2050519530)
+                     + 3
+                     + a.c(-869306110, "焷ಛ虅ᡌ鏫ᔧ\uab1d⋠뢩㈚떾䮬셥墭튌合\uee32懢ﭝ礔\uf0eb")
+                     + Math.max(1, pjd.position(var1.nmb()))
+                     + a.d("鮦\ue603检", -1186172628, 603056804);
+               case 0:
+                  yield a.c(-685897817, "ΰ稬\uf4ef滿\ue553揣\ud9bb偎쨅䂼") + var1.niq + a.c(-290035785, "析Ḩ鑬ઊ蕊ϼ맚ぐ긇Ⓝꝳ够ퟅ䩤") + var1.nln();
+               case 1:
+                  yield var1.nik > var2
+                     ? a.c(-2045954688, "ㆶ䠐싍岲흯凟\uebf2戁\uf83c皐\uf14e༯薙᱓阁჻ꪰⅵ뭑㶗") + (var1.nik - var2 + 999L) / 1000L + a.c(2006479108, "焦\u0cf6")
+                     : a.c(1349525712, "ⓣ嵅힘䧧숺䒊ﺧ睔\ued69揅\ue41b᩺郌आ荔֮뿥");
+               default:
+                  yield var1.nhd.status();
+            }
+         }
+      };
    }
 
    private String njw() {
@@ -375,10 +380,10 @@ public class nfl extends kfe {
       double var2 = var1 == null ? Double.NaN : var1.ratio();
       if (Double.isNaN(var2)) {
          return "";
-      } else {
-         long var4 = Math.round((var2 - 1.0) * 100.0);
-         return a.d("\ue0ec", -864896176, -1367778403) + (var4 >= 0L ? a.c(-7143762, "ﺄ") : "") + var4 + a.c(1989996772, "\uf0c9襽\u07b4鷟ቪ钬\u2efb꜎");
       }
+
+      long var4 = Math.round((var2 - 1.0) * 100.0);
+      return a.d("\ue0ec", -864896176, -1367778403) + (var4 >= 0L ? a.c(-7143762, "ﺄ") : "") + var4 + a.c(1989996772, "\uf0c9襽\u07b4鷟ቪ钬\u2efb꜎");
    }
 
    public static toq neuroBrain() {
@@ -422,11 +427,12 @@ public class nfl extends kfe {
    }
 
    public void onChat(Text var1) {
-      if (this.isEnabled() && var1 != null) {
-         this.nhk.onChat(var1);
+      nfl var2 = this;
+      if (var2.isEnabled() && var1 != null) {
+         var2.nhk.onChat(var1);
          String var3 = pfl.title(var1.getString());
-         boolean var4 = this.nhp == nff.HOP || this.nhp == nff.BASE && this.nin == 0;
-         boolean var5 = this.nhp == nff.WARP || this.nhp == nff.BASE && this.nin == 1;
+         boolean var4 = var2.nhp == nff.HOP || var2.nhp == nff.BASE && var2.nin == 0;
+         boolean var5 = var2.nhp == nff.WARP || var2.nhp == nff.BASE && var2.nin == 1;
          if (var4) {
             if ((
                   !var3.contains(a.d("햭걩⚹", 1759931051, 922467142))
@@ -439,21 +445,21 @@ public class nfl extends kfe {
                   || var3.contains(a.d("矌\u0e75肳᪡鄁឴귬␘머や댻䵕쎃娸큥嚕\uecaf捷", -1290392137, -570991020))
                   || var3.contains(a.d("\ue83e醎ᭆ蕣\u0ef5術㈗믮▴꼈⣘튧屹", 1027639150, 1455845171))
                   || var3.contains(a.b("ԣ粘\uf63e栺\ue3e7敗\udf01囶좡䈘", -787021546))) {
-                  this.nic = true;
+                  var2.nic = true;
                }
             } else {
-               this.nib = true;
+               var2.nib = true;
             }
          }
 
          if (var5) {
             if (var3.contains(a.b("鿫\ue626沋\uf2f3礬ﾕ䗎", -526345262)) || var3.contains(a.c(1597318470, "ⅿ墲툟䱧잸䅥ﭚ"))) {
-               this.nil = true;
+               var2.nil = true;
             } else if (var3.contains(a.b("\ufae4茧ঁ鞅᱐", 939851430))
                && (var3.contains(a.b("ꬒ튩堏옋䷕쭭煂", -747458774)) || var3.contains(a.c(-247065775, "\u171b滝\ue400穿\uf1a2眒촿䓌")))) {
                Matcher var6 = nft.matcher(var3);
                if (var6.find()) {
-                  this.nik = System.currentTimeMillis() + Integer.parseInt(var6.group(1)) * 1000L + 300L;
+                  var2.nik = System.currentTimeMillis() + Integer.parseInt(var6.group(1)) * 1000L + 300L;
                }
             }
          }
@@ -498,12 +504,12 @@ public class nfl extends kfe {
    }
 
    private static boolean nkc(BlockState var0) {
-      return var0.method_27852(Blocks.field_10442) || var0.method_27852(Blocks.field_29029);
+      return var0.isOf(Blocks.DIAMOND_ORE) || var0.isOf(Blocks.DEEPSLATE_DIAMOND_ORE);
    }
 
    private void nkd() {
-      if (this.mc.method_1562() != null) {
-         this.mc.method_1562().method_45730(a.b("\ueeb5霞᷐", -1258623291));
+      if (this.mc.getNetworkHandler() != null) {
+         this.mc.getNetworkHandler().sendChatCommand(a.b("\ueeb5霞᷐", -1258623291));
       }
    }
 
@@ -530,10 +536,10 @@ public class nfl extends kfe {
       this.nhc.reset();
       this.nhb.reset();
       this.nhb.forgetFrame();
-      ClientPlayerEntity var1 = this.mc.field_1724;
+      ClientPlayerEntity var1 = this.mc.player;
       this.nit = var1 != null
-         && qpw.ready(var1.method_31548())
-         && qpw.misplaced(var1.method_31548(), qpw.targets(var1.method_31548(), var1.method_6079())) == 0;
+         && qpw.ready(var1.getInventory())
+         && qpw.misplaced(var1.getInventory(), qpw.targets(var1.getInventory(), var1.getOffHandStack())) == 0;
       this.nly(nff.START);
    }
 
@@ -542,7 +548,7 @@ public class nfl extends kfe {
       this.ngz.stop(this.mc);
       this.nhd.stop(this.mc);
       this.nhe.cancel(this.mc);
-      this.nhf.stop(this.mc, this.mc.field_1724);
+      this.nhf.stop(this.mc, this.mc.player);
       this.nha.cancel(this.mc);
       this.nhb.reset();
       this.nhb.forgetFrame();
@@ -558,7 +564,7 @@ public class nfl extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       this.nhb.newTick();
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != null) {
          if (this.nhn) {
             this.ngz.releaseKeys(var1);
@@ -590,7 +596,7 @@ public class nfl extends kfe {
    }
 
    private void nke(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
-      boolean var5 = var2.method_5805() && (this.nhp != nff.BASE || this.nin != 2) && !this.nkg() && qdz.trapped(var1.field_1687, var2) != null;
+      boolean var5 = var2.isAlive() && (this.nhp != nff.BASE || this.nin != 2) && !this.nkg() && qdz.trapped(var1.world, var2) != null;
       if (!var5) {
          if (this.njg) {
             this.njg = false;
@@ -610,7 +616,7 @@ public class nfl extends kfe {
          }
 
          if (this.ngz.status() != qdw.WORKING || !this.ngz.guarding()) {
-            this.ngz.guard(pzc.empty(var2.method_24515()));
+            this.ngz.guard(pzc.empty(var2.getBlockPos()));
          }
       }
    }
@@ -663,8 +669,8 @@ public class nfl extends kfe {
          this.njv();
       }
 
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.field_1687 != null) {
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.world != null) {
          pjd.keep(this.nmb());
          if (this.ngw == null) {
             wcn.ensure(var1);
@@ -687,12 +693,12 @@ public class nfl extends kfe {
          this.nhd.walker().configure(this.nhc, true, false);
          this.nha.noThrow = this.nhp == nff.BASE;
          this.nlx();
-         if (var1.field_1755 instanceof DeathScreen && var2.method_29504() && this.njr % 20 == 0) {
-            var2.method_7331();
-            var1.method_1507(null);
+         if (var1.currentScreen instanceof DeathScreen && var2.isDead() && this.njr % 20 == 0) {
+            var2.requestRespawn();
+            var1.setScreen(null);
          }
 
-         if (var2.method_29504() && this.nhp == nff.BASE) {
+         if (var2.isDead() && this.nhp == nff.BASE) {
             this.nhd.stop(var1);
             this.nly(nff.DECIDE);
          }
@@ -709,16 +715,16 @@ public class nfl extends kfe {
                && !this.nhf.active()
                && !this.nha.busy()
                && !this.nhe.active()
-               && var1.field_1755 == null
+               && var1.currentScreen == null
                && var9
-               && var2.method_5805()
+               && var2.isAlive()
                && qma.hungry(var2)) {
                if (qma.canEat(var2)) {
                   this.nhf.start(var2);
                } else {
                   int var10 = qma.stored(var2);
                   if (var10 >= 0) {
-                     this.nha.swaps(var10, var2.method_6079().method_7960() ? 40 : 8);
+                     this.nha.swaps(var10, var2.getOffHandStack().isEmpty() ? 40 : 8);
                   }
                }
             }
@@ -769,8 +775,8 @@ public class nfl extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.field_1755 == null && var1.field_1729.method_1613()) {
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.currentScreen == null && var1.mouse.isCursorLocked()) {
          this.nhb.frame(var1, var2);
       } else {
          this.nhb.forgetFrame();
@@ -844,9 +850,9 @@ public class nfl extends kfe {
       }
 
       pzp var6 = pzw.read(var1, 72.0);
-      if (var6 != null && var6.pos().method_1022(var2.method_73189()) <= 30.0) {
-         pzc var7 = pzc.detect(var1.field_1687, var6.pos());
-         if (var7 != null && var7.ores >= 20 && var7.distanceTo(var2.method_73189()) < 24.0) {
+      if (var6 != null && var6.pos().distanceTo(var2.getEntityPos()) <= 30.0) {
+         pzc var7 = pzc.detect(var1.world, var6.pos());
+         if (var7 != null && var7.ores >= 20 && var7.distanceTo(var2.getEntityPos()) < 24.0) {
             this.nkx(var2);
             if (this.nhr >= 0) {
                this.nlw(this.nhr, var6, var3, false);
@@ -868,7 +874,7 @@ public class nfl extends kfe {
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void nkk(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
-      if (!qof.holdsPickaxe(var2) && qof.bestPickaxe(var2.method_31548()) < 0 && !poi.inLobby(var2)) {
+      if (!qof.holdsPickaxe(var2) && qof.bestPickaxe(var2.getInventory()) < 0 && !poi.inLobby(var2)) {
          if (this.njp == 0L) {
             this.njp = var3;
          }
@@ -882,7 +888,7 @@ public class nfl extends kfe {
          if (!this.nls(var1, var2, var3) && !this.nlp(var1, var2, var3)) {
             if (this.nht) {
                Vec3d var5 = this.nhh.get(this.nhr);
-               if (var5 != null && var5.method_1022(var2.method_73189()) > 36.0) {
+               if (var5 != null && var5.distanceTo(var2.getEntityPos()) > 36.0) {
                   this.nht = false;
                }
             }
@@ -952,7 +958,7 @@ public class nfl extends kfe {
                   qqm var7 = this.ngx.entry(this.nhr);
                   this.niz = var7 != null && var7.lastTier != null ? var7.lastTier : qwj.COMMON;
                   String var8 = this.nhr > 0 ? a.d("䝸㫔뀊⩫", -1780191993, 1315252827) + this.nhr : "";
-                  if (var6.look() || !this.nht && !(var6.area().distanceTo(var2.method_73189()) < 24.0)) {
+                  if (var6.look() || !this.nht && !(var6.area().distanceTo(var2.getEntityPos()) < 24.0)) {
                      this.nma(
                         var6.look()
                            ? a.d("જ猵煉查\uec40", 148362841, -1310730008)
@@ -986,45 +992,49 @@ public class nfl extends kfe {
    private nes nkl(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       Vec3d var5 = this.nhh.get(this.nhr);
       qqm var6 = this.ngx.entry(this.nhr);
-      if (var5 == null || var6 == null || this.nhr == this.nln() || var1.field_1687 == null) {
+      if (var5 == null || var6 == null || this.nhr == this.nln() || var1.world == null) {
          return null;
-      } else if (var6.refreshAt - var3 < this.ngy.minMineMs + 20000L) {
+      }
+
+      if (var6.refreshAt - var3 < this.ngy.minMineMs + 20000L) {
          return null;
-      } else if (nkn(this.nhl.get(this.nhr), var6.refreshAt)) {
+      }
+
+      if (nkn(this.nhl.get(this.nhr), var6.refreshAt)) {
          return null;
-      } else {
-         boolean var7 = nkn(this.nhm.get(this.nhr), var6.refreshAt);
-         if (var7 && !this.nht) {
-            this.nhl.put(this.nhr, var6.refreshAt);
+      }
+
+      boolean var7 = nkn(this.nhm.get(this.nhr), var6.refreshAt);
+      if (var7 && !this.nht) {
+         this.nhl.put(this.nhr, var6.refreshAt);
+         return null;
+      }
+
+      pzc var8 = this.nhg.get(this.nhr);
+      if (var8 == null || var8.distanceTo(var5) > 30.0) {
+         var8 = pzc.detect(var1.world, var5);
+         if (var8 == null) {
             return null;
-         } else {
-            pzc var8 = this.nhg.get(this.nhr);
-            if (var8 == null || var8.distanceTo(var5) > 30.0) {
-               var8 = pzc.detect(var1.field_1687, var5);
-               if (var8 == null) {
-                  return null;
-               }
-
-               this.nhg.put(this.nhr, var8);
-            }
-
-            int var9 = nkm(var1.field_1687, var8);
-            if (var9 >= 20) {
-               if (!this.nht) {
-                  this.nhm.put(this.nhr, var6.refreshAt);
-               }
-
-               return new nes(var8, var9, false);
-            } else if (this.nht || pzc.loaded(var1.field_1687, var5)) {
-               this.nhl.put(this.nhr, var6.refreshAt);
-               return null;
-            } else if (!var7 && var9 * 2 >= 20) {
-               this.nhm.put(this.nhr, var6.refreshAt);
-               return new nes(var8, var9, true);
-            } else {
-               return null;
-            }
          }
+
+         this.nhg.put(this.nhr, var8);
+      }
+
+      int var9 = nkm(var1.world, var8);
+      if (var9 >= 20) {
+         if (!this.nht) {
+            this.nhm.put(this.nhr, var6.refreshAt);
+         }
+
+         return new nes(var8, var9, false);
+      } else if (this.nht || pzc.loaded(var1.world, var5)) {
+         this.nhl.put(this.nhr, var6.refreshAt);
+         return null;
+      } else if (!var7 && var9 * 2 >= 20) {
+         this.nhm.put(this.nhr, var6.refreshAt);
+         return new nes(var8, var9, true);
+      } else {
+         return null;
       }
    }
 
@@ -1034,9 +1044,9 @@ public class nfl extends kfe {
 
       for (int var4 = var1.minX; var4 <= var1.maxX; var4++) {
          for (int var5 = var1.minZ; var5 <= var1.maxZ; var5++) {
-            if (var0.method_8393(var4 >> 4, var5 >> 4)) {
+            if (var0.isChunkLoaded(var4 >> 4, var5 >> 4)) {
                for (int var6 = var1.minY; var6 <= var1.maxY; var6++) {
-                  if (nkc(var0.method_8320(var3.method_10103(var4, var6, var5)))) {
+                  if (nkc(var0.getBlockState(var3.set(var4, var6, var5)))) {
                      var2++;
                   }
                }
@@ -1077,16 +1087,16 @@ public class nfl extends kfe {
    }
 
    private void nkq(MinecraftClient var1, ClientPlayerEntity var2) {
-      this.nhy = var1.field_1687;
+      this.nhy = var1.world;
       this.nhz = var2;
-      this.nia = var2.method_73189();
+      this.nia = var2.getEntityPos();
       this.nib = false;
       this.nic = false;
-      var1.method_1562().method_45730(a.b("漗ᚩ", -523538572) + this.nhv);
+      var1.getNetworkHandler().sendChatCommand(a.b("漗ᚩ", -523538572) + this.nhv);
    }
 
    private boolean nkr(MinecraftClient var1, ClientPlayerEntity var2) {
-      return var1.field_1687 != this.nhy || var2 != this.nhz || this.nia != null && var2.method_73189().method_1022(this.nia) > 48.0;
+      return var1.world != this.nhy || var2 != this.nhz || this.nia != null && var2.getEntityPos().distanceTo(this.nia) > 48.0;
    }
 
    private void nks(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
@@ -1117,7 +1127,7 @@ public class nfl extends kfe {
    }
 
    private void nkt(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
-      if (var1.field_1755 != null && !(var1.field_1755 instanceof DeathScreen)) {
+      if (var1.currentScreen != null && !(var1.currentScreen instanceof DeathScreen)) {
          if (var3 - this.nhq > 20000L) {
             this.nly(nff.DECIDE);
          }
@@ -1127,7 +1137,7 @@ public class nfl extends kfe {
             this.nhh.put(this.nhr, var5.pos());
             this.nlw(this.nhr, var5, var3, this.nhx);
             this.nhx = false;
-            if (var5.pos().method_1022(var2.method_73189()) <= 12.0) {
+            if (var5.pos().distanceTo(var2.getEntityPos()) <= 12.0) {
                this.nkx(var2);
             }
 
@@ -1153,13 +1163,13 @@ public class nfl extends kfe {
       }
 
       if (!var6.isEmpty()) {
-         var1.method_1562().method_45730(var6);
+         var1.getNetworkHandler().sendChatCommand(var6);
       }
 
       this.nig++;
       this.nif = var3;
-      this.nih = var2.method_73189();
-      this.nii = var1.field_1687;
+      this.nih = var2.getEntityPos();
+      this.nii = var1.world;
       this.nij = var2;
       this.nik = 0L;
       this.nil = false;
@@ -1187,9 +1197,9 @@ public class nfl extends kfe {
             }
          }
       } else {
-         boolean var5 = var1.field_1687 != this.nii || var2 != this.nij || var2.method_73189().method_1022(this.nih) > 2.5;
+         boolean var5 = var1.world != this.nii || var2 != this.nij || var2.getEntityPos().distanceTo(this.nih) > 2.5;
          Vec3d var6 = this.nhh.get(this.nhr);
-         boolean var7 = this.nik > 0L && var3 > this.nik + 1500L && var6 != null && var6.method_1022(var2.method_73189()) <= 14.0;
+         boolean var7 = this.nik > 0L && var3 > this.nik + 1500L && var6 != null && var6.distanceTo(var2.getEntityPos()) <= 14.0;
          if (!var5 && !var7) {
             long var8 = this.nik > 0L ? this.nik + 5000L : this.nif + 12000L;
             if (this.nil || var3 > var8) {
@@ -1255,13 +1265,13 @@ public class nfl extends kfe {
          this.nla(var2);
       }
 
-      boolean var5 = this.njf || var2.method_5765();
+      boolean var5 = this.njf || var2.hasVehicle();
       if (var5 || this.njr % 20 != 0 || !this.nls(var1, var2, var3)) {
          if (this.njr % 5 == 0) {
             pzp var6 = pzw.read(var1, 72.0);
             qqm var7 = this.ngx.entry(this.nhr);
             boolean var8 = var7 != null && var3 > var7.refreshAt + 2500L;
-            if (var6 != null && !(var6.pos().method_1022(var2.method_73189()) > 36.0)) {
+            if (var6 != null && !(var6.pos().distanceTo(var2.getEntityPos()) > 36.0)) {
                boolean var11 = this.niw >= 0 && var6.seconds() > this.niw + 20;
                if (!var11 && !var8) {
                   if (var6.tier() != null && (var7 == null || var7.tier == var6.tier())) {
@@ -1291,7 +1301,7 @@ public class nfl extends kfe {
                }
             } else {
                Vec3d var9 = this.nhh.get(this.nhr);
-               boolean var10 = var5 || var9 != null && var9.method_1022(var2.method_73189()) <= 36.0;
+               boolean var10 = var5 || var9 != null && var9.distanceTo(var2.getEntityPos()) <= 36.0;
                if (var10 && var8) {
                   this.niz = this.niy != null ? this.niy : var7.tier;
                   this.nlg(false);
@@ -1307,28 +1317,28 @@ public class nfl extends kfe {
    private void nla(ClientPlayerEntity var1) {
       if (this.ngz.status() != qdw.WORKING) {
          pzc var2 = this.nhg.get(this.nhr);
-         this.ngz.guard(var2 != null && var2.distanceTo(var1.method_73189()) < 30.0 ? var2 : pzc.empty(var1.method_24515()));
+         this.ngz.guard(var2 != null && var2.distanceTo(var1.getEntityPos()) < 30.0 ? var2 : pzc.empty(var1.getBlockPos()));
       }
    }
 
    private void nlb(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
-      if (var2.method_24828() || var2.method_5765()) {
+      if (var2.isOnGround() || var2.hasVehicle()) {
          BlockPos var5 = nle(a.d("刱⮛ꅏ㼯듮㉐蠚Ǹ龡", -454491144, 1331646957));
          if (var5 == null) {
             this.nlc(a.c(-2032489325, "ꢱ턈忎얠乶죄狥ﭠ愤\uef8f桘鈩ᲀ蕅༚觮㎬및⚵\ua48fⷳ圤\ud98c䉚쐴仳\uf74f礇\ue3e3斴\uee89"), var3);
          } else {
-            Vec3d var6 = Vec3d.method_24953(var5);
+            Vec3d var6 = Vec3d.ofCenter(var5);
             Vec3d var7 = this.nhh.get(this.nhr);
-            if ((var7 == null || !(var7.method_1022(var6) > 48.0)) && !(var6.method_1022(var2.method_73189()) > 48.0)) {
+            if ((var7 == null || !(var7.distanceTo(var6) > 48.0)) && !(var6.distanceTo(var2.getEntityPos()) > 48.0)) {
                pzc var8 = this.nld(var1, var7, var5);
                this.nha.equip(var1, var2);
                this.ngz.park(var8, var5, true);
                this.njf = true;
                if (this.njk == null) {
-                  this.nma(a.b("㗅䱘웼峮팣冈\uefba晈\uf816狛\uf502ཻ臝\u181a鉃ᒾꫭ", -2062011956) + var5.method_23854(), vhz.NAV);
+                  this.nma(a.b("㗅䱘웼峮팣冈\uefba晈\uf816狛\uf502ཻ臝\u181a鉃ᒾꫭ", -2062011956) + var5.toShortString(), vhz.NAV);
                }
             } else {
-               this.nlc(a.b("斃ᰱ難࣮茳֊뾨㘯ꡲ⛛", 1024483784) + var5.method_23854() + a.d("津ႀ驗Э迴ॊ댝", 1962118724, -1142430906), var3);
+               this.nlc(a.b("斃ᰱ難࣮茳֊뾨㘯ꡲ⛛", 1024483784) + var5.toShortString() + a.d("津ႀ驗Э迴ॊ댝", 1962118724, -1142430906), var3);
             }
          }
       }
@@ -1346,7 +1356,7 @@ public class nfl extends kfe {
       pzc var4 = this.nhg.get(this.nhr);
       if (var4 == null || var2 != null && !(var4.distanceTo(var2) <= 30.0)) {
          if (var2 != null) {
-            pzc var5 = pzc.detect(var1.field_1687, var2);
+            pzc var5 = pzc.detect(var1.world, var2);
             if (var5 != null) {
                this.nhg.put(this.nhr, var5);
                return var5;
@@ -1354,11 +1364,11 @@ public class nfl extends kfe {
 
             for (Entry var7 : this.nhg.entrySet()) {
                Vec3d var8 = this.nhh.get(var7.getKey());
-               if ((Integer)var7.getKey() != this.nhr && var8 != null && !(var8.method_1022(var2) > 3.0)) {
+               if ((Integer)var7.getKey() != this.nhr && var8 != null && !(var8.distanceTo(var2) > 3.0)) {
                   pzc var9 = (pzc)var7.getValue();
-                  int var10 = (int)Math.round(var2.field_1352 - var8.field_1352);
-                  int var11 = (int)Math.round(var2.field_1351 - var8.field_1351);
-                  int var12 = (int)Math.round(var2.field_1350 - var8.field_1350);
+                  int var10 = (int)Math.round(var2.x - var8.x);
+                  int var11 = (int)Math.round(var2.y - var8.y);
+                  int var12 = (int)Math.round(var2.z - var8.z);
                   return new pzc(var9.minX + var10, var9.minY + var11, var9.minZ + var12, var9.maxX + var10, var9.maxY + var11, var9.maxZ + var12, var9.ores);
                }
             }
@@ -1374,12 +1384,12 @@ public class nfl extends kfe {
       String[] var1 = var0.trim().replace(',', ' ').split(a.b("囐⽎ꗅ", -1219733873));
       if (var1.length < 3) {
          return null;
-      } else {
-         try {
-            return BlockPos.method_49637(Double.parseDouble(var1[0]), Double.parseDouble(var1[1]), Double.parseDouble(var1[2]));
-         } catch (NumberFormatException var3) {
-            return null;
-         }
+      }
+
+      try {
+         return BlockPos.ofFloored(Double.parseDouble(var1[0]), Double.parseDouble(var1[1]), Double.parseDouble(var1[2]));
+      } catch (NumberFormatException var3) {
+         return null;
       }
    }
 
@@ -1389,7 +1399,7 @@ public class nfl extends kfe {
          this.nla(var2);
       }
 
-      if (this.njb % 20 != 0 || var2.method_5765() || !this.nls(var1, var2, var3)) {
+      if (this.njb % 20 != 0 || var2.hasVehicle() || !this.nls(var1, var2, var3)) {
          if (this.njb % 3 == 0) {
             Vec3d var5 = this.nhh.get(this.nhr);
             pzp var6 = pzw.read(var1, 72.0);
@@ -1411,10 +1421,10 @@ public class nfl extends kfe {
 
             if (this.njc && this.njb - this.njd >= 12 && this.njb % 6 == 0) {
                if (var5 == null) {
-                  var5 = var2.method_73189();
+                  var5 = var2.getEntityPos();
                }
 
-               pzc var7 = pzc.detect(var1.field_1687, var5);
+               pzc var7 = pzc.detect(var1.world, var5);
                pzc var8 = this.nhg.get(this.nhr);
                if (var8 != null && var8.distanceTo(var5) > 30.0) {
                   var8 = null;
@@ -1465,7 +1475,7 @@ public class nfl extends kfe {
    }
 
    private void nli(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
-      PlayerInventory var5 = var2.method_31548();
+      PlayerInventory var5 = var2.getInventory();
       if (!this.nlp(var1, var2, var3)) {
          this.nha.unstow(var2);
          if (this.niu && !this.nha.busy()) {
@@ -1510,7 +1520,7 @@ public class nfl extends kfe {
                return;
             }
 
-            if (this.nit && this.njr % 400 == 0 && qpw.misplaced(var5, qpw.targets(var5, var2.method_6079())) > 3) {
+            if (this.nit && this.njr % 400 == 0 && qpw.misplaced(var5, qpw.targets(var5, var2.getOffHandStack())) > 3) {
                this.nit = false;
             }
          }
@@ -1524,13 +1534,13 @@ public class nfl extends kfe {
                this.nll(var1, var2, var3);
             }
 
-            boolean var14 = var1.field_1761 != null && var1.field_1761.method_2923();
+            boolean var14 = var1.interactionManager != null && var1.interactionManager.isBreakingBlock();
             if (!this.nha.busy() && !var14 && this.njr % 5 == 0 && var3 - this.njl > 5000L) {
                int var7 = qof.empty(var5);
                if (var7 <= 2) {
                   if (qof.hasJunk(var5, ngn)) {
                      this.nlj(var2);
-                     this.ngz.avoid(var2.method_73189(), 1200);
+                     this.ngz.avoid(var2.getEntityPos(), 1200);
                      this.njl = var3;
                      this.nje = false;
                   } else if (!this.nje && var7 == 0 && !this.nit) {
@@ -1590,7 +1600,7 @@ public class nfl extends kfe {
    private void nlj(ClientPlayerEntity var1) {
       this.nha.dropJunk(64);
       this.njo = new Object();
-      Vec3d var2 = var1.method_33571();
+      Vec3d var2 = var1.getEyePos();
       Vec3d var3 = null;
       pzc var4 = this.nhr >= 0 ? this.nhg.get(this.nhr) : null;
       if (var4 == null) {
@@ -1599,8 +1609,8 @@ public class nfl extends kfe {
 
       if (var4 != null && var4.maxX >= var4.minX) {
          Vec3d var5 = var4.center();
-         double var6 = var2.field_1352 - var5.field_1352;
-         double var8 = var2.field_1350 - var5.field_1350;
+         double var6 = var2.x - var5.x;
+         double var8 = var2.z - var5.z;
          double var10 = Math.sqrt(var6 * var6 + var8 * var8);
          if (var10 > 1.5) {
             var3 = new Vec3d(var6 / var10, 0.0, var8 / var10);
@@ -1608,12 +1618,12 @@ public class nfl extends kfe {
       }
 
       if (var3 == null) {
-         Vec3d var12 = var1.method_5828(1.0F);
-         double var13 = Math.sqrt(var12.field_1352 * var12.field_1352 + var12.field_1350 * var12.field_1350);
-         var3 = var13 < 0.1 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(var12.field_1352 / var13, 0.0, var12.field_1350 / var13);
+         Vec3d var12 = var1.getRotationVec(1.0F);
+         double var13 = Math.sqrt(var12.x * var12.x + var12.z * var12.z);
+         var3 = var13 < 0.1 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(var12.x / var13, 0.0, var12.z / var13);
       }
 
-      this.njn = var2.method_1031(var3.field_1352 * 4.0, 2.2, var3.field_1350 * 4.0);
+      this.njn = var2.add(var3.x * 4.0, 2.2, var3.z * 4.0);
    }
 
    private void nlk(MinecraftClient var1, ClientPlayerEntity var2) {
@@ -1622,9 +1632,9 @@ public class nfl extends kfe {
          var3 = this.ngz.area();
       }
 
-      if (var3 != null && var3.maxX >= var3.minX && !(var3.distanceTo(var2.method_73189()) > 64.0)) {
+      if (var3 != null && var3.maxX >= var3.minX && !(var3.distanceTo(var2.getEntityPos()) > 64.0)) {
          if (this.njr % 10 == 0) {
-            qwo.scan(var1.field_1687, var3, var2.method_33571());
+            qwo.scan(var1.world, var3, var2.getEyePos());
          }
 
          qwo.focus(this.ngz.focus());
@@ -1634,18 +1644,18 @@ public class nfl extends kfe {
    }
 
    private void nll(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
-      PlayerInventory var5 = var2.method_31548();
-      if (qpw.count(var5, Items.field_22019) <= 0 && qof.empty(var5) <= 0) {
-         boolean var6 = !var1.field_1687
-            .method_8390(ItemEntity.class, var2.method_5829().method_1009(6.0, 3.0, 6.0), var0 -> var0.method_6983().method_31574(Items.field_22019))
+      PlayerInventory var5 = var2.getInventory();
+      if (qpw.count(var5, Items.ANCIENT_DEBRIS) <= 0 && qof.empty(var5) <= 0) {
+         boolean var6 = !var1.world
+            .getEntitiesByClass(ItemEntity.class, var2.getBoundingBox().expand(6.0, 3.0, 6.0), var0 -> var0.getStack().isOf(Items.ANCIENT_DEBRIS))
             .isEmpty();
          if (var6) {
             int var7 = -1;
-            if (var5.method_5438(32).method_31574(Items.field_8695) && var5.method_5438(32).method_7947() == 1) {
+            if (var5.getStack(32).isOf(Items.GOLD_INGOT) && var5.getStack(32).getCount() == 1) {
                var7 = 32;
             } else {
                for (int var8 = 9; var8 < 36 && var7 < 0; var8++) {
-                  if (var5.method_5438(var8).method_31574(Items.field_8695) && var5.method_5438(var8).method_7947() == 1) {
+                  if (var5.getStack(var8).isOf(Items.GOLD_INGOT) && var5.getStack(var8).getCount() == 1) {
                      var7 = var8;
                   }
                }
@@ -1672,26 +1682,26 @@ public class nfl extends kfe {
       Matcher var1 = nfu.matcher(this.ngo.get());
       if (!var1.find()) {
          return -1;
-      } else {
-         try {
-            return Integer.parseInt(var1.group(1));
-         } catch (NumberFormatException var3) {
-            return -1;
-         }
+      }
+
+      try {
+         return Integer.parseInt(var1.group(1));
+      } catch (NumberFormatException var3) {
+         return -1;
       }
    }
 
    private String nlo(ClientPlayerEntity var1, long var2) {
       if (this.nln() > 0 && var2 >= this.nir) {
-         if (qdz.trapped(var1.method_73183(), var1) != null) {
+         if (qdz.trapped(var1.getEntityWorld(), var1) != null) {
             return null;
-         } else if (var1.method_6032() < 3.0F && this.nlq(a.c(1760422779, "\ueb11銸"), var2)) {
+         } else if (var1.getHealth() < 3.0F && this.nlq(a.c(1760422779, "\ueb11銸"), var2)) {
             return a.b("ᕇ泮", 1859523885);
          } else {
             int var4 = qpw.pickaxeDurability(var1);
             if (var4 >= 0 && var4 < 190 && !this.nhd.repairFailed() && this.nlq(a.b("࣠煈ﮑ旨", -1479407468), var2)) {
                return a.d("縷胸ਡ鑘", -1009286406, 1505131486);
-            } else if (qpw.count(var1.method_31548(), Items.field_8477) > 576 && this.nlq(a.c(-5401926, "鋖\ueb6a憱ￌ琙\uf2a9䣰섖"), var2)) {
+            } else if (qpw.count(var1.getInventory(), Items.DIAMOND) > 576 && this.nlq(a.c(-5401926, "鋖\ueb6a憱ￌ琙\uf2a9䣰섖"), var2)) {
                return a.b("餉\ue0b5橮\uf413翆略䌯쫉", -2124179099);
             } else {
                return qpw.food(var1) < 3 && this.nlq(a.b("뿸와䲓틩", -1445216358), var2) ? a.d("\uf0c0襸Ϋ鷑", -297550931, 590891791) : null;
@@ -1707,27 +1717,31 @@ public class nfl extends kfe {
       if (var5 < 0 || var5 >= 190) {
          this.njh = false;
          return false;
-      } else if (this.nls(var1, var2, var3)) {
-         return true;
-      } else if (qdz.trapped(var2.method_73183(), var2) != null) {
-         return false;
-      } else {
-         this.ngz.stop(var1);
-         if (!this.njh) {
-            this.njh = true;
-            this.nma(
-               a.d("鎷\uea24悏ﺄ留\uf7e2䶫", 814208338, 1379156728)
-                  + var5
-                  + a.d("ⓞ奰폜䷓왽䂶\ufae6獨\ued34柿\ue434㹱邒ാ蝥ց믔㐁꺳⣭ꅤ\udf57凨칞䠤슉笵\uf51e殂\ue9ce扵颱\u169f輔ू菱㰪똩ヴ괩❾", -1988406299, 358971186)
-                  + (this.nln() <= 0 ? a.d("듭촧䟵\ud98f剜탹溷\ue74e約\uf3a2瑶踃Ð饬", 1099415619, -1221365535) : a.b("㩃䎉쥛圡\udcf2幗\ue01b槫\uf7bd納\ufadd", -1994113527))
-                  + a.b("\udabd", 775346837),
-               vhz.ALERT
-            );
-         }
+      }
 
-         this.nly(nff.IDLE);
+      if (this.nls(var1, var2, var3)) {
          return true;
       }
+
+      if (qdz.trapped(var2.getEntityWorld(), var2) != null) {
+         return false;
+      }
+
+      this.ngz.stop(var1);
+      if (!this.njh) {
+         this.njh = true;
+         this.nma(
+            a.d("鎷\uea24悏ﺄ留\uf7e2䶫", 814208338, 1379156728)
+               + var5
+               + a.d("ⓞ奰폜䷓왽䂶\ufae6獨\ued34柿\ue434㹱邒ാ蝥ց믔㐁꺳⣭ꅤ\udf57凨칞䠤슉笵\uf51e殂\ue9ce扵颱\u169f輔ू菱㰪똩ヴ괩❾", -1988406299, 358971186)
+               + (this.nln() <= 0 ? a.d("듭촧䟵\ud98f剜탹溷\ue74e約\uf3a2瑶踃Ð饬", 1099415619, -1221365535) : a.b("㩃䎉쥛圡\udcf2幗\ue01b槫\uf7bd納\ufadd", -1994113527))
+               + a.b("\udabd", 775346837),
+            vhz.ALERT
+         );
+      }
+
+      this.nly(nff.IDLE);
+      return true;
    }
 
    private boolean nlq(String var1, long var2) {
@@ -1747,49 +1761,49 @@ public class nfl extends kfe {
    private boolean nls(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       String var5 = this.nlo(var2, var3);
       if (var5 != null && !this.nha.busy()) {
-         if (this.njx() && this.nhr != this.nln() && qof.hasJunk(var2.method_31548(), ngn) && var3 - this.njm > 15000L) {
+         if (this.njx() && this.nhr != this.nln() && qof.hasJunk(var2.getInventory(), ngn) && var3 - this.njm > 15000L) {
             this.njm = var3;
             this.ngz.stop(var1);
             this.nlj(var2);
             this.njl = var3;
             return true;
-         } else {
-            this.ngz.stop(var1);
-            this.njf = false;
-            this.niq = nlr(var5);
-            this.nma(a.b("棆ᅚ龙։踥\u0895닍㬸ꅩ⯂", -915510063) + this.niq, vhz.NAV);
-            this.nht = false;
-            this.nhs = -1;
-            int var6 = this.nln();
-            if (this.nhd.atHome(var1.field_1687, var2, 6.0)) {
-               if (this.njx()) {
-                  this.nhr = var6;
-               }
+         }
 
-               this.nin = 2;
-               this.nhd.begin(var3);
-               this.nma(a.c(-819613283, "떦찂䛒\udcb6匂퇐濢\ue668砶\uf28c畛輮ש뱬ᘋ铫⺠ꅳ㿗릉〹䩯쓞弇"), vhz.CHECK);
-            } else if (this.njx() && this.nhr != var6) {
-               this.nhv = var6;
-               this.nhw = var3;
-               this.nid = 0;
-               this.nie = 0L;
-               if (pjd.enter(this.nmb(), String.valueOf(var6))) {
-                  this.nkq(var1, var2);
-                  this.nin = 0;
-               } else {
-                  this.nin = -1;
-                  this.nma(a.b("閩\uec35拶\uf8e6獊\uf5fa侢왗堉횭唝꼙⇍뱩㘩냋ນ腅ᮎ鶯ᐥ樑쒖罳ﴚ矉츍䐿\udad6峾휿⦛ꎡ㩑밎", 1280479639), vhz.INFO);
-               }
-            } else {
-               this.nin = 1;
-               this.nip = false;
+         this.ngz.stop(var1);
+         this.njf = false;
+         this.niq = nlr(var5);
+         this.nma(a.b("棆ᅚ龙։踥\u0895닍㬸ꅩ⯂", -915510063) + this.niq, vhz.NAV);
+         this.nht = false;
+         this.nhs = -1;
+         int var6 = this.nln();
+         if (this.nhd.atHome(var1.world, var2, 6.0)) {
+            if (this.njx()) {
+               this.nhr = var6;
             }
 
-            this.nio = var3;
-            this.nly(nff.BASE);
-            return true;
+            this.nin = 2;
+            this.nhd.begin(var3);
+            this.nma(a.c(-819613283, "떦찂䛒\udcb6匂퇐濢\ue668砶\uf28c畛輮ש뱬ᘋ铫⺠ꅳ㿗릉〹䩯쓞弇"), vhz.CHECK);
+         } else if (this.njx() && this.nhr != var6) {
+            this.nhv = var6;
+            this.nhw = var3;
+            this.nid = 0;
+            this.nie = 0L;
+            if (pjd.enter(this.nmb(), String.valueOf(var6))) {
+               this.nkq(var1, var2);
+               this.nin = 0;
+            } else {
+               this.nin = -1;
+               this.nma(a.b("閩\uec35拶\uf8e6獊\uf5fa侢왗堉횭唝꼙⇍뱩㘩냋ນ腅ᮎ鶯ᐥ樑쒖罳ﴚ矉츍䐿\udad6峾휿⦛ꎡ㩑밎", 1280479639), vhz.INFO);
+            }
+         } else {
+            this.nin = 1;
+            this.nip = false;
          }
+
+         this.nio = var3;
+         this.nly(nff.BASE);
+         return true;
       } else {
          return false;
       }
@@ -1843,8 +1857,8 @@ public class nfl extends kfe {
             break;
          case 1:
             if (!this.nip) {
-               if (var3 - this.nio >= 1500L && (var1.field_1755 == null || var1.field_1755 instanceof DeathScreen)) {
-                  if (this.nhd.atHome(var1.field_1687, var2, 6.0)) {
+               if (var3 - this.nio >= 1500L && (var1.currentScreen == null || var1.currentScreen instanceof DeathScreen)) {
+                  if (this.nhd.atHome(var1.world, var2, 6.0)) {
                      this.nin = 2;
                      this.nhd.begin(var3);
                      this.nma(a.d("笈ʬ衼መ鶬\u1f7eꅌ⣆뚘㰢믵䆀쭇狂\ud8a5婅\ue00e濝\uf179眧ﺗ蓁ੰ醩", 1407884293, 1144709942), vhz.CHECK);
@@ -1860,7 +1874,7 @@ public class nfl extends kfe {
                return;
             }
 
-            boolean var8 = var1.field_1687 != this.nii || var2 != this.nij || var2.method_73189().method_1022(this.nih) > 2.5;
+            boolean var8 = var1.world != this.nii || var2 != this.nij || var2.getEntityPos().distanceTo(this.nih) > 2.5;
             long var6 = this.nik > 0L ? this.nik + 5000L : this.nif + 12000L;
             if (var8 || this.nig >= 2 && (this.nil || var3 > var6)) {
                this.nin = 2;
@@ -1884,13 +1898,13 @@ public class nfl extends kfe {
    }
 
    private static int nlu(ClientPlayerEntity var0) {
-      ItemStack var1 = var0.method_6047();
-      if (!var1.method_31573(ItemTags.field_42614)) {
-         int var2 = qof.bestPickaxe(var0.method_31548());
-         var1 = var2 >= 0 ? var0.method_31548().method_5438(var2) : var0.method_6079();
+      ItemStack var1 = var0.getMainHandStack();
+      if (!var1.isIn(ItemTags.PICKAXES)) {
+         int var2 = qof.bestPickaxe(var0.getInventory());
+         var1 = var2 >= 0 ? var0.getInventory().getStack(var2) : var0.getOffHandStack();
       }
 
-      return var1.method_31573(ItemTags.field_42614) && var1.method_7936() > 0 ? Math.max(200, var1.method_7936() - 2) : 1500;
+      return var1.isIn(ItemTags.PICKAXES) && var1.getMaxDamage() > 0 ? Math.max(200, var1.getMaxDamage() - 2) : 1500;
    }
 
    private void nlv(MinecraftClient var1, ClientPlayerEntity var2, boolean var3, String var4, long var5) {

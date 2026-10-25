@@ -173,7 +173,7 @@ public class kfx {
    }
 
    public void pollKeys(MinecraftClient var1) {
-      if (var1.method_22683() != null) {
+      if (var1.getWindow() != null) {
          IntLinkedOpenHashSet var2 = this.kgb;
          var2.clear();
 

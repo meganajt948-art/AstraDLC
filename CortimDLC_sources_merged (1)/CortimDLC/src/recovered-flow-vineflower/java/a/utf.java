@@ -37,10 +37,8 @@ record utf(
    private final int utq;
    private final int utr;
    private final int uts;
-   @Nullable
-   private final ScreenRect utt;
-   @Nullable
-   private final ScreenRect utu;
+   private final @Nullable ScreenRect utt;
+   private final @Nullable ScreenRect utu;
 
    utf(
       RenderPipeline pipeline,
@@ -76,18 +74,21 @@ record utf(
       this.utu = bounds;
    }
 
-   public TextureSetup comp_4056() {
-      return TextureSetup.method_70899();
+   @Override
+   public TextureSetup textureSetup() {
+      return TextureSetup.empty();
    }
 
-   public void method_70917(VertexConsumer var1) {
-      var1.method_22912(this.uth, this.uti, 0.0F).method_39415(this.utp);
-      var1.method_22912(this.utj, this.utk, 0.0F).method_39415(this.utq);
-      var1.method_22912(this.utl, this.utm, 0.0F).method_39415(this.utr);
-      var1.method_22912(this.utn, this.uto, 0.0F).method_39415(this.uts);
+   @Override
+   public void setupVertices(VertexConsumer vertices) {
+      vertices.vertex(this.uth, this.uti, 0.0F).color(this.utp);
+      vertices.vertex(this.utj, this.utk, 0.0F).color(this.utq);
+      vertices.vertex(this.utl, this.utm, 0.0F).color(this.utr);
+      vertices.vertex(this.utn, this.uto, 0.0F).color(this.uts);
    }
 
-   public RenderPipeline comp_4055() {
+   @Override
+   public RenderPipeline pipeline() {
       return this.utg;
    }
 
@@ -139,13 +140,13 @@ record utf(
       return this.uts;
    }
 
-   @Nullable
-   public ScreenRect comp_4069() {
+   @Override
+   public @Nullable ScreenRect scissorArea() {
       return this.utt;
    }
 
-   @Nullable
-   public ScreenRect comp_4274() {
+   @Override
+   public @Nullable ScreenRect bounds() {
       return this.utu;
    }
 }

@@ -68,12 +68,12 @@ public class riv extends kfe {
 
    @Override
    public void onWorldRenderLate(MinecraftClient var1) {
-      Camera var2 = var1.field_1773.method_19418();
-      if (var1.field_1687 != null && var2.method_19332()) {
+      Camera var2 = var1.gameRenderer.getCamera();
+      if (var1.world != null && var2.isReady()) {
          long var3 = System.nanoTime();
-         Quaternionf var5 = var2.method_23767();
-         Vec3d var6 = var2.method_71156();
-         if (this.rjn != null && this.rjo == var1.field_1687 && var3 - this.rjp <= 250000000L) {
+         Quaternionf var5 = var2.getRotation();
+         Vec3d var6 = var2.getCameraPos();
+         if (this.rjn != null && this.rjo == var1.world && var3 - this.rjp <= 250000000L) {
             float var7 = (float)(var3 - this.rjp) / 1.0E9F;
             if (!(var7 < 1.0E-4F)) {
                this.rjp = var3;
@@ -107,10 +107,9 @@ public class riv extends kfe {
 
                   this.rjh.rotation(var5);
                   this.rji.rotation(this.rjg.conjugate());
-                  String var21 = this.rjc.get();
                   byte var19;
                   float var20;
-                  switch (var21) {
+                  switch (this.rjc.get()) {
                      case "Низкое":
                         var19 = 6;
                         var20 = 0.75F;
@@ -135,7 +134,7 @@ public class riv extends kfe {
             this.rjv();
             this.rje.set(var5);
             this.rjn = var6;
-            this.rjo = var1.field_1687;
+            this.rjo = var1.world;
             this.rjp = var3;
          }
       } else {
@@ -153,7 +152,7 @@ public class riv extends kfe {
       float var4 = (float)Math.sqrt(this.rjf.x * this.rjf.x + this.rjf.y * this.rjf.y + this.rjf.z * this.rjf.z);
       float var5 = 2.0F * (float)Math.atan2(var4, this.rjf.w);
       float var6 = (var4 > 1.0E-7F ? var5 / var4 : 2.0F) / var3;
-      double var7 = var2.method_1022(this.rjn);
+      double var7 = var2.distanceTo(this.rjn);
       float var9 = 1.0F - (float)Math.exp(-2.0F * var3 / (0.015F + 0.05F * (float)this.rja.get()));
       if (var5 < 2.2F) {
          rjx(this.rjj, this.rjk, this.rjf.x * var6, this.rjf.y * var6, this.rjf.z * var6, var9);
@@ -163,14 +162,7 @@ public class riv extends kfe {
          Arrays.fill(this.rjl, 0.0F);
          Arrays.fill(this.rjm, 0.0F);
       } else {
-         rjx(
-            this.rjl,
-            this.rjm,
-            (float)(var2.field_1352 - this.rjn.field_1352) / var3,
-            (float)(var2.field_1351 - this.rjn.field_1351) / var3,
-            (float)(var2.field_1350 - this.rjn.field_1350) / var3,
-            var9
-         );
+         rjx(this.rjl, this.rjm, (float)(var2.x - this.rjn.x) / var3, (float)(var2.y - this.rjn.y) / var3, (float)(var2.z - this.rjn.z) / var3, var9);
       }
 
       this.rje.set(var1);

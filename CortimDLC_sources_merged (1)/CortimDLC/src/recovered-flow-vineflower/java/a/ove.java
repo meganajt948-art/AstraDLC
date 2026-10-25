@@ -6,25 +6,29 @@ import net.minecraft.world.World;
 
 final class ove extends MarkerEntity {
    ove(ovh var1, World var2) {
-      super(EntityType.field_33456, var2);
+      super(EntityType.MARKER, var2);
       this.this$0 = var1;
    }
 
-   public float method_5705(float var1) {
+   @Override
+   public float getYaw(float tickProgress) {
       this.this$0.owj();
       return this.this$0.ovx;
    }
 
-   public float method_5695(float var1) {
+   @Override
+   public float getPitch(float tickProgress) {
       this.this$0.owj();
       return this.this$0.ovy;
    }
 
-   public float method_36454() {
+   @Override
+   public float getYaw() {
       return this.this$0.ovx;
    }
 
-   public float method_36455() {
+   @Override
+   public float getPitch() {
       return this.this$0.ovy;
    }
 }

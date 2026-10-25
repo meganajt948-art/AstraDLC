@@ -95,7 +95,7 @@ public final class Cosmetics {
    private static boolean inWorld;
    private static long lastFrame;
    private static float frameDt;
-   private static Vec3d camPos = Vec3d.field_1353;
+   private static Vec3d camPos = Vec3d.ZERO;
    private static int version;
    private static Map<String, CosmeticItem> localWorn = Map.of();
    private static int localVersion = -1;
@@ -212,26 +212,26 @@ public final class Cosmetics {
          Map<String, CosmeticItem> cached = PARSED.get(code);
          if (cached != null) {
             return cached;
-         } else {
-            Map<String, CosmeticItem> out = new LinkedHashMap<>();
+         }
 
-            for (String part : code.split(",")) {
-               int colon = part.indexOf(58);
-               if (colon > 0) {
-                  CosmeticItem it = get(part.substring(colon + 1).trim());
-                  if (it != null && it.slot.equals(part.substring(0, colon).trim())) {
-                     out.put(it.slot, it);
-                  }
+         Map<String, CosmeticItem> out = new LinkedHashMap<>();
+
+         for (String part : code.split(",")) {
+            int colon = part.indexOf(58);
+            if (colon > 0) {
+               CosmeticItem it = get(part.substring(colon + 1).trim());
+               if (it != null && it.slot.equals(part.substring(0, colon).trim())) {
+                  out.put(it.slot, it);
                }
             }
-
-            if (PARSED.size() > 64) {
-               PARSED.clear();
-            }
-
-            PARSED.put(code, out);
-            return out;
          }
+
+         if (PARSED.size() > 64) {
+            PARSED.clear();
+         }
+
+         PARSED.put(code, out);
+         return out;
       } else {
          return Map.of();
       }
@@ -259,18 +259,15 @@ public final class Cosmetics {
    public static void install() {
       if (!installed) {
          installed = true;
-         LivingEntityFeatureRendererRegistrationCallback.EVENT
-            .register(
-               (LivingEntityFeatureRendererRegistrationCallback)(type, renderer, helper, context) -> {
-                  if (renderer instanceof PlayerEntityRenderer) {
-                     FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> ctx = (FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel>)renderer;
-                     CosmeticFeature lead = new CosmeticFeature(ctx, true);
-                     helper.register(lead);
-                     helper.register(new CosmeticFeature(ctx, false));
-                     lead(renderer, lead);
-                  }
-               }
-            );
+         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((LivingEntityFeatureRendererRegistrationCallback)(type, renderer, helper, context) -> {
+            if (renderer instanceof PlayerEntityRenderer) {
+               FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> ctx = renderer;
+               CosmeticFeature lead = new CosmeticFeature(ctx, true);
+               helper.register(lead);
+               helper.register(new CosmeticFeature(ctx, false));
+               lead(renderer, lead);
+            }
+         });
          LivingEntityFeatureRenderEvents.ALLOW_CAPE_RENDER.register((AllowCapeRender)state -> !hidesVanillaCape(state));
          WorldRenderEvents.BEFORE_ENTITIES.register(Cosmetics::beforeEntities);
          WorldRenderEvents.AFTER_ENTITIES.register((AfterEntities)context -> inWorld = false);
@@ -292,9 +289,9 @@ public final class Cosmetics {
    }
 
    private static void guiBegin() {
-      MinecraftClient mc = MinecraftClient.method_1551();
-      if (ENABLED.get() && mc.field_1724 != null) {
-         Motion m = MOTIONS.get(mc.field_1724.method_5628());
+      MinecraftClient mc = MinecraftClient.getInstance();
+      if (ENABLED.get() && mc.player != null) {
+         Motion m = MOTIONS.get(mc.player.getId());
          if (m != null) {
             VIDEO_SEEN.clear();
             refreshVideos(m.worn);
@@ -302,8 +299,8 @@ public final class Cosmetics {
 
          if (m != null && m.worn.containsKey("avatar")) {
             guiPending = true;
-            if (!mc.field_1724.method_5767()) {
-               mc.field_1724.method_5648(true);
+            if (!mc.player.isInvisible()) {
+               mc.player.setInvisible(true);
                guiFlip = true;
             }
          }
@@ -311,9 +308,9 @@ public final class Cosmetics {
    }
 
    private static void guiEnd() {
-      MinecraftClient mc = MinecraftClient.method_1551();
-      if (guiFlip && mc.field_1724 != null) {
-         mc.field_1724.method_5648(false);
+      MinecraftClient mc = MinecraftClient.getInstance();
+      if (guiFlip && mc.player != null) {
+         mc.player.setInvisible(false);
       }
 
       guiFlip = false;
@@ -322,10 +319,10 @@ public final class Cosmetics {
    public static boolean wears(int id) {
       if (!ENABLED.get()) {
          return false;
-      } else {
-         Motion m = MOTIONS.get(id);
-         return m != null && !m.worn.isEmpty();
       }
+
+      Motion m = MOTIONS.get(id);
+      return m != null && !m.worn.isEmpty();
    }
 
    public static boolean hidesBody(EntityRenderState state) {
@@ -335,18 +332,18 @@ public final class Cosmetics {
    public static void afterExtraction(WorldRenderState world) {
       HIDDEN.clear();
       if (ENABLED.get()) {
-         for (EntityRenderState s : world.field_61735) {
+         for (EntityRenderState s : world.entityRenderStates) {
             if (s instanceof PlayerEntityRenderState ps) {
-               Motion m = MOTIONS.get(ps.field_53528);
+               Motion m = MOTIONS.get(ps.id);
                if (m != null && m.worn.containsKey("avatar")) {
-                  ps.field_53333 = true;
-                  ps.field_53461 = true;
-                  ps.field_53532 = false;
-                  ps.field_55309 = ItemStack.field_8037;
-                  ps.field_53418 = ItemStack.field_8037;
-                  ps.field_53419 = ItemStack.field_8037;
-                  ps.field_53420 = ItemStack.field_8037;
-                  ps.field_53467.method_65605();
+                  ps.invisible = true;
+                  ps.invisibleToPlayer = true;
+                  ps.capeVisible = false;
+                  ps.equippedHeadStack = ItemStack.EMPTY;
+                  ps.equippedChestStack = ItemStack.EMPTY;
+                  ps.equippedLegsStack = ItemStack.EMPTY;
+                  ps.equippedFeetStack = ItemStack.EMPTY;
+                  ps.headItemRenderState.clear();
                   HIDDEN.add(ps);
                }
             }
@@ -355,13 +352,13 @@ public final class Cosmetics {
    }
 
    private static void endTick(MinecraftClient mc) {
-      if (!reloaded && mc.field_1687 != null) {
+      if (!reloaded && mc.world != null) {
          reloaded = true;
 
          try {
-            mc.method_1561().method_14491(mc.method_1478());
-         } catch (Throwable var2) {
-            System.out.println("cosmetics renderer reload failed: " + var2);
+            mc.getEntityRenderDispatcher().reload(mc.getResourceManager());
+         } catch (Throwable t) {
+            System.out.println("cosmetics renderer reload failed: " + t);
          }
       }
    }
@@ -369,10 +366,10 @@ public final class Cosmetics {
    private static boolean hidesVanillaCape(PlayerEntityRenderState state) {
       if (!ENABLED.get()) {
          return false;
-      } else {
-         Motion m = MOTIONS.get(state.field_53528);
-         return m != null && m.worn.containsKey("cape");
       }
+
+      Motion m = MOTIONS.get(state.id);
+      return m != null && m.worn.containsKey("cape");
    }
 
    private static float seconds() {
@@ -406,35 +403,37 @@ public final class Cosmetics {
       boolean blink = DRIVE.blink;
       boolean live = it.videoTexture != null && it.videoTexture.live();
       if (CosmeticMesh.hasSolid(it)) {
-         queue.method_73483(
+         queue.submitCustom(
             matrices,
-            RenderLayers.method_75994(it.albedo),
+            RenderLayers.entityCutoutNoCull(it.albedo),
             (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 0, light, -1, frame, part, blink, live)
          );
       }
 
       if (live) {
-         int vl = LightmapTextureManager.method_23687(Math.max(LightmapTextureManager.method_24186(light), 11), LightmapTextureManager.method_24187(light));
-         queue.method_73483(
-            matrices, RenderLayers.method_75994(it.videoId), (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 3, vl, -1, frame, part, blink, true)
+         int vl = LightmapTextureManager.pack(
+            Math.max(LightmapTextureManager.getBlockLightCoordinates(light), 11), LightmapTextureManager.getSkyLightCoordinates(light)
+         );
+         queue.submitCustom(
+            matrices,
+            RenderLayers.entityCutoutNoCull(it.videoId),
+            (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 3, vl, -1, frame, part, blink, true)
          );
       }
 
       if (CosmeticMesh.hasGlass(it)) {
-         queue.method_73483(
-            matrices, RenderLayers.method_76000(it.albedo), (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 1, light, -1, frame, part, blink)
+         queue.submitCustom(
+            matrices, RenderLayers.entityTranslucent(it.albedo), (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 1, light, -1, frame, part, blink)
          );
       }
 
       if (it.emissive != null) {
          int color = glowColor(it, t);
-         queue.method_73483(
-            matrices,
-            RenderLayers.method_76014(it.emissive),
-            (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 2, 15728880, color, frame, part, blink)
+         queue.submitCustom(
+            matrices, RenderLayers.eyes(it.emissive), (entry, vc) -> CosmeticMesh.emit(it, bones, base, entry, vc, 2, 15728880, color, frame, part, blink)
          );
          if (world && CosmeticGlow.active()) {
-            CosmeticGlow.add(it, bones, new Matrix4f(matrices.method_23760().method_23761()).mul(base), color, frame, part, blink);
+            CosmeticGlow.add(it, bones, new Matrix4f(matrices.peek().getPositionMatrix()).mul(base), color, frame, part, blink);
          }
       }
    }
@@ -452,16 +451,16 @@ public final class Cosmetics {
    ) {
       CosmeticLoader.ensureTextures(it);
       if (it.loaded) {
-         DRIVE.legL = model.field_3397.field_3654;
-         DRIVE.legR = model.field_3392.field_3654;
-         DRIVE.hurt = state.field_53460;
-         DRIVE.wAttack = state.field_63604 > 0.0F ? MathHelper.method_15374(state.field_63604 * (float) Math.PI) : 0.0F;
+         DRIVE.legL = model.leftLeg.pitch;
+         DRIVE.legR = model.rightLeg.pitch;
+         DRIVE.hurt = state.hurt;
+         DRIVE.wAttack = state.handSwingProgress > 0.0F ? MathHelper.sin(state.handSwingProgress * (float) Math.PI) : 0.0F;
          Matrix4f[] bones = CosmeticMesh.pose(it, DRIVE);
-         ModelPart[] parts = new ModelPart[]{model.field_3398, model.field_3391, model.field_3401, model.field_27433, model.field_3392, model.field_3397};
+         ModelPart[] parts = new ModelPart[]{model.head, model.body, model.rightArm, model.leftArm, model.rightLeg, model.leftLeg};
 
          for (int p = 0; p < parts.length; p++) {
             if (hasPart(it, p)) {
-               matrices.method_22903();
+               matrices.push();
                partTransform(matrices, parts[p], it.partPivots != null ? it.partPivots[p] : null, p >= 4 ? stride(it, p) : 1.0F);
                submit(it, bones, MODEL_BASE, matrices, queue, light, t, world, p);
                if (world && PARTICLES.get() && it.emitters.length > 0) {
@@ -469,14 +468,14 @@ public final class Cosmetics {
                      motion,
                      it,
                      bones,
-                     new Matrix4f(matrices.method_23760().method_23761()).mul(MODEL_BASE),
+                     new Matrix4f(matrices.peek().getPositionMatrix()).mul(MODEL_BASE),
                      camPos,
-                     (float)Math.toRadians(180.0F - state.field_53446),
+                     (float)Math.toRadians(180.0F - state.bodyYaw),
                      p
                   );
                }
 
-               matrices.method_22909();
+               matrices.pop();
             }
          }
 
@@ -497,7 +496,7 @@ public final class Cosmetics {
                return;
             }
          }
-      } catch (RuntimeException | ReflectiveOperationException var7) {
+      } catch (ReflectiveOperationException | RuntimeException var7) {
       }
    }
 
@@ -505,25 +504,25 @@ public final class Cosmetics {
       for (int p = 2; p <= 3; p++) {
          float[] h = handOf(it, p);
          if (h != null) {
-            ModelPart mp = p == 2 ? model.field_3401 : model.field_27433;
-            Arm arm = p == 2 ? Arm.field_6183 : Arm.field_6182;
+            ModelPart mp = p == 2 ? model.rightArm : model.leftArm;
+            Arm arm = p == 2 ? Arm.RIGHT : Arm.LEFT;
             MatrixStack ms = new MatrixStack();
             partTransform(ms, mp, it.partPivots != null ? it.partPivots[p] : null);
-            Vector3f target = new Matrix4f(ms.method_23760().method_23761()).mul(MODEL_BASE).transformPosition(h[0], h[1], h[2], new Vector3f());
+            Vector3f target = new Matrix4f(ms.peek().getPositionMatrix()).mul(MODEL_BASE).transformPosition(h[0], h[1], h[2], new Vector3f());
             ms = new MatrixStack();
-            model.method_72859(state, arm, ms);
-            ms.method_22907(RotationAxis.field_40714.rotationDegrees(-90.0F));
-            ms.method_22907(RotationAxis.field_40716.rotationDegrees(180.0F));
-            ms.method_46416((arm == Arm.field_6182 ? -1.0F : 1.0F) / 16.0F, 0.125F, -0.625F);
-            Vector3f cur = ms.method_23760().method_23761().transformPosition(0.0F, 0.0F, 0.0F, new Vector3f());
+            model.setArmAngle(state, arm, ms);
+            ms.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-90.0F));
+            ms.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F));
+            ms.translate((arm == Arm.LEFT ? -1.0F : 1.0F) / 16.0F, 0.125F, -0.625F);
+            Vector3f cur = ms.peek().getPositionMatrix().transformPosition(0.0F, 0.0F, 0.0F, new Vector3f());
             int k = p - 2;
             SHIFTED[k] = mp;
-            SHIFT_ORIGIN[k * 3] = mp.field_3657;
-            SHIFT_ORIGIN[k * 3 + 1] = mp.field_3656;
-            SHIFT_ORIGIN[k * 3 + 2] = mp.field_3655;
-            mp.field_3657 = mp.field_3657 + (target.x - cur.x) * 16.0F;
-            mp.field_3656 = mp.field_3656 + (target.y - cur.y) * 16.0F;
-            mp.field_3655 = mp.field_3655 + (target.z - cur.z) * 16.0F;
+            SHIFT_ORIGIN[k * 3] = mp.originX;
+            SHIFT_ORIGIN[k * 3 + 1] = mp.originY;
+            SHIFT_ORIGIN[k * 3 + 2] = mp.originZ;
+            mp.originX = mp.originX + (target.x - cur.x) * 16.0F;
+            mp.originY = mp.originY + (target.y - cur.y) * 16.0F;
+            mp.originZ = mp.originZ + (target.z - cur.z) * 16.0F;
          }
       }
    }
@@ -532,9 +531,9 @@ public final class Cosmetics {
       for (int k = 0; k < SHIFTED.length; k++) {
          ModelPart mp = SHIFTED[k];
          if (mp != null) {
-            mp.field_3657 = SHIFT_ORIGIN[k * 3];
-            mp.field_3656 = SHIFT_ORIGIN[k * 3 + 1];
-            mp.field_3655 = SHIFT_ORIGIN[k * 3 + 2];
+            mp.originX = SHIFT_ORIGIN[k * 3];
+            mp.originY = SHIFT_ORIGIN[k * 3 + 1];
+            mp.originZ = SHIFT_ORIGIN[k * 3 + 2];
             SHIFTED[k] = null;
          }
       }
@@ -556,32 +555,32 @@ public final class Cosmetics {
       float minY = lowest(it, rest, part);
       if (minY == Float.MAX_VALUE) {
          return null;
-      } else {
-         float x0 = Float.MAX_VALUE;
-         float x1 = -Float.MAX_VALUE;
-         float z0 = Float.MAX_VALUE;
-         Vector3f p = new Vector3f();
+      }
 
-         for (int i = 0; i < it.bones.length; i++) {
-            CosmeticItem.Bone b = it.bones[i];
-            if (b.part == part) {
-               for (float[] v : new float[][]{b.solid, b.glass}) {
-                  if (v != null) {
-                     for (int k = 0; k + 7 < v.length; k += 8) {
-                        rest[i].transformPosition(v[k], v[k + 1], v[k + 2], p);
-                        if (p.y < minY + 3.0F) {
-                           x0 = Math.min(x0, p.x);
-                           x1 = Math.max(x1, p.x);
-                           z0 = Math.min(z0, p.z);
-                        }
+      float x0 = Float.MAX_VALUE;
+      float x1 = -Float.MAX_VALUE;
+      float z0 = Float.MAX_VALUE;
+      Vector3f p = new Vector3f();
+
+      for (int i = 0; i < it.bones.length; i++) {
+         CosmeticItem.Bone b = it.bones[i];
+         if (b.part == part) {
+            for (float[] v : new float[][]{b.solid, b.glass}) {
+               if (v != null) {
+                  for (int k = 0; k + 7 < v.length; k += 8) {
+                     rest[i].transformPosition(v[k], v[k + 1], v[k + 2], p);
+                     if (p.y < minY + 3.0F) {
+                        x0 = Math.min(x0, p.x);
+                        x1 = Math.max(x1, p.x);
+                        z0 = Math.min(z0, p.z);
                      }
                   }
                }
             }
          }
-
-         return new float[]{(x0 + x1) / 2.0F, minY, z0};
       }
+
+      return new float[]{(x0 + x1) / 2.0F, minY, z0};
    }
 
    private static boolean hasPart(CosmeticItem it, int part) {
@@ -637,30 +636,28 @@ public final class Cosmetics {
    }
 
    private static void partTransform(MatrixStack matrices, ModelPart mp, float[] pivot, float stride) {
-      ModelTransform def = mp.method_41921();
-      float ax = pivot != null ? -pivot[0] : def.comp_2997();
-      float ay = pivot != null ? 24.0F - pivot[1] : def.comp_2998();
-      float az = pivot != null ? pivot[2] : def.comp_2999();
-      matrices.method_46416(
-         (ax + mp.field_3657 - def.comp_2997()) / 16.0F, (ay + mp.field_3656 - def.comp_2998()) / 16.0F, (az + mp.field_3655 - def.comp_2999()) / 16.0F
-      );
-      if (mp.field_3654 != 0.0F || mp.field_3675 != 0.0F || mp.field_3674 != 0.0F) {
-         matrices.method_22907(new Quaternionf().rotationZYX(mp.field_3674, mp.field_3675, mp.field_3654 * stride));
+      ModelTransform def = mp.getDefaultTransform();
+      float ax = pivot != null ? -pivot[0] : def.x();
+      float ay = pivot != null ? 24.0F - pivot[1] : def.y();
+      float az = pivot != null ? pivot[2] : def.z();
+      matrices.translate((ax + mp.originX - def.x()) / 16.0F, (ay + mp.originY - def.y()) / 16.0F, (az + mp.originZ - def.z()) / 16.0F);
+      if (mp.pitch != 0.0F || mp.yaw != 0.0F || mp.roll != 0.0F) {
+         matrices.multiply(new Quaternionf().rotationZYX(mp.roll, mp.yaw, mp.pitch * stride));
       }
 
-      if (mp.field_37938 != 1.0F || mp.field_37939 != 1.0F || mp.field_37940 != 1.0F) {
-         matrices.method_22905(mp.field_37938, mp.field_37939, mp.field_37940);
+      if (mp.xScale != 1.0F || mp.yScale != 1.0F || mp.zScale != 1.0F) {
+         matrices.scale(mp.xScale, mp.yScale, mp.zScale);
       }
 
-      matrices.method_46416(-ax / 16.0F, -ay / 16.0F, -az / 16.0F);
+      matrices.translate(-ax / 16.0F, -ay / 16.0F, -az / 16.0F);
    }
 
    static void renderWorn(PlayerEntityModel model, MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state) {
       if (ENABLED.get() && !rqv.isFadedBody(state)) {
-         Motion motion = MOTIONS.get(state.field_53528);
+         Motion motion = MOTIONS.get(state.id);
          if (motion != null && !motion.worn.isEmpty()) {
-            MinecraftClient mc = MinecraftClient.method_1551();
-            boolean hidden = HIDDEN.contains(state) || !inWorld && guiPending && mc.field_1724 != null && state.field_53528 == mc.field_1724.method_5628();
+            MinecraftClient mc = MinecraftClient.getInstance();
+            boolean hidden = HIDDEN.contains(state) || !inWorld && guiPending && mc.player != null && state.id == mc.player.getId();
             float t = seconds();
             CosmeticMesh.Drive d = DRIVE;
             motion.body(d);
@@ -676,20 +673,20 @@ public final class Cosmetics {
                if (it != null
                   && !it.isPet()
                   && !it.isAvatar()
-                  && (!"wings".equals(slot) || state.field_53418 == null || !state.field_53418.method_31574(Items.field_8833))) {
+                  && (!"wings".equals(slot) || state.equippedChestStack == null || !state.equippedChestStack.isOf(Items.ELYTRA))) {
                   CosmeticLoader.ensureTextures(it);
                   if (it.loaded) {
                      d.cape = it.isCape() ? new float[]{-(6.0F + state.field_53537 / 2.0F + state.field_53536), 0.0F, state.field_53538 / 2.0F} : null;
                      Matrix4f[] bones = CosmeticMesh.pose(it, d);
-                     matrices.method_22903();
-                     if (it.isCape() && state.field_53418 != null && !state.field_53418.method_7960()) {
-                        matrices.method_46416(0.0F, -0.053125F, 0.06875F);
+                     matrices.push();
+                     if (it.isCape() && state.equippedChestStack != null && !state.equippedChestStack.isEmpty()) {
+                        matrices.translate(0.0F, -0.053125F, 0.06875F);
                      }
 
                      Matrix4f base = MODEL_BASE;
                      if (fitTo != null) {
                         int p = it.onHead() ? 0 : 1;
-                        partTransform(matrices, p == 0 ? model.field_3398 : model.field_3391, fitTo.partPivots != null ? fitTo.partPivots[p] : null);
+                        partTransform(matrices, p == 0 ? model.head : model.body, fitTo.partPivots != null ? fitTo.partPivots[p] : null);
                         float[] f = p == 0 ? fitTo.headFit : fitTo.backFit;
                         if (f != null) {
                            base = new Matrix4f(MODEL_BASE)
@@ -703,7 +700,7 @@ public final class Cosmetics {
                               );
                         }
                      } else {
-                        (it.onHead() ? model.field_3398 : model.field_3391).method_22703(matrices);
+                        (it.onHead() ? model.head : model.body).applyTransform(matrices);
                      }
 
                      submit(it, bones, base, matrices, queue, light, t, inWorld);
@@ -712,14 +709,14 @@ public final class Cosmetics {
                            motion,
                            it,
                            bones,
-                           new Matrix4f(matrices.method_23760().method_23761()).mul(base),
+                           new Matrix4f(matrices.peek().getPositionMatrix()).mul(base),
                            camPos,
-                           (float)Math.toRadians(180.0F - state.field_53446),
+                           (float)Math.toRadians(180.0F - state.bodyYaw),
                            -2
                         );
                      }
 
-                     matrices.method_22909();
+                     matrices.pop();
                   }
                }
             }
@@ -740,7 +737,7 @@ public final class Cosmetics {
 
                while (acc >= 1.0F) {
                   acc--;
-                  CosmeticParticles.spawn(em, origin.field_1352 + p.x, origin.field_1351 + p.y, origin.field_1350 + p.z, yaw);
+                  CosmeticParticles.spawn(em, origin.x + p.x, origin.y + p.y, origin.z + p.z, yaw);
                }
             }
 
@@ -750,25 +747,25 @@ public final class Cosmetics {
    }
 
    private static Map<String, CosmeticItem> wornOf(MinecraftClient mc, PlayerEntity p) {
-      if (p != mc.field_1724) {
-         return PARTY.get() && ucg.inParty() ? parse(ucg.cosmeticsOf(p.method_7334().name())) : Map.of();
-      } else {
-         if (localVersion != version) {
-            Map<String, CosmeticItem> map = new LinkedHashMap<>();
+      if (p != mc.player) {
+         return PARTY.get() && ucg.inParty() ? parse(ucg.cosmeticsOf(p.getGameProfile().name())) : Map.of();
+      }
 
-            for (String slot : CosmeticItem.SLOTS) {
-               CosmeticItem it = worn(slot);
-               if (it != null) {
-                  map.put(slot, it);
-               }
+      if (localVersion != version) {
+         Map<String, CosmeticItem> map = new LinkedHashMap<>();
+
+         for (String slot : CosmeticItem.SLOTS) {
+            CosmeticItem it = worn(slot);
+            if (it != null) {
+               map.put(slot, it);
             }
-
-            localWorn = map;
-            localVersion = version;
          }
 
-         return localWorn;
+         localWorn = map;
+         localVersion = version;
       }
+
+      return localWorn;
    }
 
    private static void beforeEntities(WorldRenderContext context) {
@@ -778,22 +775,22 @@ public final class Cosmetics {
       frameDt = lastFrame == 0L ? 0.0F : Math.min(0.1F, (float)(now - lastFrame) / 1.0E9F);
       lastFrame = now;
       CosmeticGlow.begin();
-      MinecraftClient mc = MinecraftClient.method_1551();
-      Camera camera = mc.field_1773.method_19418();
-      camPos = camera.method_71156();
+      MinecraftClient mc = MinecraftClient.getInstance();
+      Camera camera = mc.gameRenderer.getCamera();
+      camPos = camera.getCameraPos();
       CosmeticParticles.step(frameDt);
 
       try {
          VIDEO_SEEN.clear();
-         if (ENABLED.get() && mc.field_1724 != null && mc.field_1687 != null) {
-            float td = mc.method_61966().method_60637(true);
+         if (ENABLED.get() && mc.player != null && mc.world != null) {
+            float td = mc.getRenderTickCounter().getTickProgress(true);
 
-            for (AbstractClientPlayerEntity p : mc.field_1687.method_18456()) {
-               boolean local = p == mc.field_1724;
-               if (local || !(p.method_5707(camPos) > 9216.0)) {
+            for (AbstractClientPlayerEntity p : mc.world.getPlayers()) {
+               boolean local = p == mc.player;
+               if (local || !(p.squaredDistanceTo(camPos) > 9216.0)) {
                   Map<String, CosmeticItem> worn = wornOf(mc, p);
                   if (!worn.isEmpty()) {
-                     Motion m = MOTIONS.computeIfAbsent(p.method_5628(), Motion::new);
+                     Motion m = MOTIONS.computeIfAbsent(p.getId(), Motion::new);
                      m.worn = worn;
                      m.seen = now;
                      m.update(p, td, frameDt, local);
@@ -809,29 +806,29 @@ public final class Cosmetics {
 
          MOTIONS.values().removeIf(mx -> now - mx.seen > 2000000000L);
          if (PARTICLES.get()) {
-            CosmeticParticles.render(context.matrices(), context.commandQueue(), camPos, camera.method_23767());
+            CosmeticParticles.render(context.matrices(), context.commandQueue(), camPos, camera.getRotation());
          } else {
             CosmeticParticles.clear();
          }
-      } catch (Throwable var12) {
-         System.out.println("cosmetics world pass failed: " + var12);
+      } catch (Throwable t) {
+         System.out.println("cosmetics world pass failed: " + t);
       }
    }
 
    private static int petLight(MinecraftClient mc, Motion m, PlayerEntity owner) {
-      World w = mc.field_1687;
+      World w = mc.world;
       int sky = 0;
       int block = 0;
       BlockPos[] at = new BlockPos[]{
-         BlockPos.method_49637(m.petPos.field_1352, m.petPos.field_1351 + 0.25, m.petPos.field_1350),
-         BlockPos.method_49637(m.petPos.field_1352, m.petPos.field_1351 + 0.9, m.petPos.field_1350),
-         BlockPos.method_49637(owner.method_23317(), owner.method_23320(), owner.method_23321())
+         BlockPos.ofFloored(m.petPos.x, m.petPos.y + 0.25, m.petPos.z),
+         BlockPos.ofFloored(m.petPos.x, m.petPos.y + 0.9, m.petPos.z),
+         BlockPos.ofFloored(owner.getX(), owner.getEyeY(), owner.getZ())
       };
 
       for (BlockPos pos : at) {
-         int packed = WorldRenderer.method_23794(w, pos);
-         sky = Math.max(sky, LightmapTextureManager.method_24187(packed));
-         block = Math.max(block, LightmapTextureManager.method_24186(packed));
+         int packed = WorldRenderer.getLightmapCoordinates(w, pos);
+         sky = Math.max(sky, LightmapTextureManager.getSkyLightCoordinates(packed));
+         block = Math.max(block, LightmapTextureManager.getBlockLightCoordinates(packed));
       }
 
       if (m.petSky < 0.0F) {
@@ -855,31 +852,31 @@ public final class Cosmetics {
       double side = pet.anchor[0] >= 0.0F ? 1.0 : -1.0;
       double rx = -fz * side;
       double rz = fx * side;
-      double sx = pp.field_1352 + rx * 0.85 - fx * 0.9;
-      double sz = pp.field_1350 + rz * 0.85 - fz * 0.9;
+      double sx = pp.x + rx * 0.85 - fx * 0.9;
+      double sz = pp.z + rz * 0.85 - fz * 0.9;
       double x = sx;
       double z = sz;
-      if (m.petPos != null && m.petWorld == mc.field_1687) {
-         double hd = Math.hypot(m.petPos.field_1352 - pp.field_1352, m.petPos.field_1350 - pp.field_1350);
+      if (m.petPos != null && m.petWorld == mc.world) {
+         double hd = Math.hypot(m.petPos.x - pp.x, m.petPos.z - pp.z);
          if (hd > 2.3 || hd < 0.55) {
             m.petRun = true;
-         } else if (m.petRun && Math.hypot(m.petPos.field_1352 - sx, m.petPos.field_1350 - sz) < 0.3) {
+         } else if (m.petRun && Math.hypot(m.petPos.x - sx, m.petPos.z - sz) < 0.3) {
             m.petRun = false;
          }
 
          if (!m.petRun) {
-            x = m.petPos.field_1352;
-            z = m.petPos.field_1350;
+            x = m.petPos.x;
+            z = m.petPos.z;
          }
       }
 
-      return new Vec3d(x, groundY(mc, player, x, pp.field_1351, z) - petFoot(pet) / 16.0F, z);
+      return new Vec3d(x, groundY(mc, player, x, pp.y, z) - petFoot(pet) / 16.0F, z);
    }
 
    private static double groundY(MinecraftClient mc, PlayerEntity player, double x, double y, double z) {
-      BlockHitResult hit = mc.field_1687
-         .method_17742(new RaycastContext(new Vec3d(x, y + 1.2, z), new Vec3d(x, y - 4.0, z), ShapeType.field_17558, FluidHandling.field_1348, player));
-      return hit.method_17783() == Type.field_1333 ? y : hit.method_17784().field_1351;
+      BlockHitResult hit = mc.world
+         .raycast(new RaycastContext(new Vec3d(x, y + 1.2, z), new Vec3d(x, y - 4.0, z), ShapeType.COLLIDER, FluidHandling.NONE, player));
+      return hit.getType() == Type.MISS ? y : hit.getPos().y;
    }
 
    private static float petFoot(CosmeticItem pet) {
@@ -907,22 +904,22 @@ public final class Cosmetics {
    }
 
    static void follow(Motion m, Vec3d target, float dt, boolean walking) {
-      double dist = m.petPos.method_1022(target);
+      double dist = m.petPos.distanceTo(target);
       double w = walking ? (Math.PI * 2) * (0.5 + 0.3 * Math.min(dist, 5.0)) : (Math.PI * 2) * (1.35 + 0.4 * Math.min(dist, 4.0));
       double zeta = walking ? 0.95 : 0.66;
       int steps = Math.max(1, (int)Math.ceil(dt / 0.008F));
       double h = dt / steps;
-      double x = m.petPos.field_1352;
-      double y = m.petPos.field_1351;
-      double z = m.petPos.field_1350;
-      double vx = m.petVel.field_1352;
-      double vy = m.petVel.field_1351;
-      double vz = m.petVel.field_1350;
+      double x = m.petPos.x;
+      double y = m.petPos.y;
+      double z = m.petPos.z;
+      double vx = m.petVel.x;
+      double vy = m.petVel.y;
+      double vz = m.petVel.z;
 
       for (int k = 0; k < steps; k++) {
-         vx += (w * w * (target.field_1352 - x) - 2.0 * zeta * w * vx) * h;
-         vy += (w * w * (target.field_1351 - y) - 2.0 * zeta * w * vy) * h;
-         vz += (w * w * (target.field_1350 - z) - 2.0 * zeta * w * vz) * h;
+         vx += (w * w * (target.x - x) - 2.0 * zeta * w * vx) * h;
+         vy += (w * w * (target.y - y) - 2.0 * zeta * w * vy) * h;
+         vz += (w * w * (target.z - z) - 2.0 * zeta * w * vz) * h;
          x += vx * h;
          y += vy * h;
          z += vz * h;
@@ -933,18 +930,18 @@ public final class Cosmetics {
    }
 
    private static void pet(WorldRenderContext context, MinecraftClient mc, PlayerEntity player, Motion m, CosmeticItem pet, float td, boolean local) {
-      if (!player.method_7325() && pet.anchor != null) {
+      if (!player.isSpectator() && pet.anchor != null) {
          CosmeticLoader.ensureTextures(pet);
          if (pet.loaded) {
-            Vec3d pp = player.method_30950(td);
-            boolean firstPerson = local && mc.field_1690.method_31044().method_31034();
-            float yaw = firstPerson ? MathHelper.method_17821(td, player.field_5982, player.method_36454()) : m.bodyYaw;
+            Vec3d pp = player.getLerpedPos(td);
+            boolean firstPerson = local && mc.options.getPerspective().isFirstPerson();
+            float yaw = firstPerson ? MathHelper.lerpAngleDegrees(td, player.lastYaw, player.getYaw()) : m.bodyYaw;
             float t = seconds();
             boolean walking = PET_MODE.is("Follow")
-               && !player.method_31549().field_7479
-               && !player.method_6128()
-               && !player.method_5799()
-               && !player.method_5765();
+               && !player.getAbilities().flying
+               && !player.isGliding()
+               && !player.isTouchingWater()
+               && !player.hasVehicle();
             Vec3d target;
             if (walking) {
                target = groundSpot(mc, player, pp, m, pet);
@@ -958,29 +955,29 @@ public final class Cosmetics {
                float rest = (1.0F - m.walkW) * (1.0F - m.flyW);
                a.add(rest * 1.6F * (float)Math.sin(t * 0.53F), rest * 0.9F * (float)Math.sin(t * 0.81F + 1.3F), rest * 1.3F * (float)Math.cos(t * 0.37F));
                a.div(16.0F).rotateY((float)Math.toRadians(180.0F - yaw));
-               target = pp.method_1031(a.x, a.y, a.z);
+               target = pp.add(a.x, a.y, a.z);
             }
 
-            if (m.petPos != null && m.petWorld == mc.field_1687 && !(m.petPos.method_1025(target) > (walking ? 196 : 36))) {
+            if (m.petPos != null && m.petWorld == mc.world && !(m.petPos.squaredDistanceTo(target) > (walking ? 196 : 36))) {
                follow(m, target, frameDt, walking);
                float face = yaw;
                if (walking) {
-                  double vx = m.petVel.field_1352;
-                  double vz = m.petVel.field_1350;
+                  double vx = m.petVel.x;
+                  double vz = m.petVel.z;
                   if (vx * vx + vz * vz > 0.36) {
                      face = (float)Math.toDegrees(Math.atan2(-vx, vz));
                   } else {
-                     face = (float)Math.toDegrees(Math.atan2(-(pp.field_1352 - m.petPos.field_1352), pp.field_1350 - m.petPos.field_1350));
+                     face = (float)Math.toDegrees(Math.atan2(-(pp.x - m.petPos.x), pp.z - m.petPos.z));
                   }
                }
 
-               m.petYaw = MathHelper.method_17821(1.0F - (float)Math.exp(-frameDt * (walking ? 7.0F : 4.0F)), m.petYaw, face);
+               m.petYaw = MathHelper.lerpAngleDegrees(1.0F - (float)Math.exp(-frameDt * (walking ? 7.0F : 4.0F)), m.petYaw, face);
             } else {
                m.petPos = target;
-               m.petVel = Vec3d.field_1353;
+               m.petVel = Vec3d.ZERO;
                m.petLast = null;
                m.petYaw = yaw;
-               m.petWorld = mc.field_1687;
+               m.petWorld = mc.world;
                m.petSky = -1.0F;
             }
 
@@ -988,8 +985,8 @@ public final class Cosmetics {
             CosmeticMesh.Drive d = DRIVE;
             m.pet(d);
             if (walking) {
-               double sp = Math.hypot(m.petVel.field_1352, m.petVel.field_1350);
-               m.petWalk = m.petWalk + ((float)MathHelper.method_15350((sp - 0.3) / 2.5, 0.0, 1.0) - m.petWalk) * (1.0F - (float)Math.exp(-frameDt * 8.0F));
+               double sp = Math.hypot(m.petVel.x, m.petVel.z);
+               m.petWalk = m.petWalk + ((float)MathHelper.clamp((sp - 0.3) / 2.5, 0.0, 1.0) - m.petWalk) * (1.0F - (float)Math.exp(-frameDt * 8.0F));
                m.petWalkT = m.petWalkT + frameDt * (0.75F + 0.35F * (float)Math.min(2.0, sp / 4.3));
                d.wIdle = 1.0F - m.petWalk;
                d.wWalk = m.petWalk;
@@ -1004,7 +1001,7 @@ public final class Cosmetics {
             Matrix4f[] bones = CosmeticMesh.pose(pet, d);
             float yawRad = (float)Math.toRadians(180.0F - m.petYaw);
             if (firstPerson) {
-               double dist = m.petPos.method_1025(camPos);
+               double dist = m.petPos.squaredDistanceTo(camPos);
                m.petHidden = m.petHidden ? dist < 1.1 : dist < 0.8;
             } else {
                m.petHidden = false;
@@ -1012,12 +1009,12 @@ public final class Cosmetics {
 
             if ((!firstPerson || PET_FIRST_PERSON.get()) && !m.petHidden) {
                MatrixStack ms = context.matrices();
-               ms.method_22903();
-               ms.method_22904(m.petPos.field_1352 - camPos.field_1352, m.petPos.field_1351 - camPos.field_1351, m.petPos.field_1350 - camPos.field_1350);
-               ms.method_22907(RotationAxis.field_40716.rotationDegrees(180.0F - m.petYaw));
-               ms.method_22905(0.0625F, 0.0625F, 0.0625F);
+               ms.push();
+               ms.translate(m.petPos.x - camPos.x, m.petPos.y - camPos.y, m.petPos.z - camPos.z);
+               ms.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - m.petYaw));
+               ms.scale(0.0625F, 0.0625F, 0.0625F);
                submit(pet, bones, IDENTITY, ms, context.commandQueue(), petLight(mc, m, player), t, true);
-               ms.method_22909();
+               ms.pop();
             }
 
             if (PARTICLES.get() && pet.emitters.length > 0) {

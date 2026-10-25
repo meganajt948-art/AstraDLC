@@ -32,7 +32,7 @@ public class krd extends kfe {
    private final float[] krq = new float[20];
    private ClientPlayerEntity krr;
    private boolean krs;
-   private ItemStack krt = ItemStack.field_8037;
+   private ItemStack krt = ItemStack.EMPTY;
    private int kru = -1;
    private boolean krv;
    private int krw;
@@ -69,7 +69,7 @@ public class krd extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (var2 != this.krr) {
          this.ksb(var2);
       }
@@ -79,7 +79,7 @@ public class krd extends kfe {
          this.krx++;
       }
 
-      if (!var2.method_5805() || var2.method_7325() || var2.method_68878()) {
+      if (!var2.isAlive() || var2.isSpectator() || var2.isCreative()) {
          this.ksk();
       } else if (this.krn.get() && ksf(var2)) {
          this.ksk();
@@ -99,8 +99,8 @@ public class krd extends kfe {
             this.krx = -10;
          } else {
             this.krp.hold(var1);
-            if (var2.method_6115()) {
-               var1.field_1761.method_2897(var2);
+            if (var2.isUsingItem()) {
+               var1.interactionManager.stopUsingItem(var2);
             }
 
             this.krv = true;
@@ -111,7 +111,7 @@ public class krd extends kfe {
    @Override
    public void onEndTick(MinecraftClient var1) {
       if (this.krv) {
-         ClientPlayerEntity var2 = var1.field_1724;
+         ClientPlayerEntity var2 = var1.player;
          int var3 = this.ksg(var2);
          if (var3 >= 0 && ksm(var1, var2)) {
             if (ksn(var2) && !this.ksa()) {
@@ -128,7 +128,7 @@ public class krd extends kfe {
    }
 
    private void ksb(ClientPlayerEntity var1) {
-      boolean var2 = this.krr != null && this.krr.method_5805();
+      boolean var2 = this.krr != null && this.krr.isAlive();
       this.krr = var1;
       Arrays.fill(this.krq, ksd(var1));
       if (!var2) {
@@ -146,38 +146,38 @@ public class krd extends kfe {
    }
 
    private static float ksd(ClientPlayerEntity var0) {
-      float var1 = var0.method_6059(StatusEffects.field_5898) ? var0.method_6067() : 0.0F;
-      return var0.method_6032() + var1;
+      float var1 = var0.hasStatusEffect(StatusEffects.ABSORPTION) ? var0.getAbsorptionAmount() : 0.0F;
+      return var0.getHealth() + var1;
    }
 
    private Boolean kse(ClientPlayerEntity var1) {
-      if (var1.method_7357().method_7904(Items.field_8288.method_7854())) {
+      if (var1.getItemCooldownManager().isCoolingDown(Items.TOTEM_OF_UNDYING.getDefaultStack())) {
          return Boolean.FALSE;
+      }
+
+      if (this.kro.get() && ksf(var1) && var1.getActiveItem().getMaxUseTime(var1) > 5) {
+         int var2 = var1.getItemUseTimeLeft();
+         if (var2 < 10) {
+            return null;
+         }
+
+         float var3 = this.krq[19] - this.krq[0];
+         if (var2 < 30 && var3 / 20.0F * var2 < this.krq[0]) {
+            return null;
+         }
+      }
+
+      float var4 = (float)this.krk.get();
+      if (this.krq[0] <= var4) {
+         return Boolean.TRUE;
       } else {
-         if (this.kro.get() && ksf(var1) && var1.method_6030().method_7935(var1) > 5) {
-            int var2 = var1.method_6014();
-            if (var2 < 10) {
-               return null;
-            }
-
-            float var3 = this.krq[19] - this.krq[0];
-            if (var2 < 30 && var3 / 20.0F * var2 < this.krq[0]) {
-               return null;
-            }
-         }
-
-         float var4 = (float)this.krk.get();
-         if (this.krq[0] <= var4) {
-            return Boolean.TRUE;
-         } else {
-            return this.krq[0] >= var4 + 0.5F ? Boolean.FALSE : null;
-         }
+         return this.krq[0] >= var4 + 0.5F ? Boolean.FALSE : null;
       }
    }
 
    private static boolean ksf(ClientPlayerEntity var0) {
-      ItemStack var1 = var0.method_6030();
-      return var0.method_6115() && !var1.method_7960() && var1.method_58694(DataComponentTypes.field_50075) != null;
+      ItemStack var1 = var0.getActiveItem();
+      return var0.isUsingItem() && !var1.isEmpty() && var1.get(DataComponentTypes.FOOD) != null;
    }
 
    private int ksg(ClientPlayerEntity var1) {
@@ -185,13 +185,13 @@ public class krd extends kfe {
    }
 
    private int ksh(ClientPlayerEntity var1) {
-      ItemStack var2 = var1.method_6079();
+      ItemStack var2 = var1.getOffHandStack();
       boolean var3 = this.krm.get();
-      boolean var4 = var2.method_31574(Items.field_8288);
-      if (!var4 || var3 && var2.method_7958()) {
-         int var5 = var3 ? kso(var1, var0 -> var0.method_31574(Items.field_8288) && !var0.method_7958()) : -1;
+      boolean var4 = var2.isOf(Items.TOTEM_OF_UNDYING);
+      if (!var4 || var3 && var2.hasGlint()) {
+         int var5 = var3 ? kso(var1, var0 -> var0.isOf(Items.TOTEM_OF_UNDYING) && !var0.hasGlint()) : -1;
          if (var5 < 0 && !var4) {
-            var5 = kso(var1, var0 -> var0.method_31574(Items.field_8288));
+            var5 = kso(var1, var0 -> var0.isOf(Items.TOTEM_OF_UNDYING));
          }
 
          return var5;
@@ -201,47 +201,47 @@ public class krd extends kfe {
    }
 
    private int ksi(ClientPlayerEntity var1) {
-      if (this.krt.method_7960()) {
+      if (this.krt.isEmpty()) {
          return -1;
-      } else {
-         ItemStack var2 = var1.method_6079();
-         if (this.krl.get() && (var2.method_7960() || var2.method_31574(Items.field_8288))) {
-            PlayerInventory var3 = var1.method_31548();
-            if (this.kru >= 0 && ItemStack.method_31577(var3.method_5438(this.kru), this.krt)) {
-               return this.kru;
-            } else {
-               int var4 = kso(var1, var1x -> ItemStack.method_31577(var1x, this.krt));
-               if (var4 < 0) {
-                  var4 = kso(var1, var1x -> var1x.method_31574(this.krt.method_7909()));
-               }
+      }
 
-               if (var4 < 0) {
-                  this.ksl();
-               }
-
-               return var4;
-            }
-         } else {
-            this.ksl();
-            return -1;
+      ItemStack var2 = var1.getOffHandStack();
+      if (this.krl.get() && (var2.isEmpty() || var2.isOf(Items.TOTEM_OF_UNDYING))) {
+         PlayerInventory var3 = var1.getInventory();
+         if (this.kru >= 0 && ItemStack.areItemsAndComponentsEqual(var3.getStack(this.kru), this.krt)) {
+            return this.kru;
          }
+
+         int var4 = kso(var1, var1x -> ItemStack.areItemsAndComponentsEqual(var1x, this.krt));
+         if (var4 < 0) {
+            var4 = kso(var1, var1x -> var1x.isOf(this.krt.getItem()));
+         }
+
+         if (var4 < 0) {
+            this.ksl();
+         }
+
+         return var4;
+      } else {
+         this.ksl();
+         return -1;
       }
    }
 
    private void ksj(MinecraftClient var1, ClientPlayerEntity var2, int var3) {
-      ItemStack var4 = var2.method_6079();
+      ItemStack var4 = var2.getOffHandStack();
       if (!this.krs) {
          this.ksl();
-      } else if (this.krl.get() && this.krt.method_7960() && !var4.method_7960() && !var4.method_31574(Items.field_8288)) {
-         this.krt = var4.method_7972();
+      } else if (this.krl.get() && this.krt.isEmpty() && !var4.isEmpty() && !var4.isOf(Items.TOTEM_OF_UNDYING)) {
+         this.krt = var4.copy();
          this.kru = var3;
       }
 
-      ScreenHandler var5 = var2.field_7512;
-      int var6 = wdq.slotId(var5, var2.method_31548(), var3);
+      ScreenHandler var5 = var2.currentScreenHandler;
+      int var6 = wdq.slotId(var5, var2.getInventory(), var3);
       if (var6 >= 0) {
-         var1.field_1761.method_2906(var5.field_7763, var6, 40, SlotActionType.field_7791, var2);
-         if (var5 == var2.field_7498) {
+         var1.interactionManager.clickSlot(var5.syncId, var6, 40, SlotActionType.SWAP, var2);
+         if (var5 == var2.playerScreenHandler) {
             wdq.close(var1);
          }
       }
@@ -260,37 +260,37 @@ public class krd extends kfe {
    }
 
    private void ksl() {
-      this.krt = ItemStack.field_8037;
+      this.krt = ItemStack.EMPTY;
       this.kru = -1;
    }
 
    private static boolean ksm(MinecraftClient var0, ClientPlayerEntity var1) {
-      ScreenHandler var2 = var1.field_7512;
-      return var2 != null && var2.method_34255().method_7960()
-         ? var2 == var1.field_7498 || var0.field_1755 instanceof HandledScreen var3 && var3.method_17577() == var2
+      ScreenHandler var2 = var1.currentScreenHandler;
+      return var2 != null && var2.getCursorStack().isEmpty()
+         ? var2 == var1.playerScreenHandler || var0.currentScreen instanceof HandledScreen var3 && var3.getScreenHandler() == var2
          : false;
    }
 
    private static boolean ksn(ClientPlayerEntity var0) {
-      return vyn.serverIdle(var0) && !var0.method_6115();
+      return vyn.serverIdle(var0) && !var0.isUsingItem();
    }
 
    private static int kso(ClientPlayerEntity var0, Predicate<ItemStack> var1) {
-      PlayerInventory var2 = var0.method_31548();
-      int var3 = var2.method_67532();
+      PlayerInventory var2 = var0.getInventory();
+      int var3 = var2.getSelectedSlot();
 
       for (int var4 = 9; var4 < 36; var4++) {
-         if (var1.test(var2.method_5438(var4))) {
+         if (var1.test(var2.getStack(var4))) {
             return var4;
          }
       }
 
       for (int var5 = 0; var5 < 9; var5++) {
-         if (var5 != var3 && var1.test(var2.method_5438(var5))) {
+         if (var5 != var3 && var1.test(var2.getStack(var5))) {
             return var5;
          }
       }
 
-      return var1.test(var2.method_5438(var3)) ? var3 : -1;
+      return var1.test(var2.getStack(var3)) ? var3 : -1;
    }
 }

@@ -290,12 +290,12 @@ public final class ewk {
       String var1 = get(var0);
       if (var1 == null) {
          return null;
-      } else {
-         try {
-            return Base64.getDecoder().decode(var1.trim());
-         } catch (RuntimeException var3) {
-            return null;
-         }
+      }
+
+      try {
+         return Base64.getDecoder().decode(var1.trim());
+      } catch (RuntimeException var3) {
+         return null;
       }
    }
 
@@ -525,16 +525,16 @@ public final class ewk {
                   exm(var3.statusCode());
                   if (((byte[])var3.body()).length > 2097152) {
                      throw new IOException(a.b("將▭꽾ㅀ뫛㱧蘧࿃醞", -1018012550));
-                  } else {
-                     JsonObject var4;
-                     try {
-                        var4 = JsonParser.parseString(new String((byte[])var3.body(), StandardCharsets.UTF_8)).getAsJsonObject();
-                     } catch (RuntimeException var6) {
-                        var4 = new JsonObject();
-                     }
-
-                     return new ewf(var3.statusCode(), var4);
                   }
+
+                  JsonObject var4;
+                  try {
+                     var4 = JsonParser.parseString(new String((byte[])var3.body(), StandardCharsets.UTF_8)).getAsJsonObject();
+                  } catch (RuntimeException var6) {
+                     var4 = new JsonObject();
+                  }
+
+                  return new ewf(var3.statusCode(), var4);
                } catch (IOException var7) {
                   throw new CompletionException(var7);
                } catch (InterruptedException var8) {

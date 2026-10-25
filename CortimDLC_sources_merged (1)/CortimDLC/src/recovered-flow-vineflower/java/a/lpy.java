@@ -30,46 +30,46 @@ public final class lpy {
       if (!this.lqa.smash(this.lqg())) {
          this.lqd = null;
          return null;
-      } else {
-         if (this.lqd != null && var5.contains(this.lqd)) {
-            lpp var8 = this.lqh(var1, var2, this.lqd, var6.applyAsInt(this.lqd), var7);
-            if (var8 != null) {
-               return var8;
-            }
+      }
+
+      if (this.lqd != null && var5.contains(this.lqd)) {
+         lpp var8 = this.lqh(var1, var2, this.lqd, var6.applyAsInt(this.lqd), var7);
+         if (var8 != null) {
+            return var8;
          }
+      }
 
-         lpp var16 = null;
-         double var9 = Double.MAX_VALUE;
+      lpp var16 = null;
+      double var9 = Double.MAX_VALUE;
 
-         for (LivingEntity var12 : var5) {
-            if (var12 != this.lqd) {
-               lpp var13 = this.lqh(var1, var2, var12, var6.applyAsInt(var12), var7);
-               if (var13 != null) {
-                  double var14 = this.lqb.box(var13.tick()).method_49271(var13.eye());
-                  if (var16 == null || var13.tick() < var16.tick() || var13.tick() == var16.tick() && var14 < var9) {
-                     var16 = var13;
-                     var9 = var14;
-                  }
+      for (LivingEntity var12 : var5) {
+         if (var12 != this.lqd) {
+            lpp var13 = this.lqh(var1, var2, var12, var6.applyAsInt(var12), var7);
+            if (var13 != null) {
+               double var14 = this.lqb.box(var13.tick()).squaredMagnitude(var13.eye());
+               if (var16 == null || var13.tick() < var16.tick() || var13.tick() == var16.tick() && var14 < var9) {
+                  var16 = var13;
+                  var9 = var14;
                }
             }
          }
-
-         if (var16 != null && var16.target() != this.lqd) {
-            this.lqd = var16.target();
-            this.lqc.roll(var7.spread());
-            var16 = this.lqh(var1, var2, this.lqd, var6.applyAsInt(this.lqd), var7);
-         }
-
-         if (var16 == null) {
-            this.lqd = null;
-         }
-
-         return var16;
       }
+
+      if (var16 != null && var16.target() != this.lqd) {
+         this.lqd = var16.target();
+         this.lqc.roll(var7.spread());
+         var16 = this.lqh(var1, var2, this.lqd, var6.applyAsInt(this.lqd), var7);
+      }
+
+      if (var16 == null) {
+         this.lqd = null;
+      }
+
+      return var16;
    }
 
    public Vec3d aimNow(World var1, ClientPlayerEntity var2, LivingEntity var3, double var4) {
-      return this.lqc.resolve(var1, var2, var2.method_33571(), var3.method_5829(), var4);
+      return this.lqc.resolve(var1, var2, var2.getEyePos(), var3.getBoundingBox(), var4);
    }
 
    public void hit() {
@@ -121,12 +121,12 @@ public final class lpy {
    }
 
    private static boolean lqi(lpc var0, Vec3d var1, Vec3d var2, int var3) {
-      double var4 = MathHelper.method_15393(lme.yaw(var1, var2) - var0.lookYaw());
+      double var4 = MathHelper.wrapDegrees(lme.yaw(var1, var2) - var0.lookYaw());
       double var6 = lme.pitch(var1, var2) - var0.lookPitch();
       return Math.sqrt(var4 * var4 + var6 * var6) <= var0.maxTurn() * (var3 + 1) + 0.5;
    }
 
    private static boolean lqj(ClientPlayerEntity var0, int var1) {
-      return var0.method_7261(0.5F + var1) > 0.9F;
+      return var0.getAttackCooldownProgress(0.5F + var1) > 0.9F;
    }
 }

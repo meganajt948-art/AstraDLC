@@ -54,19 +54,19 @@ public final class hem {
          System.out.println(a.b("仹㝗붉⏹ꠤ⻚铝ᴽ荴ূ蹅瑒廒挻\ue96d濪햿", -1621799266) + var2);
          var2.printStackTrace();
          hep = 99;
-         var0.method_1592();
+         var0.scheduleStop();
       }
    }
 
    private static void hfe(MinecraftClient var0) throws Exception {
       switch (hep) {
          case 0:
-            if (var0.method_18506() == null && var0.field_1755 instanceof AccessibilityOnboardingScreen) {
-               var0.field_1690.field_41785 = false;
-               var0.method_1507(new TitleScreen());
+            if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
+               var0.options.onboardAccessibility = false;
+               var0.setScreen(new TitleScreen());
             }
 
-            if (var0.method_18506() == null && var0.field_1755 instanceof jte var8 && hes > 60) {
+            if (var0.getOverlay() == null && var0.currentScreen instanceof jte var8 && hes > 60) {
                het = var8;
                heu = kbs.selected();
                hfg(kbs.byKey(a.c(-1424319468, "鱯\ue5c1漟\uf16f窲ﱖ䙌쾾凰\udb52岘ꛮ⠰")));
@@ -84,7 +84,7 @@ public final class hem {
             }
             break;
          case 2:
-            if (var0.field_1755 instanceof CreateWorldScreen var7) {
+            if (var0.currentScreen instanceof CreateWorldScreen var7) {
                Method var10 = CreateWorldScreen.class.getDeclaredMethod(a.c(-1629906922, "顾\ue1de欚\uf56f纭\uf80d䉷쮯嗣\udf41墛"));
                var10.setAccessible(true);
                var10.invoke(var7);
@@ -93,10 +93,10 @@ public final class hem {
             }
             break;
          case 3:
-            if (var0.field_1687 != null && var0.field_1724 != null && var0.field_1755 == null && hes > 500) {
+            if (var0.world != null && var0.player != null && var0.currentScreen == null && hes > 500) {
                hev = isv.selected();
                isv.select(a.d("∏宩텦伒쓝䉱\uf825熀\uef86攵\ue2f3ᢅ", 2106112520, 501848169));
-               var0.method_1507(new hlc());
+               var0.setScreen(new hlc());
                hfc();
                hep = 30;
             }
@@ -117,10 +117,10 @@ public final class hem {
                her++;
             } else if (her == 1 && hff(var0, a.d("촰뒓㹜ꁤ⯣굊\u171e黴°", -1919973888, -258061474), 2.0F, 4)) {
                isv.select(hev);
-               var0.method_1507(null);
+               var0.setScreen(null);
                System.out.println(a.c(467844086, "뮏숡䣿횏嵒\udbac憫\ue84b瘂ﲴ笳脲\u0ff4陗ᰄ"));
                hep = 99;
-               var0.method_1592();
+               var0.scheduleStop();
             }
          case 6:
          case 7:
@@ -155,12 +155,12 @@ public final class hem {
             };
             int var2 = her / 2;
             if (var2 >= var1.length) {
-               float var3 = kbp.scale(het.field_22789, het.field_22790);
+               float var3 = kbp.scale(het.width, het.height);
                int[] var4 = new int[1];
                int[] var5 = new int[1];
-               GLFW.glfwGetWindowSize(var0.method_22683().method_4490(), var4, var5);
-               float var6 = (het.field_22790 * 0.5F + -13.1F * var3) / het.field_22790;
-               GLFW.glfwSetCursorPos(var0.method_22683().method_4490(), 0.5F * var4[0], var6 * var5[0]);
+               GLFW.glfwGetWindowSize(var0.getWindow().getHandle(), var4, var5);
+               float var6 = (het.height * 0.5F + -13.1F * var3) / het.height;
+               GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), 0.5F * var4[0], var6 * var5[0]);
                hfc();
                hep = 11;
             } else if (her % 2 == 0) {
@@ -175,7 +175,7 @@ public final class hem {
             if (hfb() > 1.0F) {
                hfh(var0, a.d("䢶ㄘ믆▶깫⢘銋᭲蔦ྌ蠇爳ﳣ敋\uef0b槭", -1005863368, -2004683032));
                hfg(heu);
-               CreateWorldScreen.method_64248(var0, () -> var0.method_1507(new TitleScreen()));
+               CreateWorldScreen.showTestWorld(var0, () -> var0.setScreen(new TitleScreen()));
                hep = 2;
             }
             break;
@@ -204,7 +204,7 @@ public final class hem {
                         + a.b("ꥁ킣婦쐑俊쥺猣殺", -90592919)
                         + var4
                         + a.c(1230948482, "좺넑")
-                        + var0.method_47599()
+                        + var0.getCurrentFps()
                         + a.d("\uf342誵p鸂ᖊ錷⤴ꃇ㺅됸㏭즊䝝\udebf咯퉍标\ue783", -366423398, -1554308630)
                         + Math.round((var6 - hex) * 1000.0 / (var8 - hey)) / 10.0
                         + a.c(16680704, "蜨ﺜ琀\uea78懩\ue717嵅풿䪥쁗䞈뷤㌤")
@@ -240,9 +240,11 @@ public final class hem {
             a.b("譩\uf2c7砙\ue669涴\ueb4a免\ud8ad䛤챒䯕", -1710781676)
                + var1
                + a.c(-1406982674, "◍尜횯")
-               + var0.method_47599()
+               + var0.getCurrentFps()
                + a.d("ᮕ扢\ue8a7盕", 808316819, 1487860770)
          );
-      ScreenshotRecorder.method_22690(var0.field_1697, a.c(1879829018, "\uea7a鏁ᤑ蝸೪詄") + var1 + a.b("\ue2fc鬓ᇞ辦", 140960470), var0.method_1522(), 1, var0x -> {});
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory, a.c(1879829018, "\uea7a鏁ᤑ蝸೪詄") + var1 + a.b("\ue2fc鬓ᇞ辦", 140960470), var0.getFramebuffer(), 1, var0x -> {}
+      );
    }
 }

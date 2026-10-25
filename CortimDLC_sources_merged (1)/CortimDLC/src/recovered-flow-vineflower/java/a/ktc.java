@@ -20,7 +20,7 @@ final class ktc {
 
    void receive(double var1, boolean var3, float var4, boolean var5) {
       if (this.ground && !var3 && var1 > 0.0) {
-         this.velocity = Math.max((double)var4, this.velocity);
+         this.velocity = Math.max(var4, this.velocity);
       }
 
       if (var1 < 0.0 && !var5) {

@@ -31,24 +31,15 @@ public final class uxx {
    public static final int DROPS = 16;
    private static final int uxy = 512;
    private static final int uxz = 128;
-   @Nullable
-   private static GpuBuffer uya;
-   @Nullable
-   private static GpuTexture uyb;
-   @Nullable
-   private static GpuTextureView uyc;
-   @Nullable
-   private static GpuTexture uyd;
-   @Nullable
-   private static GpuTextureView uye;
-   @Nullable
-   private static GpuTexture uyf;
-   @Nullable
-   private static GpuTextureView uyg;
-   @Nullable
-   private static GpuTexture uyh;
-   @Nullable
-   private static GpuTextureView uyi;
+   private static @Nullable GpuBuffer uya;
+   private static @Nullable GpuTexture uyb;
+   private static @Nullable GpuTextureView uyc;
+   private static @Nullable GpuTexture uyd;
+   private static @Nullable GpuTextureView uye;
+   private static @Nullable GpuTexture uyf;
+   private static @Nullable GpuTextureView uyg;
+   private static @Nullable GpuTexture uyh;
+   private static @Nullable GpuTextureView uyi;
    private static int uyj = -1;
    private static int uyk = -1;
    private static boolean uyl;
@@ -68,182 +59,103 @@ public final class uxx {
       uyl = false;
       if (uym) {
          return false;
-      } else {
-         Framebuffer var1 = MinecraftClient.method_1551().method_1522();
-         if (var1.method_71639() != null && var1.field_1482 >= 4 && var1.field_1481 >= 4) {
+      }
+
+      Framebuffer var1 = MinecraftClient.getInstance().getFramebuffer();
+      if (var1.getColorAttachmentView() != null && var1.textureWidth >= 4 && var1.textureHeight >= 4) {
+         try {
+            GpuDevice var2 = RenderSystem.getDevice();
+            uzc(var2, var1.textureWidth, var1.textureHeight);
+            MemoryStack var3 = MemoryStack.stackPush();
+
             try {
-               GpuDevice var2 = RenderSystem.getDevice();
-               uzc(var2, var1.field_1482, var1.field_1481);
-               MemoryStack var3 = MemoryStack.stackPush();
-
-               try {
-                  Std140Builder var4 = Std140Builder.onStack(var3, 4288)
-                     .putVec4(var1.field_1482, var1.field_1481, 1.0F / var1.field_1482, 1.0F / var1.field_1481);
-                  var0.accept(var4);
-                  var2.createCommandEncoder().writeToBuffer(uya.slice(), var4.get());
-               } catch (Throwable var7) {
-                  if (var3 != null) {
-                     try {
-                        var3.close();
-                     } catch (Throwable var6) {
-                        var7.addSuppressed(var6);
-                     }
-                  }
-
-                  throw var7;
-               }
-
+               Std140Builder var4 = Std140Builder.onStack(var3, 4288)
+                  .putVec4(var1.textureWidth, var1.textureHeight, 1.0F / var1.textureWidth, 1.0F / var1.textureHeight);
+               var0.accept(var4);
+               var2.createCommandEncoder().writeToBuffer(uya.slice(), var4.get());
+            } catch (Throwable var7) {
                if (var3 != null) {
-                  var3.close();
+                  try {
+                     var3.close();
+                  } catch (Throwable var6) {
+                     var7.addSuppressed(var6);
+                  }
                }
 
-               uyl = true;
-               if (uyn) {
-                  uyt++;
-               }
-
-               return true;
-            } catch (Throwable var8) {
-               uza("upload", var8);
-               return false;
+               throw var7;
             }
-         } else {
+
+            if (var3 != null) {
+               var3.close();
+            }
+
+            uyl = true;
+            if (uyn) {
+               uyt++;
+            }
+
+            return true;
+         } catch (Throwable var8) {
+            uza("upload", var8);
             return false;
          }
+      } else {
+         return false;
       }
    }
 
    public static void sky(int var0) {
       if (uyl && uvq.ensure(uvq.STORM_PROBE) && uvq.ensure(uvq.STORM_PROBE_BLUR) && uvq.ensure(uvq.STORM_SKY) && uvq.ensure(uvq.STORM_SKY_COMPOSITE)) {
          GpuBufferSlice var1 = RenderSystem.getProjectionMatrixBuffer();
-         Framebuffer var2 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var3 = var2.method_71639();
-         GpuTextureView var4 = var2.method_71640();
-         if (var1 != null && var3 != null && var4 != null && uyi != null && var2.field_1482 == uyj && var2.field_1481 == uyk) {
+         Framebuffer var2 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var3 = var2.getColorAttachmentView();
+         GpuTextureView var4 = var2.getDepthAttachmentView();
+         if (var1 != null && var3 != null && var4 != null && uyi != null && var2.textureWidth == uyj && var2.textureHeight == uyk) {
             try {
                GpuDevice var5 = RenderSystem.getDevice();
                GpuTextureView var6 = vbb.noiseView(var5);
                CommandEncoder var7 = var5.createCommandEncoder();
                GpuQuery var8 = uyy(var7);
-               RenderPass var9 = var7.createRenderPass(() -> "Flow2 storm probe", uye, OptionalInt.empty());
 
-               try {
+               try (RenderPass var9 = var7.createRenderPass(() -> "Flow2 storm probe", uye, OptionalInt.empty())) {
                   var9.setPipeline(uvq.STORM_PROBE);
-                  var9.bindTexture("NoiseSampler", var6, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
+                  var9.bindTexture("NoiseSampler", var6, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
                   var9.setUniform("FlowStorm", uya);
                   var9.draw(0, 3);
-               } catch (Throwable var21) {
-                  if (var9 != null) {
-                     try {
-                        var9.close();
-                     } catch (Throwable var16) {
-                        var21.addSuppressed(var16);
-                     }
-                  }
-
-                  throw var21;
                }
 
-               if (var9 != null) {
-                  var9.close();
+               try (RenderPass var23 = var7.createRenderPass(() -> "Flow2 storm probe blur", uyg, OptionalInt.empty())) {
+                  var23.setPipeline(uvq.STORM_PROBE_BLUR);
+                  var23.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var23.setUniform("FlowStorm", uya);
+                  var23.draw(0, 3);
                }
 
-               var9 = var7.createRenderPass(() -> "Flow2 storm probe blur", uyg, OptionalInt.empty());
-
-               try {
-                  var9.setPipeline(uvq.STORM_PROBE_BLUR);
-                  var9.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var9.setUniform("FlowStorm", uya);
-                  var9.draw(0, 3);
-               } catch (Throwable var20) {
-                  if (var9 != null) {
-                     try {
-                        var9.close();
-                     } catch (Throwable var15) {
-                        var20.addSuppressed(var15);
-                     }
-                  }
-
-                  throw var20;
+               try (RenderPass var24 = var7.createRenderPass(() -> "Flow2 storm sky", uyi, OptionalInt.empty())) {
+                  var24.setPipeline(uvq.STORM_SKY);
+                  var24.bindTexture("DepthSampler", var4, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var24.bindTexture("NoiseSampler", var6, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var24.setUniform("Projection", var1);
+                  var24.setUniform("FlowStorm", uya);
+                  var24.draw(0, 3);
                }
 
-               if (var9 != null) {
-                  var9.close();
-               }
-
-               var9 = var7.createRenderPass(() -> "Flow2 storm sky", uyi, OptionalInt.empty());
-
-               try {
-                  var9.setPipeline(uvq.STORM_SKY);
-                  var9.bindTexture("DepthSampler", var4, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var9.bindTexture("NoiseSampler", var6, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var9.setUniform("Projection", var1);
-                  var9.setUniform("FlowStorm", uya);
-                  var9.draw(0, 3);
-               } catch (Throwable var19) {
-                  if (var9 != null) {
-                     try {
-                        var9.close();
-                     } catch (Throwable var14) {
-                        var19.addSuppressed(var14);
-                     }
-                  }
-
-                  throw var19;
-               }
-
-               if (var9 != null) {
-                  var9.close();
-               }
-
-               var9 = var7.createRenderPass(() -> "Flow2 storm sky composite", var3, OptionalInt.empty());
-
-               try {
-                  var9.setPipeline(uvq.STORM_SKY_COMPOSITE);
-                  var9.bindTexture("DepthSampler", var4, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var9.bindTexture("HalfSampler", uyi, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var9.setUniform("Projection", var1);
-                  var9.setUniform("FlowStorm", uya);
-                  var9.draw(0, 3);
-               } catch (Throwable var18) {
-                  if (var9 != null) {
-                     try {
-                        var9.close();
-                     } catch (Throwable var13) {
-                        var18.addSuppressed(var13);
-                     }
-                  }
-
-                  throw var18;
-               }
-
-               if (var9 != null) {
-                  var9.close();
+               try (RenderPass var25 = var7.createRenderPass(() -> "Flow2 storm sky composite", var3, OptionalInt.empty())) {
+                  var25.setPipeline(uvq.STORM_SKY_COMPOSITE);
+                  var25.bindTexture("DepthSampler", var4, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var25.bindTexture("HalfSampler", uyi, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var25.setUniform("Projection", var1);
+                  var25.setUniform("FlowStorm", uya);
+                  var25.draw(0, 3);
                }
 
                if (var0 > 0 && uvq.ensure(uvq.STORM_BOLT)) {
-                  var9 = var7.createRenderPass(() -> "Flow2 storm bolt", var3, OptionalInt.empty());
-
-                  try {
-                     var9.setPipeline(uvq.STORM_BOLT);
-                     var9.bindTexture("DepthSampler", var4, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                     var9.setUniform("Projection", var1);
-                     var9.setUniform("FlowStorm", uya);
-                     var9.draw(0, 6);
-                  } catch (Throwable var17) {
-                     if (var9 != null) {
-                        try {
-                           var9.close();
-                        } catch (Throwable var12) {
-                           var17.addSuppressed(var12);
-                        }
-                     }
-
-                     throw var17;
-                  }
-
-                  if (var9 != null) {
-                     var9.close();
+                  try (RenderPass var26 = var7.createRenderPass(() -> "Flow2 storm bolt", var3, OptionalInt.empty())) {
+                     var26.setPipeline(uvq.STORM_BOLT);
+                     var26.bindTexture("DepthSampler", var4, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                     var26.setUniform("Projection", var1);
+                     var26.setUniform("FlowStorm", uya);
+                     var26.draw(0, 6);
                   }
                }
 
@@ -259,11 +171,11 @@ public final class uxx {
       if (uyl && uvq.ensure(uvq.STORM_WET) && uvq.ensure(uvq.BLUR_COPY)) {
          GpuBufferSlice var1 = RenderSystem.getProjectionMatrixBuffer();
          GpuBufferSlice var2 = RenderSystem.getShaderFog();
-         Framebuffer var3 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var4 = var3.method_71639();
-         GpuTextureView var5 = var3.method_71640();
+         Framebuffer var3 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var4 = var3.getColorAttachmentView();
+         GpuTextureView var5 = var3.getDepthAttachmentView();
          GpuTextureView var6 = vbb.heightView();
-         if (var1 != null && var2 != null && var4 != null && var5 != null && var6 != null && var3.field_1482 == uyj && var3.field_1481 == uyk) {
+         if (var1 != null && var2 != null && var4 != null && var5 != null && var6 != null && var3.textureWidth == uyj && var3.textureHeight == uyk) {
             try {
                GpuDevice var7 = RenderSystem.getDevice();
                CommandEncoder var8 = var7.createCommandEncoder();
@@ -271,36 +183,21 @@ public final class uxx {
                uyx(var8, var4);
                GpuTextureView var10 = var0 ? vbb.terrainDepthView() : null;
                GpuTextureView var11 = var0 ? vbb.entityDepthView() : null;
-               RenderPass var12 = var8.createRenderPass(() -> "Flow2 storm wet", var4, OptionalInt.empty());
 
-               try {
+               try (RenderPass var12 = var8.createRenderPass(() -> "Flow2 storm wet", var4, OptionalInt.empty())) {
                   var12.setPipeline(uvq.STORM_WET);
-                  var12.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                  var12.bindTexture("DepthSampler", var5, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var12.bindTexture("NoiseSampler", vbb.noiseView(var7), RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var12.bindTexture("HeightSampler", var6, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var12.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var12.bindTexture("ProbeBlurSampler", uyg, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                  var12.bindTexture("TerrainDepthSampler", var10 != null ? var10 : var5, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                  var12.bindTexture("EntityDepthSampler", var11 != null ? var11 : var5, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var12.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                  var12.bindTexture("DepthSampler", var5, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var12.bindTexture("NoiseSampler", vbb.noiseView(var7), RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var12.bindTexture("HeightSampler", var6, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var12.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var12.bindTexture("ProbeBlurSampler", uyg, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                  var12.bindTexture("TerrainDepthSampler", var10 != null ? var10 : var5, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                  var12.bindTexture("EntityDepthSampler", var11 != null ? var11 : var5, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var12.setUniform("Projection", var1);
                   var12.setUniform("Fog", var2);
                   var12.setUniform("FlowStorm", uya);
                   var12.draw(0, 3);
-               } catch (Throwable var16) {
-                  if (var12 != null) {
-                     try {
-                        var12.close();
-                     } catch (Throwable var15) {
-                        var16.addSuppressed(var15);
-                     }
-                  }
-
-                  throw var16;
-               }
-
-               if (var12 != null) {
-                  var12.close();
                }
 
                vbb.maskUsed();
@@ -315,36 +212,21 @@ public final class uxx {
    public static void rain(int var0) {
       if (uyl && var0 > 0 && uvq.ensure(uvq.RAIN)) {
          GpuBufferSlice var1 = RenderSystem.getProjectionMatrixBuffer();
-         Framebuffer var2 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var3 = var2.method_71639();
-         GpuTextureView var4 = var2.method_71640();
+         Framebuffer var2 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var3 = var2.getColorAttachmentView();
+         GpuTextureView var4 = var2.getDepthAttachmentView();
          GpuTextureView var5 = vbb.heightView();
          if (var1 != null && var3 != null && var4 != null && var5 != null) {
             try {
                CommandEncoder var6 = RenderSystem.getDevice().createCommandEncoder();
                GpuQuery var7 = uyy(var6);
-               RenderPass var8 = var6.createRenderPass(() -> "Flow2 rain", var3, OptionalInt.empty(), var4, OptionalDouble.empty());
 
-               try {
+               try (RenderPass var8 = var6.createRenderPass(() -> "Flow2 rain", var3, OptionalInt.empty(), var4, OptionalDouble.empty())) {
                   var8.setPipeline(uvq.RAIN);
-                  var8.bindTexture("HeightSampler", var5, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                  var8.bindTexture("HeightSampler", var5, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                   var8.setUniform("Projection", var1);
                   var8.setUniform("FlowStorm", uya);
                   var8.draw(0, var0 * 6);
-               } catch (Throwable var12) {
-                  if (var8 != null) {
-                     try {
-                        var8.close();
-                     } catch (Throwable var11) {
-                        var12.addSuppressed(var11);
-                     }
-                  }
-
-                  throw var12;
-               }
-
-               if (var8 != null) {
-                  var8.close();
                }
 
                uyz(var6, var7, 2);
@@ -365,34 +247,19 @@ public final class uxx {
 
    private static void uyw(RenderPipeline var0, String var1, int var2) {
       if (uyl && uvq.ensure(var0) && uvq.ensure(uvq.BLUR_COPY)) {
-         Framebuffer var3 = MinecraftClient.method_1551().method_1522();
-         GpuTextureView var4 = var3.method_71639();
-         if (var4 != null && var3.field_1482 == uyj && var3.field_1481 == uyk) {
+         Framebuffer var3 = MinecraftClient.getInstance().getFramebuffer();
+         GpuTextureView var4 = var3.getColorAttachmentView();
+         if (var4 != null && var3.textureWidth == uyj && var3.textureHeight == uyk) {
             try {
                CommandEncoder var5 = RenderSystem.getDevice().createCommandEncoder();
                GpuQuery var6 = uyy(var5);
                uyx(var5, var4);
-               RenderPass var7 = var5.createRenderPass(() -> "Flow2 storm " + var1, var4, OptionalInt.empty());
 
-               try {
+               try (RenderPass var7 = var5.createRenderPass(() -> "Flow2 storm " + var1, var4, OptionalInt.empty())) {
                   var7.setPipeline(var0);
-                  var7.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                  var7.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                   var7.setUniform("FlowStorm", uya);
                   var7.draw(0, 3);
-               } catch (Throwable var11) {
-                  if (var7 != null) {
-                     try {
-                        var7.close();
-                     } catch (Throwable var10) {
-                        var11.addSuppressed(var10);
-                     }
-                  }
-
-                  throw var11;
-               }
-
-               if (var7 != null) {
-                  var7.close();
                }
 
                uyz(var5, var6, var2);
@@ -404,31 +271,14 @@ public final class uxx {
    }
 
    private static void uyx(CommandEncoder var0, GpuTextureView var1) {
-      RenderPass var2 = var0.createRenderPass(() -> "Flow2 storm scene copy", uyc, OptionalInt.empty());
-
-      try {
+      try (RenderPass var2 = var0.createRenderPass(() -> "Flow2 storm scene copy", uyc, OptionalInt.empty())) {
          var2.setPipeline(uvq.BLUR_COPY);
-         var2.bindTexture("InSampler", var1, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+         var2.bindTexture("InSampler", var1, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
          var2.draw(0, 3);
-      } catch (Throwable var6) {
-         if (var2 != null) {
-            try {
-               var2.close();
-            } catch (Throwable var5) {
-               var6.addSuppressed(var5);
-            }
-         }
-
-         throw var6;
-      }
-
-      if (var2 != null) {
-         var2.close();
       }
    }
 
-   @Nullable
-   private static GpuQuery uyy(CommandEncoder var0) {
+   private static @Nullable GpuQuery uyy(CommandEncoder var0) {
       return uyn ? var0.timerQueryBegin() : null;
    }
 

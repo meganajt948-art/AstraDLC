@@ -217,12 +217,12 @@ final class iqp extends imn {
             float var27 = var17 + 5.5F;
             float var28 = vcq.outBack(var16);
             uut.pushAlpha(var16);
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate(var26, var27);
-            var1.method_51448().scale(var28, var28);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate(var26, var27);
+            var1.getMatrices().scale(var28, var28);
             uut.circle(var1, 0.0F, 0.0F, 3.8F, iov.accent());
             vjf.draw(var1, vhz.CHECK, 0.0F, 0.0F, 5.5F, iov.onAccent());
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
 
@@ -251,20 +251,20 @@ final class iqp extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (var4 != 0) {
          return false;
-      } else {
-         float[] var5 = new float[this.iqw.length];
-         float[] var6 = new float[this.iqw.length];
-         this.irh(var5, var6);
-         float var7 = this.irg();
-
-         for (int var8 = 0; var8 < this.iqw.length; var8++) {
-            if (irr.inside(var2, var3, this.x + var5[var8], this.y + var6[var8], var7, 37.0F)) {
-               iov.choose(this.irc(var8));
-               return true;
-            }
-         }
-
-         return false;
       }
+
+      float[] var5 = new float[this.iqw.length];
+      float[] var6 = new float[this.iqw.length];
+      this.irh(var5, var6);
+      float var7 = this.irg();
+
+      for (int var8 = 0; var8 < this.iqw.length; var8++) {
+         if (irr.inside(var2, var3, this.x + var5[var8], this.y + var6[var8], var7, 37.0F)) {
+            iov.choose(this.irc(var8));
+            return true;
+         }
+      }
+
+      return false;
    }
 }

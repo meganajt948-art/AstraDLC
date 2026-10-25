@@ -17,23 +17,23 @@ public final class vct {
       if (!this.vcz) {
          this.set(var1);
          return this.vcx;
-      } else {
-         float var3 = var2;
-
-         while (var3 > 0.0F) {
-            float var4 = Math.min(var3, 0.004166667F);
-            this.vcy = this.vcy + (this.vcv * (var1 - this.vcx) - this.vcw * this.vcy) * var4;
-            this.vcx = this.vcx + this.vcy * var4;
-            var3 -= var4;
-         }
-
-         if (Math.abs(var1 - this.vcx) < 0.005F && Math.abs(this.vcy) < 0.05F) {
-            this.vcx = var1;
-            this.vcy = 0.0F;
-         }
-
-         return this.vcx;
       }
+
+      float var3 = var2;
+
+      while (var3 > 0.0F) {
+         float var4 = Math.min(var3, 0.004166667F);
+         this.vcy = this.vcy + (this.vcv * (var1 - this.vcx) - this.vcw * this.vcy) * var4;
+         this.vcx = this.vcx + this.vcy * var4;
+         var3 -= var4;
+      }
+
+      if (Math.abs(var1 - this.vcx) < 0.005F && Math.abs(this.vcy) < 0.05F) {
+         this.vcx = var1;
+         this.vcy = 0.0F;
+      }
+
+      return this.vcx;
    }
 
    public float get() {

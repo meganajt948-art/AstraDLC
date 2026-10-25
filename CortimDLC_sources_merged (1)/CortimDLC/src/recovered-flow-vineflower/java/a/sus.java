@@ -30,29 +30,24 @@ public final class sus {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
+      MinecraftClient var2 = MinecraftClient.getInstance();
       rfl var3 = rfl.get();
-      if (var3 != null
-         && var3.isEnabled()
-         && var2.field_1687 != null
-         && var2.field_1724 != null
-         && !var2.field_1690.field_1842
-         && !(var2.field_1755 instanceof hlc)) {
+      if (var3 != null && var3.isEnabled() && var2.world != null && var2.player != null && !var2.options.hudHidden && !(var2.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != svc) {
             svc = unf.frame();
-            long var4 = var2.field_1687.method_75260();
+            long var4 = var2.world.getTime();
             if (var4 != svb) {
                svb = var4;
                svf(var2, var3);
             }
 
             if (!suz.isEmpty()) {
-               float var6 = var1.method_60637(true);
+               float var6 = var1.getTickProgress(true);
 
                usn var7;
                try {
-                  var7 = usn.capture(var6, var0.method_51421(), var0.method_51443());
+                  var7 = usn.capture(var6, var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
                } catch (Throwable var13) {
                   return;
                }
@@ -60,11 +55,11 @@ public final class sus {
                sva.clear();
 
                for (sup var9 : suz) {
-                  if (!var9.first.method_31481()) {
-                     Vec3d var10 = var9.first.method_30950(var6);
-                     double var11 = var10.field_1351 + var9.first.method_17682() + 0.12;
-                     if (var7.project(var10.field_1352, var11, var10.field_1350, var9.screen)) {
-                        var9.distance = var7.distance(var10.field_1352, var11, var10.field_1350);
+                  if (!var9.first.isRemoved()) {
+                     Vec3d var10 = var9.first.getLerpedPos(var6);
+                     double var11 = var10.y + var9.first.getHeight() + 0.12;
+                     if (var7.project(var10.x, var11, var10.z, var9.screen)) {
+                        var9.distance = var7.distance(var10.x, var11, var10.z);
                         sva.add(var9);
                      }
                   }
@@ -72,7 +67,7 @@ public final class sus {
 
                sva.sort((var0x, var1x) -> Double.compare(var1x.distance, var0x.distance));
                uut.beginFrame();
-               float var14 = Math.max(1, var2.method_22683().method_4495());
+               float var14 = Math.max(1, var2.getWindow().getScaleFactor());
 
                for (sup var16 : sva) {
                   svh(var0, var3, var16, var14);
@@ -90,21 +85,21 @@ public final class sus {
    private static void svf(MinecraftClient var0, rfl var1) {
       suz.clear();
       double var2 = var1.range.get();
-      Box var4 = var0.field_1724.method_5829().method_1009(var2, var2 * 0.6, var2);
-      List var5 = var0.field_1687.method_8390(ItemEntity.class, var4, var0x -> var0x.method_5805() && !var0x.method_6983().method_7960());
-      Vec3d var6 = var0.field_1724.method_33571();
-      var5.sort(Comparator.comparingDouble(var1x -> var1x.method_5707(var6)));
+      Box var4 = var0.player.getBoundingBox().expand(var2, var2 * 0.6, var2);
+      List var5 = var0.world.getEntitiesByClass(ItemEntity.class, var4, var0x -> var0x.isAlive() && !var0x.getStack().isEmpty());
+      Vec3d var6 = var0.player.getEyePos();
+      var5.sort(Comparator.comparingDouble(var1x -> var1x.squaredDistanceTo(var6)));
       boolean var7 = var1.merge.get();
 
       for (ItemEntity var9 : var5) {
-         if (var9.method_5707(var6) > var2 * var2) {
+         if (var9.squaredDistanceTo(var6) > var2 * var2) {
             break;
          }
 
          sup var10 = null;
          if (var7) {
             for (sup var12 : suz) {
-               if (var12.first.method_5858(var9) < 1.44 && ItemStack.method_31577(var12.stack, var9.method_6983())) {
+               if (var12.first.squaredDistanceTo(var9) < 1.44 && ItemStack.areItemsAndComponentsEqual(var12.stack, var9.getStack())) {
                   var10 = var12;
                   break;
                }
@@ -112,10 +107,10 @@ public final class sus {
          }
 
          if (var10 != null) {
-            var10.count = var10.count + var9.method_6983().method_7947();
+            var10.count = var10.count + var9.getStack().getCount();
          } else if (suz.size() < 48) {
             sup var13 = new sup(var9);
-            var13.name = var13.stack.method_7964().getString();
+            var13.name = var13.stack.getName().getString();
             var13.color = svg(var13.stack, var1.rarity.get());
             suz.add(var13);
          }
@@ -125,16 +120,16 @@ public final class sus {
    private static int svg(ItemStack var0, boolean var1) {
       if (!var1) {
          return -723722;
-      } else {
-         Rarity var2 = var0.method_7932();
-         if (var2 == Rarity.field_8906) {
-            return -723722;
-         } else {
-            Formatting var3 = var2.method_58413();
-            Integer var4 = var3 != null ? var3.method_532() : null;
-            return var4 == null ? -723722 : ujt.lerp(0xFF000000 | var4, -1, 0.2F);
-         }
       }
+
+      Rarity var2 = var0.getRarity();
+      if (var2 == Rarity.COMMON) {
+         return -723722;
+      }
+
+      Formatting var3 = var2.getFormatting();
+      Integer var4 = var3 != null ? var3.getColorValue() : null;
+      return var4 == null ? -723722 : ujt.lerp(0xFF000000 | var4, -1, 0.2F);
    }
 
    private static void svh(DrawContext var0, rfl var1, sup var2, float var3) {
@@ -159,9 +154,9 @@ public final class sus {
       float var13 = (float)Math.max(0.35, Math.min(1.0, 1.25 - var2.distance / (var1.range.get() * 1.1)));
       float var14 = Math.round(var2.screen[0] * var3) / var3;
       float var15 = Math.round(var2.screen[1] * var3) / var3;
-      var0.method_51448().pushMatrix();
-      var0.method_51448().translate(var14, var15);
-      var0.method_51448().scale(var5, var5);
+      var0.getMatrices().pushMatrix();
+      var0.getMatrices().translate(var14, var15);
+      var0.getMatrices().scale(var5, var5);
       uut.pushAlpha(var13);
 
       try {
@@ -175,11 +170,11 @@ public final class sus {
          float var18 = var10 + 4.0F;
          if (var6) {
             float var19 = 0.53125F;
-            var0.method_51448().pushMatrix();
-            var0.method_51448().translate(var18 + 4.25F, var12);
-            var0.method_51448().scale(var19, var19);
-            var0.method_51427(var2.stack, -8, -8);
-            var0.method_51448().popMatrix();
+            var0.getMatrices().pushMatrix();
+            var0.getMatrices().translate(var18 + 4.25F, var12);
+            var0.getMatrices().scale(var19, var19);
+            var0.drawItem(var2.stack, -8, -8);
+            var0.getMatrices().popMatrix();
             var18 += 11.5F;
          }
 
@@ -191,7 +186,7 @@ public final class sus {
          }
       } finally {
          uut.popAlpha();
-         var0.method_51448().popMatrix();
+         var0.getMatrices().popMatrix();
       }
    }
 }

@@ -37,10 +37,10 @@ final class swb {
 
    float draw(DrawContext var1, String var2, float var3, float var4, int var5) {
       float var6 = swh.sxj[swh.step];
-      var1.method_51448().pushMatrix();
-      var1.method_51448().scale(1.0F / var6, 1.0F / var6);
+      var1.getMatrices().pushMatrix();
+      var1.getMatrices().scale(1.0F / var6, 1.0F / var6);
       float var7 = this.font().draw(var1, var2, var3 * var6, var4 * var6, var5);
-      var1.method_51448().popMatrix();
+      var1.getMatrices().popMatrix();
       return var7 / var6;
    }
 }

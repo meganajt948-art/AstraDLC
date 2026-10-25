@@ -16,7 +16,7 @@ import net.minecraft.client.network.ServerInfo;
 public final class egq {
    private static final egq egr = new egq();
    private static final Pattern egs = Pattern.compile(a.d("爉\u0ba2脝Ἓ铷ሊꠎ↵뿷㕒닧䢔왥徜헐匼\ue974曮", -1684923850, -795318154));
-   private static final MinecraftClient egt = MinecraftClient.method_1551();
+   private static final MinecraftClient egt = MinecraftClient.getInstance();
    private static final long egu = 10000000L;
    private static final long egv = 2500L;
    private static final long egw = 20000L;
@@ -63,15 +63,15 @@ public final class egq {
          dtv var3 = this.find(var1);
          if (var3 != null) {
             return var3;
-         } else {
-            dtv var4 = new dtv(var1, var2.trim());
-            this.egx.add(var4);
-            ejp.any = true;
-            this.ehk();
-            this.persist();
-            var4.connect();
-            return var4;
          }
+
+         dtv var4 = new dtv(var1, var2.trim());
+         this.egx.add(var4);
+         ejp.any = true;
+         this.ehk();
+         this.persist();
+         var4.connect();
+         return var4;
       } else {
          return null;
       }
@@ -93,7 +93,7 @@ public final class egq {
    }
 
    private void ehj() {
-      if (!this.ehd && egt.method_18854() && egt.field_1697 != null && ehi() != null) {
+      if (!this.ehd && egt.isOnThread() && egt.runDirectory != null && ehi() != null) {
          this.ehd = true;
          ejz var1 = eke.load();
          if (var1.viewDistance() > 0) {
@@ -153,16 +153,16 @@ public final class egq {
       long var2 = System.currentTimeMillis();
       if (var2 - this.ehe < 2500L) {
          return false;
-      } else {
-         for (dtv var5 : this.egx) {
-            if (var5 != var1 && var5.isJoining() && var2 - var5.getStatusTime() < 20000L) {
-               return false;
-            }
-         }
-
-         this.ehe = var2;
-         return true;
       }
+
+      for (dtv var5 : this.egx) {
+         if (var5 != var1 && var5.isJoining() && var2 - var5.getStatusTime() < 20000L) {
+            return false;
+         }
+      }
+
+      this.ehe = var2;
+      return true;
    }
 
    private List<dtv> ehl() {
@@ -182,20 +182,20 @@ public final class egq {
       String var2 = var1 == null ? "" : var1.trim();
       if (var2.isEmpty()) {
          return 0;
-      } else {
-         List var3 = this.ehl();
-         long var4 = 0L;
-
-         for (dtv var7 : var3) {
-            var7.schedule(var4, () -> var7.sendChat(var2));
-            var4 += 400L + this.egy.nextInt(900);
-         }
-
-         this.ehf = System.currentTimeMillis();
-         this.egz.clear();
-         this.egz.addAll(var3);
-         return var3.size();
       }
+
+      List var3 = this.ehl();
+      long var4 = 0L;
+
+      for (dtv var7 : var3) {
+         var7.schedule(var4, () -> var7.sendChat(var2));
+         var4 += 400L + this.egy.nextInt(900);
+      }
+
+      this.ehf = System.currentTimeMillis();
+      this.egz.clear();
+      this.egz.addAll(var3);
+      return var3.size();
    }
 
    public long getLastBroadcast() {
@@ -316,9 +316,9 @@ public final class egq {
    }
 
    public String suggestAddress() {
-      ServerInfo var1 = egt.method_1558();
-      if (var1 != null && var1.field_3761 != null && !var1.field_3761.isBlank()) {
-         return var1.field_3761;
+      ServerInfo var1 = egt.getCurrentServerEntry();
+      if (var1 != null && var1.address != null && !var1.address.isBlank()) {
+         return var1.address;
       } else {
          return this.egx.isEmpty() ? "" : this.egx.get(this.egx.size() - 1).getAddress();
       }

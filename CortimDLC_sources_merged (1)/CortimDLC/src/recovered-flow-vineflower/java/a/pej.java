@@ -143,10 +143,10 @@ public final class pej {
    private static phm[] per(phm... var0) {
       phm[] var1 = new phm[var0.length + 4];
       System.arraycopy(var0, 0, var1, 0, var0.length);
-      var1[var0.length] = phm.denyEnchant(Enchantments.field_9097);
-      var1[var0.length + 1] = phm.denyEnchant(Enchantments.field_9121);
-      var1[var0.length + 2] = phm.denyEnchant(Enchantments.field_9113);
-      var1[var0.length + 3] = phm.denyEnchant(Enchantments.field_9109);
+      var1[var0.length] = phm.denyEnchant(Enchantments.THORNS);
+      var1[var0.length + 1] = phm.denyEnchant(Enchantments.KNOCKBACK);
+      var1[var0.length + 2] = phm.denyEnchant(Enchantments.BINDING_CURSE);
+      var1[var0.length + 3] = phm.denyEnchant(Enchantments.VANISHING_CURSE);
       return var1;
    }
 
@@ -179,11 +179,11 @@ public final class pej {
 
    private static List<pdr> pex() {
       return List.of(
-         pdr.of(Items.field_22022, 1, a.d("鑮\uedf7朦凌狷\uf43e丗잚姉팁咠\uaac8 릻㎚", 203294002, 1893504334))
+         pdr.of(Items.NETHERITE_SWORD, 1, a.d("鑮\uedf7朦凌狷\uf43e丗잚姉팁咠\uaac8 릻㎚", 203294002, 1893504334))
             .deep()
             .rules(
                pet(
-                  per(peu(Enchantments.field_9118, 7), peu(Enchantments.field_9124, 2)),
+                  per(peu(Enchantments.SHARPNESS, 7), peu(Enchantments.FIRE_ASPECT, 2)),
                   pes(
                      pev(a.d("ረ殂", 274560307, -1303092426), 3),
                      pev(a.c(-2066946083, "\ue3c6驕ႊ軸Ԩ菡㧊뀴\u2e60"), 2),
@@ -193,10 +193,10 @@ public final class pej {
                   )
                )
             ),
-         pdr.of(Items.field_49814, 1, a.c(-1857174550, "쟽븞㒵\uaacfℚꞩ"))
+         pdr.of(Items.MACE, 1, a.c(-1857174550, "쟽븞㒵\uaacfℚꞩ"))
             .deep()
-            .rules(pet(per(peu(Enchantments.field_9118, 7), peu(Enchantments.field_50158, 3), peu(Enchantments.field_50157, 5)), pes())),
-         pdr.of(Items.field_8547, 1, a.c(1990404211, "ⱙ喊\udf2c䅟쫼䰿\uf668翪"))
+            .rules(pet(per(peu(Enchantments.SHARPNESS, 7), peu(Enchantments.BREACH, 3), peu(Enchantments.DENSITY, 5)), pes())),
+         pdr.of(Items.TRIDENT, 1, a.c(1990404211, "ⱙ喊\udf2c䅟쫼䰿\uf668翪"))
             .deep()
             .rules(
                pes(
@@ -207,155 +207,157 @@ public final class pej {
                   pew(a.b("룱셡䮸햽幡\ud8a9拵\ueb01畜", -1123762969))
                )
             ),
-         pdr.of(Items.field_22027, 1, a.b("幮⟷괦㍕룷㸾萗ක鏉ᤁ麠惈\uea77玵裡缐", -973841821))
+         pdr.of(Items.NETHERITE_HELMET, 1, a.b("幮⟷괦㍕룷㸾萗ක鏉ᤁ麠惈\uea77玵裡缐", -973841821))
             .deep()
-            .rules(per(peu(Enchantments.field_9111, 5), peu(Enchantments.field_9119, 5), peu(Enchantments.field_9127, 3), peu(Enchantments.field_9101, 1))),
-         pdr.of(Items.field_22028, 1, a.c(1094441149, "\udcb5ꔬ\u2ffd놎㨬볥ی轁ᄒ鯚ᱻ\ue213棙\uf165笵ﶷ䟻졝勧풳嵆"))
+            .rules(per(peu(Enchantments.PROTECTION, 5), peu(Enchantments.UNBREAKING, 5), peu(Enchantments.RESPIRATION, 3), peu(Enchantments.MENDING, 1))),
+         pdr.of(Items.NETHERITE_CHESTPLATE, 1, a.c(1094441149, "\udcb5ꔬ\u2ffd놎㨬볥ی轁ᄒ鯚ᱻ\ue213棙\uf165笵ﶷ䟻졝勧풳嵆"))
             .deep()
-            .rules(per(peu(Enchantments.field_9111, 5), peu(Enchantments.field_9119, 5), peu(Enchantments.field_9101, 1))),
-         pdr.of(Items.field_22029, 1, a.d("梱ᄨ鯹֊踨࣡니㭅ꔖ\u2fdeꡳ嘗\udcdf䕯켿䧍\uf38a籕", 853925532, -1189039582))
+            .rules(per(peu(Enchantments.PROTECTION, 5), peu(Enchantments.UNBREAKING, 5), peu(Enchantments.MENDING, 1))),
+         pdr.of(Items.NETHERITE_LEGGINGS, 1, a.d("梱ᄨ鯹֊踨࣡니㭅ꔖ\u2fdeꡳ嘗\udcdf䕯켿䧍\uf38a籕", 853925532, -1189039582))
             .deep()
-            .rules(per(peu(Enchantments.field_9111, 5), peu(Enchantments.field_9119, 5), peu(Enchantments.field_9101, 1))),
-         pdr.of(Items.field_22030, 1, a.b("㏌䩕삄廷핕厜\ue9b5怸﹫璣\uf30e൪螬Ḓ鐽\u12b6꣼✪붛", -1080019006))
+            .rules(per(peu(Enchantments.PROTECTION, 5), peu(Enchantments.UNBREAKING, 5), peu(Enchantments.MENDING, 1))),
+         pdr.of(Items.NETHERITE_BOOTS, 1, a.b("㏌䩕삄廷핕厜\ue9b5怸﹫璣\uf30e൪螬Ḓ鐽\u12b6꣼✪붛", -1080019006))
             .deep()
-            .rules(per(peu(Enchantments.field_9111, 5), peu(Enchantments.field_9119, 5), peu(Enchantments.field_9128, 3), peu(Enchantments.field_9101, 1))),
-         pdr.of(Items.field_22021, 8, a.d("糟Ԍ辯ᇑ騃Ჸ", 379193225, -1190822030)).rules(pes(pew(a.b("䈬㮷넕⽧ꃈ♣頍ᇔ迾Ռ芔碕\uf646濻\ue5d7杉\ud91c囌챱䩗쏘릃", -1731901920)))),
-         pdr.of(Items.field_8479, 12, a.d("㎿䨓샏庳픛埅\ue989怌︣瓥", -415094037, -1671094927))
+            .rules(per(peu(Enchantments.PROTECTION, 5), peu(Enchantments.UNBREAKING, 5), peu(Enchantments.DEPTH_STRIDER, 3), peu(Enchantments.MENDING, 1))),
+         pdr.of(Items.NETHERITE_SCRAP, 8, a.d("糟Ԍ辯ᇑ騃Ჸ", 379193225, -1190822030)).rules(pes(pew(a.b("䈬㮷넕⽧ꃈ♣頍ᇔ迾Ռ芔碕\uf646濻\ue5d7杉\ud91c囌챱䩗쏘릃", -1731901920)))),
+         pdr.of(Items.SUGAR, 12, a.d("㎿䨓샏庳픛埅\ue989怌︣瓥", -415094037, -1671094927))
             .rules(pes(pew(a.b("⢋儐\udbb2䗀쩯䳄\uf296筴\ue52c濪\ue845ሸ鳭ԣ謟ৼ돀㱯ꚨ\u20fa\ua97f팤", -1200280441)))),
-         pdr.of(Items.field_8614, 4, a.b("\udbe9ꉷ⢬뚧㵳뾭Ǯ衬ᘰ鳱", -2048925710)).rules(pes(pew(a.b("妑 ꪨ㓚뭵㷞莼\u0a62鐵ẇ餠捒\uedf5瑃︘磩슫䴅폙冘\ud81cꉎⲍ", 394223004)))),
-         pdr.of(Items.field_8449, 16, a.b("齎\ue6de氏\uf277秞７䕉첰劐\ud853忶ꗹ⭙", 1010277207))
+         pdr.of(Items.PHANTOM_MEMBRANE, 4, a.b("\udbe9ꉷ⢬뚧㵳뾭Ǯ衬ᘰ鳱", -2048925710)).rules(pes(pew(a.b("妑 ꪨ㓚뭵㷞莼\u0a62鐵ẇ餠捒\uedf5瑃︘磩슫䴅폙冘\ud81cꉎⲍ", 394223004)))),
+         pdr.of(Items.ENDER_EYE, 16, a.b("齎\ue6de氏\uf277秞７䕉첰劐\ud853忶ꗹ⭙", 1010277207))
             .rules(pes(pew(a.d("謜\uf287砥\ue657槸\uef53儷\ud8e3䛍찅䯒놯㽺ꚴ⢈ꩫဨ鿼Չ茕", 1331551435, 105141209)))),
-         pdr.of(Items.field_49098, 32, a.b("ﶼ萪ຉ郷᭛駾➿깉ち뫒㵱", -859309664)),
-         pdr.of(Items.field_8551, 16, a.c(-1931205238, "←堅틝䳝윉")).rules(pes(pew(a.d("∠宻턙佫샄䙯\uf801燘\ueff2敀\ue298ᢙ陊\u0ff7藛݅륫㚹걽⨤ꏞ", -398967956, -1606607549)))),
-         pdr.of(Items.field_8543, 4, a.c(241640080, "⚡弌헗䮥쁺䛏\uf886畠\ueb38憅\ue654ᱛ鋲\u0b4a脔߯")).rules(pes(pew(a.b("柿Ṥ铆\u0ab4蔛ΰ뷘㐇꩙ₓꜲ嵎폦丸쀊䛾ﳀ獤\ue9a7", -5938186)))),
-         pdr.of(Items.field_8288, 1, a.c(-2038713672, "뚊켧䖈\udb8e偐틽沿\ue54a筡\uf1d0百谆ʤ鬗ᄾ鞸")),
-         pdr.of(Items.field_8399, 1, a.c(-1848324022, "푝궼✞륮㊲됍ษ"))
-            .rules(per(peu(Enchantments.field_9098, 3), peu(Enchantments.field_9101, 1), peu(Enchantments.field_9108, 1))),
-         pdr.of(Items.field_8463, 16, a.b("᤻患\uea75琁ﾪ祧쌿仛퓫帤\ud9fd⎉굚㓯", -903013086)),
-         pdr.of(Items.field_8367, 8, a.c(-2078364425, "ꣷ텡寅엃乤좫狴\ufb07敕\uefe4栴鉎ᢌ蔪\u0f70覄㏎뱣⚬ꃶⴔ匪\udde7")),
-         pdr.of(Items.field_8071, 64, a.d("㑎䷖윀奴틟吜\uee30掮吝獞\uf4f3\u0ef8耫ᦖ鎻", -1827240336, -1257589210)),
-         pdr.of(Items.field_8233, 64, a.c(-1284661750, "騪\ue380椭\uf75f粊")),
-         pdr.of(Items.field_8833, 1, a.c(-782763084, "ﾟ蘸೨鋣ᤶ龌")),
-         pdr.of(Items.field_8639, 64, a.c(772165441, "䭬㋌렓♮귌⬏酛ᣟ蛺")),
-         pdr.of(Items.field_8436, 1, a.b("\uf423趌ݚ餪ኁ鐻⸚\ua7e1", 1651372046))
+         pdr.of(Items.WIND_CHARGE, 32, a.b("ﶼ萪ຉ郷᭛駾➿깉ち뫒㵱", -859309664)),
+         pdr.of(Items.DRIED_KELP, 16, a.c(-1931205238, "←堅틝䳝윉")).rules(pes(pew(a.d("∠宻턙佫샄䙯\uf801燘\ueff2敀\ue298ᢙ陊\u0ff7藛݅륫㚹걽⨤ꏞ", -398967956, -1606607549)))),
+         pdr.of(Items.SNOWBALL, 4, a.c(241640080, "⚡弌헗䮥쁺䛏\uf886畠\ueb38憅\ue654ᱛ鋲\u0b4a脔߯")).rules(pes(pew(a.b("柿Ṥ铆\u0ab4蔛ΰ뷘㐇꩙ₓꜲ嵎폦丸쀊䛾ﳀ獤\ue9a7", -5938186)))),
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.c(-2038713672, "뚊켧䖈\udb8e偐틽沿\ue54a筡\uf1d0百谆ʤ鬗ᄾ鞸")),
+         pdr.of(Items.CROSSBOW, 1, a.c(-1848324022, "푝궼✞륮㊲됍ษ"))
+            .rules(per(peu(Enchantments.QUICK_CHARGE, 3), peu(Enchantments.MENDING, 1), peu(Enchantments.MULTISHOT, 1))),
+         pdr.of(Items.GOLDEN_APPLE, 16, a.b("᤻患\uea75琁ﾪ祧쌿仛퓫帤\ud9fd⎉굚㓯", -903013086)),
+         pdr.of(Items.ENCHANTED_GOLDEN_APPLE, 8, a.c(-2078364425, "ꣷ텡寅엃乤좫狴\ufb07敕\uefe4栴鉎ᢌ蔪\u0f70覄㏎뱣⚬ꃶⴔ匪\udde7")),
+         pdr.of(Items.GOLDEN_CARROT, 64, a.d("㑎䷖윀奴틟吜\uee30掮吝獞\uf4f3\u0ef8耫ᦖ鎻", -1827240336, -1257589210)),
+         pdr.of(Items.CHORUS_FRUIT, 64, a.c(-1284661750, "騪\ue380椭\uf75f粊")),
+         pdr.of(Items.ELYTRA, 1, a.c(-782763084, "ﾟ蘸೨鋣ᤶ龌")),
+         pdr.of(Items.FIREWORK_ROCKET, 64, a.c(772165441, "䭬㋌렓♮귌⬏酛ᣟ蛺")),
+         pdr.of(Items.SPLASH_POTION, 1, a.b("\uf423趌ݚ餪ኁ鐻⸚\ua7e1", 1651372046))
             .color(16711680)
             .effects(
-               pim.effect(StatusEffects.field_5909, 10, 200),
-               pim.effect(StatusEffects.field_5904, 5, 300),
-               pim.effect(StatusEffects.field_5919, 10, 100),
-               pim.effect(StatusEffects.field_5912, 1, 3600)
+               pim.effect(StatusEffects.SLOWNESS, 10, 200),
+               pim.effect(StatusEffects.SPEED, 5, 300),
+               pim.effect(StatusEffects.BLINDNESS, 10, 100),
+               pim.effect(StatusEffects.GLOWING, 1, 3600)
             ),
-         pdr.of(Items.field_8436, 1, a.b("鋽\ueb5f懱ﾍ琨\uf2e6䳚섹彪헑分", -1472882985))
+         pdr.of(Items.SPLASH_POTION, 1, a.b("鋽\ueb5f懱ﾍ琨\uf2e6䳚섹彪헑分", -1472882985))
             .color(16777215)
-            .effects(pim.effect(StatusEffects.field_5924, 2, 900), pim.effect(StatusEffects.field_5905, 2, 12000), pim.effect(StatusEffects.field_5915, 2, 0)),
-         pdr.of(Items.field_8436, 1, a.d("\u0e7a矩ﴴ挲\ue89c樸푘嶇쏐䥦캷", -57942152, -1133652706))
+            .effects(
+               pim.effect(StatusEffects.REGENERATION, 2, 900), pim.effect(StatusEffects.INVISIBILITY, 2, 12000), pim.effect(StatusEffects.INSTANT_HEALTH, 2, 0)
+            ),
+         pdr.of(Items.SPLASH_POTION, 1, a.d("\u0e7a矩ﴴ挲\ue89c樸푘嶇쏐䥦캷", -57942152, -1133652706))
             .deep()
             .color(10040115)
-            .effects(pim.effect(StatusEffects.field_5910, 5, 600), pim.effect(StatusEffects.field_5909, 4, 600)),
-         pdr.of(Items.field_8436, 1, a.c(692416365, "歵ዦ頻ؽ趓༷녛㢅ꛑⱠꮸ凍\udf16䚢쳼"))
+            .effects(pim.effect(StatusEffects.STRENGTH, 5, 600), pim.effect(StatusEffects.SLOWNESS, 4, 600)),
+         pdr.of(Items.SPLASH_POTION, 1, a.c(692416365, "歵ዦ頻ؽ趓༷녛㢅ꛑⱠꮸ凍\udf16䚢쳼"))
             .color(65535)
             .effects(
-               pim.effect(StatusEffects.field_5907, 1, 12000),
-               pim.effect(StatusEffects.field_5918, 1, 12000),
-               pim.effect(StatusEffects.field_5914, 3, 1200),
-               pim.effect(StatusEffects.field_5905, 1, 18000)
+               pim.effect(StatusEffects.RESISTANCE, 1, 12000),
+               pim.effect(StatusEffects.FIRE_RESISTANCE, 1, 12000),
+               pim.effect(StatusEffects.HEALTH_BOOST, 3, 1200),
+               pim.effect(StatusEffects.INVISIBILITY, 1, 18000)
             ),
-         pdr.of(Items.field_8436, 1, a.b("武ድ頨خ趀༤녇㣧ꚸⱸꯚ凒\udf00䚼", 1739091839))
+         pdr.of(Items.SPLASH_POTION, 1, a.b("武ድ頨خ趀༤녇㣧ꚸⱸꯚ凒\udf00䚼", 1739091839))
             .color(3355443)
             .effects(
-               pim.effect(StatusEffects.field_5910, 4, 1200),
-               pim.effect(StatusEffects.field_5904, 3, 6000),
-               pim.effect(StatusEffects.field_5917, 1, 1200),
-               pim.effect(StatusEffects.field_5921, 2, 0)
+               pim.effect(StatusEffects.STRENGTH, 4, 1200),
+               pim.effect(StatusEffects.SPEED, 3, 6000),
+               pim.effect(StatusEffects.HASTE, 1, 1200),
+               pim.effect(StatusEffects.INSTANT_DAMAGE, 2, 0)
             ),
-         pdr.of(Items.field_8436, 1, a.b("喧ⰴꛩ㣯덁\u31e5辶ٗ頌\u12b1镪潭\ue1c4硵", -779988546))
+         pdr.of(Items.SPLASH_POTION, 1, a.b("喧ⰴꛩ㣯덁\u31e5辶ٗ頌\u12b1镪潭\ue1c4硵", -779988546))
             .color(3329330)
             .effects(
-               pim.effect(StatusEffects.field_5899, 2, 300),
-               pim.effect(StatusEffects.field_5920, 2, 300),
-               pim.effect(StatusEffects.field_5909, 3, 300),
-               pim.effect(StatusEffects.field_5903, 5, 300),
-               pim.effect(StatusEffects.field_5912, 1, 300)
+               pim.effect(StatusEffects.POISON, 2, 300),
+               pim.effect(StatusEffects.WITHER, 2, 300),
+               pim.effect(StatusEffects.SLOWNESS, 3, 300),
+               pim.effect(StatusEffects.HUNGER, 5, 300),
+               pim.effect(StatusEffects.GLOWING, 1, 300)
             ),
-         pdr.of(Items.field_8436, 1, a.d("ᰶ斛\uef4b煆\ufae1籜왱俽톡嬛", -281771746, 1163630851))
+         pdr.of(Items.SPLASH_POTION, 1, a.d("ᰶ斛\uef4b煆\ufae1籜왱俽톡嬛", -281771746, 1163630851))
             .color(4737096)
             .effects(
-               pim.effect(StatusEffects.field_5911, 2, 1800),
-               pim.effect(StatusEffects.field_5901, 2, 200),
-               pim.effect(StatusEffects.field_5920, 3, 1800),
-               pim.effect(StatusEffects.field_5919, 1, 200)
+               pim.effect(StatusEffects.WEAKNESS, 2, 1800),
+               pim.effect(StatusEffects.MINING_FATIGUE, 2, 200),
+               pim.effect(StatusEffects.WITHER, 3, 1800),
+               pim.effect(StatusEffects.BLINDNESS, 1, 200)
             ),
-         pdr.of(Items.field_8574, 1, a.b("附\uefd7攊\ufb0c炢", 891064918))
+         pdr.of(Items.POTION, 1, a.b("附\uefd7攊\ufb0c炢", 891064918))
             .query(a.d("\ue2fd鬵ᇥ辕ш", 905002598, -2078680865))
-            .effects(pim.effect(StatusEffects.field_5910, 3, 3600), pim.effect(StatusEffects.field_5904, 3, 3600)),
-         pdr.of(Items.field_8574, 1, a.c(-1367766924, "豲\uf5e1缼\ue13a檔\ue830嘃\udf87䇞쭩䲲뛋㡩ꆨ⮍괂ᝍ"))
+            .effects(pim.effect(StatusEffects.STRENGTH, 3, 3600), pim.effect(StatusEffects.SPEED, 3, 3600)),
+         pdr.of(Items.POTION, 1, a.c(-1367766924, "豲\uf5e1缼\ue13a檔\ue830嘃\udf87䇞쭩䲲뛋㡩ꆨ⮍괂ᝍ"))
             .query(a.c(1451822281, "ࣴ焼ﯨ旪\uee33"))
-            .effects(pim.effect(StatusEffects.field_5915, 2, 0), pim.effect(StatusEffects.field_5924, 1, 900)),
-         pdr.of(Items.field_8087, 32, a.c(755972333, "㳸䔓쾾凃\uda16岥\ue6f4潺\uf54a箚ﱊع袛ᄤ魼"))
+            .effects(pim.effect(StatusEffects.INSTANT_HEALTH, 2, 0), pim.effect(StatusEffects.REGENERATION, 1, 900)),
+         pdr.of(Items.TIPPED_ARROW, 32, a.c(755972333, "㳸䔓쾾凃\uda16岥\ue6f4潺\uf54a箚ﱊع袛ᄤ魼"))
             .effects(
-               pim.effect(StatusEffects.field_5911, 3, 60),
-               pim.effect(StatusEffects.field_5919, 1, 40),
-               pim.effect(StatusEffects.field_5901, 1, 40),
-               pim.effect(StatusEffects.field_5916, 1, 100)
+               pim.effect(StatusEffects.WEAKNESS, 3, 60),
+               pim.effect(StatusEffects.BLINDNESS, 1, 40),
+               pim.effect(StatusEffects.MINING_FATIGUE, 1, 40),
+               pim.effect(StatusEffects.NAUSEA, 1, 100)
             ),
-         pdr.of(Items.field_8087, 64, a.d("䧃】뫀Ⓞ꼝⦧韤ᨋ葛\u0ee0褽獍ﶛ搢\uee79梀틊嵬", 406160219, -1813786965))
+         pdr.of(Items.TIPPED_ARROW, 64, a.d("䧃】뫀Ⓞ꼝⦧韤ᨋ葛\u0ee0褽獍ﶛ搢\uee79梀틊嵬", 406160219, -1813786965))
             .off()
-            .effects(pim.effect(StatusEffects.field_5909, 10, 100), pim.effect(StatusEffects.field_5901, 3, 40)),
-         pdr.of(Items.field_8087, 64, a.b("솞롰㊧격✄ꇂᮟ鈙ష蚋ħＹ疏\uec3d晬\ue0e8媩핳", 103335312))
+            .effects(pim.effect(StatusEffects.SLOWNESS, 10, 100), pim.effect(StatusEffects.MINING_FATIGUE, 3, 40)),
+         pdr.of(Items.TIPPED_ARROW, 64, a.b("솞롰㊧격✄ꇂᮟ鈙ష蚋ħＹ疏\uec3d晬\ue0e8媩핳", 103335312))
             .off()
-            .effects(pim.effect(StatusEffects.field_5909, 3, 100), pim.effect(StatusEffects.field_5920, 3, 100), pim.effect(StatusEffects.field_5899, 3, 100)),
-         pdr.of(Items.field_8288, 1, a.b("赑\uf4f2縪\ue058毶\ued3a坥\ude99䓛쩐䷙랫㥷ꂶ⪟같ᙘ駽", 247499105))
+            .effects(pim.effect(StatusEffects.SLOWNESS, 3, 100), pim.effect(StatusEffects.WITHER, 3, 100), pim.effect(StatusEffects.POISON, 3, 100)),
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.b("赑\uf4f2縪\ue058毶\ued3a坥\ude99䓛쩐䷙랫㥷ꂶ⪟같ᙘ駽", 247499105))
             .off()
             .deep()
             .attrs(
-               pim.flat(EntityAttributes.field_23716, 4.0),
-               pim.flat(EntityAttributes.field_23721, 3.0),
-               pim.flat(EntityAttributes.field_23725, 2.0),
-               pim.flat(EntityAttributes.field_23724, 2.0)
+               pim.flat(EntityAttributes.MAX_HEALTH, 4.0),
+               pim.flat(EntityAttributes.ATTACK_DAMAGE, 3.0),
+               pim.flat(EntityAttributes.ARMOR_TOUGHNESS, 2.0),
+               pim.flat(EntityAttributes.ARMOR, 2.0)
             ),
-         pdr.of(Items.field_8288, 1, a.d("\u0acf獬領柆\uec68檤탻备썅䷴쨷ぁ뺕✮괃⮂", -798848842, 973178443))
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.d("\u0acf獬領柆\uec68檤탻备썅䷴쨷ぁ뺕✮괃⮂", -798848842, 973178443))
             .off()
             .deep()
             .attrs(
-               pim.flat(EntityAttributes.field_23721, 4.0),
-               pim.flat(EntityAttributes.field_23716, 2.0),
-               pim.scaled(EntityAttributes.field_23719, 0.10000001817743467),
-               pim.scaled(EntityAttributes.field_23723, 0.10000001817743467),
-               pim.flat(EntityAttributes.field_23724, -3.0)
+               pim.flat(EntityAttributes.ATTACK_DAMAGE, 4.0),
+               pim.flat(EntityAttributes.MAX_HEALTH, 2.0),
+               pim.scaled(EntityAttributes.MOVEMENT_SPEED, 0.10000001817743467),
+               pim.scaled(EntityAttributes.ATTACK_SPEED, 0.10000001817743467),
+               pim.flat(EntityAttributes.ARMOR, -3.0)
             ),
-         pdr.of(Items.field_8288, 1, a.c(1366396821, "许\uf21b磃\ue6b1洟\uebd3册\ud870䈲첁䭈녁㿦ꙚⰄ"))
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.c(1366396821, "许\uf21b磃\ue6b1洟\uebd3册\ud870䈲첁䭈녁㿦ꙚⰄ"))
             .off()
             .deep()
-            .attrs(pim.flat(EntityAttributes.field_23721, 2.0), pim.flat(EntityAttributes.field_23724, 2.0), pim.flat(EntityAttributes.field_23716, -4.0)),
-         pdr.of(Items.field_8288, 1, a.d("炦अ菝ᶯ阁Ⴭꪒ⍮뤬㞒뀮䨡쒉崻휒", -1235384766, 1483862729))
+            .attrs(pim.flat(EntityAttributes.ATTACK_DAMAGE, 2.0), pim.flat(EntityAttributes.ARMOR, 2.0), pim.flat(EntityAttributes.MAX_HEALTH, -4.0)),
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.d("炦अ菝ᶯ阁Ⴭꪒ⍮뤬㞒뀮䨡쒉崻휒", -1235384766, 1483862729))
             .off()
             .deep()
-            .attrs(pim.flat(EntityAttributes.field_23721, 5.0), pim.flat(EntityAttributes.field_23716, -4.0)),
-         pdr.of(Items.field_8288, 1, a.c(-1333460296, "ڔ缷\uf5ef殝\ue033替\udca0啜켞䆝왤㱨늺⬄"))
+            .attrs(pim.flat(EntityAttributes.ATTACK_DAMAGE, 5.0), pim.flat(EntityAttributes.MAX_HEALTH, -4.0)),
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.c(-1333460296, "ڔ缷\uf5ef殝\ue033替\udca0啜켞䆝왤㱨늺⬄"))
             .off()
             .deep()
             .attrs(
-               pim.flat(EntityAttributes.field_23716, 2.0),
-               pim.scaled(EntityAttributes.field_23719, 0.1500000347540806),
-               pim.scaled(EntityAttributes.field_23723, 0.1500000347540806)
+               pim.flat(EntityAttributes.MAX_HEALTH, 2.0),
+               pim.scaled(EntityAttributes.MOVEMENT_SPEED, 0.1500000347540806),
+               pim.scaled(EntityAttributes.ATTACK_SPEED, 0.1500000347540806)
             ),
-         pdr.of(Items.field_8288, 1, a.b("⡚凹\udb21䕓컽䠱\uf26e箒\ue1d0潝\ue8d2ዓ鰎ֵ", 109194358))
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.b("⡚凹\udb21䕓컽䠱\uf26e箒\ue1d0潝\ue8d2ዓ鰎ֵ", 109194358))
             .off()
             .deep()
-            .attrs(pim.flat(EntityAttributes.field_23724, 1.5), pim.flat(EntityAttributes.field_23716, 1.5)),
-         pdr.of(Items.field_8288, 1, a.c(-534412169, "聚粒猡\ued53曽\ue031婮펒䧐읕䂧뫟㐊궸⟦"))
+            .attrs(pim.flat(EntityAttributes.ARMOR, 1.5), pim.flat(EntityAttributes.MAX_HEALTH, 1.5)),
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.c(-534412169, "聚粒猡\ued53曽\ue031婮펒䧐읕䂧뫟㐊궸⟦"))
             .off()
             .deep()
-            .attrs(pim.flat(EntityAttributes.field_23721, 2.5), pim.scaled(EntityAttributes.field_23723, 0.10000001817743467)),
-         pdr.of(Items.field_8288, 1, a.d("鷩\ue44a溒\uf0e0筎ﶂ䟝측呣\udae8崑꜐⦷끴㩐벯ڔ", -653624167, 935585091))
+            .attrs(pim.flat(EntityAttributes.ATTACK_DAMAGE, 2.5), pim.scaled(EntityAttributes.ATTACK_SPEED, 0.10000001817743467)),
+         pdr.of(Items.TOTEM_OF_UNDYING, 1, a.d("鷩\ue44a溒\uf0e0筎ﶂ䟝측呣\udae8崑꜐⦷끴㩐벯ڔ", -653624167, 935585091))
             .off()
             .deep()
             .attrs(
-               pim.flat(EntityAttributes.field_23721, 7.0),
-               pim.flat(EntityAttributes.field_23716, -4.0),
-               pim.scaled(EntityAttributes.field_23719, 0.10000001817743467)
+               pim.flat(EntityAttributes.ATTACK_DAMAGE, 7.0),
+               pim.flat(EntityAttributes.MAX_HEALTH, -4.0),
+               pim.scaled(EntityAttributes.MOVEMENT_SPEED, 0.10000001817743467)
             ),
-         pdr.of(Items.field_8575, 1, a.c(-831847836, "َ羚\uf538欼\ue09b戺\udc6c喈쯙䄗욵"))
+         pdr.of(Items.PLAYER_HEAD, 1, a.c(-831847836, "َ羚\uf538欼\ue09b戺\udc6c喈쯙䄗욵"))
             .off()
             .deep()
             .skin(
@@ -365,14 +367,14 @@ public final class pej {
                )
             )
             .attrs(
-               pim.flat(EntityAttributes.field_23716, -4.0),
-               pim.flat(EntityAttributes.field_23724, 1.5),
-               pim.flat(EntityAttributes.field_23721, 2.5),
-               pim.scaled(EntityAttributes.field_23719, 0.07000004566537438),
-               pim.scaled(EntityAttributes.field_23723, 0.13000000024761527),
-               pim.scaled(EntityAttributes.field_49078, 0.09000001839414021)
+               pim.flat(EntityAttributes.MAX_HEALTH, -4.0),
+               pim.flat(EntityAttributes.ARMOR, 1.5),
+               pim.flat(EntityAttributes.ATTACK_DAMAGE, 2.5),
+               pim.scaled(EntityAttributes.MOVEMENT_SPEED, 0.07000004566537438),
+               pim.scaled(EntityAttributes.ATTACK_SPEED, 0.13000000024761527),
+               pim.scaled(EntityAttributes.GRAVITY, 0.09000001839414021)
             ),
-         pdr.of(Items.field_8575, 1, a.c(731667733, "夸⃬\uaa4e㑊뿭㵌茞૾铓Ḙ馳掲"))
+         pdr.of(Items.PLAYER_HEAD, 1, a.c(731667733, "夸⃬\uaa4e㑊뿭㵌茞૾铓Ḙ馳掲"))
             .off()
             .deep()
             .skin(
@@ -382,11 +384,11 @@ public final class pej {
                )
             )
             .attrs(
-               pim.flat(EntityAttributes.field_23721, 2.0),
-               pim.scaled(EntityAttributes.field_23728, -0.10000000768432185),
-               pim.scaled(EntityAttributes.field_23723, 0.1500000347540806)
+               pim.flat(EntityAttributes.ATTACK_DAMAGE, 2.0),
+               pim.scaled(EntityAttributes.JUMP_STRENGTH, -0.10000000768432185),
+               pim.scaled(EntityAttributes.ATTACK_SPEED, 0.1500000347540806)
             ),
-         pdr.of(Items.field_8575, 1, a.c(431571327, "䕒㲆똤⠠ꎇΩ齄ᚑ袺Ȉ薡翐"))
+         pdr.of(Items.PLAYER_HEAD, 1, a.c(431571327, "䕒㲆똤⠠ꎇΩ齄ᚑ袺Ȉ薡翐"))
             .off()
             .deep()
             .skin(
@@ -397,12 +399,12 @@ public final class pej {
                )
             )
             .attrs(
-               pim.flat(EntityAttributes.field_23724, 1.0),
-               pim.flat(EntityAttributes.field_23716, 4.0),
-               pim.scaled(EntityAttributes.field_23719, 0.10000001817743467),
-               pim.scaled(EntityAttributes.field_23723, 0.10000001817743467)
+               pim.flat(EntityAttributes.ARMOR, 1.0),
+               pim.flat(EntityAttributes.MAX_HEALTH, 4.0),
+               pim.scaled(EntityAttributes.MOVEMENT_SPEED, 0.10000001817743467),
+               pim.scaled(EntityAttributes.ATTACK_SPEED, 0.10000001817743467)
             ),
-         pdr.of(Items.field_8575, 1, a.d("অ灑\ufaf3擷\uef50深펒娳쐙仜쥾", -356596800, 1681444463))
+         pdr.of(Items.PLAYER_HEAD, 1, a.d("অ灑\ufaf3擷\uef50深펒娳쐙仜쥾", -356596800, 1681444463))
             .off()
             .deep()
             .skin(
@@ -411,8 +413,8 @@ public final class pej {
                   1495892132
                )
             )
-            .attrs(pim.flat(EntityAttributes.field_23721, 6.0), pim.flat(EntityAttributes.field_23724, -2.0), pim.flat(EntityAttributes.field_23716, -2.0)),
-         pdr.of(Items.field_8575, 1, a.b("皜\u0f48藪ᯮ遉የ겈╒묁㇄똜", -206671178))
+            .attrs(pim.flat(EntityAttributes.ATTACK_DAMAGE, 6.0), pim.flat(EntityAttributes.ARMOR, -2.0), pim.flat(EntityAttributes.MAX_HEALTH, -2.0)),
+         pdr.of(Items.PLAYER_HEAD, 1, a.b("皜\u0f48藪ᯮ遉የ겈╒묁㇄똜", -206671178))
             .off()
             .deep()
             .skin(
@@ -422,12 +424,12 @@ public final class pej {
                )
             )
             .attrs(
-               pim.flat(EntityAttributes.field_23716, 4.0),
-               pim.flat(EntityAttributes.field_23724, 2.0),
-               pim.scaled(EntityAttributes.field_51576, 0.5),
-               pim.scaled(EntityAttributes.field_51583, 0.5)
+               pim.flat(EntityAttributes.MAX_HEALTH, 4.0),
+               pim.flat(EntityAttributes.ARMOR, 2.0),
+               pim.scaled(EntityAttributes.SUBMERGED_MINING_SPEED, 0.5),
+               pim.scaled(EntityAttributes.OXYGEN_BONUS, 0.5)
             ),
-         pdr.of(Items.field_8575, 1, a.d("鐮\uedfa杘樂狻\uf05a丱쟢妷퍶哕", -1201787394, -1297433094))
+         pdr.of(Items.PLAYER_HEAD, 1, a.d("鐮\uedfa杘樂狻\uf05a丱쟢妷퍶哕", -1201787394, -1297433094))
             .off()
             .deep()
             .skin(
@@ -436,8 +438,8 @@ public final class pej {
                   750434751
                )
             )
-            .attrs(pim.flat(EntityAttributes.field_23721, 2.0), pim.flat(EntityAttributes.field_23716, 2.0)),
-         pdr.of(Items.field_8575, 1, a.b("\uf417跃ݡ饥ዂ遣⸽ꞡ㦆댻㓬", -682954691))
+            .attrs(pim.flat(EntityAttributes.ATTACK_DAMAGE, 2.0), pim.flat(EntityAttributes.MAX_HEALTH, 2.0)),
+         pdr.of(Items.PLAYER_HEAD, 1, a.b("\uf417跃ݡ饥ዂ遣⸽ꞡ㦆댻㓬", -682954691))
             .off()
             .deep()
             .skin(
@@ -447,8 +449,8 @@ public final class pej {
                   2109631463
                )
             )
-            .attrs(pim.flat(EntityAttributes.field_23726, 1.0), pim.flat(EntityAttributes.field_23716, 2.0), pim.flat(EntityAttributes.field_47758, 1.0)),
-         pdr.of(Items.field_8575, 1, a.c(234194207, "脲\uf8e6牄\uec40柧\ue546嬗틼䳙옚䇄뮸"))
+            .attrs(pim.flat(EntityAttributes.LUCK, 1.0), pim.flat(EntityAttributes.MAX_HEALTH, 2.0), pim.flat(EntityAttributes.BLOCK_INTERACTION_RANGE, 1.0)),
+         pdr.of(Items.PLAYER_HEAD, 1, a.c(234194207, "脲\uf8e6牄\uec40柧\ue546嬗틼䳙옚䇄뮸"))
             .off()
             .deep()
             .skin(
@@ -459,9 +461,9 @@ public final class pej {
                )
             )
             .attrs(
-               pim.flat(EntityAttributes.field_23724, 2.5),
-               pim.flat(EntityAttributes.field_23725, 2.5),
-               pim.scaled(EntityAttributes.field_23719, -0.15000007945819008)
+               pim.flat(EntityAttributes.ARMOR, 2.5),
+               pim.flat(EntityAttributes.ARMOR_TOUGHNESS, 2.5),
+               pim.scaled(EntityAttributes.MOVEMENT_SPEED, -0.15000007945819008)
             )
       );
    }

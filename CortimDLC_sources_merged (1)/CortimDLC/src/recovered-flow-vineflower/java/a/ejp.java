@@ -26,13 +26,13 @@ public final class ejp {
    public static boolean lockMain() {
       if (!any) {
          return false;
-      } else {
-         try {
-            return LOCK.tryLock(40L, TimeUnit.MILLISECONDS);
-         } catch (InterruptedException var1) {
-            Thread.currentThread().interrupt();
-            return false;
-         }
+      }
+
+      try {
+         return LOCK.tryLock(40L, TimeUnit.MILLISECONDS);
+      } catch (InterruptedException var1) {
+         Thread.currentThread().interrupt();
+         return false;
       }
    }
 

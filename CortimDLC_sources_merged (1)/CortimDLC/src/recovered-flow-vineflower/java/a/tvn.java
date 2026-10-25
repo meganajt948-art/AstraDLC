@@ -17,12 +17,12 @@ public final class tvn {
    public tvn(int var1, int var2, int var3, byte[] var4) {
       if (var4.length != 2475) {
          throw new IllegalArgumentException(a.d("縪ކ赚ጺ颽ṟꐖⷴ뎴", -1474897051, 358130997));
-      } else {
-         this.x0 = var1;
-         this.y0 = var2;
-         this.z0 = var3;
-         this.cells = var4;
       }
+
+      this.x0 = var1;
+      this.y0 = var2;
+      this.z0 = var3;
+      this.cells = var4;
    }
 
    public static tvn around(int var0, int var1, int var2, byte[] var3) {

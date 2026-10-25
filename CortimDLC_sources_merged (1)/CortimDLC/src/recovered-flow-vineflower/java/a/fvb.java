@@ -38,7 +38,7 @@ final class fvb {
          fvl();
          fvp();
          fvq(var2);
-         fvd = var0.field_1724.method_24515();
+         fvd = var0.player.getBlockPos();
          fvu(var0, a.b("넽좚䉘\udc3f埦텔欋\ue2f2糦\uf609熖诵ռ鲓\u169e逥⩾ꗢ㽕뤃ヿ䪨쐊忈\ud9b0即\uea8e撆ﹺ砦\uf383ൕ", -744246930));
          fvu(var0, a.b("\uf2e3譄Ɔ鿡ᐸ銊⣕ꄬ㼸뗗㉈젫䚢\udf5c唞펱榴\ue671粏\ufada猪॰蟅ᰅ驩Ⴟꤞ✁붯㯵끋二쓄", 291369649));
          fvu(
@@ -61,12 +61,8 @@ final class fvb {
       if (var1 == 20) {
          BlockPos var3 = pte.find(var0, fvd, a.c(1428921349, "頸\ue18c歐\uf52b绳"), a.b("ඨ琑ﻅ悾\ueb65淘힏", -2026829422));
          BlockPos var4 = pte.find(var0, fvd, a.b("痮య蚍ᢂ錪", 173896106));
-         fvr(a.c(-1752077886, "榐့髩Ҙ較ৡ뎨㩗ꐁ\u2efeꥠ匝\uddd9䑱츺䢘\uf283絎\ue7f0懤\ue850鈊Ჴ蝳ċ讎㉴밸⚛ꂂ⬸헦徠왅䁅쪻畭"), fvd.method_10069(2, 1, 4).equals(var3), String.valueOf(var3));
-         fvr(
-            a.c(-1459945252, "\u0089礿\uf3f9涇\ue65a惦\udab2半쵒䞰쁹㨆듘ⴧꜹ⇄鮘ᑐ軻ࣹ腚ﬗ疩\uee3d栁\ue2db孥픢俒짗䈱볻㚾꽎⤊ꏩᱷ阛"),
-            fvd.method_10069(-2, 0, 4).equals(var4),
-            String.valueOf(var4)
-         );
+         fvr(a.c(-1752077886, "榐့髩Ҙ較ৡ뎨㩗ꐁ\u2efeꥠ匝\uddd9䑱츺䢘\uf283絎\ue7f0懤\ue850鈊Ჴ蝳ċ讎㉴밸⚛ꂂ⬸헦徠왅䁅쪻畭"), fvd.add(2, 1, 4).equals(var3), String.valueOf(var3));
+         fvr(a.c(-1459945252, "\u0089礿\uf3f9涇\ue65a惦\udab2半쵒䞰쁹㨆듘ⴧꜹ⇄鮘ᑐ軻ࣹ腚ﬗ疩\uee3d栁\ue2db孥픢俒짗䈱볻㚾꽎⤊ꏩᱷ阛"), fvd.add(-2, 0, 4).equals(var4), String.valueOf(var4));
       }
 
       if (var1 == 24) {
@@ -79,7 +75,7 @@ final class fvb {
       }
 
       if (var1 == 37) {
-         var0.method_1507(null);
+         var0.setScreen(null);
          wap.set(wam.RU);
          fvs(var0, var2.get(mpq.class).lootList());
       }
@@ -89,12 +85,12 @@ final class fvb {
       }
 
       if (var1 == 50) {
-         fvt(var0.field_1755, a.d("항겮♶렄㎪", -69843545, -1833200499));
+         fvt(var0.currentScreen, a.d("항겮♶렄㎪", -69843545, -1833200499));
       }
 
       if (var1 == 58) {
          fvv(var0, a.c(-432105100, "餆\ue0b0橰\uf41e羉凉䌩쫘咜\ude74姯ꎕⵈ뒰㺽롚ȑ跓\u1771鄫"));
-         var0.method_1507(null);
+         var0.setScreen(null);
       }
 
       if (var1 == 60 || var1 == 116) {
@@ -128,7 +124,7 @@ final class fvb {
 
       if (var1 == 142) {
          fvv(var0, a.b("㓻䵍잍姣퉴咜\ueed4朥凉珐\uf41e\u0e76胼ᤅ鍝", -469748590));
-         var0.method_1507(null);
+         var0.setScreen(null);
          wap.set(wam.RU);
       }
 
@@ -141,7 +137,7 @@ final class fvb {
    }
 
    private static double[] fvg(MinecraftClient var0, Class<? extends kfe> var1) throws Exception {
-      if (var0.field_1755 instanceof hlc var2) {
+      if (var0.currentScreen instanceof hlc var2) {
          Field var11 = hlc.class.getDeclaredField(a.d("\uf24a诤ĭ齆ᒚ鈥⡿", 113480592, -554737237));
          var11.setAccessible(true);
 
@@ -166,17 +162,17 @@ final class fvb {
    private static void fvh(MinecraftClient var0, Class<? extends kfe> var1, int var2) throws Exception {
       double[] var3 = fvg(var0, var1);
       if (var3 != null) {
-         var0.field_1755.method_25402(new Click(var3[0], var3[1], new MouseInput(var2, 0)), false);
+         var0.currentScreen.mouseClicked(new Click(var3[0], var3[1], new MouseInput(var2, 0)), false);
       }
    }
 
    private static void fvi(MinecraftClient var0, Class<? extends kfe> var1) throws Exception {
       double[] var2 = fvg(var0, var1);
       if (var2 != null) {
-         double var3 = var0.method_22683().method_4495();
+         double var3 = var0.getWindow().getScaleFactor();
          double var5 = var2[0] * var3;
          double var7 = var2[1] * var3;
-         long var9 = var0.method_22683().method_4490();
+         long var9 = var0.getWindow().getHandle();
          GLFWCursorPosCallback var11 = GLFW.glfwSetCursorPosCallback(var9, null);
          GLFW.glfwSetCursorPosCallback(var9, var11);
          GLFW.glfwSetCursorPos(var9, var5, var7);
@@ -210,7 +206,7 @@ final class fvb {
          var7.setFloat(null, Float.NaN);
       }
 
-      var0.method_1507(new hlc());
+      var0.setScreen(new hlc());
    }
 
    private static void fvl() {
@@ -218,33 +214,43 @@ final class fvb {
       List var1 = List.of(ppu.END_DEFAULTS);
       fvr(a.d("\uee70韗ᴗ荰ࢦ踜㐁붼⏦ꥍ⺙풼娣쎛䧚콸產\ufaf1恕\ue648澺ᗬ魔\u0093", 1971120378, 1994196709), var0.size() == 57, String.valueOf(var0.size()));
       fvr(a.c(981350604, "㢼䄆쯟嗪\ude71壅\ue28c歺\uf571羈\uf852ȱ貵ᔑ齎ᦦꎥⱱ뛅ゟ륾"), var1.size() == 59, String.valueOf(var1.size()));
-      fvm(a.d("\u181a憢\ueb64甘ﻉ硫", -1562568576, 1620639993), new ItemStack(Items.field_8833), true, true);
-      fvm(a.c(-876147091, "ฌ瞶ﵴ挙\ue8c3湥퐭巁쎏䥻컪㒖멁⏫ꦿ"), new ItemStack(Items.field_22030), true, true);
-      fvm(a.c(-54121679, "⭛勡\ud83f䙅춛䬥\uf16c碌\ue6d2氧\uebb5ᇕ鼂گ賵"), new ItemStack(Items.field_8367), true, true);
-      fvm(a.c(-102886311, "ᐢ涞\ue746礤\uf2fc瑗칐䟵\ud9bf匃퓕⺾ꁷ㧊뎖"), fvn(Items.field_8288, a.c(-1371863710, "Ԫ嫅\uf64e桂\ue797愴\udb6c办첸䙴솫㯗넝Ⲯꛧ\u206e驑ᖍ輳")), true, true);
-      fvm(a.b("\uf454跶ܢ饘ዖ鐳\u2e75꞉㧓델㒵컈䀐\ud9f5厼픨潌\ue097穠ﱾ疈\u0fdb腽", 1648882725), fvn(Items.field_8288, a.c(-1202624810, "暞㥱闺௶萣ʀ룘ㄪ꼌◀ꈟ塣튩众씫䎤璉癆\uec8f")), false, true);
-      fvm(a.d("⛾彃햒䯥쁷䚎ﳐ甥\ueb7f憐\ue659ᱍ銱ଊ脝ޣ뷭㈾ꢘ", -1636613435, 184837189), new ItemStack(Items.field_49813), false, true);
-      fvm(a.c(-48757466, "Ղ糢\uf62c桋\ue38f敿\udf7f嚍죊䉶얲㿔"), fvn(Items.field_8575, a.d("\uda37藘⥓띟㢉빝ѿ跻Ꮤ鵵ẕ\ue4cf樔\uf3d1禉", 1016128547, 1326267968)), true, true);
+      fvm(a.d("\u181a憢\ueb64甘ﻉ硫", -1562568576, 1620639993), new ItemStack(Items.ELYTRA), true, true);
+      fvm(a.c(-876147091, "ฌ瞶ﵴ挙\ue8c3湥퐭巁쎏䥻컪㒖멁⏫ꦿ"), new ItemStack(Items.NETHERITE_BOOTS), true, true);
+      fvm(a.c(-54121679, "⭛勡\ud83f䙅춛䬥\uf16c碌\ue6d2氧\uebb5ᇕ鼂گ賵"), new ItemStack(Items.ENCHANTED_GOLDEN_APPLE), true, true);
+      fvm(
+         a.c(-102886311, "ᐢ涞\ue746礤\uf2fc瑗칐䟵\ud9bf匃퓕⺾ꁷ㧊뎖"),
+         fvn(Items.TOTEM_OF_UNDYING, a.c(-1371863710, "Ԫ嫅\uf64e桂\ue797愴\udb6c办첸䙴솫㯗넝Ⲯꛧ\u206e驑ᖍ輳")),
+         true,
+         true
+      );
+      fvm(
+         a.b("\uf454跶ܢ饘ዖ鐳\u2e75꞉㧓델㒵컈䀐\ud9f5厼픨潌\ue097穠ﱾ疈\u0fdb腽", 1648882725),
+         fvn(Items.TOTEM_OF_UNDYING, a.c(-1202624810, "暞㥱闺௶萣ʀ룘ㄪ꼌◀ꈟ塣튩众씫䎤璉癆\uec8f")),
+         false,
+         true
+      );
+      fvm(a.d("⛾彃햒䯥쁷䚎ﳐ甥\ueb7f憐\ue659ᱍ銱ଊ脝ޣ뷭㈾ꢘ", -1636613435, 184837189), new ItemStack(Items.HEAVY_CORE), false, true);
+      fvm(a.c(-48757466, "Ղ糢\uf62c桋\ue38f敿\udf7f嚍죊䉶얲㿔"), fvn(Items.PLAYER_HEAD, a.d("\uda37藘⥓띟㢉빝ѿ跻Ꮤ鵵ẕ\ue4cf樔\uf3d1禉", 1016128547, 1326267968)), true, true);
       fvm(
          a.c(-608273165, "粘ԯ迯ᆏ騈Ჱꚹ⽘넖㮴뱶䙗죗典\udb36巛\ue7dc桙\uf2f6璪ﴘ蜊\u09bb鉬ᐑ麅❵ꤦ㏃떕㹻"),
-         fvo(Items.field_22021, a.c(-885893216, "埱ࠞ꒕㪙때㎟覼B鸘ᒣ"), a.b("㣧䅼쯞喬\uda03岨\ue2c6欟\uf535羇\uf85fɞ貍ᔰ鼜ᶂꏗⰇ뚺゜뤓썈", 1345207531)),
+         fvo(Items.NETHERITE_SCRAP, a.c(-885893216, "埱ࠞ꒕㪙때㎟覼B鸘ᒣ"), a.b("㣧䅼쯞喬\uda03岨\ue2c6欟\uf535羇\uf85fɞ貍ᔰ鼜ᶂꏗⰇ뚺゜뤓썈", 1345207531)),
          true,
          true
       );
       fvr(
          a.c(-1230220475, "匹⫉ꁎ㸹뗽㍝襞æ麣ᑁ鏜榬\ue760纅\uf498牢젼䟱\udd4f嬉틥ꢩ☋붟㮳녲࣐蚒ᱴ"),
          !ppu.picked(
-            fvo(Items.field_22021, a.c(-1588496992, "痱⨞蚕ᢙ靌ᆟꮼ≂반㚣"), a.c(1158358909, "⍱嫪큈为솕䜾縷炉\ueea3搑\ue3c9ᧈ霛\u0ea6蒊ؔ롁㞑괬⬊ꊅ\ud8de")),
+            fvo(Items.NETHERITE_SCRAP, a.c(-1588496992, "痱⨞蚕ᢙ靌ᆟꮼ≂반㚣"), a.c(1158358909, "⍱嫪큈为솕䜾縷炉\ueea3搑\ue3c9ᧈ霛\u0ea6蒊ؔ롁㞑괬⬊ꊅ\ud8de")),
             Set.of(a.c(1106050426, "ﴛ蒡\u0e63逎ᯔ鵲✺껖\u3098먓㷬잍䥋탩媫"))
          ),
          ""
       );
       fvr(
          a.d("喯Ⰲꛜ㢥덵㖊辊٫頥ኇ镅潤\ue1fa硑\uf251瓮캪䅪\udbc5嶙푹긳\u209d뭝㵧럥ๆ耆\u1ae2鲢", 1943216333, 1028748556),
-         ppu.picked(new ItemStack(Items.field_22021), Set.of(a.c(-874594990, "봳쒉之퀦导\udd5a朒\ueefe炰層緄螥ॣ郁᪃"))),
+         ppu.picked(new ItemStack(Items.NETHERITE_SCRAP), Set.of(a.c(-874594990, "봳쒉之퀦导\udd5a朒\ueefe炰層緄螥ॣ郁᪃"))),
          ""
       );
-      ItemStack var2 = fvo(Items.field_8626, a.b("㻯愀춋厇\udc61嫺\ue0df楙", -692568388), a.b("㖣䰌웞壐퍸嗆\uef91晨ﰪ犉\uf55f༧膎ᡍ鈜ᒟ껞╣믎㶐됗츿䂀\udb5d崪ퟶ", -1549127272));
+      ItemStack var2 = fvo(Items.TNT, a.b("㻯愀춋厇\udc61嫺\ue0df楙", -692568388), a.b("㖣䰌웞壐퍸嗆\uef91晨ﰪ犉\uf55f༧膎ᡍ鈜ᒟ껞╣믎㶐됗츿䂀\udb5d崪ퟶ", -1549127272));
       fvr(
          a.d("벙씦俸톋婔\udcae暉\uef62焧ﯢ籸蘓\u0897酤ᬹ鷅➈ꡑ㊥듸㵁䜑즹刼퐔廚\ue768椤\uf3c2痖︪æ諻ፚ锕ᾩꁶ⨀", -216373198, 974509295),
          ppu.picked(var2, Set.of(a.d("㽊䛵찫剘\ud987异\ue57a沑\uf2d4", -1934723647, -360166688)))
@@ -253,15 +259,15 @@ final class fvb {
       );
       fvr(
          a.b("ꅟ\ud8f2刬챕䞅셺筝\uf2b6泳\ue636憬鯇ᕃ貢ۭ耑㩖떀⽽\ua958₵嫾", 927506745),
-         ppu.picked(new ItemStack(Items.field_8626), Set.of(a.d("軇\uf76c綥", -1160098614, 1384891002)))
-            && !ppu.picked(new ItemStack(Items.field_8626), Set.of(a.b("扌ᯢ鄰ཛྷ蒚ȑ롩ㆂ꿇", 325935666), a.d("伶㚉뱗∤ꧻ⽾锆᳭芨", -2025542650, -326442149))),
+         ppu.picked(new ItemStack(Items.TNT), Set.of(a.d("軇\uf76c綥", -1160098614, 1384891002)))
+            && !ppu.picked(new ItemStack(Items.TNT), Set.of(a.b("扌ᯢ鄰ཛྷ蒚ȑ롩ㆂ꿇", 325935666), a.d("伶㚉뱗∤ꧻ⽾锆᳭芨", -2025542650, -326442149))),
          ""
       );
-      fvm(a.c(-1371588117, "㦏䀽쫢咛\udf57姿\ue3a6機"), fvn(Items.field_8366, a.c(-855751823, "䌾᳑끚⹖ꆿ❒鵿ᓹ說f螿秞\uf313溸\ue0ea晾\udc40古줧佺")), true, true);
+      fvm(a.c(-1371588117, "㦏䀽쫢咛\udf57姿\ue3a6機"), fvn(Items.TRIPWIRE_HOOK, a.c(-855751823, "䌾᳑끚⹖ꆿ❒鵿ᓹ說f螿秞\uf313溸\ue0ea晾\udc40古줧佺")), true, true);
       fvm(
          a.b("\ue2ab鬌ᇌ辻Ѥ苔㣉녫⼬ꖟ≋", 1116594884),
          fvo(
-            Items.field_8407,
+            Items.PAPER,
             a.d("삕齺㏱귽∞ꓻỘ霣ॸ菊М\ufe6c璢\ue972捚\ue5a9忣", -1523819686, -96953467),
             a.b("럒칎䒛\udae0儳ퟸ淜\ue034繧\uf0b1睧赪β驹ᑁ隯ⳡꌵ㧾뾫㘣䰈습崈\udf43嗆\uec05扞\uf8ad绿\uf549ங藏ᡟ鹷ᓄꬖ", 2072753130)
          ),
@@ -270,15 +276,15 @@ final class fvb {
       );
       fvm(
          a.c(-1393361415, "ﶓ萨\u0eee郆᭜鷯➷깋〛몥㵺윜"),
-         fvo(Items.field_8153, a.d("紞≕蹺ၶ龝ᤎꍗ⪪뒉㹄릕䏮쵋咆\udeab尺\ue26a涺\uf70c焷\uf8d3苰", -55062592, -731794797), a.d("矘ใ蓯\u1a9d酋ឆ꧊␡빤㓚덀䤻쟹", 848060730, -256896261)),
+         fvo(Items.FEATHER, a.d("紞≕蹺ၶ龝ᤎꍗ⪪뒉㹄릕䏮쵋咆\udeab尺\ue26a涺\uf70c焷\uf8d3苰", -55062592, -731794797), a.d("矘ใ蓯\u1a9d酋ឆ꧊␡빤㓚덀䤻쟹", 848060730, -256896261)),
          true,
          true
       );
-      fvm(a.c(565637939, "\uf359諠0鹉ᖟ錥⤸ꂊ㻗둵㎦짊䜆"), new ItemStack(Items.field_8071), true, true);
-      fvm(a.d("戎ᮼ酸༖蓉ɳ렺㇚꾄╱ꋧ墊홁", -431120216, -969096499), new ItemStack(Items.field_8711), true, true);
-      fvr(a.d("谰\uf5c0罃\ue12e櫴\uec4d嘙\udfa6䆭쬇䳏뚯㡰ꆌ\u2b96굽ᝡ飾Ɍ葒෩瞽契拓", -1178905405, -1584473974), !ppu.known(new ItemStack(Items.field_8288)), "");
-      fvr(a.b("骃\ue33f槷\uf780簃\ufafb䂲줐圁\uddb1娭ꀐ⻂띴㴬", -1386439960), !ppu.known(new ItemStack(Items.field_8831)), "");
-      fvr(a.c(-1379258625, "⺄坴\uddf7䎚졀仹\uf4ad紒\ue30b榹\uee6eᐊ髁ͽ褹ྚ떜㩗ꂷ⚨꽞핀宿쁫䘓쳉"), !ppu.known(new ItemStack(Items.field_8153)), "");
+      fvm(a.c(565637939, "\uf359諠0鹉ᖟ錥⤸ꂊ㻗둵㎦짊䜆"), new ItemStack(Items.GOLDEN_CARROT), true, true);
+      fvm(a.d("戎ᮼ酸༖蓉ɳ렺㇚꾄╱ꋧ墊홁", -431120216, -969096499), new ItemStack(Items.FERMENTED_SPIDER_EYE), true, true);
+      fvr(a.d("谰\uf5c0罃\ue12e櫴\uec4d嘙\udfa6䆭쬇䳏뚯㡰ꆌ\u2b96굽ᝡ飾Ɍ葒෩瞽契拓", -1178905405, -1584473974), !ppu.known(new ItemStack(Items.TOTEM_OF_UNDYING)), "");
+      fvr(a.b("骃\ue33f槷\uf780簃\ufafb䂲줐圁\uddb1娭ꀐ⻂띴㴬", -1386439960), !ppu.known(new ItemStack(Items.DIRT)), "");
+      fvr(a.c(-1379258625, "⺄坴\uddf7䎚졀仹\uf4ad紒\ue30b榹\uee6eᐊ髁ͽ褹ྚ떜㩗ꂷ⚨꽞핀宿쁫䘓쳉"), !ppu.known(new ItemStack(Items.FEATHER)), "");
       fvr(
          a.d("魊\ue2e7根\uf60d綨מּ䅫좚囟\udc66宺ꆅ⼜뚢㳽먄\u000e辖ᔢ錽᪸惎\uee7b疪\uf3cf礖삪", 895776694, -602608493),
          ppu.byId(a.d("쓿뵛㞅꧱∼꒓Ọ露ड़菆И﹢炦\ue918捑", -158138273, 1121240283)).name.equals(a.c(-50827258, "琫ඈ蝐ᤢ銌ᑀ긟⟣붡㌒듛仒쁵姉펗")),
@@ -294,13 +300,13 @@ final class fvb {
 
    private static ItemStack fvn(Item var0, String var1) {
       ItemStack var2 = new ItemStack(var0);
-      var2.method_57379(DataComponentTypes.field_49631, Text.method_43470(var1));
+      var2.set(DataComponentTypes.CUSTOM_NAME, Text.literal(var1));
       return var2;
    }
 
    private static ItemStack fvo(Item var0, String var1, String var2) {
       ItemStack var3 = fvn(var0, var1);
-      var3.method_57379(DataComponentTypes.field_49632, new LoreComponent(List.of(Text.method_43470(var2))));
+      var3.set(DataComponentTypes.LORE, new LoreComponent(List.of(Text.literal(var2))));
       return var3;
    }
 
@@ -420,28 +426,28 @@ final class fvb {
       fvk(var0, a.b("孔⋙ꠇ㙮붥㬃", 1179540226));
       Method var2 = hlc.class.getDeclaredMethod(a.b("艓ﯽ焻\uef41撨\ue220塹톀俑앷", -2008448458), vlj.class);
       var2.setAccessible(true);
-      var2.invoke(var0.field_1755, var1);
+      var2.invoke(var0.currentScreen, var1);
    }
 
    private static void fvt(Screen var0, String var1) {
       if (var0 != null) {
          for (char var5 : var1.toCharArray()) {
-            var0.method_25400(new CharInput(var5, 0));
+            var0.charTyped(new CharInput(var5, 0));
          }
       }
    }
 
    private static void fvu(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void fvv(MinecraftClient var0, String var1) {
       System.out
-         .println(a.d("\uec53间Ἦ腕ૄ谡㙣뾄⇜ꬹ", -1513393298, 2127535940) + var1 + a.c(-1309758798, "ꪑ퍀姳") + var0.method_47599() + a.d("▣屔횑䣣", 820680132, -1706774461));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+         .println(a.d("\uec53间Ἦ腕ૄ谡㙣뾄⇜ꬹ", -1513393298, 2127535940) + var1 + a.c(-1309758798, "ꪑ퍀姳") + var0.getCurrentFps() + a.d("▣屔횑䣣", 820680132, -1706774461));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(-1820769666, "䈞㮥녵⼜\ua48e∠") + var1 + a.b("欹ዖ頛٣", 1241148179),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

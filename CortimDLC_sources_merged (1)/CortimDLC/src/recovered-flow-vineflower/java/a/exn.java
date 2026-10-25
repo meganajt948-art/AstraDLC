@@ -57,17 +57,17 @@ public final class exn {
          int var3 = var2.indexOf(124, a.c(-792534082, "\ue3cb騽Ⴃ").length());
          if (var3 <= 0) {
             return null;
-         } else {
-            try {
-               byte[] var4 = exs.decode(var2.substring(a.d("쬇닱㡯", 52354566, 459412852).length(), var3));
-               byte[] var5 = exs.decode(var2.substring(var3 + 1));
-               Cipher var6 = Cipher.getInstance(a.c(151720179, "Ⴃ椖\ue3d3緞\uf661烔쪉䌚\udd24垴큘⨘\ua4ca㵻뜥㇓讕"));
-               var6.init(2, new SecretKeySpec(var0, a.c(-1314873104, "ꂲ\ud907参")), new GCMParameterSpec(128, var4));
-               var6.updateAAD(var1.getBytes(StandardCharsets.UTF_8));
-               return new String(var6.doFinal(var5), StandardCharsets.UTF_8);
-            } catch (Exception var7) {
-               return null;
-            }
+         }
+
+         try {
+            byte[] var4 = exs.decode(var2.substring(a.d("쬇닱㡯", 52354566, 459412852).length(), var3));
+            byte[] var5 = exs.decode(var2.substring(var3 + 1));
+            Cipher var6 = Cipher.getInstance(a.c(151720179, "Ⴃ椖\ue3d3緞\uf661烔쪉䌚\udd24垴큘⨘\ua4ca㵻뜥㇓讕"));
+            var6.init(2, new SecretKeySpec(var0, a.c(-1314873104, "ꂲ\ud907参")), new GCMParameterSpec(128, var4));
+            var6.updateAAD(var1.getBytes(StandardCharsets.UTF_8));
+            return new String(var6.doFinal(var5), StandardCharsets.UTF_8);
+         } catch (Exception var7) {
+            return null;
          }
       } else {
          return null;
@@ -77,30 +77,30 @@ public final class exn {
    public static byte[] sealBytes(String var0, byte[] var1) {
       if (var1 == null) {
          return null;
-      } else {
-         SecretKeySpec var2 = exy();
-         if (var2 == null) {
-            byte[] var8 = new byte[exv.length + var1.length];
-            System.arraycopy(exv, 0, var8, 0, exv.length);
-            System.arraycopy(var1, 0, var8, exv.length, var1.length);
-            return var8;
-         } else {
-            try {
-               byte[] var3 = new byte[12];
-               ext.nextBytes(var3);
-               Cipher var4 = Cipher.getInstance(a.c(-1557608148, "쥼냉㨌ꐁ⾾ꤋፖ髅ӻ蹫ই\uf3c7紕\ue4a4滺\ue80c削"));
-               var4.init(1, var2, new GCMParameterSpec(128, var3));
-               var4.updateAAD(var0.getBytes(StandardCharsets.UTF_8));
-               byte[] var5 = var4.doFinal(var1);
-               byte[] var6 = new byte[exu.length + 12 + var5.length];
-               System.arraycopy(exu, 0, var6, 0, exu.length);
-               System.arraycopy(var3, 0, var6, exu.length, 12);
-               System.arraycopy(var5, 0, var6, exu.length + 12, var5.length);
-               return var6;
-            } catch (Exception var7) {
-               return null;
-            }
-         }
+      }
+
+      SecretKeySpec var2 = exy();
+      if (var2 == null) {
+         byte[] var8 = new byte[exv.length + var1.length];
+         System.arraycopy(exv, 0, var8, 0, exv.length);
+         System.arraycopy(var1, 0, var8, exv.length, var1.length);
+         return var8;
+      }
+
+      try {
+         byte[] var3 = new byte[12];
+         ext.nextBytes(var3);
+         Cipher var4 = Cipher.getInstance(a.c(-1557608148, "쥼냉㨌ꐁ⾾ꤋፖ髅ӻ蹫ই\uf3c7紕\ue4a4滺\ue80c削"));
+         var4.init(1, var2, new GCMParameterSpec(128, var3));
+         var4.updateAAD(var0.getBytes(StandardCharsets.UTF_8));
+         byte[] var5 = var4.doFinal(var1);
+         byte[] var6 = new byte[exu.length + 12 + var5.length];
+         System.arraycopy(exu, 0, var6, 0, exu.length);
+         System.arraycopy(var3, 0, var6, exu.length, 12);
+         System.arraycopy(var5, 0, var6, exu.length + 12, var5.length);
+         return var6;
+      } catch (Exception var7) {
+         return null;
       }
    }
 
@@ -109,7 +109,9 @@ public final class exn {
          SecretKeySpec var2 = exy();
          if (exz(var1, exv)) {
             return var2 == null ? Arrays.copyOfRange(var1, exv.length, var1.length) : null;
-         } else if (exz(var1, exu) && var2 != null && var1.length >= exu.length + 12 + 16) {
+         }
+
+         if (exz(var1, exu) && var2 != null && var1.length >= exu.length + 12 + 16) {
             try {
                Cipher var3 = Cipher.getInstance(a.d("훈꽽▸뮵《뚿ೢ蕱\u1b4f釟ᘳ\uec73抡\ufb10煎\uf7b8䷾", 561945855, -1081980313));
                var3.init(2, var2, new GCMParameterSpec(128, var1, exu.length, 12));
@@ -140,26 +142,26 @@ public final class exn {
    public static String seal(String var0, String var1) {
       if (var1 == null) {
          return null;
-      } else {
-         SecretKeySpec var2 = exy();
-         if (var2 == null) {
-            return var1;
-         } else {
-            try {
-               byte[] var3 = new byte[12];
-               ext.nextBytes(var3);
-               Cipher var4 = Cipher.getInstance(a.c(1555062999, "悇ᤲ鏷\u0dfa虅ð몭㌾관➐ꁼ娼퓮䵟윁䇷ﮱ"));
-               var4.init(1, var2, new GCMParameterSpec(128, var3));
-               if (var0 != null) {
-                  var4.updateAAD(var0.getBytes(StandardCharsets.UTF_8));
-               }
+      }
 
-               byte[] var5 = var4.doFinal(var1.getBytes(StandardCharsets.UTF_8));
-               return a.d("嗓Ⱕꚻ", 259326423, 1864651889) + exr.encodeToString(var3) + a.c(-1794809585, "慲") + exr.encodeToString(var5);
-            } catch (Exception var6) {
-               return null;
-            }
+      SecretKeySpec var2 = exy();
+      if (var2 == null) {
+         return var1;
+      }
+
+      try {
+         byte[] var3 = new byte[12];
+         ext.nextBytes(var3);
+         Cipher var4 = Cipher.getInstance(a.c(1555062999, "悇ᤲ鏷\u0dfa虅ð몭㌾관➐ꁼ娼퓮䵟윁䇷ﮱ"));
+         var4.init(1, var2, new GCMParameterSpec(128, var3));
+         if (var0 != null) {
+            var4.updateAAD(var0.getBytes(StandardCharsets.UTF_8));
          }
+
+         byte[] var5 = var4.doFinal(var1.getBytes(StandardCharsets.UTF_8));
+         return a.d("嗓Ⱕꚻ", 259326423, 1864651889) + exr.encodeToString(var3) + a.c(-1794809585, "慲") + exr.encodeToString(var5);
+      } catch (Exception var6) {
+         return null;
       }
    }
 
@@ -168,27 +170,29 @@ public final class exn {
          SecretKeySpec var2 = exy();
          if (!var1.startsWith(a.c(-1546608407, "ꂜ\ud96a叴"))) {
             return var2 == null ? var1 : null;
-         } else if (var2 == null) {
-            return null;
-         } else {
-            int var3 = var1.indexOf(124, a.b("砚Ǭ譲", -342198161).length());
-            if (var3 <= 0) {
-               return null;
-            } else {
-               try {
-                  byte[] var4 = exs.decode(var1.substring(a.b("䢾ㅈ믖", -1545516853).length(), var3));
-                  byte[] var5 = exs.decode(var1.substring(var3 + 1));
-                  Cipher var6 = Cipher.getInstance(a.b("\ufaf0荅ঀ鞍ᰲ骇⃚ꥉ㝷뷧㨋쁋亙휨嵶\udb80懆", 1713699488));
-                  var6.init(2, var2, new GCMParameterSpec(128, var4));
-                  if (var0 != null) {
-                     var6.updateAAD(var0.getBytes(StandardCharsets.UTF_8));
-                  }
+         }
 
-                  return new String(var6.doFinal(var5), StandardCharsets.UTF_8);
-               } catch (Exception var7) {
-                  return null;
-               }
+         if (var2 == null) {
+            return null;
+         }
+
+         int var3 = var1.indexOf(124, a.b("砚Ǭ譲", -342198161).length());
+         if (var3 <= 0) {
+            return null;
+         }
+
+         try {
+            byte[] var4 = exs.decode(var1.substring(a.b("䢾ㅈ믖", -1545516853).length(), var3));
+            byte[] var5 = exs.decode(var1.substring(var3 + 1));
+            Cipher var6 = Cipher.getInstance(a.b("\ufaf0荅ঀ鞍ᰲ骇⃚ꥉ㝷뷧㨋쁋亙휨嵶\udb80懆", 1713699488));
+            var6.init(2, var2, new GCMParameterSpec(128, var4));
+            if (var0 != null) {
+               var6.updateAAD(var0.getBytes(StandardCharsets.UTF_8));
             }
+
+            return new String(var6.doFinal(var5), StandardCharsets.UTF_8);
+         } catch (Exception var7) {
+            return null;
          }
       } else {
          return var1;

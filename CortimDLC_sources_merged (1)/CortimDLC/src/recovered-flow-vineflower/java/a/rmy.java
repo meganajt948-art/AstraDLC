@@ -7,11 +7,11 @@ import net.minecraft.util.math.Direction;
 final class rmy {
    final double[] pts = new double[726];
    int n;
-   Type hit = Type.field_1333;
+   Type hit = Type.MISS;
    double hx;
    double hy;
    double hz;
-   Direction face = Direction.field_11036;
+   Direction face = Direction.UP;
    Entity entity;
    int ticks;
 

@@ -37,20 +37,20 @@ public class lfa extends kfe {
       lfa var0 = lfb;
       if (var0 == null) {
          return null;
-      } else {
-         String var1 = var0.lfl.get();
-         if (var1 != null && !var1.isBlank()) {
-            if (lfo == null || !var1.equals(lfp)) {
-               lfp = var1;
-               lfo = tiq.open(var1);
-            }
+      }
 
-            return lfo;
-         } else {
-            lfo = null;
-            lfp = "";
-            return null;
+      String var1 = var0.lfl.get();
+      if (var1 != null && !var1.isBlank()) {
+         if (lfo == null || !var1.equals(lfp)) {
+            lfp = var1;
+            lfo = tiq.open(var1);
          }
+
+         return lfo;
+      } else {
+         lfo = null;
+         lfp = "";
+         return null;
       }
    }
 
@@ -95,20 +95,20 @@ public class lfa extends kfe {
       lfa var0 = lfb;
       if (var0 == null) {
          return null;
-      } else {
-         String var1 = var0.lfk.get();
-         if (var1 != null && !var1.isBlank()) {
-            if (lfm == null || !var1.equals(lfn)) {
-               lfn = var1;
-               lfm = tiq.open(var1);
-            }
+      }
 
-            return lfm;
-         } else {
-            lfm = null;
-            lfn = "";
-            return null;
+      String var1 = var0.lfk.get();
+      if (var1 != null && !var1.isBlank()) {
+         if (lfm == null || !var1.equals(lfn)) {
+            lfn = var1;
+            lfm = tiq.open(var1);
          }
+
+         return lfm;
+      } else {
+         lfm = null;
+         lfn = "";
+         return null;
       }
    }
 
@@ -166,20 +166,20 @@ public class lfa extends kfe {
       lfa var0 = lfb;
       if (var0 == null) {
          return null;
-      } else {
-         String var1 = var0.lff.get();
-         if (var1 != null && !var1.isBlank()) {
-            if (lfc == null || !var1.equals(lfd)) {
-               lfd = var1;
-               lfc = tiq.open(var1);
-            }
+      }
 
-            return lfc;
-         } else {
-            lfc = null;
-            lfd = "";
-            return null;
+      String var1 = var0.lff.get();
+      if (var1 != null && !var1.isBlank()) {
+         if (lfc == null || !var1.equals(lfd)) {
+            lfd = var1;
+            lfc = tiq.open(var1);
          }
+
+         return lfc;
+      } else {
+         lfc = null;
+         lfd = "";
+         return null;
       }
    }
 

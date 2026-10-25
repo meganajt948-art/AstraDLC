@@ -16,9 +16,10 @@ record kdv(Screen screen, ClickableWidget widget, float delay) implements Drawab
       this.kdy = delay;
    }
 
-   public void method_25394(DrawContext var1, int var2, int var3, float var4) {
-      if (this.kdw.method_25396().contains(this.kdx)) {
-         kej.ket(var1, this.kdx, var2, var3, var4, this.kdy);
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+      if (this.kdw.children().contains(this.kdx)) {
+         kej.ket(context, this.kdx, mouseX, mouseY, deltaTicks, this.kdy);
       }
    }
 

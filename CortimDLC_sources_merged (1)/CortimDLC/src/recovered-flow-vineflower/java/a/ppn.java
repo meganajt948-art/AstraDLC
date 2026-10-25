@@ -25,7 +25,7 @@ public final class ppn {
    }
 
    public boolean matches(ItemStack var1) {
-      return var1 != null && !var1.method_7960() && this.ppq.test(new ppi(var1));
+      return var1 != null && !var1.isEmpty() && this.ppq.test(new ppi(var1));
    }
 
    boolean test(ppi var1) {
@@ -56,7 +56,7 @@ public final class ppn {
             var1 = new ItemStack(this.ppo);
          }
 
-         var1.method_57379(DataComponentTypes.field_49631, Text.method_43470(this.name).method_27694(var0 -> var0.method_10978(false)));
+         var1.set(DataComponentTypes.CUSTOM_NAME, Text.literal(this.name).styled(var0 -> var0.withItalic(false)));
          this.ppr = var1;
       }
 

@@ -85,13 +85,13 @@ public final class ufw {
 
       if (var5) {
          throw new GeneralSecurityException(a.b("迮\uf64d粚\ue2e1楽\uef87嗚\udc37", 1116114833));
-      } else {
-         String var10 = var1.compareTo(var2) < 0 ? var1 : var2;
-         String var11 = var10.equals(var1) ? var2 : var1;
-         byte[] var12 = ugc(var4, ufz, (var10 + a.c(1295920587, "ⶶ") + var11).getBytes(StandardCharsets.UTF_8));
-         Arrays.fill(var4, (byte)0);
-         return var12;
       }
+
+      String var10 = var1.compareTo(var2) < 0 ? var1 : var2;
+      String var11 = var10.equals(var1) ? var2 : var1;
+      byte[] var12 = ugc(var4, ufz, (var10 + a.c(1295920587, "ⶶ") + var11).getBytes(StandardCharsets.UTF_8));
+      Arrays.fill(var4, (byte)0);
+      return var12;
    }
 
    public static String seal(byte[] var0, String var1, byte[] var2) throws GeneralSecurityException {
@@ -112,13 +112,13 @@ public final class ufw {
          byte[] var3 = unb64(var2);
          if (var3.length < 28) {
             return null;
-         } else {
-            Cipher var4 = Cipher.getInstance(a.d("㒸䴍쟈姅퉺哏\uee92朁錄环\uf443ฃ胑ᥠ錾ᗈ꾎", -1919511839, 934782473));
-            var4.init(2, new SecretKeySpec(var0, a.b("\u12c1歴\ue1b1", 1318851203)), new GCMParameterSpec(128, var3, 0, 12));
-            var4.updateAAD(var1.getBytes(StandardCharsets.UTF_8));
-            return var4.doFinal(var3, 12, var3.length - 12);
          }
-      } catch (IllegalArgumentException | GeneralSecurityException var5) {
+
+         Cipher var4 = Cipher.getInstance(a.d("㒸䴍쟈姅퉺哏\uee92朁錄环\uf443ฃ胑ᥠ錾ᗈ꾎", -1919511839, 934782473));
+         var4.init(2, new SecretKeySpec(var0, a.b("\u12c1歴\ue1b1", 1318851203)), new GCMParameterSpec(128, var3, 0, 12));
+         var4.updateAAD(var1.getBytes(StandardCharsets.UTF_8));
+         return var4.doFinal(var3, 12, var3.length - 12);
+      } catch (GeneralSecurityException | IllegalArgumentException var5) {
          return null;
       }
    }

@@ -87,12 +87,12 @@ public final class pyd {
    public boolean takeTurn(double[] var1) {
       if (!this.pyo) {
          return false;
-      } else {
-         this.pyo = false;
-         var1[0] = this.pyp;
-         var1[1] = this.pyq;
-         return true;
       }
+
+      this.pyo = false;
+      var1[0] = this.pyp;
+      var1[1] = this.pyq;
+      return true;
    }
 
    public tvz brain() {
@@ -110,7 +110,7 @@ public final class pyd {
    public psf plan(World var1, PlayerEntity var2, List<BlockPos> var3, BlockPos var4, prz var5) {
       if (var3 != null && !var3.isEmpty()) {
          try {
-            return psf.of(var1, var2, var2.method_73189(), var3, var4, this.style(), var5, this.pyh);
+            return psf.of(var1, var2, var2.getEntityPos(), var3, var4, this.style(), var5, this.pyh);
          } catch (RuntimeException var7) {
             return null;
          }
@@ -121,22 +121,22 @@ public final class pyd {
 
    public int walkTo(MinecraftClient var1, PlayerEntity var2, World var3, Vec3d var4, float var5, float var6, Vec3d var7, boolean var8, boolean var9, txs var10) {
       this.pyl++;
-      if (this.pyj == null || this.pyk == null || this.pyk.method_1025(var4) > 0.36 || this.pyl > 60) {
-         this.pyj = psf.direct(var3, var2, var2.method_73189(), var4);
+      if (this.pyj == null || this.pyk == null || this.pyk.squaredDistanceTo(var4) > 0.36 || this.pyl > 60) {
+         this.pyj = psf.direct(var3, var2, var2.getEntityPos(), var4);
          this.pyk = var4;
          this.pyl = 0;
       }
 
       if (this.pyj == null) {
          return 1;
-      } else {
-         int var11 = this.follow(var1, var2, var3, this.pyj, var5, var6, var7, var8, var9, var10);
-         if (var11 == 2) {
-            this.pyj = null;
-         }
-
-         return var11;
       }
+
+      int var11 = this.follow(var1, var2, var3, this.pyj, var5, var6, var7, var8, var9, var10);
+      if (var11 == 2) {
+         this.pyj = null;
+      }
+
+      return var11;
    }
 
    public int follow(MinecraftClient var1, PlayerEntity var2, World var3, psf var4, float var5, float var6, Vec3d var7, boolean var8, boolean var9, txs var10) {
@@ -153,7 +153,7 @@ public final class pyd {
 
       if (var11 == 0 && !var9) {
          this.pys = true;
-         boolean var12 = var2.method_7344().method_7586() > 6 && !var2.method_6115();
+         boolean var12 = var2.getHungerManager().getFoodLevel() > 6 && !var2.isUsingItem();
          if (var10 != null && this.pyt <= 0) {
             if (this.pyi == null || this.pyi.model != var10) {
                this.pyi = new tvz(var10);
@@ -161,7 +161,7 @@ public final class pyd {
 
             tvw var13 = this.pyi.decide(var3, var2, var4.track, this.stride.at(), var5, var6, var12);
             double var14 = this.stride.progress();
-            double var16 = Math.hypot(var2.method_23317() - var2.field_6014, var2.method_23321() - var2.field_5969);
+            double var16 = Math.hypot(var2.getX() - var2.lastX, var2.getZ() - var2.lastZ);
             if (var14 > this.pyu + 0.3) {
                this.pyu = var14;
                this.pyv = 0;
@@ -228,25 +228,25 @@ public final class pyd {
    }
 
    public static void apply(MinecraftClient var0, boolean var1, boolean var2, boolean var3, boolean var4, boolean var5, boolean var6) {
-      GameOptions var7 = var0.field_1690;
+      GameOptions var7 = var0.options;
       if (var7 != null) {
-         var7.field_1894.method_23481(var1);
-         var7.field_1881.method_23481(var2);
-         var7.field_1913.method_23481(var3);
-         var7.field_1849.method_23481(var4);
-         var7.field_1903.method_23481(var5);
+         var7.forwardKey.setPressed(var1);
+         var7.backKey.setPressed(var2);
+         var7.leftKey.setPressed(var3);
+         var7.rightKey.setPressed(var4);
+         var7.jumpKey.setPressed(var5);
          setSprint(var7, var6);
       }
    }
 
    public static void setSprint(GameOptions var0, boolean var1) {
-      KeyBinding var2 = var0.field_1867;
-      if ((Boolean)var0.method_42450().method_41753()) {
-         if (var1 != var2.method_1434()) {
-            var2.method_23481(true);
+      KeyBinding var2 = var0.sprintKey;
+      if (var0.getSprintToggled().getValue()) {
+         if (var1 != var2.isPressed()) {
+            var2.setPressed(true);
          }
       } else {
-         var2.method_23481(var1);
+         var2.setPressed(var1);
       }
    }
 }

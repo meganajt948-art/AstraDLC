@@ -33,7 +33,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
@@ -141,7 +140,7 @@ public class nmg extends kfe {
    private int nov;
    private int now = 8;
    private boolean nox;
-   private ItemStack noy = ItemStack.field_8037;
+   private ItemStack noy = ItemStack.EMPTY;
    private String noz = "";
    private String npa = "";
    private final Set<String> npb = new HashSet<>();
@@ -210,7 +209,7 @@ public class nmg extends kfe {
       this.nqo.reset();
       this.nov = 0;
       this.now = nug();
-      this.npl = this.mc.field_1724 == null ? -1 : this.mc.field_1724.method_31548().method_67532();
+      this.npl = this.mc.player == null ? -1 : this.mc.player.getInventory().getSelectedSlot();
       long var1 = System.currentTimeMillis();
       this.npc.values().removeIf(var2 -> var1 - var2[1] > 180000L);
       this.nop = var1 + 260L + ThreadLocalRandom.current().nextLong(0L, 340L);
@@ -225,8 +224,8 @@ public class nmg extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       this.nsg();
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.method_1562() != null) {
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.getNetworkHandler() != null) {
          if (this.npm) {
             this.npn.hold(var1);
          }
@@ -236,7 +235,7 @@ public class nmg extends kfe {
          }
 
          if (this.noh == nmc.IDLE) {
-            Screen var3 = var1.field_1755;
+            Screen var3 = var1.currentScreen;
             if (var3 == null || var3 instanceof HandledScreen) {
                if (System.currentTimeMillis() >= this.nop) {
                   if (!this.nqw() && !this.nrw()) {
@@ -332,7 +331,7 @@ public class nmg extends kfe {
    }
 
    private boolean nqw() {
-      PlayerInventory var1 = this.mc.field_1724.method_31548();
+      PlayerInventory var1 = this.mc.player.getInventory();
 
       for (int var2 = 0; var2 < 2; var2++) {
          int var3 = var2 == 0 ? 9 : 0;
@@ -340,13 +339,13 @@ public class nmg extends kfe {
 
          for (int var5 = var3; var5 < var4; var5++) {
             if (this.nqx(var5)) {
-               ItemStack var6 = var1.method_5438(var5);
-               if (!var6.method_7960()) {
+               ItemStack var6 = var1.getStack(var5);
+               if (!var6.isEmpty()) {
                   String var7 = nti(var6);
                   if (!this.npb.contains(var7)) {
-                     String var8 = cleanQuery(var6.method_7964().getString());
+                     String var8 = cleanQuery(var6.getName().getString());
                      if (!var8.isEmpty()) {
-                        this.noy = var6.method_7972();
+                        this.noy = var6.copy();
                         this.noz = var7;
                         this.npa = var8;
                         this.npd = -1;
@@ -381,7 +380,7 @@ public class nmg extends kfe {
    private boolean nqy(int var1) {
       if (!this.nqm[var1]) {
          return false;
-      } else if (this.mc.field_1724.method_31548().method_5438(var1).method_7960()) {
+      } else if (this.mc.player.getInventory().getStack(var1).isEmpty()) {
          this.nqm[var1] = false;
          return false;
       } else {
@@ -410,7 +409,7 @@ public class nmg extends kfe {
       this.npf = 0;
       this.npu = 0;
       this.npv = "";
-      this.noy = ItemStack.field_8037;
+      this.noy = ItemStack.EMPTY;
       this.noz = "";
       this.npa = "";
       this.nty();
@@ -432,8 +431,8 @@ public class nmg extends kfe {
 
    private void nrb() {
       if (!this.ntv()) {
-         PlayerInventory var1 = this.mc.field_1724.method_31548();
-         if (this.nqx(var1.method_67532()) && ntj(this.mc.field_1724.method_6047(), this.noy)) {
+         PlayerInventory var1 = this.mc.player.getInventory();
+         if (this.nqx(var1.getSelectedSlot()) && ntj(this.mc.player.getMainHandStack(), this.noy)) {
             this.nty();
             this.nul(nmc.SEARCH);
          } else {
@@ -443,13 +442,13 @@ public class nmg extends kfe {
             } else if (var2 < 9) {
                this.nty();
                if (this.nub()) {
-                  var1.method_61496(var2);
+                  var1.setSelectedSlot(var2);
                   this.nul(nmc.SEARCH);
                }
             } else if (this.ntw()) {
                int var3 = this.ntt();
-               boolean var4 = !var1.method_5438(var3).method_7960();
-               this.ntz(ntu(var2), SlotActionType.field_7791, var3);
+               boolean var4 = !var1.getStack(var3).isEmpty();
+               this.ntz(ntu(var2), SlotActionType.SWAP, var3);
                this.npi = var3;
                if (var4 && this.npj < 0) {
                   this.npj = var3;
@@ -463,7 +462,7 @@ public class nmg extends kfe {
    private void nrc() {
       this.nty();
       if (!this.ntv()) {
-         String var1 = cleanQuery(this.mc.field_1724.method_6047().method_7964().getString());
+         String var1 = cleanQuery(this.mc.player.getMainHandStack().getName().getString());
          if (!var1.isEmpty()) {
             this.npa = var1;
          }
@@ -480,7 +479,7 @@ public class nmg extends kfe {
             this.npq = true;
             this.nps = -1;
             this.npt = 0L;
-            this.npr = this.mc.field_1724.field_7512 == null ? -1 : this.mc.field_1724.field_7512.field_7763;
+            this.npr = this.mc.player.currentScreenHandler == null ? -1 : this.mc.player.currentScreenHandler.syncId;
             this.npu = 0;
             this.nua(a.b("뀜즤䌿\udd1d囜큩権\ue3c9綝\uf764", -151342985) + this.npa);
             this.nul(nmc.SCAN);
@@ -518,32 +517,32 @@ public class nmg extends kfe {
    }
 
    private List<ItemStack> nre() {
-      if (this.npq && this.mc.field_1755 instanceof HandledScreen) {
-         ScreenHandler var1 = this.mc.field_1724.field_7512;
-         if (var1 instanceof GenericContainerScreenHandler && var1.field_7763 != this.npr) {
-            int var2 = var1.field_7761.size() - 36;
+      if (this.npq && this.mc.currentScreen instanceof HandledScreen) {
+         ScreenHandler var1 = this.mc.player.currentScreenHandler;
+         if (var1 instanceof GenericContainerScreenHandler && var1.syncId != this.npr) {
+            int var2 = var1.slots.size() - 36;
             boolean var3 = false;
 
             for (int var4 = 0; var4 < var2 && !var3; var4++) {
-               var3 = !((Slot)var1.field_7761.get(var4)).method_7677().method_7960();
+               var3 = !var1.slots.get(var4).getStack().isEmpty();
             }
 
             if (!var3) {
                return null;
-            } else {
-               if (var1.field_7763 != this.nps) {
-                  this.nps = var1.field_7763;
-                  this.npt = System.currentTimeMillis();
-               }
-
-               ArrayList var6 = new ArrayList(var1.field_7761.size());
-
-               for (int var5 = 0; var5 < var1.field_7761.size(); var5++) {
-                  var6.add(((Slot)var1.field_7761.get(var5)).method_7677().method_7972());
-               }
-
-               return var6;
             }
+
+            if (var1.syncId != this.nps) {
+               this.nps = var1.syncId;
+               this.npt = System.currentTimeMillis();
+            }
+
+            ArrayList var6 = new ArrayList(var1.slots.size());
+
+            for (int var5 = 0; var5 < var1.slots.size(); var5++) {
+               var6.add(var1.slots.get(var5).getStack().copy());
+            }
+
+            return var6;
          } else {
             return null;
          }
@@ -555,14 +554,14 @@ public class nmg extends kfe {
    private void nrf(List<ItemStack> var1, long var2) {
       this.nrg(this.noz, this.nsz(var1, this.noy), var2);
       String var4 = this.npa;
-      PlayerInventory var5 = this.mc.field_1724.method_31548();
+      PlayerInventory var5 = this.mc.player.getInventory();
 
       for (int var6 = 0; var6 < 36; var6++) {
          if (this.nqx(var6)) {
-            ItemStack var7 = var5.method_5438(var6);
-            if (!var7.method_7960() && var7.method_7909() == this.noy.method_7909()) {
+            ItemStack var7 = var5.getStack(var6);
+            if (!var7.isEmpty() && var7.getItem() == this.noy.getItem()) {
                String var8 = nti(var7);
-               if (!var8.equals(this.noz) && !this.npb.contains(var8) && var4.equals(cleanQuery(var7.method_7964().getString()))) {
+               if (!var8.equals(this.noz) && !this.npb.contains(var8) && var4.equals(cleanQuery(var7.getName().getString()))) {
                   this.nrg(var8, this.nsz(var1, var7), var2);
                }
             }
@@ -582,7 +581,7 @@ public class nmg extends kfe {
    private void nri() {
       this.nty();
       long var1 = System.currentTimeMillis();
-      if (var1 < this.nou && this.mc.field_1755 instanceof HandledScreen) {
+      if (var1 < this.nou && this.mc.currentScreen instanceof HandledScreen) {
          this.noi = var1;
       } else if (!this.ntv()) {
          if (this.npu == 3) {
@@ -593,7 +592,7 @@ public class nmg extends kfe {
             long[] var3 = this.nrh(this.noz, var1, 300000L);
             if (var3 != null && var3[0] > 0L) {
                int var4 = (int)var3[0];
-               ItemStack var5 = this.mc.field_1724.method_6047();
+               ItemStack var5 = this.mc.player.getMainHandStack();
                if (!ntj(var5, this.noy)) {
                   if (++this.npf > 2) {
                      this.nqz(
@@ -605,7 +604,7 @@ public class nmg extends kfe {
                      this.nul(nmc.TAKE);
                   }
                } else if (this.nud(var1, 1)) {
-                  int var6 = Math.max(1, var5.method_7947());
+                  int var6 = Math.max(1, var5.getCount());
                   long var7 = (long)Math.floor(var4 * (1.0 - this.noc.get() / 100.0));
                   if (var7 >= var4) {
                      var7 = var4 - 1L;
@@ -663,27 +662,27 @@ public class nmg extends kfe {
 
    private void nrk() {
       if (!this.ntv()) {
-         PlayerInventory var1 = this.mc.field_1724.method_31548();
+         PlayerInventory var1 = this.mc.player.getInventory();
          if (this.npj >= 0 && this.npk >= 0) {
-            boolean var2 = !var1.method_5438(this.npk).method_7960() || !var1.method_5438(this.npj).method_7960();
+            boolean var2 = !var1.getStack(this.npk).isEmpty() || !var1.getStack(this.npj).isEmpty();
             if (var2) {
                if (!this.ntw()) {
                   return;
                }
 
-               this.ntz(ntu(this.npk), SlotActionType.field_7791, this.npj);
+               this.ntz(ntu(this.npk), SlotActionType.SWAP, this.npj);
             }
 
             this.npj = -1;
             this.npk = -1;
          } else {
             this.nty();
-            if (this.npl >= 0 && this.npl < 9 && var1.method_67532() != this.npl) {
+            if (this.npl >= 0 && this.npl < 9 && var1.getSelectedSlot() != this.npl) {
                if (!this.nub()) {
                   return;
                }
 
-               var1.method_61496(this.npl);
+               var1.setSelectedSlot(this.npl);
             }
 
             this.nrl();
@@ -754,7 +753,7 @@ public class nmg extends kfe {
    private void nrp() {
       int var1 = this.nrt(a.b("臧\uf853狰\uec8c杞\ue1ec宼툼", 1830716842));
       if (var1 >= 0 && this.nrv() && this.ntx()) {
-         this.ntz(var1, SlotActionType.field_7790, 0);
+         this.ntz(var1, SlotActionType.PICKUP, 0);
          pdi.note(0);
          this.nul(nmc.AH_RELIST);
       }
@@ -765,7 +764,7 @@ public class nmg extends kfe {
       if (var1 >= 0 && this.nrv() && this.ntx()) {
          int var2 = this.nru();
          if (var2 > 0) {
-            this.ntz(var1, SlotActionType.field_7790, 0);
+            this.ntz(var1, SlotActionType.PICKUP, 0);
             pdi.note(0);
             this.nun(wap.s(a.b("ီ榨\ue372紆\uf6cb災쨳䏅\udd93坿킶", -1983180681), a.d("磘Ń该ᗡ鸱\u18f9ꊠ⭒땿㿌렖䈓쳅儀\udb49", 1669158300, -1291114156)) + var2, true);
          } else {
@@ -790,7 +789,7 @@ public class nmg extends kfe {
       this.noo = 0L;
       this.nok = Math.max(this.nok, var1 + nuh(1600L, 0.35, 900L, 4000L));
       this.noj = var1 + 250L + ThreadLocalRandom.current().nextLong(0L, 350L);
-      this.nul(this.noy.method_7960() ? nmc.IDLE : nmc.TAKE);
+      this.nul(this.noy.isEmpty() ? nmc.IDLE : nmc.TAKE);
    }
 
    private boolean nrs() {
@@ -798,34 +797,34 @@ public class nmg extends kfe {
    }
 
    private int nrt(String var1) {
-      ClientPlayerEntity var2 = this.mc.field_1724;
-      ScreenHandler var3 = var2.field_7512;
-      if (this.mc.field_1755 instanceof HandledScreen && var3 != null && var3 != var2.field_7498) {
-         int var4 = var3.field_7761.size() - 36;
+      ClientPlayerEntity var2 = this.mc.player;
+      ScreenHandler var3 = var2.currentScreenHandler;
+      if (this.mc.currentScreen instanceof HandledScreen && var3 != null && var3 != var2.playerScreenHandler) {
+         int var4 = var3.slots.size() - 36;
          if (var4 < 9) {
             return -1;
-         } else {
-            for (int var5 = var4 - 9; var5 < var4; var5++) {
-               ItemStack var6 = ((Slot)var3.field_7761.get(var5)).method_7677();
-               if (!var6.method_7960() && pfl.title(var6.method_7964().getString()).contains(var1)) {
-                  return var5;
-               }
-            }
-
-            return -1;
          }
+
+         for (int var5 = var4 - 9; var5 < var4; var5++) {
+            ItemStack var6 = var3.slots.get(var5).getStack();
+            if (!var6.isEmpty() && pfl.title(var6.getName().getString()).contains(var1)) {
+               return var5;
+            }
+         }
+
+         return -1;
       } else {
          return -1;
       }
    }
 
    private int nru() {
-      ScreenHandler var1 = this.mc.field_1724.field_7512;
-      int var2 = var1.field_7761.size() - 36;
+      ScreenHandler var1 = this.mc.player.currentScreenHandler;
+      int var2 = var1.slots.size() - 36;
       int var3 = 0;
 
       for (int var4 = 0; var4 < var2 - 9; var4++) {
-         if (!((Slot)var1.field_7761.get(var4)).method_7677().method_7960()) {
+         if (!var1.slots.get(var4).getStack().isEmpty()) {
             var3++;
          }
       }
@@ -836,79 +835,79 @@ public class nmg extends kfe {
    private boolean nrv() {
       if (this.npp != 0L) {
          return true;
-      } else {
-         long var1 = System.currentTimeMillis();
-         this.npp = var1;
-         double var3 = nui(1.0 + ThreadLocalRandom.current().nextGaussian() * 0.25, 0.7, 1.9);
-         long var5 = (long)(380.0 * var3) + ThreadLocalRandom.current().nextLong(10L, 90L);
-         this.noj = Math.max(this.noj, var1 + var5);
-         return false;
       }
+
+      long var1 = System.currentTimeMillis();
+      this.npp = var1;
+      double var3 = nui(1.0 + ThreadLocalRandom.current().nextGaussian() * 0.25, 0.7, 1.9);
+      long var5 = (long)(380.0 * var3) + ThreadLocalRandom.current().nextLong(10L, 90L);
+      this.noj = Math.max(this.noj, var1 + var5);
+      return false;
    }
 
    private boolean nrw() {
       if (!this.nog.get()) {
          return false;
-      } else {
-         ClientPlayerEntity var1 = this.mc.field_1724;
-         if (!var1.method_5765() && nsy(var1.method_31548()) && !this.nsm()) {
-            long var2 = System.currentTimeMillis();
-            if (oqv.listEmpty()) {
-               if (!this.nqn && this.nrx(var2) != null) {
-                  this.nqn = true;
-                  this.nun(
-                     wap.s(
-                        a.d("䈠㮺녤⼃ꓓ≚頪ᇛ辟Կ苻磟\uf65c澾\ue5a1捕\ud900囖찱䨩쏄맆㜰곩⪋ꁞ᧠", -292513171, 831182869),
-                        a.d("ﵶ蓙ญ逅ᮭ鴘⍑\uaac3㒷븋㧎쎸䵗퓅庖\ud87c戢\uede4眅\uf54b糀ړ蠣", 577765907, -133039277)
-                     ),
-                     false
-                  );
-               }
+      }
 
-               return false;
-            } else {
-               ThreadLocalRandom var4 = ThreadLocalRandom.current();
-               this.nqa = (var4.nextDouble() - 0.5) * 0.3;
-               this.nqb = (var4.nextDouble() - 0.5) * 0.25;
-               this.nqc = (var4.nextDouble() - 0.5) * 0.3;
-               BlockPos var5 = this.nrx(var2);
-               if (var5 == null) {
-                  return false;
-               } else {
-                  this.npx = var5;
-                  this.npy = nst(this.mc.field_1687, var5);
-                  this.npz = this.nso(var5);
-                  this.nqd = 1 + var4.nextInt(4);
-                  this.nqe = 0L;
-                  this.nsj(var1);
-                  this.nul(nmc.CHEST_OPEN);
-                  return true;
-               }
+      ClientPlayerEntity var1 = this.mc.player;
+      if (!var1.hasVehicle() && nsy(var1.getInventory()) && !this.nsm()) {
+         long var2 = System.currentTimeMillis();
+         if (oqv.listEmpty()) {
+            if (!this.nqn && this.nrx(var2) != null) {
+               this.nqn = true;
+               this.nun(
+                  wap.s(
+                     a.d("䈠㮺녤⼃ꓓ≚頪ᇛ辟Կ苻磟\uf65c澾\ue5a1捕\ud900囖찱䨩쏄맆㜰곩⪋ꁞ᧠", -292513171, 831182869),
+                     a.d("ﵶ蓙ญ逅ᮭ鴘⍑\uaac3㒷븋㧎쎸䵗퓅庖\ud87c戢\uede4眅\uf54b糀ړ蠣", 577765907, -133039277)
+                  ),
+                  false
+               );
             }
-         } else {
+
             return false;
+         } else {
+            ThreadLocalRandom var4 = ThreadLocalRandom.current();
+            this.nqa = (var4.nextDouble() - 0.5) * 0.3;
+            this.nqb = (var4.nextDouble() - 0.5) * 0.25;
+            this.nqc = (var4.nextDouble() - 0.5) * 0.3;
+            BlockPos var5 = this.nrx(var2);
+            if (var5 == null) {
+               return false;
+            }
+
+            this.npx = var5;
+            this.npy = nst(this.mc.world, var5);
+            this.npz = this.nso(var5);
+            this.nqd = 1 + var4.nextInt(4);
+            this.nqe = 0L;
+            this.nsj(var1);
+            this.nul(nmc.CHEST_OPEN);
+            return true;
          }
+      } else {
+         return false;
       }
    }
 
    private BlockPos nrx(long var1) {
-      ClientWorld var3 = this.mc.field_1687;
-      ClientPlayerEntity var4 = this.mc.field_1724;
-      Vec3d var5 = var4.method_33571();
+      ClientWorld var3 = this.mc.world;
+      ClientPlayerEntity var4 = this.mc.player;
+      Vec3d var5 = var4.getEyePos();
       double var6 = 28.09;
       BlockPos var8 = null;
       double var9 = Double.MAX_VALUE;
-      int var11 = var4.method_31477() >> 4;
-      int var12 = var4.method_31479() >> 4;
+      int var11 = var4.getBlockX() >> 4;
+      int var12 = var4.getBlockZ() >> 4;
 
       for (int var13 = -1; var13 <= 1; var13++) {
          for (int var14 = -1; var14 <= 1; var14++) {
-            WorldChunk var15 = var3.method_2935().method_12126(var11 + var13, var12 + var14, false);
+            WorldChunk var15 = var3.getChunkManager().getWorldChunk(var11 + var13, var12 + var14, false);
             if (var15 != null) {
-               for (BlockEntity var17 : var15.method_12214().values()) {
+               for (BlockEntity var17 : var15.getBlockEntities().values()) {
                   if (var17 instanceof ChestBlockEntity || var17 instanceof BarrelBlockEntity) {
-                     BlockPos var18 = var17.method_11016();
-                     if (!(var5.method_1025(Vec3d.method_24953(var18)) > var6)) {
+                     BlockPos var18 = var17.getPos();
+                     if (!(var5.squaredDistanceTo(Vec3d.ofCenter(var18)) > var6)) {
                         BlockPos var19 = nst(var3, var18);
                         Long var20 = this.npw.get(var19);
                         if (var20 == null || var20 <= var1) {
@@ -918,10 +917,10 @@ public class nmg extends kfe {
                                  this.npw.put(var19, Long.MAX_VALUE);
                               } else {
                                  Vec3d var22 = this.nso(var18);
-                                 double var23 = var22 == null ? Double.MAX_VALUE : var5.method_1025(var22);
+                                 double var23 = var22 == null ? Double.MAX_VALUE : var5.squaredDistanceTo(var22);
                                  if (var23 <= 18.49 && var23 < var9) {
                                     var9 = var23;
-                                    var8 = var18.method_10062();
+                                    var8 = var18.toImmutable();
                                  }
                               }
                            }
@@ -937,30 +936,30 @@ public class nmg extends kfe {
    }
 
    private void nry() {
-      ClientPlayerEntity var1 = this.mc.field_1724;
+      ClientPlayerEntity var1 = this.mc.player;
       long var2 = System.currentTimeMillis();
-      ClientWorld var4 = this.mc.field_1687;
-      if (this.nqe > 0L && this.mc.field_1755 instanceof HandledScreen && this.nrz(var4, var1.field_7512, var2)) {
+      ClientWorld var4 = this.mc.world;
+      if (this.nqe > 0L && this.mc.currentScreen instanceof HandledScreen && this.nrz(var4, var1.currentScreenHandler, var2)) {
          this.nsa(var2);
       } else if (!this.ntv()) {
          if (this.npx != null && nsr(var4, this.npx)) {
-            Vec3d var5 = var1.method_33571();
-            if (this.npz == null || var5.method_1022(this.npz) > 4.3) {
+            Vec3d var5 = var1.getEyePos();
+            if (this.npz == null || var5.distanceTo(this.npz) > 4.3) {
                this.npz = this.nso(this.npx);
-               if (this.npz == null || var5.method_1022(this.npz) > 4.3) {
+               if (this.npz == null || var5.distanceTo(this.npz) > 4.3) {
                   this.nsc(var2 + 60000L, null, false, 0);
                   return;
                }
             }
 
             this.nsi();
-            float var6 = vxr.getFloat(nnz, var1, var1.method_36454());
-            float var7 = vxr.getFloat(noa, var1, var1.method_36455());
+            float var6 = vxr.getFloat(nnz, var1, var1.getYaw());
+            float var7 = vxr.getFloat(noa, var1, var1.getPitch());
             BlockHitResult var8 = this.nse(var1, var6, var7);
-            if (var8 != null && this.nsq(var4, var8.method_17777())) {
+            if (var8 != null && this.nsq(var4, var8.getBlockPos())) {
                if (this.nqd > 0) {
                   this.nqd--;
-               } else if (var2 - this.nqe > 1500L && !var1.method_5715() && !var1.method_6115() && vyn.serverIdle(var1)) {
+               } else if (var2 - this.nqe > 1500L && !var1.isSneaking() && !var1.isUsingItem() && vyn.serverIdle(var1)) {
                   this.nsf();
                   this.nqe = var2;
                }
@@ -976,24 +975,24 @@ public class nmg extends kfe {
    private boolean nrz(World var1, ScreenHandler var2, long var3) {
       if (var2 instanceof GenericContainerScreenHandler var5 && var3 - this.nqe <= 3000L && this.npx != null) {
          int var6 = nss(var1, this.npx) != null ? 6 : 3;
-         if (var5.method_17388() != var6) {
+         if (var5.getRows() != var6) {
             return false;
-         } else {
-            String var7 = pfl.title(this.mc.field_1755.method_25440().getString());
-            return !var7.contains(a.d("⡍冏\udb25䔨캁䠶\uf266", -1326163368, 295728674)) && !var7.contains(a.c(-89532832, "툭ꮙ℺뽆㒔눦ࡶ臶"));
          }
+
+         String var7 = pfl.title(this.mc.currentScreen.getTitle().getString());
+         return !var7.contains(a.d("⡍冏\udb25䔨캁䠶\uf266", -1326163368, 295728674)) && !var7.contains(a.c(-89532832, "툭ꮙ℺뽆㒔눦ࡶ臶"));
       } else {
          return false;
       }
    }
 
    private void nsa(long var1) {
-      PlayerInventory var3 = this.mc.field_1724.method_31548();
-      this.nqk = this.mc.field_1724.field_7512.field_7763;
+      PlayerInventory var3 = this.mc.player.getInventory();
+      this.nqk = this.mc.player.currentScreenHandler.syncId;
       this.nql = new ItemStack[9];
 
       for (int var4 = 0; var4 < 9; var4++) {
-         this.nql[var4] = var3.method_5438(var4).method_7972();
+         this.nql[var4] = var3.getStack(var4).copy();
       }
 
       this.nqg = 0;
@@ -1005,13 +1004,13 @@ public class nmg extends kfe {
    }
 
    private void nsb() {
-      ClientPlayerEntity var1 = this.mc.field_1724;
+      ClientPlayerEntity var1 = this.mc.player;
       long var2 = System.currentTimeMillis();
-      ScreenHandler var4 = var1.field_7512;
-      if (!(this.mc.field_1755 instanceof HandledScreen) || !(var4 instanceof GenericContainerScreenHandler) || var4.field_7763 != this.nqk) {
+      ScreenHandler var4 = var1.currentScreenHandler;
+      if (!(this.mc.currentScreen instanceof HandledScreen) || !(var4 instanceof GenericContainerScreenHandler) || var4.syncId != this.nqk) {
          this.nsc(var2 + 15000L, null, true, this.nqh > 0 ? 2 : 0);
       } else if (var2 >= this.noj && vyn.serverIdle(var1)) {
-         PlayerInventory var5 = var1.method_31548();
+         PlayerInventory var5 = var1.getInventory();
          if (this.nqg >= 4 && this.nqg % 4 == 0 && nsv(var5) <= this.nqi) {
             this.nsd();
             this.nsc(
@@ -1021,14 +1020,14 @@ public class nmg extends kfe {
                2
             );
          } else {
-            int var6 = var4.field_7761.size() - 36;
+            int var6 = var4.slots.size() - 36;
             int var7 = -1;
             double var8 = Double.MAX_VALUE;
             boolean var10 = false;
 
             for (int var11 = 0; var11 < var6; var11++) {
-               ItemStack var12 = ((Slot)var4.field_7761.get(var11)).method_7677();
-               if (!var12.method_7960() && !this.npb.contains(nti(var12)) && oqv.wantsItem(var12.method_7909())) {
+               ItemStack var12 = var4.slots.get(var11).getStack();
+               if (!var12.isEmpty() && !this.npb.contains(nti(var12)) && oqv.wantsItem(var12.getItem())) {
                   if (!nsx(var5, var12)) {
                      var10 = true;
                   } else {
@@ -1042,7 +1041,7 @@ public class nmg extends kfe {
             }
 
             if (var7 >= 0 && this.nqg < 64) {
-               this.mc.field_1761.method_2906(var4.field_7763, var7, 0, SlotActionType.field_7794, var1);
+               this.mc.interactionManager.clickSlot(var4.syncId, var7, 0, SlotActionType.QUICK_MOVE, var1);
                this.nqh++;
                this.nqj = var7;
                this.noj = var2 + this.nqo.draw(this.nqg++ == 0 ? 1 : 2);
@@ -1066,14 +1065,14 @@ public class nmg extends kfe {
       }
 
       if (var5 != 0 && this.npx != null) {
-         oqv.markFromOutside(this.mc.field_1687, this.npx, var5 == 2);
+         oqv.markFromOutside(this.mc.world, this.npx, var5 == 2);
       }
 
       if (var4 && this.nql != null) {
-         PlayerInventory var6 = this.mc.field_1724.method_31548();
+         PlayerInventory var6 = this.mc.player.getInventory();
 
          for (int var7 = 0; var7 < 9; var7++) {
-            if (this.nql[var7].method_7960() && !var6.method_5438(var7).method_7960()) {
+            if (this.nql[var7].isEmpty() && !var6.getStack(var7).isEmpty()) {
                this.nqm[var7] = true;
             }
          }
@@ -1095,24 +1094,24 @@ public class nmg extends kfe {
    }
 
    private void nsd() {
-      ClientPlayerEntity var1 = this.mc.field_1724;
-      if (var1.field_7512 != var1.field_7498) {
-         var1.method_7346();
+      ClientPlayerEntity var1 = this.mc.player;
+      if (var1.currentScreenHandler != var1.playerScreenHandler) {
+         var1.closeHandledScreen();
       }
    }
 
    private BlockHitResult nse(ClientPlayerEntity var1, float var2, float var3) {
-      Vec3d var4 = var1.method_33571();
-      Vec3d var5 = Vec3d.method_1030(var3, var2);
-      Vec3d var6 = var4.method_1019(var5.method_1021(var1.method_55754()));
-      BlockHitResult var7 = this.mc.field_1687.method_17742(new RaycastContext(var4, var6, ShapeType.field_17559, FluidHandling.field_1348, var1));
-      return var7.method_17783() == Type.field_1332 ? var7 : null;
+      Vec3d var4 = var1.getEyePos();
+      Vec3d var5 = Vec3d.fromPolar(var3, var2);
+      Vec3d var6 = var4.add(var5.multiply(var1.getBlockInteractionRange()));
+      BlockHitResult var7 = this.mc.world.raycast(new RaycastContext(var4, var6, ShapeType.OUTLINE, FluidHandling.NONE, var1));
+      return var7.getType() == Type.BLOCK ? var7 : null;
    }
 
    private void nsf() {
-      GameOptions var1 = this.mc.field_1690;
+      GameOptions var1 = this.mc.options;
       if (var1 != null) {
-         var1.field_1904.method_23481(true);
+         var1.useKey.setPressed(true);
          this.nqf = true;
       }
    }
@@ -1120,19 +1119,19 @@ public class nmg extends kfe {
    private void nsg() {
       if (this.nqf) {
          this.nqf = false;
-         if (this.mc.field_1690 != null && this.mc.method_22683() != null) {
-            this.mc.field_1690.field_1904.method_23481(vzz.isPhysicallyDown(this.mc, this.mc.field_1690.field_1904));
+         if (this.mc.options != null && this.mc.getWindow() != null) {
+            this.mc.options.useKey.setPressed(vzz.isPhysicallyDown(this.mc, this.mc.options.useKey));
          }
       }
    }
 
    private void nsh() {
-      GameOptions var1 = this.mc.field_1690;
+      GameOptions var1 = this.mc.options;
       if (var1 != null) {
-         while (var1.field_1886.method_1436()) {
+         while (var1.attackKey.wasPressed()) {
          }
 
-         while (var1.field_1904.method_1436()) {
+         while (var1.useKey.wasPressed()) {
          }
       }
    }
@@ -1147,13 +1146,13 @@ public class nmg extends kfe {
    private void nsj(ClientPlayerEntity var1) {
       if (this.nqq != var1) {
          this.nqq = var1;
-         this.nqp.personalize(nsn(var1.method_7334().name()));
+         this.nqp.personalize(nsn(var1.getGameProfile().name()));
       }
 
       if (!this.nqr) {
          boolean var2 = pud.INSTANCE.engaged();
-         float var3 = var2 ? vxr.getFloat(nnz, var1, var1.method_36454()) : var1.method_36454();
-         float var4 = var2 ? vxr.getFloat(noa, var1, var1.method_36455()) : var1.method_36455();
+         float var3 = var2 ? vxr.getFloat(nnz, var1, var1.getYaw()) : var1.getYaw();
+         float var4 = var2 ? vxr.getFloat(noa, var1, var1.getPitch()) : var1.getPitch();
          this.nqp.reset(var3, var4);
       }
    }
@@ -1162,7 +1161,7 @@ public class nmg extends kfe {
       float[] var4 = prt.calculateAngle(var1);
       this.nqp.setMouseStep(prp.step());
       this.nqp.aim(var4[0], var4[1], var2);
-      pud.INSTANCE.set(this, this.nqp.getYaw(), MathHelper.method_15363(this.nqp.getPitch(), -90.0F, 90.0F));
+      pud.INSTANCE.set(this, this.nqp.getYaw(), MathHelper.clamp(this.nqp.getPitch(), -90.0F, 90.0F));
       this.nqr = true;
    }
 
@@ -1170,7 +1169,7 @@ public class nmg extends kfe {
       if (this.nqr) {
          this.nqr = false;
          this.nqs = System.currentTimeMillis();
-         pud.INSTANCE.release(this.mc.field_1724);
+         pud.INSTANCE.release(this.mc.player);
       }
    }
 
@@ -1190,24 +1189,24 @@ public class nmg extends kfe {
    }
 
    private Vec3d nso(BlockPos var1) {
-      ClientPlayerEntity var2 = this.mc.field_1724;
-      ClientWorld var3 = this.mc.field_1687;
-      Vec3d var4 = var2.method_33571();
-      Vec3d var5 = Vec3d.method_24953(var1);
+      ClientPlayerEntity var2 = this.mc.player;
+      ClientWorld var3 = this.mc.world;
+      Vec3d var4 = var2.getEyePos();
+      Vec3d var5 = Vec3d.ofCenter(var1);
       BlockPos var6 = nss(var3, var1);
       Vec3d[] var7 = new Vec3d[]{
-         var5.method_1031(this.nqa, this.nqb, this.nqc),
-         var5.method_1031(0.0, 0.3, 0.0),
-         var5.method_1031(0.0, -0.2, 0.0),
-         var5.method_1031(0.3, 0.0, 0.0),
-         var5.method_1031(-0.3, 0.0, 0.0),
-         var5.method_1031(0.0, 0.0, 0.3),
-         var5.method_1031(0.0, 0.0, -0.3)
+         var5.add(this.nqa, this.nqb, this.nqc),
+         var5.add(0.0, 0.3, 0.0),
+         var5.add(0.0, -0.2, 0.0),
+         var5.add(0.3, 0.0, 0.0),
+         var5.add(-0.3, 0.0, 0.0),
+         var5.add(0.0, 0.0, 0.3),
+         var5.add(0.0, 0.0, -0.3)
       };
 
       for (Vec3d var11 : var7) {
-         BlockHitResult var12 = var3.method_17742(new RaycastContext(var4, var11, ShapeType.field_17559, FluidHandling.field_1348, var2));
-         if (var12.method_17783() == Type.field_1332 && (var12.method_17777().equals(var1) || var12.method_17777().equals(var6))) {
+         BlockHitResult var12 = var3.raycast(new RaycastContext(var4, var11, ShapeType.OUTLINE, FluidHandling.NONE, var2));
+         if (var12.getType() == Type.BLOCK && (var12.getBlockPos().equals(var1) || var12.getBlockPos().equals(var6))) {
             return var11;
          }
       }
@@ -1216,21 +1215,18 @@ public class nmg extends kfe {
    }
 
    private double nsp(World var1, BlockPos var2, Vec3d var3) {
-      VoxelShape var4 = var1.method_8320(var2).method_26218(var1, var2);
-      Box var5 = var4.method_1110() ? new Box(var2) : var4.method_1107().method_996(var2);
+      VoxelShape var4 = var1.getBlockState(var2).getOutlineShape(var1, var2);
+      Box var5 = var4.isEmpty() ? new Box(var2) : var4.getBoundingBox().offset(var2);
       double var6 = Math.min(
-         Math.min(
-            Math.min(var3.field_1352 - var5.field_1323, var5.field_1320 - var3.field_1352),
-            Math.min(var3.field_1351 - var5.field_1322, var5.field_1325 - var3.field_1351)
-         ),
-         Math.min(var3.field_1350 - var5.field_1321, var5.field_1324 - var3.field_1350)
+         Math.min(Math.min(var3.x - var5.minX, var5.maxX - var3.x), Math.min(var3.y - var5.minY, var5.maxY - var3.y)),
+         Math.min(var3.z - var5.minZ, var5.maxZ - var3.z)
       );
       if (var6 <= 0.02) {
          return 0.25;
-      } else {
-         double var8 = Math.max(0.5, this.mc.field_1724.method_33571().method_1022(var3));
-         return MathHelper.method_15350(Math.toDegrees(Math.atan2(var6, var8)) * 0.55, 0.25, 4.0);
       }
+
+      double var8 = Math.max(0.5, this.mc.player.getEyePos().distanceTo(var3));
+      return MathHelper.clamp(Math.toDegrees(Math.atan2(var6, var8)) * 0.55, 0.25, 4.0);
    }
 
    private boolean nsq(World var1, BlockPos var2) {
@@ -1238,40 +1234,38 @@ public class nmg extends kfe {
    }
 
    private static boolean nsr(World var0, BlockPos var1) {
-      BlockEntity var2 = var0.method_8321(var1);
+      BlockEntity var2 = var0.getBlockEntity(var1);
       return var2 instanceof ChestBlockEntity || var2 instanceof BarrelBlockEntity;
    }
 
    private static BlockPos nss(World var0, BlockPos var1) {
-      BlockState var2 = var0.method_8320(var1);
-      return var2.method_26204() instanceof ChestBlock
-            && var2.method_28498(ChestBlock.field_10770)
-            && var2.method_11654(ChestBlock.field_10770) != ChestType.field_12569
-         ? var1.method_10093(ChestBlock.method_9758(var2))
+      BlockState var2 = var0.getBlockState(var1);
+      return var2.getBlock() instanceof ChestBlock && var2.contains(ChestBlock.CHEST_TYPE) && var2.get(ChestBlock.CHEST_TYPE) != ChestType.SINGLE
+         ? var1.offset(ChestBlock.getFacing(var2))
          : null;
    }
 
    private static BlockPos nst(World var0, BlockPos var1) {
       BlockPos var2 = nss(var0, var1);
-      return (var2 != null && var2.method_10063() < var1.method_10063() ? var2 : var1).method_10062();
+      return (var2 != null && var2.asLong() < var1.asLong() ? var2 : var1).toImmutable();
    }
 
    private static boolean nsu(World var0, BlockPos var1) {
-      if (!(var0.method_8320(var1).method_26204() instanceof ChestBlock)) {
+      if (!(var0.getBlockState(var1).getBlock() instanceof ChestBlock)) {
          return false;
-      } else {
-         BlockPos var2 = nss(var0, var1);
-         return ChestBlock.method_9756(var0, var1) || var2 != null && ChestBlock.method_9756(var0, var2);
       }
+
+      BlockPos var2 = nss(var0, var1);
+      return ChestBlock.isChestBlocked(var0, var1) || var2 != null && ChestBlock.isChestBlocked(var0, var2);
    }
 
    private static int nsv(PlayerInventory var0) {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {
-         ItemStack var3 = var0.method_5438(var2);
-         if (!var3.method_7960() && oqv.wantsItem(var3.method_7909())) {
-            var1 += var3.method_7947();
+         ItemStack var3 = var0.getStack(var2);
+         if (!var3.isEmpty() && oqv.wantsItem(var3.getItem())) {
+            var1 += var3.getCount();
          }
       }
 
@@ -1286,12 +1280,12 @@ public class nmg extends kfe {
 
    private static boolean nsx(PlayerInventory var0, ItemStack var1) {
       for (int var2 = 0; var2 < 36; var2++) {
-         ItemStack var3 = var0.method_5438(var2);
-         if (var3.method_7960()) {
+         ItemStack var3 = var0.getStack(var2);
+         if (var3.isEmpty()) {
             return true;
          }
 
-         if (var3.method_7947() < var3.method_7914() && ItemStack.method_31577(var3, var1)) {
+         if (var3.getCount() < var3.getMaxCount() && ItemStack.areItemsAndComponentsEqual(var3, var1)) {
             return true;
          }
       }
@@ -1301,7 +1295,7 @@ public class nmg extends kfe {
 
    private static boolean nsy(PlayerInventory var0) {
       for (int var1 = 0; var1 < 36; var1++) {
-         if (var0.method_5438(var1).method_7960()) {
+         if (var0.getStack(var1).isEmpty()) {
             return true;
          }
       }
@@ -1324,77 +1318,83 @@ public class nmg extends kfe {
 
    private int nta(List<ItemStack> var1, ItemStack var2, int var3) {
       int var4 = Math.max(0, var1.size() - 36);
-      String var5 = nto(this.mc.field_1724.method_7334().name());
+      String var5 = nto(this.mc.player.getGameProfile().name());
       Map var6 = ntk(var2);
       ArrayList var7 = new ArrayList();
 
       for (int var8 = 0; var8 < var4; var8++) {
          ItemStack var9 = (ItemStack)var1.get(var8);
-         if (var9 != null && !var9.method_7960() && this.ntb(var9, var2, var6, var3)) {
+         if (var9 != null && !var9.isEmpty() && this.ntb(var9, var2, var6, var3)) {
             int var10 = nte(ntn(var9), var5);
             if (var10 > 0) {
-               var7.add(Math.max(1, var10 / Math.max(1, var9.method_7947())));
+               var7.add(Math.max(1, var10 / Math.max(1, var9.getCount())));
             }
          }
       }
 
       if (var7.isEmpty()) {
          return -1;
-      } else {
-         Collections.sort(var7);
-         int var11 = (Integer)var7.get(Math.min(2, var7.size() - 1));
-
-         for (int var13 : var7) {
-            if (var13 >= var11 * 0.75) {
-               return var13;
-            }
-         }
-
-         return var11;
       }
+
+      Collections.sort(var7);
+      int var11 = (Integer)var7.get(Math.min(2, var7.size() - 1));
+
+      for (int var13 : var7) {
+         if (var13 >= var11 * 0.75) {
+            return var13;
+         }
+      }
+
+      return var11;
    }
 
    private boolean ntb(ItemStack var1, ItemStack var2, Map<String, Integer> var3, int var4) {
-      if (var1.method_7909() != var2.method_7909()) {
+      if (var1.getItem() != var2.getItem()) {
          return false;
-      } else {
-         String var5 = cleanQuery(var1.method_7964().getString());
-         String var6 = cleanQuery(var2.method_7964().getString());
-         if (var5.isEmpty() || var6.isEmpty()) {
-            return false;
-         } else if (!var5.equals(var6) && !var5.contains(var6) && !var6.contains(var5)) {
-            return false;
-         } else if (var4 == 2) {
-            return true;
-         } else {
-            Map var7 = ntk(var1);
-            return var4 != 0 ? ntd(var3, var7) >= this.nod.get() / 100.0 : var3.equals(var7) && ntc(var1, var2);
-         }
       }
+
+      String var5 = cleanQuery(var1.getName().getString());
+      String var6 = cleanQuery(var2.getName().getString());
+      if (var5.isEmpty() || var6.isEmpty()) {
+         return false;
+      }
+
+      if (!var5.equals(var6) && !var5.contains(var6) && !var6.contains(var5)) {
+         return false;
+      }
+
+      if (var4 == 2) {
+         return true;
+      }
+
+      Map var7 = ntk(var1);
+      return var4 != 0 ? ntd(var3, var7) >= this.nod.get() / 100.0 : var3.equals(var7) && ntc(var1, var2);
    }
 
    private static boolean ntc(ItemStack var0, ItemStack var1) {
       List var2 = ntn(var1);
       if (var2.size() <= 1) {
          return true;
-      } else {
-         List var3 = ntn(var0);
-
-         for (int var4 = 1; var4 < var2.size(); var4++) {
-            String var5 = (String)var2.get(var4);
-            if (!var5.isEmpty() && !var3.contains(var5)) {
-               return false;
-            }
-         }
-
-         return true;
       }
+
+      List var3 = ntn(var0);
+
+      for (int var4 = 1; var4 < var2.size(); var4++) {
+         String var5 = (String)var2.get(var4);
+         if (!var5.isEmpty() && !var3.contains(var5)) {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    private static double ntd(Map<String, Integer> var0, Map<String, Integer> var1) {
       if (var0.isEmpty() && var1.isEmpty()) {
          return 1.0;
-      } else if (!var0.isEmpty() && !var1.isEmpty()) {
+      }
+
+      if (!var0.isEmpty() && !var1.isEmpty()) {
          double var2 = 0.0;
 
          for (Entry var5 : var0.entrySet()) {
@@ -1488,21 +1488,19 @@ public class nmg extends kfe {
    }
 
    private static String nti(ItemStack var0) {
-      return String.valueOf(var0.method_7909()) + '|' + nto(var0.method_7964().getString()) + '|' + ntm(var0);
+      return String.valueOf(var0.getItem()) + '|' + nto(var0.getName().getString()) + '|' + ntm(var0);
    }
 
    private static boolean ntj(ItemStack var0, ItemStack var1) {
-      return var0 != null && var1 != null && !var0.method_7960() && !var1.method_7960()
-         ? var0.method_7909() == var1.method_7909() && nti(var0).equals(nti(var1))
-         : false;
+      return var0 != null && var1 != null && !var0.isEmpty() && !var1.isEmpty() ? var0.getItem() == var1.getItem() && nti(var0).equals(nti(var1)) : false;
    }
 
    private static Map<String, Integer> ntk(ItemStack var0) {
       TreeMap var1 = new TreeMap();
-      if (var0 != null && !var0.method_7960()) {
+      if (var0 != null && !var0.isEmpty()) {
          try {
-            ntl((ItemEnchantmentsComponent)var0.method_58694(DataComponentTypes.field_49633), var1);
-            ntl((ItemEnchantmentsComponent)var0.method_58694(DataComponentTypes.field_49643), var1);
+            ntl(var0.get(DataComponentTypes.ENCHANTMENTS), var1);
+            ntl(var0.get(DataComponentTypes.STORED_ENCHANTMENTS), var1);
          } catch (Throwable var3) {
          }
 
@@ -1513,11 +1511,11 @@ public class nmg extends kfe {
    }
 
    private static void ntl(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
-      if (var0 != null && !var0.method_57543()) {
-         for (RegistryEntry var3 : var0.method_57534()) {
-            String var4 = var3.method_40230().map(var0x -> var0x.method_29177().method_12832()).orElse("");
+      if (var0 != null && !var0.isEmpty()) {
+         for (RegistryEntry var3 : var0.getEnchantments()) {
+            String var4 = var3.getKey().map(var0x -> var0x.getValue().getPath()).orElse("");
             if (!var4.isEmpty()) {
-               var1.put(var4, var0.method_57536(var3));
+               var1.put(var4, var0.getLevel(var3));
             }
          }
       }
@@ -1537,10 +1535,10 @@ public class nmg extends kfe {
       ArrayList var1 = new ArrayList();
 
       try {
-         var1.add(nto(var0.method_7964().getString()));
-         LoreComponent var2 = (LoreComponent)var0.method_58694(DataComponentTypes.field_49632);
+         var1.add(nto(var0.getName().getString()));
+         LoreComponent var2 = var0.get(DataComponentTypes.LORE);
          if (var2 != null) {
-            for (Text var4 : var2.comp_2400()) {
+            for (Text var4 : var2.lines()) {
                if (var4 != null) {
                   var1.add(nto(var4.getString()));
                }
@@ -1574,28 +1572,28 @@ public class nmg extends kfe {
    static String cleanQuery(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         StringBuilder var1 = new StringBuilder(var0.length());
-         boolean var2 = false;
-
-         for (int var3 = 0; var3 < var0.length(); var3++) {
-            char var4 = var0.charAt(var3);
-            if (var4 == 167) {
-               var3++;
-            } else if (Character.isLetterOrDigit(var4)) {
-               if (var2 && var1.length() > 0) {
-                  var1.append(' ');
-               }
-
-               var2 = false;
-               var1.append(Character.toLowerCase(var4));
-            } else {
-               var2 = true;
-            }
-         }
-
-         return var1.toString().trim();
       }
+
+      StringBuilder var1 = new StringBuilder(var0.length());
+      boolean var2 = false;
+
+      for (int var3 = 0; var3 < var0.length(); var3++) {
+         char var4 = var0.charAt(var3);
+         if (var4 == 167) {
+            var3++;
+         } else if (Character.isLetterOrDigit(var4)) {
+            if (var2 && var1.length() > 0) {
+               var1.append(' ');
+            }
+
+            var2 = false;
+            var1.append(Character.toLowerCase(var4));
+         } else {
+            var2 = true;
+         }
+      }
+
+      return var1.toString().trim();
    }
 
    private static boolean ntp(String var0) {
@@ -1614,15 +1612,15 @@ public class nmg extends kfe {
    }
 
    private int ntr() {
-      PlayerInventory var1 = this.mc.field_1724.method_31548();
+      PlayerInventory var1 = this.mc.player.getInventory();
       int var2 = -1;
       int var3 = 0;
 
       for (int var4 = 0; var4 < 36; var4++) {
          if (this.nqx(var4)) {
-            ItemStack var5 = var1.method_5438(var4);
-            if (ntj(var5, this.noy) && var5.method_7947() > var3) {
-               var3 = var5.method_7947();
+            ItemStack var5 = var1.getStack(var4);
+            if (ntj(var5, this.noy) && var5.getCount() > var3) {
+               var3 = var5.getCount();
                var2 = var4;
             }
          }
@@ -1632,14 +1630,14 @@ public class nmg extends kfe {
    }
 
    private int nts() {
-      PlayerInventory var1 = this.mc.field_1724.method_31548();
+      PlayerInventory var1 = this.mc.player.getInventory();
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
          if (this.nqx(var3)) {
-            ItemStack var4 = var1.method_5438(var3);
+            ItemStack var4 = var1.getStack(var3);
             if (ntj(var4, this.noy)) {
-               var2 += var4.method_7947();
+               var2 += var4.getCount();
             }
          }
       }
@@ -1650,18 +1648,18 @@ public class nmg extends kfe {
    private int ntt() {
       if (this.npi >= 0) {
          return this.npi;
-      } else {
-         PlayerInventory var1 = this.mc.field_1724.method_31548();
-         ArrayList var2 = new ArrayList();
-
-         for (int var3 = 0; var3 < 9; var3++) {
-            if (var1.method_5438(var3).method_7960()) {
-               var2.add(var3);
-            }
-         }
-
-         return var2.isEmpty() ? var1.method_67532() : (Integer)var2.get(ThreadLocalRandom.current().nextInt(var2.size()));
       }
+
+      PlayerInventory var1 = this.mc.player.getInventory();
+      ArrayList var2 = new ArrayList();
+
+      for (int var3 = 0; var3 < 9; var3++) {
+         if (var1.getStack(var3).isEmpty()) {
+            var2.add(var3);
+         }
+      }
+
+      return var2.isEmpty() ? var1.getSelectedSlot() : (Integer)var2.get(ThreadLocalRandom.current().nextInt(var2.size()));
    }
 
    private static int ntu(int var0) {
@@ -1669,25 +1667,27 @@ public class nmg extends kfe {
    }
 
    private boolean ntv() {
-      Screen var1 = this.mc.field_1755;
+      Screen var1 = this.mc.currentScreen;
       if (var1 == null) {
          return false;
-      } else if (!(var1 instanceof HandledScreen)) {
+      }
+
+      if (!(var1 instanceof HandledScreen)) {
          this.noi = System.currentTimeMillis();
          return true;
-      } else {
-         if (this.nub()) {
-            this.mc.field_1724.method_7346();
-            this.nok = Math.max(this.nok, System.currentTimeMillis() + nuf());
-         }
-
-         return true;
       }
+
+      if (this.nub()) {
+         this.mc.player.closeHandledScreen();
+         this.nok = Math.max(this.nok, System.currentTimeMillis() + nuf());
+      }
+
+      return true;
    }
 
    private boolean ntw() {
-      ClientPlayerEntity var1 = this.mc.field_1724;
-      return var1.field_7512 != var1.field_7498 ? false : this.ntx();
+      ClientPlayerEntity var1 = this.mc.player;
+      return var1.currentScreenHandler != var1.playerScreenHandler ? false : this.ntx();
    }
 
    private boolean ntx() {
@@ -1698,7 +1698,7 @@ public class nmg extends kfe {
             this.npm = true;
             return false;
          } else {
-            return vyn.serverIdle(this.mc.field_1724);
+            return vyn.serverIdle(this.mc.player);
          }
       } else {
          return false;
@@ -1713,19 +1713,19 @@ public class nmg extends kfe {
    }
 
    private void ntz(int var1, SlotActionType var2, int var3) {
-      ClientPlayerEntity var4 = this.mc.field_1724;
-      if (var4 != null && this.mc.field_1761 != null) {
-         ScreenHandler var5 = var4.field_7512;
-         if (var5 != null && var1 >= 0 && var1 < var5.field_7761.size()) {
-            this.mc.field_1761.method_2906(var5.field_7763, var1, var3, var2, var4);
+      ClientPlayerEntity var4 = this.mc.player;
+      if (var4 != null && this.mc.interactionManager != null) {
+         ScreenHandler var5 = var4.currentScreenHandler;
+         if (var5 != null && var1 >= 0 && var1 < var5.slots.size()) {
+            this.mc.interactionManager.clickSlot(var5.syncId, var1, var3, var2, var4);
             this.noj = System.currentTimeMillis() + this.nuc();
          }
       }
    }
 
    private void nua(String var1) {
-      if (this.mc.method_1562() != null) {
-         this.mc.method_1562().method_45730(var1);
+      if (this.mc.getNetworkHandler() != null) {
+         this.mc.getNetworkHandler().sendChatCommand(var1);
          long var2 = System.currentTimeMillis();
          this.noo = var2;
          this.nol = var2;
@@ -1737,10 +1737,10 @@ public class nmg extends kfe {
       long var1 = System.currentTimeMillis();
       if (var1 < this.noj) {
          return false;
-      } else {
-         this.noj = var1 + this.nuc();
-         return true;
       }
+
+      this.noj = var1 + this.nuc();
+      return true;
    }
 
    private long nuc() {
@@ -1762,35 +1762,35 @@ public class nmg extends kfe {
       if (var1 < Math.max(this.nok, this.nol + this.nom)) {
          this.noi = var1;
          return false;
-      } else {
-         long var4 = var3 == 1 ? var1 : pdi.nextFree(var3, this.nof.getInt(), var1);
-         if (var4 <= var1) {
-            return true;
-         } else {
-            this.nok = var4 + nuh(900L, 0.6, 150L, 5000L);
-            this.noi = var1;
-            if (this.nok - var1 > 5000L && var1 - this.nos > 20000L) {
-               this.nos = var1;
-               this.nun(
-                  wap.s(a.c(1169371817, "㋿䭺솿忙퐓劤\ue8f6慉ｚ痮\uf239ࡌ蚆Ὧ锰᎖ꧏ☖벸㫴댄쥜䞨"), a.d("Ჲ攠\ueff7熂隷磼욿伽턛寖\udc7b☌꣘ㅤ뼫㧖螏\u085c銘Ⴊ", -188180244, 2072543313))
-                     + (this.nok - var1 + 999L) / 1000L
-                     + wap.s(a.d("䴅㓧", -192273514, -1680970063), a.c(1990481409, "嘣⯳")),
-                  false
-               );
-            }
-
-            return false;
-         }
       }
+
+      long var4 = var3 == 1 ? var1 : pdi.nextFree(var3, this.nof.getInt(), var1);
+      if (var4 <= var1) {
+         return true;
+      }
+
+      this.nok = var4 + nuh(900L, 0.6, 150L, 5000L);
+      this.noi = var1;
+      if (this.nok - var1 > 5000L && var1 - this.nos > 20000L) {
+         this.nos = var1;
+         this.nun(
+            wap.s(a.c(1169371817, "㋿䭺솿忙퐓劤\ue8f6慉ｚ痮\uf239ࡌ蚆Ὧ锰᎖ꧏ☖벸㫴댄쥜䞨"), a.d("Ჲ攠\ueff7熂隷磼욿伽턛寖\udc7b☌꣘ㅤ뼫㧖螏\u085c銘Ⴊ", -188180244, 2072543313))
+               + (this.nok - var1 + 999L) / 1000L
+               + wap.s(a.d("䴅㓧", -192273514, -1680970063), a.c(1990481409, "嘣⯳")),
+            false
+         );
+      }
+
+      return false;
    }
 
    private long nue(int var1) {
       if (var1 == 1) {
          return this.nqo.draw(3, 1.4);
-      } else {
-         double var2 = 60000.0 / pdi.limit(this.nof.getInt());
-         return this.nqo.draw(4, var2 * 0.75 / 1500.0);
       }
+
+      double var2 = 60000.0 / pdi.limit(this.nof.getInt());
+      return this.nqo.draw(4, var2 * 0.75 / 1500.0);
    }
 
    private static long nuf() {
@@ -1885,7 +1885,7 @@ public class nmg extends kfe {
       this.npq = false;
       this.npu = 0;
       this.npv = "";
-      this.noy = ItemStack.field_8037;
+      this.noy = ItemStack.EMPTY;
       this.noz = "";
       this.npa = "";
       this.npd = -1;

@@ -41,25 +41,25 @@ public final class vyn {
    private static boolean vyx(ClientPlayerEntity var0, boolean var1) {
       if (wdt.serverSprinting(var0)) {
          return false;
-      } else {
-         Object var2 = var0.field_3913.field_54155;
-         if (vyo != null) {
-            try {
-               var2 = vyo.get(var0);
-            } catch (RuntimeException | IllegalAccessException var4) {
-            }
-         }
-
-         return var1 && var2 instanceof PlayerInput var3
-            ? !var3.comp_3159() && !var3.comp_3160() && !var3.comp_3161() && !var3.comp_3162() && !var3.comp_3163() && !var3.comp_3165()
-            : PlayerInput.field_54098.equals(var2);
       }
+
+      Object var2 = var0.input.playerInput;
+      if (vyo != null) {
+         try {
+            var2 = vyo.get(var0);
+         } catch (IllegalAccessException | RuntimeException var4) {
+         }
+      }
+
+      return var1 && var2 instanceof PlayerInput var3
+         ? !var3.forward() && !var3.backward() && !var3.left() && !var3.right() && !var3.jump() && !var3.sprint()
+         : PlayerInput.DEFAULT.equals(var2);
    }
 
    public static boolean still(ClientPlayerEntity var0) {
-      double var1 = var0.method_23317() - var0.field_6014;
-      double var3 = var0.method_23321() - var0.field_5969;
-      return var0.method_24828() && var1 * var1 + var3 * var3 < 9.0E-4;
+      double var1 = var0.getX() - var0.lastX;
+      double var3 = var0.getZ() - var0.lastZ;
+      return var0.isOnGround() && var1 * var1 + var3 * var3 < 9.0E-4;
    }
 
    public static PlayerInput lastSent(ClientPlayerEntity var0) {
@@ -68,11 +68,11 @@ public final class vyn {
             if (vyo.get(var0) instanceof PlayerInput var1) {
                return var1;
             }
-         } catch (RuntimeException | IllegalAccessException var3) {
+         } catch (IllegalAccessException | RuntimeException var3) {
          }
       }
 
-      return var0.field_3913.field_54155;
+      return var0.input.playerInput;
    }
 
    public boolean isHeld() {
@@ -84,32 +84,32 @@ public final class vyn {
    }
 
    public void hold(MinecraftClient var1) {
-      GameOptions var2 = var1.field_1690;
+      GameOptions var2 = var1.options;
 
       for (KeyBinding var6 : vyy(var2)) {
-         var6.method_23481(false);
+         var6.setPressed(false);
       }
 
-      KeyBinding var7 = var2.field_1832;
+      KeyBinding var7 = var2.sneakKey;
       if (this.vyr) {
          vwy.sneakOk(true);
-      } else if ((Boolean)var2.method_42449().method_41753()) {
-         if (var7.method_1434()) {
-            var7.method_23481(true);
+      } else if (var2.getSneakToggled().getValue()) {
+         if (var7.isPressed()) {
+            var7.setPressed(true);
             this.vyt = true;
          }
       } else {
-         var7.method_23481(false);
+         var7.setPressed(false);
       }
 
-      KeyBinding var8 = var2.field_1867;
-      if ((Boolean)var2.method_42450().method_41753()) {
-         if (var8.method_1434()) {
-            var8.method_23481(true);
+      KeyBinding var8 = var2.sprintKey;
+      if (var2.getSprintToggled().getValue()) {
+         if (var8.isPressed()) {
+            var8.setPressed(true);
             this.vyu = true;
          }
       } else {
-         var8.method_23481(false);
+         var8.setPressed(false);
       }
 
       this.vyq.hold(var1);
@@ -128,32 +128,32 @@ public final class vyn {
             vwy.sneakOk(false);
          }
 
-         if (var1 != null && var1.field_1690 != null && var1.method_22683() != null) {
-            GameOptions var2 = var1.field_1690;
+         if (var1 != null && var1.options != null && var1.getWindow() != null) {
+            GameOptions var2 = var1.options;
 
             for (KeyBinding var6 : vyy(var2)) {
-               var6.method_23481(vzz.isPhysicallyDown(var1, var6));
+               var6.setPressed(vzz.isPhysicallyDown(var1, var6));
             }
 
-            KeyBinding var7 = var2.field_1832;
+            KeyBinding var7 = var2.sneakKey;
             if (!this.vyr) {
-               if ((Boolean)var2.method_42449().method_41753()) {
-                  if (this.vyt && !var7.method_1434()) {
-                     var7.method_23481(true);
+               if (var2.getSneakToggled().getValue()) {
+                  if (this.vyt && !var7.isPressed()) {
+                     var7.setPressed(true);
                   }
                } else {
-                  var7.method_23481(vzz.isPhysicallyDown(var1, var7));
+                  var7.setPressed(vzz.isPhysicallyDown(var1, var7));
                }
             }
 
             this.vyt = false;
-            KeyBinding var8 = var2.field_1867;
-            if ((Boolean)var2.method_42450().method_41753()) {
-               if (this.vyu && !var8.method_1434()) {
-                  var8.method_23481(true);
+            KeyBinding var8 = var2.sprintKey;
+            if (var2.getSprintToggled().getValue()) {
+               if (this.vyu && !var8.isPressed()) {
+                  var8.setPressed(true);
                }
             } else {
-               var8.method_23481(vzz.isPhysicallyDown(var1, var8));
+               var8.setPressed(vzz.isPhysicallyDown(var1, var8));
             }
 
             this.vyu = false;
@@ -167,6 +167,6 @@ public final class vyn {
    }
 
    private static KeyBinding[] vyy(GameOptions var0) {
-      return new KeyBinding[]{var0.field_1894, var0.field_1881, var0.field_1913, var0.field_1849, var0.field_1903, var0.field_1904};
+      return new KeyBinding[]{var0.forwardKey, var0.backKey, var0.leftKey, var0.rightKey, var0.jumpKey, var0.useKey};
    }
 }

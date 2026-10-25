@@ -29,10 +29,10 @@ public final class qmh {
    }
 
    public double error(ClientPlayerEntity var1, Vec3d var2) {
-      Vec3d var3 = var2.method_1020(var1.method_33571());
-      double var4 = tbp.yawTo(var3.field_1352, var3.field_1350);
-      double var6 = tbp.pitchTo(var3.field_1351, Math.sqrt(var3.field_1352 * var3.field_1352 + var3.field_1350 * var3.field_1350));
-      return Math.hypot(MathHelper.method_15338(var4 - var1.method_36454()), var6 - var1.method_36455());
+      Vec3d var3 = var2.subtract(var1.getEyePos());
+      double var4 = tbp.yawTo(var3.x, var3.z);
+      double var6 = tbp.pitchTo(var3.y, Math.sqrt(var3.x * var3.x + var3.z * var3.z));
+      return Math.hypot(MathHelper.wrapDegrees(var4 - var1.getYaw()), var6 - var1.getPitch());
    }
 
    public void aim(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Vec3d var4) {
@@ -42,10 +42,10 @@ public final class qmh {
             this.qmn = (this.qmi.nextDouble() - 0.5) * 0.3;
          }
 
-         Vec3d var5 = var4.method_1020(var2.method_33571());
-         double var6 = Math.sqrt(var5.field_1352 * var5.field_1352 + var5.field_1350 * var5.field_1350);
-         double var8 = MathHelper.method_15338(tbp.yawTo(var5.field_1352, var5.field_1350) - var2.method_36454());
-         double var10 = tbp.pitchTo(var5.field_1351, var6) - var2.method_36455();
+         Vec3d var5 = var4.subtract(var2.getEyePos());
+         double var6 = Math.sqrt(var5.x * var5.x + var5.z * var5.z);
+         double var8 = MathHelper.wrapDegrees(tbp.yawTo(var5.x, var5.z) - var2.getYaw());
+         double var10 = tbp.pitchTo(var5.y, var6) - var2.getPitch();
          double var12 = Math.hypot(var8, var10);
          if (!(var12 < 0.25)) {
             double var14;
@@ -83,12 +83,12 @@ public final class qmh {
          this.qmk -= var9;
          this.qml -= var11;
          if (var9 != 0L || var11 != 0L) {
-            float var13 = var2.field_5982;
-            float var14 = var2.field_6004;
+            float var13 = var2.lastYaw;
+            float var14 = var2.lastPitch;
             double var15 = var7 / 0.15;
-            var2.method_5872(var9 * var15, var11 * var15);
-            var2.field_5982 = var13;
-            var2.field_6004 = var14;
+            var2.changeLookDirection(var9 * var15, var11 * var15);
+            var2.lastYaw = var13;
+            var2.lastPitch = var14;
          }
       }
    }

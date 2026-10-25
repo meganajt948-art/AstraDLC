@@ -18,7 +18,7 @@ final class ppi {
 
    boolean is(Item... var1) {
       for (Item var5 : var1) {
-         if (this.stack.method_31574(var5)) {
+         if (this.stack.isOf(var5)) {
             return true;
          }
       }
@@ -28,7 +28,7 @@ final class ppi {
 
    String name() {
       if (this.ppj == null) {
-         this.ppj = ppu.norm(this.stack.method_7964().getString());
+         this.ppj = ppu.norm(this.stack.getName().getString());
       }
 
       return this.ppj;
@@ -37,9 +37,9 @@ final class ppi {
    String lore() {
       if (this.ppk == null) {
          StringBuilder var1 = new StringBuilder();
-         LoreComponent var2 = (LoreComponent)this.stack.method_58694(DataComponentTypes.field_49632);
+         LoreComponent var2 = this.stack.get(DataComponentTypes.LORE);
          if (var2 != null) {
-            for (Text var4 : var2.comp_2400()) {
+            for (Text var4 : var2.lines()) {
                var1.append(var4.getString()).append('\n');
             }
          }
@@ -67,6 +67,6 @@ final class ppi {
    }
 
    boolean potion() {
-      return this.is(Items.field_8574, Items.field_8436, Items.field_8150);
+      return this.is(Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION);
    }
 }

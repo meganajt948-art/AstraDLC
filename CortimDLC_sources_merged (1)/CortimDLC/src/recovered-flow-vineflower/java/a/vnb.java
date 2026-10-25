@@ -21,17 +21,8 @@ final class vnb {
          + (var1 ? a.c(-2066750377, "\ue40b鶊\u1758") : a.d("\ufe1e螟\u0d45錴", -1242686201, -486939838))
          + a.c(-505650787, "憷ᡇ銜೭");
 
-      try {
-         vpi var4;
-         try (InputStream var3 = vnb.class.getResourceAsStream(var2)) {
-            if (var3 == null) {
-               return null;
-            }
-
-            var4 = vpo.decode(var3.readAllBytes());
-         }
-
-         return var4;
+      try (InputStream var3 = vnb.class.getResourceAsStream(var2)) {
+         return var3 == null ? null : vpo.decode(var3.readAllBytes());
       } catch (Exception var8) {
          System.out.println(a.c(-10428349, "\ue03d馎ፒ赪ۮ耋㨈돥\u2db7ꜞₔ\udab1呺췆䟐셣笻\uf4f1湈\ue811懯ᮿ镈໊袩ɢ믊㖑꼢") + var2 + a.b("\uf1be蠕", -1790578298) + var8);
          return null;

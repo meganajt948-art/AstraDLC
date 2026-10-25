@@ -100,7 +100,7 @@ public class oxw extends kfe {
          kfa.PLAYER
       );
       oyb = this;
-      oxf var1 = this.pac(a.b("䙶㿙딍⭶", -566475259), a.b("⡄凒\udb71䔏캣䰆\uf247箱\ue599漪\ue889", 1911565400), Items.field_49098, null, null, true);
+      oxf var1 = this.pac(a.b("䙶㿙딍⭶", -566475259), a.b("⡄凒\udb71䔏캣䰆\uf247箱\ue599漪\ue889", 1911565400), Items.WIND_CHARGE, null, null, true);
       var1.thenMace = true;
       var1.groundOnly = true;
       this.add(this.oye);
@@ -110,7 +110,7 @@ public class oxw extends kfe {
       this.pac(
          a.c(1560444909, "羈ح賹ኛ"),
          a.d("窘̆觝៖鰂Ờꂟ⤝띁㶀", 1854470058, 1700432169),
-         Items.field_8614,
+         Items.PHANTOM_MEMBRANE,
          a.d("\ue473鷍\u1716褝ˉ耗㹔럖⦊ꍋ", -1485713885, 681127531),
          a.c(998070638, "夯₭ꩥ㐮뿄㥱茪"),
          false
@@ -118,16 +118,16 @@ public class oxw extends kfe {
       this.pac(
          a.b("\u0dc9瑾ﺾ惞", -123925063),
          a.d("釀\ue813抰ﳎ眜\uf1a7", 991509486, -1150046710),
-         Items.field_22021,
+         Items.NETHERITE_SCRAP,
          a.b("፟櫬\ue04f縱\uf5e3獘", 353507099),
          a.d("\uda5aꏘ⤐띛㲱먄_", -1804833722, 1545647709),
          false
       );
-      this.pac(a.b("䄮㢃뉝ⰾ\ua7ee", -939900581), a.b("鲟\ue50a濒\uf1d2稆", 840931461), Items.field_8551, a.b("甽ಈ虐ᡐ鎄", 164983047), a.c(-1396543912, "渙ល鵓̘裲็된"), false);
+      this.pac(a.b("䄮㢃뉝ⰾ\ua7ee", -939900581), a.b("鲟\ue50a濒\uf1d2稆", 840931461), Items.DRIED_KELP, a.b("甽ಈ虐ᡐ鎄", 164983047), a.c(-1396543912, "渙ល鵓̘裲็된"), false);
       this.pac(
          a.c(425400577, "ᥡ惁\uea14瑢"),
          a.c(570113052, "㠹䆕쭉唵\ude9d屃\ue20f殊\uf5a5罣"),
-         Items.field_8479,
+         Items.SUGAR,
          a.d("≗宛텇伻쒓", 1257307274, -1990141289),
          a.c(8615486, "癿\u0ffd蔵᭾邔ᘡ걺"),
          false
@@ -135,7 +135,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("ឌ渰\ue4f9窔\uf15e矴춫䑑\uda14", -1414457375),
          a.b("咄ⴔꟅ㦽눔㓝躃ݺ饚᎙鐼渳\ue093", 704729245),
-         Items.field_8449,
+         Items.ENDER_EYE,
          a.d("⾅嘵\udce4䊜줵俼\uf5a2籛\ue27b梸\uef1dᔒ鮲", 709744792, 2083320612),
          a.c(1603988197, "\ueaa4錦᧮螥\u0c4f諺ァ"),
          false
@@ -143,7 +143,7 @@ public class oxw extends kfe {
       this.pac(
          a.d("퉩ꯅ℗뽾㒼눎ࡐ膡", 27184182, 829890084),
          a.b("폑ꩼ₧뻕㔊뎿\u0df6耐Ṉ铵ጤ\ue92b枂︺瑤\uf29f", -488646688),
-         Items.field_8543,
+         Items.SNOWBALL,
          a.c(-1719128060, "㑕䶘읃失틮呛\uea12柴怜猑\uf4c0\u0ecf聦᧞鎀ᕻ"),
          a.c(1228799302, "ﴇ蒅ํ逆ᯬ鵙✂"),
          false
@@ -151,7 +151,7 @@ public class oxw extends kfe {
       this.pac(
          a.d("\uf43f越ݚ餴ዦ鑑⸙\ua7eb㦾", -1424707636, -196322414),
          a.d("á祎\uf398淨\ue643惹\udad8匣", -1589044391, 1401823125),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.c(1948897813, "환꾗╁묱゚똠ఁ藺"),
          a.b("珯੭肥Ữ锄Ꮁꧪ", -1351715922),
          false
@@ -159,7 +159,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("밫얝位턩嫰\udc57昑\ueff1熹", -2052801462),
          a.d("㾭䘏첡勝\ud978徶\ue18a汩\uf23a碁ｖ", 1702052246, -1964475887),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.b("躲\uf770緞\ue3a2标\ueec9僵\udd16䍅짾丩", 186288888),
          a.d("㧱䁳쪻哰\udf1a妯\ue3f4", 536310177, 718620689),
          true
@@ -167,7 +167,7 @@ public class oxw extends kfe {
       this.pac(
          a.d("깍ퟳ崩썚䢚", 153656468, -329829699),
          a.c(-1635136676, "콀뛓㰎ꈈ⦦ꬂᕂ鲽˪衜ྍ"),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.b("笚ʩ衴ᙲ鷜ὸꄸ⣇뚐㰦믷", 1573945126),
          a.b("㒖䴔쟜妗퉽哈\uee93", -19778345),
          true
@@ -175,7 +175,7 @@ public class oxw extends kfe {
       this.pac(
          a.c(-753169213, "貴\uf514翊\ue1b6橤\uecd8嚌"),
          a.c(1604969726, "\ue0e7饴Ꭹ趯\u0601蒥㫩댗ⵃꟹ\u202e\uda53咁촽"),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.d("긢힑嵌썊䣤쩀琌ﷲ掦\ue917滏钺ᩡ菕ঋ", -2013500767, -864829253),
          a.d("䕿㳽똵⡾ꎔ┡齺", 1513101542, 1286692312),
          true
@@ -183,7 +183,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("›妙퍊䴩웬䁝﨔珢", 1026367571),
          a.b("ｷ蛤హ鈿ᦑ鬵╶곶㊩롩㿋엃䬑튭", -1369441426),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.b("纪ܙ跄Ꮒ顬᫈ꒋⴋ더㦔븶䐾쫬卐", -1929020781),
          a.b("\ue6b3鼱ᗹ讲X蛭㲶", -1286150414),
          true
@@ -191,7 +191,7 @@ public class oxw extends kfe {
       this.pac(
          a.c(1337431089, "鑊\uede8朾壟犝\uf439乷잀姞"),
          a.b("䜞㺍두⩖ꇸ⍜鵯ᓮ誵\b蟓緔\uf37d櫌", -1845542137),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.c(1498586346, "飓\ue160殽\uf5bb縕ﲱ䊂쬃啘\udfe5堾ꈹⲐ딡"),
          a.c(60727728, "ꇱ\ud873劻쳰䜚솯篴"),
          false
@@ -199,7 +199,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("ร瞍ﵗ挦\ue8e4", 935136853),
          a.b("㡥䇈쬘唕\udeb2堏\ue222殮\uf5f2罈", -1191035826),
-         Items.field_8436,
+         Items.SPLASH_POTION,
          a.b("콈뚅㱕ꉘ⧿꽂ᕯ鳣ʿ蠅", -1121793277),
          a.d("ℨ墪퉢䰩쟃䅶שּׂ", 620989408, 1231202953),
          false
@@ -207,7 +207,7 @@ public class oxw extends kfe {
       this.pac(
             a.d("Ⳍ啲\udfba䇜쨌䲾\uf6e0缑", 1042523090, -1455452304),
             a.c(770719711, "㯍䉑좌囵\udd2a宛\ue1be栽\uf27b粢\ufb09Ĉ"),
-            Items.field_8814,
+            Items.FIRE_CHARGE,
             a.c(-2107986114, "ꬌ튰塭옔䷋쭺煟\uf8dc抚\uec43毨釩"),
             a.d("䆗㠕닝Ⲗꝼ⇉鮒", 2113693214, -1137694776),
             false
@@ -216,7 +216,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("拞᭰釺࿇萝ʬ룽ㄕ꽌◮ꈬ", -496213315),
          a.c(-1538852560, "ﴭ蒹ฝ遧ᯉ鵷✩꺧㒗멄㶕잔䥌탸媡"),
-         Items.field_8662,
+         Items.PRISMARINE_SHARD,
          a.d("巅⑱껕ク묁㶿蟡\u0e6f鑟\u1a8c鵝杜\ue984瀰響", -1373402284, 581096108),
          a.b("쟏빙㒉ꫭ℔ꞝᷓ鐼੫", 101894030),
          false
@@ -224,18 +224,18 @@ public class oxw extends kfe {
       this.pac(
          a.d("╏峡홫䡀쎑䔳ｱ", 211577353, -1927262423),
          a.b("葶\ufde8睁\ue93c抑\ue42d币펟䦢쌑䒲뻌〞ꦥ", 876118118),
-         Items.field_8882,
+         Items.POPPED_CHORUS_FRUIT,
          a.c(-1320519261, "緧є軷ႉ魛ᷠ"),
          a.b("§礱\uf3e1涅\ue67c惵\udabb協촃", -1099104026),
          false
       );
       this.pac(
-         a.c(1835282946, "㉭䯃셉彥풵刅\ue84d"), a.d("짤뀶㪗ꓫ", 2130804832, -222540383), Items.field_8137, a.b("㐜䶮윏女", -1851183015), a.b("죎녘㮈ꗬ⸕ꢜዒ鬽ժ", -186070897), false
+         a.c(1835282946, "㉭䯃셉彥풵刅\ue84d"), a.d("짤뀶㪗ꓫ", 2130804832, -222540383), Items.NETHER_STAR, a.b("㐜䶮윏女", -1851183015), a.b("죎녘㮈ꗬ⸕ꢜዒ鬽ժ", -186070897), false
       );
       this.pac(
          a.c(-129012902, "欵ኛ頑ج跶େ넖"),
          a.c(130495059, "㙎俚앾嬄킪嘔\uec4a旄\ufff4焭\uf6f4಄艗ᮛ釂"),
-         Items.field_8814,
+         Items.FIRE_CHARGE,
          a.c(-41124045, "笎ʺ蠞ᙤ鷊᭴ꄪ⢤는㱍뮔䇤켷囻\udca2"),
          a.d("ႊ検\ue3cc綨\uf651烘쪖䍹\udd2e", -1600960298, 1612011549),
          false
@@ -243,7 +243,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("憗ᠹ銳ಟ蝕ǥ뮮㉊갖⚪ꅹ", -485727756),
          a.b("挶\u1a9b遀า藭͘봑ヷ꺯␒ꏃ姌흥仝쒃䉸ﰧ玞\ue932", -722049276),
-         Items.field_8543,
+         Items.SNOWBALL,
          a.d("쨆돋㤐Ꝣⲽꨈᑁ馧߿赂ઓ\uf09c縵\ue78d淓\ueb28", -529626318, 188302693),
          a.d("ヺ䥬쎼巘혡储\ueae6按ﵞ", -1341882509, 1921535944),
          false
@@ -251,7 +251,7 @@ public class oxw extends kfe {
       this.pac(
          a.d("鲦\ue508澂\uf1b7穫ﳘ䚃", -1386183253, -1093723806),
          a.b("ྡ瘃ﳗ拑\ue97c濎헪屪숰䢃쭊㔏믺≈ꠔ⻯", -1622471792),
-         Items.field_8693,
+         Items.JACK_O_LANTERN,
          a.c(-1839220731, "뱔얖佂텄嫩\udc5b晿\uefff熥ﬖ磟蚺\u086f針ᮁ鵺"),
          a.b("볗앁侑퇵娌\udc85曋\uef24煳", 56999062),
          false
@@ -259,7 +259,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("↳堝튗䲭읧䇞", -1996348963),
          a.d("\ue8aa酇ᯠ藭ั袌㚳뭜│꿇⠝툞", -1583764493, 2023704394),
-         Items.field_8287,
+         Items.EXPERIENCE_BOTTLE,
          a.b("\u137f檲\ue015縘\uf5c4獹쵆䂩\udef7吲폨⧫", -1543432372),
          a.c(890695166, "\uedbf鐩ỹ肝\u0b64跭㞣빌‛"),
          false
@@ -267,7 +267,7 @@ public class oxw extends kfe {
       this.pac(
          a.d("犿\u0b11膛ᾦ鑲ዅꣀ", -2125315670, -1855835270),
          a.b("劧⭸ꇟ㾣둳㋈貁ա鬯ᗽ鈭栢\ue6f9罇\uf566", 1723422344),
-         Items.field_8520,
+         Items.PINK_SHULKER_BOX,
          a.b("뽤웛䱼툀姐\udf6b愢\ue8db盅ﰽ羍藿ୖ鋫ᢿ鹆⑸꿌", 49396534),
          a.b("餉\ue09f橏\uf42b習拏䌕쫺咭", 510368072),
          false
@@ -275,7 +275,7 @@ public class oxw extends kfe {
       this.pac(
          a.b("䠚ㆴ묾┃껗⡠鉦", -1887221643),
          a.b("휣껼\u245b먧ㇷ띌अ胦ẫ遹ឩ\ueda6捽遲烢", -630009076),
-         Items.field_8350,
+         Items.BLUE_SHULKER_BOX,
          a.d("\ueaf4鍋᧬螐ీ諻㒲뵋⍕ꧤ\u2e7e크庸읷䴨쯞熙︹惯", 374216430, 1806956617),
          a.b("\ufbd2艄\u0894雰ᴉ鮀⇎ꠡ㙶", 1195244435),
          false
@@ -283,7 +283,7 @@ public class oxw extends kfe {
       this.pac(
          a.c(-1656506957, "뗜챲䛸\ud8c5匑햦澡"),
          a.b("滲ᜭ鶊϶蠦ຝ냔㤶ꝺ⦨깸呷\udaac䌒줳", -690328867),
-         Items.field_8676,
+         Items.RED_SHULKER_BOX,
          a.c(112623516, "篈ɷ裐ᚬ鵼ᯇꖎⱷ뉩㣘뼋䔳쾇嘵\udc18嫥\ue0ad潴\uf5b6瞂"),
          a.d("슯묹\u31e9꾍⑴ꋽᢳ酜་", 1222557523, 1551072701),
          false
@@ -291,7 +291,7 @@ public class oxw extends kfe {
       this.pac(
          a.c(-1026543536, "〨䦜쌖崨훰偛\uea15揫ﶾ眚"),
          a.c(-518199713, "\ue245鯙ᅵ轾±舟㡍놹\u2fe8ꔮ"),
-         Items.field_8450,
+         Items.FIREWORK_STAR,
          a.c(-1529159763, "\udb97ꈫ⢇뚌㥃믭ƿ衋ᘚ鳜"),
          a.b("㜨亮쑹娅퇒坶\ued0b擂婢瀯\uf7f4", -316590223),
          false
@@ -299,7 +299,7 @@ public class oxw extends kfe {
       this.pac(
          a.d("㘅侱씻嬁탋噲", 697423472, 1478549505),
          a.d("ꇒ\ud870助첢䜉솼翵\uf21a汄\ue681慛魘", 228698976, 1264914079),
-         Items.field_8498,
+         Items.FLOWER_BANNER_PATTERN,
          a.c(-756778076, "翩ث賲ዹ饒ῧꆮⱁ눟㣚뼀䔃"),
          a.c(-1732939194, "爟ங腎ἲ铥ቁ\ua83c⇵뾷㔘닃"),
          false
@@ -365,7 +365,7 @@ public class oxw extends kfe {
          for (oxf var5 : this.oyg) {
             if (var5.key.get() == var2 && this.pad(var5)) {
                if (var3) {
-                  if (this.oym != var5 && var1.field_1724 != null && pag(var1.field_1724, var5) > 0) {
+                  if (this.oym != var5 && var1.player != null && pag(var1.player, var5) > 0) {
                      this.ozo = var5;
                      return;
                   }
@@ -378,13 +378,17 @@ public class oxw extends kfe {
    }
 
    private boolean pae(MinecraftClient var1, oxf var2) {
-      ClientPlayerEntity var3 = var1.field_1724;
+      ClientPlayerEntity var3 = var1.player;
       if (var3 != null && System.currentTimeMillis() < this.ozn && pag(var3, var2) > 0) {
          this.ozo = var2;
          return true;
-      } else if (!var2.groundOnly || var3 == null || var3.method_24828() || !var3.method_5805()) {
+      }
+
+      if (!var2.groundOnly || var3 == null || var3.isOnGround() || !var3.isAlive()) {
          return this.pai(var1, var2);
-      } else if (pag(var3, var2) == 0) {
+      }
+
+      if (pag(var3, var2) == 0) {
          izx.alert(
             wap.t(var2.name),
             wap.s(a.d("⧱偡\udaa9䒌켒䦤\uf3b9稜\ue45f滣\ue975ፍ鶝д蹴ࢎ닛㴑ꞿ⇥", -1729300789, -1187651744), a.b("哕ⵌ\ua7e8㷻눾ゝ軖ܢ饲Ꮔ鐟渑\ue0b4祵\uf353", -265531193)),
@@ -392,21 +396,21 @@ public class oxw extends kfe {
             false
          );
          return false;
-      } else {
-         if (this.oyl != var2) {
-            this.oyl = var2;
-            izx.alert(
-               wap.t(var2.name), wap.s(a.d("ꫧ퍱妰쟐䰐쫳烬蘿杀\uedfb樥道ẍ", -560794004, -2000266041), a.b("퍣ꫳ 빔㖍뜩॥胫Ọ鑲Ꭳ\ue9db朋ﺴ瓯\uf21b䠣", 1375655789)), vhz.CLOCK, false
-            );
-         }
-
-         return true;
       }
+
+      if (this.oyl != var2) {
+         this.oyl = var2;
+         izx.alert(
+            wap.t(var2.name), wap.s(a.d("ꫧ퍱妰쟐䰐쫳烬蘿杀\uedfb樥道ẍ", -560794004, -2000266041), a.b("퍣ꫳ 빔㖍뜩॥胫Ọ鑲Ꭳ\ue9db朋ﺴ瓯\uf21b䠣", 1375655789)), vhz.CLOCK, false
+         );
+      }
+
+      return true;
    }
 
    private void paf(final MinecraftClient var1, int var2) {
-      ClientPlayerEntity var3 = var1.field_1724;
-      if (var3 != null && var1.field_1755 == null) {
+      ClientPlayerEntity var3 = var1.player;
+      if (var3 != null && var1.currentScreen == null) {
          final ArrayList var4 = new ArrayList();
 
          for (oxf var6 : this.oyg) {
@@ -423,7 +427,7 @@ public class oxw extends kfe {
                false
             );
          } else {
-            var1.method_1507(
+            var1.setScreen(
                new iwf(
                   new ivw() {
                      @Override
@@ -434,15 +438,17 @@ public class oxw extends kfe {
                      @Override
                      public List<ivx> slots() {
                         ArrayList var1x = new ArrayList(var4.size());
-                        ClientPlayerEntity var2x = var1.field_1724;
+                        ClientPlayerEntity var2x = var1.player;
 
                         for (oxf var4x : var4) {
                            int var5 = var2x == null ? 0 : oxw.pag(var2x, var4x);
-                           ItemStack var6x = var2x == null ? ItemStack.field_8037 : oxw.pah(var2x, var4x);
-                           float var7 = var6x.method_7960() ? 0.0F : var2x.method_7357().method_7905(var6x, var1.method_61966().method_60637(true));
+                           ItemStack var6 = var2x == null ? ItemStack.EMPTY : oxw.pah(var2x, var4x);
+                           float var7 = var6.isEmpty()
+                              ? 0.0F
+                              : var2x.getItemCooldownManager().getCooldownProgress(var6, var1.getRenderTickCounter().getTickProgress(true));
                            var1x.add(
                               new ivx(
-                                 var6x.method_7960() ? new ItemStack(var4x.item) : var6x,
+                                 var6.isEmpty() ? new ItemStack(var4x.item) : var6,
                                  wap.t(var4x.name),
                                  a.b("ẘ", -1300488479) + var5,
                                  var7,
@@ -469,13 +475,13 @@ public class oxw extends kfe {
    }
 
    private static int pag(ClientPlayerEntity var0, oxf var1) {
-      PlayerInventory var2 = var0.method_31548();
+      PlayerInventory var2 = var0.getInventory();
       int var3 = vvn.count(var2, var1::matches);
 
       for (int var4 = 0; var4 < 36; var4++) {
-         ItemStack var5 = var2.method_5438(var4);
+         ItemStack var5 = var2.getStack(var4);
          if (var1.matches(var5)) {
-            var3 += var5.method_7947();
+            var3 += var5.getCount();
          }
       }
 
@@ -483,11 +489,11 @@ public class oxw extends kfe {
    }
 
    private static ItemStack pah(ClientPlayerEntity var0, oxf var1) {
-      PlayerInventory var2 = var0.method_31548();
+      PlayerInventory var2 = var0.getInventory();
 
       for (int var3 = 0; var3 < 36; var3++) {
-         if (var1.matches(var2.method_5438(var3))) {
-            return var2.method_5438(var3);
+         if (var1.matches(var2.getStack(var3))) {
+            return var2.getStack(var3);
          }
       }
 
@@ -495,11 +501,11 @@ public class oxw extends kfe {
    }
 
    private boolean pai(MinecraftClient var1, oxf var2) {
-      ClientPlayerEntity var3 = var1.field_1724;
-      if (var3 != null && var3.method_5805() && !var3.method_7325() && var3.field_7512 == var3.field_7498) {
+      ClientPlayerEntity var3 = var1.player;
+      if (var3 != null && var3.isAlive() && !var3.isSpectator() && var3.currentScreenHandler == var3.playerScreenHandler) {
          int var4 = pbc(var3, var2);
-         ItemStack var5 = var4 >= 0 ? var3.method_31548().method_5438(var4) : vvn.peek(var3.method_31548(), var2::matches);
-         if (var5.method_7960()) {
+         ItemStack var5 = var4 >= 0 ? var3.getInventory().getStack(var4) : vvn.peek(var3.getInventory(), var2::matches);
+         if (var5.isEmpty()) {
             izx.alert(
                wap.t(var2.name),
                wap.s(a.d("踲\uf7a2絪\ue34f棑\uee67呺\udddf䎜줠亶뒎㩞ꏷ⦷꽍ᔘ髒|蘦", -508470079, -1095052631), a.d("蚳Ｊ疎\uef9d恘\ue2fb岰필䬔솢䙹뱷㋒ꬓℵ", 1077347329, 1663600288)),
@@ -507,10 +513,14 @@ public class oxw extends kfe {
                false
             );
             return false;
-         } else if (var3.method_7357().method_7904(var5)) {
+         }
+
+         if (var3.getItemCooldownManager().isCoolingDown(var5)) {
             izx.alert(wap.t(var2.name), wap.s(a.c(-123049931, "桾ᇣ鬰Ղ躝ࠧ뉬㮄"), a.d("胫賈玨\uedd6昅\ue0c7嫪", 899285787, -1242855443)), vhz.CLOCK, false);
             return true;
-         } else if (KeyBindingHelper.getBoundKeyOf(var1.field_1690.field_1904).equals(InputUtil.field_16237)) {
+         }
+
+         if (KeyBindingHelper.getBoundKeyOf(var1.options.useKey).equals(InputUtil.UNKNOWN_KEY)) {
             izx.alert(
                wap.t(var2.name),
                wap.s(a.d("蕛ﳑ瘌\ue872掹\ue55c彌횲䣨쉓䖈뾲ㄬꢇ⋉ꑱṭ釨ଙ赅Ҩ绢\uf05b", -6341663, 1693892351), a.c(-448376251, "噈⿑ꄗ㭻낡㘗豎ֲ鮚ᅙ隂泾\ue639箷\uf1e1眖")),
@@ -518,36 +528,36 @@ public class oxw extends kfe {
                false
             );
             return true;
-         } else {
-            PlayerInventory var6 = var3.method_31548();
-            this.oym = var2;
-            this.oyo = var4;
-            this.oyj = var4 < 0;
-            this.oyp = !this.oyj && var4 < 9;
-            this.oyq = var6.method_67532();
-            this.oyr = var3.method_36455();
-            this.ozp = Math.min(90.0F, pba(83.0F, 93.0F));
-            this.ozq = pba(-3.0F, 3.0F);
-            this.ozs = this.ozq;
-            this.oyt = 0;
-            this.oyv = -1;
-            this.oyw = false;
-            this.ozm = 0;
-            if (this.oyp) {
-               this.oyn = oxt.SELECT;
-            } else if (this.pbb(var3)) {
-               if (!this.pao(var1)) {
-                  return true;
-               }
+         }
 
-               this.oyn = oxt.USE;
-               this.ozm = paq(0, 1);
-            } else {
-               this.oyn = oxt.PREPARE;
+         PlayerInventory var6 = var3.getInventory();
+         this.oym = var2;
+         this.oyo = var4;
+         this.oyj = var4 < 0;
+         this.oyp = !this.oyj && var4 < 9;
+         this.oyq = var6.getSelectedSlot();
+         this.oyr = var3.getPitch();
+         this.ozp = Math.min(90.0F, pba(83.0F, 93.0F));
+         this.ozq = pba(-3.0F, 3.0F);
+         this.ozs = this.ozq;
+         this.oyt = 0;
+         this.oyv = -1;
+         this.oyw = false;
+         this.ozm = 0;
+         if (this.oyp) {
+            this.oyn = oxt.SELECT;
+         } else if (this.pbb(var3)) {
+            if (!this.pao(var1)) {
+               return true;
             }
 
-            return true;
+            this.oyn = oxt.USE;
+            this.ozm = paq(0, 1);
+         } else {
+            this.oyn = oxt.PREPARE;
          }
+
+         return true;
       } else {
          return false;
       }
@@ -556,7 +566,7 @@ public class oxw extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       this.ozu++;
-      this.oyu = var1.field_1724.method_31548().method_67532();
+      this.oyu = var1.player.getInventory().getSelectedSlot();
       this.pas(var1);
       this.pam(var1);
       this.paj(var1);
@@ -565,13 +575,13 @@ public class oxw extends kfe {
    }
 
    private void paj(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (this.oyl != null && (!var2.method_5805() || var2.method_7325())) {
+      ClientPlayerEntity var2 = var1.player;
+      if (this.oyl != null && (!var2.isAlive() || var2.isSpectator())) {
          this.oyl = null;
       }
 
-      if (this.oym == null && !kvz.busy() && var1.field_1755 == null) {
-         if (this.oyl != null && var2.method_24828()) {
+      if (this.oym == null && !kvz.busy() && var1.currentScreen == null) {
+         if (this.oyl != null && var2.isOnGround()) {
             oxf var5 = this.oyl;
             this.oyl = null;
             this.pai(var1, var5);
@@ -591,14 +601,14 @@ public class oxw extends kfe {
 
    private void pak(MinecraftClient var1) {
       if (this.oym != null) {
-         ClientPlayerEntity var2 = var1.field_1724;
-         if (var2.method_5805() && var2.field_7512 == var2.field_7498 && var1.field_1755 == null) {
+         ClientPlayerEntity var2 = var1.player;
+         if (var2.isAlive() && var2.currentScreenHandler == var2.playerScreenHandler && var1.currentScreen == null) {
             switch (this.oyn) {
                case SELECT:
-                  PlayerInventory var3 = var2.method_31548();
-                  boolean var4 = var3.method_67532() != this.oyo;
+                  PlayerInventory var3 = var2.getInventory();
+                  boolean var4 = var3.getSelectedSlot() != this.oyo;
                   if (var4) {
-                     var3.method_61496(this.oyo);
+                     var3.setSelectedSlot(this.oyo);
                   }
 
                   this.oyn = oxt.USE;
@@ -646,11 +656,11 @@ public class oxw extends kfe {
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      this.ozx = var1.field_1724.method_18798().field_1351;
+      this.ozx = var1.player.getVelocity().y;
       if (this.oym != null) {
-         ClientPlayerEntity var2 = var1.field_1724;
+         ClientPlayerEntity var2 = var1.player;
          if (this.oyn == oxt.PREPARE) {
-            if (!this.oyj && !this.oym.matches(var2.method_31548().method_5438(this.oyo))) {
+            if (!this.oyj && !this.oym.matches(var2.getInventory().getStack(this.oyo))) {
                this.pap();
             } else if (this.pbb(var2)) {
                if (this.pao(var1)) {
@@ -663,7 +673,7 @@ public class oxw extends kfe {
          } else if (this.oyn == oxt.SWAP_BACK && this.ozm > 0) {
             this.ozm--;
          } else if (this.oyn == oxt.SWAP_BACK) {
-            boolean var3 = this.oyj ? var2.field_7512 == var2.field_7498 && this.oyh.idle(var2) : wdq.canClick(var2) && this.oyh.idle(var2);
+            boolean var3 = this.oyj ? var2.currentScreenHandler == var2.playerScreenHandler && this.oyh.idle(var2) : wdq.canClick(var2) && this.oyh.idle(var2);
             if (var3) {
                if (this.oyj) {
                   this.oyi.giveBack(var1);
@@ -671,12 +681,12 @@ public class oxw extends kfe {
                   wdq.click(var1, this.oyo, this.oyq);
                }
 
-               if (this.pat() && var2.field_7498.method_34255().method_7960()) {
+               if (this.pat() && var2.playerScreenHandler.getCursorStack().isEmpty()) {
                   int var4 = pau(var2, this.oyq);
                   if (var4 >= 9) {
                      wdq.click(var1, var4, this.oyq);
                   } else if (var4 >= 0) {
-                     var2.method_31548().method_61496(var4);
+                     var2.getInventory().setSelectedSlot(var4);
                   }
                }
 
@@ -693,7 +703,7 @@ public class oxw extends kfe {
             }
          } else if (this.oyn == oxt.RESTORE && this.oyv >= 0) {
             if (this.pbb(var2)) {
-               wdq.swap(var1, this.oyv, var2.method_31548().method_67532());
+               wdq.swap(var1, this.oyv, var2.getInventory().getSelectedSlot());
                this.oyv = -1;
                this.oyh.release(var1);
                if (this.oyw) {
@@ -708,20 +718,20 @@ public class oxw extends kfe {
    }
 
    private void pal(MinecraftClient var1, ClientPlayerEntity var2) {
-      PlayerInventory var3 = var2.method_31548();
+      PlayerInventory var3 = var2.getInventory();
       if (!this.oyp) {
          this.paw(var1, var2);
-      } else if (var3.method_67532() != this.oyo) {
-         var3.method_61496(this.oyo);
+      } else if (var3.getSelectedSlot() != this.oyo) {
+         var3.setSelectedSlot(this.oyo);
       }
 
       if (this.pax(var2)) {
          if (this.oym.self) {
-            this.ozr = MathHelper.method_15363(this.oyr + pba(-1.6F, 1.6F), -90.0F, 90.0F);
+            this.ozr = MathHelper.clamp(this.oyr + pba(-1.6F, 1.6F), -90.0F, 90.0F);
             this.ozs = pba(-1.2F, 1.2F) - (this.ozq - this.ozs);
          }
 
-         if (!this.oym.matches(var2.method_6047())) {
+         if (!this.oym.matches(var2.getMainHandStack())) {
             if (this.oyp) {
                this.pap();
             } else {
@@ -729,24 +739,24 @@ public class oxw extends kfe {
                this.oyn = oxt.SWAP_BACK;
             }
          } else {
-            if (var2.method_6115()) {
-               var1.field_1761.method_2897(var2);
+            if (var2.isUsingItem()) {
+               var1.interactionManager.stopUsingItem(var2);
             }
 
-            if (var1.field_1761.method_2923()) {
-               var1.field_1761.method_2925();
-               var1.field_1690.field_1886.method_23481(false);
+            if (var1.interactionManager.isBreakingBlock()) {
+               var1.interactionManager.cancelBlockBreaking();
+               var1.options.attackKey.setPressed(false);
                this.oys = true;
             }
 
-            for (KeyBinding var7 : var1.field_1690.field_1852) {
-               while (var7.method_1436()) {
+            for (KeyBinding var7 : var1.options.hotbarKeys) {
+               while (var7.wasPressed()) {
                }
             }
 
-            KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var1.field_1690.field_1904));
+            KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var1.options.useKey));
             this.oym.usedAt = System.currentTimeMillis();
-            if (this.oym.thenMace && this.oyf.get() && var2.method_24828()) {
+            if (this.oym.thenMace && this.oyf.get() && var2.isOnGround()) {
                this.ozv = this.ozu + 12;
             }
 
@@ -760,26 +770,26 @@ public class oxw extends kfe {
    private void pam(MinecraftClient var1) {
       if (this.oys) {
          this.oys = false;
-         if (var1.field_1690 != null && var1.method_22683() != null) {
-            var1.field_1690.field_1886.method_23481(vzz.isPhysicallyDown(var1, var1.field_1690.field_1886));
+         if (var1.options != null && var1.getWindow() != null) {
+            var1.options.attackKey.setPressed(vzz.isPhysicallyDown(var1, var1.options.attackKey));
          }
       }
    }
 
    private void pan(MinecraftClient var1, ClientPlayerEntity var2) {
-      PlayerInventory var3 = var2.method_31548();
+      PlayerInventory var3 = var2.getInventory();
       if (this.oyp) {
-         if (var3.method_67532() == this.oyo && this.oyo != this.oyq) {
-            var3.method_61496(this.oyq);
+         if (var3.getSelectedSlot() == this.oyo && this.oyo != this.oyq) {
+            var3.setSelectedSlot(this.oyq);
          }
 
          this.oyp = false;
-         if (this.pat() && var3.method_67532() == this.oyq) {
+         if (this.pat() && var3.getSelectedSlot() == this.oyq) {
             int var4 = pau(var2, this.oyq);
             if (var4 >= 9) {
                this.oyv = var4;
             } else if (var4 >= 0) {
-               var3.method_61496(var4);
+               var3.setSelectedSlot(var4);
             }
          }
       }
@@ -798,7 +808,9 @@ public class oxw extends kfe {
       if (!this.oyj) {
          wdq.swap(var1, this.oyo, this.oyq);
          return true;
-      } else if (!this.oyi.take(var1, this.oym::matches, this.oyq)) {
+      }
+
+      if (!this.oyi.take(var1, this.oym::matches, this.oyq)) {
          izx.alert(
             wap.t(this.oym.name),
             wap.s(a.b("⟦并퓪䫉섃䞲\ufde3瑟\uea54惾\ue762ᵇ鎅ਾ聣ۗ병㌝ꧺ\u2fe4ꘉ\udc59", -1683085378), a.b("灕ৌ茐ᴘ隸ဍ깎⎫뷾㜰냠䫣쑆巹폆儯\ueb6f悩︆硞\uf1d4请Վ", -1723173793)),
@@ -807,17 +819,17 @@ public class oxw extends kfe {
          );
          this.pap();
          return false;
-      } else {
-         if (!this.oyi.cursorHeld(var1.field_1724)) {
-            wdq.close(var1);
-         }
-
-         return true;
       }
+
+      if (!this.oyi.cursorHeld(var1.player)) {
+         wdq.close(var1);
+      }
+
+      return true;
    }
 
    private void pap() {
-      ClientPlayerEntity var1 = this.mc.field_1724;
+      ClientPlayerEntity var1 = this.mc.player;
       if (this.oyi.active() && var1 != null) {
          this.oyi.giveBack(this.mc);
          wdq.close(this.mc);
@@ -826,9 +838,9 @@ public class oxw extends kfe {
       this.oyh.release(this.mc);
       this.pam(this.mc);
       if (this.oym != null && this.oyp && var1 != null) {
-         PlayerInventory var2 = var1.method_31548();
-         if (var2.method_67532() == this.oyo && this.oyo != this.oyq) {
-            var2.method_61496(this.oyq);
+         PlayerInventory var2 = var1.getInventory();
+         if (var2.getSelectedSlot() == this.oyo && this.oyo != this.oyq) {
+            var2.setSelectedSlot(this.oyq);
          }
       }
 
@@ -853,19 +865,19 @@ public class oxw extends kfe {
 
    private void par(MinecraftClient var1) {
       if (this.ozv >= 0) {
-         ClientPlayerEntity var2 = var1.field_1724;
-         if (this.ozu <= this.ozv && var2.method_24828() && !(var2.method_18798().field_1351 - this.ozx > 0.5)) {
-            for (WindChargeEntity var4 : var1.field_1687
-               .method_8390(
-                  WindChargeEntity.class, var2.method_5829().method_1009(2.0, 3.0, 2.0), var1x -> var1x.method_24921() == null || var1x.method_24921() == var2
+         ClientPlayerEntity var2 = var1.player;
+         if (this.ozu <= this.ozv && var2.isOnGround() && !(var2.getVelocity().y - this.ozx > 0.5)) {
+            for (WindChargeEntity var4 : var1.world
+               .getEntitiesByClass(
+                  WindChargeEntity.class, var2.getBoundingBox().expand(2.0, 3.0, 2.0), var1x -> var1x.getOwner() == null || var1x.getOwner() == var2
                )) {
-               Vec3d var5 = var4.method_73189();
-               Vec3d var6 = var5.method_1019(var4.method_18798().method_1021(2.0));
-               BlockHitResult var7 = var1.field_1687.method_17742(new RaycastContext(var5, var6, ShapeType.field_17558, FluidHandling.field_1348, var4));
-               if (var7.method_17783() != Type.field_1333) {
+               Vec3d var5 = var4.getEntityPos();
+               Vec3d var6 = var5.add(var4.getVelocity().multiply(2.0));
+               BlockHitResult var7 = var1.world.raycast(new RaycastContext(var5, var6, ShapeType.COLLIDER, FluidHandling.NONE, var4));
+               if (var7.getType() != Type.MISS) {
                   this.ozv = -1;
-                  if (var1.field_1755 == null) {
-                     var1.field_1690.field_1903.method_23481(true);
+                  if (var1.currentScreen == null) {
+                     var1.options.jumpKey.setPressed(true);
                      this.ozw = true;
                   }
 
@@ -881,8 +893,8 @@ public class oxw extends kfe {
    private void pas(MinecraftClient var1) {
       if (this.ozw) {
          this.ozw = false;
-         if (var1.field_1690 != null && var1.method_22683() != null) {
-            var1.field_1690.field_1903.method_23481(vzz.isPhysicallyDown(var1, var1.field_1690.field_1903));
+         if (var1.options != null && var1.getWindow() != null) {
+            var1.options.jumpKey.setPressed(vzz.isPhysicallyDown(var1, var1.options.jumpKey));
          }
       }
    }
@@ -892,36 +904,36 @@ public class oxw extends kfe {
    }
 
    private static int pau(ClientPlayerEntity var0, int var1) {
-      PlayerInventory var2 = var0.method_31548();
-      if (var2.method_5438(var1).method_31574(Items.field_49814)) {
+      PlayerInventory var2 = var0.getInventory();
+      if (var2.getStack(var1).isOf(Items.MACE)) {
          return var1;
-      } else {
-         for (int var3 = 0; var3 < 36; var3++) {
-            if (var2.method_5438(var3).method_31574(Items.field_49814)) {
-               return var3;
-            }
-         }
-
-         return -1;
       }
+
+      for (int var3 = 0; var3 < 36; var3++) {
+         if (var2.getStack(var3).isOf(Items.MACE)) {
+            return var3;
+         }
+      }
+
+      return -1;
    }
 
    private void pav(MinecraftClient var1, int var2) {
-      for (KeyBinding var6 : var1.field_1690.field_1852) {
+      for (KeyBinding var6 : var1.options.hotbarKeys) {
          Key var7 = KeyBindingHelper.getBoundKeyOf(var6);
-         if (var7.method_1442() == net.minecraft.client.util.InputUtil.Type.field_1668 && var7.method_1444() == var2) {
-            while (var6.method_1436()) {
+         if (var7.getCategory() == net.minecraft.client.util.InputUtil.Type.KEYSYM && var7.getCode() == var2) {
+            while (var6.wasPressed()) {
             }
          }
       }
 
       if (!kfx.startPhase()) {
-         PlayerInventory var8 = var1.field_1724.method_31548();
-         int var9 = var8.method_67532();
-         if (this.oyu >= 0 && var9 != this.oyu && var9 < var1.field_1690.field_1852.length) {
-            Key var10 = KeyBindingHelper.getBoundKeyOf(var1.field_1690.field_1852[var9]);
-            if (var10.method_1442() == net.minecraft.client.util.InputUtil.Type.field_1668 && var10.method_1444() == var2) {
-               var8.method_61496(this.oyu);
+         PlayerInventory var8 = var1.player.getInventory();
+         int var9 = var8.getSelectedSlot();
+         if (this.oyu >= 0 && var9 != this.oyu && var9 < var1.options.hotbarKeys.length) {
+            Key var10 = KeyBindingHelper.getBoundKeyOf(var1.options.hotbarKeys[var9]);
+            if (var10.getCategory() == net.minecraft.client.util.InputUtil.Type.KEYSYM && var10.getCode() == var2) {
+               var8.setSelectedSlot(this.oyu);
             }
          }
       }
@@ -929,8 +941,8 @@ public class oxw extends kfe {
 
    private void paw(MinecraftClient var1, ClientPlayerEntity var2) {
       this.oyh.hold(var1);
-      if (var2.method_6115()) {
-         var1.field_1761.method_2897(var2);
+      if (var2.isUsingItem()) {
+         var1.interactionManager.stopUsingItem(var2);
       }
    }
 
@@ -939,19 +951,19 @@ public class oxw extends kfe {
    }
 
    private boolean pay(ClientPlayerEntity var1, float var2, float var3, float var4) {
-      float var5 = var2 - var1.method_36455();
+      float var5 = var2 - var1.getPitch();
       float var6 = pba(var3, var4);
       boolean var7 = Math.abs(var5) <= var6;
       float var8 = var7 ? 1.0F : var6 / Math.abs(var5);
       double var9 = prp.multiplier();
       float var11 = paz(var7 ? var5 : Math.signum(var5) * var6, var9);
       float var12 = paz(this.ozs * var8, var9);
-      float var13 = var1.method_36455();
-      var1.method_36457(MathHelper.method_15363(var1.method_36455() + var11, -90.0F, 90.0F));
-      var1.method_36456(var1.method_36454() + var12);
+      float var13 = var1.getPitch();
+      var1.setPitch(MathHelper.clamp(var1.getPitch() + var11, -90.0F, 90.0F));
+      var1.setYaw(var1.getYaw() + var12);
       this.ozs -= var12;
       this.ozy += var12;
-      this.ozz = this.ozz + (var1.method_36455() - var13);
+      this.ozz = this.ozz + (var1.getPitch() - var13);
       ett.viewOffset(this.ozy, this.ozz);
       return var7;
    }
@@ -965,23 +977,23 @@ public class oxw extends kfe {
    }
 
    private boolean pbb(ClientPlayerEntity var1) {
-      return wdq.canClick(var1) && this.oyh.idle(var1) && !var1.method_6115();
+      return wdq.canClick(var1) && this.oyh.idle(var1) && !var1.isUsingItem();
    }
 
    private static int pbc(ClientPlayerEntity var0, oxf var1) {
-      PlayerInventory var2 = var0.method_31548();
-      int var3 = var2.method_67532();
-      if (var1.matches(var2.method_5438(var3))) {
+      PlayerInventory var2 = var0.getInventory();
+      int var3 = var2.getSelectedSlot();
+      if (var1.matches(var2.getStack(var3))) {
          return var3;
-      } else {
-         for (int var4 = 0; var4 < 36; var4++) {
-            if (var1.matches(var2.method_5438(var4))) {
-               return var4;
-            }
-         }
-
-         return -1;
       }
+
+      for (int var4 = 0; var4 < 36; var4++) {
+         if (var1.matches(var2.getStack(var4))) {
+            return var4;
+         }
+      }
+
+      return -1;
    }
 
    private static String pbd(String var0) {
@@ -990,48 +1002,48 @@ public class oxw extends kfe {
 
    public List<oxi> entries(float var1) {
       ArrayList var2 = new ArrayList();
-      ClientPlayerEntity var3 = this.mc.field_1724;
+      ClientPlayerEntity var3 = this.mc.player;
       if (var3 == null) {
          return var2;
-      } else {
-         PlayerInventory var4 = var3.method_31548();
+      }
 
-         for (oxf var6 : this.oyg) {
-            if (var6.key.isBound() && this.pad(var6)) {
-               int var7 = vvn.count(var4, var6::matches);
-               ItemStack var8 = ItemStack.field_8037;
+      PlayerInventory var4 = var3.getInventory();
 
-               for (int var9 = 0; var9 < 36; var9++) {
-                  ItemStack var10 = var4.method_5438(var9);
-                  if (var6.matches(var10)) {
-                     var7 += var10.method_7947();
-                     if (var8.method_7960()) {
-                        var8 = var10;
-                     }
+      for (oxf var6 : this.oyg) {
+         if (var6.key.isBound() && this.pad(var6)) {
+            int var7 = vvn.count(var4, var6::matches);
+            ItemStack var8 = ItemStack.EMPTY;
+
+            for (int var9 = 0; var9 < 36; var9++) {
+               ItemStack var10 = var4.getStack(var9);
+               if (var6.matches(var10)) {
+                  var7 += var10.getCount();
+                  if (var8.isEmpty()) {
+                     var8 = var10;
                   }
                }
-
-               if (var8.method_7960() && var7 > 0) {
-                  var8 = vvn.peek(var4, var6::matches);
-               }
-
-               float var11 = var8.method_7960() ? 0.0F : var3.method_7357().method_7905(var8, var1);
-               var2.add(
-                  new oxi(
-                     var6.id,
-                     var6.name,
-                     var8.method_7960() ? new ItemStack(var6.item) : var8,
-                     var7,
-                     var6.key.get(),
-                     var11,
-                     var6.usedAt,
-                     this.oym == var6 || this.oyl == var6
-                  )
-               );
             }
-         }
 
-         return var2;
+            if (var8.isEmpty() && var7 > 0) {
+               var8 = vvn.peek(var4, var6::matches);
+            }
+
+            float var11 = var8.isEmpty() ? 0.0F : var3.getItemCooldownManager().getCooldownProgress(var8, var1);
+            var2.add(
+               new oxi(
+                  var6.id,
+                  var6.name,
+                  var8.isEmpty() ? new ItemStack(var6.item) : var8,
+                  var7,
+                  var6.key.get(),
+                  var11,
+                  var6.usedAt,
+                  this.oym == var6 || this.oyl == var6
+               )
+            );
+         }
       }
+
+      return var2;
    }
 }

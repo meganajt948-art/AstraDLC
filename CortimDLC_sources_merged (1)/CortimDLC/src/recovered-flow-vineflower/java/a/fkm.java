@@ -56,10 +56,10 @@ final class fkm {
          flh(var0, a.c(1966096109, "㺔䜸췯厖\ud804廦\ue4a3浃\uf348积︺ы誜"));
          flh(var0, a.b("⩤叇\ud910䝴첿䨃\uf047秤\ue7f8浆\uea9cჩ鸭", -1334695394));
          ucg.ENABLED.set(false);
-         var0.field_1690.field_1842 = true;
-         fkq = Math.floor(var0.field_1724.method_23317()) + 0.5;
-         fkr = Math.floor(var0.field_1724.method_23318());
-         fks = Math.floor(var0.field_1724.method_23321()) + 0.5;
+         var0.options.hudHidden = true;
+         fkq = Math.floor(var0.player.getX()) + 0.5;
+         fkr = Math.floor(var0.player.getY());
+         fks = Math.floor(var0.player.getZ()) + 0.5;
          System.out.println(a.c(906401395, "阂\uefbf数ײַ烀\uf660䰮엕定텸囧겕≌미ㆪ띚ോ芀") + Cosmetics.items().size());
       }
 
@@ -72,7 +72,7 @@ final class fkm {
          flg(var0, 30.0F, 8.0F);
          if (var6 == 0) {
             flc(fkn[var5]);
-            var0.field_1690.method_31043(Perspective.field_26665);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
          }
 
          if (var6 == 24) {
@@ -80,7 +80,7 @@ final class fkm {
          }
 
          if (var6 == 26) {
-            var0.field_1690.method_31043(Perspective.field_26666);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
          }
 
          if (var6 == 44) {
@@ -88,187 +88,188 @@ final class fkm {
          }
       }
 
-      if (var1 >= var4 && var1 < var4 + fla()) {
-         flb(var0, var1 - var4);
+      int var16 = var4;
+      if (var1 >= var16 && var1 < var16 + fla()) {
+         flb(var0, var1 - var16);
       }
 
-      if (var3 && var1 == var4 + fla()) {
-         var0.method_1507(null);
+      if (var3 && var1 == var16 + fla()) {
+         var0.setScreen(null);
          Cosmetics.clearAll();
          System.out.println(a.c(-1972809577, "僔⥩ꎦ㷉똖ザ諸̃鵌ឮ逩橉\ue488紾\uf739熉쯑䐗\udeb1壵턑ꬒ◱븸㡎늍ନ蔼ᾏ駕ቧ\uecbd"));
          return true;
-      } else {
-         int var16 = var4 + fla();
-         if (var1 == var16) {
-            flc(
-               new String[]{
-                  a.d("ᬩ技\ue854瘯ﷳ筅섇䣑횦尉\udbdd↥꽦", -692522264, -1052382788),
-                  a.c(1018516351, "匔⪧ꁡ㸻뗃㍣褲Ë"),
-                  a.b("阳\uef80敎טּ烩\uf643䰛에宠턄囆", -1173055917),
-                  a.b("྆瘼ﳡ抔\ue973濸햯屍숓", 1234178017)
-               }
-            );
-            var0.field_1690.method_31043(Perspective.field_26665);
-            flg(var0, 30.0F, 8.0F);
-         }
+      }
 
-         if (var1 == var16 + 20) {
-            fli(var0, a.c(731266809, "㺒䜯췠叏\ud85c廠\ue4bb浃"));
-            var0.field_1690.field_1894.method_23481(true);
-         }
-
-         if (var1 > var16 && var1 < var16 + 160) {
-            flg(var0, 30.0F, 8.0F);
-         }
-
-         if (var1 == var16 + 45) {
-            fli(var0, a.c(389268365, "쏦멛ゔ꺻┶ꎑ\u19cf逹"));
-            var0.field_1724.method_5728(true);
-            var0.field_1690.field_1867.method_23481(true);
-         }
-
-         if (var1 == var16 + 70) {
-            fli(var0, a.d("諐\uf36d禢\ue78d氄\ueab6僧\ud90d䝕췾", 1104769802, 692124083));
-            var0.field_1690.field_1867.method_23481(false);
-            var0.field_1724.method_5728(false);
-            var0.field_1690.field_1894.method_23481(false);
-         }
-
-         if (var1 == var16 + 90) {
-            var0.field_1690.field_1903.method_23481(true);
-         }
-
-         if (var1 == var16 + 92) {
-            var0.field_1690.field_1903.method_23481(false);
-         }
-
-         if (var1 == var16 + 95) {
-            fli(var0, a.b("綹Є軋ფ魴ᷚꞑ\u2e7d", 461405650));
-         }
-
-         if (var1 == var16 + 110) {
-            flh(var0, String.format(Locale.ROOT, a.c(-2123220860, "㣤䅑쯒嗃\ude27壅\ue293歩\uf529翏\uf85aȮ賲ᕜ齘᧯ꎥⱿ뛓フ"), fkq, fkr + 9.0, fks));
-         }
-
-         if (var1 == var16 + 126) {
-            fli(var0, a.c(-173720184, "㷣䑞캑傾\udb22嶔\ue7ca渻"));
-         }
-
-         if (var1 == var16 + 140) {
-            var0.field_1690.field_1832.method_23481(true);
-         }
-
-         if (var1 == var16 + 155) {
-            fli(var0, a.d("ᧀ恽\ueab2璝４禸쏠䨕푀", 59588481, -857463253));
-            var0.field_1690.field_1832.method_23481(false);
-         }
-
-         if (var1 >= var16 + 160 && var1 < var16 + 175) {
-            float var7 = 30.0F + (var1 - var16 - 160) * 9.0F;
-            flg(var0, var7, 8.0F);
-         }
-
-         if (var1 == var16 + 172) {
-            fli(var0, a.c(1077176466, "棹ᅄ鮋֤踪࢚닎㬣"));
-         }
-
-         if (var1 == var16 + 180) {
-            var0.field_1690.method_31043(Perspective.field_26664);
-            flg(var0, 75.0F, 4.0F);
-         }
-
-         if (var1 == var16 + 200) {
-            fli(var0, a.c(1699535322, "\ud9b6ꀋ⫄듫㽷막\u0381話ᐩ麜ᥚ\ue33c淪\uf447縕"));
-         }
-
-         int var17 = var16 + 210;
-         if (var1 == var17) {
-            Cosmetics.clearAll();
-            flh(var0, String.format(Locale.ROOT, a.c(315734865, "물슉䠊혛巿\udb1d態\ue8b1盱ﰗ箂臶༪隄ᲀ騷⁽꾧㔋댍㪼䃴칎喏폠"), fkq, fkr, fks));
-            double var8 = fkq - 3.5;
-            double var10 = fkr;
-            double var12 = fks;
-            UUID var14 = var0.field_1724.method_5667();
-            var0.method_1576().execute(() -> fnq.spawn(var0.method_1576(), var14, var8, var10, var12));
-         }
-
-         if (var1 == var17 + 30) {
-            fkt = fld();
-            System.out
-               .println(
-                  a.c(-1607415960, "윜뺡㑮ꨁ⇞Ꝿᴰ铋\u0a84聦ߦ\ufd90獒\ueaf6悤\ue653屏폝䥢켸䛎㳚뉮")
-                     + Cosmetics.code()
-                     + a.b("퇩ꡓ⊌벭㝫뇉ஜ艠ᱦ際ᅋ\ueb3a早ﱆ瘐\uf0b1", 2036519390)
-                     + ucg.cosmeticsOf(a.d("ꙇ\udfdc唌쭥䂇옛籓", 488947690, 1878530540))
-               );
-         }
-
-         if (var1 > var17 && var1 < var17 + 120) {
-            flg(var0, 90.0F, 6.0F);
-         }
-
-         if (var1 == var17 + 1) {
-            var0.field_1690.method_31043(Perspective.field_26664);
-         }
-
-         if (var1 == var17 + 70) {
-            fli(var0, a.c(2115957788, "\uf475跈܇館አ鐆⹝Ɪ㧪덊"));
-            fku = fle(var0);
-         }
-
-         if (var1 == var17 + 75) {
-            var0.field_1690.method_31043(Perspective.field_26665);
-         }
-
-         if (var1 == var17 + 100) {
-            fli(var0, a.d("䦄〹뫶ⓙ꽑⧷鎬\u1a5f萛ົ褠猚\ufdca摨", 591938664, 235212161));
-         }
-
-         int var18 = var17 + 120;
-         if (var1 == var18) {
-            var0.field_1690.method_31043(Perspective.field_26665);
-            var0.field_1690.field_1842 = false;
-
-            try {
-               Field var9 = hlc.class.getDeclaredField(a.b("괼풘幈쀐䯩쵄", 1925426510));
-               var9.setAccessible(true);
-               var9.set(null, a.b("荠\ufafd瀲\uee5d斂\ue322奬킗付", 2108523306));
-            } catch (Exception var15) {
-               System.out.println(a.b("㉌䯨세弋풚判\ue87b憃ￔ画\uf2f2", -2116865485) + var15);
+      int var17 = var16 + fla();
+      if (var1 == var17) {
+         flc(
+            new String[]{
+               a.d("ᬩ技\ue854瘯ﷳ筅섇䣑횦尉\udbdd↥꽦", -692522264, -1052382788),
+               a.c(1018516351, "匔⪧ꁡ㸻뗃㍣褲Ë"),
+               a.b("阳\uef80敎טּ烩\uf643䰛에宠턄囆", -1173055917),
+               a.b("྆瘼ﳡ抔\ue973濸햯屍숓", 1234178017)
             }
+         );
+         var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
+         flg(var0, 30.0F, 8.0F);
+      }
 
-            var0.method_1507(new hlc());
+      if (var1 == var17 + 20) {
+         fli(var0, a.c(731266809, "㺒䜯췠叏\ud85c廠\ue4bb浃"));
+         var0.options.forwardKey.setPressed(true);
+      }
+
+      if (var1 > var17 && var1 < var17 + 160) {
+         flg(var0, 30.0F, 8.0F);
+      }
+
+      if (var1 == var17 + 45) {
+         fli(var0, a.c(389268365, "쏦멛ゔ꺻┶ꎑ\u19cf逹"));
+         var0.player.setSprinting(true);
+         var0.options.sprintKey.setPressed(true);
+      }
+
+      if (var1 == var17 + 70) {
+         fli(var0, a.d("諐\uf36d禢\ue78d氄\ueab6僧\ud90d䝕췾", 1104769802, 692124083));
+         var0.options.sprintKey.setPressed(false);
+         var0.player.setSprinting(false);
+         var0.options.forwardKey.setPressed(false);
+      }
+
+      if (var1 == var17 + 90) {
+         var0.options.jumpKey.setPressed(true);
+      }
+
+      if (var1 == var17 + 92) {
+         var0.options.jumpKey.setPressed(false);
+      }
+
+      if (var1 == var17 + 95) {
+         fli(var0, a.b("綹Є軋ფ魴ᷚꞑ\u2e7d", 461405650));
+      }
+
+      if (var1 == var17 + 110) {
+         flh(var0, String.format(Locale.ROOT, a.c(-2123220860, "㣤䅑쯒嗃\ude27壅\ue293歩\uf529翏\uf85aȮ賲ᕜ齘᧯ꎥⱿ뛓フ"), fkq, fkr + 9.0, fks));
+      }
+
+      if (var1 == var17 + 126) {
+         fli(var0, a.c(-173720184, "㷣䑞캑傾\udb22嶔\ue7ca渻"));
+      }
+
+      if (var1 == var17 + 140) {
+         var0.options.sneakKey.setPressed(true);
+      }
+
+      if (var1 == var17 + 155) {
+         fli(var0, a.d("ᧀ恽\ueab2璝４禸쏠䨕푀", 59588481, -857463253));
+         var0.options.sneakKey.setPressed(false);
+      }
+
+      if (var1 >= var17 + 160 && var1 < var17 + 175) {
+         float var7 = 30.0F + (var1 - var17 - 160) * 9.0F;
+         flg(var0, var7, 8.0F);
+      }
+
+      if (var1 == var17 + 172) {
+         fli(var0, a.c(1077176466, "棹ᅄ鮋֤踪࢚닎㬣"));
+      }
+
+      if (var1 == var17 + 180) {
+         var0.options.setPerspective(Perspective.FIRST_PERSON);
+         flg(var0, 75.0F, 4.0F);
+      }
+
+      if (var1 == var17 + 200) {
+         fli(var0, a.c(1699535322, "\ud9b6ꀋ⫄듫㽷막\u0381話ᐩ麜ᥚ\ue33c淪\uf447縕"));
+      }
+
+      int var18 = var17 + 210;
+      if (var1 == var18) {
+         Cosmetics.clearAll();
+         flh(var0, String.format(Locale.ROOT, a.c(315734865, "물슉䠊혛巿\udb1d態\ue8b1盱ﰗ箂臶༪隄ᲀ騷⁽꾧㔋댍㪼䃴칎喏폠"), fkq, fkr, fks));
+         double var8 = fkq - 3.5;
+         double var10 = fkr;
+         double var12 = fks;
+         UUID var14 = var0.player.getUuid();
+         var0.getServer().execute(() -> fnq.spawn(var0.getServer(), var14, var8, var10, var12));
+      }
+
+      if (var1 == var18 + 30) {
+         fkt = fld();
+         System.out
+            .println(
+               a.c(-1607415960, "윜뺡㑮ꨁ⇞Ꝿᴰ铋\u0a84聦ߦ\ufd90獒\ueaf6悤\ue653屏폝䥢켸䛎㳚뉮")
+                  + Cosmetics.code()
+                  + a.b("퇩ꡓ⊌벭㝫뇉ஜ艠ᱦ際ᅋ\ueb3a早ﱆ瘐\uf0b1", 2036519390)
+                  + ucg.cosmeticsOf(a.d("ꙇ\udfdc唌쭥䂇옛籓", 488947690, 1878530540))
+            );
+      }
+
+      if (var1 > var18 && var1 < var18 + 120) {
+         flg(var0, 90.0F, 6.0F);
+      }
+
+      if (var1 == var18 + 1) {
+         var0.options.setPerspective(Perspective.FIRST_PERSON);
+      }
+
+      if (var1 == var18 + 70) {
+         fli(var0, a.c(2115957788, "\uf475跈܇館አ鐆⹝Ɪ㧪덊"));
+         fku = fle(var0);
+      }
+
+      if (var1 == var18 + 75) {
+         var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
+      }
+
+      if (var1 == var18 + 100) {
+         fli(var0, a.d("䦄〹뫶ⓙ꽑⧷鎬\u1a5f萛ົ褠猚\ufdca摨", 591938664, 235212161));
+      }
+
+      int var19 = var18 + 120;
+      if (var1 == var19) {
+         var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
+         var0.options.hudHidden = false;
+
+         try {
+            Field var9 = hlc.class.getDeclaredField(a.b("괼풘幈쀐䯩쵄", 1925426510));
+            var9.setAccessible(true);
+            var9.set(null, a.b("荠\ufafd瀲\uee5d斂\ue322奬킗付", 2108523306));
+         } catch (Exception var15) {
+            System.out.println(a.b("㉌䯨세弋풚判\ue87b憃ￔ画\uf2f2", -2116865485) + var15);
          }
 
-         if (var1 == var18 + 30) {
-            fli(var0, a.d("瀙ত荫ᵄ雙ၺꨵ", -778026717, 1479225694));
-         }
+         var0.setScreen(new hlc());
+      }
 
-         if (var1 >= var18 + 40) {
-            var0.method_1507(null);
-            List var19 = Cosmetics.items();
-            boolean var20 = !flf(a.b("ꚑ\udf2a嗺쮓䀝웡精\uf553欒\ue1ab晩鰅ዘ謤Ě蟇㶔뉛⣠꺠❊崑펆䡼츀䓉", 700163821), a.d("彚⛬갷㉃릝㼭", 1604315028, 647870638));
-            boolean var11 = var19.size() >= 30 && fkt && fku && var20;
-            System.out
-               .println(
-                  a.c(-498524822, "ᴆ撻\uee74瀛\ufbc4絤윪仑킞婼\uddfb➛\ua95aレ뫫")
-                     + (var11 ? a.b("⒎崮ퟯ䦞", 1300505818) : a.d("՜糪\uf631桅", 378173547, -1294041739))
-                     + a.b("ⵐ哩", 811150706)
-                     + var19.size()
-                     + a.c(2134002941, "䳓㔫뿥ↅ\uaa5a\u2cf5雹ἄ脋\u0bab豫瘜\uf8c6愮")
-                     + fkt
-                     + a.c(-72599737, "㝢仟쑞娸퇧坔\ued1c擼\ufae6")
-                     + fku
-                     + a.b("漡᚜鰈ɲ覦༏딋", 1211985674)
-                     + var20
-                     + a.b("肸", 510623888)
-               );
-            Cosmetics.clearAll();
-            ucg.ENABLED.set(true);
-            return true;
-         } else {
-            return false;
-         }
+      if (var1 == var19 + 30) {
+         fli(var0, a.d("瀙ত荫ᵄ雙ၺꨵ", -778026717, 1479225694));
+      }
+
+      if (var1 >= var19 + 40) {
+         var0.setScreen(null);
+         List var20 = Cosmetics.items();
+         boolean var21 = !flf(a.b("ꚑ\udf2a嗺쮓䀝웡精\uf553欒\ue1ab晩鰅ዘ謤Ě蟇㶔뉛⣠꺠❊崑펆䡼츀䓉", 700163821), a.d("彚⛬갷㉃릝㼭", 1604315028, 647870638));
+         boolean var11 = var20.size() >= 30 && fkt && fku && var21;
+         System.out
+            .println(
+               a.c(-498524822, "ᴆ撻\uee74瀛\ufbc4絤윪仑킞婼\uddfb➛\ua95aレ뫫")
+                  + (var11 ? a.b("⒎崮ퟯ䦞", 1300505818) : a.d("՜糪\uf631桅", 378173547, -1294041739))
+                  + a.b("ⵐ哩", 811150706)
+                  + var20.size()
+                  + a.c(2134002941, "䳓㔫뿥ↅ\uaa5a\u2cf5雹ἄ脋\u0bab豫瘜\uf8c6愮")
+                  + fkt
+                  + a.c(-72599737, "㝢仟쑞娸퇧坔\ued1c擼\ufae6")
+                  + fku
+                  + a.b("漡᚜鰈ɲ覦༏딋", 1211985674)
+                  + var21
+                  + a.b("肸", 510623888)
+            );
+         Cosmetics.clearAll();
+         ucg.ENABLED.set(true);
+         return true;
+      } else {
+         return false;
       }
    }
 
@@ -289,12 +290,12 @@ final class fkm {
             flg(var0, 30.0F, 8.0F);
             if (var4 == 0) {
                flc(new String[]{((CosmeticItem)var2.get(var3)).id});
-               var0.field_1690.method_31043(Perspective.field_26666);
+               var0.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
             }
 
             if (var4 == 18) {
                fli(var0, a.b("ꠥ톘字앸代졅牍", -1904170943) + ((CosmeticItem)var2.get(var3)).id + a.b("緱Ћ軌Ⴀ魶ᷝ", -649888294));
-               var0.field_1690.method_31043(Perspective.field_26665);
+               var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
             }
 
             if (var4 == 36) {
@@ -307,7 +308,7 @@ final class fkm {
          if (var6 == 0) {
             flc(new String[]{var5});
             flh(var0, a.b("䊀㬬뇮⾗ꐍ⋮颪ᅎ輍ֱ艠砗\uf685潱\ue529揂\ud990噜쳢䫪썽뤟㟿걹⨔ꃁᥣ霭ෛ诊:ﻧ璠\ued56欃\ue1bb幣퐘劏쭩䄨㿄떋㉲꣡⚝齆ᗻ鎶ࡦ蘟糵\uf56e猻\ue9d0果\udc35", -991214896));
-            var0.field_1690.method_31043(Perspective.field_26666);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
          }
 
          if (var6 >= 0 && var6 < 200) {
@@ -316,45 +317,45 @@ final class fkm {
 
          if (var6 == 14) {
             fli(var0, a.c(-1024157143, "驛\ue3e6椩\uf706粝層䀳즇埕\udd73媽ꂎ⸇랲㷹묕Ō"));
-            var0.field_1690.field_1894.method_23481(true);
+            var0.options.forwardKey.setPressed(true);
          }
 
          if (var6 == 34) {
             fli(var0, a.c(-2868670, "㨱䎌쥃坬\udcf7婑\ue059槭\uf7bf紙𧻓ä蹩៎鶐᭦"));
-            var0.field_1690.method_31043(Perspective.field_26665);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
          }
 
          if (var6 == 50) {
             fli(var0, a.c(-1067583919, "\uf627辚Օ魺ს陇ⱏꗻ㮩넏㛁쳲䉿\udbd8円흰浹\ue2e7硗︄矻"));
-            var0.field_1690.method_31043(Perspective.field_26666);
-            var0.field_1724.method_5728(true);
-            var0.field_1690.field_1867.method_23481(true);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
+            var0.player.setSprinting(true);
+            var0.options.sprintKey.setPressed(true);
          }
 
          if (var6 == 72) {
             fli(var0, a.c(-1440959815, "니쭵䆺\udf95后튨梠\ue114罆\uf5e0爮蠝ڔ鼦ᕷ鎝⧕ꘞ"));
-            var0.field_1690.field_1867.method_23481(false);
-            var0.field_1724.method_5728(false);
-            var0.field_1690.field_1894.method_23481(false);
+            var0.options.sprintKey.setPressed(false);
+            var0.player.setSprinting(false);
+            var0.options.forwardKey.setPressed(false);
          }
 
          if (var6 == 84) {
-            var0.field_1724.method_6104(Hand.field_5808);
+            var0.player.swingHand(Hand.MAIN_HAND);
          }
 
          if (var6 == 86) {
             fli(var0, a.b("ꙺ\udfc7唈쬧䂼옚簒\uf5a6毴\ue152暜鲯ሦ讓Ǟ蜨㵮", 452503048));
-            var0.field_1690.field_1832.method_23481(true);
+            var0.options.sneakKey.setPressed(true);
          }
 
          if (var6 == 96) {
             fli(var0, a.d("\uf8ad脐\u0bdf闰ṫ飍⋅ꭱ㔣뾅㡋쉸䳱핝弅\ud9f0掵", 1323254719, 331529056));
-            var0.field_1690.field_1832.method_23481(false);
-            var0.field_1690.field_1903.method_23481(true);
+            var0.options.sneakKey.setPressed(false);
+            var0.options.jumpKey.setPressed(true);
          }
 
          if (var6 == 98) {
-            var0.field_1690.field_1903.method_23481(false);
+            var0.options.jumpKey.setPressed(false);
          }
 
          if (var6 == 101) {
@@ -370,32 +371,32 @@ final class fkm {
 
          if (var6 == 104) {
             flc(new String[]{var5, a.b("뫷썉䦓ퟠ尾\udabc惇\ue928睰\ufdc8稏", 928627357)});
-            var0.field_1690.method_31043(Perspective.field_26665);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_BACK);
          }
 
          if (var6 == 124) {
             fli(var0, a.c(1595029269, "㝧仚쐕娺톡圇\ued0f撻\ufae9灏\uf781\u0db2茿᪐郄ᘼ걧"));
             flc(new String[]{var5});
-            var0.field_1690.field_1842 = false;
-            var0.method_1507(new InventoryScreen(var0.field_1724));
+            var0.options.hudHidden = false;
+            var0.setScreen(new InventoryScreen(var0.player));
          }
 
          if (var6 == 150) {
             fli(var0, a.c(-495765348, "㣪䅗쮘喷\ude2c墊\ue282欶\uf564翂\uf80cȿ責ᔚ齑ᦳꏷⰼ뚔ヘ뤤"));
-            var0.method_1507(null);
-            var0.field_1690.field_1842 = true;
+            var0.setScreen(null);
+            var0.options.hudHidden = true;
             flc(new String[]{a.c(-942674837, "\uec04閾ὧ脗\u0ad7豋㘠뿟↛ꬴ")});
-            var0.field_1690.method_31043(Perspective.field_26666);
-            var0.field_1690.field_1894.method_23481(true);
-            var0.field_1724.method_5728(true);
-            var0.field_1690.field_1867.method_23481(true);
+            var0.options.setPerspective(Perspective.THIRD_PERSON_FRONT);
+            var0.options.forwardKey.setPressed(true);
+            var0.player.setSprinting(true);
+            var0.options.sprintKey.setPressed(true);
          }
 
          if (var6 == 176) {
             fli(var0, a.c(909319798, "Ḇ枻\ued74獛\uf8c0繦쑮䷁펝央\udee6⒐꩝㎵릮㽔蔑ુ遥"));
-            var0.field_1690.field_1867.method_23481(false);
-            var0.field_1724.method_5728(false);
-            var0.field_1690.field_1894.method_23481(false);
+            var0.options.sprintKey.setPressed(false);
+            var0.player.setSprinting(false);
+            var0.options.forwardKey.setPressed(false);
             flh(var0, a.b("槎ၢ骠ә轃ঠ돤㨀ꑃ\u2eff꤮卙\uddcb䐿칧䢌\uf2de紒\ue7ac憤\ue833鉑Ჱ蜷Ś讏㈭뱣⚕ꂄ\u2b74햩忮옘䁍쫵甭ｖ私\ue027橦ᒊ黅\u193c莪ී됛", -1372821112));
          }
       }
@@ -428,7 +429,7 @@ final class fkm {
          var3.clear();
          ubm var4 = new ubm();
          var4.code = a.d("僾⥇ꎜ㷥똺ゃ", 1721586671, -1560083622);
-         var4.name = MinecraftClient.method_1551().method_1548().method_1676();
+         var4.name = MinecraftClient.getInstance().getSession().getUsername();
          var4.online = true;
          var3.add(var4);
          ubm var5 = new ubm();
@@ -448,15 +449,15 @@ final class fkm {
 
    private static boolean fle(MinecraftClient var0) {
       try {
-         Entity var1 = var0.field_1687.method_8469(fnq.spawned);
+         Entity var1 = var0.world.getEntityById(fnq.spawned);
          Field var2 = Cosmetics.class.getDeclaredField(a.c(420921525, "샿륌㎄귨☹ꂉ᫇"));
          var2.setAccessible(true);
          Map var3 = (Map)var2.get(null);
-         boolean var4 = var1 != null && var3.containsKey(var1.method_5628());
+         boolean var4 = var1 != null && var3.containsKey(var1.getId());
          System.out
             .println(
                a.d("꯹퉄墋웤䴻쮛燕\uf82e晡\uec83欂酤Ά蘈ీ誠オ뼹▇ꏍ⩮", 420515449, 1299850742)
-                  + (var1 == null ? a.c(-793928944, "魺\ue2cf栆\uf677綺\ufb0c䅖") : var1.method_5477().getString())
+                  + (var1 == null ? a.c(-793928944, "魺\ue2cf栆\uf677綺\ufb0c䅖") : var1.getName().getString())
                   + a.c(-1623507862, "㱂䖾콯儅\udacf屸\ue62a澕")
                   + var4
             );
@@ -478,25 +479,25 @@ final class fkm {
    }
 
    private static void flg(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
-      var0.field_1724.method_5636(var1);
-      var0.field_1724.field_6220 = var1;
-      var0.field_1724.method_5847(var1);
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
+      var0.player.setBodyYaw(var1);
+      var0.player.lastBodyYaw = var1;
+      var0.player.setHeadYaw(var1);
    }
 
    private static void flh(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void fli(MinecraftClient var0, String var1) {
-      System.out.println(a.b("ꄣ\ud884剞찥䞴셑笓\uf2f4沬\ue649", 1112318298) + var1 + a.c(1259479249, "\u20f2夣펐") + var0.method_47599() + a.b("ꮀ퉷墲움", -1293243484));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.b("ꄣ\ud884剞찥䞴셑笓\uf2f4沬\ue649", 1112318298) + var1 + a.c(1259479249, "\u20f2夣펐") + var0.getCurrentFps() + a.b("ꮀ퉷墲움", -1293243484));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(-805849911, "뒩촒䟂\ud9ab刹풗") + var1 + a.c(-1084692205, "\ue939郖ᨛ董"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

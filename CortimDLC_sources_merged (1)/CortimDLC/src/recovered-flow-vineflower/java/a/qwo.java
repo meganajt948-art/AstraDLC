@@ -47,7 +47,7 @@ public final class qwo {
    }
 
    public static boolean isDiamond(BlockState var0) {
-      return var0.method_27852(Blocks.field_10442) || var0.method_27852(Blocks.field_29029);
+      return var0.isOf(Blocks.DIAMOND_ORE) || var0.isOf(Blocks.DEEPSLATE_DIAMOND_ORE);
    }
 
    public static void scan(World var0, pzc var1, Vec3d var2) {
@@ -58,8 +58,8 @@ public final class qwo {
          for (int var5 = var1.minY; var5 <= var1.maxY; var5++) {
             for (int var6 = var1.minX; var6 <= var1.maxX; var6++) {
                for (int var7 = var1.minZ; var7 <= var1.maxZ; var7++) {
-                  if (isDiamond(var0.method_8320(var4.method_10103(var6, var5, var7)))) {
-                     var3.add(var4.method_10063());
+                  if (isDiamond(var0.getBlockState(var4.set(var6, var5, var7)))) {
+                     var3.add(var4.asLong());
                   }
                }
             }
@@ -78,14 +78,14 @@ public final class qwo {
    }
 
    private static double qxh(long var0, Vec3d var2) {
-      double var3 = BlockPos.method_10061(var0) + 0.5 - var2.field_1352;
-      double var5 = BlockPos.method_10071(var0) + 0.5 - var2.field_1351;
-      double var7 = BlockPos.method_10083(var0) + 0.5 - var2.field_1350;
+      double var3 = BlockPos.unpackLongX(var0) + 0.5 - var2.x;
+      double var5 = BlockPos.unpackLongY(var0) + 0.5 - var2.y;
+      double var7 = BlockPos.unpackLongZ(var0) + 0.5 - var2.z;
       return var3 * var3 + var5 * var5 + var7 * var7;
    }
 
    public static void focus(BlockPos var0) {
-      qwx = var0 == null ? Long.MIN_VALUE : var0.method_10063();
+      qwx = var0 == null ? Long.MIN_VALUE : var0.asLong();
    }
 
    public static void clear() {
@@ -99,15 +99,15 @@ public final class qwo {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       long[] var2 = qwv;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      if (var2.length != 0 && var3.field_1687 != null && var3.field_1724 != null && !var3.field_1690.field_1842 && !(var3.field_1755 instanceof hlc)) {
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      if (var2.length != 0 && var3.world != null && var3.player != null && !var3.options.hudHidden && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != qwy) {
             qwy = unf.frame();
 
             usn var4;
             try {
-               var4 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var4 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var30) {
                return;
             }
@@ -122,9 +122,9 @@ public final class qwo {
 
             try {
                for (long var14 : var2) {
-                  double var16 = BlockPos.method_10061(var14);
-                  double var18 = BlockPos.method_10071(var14);
-                  double var20 = BlockPos.method_10083(var14);
+                  double var16 = BlockPos.unpackLongX(var14);
+                  double var18 = BlockPos.unpackLongY(var14);
+                  double var20 = BlockPos.unpackLongZ(var14);
                   if (!(var4.depth(var16 + 0.5, var18 + 0.5, var20 + 0.5) < -1.0F)) {
                      if (var4.depth(var16 + 0.5, var18 + 0.5, var20 + 0.5) > 2.0F && var4.project(var16 + 0.5, var18 + 0.5, var20 + 0.5, qxe)) {
                         float var22 = var4.unitsPerBlock(var16 + 0.5, var18 + 0.5, var20 + 0.5) * 0.9F;
@@ -137,7 +137,7 @@ public final class qwo {
                      int var23 = 0;
                      if (!var32) {
                         for (int var24 = 0; var24 < 6; var24++) {
-                           long var25 = BlockPos.method_10096(var14, qwt[var24][0], qwt[var24][1], qwt[var24][2]);
+                           long var25 = BlockPos.add(var14, qwt[var24][0], qwt[var24][1], qwt[var24][2]);
                            if (var25 != var6 && var5.contains(var25)) {
                               var23 |= 1 << var24;
                            }
@@ -170,12 +170,12 @@ public final class qwo {
          qxb[var27] = var1.depth(qwz[var27][0], qwz[var27][1], qwz[var27][2]) > 0.05F && var1.project(qwz[var27][0], qwz[var27][1], qwz[var27][2], qxa[var27]);
       }
 
-      qxc[0] = var2.field_1351 < var17;
-      qxc[1] = var2.field_1351 > var23;
-      qxc[2] = var2.field_1350 < var19;
-      qxc[3] = var2.field_1350 > var25;
-      qxc[4] = var2.field_1352 < var15;
-      qxc[5] = var2.field_1352 > var21;
+      qxc[0] = var2.y < var17;
+      qxc[1] = var2.y > var23;
+      qxc[2] = var2.z < var19;
+      qxc[3] = var2.z > var25;
+      qxc[4] = var2.x < var15;
+      qxc[5] = var2.x > var21;
       int var35 = ujt.withAlpha(var9, Math.round(255.0F * var12));
 
       for (int var28 = 0; var28 < 6; var28++) {

@@ -56,12 +56,12 @@ public class reo extends kfe {
    }
 
    private double rex(MinecraftClient var1, double var2) {
-      ClientWorld var4 = var1.field_1687;
-      BlockPos var5 = var1.field_1724.method_24515();
-      BlockPos var6 = BlockPos.method_49638(var1.field_1724.method_33571());
-      int var7 = Math.max(var4.method_8314(LightType.field_9282, var5), var4.method_8314(LightType.field_9282, var6));
-      int var8 = Math.max(var4.method_8314(LightType.field_9284, var5), var4.method_8314(LightType.field_9284, var6));
-      double var9 = Math.max((float)var7, var8 * rey(var1));
+      ClientWorld var4 = var1.world;
+      BlockPos var5 = var1.player.getBlockPos();
+      BlockPos var6 = BlockPos.ofFloored(var1.player.getEyePos());
+      int var7 = Math.max(var4.getLightLevel(LightType.BLOCK, var5), var4.getLightLevel(LightType.BLOCK, var6));
+      int var8 = Math.max(var4.getLightLevel(LightType.SKY, var5), var4.getLightLevel(LightType.SKY, var6));
+      double var9 = Math.max(var7, var8 * rey(var1));
       this.reu = this.reu < 0.0 ? var9 : this.reu + (var9 - this.reu) * 0.15;
       double var11 = 1.0 - rez(2.0, 12.0, this.reu);
       double var13 = 1.0 - rez(4.0, 10.0, var8);
@@ -73,7 +73,7 @@ public class reo extends kfe {
 
    private static float rey(MinecraftClient var0) {
       try {
-         Float var1 = (Float)var0.field_1773.method_19418().method_75756().method_75689(EnvironmentAttributes.field_64346, 1.0F);
+         Float var1 = var0.gameRenderer.getCamera().getEnvironmentAttributeInterpolator().get(EnvironmentAttributes.SKY_LIGHT_FACTOR_VISUAL, 1.0F);
          return var1 == null ? 1.0F : Math.max(0.0F, Math.min(1.0F, var1));
       } catch (RuntimeException var2) {
          return 1.0F;

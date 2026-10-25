@@ -49,30 +49,30 @@ public class ovh extends kfe {
 
    @Override
    protected void onEnable() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var2 != null && var1.field_1687 != null) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      ClientPlayerEntity var2 = var1.player;
+      if (var2 != null && var1.world != null) {
          owm();
-         this.ovv = var2.method_36454();
-         this.ovw = var2.method_36455();
+         this.ovv = var2.getYaw();
+         this.ovw = var2.getPitch();
          this.ovx = this.ovv;
          this.ovy = this.ovw;
          this.ovz = this.owa = this.owb = 0.0;
          this.owc = 0L;
-         Vec3d var3 = var2.method_5836(1.0F);
-         this.ovq = new ove(this, var1.field_1687);
-         this.ovq.method_5814(var3.field_1352, var3.field_1351, var3.field_1350);
-         this.ovq.field_6014 = var3.field_1352;
-         this.ovq.field_6036 = var3.field_1351;
-         this.ovq.field_5969 = var3.field_1350;
-         this.ovr = var2.field_3913;
-         var2.field_3913 = new Input();
-         var2.method_5728(false);
-         this.ovs = var1.field_1690.method_31044();
-         var1.field_1690.method_31043(Perspective.field_26664);
-         this.ovt = var1.field_1730;
-         var1.field_1730 = false;
-         var1.method_1504(this.ovq);
+         Vec3d var3 = var2.getCameraPosVec(1.0F);
+         this.ovq = new ove(this, var1.world);
+         this.ovq.setPosition(var3.x, var3.y, var3.z);
+         this.ovq.lastX = var3.x;
+         this.ovq.lastY = var3.y;
+         this.ovq.lastZ = var3.z;
+         this.ovr = var2.input;
+         var2.input = new Input();
+         var2.setSprinting(false);
+         this.ovs = var1.options.getPerspective();
+         var1.options.setPerspective(Perspective.FIRST_PERSON);
+         this.ovt = var1.chunkCullingEnabled;
+         var1.chunkCullingEnabled = false;
+         var1.setCameraEntity(this.ovq);
          own(var1, 0.0F);
       } else {
          this.setEnabled(false);
@@ -81,28 +81,28 @@ public class ovh extends kfe {
 
    @Override
    protected void onDisable() {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      ClientPlayerEntity var2 = var1.field_1724;
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      ClientPlayerEntity var2 = var1.player;
       this.owh(var2);
       if (this.ovq != null && var2 != null) {
-         var1.method_1504(var2);
+         var1.setCameraEntity(var2);
          if (this.ovr != null) {
-            var2.field_3913 = this.ovr;
+            var2.input = this.ovr;
          }
 
-         var2.method_36456(this.ovv);
-         var2.method_36457(this.ovw);
-         var2.field_5982 = this.ovv;
-         var2.field_6004 = this.ovw;
-         own(var1, var2.method_5751());
+         var2.setYaw(this.ovv);
+         var2.setPitch(this.ovw);
+         var2.lastYaw = this.ovv;
+         var2.lastPitch = this.ovw;
+         own(var1, var2.getStandingEyeHeight());
       }
 
       if (this.ovq != null) {
-         var1.field_1730 = this.ovt;
+         var1.chunkCullingEnabled = this.ovt;
       }
 
       if (this.ovs != null) {
-         var1.field_1690.method_31043(this.ovs);
+         var1.options.setPerspective(this.ovs);
       }
 
       this.ovq = null;
@@ -113,22 +113,22 @@ public class ovh extends kfe {
    @Override
    public void onStartTick(MinecraftClient var1) {
       if (this.ovq != null) {
-         this.owh(var1.field_1724);
-         if (this.ovq.method_73183() == var1.field_1687 && var1.method_1560() == this.ovq) {
-            owi(var1, var1.field_1724);
+         this.owh(var1.player);
+         if (this.ovq.getEntityWorld() == var1.world && var1.getCameraEntity() == this.ovq) {
+            owi(var1, var1.player);
 
             for (KeyBinding var5 : new KeyBinding[]{
-               var1.field_1690.field_1886, var1.field_1690.field_1904, var1.field_1690.field_1871, var1.field_1690.field_1869, var1.field_1690.field_1831
+               var1.options.attackKey, var1.options.useKey, var1.options.pickItemKey, var1.options.dropKey, var1.options.swapHandsKey
             }) {
-               while (var5.method_1436()) {
+               while (var5.wasPressed()) {
                }
 
-               var5.method_23481(false);
+               var5.setPressed(false);
             }
 
-            if (var1.field_1724.field_3913 != null && var1.field_1724.field_3913.getClass() != Input.class) {
-               this.ovr = var1.field_1724.field_3913;
-               var1.field_1724.field_3913 = new Input();
+            if (var1.player.input != null && var1.player.input.getClass() != Input.class) {
+               this.ovr = var1.player.input;
+               var1.player.input = new Input();
             }
          } else {
             this.setEnabled(false);
@@ -140,16 +140,16 @@ public class ovh extends kfe {
    public void onWorldRender(MinecraftClient var1) {
       this.owd++;
       this.owl(var1);
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (this.ovq != null && var2 != null && !var2.field_5960) {
-         var2.field_5960 = true;
+      ClientPlayerEntity var2 = var1.player;
+      if (this.ovq != null && var2 != null && !var2.noClip) {
+         var2.noClip = true;
          this.ovu = true;
       }
    }
 
    @Override
    public void onEndTick(MinecraftClient var1) {
-      if (this.ovq != null && var1.method_1560() == var1.field_1724) {
+      if (this.ovq != null && var1.getCameraEntity() == var1.player) {
          owi(var1, this.ovq);
       }
 
@@ -158,7 +158,7 @@ public class ovh extends kfe {
 
    private void owh(ClientPlayerEntity var1) {
       if (this.ovu && var1 != null) {
-         var1.field_5960 = false;
+         var1.noClip = false;
       }
 
       this.ovu = false;
@@ -171,32 +171,32 @@ public class ovh extends kfe {
                ovn.set(var0, var1);
                return;
             }
-         } catch (RuntimeException | IllegalAccessException var3) {
+         } catch (IllegalAccessException | RuntimeException var3) {
          }
 
-         var0.method_1504(var1);
+         var0.setCameraEntity(var1);
       }
    }
 
    private void owj() {
       if (this.owe != this.owd) {
          this.owe = this.owd;
-         MinecraftClient var1 = MinecraftClient.method_1551();
-         ClientPlayerEntity var2 = var1.field_1724;
+         MinecraftClient var1 = MinecraftClient.getInstance();
+         ClientPlayerEntity var2 = var1.player;
          if (var2 != null && this.ovq != null) {
-            this.ovx = this.ovx + (var2.method_36454() - this.ovv);
-            this.ovy = MathHelper.method_15363(this.ovy + var2.method_36455() - this.ovw, -90.0F, 90.0F);
-            var2.method_36456(this.ovv);
-            var2.method_36457(this.ovw);
-            var2.field_5982 = this.ovv;
-            var2.field_6004 = this.ovw;
+            this.ovx = this.ovx + (var2.getYaw() - this.ovv);
+            this.ovy = MathHelper.clamp(this.ovy + var2.getPitch() - this.ovw, -90.0F, 90.0F);
+            var2.setYaw(this.ovv);
+            var2.setPitch(this.ovw);
+            var2.lastYaw = this.ovv;
+            var2.lastPitch = this.ovw;
             long var3 = System.nanoTime();
             double var5 = this.owc == 0L ? 0.0 : Math.min(0.1, (var3 - this.owc) / 1.0E9);
             this.owc = var3;
-            double var7 = owk(var1.field_1690.field_1894, var1.field_1690.field_1881);
-            double var9 = owk(var1.field_1690.field_1913, var1.field_1690.field_1849);
-            double var11 = owk(var1.field_1690.field_1903, var1.field_1690.field_1832);
-            double var13 = this.ovj.get() * (var1.field_1690.field_1867.method_1434() ? 2.5 : 1.0);
+            double var7 = owk(var1.options.forwardKey, var1.options.backKey);
+            double var9 = owk(var1.options.leftKey, var1.options.rightKey);
+            double var11 = owk(var1.options.jumpKey, var1.options.sneakKey);
+            double var13 = this.ovj.get() * (var1.options.sprintKey.isPressed() ? 2.5 : 1.0);
             double var15 = Math.toRadians(this.ovx);
             double var17 = Math.sin(var15);
             double var19 = Math.cos(var15);
@@ -215,24 +215,24 @@ public class ovh extends kfe {
             this.ovz = this.ovz + (var23 - this.ovz) * var29;
             this.owa = this.owa + (var27 - this.owa) * var29;
             this.owb = this.owb + (var25 - this.owb) * var29;
-            double var31 = this.ovq.method_23317() + this.ovz * var5;
-            double var33 = this.ovq.method_23318() + this.owa * var5;
-            double var35 = this.ovq.method_23321() + this.owb * var5;
-            this.ovq.method_5814(var31, var33, var35);
-            this.ovq.field_6014 = var31;
-            this.ovq.field_6036 = var33;
-            this.ovq.field_5969 = var35;
+            double var31 = this.ovq.getX() + this.ovz * var5;
+            double var33 = this.ovq.getY() + this.owa * var5;
+            double var35 = this.ovq.getZ() + this.owb * var5;
+            this.ovq.setPosition(var31, var33, var35);
+            this.ovq.lastX = var31;
+            this.ovq.lastY = var33;
+            this.ovq.lastZ = var35;
          }
       }
    }
 
    private static double owk(KeyBinding var0, KeyBinding var1) {
-      return (var0.method_1434() ? 1 : 0) - (var1.method_1434() ? 1 : 0);
+      return (var0.isPressed() ? 1 : 0) - (var1.isPressed() ? 1 : 0);
    }
 
    private void owl(MinecraftClient var1) {
       if (this.ovq != null && ovo != null) {
-         HeldItemRenderer var2 = var1.method_1561().method_43336();
+         HeldItemRenderer var2 = var1.getEntityRenderDispatcher().getHeldItemRenderer();
 
          for (Field var6 : ovo) {
             vxr.setFloat(var6, var2, 0.0F);
@@ -283,7 +283,7 @@ public class ovh extends kfe {
    }
 
    private static void own(MinecraftClient var0, float var1) {
-      Camera var2 = var0.field_1773.method_19418();
+      Camera var2 = var0.gameRenderer.getCamera();
       vxr.setFloat(ovl, var2, var1);
       vxr.setFloat(ovm, var2, var1);
    }

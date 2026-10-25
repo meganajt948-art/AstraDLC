@@ -33,10 +33,10 @@ final class ghy {
 
    static boolean tick(MinecraftClient var0, int var1) {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.c(1070381688, "먿쎬䥤휈峙\uda69怖\ue9c9瞏ﴹ"));
-      ClientPlayerEntity var3 = var0.field_1724;
+      ClientPlayerEntity var3 = var0.player;
       if (!gie) {
          gie = true;
-         WorldRenderEvents.END_MAIN.register((EndMain)var0x -> giq(MinecraftClient.method_1551()));
+         WorldRenderEvents.END_MAIN.register((EndMain)var0x -> giq(MinecraftClient.getInstance()));
       }
 
       switch (var1) {
@@ -122,8 +122,8 @@ final class ghy {
       }
 
       if (var1 == 300) {
-         var0.field_1690.field_1894.method_23481(true);
-         var0.field_1690.field_1867.method_23481(true);
+         var0.options.forwardKey.setPressed(true);
+         var0.options.sprintKey.setPressed(true);
          urc.gpuMillis();
       }
 
@@ -133,15 +133,15 @@ final class ghy {
                a.b("麿\ue70c淄\uf3a8硹ﻉ䓔쵲医\ud987幓ꑩ⫹덟㤉뾭", 138911426)
                   + giv(urc.gpuMillis())
                   + a.b("軳\uf70f緂\ue3ec样\ueed5咅\udd61䌾즎丙", 503484120)
-                  + giv(var3.method_18798().method_37267() * 20.0)
+                  + giv(var3.getVelocity().horizontalLength() * 20.0)
                   + a.b("ጏ櫼\ue062繏", -1151266005)
             );
          git(var0, a.b("抿ᬘ釆ྰ", 52912844));
       }
 
       if (var1 == 332) {
-         var0.field_1690.field_1894.method_23481(false);
-         var0.field_1690.field_1867.method_23481(false);
+         var0.options.forwardKey.setPressed(false);
+         var0.options.sprintKey.setPressed(false);
          giu(var0, a.b("㌁䪴쀷带헂匠\ue963悂ﺃ瑬\uf3af", 817771390));
       }
 
@@ -170,10 +170,10 @@ final class ghy {
    }
 
    private static void gip(MinecraftClient var0, int var1, int var2, int var3, float var4, float var5, String var6) {
-      ClientPlayerEntity var7 = var0.field_1724;
+      ClientPlayerEntity var7 = var0.player;
       if (var1 == var2) {
-         gig = var4 == 0.0F ? var7.method_36454() : -90.0F - var4 * (var3 - var2);
-         gih = var5 == 0.0F ? 0.0F : var7.method_36455();
+         gig = var4 == 0.0F ? var7.getYaw() : -90.0F - var4 * (var3 - var2);
+         gih = var5 == 0.0F ? 0.0F : var7.getPitch();
          gii = var4 * 20.0F;
          gij = var5 * 20.0F;
          gik = System.nanoTime();
@@ -215,7 +215,7 @@ final class ghy {
             gif = false;
 
             try {
-               Files.writeString(var0.field_1697.toPath().resolve(a.c(-1896587730, "幅⟾괮㍇룕㹻葨ඛ鏟ᥳ麦擖\uea42") + var6 + a.c(-596126777, "폭ꨑ⃒뺦")), gim);
+               Files.writeString(var0.runDirectory.toPath().resolve(a.c(-1896587730, "幅⟾괮㍇룕㹻葨ඛ鏟ᥳ麦擖\uea42") + var6 + a.c(-596126777, "폭ꨑ⃒뺦")), gim);
             } catch (IOException var9) {
                System.out.println(a.d("諵\uf346禎\ue7e2氳\uea83傞\ud92c䝣췗䩒끥㺵꜌ⵚꮢᇬ鹣ӊ", 458334318, 764619493) + var9);
             }
@@ -224,22 +224,22 @@ final class ghy {
    }
 
    private static void giq(MinecraftClient var0) {
-      if (gif && var0.field_1724 != null) {
-         Camera var1 = var0.field_1773.method_19418();
+      if (gif && var0.player != null) {
+         Camera var1 = var0.gameRenderer.getCamera();
          long var2 = System.nanoTime();
-         gim.append(var2).append(',').append(var1.method_19330()).append(',').append(var1.method_19329()).append(',').append(riv.turnSpeed()).append('\n');
+         gim.append(var2).append(',').append(var1.getYaw()).append(',').append(var1.getPitch()).append(',').append(riv.turnSpeed()).append('\n');
          float var4 = (float)(var2 - gik) / 1.0E9F;
          float var5 = gig + (float)Math.floor(gii * var4 / 0.15F) * 0.15F;
          float var6 = gih + (float)Math.floor(gij * var4 / 0.15F) * 0.15F;
-         gir(var0.field_1724, var5, var6);
+         gir(var0.player, var5, var6);
       }
    }
 
    private static void gir(ClientPlayerEntity var0, float var1, float var2) {
-      var0.method_36456(var1);
-      var0.method_36457(var2);
-      var0.field_5982 = var1;
-      var0.field_6004 = var2;
+      var0.setYaw(var1);
+      var0.setPitch(var2);
+      var0.lastYaw = var1;
+      var0.lastPitch = var2;
    }
 
    private static vmo gis(kfe var0, String var1) {
@@ -256,12 +256,12 @@ final class ghy {
       gid++;
       String var2 = a.b("륺상䨑푸忪\ud944捗\ueaa4瓠﹌禙菩ൽ", -604718831) + gid + a.c(-1202541947, "ꪩ") + var1 + a.b("\ue665龊ᕇ謿", 241821263);
       System.out
-         .println(a.b("\ue9aa這\u1ad1蒽ཬ觜㏁멣\u2427꺑⥙퍼", 177007051) + var2 + a.c(862984866, "᪁捐\ue9e3") + var0.method_47599() + a.c(-1330071925, "뚯콘䖝\udbef"));
-      ScreenshotRecorder.method_22690(var0.field_1697, var2, var0.method_1522(), 1, var0x -> System.out.println("" + var0x.getString()));
+         .println(a.b("\ue9aa這\u1ad1蒽ཬ觜㏁멣\u2427꺑⥙퍼", 177007051) + var2 + a.c(862984866, "᪁捐\ue9e3") + var0.getCurrentFps() + a.c(-1330071925, "뚯콘䖝\udbef"));
+      ScreenshotRecorder.saveScreenshot(var0.runDirectory, var2, var0.getFramebuffer(), 1, var0x -> System.out.println("" + var0x.getString()));
    }
 
    private static void giu(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static String giv(double var0) {

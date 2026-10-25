@@ -64,38 +64,38 @@ public class ruv extends kfe {
    private boolean rwa(MinecraftClient var1, Entity var2) {
       if (!(
          var2 instanceof LivingEntity var3
-            && var2 != var1.field_1724
-            && var3.method_5805()
-            && !var2.method_31481()
+            && var2 != var1.player
+            && var3.isAlive()
+            && !var2.isRemoved()
             && !(var2 instanceof ArmorStandEntity)
-            && var1.field_1687.method_8469(var2.method_5628()) == var2
-            && !var2.method_7325()
+            && var1.world.getEntityById(var2.getId()) == var2
+            && !var2.isSpectator()
       )) {
          return false;
       } else if (!(var2 instanceof PlayerEntity) && !this.mobs.get()) {
          return false;
       } else {
-         return var2 instanceof PlayerEntity && hhf.isFriend(var2) ? false : var1.field_1724.method_5858(var2) < 2304.0;
+         return var2 instanceof PlayerEntity && hhf.isFriend(var2) ? false : var1.player.squaredDistanceTo(var2) < 2304.0;
       }
    }
 
    private LivingEntity rwb(MinecraftClient var1) {
       if (rva != null && System.currentTimeMillis() - rvb < 3500L && this.rwa(var1, rva)) {
          return rva;
-      } else {
-         Entity var2 = var1.field_1692;
-         return var2 != null && this.rwa(var1, var2) ? (LivingEntity)var2 : null;
       }
+
+      Entity var2 = var1.targetedEntity;
+      return var2 != null && this.rwa(var1, var2) ? (LivingEntity)var2 : null;
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       ruv var2 = ruw;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      if (var2 != null && var3.field_1687 != null && var3.field_1724 != null) {
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      if (var2 != null && var3.world != null && var3.player != null) {
          if (!var2.isEnabled()) {
             rvc = null;
             rvd.set(0.0F);
-         } else if (!var3.field_1690.field_1842 && !(var3.field_1755 instanceof hlc)) {
+         } else if (!var3.options.hudHidden && !(var3.currentScreen instanceof hlc)) {
             unf.observe(var0);
             if (unf.frame() != rvh) {
                rvh = unf.frame();
@@ -105,7 +105,7 @@ public class ruv extends kfe {
                   rvc = var5;
                   rvd.set(0.0F);
                   rve.set(0.0F);
-                  rvf = var5.field_6235;
+                  rvf = var5.hurtTime;
                   rvv = 0.0F;
                }
 
@@ -117,25 +117,25 @@ public class ruv extends kfe {
                         rvc = null;
                      }
                   } else {
-                     boolean var8 = var6.field_6235 > rvf;
+                     boolean var8 = var6.hurtTime > rvf;
                      if (var8) {
                         rve.set(1.0F);
                         rvv = 0.0F;
                      }
 
-                     rvf = var6.field_6235;
+                     rvf = var6.hurtTime;
                      rve.step(0.0F, var4);
                      float var9 = (float)var2.speed.get();
                      rvg += var4 * var9;
 
                      usn var10;
                      try {
-                        var10 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+                        var10 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
                      } catch (Throwable var21) {
                         return;
                      }
 
-                     Vec3d var11 = var6.method_30950(var1.method_60637(true));
+                     Vec3d var11 = var6.getLerpedPos(var1.getTickProgress(true));
                      rus var12 = new rus(var2, vcq.outCubic(var7), vcq.outCubic(rve.get()));
                      uut.beginFrame();
                      uut.pushAlpha(var12.vis * (float)var2.brightness.get());
@@ -143,8 +143,7 @@ public class ruv extends kfe {
                      uut.beginBatch();
 
                      try {
-                        String var15 = var2.mode.get();
-                        switch (var15) {
+                        switch (var2.mode.get()) {
                            case "Sparkles":
                               rwg(var0, var10, var6, var11, var12, var4 * var9);
                               break;
@@ -196,11 +195,11 @@ public class ruv extends kfe {
 
    private static void rwe(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
       GpuTextureView var5 = unm.view();
-      float var6 = var2.method_17682();
-      double var7 = (var2.method_17681() * 0.55 + 0.35) * var4.size;
-      double var9 = var3.field_1351 + var6 * 0.5;
-      float var11 = var1.depth(var3.field_1352, var9, var3.field_1350);
-      float var12 = var1.unitsPerBlock(var3.field_1352, var9, var3.field_1350);
+      float var6 = var2.getHeight();
+      double var7 = (var2.getWidth() * 0.55 + 0.35) * var4.size;
+      double var9 = var3.y + var6 * 0.5;
+      float var11 = var1.depth(var3.x, var9, var3.z);
+      float var12 = var1.unitsPerBlock(var3.x, var9, var3.z);
       if (!(var12 <= 0.0F)) {
          uut.additive(true);
          byte var13 = 3;
@@ -212,8 +211,8 @@ public class ruv extends kfe {
             for (int var17 = var14 - 1; var17 >= 0; var17--) {
                float var18 = rvg * 2.3F - var17 * 0.055F;
                float var19 = var18 + var16;
-               double var20 = var3.field_1352 + Math.cos(var19) * var7;
-               double var22 = var3.field_1350 + Math.sin(var19) * var7;
+               double var20 = var3.x + Math.cos(var19) * var7;
+               double var22 = var3.z + Math.sin(var19) * var7;
                double var24 = var9 + Math.sin(var18 * 1.25F + var16 * 1.7F) * var6 * 0.36;
                if (var1.project(var20, var24, var22, rvi)) {
                   float var26 = 1.0F - (float)var17 / var14;
@@ -248,10 +247,10 @@ public class ruv extends kfe {
 
    private static void rwg(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4, float var5) {
       GpuTextureView var6 = unm.view();
-      float var7 = var2.method_17682();
-      double var8 = (var2.method_17681() * 0.6 + 0.3) * var4.size;
-      float var10 = var1.depth(var3.field_1352, var3.field_1351 + var7 * 0.5, var3.field_1350);
-      float var11 = var1.unitsPerBlock(var3.field_1352, var3.field_1351 + var7 * 0.5, var3.field_1350);
+      float var7 = var2.getHeight();
+      double var8 = (var2.getWidth() * 0.6 + 0.3) * var4.size;
+      float var10 = var1.depth(var3.x, var3.y + var7 * 0.5, var3.z);
+      float var11 = var1.unitsPerBlock(var3.x, var3.y + var7 * 0.5, var3.z);
       if (!(var11 <= 0.0F)) {
          float var12 = Math.min(12.0F, Math.max(3.0F, var11 * 0.1F)) * var4.size;
          uut.additive(true);
@@ -265,9 +264,9 @@ public class ruv extends kfe {
             }
 
             double var17 = var8 * var16[1];
-            double var19 = var3.field_1352 + Math.cos(var16[0]) * var17;
-            double var21 = var3.field_1350 + Math.sin(var16[0]) * var17;
-            double var23 = var3.field_1351 + (var16[2] * 1.1 - 0.05) * var7;
+            double var19 = var3.x + Math.cos(var16[0]) * var17;
+            double var21 = var3.z + Math.sin(var16[0]) * var17;
+            double var23 = var3.y + (var16[2] * 1.1 - 0.05) * var7;
             if (var1.project(var19, var23, var21, rvi)) {
                float var25 = Math.min(1.0F, Math.min(var16[2] / 0.15F, (1.0F - var16[2]) / 0.2F));
                float var26 = 0.5F + 0.5F * (float)Math.sin(rvg * var16[5] + var16[4]);
@@ -287,15 +286,15 @@ public class ruv extends kfe {
    }
 
    private static void rwh(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
-      float var5 = var2.method_17682();
-      double var6 = (var2.method_17681() * 0.5 + 0.2) * var4.size;
+      float var5 = var2.getHeight();
+      double var6 = (var2.getWidth() * 0.5 + 0.2) * var4.size;
       float var8 = rvg * 1.6F;
-      double var9 = var3.field_1351 + 0.05 + rwd(var8) * (var5 - 0.1);
+      double var9 = var3.y + 0.05 + rwd(var8) * (var5 - 0.1);
       boolean var11 = Math.sin(var8) > 0.0;
       double var12 = 0.04 * var4.size;
       double var14 = 0.2 * var4.size * Math.min(1.0, Math.abs(Math.sin(var8)) * 1.6 + 0.25);
-      rwi(var0, var1, var3.field_1352, var9, var3.field_1350, var6, var11 ? var14 : var12 * 1.4, var11 ? var12 * 1.4 : var14, var4, 1.0F, 44);
-      rwj(var0, var1, var3.field_1352, var9, var3.field_1350, var6, 44, var4, 0.9F);
+      rwi(var0, var1, var3.x, var9, var3.z, var6, var11 ? var14 : var12 * 1.4, var11 ? var12 * 1.4 : var14, var4, 1.0F, 44);
+      rwj(var0, var1, var3.x, var9, var3.z, var6, 44, var4, 0.9F);
    }
 
    private static void rwi(
@@ -353,10 +352,10 @@ public class ruv extends kfe {
    }
 
    private static void rwk(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
-      float var5 = var2.method_17682();
-      double var6 = (var2.method_17681() * 0.5 + 0.28) * var4.size;
-      float var8 = var1.depth(var3.field_1352, var3.field_1351 + var5 * 0.5, var3.field_1350);
-      float var9 = var1.unitsPerBlock(var3.field_1352, var3.field_1351 + var5 * 0.5, var3.field_1350);
+      float var5 = var2.getHeight();
+      double var6 = (var2.getWidth() * 0.5 + 0.28) * var4.size;
+      float var8 = var1.depth(var3.x, var3.y + var5 * 0.5, var3.z);
+      float var9 = var1.unitsPerBlock(var3.x, var3.y + var5 * 0.5, var3.z);
       if (!(var9 <= 0.0F)) {
          GpuTextureView var10 = unm.view();
          byte var11 = 18;
@@ -371,12 +370,12 @@ public class ruv extends kfe {
                float var18 = rvg * 3.1F - (var16 - 1) * 0.075F;
                double var19 = var17 + var15;
                double var21 = var18 + var15;
-               double var23 = var3.field_1351 + 0.1 + rwd(var17 * 0.42F + var15) * (var5 - 0.2);
-               double var25 = var3.field_1351 + 0.1 + rwd(var18 * 0.42F + var15) * (var5 - 0.2);
-               double var27 = var3.field_1352 + Math.cos(var19) * var6;
-               double var29 = var3.field_1350 + Math.sin(var19) * var6;
-               double var31 = var3.field_1352 + Math.cos(var21) * var6;
-               double var33 = var3.field_1350 + Math.sin(var21) * var6;
+               double var23 = var3.y + 0.1 + rwd(var17 * 0.42F + var15) * (var5 - 0.2);
+               double var25 = var3.y + 0.1 + rwd(var18 * 0.42F + var15) * (var5 - 0.2);
+               double var27 = var3.x + Math.cos(var19) * var6;
+               double var29 = var3.z + Math.sin(var19) * var6;
+               double var31 = var3.x + Math.cos(var21) * var6;
+               double var33 = var3.z + Math.sin(var21) * var6;
                float var35 = 1.0F - (float)var16 / var11;
                float var36 = 1.0F - (float)(var16 - 1) / var11;
                double var37 = var12 * var35;
@@ -394,9 +393,9 @@ public class ruv extends kfe {
             }
 
             double var45 = rvg * 3.1F + var15;
-            double var46 = var3.field_1352 + Math.cos(var45) * var6;
-            double var20 = var3.field_1350 + Math.sin(var45) * var6;
-            double var22 = var3.field_1351 + 0.1 + rwd(rvg * 3.1F * 0.42F + var15) * (var5 - 0.2);
+            double var46 = var3.x + Math.cos(var45) * var6;
+            double var20 = var3.z + Math.sin(var45) * var6;
+            double var22 = var3.y + 0.1 + rwd(rvg * 3.1F * 0.42F + var15) * (var5 - 0.2);
             if (var1.project(var46, var22, var20, rvi)) {
                boolean var24 = var1.depth(var46, var22, var20) < var8;
                float var47 = Math.min(44.0F, var9 * 0.45F * var4.size);
@@ -410,11 +409,11 @@ public class ruv extends kfe {
    }
 
    private static void rwl(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4, float var5) {
-      float var6 = var2.method_17682();
-      float var7 = var1.unitsPerBlock(var3.field_1352, var3.field_1351 + var6 * 0.5, var3.field_1350);
+      float var6 = var2.getHeight();
+      float var7 = var1.unitsPerBlock(var3.x, var3.y + var6 * 0.5, var3.z);
       if (!(var7 <= 0.0F)) {
-         double var8 = (var2.method_17681() * 0.5 + 0.16) * var4.size;
-         double var10 = var3.field_1351 + 0.1 + rwd(rvg * 1.3F) * (var6 - 0.2);
+         double var8 = (var2.getWidth() * 0.5 + 0.16) * var4.size;
+         double var10 = var3.y + 0.1 + rwd(rvg * 1.3F) * (var6 - 0.2);
          rvv -= var5;
          if (rvv <= 0.0F) {
             rvv = 0.07F;
@@ -423,28 +422,15 @@ public class ruv extends kfe {
 
          float var12 = Math.max(0.9F, Math.min(2.4F, var7 * 0.022F));
          float var13 = Math.min(8.0F, var7 * 0.09F);
-         float var14 = var1.depth(var3.field_1352, var10, var3.field_1350);
+         float var14 = var1.depth(var3.x, var10, var3.z);
          float var15 = 0.75F + 0.25F * (float)Math.sin(rvg * 40.0F);
 
          for (int var16 = 0; var16 < 4; var16++) {
-            rwm(
-               var0,
-               var1,
-               var3.field_1352,
-               var10,
-               var3.field_1350,
-               rvt[var16],
-               11,
-               var12,
-               var13,
-               var4.at(var16 / 3.0F),
-               var15 * (0.85F + 0.15F * var4.hit),
-               var14
-            );
+            rwm(var0, var1, var3.x, var10, var3.z, rvt[var16], 11, var12, var13, var4.at(var16 / 3.0F), var15 * (0.85F + 0.15F * var4.hit), var14);
          }
 
          for (int var17 = 0; var17 < 4; var17++) {
-            rwm(var0, var1, var3.field_1352, var10, var3.field_1350, rvu[var17], 4, var12 * 0.7F, var13 * 0.7F, var4.c2, var15 * 0.7F, var14);
+            rwm(var0, var1, var3.x, var10, var3.z, rvu[var17], 4, var12 * 0.7F, var13 * 0.7F, var4.c2, var15 * 0.7F, var14);
          }
       }
    }

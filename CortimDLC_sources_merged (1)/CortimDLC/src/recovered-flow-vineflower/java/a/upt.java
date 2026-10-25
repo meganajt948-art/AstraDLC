@@ -27,54 +27,54 @@ public final class upt {
       uok var5 = uqb(var3);
       if (var5 == null) {
          return false;
-      } else {
-         uut.image(var0, var5.view, var1, var2, var3, var3, 0.0F, var4);
-         return true;
       }
+
+      uut.image(var0, var5.view, var1, var2, var3, var3, 0.0F, var4);
+      return true;
    }
 
    private static uok uqb(float var0) {
       if (upx) {
          return null;
-      } else {
-         MinecraftClient var1 = MinecraftClient.method_1551();
-         float var2 = var1.method_22683() != null ? Math.max(1, var1.method_22683().method_4495()) : 2.0F;
-         int var3 = Math.max(8, Math.min(512, Math.round(var0 * var2 * vdn.renderScale())));
-         uok var4 = upv.get(var3);
-         if (var4 != null) {
-            return var4;
-         } else {
-            try {
-               if (upw == null) {
-                  try (InputStream var5 = upt.class.getResourceAsStream("/flow/logo.png")) {
-                     if (var5 == null) {
-                        throw new IllegalStateException("missing /flow/logo.png");
-                     }
+      }
 
-                     upw = ImageIO.read(var5);
-                  }
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      float var2 = var1.getWindow() != null ? Math.max(1, var1.getWindow().getScaleFactor()) : 2.0F;
+      int var3 = Math.max(8, Math.min(512, Math.round(var0 * var2 * vdn.renderScale())));
+      uok var4 = upv.get(var3);
+      if (var4 != null) {
+         return var4;
+      }
+
+      try {
+         if (upw == null) {
+            try (InputStream var5 = upt.class.getResourceAsStream("/flow/logo.png")) {
+               if (var5 == null) {
+                  throw new IllegalStateException("missing /flow/logo.png");
                }
 
-               var4 = uok.upload("logo " + var3, uqd(upw, var3), false, true);
-            } catch (Throwable var10) {
-               upx = true;
-               System.out.println("logo unavailable: " + var10);
-               return null;
+               upw = ImageIO.read(var5);
             }
-
-            upv.put(var3, var4);
-
-            while (upv.size() > 3) {
-               Iterator var12 = upv.entrySet().iterator();
-               uok var6 = (uok)((Entry)var12.next()).getValue();
-               var12.remove();
-               upy.put(var6, unf.frame());
-            }
-
-            uqc();
-            return var4;
          }
+
+         var4 = uok.upload("logo " + var3, uqd(upw, var3), false, true);
+      } catch (Throwable var10) {
+         upx = true;
+         System.out.println("logo unavailable: " + var10);
+         return null;
       }
+
+      upv.put(var3, var4);
+
+      while (upv.size() > 3) {
+         Iterator var12 = upv.entrySet().iterator();
+         uok var6 = (uok)((Entry)var12.next()).getValue();
+         var12.remove();
+         upy.put(var6, unf.frame());
+      }
+
+      uqc();
+      return var4;
    }
 
    private static void uqc() {

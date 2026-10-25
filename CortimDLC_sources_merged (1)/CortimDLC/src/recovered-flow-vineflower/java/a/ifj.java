@@ -24,17 +24,17 @@ final class ifj extends imn {
    }
 
    private static List<PlayerEntity> ifs() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
+      MinecraftClient var0 = MinecraftClient.getInstance();
       ArrayList var1 = new ArrayList();
-      if (var0.field_1687 != null && var0.field_1724 != null) {
-         for (PlayerEntity var3 : var0.field_1687.method_18456()) {
-            if (var3 != var0.field_1724 && !var3.method_7325()) {
+      if (var0.world != null && var0.player != null) {
+         for (PlayerEntity var3 : var0.world.getPlayers()) {
+            if (var3 != var0.player && !var3.isSpectator()) {
                var1.add(var3);
             }
          }
 
-         var1.sort(Comparator.comparingDouble(var1x -> var1x.method_5858(var0.field_1724)));
-         return (List<PlayerEntity>)(var1.size() > 6 ? var1.subList(0, 6) : var1);
+         var1.sort(Comparator.comparingDouble(var1x -> var1x.squaredDistanceTo(var0.player)));
+         return var1.size() > 6 ? var1.subList(0, 6) : var1;
       } else {
          return var1;
       }
@@ -69,12 +69,12 @@ final class ifj extends imn {
                iov.textDim
             );
       } else {
-         MinecraftClient var7 = MinecraftClient.method_1551();
+         MinecraftClient var7 = MinecraftClient.getInstance();
          float var8 = iov.r(6.0F);
 
          for (int var9 = 0; var9 < var6.size(); var9++) {
             PlayerEntity var10 = (PlayerEntity)var6.get(var9);
-            vcj[] var11 = this.ifp.computeIfAbsent(var10.method_5628(), var0 -> new vcj[]{new vcj(14.0F), new vcj(18.0F)});
+            vcj[] var11 = this.ifp.computeIfAbsent(var10.getId(), var0 -> new vcj[]{new vcj(14.0F), new vcj(18.0F)});
             float var12 = this.ift(var9);
             float var13 = var12 + 12.0F;
             boolean var14 = var2.canHover() && irr.inside(var3, var4, this.x, var12, this.w, 24.0F);
@@ -85,9 +85,9 @@ final class ifj extends imn {
 
             String var16 = hhf.nameOf(var10);
             boolean var17 = hhf.isFriend(var16);
-            hyj.face(var1, var16, var10 instanceof AbstractClientPlayerEntity var18 ? var18.method_52814() : null, this.x + 4.0F, var13 - 8.0F, false);
+            hyj.face(var1, var16, var10 instanceof AbstractClientPlayerEntity var18 ? var18.getSkin() : null, this.x + 4.0F, var13 - 8.0F, false);
             float var24 = this.x + 4.0F + 16.0F + 7.0F;
-            String var19 = Math.round(Math.sqrt(var10.method_5858(var7.field_1724))) + wap.unit(a.d("㯻", -2040818452, 657698683));
+            String var19 = Math.round(Math.sqrt(var10.squaredDistanceTo(var7.player))) + wap.unit(a.d("㯻", -2040818452, 657698683));
             float var20 = this.ifu() - var24 - irr.SMALL.width(var19) - 10.0F;
             float var21 = irr.NAME.draw(var1, irr.NAME.ellipsize(lsx.protect(var16), var20), var24, irr.NAME.centerTop(var13), var17 ? -11870592 : iov.text);
             irr.SMALL.draw(var1, var19, var21 + 5.0F, irr.SMALL.centerTop(var13 + 0.4F), iov.textMuted);

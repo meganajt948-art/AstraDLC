@@ -50,75 +50,104 @@ final class elh extends ClientWorld {
    }
 
    Map<MapIdComponent, MapState> maps() {
-      return this.method_35754();
+      return this.getMapStates();
    }
 
    void copyMaps(Map<MapIdComponent, MapState> var1) {
-      this.method_35753(var1);
+      this.putMapStates(var1);
    }
 
-   public void method_8413(BlockPos var1, BlockState var2, BlockState var3, int var4) {
+   @Override
+   public void updateListeners(BlockPos pos, BlockState oldState, BlockState newState, int flags) {
    }
 
-   public void method_16109(BlockPos var1, BlockState var2, BlockState var3) {
+   @Override
+   public void scheduleBlockRerenderIfNeeded(BlockPos pos, BlockState old, BlockState updated) {
    }
 
-   public void method_18113(int var1, int var2, int var3) {
+   @Override
+   public void scheduleBlockRenders(int x, int y, int z) {
    }
 
-   public void method_62146(int var1, int var2, int var3, int var4, int var5, int var6) {
+   @Override
+   public void scheduleChunkRenders(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
    }
 
-   public void method_8517(int var1, BlockPos var2, int var3) {
+   @Override
+   public void setBlockBreakingInfo(int entityId, BlockPos pos, int progress) {
    }
 
-   public void method_62895(long var1) {
+   @Override
+   public void onChunkUnload(long sectionPos) {
    }
 
-   public void method_8474(int var1, BlockPos var2, int var3) {
+   @Override
+   public void syncGlobalEvent(int eventId, BlockPos pos, int data) {
    }
 
-   public void method_8444(@Nullable Entity var1, int var2, BlockPos var3, int var4) {
+   @Override
+   public void syncWorldEvent(@Nullable Entity source, int eventId, BlockPos pos, int data) {
    }
 
-   public void method_8406(ParticleEffect var1, double var2, double var4, double var6, double var8, double var10, double var12) {
+   @Override
+   public void addParticleClient(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
    }
 
-   public void method_8466(ParticleEffect var1, boolean var2, boolean var3, double var4, double var6, double var8, double var10, double var12, double var14) {
-   }
-
-   public void method_8494(ParticleEffect var1, double var2, double var4, double var6, double var8, double var10, double var12) {
-   }
-
-   public void method_17452(ParticleEffect var1, boolean var2, double var3, double var5, double var7, double var9, double var11, double var13) {
-   }
-
-   public void method_8547(double var1, double var3, double var5, double var7, double var9, double var11, List<FireworkExplosionComponent> var13) {
-   }
-
-   public void method_31595(BlockPos var1, BlockState var2) {
-   }
-
-   public void method_74254(BlockPos var1, Direction var2) {
-   }
-
-   public void method_73228(Vec3d var1, float var2, int var3, Pool<BlockParticleEffect> var4) {
-   }
-
-   public void method_8465(
-      @Nullable Entity var1, double var2, double var4, double var6, RegistryEntry<SoundEvent> var8, SoundCategory var9, float var10, float var11, long var12
+   @Override
+   public void addParticleClient(
+      ParticleEffect parameters, boolean force, boolean canSpawnOnMinimal, double x, double y, double z, double velocityX, double velocityY, double velocityZ
    ) {
    }
 
-   public void method_8449(@Nullable Entity var1, Entity var2, RegistryEntry<SoundEvent> var3, SoundCategory var4, float var5, float var6, long var7) {
+   @Override
+   public void addImportantParticleClient(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
    }
 
-   public void method_55116(Entity var1, SoundEvent var2, SoundCategory var3, float var4, float var5) {
+   @Override
+   public void addImportantParticleClient(
+      ParticleEffect parameters, boolean force, double x, double y, double z, double velocityX, double velocityY, double velocityZ
+   ) {
    }
 
-   public void method_67392(SoundEvent var1, SoundCategory var2, float var3, float var4) {
+   @Override
+   public void addFireworkParticle(
+      double x, double y, double z, double velocityX, double velocityY, double velocityZ, List<FireworkExplosionComponent> explosions
+   ) {
    }
 
-   public void method_8486(double var1, double var3, double var5, SoundEvent var7, SoundCategory var8, float var9, float var10, boolean var11) {
+   @Override
+   public void addBlockBreakParticles(BlockPos pos, BlockState state) {
+   }
+
+   @Override
+   public void spawnBlockBreakingParticle(BlockPos pos, Direction direction) {
+   }
+
+   @Override
+   public void addBlockParticleEffects(Vec3d center, float radius, int blockCount, Pool<BlockParticleEffect> particles) {
+   }
+
+   @Override
+   public void playSound(
+      @Nullable Entity source, double x, double y, double z, RegistryEntry<SoundEvent> sound, SoundCategory category, float volume, float pitch, long seed
+   ) {
+   }
+
+   @Override
+   public void playSoundFromEntity(
+      @Nullable Entity source, Entity entity, RegistryEntry<SoundEvent> sound, SoundCategory category, float volume, float pitch, long seed
+   ) {
+   }
+
+   @Override
+   public void playSoundFromEntityClient(Entity entity, SoundEvent sound, SoundCategory category, float volume, float pitch) {
+   }
+
+   @Override
+   public void playSoundClient(SoundEvent sound, SoundCategory category, float volume, float pitch) {
+   }
+
+   @Override
+   public void playSoundClient(double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch, boolean useDistance) {
    }
 }

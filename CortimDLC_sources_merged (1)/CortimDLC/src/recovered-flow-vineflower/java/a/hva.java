@@ -122,7 +122,7 @@ final class hva extends imn {
                         }
                      }
                   },
-                  MinecraftClient.method_1551()
+                  MinecraftClient.getInstance()
                );
          }
       }

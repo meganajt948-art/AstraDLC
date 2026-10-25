@@ -1,7 +1,7 @@
 package a;
 
 public final class vxz {
-   private static final wbu<Double> vya = new wbu<>(var0 -> var0.field_1690.method_42473());
+   private static final wbu<Double> vya = new wbu<>(var0 -> var0.options.getGamma());
 
    private vxz() {
    }

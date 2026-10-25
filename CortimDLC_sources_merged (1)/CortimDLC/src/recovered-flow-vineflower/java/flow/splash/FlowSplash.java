@@ -111,39 +111,41 @@ public final class FlowSplash extends SplashOverlay {
       }
    }
 
-   public void method_74217() {
-      if (!(this.completedAt >= 0.0F) && this.reload.method_18787()) {
+   @Override
+   public void tick() {
+      if (!(this.completedAt >= 0.0F) && this.reload.isComplete()) {
          if (!this.reloading || !(this.anim < 0.6F)) {
             try {
-               this.reload.method_18849();
+               this.reload.throwException();
                this.handler.accept(Optional.empty());
-            } catch (Throwable var2) {
-               this.handler.accept(Optional.of(var2));
+            } catch (Throwable t) {
+               this.handler.accept(Optional.of(t));
             }
 
             this.completedAt = this.anim;
             this.returning = wap.chosen();
-            if (this.mc.field_1755 != null) {
-               this.mc.field_1755.method_25423(this.mc.method_22683().method_4486(), this.mc.method_22683().method_4502());
+            if (this.mc.currentScreen != null) {
+               this.mc.currentScreen.init(this.mc.getWindow().getScaledWidth(), this.mc.getWindow().getScaledHeight());
             }
          }
       }
    }
 
-   public void method_25394(DrawContext ctx, int mouseX, int mouseY, float delta) {
+   @Override
+   public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
       ClientLoad.frame();
       long now = System.nanoTime();
       float dt = this.lastNanos == 0L ? 0.0F : Math.min(0.033333335F, (float)(now - this.lastNanos) / 1.0E9F);
       this.lastNanos = now;
       this.anim += dt;
       float age = this.anim;
-      float target = this.completedAt >= 0.0F ? 1.0F : Math.max(this.progress, this.reload.method_18229());
+      float target = this.completedAt >= 0.0F ? 1.0F : Math.max(this.progress, this.reload.getProgress());
       this.progress = this.progress + (target - this.progress) * (1.0F - (float)Math.exp(-dt * 6.0F));
       if (this.completedAt >= 0.0F && this.doneAt < 0.0F && age >= 0.35F) {
          this.doneAt = age;
       }
 
-      if (!this.injected || this.introFailed || !this.introFrame(ctx, mouseX, mouseY, delta, dt, now)) {
+      if (!this.injected || this.introFailed || !this.introFrame(context, mouseX, mouseY, deltaTicks, dt, now)) {
          if (this.injected && !this.returning) {
             if (this.doneAt >= 0.0F && this.welcomeAt < 0.0F && age >= this.doneAt + 0.45F + 0.1F) {
                this.welcomeAt = age;
@@ -170,44 +172,44 @@ public final class FlowSplash extends SplashOverlay {
             alpha = in * (1.0F - vcq.inOutCubic(out));
          }
 
-         if (alpha < 0.999F && this.mc.field_1755 != null) {
-            Screen var10000 = this.mc.field_1755;
-            DrawContext var10001 = ctx;
+         if (alpha < 0.999F && this.mc.currentScreen != null) {
+            Screen var10000 = this.mc.currentScreen;
+            DrawContext var10001 = context;
             int var10002 = mouseX;
             int var10003 = mouseY;
-            float var10004 = delta;
+            float var10004 = deltaTicks;
 
             try {
-               var10000.method_47413(var10001, var10002, var10003, var10004);
+               var10000.renderWithTooltip(var10001, var10002, var10003, var10004);
             } catch (Throwable var15) {
             }
 
-            this.mc.field_1705.method_72738();
+            this.mc.inGameHud.renderDeferredSubtitles();
          }
 
-         ctx.method_71048();
+         context.createNewRootLayer();
          if (!this.broken) {
             try {
-               this.scene(ctx, mouseX, mouseY, age, dt, alpha, out);
-            } catch (Throwable var14) {
+               this.scene(context, mouseX, mouseY, age, dt, alpha, out);
+            } catch (Throwable t) {
                this.broken = true;
-               System.out.println("splash render failed, plain fallback: " + var14);
-               var14.printStackTrace();
+               System.out.println("splash render failed, plain fallback: " + t);
+               t.printStackTrace();
             }
          }
 
          if (this.broken) {
-            this.plain(ctx, alpha);
+            this.plain(context, alpha);
          }
 
          if (out >= 1.0F && !this.finished) {
             this.finished = true;
             if (this.injected && !this.returning) {
-               Screen back = this.mc.field_1687 != null ? this.mc.field_1755 : null;
-               this.mc.method_1507(new kct(back));
+               Screen back = this.mc.world != null ? this.mc.currentScreen : null;
+               this.mc.setScreen(new kct(back));
             }
 
-            this.mc.method_18502(null);
+            this.mc.setOverlay(null);
          }
       }
    }
@@ -221,15 +223,15 @@ public final class FlowSplash extends SplashOverlay {
                return false;
             }
 
-            if (this.mc.field_1755 != null) {
-               Screen var14 = this.mc.field_1755;
+            if (this.mc.currentScreen != null) {
+               Screen var14 = this.mc.currentScreen;
                DrawContext var15 = ctx;
                int var16 = mouseX;
                int var17 = mouseY;
                float var18 = delta;
 
                try {
-                  var14.method_47413(var15, var16, var17, var18);
+                  var14.renderWithTooltip(var15, var16, var17, var18);
                } catch (Throwable var12) {
                }
             }
@@ -246,34 +248,34 @@ public final class FlowSplash extends SplashOverlay {
       }
 
       float fade = this.fadeIn ? vcq.inOutCubic(vcq.clamp01((float)(now - this.bornNanos) / 1.0E9F / 0.3F)) : 1.0F;
-      if (fade * this.intro.layer() < 0.999F && this.mc.field_1755 != null) {
-         Screen var10000 = this.mc.field_1755;
+      if (fade * this.intro.layer() < 0.999F && this.mc.currentScreen != null) {
+         Screen var10000 = this.mc.currentScreen;
          DrawContext var10001 = ctx;
          int var10002 = mouseX;
          int var10003 = mouseY;
          float var10004 = delta;
 
          try {
-            var10000.method_47413(var10001, var10002, var10003, var10004);
+            var10000.renderWithTooltip(var10001, var10002, var10003, var10004);
          } catch (Throwable var13) {
          }
 
-         this.mc.field_1705.method_72738();
+         this.mc.inGameHud.renderDeferredSubtitles();
       }
 
-      ctx.method_71048();
+      ctx.createNewRootLayer();
       uut.beginFrame();
       unf.observe(ctx);
       collect();
-      int width = ctx.method_51421();
-      int height = ctx.method_51443();
+      int width = ctx.getScaledWindowWidth();
+      int height = ctx.getScaledWindowHeight();
       if (!this.intro.render(ctx, width, height, fade)) {
          this.intro.close();
          this.intro = null;
          this.introFailed = true;
          if (this.handedOver && !this.finished) {
             this.finished = true;
-            this.mc.method_18502(null);
+            this.mc.setOverlay(null);
             return true;
          } else {
             return false;
@@ -287,7 +289,7 @@ public final class FlowSplash extends SplashOverlay {
          if (this.intro.finished() && !this.finished) {
             this.finished = true;
             this.intro.close();
-            this.mc.method_18502(null);
+            this.mc.setOverlay(null);
          }
 
          return true;
@@ -297,10 +299,10 @@ public final class FlowSplash extends SplashOverlay {
    private void handOver() {
       this.returning = wap.chosen();
       if (!this.returning) {
-         Screen back = this.mc.field_1687 != null ? this.mc.field_1755 : null;
-         this.mc.method_1507(new kct(back));
-      } else if (this.mc.field_1755 instanceof TitleScreen && Splash.MENU) {
-         this.mc.method_1507(new jte());
+         Screen back = this.mc.world != null ? this.mc.currentScreen : null;
+         this.mc.setScreen(new kct(back));
+      } else if (this.mc.currentScreen instanceof TitleScreen && Splash.MENU) {
+         this.mc.setScreen(new jte());
       }
    }
 
@@ -308,8 +310,8 @@ public final class FlowSplash extends SplashOverlay {
       String stage = ClientLoad.stage();
       if (!stage.isEmpty()) {
          float s = kbp.scale(width, height);
-         float y = (float)(this.intro.captionY() / Math.max(1.0, (double)this.mc.method_22683().method_4495())) / s;
-         Matrix3x2fStack m = ctx.method_51448();
+         float y = (float)(this.intro.captionY() / Math.max(1.0, this.mc.getWindow().getScaleFactor())) / s;
+         Matrix3x2fStack m = ctx.getMatrices();
          m.pushMatrix();
          m.scale(s, s);
          vdn.setRenderScaleStepped(s);
@@ -340,8 +342,8 @@ public final class FlowSplash extends SplashOverlay {
       uut.beginFrame();
       unf.observe(ctx);
       collect();
-      int width = ctx.method_51421();
-      int height = ctx.method_51443();
+      int width = ctx.getScaledWindowWidth();
+      int height = ctx.getScaledWindowHeight();
       if (width > 0 && height > 0 && !(alpha <= 0.002F)) {
          float s = kbp.scale(width, height);
          float vw = width / s;
@@ -352,14 +354,14 @@ public final class FlowSplash extends SplashOverlay {
             this.parY = this.parY + ((float)mouseY / height - 0.5F - this.parY) * k;
          }
 
-         float ppu = s * Math.max(1.0F, (float)this.mc.method_22683().method_4495());
+         float ppu = s * Math.max(1.0F, this.mc.getWindow().getScaleFactor());
          GpuTextureView glow = unm.view();
          if (scene == null) {
             scene = new kap();
          }
 
          uut.pushAlpha(alpha);
-         Matrix3x2fStack m = ctx.method_51448();
+         Matrix3x2fStack m = ctx.getMatrices();
 
          try {
             this.background(ctx, width, height, age, out);
@@ -437,7 +439,7 @@ public final class FlowSplash extends SplashOverlay {
             uut.shadow(ctx, cx - 134.0F, cy - 32.0F, 268.0F, 72.0F, 32.0F, 54.0F, rgba(season.light ? 16777215 : 132363, 0.34F * vcq.clamp01(t / 0.6F)));
             welcome(ctx, cx, cy - 27.0F, t, accent, face);
             Wordmark wm = wordmark(ppu);
-            Matrix3x2fStack m = ctx.method_51448();
+            Matrix3x2fStack m = ctx.getMatrices();
             m.pushMatrix();
             m.translate(cx, cy);
             float sc = (1.0F + 0.05F * o) * (1.0F + 0.03F * (1.0F - settle));
@@ -519,7 +521,7 @@ public final class FlowSplash extends SplashOverlay {
                }
 
                if (tint >>> 24 != 0) {
-                  Matrix3x2fStack m = ctx.method_51448();
+                  Matrix3x2fStack m = ctx.getMatrices();
                   m.pushMatrix();
                   float dy = -(1.0F - vcq.outBack(p)) * 36.0F * 0.6F;
                   m.translate(ox + g.cx(), base + g.cy() + dy);
@@ -561,15 +563,15 @@ public final class FlowSplash extends SplashOverlay {
       float since = age - settled;
       if (since <= 0.0F) {
          return 0.0F;
-      } else {
-         float sweep = since % 3.8F / 1.3F;
-         if (sweep > 1.0F) {
-            return 0.0F;
-         } else {
-            float d = (g.cx() / wm.width - (-0.25F + 1.5F * sweep)) / 0.11F;
-            return 0.6F * (float)Math.exp(-d * d);
-         }
       }
+
+      float sweep = since % 3.8F / 1.3F;
+      if (sweep > 1.0F) {
+         return 0.0F;
+      }
+
+      float d = (g.cx() / wm.width - (-0.25F + 1.5F * sweep)) / 0.11F;
+      return 0.6F * (float)Math.exp(-d * d);
    }
 
    private void reloadMark(DrawContext ctx, GpuTextureView glow, float vw, float age, float leave) {
@@ -695,15 +697,13 @@ public final class FlowSplash extends SplashOverlay {
    private void plain(DrawContext ctx, float alpha) {
       int a = Math.round(alpha * 255.0F);
       if (a >= 4) {
-         int width = ctx.method_51421();
-         int height = ctx.method_51443();
-         ctx.method_25294(0, 0, width, height, a << 24 | 660002);
-         ctx.method_25300(this.mc.field_1772, vvi.get(), width / 2, height / 2 - 10, a << 24 | 16777215);
+         int width = ctx.getScaledWindowWidth();
+         int height = ctx.getScaledWindowHeight();
+         ctx.fill(0, 0, width, height, a << 24 | 660002);
+         ctx.drawCenteredTextWithShadow(this.mc.textRenderer, vvi.get(), width / 2, height / 2 - 10, a << 24 | 16777215);
          int bar = 120;
-         ctx.method_25294(width / 2 - bar / 2, height / 2 + 6, width / 2 + bar / 2, height / 2 + 8, a / 5 << 24 | 16777215);
-         ctx.method_25294(
-            width / 2 - bar / 2, height / 2 + 6, width / 2 - bar / 2 + Math.round(bar * vcq.clamp01(this.progress)), height / 2 + 8, a << 24 | 9423871
-         );
+         ctx.fill(width / 2 - bar / 2, height / 2 + 6, width / 2 + bar / 2, height / 2 + 8, a / 5 << 24 | 16777215);
+         ctx.fill(width / 2 - bar / 2, height / 2 + 6, width / 2 - bar / 2 + Math.round(bar * vcq.clamp01(this.progress)), height / 2 + 8, a << 24 | 9423871);
       }
    }
 
@@ -711,15 +711,15 @@ public final class FlowSplash extends SplashOverlay {
       int px = Math.max(12, Math.round(36.0F * ppu));
       if (mark != null && mark.px == px) {
          return mark;
-      } else {
-         if (mark != null) {
-            RETIRED.add(mark);
-            RETIRED_AT.add(unf.frame());
-         }
-
-         mark = Wordmark.build(36.0F, ppu);
-         return mark;
       }
+
+      if (mark != null) {
+         RETIRED.add(mark);
+         RETIRED_AT.add(unf.frame());
+      }
+
+      mark = Wordmark.build(36.0F, ppu);
+      return mark;
    }
 
    private static void collect() {

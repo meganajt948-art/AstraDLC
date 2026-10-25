@@ -23,7 +23,7 @@ public final class pfd {
 
    public static int of(ItemStack var0) {
       long var1 = pfk(var0);
-      return var1 > 0L ? (int)Math.min(2147483647L, var1 / Math.max(1, var0.method_7947())) : -1;
+      return var1 > 0L ? (int)Math.min(2147483647L, var1 / Math.max(1, var0.getCount())) : -1;
    }
 
    public static int total(ItemStack var0) {
@@ -32,7 +32,7 @@ public final class pfd {
    }
 
    private static long pfk(ItemStack var0) {
-      if (!var0.method_7960() && !var0.method_31574(Items.field_8298)) {
+      if (!var0.isEmpty() && !var0.isOf(Items.GRAY_DYE)) {
          List var1 = lines(var0);
 
          for (int var2 = 0; var2 < var1.size(); var2++) {
@@ -78,8 +78,8 @@ public final class pfd {
    }
 
    static List<Text> tooltip(ItemStack var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      return var0.method_7950(TooltipContext.field_51353, var1.field_1724, TooltipType.field_41070);
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      return var0.getTooltip(TooltipContext.DEFAULT, var1.player, TooltipType.BASIC);
    }
 
    public static List<String> lines(ItemStack var0) {

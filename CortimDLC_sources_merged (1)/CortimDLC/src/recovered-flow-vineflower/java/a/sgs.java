@@ -74,8 +74,8 @@ public class sgs extends kfe {
    @Override
    public void onEndTick(MinecraftClient var1) {
       this.shn++;
-      ClientWorld var2 = var1.field_1687;
-      if (var2 != null && var1.field_1724 != null) {
+      ClientWorld var2 = var1.world;
+      if (var2 != null && var1.player != null) {
          long var3 = System.nanoTime();
          long var5 = (long)(this.shb.get() * 1.0E9);
 
@@ -89,10 +89,10 @@ public class sgs extends kfe {
          } else {
             HashMap var7 = new HashMap();
 
-            for (PlayerEntity var9 : var2.method_18456()) {
-               if (!var9.method_7325() && !(var9.method_5858(var1.field_1724) > 2304.0)) {
-                  var7.put(var9.method_5667(), Boolean.TRUE);
-                  this.shs(var9, var3, var9 == var1.field_1724 ? 1.0F : 0.8F);
+            for (PlayerEntity var9 : var2.getPlayers()) {
+               if (!var9.isSpectator() && !(var9.squaredDistanceTo(var1.player) > 2304.0)) {
+                  var7.put(var9.getUuid(), Boolean.TRUE);
+                  this.shs(var9, var3, var9 == var1.player ? 1.0F : 0.8F);
                }
             }
 
@@ -102,10 +102,10 @@ public class sgs extends kfe {
    }
 
    private void shs(PlayerEntity var1, long var2, float var4) {
-      sgk var5 = this.shf.computeIfAbsent(var1.method_5667(), var0 -> new sgk());
-      double var6 = var1.method_23317();
-      double var8 = var1.method_23321();
-      boolean var10 = var1.method_24828();
+      sgk var5 = this.shf.computeIfAbsent(var1.getUuid(), var0 -> new sgk());
+      double var6 = var1.getX();
+      double var8 = var1.getZ();
+      boolean var10 = var1.isOnGround();
       if (!var5.sgl) {
          var5.sgl = true;
          var5.sgn = var6;
@@ -121,20 +121,20 @@ public class sgs extends kfe {
             var5.sgm = var10;
          } else {
             if (var10 && !var5.sgm) {
-               float var21 = var1.method_36454() * (float) (Math.PI / 180.0);
+               float var21 = var1.getYaw() * (float) (Math.PI / 180.0);
                float var18 = (float)(-Math.sin(var21));
                float var22 = (float)Math.cos(var21);
-               this.sht(var6, var1.method_23318(), var8, var18, var22, 1.0F, var2, var4);
-               this.sht(var6, var1.method_23318(), var8, var18, var22, -1.0F, var2, var4);
+               this.sht(var6, var1.getY(), var8, var18, var22, 1.0F, var2, var4);
+               this.sht(var6, var1.getY(), var8, var18, var22, -1.0F, var2, var4);
                var5.sgn = var6;
                var5.sgo = var8;
             } else if (var10) {
-               double var17 = var1.method_5715() ? 0.42 : (var1.method_5624() ? 0.85 : 0.62);
+               double var17 = var1.isSneaking() ? 0.42 : (var1.isSprinting() ? 0.85 : 0.62);
                if (var15 >= var17) {
                   float var19 = (float)(var11 / var15);
                   float var20 = (float)(var13 / var15);
                   var5.sgp = -var5.sgp;
-                  this.sht(var6, var1.method_23318(), var8, var19, var20, var5.sgp, var2, var4);
+                  this.sht(var6, var1.getY(), var8, var19, var20, var5.sgp, var2, var4);
                   var5.sgn = var6;
                   var5.sgo = var8;
                }
@@ -160,39 +160,36 @@ public class sgs extends kfe {
 
    @Override
    public void onWorldRender(MinecraftClient var1) {
-      ClientWorld var2 = var1.field_1687;
-      Camera var3 = var1.field_1773.method_19418();
-      if (var2 != null && var1.field_1724 != null && var3.method_19332() && var3.method_19334() == CameraSubmersionType.field_27888) {
+      ClientWorld var2 = var1.world;
+      Camera var3 = var1.gameRenderer.getCamera();
+      if (var2 != null && var1.player != null && var3.isReady() && var3.getSubmersionType() == CameraSubmersionType.NONE) {
          long var4 = System.nanoTime();
          float var6 = this.sho == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - this.sho) / 1.0E9F);
          this.sho = var4;
          this.shp = (this.shp + var6) % 3600.0F;
-         float var7 = var1.method_61966().method_60637(false);
-         Vec3d var8 = var3.method_71156();
-         int var9 = (int)Math.floor(var8.field_1352);
-         int var10 = (int)Math.floor(var8.field_1351);
-         int var11 = (int)Math.floor(var8.field_1350);
+         float var7 = var1.getRenderTickCounter().getTickProgress(false);
+         Vec3d var8 = var3.getCameraPos();
+         int var9 = (int)Math.floor(var8.x);
+         int var10 = (int)Math.floor(var8.y);
+         int var11 = (int)Math.floor(var8.z);
          byte var12 = 64;
          if (!this.shk || Math.abs(var9 - (this.shl + var12)) > 24 || Math.abs(var11 - (this.shm + var12)) > 24 || this.shn >= 40) {
             this.shv(var2, var9 - var12, var11 - var12);
          }
-
-         String var14 = this.shd.get();
-
-         byte var13 = switch (var14) {
+         byte var13 = switch (this.shd.get()) {
             case "Низкое" -> 16;
             case "Среднее" -> 28;
             default -> 40;
          };
-         EnvironmentAttributeInterpolator var31 = var3.method_75756();
-         float var32 = var2.method_8430(var7);
+         EnvironmentAttributeInterpolator var31 = var3.getEnvironmentAttributeInterpolator();
+         float var32 = var2.getRainGradient(var7);
          float[] var16 = new float[]{0.0F, 1.0F, 0.0F, 0.0F};
          float[] var17 = new float[]{1.0F, 1.0F, 1.0F};
          float[] var18 = new float[]{0.5F, 0.65F, 0.9F};
-         if (var2.method_8597().comp_5220() == Skybox.field_64386) {
+         if (var2.getDimension().skybox() == Skybox.OVERWORLD) {
             float var19 = Math.max(0.0F, 1.0F - 0.85F * var32);
-            float var20 = (Float)var31.method_75689(EnvironmentAttributes.field_64340, var7) * (float) (Math.PI / 180.0);
-            float var21 = (Float)var31.method_75689(EnvironmentAttributes.field_64341, var7) * (float) (Math.PI / 180.0);
+            float var20 = var31.get(EnvironmentAttributes.SUN_ANGLE_VISUAL, var7) * (float) (Math.PI / 180.0);
+            float var21 = var31.get(EnvironmentAttributes.MOON_ANGLE_VISUAL, var7) * (float) (Math.PI / 180.0);
             float var22 = (float)Math.cos(var20);
             float var23 = (float)Math.cos(var21);
             if (var22 > -0.05F) {
@@ -204,19 +201,20 @@ public class sgs extends kfe {
                var17 = new float[]{0.6F, 0.7F, 1.0F};
             }
 
-            int var38 = (Integer)var31.method_75689(EnvironmentAttributes.field_63746, var7);
+            int var38 = var31.get(EnvironmentAttributes.SKY_COLOR_VISUAL, var7);
             var18 = new float[]{(var38 >> 16 & 0xFF) / 255.0F, (var38 >> 8 & 0xFF) / 255.0F, (var38 & 0xFF) / 255.0F};
          }
 
          float var33 = Math.max((float)this.sgz.get(), var32);
-         float var34 = Math.min(var1.field_1690.method_38521() * 16.0F, 200.0F);
-         this.shi.rotation(var3.method_23767());
-         this.shj.rotation(var3.method_23767().conjugate(new Quaternionf()));
+         float var34 = Math.min(var1.options.getClampedViewDistance() * 16.0F, 200.0F);
+         this.shi.rotation(var3.getRotation());
+         this.shj.rotation(var3.getRotation().conjugate(new Quaternionf()));
          ArrayList var35 = new ArrayList<>(this.she);
          float var36 = (float)this.shb.get();
          float[] var37 = var16;
          float[] var39 = var17;
          float[] var25 = var18;
+         byte var26 = var13;
          boolean var27 = this.shc.get();
          boolean var28 = this.shk;
          int var29 = this.shl - var9;
@@ -225,13 +223,13 @@ public class sgs extends kfe {
             var19x.putMat4f(this.shi);
             var19x.putMat4f(this.shj);
             var19x.putVec4(Math.floorMod(var9, 4096), var10, Math.floorMod(var11, 4096), this.shp);
-            var19x.putVec4((float)(var8.field_1352 - var9), (float)(var8.field_1351 - var10), (float)(var8.field_1350 - var11), var33);
+            var19x.putVec4((float)(var8.x - var9), (float)(var8.y - var10), (float)(var8.z - var11), var33);
             var19x.putVec4((float)this.sgv.get(), (float)this.sgw.get(), (float)this.sgx.get(), (float)this.sgy.get());
             var19x.putVec4(var37[0], var37[1], var37[2], var37[3]);
             var19x.putVec4(var39[0], var39[1], var39[2], 0.0F);
             var19x.putVec4(var25[0], var25[1], var25[2], var27 ? 1.0F : 0.0F);
             var19x.putVec4(var29, var30, 128.0F, var28 ? 1.0F : 0.0F);
-            var19x.putVec4(var13, var34, var35.size(), var36);
+            var19x.putVec4(var26, var34, var35.size(), var36);
             this.shu(var19x, var35, var8, var4);
          });
       } else {
@@ -245,9 +243,9 @@ public class sgs extends kfe {
       float var8 = 0.0F;
 
       for (sfz var10 : var2) {
-         var6 += (float)(var10.sga - var3.field_1352);
-         var7 += (float)(var10.sgb - var3.field_1351);
-         var8 += (float)(var10.sgc - var3.field_1350);
+         var6 += (float)(var10.sga - var3.x);
+         var7 += (float)(var10.sgb - var3.y);
+         var8 += (float)(var10.sgc - var3.z);
       }
 
       int var19 = Math.max(1, var2.size());
@@ -257,9 +255,9 @@ public class sgs extends kfe {
       float var20 = 0.0F;
 
       for (sfz var12 : var2) {
-         float var13 = (float)(var12.sga - var3.field_1352) - var6;
-         float var14 = (float)(var12.sgb - var3.field_1351) - var7;
-         float var15 = (float)(var12.sgc - var3.field_1350) - var8;
+         float var13 = (float)(var12.sga - var3.x) - var6;
+         float var14 = (float)(var12.sgb - var3.y) - var7;
+         float var15 = (float)(var12.sgc - var3.z) - var8;
          var20 = Math.max(var20, (float)Math.sqrt(var13 * var13 + var14 * var14 + var15 * var15));
       }
 
@@ -268,12 +266,7 @@ public class sgs extends kfe {
       for (int var21 = 0; var21 < 32; var21++) {
          if (var21 < var2.size()) {
             sfz var23 = (sfz)var2.get(var2.size() - 1 - var21);
-            var1.putVec4(
-               (float)(var23.sga - var3.field_1352),
-               (float)(var23.sgb - var3.field_1351),
-               (float)(var23.sgc - var3.field_1350),
-               (float)(var4 - var23.sgg) / 1.0E9F
-            );
+            var1.putVec4((float)(var23.sga - var3.x), (float)(var23.sgb - var3.y), (float)(var23.sgc - var3.z), (float)(var4 - var23.sgg) / 1.0E9F);
          } else {
             var1.putVec4(0.0F, -1000.0F, 0.0F, 1000.0F);
          }
@@ -294,9 +287,9 @@ public class sgs extends kfe {
 
       for (int var5 = 0; var5 < var4; var5++) {
          for (int var6 = 0; var6 < var4; var6++) {
-            int var7 = var1.method_8624(Type.field_13197, var2 + var6, var3 + var5);
+            int var7 = var1.getTopY(Type.MOTION_BLOCKING, var2 + var6, var3 + var5);
             int var8 = Math.max(0, Math.min(65535, var7 + 64));
-            boolean var9 = !var1.method_8316(this.shh.method_10103(var2 + var6, var7 - 1, var3 + var5)).method_15769();
+            boolean var9 = !var1.getFluidState(this.shh.set(var2 + var6, var7 - 1, var3 + var5)).isEmpty();
             this.shg[var5 * var4 + var6] = 0xFF000000 | (var8 & 0xFF) << 16 | (var8 >> 8 & 0xFF) << 8 | (var9 ? 255 : 0);
          }
       }

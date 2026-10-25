@@ -78,25 +78,29 @@ final class ine extends imn {
    boolean mouseClicked(hlc var1, float var2, float var3, int var4) {
       if (!this.hovered(var2, var3)) {
          return false;
-      } else if (var4 == 1) {
+      }
+
+      if (var4 == 1) {
          this.inh.cyclePrev();
          return true;
-      } else if (var4 != 0) {
-         return false;
-      } else {
-         List var5 = this.inh.getModes();
-         int var6 = var5.size();
-         float var7 = this.inn();
+      }
 
-         for (int var8 = 0; var8 < var6; var8++) {
-            float var9 = this.inm(var8, var6);
-            if (irr.inside(var2, var3, var9 - 5.0F - 2.0F, var7 - 5.0F - 2.0F, 14.0F, 14.0F)) {
-               this.inh.set((String)var5.get(var8));
-               return true;
-            }
-         }
-
+      if (var4 != 0) {
          return false;
       }
+
+      List var5 = this.inh.getModes();
+      int var6 = var5.size();
+      float var7 = this.inn();
+
+      for (int var8 = 0; var8 < var6; var8++) {
+         float var9 = this.inm(var8, var6);
+         if (irr.inside(var2, var3, var9 - 5.0F - 2.0F, var7 - 5.0F - 2.0F, 14.0F, 14.0F)) {
+            this.inh.set((String)var5.get(var8));
+            return true;
+         }
+      }
+
+      return false;
    }
 }

@@ -57,9 +57,9 @@ final class fyl {
             var3.setEnabled(false);
          }
 
-         var0.method_1562().method_45730(a.c(1970304928, "矖\u0e61蒾᫇鄘ឫ귳␃먙・뜮䵘쎋娥큩嚏\ueccd"));
-         var0.method_1562().method_45730(a.b("ገ檺\ue069縛\uf5ca獬쥫䃝\ude8c吢폢⧖ꝡ㻣듣㉀蠘ߟ鵶ᬽ鋍\ue889昵\ufde9箐\uf104䢡웶封\uda40凧꼢┹볎㪚뀻", 1362367305));
-         var0.method_1562().method_45730(a.d("ƕ砧\uf2f4沆\ue757懱\udbf6剀찑䚿셿㭋뗼Ȿ꙾⃜骁ᕅ迷ড聅度璯\uef78椆\ue399娼푫亜죝䍺붿㞤깓⠇ꊦ", -1219211482, -1724428558));
+         var0.getNetworkHandler().sendChatCommand(a.c(1970304928, "矖\u0e61蒾᫇鄘ឫ귳␃먙・뜮䵘쎋娥큩嚏\ueccd"));
+         var0.getNetworkHandler().sendChatCommand(a.b("ገ檺\ue069縛\uf5ca獬쥫䃝\ude8c吢폢⧖ꝡ㻣듣㉀蠘ߟ鵶ᬽ鋍\ue889昵\ufde9箐\uf104䢡웶封\uda40凧꼢┹볎㪚뀻", 1362367305));
+         var0.getNetworkHandler().sendChatCommand(a.d("ƕ砧\uf2f4沆\ue757懱\udbf6剀찑䚿셿㭋뗼Ȿ꙾⃜骁ᕅ迷ড聅度璯\uef78椆\ue399娼푫亜죝䍺붿㞤깓⠇ꊦ", -1219211482, -1724428558));
       }
 
       if (var1 == 5) {
@@ -88,25 +88,26 @@ final class fyl {
    }
 
    private static void fzf(MinecraftClient var0, boolean var1, int var2) {
-      ClientPlayerEntity var3 = var0.field_1724;
+      ClientPlayerEntity var3 = var0.player;
       String var4 = var1 ? a.c(-844494835, "ࡆ熞ﬂ敵\ueeb7栗툁宿엡众") : a.b("忖☍겑㋦뤤㾄薒బ鉺ᣋ齗", 1356554143);
       switch (var2) {
          case 0:
             fzi(var1);
-            var0.method_1562().method_45730(a.b("␃嶽흧䤒싖䐵︆矄", 288564328));
-            var0.method_1562().method_45730(a.b("\uef2a隆᱄舽ধ轄㔀볤⊧ꠛ⿊햽嬯싛䢃침琺ﯶ慈\ue740滗ᒵ驕ǌ螴ൾ듛㪉ꁭ♠귍匌\ud914䃻욵䰘\uf387离ｬ曚\uec8e鉹ᠻ龙Չ謪㊷롏㸇ꗍ⮿텥増\uded0䐡", 89255796));
-            var0.method_1562().method_45730(a.b("ꕄ\udce8嘪졓䏉씪置\uf68a棉\ue275斤鿓ᅁ袵˭萆㹔놘⬦괮Ⓓ廛퀻䮢췚䜐ﺵ烧\uea03氎\ue7a2ᥢ鍺ક賛ٶ맩㏕딂Ⲵꛠ\ud817剕헷伧셄磙\uf236瑴\uefbe懋魎ዯ钼", -643652325));
-            var0.method_1562()
-               .method_45730(a.c(-846622283, "釥\ue849抋ﳲ睨\uf18b䯏숫屨훔儅ꭲ◠바㙌낧\u0af5蔹ᾇ馏ဘ橺\ue49a缃糧玱쨔䑆\udea2墯팀ⷃ\ua7db㸴롺㋗赈ݴ膣᠕鉁\uecb6更\ue156箆\uf5e5䱸욜䃝\udb06啁꾣☗ꁎ㫺뒽ༀ"));
-            var0.method_1562()
-               .method_45730(a.c(1143088105, "⎽娑탓亪씰䏓聯灳\uee30撌\ue35dᤪ鞸์萔˿뢭㝡귟⯗ꉀ\ud822囂쵛䬣쇩硌\uf61e泺\ueaf7慙龛ᖃ豬ਢ肏㼐딬㏻ꩍ’廮풬匎짞䞽︠瓈\uf28b楗\ue724᷻鑅ሂ裶ڼ봂㯘뇮⠩ꚜ"));
-            var3.method_36456(var3.field_6012 * 37.0F % 360.0F);
+            var0.getNetworkHandler().sendChatCommand(a.b("␃嶽흧䤒싖䐵︆矄", 288564328));
+            var0.getNetworkHandler().sendChatCommand(a.b("\uef2a隆᱄舽ধ轄㔀볤⊧ꠛ⿊햽嬯싛䢃침琺ﯶ慈\ue740滗ᒵ驕ǌ螴ൾ듛㪉ꁭ♠귍匌\ud914䃻욵䰘\uf387离ｬ曚\uec8e鉹ᠻ龙Չ謪㊷롏㸇ꗍ⮿텥増\uded0䐡", 89255796));
+            var0.getNetworkHandler()
+               .sendChatCommand(a.b("ꕄ\udce8嘪졓䏉씪置\uf68a棉\ue275斤鿓ᅁ袵˭萆㹔놘⬦괮Ⓓ廛퀻䮢췚䜐ﺵ烧\uea03氎\ue7a2ᥢ鍺ક賛ٶ맩㏕딂Ⲵꛠ\ud817剕헷伧셄磙\uf236瑴\uefbe懋魎ዯ钼", -643652325));
+            var0.getNetworkHandler()
+               .sendChatCommand(a.c(-846622283, "釥\ue849抋ﳲ睨\uf18b䯏숫屨훔儅ꭲ◠바㙌낧\u0af5蔹ᾇ馏ဘ橺\ue49a缃糧玱쨔䑆\udea2墯팀ⷃ\ua7db㸴롺㋗赈ݴ膣᠕鉁\uecb6更\ue156箆\uf5e5䱸욜䃝\udb06啁꾣☗ꁎ㫺뒽ༀ"));
+            var0.getNetworkHandler()
+               .sendChatCommand(a.c(1143088105, "⎽娑탓亪씰䏓聯灳\uee30撌\ue35dᤪ鞸์萔˿뢭㝡귟⯗ꉀ\ud822囂쵛䬣쇩硌\uf61e泺\ueaf7慙龛ᖃ豬ਢ肏㼐딬㏻ꩍ’廮풬匎짞䞽︠瓈\uf28b楗\ue724᷻鑅ሂ裶ڼ봂㯘뇮⠩ꚜ"));
+            var3.setYaw(var3.age * 37.0F % 360.0F);
             break;
          case 5:
             fyn.add(87);
             fyn.add(341);
-            var0.field_1690.field_1894.method_23481(true);
-            var0.field_1690.field_1867.method_23481(true);
+            var0.options.forwardKey.setPressed(true);
+            var0.options.sprintKey.setPressed(true);
             break;
          case 20:
             fyo.set(0);
@@ -118,44 +119,44 @@ final class fyl {
             fyx = 0;
             fyy = 0;
             fyz = 0.0;
-            fza = var3.method_73189();
+            fza = var3.getEntityPos();
             System.out
                .println(
                   a.d("渰ន鵜̩裼๔됔㶠", -1896455195, -2055926342)
                      + var4
                      + a.b("씖볥㘱ꡃ⎝ꔱή雁࣑艿ֹￃ煀\ue8eb拫\ue419幔톞䬪쵡䒋㻝끧⯬", 1946207534)
-                     + var3.method_5624()
+                     + var3.isSprinting()
                      + a.b("灛হ荼ᴚ雉ၫꨯ⏿붃㜰냸䪎쑃嶻", -662736779)
                      + wdt.serverSprinting(var3)
                );
-            var0.method_1507(new InventoryScreen(var3));
+            var0.setScreen(new InventoryScreen(var3));
             break;
          case 30:
-            fzg(var0, 36, 0, SlotActionType.field_7790);
+            fzg(var0, 36, 0, SlotActionType.PICKUP);
             break;
          case 38:
-            fzg(var0, 10, 0, SlotActionType.field_7790);
+            fzg(var0, 10, 0, SlotActionType.PICKUP);
             break;
          case 46:
-            fzg(var0, 37, 0, SlotActionType.field_7790);
+            fzg(var0, 37, 0, SlotActionType.PICKUP);
             break;
          case 54:
-            fzg(var0, 11, 0, SlotActionType.field_7790);
+            fzg(var0, 11, 0, SlotActionType.PICKUP);
             break;
          case 62:
-            fzg(var0, 38, 0, SlotActionType.field_7790);
-            fzg(var0, 12, 0, SlotActionType.field_7790);
-            fzg(var0, 12, 0, SlotActionType.field_7790);
-            fzg(var0, 13, 0, SlotActionType.field_7790);
+            fzg(var0, 38, 0, SlotActionType.PICKUP);
+            fzg(var0, 12, 0, SlotActionType.PICKUP);
+            fzg(var0, 12, 0, SlotActionType.PICKUP);
+            fzg(var0, 13, 0, SlotActionType.PICKUP);
             break;
          case 70:
             fyn.add(340);
             break;
          case 74:
-            fzg(var0, 39, 0, SlotActionType.field_7794);
+            fzg(var0, 39, 0, SlotActionType.QUICK_MOVE);
             break;
          case 75:
-            fzg(var0, 10, 0, SlotActionType.field_7794);
+            fzg(var0, 10, 0, SlotActionType.QUICK_MOVE);
             break;
          case 80:
             fyn.remove(340);
@@ -164,60 +165,60 @@ final class fyl {
          case 87:
          case 88:
          case 89:
-            fzg(var0, 11 + (var2 - 86) % 2, 0, SlotActionType.field_7790);
+            fzg(var0, 11 + (var2 - 86) % 2, 0, SlotActionType.PICKUP);
             break;
          case 100:
             fyn.add(32);
             break;
          case 104:
-            fzg(var0, 13, 1, SlotActionType.field_7790);
+            fzg(var0, 13, 1, SlotActionType.PICKUP);
             break;
          case 106:
-            fzg(var0, 14, 0, SlotActionType.field_7790);
+            fzg(var0, 14, 0, SlotActionType.PICKUP);
             break;
          case 110:
             fyn.remove(32);
             break;
          case 120:
-            if (!var3.field_7512.method_34255().method_7960()) {
-               fzg(var0, 15, 0, SlotActionType.field_7790);
+            if (!var3.currentScreenHandler.getCursorStack().isEmpty()) {
+               fzg(var0, 15, 0, SlotActionType.PICKUP);
             }
             break;
          case 125:
-            var3.method_7346();
+            var3.closeHandledScreen();
             break;
          case 145:
             fyn.clear();
-            var0.field_1690.field_1894.method_23481(false);
-            var0.field_1690.field_1867.method_23481(false);
+            var0.options.forwardKey.setPressed(false);
+            var0.options.sprintKey.setPressed(false);
             break;
          case 160:
             fzh(var4, var1, var3);
       }
 
-      if (var2 > 20 && var2 <= 125 && var0.field_1755 instanceof InventoryScreen) {
+      if (var2 > 20 && var2 <= 125 && var0.currentScreen instanceof InventoryScreen) {
          fyw++;
-         Vec3d var5 = var3.method_73189();
-         fyz = fyz + Math.hypot(var5.field_1352 - fza.field_1352, var5.field_1350 - fza.field_1350);
+         Vec3d var5 = var3.getEntityPos();
+         fyz = fyz + Math.hypot(var5.x - fza.x, var5.z - fza.z);
          fza = var5;
          if (wdt.serverSprinting(var3)) {
             fyx++;
          }
 
-         if (PlayerInput.field_54098.equals(vyn.lastSent(var3))) {
+         if (PlayerInput.DEFAULT.equals(vyn.lastSent(var3))) {
             fyy++;
          }
       }
 
-      if (var2 == 131 && var0.field_1755 == null) {
+      if (var2 == 131 && var0.currentScreen == null) {
          System.out
             .println(
                a.d("䓲㵑랞⧫ꈾ⒖黖ᝢ", -149613077, -1440067210)
                   + var4
                   + a.c(-390081916, "튲ꭂ↖뿵㐳늕\u0894脦ὶ闄ላ\ue86c曤ｏ畚\uf3a2䧰오岁\udac3匢⤪")
-                  + var0.field_1690.field_1894.method_1434()
+                  + var0.options.forwardKey.isPressed()
                   + a.c(1798920197, "堮⇌\uab1c㕯뺣㠕艜ர门ὐ飙")
-                  + var3.method_5624()
+                  + var3.isSprinting()
                   + a.b("势⭇ꆓ㿼됮㊞袄", -1664265576)
                   + vyn.lastSent(var3)
             );
@@ -225,8 +226,8 @@ final class fyl {
    }
 
    private static void fzg(MinecraftClient var0, int var1, int var2, SlotActionType var3) {
-      ClientPlayerEntity var4 = var0.field_1724;
-      var0.field_1761.method_2906(var4.field_7512.field_7763, var1, var2, var3, var4);
+      ClientPlayerEntity var4 = var0.player;
+      var0.interactionManager.clickSlot(var4.currentScreenHandler.syncId, var1, var2, var3, var4);
       fyv++;
    }
 
@@ -252,7 +253,7 @@ final class fyl {
                + fyy
                + String.format(a.d("ß礽\uf3ed涉\ue65e惮\udae4匍쵙䟴쁳㩄듑ⴭꜢ", 375287929, 1427206281), var3)
                + a.b("큊ꦸ⍽봋㛝끰ਾ莀", -495660958)
-               + var2.field_7512.method_34255()
+               + var2.currentScreenHandler.getCursorStack()
          );
       if (!fyr.isEmpty()) {
          System.out.println(a.d("䥺ベ먖④꾶⤞鍞\u1aea", 311087375, 58562586) + var0 + a.b("祽\u009a詖ᐡ鿵᥉ꌏ⫣뒺㸊맄䏼", 2126608721) + fyr);
@@ -296,14 +297,14 @@ final class fyl {
 
    private static void fzj(MinecraftClient var0) throws Exception {
       if (!fzc) {
-         IntegratedServer var1 = var0.method_1576();
-         ServerPlayerEntity var2 = var1.method_3760().method_14602(var0.field_1724.method_5667());
+         IntegratedServer var1 = var0.getServer();
+         ServerPlayerEntity var2 = var1.getPlayerManager().getPlayer(var0.player.getUuid());
          ClientConnection var3 = null;
 
          for (Field var7 : ServerCommonNetworkHandler.class.getDeclaredFields()) {
             if (var7.getType() == ClientConnection.class) {
                var7.setAccessible(true);
-               var3 = (ClientConnection)var7.get(var2.field_13987);
+               var3 = (ClientConnection)var7.get(var2.networkHandler);
             }
          }
 
@@ -334,13 +335,13 @@ final class fyl {
 
    private static void fzk(Object var0) {
       if (var0 instanceof PlayerInputC2SPacket var1) {
-         PlayerInput var3 = var1.comp_3139();
-         fys = var3.comp_3159() || var3.comp_3160() || var3.comp_3161() || var3.comp_3162() || var3.comp_3163();
-         fyt = var3.comp_3164();
+         PlayerInput var3 = var1.input();
+         fys = var3.forward() || var3.backward() || var3.left() || var3.right() || var3.jump();
+         fyt = var3.sneak();
       } else if (var0 instanceof ClientCommandC2SPacket var2) {
-         if (var2.method_12365() == Mode.field_12981) {
+         if (var2.getMode() == Mode.START_SPRINTING) {
             fyu = true;
-         } else if (var2.method_12365() == Mode.field_12985) {
+         } else if (var2.getMode() == Mode.STOP_SPRINTING) {
             fyu = false;
          }
       } else if (var0 instanceof ClickSlotC2SPacket || var0 instanceof CloseHandledScreenC2SPacket) {

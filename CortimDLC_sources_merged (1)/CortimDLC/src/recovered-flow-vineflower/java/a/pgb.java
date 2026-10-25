@@ -42,25 +42,25 @@ public final class pgb {
    public boolean choose(int var1) {
       if (this.pgd.isEmpty()) {
          return false;
-      } else {
-         long var2 = this.pgd.get(0).price() + Math.max(1L, Math.round(this.pgd.get(0).price() * 0.03));
-         pfw var4 = this.pgd.get(0);
+      }
 
-         for (pfw var6 : this.pgd) {
-            if (var6.price() > var2) {
-               break;
-            }
+      long var2 = this.pgd.get(0).price() + Math.max(1L, Math.round(this.pgd.get(0).price() * 0.03));
+      pfw var4 = this.pgd.get(0);
 
-            if (Math.abs(var6.page() - var1) < Math.abs(var4.page() - var1)) {
-               var4 = var6;
-            }
+      for (pfw var6 : this.pgd) {
+         if (var6.price() > var2) {
+            break;
          }
 
-         this.pgd.remove(var4);
-         this.pgd.add(0, var4);
-         this.pgf = true;
-         return true;
+         if (Math.abs(var6.page() - var1) < Math.abs(var4.page() - var1)) {
+            var4 = var6;
+         }
       }
+
+      this.pgd.remove(var4);
+      this.pgd.add(0, var4);
+      this.pgf = true;
+      return true;
    }
 
    public pfw target() {

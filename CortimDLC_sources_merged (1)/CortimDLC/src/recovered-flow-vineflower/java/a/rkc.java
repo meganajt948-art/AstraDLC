@@ -19,32 +19,38 @@ final class rkc extends FogModifier {
       this.rke = var2;
    }
 
-   public void method_42591(FogData var1, Camera var2, ClientWorld var3, float var4, RenderTickCounter var5) {
+   @Override
+   public void applyStartEndModifier(FogData data, Camera var2, ClientWorld var3, float var4, RenderTickCounter var5) {
       if (this.rke.getAsBoolean()) {
-         var1.field_60582 = var4 * 4.0F;
-         var1.field_60584 = var4 * 8.0F;
+         data.environmentalStart = var4 * 4.0F;
+         data.environmentalEnd = var4 * 8.0F;
       } else {
-         this.rkd.method_42591(var1, var2, var3, var4, var5);
+         this.rkd.applyStartEndModifier(data, var2, var3, var4, var5);
       }
    }
 
-   public boolean method_71655() {
-      return this.rkd.method_71655();
+   @Override
+   public boolean isColorSource() {
+      return this.rkd.isColorSource();
    }
 
-   public int method_71654(ClientWorld var1, Camera var2, int var3, float var4) {
-      return this.rkd.method_71654(var1, var2, var3, var4);
+   @Override
+   public int getFogColor(ClientWorld world, Camera camera, int viewDistance, float skyDarkness) {
+      return this.rkd.getFogColor(world, camera, viewDistance, skyDarkness);
    }
 
-   public boolean method_71656() {
-      return !this.rke.getAsBoolean() && this.rkd.method_71656();
+   @Override
+   public boolean isDarknessModifier() {
+      return !this.rke.getAsBoolean() && this.rkd.isDarknessModifier();
    }
 
-   public float method_42592(LivingEntity var1, float var2, float var3) {
-      return this.rke.getAsBoolean() ? var2 : this.rkd.method_42592(var1, var2, var3);
+   @Override
+   public float applyDarknessModifier(LivingEntity cameraEntity, float darkness, float tickProgress) {
+      return this.rke.getAsBoolean() ? darkness : this.rkd.applyDarknessModifier(cameraEntity, darkness, tickProgress);
    }
 
-   public boolean method_42593(CameraSubmersionType var1, Entity var2) {
-      return this.rkd.method_42593(var1, var2);
+   @Override
+   public boolean shouldApply(CameraSubmersionType submersionType, Entity cameraEntity) {
+      return this.rkd.shouldApply(submersionType, cameraEntity);
    }
 }

@@ -146,10 +146,10 @@ final class gqu implements Listener {
       byte[] var5 = this.keys.get(var4);
       if (var5 == null) {
          return null;
-      } else {
-         byte[] var6 = ufw.open(var5, var1 + a.d("\uf125", 1570583658, -1593326286) + var4, var2.substring(var3 + 1));
-         return var6 == null ? null : new String(var6, StandardCharsets.UTF_8);
       }
+
+      byte[] var6 = ufw.open(var5, var1 + a.d("\uf125", 1570583658, -1593326286) + var4, var2.substring(var3 + 1));
+      return var6 == null ? null : new String(var6, StandardCharsets.UTF_8);
    }
 
    private String gra(String var1, String var2) {
@@ -178,8 +178,7 @@ final class gqu implements Listener {
    }
 
    private void grc(JsonObject var1) {
-      String var2 = var1.get(a.d("싗", 51045068, -1407180690)).getAsString();
-      switch (var2) {
+      switch (var1.get(a.d("싗", 51045068, -1407180690)).getAsString()) {
          case a.c(-2046880061, "ᚮ漒\ue5c8箹\uf06d"):
             this.code = var1.get(a.d("勺菊ऒ面", -901148505, 1856596663)).getAsString();
             break;

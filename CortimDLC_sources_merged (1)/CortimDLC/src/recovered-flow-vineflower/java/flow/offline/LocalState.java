@@ -85,8 +85,8 @@ public final class LocalState {
             }
 
             Runtime.getRuntime().addShutdownHook(new Thread(LocalState::save, "Flow2 local save"));
-         } catch (Exception var13) {
-            System.err.println("[Flow2] Local settings: " + var13);
+         } catch (Exception ex) {
+            System.err.println("[Flow2] Local settings: " + ex);
          }
       }
    }
@@ -115,11 +115,11 @@ public final class LocalState {
 
             try {
                Files.move(temp, file, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-            } catch (AtomicMoveNotSupportedException var8) {
+            } catch (AtomicMoveNotSupportedException ex) {
                Files.move(temp, file, StandardCopyOption.REPLACE_EXISTING);
             }
-         } catch (Exception var10) {
-            System.err.println("[Flow2] Could not save local settings: " + var10);
+         } catch (Exception ex) {
+            System.err.println("[Flow2] Could not save local settings: " + ex);
          }
       }
    }

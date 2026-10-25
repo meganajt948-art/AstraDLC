@@ -47,8 +47,8 @@ final class fug {
          switch (ful++) {
             case 0:
                fut(var0, 0.0F, 8.0F);
-               var0.field_1724.method_31548().method_61496(0);
-               var0.field_1724.method_31548().method_5447(0, new ItemStack(Items.field_8802));
+               var0.player.getInventory().setSelectedSlot(0);
+               var0.player.getInventory().setStack(0, new ItemStack(Items.DIAMOND_SWORD));
                fuh.add(fuu(var0, a.d("ロ䥷쎯巖형", 960297345, 1409009964), 5.0, 1.8, false));
                fuh.add(fuu(var0, a.b("䝲㻧됷⩓ꆜ", 433932092), 4.0, -0.6, false));
                fuh.add(fuu(var0, a.d("켕뚃㱝ꈭ⧽꽆", -777661067, -532407772), 7.0, -0.9, false));
@@ -113,12 +113,12 @@ final class fug {
                }
 
                for (Entity var10 : fuh) {
-                  var0.field_1687.method_2945(var10.method_5628(), RemovalReason.field_26999);
+                  var0.world.removeEntity(var10.getId(), RemovalReason.DISCARDED);
                }
 
                fuh.clear();
                hhf.remove(a.d("㷷䑢캲僖\udb19", -1579901925, -658398814));
-               var0.field_1724.method_31548().method_5447(0, ItemStack.field_8037);
+               var0.player.getInventory().setStack(0, ItemStack.EMPTY);
                izx.TARGET.enabled.set(true);
                return true;
          }
@@ -173,41 +173,38 @@ final class fug {
    }
 
    private static void fut(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
    }
 
    private static PlayerEntity fuu(MinecraftClient var0, String var1, double var2, double var4, boolean var6) {
-      OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.field_1687, new GameProfile(UUID.randomUUID(), var1));
-      Vec3d var8 = var0.field_1724
-         .method_73189()
-         .method_1019(new Vec3d(0.0, 0.0, 1.0).method_1021(var2))
-         .method_1019(new Vec3d(-1.0, 0.0, 0.0).method_1021(var4));
-      var7.method_5808(var8.field_1352, var0.field_1724.method_23318(), var8.field_1350, 180.0F, 0.0F);
-      var7.method_5636(180.0F);
-      var7.method_5847(180.0F);
-      var7.field_6220 = 180.0F;
-      var7.field_6259 = 180.0F;
-      var7.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_8058));
-      var7.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_22022));
-      var7.method_5648(var6);
-      var0.field_1687.method_53875(var7);
+      OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
+      Vec3d var8 = var0.player.getEntityPos().add(new Vec3d(0.0, 0.0, 1.0).multiply(var2)).add(new Vec3d(-1.0, 0.0, 0.0).multiply(var4));
+      var7.refreshPositionAndAngles(var8.x, var0.player.getY(), var8.z, 180.0F, 0.0F);
+      var7.setBodyYaw(180.0F);
+      var7.setHeadYaw(180.0F);
+      var7.lastBodyYaw = 180.0F;
+      var7.lastHeadYaw = 180.0F;
+      var7.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+      var7.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
+      var7.setInvisible(var6);
+      var0.world.addEntity(var7);
       return var7;
    }
 
    private static void fuv(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void fuw(MinecraftClient var0, String var1) {
       System.out
-         .println(a.b("닓쭴䆮\udfd5呄튡棣\ue104罜\uf5b9", -2106674518) + var1 + a.b("\u086d熼\ufb0f", -1435236274) + var0.method_47599() + a.c(-1494075902, "㘦俑씔学"));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+         .println(a.b("닓쭴䆮\udfd5呄튡棣\ue104罜\uf5b9", -2106674518) + var1 + a.b("\u086d熼\ufb0f", -1435236274) + var0.getCurrentFps() + a.c(-1494075902, "㘦俑씔学"));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("橫Ꮠ餀ݩ賻\u0a55", -458814974, -1054515191) + var1 + a.d("嬙⋶\ua83b㙃", -1358663236, 183184015),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

@@ -55,14 +55,14 @@ public final class ClientLoad implements ResourceReload {
       files.start();
 
       while (files.isAlive()) {
-         MinecraftClient mc = MinecraftClient.method_1551();
-         if (overlay && mc != null && mc.method_22683() != null && !shown && !fallback) {
+         MinecraftClient mc = MinecraftClient.getInstance();
+         if (overlay && mc != null && mc.getWindow() != null && !shown && !fallback) {
             mc.execute(() -> show(mc));
          }
 
          try {
             files.join(100L);
-         } catch (InterruptedException var9) {
+         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             break;
          }
@@ -75,20 +75,20 @@ public final class ClientLoad implements ResourceReload {
 
       try {
          Cosmetics.items();
-      } catch (Throwable var7) {
-         System.out.println("[Flow2] cosmetics list not ready: " + var7);
+      } catch (Throwable t) {
+         System.out.println("[Flow2] cosmetics list not ready: " + t);
       }
 
-      MinecraftClient mc = MinecraftClient.method_1551();
+      MinecraftClient mc = MinecraftClient.getInstance();
 
       for (int i = 0; mc == null && i < 1200; i++) {
          try {
             Thread.sleep(100L);
-         } catch (InterruptedException var6) {
+         } catch (InterruptedException e) {
             return;
          }
 
-         mc = MinecraftClient.method_1551();
+         mc = MinecraftClient.getInstance();
       }
 
       if (mc != null) {
@@ -102,9 +102,9 @@ public final class ClientLoad implements ResourceReload {
                }
 
                boot.run();
-            } catch (Throwable var7x) {
-               System.out.println("[Flow2] boot failed: " + var7x);
-               var7x.printStackTrace();
+            } catch (Throwable t) {
+               System.out.println("[Flow2] boot failed: " + t);
+               t.printStackTrace();
             } finally {
                if (overlay && !shown) {
                   fallback = true;
@@ -119,10 +119,10 @@ public final class ClientLoad implements ResourceReload {
 
    private static void show(MinecraftClient mc) {
       if (!shown && !fallback && phase != ClientLoad.Phase.DONE) {
-         Overlay current = mc.method_18506();
+         Overlay current = mc.getOverlay();
          if (current == null) {
             shown = true;
-            mc.method_18502(new FlowSplash(mc, INSTANCE, ClientLoad::ignore, true, true));
+            mc.setOverlay(new FlowSplash(mc, INSTANCE, ClientLoad::ignore, true, true));
          }
       }
    }
@@ -135,8 +135,8 @@ public final class ClientLoad implements ResourceReload {
 
       try {
          hzl.steps(steps);
-      } catch (Throwable var3) {
-         System.out.println("[Flow2] menu warm-up skipped: " + var3);
+      } catch (Throwable t) {
+         System.out.println("[Flow2] menu warm-up skipped: " + t);
       }
 
       try {
@@ -146,8 +146,8 @@ public final class ClientLoad implements ResourceReload {
                return true;
             });
          }
-      } catch (Throwable var4) {
-         System.out.println("[Flow2] cosmetics warm-up skipped: " + var4);
+      } catch (Throwable t) {
+         System.out.println("[Flow2] cosmetics warm-up skipped: " + t);
       }
 
       STEPS.addAll(steps);
@@ -177,7 +177,7 @@ public final class ClientLoad implements ResourceReload {
             boolean finished;
             try {
                finished = step.getAsBoolean();
-            } catch (Throwable var10) {
+            } catch (Throwable t) {
                finished = true;
             } finally {
                vdn.setRenderScale(1.0F);
@@ -229,15 +229,17 @@ public final class ClientLoad implements ResourceReload {
       };
    }
 
-   public CompletableFuture<?> method_18364() {
+   @Override
+   public CompletableFuture<?> whenComplete() {
       return DONE;
    }
 
-   public float method_18229() {
+   @Override
+   public float getProgress() {
       return fraction();
    }
 
-   private static enum Phase {
+   private enum Phase {
       DOWNLOAD,
       BOOT,
       WARM,

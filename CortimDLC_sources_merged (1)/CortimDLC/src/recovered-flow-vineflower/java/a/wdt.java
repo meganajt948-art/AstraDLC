@@ -24,7 +24,7 @@ public final class wdt {
    }
 
    public static boolean serverSprinting(ClientPlayerEntity var0) {
-      return vxr.getBoolean(wdu, var0, var0.method_5624());
+      return vxr.getBoolean(wdu, var0, var0.isSprinting());
    }
 
    public boolean isHeld() {
@@ -32,13 +32,13 @@ public final class wdt {
    }
 
    public void hold(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
+      ClientPlayerEntity var2 = var1.player;
       if (!this.wdx) {
-         this.wdy = var2.method_5624() || vxr.getBoolean(wdu, var2, false);
+         this.wdy = var2.isSprinting() || vxr.getBoolean(wdu, var2, false);
          wdv++;
       }
 
-      var1.field_1690.field_1894.method_23481(false);
+      var1.options.forwardKey.setPressed(false);
       this.wdx = true;
    }
 
@@ -46,16 +46,12 @@ public final class wdt {
       if (this.wdx) {
          this.wdx = false;
          wdv = Math.max(0, wdv - 1);
-         if (var1 != null && var1.field_1690 != null && var1.field_1724 != null) {
-            KeyBinding var2 = var1.field_1690.field_1894;
-            var2.method_23481(vzz.isPhysicallyDown(var1, var2));
-            ClientPlayerEntity var3 = var1.field_1724;
-            if (this.wdy
-               && !lwh.active()
-               && !(Boolean)var1.field_1690.method_42450().method_41753()
-               && !var1.field_1690.field_1867.method_1434()
-               && canResumeSprint(var1, var3)) {
-               var1.field_1690.field_1867.method_23481(true);
+         if (var1 != null && var1.options != null && var1.player != null) {
+            KeyBinding var2 = var1.options.forwardKey;
+            var2.setPressed(vzz.isPhysicallyDown(var1, var2));
+            ClientPlayerEntity var3 = var1.player;
+            if (this.wdy && !lwh.active() && !var1.options.getSprintToggled().getValue() && !var1.options.sprintKey.isPressed() && canResumeSprint(var1, var3)) {
+               var1.options.sprintKey.setPressed(true);
                wdw = 2;
             }
 
@@ -68,21 +64,21 @@ public final class wdt {
 
    public static void settle(MinecraftClient var0) {
       if (wdw > 0 && --wdw <= 0) {
-         if (var0.field_1690 != null && var0.method_22683() != null && !(Boolean)var0.field_1690.method_42450().method_41753()) {
-            var0.field_1690.field_1867.method_23481(vzz.isPhysicallyDown(var0, var0.field_1690.field_1867));
+         if (var0.options != null && var0.getWindow() != null && !var0.options.getSprintToggled().getValue()) {
+            var0.options.sprintKey.setPressed(vzz.isPhysicallyDown(var0, var0.options.sprintKey));
          }
       }
    }
 
    public static boolean canResumeSprint(MinecraftClient var0, ClientPlayerEntity var1) {
-      return var0.field_1690.field_1894.method_1434()
-         && !var0.field_1690.field_1881.method_1434()
-         && !var1.method_5715()
-         && !var1.method_6115()
-         && !var1.field_5976
-         && !var1.method_5799()
-         && !var1.method_6128()
-         && !var1.method_6059(StatusEffects.field_5919)
-         && (var1.method_7344().method_7586() > 6 || var1.method_31549().field_7478);
+      return var0.options.forwardKey.isPressed()
+         && !var0.options.backKey.isPressed()
+         && !var1.isSneaking()
+         && !var1.isUsingItem()
+         && !var1.horizontalCollision
+         && !var1.isTouchingWater()
+         && !var1.isGliding()
+         && !var1.hasStatusEffect(StatusEffects.BLINDNESS)
+         && (var1.getHungerManager().getFoodLevel() > 6 || var1.getAbilities().allowFlying);
    }
 }

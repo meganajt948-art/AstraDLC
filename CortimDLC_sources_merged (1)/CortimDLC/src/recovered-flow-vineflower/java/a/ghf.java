@@ -32,11 +32,11 @@ final class ghf {
             ghw(var0, a.c(1471929188, "\udb1dꊱ⡦똟㶍뭯Ī裊ᛁ鱦᮳\ue1c2漕"));
             ghw(var0, a.d("춸됛㻌ꂨ⭣귟ល鸸$誚ീ\uf735秱", -640066556, 596480454));
             ghw(var0, a.b("귐푧庸상䬁춷矽︅怟\ueaea洲靡ᦔ耨\u0a4a貘㛆뤁⎫ꗽⰍ噕\ud8a1䌶앎侒\uf63e硹", 1565896107));
-            ghh = Math.floor(var0.field_1724.method_23317()) + 0.5;
-            ghi = Math.floor(var0.field_1724.method_23318());
-            ghj = Math.floor(var0.field_1724.method_23321()) + 0.5;
+            ghh = Math.floor(var0.player.getX()) + 0.5;
+            ghi = Math.floor(var0.player.getY());
+            ghj = Math.floor(var0.player.getZ()) + 0.5;
             ghw(var0, ghp(a.b("錄肊ਉ鐘ῼ餞⍈ꪲ㓲블㦁쏵䴩풇広\ud834找\ueda4眈\uf10e碿˾豝ឝ釡", 2038167890), ghh, ghi, ghj));
-            var0.field_1690.field_1842 = false;
+            var0.options.hudHidden = false;
             izx.TARGET.enabled.set(false);
             break;
          case 5:
@@ -131,10 +131,10 @@ final class ghf {
 
       switch (var1) {
          case 20:
-            var0.field_1690.field_1894.method_23481(true);
+            var0.options.forwardKey.setPressed(true);
             break;
          case 60:
-            var0.field_1690.field_1894.method_23481(false);
+            var0.options.forwardKey.setPressed(false);
             break;
          case 100:
             System.out.println(a.b("\ue5ee鱝ᚃ袰̳薓㿖똠⠫ꋊ┌\udf6c凵졞䉙쒩绡\uf12c殘\uedce搰Ḧ郜ଊ贻\u07ba븕ぉꪼⳫ", -90446435));
@@ -152,7 +152,7 @@ final class ghf {
                   + a.c(1881217556, "ᨬ掇")
                   + var2
                   + a.c(-1679736866, "㿹䙄쳇努\ud970忙\ue596汰\uf27d碕？")
-                  + String.format(Locale.ROOT, a.b("\uf79a踠ӯ髊", 2025256891), var0.field_1724.method_23318())
+                  + String.format(Locale.ROOT, a.b("\uf79a踠ӯ髊", 2025256891), var0.player.getY())
             );
       }
 
@@ -168,7 +168,7 @@ final class ghf {
       rhs var1 = rhs.get();
       int var2 = 0;
 
-      for (Entity var4 : var0.field_1687.method_18112()) {
+      for (Entity var4 : var0.world.getEntities()) {
          if (var1.picks(var4)) {
             var2++;
          }
@@ -233,25 +233,25 @@ final class ghf {
    }
 
    private static void ghv(MinecraftClient var0, float var1, float var2) {
-      var0.field_1724.method_36456(var1);
-      var0.field_1724.method_36457(var2);
-      var0.field_1724.field_5982 = var1;
-      var0.field_1724.field_6004 = var2;
-      var0.field_1724.method_5636(var1);
-      var0.field_1724.field_6220 = var1;
-      var0.field_1724.method_5847(var1);
+      var0.player.setYaw(var1);
+      var0.player.setPitch(var2);
+      var0.player.lastYaw = var1;
+      var0.player.lastPitch = var2;
+      var0.player.setBodyYaw(var1);
+      var0.player.lastBodyYaw = var1;
+      var0.player.setHeadYaw(var1);
    }
 
    private static void ghw(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void ghx(MinecraftClient var0, String var1) {
-      System.out.println(a.b("\ue237鮐ᅊ輱Ҡ艅㠇뇠⾸ꕝ", -1822563762) + var1 + a.c(-1258235870, "\ud801ꇐ⭣") + var0.method_47599() + a.c(1858616429, "㱉䖾콻儉"));
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      System.out.println(a.b("\ue237鮐ᅊ輱Ҡ艅㠇뇠⾸ꕝ", -1822563762) + var1 + a.c(-1258235870, "\ud801ꇐ⭣") + var0.getCurrentFps() + a.c(1858616429, "㱉䖾콻儉"));
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.c(-1514074084, "ၼ槇\ue317絾\uf6ec灂") + var1 + a.b("픔곻☶롎", 1915606334),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

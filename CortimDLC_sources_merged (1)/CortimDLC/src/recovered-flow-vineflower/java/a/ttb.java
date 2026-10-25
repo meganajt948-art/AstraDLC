@@ -68,7 +68,6 @@ public final class ttb {
    }
 
    public static ttb read(InputStream var0) throws IOException {
-      ttb var6;
       try (DataInputStream var1 = new DataInputStream(new BufferedInputStream(new GZIPInputStream(var0, 65536), 65536))) {
          if (var1.readInt() != 1177701710) {
             throw new IOException(a.d("묠슐䡘홽巫\udb1b愅\ue8f0皨ﰒ箄膸\u0f6d雗ᲅ驽", 2105038156, 981528082));
@@ -107,9 +106,7 @@ public final class ttb {
          byte[] var5 = new byte[var4];
          var1.readFully(var5);
          var3.hand = tck.read(new ByteArrayInputStream(var5));
-         var6 = var3;
+         return var3;
       }
-
-      return var6;
    }
 }

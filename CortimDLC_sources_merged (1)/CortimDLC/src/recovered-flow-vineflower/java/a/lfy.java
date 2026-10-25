@@ -10,9 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public final class lfy {
-   private static final EquipmentSlot[] lfz = new EquipmentSlot[]{
-      EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166
-   };
+   private static final EquipmentSlot[] lfz = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
    public final vkl naked = new vkl(a.b("鼖\ue688汑\uf22e秸", -2021679267), true);
    public final vkl invisible = new vkl(a.d("\udb77ꋡ⠪뙄㶉묢ź袅ᛓ", 2016256898, 1796503733), true);
    public final vkl armored = new vkl(a.c(-1998809439, "雧\uef65斩ﯚ瀐\uf6b6䳤"), true);
@@ -28,13 +26,13 @@ public final class lfy {
    }
 
    public static boolean invisible(Entity var0) {
-      return var0.method_5767() || var0 instanceof LivingEntity var1 && var1.method_6059(StatusEffects.field_5905);
+      return var0.isInvisible() || var0 instanceof LivingEntity var1 && var1.hasStatusEffect(StatusEffects.INVISIBILITY);
    }
 
    public static boolean armor(LivingEntity var0) {
       for (EquipmentSlot var4 : lfz) {
-         ItemStack var5 = var0.method_6118(var4);
-         if (!var5.method_7960() && !var5.method_31574(Items.field_8833)) {
+         ItemStack var5 = var0.getEquippedStack(var4);
+         if (!var5.isEmpty() && !var5.isOf(Items.ELYTRA)) {
             return true;
          }
       }

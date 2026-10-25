@@ -224,15 +224,15 @@ public final class qdz {
    }
 
    private static double qim(ClientPlayerEntity var0, Vec3d var1) {
-      Vec3d var2 = var1.method_1020(var0.method_33571());
-      double var3 = tbp.yawTo(var2.field_1352, var2.field_1350);
-      double var5 = tbp.pitchTo(var2.field_1351, Math.sqrt(var2.field_1352 * var2.field_1352 + var2.field_1350 * var2.field_1350));
-      return Math.hypot(MathHelper.method_15338(var3 - var0.method_36454()), var5 - var0.method_36455());
+      Vec3d var2 = var1.subtract(var0.getEyePos());
+      double var3 = tbp.yawTo(var2.x, var2.z);
+      double var5 = tbp.pitchTo(var2.y, Math.sqrt(var2.x * var2.x + var2.z * var2.z));
+      return Math.hypot(MathHelper.wrapDegrees(var3 - var0.getYaw()), var5 - var0.getPitch());
    }
 
    public void predict(boolean var1, MinecraftClient var2) {
       if (this.qeu && !var1 && var2 != null) {
-         this.qet.restore(var2.field_1687);
+         this.qet.restore(var2.world);
       }
 
       this.qeu = var1;
@@ -256,7 +256,7 @@ public final class qdz {
 
    public void park(pzc var1, BlockPos var2, boolean var3) {
       this.start(var1);
-      this.qhc = var2.method_10062();
+      this.qhc = var2.toImmutable();
       this.qhg = var3;
    }
 
@@ -361,7 +361,7 @@ public final class qdz {
 
    public String action() {
       if (this.qfr != null) {
-         return a.b("쳛땺㾾ꇋ⨖곬", 262851775) + this.qfr.method_23854() + a.c(1916832265, "訬\uf3dc礇\ue772注") + qin(this.qfu);
+         return a.b("쳛땺㾾ꇋ⨖곬", 262851775) + this.qfr.toShortString() + a.c(1916832265, "訬\uf3dc礇\ue772注") + qin(this.qfu);
       } else {
          return this.qfx != null
             ? a.c(-550039396, "ხ楉\ue397緡\uf67d") + qin(this.qfx) + a.c(327677930, "\uf7cc踱ӡ骐ᅃ鞹") + qin(this.qga)
@@ -372,7 +372,7 @@ public final class qdz {
    private static String qin(Vec3d var0) {
       return var0 == null
          ? a.d("쫞", -819785257, 1821563685)
-         : String.format(Locale.ROOT, a.c(681747764, "ꔟ\udca5噪졏䏒앪缲\uf6df棔\ue22f旵龏ᅄ袡"), var0.field_1352, var0.field_1351, var0.field_1350);
+         : String.format(Locale.ROOT, a.c(681747764, "ꔟ\udca5噪졏䏒앪缲\uf6df棔\ue22f旵龏ᅄ袡"), var0.x, var0.y, var0.z);
    }
 
    public void resetCounters() {
@@ -390,7 +390,7 @@ public final class qdz {
       this.qfx = null;
       this.qfc.clear();
       if (var1 != null) {
-         this.qet.restore(var1.field_1687);
+         this.qet.restore(var1.world);
       }
 
       this.releaseKeys(var1);
@@ -399,7 +399,7 @@ public final class qdz {
    public void endTick(MinecraftClient var1, ClientPlayerEntity var2, tel var3) {
       this.qfi++;
       this.qgu = false;
-      ClientWorld var4 = var1.field_1687;
+      ClientWorld var4 = var1.world;
       if (var4 != null) {
          this.qet.tick(var4, this.qfi);
       }
@@ -413,12 +413,12 @@ public final class qdz {
             this.qgs.tick(var4, var2, this.qfg);
          }
 
-         if (this.qfg.distanceTo(var2.method_73189()) > 40.0) {
+         if (this.qfg.distanceTo(var2.getEntityPos()) > 40.0) {
             this.qfh = qdw.FAR;
             this.qfr = null;
             this.qfx = null;
             this.qiq(var1, var2, var3, null, null);
-         } else if (var1.field_1755 == null && var2.method_5805()) {
+         } else if (var1.currentScreen == null && var2.isAlive()) {
             this.qlg(var2);
             if (this.qfr != null && this.qhc == null && !this.qhf) {
                this.qjf(6);
@@ -429,20 +429,20 @@ public final class qdz {
                this.qfl = this.qfl || this.qgr == null;
             }
 
-            this.qes.tick(this.qfi, var2x -> !this.qet.isGhost(var2x) && var4.method_8320(BlockPos.method_10092(var2x)).method_26215());
+            this.qes.tick(this.qfi, var2x -> !this.qet.isGhost(var2x) && var4.getBlockState(BlockPos.fromLong(var2x)).isAir());
             BlockPos var5 = trapped(var4, var2);
             if (var5 != null && this.qfg.maxX >= this.qfg.minX && !this.qfg.contains(var5)) {
                var5 = null;
             }
 
             if (var5 != null && !var5.equals(this.qfr)) {
-               this.qlj(a.b("ᥠ惗\uea17瑷ﾠ礄썖䫣퓵幃\ud9de", -2055792353) + var5.method_23854());
-               this.qku(var5, var4.method_8320(var5).method_26204(), false, qkw(var2, var5));
-               PlayerInventory var6 = var2.method_31548();
-               if (!var2.method_6047().method_31573(ItemTags.field_42614)) {
+               this.qlj(a.b("ᥠ惗\uea17瑷ﾠ礄썖䫣퓵幃\ud9de", -2055792353) + var5.toShortString());
+               this.qku(var5, var4.getBlockState(var5).getBlock(), false, qkw(var2, var5));
+               PlayerInventory var6 = var2.getInventory();
+               if (!var2.getMainHandStack().isIn(ItemTags.PICKAXES)) {
                   for (int var7 = 0; var7 < 9; var7++) {
-                     if (var6.method_5438(var7).method_31573(ItemTags.field_42614)) {
-                        var6.method_61496(var7);
+                     if (var6.getStack(var7).isIn(ItemTags.PICKAXES)) {
+                        var6.setSelectedSlot(var7);
                         break;
                      }
                   }
@@ -453,11 +453,11 @@ public final class qdz {
                this.qjd(var4, var2);
             }
 
-            if (this.qhd && this.qhg && this.qfr == null && this.qfx == null && !var2.method_5765()) {
+            if (this.qhd && this.qhg && this.qfr == null && this.qfx == null && !var2.hasVehicle()) {
                this.qiu(var4, var2);
-               Vec3d var8 = var2.method_33571();
-               if (this.qhi != null && Math.hypot(this.qhi.field_1352 - var8.field_1352, this.qhi.field_1350 - var8.field_1350) > 1.2) {
-                  this.qiq(var1, var2, var3, this.qhj, new Vec3d(this.qhi.field_1352, var8.field_1351 - 0.35, this.qhi.field_1350));
+               Vec3d var8 = var2.getEyePos();
+               if (this.qhi != null && Math.hypot(this.qhi.x - var8.x, this.qhi.z - var8.z) > 1.2) {
+                  this.qiq(var1, var2, var3, this.qhj, new Vec3d(this.qhi.x, var8.y - 0.35, this.qhi.z));
                } else {
                   this.qiq(var1, var2, var3, null, null);
                }
@@ -500,9 +500,9 @@ public final class qdz {
             && this.qho == Integer.MIN_VALUE
             && this.qfx == null
             && this.qfi >= this.qgw
-            && !var2.method_5765();
-         double var4 = var2.method_23317();
-         double var6 = var2.method_23321();
+            && !var2.hasVehicle();
+         double var4 = var2.getX();
+         double var6 = var2.getZ();
          if (var3 && (var4 < this.qfg.minX - 0.5 || var4 > this.qfg.maxX + 1.5 || var6 < this.qfg.minZ - 0.5 || var6 > this.qfg.maxZ + 1.5)) {
             var3 = false;
          }
@@ -512,13 +512,13 @@ public final class qdz {
             this.qgv = 0;
          } else {
             int var8 = this.qgs.move();
-            double var9 = Math.hypot(var2.method_23317() - var2.field_6014, var2.method_23321() - var2.field_5969);
+            double var9 = Math.hypot(var2.getX() - var2.lastX, var2.getZ() - var2.lastZ);
             if (var8 != 0 && var9 < 0.02) {
                if (++this.qgv >= 20) {
                   this.qgv = 0;
                   this.qgw = this.qfi + 30;
                   this.qgs.stopLegs();
-                  this.qlj(a.d("㷄䑼캭僈\udb4c嶮\ue7fa渊\uf043竺ﵢݒ覐ၵ", 1504850795, -1538978099) + var2.method_24515().method_23854());
+                  this.qlj(a.d("㷄䑼캭僈\udb4c嶮\ue7fa渊\uf043竺ﵢݒ覐ၵ", 1504850795, -1538978099) + var2.getBlockPos().toShortString());
                   return;
                }
             } else {
@@ -532,25 +532,25 @@ public final class qdz {
    }
 
    private static boolean qip(World var0, ClientPlayerEntity var1, int var2) {
-      double var3 = Math.toRadians(var1.method_36454());
+      double var3 = Math.toRadians(var1.getYaw());
       double var5 = trj.FWD[var2] * -Math.sin(var3) + trj.LEFT[var2] * Math.cos(var3);
       double var7 = trj.FWD[var2] * Math.cos(var3) + trj.LEFT[var2] * Math.sin(var3);
       double var9 = Math.hypot(var5, var7);
       if (var9 < 1.0E-6) {
          return false;
-      } else {
-         int var11 = MathHelper.method_15357(var1.method_23317() + var5 / var9 * 0.9);
-         int var12 = MathHelper.method_15357(var1.method_23321() + var7 / var9 * 0.9);
-         int var13 = standing(var0, var1).method_10264();
-
-         for (int var14 = var13 - 1; var14 >= var13 - 4; var14--) {
-            if (!qjs(var0, new BlockPos(var11, var14, var12))) {
-               return false;
-            }
-         }
-
-         return true;
       }
+
+      int var11 = MathHelper.floor(var1.getX() + var5 / var9 * 0.9);
+      int var12 = MathHelper.floor(var1.getZ() + var7 / var9 * 0.9);
+      int var13 = standing(var0, var1).getY();
+
+      for (int var14 = var13 - 1; var14 >= var13 - 4; var14--) {
+         if (!qjs(var0, new BlockPos(var11, var14, var12))) {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    private void qiq(MinecraftClient var1, ClientPlayerEntity var2, tel var3, Object var4, Vec3d var5) {
@@ -566,11 +566,11 @@ public final class qdz {
 
    private void qir(MinecraftClient var1, ClientPlayerEntity var2, tel var3) {
       if (this.qgk >= 3 && this.qfi - this.qfw >= 4) {
-         Vec3d var4 = this.qfu.method_1020(var2.method_33571());
-         double var5 = tbp.yawTo(var4.field_1352, var4.field_1350);
-         double var7 = tbp.pitchTo(var4.field_1351, Math.sqrt(var4.field_1352 * var4.field_1352 + var4.field_1350 * var4.field_1350));
-         double var9 = MathHelper.method_15338(var5 - var2.method_36454());
-         double var11 = var7 - var2.method_36455();
+         Vec3d var4 = this.qfu.subtract(var2.getEyePos());
+         double var5 = tbp.yawTo(var4.x, var4.z);
+         double var7 = tbp.pitchTo(var4.y, Math.sqrt(var4.x * var4.x + var4.z * var4.z));
+         double var9 = MathHelper.wrapDegrees(var5 - var2.getYaw());
+         double var11 = var7 - var2.getPitch();
          double var13 = Math.hypot(var9, var11);
          if (!(var13 > 9.0) && !(var13 < 0.05)) {
             double var15 = Math.min(0.55 + this.qep.nextDouble() * 0.3, Math.min(3.5, var3.budgetLeft()) / var13);
@@ -588,7 +588,7 @@ public final class qdz {
                   }
 
                   double var23 = var17 / 0.15;
-                  var2.method_5872(var19 * var23, var21 * var23);
+                  var2.changeLookDirection(var19 * var23, var21 * var23);
                   var3.spent(Math.hypot(var19 * var17, var21 * var17));
                }
             }
@@ -597,19 +597,19 @@ public final class qdz {
    }
 
    public void startTick(MinecraftClient var1, ClientPlayerEntity var2) {
-      if (this.qfh == qdw.WORKING && var1.field_1755 == null && var2 != null && var2.method_5805()) {
-         GameOptions var3 = var1.field_1690;
-         if (var2.method_5765() && this.qhc == null) {
-            var3.field_1894.method_23481(false);
-            var3.field_1881.method_23481(false);
-            var3.field_1913.method_23481(false);
-            var3.field_1849.method_23481(false);
-            var3.field_1903.method_23481(false);
+      if (this.qfh == qdw.WORKING && var1.currentScreen == null && var2 != null && var2.isAlive()) {
+         GameOptions var3 = var1.options;
+         if (var2.hasVehicle() && this.qhc == null) {
+            var3.forwardKey.setPressed(false);
+            var3.backKey.setPressed(false);
+            var3.leftKey.setPressed(false);
+            var3.rightKey.setPressed(false);
+            var3.jumpKey.setPressed(false);
             this.qix(var1, false);
             this.qis(var1, true);
             this.qgl = true;
             if (this.qgd) {
-               var3.field_1886.method_23481(false);
+               var3.attackKey.setPressed(false);
                this.qgd = false;
             }
          } else {
@@ -617,7 +617,7 @@ public final class qdz {
                this.qis(var1, false);
             }
 
-            if (this.qhd && this.qhg && !var2.method_5765()) {
+            if (this.qhd && this.qhg && !var2.hasVehicle()) {
                this.qit(var1, var2);
             } else {
                boolean var4 = false;
@@ -628,16 +628,16 @@ public final class qdz {
                boolean var9 = false;
                boolean var10 = false;
                if ((this.qfr == null || this.qgz) && this.qfx != null) {
-                  Vec3d var26 = var2.method_73189();
-                  double var12 = this.qfx.field_1352 - var26.field_1352;
-                  double var14 = this.qfx.field_1350 - var26.field_1350;
+                  Vec3d var26 = var2.getEntityPos();
+                  double var12 = this.qfx.x - var26.x;
+                  double var14 = this.qfx.z - var26.z;
                   double var16 = Math.sqrt(var12 * var12 + var14 * var14);
-                  Vec3d var18 = var2.method_18798();
-                  double var19 = Math.sqrt(var18.field_1352 * var18.field_1352 + var18.field_1350 * var18.field_1350);
-                  boolean var21 = this.qfz && var2.method_24828() && var16 < var19 * 1.3 + 0.05;
+                  Vec3d var18 = var2.getVelocity();
+                  double var19 = Math.sqrt(var18.x * var18.x + var18.z * var18.z);
+                  boolean var21 = this.qfz && var2.isOnGround() && var16 < var19 * 1.3 + 0.05;
                   if (var16 > 0.12 && !var21) {
                      double var22 = tbp.yawTo(var12, var14);
-                     double var24 = MathHelper.method_15338(var22 - var2.method_36454());
+                     double var24 = MathHelper.wrapDegrees(var22 - var2.getYaw());
                      var4 = Math.abs(var24) < 67.5;
                      var5 = Math.abs(var24) > 112.5;
                      var7 = var24 > 22.5 && var24 < 157.5;
@@ -645,39 +645,39 @@ public final class qdz {
                   }
 
                   var9 = this.qfz && var16 < 1.6;
-                  var8 = this.qfy && var2.method_24828() && var16 < 1.25
-                     || this.qgn >= 10 && this.qgn % 10 == 0 && var2.method_24828() && (var4 || var5 || var6 || var7);
-               } else if (this.qgu && this.qgs != null && var1.field_1687 != null) {
+                  var8 = this.qfy && var2.isOnGround() && var16 < 1.25
+                     || this.qgn >= 10 && this.qgn % 10 == 0 && var2.isOnGround() && (var4 || var5 || var6 || var7);
+               } else if (this.qgu && this.qgs != null && var1.world != null) {
                   int var11 = this.qgs.move();
                   var4 = trj.FWD[var11] > 0;
                   var5 = trj.FWD[var11] < 0;
                   var6 = trj.LEFT[var11] > 0;
                   var7 = trj.LEFT[var11] < 0;
-                  if ((var4 || var5 || var6 || var7) && qip(var1.field_1687, var2, var11)) {
+                  if ((var4 || var5 || var6 || var7) && qip(var1.world, var2, var11)) {
                      var7 = false;
                      var6 = false;
                      var5 = false;
                      var4 = false;
                   }
 
-                  var8 = this.qgs.jump() && var2.method_24828();
+                  var8 = this.qgs.jump() && var2.isOnGround();
                   var10 = true;
                }
 
-               var3.field_1894.method_23481(var4);
-               var3.field_1881.method_23481(var5);
-               var3.field_1913.method_23481(var6);
-               var3.field_1849.method_23481(var7);
-               var3.field_1903.method_23481(var8);
+               var3.forwardKey.setPressed(var4);
+               var3.backKey.setPressed(var5);
+               var3.leftKey.setPressed(var6);
+               var3.rightKey.setPressed(var7);
+               var3.jumpKey.setPressed(var8);
                this.qgl = var4 || var5 || var6 || var7 || var8;
                this.qix(var1, var10 ? this.qgs.sprint() && var4 && !var5 : this.qgx && var4 && !var5 && !var9);
-               KeyBinding var27 = var3.field_1886;
+               KeyBinding var27 = var3.attackKey;
                boolean var28 = false;
                BlockHitResult var13 = null;
                if (this.qfr != null) {
-                  var1.field_1773.method_3190(1.0F);
-                  HitResult var30 = var1.field_1765;
-                  if (var30 instanceof BlockHitResult var15 && var30.method_17783() == Type.field_1332 && var15.method_17777().equals(this.qfr)) {
+                  var1.gameRenderer.updateCrosshairTarget(1.0F);
+                  HitResult var30 = var1.crosshairTarget;
+                  if (var30 instanceof BlockHitResult var15 && var30.getType() == Type.BLOCK && var15.getBlockPos().equals(this.qfr)) {
                      var28 = true;
                      var13 = var15;
                   }
@@ -688,12 +688,12 @@ public final class qdz {
                   var28 = false;
                   this.qgk = 0;
                   if (this.qgd) {
-                     var27.method_23481(false);
+                     var27.setPressed(false);
                      this.qgd = false;
                   }
                } else {
                   this.qgk = this.qfr != null && !var28 ? this.qgk + 1 : 0;
-                  if (var28 && this.qgd && this.qfr.equals(this.qgf) && !var1.field_1761.method_2923()) {
+                  if (var28 && this.qgd && this.qfr.equals(this.qgf) && !var1.interactionManager.isBreakingBlock()) {
                      if (++this.qge >= 2) {
                         this.qge = 0;
                         var28 = false;
@@ -706,21 +706,21 @@ public final class qdz {
                   if (var28) {
                      if (!this.qfr.equals(this.qgf)) {
                         Key var31 = KeyBindingHelper.getBoundKeyOf(var27);
-                        if (!var31.equals(InputUtil.field_16237)) {
-                           KeyBinding.method_1420(var31);
+                        if (!var31.equals(InputUtil.UNKNOWN_KEY)) {
+                           KeyBinding.onKeyPressed(var31);
                         }
 
-                        this.qgf = this.qfr.method_10062();
+                        this.qgf = this.qfr.toImmutable();
                         this.qgg = this.qgf;
-                        this.qgh = var13.method_17780();
-                        this.qgi = vxr.getFloat(qek, var2, var2.method_36454());
-                        this.qgj = vxr.getFloat(qel, var2, var2.method_36455());
+                        this.qgh = var13.getSide();
+                        this.qgi = vxr.getFloat(qek, var2, var2.getYaw());
+                        this.qgj = vxr.getFloat(qel, var2, var2.getPitch());
                      }
 
-                     var27.method_23481(true);
+                     var27.setPressed(true);
                      this.qgd = true;
                   } else if (this.qgd) {
-                     var27.method_23481(false);
+                     var27.setPressed(false);
                      this.qgd = false;
                   }
                }
@@ -732,23 +732,23 @@ public final class qdz {
    }
 
    private void qis(MinecraftClient var1, boolean var2) {
-      KeyBinding var3 = var1.field_1690.field_1832;
-      if ((Boolean)var1.field_1690.method_42449().method_41753()) {
-         if (var2 != var3.method_1434()) {
-            var3.method_23481(true);
+      KeyBinding var3 = var1.options.sneakKey;
+      if (var1.options.getSneakToggled().getValue()) {
+         if (var2 != var3.isPressed()) {
+            var3.setPressed(true);
          }
       } else {
-         var3.method_23481(var2);
+         var3.setPressed(var2);
       }
 
       this.qhb = var2;
    }
 
    private void qit(MinecraftClient var1, ClientPlayerEntity var2) {
-      GameOptions var3 = var1.field_1690;
+      GameOptions var3 = var1.options;
       this.qix(var1, false);
       if (this.qgd) {
-         var3.field_1886.method_23481(false);
+         var3.attackKey.setPressed(false);
          this.qgd = false;
       }
 
@@ -759,14 +759,14 @@ public final class qdz {
       boolean var8 = false;
       boolean var9 = false;
       if (this.qhi != null && this.qhk < 3) {
-         double var10 = this.qhi.field_1352 - var2.method_23317();
-         double var12 = this.qhi.field_1350 - var2.method_23321();
+         double var10 = this.qhi.x - var2.getX();
+         double var12 = this.qhi.z - var2.getZ();
          double var14 = Math.sqrt(var10 * var10 + var12 * var12);
-         Vec3d var16 = var2.method_18798();
-         double var17 = Math.sqrt(var16.field_1352 * var16.field_1352 + var16.field_1350 * var16.field_1350);
+         Vec3d var16 = var2.getVelocity();
+         double var17 = Math.sqrt(var16.x * var16.x + var16.z * var16.z);
          if (var14 > 0.2) {
-            double var19 = MathHelper.method_15338(tbp.yawTo(var10, var12) - var2.method_36454());
-            boolean var21 = var2.method_24828() && var14 < var17 * 1.5 + 0.04;
+            double var19 = MathHelper.wrapDegrees(tbp.yawTo(var10, var12) - var2.getYaw());
+            boolean var21 = var2.isOnGround() && var14 < var17 * 1.5 + 0.04;
             if (!var21) {
                var4 = Math.abs(var19) < 67.5;
                var5 = Math.abs(var19) > 112.5;
@@ -775,53 +775,51 @@ public final class qdz {
             }
 
             var9 = var14 < 0.9;
-            var8 = var2.method_24828() && var2.field_5976 && this.qhi.field_1351 > var2.method_23318() + 0.6;
+            var8 = var2.isOnGround() && var2.horizontalCollision && this.qhi.y > var2.getY() + 0.6;
             this.qhl = Math.max(this.qhl, 6);
-         } else if (var2.method_24828()
-            && var17 < 0.02
-            && Math.abs(var2.method_23317() - var2.field_6014) + Math.abs(var2.method_23321() - var2.field_5969) < 0.003) {
+         } else if (var2.isOnGround() && var17 < 0.02 && Math.abs(var2.getX() - var2.lastX) + Math.abs(var2.getZ() - var2.lastZ) < 0.003) {
             if (this.qhl > 0) {
                this.qhl--;
             } else {
                this.qhm.run();
                this.qhk++;
                this.qhl = 40;
-               this.qlj(a.b("ﾔ虹ರ鋜ᥟ龯◩걌", 1763049395) + var2.method_24515().method_23854() + a.b("༮盋ﰞ扤\ue9ea", 313003787) + this.qhk);
+               this.qlj(a.b("ﾔ虹ರ鋜ᥟ龯◩걌", 1763049395) + var2.getBlockPos().toShortString() + a.b("༮盋ﰞ扤\ue9ea", 313003787) + this.qhk);
             }
          }
       }
 
-      var3.field_1894.method_23481(var4);
-      var3.field_1881.method_23481(var5);
-      var3.field_1913.method_23481(var6);
-      var3.field_1849.method_23481(var7);
-      var3.field_1903.method_23481(var8);
+      var3.forwardKey.setPressed(var4);
+      var3.backKey.setPressed(var5);
+      var3.leftKey.setPressed(var6);
+      var3.rightKey.setPressed(var7);
+      var3.jumpKey.setPressed(var8);
       this.qgl = var4 || var5 || var6 || var7 || var8;
       this.qis(var1, var9);
    }
 
    private void qiu(World var1, ClientPlayerEntity var2) {
-      if (!var2.method_5765() && this.qhc != null) {
-         if (this.qhi == null || this.qhh != null && !qiw(var1.method_8320(this.qhh))) {
+      if (!var2.hasVehicle() && this.qhc != null) {
+         if (this.qhi == null || this.qhh != null && !qiw(var1.getBlockState(this.qhh))) {
             this.qhh = null;
-            if (qiw(var1.method_8320(this.qhc)) && qiv(var1, this.qhc)) {
+            if (qiw(var1.getBlockState(this.qhc)) && qiv(var1, this.qhc)) {
                this.qhh = this.qhc;
-            } else if (qiw(var1.method_8320(this.qhc.method_10074())) && qiv(var1, this.qhc.method_10074())) {
-               this.qhh = this.qhc.method_10074();
+            } else if (qiw(var1.getBlockState(this.qhc.down())) && qiv(var1, this.qhc.down())) {
+               this.qhh = this.qhc.down();
             } else {
-               Vec3d var3 = Vec3d.method_24953(this.qhc);
+               Vec3d var3 = Vec3d.ofCenter(this.qhc);
                double var4 = Double.MAX_VALUE;
 
                for (int var6 = -3; var6 <= 3; var6++) {
                   for (int var7 = -2; var7 <= 2; var7++) {
                      for (int var8 = -3; var8 <= 3; var8++) {
-                        BlockPos var9 = this.qhc.method_10069(var6, var7, var8);
-                        BlockState var10 = var1.method_8320(var9);
+                        BlockPos var9 = this.qhc.add(var6, var7, var8);
+                        BlockState var10 = var1.getBlockState(var9);
                         if (qiw(var10) && qiv(var1, var9)) {
-                           double var11 = Vec3d.method_24953(var9).method_1022(var3) + (var10.method_26204() instanceof StairsBlock ? 0.0 : 1.5);
+                           double var11 = Vec3d.ofCenter(var9).distanceTo(var3) + (var10.getBlock() instanceof StairsBlock ? 0.0 : 1.5);
                            if (var11 < var4) {
                               var4 = var11;
-                              this.qhh = var9.method_10062();
+                              this.qhh = var9.toImmutable();
                            }
                         }
                      }
@@ -830,81 +828,81 @@ public final class qdz {
             }
 
             if (this.qhh != null) {
-               VoxelShape var13 = var1.method_8320(this.qhh).method_26220(var1, this.qhh);
-               double var14 = var13.method_1110() ? 0.0 : var13.method_1105(Axis.field_11052);
-               this.qhi = new Vec3d(this.qhh.method_10263() + 0.5, this.qhh.method_10264() + var14, this.qhh.method_10260() + 0.5);
+               VoxelShape var13 = var1.getBlockState(this.qhh).getCollisionShape(var1, this.qhh);
+               double var14 = var13.isEmpty() ? 0.0 : var13.getMax(Axis.Y);
+               this.qhi = new Vec3d(this.qhh.getX() + 0.5, this.qhh.getY() + var14, this.qhh.getZ() + 0.5);
             } else {
-               this.qhi = new Vec3d(this.qhc.method_10263() + 0.5, this.qhc.method_10264(), this.qhc.method_10260() + 0.5);
+               this.qhi = new Vec3d(this.qhc.getX() + 0.5, this.qhc.getY(), this.qhc.getZ() + 0.5);
             }
 
             this.qhj = new Object();
             this.qlj(
                a.d("╲峕혂䡦쏥", -1718510172, 2050734240)
-                  + (this.qhh == null ? a.d("䕮㳜또⡺ꏹ", 1785730449, 419385481) + this.qhc.method_23854() : this.qhh.method_23854())
+                  + (this.qhh == null ? a.d("䕮㳜또⡺ꏹ", 1785730449, 419385481) + this.qhc.toShortString() : this.qhh.toShortString())
             );
          }
       }
    }
 
    private static boolean qiv(World var0, BlockPos var1) {
-      return var0.method_8320(var1.method_10084()).method_26220(var0, var1.method_10084()).method_1110()
-         && var0.method_8320(var1.method_10086(2)).method_26220(var0, var1.method_10086(2)).method_1110();
+      return var0.getBlockState(var1.up()).getCollisionShape(var0, var1.up()).isEmpty()
+         && var0.getBlockState(var1.up(2)).getCollisionShape(var0, var1.up(2)).isEmpty();
    }
 
    private static boolean qiw(BlockState var0) {
-      return var0.method_26204() instanceof StairsBlock || var0.method_26204() instanceof SlabBlock;
+      return var0.getBlock() instanceof StairsBlock || var0.getBlock() instanceof SlabBlock;
    }
 
    private void qix(MinecraftClient var1, boolean var2) {
-      KeyBinding var3 = var1.field_1690.field_1867;
-      if ((Boolean)var1.field_1690.method_42450().method_41753()) {
-         if (var2 != var3.method_1434()) {
-            var3.method_23481(true);
+      KeyBinding var3 = var1.options.sprintKey;
+      if (var1.options.getSprintToggled().getValue()) {
+         if (var2 != var3.isPressed()) {
+            var3.setPressed(true);
          }
       } else {
-         var3.method_23481(var2);
+         var3.setPressed(var2);
       }
 
       this.qha = var2;
    }
 
    public void releaseKeys(MinecraftClient var1) {
-      if (var1 != null && var1.field_1690 != null && var1.method_22683() != null) {
-         GameOptions var2 = var1.field_1690;
+      if (var1 != null && var1.options != null && var1.getWindow() != null) {
+         GameOptions var2 = var1.options;
          if (this.qhb) {
-            if ((Boolean)var2.method_42449().method_41753()) {
-               if (var2.field_1832.method_1434()) {
-                  var2.field_1832.method_23481(true);
+            if (var2.getSneakToggled().getValue()) {
+               if (var2.sneakKey.isPressed()) {
+                  var2.sneakKey.setPressed(true);
                }
             } else {
-               var2.field_1832.method_23481(vzz.isPhysicallyDown(var1, var2.field_1832));
+               var2.sneakKey.setPressed(vzz.isPhysicallyDown(var1, var2.sneakKey));
             }
 
             this.qhb = false;
          }
 
          if (this.qha) {
-            if ((Boolean)var2.method_42450().method_41753()) {
-               if (var2.field_1867.method_1434()) {
-                  var2.field_1867.method_23481(true);
+            if (var2.getSprintToggled().getValue()) {
+               if (var2.sprintKey.isPressed()) {
+                  var2.sprintKey.setPressed(true);
                }
             } else {
-               var2.field_1867.method_23481(vzz.isPhysicallyDown(var1, var2.field_1867));
+               var2.sprintKey.setPressed(vzz.isPhysicallyDown(var1, var2.sprintKey));
             }
 
             this.qha = false;
          }
 
          if (this.qgl) {
-            for (KeyBinding var6 : new KeyBinding[]{var2.field_1894, var2.field_1881, var2.field_1913, var2.field_1849, var2.field_1903}) {
-               var6.method_23481(vzz.isPhysicallyDown(var1, var6));
+            for (KeyBinding var6 : new KeyBinding[]{var2.forwardKey, var2.backKey, var2.leftKey, var2.rightKey, var2.jumpKey}) {
+               var6.setPressed(vzz.isPhysicallyDown(var1, var6));
             }
 
             this.qgl = false;
          }
 
          if (this.qgd) {
-            var2.field_1886.method_23481(vzz.isPhysicallyDown(var1, var2.field_1886));
+            var2.attackKey.setPressed(vzz.isPhysicallyDown(var1, var2.attackKey));
             this.qgd = false;
          }
 
@@ -913,8 +911,8 @@ public final class qdz {
    }
 
    private boolean qiy(World var1, ClientPlayerEntity var2) {
-      BlockState var3 = var1.method_8320(this.qfr);
-      if (!var3.method_26215() && var3.method_26204() == this.qfs && qld(var1, this.qfr)) {
+      BlockState var3 = var1.getBlockState(this.qfr);
+      if (!var3.isAir() && var3.getBlock() == this.qfs && qld(var1, this.qfr)) {
          if (this.qfi - this.qfw <= 200 && this.qgk <= (this.qgr != null ? 12 : (this.qgs != null ? 14 : 80))) {
             if (this.qgr != null ? this.qgk == 4 || this.qgk == 8 : (this.qgs != null ? this.qgk == 5 || this.qgk == 10 : this.qgk == 30 || this.qgk == 55)) {
                Vec3d var4 = this.qkx(var1, var2, this.qfr);
@@ -927,8 +925,8 @@ public final class qdz {
             }
 
             if ((this.qfi - this.qfw) % 5 == 0 || this.qgr != null && this.qgk > 0) {
-               Vec3d var6 = var2.method_33571();
-               if (this.qfu.method_1022(var6) > 4.4 || !qky(var1, var2, var6, this.qfr, this.qfu)) {
+               Vec3d var6 = var2.getEyePos();
+               if (this.qfu.distanceTo(var6) > 4.4 || !qky(var1, var2, var6, this.qfr, this.qfu)) {
                   Vec3d var5 = this.qkx(var1, var2, this.qfr);
                   if (var5 == null) {
                      return false;
@@ -942,7 +940,7 @@ public final class qdz {
          } else {
             this.qlj(
                (this.qfi - this.qfw > 200 ? a.d("쑉뷨㜬\ua959⊄ꑾṹ鞕ৎ荷Үﻅ瀓\ue9f6", 419097087, 1869688282) : a.c(2012211012, "\ue72e麗ᑀ詼ǭ蝛㴀듴⪢ꀒ➅"))
-                  + this.qfr.method_23854()
+                  + this.qfr.toShortString()
             );
             this.qlf(this.qfr, this.qgr != null ? 100 : (this.qgs != null ? 200 : 600));
             if (this.qfj != null && this.qgr == null && this.qgs == null) {
@@ -952,7 +950,7 @@ public final class qdz {
             return false;
          }
       } else {
-         if (var3.method_26215()) {
+         if (var3.isAir()) {
             this.qiz(var1, var2);
          }
 
@@ -961,11 +959,11 @@ public final class qdz {
    }
 
    private void qiz(World var1, ClientPlayerEntity var2) {
-      long var3 = this.qfr.method_10063();
+      long var3 = this.qfr.asLong();
       this.qey.add(new qcu(var3, this.qfs, this.qfi));
       if (this.qgy && this.qgh != null && this.qfr.equals(this.qgg)) {
          this.qgg = null;
-         int var16 = this.qgh.method_10166().ordinal();
+         int var16 = this.qgh.getAxis().ordinal();
          double[] var6 = qln.lookAxes(this.qgi, this.qgj);
          LongOpenHashSet var7 = new LongOpenHashSet();
          int var8 = this.qes.lag() + 3;
@@ -981,8 +979,8 @@ public final class qdz {
                         var13 = var6[var14] > 0.0 && var12[var14] == 0;
                      }
 
-                     long var20 = BlockPos.method_10096(var3, var9, var10, var11);
-                     if (var13 && this.qfg.contains(BlockPos.method_10061(var20), BlockPos.method_10071(var20), BlockPos.method_10083(var20))) {
+                     long var20 = BlockPos.add(var3, var9, var10, var11);
+                     if (var13 && this.qfg.contains(BlockPos.unpackLongX(var20), BlockPos.unpackLongY(var20), BlockPos.unpackLongZ(var20))) {
                         var7.add(var20);
                         if (this.qes.expect(var20, var3, var16, var6) >= 0.5) {
                            this.qfb.put(var20, this.qfi + var8);
@@ -1016,16 +1014,16 @@ public final class qdz {
 
    private void qja(World var1, ClientPlayerEntity var2, long var3, int var5, double[] var6, LongOpenHashSet var7) {
       if (this.qeu && this.qes.votes() >= 3 && var2 != null) {
-         LongOpenHashSet var8 = qjp(var1, var2, standing(var1, var2).method_10264());
-         Box var9 = var2.method_5829().method_1014(0.05);
+         LongOpenHashSet var8 = qjp(var1, var2, standing(var1, var2).getY());
+         Box var9 = var2.getBoundingBox().expand(0.05);
          int var10 = this.qfi + this.qes.lag() * 2 + 6;
          LongIterator var11 = var7.iterator();
 
          while (var11.hasNext()) {
             long var12 = var11.nextLong();
             if (var12 != var3 && !var8.contains(var12) && this.qjb(var1, var12) && !(this.qes.expect(var12, var3, var5, var6) < 0.9)) {
-               BlockPos var14 = BlockPos.method_10092(var12);
-               if (!new Box(var14).method_994(var9)) {
+               BlockPos var14 = BlockPos.fromLong(var12);
+               if (!new Box(var14).intersects(var9)) {
                   this.qet.ghost(var1, var14, var10);
                }
             }
@@ -1034,10 +1032,10 @@ public final class qdz {
    }
 
    private boolean qjb(World var1, long var2) {
-      BlockPos var4 = BlockPos.method_10092(var2);
+      BlockPos var4 = BlockPos.fromLong(var2);
       if (this.qfg != null && this.qfg.contains(var4) && !this.qev.contains(var2)) {
-         BlockState var5 = var1.method_8320(var4);
-         return !var5.method_26215() && var5.method_26227().method_15769() && var5.method_26214(var1, var4) >= 0.0F;
+         BlockState var5 = var1.getBlockState(var4);
+         return !var5.isAir() && var5.getFluidState().isEmpty() && var5.getHardness(var1, var4) >= 0.0F;
       } else {
          return false;
       }
@@ -1045,19 +1043,19 @@ public final class qdz {
 
    private void qjc(World var1, ClientPlayerEntity var2) {
       if (!this.qfc.isEmpty()) {
-         Vec3d var3 = var2.method_33571();
+         Vec3d var3 = var2.getEyePos();
          LongIterator var4 = this.qfc.iterator();
 
          while (var4.hasNext()) {
             long var5 = var4.nextLong();
-            BlockPos var7 = BlockPos.method_10092(var5);
-            BlockState var8 = var1.method_8320(var7);
-            if (var8.method_26215()) {
+            BlockPos var7 = BlockPos.fromLong(var5);
+            BlockState var8 = var1.getBlockState(var7);
+            if (var8.isAir()) {
                if (!this.qet.isGhost(var5)) {
                   this.qfp++;
                   var4.remove();
                }
-            } else if (!this.qfe.test(var8) || Vec3d.method_24953(var7).method_1025(var3) > 81.0) {
+            } else if (!this.qfe.test(var8) || Vec3d.ofCenter(var7).squaredDistanceTo(var3) > 81.0) {
                var4.remove();
             }
          }
@@ -1068,19 +1066,19 @@ public final class qdz {
       if (this.qhf) {
          this.qfx = null;
          this.qga = null;
-      } else if (this.qhc != null && this.qhd && standing(var1, var2).method_10262(this.qhc) <= 25.0) {
+      } else if (this.qhc != null && this.qhd && standing(var1, var2).getSquaredDistance(this.qhc) <= 25.0) {
          this.qfx = null;
          this.qga = null;
       } else if (this.qhc == null && (this.qgr != null || this.qgs != null) && this.qfg.maxX >= this.qfg.minX) {
          this.qje(var1, var2);
       } else if (this.qhc == null && this.qgr != null && this.qke(var1, var2)) {
          this.qfn = 0;
-      } else if (var2.method_24828() || var2.method_5799() || var2.method_6101()) {
+      } else if (var2.isOnGround() || var2.isTouchingWater() || var2.isClimbing()) {
          BlockPos var3 = standing(var1, var2);
          if (this.qfj != null && !this.qfl && this.qfi < this.qfm) {
             int var4 = this.qkm(var3);
             if (var4 < 0) {
-               this.qlj(a.d("탍ꥵ⎦붑㘖낶૰茝ᴊ韺ြ\uea19", -142309247, 481187887) + var3.method_23854());
+               this.qlj(a.d("탍ꥵ⎦붑㘖낶૰茝ᴊ韺ြ\uea19", -142309247, 481187887) + var3.toShortString());
                this.qfl = true;
             } else {
                this.qfk = var4;
@@ -1088,7 +1086,7 @@ public final class qdz {
          }
 
          if (this.qhc == null && this.qfj != null && !this.qfl && !this.qkr(var1, this.qfj.target())) {
-            this.qlj(a.d("뜟캻䑻\uda1f凊흪浭\ue4db窌\uf03c矤跐", 1816040736, 167584327) + this.qfj.target().method_23854());
+            this.qlj(a.d("뜟캻䑻\uda1f凊흪浭\ue4db窌\uf03c矤跐", 1816040736, 167584327) + this.qfj.target().toShortString());
             this.qfl = true;
          }
 
@@ -1100,14 +1098,14 @@ public final class qdz {
             if (this.qfj == null) {
                this.qfx = null;
                this.qga = null;
-               if (var3.method_10262(this.qhc) <= 25.0) {
+               if (var3.getSquaredDistance(this.qhc) <= 25.0) {
                   this.qhd = true;
                } else if (!this.qhd) {
                   this.qhe = true;
                }
             } else if (this.qfk >= this.qkl() - 1) {
                if (!this.qhd) {
-                  this.qlj(a.d("迆\uf666粦\ue2ce椗\uefa7喰\udc00䉊좯", 1472536667, -1142247449) + var3.method_23854());
+                  this.qlj(a.d("迆\uf666粦\ue2ce椗\uefa7喰\udc00䉊좯", 1472536667, -1142247449) + var3.toShortString());
                }
 
                this.qhd = true;
@@ -1126,15 +1124,15 @@ public final class qdz {
          } else {
             this.qfn = 0;
             BlockPos var9 = this.qfj.target();
-            if (this.qfb.getOrDefault(var9.method_10063(), 0) > this.qfi) {
+            if (this.qfb.getOrDefault(var9.asLong(), 0) > this.qfi) {
                this.qfx = null;
             } else {
-               Vec3d var5 = var2.method_33571();
+               Vec3d var5 = var2.getEyePos();
                boolean var6 = this.qfk >= this.qkl() - 1;
-               if (var6 || Vec3d.method_24953(var9).method_1022(var5) <= 4.2) {
+               if (var6 || Vec3d.ofCenter(var9).distanceTo(var5) <= 4.2) {
                   Vec3d var7 = this.qkx(var1, var2, var9);
                   if (var7 != null) {
-                     this.qku(var9, var1.method_8320(var9).method_26204(), true, var7);
+                     this.qku(var9, var1.getBlockState(var9).getBlock(), true, var7);
                      return;
                   }
 
@@ -1161,7 +1159,7 @@ public final class qdz {
    }
 
    private void qje(World var1, ClientPlayerEntity var2) {
-      boolean var3 = var2.method_24828() || var2.method_5799() || var2.method_6101();
+      boolean var3 = var2.isOnGround() || var2.isTouchingWater() || var2.isClimbing();
       if (!var3) {
          this.qfx = null;
          this.qga = null;
@@ -1175,7 +1173,7 @@ public final class qdz {
          this.qjf(4);
       } else {
          BlockPos var4 = standing(var1, var2);
-         int var5 = var4.method_10264();
+         int var5 = var4.getY();
          if (this.qho != Integer.MIN_VALUE) {
             if (var5 > this.qho && this.qjk(var1, var2, this.qji(var1, var2, var5 - 1))) {
                this.qfn = 0;
@@ -1248,7 +1246,7 @@ public final class qdz {
       for (int var4 = this.qfg.minX; var4 <= this.qfg.maxX; var4++) {
          for (int var5 = this.qfg.minZ; var5 <= this.qfg.maxZ; var5++) {
             for (int var6 = this.qfg.minY; var6 <= this.qfg.maxY; var6++) {
-               if (this.qfe.test(var1.method_8320(var3.method_10103(var4, var6, var5))) && !this.qev.contains(var3.method_10063())) {
+               if (this.qfe.test(var1.getBlockState(var3.set(var4, var6, var5))) && !this.qev.contains(var3.asLong())) {
                   var2++;
                }
             }
@@ -1284,44 +1282,43 @@ public final class qdz {
    private boolean qjh(World var1, int var2) {
       if (this.qif == var2) {
          return false;
-      } else {
-         this.qif = var2;
-         boolean var3 = false;
-         int var4 = Math.min(this.qfg.maxY, var2 + 4);
-         ObjectIterator var5 = this.qew.long2LongEntrySet().fastIterator();
-
-         while (var5.hasNext()) {
-            Entry var6 = (Entry)var5.next();
-            int var7 = BlockPos.method_10071(var6.getLongKey());
-            if (var6.getLongValue() > this.qfi && var7 >= var2 && var7 <= var4) {
-               var5.remove();
-               var3 = true;
-            }
-         }
-
-         return var3;
       }
+
+      this.qif = var2;
+      boolean var3 = false;
+      int var4 = Math.min(this.qfg.maxY, var2 + 4);
+      ObjectIterator var5 = this.qew.long2LongEntrySet().fastIterator();
+
+      while (var5.hasNext()) {
+         Entry var6 = (Entry)var5.next();
+         int var7 = BlockPos.unpackLongY(var6.getLongKey());
+         if (var6.getLongValue() > this.qfi && var7 >= var2 && var7 <= var4) {
+            var5.remove();
+            var3 = true;
+         }
+      }
+
+      return var3;
    }
 
    private BlockPos qji(World var1, ClientPlayerEntity var2, int var3) {
-      Box var4 = var2.method_5829();
+      Box var4 = var2.getBoundingBox();
       BlockPos var5 = null;
       double var6 = Double.MAX_VALUE;
 
-      for (int var8 = MathHelper.method_15357(var4.field_1323 + 0.001); var8 <= MathHelper.method_15357(var4.field_1320 - 0.001); var8++) {
-         for (int var9 = MathHelper.method_15357(var4.field_1321 + 0.001); var9 <= MathHelper.method_15357(var4.field_1324 - 0.001); var9++) {
+      for (int var8 = MathHelper.floor(var4.minX + 0.001); var8 <= MathHelper.floor(var4.maxX - 0.001); var8++) {
+         for (int var9 = MathHelper.floor(var4.minZ + 0.001); var9 <= MathHelper.floor(var4.maxZ - 0.001); var9++) {
             BlockPos var10 = new BlockPos(var8, var3, var9);
-            BlockState var11 = var1.method_8320(var10);
-            if (!var11.method_26220(var1, var10).method_1110()) {
+            BlockState var11 = var1.getBlockState(var10);
+            if (!var11.getCollisionShape(var1, var10).isEmpty()) {
                if (!this.qfg.contains(var10)
                   || !qjq(var1, var10, var11)
-                  || this.qev.contains(var10.method_10063())
-                  || this.qew.getOrDefault(var10.method_10063(), 0L) > this.qfi) {
+                  || this.qev.contains(var10.asLong())
+                  || this.qew.getOrDefault(var10.asLong(), 0L) > this.qfi) {
                   return null;
                }
 
-               double var12 = (var8 + 0.5 - var2.method_23317()) * (var8 + 0.5 - var2.method_23317())
-                  + (var9 + 0.5 - var2.method_23321()) * (var9 + 0.5 - var2.method_23321());
+               double var12 = (var8 + 0.5 - var2.getX()) * (var8 + 0.5 - var2.getX()) + (var9 + 0.5 - var2.getZ()) * (var9 + 0.5 - var2.getZ());
                if (var12 < var6) {
                   var6 = var12;
                   var5 = var10;
@@ -1334,14 +1331,14 @@ public final class qdz {
    }
 
    private int qjj(World var1, ClientPlayerEntity var2) {
-      Box var3 = var2.method_5829();
-      int var4 = MathHelper.method_15357(var2.method_23318() - 0.001);
+      Box var3 = var2.getBoundingBox();
+      int var4 = MathHelper.floor(var2.getY() - 0.001);
 
       for (int var5 = var4; var5 >= var4 - 4; var5--) {
-         for (int var6 = MathHelper.method_15357(var3.field_1323 + 0.001); var6 <= MathHelper.method_15357(var3.field_1320 - 0.001); var6++) {
-            for (int var7 = MathHelper.method_15357(var3.field_1321 + 0.001); var7 <= MathHelper.method_15357(var3.field_1324 - 0.001); var7++) {
+         for (int var6 = MathHelper.floor(var3.minX + 0.001); var6 <= MathHelper.floor(var3.maxX - 0.001); var6++) {
+            for (int var7 = MathHelper.floor(var3.minZ + 0.001); var7 <= MathHelper.floor(var3.maxZ - 0.001); var7++) {
                BlockPos var8 = new BlockPos(var6, var5, var7);
-               if (!var1.method_8320(var8).method_26220(var1, var8).method_1110()) {
+               if (!var1.getBlockState(var8).getCollisionShape(var1, var8).isEmpty()) {
                   return var5;
                }
             }
@@ -1354,41 +1351,43 @@ public final class qdz {
    private boolean qjk(World var1, ClientPlayerEntity var2, BlockPos var3) {
       if (var3 == null) {
          return false;
-      } else if (this.qfb.getOrDefault(var3.method_10063(), 0) > this.qfi) {
+      }
+
+      if (this.qfb.getOrDefault(var3.asLong(), 0) > this.qfi) {
          this.qfx = null;
          return true;
-      } else {
-         Vec3d var4 = null;
+      }
 
-         for (qda var6 : this.qki(var1, var2, var3)) {
-            if (var6.axis() == Axis.field_11052.ordinal() && var6.point().field_1351 < var2.method_23320()) {
-               var4 = var6.point();
-               break;
-            }
-         }
+      Vec3d var4 = null;
 
-         if (var4 == null) {
-            var4 = this.qkx(var1, var2, var3);
-         }
-
-         if (var4 == null) {
-            return false;
-         } else {
-            BlockState var7 = var1.method_8320(var3);
-            this.qku(var3, var7.method_26204(), this.qfe.test(var7), var4);
-            this.qfx = null;
-            this.qga = null;
-            return true;
+      for (qda var6 : this.qki(var1, var2, var3)) {
+         if (var6.axis() == Axis.Y.ordinal() && var6.point().y < var2.getEyeY()) {
+            var4 = var6.point();
+            break;
          }
       }
+
+      if (var4 == null) {
+         var4 = this.qkx(var1, var2, var3);
+      }
+
+      if (var4 == null) {
+         return false;
+      }
+
+      BlockState var7 = var1.getBlockState(var3);
+      this.qku(var3, var7.getBlock(), this.qfe.test(var7), var4);
+      this.qfx = null;
+      this.qga = null;
+      return true;
    }
 
    private boolean qjl(World var1, ClientPlayerEntity var2, int var3, boolean var4) {
-      Vec3d var5 = var2.method_33571();
-      int var6 = MathHelper.method_15357(var5.field_1352);
-      int var7 = MathHelper.method_15357(var5.field_1350);
+      Vec3d var5 = var2.getEyePos();
+      int var6 = MathHelper.floor(var5.x);
+      int var7 = MathHelper.floor(var5.z);
       int var8 = Math.max(this.qfg.minY, var3);
-      int var9 = Math.min(this.qfg.maxY, MathHelper.method_15357(var5.field_1351 + 4.4));
+      int var9 = Math.min(this.qfg.maxY, MathHelper.floor(var5.y + 4.4));
       LongOpenHashSet var10 = qjp(var1, var2, var3);
       LongArrayList var11 = new LongArrayList();
       DoubleArrayList var12 = new DoubleArrayList();
@@ -1399,16 +1398,16 @@ public final class qdz {
          for (int var17 = var7 - 5; var17 <= var7 + 5; var17++) {
             for (int var18 = var8; var18 <= var9; var18++) {
                if (this.qfg.contains(var16, var18, var17)) {
-                  BlockState var19 = var1.method_8320(var13.method_10103(var16, var18, var17));
+                  BlockState var19 = var1.getBlockState(var13.set(var16, var18, var17));
                   if (qjq(var1, var13, var19)) {
-                     long var20 = BlockPos.method_10064(var16, var18, var17);
+                     long var20 = BlockPos.asLong(var16, var18, var17);
                      if (this.qfe.test(var19)) {
                         this.qfc.add(var20);
                      }
 
-                     double var22 = var16 + 0.5 - var5.field_1352;
-                     double var24 = var18 + 0.5 - var5.field_1351;
-                     double var26 = var17 + 0.5 - var5.field_1350;
+                     double var22 = var16 + 0.5 - var5.x;
+                     double var24 = var18 + 0.5 - var5.y;
+                     double var26 = var17 + 0.5 - var5.z;
                      if (!(var22 * var22 + var24 * var24 + var26 * var26 > var14) && !this.qkb(var20) && qjr(var1, var13)) {
                         double var28 = qim(var2, new Vec3d(var16 + 0.5, var18 + 0.5, var17 + 0.5));
                         double var30 = var18 == var3 + 1 ? 3.0 : (var18 == var3 ? 1.2 : 1.8);
@@ -1423,47 +1422,47 @@ public final class qdz {
 
       if (var11.isEmpty()) {
          return false;
-      } else {
-         Integer[] var36 = new Integer[var11.size()];
+      }
 
-         for (int var37 = 0; var37 < var36.length; var37++) {
-            var36[var37] = var37;
-         }
+      Integer[] var36 = new Integer[var11.size()];
 
-         Arrays.sort(var36, (var1x, var2x) -> Double.compare(var12.getDouble(var2x), var12.getDouble(var1x)));
-         qda var38 = null;
-         double var39 = 0.0;
-         boolean var40 = false;
+      for (int var37 = 0; var37 < var36.length; var37++) {
+         var36[var37] = var37;
+      }
 
-         for (int var21 = 0; var21 < Math.min(14, var36.length); var21++) {
-            long var42 = var11.getLong(var36[var21]);
-            BlockPos var43 = BlockPos.method_10092(var42);
-            BlockState var25 = var1.method_8320(var43);
+      Arrays.sort(var36, (var1x, var2x) -> Double.compare(var12.getDouble(var2x), var12.getDouble(var1x)));
+      qda var38 = null;
+      double var39 = 0.0;
+      boolean var40 = false;
 
-            for (qda var27 : this.qki(var1, var2, var43)) {
-               double var45 = qjo(var27.turn());
-               double var46 = this.qjn(var1, var43, var25, var27.axis(), var27.look(), var3, var10, var13) / var45;
-               double var32 = var27.turn() < 2.0
-                  ? 0.0
-                  : this.qjn(var1, var43, var25, var27.axis(), qln.lookAxes(var27.yaw(), var27.pitch()), var3, var10, var13) / (var45 + 1.0);
-               double var34 = Math.max(var46, var32);
-               if (var34 > var39) {
-                  var39 = var34;
-                  var38 = var27;
-                  var40 = var32 > var46;
-               }
+      for (int var21 = 0; var21 < Math.min(14, var36.length); var21++) {
+         long var42 = var11.getLong(var36[var21]);
+         BlockPos var43 = BlockPos.fromLong(var42);
+         BlockState var25 = var1.getBlockState(var43);
+
+         for (qda var27 : this.qki(var1, var2, var43)) {
+            double var45 = qjo(var27.turn());
+            double var46 = this.qjn(var1, var43, var25, var27.axis(), var27.look(), var3, var10, var13) / var45;
+            double var32 = var27.turn() < 2.0
+               ? 0.0
+               : this.qjn(var1, var43, var25, var27.axis(), qln.lookAxes(var27.yaw(), var27.pitch()), var3, var10, var13) / (var45 + 1.0);
+            double var34 = Math.max(var46, var32);
+            if (var34 > var39) {
+               var39 = var34;
+               var38 = var27;
+               var40 = var32 > var46;
             }
          }
-
-         if (var38 == null) {
-            return false;
-         } else {
-            BlockState var41 = var1.method_8320(var38.pos());
-            this.qkv(var38.pos(), var41.method_26204(), this.qfe.test(var41), var38.point(), var4);
-            this.qhr = var40 ? 1 : 0;
-            return true;
-         }
       }
+
+      if (var38 == null) {
+         return false;
+      }
+
+      BlockState var41 = var1.getBlockState(var38.pos());
+      this.qkv(var38.pos(), var41.getBlock(), this.qfe.test(var41), var38.point(), var4);
+      this.qhr = var40 ? 1 : 0;
+      return true;
    }
 
    private boolean qjm(World var1, ClientPlayerEntity var2, int var3, boolean var4) {
@@ -1471,7 +1470,7 @@ public final class qdz {
       if (!this.qey.isEmpty()) {
          qcu var6 = this.qey.get(this.qey.size() - 1);
          if (this.qfi - var6.tick() <= 40) {
-            var5 = BlockPos.method_10092(var6.pos());
+            var5 = BlockPos.fromLong(var6.pos());
          }
       }
 
@@ -1487,59 +1486,59 @@ public final class qdz {
          );
       if (var30.length == 0) {
          return false;
-      } else {
-         LongOpenHashSet var7 = qjp(var1, var2, var3);
-         Mutable var8 = new Mutable();
+      }
 
-         for (long var12 : var30) {
-            BlockPos var14 = BlockPos.method_10092(var12);
-            BlockState var15 = var1.method_8320(var14);
-            if (this.qfg.contains(var14) && !this.qkb(var12) && qjq(var1, var14, var15)) {
-               qda var16 = null;
-               double var17 = Double.NEGATIVE_INFINITY;
-               boolean var19 = false;
+      LongOpenHashSet var7 = qjp(var1, var2, var3);
+      Mutable var8 = new Mutable();
 
-               for (qda var21 : this.qki(var1, var2, var14)) {
-                  double var22 = qjo(var21.turn());
-                  double var24 = this.qjn(var1, var14, var15, var21.axis(), var21.look(), var3, var7, var8) / var22;
-                  double var26 = var21.turn() < 2.0
-                     ? Double.NEGATIVE_INFINITY
-                     : this.qjn(var1, var14, var15, var21.axis(), qln.lookAxes(var21.yaw(), var21.pitch()), var3, var7, var8) / (var22 + 1.0);
-                  double var28 = Math.max(var24, var26);
-                  if (var16 == null || var28 > var17) {
-                     var16 = var21;
-                     var17 = var28;
-                     var19 = var26 > var24;
-                  }
-               }
+      for (long var12 : var30) {
+         BlockPos var14 = BlockPos.fromLong(var12);
+         BlockState var15 = var1.getBlockState(var14);
+         if (this.qfg.contains(var14) && !this.qkb(var12) && qjq(var1, var14, var15)) {
+            qda var16 = null;
+            double var17 = Double.NEGATIVE_INFINITY;
+            boolean var19 = false;
 
-               if (var16 != null) {
-                  this.qkv(var14, var15.method_26204(), this.qfe.test(var15), var16.point(), var4);
-                  this.qhr = var19 ? 1 : 0;
-                  return true;
+            for (qda var21 : this.qki(var1, var2, var14)) {
+               double var22 = qjo(var21.turn());
+               double var24 = this.qjn(var1, var14, var15, var21.axis(), var21.look(), var3, var7, var8) / var22;
+               double var26 = var21.turn() < 2.0
+                  ? Double.NEGATIVE_INFINITY
+                  : this.qjn(var1, var14, var15, var21.axis(), qln.lookAxes(var21.yaw(), var21.pitch()), var3, var7, var8) / (var22 + 1.0);
+               double var28 = Math.max(var24, var26);
+               if (var16 == null || var28 > var17) {
+                  var16 = var21;
+                  var17 = var28;
+                  var19 = var26 > var24;
                }
             }
-         }
 
-         return false;
+            if (var16 != null) {
+               this.qkv(var14, var15.getBlock(), this.qfe.test(var15), var16.point(), var4);
+               this.qhr = var19 ? 1 : 0;
+               return true;
+            }
+         }
       }
+
+      return false;
    }
 
    private double qjn(World var1, BlockPos var2, BlockState var3, int var4, double[] var5, int var6, LongOpenHashSet var7, Mutable var8) {
-      long var9 = var2.method_10063();
+      long var9 = var2.asLong();
       double var11 = this.qka(var3);
 
       for (int var13 = -1; var13 <= 1; var13++) {
          for (int var14 = -1; var14 <= 1; var14++) {
             for (int var15 = -1; var15 <= 1; var15++) {
                if (var13 != 0 || var14 != 0 || var15 != 0) {
-                  int var16 = var2.method_10263() + var13;
-                  int var17 = var2.method_10264() + var14;
-                  int var18 = var2.method_10260() + var15;
+                  int var16 = var2.getX() + var13;
+                  int var17 = var2.getY() + var14;
+                  int var18 = var2.getZ() + var15;
                   if (this.qfg.contains(var16, var17, var18)) {
-                     long var19 = BlockPos.method_10064(var16, var17, var18);
+                     long var19 = BlockPos.asLong(var16, var17, var18);
                      if (!this.qkb(var19)) {
-                        BlockState var21 = var1.method_8320(var8.method_10103(var16, var17, var18));
+                        BlockState var21 = var1.getBlockState(var8.set(var16, var17, var18));
                         if (qjq(var1, var8, var21)) {
                            double var22 = this.qes.expect(var19, var9, var4, var5);
                            if (!(var22 <= 0.0)) {
@@ -1566,11 +1565,11 @@ public final class qdz {
 
    private static LongOpenHashSet qjp(World var0, ClientPlayerEntity var1, int var2) {
       LongOpenHashSet var3 = new LongOpenHashSet();
-      Box var4 = var1.method_5829();
+      Box var4 = var1.getBoundingBox();
 
-      for (int var5 = MathHelper.method_15357(var4.field_1323 + 0.001); var5 <= MathHelper.method_15357(var4.field_1320 - 0.001); var5++) {
-         for (int var6 = MathHelper.method_15357(var4.field_1321 + 0.001); var6 <= MathHelper.method_15357(var4.field_1324 - 0.001); var6++) {
-            var3.add(BlockPos.method_10064(var5, var2 - 1, var6));
+      for (int var5 = MathHelper.floor(var4.minX + 0.001); var5 <= MathHelper.floor(var4.maxX - 0.001); var5++) {
+         for (int var6 = MathHelper.floor(var4.minZ + 0.001); var6 <= MathHelper.floor(var4.maxZ - 0.001); var6++) {
+            var3.add(BlockPos.asLong(var5, var2 - 1, var6));
          }
       }
 
@@ -1578,16 +1577,13 @@ public final class qdz {
    }
 
    private static boolean qjq(World var0, BlockPos var1, BlockState var2) {
-      return !var2.method_26215()
-         && var2.method_26227().method_15769()
-         && var2.method_26214(var0, var1) >= 0.0F
-         && !var2.method_26220(var0, var1).method_1110();
+      return !var2.isAir() && var2.getFluidState().isEmpty() && var2.getHardness(var0, var1) >= 0.0F && !var2.getCollisionShape(var0, var1).isEmpty();
    }
 
    private static boolean qjr(World var0, BlockPos var1) {
       for (Direction var5 : Direction.values()) {
-         BlockPos var6 = var1.method_10093(var5);
-         if (var0.method_8320(var6).method_26218(var0, var6).method_1110()) {
+         BlockPos var6 = var1.offset(var5);
+         if (var0.getBlockState(var6).getOutlineShape(var0, var6).isEmpty()) {
             return true;
          }
       }
@@ -1596,102 +1592,97 @@ public final class qdz {
    }
 
    private static boolean qjs(World var0, BlockPos var1) {
-      return var0.method_8320(var1).method_26220(var0, var1).method_1110();
+      return var0.getBlockState(var1).getCollisionShape(var0, var1).isEmpty();
    }
 
    private boolean qjt(World var1, ClientPlayerEntity var2, int var3) {
       qdk var4 = new qdk(this, var1, var2, var3);
       if (var4.start < 0) {
          return false;
-      } else {
-         long[] var5 = new long[var4.w * var4.d];
-         Arrays.fill(var5, Long.MIN_VALUE);
-         Mutable var6 = new Mutable();
-         int var7 = Math.min(this.qfg.maxY, var3 + 4);
-         boolean var8 = false;
+      }
 
-         for (int var9 = this.qfg.minX; var9 <= this.qfg.maxX; var9++) {
-            for (int var10 = this.qfg.minZ; var10 <= this.qfg.maxZ; var10++) {
-               for (int var11 = Math.max(this.qfg.minY, var3); var11 <= var7; var11++) {
-                  long var12 = BlockPos.method_10064(var9, var11, var10);
-                  if (!this.qkb(var12) && qjq(var1, var6.method_10103(var9, var11, var10), var1.method_8320(var6))) {
-                     var8 = true;
+      long[] var5 = new long[var4.w * var4.d];
+      Arrays.fill(var5, Long.MIN_VALUE);
+      Mutable var6 = new Mutable();
+      int var7 = Math.min(this.qfg.maxY, var3 + 4);
+      boolean var8 = false;
 
-                     for (int var14 = var9 - 3; var14 <= var9 + 3; var14++) {
-                        for (int var15 = var10 - 3; var15 <= var10 + 3; var15++) {
-                           int var16 = var4.index(var14, var15);
-                           if (var16 >= 0 && var5[var16] == Long.MIN_VALUE) {
-                              double var17 = var9 - var14;
-                              double var19 = var11 + 0.5 - (var3 + 1.62);
-                              double var21 = var10 - var15;
-                              if (var17 * var17 + var19 * var19 + var21 * var21 <= 12.96) {
-                                 var5[var16] = var12;
-                              }
+      for (int var9 = this.qfg.minX; var9 <= this.qfg.maxX; var9++) {
+         for (int var10 = this.qfg.minZ; var10 <= this.qfg.maxZ; var10++) {
+            for (int var11 = Math.max(this.qfg.minY, var3); var11 <= var7; var11++) {
+               long var12 = BlockPos.asLong(var9, var11, var10);
+               if (!this.qkb(var12) && qjq(var1, var6.set(var9, var11, var10), var1.getBlockState(var6))) {
+                  var8 = true;
+
+                  for (int var14 = var9 - 3; var14 <= var9 + 3; var14++) {
+                     for (int var15 = var10 - 3; var15 <= var10 + 3; var15++) {
+                        int var16 = var4.index(var14, var15);
+                        if (var16 >= 0 && var5[var16] == Long.MIN_VALUE) {
+                           double var17 = var9 - var14;
+                           double var19 = var11 + 0.5 - (var3 + 1.62);
+                           double var21 = var10 - var15;
+                           if (var17 * var17 + var19 * var19 + var21 * var21 <= 12.96) {
+                              var5[var16] = var12;
                            }
                         }
                      }
-                     break;
                   }
+                  break;
                }
-            }
-         }
-
-         if (!var8) {
-            return false;
-         } else {
-            if (this.qhq != Long.MIN_VALUE && this.qfi - this.qhp <= 2) {
-               BlockPos var23 = BlockPos.method_10092(this.qhq);
-               if (Vec3d.method_24953(var23).method_1022(var2.method_33571()) <= 3.9) {
-                  this.qlf(var23, 400);
-                  this.qhq = Long.MIN_VALUE;
-               }
-            }
-
-            int[] var24 = var4.path(var3x -> var3x != var4.start && var5[var3x] != Long.MIN_VALUE && this.qew.getOrDefault(var5[var3x], 0L) <= this.qfi);
-            if (var24 == null) {
-               return false;
-            } else {
-               long var25 = var5[var24[var24.length - 1]];
-               this.qjv(var4.waypoint(var2, var24), var24.length <= 3, var25, Vec3d.method_24953(BlockPos.method_10092(var25)));
-               return true;
             }
          }
       }
+
+      if (!var8) {
+         return false;
+      }
+
+      if (this.qhq != Long.MIN_VALUE && this.qfi - this.qhp <= 2) {
+         BlockPos var23 = BlockPos.fromLong(this.qhq);
+         if (Vec3d.ofCenter(var23).distanceTo(var2.getEyePos()) <= 3.9) {
+            this.qlf(var23, 400);
+            this.qhq = Long.MIN_VALUE;
+         }
+      }
+
+      int[] var24 = var4.path(var3x -> var3x != var4.start && var5[var3x] != Long.MIN_VALUE && this.qew.getOrDefault(var5[var3x], 0L) <= this.qfi);
+      if (var24 == null) {
+         return false;
+      }
+
+      long var25 = var5[var24[var24.length - 1]];
+      this.qjv(var4.waypoint(var2, var24), var24.length <= 3, var25, Vec3d.ofCenter(BlockPos.fromLong(var25)));
+      return true;
    }
 
    private boolean qju(World var1, ClientPlayerEntity var2, int var3) {
       qdk var4 = new qdk(this, var1, var2, var3);
       if (var4.start < 0) {
          return false;
-      } else {
-         Mutable var5 = new Mutable();
-         int[] var6 = var4.path(
-            var5x -> {
-               if (var5x == var4.start) {
-                  return false;
-               } else {
-                  int var6x = var4.cellX(var5x);
-                  int var7x = var4.cellZ(var5x);
-                  return this.qfg.contains(var6x, var3 - 1, var7x) && !this.qkb(BlockPos.method_10064(var6x, var3 - 1, var7x))
-                     ? qjq(var1, var5.method_10103(var6x, var3 - 1, var7x), var1.method_8320(var5))
-                     : false;
-               }
-            }
-         );
-         if (var6 == null) {
-            return false;
-         } else {
-            int var7 = var6[var6.length - 1];
-            Vec3d var8 = var6.length <= 2 ? new Vec3d(var4.cellX(var7) + 0.5, var3, var4.cellZ(var7) + 0.5) : var4.waypoint(var2, var6);
-            this.qjv(
-               var8,
-               true,
-               BlockPos.method_10064(var4.cellX(var7), var3 - 1, var4.cellZ(var7)),
-               new Vec3d(var4.cellX(var7) + 0.5, var3 - 0.5, var4.cellZ(var7) + 0.5)
-            );
-            return true;
-         }
       }
+
+      Mutable var5 = new Mutable();
+      int[] var6 = var4.path(
+         var5x -> {
+            if (var5x == var4.start) {
+               return false;
+            }
+
+            int var6x = var4.cellX(var5x);
+            int var7x = var4.cellZ(var5x);
+            return this.qfg.contains(var6x, var3 - 1, var7x) && !this.qkb(BlockPos.asLong(var6x, var3 - 1, var7x))
+               ? qjq(var1, var5.set(var6x, var3 - 1, var7x), var1.getBlockState(var5))
+               : false;
+         }
+      );
+      if (var6 == null) {
+         return false;
+      }
+
+      int var7 = var6[var6.length - 1];
+      Vec3d var8 = var6.length <= 2 ? new Vec3d(var4.cellX(var7) + 0.5, var3, var4.cellZ(var7) + 0.5) : var4.waypoint(var2, var6);
+      this.qjv(var8, true, BlockPos.asLong(var4.cellX(var7), var3 - 1, var4.cellZ(var7)), new Vec3d(var4.cellX(var7) + 0.5, var3 - 0.5, var4.cellZ(var7) + 0.5));
+      return true;
    }
 
    private void qjv(Vec3d var1, boolean var2, long var3, Vec3d var5) {
@@ -1700,7 +1691,7 @@ public final class qdz {
          this.qgb = new Object();
       } else if (this.qgn > 40) {
          this.qgn = 0;
-         this.qlf(BlockPos.method_10092(var3), 400);
+         this.qlf(BlockPos.fromLong(var3), 400);
       }
 
       this.qfx = var1;
@@ -1756,7 +1747,7 @@ public final class qdz {
                if (!this.qlc(var1, var16)) {
                   this.qlj(
                      a.b("㼿䚀챐刭\ud9f2彍\ue51f沪", -702202027)
-                        + var16.method_23854()
+                        + var16.toShortString()
                         + a.c(178799320, "䋾㬜뇈⾨ꑪ⊋")
                         + var5
                         + a.d("놮", 296989217, 626197410)
@@ -1782,7 +1773,7 @@ public final class qdz {
 
                this.qlj(
                   a.b("亇㜷붫⎛ꡄ⻱铯", -1146532114)
-                     + var16.method_23854()
+                     + var16.toShortString()
                      + a.b("㠁䇣쬷啗\ude95塴", -731826137)
                      + var5
                      + a.b("\uf6fb", -170592554)
@@ -1805,7 +1796,7 @@ public final class qdz {
       if (this.qgn > 50) {
          this.qlj(
             a.b("磉ſ训ᗊ鸕ᣯꋽ⬙딒", 855406771)
-               + var2.method_24515().method_23854()
+               + var2.getBlockPos().toShortString()
                + a.d("崏⓪긢〜", 1758371912, 667549027)
                + var8
                + a.c(-1347100770, "\udfb3")
@@ -1828,7 +1819,7 @@ public final class qdz {
          this.qfx = null;
       } else {
          this.qfz = var9 <= var6 && (var11 >= this.qkl() - 1 || this.qko(var11));
-         if (this.qfx == null || this.qfx.field_1352 != var14.field_1352 || this.qfx.field_1351 != var14.field_1351 || this.qfx.field_1350 != var14.field_1350) {
+         if (this.qfx == null || this.qfx.x != var14.x || this.qfx.y != var14.y || this.qfx.z != var14.z) {
             this.qlj(
                a.b("픶겑♏령㎥", 224449860)
                   + var5
@@ -1851,36 +1842,34 @@ public final class qdz {
          int var36 = this.qfj.path()[var35 * 3];
          int var17 = this.qfj.path()[var35 * 3 + 1];
          int var18 = this.qfj.path()[var35 * 3 + 2];
-         Vec3d var19 = var2.method_33571();
+         Vec3d var19 = var2.getEyePos();
          if (var3 && this.qgr != null && qjx(var19, var36, var18, var4)) {
-            long var37 = var4.method_10063() ^ 25214903917L;
+            long var37 = var4.asLong() ^ 25214903917L;
             if (var37 != this.qgc || this.qga == null) {
                this.qgc = var37;
                this.qgb = new Object();
-               this.qga = Vec3d.method_24953(var4);
+               this.qga = Vec3d.ofCenter(var4);
             }
          } else {
-            long var20 = BlockPos.method_10064(var36, var17, var18);
+            long var20 = BlockPos.asLong(var36, var17, var18);
             if (var20 != this.qgc || this.qga == null) {
                this.qgc = var20;
                this.qgb = new Object();
                Vec3d var22 = new Vec3d(var36 + 0.5, var17 + (this.qgr != null ? 1.45 : 0.9), var18 + 0.5);
-               Vec3d var23 = var22.method_1020(var19);
-               double var24 = Math.sqrt(var23.field_1352 * var23.field_1352 + var23.field_1350 * var23.field_1350);
+               Vec3d var23 = var22.subtract(var19);
+               double var24 = Math.sqrt(var23.x * var23.x + var23.z * var23.z);
                if (var24 < 1.5) {
                   double var26 = var8 - var5;
                   double var28 = var10 - var7;
                   double var30 = Math.sqrt(var26 * var26 + var28 * var28);
                   if (var30 < 0.5) {
-                     double var32 = Math.toRadians(var2.method_36454());
+                     double var32 = Math.toRadians(var2.getYaw());
                      var26 = -Math.sin(var32);
                      var28 = Math.cos(var32);
                      var30 = 1.0;
                   }
 
-                  var22 = new Vec3d(
-                     var19.field_1352 + var26 / var30 * 3.0, var19.field_1351 - (var9 < var6 ? 1.6 : 0.4), var19.field_1350 + var28 / var30 * 3.0
-                  );
+                  var22 = new Vec3d(var19.x + var26 / var30 * 3.0, var19.y - (var9 < var6 ? 1.6 : 0.4), var19.z + var28 / var30 * 3.0);
                }
 
                this.qga = var22;
@@ -1890,13 +1879,13 @@ public final class qdz {
    }
 
    private static boolean qjx(Vec3d var0, int var1, int var2, BlockPos var3) {
-      double var4 = var1 + 0.5 - var0.field_1352;
-      double var6 = var2 + 0.5 - var0.field_1350;
-      double var8 = var3.method_10263() + 0.5 - var0.field_1352;
-      double var10 = var3.method_10260() + 0.5 - var0.field_1350;
+      double var4 = var1 + 0.5 - var0.x;
+      double var6 = var2 + 0.5 - var0.z;
+      double var8 = var3.getX() + 0.5 - var0.x;
+      double var10 = var3.getZ() + 0.5 - var0.z;
       double var12 = Math.sqrt(var4 * var4 + var6 * var6);
       double var14 = Math.sqrt(var8 * var8 + var10 * var10);
-      return !(var12 < 0.5) && !(var14 < 0.5) && !(Math.abs(var3.method_10264() + 0.5 - var0.field_1351) > var14 * 0.7)
+      return !(var12 < 0.5) && !(var14 < 0.5) && !(Math.abs(var3.getY() + 0.5 - var0.y) > var14 * 0.7)
          ? (var4 * var8 + var6 * var10) / (var12 * var14) > 0.34
          : false;
    }
@@ -1905,38 +1894,41 @@ public final class qdz {
       int var8 = this.qfk + 1;
       if (var6 != var3) {
          return var8;
-      } else {
-         int var9 = var5 - var2;
-         int var10 = var7 - var4;
-         int var11 = var8;
+      }
 
-         for (int[] var12 = this.qfj.path(); var11 + 1 < this.qkl() && var11 + 1 <= this.qfk + 4; var11++) {
-            int var13 = var12[var11 * 3];
-            int var14 = var12[var11 * 3 + 1];
-            int var15 = var12[var11 * 3 + 2];
-            int var16 = var12[(var11 + 1) * 3];
-            int var17 = var12[(var11 + 1) * 3 + 1];
-            int var18 = var12[(var11 + 1) * 3 + 2];
-            if (var17 != var14 || var16 - var13 != var9 || var18 - var15 != var10) {
-               break;
-            }
+      int var9 = var5 - var2;
+      int var10 = var7 - var4;
+      int var11 = var8;
+      int[] var12 = this.qfj.path();
 
-            boolean var19 = true;
+      while (var11 + 1 < this.qkl() && var11 + 1 <= this.qfk + 4) {
+         int var13 = var12[var11 * 3];
+         int var14 = var12[var11 * 3 + 1];
+         int var15 = var12[var11 * 3 + 2];
+         int var16 = var12[(var11 + 1) * 3];
+         int var17 = var12[(var11 + 1) * 3 + 1];
+         int var18 = var12[(var11 + 1) * 3 + 2];
+         if (var17 != var14 || var16 - var13 != var9 || var18 - var15 != var10) {
+            break;
+         }
 
-            for (BlockPos var21 : this.qks(var13, var14, var15, var16, var17, var18)) {
-               if (qle(var1, var21)) {
-                  var19 = false;
-                  break;
-               }
-            }
+         boolean var19 = true;
 
-            if (!var19 || !qle(var1, new BlockPos(var16, var17 - 1, var18))) {
+         for (BlockPos var21 : this.qks(var13, var14, var15, var16, var17, var18)) {
+            if (qle(var1, var21)) {
+               var19 = false;
                break;
             }
          }
 
-         return var11;
+         if (!var19 || !qle(var1, new BlockPos(var16, var17 - 1, var18))) {
+            break;
+         }
+
+         var11++;
       }
+
+      return var11;
    }
 
    private boolean qjz() {
@@ -1952,7 +1944,7 @@ public final class qdz {
    }
 
    private int qkc(World var1, ClientPlayerEntity var2, BlockPos var3, BlockState var4) {
-      float var5 = var4.method_26165(var2, var1, var3);
+      float var5 = var4.calcBlockBreakingDelta(var2, var1, var3);
       return var5 <= 0.0F ? 600 : Math.max(1, (int)Math.ceil(1.0F / var5));
    }
 
@@ -1962,10 +1954,10 @@ public final class qdz {
 
    private boolean qke(World var1, ClientPlayerEntity var2) {
       if (this.qfg != null && this.qfg.maxX >= this.qfg.minX) {
-         Vec3d var3 = var2.method_33571();
-         int var4 = MathHelper.method_15357(var3.field_1352);
-         int var5 = MathHelper.method_15357(var3.field_1351);
-         int var6 = MathHelper.method_15357(var3.field_1350);
+         Vec3d var3 = var2.getEyePos();
+         int var4 = MathHelper.floor(var3.x);
+         int var5 = MathHelper.floor(var3.y);
+         int var6 = MathHelper.floor(var3.z);
          double var7 = 6.0;
          Long2DoubleOpenHashMap var9 = new Long2DoubleOpenHashMap();
          Mutable var10 = new Mutable();
@@ -1974,14 +1966,14 @@ public final class qdz {
             for (int var12 = var5 - 6; var12 <= var5 + 5; var12++) {
                for (int var13 = var6 - 6; var13 <= var6 + 6; var13++) {
                   if (this.qfg.contains(var11, var12, var13)) {
-                     double var14 = var11 + 0.5 - var3.field_1352;
-                     double var16 = var12 + 0.5 - var3.field_1351;
-                     double var18 = var13 + 0.5 - var3.field_1350;
+                     double var14 = var11 + 0.5 - var3.x;
+                     double var16 = var12 + 0.5 - var3.y;
+                     double var18 = var13 + 0.5 - var3.z;
                      if (!(var14 * var14 + var16 * var16 + var18 * var18 > var7 * var7)) {
-                        long var20 = BlockPos.method_10064(var11, var12, var13);
+                        long var20 = BlockPos.asLong(var11, var12, var13);
                         if (!this.qkb(var20)) {
-                           BlockState var22 = var1.method_8320(var10.method_10103(var11, var12, var13));
-                           if (!var22.method_26215() && this.qfe.test(var22)) {
+                           BlockState var22 = var1.getBlockState(var10.set(var11, var12, var13));
+                           if (!var22.isAir() && this.qfe.test(var22)) {
                               var9.put(var20, this.qka(var22));
                               this.qfc.add(var20);
                            }
@@ -1994,208 +1986,208 @@ public final class qdz {
 
          if (var9.isEmpty()) {
             return false;
-         } else {
-            Long2DoubleOpenHashMap var38 = new Long2DoubleOpenHashMap();
-            LongOpenHashSet var39 = new LongOpenHashSet();
-            ObjectIterator var40 = var9.long2DoubleEntrySet().iterator();
+         }
 
-            while (var40.hasNext()) {
-               it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var42 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var40.next();
-               long var15 = var42.getLongKey();
+         Long2DoubleOpenHashMap var38 = new Long2DoubleOpenHashMap();
+         LongOpenHashSet var39 = new LongOpenHashSet();
+         ObjectIterator var40 = var9.long2DoubleEntrySet().iterator();
 
-               for (int var17 = -1; var17 <= 1; var17++) {
-                  for (int var49 = -1; var49 <= 1; var49++) {
-                     for (int var19 = -1; var19 <= 1; var19++) {
-                        if (var17 == 0 && var49 == 0 && var19 == 0 || this.qgy) {
-                           var39.add(BlockPos.method_10096(var15, var17, var49, var19));
-                        }
-                     }
-                  }
-               }
+         while (var40.hasNext()) {
+            it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var42 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var40.next();
+            long var15 = var42.getLongKey();
 
-               BlockPos var47 = BlockPos.method_10092(var15);
-               if (Vec3d.method_24953(var47).method_1022(var3) <= 4.7) {
-                  BlockPos var50 = qla(var1, var2, var3, var47);
-                  if (var50 != null && qkg(var50.method_10063(), var15) > (this.qgy ? 1 : 0)) {
-                     var39.add(var50.method_10063());
-                     double var52 = 0.45 * var42.getDoubleValue();
-                     if (var52 > var38.get(var50.method_10063())) {
-                        var38.put(var50.method_10063(), var52);
+            for (int var17 = -1; var17 <= 1; var17++) {
+               for (int var49 = -1; var49 <= 1; var49++) {
+                  for (int var19 = -1; var19 <= 1; var19++) {
+                     if (var17 == 0 && var49 == 0 && var19 == 0 || this.qgy) {
+                        var39.add(BlockPos.add(var15, var17, var49, var19));
                      }
                   }
                }
             }
 
-            boolean var41 = this.qgy && this.qes.p(2) < 0.98;
-            LongArrayList var43 = new LongArrayList();
-            Long2DoubleOpenHashMap var44 = new Long2DoubleOpenHashMap();
-            LongIterator var45 = var39.iterator();
-
-            while (var45.hasNext()) {
-               long var48 = var45.nextLong();
-               BlockPos var53 = BlockPos.method_10092(var48);
-               if (this.qfg.contains(var53) && !this.qkb(var48)) {
-                  Vec3d var55 = Vec3d.method_24953(var53);
-                  double var21 = var55.method_1022(var3);
-                  if (!(var21 > 4.45)) {
-                     BlockState var23 = var1.method_8320(var53);
-                     if (!var23.method_26215() && var23.method_26227().method_15769() && !(var23.method_26214(var1, var53) < 0.0F)) {
-                        double var24 = var9.get(var48) + var38.get(var48);
-                        if (var41) {
-                           ObjectIterator var26 = var9.long2DoubleEntrySet().iterator();
-
-                           while (var26.hasNext()) {
-                              it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var27 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var26.next();
-                              long var28 = var27.getLongKey();
-                              if (var28 != var48 && qkg(var28, var48) <= 1 && qkh(var28, var48)) {
-                                 var24 += var27.getDoubleValue();
-                              }
-                           }
-                        }
-
-                        if (!(var24 <= 0.0)) {
-                           double var67 = Math.toDegrees(Math.atan2(0.6, Math.max(0.6, var21)));
-                           double var70 = this.qkc(var1, var2, var53, var23) + this.qkd(Math.max(0.0, this.qgr.error(var2, var55) - var67)) + 0.35;
-                           var44.put(var48, var24 / var70);
-                           var43.add(var48);
-                        }
-                     }
+            BlockPos var47 = BlockPos.fromLong(var15);
+            if (Vec3d.ofCenter(var47).distanceTo(var3) <= 4.7) {
+               BlockPos var50 = qla(var1, var2, var3, var47);
+               if (var50 != null && qkg(var50.asLong(), var15) > (this.qgy ? 1 : 0)) {
+                  var39.add(var50.asLong());
+                  double var52 = 0.45 * var42.getDoubleValue();
+                  if (var52 > var38.get(var50.asLong())) {
+                     var38.put(var50.asLong(), var52);
                   }
                }
             }
+         }
 
-            if (var43.isEmpty()) {
-               return false;
-            } else {
-               var43.sort((var1x, var3x) -> Double.compare(var44.get(var3x), var44.get(var1x)));
-               long var46 = standing(var1, var2).method_10074().method_10063();
-               ArrayList var51 = new ArrayList();
-               int var54 = 0;
+         boolean var41 = this.qgy && this.qes.p(2) < 0.98;
+         LongArrayList var43 = new LongArrayList();
+         Long2DoubleOpenHashMap var44 = new Long2DoubleOpenHashMap();
+         LongIterator var45 = var39.iterator();
 
-               for (int var56 = 0; var56 < var43.size() && var54 < 32; var56++) {
-                  long var58 = var43.getLong(var56);
-                  if (var51.size() >= 10 && var44.get(var58) <= ((qdt)var51.get(9)).rate()) {
-                     break;
-                  }
-
-                  var54++;
-                  BlockPos var60 = BlockPos.method_10092(var58);
-                  BlockState var63 = var1.method_8320(var60);
-                  double var25 = this.qkc(var1, var2, var60, var63);
-                  qdt var68 = null;
-
-                  for (qda var29 : this.qki(var1, var2, var60)) {
-                     qdt var30 = new qdt(var29, var9.get(var58) + var38.get(var58), var25);
-                     var30.value = var30.own;
-                     if (var9.containsKey(var58)) {
-                        var30.caught.add(var58);
-                        var30.chance.add(1.0);
-                     }
-
+         while (var45.hasNext()) {
+            long var48 = var45.nextLong();
+            BlockPos var53 = BlockPos.fromLong(var48);
+            if (this.qfg.contains(var53) && !this.qkb(var48)) {
+               Vec3d var55 = Vec3d.ofCenter(var53);
+               double var21 = var55.distanceTo(var3);
+               if (!(var21 > 4.45)) {
+                  BlockState var23 = var1.getBlockState(var53);
+                  if (!var23.isAir() && var23.getFluidState().isEmpty() && !(var23.getHardness(var1, var53) < 0.0F)) {
+                     double var24 = var9.get(var48) + var38.get(var48);
                      if (var41) {
-                        ObjectIterator var31 = var9.long2DoubleEntrySet().iterator();
+                        ObjectIterator var26 = var9.long2DoubleEntrySet().iterator();
 
-                        while (var31.hasNext()) {
-                           it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var32 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var31.next();
-                           long var33 = var32.getLongKey();
-                           if (var33 != var58 && qkg(var33, var58) <= 1) {
-                              double var35 = this.qes.expect(var33, var58, var29.axis(), var29.look());
-                              if (var35 > 0.0) {
-                                 var30.value = var30.value + var32.getDoubleValue() * var35;
-                                 var30.caught.add(var33);
-                                 var30.chance.add(var35);
-                              }
+                        while (var26.hasNext()) {
+                           it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var27 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var26.next();
+                           long var28 = var27.getLongKey();
+                           if (var28 != var48 && qkg(var28, var48) <= 1 && qkh(var28, var48)) {
+                              var24 += var27.getDoubleValue();
                            }
                         }
                      }
 
-                     double var76 = var46 == var58 ? 1.0 : (var41 ? this.qes.expect(var46, var58, var29.axis(), var29.look()) : 0.0);
-                     var30.time = var25 + this.qkd(var29.turn()) + 0.35 + var76 * 0.8;
-                     if (var68 == null || var30.rate() > var68.rate()) {
-                        var68 = var30;
+                     if (!(var24 <= 0.0)) {
+                        double var67 = Math.toDegrees(Math.atan2(0.6, Math.max(0.6, var21)));
+                        double var70 = this.qkc(var1, var2, var53, var23) + this.qkd(Math.max(0.0, this.qgr.error(var2, var55) - var67)) + 0.35;
+                        var44.put(var48, var24 / var70);
+                        var43.add(var48);
                      }
-                  }
-
-                  if (var68 != null && !(var68.value <= 0.0)) {
-                     int var72 = 0;
-
-                     while (var72 < var51.size() && ((qdt)var51.get(var72)).rate() >= var68.rate()) {
-                        var72++;
-                     }
-
-                     var51.add(var72, var68);
-                     if (var51.size() > 10) {
-                        var51.remove(var51.size() - 1);
-                     }
-                  }
-               }
-
-               if (var51.isEmpty()) {
-                  return false;
-               } else {
-                  qdt var57 = null;
-                  double var59 = 0.0;
-
-                  for (qdt var64 : var51) {
-                     double var66 = var64.rate();
-
-                     for (qdt var73 : var51) {
-                        if (var73 != var64
-                           && !(var64.chanceOf(var73.key) >= 0.5)
-                           && (!var41 || !(this.qes.expect(var73.key, var64.key, var64.hit.axis(), var64.hit.look()) >= 0.5))) {
-                           double[] var74 = qln.lookAxes(var64.hit.yaw(), var64.hit.pitch());
-                           double var75 = var73.own * (1.0 - var64.chanceOf(var73.key));
-                           if (var41) {
-                              ObjectIterator var77 = var9.long2DoubleEntrySet().iterator();
-
-                              while (var77.hasNext()) {
-                                 it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var79 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var77.next();
-                                 long var34 = var79.getLongKey();
-                                 if (var34 != var73.key && qkg(var34, var73.key) <= 1) {
-                                    double var36 = this.qes.expect(var34, var73.key, var73.hit.axis(), var74);
-                                    var75 += var79.getDoubleValue() * var36 * (1.0 - var64.chanceOf(var34));
-                                 }
-                              }
-                           }
-
-                           double var78 = qkf(var3, var64.hit.point(), var73.hit.point());
-                           double var80 = (var64.value + var75) / (var64.time + var73.ticks + this.qkd(var78) + 0.35);
-                           var66 = Math.max(var66, var80);
-                        }
-                     }
-
-                     if (var66 > var59) {
-                        var59 = var66;
-                        var57 = var64;
-                     }
-                  }
-
-                  if (var57 != null && !(var59 < 0.12)) {
-                     BlockPos var62 = var57.hit.pos();
-                     BlockState var65 = var1.method_8320(var62);
-                     this.qkv(var62, var65.method_26204(), var9.containsKey(var57.key), var57.hit.point(), this.qfx != null && this.qfj != null);
-                     if (trace != null) {
-                        this.qlj(
-                           String.format(
-                              Locale.ROOT,
-                              a.c(-894157631, "㲄䔬쿵册\uda10岤\ue6a1漃\uf10a篰ﰻف袊ᅯ魺ᷟꟙ⠐늨㓥뵆응䦶퉦吞\uded3朳\ue97a玆\uf5c9縬肻ધ鍆ᔙ龵⁵꩜ⲗ딭㽮䇋쯞䰠훾壉\ue11f毯\uede4瘽\uf843˄謩"),
-                              var62.method_23854(),
-                              var57.value,
-                              var57.time,
-                              var57.hit.turn(),
-                              var59,
-                              var51.size(),
-                              this.qes.describe()
-                           )
-                        );
-                     }
-
-                     return true;
-                  } else {
-                     return false;
                   }
                }
             }
+         }
+
+         if (var43.isEmpty()) {
+            return false;
+         }
+
+         var43.sort((var1x, var3x) -> Double.compare(var44.get(var3x), var44.get(var1x)));
+         long var46 = standing(var1, var2).down().asLong();
+         ArrayList var51 = new ArrayList();
+         int var54 = 0;
+
+         for (int var56 = 0; var56 < var43.size() && var54 < 32; var56++) {
+            long var58 = var43.getLong(var56);
+            if (var51.size() >= 10 && var44.get(var58) <= ((qdt)var51.get(9)).rate()) {
+               break;
+            }
+
+            var54++;
+            BlockPos var60 = BlockPos.fromLong(var58);
+            BlockState var63 = var1.getBlockState(var60);
+            double var25 = this.qkc(var1, var2, var60, var63);
+            qdt var68 = null;
+
+            for (qda var29 : this.qki(var1, var2, var60)) {
+               qdt var30 = new qdt(var29, var9.get(var58) + var38.get(var58), var25);
+               var30.value = var30.own;
+               if (var9.containsKey(var58)) {
+                  var30.caught.add(var58);
+                  var30.chance.add(1.0);
+               }
+
+               if (var41) {
+                  ObjectIterator var31 = var9.long2DoubleEntrySet().iterator();
+
+                  while (var31.hasNext()) {
+                     it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var32 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var31.next();
+                     long var33 = var32.getLongKey();
+                     if (var33 != var58 && qkg(var33, var58) <= 1) {
+                        double var35 = this.qes.expect(var33, var58, var29.axis(), var29.look());
+                        if (var35 > 0.0) {
+                           var30.value = var30.value + var32.getDoubleValue() * var35;
+                           var30.caught.add(var33);
+                           var30.chance.add(var35);
+                        }
+                     }
+                  }
+               }
+
+               double var76 = var46 == var58 ? 1.0 : (var41 ? this.qes.expect(var46, var58, var29.axis(), var29.look()) : 0.0);
+               var30.time = var25 + this.qkd(var29.turn()) + 0.35 + var76 * 0.8;
+               if (var68 == null || var30.rate() > var68.rate()) {
+                  var68 = var30;
+               }
+            }
+
+            if (var68 != null && !(var68.value <= 0.0)) {
+               int var72 = 0;
+
+               while (var72 < var51.size() && ((qdt)var51.get(var72)).rate() >= var68.rate()) {
+                  var72++;
+               }
+
+               var51.add(var72, var68);
+               if (var51.size() > 10) {
+                  var51.remove(var51.size() - 1);
+               }
+            }
+         }
+
+         if (var51.isEmpty()) {
+            return false;
+         }
+
+         qdt var57 = null;
+         double var59 = 0.0;
+
+         for (qdt var64 : var51) {
+            double var66 = var64.rate();
+
+            for (qdt var73 : var51) {
+               if (var73 != var64
+                  && !(var64.chanceOf(var73.key) >= 0.5)
+                  && (!var41 || !(this.qes.expect(var73.key, var64.key, var64.hit.axis(), var64.hit.look()) >= 0.5))) {
+                  double[] var74 = qln.lookAxes(var64.hit.yaw(), var64.hit.pitch());
+                  double var75 = var73.own * (1.0 - var64.chanceOf(var73.key));
+                  if (var41) {
+                     ObjectIterator var77 = var9.long2DoubleEntrySet().iterator();
+
+                     while (var77.hasNext()) {
+                        it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry var79 = (it.unimi.dsi.fastutil.longs.Long2DoubleMap.Entry)var77.next();
+                        long var34 = var79.getLongKey();
+                        if (var34 != var73.key && qkg(var34, var73.key) <= 1) {
+                           double var36 = this.qes.expect(var34, var73.key, var73.hit.axis(), var74);
+                           var75 += var79.getDoubleValue() * var36 * (1.0 - var64.chanceOf(var34));
+                        }
+                     }
+                  }
+
+                  double var78 = qkf(var3, var64.hit.point(), var73.hit.point());
+                  double var80 = (var64.value + var75) / (var64.time + var73.ticks + this.qkd(var78) + 0.35);
+                  var66 = Math.max(var66, var80);
+               }
+            }
+
+            if (var66 > var59) {
+               var59 = var66;
+               var57 = var64;
+            }
+         }
+
+         if (var57 != null && !(var59 < 0.12)) {
+            BlockPos var62 = var57.hit.pos();
+            BlockState var65 = var1.getBlockState(var62);
+            this.qkv(var62, var65.getBlock(), var9.containsKey(var57.key), var57.hit.point(), this.qfx != null && this.qfj != null);
+            if (trace != null) {
+               this.qlj(
+                  String.format(
+                     Locale.ROOT,
+                     a.c(-894157631, "㲄䔬쿵册\uda10岤\ue6a1漃\uf10a篰ﰻف袊ᅯ魺ᷟꟙ⠐늨㓥뵆응䦶퉦吞\uded3朳\ue97a玆\uf5c9縬肻ધ鍆ᔙ龵⁵꩜ⲗ딭㽮䇋쯞䰠훾壉\ue11f毯\uede4瘽\uf843˄謩"),
+                     var62.toShortString(),
+                     var57.value,
+                     var57.time,
+                     var57.hit.turn(),
+                     var59,
+                     var51.size(),
+                     this.qes.describe()
+                  )
+               );
+            }
+
+            return true;
+         } else {
+            return false;
          }
       } else {
          return false;
@@ -2203,52 +2195,52 @@ public final class qdz {
    }
 
    private static double qkf(Vec3d var0, Vec3d var1, Vec3d var2) {
-      Vec3d var3 = var1.method_1020(var0).method_1029();
-      Vec3d var4 = var2.method_1020(var0).method_1029();
-      return Math.toDegrees(Math.acos(MathHelper.method_15350(var3.method_1026(var4), -1.0, 1.0)));
+      Vec3d var3 = var1.subtract(var0).normalize();
+      Vec3d var4 = var2.subtract(var0).normalize();
+      return Math.toDegrees(Math.acos(MathHelper.clamp(var3.dotProduct(var4), -1.0, 1.0)));
    }
 
    private static int qkg(long var0, long var2) {
       return Math.max(
-         Math.abs(BlockPos.method_10061(var0) - BlockPos.method_10061(var2)),
-         Math.max(Math.abs(BlockPos.method_10071(var0) - BlockPos.method_10071(var2)), Math.abs(BlockPos.method_10083(var0) - BlockPos.method_10083(var2)))
+         Math.abs(BlockPos.unpackLongX(var0) - BlockPos.unpackLongX(var2)),
+         Math.max(Math.abs(BlockPos.unpackLongY(var0) - BlockPos.unpackLongY(var2)), Math.abs(BlockPos.unpackLongZ(var0) - BlockPos.unpackLongZ(var2)))
       );
    }
 
    private static boolean qkh(long var0, long var2) {
-      return BlockPos.method_10061(var0) == BlockPos.method_10061(var2)
-         || BlockPos.method_10071(var0) == BlockPos.method_10071(var2)
-         || BlockPos.method_10083(var0) == BlockPos.method_10083(var2);
+      return BlockPos.unpackLongX(var0) == BlockPos.unpackLongX(var2)
+         || BlockPos.unpackLongY(var0) == BlockPos.unpackLongY(var2)
+         || BlockPos.unpackLongZ(var0) == BlockPos.unpackLongZ(var2);
    }
 
    private List<qda> qki(World var1, ClientPlayerEntity var2, BlockPos var3) {
       ArrayList var4 = new ArrayList(3);
-      Vec3d var5 = var2.method_33571();
+      Vec3d var5 = var2.getEyePos();
       double var6 = (this.qep.nextDouble() - 0.5) * 0.3;
       double var8 = (this.qep.nextDouble() - 0.5) * 0.3;
 
       for (Direction var13 : Direction.values()) {
-         BlockPos var14 = var3.method_10093(var13);
-         if (var1.method_8320(var14).method_26218(var1, var14).method_1110()) {
-            Vec3d var15 = new Vec3d(var13.method_10148(), var13.method_10164(), var13.method_10165());
-            Vec3d var16 = Vec3d.method_24953(var3).method_1019(var15.method_1021(0.5));
-            if (!(var5.method_1020(var16).method_1026(var15) <= 0.02)) {
-               Vec3d var17 = var13.method_10166() == Axis.field_11048 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
-               Vec3d var18 = var13.method_10166() == Axis.field_11052 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
+         BlockPos var14 = var3.offset(var13);
+         if (var1.getBlockState(var14).getOutlineShape(var1, var14).isEmpty()) {
+            Vec3d var15 = new Vec3d(var13.getOffsetX(), var13.getOffsetY(), var13.getOffsetZ());
+            Vec3d var16 = Vec3d.ofCenter(var3).add(var15.multiply(0.5));
+            if (!(var5.subtract(var16).dotProduct(var15) <= 0.02)) {
+               Vec3d var17 = var13.getAxis() == Axis.X ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
+               Vec3d var18 = var13.getAxis() == Axis.Y ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
 
                for (double[] var22 : qej) {
                   double var23 = var22[0] == 0.0 && var22[1] == 0.0 ? var6 : var22[0];
                   double var25 = var22[0] == 0.0 && var22[1] == 0.0 ? var8 : var22[1];
-                  Vec3d var27 = var16.method_1019(var17.method_1021(var23)).method_1019(var18.method_1021(var25));
-                  Vec3d var28 = var27.method_1020(var5);
-                  double var29 = var28.method_1033();
+                  Vec3d var27 = var16.add(var17.multiply(var23)).add(var18.multiply(var25));
+                  Vec3d var28 = var27.subtract(var5);
+                  double var29 = var28.length();
                   if (!(var29 > 4.4) && !(var29 < 0.3)) {
-                     double var31 = Math.sqrt(var28.field_1352 * var28.field_1352 + var28.field_1350 * var28.field_1350);
+                     double var31 = Math.sqrt(var28.x * var28.x + var28.z * var28.z);
                      if (!(var31 < 0.25) && qky(var1, var2, var5, var3, var27)) {
-                        float var33 = (float)tbp.yawTo(var28.field_1352, var28.field_1350);
-                        float var34 = (float)tbp.pitchTo(var28.field_1351, var31);
-                        double var35 = Math.hypot(MathHelper.method_15393(var33 - var2.method_36454()), var34 - var2.method_36455());
-                        var4.add(new qda(var3.method_10062(), var27, var13.method_10166().ordinal(), this.qkj(var2, var33, var34, var35), var35, var33, var34));
+                        float var33 = (float)tbp.yawTo(var28.x, var28.z);
+                        float var34 = (float)tbp.pitchTo(var28.y, var31);
+                        double var35 = Math.hypot(MathHelper.wrapDegrees(var33 - var2.getYaw()), var34 - var2.getPitch());
+                        var4.add(new qda(var3.toImmutable(), var27, var13.getAxis().ordinal(), this.qkj(var2, var33, var34, var35), var35, var33, var34));
                         break;
                      }
                   }
@@ -2261,15 +2253,15 @@ public final class qdz {
    }
 
    private double[] qkj(ClientPlayerEntity var1, float var2, float var3, double var4) {
-      float var6 = var1.method_36454();
-      float var7 = var1.method_36455();
+      float var6 = var1.getYaw();
+      float var7 = var1.getPitch();
       double var8 = this.qil();
       if (var4 <= var8 * 0.97) {
          return qln.lookAxes(var6, var7);
-      } else {
-         double var10 = var8 / var4;
-         return qln.lookAxes((float)(var6 + MathHelper.method_15393(var2 - var6) * var10), (float)(var7 + (var3 - var7) * var10));
       }
+
+      double var10 = var8 / var4;
+      return qln.lookAxes((float)(var6 + MathHelper.wrapDegrees(var2 - var6) * var10), (float)(var7 + (var3 - var7) * var10));
    }
 
    private int qkk(World var1, ClientPlayerEntity var2) {
@@ -2285,7 +2277,7 @@ public final class qdz {
             var4[var8 * 3], var4[var8 * 3 + 1], var4[var8 * 3 + 2], var4[(var8 + 1) * 3], var4[(var8 + 1) * 3 + 1], var4[(var8 + 1) * 3 + 2]
          )) {
             if (qle(var1, var10)) {
-               long var11 = var10.method_10063();
+               long var11 = var10.asLong();
                if (this.qfb.getOrDefault(var11, 0) > this.qfi) {
                   var7 |= var8 == this.qfk;
                } else {
@@ -2307,81 +2299,80 @@ public final class qdz {
 
       if (var5.isEmpty()) {
          return var7 ? 2 : 0;
-      } else {
-         LongOpenHashSet var29 = new LongOpenHashSet();
-         var29.add(standing(var1, var2).method_10074().method_10063());
+      }
 
-         for (int var30 = this.qfk; var30 < Math.min(var3, this.qfk + 5); var30++) {
-            var29.add(BlockPos.method_10064(var4[var30 * 3], var4[var30 * 3 + 1] - 1, var4[var30 * 3 + 2]));
+      LongOpenHashSet var29 = new LongOpenHashSet();
+      var29.add(standing(var1, var2).down().asLong());
+
+      for (int var30 = this.qfk; var30 < Math.min(var3, this.qfk + 5); var30++) {
+         var29.add(BlockPos.asLong(var4[var30 * 3], var4[var30 * 3 + 1] - 1, var4[var30 * 3 + 2]));
+      }
+
+      for (int var31 = 0; var31 < var5.size(); var31++) {
+         var29.remove(var5.getLong(var31));
+      }
+
+      LongOpenHashSet var32 = new LongOpenHashSet();
+
+      for (int var33 = 0; var33 < var5.size(); var33++) {
+         long var35 = var5.getLong(var33);
+         var32.add(var35);
+         if (this.qgy) {
+            var32.add(BlockPos.add(var35, 0, 1, 0));
+            var32.add(BlockPos.add(var35, 0, -1, 0));
          }
+      }
 
-         for (int var31 = 0; var31 < var5.size(); var31++) {
-            var29.remove(var5.getLong(var31));
-         }
+      Vec3d var34 = var2.getEyePos();
+      qda var36 = null;
+      double var12 = 0.0;
+      LongIterator var14 = var32.iterator();
 
-         LongOpenHashSet var32 = new LongOpenHashSet();
+      while (var14.hasNext()) {
+         long var15 = var14.nextLong();
+         BlockPos var17 = BlockPos.fromLong(var15);
+         if (!var29.contains(var15) && this.qfb.getOrDefault(var15, 0) <= this.qfi && this.qlc(var1, var17) && !(Vec3d.ofCenter(var17).distanceTo(var34) > 4.5)
+            )
+          {
+            BlockState var18 = var1.getBlockState(var17);
+            double var19 = this.qkc(var1, var2, var17, var18);
 
-         for (int var33 = 0; var33 < var5.size(); var33++) {
-            long var35 = var5.getLong(var33);
-            var32.add(var35);
-            if (this.qgy) {
-               var32.add(BlockPos.method_10096(var35, 0, 1, 0));
-               var32.add(BlockPos.method_10096(var35, 0, -1, 0));
-            }
-         }
+            for (qda var22 : this.qki(var1, var2, var17)) {
+               double var23 = 0.0;
 
-         Vec3d var34 = var2.method_33571();
-         qda var36 = null;
-         double var12 = 0.0;
-         LongIterator var14 = var32.iterator();
+               for (int var25 = 0; var25 < var5.size(); var25++) {
+                  var23 += var6.getDouble(var25) * this.qes.expect(var5.getLong(var25), var15, var22.axis(), var22.look());
+               }
 
-         while (var14.hasNext()) {
-            long var15 = var14.nextLong();
-            BlockPos var17 = BlockPos.method_10092(var15);
-            if (!var29.contains(var15)
-               && this.qfb.getOrDefault(var15, 0) <= this.qfi
-               && this.qlc(var1, var17)
-               && !(Vec3d.method_24953(var17).method_1022(var34) > 4.5)) {
-               BlockState var18 = var1.method_8320(var17);
-               double var19 = this.qkc(var1, var2, var17, var18);
+               double var39 = 0.0;
+               LongIterator var27 = var29.iterator();
 
-               for (qda var22 : this.qki(var1, var2, var17)) {
-                  double var23 = 0.0;
+               while (var27.hasNext()) {
+                  var39 += this.qes.expect(var27.nextLong(), var15, var22.axis(), var22.look());
+               }
 
-                  for (int var25 = 0; var25 < var5.size(); var25++) {
-                     var23 += var6.getDouble(var25) * this.qes.expect(var5.getLong(var25), var15, var22.axis(), var22.look());
-                  }
-
-                  double var39 = 0.0;
-                  LongIterator var27 = var29.iterator();
-
-                  while (var27.hasNext()) {
-                     var39 += this.qes.expect(var27.nextLong(), var15, var22.axis(), var22.look());
-                  }
-
-                  double var40 = (var23 - 2.5 * var39) / (var19 + this.qkd(var22.turn()) + 0.35);
-                  if (var40 > var12) {
-                     var12 = var40;
-                     var36 = var22;
-                  }
+               double var40 = (var23 - 2.5 * var39) / (var19 + this.qkd(var22.turn()) + 0.35);
+               if (var40 > var12) {
+                  var12 = var40;
+                  var36 = var22;
                }
             }
          }
+      }
 
-         if (var36 == null) {
-            BlockPos var38 = BlockPos.method_10092(var5.getLong(0));
-            this.qkt(var1, var2, var38, false);
-            if (this.qfr == null) {
-               return -1;
-            } else {
-               this.qgz = true;
-               return 1;
-            }
-         } else {
-            BlockState var37 = var1.method_8320(var36.pos());
-            this.qkv(var36.pos(), var37.method_26204(), this.qfe.test(var37), var36.point(), true);
-            return 1;
+      if (var36 == null) {
+         BlockPos var38 = BlockPos.fromLong(var5.getLong(0));
+         this.qkt(var1, var2, var38, false);
+         if (this.qfr == null) {
+            return -1;
          }
+
+         this.qgz = true;
+         return 1;
+      } else {
+         BlockState var37 = var1.getBlockState(var36.pos());
+         this.qkv(var36.pos(), var37.getBlock(), this.qfe.test(var37), var36.point(), true);
+         return 1;
       }
    }
 
@@ -2396,7 +2387,7 @@ public final class qdz {
          int var4 = this.qfj.path()[var3 * 3];
          int var5 = this.qfj.path()[var3 * 3 + 1];
          int var6 = this.qfj.path()[var3 * 3 + 2];
-         if (var1.method_10263() == var4 && var1.method_10264() == var5 && var1.method_10260() == var6) {
+         if (var1.getX() == var4 && var1.getY() == var5 && var1.getZ() == var6) {
             if (var3 != this.qfk && this.qko(var3) && !this.qkn(var1, var4, var6)) {
                return var3 - 1;
             }
@@ -2404,11 +2395,7 @@ public final class qdz {
             return var3;
          }
 
-         if (var3 > 0
-            && var1.method_10263() == var4
-            && var1.method_10260() == var6
-            && var1.method_10264() > var5
-            && var1.method_10264() <= this.qfj.path()[(var3 - 1) * 3 + 1]) {
+         if (var3 > 0 && var1.getX() == var4 && var1.getZ() == var6 && var1.getY() > var5 && var1.getY() <= this.qfj.path()[(var3 - 1) * 3 + 1]) {
             return var3 - 1;
          }
       }
@@ -2417,7 +2404,7 @@ public final class qdz {
    }
 
    private boolean qkn(BlockPos var1, int var2, int var3) {
-      return this.qgm != null && Math.abs(this.qgm.field_1352 - (var2 + 0.5)) < 0.32 && Math.abs(this.qgm.field_1350 - (var3 + 0.5)) < 0.32;
+      return this.qgm != null && Math.abs(this.qgm.x - (var2 + 0.5)) < 0.32 && Math.abs(this.qgm.z - (var3 + 0.5)) < 0.32;
    }
 
    private boolean qko(int var1) {
@@ -2442,12 +2429,12 @@ public final class qdz {
 
       Box var3 = new Box(this.qfg.minX - 4, this.qfg.minY - 2, this.qfg.minZ - 4, this.qfg.maxX + 5, this.qfg.maxY + 6, this.qfg.maxZ + 5);
       if (this.qhc != null) {
-         var3 = var3.method_991(new Box(this.qhc).method_1014(6.0));
+         var3 = var3.union(new Box(this.qhc).expand(6.0));
       }
 
-      for (ItemEntity var5 : var1.method_8390(ItemEntity.class, var3, var1x -> this.qff.test(var1x.method_6983()))) {
+      for (ItemEntity var5 : var1.getEntitiesByClass(ItemEntity.class, var3, var1x -> this.qff.test(var1x.getStack()))) {
          if (var2.size() < 40) {
-            var2.add(var5.method_73189());
+            var2.add(var5.getEntityPos());
          }
       }
 
@@ -2491,14 +2478,14 @@ public final class qdz {
          this.qgc = Long.MIN_VALUE;
          this.qlj(
             this.qfj == null
-               ? a.c(1041995744, "鞀\uee20擠愈焎\uf7a5䶸쑈婘킾坻괒⎜멹〱뚏") + this.qhc.method_23854()
-               : a.c(-117214198, "瑱ෑ蜑\u1979鋿ᑔ깗➷맽㍐듋") + this.qfj.path().length / 3 + a.c(-92191881, "䍝㪢끰⸊ꗜ⍻饻პ躚Ѥ") + this.qhc.method_23854()
+               ? a.c(1041995744, "鞀\uee20擠愈焎\uf7a5䶸쑈婘킾坻괒⎜멹〱뚏") + this.qhc.toShortString()
+               : a.c(-117214198, "瑱ෑ蜑\u1979鋿ᑔ깗➷맽㍐듋") + this.qfj.path().length / 3 + a.c(-92191881, "䍝㪢끰⸊ꗜ⍻饻პ躚Ѥ") + this.qhc.toShortString()
          );
       } else {
          this.qeq.build(var1, var2, this.qfg, this.qfe, this.qev, this.qkp(var1));
          this.qeq.search(standing(var1, var2));
-         Vec3d var15 = var2.method_33571();
-         Vec3d var17 = var2.method_5828(1.0F);
+         Vec3d var15 = var2.getEyePos();
+         Vec3d var17 = var2.getRotationVec(1.0F);
          LongArrayList var6 = new LongArrayList();
 
          for (int var7 = 0; var7 < this.qeq.targetCount(); var7++) {
@@ -2508,8 +2495,8 @@ public final class qdz {
             }
          }
 
-         Vec3d var18 = var2.method_73189();
-         this.qer.update(var6, var18.field_1352, var18.field_1351, var18.field_1350);
+         Vec3d var18 = var2.getEntityPos();
+         this.qer.update(var6, var18.x, var18.y, var18.z);
          this.qfj = null;
 
          for (int var19 = 0; var19 < 4 && this.qfj == null && !this.qer.isEmpty(); var19++) {
@@ -2531,13 +2518,13 @@ public final class qdz {
                break;
             }
 
-            this.qlj(a.c(-97302964, "䘥㾉땀⬰ꃶ☘鱑ᗣ设Ā蚚粸\uf23b毘\ue19c杩\udd24勾젅万쟷붽㌑ꢐ⺮ꑪᶍ") + this.qer.headCenter().method_23854());
+            this.qlj(a.c(-97302964, "䘥㾉땀⬰ꃶ☘鱑ᗣ设Ā蚚粸\uf23b毘\ue19c杩\udd24勾젅万쟷붽㌑ꢐ⺮ꑪᶍ") + this.qer.headCenter().toShortString());
             var11 = var9.iterator();
 
             while (var11.hasNext()) {
                long var12 = var11.nextLong();
                if (this.qfb.getOrDefault(var12, 0) <= this.qfi) {
-                  this.qlf(BlockPos.method_10092(var12), 600);
+                  this.qlf(BlockPos.fromLong(var12), 600);
                   this.qex.add(var12);
                }
             }
@@ -2563,7 +2550,7 @@ public final class qdz {
                      + (this.qfo ? a.b("쳪땗㾗ꆭ⨱겓ᚐ齴Ġ讛\u0c45\uf633磭", 1169476811) : "")
                      + a.c(-481008132, "旔")
                   : a.c(19509695, "뇊졧䊹\udcc7坞")
-                     + this.qfj.target().method_23854()
+                     + this.qfj.target().toShortString()
                      + a.c(-106514153, "뤰샏䨝푧徱\ud916挋")
                      + this.qfj.path().length / 3
                      + a.c(-462008687, "亷㝅붚⏷ꠧ⻟")
@@ -2573,7 +2560,7 @@ public final class qdz {
                      + a.b("\udd4c꒮\u2e7a뀐㯘뵪ݷ", 1148312939)
                      + this.qer.size()
                      + a.b("梜ᅬ鮪֏", 2061134008)
-                     + var2.method_24515().method_23854()
+                     + var2.getBlockPos().toShortString()
             );
          }
 
@@ -2582,8 +2569,8 @@ public final class qdz {
    }
 
    private boolean qkr(World var1, BlockPos var2) {
-      BlockState var3 = var1.method_8320(var2);
-      return !var3.method_26215() && this.qfe.test(var3) && !this.qew.containsKey(var2.method_10063());
+      BlockState var3 = var1.getBlockState(var2);
+      return !var3.isAir() && this.qfe.test(var3) && !this.qew.containsKey(var2.asLong());
    }
 
    private List<BlockPos> qks(int var1, int var2, int var3, int var4, int var5, int var6) {
@@ -2609,15 +2596,15 @@ public final class qdz {
    private void qkt(World var1, ClientPlayerEntity var2, BlockPos var3, boolean var4) {
       Vec3d var5 = this.qkx(var1, var2, var3);
       if (var5 == null) {
-         BlockPos var6 = qla(var1, var2, var2.method_33571(), var3);
+         BlockPos var6 = qla(var1, var2, var2.getEyePos(), var3);
          if (var6 != null && !var6.equals(var3) && this.qlc(var1, var6)) {
             var5 = this.qkx(var1, var2, var6);
             if (var5 != null) {
-               this.qku(var6, var1.method_8320(var6).method_26204(), this.qfe.test(var1.method_8320(var6)), var5);
+               this.qku(var6, var1.getBlockState(var6).getBlock(), this.qfe.test(var1.getBlockState(var6)), var5);
             }
          }
       } else {
-         this.qku(var3, var1.method_8320(var3).method_26204(), var4 || this.qfe.test(var1.method_8320(var3)), var5);
+         this.qku(var3, var1.getBlockState(var3).getBlock(), var4 || this.qfe.test(var1.getBlockState(var3)), var5);
       }
    }
 
@@ -2630,16 +2617,16 @@ public final class qdz {
          this.qgz = var5;
          this.qlj(
             a.d("⏦婇킃件씫䏑", -296734278, -1279978952)
-               + var1.method_23854()
+               + var1.toShortString()
                + a.c(1884253044, "歕")
-               + var2.method_63499().replace(a.d("鷀\ue47f溯\uf0d2笍ﷹ䟩츜偄\udafe崫ꝋ⦏뀹㩸볓", -1621958378, -237470556), "")
+               + var2.getTranslationKey().replace(a.d("鷀\ue47f溯\uf0d2笍ﷹ䟩츜偄\udafe崫ꝋ⦏뀹㩸볓", -1621958378, -237470556), "")
                + (var3 ? a.d("탭ꤨ", -1642896548, 1212593043) : "")
          );
-         this.qfr = var1.method_10062();
+         this.qfr = var1.toImmutable();
          this.qfs = var2;
          this.qft = var3;
          if (var3) {
-            this.qfc.add(this.qfr.method_10063());
+            this.qfc.add(this.qfr.asLong());
          }
 
          this.qfu = var4;
@@ -2653,56 +2640,54 @@ public final class qdz {
    }
 
    private static Vec3d qkw(ClientPlayerEntity var0, BlockPos var1) {
-      Vec3d var2 = var0.method_33571();
-      Vec3d var3 = var0.method_5828(1.0F);
-      if (BlockPos.method_49638(var2).equals(var1)) {
-         return var2.method_1031(var3.field_1352 * 0.6, -0.3, var3.field_1350 * 0.6);
-      } else {
-         double var4 = Math.max(0.001, Math.sqrt(var3.field_1352 * var3.field_1352 + var3.field_1350 * var3.field_1350));
-         return new Vec3d(
-            var1.method_10263() + 0.5 + var3.field_1352 / var4 * 0.25, var1.method_10264() + 1.0, var1.method_10260() + 0.5 + var3.field_1350 / var4 * 0.25
-         );
+      Vec3d var2 = var0.getEyePos();
+      Vec3d var3 = var0.getRotationVec(1.0F);
+      if (BlockPos.ofFloored(var2).equals(var1)) {
+         return var2.add(var3.x * 0.6, -0.3, var3.z * 0.6);
       }
+
+      double var4 = Math.max(0.001, Math.sqrt(var3.x * var3.x + var3.z * var3.z));
+      return new Vec3d(var1.getX() + 0.5 + var3.x / var4 * 0.25, var1.getY() + 1.0, var1.getZ() + 0.5 + var3.z / var4 * 0.25);
    }
 
    private Vec3d qkx(World var1, ClientPlayerEntity var2, BlockPos var3) {
-      Vec3d var4 = var2.method_33571();
-      Vec3d var5 = var2.method_5828(1.0F);
+      Vec3d var4 = var2.getEyePos();
+      Vec3d var5 = var2.getRotationVec(1.0F);
       Vec3d var6 = null;
       double var7 = Double.MAX_VALUE;
       double var9 = (this.qep.nextDouble() - 0.5) * 0.3;
       double var11 = (this.qep.nextDouble() - 0.5) * 0.3;
 
       for (Direction var16 : Direction.values()) {
-         BlockPos var17 = var3.method_10093(var16);
-         if (var1.method_8320(var17).method_26218(var1, var17).method_1110()) {
-            Vec3d var18 = new Vec3d(var16.method_10148(), var16.method_10164(), var16.method_10165());
-            Vec3d var19 = Vec3d.method_24953(var3).method_1019(var18.method_1021(0.5));
-            if (!(var4.method_1020(var19).method_1026(var18) <= 0.02)) {
-               Vec3d var20 = var16.method_10166() == Axis.field_11048 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
-               Vec3d var21 = var16.method_10166() == Axis.field_11052 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
+         BlockPos var17 = var3.offset(var16);
+         if (var1.getBlockState(var17).getOutlineShape(var1, var17).isEmpty()) {
+            Vec3d var18 = new Vec3d(var16.getOffsetX(), var16.getOffsetY(), var16.getOffsetZ());
+            Vec3d var19 = Vec3d.ofCenter(var3).add(var18.multiply(0.5));
+            if (!(var4.subtract(var19).dotProduct(var18) <= 0.02)) {
+               Vec3d var20 = var16.getAxis() == Axis.X ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
+               Vec3d var21 = var16.getAxis() == Axis.Y ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
 
                for (double[] var25 : qej) {
                   double var26 = var25[0] == 0.0 && var25[1] == 0.0 ? var9 : var25[0];
                   double var28 = var25[0] == 0.0 && var25[1] == 0.0 ? var11 : var25[1];
-                  Vec3d var30 = var19.method_1019(var20.method_1021(var26)).method_1019(var21.method_1021(var28));
-                  Vec3d var31 = var30.method_1020(var4);
-                  double var32 = var31.method_1033();
+                  Vec3d var30 = var19.add(var20.multiply(var26)).add(var21.multiply(var28));
+                  Vec3d var31 = var30.subtract(var4);
+                  double var32 = var31.length();
                   if (!(var32 > 4.4) && !(var32 < 0.3)) {
-                     double var34 = Math.sqrt(var31.field_1352 * var31.field_1352 + var31.field_1350 * var31.field_1350);
+                     double var34 = Math.sqrt(var31.x * var31.x + var31.z * var31.z);
                      if (!(var34 < 0.25) && qky(var1, var2, var4, var3, var30)) {
                         int var36 = 0;
 
                         for (double[] var40 : qei) {
-                           double var41 = MathHelper.method_15350(var26 + var40[0], -0.47, 0.47);
-                           double var43 = MathHelper.method_15350(var28 + var40[1], -0.47, 0.47);
-                           if (qky(var1, var2, var4, var3, var19.method_1019(var20.method_1021(var41)).method_1019(var21.method_1021(var43)))) {
+                           double var41 = MathHelper.clamp(var26 + var40[0], -0.47, 0.47);
+                           double var43 = MathHelper.clamp(var28 + var40[1], -0.47, 0.47);
+                           if (qky(var1, var2, var4, var3, var19.add(var20.multiply(var41)).add(var21.multiply(var43)))) {
                               var36++;
                            }
                         }
 
-                        double var45 = Math.acos(MathHelper.method_15350(var31.method_1021(1.0 / var32).method_1026(var5), -1.0, 1.0));
-                        double var46 = var34 / Math.max(0.05, Math.abs(var31.field_1351));
+                        double var45 = Math.acos(MathHelper.clamp(var31.multiply(1.0 / var32).dotProduct(var5), -1.0, 1.0));
+                        double var46 = var34 / Math.max(0.05, Math.abs(var31.y));
                         double var47 = var45 + (qei.length - var36) * 0.35 + (var46 < 0.4 ? (0.4 - var46) * 2.0 : 0.0);
                         if (var47 < var7) {
                            var7 = var47;
@@ -2723,105 +2708,102 @@ public final class qdz {
    }
 
    private static boolean qky(World var0, ClientPlayerEntity var1, Vec3d var2, BlockPos var3, Vec3d var4) {
-      Vec3d var5 = var4.method_1020(var2);
-      double var6 = var5.method_1033();
+      Vec3d var5 = var4.subtract(var2);
+      double var6 = var5.length();
       if (var6 < 1.0E-4) {
          return false;
-      } else {
-         Vec3d var8 = var4.method_1019(var5.method_1021(0.08 / var6));
-         BlockHitResult var9 = var0.method_17742(new RaycastContext(var2, var8, ShapeType.field_17559, FluidHandling.field_1348, var1));
-         if (var9.method_17783() == Type.field_1332 && var9.method_17777().equals(var3)) {
-            for (Box var11 : qhs) {
-               if (var11.method_1006(var2) || var11.method_992(var2, var8).isPresent()) {
-                  return false;
-               }
-            }
+      }
 
-            return true;
-         } else {
-            return false;
+      Vec3d var8 = var4.add(var5.multiply(0.08 / var6));
+      BlockHitResult var9 = var0.raycast(new RaycastContext(var2, var8, ShapeType.OUTLINE, FluidHandling.NONE, var1));
+      if (var9.getType() == Type.BLOCK && var9.getBlockPos().equals(var3)) {
+         for (Box var11 : qhs) {
+            if (var11.contains(var2) || var11.raycast(var2, var8).isPresent()) {
+               return false;
+            }
          }
+
+         return true;
+      } else {
+         return false;
       }
    }
 
    private static void qkz(World var0, ClientPlayerEntity var1) {
       qhs.clear();
 
-      for (Entity var3 : var0.method_8333(var1, var1.method_5829().method_1014(7.0), EntityPredicates.field_52443)) {
-         qhs.add(var3.method_5829().method_1014(var3.method_5871()));
+      for (Entity var3 : var0.getOtherEntities(var1, var1.getBoundingBox().expand(7.0), EntityPredicates.CAN_HIT)) {
+         qhs.add(var3.getBoundingBox().expand(var3.getTargetingMargin()));
       }
    }
 
    private static BlockPos qla(World var0, ClientPlayerEntity var1, Vec3d var2, BlockPos var3) {
-      BlockHitResult var4 = var0.method_17742(new RaycastContext(var2, Vec3d.method_24953(var3), ShapeType.field_17559, FluidHandling.field_1348, var1));
-      return var4.method_17783() == Type.field_1332 && !var4.method_17777().equals(var3) ? var4.method_17777() : null;
+      BlockHitResult var4 = var0.raycast(new RaycastContext(var2, Vec3d.ofCenter(var3), ShapeType.OUTLINE, FluidHandling.NONE, var1));
+      return var4.getType() == Type.BLOCK && !var4.getBlockPos().equals(var3) ? var4.getBlockPos() : null;
    }
 
    static BlockPos standing(World var0, ClientPlayerEntity var1) {
-      BlockPos var2 = var1.method_24515();
-      return var1.method_23318() - var2.method_10264() >= 0.49 && !var0.method_8320(var2).method_26220(var0, var2).method_1110() ? var2.method_10084() : var2;
+      BlockPos var2 = var1.getBlockPos();
+      return var1.getY() - var2.getY() >= 0.49 && !var0.getBlockState(var2).getCollisionShape(var0, var2).isEmpty() ? var2.up() : var2;
    }
 
    public static BlockPos trapped(World var0, ClientPlayerEntity var1) {
-      Box var2 = var1.method_5829().method_1011(0.001);
-      if (!var0.method_8587(var1, var2)) {
-         BlockPos var7 = BlockPos.method_49638(var1.method_33571());
+      Box var2 = var1.getBoundingBox().contract(0.001);
+      if (!var0.isSpaceEmpty(var1, var2)) {
+         BlockPos var7 = BlockPos.ofFloored(var1.getEyePos());
          if (qlb(var0, var7)) {
             return var7;
-         } else {
-            BlockPos var4 = BlockPos.method_49637(var1.method_23317(), var2.field_1322, var1.method_23321());
-            if (qlb(var0, var4)) {
-               return var4;
-            } else {
-               for (BlockPos var6 : BlockPos.method_10097(
-                  BlockPos.method_49637(var2.field_1323, var2.field_1322, var2.field_1321),
-                  BlockPos.method_49637(var2.field_1320, var2.field_1325, var2.field_1324)
-               )) {
-                  if (qlb(var0, var6) && var0.method_8320(var6).method_26220(var0, var6).method_1107().method_996(var6).method_994(var2)) {
-                     return var6.method_10062();
-                  }
-               }
+         }
 
-               return null;
+         BlockPos var4 = BlockPos.ofFloored(var1.getX(), var2.minY, var1.getZ());
+         if (qlb(var0, var4)) {
+            return var4;
+         }
+
+         for (BlockPos var6 : BlockPos.iterate(BlockPos.ofFloored(var2.minX, var2.minY, var2.minZ), BlockPos.ofFloored(var2.maxX, var2.maxY, var2.maxZ))) {
+            if (qlb(var0, var6) && var0.getBlockState(var6).getCollisionShape(var0, var6).getBoundingBox().offset(var6).intersects(var2)) {
+               return var6.toImmutable();
             }
          }
+
+         return null;
       } else {
-         BlockPos var3 = BlockPos.method_49637(var1.method_23317(), var2.field_1322, var1.method_23321()).method_10084();
-         return var1.method_20448() && qlb(var0, var3) ? var3 : null;
+         BlockPos var3 = BlockPos.ofFloored(var1.getX(), var2.minY, var1.getZ()).up();
+         return var1.isCrawling() && qlb(var0, var3) ? var3 : null;
       }
    }
 
    private static boolean qlb(World var0, BlockPos var1) {
-      BlockState var2 = var0.method_8320(var1);
-      return !var2.method_26215() && var2.method_26227().method_15769() && var2.method_26214(var0, var1) >= 0.0F && var2.method_26234(var0, var1);
+      BlockState var2 = var0.getBlockState(var1);
+      return !var2.isAir() && var2.getFluidState().isEmpty() && var2.getHardness(var0, var1) >= 0.0F && var2.isFullCube(var0, var1);
    }
 
    private boolean qlc(World var1, BlockPos var2) {
-      if (this.qfg != null && this.qfg.contains(var2) && !this.qev.contains(var2.method_10063())) {
-         BlockState var3 = var1.method_8320(var2);
-         return !var3.method_26215() && var3.method_26227().method_15769() && var3.method_26214(var1, var2) >= 0.0F;
+      if (this.qfg != null && this.qfg.contains(var2) && !this.qev.contains(var2.asLong())) {
+         BlockState var3 = var1.getBlockState(var2);
+         return !var3.isAir() && var3.getFluidState().isEmpty() && var3.getHardness(var1, var2) >= 0.0F;
       } else {
          return false;
       }
    }
 
    private static boolean qld(World var0, BlockPos var1) {
-      return !var0.method_8320(var1).method_26220(var0, var1).method_1110();
+      return !var0.getBlockState(var1).getCollisionShape(var0, var1).isEmpty();
    }
 
    private static boolean qle(World var0, BlockPos var1) {
-      VoxelShape var2 = var0.method_8320(var1).method_26220(var0, var1);
-      return !var2.method_1110() && var2.method_1105(Axis.field_11052) > 0.25;
+      VoxelShape var2 = var0.getBlockState(var1).getCollisionShape(var0, var1);
+      return !var2.isEmpty() && var2.getMax(Axis.Y) > 0.25;
    }
 
    private void qlf(BlockPos var1, int var2) {
-      this.qlj(a.c(-564323151, "᳇敮\uefbf燗祖") + var1.method_23854() + a.d("줨", 1780711411, -1700415750) + var2);
-      this.qew.put(var1.method_10063(), this.qfi + var2);
+      this.qlj(a.c(-564323151, "᳇敮\uefbf燗祖") + var1.toShortString() + a.d("줨", 1780711411, -1700415750) + var2);
+      this.qew.put(var1.asLong(), this.qfi + var2);
    }
 
    private void qlg(ClientPlayerEntity var1) {
-      Vec3d var2 = var1.method_73189();
-      if (this.qfx != null && this.qfr == null && this.qgm != null && var2.method_1025(this.qgm) < 4.0E-4) {
+      Vec3d var2 = var1.getEntityPos();
+      if (this.qfx != null && this.qfr == null && this.qgm != null && var2.squaredDistanceTo(this.qgm) < 4.0E-4) {
          this.qgn++;
       } else {
          this.qgn = 0;
@@ -2838,8 +2820,8 @@ public final class qdz {
          if (this.qfi - var3.tick() > 60) {
             var2.remove();
          } else {
-            BlockPos var4 = BlockPos.method_10092(var3.pos());
-            if (var1.method_8320(var4).method_26204() != var3.block()) {
+            BlockPos var4 = BlockPos.fromLong(var3.pos());
+            if (var1.getBlockState(var4).getBlock() != var3.block()) {
                this.qez.remove(var3.pos());
             } else {
                int var5 = this.qez.getOrDefault(var3.pos(), -1);
@@ -2864,7 +2846,7 @@ public final class qdz {
       this.qez.remove(var1);
       this.qfq++;
       this.qfl = true;
-      this.qlj(a.b("㡿䇍쬑售", -1674627047) + BlockPos.method_10092(var1).method_23854() + a.b("쉢", 1437909571) + var3);
+      this.qlj(a.b("㡿䇍쬑售", -1674627047) + BlockPos.fromLong(var1).toShortString() + a.b("쉢", 1437909571) + var3);
    }
 
    private void qlj(String var1) {

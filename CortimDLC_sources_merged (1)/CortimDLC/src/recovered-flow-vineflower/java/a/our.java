@@ -47,8 +47,8 @@ public class our extends kfe {
 
             if (var1.isEnabled()) {
                ouz = System.currentTimeMillis();
-               if (var0.field_1724 != null
-                  && (var0.field_1724.method_6047().method_31574(Items.field_8287) || var0.field_1724.method_6079().method_31574(Items.field_8287))) {
+               if (var0.player != null
+                  && (var0.player.getMainHandStack().isOf(Items.EXPERIENCE_BOTTLE) || var0.player.getOffHandStack().isOf(Items.EXPERIENCE_BOTTLE))) {
                   ovc(var0, var2);
                }
             }
@@ -66,9 +66,9 @@ public class our extends kfe {
       if (ouy && System.currentTimeMillis() - ouz > 1500L) {
          ouy = false;
          this.setEnabled(false);
-      } else if (var1.field_1724 != null
-         && var1.field_1690.field_1904.method_1434()
-         && (this.ovd(var1.field_1724.method_6047()) || this.ovd(var1.field_1724.method_6079()))) {
+      } else if (var1.player != null
+         && var1.options.useKey.isPressed()
+         && (this.ovd(var1.player.getMainHandStack()) || this.ovd(var1.player.getOffHandStack()))) {
          ovc(var1, this.ouu.getInt());
       }
    }
@@ -90,16 +90,14 @@ public class our extends kfe {
    }
 
    private boolean ovd(ItemStack var1) {
-      if (var1.method_7960()) {
+      if (var1.isEmpty()) {
          return false;
-      } else {
-         String var2 = this.out.get();
-
-         return switch (var2) {
-            case a.b("寑≍ꢞ", -319071341) -> true;
-            case a.b("渕ដ鵚̧裸๑", -770740655) -> var1.method_7909() instanceof BlockItem || var1.method_31574(Items.field_8287);
-            default -> var1.method_31574(Items.field_8287);
-         };
       }
+
+      return switch (this.out.get()) {
+         case a.b("寑≍ꢞ", -319071341) -> true;
+         case a.b("渕ដ鵚̧裸๑", -770740655) -> var1.getItem() instanceof BlockItem || var1.isOf(Items.EXPERIENCE_BOTTLE);
+         default -> var1.isOf(Items.EXPERIENCE_BOTTLE);
+      };
    }
 }

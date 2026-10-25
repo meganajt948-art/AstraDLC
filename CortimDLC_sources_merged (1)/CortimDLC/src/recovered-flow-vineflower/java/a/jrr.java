@@ -29,7 +29,7 @@ public final class jrr extends RotatingCubeMapRenderer {
          try {
             if (!jrs) {
                jrs = true;
-               jse(var0.field_1773);
+               jse(var0.gameRenderer);
             }
 
             if (jru != null && unf.frame() - jrv > 30L) {
@@ -67,8 +67,8 @@ public final class jrr extends RotatingCubeMapRenderer {
       jrt = true;
 
       try {
-         if (jrx != null && jrw != null && var0 != null && var0.field_1773 != null && jrx.get(var0.field_1773) instanceof jrr) {
-            jrx.set(var0.field_1773, jrw);
+         if (jrx != null && jrw != null && var0 != null && var0.gameRenderer != null && jrx.get(var0.gameRenderer) instanceof jrr) {
+            jrx.set(var0.gameRenderer, jrw);
          }
       } catch (Throwable var3) {
       }
@@ -83,30 +83,31 @@ public final class jrr extends RotatingCubeMapRenderer {
       }
    }
 
-   public void method_3317(DrawContext var1, int var2, int var3, boolean var4) {
+   @Override
+   public void render(DrawContext context, int width, int height, boolean rotate) {
       if (dry.armed()) {
-         super.method_3317(var1, var2, var3, var4);
+         super.render(context, width, height, rotate);
       } else {
          jza var5 = jrt ? null : jzh.get(kbs.selected().key);
          if (var5 == null) {
-            super.method_3317(var1, var2, var3, var4);
+            super.render(context, width, height, rotate);
          } else {
             try {
-               unf.observe(var1);
+               unf.observe(context);
                jrv = unf.frame();
                if (jru == null) {
                   jru = new kap();
                }
 
-               MinecraftClient var6 = MinecraftClient.method_1551();
+               MinecraftClient var6 = MinecraftClient.getInstance();
                long var7 = System.nanoTime();
                float var9 = this.jsb == 0L ? 0.0F : Math.min(0.1F, (float)(var7 - this.jsb) / 1.0E9F);
                this.jsb = var7;
                float var10 = 1.0F - (float)Math.exp(-var9 * 2.2F);
-               double var11 = Math.max(1, var6.method_22683().method_4480());
-               double var13 = Math.max(1, var6.method_22683().method_4507());
-               this.jrz = this.jrz + ((float)(var6.field_1729.method_1603() / var11) - 0.5F - this.jrz) * var10;
-               this.jsa = this.jsa + ((float)(var6.field_1729.method_1604() / var13) - 0.5F - this.jsa) * var10;
+               double var11 = Math.max(1, var6.getWindow().getWidth());
+               double var13 = Math.max(1, var6.getWindow().getHeight());
+               this.jrz = this.jrz + ((float)(var6.mouse.getX() / var11) - 0.5F - this.jrz) * var10;
+               this.jsa = this.jsa + ((float)(var6.mouse.getY() / var13) - 0.5F - this.jsa) * var10;
                kbs var15 = kbs.selected();
                this.jry.time = kap.clock();
                this.jry.zoom = 1.05F;
@@ -118,13 +119,13 @@ public final class jrr extends RotatingCubeMapRenderer {
                this.jry.tintAmount = 0.3F;
                this.jry.fall = null;
                this.jry.pool = null;
-               if (!jru.draw(var1, var5, this.jry, var2, var3, 1.0F, false)) {
-                  super.method_3317(var1, var2, var3, var4);
+               if (!jru.draw(context, var5, this.jry, width, height, 1.0F, false)) {
+                  super.render(context, width, height, rotate);
                }
             } catch (Throwable var16) {
                jrt = true;
                System.out.println(a.b("瘟ྦ蕾ᬔ邖ᙥ갵◆뮑ㄯ뛪䲆쉎宯톺坌\ued0b拟\uf865縵\uf78a跗̦飴ẉ鑐ⶨꎭ㥁뽟㒸쩵䀷\ud983往픠櫸\ue088晆￤疷\u0b4a腂۩", 29193822) + var16);
-               super.method_3317(var1, var2, var3, var4);
+               super.render(context, width, height, rotate);
             }
          }
       }

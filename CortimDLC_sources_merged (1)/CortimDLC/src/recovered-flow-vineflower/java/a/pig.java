@@ -17,8 +17,8 @@ public record pig(RegistryEntry<StatusEffect> effect, int level, int duration) {
    }
 
    boolean in(PotionContentsComponent var1) {
-      for (StatusEffectInstance var3 : var1.method_57397()) {
-         if (var3.method_5579().equals(this.pih) && var3.method_5578() + 1 == this.pii && var3.method_5584() >= this.pij) {
+      for (StatusEffectInstance var3 : var1.getEffects()) {
+         if (var3.getEffectType().equals(this.pih) && var3.getAmplifier() + 1 == this.pii && var3.getDuration() >= this.pij) {
             return true;
          }
       }

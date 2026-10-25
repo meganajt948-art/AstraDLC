@@ -25,27 +25,27 @@ public final class pte {
    }
 
    public static BlockPos find(MinecraftClient var0, BlockPos var1, int var2, int var3, String... var4) {
-      if (var0.field_1687 != null && var1 != null) {
+      if (var0.world != null && var1 != null) {
          BlockPos var5 = null;
          double var6 = Double.MAX_VALUE;
-         int var8 = var1.method_10263() >> 4;
-         int var9 = var1.method_10260() >> 4;
+         int var8 = var1.getX() >> 4;
+         int var9 = var1.getZ() >> 4;
          int var10 = (var2 >> 4) + 1;
 
          for (int var11 = -var10; var11 <= var10; var11++) {
             for (int var12 = -var10; var12 <= var10; var12++) {
-               WorldChunk var13 = var0.field_1687.method_2935().method_12126(var8 + var11, var9 + var12, false);
+               WorldChunk var13 = var0.world.getChunkManager().getWorldChunk(var8 + var11, var9 + var12, false);
                if (var13 != null) {
-                  for (BlockEntity var15 : var13.method_12214().values()) {
+                  for (BlockEntity var15 : var13.getBlockEntities().values()) {
                      if (var15 instanceof SignBlockEntity var16) {
-                        BlockPos var17 = var16.method_11016();
-                        if (Math.abs(var17.method_10263() - var1.method_10263()) <= var2
-                           && Math.abs(var17.method_10264() - var1.method_10264()) <= var3
-                           && Math.abs(var17.method_10260() - var1.method_10260()) <= var2
+                        BlockPos var17 = var16.getPos();
+                        if (Math.abs(var17.getX() - var1.getX()) <= var2
+                           && Math.abs(var17.getY() - var1.getY()) <= var3
+                           && Math.abs(var17.getZ() - var1.getZ()) <= var2
                            && matches(var16, var4)) {
-                           BlockPos var18 = chestFor(var0.field_1687, var17);
+                           BlockPos var18 = chestFor(var0.world, var17);
                            if (var18 != null) {
-                              double var19 = var18.method_10262(var1);
+                              double var19 = var18.getSquaredDistance(var1);
                               if (var19 < var6) {
                                  var6 = var19;
                                  var5 = var18;
@@ -66,7 +66,7 @@ public final class pte {
 
    public static boolean matches(SignBlockEntity var0, String... var1) {
       for (boolean var5 : new boolean[]{true, false}) {
-         Text[] var6 = var0.method_49843(var5).method_49877(false);
+         Text[] var6 = var0.getText(var5).getMessages(false);
 
          for (Text var10 : var6) {
             if (var10 != null) {
@@ -85,32 +85,32 @@ public final class pte {
    }
 
    public static BlockPos chestFor(World var0, BlockPos var1) {
-      BlockState var2 = var0.method_8320(var1);
-      if (var2.method_26204() instanceof WallSignBlock) {
-         BlockPos var8 = var1.method_10093(((Direction)var2.method_11654(WallSignBlock.field_11726)).method_10153());
+      BlockState var2 = var0.getBlockState(var1);
+      if (var2.getBlock() instanceof WallSignBlock) {
+         BlockPos var8 = var1.offset(var2.get(WallSignBlock.FACING).getOpposite());
          if (isChest(var0, var8)) {
             return var8;
          } else {
-            return isChest(var0, var1.method_10074()) ? var1.method_10074() : null;
+            return isChest(var0, var1.down()) ? var1.down() : null;
          }
-      } else if (var2.method_26204() instanceof WallHangingSignBlock) {
-         Direction var3 = (Direction)var2.method_11654(WallHangingSignBlock.field_40319);
+      } else if (var2.getBlock() instanceof WallHangingSignBlock) {
+         Direction var3 = var2.get(WallHangingSignBlock.FACING);
 
-         for (Direction var7 : new Direction[]{var3.method_10170(), var3.method_10160(), var3.method_10153()}) {
-            if (isChest(var0, var1.method_10093(var7))) {
-               return var1.method_10093(var7);
+         for (Direction var7 : new Direction[]{var3.rotateYClockwise(), var3.rotateYCounterclockwise(), var3.getOpposite()}) {
+            if (isChest(var0, var1.offset(var7))) {
+               return var1.offset(var7);
             }
          }
 
-         return isChest(var0, var1.method_10074()) ? var1.method_10074() : null;
-      } else if (var2.method_26204() instanceof HangingSignBlock) {
-         return isChest(var0, var1.method_10084()) ? var1.method_10084() : null;
+         return isChest(var0, var1.down()) ? var1.down() : null;
+      } else if (var2.getBlock() instanceof HangingSignBlock) {
+         return isChest(var0, var1.up()) ? var1.up() : null;
       } else {
-         return isChest(var0, var1.method_10074()) ? var1.method_10074() : null;
+         return isChest(var0, var1.down()) ? var1.down() : null;
       }
    }
 
    public static boolean isChest(World var0, BlockPos var1) {
-      return var0.method_8320(var1).method_26204() instanceof ChestBlock;
+      return var0.getBlockState(var1).getBlock() instanceof ChestBlock;
    }
 }

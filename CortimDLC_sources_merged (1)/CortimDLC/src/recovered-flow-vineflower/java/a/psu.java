@@ -16,13 +16,8 @@ public final class psu {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var2.field_1687 != null
-         && var2.field_1724 != null
-         && !var2.field_1690.field_1842
-         && !dry.armed()
-         && !(var2.field_1755 instanceof hlc)
-         && pnf.visible()) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var2.world != null && var2.player != null && !var2.options.hudHidden && !dry.armed() && !(var2.currentScreen instanceof hlc) && pnf.visible()) {
          psf var3 = pnf.route();
          if (var3 != null && var3.track.n >= 2) {
             unf.observe(var0);
@@ -31,7 +26,7 @@ public final class psu {
 
                usn var4;
                try {
-                  var4 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+                  var4 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
                } catch (Throwable var36) {
                   return;
                }

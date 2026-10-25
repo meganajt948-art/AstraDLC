@@ -23,10 +23,10 @@ public final class pjd {
    public static String key(String var0) {
       if (var0 == null) {
          return "";
-      } else {
-         String var1 = var0.replaceAll(a.c(-821074676, "救᳥陘࠴菷Ԣ"), "");
-         return var1.isEmpty() ? var0.trim().toLowerCase(Locale.ROOT) : var1;
       }
+
+      String var1 = var0.replaceAll(a.c(-821074676, "救᳥陘࠴菷Ԣ"), "");
+      return var1.isEmpty() ? var0.trim().toLowerCase(Locale.ROOT) : var1;
    }
 
    public static synchronized boolean enter(Object var0, String var1) {
@@ -39,32 +39,32 @@ public final class pjd {
             pjg.put(var0, new piv(var4, var2));
             pjl(var0);
             return true;
-         } else {
-            pja var6 = pjk(var0);
-            if (var6 == null || !var6.anarchy.equals(var4)) {
-               pjl(var0);
-               var6 = new pja(var0, var4, var2);
-               pjh.add(var6);
-            }
+         }
 
-            var6.seen = var2;
-            if (count(var4, var0) >= 3) {
-               return false;
-            } else {
-               for (pja var8 : pjh) {
-                  if (var8.anarchy.equals(var4)) {
-                     if (var8.owner != var0) {
-                        return false;
-                     }
-                     break;
-                  }
+         pja var6 = pjk(var0);
+         if (var6 == null || !var6.anarchy.equals(var4)) {
+            pjl(var0);
+            var6 = new pja(var0, var4, var2);
+            pjh.add(var6);
+         }
+
+         var6.seen = var2;
+         if (count(var4, var0) >= 3) {
+            return false;
+         }
+
+         for (pja var8 : pjh) {
+            if (var8.anarchy.equals(var4)) {
+               if (var8.owner != var0) {
+                  return false;
                }
-
-               pjl(var0);
-               pjg.put(var0, new piv(var4, var2));
-               return true;
+               break;
             }
          }
+
+         pjl(var0);
+         pjg.put(var0, new piv(var4, var2));
+         return true;
       } else {
          return true;
       }
@@ -77,15 +77,15 @@ public final class pjd {
       if (!var2.isEmpty() && (var3 == null || !var3.piw.equals(var2))) {
          if (count(var2, var1) >= 3) {
             return false;
-         } else {
-            for (pja var5 : pjh) {
-               if (var5.anarchy.equals(var2)) {
-                  return var5.owner == var1;
-               }
-            }
-
-            return true;
          }
+
+         for (pja var5 : pjh) {
+            if (var5.anarchy.equals(var2)) {
+               return var5.owner == var1;
+            }
+         }
+
+         return true;
       } else {
          return true;
       }
@@ -95,20 +95,20 @@ public final class pjd {
       pja var1 = pjk(var0);
       if (var1 == null) {
          return 0;
-      } else {
-         int var2 = 0;
+      }
 
-         for (pja var4 : pjh) {
-            if (var4.anarchy.equals(var1.anarchy)) {
-               var2++;
-               if (var4 == var1) {
-                  return var2;
-               }
+      int var2 = 0;
+
+      for (pja var4 : pjh) {
+         if (var4.anarchy.equals(var1.anarchy)) {
+            var2++;
+            if (var4 == var1) {
+               return var2;
             }
          }
-
-         return 0;
       }
+
+      return 0;
    }
 
    public static synchronized int count(String var0, Object var1) {

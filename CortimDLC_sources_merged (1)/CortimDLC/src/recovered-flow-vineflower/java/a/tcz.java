@@ -62,16 +62,16 @@ public final class tcz {
       try {
          AttackBlockCallback.EVENT.register((AttackBlockCallback)(var0, var1x, var2, var3, var4) -> {
             ttl var5 = tdh;
-            MinecraftClient var6 = MinecraftClient.method_1551();
-            if (var5 != null && var1x.method_8608() && var0 == var6.field_1724 && !ejp.isActive()) {
+            MinecraftClient var6 = MinecraftClient.getInstance();
+            if (var5 != null && var1x.isClient() && var0 == var6.player && !ejp.isActive()) {
                var5.attack(var6, var3, var4);
             }
 
-            return ActionResult.field_5811;
+            return ActionResult.PASS;
          });
          ClientPlayerBlockBreakEvents.AFTER.register((After)(var0, var1x, var2, var3) -> {
             ttl var4 = tdh;
-            if (var4 != null && var1x == MinecraftClient.method_1551().field_1724 && !ejp.isActive()) {
+            if (var4 != null && var1x == MinecraftClient.getInstance().player && !ejp.isActive()) {
                var4.broken(var3);
             }
          });
@@ -93,13 +93,13 @@ public final class tcz {
    }
 
    public static void startWalking(tiq var0, String var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var2.field_1724 != null && var2.field_1687 != null && var0 != null) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var2.player != null && var2.world != null && var0 != null) {
          stop();
          tdw();
          tdf = var0;
          tde = tcw.RECORD;
-         tdl = var2.field_1687;
+         tdl = var2.world;
          String var3 = a.b("ꢭ턨寺얐乿죸犸ﭟ攁\uefbb", 1396812006).equals(var1) ? a.b("⻏坊\udd98䏲젝亚\uf4da紽\ue363槙", -1905250684) : a.d("◧屢횰䣚쌧䖽￤", 613483270, 1031153319);
          tdi = new tyd(var0, var3, (float)unit(var2));
          kfe var4 = tee(var3);
@@ -112,12 +112,12 @@ public final class tcz {
    }
 
    private static String tdt(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
-      if (var0.field_1755 != null) {
+      ClientPlayerEntity var1 = var0.player;
+      if (var0.currentScreen != null) {
          return a.b("曾Ὗ閝\u0bfb耬ږ", 1756063371);
-      } else if (!var0.method_1569()) {
+      } else if (!var0.isWindowFocused()) {
          return a.b("䃘㥠뎿ⷘꘉ", -1324400453);
-      } else if (!var1.method_5805() || var1.method_7325()) {
+      } else if (!var1.isAlive() || var1.isSpectator()) {
          return a.b("\udac1ꍱ⦦럒", -2033395039);
       } else {
          return ovh.active() ? a.d("㏛䩾삺廋픚厩\ue9f6", 1038296086, 1988040620) : null;
@@ -129,24 +129,28 @@ public final class tcz {
    }
 
    public static void startMining(tiq var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (var1.field_1724 != null && var1.field_1687 != null && var0 != null) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (var1.player != null && var1.world != null && var0 != null) {
          stop();
          tdw();
          tdf = var0;
          tde = tcw.RECORD;
-         tdl = var1.field_1687;
+         tdl = var1.world;
          tdh = new ttl(var0, (float)unit(var1));
       }
    }
 
    private static String tdu(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
-      if (var0.field_1755 != null) {
+      ClientPlayerEntity var1 = var0.player;
+      if (var0.currentScreen != null) {
          return a.d("쨑뎰㥲꜔ⳃ꩹", -2106492669, -767773849);
-      } else if (!var0.method_1569()) {
+      }
+
+      if (!var0.isWindowFocused()) {
          return a.d("䰺㖂뽝℺ꫫ", 367600820, -1607833363);
-      } else if (var1.method_5805() && !var1.method_7325()) {
+      }
+
+      if (var1.isAlive() && !var1.isSpectator()) {
          kfe var2 = tee(a.d("櫚፟馍ߧ谒ઇ냓㤩", -10262202, -87489579));
          if (!nfl.busy() && (var2 == null || !var2.isEnabled())) {
             if (lqq.busy()) {
@@ -210,16 +214,16 @@ public final class tcz {
    }
 
    private static void tdv(tiq var0, tcw var1) {
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var2.field_1724 != null && var2.field_1687 != null && var0 != null) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var2.player != null && var2.world != null && var0 != null) {
          stop();
          tdw();
          tdf = var0;
          tde = var1;
-         tdl = var2.field_1687;
+         tdl = var2.world;
          tdx(var2, var0);
          if (var1 == tcw.RECORD) {
-            tdg = new tkc(var0, 0, var2.field_1724.method_73189(), (float)unit(var2));
+            tdg = new tkc(var0, 0, var2.player.getEntityPos(), (float)unit(var2));
          }
       }
    }
@@ -245,7 +249,7 @@ public final class tcz {
          }
       }
 
-      tdy(MinecraftClient.method_1551());
+      tdy(MinecraftClient.getInstance());
       tde = tcw.NONE;
       tdf = null;
    }
@@ -258,7 +262,7 @@ public final class tcz {
    }
 
    public static double unit(MinecraftClient var0) {
-      double var1 = (Double)var0.field_1690.method_42495().method_41753() * 0.6 + 0.2;
+      double var1 = var0.options.getMouseSensitivity().getValue() * 0.6 + 0.2;
       return var1 * var1 * var1 * 8.0 * 0.15;
    }
 
@@ -267,24 +271,24 @@ public final class tcz {
       int var2 = var1.standCount();
 
       for (int var3 = 0; var3 < var2; var3++) {
-         tkx var4 = new tkx(var0.field_1687, tdb[var3 % tdb.length], tdd.nextLong(), var1.standMode(), var1.standNear(), var1.standFar(), var1.standSpeed());
-         var4.method_5838(-789577728 - var3);
-         var4.method_5673(EquipmentSlot.field_6169, new ItemStack(Items.field_8805));
-         var4.method_5673(EquipmentSlot.field_6174, new ItemStack(Items.field_8058));
-         var4.method_5673(EquipmentSlot.field_6172, new ItemStack(Items.field_8348));
-         var4.method_5673(EquipmentSlot.field_6166, new ItemStack(Items.field_8285));
-         var4.method_5673(EquipmentSlot.field_6173, new ItemStack(Items.field_8802));
-         var4.relocate(var0.field_1724);
-         var0.field_1687.method_53875(var4);
+         tkx var4 = new tkx(var0.world, tdb[var3 % tdb.length], tdd.nextLong(), var1.standMode(), var1.standNear(), var1.standFar(), var1.standSpeed());
+         var4.setId(-789577728 - var3);
+         var4.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.DIAMOND_HELMET));
+         var4.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE));
+         var4.equipStack(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS));
+         var4.equipStack(EquipmentSlot.FEET, new ItemStack(Items.DIAMOND_BOOTS));
+         var4.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
+         var4.relocate(var0.player);
+         var0.world.addEntity(var4);
          tdc.add(var4);
       }
    }
 
    private static void tdy(MinecraftClient var0) {
-      if (var0.field_1687 != null && var0.field_1687 == tdl) {
+      if (var0.world != null && var0.world == tdl) {
          for (tkx var2 : tdc) {
-            if (!var2.method_31481()) {
-               var0.field_1687.method_2945(var2.method_5628(), RemovalReason.field_26999);
+            if (!var2.isRemoved()) {
+               var0.world.removeEntity(var2.getId(), RemovalReason.DISCARDED);
             }
          }
       }
@@ -293,42 +297,42 @@ public final class tcz {
    }
 
    public static boolean onAttack(PlayerEntity var0, Entity var1, EntityHitResult var2) {
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       if (var0 instanceof ClientPlayerEntity var4) {
-         Vec3d var5 = var2 != null ? var2.method_17784() : var1.method_5829().method_1005();
+         Vec3d var5 = var2 != null ? var2.getPos() : var1.getBoundingBox().getCenter();
          if (var1 instanceof tkx var6) {
             if (tdg != null) {
                tdg.hit(var1, var5, var4);
             }
 
-            boolean var7 = var4.field_6017 > 0.0 && !var4.method_24828() && !var4.method_6101() && !var4.method_5799() && !var4.method_5624();
-            var6.knock(var4.method_73189(), var4.method_5624());
-            var4.method_7350();
-            if (var3.field_1687 != null) {
-               var3.field_1687
-                  .method_8486(
-                     var6.method_23317(),
-                     var6.method_23320(),
-                     var6.method_23321(),
-                     var7 ? SoundEvents.field_15016 : SoundEvents.field_14840,
-                     SoundCategory.field_15248,
+            boolean var7 = var4.fallDistance > 0.0 && !var4.isOnGround() && !var4.isClimbing() && !var4.isTouchingWater() && !var4.isSprinting();
+            var6.knock(var4.getEntityPos(), var4.isSprinting());
+            var4.resetTicksSince();
+            if (var3.world != null) {
+               var3.world
+                  .playSoundClient(
+                     var6.getX(),
+                     var6.getEyeY(),
+                     var6.getZ(),
+                     var7 ? SoundEvents.ENTITY_PLAYER_ATTACK_CRIT : SoundEvents.ENTITY_PLAYER_ATTACK_STRONG,
+                     SoundCategory.PLAYERS,
                      0.8F,
                      0.95F + tdd.nextFloat() * 0.1F,
                      false
                   );
-               var3.field_1687
-                  .method_8486(
-                     var6.method_23317(),
-                     var6.method_23320(),
-                     var6.method_23321(),
-                     SoundEvents.field_15115,
-                     SoundCategory.field_15248,
+               var3.world
+                  .playSoundClient(
+                     var6.getX(),
+                     var6.getEyeY(),
+                     var6.getZ(),
+                     SoundEvents.ENTITY_PLAYER_HURT,
+                     SoundCategory.PLAYERS,
                      0.6F,
                      0.9F + tdd.nextFloat() * 0.2F,
                      false
                   );
                if (var7) {
-                  var3.field_1713.method_3061(var6, ParticleTypes.field_11205);
+                  var3.particleManager.addEmitter(var6, ParticleTypes.CRIT);
                }
             }
 
@@ -356,11 +360,11 @@ public final class tcz {
          );
       }
 
-      return Math.max(0, vxr.getInt(tdm, var0.field_1690.field_1886, 0));
+      return Math.max(0, vxr.getInt(tdm, var0.options.attackKey, 0));
    }
 
    private static void tea(MinecraftClient var0) {
-      if (var0.field_1724 != null && var0.field_1755 == null) {
+      if (var0.player != null && var0.currentScreen == null) {
          int var1 = tdg == null && tdk == null ? 0 : tdz(var0);
          if (var1 > 0) {
             if (tdg != null) {
@@ -381,11 +385,11 @@ public final class tcz {
          stop();
       }
 
-      if ((tdh != null || tdi != null) && var0.field_1687 != null && var0.field_1687 != tdl) {
-         tdl = var0.field_1687;
+      if ((tdh != null || tdi != null) && var0.world != null && var0.world != tdl) {
+         tdl = var0.world;
       }
 
-      if (var0.field_1687 != tdl && tde != tcw.NONE && tdh == null && tdi == null) {
+      if (var0.world != tdl && tde != tcw.NONE && tdh == null && tdi == null) {
          if (tdg != null) {
             tdg.finish();
             tdg = null;
@@ -396,7 +400,7 @@ public final class tcz {
          tdf = null;
       }
 
-      if (var0.field_1724 != null && var0.field_1687 != null) {
+      if (var0.player != null && var0.world != null) {
          if (tde != tcw.NONE) {
             tec(var0);
          }
@@ -458,28 +462,32 @@ public final class tcz {
    private static void tec(MinecraftClient var0) {
       for (int var1 = 0; var1 < tdc.size(); var1++) {
          tkx var2 = tdc.get(var1);
-         if (var2.method_31481() || var0.field_1687.method_8469(var2.method_5628()) != var2) {
-            tkx var3 = new tkx(var0.field_1687, tdb[var1 % tdb.length], tdd.nextLong(), tdf.standMode(), tdf.standNear(), tdf.standFar(), tdf.standSpeed());
-            var3.method_5838(-789577728 - var1);
+         if (var2.isRemoved() || var0.world.getEntityById(var2.getId()) != var2) {
+            tkx var3 = new tkx(var0.world, tdb[var1 % tdb.length], tdd.nextLong(), tdf.standMode(), tdf.standNear(), tdf.standFar(), tdf.standSpeed());
+            var3.setId(-789577728 - var1);
 
             for (EquipmentSlot var7 : EquipmentSlot.values()) {
-               var3.method_5673(var7, var2.method_6118(var7).method_7972());
+               var3.equipStack(var7, var2.getEquippedStack(var7).copy());
             }
 
-            var3.relocate(var0.field_1724);
-            var0.field_1687.method_53875(var3);
+            var3.relocate(var0.player);
+            var0.world.addEntity(var3);
             tdc.set(var1, var3);
          }
       }
    }
 
    private static String ted(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
-      if (var0.field_1755 != null) {
+      ClientPlayerEntity var1 = var0.player;
+      if (var0.currentScreen != null) {
          return a.b("王ਪ胨Ẏ镙Ꮳ", -987335682);
-      } else if (!var0.method_1569()) {
+      }
+
+      if (!var0.isWindowFocused()) {
          return a.c(-239097764, "\ua83f톇存씿仮");
-      } else if (var1.method_5805() && !var1.method_7325()) {
+      }
+
+      if (var1.isAlive() && !var1.isSpectator()) {
          kfe var2 = tee(a.c(168907861, "吝ⶄꝓ㤎닫㑚踓߸馠"));
          if (var2 != null && var2.isEnabled()) {
             return a.b("翻ق貕የ餭ᾜꗕⰾ뉦", 1637842835);
@@ -507,7 +515,7 @@ public final class tcz {
          }
 
          if (tdk == null) {
-            tdk = new tkc(var1, 1, var0.field_1724.method_73189(), (float)unit(var0));
+            tdk = new tkc(var1, 1, var0.player.getEntityPos(), (float)unit(var0));
          }
 
          String var3 = ted(var0);
@@ -523,26 +531,26 @@ public final class tcz {
    }
 
    private static boolean teg(ClientPlayerEntity var0, Entity var1) {
-      return var1 instanceof PlayerEntity var2 && var2 != var0 && var2.method_5805() && !var2.method_7325() && !(var1 instanceof tkx) && !hhf.protects(var2);
+      return var1 instanceof PlayerEntity var2 && var2 != var0 && var2.isAlive() && !var2.isSpectator() && !(var1 instanceof tkx) && !hhf.protects(var2);
    }
 
    private static List<Entity> teh(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       ArrayList var2 = new ArrayList();
 
-      for (PlayerEntity var4 : var0.field_1687.method_18456()) {
-         if (teg(var1, var4) && var4.method_5858(var1) < 64.0) {
+      for (PlayerEntity var4 : var0.world.getPlayers()) {
+         if (teg(var1, var4) && var4.squaredDistanceTo(var1) < 64.0) {
             var2.add(var4);
          }
       }
 
-      var2.sort(Comparator.comparingDouble(var1x -> var1x.method_5858(var1)));
+      var2.sort(Comparator.comparingDouble(var1x -> var1x.squaredDistanceTo(var1)));
       return var2.size() > 4 ? new ArrayList<>(var2.subList(0, 4)) : var2;
    }
 
    private static void tei(MinecraftClient var0) {
       int var1 = lfa.stopKey();
-      boolean var2 = var0.field_1755 == null && var1 != -1 && vzz.isDown(var0, var1);
+      boolean var2 = var0.currentScreen == null && var1 != -1 && vzz.isDown(var0, var1);
       if (var2 && !tdo && tde != tcw.NONE) {
          stop();
       }
@@ -616,16 +624,14 @@ public final class tcz {
             }
 
             tmk var3 = var1.trainerConfig();
-            String var5 = var1.quality();
 
-            byte var4 = switch (var5) {
+            byte var4 = switch (var1.quality()) {
                case a.d("柢Ṵ钵ૃ", -972900777, 1908527607) -> 25;
                case a.d("쒜봁㟋", -16719540, 1874404766) -> 70;
                default -> 45;
             };
-            String var11 = var1.quality();
 
-            byte var10 = switch (var11) {
+            byte var10 = switch (var1.quality()) {
                case a.b("듪쵼䞽\ud9cb", 957854888) -> 12;
                case a.d("솺렧㋭", 1372135260, 1138679464) -> 30;
                default -> 20;
@@ -663,17 +669,13 @@ public final class tcz {
             if (var2x.isEmpty()) {
                throw new tmt(a.b("\ufdc8葸ສ郐", 1642266018));
             }
-
-            String var4 = var1.size();
-
-            byte var3 = switch (var4) {
+            byte var3 = switch (var1.size()) {
                case a.d("堔↛ꭄ㔸뻯", -339022630, 1401926808) -> 48;
                case a.c(-883173187, "\ud8f4ꅨ⮨뗌㸙") -> 96;
                default -> 64;
             };
-            String var10 = var1.quality();
 
-            byte var9 = switch (var10) {
+            byte var9 = switch (var1.quality()) {
                case a.d("煯ࣹ舸ᱎ", -484582252, -164319815) -> 25;
                case a.d("➃帞퓔", -1531697587, 246546816) -> 70;
                default -> 45;

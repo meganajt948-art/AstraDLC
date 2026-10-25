@@ -15,14 +15,11 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
-import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public class mgl extends kfe {
@@ -138,21 +135,16 @@ public class mgl extends kfe {
    }
 
    private void mhy(GenericContainerScreen var1, DrawContext var2, int var3, int var4) {
-      if (!((GenericContainerScreenHandler)var1.method_17577()).method_34255().method_7960()) {
-         var1.method_71083(var2, var3, var4);
+      if (!var1.getScreenHandler().getCursorStack().isEmpty()) {
+         var1.renderCursorStack(var2, var3, var4);
       } else {
          Slot var5 = vxl.hovered(var1);
-         if (var5 != null && var5.method_7681()) {
-            ItemStack var6 = var5.method_7677();
-            var2.method_51437(
-               this.mc.field_1772,
-               Screen.method_25408(this.mc, var6),
-               var6.method_32347(),
-               var3,
-               var4,
-               (Identifier)var6.method_58694(DataComponentTypes.field_54198)
+         if (var5 != null && var5.hasStack()) {
+            ItemStack var6 = var5.getStack();
+            var2.drawTooltip(
+               this.mc.textRenderer, Screen.getTooltipFromItem(this.mc, var6), var6.getTooltipData(), var3, var4, var6.get(DataComponentTypes.TOOLTIP_STYLE)
             );
-            var2.method_73199();
+            var2.drawDeferredElements();
          }
       }
    }
@@ -166,25 +158,25 @@ public class mgl extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      if (var1.field_1724 != null) {
+      if (var1.player != null) {
          this.mhz(var1);
       }
    }
 
    private void mhz(MinecraftClient var1) {
-      if (var1.method_22683() == null) {
+      if (var1.getWindow() == null) {
          this.mhv = false;
       } else {
-         boolean var2 = GLFW.glfwGetMouseButton(var1.method_22683().method_4490(), 2) == 1;
-         boolean var3 = var2 && !this.mhv && var1.field_1755 instanceof GenericContainerScreen;
+         boolean var2 = GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 2) == 1;
+         boolean var3 = var2 && !this.mhv && var1.currentScreen instanceof GenericContainerScreen;
          this.mhv = var2;
          if (var3) {
-            GenericContainerScreen var4 = (GenericContainerScreen)var1.field_1755;
-            String var5 = pfl.title(var4.method_25440().getString());
+            GenericContainerScreen var4 = (GenericContainerScreen)var1.currentScreen;
+            String var5 = pfl.title(var4.getTitle().getString());
             if (!mij(var5)) {
                Slot var6 = vxl.hovered(var4);
-               if (var6 != null && var6.method_7681()) {
-                  String var7 = cleanQuery(var6.method_7677().method_7964().getString());
+               if (var6 != null && var6.hasStack()) {
+                  String var7 = cleanQuery(var6.getStack().getName().getString());
                   if (!var7.isEmpty()) {
                      this.mhk = var7;
                      izx.alert(this.getName(), wap.s(a.b("ᇠ桼\ue2b5糟\uf702燭쮤", 1057362341), a.b("ꪏ팙始잳䱡쫛炋沈挪\ue981", -1549816174)) + this.mhk, vhz.PIN, true);
@@ -196,7 +188,7 @@ public class mgl extends kfe {
    }
 
    private void mia(MinecraftClient var1) {
-      if (var1.field_1724 != null && var1.method_1562() != null) {
+      if (var1.player != null && var1.getNetworkHandler() != null) {
          long var2 = System.currentTimeMillis();
          if (var2 - this.mhl >= 500L) {
             if (!this.mib(var2)) {
@@ -207,7 +199,7 @@ public class mgl extends kfe {
                   false
                );
             } else {
-               String var4 = this.mic(var1.field_1724);
+               String var4 = this.mic(var1.player);
                if (var4.isEmpty()) {
                   izx.alert(
                      this.getName(),
@@ -217,7 +209,7 @@ public class mgl extends kfe {
                   );
                } else {
                   this.mhl = var2;
-                  var1.method_1562().method_45730(a.b("錝\ueaa5怾\ufe1c痝\uf368䤨새府푥", -569339018) + var4);
+                  var1.getNetworkHandler().sendChatCommand(a.b("錝\ueaa5怾\ufe1c痝\uf368䤨새府푥", -569339018) + var4);
                }
             }
          }
@@ -229,19 +221,19 @@ public class mgl extends kfe {
    }
 
    private String mic(ClientPlayerEntity var1) {
-      if (this.mc.field_1755 instanceof HandledScreen var2) {
+      if (this.mc.currentScreen instanceof HandledScreen var2) {
          Slot var6 = vxl.hovered(var2);
-         if (var6 != null && var6.method_7681()) {
-            String var4 = cleanQuery(var6.method_7677().method_7964().getString());
+         if (var6 != null && var6.hasStack()) {
+            String var4 = cleanQuery(var6.getStack().getName().getString());
             if (!var4.isEmpty()) {
                return var4;
             }
          }
       }
 
-      ItemStack var5 = var1.method_6047();
-      if (var5 != null && !var5.method_7960()) {
-         String var7 = cleanQuery(var5.method_7964().getString());
+      ItemStack var5 = var1.getMainHandStack();
+      if (var5 != null && !var5.isEmpty()) {
+         String var7 = cleanQuery(var5.getName().getString());
          if (!var7.isEmpty()) {
             return var7;
          }
@@ -279,7 +271,7 @@ public class mgl extends kfe {
    }
 
    private boolean mid(GenericContainerScreen var1, DrawContext var2) {
-      int var3 = ((GenericContainerScreenHandler)var1.method_17577()).field_7763;
+      int var3 = var1.getScreenHandler().syncId;
       if (var3 != this.mhq) {
          this.mih();
          this.mhq = var3;
@@ -287,42 +279,42 @@ public class mgl extends kfe {
          this.mhs = 0L;
       }
 
-      String var4 = pfl.title(var1.method_25440().getString());
+      String var4 = pfl.title(var1.getTitle().getString());
       if (mij(var4)) {
          this.mih();
          return false;
-      } else {
-         boolean var5 = this.mhh.get() != this.mht || this.mhi.get() != this.mhu;
-         int var6 = this.mif(var1);
-         long var7 = System.currentTimeMillis();
-         if (var5 || var6 != this.mhr || var7 - this.mhs > 500L) {
-            this.mie(var1, var4);
-            this.mhr = var6;
-            this.mhs = var7;
-            this.mht = this.mhh.get();
-            this.mhu = this.mhi.get();
-         }
-
-         int[] var9 = this.mii(var1);
-         boolean var10 = this.mhi.get() && this.mig(var2, this.mhp, var9, -16711681);
-         var10 |= this.mig(var2, this.mhm, var9, -16711936);
-         var10 |= this.mig(var2, this.mhn, var9, -29696);
-         return var10 | this.mig(var2, this.mho, var9, -52429);
       }
+
+      boolean var5 = this.mhh.get() != this.mht || this.mhi.get() != this.mhu;
+      int var6 = this.mif(var1);
+      long var7 = System.currentTimeMillis();
+      if (var5 || var6 != this.mhr || var7 - this.mhs > 500L) {
+         this.mie(var1, var4);
+         this.mhr = var6;
+         this.mhs = var7;
+         this.mht = this.mhh.get();
+         this.mhu = this.mhi.get();
+      }
+
+      int[] var9 = this.mii(var1);
+      boolean var10 = this.mhi.get() && this.mig(var2, this.mhp, var9, -16711681);
+      var10 |= this.mig(var2, this.mhm, var9, -16711936);
+      var10 |= this.mig(var2, this.mhn, var9, -29696);
+      return var10 | this.mig(var2, this.mho, var9, -52429);
    }
 
    private void mie(GenericContainerScreen var1, String var2) {
       ArrayList var3 = new ArrayList();
       Slot var4 = null;
       int var5 = Integer.MAX_VALUE;
-      int var6 = ((GenericContainerScreenHandler)var1.method_17577()).method_17388();
+      int var6 = var1.getScreenHandler().getRows();
       int var7 = var6 * 9;
       boolean var8 = mik(var2);
 
-      for (Slot var10 : ((GenericContainerScreenHandler)var1.method_17577()).field_7761) {
-         if (var10.field_7874 < var7) {
-            ItemStack var11 = var10.method_7677();
-            if (!var11.method_7960()) {
+      for (Slot var10 : var1.getScreenHandler().slots) {
+         if (var10.id < var7) {
+            ItemStack var11 = var10.getStack();
+            if (!var11.isEmpty()) {
                List var12 = pfd.lines(var11);
                if (!var12.isEmpty() && !mim((String)var12.get(0), mgo)) {
                   int var13 = pfd.total(var11);
@@ -336,14 +328,14 @@ public class mgl extends kfe {
                            || !miw(var11)
                            || miq(var12, a.c(-1470047695, "\ude1eꞮ\u2d77대㣛빠к跆Ꮶ鴸Ẏ\ue484橙\uf390禾ｎ"), a.d("弹⚉걏㈺맱㼈蔈\u0cfe銧᠍鿓斣\ueb63", -1457165316, -647351124), 3)
                      )
-                     && (!this.mhg.get() || !var11.method_7963() || !var11.method_7986())
+                     && (!this.mhg.get() || !var11.isDamageable() || !var11.isDamaged())
                      && !mio(var12)) {
                      if (var13 < var5) {
                         var5 = var13;
                         var4 = var10;
                      }
 
-                     int var14 = this.mhh.get() && var11.method_7947() > 1 ? var13 / var11.method_7947() : var13;
+                     int var14 = this.mhh.get() && var11.getCount() > 1 ? var13 / var11.getCount() : var13;
                      var3.add(new mgg(var10, var14));
                   }
                }
@@ -360,21 +352,21 @@ public class mgl extends kfe {
 
    private int mif(GenericContainerScreen var1) {
       int var2 = 1;
-      int var3 = ((GenericContainerScreenHandler)var1.method_17577()).method_17388();
+      int var3 = var1.getScreenHandler().getRows();
       int var4 = var3 * 9;
 
-      for (Slot var6 : ((GenericContainerScreenHandler)var1.method_17577()).field_7761) {
-         if (var6.field_7874 < var4) {
-            ItemStack var7 = var6.method_7677();
-            if (!var7.method_7960()) {
-               var2 = 31 * var2 + Registries.field_41178.method_10206(var7.method_7909());
-               var2 = 31 * var2 + var7.method_7947();
-               if (var7.method_57826(DataComponentTypes.field_49631)) {
-                  var2 = 31 * var2 + var7.method_7964().hashCode();
+      for (Slot var6 : var1.getScreenHandler().slots) {
+         if (var6.id < var4) {
+            ItemStack var7 = var6.getStack();
+            if (!var7.isEmpty()) {
+               var2 = 31 * var2 + Registries.ITEM.getRawId(var7.getItem());
+               var2 = 31 * var2 + var7.getCount();
+               if (var7.contains(DataComponentTypes.CUSTOM_NAME)) {
+                  var2 = 31 * var2 + var7.getName().hashCode();
                }
 
-               if (var7.method_57826(DataComponentTypes.field_49632)) {
-                  var2 = 31 * var2 + ((LoreComponent)var7.method_58694(DataComponentTypes.field_49632)).hashCode();
+               if (var7.contains(DataComponentTypes.LORE)) {
+                  var2 = 31 * var2 + var7.get(DataComponentTypes.LORE).hashCode();
                }
             }
          }
@@ -384,18 +376,18 @@ public class mgl extends kfe {
    }
 
    private boolean mig(DrawContext var1, Slot var2, int[] var3, int var4) {
-      if (var2 != null && !var2.method_7677().method_7960()) {
+      if (var2 != null && !var2.getStack().isEmpty()) {
          int var5 = 1258291200 | var4 & 16777215;
          int var6 = -1728053248 | var4 & 16777215;
-         int var7 = var3[0] + var2.field_7873;
-         int var8 = var3[1] + var2.field_7872;
+         int var7 = var3[0] + var2.x;
+         int var8 = var3[1] + var2.y;
          int var9 = var7 + 16;
          int var10 = var8 + 16;
-         var1.method_25294(var7, var8, var9, var10, var5);
-         var1.method_25294(var7 - 1, var8 - 1, var9 + 1, var8, var6);
-         var1.method_25294(var7 - 1, var10, var9 + 1, var10 + 1, var6);
-         var1.method_25294(var7 - 1, var8, var7, var10, var6);
-         var1.method_25294(var9, var8, var9 + 1, var10, var6);
+         var1.fill(var7, var8, var9, var10, var5);
+         var1.fill(var7 - 1, var8 - 1, var9 + 1, var8, var6);
+         var1.fill(var7 - 1, var10, var9 + 1, var10 + 1, var6);
+         var1.fill(var7 - 1, var8, var7, var10, var6);
+         var1.fill(var9, var8, var9 + 1, var10, var6);
          return true;
       } else {
          return false;
@@ -410,11 +402,11 @@ public class mgl extends kfe {
    }
 
    private int[] mii(GenericContainerScreen var1) {
-      int var2 = ((GenericContainerScreenHandler)var1.method_17577()).method_17388();
+      int var2 = var1.getScreenHandler().getRows();
       short var3 = 176;
       int var4 = 114 + var2 * 18;
-      int var5 = (var1.field_22789 - var3) / 2;
-      int var6 = (var1.field_22790 - var4) / 2;
+      int var5 = (var1.width - var3) / 2;
+      int var6 = (var1.height - var4) / 2;
       return new int[]{var5, var6};
    }
 
@@ -469,22 +461,22 @@ public class mgl extends kfe {
    private static boolean mip(ItemStack var0, List<String> var1, String var2, String var3) {
       if (min(var1, mil(var2, var3))) {
          return true;
-      } else {
-         try {
-            ItemEnchantmentsComponent var4 = (ItemEnchantmentsComponent)var0.method_58694(DataComponentTypes.field_49633);
-            if (var4 != null && var4.toString().toLowerCase(Locale.ROOT).contains(var3)) {
-               return true;
-            }
+      }
 
-            ItemEnchantmentsComponent var5 = (ItemEnchantmentsComponent)var0.method_58694(DataComponentTypes.field_49643);
-            if (var5 != null && var5.toString().toLowerCase(Locale.ROOT).contains(var3)) {
-               return true;
-            }
-         } catch (Throwable var6) {
+      try {
+         ItemEnchantmentsComponent var4 = var0.get(DataComponentTypes.ENCHANTMENTS);
+         if (var4 != null && var4.toString().toLowerCase(Locale.ROOT).contains(var3)) {
+            return true;
          }
 
-         return false;
+         ItemEnchantmentsComponent var5 = var0.get(DataComponentTypes.STORED_ENCHANTMENTS);
+         if (var5 != null && var5.toString().toLowerCase(Locale.ROOT).contains(var3)) {
+            return true;
+         }
+      } catch (Throwable var6) {
       }
+
+      return false;
    }
 
    private static boolean miq(List<String> var0, String var1, String var2, int var3) {
@@ -516,39 +508,39 @@ public class mgl extends kfe {
    }
 
    private static boolean mit(ItemStack var0) {
-      return var0.method_31574(Items.field_22027)
-         || var0.method_31574(Items.field_8805)
-         || var0.method_31574(Items.field_8743)
-         || var0.method_31574(Items.field_8862)
-         || var0.method_31574(Items.field_8283)
-         || var0.method_31574(Items.field_8267)
-         || var0.method_31574(Items.field_8090);
+      return var0.isOf(Items.NETHERITE_HELMET)
+         || var0.isOf(Items.DIAMOND_HELMET)
+         || var0.isOf(Items.IRON_HELMET)
+         || var0.isOf(Items.GOLDEN_HELMET)
+         || var0.isOf(Items.CHAINMAIL_HELMET)
+         || var0.isOf(Items.LEATHER_HELMET)
+         || var0.isOf(Items.TURTLE_HELMET);
    }
 
    private static boolean miu(ItemStack var0) {
-      return var0.method_31574(Items.field_22028)
-         || var0.method_31574(Items.field_8058)
-         || var0.method_31574(Items.field_8523)
-         || var0.method_31574(Items.field_8678)
-         || var0.method_31574(Items.field_8873)
-         || var0.method_31574(Items.field_8577);
+      return var0.isOf(Items.NETHERITE_CHESTPLATE)
+         || var0.isOf(Items.DIAMOND_CHESTPLATE)
+         || var0.isOf(Items.IRON_CHESTPLATE)
+         || var0.isOf(Items.GOLDEN_CHESTPLATE)
+         || var0.isOf(Items.CHAINMAIL_CHESTPLATE)
+         || var0.isOf(Items.LEATHER_CHESTPLATE);
    }
 
    private static boolean miv(ItemStack var0) {
-      return var0.method_31574(Items.field_22029)
-         || var0.method_31574(Items.field_8348)
-         || var0.method_31574(Items.field_8396)
-         || var0.method_31574(Items.field_8416)
-         || var0.method_31574(Items.field_8218)
-         || var0.method_31574(Items.field_8570);
+      return var0.isOf(Items.NETHERITE_LEGGINGS)
+         || var0.isOf(Items.DIAMOND_LEGGINGS)
+         || var0.isOf(Items.IRON_LEGGINGS)
+         || var0.isOf(Items.GOLDEN_LEGGINGS)
+         || var0.isOf(Items.CHAINMAIL_LEGGINGS)
+         || var0.isOf(Items.LEATHER_LEGGINGS);
    }
 
    private static boolean miw(ItemStack var0) {
-      return var0.method_31574(Items.field_22030)
-         || var0.method_31574(Items.field_8285)
-         || var0.method_31574(Items.field_8660)
-         || var0.method_31574(Items.field_8753)
-         || var0.method_31574(Items.field_8313)
-         || var0.method_31574(Items.field_8370);
+      return var0.isOf(Items.NETHERITE_BOOTS)
+         || var0.isOf(Items.DIAMOND_BOOTS)
+         || var0.isOf(Items.IRON_BOOTS)
+         || var0.isOf(Items.GOLDEN_BOOTS)
+         || var0.isOf(Items.CHAINMAIL_BOOTS)
+         || var0.isOf(Items.LEATHER_BOOTS);
    }
 }

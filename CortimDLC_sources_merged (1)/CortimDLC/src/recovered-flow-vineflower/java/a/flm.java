@@ -78,164 +78,164 @@ final class flm {
    }
 
    static boolean crit(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
+      ClientPlayerEntity var1 = var0.player;
       if (fni(var0, false)) {
          return fmu == -1;
-      } else {
-         int var2 = (fmu - 60) / 400;
-         int var3 = (fmu - 60) % 400;
-         int var4 = var2 < flr ? flq[var2] : -1;
-         fmc = var4 >= 0 ? var4 : 15;
-         fnl();
-         if (var4 < 0) {
-            fnn(var0);
-            int var11 = 0;
-            int var12 = 0;
+      }
 
-            for (int var10 : flq) {
-               System.out
-                  .println(
-                     a.b("畖\u0cf6蘾ᡒ鏑ᔴ꽶⚑룉㈬떯俆섘墻틾告", 15562021)
-                        + flp[var10]
-                        + a.b("♮必핗䬳샤䙀ﰑ痨\uebaf慐", 1251878494)
-                        + fmg[var10]
-                        + a.c(-1018977563, "ꋂ\udb30凲쾘䑒실磹")
-                        + fmh[var10]
-                        + a.d("\uecf7镎\u1fc5膥ੰ賉㚔뽴ℬꯔⰝ혤売셞䬊춵", -982959636, 1396626731)
-                        + fml[var10]
-                        + a.d("䝡㺓둑⨻ꇱ❇鵚", -185017319, 2097257311)
-                        + fmm[var10]
-                        + a.d("豒", 1824051989, -869179537)
-                  );
-               var11 += fmg[var10];
-               var12 += fmh[var10];
-            }
+      int var2 = (fmu - 60) / 400;
+      int var3 = (fmu - 60) % 400;
+      int var4 = var2 < flr ? flq[var2] : -1;
+      fmc = var4 >= 0 ? var4 : 15;
+      fnl();
+      if (var4 < 0) {
+         fnn(var0);
+         int var11 = 0;
+         int var12 = 0;
 
-            if (flu) {
-               for (int var14 = 5; var14 <= 10; var14++) {
-                  System.out
-                     .println(
-                        a.b("㶥䐅컍傡\udb22巀\ue797湴\uf02b窏ﴌܷ觿ၖ騘Ჹꚢ⥮돗㖎밲왨", 465059280)
-                           + var14
-                           + a.d("㪻䌐즗埠\udc2c媑\ue0d4楫", 1119165905, 1230579544)
-                           + fmn[var14]
-                           + a.b("఼痎，慦\ueaac氚혇", -1091892197)
-                           + fmo[var14]
-                     );
-               }
-            }
-
+         for (int var10 : flq) {
             System.out
                .println(
-                  a.d("ₒ夲폺䶖옕䃰者獕\ued0d柨\ue049ᨯ铮൙蜓Ǻ믁㑑껷⢦ꅄ\udb17喬칥䡔", 1637075819, 1324804995)
-                     + var11
-                     + a.c(-212783997, "Ⲥ啖\udf94䇾쨴䲂\uf69f")
-                     + var12
-                     + a.b("\uddf9ꐆ⻔낤㬰뷏ލ蹧ဥ骓ᴎ", 1667423698)
-                     + (var11 - var12)
+                  a.b("畖\u0cf6蘾ᡒ鏑ᔴ꽶⚑룉㈬떯俆섘墻틾告", 15562021)
+                     + flp[var10]
+                     + a.b("♮必핗䬳샤䙀ﰑ痨\uebaf慐", 1251878494)
+                     + fmg[var10]
+                     + a.c(-1018977563, "ꋂ\udb30凲쾘䑒실磹")
+                     + fmh[var10]
+                     + a.d("\uecf7镎\u1fc5膥ੰ賉㚔뽴ℬꯔⰝ혤売셞䬊춵", -982959636, 1396626731)
+                     + fml[var10]
+                     + a.d("䝡㺓둑⨻ꇱ❇鵚", -185017319, 2097257311)
+                     + fmm[var10]
+                     + a.d("豒", 1824051989, -869179537)
                );
-            if (fmq > 0) {
-               System.out.println(a.b("뗖챶䚾\ud8d2卑햴濶\ue611硉\uf2ac甸轂Ƙ頦ቸ钏⺟ꅔ㮠뷺㐀乞샠嬷\udd5e埁", -372918865) + fmq + a.d("좸녁㮓ꗿ\u2e61", -784412092, -910419239) + fmr);
-            }
-
-            return true;
-         } else {
-            boolean var5 = var4 == 1 || var4 == 3 || var4 == 5;
-            var0.field_1690.field_1903.method_23481(true);
-            var0.field_1690.field_1894.method_23481(var5);
-
-            float var6 = switch (var4) {
-               case 2 -> 60.0F * MathHelper.method_15374(var3 * (float) (Math.PI * 2) / 12.0F);
-               case 3 -> 100.0F * MathHelper.method_15374(var3 * (float) (Math.PI * 2) / 8.0F);
-               case 4, 5 -> {
-                  if (var3 % 3 == 0) {
-                     fmy = fnd.nextFloat() < 0.5F ? 0.0F : (fnd.nextBoolean() ? 1 : -1) * (40.0F + fnd.nextFloat() * 120.0F);
-                  }
-
-                  yield fmy;
-               }
-               case 6 -> {
-                  int var7 = var3 % 23;
-                  if (var7 == 0) {
-                     if (fmt >= 0 && fmg[6] > fms) {
-                        fmr++;
-                     }
-
-                     fmq++;
-                     fmt = fmu;
-                     fms = fmg[6];
-                  }
-
-                  yield var7 < 4 ? 0.0F : 90.0F;
-               }
-               default -> 0.0F;
-            };
-            fnk(var1, var6);
-            if (flu) {
-               fnm(var0, var1);
-            }
-
-            return false;
+            var11 += fmg[var10];
+            var12 += fmh[var10];
          }
-      }
-   }
 
-   static boolean mace(MinecraftClient var0) {
-      ClientPlayerEntity var1 = var0.field_1724;
-      if (fni(var0, true)) {
-         return fmu == -1;
-      } else {
-         fnl();
-         fnk(var1, 0.0F);
-         if (fmu < 140) {
-            fmc = 0;
-            var0.field_1690.field_1903.method_23481(false);
-         } else if (fmu < 290) {
-            fmc = 1;
-            var0.field_1690.field_1903.method_23481(true);
-         } else if (fmu < 300) {
-            fmc = 15;
-            var0.field_1690.field_1903.method_23481(false);
-         } else {
-            int var2 = (fmu - 300) / 80;
-            int var3 = (fmu - 300) % 80;
-            if (var2 >= flv.length) {
-               fnn(var0);
-               fnh(a.d("ꬳ튗塙옲䷾쭅", 1985298171, 837588393), 0, false, false);
-               fnh(a.b("ჸ楖\ue39d緱\uf63f炉쫓", 873599125), 1, false, false);
-
-               for (int var5 = 0; var5 < flv.length; var5++) {
-                  fnh(
-                     a.b("ꆻ\ud81c勒첼䜻", 518496730) + flv[var5] + (var5 == flv.length - 1 ? a.c(-220268974, "\uf678辜Ք鬨ჴ陌Ⰼꗨ㮵넅") : ""),
-                     2 + var5,
-                     true,
-                     var5 != flv.length - 1
-                  );
-               }
-
+         if (flu) {
+            for (int var14 = 5; var14 <= 10; var14++) {
                System.out
                   .println(
-                     a.d("헭걐⚁룶㍤떁࿃蘤\u187c銙", -1491480770, 723589812)
-                        + (fmp == 0 ? a.d("買\uf517翖\ue1a7", -1491103736, 1156914411) : a.c(-471321820, "㍤䫒쀉幽헆卿") + fmp + a.b("嶈", 1012161952))
+                     a.b("㶥䐅컍傡\udb22巀\ue797湴\uf02b窏ﴌܷ觿ၖ騘Ჹꚢ⥮돗㖎밲왨", 465059280)
+                        + var14
+                        + a.d("㪻䌐즗埠\udc2c媑\ue0d4楫", 1119165905, 1230579544)
+                        + fmn[var14]
+                        + a.b("఼痎，慦\ueaac氚혇", -1091892197)
+                        + fmo[var14]
                   );
-               return true;
             }
+         }
 
-            fmc = 2 + var2;
-            boolean var4 = var2 == flv.length - 1;
-            if (var3 == 0) {
-               if (var4) {
-                  var1.method_31548().method_61496(1);
+         System.out
+            .println(
+               a.d("ₒ夲폺䶖옕䃰者獕\ued0d柨\ue049ᨯ铮൙蜓Ǻ믁㑑껷⢦ꅄ\udb17喬칥䡔", 1637075819, 1324804995)
+                  + var11
+                  + a.c(-212783997, "Ⲥ啖\udf94䇾쨴䲂\uf69f")
+                  + var12
+                  + a.b("\uddf9ꐆ⻔낤㬰뷏ލ蹧ဥ骓ᴎ", 1667423698)
+                  + (var11 - var12)
+            );
+         if (fmq > 0) {
+            System.out.println(a.b("뗖챶䚾\ud8d2卑햴濶\ue611硉\uf2ac甸轂Ƙ頦ቸ钏⺟ꅔ㮠뷺㐀乞샠嬷\udd5e埁", -372918865) + fmq + a.d("좸녁㮓ꗿ\u2e61", -784412092, -910419239) + fmr);
+         }
+
+         return true;
+      } else {
+         boolean var5 = var4 == 1 || var4 == 3 || var4 == 5;
+         var0.options.jumpKey.setPressed(true);
+         var0.options.forwardKey.setPressed(var5);
+
+         float var6 = switch (var4) {
+            case 2 -> 60.0F * MathHelper.sin(var3 * (float) (Math.PI * 2) / 12.0F);
+            case 3 -> 100.0F * MathHelper.sin(var3 * (float) (Math.PI * 2) / 8.0F);
+            case 4, 5 -> {
+               if (var3 % 3 == 0) {
+                  fmy = fnd.nextFloat() < 0.5F ? 0.0F : (fnd.nextBoolean() ? 1 : -1) * (40.0F + fnd.nextFloat() * 120.0F);
                }
 
-               fnp(var0, String.format(Locale.ROOT, a.c(-865372405, "睤໑葒ᩃ醧ᝅ괓ⓩ몪く럚䶮썲嫟탘噯\uec25揿縷罕\uf6e4貸ȟ駇ᾨ镯Ⳛ"), fmv - 1.3, fmw + flv[var2], fmx));
-            } else if (var3 == 2 && var4) {
-               var1.method_31548().method_61496(0);
+               yield fmy;
             }
+            case 6 -> {
+               int var7 = var3 % 23;
+               if (var7 == 0) {
+                  if (fmt >= 0 && fmg[6] > fms) {
+                     fmr++;
+                  }
+
+                  fmq++;
+                  fmt = fmu;
+                  fms = fmg[6];
+               }
+
+               yield var7 < 4 ? 0.0F : 90.0F;
+            }
+            default -> 0.0F;
+         };
+         fnk(var1, var6);
+         if (flu) {
+            fnm(var0, var1);
          }
 
          return false;
       }
+   }
+
+   static boolean mace(MinecraftClient var0) {
+      ClientPlayerEntity var1 = var0.player;
+      if (fni(var0, true)) {
+         return fmu == -1;
+      }
+
+      fnl();
+      fnk(var1, 0.0F);
+      if (fmu < 140) {
+         fmc = 0;
+         var0.options.jumpKey.setPressed(false);
+      } else if (fmu < 290) {
+         fmc = 1;
+         var0.options.jumpKey.setPressed(true);
+      } else if (fmu < 300) {
+         fmc = 15;
+         var0.options.jumpKey.setPressed(false);
+      } else {
+         int var2 = (fmu - 300) / 80;
+         int var3 = (fmu - 300) % 80;
+         if (var2 >= flv.length) {
+            fnn(var0);
+            fnh(a.d("ꬳ튗塙옲䷾쭅", 1985298171, 837588393), 0, false, false);
+            fnh(a.b("ჸ楖\ue39d緱\uf63f炉쫓", 873599125), 1, false, false);
+
+            for (int var5 = 0; var5 < flv.length; var5++) {
+               fnh(
+                  a.b("ꆻ\ud81c勒첼䜻", 518496730) + flv[var5] + (var5 == flv.length - 1 ? a.c(-220268974, "\uf678辜Ք鬨ჴ陌Ⰼꗨ㮵넅") : ""),
+                  2 + var5,
+                  true,
+                  var5 != flv.length - 1
+               );
+            }
+
+            System.out
+               .println(
+                  a.d("헭걐⚁룶㍤떁࿃蘤\u187c銙", -1491480770, 723589812)
+                     + (fmp == 0 ? a.d("買\uf517翖\ue1a7", -1491103736, 1156914411) : a.c(-471321820, "㍤䫒쀉幽헆卿") + fmp + a.b("嶈", 1012161952))
+               );
+            return true;
+         }
+
+         fmc = 2 + var2;
+         boolean var4 = var2 == flv.length - 1;
+         if (var3 == 0) {
+            if (var4) {
+               var1.getInventory().setSelectedSlot(1);
+            }
+
+            fnp(var0, String.format(Locale.ROOT, a.c(-865372405, "睤໑葒ᩃ醧ᝅ괓ⓩ몪く럚䶮썲嫟탘噯\uec25揿縷罕\uf6e4貸ȟ駇ᾨ镯Ⳛ"), fmv - 1.3, fmw + flv[var2], fmx));
+         } else if (var3 == 2 && var4) {
+            var1.getInventory().setSelectedSlot(0);
+         }
+      }
+
+      return false;
    }
 
    private static int[] fng() {
@@ -290,14 +290,14 @@ final class flm {
 
    private static boolean fni(MinecraftClient var0, boolean var1) {
       fmu++;
-      ClientPlayerEntity var2 = var0.field_1724;
+      ClientPlayerEntity var2 = var0.player;
       fmf = var1;
       fnj();
       wcn.ensure(var0);
       if (fmu == 1) {
-         int var6 = MathHelper.method_15357(var2.method_23317());
-         int var7 = MathHelper.method_15357(var2.method_23318());
-         int var8 = MathHelper.method_15357(var2.method_23321());
+         int var6 = MathHelper.floor(var2.getX());
+         int var7 = MathHelper.floor(var2.getY());
+         int var8 = MathHelper.floor(var2.getZ());
          fmv = var6 + 2.8;
          fmw = var7;
          fmx = var8 + 0.5;
@@ -344,12 +344,12 @@ final class flm {
             )
          );
          fnp(var0, a.c(-1625792642, "彟⛭갾㉌릝㼻蔼ಊ鋛ᡵ龵斁\ueb36犢\uf8cf縑쑓䮋턭圤\ude83ꓖ⩢놸㟁봁ҡ諷ဒ阍ᷭ\ue327極\uf085盧ﱮ䎱짃伙횠峏≃ꡂ\u2fe4딥㭎芇࠱蹫ᖵ鯋愜\ue8ee滶\uf402穛쇫䜽쵉咅\uda23ꀷ⟗궕㌎몹í蘌"));
-         var2.method_31548().method_61496(0);
+         var2.getInventory().setSelectedSlot(0);
          return true;
       } else if (fmu == 30) {
          Entity var3 = null;
 
-         for (Entity var5 : var0.field_1687.method_18112()) {
+         for (Entity var5 : var0.world.getEntities()) {
             if (var5 instanceof IronGolemEntity) {
                var3 = var5;
             }
@@ -360,16 +360,18 @@ final class flm {
             fmu = -1;
             return true;
          } else {
-            fma = var3.method_5628();
-            fmv = var3.method_23317();
-            fmw = var3.method_23318();
-            fmx = var3.method_23321();
+            fma = var3.getId();
+            fmv = var3.getX();
+            fmw = var3.getY();
+            fmx = var3.getZ();
             fno();
             return true;
          }
-      } else if (fmu < 60) {
-         return true;
       } else {
+         if (fmu < 60) {
+            return true;
+         }
+
          fmb = true;
          return false;
       }
@@ -381,22 +383,22 @@ final class flm {
          AttackEntityCallback.EVENT
             .register(
                (AttackEntityCallback)(var0, var1, var2, var3, var4) -> {
-                  if (!var1.method_8608() && fmb && var3.method_5628() == fma) {
-                     float var5 = var0.method_7261(0.5F);
+                  if (!var1.isClient() && fmb && var3.getId() == fma) {
+                     float var5 = var0.getAttackCooldownProgress(0.5F);
                      boolean var6 = var5 > 0.9F
-                        && var0.field_6017 > 0.0
-                        && !var0.method_24828()
-                        && !var0.method_6101()
-                        && !var0.method_5799()
-                        && !var0.method_5765()
-                        && !var0.method_5624();
-                     boolean var7 = var0.method_6047().method_31574(Items.field_49814) && var0.field_6017 > 1.5 && !var0.method_6128();
+                        && var0.fallDistance > 0.0
+                        && !var0.isOnGround()
+                        && !var0.isClimbing()
+                        && !var0.isTouchingWater()
+                        && !var0.hasVehicle()
+                        && !var0.isSprinting();
+                     boolean var7 = var0.getMainHandStack().isOf(Items.MACE) && var0.fallDistance > 1.5 && !var0.isGliding();
                      int var8 = fmc;
                      if (fmg[var8] == 0) {
                         fmk[var8] = var6;
                      }
 
-                     if (var3 instanceof LivingEntity var9 && var9.field_6008 > 10) {
+                     if (var3 instanceof LivingEntity var9 && var9.timeUntilRegen > 10) {
                         fmj[var8]++;
                      }
 
@@ -430,10 +432,10 @@ final class flm {
                                     1198810306
                                  ),
                                  var8,
-                                 var0.method_23318() - fmw,
-                                 var0.field_6017,
-                                 var0.method_24828(),
-                                 var0.method_5624(),
+                                 var0.getY() - fmw,
+                                 var0.fallDistance,
+                                 var0.isOnGround(),
+                                 var0.isSprinting(),
                                  var5,
                                  var7,
                                  var6 ? a.d("䍭㫍뀅\u2e69", 1603297142, 395975772) : a.c(70411306, "摃ᷳ靯ढ़芛б빿")
@@ -441,18 +443,18 @@ final class flm {
                            );
                      }
 
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   } else {
-                     return ActionResult.field_5811;
+                     return ActionResult.PASS;
                   }
                }
             );
          wcn.listen(var0 -> {
-            if (var0 instanceof EntityDamageS2CPacket var1 && var1.comp_1267() == fma) {
+            if (var0 instanceof EntityDamageS2CPacket var1 && var1.entityId() == fma) {
                flj var3 = new flj();
                flz = var3;
                fly.add(var3);
-            } else if (var0 instanceof EntityAnimationS2CPacket var2 && var2.method_11269() == fma && var2.method_11267() == 4 && flz != null) {
+            } else if (var0 instanceof EntityAnimationS2CPacket var2 && var2.getEntityId() == fma && var2.getAnimationId() == 4 && flz != null) {
                flz.crit = true;
             }
          });
@@ -460,14 +462,14 @@ final class flm {
    }
 
    private static void fnk(ClientPlayerEntity var0, float var1) {
-      Vec3d var2 = var0.method_33571();
-      double var3 = fmv - var2.field_1352;
-      double var5 = fmw + 1.35 - var2.field_1351;
-      double var7 = fmx - var2.field_1350;
-      float var9 = (float)(MathHelper.method_15349(var7, var3) * 180.0F / (float)Math.PI) - 90.0F;
-      float var10 = (float)(-(MathHelper.method_15349(var5, Math.sqrt(var3 * var3 + var7 * var7)) * 180.0F / (float)Math.PI));
-      var0.method_36456(var9 + var1);
-      var0.method_36457(var10);
+      Vec3d var2 = var0.getEyePos();
+      double var3 = fmv - var2.x;
+      double var5 = fmw + 1.35 - var2.y;
+      double var7 = fmx - var2.z;
+      float var9 = (float)(MathHelper.atan2(var7, var3) * 180.0F / (float)Math.PI) - 90.0F;
+      float var10 = (float)(-(MathHelper.atan2(var5, Math.sqrt(var3 * var3 + var7 * var7)) * 180.0F / (float)Math.PI));
+      var0.setYaw(var9 + var1);
+      var0.setPitch(var10);
    }
 
    private static void fnl() {
@@ -484,8 +486,8 @@ final class flm {
    }
 
    private static void fnm(MinecraftClient var0, ClientPlayerEntity var1) {
-      boolean var2 = var1.method_24828();
-      if (fmz && !var2 && var1.method_18798().field_1351 > 0.0) {
+      boolean var2 = var1.isOnGround();
+      if (fmz && !var2 && var1.getVelocity().y > 0.0) {
          fna = fmu;
          fnb++;
          fnc = fnb % 2 == 0 ? 5 + fnb / 2 % 6 : -1;
@@ -494,21 +496,20 @@ final class flm {
       fmz = var2;
       if (fnc > 0 && fmu - fna == fnc - 1) {
          fmd = fnc;
-         KeyBinding.method_1420(KeyBindingHelper.getBoundKeyOf(var0.field_1690.field_1886));
+         KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var0.options.attackKey));
       }
    }
 
    private static void fnn(MinecraftClient var0) {
-      var0.field_1690.field_1903.method_23481(false);
-      var0.field_1690.field_1894.method_23481(false);
+      var0.options.jumpKey.setPressed(false);
+      var0.options.forwardKey.setPressed(false);
    }
 
    private static void fno() {
       kfe var0 = Flow.getInstance().getModuleManager().getByName(a.b("េ湖\ue49e竡\uf136瞅췁䐀\uda72僘", 2135955359));
 
       for (vmo var2 : var0.getSettings()) {
-         String var3 = var2.getName();
-         switch (var3) {
+         switch (var2.getName()) {
             case a.c(1176698422, "ﹰ蟰സ鍔ᢄ"):
                ((vlv)var2).set(a.d("됫춤䝻\ud919勈", 2093587698, 1890527375));
                break;
@@ -543,6 +544,6 @@ final class flm {
    }
 
    private static void fnp(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

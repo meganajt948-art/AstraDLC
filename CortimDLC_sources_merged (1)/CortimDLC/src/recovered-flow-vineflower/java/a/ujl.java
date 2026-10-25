@@ -26,10 +26,10 @@ public final class ujl {
    }
 
    private static void ujs(boolean var0) {
-      MinecraftClient var1 = MinecraftClient.method_1551();
-      if (!ujo && var1.field_1769 != null) {
+      MinecraftClient var1 = MinecraftClient.getInstance();
+      if (!ujo && var1.worldRenderer != null) {
          try {
-            CloudRenderer var2 = var1.field_1769.method_62196();
+            CloudRenderer var2 = var1.worldRenderer.getCloudRenderer();
             if (ujn == null) {
                for (Field var6 : CloudRenderer.class.getDeclaredFields()) {
                   if (var6.getType().isRecord() && var6.getType().getEnclosingClass() == CloudRenderer.class) {

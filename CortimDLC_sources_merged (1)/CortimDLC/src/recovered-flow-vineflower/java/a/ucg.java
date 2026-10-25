@@ -226,19 +226,19 @@ public final class ucg {
    public static String normalize(String var0) {
       if (var0 == null) {
          return null;
-      } else {
-         StringBuilder var1 = new StringBuilder();
-
-         for (char var5 : var0.toUpperCase(Locale.ROOT).toCharArray()) {
-            if (a.d("럍칿䒭\udadb儍ힿ淭\ue413穎\uf0fe眪赚Ύ騡ၳ隁ⳏꌙ㦫뿹㘏䱑싣失\udf26嗶\uec42戒\uf8e6纶\uf50a\u0bda", 1691561230, 1900911266).indexOf(var5) >= 0) {
-               var1.append(var5);
-            } else if (Character.isLetterOrDigit(var5)) {
-               return null;
-            }
-         }
-
-         return var1.length() == 6 ? var1.toString() : null;
       }
+
+      StringBuilder var1 = new StringBuilder();
+
+      for (char var5 : var0.toUpperCase(Locale.ROOT).toCharArray()) {
+         if (a.d("럍칿䒭\udadb儍ힿ淭\ue413穎\uf0fe眪赚Ύ騡ၳ隁ⳏꌙ㦫뿹㘏䱑싣失\udf26嗶\uec42戒\uf8e6纶\uf50a\u0bda", 1691561230, 1900911266).indexOf(var5) >= 0) {
+            var1.append(var5);
+         } else if (Character.isLetterOrDigit(var5)) {
+            return null;
+         }
+      }
+
+      return var1.length() == 6 ? var1.toString() : null;
    }
 
    public static ubm member(String var0) {
@@ -289,27 +289,27 @@ public final class ucg {
       String var1 = var0.trim().toLowerCase(Locale.ROOT);
       if (!var1.startsWith(a.d("塵⇙ꭀ", -1084236287, 2018412058))) {
          return var1;
+      }
+
+      String var2 = var1.substring(3);
+      int var3 = var2.indexOf(58);
+      if (var3 > 0 && var3 == var2.lastIndexOf(58)) {
+         var2 = var2.substring(0, var3);
+      }
+
+      while (var2.endsWith(a.d("且", 352354821, 278580286))) {
+         var2 = var2.substring(0, var2.length() - 1);
+      }
+
+      if (!var2.matches(a.b("윕뻏㐁ꩤ↤Ꝧᵃ", -2125412535)) && var2.indexOf(58) < 0) {
+         String[] var4 = var2.split(a.c(-1424519500, "軬\uf728綈"));
+         if (var4.length > 2) {
+            var2 = var4[var4.length - 2] + a.d("\ue3c9", 751045315, 226027813) + var4[var4.length - 1];
+         }
+
+         return a.d("쮅눩㢰", -1927787039, -1108179446) + var2;
       } else {
-         String var2 = var1.substring(3);
-         int var3 = var2.indexOf(58);
-         if (var3 > 0 && var3 == var2.lastIndexOf(58)) {
-            var2 = var2.substring(0, var3);
-         }
-
-         while (var2.endsWith(a.d("且", 352354821, 278580286))) {
-            var2 = var2.substring(0, var2.length() - 1);
-         }
-
-         if (!var2.matches(a.b("윕뻏㐁ꩤ↤Ꝧᵃ", -2125412535)) && var2.indexOf(58) < 0) {
-            String[] var4 = var2.split(a.c(-1424519500, "軬\uf728綈"));
-            if (var4.length > 2) {
-               var2 = var4[var4.length - 2] + a.d("\ue3c9", 751045315, 226027813) + var4[var4.length - 1];
-            }
-
-            return a.d("쮅눩㢰", -1927787039, -1108179446) + var2;
-         } else {
-            return a.b("齀\ue6ec汵", 980524846) + var2;
-         }
+         return a.b("齀\ue6ec汵", 980524846) + var2;
       }
    }
 
@@ -384,9 +384,9 @@ public final class ucg {
    }
 
    public static void markKey() {
-      MinecraftClient var0 = MinecraftClient.method_1551();
-      Entity var1 = var0.method_1560();
-      if (var0.field_1724 != null && var0.field_1687 != null && var1 != null) {
+      MinecraftClient var0 = MinecraftClient.getInstance();
+      Entity var1 = var0.getCameraEntity();
+      if (var0.player != null && var0.world != null && var1 != null) {
          if (!inParty()) {
             ufc(
                wap.s(
@@ -409,17 +409,17 @@ public final class ucg {
                uee(udw);
                ueg(a.c(1192402223, "鵭\ue4f9渥\uf05d箈ﴮ"), null);
             } else {
-               Vec3d var6 = var1.method_5836(1.0F);
-               Vec3d var7 = var1.method_5828(1.0F);
+               Vec3d var6 = var1.getCameraPosVec(1.0F);
+               Vec3d var7 = var1.getRotationVec(1.0F);
                ubj var8 = null;
                double var9 = Math.cos(Math.toRadians(2.5));
 
                for (ubj var12 : uct) {
                   if (var12.mine && visible(var12)) {
-                     Vec3d var13 = ugg.anchor(var12, 1.0F).method_1020(var6);
-                     double var14 = var13.method_1033();
+                     Vec3d var13 = ugg.anchor(var12, 1.0F).subtract(var6);
+                     double var14 = var13.length();
                      if (!(var14 < 0.001)) {
-                        double var16 = var13.method_1026(var7) / var14;
+                        double var16 = var13.dotProduct(var7) / var14;
                         if (var16 > var9) {
                            var9 = var16;
                            var8 = var12;
@@ -441,12 +441,12 @@ public final class ucg {
                   PlayerEntity var20 = hhf.aimed(var0, 160.0);
                   if (var20 != null) {
                      var18.target = hhf.nameOf(var20);
-                     var18.x = var20.method_23317();
-                     var18.y = var20.method_23318();
-                     var18.z = var20.method_23321();
+                     var18.x = var20.getX();
+                     var18.y = var20.getY();
+                     var18.z = var20.getZ();
                   } else {
-                     HitResult var21 = var1.method_5745(400.0, 1.0F, false);
-                     if (var21 == null || var21.method_17783() == Type.field_1333) {
+                     HitResult var21 = var1.raycast(400.0, 1.0F, false);
+                     if (var21 == null || var21.getType() == Type.MISS) {
                         ufc(
                            wap.s(
                               a.d("⾤嘮\udcfd䋃쥒俤\uf5a4簇\ue20c梦\uef3aᔆ鯝ɿ蠵", 119151263, 1794061664),
@@ -456,14 +456,14 @@ public final class ucg {
                         return;
                      }
 
-                     Vec3d var23 = var21.method_17784();
-                     var18.x = var23.field_1352;
-                     var18.y = var23.field_1351;
-                     var18.z = var23.field_1350;
+                     Vec3d var23 = var21.getPos();
+                     var18.x = var23.x;
+                     var18.y = var23.y;
+                     var18.z = var23.z;
                   }
 
                   var18.from = udk;
-                  var18.name = var0.method_1548().method_1676();
+                  var18.name = var0.getSession().getUsername();
                   var18.id = ufw.RANDOM.nextInt(Integer.MAX_VALUE);
                   var18.world = var4;
                   var18.dim = var5;
@@ -541,12 +541,12 @@ public final class ucg {
       if (SOUNDS.get()) {
          float var2 = 0.0F;
          float var3 = 0.0F;
-         MinecraftClient var4 = MinecraftClient.method_1551();
-         if (var1 != null && var4.field_1724 != null) {
-            Vec3d var5 = var4.field_1724.method_33571();
-            double var6 = var1.field_1352 - var5.field_1352;
-            double var8 = var1.field_1350 - var5.field_1350;
-            double var10 = Math.toRadians(var4.field_1724.method_36454());
+         MinecraftClient var4 = MinecraftClient.getInstance();
+         if (var1 != null && var4.player != null) {
+            Vec3d var5 = var4.player.getEyePos();
+            double var6 = var1.x - var5.x;
+            double var8 = var1.z - var5.z;
+            double var10 = Math.toRadians(var4.player.getYaw());
             double var12 = -var6 * Math.cos(var10) - var8 * Math.sin(var10);
             double var14 = -var6 * Math.sin(var10) + var8 * Math.cos(var10);
             double var16 = Math.hypot(var12, var14);
@@ -600,7 +600,7 @@ public final class ucg {
 
    private static void ueh(MinecraftClient var0) {
       if (secured()) {
-         String var1 = var0.method_1548().method_1676();
+         String var1 = var0.getSession().getUsername();
          String var2 = wlk.worldId();
          String var3 = wlk.dimensionId();
          String var4 = Cosmetics.shareCode();
@@ -910,7 +910,7 @@ public final class ucg {
                   var8.color = COLORS[var10++ % COLORS.length];
                   ueo(var8, ufq(var7, a.d("翧", -1412333055, -1509687916)));
                   if (var8.code.equals(udk)) {
-                     var8.name = MinecraftClient.method_1551().method_1548().method_1676();
+                     var8.name = MinecraftClient.getInstance().getSession().getUsername();
                   }
 
                   if (var8.name == null) {
@@ -1336,94 +1336,96 @@ public final class ucg {
             int var11 = var5.has(a.b("膎\uf832", 2081849829)) ? var5.get(a.c(-1138001272, "竣͟")).getAsInt() : -1;
             uct.removeIf(var2x -> !var2x.mine && var2x.from.equals(var0) && var2x.id == var11);
             return true;
-         } else if (!a.c(1163071052, "ล瞘ﵘ挰").equals(var6)) {
-            return true;
-         } else {
-            ubj var7 = new ubj();
-            var7.from = var0;
-            var7.name = Objects.requireNonNullElse(ufk(ufq(var5, a.c(2031128102, "蹉"))), var4.name);
-            var7.id = var5.has(a.b("\uec36閊", 1583148125)) ? var5.get(a.d("Σ稟", 1673600585, -1482154623)).getAsInt() : 0;
-            var7.x = ufs(var5, a.b("ퟻ", 1022547842));
-            var7.y = ufs(var5, a.d("䫺", 1457857990, 790785860));
-            var7.z = ufs(var5, a.b("\ue1fa", 1703338369));
-            if (Double.isFinite(var7.x)
-               && Double.isFinite(var7.y)
-               && Double.isFinite(var7.z)
-               && !(Math.abs(var7.x) > 3.1E7)
-               && !(Math.abs(var7.z) > 3.1E7)
-               && !(Math.abs(var7.y) > 100000.0)) {
-               var7.world = ufq(var5, a.d("瓫", 874631018, -83772425));
-               var7.dim = ufq(var5, a.b("ﮂ", 624819175));
-               var7.kind = var5.has(a.c(887694828, "▆")) && var5.get(a.c(1534983530, "ﴀ")).getAsInt() == 1 ? 1 : 0;
-               var7.target = ufk(ufq(var5, a.c(22947168, "┑")));
-               var7.born = var2;
-               var7.life = Math.round(MARK_TIME.get() * 1000.0);
-               var7.color = var7.danger() ? -1096636 : var4.color;
-               String var8 = MinecraftClient.method_1551().method_1548().method_1676();
-               if (var7.target != null && var7.target.equalsIgnoreCase(var8)) {
-                  ufc(
-                     var7.name
-                        + (
-                           var7.danger()
-                              ? wap.s(
-                                 a.c(-912299550, "槛ွ髸Қ轑৽돧㨌ꐊ⺭ꥤ區\uddd6䑴츰䢄\uf282絔\ue7a9憼\ue84e鈐Ც蝹đ"),
-                                 a.d("뗶졘䋴\udcf0圦퇠每\ue241籫\uf6d9焈譽֯鱩ቂ钩⫴ꕜ㮄맇㐢䩭쓟弁\ud90f厢\uea12搼ﻈ磣", -449334283, -1490614723)
-                              )
-                              : wap.s(a.c(1734139359, "\uddf4ꐈ⻗낵㭻뷄ޖ踣ဥ骂ᵋ"), a.d("ㆊ䰥욊墅퍛喝\uefb4晆ﰂ犡\uf570\u0f70", -381938098, -1965021208))
-                        )
-                  );
-                  ueg(var7.danger() ? a.d("䬉㊝롁☹귬⭊", -1702779158, 1913515425) : a.d("ﭳ苡࠾陇", 2099081318, -452162723), null);
-                  return true;
-               } else {
-                  uef(var7);
-                  boolean var9 = visible(var7);
-                  System.out
-                     .println(
-                        a.c(-1276939888, "燰ࡐ芐᳧霽ᇕꯋ∶뱺㛒녊䭽얾尒홃僿")
-                           + var7.name
-                           + (
-                              var9
-                                 ? a.b("Ჭ敏\uef87燱慨粖", 1606098059)
-                                 : a.d("\ue2ad魔ᆆ迺Э芝㣅녠⼥ꗀ∏\ud873嚨켂䕐쏲", -677880369, 399097682)
-                                    + var7.world
-                                    + a.c(2078797588, "\uef35")
-                                    + var7.dim
-                                    + a.b("曯ὒ闎\u0ba5聵ۅ볅", 838166212)
-                                    + wlk.worldId()
-                                    + a.b("뉡", -12406208)
-                                    + wlk.dimensionId()
-                           )
-                     );
-                  if (var9) {
-                     ueg(
-                        var7.danger()
-                           ? a.d("棝ᅉ鮕\u05ed踸࢞", -250277879, -684033898)
-                           : (var7.target != null ? a.c(-799743579, "\ue1ed顿አ賙") : a.d("\ude06ꞎⵚ댢", 680133214, 841538572)),
-                        ugg.anchor(var7, 1.0F)
-                     );
-                  } else if (!Objects.equals(var7.dim, wlk.dimensionId())) {
-                     ufc(
-                        var7.name
-                           + wap.s(
-                              a.d("譊\uf2b6硩\ue60b淅\ueb7a儨\ud89d䚑찼䯭놔㽒\ua6ffⲭ\uaa5bဝ龋ձ茧ઞ炎︲既\ue386楋탵庳쐖䈃즽㝨봯ⓕꊛ⠰韡ᶑ", 1846823731, 776781951),
-                              a.d("⅍峣혱䠿쏫䔨ｹ皂\ue8de晴\ue5bbῃ酣ࢪ芀\u0012빏㖌ꬫⴎꓺ\udedb健쮶䧕윜纠\uf0fa樄\uec20柦餿፵誄", -2080034760, 928649591)
-                           )
-                     );
-                  } else {
-                     ufc(
-                        var7.name
-                           + wap.s(
-                              a.d("듙촥䟺\ud998剖퓩溻\ue70e礂\uf3af瑾踇Á饬ጾ闈⾎ꀘ㫤벴㔍伝송婱\udc15囘\uef66愠ﮅ綇\uf622ࣤ芯\u1b4d鴉", -740283824, -1599103350),
-                              a.b("댂캬䑾\uda70冤흧洶\ue4cd窑\uf43b矴趌̬髥\u10cf鉝Ⰿꏓ㵰뼵㚶䳤숧姻\udf86克\uec99押\uf83e縝\uf5a9\u0b0d脷", -2116177149)
-                           )
-                     );
-                  }
+         }
 
-                  return true;
-               }
-            } else {
+         if (!a.c(1163071052, "ล瞘ﵘ挰").equals(var6)) {
+            return true;
+         }
+
+         ubj var7 = new ubj();
+         var7.from = var0;
+         var7.name = Objects.requireNonNullElse(ufk(ufq(var5, a.c(2031128102, "蹉"))), var4.name);
+         var7.id = var5.has(a.b("\uec36閊", 1583148125)) ? var5.get(a.d("Σ稟", 1673600585, -1482154623)).getAsInt() : 0;
+         var7.x = ufs(var5, a.b("ퟻ", 1022547842));
+         var7.y = ufs(var5, a.d("䫺", 1457857990, 790785860));
+         var7.z = ufs(var5, a.b("\ue1fa", 1703338369));
+         if (Double.isFinite(var7.x)
+            && Double.isFinite(var7.y)
+            && Double.isFinite(var7.z)
+            && !(Math.abs(var7.x) > 3.1E7)
+            && !(Math.abs(var7.z) > 3.1E7)
+            && !(Math.abs(var7.y) > 100000.0)) {
+            var7.world = ufq(var5, a.d("瓫", 874631018, -83772425));
+            var7.dim = ufq(var5, a.b("ﮂ", 624819175));
+            var7.kind = var5.has(a.c(887694828, "▆")) && var5.get(a.c(1534983530, "ﴀ")).getAsInt() == 1 ? 1 : 0;
+            var7.target = ufk(ufq(var5, a.c(22947168, "┑")));
+            var7.born = var2;
+            var7.life = Math.round(MARK_TIME.get() * 1000.0);
+            var7.color = var7.danger() ? -1096636 : var4.color;
+            String var8 = MinecraftClient.getInstance().getSession().getUsername();
+            if (var7.target != null && var7.target.equalsIgnoreCase(var8)) {
+               ufc(
+                  var7.name
+                     + (
+                        var7.danger()
+                           ? wap.s(
+                              a.c(-912299550, "槛ွ髸Қ轑৽돧㨌ꐊ⺭ꥤ區\uddd6䑴츰䢄\uf282絔\ue7a9憼\ue84e鈐Ც蝹đ"),
+                              a.d("뗶졘䋴\udcf0圦퇠每\ue241籫\uf6d9焈譽֯鱩ቂ钩⫴ꕜ㮄맇㐢䩭쓟弁\ud90f厢\uea12搼ﻈ磣", -449334283, -1490614723)
+                           )
+                           : wap.s(a.c(1734139359, "\uddf4ꐈ⻗낵㭻뷄ޖ踣ဥ骂ᵋ"), a.d("ㆊ䰥욊墅퍛喝\uefb4晆ﰂ犡\uf570\u0f70", -381938098, -1965021208))
+                     )
+               );
+               ueg(var7.danger() ? a.d("䬉㊝롁☹귬⭊", -1702779158, 1913515425) : a.d("ﭳ苡࠾陇", 2099081318, -452162723), null);
                return true;
             }
+
+            uef(var7);
+            boolean var9 = visible(var7);
+            System.out
+               .println(
+                  a.c(-1276939888, "燰ࡐ芐᳧霽ᇕꯋ∶뱺㛒녊䭽얾尒홃僿")
+                     + var7.name
+                     + (
+                        var9
+                           ? a.b("Ჭ敏\uef87燱慨粖", 1606098059)
+                           : a.d("\ue2ad魔ᆆ迺Э芝㣅녠⼥ꗀ∏\ud873嚨켂䕐쏲", -677880369, 399097682)
+                              + var7.world
+                              + a.c(2078797588, "\uef35")
+                              + var7.dim
+                              + a.b("曯ὒ闎\u0ba5聵ۅ볅", 838166212)
+                              + wlk.worldId()
+                              + a.b("뉡", -12406208)
+                              + wlk.dimensionId()
+                     )
+               );
+            if (var9) {
+               ueg(
+                  var7.danger()
+                     ? a.d("棝ᅉ鮕\u05ed踸࢞", -250277879, -684033898)
+                     : (var7.target != null ? a.c(-799743579, "\ue1ed顿አ賙") : a.d("\ude06ꞎⵚ댢", 680133214, 841538572)),
+                  ugg.anchor(var7, 1.0F)
+               );
+            } else if (!Objects.equals(var7.dim, wlk.dimensionId())) {
+               ufc(
+                  var7.name
+                     + wap.s(
+                        a.d("譊\uf2b6硩\ue60b淅\ueb7a儨\ud89d䚑찼䯭놔㽒\ua6ffⲭ\uaa5bဝ龋ձ茧ઞ炎︲既\ue386楋탵庳쐖䈃즽㝨봯ⓕꊛ⠰韡ᶑ", 1846823731, 776781951),
+                        a.d("⅍峣혱䠿쏫䔨ｹ皂\ue8de晴\ue5bbῃ酣ࢪ芀\u0012빏㖌ꬫⴎꓺ\udedb健쮶䧕윜纠\uf0fa樄\uec20柦餿፵誄", -2080034760, 928649591)
+                     )
+               );
+            } else {
+               ufc(
+                  var7.name
+                     + wap.s(
+                        a.d("듙촥䟺\ud998剖퓩溻\ue70e礂\uf3af瑾踇Á饬ጾ闈⾎ꀘ㫤벴㔍伝송婱\udc15囘\uef66愠ﮅ綇\uf622ࣤ芯\u1b4d鴉", -740283824, -1599103350),
+                        a.b("댂캬䑾\uda70冤흧洶\ue4cd窑\uf43b矴趌̬髥\u10cf鉝Ⰿꏓ㵰뼵㚶䳤숧姻\udf86克\uec99押\uf83e縝\uf5a9\u0b0d脷", -2116177149)
+                     )
+               );
+            }
+
+            return true;
+         } else {
+            return true;
          }
       }
    }
@@ -1431,43 +1433,42 @@ public final class ucg {
    private static String uez(String var0) {
       if (var0 == null) {
          return wap.s(a.c(-1788251526, "爽ர腡Ἐ铞ታꠡ⇗뾁㕷닳䢐왌忧헠卆\ue90c曀ﱲ稪"), a.b("ᖨ汼\ue6d3粱\uf309痄쮉䙧\ud839勾핞⼪ꗣ㡏눔ヰ軝ž鯇", 1470370204));
-      } else {
-         return switch (var0) {
-            case a.b("塸⇈\uab00㕚뺴㠌艅ய闺", -1184475105) -> wap.s(
-               a.d("⁰姠퍼䵝욖䀪視玌\uedc4朧\ue0a3ᫌ鐆ණ螰ĕ뭆㒞길⠽ꆉ\udbd4啬캼", 43648304, 2071405846),
-               a.d("룒셈䯨헧帴\udc9f抭\uef3d甀ￃ砚艩\u0cba鄗\u1f5e馫⏮갵㚄듉㤣䍺짜嘐큢媺\ue304浔\uf7ab", -1735175926, -432411171)
-            );
-            case a.d("쟕빲㒨\uaad3", 1330296986, -1200783560) -> wap.s(
-               a.d("乹㟴봮⍊꣎⸫鐫ᶃ菊ॡ躵璖﨎控\ue9ed潒핞媃쀻䙫", 104054894, -177631657), a.b("芠ﭾ燑\uebbe摻\ue2c8壣핺伿얊䉓", 1080788614)
-            );
-            case a.b("ꁢ\ud9de匓쵵䚦쀒穜", 419471364) -> wap.s(
-               a.d("Ч綻\uf776椐\ue2c3摷\ude39垑즇䌱쒬㺄끅⧮ꎺ┙鼆\u10c6試ఱ藋", 1565644642, -1838951663), a.d("%禁\uf351椵\ue6f0摓\uda12叡췆䜊샕㺽둵ⷋ\ua7eaⅡ", -92837965, 1458398117)
-            );
-            case a.d("⮀刢\ud8e8䚙", 1800896292, 1665094854) -> wap.s(
-               a.d("欗ኗ顗ؠ跺\u0b12너㣣ꛯⰘꯘ冰\udf67䚚쳁䨠\uf07e", 977892761, 240197327), a.c(-1880539269, "㭶䋨졉噂\ud98d嬫\ue17f梁\uf6df籫﮾Ǉ輘ᚪ飧Ḟꑁ⮁")
-            );
-            case a.b("㿟䙭첻勱\ud91a徧\ue5ff氏", 732774325) -> wap.s(
-               a.b("霅\uee98摀侮燱\uf713䴌쓾媡퀔垌궱⍣뫐ろ똹గ菅\u1977齈ᚠ泰\ue244", 1508611921),
-               a.d("棪ᅿ鮦ǃ踆࣎닥㬜ꔷ\u2ffdꠢ利\ud89c䔷콮䦕\uf7c0硰\ue2c0撐\ued09靇᧵舣", 1439868495, -1287533913)
-            );
-            case a.c(-355883863, "\ua4cb\udd67垼짔䈘쒾绬") -> wap.s(
-               a.d("兎⣃ꈝ㰩랷\u3101譊ʤ鳦ᙆ釐毩\ue537粔\uf694瀠쩲䖫\udf01奋킫\uaafb", -1833990894, 898880542),
-               a.d("ⱎ喠\udf0b䅱쪮䰔\uf63f羳\ue1e4歐\uec8eዪ頥ǭ讽഻띻㢫ꈝ", 1919251925, -228762217)
-            );
-            case a.b("潈ᛱ鰣ə", 2101440299) -> wap.s(
-               a.c(-1447696641, "\ue6b0鼽ᗧ讃\u0000蛡㲣땁⬘ꆤ☮\udc11勇쬹䄦쟔続\uf242棳\ueeb5朐ᴄ鎪ࡪ踏ә뵭"), a.c(1402594158, "\ue757麉ᐦ詐֞蜰㵬듯⫊ꑣ➡\udddf匍쫋䂜옐硊\uf386椽\uef1b")
-            );
-            case a.b("㕿䳝옛塻", -1776536311) -> wap.s(
-               a.c(756061446, "镅\ueccf昜\uf822玳\uf505佄욲墵툈喌꿫ℴ뢘㊟됯ม膽ᬌ鵟ᒠ滺\ue053"), a.b("諹\uf352禂\ue783氦\uea93僂\udd2f䜗췑䩳뀁㺪ꌉ⥖ꮸᇶ鸭Ҕ苍ସ煥ﾬ搊", -1664119104)
-            );
-            case a.c(470606186, "\ue10c颼\u125f谁߇腥㬰닌") -> wap.s(a.b("꩔폓多윾䲨쨊灎狀柫\ued5b檓邶Ḩ螞ඃ謳ㄽ뺼␞ꉜ⮭凱", 835496475), a.c(856530375, "駙\ue031溉\uf4e5缺ﶞ䏟츼呼\udec2奣ꍨ"));
-            case a.d("懇ᡷ銿\u0ce5蜁ƹ믮㈚걄⛢", -1647263274, -56647563) -> wap.s(
-               a.d("ᙽ濭\ue53c筘\uf0d6瘳챼䖀\udb9a內횽Ⳉꈚ㮪뇮㝍赁ʒ頮ḱ鞂\uedd8挤\uf8a1绂\uf41a䶼", -951635846, 529278547),
-               a.c(-1115870439, "⼢囼\udc53䘼짷佄\uf51f糭\ue2c5氖\uefa7ᖪ魸ʾ袛\u0e6e뀿㯵ꅅ✘껮퓊")
-            );
-            default -> var0;
-         };
       }
+
+      return switch (var0) {
+         case a.b("塸⇈\uab00㕚뺴㠌艅ய闺", -1184475105) -> wap.s(
+            a.d("⁰姠퍼䵝욖䀪視玌\uedc4朧\ue0a3ᫌ鐆ණ螰ĕ뭆㒞길⠽ꆉ\udbd4啬캼", 43648304, 2071405846),
+            a.d("룒셈䯨헧帴\udc9f抭\uef3d甀ￃ砚艩\u0cba鄗\u1f5e馫⏮갵㚄듉㤣䍺짜嘐큢媺\ue304浔\uf7ab", -1735175926, -432411171)
+         );
+         case a.d("쟕빲㒨\uaad3", 1330296986, -1200783560) -> wap.s(
+            a.d("乹㟴봮⍊꣎⸫鐫ᶃ菊ॡ躵璖﨎控\ue9ed潒핞媃쀻䙫", 104054894, -177631657), a.b("芠ﭾ燑\uebbe摻\ue2c8壣핺伿얊䉓", 1080788614)
+         );
+         case a.b("ꁢ\ud9de匓쵵䚦쀒穜", 419471364) -> wap.s(
+            a.d("Ч綻\uf776椐\ue2c3摷\ude39垑즇䌱쒬㺄끅⧮ꎺ┙鼆\u10c6試ఱ藋", 1565644642, -1838951663), a.d("%禁\uf351椵\ue6f0摓\uda12叡췆䜊샕㺽둵ⷋ\ua7eaⅡ", -92837965, 1458398117)
+         );
+         case a.d("⮀刢\ud8e8䚙", 1800896292, 1665094854) -> wap.s(
+            a.d("欗ኗ顗ؠ跺\u0b12너㣣ꛯⰘꯘ冰\udf67䚚쳁䨠\uf07e", 977892761, 240197327), a.c(-1880539269, "㭶䋨졉噂\ud98d嬫\ue17f梁\uf6df籫﮾Ǉ輘ᚪ飧Ḟꑁ⮁")
+         );
+         case a.b("㿟䙭첻勱\ud91a徧\ue5ff氏", 732774325) -> wap.s(
+            a.b("霅\uee98摀侮燱\uf713䴌쓾媡퀔垌궱⍣뫐ろ똹గ菅\u1977齈ᚠ泰\ue244", 1508611921), a.d("棪ᅿ鮦ǃ踆࣎닥㬜ꔷ\u2ffdꠢ利\ud89c䔷콮䦕\uf7c0硰\ue2c0撐\ued09靇᧵舣", 1439868495, -1287533913)
+         );
+         case a.c(-355883863, "\ua4cb\udd67垼짔䈘쒾绬") -> wap.s(
+            a.d("兎⣃ꈝ㰩랷\u3101譊ʤ鳦ᙆ釐毩\ue537粔\uf694瀠쩲䖫\udf01奋킫\uaafb", -1833990894, 898880542),
+            a.d("ⱎ喠\udf0b䅱쪮䰔\uf63f羳\ue1e4歐\uec8eዪ頥ǭ讽഻띻㢫ꈝ", 1919251925, -228762217)
+         );
+         case a.b("潈ᛱ鰣ə", 2101440299) -> wap.s(
+            a.c(-1447696641, "\ue6b0鼽ᗧ讃\u0000蛡㲣땁⬘ꆤ☮\udc11勇쬹䄦쟔続\uf242棳\ueeb5朐ᴄ鎪ࡪ踏ә뵭"), a.c(1402594158, "\ue757麉ᐦ詐֞蜰㵬듯⫊ꑣ➡\udddf匍쫋䂜옐硊\uf386椽\uef1b")
+         );
+         case a.b("㕿䳝옛塻", -1776536311) -> wap.s(
+            a.c(756061446, "镅\ueccf昜\uf822玳\uf505佄욲墵툈喌꿫ℴ뢘㊟됯ม膽ᬌ鵟ᒠ滺\ue053"), a.b("諹\uf352禂\ue783氦\uea93僂\udd2f䜗췑䩳뀁㺪ꌉ⥖ꮸᇶ鸭Ҕ苍ସ煥ﾬ搊", -1664119104)
+         );
+         case a.c(470606186, "\ue10c颼\u125f谁߇腥㬰닌") -> wap.s(a.b("꩔폓多윾䲨쨊灎狀柫\ued5b檓邶Ḩ螞ඃ謳ㄽ뺼␞ꉜ⮭凱", 835496475), a.c(856530375, "駙\ue031溉\uf4e5缺ﶞ䏟츼呼\udec2奣ꍨ"));
+         case a.d("懇ᡷ銿\u0ce5蜁ƹ믮㈚걄⛢", -1647263274, -56647563) -> wap.s(
+            a.d("ᙽ濭\ue53c筘\uf0d6瘳챼䖀\udb9a內횽Ⳉꈚ㮪뇮㝍赁ʒ頮ḱ鞂\uedd8挤\uf8a1绂\uf41a䶼", -951635846, 529278547),
+            a.c(-1115870439, "⼢囼\udc53䘼짷佄\uf51f糭\ue2c5氖\uefa7ᖪ魸ʾ袛\u0e6e뀿㯵ꅅ✘껮퓊")
+         );
+         default -> var0;
+      };
    }
 
    private static String ufa() {
@@ -1486,8 +1487,8 @@ public final class ucg {
       udz = var0;
       uea = var1;
       ueb++;
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (!(var2.field_1755 instanceof hlc) && var2.field_1687 != null) {
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (!(var2.currentScreen instanceof hlc) && var2.world != null) {
          izx.alert(wap.s(a.d("襯\uf0ef稯\ue458澂", -1940308102, 1139062336), a.d("ꭓ틍塬왧", -1262502738, 297341926)), var0, vhz.FRIENDS, !var1);
       }
    }
@@ -1516,7 +1517,7 @@ public final class ucg {
          JsonObject var4 = new JsonObject();
          var4.addProperty(a.d("㲉", -1628388570, 664338373), ufw.b64(var2));
          var4.addProperty(a.d("袠", 1904953047, -1038889453), var3);
-         var4.addProperty(a.b("㇗", -1492635208), MinecraftClient.method_1551().method_1548().method_1676());
+         var4.addProperty(a.b("㇗", -1492635208), MinecraftClient.getInstance().getSession().getUsername());
          byte[] var5 = ufw.boxKey(udc, udd, var1);
          return ufw.seal(var5, a.c(-1790445640, "\uf7de蹢Ҧ髓") + udk + a.c(-178260090, "\uf7fb") + var0, var4.toString().getBytes(StandardCharsets.UTF_8));
       } catch (Exception var6) {
@@ -1566,17 +1567,17 @@ public final class ucg {
          byte[] var4 = ucu.get(var3);
          if (var4 == null) {
             return null;
-         } else {
-            byte[] var5 = ufw.open(var4, var0 + a.c(1193674539, "ݖ") + var3, var1.substring(var2 + 1));
-            if (var5 == null) {
-               return null;
-            } else {
-               try {
-                  return JsonParser.parseString(new String(var5, StandardCharsets.UTF_8)).getAsJsonObject();
-               } catch (RuntimeException var7) {
-                  return null;
-               }
-            }
+         }
+
+         byte[] var5 = ufw.open(var4, var0 + a.c(1193674539, "ݖ") + var3, var1.substring(var2 + 1));
+         if (var5 == null) {
+            return null;
+         }
+
+         try {
+            return JsonParser.parseString(new String(var5, StandardCharsets.UTF_8)).getAsJsonObject();
+         } catch (RuntimeException var7) {
+            return null;
          }
       } else {
          return null;
@@ -1602,18 +1603,18 @@ public final class ucg {
    private static String ufl(String var0) {
       if (var0 == null) {
          return null;
-      } else {
-         StringBuilder var1 = new StringBuilder();
-
-         for (char var5 : var0.toCharArray()) {
-            if (var5 >= ' ' && var5 != 127 && var5 != 167) {
-               var1.append(var5);
-            }
-         }
-
-         String var6 = var1.toString().trim();
-         return var6.isEmpty() ? null : var6;
       }
+
+      StringBuilder var1 = new StringBuilder();
+
+      for (char var5 : var0.toCharArray()) {
+         if (var5 >= ' ' && var5 != 127 && var5 != 167) {
+            var1.append(var5);
+         }
+      }
+
+      String var6 = var1.toString().trim();
+      return var6.isEmpty() ? null : var6;
    }
 
    private static ubp ufm(String var0) {
@@ -1657,12 +1658,12 @@ public final class ucg {
       String var2 = ufq(var0, var1);
       if (var2 == null) {
          return null;
-      } else {
-         try {
-            return ufw.unb64(var2);
-         } catch (IllegalArgumentException var4) {
-            return null;
-         }
+      }
+
+      try {
+         return ufw.unb64(var2);
+      } catch (IllegalArgumentException var4) {
+         return null;
       }
    }
 

@@ -14,7 +14,7 @@ public final class uhs {
 
    public static float daylight(MinecraftClient var0) {
       try {
-         Float var1 = (Float)var0.field_1773.method_19418().method_75756().method_75689(EnvironmentAttributes.field_64346, 1.0F);
+         Float var1 = var0.gameRenderer.getCamera().getEnvironmentAttributeInterpolator().get(EnvironmentAttributes.SKY_LIGHT_FACTOR_VISUAL, 1.0F);
          return var1 == null ? 1.0F : Math.max(0.0F, Math.min(1.0F, var1));
       } catch (RuntimeException var2) {
          return 1.0F;
@@ -22,16 +22,16 @@ public final class uhs {
    }
 
    public static float boost(MinecraftClient var0) {
-      Double var1 = (Double)var0.field_1690.method_42473().method_41753();
+      Double var1 = var0.options.getGamma().getValue();
       return var1 == null ? 0.0F : (float)Math.max(0.0, Math.min(1.0, (var1 - 1.0) / 5.0));
    }
 
    public static float light(MinecraftClient var0) {
-      Camera var1 = var0.field_1773.method_19418();
+      Camera var1 = var0.gameRenderer.getCamera();
       float var2 = 0.5F;
-      if (var0.field_1687 != null && var1.method_19332()) {
-         float var3 = var0.field_1687.method_8314(LightType.field_9284, var1.method_19328()) / 15.0F;
-         float var4 = var0.field_1687.method_8314(LightType.field_9282, var1.method_19328()) / 15.0F;
+      if (var0.world != null && var1.isReady()) {
+         float var3 = var0.world.getLightLevel(LightType.SKY, var1.getBlockPos()) / 15.0F;
+         float var4 = var0.world.getLightLevel(LightType.BLOCK, var1.getBlockPos()) / 15.0F;
          float var5 = daylight(var0);
          var2 = Math.max(var3 * (0.18F + 0.82F * var5), var4 * 0.75F);
          var2 = Math.max(var2, 0.08F);

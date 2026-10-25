@@ -10,7 +10,7 @@ public final class pnz {
    private Object poc;
 
    public boolean check(PlayerEntity var1, long var2, long var4) {
-      ClientWorld var6 = MinecraftClient.method_1551().field_1687;
+      ClientWorld var6 = MinecraftClient.getInstance().world;
       if (this.poc != null && this.poc != var6) {
          this.poc = null;
       }

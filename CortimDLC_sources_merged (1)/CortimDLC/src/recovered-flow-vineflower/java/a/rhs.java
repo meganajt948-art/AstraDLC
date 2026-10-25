@@ -79,12 +79,12 @@ public class rhs extends kfe {
    }
 
    public boolean picks(Entity var1) {
-      if (var1 instanceof LivingEntity var2 && !(var1 instanceof PlayerEntity) && var2.method_5805() && !var1.method_31481()) {
+      if (var1 instanceof LivingEntity var2 && !(var1 instanceof PlayerEntity) && var2.isAlive() && !var1.isRemoved()) {
          if (this.rif != this.rhu.version()) {
             this.riq();
          }
 
-         int var3 = Registries.field_41177.method_10206(var1.method_5864());
+         int var3 = Registries.ENTITY_TYPE.getRawId(var1.getType());
          return var3 >= 0 && var3 < this.rie.length && this.rie[var3] ? !this.rhy.get() || rir(var1) : false;
       } else {
          return false;
@@ -96,12 +96,12 @@ public class rhs extends kfe {
    }
 
    private void riq() {
-      boolean[] var1 = new boolean[Registries.field_41177.method_10204()];
+      boolean[] var1 = new boolean[Registries.ENTITY_TYPE.size()];
 
       for (String var3 : this.rhu.ids()) {
-         Identifier var4 = Identifier.method_12829(var3);
-         if (var4 != null && Registries.field_41177.method_10250(var4)) {
-            int var5 = Registries.field_41177.method_10206((EntityType)Registries.field_41177.method_63535(var4));
+         Identifier var4 = Identifier.tryParse(var3);
+         if (var4 != null && Registries.ENTITY_TYPE.containsId(var4)) {
+            int var5 = Registries.ENTITY_TYPE.getRawId(Registries.ENTITY_TYPE.get(var4));
             if (var5 >= 0 && var5 < var1.length) {
                var1[var5] = true;
             }
@@ -113,64 +113,98 @@ public class rhs extends kfe {
    }
 
    private static boolean rir(Entity var0) {
-      return !(var0 instanceof TameableEntity var1 && var1.method_6181()) && !(var0 instanceof AbstractHorseEntity var2 && var2.method_6727())
-         ? var0.method_16914() || var0 instanceof MobEntity var3 && var3.method_60953()
+      return !(var0 instanceof TameableEntity var1 && var1.isTamed()) && !(var0 instanceof AbstractHorseEntity var2 && var2.isTame())
+         ? var0.hasCustomName() || var0 instanceof MobEntity var3 && var3.isLeashed()
          : true;
    }
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public static int kindColor(Entity var0) {
-      EntityType var1 = var0.method_5864();
-      if (var1 == EntityType.field_6077 || var1 == EntityType.field_17713) {
+      EntityType var1 = var0.getType();
+      if (var1 == EntityType.VILLAGER || var1 == EntityType.WANDERING_TRADER) {
          return -12723068;
-      } else if (var1 == EntityType.field_6054) {
+      }
+
+      if (var1 == EntityType.ZOMBIE_VILLAGER) {
          return -6563510;
-      } else if (var1 == EntityType.field_6102) {
+      }
+
+      if (var1 == EntityType.MAGMA_CUBE) {
          return -48077;
-      } else if (var1 == EntityType.field_6069) {
+      }
+
+      if (var1 == EntityType.SLIME) {
          return -7607718;
-      } else if (var1 == EntityType.field_6147) {
+      }
+
+      if (var1 == EntityType.IRON_GOLEM) {
          return -1517372;
-      } else if (var1 == EntityType.field_6047) {
+      }
+
+      if (var1 == EntityType.SNOW_GOLEM) {
          return -1641217;
-      } else if (var1 == EntityType.field_6099) {
+      }
+
+      if (var1 == EntityType.BLAZE) {
          return -20163;
-      } else if (var1 == EntityType.field_6055 || var1 == EntityType.field_16281 || var1 == EntityType.field_6081 || var1 == EntityType.field_17943) {
+      }
+
+      if (var1 == EntityType.WOLF || var1 == EntityType.CAT || var1 == EntityType.OCELOT || var1 == EntityType.FOX) {
          return -15253;
-      } else if (var1 == EntityType.field_6139
-         || var1 == EntityType.field_6067
-         || var1 == EntityType.field_6057
-         || var1 == EntityType.field_6074
-         || var1 == EntityType.field_17714
-         || var1 == EntityType.field_40116
-         || var1 == EntityType.field_6075
-         || var1 == EntityType.field_6048) {
+      }
+
+      if (var1 == EntityType.HORSE
+         || var1 == EntityType.DONKEY
+         || var1 == EntityType.MULE
+         || var1 == EntityType.LLAMA
+         || var1 == EntityType.TRADER_LLAMA
+         || var1 == EntityType.CAMEL
+         || var1 == EntityType.SKELETON_HORSE
+         || var1 == EntityType.ZOMBIE_HORSE) {
          return -3632802;
-      } else if (var1 == EntityType.field_6104 || var1 == EntityType.field_38384) {
+      }
+
+      if (var1 == EntityType.PARROT || var1 == EntityType.ALLAY) {
          return -11544321;
-      } else if (var1 == EntityType.field_28315) {
+      }
+
+      if (var1 == EntityType.AXOLOTL) {
          return -29992;
-      } else if (var1 == EntityType.field_20346) {
+      }
+
+      if (var1 == EntityType.BEE) {
          return -11443;
-      } else if (var1 == EntityType.field_6109 || var1 == EntityType.field_6091 || var1 == EntityType.field_6128) {
+      }
+
+      if (var1 == EntityType.SHULKER || var1 == EntityType.ENDERMAN || var1 == EntityType.ENDERMITE) {
          return -5018625;
-      } else if (var1 == EntityType.field_22281 || var1 == EntityType.field_25751 || var1 == EntityType.field_6050) {
+      }
+
+      if (var1 == EntityType.PIGLIN || var1 == EntityType.PIGLIN_BRUTE || var1 == EntityType.ZOMBIFIED_PIGLIN) {
          return -11443;
-      } else if (var1 == EntityType.field_6085 || var1 == EntityType.field_6143) {
+      }
+
+      if (var1 == EntityType.COW || var1 == EntityType.MOOSHROOM) {
          return -4158870;
-      } else if (var1 == EntityType.field_6093 || var1 == EntityType.field_21973) {
+      }
+
+      if (var1 == EntityType.PIG || var1 == EntityType.HOGLIN) {
          return -25932;
-      } else if (var1 == EntityType.field_6115 || var1 == EntityType.field_6132) {
+      }
+
+      if (var1 == EntityType.SHEEP || var1 == EntityType.CHICKEN) {
          return -724502;
-      } else if (var1 != EntityType.field_6119 && var1 != EntityType.field_6116 && var1 != EntityType.field_38095) {
-         SpawnGroup var2 = var1.method_5891();
+      }
+
+      if (var1 != EntityType.WITHER && var1 != EntityType.ENDER_DRAGON && var1 != EntityType.WARDEN) {
+         SpawnGroup var2 = var1.getSpawnGroup();
 
          return switch (var2) {
-            case field_6302 -> -41378;
-            case field_6294 -> -8587360;
-            case field_6300, field_30092, field_24460, field_34447 -> -11691009;
-            case field_6303 -> -5197638;
+            case MONSTER -> -41378;
+            case CREATURE -> -8587360;
+            case WATER_CREATURE, UNDERGROUND_WATER_CREATURE, WATER_AMBIENT, AXOLOTLS -> -11691009;
+            case AMBIENT -> -5197638;
             default -> -1;
          };
       } else {
@@ -182,46 +216,46 @@ public class rhs extends kfe {
       ArrayList var5 = new ArrayList();
       double var6 = var3 * var3;
 
-      for (Entity var9 : var1.field_1687.method_18112()) {
-         if (var9 != var1.method_1560() && this.picks(var9) && var9.method_5707(var2) <= var6) {
+      for (Entity var9 : var1.world.getEntities()) {
+         if (var9 != var1.getCameraEntity() && this.picks(var9) && var9.squaredDistanceTo(var2) <= var6) {
             var5.add((LivingEntity)var9);
          }
       }
 
-      var5.sort((var1x, var2x) -> Double.compare(var1x.method_5707(var2), var2x.method_5707(var2)));
+      var5.sort((var1x, var2x) -> Double.compare(var1x.squaredDistanceTo(var2), var2x.squaredDistanceTo(var2)));
       return var5;
    }
 
    public static void afterExtraction(WorldRenderState var0) {
       rhs var1 = rht;
-      MinecraftClient var2 = MinecraftClient.method_1551();
-      if (var1 != null && var1.isEnabled() && var1.rhv.is("Outline") && var2.field_1687 != null && var2.field_1724 != null) {
-         Vec3d var3 = var2.field_1773.method_19418().method_71156();
+      MinecraftClient var2 = MinecraftClient.getInstance();
+      if (var1 != null && var1.isEnabled() && var1.rhv.is("Outline") && var2.world != null && var2.player != null) {
+         Vec3d var3 = var2.gameRenderer.getCamera().getCameraPos();
          List var4 = var1.ris(var2, var3, var1.rhz.get());
          if (!var4.isEmpty()) {
             ukl.style(4).set((float)var1.ric.get(), (float)var1.ria.get(), (float)var1.rib.get(), (float)var1.rid.get(), 0.4F, 0.6F);
             IdentityHashMap var5 = new IdentityHashMap();
 
-            for (EntityRenderState var7 : var0.field_61735) {
-               if (var7 instanceof LivingEntityRenderState var8 && !(var7 instanceof PlayerEntityRenderState) && var7.field_58171 != null) {
-                  var5.computeIfAbsent(var7.field_58171, var0x -> new ArrayList<>()).add(var8);
+            for (EntityRenderState var7 : var0.entityRenderStates) {
+               if (var7 instanceof LivingEntityRenderState var8 && !(var7 instanceof PlayerEntityRenderState) && var7.entityType != null) {
+                  var5.computeIfAbsent(var7.entityType, var0x -> new ArrayList<>()).add(var8);
                }
             }
 
-            float var25 = var2.method_61966().method_60637(true);
+            float var25 = var2.getRenderTickCounter().getTickProgress(true);
             IdentityHashMap var26 = new IdentityHashMap();
 
             for (LivingEntity var9 : var4) {
-               List var10 = (List)var5.get(var9.method_5864());
+               List var10 = (List)var5.get(var9.getType());
                if (var10 != null) {
-                  Vec3d var11 = var9.method_30950(var25);
+                  Vec3d var11 = var9.getLerpedPos(var25);
                   LivingEntityRenderState var12 = null;
                   double var13 = 0.04;
 
                   for (LivingEntityRenderState var16 : var10) {
-                     double var17 = var16.field_53325 - var11.field_1352;
-                     double var19 = var16.field_53326 - var11.field_1351;
-                     double var21 = var16.field_53327 - var11.field_1350;
+                     double var17 = var16.x - var11.x;
+                     double var19 = var16.y - var11.y;
+                     double var21 = var16.z - var11.z;
                      double var23 = var17 * var17 + var19 * var19 + var21 * var21;
                      if (var23 < var13 && !var26.containsKey(var16)) {
                         var13 = var23;
@@ -242,22 +276,22 @@ public class rhs extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       rhs var2 = rht;
-      MinecraftClient var3 = MinecraftClient.method_1551();
+      MinecraftClient var3 = MinecraftClient.getInstance();
       if (var2 != null
          && var2.isEnabled()
          && var2.rhv.is("Box")
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+         && var3.world != null
+         && var3.player != null
+         && !var3.options.hudHidden
+         && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.rig) {
             var2.rig = unf.frame();
-            float var4 = var1.method_60637(true);
+            float var4 = var1.getTickProgress(true);
 
             usn var5;
             try {
-               var5 = usn.capture(var4, var0.method_51421(), var0.method_51443());
+               var5 = usn.capture(var4, var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var12) {
                return;
             }
@@ -270,7 +304,7 @@ public class rhs extends kfe {
                try {
                   for (int var7 = var6.size() - 1; var7 >= 0; var7--) {
                      LivingEntity var8 = (LivingEntity)var6.get(var7);
-                     var2.rit(var0, var5, var8, var8.method_30950(var4), var2.colorOf(var8));
+                     var2.rit(var0, var5, var8, var8.getLerpedPos(var4), var2.colorOf(var8));
                   }
                } finally {
                   uut.endBatch();
@@ -281,13 +315,13 @@ public class rhs extends kfe {
    }
 
    private void rit(DrawContext var1, usn var2, LivingEntity var3, Vec3d var4, int var5) {
-      double var6 = var3.method_17681() * 0.5 + 0.02;
-      double var8 = var3.method_17682() + 0.02;
+      double var6 = var3.getWidth() * 0.5 + 0.02;
+      double var8 = var3.getHeight() + 0.02;
 
       for (int var10 = 0; var10 < 8; var10++) {
-         this.rih[var10][0] = (var10 & 1) == 0 ? var4.field_1352 - var6 : var4.field_1352 + var6;
-         this.rih[var10][1] = (var10 & 2) == 0 ? var4.field_1351 : var4.field_1351 + var8;
-         this.rih[var10][2] = (var10 & 4) == 0 ? var4.field_1350 - var6 : var4.field_1350 + var6;
+         this.rih[var10][0] = (var10 & 1) == 0 ? var4.x - var6 : var4.x + var6;
+         this.rih[var10][1] = (var10 & 2) == 0 ? var4.y : var4.y + var8;
+         this.rih[var10][2] = (var10 & 4) == 0 ? var4.z - var6 : var4.z + var6;
          this.rij[var10] = var2.depth(this.rih[var10][0], this.rih[var10][1], this.rih[var10][2]) > 0.05F
             && var2.project(this.rih[var10][0], this.rih[var10][1], this.rih[var10][2], this.rii[var10]);
       }
@@ -334,12 +368,12 @@ public class rhs extends kfe {
 
    private static boolean riu(int var0, Vec3d var1, Vec3d var2, double var3, double var5) {
       return switch (var0) {
-         case 0 -> var1.field_1351 < var2.field_1351;
-         case 1 -> var1.field_1351 > var2.field_1351 + var5;
-         case 2 -> var1.field_1350 < var2.field_1350 - var3;
-         case 3 -> var1.field_1350 > var2.field_1350 + var3;
-         case 4 -> var1.field_1352 < var2.field_1352 - var3;
-         default -> var1.field_1352 > var2.field_1352 + var3;
+         case 0 -> var1.y < var2.y;
+         case 1 -> var1.y > var2.y + var5;
+         case 2 -> var1.z < var2.z - var3;
+         case 3 -> var1.z > var2.z + var3;
+         case 4 -> var1.x < var2.x - var3;
+         default -> var1.x > var2.x + var3;
       };
    }
 }

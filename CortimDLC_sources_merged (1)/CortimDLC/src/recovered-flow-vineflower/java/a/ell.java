@@ -28,33 +28,39 @@ public final class ell implements Recorder {
             }
 
             elm.set(var0, new ell(var2));
-         } catch (RuntimeException | ReflectiveOperationException var3) {
+         } catch (ReflectiveOperationException | RuntimeException var3) {
          }
       }
    }
 
-   public void method_34770() {
-      this.eln.method_34770();
+   @Override
+   public void stop() {
+      this.eln.stop();
    }
 
-   public void method_41320() {
-      this.eln.method_41320();
+   @Override
+   public void forceStop() {
+      this.eln.forceStop();
    }
 
-   public void method_34771() {
-      this.eln.method_34771();
+   @Override
+   public void startTick() {
+      this.eln.startTick();
    }
 
-   public boolean method_34773() {
-      return this.eln.method_34773();
+   @Override
+   public boolean isActive() {
+      return this.eln.isActive();
    }
 
-   public Profiler method_34774() {
-      return this.eln.method_34774();
+   @Override
+   public Profiler getProfiler() {
+      return this.eln.getProfiler();
    }
 
-   public void method_34772() {
-      this.eln.method_34772();
+   @Override
+   public void endTick() {
+      this.eln.endTick();
       if (!ejp.isActive()) {
          try {
             nxa.onFrame();

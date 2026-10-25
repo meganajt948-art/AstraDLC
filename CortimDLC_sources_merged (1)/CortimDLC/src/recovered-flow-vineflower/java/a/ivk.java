@@ -67,7 +67,7 @@ final class ivk extends imn {
             this.ivq = null;
          }
 
-         MinecraftClient var7 = MinecraftClient.method_1551();
+         MinecraftClient var7 = MinecraftClient.getInstance();
          String var8 = wlk.dimensionId();
          float var9 = iov.r(6.0F);
 
@@ -81,8 +81,8 @@ final class ivk extends imn {
             float var17 = var12.shown.step(var11.visible, var5);
             int var18 = wlk.colorOf(var11);
             uut.pushAlpha(var14 * (0.5F + 0.5F * var17));
-            var1.method_51448().pushMatrix();
-            var1.method_51448().translate((1.0F - var14) * 18.0F, 0.0F);
+            var1.getMatrices().pushMatrix();
+            var1.getMatrices().translate((1.0F - var14) * 18.0F, 0.0F);
             uut.round(var1, this.x, var13, this.w, 30.0F, var9, ujt.withAlpha(iov.hover, (int)(ujt.alpha(iov.hover) * (0.6F + 1.4F * var16))));
             float var19 = var13 + 15.0F;
             wkw.pin(var1, this.x + 12.0F, var19 - 0.8F * var16, 15.0F, var18, 0.5F + 0.5F * var16);
@@ -101,8 +101,8 @@ final class ivk extends imn {
 
             irr.SMALL.draw(var1, irr.SMALL.ellipsize(var22, var21), var20, irr.SMALL.centerTop(var19 + 5.5F), iov.textMuted);
             wkq var24 = var23 ? var11 : wlk.here(var11);
-            if (var16 < 0.99F && var24 != null && var7.field_1724 != null) {
-               double var25 = Math.sqrt(var7.field_1724.method_5649(var24.cx(), var24.cy(), var24.cz()));
+            if (var16 < 0.99F && var24 != null && var7.player != null) {
+               double var25 = Math.sqrt(var7.player.squaredDistanceTo(var24.cx(), var24.cy(), var24.cz()));
                uut.pushAlpha(1.0F - var16);
                irr.drawChip(
                   var1,
@@ -147,7 +147,7 @@ final class ivk extends imn {
                }
             }
 
-            var1.method_51448().popMatrix();
+            var1.getMatrices().popMatrix();
             uut.popAlpha();
          }
       }

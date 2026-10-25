@@ -22,11 +22,11 @@ public class lwh extends kfe {
    }
 
    public static boolean wants(MinecraftClient var0, ClientPlayerEntity var1) {
-      GameOptions var2 = var0.field_1690;
-      return (var1.method_7344().method_7586() >= 7 || var1.method_31549().field_7478)
-         && vzz.isPhysicallyDown(var0, var2.field_1894)
-         && !vzz.isPhysicallyDown(var0, var2.field_1881)
-         && !var2.field_1832.method_1434();
+      GameOptions var2 = var0.options;
+      return (var1.getHungerManager().getFoodLevel() >= 7 || var1.getAbilities().allowFlying)
+         && vzz.isPhysicallyDown(var0, var2.forwardKey)
+         && !vzz.isPhysicallyDown(var0, var2.backKey)
+         && !var2.sneakKey.isPressed();
    }
 
    @Override
@@ -36,10 +36,10 @@ public class lwh extends kfe {
 
    @Override
    public void onStartTick(MinecraftClient var1) {
-      ClientPlayerEntity var2 = var1.field_1724;
-      if (var1.field_1755 == null && !vyn.anyHeld() && !oxw.busy() && !kvz.busy()) {
-         if (!var2.method_7325() && !var2.method_5765() && wants(var1, var2)) {
-            this.lwo(var1.field_1690);
+      ClientPlayerEntity var2 = var1.player;
+      if (var1.currentScreen == null && !vyn.anyHeld() && !oxw.busy() && !kvz.busy()) {
+         if (!var2.isSpectator() && !var2.hasVehicle() && wants(var1, var2)) {
+            this.lwo(var1.options);
          } else {
             this.lwp(var1);
          }
@@ -47,14 +47,14 @@ public class lwh extends kfe {
    }
 
    private void lwo(GameOptions var1) {
-      KeyBinding var2 = var1.field_1867;
-      if ((Boolean)var1.method_42450().method_41753()) {
-         if (!var2.method_1434()) {
-            var2.method_23481(true);
+      KeyBinding var2 = var1.sprintKey;
+      if (var1.getSprintToggled().getValue()) {
+         if (!var2.isPressed()) {
+            var2.setPressed(true);
             this.lwl = true;
          }
       } else {
-         var2.method_23481(true);
+         var2.setPressed(true);
       }
 
       this.lwk = true;
@@ -63,14 +63,14 @@ public class lwh extends kfe {
    private void lwp(MinecraftClient var1) {
       if (this.lwk) {
          this.lwk = false;
-         if (var1 != null && var1.field_1690 != null && var1.method_22683() != null) {
-            KeyBinding var2 = var1.field_1690.field_1867;
-            if ((Boolean)var1.field_1690.method_42450().method_41753()) {
-               if (this.lwl && var2.method_1434()) {
-                  var2.method_23481(true);
+         if (var1 != null && var1.options != null && var1.getWindow() != null) {
+            KeyBinding var2 = var1.options.sprintKey;
+            if (var1.options.getSprintToggled().getValue()) {
+               if (this.lwl && var2.isPressed()) {
+                  var2.setPressed(true);
                }
             } else {
-               var2.method_23481(vzz.isPhysicallyDown(var1, var2));
+               var2.setPressed(vzz.isPhysicallyDown(var1, var2));
             }
 
             this.lwl = false;

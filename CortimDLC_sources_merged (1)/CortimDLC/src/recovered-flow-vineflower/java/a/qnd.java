@@ -35,18 +35,18 @@ public final class qnd {
    static final double EYE = 1.62;
    static final double LOW = 0.25;
    private static final Set<Block> qne = Set.of(
-      Blocks.field_10036,
-      Blocks.field_22089,
-      Blocks.field_10092,
-      Blocks.field_10029,
-      Blocks.field_16999,
-      Blocks.field_10343,
-      Blocks.field_27879,
-      Blocks.field_17350,
-      Blocks.field_23860,
-      Blocks.field_10606,
-      Blocks.field_28048,
-      Blocks.field_10164
+      Blocks.FIRE,
+      Blocks.SOUL_FIRE,
+      Blocks.MAGMA_BLOCK,
+      Blocks.CACTUS,
+      Blocks.SWEET_BERRY_BUSH,
+      Blocks.COBWEB,
+      Blocks.POWDER_SNOW,
+      Blocks.CAMPFIRE,
+      Blocks.SOUL_CAMPFIRE,
+      Blocks.WITHER_ROSE,
+      Blocks.POINTED_DRIPSTONE,
+      Blocks.LAVA
    );
    public int x0;
    public int y0;
@@ -87,20 +87,20 @@ public final class qnd {
    public void build(World var1, ClientPlayerEntity var2, pzc var3, Predicate<BlockState> var4, LongSet var5, List<Vec3d> var6, BlockPos var7) {
       this.qnm = var3;
       this.qno = var6;
-      BlockPos var8 = var2.method_24515();
-      int var9 = Math.min(var3.minX - 4, var8.method_10263() - 3);
-      int var10 = Math.max(var3.maxX + 4, var8.method_10263() + 3);
-      int var11 = Math.min(var3.minZ - 4, var8.method_10260() - 3);
-      int var12 = Math.max(var3.maxZ + 4, var8.method_10260() + 3);
-      int var13 = Math.min(var3.minY - 1, var8.method_10264() - 4);
-      int var14 = Math.max(var3.maxY + 4, var8.method_10264() + 3);
+      BlockPos var8 = var2.getBlockPos();
+      int var9 = Math.min(var3.minX - 4, var8.getX() - 3);
+      int var10 = Math.max(var3.maxX + 4, var8.getX() + 3);
+      int var11 = Math.min(var3.minZ - 4, var8.getZ() - 3);
+      int var12 = Math.max(var3.maxZ + 4, var8.getZ() + 3);
+      int var13 = Math.min(var3.minY - 1, var8.getY() - 4);
+      int var14 = Math.max(var3.maxY + 4, var8.getY() + 3);
       if (var7 != null) {
-         var9 = Math.min(var9, var7.method_10263() - 3);
-         var10 = Math.max(var10, var7.method_10263() + 3);
-         var11 = Math.min(var11, var7.method_10260() - 3);
-         var12 = Math.max(var12, var7.method_10260() + 3);
-         var13 = Math.min(var13, var7.method_10264() - 2);
-         var14 = Math.max(var14, var7.method_10264() + 3);
+         var9 = Math.min(var9, var7.getX() - 3);
+         var10 = Math.max(var10, var7.getX() + 3);
+         var11 = Math.min(var11, var7.getZ() - 3);
+         var12 = Math.max(var12, var7.getZ() + 3);
+         var13 = Math.min(var13, var7.getY() - 2);
+         var14 = Math.max(var14, var7.getY() + 3);
       }
 
       this.x0 = var9;
@@ -125,7 +125,7 @@ public final class qnd {
          for (int var18 = 0; var18 < this.sz; var18++) {
             int var19 = this.x0 + var17;
             int var20 = this.z0 + var18;
-            boolean var21 = var1.method_8393(var19 >> 4, var20 >> 4);
+            boolean var21 = var1.isChunkLoaded(var19 >> 4, var20 >> 4);
 
             for (int var22 = 0; var22 < this.sy; var22++) {
                int var23 = (var22 * this.sz + var18) * this.sx + var17;
@@ -133,17 +133,17 @@ public final class qnd {
                   this.qnf[var23] = 2;
                } else {
                   int var24 = this.y0 + var22;
-                  var16.method_10103(var19, var24, var20);
-                  BlockState var25 = var1.method_8320(var16);
+                  var16.set(var19, var24, var20);
+                  BlockState var25 = var1.getBlockState(var16);
                   byte var26 = 0;
-                  boolean var27 = qne.contains(var25.method_26204());
-                  if (!var25.method_26227().method_15769()) {
+                  boolean var27 = qne.contains(var25.getBlock());
+                  if (!var25.getFluidState().isEmpty()) {
                      var26 = (byte)(var26 | 32);
                   } else {
-                     VoxelShape var28 = var25.method_26220(var1, var16);
-                     if (!var28.method_1110() && !(var28.method_1105(Axis.field_11052) <= 0.25)) {
+                     VoxelShape var28 = var25.getCollisionShape(var1, var16);
+                     if (!var28.isEmpty() && !(var28.getMax(Axis.Y) <= 0.25)) {
                         var26 = (byte)(var26 | 2);
-                        double var29 = var28.method_1105(Axis.field_11052);
+                        double var29 = var28.getMax(Axis.Y);
                         if (var27) {
                            var26 = (byte)(var26 | 16);
                         } else if (var29 > 0.49 && var29 <= 1.01) {
@@ -154,12 +154,9 @@ public final class qnd {
                      }
                   }
 
-                  if (!var25.method_26215()
-                     && (var26 & 32) == 0
-                     && var3.contains(var19, var24, var20)
-                     && !var5.contains(BlockPos.method_10064(var19, var24, var20))) {
-                     float var32 = var25.method_26214(var1, var16);
-                     float var33 = var32 < 0.0F ? 0.0F : var25.method_26165(var2, var1, var16);
+                  if (!var25.isAir() && (var26 & 32) == 0 && var3.contains(var19, var24, var20) && !var5.contains(BlockPos.asLong(var19, var24, var20))) {
+                     float var32 = var25.getHardness(var1, var16);
+                     float var33 = var32 < 0.0F ? 0.0F : var25.calcBlockBreakingDelta(var2, var1, var16);
                      if (var33 > 0.0F) {
                         var26 = (byte)(var26 | 8);
                         this.qng[var23] = (short)Math.min(600, Math.max(1, (int)Math.ceil(1.0F / var33)));
@@ -241,8 +238,8 @@ public final class qnd {
       Arrays.fill(this.qnh, 0, var2, Float.POSITIVE_INFINITY);
       Arrays.fill(this.qni, 0, var2, -1);
       this.qnn.clear();
-      if (this.inside(var1.method_10263(), var1.method_10264(), var1.method_10260())) {
-         int var3 = this.index(var1.method_10263(), var1.method_10264(), var1.method_10260());
+      if (this.inside(var1.getX(), var1.getY(), var1.getZ())) {
+         int var3 = this.index(var1.getX(), var1.getY(), var1.getZ());
          this.qnh[var3] = 0.0F;
          this.qnn.push(0.0F, var3);
 
@@ -315,9 +312,9 @@ public final class qnd {
    private void qnz(int var1, int var2, int var3, int var4, float var5) {
       if (var5 != Float.POSITIVE_INFINITY && this.inside(var2, var3, var4) && this.inside(var2, var3 + 1, var4)) {
          for (Vec3d var7 : this.qno) {
-            double var8 = var2 + 0.5 - var7.field_1352;
-            double var10 = var4 + 0.5 - var7.field_1350;
-            double var12 = var3 - var7.field_1351;
+            double var8 = var2 + 0.5 - var7.x;
+            double var10 = var4 + 0.5 - var7.z;
+            double var12 = var3 - var7.y;
             if (var8 * var8 + var10 * var10 < 4.0 && Math.abs(var12) < 2.5) {
                var5 += 25.0F;
                break;
@@ -335,7 +332,7 @@ public final class qnd {
 
    public long targetKey(int var1) {
       int var2 = this.qnj[var1];
-      return BlockPos.method_10064(this.wx(var2), this.wy(var2), this.wz(var2));
+      return BlockPos.asLong(this.wx(var2), this.wy(var2), this.wz(var2));
    }
 
    public qmx best(Vec3d var1, Vec3d var2, LongSet var3) {
@@ -348,10 +345,10 @@ public final class qnd {
 
       for (int var7 = 0; var7 < this.qnl; var7++) {
          int var8 = this.qnj[var7];
-         if (var4 == null || var4.contains(BlockPos.method_10064(this.wx(var8), this.wy(var8), this.wz(var8)))) {
-            double var9 = this.wx(var8) + 0.5 - var1.field_1352;
-            double var11 = this.wy(var8) + 0.5 - var1.field_1351;
-            double var13 = this.wz(var8) + 0.5 - var1.field_1350;
+         if (var4 == null || var4.contains(BlockPos.asLong(this.wx(var8), this.wy(var8), this.wz(var8)))) {
+            double var9 = this.wx(var8) + 0.5 - var1.x;
+            double var11 = this.wy(var8) + 0.5 - var1.y;
+            double var13 = this.wz(var8) + 0.5 - var1.z;
             var5[var7] = var9 * var9 + var11 * var11 + var13 * var13;
             var6.add(var7);
          }
@@ -371,12 +368,12 @@ public final class qnd {
          int var16 = this.wx(var14);
          int var17 = this.wy(var14);
          int var18 = this.wz(var14);
-         if (!var3.contains(BlockPos.method_10064(var16, var17, var18))) {
-            double var19 = var16 + 0.5 - var1.field_1352;
-            double var21 = var17 + 0.5 - var1.field_1351;
-            double var23 = var18 + 0.5 - var1.field_1350;
+         if (!var3.contains(BlockPos.asLong(var16, var17, var18))) {
+            double var19 = var16 + 0.5 - var1.x;
+            double var21 = var17 + 0.5 - var1.y;
+            double var23 = var18 + 0.5 - var1.z;
             double var25 = Math.sqrt(var19 * var19 + var21 * var21 + var23 * var23);
-            double var27 = var25 < 0.001 ? 1.0 : (var19 * var2.field_1352 + var21 * var2.field_1351 + var23 * var2.field_1350) / var25;
+            double var27 = var25 < 0.001 ? 1.0 : (var19 * var2.x + var21 * var2.y + var23 * var2.z) / var25;
             var15 -= (float)(Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, var27)))) / this.qnr);
             if (this.qns > 0.0F) {
                var15 += this.qns * this.qoa(var16, var17, var18);
@@ -491,9 +488,9 @@ public final class qnd {
 
       for (int var5 = 0; var5 < this.qnl; var5++) {
          int var6 = this.qnj[var5];
-         double var7 = this.wx(var6) + 0.5 - var1.field_1352;
-         double var9 = this.wy(var6) + 0.5 - var1.field_1351;
-         double var11 = this.wz(var6) + 0.5 - var1.field_1350;
+         double var7 = this.wx(var6) + 0.5 - var1.x;
+         double var9 = this.wy(var6) + 0.5 - var1.y;
+         double var11 = this.wz(var6) + 0.5 - var1.z;
          if (var7 * var7 + var9 * var9 + var11 * var11 <= var2 * var2) {
             var4.add(new BlockPos(this.wx(var6), this.wy(var6), this.wz(var6)));
          }
@@ -527,15 +524,15 @@ public final class qnd {
       int var3 = -1;
       double var4 = Double.MAX_VALUE;
 
-      for (int var6 = var1.method_10264() - var2; var6 <= var1.method_10264() + var2; var6++) {
-         for (int var7 = var1.method_10263() - var2; var7 <= var1.method_10263() + var2; var7++) {
-            for (int var8 = var1.method_10260() - var2; var8 <= var1.method_10260() + var2; var8++) {
+      for (int var6 = var1.getY() - var2; var6 <= var1.getY() + var2; var6++) {
+         for (int var7 = var1.getX() - var2; var7 <= var1.getX() + var2; var7++) {
+            for (int var8 = var1.getZ() - var2; var8 <= var1.getZ() + var2; var8++) {
                if (this.inside(var7, var6, var8)) {
                   int var9 = this.index(var7, var6, var8);
                   if (this.qnh[var9] != Float.POSITIVE_INFINITY) {
-                     double var10 = var7 - var1.method_10263();
-                     double var12 = var6 - var1.method_10264();
-                     double var14 = var8 - var1.method_10260();
+                     double var10 = var7 - var1.getX();
+                     double var12 = var6 - var1.getY();
+                     double var14 = var8 - var1.getZ();
                      double var16 = (var10 * var10 + var12 * var12 * 2.0 + var14 * var14) * 40.0 + this.qnh[var9];
                      if (var16 < var4) {
                         var4 = var16;
@@ -555,7 +552,7 @@ public final class qnd {
    }
 
    public static float value(BlockState var0) {
-      String var1 = Registries.field_41175.method_10221(var0.method_26204()).method_12832();
+      String var1 = Registries.BLOCK.getId(var0.getBlock()).getPath();
       if (var1.contains(a.d("솤렘㋃겾❫ꇛᮂ", 1057647661, -675303958))
          || var1.contains(a.b("雷胰ਫ鑍ᾉ餵⍮", 2106325291))
          || var1.contains(a.c(1450707397, "প瀔響撱\uef6a槐펙婃쐧亗쥃㌢뷮⑅"))) {

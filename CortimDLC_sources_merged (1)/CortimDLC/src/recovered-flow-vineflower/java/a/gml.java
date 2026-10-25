@@ -65,19 +65,15 @@ final class gml {
             gmt(a.b("뵬쓩主큑宨\udd2a杦\uee95烗", -785531612), true);
             break;
          case 60:
-            gms(a.c(-1690082569, "抹ᬼ釮྄葽˿뢳ㅀ꼂◡ꉱ堋훑佶씢"), gmr(var0, EquipmentSlot.field_6174).method_31574(Items.field_8058), gmr(var0, EquipmentSlot.field_6174));
+            gms(a.c(-1690082569, "抹ᬼ釮྄葽˿뢳ㅀ꼂◡ꉱ堋훑佶씢"), gmr(var0, EquipmentSlot.CHEST).isOf(Items.DIAMOND_CHESTPLATE), gmr(var0, EquipmentSlot.CHEST));
             gms(
                a.b("럔칑䒃\udae9儐힒淞\ue42d穯\uf08c眗赫θ騌ရ離⳧ꌡ㦉뿒㘭䱵슊", -2129938558),
-               gmr(var0, EquipmentSlot.field_6169).method_31574(Items.field_22027),
-               gmr(var0, EquipmentSlot.field_6169)
+               gmr(var0, EquipmentSlot.HEAD).isOf(Items.NETHERITE_HELMET),
+               gmr(var0, EquipmentSlot.HEAD)
             );
-            gms(
-               a.d("ꬲ튷塥옏䷶쭴焸\uf8cb暉\uec6a毷醇\u1f1f蛧ಯ詃」", 755053315, -400254879),
-               gmr(var0, EquipmentSlot.field_6166).method_7960(),
-               gmr(var0, EquipmentSlot.field_6166)
-            );
-            ItemStack var12 = gmr(var0, EquipmentSlot.field_6172);
-            gms(a.d("滂ᝇ鶕Ͽ蠆ຄ듈㴻ꍹ⦚긅命\udaa8䌍", 598271865, -779908620), var12.method_31574(Items.field_8348) && var12.method_7919() == 0, var12);
+            gms(a.d("ꬲ튷塥옏䷶쭴焸\uf8cb暉\uec6a毷醇\u1f1f蛧ಯ詃」", 755053315, -400254879), gmr(var0, EquipmentSlot.FEET).isEmpty(), gmr(var0, EquipmentSlot.FEET));
+            ItemStack var12 = gmr(var0, EquipmentSlot.LEGS);
+            gms(a.d("滂ᝇ鶕Ͽ蠆ຄ듈㴻ꍹ⦚긅命\udaa8䌍", 598271865, -779908620), var12.isOf(Items.DIAMOND_LEGGINGS) && var12.getDamage() == 0, var12);
             break;
          case 70:
             gmv(
@@ -95,8 +91,8 @@ final class gml {
             );
             break;
          case 110:
-            ItemStack var11 = gmr(var0, EquipmentSlot.field_6172);
-            gms(a.d("踘\uf79d絏\ue325棜\uee5e吒\udde1䎣쥀仑뒰㩰ꏅ⦜꽯ᔧ髿\u000b蘉\u0ffa疽ײַ", 1771123776, 2046540302), var11.method_7919() == 0, var11);
+            ItemStack var11 = gmr(var0, EquipmentSlot.LEGS);
+            gms(a.d("踘\uf79d絏\ue325棜\uee5e吒\udde1䎣쥀仑뒰㩰ꏅ⦜꽯ᔧ髿\u000b蘉\u0ffa疽ײַ", 1771123776, 2046540302), var11.getDamage() == 0, var11);
             gmt(a.c(-1053344482, "㵖䓓츁偫\udb92崐\ue75c溯\uf0ed"), false);
             break;
          case 120:
@@ -119,22 +115,14 @@ final class gml {
             gmm.remove(74);
             break;
          case 160:
-            gms(
-               a.d("﨟莇ु霽ᳬ驎 ꧺ㞳봓㪐삮乸", 1920992336, 784268807),
-               gmr(var0, EquipmentSlot.field_6174).method_31574(Items.field_8833),
-               gmr(var0, EquipmentSlot.field_6174)
-            );
+            gms(a.d("﨟莇ु霽ᳬ驎 ꧺ㞳봓㪐삮乸", 1920992336, 784268807), gmr(var0, EquipmentSlot.CHEST).isOf(Items.ELYTRA), gmr(var0, EquipmentSlot.CHEST));
             gmm.add(74);
             break;
          case 163:
             gmm.remove(74);
             break;
          case 190:
-            gms(
-               a.b("\uea3a鎢ᥤ蜘\u0cc9詫《맟➖괶⪵킆幒쟡䶺", -1339037072),
-               gmr(var0, EquipmentSlot.field_6174).method_31574(Items.field_8058),
-               gmr(var0, EquipmentSlot.field_6174)
-            );
+            gms(a.b("\uea3a鎢ᥤ蜘\u0cc9詫《맟➖괶⪵킆幒쟡䶺", -1339037072), gmr(var0, EquipmentSlot.CHEST).isOf(Items.DIAMOND_CHESTPLATE), gmr(var0, EquipmentSlot.CHEST));
             gmv(
                var0,
                a.b(
@@ -142,8 +130,8 @@ final class gml {
                   -360915964
                )
             );
-            var0.field_1724.method_36457(90.0F);
-            gmo = var0.field_1724.method_31548().method_67532();
+            var0.player.setPitch(90.0F);
+            gmo = var0.player.getInventory().getSelectedSlot();
             break;
          case 195:
             gmm.add(75);
@@ -154,25 +142,25 @@ final class gml {
          case 230:
             int var9 = 0;
 
-            for (int var13 = 0; var13 < var0.field_1724.method_31548().method_5439(); var13++) {
-               ItemStack var15 = var0.field_1724.method_31548().method_5438(var13);
-               if (var15.method_31574(Items.field_8639)) {
-                  var9 += var15.method_7947();
+            for (int var13 = 0; var13 < var0.player.getInventory().size(); var13++) {
+               ItemStack var15 = var0.player.getInventory().getStack(var13);
+               if (var15.isOf(Items.FIREWORK_ROCKET)) {
+                  var9 += var15.getCount();
                }
             }
 
             gms(a.c(1976948043, "픖겎♈렴㏥땇༦蛳ᢺ鈚ᖙ\uefae慶\uf8dc犘\uf47b丬쇠孊\udd50哲⺥ꀀ㯐"), var9 == 15, var9);
             gms(
                a.d("\ue85b釃ᬅ蕹ຨ蠊㉫뮾◷꽗⣔틣尻양俕줶獡ﲭ昇\ue01d榨ᏺ鵋ڒ肦ਾ뎊㶕Ꜳⅿ꫁吒\ude5b", 359606986, 476693237),
-               var0.field_1724.method_31548().method_5438(29).method_31574(Items.field_8639) && var0.field_1724.method_31548().method_67532() == gmo,
-               var0.field_1724.method_31548().method_5438(29)
+               var0.player.getInventory().getStack(29).isOf(Items.FIREWORK_ROCKET) && var0.player.getInventory().getSelectedSlot() == gmo,
+               var0.player.getInventory().getStack(29)
             );
             gmt(a.c(-1964206851, "钲\ued2a柬戀牁\uf4e3亂읗夞펾"), false);
-            var0.field_1724.method_36457(0.0F);
+            var0.player.setPitch(0.0F);
             break;
          case 240:
             gmt(a.c(1476554783, "灚ৄ茛ᵢ隀ဓ꩝⎷뷹㝎낊"), true);
-            String var8 = var0.method_1548().method_1676();
+            String var8 = var0.getSession().getUsername();
             gmv(var0, a.d("㏬䩍삒廾픾厈\ue9d6怩﹥瓂\uf355५螱Ḉ鑔ኣꣻ✷붛㯙눸젺䛈\udd1c季퇶栋\ue644糣\ufaf6煔辝ג鰷ᨽ邎⭤ꅊ⟧븬㐏䫽샙䌄", 809384694, 457574725) + var8 + a.b("겴", 505326743));
             gmv(var0, a.c(1555381848, "㸀䞡쵾匒\ud8d2幤\ue43a淅\uf389礮ﺹ҇詝Ꮴ馸\u1f4fꔗ⫛끷㘵뿔엖䬶탱嚟\udc5e无\uebab煟\uf712粬艥ࡳ金ម鴤⋲ꢄ⹔럶㷻䍄줉"));
             gmv(var0, a.d("魐\ue2f1栮\uf642綂הּ䅪좕囙\udc7e審ꇈ⼃뚿㳴먙A辑ᕱ鍳᪒惒\uee35", -621032919, -624471779) + var8 + a.d("쩇뎸㥵ꝔⲔ", -679766179, 59530559));
@@ -192,36 +180,36 @@ final class gml {
          case 245:
             gmv(
                var0,
-               a.d("檡ጁ駛ު豣ુ낄㤢ꜝ\u2d9fꨟ偬\udef1䝍촗䯦\uf1aa縴", 1724644439, 1063098000) + var0.method_1548().method_1676() + a.d("┰峉혗䡱쎱䕇", 1448794323, -1867711035)
+               a.d("檡ጁ駛ު豣ુ낄㤢ꜝ\u2d9fꨟ偬\udef1䝍촗䯦\uf1aa縴", 1724644439, 1063098000) + var0.getSession().getUsername() + a.d("┰峉혗䡱쎱䕇", 1448794323, -1867711035)
             );
             break;
          case 248:
-            gmv(var0, a.b("鬇\ue2ab桥\uf60c緒ﬦ䄕죗四\udc3e寰ꆜ⽓뛫㳽먎Ѽ诲ᄹ面Ẓ撴\uee69疴", 1469225835) + var0.method_1548().method_1676() + a.d("헹", -218393377, -1458880251));
+            gmv(var0, a.b("鬇\ue2ab桥\uf60c緒ﬦ䄕죗四\udc3e寰ꆜ⽓뛫㳽먎Ѽ诲ᄹ面Ẓ撴\uee69疴", 1469225835) + var0.getSession().getUsername() + a.d("헹", -218393377, -1458880251));
             break;
          case 252:
             String var7 = gmu(var0);
             gms(
                a.b("녖죈䈗\udc6e垌턟歑\ue2bb糵\uf642熆讣Է鲍ᛗ逳", -708529912),
-               var7.contains(a.c(-777997596, "늦쬽䇭\udf84")) && !var7.contains(var0.method_1548().method_1676()),
+               var7.contains(a.c(-777997596, "늦쬽䇭\udf84")) && !var7.contains(var0.getSession().getUsername()),
                var7
             );
-            ItemStack var3 = var0.field_1724.method_31548().method_5438(1);
-            String var4 = var3.method_7950(TooltipContext.field_51353, var0.field_1724, TooltipType.field_41070).toString();
-            gms(a.c(-1324821619, "폡ꩿ₠뻙㔻뎨০而Ṃ铵ጱ\ue914枏︷瑠\uf286䣚윝巽\udbe0刔⡘\ua6fc㵨뭃ㆉ衵٩鲜᫆酤澬\ue5ea簍"), var4.contains(var0.method_1548().method_1676()), var4);
-            var0.field_1690.field_1907.method_23481(true);
+            ItemStack var3 = var0.player.getInventory().getStack(1);
+            String var4 = var3.getTooltip(TooltipContext.DEFAULT, var0.player, TooltipType.BASIC).toString();
+            gms(a.c(-1324821619, "폡ꩿ₠뻙㔻뎨০而Ṃ铵ጱ\ue914枏︷瑠\uf286䣚윝巽\udbe0刔⡘\ua6fc㵨뭃ㆉ衵٩鲜᫆酤澬\ue5ea簍"), var4.contains(var0.getSession().getUsername()), var4);
+            var0.options.playerListKey.setPressed(true);
             break;
          case 256:
             gmw(var0, a.d("楛ს騠ы辞त덠㫏ꓓ\u2e6dꦲ友\udd09䒺컴䠞\uf240綗\ue733", 85074728, 318065166));
             break;
          case 258:
-            var0.field_1690.field_1907.method_23481(false);
+            var0.options.playerListKey.setPressed(false);
             gmt(a.d("\udb31ꊯ⡰똉㷫뭸Ķ補ᚒ鰥ᯡ", -2063666699, 267332225), false);
             break;
          case 262:
             gmw(var0, a.b("㲩䔓쿒冹\uda6c峖\ue692漽\uf121箟ﱀع裻ᅈ鬆ᷬꞲ⡥닁㓉뵼윤䦗", 454048976));
             break;
          case 264:
-            String var2 = var0.method_1548().method_1676();
+            String var2 = var0.getSession().getUsername();
             gmv(var0, a.d("䁹㧘댇\u2d6bꚫ”驃Ꮌ跰ݗ胀竾\uf424涝\ue7c1愶\udb6e咢츎䡌솭뮯㕎꺈⣿ꈬᮆ闄ྲྀ襩˄", 90450245, 453011792));
             gmv(var0, a.c(-951125806, "\uf8a6脚\u0bd5閤Ṣ飐⊐ꬳ㔾뾘㡃숰䳾한彊\ud9fd掸\uec6a盁\uf0dd祾̱"));
             gmv(var0, a.d("䏮㩂낌⻥ꔻ⏏駼ှ踲Ӏ茜祤\uf7b7渕", -355964792, 87960348));
@@ -251,7 +239,7 @@ final class gml {
    }
 
    private static ItemStack gmr(MinecraftClient var0, EquipmentSlot var1) {
-      return var0.field_1724.method_6118(var1);
+      return var0.player.getEquippedStack(var1);
    }
 
    private static void gms(String var0, boolean var1, Object var2) {
@@ -284,12 +272,12 @@ final class gml {
 
    private static String gmu(MinecraftClient var0) {
       try {
-         for (Field var4 : var0.field_1705.method_1743().getClass().getDeclaredFields()) {
+         for (Field var4 : var0.inGameHud.getChatHud().getClass().getDeclaredFields()) {
             if (List.class.isAssignableFrom(var4.getType())) {
                var4.setAccessible(true);
-               List var5 = (List)var4.get(var0.field_1705.method_1743());
+               List var5 = (List)var4.get(var0.inGameHud.getChatHud());
                if (!var5.isEmpty() && var5.get(0) instanceof ChatHudLine var6) {
-                  return var6.comp_893().getString();
+                  return var6.content().getString();
                }
             }
          }
@@ -301,14 +289,14 @@ final class gml {
    }
 
    private static void gmv(MinecraftClient var0, String var1) {
-      var0.method_1562().method_45730(var1);
+      var0.getNetworkHandler().sendChatCommand(var1);
    }
 
    private static void gmw(MinecraftClient var0, String var1) {
-      ScreenshotRecorder.method_22690(
-         var0.field_1697,
+      ScreenshotRecorder.saveScreenshot(
+         var0.runDirectory,
          a.d("菿梅炔\ueefd敯\ue3c1", -848198097, 758515120) + var1 + a.c(944517745, "㉛䮴셹弁"),
-         var0.method_1522(),
+         var0.getFramebuffer(),
          1,
          var0x -> System.out.println("" + var0x.getString())
       );

@@ -42,13 +42,16 @@ public final class eik extends ClientPlayerEntity {
       return this.eil;
    }
 
-   public void method_7353(Text var1, boolean var2) {
-      this.eil.onLocalMessage(var1, var2);
+   @Override
+   public void sendMessage(Text message, boolean overlay) {
+      this.eil.onLocalMessage(message, overlay);
    }
 
-   public void method_7277(Entity var1) {
+   @Override
+   public void addCritParticles(Entity target) {
    }
 
-   public void method_7304(Entity var1) {
+   @Override
+   public void addEnchantedHitParticles(Entity target) {
    }
 }

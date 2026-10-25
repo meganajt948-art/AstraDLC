@@ -81,20 +81,15 @@ public class shx extends kfe {
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
       shx var2 = shy;
-      MinecraftClient var3 = MinecraftClient.method_1551();
-      if (var2 != null
-         && var2.isEnabled()
-         && var3.field_1687 != null
-         && var3.field_1724 != null
-         && !var3.field_1690.field_1842
-         && !(var3.field_1755 instanceof hlc)) {
+      MinecraftClient var3 = MinecraftClient.getInstance();
+      if (var2 != null && var2.isEnabled() && var3.world != null && var3.player != null && !var3.options.hudHidden && !(var3.currentScreen instanceof hlc)) {
          unf.observe(var0);
          if (unf.frame() != var2.sja) {
             var2.sja = unf.frame();
 
             usn var4;
             try {
-               var4 = usn.capture(var1.method_60637(true), var0.method_51421(), var0.method_51443());
+               var4 = usn.capture(var1.getTickProgress(true), var0.getScaledWindowWidth(), var0.getScaledWindowHeight());
             } catch (Throwable var6) {
                return;
             }
@@ -163,9 +158,9 @@ public class shx extends kfe {
             } else {
                Vec3d var13 = this.sjj(var12);
                float var14 = Math.min(1.0F, var3 * 2.2F);
-               var12.x = var12.x + (var13.field_1352 - var12.x) * var14;
-               var12.y = var12.y + (var13.field_1351 - var12.y) * var14;
-               var12.z = var12.z + (var13.field_1350 - var12.z) * var14;
+               var12.x = var12.x + (var13.x - var12.x) * var14;
+               var12.y = var12.y + (var13.y - var12.y) * var14;
+               var12.z = var12.z + (var13.z - var12.z) * var14;
             }
 
             boolean var17 = !this.sij.get() && this.sjk(var8, var12);
@@ -250,10 +245,10 @@ public class shx extends kfe {
    }
 
    private void sji(snp var1) {
-      Camera var2 = this.mc.field_1773.method_19418();
-      Vec3d var3 = var2.method_71156();
-      float var4 = var2.method_19330();
-      float var5 = MathHelper.method_15363(var2.method_19329(), -50.0F, 50.0F);
+      Camera var2 = this.mc.gameRenderer.getCamera();
+      Vec3d var3 = var2.getCameraPos();
+      float var4 = var2.getYaw();
+      float var5 = MathHelper.clamp(var2.getPitch(), -50.0F, 50.0F);
       float var6 = (float)this.sic.get();
       float var7 = -Float.MAX_VALUE;
       float var8 = 0.0F;
@@ -265,12 +260,12 @@ public class shx extends kfe {
          float var13 = 14.0F;
 
          for (snp var15 : this.sir) {
-            double var16 = var15.x - var3.field_1352;
-            double var18 = var15.y - var3.field_1351;
-            double var20 = var15.z - var3.field_1350;
-            float var22 = (float)(MathHelper.method_15349(var20, var16) * 180.0F / (float)Math.PI) - 90.0F;
-            float var23 = (float)(-(MathHelper.method_15349(var18, Math.sqrt(var16 * var16 + var20 * var20)) * 180.0F / (float)Math.PI));
-            float var24 = MathHelper.method_15393(var4 + var11 - var22);
+            double var16 = var15.x - var3.x;
+            double var18 = var15.y - var3.y;
+            double var20 = var15.z - var3.z;
+            float var22 = (float)(MathHelper.atan2(var20, var16) * 180.0F / (float)Math.PI) - 90.0F;
+            float var23 = (float)(-(MathHelper.atan2(var18, Math.sqrt(var16 * var16 + var20 * var20)) * 180.0F / (float)Math.PI));
+            float var24 = MathHelper.wrapDegrees(var4 + var11 - var22);
             float var25 = var5 + var12 - var23;
             var13 = Math.min(var13, (float)Math.hypot(var24 * 0.3F, var25));
          }
@@ -287,38 +282,34 @@ public class shx extends kfe {
       var1.pitchOff = var9;
       var1.dist = (float)this.sia.get() * (0.9F + this.sis.nextFloat() * 0.2F);
       Vec3d var26 = this.sjj(var1);
-      var1.x = var26.field_1352;
-      var1.y = var26.field_1351;
-      var1.z = var26.field_1350;
+      var1.x = var26.x;
+      var1.y = var26.y;
+      var1.z = var26.z;
    }
 
    private Vec3d sjj(snp var1) {
-      Camera var2 = this.mc.field_1773.method_19418();
-      Vec3d var3 = var2.method_71156();
-      float var4 = MathHelper.method_15363(var2.method_19329(), -50.0F, 50.0F) + var1.pitchOff;
-      Vec3d var5 = Vec3d.method_1030(var4, var2.method_19330() + var1.yawOff);
+      Camera var2 = this.mc.gameRenderer.getCamera();
+      Vec3d var3 = var2.getCameraPos();
+      float var4 = MathHelper.clamp(var2.getPitch(), -50.0F, 50.0F) + var1.pitchOff;
+      Vec3d var5 = Vec3d.fromPolar(var4, var2.getYaw() + var1.yawOff);
       double var6 = var1.dist;
-      Vec3d var8 = var3.method_1019(var5.method_1021(var6));
-      BlockHitResult var9 = this.mc
-         .field_1687
-         .method_17742(new RaycastContext(var3, var8, ShapeType.field_17558, FluidHandling.field_1348, this.mc.field_1724));
-      if (var9.method_17783() != Type.field_1333) {
-         var6 = Math.max(1.6, var9.method_17784().method_1022(var3) - 0.6);
+      Vec3d var8 = var3.add(var5.multiply(var6));
+      BlockHitResult var9 = this.mc.world.raycast(new RaycastContext(var3, var8, ShapeType.COLLIDER, FluidHandling.NONE, this.mc.player));
+      if (var9.getType() != Type.MISS) {
+         var6 = Math.max(1.6, var9.getPos().distanceTo(var3) - 0.6);
       }
 
-      return var3.method_1019(var5.method_1021(var6));
+      return var3.add(var5.multiply(var6));
    }
 
    private boolean sjk(Vec3d var1, snp var2) {
       Vec3d var3 = new Vec3d(var2.x, var2.y, var2.z);
-      double var4 = var3.method_1022(var1);
+      double var4 = var3.distanceTo(var1);
       if (var4 < 0.5) {
          return false;
-      } else {
-         BlockHitResult var6 = this.mc
-            .field_1687
-            .method_17742(new RaycastContext(var1, var3, ShapeType.field_23142, FluidHandling.field_1348, this.mc.field_1724));
-         return var6.method_17783() != Type.field_1333 && var6.method_17784().method_1022(var1) < var4 - 0.3;
       }
+
+      BlockHitResult var6 = this.mc.world.raycast(new RaycastContext(var1, var3, ShapeType.VISUAL, FluidHandling.NONE, this.mc.player));
+      return var6.getType() != Type.MISS && var6.getPos().distanceTo(var1) < var4 - 0.3;
    }
 }
