@@ -875,7 +875,7 @@ public class hlc extends Screen {
 
          if (this.hmx && this.hmc.finished() && !this.hmy && this.client != null) {
             this.hmy = true;
-            this.client.send(() -> access$001(this));
+            this.client.send(() -> super.close());
          }
       }
    }
