@@ -99,11 +99,11 @@ final class fjf extends GenericContainerScreenHandler {
                   }
 
                   fjv.fjy.add(Registries.ITEM.getId(var2.item()).getPath() + a.b("㰱䗘", -832685037) + var2.count() + a.c(432510120, "钊\ued5b") + var2.price());
-                  var3.getInventory().insertStack(new ItemStack(var2.item(), var2.count()));
-                  var3.sendMessage(Text.literal(a.b("ꖮ\udcd9剹챑䏭섿筮\uf2e1沴\ue678懞鮬ᅥ賎ۤ聩㨡뗳⽃괊⃢嫌퐊俚즭䍵缾", 1431872786)));
-                  fjv.fkh(var3, fjf.this.fjg, fjf.this.fjh);
+                  var1.getInventory().insertStack(new ItemStack(var2.item(), var2.count()));
+                  var1.sendMessage(Text.literal(a.b("ꖮ\udcd9剹챑䏭섿筮\uf2e1沴\ue678懞鮬ᅥ賎ۤ聩㨡뗳⽃괊⃢嫌퐊俚즭䍵缾", 1431872786)));
+                  fjv.fkh(var1, fjf.this.fjg, fjf.this.fjh);
                } else if (slotIndex == 15) {
-                  var3.closeHandledScreen();
+                  var1.closeHandledScreen();
                } else {
                   this.sendContentUpdates();
                   this.syncState();
