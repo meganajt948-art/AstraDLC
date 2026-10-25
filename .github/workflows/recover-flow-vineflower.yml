@@ -233,6 +233,18 @@ jobs:
           else
             git commit -m "Add Vineflower 1.12-recovered Flow Java sources"
             git fetch origin "$GITHUB_REF_NAME"
-            git rebase "origin/$GITHUB_REF_NAME"
+            if ! git rebase "origin/$GITHUB_REF_NAME"; then
+              echo "Resolving generated-source conflicts in favor of the freshly regenerated source tree."
+              conflicted="$(git diff --name-only --diff-filter=U)"
+              if [ -z "$conflicted" ]; then
+                echo "Rebase failed without source conflicts; stopping."
+                exit 1
+              fi
+              while IFS= read -r file; do
+                git checkout --theirs -- "$file"
+                git add "$file"
+              done <<< "$conflicted"
+              GIT_EDITOR=true git rebase --continue
+            fi
             git push origin HEAD:"$GITHUB_REF_NAME"
           fi
