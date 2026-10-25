@@ -3161,11 +3161,9 @@ tasks.named("jar") {
  */
 sourceSets {
     main {
-        java.setSrcDirs(["src/main/java"])
-        java.include("dev/dj/cortim/**")
-        // This abandoned experimental port is disabled in Cortim.java and depends
-        // on unmapped/intermediary Flow classes; the recovered Flow tree is handled
-        // as a separate migration step.
+        // Compile the Alba-owned implementation and the recovered Flow classes
+        // together. Keep only the unfinished legacy AutoWarden port excluded.
+        java.setSrcDirs(["src/main/java", "src/recovered-flow-vineflower/java"])
         java.exclude("dev/dj/cortim/module/AutoWarden.java")
     }
 }
