@@ -91,7 +91,7 @@ public final class snp {
       for (int var37 = 0; var37 < var8.size(); var37++) {
          float var39 = 0.0F;
 
-         for (smw var17 : (List)var8.get(var37)) {
+         for (smw var17 : var8.get(var37)) {
             var39 = Math.max(var39, var17.smz);
          }
 
@@ -120,7 +120,7 @@ public final class snp {
          float var22 = -(Float)var9.get(var20) * 0.5F;
          boolean var23 = true;
 
-         for (smw var25 : (List)var8.get(var20)) {
+         for (smw var25 : var8.get(var20)) {
             if (!var23) {
                var22 += spf(" ", var25.smy) * var25.smz;
             }
