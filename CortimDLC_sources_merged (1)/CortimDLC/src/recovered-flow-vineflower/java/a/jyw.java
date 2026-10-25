@@ -11,7 +11,7 @@ import ru.vidtu.ias.account.MicrosoftAccount;
 import ru.vidtu.ias.account.OfflineAccount;
 import ru.vidtu.ias.auth.LoginData;
 import ru.vidtu.ias.config.IASStorage;
-import ru.vidtu.ias.screen.AccountScreen;
+import java.lang.reflect.Constructor;
 
 final class jyw {
    jyw() {
@@ -58,7 +58,21 @@ final class jyw {
    }
 
    static void openOriginal(Screen var0) {
-      MinecraftClient.getInstance().setScreen(new AccountScreen(var0));
+      try {
+         Class<?> screenClass = Class.forName("ru.vidtu.ias.screen.AccountScreen");
+         Constructor<?> constructor = java.util.Arrays.stream(screenClass.getConstructors())
+            .filter(candidate -> candidate.getParameterCount() == 1 && candidate.getParameterTypes()[0].isInstance(var0))
+            .findFirst()
+            .orElseThrow(() -> new NoSuchMethodException("Compatible IAS AccountScreen constructor not found"));
+         Object screen = constructor.newInstance(var0);
+         if (screen instanceof Screen compatibleScreen) {
+            MinecraftClient.getInstance().setScreen(compatibleScreen);
+         } else {
+            throw new IllegalStateException("IAS returned a screen with an incompatible runtime type");
+         }
+      } catch (ReflectiveOperationException error) {
+         throw new IllegalStateException("Failed to open IAS account screen", error);
+      }
    }
 
    static void login(jyi var0, jyv var1) {
