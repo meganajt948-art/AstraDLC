@@ -76,7 +76,7 @@ public final class wcn {
 
    static void wcw(Packet<?> var0) {
       if (var0 instanceof BundlePacket var5) {
-         for (Packet var3 : var5.getPackets()) {
+         for (Packet<?> var3 : var5.getPackets()) {
             wcw(var3);
          }
       } else {
@@ -90,7 +90,7 @@ public final class wcn {
    }
 
    static Packet<?> wcx(Packet<?> var0) {
-      for (UnaryOperator var2 : wcr) {
+      for (UnaryOperator<Packet<?>> var2 : wcr) {
          try {
             Packet var3 = var2.apply(var0);
             if (var3 != null) {
