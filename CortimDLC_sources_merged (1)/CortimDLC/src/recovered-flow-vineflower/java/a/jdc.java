@@ -77,7 +77,7 @@ public final class jdc extends jcs {
    }
 
    void jdu(boolean var1, boolean var2) {
-      List var3 = var1 ? jds(false) : List.of();
+      List<oxi> var3 = var1 ? jds(false) : List.of();
       this.jdm = false;
       if (var3.isEmpty() && var2 && var1) {
          var3 = jds(true);
