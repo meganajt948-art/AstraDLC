@@ -236,6 +236,36 @@ jobs:
                   })
               return sections
 
+
+          def split_case_labels(label):
+              values = []
+              start = 0
+              paren = bracket = brace = 0
+              quote = None
+              escaped = False
+              for i, ch in enumerate(label):
+                  if quote is not None:
+                      if escaped:
+                          escaped = False
+                      elif ch == "\\":
+                          escaped = True
+                      elif ch == quote:
+                          quote = None
+                      continue
+                  if ch in ("'", '"'):
+                      quote = ch
+                  elif ch == "(": paren += 1
+                  elif ch == ")": paren -= 1
+                  elif ch == "[": bracket += 1
+                  elif ch == "]": bracket -= 1
+                  elif ch == "{": brace += 1
+                  elif ch == "}": brace -= 1
+                  elif ch == "," and paren == 0 and bracket == 0 and brace == 0:
+                      values.append(label[start:i].strip())
+                      start = i + 1
+              values.append(label[start:].strip())
+              return [value for value in values if value]
+
           def normalize_dynamic_switches(source):
               attempts = 0
               while attempts < 200:
@@ -279,7 +309,7 @@ jobs:
                           if section["kind"] == "default":
                               output.append(indent + "else {")
                           else:
-                              labels = [label.strip() for label in section["label"].split(",")]
+                              labels = [label.strip() for label in split_case_labels(section["label"])]
                               condition = " || ".join("java.util.Objects.equals(" + selector + ", " + label + ")" for label in labels)
                               output.append(indent + ("if" if index == 0 else "else if") + " (" + condition + ") {")
                           if case_body:
