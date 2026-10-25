@@ -176,11 +176,11 @@ public final class swh {
                }
             }
 
-            ArrayList var26 = new ArrayList();
+            ArrayList<svy> var26 = new ArrayList<>();
             ArrayList<Integer> var28 = new ArrayList<>();
 
-            for (Entry var11 : sxm.entrySet()) {
-               svy var12 = (svy)var11.getValue();
+            for (Entry<Integer, svy> var11 : sxm.entrySet()) {
+               svy var12 = var11.getValue();
                LivingEntity var13 = var12.player;
                Vec3d var14 = var13.getLerpedPos(var1);
                double var15 = var14.x;
