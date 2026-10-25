@@ -221,7 +221,7 @@ public final class hhf {
          String var0 = ewk.get(a.b("g秂\uf30a海\ue6ab怐\uda54", 705691654));
          if (var0 != null && !var0.isBlank()) {
             try {
-               List var1 = (List)hhh.fromJson(var0, (new TypeToken<List<hhc>>() {}).getType());
+               List<hhc> var1 = (List<hhc>)hhh.fromJson(var0, (new TypeToken<List<hhc>>() {}).getType());
                if (var1 != null) {
                   for (hhc var3 : var1) {
                      String var4 = var3 != null ? clean(var3.name) : null;
