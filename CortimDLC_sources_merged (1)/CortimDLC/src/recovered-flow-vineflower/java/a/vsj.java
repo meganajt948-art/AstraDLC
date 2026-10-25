@@ -507,7 +507,7 @@ final class vsj {
 
    void close() {
       try {
-         ArrayList var1 = new ArrayList<>(List.of(this.bedHeavy, this.bedLight, this.low));
+         ArrayList<Integer> var1 = new ArrayList<>(List.of(this.bedHeavy, this.bedLight, this.low));
 
          for (int var2 = 0; var2 < 4; var2++) {
             var1.add(this.ringHeavy[var2]);
