@@ -61,9 +61,9 @@ public final class snp {
       this.line = var1;
       this.card = var2;
       this.holdUntil = var5;
-      ArrayList var8 = new ArrayList();
-      ArrayList var9 = new ArrayList();
-      ArrayList var10 = new ArrayList();
+      ArrayList<List<smw>> var8 = new ArrayList<>();
+      ArrayList<Float> var9 = new ArrayList<>();
+      ArrayList<smw> var10 = new ArrayList<>();
       float var11 = 0.0F;
 
       for (smw var13 : var3) {
@@ -108,7 +108,7 @@ public final class snp {
       this.sol = new float[var38];
       this.soy = new float[var38];
       this.soz = new float[var38];
-      ArrayList var40 = new ArrayList();
+      ArrayList<smt> var40 = new ArrayList<>();
       float var41 = -var36 * 0.5F;
       int var42 = 0;
       float var18 = Float.MAX_VALUE;
