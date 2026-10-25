@@ -232,7 +232,7 @@ public final class wap {
 
    static String[] wbc(String var0) {
       if (var0 != null && !var0.isEmpty()) {
-         ArrayList var1 = new ArrayList();
+         ArrayList<String> var1 = new ArrayList<>();
          StringBuilder var2 = new StringBuilder();
          char var3 = 0;
 
