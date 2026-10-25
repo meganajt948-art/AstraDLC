@@ -35,8 +35,8 @@ final class qrm {
          } else if (var1 instanceof ChunkDataS2CPacket var4) {
             this.qrq.add(ChunkPos.toLong(var4.getChunkX(), var4.getChunkZ()));
          } else if (var1 instanceof BundlePacket var5) {
-            for (Packet<?> var7 : var5.getPackets()) {
-               this.echo(var7);
+            for (Object var7 : var5.getPackets()) {
+               this.echo((Packet<?>)var7);
             }
          }
       }
