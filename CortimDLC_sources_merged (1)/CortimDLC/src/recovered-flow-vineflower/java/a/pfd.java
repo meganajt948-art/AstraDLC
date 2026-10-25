@@ -83,8 +83,8 @@ public final class pfd {
    }
 
    public static List<String> lines(ItemStack var0) {
-      List var1 = tooltip(var0);
-      ArrayList var2 = new ArrayList(var1.size());
+      List<Text> var1 = tooltip(var0);
+      ArrayList<String> var2 = new ArrayList<>(var1.size());
 
       for (Text var4 : var1) {
          var2.add(pfl.title(var4.getString()));
