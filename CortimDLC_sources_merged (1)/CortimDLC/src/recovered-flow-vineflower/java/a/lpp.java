@@ -5,12 +5,12 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public final class lpp {
-   private final LivingEntity lpq;
-   private final int lpr;
-   private final boolean lps;
-   private final Vec3d lpt;
-   private final Vec3d lpu;
-   private final Box lpv;
+   final LivingEntity lpq;
+   final int lpr;
+   final boolean lps;
+   final Vec3d lpt;
+   final Vec3d lpu;
+   final Box lpv;
 
    public lpp(LivingEntity target, int tick, boolean crit, Vec3d eye, Vec3d aim, Box box) {
       this.lpq = target;

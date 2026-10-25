@@ -1,7 +1,7 @@
 package a;
 
 public final class tbp {
-   private tbp() {
+   tbp() {
    }
 
    public static double wrap(double var0) {

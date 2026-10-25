@@ -1,7 +1,7 @@
 package a;
 
 public final class eya {
-   private eya() {
+   eya() {
    }
 
    public static String get() {

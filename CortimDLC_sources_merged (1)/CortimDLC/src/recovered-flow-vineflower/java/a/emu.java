@@ -34,7 +34,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public final class emu {
-   private static final String[] emv = new String[]{
+   static final String[] emv = new String[]{
       a.c(1786727778, "䴊"),
       a.d("\uf653迢", -1021633131, -261559379),
       a.c(627735873, "紫Қ蹉"),
@@ -46,19 +46,19 @@ public final class emu {
       a.b("艻ﯛ", 1284145680),
       a.b("햗", 1636881902)
    };
-   private static final String emw = a.b("꧉큧媺쒃何짧玵暑搝\ueeaf楽錃ᷕ", 468953517);
-   private static final String emx = a.c(1096676702, "\uf56e賋؛롔㎄閖⿉ꚽ㢠뉐");
-   private static final double emy = 9.9999942618434E-4;
-   private final String emz;
-   private final Item ena;
-   private final List<elw> enb = new ArrayList<>();
-   private final List<emi> enc = new ArrayList<>();
-   private final List<emo> end = new ArrayList<>();
-   private final List<emc> ene = new ArrayList<>();
-   private int enf;
-   private String eng;
+   static final String emw = a.b("꧉큧媺쒃何짧玵暑搝\ueeaf楽錃ᷕ", 468953517);
+   static final String emx = a.c(1096676702, "\uf56e賋؛롔㎄閖⿉ꚽ㢠뉐");
+   static final double emy = 9.9999942618434E-4;
+   final String emz;
+   final Item ena;
+   final List<elw> enb = new ArrayList<>();
+   final List<emi> enc = new ArrayList<>();
+   final List<emo> end = new ArrayList<>();
+   final List<emc> ene = new ArrayList<>();
+   int enf;
+   String eng;
 
-   private emu(String var1, Item var2) {
+   emu(String var1, Item var2) {
       this.emz = var1;
       this.ena = var2;
    }
@@ -144,7 +144,7 @@ public final class emu {
       return var1.isOf(this.ena) && this.enj(var1) && this.enk(var1) && this.enl(var1) && this.enm(var1);
    }
 
-   private boolean enj(ItemStack var1) {
+   boolean enj(ItemStack var1) {
       if (this.enb.isEmpty()) {
          return true;
       }
@@ -171,7 +171,7 @@ public final class emu {
       return true;
    }
 
-   private boolean enk(ItemStack var1) {
+   boolean enk(ItemStack var1) {
       if (this.enc.isEmpty()) {
          return true;
       }
@@ -199,7 +199,7 @@ public final class emu {
       return true;
    }
 
-   private boolean enl(ItemStack var1) {
+   boolean enl(ItemStack var1) {
       if (this.end.isEmpty()) {
          return true;
       }
@@ -235,7 +235,7 @@ public final class emu {
       return true;
    }
 
-   private boolean enm(ItemStack var1) {
+   boolean enm(ItemStack var1) {
       if (this.ene.isEmpty()) {
          return true;
       }
@@ -286,7 +286,7 @@ public final class emu {
       return var0 == null ? "" : var0.replaceAll(a.b("첥떝", 66243584), "").toLowerCase(Locale.ROOT).replaceAll(a.c(1005132242, "ᦍ怓\uea98"), "").trim();
    }
 
-   private static int enn(String var0, String var1) {
+   static int enn(String var0, String var1) {
       if (!var0.isEmpty() && !var1.isEmpty()) {
          int var2 = 0;
 
@@ -300,7 +300,7 @@ public final class emu {
       }
    }
 
-   private static int eno(String var0, int var1) {
+   static int eno(String var0, int var1) {
       int var2 = var1;
 
       while (var2 < var0.length() && a.c(451769799, "痷\u0c52蚂㣍댝ᔏ꽐☤령㋉").indexOf(var0.charAt(var2)) >= 0) {
@@ -316,7 +316,7 @@ public final class emu {
       return var2 == var3 ? 0 : enp(var0.substring(var3, var2));
    }
 
-   private static int enp(String var0) {
+   static int enp(String var0) {
       if (var0 != null && !var0.isBlank()) {
          String var1 = normalize(var0);
 

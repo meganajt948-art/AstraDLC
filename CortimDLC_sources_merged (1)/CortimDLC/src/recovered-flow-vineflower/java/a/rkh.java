@@ -21,7 +21,7 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleEffect;
 
 public class rkh extends kfe {
-   private static rkh rki;
+   static rkh rki;
    public final vkl fire = this.add(new vkl("Fire", true));
    public final vkl lava = this.add(new vkl("Lava", true));
    public final vkl scoreboard = this.add(new vkl("Scoreboard", false));
@@ -38,20 +38,20 @@ public class rkh extends kfe {
    public final vkl rain = this.add(new vkl("Rain", false));
    public final vkl vignette = this.add(new vkl("Vignette", true));
    public final vkl pumpkin = this.add(new vkl("Pumpkin", true));
-   private static final wbu<Double> rkj = new wbu<>(var0 -> var0.options.getDamageTiltStrength());
-   private static final wbu<Boolean> rkk = new wbu<>(var0 -> var0.options.getBobView());
-   private static final wbu<AttackIndicator> rkl = new wbu<>(var0 -> var0.options.getAttackIndicator());
-   private static final wbu<Double> rkm = new wbu<>(var0 -> var0.options.getDarknessEffectScale());
-   private static boolean rkn;
-   private static TrackedData<List<ParticleEffect>> rko;
-   private static boolean rkp;
+   static final wbu<Double> rkj = new wbu<>(var0 -> var0.options.getDamageTiltStrength());
+   static final wbu<Boolean> rkk = new wbu<>(var0 -> var0.options.getBobView());
+   static final wbu<AttackIndicator> rkl = new wbu<>(var0 -> var0.options.getAttackIndicator());
+   static final wbu<Double> rkm = new wbu<>(var0 -> var0.options.getDarknessEffectScale());
+   static boolean rkn;
+   static TrackedData<List<ParticleEffect>> rko;
+   static boolean rkp;
 
    public rkh() {
       super(new String(new char[]{'N', 'o', 'R', 'e', 'n', 'd', 'e', 'r'}), "Hides effects and HUD parts you pick", kfa.RENDER);
       rki = this;
    }
 
-   private static boolean rks(vkl var0) {
+   static boolean rks(vkl var0) {
       return rki != null && rki.isEnabled() && var0.get();
    }
 
@@ -113,7 +113,7 @@ public class rkh extends kfe {
       }
    }
 
-   private void rkt(MinecraftClient var1) {
+   void rkt(MinecraftClient var1) {
       rkx();
       boolean var2 = wbu.suspended(var1);
       rku(rkj, this.hurtShake.get() && !var2, 0.0);
@@ -142,7 +142,7 @@ public class rkh extends kfe {
       }
    }
 
-   private static <T> void rku(wbu<T> var0, boolean var1, T var2) {
+   static <T> void rku(wbu<T> var0, boolean var1, T var2) {
       if (var1) {
          var0.override(var2);
       } else {
@@ -150,13 +150,13 @@ public class rkh extends kfe {
       }
    }
 
-   private static void rkv(MinecraftClient var0) {
+   static void rkv(MinecraftClient var0) {
       if (var0.player != null && var0.player.isOnFire()) {
          var0.player.setOnFire(false);
       }
    }
 
-   private static void rkw(ClientWorld var0) {
+   static void rkw(ClientWorld var0) {
       if (var0 != null) {
          if (!rkp) {
             rkp = true;
@@ -187,7 +187,7 @@ public class rkh extends kfe {
       }
    }
 
-   private static void rkx() {
+   static void rkx() {
       if (!rkn) {
          rkn = true;
 

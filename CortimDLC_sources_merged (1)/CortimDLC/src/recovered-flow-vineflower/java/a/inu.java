@@ -4,14 +4,14 @@ import flow.dev.a;
 import net.minecraft.client.gui.DrawContext;
 
 final class inu extends imn {
-   private static final float inv = 22.0F;
-   private static final float inw = 8.0F;
-   private static final float inx = 16.0F;
-   private final vmu iny;
-   private final iah inz;
-   private String ioa = "";
-   private String iob = "";
-   private float ioc;
+   static final float inv = 22.0F;
+   static final float inw = 8.0F;
+   static final float inx = 16.0F;
+   final vmu iny;
+   final iah inz;
+   String ioa = "";
+   String iob = "";
+   float ioc;
 
    inu(vmu var1) {
       super(var1);
@@ -26,7 +26,7 @@ final class inu extends imn {
       return this.iof() == null ? 22.0F : 30.0F;
    }
 
-   private String iof() {
+   String iof() {
       String var1 = this.iny.example();
       if (var1 != null) {
          return var1.isBlank() ? null : var1;

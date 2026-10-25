@@ -1,10 +1,10 @@
 package a;
 
 final class ubs {
-   private final String ubt;
-   private final String ubu;
+   final String ubt;
+   final String ubu;
 
-   private ubs(String from, String box) {
+   ubs(String from, String box) {
       this.ubt = from;
       this.ubu = box;
    }

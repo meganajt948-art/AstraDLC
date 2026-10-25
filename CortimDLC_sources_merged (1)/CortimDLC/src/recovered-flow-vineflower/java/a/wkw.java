@@ -9,14 +9,14 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 
 public final class wkw {
-   private static final vdn wkx = veo.semibold(6.8F);
-   private static final vdn wky = veo.medium(5.8F);
-   private static final float wkz = 20.0F;
-   private static final float wla = 0.41666666F;
-   private static final float wlb = 0.125F;
-   private static final Map<wkq, wkt> wlc = new IdentityHashMap<>();
+   static final vdn wkx = veo.semibold(6.8F);
+   static final vdn wky = veo.medium(5.8F);
+   static final float wkz = 20.0F;
+   static final float wla = 0.41666666F;
+   static final float wlb = 0.125F;
+   static final Map<wkq, wkt> wlc = new IdentityHashMap<>();
 
-   private wkw() {
+   wkw() {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
@@ -62,7 +62,7 @@ public final class wkw {
       }
    }
 
-   private static void wlf(DrawContext var0, wkq var1, float var2, float var3, double var4, float var6, float var7, float var8) {
+   static void wlf(DrawContext var0, wkq var1, float var2, float var3, double var4, float var6, float var7, float var8) {
       float var9 = (float)Math.min(1.0, Math.max(0.3, (var4 - 1.5) / 4.0));
       float var10 = (float)Math.max(0.78, Math.min(1.06, 1.1 - Math.log10(Math.max(1.0, var4)) * 0.1));
       float var11 = vcq.outCubic(var6);
@@ -94,7 +94,7 @@ public final class wkw {
       vjf.draw(var0, var1, var2, var3, var4, var7);
    }
 
-   private static void wlg(DrawContext var0, wkq var1, float var2, float var3, double var4, int var6, float var7) {
+   static void wlg(DrawContext var0, wkq var1, float var2, float var3, double var4, int var6, float var7) {
       String var8 = wlk.COORDS.get();
 
       float var9 = switch (var8) {

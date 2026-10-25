@@ -1,16 +1,16 @@
 package a;
 
 public final class pnf {
-   private static final long png = 160L;
-   private static volatile psf pnh;
-   private static volatile int pni;
-   private static volatile boolean pnj;
-   private static volatile boolean pnk;
-   private static volatile boolean pnl;
-   private static volatile String pnm = "";
-   private static volatile long pnn;
+   static final long png = 160L;
+   static volatile psf pnh;
+   static volatile int pni;
+   static volatile boolean pnj;
+   static volatile boolean pnk;
+   static volatile boolean pnl;
+   static volatile String pnm = "";
+   static volatile long pnn;
 
-   private pnf() {
+   pnf() {
    }
 
    public static void publish(psf var0, int var1, boolean var2, boolean var3, boolean var4, String var5) {
@@ -31,7 +31,7 @@ public final class pnf {
       pnn = 0L;
    }
 
-   private static boolean pnq() {
+   static boolean pnq() {
       return System.currentTimeMillis() - pnn < 160L;
    }
 

@@ -1,16 +1,16 @@
 package a;
 
 final class sfz {
-   private final double sga;
-   private final double sgb;
-   private final double sgc;
-   private final float sgd;
-   private final float sge;
-   private final float sgf;
-   private final long sgg;
-   private final float sgh;
+   final double sga;
+   final double sgb;
+   final double sgc;
+   final float sgd;
+   final float sge;
+   final float sgf;
+   final long sgg;
+   final float sgh;
 
-   private sfz(double x, double y, double z, float fx, float fz, float side, long at, float strength) {
+   sfz(double x, double y, double z, float fx, float fz, float side, long at, float strength) {
       this.sga = x;
       this.sgb = y;
       this.sgc = z;

@@ -24,21 +24,21 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 public final class vgj extends HeldItemRenderer {
-   private static Field vgk;
-   private static Field vgl;
-   private static Field vgm;
-   private static Field vgn;
-   private static Field vgo;
-   private static Field vgp;
-   private static Field vgq;
-   private static MethodHandle vgr;
-   private static boolean vgs;
-   private static boolean vgt;
-   private static Field vgu;
-   private final MinecraftClient vgv;
-   private final ItemModelManager vgw;
+   static Field vgk;
+   static Field vgl;
+   static Field vgm;
+   static Field vgn;
+   static Field vgo;
+   static Field vgp;
+   static Field vgq;
+   static MethodHandle vgr;
+   static boolean vgs;
+   static boolean vgt;
+   static Field vgu;
+   final MinecraftClient vgv;
+   final ItemModelManager vgw;
 
-   private vgj(MinecraftClient var1, EntityRenderManager var2, ItemModelManager var3) {
+   vgj(MinecraftClient var1, EntityRenderManager var2, ItemModelManager var3) {
       super(var1, var2, var3);
       this.vgv = var1;
       this.vgw = var3;
@@ -94,7 +94,7 @@ public final class vgj extends HeldItemRenderer {
       }
    }
 
-   private static void vgz() throws ReflectiveOperationException {
+   static void vgz() throws ReflectiveOperationException {
       if (vgr == null) {
          ArrayList var0 = new ArrayList();
          ArrayList var1 = new ArrayList();
@@ -166,7 +166,7 @@ public final class vgj extends HeldItemRenderer {
       }
    }
 
-   private void vha(float var1, MatrixStack var2, OrderedRenderCommandQueue var3, ClientPlayerEntity var4, int var5) throws Throwable {
+   void vha(float var1, MatrixStack var2, OrderedRenderCommandQueue var3, ClientPlayerEntity var4, int var5) throws Throwable {
       float var6 = var4.getHandSwingProgress(var1);
       Hand var7 = var4.preferredHand != null ? var4.preferredHand : Hand.MAIN_HAND;
       float var8 = var4.getLerpedPitch(var1);
@@ -191,7 +191,7 @@ public final class vgj extends HeldItemRenderer {
       this.vgv.getBufferBuilders().getEntityVertexConsumers().draw();
    }
 
-   private void vhb(
+   void vhb(
       AbstractClientPlayerEntity var1,
       float var2,
       float var3,
@@ -231,7 +231,7 @@ public final class vgj extends HeldItemRenderer {
       var8.pop();
    }
 
-   private static boolean[] vhc(ClientPlayerEntity var0) {
+   static boolean[] vhc(ClientPlayerEntity var0) {
       ItemStack var1 = var0.getMainHandStack();
       ItemStack var2 = var0.getOffHandStack();
       boolean var3 = var1.isOf(Items.BOW) || var2.isOf(Items.BOW);
@@ -252,7 +252,7 @@ public final class vgj extends HeldItemRenderer {
       }
    }
 
-   private static boolean vhd(ItemStack var0) {
+   static boolean vhd(ItemStack var0) {
       return var0.isOf(Items.CROSSBOW) && CrossbowItem.isCharged(var0);
    }
 }

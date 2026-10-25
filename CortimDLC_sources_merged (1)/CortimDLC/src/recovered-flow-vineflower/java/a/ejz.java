@@ -3,8 +3,8 @@ package a;
 import java.util.List;
 
 final class ejz {
-   private final int eka;
-   private final List<ejs> ekb;
+   final int eka;
+   final List<ejs> ekb;
 
    ejz(int viewDistance, List<ejs> bots) {
       this.eka = viewDistance;

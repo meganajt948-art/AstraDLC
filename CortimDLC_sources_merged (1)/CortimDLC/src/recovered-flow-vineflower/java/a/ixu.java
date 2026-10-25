@@ -23,26 +23,26 @@ public final class ixu extends jcs {
    );
    public static final vkl HANDS = new vkl(a.c(1656836280, "僵⥭ꎱ㷊똊"), false);
    public static final List<vmo> OPTIONS = List.of(LAYOUT, DURABILITY, HANDS);
-   private static final float ixv = 5.0F;
-   private static final float ixw = 12.0F;
-   private static final float ixx = 21.0F;
-   private static final float ixy = 1.5F;
-   private static final float ixz = 16.0F;
-   private static final int iya = -12595334;
-   private static final int iyb = -865972;
-   private static final int iyc = -1092784;
-   private static final EquipmentSlot[] iyd = new EquipmentSlot[]{
+   static final float ixv = 5.0F;
+   static final float ixw = 12.0F;
+   static final float ixx = 21.0F;
+   static final float ixy = 1.5F;
+   static final float ixz = 16.0F;
+   static final int iya = -12595334;
+   static final int iyb = -865972;
+   static final int iyc = -1092784;
+   static final EquipmentSlot[] iyd = new EquipmentSlot[]{
       EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND
    };
-   private final ItemStack[] iye = new ItemStack[iyd.length];
-   private final int[] iyf = new int[iyd.length];
-   private final vcj[] iyg = new vcj[iyd.length];
-   private final vcj iyh = new vcj(13.0F, 60.0F);
-   private final vcj iyi = new vcj(13.0F, 30.0F);
-   private int iyj;
-   private boolean iyk;
-   private boolean iyl;
-   private static ItemStack[] iym;
+   final ItemStack[] iye = new ItemStack[iyd.length];
+   final int[] iyf = new int[iyd.length];
+   final vcj[] iyg = new vcj[iyd.length];
+   final vcj iyh = new vcj(13.0F, 60.0F);
+   final vcj iyi = new vcj(13.0F, 30.0F);
+   int iyj;
+   boolean iyk;
+   boolean iyl;
+   static ItemStack[] iym;
 
    ixu() {
       super(a.c(1506693919, "卻⫙ꀕ㹦떬"), a.c(-1430329951, "\ue5e5鱧ᚫ裘̒"), true, 1, 2, 152.0F, 3.0F);
@@ -88,7 +88,7 @@ public final class ixu extends jcs {
       this.iyi.step(iyq() ? 10.0F + this.iyj * 16.0F - 2.0F : 22.0F + (iyr() ? (iys() ? 10.5F : 8.5F) : 4.0F), var1);
    }
 
-   private static ItemStack iyp(int var0) {
+   static ItemStack iyp(int var0) {
       if (iym == null) {
          Item[] var1 = new Item[]{
             Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.NETHERITE_SWORD, Items.TOTEM_OF_UNDYING
@@ -109,15 +109,15 @@ public final class ixu extends jcs {
       return iym[var0];
    }
 
-   private static boolean iyq() {
+   static boolean iyq() {
       return LAYOUT.is(a.d("\uee9b霆ᷖ莾ࡱ軃", 1881489591, 1098100329));
    }
 
-   private static boolean iyr() {
+   static boolean iyr() {
       return !DURABILITY.is(a.c(1506710165, "鋔\ueb46憆"));
    }
 
-   private static boolean iys() {
+   static boolean iys() {
       return !DURABILITY.is(a.c(-1587663214, "⻅坁\udd85䏥젴于\uf4c7"));
    }
 
@@ -164,7 +164,7 @@ public final class ixu extends jcs {
       uut.popScissor(var1);
    }
 
-   private void iyt(DrawContext var1, int var2, float var3, float var4) {
+   void iyt(DrawContext var1, int var2, float var3, float var4) {
       ItemStack var5 = this.iye[var2];
       float var6 = var3 + 10.5F;
       if (var2 == 4) {
@@ -189,7 +189,7 @@ public final class ixu extends jcs {
       }
    }
 
-   private void iyu(DrawContext var1, int var2, float var3, float var4, float var5) {
+   void iyu(DrawContext var1, int var2, float var3, float var4, float var5) {
       ItemStack var6 = this.iye[var2];
       float var7 = var4 + 6.0F + 0.5F;
       if (var6.isEmpty()) {
@@ -209,7 +209,7 @@ public final class ixu extends jcs {
       }
    }
 
-   private static void iyv(DrawContext var0, ItemStack var1, float var2, float var3) {
+   static void iyv(DrawContext var0, ItemStack var1, float var2, float var3) {
       float var4 = 0.75F * Math.min(1.0F, uut.alpha() * 2.5F);
       if (var4 > 0.02F) {
          var0.getMatrices().pushMatrix();
@@ -220,11 +220,11 @@ public final class ixu extends jcs {
       }
    }
 
-   private static float iyw(ItemStack var0) {
+   static float iyw(ItemStack var0) {
       return var0.isDamageable() && var0.getMaxDamage() > 0 ? Math.max(0.0F, 1.0F - (float)var0.getDamage() / var0.getMaxDamage()) : -1.0F;
    }
 
-   private static String iyx(ItemStack var0, float var1) {
+   static String iyx(ItemStack var0, float var1) {
       if (var1 < 0.0F) {
          return var0.getCount() > 1 ? a.b("鏼", 2119340933) + var0.getCount() : "";
       } else {
@@ -232,7 +232,7 @@ public final class ixu extends jcs {
       }
    }
 
-   private int iyy(int var1, float var2) {
+   int iyy(int var1, float var2) {
       int var3 = iov.text;
       if (var2 >= 0.0F && var2 < 0.5F) {
          var3 = var2 < 0.2F ? -1092784 : ujt.lerp(iov.text, -865972, (0.5F - var2) / 0.3F);
@@ -246,13 +246,13 @@ public final class ixu extends jcs {
       return ujt.lerp(var3, -1, this.iyg[var1].get());
    }
 
-   private static void iyz(DrawContext var0, float var1, float var2, float var3, float var4) {
+   static void iyz(DrawContext var0, float var1, float var2, float var3, float var4) {
       float var5 = 1.3F;
       uut.round(var0, var1, var2, var3, var5, var5 * 0.5F, iov.track);
       uut.round(var0, var1, var2, Math.max(var5, var3 * var4), var5, var5 * 0.5F, iza(var4));
    }
 
-   private static int iza(float var0) {
+   static int iza(float var0) {
       return var0 > 0.5F ? ujt.lerp(-865972, -12595334, (var0 - 0.5F) * 2.0F) : ujt.lerp(-1092784, -865972, var0 * 2.0F);
    }
 }

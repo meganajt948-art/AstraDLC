@@ -1,10 +1,10 @@
 package a;
 
 final class piv {
-   private final String piw;
-   private final long pix;
+   final String piw;
+   final long pix;
 
-   private piv(String anarchy, long seen) {
+   piv(String anarchy, long seen) {
       this.piw = anarchy;
       this.pix = seen;
    }

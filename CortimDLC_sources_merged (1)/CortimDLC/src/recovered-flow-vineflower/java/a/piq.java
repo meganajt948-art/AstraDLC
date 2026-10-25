@@ -1,8 +1,8 @@
 package a;
 
 public final class piq {
-   private long pir = System.currentTimeMillis();
-   private long pis;
+   long pir = System.currentTimeMillis();
+   long pis;
 
    public void arm(long var1) {
       this.pir = System.currentTimeMillis();

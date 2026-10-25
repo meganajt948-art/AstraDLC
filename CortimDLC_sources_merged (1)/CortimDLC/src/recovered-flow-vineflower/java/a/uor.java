@@ -13,11 +13,11 @@ import net.minecraft.item.ItemStack;
 import org.joml.Matrix3x2f;
 
 public final class uor {
-   private static final Map<ItemStack, uoo> uos = new IdentityHashMap<>();
-   private static final Map<Item, String> uot = new IdentityHashMap<>();
-   private static long uou;
+   static final Map<ItemStack, uoo> uos = new IdentityHashMap<>();
+   static final Map<Item, String> uot = new IdentityHashMap<>();
+   static long uou;
 
-   private uor() {
+   uor() {
    }
 
    public static void draw(DrawContext var0, ItemStack var1, int var2, int var3) {
@@ -57,7 +57,7 @@ public final class uor {
       }
    }
 
-   private static String uox(Item var0) {
+   static String uox(Item var0) {
       return uot.computeIfAbsent(var0, var0x -> var0x.getName().toString());
    }
 }

@@ -1,9 +1,9 @@
 package a;
 
 final class iog {
-   private final String ioh;
-   private final int ioi;
-   private final boolean ioj;
+   final String ioh;
+   final int ioi;
+   final boolean ioj;
 
    iog(String name, int slot, boolean hud) {
       this.ioh = name;

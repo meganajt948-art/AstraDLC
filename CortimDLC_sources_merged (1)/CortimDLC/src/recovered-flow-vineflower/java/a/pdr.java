@@ -21,22 +21,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public final class pdr {
-   private final Item pds;
-   private final String pdt;
-   private final int pdu;
-   private String pdv;
-   private boolean pdw = true;
-   private boolean pdx;
-   private int pdy;
-   private String pdz;
-   private final List<phm> pea = new ArrayList<>();
-   private final List<pia> peb = new ArrayList<>();
-   private final List<pig> pec = new ArrayList<>();
-   private boolean ped;
-   private int pee;
-   private ItemStack pef;
+   final Item pds;
+   final String pdt;
+   final int pdu;
+   String pdv;
+   boolean pdw = true;
+   boolean pdx;
+   int pdy;
+   String pdz;
+   final List<phm> pea = new ArrayList<>();
+   final List<pia> peb = new ArrayList<>();
+   final List<pig> pec = new ArrayList<>();
+   boolean ped;
+   int pee;
+   ItemStack pef;
 
-   private pdr(Item var1, int var2, String var3) {
+   pdr(Item var1, int var2, String var3) {
       this.pds = var1;
       this.pdt = var3;
       this.pdu = var2;
@@ -144,7 +144,7 @@ public final class pdr {
       return var1;
    }
 
-   private static boolean pei(phm var0) {
+   static boolean pei(phm var0) {
       String var1 = var0.key();
       return var1.equals(a.d("䧮ま몬⒢꽾⦷鎔ᨛ", -532829695, -1318197256))
          || var1.equals(a.b("㼷䚮찉剻\ud9de彮\ue534泆\uf2ee砮ﾋֈ轆", 1551252263))

@@ -7,11 +7,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
 public final class wee {
-   private static final String wef = a.b("骦\ue31d槍\uf7a4簶\ufaea䂕쥠圡\udd97婍", 1440979659);
-   private static final String weg = a.c(-909658882, "뒀촠䟱\ud988剑퓱溉\ue74f礙\uf3a7瑾踇Ù饿");
-   private static volatile int weh;
+   static final String wef = a.b("骦\ue31d槍\uf7a4簶\ufaea䂕쥠圡\udd97婍", 1440979659);
+   static final String weg = a.c(-909658882, "뒀촠䟱\ud988剑퓱溉\ue74f礙\uf3a7瑾踇Ù饿");
+   static volatile int weh;
 
-   private wee() {
+   wee() {
    }
 
    public static int count() {

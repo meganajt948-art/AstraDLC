@@ -7,10 +7,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 final class fwd {
-   private static String fwe;
-   private static String fwf;
+   static String fwe;
+   static String fwf;
 
-   private fwd() {
+   fwd() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -65,13 +65,13 @@ final class fwd {
       return var1 >= 300;
    }
 
-   private static void fwi(String var0, String var1) {
+   static void fwi(String var0, String var1) {
       iov.PRESET.set(var0);
       iov.ACCENT.set(a.c(218628386, "ŧ磢\uf230汚"));
       isv.select(var1);
    }
 
-   private static void fwj(MinecraftClient var0, String var1) throws Exception {
+   static void fwj(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.c(-1569552764, "蛶ｒ疂\uebda怣\ue68e"));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -88,7 +88,7 @@ final class fwd {
       var0.setScreen(new hlc());
    }
 
-   private static void fwk(MinecraftClient var0, String var1) {
+   static void fwk(MinecraftClient var0, String var1) {
       System.out
          .println(
             a.b("蝌ﻫ琱\uea4a懛\ue73e嵼풛䫃쀦", -369326283) + var1 + a.b("\u1adc挍\ue9be", 944577279) + var0.getCurrentFps() + a.d("뚶콁䖄\udbf6", 507106358, 565535396)

@@ -25,9 +25,9 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.Vec3d;
 
 final class fwv {
-   private static final List<Entity> fww = new ArrayList<>();
-   private static final String[] fwx = new String[]{a.c(-1549244495, "柰Ṭ钨"), a.c(-103404170, "ⴲ咯\ude61䀌쯐䵶\uf724"), a.c(1783628664, "̺窬\uf07d渊")};
-   private static final String[] fwy = new String[]{
+   static final List<Entity> fww = new ArrayList<>();
+   static final String[] fwx = new String[]{a.c(-1549244495, "柰Ṭ钨"), a.c(-103404170, "ⴲ咯\ude61䀌쯐䵶\uf724"), a.c(1783628664, "̺窬\uf07d渊")};
+   static final String[] fwy = new String[]{
       a.c(374044592, "矦\u0e6c蒸ᫀ"),
       a.c(546817548, "왉뿝㔀ꭾ₵ꘞ\u1c4a閼௪"),
       a.c(1303079224, "楩ღ騲љ辟ह"),
@@ -38,9 +38,9 @@ final class fwv {
       a.b("簳֩轰ᄀ", 1440709753),
       a.d("\udf8fꘌⳕ늺㥪뿈", -1403450249, 1271387053)
    };
-   private static final String[] fwz = new String[]{a.d("氮ᖥ齷Ğ諌౺똢", 1138654841, 1090392607), a.c(-83881656, "ᄉ梕\ue251")};
+   static final String[] fwz = new String[]{a.d("氮ᖥ齷Ğ諌౺똢", 1138654841, 1090392607), a.c(-83881656, "ᄉ梕\ue251")};
 
-   private fwv() {
+   fwv() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -311,7 +311,7 @@ final class fwv {
       }
    }
 
-   private static ZombieEntity fxc(MinecraftClient var0) {
+   static ZombieEntity fxc(MinecraftClient var0) {
       ZombieEntity var1 = null;
 
       for (Entity var3 : var0.world.getEntities()) {
@@ -323,15 +323,15 @@ final class fwv {
       return var1;
    }
 
-   private static void fxd(kfx var0, String var1, boolean var2) {
+   static void fxd(kfx var0, String var1, boolean var2) {
       var0.getByName(var1).setEnabled(var2);
    }
 
-   private static void fxe(kfx var0, String var1, String var2, String var3) {
+   static void fxe(kfx var0, String var1, String var2, String var3) {
       ((vlv)fxf(var0.getByName(var1), var2)).set(var3);
    }
 
-   private static vmo fxf(kfe var0, String var1) {
+   static vmo fxf(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -341,19 +341,19 @@ final class fwv {
       throw new IllegalStateException(var0.getName() + a.c(-720921272, "鵠\ue499湃\uf020箤ﵛ䜉캷") + var1);
    }
 
-   private static void fxg(MinecraftClient var0, float var1, float var2) {
+   static void fxg(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static void fxh(MinecraftClient var0, Vec3d var1) {
+   static void fxh(MinecraftClient var0, Vec3d var1) {
       Vec3d var2 = var1.subtract(var0.player.getEyePos());
       fxg(var0, (float)Math.toDegrees(Math.atan2(-var2.x, var2.z)), (float)(-Math.toDegrees(Math.atan2(var2.y, Math.hypot(var2.x, var2.z)))));
    }
 
-   private static PlayerEntity fxi(MinecraftClient var0, String var1, double var2, double var4, boolean var6) {
+   static PlayerEntity fxi(MinecraftClient var0, String var1, double var2, double var4, boolean var6) {
       OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var8 = var0.player.getEntityPos().add(new Vec3d(0.0, 0.0, 1.0).multiply(var2)).add(new Vec3d(-1.0, 0.0, 0.0).multiply(var4));
       var7.refreshPositionAndAngles(var8.x, var0.player.getY(), var8.z, 180.0F, 0.0F);
@@ -368,13 +368,13 @@ final class fwv {
       return var7;
    }
 
-   private static void fxj(MinecraftClient var0, Entity var1) {
+   static void fxj(MinecraftClient var0, Entity var1) {
       if (var1 != null) {
          var0.world.removeEntity(var1.getId(), RemovalReason.DISCARDED);
       }
    }
 
-   private static void fxk(MinecraftClient var0, String var1) throws Exception {
+   static void fxk(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.d("貗\uf533翣\ue1bb橂\uecef", -1214216446, 1279986663));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -388,13 +388,13 @@ final class fwv {
       var0.setScreen(new hlc());
    }
 
-   private static void fxl(Screen var0, int var1) {
+   static void fxl(Screen var0, int var1) {
       if (var0 != null) {
          var0.keyPressed(new KeyInput(var1, 0, 0));
       }
    }
 
-   private static void fxm(Screen var0, String var1) {
+   static void fxm(Screen var0, String var1) {
       if (var0 != null) {
          for (char var5 : var1.toCharArray()) {
             var0.charTyped(new CharInput(var5, 0));
@@ -402,11 +402,11 @@ final class fwv {
       }
    }
 
-   private static void fxn(MinecraftClient var0, String var1) {
+   static void fxn(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fxo(MinecraftClient var0, String var1) {
+   static void fxo(MinecraftClient var0, String var1) {
       System.out.println(a.c(-1758931688, "핡곆☜롧㏶딓ད蚶ᣮ鈋") + var1 + a.d("쑤붵㜆", 1184295006, -1008587751) + var0.getCurrentFps() + a.c(-1535618344, "勼⬋ꇎ㾼"));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

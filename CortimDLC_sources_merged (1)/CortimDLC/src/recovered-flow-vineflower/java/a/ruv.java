@@ -12,7 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public class ruv extends kfe {
-   private static ruv ruw;
+   static ruv ruw;
    public final vlv mode = this.add(new vlv("Mode", "Ghosts", "Ghosts", "Sparkles", "Ring", "Comets", "Lightning"));
    public final vla color = this.add(new vla("Color", "Theme"));
    public final vla hitColor = this.add(new vla("Hit color", "Crimson"));
@@ -20,33 +20,33 @@ public class ruv extends kfe {
    public final vmc speed = this.add(new vmc("Speed", 1.0, 0.4, 2.0, 0.1).unit("x"));
    public final vmc brightness = this.add(new vmc("Brightness", 0.8, 0.3, 1.0, 0.05).percent());
    public final vkl mobs = this.add(new vkl("Mobs", false));
-   private static final long rux = 3500L;
-   private static final double ruy = 48.0;
-   private static final float ruz = (float) (Math.PI * 2);
-   private static LivingEntity rva;
-   private static long rvb;
-   private static LivingEntity rvc;
-   private static final vcj rvd = new vcj(7.0F);
-   private static final vcj rve = new vcj(3.2F);
-   private static int rvf;
-   private static float rvg;
-   private static long rvh = -1L;
-   private static final float[] rvi = new float[2];
-   private static final float[] rvj = new float[2];
-   private static final float[] rvk = new float[2];
-   private static final float[] rvl = new float[2];
-   private static final Random rvm = new Random();
-   private static final int rvn = 60;
-   private static final float[][] rvo = new float[60][7];
-   private static final int rvp = 4;
-   private static final int rvq = 11;
-   private static final int rvr = 4;
-   private static final int rvs = 4;
-   private static final double[][] rvt = new double[4][33];
-   private static final double[][] rvu = new double[4][12];
-   private static float rvv;
-   private static long rvw;
-   private static int rvx;
+   static final long rux = 3500L;
+   static final double ruy = 48.0;
+   static final float ruz = (float) (Math.PI * 2);
+   static LivingEntity rva;
+   static long rvb;
+   static LivingEntity rvc;
+   static final vcj rvd = new vcj(7.0F);
+   static final vcj rve = new vcj(3.2F);
+   static int rvf;
+   static float rvg;
+   static long rvh = -1L;
+   static final float[] rvi = new float[2];
+   static final float[] rvj = new float[2];
+   static final float[] rvk = new float[2];
+   static final float[] rvl = new float[2];
+   static final Random rvm = new Random();
+   static final int rvn = 60;
+   static final float[][] rvo = new float[60][7];
+   static final int rvp = 4;
+   static final int rvq = 11;
+   static final int rvr = 4;
+   static final int rvs = 4;
+   static final double[][] rvt = new double[4][33];
+   static final double[][] rvu = new double[4][12];
+   static float rvv;
+   static long rvw;
+   static int rvx;
 
    public ruv() {
       super(new String(new char[]{'T', 'a', 'r', 'g', 'e', 't', 'E', 'S', 'P'}), "An effect on your current target", kfa.RENDER);
@@ -61,7 +61,7 @@ public class ruv extends kfe {
       }
    }
 
-   private boolean rwa(MinecraftClient var1, Entity var2) {
+   boolean rwa(MinecraftClient var1, Entity var2) {
       if (!(
          var2 instanceof LivingEntity var3
             && var2 != var1.player
@@ -79,7 +79,7 @@ public class ruv extends kfe {
       }
    }
 
-   private LivingEntity rwb(MinecraftClient var1) {
+   LivingEntity rwb(MinecraftClient var1) {
       if (rva != null && System.currentTimeMillis() - rvb < 3500L && this.rwa(var1, rva)) {
          return rva;
       }
@@ -180,7 +180,7 @@ public class ruv extends kfe {
       return var0;
    }
 
-   private static void rwc(DrawContext var0, GpuTextureView var1, float var2, float var3, float var4, int var5) {
+   static void rwc(DrawContext var0, GpuTextureView var1, float var2, float var3, float var4, int var5) {
       if (var1 != null) {
          uut.sprite(var0, var1, var2, var3, var4, var5);
       } else {
@@ -189,11 +189,11 @@ public class ruv extends kfe {
       }
    }
 
-   private static float rwd(float var0) {
+   static float rwd(float var0) {
       return 0.5F - 0.5F * (float)Math.cos(var0);
    }
 
-   private static void rwe(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
+   static void rwe(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
       GpuTextureView var5 = unm.view();
       float var6 = var2.getHeight();
       double var7 = (var2.getWidth() * 0.55 + 0.35) * var4.size;
@@ -231,7 +231,7 @@ public class ruv extends kfe {
       }
    }
 
-   private static void rwf() {
+   static void rwf() {
       Random var0 = new Random(23057L);
 
       for (float[] var4 : rvo) {
@@ -245,7 +245,7 @@ public class ruv extends kfe {
       }
    }
 
-   private static void rwg(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4, float var5) {
+   static void rwg(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4, float var5) {
       GpuTextureView var6 = unm.view();
       float var7 = var2.getHeight();
       double var8 = (var2.getWidth() * 0.6 + 0.3) * var4.size;
@@ -285,7 +285,7 @@ public class ruv extends kfe {
       }
    }
 
-   private static void rwh(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
+   static void rwh(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
       float var5 = var2.getHeight();
       double var6 = (var2.getWidth() * 0.5 + 0.2) * var4.size;
       float var8 = rvg * 1.6F;
@@ -297,7 +297,7 @@ public class ruv extends kfe {
       rwj(var0, var1, var3.x, var9, var3.z, var6, 44, var4, 0.9F);
    }
 
-   private static void rwi(
+   static void rwi(
       DrawContext var0, usn var1, double var2, double var4, double var6, double var8, double var10, double var12, rus var14, float var15, int var16
    ) {
       float var17 = var1.depth(var2, var4, var6);
@@ -330,7 +330,7 @@ public class ruv extends kfe {
       uut.additive(false);
    }
 
-   private static void rwj(DrawContext var0, usn var1, double var2, double var4, double var6, double var8, int var10, rus var11, float var12) {
+   static void rwj(DrawContext var0, usn var1, double var2, double var4, double var6, double var8, int var10, rus var11, float var12) {
       float var13 = var1.depth(var2, var4, var6);
       float var14 = var1.unitsPerBlock(var2, var4, var6);
       float var15 = Math.max(0.7F, Math.min(1.8F, var14 * 0.014F));
@@ -351,7 +351,7 @@ public class ruv extends kfe {
       }
    }
 
-   private static void rwk(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
+   static void rwk(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4) {
       float var5 = var2.getHeight();
       double var6 = (var2.getWidth() * 0.5 + 0.28) * var4.size;
       float var8 = var1.depth(var3.x, var3.y + var5 * 0.5, var3.z);
@@ -408,7 +408,7 @@ public class ruv extends kfe {
       }
    }
 
-   private static void rwl(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4, float var5) {
+   static void rwl(DrawContext var0, usn var1, LivingEntity var2, Vec3d var3, rus var4, float var5) {
       float var6 = var2.getHeight();
       float var7 = var1.unitsPerBlock(var3.x, var3.y + var6 * 0.5, var3.z);
       if (!(var7 <= 0.0F)) {
@@ -435,7 +435,7 @@ public class ruv extends kfe {
       }
    }
 
-   private static void rwm(
+   static void rwm(
       DrawContext var0, usn var1, double var2, double var4, double var6, double[] var8, int var9, float var10, float var11, int var12, float var13, float var14
    ) {
       uut.additive(true);
@@ -460,7 +460,7 @@ public class ruv extends kfe {
       uut.additive(false);
    }
 
-   private static void rwn(double var0, float var2, float var3) {
+   static void rwn(double var0, float var2, float var3) {
       double var4 = (0.07 + 0.05 * var3) * var2;
 
       for (int var6 = 0; var6 < 4; var6++) {

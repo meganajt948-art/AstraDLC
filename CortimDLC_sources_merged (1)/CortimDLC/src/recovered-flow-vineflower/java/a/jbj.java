@@ -1,14 +1,14 @@
 package a;
 
 final class jbj {
-   private final String jbk;
-   private final vhz jbl;
-   private final Runnable jbm;
-   private final jcs jbn;
-   private final float jbo;
-   private final float jbp;
+   final String jbk;
+   final vhz jbl;
+   final Runnable jbm;
+   final jcs jbn;
+   final float jbo;
+   final float jbp;
 
-   private jbj(String label, vhz icon, Runnable action, jcs element, float x, float w) {
+   jbj(String label, vhz icon, Runnable action, jcs element, float x, float w) {
       this.jbk = label;
       this.jbl = icon;
       this.jbm = action;

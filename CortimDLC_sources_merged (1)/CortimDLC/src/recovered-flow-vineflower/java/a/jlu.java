@@ -9,7 +9,7 @@ final class jlu {
    float wide;
    long wideAt;
 
-   private jlu() {
+   jlu() {
    }
 
    float natural() {

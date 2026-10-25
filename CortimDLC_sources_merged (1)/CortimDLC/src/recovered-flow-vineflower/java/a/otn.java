@@ -11,17 +11,17 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
 public class otn extends kfe {
-   private final vmc oto = this.add(new vmc(a.c(2015664505, "餸\ue0a8橲\uf40e翁"), 60.0, 0.0, 500.0, 10.0).suffix(a.b("뭬싃", 424655619)));
-   private final vmc otp = this.add(new vmc(a.d("핬곮☲롉㎕딦", -78782486, -1419900206), 40.0, 0.0, 300.0, 10.0).suffix(a.c(1416209304, "ꏷ\uda58")));
-   private final vkl otq = this.add(new vkl(a.d("昍ᾈ镚ର肨ٚ밆㗴ꮷℐ", -1516567235, -402496645), true));
-   private final vkl otr = this.add(new vkl(a.c(-1737755196, "\uf583谓ڏ颶፦闌⾉ꙻ㠷"), false));
-   private static final long ots = 180L;
-   private static final long ott = 300L;
-   private final Random otu = new Random();
-   private Screen otv;
-   private long otw;
-   private long otx;
-   private long oty;
+   final vmc oto = this.add(new vmc(a.c(2015664505, "餸\ue0a8橲\uf40e翁"), 60.0, 0.0, 500.0, 10.0).suffix(a.b("뭬싃", 424655619)));
+   final vmc otp = this.add(new vmc(a.d("핬곮☲롉㎕딦", -78782486, -1419900206), 40.0, 0.0, 300.0, 10.0).suffix(a.c(1416209304, "ꏷ\uda58")));
+   final vkl otq = this.add(new vkl(a.d("昍ᾈ镚ର肨ٚ밆㗴ꮷℐ", -1516567235, -402496645), true));
+   final vkl otr = this.add(new vkl(a.c(-1737755196, "\uf583谓ڏ颶፦闌⾉ꙻ㠷"), false));
+   static final long ots = 180L;
+   static final long ott = 300L;
+   final Random otu = new Random();
+   Screen otv;
+   long otw;
+   long otx;
+   long oty;
 
    public otn() {
       super(a.c(238885778, "ᯝ扇\ue899盾ﴮ箸쇌䠬홷峋\udb11ⅷ"), a.b("ퟯ깶Ⓒ뫍ㄇ랺\u0dff葝ᩖ郻ᜥ\ued11掅憎灡\uf686䳎쌘姸\udff0嘑ⱚꊼ㤢뽂㖆谾", -648751183), kfa.PLAYER);
@@ -69,7 +69,7 @@ public class otn extends kfe {
       }
    }
 
-   private static boolean oub() {
+   static boolean oub() {
       nxa var0 = nxa.mainInstance();
       if (var0 != null && var0.isEnabled() && var0.busy()) {
          return true;

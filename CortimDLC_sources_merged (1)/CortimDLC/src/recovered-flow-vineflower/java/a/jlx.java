@@ -30,49 +30,49 @@ public final class jlx extends jcs {
    public static final vkl EXPAND = new vkl(a.d("⥻僷\uda2c䑌쾔䤯\uf338窆\ue4d8渧\ue9baᏀ鴅ӣ軤ࠓ뉏㶜ꜧ", -406075007, -1233461076), true);
    public static final vkl COVER = new vkl(a.d("隿\uef22旨ﮊ灊", 1922162144, 787958553), true);
    public static final List<vmo> MUSIC_SETTINGS = List.of(VIEW, EXPAND, COVER);
-   private static final float jly = 17.0F;
-   private static final float jlz = 7.0F;
-   private static final float jma = 11.0F;
-   private static final float jmb = 11.0F;
-   private static final float jmc = 200.0F;
-   private static final float jmd = 44.0F;
-   private static final float jme = 30.0F;
-   private static final float jmf = 12.0F;
-   private static final long jmg = 1700L;
-   private static final long jmh = 4500L;
-   private static final long jmi = 15000L;
-   private static final long jmj = 200L;
-   private static final long jmk = 2500L;
-   private static final String jml = a.d("䞚㸉듍⪯ꅧ⟚鶛", 1448827076, 1952521993);
-   private final vct jmm = new vct(190.0F, 0.8F);
-   private final vct jmn = new vct(190.0F, 0.8F);
-   private final vdc jmo = new vdc(0.38F, 1.0F);
-   private jlr jmp = jlr.BASE;
-   private jlr jmq = jlr.BASE;
-   private final List<jlu> jmr = new ArrayList<>();
-   private final jlu[] jms = new jlu[]{new jlu(), new jlu(), new jlu(), new jlu(), new jlu(), new jlu()};
-   private long jmt;
-   private String jmu = "";
-   private static final int jmv = 6;
-   private static final float jmw = 12.0F;
-   private static final float jmx = 11.0F;
-   private static final float jmy = 4.0F;
-   private final List<jlo> jmz = new ArrayList<>();
-   private jgd jna;
-   private long jnb;
-   private uok jnc;
-   private final vcj jnd = new vcj(7.0F, 1.0F);
-   private final vcj[] jne = new vcj[]{new vcj(14.0F), new vcj(14.0F), new vcj(14.0F), new vcj(14.0F)};
-   private final vcj[] jnf = new vcj[]{new vcj(16.0F), new vcj(16.0F), new vcj(16.0F)};
-   private final vcj[] jng = new vcj[]{new vcj(9.0F), new vcj(9.0F), new vcj(9.0F)};
-   private final float[] jnh = new float[3];
-   private float jni = -100.0F;
-   private static final float jnj = 9.0F;
-   private String jnk;
-   private String jnl = "";
-   private String jnm = "";
-   private String jnn = "";
-   private static final float jno = 2.3F;
+   static final float jly = 17.0F;
+   static final float jlz = 7.0F;
+   static final float jma = 11.0F;
+   static final float jmb = 11.0F;
+   static final float jmc = 200.0F;
+   static final float jmd = 44.0F;
+   static final float jme = 30.0F;
+   static final float jmf = 12.0F;
+   static final long jmg = 1700L;
+   static final long jmh = 4500L;
+   static final long jmi = 15000L;
+   static final long jmj = 200L;
+   static final long jmk = 2500L;
+   static final String jml = a.d("䞚㸉듍⪯ꅧ⟚鶛", 1448827076, 1952521993);
+   final vct jmm = new vct(190.0F, 0.8F);
+   final vct jmn = new vct(190.0F, 0.8F);
+   final vdc jmo = new vdc(0.38F, 1.0F);
+   jlr jmp = jlr.BASE;
+   jlr jmq = jlr.BASE;
+   final List<jlu> jmr = new ArrayList<>();
+   final jlu[] jms = new jlu[]{new jlu(), new jlu(), new jlu(), new jlu(), new jlu(), new jlu()};
+   long jmt;
+   String jmu = "";
+   static final int jmv = 6;
+   static final float jmw = 12.0F;
+   static final float jmx = 11.0F;
+   static final float jmy = 4.0F;
+   final List<jlo> jmz = new ArrayList<>();
+   jgd jna;
+   long jnb;
+   uok jnc;
+   final vcj jnd = new vcj(7.0F, 1.0F);
+   final vcj[] jne = new vcj[]{new vcj(14.0F), new vcj(14.0F), new vcj(14.0F), new vcj(14.0F)};
+   final vcj[] jnf = new vcj[]{new vcj(16.0F), new vcj(16.0F), new vcj(16.0F)};
+   final vcj[] jng = new vcj[]{new vcj(9.0F), new vcj(9.0F), new vcj(9.0F)};
+   final float[] jnh = new float[3];
+   float jni = -100.0F;
+   static final float jnj = 9.0F;
+   String jnk;
+   String jnl = "";
+   String jnm = "";
+   String jnn = "";
+   static final float jno = 2.3F;
 
    jlx() {
       super(a.d("\uda56ꏱ⤷띗㲗먹f覄ែ", -1824401247, -722533751), a.d("\ufb18芟࡙阹᷹魗℈꣪㚬", 1696813896, -24205298), true, 1, 0, 0.0F, 6.0F);
@@ -130,7 +130,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private boolean jnr(long var1) {
+   boolean jnr(long var1) {
       for (jlo var4 : this.jmz) {
          if (var1 - var4.at < 1700L) {
             return true;
@@ -231,7 +231,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private void jns(long var1) {
+   void jns(long var1) {
       String var3 = (FPS.get() ? a.d("\uf1b6", 6791450, -581873461) : "")
          + (PING.get() ? a.c(-1508093659, "兔") : "")
          + (TPS.get() ? a.b("\uf26f", 182055450) : "")
@@ -299,7 +299,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private static void jnt(jlu var0, String var1, String var2, String var3, int var4, int var5) {
+   static void jnt(jlu var0, String var1, String var2, String var3, int var4, int var5) {
       var0.label = var1;
       var0.value = var2;
       var0.unit = var3;
@@ -307,7 +307,7 @@ public final class jlx extends jcs {
       var0.dot = var5;
    }
 
-   private static String jnu(float var0) {
+   static String jnu(float var0) {
       return var0 >= 100.0F ? String.valueOf(Math.round(var0)) : vxu.fixed(var0, 1);
    }
 
@@ -352,7 +352,7 @@ public final class jlx extends jcs {
       uut.popScissor(var1);
    }
 
-   private void jnv(DrawContext var1, jlr var2, float var3, float var4, float var5, float var6) {
+   void jnv(DrawContext var1, jlr var2, float var3, float var4, float var5, float var6) {
       uut.pushAlpha(var5);
       switch (var2) {
          case ALERT:
@@ -370,7 +370,7 @@ public final class jlx extends jcs {
       uut.popAlpha();
    }
 
-   private float jnw(DrawContext var1, float var2, float var3, boolean var4) {
+   float jnw(DrawContext var1, float var2, float var3, boolean var4) {
       float var5 = var2 + 7.0F - 1.0F;
       if (var1 != null
          && !uqe.draw(var1, var5 - 0.5F, var3 - 5.5F - 0.5F, 12.0F, iov.isLight(), -1)
@@ -434,7 +434,7 @@ public final class jlx extends jcs {
       return var5 + 7.0F - var2;
    }
 
-   private float jnx(DrawContext var1, float var2, float var3) {
+   float jnx(DrawContext var1, float var2, float var3) {
       String var4 = this.jny();
       float var5 = 13.0F + izx.VALUE.width(var4);
       if (var1 == null) {
@@ -451,7 +451,7 @@ public final class jlx extends jcs {
       return var2 + var5;
    }
 
-   private String jny() {
+   String jny() {
       String var1 = hia.account();
       if (!var1.equals(this.jnk)) {
          this.jnk = var1;
@@ -461,7 +461,7 @@ public final class jlx extends jcs {
       return this.jnl;
    }
 
-   private String jnz(jgd var1) {
+   String jnz(jgd var1) {
       String var2 = var1.artist().isEmpty() ? var1.title() : var1.title() + a.d("멚썼䤸", 1447740147, 955414666) + var1.artist();
       if (!var2.equals(this.jnm)) {
          this.jnm = var2;
@@ -471,11 +471,11 @@ public final class jlx extends jcs {
       return this.jnn;
    }
 
-   private static float joa(DrawContext var0, vdn var1, String var2, float var3, float var4, int var5) {
+   static float joa(DrawContext var0, vdn var1, String var2, float var3, float var4, int var5) {
       return var0 != null ? var1.draw(var0, var2, var3, var1.centerTop(var4), var5) : var3 + var1.width(var2);
    }
 
-   private static float job(DrawContext var0, float var1, float var2) {
+   static float job(DrawContext var0, float var1, float var2) {
       float var3 = 5.5F;
       if (var0 != null) {
          uut.circle(var0, var1 + var3, var2, 0.85F, ujt.mulAlpha(iov.textMuted, 0.6F));
@@ -484,7 +484,7 @@ public final class jlx extends jcs {
       return var1 + 11.0F;
    }
 
-   private static int joc(MinecraftClient var0) {
+   static int joc(MinecraftClient var0) {
       if (var0.getNetworkHandler() != null && var0.player != null) {
          PlayerListEntry var1 = var0.getNetworkHandler().getPlayerListEntry(var0.player.getUuid());
          return var1 != null ? Math.max(0, var1.getLatency()) : 0;
@@ -493,7 +493,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private float jod(DrawContext var1, float var2, float var3, int var4, float var5) {
+   float jod(DrawContext var1, float var2, float var3, int var4, float var5) {
       float var6 = 1.5F;
       float var7 = 1.2F;
       if (var1 != null) {
@@ -506,7 +506,7 @@ public final class jlx extends jcs {
       return var2 + var4 * var6 + (var4 - 1) * var7;
    }
 
-   private void joe(long var1, boolean var3, float var4) {
+   void joe(long var1, boolean var3, float var4) {
       for (int var5 = this.jmz.size() - 1; var5 >= 0; var5--) {
          jlo var6 = this.jmz.get(var5);
          boolean var7 = var1 - var6.at < 1700L;
@@ -522,11 +522,11 @@ public final class jlx extends jcs {
       }
    }
 
-   private static float jof(jlo var0) {
+   static float jof(jlo var0) {
       return 21.1F + izx.HEAD.width(var0.name) + 5.0F + izx.VALUE.width(var0.state) + 11.0F;
    }
 
-   private float jog(long var1) {
+   float jog(long var1) {
       float var3 = 17.0F;
 
       for (jlo var5 : this.jmz) {
@@ -537,7 +537,7 @@ public final class jlx extends jcs {
       return var3;
    }
 
-   private float joh() {
+   float joh() {
       float var1 = 0.0F;
 
       for (jlo var3 : this.jmz) {
@@ -547,7 +547,7 @@ public final class jlx extends jcs {
       return Math.max(17.0F, 8.0F + var1 * 12.0F);
    }
 
-   private void joi(DrawContext var1, float var2, float var3) {
+   void joi(DrawContext var1, float var2, float var3) {
       long var4 = System.currentTimeMillis();
       float var6 = this.jog(var4);
       float var7 = (var2 - var6) * 0.5F + 11.0F;
@@ -595,7 +595,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private void joj(DrawContext var1, float var2, float var3, float var4) {
+   void joj(DrawContext var1, float var2, float var3, float var4) {
       jgd var5 = this.jna;
       if (var5 != null) {
          float var6 = (var2 - 200.0F) * 0.5F;
@@ -684,7 +684,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private static void jok(DrawContext var0, vdn var1, String var2, float var3, float var4, float var5, int var6) {
+   static void jok(DrawContext var0, vdn var1, String var2, float var3, float var4, float var5, int var6) {
       float var7 = var1.width(var2);
       float var8 = var1.centerTop(var4);
       if (var7 <= var5) {
@@ -703,7 +703,7 @@ public final class jlx extends jcs {
       }
    }
 
-   private static String jol(long var0) {
+   static String jol(long var0) {
       return vxu.clock(Math.max(0L, var0 / 1000L));
    }
 

@@ -11,15 +11,15 @@ import net.minecraft.client.texture.TextureSetup;
 import org.jspecify.annotations.Nullable;
 
 final class uhx implements SimpleGuiElementRenderState {
-   private final RenderPipeline uhy;
-   private final TextureSetup uhz;
-   private final @Nullable ScreenRect uia;
-   private final List<SimpleGuiElementRenderState> uib = new ArrayList<>();
-   private int uic = Integer.MAX_VALUE;
-   private int uid = Integer.MAX_VALUE;
-   private int uie = Integer.MIN_VALUE;
-   private int uif = Integer.MIN_VALUE;
-   private @Nullable ScreenRect uig;
+   final RenderPipeline uhy;
+   final TextureSetup uhz;
+   final @Nullable ScreenRect uia;
+   final List<SimpleGuiElementRenderState> uib = new ArrayList<>();
+   int uic = Integer.MAX_VALUE;
+   int uid = Integer.MAX_VALUE;
+   int uie = Integer.MIN_VALUE;
+   int uif = Integer.MIN_VALUE;
+   @Nullable ScreenRect uig;
 
    uhx(SimpleGuiElementRenderState var1) {
       this.uhy = var1.pipeline();

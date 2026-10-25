@@ -26,19 +26,19 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.BlockPos.Mutable;
 
 public class rzy extends kfe {
-   private static final Pattern rzz = Pattern.compile("(\\d{1,2})\\s*:\\s*(\\d{2})");
-   private static final Pattern saa = Pattern.compile("(?i)§.|&#[0-9a-f]{6}|<#?[0-9a-f]{6}>");
-   private static final Pattern sab = Pattern.compile("(?i)(готов|забирай|награда|собирай)");
-   private static final vdn sac = veo.medium(6.5F);
-   private static rzy sad;
-   private static TrackedData<?> sae;
-   private static boolean saf;
-   private final vkl sag = this.add(new vkl("Hide timer", true));
-   private final vkl sah = this.add(new vkl("Blur", true));
-   private final List<rzv> sai = new ArrayList<>();
-   private final Map<Integer, String[]> saj = new HashMap<>();
-   private static final Map<Block, Boolean> sak = new IdentityHashMap<>();
-   private final boolean sal;
+   static final Pattern rzz = Pattern.compile("(\\d{1,2})\\s*:\\s*(\\d{2})");
+   static final Pattern saa = Pattern.compile("(?i)§.|&#[0-9a-f]{6}|<#?[0-9a-f]{6}>");
+   static final Pattern sab = Pattern.compile("(?i)(готов|забирай|награда|собирай)");
+   static final vdn sac = veo.medium(6.5F);
+   static rzy sad;
+   static TrackedData<?> sae;
+   static boolean saf;
+   final vkl sag = this.add(new vkl("Hide timer", true));
+   final vkl sah = this.add(new vkl("Blur", true));
+   final List<rzv> sai = new ArrayList<>();
+   final Map<Integer, String[]> saj = new HashMap<>();
+   static final Map<Block, Boolean> sak = new IdentityHashMap<>();
+   final boolean sal;
 
    public rzy() {
       this(true);
@@ -68,7 +68,7 @@ public class rzy extends kfe {
       this.tickTimers(true);
    }
 
-   private boolean sao() {
+   boolean sao() {
       return this.mc.player == null || this.mc.world == null;
    }
 
@@ -213,7 +213,7 @@ public class rzy extends kfe {
       }
    }
 
-   private String sap(int var1, String var2) {
+   String sap(int var1, String var2) {
       String[] var3 = this.saj.get(var1);
       if (var3 != null && var3[0].equals(var2)) {
          return var3[1];
@@ -235,7 +235,7 @@ public class rzy extends kfe {
       return var6;
    }
 
-   private boolean saq(BlockPos var1) {
+   boolean saq(BlockPos var1) {
       Mutable var2 = new Mutable();
 
       for (int var3 = -1; var3 <= 1; var3++) {
@@ -259,7 +259,7 @@ public class rzy extends kfe {
       return false;
    }
 
-   private static Text sar(TextDisplayEntity var0) {
+   static Text sar(TextDisplayEntity var0) {
       if (!saf) {
          saf = true;
 
@@ -353,21 +353,21 @@ public class rzy extends kfe {
       }
    }
 
-   private static int sas(int var0) {
+   static int sas(int var0) {
       return Math.max(0, Math.min(255, var0));
    }
 
-   private static String sat(long var0) {
+   static String sat(long var0) {
       return var0 < 10L ? "0" + var0 : String.valueOf(var0);
    }
 
-   private double sau(Vec3d var1, Vec3d var2) {
+   double sau(Vec3d var1, Vec3d var2) {
       double var3 = var1.x - var2.x;
       double var5 = var1.z - var2.z;
       return var3 * var3 + var5 * var5;
    }
 
-   private void sav(boolean var1, String var2, String var3, boolean var4) {
+   void sav(boolean var1, String var2, String var3, boolean var4) {
       if (var1 && this.sal) {
          try {
             izx.alert(var2, var3, vhz.INFO, var4);

@@ -17,10 +17,10 @@ public final class sql {
    public static final int APPEAR = 1;
    public static final int CRACK = 2;
    public static final int BURST = 4;
-   private static final float sqm = 0.38F;
-   private static final float sqn = 0.72F;
-   private static final float sqo = 1.3F;
-   private static final float sqp = 15.0F;
+   static final float sqm = 0.38F;
+   static final float sqn = 0.72F;
+   static final float sqo = 1.3F;
+   static final float sqp = 15.0F;
    public final double x;
    public final double y;
    public final double z;
@@ -28,45 +28,45 @@ public final class sql {
    public final float red;
    public final float green;
    public final float blue;
-   private final int sqq;
-   private final int sqr;
-   private final int[] sqs;
-   private final int[] sqt;
-   private final float[] squ;
-   private final float[] sqv;
-   private final float[] sqw;
-   private final int[] sqx;
-   private final float[] sqy;
-   private final float[] sqz;
-   private final float[] sra;
-   private final float[] srb;
-   private final float[] src;
-   private final float[] srd;
-   private final float[] sre;
-   private final boolean[] srf;
-   private final boolean[] srg;
-   private final float srh;
-   private final float sri;
-   private final float srj;
-   private final float srk;
-   private final float srl;
-   private final float srm;
-   private final Random srn;
-   private float sro;
-   private int srp = 1;
-   private boolean srq;
-   private boolean srr;
-   private float srs;
-   private float srt;
-   private float sru;
-   private float srv;
-   private float srw = 1.0F;
-   private float srx = 1.0F;
-   private float sry;
-   private float srz;
-   private float ssa;
+   final int sqq;
+   final int sqr;
+   final int[] sqs;
+   final int[] sqt;
+   final float[] squ;
+   final float[] sqv;
+   final float[] sqw;
+   final int[] sqx;
+   final float[] sqy;
+   final float[] sqz;
+   final float[] sra;
+   final float[] srb;
+   final float[] src;
+   final float[] srd;
+   final float[] sre;
+   final boolean[] srf;
+   final boolean[] srg;
+   final float srh;
+   final float sri;
+   final float srj;
+   final float srk;
+   final float srl;
+   final float srm;
+   final Random srn;
+   float sro;
+   int srp = 1;
+   boolean srq;
+   boolean srr;
+   float srs;
+   float srt;
+   float sru;
+   float srv;
+   float srw = 1.0F;
+   float srx = 1.0F;
+   float sry;
+   float srz;
+   float ssa;
 
-   private sql(spo var1, double var2, double var4, double var6, double var8, double var10, float var12, boolean var13, int var14, Random var15) {
+   sql(spo var1, double var2, double var4, double var6, double var8, double var10, float var12, boolean var13, int var14, Random var15) {
       this.x = var2;
       this.y = var4;
       this.z = var6;
@@ -236,7 +236,7 @@ public final class sql {
       return new sql(var21, var16[0], var16[1], var16[2], var19.x, var19.z, var20, var11, var13, var15);
    }
 
-   private static float ssd(@Nullable ClientWorld var0, double var1, double var3, double var5) {
+   static float ssd(@Nullable ClientWorld var0, double var1, double var3, double var5) {
       if (var0 == null) {
          return 0.0F;
       }
@@ -324,7 +324,7 @@ public final class sql {
       return this.totem ? var2 < 2.5F : var2 < 4.0F;
    }
 
-   private void sse(int var1, float var2) {
+   void sse(int var1, float var2) {
       if (var2 != 0.0F) {
          int var3 = var1 * 3;
          int var4 = var1 * 4;
@@ -495,7 +495,7 @@ public final class sql {
       return this.srw;
    }
 
-   private int ssf(int var1) {
+   int ssf(int var1) {
       int var2 = 0;
       int var3 = this.sqq - 1;
 
@@ -511,15 +511,15 @@ public final class sql {
       return var2;
    }
 
-   private float ssg(float var1, float var2) {
+   float ssg(float var1, float var2) {
       return var1 + (var2 - var1) * this.srn.nextFloat();
    }
 
-   private static byte ssh(float var0) {
+   static byte ssh(float var0) {
       return (byte)Math.round(Math.max(-1.0F, Math.min(1.0F, var0)) * 127.0F);
    }
 
-   private static float ssi(float var0, float var1, float var2) {
+   static float ssi(float var0, float var1, float var2) {
       float var3 = Math.max(0.0F, Math.min(1.0F, (var2 - var0) / (var1 - var0)));
       return var3 * var3 * (3.0F - 2.0F * var3);
    }

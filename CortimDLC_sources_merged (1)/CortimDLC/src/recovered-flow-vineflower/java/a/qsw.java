@@ -56,55 +56,55 @@ import net.minecraft.world.RaycastContext.ShapeType;
 import net.minecraft.world.chunk.WorldChunk;
 
 public final class qsw {
-   private static final String qsx = a.c(656358294, "㯶䉖좝囱");
-   private static final String qsy = a.c(795336601, "\udffbꙃⲐ닪");
-   private static final String qsz = a.d("轜\uf6e5", 382379335, 924133985);
-   private static final double qta = 4.3;
-   private static final long qtb = 75000L;
-   private static final long qtc = 160000L;
-   private static final long qtd = 360000L;
-   private static final int qte = 10;
-   private static final int qtf = 2;
-   private static final int qtg = 24;
+   static final String qsx = a.c(656358294, "㯶䉖좝囱");
+   static final String qsy = a.c(795336601, "\udffbꙃⲐ닪");
+   static final String qsz = a.d("轜\uf6e5", 382379335, 924133985);
+   static final double qta = 4.3;
+   static final long qtb = 75000L;
+   static final long qtc = 160000L;
+   static final long qtd = 360000L;
+   static final int qte = 10;
+   static final int qtf = 2;
+   static final int qtg = 24;
    public static volatile Consumer<String> trace;
    public int repairTo = 1500;
    public int xpStock = 576;
    public Set<String> junk = Set.of();
-   private final qdz qth = new qdz();
-   private final qbo qti = new qbo();
-   private final Map<BlockPos, String> qtj = new HashMap<>();
-   private final ArrayDeque<BlockPos> qtk = new ArrayDeque<>();
-   private Consumer<String> qtl = var0 -> {};
-   private qst qtm = qst.DONE;
-   private long qtn;
-   private long qto;
-   private BlockPos qtp;
-   private BlockPos qtq;
-   private BlockPos qtr;
-   private BlockPos qts;
-   private int qtt = -1;
-   private boolean qtu;
-   private boolean qtv;
-   private long qtw;
-   private String qtx = "";
-   private BlockPos qty;
-   private int qtz;
-   private long qua;
-   private int qub;
-   private Object quc;
-   private boolean qud;
-   private int que;
-   private int quf;
-   private int qug;
-   private long quh;
-   private int qui;
-   private long quj;
-   private long quk;
-   private boolean qul;
-   private boolean qum;
-   private long qun;
-   private int quo;
-   private int qup;
+   final qdz qth = new qdz();
+   final qbo qti = new qbo();
+   final Map<BlockPos, String> qtj = new HashMap<>();
+   final ArrayDeque<BlockPos> qtk = new ArrayDeque<>();
+   Consumer<String> qtl = var0 -> {};
+   qst qtm = qst.DONE;
+   long qtn;
+   long qto;
+   BlockPos qtp;
+   BlockPos qtq;
+   BlockPos qtr;
+   BlockPos qts;
+   int qtt = -1;
+   boolean qtu;
+   boolean qtv;
+   long qtw;
+   String qtx = "";
+   BlockPos qty;
+   int qtz;
+   long qua;
+   int qub;
+   Object quc;
+   boolean qud;
+   int que;
+   int quf;
+   int qug;
+   long quh;
+   int qui;
+   long quj;
+   long quk;
+   boolean qul;
+   boolean qum;
+   long qun;
+   int quo;
+   int qup;
 
    public qsw() {
       this.qth.target(var0 -> false);
@@ -477,7 +477,7 @@ public final class qsw {
       }
    }
 
-   private void qus(qst var1, long var2) {
+   void qus(qst var1, long var2) {
       log(a.d("溺ᜌ鷎Ϊ蠭", 1857476704, -1063143764) + var1);
       this.qtm = var1;
       this.qtn = var2;
@@ -485,7 +485,7 @@ public final class qsw {
       this.que = 0;
    }
 
-   private void qut(long var1) {
+   void qut(long var1) {
       this.qvn(MinecraftClient.getInstance());
       this.qty = null;
       qst[] var3 = qst.values();
@@ -495,11 +495,11 @@ public final class qsw {
       }
    }
 
-   private void quu(String var1) {
+   void quu(String var1) {
       this.qtl.accept(a.c(557178258, "\ud9b4ꀞ⫌뒶㽥뷚ޓ") + var1);
    }
 
-   private static String quv(qst var0) {
+   static String quv(qst var0) {
       return switch (var0) {
          case FIND, SCAN -> a.d("ꤛ킫婾쑶俚쵱獃練撑\uee29榍鎅ᵖ蓫", -440302409, 88484253);
          case JUNK -> a.b("亷㝹붨⎦ꠏ", 1214532238);
@@ -515,7 +515,7 @@ public final class qsw {
       };
    }
 
-   private String quw() {
+   String quw() {
       ArrayList var1 = new ArrayList();
       if (this.qtp == null) {
          var1.add(a.c(-1848336077, "ꕷ\udcb6嘔젛䎳"));
@@ -541,12 +541,12 @@ public final class qsw {
       return var2 >= 0 && var2 < this.repairTo && !this.repairFailed();
    }
 
-   private int qux(ClientPlayerEntity var1) {
+   int qux(ClientPlayerEntity var1) {
       int var2 = Math.max(0, qpw.pickaxeDurability(var1));
       return Math.max(64, Math.min(768, (this.repairTo - var2) / 10 + 32));
    }
 
-   private void quy(World var1, ClientPlayerEntity var2) {
+   void quy(World var1, ClientPlayerEntity var2) {
       BlockPos var3 = var2.getBlockPos();
       double[] var4 = new double[]{Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE};
       BlockPos[] var5 = new BlockPos[3];
@@ -632,7 +632,7 @@ public final class qsw {
       return false;
    }
 
-   private void quz(String var1, BlockPos var2, ClientPlayerEntity var3) {
+   void quz(String var1, BlockPos var2, ClientPlayerEntity var3) {
       switch (var1) {
          case a.c(38664506, "讀胺\u0a31鑝"):
             this.qtp = this.qtp == null ? var2 : this.qtp;
@@ -651,7 +651,7 @@ public final class qsw {
       }
    }
 
-   private static void qva(String var0, BlockPos var1, BlockPos var2, BlockPos[] var3, double[] var4) {
+   static void qva(String var0, BlockPos var1, BlockPos var2, BlockPos[] var3, double[] var4) {
       if (var1 != null) {
          byte var5 = switch (var0) {
             case a.c(1447178763, "㉫䯋섀彬") -> 0;
@@ -666,7 +666,7 @@ public final class qsw {
       }
    }
 
-   private void qvb(World var1, ClientPlayerEntity var2) {
+   void qvb(World var1, ClientPlayerEntity var2) {
       this.qtk.clear();
       BlockPos var3 = var2.getBlockPos();
       ArrayList var4 = new ArrayList();
@@ -706,7 +706,7 @@ public final class qsw {
       }
    }
 
-   private static String qvc(SignBlockEntity var0) {
+   static String qvc(SignBlockEntity var0) {
       StringBuilder var1 = new StringBuilder();
 
       for (boolean var5 : new boolean[]{true, false}) {
@@ -718,7 +718,7 @@ public final class qsw {
       return var1.toString();
    }
 
-   private static BlockPos qvd(World var0, BlockPos var1, BlockState var2) {
+   static BlockPos qvd(World var0, BlockPos var1, BlockState var2) {
       Direction var3 = null;
       if (var2.getBlock() instanceof WallSignBlock) {
          var3 = var2.get(WallSignBlock.FACING);
@@ -736,7 +736,7 @@ public final class qsw {
       return qvg(var0.getBlockState(var1.down())) ? var1.down() : qve(var0, var1, 2);
    }
 
-   private static BlockPos qve(World var0, BlockPos var1, int var2) {
+   static BlockPos qve(World var0, BlockPos var1, int var2) {
       for (BlockPos var4 : BlockPos.iterateOutwards(var1, var2, var2, var2)) {
          if (qvg(var0.getBlockState(var4))) {
             return var4.toImmutable();
@@ -746,7 +746,7 @@ public final class qsw {
       return null;
    }
 
-   private static BlockPos qvf(World var0, BlockPos var1, int var2, Block var3) {
+   static BlockPos qvf(World var0, BlockPos var1, int var2, Block var3) {
       for (BlockPos var5 : BlockPos.iterateOutwards(var1, var2, var2, var2)) {
          if (var0.getBlockState(var5).isOf(var3)) {
             return var5.toImmutable();
@@ -756,12 +756,12 @@ public final class qsw {
       return null;
    }
 
-   private static boolean qvg(BlockState var0) {
+   static boolean qvg(BlockState var0) {
       Block var1 = var0.getBlock();
       return var1 instanceof ChestBlock || var1 instanceof BarrelBlock || var1 instanceof ShulkerBoxBlock;
    }
 
-   private int qvh(MinecraftClient var1, ClientPlayerEntity var2, tel var3, qsp var4, BlockPos var5, long var6) {
+   int qvh(MinecraftClient var1, ClientPlayerEntity var2, tel var3, qsp var4, BlockPos var5, long var6) {
       if (!var5.equals(this.qty)) {
          this.qvn(var1);
          this.qty = var5;
@@ -840,7 +840,7 @@ public final class qsw {
       }
    }
 
-   private static boolean qvi(World var0, BlockPos var1, BlockPos var2) {
+   static boolean qvi(World var0, BlockPos var1, BlockPos var2) {
       if (var1.equals(var2)) {
          return true;
       }
@@ -849,7 +849,7 @@ public final class qsw {
       return var3.getBlock() instanceof ChestBlock && var3.getBlock() == var0.getBlockState(var2).getBlock() && var1.getManhattanDistance(var2) == 1;
    }
 
-   private static double qvj(ClientPlayerEntity var0, BlockPos var1) {
+   static double qvj(ClientPlayerEntity var0, BlockPos var1) {
       Vec3d var2 = var0.getEyePos();
       Box var3 = new Box(var1);
       double var4 = Math.max(0.0, Math.max(var3.minX - var2.x, var2.x - var3.maxX));
@@ -858,7 +858,7 @@ public final class qsw {
       return Math.sqrt(var4 * var4 + var6 * var6 + var8 * var8);
    }
 
-   private static Vec3d qvk(World var0, ClientPlayerEntity var1, BlockPos var2) {
+   static Vec3d qvk(World var0, ClientPlayerEntity var1, BlockPos var2) {
       Vec3d var3 = var1.getEyePos();
       Vec3d var4 = var1.getRotationVec(1.0F);
       ArrayList var5 = new ArrayList();
@@ -891,7 +891,7 @@ public final class qsw {
       return var18;
    }
 
-   private static Vec3d qvl(ClientPlayerEntity var0, BlockPos var1) {
+   static Vec3d qvl(ClientPlayerEntity var0, BlockPos var1) {
       Vec3d var2 = var0.getEyePos();
       return new Vec3d(
          qvm(var2.x, var1.getX() + 0.3, var1.getX() + 0.7),
@@ -900,23 +900,23 @@ public final class qsw {
       );
    }
 
-   private static double qvm(double var0, double var2, double var4) {
+   static double qvm(double var0, double var2, double var4) {
       return Math.max(var2, Math.min(var4, var0));
    }
 
-   private void qvn(MinecraftClient var1) {
+   void qvn(MinecraftClient var1) {
       if (var1.player != null && var1.currentScreen instanceof HandledScreen) {
          var1.player.closeHandledScreen();
       }
    }
 
-   private void qvo(MinecraftClient var1, long var2) {
+   void qvo(MinecraftClient var1, long var2) {
       this.qvn(var1);
       this.qty = null;
       this.qut(var2);
    }
 
-   private boolean qvp(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   boolean qvp(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (!this.qud) {
          this.qud = true;
          this.qua = var3;
@@ -926,11 +926,11 @@ public final class qsw {
       }
    }
 
-   private ScreenHandler qvq(MinecraftClient var1) {
+   ScreenHandler qvq(MinecraftClient var1) {
       return var1.currentScreen instanceof HandledScreen var2 ? var2.getScreenHandler() : null;
    }
 
-   private boolean qvr(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean qvr(MinecraftClient var1, ClientPlayerEntity var2) {
       ScreenHandler var3 = this.qvq(var1);
       if (var3 == null) {
          return true;
@@ -958,7 +958,7 @@ public final class qsw {
       }
    }
 
-   private int qvs(MinecraftClient var1, ClientPlayerEntity var2, Item var3) {
+   int qvs(MinecraftClient var1, ClientPlayerEntity var2, Item var3) {
       ScreenHandler var4 = this.qvq(var1);
       if (var4 == null) {
          return -1;
@@ -975,7 +975,7 @@ public final class qsw {
       return var5;
    }
 
-   private boolean qvt(MinecraftClient var1, ClientPlayerEntity var2, Item var3, int var4) {
+   boolean qvt(MinecraftClient var1, ClientPlayerEntity var2, Item var3, int var4) {
       ScreenHandler var5 = this.qvq(var1);
       if (var5 == null) {
          return true;
@@ -1009,7 +1009,7 @@ public final class qsw {
       return false;
    }
 
-   private boolean qvu(MinecraftClient var1, ClientPlayerEntity var2, Predicate<ItemStack> var3) {
+   boolean qvu(MinecraftClient var1, ClientPlayerEntity var2, Predicate<ItemStack> var3) {
       ScreenHandler var4 = this.qvq(var1);
       if (var4 == null) {
          return true;
@@ -1040,7 +1040,7 @@ public final class qsw {
       return false;
    }
 
-   private boolean qvv(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean qvv(MinecraftClient var1, ClientPlayerEntity var2) {
       ScreenHandler var3 = this.qvq(var1);
       if (var3 == null) {
          return true;
@@ -1112,7 +1112,7 @@ public final class qsw {
       }
    }
 
-   private static int[] qvw(PlayerInventory var0) {
+   static int[] qvw(PlayerInventory var0) {
       for (int var1 = 0; var1 < 36; var1++) {
          if (dumpable(var0.getStack(var1))) {
             return new int[]{var1, 0};
@@ -1126,11 +1126,11 @@ public final class qsw {
       return var0.isOf(Items.DIAMOND_BLOCK) || var0.isOf(Items.GOLD_BLOCK) || var0.isOf(Items.ANCIENT_DEBRIS) || var0.isOf(Items.NETHERITE_SCRAP);
    }
 
-   private static boolean qvx(PlayerInventory var0) {
+   static boolean qvx(PlayerInventory var0) {
       return qvw(var0) != null;
    }
 
-   private boolean qvy(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean qvy(MinecraftClient var1, ClientPlayerEntity var2) {
       ScreenHandler var3 = this.qvq(var1);
       if (var3 == null) {
          return true;
@@ -1178,7 +1178,7 @@ public final class qsw {
       }
    }
 
-   private boolean qvz(MinecraftClient var1, ClientPlayerEntity var2, ScreenHandler var3) {
+   boolean qvz(MinecraftClient var1, ClientPlayerEntity var2, ScreenHandler var3) {
       ItemStack var4 = var3.getCursorStack();
       Slot var5 = null;
 
@@ -1206,15 +1206,15 @@ public final class qsw {
       return true;
    }
 
-   private boolean qwa(PlayerInventory var1) {
+   boolean qwa(PlayerInventory var1) {
       return qpw.count(var1, Items.DIAMOND) >= 25 || qpw.count(var1, Items.GOLD_INGOT) >= this.qwb(var1) + 9 || qpw.count(var1, Items.GOLD_NUGGET) >= 9;
    }
 
-   private int qwb(PlayerInventory var1) {
+   int qwb(PlayerInventory var1) {
       return this.qtp != null ? 15 : qpw.keepGold(var1);
    }
 
-   private void qwc(ClientPlayerEntity var1, long var2) {
+   void qwc(ClientPlayerEntity var1, long var2) {
       boolean var4 = this.qum;
       this.qum = false;
       if (var4 && this.needsRepair(var1)) {
@@ -1273,11 +1273,11 @@ public final class qsw {
       this.qut(var2);
    }
 
-   private boolean qwd(PlayerInventory var1) {
+   boolean qwd(PlayerInventory var1) {
       return this.qts != null && this.qup < 2 && !this.qti.xpFailed() && qpw.count(var1, Items.DIAMOND_BLOCK) > 2;
    }
 
-   private boolean qwe(MinecraftClient var1, ClientPlayerEntity var2, qof var3, qsp var4, long var5) {
+   boolean qwe(MinecraftClient var1, ClientPlayerEntity var2, qof var3, qsp var4, long var5) {
       PlayerInventory var7 = var2.getInventory();
       switch (this.quf) {
          case 0:
@@ -1461,7 +1461,7 @@ public final class qsw {
       return false;
    }
 
-   private static BlockPos qwf(World var0, ClientPlayerEntity var1) {
+   static BlockPos qwf(World var0, ClientPlayerEntity var1) {
       BlockPos var2 = var1.getBlockPos().down();
 
       for (BlockPos var4 : BlockPos.iterateOutwards(var2, 1, 0, 1)) {
@@ -1473,16 +1473,16 @@ public final class qsw {
       return null;
    }
 
-   private static boolean qwg(World var0, BlockPos var1) {
+   static boolean qwg(World var0, BlockPos var1) {
       BlockState var2 = var0.getBlockState(var1);
       return var2.isSolidBlock(var0, var1) && !var2.hasBlockEntity() && var2.createScreenHandlerFactory(var0, var1) == null;
    }
 
-   private static boolean qwh(MinecraftClient var0) {
+   static boolean qwh(MinecraftClient var0) {
       return var0.crosshairTarget instanceof BlockHitResult var1 && var1.getType() == Type.BLOCK ? qwg(var0.world, var1.getBlockPos()) : true;
    }
 
-   private void qwi(MinecraftClient var1) {
+   void qwi(MinecraftClient var1) {
       if (this.qul && var1.options != null && var1.getWindow() != null) {
          var1.options.useKey.setPressed(vzz.isPhysicallyDown(var1, var1.options.useKey));
       }

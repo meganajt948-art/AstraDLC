@@ -1,10 +1,10 @@
 package a;
 
 final class dxl {
-   private final dxy dxm;
-   private final int dxn;
+   final dxy dxm;
+   final int dxn;
 
-   private dxl(dxy tex, int tintIndex) {
+   dxl(dxy tex, int tintIndex) {
       this.dxm = tex;
       this.dxn = tintIndex;
    }

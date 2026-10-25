@@ -10,7 +10,7 @@ import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.text.Text;
 
 final class fbc {
-   private fbc() {
+   fbc() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -94,11 +94,11 @@ final class fbc {
       return false;
    }
 
-   private static void fbf(MinecraftClient var0, String var1) {
+   static void fbf(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fbg(MinecraftClient var0, String var1) {
+   static void fbg(MinecraftClient var0, String var1) {
       System.out
          .println(
             a.b("朠ẇ鑝ਦ膷ݒ봐㓷ꪯ⁊", 2029217625)

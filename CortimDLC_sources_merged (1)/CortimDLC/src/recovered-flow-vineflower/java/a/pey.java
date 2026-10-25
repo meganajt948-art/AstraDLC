@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
 public final class pey {
-   private final ItemStack pez;
-   private String pfa;
+   final ItemStack pez;
+   String pfa;
 
    public pey(ItemStack var1) {
       this.pez = var1;

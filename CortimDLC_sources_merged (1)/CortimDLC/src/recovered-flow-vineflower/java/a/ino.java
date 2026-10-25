@@ -3,9 +3,9 @@ package a;
 import net.minecraft.client.gui.DrawContext;
 
 final class ino extends imn {
-   private static final float inp = 20.0F;
-   private final vkl inq;
-   private final vcj inr;
+   static final float inp = 20.0F;
+   final vkl inq;
+   final vcj inr;
 
    ino(vkl var1) {
       super(var1);

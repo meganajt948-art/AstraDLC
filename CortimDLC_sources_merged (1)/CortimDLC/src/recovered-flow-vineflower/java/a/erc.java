@@ -1,8 +1,8 @@
 package a;
 
 public final class erc {
-   private final String erd;
-   private final String ere;
+   final String erd;
+   final String ere;
 
    public erc(String code, String message) {
       this.erd = code;

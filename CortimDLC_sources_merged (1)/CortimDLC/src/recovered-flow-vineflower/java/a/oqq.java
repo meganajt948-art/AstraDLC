@@ -1,10 +1,10 @@
 package a;
 
 final class oqq {
-   private final int oqr;
-   private final long oqs;
+   final int oqr;
+   final long oqs;
 
-   private oqq(int state, long at) {
+   oqq(int state, long at) {
       this.oqr = state;
       this.oqs = at;
    }

@@ -40,13 +40,13 @@ public final class tbf {
    public static final int N = 32;
    public static final int OUT = 4;
    public static final double C_SCALE = 2.0;
-   private static final double tbg = 1.5;
-   private static final int[] tbh = new int[]{0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24};
-   private static final int[][] tbi = new int[][]{
+   static final double tbg = 1.5;
+   static final int[] tbh = new int[]{0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24};
+   static final int[][] tbi = new int[][]{
       {0, 1}, {2, 3}, {4, 5}, {6, 7}, {8, 9}, {10, 11}, {12, 13}, {14, 15}, {16, 17}, {18, 19}, {20, 21}, {22, 23}, {28, 30}, {29, 31}
    };
 
-   private tbf() {
+   tbf() {
    }
 
    public static void raw(double[] var0, double[] var1) {
@@ -137,7 +137,7 @@ public final class tbf {
       return Math.signum(var0) * Math.log1p(Math.abs(var0) / 0.5) / 3.0;
    }
 
-   private static double tbl(double var0) {
+   static double tbl(double var0) {
       return 1.0 / (3.0 * (0.5 + Math.abs(var0)));
    }
 }

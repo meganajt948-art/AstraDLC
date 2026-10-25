@@ -29,30 +29,30 @@ public final class uxx {
    public static final int UNIFORM_SIZE = 4288;
    public static final int BOLT_SEGMENTS = 80;
    public static final int DROPS = 16;
-   private static final int uxy = 512;
-   private static final int uxz = 128;
-   private static @Nullable GpuBuffer uya;
-   private static @Nullable GpuTexture uyb;
-   private static @Nullable GpuTextureView uyc;
-   private static @Nullable GpuTexture uyd;
-   private static @Nullable GpuTextureView uye;
-   private static @Nullable GpuTexture uyf;
-   private static @Nullable GpuTextureView uyg;
-   private static @Nullable GpuTexture uyh;
-   private static @Nullable GpuTextureView uyi;
-   private static int uyj = -1;
-   private static int uyk = -1;
-   private static boolean uyl;
-   private static boolean uym;
-   private static boolean uyn;
-   private static final String[] uyo = new String[]{"sky", "wet", "rain", "grade", "drops"};
-   private static final ArrayDeque<GpuQuery> uyp = new ArrayDeque<>();
-   private static final ArrayDeque<Integer> uyq = new ArrayDeque<>();
-   private static final long[] uyr = new long[uyo.length];
-   private static long uys;
-   private static int uyt;
+   static final int uxy = 512;
+   static final int uxz = 128;
+   static @Nullable GpuBuffer uya;
+   static @Nullable GpuTexture uyb;
+   static @Nullable GpuTextureView uyc;
+   static @Nullable GpuTexture uyd;
+   static @Nullable GpuTextureView uye;
+   static @Nullable GpuTexture uyf;
+   static @Nullable GpuTextureView uyg;
+   static @Nullable GpuTexture uyh;
+   static @Nullable GpuTextureView uyi;
+   static int uyj = -1;
+   static int uyk = -1;
+   static boolean uyl;
+   static boolean uym;
+   static boolean uyn;
+   static final String[] uyo = new String[]{"sky", "wet", "rain", "grade", "drops"};
+   static final ArrayDeque<GpuQuery> uyp = new ArrayDeque<>();
+   static final ArrayDeque<Integer> uyq = new ArrayDeque<>();
+   static final long[] uyr = new long[uyo.length];
+   static long uys;
+   static int uyt;
 
-   private uxx() {
+   uxx() {
    }
 
    public static boolean upload(Consumer<Std140Builder> var0) {
@@ -245,7 +245,7 @@ public final class uxx {
       uyw(uvq.STORM_DROPS, "drops", 4);
    }
 
-   private static void uyw(RenderPipeline var0, String var1, int var2) {
+   static void uyw(RenderPipeline var0, String var1, int var2) {
       if (uyl && uvq.ensure(var0) && uvq.ensure(uvq.BLUR_COPY)) {
          Framebuffer var3 = MinecraftClient.getInstance().getFramebuffer();
          GpuTextureView var4 = var3.getColorAttachmentView();
@@ -270,7 +270,7 @@ public final class uxx {
       }
    }
 
-   private static void uyx(CommandEncoder var0, GpuTextureView var1) {
+   static void uyx(CommandEncoder var0, GpuTextureView var1) {
       try (RenderPass var2 = var0.createRenderPass(() -> "Flow2 storm scene copy", uyc, OptionalInt.empty())) {
          var2.setPipeline(uvq.BLUR_COPY);
          var2.bindTexture("InSampler", var1, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
@@ -278,11 +278,11 @@ public final class uxx {
       }
    }
 
-   private static @Nullable GpuQuery uyy(CommandEncoder var0) {
+   static @Nullable GpuQuery uyy(CommandEncoder var0) {
       return uyn ? var0.timerQueryBegin() : null;
    }
 
-   private static void uyz(CommandEncoder var0, @Nullable GpuQuery var1, int var2) {
+   static void uyz(CommandEncoder var0, @Nullable GpuQuery var1, int var2) {
       if (var1 != null) {
          var0.timerQueryEnd(var1);
          uyp.add(var1);
@@ -292,7 +292,7 @@ public final class uxx {
       uzb();
    }
 
-   private static void uza(String var0, Throwable var1) {
+   static void uza(String var0, Throwable var1) {
       uym = true;
       uyl = false;
       System.out.println("storm " + var0 + " failed: " + var1);
@@ -331,7 +331,7 @@ public final class uxx {
       return var0;
    }
 
-   private static void uzb() {
+   static void uzb() {
       while (!uyp.isEmpty()) {
          OptionalLong var0 = uyp.peek().getValue();
          if (var0.isEmpty()) {
@@ -379,7 +379,7 @@ public final class uxx {
       uym = false;
    }
 
-   private static void uzc(GpuDevice var0, int var1, int var2) {
+   static void uzc(GpuDevice var0, int var1, int var2) {
       if (uya == null) {
          uya = var0.createBuffer(() -> "Flow2 storm", 136, 4288L);
       }
@@ -408,7 +408,7 @@ public final class uxx {
       }
    }
 
-   private static void uzd() {
+   static void uzd() {
       if (uyi != null) {
          uyi.close();
          uyh.close();

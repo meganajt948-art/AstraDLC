@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class eyx {
-   private static final long eyy = 60L;
-   private static final int eyz = 6;
-   private static final String[] eza = new String[]{
+   static final long eyy = 60L;
+   static final int eyz = 6;
+   static final String[] eza = new String[]{
       a.c(773155805, "殿ሆ飞ڴ费ெ놁㡱\ua62fⲆꭖ內\udff4䙟찛"),
       a.d("\ue5b7鰎ᛖ袼̱藜㾌뙿⠻ꊍ╗\udf6f凼졗䈓", -1713857707, 676429440),
       a.c(2066134992, "랲츋䓓\udab9儴ퟙ涌\ue465稺\uf083睇赪Ϲ驒ဖ"),
@@ -85,11 +85,11 @@ public final class eyx {
       a.c(-1907942152, "Ვ攲\uefec熝節糶운佐턘宨\udc27☍ꣁㅴ묵㷒蟟ࡗ鋿ᒶ鵓\ue715槺\uf26f琊ﻌ"),
       a.c(931609648, "㱓䗴켪兛\uda90尰\ue672澖\uf1de筮ﳡۈ蠉ᆯ鯯ᴈꜚ⢏눦㑠")
    };
-   private static volatile boolean ezb;
-   private static final AtomicInteger ezc = new AtomicInteger();
-   private static volatile int ezd;
+   static volatile boolean ezb;
+   static final AtomicInteger ezc = new AtomicInteger();
+   static volatile int ezd;
 
-   private eyx() {
+   eyx() {
    }
 
    public static boolean done() {
@@ -203,7 +203,7 @@ public final class eyx {
       }
    }
 
-   private static Set<String> ezg(long var0) {
+   static Set<String> ezg(long var0) {
       LinkedHashSet var2 = new LinkedHashSet();
 
       try {
@@ -241,7 +241,7 @@ public final class eyx {
       return var2;
    }
 
-   private static JsonObject ezh(String var0) {
+   static JsonObject ezh(String var0) {
       try {
          return JsonParser.parseString(new String(eul.bytes(var0), StandardCharsets.UTF_8)).getAsJsonObject();
       } catch (Throwable var2) {
@@ -249,7 +249,7 @@ public final class eyx {
       }
    }
 
-   private static void ezi(JsonElement var0, Set<String> var1) {
+   static void ezi(JsonElement var0, Set<String> var1) {
       if (var0 != null && !var0.isJsonNull()) {
          if (var0.isJsonObject()) {
             for (Entry var3 : var0.getAsJsonObject().entrySet()) {

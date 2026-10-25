@@ -6,10 +6,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 final class hgq {
-   private static String hgr;
-   private static int hgs = -1;
+   static String hgr;
+   static int hgs = -1;
 
-   private hgq() {
+   hgq() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -173,7 +173,7 @@ final class hgq {
       return false;
    }
 
-   private static void hgv(MinecraftClient var0, float var1, float var2, String var3, int var4) {
+   static void hgv(MinecraftClient var0, float var1, float var2, String var3, int var4) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
@@ -182,7 +182,7 @@ final class hgq {
       hgs = var4 + 10;
    }
 
-   private static vmo hgw(kfe var0, String var1) {
+   static vmo hgw(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -192,11 +192,11 @@ final class hgq {
       throw new IllegalStateException(var0.getName() + a.d("\udeacꝕⶏ돬㡨뺗Ӆ赻", -396659611, -2106610975) + var1);
    }
 
-   private static void hgx(MinecraftClient var0, String var1) {
+   static void hgx(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void hgy(MinecraftClient var0, String var1) {
+   static void hgy(MinecraftClient var0, String var1) {
       System.out.println(a.c(118715274, "珳\u0a54肎ỵ镤ᎁ꧃․빼㒙") + var1 + a.b("섀룑㉢", -1503739613) + var0.getCurrentFps() + a.b("▆山횴䣆", -87480926));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

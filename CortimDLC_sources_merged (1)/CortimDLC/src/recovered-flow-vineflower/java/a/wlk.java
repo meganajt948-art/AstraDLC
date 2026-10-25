@@ -29,15 +29,15 @@ public final class wlk {
    public static final vkl CHAT = new vkl(a.d("핉곓☉롭㏮딜གྷ蚲ᣰ鉗ᖉ\uefff愧\uf883狁\uf426", -1964050937, 595469085), true);
    public static final List<vmo> DISPLAY = List.of(COLOR, COORDS, DISTANCE, SCALE, CHAT);
    public static final List<vmo> ALL = List.of(ENABLED, COLOR, COORDS, DISTANCE, SCALE, CHAT);
-   private static final String wll = a.d("슝묨ㇼ꾆\u2457ꋷᢷ酁༌藳ɵ\uf81d盙\uef7f攩\ue3c0妒홝䳦", 1813012103, 533175396);
+   static final String wll = a.d("슝묨ㇼ꾆\u2457ꋷᢷ酁༌藳ɵ\uf81d盙\uef7f攩\ue3c0妒홝䳦", 1813012103, 533175396);
    public static final int[] COLORS = new int[]{-7643914, -12877066, -14494738, -14498466, -340971, -429290, -1096636, -1292135};
-   private static final Gson wlm = new GsonBuilder().setPrettyPrinting().create();
-   private static final List<wkq> wln = new ArrayList<>();
-   private static boolean wlo;
-   private static int wlp;
-   private static final Map<wkq, wkq> wlq = new IdentityHashMap<>();
+   static final Gson wlm = new GsonBuilder().setPrettyPrinting().create();
+   static final List<wkq> wln = new ArrayList<>();
+   static boolean wlo;
+   static int wlp;
+   static final Map<wkq, wkq> wlq = new IdentityHashMap<>();
 
-   private wlk() {
+   wlk() {
    }
 
    public static int version() {
@@ -84,7 +84,7 @@ public final class wlk {
       }
    }
 
-   private static wkq wlt(wkq var0) {
+   static wkq wlt(wkq var0) {
       MinecraftClient var1 = MinecraftClient.getInstance();
       if (var1.world != null
          && a.d("\uee80霵ᷡ莛ࡊ軪㒪뵜⌑ꧮ\u2e68퐀嫄썢䤴쿝疏懲惻", 742262319, -1756239663).equals(var0.dimension)
@@ -196,7 +196,7 @@ public final class wlk {
       };
    }
 
-   private static void wlu() {
+   static void wlu() {
       if (!wlo) {
          wlo = true;
          String var0 = ewk.get(a.c(1204147723, "홵꿒┙뭡ォ똞ొ薡\u1bf9"));
@@ -217,7 +217,7 @@ public final class wlk {
       }
    }
 
-   private static void wlv() {
+   static void wlv() {
       ewk.put(a.d("휶꺑\u245a먢\u31ea띝ഉ蓢᪺", 420154200, -1658463216), wlm.toJson(wln));
    }
 }

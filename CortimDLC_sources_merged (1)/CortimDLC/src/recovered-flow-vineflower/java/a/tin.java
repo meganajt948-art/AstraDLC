@@ -8,6 +8,6 @@ final class tin {
    String issue = "";
    tik cloud = tik.NONE;
 
-   private tin() {
+   tin() {
    }
 }

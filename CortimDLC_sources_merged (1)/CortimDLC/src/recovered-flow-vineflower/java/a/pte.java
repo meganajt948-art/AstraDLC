@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
 
 public final class pte {
-   private pte() {
+   pte() {
    }
 
    public static BlockPos find(MinecraftClient var0, BlockPos var1, String... var2) {

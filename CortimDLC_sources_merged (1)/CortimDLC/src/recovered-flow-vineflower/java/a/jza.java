@@ -1,10 +1,10 @@
 package a;
 
 public final class jza {
-   private final uok jzb;
-   private final uok jzc;
-   private final boolean jzd;
-   private final int jze;
+   final uok jzb;
+   final uok jzc;
+   final boolean jzd;
+   final int jze;
 
    public jza(uok var1, uok var2) {
       this(var1, var2, false, -1);

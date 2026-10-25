@@ -12,12 +12,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
 final class hge {
-   private static final int hgf = 20;
-   private static final int hgg = 5;
-   private static int hgh;
-   private static boolean hgi;
+   static final int hgf = 20;
+   static final int hgg = 5;
+   static int hgh;
+   static boolean hgi;
 
-   private hge() {
+   hge() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -90,7 +90,7 @@ final class hge {
       }
    }
 
-   private static void hgl(MinecraftClient var0, int var1) {
+   static void hgl(MinecraftClient var0, int var1) {
       var0.getServer().execute(() -> {
          ServerPlayerEntity var2 = var0.getServer().getPlayerManager().getPlayer(var0.player.getName().getString());
          var2.getInventory().clear();
@@ -101,7 +101,7 @@ final class hge {
       var0.player.getInventory().setSelectedSlot(0);
    }
 
-   private static void hgm(MinecraftClient var0) {
+   static void hgm(MinecraftClient var0) {
       var0.player.setPitch(89.0F);
       var0.player.lastPitch = 89.0F;
       var0.interactionManager.interactItem(var0.player, Hand.MAIN_HAND);
@@ -113,7 +113,7 @@ final class hge {
          );
    }
 
-   private static void hgn(ClientPlayerEntity var0, String var1, int var2) {
+   static void hgn(ClientPlayerEntity var0, String var1, int var2) {
       boolean var3 = var0.getMainHandStack().isOf(Items.MACE);
       hgi = hgi | (var3 && !var0.isOnGround());
       if (var2 % 5 == 0) {
@@ -135,14 +135,14 @@ final class hge {
       }
    }
 
-   private static void hgo(boolean var0, String var1) {
+   static void hgo(boolean var0, String var1) {
       if (!var0) {
          hgh++;
          System.out.println(a.b("\udd99ꐶ⻢낙㬊뷶ީ蹚ဃ髷ᵰ\ue710槑\uf067穠ﳒ䚖쥊叿햦尚☍ꢹ㍠딚㿂虰ࡿ銒", 1924652531) + var1);
       }
    }
 
-   private static void hgp(MinecraftClient var0, String var1) {
+   static void hgp(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

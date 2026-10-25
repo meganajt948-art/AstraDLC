@@ -15,18 +15,18 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public final class sus {
-   private static final swb sut = new swb(vek.SEMIBOLD, 6.6F);
-   private static final swb suu = new swb(vek.MEDIUM, 5.8F);
-   private static final int suv = 48;
-   private static final float suw = 4.0F;
-   private static final float sux = 11.5F;
-   private static final float suy = 8.5F;
-   private static final List<sup> suz = new ArrayList<>();
-   private static final List<sup> sva = new ArrayList<>();
-   private static long svb = Long.MIN_VALUE;
-   private static long svc = -1L;
+   static final swb sut = new swb(vek.SEMIBOLD, 6.6F);
+   static final swb suu = new swb(vek.MEDIUM, 5.8F);
+   static final int suv = 48;
+   static final float suw = 4.0F;
+   static final float sux = 11.5F;
+   static final float suy = 8.5F;
+   static final List<sup> suz = new ArrayList<>();
+   static final List<sup> sva = new ArrayList<>();
+   static long svb = Long.MIN_VALUE;
+   static long svc = -1L;
 
-   private sus() {
+   sus() {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
@@ -82,7 +82,7 @@ public final class sus {
       }
    }
 
-   private static void svf(MinecraftClient var0, rfl var1) {
+   static void svf(MinecraftClient var0, rfl var1) {
       suz.clear();
       double var2 = var1.range.get();
       Box var4 = var0.player.getBoundingBox().expand(var2, var2 * 0.6, var2);
@@ -117,7 +117,7 @@ public final class sus {
       }
    }
 
-   private static int svg(ItemStack var0, boolean var1) {
+   static int svg(ItemStack var0, boolean var1) {
       if (!var1) {
          return -723722;
       }
@@ -132,7 +132,7 @@ public final class sus {
       return var4 == null ? -723722 : ujt.lerp(0xFF000000 | var4, -1, 0.2F);
    }
 
-   private static void svh(DrawContext var0, rfl var1, sup var2, float var3) {
+   static void svh(DrawContext var0, rfl var1, sup var2, float var3) {
       float var4 = (float)Math.max(0.35, Math.min(1.0, 7.0 / Math.max(0.1, var2.distance)));
       float var5 = (float)var1.size.get() * (0.35F + 0.65F * var4);
       swh.step = swh.stepFor(var5);

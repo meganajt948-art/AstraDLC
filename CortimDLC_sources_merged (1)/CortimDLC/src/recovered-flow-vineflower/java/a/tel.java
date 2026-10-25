@@ -8,89 +8,89 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public final class tel {
-   private static final double tem = 3.0;
-   private static final double ten = 8.0;
-   private static final double teo = 4.0;
-   private final Random tep = new Random();
-   private final taf teq = new taf();
-   private final double[] ter = new double[32];
-   private final double[] tes = new double[2];
-   private final tbm tet = new tbm();
-   private tck teu;
-   private tai tev;
-   private double tew = Double.NaN;
-   private double tex = Double.NaN;
-   private Object tey;
-   private boolean tez;
-   private boolean tfa;
-   private boolean tfb;
-   private double tfc = 0.5;
-   private double tfd;
-   private double tfe;
-   private double tff;
-   private double tfg;
-   private double tfh;
-   private double tfi = 0.5;
-   private double tfj = 1.0;
-   private double tfk;
-   private double tfl;
-   private double tfm = 3.0;
-   private double tfn = 8.0;
-   private double tfo;
-   private double tfp;
-   private double tfq;
-   private double tfr;
-   private double tfs;
-   private double tft;
-   private int tfu;
-   private int tfv;
-   private int tfw;
-   private int tfx = -1;
-   private double tfy = 1.0;
-   private boolean tfz;
-   private boolean tga;
-   private double tgb;
-   private double tgc;
-   private double tgd;
-   private double tge;
-   private double tgf;
-   private double tgg;
-   private double tgh;
-   private double tgi;
-   private final double[] tgj = new double[8];
-   private double tgk;
-   private double tgl;
-   private double tgm;
-   private double tgn;
-   private int tgo;
-   private int tgp;
-   private boolean tgq;
-   private float tgr;
-   private float tgs;
-   private double tgt;
-   private double tgu;
-   private double tgv;
-   private double tgw;
-   private boolean tgx;
-   private boolean tgy;
-   private boolean tgz;
-   private double tha;
-   private double thb;
-   private double thc;
-   private double thd;
-   private double the;
-   private double thf;
-   private double thg;
-   private double thh;
-   private boolean thi;
-   private float thj;
-   private float thk;
-   private double thl;
-   private double thm;
-   private long thn;
-   private double tho = 0.3;
-   private double thp;
-   private long thq;
+   static final double tem = 3.0;
+   static final double ten = 8.0;
+   static final double teo = 4.0;
+   final Random tep = new Random();
+   final taf teq = new taf();
+   final double[] ter = new double[32];
+   final double[] tes = new double[2];
+   final tbm tet = new tbm();
+   tck teu;
+   tai tev;
+   double tew = Double.NaN;
+   double tex = Double.NaN;
+   Object tey;
+   boolean tez;
+   boolean tfa;
+   boolean tfb;
+   double tfc = 0.5;
+   double tfd;
+   double tfe;
+   double tff;
+   double tfg;
+   double tfh;
+   double tfi = 0.5;
+   double tfj = 1.0;
+   double tfk;
+   double tfl;
+   double tfm = 3.0;
+   double tfn = 8.0;
+   double tfo;
+   double tfp;
+   double tfq;
+   double tfr;
+   double tfs;
+   double tft;
+   int tfu;
+   int tfv;
+   int tfw;
+   int tfx = -1;
+   double tfy = 1.0;
+   boolean tfz;
+   boolean tga;
+   double tgb;
+   double tgc;
+   double tgd;
+   double tge;
+   double tgf;
+   double tgg;
+   double tgh;
+   double tgi;
+   final double[] tgj = new double[8];
+   double tgk;
+   double tgl;
+   double tgm;
+   double tgn;
+   int tgo;
+   int tgp;
+   boolean tgq;
+   float tgr;
+   float tgs;
+   double tgt;
+   double tgu;
+   double tgv;
+   double tgw;
+   boolean tgx;
+   boolean tgy;
+   boolean tgz;
+   double tha;
+   double thb;
+   double thc;
+   double thd;
+   double the;
+   double thf;
+   double thg;
+   double thh;
+   boolean thi;
+   float thj;
+   float thk;
+   double thl;
+   double thm;
+   long thn;
+   double tho = 0.3;
+   double thp;
+   long thq;
 
    public void use(tck var1) {
       if (var1 != this.teu) {
@@ -225,11 +225,11 @@ public final class tel {
       }
    }
 
-   private void tht(MinecraftClient var1, ClientPlayerEntity var2, Entity var3, int var4, boolean var5) {
+   void tht(MinecraftClient var1, ClientPlayerEntity var2, Entity var3, int var4, boolean var5) {
       this.thu(var1, var2, var3, var3 == null ? null : var3.getBoundingBox(), var4, var5);
    }
 
-   private void thu(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Box var4, int var5, boolean var6) {
+   void thu(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Box var4, int var5, boolean var6) {
       this.tgx = var6;
       float var7 = var2.getYaw();
       float var8 = var2.getPitch();
@@ -319,7 +319,7 @@ public final class tel {
       this.tgw += var3;
    }
 
-   private void thv(float var1, float var2) {
+   void thv(float var1, float var2) {
       this.tgt = this.tgq ? this.tgv : 0.0;
       this.tgu = this.tgq ? this.tgw : 0.0;
       if (this.tgq && this.tga) {
@@ -342,7 +342,7 @@ public final class tel {
       this.tgq = true;
    }
 
-   private boolean thw(ClientPlayerEntity var1, Object var2, Box var3, Vec3d var4, int var5, boolean var6, double var7, double var9, float var11, float var12) {
+   boolean thw(ClientPlayerEntity var1, Object var2, Box var3, Vec3d var4, int var5, boolean var6, double var7, double var9, float var11, float var12) {
       if (this.tev == null || var2 == null) {
          this.drop();
          return false;
@@ -463,7 +463,7 @@ public final class tel {
       }
    }
 
-   private boolean thx(Vec3d var1, Box var2, float var3, float var4) {
+   boolean thx(Vec3d var1, Box var2, float var3, float var4) {
       tbm var5 = new tbm();
       return !tbp.aim(
             var1.x,
@@ -482,7 +482,7 @@ public final class tel {
          : Math.hypot(tbp.wrap(var5.yaw - var3), var5.pitch - var4) >= 15.0;
    }
 
-   private void thy(Object var1, boolean var2, int var3) {
+   void thy(Object var1, boolean var2, int var3) {
       this.tey = var1;
       this.tez = var2;
       this.tga = false;
@@ -518,7 +518,7 @@ public final class tel {
       }
    }
 
-   private void thz() {
+   void thz() {
       this.tet.yaw = this.tfk;
       this.tet.pitch = this.tfl;
       this.tet.bw = this.tfm;
@@ -530,7 +530,7 @@ public final class tel {
       this.tet.dist = 4.0;
    }
 
-   private double[] tia() {
+   double[] tia() {
       if (!Double.isNaN(this.tew)) {
          double var5 = this.teu != null && this.teu.aimU.length != 0
             ? this.teu.aimU[this.tep.nextInt(this.teu.aimU.length)] * (this.teu.mirror && this.tep.nextBoolean() ? -1.0 : 1.0)
@@ -546,19 +546,19 @@ public final class tel {
       }
    }
 
-   private boolean tib() {
+   boolean tib() {
       return this.teu != null && this.teu.ownAim() && Double.isNaN(this.tew);
    }
 
-   private double tic(int var1) {
+   double tic(int var1) {
       return Math.max(-0.95, Math.min(0.95, this.teu.chainU[var1] * this.tfy));
    }
 
-   private double tid(int var1) {
+   double tid(int var1) {
       return Math.max(0.02, Math.min(0.98, this.teu.chainV[var1]));
    }
 
-   private void tie() {
+   void tie() {
       if (this.tfu < this.tfv) {
          this.tfu++;
          double var3 = (double)this.tfu / this.tfv;
@@ -585,7 +585,7 @@ public final class tel {
       }
    }
 
-   private void tif() {
+   void tif() {
       if (this.tib() && this.tfx >= 0 && this.tfx < this.teu.chainU.length) {
          this.tie();
       } else if (this.tfu < this.tfv) {
@@ -608,7 +608,7 @@ public final class tel {
       }
    }
 
-   private static double tig(double var0, double var2) {
+   static double tig(double var0, double var2) {
       if (var0 * var2 <= 0.0) {
          return 0.0;
       }
@@ -617,7 +617,7 @@ public final class tel {
       return Math.abs(var0) > var4 ? Math.copySign(var4, var2) : var0;
    }
 
-   private static double tih(double var0, double var2, double var4) {
+   static double tih(double var0, double var2, double var4) {
       double var6 = var0 * var0;
       double var8 = var6 * var0;
       return (var8 - 2.0 * var6 + var0) * var2 + (-2.0 * var8 + 3.0 * var6) * var4 + (var8 - var6) * var4;
@@ -678,7 +678,7 @@ public final class tel {
       this.thn = 0L;
    }
 
-   private void tii(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5) {
+   void tii(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5) {
       double var7 = tcz.unit(var1);
       if (!(var7 <= 0.0)) {
          if (this.tfd > 0.0) {

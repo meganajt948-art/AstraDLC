@@ -26,53 +26,53 @@ import net.minecraft.text.Text;
 import org.joml.Matrix3x2fStack;
 
 public final class jos extends Screen {
-   private static final float jot = 268.0F;
-   private static final float jou = 218.0F;
-   private static final float jov = 46.0F;
-   private static final float jow = 28.0F;
-   private static final float jox = 4.0F;
-   private static final float joy = 50.0F;
-   private static final Pattern joz = Pattern.compile(a.c(-1434253870, "֛簰\uf68f梉\ue365斘\udf9c嘧졥䋀앵㼆뇷⠎ꉂ⒮黦ᅼ"));
-   private static final Map<UUID, SkinTextures> jpa = new HashMap<>();
-   private static final Map<UUID, CompletableFuture<?>> jpb = new HashMap<>();
-   private final Screen jpc;
-   private final kap jpd = new kap();
-   private final kam jpe = new kam();
-   private final kbs jpf = kbs.selected();
-   private final jsi jpg = new jsi(this.jpf.particles, 11L);
-   private List<jyi> jph = new ArrayList<>();
-   private final Map<Object, jop> jpi = new IdentityHashMap<>();
-   private final List<jop> jpj = new ArrayList<>();
-   private final vcj jpk = new vcj(14.0F);
-   private final vcj jpl = new vcj(14.0F);
-   private final vcj jpm = new vcj(14.0F);
-   private final vcj jpn = new vcj(14.0F);
-   private final vcj jpo = new vcj(12.0F);
-   private final vcj jpp = new vcj(9.0F);
-   private String jpq = "";
-   private boolean jpr = true;
-   private float jps = -10.0F;
-   private float jpt = -10.0F;
-   private float jpu = -10.0F;
-   private String jpv = "";
-   private int jpw = 16777215;
-   private float jpx = -10.0F;
-   private Object jpy;
-   private Object jpz;
-   private float jqa;
-   private float jqb;
-   private float jqc;
-   private float jqd = -1.0F;
-   private float jqe = -1.0F;
-   private boolean jqf;
-   private float jqg;
-   private float jqh;
-   private long jqi;
-   private float jqj;
-   private float jqk = 1.0F;
-   private float jql = 480.0F;
-   private float jqm = 270.0F;
-   private static final String[] jqn = new String[]{
+   static final float jot = 268.0F;
+   static final float jou = 218.0F;
+   static final float jov = 46.0F;
+   static final float jow = 28.0F;
+   static final float jox = 4.0F;
+   static final float joy = 50.0F;
+   static final Pattern joz = Pattern.compile(a.c(-1434253870, "֛簰\uf68f梉\ue365斘\udf9c嘧졥䋀앵㼆뇷⠎ꉂ⒮黦ᅼ"));
+   static final Map<UUID, SkinTextures> jpa = new HashMap<>();
+   static final Map<UUID, CompletableFuture<?>> jpb = new HashMap<>();
+   final Screen jpc;
+   final kap jpd = new kap();
+   final kam jpe = new kam();
+   final kbs jpf = kbs.selected();
+   final jsi jpg = new jsi(this.jpf.particles, 11L);
+   List<jyi> jph = new ArrayList<>();
+   final Map<Object, jop> jpi = new IdentityHashMap<>();
+   final List<jop> jpj = new ArrayList<>();
+   final vcj jpk = new vcj(14.0F);
+   final vcj jpl = new vcj(14.0F);
+   final vcj jpm = new vcj(14.0F);
+   final vcj jpn = new vcj(14.0F);
+   final vcj jpo = new vcj(12.0F);
+   final vcj jpp = new vcj(9.0F);
+   String jpq = "";
+   boolean jpr = true;
+   float jps = -10.0F;
+   float jpt = -10.0F;
+   float jpu = -10.0F;
+   String jpv = "";
+   int jpw = 16777215;
+   float jpx = -10.0F;
+   Object jpy;
+   Object jpz;
+   float jqa;
+   float jqb;
+   float jqc;
+   float jqd = -1.0F;
+   float jqe = -1.0F;
+   boolean jqf;
+   float jqg;
+   float jqh;
+   long jqi;
+   float jqj;
+   float jqk = 1.0F;
+   float jql = 480.0F;
+   float jqm = 270.0F;
+   static final String[] jqn = new String[]{
       a.b("\u0fdc癉ﲄ拺\ue93f", 432738186),
       a.d("꥓탖娘쑵侥", 347678702, -1017934082),
       a.d("\ud9b6ꀾ⫶뒈㽌", 1361288621, 1436304466),
@@ -90,7 +90,7 @@ public final class jos extends Screen {
       a.b("吙ⶉꝃ㤥", -438807469),
       a.b("펵ꨪ\u20f4뺞㕖", 643945458)
    };
-   private static final String[] jqo = new String[]{
+   static final String[] jqo = new String[]{
       a.d("ূ灚爵", 193236430, -936082359),
       a.b("蕒ﳛ瘋\ue870", -710966015),
       a.c(566737386, "릨쀳䫣풊"),
@@ -123,7 +123,7 @@ public final class jos extends Screen {
       }
    }
 
-   private void jqr(float var1, boolean var2) {
+   void jqr(float var1, boolean var2) {
       this.jph = jyw.accounts();
       IdentityHashMap var3 = new IdentityHashMap<>(this.jpi);
       this.jpi.clear();
@@ -229,15 +229,15 @@ public final class jos extends Screen {
       }
    }
 
-   private float jqs() {
+   float jqs() {
       return (this.jql - 268.0F) * 0.5F;
    }
 
-   private float jqt() {
+   float jqt() {
       return (this.jqm - 218.0F) * 0.5F + 4.0F;
    }
 
-   private void jqu(DrawContext var1, GpuTextureView var2, float var3, float var4, float var5, float var6, float var7) {
+   void jqu(DrawContext var1, GpuTextureView var2, float var3, float var4, float var5, float var6, float var7) {
       float var8 = 14.0F;
       int var9 = this.jpf.accent;
       uut.shadow(var1, 0.0F, 6.0F, 268.0F, 218.0F, var8, 28.0F, jrm(0, 0.45F));
@@ -252,7 +252,7 @@ public final class jos extends Screen {
       this.jrc(var1, var2, var3, var4, var5, var9);
    }
 
-   private void jqv(DrawContext var1, float var2, float var3, int var4) {
+   void jqv(DrawContext var1, float var2, float var3, int var4) {
       uut.round(var1, 14.0F, 13.0F, 22.0F, 22.0F, 7.0F, jrm(var4, 0.16F));
       uut.outline(var1, 14.0F, 13.0F, 22.0F, 22.0F, 7.0F, 0.6F, jrm(var4, 0.45F));
       vjf.draw(var1, vhz.ACCOUNTS, 25.0F, 24.0F, 12.0F, jrm(kce.mix(var4, 16777215, 0.3F), 1.0F));
@@ -289,7 +289,7 @@ public final class jos extends Screen {
       uut.rect(var1, 12.0F, 45.5F, 244.0F, 0.6F, jrm(16777215, 0.08F));
    }
 
-   private static void jqw(DrawContext var0, float var1, float var2, float var3, float var4) {
+   static void jqw(DrawContext var0, float var1, float var2, float var3, float var4) {
       float var5 = var3 * 0.1F;
       float var6 = (var3 - var5) * 0.5F;
       float var7 = var1 - var3 * 0.5F;
@@ -301,15 +301,15 @@ public final class jos extends Screen {
       uut.rect(var0, var7 + var6 + var5, var8 + var6 + var5, var6, var6, jrm(16759040, var9));
    }
 
-   private float jqx() {
+   float jqx() {
       return 52.0F;
    }
 
-   private float jqy() {
+   float jqy() {
       return 116.0F;
    }
 
-   private void jqz(DrawContext var1, float var2, float var3, float var4, int var5) {
+   void jqz(DrawContext var1, float var2, float var3, float var4, int var5) {
       float var6 = this.jqx();
       float var7 = this.jqy();
       float var8 = Math.max(0.0F, this.jph.size() * 32.0F - 4.0F - var7);
@@ -355,7 +355,7 @@ public final class jos extends Screen {
       }
    }
 
-   private void jra(DrawContext var1, float var2, float var3, int var4) {
+   void jra(DrawContext var1, float var2, float var3, int var4) {
       float var5 = var2 + var3 * 0.5F;
       vjf.draw(var1, vhz.USER_PLUS, 134.0F, var5 - 12.0F, 18.0F, jrm(var4, 0.8F));
       vdn var6 = veo.semibold(8.0F);
@@ -379,7 +379,7 @@ public final class jos extends Screen {
       );
    }
 
-   private void jrb(DrawContext var1, jop var2, float var3, float var4, float var5, float var6, boolean var7, float var8, int var9) {
+   void jrb(DrawContext var1, jop var2, float var3, float var4, float var5, float var6, boolean var7, float var8, int var9) {
       float var10 = 248.0F;
       float var11 = vcq.outCubic(vcq.clamp01((var8 - var2.bornAt) / 0.4F));
       if (!(var11 <= 0.0F)) {
@@ -486,7 +486,7 @@ public final class jos extends Screen {
       }
    }
 
-   private void jrc(DrawContext var1, GpuTextureView var2, float var3, float var4, float var5, int var6) {
+   void jrc(DrawContext var1, GpuTextureView var2, float var3, float var4, float var5, int var6) {
       float var7 = 184.0F;
       float var8 = 12.0F;
       float var9 = 22.0F;
@@ -544,7 +544,7 @@ public final class jos extends Screen {
       this.jrd(var1, var19, var14, var9, vhz.PLUS, this.jpm.step(jrk(var3, var4, var19, var14, var9, var9), this.jqj), this.jpt, var5, var6, var6, var15);
    }
 
-   private void jrd(DrawContext var1, float var2, float var3, float var4, vhz var5, float var6, float var7, float var8, int var9, int var10, boolean var11) {
+   void jrd(DrawContext var1, float var2, float var3, float var4, vhz var5, float var6, float var7, float var8, int var9, int var10, boolean var11) {
       float var12 = vcq.clamp01((var8 - var7) / 0.4F);
       float var13 = var12 < 1.0F ? (float)Math.sin(Math.PI * vcq.clamp01(var12 * 2.4F)) : 0.0F;
       Matrix3x2fStack var14 = var1.getMatrices();
@@ -572,7 +572,7 @@ public final class jos extends Screen {
       var14.popMatrix();
    }
 
-   private static SkinTextures jre(jyi var0) {
+   static SkinTextures jre(jyi var0) {
       UUID var1 = var0.skin() != null ? var0.skin() : var0.uuid();
       SkinTextures var2 = jpa.get(var1);
       if (var2 != null) {
@@ -597,13 +597,13 @@ public final class jos extends Screen {
       return var3;
    }
 
-   private void jrf(String var1, int var2) {
+   void jrf(String var1, int var2) {
       this.jpv = var1;
       this.jpw = var2;
       this.jpx = kap.clock();
    }
 
-   private void jrg() {
+   void jrg() {
       this.jpt = kap.clock();
       String var1 = this.jpq.trim();
       if (!joz.matcher(var1).matches()) {
@@ -633,7 +633,7 @@ public final class jos extends Screen {
       }
    }
 
-   private void jrh() {
+   void jrh() {
       this.jpu = kap.clock();
       ThreadLocalRandom var1 = ThreadLocalRandom.current();
       String var2 = jqn[var1.nextInt(jqn.length)] + jqo[var1.nextInt(jqo.length)];
@@ -645,7 +645,7 @@ public final class jos extends Screen {
       this.jpr = true;
    }
 
-   private void jri(jop var1) {
+   void jri(jop var1) {
       if (this.jpy == null) {
          if (jyw.disabled()) {
             this.jrf(
@@ -830,7 +830,7 @@ public final class jos extends Screen {
       return true;
    }
 
-   private void jrj() {
+   void jrj() {
       String var1 = this.client.keyboard.getClipboard();
       StringBuilder var2 = new StringBuilder(this.jpq);
 
@@ -859,17 +859,17 @@ public final class jos extends Screen {
       vdn.setRenderScale(1.0F);
    }
 
-   private static boolean jrk(float var0, float var1, float var2, float var3, float var4, float var5) {
+   static boolean jrk(float var0, float var1, float var2, float var3, float var4, float var5) {
       return var0 >= var2 && var1 >= var3 && var0 < var2 + var4 && var1 < var3 + var5;
    }
 
-   private static float jrl(float var0, float var1, float var2, float var3) {
+   static float jrl(float var0, float var1, float var2, float var3) {
       float var4 = var0 - var2;
       float var5 = var1 - var3;
       return (float)Math.sqrt(var4 * var4 + var5 * var5);
    }
 
-   private static int jrm(int var0, float var1) {
+   static int jrm(int var0, float var1) {
       return kce.rgba(var0, var1);
    }
 }

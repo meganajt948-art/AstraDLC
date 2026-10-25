@@ -25,13 +25,13 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public class oxw extends kfe {
-   private static final String oxx = a.c(-312694930, "ꜯ\udead呥쨮䇄읱紪");
-   private static final String oxy = a.b("븅잓䵃팧壞\ude57搙\uedf6玡", 741654084);
-   private static final String oxz = a.c(47142108, "咅ⴃ\ua7d4㦨뉿㓛躦ݯ餭ᎂ鑙");
-   private static final int oya = 10;
+   static final String oxx = a.c(-312694930, "ꜯ\udead呥쨮䇄읱紪");
+   static final String oxy = a.b("븅잓䵃팧壞\ude57搙\uedf6玡", 741654084);
+   static final String oxz = a.c(47142108, "咅ⴃ\ua7d4㦨뉿㓛躦ݯ餭ᎂ鑙");
+   static final int oya = 10;
    public static final long FLASH_MS = 700L;
-   private static oxw oyb;
-   private final vlv oyc = this.add(
+   static oxw oyb;
+   final vlv oyc = this.add(
       new vlv(
          a.b("ꕥ\udce2嘦졓䎗씱", 145728816),
          a.b("꒢\udd20埨즣䉉쓼级", 922658019),
@@ -40,55 +40,55 @@ public class oxw extends kfe {
          a.b("ꨖ펐奇윻䳬쩈瀵識枾\ued11櫊", 287550031)
       )
    );
-   private final vlq oyd = this.add(new vlq(a.d("嬩⊥ꡧ㘞분㭢脮࣒隍ᰵ", 1578664880, 238278874)));
-   private final vkl oye = new vkl(a.c(1094840059, "\ueaf9錚ᦱ蟋ఞ読㓮뤀❞궐⨹큆媄윢䵶쯷熷\ufe1d撪"), true);
-   private final vkl oyf = new vkl(a.b("꼰훞将숊䧕콠焩ﳊ暇\ue854濵閍᭟苪ࢼ蹃", 1593289535), true);
-   private final List<oxf> oyg = new ArrayList<>();
-   private final vyn oyh = new vyn(true);
-   private final vvn oyi = new vvn();
-   private boolean oyj;
-   private oxf oyk;
-   private oxf oyl;
-   private oxf oym;
-   private oxt oyn;
-   private int oyo;
-   private boolean oyp;
-   private int oyq;
-   private float oyr;
-   private boolean oys;
-   private int oyt;
-   private int oyu = -1;
-   private int oyv = -1;
-   private boolean oyw;
-   private static final float oyx = 83.0F;
-   private static final float oyy = 93.0F;
-   private static final float oyz = 3.0F;
-   private static final float oza = 40.0F;
-   private static final float ozb = 65.0F;
-   private static final float ozc = 1.6F;
-   private static final float ozd = 1.2F;
-   private static final float oze = 30.0F;
-   private static final float ozf = 55.0F;
-   private static final int ozg = 0;
-   private static final int ozh = 1;
-   private static final int ozi = 0;
-   private static final int ozj = 1;
-   private static final long ozk = 120L;
-   private static final long ozl = 220L;
-   private int ozm;
-   private long ozn;
-   private oxf ozo;
-   private float ozp;
-   private float ozq;
-   private float ozr;
-   private float ozs;
-   private static final int ozt = 12;
-   private int ozu;
-   private int ozv = -1;
-   private boolean ozw;
-   private double ozx;
-   private float ozy;
-   private float ozz;
+   final vlq oyd = this.add(new vlq(a.d("嬩⊥ꡧ㘞분㭢脮࣒隍ᰵ", 1578664880, 238278874)));
+   final vkl oye = new vkl(a.c(1094840059, "\ueaf9錚ᦱ蟋ఞ読㓮뤀❞궐⨹큆媄윢䵶쯷熷\ufe1d撪"), true);
+   final vkl oyf = new vkl(a.b("꼰훞将숊䧕콠焩ﳊ暇\ue854濵閍᭟苪ࢼ蹃", 1593289535), true);
+   final List<oxf> oyg = new ArrayList<>();
+   final vyn oyh = new vyn(true);
+   final vvn oyi = new vvn();
+   boolean oyj;
+   oxf oyk;
+   oxf oyl;
+   oxf oym;
+   oxt oyn;
+   int oyo;
+   boolean oyp;
+   int oyq;
+   float oyr;
+   boolean oys;
+   int oyt;
+   int oyu = -1;
+   int oyv = -1;
+   boolean oyw;
+   static final float oyx = 83.0F;
+   static final float oyy = 93.0F;
+   static final float oyz = 3.0F;
+   static final float oza = 40.0F;
+   static final float ozb = 65.0F;
+   static final float ozc = 1.6F;
+   static final float ozd = 1.2F;
+   static final float oze = 30.0F;
+   static final float ozf = 55.0F;
+   static final int ozg = 0;
+   static final int ozh = 1;
+   static final int ozi = 0;
+   static final int ozj = 1;
+   static final long ozk = 120L;
+   static final long ozl = 220L;
+   int ozm;
+   long ozn;
+   oxf ozo;
+   float ozp;
+   float ozq;
+   float ozr;
+   float ozs;
+   static final int ozt = 12;
+   int ozu;
+   int ozv = -1;
+   boolean ozw;
+   double ozx;
+   float ozy;
+   float ozz;
 
    public oxw() {
       super(
@@ -306,7 +306,7 @@ public class oxw extends kfe {
       );
    }
 
-   private oxf pac(String var1, String var2, Item var3, String var4, String var5, boolean var6) {
+   oxf pac(String var1, String var2, Item var3, String var4, String var5, boolean var6) {
       oxf var7 = new oxf(var1, var2, var3, var4, var5, var6);
       if (var5 != null) {
          var7.key.visibleWhen(() -> this.oyc.is(var5));
@@ -317,7 +317,7 @@ public class oxw extends kfe {
       return var7;
    }
 
-   private boolean pad(oxf var1) {
+   boolean pad(oxf var1) {
       return var1.server == null || this.oyc.is(var1.server);
    }
 
@@ -377,7 +377,7 @@ public class oxw extends kfe {
       }
    }
 
-   private boolean pae(MinecraftClient var1, oxf var2) {
+   boolean pae(MinecraftClient var1, oxf var2) {
       ClientPlayerEntity var3 = var1.player;
       if (var3 != null && System.currentTimeMillis() < this.ozn && pag(var3, var2) > 0) {
          this.ozo = var2;
@@ -408,7 +408,7 @@ public class oxw extends kfe {
       return true;
    }
 
-   private void paf(final MinecraftClient var1, int var2) {
+   void paf(final MinecraftClient var1, int var2) {
       ClientPlayerEntity var3 = var1.player;
       if (var3 != null && var1.currentScreen == null) {
          final ArrayList var4 = new ArrayList();
@@ -474,7 +474,7 @@ public class oxw extends kfe {
       }
    }
 
-   private static int pag(ClientPlayerEntity var0, oxf var1) {
+   static int pag(ClientPlayerEntity var0, oxf var1) {
       PlayerInventory var2 = var0.getInventory();
       int var3 = vvn.count(var2, var1::matches);
 
@@ -488,7 +488,7 @@ public class oxw extends kfe {
       return var3;
    }
 
-   private static ItemStack pah(ClientPlayerEntity var0, oxf var1) {
+   static ItemStack pah(ClientPlayerEntity var0, oxf var1) {
       PlayerInventory var2 = var0.getInventory();
 
       for (int var3 = 0; var3 < 36; var3++) {
@@ -500,7 +500,7 @@ public class oxw extends kfe {
       return vvn.peek(var2, var1::matches);
    }
 
-   private boolean pai(MinecraftClient var1, oxf var2) {
+   boolean pai(MinecraftClient var1, oxf var2) {
       ClientPlayerEntity var3 = var1.player;
       if (var3 != null && var3.isAlive() && !var3.isSpectator() && var3.currentScreenHandler == var3.playerScreenHandler) {
          int var4 = pbc(var3, var2);
@@ -574,7 +574,7 @@ public class oxw extends kfe {
       this.par(var1);
    }
 
-   private void paj(MinecraftClient var1) {
+   void paj(MinecraftClient var1) {
       ClientPlayerEntity var2 = var1.player;
       if (this.oyl != null && (!var2.isAlive() || var2.isSpectator())) {
          this.oyl = null;
@@ -599,7 +599,7 @@ public class oxw extends kfe {
       }
    }
 
-   private void pak(MinecraftClient var1) {
+   void pak(MinecraftClient var1) {
       if (this.oym != null) {
          ClientPlayerEntity var2 = var1.player;
          if (var2.isAlive() && var2.currentScreenHandler == var2.playerScreenHandler && var1.currentScreen == null) {
@@ -717,7 +717,7 @@ public class oxw extends kfe {
       }
    }
 
-   private void pal(MinecraftClient var1, ClientPlayerEntity var2) {
+   void pal(MinecraftClient var1, ClientPlayerEntity var2) {
       PlayerInventory var3 = var2.getInventory();
       if (!this.oyp) {
          this.paw(var1, var2);
@@ -767,7 +767,7 @@ public class oxw extends kfe {
       }
    }
 
-   private void pam(MinecraftClient var1) {
+   void pam(MinecraftClient var1) {
       if (this.oys) {
          this.oys = false;
          if (var1.options != null && var1.getWindow() != null) {
@@ -776,7 +776,7 @@ public class oxw extends kfe {
       }
    }
 
-   private void pan(MinecraftClient var1, ClientPlayerEntity var2) {
+   void pan(MinecraftClient var1, ClientPlayerEntity var2) {
       PlayerInventory var3 = var2.getInventory();
       if (this.oyp) {
          if (var3.getSelectedSlot() == this.oyo && this.oyo != this.oyq) {
@@ -804,7 +804,7 @@ public class oxw extends kfe {
       }
    }
 
-   private boolean pao(MinecraftClient var1) {
+   boolean pao(MinecraftClient var1) {
       if (!this.oyj) {
          wdq.swap(var1, this.oyo, this.oyq);
          return true;
@@ -828,7 +828,7 @@ public class oxw extends kfe {
       return true;
    }
 
-   private void pap() {
+   void pap() {
       ClientPlayerEntity var1 = this.mc.player;
       if (this.oyi.active() && var1 != null) {
          this.oyi.giveBack(this.mc);
@@ -857,13 +857,13 @@ public class oxw extends kfe {
       ett.releaseView();
    }
 
-   private static int paq(int var0, int var1) {
+   static int paq(int var0, int var1) {
       ThreadLocalRandom var2 = ThreadLocalRandom.current();
       double var3 = (var2.nextDouble() + var2.nextDouble()) * 0.5;
       return var0 + (int)Math.round(var3 * (var1 - var0));
    }
 
-   private void par(MinecraftClient var1) {
+   void par(MinecraftClient var1) {
       if (this.ozv >= 0) {
          ClientPlayerEntity var2 = var1.player;
          if (this.ozu <= this.ozv && var2.isOnGround() && !(var2.getVelocity().y - this.ozx > 0.5)) {
@@ -890,7 +890,7 @@ public class oxw extends kfe {
       }
    }
 
-   private void pas(MinecraftClient var1) {
+   void pas(MinecraftClient var1) {
       if (this.ozw) {
          this.ozw = false;
          if (var1.options != null && var1.getWindow() != null) {
@@ -899,11 +899,11 @@ public class oxw extends kfe {
       }
    }
 
-   private boolean pat() {
+   boolean pat() {
       return this.oym.thenMace && this.oye.get() && !kmy.takesWindMace();
    }
 
-   private static int pau(ClientPlayerEntity var0, int var1) {
+   static int pau(ClientPlayerEntity var0, int var1) {
       PlayerInventory var2 = var0.getInventory();
       if (var2.getStack(var1).isOf(Items.MACE)) {
          return var1;
@@ -918,7 +918,7 @@ public class oxw extends kfe {
       return -1;
    }
 
-   private void pav(MinecraftClient var1, int var2) {
+   void pav(MinecraftClient var1, int var2) {
       for (KeyBinding var6 : var1.options.hotbarKeys) {
          Key var7 = KeyBindingHelper.getBoundKeyOf(var6);
          if (var7.getCategory() == net.minecraft.client.util.InputUtil.Type.KEYSYM && var7.getCode() == var2) {
@@ -939,18 +939,18 @@ public class oxw extends kfe {
       }
    }
 
-   private void paw(MinecraftClient var1, ClientPlayerEntity var2) {
+   void paw(MinecraftClient var1, ClientPlayerEntity var2) {
       this.oyh.hold(var1);
       if (var2.isUsingItem()) {
          var1.interactionManager.stopUsingItem(var2);
       }
    }
 
-   private boolean pax(ClientPlayerEntity var1) {
+   boolean pax(ClientPlayerEntity var1) {
       return !this.oym.self || this.pay(var1, this.ozp, 40.0F, 65.0F);
    }
 
-   private boolean pay(ClientPlayerEntity var1, float var2, float var3, float var4) {
+   boolean pay(ClientPlayerEntity var1, float var2, float var3, float var4) {
       float var5 = var2 - var1.getPitch();
       float var6 = pba(var3, var4);
       boolean var7 = Math.abs(var5) <= var6;
@@ -968,19 +968,19 @@ public class oxw extends kfe {
       return var7;
    }
 
-   private static float paz(float var0, double var1) {
+   static float paz(float var0, double var1) {
       return var1 > 0.0 ? prp.quantize(var0, var1) : var0;
    }
 
-   private static float pba(float var0, float var1) {
+   static float pba(float var0, float var1) {
       return var0 + ThreadLocalRandom.current().nextFloat() * (var1 - var0);
    }
 
-   private boolean pbb(ClientPlayerEntity var1) {
+   boolean pbb(ClientPlayerEntity var1) {
       return wdq.canClick(var1) && this.oyh.idle(var1) && !var1.isUsingItem();
    }
 
-   private static int pbc(ClientPlayerEntity var0, oxf var1) {
+   static int pbc(ClientPlayerEntity var0, oxf var1) {
       PlayerInventory var2 = var0.getInventory();
       int var3 = var2.getSelectedSlot();
       if (var1.matches(var2.getStack(var3))) {
@@ -996,7 +996,7 @@ public class oxw extends kfe {
       return -1;
    }
 
-   private static String pbd(String var0) {
+   static String pbd(String var0) {
       return var0.toLowerCase(Locale.ROOT).replace('ё', 'е');
    }
 

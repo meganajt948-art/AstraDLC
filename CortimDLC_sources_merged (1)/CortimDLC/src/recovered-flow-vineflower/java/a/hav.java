@@ -13,11 +13,11 @@ import net.minecraft.world.biome.BiomeKeys;
 import org.lwjgl.glfw.GLFW;
 
 final class hav {
-   private static final int haw = 560;
-   private static final String hax = System.getenv(a.d("薠ﰛ盋\ue8a2挐\ue5cc従홤䠣슒䕉뼯ㇹꡐ∑", 1348907992, 1368667697));
-   private static final String hay = System.getenv()
+   static final int haw = 560;
+   static final String hax = System.getenv(a.d("薠ﰛ盋\ue8a2挐\ue5cc従홤䠣슒䕉뼯ㇹꡐ∑", 1348907992, 1368667697));
+   static final String hay = System.getenv()
       .getOrDefault(a.c(1052766470, "\uf154裯ȿ鱖៤鄸⭧ꊐ㳗뙦ㆽ쯛䔁\udcbe囩퀌橎\ue59a缴泌"), a.d("\ud81bꆂ⭐딬㻧롎", 1311960287, 346961039));
-   private static final haj[] haz = new haj[]{
+   static final haj[] haz = new haj[]{
       new haj(0, a.b("붯쐟仌킼嬨\uddc7枌\uee6f", 1730854345), 6000L, 20.0F, -35.0F, 2, true),
       new haj(60, a.c(-1250528478, "獀૰耣ṓ闇ጨꥣ₀뺋㑸뎢䧓"), 6000L, 20.0F, -35.0F, 2, false),
       new haj(120, a.c(2103949630, "륜샬䨿푏忛\ud92f捻\uea97瓓ﹱ禷菇"), 6000L, 20.0F, -4.0F, 2, true),
@@ -51,20 +51,20 @@ final class hav {
       new haj(1280, a.c(1740664733, "濤ᙀ鲄ˡ襽ྉ뗛㰤ꉴ"), 6000L, 20.0F, -30.0F, 2, true, a.c(627887870, "캘뜦㷼ꎉ⡍"), a.d("\ue8e3酳ᮮ藐", -1769312283, 586450762)),
       new haj(1380, a.b("䪼㌘맜➹갥⫖邌\u197d", 1375488708), 6000L, 20.0F, -30.0F, 2, false, a.d("ь緲\uf728楝\ue299", 534657431, 1913470397), a.b("䤭ゴ멦␚꿑⥸", 1085950310))
    };
-   private static final String[] hba = new String[]{
+   static final String[] hba = new String[]{
       a.b("\ud90fꂍ⩇됶㿏륎̆諹ᒩ鸄", 1648679235),
       a.d("鱆\ue5ce漞\uf176窹ﰀ䙂쾵凱\udb4a岼ꛤ⠻", 2074228230, -696210917),
       a.b("殆ሌ飖ڢ赴\u0bd2놀", 1224305618),
       a.c(1310775573, "\ud94fꃅ⨟둫㾽뤛ͩ誠ᓭ"),
       a.d("䌠㪳끻⸗ꗆ⍶餉ზ躐Ц", -1950737812, 1473992971)
    };
-   private static boolean[] hbb;
-   private static volatile BlockPos hbc;
-   private static volatile boolean hbd;
-   private static int hbe = -1;
-   private static int hbf = 2;
+   static boolean[] hbb;
+   static volatile BlockPos hbc;
+   static volatile boolean hbd;
+   static int hbe = -1;
+   static int hbf = 2;
 
-   private hav() {
+   hav() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -183,13 +183,13 @@ final class hav {
       }
    }
 
-   private static void hbi(MinecraftClient var0, int var1) {
+   static void hbi(MinecraftClient var0, int var1) {
       hbf = var1;
       BlockPos var2 = hbc;
       hbo(var0, a.b("桱ᇄ魇Ֆ躲ࡐ", -1251710973) + var2.getX() + a.b("\uf435", -1131416556) + (var2.getY() + var1) + a.b("舁", 706380320) + var2.getZ());
    }
 
-   private static void hbj(MinecraftClient var0) {
+   static void hbj(MinecraftClient var0) {
       hbc = null;
       hbd = false;
       IntegratedServer var1 = var0.getServer();
@@ -225,12 +225,12 @@ final class hav {
       });
    }
 
-   private static int hbk(ServerWorld var0, Type var1, int var2, int var3) {
+   static int hbk(ServerWorld var0, Type var1, int var2, int var3) {
       var0.getChunk(var2 >> 4, var3 >> 4);
       return var0.getTopY(var1, var2, var3);
    }
 
-   private static int hbl(ServerWorld var0, int var1, int var2) {
+   static int hbl(ServerWorld var0, int var1, int var2) {
       int var3 = 0;
       int var4 = 0;
 
@@ -252,14 +252,14 @@ final class hav {
       return var3 == 25 ? 100 + Math.min(var4, 60) : var3;
    }
 
-   private static void hbm(MinecraftClient var0, float var1, float var2) {
+   static void hbm(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static vmo hbn(kfe var0, String var1) {
+   static vmo hbn(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -269,11 +269,11 @@ final class hav {
       throw new IllegalStateException(var0.getName() + a.c(1185857171, "뺻읂䶘폻塿\ude80擒\ued6c") + var1);
    }
 
-   private static void hbo(MinecraftClient var0, String var1) {
+   static void hbo(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void hbp(MinecraftClient var0, String var1) {
+   static void hbp(MinecraftClient var0, String var1) {
       System.out
          .println(
             a.b("讼\uf21b磁\ue6ba洫\uebce册\ud86b䘳쳖", 387877829)

@@ -14,13 +14,13 @@ import net.minecraft.screen.slot.SlotActionType;
 import org.apache.commons.lang3.math.Fraction;
 
 public final class vvn {
-   private static final Fraction vvo = Fraction.getFraction(1, 16);
-   private int vvp = -1;
-   private int vvq;
-   private int vvr;
-   private int vvs = -1;
-   private ItemStack vvt = ItemStack.EMPTY;
-   private boolean vvu;
+   static final Fraction vvo = Fraction.getFraction(1, 16);
+   int vvp = -1;
+   int vvq;
+   int vvr;
+   int vvs = -1;
+   ItemStack vvt = ItemStack.EMPTY;
+   boolean vvu;
 
    public boolean active() {
       return this.vvu;
@@ -182,15 +182,15 @@ public final class vvn {
       }
    }
 
-   private static ItemStack vvx(ClientPlayerEntity var0) {
+   static ItemStack vvx(ClientPlayerEntity var0) {
       return var0.playerScreenHandler.getCursorStack();
    }
 
-   private static boolean vvy(ItemStack var0) {
+   static boolean vvy(ItemStack var0) {
       return BundleContentsComponent.canBeBundled(var0) && contents(var0) == null;
    }
 
-   private static int vvz(PlayerInventory var0, ItemStack var1, int var2, int var3, Fraction var4) {
+   static int vvz(PlayerInventory var0, ItemStack var1, int var2, int var3, Fraction var4) {
       Fraction var5 = vwc(var1);
       int var6 = -1;
 
@@ -213,7 +213,7 @@ public final class vvn {
       return var6;
    }
 
-   private static int vwa(BundleContentsComponent var0, ItemStack var1) {
+   static int vwa(BundleContentsComponent var0, ItemStack var1) {
       for (int var2 = 0; var2 < var0.size(); var2++) {
          if (ItemStack.areItemsAndComponentsEqual(var0.get(var2), var1)) {
             return var2;
@@ -223,15 +223,15 @@ public final class vvn {
       return -1;
    }
 
-   private static Fraction vwb(ItemStack var0) {
+   static Fraction vwb(ItemStack var0) {
       return Fraction.ONE.subtract(contents(var0).getOccupancy());
    }
 
-   private static Fraction vwc(ItemStack var0) {
+   static Fraction vwc(ItemStack var0) {
       return vwd(var0).multiplyBy(Fraction.getFraction(var0.getCount(), 1));
    }
 
-   private static Fraction vwd(ItemStack var0) {
+   static Fraction vwd(ItemStack var0) {
       BundleContentsComponent var1 = var0.get(DataComponentTypes.BUNDLE_CONTENTS);
       if (var1 != null) {
          return vvo.add(var1.getOccupancy());
@@ -242,7 +242,7 @@ public final class vvn {
       }
    }
 
-   private static int vwe(PlayerInventory var0, int var1) {
+   static int vwe(PlayerInventory var0, int var1) {
       for (int var2 = 0; var2 < 36; var2++) {
          if (var2 != var1 && var0.getStack(var2).isEmpty()) {
             return var2;
@@ -252,7 +252,7 @@ public final class vvn {
       return -1;
    }
 
-   private static void vwf(MinecraftClient var0, int var1, int var2) {
+   static void vwf(MinecraftClient var0, int var1, int var2) {
       ItemStack var3 = var0.player.getInventory().getStack(var1);
       BundleContentsComponent var4 = contents(var3);
       int var5 = var4.getSelectedStackIndex();
@@ -262,7 +262,7 @@ public final class vvn {
       }
    }
 
-   private static void vwg(MinecraftClient var0, int var1, int var2) {
+   static void vwg(MinecraftClient var0, int var1, int var2) {
       ClientPlayerEntity var3 = var0.player;
       var0.interactionManager.clickSlot(var3.playerScreenHandler.syncId, wdq.slotId(var1), var2, SlotActionType.PICKUP, var3);
    }

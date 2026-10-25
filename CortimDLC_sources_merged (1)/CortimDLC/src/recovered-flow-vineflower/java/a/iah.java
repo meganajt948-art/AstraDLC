@@ -11,20 +11,20 @@ final class iah {
    static final IntPredicate NUMBER = var0 -> var0 >= 48 && var0 <= 57 || var0 == 45 || var0 == 46;
    final String placeholder;
    final vhz icon;
-   private final int iai;
-   private final IntPredicate iaj;
+   final int iai;
+   final IntPredicate iaj;
    String text = "";
    iah next;
    Runnable onSubmit;
    Consumer<String> onChange;
-   private float iak;
-   private int ial;
-   private boolean iam;
-   private final vcj ian = new vcj(16.0F);
-   private final vcj iao = new vcj(16.0F);
-   private final vcj iap = new vcj(28.0F);
-   private final vcj iaq = new vcj(20.0F);
-   private long iar;
+   float iak;
+   int ial;
+   boolean iam;
+   final vcj ian = new vcj(16.0F);
+   final vcj iao = new vcj(16.0F);
+   final vcj iap = new vcj(28.0F);
+   final vcj iaq = new vcj(20.0F);
+   long iar;
    float x;
    float y;
    float w;
@@ -55,7 +55,7 @@ final class iah {
       return irr.inside(var1, var2, this.x, this.y, this.w, this.h);
    }
 
-   private float iau() {
+   float iau() {
       if (this.icon != null) {
          return this.x + 18.0F;
       } else {
@@ -63,7 +63,7 @@ final class iah {
       }
    }
 
-   private float iav() {
+   float iav() {
       return this.w - (this.iau() - this.x) - 6.0F;
    }
 
@@ -224,7 +224,7 @@ final class iah {
       this.iaw(var1);
    }
 
-   private void iaw(String var1) {
+   void iaw(String var1) {
       StringBuilder var2 = new StringBuilder();
       var1.codePoints().filter(this.iaj).forEach(var2::appendCodePoint);
       if (!var2.isEmpty()) {
@@ -237,7 +237,7 @@ final class iah {
       }
    }
 
-   private void iax(String var1, int var2) {
+   void iax(String var1, int var2) {
       this.text = var1;
       this.ial = Math.max(0, Math.min(var1.length(), var2));
       this.iam = false;

@@ -8,13 +8,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
 public final class pnr {
-   private static final Pattern pns = Pattern.compile(a.c(-782830220, "\uf554賵ٸ順Ꮳ镽⽷Ꚅ㢯눦㖺쿉䅫\ud8f5勿"), 2);
-   private static final int pnt = 20;
-   private static String pnu;
-   private static String pnv;
-   private static int pnw;
+   static final Pattern pns = Pattern.compile(a.c(-782830220, "\uf554賵ٸ順Ꮳ镽⽷Ꚅ㢯눦㖺쿉䅫\ud8f5勿"), 2);
+   static final int pnt = 20;
+   static String pnu;
+   static String pnv;
+   static int pnw;
 
-   private pnr() {
+   pnr() {
    }
 
    public static String anarchy(String var0) {

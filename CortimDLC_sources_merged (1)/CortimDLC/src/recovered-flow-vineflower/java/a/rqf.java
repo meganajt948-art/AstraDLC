@@ -7,19 +7,19 @@ import net.minecraft.world.dimension.DimensionType.Skybox;
 import org.joml.Matrix4f;
 
 public class rqf extends kfe {
-   private static final String rqg = "Own";
-   private final vlv rqh = this.add(new vlv("Sky", uxt.AURORA.title, uxt.titles()));
-   private final vlv rqi = this.add(new vlv("Palette", "Own", "Own", "Custom"));
-   private final vla rqj = this.add(new vla("Colour", "Violet"));
-   private final vmc rqk = this.add(new vmc("Brightness", 1.0, 0.3, 1.6, 0.05).percent());
-   private final vmc rql = this.add(new vmc("Speed", 1.0, 0.0, 4.0, 0.1).unit("x"));
-   private final vmc rqm = this.add(new vmc("Stars", 1.0, 0.0, 2.0, 0.05).percent());
-   private final vmc rqn = this.add(new vmc("Horizon blend", 1.0, 0.0, 1.0, 0.05).percent());
-   private final vkl rqo = this.add(new vkl("Hide clouds", true));
-   private final vlv rqp = this.add(new vlv("Quality", "High", "Low", "High"));
-   private final Matrix4f rqq = new Matrix4f();
-   private long rqr;
-   private float rqs;
+   static final String rqg = "Own";
+   final vlv rqh = this.add(new vlv("Sky", uxt.AURORA.title, uxt.titles()));
+   final vlv rqi = this.add(new vlv("Palette", "Own", "Own", "Custom"));
+   final vla rqj = this.add(new vla("Colour", "Violet"));
+   final vmc rqk = this.add(new vmc("Brightness", 1.0, 0.3, 1.6, 0.05).percent());
+   final vmc rql = this.add(new vmc("Speed", 1.0, 0.0, 4.0, 0.1).unit("x"));
+   final vmc rqm = this.add(new vmc("Stars", 1.0, 0.0, 2.0, 0.05).percent());
+   final vmc rqn = this.add(new vmc("Horizon blend", 1.0, 0.0, 1.0, 0.05).percent());
+   final vkl rqo = this.add(new vkl("Hide clouds", true));
+   final vlv rqp = this.add(new vlv("Quality", "High", "Low", "High"));
+   final Matrix4f rqq = new Matrix4f();
+   long rqr;
+   float rqs;
 
    public rqf() {
       super(new String(new char[]{'S', 'h', 'a', 'd', 'e', 'r', 'S', 'k', 'y'}), "Animated shader sky", kfa.RENDER);

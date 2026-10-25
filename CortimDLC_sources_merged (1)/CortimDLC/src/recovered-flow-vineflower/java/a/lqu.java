@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 class lqu<E> extends ArrayList<E> {
-   private boolean lqv;
+   boolean lqv;
 
    lqu(Collection<E> var1) {
       super(var1);

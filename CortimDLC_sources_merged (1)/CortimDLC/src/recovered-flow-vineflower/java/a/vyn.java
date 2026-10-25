@@ -9,18 +9,18 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.PlayerInput;
 
 public final class vyn {
-   private static final Field vyo = vxr.find(
+   static final Field vyo = vxr.find(
       ClientPlayerEntity.class,
       a.c(-19559334, "谣\uf599罛\ue170櫤\uec51嘅\udfff䆦쬆䳆뚰㡵ꆞ⮀굾\u173c飿Ɍ萱ථ矼淚"),
       a.b("⸇垹\udd66䌞죁之\uf472綂\ue3d8業\ueebd", -619368854),
       a.b("䛎㽝떅⯥ꁩ⚚鳍ᔻ譯ǘ蘚籸\uf2a8欋\ue103枾\uddfe刢좃仒윉봶㎄ꡔ⸢꓾ᵃ", 1580680857)
    );
-   private static int vyp;
-   private final wdt vyq = new wdt();
-   private final boolean vyr;
-   private boolean vys;
-   private boolean vyt;
-   private boolean vyu;
+   static int vyp;
+   final wdt vyq = new wdt();
+   final boolean vyr;
+   boolean vys;
+   boolean vyt;
+   boolean vyu;
 
    public vyn() {
       this(false);
@@ -38,7 +38,7 @@ public final class vyn {
       return vyx(var0, false);
    }
 
-   private static boolean vyx(ClientPlayerEntity var0, boolean var1) {
+   static boolean vyx(ClientPlayerEntity var0, boolean var1) {
       if (wdt.serverSprinting(var0)) {
          return false;
       }
@@ -166,7 +166,7 @@ public final class vyn {
       }
    }
 
-   private static KeyBinding[] vyy(GameOptions var0) {
+   static KeyBinding[] vyy(GameOptions var0) {
       return new KeyBinding[]{var0.forwardKey, var0.backKey, var0.leftKey, var0.rightKey, var0.jumpKey, var0.useKey};
    }
 }

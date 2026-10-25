@@ -6,7 +6,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.text.Text;
 
 public class lqq extends pnc {
-   private static lqq lqr;
+   static lqq lqr;
 
    public lqq() {
       super(

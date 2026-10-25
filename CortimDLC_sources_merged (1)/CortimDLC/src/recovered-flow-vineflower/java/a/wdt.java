@@ -8,16 +8,16 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.effect.StatusEffects;
 
 public final class wdt {
-   private static final Field wdu = vxr.find(
+   static final Field wdu = vxr.find(
       ClientPlayerEntity.class,
       a.b("苐ﭪ熨\uef83搗\ue2a2壶턌何엵䈵롃㚆꽭╳ꎍ\u19cf阌ಿ諂͝礏\uf7be", 1596162729),
       a.d("渃ួ鵢̚装๏둰㶋ꏜ⥥", -2122966181, 124613940),
       a.d("侪", -1387316494, 561935619)
    );
-   private static int wdv;
-   private static int wdw;
-   private boolean wdx;
-   private boolean wdy;
+   static int wdv;
+   static int wdw;
+   boolean wdx;
+   boolean wdy;
 
    public static boolean anyHeld() {
       return wdv > 0;

@@ -1,10 +1,10 @@
 package a;
 
 final class vnv {
-   private final int vnw;
-   private final float vnx;
+   final int vnw;
+   final float vnx;
 
-   private vnv(int buffer, float pitch) {
+   vnv(int buffer, float pitch) {
       this.vnw = buffer;
       this.vnx = pitch;
    }

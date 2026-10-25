@@ -14,7 +14,7 @@ import ru.vidtu.ias.config.IASStorage;
 import ru.vidtu.ias.screen.AccountScreen;
 
 final class jyw {
-   private jyw() {
+   jyw() {
    }
 
    static boolean disabled() {
@@ -48,7 +48,7 @@ final class jyw {
       jyz();
    }
 
-   private static void jyz() {
+   static void jyz() {
       try {
          IAS.disclaimersStorage();
          IAS.saveStorage();

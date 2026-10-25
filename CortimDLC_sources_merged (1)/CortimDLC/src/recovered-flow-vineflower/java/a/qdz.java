@@ -55,129 +55,129 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public final class qdz {
-   private static final double qea = 4.4;
-   private static final int qeb = 20;
-   private static final int qec = 30;
-   private static final int qed = 50;
-   private static final double qee = 0.12;
-   private static final double qef = 0.35;
-   private static final int qeg = 32;
-   private static final int qeh = 10;
-   private static final double[][] qei = new double[][]{{0.14, 0.0}, {-0.14, 0.0}, {0.0, 0.14}, {0.0, -0.14}};
-   private static final double[][] qej = new double[][]{
+   static final double qea = 4.4;
+   static final int qeb = 20;
+   static final int qec = 30;
+   static final int qed = 50;
+   static final double qee = 0.12;
+   static final double qef = 0.35;
+   static final int qeg = 32;
+   static final int qeh = 10;
+   static final double[][] qei = new double[][]{{0.14, 0.0}, {-0.14, 0.0}, {0.0, 0.14}, {0.0, -0.14}};
+   static final double[][] qej = new double[][]{
       {0.0, 0.0}, {0.27, 0.27}, {-0.27, 0.27}, {0.27, -0.27}, {-0.27, -0.27}, {0.3, 0.0}, {-0.3, 0.0}, {0.0, 0.3}, {0.0, -0.3}
    };
-   private static final Field qek = vxr.find(
+   static final Field qek = vxr.find(
       ClientPlayerEntity.class, a.c(1534863791, "⧖偬\udaae䒅켑䦤\uf3f0稊\ue453滳\ue933ፅ鶀ѫ蹵ࢋ닉㴊ꞹ⇄ꡛ툉岸"), a.c(-1377249660, "훨꽖▉믱〮뚤ಛ蕠ᬲ醆"), a.b("周", 1570591791)
    );
-   private static final Field qel = vxr.find(
+   static final Field qel = vxr.find(
       ClientPlayerEntity.class,
       a.c(709615511, "\udfeeꙔⲖ늽㤩뾜\u05c8谲ቫ飋Ἃ\ue57d殸\uf253硍ﺳ䓱쬲冁\ud7fc幣\u2431ꪀ"),
       a.c(-1832242657, "㉳䯍섒彪풵刿\ue800懻ﾯ甙"),
       a.d("敎", -1690170895, 1491758328)
    );
-   private static final double qem = 0.9;
-   private static final int qen = 3;
-   private static final int qeo = 6;
-   private final Random qep = new Random();
-   private final qnd qeq = new qnd();
-   private final qsc qer = new qsc();
-   private final qln qes = new qln();
-   private final qrm qet = new qrm();
-   private boolean qeu;
-   private final LongOpenHashSet qev = new LongOpenHashSet();
-   private final Long2LongOpenHashMap qew = new Long2LongOpenHashMap();
-   private final LongOpenHashSet qex = new LongOpenHashSet();
-   private final List<qcu> qey = new ArrayList<>();
-   private final Long2IntOpenHashMap qez = new Long2IntOpenHashMap();
-   private final Long2IntOpenHashMap qfa = new Long2IntOpenHashMap();
-   private final Long2IntOpenHashMap qfb = new Long2IntOpenHashMap();
-   private final LongOpenHashSet qfc = new LongOpenHashSet();
-   private final List<qdo> qfd = new ArrayList<>();
+   static final double qem = 0.9;
+   static final int qen = 3;
+   static final int qeo = 6;
+   final Random qep = new Random();
+   final qnd qeq = new qnd();
+   final qsc qer = new qsc();
+   final qln qes = new qln();
+   final qrm qet = new qrm();
+   boolean qeu;
+   final LongOpenHashSet qev = new LongOpenHashSet();
+   final Long2LongOpenHashMap qew = new Long2LongOpenHashMap();
+   final LongOpenHashSet qex = new LongOpenHashSet();
+   final List<qcu> qey = new ArrayList<>();
+   final Long2IntOpenHashMap qez = new Long2IntOpenHashMap();
+   final Long2IntOpenHashMap qfa = new Long2IntOpenHashMap();
+   final Long2IntOpenHashMap qfb = new Long2IntOpenHashMap();
+   final LongOpenHashSet qfc = new LongOpenHashSet();
+   final List<qdo> qfd = new ArrayList<>();
    public static volatile Consumer<String> trace;
-   private Predicate<BlockState> qfe = var0 -> false;
-   private Predicate<ItemStack> qff = var0 -> false;
-   private pzc qfg;
-   private qdw qfh = qdw.IDLE;
-   private int qfi;
-   private qmx qfj;
-   private int qfk;
-   private boolean qfl = true;
-   private int qfm;
-   private int qfn;
-   private boolean qfo;
-   private int qfp;
-   private int qfq;
-   private BlockPos qfr;
-   private Block qfs;
-   private boolean qft;
-   private Vec3d qfu;
-   private Object qfv;
-   private int qfw;
-   private Vec3d qfx;
-   private boolean qfy;
-   private boolean qfz;
-   private Vec3d qga;
-   private Object qgb;
-   private long qgc = Long.MIN_VALUE;
-   private boolean qgd;
-   private int qge;
-   private BlockPos qgf;
-   private BlockPos qgg;
-   private Direction qgh;
-   private float qgi;
-   private float qgj;
-   private int qgk;
-   private boolean qgl;
-   private Vec3d qgm;
-   private int qgn;
-   private int qgo;
-   private Vec3d qgp;
-   private int qgq;
-   private qmh qgr;
-   private toq qgs;
-   private double qgt;
-   private boolean qgu;
-   private int qgv;
-   private int qgw;
-   private boolean qgx;
-   private boolean qgy;
-   private boolean qgz;
-   private boolean qha;
-   private boolean qhb;
-   private BlockPos qhc;
-   private boolean qhd;
-   private boolean qhe;
-   private boolean qhf;
-   private boolean qhg;
-   private BlockPos qhh;
-   private Vec3d qhi;
-   private Object qhj;
-   private int qhk;
-   private int qhl;
-   private Runnable qhm = () -> {};
-   private static final int qhn = Integer.MIN_VALUE;
-   private int qho = Integer.MIN_VALUE;
-   private int qhp;
-   private long qhq = Long.MIN_VALUE;
-   private int qhr;
-   private static final List<Box> qhs = new ArrayList<>();
-   private static final int qht = 4;
-   private static final int qhu = 14;
-   private static final double qhv = 3.6;
-   private static final int[][] qhw = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-   private static final int qhx = 0;
-   private static final int qhy = 1;
-   private static final int qhz = 2;
-   private static final int qia = 3;
-   private static final int qib = 4;
-   private static final int qic = 5;
-   private static final int qid = 6;
-   private final int[] qie = new int[7];
-   private int qif = Integer.MIN_VALUE;
-   private static final int qig = 4;
-   private int qih;
-   private int qii = -1;
+   Predicate<BlockState> qfe = var0 -> false;
+   Predicate<ItemStack> qff = var0 -> false;
+   pzc qfg;
+   qdw qfh = qdw.IDLE;
+   int qfi;
+   qmx qfj;
+   int qfk;
+   boolean qfl = true;
+   int qfm;
+   int qfn;
+   boolean qfo;
+   int qfp;
+   int qfq;
+   BlockPos qfr;
+   Block qfs;
+   boolean qft;
+   Vec3d qfu;
+   Object qfv;
+   int qfw;
+   Vec3d qfx;
+   boolean qfy;
+   boolean qfz;
+   Vec3d qga;
+   Object qgb;
+   long qgc = Long.MIN_VALUE;
+   boolean qgd;
+   int qge;
+   BlockPos qgf;
+   BlockPos qgg;
+   Direction qgh;
+   float qgi;
+   float qgj;
+   int qgk;
+   boolean qgl;
+   Vec3d qgm;
+   int qgn;
+   int qgo;
+   Vec3d qgp;
+   int qgq;
+   qmh qgr;
+   toq qgs;
+   double qgt;
+   boolean qgu;
+   int qgv;
+   int qgw;
+   boolean qgx;
+   boolean qgy;
+   boolean qgz;
+   boolean qha;
+   boolean qhb;
+   BlockPos qhc;
+   boolean qhd;
+   boolean qhe;
+   boolean qhf;
+   boolean qhg;
+   BlockPos qhh;
+   Vec3d qhi;
+   Object qhj;
+   int qhk;
+   int qhl;
+   Runnable qhm = () -> {};
+   static final int qhn = Integer.MIN_VALUE;
+   int qho = Integer.MIN_VALUE;
+   int qhp;
+   long qhq = Long.MIN_VALUE;
+   int qhr;
+   static final List<Box> qhs = new ArrayList<>();
+   static final int qht = 4;
+   static final int qhu = 14;
+   static final double qhv = 3.6;
+   static final int[][] qhw = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+   static final int qhx = 0;
+   static final int qhy = 1;
+   static final int qhz = 2;
+   static final int qia = 3;
+   static final int qib = 4;
+   static final int qic = 5;
+   static final int qid = 6;
+   final int[] qie = new int[7];
+   int qif = Integer.MIN_VALUE;
+   static final int qig = 4;
+   int qih;
+   int qii = -1;
 
    public void configure(qmh var1, boolean var2, boolean var3) {
       this.qgr = var1;
@@ -219,11 +219,11 @@ public final class qdz {
       return this.qgs;
    }
 
-   private double qil() {
+   double qil() {
       return this.qgr != null ? this.qgr.cap() : (this.qgs != null ? this.qgs.turnRate() : 22.0);
    }
 
-   private static double qim(ClientPlayerEntity var0, Vec3d var1) {
+   static double qim(ClientPlayerEntity var0, Vec3d var1) {
       Vec3d var2 = var1.subtract(var0.getEyePos());
       double var3 = tbp.yawTo(var2.x, var2.z);
       double var5 = tbp.pitchTo(var2.y, Math.sqrt(var2.x * var2.x + var2.z * var2.z));
@@ -369,7 +369,7 @@ public final class qdz {
       }
    }
 
-   private static String qin(Vec3d var0) {
+   static String qin(Vec3d var0) {
       return var0 == null
          ? a.d("쫞", -819785257, 1821563685)
          : String.format(Locale.ROOT, a.c(681747764, "ꔟ\udca5噪졏䏒앪缲\uf6df棔\ue22f旵龏ᅄ袡"), var0.x, var0.y, var0.z);
@@ -489,7 +489,7 @@ public final class qdz {
       }
    }
 
-   private void qio(World var1, ClientPlayerEntity var2) {
+   void qio(World var1, ClientPlayerEntity var2) {
       this.qgu = false;
       if (this.qgs != null) {
          boolean var3 = this.qgs.hasLegs()
@@ -531,7 +531,7 @@ public final class qdz {
       }
    }
 
-   private static boolean qip(World var0, ClientPlayerEntity var1, int var2) {
+   static boolean qip(World var0, ClientPlayerEntity var1, int var2) {
       double var3 = Math.toRadians(var1.getYaw());
       double var5 = trj.FWD[var2] * -Math.sin(var3) + trj.LEFT[var2] * Math.cos(var3);
       double var7 = trj.FWD[var2] * Math.cos(var3) + trj.LEFT[var2] * Math.sin(var3);
@@ -553,7 +553,7 @@ public final class qdz {
       return true;
    }
 
-   private void qiq(MinecraftClient var1, ClientPlayerEntity var2, tel var3, Object var4, Vec3d var5) {
+   void qiq(MinecraftClient var1, ClientPlayerEntity var2, tel var3, Object var4, Vec3d var5) {
       if (this.qgr != null) {
          var3.assistAt(var1, var2, null, null, 1);
          this.qgr.aim(var1, var2, var4, var5);
@@ -564,7 +564,7 @@ public final class qdz {
       }
    }
 
-   private void qir(MinecraftClient var1, ClientPlayerEntity var2, tel var3) {
+   void qir(MinecraftClient var1, ClientPlayerEntity var2, tel var3) {
       if (this.qgk >= 3 && this.qfi - this.qfw >= 4) {
          Vec3d var4 = this.qfu.subtract(var2.getEyePos());
          double var5 = tbp.yawTo(var4.x, var4.z);
@@ -731,7 +731,7 @@ public final class qdz {
       }
    }
 
-   private void qis(MinecraftClient var1, boolean var2) {
+   void qis(MinecraftClient var1, boolean var2) {
       KeyBinding var3 = var1.options.sneakKey;
       if (var1.options.getSneakToggled().getValue()) {
          if (var2 != var3.isPressed()) {
@@ -744,7 +744,7 @@ public final class qdz {
       this.qhb = var2;
    }
 
-   private void qit(MinecraftClient var1, ClientPlayerEntity var2) {
+   void qit(MinecraftClient var1, ClientPlayerEntity var2) {
       GameOptions var3 = var1.options;
       this.qix(var1, false);
       if (this.qgd) {
@@ -798,7 +798,7 @@ public final class qdz {
       this.qis(var1, var9);
    }
 
-   private void qiu(World var1, ClientPlayerEntity var2) {
+   void qiu(World var1, ClientPlayerEntity var2) {
       if (!var2.hasVehicle() && this.qhc != null) {
          if (this.qhi == null || this.qhh != null && !qiw(var1.getBlockState(this.qhh))) {
             this.qhh = null;
@@ -844,16 +844,16 @@ public final class qdz {
       }
    }
 
-   private static boolean qiv(World var0, BlockPos var1) {
+   static boolean qiv(World var0, BlockPos var1) {
       return var0.getBlockState(var1.up()).getCollisionShape(var0, var1.up()).isEmpty()
          && var0.getBlockState(var1.up(2)).getCollisionShape(var0, var1.up(2)).isEmpty();
    }
 
-   private static boolean qiw(BlockState var0) {
+   static boolean qiw(BlockState var0) {
       return var0.getBlock() instanceof StairsBlock || var0.getBlock() instanceof SlabBlock;
    }
 
-   private void qix(MinecraftClient var1, boolean var2) {
+   void qix(MinecraftClient var1, boolean var2) {
       KeyBinding var3 = var1.options.sprintKey;
       if (var1.options.getSprintToggled().getValue()) {
          if (var2 != var3.isPressed()) {
@@ -910,7 +910,7 @@ public final class qdz {
       }
    }
 
-   private boolean qiy(World var1, ClientPlayerEntity var2) {
+   boolean qiy(World var1, ClientPlayerEntity var2) {
       BlockState var3 = var1.getBlockState(this.qfr);
       if (!var3.isAir() && var3.getBlock() == this.qfs && qld(var1, this.qfr)) {
          if (this.qfi - this.qfw <= 200 && this.qgk <= (this.qgr != null ? 12 : (this.qgs != null ? 14 : 80))) {
@@ -958,7 +958,7 @@ public final class qdz {
       }
    }
 
-   private void qiz(World var1, ClientPlayerEntity var2) {
+   void qiz(World var1, ClientPlayerEntity var2) {
       long var3 = this.qfr.asLong();
       this.qey.add(new qcu(var3, this.qfs, this.qfi));
       if (this.qgy && this.qgh != null && this.qfr.equals(this.qgg)) {
@@ -1012,7 +1012,7 @@ public final class qdz {
       }
    }
 
-   private void qja(World var1, ClientPlayerEntity var2, long var3, int var5, double[] var6, LongOpenHashSet var7) {
+   void qja(World var1, ClientPlayerEntity var2, long var3, int var5, double[] var6, LongOpenHashSet var7) {
       if (this.qeu && this.qes.votes() >= 3 && var2 != null) {
          LongOpenHashSet var8 = qjp(var1, var2, standing(var1, var2).getY());
          Box var9 = var2.getBoundingBox().expand(0.05);
@@ -1031,7 +1031,7 @@ public final class qdz {
       }
    }
 
-   private boolean qjb(World var1, long var2) {
+   boolean qjb(World var1, long var2) {
       BlockPos var4 = BlockPos.fromLong(var2);
       if (this.qfg != null && this.qfg.contains(var4) && !this.qev.contains(var2)) {
          BlockState var5 = var1.getBlockState(var4);
@@ -1041,7 +1041,7 @@ public final class qdz {
       }
    }
 
-   private void qjc(World var1, ClientPlayerEntity var2) {
+   void qjc(World var1, ClientPlayerEntity var2) {
       if (!this.qfc.isEmpty()) {
          Vec3d var3 = var2.getEyePos();
          LongIterator var4 = this.qfc.iterator();
@@ -1062,7 +1062,7 @@ public final class qdz {
       }
    }
 
-   private void qjd(World var1, ClientPlayerEntity var2) {
+   void qjd(World var1, ClientPlayerEntity var2) {
       if (this.qhf) {
          this.qfx = null;
          this.qga = null;
@@ -1158,7 +1158,7 @@ public final class qdz {
       }
    }
 
-   private void qje(World var1, ClientPlayerEntity var2) {
+   void qje(World var1, ClientPlayerEntity var2) {
       boolean var3 = var2.isOnGround() || var2.isTouchingWater() || var2.isClimbing();
       if (!var3) {
          this.qfx = null;
@@ -1235,11 +1235,11 @@ public final class qdz {
       }
    }
 
-   private void qjf(int var1) {
+   void qjf(int var1) {
       this.qie[var1]++;
    }
 
-   private int qjg(World var1) {
+   int qjg(World var1) {
       int var2 = 0;
       Mutable var3 = new Mutable();
 
@@ -1279,7 +1279,7 @@ public final class qdz {
       return var2.toString();
    }
 
-   private boolean qjh(World var1, int var2) {
+   boolean qjh(World var1, int var2) {
       if (this.qif == var2) {
          return false;
       }
@@ -1301,7 +1301,7 @@ public final class qdz {
       return var3;
    }
 
-   private BlockPos qji(World var1, ClientPlayerEntity var2, int var3) {
+   BlockPos qji(World var1, ClientPlayerEntity var2, int var3) {
       Box var4 = var2.getBoundingBox();
       BlockPos var5 = null;
       double var6 = Double.MAX_VALUE;
@@ -1330,7 +1330,7 @@ public final class qdz {
       return var5;
    }
 
-   private int qjj(World var1, ClientPlayerEntity var2) {
+   int qjj(World var1, ClientPlayerEntity var2) {
       Box var3 = var2.getBoundingBox();
       int var4 = MathHelper.floor(var2.getY() - 0.001);
 
@@ -1348,7 +1348,7 @@ public final class qdz {
       return Integer.MIN_VALUE;
    }
 
-   private boolean qjk(World var1, ClientPlayerEntity var2, BlockPos var3) {
+   boolean qjk(World var1, ClientPlayerEntity var2, BlockPos var3) {
       if (var3 == null) {
          return false;
       }
@@ -1382,7 +1382,7 @@ public final class qdz {
       return true;
    }
 
-   private boolean qjl(World var1, ClientPlayerEntity var2, int var3, boolean var4) {
+   boolean qjl(World var1, ClientPlayerEntity var2, int var3, boolean var4) {
       Vec3d var5 = var2.getEyePos();
       int var6 = MathHelper.floor(var5.x);
       int var7 = MathHelper.floor(var5.z);
@@ -1465,7 +1465,7 @@ public final class qdz {
       return true;
    }
 
-   private boolean qjm(World var1, ClientPlayerEntity var2, int var3, boolean var4) {
+   boolean qjm(World var1, ClientPlayerEntity var2, int var3, boolean var4) {
       BlockPos var5 = null;
       if (!this.qey.isEmpty()) {
          qcu var6 = this.qey.get(this.qey.size() - 1);
@@ -1524,7 +1524,7 @@ public final class qdz {
       return false;
    }
 
-   private double qjn(World var1, BlockPos var2, BlockState var3, int var4, double[] var5, int var6, LongOpenHashSet var7, Mutable var8) {
+   double qjn(World var1, BlockPos var2, BlockState var3, int var4, double[] var5, int var6, LongOpenHashSet var7, Mutable var8) {
       long var9 = var2.asLong();
       double var11 = this.qka(var3);
 
@@ -1559,11 +1559,11 @@ public final class qdz {
       return var11;
    }
 
-   private static double qjo(double var0) {
+   static double qjo(double var0) {
       return 1.0 + var0 / 55.0 + Math.max(0.0, var0 - 60.0) / 40.0;
    }
 
-   private static LongOpenHashSet qjp(World var0, ClientPlayerEntity var1, int var2) {
+   static LongOpenHashSet qjp(World var0, ClientPlayerEntity var1, int var2) {
       LongOpenHashSet var3 = new LongOpenHashSet();
       Box var4 = var1.getBoundingBox();
 
@@ -1576,11 +1576,11 @@ public final class qdz {
       return var3;
    }
 
-   private static boolean qjq(World var0, BlockPos var1, BlockState var2) {
+   static boolean qjq(World var0, BlockPos var1, BlockState var2) {
       return !var2.isAir() && var2.getFluidState().isEmpty() && var2.getHardness(var0, var1) >= 0.0F && !var2.getCollisionShape(var0, var1).isEmpty();
    }
 
-   private static boolean qjr(World var0, BlockPos var1) {
+   static boolean qjr(World var0, BlockPos var1) {
       for (Direction var5 : Direction.values()) {
          BlockPos var6 = var1.offset(var5);
          if (var0.getBlockState(var6).getOutlineShape(var0, var6).isEmpty()) {
@@ -1591,11 +1591,11 @@ public final class qdz {
       return false;
    }
 
-   private static boolean qjs(World var0, BlockPos var1) {
+   static boolean qjs(World var0, BlockPos var1) {
       return var0.getBlockState(var1).getCollisionShape(var0, var1).isEmpty();
    }
 
-   private boolean qjt(World var1, ClientPlayerEntity var2, int var3) {
+   boolean qjt(World var1, ClientPlayerEntity var2, int var3) {
       qdk var4 = new qdk(this, var1, var2, var3);
       if (var4.start < 0) {
          return false;
@@ -1655,7 +1655,7 @@ public final class qdz {
       return true;
    }
 
-   private boolean qju(World var1, ClientPlayerEntity var2, int var3) {
+   boolean qju(World var1, ClientPlayerEntity var2, int var3) {
       qdk var4 = new qdk(this, var1, var2, var3);
       if (var4.start < 0) {
          return false;
@@ -1685,7 +1685,7 @@ public final class qdz {
       return true;
    }
 
-   private void qjv(Vec3d var1, boolean var2, long var3, Vec3d var5) {
+   void qjv(Vec3d var1, boolean var2, long var3, Vec3d var5) {
       if (var3 != this.qhq) {
          this.qhq = var3;
          this.qgb = new Object();
@@ -1701,7 +1701,7 @@ public final class qdz {
       this.qga = var5;
    }
 
-   private void qjw(World var1, ClientPlayerEntity var2, boolean var3) {
+   void qjw(World var1, ClientPlayerEntity var2, boolean var3) {
       BlockPos var4 = this.qfj.target();
       int var5 = this.qfj.path()[this.qfk * 3];
       int var6 = this.qfj.path()[this.qfk * 3 + 1];
@@ -1878,7 +1878,7 @@ public final class qdz {
       }
    }
 
-   private static boolean qjx(Vec3d var0, int var1, int var2, BlockPos var3) {
+   static boolean qjx(Vec3d var0, int var1, int var2, BlockPos var3) {
       double var4 = var1 + 0.5 - var0.x;
       double var6 = var2 + 0.5 - var0.z;
       double var8 = var3.getX() + 0.5 - var0.x;
@@ -1890,7 +1890,7 @@ public final class qdz {
          : false;
    }
 
-   private int qjy(World var1, int var2, int var3, int var4, int var5, int var6, int var7) {
+   int qjy(World var1, int var2, int var3, int var4, int var5, int var6, int var7) {
       int var8 = this.qfk + 1;
       if (var6 != var3) {
          return var8;
@@ -1931,28 +1931,28 @@ public final class qdz {
       return var11;
    }
 
-   private boolean qjz() {
+   boolean qjz() {
       return this.qgr != null && this.qgy;
    }
 
-   private double qka(BlockState var1) {
+   double qka(BlockState var1) {
       return 1.0 + qnd.value(var1) / 15.0;
    }
 
-   private boolean qkb(long var1) {
+   boolean qkb(long var1) {
       return this.qfb.getOrDefault(var1, 0) > this.qfi || this.qew.getOrDefault(var1, 0L) > this.qfi || this.qev.contains(var1);
    }
 
-   private int qkc(World var1, ClientPlayerEntity var2, BlockPos var3, BlockState var4) {
+   int qkc(World var1, ClientPlayerEntity var2, BlockPos var3, BlockState var4) {
       float var5 = var4.calcBlockBreakingDelta(var2, var1, var3);
       return var5 <= 0.0F ? 600 : Math.max(1, (int)Math.ceil(1.0F / var5));
    }
 
-   private double qkd(double var1) {
+   double qkd(double var1) {
       return var1 / Math.max(10.0, this.qil());
    }
 
-   private boolean qke(World var1, ClientPlayerEntity var2) {
+   boolean qke(World var1, ClientPlayerEntity var2) {
       if (this.qfg != null && this.qfg.maxX >= this.qfg.minX) {
          Vec3d var3 = var2.getEyePos();
          int var4 = MathHelper.floor(var3.x);
@@ -2194,26 +2194,26 @@ public final class qdz {
       }
    }
 
-   private static double qkf(Vec3d var0, Vec3d var1, Vec3d var2) {
+   static double qkf(Vec3d var0, Vec3d var1, Vec3d var2) {
       Vec3d var3 = var1.subtract(var0).normalize();
       Vec3d var4 = var2.subtract(var0).normalize();
       return Math.toDegrees(Math.acos(MathHelper.clamp(var3.dotProduct(var4), -1.0, 1.0)));
    }
 
-   private static int qkg(long var0, long var2) {
+   static int qkg(long var0, long var2) {
       return Math.max(
          Math.abs(BlockPos.unpackLongX(var0) - BlockPos.unpackLongX(var2)),
          Math.max(Math.abs(BlockPos.unpackLongY(var0) - BlockPos.unpackLongY(var2)), Math.abs(BlockPos.unpackLongZ(var0) - BlockPos.unpackLongZ(var2)))
       );
    }
 
-   private static boolean qkh(long var0, long var2) {
+   static boolean qkh(long var0, long var2) {
       return BlockPos.unpackLongX(var0) == BlockPos.unpackLongX(var2)
          || BlockPos.unpackLongY(var0) == BlockPos.unpackLongY(var2)
          || BlockPos.unpackLongZ(var0) == BlockPos.unpackLongZ(var2);
    }
 
-   private List<qda> qki(World var1, ClientPlayerEntity var2, BlockPos var3) {
+   List<qda> qki(World var1, ClientPlayerEntity var2, BlockPos var3) {
       ArrayList var4 = new ArrayList(3);
       Vec3d var5 = var2.getEyePos();
       double var6 = (this.qep.nextDouble() - 0.5) * 0.3;
@@ -2252,7 +2252,7 @@ public final class qdz {
       return var4;
    }
 
-   private double[] qkj(ClientPlayerEntity var1, float var2, float var3, double var4) {
+   double[] qkj(ClientPlayerEntity var1, float var2, float var3, double var4) {
       float var6 = var1.getYaw();
       float var7 = var1.getPitch();
       double var8 = this.qil();
@@ -2264,7 +2264,7 @@ public final class qdz {
       return qln.lookAxes((float)(var6 + MathHelper.wrapDegrees(var2 - var6) * var10), (float)(var7 + (var3 - var7) * var10));
    }
 
-   private int qkk(World var1, ClientPlayerEntity var2) {
+   int qkk(World var1, ClientPlayerEntity var2) {
       int var3 = this.qkl();
       int[] var4 = this.qfj.path();
       LongArrayList var5 = new LongArrayList();
@@ -2376,11 +2376,11 @@ public final class qdz {
       }
    }
 
-   private int qkl() {
+   int qkl() {
       return this.qfj.path().length / 3;
    }
 
-   private int qkm(BlockPos var1) {
+   int qkm(BlockPos var1) {
       int var2 = this.qkl();
 
       for (int var3 = this.qfk; var3 < Math.min(var2, this.qfk + 4); var3++) {
@@ -2403,11 +2403,11 @@ public final class qdz {
       return -1;
    }
 
-   private boolean qkn(BlockPos var1, int var2, int var3) {
+   boolean qkn(BlockPos var1, int var2, int var3) {
       return this.qgm != null && Math.abs(this.qgm.x - (var2 + 0.5)) < 0.32 && Math.abs(this.qgm.z - (var3 + 0.5)) < 0.32;
    }
 
-   private boolean qko(int var1) {
+   boolean qko(int var1) {
       int var2 = this.qkl();
       if (var1 > 0 && var1 < var2 - 1) {
          int[] var3 = this.qfj.path();
@@ -2421,7 +2421,7 @@ public final class qdz {
       }
    }
 
-   private List<Vec3d> qkp(World var1) {
+   List<Vec3d> qkp(World var1) {
       ArrayList var2 = new ArrayList();
       if (this.qgp != null && this.qfi < this.qgq) {
          var2.add(this.qgp);
@@ -2441,7 +2441,7 @@ public final class qdz {
       return var2;
    }
 
-   private void qkq(World var1, ClientPlayerEntity var2) {
+   void qkq(World var1, ClientPlayerEntity var2) {
       this.qfl = false;
       this.qfm = this.qfi + 20;
       this.qfo = false;
@@ -2568,12 +2568,12 @@ public final class qdz {
       }
    }
 
-   private boolean qkr(World var1, BlockPos var2) {
+   boolean qkr(World var1, BlockPos var2) {
       BlockState var3 = var1.getBlockState(var2);
       return !var3.isAir() && this.qfe.test(var3) && !this.qew.containsKey(var2.asLong());
    }
 
-   private List<BlockPos> qks(int var1, int var2, int var3, int var4, int var5, int var6) {
+   List<BlockPos> qks(int var1, int var2, int var3, int var4, int var5, int var6) {
       ArrayList var7 = new ArrayList(3);
       if (var4 == var1 && var6 == var3) {
          if (var5 < var2) {
@@ -2593,7 +2593,7 @@ public final class qdz {
       }
    }
 
-   private void qkt(World var1, ClientPlayerEntity var2, BlockPos var3, boolean var4) {
+   void qkt(World var1, ClientPlayerEntity var2, BlockPos var3, boolean var4) {
       Vec3d var5 = this.qkx(var1, var2, var3);
       if (var5 == null) {
          BlockPos var6 = qla(var1, var2, var2.getEyePos(), var3);
@@ -2608,11 +2608,11 @@ public final class qdz {
       }
    }
 
-   private void qku(BlockPos var1, Block var2, boolean var3, Vec3d var4) {
+   void qku(BlockPos var1, Block var2, boolean var3, Vec3d var4) {
       this.qkv(var1, var2, var3, var4, false);
    }
 
-   private void qkv(BlockPos var1, Block var2, boolean var3, Vec3d var4, boolean var5) {
+   void qkv(BlockPos var1, Block var2, boolean var3, Vec3d var4, boolean var5) {
       if (!var1.equals(this.qfr)) {
          this.qgz = var5;
          this.qlj(
@@ -2639,7 +2639,7 @@ public final class qdz {
       }
    }
 
-   private static Vec3d qkw(ClientPlayerEntity var0, BlockPos var1) {
+   static Vec3d qkw(ClientPlayerEntity var0, BlockPos var1) {
       Vec3d var2 = var0.getEyePos();
       Vec3d var3 = var0.getRotationVec(1.0F);
       if (BlockPos.ofFloored(var2).equals(var1)) {
@@ -2650,7 +2650,7 @@ public final class qdz {
       return new Vec3d(var1.getX() + 0.5 + var3.x / var4 * 0.25, var1.getY() + 1.0, var1.getZ() + 0.5 + var3.z / var4 * 0.25);
    }
 
-   private Vec3d qkx(World var1, ClientPlayerEntity var2, BlockPos var3) {
+   Vec3d qkx(World var1, ClientPlayerEntity var2, BlockPos var3) {
       Vec3d var4 = var2.getEyePos();
       Vec3d var5 = var2.getRotationVec(1.0F);
       Vec3d var6 = null;
@@ -2707,7 +2707,7 @@ public final class qdz {
       return var6;
    }
 
-   private static boolean qky(World var0, ClientPlayerEntity var1, Vec3d var2, BlockPos var3, Vec3d var4) {
+   static boolean qky(World var0, ClientPlayerEntity var1, Vec3d var2, BlockPos var3, Vec3d var4) {
       Vec3d var5 = var4.subtract(var2);
       double var6 = var5.length();
       if (var6 < 1.0E-4) {
@@ -2729,7 +2729,7 @@ public final class qdz {
       }
    }
 
-   private static void qkz(World var0, ClientPlayerEntity var1) {
+   static void qkz(World var0, ClientPlayerEntity var1) {
       qhs.clear();
 
       for (Entity var3 : var0.getOtherEntities(var1, var1.getBoundingBox().expand(7.0), EntityPredicates.CAN_HIT)) {
@@ -2737,7 +2737,7 @@ public final class qdz {
       }
    }
 
-   private static BlockPos qla(World var0, ClientPlayerEntity var1, Vec3d var2, BlockPos var3) {
+   static BlockPos qla(World var0, ClientPlayerEntity var1, Vec3d var2, BlockPos var3) {
       BlockHitResult var4 = var0.raycast(new RaycastContext(var2, Vec3d.ofCenter(var3), ShapeType.OUTLINE, FluidHandling.NONE, var1));
       return var4.getType() == Type.BLOCK && !var4.getBlockPos().equals(var3) ? var4.getBlockPos() : null;
    }
@@ -2773,12 +2773,12 @@ public final class qdz {
       }
    }
 
-   private static boolean qlb(World var0, BlockPos var1) {
+   static boolean qlb(World var0, BlockPos var1) {
       BlockState var2 = var0.getBlockState(var1);
       return !var2.isAir() && var2.getFluidState().isEmpty() && var2.getHardness(var0, var1) >= 0.0F && var2.isFullCube(var0, var1);
    }
 
-   private boolean qlc(World var1, BlockPos var2) {
+   boolean qlc(World var1, BlockPos var2) {
       if (this.qfg != null && this.qfg.contains(var2) && !this.qev.contains(var2.asLong())) {
          BlockState var3 = var1.getBlockState(var2);
          return !var3.isAir() && var3.getFluidState().isEmpty() && var3.getHardness(var1, var2) >= 0.0F;
@@ -2787,21 +2787,21 @@ public final class qdz {
       }
    }
 
-   private static boolean qld(World var0, BlockPos var1) {
+   static boolean qld(World var0, BlockPos var1) {
       return !var0.getBlockState(var1).getCollisionShape(var0, var1).isEmpty();
    }
 
-   private static boolean qle(World var0, BlockPos var1) {
+   static boolean qle(World var0, BlockPos var1) {
       VoxelShape var2 = var0.getBlockState(var1).getCollisionShape(var0, var1);
       return !var2.isEmpty() && var2.getMax(Axis.Y) > 0.25;
    }
 
-   private void qlf(BlockPos var1, int var2) {
+   void qlf(BlockPos var1, int var2) {
       this.qlj(a.c(-564323151, "᳇敮\uefbf燗祖") + var1.toShortString() + a.d("줨", 1780711411, -1700415750) + var2);
       this.qew.put(var1.asLong(), this.qfi + var2);
    }
 
-   private void qlg(ClientPlayerEntity var1) {
+   void qlg(ClientPlayerEntity var1) {
       Vec3d var2 = var1.getEntityPos();
       if (this.qfx != null && this.qfr == null && this.qgm != null && var2.squaredDistanceTo(this.qgm) < 4.0E-4) {
          this.qgn++;
@@ -2812,7 +2812,7 @@ public final class qdz {
       this.qgm = var2;
    }
 
-   private void qlh(World var1) {
+   void qlh(World var1) {
       Iterator var2 = this.qey.iterator();
 
       while (var2.hasNext()) {
@@ -2841,7 +2841,7 @@ public final class qdz {
       }
    }
 
-   private void qli(long var1, String var3) {
+   void qli(long var1, String var3) {
       this.qev.add(var1);
       this.qez.remove(var1);
       this.qfq++;
@@ -2849,7 +2849,7 @@ public final class qdz {
       this.qlj(a.b("㡿䇍쬑售", -1674627047) + BlockPos.fromLong(var1).toShortString() + a.b("쉢", 1437909571) + var3);
    }
 
-   private void qlj(String var1) {
+   void qlj(String var1) {
       Consumer var2 = trace;
       if (var2 != null) {
          var2.accept(this.qfi + a.d("ሾ", 9087797, -99043030) + var1);

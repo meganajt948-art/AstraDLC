@@ -66,64 +66,64 @@ import net.minecraft.util.math.Direction.Axis;
 import org.lwjgl.glfw.GLFW;
 
 final class gef {
-   private static final String geg = System.getenv().getOrDefault(a.c(2061907829, "㜼亇쑗娾톌坐\ued11擤謁瀆\uf7cfථ荸᫋邍"), a.b("挏᪹遵", 1141400420));
-   private static final boolean geh = System.getenv(a.c(970909087, "\ue5c9鱲ᚢ裋\u0379薥㿤똑⡉ꋳ┺\udf40冑젳䉢쒕")) != null;
-   private static final String gei = System.getenv().getOrDefault(a.c(1537989051, "\ud9edꁖ⪆듯㽝릁π訵ᑭ黗ᤞ\ue374涨\uf40c繀\uf8a6"), a.c(-1036911146, "ﶾ萌ໟ邪"));
-   private static volatile BlockPos gej;
-   private static volatile Direction gek;
-   private static final boolean gel = geg.equals(a.c(-698367663, "섧뢒㉓갢⟠"));
-   private static final int gem = 8;
-   private static final int gen = gel ? 10 : 6;
-   private static double geo = -1.0;
-   private static double gep = -1.0;
-   private static int geq = -1;
-   private static int ger;
-   private static int ges = -1;
-   private static Entity get;
-   private static volatile int geu;
-   private static int gev = -1;
-   private static volatile int gew;
-   private static final List<String> gex = new ArrayList<>();
-   private static final int gey = 3;
-   private static final List<gec> gez = new ArrayList<>();
-   private static final List<BlockPos> gfa = new ArrayList<>();
-   private static final List<String> gfb = new ArrayList<>();
-   private static boolean gfc;
-   private static boolean gfd;
-   private static long gfe;
-   private static gec gff;
-   private static BlockPos gfg;
-   private static gec gfh;
-   private static long gfi = -1L;
-   private static long gfj = -1L;
-   private static int gfk;
-   private static int gfl;
-   private static int gfm;
-   private static String gfn;
-   private static TrackedData<Text> gfo;
-   private static int gfp;
-   private static int gfq;
-   private static float gfr;
-   private static float gfs;
-   private static boolean gft;
-   private static final List<Double> gfu = new ArrayList<>();
-   private static final List<Double> gfv = Collections.synchronizedList(new ArrayList<>());
-   private static float gfw;
-   private static float gfx;
-   private static boolean gfy;
-   private static volatile long gfz;
-   private static String gga = "";
-   private static int ggb;
-   private static boolean ggc;
-   private static boolean ggd;
-   private static boolean gge;
-   private static int ggf;
-   private static double ggg;
-   private static long ggh = -1L;
-   private static volatile int ggi = Integer.MAX_VALUE;
-   private static double ggj = -1.0;
+   static final String geg = System.getenv().getOrDefault(a.c(2061907829, "㜼亇쑗娾톌坐\ued11擤謁瀆\uf7cfථ荸᫋邍"), a.b("挏᪹遵", 1141400420));
+   static final boolean geh = System.getenv(a.c(970909087, "\ue5c9鱲ᚢ裋\u0379薥㿤똑⡉ꋳ┺\udf40冑젳䉢쒕")) != null;
+   static final String gei = System.getenv().getOrDefault(a.c(1537989051, "\ud9edꁖ⪆듯㽝릁π訵ᑭ黗ᤞ\ue374涨\uf40c繀\uf8a6"), a.c(-1036911146, "ﶾ萌ໟ邪"));
+   static volatile BlockPos gej;
+   static volatile Direction gek;
+   static final boolean gel = geg.equals(a.c(-698367663, "섧뢒㉓갢⟠"));
+   static final int gem = 8;
+   static final int gen = gel ? 10 : 6;
+   static double geo = -1.0;
+   static double gep = -1.0;
+   static int geq = -1;
+   static int ger;
+   static int ges = -1;
+   static Entity get;
+   static volatile int geu;
+   static int gev = -1;
+   static volatile int gew;
+   static final List<String> gex = new ArrayList<>();
+   static final int gey = 3;
+   static final List<gec> gez = new ArrayList<>();
+   static final List<BlockPos> gfa = new ArrayList<>();
+   static final List<String> gfb = new ArrayList<>();
+   static boolean gfc;
+   static boolean gfd;
+   static long gfe;
+   static gec gff;
+   static BlockPos gfg;
+   static gec gfh;
+   static long gfi = -1L;
+   static long gfj = -1L;
+   static int gfk;
+   static int gfl;
+   static int gfm;
+   static String gfn;
+   static TrackedData<Text> gfo;
+   static int gfp;
+   static int gfq;
+   static float gfr;
+   static float gfs;
+   static boolean gft;
+   static final List<Double> gfu = new ArrayList<>();
+   static final List<Double> gfv = Collections.synchronizedList(new ArrayList<>());
+   static float gfw;
+   static float gfx;
+   static boolean gfy;
+   static volatile long gfz;
+   static String gga = "";
+   static int ggb;
+   static boolean ggc;
+   static boolean ggd;
+   static boolean gge;
+   static int ggf;
+   static double ggg;
+   static long ggh = -1L;
+   static volatile int ggi = Integer.MAX_VALUE;
+   static double ggj = -1.0;
 
-   private gef() {
+   gef() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -304,7 +304,7 @@ final class gef {
       }
    }
 
-   private static void ggm(MinecraftClient var0, String var1, boolean var2, boolean var3) {
+   static void ggm(MinecraftClient var0, String var1, boolean var2, boolean var3) {
       System.out.println(a.c(-184603588, "ⱈ嗽\udf29䅓쫁䰤\uf666羁\ue1d9欼\uecaaᛐ頍Ǹ讣ഞ띚㢞ꈲ⑴귑ퟓ奺슯䒝") + gei + a.d("Ἣ暉\uec40", -1666900598, 656802443) + var1);
 
       for (String var5 : gfb) {
@@ -465,7 +465,7 @@ final class gef {
          );
    }
 
-   private static boolean ggn(ClientPlayerEntity var0) {
+   static boolean ggn(ClientPlayerEntity var0) {
       for (int var1 = 0; var1 < 36; var1++) {
          if (var0.getInventory().getStack(var1).isOf(Items.NETHERITE_PICKAXE)) {
             return true;
@@ -475,14 +475,14 @@ final class gef {
       return false;
    }
 
-   private static void ggo(boolean var0, String var1) {
+   static void ggo(boolean var0, String var1) {
       if (!var0) {
          ggb++;
          System.out.println(a.d("傪⤟ꏋ㶱똣テ誄ͣ鴻\u17de過樴\ue4ee絙\uf702熸쮱䑧\udedc墈텶ꬦ○븀", -1571011220, 969807283) + var1);
       }
    }
 
-   private static void ggp(MinecraftServer var0, BlockPos var1, boolean var2) {
+   static void ggp(MinecraftServer var0, BlockPos var1, boolean var2) {
       ServerWorld var3 = var0.getOverworld();
       gez.clear();
       gfa.clear();
@@ -651,7 +651,7 @@ final class gef {
       }
    }
 
-   private static void ggq(final MinecraftServer var0, ServerPlayerEntity var1) {
+   static void ggq(final MinecraftServer var0, ServerPlayerEntity var1) {
       try {
          ClientConnection var2 = null;
 
@@ -758,7 +758,7 @@ final class gef {
       }
    }
 
-   private static void ggr(gec var0, BlockState var1) {
+   static void ggr(gec var0, BlockState var1) {
       var0.mined++;
       String var2 = Registries.BLOCK.getId(var1.getBlock()).getPath();
       if (var2.endsWith(a.b("ⲉ唵\udfee䆓쩆䳶\uf6af罥\ue10a殦\uec62", 457518310))) {
@@ -778,7 +778,7 @@ final class gef {
       }
    }
 
-   private static void ggs(ServerWorld var0, ServerPlayerEntity var1, gec var2, BlockPos var3) {
+   static void ggs(ServerWorld var0, ServerPlayerEntity var1, gec var2, BlockPos var3) {
       if (!gei.equals(a.c(1392639718, "ﺌ蜼෮鎔"))) {
          float var4 = var1.getPitch();
          ArrayList var5 = new ArrayList();
@@ -817,7 +817,7 @@ final class gef {
       }
    }
 
-   private static void ggt(MinecraftServer var0) {
+   static void ggt(MinecraftServer var0) {
       if (gfd || !gez.isEmpty()) {
          gfe++;
          ServerWorld var1 = var0.getOverworld();
@@ -928,7 +928,7 @@ final class gef {
       }
    }
 
-   private static void ggu(ServerWorld var0, ServerPlayerEntity var1, gec var2) {
+   static void ggu(ServerWorld var0, ServerPlayerEntity var1, gec var2) {
       Box var3 = new Box(var2.cx - 8 - 2, var2.y0 - gen - 2, var2.cz - 8 - 2, var2.cx + 8 + 3, var2.y0 + 4, var2.cz + 8 + 3);
 
       for (ItemEntity var5 : var0.getEntitiesByClass(ItemEntity.class, var3, var0x -> var0x.getOwner() == null)) {
@@ -942,7 +942,7 @@ final class gef {
       }
    }
 
-   private static void ggv(ServerWorld var0, gec var1, int var2) {
+   static void ggv(ServerWorld var0, gec var1, int var2) {
       for (int var3 = var1.cx - 40 >> 4; var3 <= var1.cx + 40 >> 4; var3++) {
          for (int var4 = var1.cz - 140 >> 4; var4 <= var1.cz + 40 >> 4; var4++) {
             var0.getChunk(var3, var4);
@@ -1042,7 +1042,7 @@ final class gef {
       ggx(var1);
    }
 
-   private static void ggw(ServerWorld var0, gec var1, Random var2, double var3) {
+   static void ggw(ServerWorld var0, gec var1, Random var2, double var3) {
       Block[] var5 = new Block[]{Blocks.COAL_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.LAPIS_ORE, Blocks.DIAMOND_ORE};
       double[] var6 = new double[]{0.04, 0.035, 0.025, 0.02, 0.018, 0.012};
 
@@ -1080,7 +1080,7 @@ final class gef {
       }
    }
 
-   private static void ggx(gec var0) {
+   static void ggx(gec var0) {
       long var1 = Math.max(0L, var0.refreshAt - gfe);
       if (!gfd) {
          var1 = var0.refreshAt;
@@ -1103,7 +1103,7 @@ final class gef {
       }
    }
 
-   private static void ggy(TextDisplayEntity var0, Text var1) {
+   static void ggy(TextDisplayEntity var0, Text var1) {
       if (gfo == null) {
          for (Field var5 : TextDisplayEntity.class.getDeclaredFields()) {
             if (Modifier.isStatic(var5.getModifiers()) && var5.getType() == TrackedData.class) {
@@ -1124,7 +1124,7 @@ final class gef {
       var0.getDataTracker().set(gfo, var1);
    }
 
-   private static void ggz(MinecraftServer var0, BlockPos var1, float var2, float var3) {
+   static void ggz(MinecraftServer var0, BlockPos var1, float var2, float var3) {
       gfy = false;
       gfz = gfe + 20L;
       var0.getCommandManager()
@@ -1143,7 +1143,7 @@ final class gef {
          );
    }
 
-   private static void gha(kfe var0, String var1, Object var2) {
+   static void gha(kfe var0, String var1, Object var2) {
       for (vmo var4 : var0.getSettings()) {
          if (var4.getName().equals(var1)) {
             if (var4 instanceof vkl var5) {
@@ -1157,14 +1157,14 @@ final class gef {
       }
    }
 
-   private static void ghb(MinecraftClient var0, String var1, boolean var2) {
+   static void ghb(MinecraftClient var0, String var1, boolean var2) {
       kfe var3 = Flow.getInstance().getModuleManager().getByName(var1);
       if (var3 != null) {
          var3.setEnabled(var2);
       }
    }
 
-   private static void ghc(MinecraftClient var0) throws Exception {
+   static void ghc(MinecraftClient var0) throws Exception {
       for (Field var4 : Mouse.class.getDeclaredFields()) {
          if (var4.getName().equals(a.c(1445306881, "ꉮ\udbc9儝콭䒦숊硧\uf1b5濦\ue55f抂飲"))) {
             var4.setAccessible(true);
@@ -1173,7 +1173,7 @@ final class gef {
       }
    }
 
-   private static void ghd(MinecraftClient var0, String var1) {
+   static void ghd(MinecraftClient var0, String var1) {
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,
          a.c(-782319865, "뽧웜䰌퉥姷\udf59") + var1 + a.d("譂\uf2ad硠\ue618", -1649406285, -78674469),
@@ -1183,7 +1183,7 @@ final class gef {
       );
    }
 
-   private static void ghe(MinecraftClient var0, String var1) {
+   static void ghe(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

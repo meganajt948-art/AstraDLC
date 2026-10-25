@@ -6,17 +6,17 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 final class irv extends imn {
-   private static final float irw = 54.0F;
-   private static final float irx = 6.0F;
-   private static final float iry = 10.0F;
-   private final List<vcj> irz = new ArrayList<>();
-   private final List<vcj> isa = new ArrayList<>();
+   static final float irw = 54.0F;
+   static final float irx = 6.0F;
+   static final float iry = 10.0F;
+   final List<vcj> irz = new ArrayList<>();
+   final List<vcj> isa = new ArrayList<>();
 
    irv() {
       super(null);
    }
 
-   private List<isn> isd() {
+   List<isn> isd() {
       List var1 = isv.entries();
 
       while (this.irz.size() < var1.size()) {
@@ -27,21 +27,21 @@ final class irv extends imn {
       return var1;
    }
 
-   private int ise() {
+   int ise() {
       float var1 = this.w > 0.0F ? this.w : 376.0F;
       return Math.max(3, (int)((var1 + 6.0F) / 60.0F));
    }
 
-   private float isf() {
+   float isf() {
       int var1 = this.ise();
       return (this.w - 6.0F * (var1 - 1)) / var1;
    }
 
-   private float isg() {
+   float isg() {
       return this.isf() * 9.0F / 16.0F;
    }
 
-   private int ish() {
+   int ish() {
       return (this.isd().size() + this.ise() - 1) / this.ise();
    }
 
@@ -52,11 +52,11 @@ final class irv extends imn {
       return 3.0F + this.ish() * var2 + (this.ish() - 1) * 6.0F;
    }
 
-   private float isi(int var1) {
+   float isi(int var1) {
       return this.x + var1 % this.ise() * (this.isf() + 6.0F);
    }
 
-   private float isj(int var1) {
+   float isj(int var1) {
       return this.y + 3.0F + var1 / this.ise() * (this.isg() + 10.0F + 6.0F);
    }
 

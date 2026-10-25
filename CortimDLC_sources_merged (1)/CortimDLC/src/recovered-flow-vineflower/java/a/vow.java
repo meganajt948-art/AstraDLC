@@ -3,12 +3,12 @@ package a;
 import java.nio.file.Path;
 
 final class vow {
-   private final String vox;
-   private final Path voy;
-   private final Path voz;
-   private final Path vpa;
+   final String vox;
+   final Path voy;
+   final Path voz;
+   final Path vpa;
 
-   private vow(String name, Path both, Path on, Path off) {
+   vow(String name, Path both, Path on, Path off) {
       this.vox = name;
       this.voy = both;
       this.voz = on;

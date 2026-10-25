@@ -11,7 +11,7 @@ public final class tpx {
    public static final int TYPE = 7;
    public static final int SLOW = 8;
 
-   private tpx() {
+   tpx() {
    }
 
    public static int type(byte var0) {

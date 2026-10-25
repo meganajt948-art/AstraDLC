@@ -20,10 +20,10 @@ public final class qpw {
    public static final int KEEP_DIAMONDS = 16;
    public static final int KEEP_GOLD = 14;
    public static final Item[] MARKERS = new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.IRON_INGOT, Items.COAL};
-   private static final Item[] qpx = new Item[36];
-   private static final int[] qpy;
+   static final Item[] qpx = new Item[36];
+   static final int[] qpy;
 
-   private qpw() {
+   qpw() {
    }
 
    public static int count(PlayerInventory var0, Item var1) {
@@ -281,7 +281,7 @@ public final class qpw {
       }
    }
 
-   private static qpq qqb(PlayerInventory var0, ItemStack var1, Item[] var2, boolean[] var3, boolean var4) {
+   static qpq qqb(PlayerInventory var0, ItemStack var1, Item[] var2, boolean[] var3, boolean var4) {
       Item var5 = var1.getItem();
 
       for (int var9 : qpy) {
@@ -327,7 +327,7 @@ public final class qpw {
       return var4 ? null : new qpq(-999, 0, SlotActionType.PICKUP);
    }
 
-   private static int qqc(PlayerInventory var0, Item[] var1, Item var2) {
+   static int qqc(PlayerInventory var0, Item[] var1, Item var2) {
       int var3 = -1;
       int var4 = -1;
 

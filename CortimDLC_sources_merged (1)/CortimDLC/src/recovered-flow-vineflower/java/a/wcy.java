@@ -7,11 +7,11 @@ import java.util.ArrayDeque;
 
 final class wcy extends ChannelOutboundHandlerAdapter {
    volatile long until;
-   private final ArrayDeque<Object> wcz = new ArrayDeque<>();
-   private volatile ChannelHandlerContext wda;
-   private boolean wdb;
+   final ArrayDeque<Object> wcz = new ArrayDeque<>();
+   volatile ChannelHandlerContext wda;
+   boolean wdb;
 
-   private wcy() {
+   wcy() {
    }
 
    public void handlerAdded(ChannelHandlerContext var1) {
@@ -59,7 +59,7 @@ final class wcy extends ChannelOutboundHandlerAdapter {
       }
    }
 
-   private void wde(ChannelHandlerContext var1) {
+   void wde(ChannelHandlerContext var1) {
       if (!this.wcz.isEmpty() || this.wdb) {
          while (!this.wcz.isEmpty()) {
             var1.write(this.wcz.poll(), (ChannelPromise)this.wcz.poll());

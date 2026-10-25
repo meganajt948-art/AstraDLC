@@ -1,8 +1,8 @@
 package a;
 
 final class erk {
-   private final String erl;
-   private final double erm;
+   final String erl;
+   final double erm;
 
    erk(String code, double strength) {
       this.erl = code;

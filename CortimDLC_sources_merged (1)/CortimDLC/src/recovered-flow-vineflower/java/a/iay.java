@@ -3,12 +3,12 @@ package a;
 import net.minecraft.item.ItemStack;
 
 final class iay {
-   private final String iaz;
-   private final ItemStack iba;
-   private final String ibb;
-   private final String ibc;
+   final String iaz;
+   final ItemStack iba;
+   final String ibb;
+   final String ibc;
 
-   private iay(String id, ItemStack icon, String name, String search) {
+   iay(String id, ItemStack icon, String name, String search) {
       this.iaz = id;
       this.iba = icon;
       this.ibb = name;

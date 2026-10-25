@@ -8,9 +8,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public final class lqk {
-   private static final int lql = 5;
-   private static final double lqm = 0.08;
-   private final Box[] lqn = new Box[40];
+   static final int lql = 5;
+   static final double lqm = 0.08;
+   final Box[] lqn = new Box[40];
 
    public void predict(Entity var1, World var2) {
       Box var3 = var1.getBoundingBox();

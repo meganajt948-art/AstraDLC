@@ -1,9 +1,9 @@
 package a;
 
 public final class qqg {
-   private final qqp qqh;
-   private final int qqi;
-   private final qqm qqj;
+   final qqp qqh;
+   final int qqi;
+   final qqm qqj;
 
    public qqg(qqp kind, int id, qqm entry) {
       this.qqh = kind;

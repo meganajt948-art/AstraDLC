@@ -5,15 +5,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 final class ike extends imn {
-   private static final vdn ikf = veo.bold(12.0F);
-   private static final float ikg = 26.0F;
-   private static final float ikh = 18.0F;
-   private final vcj iki = new vcj(16.0F);
-   private final vcj ikj = new vcj(16.0F);
-   private final vcj ikk = new vcj(16.0F);
-   private final vcj ikl = new vcj(6.0F);
-   private int ikm = ucg.noticeSeq();
-   private long ikn;
+   static final vdn ikf = veo.bold(12.0F);
+   static final float ikg = 26.0F;
+   static final float ikh = 18.0F;
+   final vcj iki = new vcj(16.0F);
+   final vcj ikj = new vcj(16.0F);
+   final vcj ikk = new vcj(16.0F);
+   final vcj ikl = new vcj(6.0F);
+   int ikm = ucg.noticeSeq();
+   long ikn;
 
    ike() {
       super(null);
@@ -24,11 +24,11 @@ final class ike extends imn {
       return 45.0F;
    }
 
-   private float ikq() {
+   float ikq() {
       return this.x + this.w - 6.0F - 36.0F - 3.0F;
    }
 
-   private float ikr() {
+   float ikr() {
       return this.x + this.w - 6.0F - 18.0F;
    }
 

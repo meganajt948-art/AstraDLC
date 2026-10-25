@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 final class lqy extends lqu<ChatHudLine> {
-   private final ChatHud lqz;
+   final ChatHud lqz;
 
    lqy(Collection<ChatHudLine> var1, ChatHud var2) {
       super(var1);
@@ -32,7 +32,7 @@ final class lqy extends lqu<ChatHudLine> {
       }
    }
 
-   private boolean lrc(ChatHudLine var1) {
+   boolean lrc(ChatHudLine var1) {
       String var2 = var1.content().getString();
       ChatHudLine var3 = this.getFirst();
       int var4;
@@ -73,7 +73,7 @@ final class lqy extends lqu<ChatHudLine> {
       }
    }
 
-   private ChatHudLine lrd(ChatHudLine var1) {
+   ChatHudLine lrd(ChatHudLine var1) {
       Text var2 = wjw.link(var1.content());
       if (var2 == var1.content()) {
          return var1;

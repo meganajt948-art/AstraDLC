@@ -473,9 +473,9 @@ public final class uvq {
       .build();
    public static final RenderPipeline SHATTER_BACK = uwd("shatter_back", true);
    public static final RenderPipeline SHATTER_FRONT = uwd("shatter_front", false);
-   private static final Map<String, String> uvr = new HashMap<>();
-   private static final Map<RenderPipeline, Boolean> uvs = new IdentityHashMap<>();
-   private static final ShaderSourceGetter uvt = (var0, var1) -> {
+   static final Map<String, String> uvr = new HashMap<>();
+   static final Map<RenderPipeline, Boolean> uvs = new IdentityHashMap<>();
+   static final ShaderSourceGetter uvt = (var0, var1) -> {
       if (!"flow2".equals(var0.getNamespace())) {
          return null;
       }
@@ -483,12 +483,12 @@ public final class uvq {
       String var2 = "/flow/shaders/" + var0.getPath() + (var1 == ShaderType.VERTEX ? ".vsh" : ".fsh");
       return uvr.computeIfAbsent(var2, uvq::uwe);
    };
-   private static final String uvu = "#flow_include";
+   static final String uvu = "#flow_include";
 
-   private uvq() {
+   uvq() {
    }
 
-   private static RenderPipeline uvx(String var0, BlendFunction var1) {
+   static RenderPipeline uvx(String var0, BlendFunction var1) {
       return RenderPipeline.builder()
          .withLocation(id("pipeline/" + var0))
          .withVertexShader(id("core/quad"))
@@ -502,7 +502,7 @@ public final class uvq {
          .build();
    }
 
-   private static RenderPipeline uvy(String var0, BlendFunction var1) {
+   static RenderPipeline uvy(String var0, BlendFunction var1) {
       return RenderPipeline.builder()
          .withLocation(id("pipeline/" + var0))
          .withVertexShader(id("core/pattern"))
@@ -516,7 +516,7 @@ public final class uvq {
          .build();
    }
 
-   private static RenderPipeline uvz(String var0) {
+   static RenderPipeline uvz(String var0) {
       return RenderPipeline.builder()
          .withLocation(id("pipeline/" + var0))
          .withVertexShader(id("core/blur"))
@@ -529,7 +529,7 @@ public final class uvq {
          .build();
    }
 
-   private static RenderPipeline uwa(boolean var0) {
+   static RenderPipeline uwa(boolean var0) {
       Builder var1 = RenderPipeline.builder()
          .withLocation(id(var0 ? "pipeline/storm_probe_blur" : "pipeline/storm_probe"))
          .withVertexShader(id("core/blur"))
@@ -547,7 +547,7 @@ public final class uvq {
       return var1.build();
    }
 
-   private static RenderPipeline uwb(String var0) {
+   static RenderPipeline uwb(String var0) {
       return RenderPipeline.builder()
          .withLocation(id("pipeline/" + var0))
          .withVertexShader(id("core/blur"))
@@ -561,7 +561,7 @@ public final class uvq {
          .build();
    }
 
-   private static RenderPipeline uwc(String var0, boolean var1) {
+   static RenderPipeline uwc(String var0, boolean var1) {
       Builder var2 = RenderPipeline.builder()
          .withLocation(id("pipeline/" + var0))
          .withVertexShader(id("core/fog"))
@@ -581,7 +581,7 @@ public final class uvq {
       return var2.build();
    }
 
-   private static RenderPipeline uwd(String var0, boolean var1) {
+   static RenderPipeline uwd(String var0, boolean var1) {
       Builder var2 = RenderPipeline.builder()
          .withLocation(id("pipeline/" + var0))
          .withVertexShader(id("core/shatter"))
@@ -624,7 +624,7 @@ public final class uvq {
       }
    }
 
-   private static String uwe(String var0) {
+   static String uwe(String var0) {
       String var1 = uwf(var0);
       if (var1 != null && var1.contains("#flow_include")) {
          StringBuilder var2 = new StringBuilder(var1.length() + 8192);
@@ -651,7 +651,7 @@ public final class uvq {
       }
    }
 
-   private static String uwf(String var0) {
+   static String uwf(String var0) {
       try (InputStream var1 = uvq.class.getResourceAsStream(var0)) {
          if (var1 == null) {
             System.out.println("missing shader " + var0);

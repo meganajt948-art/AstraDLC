@@ -39,43 +39,43 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public class rnk extends kfe {
-   private static rnk rnl;
-   private final vkl rnm = this.add(new vkl("Pearls", true));
-   private final vkl rnn = this.add(new vkl("Bows", true));
-   private final vkl rno = this.add(new vkl("Tridents", true));
-   private final vkl rnp = this.add(new vkl("Throwables", true));
-   private final vkl rnq = this.add(new vkl("Flying pearls", true));
-   private final vkl rnr = this.add(new vkl("Path", true));
-   private final vkl rns = this.add(new vkl("Time", false));
-   private final vla rnt = this.add(new vla("Color", "Theme"));
-   private static final int rnu = 240;
-   private static final vdn rnv = veo.semibold(6.0F);
-   private static final rnb rnw = new rnb(1.5, 0.03, 0.99, 0.8, 0.0F, false);
-   private static final rnb rnx = new rnb(0.5, 0.05, 0.99, 0.8, -20.0F, false);
-   private static final rnb rny = new rnb(0.7, 0.07, 0.99, 0.8, -20.0F, false);
-   private static final rnb rnz = new rnb(2.5, 0.05, 0.99, 0.99, 0.0F, true);
-   private static final float[] roa = new float[]{0.0F, -10.0F, 10.0F};
-   private final rmy[] rob = new rmy[]{new rmy(), new rmy(), new rmy()};
-   private final List<rmy> roc = new ArrayList<>();
-   private boolean rod;
-   private int roe = 1;
-   private final List<EnderPearlEntity> rof = new ArrayList<>();
-   private final List<Entity> rog = new ArrayList<>();
-   private final List<Box> roh = new ArrayList<>();
-   private long roi = Long.MIN_VALUE;
-   private rnb roj;
-   private boolean rok;
-   private int rol;
-   private long rom = Long.MIN_VALUE;
-   private Vec3d ron;
-   private Vec3d roo;
-   private float rop;
-   private float roq;
-   private boolean ror;
-   private long ros = -1L;
-   private final float[] rot = new float[2];
-   private final float[] rou = new float[4];
-   private final float[] rov = new float[2];
+   static rnk rnl;
+   final vkl rnm = this.add(new vkl("Pearls", true));
+   final vkl rnn = this.add(new vkl("Bows", true));
+   final vkl rno = this.add(new vkl("Tridents", true));
+   final vkl rnp = this.add(new vkl("Throwables", true));
+   final vkl rnq = this.add(new vkl("Flying pearls", true));
+   final vkl rnr = this.add(new vkl("Path", true));
+   final vkl rns = this.add(new vkl("Time", false));
+   final vla rnt = this.add(new vla("Color", "Theme"));
+   static final int rnu = 240;
+   static final vdn rnv = veo.semibold(6.0F);
+   static final rnb rnw = new rnb(1.5, 0.03, 0.99, 0.8, 0.0F, false);
+   static final rnb rnx = new rnb(0.5, 0.05, 0.99, 0.8, -20.0F, false);
+   static final rnb rny = new rnb(0.7, 0.07, 0.99, 0.8, -20.0F, false);
+   static final rnb rnz = new rnb(2.5, 0.05, 0.99, 0.99, 0.0F, true);
+   static final float[] roa = new float[]{0.0F, -10.0F, 10.0F};
+   final rmy[] rob = new rmy[]{new rmy(), new rmy(), new rmy()};
+   final List<rmy> roc = new ArrayList<>();
+   boolean rod;
+   int roe = 1;
+   final List<EnderPearlEntity> rof = new ArrayList<>();
+   final List<Entity> rog = new ArrayList<>();
+   final List<Box> roh = new ArrayList<>();
+   long roi = Long.MIN_VALUE;
+   rnb roj;
+   boolean rok;
+   int rol;
+   long rom = Long.MIN_VALUE;
+   Vec3d ron;
+   Vec3d roo;
+   float rop;
+   float roq;
+   boolean ror;
+   long ros = -1L;
+   final float[] rot = new float[2];
+   final float[] rou = new float[4];
+   final float[] rov = new float[2];
 
    public rnk() {
       super(new String(new char[]{'P', 'r', 'e', 'd', 'i', 'c', 't', 'i', 'o', 'n', 's'}), "Where throws and shots will land", kfa.RENDER);
@@ -94,7 +94,7 @@ public class rnk extends kfe {
       }
    }
 
-   private void roy(DrawContext var1, MinecraftClient var2, float var3) {
+   void roy(DrawContext var1, MinecraftClient var2, float var3) {
       ClientPlayerEntity var4 = var2.player;
       long var5 = var2.world.getTime();
       if (var5 != this.roi) {
@@ -134,7 +134,7 @@ public class rnk extends kfe {
       }
    }
 
-   private void roz(DrawContext var1, MinecraftClient var2, ClientPlayerEntity var3, usn var4, rnb var5, float var6) {
+   void roz(DrawContext var1, MinecraftClient var2, ClientPlayerEntity var3, usn var4, rnb var5, float var6) {
       int var7 = this.rnt.color() | 0xFF000000;
 
       for (rmy var9 : this.roc) {
@@ -191,7 +191,7 @@ public class rnk extends kfe {
       }
    }
 
-   private static Vec3d rpa(float var0, float var1) {
+   static Vec3d rpa(float var0, float var1) {
       float var2 = (float) (Math.PI / 180.0);
       float var3 = var0 * var2;
       float var4 = -var1 * var2;
@@ -202,7 +202,7 @@ public class rnk extends kfe {
       return new Vec3d(var6 * var7, -var8, var5 * var7);
    }
 
-   private static Vec3d rpb(Vec3d var0, Vec3d var1, float var2) {
+   static Vec3d rpb(Vec3d var0, Vec3d var1, float var2) {
       if (var2 == 0.0F) {
          return var0;
       }
@@ -213,7 +213,7 @@ public class rnk extends kfe {
       return var0.multiply(var3).add(var7.multiply(var5)).add(var1.multiply(var1.dotProduct(var0) * (1.0 - var3)));
    }
 
-   private rnb rpc(ClientPlayerEntity var1, ItemStack var2) {
+   rnb rpc(ClientPlayerEntity var1, ItemStack var2) {
       if (var2.isEmpty()) {
          return null;
       }
@@ -255,7 +255,7 @@ public class rnk extends kfe {
       }
    }
 
-   private void rpd(MinecraftClient var1) {
+   void rpd(MinecraftClient var1) {
       this.rog.clear();
       this.roh.clear();
       this.rof.clear();
@@ -285,7 +285,7 @@ public class rnk extends kfe {
       }
    }
 
-   private static Vec3d rpe(float var0, float var1, float var2) {
+   static Vec3d rpe(float var0, float var1, float var2) {
       float var3 = (float) (Math.PI / 180.0);
       double var4 = -MathHelper.sin(var1 * var3) * MathHelper.cos(var2 * var3);
       double var6 = -MathHelper.sin(var0 * var3);
@@ -293,7 +293,7 @@ public class rnk extends kfe {
       return new Vec3d(var4, var6, var8).normalize();
    }
 
-   private void rpf(World var1, Entity var2, Vec3d var3, Vec3d var4, rnb var5, rmy var6) {
+   void rpf(World var1, Entity var2, Vec3d var3, Vec3d var4, rnb var5, rmy var6) {
       var6.n = 0;
       var6.hit = Type.MISS;
       var6.entity = null;
@@ -402,7 +402,7 @@ public class rnk extends kfe {
       }
    }
 
-   private void rpg(DrawContext var1, usn var2, rmy var3, int var4, float var5, int var6) {
+   void rpg(DrawContext var1, usn var2, rmy var3, int var4, float var5, int var6) {
       if (var3.n >= 2) {
          uut.pushAlpha(var5);
          if (this.rnr.get()) {
@@ -428,7 +428,7 @@ public class rnk extends kfe {
       }
    }
 
-   private void rph(DrawContext var1, usn var2, rmy var3, int var4, int var5) {
+   void rph(DrawContext var1, usn var2, rmy var3, int var4, int var5) {
       double[] var6 = var3.pts;
       double var7 = 0.0;
 
@@ -451,7 +451,7 @@ public class rnk extends kfe {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   private void rpi(DrawContext var1, usn var2, double var3, double var5, double var7, Direction var9, double var10, int var12) {
+   void rpi(DrawContext var1, usn var2, double var3, double var5, double var7, Direction var9, double var10, int var12) {
       double var13;
       double var15;
       double var17;

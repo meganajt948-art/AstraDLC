@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
 
 public final class sle {
    public static final sle NONE = new sle(List.of());
-   private static final Pattern slf = Pattern.compile("\\[(\\d{1,3}):(\\d{1,2})(?:[.:](\\d{1,3}))?]");
-   private static final Pattern slg = Pattern.compile("<(\\d{1,3}):(\\d{1,2})(?:[.:](\\d{1,3}))?>");
-   private static final Pattern slh = Pattern.compile("\\[offset:\\s*([+-]?\\d+)\\s*]", 2);
-   private static final long sli = 7000L;
-   private final List<skx> slj;
+   static final Pattern slf = Pattern.compile("\\[(\\d{1,3}):(\\d{1,2})(?:[.:](\\d{1,3}))?]");
+   static final Pattern slg = Pattern.compile("<(\\d{1,3}):(\\d{1,2})(?:[.:](\\d{1,3}))?>");
+   static final Pattern slh = Pattern.compile("\\[offset:\\s*([+-]?\\d+)\\s*]", 2);
+   static final long sli = 7000L;
+   final List<skx> slj;
 
-   private sle(List<skx> var1) {
+   sle(List<skx> var1) {
       this.slj = var1;
    }
 
@@ -58,9 +58,9 @@ public final class sle {
          ArrayList var4 = new ArrayList();
 
          final class Raw {
-            private final long sks;
-            private final String skt;
-            private final long[] sku;
+            final long sks;
+            final String skt;
+            final long[] sku;
 
             Raw(long start, String text, long[] words) {
                this.sks = start;
@@ -143,7 +143,7 @@ public final class sle {
       }
    }
 
-   private static long[] slm(long[] var0, long var1) {
+   static long[] slm(long[] var0, long var1) {
       if (var1 == 0L) {
          return var0;
       }
@@ -157,7 +157,7 @@ public final class sle {
       return var3;
    }
 
-   private static long sln(Matcher var0) {
+   static long sln(Matcher var0) {
       long var1 = Long.parseLong(var0.group(1));
       long var3 = Long.parseLong(var0.group(2));
       String var5 = var0.group(3);
@@ -175,7 +175,7 @@ public final class sle {
       return var1 * 60000L + var3 * 1000L + var6;
    }
 
-   private static String slo(String var0) {
+   static String slo(String var0) {
       String var1 = var0.replace(' ', ' ').replaceAll("\\s+", " ").trim();
       int var2 = 0;
 

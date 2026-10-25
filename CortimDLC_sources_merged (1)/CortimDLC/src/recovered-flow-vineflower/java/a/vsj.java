@@ -46,7 +46,7 @@ final class vsj {
    float muffle;
    float clock;
 
-   private vsj(long var1, long var3, boolean var5, int var6, boolean var7) {
+   vsj(long var1, long var3, boolean var5, int var6, boolean var7) {
       this.device = var1;
       this.context = var3;
       this.efx = var5;
@@ -150,7 +150,7 @@ final class vsj {
       }
    }
 
-   private void vsm() {
+   void vsm() {
       AL10.alListenerf(4106, 1.0F);
       AL10.alListener3f(4100, 0.0F, 0.0F, 0.0F);
       this.bedHeavy = this.loop(a.c(943412742, "噾\u2fdcꔇ㭱낗㘑豏ֺ鯲ᅌ"), true);
@@ -196,7 +196,7 @@ final class vsj {
       }
    }
 
-   private void vsn() {
+   void vsn() {
       this.farEffect = EXTEfx.alGenEffects();
       this.nearEffect = EXTEfx.alGenEffects();
       AL10.alGetError();
@@ -217,7 +217,7 @@ final class vsj {
       EXTEfx.alAuxiliaryEffectSloti(this.nearSlot, 1, this.nearEffect);
    }
 
-   private void vso(
+   void vso(
       int var1,
       float var2,
       float var3,
@@ -428,7 +428,7 @@ final class vsj {
       }
    }
 
-   private void vsp(int var1, float var2, float var3) {
+   void vsp(int var1, float var2, float var3) {
       if (this.filter != 0) {
          EXTEfx.alFilterf(this.filter, 1, var2);
          EXTEfx.alFilterf(this.filter, 2, Math.max(0.0F, Math.min(1.0F, var3)));
@@ -436,7 +436,7 @@ final class vsj {
       }
    }
 
-   private void vsq(int var1, int var2, float var3, float var4) {
+   void vsq(int var1, int var2, float var3, float var4) {
       if (this.filter != 0 && var2 != 0) {
          EXTEfx.alFilterf(this.filter, 1, Math.max(0.0F, Math.min(1.0F, var3)));
          EXTEfx.alFilterf(this.filter, 2, Math.max(0.0F, Math.min(1.0F, var4)));
@@ -444,7 +444,7 @@ final class vsj {
       }
    }
 
-   private void vsr(int var1, float var2) {
+   void vsr(int var1, float var2) {
       int var3 = AL10.alGetSourcei(var1, 4112);
       if (var2 <= 0.0015F) {
          if (var3 == 4114) {

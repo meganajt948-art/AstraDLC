@@ -5,13 +5,13 @@ import java.util.function.IntPredicate;
 import net.minecraft.client.gui.DrawContext;
 
 final class iks extends imn {
-   private static final float ikt = 17.0F;
-   private static final float iku = 64.0F;
-   private static final IntPredicate ikv = var0 -> Character.isLetterOrDigit(var0) || var0 == 45 || var0 == 32;
+   static final float ikt = 17.0F;
+   static final float iku = 64.0F;
+   static final IntPredicate ikv = var0 -> Character.isLetterOrDigit(var0) || var0 == 45 || var0 == 32;
    final iah field = new iah(a.c(-1845535435, "嵾⓻긳ぎ뮒㴩蜹ຜ邐ᩢ鶽柇\ue911"), vhz.USER_PLUS, 9, ikv);
-   private final vcj ikw = new vcj(16.0F);
-   private final vcj ikx = new vcj(9.0F);
-   private hlc iky;
+   final vcj ikw = new vcj(16.0F);
+   final vcj ikx = new vcj(9.0F);
+   hlc iky;
 
    iks() {
       super(null);
@@ -23,7 +23,7 @@ final class iks extends imn {
       return 24.0F;
    }
 
-   private float ilb() {
+   float ilb() {
       return this.x + this.w - 64.0F;
    }
 
@@ -64,7 +64,7 @@ final class iks extends imn {
       }
    }
 
-   private void ilc() {
+   void ilc() {
       if (ucg.normalize(this.field.text) == null) {
          this.field.error();
          if (this.iky != null) {

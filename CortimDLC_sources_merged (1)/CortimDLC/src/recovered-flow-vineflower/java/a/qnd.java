@@ -34,7 +34,7 @@ public final class qnd {
    static final double REACH = 4.2;
    static final double EYE = 1.62;
    static final double LOW = 0.25;
-   private static final Set<Block> qne = Set.of(
+   static final Set<Block> qne = Set.of(
       Blocks.FIRE,
       Blocks.SOUL_FIRE,
       Blocks.MAGMA_BLOCK,
@@ -54,24 +54,24 @@ public final class qnd {
    public int sx;
    public int sy;
    public int sz;
-   private byte[] qnf = new byte[0];
-   private short[] qng = new short[0];
-   private float[] qnh = new float[0];
-   private int[] qni = new int[0];
-   private int[] qnj = new int[0];
-   private float[] qnk = new float[0];
-   private int qnl;
-   private pzc qnm;
-   private final qmr qnn = new qmr();
-   private List<Vec3d> qno = List.of();
-   private float qnp = 4.6F;
-   private float qnq = 4.0F;
-   private double qnr = 22.0;
-   private float qns;
-   private static final int[] qnt = new int[]{1, -1, 0, 0};
-   private static final int[] qnu = new int[]{0, 0, 1, -1};
-   private static final int[] qnv = new int[]{1, 1, -1, -1};
-   private static final int[] qnw = new int[]{1, -1, 1, -1};
+   byte[] qnf = new byte[0];
+   short[] qng = new short[0];
+   float[] qnh = new float[0];
+   int[] qni = new int[0];
+   int[] qnj = new int[0];
+   float[] qnk = new float[0];
+   int qnl;
+   pzc qnm;
+   final qmr qnn = new qmr();
+   List<Vec3d> qno = List.of();
+   float qnp = 4.6F;
+   float qnq = 4.0F;
+   double qnr = 22.0;
+   float qns;
+   static final int[] qnt = new int[]{1, -1, 0, 0};
+   static final int[] qnu = new int[]{0, 0, 1, -1};
+   static final int[] qnv = new int[]{1, 1, -1, -1};
+   static final int[] qnw = new int[]{1, -1, 1, -1};
 
    public void tune(float var1, float var2, double var3, float var5) {
       this.qnp = var1;
@@ -309,7 +309,7 @@ public final class qnd {
       }
    }
 
-   private void qnz(int var1, int var2, int var3, int var4, float var5) {
+   void qnz(int var1, int var2, int var3, int var4, float var5) {
       if (var5 != Float.POSITIVE_INFINITY && this.inside(var2, var3, var4) && this.inside(var2, var3 + 1, var4)) {
          for (Vec3d var7 : this.qno) {
             double var8 = var2 + 0.5 - var7.x;
@@ -467,7 +467,7 @@ public final class qnd {
       return Float.POSITIVE_INFINITY;
    }
 
-   private int qoa(int var1, int var2, int var3) {
+   int qoa(int var1, int var2, int var3) {
       int var4 = 0;
 
       for (int var5 = -1; var5 <= 1; var5++) {
@@ -499,7 +499,7 @@ public final class qnd {
       return var4;
    }
 
-   private int[] qob(int var1) {
+   int[] qob(int var1) {
       ArrayList var2 = new ArrayList();
       int var3 = var1;
 

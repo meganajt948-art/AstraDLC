@@ -1,12 +1,12 @@
 package a;
 
 public final class sng {
-   private final int snh;
-   private final int sni;
-   private final float snj;
-   private final boolean snk;
-   private final boolean snl;
-   private final float snm;
+   final int snh;
+   final int sni;
+   final float snj;
+   final boolean snk;
+   final boolean snl;
+   final float snm;
 
    public sng(int tone, int tone2, float glow, boolean shadow, boolean particles, float alpha) {
       this.snh = tone;

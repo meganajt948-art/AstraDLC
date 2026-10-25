@@ -1,8 +1,8 @@
 package a;
 
 public final class pfw {
-   private final int pfx;
-   private final int pfy;
+   final int pfx;
+   final int pfy;
 
    public pfw(int page, int price) {
       this.pfx = page;

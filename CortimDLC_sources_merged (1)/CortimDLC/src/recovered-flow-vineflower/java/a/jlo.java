@@ -9,6 +9,6 @@ final class jlo {
    final vcj flip = new vcj(11.0F);
    final vcj shown = new vcj(14.0F);
 
-   private jlo() {
+   jlo() {
    }
 }

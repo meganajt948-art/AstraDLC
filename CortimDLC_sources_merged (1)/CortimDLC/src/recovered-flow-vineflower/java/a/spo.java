@@ -6,7 +6,7 @@ import java.util.Random;
 import org.joml.Vector3f;
 
 final class spo {
-   private static final float spp = 0.0625F;
+   static final float spp = 0.0625F;
    int shards;
    int vertices;
    int[] start = new int[256];
@@ -15,13 +15,13 @@ final class spo {
    float[] pos = new float[24576];
    float[] nrm = new float[24576];
    int[] code = new int[8192];
-   private final Random spq;
-   private final float[] spr = new float[3];
-   private final Vector3f sps = new Vector3f();
-   private spg spt;
-   private int spu;
+   final Random spq;
+   final float[] spr = new float[3];
+   final Vector3f sps = new Vector3f();
+   spg spt;
+   int spu;
 
-   private spo(Random var1) {
+   spo(Random var1) {
       this.spq = var1;
    }
 
@@ -56,14 +56,14 @@ final class spo {
       return var3;
    }
 
-   private void spx(spg var1) {
+   void spx(spg var1) {
       this.spt = var1;
       this.spr[0] = var1.hx();
       this.spr[1] = var1.hy();
       this.spr[2] = var1.hz();
    }
 
-   private void spy(spg var1, float var2, float var3) {
+   void spy(spg var1, float var2, float var3) {
       this.spx(var1);
 
       for (int var4 = 0; var4 < 3; var4++) {
@@ -116,7 +116,7 @@ final class spo {
       }
    }
 
-   private void spz(float[] var1, float[] var2, float[] var3, float[] var4, float var5) {
+   void spz(float[] var1, float[] var2, float[] var3, float[] var4, float var5) {
       float[] var6 = sqf(var1, var4, var5);
       float[] var7 = sqf(var2, var4, var5);
       float[] var8 = sqf(var3, var4, var5);
@@ -132,7 +132,7 @@ final class spo {
       this.sqh();
    }
 
-   private void sqa(float[] var1, float[] var2, float[] var3, float[] var4, float[] var5, float var6, float var7, float var8) {
+   void sqa(float[] var1, float[] var2, float[] var3, float[] var4, float[] var5, float var6, float var7, float var8) {
       float var9 = var2[0] - var1[0];
       float var10 = var2[1] - var1[1];
       float var11 = var2[2] - var1[2];
@@ -155,7 +155,7 @@ final class spo {
       }
    }
 
-   private void sqb(spg var1, float var2) {
+   void sqb(spg var1, float var2) {
       this.spx(var1);
       int[] var3 = new int[3];
 
@@ -205,7 +205,7 @@ final class spo {
       }
    }
 
-   private static float[] sqc(int var0, int var1, int var2, int var3, float[] var4, float[] var5, boolean var6, boolean var7) {
+   static float[] sqc(int var0, int var1, int var2, int var3, float[] var4, float[] var5, boolean var6, boolean var7) {
       float[] var8 = new float[3];
       var8[var0] = var1 > 0 ? var5[var0] : var4[var0];
       var8[var2] = var6 ? var5[var2] : var4[var2];
@@ -213,11 +213,11 @@ final class spo {
       return var8;
    }
 
-   private int sqd(boolean var1, float[] var2, float[] var3) {
+   int sqd(boolean var1, float[] var2, float[] var3) {
       return var1 ? this.sqe(var2, var3) : 0;
    }
 
-   private int sqe(float[] var1, float[] var2) {
+   int sqe(float[] var1, float[] var2) {
       int var3 = 0;
 
       for (int var4 = 0; var4 < 3; var4++) {
@@ -231,11 +231,11 @@ final class spo {
       return var3 >= 2 ? 1 : 0;
    }
 
-   private static float[] sqf(float[] var0, float[] var1, float var2) {
+   static float[] sqf(float[] var0, float[] var1, float var2) {
       return new float[]{var0[0] - var1[0] * var2, var0[1] - var1[1] * var2, var0[2] - var1[2] * var2};
    }
 
-   private void sqg() {
+   void sqg() {
       if (this.shards + 1 > this.start.length) {
          int var1 = this.start.length * 2;
          this.start = Arrays.copyOf(this.start, var1);
@@ -246,7 +246,7 @@ final class spo {
       this.spu = this.vertices;
    }
 
-   private void sqh() {
+   void sqh() {
       int var1 = this.vertices - this.spu;
       if (var1 > 0) {
          float var2 = 0.0F;
@@ -278,7 +278,7 @@ final class spo {
       }
    }
 
-   private void sqi(float[] var1, float[] var2, float[] var3, float var4, float var5, float var6, int var7, int var8, int var9, int var10) {
+   void sqi(float[] var1, float[] var2, float[] var3, float var4, float var5, float var6, int var7, int var8, int var9, int var10) {
       if (this.vertices + 3 > this.code.length) {
          int var11 = this.code.length * 2;
          this.code = Arrays.copyOf(this.code, var11);
@@ -298,7 +298,7 @@ final class spo {
       this.sqj(var3, var15, var12, var13, 0xFF0000 | var14);
    }
 
-   private void sqj(float[] var1, float var2, float var3, float var4, int var5) {
+   void sqj(float[] var1, float var2, float var3, float var4, int var5) {
       this.sps.set(var1[0], var1[1], var1[2]);
       this.spt.matrix().transformPosition(this.sps);
       int var6 = this.vertices * 3;
@@ -312,7 +312,7 @@ final class spo {
       this.vertices++;
    }
 
-   private static float sqk(float var0, float var1, float var2) {
+   static float sqk(float var0, float var1, float var2) {
       return Math.max(var1, Math.min(var2, var0));
    }
 }

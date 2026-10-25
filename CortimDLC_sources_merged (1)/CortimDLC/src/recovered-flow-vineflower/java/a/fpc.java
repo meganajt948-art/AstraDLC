@@ -16,6 +16,6 @@ final class fpc {
    float serverDamage;
    long nanos;
 
-   private fpc() {
+   fpc() {
    }
 }

@@ -4,22 +4,22 @@ import java.lang.ref.SoftReference;
 import java.util.Arrays;
 
 public final class vup {
-   private static SoftReference<String> vuq;
-   private static SoftReference<String> vur;
-   private static SoftReference<String> vus;
-   private static SoftReference<String> vut;
-   private static SoftReference<String> vuu;
-   private static SoftReference<String> vuv;
-   private static SoftReference<String> vuw;
-   private static SoftReference<String> vux;
-   private static SoftReference<String> vuy;
-   private static SoftReference<String> vuz;
-   private static SoftReference<String> vva;
-   private static SoftReference<String> vvb;
-   private static SoftReference<String> vvc;
-   private static SoftReference<String> vvd;
+   static SoftReference<String> vuq;
+   static SoftReference<String> vur;
+   static SoftReference<String> vus;
+   static SoftReference<String> vut;
+   static SoftReference<String> vuu;
+   static SoftReference<String> vuv;
+   static SoftReference<String> vuw;
+   static SoftReference<String> vux;
+   static SoftReference<String> vuy;
+   static SoftReference<String> vuz;
+   static SoftReference<String> vva;
+   static SoftReference<String> vvb;
+   static SoftReference<String> vvc;
+   static SoftReference<String> vvd;
 
-   private vup() {
+   vup() {
    }
 
    public static String e() {
@@ -176,11 +176,11 @@ public final class vup {
       return var0;
    }
 
-   private static String vvg(SoftReference<String> var0) {
+   static String vvg(SoftReference<String> var0) {
       return var0 == null ? null : (String)var0.get();
    }
 
-   private static String vvh(char[] var0) {
+   static String vvh(char[] var0) {
       StringBuilder var1 = new StringBuilder(var0.length * 2 - 1);
 
       for (int var2 = 0; var2 < var0.length; var2++) {

@@ -14,14 +14,14 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class upi {
-   private static final int upj = 64;
-   private static @Nullable uok upk;
-   private static @Nullable uok upl;
-   private static long upm;
-   private static @Nullable GpuBuffer upn;
-   private static boolean upo;
+   static final int upj = 64;
+   static @Nullable uok upk;
+   static @Nullable uok upl;
+   static long upm;
+   static @Nullable GpuBuffer upn;
+   static boolean upo;
 
-   private upi() {
+   upi() {
    }
 
    public static @Nullable GpuTextureView sky(uxt var0, int var1, int var2, float var3) {
@@ -48,7 +48,7 @@ public final class upi {
       return null;
    }
 
-   private static @Nullable uok upr(int var0, int var1) {
+   static @Nullable uok upr(int var0, int var1) {
       if (!upo && var0 >= 4 && var1 >= 4) {
          long var2 = unf.frame();
          if (upl != null && var2 - upm > 2L) {
@@ -75,7 +75,7 @@ public final class upi {
       }
    }
 
-   private static boolean ups(uok var0, @Nullable uxt var1, @Nullable GpuTextureView var2, float var3, float var4, boolean var5, int var6) {
+   static boolean ups(uok var0, @Nullable uxt var1, @Nullable GpuTextureView var2, float var3, float var4, boolean var5, int var6) {
       RenderPipeline var7 = var1 != null ? uvq.WALL_SKY : uvq.WALL_PHOTO;
       if (!uvq.ensure(var7)) {
          return false;

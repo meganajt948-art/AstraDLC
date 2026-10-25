@@ -18,17 +18,17 @@ import net.minecraft.client.texture.TextureSetup;
 import org.joml.Matrix3x2f;
 
 public final class vdn {
-   private static float vdo = 1.0F;
-   private static final int vdp = 10;
-   private final String vdq;
-   private final Supplier<Font> vdr;
-   private final float vds;
-   private final String vdt;
-   private final boolean vdu;
-   private final Map<Integer, vfk> vdv = new LinkedHashMap<>(8, 0.75F, true);
-   private final StringBuilder vdw = new StringBuilder();
-   private final List<vdi> vdx = new ArrayList<>();
-   private boolean vdy;
+   static float vdo = 1.0F;
+   static final int vdp = 10;
+   final String vdq;
+   final Supplier<Font> vdr;
+   final float vds;
+   final String vdt;
+   final boolean vdu;
+   final Map<Integer, vfk> vdv = new LinkedHashMap<>(8, 0.75F, true);
+   final StringBuilder vdw = new StringBuilder();
+   final List<vdi> vdx = new ArrayList<>();
+   boolean vdy;
 
    vdn(String var1, Supplier<Font> var2, float var3, String var4, boolean var5) {
       this.vdq = var1;
@@ -254,11 +254,11 @@ public final class vdn {
       }
    }
 
-   private static float veb(float var0, float var1) {
+   static float veb(float var0, float var1) {
       return Math.round(var0 * var1) / var1;
    }
 
-   private vfk vec(String var1) {
+   vfk vec(String var1) {
       vfk var2 = this.ved();
       if (var2 == null) {
          return null;
@@ -284,7 +284,7 @@ public final class vdn {
       return var2;
    }
 
-   private vfk ved() {
+   vfk ved() {
       if (this.vdy) {
          return null;
       }
@@ -324,23 +324,23 @@ public final class vdn {
       return var3;
    }
 
-   private static int vee(float var0) {
+   static int vee(float var0) {
       return Math.round(var0 * 100.0F);
    }
 
-   private static float vef() {
+   static float vef() {
       MinecraftClient var0 = MinecraftClient.getInstance();
       int var1 = var0.getWindow() != null ? var0.getWindow().getScaleFactor() : 2;
       return Math.max(1, var1) * vdo;
    }
 
-   private void veg(vfk var1) {
+   void veg(vfk var1) {
       if (var1 != null) {
          this.vdx.add(new vdi(var1, unf.frame()));
       }
    }
 
-   private void veh() {
+   void veh() {
       if (!this.vdx.isEmpty()) {
          long var1 = unf.frame();
          this.vdx.removeIf(var2 -> {
@@ -354,13 +354,13 @@ public final class vdn {
       }
    }
 
-   private float vei(DrawContext var1, String var2, float var3, float var4, int var5) {
+   float vei(DrawContext var1, String var2, float var3, float var4, int var5) {
       TextRenderer var6 = vej();
       var1.drawText(var6, var2, Math.round(var3), Math.round(var4 + (this.height() - 8.0F) * 0.5F), uut.fade(var5), false);
       return var3 + var6.getWidth(var2);
    }
 
-   private static TextRenderer vej() {
+   static TextRenderer vej() {
       return MinecraftClient.getInstance().textRenderer;
    }
 }

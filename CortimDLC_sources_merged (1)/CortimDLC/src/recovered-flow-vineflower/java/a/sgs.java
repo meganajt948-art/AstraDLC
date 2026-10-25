@@ -22,29 +22,29 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 public class sgs extends kfe {
-   private static final int sgt = 32;
-   private static final float sgu = (float) (Math.PI / 180.0);
-   private final vmc sgv = this.add(new vmc("Мокрость", 0.7, 0.0, 1.0, 0.01).percent());
-   private final vmc sgw = this.add(new vmc("Лужи", 0.5, 0.0, 1.0, 0.01).percent());
-   private final vmc sgx = this.add(new vmc("Отражения", 1.0, 0.0, 1.0, 0.05).percent());
-   private final vmc sgy = this.add(new vmc("Затемнение", 0.55, 0.0, 1.0, 0.05).percent());
-   private final vmc sgz = this.add(new vmc("Капли", 0.0, 0.0, 1.0, 0.05).percent());
-   private final vkl sha = this.add(new vkl("Следы", true));
-   private final vmc shb = this.add(new vmc("Время следов", 20.0, 5.0, 60.0, 1.0).suffix("с"));
-   private final vkl shc = this.add(new vkl("Только под небом", true));
-   private final vlv shd = this.add(new vlv("Качество", "Высокое", "Низкое", "Среднее", "Высокое"));
-   private final ArrayDeque<sfz> she = new ArrayDeque<>();
-   private final Map<UUID, sgk> shf = new HashMap<>();
-   private final int[] shg = new int[16384];
-   private final Mutable shh = new Mutable();
-   private final Matrix4f shi = new Matrix4f();
-   private final Matrix4f shj = new Matrix4f();
-   private boolean shk;
-   private int shl;
-   private int shm;
-   private int shn;
-   private long sho;
-   private float shp;
+   static final int sgt = 32;
+   static final float sgu = (float) (Math.PI / 180.0);
+   final vmc sgv = this.add(new vmc("Мокрость", 0.7, 0.0, 1.0, 0.01).percent());
+   final vmc sgw = this.add(new vmc("Лужи", 0.5, 0.0, 1.0, 0.01).percent());
+   final vmc sgx = this.add(new vmc("Отражения", 1.0, 0.0, 1.0, 0.05).percent());
+   final vmc sgy = this.add(new vmc("Затемнение", 0.55, 0.0, 1.0, 0.05).percent());
+   final vmc sgz = this.add(new vmc("Капли", 0.0, 0.0, 1.0, 0.05).percent());
+   final vkl sha = this.add(new vkl("Следы", true));
+   final vmc shb = this.add(new vmc("Время следов", 20.0, 5.0, 60.0, 1.0).suffix("с"));
+   final vkl shc = this.add(new vkl("Только под небом", true));
+   final vlv shd = this.add(new vlv("Качество", "Высокое", "Низкое", "Среднее", "Высокое"));
+   final ArrayDeque<sfz> she = new ArrayDeque<>();
+   final Map<UUID, sgk> shf = new HashMap<>();
+   final int[] shg = new int[16384];
+   final Mutable shh = new Mutable();
+   final Matrix4f shi = new Matrix4f();
+   final Matrix4f shj = new Matrix4f();
+   boolean shk;
+   int shl;
+   int shm;
+   int shn;
+   long sho;
+   float shp;
 
    public sgs() {
       super(
@@ -101,7 +101,7 @@ public class sgs extends kfe {
       }
    }
 
-   private void shs(PlayerEntity var1, long var2, float var4) {
+   void shs(PlayerEntity var1, long var2, float var4) {
       sgk var5 = this.shf.computeIfAbsent(var1.getUuid(), var0 -> new sgk());
       double var6 = var1.getX();
       double var8 = var1.getZ();
@@ -148,7 +148,7 @@ public class sgs extends kfe {
       }
    }
 
-   private void sht(double var1, double var3, double var5, float var7, float var8, float var9, long var10, float var12) {
+   void sht(double var1, double var3, double var5, float var7, float var8, float var9, long var10, float var12) {
       double var13 = -var8 * var9 * 0.14;
       double var15 = var7 * var9 * 0.14;
       this.she.addLast(new sfz(var1 + var13, var3, var5 + var15, var7, var8, var9, var10, var12));
@@ -237,7 +237,7 @@ public class sgs extends kfe {
       }
    }
 
-   private void shu(Std140Builder var1, List<sfz> var2, Vec3d var3, long var4) {
+   void shu(Std140Builder var1, List<sfz> var2, Vec3d var3, long var4) {
       float var6 = 0.0F;
       float var7 = 0.0F;
       float var8 = 0.0F;
@@ -282,7 +282,7 @@ public class sgs extends kfe {
       }
    }
 
-   private void shv(ClientWorld var1, int var2, int var3) {
+   void shv(ClientWorld var1, int var2, int var3) {
       short var4 = 128;
 
       for (int var5 = 0; var5 < var4; var5++) {
@@ -301,7 +301,7 @@ public class sgs extends kfe {
       this.shk = true;
    }
 
-   private static float shw(float var0, float var1, float var2) {
+   static float shw(float var0, float var1, float var2) {
       float var3 = Math.max(0.0F, Math.min(1.0F, (var2 - var0) / (var1 - var0)));
       return var3 * var3 * (3.0F - 2.0F * var3);
    }

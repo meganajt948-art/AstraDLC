@@ -13,9 +13,9 @@ import net.minecraft.world.biome.BiomeKeys;
 import org.lwjgl.glfw.GLFW;
 
 final class gyf {
-   private static final int gyg = 520;
-   private static final String gyh = System.getenv(a.d("㮃䈸죨嚁\udd33寯\ue1b0桜\uf602粫ﭼĕ运", 1365182924, -835505660));
-   private static final gxv[] gyi = new gxv[]{
+   static final int gyg = 520;
+   static final String gyh = System.getenv(a.d("㮃䈸죨嚁\udd33寯\ue1b0桜\uf602粫ﭼĕ运", 1365182924, -835505660));
+   static final gxv[] gyi = new gxv[]{
       new gxv(0, a.d("럎칾䒭\udadd光ힽ淩\ue405穁\uf0e3眥赕", 60358362, 1470712182), 6000L, 20.0F, -6.0F, true),
       new gxv(50, a.b("릭쀝䫎풾弪\ud9de掊\uea66琢ﺀ祆茶ජ鑑ḋ飺", 349288915), 6000L, 20.0F, -6.0F, false),
       new gxv(100, a.d("猚પ聹ḉ閝፲ꤹ⃚", 2054751784, -1789037228), 6000L, 20.0F, -40.0F, true),
@@ -32,19 +32,19 @@ final class gyf {
       new gxv(650, a.c(-959936650, "蜚ﺢ瑹\uea42懋\ue77c崴퓘䪑쀱"), 12600L, 90.0F, -8.0F, true, a.c(193987550, "΅稍\uf0dd溵\ue57a揃\ud981偶츲䒉썿㤧럸")),
       new gxv(700, a.b("㒢䴚쟁姺퉮哞\uee8d杽", -1249102644), 6000L, 20.0F, -6.0F, true, a.d("龩\ue621泱\uf299祖\uffef䖭챚刞\ud8a5当ꔋ⯔", -677117518, -1169449408))
    };
-   private static final String[] gyj = new String[]{
+   static final String[] gyj = new String[]{
       a.c(-1930034235, "Ή程\uf0c1溰\ue549揈\ud980偿츯䒂"),
       a.c(-634180919, "⪒匚\ud9ca䞢챭䫔\uf096祡\ue725涞\uea68ူ黯"),
       a.c(1730274806, "\ue5a2鰨ᛲ袆͐藶㾤"),
       a.b("碸Ĳ诨ᖜ鹊ᣬꊞ⭗딚", -382371614),
       a.b("겾픭忥솉䩘쳨皗ｈ愎\uebb8", 41921785)
    };
-   private static boolean[] gyk;
-   private static volatile BlockPos gyl;
-   private static volatile boolean gym;
-   private static int gyn = -1;
+   static boolean[] gyk;
+   static volatile BlockPos gyl;
+   static volatile boolean gym;
+   static int gyn = -1;
 
-   private gyf() {
+   gyf() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -160,7 +160,7 @@ final class gyf {
       }
    }
 
-   private static void gyq(MinecraftClient var0) {
+   static void gyq(MinecraftClient var0) {
       gyl = null;
       gym = false;
       IntegratedServer var1 = var0.getServer();
@@ -183,14 +183,14 @@ final class gyf {
       });
    }
 
-   private static void gyr(MinecraftClient var0, float var1, float var2) {
+   static void gyr(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static vmo gys(kfe var0, String var1) {
+   static vmo gys(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -200,11 +200,11 @@ final class gyf {
       throw new IllegalStateException(var0.getName() + a.b("醿\ue846抜ﳿ睻\uf184䯖쉨", 973115799) + var1);
    }
 
-   private static void gyt(MinecraftClient var0, String var1) {
+   static void gyt(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void gyu(MinecraftClient var0, String var1) {
+   static void gyu(MinecraftClient var0, String var1) {
       System.out.println(a.c(-100638969, "彾⛙갃㉸맩㼌蕎\u0ca9鋱᠔") + var1 + a.c(210580171, "㋨䬹솊") + var0.getCurrentFps() + a.d("ﵶ蒁ไ逶", 593010428, 928801710));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

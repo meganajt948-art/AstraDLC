@@ -7,13 +7,13 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 
 public class rfa extends kfe {
-   private static final int rfb = -1291911168;
-   private final vla rfc = this.add(new vla("Color", "Sakura"));
-   private final vmc rfd = this.add(new vmc("Strength", 0.45, 0.1, 0.85, 0.05).percent());
-   private final vkl rfe = this.add(new vkl("Shimmer", true));
-   private static Field rff;
-   private static boolean rfg;
-   private int rfh;
+   static final int rfb = -1291911168;
+   final vla rfc = this.add(new vla("Color", "Sakura"));
+   final vmc rfd = this.add(new vmc("Strength", 0.45, 0.1, 0.85, 0.05).percent());
+   final vkl rfe = this.add(new vkl("Shimmer", true));
+   static Field rff;
+   static boolean rfg;
+   int rfh;
 
    public rfa() {
       super(new String(new char[]{'H', 'i', 't', 'C', 'o', 'l', 'o', 'r'}), "Your colour instead of the red hit flash", kfa.RENDER);
@@ -41,7 +41,7 @@ public class rfa extends kfe {
       }
    }
 
-   private static boolean rfk(int var0) {
+   static boolean rfk(int var0) {
       if (rfg) {
          return false;
       }

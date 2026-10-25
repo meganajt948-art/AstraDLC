@@ -3,10 +3,10 @@ package a;
 import net.minecraft.text.Text;
 
 final class svi {
-   private final String svj;
-   private final int svk;
-   private final boolean svl;
-   private final Text svm;
+   final String svj;
+   final int svk;
+   final boolean svl;
+   final Text svm;
 
    svi(String text, int color, boolean bold, Text vanilla) {
       this.svj = text;

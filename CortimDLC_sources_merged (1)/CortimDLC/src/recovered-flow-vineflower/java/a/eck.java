@@ -8,9 +8,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public final class eck {
-   private static final int ecl = 200;
-   private final ArrayDeque<ech> ecm = new ArrayDeque<>();
-   private int ecn;
+   static final int ecl = 200;
+   final ArrayDeque<ech> ecm = new ArrayDeque<>();
+   int ecn;
 
    void server(Text var1, boolean var2) {
       this.ecq(new ech(var1, var2 ? ece.CHAT : ece.SERVER));
@@ -24,7 +24,7 @@ public final class eck {
       this.ecq(new ech(Text.literal(var1).formatted(Formatting.GRAY), ece.SYSTEM));
    }
 
-   private void ecq(ech var1) {
+   void ecq(ech var1) {
       this.ecm.addLast(var1);
 
       while (this.ecm.size() > 200) {

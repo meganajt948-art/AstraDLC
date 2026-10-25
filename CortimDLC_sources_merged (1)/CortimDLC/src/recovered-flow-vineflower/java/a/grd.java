@@ -12,18 +12,18 @@ import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.util.math.Vec3d;
 
 final class grd {
-   private static final String gre = System.getenv()
+   static final String gre = System.getenv()
       .getOrDefault(a.d("賭\uf556羆\ue1ef橝\uec81囝\udf3d䅱쯆䰘뙯㢵ꄓ⭉궵២", 636141468, 1158230822), a.b("㴳䒆츜偸\udbaf崀\ue750溤\uf0e2積ﶀ߯褦ႈ髐ᰣꙣ⦽댁", -999604905));
-   private static gqu grf;
-   private static gqu grg;
-   private static OtherClientPlayerEntity grh;
-   private static int gri;
-   private static int grj;
-   private static int grk;
-   private static String grl;
-   private static int grm = -1;
+   static gqu grf;
+   static gqu grg;
+   static OtherClientPlayerEntity grh;
+   static int gri;
+   static int grj;
+   static int grk;
+   static String grl;
+   static int grm = -1;
 
-   private grd() {
+   grd() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -282,19 +282,19 @@ final class grd {
       return false;
    }
 
-   private static void grp(int var0) {
+   static void grp(int var0) {
       gri++;
       grj = var0;
    }
 
-   private static boolean grq(String var0) {
+   static boolean grq(String var0) {
       grk++;
       grs(a.c(1838124791, "躴\uf702緙\ue3ad栖") + var0);
       gri = 11;
       return false;
    }
 
-   private static void grr(boolean var0, String var1) {
+   static void grr(boolean var0, String var1) {
       if (!var0) {
          grk++;
       }
@@ -302,11 +302,11 @@ final class grd {
       grs((var0 ? a.d("\ue8df酪᯲", -677187390, -369747855) : a.d("ᶭ搛\ueec0炴\ufb0f", -1253918060, -1242126470)) + var1);
    }
 
-   private static void grs(String var0) {
+   static void grs(String var0) {
       System.out.println(a.c(-1176557621, "➷帗퓗䪠셺䞒ﶕ瑵\uea3c悊\ue717ᵼ") + var0);
    }
 
-   private static void grt(MinecraftClient var0) {
+   static void grt(MinecraftClient var0) {
       grm = var0.options.getGuiScale().getValue();
       var0.options.getGuiScale().setValue(1);
       var0.onResolutionChanged();
@@ -322,14 +322,14 @@ final class grd {
       var0.setScreen(new hlc());
    }
 
-   private static void gru(MinecraftClient var0) {
+   static void gru(MinecraftClient var0) {
       grh = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), a.d("搵ᶯ靷ऎ苍њ빧㞕꧋", 1445288478, 869875303)));
       Vec3d var1 = var0.player.getEntityPos().add(5.0, 0.0, 11.0);
       grh.refreshPositionAndAngles(var1.x, var0.player.getY(), var1.z, 180.0F, 0.0F);
       var0.world.addEntity(grh);
    }
 
-   private static void grv(MinecraftClient var0, String var1) {
+   static void grv(MinecraftClient var0, String var1) {
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,
          a.c(331466319, "옯뾔㕄ꬭ₿ꘑ") + var1 + a.d("䀽㧒댟ⵧ", 983932876, 2032132059),

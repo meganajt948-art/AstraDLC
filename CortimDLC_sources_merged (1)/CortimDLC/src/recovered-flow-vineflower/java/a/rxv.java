@@ -18,46 +18,46 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 public class rxv extends kfe {
-   private static final int rxw = 7;
-   private static final float rxx = 3.0F;
-   private static final float rxy = (float) (Math.PI / 180.0);
-   private final vla rxz = this.add(new vla("Цвет", "Snow"));
-   private final vmc rya = this.add(new vmc("Плотность", 0.45, 0.0, 1.0, 0.01).percent());
-   private final vmc ryb = this.add(new vmc("Прозрачность", 0.1, 0.0, 0.95, 0.01).percent());
-   private final vmc ryc = this.add(new vmc("Клубы", 0.7, 0.0, 1.0, 0.05).percent());
-   private final vmc ryd = this.add(new vmc("Яркость", 1.0, 0.3, 2.0, 0.05).percent());
-   private final vmc rye = this.add(new vmc("Спад по высоте", 0.15, 0.0, 1.0, 0.05).percent());
-   private final vmc ryf = this.add(new vmc("Размер", 1.0, 0.4, 2.5, 0.05).percent());
-   private final vmc ryg = this.add(new vmc("Скорость", 1.0, 0.0, 3.0, 0.1).unit("x"));
-   private final vmc ryh = this.add(new vmc("Завихрения", 1.0, 0.0, 2.0, 0.05).percent());
-   private final vmc ryi = this.add(new vmc("Свет солнца", 1.0, 0.0, 2.0, 0.05).percent());
-   private final vkl ryj = this.add(new vkl("Скрыть облака", true));
-   private final vlv ryk = this.add(new vlv("Качество", "Среднее", "Низкое", "Среднее", "Высокое", "Ультра"));
-   private final vkl ryl = this.add(new vkl("Расступается", true));
-   private final double[] rym = new double[7];
-   private final double[] ryn = new double[7];
-   private final double[] ryo = new double[7];
-   private final float[] ryp = new float[7];
-   private final float[] ryq = new float[7];
-   private final float[] ryr = new float[7];
-   private final long[] rys = new long[7];
-   private final Matrix4f ryt = new Matrix4f();
-   private final Matrix4f ryu = new Matrix4f();
-   private final Quaternionf ryv = new Quaternionf();
-   private Vec3d ryw;
-   private long ryx;
-   private float ryy;
-   private double ryz;
-   private double rza;
-   private double rzb;
-   private double rzc = Double.NaN;
-   private float rzd = -1.0F;
-   private float rze;
-   private Vec3d rzf;
-   private Vec3d rzg;
-   private double rzh;
-   private double rzi;
-   private double rzj;
+   static final int rxw = 7;
+   static final float rxx = 3.0F;
+   static final float rxy = (float) (Math.PI / 180.0);
+   final vla rxz = this.add(new vla("Цвет", "Snow"));
+   final vmc rya = this.add(new vmc("Плотность", 0.45, 0.0, 1.0, 0.01).percent());
+   final vmc ryb = this.add(new vmc("Прозрачность", 0.1, 0.0, 0.95, 0.01).percent());
+   final vmc ryc = this.add(new vmc("Клубы", 0.7, 0.0, 1.0, 0.05).percent());
+   final vmc ryd = this.add(new vmc("Яркость", 1.0, 0.3, 2.0, 0.05).percent());
+   final vmc rye = this.add(new vmc("Спад по высоте", 0.15, 0.0, 1.0, 0.05).percent());
+   final vmc ryf = this.add(new vmc("Размер", 1.0, 0.4, 2.5, 0.05).percent());
+   final vmc ryg = this.add(new vmc("Скорость", 1.0, 0.0, 3.0, 0.1).unit("x"));
+   final vmc ryh = this.add(new vmc("Завихрения", 1.0, 0.0, 2.0, 0.05).percent());
+   final vmc ryi = this.add(new vmc("Свет солнца", 1.0, 0.0, 2.0, 0.05).percent());
+   final vkl ryj = this.add(new vkl("Скрыть облака", true));
+   final vlv ryk = this.add(new vlv("Качество", "Среднее", "Низкое", "Среднее", "Высокое", "Ультра"));
+   final vkl ryl = this.add(new vkl("Расступается", true));
+   final double[] rym = new double[7];
+   final double[] ryn = new double[7];
+   final double[] ryo = new double[7];
+   final float[] ryp = new float[7];
+   final float[] ryq = new float[7];
+   final float[] ryr = new float[7];
+   final long[] rys = new long[7];
+   final Matrix4f ryt = new Matrix4f();
+   final Matrix4f ryu = new Matrix4f();
+   final Quaternionf ryv = new Quaternionf();
+   Vec3d ryw;
+   long ryx;
+   float ryy;
+   double ryz;
+   double rza;
+   double rzb;
+   double rzc = Double.NaN;
+   float rzd = -1.0F;
+   float rze;
+   Vec3d rzf;
+   Vec3d rzg;
+   double rzh;
+   double rzi;
+   double rzj;
 
    public rxv() {
       super(new String(new char[]{'V', 'o', 'l', 'u', 'm', 'e', 't', 'r', 'i', 'c', 'F', 'o', 'g'}), "Volumetric fog that curls around you", kfa.RENDER);
@@ -75,7 +75,7 @@ public class rxv extends kfe {
       this.rzm();
    }
 
-   private void rzm() {
+   void rzm() {
       this.ryx = 0L;
       this.ryw = null;
       this.rzc = Double.NaN;
@@ -239,11 +239,11 @@ public class rxv extends kfe {
       }
    }
 
-   private void rzn(boolean var1) {
+   void rzn(boolean var1) {
       ujl.hide(this, var1);
    }
 
-   private void rzo(Vec3d var1, float var2, long var3) {
+   void rzo(Vec3d var1, float var2, long var3) {
       if (this.rzf != null && var2 > 0.0F) {
          double var5 = (var1.x - this.rzf.x) / var2;
          double var7 = (var1.y - this.rzf.y) / var2;
@@ -285,7 +285,7 @@ public class rxv extends kfe {
       }
    }
 
-   private void rzp(Std140Builder var1, long var2) {
+   void rzp(Std140Builder var1, long var2) {
       float[][] var4 = new float[8][4];
       float[][] var5 = new float[8][4];
       if (this.ryl.get() && this.rzf != null) {
@@ -329,26 +329,26 @@ public class rxv extends kfe {
       }
    }
 
-   private static float[] rzq(float var0, float var1, float var2, float var3) {
+   static float[] rzq(float var0, float var1, float var2, float var3) {
       float var4 = (float)Math.sqrt(var0 * var0 + var1 * var1 + var2 * var2) / 5.0F;
       float var5 = var4 > 1.6F ? 1.6F / var4 : 1.0F;
       return new float[]{var0 / 5.0F * var5, var1 / 5.0F * var5, var2 / 5.0F * var5, var3};
    }
 
-   private static float rzr(float var0, float var1, float var2) {
+   static float rzr(float var0, float var1, float var2) {
       float var3 = Math.max(0.0F, Math.min(1.0F, (var2 - var0) / (var1 - var0)));
       return var3 * var3 * (3.0F - 2.0F * var3);
    }
 
-   private static float rzs(int var0) {
+   static float rzs(int var0) {
       return (var0 >> 16 & 0xFF) / 255.0F;
    }
 
-   private static float rzt(int var0) {
+   static float rzt(int var0) {
       return (var0 >> 8 & 0xFF) / 255.0F;
    }
 
-   private static float rzu(int var0) {
+   static float rzu(int var0) {
       return (var0 & 0xFF) / 255.0F;
    }
 }

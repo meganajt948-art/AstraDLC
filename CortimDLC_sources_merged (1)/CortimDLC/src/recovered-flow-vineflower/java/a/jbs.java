@@ -14,29 +14,29 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
 public final class jbs extends Screen {
-   private static final float jbt = 22.0F;
-   private static final float jbu = 14.0F;
-   private final vdc jbv = new vdc(0.25F, 0.0F);
-   private final Map<jcs, vcj> jbw = new IdentityHashMap<>();
-   private final Map<String, vcj> jbx = new HashMap<>();
-   private final List<jbj> jby = new ArrayList<>();
-   private float jbz;
-   private float jca;
-   private float jcb;
-   private jcs jcc;
-   private jcs jcd;
-   private float jce;
-   private float jcf;
-   private float jcg = Float.NaN;
-   private float jch = Float.NaN;
-   private long jci = -1L;
-   private float jcj = 0.016666668F;
+   static final float jbt = 22.0F;
+   static final float jbu = 14.0F;
+   final vdc jbv = new vdc(0.25F, 0.0F);
+   final Map<jcs, vcj> jbw = new IdentityHashMap<>();
+   final Map<String, vcj> jbx = new HashMap<>();
+   final List<jbj> jby = new ArrayList<>();
+   float jbz;
+   float jca;
+   float jcb;
+   jcs jcc;
+   jcs jcd;
+   float jce;
+   float jcf;
+   float jcg = Float.NaN;
+   float jch = Float.NaN;
+   long jci = -1L;
+   float jcj = 0.016666668F;
 
    public jbs() {
       super(Text.literal(a.c(-1011260187, "撧ᴋ韉ড়艎Ӿ뺠㝌꤈⎤")));
    }
 
-   private void jcm(DrawContext var1) {
+   void jcm(DrawContext var1) {
       unf.observe(var1);
       if (unf.frame() != this.jci) {
          this.jci = unf.frame();
@@ -84,7 +84,7 @@ public final class jbs extends Screen {
       }
    }
 
-   private void jcn(DrawContext var1, float var2, float var3) {
+   void jcn(DrawContext var1, float var2, float var3) {
       jcs var4 = this.jcc != null ? this.jcc : (izx.resizing() != null ? izx.resizing() : this.jcr(var2, var3));
 
       for (jcs var6 : izx.ELEMENTS) {
@@ -110,7 +110,7 @@ public final class jbs extends Screen {
       }
    }
 
-   private void jco(DrawContext var1) {
+   void jco(DrawContext var1) {
       if (this.jcc != null) {
          float var2 = this.client != null ? Math.max(1, this.client.getWindow().getScaleFactor()) : 2.0F;
          int var3 = iov.accent(200);
@@ -124,7 +124,7 @@ public final class jbs extends Screen {
       }
    }
 
-   private void jcp(DrawContext var1, float var2, float var3) {
+   void jcp(DrawContext var1, float var2, float var3) {
       this.jby.clear();
       float var4 = 9.0F;
       String var5 = wap.s(a.c(-1683618636, "Ӷ絚\uf798榍\ue21f撯\udef1圝쥙䏵"), a.c(1352254078, "왒뿶㔤ꭑ₌ꙅᱪ闥࿚蔃ˍ\uf8ad"));
@@ -198,7 +198,7 @@ public final class jbs extends Screen {
       izx.SMALL.drawCentered(var1, var28, this.width * 0.5F, izx.SMALL.centerTop(this.jca - 7.0F), ujt.withAlpha(16777215, 150));
    }
 
-   private static String jcq(jcs var0) {
+   static String jcq(jcs var0) {
       String var1 = var0.ay == 0
          ? wap.s(a.c(-905561989, "㠌䆦쭪"), a.c(-1371962335, "聦捻獰\ued74暦\ue011"))
          : (
@@ -218,7 +218,7 @@ public final class jbs extends Screen {
          : var1 + a.d("\udd27", 324896593, 847862359) + var2;
    }
 
-   private jcs jcr(double var1, double var3) {
+   jcs jcr(double var1, double var3) {
       for (int var5 = izx.ELEMENTS.size() - 1; var5 >= 0; var5--) {
          jcs var6 = izx.ELEMENTS.get(var5);
          if (var6.w > 0.0F && var1 >= var6.x - 2.0F && var1 < var6.x + var6.w + 2.0F && var3 >= var6.y - 2.0F && var3 < var6.y + var6.h + 2.0F) {

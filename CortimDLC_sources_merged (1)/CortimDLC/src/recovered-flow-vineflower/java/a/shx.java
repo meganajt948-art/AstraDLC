@@ -18,35 +18,35 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public class shx extends kfe {
-   private static shx shy;
-   private final vlv shz = this.add(new vlv("Anchor", "World", "World", "Follow view"));
-   private final vmc sia = this.add(new vmc("Distance", 5.5, 2.5, 12.0, 0.5).suffix("blocks"));
-   private final vmc sib = this.add(new vmc("Size", 1.0, 0.5, 2.0, 0.05).percent());
-   private final vmc sic = this.add(new vmc("Spread", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vkl sid = this.add(new vkl("Cover color", true));
-   private final vla sie = this.add(new vla("Color", "Theme"));
-   private final vmc sif = this.add(new vmc("Glow", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vkl sig = this.add(new vkl("Shadow", true));
-   private final vkl sih = this.add(new vkl("Particles", true));
-   private final vkl sii = this.add(new vkl("Song title", true));
-   private final vkl sij = this.add(new vkl("Through walls", false));
-   private final vmc sik = this.add(new vmc("Sync offset", 0.0, -2000.0, 2000.0, 50.0).suffix("ms"));
-   private static final float sil = 0.3F;
-   private static final long sim = 120L;
-   private static final long sin = 1500L;
-   private static final float sio = 5.5F;
-   private static final float sip = 2.0F;
-   private static final float siq = 2.2F;
-   private final List<snp> sir = new ArrayList<>();
-   private final Random sis = new Random();
-   private final float[] sit = new float[2];
-   private String siu;
-   private sle siv;
-   private int siw = -1;
-   private snp six;
-   private snp siy;
-   private float siz = 1.0F;
-   private long sja = -1L;
+   static shx shy;
+   final vlv shz = this.add(new vlv("Anchor", "World", "World", "Follow view"));
+   final vmc sia = this.add(new vmc("Distance", 5.5, 2.5, 12.0, 0.5).suffix("blocks"));
+   final vmc sib = this.add(new vmc("Size", 1.0, 0.5, 2.0, 0.05).percent());
+   final vmc sic = this.add(new vmc("Spread", 0.6, 0.0, 1.0, 0.05).percent());
+   final vkl sid = this.add(new vkl("Cover color", true));
+   final vla sie = this.add(new vla("Color", "Theme"));
+   final vmc sif = this.add(new vmc("Glow", 0.6, 0.0, 1.0, 0.05).percent());
+   final vkl sig = this.add(new vkl("Shadow", true));
+   final vkl sih = this.add(new vkl("Particles", true));
+   final vkl sii = this.add(new vkl("Song title", true));
+   final vkl sij = this.add(new vkl("Through walls", false));
+   final vmc sik = this.add(new vmc("Sync offset", 0.0, -2000.0, 2000.0, 50.0).suffix("ms"));
+   static final float sil = 0.3F;
+   static final long sim = 120L;
+   static final long sin = 1500L;
+   static final float sio = 5.5F;
+   static final float sip = 2.0F;
+   static final float siq = 2.2F;
+   final List<snp> sir = new ArrayList<>();
+   final Random sis = new Random();
+   final float[] sit = new float[2];
+   String siu;
+   sle siv;
+   int siw = -1;
+   snp six;
+   snp siy;
+   float siz = 1.0F;
+   long sja = -1L;
 
    public shx() {
       super("Lyrics", "The words of the song you are listening to appear in the world in front of you", kfa.RENDER);
@@ -69,7 +69,7 @@ public class shx extends kfe {
       this.sjd();
    }
 
-   private void sjd() {
+   void sjd() {
       this.sir.clear();
       this.siu = null;
       this.siv = null;
@@ -101,7 +101,7 @@ public class shx extends kfe {
       }
    }
 
-   private void sje(DrawContext var1, usn var2, float var3) {
+   void sje(DrawContext var1, usn var2, float var3) {
       jgd var4 = jgn.track();
       String var5 = var4 == null ? null : var4.title() + '\u0001' + var4.artist();
       if (!Objects.equals(var5, this.siu)) {
@@ -173,7 +173,7 @@ public class shx extends kfe {
       }
    }
 
-   private void sjf(long var1) {
+   void sjf(long var1) {
       List var3 = this.siv.lines();
       int var4 = this.siv.indexAt(var1);
       if (this.siw >= 0 && var4 < this.siw && var1 > ((skx)var3.get(this.siw)).start() - 1500L) {
@@ -211,7 +211,7 @@ public class shx extends kfe {
       }
    }
 
-   private void sjg(DrawContext var1, usn var2) {
+   void sjg(DrawContext var1, usn var2) {
       GpuTextureView var3 = unm.view();
       int[] var4 = this.sjh();
       sng var5 = new sng(var4[0], var4[1], (float)this.sif.get(), this.sig.get(), this.sih.get(), this.siz);
@@ -235,7 +235,7 @@ public class shx extends kfe {
       }
    }
 
-   private int[] sjh() {
+   int[] sjh() {
       if (this.sid.get() && jgn.cover() != null) {
          int var1 = jgn.coverColor() | 0xFF000000;
          return new int[]{var1, ujt.lerp(var1, -1, 0.45F)};
@@ -244,7 +244,7 @@ public class shx extends kfe {
       }
    }
 
-   private void sji(snp var1) {
+   void sji(snp var1) {
       Camera var2 = this.mc.gameRenderer.getCamera();
       Vec3d var3 = var2.getCameraPos();
       float var4 = var2.getYaw();
@@ -287,7 +287,7 @@ public class shx extends kfe {
       var1.z = var26.z;
    }
 
-   private Vec3d sjj(snp var1) {
+   Vec3d sjj(snp var1) {
       Camera var2 = this.mc.gameRenderer.getCamera();
       Vec3d var3 = var2.getCameraPos();
       float var4 = MathHelper.clamp(var2.getPitch(), -50.0F, 50.0F) + var1.pitchOff;
@@ -302,7 +302,7 @@ public class shx extends kfe {
       return var3.add(var5.multiply(var6));
    }
 
-   private boolean sjk(Vec3d var1, snp var2) {
+   boolean sjk(Vec3d var1, snp var2) {
       Vec3d var3 = new Vec3d(var2.x, var2.y, var2.z);
       double var4 = var3.distanceTo(var1);
       if (var4 < 0.5) {

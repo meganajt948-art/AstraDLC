@@ -13,15 +13,15 @@ import org.lwjgl.system.libffi.LibFFI;
 import org.lwjgl.system.windows.WindowsLibrary;
 
 final class wjh {
-   private static final int wji = 12;
-   private static final FFICIF[] wjj = new FFICIF[13];
-   private static final Map<String, SharedLibrary> wjk = new HashMap<>();
-   private static final Map<String, Long> wjl = new HashMap<>();
-   private static final Map<String, Long> wjm = new HashMap<>();
+   static final int wji = 12;
+   static final FFICIF[] wjj = new FFICIF[13];
+   static final Map<String, SharedLibrary> wjk = new HashMap<>();
+   static final Map<String, Long> wjl = new HashMap<>();
+   static final Map<String, Long> wjm = new HashMap<>();
    static final int QUERY_INTERFACE = 0;
    static final int RELEASE = 2;
 
-   private wjh() {
+   wjh() {
    }
 
    static boolean available() {
@@ -75,7 +75,7 @@ final class wjh {
       return var3;
    }
 
-   private static synchronized FFICIF wjp(int var0) {
+   static synchronized FFICIF wjp(int var0) {
       FFICIF var1 = wjj[var0];
       if (var1 == null) {
          var1 = FFICIF.calloc();

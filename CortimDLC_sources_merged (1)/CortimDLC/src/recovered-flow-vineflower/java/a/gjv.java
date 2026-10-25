@@ -9,22 +9,22 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 final class gjv {
-   private static final int gjw = 2;
-   private static final int gjx = 3;
-   private static final int gjy = 6;
-   private static final String[] gjz = new String[]{
+   static final int gjw = 2;
+   static final int gjx = 3;
+   static final int gjy = 6;
+   static final String[] gjz = new String[]{
       a.c(1520553703, "캁뜹㷪ꏐ⡘껲ᒯ鵑̒"),
       a.d("䛎㽶떥⮟ꀉ⚱鳡ᔂ", 1329892924, 451135637),
       a.c(-1599955696, "鵱\ue4c1湑\uf07f箳ﴌ䝐캽傾\uda46嶃\ua7e4⤫냊"),
       a.d("螃︳璣\uea93慍\ue7ff嶾퐓䨐삺䝱봖㏒ꩵ\u206b", -581809798, 900910745),
       a.d("\uf27f诏ş齯ᒱ鈃⡂ꇪ㿾땈㊉죿", 1040958980, 928723992)
    };
-   private static Field gka;
-   private static Field gkb;
-   private static double gkc = 1000.0;
-   private static float gkd;
+   static Field gka;
+   static Field gkb;
+   static double gkc = 1000.0;
+   static float gkd;
 
-   private gjv() {
+   gjv() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -106,14 +106,14 @@ final class gjv {
       return false;
    }
 
-   private static GLFWCursorPosCallback gkg(MinecraftClient var0) {
+   static GLFWCursorPosCallback gkg(MinecraftClient var0) {
       long var1 = var0.getWindow().getHandle();
       GLFWCursorPosCallback var3 = GLFW.glfwSetCursorPosCallback(var1, null);
       GLFW.glfwSetCursorPosCallback(var1, var3);
       return var3;
    }
 
-   private static void gkh(MinecraftClient var0) throws Exception {
+   static void gkh(MinecraftClient var0) throws Exception {
       if (gka != null && var0.currentScreen == null) {
          gka.setBoolean(var0.mouse, true);
       }
@@ -123,7 +123,7 @@ final class gjv {
       }
    }
 
-   private static void gki(MinecraftClient var0, String var1) {
+   static void gki(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

@@ -21,34 +21,34 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class nuo extends kfe {
-   private static final int nup = -1;
-   private static final int nuq = -2;
-   private static final int nur = -3;
-   private static final int nus = 20;
-   private static final int nut = 20;
-   private static final int nuu = 10;
-   private static final float nuv = 0.01F;
-   private static final float nuw = 0.3F;
-   private final vkl nux = this.add(new vkl(a.c(-590709628, "碐Ď迊ᖣ鹱ᣏꊛ⭢땂㾁렢䉜"), true));
-   private final vkl nuy = this.add(new vkl(a.c(-1150386401, "笇ʚ血ᘴ鶑᭐ꅺ⣲뛟㱠"), true));
-   private final vmc nuz = this.add(
+   static final int nup = -1;
+   static final int nuq = -2;
+   static final int nur = -3;
+   static final int nus = 20;
+   static final int nut = 20;
+   static final int nuu = 10;
+   static final float nuv = 0.01F;
+   static final float nuw = 0.3F;
+   final vkl nux = this.add(new vkl(a.c(-590709628, "碐Ď迊ᖣ鹱ᣏꊛ⭢땂㾁렢䉜"), true));
+   final vkl nuy = this.add(new vkl(a.c(-1150386401, "笇ʚ血ᘴ鶑᭐ꅺ⣲뛟㱠"), true));
+   final vmc nuz = this.add(
       new vmc(a.c(1100149864, "\uf06e觸̯鵟\u16fd逺⩥ꎞ㧑띲キ쫕䐇\uddc4埧텤歙"), 4.0, 0.0, 20.0, 1.0).suffix(a.c(-844885942, "ျ榗\ue34e紷\uf6f8"))
    );
-   private final vkl nva = this.add(new vkl(a.c(-957963011, "ꃼ\ud969叏췋䙮샔绫\uf305津\ue7ea恀驋ᒟ赑܁臾"), true));
-   private static nuo nvb;
-   private final vyn nvc = new vyn();
-   private ClientPlayerEntity nvd;
-   private int nve = -1;
-   private int nvf = -1;
-   private int nvg = -1;
-   private ItemStack nvh = ItemStack.EMPTY;
-   private boolean nvi;
-   private int nvj;
-   private int nvk = -1;
-   private boolean nvl;
-   private boolean nvm;
-   private int nvn;
-   private int nvo;
+   final vkl nva = this.add(new vkl(a.c(-957963011, "ꃼ\ud969叏췋䙮샔绫\uf305津\ue7ea恀驋ᒟ赑܁臾"), true));
+   static nuo nvb;
+   final vyn nvc = new vyn();
+   ClientPlayerEntity nvd;
+   int nve = -1;
+   int nvf = -1;
+   int nvg = -1;
+   ItemStack nvh = ItemStack.EMPTY;
+   boolean nvi;
+   int nvj;
+   int nvk = -1;
+   boolean nvl;
+   boolean nvm;
+   int nvn;
+   int nvo;
 
    public nuo() {
       super(
@@ -151,7 +151,7 @@ public class nuo extends kfe {
       }
    }
 
-   private int nvr(ClientPlayerEntity var1, BlockState var2) {
+   int nvr(ClientPlayerEntity var1, BlockState var2) {
       if (var2 != null) {
          if (this.nvi) {
             return -1;
@@ -172,7 +172,7 @@ public class nuo extends kfe {
       }
    }
 
-   private BlockState nvs(ClientPlayerEntity var1) {
+   BlockState nvs(ClientPlayerEntity var1) {
       if (this.mc.currentScreen == null
          && this.mc.world != null
          && !var1.isCreative()
@@ -192,7 +192,7 @@ public class nuo extends kfe {
       }
    }
 
-   private int nvt(ClientPlayerEntity var1, BlockState var2, boolean var3) {
+   int nvt(ClientPlayerEntity var1, BlockState var2, boolean var3) {
       PlayerInventory var4 = var1.getInventory();
       int var5 = var4.getSelectedSlot();
       float var6 = this.nvu(var4.getStack(var5), var2);
@@ -221,7 +221,7 @@ public class nuo extends kfe {
       return var7;
    }
 
-   private float nvu(ItemStack var1, BlockState var2) {
+   float nvu(ItemStack var1, BlockState var2) {
       if (this.nva.get() && var1.isDamageable() && var1.getMaxDamage() - var1.getDamage() <= 10) {
          return -1.0F;
       }
@@ -237,7 +237,7 @@ public class nuo extends kfe {
       return var2.isToolRequired() && !var1.isSuitableFor(var2) ? var3 * 0.3F : var3;
    }
 
-   private static int nvv(ItemStack var0) {
+   static int nvv(ItemStack var0) {
       for (Entry var2 : var0.getEnchantments().getEnchantmentEntries()) {
          if (((RegistryEntry)var2.getKey()).matchesKey(Enchantments.EFFICIENCY)) {
             return var2.getIntValue();
@@ -247,7 +247,7 @@ public class nuo extends kfe {
       return 0;
    }
 
-   private void nvw(ClientPlayerEntity var1, int var2) {
+   void nvw(ClientPlayerEntity var1, int var2) {
       PlayerInventory var3 = var1.getInventory();
       if (var2 == -2) {
          this.nvx(var3);
@@ -275,7 +275,7 @@ public class nuo extends kfe {
       }
    }
 
-   private void nvx(PlayerInventory var1) {
+   void nvx(PlayerInventory var1) {
       if (this.nvg >= 0 && this.nvz(var1)) {
          wdq.swap(this.mc, this.nvg, this.nve);
       }
@@ -287,7 +287,7 @@ public class nuo extends kfe {
       this.nwd();
    }
 
-   private void nvy(PlayerInventory var1, int var2) {
+   void nvy(PlayerInventory var1, int var2) {
       if (this.nve < 0) {
          this.nve = var1.getSelectedSlot();
       }
@@ -299,11 +299,11 @@ public class nuo extends kfe {
       this.nvf = var2;
    }
 
-   private boolean nvz(PlayerInventory var1) {
+   boolean nvz(PlayerInventory var1) {
       return ItemStack.areItemsAndComponentsEqual(var1.getStack(this.nvg), this.nvh);
    }
 
-   private void nwa(ClientPlayerEntity var1) {
+   void nwa(ClientPlayerEntity var1) {
       this.nvc.hold(this.mc);
       KeyBinding var2 = this.mc.options.attackKey;
 
@@ -318,7 +318,7 @@ public class nuo extends kfe {
       }
    }
 
-   private void nwb() {
+   void nwb() {
       if (this.nvl) {
          this.nvl = false;
          if (this.mc.options != null && this.mc.getWindow() != null) {
@@ -336,7 +336,7 @@ public class nuo extends kfe {
       this.nvm = false;
    }
 
-   private void nwc() {
+   void nwc() {
       if (this.nvc.isHeld()) {
          this.nvc.release(this.mc);
       }
@@ -346,7 +346,7 @@ public class nuo extends kfe {
       this.nvn = 0;
    }
 
-   private void nwd() {
+   void nwd() {
       this.nwc();
       this.nve = -1;
       this.nvf = -1;
@@ -355,11 +355,11 @@ public class nuo extends kfe {
       this.nvi = false;
    }
 
-   private boolean nwe(ClientPlayerEntity var1) {
+   boolean nwe(ClientPlayerEntity var1) {
       return vyn.serverIdle(var1) && !var1.isUsingItem() && (this.mc.interactionManager == null || !this.mc.interactionManager.isBreakingBlock());
    }
 
-   private static boolean nwf(ClientPlayerEntity var0) {
+   static boolean nwf(ClientPlayerEntity var0) {
       boolean var1 = var0.isSneaking() || vyn.lastSent(var0).sneak();
       if (var1 && var0.isOnGround()) {
          Box var2 = var0.getBoundingBox();

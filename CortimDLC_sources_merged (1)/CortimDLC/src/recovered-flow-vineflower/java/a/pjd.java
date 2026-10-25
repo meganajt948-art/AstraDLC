@@ -12,12 +12,12 @@ import java.util.Map.Entry;
 public final class pjd {
    public static final int LIMIT = 3;
    public static final Object MAIN = new Object();
-   private static final long pje = 60000L;
-   private static final long pjf = 10000L;
-   private static final Map<Object, piv> pjg = new IdentityHashMap<>();
-   private static final List<pja> pjh = new ArrayList<>();
+   static final long pje = 60000L;
+   static final long pjf = 10000L;
+   static final Map<Object, piv> pjg = new IdentityHashMap<>();
+   static final List<pja> pjh = new ArrayList<>();
 
-   private pjd() {
+   pjd() {
    }
 
    public static String key(String var0) {
@@ -153,7 +153,7 @@ public final class pjd {
       pjg.remove(var0);
    }
 
-   private static pja pjk(Object var0) {
+   static pja pjk(Object var0) {
       for (pja var2 : pjh) {
          if (var2.owner == var0) {
             return var2;
@@ -163,11 +163,11 @@ public final class pjd {
       return null;
    }
 
-   private static void pjl(Object var0) {
+   static void pjl(Object var0) {
       pjh.removeIf(var1 -> var1.owner == var0);
    }
 
-   private static void pjm(long var0) {
+   static void pjm(long var0) {
       pjg.values().removeIf(var2x -> var0 - var2x.pix > 60000L);
       Iterator var2 = pjh.iterator();
 

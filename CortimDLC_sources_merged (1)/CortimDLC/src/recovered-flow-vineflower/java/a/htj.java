@@ -6,24 +6,24 @@ import java.util.Locale;
 import net.minecraft.client.gui.DrawContext;
 
 final class htj extends imn {
-   private static final float htk = 16.0F;
-   private static final float htl = 56.0F;
-   private static final float htm = 80.0F;
-   private static final float htn = 9.0F;
-   private static final float hto = 6.0F;
-   private static final float htp = 4.3F;
-   private static final int htq = Math.max(iov.MENU_PAINTS.length, iov.HUD_PAINTS.length);
-   private final vcj[] htr = new vcj[htq];
-   private final vcj[] hts = new vcj[htq];
-   private final vcj htt = new vcj(16.0F);
-   private String htu = "";
-   private int htv = -1;
-   private float htw;
-   private float htx;
-   private float hty;
-   private float htz = 1.0F;
-   private int hua;
-   private float hub;
+   static final float htk = 16.0F;
+   static final float htl = 56.0F;
+   static final float htm = 80.0F;
+   static final float htn = 9.0F;
+   static final float hto = 6.0F;
+   static final float htp = 4.3F;
+   static final int htq = Math.max(iov.MENU_PAINTS.length, iov.HUD_PAINTS.length);
+   final vcj[] htr = new vcj[htq];
+   final vcj[] hts = new vcj[htq];
+   final vcj htt = new vcj(16.0F);
+   String htu = "";
+   int htv = -1;
+   float htw;
+   float htx;
+   float hty;
+   float htz = 1.0F;
+   int hua;
+   float hub;
 
    htj() {
       super(null);
@@ -34,7 +34,7 @@ final class htj extends imn {
       }
    }
 
-   private static iog[] hue() {
+   static iog[] hue() {
       return iov.PAINT.is(a.c(-581939200, "偋⧧ꌥ")) ? iov.HUD_PAINTS : iov.MENU_PAINTS;
    }
 
@@ -50,7 +50,7 @@ final class htj extends imn {
       return var1;
    }
 
-   private float huf(int var1) {
+   float huf(int var1) {
       float var2 = this.y + 2.0F;
 
       for (int var3 = 0; var3 < var1; var3++) {
@@ -60,11 +60,11 @@ final class htj extends imn {
       return var2;
    }
 
-   private float hug(iog var1) {
+   float hug(iog var1) {
       return this.w - 15.0F * (var1.hasAlpha() ? 2.0F : 1.0F);
    }
 
-   private void huh() {
+   void huh() {
       if (!iov.PAINT.get().equals(this.htu)) {
          this.htu = iov.PAINT.get();
          this.htv = -1;
@@ -76,7 +76,7 @@ final class htj extends imn {
       }
    }
 
-   private void hui(iog var1, boolean var2) {
+   void hui(iog var1, boolean var2) {
       int var3 = iov.paintColor(var1);
       if (var2 || this.huj(var1) != (var1.hasAlpha() ? var3 : var3 | 0xFF000000)) {
          if (!var1.hud() && var1.slot() == 0) {
@@ -97,7 +97,7 @@ final class htj extends imn {
       }
    }
 
-   private int huj(iog var1) {
+   int huj(iog var1) {
       return ujt.withAlpha(ujt.hsv(this.htw, this.htx, this.hty), var1.hasAlpha() ? Math.round(this.htz * 255.0F) : 255);
    }
 
@@ -148,7 +148,7 @@ final class htj extends imn {
       }
    }
 
-   private void huk(DrawContext var1, iog var2, float var3, float var4, float var5) {
+   void huk(DrawContext var1, iog var2, float var3, float var4, float var5) {
       float var6 = var3 + 8.0F;
       float var7 = iov.r(4.0F);
       float var8 = Math.max(var4, var5 * 0.6F);
@@ -172,7 +172,7 @@ final class htj extends imn {
          .drawRight(var1, var11, this.x + this.w, irr.SMALL.centerTop(var6), var10 ? ujt.lerp(iov.textMuted, iov.textDim, 0.6F + 0.4F * var4) : iov.textMuted);
    }
 
-   private static void hul(DrawContext var0, float var1, float var2, float var3, int var4) {
+   static void hul(DrawContext var0, float var1, float var2, float var3, int var4) {
       if (ujt.alpha(var4) < 250) {
          uut.round(var0, var1 - var3, var2 - var3, var3, var3 * 2.0F, var3, 0.0F, 0.0F, var3, -4934468);
          uut.round(var0, var1, var2 - var3, var3, var3 * 2.0F, 0.0F, var3, var3, 0.0F, -13750732);
@@ -182,13 +182,13 @@ final class htj extends imn {
       uut.circleOutline(var0, var1, var2, var3, 0.8F, ujt.withAlpha(iov.textMuted, 110));
    }
 
-   private static String hum(int var0, boolean var1) {
+   static String hum(int var0, boolean var1) {
       String var2 = String.format(Locale.ROOT, a.b("뼱욆䱀툷妎", -788087017), var0 & 16777215);
       int var3 = ujt.alpha(var0);
       return var1 && var3 < 255 ? var2 + a.c(-192320031, "淃ᑲ") + Math.round(var3 / 2.55F) + a.b("蝁", -1245083803) : var2;
    }
 
-   private void hun(DrawContext var1, hlc var2, iog var3, float var4, float var5, float var6, float var7) {
+   void hun(DrawContext var1, hlc var2, iog var3, float var4, float var5, float var6, float var7) {
       float var8 = this.htw;
       float var9 = this.htx;
       float var10 = this.hty;
@@ -256,7 +256,7 @@ final class htj extends imn {
       }
    }
 
-   private static void huo(DrawContext var0, float var1, float var2) {
+   static void huo(DrawContext var0, float var1, float var2) {
       uut.shadow(var0, var1 - 1.5F, var2 - 2.0F, 12.0F, 4.0F, 2.0F, 2.0F, 1610612736);
       uut.outline(var0, var1 - 1.5F, var2 - 2.0F, 12.0F, 4.0F, 2.0F, 1.3F, -1);
    }
@@ -298,7 +298,7 @@ final class htj extends imn {
       return false;
    }
 
-   private boolean hup(hlc var1, iog var2, float var3, float var4, float var5) {
+   boolean hup(hlc var1, iog var2, float var3, float var4, float var5) {
       float var6 = this.hug(var2);
       float var7 = this.x + var6 + 6.0F;
       this.hub = var3;
@@ -355,7 +355,7 @@ final class htj extends imn {
       }
    }
 
-   private static float huq(float var0) {
+   static float huq(float var0) {
       return Math.max(0.0F, Math.min(1.0F, var0));
    }
 }

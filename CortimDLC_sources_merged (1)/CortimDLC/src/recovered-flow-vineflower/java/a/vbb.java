@@ -30,32 +30,32 @@ public final class vbb {
    public static final int UNIFORM_SIZE = 1328;
    public static final int SEASON_UNIFORM_SIZE = 1408;
    public static final int HEIGHT_SIZE = 128;
-   private static @Nullable GpuTexture vbc;
-   private static @Nullable GpuTextureView vbd;
-   private static @Nullable GpuTexture vbe;
-   private static @Nullable GpuTextureView vbf;
-   private static @Nullable GpuTexture vbg;
-   private static @Nullable GpuTextureView vbh;
-   private static @Nullable GpuBuffer vbi;
-   private static @Nullable GpuBuffer vbj;
-   private static @Nullable GpuTexture vbk;
-   private static @Nullable GpuTextureView vbl;
-   private static @Nullable GpuTexture vbm;
-   private static @Nullable GpuTextureView vbn;
-   private static int vbo = -1;
-   private static int vbp = -1;
-   private static int vbq = -1;
-   private static int vbr = -1;
-   private static boolean vbs;
-   private static boolean vbt;
-   private static boolean vbu;
-   private static boolean vbv;
-   private static boolean vbw;
-   private static final ArrayDeque<GpuQuery> vbx = new ArrayDeque<>();
-   private static long vby;
-   private static int vbz;
+   static @Nullable GpuTexture vbc;
+   static @Nullable GpuTextureView vbd;
+   static @Nullable GpuTexture vbe;
+   static @Nullable GpuTextureView vbf;
+   static @Nullable GpuTexture vbg;
+   static @Nullable GpuTextureView vbh;
+   static @Nullable GpuBuffer vbi;
+   static @Nullable GpuBuffer vbj;
+   static @Nullable GpuTexture vbk;
+   static @Nullable GpuTextureView vbl;
+   static @Nullable GpuTexture vbm;
+   static @Nullable GpuTextureView vbn;
+   static int vbo = -1;
+   static int vbp = -1;
+   static int vbq = -1;
+   static int vbr = -1;
+   static boolean vbs;
+   static boolean vbt;
+   static boolean vbu;
+   static boolean vbv;
+   static boolean vbw;
+   static final ArrayDeque<GpuQuery> vbx = new ArrayDeque<>();
+   static long vby;
+   static int vbz;
 
-   private vbb() {
+   vbb() {
    }
 
    public static boolean draw(Consumer<Std140Builder> var0) {
@@ -198,7 +198,7 @@ public final class vbb {
       }
    }
 
-   private static boolean vcc(RenderPipeline var0, boolean var1, int var2, String var3, Consumer<Std140Builder> var4) {
+   static boolean vcc(RenderPipeline var0, boolean var1, int var2, String var3, Consumer<Std140Builder> var4) {
       if (!vbv && uvq.ensure(var0) && uvq.ensure(uvq.BLUR_COPY)) {
          GpuBufferSlice var5 = RenderSystem.getProjectionMatrixBuffer();
          GpuBufferSlice var6 = RenderSystem.getShaderFog();
@@ -306,7 +306,7 @@ public final class vbb {
       return var0;
    }
 
-   private static void vcd() {
+   static void vcd() {
       while (!vbx.isEmpty()) {
          OptionalLong var0 = vbx.peek().getValue();
          if (var0.isEmpty()) {
@@ -365,7 +365,7 @@ public final class vbb {
       vbv = false;
    }
 
-   private static void vce() {
+   static void vce() {
       if (vbl != null) {
          vbl.close();
          vbk.close();
@@ -384,7 +384,7 @@ public final class vbb {
       vbr = -1;
    }
 
-   private static void vcf(GpuDevice var0, int var1, int var2) {
+   static void vcf(GpuDevice var0, int var1, int var2) {
       if (vbl == null || var1 != vbq || var2 != vbr) {
          vce();
          byte var3 = 5;
@@ -397,7 +397,7 @@ public final class vbb {
       }
    }
 
-   private static void vcg(GpuDevice var0, int var1, int var2) {
+   static void vcg(GpuDevice var0, int var1, int var2) {
       if (vbi == null) {
          vbi = var0.createBuffer(() -> "Flow2 wet", 136, 1328L);
       }
@@ -425,7 +425,7 @@ public final class vbb {
       }
    }
 
-   private static void vch(GpuDevice var0) {
+   static void vch(GpuDevice var0) {
       if (vbh == null) {
          byte var1 = 5;
          vbg = var0.createTexture(() -> "Flow2 weather heights", var1, TextureFormat.RGBA8, 128, 128, 1, 1);
@@ -433,7 +433,7 @@ public final class vbb {
       }
    }
 
-   private static void vci(GpuDevice var0) {
+   static void vci(GpuDevice var0) {
       Random var1 = new Random(65532160L);
 
       try (NativeImage var2 = new NativeImage(Format.RGBA, 256, 256, false)) {

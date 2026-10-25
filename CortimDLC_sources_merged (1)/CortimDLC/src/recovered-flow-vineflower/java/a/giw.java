@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 final class giw {
-   private static final String[] gix = new String[]{
+   static final String[] gix = new String[]{
       a.d("踑\uf7a9絺\ue340棖\uee6e吾\udddd䏛쥶", -1341627912, 1678897036),
       a.b("譬\uf2c6砍\ue66a涮\ueb09儓\ud8fe", -1184855280),
       a.b("\u0a37玐凌朼\uecbf樒", -1053226416),
@@ -22,16 +22,16 @@ final class giw {
       a.c(1157937565, "맹쁁䪒풨张\ud98a揗\uea29瑪ﺂ祎"),
       a.b("둄췮䜥\ud942劆퐡渻\ue781秙\uf37a璮躆H駽", 181515326)
    };
-   private static final int giy = 10;
-   private static Field giz;
-   private static Field gja;
-   private static boolean gjb;
-   private static volatile int gjc;
-   private static double gjd = 1000.0;
-   private static long gje;
-   private static float gjf;
+   static final int giy = 10;
+   static Field giz;
+   static Field gja;
+   static boolean gjb;
+   static volatile int gjc;
+   static double gjd = 1000.0;
+   static long gje;
+   static float gjf;
 
-   private giw() {
+   giw() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -108,7 +108,7 @@ final class giw {
       }
    }
 
-   private static void gji() {
+   static void gji() {
       int var0 = gjc;
       if (var0 != 0) {
          MinecraftClient var1 = MinecraftClient.getInstance();
@@ -121,7 +121,7 @@ final class giw {
       }
    }
 
-   private static void gjj(MinecraftClient var0) throws Exception {
+   static void gjj(MinecraftClient var0) throws Exception {
       if (giz != null && var0.currentScreen == null) {
          giz.setBoolean(var0.mouse, true);
       }
@@ -131,7 +131,7 @@ final class giw {
       }
    }
 
-   private static void gjk(MinecraftClient var0, String var1) {
+   static void gjk(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

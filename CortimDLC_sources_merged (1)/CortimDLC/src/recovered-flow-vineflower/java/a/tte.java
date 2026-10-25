@@ -5,12 +5,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 final class tte {
-   private final BlockPos ttf;
-   private final Direction ttg;
-   private final Vec3d tth;
-   private final byte tti;
+   final BlockPos ttf;
+   final Direction ttg;
+   final Vec3d tth;
+   final byte tti;
 
-   private tte(BlockPos pos, Direction side, Vec3d point, byte cell) {
+   tte(BlockPos pos, Direction side, Vec3d point, byte cell) {
       this.ttf = pos;
       this.ttg = side;
       this.tth = point;

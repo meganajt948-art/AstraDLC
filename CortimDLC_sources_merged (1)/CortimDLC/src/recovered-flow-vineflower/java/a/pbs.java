@@ -49,7 +49,7 @@ enum pbs {
       return false;
    }
 
-   private static boolean pbv(BlockBox var0, BlockPos var1) {
+   static boolean pbv(BlockBox var0, BlockPos var1) {
       return var1.getX() > var0.getMinX()
          && var1.getX() < var0.getMaxX()
          && var1.getY() > var0.getMinY()

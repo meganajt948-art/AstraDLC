@@ -21,13 +21,13 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 public class kyn extends kfe {
-   private final vmc kyo = this.add(new vmc(a.d("捆\u1ad4递\u0e63薵", -619412060, 1931273908), 5.0, 1.0, 10.0, 1.0));
-   private final vmc kyp = this.add(new vmc(a.d("岳┡꿧㆖멀㲵蚵ཇ鄚ᮼ鱫星", -983236670, 925475630), 0.3, 0.0, 0.6, 0.05).percent());
-   private final vmc kyq = this.add(new vmc(a.d("\ued80鐎Ở肷୳跉㞂빪", -411490779, -873804802), 0.35, 0.0, 0.8, 0.05).percent());
-   private final vmc kyr = this.add(new vmc(a.c(1146289752, "︆螄ീ錷\u18fd鹆␗귫"), 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc kys = this.add(new vmc(a.c(1509878106, "\ue91f邧ᩭ"), 90.0, 20.0, 180.0, 5.0).unit(a.b("튲", -1700343293)));
-   private final vmc kyt = this.add(new vmc(a.b("\ue30f骓ၚ踬\u05ee荐㤎냹", -1452612797), 4.0, 2.0, 6.0, 0.1).suffix(a.d("뻆", -490704688, 1064291962)));
-   private final vlv kyu = this.add(
+   final vmc kyo = this.add(new vmc(a.d("捆\u1ad4递\u0e63薵", -619412060, 1931273908), 5.0, 1.0, 10.0, 1.0));
+   final vmc kyp = this.add(new vmc(a.d("岳┡꿧㆖멀㲵蚵ཇ鄚ᮼ鱫星", -983236670, 925475630), 0.3, 0.0, 0.6, 0.05).percent());
+   final vmc kyq = this.add(new vmc(a.d("\ued80鐎Ở肷୳跉㞂빪", -411490779, -873804802), 0.35, 0.0, 0.8, 0.05).percent());
+   final vmc kyr = this.add(new vmc(a.c(1146289752, "︆螄ീ錷\u18fd鹆␗귫"), 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc kys = this.add(new vmc(a.c(1509878106, "\ue91f邧ᩭ"), 90.0, 20.0, 180.0, 5.0).unit(a.b("튲", -1700343293)));
+   final vmc kyt = this.add(new vmc(a.b("\ue30f骓ၚ踬\u05ee荐㤎냹", -1452612797), 4.0, 2.0, 6.0, 0.1).suffix(a.d("뻆", -490704688, 1064291962)));
+   final vlv kyu = this.add(
       new vlv(
          a.c(2006925133, "㼁䚍챏制\ud9ff"),
          a.d("뿩왪䲽틝夕\udfa5旫", 1771780979, -1815575350),
@@ -37,75 +37,75 @@ public class kyn extends kfe {
          a.c(-30588880, "䁲㧬댨")
       )
    );
-   private final vkl kyv = this.add(new vkl(a.c(-1265563731, "ߤ繺\uf4ac櫗\ue108柲\uddee吞쩃䃧"), false));
-   private final vkl kyw = this.add(new vkl(a.d("쎜먑ハ꺦╭ꏋᦙ", 1618045485, 1203415526), true));
-   private final vkl kyx = this.add(new vkl(a.c(-230131163, "穬Ͽ褡ᝁ"), false));
-   private final vkl kyy = this.add(new vkl(a.d("䳳㕾뾷⇛ꨖⲵ雩ὐ腘\u0bff谡癐\uf898", -1799006606, -1119348008), false));
-   private static final double kyz = 1.2;
-   private static final double kza = 0.12;
-   private static final double kzb = 0.08;
-   private static final double kzc = 0.25;
-   private static Field kzd;
-   private static Field kze;
-   private static Field kzf;
-   private final Random kzg = new Random();
-   private final lln kzh = new lln();
-   private final tbm kzi = new tbm();
-   private final tbm kzj = new tbm();
-   private final double[] kzk = new double[2];
-   private long kzl;
-   private GLFWCursorPosCallback kzm;
-   private GLFWCursorPosCallback kzn;
-   private boolean kzo;
-   private double kzp;
-   private double kzq;
-   private double kzr;
-   private double kzs;
-   private double kzt = Double.NaN;
-   private double kzu = Double.NaN;
-   private double kzv;
-   private double kzw;
-   private double kzx;
-   private double kzy;
-   private LivingEntity kzz;
-   private boolean laa;
-   private long lab;
-   private LivingEntity lac;
-   private long lad;
-   private double lae;
-   private double laf;
-   private double lag;
-   private double lah;
-   private double lai;
-   private double laj;
-   private double lak;
-   private double lal;
-   private double lam;
-   private double lan;
-   private double lao;
-   private double lap;
-   private double laq;
-   private double lar;
-   private double las;
-   private double lat;
-   private double lau;
-   private long lav;
-   private double law = 0.016666666666666666;
-   private boolean lax;
-   private long lay;
-   private double laz;
-   private double lba;
-   private double lbb;
-   private double lbc;
-   private double lbd;
-   private double lbe;
-   private double lbf;
-   private double lbg;
-   private boolean lbh;
-   private double lbi;
-   private double lbj;
-   private double lbk;
-   private double lbl;
+   final vkl kyv = this.add(new vkl(a.c(-1265563731, "ߤ繺\uf4ac櫗\ue108柲\uddee吞쩃䃧"), false));
+   final vkl kyw = this.add(new vkl(a.d("쎜먑ハ꺦╭ꏋᦙ", 1618045485, 1203415526), true));
+   final vkl kyx = this.add(new vkl(a.c(-230131163, "穬Ͽ褡ᝁ"), false));
+   final vkl kyy = this.add(new vkl(a.d("䳳㕾뾷⇛ꨖⲵ雩ὐ腘\u0bff谡癐\uf898", -1799006606, -1119348008), false));
+   static final double kyz = 1.2;
+   static final double kza = 0.12;
+   static final double kzb = 0.08;
+   static final double kzc = 0.25;
+   static Field kzd;
+   static Field kze;
+   static Field kzf;
+   final Random kzg = new Random();
+   final lln kzh = new lln();
+   final tbm kzi = new tbm();
+   final tbm kzj = new tbm();
+   final double[] kzk = new double[2];
+   long kzl;
+   GLFWCursorPosCallback kzm;
+   GLFWCursorPosCallback kzn;
+   boolean kzo;
+   double kzp;
+   double kzq;
+   double kzr;
+   double kzs;
+   double kzt = Double.NaN;
+   double kzu = Double.NaN;
+   double kzv;
+   double kzw;
+   double kzx;
+   double kzy;
+   LivingEntity kzz;
+   boolean laa;
+   long lab;
+   LivingEntity lac;
+   long lad;
+   double lae;
+   double laf;
+   double lag;
+   double lah;
+   double lai;
+   double laj;
+   double lak;
+   double lal;
+   double lam;
+   double lan;
+   double lao;
+   double lap;
+   double laq;
+   double lar;
+   double las;
+   double lat;
+   double lau;
+   long lav;
+   double law = 0.016666666666666666;
+   boolean lax;
+   long lay;
+   double laz;
+   double lba;
+   double lbb;
+   double lbc;
+   double lbd;
+   double lbe;
+   double lbf;
+   double lbg;
+   boolean lbh;
+   double lbi;
+   double lbj;
+   double lbk;
+   double lbl;
 
    public kyn() {
       super(
@@ -181,7 +181,7 @@ public class kyn extends kfe {
       }
    }
 
-   private void lbo(LivingEntity var1, long var2) {
+   void lbo(LivingEntity var1, long var2) {
       this.lac = var1;
       this.lad = var2;
       this.lae = 0.0;
@@ -201,7 +201,7 @@ public class kyn extends kfe {
       this.lbk = this.lbl = 0.0;
    }
 
-   private void lbp() {
+   void lbp() {
       this.lac = null;
       this.lae = 0.0;
       this.lax = false;
@@ -210,7 +210,7 @@ public class kyn extends kfe {
       this.lbk = this.lbl = 0.0;
    }
 
-   private void lbq(MinecraftClient var1, ClientPlayerEntity var2, long var3, double var5) {
+   void lbq(MinecraftClient var1, ClientPlayerEntity var2, long var3, double var5) {
       double var7 = (var3 - this.lad) / 1.0E9;
       this.lbr(var7);
       float var9 = var1.getRenderTickCounter().getTickProgress(true);
@@ -257,7 +257,7 @@ public class kyn extends kfe {
       }
    }
 
-   private void lbr(double var1) {
+   void lbr(double var1) {
       if (var1 < this.lat) {
          double var5 = lci(this.las, this.lat, var1);
          this.lam = this.lao + (this.laq - this.lao) * var5;
@@ -278,13 +278,13 @@ public class kyn extends kfe {
       }
    }
 
-   private double[] lbs() {
+   double[] lbs() {
       double var1 = lcj(this.kzg.nextGaussian() * 0.18, -0.35, 0.35);
       double var3 = 0.55 + this.kzg.nextDouble() * 0.3;
       return new double[]{var1, var3};
    }
 
-   private LivingEntity lbt(MinecraftClient var1, ClientPlayerEntity var2) {
+   LivingEntity lbt(MinecraftClient var1, ClientPlayerEntity var2) {
       Vec3d var3 = var2.getEyePos();
       double var4 = this.kyt.get();
       double var6 = this.kys.get() * 0.5;
@@ -308,7 +308,7 @@ public class kyn extends kfe {
       return var8;
    }
 
-   private boolean lbu(ClientPlayerEntity var1, LivingEntity var2) {
+   boolean lbu(ClientPlayerEntity var1, LivingEntity var2) {
       if (var2 != var1 && !var2.isRemoved() && var2.isAlive() && var2.isAttackable() && !(var2 instanceof ArmorStandEntity)) {
          if (var2 instanceof PlayerEntity var3) {
             if (!this.kyw.get() || var3.isSpectator() || hhf.protects(var3)) {
@@ -324,11 +324,11 @@ public class kyn extends kfe {
       }
    }
 
-   private static boolean lbv(Vec3d var0, Entity var1, double var2) {
+   static boolean lbv(Vec3d var0, Entity var1, double var2) {
       return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
-   private static double lbw(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
+   static double lbw(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
       Vec3d var3 = var2.getBoundingBox().getCenter();
       double var4 = var3.x - var1.x;
       double var6 = var3.z - var1.z;
@@ -337,7 +337,7 @@ public class kyn extends kfe {
       return Math.hypot(tbp.wrap(var8 - var0.getYaw()), var10 - var0.getPitch());
    }
 
-   private void lbx(MinecraftClient var1) {
+   void lbx(MinecraftClient var1) {
       boolean var2 = var1.options.attackKey.isPressed()
          || var1.currentScreen == null && var1.getWindow() != null && GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 0) == 1;
       if (var2) {
@@ -345,7 +345,7 @@ public class kyn extends kfe {
       }
    }
 
-   private boolean lby(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean lby(MinecraftClient var1, ClientPlayerEntity var2) {
       if (var1.currentScreen != null || !var1.isWindowFocused() || !var1.mouse.isCursorLocked() || !var2.isAlive() || var2.isSpectator() || var2.isUsingItem()) {
          return false;
       } else if (!var1.options.getPerspective().isFirstPerson() || var1.options.smoothCameraEnabled) {
@@ -357,7 +357,7 @@ public class kyn extends kfe {
       }
    }
 
-   private boolean lbz(ItemStack var1) {
+   boolean lbz(ItemStack var1) {
       return switch (this.kyu.get()) {
          case a.b("㙺俤씠", 1158100536) -> true;
          case a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141) -> var1.isIn(ItemTags.SWORDS);
@@ -366,12 +366,12 @@ public class kyn extends kfe {
       };
    }
 
-   private static lck lca() {
+   static lck lca() {
       Flow var0 = Flow.getInstance();
       return var0 != null && var0.getModuleManager() != null ? var0.getModuleManager().get(lck.class) : null;
    }
 
-   private void lcb(long var1) {
+   void lcb(long var1) {
       if (kzd == null || kze == null || kzf == null) {
          kzd = vxr.find(
             Mouse.class,
@@ -399,7 +399,7 @@ public class kyn extends kfe {
       }
    }
 
-   private void lcc() {
+   void lcc() {
       this.kzo = false;
       if (this.kzn != null) {
          GLFWCursorPosCallback var1 = GLFW.glfwSetCursorPosCallback(this.kzl, this.kzm);
@@ -413,7 +413,7 @@ public class kyn extends kfe {
       }
    }
 
-   private void lcd(long var1, double var3, double var5) {
+   void lcd(long var1, double var3, double var5) {
       if (this.kzm != null) {
          this.kzm.invoke(var1, var3, var5);
       }
@@ -423,7 +423,7 @@ public class kyn extends kfe {
       }
    }
 
-   private void lce() {
+   void lce() {
       if (this.kzo && kzd != null) {
          MinecraftClient var1 = MinecraftClient.getInstance();
 
@@ -459,7 +459,7 @@ public class kyn extends kfe {
       }
    }
 
-   private void lcf(MinecraftClient var1) {
+   void lcf(MinecraftClient var1) {
       ClientPlayerEntity var2 = var1.player;
       if (var2 != null && (this.kzp != 0.0 || this.kzq != 0.0)) {
          double var3 = lch(var1, var2);
@@ -500,23 +500,23 @@ public class kyn extends kfe {
       }
    }
 
-   private static double lcg(double var0, double var2) {
+   static double lcg(double var0, double var2) {
       return var0 > 0.0 ? var0 : (var2 < 0.0 ? var2 : 0.0);
    }
 
-   private static double lch(MinecraftClient var0, ClientPlayerEntity var1) {
+   static double lch(MinecraftClient var0, ClientPlayerEntity var1) {
       double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
       boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();
       return (var6 ? var4 : var4 * 8.0) * 0.15;
    }
 
-   private static double lci(double var0, double var2, double var4) {
+   static double lci(double var0, double var2, double var4) {
       double var6 = lcj((var4 - var0) / (var2 - var0), 0.0, 1.0);
       return var6 * var6 * (3.0 - 2.0 * var6);
    }
 
-   private static double lcj(double var0, double var2, double var4) {
+   static double lcj(double var0, double var2, double var4) {
       return var0 < var2 ? var2 : (var0 > var4 ? var4 : var0);
    }
 }

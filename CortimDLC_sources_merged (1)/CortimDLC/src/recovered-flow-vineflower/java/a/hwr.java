@@ -15,21 +15,21 @@ import javax.imageio.ImageIO;
 import net.minecraft.client.gui.DrawContext;
 
 final class hwr extends imn {
-   private static final float hws = 58.0F;
-   private static final float hwt = 6.0F;
-   private static final float hwu = 12.0F;
-   private static final Map<String, uok> hwv = new HashMap<>();
-   private static final Set<String> hww = new HashSet<>();
-   private final String hwx;
-   private final List<vcj> hwy = new ArrayList<>();
-   private final List<vcj> hwz = new ArrayList<>();
+   static final float hws = 58.0F;
+   static final float hwt = 6.0F;
+   static final float hwu = 12.0F;
+   static final Map<String, uok> hwv = new HashMap<>();
+   static final Set<String> hww = new HashSet<>();
+   final String hwx;
+   final List<vcj> hwy = new ArrayList<>();
+   final List<vcj> hwz = new ArrayList<>();
 
    hwr(String var1) {
       super(null);
       this.hwx = var1;
    }
 
-   private List<CosmeticItem> hxc() {
+   List<CosmeticItem> hxc() {
       List var1 = Cosmetics.ofSlot(this.hwx);
 
       while (this.hwy.size() < var1.size()) {
@@ -40,17 +40,17 @@ final class hwr extends imn {
       return var1;
    }
 
-   private int hxd() {
+   int hxd() {
       float var1 = this.w > 0.0F ? this.w : 376.0F;
       return Math.max(3, (int)((var1 + 6.0F) / 64.0F));
    }
 
-   private float hxe() {
+   float hxe() {
       int var1 = this.hxd();
       return (this.w - 6.0F * (var1 - 1)) / var1;
    }
 
-   private int hxf() {
+   int hxf() {
       return Math.max(1, (this.hxc().size() + this.hxd() - 1) / this.hxd());
    }
 
@@ -60,11 +60,11 @@ final class hwr extends imn {
       return 3.0F + this.hxf() * (var1 + 12.0F) + (this.hxf() - 1) * 6.0F;
    }
 
-   private float hxg(int var1) {
+   float hxg(int var1) {
       return this.x + var1 % this.hxd() * (this.hxe() + 6.0F);
    }
 
-   private float hxh(int var1) {
+   float hxh(int var1) {
       return this.y + 3.0F + var1 / this.hxd() * (this.hxe() + 12.0F + 6.0F);
    }
 

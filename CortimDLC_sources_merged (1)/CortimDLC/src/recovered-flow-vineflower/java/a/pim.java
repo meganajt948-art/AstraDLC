@@ -12,9 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public final class pim {
-   private static final double pin = 0.001;
+   static final double pin = 0.001;
 
-   private pim() {
+   pim() {
    }
 
    public static pia flat(RegistryEntry<EntityAttribute> var0, double var1) {

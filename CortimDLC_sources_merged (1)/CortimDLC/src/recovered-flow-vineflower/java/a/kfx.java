@@ -9,13 +9,13 @@ import java.util.List;
 import net.minecraft.client.MinecraftClient;
 
 public class kfx {
-   private final List<kfe> kfy = new ArrayList<>();
-   private final Int2BooleanOpenHashMap kfz = new Int2BooleanOpenHashMap();
-   private final IntLinkedOpenHashSet kga = new IntLinkedOpenHashSet();
-   private final IntLinkedOpenHashSet kgb = new IntLinkedOpenHashSet();
-   private final IntOpenHashSet kgc = new IntOpenHashSet();
-   private static boolean kgd;
-   private final rds kge = new rds();
+   final List<kfe> kfy = new ArrayList<>();
+   final Int2BooleanOpenHashMap kfz = new Int2BooleanOpenHashMap();
+   final IntLinkedOpenHashSet kga = new IntLinkedOpenHashSet();
+   final IntLinkedOpenHashSet kgb = new IntLinkedOpenHashSet();
+   final IntOpenHashSet kgc = new IntOpenHashSet();
+   static boolean kgd;
+   final rds kge = new rds();
 
    public kfx() {
       this.kgh(this.kge);
@@ -92,7 +92,7 @@ public class kfx {
       this.kgh(new oxw());
    }
 
-   private void kgh(kfe var1) {
+   void kgh(kfe var1) {
       this.kfy.add(var1);
    }
 
@@ -263,7 +263,7 @@ public class kfx {
       return kgd;
    }
 
-   private static boolean kgi(kfe var0, int var1) {
+   static boolean kgi(kfe var0, int var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3 instanceof vlq var4 && var4.get() == var1) {
             return true;

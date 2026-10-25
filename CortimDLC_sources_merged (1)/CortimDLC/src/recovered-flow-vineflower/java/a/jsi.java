@@ -7,21 +7,21 @@ import net.minecraft.client.gui.DrawContext;
 import org.joml.Matrix3x2fStack;
 
 public final class jsi {
-   private static final int[] jsj = new int[]{16762844, 16756940, 16768489, 16227517};
-   private static final int[] jsk = new int[]{15234090, 14241823, 15901498, 13058076, 15319114};
-   private final jsf jsl;
-   private final Snow jsm;
-   private final int jsn;
-   private final float[] jso;
-   private final float[] jsp;
-   private final float[] jsq;
-   private final float[] jsr;
-   private final float[] jss;
-   private final float[] jst;
-   private final float[] jsu;
-   private final float[] jsv;
-   private final float[] jsw;
-   private final int[] jsx;
+   static final int[] jsj = new int[]{16762844, 16756940, 16768489, 16227517};
+   static final int[] jsk = new int[]{15234090, 14241823, 15901498, 13058076, 15319114};
+   final jsf jsl;
+   final Snow jsm;
+   final int jsn;
+   final float[] jso;
+   final float[] jsp;
+   final float[] jsq;
+   final float[] jsr;
+   final float[] jss;
+   final float[] jst;
+   final float[] jsu;
+   final float[] jsv;
+   final float[] jsw;
+   final int[] jsx;
 
    public jsi(jsf var1, long var2) {
       this.jsl = var1;
@@ -119,7 +119,7 @@ public final class jsi {
       }
    }
 
-   private void jta(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, float var7, float var8, float var9) {
+   void jta(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, float var7, float var8, float var9) {
       float var10 = 16.0F;
       float var11 = var5 + var10 * 2.0F;
       float var12 = var4 + var10 * 2.0F;
@@ -168,7 +168,7 @@ public final class jsi {
       }
    }
 
-   private void jtb(DrawContext var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8, boolean var9) {
+   void jtb(DrawContext var1, float var2, float var3, float var4, float var5, float var6, int var7, int var8, boolean var9) {
       Matrix3x2fStack var10 = var1.getMatrices();
       var10.pushMatrix();
       var10.translate(var2, var3);
@@ -189,14 +189,14 @@ public final class jsi {
       var10.popMatrix();
    }
 
-   private static int jtc(int var0, float var1) {
+   static int jtc(int var0, float var1) {
       int var2 = Math.round((var0 >> 16 & 0xFF) * var1);
       int var3 = Math.round((var0 >> 8 & 0xFF) * var1);
       int var4 = Math.round((var0 & 0xFF) * var1);
       return var0 & 0xFF000000 | var2 << 16 | var3 << 8 | var4;
    }
 
-   private static int jtd(int var0, float var1) {
+   static int jtd(int var0, float var1) {
       int var2 = Math.max(0, Math.min(255, Math.round(var1 * 255.0F)));
       return var2 << 24 | var0 & 16777215;
    }

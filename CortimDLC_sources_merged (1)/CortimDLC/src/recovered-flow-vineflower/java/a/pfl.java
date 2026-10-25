@@ -3,7 +3,7 @@ package a;
 import flow.dev.a;
 
 public final class pfl {
-   private static final String[] pfm = new String[]{
+   static final String[] pfm = new String[]{
       a.c(-74709434, "؎"),
       a.c(-1925491375, "唚ⲫ"),
       a.b("릙쀨䫻", 2111355347),
@@ -15,7 +15,7 @@ public final class pfl {
       a.c(-1741263234, "渵ផ"),
       a.c(-2047216373, "\uf552")
    };
-   private static final String[] pfn = new String[]{
+   static final String[] pfn = new String[]{
       a.b("\ude12", 318234234),
       a.b("ᛑ潠", 1023022778),
       a.b("泼ᕍ龞", -707367786),
@@ -27,13 +27,13 @@ public final class pfl {
       a.b("\uf75e軾", 2015164213),
       a.b("ڥ", 1873741532)
    };
-   private static final String pfo = a.c(780907790, "땪쳄䘙\ud820叶필漖\ue6e0碾\uf20c痞辠Ŷ");
-   private static final String pfp = a.b("\ud8b3ꄖ⯆閉ṙ롋Ȕ譠ᕽ龍", 1179506819);
-   private static final String pfq = a.b("\ude31ꞇ\u2d7b댥㣛븯Ѽ跼Ꮢ餏ỵ\ue4c3樖\uf3a7秳ｩ䔏쪙倨홻忸▲ꭷ", -1477583235);
-   private static final String pfr = a.c(-1319903035, "\ue0ac餟Ꮚ趵٦胈㪓덣");
-   private static final String pfs = a.c(1137342698, "糒Ԓ辵ᇋ騘᳗ꚁ⽶");
+   static final String pfo = a.c(780907790, "땪쳄䘙\ud820叶필漖\ue6e0碾\uf20c痞辠Ŷ");
+   static final String pfp = a.b("\ud8b3ꄖ⯆閉ṙ롋Ȕ譠ᕽ龍", 1179506819);
+   static final String pfq = a.b("\ude31ꞇ\u2d7b댥㣛븯Ѽ跼Ꮢ餏ỵ\ue4c3樖\uf3a7秳ｩ䔏쪙倨홻忸▲ꭷ", -1477583235);
+   static final String pfr = a.c(-1319903035, "\ue0ac餟Ꮚ趵٦胈㪓덣");
+   static final String pfs = a.c(1137342698, "糒Ԓ辵ᇋ騘᳗ꚁ⽶");
 
-   private pfl() {
+   pfl() {
    }
 
    public static String roman(int var0) {
@@ -80,7 +80,7 @@ public final class pfl {
       }
    }
 
-   private static int pfv(String var0, int var1) {
+   static int pfv(String var0, int var1) {
       int var2 = var1;
 
       while (var2 < var0.length() && a.d("녛죾䈮ﱡ瞱톣毼\ue288粕\uf665", -708714892, -1032163553).indexOf(var0.charAt(var2)) >= 0) {

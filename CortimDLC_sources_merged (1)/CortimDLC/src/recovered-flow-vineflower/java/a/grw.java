@@ -21,7 +21,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.Vec3d;
 
 final class grw {
-   private static final String[] grx = new String[]{
+   static final String[] grx = new String[]{
       a.b("鈼\uebb8慸＜瓉\uf269䠋쇬徰", -1853123999),
       a.c(-226916625, "蚡Ｍ痯\ueb96恩\ue6ce岞"),
       a.b("曒Ὄ間௪耬ڈ볝㔸", 408970900),
@@ -39,7 +39,7 @@ final class grw {
       a.c(1064544947, "\uaafa퍠妺쟞䰩쪻烺羅杚\uedf3"),
       a.c(-689713143, "큔꧞⌐뵸㚨뀗\u0a53莀᷽靛ႛ\ueaf5搮ﶍ")
    };
-   private static final String[][] gry = new String[][]{
+   static final String[][] gry = new String[][]{
       new String[0],
       {a.c(-1996219661, "᪪挧\ue9f9瞐ﱛ竽삙䥾휢")},
       {a.d("힚긗Ⓣ몠ㅫ럍ඩ葎ᨒ", 1152539954, 743738097)},
@@ -51,15 +51,15 @@ final class grw {
       grx,
       new String[0]
    };
-   private static final Set<Integer> grz = Set.of(2, 5);
-   private static final Set<Integer> gsa = Set.of();
-   private static final int gsb = 100;
-   private static final List<Entity> gsc = new ArrayList<>();
-   private static long gsd;
-   private static long gse;
-   private static boolean gsf;
+   static final Set<Integer> grz = Set.of(2, 5);
+   static final Set<Integer> gsa = Set.of();
+   static final int gsb = 100;
+   static final List<Entity> gsc = new ArrayList<>();
+   static long gsd;
+   static long gse;
+   static boolean gsf;
 
-   private grw() {
+   grw() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -177,7 +177,7 @@ final class grw {
       return true;
    }
 
-   private static Entity gsi(MinecraftClient var0, String var1, double var2, double var4) {
+   static Entity gsi(MinecraftClient var0, String var1, double var2, double var4) {
       OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var7 = var0.player.getEntityPos().add(-var4, 0.0, var2);
       var6.refreshPositionAndAngles(var7.x, var0.player.getY(), var7.z, 180.0F, 0.0F);
@@ -188,7 +188,7 @@ final class grw {
       return var6;
    }
 
-   private static void gsj(MinecraftClient var0, String var1) {
+   static void gsj(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

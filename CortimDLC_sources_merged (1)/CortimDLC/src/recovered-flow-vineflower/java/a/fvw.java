@@ -12,7 +12,7 @@ import net.minecraft.client.input.MouseInput;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 final class fvw {
-   private fvw() {
+   fvw() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -60,7 +60,7 @@ final class fvw {
       return var1 >= 215;
    }
 
-   private static void fvz(MinecraftClient var0) throws Exception {
+   static void fvz(MinecraftClient var0) throws Exception {
       Field var1 = hlc.class.getDeclaredField(a.d("\udd68\ua4cc⸜끄㮽봐", -1607629551, -1950787573));
       var1.setAccessible(true);
       var1.set(null, a.d("椇ႚ驋е迡ॅ", -473880015, 1275675507));
@@ -74,7 +74,7 @@ final class fvw {
       var0.setScreen(new hlc());
    }
 
-   private static void fwa(Screen var0, float var1, float var2, int var3) throws Exception {
+   static void fwa(Screen var0, float var1, float var2, int var3) throws Exception {
       if (var0 instanceof hlc) {
          float var4 = fwb(var0, a.c(204217489, "᳹敕\uef9d燢層粍웨"));
          float var5 = fwb(var0, a.b("眽ຑ葙ᨦ釿ᝉ괭", 1636071253));
@@ -83,13 +83,13 @@ final class fvw {
       }
    }
 
-   private static float fwb(Object var0, String var1) throws Exception {
+   static float fwb(Object var0, String var1) throws Exception {
       Field var2 = var0.getClass().getDeclaredField(var1);
       var2.setAccessible(true);
       return var2.getFloat(var0);
    }
 
-   private static void fwc(MinecraftClient var0, String var1) {
+   static void fwc(MinecraftClient var0, String var1) {
       System.out
          .println(a.d("磀ŧ讽ᗆ鹗ᢲꋰ⬗땏㾪", 1758870791, -1813559874) + var1 + a.c(-462910363, "豆\uf597缤") + var0.getCurrentFps() + a.c(-1650675153, "눋쯼䄹\udf4b"));
       ScreenshotRecorder.saveScreenshot(

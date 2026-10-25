@@ -31,72 +31,72 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 final class kjq extends kfe {
-   private final vlv kjr = this.add(
+   final vlv kjr = this.add(
       new vlv(a.b("亻㜻뷳⎟ꡏ", -478523651), a.d("ֈ簇\uf6d8梺\ue36b", -1632274082, 457538688), a.b("煎ࣁ舞ᱼ鞭", -1862831848), a.c(-990878769, "掃ᨛ郈"))
    );
-   private final vkl kjs = this.add(new vkl(a.c(1207326738, "塅⇖ꬒ㕢뺸㠃艇"), true));
-   private final vkl kjt = this.add(new vkl(a.b("ꋠ\udb72冣쿉䐙슲磇\uf101潈\ue5ef戭", -1490705736), false));
-   private final vkl kju = this.add(new vkl(a.c(1614762710, "劖⬉ꇚ㾾됹㋛袋Ÿ鼼ᖊ鉃"), true));
-   private final vkl kjv = this.add(new vkl(a.b("\uf31f誂S鸤ᗅ鍊⤕ꃶ㺲", 75821915), true));
-   private final vmc kjw = this.add(new vmc(a.c(2118563030, "뒌촊䟝\ud9ae剮퓂溗\ue767"), 0.0, 0.0, 500.0, 10.0).suffix(a.b("郇\ue968", -1290760024)));
-   private final vmc kjx = this.add(new vmc(a.c(287932150, "纷ܧ跽ᎁ顎"), 0.0, 0.0, 10.0, 1.0).suffix(a.c(903363351, "㭦䋊젓噪\udda5")));
-   private final vkl kjy = this.add(new vkl(a.d("\ude19ꞔⵊ댣㣨빎М", -1981620463, -612564641), true));
-   private final vkl kjz = this.add(new vkl(a.d("ⵃ哐\ude0e䁮", 1311863879, -364357299), true));
-   private final vkl kka = this.add(new vkl(a.b("뷕쑘云탽嬰\udd93柏\uee76灯響紂蝿ণ逘ᩜ", -1952334450), true));
-   private static final int kkb = 12;
-   private static final int kkc = 1;
-   private static final int kkd = 2;
-   private static final int kke = 10;
-   private static final int kkf = 2;
-   private static final double kkg = 0.1;
-   private static final double kkh = 1.0;
-   private static final int kki = 3;
-   private static final float kkj = 0.9F;
-   private static final double kkk = 1.25;
-   private static final int kkl = 5;
-   private static final int kkm = 20;
-   private static final Field kkn = vxr.find(
+   final vkl kjs = this.add(new vkl(a.c(1207326738, "塅⇖ꬒ㕢뺸㠃艇"), true));
+   final vkl kjt = this.add(new vkl(a.b("ꋠ\udb72冣쿉䐙슲磇\uf101潈\ue5ef戭", -1490705736), false));
+   final vkl kju = this.add(new vkl(a.c(1614762710, "劖⬉ꇚ㾾됹㋛袋Ÿ鼼ᖊ鉃"), true));
+   final vkl kjv = this.add(new vkl(a.b("\uf31f誂S鸤ᗅ鍊⤕ꃶ㺲", 75821915), true));
+   final vmc kjw = this.add(new vmc(a.c(2118563030, "뒌촊䟝\ud9ae剮퓂溗\ue767"), 0.0, 0.0, 500.0, 10.0).suffix(a.b("郇\ue968", -1290760024)));
+   final vmc kjx = this.add(new vmc(a.c(287932150, "纷ܧ跽ᎁ顎"), 0.0, 0.0, 10.0, 1.0).suffix(a.c(903363351, "㭦䋊젓噪\udda5")));
+   final vkl kjy = this.add(new vkl(a.d("\ude19ꞔⵊ댣㣨빎М", -1981620463, -612564641), true));
+   final vkl kjz = this.add(new vkl(a.d("ⵃ哐\ude0e䁮", 1311863879, -364357299), true));
+   final vkl kka = this.add(new vkl(a.b("뷕쑘云탽嬰\udd93柏\uee76灯響紂蝿ণ逘ᩜ", -1952334450), true));
+   static final int kkb = 12;
+   static final int kkc = 1;
+   static final int kkd = 2;
+   static final int kke = 10;
+   static final int kkf = 2;
+   static final double kkg = 0.1;
+   static final double kkh = 1.0;
+   static final int kki = 3;
+   static final float kkj = 0.9F;
+   static final double kkk = 1.25;
+   static final int kkl = 5;
+   static final int kkm = 20;
+   static final Field kkn = vxr.find(
       MinecraftClient.class, a.c(-14317303, "襰\uf0ca稈\ue423澷\ue902卖\udaac䓵칕䦕돣㴦\ua4cd⻓\ua82dቯ鶬ܟ腢ࣹ犪ﰘ"), a.c(-1767998247, "粵ԋ返ᆬ驳᳹ꛄ⼳녬㯛"), a.c(1898917041, "⳹")
    );
-   private static final Field kko = vxr.find(
+   static final Field kko = vxr.find(
       LivingEntity.class,
       a.b("\uf5c8豲ڰ颛ጏ閺\u2feeꘔ㡍닭㔭콛䆞\ud875剫풕滗\ue114箧\ufdda瑃ฐ肠᭸", 71103934),
       a.c(1565623774, "薲ﰌ盓\ue8ab捴\ue5fe忄혱䡮싕"),
       a.d("ฒ", 282739367, -1331671811)
    );
-   private final ksp kkp = new ksp();
-   private kjn kkq = kjn.NONE;
-   private int kkr;
-   private int kks = 1;
-   private boolean kkt;
-   private int kku;
-   private boolean kkv;
-   private double kkw;
-   private boolean kkx = true;
-   private int kky;
-   private int kkz;
-   private double kla;
-   private double klb = Double.NaN;
-   private int klc = Integer.MAX_VALUE;
-   private Entity kld;
-   private int kle;
-   private int klf;
-   private int klg = 3;
-   private int klh;
-   private boolean kli;
-   private Entity klj;
-   private int klk = 10;
-   private final wdt kll = new wdt();
-   private Predicate<Entity> klm;
-   private Entity kln;
-   private Vec3d klo;
-   private boolean klp;
-   private boolean klq;
-   private int klr = -1;
-   private kjn kls = kjn.NONE;
-   private boolean klt;
+   final ksp kkp = new ksp();
+   kjn kkq = kjn.NONE;
+   int kkr;
+   int kks = 1;
+   boolean kkt;
+   int kku;
+   boolean kkv;
+   double kkw;
+   boolean kkx = true;
+   int kky;
+   int kkz;
+   double kla;
+   double klb = Double.NaN;
+   int klc = Integer.MAX_VALUE;
+   Entity kld;
+   int kle;
+   int klf;
+   int klg = 3;
+   int klh;
+   boolean kli;
+   Entity klj;
+   int klk = 10;
+   final wdt kll = new wdt();
+   Predicate<Entity> klm;
+   Entity kln;
+   Vec3d klo;
+   boolean klp;
+   boolean klq;
+   int klr = -1;
+   kjn kls = kjn.NONE;
+   boolean klt;
 
-   private kjq(Predicate<Entity> var1) {
+   kjq(Predicate<Entity> var1) {
       super(a.d("땕쳂䘊\ud875厢픑潕\ue694磦\uf24c", -549677939, 1153507718), "", kfa.COMBAT);
       this.klm = var1;
    }
@@ -345,7 +345,7 @@ final class kjq extends kfe {
       }
    }
 
-   private int klw(ClientPlayerEntity var1, int var2, boolean var3) {
+   int klw(ClientPlayerEntity var1, int var2, boolean var3) {
       if (!this.kli) {
          return this.kma(var1, var2, var3, false);
       }
@@ -372,21 +372,21 @@ final class kjq extends kfe {
       return var4;
    }
 
-   private static double klx() {
+   static double klx() {
       double var0 = ThreadLocalRandom.current().nextDouble();
       return var0 < 0.3 ? 0.0 : (var0 < 0.65 ? 0.15 : (var0 < 0.9 ? 0.35 : 0.6));
    }
 
-   private static int kly() {
+   static int kly() {
       double var0 = ThreadLocalRandom.current().nextDouble();
       return var0 < 0.5 ? 0 : (var0 < 0.85 ? 1 : 2);
    }
 
-   private static boolean klz(ClientPlayerEntity var0, int var1) {
+   static boolean klz(ClientPlayerEntity var0, int var1) {
       return var0.getAttackCooldownProgress(0.5F - var1) > 0.9F;
    }
 
-   private int kma(ClientPlayerEntity var1, int var2, boolean var3, boolean var4) {
+   int kma(ClientPlayerEntity var1, int var2, boolean var3, boolean var4) {
       for (int var5 = var2; var5 < 20; var5++) {
          boolean var6 = var3 ? this.kkp.critAt(var5) : this.kkp.rawCritAt(var5);
          if (var6 && (!var4 || this.kkp.smashAt(var5)) && kmd(var1, var5)) {
@@ -397,11 +397,11 @@ final class kjq extends kfe {
       return -1;
    }
 
-   private boolean kmb(ClientPlayerEntity var1, Entity var2, int var3) {
+   boolean kmb(ClientPlayerEntity var1, Entity var2, int var3) {
       return var3 > (this.kli ? 12 : 1) || var2 != null && this.kmg(var1, var2, var3);
    }
 
-   private boolean kmc(Entity var1) {
+   boolean kmc(Entity var1) {
       if (var1 == null) {
          if (this.kld != null && ++this.klf > 2) {
             this.kld = null;
@@ -419,11 +419,11 @@ final class kjq extends kfe {
       }
    }
 
-   private static boolean kmd(ClientPlayerEntity var0, int var1) {
+   static boolean kmd(ClientPlayerEntity var0, int var1) {
       return var0.getAttackCooldownProgress(0.5F + var1) > 0.9F;
    }
 
-   private static boolean kme(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2) {
+   static boolean kme(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2) {
       if (vxr.getInt(kkn, var0, 0) > 0) {
          return false;
       }
@@ -437,12 +437,12 @@ final class kjq extends kfe {
       return var4 == null || var4.isWithinRange(var1, var2);
    }
 
-   private static double kmf(ClientPlayerEntity var0) {
+   static double kmf(ClientPlayerEntity var0) {
       AttackRangeComponent var1 = var0.getMainHandStack().get(DataComponentTypes.ATTACK_RANGE);
       return var1 != null ? var1.getEffectiveMaxRange(var0) : var0.getEntityInteractionRange();
    }
 
-   private boolean kmg(ClientPlayerEntity var1, Entity var2, int var3) {
+   boolean kmg(ClientPlayerEntity var1, Entity var2, int var3) {
       int var4 = Math.min(var3, 3);
       double var5 = kmf(var1);
       Vec3d var7 = var1.getEyePos().add(this.kkp.offsetAt(var4));
@@ -450,7 +450,7 @@ final class kjq extends kfe {
       return var8.squaredMagnitude(var7) > var5 * var5;
    }
 
-   private boolean kmh(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kmh(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = kmf(var2) + 1.0;
       Vec3d var5 = var2.getEyePos();
 
@@ -463,7 +463,7 @@ final class kjq extends kfe {
       return false;
    }
 
-   private boolean kmi(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kmi(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = kmf(var2);
       Vec3d var5 = var2.getEyePos();
       Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
@@ -485,12 +485,12 @@ final class kjq extends kfe {
       return false;
    }
 
-   private static Vec3d kmj(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2, Vec3d var3) {
+   static Vec3d kmj(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2, Vec3d var3) {
       BlockHitResult var4 = var0.world.raycast(new RaycastContext(var2, var3, ShapeType.OUTLINE, FluidHandling.NONE, var1));
       return var4.getType() == Type.MISS ? var3 : var4.getPos();
    }
 
-   private static boolean kmk(Box var0, Vec3d var1, Vec3d var2, Vec3d var3) {
+   static boolean kmk(Box var0, Vec3d var1, Vec3d var2, Vec3d var3) {
       if (var0.contains(var1)) {
          return true;
       }
@@ -499,7 +499,7 @@ final class kjq extends kfe {
       return var0.raycast(var1, var2).filter(var3x -> var1.squaredDistanceTo(var3x) <= var4).isPresent();
    }
 
-   private void kml(MinecraftClient var1) {
+   void kml(MinecraftClient var1) {
       wdf.hold(var1, kmm());
       ClientPlayerEntity var2 = var1.player;
       if (wdt.serverSprinting(var2) && var2.getAttackCooldownProgress(0.5F) > 0.9F) {
@@ -522,15 +522,15 @@ final class kjq extends kfe {
       this.klk = 0;
    }
 
-   private static long kmm() {
+   static long kmm() {
       return ThreadLocalRandom.current().nextLong(1000000L, 10000001L);
    }
 
-   private static int kmn() {
+   static int kmn() {
       return ThreadLocalRandom.current().nextInt(1, 3);
    }
 
-   private int kmo(MinecraftClient var1, ClientPlayerEntity var2) {
+   int kmo(MinecraftClient var1, ClientPlayerEntity var2) {
       for (int var3 = this.kks; var3 > 0; var3--) {
          if (!kmd(var2, var3) && (!var2.isOnGround() || kmd(var2, var3 + 1) && !var1.options.jumpKey.isPressed())) {
             return var3;
@@ -540,11 +540,11 @@ final class kjq extends kfe {
       return 0;
    }
 
-   private boolean kmp(Entity var1) {
+   boolean kmp(Entity var1) {
       return var1 instanceof LivingEntity var2 && var2.hurtTime > 0 || var1 == this.klj && this.klk < 10;
    }
 
-   private boolean kmq(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kmq(MinecraftClient var1, ClientPlayerEntity var2) {
       return !var2.isClimbing()
          && !var2.isTouchingWater()
          && !var2.isInLava()
@@ -557,15 +557,15 @@ final class kjq extends kfe {
          && var1.world.getStatesInBox(var2.getBoundingBox().contract(1.0E-7)).noneMatch(kjq::kms);
    }
 
-   private boolean kmr(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kmr(MinecraftClient var1, ClientPlayerEntity var2) {
       return !var2.hasStatusEffect(StatusEffects.BLINDNESS) && this.kmq(var1, var2);
    }
 
-   private static boolean kms(BlockState var0) {
+   static boolean kms(BlockState var0) {
       return var0.isOf(Blocks.COBWEB) || var0.isOf(Blocks.SWEET_BERRY_BUSH) || var0.isOf(Blocks.POWDER_SNOW);
    }
 
-   private void kmt(MinecraftClient var1) {
+   void kmt(MinecraftClient var1) {
       this.kll.release(var1);
       this.kkq = kjn.NONE;
       this.kld = null;
@@ -575,13 +575,13 @@ final class kjq extends kfe {
       this.klh = 0;
    }
 
-   private boolean kmu(MinecraftClient var1) {
+   boolean kmu(MinecraftClient var1) {
       return var1.interactionManager != null && var1.interactionManager.isBreakingBlock()
          ? true
          : var1.options.attackKey.isPressed() && var1.crosshairTarget != null && var1.crosshairTarget.getType() == Type.BLOCK;
    }
 
-   private Entity kmv(MinecraftClient var1) {
+   Entity kmv(MinecraftClient var1) {
       this.kln = null;
       HitResult var2 = var1.crosshairTarget;
       if (var2 != null && var2.getType() == Type.ENTITY) {
@@ -599,7 +599,7 @@ final class kjq extends kfe {
       }
    }
 
-   private Entity kmw(MinecraftClient var1, ClientPlayerEntity var2) {
+   Entity kmw(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = kmf(var2);
       Vec3d var5 = var2.getEyePos();
       Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
@@ -623,7 +623,7 @@ final class kjq extends kfe {
       return var9;
    }
 
-   private boolean kmx(MinecraftClient var1, Entity var2) {
+   boolean kmx(MinecraftClient var1, Entity var2) {
       if (var2 != null && var2 != var1.player) {
          if (!(var2 instanceof LivingEntity var3 && var3.isAlive() && var2.isAttackable())) {
             return false;

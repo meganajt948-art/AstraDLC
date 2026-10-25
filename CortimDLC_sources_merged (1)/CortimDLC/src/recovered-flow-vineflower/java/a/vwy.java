@@ -9,17 +9,17 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.PlayerInput;
 
 public final class vwy {
-   private static final String vwz = a.d("븛잠䵰팙墋\ude57搼\uedcb玁嵐", 651172504, 963945711);
-   private static final String vxa = a.b("ᐽ涝\ue74c礵\uf2ec瑌츴䟲\ud9a4匚퓃⺺ꁤ㧂", -85715901);
-   private static final int vxb = 4;
-   private static volatile boolean vxc;
-   private static volatile boolean vxd;
-   private static volatile vwh vxe;
-   private static volatile boolean vxf;
-   private static volatile int vxg;
-   private static ClientPlayerEntity vxh;
+   static final String vwz = a.d("븛잠䵰팙墋\ude57搼\uedcb玁嵐", 651172504, 963945711);
+   static final String vxa = a.b("ᐽ涝\ue74c礵\uf2ec瑌츴䟲\ud9a4匚퓃⺺ꁤ㧂", -85715901);
+   static final int vxb = 4;
+   static volatile boolean vxc;
+   static volatile boolean vxd;
+   static volatile vwh vxe;
+   static volatile boolean vxf;
+   static volatile int vxg;
+   static ClientPlayerEntity vxh;
 
-   private vwy() {
+   vwy() {
    }
 
    public static boolean waiting() {
@@ -90,7 +90,7 @@ public final class vwy {
       }
    }
 
-   private static boolean vxk(PlayerInput var0) {
+   static boolean vxk(PlayerInput var0) {
       return var0.forward() || var0.backward() || var0.left() || var0.right() || var0.jump();
    }
 }

@@ -6,19 +6,19 @@ public final class lln {
    public double vertical = 0.5;
    public double flickFrom = 300.0;
    public double flickTo = 800.0;
-   private static final double llo = 0.045;
-   private static final double llp = 0.06;
-   private static final double llq = 0.1;
-   private double llr;
-   private double lls;
-   private double llt;
-   private double llu;
-   private double llv;
-   private double llw;
-   private double llx;
-   private double lly;
-   private double llz = 0.016666666666666666;
-   private double lma;
+   static final double llo = 0.045;
+   static final double llp = 0.06;
+   static final double llq = 0.1;
+   double llr;
+   double lls;
+   double llt;
+   double llu;
+   double llv;
+   double llw;
+   double llx;
+   double lly;
+   double llz = 0.016666666666666666;
+   double lma;
 
    public void reset() {
       this.llr = 0.0;
@@ -91,7 +91,7 @@ public final class lln {
       }
    }
 
-   private static double lmd(double var0, double var2, double var4, double var6) {
+   static double lmd(double var0, double var2, double var4, double var6) {
       return var0 + (var2 - var0) * (1.0 - Math.exp(-var4 / var6));
    }
 

@@ -3,10 +3,10 @@ package a;
 import java.util.ArrayList;
 
 final class eou {
-   private final String eov;
-   private final long[] eow;
+   final String eov;
+   final long[] eow;
 
-   private eou(String name, long[] dims) {
+   eou(String name, long[] dims) {
       this.eov = name;
       this.eow = dims;
    }

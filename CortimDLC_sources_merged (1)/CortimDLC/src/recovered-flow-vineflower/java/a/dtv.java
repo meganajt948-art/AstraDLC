@@ -76,24 +76,24 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.chunk.WorldChunk;
 
 public final class dtv implements efz {
-   private static final MinecraftClient dtw = MinecraftClient.getInstance();
-   private static final long dtx = 50000000L;
-   private static final long dty = 6000000L;
-   private static final String dtz = a.d("躕\uf767綷\ue3ce栗\ueea1咼", -1482419073, -1385784638);
-   private static final Pattern dua = Pattern.compile(a.d("ॳ炌祖搓\uefeb椃퍒嫗쒰乎즟㎛뵣⒋", -254349818, 1927997268), 2);
-   private static final double dub = 2304.0;
-   private static final double[] duc = new double[]{0.5, 0.47, 0.43, 0.39, 0.52, 0.55, 0.36, 0.45, 0.41};
-   private final String dud;
-   private final UUID due;
-   private final Random duf = new Random();
-   private final double dug;
+   static final MinecraftClient dtw = MinecraftClient.getInstance();
+   static final long dtx = 50000000L;
+   static final long dty = 6000000L;
+   static final String dtz = a.d("躕\uf767綷\ue3ce栗\ueea1咼", -1482419073, -1385784638);
+   static final Pattern dua = Pattern.compile(a.d("ॳ炌祖搓\uefeb椃퍒嫗쒰乎즟㎛뵣⒋", -254349818, 1927997268), 2);
+   static final double dub = 2304.0;
+   static final double[] duc = new double[]{0.5, 0.47, 0.43, 0.39, 0.52, 0.55, 0.36, 0.45, 0.41};
+   final String dud;
+   final UUID due;
+   final Random duf = new Random();
+   final double dug;
    volatile String address;
-   private volatile dts duh = dts.OFFLINE;
-   private volatile String dui = "";
-   private volatile long duj = System.currentTimeMillis();
+   volatile dts duh = dts.OFFLINE;
+   volatile String dui = "";
+   volatile long duj = System.currentTimeMillis();
    volatile edb connection;
-   private volatile boolean duk;
-   private volatile boolean dul;
+   volatile boolean duk;
+   volatile boolean dul;
    ehy handler;
    ClientPlayerEntity player;
    ClientWorld world;
@@ -111,51 +111,51 @@ public final class dtv implements efz {
    final ehq packs = new ehq();
    final eff control = new eff();
    final eao captcha = new eao(this);
-   private final ArrayDeque<Runnable> dum = new ArrayDeque<>();
-   private final List<dtn> dun = new ArrayList<>();
-   private volatile boolean duo;
-   private long dup;
+   final ArrayDeque<Runnable> dum = new ArrayDeque<>();
+   final List<dtn> dun = new ArrayList<>();
+   volatile boolean duo;
+   long dup;
    Text tabHeader;
    Text tabFooter;
    Text serverLabel;
-   private Text duq;
-   private long dur;
-   private Text dus;
-   private Text dut;
-   private long duu;
-   private String duv;
-   private final mpq duw;
-   private boolean dux;
-   private final nxa duy;
-   private boolean duz;
-   private final nfl dva;
-   private boolean dvb;
-   private final lqq dvc;
-   private boolean dvd;
-   private final dyh dve = new dyh(this);
-   private int dvf;
-   private int dvg;
-   private int dvh;
-   private int dvi = 35;
-   private int dvj;
+   Text duq;
+   long dur;
+   Text dus;
+   Text dut;
+   long duu;
+   String duv;
+   final mpq duw;
+   boolean dux;
+   final nxa duy;
+   boolean duz;
+   final nfl dva;
+   boolean dvb;
+   final lqq dvc;
+   boolean dvd;
+   final dyh dve = new dyh(this);
+   int dvf;
+   int dvg;
+   int dvh;
+   int dvi = 35;
+   int dvj;
    int itemUseCooldown;
-   private long dvk;
-   private int dvl;
-   private long dvm;
-   private float dvn;
-   private long dvo;
-   private float dvp;
-   private volatile long dvq;
-   private String dvr;
-   private long dvs;
-   private boolean dvt = true;
-   private boolean dvu;
-   private long dvv;
-   private String dvw;
-   private int dvx = -1;
-   private long dvy;
-   private int dvz = -1;
-   private final eip dwa = new eip(this);
+   long dvk;
+   int dvl;
+   long dvm;
+   float dvn;
+   long dvo;
+   float dvp;
+   volatile long dvq;
+   String dvr;
+   long dvs;
+   boolean dvt = true;
+   boolean dvu;
+   long dvv;
+   String dvw;
+   int dvx = -1;
+   long dvy;
+   int dvz = -1;
+   final eip dwa = new eip(this);
 
    dtv(String var1, String var2) {
       this.dud = var1;
@@ -196,18 +196,18 @@ public final class dtv implements efz {
       return this.dug;
    }
 
-   private static kfx dwd() {
+   static kfx dwd() {
       Flow var0 = Flow.getInstance();
       return var0 == null ? null : var0.getModuleManager();
    }
 
-   private static mpq dwe() {
+   static mpq dwe() {
       kfx var0 = dwd();
       mpq var1 = var0 == null ? null : var0.get(mpq.class);
       return var1 != null && !var1.isBotInstance() ? var1 : null;
    }
 
-   private static nxa dwf() {
+   static nxa dwf() {
       kfx var0 = dwd();
       nxa var1 = var0 == null ? null : var0.get(nxa.class);
       return var1 != null && !var1.isBotInstance() ? var1 : null;
@@ -234,7 +234,7 @@ public final class dtv implements efz {
       return this.dul || this.duh == dts.CONNECTING || this.duh == dts.LOGIN || this.duh == dts.JOINING;
    }
 
-   private void dwg(String var1) {
+   void dwg(String var1) {
       try {
          ServerAddress var2 = ServerAddress.parse(var1);
          Optional var10 = AllowedAddressResolver.DEFAULT.resolve(var2).map(Address::getInetSocketAddress);
@@ -266,7 +266,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwh(String var1) {
+   void dwh(String var1) {
       this.dul = false;
       this.connection = null;
       this.dxa(dts.FAILED, var1);
@@ -630,7 +630,7 @@ public final class dtv implements efz {
       this.dwi();
    }
 
-   private void dwi() {
+   void dwi() {
       if (!this.dvu && this.dvt && egq.get().getBots().indexOf(this) >= 0) {
          long var1 = 9000L + this.duf.nextInt(9000);
          this.dvv = System.currentTimeMillis() + var1;
@@ -666,7 +666,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwj() {
+   void dwj() {
       if (this.connection != null && this.duy.wantsBotFrame() && edj.enter(this)) {
          try {
             if (dtw.player != null && dtw.world != null && dtw.interactionManager != null) {
@@ -682,7 +682,7 @@ public final class dtv implements efz {
       }
    }
 
-   private boolean dwk() {
+   boolean dwk() {
       long var1 = System.currentTimeMillis();
       if (var1 - this.dvm > 60000L) {
          this.dvm = var1;
@@ -696,7 +696,7 @@ public final class dtv implements efz {
       this.dvk = var1 + 50000000L * var3 / Math.max(1, var4);
    }
 
-   private void dwl() {
+   void dwl() {
       edb var1 = this.connection;
       if (var1 != null && edj.enter(this)) {
          long var2 = System.nanoTime();
@@ -732,7 +732,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwm() {
+   void dwm() {
       Runnable var1;
       while ((var1 = this.dum.poll()) != null) {
          var1.run();
@@ -819,7 +819,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwn(ClientWorld var1, ClientPlayerEntity var2) {
+   void dwn(ClientWorld var1, ClientPlayerEntity var2) {
       Entity var3 = var2.getRootVehicle();
       if (!var3.isRemoved()) {
          var1.tickEntity(var3);
@@ -851,7 +851,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwo(ClientPlayerEntity var1, boolean var2) {
+   void dwo(ClientPlayerEntity var1, boolean var2) {
       if (!var1.isDead()) {
          this.dvh = 0;
       } else {
@@ -865,7 +865,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwp() {
+   void dwp() {
       if (this.dvx > 0 && --this.dvx == 0) {
          this.dvx = -1;
          if (this.dvw != null && this.handler != null) {
@@ -896,7 +896,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwq(ClientPlayerEntity var1) {
+   void dwq(ClientPlayerEntity var1) {
       GameOptions var2 = dtw.options;
 
       for (int var3 = 0; var3 < 9; var3++) {
@@ -951,7 +951,7 @@ public final class dtv implements efz {
       this.dwr(var1, dtw.currentScreen == null && !var4 && var2.attackKey.isPressed());
    }
 
-   private void dwr(ClientPlayerEntity var1, boolean var2) {
+   void dwr(ClientPlayerEntity var1, boolean var2) {
       if (!var2) {
          this.dvj = 0;
       }
@@ -973,7 +973,7 @@ public final class dtv implements efz {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   private boolean dws(ClientPlayerEntity var1) {
+   boolean dws(ClientPlayerEntity var1) {
       if (this.dvj > 0) {
          return false;
       }
@@ -1039,7 +1039,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwt(ClientPlayerEntity var1) {
+   void dwt(ClientPlayerEntity var1) {
       if (!dtw.interactionManager.isBreakingBlock()) {
          this.dwz(4);
          if (!var1.isRiding()) {
@@ -1166,7 +1166,7 @@ public final class dtv implements efz {
       return !this.dun.isEmpty();
    }
 
-   private void dwu() {
+   void dwu() {
       if (!this.dun.isEmpty()) {
          long var1 = System.currentTimeMillis();
          ArrayList var3 = null;
@@ -1244,7 +1244,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dwv() {
+   void dwv() {
       String var1 = this.dvr;
       long var2 = System.currentTimeMillis();
       if (var1 != null && var2 - this.dvs >= 1000L) {
@@ -1262,7 +1262,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dww(String var1) {
+   void dww(String var1) {
       String var2 = var1.toLowerCase(Locale.ROOT);
       String[] var3 = var1.split(a.c(-1374606266, "Ⱉ喇\udf0c"));
       String var4 = null;
@@ -1288,7 +1288,7 @@ public final class dtv implements efz {
       this.dvt = var2;
    }
 
-   private void dwx() {
+   void dwx() {
       if (this.dvc.isEnabled()) {
          this.dvc.setBotRunning(false);
          this.chat.system(a.c(1272024124, "豥\uf5fb缥\ue15e檅\uec3f噶\udfb5䇍쭯䲣뛚㠚ꇹ⾴ꤺ፶鳕٫耹ূ玚ﴧ曾"));
@@ -1467,11 +1467,11 @@ public final class dtv implements efz {
       }
    }
 
-   private int dwy() {
+   int dwy() {
       return edj.holdsUseCooldown(this) ? edj.useCooldown() : this.itemUseCooldown;
    }
 
-   private void dwz(int var1) {
+   void dwz(int var1) {
       if (edj.holdsUseCooldown(this)) {
          edj.useCooldown(var1);
       } else {
@@ -1606,7 +1606,7 @@ public final class dtv implements efz {
       }
    }
 
-   private void dxa(dts var1, String var2) {
+   void dxa(dts var1, String var2) {
       this.duh = var1;
       this.dui = var2 == null ? "" : var2;
       this.duj = System.currentTimeMillis();

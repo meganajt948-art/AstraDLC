@@ -1,19 +1,19 @@
 package a;
 
 final class gzj {
-   private final int gzk;
-   private final String gzl;
-   private final long gzm;
-   private final float gzn;
-   private final float gzo;
-   private final boolean gzp;
-   private final String gzq;
+   final int gzk;
+   final String gzl;
+   final long gzm;
+   final float gzn;
+   final float gzo;
+   final boolean gzp;
+   final String gzq;
 
    gzj(int var1, String var2, long var3, float var5, float var6, boolean var7) {
       this(var1, var2, var3, var5, var6, var7, "");
    }
 
-   private gzj(int at, String name, long time, float yaw, float pitch, boolean on, String extra) {
+   gzj(int at, String name, long time, float yaw, float pitch, boolean on, String extra) {
       this.gzk = at;
       this.gzl = name;
       this.gzm = time;

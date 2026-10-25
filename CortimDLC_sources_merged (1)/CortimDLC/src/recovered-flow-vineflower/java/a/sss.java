@@ -4,15 +4,15 @@ import com.mojang.blaze3d.buffers.Std140Builder;
 import java.util.Random;
 
 public final class sss {
-   private final Random sst = new Random();
-   private final float[] ssu = new float[16];
-   private final float[] ssv = new float[16];
-   private final float[] ssw = new float[16];
-   private final float[] ssx = new float[16];
-   private final float[] ssy = new float[16];
-   private final float[] ssz = new float[16];
-   private final boolean[] sta = new boolean[16];
-   private float stb;
+   final Random sst = new Random();
+   final float[] ssu = new float[16];
+   final float[] ssv = new float[16];
+   final float[] ssw = new float[16];
+   final float[] ssx = new float[16];
+   final float[] ssy = new float[16];
+   final float[] ssz = new float[16];
+   final boolean[] sta = new boolean[16];
+   float stb;
 
    public void clear() {
       for (int var1 = 0; var1 < 16; var1++) {
@@ -45,7 +45,7 @@ public final class sss {
       }
    }
 
-   private void ste() {
+   void ste() {
       int var1 = -1;
       float var2 = -1.0F;
 

@@ -8,7 +8,7 @@ import java.util.function.BooleanSupplier;
 import net.minecraft.client.MinecraftClient;
 
 public final class hzl {
-   private hzl() {
+   hzl() {
    }
 
    public static void steps(List<BooleanSupplier> var0) {
@@ -55,7 +55,7 @@ public final class hzl {
       }
    }
 
-   private static boolean hzo(vdn var0, float var1) {
+   static boolean hzo(vdn var0, float var1) {
       vdn.setRenderScale(var1);
 
       try {
@@ -67,7 +67,7 @@ public final class hzl {
       return true;
    }
 
-   private static void hzp(Class<?> var0) {
+   static void hzp(Class<?> var0) {
       try {
          Class.forName(var0.getName(), true, var0.getClassLoader());
       } catch (Throwable var2) {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 final class tbs {
-   private tbs() {
+   tbs() {
    }
 
    static void score(tck var0, List<tmn> var1, Random var2) {
@@ -119,13 +119,13 @@ final class tbs {
       }
    }
 
-   private static boolean tbv(double[] var0, int var1, double var2, double var4) {
+   static boolean tbv(double[] var0, int var1, double var2, double var4) {
       double var6 = -var2;
       double var8 = -var4;
       return var6 >= var0[var1 + 28] && var6 <= var0[var1 + 29] && var8 >= var0[var1 + 30] && var8 <= var0[var1 + 31];
    }
 
-   private static double tbw(List<Double> var0, List<Double> var1) {
+   static double tbw(List<Double> var0, List<Double> var1) {
       if (!var0.isEmpty() && !var1.isEmpty()) {
          double[] var2 = new double[var0.size()];
          double[] var3 = new double[var1.size()];

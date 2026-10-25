@@ -8,8 +8,8 @@ public enum qwj {
    MYTHIC(a.b("粕Ԁ辯ᆢ騊\u1cc9ꛮ⽤넱㯿", -848398205), 2),
    LEGENDARY(a.b("獶૩耼ṋ閔ጬꥻ\u20fa뻘㑤돈", -291997850), 3);
 
-   private final String qwk;
-   private final int qwl;
+   final String qwk;
+   final int qwl;
 
    qwj(String var3, int var4) {
       this.qwk = var3;

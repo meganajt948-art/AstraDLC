@@ -3,25 +3,25 @@ package a;
 import java.util.Random;
 
 public final class tai {
-   private final tck taj;
-   private final Random tak;
-   private final tch tal = new tch();
-   private final double[] tam = new double[32];
-   private final double[] tan = new double[2];
-   private double tao;
-   private double tap;
-   private double taq;
-   private double tar;
-   private double tas;
-   private double tat;
-   private double tau;
-   private double tav;
-   private double taw;
-   private double tax;
-   private int tay = -1;
-   private double taz = 1.0;
-   private double tba;
-   private double tbb;
+   final tck taj;
+   final Random tak;
+   final tch tal = new tch();
+   final double[] tam = new double[32];
+   final double[] tan = new double[2];
+   double tao;
+   double tap;
+   double taq;
+   double tar;
+   double tas;
+   double tat;
+   double tau;
+   double tav;
+   double taw;
+   double tax;
+   int tay = -1;
+   double taz = 1.0;
+   double tba;
+   double tbb;
 
    public tai(tck var1, Random var2) {
       this.taj = var1;
@@ -156,7 +156,7 @@ public final class tai {
       this.tax = var3[1];
    }
 
-   private void tbe(int var1) {
+   void tbe(int var1) {
       boolean var2 = this.tay < 0 || this.tay + 1 >= this.taj.resX.length || !this.taj.resLink[this.tay] || Math.abs(this.taj.resBin[this.tay + 1] - var1) > 1;
       if (var2) {
          int[] var3 = this.taj.residualsIn(var1);

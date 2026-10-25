@@ -15,25 +15,25 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 
 public class lwx extends kfe {
-   private static final Field lwy = vxr.find(
+   static final Field lwy = vxr.find(
       RecipeBookScreen.class,
       a.d("쵆듼㸾ꀕ⮁괴ᝠ麚Ã詣ඣ\uf7d5礐\ue0fb櫥\uec1b噙\ud99a䌩암䳍㚝렬⏹ꖀ", -1820797324, -558556347),
       a.d("\ue6d0齮ᖱ诉\u0016蚜㲥땕⬊ꆸ♨", 1736400144, -1498629203),
       a.d("蟜﹏璗\ueaf7慻\ue788巟퐩䩽샊䜈뵪㎺ꨙ‑ꚬᳬ錰\u0991迀؛簠\uf296楀\uef33", -34768457, -1570636226)
    );
-   private static final Field lwz = vxr.find(
+   static final Field lwz = vxr.find(
       RecipeBookWidget.class,
       a.c(-2006701995, "⠬冖\udb54䕿컫䡞\uf20a篰\ue5a9漉\ue8c9\u12bf鱺֑辏ॱ댳㳰ꙃ‾ꦣ폷嵃"),
       a.d("䏴㩊낕⻭ꔲ⎸馇ၵ踢Ғ", -1104652422, 569578722),
       a.b("뗺챩䚱\ud8d1卝햮濹\ue60f硛\uf2ec甮轌Ɯ頿ሷ钊⻊ꄖ㮷뷦㐽一살季\udd15", 1739765167)
    );
-   private static lwx lxa;
-   private final vkl lxb = this.add(new vkl(a.c(-181852024, "⣕兇\udb96䗼츬䢇\uf280笾\ue560澟\ue82fቩ鲸ԗ"), true));
-   private final vkl lxc = this.add(new vkl(a.d("闖\uec58暓\uf8ff", 138811725, -1000698667), true));
-   private final vkl lxd = this.add(new vkl(a.b("ᛕ潃\ue5de篬\uf034皀쳟䔥\udb60内혛Ɫꊾ㬔", -890300782), true));
-   private final vkl lxe = this.add(new vkl(a.d("\ud8aeꄰ⯹떕㸋룗ʼ譔ᔓ龿ᡄ\ue217泗\uf57b缮吏䎌", -964803076, -1197040382), true));
-   private final vyn lxf = new vyn();
-   private boolean lxg;
+   static lwx lxa;
+   final vkl lxb = this.add(new vkl(a.c(-181852024, "⣕兇\udb96䗼츬䢇\uf280笾\ue560澟\ue82fቩ鲸ԗ"), true));
+   final vkl lxc = this.add(new vkl(a.d("闖\uec58暓\uf8ff", 138811725, -1000698667), true));
+   final vkl lxd = this.add(new vkl(a.b("ᛕ潃\ue5de篬\uf034皀쳟䔥\udb60内혛Ɫꊾ㬔", -890300782), true));
+   final vkl lxe = this.add(new vkl(a.d("\ud8aeꄰ⯹떕㸋룗ʼ譔ᔓ龿ᡄ\ue217泗\uf57b缮吏䎌", -964803076, -1197040382), true));
+   final vyn lxf = new vyn();
+   boolean lxg;
 
    public lwx() {
       super(a.b("贊\uf489繆\ue013毦\ued4e圎", 1015582026), a.c(1246025295, "혦꾵╿묝わ뙩త藈ᮋ酲ᛵ\uec98扂﮶熬\uf75a䴍싏塷\ude3c埐\u2d9cꌤ㢬뺜㑐趱έ饒Ἀ钠樤\ue024秊ﾌ甶"), kfa.MOVEMENT);
@@ -102,7 +102,7 @@ public class lwx extends kfe {
       }
    }
 
-   private boolean lxj(Screen var1) {
+   boolean lxj(Screen var1) {
       if (var1 instanceof hlc var2) {
          return this.lxd.get() && !var2.typing();
       } else {
@@ -110,7 +110,7 @@ public class lwx extends kfe {
       }
    }
 
-   private static boolean lxk(Screen var0) {
+   static boolean lxk(Screen var0) {
       for (Element var2 : var0.children()) {
          if (var2 instanceof TextFieldWidget var3 && var3.isFocused() && var3.isVisible()) {
             return true;
@@ -127,7 +127,7 @@ public class lwx extends kfe {
       return false;
    }
 
-   private void lxl(MinecraftClient var1) {
+   void lxl(MinecraftClient var1) {
       GameOptions var2 = var1.options;
       lxo(var1, var2.forwardKey, true);
       lxo(var1, var2.backKey, true);
@@ -145,7 +145,7 @@ public class lwx extends kfe {
       var2.useKey.setPressed(false);
    }
 
-   private static void lxm(MinecraftClient var0) {
+   static void lxm(MinecraftClient var0) {
       GameOptions var1 = var0.options;
 
       for (KeyBinding var5 : new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey, var1.useKey}) {
@@ -161,7 +161,7 @@ public class lwx extends kfe {
       }
    }
 
-   private static void lxn(MinecraftClient var0) {
+   static void lxn(MinecraftClient var0) {
       GameOptions var1 = var0.options;
 
       for (KeyBinding var5 : new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey}) {
@@ -177,7 +177,7 @@ public class lwx extends kfe {
       }
    }
 
-   private static void lxo(MinecraftClient var0, KeyBinding var1, boolean var2) {
+   static void lxo(MinecraftClient var0, KeyBinding var1, boolean var2) {
       var1.setPressed(var2 && vzz.isPhysicallyDown(var0, var1));
    }
 }

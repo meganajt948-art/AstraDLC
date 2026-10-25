@@ -64,40 +64,40 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Type;
 
 final class fdx {
-   private static final String fdy = System.getenv()
+   static final String fdy = System.getenv()
       .getOrDefault(a.d("\uee69韒ᴂ荫ࣙ踅㑋붹⏴꥓\u2e9a퓻娭쎞䧘", -2125142414, 835455058), a.b("蠢\uf19e筕\ue532滿\ue84f剄\udbfb䖧켄䣁당㱠ꗆ⾙ꥴጬ鲣و耟৻玻", 1705609304));
-   private static String fdz;
-   private static BlockPos fea;
-   private static BlockPos feb;
-   private static BlockPos fec;
-   private static BlockPos fed;
-   private static BlockPos fee;
-   private static BlockPos fef;
-   private static BlockPos feg;
-   private static long feh;
-   private static long fei = -1L;
-   private static long fej = -1L;
-   private static int fek;
-   private static int fel;
-   private static int fem;
-   private static boolean fen;
-   private static int feo;
-   private static final List<String> fep = new ArrayList<>();
-   private static final qof feq = new qof();
-   private static boolean fer;
-   private static qaj fes;
-   private static qdz fet;
-   private static final tel feu = new tel();
-   private static final qmh fev = new qmh();
-   private static boolean few;
-   private static BlockPos fex;
-   private static int fey = 1;
-   private static volatile boolean fez;
-   private static volatile boolean ffa = true;
-   private static volatile long ffb;
-   private static final List<Item> ffc = new ArrayList<>();
+   static String fdz;
+   static BlockPos fea;
+   static BlockPos feb;
+   static BlockPos fec;
+   static BlockPos fed;
+   static BlockPos fee;
+   static BlockPos fef;
+   static BlockPos feg;
+   static long feh;
+   static long fei = -1L;
+   static long fej = -1L;
+   static int fek;
+   static int fel;
+   static int fem;
+   static boolean fen;
+   static int feo;
+   static final List<String> fep = new ArrayList<>();
+   static final qof feq = new qof();
+   static boolean fer;
+   static qaj fes;
+   static qdz fet;
+   static final tel feu = new tel();
+   static final qmh fev = new qmh();
+   static boolean few;
+   static BlockPos fex;
+   static int fey = 1;
+   static volatile boolean fez;
+   static volatile boolean ffa = true;
+   static volatile long ffb;
+   static final List<Item> ffc = new ArrayList<>();
 
-   private fdx() {
+   fdx() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -484,12 +484,12 @@ final class fdx {
       }
    }
 
-   private static void fff(int var0) {
+   static void fff(int var0) {
       fel = var0;
       fem = 0;
    }
 
-   private static void ffg(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void ffg(MinecraftClient var0, ClientPlayerEntity var1) {
       PlayerInventory var2 = var1.getInventory();
       int var3 = qpw.pickaxeDurability(var1);
       System.out
@@ -569,7 +569,7 @@ final class fdx {
       );
    }
 
-   private static void ffh(MinecraftServer var0, BlockPos var1) {
+   static void ffh(MinecraftServer var0, BlockPos var1) {
       ServerWorld var2 = var0.getOverworld();
       fea = var1.add(0, 0, 200);
       feg = var1.add(4, 0, 4);
@@ -664,7 +664,7 @@ final class fdx {
          );
    }
 
-   private static void ffi(MinecraftServer var0) {
+   static void ffi(MinecraftServer var0) {
       CommandDispatcher var1 = var0.getCommandManager().getDispatcher();
       var1.register((LiteralArgumentBuilder)CommandManager.literal(a.c(-421011110, "\ue13e颀ለ豽ި")).executes(var0x -> {
          fej = feh + 30L;
@@ -694,7 +694,7 @@ final class fdx {
       }
    }
 
-   private static void ffj(MinecraftServer var0) {
+   static void ffj(MinecraftServer var0) {
       try {
          Path var1 = var0.getSavePath(WorldSavePath.DATAPACKS).resolve(a.d("ⱋ嗰\udf20䅉쪝䰽\uf678美", 125219284, -497508879));
          Files.createDirectories(var1.resolve(a.b("㋟䭫솭忉푐动\ue8f1愃ｄ痶\uf234ࡓ蚃Ὡ镧ᎁ꧈☓벹㫽", 712651439)));
@@ -723,7 +723,7 @@ final class fdx {
       }
    }
 
-   private static GenericContainerScreenHandler ffk(int var0, PlayerInventory var1) {
+   static GenericContainerScreenHandler ffk(int var0, PlayerInventory var1) {
       final SimpleInventory var2 = new SimpleInventory(27);
       ItemStack var3 = new ItemStack(Items.LAPIS_LAZULI);
       var3.set(DataComponentTypes.CUSTOM_NAME, Text.literal(a.c(1992469431, "\uab18툷峵슜䤾쾈痈ﰨ")));
@@ -733,7 +733,7 @@ final class fdx {
       ffc.clear();
       ffc.add(Items.LAPIS_LAZULI);
       return new GenericContainerScreenHandler(ScreenHandlerType.GENERIC_9X3, var0, var1, var2, 3) {
-         private boolean fdu;
+         boolean fdu;
 
          @Override
          public void onSlotClick(int slotIndex, int button, SlotActionType actionType, PlayerEntity player) {
@@ -769,7 +769,7 @@ final class fdx {
       };
    }
 
-   private static ItemStack ffl(Item var0) {
+   static ItemStack ffl(Item var0) {
       ItemStack var1 = new ItemStack(var0);
       boolean var2 = ffc.contains(var0);
       var1.set(
@@ -788,7 +788,7 @@ final class fdx {
       return var1;
    }
 
-   private static void ffm(ServerWorld var0, BlockPos var1, String... var2) {
+   static void ffm(ServerWorld var0, BlockPos var1, String... var2) {
       var0.setBlockState(var1, Blocks.OAK_WALL_SIGN.getDefaultState().with(WallSignBlock.FACING, Direction.NORTH), 3);
       if (var0.getBlockEntity(var1) instanceof SignBlockEntity var3) {
          SignText var6 = new SignText();
@@ -802,11 +802,11 @@ final class fdx {
       }
    }
 
-   private static Inventory ffn(ServerWorld var0, BlockPos var1) {
+   static Inventory ffn(ServerWorld var0, BlockPos var1) {
       return (ChestBlockEntity)var0.getBlockEntity(var1);
    }
 
-   private static int ffo(Inventory var0, Item var1) {
+   static int ffo(Inventory var0, Item var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < var0.size(); var3++) {
@@ -818,7 +818,7 @@ final class fdx {
       return var2;
    }
 
-   private static ItemStack ffp(ServerPlayerEntity var0, int var1) {
+   static ItemStack ffp(ServerPlayerEntity var0, int var1) {
       ItemStack var2 = new ItemStack(Items.NETHERITE_PICKAXE);
       Registry var3 = var0.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
       var2.addEnchantment(var3.getOrThrow(Enchantments.EFFICIENCY), 5);
@@ -827,7 +827,7 @@ final class fdx {
       return var2;
    }
 
-   private static void ffq(MinecraftServer var0, BlockPos var1) {
+   static void ffq(MinecraftServer var0, BlockPos var1) {
       var0.getCommandManager()
          .parseAndExecute(
             var0.getCommandSource(),
@@ -835,11 +835,11 @@ final class fdx {
          );
    }
 
-   private static MinecraftServer ffr(MinecraftClient var0) {
+   static MinecraftServer ffr(MinecraftClient var0) {
       return var0.getServer();
    }
 
-   private static void ffs(MinecraftClient var0, Consumer<ServerPlayerEntity> var1) {
+   static void ffs(MinecraftClient var0, Consumer<ServerPlayerEntity> var1) {
       IntegratedServer var2 = var0.getServer();
       ffa = false;
       var2.execute(() -> {
@@ -853,18 +853,18 @@ final class fdx {
       });
    }
 
-   private static String fft(Item var0) {
+   static String fft(Item var0) {
       return Registries.ITEM.getId(var0).getPath();
    }
 
-   private static void ffu(boolean var0, String var1) {
+   static void ffu(boolean var0, String var1) {
       if (!var0) {
          fek++;
          System.out.println(a.d("吅\u2db7ꝶ㤑늃㑦踤߃馛\u137e铮溔\ue04e秹\uf3a2甘켑䃇\uda7c尨헖꾆Ⅻ몠", 375045787, -254416156) + var1);
       }
    }
 
-   private static void ffv(kfe var0, String var1, Object var2) {
+   static void ffv(kfe var0, String var1, Object var2) {
       for (vmo var4 : var0.getSettings()) {
          if (var4.getName().equals(var1)) {
             if (var4 instanceof vkl var5) {
@@ -878,14 +878,14 @@ final class fdx {
       }
    }
 
-   private static void ffw(String var0, boolean var1) {
+   static void ffw(String var0, boolean var1) {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(var0);
       if (var2 != null) {
          var2.setEnabled(var1);
       }
    }
 
-   private static void ffx(MinecraftClient var0) throws Exception {
+   static void ffx(MinecraftClient var0) throws Exception {
       for (Field var4 : Mouse.class.getDeclaredFields()) {
          if (var4.getName().equals(a.c(1643402817, "嘮⾉ꕝ㬭냦㙊谧\u05f5鮦ᄟ雂沲"))) {
             var4.setAccessible(true);
@@ -894,13 +894,13 @@ final class fdx {
       }
    }
 
-   private static void ffy(MinecraftClient var0, String var1) {
+   static void ffy(MinecraftClient var0, String var1) {
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory, a.b("쇰롋㊛곲❠ꇎ", -941833840) + var1 + a.c(-1110502141, "ᔩ泆\ue60b硳"), var0.getFramebuffer(), 1, var0x -> {}
       );
    }
 
-   private static void ffz(MinecraftClient var0, String var1) {
+   static void ffz(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

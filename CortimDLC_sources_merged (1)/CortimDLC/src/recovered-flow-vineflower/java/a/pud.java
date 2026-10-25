@@ -7,28 +7,28 @@ import net.minecraft.util.math.MathHelper;
 
 public final class pud {
    public static final pud INSTANCE = new pud();
-   private static final int pue = 5;
-   private static final float puf = 40.0F;
-   private boolean pug;
-   private float puh;
-   private float pui;
-   private boolean puj;
-   private boolean puk;
-   private int pul;
-   private int pum = 5;
-   private float pun;
-   private float puo;
-   private Object pup;
-   private boolean puq;
-   private float pur;
-   private float pus;
-   private float put;
-   private float puu;
-   private boolean puv;
-   private float puw;
-   private float pux;
+   static final int pue = 5;
+   static final float puf = 40.0F;
+   boolean pug;
+   float puh;
+   float pui;
+   boolean puj;
+   boolean puk;
+   int pul;
+   int pum = 5;
+   float pun;
+   float puo;
+   Object pup;
+   boolean puq;
+   float pur;
+   float pus;
+   float put;
+   float puu;
+   boolean puv;
+   float puw;
+   float pux;
 
-   private pud() {
+   pud() {
    }
 
    public void set(Object var1, float var2, float var3) {
@@ -187,7 +187,7 @@ public final class pud {
       }
    }
 
-   private void pva(MinecraftClient var1) {
+   void pva(MinecraftClient var1) {
       if (this.puv && var1.options != null) {
          this.puv = false;
          GameOptions var2 = var1.options;

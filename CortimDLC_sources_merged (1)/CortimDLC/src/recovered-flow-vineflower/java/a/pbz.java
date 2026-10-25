@@ -34,7 +34,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 
 public class pbz extends kfe {
-   private static final Set<Block> pca = Set.of(
+   static final Set<Block> pca = Set.of(
       Blocks.QUARTZ_BLOCK,
       Blocks.DEAD_TUBE_CORAL_BLOCK,
       Blocks.INFESTED_MOSSY_STONE_BRICKS,
@@ -51,24 +51,24 @@ public class pbz extends kfe {
       Blocks.BLACK_CONCRETE,
       Blocks.POLISHED_BASALT
    );
-   private static final int pcb = 2;
-   private static final int pcc = 2;
-   private static final long pcd = 200L;
-   private static final long pce = 400L;
-   private static final vdn pcf = veo.semibold(6.4F);
-   private static final float pcg = 13.0F;
-   private static final float pch = 4.5F;
-   private static final float pci = 9.0F;
-   private static final float pcj = 3.5F;
-   private static pbz pck;
-   private static Field pcl;
-   private static boolean pcm;
-   private final Set<BlockPos> pcn = ConcurrentHashMap.newKeySet();
-   private final Map<BlockPos, Integer> pco = new HashMap<>();
-   private final List<pbw> pcp = new ArrayList<>();
-   private volatile boolean pcq;
-   private ClientWorld pcr;
-   private int pcs;
+   static final int pcb = 2;
+   static final int pcc = 2;
+   static final long pcd = 200L;
+   static final long pce = 400L;
+   static final vdn pcf = veo.semibold(6.4F);
+   static final float pcg = 13.0F;
+   static final float pch = 4.5F;
+   static final float pci = 9.0F;
+   static final float pcj = 3.5F;
+   static pbz pck;
+   static Field pcl;
+   static boolean pcm;
+   final Set<BlockPos> pcn = ConcurrentHashMap.newKeySet();
+   final Map<BlockPos, Integer> pco = new HashMap<>();
+   final List<pbw> pcp = new ArrayList<>();
+   volatile boolean pcq;
+   ClientWorld pcr;
+   int pcs;
 
    public pbz() {
       super(a.c(-772048336, "穩Ͽ褪\u175c鲝ᨻꁩ⦟럗㵰"), a.c(456087106, "嘊⾆ꕑ㬨냨㙘豘צ鮠ᄂ集泥\ue266篑\uf191睱촽䊿\ud84d帓ퟮ귻⌘룕㺧둤ැ莆"), kfa.PLAYER);
@@ -92,7 +92,7 @@ public class pbz extends kfe {
       this.pcn.clear();
    }
 
-   private void pcv() {
+   void pcv() {
       for (pbw var2 : this.pcp) {
          pdd(var2);
       }
@@ -101,7 +101,7 @@ public class pbz extends kfe {
       this.pco.clear();
    }
 
-   private void pcw(Packet<?> var1) {
+   void pcw(Packet<?> var1) {
       if (this.pcq) {
          if (var1 instanceof ChunkDeltaUpdateS2CPacket var2) {
             var2.visitUpdates(this::pcx);
@@ -111,7 +111,7 @@ public class pbz extends kfe {
       }
    }
 
-   private void pcx(BlockPos var1, BlockState var2) {
+   void pcx(BlockPos var1, BlockState var2) {
       ClientWorld var3 = this.mc.world;
       if (var3 != null && pca.contains(var2.getBlock())) {
          if (var3.isChunkLoaded(var1.getX() >> 4, var1.getZ() >> 4) && !pca.contains(var3.getBlockState(var1).getBlock())) {
@@ -143,7 +143,7 @@ public class pbz extends kfe {
       this.pda(var1);
    }
 
-   private void pcy() {
+   void pcy() {
       HashSet var1 = new HashSet<>(this.pco.keySet());
       ArrayDeque var2 = new ArrayDeque();
 
@@ -184,7 +184,7 @@ public class pbz extends kfe {
       }
    }
 
-   private void pcz(List<BlockPos> var1, long var2) {
+   void pcz(List<BlockPos> var1, long var2) {
       BlockBox var4 = BlockBox.encompassPositions(var1).orElse(null);
       if (var4 != null) {
          for (pbs var8 : pbs.values()) {
@@ -204,7 +204,7 @@ public class pbz extends kfe {
       }
    }
 
-   private void pda(MinecraftClient var1) {
+   void pda(MinecraftClient var1) {
       long var2 = System.currentTimeMillis();
       BlockPos var4 = var1.player.getBlockPos();
       Iterator var5 = this.pcp.iterator();
@@ -228,7 +228,7 @@ public class pbz extends kfe {
       }
    }
 
-   private static boolean pdb(ClientWorld var0, pbw var1) {
+   static boolean pdb(ClientWorld var0, pbw var1) {
       int var2 = 0;
 
       for (BlockPos var4 : var1.blocks) {
@@ -244,7 +244,7 @@ public class pbz extends kfe {
       return var2 * 2 > var1.blocks.size();
    }
 
-   private static void pdc(pbw var0, long var1) {
+   static void pdc(pbw var0, long var1) {
       Map var3 = pde();
       if (var3 != null) {
          long var4 = Math.max(0L, var0.left(var1));
@@ -261,7 +261,7 @@ public class pbz extends kfe {
       }
    }
 
-   private static void pdd(pbw var0) {
+   static void pdd(pbw var0) {
       if (var0.bar != null) {
          Map var1 = pde();
          if (var1 != null) {
@@ -272,7 +272,7 @@ public class pbz extends kfe {
       }
    }
 
-   private static Map<UUID, ClientBossBar> pde() {
+   static Map<UUID, ClientBossBar> pde() {
       MinecraftClient var0 = MinecraftClient.getInstance();
       if (!pcm && var0.inGameHud != null) {
          try {
@@ -301,7 +301,7 @@ public class pbz extends kfe {
       }
    }
 
-   private static String pdf(long var0) {
+   static String pdf(long var0) {
       long var2 = Math.round(var0 / 100.0);
       return var2 / 10L + a.c(-1547351786, "䤹") + var2 % 10L;
    }
@@ -371,12 +371,12 @@ public class pbz extends kfe {
       }
    }
 
-   private static double pdg(usn var0, pbw var1) {
+   static double pdg(usn var0, pbw var1) {
       BlockPos var2 = var1.box.getCenter();
       return var0.distance(var2.getX() + 0.5, var2.getY() + 0.5, var2.getZ() + 0.5);
    }
 
-   private static void pdh(DrawContext var0, pbw var1, float var2, float var3, float var4, long var5, GpuTextureView var7) {
+   static void pdh(DrawContext var0, pbw var1, float var2, float var3, float var4, long var5, GpuTextureView var7) {
       long var8 = Math.max(0L, var1.left(var5));
       String var10 = pdf(var8);
       float var11 = 17.0F + pcf.width(var10) + 4.5F;

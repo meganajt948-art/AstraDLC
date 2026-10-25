@@ -15,17 +15,17 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWNativeWin32;
 
 final class gjl {
-   private static final String[] gjm = new String[]{
+   static final String[] gjm = new String[]{
       a.d("䄸㢀뉓Ⱪꟿⅇ鬗ዴ", 1926793555, 71616524),
       a.b("誚\uf32a禺\ue78a汔\ueae6傧\ud90a䜉춣䩨뀏㻋Ꝭ\u2d72", -743601414),
       a.d("悡ᤑ鎁ද虣Ü몀㍭굮➖ꁓ娴퓻䴚", 312056445, -515441987),
       a.b("ᣴ慌\ueb9f疥︭碇싚䬤핧", -1859774318),
       a.c(1103682452, "\udbf7ꉇ⣗뛧㴹뮋Ǌ衢ᙶ鳀ᬁ\ue177")
    };
-   private static final int gjn = 6;
-   private static float gjo;
+   static final int gjn = 6;
+   static float gjo;
 
-   private gjl() {
+   gjl() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -92,7 +92,7 @@ final class gjl {
       return false;
    }
 
-   private static void gjr(MinecraftClient var0) {
+   static void gjr(MinecraftClient var0) {
       HWND var1 = new HWND(new Pointer(GLFWNativeWin32.glfwGetWin32Window(var0.getWindow().getHandle())));
       gjs(18, 0);
       gjs(18, 2);
@@ -101,7 +101,7 @@ final class gjl {
       GLFW.glfwFocusWindow(var0.getWindow().getHandle());
    }
 
-   private static void gjs(int var0, int var1) {
+   static void gjs(int var0, int var1) {
       INPUT var2 = new INPUT();
       var2.type = new DWORD(1L);
       var2.input.setType(a.d("\udb25ꊖ", -723584777, 1964778427));
@@ -110,7 +110,7 @@ final class gjl {
       User32.INSTANCE.SendInput(new DWORD(1L), (INPUT[])var2.toArray(1), var2.size());
    }
 
-   private static void gjt(int var0) {
+   static void gjt(int var0) {
       INPUT var1 = new INPUT();
       var1.type = new DWORD(0L);
       var1.input.setType(a.b("\uf013覦", -1770983300));
@@ -122,7 +122,7 @@ final class gjl {
       User32.INSTANCE.SendInput(new DWORD(1L), (INPUT[])var1.toArray(1), var1.size());
    }
 
-   private static void gju(MinecraftClient var0, String var1) {
+   static void gju(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

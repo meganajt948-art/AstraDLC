@@ -3,8 +3,8 @@ package a;
 import net.minecraft.client.network.ClientPlayerEntity;
 
 public final class lnb {
-   private double lnc;
-   private double lnd = Double.NaN;
+   double lnc;
+   double lnd = Double.NaN;
 
    public void reset() {
       this.lnc = 0.0;

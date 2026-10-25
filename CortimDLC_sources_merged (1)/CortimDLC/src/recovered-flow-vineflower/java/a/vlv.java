@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class vlv extends vmo {
-   private final String vlw;
-   private List<String> vlx;
-   private int vly;
-   private int vlz;
+   final String vlw;
+   List<String> vlx;
+   int vly;
+   int vlz;
 
    public vlv(String var1, String var2, String... var3) {
       super(var1);

@@ -3,11 +3,11 @@ package a;
 import java.util.Arrays;
 
 final class qmr {
-   private float[] qms = new float[1024];
-   private int[] qmt = new int[1024];
-   private int qmu;
+   float[] qms = new float[1024];
+   int[] qmt = new int[1024];
+   int qmu;
 
-   private qmr() {
+   qmr() {
    }
 
    void clear() {

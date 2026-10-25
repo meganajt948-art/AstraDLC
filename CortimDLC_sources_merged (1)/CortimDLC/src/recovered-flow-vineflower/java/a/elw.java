@@ -5,11 +5,11 @@ import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.registry.entry.RegistryEntry;
 
 final class elw {
-   private final RegistryEntry<EntityAttribute> elx;
-   private final double ely;
-   private final Operation elz;
+   final RegistryEntry<EntityAttribute> elx;
+   final double ely;
+   final Operation elz;
 
-   private elw(RegistryEntry<EntityAttribute> attribute, double amount, Operation operation) {
+   elw(RegistryEntry<EntityAttribute> attribute, double amount, Operation operation) {
       this.elx = attribute;
       this.ely = amount;
       this.elz = operation;

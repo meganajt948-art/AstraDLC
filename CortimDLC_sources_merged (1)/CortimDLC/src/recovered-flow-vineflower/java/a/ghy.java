@@ -13,22 +13,22 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 final class ghy {
-   private static float ghz;
-   private static float gia;
-   private static double gib;
-   private static int gic;
-   private static int gid;
-   private static boolean gie;
-   private static boolean gif;
-   private static float gig;
-   private static float gih;
-   private static float gii;
-   private static float gij;
-   private static long gik;
-   private static final float gil = 0.15F;
-   private static final StringBuilder gim = new StringBuilder();
+   static float ghz;
+   static float gia;
+   static double gib;
+   static int gic;
+   static int gid;
+   static boolean gie;
+   static boolean gif;
+   static float gig;
+   static float gih;
+   static float gii;
+   static float gij;
+   static long gik;
+   static final float gil = 0.15F;
+   static final StringBuilder gim = new StringBuilder();
 
-   private ghy() {
+   ghy() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -169,7 +169,7 @@ final class ghy {
       }
    }
 
-   private static void gip(MinecraftClient var0, int var1, int var2, int var3, float var4, float var5, String var6) {
+   static void gip(MinecraftClient var0, int var1, int var2, int var3, float var4, float var5, String var6) {
       ClientPlayerEntity var7 = var0.player;
       if (var1 == var2) {
          gig = var4 == 0.0F ? var7.getYaw() : -90.0F - var4 * (var3 - var2);
@@ -223,7 +223,7 @@ final class ghy {
       }
    }
 
-   private static void giq(MinecraftClient var0) {
+   static void giq(MinecraftClient var0) {
       if (gif && var0.player != null) {
          Camera var1 = var0.gameRenderer.getCamera();
          long var2 = System.nanoTime();
@@ -235,14 +235,14 @@ final class ghy {
       }
    }
 
-   private static void gir(ClientPlayerEntity var0, float var1, float var2) {
+   static void gir(ClientPlayerEntity var0, float var1, float var2) {
       var0.setYaw(var1);
       var0.setPitch(var2);
       var0.lastYaw = var1;
       var0.lastPitch = var2;
    }
 
-   private static vmo gis(kfe var0, String var1) {
+   static vmo gis(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -252,7 +252,7 @@ final class ghy {
       throw new IllegalStateException(a.c(-33051776, "ꯥ퉕壉웫䴪쮊燙\uf835晭\uecd5歁") + var1);
    }
 
-   private static void git(MinecraftClient var0, String var1) {
+   static void git(MinecraftClient var0, String var1) {
       gid++;
       String var2 = a.b("륺상䨑푸忪\ud944捗\ueaa4瓠﹌禙菩ൽ", -604718831) + gid + a.c(-1202541947, "ꪩ") + var1 + a.b("\ue665龊ᕇ謿", 241821263);
       System.out
@@ -260,11 +260,11 @@ final class ghy {
       ScreenshotRecorder.saveScreenshot(var0.runDirectory, var2, var0.getFramebuffer(), 1, var0x -> System.out.println("" + var0x.getString()));
    }
 
-   private static void giu(MinecraftClient var0, String var1) {
+   static void giu(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static String giv(double var0) {
+   static String giv(double var0) {
       return String.format(Locale.ROOT, a.b("꾱혋峄싡", 699838352), var0);
    }
 }

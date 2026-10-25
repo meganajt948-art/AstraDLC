@@ -11,14 +11,14 @@ import net.minecraft.world.World;
 final class ksp {
    static final int HORIZON = 20;
    static final double SMASH_FALL = 1.52;
-   private static final int ksq = 2;
-   private static final int ksr = 22;
-   private final boolean[] kss = new boolean[22];
-   private final boolean[] kst = new boolean[22];
-   private final double[] ksu = new double[22];
-   private final double[] ksv = new double[22];
-   private final double[] ksw = new double[22];
-   private final double[] ksx = new double[22];
+   static final int ksq = 2;
+   static final int ksr = 22;
+   final boolean[] kss = new boolean[22];
+   final boolean[] kst = new boolean[22];
+   final double[] ksu = new double[22];
+   final double[] ksv = new double[22];
+   final double[] ksw = new double[22];
+   final double[] ksx = new double[22];
 
    void predict(ClientPlayerEntity var1, World var2, boolean var3, int var4, boolean var5, double var6) {
       Box var8 = var1.getBoundingBox();
@@ -100,7 +100,7 @@ final class ksp {
       return !this.rawCritAt(var1) ? false : !this.kta(var1) || this.ktb(var1);
    }
 
-   private boolean kta(int var1) {
+   boolean kta(int var1) {
       for (int var2 = 1; var2 <= 2; var2++) {
          if (this.kst[var1 + var2]) {
             return true;
@@ -110,7 +110,7 @@ final class ksp {
       return false;
    }
 
-   private boolean ktb(int var1) {
+   boolean ktb(int var1) {
       int var2 = var1;
 
       while (var2 > 0 && !this.kst[var2 - 1]) {

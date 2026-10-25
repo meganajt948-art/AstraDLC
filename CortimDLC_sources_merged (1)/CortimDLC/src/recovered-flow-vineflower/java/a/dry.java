@@ -9,10 +9,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 
 public final class dry {
-   private static volatile boolean drz;
-   private static volatile long dsa;
+   static volatile boolean drz;
+   static volatile long dsa;
 
-   private dry() {
+   dry() {
    }
 
    public static boolean armed() {
@@ -83,7 +83,7 @@ public final class dry {
       });
    }
 
-   private static void dsd(Runnable var0) {
+   static void dsd(Runnable var0) {
       try {
          var0.run();
       } catch (Throwable var2) {

@@ -11,21 +11,21 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.math.MathHelper;
 
 public final class pmf {
-   private static final int pmg = 6;
-   private final Predicate<ItemStack> pmh;
-   private final PlayerInventory pmi;
-   private final Random pmj;
-   private final int pmk;
-   private plz pml = plz.PICK;
-   private int pmm;
-   private int pmn;
-   private int pmo;
-   private int pmp;
-   private int pmq;
-   private long pmr;
-   private boolean pms;
+   static final int pmg = 6;
+   final Predicate<ItemStack> pmh;
+   final PlayerInventory pmi;
+   final Random pmj;
+   final int pmk;
+   plz pml = plz.PICK;
+   int pmm;
+   int pmn;
+   int pmo;
+   int pmp;
+   int pmq;
+   long pmr;
+   boolean pms;
 
-   private pmf(Predicate<ItemStack> var1, PlayerInventory var2, Random var3, int var4, int var5, int var6) {
+   pmf(Predicate<ItemStack> var1, PlayerInventory var2, Random var3, int var4, int var5, int var6) {
       this.pmh = var1;
       this.pmi = var2;
       this.pmj = var3;
@@ -166,19 +166,19 @@ public final class pmf {
       return this.pml == plz.DONE;
    }
 
-   private pmc pmv(boolean var1) {
+   pmc pmv(boolean var1) {
       this.pml = plz.DONE;
       this.pms = var1;
       return var1 ? pmc.GAVE_UP : pmc.DONE;
    }
 
-   private void pmw(ply var1, int var2, int var3, long var4) {
+   void pmw(ply var1, int var2, int var3, long var4) {
       var1.click(var2, var3, SlotActionType.PICKUP);
       this.pmq++;
       this.pmr = var4 + clickDelay(this.pmj);
    }
 
-   private boolean pmx(ScreenHandler var1, int var2) {
+   boolean pmx(ScreenHandler var1, int var2) {
       if (var2 >= 0 && var2 < var1.slots.size()) {
          Slot var3 = var1.slots.get(var2);
          return var3.inventory != this.pmi && var3.hasStack() && this.pmh.test(var3.getStack());
@@ -187,7 +187,7 @@ public final class pmf {
       }
    }
 
-   private static boolean pmy(ScreenHandler var0, PlayerInventory var1, int var2, ItemStack var3) {
+   static boolean pmy(ScreenHandler var0, PlayerInventory var1, int var2, ItemStack var3) {
       if (var2 >= 0 && var2 < var0.slots.size()) {
          Slot var4 = var0.slots.get(var2);
          if (var4.inventory != var1 || var4.getIndex() >= 36) {
@@ -205,7 +205,7 @@ public final class pmf {
       }
    }
 
-   private static int pmz(ScreenHandler var0, PlayerInventory var1, Predicate<ItemStack> var2, Random var3) {
+   static int pmz(ScreenHandler var0, PlayerInventory var1, Predicate<ItemStack> var2, Random var3) {
       ArrayList var4 = new ArrayList();
 
       for (int var5 = 0; var5 < var0.slots.size(); var5++) {
@@ -218,7 +218,7 @@ public final class pmf {
       return var4.isEmpty() ? -1 : (Integer)var4.get(var3.nextInt(var4.size()));
    }
 
-   private static int pna(ScreenHandler var0, PlayerInventory var1, ItemStack var2, Random var3) {
+   static int pna(ScreenHandler var0, PlayerInventory var1, ItemStack var2, Random var3) {
       ArrayList var4 = new ArrayList();
       ArrayList var5 = new ArrayList();
       ArrayList var6 = new ArrayList();
@@ -275,7 +275,7 @@ public final class pmf {
       return -1;
    }
 
-   private static boolean pnb(ScreenHandler var0, PlayerInventory var1, int var2, ItemStack var3, boolean var4) {
+   static boolean pnb(ScreenHandler var0, PlayerInventory var1, int var2, ItemStack var3, boolean var4) {
       if (var2 >= 0 && var2 < var0.slots.size()) {
          Slot var5 = var0.slots.get(var2);
          if (var5.inventory == var1 == var4 && (!var4 || var5.getIndex() < 36)) {

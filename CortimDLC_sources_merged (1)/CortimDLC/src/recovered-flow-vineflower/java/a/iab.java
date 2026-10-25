@@ -4,9 +4,9 @@ import java.util.function.Supplier;
 import net.minecraft.client.gui.DrawContext;
 
 final class iab extends imn {
-   private static final float iac = 18.0F;
-   private final String iad;
-   private final Supplier<String> iae;
+   static final float iac = 18.0F;
+   final String iad;
+   final Supplier<String> iae;
 
    iab(String var1, Supplier<String> var2) {
       super(null);

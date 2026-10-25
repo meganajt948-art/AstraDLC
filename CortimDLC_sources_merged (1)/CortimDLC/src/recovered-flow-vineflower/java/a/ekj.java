@@ -3,7 +3,7 @@ package a;
 import net.minecraft.client.Mouse;
 
 final class ekj extends Mouse {
-   private ekj() {
+   ekj() {
       super(null);
    }
 

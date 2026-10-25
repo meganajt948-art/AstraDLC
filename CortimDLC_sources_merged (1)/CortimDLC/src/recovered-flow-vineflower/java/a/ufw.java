@@ -24,11 +24,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 public final class ufw {
    public static final SecureRandom RANDOM = new SecureRandom();
-   private static final Encoder ufx = Base64.getUrlEncoder().withoutPadding();
-   private static final Decoder ufy = Base64.getUrlDecoder();
-   private static final byte[] ufz = a.b("鲬\ue517濇\uf1ae稼ﲒ䚜콼儰\udb87屙꙼⣤녘㬜붸ެ蠺", 717200600).getBytes(StandardCharsets.UTF_8);
+   static final Encoder ufx = Base64.getUrlEncoder().withoutPadding();
+   static final Decoder ufy = Base64.getUrlDecoder();
+   static final byte[] ufz = a.b("鲬\ue517濇\uf1ae稼ﲒ䚜콼儰\udb87屙꙼⣤녘㬜붸ެ蠺", 717200600).getBytes(StandardCharsets.UTF_8);
 
-   private ufw() {
+   ufw() {
    }
 
    public static KeyPair generate() throws GeneralSecurityException {
@@ -123,7 +123,7 @@ public final class ufw {
       }
    }
 
-   private static byte[] ugc(byte[] var0, byte[] var1, byte[] var2) throws GeneralSecurityException {
+   static byte[] ugc(byte[] var0, byte[] var1, byte[] var2) throws GeneralSecurityException {
       Mac var3 = Mac.getInstance(a.b("\uf432趦ݹ養ይ鑇⸝ꞟ㧇덵", 684323952));
       var3.init(new SecretKeySpec(var1, a.c(1725539985, "ꛓ\udf47喘쯫䀌욦糼\uf57e欦\ue194")));
       byte[] var4 = var3.doFinal(var0);

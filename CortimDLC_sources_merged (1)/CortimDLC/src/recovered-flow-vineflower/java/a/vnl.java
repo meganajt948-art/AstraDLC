@@ -1,15 +1,15 @@
 package a;
 
 final class vnl {
-   private final String vnm;
-   private final boolean vnn;
-   private final float vno;
-   private final long vnp;
-   private final String vnq;
-   private final float vnr;
-   private final float vns;
+   final String vnm;
+   final boolean vnn;
+   final float vno;
+   final long vnp;
+   final String vnq;
+   final float vnr;
+   final float vns;
 
-   private vnl(String sound, boolean on, float gain, long gameContext, String device, float x, float z) {
+   vnl(String sound, boolean on, float gain, long gameContext, String device, float x, float z) {
       this.vnm = sound;
       this.vnn = on;
       this.vno = gain;

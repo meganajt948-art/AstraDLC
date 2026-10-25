@@ -1,16 +1,16 @@
 package a;
 
 public final class uwg {
-   private final int uwh;
-   private final int uwi;
-   private final float uwj;
-   private final float uwk;
-   private final float uwl;
-   private final float uwm;
-   private final float uwn;
-   private final float uwo;
-   private final float uwp;
-   private final float uwq;
+   final int uwh;
+   final int uwi;
+   final float uwj;
+   final float uwk;
+   final float uwl;
+   final float uwm;
+   final float uwn;
+   final float uwo;
+   final float uwp;
+   final float uwq;
 
    public uwg(int first, int count, float r, float g, float b, float a, float scan, float sweep, float flash, float broken) {
       this.uwh = first;

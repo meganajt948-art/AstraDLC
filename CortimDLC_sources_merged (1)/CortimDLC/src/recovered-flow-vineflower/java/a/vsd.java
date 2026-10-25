@@ -3,11 +3,11 @@ package a;
 import java.nio.ShortBuffer;
 
 final class vsd {
-   private final ShortBuffer vse;
-   private final int vsf;
-   private final int vsg;
+   final ShortBuffer vse;
+   final int vsf;
+   final int vsg;
 
-   private vsd(ShortBuffer data, int channels, int rate) {
+   vsd(ShortBuffer data, int channels, int rate) {
       this.vse = data;
       this.vsf = channels;
       this.vsg = rate;

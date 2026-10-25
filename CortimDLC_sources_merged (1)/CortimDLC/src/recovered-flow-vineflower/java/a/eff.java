@@ -5,22 +5,22 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 
 public final class eff {
-   private static final MinecraftClient efg = MinecraftClient.getInstance();
-   private boolean efh;
-   private boolean efi;
-   private boolean efj;
-   private boolean efk;
-   private boolean efl;
-   private boolean efm;
-   private boolean efn;
-   private boolean efo;
-   private boolean efp;
-   private boolean efq;
-   private boolean efr;
-   private int efs;
-   private int eft;
-   private double efu;
-   private double efv;
+   static final MinecraftClient efg = MinecraftClient.getInstance();
+   boolean efh;
+   boolean efi;
+   boolean efj;
+   boolean efk;
+   boolean efl;
+   boolean efm;
+   boolean efn;
+   boolean efo;
+   boolean efp;
+   boolean efq;
+   boolean efr;
+   int efs;
+   int eft;
+   double efu;
+   double efv;
 
    public boolean isActive() {
       return this.efh;
@@ -126,7 +126,7 @@ public final class eff {
       }
    }
 
-   private static void efy(KeyBinding var0, boolean var1, boolean var2) {
+   static void efy(KeyBinding var0, boolean var1, boolean var2) {
       if (var1) {
          var0.setPressed(true);
       } else if (var2) {

@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
 final class eks extends SoundManager {
-   private eks() {
+   eks() {
       super(null);
    }
 

@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.util.Base64;
 
 final class tjs {
-   private static final int tjt = 198255;
-   private static final String[] tju = new String[]{
+   static final int tjt = 198255;
+   static final String[] tju = new String[]{
       a.c(
          848035392,
          "ﻀ蜍\u0d99鏒᠍麼⓯괞㍁맰㸣쑒䫫파奟\udf8f旹\uea1f炓\uf6e5缄յ诛ဧ陽ᳱꔁ⬓놟㟐뱠䊝죭儰흺巯\ue227桹\uee9c睊ﴑ莻৭蹡ᒭ髾⌋ꦇ\u2fea됰㩀삂䤅콷喝\udbba怈\ue6a2泷\uf511箅Ǯ蘅\u0c54銋ᬖꄚ➐근㉤뢅㺯윋䶟폵堶\ude72擬\ued50獆撚翸Ѯ誢\u10c9餇ᾓꗼ⨺끋㛵뼰䕟쮈倦확岟\ue2b6款\uf193矴ﰻ艻ࢉ酙ᝢ鶧≂ꡂ⻦듳㵃쏓䦜칯呿\udac9挵\ue95d澍\uf418穨\u0081蛆ཞ閬ᯅꀂ☽곿㔇뭡䆛옯䱣틴壓\ue15a枈\uedda牵\uf89e绖ܞ贪᎙顕ḟ꒸⪻덛㦭뿙䑴쪹僰\ud97b弰\ue584樬\uf04c皪ﲿ蕊ந醥ᘡ鲴⋧ꭣ\u3130럶㰞숦䢓턎坔\udd87掩\ue83a溏\uf4ff納̤觓ำ鑫\u1afbꌗ⤝꿽㗣먮䂚웣伋핼寒\ue05d昩"
@@ -5719,7 +5719,7 @@ final class tjs {
       )
    };
 
-   private tjs() {
+   tjs() {
    }
 
    static InputStream open() {

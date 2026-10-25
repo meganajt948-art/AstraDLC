@@ -8,12 +8,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
 public final class wdf {
-   private static final String wdg = a.b("씗벬㙼ꠕ⎇ꕛἽ雏ࢍ舼\u05feﾘ", 1140770173);
-   private static final String wdh = a.d("隧\uef07旖ﮯ灶\uf6d6䲮앨嬾톀噙갠⋾뭘", 959061700, -247560163);
-   private static final LinkedBlockingQueue<wcy> wdi = new LinkedBlockingQueue<>();
-   private static Thread wdj;
+   static final String wdg = a.b("씗벬㙼ꠕ⎇ꕛἽ雏ࢍ舼\u05feﾘ", 1140770173);
+   static final String wdh = a.d("隧\uef07旖ﮯ灶\uf6d6䲮앨嬾톀噙갠⋾뭘", 959061700, -247560163);
+   static final LinkedBlockingQueue<wcy> wdi = new LinkedBlockingQueue<>();
+   static Thread wdj;
 
-   private wdf() {
+   wdf() {
    }
 
    public static void hold(MinecraftClient var0, long var1) {
@@ -33,7 +33,7 @@ public final class wdf {
       }
    }
 
-   private static wcy wdm(ChannelPipeline var0) {
+   static wcy wdm(ChannelPipeline var0) {
       if (var0.get(a.c(-387363752, "䰲㖉뽙ℰꪢⱾ阘Ὺ膨ଙ賛皽")) instanceof wcy var5) {
          return var5;
       } else {
@@ -52,7 +52,7 @@ public final class wdf {
       }
    }
 
-   private static synchronized void wdn() {
+   static synchronized void wdn() {
       if (wdj == null) {
          wdj = new Thread(wdf::wdo, a.c(-1742451277, "䷤㑿뺯\u20c6ꭔⷷ韗Ḑ聄૿赨睳驪怫\uea78沘훀"));
          wdj.setDaemon(true);
@@ -60,7 +60,7 @@ public final class wdf {
       }
    }
 
-   private static void wdo() {
+   static void wdo() {
       while (true) {
          try {
             wcy var0 = wdi.take();
@@ -73,7 +73,7 @@ public final class wdf {
       }
    }
 
-   private static void wdp(long var0) throws InterruptedException {
+   static void wdp(long var0) throws InterruptedException {
       long var2;
       while ((var2 = var0 - System.nanoTime()) > 0L) {
          long var4 = var2 / 1000000L - 1L;

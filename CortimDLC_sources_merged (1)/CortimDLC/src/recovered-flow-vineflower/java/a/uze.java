@@ -23,29 +23,29 @@ import org.lwjgl.system.MemoryStack;
 
 public final class uze {
    public static final int UNIFORM_SIZE = 368;
-   private static final int uzf = 528;
-   private static @Nullable GpuTexture uzg;
-   private static @Nullable GpuTextureView uzh;
-   private static @Nullable GpuTexture uzi;
-   private static @Nullable GpuTextureView uzj;
-   private static boolean uzk;
-   private static final GpuTexture[] uzl = new GpuTexture[4];
-   private static final GpuTextureView[] uzm = new GpuTextureView[4];
-   private static int uzn = -1;
-   private static int uzo = -1;
-   private static @Nullable GpuBuffer uzp;
-   private static int uzq = -1;
-   private static int uzr = -1;
-   private static int uzs = 2;
-   private static boolean uzt;
-   private static int uzu;
-   private static boolean uzv;
-   private static boolean uzw;
-   private static final ArrayDeque<GpuQuery> uzx = new ArrayDeque<>();
-   private static long uzy;
-   private static int uzz;
+   static final int uzf = 528;
+   static @Nullable GpuTexture uzg;
+   static @Nullable GpuTextureView uzh;
+   static @Nullable GpuTexture uzi;
+   static @Nullable GpuTextureView uzj;
+   static boolean uzk;
+   static final GpuTexture[] uzl = new GpuTexture[4];
+   static final GpuTextureView[] uzm = new GpuTextureView[4];
+   static int uzn = -1;
+   static int uzo = -1;
+   static @Nullable GpuBuffer uzp;
+   static int uzq = -1;
+   static int uzr = -1;
+   static int uzs = 2;
+   static boolean uzt;
+   static int uzu;
+   static boolean uzv;
+   static boolean uzw;
+   static final ArrayDeque<GpuQuery> uzx = new ArrayDeque<>();
+   static long uzy;
+   static int uzz;
 
-   private uze() {
+   uze() {
    }
 
    public static boolean draw(float var0, float var1, boolean var2, float var3, float var4, Consumer<Std140Builder> var5) {
@@ -197,7 +197,7 @@ public final class uze {
       return var0;
    }
 
-   private static void vac() {
+   static void vac() {
       while (!uzx.isEmpty()) {
          OptionalLong var0 = uzx.peek().getValue();
          if (var0.isEmpty()) {
@@ -235,7 +235,7 @@ public final class uze {
       uzv = false;
    }
 
-   private static float vad(int var0, int var1) {
+   static float vad(int var0, int var1) {
       float var2 = 1.0F;
       float var3 = 0.0F;
       int var4 = var0 + 1;
@@ -249,7 +249,7 @@ public final class uze {
       return var3;
    }
 
-   private static void vae(GpuDevice var0, int var1, int var2, int var3, int var4) {
+   static void vae(GpuDevice var0, int var1, int var2, int var3, int var4) {
       if (uzp == null) {
          uzp = var0.createBuffer(() -> "Flow2 summer sky", 136, 368L);
       }

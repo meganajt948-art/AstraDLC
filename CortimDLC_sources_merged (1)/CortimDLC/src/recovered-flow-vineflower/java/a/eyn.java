@@ -30,11 +30,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public final class eyn {
-   private static final int eyo = 33554432;
-   private static HttpClient eyp;
-   private static ExecutorService eyq;
+   static final int eyo = 33554432;
+   static HttpClient eyp;
+   static ExecutorService eyq;
 
-   private eyn() {
+   eyn() {
    }
 
    public static boolean online() {
@@ -42,7 +42,7 @@ public final class eyn {
       return ewk.online();
    }
 
-   private static synchronized void eyt() {
+   static synchronized void eyt() {
       if (eyq == null) {
          eyp = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(8L)).build();
          eyq = Executors.newFixedThreadPool(2, var0 -> {
@@ -54,14 +54,14 @@ public final class eyn {
       }
    }
 
-   private static Builder eyu(String var0, int var1) {
+   static Builder eyu(String var0, int var1) {
       return HttpRequest.newBuilder(URI.create(ewk.endpoint() + var0))
          .timeout(Duration.ofSeconds(var1))
          .header(a.d("\ue484鴡៳覞Ɏ蓢㺪띈⤌ꎨ⑦\ude11僇", 1669155788, 1428664100), a.b("⚖开헗䮵쁵䛓ﳒ", -1834735917) + LoaderInfo.token())
          .header(a.c(-846022945, "뚡콅䗓\udbbd側훈"), eya.get());
    }
 
-   private static <T> CompletableFuture<T> eyv(Callable<T> var0) {
+   static <T> CompletableFuture<T> eyv(Callable<T> var0) {
       if (!online()) {
          return CompletableFuture.failedFuture(new IOException(a.c(278616441, "夑₩ꩺ㐁뿓㥥茽")));
       }
@@ -205,7 +205,7 @@ public final class eyn {
       return var1.length() > 900 ? var1.substring(0, 900) : var1.toString();
    }
 
-   private static String eyw(String var0) {
+   static String eyw(String var0) {
       return var0 == null ? "" : var0.replace(';', ',').replace('=', ':').replace('\n', ' ').replace('\r', ' ');
    }
 

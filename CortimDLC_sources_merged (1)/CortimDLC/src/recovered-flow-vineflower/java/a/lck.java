@@ -15,25 +15,25 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 public class lck extends kfe {
-   private final vmc lcl = this.add(new vmc(a.b("睉ૂ葷᩵醬\u171e", 1635808085), 1.5, 1.0, 3.0, 0.05).suffix(a.d("\u3103", 1651795651, 419387321)));
-   private final vmc lcm = this.add(new vmc(a.b("㻇䜪즛厌\ud828店\ue4c7", -2028520738), 0.5, 0.0, 1.0, 0.05).suffix(a.c(398505387, "뗒")));
-   private final vmc lcn = this.add(new vmc(a.d("欑ኁ頬أ跹", -1892789012, -558351385), 50.0, 5.0, 200.0, 1.0));
-   private final vmc lco = this.add(new vmc(a.b("儂⢟ꈵ㱇럢ㅞ譶˹鳑", 1021072671), 3.5, 2.0, 6.0, 0.1).suffix(a.c(-486064284, "㼈")));
-   private final vmc lcp = this.add(new vmc(a.d("ໃ睻ﶱ", 1245922544, -2075243914), 360.0, 10.0, 360.0, 5.0).unit(a.b("晹", 926967496)));
-   private final vkl lcq = this.add(new vkl(a.b("拯᭵釕࿚萉ʺ", -776902927), true));
-   private final vkl lcr = this.add(new vkl(a.d("賦\uf575義\ue1a2", -436942022, -609532988), true));
-   private final vkl lcs = this.add(new vkl(a.c(-933448196, "뇑졻䊠\udcdd圃퇉濶\ue266簺\uf6fc焧謠"), true));
-   private static Field lct;
-   private static Field lcu;
-   private LivingEntity lcv;
-   private long lcw;
-   private GLFWCursorPosCallback lcx;
-   private GLFWCursorPosCallback lcy;
-   private double lcz;
-   private double lda;
-   private double ldb = Double.NaN;
-   private double ldc;
-   private double ldd;
+   final vmc lcl = this.add(new vmc(a.b("睉ૂ葷᩵醬\u171e", 1635808085), 1.5, 1.0, 3.0, 0.05).suffix(a.d("\u3103", 1651795651, 419387321)));
+   final vmc lcm = this.add(new vmc(a.b("㻇䜪즛厌\ud828店\ue4c7", -2028520738), 0.5, 0.0, 1.0, 0.05).suffix(a.c(398505387, "뗒")));
+   final vmc lcn = this.add(new vmc(a.d("欑ኁ頬أ跹", -1892789012, -558351385), 50.0, 5.0, 200.0, 1.0));
+   final vmc lco = this.add(new vmc(a.b("儂⢟ꈵ㱇럢ㅞ譶˹鳑", 1021072671), 3.5, 2.0, 6.0, 0.1).suffix(a.c(-486064284, "㼈")));
+   final vmc lcp = this.add(new vmc(a.d("ໃ睻ﶱ", 1245922544, -2075243914), 360.0, 10.0, 360.0, 5.0).unit(a.b("晹", 926967496)));
+   final vkl lcq = this.add(new vkl(a.b("拯᭵釕࿚萉ʺ", -776902927), true));
+   final vkl lcr = this.add(new vkl(a.d("賦\uf575義\ue1a2", -436942022, -609532988), true));
+   final vkl lcs = this.add(new vkl(a.c(-933448196, "뇑졻䊠\udcdd圃퇉濶\ue266簺\uf6fc焧謠"), true));
+   static Field lct;
+   static Field lcu;
+   LivingEntity lcv;
+   long lcw;
+   GLFWCursorPosCallback lcx;
+   GLFWCursorPosCallback lcy;
+   double lcz;
+   double lda;
+   double ldb = Double.NaN;
+   double ldc;
+   double ldd;
 
    public lck() {
       super(
@@ -69,7 +69,7 @@ public class lck extends kfe {
       }
    }
 
-   private LivingEntity ldg(MinecraftClient var1, ClientPlayerEntity var2, double var3) {
+   LivingEntity ldg(MinecraftClient var1, ClientPlayerEntity var2, double var3) {
       LivingEntity var5 = null;
       double var6 = Double.MAX_VALUE;
       double var8 = this.lcp.get() * 0.5;
@@ -87,7 +87,7 @@ public class lck extends kfe {
       return var5;
    }
 
-   private boolean ldh(ClientPlayerEntity var1, LivingEntity var2) {
+   boolean ldh(ClientPlayerEntity var1, LivingEntity var2) {
       if (var2 != var1 && !var2.isRemoved() && var2.isAlive() && !var2.isDead() && !(var2 instanceof ArmorStandEntity)) {
          if (var2 instanceof PlayerEntity var3) {
             if (!this.lcq.get() || var3.isSpectator() || hhf.protects(var3)) {
@@ -103,21 +103,21 @@ public class lck extends kfe {
       }
    }
 
-   private static boolean ldi(ClientPlayerEntity var0, Entity var1, double var2) {
+   static boolean ldi(ClientPlayerEntity var0, Entity var1, double var2) {
       return var0.squaredDistanceTo(var1) <= var2 * var2;
    }
 
-   private static double ldj(ClientPlayerEntity var0, Entity var1) {
+   static double ldj(ClientPlayerEntity var0, Entity var1) {
       return Math.abs(ldk(var0, var1.getBoundingBox().getCenter()));
    }
 
-   private static double ldk(ClientPlayerEntity var0, Vec3d var1) {
+   static double ldk(ClientPlayerEntity var0, Vec3d var1) {
       Vec3d var2 = var0.getEyePos();
       double var3 = Math.toDegrees(Math.atan2(-(var1.x - var2.x), var1.z - var2.z));
       return MathHelper.wrapDegrees(var3 - var0.getYaw());
    }
 
-   private void ldl(long var1) {
+   void ldl(long var1) {
       if (lct == null) {
          lct = vxr.find(
             Mouse.class, a.c(954673734, "⨿厅\ud947䝬쳸䩍\uf019秣\ue7ba洚\ueadaႬ鹩ނ趜ୢ넠㻣ꑐ∭ꮶ퇥录"), a.d("䯵㉋뢔⛬괳⮹醄ᡳ蘣ಓ", -1271301847, -977718608), a.c(1517652545, "訄")
@@ -135,7 +135,7 @@ public class lck extends kfe {
       this.lcx = GLFW.glfwSetCursorPosCallback(var1, this.lcy);
    }
 
-   private void ldm() {
+   void ldm() {
       if (this.lcy != null) {
          GLFWCursorPosCallback var1 = GLFW.glfwSetCursorPosCallback(this.lcw, this.lcx);
          if (var1 != null && var1.address() == this.lcy.address()) {
@@ -149,7 +149,7 @@ public class lck extends kfe {
       }
    }
 
-   private void ldn(long var1, double var3, double var5) {
+   void ldn(long var1, double var3, double var5) {
       if (this.lcx != null) {
          this.lcx.invoke(var1, var3, var5);
       }
@@ -159,7 +159,7 @@ public class lck extends kfe {
       }
    }
 
-   private void ldo() {
+   void ldo() {
       if (this.lcy != null) {
          MinecraftClient var1 = MinecraftClient.getInstance();
 
@@ -183,7 +183,7 @@ public class lck extends kfe {
       }
    }
 
-   private double ldp(MinecraftClient var1, double var2) {
+   double ldp(MinecraftClient var1, double var2) {
       ClientPlayerEntity var4 = var1.player;
       if (var2 != 0.0
          && this.isEnabled()
@@ -215,7 +215,7 @@ public class lck extends kfe {
       }
    }
 
-   private static double ldq(MinecraftClient var0, ClientPlayerEntity var1) {
+   static double ldq(MinecraftClient var0, ClientPlayerEntity var1) {
       double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
       boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();

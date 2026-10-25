@@ -22,9 +22,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 final class flm {
-   private static final int fln = 400;
-   private static final int flo = 60;
-   private static final String[] flp = new String[]{
+   static final int fln = 400;
+   static final int flo = 60;
+   static final String[] flp = new String[]{
       a.d("讃\uf235磷\ue682浐\uebfc", -1704124698, 1663538448),
       a.d("氳ᖅ齇Ĳ諠ౌ뙍㿥ꆽ⬗", 2078710467, 582678153),
       a.d("ꏲ\uda49傟커䔻쏗禂", 2129849168, 1493190851),
@@ -33,48 +33,48 @@ final class flm {
       a.b("ߘ繴\uf4a8櫈\ue144枬\uddf8吒", 854132643),
       a.c(644102035, "㟲么쒖嫨턲垅")
    };
-   private static final int[] flq = fng();
-   private static final int flr = flq.length;
-   private static final int fls = 23;
-   private static final int flt = 4;
-   private static final boolean flu = System.getenv(a.c(51904108, "︺螁\u0d51錸ᢊ鹖␙극㎽뤑㻉쒴䩧폄妗\udf73")) != null;
-   private static final int[] flv = new int[]{4, 6, 10, 16, 6};
-   private static final int flw = 300;
-   private static final int flx = 80;
-   private static final ConcurrentLinkedQueue<flj> fly = new ConcurrentLinkedQueue<>();
-   private static volatile flj flz;
-   private static volatile int fma = -1;
-   private static volatile boolean fmb;
-   private static volatile int fmc;
-   private static volatile int fmd = -1;
-   private static boolean fme;
-   private static boolean fmf;
-   private static final int[] fmg = new int[16];
-   private static final int[] fmh = new int[16];
-   private static final int[] fmi = new int[16];
-   private static final int[] fmj = new int[16];
-   private static final boolean[] fmk = new boolean[16];
-   private static final int[] fml = new int[16];
-   private static final int[] fmm = new int[16];
-   private static final int[] fmn = new int[16];
-   private static final int[] fmo = new int[16];
-   private static int fmp;
-   private static int fmq;
-   private static int fmr;
-   private static int fms;
-   private static int fmt = -1;
-   private static int fmu;
-   private static double fmv;
-   private static double fmw;
-   private static double fmx;
-   private static float fmy;
-   private static boolean fmz;
-   private static int fna = -1;
-   private static int fnb;
-   private static int fnc = -1;
-   private static final Random fnd = new Random(7L);
+   static final int[] flq = fng();
+   static final int flr = flq.length;
+   static final int fls = 23;
+   static final int flt = 4;
+   static final boolean flu = System.getenv(a.c(51904108, "︺螁\u0d51錸ᢊ鹖␙극㎽뤑㻉쒴䩧폄妗\udf73")) != null;
+   static final int[] flv = new int[]{4, 6, 10, 16, 6};
+   static final int flw = 300;
+   static final int flx = 80;
+   static final ConcurrentLinkedQueue<flj> fly = new ConcurrentLinkedQueue<>();
+   static volatile flj flz;
+   static volatile int fma = -1;
+   static volatile boolean fmb;
+   static volatile int fmc;
+   static volatile int fmd = -1;
+   static boolean fme;
+   static boolean fmf;
+   static final int[] fmg = new int[16];
+   static final int[] fmh = new int[16];
+   static final int[] fmi = new int[16];
+   static final int[] fmj = new int[16];
+   static final boolean[] fmk = new boolean[16];
+   static final int[] fml = new int[16];
+   static final int[] fmm = new int[16];
+   static final int[] fmn = new int[16];
+   static final int[] fmo = new int[16];
+   static int fmp;
+   static int fmq;
+   static int fmr;
+   static int fms;
+   static int fmt = -1;
+   static int fmu;
+   static double fmv;
+   static double fmw;
+   static double fmx;
+   static float fmy;
+   static boolean fmz;
+   static int fna = -1;
+   static int fnb;
+   static int fnc = -1;
+   static final Random fnd = new Random(7L);
 
-   private flm() {
+   flm() {
    }
 
    static boolean crit(MinecraftClient var0) {
@@ -238,7 +238,7 @@ final class flm {
       return false;
    }
 
-   private static int[] fng() {
+   static int[] fng() {
       String var0 = System.getenv(a.d("Ｉ蚒ూ鈫ᦙ齅┊곪㊮렂㿚얻䭭틞墘", 1336180136, -1449098552));
       if (var0 == null) {
          int[] var4 = new int[flp.length];
@@ -261,7 +261,7 @@ final class flm {
       }
    }
 
-   private static void fnh(String var0, int var1, boolean var2, boolean var3) {
+   static void fnh(String var0, int var1, boolean var2, boolean var3) {
       boolean var4 = var2 ? fmg[var1] >= 1 && fmi[var1] == fmg[var1] && fmj[var1] == 0 && (!var3 || fmk[var1]) : fmg[var1] == 0;
       if (!var4) {
          fmp++;
@@ -288,7 +288,7 @@ final class flm {
          );
    }
 
-   private static boolean fni(MinecraftClient var0, boolean var1) {
+   static boolean fni(MinecraftClient var0, boolean var1) {
       fmu++;
       ClientPlayerEntity var2 = var0.player;
       fmf = var1;
@@ -377,7 +377,7 @@ final class flm {
       }
    }
 
-   private static void fnj() {
+   static void fnj() {
       if (!fme) {
          fme = true;
          AttackEntityCallback.EVENT
@@ -461,7 +461,7 @@ final class flm {
       }
    }
 
-   private static void fnk(ClientPlayerEntity var0, float var1) {
+   static void fnk(ClientPlayerEntity var0, float var1) {
       Vec3d var2 = var0.getEyePos();
       double var3 = fmv - var2.x;
       double var5 = fmw + 1.35 - var2.y;
@@ -472,7 +472,7 @@ final class flm {
       var0.setPitch(var10);
    }
 
-   private static void fnl() {
+   static void fnl() {
       long var0 = System.nanoTime();
 
       flj var2;
@@ -485,7 +485,7 @@ final class flm {
       }
    }
 
-   private static void fnm(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void fnm(MinecraftClient var0, ClientPlayerEntity var1) {
       boolean var2 = var1.isOnGround();
       if (fmz && !var2 && var1.getVelocity().y > 0.0) {
          fna = fmu;
@@ -500,12 +500,12 @@ final class flm {
       }
    }
 
-   private static void fnn(MinecraftClient var0) {
+   static void fnn(MinecraftClient var0) {
       var0.options.jumpKey.setPressed(false);
       var0.options.forwardKey.setPressed(false);
    }
 
-   private static void fno() {
+   static void fno() {
       kfe var0 = Flow.getInstance().getModuleManager().getByName(a.b("េ湖\ue49e竡\uf136瞅췁䐀\uda72僘", 2135955359));
 
       for (vmo var2 : var0.getSettings()) {
@@ -543,7 +543,7 @@ final class flm {
          .setEnabled(a.d("ሴ", -490438028, 1576177776).equals(System.getenv(a.b("찦떝㽍ꄤ⪖걊ᘈ鿽Ƭ", -477639575))));
    }
 
-   private static void fnp(MinecraftClient var0, String var1) {
+   static void fnp(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

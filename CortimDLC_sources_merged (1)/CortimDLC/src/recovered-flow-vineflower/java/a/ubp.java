@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 final class ubp {
    final JsonObject json = new JsonObject();
 
-   private ubp() {
+   ubp() {
    }
 
    ubp put(String var1, String var2) {

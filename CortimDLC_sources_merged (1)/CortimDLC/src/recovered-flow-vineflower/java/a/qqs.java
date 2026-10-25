@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 public final class qqs {
-   private static final long qqt = 30000L;
-   private final Map<Integer, qqm> qqu = new HashMap<>();
-   private final Map<Integer, Long> qqv = new HashMap<>();
-   private List<Integer> qqw = List.of();
-   private int qqx;
-   private double qqy = 6000.0;
-   private double qqz = 10000.0;
+   static final long qqt = 30000L;
+   final Map<Integer, qqm> qqu = new HashMap<>();
+   final Map<Integer, Long> qqv = new HashMap<>();
+   List<Integer> qqw = List.of();
+   int qqx;
+   double qqy = 6000.0;
+   double qqz = 10000.0;
 
    public void list(List<Integer> var1) {
       if (!var1.equals(this.qqw)) {
@@ -157,7 +157,7 @@ public final class qqs {
       return var8;
    }
 
-   private int qrc(long var1, int var3) {
+   int qrc(long var1, int var3) {
       int var4 = this.qqw.size();
 
       for (int var5 = 0; var5 < var4; var5++) {
@@ -173,7 +173,7 @@ public final class qqs {
       return -1;
    }
 
-   private boolean qrd(qqm var1, long var2, int var4, long var5, qqd var7) {
+   boolean qrd(qqm var1, long var2, int var4, long var5, qqd var7) {
       if (var1.tier == null || !var7.tiers.contains(var1.tier)) {
          return false;
       } else {
@@ -181,16 +181,16 @@ public final class qqs {
       }
    }
 
-   private long qre(qqm var1, int var2, long var3) {
+   long qre(qqm var1, int var2, long var3) {
       return var1.id == var2 ? var3 : this.goMs();
    }
 
-   private boolean qrf(int var1, long var2) {
+   boolean qrf(int var1, long var2) {
       Long var4 = this.qqv.get(var1);
       return var4 != null && var4 > var2;
    }
 
-   private static boolean qrg(qqm var0, qqm var1) {
+   static boolean qrg(qqm var0, qqm var1) {
       if (var1 == null) {
          return true;
       } else {

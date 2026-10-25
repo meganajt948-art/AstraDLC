@@ -8,17 +8,17 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.item.Items;
 
 public final class rhf {
-   private static final vdn rhg = veo.semibold(6.0F);
-   private static final vcj rhh = new vcj(10.0F);
-   private static final vcj rhi = new vcj(12.0F);
-   private static final vcj rhj = new vcj(6.0F);
-   private static long rhk = -1L;
-   private static float rhl;
+   static final vdn rhg = veo.semibold(6.0F);
+   static final vcj rhh = new vcj(10.0F);
+   static final vcj rhi = new vcj(12.0F);
+   static final vcj rhj = new vcj(6.0F);
+   static long rhk = -1L;
+   static float rhl;
 
-   private rhf() {
+   rhf() {
    }
 
-   private static boolean rho() {
+   static boolean rho() {
       if (Flow.getInstance().getModuleManager() == null) {
          return false;
       }

@@ -13,13 +13,13 @@ import net.minecraft.client.input.MouseInput;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 public final class fzq {
-   private static int fzr;
-   private static int fzs;
-   private static long fzt;
-   private static int fzu;
-   private static jte fzv;
+   static int fzr;
+   static int fzs;
+   static long fzt;
+   static int fzu;
+   static jte fzv;
 
-   private fzq() {
+   fzq() {
    }
 
    public static void install() {
@@ -39,16 +39,16 @@ public final class fzq {
       }
    }
 
-   private static float fzy() {
+   static float fzy() {
       return (float)(System.nanoTime() - fzt) / 1.0E9F;
    }
 
-   private static void fzz() {
+   static void fzz() {
       fzt = System.nanoTime();
       fzu = 0;
    }
 
-   private static void gaa(MinecraftClient var0) {
+   static void gaa(MinecraftClient var0) {
       fzs++;
 
       try {
@@ -61,7 +61,7 @@ public final class fzq {
       }
    }
 
-   private static void gab(MinecraftClient var0) throws Exception {
+   static void gab(MinecraftClient var0) throws Exception {
       switch (fzr) {
          case 0:
             if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
@@ -171,25 +171,25 @@ public final class fzq {
       }
    }
 
-   private static boolean gac() throws Exception {
+   static boolean gac() throws Exception {
       Field var0 = jte.class.getDeclaredField(a.b("꼧횕届숳䧪콚", 1289203533));
       var0.setAccessible(true);
       return var0.getBoolean(fzv);
    }
 
-   private static void gad(float var0, float var1) {
+   static void gad(float var0, float var1) {
       fzv.mouseClicked(new Click(var0, var1, new MouseInput(0, 0)), false);
    }
 
-   private static void gae(float var0, float var1) {
+   static void gae(float var0, float var1) {
       fzv.mouseDragged(new Click(var0, var1, new MouseInput(0, 0)), 0.0, 0.0);
    }
 
-   private static void gaf(float var0, float var1) {
+   static void gaf(float var0, float var1) {
       fzv.mouseReleased(new Click(var0, var1, new MouseInput(0, 0)));
    }
 
-   private static void gag(MinecraftClient var0, String var1) {
+   static void gag(MinecraftClient var0, String var1) {
       System.out.println(a.b("ᄏ梽\ue262簛\uf787煢쬠䋇\udc9f噺", 1941639529) + var1 + a.b("긅ퟔ嵧", 1010937382) + var0.getCurrentFps() + a.c(1821759149, "횉꽾▻믉"));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory, a.d("넀좻䉫\udc02垐턾", -800622465, -670775009) + var1 + a.c(-2005816376, "ꯢ툍壀울"), var0.getFramebuffer(), 1, var0x -> {}

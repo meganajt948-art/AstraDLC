@@ -10,8 +10,8 @@ import ru.vidtu.ias.auth.handlers.LoginHandler;
 import ru.vidtu.ias.utils.exceptions.FriendlyException;
 
 final class jyq implements LoginHandler {
-   private final jyv jyr;
-   private final MinecraftClient jys = MinecraftClient.getInstance();
+   final jyv jyr;
+   final MinecraftClient jys = MinecraftClient.getInstance();
 
    jyq(jyv var1) {
       this.jyr = var1;

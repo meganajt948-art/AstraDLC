@@ -17,6 +17,6 @@ public final class vgg {
    public static final String SLIDERS = "\ue9e9";
    static final String ALL = "\ue945\ue805\ue77b\ue7b3\ue712\ue713\ue721\ue70d\ue76c\ue73e\ue711\ue765\ue946\ue9e9";
 
-   private vgg() {
+   vgg() {
    }
 }

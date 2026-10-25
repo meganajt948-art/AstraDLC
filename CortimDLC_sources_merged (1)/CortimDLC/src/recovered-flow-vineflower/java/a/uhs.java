@@ -6,10 +6,10 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 
 public final class uhs {
-   private static float uht = -1.0F;
-   private static long uhu;
+   static float uht = -1.0F;
+   static long uhu;
 
-   private uhs() {
+   uhs() {
    }
 
    public static float daylight(MinecraftClient var0) {

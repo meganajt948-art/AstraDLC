@@ -1,16 +1,16 @@
 package a;
 
 final class qzt {
-   private final long qzu;
-   private final int qzv;
-   private final float qzw;
-   private final float qzx;
-   private final float qzy;
-   private final float qzz;
-   private final float raa;
-   private final float rab;
+   final long qzu;
+   final int qzv;
+   final float qzw;
+   final float qzx;
+   final float qzy;
+   final float qzz;
+   final float raa;
+   final float rab;
 
-   private qzt(long pos, int color, float x0, float y0, float z0, float x1, float y1, float z1) {
+   qzt(long pos, int color, float x0, float y0, float z0, float x1, float y1, float z1) {
       this.qzu = pos;
       this.qzv = color;
       this.qzw = x0;

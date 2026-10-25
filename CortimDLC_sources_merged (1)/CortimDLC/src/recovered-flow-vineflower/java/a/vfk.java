@@ -23,19 +23,19 @@ import net.minecraft.client.texture.NativeImage;
 
 final class vfk {
    static final String TEXT_CHARSET = vfv();
-   private static final int vfl = 1;
-   private static final int vfm = 1;
-   private static final float vfn = 0.86F;
+   static final int vfl = 1;
+   static final int vfm = 1;
+   static final float vfn = 0.86F;
    final float pixelsPerUnit;
    final float ascent;
    final float descent;
    final float capHeight;
    final GpuTextureView view;
-   private final GpuTexture vfo;
-   private final Int2ObjectOpenHashMap<vev> vfp;
-   private final Font vfq;
+   final GpuTexture vfo;
+   final Int2ObjectOpenHashMap<vev> vfp;
+   final Font vfq;
 
-   private vfk(float var1, float var2, float var3, float var4, GpuTexture var5, GpuTextureView var6, Int2ObjectOpenHashMap<vev> var7, Font var8) {
+   vfk(float var1, float var2, float var3, float var4, GpuTexture var5, GpuTextureView var6, Int2ObjectOpenHashMap<vev> var7, Font var8) {
       this.pixelsPerUnit = var1;
       this.ascent = var2;
       this.descent = var3;
@@ -178,7 +178,7 @@ final class vfk {
       }
    }
 
-   private static int vft(List<vfh> var0, int var1) {
+   static int vft(List<vfh> var0, int var1) {
       int var2 = 1;
       int var3 = 1;
       int var4 = 0;
@@ -203,7 +203,7 @@ final class vfk {
       return var3 + var4 + 1;
    }
 
-   private static int vfu(int var0) {
+   static int vfu(int var0) {
       byte var1 = 1;
 
       while (var1 < var0) {
@@ -213,7 +213,7 @@ final class vfk {
       return var1;
    }
 
-   private static String vfv() {
+   static String vfv() {
       StringBuilder var0 = new StringBuilder();
 
       for (int var1 = 32; var1 < 127; var1++) {

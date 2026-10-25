@@ -1,14 +1,14 @@
 package a;
 
 final class ige {
-   private final float igf;
-   private final float igg;
-   private final float igh;
-   private final float igi;
-   private final Runnable igj;
-   private final Runnable igk;
+   final float igf;
+   final float igg;
+   final float igh;
+   final float igi;
+   final Runnable igj;
+   final Runnable igk;
 
-   private ige(float x, float y, float w, float h, Runnable left, Runnable right) {
+   ige(float x, float y, float w, float h, Runnable left, Runnable right) {
       this.igf = x;
       this.igg = y;
       this.igh = w;

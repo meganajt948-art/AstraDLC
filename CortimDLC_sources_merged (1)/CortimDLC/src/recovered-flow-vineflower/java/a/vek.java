@@ -6,7 +6,7 @@ public enum vek {
    SEMIBOLD("/flow/font/Inter-SemiBold.ttf"),
    BOLD("/flow/font/Inter-Bold.ttf");
 
-   private final String vel;
+   final String vel;
 
    vek(String var3) {
       this.vel = var3;

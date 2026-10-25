@@ -45,95 +45,95 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class sbp extends kfe {
-   private static final int sbq = 32;
-   private static final float sbr = (float) (Math.PI / 180.0);
-   private final vlv sbs = this.add(new vlv("Season", "Winter", "Winter", "Spring", "Summer", "Autumn", "Rain"));
-   private final vmc sbt = this.add(new vmc("Rainfall", 0.7, 0.0, 1.0, 0.05).percent());
-   private final vmc sbu = this.add(new vmc("Lightning", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc sbv = this.add(new vmc("Gloom", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vmc sbw = this.add(new vmc("Sounds", 0.8, 0.0, 1.0, 0.05).percent());
-   private final vkl sbx = this.add(new vkl("Lens drops", true));
-   private final vmc sby = this.add(new vmc("Particles", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vmc sbz = this.add(new vmc("Ground cover", 0.7, 0.0, 1.0, 0.05).percent());
-   private final vmc sca = this.add(new vmc("Clouds", 0.9, 0.0, 1.0, 0.05).percent());
-   private final vmc scb = this.add(new vmc("Speed", 1.0, 0.3, 2.0, 0.1).unit("x"));
-   private final vkl scc = this.add(new vkl("Colour grade", true));
-   private final vmc scd = this.add(new vmc("Cold", 0.7, 0.0, 1.0, 0.05).percent());
-   private final vmc sce = this.add(new vmc("Cumulus", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc scf = this.add(new vmc("Sun rays", 0.7, 0.0, 1.0, 0.05).percent());
-   private final vmc scg = this.add(new vmc("Light shafts", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vkl sch = this.add(new vkl("Cloud shadows", true));
-   private final vmc sci = this.add(new vmc("Wetness", 0.7, 0.0, 1.0, 0.01).percent());
-   private final vmc scj = this.add(new vmc("Puddles", 0.5, 0.0, 1.0, 0.01).percent());
-   private final vmc sck = this.add(new vmc("Reflections", 1.0, 0.0, 1.0, 0.05).percent());
-   private final vmc scl = this.add(new vmc("Darken", 0.55, 0.0, 1.0, 0.05).percent());
-   private final vkl scm = this.add(new vkl("Footprints", true));
-   private final vmc scn = this.add(new vmc("Footprint time", 20.0, 5.0, 60.0, 1.0).suffix("s"));
-   private final vlv sco = this.add(new vlv("Quality", "Medium", "Low", "Medium", "High"));
-   private final vkl scp = this.add(new vkl("Only under the sky", true));
-   private final ArrayDeque<saw> scq = new ArrayDeque<>();
-   private final Map<UUID, sbh> scr = new HashMap<>();
-   private final Set<UUID> scs = new HashSet<>();
-   private final List<saw> sct = new ArrayList<>();
-   private final int[] scu = new int[16384];
-   private final Mutable scv = new Mutable();
-   private final Matrix4f scw = new Matrix4f();
-   private final Matrix4f scx = new Matrix4f();
-   private final Matrix4f scy = new Matrix4f();
-   private final Quaternionf scz = new Quaternionf();
-   private final Quaternionf sda = new Quaternionf();
-   private Vec3d sdb;
-   private boolean sdc;
-   private double sdd;
-   private double sde;
-   private double sdf;
-   private boolean sdg;
-   private boolean sdh;
-   private int sdi;
-   private int sdj;
-   private int sdk;
-   private int sdl;
-   private long sdm;
-   private float sdn;
-   private float sdo = -1.0F;
-   private float sdp;
-   private float sdq = 192.33F;
-   private float sdr;
-   private boolean sds;
-   private double sdt;
-   private double sdu;
-   private double sdv;
-   private double sdw;
-   private double sdx;
-   private double sdy;
-   private double sdz;
-   private double sea;
-   private double seb;
-   private static sbp sec;
-   private final stp sed = new stp();
-   private final sss see = new sss();
-   private final int[] sef = new int[16384];
-   private boolean seg;
-   private boolean seh;
-   private int sei;
-   private boolean sej;
-   private boolean sek;
-   private double sel;
-   private double sem;
-   private double sen;
-   private double seo;
-   private double sep;
-   private float seq = -1.0F;
-   private float ser = -1.0F;
-   private final float[] ses = new float[]{1.0F, 1.0F, 1.0F, 1.0F};
-   private double set;
-   private double seu;
-   private boolean sev;
-   private final List<Field> sew = new ArrayList<>();
-   private boolean sex;
-   private final float[] sey = new float[320];
-   private final float[] sez = new float[320];
-   private final Vector3f sfa = new Vector3f();
+   static final int sbq = 32;
+   static final float sbr = (float) (Math.PI / 180.0);
+   final vlv sbs = this.add(new vlv("Season", "Winter", "Winter", "Spring", "Summer", "Autumn", "Rain"));
+   final vmc sbt = this.add(new vmc("Rainfall", 0.7, 0.0, 1.0, 0.05).percent());
+   final vmc sbu = this.add(new vmc("Lightning", 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc sbv = this.add(new vmc("Gloom", 0.6, 0.0, 1.0, 0.05).percent());
+   final vmc sbw = this.add(new vmc("Sounds", 0.8, 0.0, 1.0, 0.05).percent());
+   final vkl sbx = this.add(new vkl("Lens drops", true));
+   final vmc sby = this.add(new vmc("Particles", 0.6, 0.0, 1.0, 0.05).percent());
+   final vmc sbz = this.add(new vmc("Ground cover", 0.7, 0.0, 1.0, 0.05).percent());
+   final vmc sca = this.add(new vmc("Clouds", 0.9, 0.0, 1.0, 0.05).percent());
+   final vmc scb = this.add(new vmc("Speed", 1.0, 0.3, 2.0, 0.1).unit("x"));
+   final vkl scc = this.add(new vkl("Colour grade", true));
+   final vmc scd = this.add(new vmc("Cold", 0.7, 0.0, 1.0, 0.05).percent());
+   final vmc sce = this.add(new vmc("Cumulus", 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc scf = this.add(new vmc("Sun rays", 0.7, 0.0, 1.0, 0.05).percent());
+   final vmc scg = this.add(new vmc("Light shafts", 0.6, 0.0, 1.0, 0.05).percent());
+   final vkl sch = this.add(new vkl("Cloud shadows", true));
+   final vmc sci = this.add(new vmc("Wetness", 0.7, 0.0, 1.0, 0.01).percent());
+   final vmc scj = this.add(new vmc("Puddles", 0.5, 0.0, 1.0, 0.01).percent());
+   final vmc sck = this.add(new vmc("Reflections", 1.0, 0.0, 1.0, 0.05).percent());
+   final vmc scl = this.add(new vmc("Darken", 0.55, 0.0, 1.0, 0.05).percent());
+   final vkl scm = this.add(new vkl("Footprints", true));
+   final vmc scn = this.add(new vmc("Footprint time", 20.0, 5.0, 60.0, 1.0).suffix("s"));
+   final vlv sco = this.add(new vlv("Quality", "Medium", "Low", "Medium", "High"));
+   final vkl scp = this.add(new vkl("Only under the sky", true));
+   final ArrayDeque<saw> scq = new ArrayDeque<>();
+   final Map<UUID, sbh> scr = new HashMap<>();
+   final Set<UUID> scs = new HashSet<>();
+   final List<saw> sct = new ArrayList<>();
+   final int[] scu = new int[16384];
+   final Mutable scv = new Mutable();
+   final Matrix4f scw = new Matrix4f();
+   final Matrix4f scx = new Matrix4f();
+   final Matrix4f scy = new Matrix4f();
+   final Quaternionf scz = new Quaternionf();
+   final Quaternionf sda = new Quaternionf();
+   Vec3d sdb;
+   boolean sdc;
+   double sdd;
+   double sde;
+   double sdf;
+   boolean sdg;
+   boolean sdh;
+   int sdi;
+   int sdj;
+   int sdk;
+   int sdl;
+   long sdm;
+   float sdn;
+   float sdo = -1.0F;
+   float sdp;
+   float sdq = 192.33F;
+   float sdr;
+   boolean sds;
+   double sdt;
+   double sdu;
+   double sdv;
+   double sdw;
+   double sdx;
+   double sdy;
+   double sdz;
+   double sea;
+   double seb;
+   static sbp sec;
+   final stp sed = new stp();
+   final sss see = new sss();
+   final int[] sef = new int[16384];
+   boolean seg;
+   boolean seh;
+   int sei;
+   boolean sej;
+   boolean sek;
+   double sel;
+   double sem;
+   double sen;
+   double seo;
+   double sep;
+   float seq = -1.0F;
+   float ser = -1.0F;
+   final float[] ses = new float[]{1.0F, 1.0F, 1.0F, 1.0F};
+   double set;
+   double seu;
+   boolean sev;
+   final List<Field> sew = new ArrayList<>();
+   boolean sex;
+   final float[] sey = new float[320];
+   final float[] sez = new float[320];
+   final Vector3f sfa = new Vector3f();
 
    public sbp() {
       super(new String(new char[]{'W', 'e', 'a', 't', 'h', 'e', 'r'}), "Seasons and weather effects", kfa.RENDER);
@@ -160,11 +160,11 @@ public class sbp extends kfe {
       this.scn.visibleWhen(() -> this.sfe() && this.scm.get());
    }
 
-   private boolean sfd() {
+   boolean sfd() {
       return this.sbs.is("Rain");
    }
 
-   private boolean sfe() {
+   boolean sfe() {
       return this.sfd() || this.sbs.is("Winter");
    }
 
@@ -208,7 +208,7 @@ public class sbp extends kfe {
       }
    }
 
-   private void sff(MinecraftClient var1) {
+   void sff(MinecraftClient var1) {
       var1.getSoundManager().stopSounds(SoundEvents.WEATHER_RAIN.id(), SoundCategory.WEATHER);
       var1.getSoundManager().stopSounds(SoundEvents.WEATHER_RAIN_ABOVE.id(), SoundCategory.WEATHER);
       if (!this.sex) {
@@ -281,7 +281,7 @@ public class sbp extends kfe {
       }
    }
 
-   private void sfg(PlayerEntity var1, long var2, float var4) {
+   void sfg(PlayerEntity var1, long var2, float var4) {
       sbh var5 = this.scr.computeIfAbsent(var1.getUuid(), var0 -> new sbh());
       double var6 = var1.getX();
       double var8 = var1.getZ();
@@ -328,7 +328,7 @@ public class sbp extends kfe {
       }
    }
 
-   private void sfh(double var1, double var3, double var5, float var7, float var8, float var9, long var10, float var12) {
+   void sfh(double var1, double var3, double var5, float var7, float var8, float var9, long var10, float var12) {
       double var13 = -var8 * var9 * 0.14;
       double var15 = var7 * var9 * 0.14;
       this.scq.addLast(new saw(var1 + var13, var3, var5 + var15, var7, var8, var9, var10, var12));
@@ -433,7 +433,7 @@ public class sbp extends kfe {
       }
    }
 
-   private void sfi(
+   void sfi(
       Camera var1, Vec3d var2, int var3, int var4, int var5, float var6, float[] var7, float[] var8, float[] var9, float var10, float var11, float var12
    ) {
       this.sdc = true;
@@ -531,7 +531,7 @@ public class sbp extends kfe {
       });
    }
 
-   private void sfj(
+   void sfj(
       MinecraftClient var1,
       Vec3d var2,
       int var3,
@@ -670,7 +670,7 @@ public class sbp extends kfe {
       }
    }
 
-   private void sfk(
+   void sfk(
       MinecraftClient var1,
       ClientWorld var2,
       Camera var3,
@@ -850,7 +850,7 @@ public class sbp extends kfe {
       this.sed.freeze(var5);
    }
 
-   private float[] sfl(float[] var1, int var2, float var3, float var4, float var5) {
+   float[] sfl(float[] var1, int var2, float var3, float var4, float var5) {
       float[] var6 = var1 == this.sed.segA() ? this.sey : this.sez;
 
       for (int var7 = 0; var7 < var2; var7++) {
@@ -864,7 +864,7 @@ public class sbp extends kfe {
       return var6;
    }
 
-   private float sfm(Vec3d var1) {
+   float sfm(Vec3d var1) {
       float var2 = Math.max(1.0F, this.sed.distance());
       int var3 = this.sed.segments();
       if (var3 == 0) {
@@ -885,16 +885,16 @@ public class sbp extends kfe {
       return var2;
    }
 
-   private static double sfn(double var0) {
+   static double sfn(double var0) {
       return var0 * var0;
    }
 
-   private void sfo(Camera var1, Vec3d var2, sti var3, float var4) {
+   void sfo(Camera var1, Vec3d var2, sti var3, float var4) {
       vss.listener(var1.getYaw());
       vss.thunder(var3.distance(), var3.bolt(), (float)(var3.x() - var2.x), (float)(var3.z() - var2.z), var4);
    }
 
-   private float[] sfp(Vec3d var1) {
+   float[] sfp(Vec3d var1) {
       float[] var2 = this.ses;
       if (!this.sdg) {
          Arrays.fill(var2, 1.0F);
@@ -941,7 +941,7 @@ public class sbp extends kfe {
       return var2;
    }
 
-   private float sfq(Vec3d var1) {
+   float sfq(Vec3d var1) {
       if (!this.sdg) {
          return 1.0F;
       }
@@ -969,7 +969,7 @@ public class sbp extends kfe {
       return var6 <= 0.0F ? 1.0F : var5 / var6;
    }
 
-   private void sfr(Std140Builder var1, List<saw> var2, Vec3d var3, long var4) {
+   void sfr(Std140Builder var1, List<saw> var2, Vec3d var3, long var4) {
       float var6 = 0.0F;
       float var7 = 0.0F;
       float var8 = 0.0F;
@@ -1014,7 +1014,7 @@ public class sbp extends kfe {
       }
    }
 
-   private void sfs(ClientWorld var1, int var2, int var3) {
+   void sfs(ClientWorld var1, int var2, int var3) {
       short var4 = 128;
       int var5 = var1.getBottomY();
       boolean var6 = false;
@@ -1059,11 +1059,11 @@ public class sbp extends kfe {
       this.sdg = true;
    }
 
-   private static boolean sft(BlockState var0) {
+   static boolean sft(BlockState var0) {
       return !var0.getFluidState().isEmpty() ? true : var0.blocksMovement() && var0.getRenderType() != BlockRenderType.INVISIBLE;
    }
 
-   private static boolean sfu(ClientWorld var0, BlockState var1, BlockPos var2) {
+   static boolean sfu(ClientWorld var0, BlockState var1, BlockPos var2) {
       if (var1.isIn(BlockTags.LEAVES)) {
          return false;
       }
@@ -1076,21 +1076,21 @@ public class sbp extends kfe {
       }
    }
 
-   private static boolean sfv(BlockState var0) {
+   static boolean sfv(BlockState var0) {
       Block var1 = var0.getBlock();
       return var1 instanceof PlantBlock || var1 instanceof SugarCaneBlock;
    }
 
-   private static float sfw(double var0, double var2) {
+   static float sfw(double var0, double var2) {
       double var4 = var0 % var2;
       return (float)(var4 < 0.0 ? var4 + var2 : var4);
    }
 
-   private static float sfx(float var0, float var1, float var2) {
+   static float sfx(float var0, float var1, float var2) {
       return Math.max(var1, Math.min(var2, var0));
    }
 
-   private static float sfy(float var0, float var1, float var2) {
+   static float sfy(float var0, float var1, float var2) {
       float var3 = Math.max(0.0F, Math.min(1.0F, (var2 - var0) / (var1 - var0)));
       return var3 * var3 * (3.0F - 2.0F * var3);
    }

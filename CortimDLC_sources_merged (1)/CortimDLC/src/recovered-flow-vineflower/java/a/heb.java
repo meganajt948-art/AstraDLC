@@ -11,7 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 final class heb {
-   private static final String[] hec = new String[]{
+   static final String[] hec = new String[]{
       a.b("ﭤ苯ࠧ陑ᶑ鬢ⅴꢞ㛄", -939066578),
       a.b("\uede2鑦Ầ胆ଉ趹㟷븗", 1918037421),
       a.b("텲ꣲ∺뱏㞆넫\u0b79", -2077634250),
@@ -20,7 +20,7 @@ final class heb {
       a.d("懃ᡆ銈\u0ce5蜵", -1608849160, -655455880),
       a.c(-480886768, "䁂㧌댞\u2d72ꚴ")
    };
-   private static final String[] hed = new String[]{
+   static final String[] hed = new String[]{
       a.b("褢\uf09b穌", 2198801),
       a.d("뇚졧䊰", 880101766, -907871205),
       a.c(210480402, "ꤥ탦婍쐷俢쥑"),
@@ -64,9 +64,9 @@ final class heb {
       a.c(-1244882043, "龰\ue608泞\uf2a6"),
       a.d("䀌㦵덡\u2d6eꛂ\u2072", -66853711, 462266608)
    };
-   private static String hee;
+   static String hee;
 
-   private heb() {
+   heb() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -134,7 +134,7 @@ final class heb {
       return var1 >= var5 + 154;
    }
 
-   private static void heh(MinecraftClient var0) throws Exception {
+   static void heh(MinecraftClient var0) throws Exception {
       if (!(var0.currentScreen instanceof hlc var1)) {
          System.out.println(a.b("둋췬䜻\ud959功퐥渾\ue79b秕\uf372璦躙T馫ᏹ镇⽅ꂜ㨤뱮", -1087523796));
       } else {
@@ -173,7 +173,7 @@ final class heb {
       }
    }
 
-   private static void hei(MinecraftClient var0) throws Exception {
+   static void hei(MinecraftClient var0) throws Exception {
       if (var0.currentScreen instanceof hlc var1) {
          Method var3 = hlc.class.getDeclaredMethod(a.d("곇할徢쇴䨕철盠\uff00慔", -2031593148, -955124231), String.class);
          var3.setAccessible(true);
@@ -181,7 +181,7 @@ final class heb {
       }
    }
 
-   private static void hej(MinecraftClient var0, String var1) throws Exception {
+   static void hej(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.b("퓮굊➚맂㈻뒖", 903861404));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -198,11 +198,11 @@ final class heb {
       var0.setScreen(new hlc());
    }
 
-   private static void hek(MinecraftClient var0, String var1) {
+   static void hek(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void hel(MinecraftClient var0, String var1) {
+   static void hel(MinecraftClient var0, String var1) {
       System.out.println(a.b("뫒썵䦯ퟔ居\udaa0惢\ue905睝ﶸ", -414729557) + var1 + a.c(787828274, "丑㟀뵳") + var0.getCurrentFps() + a.c(-1513143353, "䏣㨔냑⺣"));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

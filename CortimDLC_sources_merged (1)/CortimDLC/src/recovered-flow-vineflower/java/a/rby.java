@@ -14,28 +14,28 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 
 public class rby extends kfe {
-   private static rby rbz;
-   private final vlv rca = this.add(new vlv("Mode", "Box", "Box", "Corners", "Face"));
-   private final vla rcb = this.add(new vla("Color", "Theme"));
-   private final vmc rcc = this.add(new vmc("Width", 1.2, 0.5, 3.0, 0.1));
-   private final vmc rcd = this.add(new vmc("Corner size", 0.25, 0.1, 0.5, 0.01).percent());
-   private final vmc rce = this.add(new vmc("Fill", 0.12, 0.0, 0.5, 0.01).percent());
-   private final vmc rcf = this.add(new vmc("Glow", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vkl rcg = this.add(new vkl("Smooth", true));
-   private final double[] rch = new double[6];
-   private boolean rci;
-   private Direction rcj = Direction.UP;
-   private final vcj rck = new vcj(14.0F);
-   private long rcl = -1L;
-   private final double[][] rcm = new double[8][3];
-   private final float[] rcn = new float[4];
-   private final float[] rco = new float[3];
-   private final float[][] rcp = new float[8][3];
-   private final boolean[] rcq = new boolean[8];
-   private final boolean[] rcr = new boolean[6];
-   private static final int[][] rcs = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-   private static final Direction[] rct = new Direction[]{Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
-   private static final int[][] rcu = new int[][]{
+   static rby rbz;
+   final vlv rca = this.add(new vlv("Mode", "Box", "Box", "Corners", "Face"));
+   final vla rcb = this.add(new vla("Color", "Theme"));
+   final vmc rcc = this.add(new vmc("Width", 1.2, 0.5, 3.0, 0.1));
+   final vmc rcd = this.add(new vmc("Corner size", 0.25, 0.1, 0.5, 0.01).percent());
+   final vmc rce = this.add(new vmc("Fill", 0.12, 0.0, 0.5, 0.01).percent());
+   final vmc rcf = this.add(new vmc("Glow", 0.5, 0.0, 1.0, 0.05).percent());
+   final vkl rcg = this.add(new vkl("Smooth", true));
+   final double[] rch = new double[6];
+   boolean rci;
+   Direction rcj = Direction.UP;
+   final vcj rck = new vcj(14.0F);
+   long rcl = -1L;
+   final double[][] rcm = new double[8][3];
+   final float[] rcn = new float[4];
+   final float[] rco = new float[3];
+   final float[][] rcp = new float[8][3];
+   final boolean[] rcq = new boolean[8];
+   final boolean[] rcr = new boolean[6];
+   static final int[][] rcs = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
+   static final Direction[] rct = new Direction[]{Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+   static final int[][] rcu = new int[][]{
       {0, 1, 0, 2},
       {2, 3, 1, 2},
       {4, 5, 0, 3},
@@ -77,7 +77,7 @@ public class rby extends kfe {
       }
    }
 
-   private void rcx(DrawContext var1, MinecraftClient var2, float var3, float var4) {
+   void rcx(DrawContext var1, MinecraftClient var2, float var3, float var4) {
       Box var5 = null;
       if (var2.crosshairTarget instanceof BlockHitResult var6 && var6.getType() == Type.BLOCK) {
          BlockPos var15 = var6.getBlockPos();
@@ -144,7 +144,7 @@ public class rby extends kfe {
       }
    }
 
-   private void rcy(DrawContext var1, int var2, boolean var3) {
+   void rcy(DrawContext var1, int var2, boolean var3) {
       float var4 = (float)this.rce.get();
       if (!(var4 <= 0.005F)) {
          for (int var5 = 0; var5 < 6; var5++) {
@@ -173,7 +173,7 @@ public class rby extends kfe {
       }
    }
 
-   private void rcz(DrawContext var1, usn var2, int var3, boolean var4) {
+   void rcz(DrawContext var1, usn var2, int var3, boolean var4) {
       float var5 = (float)this.rcc.get();
       float var6 = (float)this.rcf.get();
       int var7 = ujt.withAlpha(var3, 225);
@@ -198,7 +198,7 @@ public class rby extends kfe {
       }
    }
 
-   private void rda(DrawContext var1, usn var2, double[] var3, double[] var4, double var5, double var7, float var9, int var10, int var11, float var12) {
+   void rda(DrawContext var1, usn var2, double[] var3, double[] var4, double var5, double var7, float var9, int var10, int var11, float var12) {
       double var13 = var3[0] + (var4[0] - var3[0]) * var5;
       double var15 = var3[1] + (var4[1] - var3[1]) * var5;
       double var17 = var3[2] + (var4[2] - var3[2]) * var5;
@@ -216,7 +216,7 @@ public class rby extends kfe {
       }
    }
 
-   private void rdb(Box var1) {
+   void rdb(Box var1) {
       this.rch[0] = var1.minX;
       this.rch[1] = var1.minY;
       this.rch[2] = var1.minZ;
@@ -225,7 +225,7 @@ public class rby extends kfe {
       this.rch[5] = var1.maxZ;
    }
 
-   private boolean rdc(int var1, Vec3d var2) {
+   boolean rdc(int var1, Vec3d var2) {
       return switch (var1) {
          case 0 -> var2.y < this.rch[1];
          case 1 -> var2.y > this.rch[4];

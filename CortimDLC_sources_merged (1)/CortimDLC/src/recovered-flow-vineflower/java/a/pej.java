@@ -18,11 +18,11 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 
 public final class pej {
-   private static final Gson pek = new GsonBuilder().setPrettyPrinting().create();
-   private static List<pdr> pel;
-   private static int pem;
+   static final Gson pek = new GsonBuilder().setPrettyPrinting().create();
+   static List<pdr> pel;
+   static int pem;
 
-   private pej() {
+   pej() {
    }
 
    public static List<pdr> items() {
@@ -69,7 +69,7 @@ public final class pej {
       changed();
    }
 
-   private static JsonObject pep() {
+   static JsonObject pep() {
       JsonObject var0 = new JsonObject();
 
       for (pdr var2 : pel) {
@@ -92,7 +92,7 @@ public final class pej {
       return var0;
    }
 
-   private static void peq() {
+   static void peq() {
       String var0 = ewk.get(a.b("\ue768黕ᐅ詴ƪ蜝㵙뒳⫱", -43587838));
       if (var0 != null && !var0.isBlank()) {
          try {
@@ -140,7 +140,7 @@ public final class pej {
       }
    }
 
-   private static phm[] per(phm... var0) {
+   static phm[] per(phm... var0) {
       phm[] var1 = new phm[var0.length + 4];
       System.arraycopy(var0, 0, var1, 0, var0.length);
       var1[var0.length] = phm.denyEnchant(Enchantments.THORNS);
@@ -150,7 +150,7 @@ public final class pej {
       return var1;
    }
 
-   private static phm[] pes(phm... var0) {
+   static phm[] pes(phm... var0) {
       phm[] var1 = new phm[var0.length + 2];
       System.arraycopy(var0, 0, var1, 0, var0.length);
       var1[var0.length] = phm.denyLore(a.b("摲ᷢ霰ा苢Ы븈㞇", -377003931));
@@ -158,26 +158,26 @@ public final class pej {
       return var1;
    }
 
-   private static phm[] pet(phm[] var0, phm[] var1) {
+   static phm[] pet(phm[] var0, phm[] var1) {
       phm[] var2 = new phm[var0.length + var1.length];
       System.arraycopy(var0, 0, var2, 0, var0.length);
       System.arraycopy(var1, 0, var2, var0.length, var1.length);
       return var2;
    }
 
-   private static phm peu(RegistryKey<Enchantment> var0, int var1) {
+   static phm peu(RegistryKey<Enchantment> var0, int var1) {
       return phm.enchant(var0, var1);
    }
 
-   private static phm pev(String var0, int var1) {
+   static phm pev(String var0, int var1) {
       return phm.lore(var0, var1, true);
    }
 
-   private static phm pew(String var0) {
+   static phm pew(String var0) {
       return phm.lore(var0, 0, true);
    }
 
-   private static List<pdr> pex() {
+   static List<pdr> pex() {
       return List.of(
          pdr.of(Items.NETHERITE_SWORD, 1, a.d("鑮\uedf7朦凌狷\uf43e丗잚姉팁咠\uaac8 릻㎚", 203294002, 1893504334))
             .deep()

@@ -11,16 +11,16 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 
 public class mjr extends kfe {
-   private static final EquipmentSlot[] mjs = new EquipmentSlot[]{EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.FEET};
-   private static final int mjt = 6;
-   private final vmc mju = this.add(new vmc(a.b("㮗䈂죇嚧\udd20寓\ue187桿\uf623粊\ufb0eĻ追ᙋ鰋\u1af9ꂽ⽩뗟㎓멩", -1943454767), 2.0, 1.0, 100.0, 1.0));
-   private final vkl mjv = this.add(new vkl(a.c(318390738, "䆘㠝닓ⲠꜺ⇉鮍ቧ谲ڋ腑笶"), true));
-   private final vkl mjw = this.add(new vkl(a.d("䅞㣁눒ⱶ\ua7f1℅魟ኻ賩ٞ膞", -121238918, -430027932), true));
-   private final vyn mjx = new vyn();
-   private boolean mjy;
-   private boolean mjz;
-   private int mka;
-   private int mkb;
+   static final EquipmentSlot[] mjs = new EquipmentSlot[]{EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.FEET};
+   static final int mjt = 6;
+   final vmc mju = this.add(new vmc(a.b("㮗䈂죇嚧\udd20寓\ue187桿\uf623粊\ufb0eĻ追ᙋ鰋\u1af9ꂽ⽩뗟㎓멩", -1943454767), 2.0, 1.0, 100.0, 1.0));
+   final vkl mjv = this.add(new vkl(a.c(318390738, "䆘㠝닓ⲠꜺ⇉鮍ቧ谲ڋ腑笶"), true));
+   final vkl mjw = this.add(new vkl(a.d("䅞㣁눒ⱶ\ua7f1℅魟ኻ賩ٞ膞", -121238918, -430027932), true));
+   final vyn mjx = new vyn();
+   boolean mjy;
+   boolean mjz;
+   int mka;
+   int mkb;
 
    public mjr() {
       super(
@@ -80,14 +80,14 @@ public class mjr extends kfe {
       }
    }
 
-   private void mke() {
+   void mke() {
       if (this.mjy) {
          this.mjx.release(this.mc);
          this.mjy = false;
       }
    }
 
-   private boolean mkf(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean mkf(MinecraftClient var1, ClientPlayerEntity var2) {
       if (!var2.isAlive() || var2.isSpectator() || !wdq.canClick(var2)) {
          return false;
       } else {
@@ -95,11 +95,11 @@ public class mjr extends kfe {
       }
    }
 
-   private static boolean mkg(MinecraftClient var0, ClientPlayerEntity var1) {
+   static boolean mkg(MinecraftClient var0, ClientPlayerEntity var1) {
       return var0.currentScreen instanceof HandledScreen var2 && var2.getScreenHandler() == var1.playerScreenHandler;
    }
 
-   private boolean mkh(ClientPlayerEntity var1) {
+   boolean mkh(ClientPlayerEntity var1) {
       for (EquipmentSlot var5 : mjs) {
          if (this.mkj(var1, var5) != null) {
             return true;
@@ -109,7 +109,7 @@ public class mjr extends kfe {
       return false;
    }
 
-   private void mki(MinecraftClient var1, ClientPlayerEntity var2) {
+   void mki(MinecraftClient var1, ClientPlayerEntity var2) {
       for (EquipmentSlot var6 : mjs) {
          vuc var7 = this.mkj(var2, var6);
          if (var7 != null && !vui.equip(var1, var6, var7)) {
@@ -118,7 +118,7 @@ public class mjr extends kfe {
       }
    }
 
-   private vuc mkj(ClientPlayerEntity var1, EquipmentSlot var2) {
+   vuc mkj(ClientPlayerEntity var1, EquipmentSlot var2) {
       ItemStack var3 = var1.getEquippedStack(var2);
       if (var2 == EquipmentSlot.CHEST && this.mjw.get() && var3.isOf(Items.ELYTRA)) {
          return null;
@@ -144,7 +144,7 @@ public class mjr extends kfe {
       return var9 != null && vui.roomFor(var8, var9, var3) ? var9 : null;
    }
 
-   private static int mkk(ItemStack var0) {
+   static int mkk(ItemStack var0) {
       String var1 = Registries.ITEM.getId(var0.getItem()).getPath();
       if (var1.startsWith(a.c(1739830118, "댂쪸䁺\ude17嗍퍫椣\ue0cf纁\uf40a"))) {
          return 2;

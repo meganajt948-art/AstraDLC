@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class dte extends ClassLoader {
-   private final Map<String, byte[]> dtf;
-   private final Map<String, byte[]> dtg;
+   final Map<String, byte[]> dtf;
+   final Map<String, byte[]> dtg;
 
    public dte(ClassLoader var1, HashMap<String, byte[]> var2, HashMap<String, byte[]> var3) {
       super(var1);
@@ -127,9 +127,9 @@ public final class dte extends ClassLoader {
       }
    }
 
-   private static PrintStream dtj(final PrintStream var0) {
+   static PrintStream dtj(final PrintStream var0) {
       return new PrintStream(new OutputStream() {
-         private final StringBuilder dtb = new StringBuilder(128);
+         final StringBuilder dtb = new StringBuilder(128);
 
          @Override
          public void write(int var1) {

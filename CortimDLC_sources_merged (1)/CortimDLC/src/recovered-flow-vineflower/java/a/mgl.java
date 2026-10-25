@@ -23,7 +23,7 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class mgl extends kfe {
-   private static final String[] mgm = mil(
+   static final String[] mgm = mil(
       a.b("긹힊崧썟䣿츷", -1699894658),
       a.d("Ⰸ喲\udf6c䄋쫛", 1549428332, -1373943294),
       a.c(-501856924, "䅕㣡눽ⱋꞔ⅚魻ዺ販"),
@@ -33,14 +33,14 @@ public class mgl extends kfe {
       a.d("\uf61e辴պ鬒Ⴢ陽ⰹ", 1879978402, -263665720),
       a.b("苖ײַ燇\uefb7摯\ue2ab", -1705212264)
    );
-   private static final String[] mgn = mil(
+   static final String[] mgn = mil(
       a.d("\u20cc夎펤䶩였䂷\ufae7", 73553294, -882282123),
       a.d("\udb51ꋴ⠱뙗㶝묪Ÿ", 928332889, 1487988590),
       a.d("玱\u0a0b肮Ờ锏", -1030424861, -908164841),
       a.c(-625441604, "蓗ﵪ瞪\ue9c2戛\ue4bb"),
       a.c(341076834, "潚ᛪ鱉Ɉ觪༠땶㲆ꋓ")
    );
-   private static final String[] mgo = mil(
+   static final String[] mgo = mil(
       a.d("\u1f7e曊\uec69爕劉罵씥䲥튆", -1531460758, -2086283176),
       a.b("ﳑ蕭ྐྵ量\u1a1c", -1611073303),
       a.b("塌⇰ꬩ㔭뺏㠿", -1824695176),
@@ -52,7 +52,7 @@ public class mgl extends kfe {
       a.c(-1864491677, "ᥑ惥\uea4f瑄￭礠썿䫸퓙帟"),
       a.c(1898666972, "忨♕겇㊉뤠㿮")
    );
-   private static final String[] mgp = mil(
+   static final String[] mgp = mil(
       a.c(463964444, "败\uf4eb繆\ue03d毮\ued5d"),
       a.d("\ue991遙᪉蒏བྷ", 1141578203, 1656353911),
       a.b("뚂콊䖚\udbf8偄", 648655551),
@@ -61,46 +61,46 @@ public class mgl extends kfe {
       a.b("뮟숸䣢횓嵍\udbeb", -1393574934),
       a.d("螃︯瓴\uea9c慐\ue7f6", -1780167643, -2121970747)
    );
-   private static final String[] mgq = mil(
+   static final String[] mgq = mil(
       a.d("碇ń询ᗦ鸳", -1804951348, -1844126711),
       a.c(2086678681, "㓛䴞쟂"),
       a.d("ꙏ\udffa唬", -1459795198, 2059266418),
       a.c(-1412124009, "뛓켕䖷"),
       a.d("誴\uf30c", 364700285, -1524929281)
    );
-   private static final String[] mgr = mil(
+   static final String[] mgr = mil(
       a.b("덩쫐䐖\ude77喪퍣椱\ue0b3继", -1201096867), a.b("ﳀ蔎ྣ釘ᨋ鲷⛧", -841746184), a.b("\uf4fa赌ޝ駫\u1249铰⻞ꜧ", 829026501), a.d("ꪊ팼姭잛䰹쪀烊綾", -817246295, 880042268)
    );
-   private static final String[] mgs = mil(a.b("⼶图\udc2e䈨짰", 1934437131), a.d("⽿嚷\udc67䈅즹", -1590878761, -968345963));
-   private static final String mgt = pfl.title(a.c(-78853994, "첦땮㾾ꆸ⩠곛ᚍ鼋"));
-   private static final int mgu = -16711936;
-   private static final int mgv = -29696;
-   private static final int mgw = -52429;
-   private static final int mgx = -16711681;
-   private static final int mgy = 75;
-   private static final int mgz = 153;
-   private static mgl mha;
-   private final vlq mhb = this.add(new vlq(a.c(1364434846, "鮏\ue21f棊\uf6c2絮ￅ䆉졹券\udc98孂ꄶ\u2fe8눔"), -1));
-   private final vkl mhc = this.add(new vkl(a.c(-1946309766, "꽢훷尦와䧿켾番ﲚ拉"), true));
-   private final vkl mhd = this.add(new vkl(a.c(1252869609, "䇙㡴늢Ⲥ꜅↰鿽ሳ谳ۼ腖筝\uf589汇\ue617惨\udecb儏"), false));
-   private final vkl mhe = this.add(new vkl(a.d("ভ瀀𥳐擐\uef71槄힉婏쐷仿쥝㍖뷳⁒ꨔ", 1103173673, -1211689559), false));
-   private final vkl mhf = this.add(new vkl(a.b("ꚏ\udf22嗴쯲䁓웦碫\uf565欛\ue1a0晵鰈ዕ譭ĳ螽㦝눩⣡꺺✵崙펫䱪쨆", 53650100), false));
-   private final vkl mhg = this.add(new vkl(a.d("⠰冝\udb4b䕍컬䡙\uf614篺\ue5a4漐\ue8c5ኹ鰑Ǐ较ऍ댼㲔ꙝ\u200fꦇ폕嵨", -939559462, -1568515617), false));
-   private final vkl mhh = this.add(new vkl(a.b("\ue13a题ቃ谿ϸ腞㬊뛫Ⳝꙧ↵\udbbd唓", 312665361), false));
-   private final vkl mhi = this.add(new vkl(a.b("揽ᩭ邴ະ蔔\u03a2릆』깚\u20fbꌶ奈ퟧ个쑿䊃ﳒ真\ueda8毼\ue20e顛ᚗ费\u0b4a", 154429435), true));
-   private final vmc mhj = this.add(new vmc(a.d("멫쏻䤮휦岊\uda3f恠\ued83矎省窢胗ฅ韊ᶘ魨", 486382694, -1367989758), 20.0, 4.0, 40.0, 1.0));
-   private String mhk = "";
-   private long mhl;
-   private Slot mhm;
-   private Slot mhn;
-   private Slot mho;
-   private Slot mhp;
-   private int mhq = -1;
-   private int mhr;
-   private long mhs;
-   private boolean mht;
-   private boolean mhu;
-   private boolean mhv;
+   static final String[] mgs = mil(a.b("⼶图\udc2e䈨짰", 1934437131), a.d("⽿嚷\udc67䈅즹", -1590878761, -968345963));
+   static final String mgt = pfl.title(a.c(-78853994, "첦땮㾾ꆸ⩠곛ᚍ鼋"));
+   static final int mgu = -16711936;
+   static final int mgv = -29696;
+   static final int mgw = -52429;
+   static final int mgx = -16711681;
+   static final int mgy = 75;
+   static final int mgz = 153;
+   static mgl mha;
+   final vlq mhb = this.add(new vlq(a.c(1364434846, "鮏\ue21f棊\uf6c2絮ￅ䆉졹券\udc98孂ꄶ\u2fe8눔"), -1));
+   final vkl mhc = this.add(new vkl(a.c(-1946309766, "꽢훷尦와䧿켾番ﲚ拉"), true));
+   final vkl mhd = this.add(new vkl(a.c(1252869609, "䇙㡴늢Ⲥ꜅↰鿽ሳ谳ۼ腖筝\uf589汇\ue617惨\udecb儏"), false));
+   final vkl mhe = this.add(new vkl(a.d("ভ瀀𥳐擐\uef71槄힉婏쐷仿쥝㍖뷳⁒ꨔ", 1103173673, -1211689559), false));
+   final vkl mhf = this.add(new vkl(a.b("ꚏ\udf22嗴쯲䁓웦碫\uf565欛\ue1a0晵鰈ዕ譭ĳ螽㦝눩⣡꺺✵崙펫䱪쨆", 53650100), false));
+   final vkl mhg = this.add(new vkl(a.d("⠰冝\udb4b䕍컬䡙\uf614篺\ue5a4漐\ue8c5ኹ鰑Ǐ较ऍ댼㲔ꙝ\u200fꦇ폕嵨", -939559462, -1568515617), false));
+   final vkl mhh = this.add(new vkl(a.b("\ue13a题ቃ谿ϸ腞㬊뛫Ⳝꙧ↵\udbbd唓", 312665361), false));
+   final vkl mhi = this.add(new vkl(a.b("揽ᩭ邴ະ蔔\u03a2릆』깚\u20fbꌶ奈ퟧ个쑿䊃ﳒ真\ueda8毼\ue20e顛ᚗ费\u0b4a", 154429435), true));
+   final vmc mhj = this.add(new vmc(a.d("멫쏻䤮휦岊\uda3f恠\ued83矎省窢胗ฅ韊ᶘ魨", 486382694, -1367989758), 20.0, 4.0, 40.0, 1.0));
+   String mhk = "";
+   long mhl;
+   Slot mhm;
+   Slot mhn;
+   Slot mho;
+   Slot mhp;
+   int mhq = -1;
+   int mhr;
+   long mhs;
+   boolean mht;
+   boolean mhu;
+   boolean mhv;
 
    public mgl() {
       super(a.c(1955199244, "鹿胅\u0a00鑦ᾬ餛⍉ꪞ㓬빔㦛쏿䴿"), a.c(-456709628, "⩬叼\ud921䝟첌䨸\uf065禛\ue7d8浮\ueaee\u10cb鸀\u07bc趪ଘ녜㺀ꐷ≷ꮕ퇒彦쓣䊓젌熶ﾯ攔\ue346森阸"), kfa.PLAYER);
@@ -134,7 +134,7 @@ public class mgl extends kfe {
       }
    }
 
-   private void mhy(GenericContainerScreen var1, DrawContext var2, int var3, int var4) {
+   void mhy(GenericContainerScreen var1, DrawContext var2, int var3, int var4) {
       if (!var1.getScreenHandler().getCursorStack().isEmpty()) {
          var1.renderCursorStack(var2, var3, var4);
       } else {
@@ -163,7 +163,7 @@ public class mgl extends kfe {
       }
    }
 
-   private void mhz(MinecraftClient var1) {
+   void mhz(MinecraftClient var1) {
       if (var1.getWindow() == null) {
          this.mhv = false;
       } else {
@@ -187,7 +187,7 @@ public class mgl extends kfe {
       }
    }
 
-   private void mia(MinecraftClient var1) {
+   void mia(MinecraftClient var1) {
       if (var1.player != null && var1.getNetworkHandler() != null) {
          long var2 = System.currentTimeMillis();
          if (var2 - this.mhl >= 500L) {
@@ -216,11 +216,11 @@ public class mgl extends kfe {
       }
    }
 
-   private boolean mib(long var1) {
+   boolean mib(long var1) {
       return pdi.nextFree(0, this.mhj.getInt(), var1) <= var1;
    }
 
-   private String mic(ClientPlayerEntity var1) {
+   String mic(ClientPlayerEntity var1) {
       if (this.mc.currentScreen instanceof HandledScreen var2) {
          Slot var6 = vxl.hovered(var2);
          if (var6 != null && var6.hasStack()) {
@@ -270,7 +270,7 @@ public class mgl extends kfe {
       return this.mhk;
    }
 
-   private boolean mid(GenericContainerScreen var1, DrawContext var2) {
+   boolean mid(GenericContainerScreen var1, DrawContext var2) {
       int var3 = var1.getScreenHandler().syncId;
       if (var3 != this.mhq) {
          this.mih();
@@ -303,7 +303,7 @@ public class mgl extends kfe {
       return var10 | this.mig(var2, this.mho, var9, -52429);
    }
 
-   private void mie(GenericContainerScreen var1, String var2) {
+   void mie(GenericContainerScreen var1, String var2) {
       ArrayList var3 = new ArrayList();
       Slot var4 = null;
       int var5 = Integer.MAX_VALUE;
@@ -350,7 +350,7 @@ public class mgl extends kfe {
       this.mhp = var4;
    }
 
-   private int mif(GenericContainerScreen var1) {
+   int mif(GenericContainerScreen var1) {
       int var2 = 1;
       int var3 = var1.getScreenHandler().getRows();
       int var4 = var3 * 9;
@@ -375,7 +375,7 @@ public class mgl extends kfe {
       return var2;
    }
 
-   private boolean mig(DrawContext var1, Slot var2, int[] var3, int var4) {
+   boolean mig(DrawContext var1, Slot var2, int[] var3, int var4) {
       if (var2 != null && !var2.getStack().isEmpty()) {
          int var5 = 1258291200 | var4 & 16777215;
          int var6 = -1728053248 | var4 & 16777215;
@@ -394,14 +394,14 @@ public class mgl extends kfe {
       }
    }
 
-   private void mih() {
+   void mih() {
       this.mhm = null;
       this.mhn = null;
       this.mho = null;
       this.mhp = null;
    }
 
-   private int[] mii(GenericContainerScreen var1) {
+   int[] mii(GenericContainerScreen var1) {
       int var2 = var1.getScreenHandler().getRows();
       short var3 = 176;
       int var4 = 114 + var2 * 18;
@@ -410,15 +410,15 @@ public class mgl extends kfe {
       return new int[]{var5, var6};
    }
 
-   private static boolean mij(String var0) {
+   static boolean mij(String var0) {
       return mim(var0, mgm);
    }
 
-   private static boolean mik(String var0) {
+   static boolean mik(String var0) {
       return mim(var0, mgn);
    }
 
-   private static String[] mil(String... var0) {
+   static String[] mil(String... var0) {
       String[] var1 = new String[var0.length];
 
       for (int var2 = 0; var2 < var0.length; var2++) {
@@ -428,7 +428,7 @@ public class mgl extends kfe {
       return var1;
    }
 
-   private static boolean mim(String var0, String[] var1) {
+   static boolean mim(String var0, String[] var1) {
       for (String var5 : var1) {
          if (var0.contains(var5)) {
             return true;
@@ -438,7 +438,7 @@ public class mgl extends kfe {
       return false;
    }
 
-   private static boolean min(List<String> var0, String[] var1) {
+   static boolean min(List<String> var0, String[] var1) {
       for (String var3 : var0) {
          if (mim(var3, var1)) {
             return true;
@@ -448,7 +448,7 @@ public class mgl extends kfe {
       return false;
    }
 
-   private static boolean mio(List<String> var0) {
+   static boolean mio(List<String> var0) {
       for (String var2 : var0) {
          if (!mim(var2, mgq) && (mim(var2, mgr) || mim(var2, mgs) && !var2.contains(mgt))) {
             return true;
@@ -458,7 +458,7 @@ public class mgl extends kfe {
       return false;
    }
 
-   private static boolean mip(ItemStack var0, List<String> var1, String var2, String var3) {
+   static boolean mip(ItemStack var0, List<String> var1, String var2, String var3) {
       if (min(var1, mil(var2, var3))) {
          return true;
       }
@@ -479,7 +479,7 @@ public class mgl extends kfe {
       return false;
    }
 
-   private static boolean miq(List<String> var0, String var1, String var2, int var3) {
+   static boolean miq(List<String> var0, String var1, String var2, int var3) {
       String var4 = mir(var3);
       return min(
          var0,
@@ -492,7 +492,7 @@ public class mgl extends kfe {
       );
    }
 
-   private static String mir(int var0) {
+   static String mir(int var0) {
       return switch (var0) {
          case 1 -> a.b("\ue9d2", 82897338);
          case 2 -> a.d("竨͙", -1291992651, 1824897846);
@@ -503,11 +503,11 @@ public class mgl extends kfe {
       };
    }
 
-   private static boolean mis(ItemStack var0) {
+   static boolean mis(ItemStack var0) {
       return mit(var0) || miu(var0) || miv(var0) || miw(var0);
    }
 
-   private static boolean mit(ItemStack var0) {
+   static boolean mit(ItemStack var0) {
       return var0.isOf(Items.NETHERITE_HELMET)
          || var0.isOf(Items.DIAMOND_HELMET)
          || var0.isOf(Items.IRON_HELMET)
@@ -517,7 +517,7 @@ public class mgl extends kfe {
          || var0.isOf(Items.TURTLE_HELMET);
    }
 
-   private static boolean miu(ItemStack var0) {
+   static boolean miu(ItemStack var0) {
       return var0.isOf(Items.NETHERITE_CHESTPLATE)
          || var0.isOf(Items.DIAMOND_CHESTPLATE)
          || var0.isOf(Items.IRON_CHESTPLATE)
@@ -526,7 +526,7 @@ public class mgl extends kfe {
          || var0.isOf(Items.LEATHER_CHESTPLATE);
    }
 
-   private static boolean miv(ItemStack var0) {
+   static boolean miv(ItemStack var0) {
       return var0.isOf(Items.NETHERITE_LEGGINGS)
          || var0.isOf(Items.DIAMOND_LEGGINGS)
          || var0.isOf(Items.IRON_LEGGINGS)
@@ -535,7 +535,7 @@ public class mgl extends kfe {
          || var0.isOf(Items.LEATHER_LEGGINGS);
    }
 
-   private static boolean miw(ItemStack var0) {
+   static boolean miw(ItemStack var0) {
       return var0.isOf(Items.NETHERITE_BOOTS)
          || var0.isOf(Items.DIAMOND_BOOTS)
          || var0.isOf(Items.IRON_BOOTS)

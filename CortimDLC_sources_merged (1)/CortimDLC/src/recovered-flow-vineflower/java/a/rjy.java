@@ -5,7 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class rjy extends kfe {
-   private static rjy rjz;
+   static rjy rjz;
    public final vlv background = this.add(new vlv("Background", "Solid", "Glass", "Liquid", "Solid", "None"));
    public final vmc blur = this.add(new vmc("Blur", 2.0, 0.0, 6.0, 1.0));
    public final vmc opacity = this.add(new vmc("Opacity", 0.45, 0.0, 1.0, 0.05).percent());

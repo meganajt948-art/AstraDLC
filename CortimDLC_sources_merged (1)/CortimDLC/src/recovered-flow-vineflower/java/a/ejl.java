@@ -8,10 +8,10 @@ import sun.misc.Unsafe;
 final class ejl {
    static final Unsafe U = ejo();
 
-   private ejl() {
+   ejl() {
    }
 
-   private static Unsafe ejo() {
+   static Unsafe ejo() {
       try {
          Field var0 = Unsafe.class.getDeclaredField(a.d("꒹\udd14埊즋䉧쓋纊\uf77c椠", -387863115, 483002737));
          var0.setAccessible(true);

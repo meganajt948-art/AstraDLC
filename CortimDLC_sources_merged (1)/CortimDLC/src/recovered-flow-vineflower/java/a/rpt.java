@@ -6,14 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 
 public class rpt extends kfe implements vhe {
-   private final vla rpu = this.add(new vla("Color", "Aurora"));
-   private final vkl rpv = this.add(new vkl("Item color", false));
-   private final vmc rpw = this.add(new vmc("Fill", 0.4, 0.0, 1.0, 0.05).percent());
-   private final vmc rpx = this.add(new vmc("Glow", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vmc rpy = this.add(new vmc("Edge", 0.7, 0.0, 1.0, 0.05).percent());
-   private final vmc rpz = this.add(new vmc("Speed", 1.0, 0.2, 3.0, 0.1).unit("x"));
-   private float rqa;
-   private long rqb;
+   final vla rpu = this.add(new vla("Color", "Aurora"));
+   final vkl rpv = this.add(new vkl("Item color", false));
+   final vmc rpw = this.add(new vmc("Fill", 0.4, 0.0, 1.0, 0.05).percent());
+   final vmc rpx = this.add(new vmc("Glow", 0.6, 0.0, 1.0, 0.05).percent());
+   final vmc rpy = this.add(new vmc("Edge", 0.7, 0.0, 1.0, 0.05).percent());
+   final vmc rpz = this.add(new vmc("Speed", 1.0, 0.2, 3.0, 0.1).unit("x"));
+   float rqa;
+   long rqb;
 
    public rpt() {
       super(new String(new char[]{'S', 'h', 'a', 'd', 'e', 'r', 'H', 'a', 'n', 'd', 's'}), "A soft glow around your hands", kfa.RENDER);
@@ -69,7 +69,7 @@ public class rpt extends kfe implements vhe {
       return new int[]{this.rpu.color() | 0xFF000000, this.rpu.color2() | 0xFF000000};
    }
 
-   private static int rqe(ItemStack var0) {
+   static int rqe(ItemStack var0) {
       if (var0.isEmpty()) {
          return 0;
       } else {

@@ -13,6 +13,6 @@ final class eky {
    static final WorldRenderer WORLD_RENDERER = ejl.allocate(ekv.class);
    static final SearchManager SEARCH = ejl.allocate(ekp.class);
 
-   private eky() {
+   eky() {
    }
 }

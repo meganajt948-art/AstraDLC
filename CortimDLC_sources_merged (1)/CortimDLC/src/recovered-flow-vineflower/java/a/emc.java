@@ -4,9 +4,9 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public final class emc {
-   private final RegistryEntry<StatusEffect> emd;
-   private final int eme;
-   private final int emf;
+   final RegistryEntry<StatusEffect> emd;
+   final int eme;
+   final int emf;
 
    public emc(RegistryEntry<StatusEffect> effect, int level, int duration) {
       this.emd = effect;

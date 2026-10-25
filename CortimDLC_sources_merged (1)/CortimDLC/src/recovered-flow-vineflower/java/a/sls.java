@@ -28,31 +28,31 @@ import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public final class sls {
-   private static final int slt = 4194304;
-   private static final int slu = 48;
-   private static final long slv = 20000L;
-   private static final double slw = 15.0;
-   private static final Pattern slx = Pattern.compile(
+   static final int slt = 4194304;
+   static final int slu = 48;
+   static final long slv = 20000L;
+   static final double slw = 15.0;
+   static final Pattern slx = Pattern.compile(
       "\\s*[(\\[][^)\\]]*(official|video|audio|lyric|visuali[sz]er|music|clip|клип|премьер|\\bhd\\b|\\b4k\\b|\\bmv\\b|m/v|remaster|prod\\.)[^)\\]]*[)\\]]", 258
    );
-   private static final Pattern sly = Pattern.compile("\\s*[(\\[]?\\b(feat\\.?|ft\\.|featuring)\\s+[^)\\]]*[)\\]]?", 258);
-   private static final Pattern slz = Pattern.compile("\\s*(,|&|;|/|\\bfeat\\.?|\\bft\\.)\\s*", 258);
-   private static final ExecutorService sma = Executors.newSingleThreadExecutor(var0 -> {
+   static final Pattern sly = Pattern.compile("\\s*[(\\[]?\\b(feat\\.?|ft\\.|featuring)\\s+[^)\\]]*[)\\]]?", 258);
+   static final Pattern slz = Pattern.compile("\\s*(,|&|;|/|\\bfeat\\.?|\\bft\\.)\\s*", 258);
+   static final ExecutorService sma = Executors.newSingleThreadExecutor(var0 -> {
       Thread var1 = new Thread(var0, "media-text");
       var1.setDaemon(true);
       return var1;
    });
-   private static final Map<String, sle> smb = Collections.synchronizedMap(new LinkedHashMap<String, sle>(16, 0.75F, true) {
+   static final Map<String, sle> smb = Collections.synchronizedMap(new LinkedHashMap<String, sle>(16, 0.75F, true) {
       @Override
       protected boolean removeEldestEntry(Entry<String, sle> var1) {
          return this.size() > 48;
       }
    });
-   private static final Set<String> smc = ConcurrentHashMap.newKeySet();
-   private static final Map<String, Long> smd = new ConcurrentHashMap<>();
-   private static volatile HttpClient sme;
+   static final Set<String> smc = ConcurrentHashMap.newKeySet();
+   static final Map<String, Long> smd = new ConcurrentHashMap<>();
+   static volatile HttpClient sme;
 
-   private sls() {
+   sls() {
    }
 
    public static sle get(String var0, String var1, long var2) {
@@ -83,7 +83,7 @@ public final class sls {
       return null;
    }
 
-   private static sle smh(String var0, String var1, long var2) throws IOException, InterruptedException {
+   static sle smh(String var0, String var1, long var2) throws IOException, InterruptedException {
       String var4 = cleanTitle(var0);
       String var5 = plainArtist(var1);
       String var6 = cleanArtist(var1);
@@ -132,7 +132,7 @@ public final class sls {
       }
    }
 
-   private static JsonArray smi(String var0, String var1) throws IOException, InterruptedException {
+   static JsonArray smi(String var0, String var1) throws IOException, InterruptedException {
       String var2 = var1 != null ? "track_name=" + smq(var0) + "&artist_name=" + smq(var1) : "q=" + smq(var0);
       URI var3 = URI.create(smr() + "?" + var2);
       int var4 = 0;
@@ -165,7 +165,7 @@ public final class sls {
       }
    }
 
-   private static sle smj(JsonArray var0, String var1, String var2, long var3) {
+   static sle smj(JsonArray var0, String var1, String var2, long var3) {
       String var5 = smm(var1);
       String var6 = smm(var2);
       double var7 = Double.MAX_VALUE;
@@ -212,7 +212,7 @@ public final class sls {
       }
    }
 
-   private static double smk(String var0, String var1, double var2, double var4) {
+   static double smk(String var0, String var1, double var2, double var4) {
       if (var0.isEmpty() || var1.isEmpty()) {
          return var2;
       } else if (var0.equals(var1)) {
@@ -256,7 +256,7 @@ public final class sls {
       return var1;
    }
 
-   private static int sml(String var0) {
+   static int sml(String var0) {
       for (String var4 : new String[]{" - ", " – ", " — "}) {
          int var5 = var0.indexOf(var4);
          if (var5 > 0) {
@@ -267,7 +267,7 @@ public final class sls {
       return -1;
    }
 
-   private static String smm(String var0) {
+   static String smm(String var0) {
       if (var0 == null) {
          return "";
       }
@@ -288,17 +288,17 @@ public final class sls {
       return var1.toString();
    }
 
-   private static String smn(JsonObject var0, String var1) {
+   static String smn(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && !var2.isJsonNull() ? var2.getAsString() : "";
    }
 
-   private static boolean smo(JsonObject var0, String var1) {
+   static boolean smo(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && !var2.isJsonNull() && var2.getAsBoolean();
    }
 
-   private static double smp(JsonObject var0, String var1) {
+   static double smp(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
 
       try {
@@ -308,11 +308,11 @@ public final class sls {
       }
    }
 
-   private static String smq(String var0) {
+   static String smq(String var0) {
       return URLEncoder.encode(var0, StandardCharsets.UTF_8);
    }
 
-   private static String smr() {
+   static String smr() {
       return new String(
          new char[]{
             'h', 't', 't', 'p', 's', ':', '/', '/', 'l', 'r', 'c', 'l', 'i', 'b', '.', 'n', 'e', 't', '/', 'a', 'p', 'i', '/', 's', 'e', 'a', 'r', 'c', 'h'
@@ -320,7 +320,7 @@ public final class sls {
       );
    }
 
-   private static HttpClient sms() {
+   static HttpClient sms() {
       HttpClient var0 = sme;
       if (var0 == null) {
          synchronized (sls.class) {

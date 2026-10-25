@@ -7,12 +7,12 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 
 public class reo extends kfe {
-   private final vlv rep = this.add(new vlv("Mode", "Auto", "Auto", "Full"));
-   private final vmc req = this.add(new vmc("Night", 0.25, 0.0, 1.0, 0.05).percent());
-   private final vmc rer = this.add(new vmc("Caves", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vmc res = this.add(new vmc("Strength", 1.0, 0.1, 1.0, 0.05).percent());
-   private double ret = -1.0;
-   private double reu = -1.0;
+   final vlv rep = this.add(new vlv("Mode", "Auto", "Auto", "Full"));
+   final vmc req = this.add(new vmc("Night", 0.25, 0.0, 1.0, 0.05).percent());
+   final vmc rer = this.add(new vmc("Caves", 0.6, 0.0, 1.0, 0.05).percent());
+   final vmc res = this.add(new vmc("Strength", 1.0, 0.1, 1.0, 0.05).percent());
+   double ret = -1.0;
+   double reu = -1.0;
 
    public reo() {
       super(new String(new char[]{'F', 'u', 'l', 'l', 'B', 'r', 'i', 'g', 'h', 't'}), "Brighter nights and caves", kfa.RENDER);
@@ -55,7 +55,7 @@ public class reo extends kfe {
       }
    }
 
-   private double rex(MinecraftClient var1, double var2) {
+   double rex(MinecraftClient var1, double var2) {
       ClientWorld var4 = var1.world;
       BlockPos var5 = var1.player.getBlockPos();
       BlockPos var6 = BlockPos.ofFloored(var1.player.getEyePos());
@@ -71,7 +71,7 @@ public class reo extends kfe {
       return Math.max(var2, var2 + (var19 - var2) * var11);
    }
 
-   private static float rey(MinecraftClient var0) {
+   static float rey(MinecraftClient var0) {
       try {
          Float var1 = var0.gameRenderer.getCamera().getEnvironmentAttributeInterpolator().get(EnvironmentAttributes.SKY_LIGHT_FACTOR_VISUAL, 1.0F);
          return var1 == null ? 1.0F : Math.max(0.0F, Math.min(1.0F, var1));
@@ -80,7 +80,7 @@ public class reo extends kfe {
       }
    }
 
-   private static double rez(double var0, double var2, double var4) {
+   static double rez(double var0, double var2, double var4) {
       double var6 = Math.max(0.0, Math.min(1.0, (var4 - var0) / (var2 - var0)));
       return var6 * var6 * (3.0 - 2.0 * var6);
    }

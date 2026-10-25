@@ -49,26 +49,26 @@ import net.minecraft.world.RaycastContext.ShapeType;
 import net.minecraft.world.chunk.WorldChunk;
 
 public class nmg extends kfe {
-   private static final String nmh = a.b("繤ߜ赇፥颤ḑꑑⶱ돥㤜", 2125168143);
-   private static final String nmi = a.d("晇\u1fff镤\u0b46肇ؿ뱬㗑", -260310604, -974151782);
-   private static final String nmj = a.d("შ楐", 1283661315, 1865813640);
-   private static final String nmk = a.c(-97666056, "뾵영䲢틞夌\udfbe旮\uec6e");
-   private static final String nml = a.b("놑젪䊌\udc88坘톐毉\ue23b簖\uf6a5", 1258927524);
-   private static final String nmm = a.b("敧Ქ阏ࠂ莫Ԝ뽌", -1371512496);
-   private static final String nmn = a.c(1233984232, "ậ杯\uedb4");
-   private static final String nmo = a.c(-402032835, "睈\u0efb萳ᩈ醙");
-   private static final String nmp = a.c(1417472844, "\uef06隲ᰝ艣ৎ謔㕐벦⋸꠸⾛햘孁");
-   private static final String nmq = a.b("ﾭ蘔࣒銳\u196e龧◵걷㈣", -1210254439);
-   private static final String nmr = a.b("敎ᲀ阭ࡖ莅Զ", 65429879);
-   private static final String nms = a.b("龜肿੧鐒ῄ饻", -2022834893);
-   private static final String[] nmt = new String[]{
+   static final String nmh = a.b("繤ߜ赇፥颤ḑꑑⶱ돥㤜", 2125168143);
+   static final String nmi = a.d("晇\u1fff镤\u0b46肇ؿ뱬㗑", -260310604, -974151782);
+   static final String nmj = a.d("შ楐", 1283661315, 1865813640);
+   static final String nmk = a.c(-97666056, "뾵영䲢틞夌\udfbe旮\uec6e");
+   static final String nml = a.b("놑젪䊌\udc88坘톐毉\ue23b簖\uf6a5", 1258927524);
+   static final String nmm = a.b("敧Ქ阏ࠂ莫Ԝ뽌", -1371512496);
+   static final String nmn = a.c(1233984232, "ậ杯\uedb4");
+   static final String nmo = a.c(-402032835, "睈\u0efb萳ᩈ醙");
+   static final String nmp = a.c(1417472844, "\uef06隲ᰝ艣ৎ謔㕐벦⋸꠸⾛햘孁");
+   static final String nmq = a.b("ﾭ蘔࣒銳\u196e龧◵걷㈣", -1210254439);
+   static final String nmr = a.b("敎ᲀ阭ࡖ莅Զ", 65429879);
+   static final String nms = a.b("龜肿੧鐒ῄ饻", -2022834893);
+   static final String[] nmt = new String[]{
       a.c(-1151989219, "อ瞔勒捁\ue8e4湟퀖巶쏓䥨캸㓋멢"),
       a.b("֫籠\uf6b0梱\ue314斡\udff0初졓䊘앁㼳뇦⠩", -1721433628),
       a.b("⡕冞\udb4e䕏컪䡟\uf20e翣\ue5db漝\ue8bfው鱦", 1453075481),
       a.c(1350132863, "恇᧷錮ൕ蚊9멦"),
       a.d("ᨦ掛\ue948眺ﳥ穟쀔䧼", 2027829326, 947200515)
    };
-   private static final String[] nmu = new String[]{
+   static final String[] nmu = new String[]{
       a.d("\uf277诎Ԉ齤ᒾ鈆⡘", 1916029549, -113329120),
       a.c(-1717891486, "\u0a55珬ﴪ机\uecef橔큻姾잢䵣"),
       a.c(-1534417231, "ꊇ\udb3e冚쮉䑁슏碩\uf159漎\ue5b6戒"),
@@ -81,112 +81,112 @@ public class nmg extends kfe {
       a.b("닲쬵䆖\udfee吲", -2031044919),
       a.b("쪁댸㷾\ua7ecⱌ\uaaf9Ⴁ", 1993068219)
    };
-   private static final String[] nmv = new String[]{a.d("䫋㌅릥⟘가⪾郧", 1537211233, 1522447763), a.b("⒣嵢ퟄ䦽쉣", 1214652566)};
-   private static final int nmw = 36;
-   private static final double nmx = 0.75;
-   private static final long nmy = 180000L;
-   private static final long nmz = 120000L;
-   private static final long nna = 110L;
-   private static final long nnb = 360L;
-   private static final long nnc = 260L;
-   private static final long nnd = 4000L;
-   private static final long nne = 4000L;
-   private static final long nnf = 20000L;
-   private static final long nng = 850L;
-   private static final long nnh = 900L;
-   private static final long nni = 3500L;
-   private static final double nnj = 1.4;
-   private static final double nnk = 1500.0;
-   private static final double nnl = 0.75;
-   private static final long nnm = 25000L;
-   private static final int nnn = 3;
-   private static final long nno = 60000L;
-   private static final long nnp = 380L;
-   private static final double nnq = 4.3;
-   private static final long nnr = 60000L;
-   private static final long nns = 1500L;
-   private static final long nnt = 3000L;
-   private static final int nnu = 64;
-   private static final int nnv = 0;
-   private static final int nnw = 1;
-   private static final int nnx = 2;
-   private static final int nny = 3;
-   private static final Field nnz = vxr.find(
+   static final String[] nmv = new String[]{a.d("䫋㌅릥⟘가⪾郧", 1537211233, 1522447763), a.b("⒣嵢ퟄ䦽쉣", 1214652566)};
+   static final int nmw = 36;
+   static final double nmx = 0.75;
+   static final long nmy = 180000L;
+   static final long nmz = 120000L;
+   static final long nna = 110L;
+   static final long nnb = 360L;
+   static final long nnc = 260L;
+   static final long nnd = 4000L;
+   static final long nne = 4000L;
+   static final long nnf = 20000L;
+   static final long nng = 850L;
+   static final long nnh = 900L;
+   static final long nni = 3500L;
+   static final double nnj = 1.4;
+   static final double nnk = 1500.0;
+   static final double nnl = 0.75;
+   static final long nnm = 25000L;
+   static final int nnn = 3;
+   static final long nno = 60000L;
+   static final long nnp = 380L;
+   static final double nnq = 4.3;
+   static final long nnr = 60000L;
+   static final long nns = 1500L;
+   static final long nnt = 3000L;
+   static final int nnu = 64;
+   static final int nnv = 0;
+   static final int nnw = 1;
+   static final int nnx = 2;
+   static final int nny = 3;
+   static final Field nnz = vxr.find(
       ClientPlayerEntity.class, a.c(1576694976, "璹ഃ蟁᧪鉾ᓋ꺟❥뤼㎜둜个샯处팚嗤\uefa6恥𥳐粫\uf534车Ǘ"), a.d("\uef78集ᰙ艡া輴㔋볰⊢ꠖ", -55873425, -330457221), a.c(992488130, "⪅")
    );
-   private static final Field noa = vxr.find(
+   static final Field noa = vxr.find(
       ClientPlayerEntity.class, a.b("㭄䋾젼嘗\udd83嬶\ue162梘\uf6c1籡ﮡǗ輒\u16f9鳧ᨙꁛ⾘딫㍖뫉삛个", 1847540541), a.b("ꯥ퉛墄웼䴣쮩熖\uf86d昹\uec8f", -412177527), a.b("ᖝ", -508881446)
    );
-   private static nmg nob;
-   private final vmc noc = this.add(new vmc(a.c(-1501869311, "伖㚂뱟∭귯⼾镦᳡芹ࠂ"), 5.0, 1.0, 50.0, 1.0).suffix(a.c(-1002632484, "\u0af8")));
-   private final vmc nod = this.add(new vmc(a.d("濓ᘆ鲮˗褃࿆떖㱩Ꙛ⢌꼨唩", -1464656866, -950765600), 60.0, 0.0, 100.0, 5.0).suffix(a.d("\uea7d", 1228273941, 28906316)));
-   private final vkl noe = this.add(new vkl(a.d("乢㟈뵧⍥ꢳ\u2e72遁᷒菱ै躘", -798940136, -1107988908), false));
-   private final vmc nof = this.add(new vmc(a.b("\ue533鲣ᙶ衾ϒ蕧㼸닛⢖\ua635◺\udf8f兝좒䋀쐰", 1029759292), 20.0, 4.0, 40.0, 1.0));
-   private final vkl nog = this.add(new vkl(a.b("\ue04a駔ᜐ贀ە耚㩀돆ⷠꝕ₊", 929686617), true));
-   private nmc noh = nmc.IDLE;
-   private long noi;
-   private long noj;
-   private long nok;
-   private long nol;
-   private long nom = -1L;
-   private int non = 0;
-   private long noo;
-   private long nop;
-   private long noq = 360L;
-   private long nor;
-   private long nos;
-   private int not;
-   private long nou;
-   private int nov;
-   private int now = 8;
-   private boolean nox;
-   private ItemStack noy = ItemStack.EMPTY;
-   private String noz = "";
-   private String npa = "";
-   private final Set<String> npb = new HashSet<>();
-   private final Map<String, long[]> npc = new HashMap<>();
-   private int npd = -1;
-   private int npe;
-   private int npf;
-   private long npg;
-   private boolean nph;
-   private int npi = -1;
-   private int npj = -1;
-   private int npk = -1;
-   private int npl = -1;
-   private boolean npm;
-   private final vyn npn = new vyn();
-   private long npo;
-   private long npp;
-   private boolean npq;
-   private int npr = -1;
-   private int nps = -1;
-   private long npt;
-   private int npu = 0;
-   private String npv = "";
-   private final Map<BlockPos, Long> npw = new HashMap<>();
-   private BlockPos npx;
-   private BlockPos npy;
-   private Vec3d npz;
-   private double nqa;
-   private double nqb;
-   private double nqc;
-   private int nqd;
-   private long nqe;
-   private boolean nqf;
-   private int nqg;
-   private int nqh;
-   private int nqi;
-   private int nqj = -1;
-   private int nqk = -1;
-   private ItemStack[] nql;
-   private final boolean[] nqm = new boolean[9];
-   private boolean nqn;
-   private final pgi nqo = new pgi();
-   private final pjw nqp = new pjw();
-   private ClientPlayerEntity nqq;
-   private boolean nqr;
-   private long nqs;
+   static nmg nob;
+   final vmc noc = this.add(new vmc(a.c(-1501869311, "伖㚂뱟∭귯⼾镦᳡芹ࠂ"), 5.0, 1.0, 50.0, 1.0).suffix(a.c(-1002632484, "\u0af8")));
+   final vmc nod = this.add(new vmc(a.d("濓ᘆ鲮˗褃࿆떖㱩Ꙛ⢌꼨唩", -1464656866, -950765600), 60.0, 0.0, 100.0, 5.0).suffix(a.d("\uea7d", 1228273941, 28906316)));
+   final vkl noe = this.add(new vkl(a.d("乢㟈뵧⍥ꢳ\u2e72遁᷒菱ै躘", -798940136, -1107988908), false));
+   final vmc nof = this.add(new vmc(a.b("\ue533鲣ᙶ衾ϒ蕧㼸닛⢖\ua635◺\udf8f兝좒䋀쐰", 1029759292), 20.0, 4.0, 40.0, 1.0));
+   final vkl nog = this.add(new vkl(a.b("\ue04a駔ᜐ贀ە耚㩀돆ⷠꝕ₊", 929686617), true));
+   nmc noh = nmc.IDLE;
+   long noi;
+   long noj;
+   long nok;
+   long nol;
+   long nom = -1L;
+   int non = 0;
+   long noo;
+   long nop;
+   long noq = 360L;
+   long nor;
+   long nos;
+   int not;
+   long nou;
+   int nov;
+   int now = 8;
+   boolean nox;
+   ItemStack noy = ItemStack.EMPTY;
+   String noz = "";
+   String npa = "";
+   final Set<String> npb = new HashSet<>();
+   final Map<String, long[]> npc = new HashMap<>();
+   int npd = -1;
+   int npe;
+   int npf;
+   long npg;
+   boolean nph;
+   int npi = -1;
+   int npj = -1;
+   int npk = -1;
+   int npl = -1;
+   boolean npm;
+   final vyn npn = new vyn();
+   long npo;
+   long npp;
+   boolean npq;
+   int npr = -1;
+   int nps = -1;
+   long npt;
+   int npu = 0;
+   String npv = "";
+   final Map<BlockPos, Long> npw = new HashMap<>();
+   BlockPos npx;
+   BlockPos npy;
+   Vec3d npz;
+   double nqa;
+   double nqb;
+   double nqc;
+   int nqd;
+   long nqe;
+   boolean nqf;
+   int nqg;
+   int nqh;
+   int nqi;
+   int nqj = -1;
+   int nqk = -1;
+   ItemStack[] nql;
+   final boolean[] nqm = new boolean[9];
+   boolean nqn;
+   final pgi nqo = new pgi();
+   final pjw nqp = new pjw();
+   ClientPlayerEntity nqq;
+   boolean nqr;
+   long nqs;
 
    public nmg() {
       super(a.d("凐⡕ꊇ㳭뜆ㆁ诛Ȫ", 1739780492, -385048555), a.c(512599125, "ꐮ\udda9坳줂䋊쐨縢\uf7c5榀\ue336撷麏ၟ觶ζ蕌㼙냓⩽갧▉得턥䪺쳊䙕\uffef燶\ueb54洞\ue6a7ᡷ鈯\u0b8c趒ܯ룫㊃둞ⷾ"), kfa.PLAYER);
@@ -314,7 +314,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nqv(Text var1) {
+   void nqv(Text var1) {
       if (this.noh != nmc.IDLE && !this.nrs() && System.currentTimeMillis() - this.noo <= 4000L) {
          String var2 = nto(var1.getString());
          if (!var2.isEmpty()) {
@@ -330,7 +330,7 @@ public class nmg extends kfe {
       }
    }
 
-   private boolean nqw() {
+   boolean nqw() {
       PlayerInventory var1 = this.mc.player.getInventory();
 
       for (int var2 = 0; var2 < 2; var2++) {
@@ -369,7 +369,7 @@ public class nmg extends kfe {
       return false;
    }
 
-   private boolean nqx(int var1) {
+   boolean nqx(int var1) {
       if (var1 == this.npk) {
          return false;
       } else {
@@ -377,7 +377,7 @@ public class nmg extends kfe {
       }
    }
 
-   private boolean nqy(int var1) {
+   boolean nqy(int var1) {
       if (!this.nqm[var1]) {
          return false;
       } else if (this.mc.player.getInventory().getStack(var1).isEmpty()) {
@@ -388,7 +388,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nqz(String var1, boolean var2, boolean var3) {
+   void nqz(String var1, boolean var2, boolean var3) {
       if (var3 && !this.noz.isEmpty()) {
          this.npb.add(this.noz);
       }
@@ -417,7 +417,7 @@ public class nmg extends kfe {
       this.nul(nmc.IDLE);
    }
 
-   private void nra() {
+   void nra() {
       this.nun(
          this.npe > 0
             ? wap.s(a.d("閘\uec02曐\uf8aa猴\uf589侖왤堠튖唌꽧", 1170604283, -1443654357), a.d("踸\uf7a4紋\ue306棝\uee60倡\ud9dc䎘줬亃뒎㩕\ua7ecⶥ", 1967025482, -1392973970))
@@ -429,7 +429,7 @@ public class nmg extends kfe {
       this.nul(nmc.RESTORE);
    }
 
-   private void nrb() {
+   void nrb() {
       if (!this.ntv()) {
          PlayerInventory var1 = this.mc.player.getInventory();
          if (this.nqx(var1.getSelectedSlot()) && ntj(this.mc.player.getMainHandStack(), this.noy)) {
@@ -459,7 +459,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrc() {
+   void nrc() {
       this.nty();
       if (!this.ntv()) {
          String var1 = cleanQuery(this.mc.player.getMainHandStack().getName().getString());
@@ -487,7 +487,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrd() {
+   void nrd() {
       this.nty();
       if (this.npu == 3) {
          this.nrm();
@@ -516,7 +516,7 @@ public class nmg extends kfe {
       }
    }
 
-   private List<ItemStack> nre() {
+   List<ItemStack> nre() {
       if (this.npq && this.mc.currentScreen instanceof HandledScreen) {
          ScreenHandler var1 = this.mc.player.currentScreenHandler;
          if (var1 instanceof GenericContainerScreenHandler && var1.syncId != this.npr) {
@@ -551,7 +551,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrf(List<ItemStack> var1, long var2) {
+   void nrf(List<ItemStack> var1, long var2) {
       this.nrg(this.noz, this.nsz(var1, this.noy), var2);
       String var4 = this.npa;
       PlayerInventory var5 = this.mc.player.getInventory();
@@ -569,16 +569,16 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrg(String var1, int var2, long var3) {
+   void nrg(String var1, int var2, long var3) {
       this.npc.put(var1, new long[]{var2 > 0 ? var2 : -1L, var3});
    }
 
-   private long[] nrh(String var1, long var2, long var4) {
+   long[] nrh(String var1, long var2, long var4) {
       long[] var6 = this.npc.get(var1);
       return var6 != null && var2 - var6[1] < var4 ? var6 : null;
    }
 
-   private void nri() {
+   void nri() {
       this.nty();
       long var1 = System.currentTimeMillis();
       if (var1 < this.nou && this.mc.currentScreen instanceof HandledScreen) {
@@ -622,7 +622,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrj() {
+   void nrj() {
       this.nty();
       if (!this.ntv()) {
          if (this.npu == 3) {
@@ -660,7 +660,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrk() {
+   void nrk() {
       if (!this.ntv()) {
          PlayerInventory var1 = this.mc.player.getInventory();
          if (this.npj >= 0 && this.npk >= 0) {
@@ -690,7 +690,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrl() {
+   void nrl() {
       boolean var1 = this.nph;
       this.num();
       if (var1) {
@@ -698,7 +698,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrm() {
+   void nrm() {
       this.npu = 0;
       this.npv = "";
       this.npd = -1;
@@ -732,13 +732,13 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrn() {
+   void nrn() {
       if (System.currentTimeMillis() >= this.npo) {
          this.nul(nmc.AH_OPEN);
       }
    }
 
-   private void nro() {
+   void nro() {
       if (!this.ntv()) {
          long var1 = System.currentTimeMillis();
          if (this.nud(var1, 0)) {
@@ -750,7 +750,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrp() {
+   void nrp() {
       int var1 = this.nrt(a.b("臧\uf853狰\uec8c杞\ue1ec宼툼", 1830716842));
       if (var1 >= 0 && this.nrv() && this.ntx()) {
          this.ntz(var1, SlotActionType.PICKUP, 0);
@@ -759,7 +759,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrq() {
+   void nrq() {
       int var1 = this.nrt(a.c(1019336349, "튨ꬓ↵뾱㑡늩ࣰ脂Ἧ閜"));
       if (var1 >= 0 && this.nrv() && this.ntx()) {
          int var2 = this.nru();
@@ -781,7 +781,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nrr() {
+   void nrr() {
       this.nty();
       this.npu = 0;
       this.npv = "";
@@ -792,11 +792,11 @@ public class nmg extends kfe {
       this.nul(this.noy.isEmpty() ? nmc.IDLE : nmc.TAKE);
    }
 
-   private boolean nrs() {
+   boolean nrs() {
       return this.noh == nmc.FULL_WAIT || this.noh == nmc.AH_OPEN || this.noh == nmc.AH_STORAGE || this.noh == nmc.AH_RELIST;
    }
 
-   private int nrt(String var1) {
+   int nrt(String var1) {
       ClientPlayerEntity var2 = this.mc.player;
       ScreenHandler var3 = var2.currentScreenHandler;
       if (this.mc.currentScreen instanceof HandledScreen && var3 != null && var3 != var2.playerScreenHandler) {
@@ -818,7 +818,7 @@ public class nmg extends kfe {
       }
    }
 
-   private int nru() {
+   int nru() {
       ScreenHandler var1 = this.mc.player.currentScreenHandler;
       int var2 = var1.slots.size() - 36;
       int var3 = 0;
@@ -832,7 +832,7 @@ public class nmg extends kfe {
       return var3;
    }
 
-   private boolean nrv() {
+   boolean nrv() {
       if (this.npp != 0L) {
          return true;
       }
@@ -845,7 +845,7 @@ public class nmg extends kfe {
       return false;
    }
 
-   private boolean nrw() {
+   boolean nrw() {
       if (!this.nog.get()) {
          return false;
       }
@@ -890,7 +890,7 @@ public class nmg extends kfe {
       }
    }
 
-   private BlockPos nrx(long var1) {
+   BlockPos nrx(long var1) {
       ClientWorld var3 = this.mc.world;
       ClientPlayerEntity var4 = this.mc.player;
       Vec3d var5 = var4.getEyePos();
@@ -935,7 +935,7 @@ public class nmg extends kfe {
       return var8;
    }
 
-   private void nry() {
+   void nry() {
       ClientPlayerEntity var1 = this.mc.player;
       long var2 = System.currentTimeMillis();
       ClientWorld var4 = this.mc.world;
@@ -972,7 +972,7 @@ public class nmg extends kfe {
       }
    }
 
-   private boolean nrz(World var1, ScreenHandler var2, long var3) {
+   boolean nrz(World var1, ScreenHandler var2, long var3) {
       if (var2 instanceof GenericContainerScreenHandler var5 && var3 - this.nqe <= 3000L && this.npx != null) {
          int var6 = nss(var1, this.npx) != null ? 6 : 3;
          if (var5.getRows() != var6) {
@@ -986,7 +986,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nsa(long var1) {
+   void nsa(long var1) {
       PlayerInventory var3 = this.mc.player.getInventory();
       this.nqk = this.mc.player.currentScreenHandler.syncId;
       this.nql = new ItemStack[9];
@@ -1003,7 +1003,7 @@ public class nmg extends kfe {
       this.nul(nmc.CHEST_LOOT);
    }
 
-   private void nsb() {
+   void nsb() {
       ClientPlayerEntity var1 = this.mc.player;
       long var2 = System.currentTimeMillis();
       ScreenHandler var4 = var1.currentScreenHandler;
@@ -1059,7 +1059,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nsc(long var1, String var3, boolean var4, int var5) {
+   void nsc(long var1, String var3, boolean var4, int var5) {
       if (this.npy != null) {
          this.npw.put(this.npy, var1);
       }
@@ -1093,14 +1093,14 @@ public class nmg extends kfe {
       this.nul(nmc.IDLE);
    }
 
-   private void nsd() {
+   void nsd() {
       ClientPlayerEntity var1 = this.mc.player;
       if (var1.currentScreenHandler != var1.playerScreenHandler) {
          var1.closeHandledScreen();
       }
    }
 
-   private BlockHitResult nse(ClientPlayerEntity var1, float var2, float var3) {
+   BlockHitResult nse(ClientPlayerEntity var1, float var2, float var3) {
       Vec3d var4 = var1.getEyePos();
       Vec3d var5 = Vec3d.fromPolar(var3, var2);
       Vec3d var6 = var4.add(var5.multiply(var1.getBlockInteractionRange()));
@@ -1108,7 +1108,7 @@ public class nmg extends kfe {
       return var7.getType() == Type.BLOCK ? var7 : null;
    }
 
-   private void nsf() {
+   void nsf() {
       GameOptions var1 = this.mc.options;
       if (var1 != null) {
          var1.useKey.setPressed(true);
@@ -1116,7 +1116,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nsg() {
+   void nsg() {
       if (this.nqf) {
          this.nqf = false;
          if (this.mc.options != null && this.mc.getWindow() != null) {
@@ -1125,7 +1125,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nsh() {
+   void nsh() {
       GameOptions var1 = this.mc.options;
       if (var1 != null) {
          while (var1.attackKey.wasPressed()) {
@@ -1136,14 +1136,14 @@ public class nmg extends kfe {
       }
    }
 
-   private void nsi() {
+   void nsi() {
       if (!this.npm) {
          this.npm = true;
          this.npn.hold(this.mc);
       }
    }
 
-   private void nsj(ClientPlayerEntity var1) {
+   void nsj(ClientPlayerEntity var1) {
       if (this.nqq != var1) {
          this.nqq = var1;
          this.nqp.personalize(nsn(var1.getGameProfile().name()));
@@ -1157,7 +1157,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nsk(Vec3d var1, double var2) {
+   void nsk(Vec3d var1, double var2) {
       float[] var4 = prt.calculateAngle(var1);
       this.nqp.setMouseStep(prp.step());
       this.nqp.aim(var4[0], var4[1], var2);
@@ -1165,7 +1165,7 @@ public class nmg extends kfe {
       this.nqr = true;
    }
 
-   private void nsl() {
+   void nsl() {
       if (this.nqr) {
          this.nqr = false;
          this.nqs = System.currentTimeMillis();
@@ -1173,11 +1173,11 @@ public class nmg extends kfe {
       }
    }
 
-   private boolean nsm() {
+   boolean nsm() {
       return !this.nqr && pud.INSTANCE.engaged() && System.currentTimeMillis() - this.nqs > 1000L;
    }
 
-   private static long nsn(String var0) {
+   static long nsn(String var0) {
       long var1 = 1125899906842597L;
       if (var0 != null) {
          for (int var3 = 0; var3 < var0.length(); var3++) {
@@ -1188,7 +1188,7 @@ public class nmg extends kfe {
       return var1;
    }
 
-   private Vec3d nso(BlockPos var1) {
+   Vec3d nso(BlockPos var1) {
       ClientPlayerEntity var2 = this.mc.player;
       ClientWorld var3 = this.mc.world;
       Vec3d var4 = var2.getEyePos();
@@ -1214,7 +1214,7 @@ public class nmg extends kfe {
       return null;
    }
 
-   private double nsp(World var1, BlockPos var2, Vec3d var3) {
+   double nsp(World var1, BlockPos var2, Vec3d var3) {
       VoxelShape var4 = var1.getBlockState(var2).getOutlineShape(var1, var2);
       Box var5 = var4.isEmpty() ? new Box(var2) : var4.getBoundingBox().offset(var2);
       double var6 = Math.min(
@@ -1229,28 +1229,28 @@ public class nmg extends kfe {
       return MathHelper.clamp(Math.toDegrees(Math.atan2(var6, var8)) * 0.55, 0.25, 4.0);
    }
 
-   private boolean nsq(World var1, BlockPos var2) {
+   boolean nsq(World var1, BlockPos var2) {
       return var2 != null && this.npx != null ? var2.equals(this.npx) || var2.equals(nss(var1, this.npx)) : false;
    }
 
-   private static boolean nsr(World var0, BlockPos var1) {
+   static boolean nsr(World var0, BlockPos var1) {
       BlockEntity var2 = var0.getBlockEntity(var1);
       return var2 instanceof ChestBlockEntity || var2 instanceof BarrelBlockEntity;
    }
 
-   private static BlockPos nss(World var0, BlockPos var1) {
+   static BlockPos nss(World var0, BlockPos var1) {
       BlockState var2 = var0.getBlockState(var1);
       return var2.getBlock() instanceof ChestBlock && var2.contains(ChestBlock.CHEST_TYPE) && var2.get(ChestBlock.CHEST_TYPE) != ChestType.SINGLE
          ? var1.offset(ChestBlock.getFacing(var2))
          : null;
    }
 
-   private static BlockPos nst(World var0, BlockPos var1) {
+   static BlockPos nst(World var0, BlockPos var1) {
       BlockPos var2 = nss(var0, var1);
       return (var2 != null && var2.asLong() < var1.asLong() ? var2 : var1).toImmutable();
    }
 
-   private static boolean nsu(World var0, BlockPos var1) {
+   static boolean nsu(World var0, BlockPos var1) {
       if (!(var0.getBlockState(var1).getBlock() instanceof ChestBlock)) {
          return false;
       }
@@ -1259,7 +1259,7 @@ public class nmg extends kfe {
       return ChestBlock.isChestBlocked(var0, var1) || var2 != null && ChestBlock.isChestBlocked(var0, var2);
    }
 
-   private static int nsv(PlayerInventory var0) {
+   static int nsv(PlayerInventory var0) {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {
@@ -1272,13 +1272,13 @@ public class nmg extends kfe {
       return var1;
    }
 
-   private static double nsw(int var0, int var1) {
+   static double nsw(int var0, int var1) {
       int var2 = var0 % 9 - var1 % 9;
       int var3 = var0 / 9 - var1 / 9;
       return Math.sqrt(var2 * var2 + var3 * var3);
    }
 
-   private static boolean nsx(PlayerInventory var0, ItemStack var1) {
+   static boolean nsx(PlayerInventory var0, ItemStack var1) {
       for (int var2 = 0; var2 < 36; var2++) {
          ItemStack var3 = var0.getStack(var2);
          if (var3.isEmpty()) {
@@ -1293,7 +1293,7 @@ public class nmg extends kfe {
       return false;
    }
 
-   private static boolean nsy(PlayerInventory var0) {
+   static boolean nsy(PlayerInventory var0) {
       for (int var1 = 0; var1 < 36; var1++) {
          if (var0.getStack(var1).isEmpty()) {
             return true;
@@ -1303,7 +1303,7 @@ public class nmg extends kfe {
       return false;
    }
 
-   private int nsz(List<ItemStack> var1, ItemStack var2) {
+   int nsz(List<ItemStack> var1, ItemStack var2) {
       int var3 = this.nta(var1, var2, 0);
       if (var3 <= 0) {
          var3 = this.nta(var1, var2, 1);
@@ -1316,7 +1316,7 @@ public class nmg extends kfe {
       return var3;
    }
 
-   private int nta(List<ItemStack> var1, ItemStack var2, int var3) {
+   int nta(List<ItemStack> var1, ItemStack var2, int var3) {
       int var4 = Math.max(0, var1.size() - 36);
       String var5 = nto(this.mc.player.getGameProfile().name());
       Map var6 = ntk(var2);
@@ -1348,7 +1348,7 @@ public class nmg extends kfe {
       return var11;
    }
 
-   private boolean ntb(ItemStack var1, ItemStack var2, Map<String, Integer> var3, int var4) {
+   boolean ntb(ItemStack var1, ItemStack var2, Map<String, Integer> var3, int var4) {
       if (var1.getItem() != var2.getItem()) {
          return false;
       }
@@ -1371,7 +1371,7 @@ public class nmg extends kfe {
       return var4 != 0 ? ntd(var3, var7) >= this.nod.get() / 100.0 : var3.equals(var7) && ntc(var1, var2);
    }
 
-   private static boolean ntc(ItemStack var0, ItemStack var1) {
+   static boolean ntc(ItemStack var0, ItemStack var1) {
       List var2 = ntn(var1);
       if (var2.size() <= 1) {
          return true;
@@ -1389,7 +1389,7 @@ public class nmg extends kfe {
       return true;
    }
 
-   private static double ntd(Map<String, Integer> var0, Map<String, Integer> var1) {
+   static double ntd(Map<String, Integer> var0, Map<String, Integer> var1) {
       if (var0.isEmpty() && var1.isEmpty()) {
          return 1.0;
       }
@@ -1410,7 +1410,7 @@ public class nmg extends kfe {
       }
    }
 
-   private static int nte(List<String> var0, String var1) {
+   static int nte(List<String> var0, String var1) {
       int var2 = -1;
       int var3 = 0;
 
@@ -1447,7 +1447,7 @@ public class nmg extends kfe {
       return var2;
    }
 
-   private static int ntf(String var0, int var1) {
+   static int ntf(String var0, int var1) {
       long var2 = 0L;
       boolean var4 = false;
 
@@ -1468,11 +1468,11 @@ public class nmg extends kfe {
       return var4 && var2 > 0L ? (int)var2 : -1;
    }
 
-   private static boolean ntg(char var0) {
+   static boolean ntg(char var0) {
       return var0 == ' ' || var0 == ',' || var0 == '.' || var0 == 160 || var0 == 8239;
    }
 
-   private static long nth(long var0) {
+   static long nth(long var0) {
       long var2 = var0;
 
       for (long var4 = 10L; var4 <= 10000L && var0 / var4 >= 10L; var4 *= 10L) {
@@ -1487,15 +1487,15 @@ public class nmg extends kfe {
       return var2;
    }
 
-   private static String nti(ItemStack var0) {
+   static String nti(ItemStack var0) {
       return String.valueOf(var0.getItem()) + '|' + nto(var0.getName().getString()) + '|' + ntm(var0);
    }
 
-   private static boolean ntj(ItemStack var0, ItemStack var1) {
+   static boolean ntj(ItemStack var0, ItemStack var1) {
       return var0 != null && var1 != null && !var0.isEmpty() && !var1.isEmpty() ? var0.getItem() == var1.getItem() && nti(var0).equals(nti(var1)) : false;
    }
 
-   private static Map<String, Integer> ntk(ItemStack var0) {
+   static Map<String, Integer> ntk(ItemStack var0) {
       TreeMap var1 = new TreeMap();
       if (var0 != null && !var0.isEmpty()) {
          try {
@@ -1510,7 +1510,7 @@ public class nmg extends kfe {
       }
    }
 
-   private static void ntl(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
+   static void ntl(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
       if (var0 != null && !var0.isEmpty()) {
          for (RegistryEntry var3 : var0.getEnchantments()) {
             String var4 = var3.getKey().map(var0x -> var0x.getValue().getPath()).orElse("");
@@ -1521,7 +1521,7 @@ public class nmg extends kfe {
       }
    }
 
-   private static String ntm(ItemStack var0) {
+   static String ntm(ItemStack var0) {
       StringBuilder var1 = new StringBuilder();
 
       for (Entry var3 : ntk(var0).entrySet()) {
@@ -1531,7 +1531,7 @@ public class nmg extends kfe {
       return var1.toString();
    }
 
-   private static List<String> ntn(ItemStack var0) {
+   static List<String> ntn(ItemStack var0) {
       ArrayList var1 = new ArrayList();
 
       try {
@@ -1550,7 +1550,7 @@ public class nmg extends kfe {
       return var1;
    }
 
-   private static String nto(String var0) {
+   static String nto(String var0) {
       if (var0 != null && !var0.isEmpty()) {
          StringBuilder var1 = new StringBuilder(var0.length());
 
@@ -1596,12 +1596,12 @@ public class nmg extends kfe {
       return var1.toString().trim();
    }
 
-   private static boolean ntp(String var0) {
+   static boolean ntp(String var0) {
       String var1 = pfl.title(var0);
       return var1.contains(a.d("\udb1bꊯ⠌뙰㶢묐ŀ裀", 1287447561, -1156564129)) && ntq(var1, nmv);
    }
 
-   private static boolean ntq(String var0, String[] var1) {
+   static boolean ntq(String var0, String[] var1) {
       for (String var5 : var1) {
          if (var0.contains(var5)) {
             return true;
@@ -1611,7 +1611,7 @@ public class nmg extends kfe {
       return false;
    }
 
-   private int ntr() {
+   int ntr() {
       PlayerInventory var1 = this.mc.player.getInventory();
       int var2 = -1;
       int var3 = 0;
@@ -1629,7 +1629,7 @@ public class nmg extends kfe {
       return var2;
    }
 
-   private int nts() {
+   int nts() {
       PlayerInventory var1 = this.mc.player.getInventory();
       int var2 = 0;
 
@@ -1645,7 +1645,7 @@ public class nmg extends kfe {
       return var2;
    }
 
-   private int ntt() {
+   int ntt() {
       if (this.npi >= 0) {
          return this.npi;
       }
@@ -1662,11 +1662,11 @@ public class nmg extends kfe {
       return var2.isEmpty() ? var1.getSelectedSlot() : (Integer)var2.get(ThreadLocalRandom.current().nextInt(var2.size()));
    }
 
-   private static int ntu(int var0) {
+   static int ntu(int var0) {
       return var0 < 9 ? 36 + var0 : var0;
    }
 
-   private boolean ntv() {
+   boolean ntv() {
       Screen var1 = this.mc.currentScreen;
       if (var1 == null) {
          return false;
@@ -1685,12 +1685,12 @@ public class nmg extends kfe {
       return true;
    }
 
-   private boolean ntw() {
+   boolean ntw() {
       ClientPlayerEntity var1 = this.mc.player;
       return var1.currentScreenHandler != var1.playerScreenHandler ? false : this.ntx();
    }
 
-   private boolean ntx() {
+   boolean ntx() {
       if (!this.nqr && (!pud.INSTANCE.engaged() || System.currentTimeMillis() - this.nqs >= 1000L)) {
          if (!this.nub()) {
             return false;
@@ -1705,14 +1705,14 @@ public class nmg extends kfe {
       }
    }
 
-   private void nty() {
+   void nty() {
       if (this.npm) {
          this.npn.release(this.mc);
          this.npm = false;
       }
    }
 
-   private void ntz(int var1, SlotActionType var2, int var3) {
+   void ntz(int var1, SlotActionType var2, int var3) {
       ClientPlayerEntity var4 = this.mc.player;
       if (var4 != null && this.mc.interactionManager != null) {
          ScreenHandler var5 = var4.currentScreenHandler;
@@ -1723,7 +1723,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nua(String var1) {
+   void nua(String var1) {
       if (this.mc.getNetworkHandler() != null) {
          this.mc.getNetworkHandler().sendChatCommand(var1);
          long var2 = System.currentTimeMillis();
@@ -1733,7 +1733,7 @@ public class nmg extends kfe {
       }
    }
 
-   private boolean nub() {
+   boolean nub() {
       long var1 = System.currentTimeMillis();
       if (var1 < this.noj) {
          return false;
@@ -1743,7 +1743,7 @@ public class nmg extends kfe {
       return true;
    }
 
-   private long nuc() {
+   long nuc() {
       double var1 = nui(1.0 + ThreadLocalRandom.current().nextGaussian() * 0.22, 0.72, 1.8);
       long var3 = (long)(110.0 * var1);
       if (ThreadLocalRandom.current().nextInt(100) < 6) {
@@ -1753,7 +1753,7 @@ public class nmg extends kfe {
       return var3 + ThreadLocalRandom.current().nextLong(10L, 60L);
    }
 
-   private boolean nud(long var1, int var3) {
+   boolean nud(long var1, int var3) {
       if (this.nom < 0L || this.non != var3) {
          this.nom = this.nue(var3);
          this.non = var3;
@@ -1784,7 +1784,7 @@ public class nmg extends kfe {
       return false;
    }
 
-   private long nue(int var1) {
+   long nue(int var1) {
       if (var1 == 1) {
          return this.nqo.draw(3, 1.4);
       }
@@ -1793,15 +1793,15 @@ public class nmg extends kfe {
       return this.nqo.draw(4, var2 * 0.75 / 1500.0);
    }
 
-   private static long nuf() {
+   static long nuf() {
       return nuh(850L, 0.35, 450L, 3000L);
    }
 
-   private static int nug() {
+   static int nug() {
       return 14 + ThreadLocalRandom.current().nextInt(11);
    }
 
-   private static long nuh(long var0, double var2, long var4, long var6) {
+   static long nuh(long var0, double var2, long var4, long var6) {
       ThreadLocalRandom var8 = ThreadLocalRandom.current();
       long var9 = var0;
 
@@ -1815,11 +1815,11 @@ public class nmg extends kfe {
       return Math.max(var4, Math.min(var6, var9));
    }
 
-   private static double nui(double var0, double var2, double var4) {
+   static double nui(double var0, double var2, double var4) {
       return var0 < var2 ? var2 : (var0 > var4 ? var4 : var0);
    }
 
-   private boolean nuj() {
+   boolean nuj() {
       this.npu = 0;
       this.npq = false;
       if (pdi.warn() >= 2) {
@@ -1847,7 +1847,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nuk() {
+   void nuk() {
       String var1 = this.npv;
       String var2 = var1.isEmpty()
          ? wap.s(a.c(-1614400983, "㉮䯣섽弉풟刺\ue87f憙ￛ畬\uf2beࢁ蘄ᾢ闲ጐ\ua959⚞밬"), a.d("\ue3f6騔Ⴞ躳Ԛ莭㧽됑⹐꒝⌶\ud94d垝츫䑳", -555690841, 1592210254))
@@ -1860,7 +1860,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void nul(nmc var1) {
+   void nul(nmc var1) {
       if (this.noh != var1) {
          this.noh = var1;
          this.noi = System.currentTimeMillis();
@@ -1868,7 +1868,7 @@ public class nmg extends kfe {
       }
    }
 
-   private void num() {
+   void num() {
       this.nty();
       this.nsg();
       this.nsl();
@@ -1900,7 +1900,7 @@ public class nmg extends kfe {
       this.npl = -1;
    }
 
-   private void nun(String var1, boolean var2) {
+   void nun(String var1, boolean var2) {
       System.out.println(a.c(1288341737, "袢\uf127篵\ue59f湴\ue8f3助\udb58䕑쿺") + var1);
       izx.alert(this.getName(), var1, var2 ? vhz.CHECK : vhz.INFO, var2);
    }

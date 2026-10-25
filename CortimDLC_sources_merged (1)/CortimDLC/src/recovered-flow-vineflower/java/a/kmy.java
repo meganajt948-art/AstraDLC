@@ -25,64 +25,64 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class kmy extends kfe {
-   private static final int kmz = 10;
-   private static final int kna = 1;
-   private static final int knb = 3;
-   private static final double knc = 0.05;
-   private static final boolean knd = true;
-   private static final int kne = 3;
-   private static final Field knf = vxr.find(
+   static final int kmz = 10;
+   static final int kna = 1;
+   static final int knb = 3;
+   static final double knc = 0.05;
+   static final boolean knd = true;
+   static final int kne = 3;
+   static final Field knf = vxr.find(
       MinecraftClient.class,
       a.d("綖Ь軮Ⴥ魑ᷤꞰ⹊뀓㪳뵳䜅지倫\uda35峋\ue689楊\uf3f9疄ﰟ虌ࣾ", 1766787167, -810322512),
       a.d("ፕ櫫\ue034繌\uf593猙줤䃓\ude8c吻", 1705560683, 1537530194),
       a.d("ೳ", -2017127155, 1556879798)
    );
-   private static kmy kng;
-   private final vmc knh = this.add(new vmc(a.b("⍃嫩퀾丱얘䍖句烹", -113629334), 1.0, 0.3, 1.6, 0.05).percent());
-   private final vmc kni = this.add(new vmc(a.c(397464573, "ퟚ깻⒯뫘ㅾ랱ඝ"), 0.6, 0.0, 0.9, 0.05).percent());
-   private final vmc knj = this.add(new vmc(a.d("䊗㬊놠⿒ꑷ⋋飣ᅬ轄", 1686978973, 893191959), 3.0, 2.0, 3.0, 0.05).suffix(a.b("㠁", -379307923)));
-   private final vmc knk = this.add(new vmc(a.b("馅\ue010櫆\uf0a4筽吏䏴쨏启\udee2奃Ꜣⶖ두㸇뢆ʹ", -1993892472), 3.0, 1.5, 40.0, 0.5).suffix(a.c(-187357720, "▄")));
-   private final vmc knl = this.add(new vmc(a.b("焾ࢣ艺ᱰ鏈ᕷꬶ⊾볫㘥놊䮉셎岜횸偍\uea72旓", 435713328), 40.0, 2.0, 60.0, 0.5).suffix(a.b("㥘", -2037892812)));
-   private final vkl knm = this.add(new vkl(a.c(1402713290, "냕줾䎕\udd9e噀"), true));
-   private final vkl knn = this.add(new vkl(a.d("\udee0Ꝃⶓ돭㰥뺉ӗ褶፸馻Ḑ\ue46a檿\uf37f", -642277140, 1133476387), true));
-   private final vkl kno = this.add(new vkl(a.d("\ue0c8饞ᏸ跴ٝ胭㪰뜭ⴓꟘ\u200e\uda03", -791007058, -576596872), true));
-   private final vkl knp = this.add(new vkl(a.c(-1069338552, "㑊䶩윂奸튭吞\uea5d枳吝猣\uf48a\u0ef5萷ᦑ鏅ᕄ꼄₮먙"), true));
-   private final vkl knq = this.add(new vkl(a.b("\uee60鞃ᴨ荒ࢇ踴ぷ붔⟙ꥷ⺫퓞娈쎱䧧켖", -1743328671), false));
-   private final vkl knr = this.add(new vkl(a.d("迤\uf67e糞\ue2d1椂\uefb1", -1494324824, 1028776530), true));
-   private final vkl kns = this.add(new vkl(a.b("ퟅ깖⒊몁", 1696256989), false));
-   private final lnb knt = new lnb();
-   private final lpy knu = new lpy();
-   private final lng knv = new lng();
-   private final wdt knw = new wdt();
-   private final Random knx = new Random();
-   private lpp kny;
-   private LivingEntity knz;
-   private int koa = 10;
-   private int kob = -1;
-   private int koc = -1;
-   private int kod;
-   private String koe = a.c(-21950159, "ᄝ");
-   private static final int kof = 0;
-   private static final int kog = 1;
-   private static final int koh = 2;
-   private static ItemStack koi;
-   private final vyn koj = new vyn();
-   private boolean kok;
-   private boolean kol;
-   private int kom = -1;
-   private int kon = -1;
-   private int koo = 0;
-   private boolean kop;
-   private boolean koq;
-   private int kor;
-   private long kos;
-   private boolean kot;
-   private final vyn kou = new vyn();
-   private boolean kov;
-   private boolean kow;
-   private int kox = -1;
-   private int koy = -1;
-   private int koz;
+   static kmy kng;
+   final vmc knh = this.add(new vmc(a.b("⍃嫩퀾丱얘䍖句烹", -113629334), 1.0, 0.3, 1.6, 0.05).percent());
+   final vmc kni = this.add(new vmc(a.c(397464573, "ퟚ깻⒯뫘ㅾ랱ඝ"), 0.6, 0.0, 0.9, 0.05).percent());
+   final vmc knj = this.add(new vmc(a.d("䊗㬊놠⿒ꑷ⋋飣ᅬ轄", 1686978973, 893191959), 3.0, 2.0, 3.0, 0.05).suffix(a.b("㠁", -379307923)));
+   final vmc knk = this.add(new vmc(a.b("馅\ue010櫆\uf0a4筽吏䏴쨏启\udee2奃Ꜣⶖ두㸇뢆ʹ", -1993892472), 3.0, 1.5, 40.0, 0.5).suffix(a.c(-187357720, "▄")));
+   final vmc knl = this.add(new vmc(a.b("焾ࢣ艺ᱰ鏈ᕷꬶ⊾볫㘥놊䮉셎岜횸偍\uea72旓", 435713328), 40.0, 2.0, 60.0, 0.5).suffix(a.b("㥘", -2037892812)));
+   final vkl knm = this.add(new vkl(a.c(1402713290, "냕줾䎕\udd9e噀"), true));
+   final vkl knn = this.add(new vkl(a.d("\udee0Ꝃⶓ돭㰥뺉ӗ褶፸馻Ḑ\ue46a檿\uf37f", -642277140, 1133476387), true));
+   final vkl kno = this.add(new vkl(a.d("\ue0c8饞ᏸ跴ٝ胭㪰뜭ⴓꟘ\u200e\uda03", -791007058, -576596872), true));
+   final vkl knp = this.add(new vkl(a.c(-1069338552, "㑊䶩윂奸튭吞\uea5d枳吝猣\uf48a\u0ef5萷ᦑ鏅ᕄ꼄₮먙"), true));
+   final vkl knq = this.add(new vkl(a.b("\uee60鞃ᴨ荒ࢇ踴ぷ붔⟙ꥷ⺫퓞娈쎱䧧켖", -1743328671), false));
+   final vkl knr = this.add(new vkl(a.d("迤\uf67e糞\ue2d1椂\uefb1", -1494324824, 1028776530), true));
+   final vkl kns = this.add(new vkl(a.b("ퟅ깖⒊몁", 1696256989), false));
+   final lnb knt = new lnb();
+   final lpy knu = new lpy();
+   final lng knv = new lng();
+   final wdt knw = new wdt();
+   final Random knx = new Random();
+   lpp kny;
+   LivingEntity knz;
+   int koa = 10;
+   int kob = -1;
+   int koc = -1;
+   int kod;
+   String koe = a.c(-21950159, "ᄝ");
+   static final int kof = 0;
+   static final int kog = 1;
+   static final int koh = 2;
+   static ItemStack koi;
+   final vyn koj = new vyn();
+   boolean kok;
+   boolean kol;
+   int kom = -1;
+   int kon = -1;
+   int koo = 0;
+   boolean kop;
+   boolean koq;
+   int kor;
+   long kos;
+   boolean kot;
+   final vyn kou = new vyn();
+   boolean kov;
+   boolean kow;
+   int kox = -1;
+   int koy = -1;
+   int koz;
 
    public kmy() {
       super(a.d("Ｗ蚲ౠ鈊᧿齢┳계", 1216519042, -1916115716), a.d("鎾\uea23惲ﺅ甗\uf3f5䦸쁅师풢匹ꤜ⟖빣㐸니ࣃ蝆ᷮ鯰\u125e栙\ue6b0給וֹ燜졨䘴\udcc3", -1802970944, -1741993170), kfa.COMBAT);
@@ -224,7 +224,7 @@ public class kmy extends kfe {
       this.kpd(var1, var2);
    }
 
-   private void kpc(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kpc(MinecraftClient var1, ClientPlayerEntity var2) {
       this.kph(var1, var2);
       this.knv.end(var2);
       this.knv.newTick(var2);
@@ -269,7 +269,7 @@ public class kmy extends kfe {
       }
    }
 
-   private void kpd(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kpd(MinecraftClient var1, ClientPlayerEntity var2) {
       if (var2 != null) {
          if (this.kov) {
             this.koz++;
@@ -295,7 +295,7 @@ public class kmy extends kfe {
       }
    }
 
-   private void kpe(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
+   void kpe(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
       if (this.kox >= 0) {
          PlayerInventory var4 = var2.getInventory();
          if (var2.isAlive() && kps(var4.getStack(this.koy)) && wdq.canClick(var2) && var1.currentScreen == null && (var3 || vyn.serverIdle(var2))) {
@@ -307,7 +307,7 @@ public class kmy extends kfe {
       }
    }
 
-   private static int kpf(ClientPlayerEntity var0) {
+   static int kpf(ClientPlayerEntity var0) {
       PlayerInventory var1 = var0.getInventory();
 
       for (int var2 = 9; var2 < 36; var2++) {
@@ -319,7 +319,7 @@ public class kmy extends kfe {
       return -1;
    }
 
-   private static boolean kpg(ClientPlayerEntity var0) {
+   static boolean kpg(ClientPlayerEntity var0) {
       if (koi == null) {
          koi = new ItemStack(Items.WIND_CHARGE);
       }
@@ -327,7 +327,7 @@ public class kmy extends kfe {
       return var0.getItemCooldownManager().isCoolingDown(koi);
    }
 
-   private void kph(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kph(MinecraftClient var1, ClientPlayerEntity var2) {
       if (this.kop) {
          if (var2.isAlive() && wdq.canClick(var2) && vyn.serverIdle(var2) && var1.currentScreen == null) {
             PlayerInventory var3 = var2.getInventory();
@@ -386,7 +386,7 @@ public class kmy extends kfe {
       }
    }
 
-   private void kpi(ClientPlayerEntity var1) {
+   void kpi(ClientPlayerEntity var1) {
       if (this.knq.get()
          && this.knn.get()
          && !this.kot
@@ -410,7 +410,7 @@ public class kmy extends kfe {
       }
    }
 
-   private void kpj(ClientPlayerEntity var1) {
+   void kpj(ClientPlayerEntity var1) {
       PlayerInventory var2 = var1.getInventory();
       int var3 = var2.getSelectedSlot();
       if (!kps(var2.getStack(var3))) {
@@ -432,7 +432,7 @@ public class kmy extends kfe {
       }
    }
 
-   private void kpk(ClientPlayerEntity var1) {
+   void kpk(ClientPlayerEntity var1) {
       PlayerInventory var2 = var1.getInventory();
       if (this.kom < 9) {
          if (var2.getSelectedSlot() == this.kom && this.kon >= 0) {
@@ -449,7 +449,7 @@ public class kmy extends kfe {
       }
    }
 
-   private void kpl(MinecraftClient var1, ClientPlayerEntity var2, lpp var3) {
+   void kpl(MinecraftClient var1, ClientPlayerEntity var2, lpp var3) {
       PlayerInventory var4 = var2.getInventory();
       int var5 = this.kpr(var2);
       if (var5 < 0) {
@@ -507,15 +507,15 @@ public class kmy extends kfe {
       }
    }
 
-   private static boolean kpm(MinecraftClient var0, lpp var1) {
+   static boolean kpm(MinecraftClient var0, lpp var1) {
       return var0.crosshairTarget instanceof EntityHitResult var2 && var2.getEntity() == var1.target();
    }
 
-   private void kpn(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kpn(MinecraftClient var1, ClientPlayerEntity var2) {
       this.knv.home(var1, var2);
    }
 
-   private void kpo(ClientPlayerEntity var1) {
+   void kpo(ClientPlayerEntity var1) {
       if (this.kob >= 0) {
          PlayerInventory var2 = var1.getInventory();
          if (var2.getSelectedSlot() == this.koc) {
@@ -527,12 +527,12 @@ public class kmy extends kfe {
       }
    }
 
-   private int kpp(LivingEntity var1) {
+   int kpp(LivingEntity var1) {
       int var2 = var1 == this.knz ? 10 - this.koa - 1 : 0;
       return Math.max(var1.hurtTime, var2);
    }
 
-   private boolean kpq(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kpq(MinecraftClient var1, ClientPlayerEntity var2) {
       return var1.currentScreen == null
          && var2.isAlive()
          && !var2.isSpectator()
@@ -547,7 +547,7 @@ public class kmy extends kfe {
          && lmn.environment(var2, var1.world);
    }
 
-   private int kpr(ClientPlayerEntity var1) {
+   int kpr(ClientPlayerEntity var1) {
       PlayerInventory var2 = var1.getInventory();
       if (kps(var1.getMainHandStack())) {
          return var2.getSelectedSlot();
@@ -566,11 +566,11 @@ public class kmy extends kfe {
       return -1;
    }
 
-   private static boolean kps(ItemStack var0) {
+   static boolean kps(ItemStack var0) {
       return var0.isOf(Items.MACE) || var0.getItem() instanceof MaceItem;
    }
 
-   private double kpt(ClientPlayerEntity var1) {
+   double kpt(ClientPlayerEntity var1) {
       int var2 = this.kpr(var1);
       if (var2 < 0 && this.knn.get()) {
          var2 = kpf(var1);
@@ -582,7 +582,7 @@ public class kmy extends kfe {
       return Math.min(this.knj.get(), var5) - 0.05;
    }
 
-   private List<LivingEntity> kpu(MinecraftClient var1, ClientPlayerEntity var2, double var3) {
+   List<LivingEntity> kpu(MinecraftClient var1, ClientPlayerEntity var2, double var3) {
       double var5 = Math.max(4.0, Math.abs(Math.min(0.0, var2.getVelocity().y)) * 16.0 + 8.0);
       Box var7 = var2.getBoundingBox().stretch(0.0, -var5, 0.0).expand(var3 + 2.5);
       ArrayList var8 = new ArrayList();
@@ -594,7 +594,7 @@ public class kmy extends kfe {
       return var8;
    }
 
-   private boolean kpv(ClientPlayerEntity var1, Entity var2) {
+   boolean kpv(ClientPlayerEntity var1, Entity var2) {
       if (!(var2 != var1 && var2 instanceof LivingEntity var3) || !var3.isAlive() || !var2.isAttackable()) {
          return false;
       } else {
@@ -602,7 +602,7 @@ public class kmy extends kfe {
       }
    }
 
-   private static boolean kpw(MinecraftClient var0, ClientPlayerEntity var1) {
+   static boolean kpw(MinecraftClient var0, ClientPlayerEntity var1) {
       if (vxr.getInt(knf, var0, 0) > 0) {
          return false;
       }

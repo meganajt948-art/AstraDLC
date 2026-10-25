@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Random;
 
 public final class tqm {
-   private static final int tqn = 32;
-   private static final double tqo = 0.003;
-   private static final double tqp = 3.0E-4;
-   private static final double tqq = 1.0E-4;
-   private static final double tqr = 5.0;
+   static final int tqn = 32;
+   static final double tqo = 0.003;
+   static final double tqp = 3.0E-4;
+   static final double tqq = 1.0E-4;
+   static final double tqr = 5.0;
 
-   private tqm() {
+   tqm() {
    }
 
    public static tqj train(List<tqg> var0, int var1, int var2, long var3, tmw var5) {
@@ -130,7 +130,7 @@ public final class tqm {
       return var41;
    }
 
-   private static boolean[] tqu(List<tqg> var0, tqa var1) {
+   static boolean[] tqu(List<tqg> var0, tqa var1) {
       byte var2 = 32;
       double[] var3 = new double[var2];
       double[] var4 = new double[var2];
@@ -161,7 +161,7 @@ public final class tqm {
       return var13;
    }
 
-   private static List<double[]> tqv(List<tqg> var0, tqa var1) {
+   static List<double[]> tqv(List<tqg> var0, tqa var1) {
       ArrayList var2 = new ArrayList(var0.size());
 
       for (tqg var4 : var0) {
@@ -177,7 +177,7 @@ public final class tqm {
       return var2;
    }
 
-   private static void tqw(tqa var0, tqg var1, double[] var2, double[] var3) {
+   static void tqw(tqa var0, tqg var1, double[] var2, double[] var3) {
       int var4 = var1.n;
       double[][] var5 = new double[var4][var0.hidden];
       double[] var6 = new double[var4];
@@ -259,7 +259,7 @@ public final class tqm {
       return var4 / var20;
    }
 
-   private static void tqx(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
+   static void tqx(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
       double var7 = 0.9;
       double var9 = 0.999;
       double var11 = 1.0 - Math.pow(var7, var4);
@@ -272,7 +272,7 @@ public final class tqm {
       }
    }
 
-   private static void tqy(int[] var0, Random var1) {
+   static void tqy(int[] var0, Random var1) {
       for (int var2 = var0.length - 1; var2 > 0; var2--) {
          int var3 = var1.nextInt(var2 + 1);
          int var4 = var0[var2];
@@ -281,7 +281,7 @@ public final class tqm {
       }
    }
 
-   private static float[] tqz(List<Float> var0) {
+   static float[] tqz(List<Float> var0) {
       float[] var1 = new float[var0.size()];
 
       for (int var2 = 0; var2 < var1.length; var2++) {

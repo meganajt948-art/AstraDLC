@@ -10,12 +10,12 @@ public final class ppn {
    public final String id;
    public final String name;
    public final String nameEn;
-   private final Item ppo;
-   private final String ppp;
-   private final Predicate<ppi> ppq;
-   private ItemStack ppr;
+   final Item ppo;
+   final String ppp;
+   final Predicate<ppi> ppq;
+   ItemStack ppr;
 
-   private ppn(String var1, String var2, String var3, Item var4, String var5, Predicate<ppi> var6) {
+   ppn(String var1, String var2, String var3, Item var4, String var5, Predicate<ppi> var6) {
       this.id = var1;
       this.name = var2;
       this.nameEn = var3;

@@ -16,7 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
 final class hdj {
-   private static final String[] hdk = new String[]{
+   static final String[] hdk = new String[]{
       a.b("懇ᡈ銙೨蜤Ɖ", 1309303186),
       a.d("畩\u0cff蘹ᡝ鎗ᔬ", -1636847984, -1280910420),
       a.b("闬\uec76暽\uf8d5", 1901172140),
@@ -30,9 +30,9 @@ final class hdj {
       a.d("䠛㆛뭇┼껪⡌", 138220016, -1947051587),
       a.d("ﻊ蝄ක鏤ᠩ", -1017444188, 1637086776)
    };
-   private static Entity hdl;
+   static Entity hdl;
 
-   private hdj() {
+   hdj() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -106,7 +106,7 @@ final class hdj {
       }
    }
 
-   private static Entity hdo(MinecraftClient var0, String var1, double var2) {
+   static Entity hdo(MinecraftClient var0, String var1, double var2) {
       OtherClientPlayerEntity var4 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var5 = var0.player.getEntityPos().add(0.0, 0.0, var2);
       var4.refreshPositionAndAngles(var5.x, var0.player.getY(), var5.z, 180.0F, 0.0F);
@@ -124,7 +124,7 @@ final class hdj {
       return var4;
    }
 
-   private static vmo hdp(kfe var0, String var1) {
+   static vmo hdp(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -134,18 +134,18 @@ final class hdj {
       throw new IllegalStateException(var0.getName() + a.d("짜뀥㫿꒜⼘ꧧᎵ騋", 1095687915, -1256384737) + var1);
    }
 
-   private static void hdq(MinecraftClient var0, float var1, float var2) {
+   static void hdq(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static void hdr(MinecraftClient var0, String var1) {
+   static void hdr(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void hds(MinecraftClient var0, String var1) {
+   static void hds(MinecraftClient var0, String var1) {
       System.out.println(a.c(-136605166, "鉫\uebcc愖ｭ瓼\uf219䡛솼忤픁") + var1);
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

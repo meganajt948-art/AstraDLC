@@ -68,11 +68,11 @@ public final class tck {
    public double modelPeak;
    public double userEntry;
    public double modelEntry;
-   private int[][] tcl;
-   private static tck tcm;
-   private static boolean tcn;
-   private static tck tco;
-   private static boolean tcp;
+   int[][] tcl;
+   static tck tcm;
+   static boolean tcn;
+   static tck tco;
+   static boolean tcp;
 
    public static synchronized tck profile1() {
       if (!tcn) {
@@ -343,7 +343,7 @@ public final class tck {
       return var1.toByteArray();
    }
 
-   private static float[] tcs(DataInputStream var0) throws IOException {
+   static float[] tcs(DataInputStream var0) throws IOException {
       int var1 = var0.readInt();
       if (var1 >= 0 && var1 <= 4096) {
          float[] var2 = new float[var1];

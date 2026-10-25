@@ -1,7 +1,7 @@
 package a;
 
 public final class vcq {
-   private vcq() {
+   vcq() {
    }
 
    public static float clamp01(float var0) {

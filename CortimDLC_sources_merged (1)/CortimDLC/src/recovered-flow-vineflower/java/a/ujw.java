@@ -18,13 +18,13 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class ujw {
-   private static @Nullable GpuTexture ujx;
-   private static @Nullable GpuTextureView ujy;
-   private static @Nullable GpuBuffer ujz;
-   private static int uka = -1;
-   private static int ukb = -1;
+   static @Nullable GpuTexture ujx;
+   static @Nullable GpuTextureView ujy;
+   static @Nullable GpuBuffer ujz;
+   static int uka = -1;
+   static int ukb = -1;
 
-   private ujw() {
+   ujw() {
    }
 
    public static @Nullable GpuTextureView worldWith(GpuTextureView var0, float var1, float var2, float var3, float var4, float var5, int var6) {
@@ -83,7 +83,7 @@ public final class ujw {
       }
    }
 
-   private static void uke(int var0, int var1) {
+   static void uke(int var0, int var1) {
       GpuDevice var2 = RenderSystem.getDevice();
       if (ujz == null) {
          ujz = var2.createBuffer(() -> "Flow2 composite", 136, 32L);

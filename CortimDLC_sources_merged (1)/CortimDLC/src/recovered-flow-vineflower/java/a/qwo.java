@@ -13,12 +13,12 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.world.World;
 
 public final class qwo {
-   private static final int qwp = -11541505;
-   private static final int qwq = -1;
-   private static final int qwr = 600;
-   private static final int[][] qws = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-   private static final int[][] qwt = new int[][]{{0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}};
-   private static final int[][] qwu = new int[][]{
+   static final int qwp = -11541505;
+   static final int qwq = -1;
+   static final int qwr = 600;
+   static final int[][] qws = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
+   static final int[][] qwt = new int[][]{{0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}};
+   static final int[][] qwu = new int[][]{
       {0, 1, 0, 2},
       {2, 3, 1, 2},
       {4, 5, 0, 3},
@@ -32,18 +32,18 @@ public final class qwo {
       {2, 6, 1, 4},
       {3, 7, 1, 5}
    };
-   private static volatile long[] qwv = new long[0];
-   private static volatile LongOpenHashSet qww = new LongOpenHashSet();
-   private static volatile long qwx = Long.MIN_VALUE;
-   private static long qwy = -1L;
-   private static final double[][] qwz = new double[8][3];
-   private static final float[][] qxa = new float[8][2];
-   private static final boolean[] qxb = new boolean[8];
-   private static final boolean[] qxc = new boolean[6];
-   private static final float[] qxd = new float[4];
-   private static final float[] qxe = new float[2];
+   static volatile long[] qwv = new long[0];
+   static volatile LongOpenHashSet qww = new LongOpenHashSet();
+   static volatile long qwx = Long.MIN_VALUE;
+   static long qwy = -1L;
+   static final double[][] qwz = new double[8][3];
+   static final float[][] qxa = new float[8][2];
+   static final boolean[] qxb = new boolean[8];
+   static final boolean[] qxc = new boolean[6];
+   static final float[] qxd = new float[4];
+   static final float[] qxe = new float[2];
 
-   private qwo() {
+   qwo() {
    }
 
    public static boolean isDiamond(BlockState var0) {
@@ -77,7 +77,7 @@ public final class qwo {
       }
    }
 
-   private static double qxh(long var0, Vec3d var2) {
+   static double qxh(long var0, Vec3d var2) {
       double var3 = BlockPos.unpackLongX(var0) + 0.5 - var2.x;
       double var5 = BlockPos.unpackLongY(var0) + 0.5 - var2.y;
       double var7 = BlockPos.unpackLongZ(var0) + 0.5 - var2.z;

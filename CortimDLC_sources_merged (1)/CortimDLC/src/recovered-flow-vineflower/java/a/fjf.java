@@ -17,16 +17,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 final class fjf extends GenericContainerScreenHandler {
-   private final String fjg;
-   private final List<List<fjo>> fjh;
-   private final SimpleInventory fji;
-   private int fjj;
+   final String fjg;
+   final List<List<fjo>> fjh;
+   final SimpleInventory fji;
+   int fjj;
 
    fjf(int var1, PlayerInventory var2, String var3, List<List<fjo>> var4) {
       this(var1, var2, var3, var4, new SimpleInventory(54));
    }
 
-   private fjf(int var1, PlayerInventory var2, String var3, List<List<fjo>> var4, SimpleInventory var5) {
+   fjf(int var1, PlayerInventory var2, String var3, List<List<fjo>> var4, SimpleInventory var5) {
       super(ScreenHandlerType.GENERIC_9X6, var1, var2, var5, 6);
       this.fjg = var3;
       this.fjh = var4;
@@ -34,7 +34,7 @@ final class fjf extends GenericContainerScreenHandler {
       this.fjm();
    }
 
-   private void fjm() {
+   void fjm() {
       this.fji.clear();
       if (!this.fjh.isEmpty()) {
          List var1 = this.fjh.get(this.fjj);
@@ -78,7 +78,7 @@ final class fjf extends GenericContainerScreenHandler {
       this.syncState();
    }
 
-   private void fjn(ServerPlayerEntity var1, fjo var2) {
+   void fjn(ServerPlayerEntity var1, fjo var2) {
       SimpleInventory var3 = new SimpleInventory(27);
       var3.setStack(13, fjv.fki(var2));
       var3.setStack(11, fjv.fkj(Items.LIME_STAINED_GLASS_PANE, a.d("죁놶㭟ꅯ⻛갬ᙸ鿳Ƣ輂", 2046862314, -97686650)));

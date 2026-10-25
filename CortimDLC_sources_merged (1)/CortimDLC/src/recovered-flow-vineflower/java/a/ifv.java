@@ -6,12 +6,12 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 
 public final class ifv {
-   private static final float ifw = 15.0F;
-   private static final vcj ifx = new vcj(10.0F);
-   private static String ify = "";
-   private static int ifz;
+   static final float ifw = 15.0F;
+   static final vcj ifx = new vcj(10.0F);
+   static String ify = "";
+   static int ifz;
 
-   private ifv() {
+   ifv() {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
@@ -103,7 +103,7 @@ public final class ifv {
       }
    }
 
-   private static void igc(DrawContext var0, String var1, int var2, float var3) {
+   static void igc(DrawContext var0, String var1, int var2, float var3) {
       float var4 = var0.getScaledWindowWidth();
       float var5 = var2 == 0 ? 0.0F : 9.0F;
       float var6 = 10.0F + var5 + irr.VALUE.width(var1) + 10.0F;
@@ -136,7 +136,7 @@ public final class ifv {
       }
    }
 
-   private static String igd(int var0) {
+   static String igd(int var0) {
       return var0 / 60 + a.d("撌", -1382609034, -1644074047) + String.format(a.b("ᑈ淬\ue73d礚", 1418990697), var0 % 60);
    }
 

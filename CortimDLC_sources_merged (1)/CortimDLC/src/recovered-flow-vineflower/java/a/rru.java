@@ -10,6 +10,6 @@ final class rru {
    float age;
    float seed;
 
-   private rru() {
+   rru() {
    }
 }

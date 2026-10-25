@@ -16,15 +16,15 @@ import net.minecraft.registry.entry.RegistryEntry.Reference;
 import net.minecraft.text.Text;
 
 public final class phm {
-   private final RegistryKey<Enchantment> phn;
-   private final String pho;
-   private final String php;
-   private final phj phq;
-   private final int phr;
-   private phj phs;
-   private int pht;
+   final RegistryKey<Enchantment> phn;
+   final String pho;
+   final String php;
+   final phj phq;
+   final int phr;
+   phj phs;
+   int pht;
 
-   private phm(RegistryKey<Enchantment> var1, String var2, phj var3, int var4) {
+   phm(RegistryKey<Enchantment> var1, String var2, phj var3, int var4) {
       this.phn = var1;
       this.pho = var2;
       this.php = var2 == null ? null : pfl.normalize(var2);
@@ -144,7 +144,7 @@ public final class phm {
       }
    }
 
-   private Optional<Reference<Enchantment>> phw() {
+   Optional<Reference<Enchantment>> phw() {
       MinecraftClient var1 = MinecraftClient.getInstance();
       if (var1.world == null) {
          return Optional.empty();

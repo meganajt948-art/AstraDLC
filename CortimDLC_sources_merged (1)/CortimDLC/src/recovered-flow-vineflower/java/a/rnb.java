@@ -1,14 +1,14 @@
 package a;
 
 final class rnb {
-   private final double rnc;
-   private final double rnd;
-   private final double rne;
-   private final double rnf;
-   private final float rng;
-   private final boolean rnh;
+   final double rnc;
+   final double rnd;
+   final double rne;
+   final double rnf;
+   final float rng;
+   final boolean rnh;
 
-   private rnb(double speed, double gravity, double drag, double waterDrag, float roll, boolean arrow) {
+   rnb(double speed, double gravity, double drag, double waterDrag, float roll, boolean arrow) {
       this.rnc = speed;
       this.rnd = gravity;
       this.rne = drag;

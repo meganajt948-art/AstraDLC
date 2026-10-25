@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.PlayerInput;
 
 public final class eik extends ClientPlayerEntity {
-   private final dtv eil;
+   final dtv eil;
 
    eik(MinecraftClient var1, ClientWorld var2, ClientPlayNetworkHandler var3, StatHandler var4, ClientRecipeBook var5, PlayerInput var6, boolean var7, dtv var8) {
       super(var1, var2, var3, var4, var5, var6, var7);
@@ -24,7 +24,7 @@ public final class eik extends ClientPlayerEntity {
       this.eio();
    }
 
-   private void eio() {
+   void eio() {
       for (Field var4 : ClientPlayerEntity.class.getDeclaredFields()) {
          if (!Modifier.isStatic(var4.getModifiers()) && List.class.isAssignableFrom(var4.getType())) {
             try {

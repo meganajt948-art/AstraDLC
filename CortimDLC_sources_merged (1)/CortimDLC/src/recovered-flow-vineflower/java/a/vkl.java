@@ -1,8 +1,8 @@
 package a;
 
 public class vkl extends vmo {
-   private final boolean vkm;
-   private boolean vkn;
+   final boolean vkm;
+   boolean vkn;
 
    public vkl(String var1, boolean var2) {
       super(var1);

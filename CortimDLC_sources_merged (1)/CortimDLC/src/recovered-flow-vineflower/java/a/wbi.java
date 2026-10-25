@@ -3,7 +3,7 @@ package a;
 import flow.dev.a;
 
 final class wbi {
-   private wbi() {
+   wbi() {
    }
 
    static void fill() {

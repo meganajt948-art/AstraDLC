@@ -20,18 +20,18 @@ import org.joml.Matrix3x2fStack;
 import org.jspecify.annotations.Nullable;
 
 public final class uut {
-   private static final ScreenRect uuu = new ScreenRect(0, 0, 0, 0);
-   private static final Deque<ScreenRect> uuv = new ArrayDeque<>();
-   private static final Deque<Float> uuw = new ArrayDeque<>();
-   private static float uux = 1.0F;
-   private static boolean uuy;
-   private static Field uuz;
-   private static boolean uva;
-   private static @Nullable DrawContext uvb;
-   private static @Nullable GuiRenderState uvc;
-   private static final List<uhx> uvd = new ArrayList<>();
-   private static int uve;
-   private static @Nullable GuiRenderState uvf;
+   static final ScreenRect uuu = new ScreenRect(0, 0, 0, 0);
+   static final Deque<ScreenRect> uuv = new ArrayDeque<>();
+   static final Deque<Float> uuw = new ArrayDeque<>();
+   static float uux = 1.0F;
+   static boolean uuy;
+   static Field uuz;
+   static boolean uva;
+   static @Nullable DrawContext uvb;
+   static @Nullable GuiRenderState uvc;
+   static final List<uhx> uvd = new ArrayList<>();
+   static int uve;
+   static @Nullable GuiRenderState uvf;
    public static final int COSMOS = 0;
    public static final int WINTER = 1;
    public static final int LAVA = 2;
@@ -43,7 +43,7 @@ public final class uut {
    public static final int FACE = 1;
    public static final int DISC = 2;
 
-   private uut() {
+   uut() {
    }
 
    public static void beginBatch() {
@@ -56,7 +56,7 @@ public final class uut {
       }
    }
 
-   private static void uvi(GuiRenderState var0, SimpleGuiElementRenderState var1) {
+   static void uvi(GuiRenderState var0, SimpleGuiElementRenderState var1) {
       if (uve == 0) {
          var0.addSimpleElement(var1);
       } else {
@@ -79,7 +79,7 @@ public final class uut {
       }
    }
 
-   private static void uvj() {
+   static void uvj() {
       GuiRenderState var0 = uvf;
       if (var0 != null) {
          for (uhx var2 : uvd) {
@@ -286,7 +286,7 @@ public final class uut {
       uvk(var0, var1, var2, var3, var4, var5, Math.max(0.5F, var6), var7);
    }
 
-   private static void uvk(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, int var7) {
+   static void uvk(DrawContext var0, float var1, float var2, float var3, float var4, float var5, float var6, int var7) {
       float var8 = var3 - var1;
       float var9 = var4 - var2;
       float var10 = (float)Math.sqrt(var8 * var8 + var9 * var9);
@@ -574,7 +574,7 @@ public final class uut {
       }
    }
 
-   private static boolean uvl(
+   static boolean uvl(
       DrawContext var0,
       RenderPipeline var1,
       TextureSetup var2,
@@ -624,7 +624,7 @@ public final class uut {
       }
    }
 
-   private static boolean uvm(
+   static boolean uvm(
       DrawContext var0,
       RenderPipeline var1,
       TextureSetup var2,
@@ -647,7 +647,7 @@ public final class uut {
       return uvn(var0, null, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, var13, var14, var15, var16, var17);
    }
 
-   private static boolean uvn(
+   static boolean uvn(
       DrawContext var0,
       @Nullable Matrix3x2f var1,
       RenderPipeline var2,
@@ -710,7 +710,7 @@ public final class uut {
       return true;
    }
 
-   private static boolean uvo(
+   static boolean uvo(
       DrawContext var0,
       RenderPipeline var1,
       TextureSetup var2,
@@ -764,7 +764,7 @@ public final class uut {
       }
    }
 
-   private static void uvp(DrawContext var0, float var1, float var2, float var3, float var4, int var5, int var6, float var7) {
+   static void uvp(DrawContext var0, float var1, float var2, float var3, float var4, int var5, int var6, float var7) {
       int var8 = Math.round(var1);
       int var9 = Math.round(var2);
       int var10 = Math.round(var1 + var3);

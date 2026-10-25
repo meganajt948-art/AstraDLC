@@ -49,26 +49,26 @@ import net.minecraft.world.RaycastContext.ShapeType;
 import net.minecraft.world.chunk.WorldChunk;
 
 public class lxy extends kfe {
-   private static final String lxz = a.d("杌Ỵ鑯੍膌ܹ뵹㒙\uaacd‴", 1025040403, -1585936588);
-   private static final String lya = a.d("劵⬍ꆖ㾴둵㋍袞ģ", 793634717, 1010283841);
-   private static final String lyb = a.b("\uebeb鉓", 891743112);
-   private static final String lyc = a.b("旖ᱢ雁ࢽ药ם뾍㘍", -2046140005);
-   private static final String lyd = a.b("倈⦳ꌕ㴑뛁〉詐\u03a2鶏\u173c", -1372171203);
-   private static final String lye = a.d("Փ粑\uf63b栶\ue39f攨\udf78", -1718409316, 1489970936);
-   private static final String lyf = a.c(-1257960822, "\u0ecf眍\ufdd6");
-   private static final String lyg = a.c(-1895021466, "䐓㶠띨⤓ꋂ");
-   private static final String lyh = a.d("৷灃\ufaec撒\uef3f淥펡婗쐉仉쥪㍩붰", 1224290199, 461709866);
-   private static final String lyi = a.b("搙ᶠ鍦इ苚Г빁㟃ꦗ", 1064263725);
-   private static final String lyj = a.c(1552414078, "\uf147袉Ȥ鱟ឌ鄿");
-   private static final String lyk = a.b("퍣ꫛ 빶㖠댟", -382085289);
-   private static final String[] lyl = new String[]{
+   static final String lxz = a.d("杌Ỵ鑯੍膌ܹ뵹㒙\uaacd‴", 1025040403, -1585936588);
+   static final String lya = a.d("劵⬍ꆖ㾴둵㋍袞ģ", 793634717, 1010283841);
+   static final String lyb = a.b("\uebeb鉓", 891743112);
+   static final String lyc = a.b("旖ᱢ雁ࢽ药ם뾍㘍", -2046140005);
+   static final String lyd = a.b("倈⦳ꌕ㴑뛁〉詐\u03a2鶏\u173c", -1372171203);
+   static final String lye = a.d("Փ粑\uf63b栶\ue39f攨\udf78", -1718409316, 1489970936);
+   static final String lyf = a.c(-1257960822, "\u0ecf眍\ufdd6");
+   static final String lyg = a.c(-1895021466, "䐓㶠띨⤓ꋂ");
+   static final String lyh = a.d("৷灃\ufaec撒\uef3f淥펡婗쐉仉쥪㍩붰", 1224290199, 461709866);
+   static final String lyi = a.b("搙ᶠ鍦इ苚Г빁㟃ꦗ", 1064263725);
+   static final String lyj = a.c(1552414078, "\uf147袉Ȥ鱟ឌ鄿");
+   static final String lyk = a.b("퍣ꫛ 빶㖠댟", -382085289);
+   static final String[] lyl = new String[]{
       a.c(-1924747583, "꫱퍈嶎잝䰸쪃瓊浪朏\uedb4橤逗Ế"),
       a.b("眏ໄ萔ᨕ醰ᜅ굔₹뫷〼럥䶗썂媍", -626035904),
       a.d("เ瞋ﵛ捚\ue8ff湊퐛姶쏎䤈캪㓘멳", 1368783221, 1377301369),
       a.d("⭀勰\ud829䙒춍䬾\uf161", -1323141539, 310860069),
       a.c(-265067277, "撘ᴥ韶\u0984艛ӡ뺪㝂")
    };
-   private static final String[] lym = new String[]{
+   static final String[] lym = new String[]{
       a.c(912144230, "㍜䫥쐣幏햕匭\ue973"),
       a.d("㽠䛙젟刏\ud9da彡\ue54e泋\uf297硖", 1694755342, -455552679),
       a.b("嫅⍼꧘㏋밃㫍胫छ靌ᷴ驐", 208690931),
@@ -81,118 +81,118 @@ public class lxy extends kfe {
       a.b("뙡쾦䔅\udb7d傡", 1438167642),
       a.c(1863938643, "癩࿐脖ᬄ邤ᘑ걉")
    };
-   private static final String[] lyn = new String[]{a.c(-1364565997, "搪ᷤ靄ह苡џ븆"), a.b("鎳\uea72惔ﺭ畳", 443258758)};
-   private static final int lyo = 36;
-   private static final double lyp = 0.75;
-   private static final long lyq = 180000L;
-   private static final long lyr = 120000L;
-   private static final long lys = 110L;
-   private static final long lyt = 360L;
-   private static final long lyu = 260L;
-   private static final long lyv = 4000L;
-   private static final long lyw = 4000L;
-   private static final long lyx = 20000L;
-   private static final long lyy = 850L;
-   private static final long lyz = 900L;
-   private static final long lza = 3500L;
-   private static final double lzb = 1.4;
-   private static final double lzc = 1500.0;
-   private static final double lzd = 0.75;
-   private static final long lze = 25000L;
-   private static final int lzf = 3;
-   private static final long lzg = 60000L;
-   private static final long lzh = 380L;
-   private static final double lzi = 4.3;
-   private static final long lzj = 60000L;
-   private static final long lzk = 1500L;
-   private static final long lzl = 3000L;
-   private static final int lzm = 64;
-   private static final int lzn = 0;
-   private static final int lzo = 1;
-   private static final int lzp = 2;
-   private static final int lzq = 3;
-   private static final Field lzr = vxr.find(
+   static final String[] lyn = new String[]{a.c(-1364565997, "搪ᷤ靄ह苡џ븆"), a.b("鎳\uea72惔ﺭ畳", 443258758)};
+   static final int lyo = 36;
+   static final double lyp = 0.75;
+   static final long lyq = 180000L;
+   static final long lyr = 120000L;
+   static final long lys = 110L;
+   static final long lyt = 360L;
+   static final long lyu = 260L;
+   static final long lyv = 4000L;
+   static final long lyw = 4000L;
+   static final long lyx = 20000L;
+   static final long lyy = 850L;
+   static final long lyz = 900L;
+   static final long lza = 3500L;
+   static final double lzb = 1.4;
+   static final double lzc = 1500.0;
+   static final double lzd = 0.75;
+   static final long lze = 25000L;
+   static final int lzf = 3;
+   static final long lzg = 60000L;
+   static final long lzh = 380L;
+   static final double lzi = 4.3;
+   static final long lzj = 60000L;
+   static final long lzk = 1500L;
+   static final long lzl = 3000L;
+   static final int lzm = 64;
+   static final int lzn = 0;
+   static final int lzo = 1;
+   static final int lzp = 2;
+   static final int lzq = 3;
+   static final Field lzr = vxr.find(
       ClientPlayerEntity.class,
       a.b("\uf3fa詀\u0082麩ᔽ鎈⧜ꀦ㹿듟㌟쥩䞬\ude47呙튧棥\ue726綕ﯨ牷ࠥ蚔", 292615043),
       a.d("侐㘮볱⊉\ua956\u2fdc闣ᰘ艊ࣾ", -322140526, 200591726),
       a.d("작", -586597637, 1165032749)
    );
-   private static final Field lzs = vxr.find(
+   static final Field lzs = vxr.find(
       ClientPlayerEntity.class,
       a.b("ӂ絸\uf7ba榑\ue205撰\udee4圞쥇䏧쐧㹑낔⥿ꍡ▟鿝သ読\u0cd0蕏＝熬", -486800197),
       a.d("ѹ緇\uf718楠\ue2bf搵\ude0a埱즥䌓", 1233053955, 1001188630),
       a.d("喕", 763871993, 1915655979)
    );
-   private static lxy lzt;
-   private final vmc lzu = this.add(new vmc(a.d("\u0b0d犙\uf844昶\ue9f4欥텽壺욢䰙", -1088202757, 891771105), 5.0, 1.0, 50.0, 1.0).suffix(a.b("ᆔ", -1548021328)));
-   private final vmc lzv = this.add(new vmc(a.b("ᤔ惁\uea69琐ￄ礁썑䪮킝幋\ud9ef⏮", -1470816967), 60.0, 0.0, 100.0, 5.0).suffix(a.b("匈", -1754901716)));
-   private final vkl lzw = this.add(new vkl(a.b("䶃㐩뺆₄ꭒⶓ鎠ḳ耐\u0aa9赹", 1568098733), false));
-   private final vmc lzx = this.add(new vmc(a.c(217379286, "\uf5d9豉ڜ颔ጸ閍⿒ꈱ㡼뛟㔐콥䆷\ud878刪퓚"), 20.0, 4.0, 40.0, 1.0));
-   private final vkl lzy = this.add(new vkl(a.b("醅\ue81b曟ﳏ眚\uf1d5䮏숉尯횚充", -1980983914), true));
-   private lxu lzz = lxu.IDLE;
-   private long maa;
-   private long mab;
-   private long mac;
-   private long mad;
-   private long mae = -1L;
-   private int maf = 0;
-   private long mag;
-   private long mah;
-   private long mai = 360L;
-   private long maj;
-   private long mak;
-   private int mal;
-   private long mam;
-   private int man;
-   private int mao = 8;
-   private boolean map;
-   private ItemStack maq = ItemStack.EMPTY;
-   private String mar = "";
-   private String mas = "";
-   private final Set<String> mat = new HashSet<>();
-   private final Map<String, long[]> mau = new HashMap<>();
-   private int mav = -1;
-   private int maw;
-   private int max;
-   private long may;
-   private boolean maz;
-   private int mba = -1;
-   private int mbb = -1;
-   private int mbc = -1;
-   private int mbd = -1;
-   private boolean mbe;
-   private final vyn mbf = new vyn();
-   private long mbg;
-   private long mbh;
-   private boolean mbi;
-   private int mbj = -1;
-   private int mbk = -1;
-   private long mbl;
-   private int mbm = 0;
-   private String mbn = "";
-   private final Map<BlockPos, Long> mbo = new HashMap<>();
-   private BlockPos mbp;
-   private BlockPos mbq;
-   private Vec3d mbr;
-   private double mbs;
-   private double mbt;
-   private double mbu;
-   private int mbv;
-   private long mbw;
-   private boolean mbx;
-   private int mby;
-   private int mbz;
-   private int mca;
-   private int mcb = -1;
-   private int mcc = -1;
-   private ItemStack[] mcd;
-   private final boolean[] mce = new boolean[9];
-   private boolean mcf;
-   private final pgi mcg = new pgi();
-   private final pjw mch = new pjw();
-   private ClientPlayerEntity mci;
-   private boolean mcj;
-   private long mck;
+   static lxy lzt;
+   final vmc lzu = this.add(new vmc(a.d("\u0b0d犙\uf844昶\ue9f4欥텽壺욢䰙", -1088202757, 891771105), 5.0, 1.0, 50.0, 1.0).suffix(a.b("ᆔ", -1548021328)));
+   final vmc lzv = this.add(new vmc(a.b("ᤔ惁\uea69琐ￄ礁썑䪮킝幋\ud9ef⏮", -1470816967), 60.0, 0.0, 100.0, 5.0).suffix(a.b("匈", -1754901716)));
+   final vkl lzw = this.add(new vkl(a.b("䶃㐩뺆₄ꭒⶓ鎠ḳ耐\u0aa9赹", 1568098733), false));
+   final vmc lzx = this.add(new vmc(a.c(217379286, "\uf5d9豉ڜ颔ጸ閍⿒ꈱ㡼뛟㔐콥䆷\ud878刪퓚"), 20.0, 4.0, 40.0, 1.0));
+   final vkl lzy = this.add(new vkl(a.b("醅\ue81b曟ﳏ眚\uf1d5䮏숉尯횚充", -1980983914), true));
+   lxu lzz = lxu.IDLE;
+   long maa;
+   long mab;
+   long mac;
+   long mad;
+   long mae = -1L;
+   int maf = 0;
+   long mag;
+   long mah;
+   long mai = 360L;
+   long maj;
+   long mak;
+   int mal;
+   long mam;
+   int man;
+   int mao = 8;
+   boolean map;
+   ItemStack maq = ItemStack.EMPTY;
+   String mar = "";
+   String mas = "";
+   final Set<String> mat = new HashSet<>();
+   final Map<String, long[]> mau = new HashMap<>();
+   int mav = -1;
+   int maw;
+   int max;
+   long may;
+   boolean maz;
+   int mba = -1;
+   int mbb = -1;
+   int mbc = -1;
+   int mbd = -1;
+   boolean mbe;
+   final vyn mbf = new vyn();
+   long mbg;
+   long mbh;
+   boolean mbi;
+   int mbj = -1;
+   int mbk = -1;
+   long mbl;
+   int mbm = 0;
+   String mbn = "";
+   final Map<BlockPos, Long> mbo = new HashMap<>();
+   BlockPos mbp;
+   BlockPos mbq;
+   Vec3d mbr;
+   double mbs;
+   double mbt;
+   double mbu;
+   int mbv;
+   long mbw;
+   boolean mbx;
+   int mby;
+   int mbz;
+   int mca;
+   int mcb = -1;
+   int mcc = -1;
+   ItemStack[] mcd;
+   final boolean[] mce = new boolean[9];
+   boolean mcf;
+   final pgi mcg = new pgi();
+   final pjw mch = new pjw();
+   ClientPlayerEntity mci;
+   boolean mcj;
+   long mck;
 
    public lxy() {
       super(
@@ -313,7 +313,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mcn(Text var1) {
+   void mcn(Text var1) {
       if (this.lzz != lxu.IDLE && !this.mdk() && System.currentTimeMillis() - this.mag <= 4000L) {
          String var2 = mfg(var1.getString());
          if (!var2.isEmpty()) {
@@ -329,7 +329,7 @@ public class lxy extends kfe {
       }
    }
 
-   private boolean mco() {
+   boolean mco() {
       PlayerInventory var1 = this.mc.player.getInventory();
 
       for (int var2 = 0; var2 < 2; var2++) {
@@ -368,7 +368,7 @@ public class lxy extends kfe {
       return false;
    }
 
-   private boolean mcp(int var1) {
+   boolean mcp(int var1) {
       if (var1 == this.mbc) {
          return false;
       } else {
@@ -376,7 +376,7 @@ public class lxy extends kfe {
       }
    }
 
-   private boolean mcq(int var1) {
+   boolean mcq(int var1) {
       if (!this.mce[var1]) {
          return false;
       } else if (this.mc.player.getInventory().getStack(var1).isEmpty()) {
@@ -387,7 +387,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mcr(String var1, boolean var2, boolean var3) {
+   void mcr(String var1, boolean var2, boolean var3) {
       if (var3 && !this.mar.isEmpty()) {
          this.mat.add(this.mar);
       }
@@ -416,7 +416,7 @@ public class lxy extends kfe {
       this.mgd(lxu.IDLE);
    }
 
-   private void mcs() {
+   void mcs() {
       this.mgf(
          this.maw > 0 ? a.b("뤳삯䨀퐍忖\ud96b未\ueed7璓︧禈莅൞郧\u1aae", 864337199) + this.maw : a.d("₋奥폈䶳왠䃓廒猁\ued50掍\ue043ᨺ钟൜蜉ǵ", 1245273134, -1888978774), this.maw > 0
       );
@@ -424,7 +424,7 @@ public class lxy extends kfe {
       this.mgd(lxu.RESTORE);
    }
 
-   private void mct() {
+   void mct() {
       if (!this.mfn()) {
          PlayerInventory var1 = this.mc.player.getInventory();
          if (this.mcp(var1.getSelectedSlot()) && mfb(this.mc.player.getMainHandStack(), this.maq)) {
@@ -454,7 +454,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mcu() {
+   void mcu() {
       this.mfq();
       if (!this.mfn()) {
          String var1 = cleanQuery(this.mc.player.getMainHandStack().getName().getString());
@@ -482,7 +482,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mcv() {
+   void mcv() {
       this.mfq();
       if (this.mbm == 3) {
          this.mde();
@@ -511,7 +511,7 @@ public class lxy extends kfe {
       }
    }
 
-   private List<ItemStack> mcw() {
+   List<ItemStack> mcw() {
       if (this.mbi && this.mc.currentScreen instanceof HandledScreen) {
          ScreenHandler var1 = this.mc.player.currentScreenHandler;
          if (var1 instanceof GenericContainerScreenHandler && var1.syncId != this.mbj) {
@@ -546,7 +546,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mcx(List<ItemStack> var1, long var2) {
+   void mcx(List<ItemStack> var1, long var2) {
       this.mcy(this.mar, this.mer(var1, this.maq), var2);
       String var4 = this.mas;
       PlayerInventory var5 = this.mc.player.getInventory();
@@ -564,16 +564,16 @@ public class lxy extends kfe {
       }
    }
 
-   private void mcy(String var1, int var2, long var3) {
+   void mcy(String var1, int var2, long var3) {
       this.mau.put(var1, new long[]{var2 > 0 ? var2 : -1L, var3});
    }
 
-   private long[] mcz(String var1, long var2, long var4) {
+   long[] mcz(String var1, long var2, long var4) {
       long[] var6 = this.mau.get(var1);
       return var6 != null && var2 - var6[1] < var4 ? var6 : null;
    }
 
-   private void mda() {
+   void mda() {
       this.mfq();
       long var1 = System.currentTimeMillis();
       if (var1 < this.mam && this.mc.currentScreen instanceof HandledScreen) {
@@ -613,7 +613,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdb() {
+   void mdb() {
       this.mfq();
       if (!this.mfn()) {
          if (this.mbm == 3) {
@@ -648,7 +648,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdc() {
+   void mdc() {
       if (!this.mfn()) {
          PlayerInventory var1 = this.mc.player.getInventory();
          if (this.mbb >= 0 && this.mbc >= 0) {
@@ -678,7 +678,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdd() {
+   void mdd() {
       boolean var1 = this.maz;
       this.mge();
       if (var1) {
@@ -686,7 +686,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mde() {
+   void mde() {
       this.mbm = 0;
       this.mbn = "";
       this.mav = -1;
@@ -711,13 +711,13 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdf() {
+   void mdf() {
       if (System.currentTimeMillis() >= this.mbg) {
          this.mgd(lxu.AH_OPEN);
       }
    }
 
-   private void mdg() {
+   void mdg() {
       if (!this.mfn()) {
          long var1 = System.currentTimeMillis();
          if (this.mfv(var1, 0)) {
@@ -729,7 +729,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdh() {
+   void mdh() {
       int var1 = this.mdl(a.c(612614747, "옖뾢㔁ꭽ₯ꘝᱍ闍"));
       if (var1 >= 0 && this.mdn() && this.mfp()) {
          this.mfr(var1, SlotActionType.PICKUP, 0);
@@ -738,7 +738,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdi() {
+   void mdi() {
       int var1 = this.mdl(a.b("\u10cf楴\ue3d2緖\uf606烎쪗䍥\udd48埻", -223800070));
       if (var1 >= 0 && this.mdn() && this.mfp()) {
          int var2 = this.mdm();
@@ -754,7 +754,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdj() {
+   void mdj() {
       this.mfq();
       this.mbm = 0;
       this.mbn = "";
@@ -765,11 +765,11 @@ public class lxy extends kfe {
       this.mgd(this.maq.isEmpty() ? lxu.IDLE : lxu.TAKE);
    }
 
-   private boolean mdk() {
+   boolean mdk() {
       return this.lzz == lxu.FULL_WAIT || this.lzz == lxu.AH_OPEN || this.lzz == lxu.AH_STORAGE || this.lzz == lxu.AH_RELIST;
    }
 
-   private int mdl(String var1) {
+   int mdl(String var1) {
       ClientPlayerEntity var2 = this.mc.player;
       ScreenHandler var3 = var2.currentScreenHandler;
       if (this.mc.currentScreen instanceof HandledScreen && var3 != null && var3 != var2.playerScreenHandler) {
@@ -791,7 +791,7 @@ public class lxy extends kfe {
       }
    }
 
-   private int mdm() {
+   int mdm() {
       ScreenHandler var1 = this.mc.player.currentScreenHandler;
       int var2 = var1.slots.size() - 36;
       int var3 = 0;
@@ -805,7 +805,7 @@ public class lxy extends kfe {
       return var3;
    }
 
-   private boolean mdn() {
+   boolean mdn() {
       if (this.mbh != 0L) {
          return true;
       }
@@ -818,7 +818,7 @@ public class lxy extends kfe {
       return false;
    }
 
-   private boolean mdo() {
+   boolean mdo() {
       if (!this.lzy.get()) {
          return false;
       }
@@ -857,7 +857,7 @@ public class lxy extends kfe {
       }
    }
 
-   private BlockPos mdp(long var1) {
+   BlockPos mdp(long var1) {
       ClientWorld var3 = this.mc.world;
       ClientPlayerEntity var4 = this.mc.player;
       Vec3d var5 = var4.getEyePos();
@@ -902,7 +902,7 @@ public class lxy extends kfe {
       return var8;
    }
 
-   private void mdq() {
+   void mdq() {
       ClientPlayerEntity var1 = this.mc.player;
       long var2 = System.currentTimeMillis();
       ClientWorld var4 = this.mc.world;
@@ -939,7 +939,7 @@ public class lxy extends kfe {
       }
    }
 
-   private boolean mdr(World var1, ScreenHandler var2, long var3) {
+   boolean mdr(World var1, ScreenHandler var2, long var3) {
       if (var2 instanceof GenericContainerScreenHandler var5 && var3 - this.mbw <= 3000L && this.mbp != null) {
          int var6 = mek(var1, this.mbp) != null ? 6 : 3;
          if (var5.getRows() != var6) {
@@ -953,7 +953,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mds(long var1) {
+   void mds(long var1) {
       PlayerInventory var3 = this.mc.player.getInventory();
       this.mcc = this.mc.player.currentScreenHandler.syncId;
       this.mcd = new ItemStack[9];
@@ -970,7 +970,7 @@ public class lxy extends kfe {
       this.mgd(lxu.CHEST_LOOT);
    }
 
-   private void mdt() {
+   void mdt() {
       ClientPlayerEntity var1 = this.mc.player;
       long var2 = System.currentTimeMillis();
       ScreenHandler var4 = var1.currentScreenHandler;
@@ -1016,7 +1016,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdu(long var1, String var3, boolean var4, int var5) {
+   void mdu(long var1, String var3, boolean var4, int var5) {
       if (this.mbq != null) {
          this.mbo.put(this.mbq, var1);
       }
@@ -1050,14 +1050,14 @@ public class lxy extends kfe {
       this.mgd(lxu.IDLE);
    }
 
-   private void mdv() {
+   void mdv() {
       ClientPlayerEntity var1 = this.mc.player;
       if (var1.currentScreenHandler != var1.playerScreenHandler) {
          var1.closeHandledScreen();
       }
    }
 
-   private BlockHitResult mdw(ClientPlayerEntity var1, float var2, float var3) {
+   BlockHitResult mdw(ClientPlayerEntity var1, float var2, float var3) {
       Vec3d var4 = var1.getEyePos();
       Vec3d var5 = Vec3d.fromPolar(var3, var2);
       Vec3d var6 = var4.add(var5.multiply(var1.getBlockInteractionRange()));
@@ -1065,7 +1065,7 @@ public class lxy extends kfe {
       return var7.getType() == Type.BLOCK ? var7 : null;
    }
 
-   private void mdx() {
+   void mdx() {
       GameOptions var1 = this.mc.options;
       if (var1 != null) {
          var1.useKey.setPressed(true);
@@ -1073,7 +1073,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdy() {
+   void mdy() {
       if (this.mbx) {
          this.mbx = false;
          if (this.mc.options != null && this.mc.getWindow() != null) {
@@ -1082,7 +1082,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mdz() {
+   void mdz() {
       GameOptions var1 = this.mc.options;
       if (var1 != null) {
          while (var1.attackKey.wasPressed()) {
@@ -1093,14 +1093,14 @@ public class lxy extends kfe {
       }
    }
 
-   private void mea() {
+   void mea() {
       if (!this.mbe) {
          this.mbe = true;
          this.mbf.hold(this.mc);
       }
    }
 
-   private void meb(ClientPlayerEntity var1) {
+   void meb(ClientPlayerEntity var1) {
       if (this.mci != var1) {
          this.mci = var1;
          this.mch.personalize(mef(var1.getGameProfile().name()));
@@ -1114,7 +1114,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mec(Vec3d var1, double var2) {
+   void mec(Vec3d var1, double var2) {
       float[] var4 = prt.calculateAngle(var1);
       this.mch.setMouseStep(prp.step());
       this.mch.aim(var4[0], var4[1], var2);
@@ -1122,7 +1122,7 @@ public class lxy extends kfe {
       this.mcj = true;
    }
 
-   private void med() {
+   void med() {
       if (this.mcj) {
          this.mcj = false;
          this.mck = System.currentTimeMillis();
@@ -1130,11 +1130,11 @@ public class lxy extends kfe {
       }
    }
 
-   private boolean mee() {
+   boolean mee() {
       return !this.mcj && pud.INSTANCE.engaged() && System.currentTimeMillis() - this.mck > 1000L;
    }
 
-   private static long mef(String var0) {
+   static long mef(String var0) {
       long var1 = 1125899906842597L;
       if (var0 != null) {
          for (int var3 = 0; var3 < var0.length(); var3++) {
@@ -1145,7 +1145,7 @@ public class lxy extends kfe {
       return var1;
    }
 
-   private Vec3d meg(BlockPos var1) {
+   Vec3d meg(BlockPos var1) {
       ClientPlayerEntity var2 = this.mc.player;
       ClientWorld var3 = this.mc.world;
       Vec3d var4 = var2.getEyePos();
@@ -1171,7 +1171,7 @@ public class lxy extends kfe {
       return null;
    }
 
-   private double meh(World var1, BlockPos var2, Vec3d var3) {
+   double meh(World var1, BlockPos var2, Vec3d var3) {
       VoxelShape var4 = var1.getBlockState(var2).getOutlineShape(var1, var2);
       Box var5 = var4.isEmpty() ? new Box(var2) : var4.getBoundingBox().offset(var2);
       double var6 = Math.min(
@@ -1186,28 +1186,28 @@ public class lxy extends kfe {
       return MathHelper.clamp(Math.toDegrees(Math.atan2(var6, var8)) * 0.55, 0.25, 4.0);
    }
 
-   private boolean mei(World var1, BlockPos var2) {
+   boolean mei(World var1, BlockPos var2) {
       return var2 != null && this.mbp != null ? var2.equals(this.mbp) || var2.equals(mek(var1, this.mbp)) : false;
    }
 
-   private static boolean mej(World var0, BlockPos var1) {
+   static boolean mej(World var0, BlockPos var1) {
       BlockEntity var2 = var0.getBlockEntity(var1);
       return var2 instanceof ChestBlockEntity || var2 instanceof BarrelBlockEntity;
    }
 
-   private static BlockPos mek(World var0, BlockPos var1) {
+   static BlockPos mek(World var0, BlockPos var1) {
       BlockState var2 = var0.getBlockState(var1);
       return var2.getBlock() instanceof ChestBlock && var2.contains(ChestBlock.CHEST_TYPE) && var2.get(ChestBlock.CHEST_TYPE) != ChestType.SINGLE
          ? var1.offset(ChestBlock.getFacing(var2))
          : null;
    }
 
-   private static BlockPos mel(World var0, BlockPos var1) {
+   static BlockPos mel(World var0, BlockPos var1) {
       BlockPos var2 = mek(var0, var1);
       return (var2 != null && var2.asLong() < var1.asLong() ? var2 : var1).toImmutable();
    }
 
-   private static boolean mem(World var0, BlockPos var1) {
+   static boolean mem(World var0, BlockPos var1) {
       if (!(var0.getBlockState(var1).getBlock() instanceof ChestBlock)) {
          return false;
       }
@@ -1216,7 +1216,7 @@ public class lxy extends kfe {
       return ChestBlock.isChestBlocked(var0, var1) || var2 != null && ChestBlock.isChestBlocked(var0, var2);
    }
 
-   private static int men(PlayerInventory var0) {
+   static int men(PlayerInventory var0) {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {
@@ -1229,13 +1229,13 @@ public class lxy extends kfe {
       return var1;
    }
 
-   private static double meo(int var0, int var1) {
+   static double meo(int var0, int var1) {
       int var2 = var0 % 9 - var1 % 9;
       int var3 = var0 / 9 - var1 / 9;
       return Math.sqrt(var2 * var2 + var3 * var3);
    }
 
-   private static boolean mep(PlayerInventory var0, ItemStack var1) {
+   static boolean mep(PlayerInventory var0, ItemStack var1) {
       for (int var2 = 0; var2 < 36; var2++) {
          ItemStack var3 = var0.getStack(var2);
          if (var3.isEmpty()) {
@@ -1250,7 +1250,7 @@ public class lxy extends kfe {
       return false;
    }
 
-   private static boolean meq(PlayerInventory var0) {
+   static boolean meq(PlayerInventory var0) {
       for (int var1 = 0; var1 < 36; var1++) {
          if (var0.getStack(var1).isEmpty()) {
             return true;
@@ -1260,7 +1260,7 @@ public class lxy extends kfe {
       return false;
    }
 
-   private int mer(List<ItemStack> var1, ItemStack var2) {
+   int mer(List<ItemStack> var1, ItemStack var2) {
       int var3 = this.mes(var1, var2, 0);
       if (var3 <= 0) {
          var3 = this.mes(var1, var2, 1);
@@ -1273,7 +1273,7 @@ public class lxy extends kfe {
       return var3;
    }
 
-   private int mes(List<ItemStack> var1, ItemStack var2, int var3) {
+   int mes(List<ItemStack> var1, ItemStack var2, int var3) {
       int var4 = Math.max(0, var1.size() - 36);
       String var5 = mfg(this.mc.player.getGameProfile().name());
       Map var6 = mfc(var2);
@@ -1305,7 +1305,7 @@ public class lxy extends kfe {
       return var11;
    }
 
-   private boolean met(ItemStack var1, ItemStack var2, Map<String, Integer> var3, int var4) {
+   boolean met(ItemStack var1, ItemStack var2, Map<String, Integer> var3, int var4) {
       if (var1.getItem() != var2.getItem()) {
          return false;
       }
@@ -1328,7 +1328,7 @@ public class lxy extends kfe {
       return var4 != 0 ? mev(var3, var7) >= this.lzv.get() / 100.0 : var3.equals(var7) && meu(var1, var2);
    }
 
-   private static boolean meu(ItemStack var0, ItemStack var1) {
+   static boolean meu(ItemStack var0, ItemStack var1) {
       List var2 = mff(var1);
       if (var2.size() <= 1) {
          return true;
@@ -1346,7 +1346,7 @@ public class lxy extends kfe {
       return true;
    }
 
-   private static double mev(Map<String, Integer> var0, Map<String, Integer> var1) {
+   static double mev(Map<String, Integer> var0, Map<String, Integer> var1) {
       if (var0.isEmpty() && var1.isEmpty()) {
          return 1.0;
       }
@@ -1367,7 +1367,7 @@ public class lxy extends kfe {
       }
    }
 
-   private static int mew(List<String> var0, String var1) {
+   static int mew(List<String> var0, String var1) {
       int var2 = -1;
       int var3 = 0;
 
@@ -1404,7 +1404,7 @@ public class lxy extends kfe {
       return var2;
    }
 
-   private static int mex(String var0, int var1) {
+   static int mex(String var0, int var1) {
       long var2 = 0L;
       boolean var4 = false;
 
@@ -1425,11 +1425,11 @@ public class lxy extends kfe {
       return var4 && var2 > 0L ? (int)var2 : -1;
    }
 
-   private static boolean mey(char var0) {
+   static boolean mey(char var0) {
       return var0 == ' ' || var0 == ',' || var0 == '.' || var0 == 160 || var0 == 8239;
    }
 
-   private static long mez(long var0) {
+   static long mez(long var0) {
       long var2 = var0;
 
       for (long var4 = 10L; var4 <= 10000L && var0 / var4 >= 10L; var4 *= 10L) {
@@ -1444,15 +1444,15 @@ public class lxy extends kfe {
       return var2;
    }
 
-   private static String mfa(ItemStack var0) {
+   static String mfa(ItemStack var0) {
       return String.valueOf(var0.getItem()) + '|' + mfg(var0.getName().getString()) + '|' + mfe(var0);
    }
 
-   private static boolean mfb(ItemStack var0, ItemStack var1) {
+   static boolean mfb(ItemStack var0, ItemStack var1) {
       return var0 != null && var1 != null && !var0.isEmpty() && !var1.isEmpty() ? var0.getItem() == var1.getItem() && mfa(var0).equals(mfa(var1)) : false;
    }
 
-   private static Map<String, Integer> mfc(ItemStack var0) {
+   static Map<String, Integer> mfc(ItemStack var0) {
       TreeMap var1 = new TreeMap();
       if (var0 != null && !var0.isEmpty()) {
          try {
@@ -1467,7 +1467,7 @@ public class lxy extends kfe {
       }
    }
 
-   private static void mfd(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
+   static void mfd(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
       if (var0 != null && !var0.isEmpty()) {
          for (RegistryEntry var3 : var0.getEnchantments()) {
             String var4 = var3.getKey().map(var0x -> var0x.getValue().getPath()).orElse("");
@@ -1478,7 +1478,7 @@ public class lxy extends kfe {
       }
    }
 
-   private static String mfe(ItemStack var0) {
+   static String mfe(ItemStack var0) {
       StringBuilder var1 = new StringBuilder();
 
       for (Entry var3 : mfc(var0).entrySet()) {
@@ -1488,7 +1488,7 @@ public class lxy extends kfe {
       return var1.toString();
    }
 
-   private static List<String> mff(ItemStack var0) {
+   static List<String> mff(ItemStack var0) {
       ArrayList var1 = new ArrayList();
 
       try {
@@ -1507,7 +1507,7 @@ public class lxy extends kfe {
       return var1;
    }
 
-   private static String mfg(String var0) {
+   static String mfg(String var0) {
       if (var0 != null && !var0.isEmpty()) {
          StringBuilder var1 = new StringBuilder(var0.length());
 
@@ -1553,12 +1553,12 @@ public class lxy extends kfe {
       return var1.toString().trim();
    }
 
-   private static boolean mfh(String var0) {
+   static boolean mfh(String var0) {
       String var1 = pfl.title(var0);
       return var1.contains(a.b("㯛䉯죌嚰\udd62寐\ue180栀", 2064990102)) && mfi(var1, lyn);
    }
 
-   private static boolean mfi(String var0, String[] var1) {
+   static boolean mfi(String var0, String[] var1) {
       for (String var5 : var1) {
          if (var0.contains(var5)) {
             return true;
@@ -1568,7 +1568,7 @@ public class lxy extends kfe {
       return false;
    }
 
-   private int mfj() {
+   int mfj() {
       PlayerInventory var1 = this.mc.player.getInventory();
       int var2 = -1;
       int var3 = 0;
@@ -1586,7 +1586,7 @@ public class lxy extends kfe {
       return var2;
    }
 
-   private int mfk() {
+   int mfk() {
       PlayerInventory var1 = this.mc.player.getInventory();
       int var2 = 0;
 
@@ -1602,7 +1602,7 @@ public class lxy extends kfe {
       return var2;
    }
 
-   private int mfl() {
+   int mfl() {
       if (this.mba >= 0) {
          return this.mba;
       }
@@ -1619,11 +1619,11 @@ public class lxy extends kfe {
       return var2.isEmpty() ? var1.getSelectedSlot() : (Integer)var2.get(ThreadLocalRandom.current().nextInt(var2.size()));
    }
 
-   private static int mfm(int var0) {
+   static int mfm(int var0) {
       return var0 < 9 ? 36 + var0 : var0;
    }
 
-   private boolean mfn() {
+   boolean mfn() {
       Screen var1 = this.mc.currentScreen;
       if (var1 == null) {
          return false;
@@ -1642,12 +1642,12 @@ public class lxy extends kfe {
       return true;
    }
 
-   private boolean mfo() {
+   boolean mfo() {
       ClientPlayerEntity var1 = this.mc.player;
       return var1.currentScreenHandler != var1.playerScreenHandler ? false : this.mfp();
    }
 
-   private boolean mfp() {
+   boolean mfp() {
       if (!this.mcj && (!pud.INSTANCE.engaged() || System.currentTimeMillis() - this.mck >= 1000L)) {
          if (!this.mft()) {
             return false;
@@ -1662,14 +1662,14 @@ public class lxy extends kfe {
       }
    }
 
-   private void mfq() {
+   void mfq() {
       if (this.mbe) {
          this.mbf.release(this.mc);
          this.mbe = false;
       }
    }
 
-   private void mfr(int var1, SlotActionType var2, int var3) {
+   void mfr(int var1, SlotActionType var2, int var3) {
       ClientPlayerEntity var4 = this.mc.player;
       if (var4 != null && this.mc.interactionManager != null) {
          ScreenHandler var5 = var4.currentScreenHandler;
@@ -1680,7 +1680,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mfs(String var1) {
+   void mfs(String var1) {
       if (this.mc.getNetworkHandler() != null) {
          this.mc.getNetworkHandler().sendChatCommand(var1);
          long var2 = System.currentTimeMillis();
@@ -1690,7 +1690,7 @@ public class lxy extends kfe {
       }
    }
 
-   private boolean mft() {
+   boolean mft() {
       long var1 = System.currentTimeMillis();
       if (var1 < this.mab) {
          return false;
@@ -1700,7 +1700,7 @@ public class lxy extends kfe {
       return true;
    }
 
-   private long mfu() {
+   long mfu() {
       double var1 = mga(1.0 + ThreadLocalRandom.current().nextGaussian() * 0.22, 0.72, 1.8);
       long var3 = (long)(110.0 * var1);
       if (ThreadLocalRandom.current().nextInt(100) < 6) {
@@ -1710,7 +1710,7 @@ public class lxy extends kfe {
       return var3 + ThreadLocalRandom.current().nextLong(10L, 60L);
    }
 
-   private boolean mfv(long var1, int var3) {
+   boolean mfv(long var1, int var3) {
       if (this.mae < 0L || this.maf != var3) {
          this.mae = this.mfw(var3);
          this.maf = var3;
@@ -1736,7 +1736,7 @@ public class lxy extends kfe {
       return false;
    }
 
-   private long mfw(int var1) {
+   long mfw(int var1) {
       if (var1 == 1) {
          return this.mcg.draw(3, 1.4);
       }
@@ -1745,15 +1745,15 @@ public class lxy extends kfe {
       return this.mcg.draw(4, var2 * 0.75 / 1500.0);
    }
 
-   private static long mfx() {
+   static long mfx() {
       return mfz(850L, 0.35, 450L, 3000L);
    }
 
-   private static int mfy() {
+   static int mfy() {
       return 14 + ThreadLocalRandom.current().nextInt(11);
    }
 
-   private static long mfz(long var0, double var2, long var4, long var6) {
+   static long mfz(long var0, double var2, long var4, long var6) {
       ThreadLocalRandom var8 = ThreadLocalRandom.current();
       long var9 = var0;
 
@@ -1767,11 +1767,11 @@ public class lxy extends kfe {
       return Math.max(var4, Math.min(var6, var9));
    }
 
-   private static double mga(double var0, double var2, double var4) {
+   static double mga(double var0, double var2, double var4) {
       return var0 < var2 ? var2 : (var0 > var4 ? var4 : var0);
    }
 
-   private boolean mgb() {
+   boolean mgb() {
       this.mbm = 0;
       this.mbi = false;
       if (pdi.warn() >= 2) {
@@ -1788,7 +1788,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mgc() {
+   void mgc() {
       String var1 = this.mbn;
       String var2 = var1.isEmpty() ? a.d("邘\ue97a提\ufddd癴\uf0c3䪓읿崾ퟳ偘ꨣ⓳뵅㜝", 1303802709, 909109202) : a.c(1884055245, "拌ᬮ醄ྉ萠ʗ룇㔫꽪▧ꈌ塷횧休앉䞹\ufdec") + var1;
       if (++this.mal >= 3) {
@@ -1799,7 +1799,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mgd(lxu var1) {
+   void mgd(lxu var1) {
       if (this.lzz != var1) {
          this.lzz = var1;
          this.maa = System.currentTimeMillis();
@@ -1807,7 +1807,7 @@ public class lxy extends kfe {
       }
    }
 
-   private void mge() {
+   void mge() {
       this.mfq();
       this.mdy();
       this.med();
@@ -1839,7 +1839,7 @@ public class lxy extends kfe {
       this.mbd = -1;
    }
 
-   private void mgf(String var1, boolean var2) {
+   void mgf(String var1, boolean var2) {
       System.out.println(a.c(1141262067, "䚹㼼뗹⮣ꁙ⛡鲮ᕊ謂ǻ蘲") + var1);
       izx.alert(this.getName(), var1, var2 ? vhz.CHECK : vhz.INFO, var2);
    }

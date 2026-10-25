@@ -10,13 +10,13 @@ import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
 
 public final class vfw implements SimpleGuiElementRenderState {
-   private final TextureSetup vfx;
-   private final Matrix3x2f vfy;
-   private final float[] vfz;
-   private final int[] vga;
-   private final int vgb;
-   private final @Nullable ScreenRect vgc;
-   private final @Nullable ScreenRect vgd;
+   final TextureSetup vfx;
+   final Matrix3x2f vfy;
+   final float[] vfz;
+   final int[] vga;
+   final int vgb;
+   final @Nullable ScreenRect vgc;
+   final @Nullable ScreenRect vgd;
 
    public vfw(TextureSetup textureSetup, Matrix3x2f pose, float[] quads, int[] colors, int count, @Nullable ScreenRect scissorArea, @Nullable ScreenRect bounds) {
       this.vfx = textureSetup;

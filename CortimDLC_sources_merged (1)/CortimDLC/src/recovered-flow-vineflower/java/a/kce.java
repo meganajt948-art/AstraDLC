@@ -8,13 +8,13 @@ import net.minecraft.client.gui.DrawContext;
 import org.joml.Matrix3x2fStack;
 
 public final class kce {
-   private static final int kcf = 14;
-   private final float kcg;
-   private Wordmark kch;
-   private final List<Wordmark> kci = new ArrayList<>();
-   private final List<Long> kcj = new ArrayList<>();
-   private static final List<Wordmark> kck = new ArrayList<>();
-   private static final List<Long> kcl = new ArrayList<>();
+   static final int kcf = 14;
+   final float kcg;
+   Wordmark kch;
+   final List<Wordmark> kci = new ArrayList<>();
+   final List<Long> kcj = new ArrayList<>();
+   static final List<Wordmark> kck = new ArrayList<>();
+   static final List<Long> kcl = new ArrayList<>();
 
    public kce(float var1) {
       this.kcg = var1;
@@ -112,13 +112,13 @@ public final class kce {
       }
    }
 
-   private static float kco(int var0, int var1, float var2) {
+   static float kco(int var0, int var1, float var2) {
       float var3 = 0.55F;
       float var4 = (float)var0 / Math.max(1, var1 - 1) * (1.0F - var3);
       return vcq.clamp01((var2 - var4) / var3);
    }
 
-   private static void kcp(Matrix3x2fStack var0, Wordmark.Glyph var1, int var2, float var3, float var4, float var5, float var6) {
+   static void kcp(Matrix3x2fStack var0, Wordmark.Glyph var1, int var2, float var3, float var4, float var5, float var6) {
       float var7 = -(1.0F - vcq.outBack(var3)) * 26.0F;
       float var8 = (1.0F - vcq.outCubic(var3)) * (var2 % 2 == 0 ? -0.35F : 0.28F);
       float var9 = 1.0F + 0.35F * (1.0F - vcq.outCubic(var3));
@@ -128,7 +128,7 @@ public final class kce {
       var0.scale(var9, var9);
    }
 
-   private static float kcq(float var0, float var1) {
+   static float kcq(float var0, float var1) {
       float var2 = var1 % 5.5F / 1.6F;
       if (var2 > 1.0F) {
          return 0.0F;
@@ -138,7 +138,7 @@ public final class kce {
       return 0.55F * (float)Math.exp(-var3 * var3);
    }
 
-   private Wordmark kcr(float var1) {
+   Wordmark kcr(float var1) {
       int var2 = Math.max(12, Math.round(this.kcg * var1));
       if (this.kch != null && this.kch.px == var2) {
          return this.kch;
@@ -153,7 +153,7 @@ public final class kce {
       return this.kch;
    }
 
-   private void kcs() {
+   void kcs() {
       long var1 = unf.frame();
 
       for (int var3 = this.kci.size() - 1; var3 >= 0; var3--) {

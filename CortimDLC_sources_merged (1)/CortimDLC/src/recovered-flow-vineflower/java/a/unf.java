@@ -3,12 +3,12 @@ package a;
 import net.minecraft.client.gui.DrawContext;
 
 public final class unf {
-   private static Object ung;
-   private static long unh;
-   private static long uni;
-   private static float unj = 0.016666668F;
+   static Object ung;
+   static long unh;
+   static long uni;
+   static float unj = 0.016666668F;
 
-   private unf() {
+   unf() {
    }
 
    public static void observe(DrawContext var0) {

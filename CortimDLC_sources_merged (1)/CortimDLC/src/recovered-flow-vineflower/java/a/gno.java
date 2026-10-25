@@ -12,6 +12,6 @@ final class gno {
    double yawErr;
    double pitchErr;
 
-   private gno() {
+   gno() {
    }
 }

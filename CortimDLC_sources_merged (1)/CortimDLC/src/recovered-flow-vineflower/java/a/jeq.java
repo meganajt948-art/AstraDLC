@@ -9,21 +9,21 @@ import net.minecraft.client.gui.DrawContext;
 abstract class jeq<T> extends jcs {
    static final float HEAD = 16.0F;
    static final float PAD = 7.0F;
-   private static final float jer = 84.0F;
-   private final vhz jes;
-   private List<jen<T>> jet = new ArrayList<>();
-   private List<jen<T>> jeu = new ArrayList<>();
-   private final Map<String, jen<T>> jev = new HashMap<>();
-   private final vcj jew = new vcj(13.0F, 84.0F);
-   private final vcj jex = new vcj(8.0F);
-   private int jey;
-   private boolean jez;
-   private boolean jfa;
-   private float jfb = 16.0F;
-   private float jfc = 84.0F;
-   private long jfd;
-   private boolean jfe;
-   private boolean jff;
+   static final float jer = 84.0F;
+   final vhz jes;
+   List<jen<T>> jet = new ArrayList<>();
+   List<jen<T>> jeu = new ArrayList<>();
+   final Map<String, jen<T>> jev = new HashMap<>();
+   final vcj jew = new vcj(13.0F, 84.0F);
+   final vcj jex = new vcj(8.0F);
+   int jey;
+   boolean jez;
+   boolean jfa;
+   float jfb = 16.0F;
+   float jfc = 84.0F;
+   long jfd;
+   boolean jfe;
+   boolean jff;
 
    jeq(String var1, String var2, vhz var3, boolean var4, int var5, int var6, float var7, float var8) {
       super(var1, var2, var4, var5, var6, var7, var8);
@@ -71,7 +71,7 @@ abstract class jeq<T> extends jcs {
       this.jfb = 16.0F + (var6 > 0.05F ? var6 + 5.0F : 0.0F);
    }
 
-   private void jfi(boolean var1, boolean var2) {
+   void jfi(boolean var1, boolean var2) {
       List var3 = var1 ? this.items(false) : List.of();
       this.jfa = false;
       if (var3.isEmpty() && var2 && var1) {
@@ -119,7 +119,7 @@ abstract class jeq<T> extends jcs {
       this.jfc = this.jfj();
    }
 
-   private float jfj() {
+   float jfj() {
       float var1 = Math.max(84.0F, 28.0F + izx.HEAD.width(wap.t(this.name)) + 22.0F);
 
       for (jen var3 : this.jet) {

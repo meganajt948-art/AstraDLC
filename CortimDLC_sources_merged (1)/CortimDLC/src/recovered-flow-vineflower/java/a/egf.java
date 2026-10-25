@@ -39,9 +39,9 @@ import net.minecraft.server.ServerLinks;
 import net.minecraft.text.Text;
 
 final class egf implements ClientLoginPacketListener {
-   private final dtv egg;
-   private final ClientConnection egh;
-   private final MinecraftClient egi = MinecraftClient.getInstance();
+   final dtv egg;
+   final ClientConnection egh;
+   final MinecraftClient egi = MinecraftClient.getInstance();
 
    egf(dtv var1, ClientConnection var2) {
       this.egg = var1;

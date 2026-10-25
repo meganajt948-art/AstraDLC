@@ -19,7 +19,7 @@ final class vne {
    int filesVersion = -1;
    int next;
 
-   private vne(long var1, long var3) {
+   vne(long var1, long var3) {
       this.device = var1;
       this.context = var3;
    }
@@ -103,7 +103,7 @@ final class vne {
       AL10.alSourcePlay(var7);
    }
 
-   private vnv vnh(String var1, boolean var2) {
+   vnv vnh(String var1, boolean var2) {
       if (this.filesVersion != vpo.version()) {
          this.vnj();
          this.filesVersion = vpo.version();
@@ -155,7 +155,7 @@ final class vne {
       return var4;
    }
 
-   private static vpi vni(float[] var0) {
+   static vpi vni(float[] var0) {
       if (var0 == null) {
          return null;
       }
@@ -169,7 +169,7 @@ final class vne {
       return new vpi(var1, 1, 44100);
    }
 
-   private void vnj() {
+   void vnj() {
       if (!this.voices.isEmpty()) {
          for (int var4 : this.sources) {
             AL10.alSourceStop(var4);
@@ -184,7 +184,7 @@ final class vne {
       }
    }
 
-   private int vnk() {
+   int vnk() {
       for (int var1 = 0; var1 < 8; var1++) {
          int var2 = this.sources[(this.next + var1) % 8];
          if (AL10.alGetSourcei(var2, 4112) != 4114) {

@@ -21,10 +21,10 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Vec3d;
 
 final class hdt {
-   private static final List<Entity> hdu = new ArrayList<>();
-   private static Team hdv;
+   static final List<Entity> hdu = new ArrayList<>();
+   static Team hdv;
 
-   private hdt() {
+   hdt() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -94,14 +94,14 @@ final class hdt {
       return false;
    }
 
-   private static void hdy(MinecraftClient var0) {
+   static void hdy(MinecraftClient var0) {
       var0.player.setYaw(0.0F);
       var0.player.setPitch(-4.0F);
       var0.player.lastYaw = 0.0F;
       var0.player.lastPitch = -4.0F;
    }
 
-   private static PlayerEntity hdz(MinecraftClient var0, String var1, double var2, double var4) {
+   static PlayerEntity hdz(MinecraftClient var0, String var1, double var2, double var4) {
       OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var7 = var0.player.getEntityPos().add(new Vec3d(0.0, 0.0, 1.0).multiply(var2)).add(new Vec3d(-1.0, 0.0, 0.0).multiply(var4));
       var6.refreshPositionAndAngles(var7.x, var0.player.getY(), var7.z, 180.0F, 0.0F);
@@ -121,7 +121,7 @@ final class hdt {
       return var6;
    }
 
-   private static void hea(MinecraftClient var0, String var1) {
+   static void hea(MinecraftClient var0, String var1) {
       System.out
          .println(a.d("\uf6e8轏֕鯮ၿ隚Ⳙꔿ㭧놂", 461015729, -2098299872) + var1 + a.b("떽챬䛟", 1227863454) + var0.getCurrentFps() + a.c(-514856328, "\uea5c鎫\u196e蜜"));
       ScreenshotRecorder.saveScreenshot(

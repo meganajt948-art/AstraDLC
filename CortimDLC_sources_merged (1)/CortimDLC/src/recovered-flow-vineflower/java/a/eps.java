@@ -1,12 +1,12 @@
 package a;
 
 final class eps {
-   private final int ept;
-   private final int epu;
-   private final int epv;
-   private final int epw;
+   final int ept;
+   final int epu;
+   final int epv;
+   final int epw;
 
-   private eps(int kh, int kw, int sh, int sw) {
+   eps(int kh, int kw, int sh, int sw) {
       this.ept = kh;
       this.epu = kw;
       this.epv = sh;

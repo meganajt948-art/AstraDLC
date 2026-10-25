@@ -8,7 +8,7 @@ import net.minecraft.particle.ParticleEffect;
 import org.jspecify.annotations.Nullable;
 
 final class ekm extends ParticleManager {
-   private ekm() {
+   ekm() {
       super(null, null);
    }
 

@@ -37,14 +37,14 @@ public final class isv {
    public static final vmc MOTION = new vmc(a.d("㊀䬓쇛德푦勖", -412184341, 136159776), 0.6, 0.0, 1.0, 0.05).percent();
    public static final vkl PARTICLES = new vkl(a.d("줰낰㩰ꐇ⿍ꥶጪ髒қ", -1395487446, 773473347), true);
    public static final String WORLD = a.c(-1535440022, "ଘ犱\uf87f昐\uedcf");
-   private static final float isw = 0.7F;
-   private static final float isx = 0.95F;
+   static final float isw = 0.7F;
+   static final float isx = 0.95F;
    public static final String DEFAULT = a.c(298037884, "눅쮫䅵\udf05哘툼栳\ue1c8羔\uf53d犴袌ٞ鿼ᖶ");
-   private static final String[][] isy = new String[][]{
+   static final String[][] isy = new String[][]{
       {a.d("嶧\u243c껬ゅ묅㷖螫๗逊᪳", 1549861911, 1368218108), a.b("锞\ueca5晵\uf81c玑\uf569伿웝墛", 1694733681), a.b("뱀엵伢텖媄\udc33", -1868841866)},
       {a.b("갃햘彈섡䪡챧瘋\ufffb憹\ueb19", 902212687), a.b("쮜눧㣷ꚞⴓꯣᆵ顊ؚ買", -2082419728), a.c(292262441, "鉪\uebdb愈ｺ璮\uf21e")}
    };
-   private static final String[][] isz = new String[][]{
+   static final String[][] isz = new String[][]{
       {a.b("ሴ殧\ue161缗", -1821765005), a.b("ꅶ\ud8c5刃챵", -1709006575), a.c(-1642025373, "ꩿ폪奅읎䲛쨨")},
       {a.b("눆쮑䅙\udf35哴퉔桓\ue1cb羮\uf500狚袽", 731165273), a.c(-473269146, "簊֡轭ᄕ體"), a.d("䵦㒈빘\u202bꮂⴿ靮\u1a8f胍ੱ覲矔滑悿\ueae6汥홝", -1279266724, -1373325003)},
       {a.b("\uec06閆ὓ脺", -930026426), a.c(1593637829, "ﮥ舅࣐隹"), a.c(1557960506, "錜\ueacf恣\ufe1b疹\uf372䤣")},
@@ -86,7 +86,7 @@ public final class isv {
       {a.c(-1788440756, "輞\uf699籝\ue23f槾"), a.c(849212209, "\uf343諤 鹂ᖃ"), a.d("ꃙ\ud944厒췥䙄", -823471733, 1929803077)},
       {a.b("⃫奴펤䷕였", 1615405228), a.d("땣쳜䘌\ud87d厨", -1616177246, 560308902), a.d("뢭섈䯜헚幺\ud8c3投\ueb69", 1658056068, 370823431)}
    };
-   private static final String[][] ita = new String[][]{
+   static final String[][] ita = new String[][]{
       {a.b("䐚㶈띊⤨ꋦ\u2450鸊", -1362541490), a.b("♢忐픒䭰삾䘈ﱒ", 1980507670)},
       {a.c(284617204, "\ue9ba造\u1afe蒘ཏ觵㏿멢␔꺡⥥팇巆"), a.b("Ἆ暴\uec6a爌率罡", 383786859)},
       {a.d("䂏㤊돘ⶨꙧ⃕髈ፚ货ރ聗", 754663102, 1786674811), a.c(856732834, "듈쵭䞿\ud9cf刀풲溢\ue71d祀\uf3e4琰")},
@@ -98,34 +98,34 @@ public final class isv {
       {a.b("≚寝턁佺쒬䈊\uf842熴\uefe2攔\ue2b4\u18f7阬྅藑̳르", -1157619172), a.d("ꌷ\uda94偋츢䗲썐礋", 264168695, -1291302988)},
       {a.b("臸\uf86f犧\ueccb朊\ue1aa宭툺䱂웠䄬", -659586656), a.c(535672963, "룡셗䮗헹")}
    };
-   private static final int itb = 2560;
-   private static final int itc = 192;
-   private static final int itd = 108;
-   private static final ExecutorService ite = Executors.newSingleThreadExecutor(var0 -> {
+   static final int itb = 2560;
+   static final int itc = 192;
+   static final int itd = 108;
+   static final ExecutorService ite = Executors.newSingleThreadExecutor(var0 -> {
       Thread var1 = new Thread(var0, a.b("ⷨ味\udea3䃊쭘䷻\uf7ff縘\ue04a櫻\ued34\u1754馒6該ಂ", 103099838));
       var1.setDaemon(true);
       return var1;
    });
-   private static final ExecutorService itf = Executors.newFixedThreadPool(3, var0 -> {
+   static final ExecutorService itf = Executors.newFixedThreadPool(3, var0 -> {
       Thread var1 = new Thread(var0, a.c(2078655510, "쑆뷝㜍ꥤ⋶ꑕṑ鞶\u09e4荕Қﻺ瀼\ue998揜\ue57f彤킩䨇챎䖶㿶"));
       var1.setDaemon(true);
       var1.setPriority(1);
       return var1;
    });
-   private static final List<isn> itg = new ArrayList<>();
-   private static final List<isq> ith = new ArrayList<>();
-   private static boolean iti;
-   private static String itj = a.b("秲\\誂ᓲ鼯\u19cbꏄ⨿둣㻊륃䍻충吋\ude41", -1821214325);
-   private static uok itk;
-   private static String itl;
-   private static float itm = -1.0F;
-   private static float itn = -1.0F;
-   private static CompletableFuture<BufferedImage> ito;
-   private static String itp;
-   private static volatile String itq;
-   private static final BufferedImage itr = new BufferedImage(1, 1, 1);
+   static final List<isn> itg = new ArrayList<>();
+   static final List<isq> ith = new ArrayList<>();
+   static boolean iti;
+   static String itj = a.b("秲\\誂ᓲ鼯\u19cbꏄ⨿둣㻊륃䍻충吋\ude41", -1821214325);
+   static uok itk;
+   static String itl;
+   static float itm = -1.0F;
+   static float itn = -1.0F;
+   static CompletableFuture<BufferedImage> ito;
+   static String itp;
+   static volatile String itq;
+   static final BufferedImage itr = new BufferedImage(1, 1, 1);
 
-   private isv() {
+   isv() {
    }
 
    static List<isn> entries() {
@@ -207,7 +207,7 @@ public final class isv {
       }
    }
 
-   private static isn itu(List<isn> var0, isn var1) {
+   static isn itu(List<isn> var0, isn var1) {
       for (isn var3 : var0) {
          if (var3.key.equals(var1.key) && Objects.equals(var3.file, var1.file)) {
             var3.failed = false;
@@ -222,7 +222,7 @@ public final class isv {
       return var1;
    }
 
-   private static boolean itv(Path var0) {
+   static boolean itv(Path var0) {
       String var1 = var0.getFileName().toString().toLowerCase(Locale.ROOT);
       return Files.isRegularFile(var0)
          && (
@@ -234,7 +234,7 @@ public final class isv {
          );
    }
 
-   private static List<Path> itw() {
+   static List<Path> itw() {
       return List.of();
    }
 
@@ -356,7 +356,7 @@ public final class isv {
       }
    }
 
-   private static uok itx(isn var0, int var1, int var2) {
+   static uok itx(isn var0, int var1, int var2) {
       int var3 = Math.min(2560, Math.max(256, (var1 + 63) / 64 * 64));
       int var4 = Math.round(var3 * ((float)var2 / var1));
       String var5 = var0.key + a.c(-459523315, "㭰") + var3 + a.b("ʍ", 1067516660) + var4 + a.d("圍", 239565320, -614650504) + FIT.get();
@@ -397,7 +397,7 @@ public final class isv {
       return itk != null ? itm : itn;
    }
 
-   private static float ity(BufferedImage var0) {
+   static float ity(BufferedImage var0) {
       int var1 = var0.getWidth();
       int var2 = var0.getHeight();
       double var3 = 0.0;
@@ -442,7 +442,7 @@ public final class isv {
       }
    }
 
-   private static BufferedImage itz(isn var0) {
+   static BufferedImage itz(isn var0) {
       try {
          if (var0.resource != null) {
             try (InputStream var1 = ezj.open(var0.resource)) {
@@ -457,7 +457,7 @@ public final class isv {
       }
    }
 
-   private static BufferedImage iua(isn var0, int var1, int var2) {
+   static BufferedImage iua(isn var0, int var1, int var2) {
       try (
          InputStream var3 = var0.resource != null ? ezj.open(var0.resource) : Files.newInputStream(var0.file);
          ImageInputStream var4 = var3 == null ? null : ImageIO.createImageInputStream(var3);
@@ -487,7 +487,7 @@ public final class isv {
       }
    }
 
-   private static BufferedImage iub(BufferedImage var0, int var1, int var2, String var3) {
+   static BufferedImage iub(BufferedImage var0, int var1, int var2, String var3) {
       if (var0 == null) {
          return null;
       }
@@ -514,14 +514,14 @@ public final class isv {
       return var7;
    }
 
-   private static void iuc(Graphics2D var0, BufferedImage var1, int var2, int var3) {
+   static void iuc(Graphics2D var0, BufferedImage var1, int var2, int var3) {
       float var4 = Math.max((float)var2 / var1.getWidth(), (float)var3 / var1.getHeight());
       int var5 = Math.max(var2, Math.round(var1.getWidth() * var4));
       int var6 = Math.max(var3, Math.round(var1.getHeight() * var4));
       var0.drawImage(iud(var1, var5, var6), (var2 - var5) / 2, (var3 - var6) / 2, null);
    }
 
-   private static BufferedImage iud(BufferedImage var0, int var1, int var2) {
+   static BufferedImage iud(BufferedImage var0, int var1, int var2) {
       BufferedImage var3 = var0;
       int var4 = var3.getWidth();
 
@@ -534,7 +534,7 @@ public final class isv {
       return var4 == var1 && var5 == var2 ? var3 : iue(var3, var1, var2);
    }
 
-   private static BufferedImage iue(BufferedImage var0, int var1, int var2) {
+   static BufferedImage iue(BufferedImage var0, int var1, int var2) {
       BufferedImage var3 = new BufferedImage(Math.max(1, var1), Math.max(1, var2), 1);
       Graphics2D var4 = var3.createGraphics();
       iuf(var4);
@@ -543,17 +543,17 @@ public final class isv {
       return var3;
    }
 
-   private static void iuf(Graphics2D var0) {
+   static void iuf(Graphics2D var0) {
       var0.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
       var0.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
       var0.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
    }
 
-   private static void iug(uok var0) {
+   static void iug(uok var0) {
       ith.add(new isq(var0, unf.frame()));
    }
 
-   private static void iuh() {
+   static void iuh() {
       long var0 = unf.frame();
       ith.removeIf(var2 -> {
          if (var0 - var2.iss > 2L) {

@@ -16,59 +16,59 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 
 final class edj {
-   private static final MinecraftClient edk = MinecraftClient.getInstance();
-   private static final long edl = ejl.offsetOf(edk, edk.getSoundManager());
-   private static final long edm = ejl.offsetOf(edk, edk.particleManager);
-   private static final long edn = ejl.offsetOf(edk, edk.mouse);
-   private static final long edo = ejl.offsetOf(edk, edk.worldRenderer);
-   private static final Field edp = vxr.find(
+   static final MinecraftClient edk = MinecraftClient.getInstance();
+   static final long edl = ejl.offsetOf(edk, edk.getSoundManager());
+   static final long edm = ejl.offsetOf(edk, edk.particleManager);
+   static final long edn = ejl.offsetOf(edk, edk.mouse);
+   static final long edo = ejl.offsetOf(edk, edk.worldRenderer);
+   static final Field edp = vxr.find(
       MinecraftClient.class,
       a.d("梙ᄣ鯡\u05ca蹞࣫늿㭅ꔜ⾼\ua87c刊\udccf䔤켺䧄\uf386籅\ue6f6悋\ue910鍃ᷱ", 1340244188, -820320196),
       a.c(2090077296, "జ疢ｽ愅\ueada汐홭徚쇃䭺"),
       a.d("ǳ硠\uf2b8泘\ue754憧\udbf0分챒䛥섧㭅떕ⰶ\ua63e₃髃ᔟ达৯耴廓璻\uef61椐\ue3cd", 494456179, 1285475542)
    );
-   private static final Field edq = vxr.find(
+   static final Field edq = vxr.find(
       MinecraftClient.class,
       a.c(-439245696, "ꓹ\udd43垁즪䈾쒋统\uf725楼\ue3dc搜鹪Ⴏ襄͚薤㿦뀥⪖곫╰弣톑"),
       a.d("ꛜ\udf62喽쯅䀚욐粭\uf55a欇\ue1b1", 1933986926, 1530850014),
       a.d("氟", 1206452448, 1835822263)
    );
-   private static final long edr = edp == null ? -1L : ejl.U.objectFieldOffset(edp);
-   private static final long eds = edq == null ? -1L : ejl.U.objectFieldOffset(edq);
-   private static final long edt;
-   private static final long edu;
-   private static ClientPlayerEntity edv;
-   private static ClientWorld edw;
-   private static ClientPlayerInteractionManager edx;
-   private static Screen edy;
-   private static HitResult edz;
-   private static Entity eea;
-   private static Entity eeb;
-   private static Object eec;
-   private static Object eed;
-   private static Object eee;
-   private static Object eef;
-   private static Object eeg;
-   private static int eeh;
-   private static boolean eei;
-   private static BossBarHud eej;
-   private static pth eek;
-   private static boolean eel;
-   private static boolean[] eem = new boolean[0];
-   private static int[] een = new int[0];
-   private static boolean eeo;
-   private static boolean eep;
-   private static boolean eeq;
-   private static boolean eer;
-   private static double ees;
-   private static boolean eet;
-   private static Object[] eeu;
-   private static boolean eev;
+   static final long edr = edp == null ? -1L : ejl.U.objectFieldOffset(edp);
+   static final long eds = edq == null ? -1L : ejl.U.objectFieldOffset(edq);
+   static final long edt;
+   static final long edu;
+   static ClientPlayerEntity edv;
+   static ClientWorld edw;
+   static ClientPlayerInteractionManager edx;
+   static Screen edy;
+   static HitResult edz;
+   static Entity eea;
+   static Entity eeb;
+   static Object eec;
+   static Object eed;
+   static Object eee;
+   static Object eef;
+   static Object eeg;
+   static int eeh;
+   static boolean eei;
+   static BossBarHud eej;
+   static pth eek;
+   static boolean eel;
+   static boolean[] eem = new boolean[0];
+   static int[] een = new int[0];
+   static boolean eeo;
+   static boolean eep;
+   static boolean eeq;
+   static boolean eer;
+   static double ees;
+   static boolean eet;
+   static Object[] eeu;
+   static boolean eev;
 
-   private edj() {
+   edj() {
    }
 
-   private static long[] eey() {
+   static long[] eey() {
       long var0 = -1L;
       long var2 = -1L;
 
@@ -129,7 +129,7 @@ final class edj {
       }
    }
 
-   private static Entity eez() {
+   static Entity eez() {
       return edr < 0L ? edk.getCameraEntity() : (Entity)ejl.U.getObject(edk, edr);
    }
 
@@ -225,7 +225,7 @@ final class edj {
       }
    }
 
-   private static void efa(dtv var0) {
+   static void efa(dtv var0) {
       try {
          edk.player = edv;
          edk.world = edw;
@@ -314,7 +314,7 @@ final class edj {
       }
    }
 
-   private static void efb(dtv var0) {
+   static void efb(dtv var0) {
       KeyBinding[] var1 = edk.options.allKeys;
       if (eem.length != var1.length) {
          eem = new boolean[var1.length];
@@ -336,7 +336,7 @@ final class edj {
       }
    }
 
-   private static void efc(dtv var0) {
+   static void efc(dtv var0) {
       KeyBinding[] var1 = edk.options.allKeys;
       int var2 = Math.min(var1.length, eem.length);
 
@@ -352,7 +352,7 @@ final class edj {
       }
    }
 
-   private static void efd() {
+   static void efd() {
       GameOptions var0 = edk.options;
       eep = var0.getSneakToggled().getValue();
       eeq = var0.getSprintToggled().getValue();
@@ -377,7 +377,7 @@ final class edj {
       }
    }
 
-   private static void efe() {
+   static void efe() {
       GameOptions var0 = edk.options;
       if (eep) {
          var0.getSneakToggled().setValue(true);

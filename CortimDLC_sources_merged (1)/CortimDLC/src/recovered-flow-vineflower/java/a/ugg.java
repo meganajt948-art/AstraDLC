@@ -13,18 +13,18 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public final class ugg {
-   private static final vdn ugh = veo.semibold(6.6F);
-   private static final vdn ugi = veo.medium(5.6F);
-   private static final float ugj = 22.0F;
-   private static final float ugk = 15.0F;
-   private static final float ugl = 15.0F;
-   private static final float ugm = 0.41666666F;
-   private static final float ugn = 0.125F;
-   private static final float ugo = 0.41666666F;
-   private static final float ugp = 24.0F;
-   private static final Map<ubj, ugd> ugq = new IdentityHashMap<>();
+   static final vdn ugh = veo.semibold(6.6F);
+   static final vdn ugi = veo.medium(5.6F);
+   static final float ugj = 22.0F;
+   static final float ugk = 15.0F;
+   static final float ugl = 15.0F;
+   static final float ugm = 0.41666666F;
+   static final float ugn = 0.125F;
+   static final float ugo = 0.41666666F;
+   static final float ugp = 24.0F;
+   static final Map<ubj, ugd> ugq = new IdentityHashMap<>();
 
-   private ugg() {
+   ugg() {
    }
 
    public static Vec3d anchor(ubj var0, float var1) {
@@ -156,15 +156,15 @@ public final class ugg {
       }
    }
 
-   private static float ugt(float var0, float var1, float var2) {
+   static float ugt(float var0, float var1, float var2) {
       return var0 + (var1 - var0) * var2;
    }
 
-   private static float ugu(double var0) {
+   static float ugu(double var0) {
       return (float)Math.max(0.78, Math.min(1.06, 1.1 - Math.log10(Math.max(1.0, var0)) * 0.1));
    }
 
-   private static void ugv(DrawContext var0, ubj var1, float var2, float var3, double var4, float var6, float var7) {
+   static void ugv(DrawContext var0, ubj var1, float var2, float var3, double var4, float var6, float var7) {
       int var8 = var1.color | 0xFF000000;
       float var9 = ugu(var4);
       float var10 = vcq.outCubic(Math.min(1.0F, var6 / 0.35F));
@@ -186,7 +186,7 @@ public final class ugg {
       ugz(var0, var1, var2, var3 + var12 - 18.333332F * var11 - 2.0F, var4, var7);
    }
 
-   private static void ugw(DrawContext var0, ubj var1, float var2, float var3, double var4, float var6, float var7) {
+   static void ugw(DrawContext var0, ubj var1, float var2, float var3, double var4, float var6, float var7) {
       int var8 = var1.color | 0xFF000000;
       float var9 = vcq.outCubic(Math.min(1.0F, var6 / 0.4F));
       float var10 = ugu(var4) * (1.0F + 0.1F * var7);
@@ -208,7 +208,7 @@ public final class ugg {
       ugz(var0, var1, var2, var12 - 7.5F * var10 - 2.5F, var4, var7);
    }
 
-   private static void ugx(DrawContext var0, int var1, boolean var2, float var3, float var4) {
+   static void ugx(DrawContext var0, int var1, boolean var2, float var3, float var4) {
       float var5 = var2 ? 1.0F : 1.2F;
 
       for (int var6 = 0; var6 < 2; var6++) {
@@ -227,7 +227,7 @@ public final class ugg {
       }
    }
 
-   private static void ugy(DrawContext var0, int var1, float var2, float var3, float var4, float var5) {
+   static void ugy(DrawContext var0, int var1, float var2, float var3, float var4, float var5) {
       float var6 = 0.9F;
 
       for (int var7 = 0; var7 < 2; var7++) {
@@ -243,7 +243,7 @@ public final class ugg {
       }
    }
 
-   private static void ugz(DrawContext var0, ubj var1, float var2, float var3, double var4, float var6) {
+   static void ugz(DrawContext var0, ubj var1, float var2, float var3, double var4, float var6) {
       String var7 = var1.mine ? wap.s(a.c(-377681730, "ࣤ煣ﮪ"), a.d("媌⍤", 1981290816, -824358948)) : lsx.protect(var1.name);
       String var8 = lsx.protect(var1.target);
       String var9 = wkw.formatDistance(var4);
@@ -265,7 +265,7 @@ public final class ugg {
       ugi.draw(var0, var9, var16 + 4.5F, ugi.centerTop(var15), ujt.withAlpha(-1, Math.round(150.0F + 50.0F * var6)));
    }
 
-   private static void uha(DrawContext var0, ubj var1, float var2, float var3, float var4, float var5, double var6, float var8) {
+   static void uha(DrawContext var0, ubj var1, float var2, float var3, float var4, float var5, double var6, float var8) {
       int var9 = var1.color | 0xFF000000;
       float var10 = uhb(var8);
       float var11 = 6.2999997F * var10;
@@ -302,7 +302,7 @@ public final class ugg {
       ugi.drawCentered(var0, var18, var17, ugi.centerTop(var16), -419430401);
    }
 
-   private static float uhb(float var0) {
+   static float uhb(float var0) {
       if (var0 >= 0.45F) {
          return 1.0F;
       }

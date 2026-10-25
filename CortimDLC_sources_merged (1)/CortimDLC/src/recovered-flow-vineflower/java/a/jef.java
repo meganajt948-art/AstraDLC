@@ -13,9 +13,9 @@ public final class jef extends jeq<jdz> {
    public static final vlv SHOW = new vlv(
       a.c(983627561, "\uf77e軴Р驉"), a.c(-1672653280, "噢\u2ffeꔭ"), a.b("荂\ufade瀍", 1556185856), a.d("켡뚲㱶ꈚ⧒꽰", -2020504048, -1804582538)
    );
-   private static final float jeg = 13.0F;
-   private static final float jeh = 9.5F;
-   private final Map<String, vcj> jei = new HashMap<>();
+   static final float jeg = 13.0F;
+   static final float jeh = 9.5F;
+   final Map<String, vcj> jei = new HashMap<>();
 
    jef() {
       super(a.b("펶ꨉ\u20c6뺬㕰돆ট聹", -1069296683), a.d("䜘㺇둈⨢ꇾ❈鴑ᓷ", -1710557151, 578207610), vhz.KEYBOARD, true, 0, 1, 6.0F, -30.0F);
@@ -45,7 +45,7 @@ public final class jef extends jeq<jdz> {
       return var2;
    }
 
-   private static String jel(char[] var0) {
+   static String jel(char[] var0) {
       StringBuilder var1 = new StringBuilder(var0.length * 2 - 1);
 
       for (int var2 = 0; var2 < var0.length; var2++) {
@@ -69,7 +69,7 @@ public final class jef extends jeq<jdz> {
       return 13.0F;
    }
 
-   private static float jem(String var0) {
+   static float jem(String var0) {
       return Math.max(14.0F, izx.SMALL.width(var0) + 8.0F);
    }
 

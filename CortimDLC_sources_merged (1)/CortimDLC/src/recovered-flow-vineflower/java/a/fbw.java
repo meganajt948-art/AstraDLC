@@ -21,49 +21,49 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 final class fbw {
-   private static final String fbx = System.getenv()
+   static final String fbx = System.getenv()
       .getOrDefault(a.b("핍곶☦롏㏽딡ཬ蚉ᣑ鉳ᖾ\uefc0愕\uf8b9狣\uf41d乗솏", 1381225753), a.d("⤭储\uda7c䐞쿼䥼\uf339竏", 1538060898, -1509238010));
-   private static final boolean fby = a.b("ᯪ戚", 419896216).equals(System.getenv(a.d("飖\ue16d殽\uf5d4繦\uf8ba䋷쬒啊\udfe8堥ꉉⲎ딬㽷릁", -1720076646, 1120742938)));
-   private static final int fbz = 2400;
-   private static final Field fca = vxr.find(
+   static final boolean fby = a.b("ᯪ戚", 419896216).equals(System.getenv(a.d("飖\ue16d殽\uf5d4繦\uf8ba䋷쬒啊\udfe8堥ꉉⲎ딬㽷릁", -1720076646, 1120742938)));
+   static final int fbz = 2400;
+   static final Field fca = vxr.find(
       ClientPlayerEntity.class,
       a.d("籍\u05f7輵ᄞ骊᰿ꙫ⾑뇈㭨벨䛞젛凰\udbee崐\ue752梑\uf222瑟ﷀ螒ण", -924784086, 1023120926),
       a.b("\uef3f隁ᱞ舦৹轳㕌벷⋥ꡑ", 1219161939),
       a.b("ߘ", -245168225)
    );
-   private static final Field fcb = vxr.find(
+   static final Field fcb = vxr.find(
       ClientPlayerEntity.class,
       a.d("銍\ueb37懵\uffde瑊\uf2ff䢫셑弈햨剨ꠞ⛛뼰㔮돐\u0992虑᳢骟ጀ楒\ue7e3", -1991564925, 1375777655),
       a.b("띻컅䐚\uda62冽휷洈\ue4f3窧\uf011", 159364887),
       a.d("\uf1b3", -1911433442, 1338189546)
    );
-   private static final Random fcc = new Random(7L);
-   private static final Set<Integer> fcd = new HashSet<>();
-   private static final List<double[]> fce = new ArrayList<>();
-   private static final List<double[]> fcf = new ArrayList<>();
-   private static final List<Double> fcg = new ArrayList<>();
-   private static final List<Double> fch = new ArrayList<>();
-   private static Field fci;
-   private static Field fcj;
-   private static float fck = Float.NaN;
-   private static float fcl;
-   private static int fcm = -1;
-   private static int fcn;
-   private static int fco;
-   private static int fcp;
-   private static int fcq;
-   private static final tbm fcr = new tbm();
-   private static double fcs = Double.NaN;
-   private static int fct;
-   private static double fcu;
-   private static double fcv;
-   private static int fcw;
-   private static Entity fcx;
-   private static int fcy = -1;
-   private static final List<Integer> fcz = new ArrayList<>();
-   private static int fda;
+   static final Random fcc = new Random(7L);
+   static final Set<Integer> fcd = new HashSet<>();
+   static final List<double[]> fce = new ArrayList<>();
+   static final List<double[]> fcf = new ArrayList<>();
+   static final List<Double> fcg = new ArrayList<>();
+   static final List<Double> fch = new ArrayList<>();
+   static Field fci;
+   static Field fcj;
+   static float fck = Float.NaN;
+   static float fcl;
+   static int fcm = -1;
+   static int fcn;
+   static int fco;
+   static int fcp;
+   static int fcq;
+   static final tbm fcr = new tbm();
+   static double fcs = Double.NaN;
+   static int fct;
+   static double fcu;
+   static double fcv;
+   static int fcw;
+   static Entity fcx;
+   static int fcy = -1;
+   static final List<Integer> fcz = new ArrayList<>();
+   static int fda;
 
-   private fbw() {
+   fbw() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -97,7 +97,7 @@ final class fbw {
       }
    }
 
-   private static void fdd(MinecraftClient var0) {
+   static void fdd(MinecraftClient var0) {
       fdo(var0, a.b("恣᧔錋൲蚲\u0004멎㎶궬❙ꂁ嫒퐧䶛쟹䄫ﭵ璲\uee18桎\ue1be鯦ᔒ躅ࣽ舡㮍뗊", 641359896));
       fdo(var0, a.d("푤귖✅륷㊦됀ง螱᧠鍎ᒎ\ueeba怍憐玏\uf52c佴삳娚\udc51喡\u2fe5ꅙ㪅볼㙨辒Ǆ鬻ᵥ雑标\ue255箵ﶣ眀죐䊡쑧嶂ퟛ꤭⍮", 193277433, 1505425875));
       fdo(var0, a.c(-1590780541, "鷍\ue47f溬\uf0de笏ﶩ䞮츘偉\udae7崧꜓⦤뀦㨦버ۙ褝Ꭿ闹ᰝ晙\ue8f7猠\uf55e翁옻䡭튒哌\udf78↮\uabfc㈜됊㺩腹ଈ跎ᐫ鹲\ue084櫇"));
@@ -132,7 +132,7 @@ final class fbw {
       }
    }
 
-   private static void fde(MinecraftClient var0) {
+   static void fde(MinecraftClient var0) {
       tiq var1 = tiq.open(fbx);
       if (var1 == null) {
          throw new IllegalStateException(a.b("ⱈ嗸\udf64䅅쪐䰼\uf666羘\ue1c2歺\uecec", 645475373) + fbx);
@@ -191,7 +191,7 @@ final class fbw {
       var2.setEnabled(true);
    }
 
-   private static void fdf(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void fdf(MinecraftClient var0, ClientPlayerEntity var1) {
       if (--fcq <= 0) {
          fcq = 15 + fcc.nextInt(35);
          fcp = fcc.nextInt(3) - 1;
@@ -205,14 +205,14 @@ final class fbw {
       vzz.simulated = fcd::contains;
    }
 
-   private static void fdg(KeyBinding var0, boolean var1) {
+   static void fdg(KeyBinding var0, boolean var1) {
       var0.setPressed(var1);
       if (var1) {
          fcd.add(KeyBindingHelper.getBoundKeyOf(var0).getCode());
       }
    }
 
-   private static void fdh(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void fdh(MinecraftClient var0, ClientPlayerEntity var1) {
       float var2 = vxr.getFloat(fca, var1, var1.getYaw());
       float var3 = vxr.getFloat(fcb, var1, var1.getPitch());
       Entity var4 = kwf.target();
@@ -255,7 +255,7 @@ final class fbw {
       fcl = var3;
    }
 
-   private static double fdi(ClientPlayerEntity var0, Entity var1, float var2, float var3) {
+   static double fdi(ClientPlayerEntity var0, Entity var1, float var2, float var3) {
       Vec3d var4 = var0.getEyePos();
       Box var5 = var1.getBoundingBox();
       return !tbp.aim(
@@ -275,7 +275,7 @@ final class fbw {
          : Math.hypot(tbp.wrap(fcr.yaw - var2), fcr.pitch - var3);
    }
 
-   private static void fdj(ClientPlayerEntity var0, Entity var1, float var2, double var3) {
+   static void fdj(ClientPlayerEntity var0, Entity var1, float var2, double var3) {
       Vec3d var5 = var0.getEyePos();
       Box var6 = var1.getBoundingBox();
       if (tbp.aim(
@@ -312,14 +312,14 @@ final class fbw {
       }
    }
 
-   private static boolean fdk(ClientPlayerEntity var0, Entity var1, float var2, float var3) {
+   static boolean fdk(ClientPlayerEntity var0, Entity var1, float var2, float var3) {
       Vec3d var4 = var0.getEyePos();
       Vec3d var5 = Vec3d.fromPolar(var3, var2);
       Box var6 = var1.getBoundingBox().expand(var1.getTargetingMargin());
       return var6.raycast(var4, var4.add(var5.multiply(8.0))).isPresent();
    }
 
-   private static void fdl() {
+   static void fdl() {
       if (fcg.size() >= 8) {
          fce.add(fcg.stream().mapToDouble(Double::doubleValue).toArray());
          fcf.add(fch.stream().mapToDouble(Double::doubleValue).toArray());
@@ -329,7 +329,7 @@ final class fbw {
       fch.clear();
    }
 
-   private static void fdm() {
+   static void fdm() {
       fdl();
       tiq var0 = tiq.open(fbx);
       ArrayList var1 = new ArrayList();
@@ -378,7 +378,7 @@ final class fbw {
       }
    }
 
-   private static void fdn(MinecraftClient var0) {
+   static void fdn(MinecraftClient var0) {
       try {
          if (fci != null && var0.currentScreen == null) {
             fci.setBoolean(var0.mouse, true);
@@ -391,7 +391,7 @@ final class fbw {
       }
    }
 
-   private static void fdo(MinecraftClient var0, String var1) {
+   static void fdo(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

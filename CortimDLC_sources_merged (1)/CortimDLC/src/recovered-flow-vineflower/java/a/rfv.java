@@ -9,6 +9,6 @@ final class rfv {
    float[][] bolts;
    float[] parts;
 
-   private rfv() {
+   rfv() {
    }
 }

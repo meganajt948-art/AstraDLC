@@ -10,26 +10,26 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderTickCounter;
 
 public class rfy extends kfe {
-   private static rfy rfz;
-   private final vlv rga = this.add(new vlv("Theme", "Ring", "Ring", "Lightning", "Winter", "Lava", "Cosmos", "Aurora", "Ocean", "Neon", "Sakura"));
-   private final vla rgb = this.add(new vla("Color", "Theme"));
-   private final vmc rgc = this.add(new vmc("Size", 1.2, 0.5, 3.0, 0.05).suffix("blocks"));
-   private final vmc rgd = this.add(new vmc("Duration", 1.2, 0.4, 3.0, 0.1).suffix("s"));
-   private final vmc rge = this.add(new vmc("Brightness", 0.9, 0.3, 1.0, 0.05).percent());
-   private final vkl rgf = this.add(new vkl("Particles", true));
-   private static final int rgg = 8;
-   private static final float rgh = (float) (Math.PI * 2);
-   private final List<rfv> rgi = new ArrayList<>();
-   private final Random rgj = new Random();
-   private boolean rgk = true;
-   private double rgl;
-   private long rgm = -1L;
-   private float rgn;
-   private final float[] rgo = new float[20];
-   private final float[][] rgp = new float[49][3];
-   private final boolean[] rgq = new boolean[49];
-   private final float[] rgr = new float[3];
-   private final float[] rgs = new float[3];
+   static rfy rfz;
+   final vlv rga = this.add(new vlv("Theme", "Ring", "Ring", "Lightning", "Winter", "Lava", "Cosmos", "Aurora", "Ocean", "Neon", "Sakura"));
+   final vla rgb = this.add(new vla("Color", "Theme"));
+   final vmc rgc = this.add(new vmc("Size", 1.2, 0.5, 3.0, 0.05).suffix("blocks"));
+   final vmc rgd = this.add(new vmc("Duration", 1.2, 0.4, 3.0, 0.1).suffix("s"));
+   final vmc rge = this.add(new vmc("Brightness", 0.9, 0.3, 1.0, 0.05).percent());
+   final vkl rgf = this.add(new vkl("Particles", true));
+   static final int rgg = 8;
+   static final float rgh = (float) (Math.PI * 2);
+   final List<rfv> rgi = new ArrayList<>();
+   final Random rgj = new Random();
+   boolean rgk = true;
+   double rgl;
+   long rgm = -1L;
+   float rgn;
+   final float[] rgo = new float[20];
+   final float[][] rgp = new float[49][3];
+   final boolean[] rgq = new boolean[49];
+   final float[] rgr = new float[3];
+   final float[] rgs = new float[3];
 
    public rfy() {
       super(new String(new char[]{'J', 'u', 'm', 'p', 'C', 'i', 'r', 'c', 'l', 'e', 's'}), "A circle where you jump", kfa.RENDER);
@@ -63,7 +63,7 @@ public class rfy extends kfe {
       this.rgk = var3;
    }
 
-   private void rgv(double var1, double var3, double var5) {
+   void rgv(double var1, double var3, double var5) {
       if (this.rgi.size() >= 8) {
          this.rgi.remove(0);
       }
@@ -88,7 +88,7 @@ public class rfy extends kfe {
       this.rgi.add(var7);
    }
 
-   private float[][] rgw() {
+   float[][] rgw() {
       ArrayList var1 = new ArrayList();
       int var2 = 9 + this.rgj.nextInt(4);
       float var3 = this.rgj.nextFloat() * (float) (Math.PI * 2);
@@ -119,7 +119,7 @@ public class rfy extends kfe {
       return var1.toArray(new float[0][]);
    }
 
-   private float[] rgx(float var1, float var2, float var3, int var4) {
+   float[] rgx(float var1, float var2, float var3, int var4) {
       float[] var5 = new float[var4 * 2];
       float var6 = 0.0F;
 
@@ -183,7 +183,7 @@ public class rfy extends kfe {
       }
    }
 
-   private int rgy(String var1) {
+   int rgy(String var1) {
       return switch (var1) {
          case "Winter" -> 1;
          case "Lava" -> 2;
@@ -196,7 +196,7 @@ public class rfy extends kfe {
       };
    }
 
-   private int[] rgz(String var1) {
+   int[] rgz(String var1) {
       return switch (var1) {
          case "Winter" -> new int[]{-4199937, -1};
          case "Lava" -> new int[]{-34278, -11654};
@@ -210,7 +210,7 @@ public class rfy extends kfe {
       };
    }
 
-   private void rha(DrawContext var1, usn var2, rfv var3, float var4) {
+   void rha(DrawContext var1, usn var2, rfv var3, float var4) {
       String var5 = this.rga.get();
       int[] var6 = this.rgz(var5);
       float var7 = Math.min(1.0F, var3.age / 0.08F);
@@ -229,7 +229,7 @@ public class rfy extends kfe {
       }
    }
 
-   private void rhb(DrawContext var1, usn var2, rfv var3, float var4, int var5, int[] var6, float var7, float var8) {
+   void rhb(DrawContext var1, usn var2, rfv var3, float var4, int var5, int[] var6, float var7, float var8) {
       int var9 = ujt.withAlpha(var6[0], Math.round(255.0F * var7));
       byte var10 = 6;
       boolean var11 = true;
@@ -273,7 +273,7 @@ public class rfy extends kfe {
       }
    }
 
-   private void rhc(int var1, float[] var2, float var3, float var4) {
+   void rhc(int var1, float[] var2, float var3, float var4) {
       int var5 = var1 * 5;
       this.rgo[var5] = var2[0];
       this.rgo[var5 + 1] = var2[1];
@@ -282,7 +282,7 @@ public class rfy extends kfe {
       this.rgo[var5 + 4] = var2[2];
    }
 
-   private void rhd(DrawContext var1, usn var2, rfv var3, float var4, float var5, float var6, int[] var7) {
+   void rhd(DrawContext var1, usn var2, rfv var3, float var4, float var5, float var6, int[] var7) {
       float var8 = var2.unitsPerBlock(var3.x, var3.y, var3.z);
       if (!(var8 <= 0.0F)) {
          float var9 = Math.min(1.0F, var6 / 0.25F);
@@ -338,7 +338,7 @@ public class rfy extends kfe {
       }
    }
 
-   private void rhe(DrawContext var1, usn var2, rfv var3, String var4, float var5, float var6, float var7, int[] var8) {
+   void rhe(DrawContext var1, usn var2, rfv var3, String var4, float var5, float var6, float var7, int[] var8) {
       GpuTextureView var9 = unm.view();
       float var10 = var2.unitsPerBlock(var3.x, var3.y, var3.z);
       if (var9 != null && !(var10 <= 0.0F)) {

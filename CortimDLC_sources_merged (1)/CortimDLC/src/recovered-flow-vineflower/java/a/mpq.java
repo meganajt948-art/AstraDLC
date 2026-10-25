@@ -60,221 +60,221 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public class mpq extends pnc {
-   private static final String mpr = a.b("㞺丬쓽媄", 1693399030);
-   private static final String mps = a.b("⨛厜\ud95c䜯", 1390946888);
-   private static final List<BlockPos> mpt = Collections.emptyList();
-   private static final int[] mpu = new int[]{0, 45, -45, 90, -90, 135, -135, 180};
-   private static final float mpv = -55.0F;
-   private static final int mpw = 2400;
-   private static final long mpx = 6000L;
-   private static final int mpy = 2;
-   private static final int mpz = 200;
-   private static final int mqa = 3;
-   private static final int mqb = 100;
-   private static final float mqc = 86.0F;
-   private final vmc mqd = this.add(new vmc(a.d("⾞嘃\udcc9䋠쥡俇\uf586籡\ue228", -2028986025, -1575547251), 10.0, 1.0, 30.0, 1.0));
-   private final vlj mqe = this.add(new vlj(a.b("\ue5d2鱀ᚓ裹ͺ薇㿑똺⡢", 1473504663), vlg.LOOT, ppu.END_DEFAULTS));
-   private final vkl mqf = this.add(new vkl(a.c(-678181698, "쓢뵵㞰ꦄ∑꒰Ụ霓ॗ"), false));
-   private final vkl mqg = this.add(new vkl(a.d("뒰촴䟭\ud992刀퓢溲\ue756礉\uf3b9", 654443813, 53916107), false));
-   private final vmu mqh = this.add(new vmu(a.b("鲚\ue519濝\uf1bf稭ﳹ䚁콺", -871719743), a.d("Ὣ曕\uec5d爩粒", 2023181717, -397127014), 32));
-   private final vmu mqi = this.add(new vmu(a.c(-277864943, "ṕ柇\ued14獾\uf8fd縩쑑䶪"), a.d("꧶큈嫀쒴佫", 1969651208, 141612954), 120));
-   private final vlv mqj = this.add(
+   static final String mpr = a.b("㞺丬쓽媄", 1693399030);
+   static final String mps = a.b("⨛厜\ud95c䜯", 1390946888);
+   static final List<BlockPos> mpt = Collections.emptyList();
+   static final int[] mpu = new int[]{0, 45, -45, 90, -90, 135, -135, 180};
+   static final float mpv = -55.0F;
+   static final int mpw = 2400;
+   static final long mpx = 6000L;
+   static final int mpy = 2;
+   static final int mpz = 200;
+   static final int mqa = 3;
+   static final int mqb = 100;
+   static final float mqc = 86.0F;
+   final vmc mqd = this.add(new vmc(a.d("⾞嘃\udcc9䋠쥡俇\uf586籡\ue228", -2028986025, -1575547251), 10.0, 1.0, 30.0, 1.0));
+   final vlj mqe = this.add(new vlj(a.b("\ue5d2鱀ᚓ裹ͺ薇㿑똺⡢", 1473504663), vlg.LOOT, ppu.END_DEFAULTS));
+   final vkl mqf = this.add(new vkl(a.c(-678181698, "쓢뵵㞰ꦄ∑꒰Ụ霓ॗ"), false));
+   final vkl mqg = this.add(new vkl(a.d("뒰촴䟭\ud992刀퓢溲\ue756礉\uf3b9", 654443813, 53916107), false));
+   final vmu mqh = this.add(new vmu(a.b("鲚\ue519濝\uf1bf稭ﳹ䚁콺", -871719743), a.d("Ὣ曕\uec5d爩粒", 2023181717, -397127014), 32));
+   final vmu mqi = this.add(new vmu(a.c(-277864943, "ṕ柇\ued14獾\uf8fd縩쑑䶪"), a.d("꧶큈嫀쒴佫", 1969651208, 141612954), 120));
+   final vlv mqj = this.add(
       new vlv(a.d("\ue313骓၉踱׳荝㤓냤⻯ꐜ⏔", -98598428, -323591512), a.d("Ꭶ樰\ue0e1纘", -369263833, 370763981), a.b("䇇㡑늀⳹", 925188491), a.c(70318726, "𥉉荒\u0992韡"))
    );
-   private final vmu mqk = this.add(new vmu(a.c(2023459489, "諿\uf378禸\ue7cb汌\ueab3僯\ud912䝅"), a.b("⿳噉\udc90", 1374891925), 32));
-   private final vkl mql = this.add(new vkl(a.b("댘쪒䁆\ude2f喯퍌椂\ue0e9纷\uf417", -1426279615), false));
-   private final vkw mqm = this.add(
+   final vmu mqk = this.add(new vmu(a.c(2023459489, "諿\uf378禸\ue7cb汌\ueab3僯\ud912䝅"), a.b("⿳噉\udc90", 1374891925), 32));
+   final vkl mql = this.add(new vkl(a.b("댘쪒䁆\ude2f喯퍌椂\ue0e9纷\uf417", -1426279615), false));
+   final vkw mqm = this.add(
       new vkw(
          a.b("㒆䴜쟟妩퉣咝\uee99松郎玚\uf44b\u0e3d胣", 1860777157),
          new vkq(a.b("\uf219讟Ŋ鼷ᓽ鉚⡍ꇽ㾭딖㊁좤䙵\udfd7喌퍺", 1798107739), vhz.LAYERS, () -> ign.openWalk(a.c(693239075, "ﵥ蓠า遘ᮥ鴿❦")))
       )
    );
-   private static mpq mqn;
-   private final pnz mqo = new pnz();
-   private int mqp = 0;
-   private mpm mqq = mpm.RESTOCK_AND_DUMP;
-   private int mqr = 0;
-   private long mqs = 0L;
-   private long mqt = 0L;
-   private int mqu = 0;
-   private int mqv = 0;
-   private int mqw = 0;
-   private int mqx = -1;
-   private List<BlockPos> mqy = null;
-   private int mqz = 0;
-   private final Set<BlockPos> mra = new HashSet<>();
-   private int mrb = 0;
-   private int mrc = 0;
-   private final List<String> mrd = new ArrayList<>(
+   static mpq mqn;
+   final pnz mqo = new pnz();
+   int mqp = 0;
+   mpm mqq = mpm.RESTOCK_AND_DUMP;
+   int mqr = 0;
+   long mqs = 0L;
+   long mqt = 0L;
+   int mqu = 0;
+   int mqv = 0;
+   int mqw = 0;
+   int mqx = -1;
+   List<BlockPos> mqy = null;
+   int mqz = 0;
+   final Set<BlockPos> mra = new HashSet<>();
+   int mrb = 0;
+   int mrc = 0;
+   final List<String> mrd = new ArrayList<>(
       List.of(a.b("歛ያ頼", 1128689517), a.d("햛갯⛳뢈㍐", -1629421280, 1886703750), a.c(360675067, "犲\u0b78膯ᾠ鐉\u12c7ꢗⅨ"))
    );
-   private int mre = 3;
-   private pmf mrf = null;
-   private int mrg = 0;
-   private boolean mrh = false;
-   private boolean mri = false;
-   private boolean mrj = false;
-   private boolean mrk = false;
-   private BlockPos mrl = null;
-   private String mrm = "";
-   private int mrn = 0;
-   private boolean mro = false;
-   private BlockPos mrp = null;
-   private int mrq = 0;
-   private BlockPos mrr = null;
-   private int mrs = 0;
-   private BlockPos mrt = null;
-   private int mru = 0;
-   private int mrv = 0;
-   private int mrw = 0;
-   private int mrx = 1;
-   private boolean mry = false;
-   private BlockPos mrz = null;
-   private int msa = 0;
-   private boolean msb = false;
-   private int msc = 0;
-   private int msd = 0;
-   private int mse = 0;
-   private int msf = 0;
-   private int msg = 0;
-   private int msh = 0;
-   private int msi = 0;
-   private Vec3d msj = null;
-   private boolean msk = false;
-   private final Set<Integer> msl = new HashSet<>();
-   private final Set<Integer> msm = new HashSet<>();
-   private int msn = 0;
-   private double mso = Double.MAX_VALUE;
-   private int msp = -1;
-   private boolean msq = false;
-   private int msr = 0;
-   private int mss = 0;
-   private boolean mst = false;
-   private boolean msu = false;
-   private int msv = 0;
-   private int msw = 0;
-   private int msx = 0;
-   private final Queue<Runnable> msy = new LinkedList<>();
-   private int msz = 0;
-   private long mta = 0L;
-   private int mtb = 0;
-   private float mtc = 0.0F;
-   private boolean mtd = false;
-   private int mte = 0;
-   private int mtf = 0;
-   private float mtg = 0.0F;
-   private int mth = 0;
-   private Vec3d mti = null;
-   private int mtj = 0;
-   private int mtk = 0;
-   private final pjw mtl = new pjw().neuro(lex.END);
-   private final pud mtm = pud.INSTANCE;
-   private boolean mtn = false;
-   private boolean mto = false;
-   private boolean mtp = false;
-   private boolean mtq = false;
-   private boolean mtr = false;
-   private float mts = 0.0F;
-   private float mtt = 0.0F;
-   private float mtu = 0.0F;
-   private float mtv = 0.0F;
-   private PlayerEntity mtw = null;
-   private Vec3d mtx = null;
-   private final Random mty = new Random();
-   private float mtz = 0.0F;
-   private boolean mua = false;
-   private boolean mub = false;
-   private boolean muc = false;
-   private int mud = 0;
-   private int mue = 0;
-   private int muf = 0;
-   private int mug = 0;
-   private int muh = 0;
-   private int mui = -1;
-   private int muj = 0;
-   private int muk = -1;
-   private int mul = 0;
-   private int mum = 0;
-   private boolean mun = false;
-   private int muo = 0;
-   private int mup = 0;
-   private int muq = 0;
-   private float mur = 0.0F;
-   private boolean mus = false;
-   private World mut = null;
-   private int muu = -1;
-   private int muv = 0;
-   private boolean muw = false;
-   private boolean mux = false;
-   private Vec3d muy = null;
-   private double muz = 0.0;
-   private double mva = 0.0;
-   private double mvb = 0.0;
-   private int mvc = 0;
-   private double mvd = 0.0;
-   private boolean mve = false;
-   private int mvf = 0;
-   private int mvg = 0;
-   private boolean mvh = false;
-   private int mvi = 0;
-   private int mvj = 0;
-   private BlockPos mvk = null;
-   private final pyd mvl = new pyd();
-   private psf mvm = null;
-   private pqq mvn = null;
-   private BlockPos mvo = null;
-   private boolean mvp = false;
-   private boolean mvq = false;
-   private boolean mvr = false;
-   private final double[] mvs = new double[2];
-   private double mvt = Double.NaN;
-   private int mvu = 0;
-   private int mvv = 0;
-   private final Set<Long> mvw = new HashSet<>();
-   private int mvx = 0;
-   private boolean mvy = false;
-   private String mvz = null;
-   private int mwa = 0;
-   private int mwb = 0;
-   private final Map<ItemStack, Boolean> mwc = new IdentityHashMap<>();
-   private int mwd = -1;
-   private int mwe = -1;
-   private int mwf = 0;
-   private float mwg = 10.0F;
-   private int mwh = 0;
-   private int mwi = 0;
-   private BlockPos mwj = null;
-   private long mwk = 0L;
-   private int mwl = -1;
-   private int mwm = -100000;
-   private String mwn = "";
-   private Vec3d mwo = null;
-   private int mwp = 0;
-   private int mwq = 0;
-   private int mwr = -1;
-   private int mws = -100000;
-   private final int[] mwt = new int[]{-1, -1};
-   private final int[] mwu = new int[2];
-   private final int[] mwv = new int[2];
-   private final int[] mww = new int[2];
-   private final int[] mwx = new int[2];
-   private final boolean[] mwy = new boolean[2];
-   private World mwz = null;
-   private PlayerEntity mxa = null;
-   private Vec3d mxb = null;
-   private int mxc = -1;
-   private volatile boolean mxd = false;
-   private int mxe = 0;
-   private int mxf = 0;
-   private int mxg = 0;
-   private int mxh = 0;
-   private String mxi = "";
-   private boolean mxj = false;
-   private boolean mxk = false;
-   private volatile int mxl = -100000;
-   private volatile String mxm = null;
-   private PlayerEntity mxn = null;
-   private int mxo = -100000;
+   int mre = 3;
+   pmf mrf = null;
+   int mrg = 0;
+   boolean mrh = false;
+   boolean mri = false;
+   boolean mrj = false;
+   boolean mrk = false;
+   BlockPos mrl = null;
+   String mrm = "";
+   int mrn = 0;
+   boolean mro = false;
+   BlockPos mrp = null;
+   int mrq = 0;
+   BlockPos mrr = null;
+   int mrs = 0;
+   BlockPos mrt = null;
+   int mru = 0;
+   int mrv = 0;
+   int mrw = 0;
+   int mrx = 1;
+   boolean mry = false;
+   BlockPos mrz = null;
+   int msa = 0;
+   boolean msb = false;
+   int msc = 0;
+   int msd = 0;
+   int mse = 0;
+   int msf = 0;
+   int msg = 0;
+   int msh = 0;
+   int msi = 0;
+   Vec3d msj = null;
+   boolean msk = false;
+   final Set<Integer> msl = new HashSet<>();
+   final Set<Integer> msm = new HashSet<>();
+   int msn = 0;
+   double mso = Double.MAX_VALUE;
+   int msp = -1;
+   boolean msq = false;
+   int msr = 0;
+   int mss = 0;
+   boolean mst = false;
+   boolean msu = false;
+   int msv = 0;
+   int msw = 0;
+   int msx = 0;
+   final Queue<Runnable> msy = new LinkedList<>();
+   int msz = 0;
+   long mta = 0L;
+   int mtb = 0;
+   float mtc = 0.0F;
+   boolean mtd = false;
+   int mte = 0;
+   int mtf = 0;
+   float mtg = 0.0F;
+   int mth = 0;
+   Vec3d mti = null;
+   int mtj = 0;
+   int mtk = 0;
+   final pjw mtl = new pjw().neuro(lex.END);
+   final pud mtm = pud.INSTANCE;
+   boolean mtn = false;
+   boolean mto = false;
+   boolean mtp = false;
+   boolean mtq = false;
+   boolean mtr = false;
+   float mts = 0.0F;
+   float mtt = 0.0F;
+   float mtu = 0.0F;
+   float mtv = 0.0F;
+   PlayerEntity mtw = null;
+   Vec3d mtx = null;
+   final Random mty = new Random();
+   float mtz = 0.0F;
+   boolean mua = false;
+   boolean mub = false;
+   boolean muc = false;
+   int mud = 0;
+   int mue = 0;
+   int muf = 0;
+   int mug = 0;
+   int muh = 0;
+   int mui = -1;
+   int muj = 0;
+   int muk = -1;
+   int mul = 0;
+   int mum = 0;
+   boolean mun = false;
+   int muo = 0;
+   int mup = 0;
+   int muq = 0;
+   float mur = 0.0F;
+   boolean mus = false;
+   World mut = null;
+   int muu = -1;
+   int muv = 0;
+   boolean muw = false;
+   boolean mux = false;
+   Vec3d muy = null;
+   double muz = 0.0;
+   double mva = 0.0;
+   double mvb = 0.0;
+   int mvc = 0;
+   double mvd = 0.0;
+   boolean mve = false;
+   int mvf = 0;
+   int mvg = 0;
+   boolean mvh = false;
+   int mvi = 0;
+   int mvj = 0;
+   BlockPos mvk = null;
+   final pyd mvl = new pyd();
+   psf mvm = null;
+   pqq mvn = null;
+   BlockPos mvo = null;
+   boolean mvp = false;
+   boolean mvq = false;
+   boolean mvr = false;
+   final double[] mvs = new double[2];
+   double mvt = Double.NaN;
+   int mvu = 0;
+   int mvv = 0;
+   final Set<Long> mvw = new HashSet<>();
+   int mvx = 0;
+   boolean mvy = false;
+   String mvz = null;
+   int mwa = 0;
+   int mwb = 0;
+   final Map<ItemStack, Boolean> mwc = new IdentityHashMap<>();
+   int mwd = -1;
+   int mwe = -1;
+   int mwf = 0;
+   float mwg = 10.0F;
+   int mwh = 0;
+   int mwi = 0;
+   BlockPos mwj = null;
+   long mwk = 0L;
+   int mwl = -1;
+   int mwm = -100000;
+   String mwn = "";
+   Vec3d mwo = null;
+   int mwp = 0;
+   int mwq = 0;
+   int mwr = -1;
+   int mws = -100000;
+   final int[] mwt = new int[]{-1, -1};
+   final int[] mwu = new int[2];
+   final int[] mwv = new int[2];
+   final int[] mww = new int[2];
+   final int[] mwx = new int[2];
+   final boolean[] mwy = new boolean[2];
+   World mwz = null;
+   PlayerEntity mxa = null;
+   Vec3d mxb = null;
+   int mxc = -1;
+   volatile boolean mxd = false;
+   int mxe = 0;
+   int mxf = 0;
+   int mxg = 0;
+   int mxh = 0;
+   String mxi = "";
+   boolean mxj = false;
+   boolean mxk = false;
+   volatile int mxl = -100000;
+   volatile String mxm = null;
+   PlayerEntity mxn = null;
+   int mxo = -100000;
 
    public mpq() {
       super(a.c(441565294, "쀨릭㍿괕⛨ꁲᨫ"), a.d("媮⌯ꧫ㞞뱃㫪胪ॾ霊ᶱ騦怇\ueecf睥ﴱ箟쇜乆퓻努\udb48ꄚ⿺둲㈛룐Ť轧ᗜ鎎ᠽ\ue6f7", 2145421006, 1436539906), kfa.PLAYER);
@@ -333,7 +333,7 @@ public class mpq extends pnc {
       return this.driver != null && var1 != null && var1 != this && !var1.isBotInstance() ? var1.mqe : this.mqe;
    }
 
-   private boolean mxr(ItemStack var1) {
+   boolean mxr(ItemStack var1) {
       return ppu.picked(var1, this.lootList().ids());
    }
 
@@ -341,7 +341,7 @@ public class mpq extends pnc {
       return this.mwn;
    }
 
-   private Object mxs() {
+   Object mxs() {
       return this.driver != null ? this.driver : pjd.MAIN;
    }
 
@@ -392,7 +392,7 @@ public class mpq extends pnc {
       this.mqw = 0;
    }
 
-   private String mxt() {
+   String mxt() {
       if (!a.c(1694846919, "侔㘓볓⊠").equals(this.mqj.get())) {
          return a.c(2020307053, "瀌\u09ba荫ᴒ隀ၹꨭ⏞붉");
       }
@@ -465,7 +465,7 @@ public class mpq extends pnc {
       this.mwn = "";
    }
 
-   private void mxu() {
+   void mxu() {
       this.myd(mpm.RESTOCK_AND_DUMP);
       this.mqr = 0;
       this.mqy = null;
@@ -569,29 +569,29 @@ public class mpq extends pnc {
       this.myy();
    }
 
-   private void mxv() {
+   void mxv() {
       this.mxw(true);
    }
 
-   private void mxw(boolean var1) {
+   void mxw(boolean var1) {
       this.mc.options.sneakKey.setPressed(var1);
       this.mc.options.useKey.setPressed(true);
       ptr.miss();
    }
 
-   private void mxx() {
+   void mxx() {
       if (this.mc.options != null) {
          this.mc.options.useKey.setPressed(false);
          this.mc.options.sneakKey.setPressed(false);
       }
    }
 
-   private boolean mxy(float var1) {
+   boolean mxy(float var1) {
       this.nby(this.mto ? this.mts : this.mtl.intentYaw(), var1);
       return Math.abs(this.mtl.intentPitch() - var1) <= 0.75F;
    }
 
-   private boolean mxz() {
+   boolean mxz() {
       boolean var1 = this.getPlayer().getHungerManager().getFoodLevel() < 18;
       int var2 = this.nei(Items.GOLDEN_CARROT);
       boolean var3 = this.nci();
@@ -654,7 +654,7 @@ public class mpq extends pnc {
       return true;
    }
 
-   private void mya() {
+   void mya() {
       if (this.nci()) {
          this.ncr();
          this.mc.options.sprintKey.setPressed(false);
@@ -665,24 +665,24 @@ public class mpq extends pnc {
       }
    }
 
-   private void myb() {
+   void myb() {
       this.mxx();
       this.mtf = 0;
       this.mth = 0;
    }
 
-   private boolean myc(ItemStack var1) {
+   boolean myc(ItemStack var1) {
       return var1.isEmpty() ? false : var1.getItem() == Items.GOLDEN_CARROT || var1.getItem() == Items.WATER_BUCKET || this.nel(var1) || this.neo(var1);
    }
 
-   private void myd(mpm var1) {
+   void myd(mpm var1) {
       if (this.mqq != var1) {
          this.mqq = var1;
          this.mwn = "";
       }
    }
 
-   private void mye(String var1) {
+   void mye(String var1) {
       if (!this.mvy) {
          this.mvy = true;
          this.mvx = 0;
@@ -735,7 +735,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myf() {
+   void myf() {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 != this.mxn) {
          this.mxo = this.mwa;
@@ -744,7 +744,7 @@ public class mpq extends pnc {
       this.mxn = var1;
    }
 
-   private void myg() {
+   void myg() {
       int var1 = this.mxl;
       if (this.mwa - var1 <= 100) {
          ClientPlayerEntity var2 = this.getPlayer();
@@ -761,22 +761,22 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean myh() {
+   boolean myh() {
       StatusEffectInstance var1 = this.getPlayer().getStatusEffect(StatusEffects.INVISIBILITY);
       return var1 != null ? var1.getDuration() > 600 : false;
    }
 
-   private boolean myi() {
+   boolean myi() {
       StatusEffectInstance var1 = this.getPlayer().getStatusEffect(StatusEffects.SPEED);
       return var1 != null ? var1.getDuration() > 600 : false;
    }
 
-   private int myj(boolean var1) {
+   int myj(boolean var1) {
       StatusEffectInstance var2 = this.getPlayer().getStatusEffect(var1 ? StatusEffects.INVISIBILITY : StatusEffects.SPEED);
       return var2 == null ? 0 : (var2.isInfinite() ? Integer.MAX_VALUE : var2.getDuration());
    }
 
-   private boolean myk(boolean var1) {
+   boolean myk(boolean var1) {
       int var2 = var1 ? 0 : 1;
       if (!this.mwy[var2] && this.mwu[var2] <= 0 && this.nab(var1) != 0) {
          int var3 = this.mww[var2] > 0 ? Math.min(600, this.mww[var2] * 3 / 4) : 600;
@@ -786,7 +786,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myl() {
+   void myl() {
       for (int var1 = 0; var1 < 2; var1++) {
          boolean var2 = var1 == 0;
          int var3 = this.nab(var2);
@@ -812,7 +812,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mym(int var1) {
+   void mym(int var1) {
       if (!this.mwy[var1]) {
          this.mwy[var1] = true;
          if (var1 == 0) {
@@ -838,7 +838,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myn() {
+   void myn() {
       for (int var1 = 0; var1 < 2; var1++) {
          this.mwu[var1] = 0;
          this.mwy[var1] = false;
@@ -846,12 +846,12 @@ public class mpq extends pnc {
       }
    }
 
-   private void myo(String var1) {
+   void myo(String var1) {
       this.mxg++;
       this.mxi = var1;
    }
 
-   private boolean myp() {
+   boolean myp() {
       int var1 = Math.max(this.mxg, this.mxh);
       if (var1 < 3) {
          return false;
@@ -948,23 +948,23 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean myq() {
+   boolean myq() {
       return this.driver == null && mqn == this && this.isEnabled() && tcz.walkGuide();
    }
 
-   private boolean myr() {
+   boolean myr() {
       return this.mvr || this.getPlayer().isUsingItem() || this.ncm() || this.mrf != null || this.muw || this.mc.currentScreen != null;
    }
 
-   private int mys(int var1) {
+   int mys(int var1) {
       return this.myq() ? var1 * 3 : var1;
    }
 
-   private txs myt() {
+   txs myt() {
       return lfa.walkModel(lex.END);
    }
 
-   private void myu() {
+   void myu() {
       GameOptions var1 = this.mc.options;
       if (var1 != null && !this.ncm() && this.mrf == null && !this.muw) {
          KeyBinding[] var2 = new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey};
@@ -991,7 +991,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myv() {
+   void myv() {
       long var1 = System.currentTimeMillis();
       if (this.mqt != 0L) {
          long var3 = var1 - this.mqt;
@@ -1003,7 +1003,7 @@ public class mpq extends pnc {
       this.mqt = var1;
    }
 
-   private void myw() {
+   void myw() {
       PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = 0;
 
@@ -1056,7 +1056,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myx() {
+   void myx() {
       if (this.mc.options != null && this.mud <= 0) {
          KeyBinding[] var1 = new KeyBinding[]{
             this.mc.options.forwardKey,
@@ -1076,7 +1076,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myy() {
+   void myy() {
       if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
             this.mc.options.forwardKey,
@@ -1098,7 +1098,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void myz() {
+   void myz() {
       this.muy = null;
       this.mux = false;
       this.mry = false;
@@ -1468,7 +1468,7 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean mza() {
+   boolean mza() {
       if (this.mtk > 0) {
          this.mtk--;
       }
@@ -1516,7 +1516,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzb(boolean var1) {
+   void mzb(boolean var1) {
       boolean var2 = this.mc.options.forwardKey.isPressed();
       if (var1 && var2 && pqf.isBlockedHorizontally()) {
          this.mrw++;
@@ -1551,7 +1551,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzc(float var1) {
+   void mzc(float var1) {
       float var2 = 1.0F;
       float var3 = 0.0F;
       float var4 = Float.MAX_VALUE;
@@ -1578,11 +1578,11 @@ public class mpq extends pnc {
       this.mc.options.rightKey.setPressed(var3 < 0.0F);
    }
 
-   private static float mzd(double var0, double var2) {
+   static float mzd(double var0, double var2) {
       return (float)Math.toDegrees(Math.atan2(-var0, var2));
    }
 
-   private boolean mze() {
+   boolean mze() {
       if (this.mwf < 6) {
          return false;
       }
@@ -1612,13 +1612,13 @@ public class mpq extends pnc {
       return true;
    }
 
-   private void mzf() {
+   void mzf() {
       if (pqf.onClimbable(this.getPlayer()) && this.mc.options != null) {
          this.mc.options.sneakKey.setPressed(true);
       }
    }
 
-   private void mzg() {
+   void mzg() {
       if (Math.abs(this.mtl.intentPitch() - this.mwg) > 6.0F) {
          this.nbz(this.mtl.intentYaw(), this.mwg, true);
       } else {
@@ -1626,7 +1626,7 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean mzh() {
+   boolean mzh() {
       if (this.mc.world != null && this.getPlayer() != null) {
          String var1 = this.mc.world.getRegistryKey().getValue().toString().toLowerCase();
          Optional var2 = this.mc.world.getBiome(this.getPlayer().getBlockPos()).getKey();
@@ -1637,7 +1637,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzi() {
+   void mzi() {
       this.mru++;
       this.mc.options.attackKey.setPressed(false);
       this.mxx();
@@ -1677,13 +1677,13 @@ public class mpq extends pnc {
       }
    }
 
-   private Vec3d mzj(Vec3d var1, double var2) {
+   Vec3d mzj(Vec3d var1, double var2) {
       double var4 = Math.cos(var2);
       double var6 = Math.sin(var2);
       return new Vec3d(var1.x * var4 - var1.z * var6, 0.0, var1.x * var6 + var1.z * var4).normalize();
    }
 
-   private void mzk(PlayerEntity var1) {
+   void mzk(PlayerEntity var1) {
       Vec3d var2 = this.getPlayer().getEntityPos().subtract(var1.getEntityPos()).normalize();
       BlockPos var3 = this.getPlayer().getBlockPos();
 
@@ -1706,7 +1706,7 @@ public class mpq extends pnc {
       this.mqz = 0;
    }
 
-   private void mzl() {
+   void mzl() {
       this.mst = false;
       if (!this.mrj && this.nab(true) == 1) {
          this.mrj = true;
@@ -1870,7 +1870,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzm() {
+   void mzm() {
       if (this.mc.currentScreen == null && !this.msu && !this.mus) {
          for (int var1 = 0; var1 < 9; var1++) {
             if (this.getPlayer().getInventory().getStack(var1).getItem() == Items.GLASS_BOTTLE) {
@@ -1894,7 +1894,7 @@ public class mpq extends pnc {
       }
    }
 
-   private BlockPos mzn(String var1) {
+   BlockPos mzn(String var1) {
       if (this.getWorld() != null && this.getPlayer() != null) {
          String[] var2 = switch (var1) {
             case a.b("椆Ⴒ驮Е迍", -467702469) -> new String[]{a.d("↲堆틚䲡읹", -1600239057, -2112458848), a.d("ᎇ樾\ue0ea纑\uf54a珷즠", 1042776697, 1667798468)};
@@ -1907,12 +1907,12 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzo(BlockPos var1) {
+   void mzo(BlockPos var1) {
       this.mwj = var1;
       this.mwk = System.currentTimeMillis();
    }
 
-   private boolean mzp(GenericContainerScreen var1) {
+   boolean mzp(GenericContainerScreen var1) {
       int var2 = var1.getScreenHandler().syncId;
       if (var2 == this.mwl) {
          return true;
@@ -1936,7 +1936,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzq(String var1) {
+   void mzq(String var1) {
       switch (var1) {
          case a.b("ާ繦\uf4c4櫋\ue163", 1934820323):
             this.mrh = true;
@@ -1952,7 +1952,7 @@ public class mpq extends pnc {
       }
    }
 
-   private BlockHitResult mzr(BlockPos var1) {
+   BlockHitResult mzr(BlockPos var1) {
       Vec3d var2 = this.getPlayer().getEyePos();
       Vec3d var3 = Vec3d.ofCenter(var1);
       BlockHitResult var4 = this.getWorld().raycast(new RaycastContext(var2, var3, ShapeType.COLLIDER, FluidHandling.NONE, this.getPlayer()));
@@ -1969,7 +1969,7 @@ public class mpq extends pnc {
       return new BlockHitResult(var6, var5, var1, false);
    }
 
-   private boolean mzs(BlockPos var1) {
+   boolean mzs(BlockPos var1) {
       if (this.getWorld() == null) {
          return false;
       }
@@ -1978,7 +1978,7 @@ public class mpq extends pnc {
       return var2.contains(a.d("\uf851臫ଵ镒Ẃ", 842418189, 574402618)) && !var2.contains(a.b("泉ᕳ龪ǚ訚ಆ뛩㼓ꅁ⯦갲", 1928031399));
    }
 
-   private void mzt(GenericContainerScreen var1) {
+   void mzt(GenericContainerScreen var1) {
       int var2 = this.mzv(Items.GOLDEN_CARROT);
       int var3 = var1.getScreenHandler().getInventory().size();
 
@@ -2019,12 +2019,12 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean mzu(int var1) {
+   boolean mzu(int var1) {
       ScreenHandler var2 = this.getPlayer().currentScreenHandler;
       return var1 >= 0 && var1 < var2.slots.size() && var2.slots.get(var1).getStack().isOf(Items.BRUSH);
    }
 
-   private int mzv(Item var1) {
+   int mzv(Item var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
@@ -2037,7 +2037,7 @@ public class mpq extends pnc {
       return var2;
    }
 
-   private boolean mzw(GenericContainerScreen var1, int var2) {
+   boolean mzw(GenericContainerScreen var1, int var2) {
       this.mrf = pmf.plan(
          var1.getScreenHandler(), this.getPlayer().getInventory(), var0 -> var0.getItem() == Items.GOLDEN_CARROT, var2, this.mty, System.currentTimeMillis()
       );
@@ -2045,7 +2045,7 @@ public class mpq extends pnc {
       return this.mrf != null;
    }
 
-   private void mzx() {
+   void mzx() {
       if (this.mc.currentScreen instanceof GenericContainerScreen var1 && this.mc.interactionManager != null && this.getPlayer() != null) {
          ScreenHandler var4 = var1.getScreenHandler();
          if (++this.mrg == 120) {
@@ -2069,7 +2069,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void mzy() {
+   void mzy() {
       if (this.mc.currentScreen instanceof GenericContainerScreen var1 && this.mc.interactionManager != null && this.getPlayer() != null) {
          ScreenHandler var4 = var1.getScreenHandler();
          int var3 = pmf.stashSlot(var4, this.getPlayer().getInventory(), var4.getCursorStack(), -1);
@@ -2079,7 +2079,7 @@ public class mpq extends pnc {
       }
    }
 
-   private String mzz() {
+   String mzz() {
       for (String var2 : this.mrd) {
          if (var2.equals(a.d("ᚄ漴\ue5e3", -2054590568, 357530922)) && !this.mri) {
             return var2;
@@ -2097,14 +2097,14 @@ public class mpq extends pnc {
       return a.b("㥔䂞쩉呆\udfef夡\ue371檎", -474137315);
    }
 
-   private void naa() {
+   void naa() {
       Collections.shuffle(this.mrd, this.mty);
       this.mre = 3;
       this.mrc = 0;
       this.mwg = 4.0F + this.mty.nextFloat() * 14.0F;
    }
 
-   private int nab(boolean var1) {
+   int nab(boolean var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
@@ -2117,16 +2117,16 @@ public class mpq extends pnc {
       return var2;
    }
 
-   private int nac(GenericContainerScreen var1, int var2) {
+   int nac(GenericContainerScreen var1, int var2) {
       int var3 = var1.getScreenHandler().getInventory().size();
       return var2 < 9 ? var3 + 27 + var2 : var3 + (var2 - 9);
    }
 
-   private boolean nad(GenericContainerScreen var1, boolean var2) {
+   boolean nad(GenericContainerScreen var1, boolean var2) {
       return this.nae(var1, var2x -> var2 ? this.nel(var2x) : this.neo(var2x));
    }
 
-   private boolean nae(GenericContainerScreen var1, Predicate<ItemStack> var2) {
+   boolean nae(GenericContainerScreen var1, Predicate<ItemStack> var2) {
       boolean var3 = false;
 
       for (int var4 = 0; var4 < 36; var4++) {
@@ -2141,7 +2141,7 @@ public class mpq extends pnc {
       return var3;
    }
 
-   private void naf(GenericContainerScreen var1, boolean var2) {
+   void naf(GenericContainerScreen var1, boolean var2) {
       int var3 = this.nab(var2);
       if (this.mrb > 4) {
          this.msy.add(() -> this.nag(var2));
@@ -2162,7 +2162,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nag(boolean var1) {
+   void nag(boolean var1) {
       if (var1) {
          this.mrj = true;
       } else {
@@ -2174,7 +2174,7 @@ public class mpq extends pnc {
       this.mrl = null;
    }
 
-   private boolean nah(GenericContainerScreen var1, boolean var2) {
+   boolean nah(GenericContainerScreen var1, boolean var2) {
       this.mrf = pmf.plan(
          var1.getScreenHandler(), this.getPlayer().getInventory(), var2x -> var2 ? this.nel(var2x) : this.neo(var2x), 1, this.mty, System.currentTimeMillis()
       );
@@ -2182,13 +2182,13 @@ public class mpq extends pnc {
       return this.mrf != null;
    }
 
-   private String[] nai() {
+   String[] nai() {
       String var1 = this.mqi.get();
       String[] var2 = var1 == null ? new String[0] : var1.trim().split(a.b("⋚嬜톿信쐘䋟", -1858198905));
       return var2.length != 0 && !var2[0].isEmpty() ? var2 : new String[]{a.d("㫘䍦짮垚\udc45", -1457529262, -1147083538)};
    }
 
-   private String naj() {
+   String naj() {
       String[] var1 = this.nai();
       if (this.mqp >= var1.length) {
          this.mqp = 0;
@@ -2197,7 +2197,7 @@ public class mpq extends pnc {
       return var1[this.mqp];
    }
 
-   private static String nak(String var0) {
+   static String nak(String var0) {
       String var1 = var0 == null ? "" : var0.trim();
 
       while (var1.startsWith(a.d("䰲", 974307399, 1334807643))) {
@@ -2207,7 +2207,7 @@ public class mpq extends pnc {
       return var1;
    }
 
-   private void nal(String var1) {
+   void nal(String var1) {
       int var2 = pjd.position(this.mxs());
       this.mwn = wap.t(var1)
          + (
@@ -2230,7 +2230,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nam() {
+   void nam() {
       String[] var1 = this.nai();
 
       for (int var2 = 0; var2 < var1.length; var2++) {
@@ -2267,12 +2267,12 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean nan() {
+   boolean nan() {
       ClientPlayerEntity var1 = this.getPlayer();
       return this.mxd || this.getWorld() != this.mwz || var1 != this.mxa || this.mxb != null && var1.getEntityPos().distanceTo(this.mxb) > 48.0;
    }
 
-   private void nao() {
+   void nao() {
       pqf.resetKeys();
       this.mzf();
       this.mrn++;
@@ -2321,7 +2321,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nap() {
+   void nap() {
       this.getNetworkHandler().sendChatCommand(this.mxt());
       this.mro = true;
       this.mxe++;
@@ -2330,7 +2330,7 @@ public class mpq extends pnc {
       this.mrq = 0;
    }
 
-   private void naq() {
+   void naq() {
       if (this.mzh()) {
          pqf.resetKeys();
          this.msc = 0;
@@ -2357,7 +2357,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nar() {
+   void nar() {
       BlockPos var1 = new BlockPos(0, 66, 1);
       if (Math.abs(this.getPlayer().getX()) <= 10.0 && Math.abs(this.getPlayer().getZ() - 1.0) <= 10.0 && Math.abs(this.getPlayer().getY() - 66.0) <= 3.0) {
          pqf.resetKeys();
@@ -2394,7 +2394,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nas() {
+   void nas() {
       this.msq = true;
       this.mst = false;
       this.mss = this.mrn;
@@ -2402,7 +2402,7 @@ public class mpq extends pnc {
       this.nat();
    }
 
-   private void nat() {
+   void nat() {
       for (int var1 = 0; var1 < 9; var1++) {
          if (this.getPlayer().getInventory().getStack(var1).isEmpty()) {
             this.getPlayer().getInventory().setSelectedSlot(var1);
@@ -2419,14 +2419,14 @@ public class mpq extends pnc {
       }
    }
 
-   private void nau(int var1) {
+   void nau(int var1) {
       int var2 = this.nav();
       int var3 = var2 != -1 ? var2 : 8;
       int var4 = var1;
       this.msy.add(() -> this.ndv(var4, var3, SlotActionType.SWAP));
    }
 
-   private int nav() {
+   int nav() {
       for (int var1 = 0; var1 < 9; var1++) {
          if (this.getPlayer().getInventory().getStack(var1).isEmpty()) {
             return var1;
@@ -2436,11 +2436,11 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private int naw() {
+   int naw() {
       return pjn.teleportSeconds(this.mc, a.d("ạ朇\uedda玥\uf878终쓥䴖팻姼\ude51\u2457껯㌹뤘㾜薦ੵ铋", 721719727, 536513343));
    }
 
-   private void nax() {
+   void nax() {
       this.msu = false;
       this.msv = 0;
       if (!(this.mqr >= this.mqd.get()) && this.getPlayer().getInventory().getEmptySlot() != -1) {
@@ -2506,7 +2506,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nay(boolean var1) {
+   void nay(boolean var1) {
       if (var1 && this.mrr != null) {
          this.mra.add(this.mrr);
       }
@@ -2524,7 +2524,7 @@ public class mpq extends pnc {
       this.mc.options.attackKey.setPressed(false);
    }
 
-   private boolean naz(BlockPos var1, boolean var2) {
+   boolean naz(BlockPos var1, boolean var2) {
       if (var1 == null) {
          return false;
       }
@@ -2538,11 +2538,11 @@ public class mpq extends pnc {
       return this.mqy != null && !this.mqy.isEmpty();
    }
 
-   private List<BlockPos> nba(BlockPos var1) {
+   List<BlockPos> nba(BlockPos var1) {
       return this.nbb(this.getPlayer().getBlockPos(), var1);
    }
 
-   private List<BlockPos> nbb(BlockPos var1, BlockPos var2) {
+   List<BlockPos> nbb(BlockPos var1, BlockPos var2) {
       if (var2 != null && this.getWorld() != null) {
          if (this.mvn == null || !var2.equals(this.mvo)) {
             this.mvn = pqq.random(this.mty);
@@ -2555,7 +2555,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nbc(List<BlockPos> var1) {
+   void nbc(List<BlockPos> var1) {
       this.mqy = var1;
       this.mqz = 0;
       this.mvm = var1 != null && !var1.isEmpty()
@@ -2566,7 +2566,7 @@ public class mpq extends pnc {
       }
    }
 
-   private BlockPos nbd(BlockPos var1) {
+   BlockPos nbd(BlockPos var1) {
       if (this.getWorld() == null) {
          return var1;
       }
@@ -2589,7 +2589,7 @@ public class mpq extends pnc {
       return var1;
    }
 
-   private boolean nbe(BlockPos var1) {
+   boolean nbe(BlockPos var1) {
       return this.getWorld() == null
          ? false
          : this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty()
@@ -2597,7 +2597,7 @@ public class mpq extends pnc {
             && !this.getWorld().getBlockState(var1.down()).getCollisionShape(this.getWorld(), var1.down()).isEmpty();
    }
 
-   private void nbf() {
+   void nbf() {
       if (this.nci() && this.mvm != null && this.mse <= 0 && !this.myq() && this.mvl.remaining(this.mvm) < 3.5) {
          this.mse = 8;
          this.nbg();
@@ -2622,7 +2622,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nbg() {
+   void nbg() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       this.nbi(var1);
       if (Double.isNaN(this.mvt)) {
@@ -2655,11 +2655,11 @@ public class mpq extends pnc {
       this.nbc(null);
    }
 
-   private static long nbh(BlockPos var0) {
+   static long nbh(BlockPos var0) {
       return (long)(var0.getX() >> 4) << 32 ^ var0.getZ() >> 4 & 4294967295L;
    }
 
-   private void nbi(BlockPos var1) {
+   void nbi(BlockPos var1) {
       if (this.mvw.size() > 512) {
          this.mvw.clear();
       }
@@ -2667,11 +2667,11 @@ public class mpq extends pnc {
       this.mvw.add(nbh(var1));
    }
 
-   private boolean nbj(BlockPos var1) {
+   boolean nbj(BlockPos var1) {
       return this.mvw.contains(nbh(var1));
    }
 
-   private BlockPos nbk() {
+   BlockPos nbk() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       Mutable var2 = new Mutable();
       ArrayList var3 = new ArrayList();
@@ -2737,15 +2737,15 @@ public class mpq extends pnc {
       return var19;
    }
 
-   private boolean nbl(BlockPos var1) {
+   boolean nbl(BlockPos var1) {
       return this.getWorld() != null && var1 != null ? this.getWorld().getBlockState(var1).isOf(Blocks.DECORATED_POT) : false;
    }
 
-   private boolean nbm(BlockPos var1) {
+   boolean nbm(BlockPos var1) {
       return this.nbo(var1) != null;
    }
 
-   private boolean nbn(BlockPos var1) {
+   boolean nbn(BlockPos var1) {
       Vec3d var2 = this.getPlayer().getEyePos();
       Vec3d[] var3 = new Vec3d[]{Vec3d.ofCenter(var1), Vec3d.ofCenter(var1).add(0.0, 0.4, 0.0)};
 
@@ -2759,7 +2759,7 @@ public class mpq extends pnc {
       return false;
    }
 
-   private Vec3d nbo(BlockPos var1) {
+   Vec3d nbo(BlockPos var1) {
       if (this.getWorld() != null && this.getPlayer() != null && var1 != null) {
          Vec3d var2 = this.getPlayer().getEyePos();
          Vec3d var3 = Vec3d.ofCenter(var1);
@@ -2786,7 +2786,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nbp(Vec3d var1) {
+   void nbp(Vec3d var1) {
       this.msu = true;
       this.mrs = 0;
       this.msv = 0;
@@ -2814,7 +2814,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nbq() {
+   void nbq() {
       if (this.mrr != null && this.nbl(this.mrr)) {
          this.mrs++;
          Vec3d var5 = this.nbo(this.mrr);
@@ -2879,7 +2879,7 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean nbr(BlockPos var1) {
+   boolean nbr(BlockPos var1) {
       if (this.getPlayer().isOnGround() && !this.getPlayer().isTouchingWater()) {
          if (Math.abs(var1.getY() - this.getPlayer().getY()) > 1.0) {
             return false;
@@ -2899,7 +2899,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nbs(mpm var1) {
+   void nbs(mpm var1) {
       this.mrs++;
       this.mc.options.attackKey.setPressed(false);
       this.mc.options.useKey.setPressed(false);
@@ -2994,7 +2994,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nbt(Vec3d var1) {
+   void nbt(Vec3d var1) {
       ClientPlayerEntity var2 = this.getPlayer();
       Vec3d var3 = new Vec3d(var1.x, var2.getEyePos().y - 0.6, var1.z);
       int var4 = this.mvl.walkTo(this.mc, var2, this.getWorld(), var1, this.mtu, this.mtv, var3, false, this.myq(), this.myt());
@@ -3006,7 +3006,7 @@ public class mpq extends pnc {
       this.mry = true;
    }
 
-   private void nbu(mpm var1) {
+   void nbu(mpm var1) {
       this.mqr++;
       this.mrr = null;
       this.mrz = null;
@@ -3030,7 +3030,7 @@ public class mpq extends pnc {
       this.myd(var1);
    }
 
-   private void nbv() {
+   void nbv() {
       this.mtw = this.getPlayer();
       if (this.mtw != null) {
          this.nce(this.mtw);
@@ -3047,7 +3047,7 @@ public class mpq extends pnc {
       this.muc = false;
    }
 
-   private void nbw() {
+   void nbw() {
       ptr.clear();
       if (this.mtn) {
          this.mtn = false;
@@ -3057,7 +3057,7 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean nbx() {
+   boolean nbx() {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 == null) {
          return false;
@@ -3088,11 +3088,11 @@ public class mpq extends pnc {
       return var2;
    }
 
-   private void nby(float var1, float var2) {
+   void nby(float var1, float var2) {
       this.nbz(var1, var2, false);
    }
 
-   private void nbz(float var1, float var2, boolean var3) {
+   void nbz(float var1, float var2, boolean var3) {
       this.mts = var1;
       this.mtt = var2;
       this.mtq = var3;
@@ -3102,17 +3102,17 @@ public class mpq extends pnc {
       this.mtp = false;
    }
 
-   private void nca(Vec3d var1) {
+   void nca(Vec3d var1) {
       float[] var2 = prt.calculateAngle(var1);
       this.nbz(var2[0], var2[1], false);
    }
 
-   private void ncb(BlockPos var1, Vec3d var2) {
+   void ncb(BlockPos var1, Vec3d var2) {
       this.nca(var2);
       this.mvd = this.mve ? 0.25 : this.ncc(var1, var2);
    }
 
-   private double ncc(BlockPos var1, Vec3d var2) {
+   double ncc(BlockPos var1, Vec3d var2) {
       if (this.getWorld() != null && this.getPlayer() != null && var1 != null && var2 != null) {
          VoxelShape var3 = this.getWorld().getBlockState(var1).getOutlineShape(this.getWorld(), var1);
          Box var4 = var3.isEmpty() ? new Box(var1) : var3.getBoundingBox().offset(var1);
@@ -3131,7 +3131,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ncd(boolean var1) {
+   void ncd(boolean var1) {
       if (!var1 && !this.mtl.isMoving()) {
          if (++this.mvf >= 3) {
             this.mve = true;
@@ -3141,7 +3141,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nce(PlayerEntity var1) {
+   void nce(PlayerEntity var1) {
       String var2 = var1.getGameProfile() != null ? var1.getGameProfile().name() : null;
       long var3 = 1125899906842597L;
       if (var2 != null) {
@@ -3154,13 +3154,13 @@ public class mpq extends pnc {
       this.mvl.personalize(var3);
    }
 
-   private void ncf() {
+   void ncf() {
       if (!this.mto) {
          this.mtp = true;
       }
    }
 
-   private boolean ncg() {
+   boolean ncg() {
       if (this.mvi > 0) {
          this.mvi--;
          return true;
@@ -3176,7 +3176,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void nch() {
+   void nch() {
       this.mvh = false;
       this.mve = false;
       this.mvf = 0;
@@ -3186,15 +3186,15 @@ public class mpq extends pnc {
       this.mvc = 1 + this.mty.nextInt(4);
    }
 
-   private boolean nci() {
+   boolean nci() {
       return this.mqy != null && this.mqz < this.mqy.size();
    }
 
-   private float ncj() {
+   float ncj() {
       return (float)this.mvl.moveYaw(this.mtu);
    }
 
-   private void nck() {
+   void nck() {
       if (this.getPlayer() != null) {
          this.mvr = this.mto && !this.mtq;
          boolean var1 = this.mvl.takeTurn(this.mvs);
@@ -3247,7 +3247,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ncl() {
+   void ncl() {
       this.mto = false;
       this.mtp = false;
       ClientPlayerEntity var1 = this.getPlayer();
@@ -3270,11 +3270,11 @@ public class mpq extends pnc {
       this.mvk = null;
    }
 
-   private boolean ncm() {
+   boolean ncm() {
       return this.mud > 0 || !this.msy.isEmpty() || this.mtb > 0;
    }
 
-   private BlockHitResult ncn() {
+   BlockHitResult ncn() {
       if (this.getWorld() != null && this.getPlayer() != null) {
          Vec3d var1 = this.getPlayer().getEyePos();
          Vec3d var2 = Vec3d.fromPolar(this.mtv, this.mtu);
@@ -3286,7 +3286,7 @@ public class mpq extends pnc {
       }
    }
 
-   private BlockHitResult nco(BlockPos var1) {
+   BlockHitResult nco(BlockPos var1) {
       BlockHitResult var2 = this.ncn();
       if (var2 != null && var2.getType() == Type.BLOCK && var2.getBlockPos().equals(var1)) {
          this.mvk = var1;
@@ -3296,11 +3296,11 @@ public class mpq extends pnc {
       }
    }
 
-   private void ncp(Vec3d var1) {
+   void ncp(Vec3d var1) {
       this.ncq(var1, false);
    }
 
-   private void ncq(Vec3d var1, boolean var2) {
+   void ncq(Vec3d var1, boolean var2) {
       int var3 = this.mvl.walkTo(this.mc, this.getPlayer(), this.getWorld(), var1, this.mtu, this.mtv, null, this.mqq == mpm.ESCAPING, this.myq(), this.myt());
       if (var3 != 0 && !this.myq()) {
          pqf.resetKeys();
@@ -3310,7 +3310,7 @@ public class mpq extends pnc {
       this.mry = true;
    }
 
-   private void ncr() {
+   void ncr() {
       if (this.mqy != null && this.mqz < this.mqy.size()) {
          if (!this.myq() && this.ncg()) {
             pqf.resetKeys();
@@ -3352,11 +3352,11 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean ncs(Vec3d var1) {
+   boolean ncs(Vec3d var1) {
       return this.nct(var1, true);
    }
 
-   private boolean nct(Vec3d var1, boolean var2) {
+   boolean nct(Vec3d var1, boolean var2) {
       if (this.getWorld() != null && this.getPlayer() != null) {
          Vec3d var3 = this.getPlayer().getEntityPos();
          double var4 = var1.x - var3.x;
@@ -3388,15 +3388,15 @@ public class mpq extends pnc {
       }
    }
 
-   private double ncu() {
+   double ncu() {
       return this.nci() ? pqf.getStandY(this.mqy.get(this.mqz)) : this.getPlayer().getY();
    }
 
-   private boolean ncv(double var1, double var3, double var5) {
+   boolean ncv(double var1, double var3, double var5) {
       return this.ncw(new Box(var1 - 0.31, var5 + 0.6, var3 - 0.31, var1 + 0.31, var5 + 1.8, var3 + 0.31));
    }
 
-   private boolean ncw(Box var1) {
+   boolean ncw(Box var1) {
       for (VoxelShape var3 : this.getWorld().getBlockCollisions(this.getPlayer(), var1)) {
          if (!var3.isEmpty()) {
             return false;
@@ -3406,11 +3406,11 @@ public class mpq extends pnc {
       return true;
    }
 
-   private boolean ncx(BlockPos var1) {
+   boolean ncx(BlockPos var1) {
       return this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty();
    }
 
-   private void ncy() {
+   void ncy() {
       if (!this.nde()) {
          this.myd(mpm.CHECK_PVP_COOLDOWN);
       } else {
@@ -3477,7 +3477,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ncz(boolean var1) {
+   void ncz(boolean var1) {
       if (var1 && this.mrz != null) {
          this.mra.add(this.mrz);
       }
@@ -3492,7 +3492,7 @@ public class mpq extends pnc {
       this.mc.options.useKey.setPressed(false);
    }
 
-   private BlockPos nda() {
+   BlockPos nda() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       Mutable var2 = new Mutable();
       ArrayList var3 = new ArrayList();
@@ -3541,11 +3541,11 @@ public class mpq extends pnc {
       return var16;
    }
 
-   private boolean ndb(BlockPos var1) {
+   boolean ndb(BlockPos var1) {
       return this.getWorld() != null && var1 != null ? this.getWorld().getBlockState(var1).isOf(Blocks.SUSPICIOUS_SAND) : false;
    }
 
-   private void ndc() {
+   void ndc() {
       if (!this.nde()) {
          this.mc.options.useKey.setPressed(false);
          this.msj = this.mrz != null ? Vec3d.ofCenter(this.mrz) : this.getPlayer().getEntityPos();
@@ -3668,7 +3668,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndd() {
+   void ndd() {
       if (!this.msu) {
          this.nbp(this.msj != null ? this.msj : this.getPlayer().getEntityPos());
       }
@@ -3676,11 +3676,11 @@ public class mpq extends pnc {
       this.nbs(this.nde() ? mpm.FARMING_SAND : mpm.CHECK_PVP_COOLDOWN);
    }
 
-   private boolean nde() {
+   boolean nde() {
       return this.ndg(0, 36) != -1;
    }
 
-   private static boolean ndf(ItemStack var0) {
+   static boolean ndf(ItemStack var0) {
       if (!var0.isOf(Items.BRUSH)) {
          return false;
       }
@@ -3703,7 +3703,7 @@ public class mpq extends pnc {
       return false;
    }
 
-   private int ndg(int var1, int var2) {
+   int ndg(int var1, int var2) {
       for (int var3 = var1; var3 < var2; var3++) {
          if (ndf(this.getPlayer().getInventory().getStack(var3))) {
             return var3;
@@ -3713,7 +3713,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private void ndh() {
+   void ndh() {
       if (this.mwa - this.mwb > 60) {
          this.mqp++;
          this.myd(mpm.TELEPORT_TO_SAVE);
@@ -3723,7 +3723,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndi() {
+   void ndi() {
       PlayerEntity var1 = this.neh();
       if (var1 != null) {
          if (this.mse <= 0
@@ -3749,11 +3749,11 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean ndj() {
+   boolean ndj() {
       return pjn.contains(this.mc, a.d("\uf6dc轋־鮲ᐈ鋌⢜ꅣ㼸놕㉖젭䚂\udf49唐폦榡", 606286106, 1128580999));
    }
 
-   private void ndk() {
+   void ndk() {
       String var1 = nak(this.mqh.get());
       if (!pjd.enter(this.mxs(), var1)) {
          this.nal(a.c(-1477713762, "\ue4a0鴼\u13ff觯Ɍ蓱㺩띟ⴕꏇ②\ude13哑쵳䜳엟羝\uf034櫷\uecdb慉ᬕ閫੬谑ڥ뽻㔶ꯟⷷ\ua636墒튨䭘촇"));
@@ -3779,7 +3779,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndl() {
+   void ndl() {
       pqf.resetKeys();
       this.mzf();
       this.mrn++;
@@ -3811,7 +3811,7 @@ public class mpq extends pnc {
       return var3;
    }
 
-   private boolean ndm(ItemStack var1, vlj var2) {
+   boolean ndm(ItemStack var1, vlj var2) {
       if (this.neg(var1)) {
          return false;
       } else if (var1.isOf(Items.BRUSH)) {
@@ -3954,7 +3954,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndn() {
+   void ndn() {
       if (this.mqq == mpm.TELEPORT_TO_SAVE || this.mqq == mpm.WARPING_TO_SAVE_BASE || this.mqq == mpm.RESTOCK_AND_DUMP || this.mqq == mpm.TELEPORT_TO_LOOT) {
          this.mus = true;
          this.muu = -1;
@@ -3982,7 +3982,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndo() {
+   void ndo() {
       if (!this.nec()) {
          if (this.mc.currentScreen == null && this.msy.isEmpty() && this.mud <= 0) {
             if (this.mum <= 0 && this.ndx()) {
@@ -4038,7 +4038,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndp() {
+   void ndp() {
       this.mug++;
       if (this.mug > this.muh || this.mc.currentScreen != null || this.getPlayer() == null || this.mqq == mpm.ESCAPING || this.mus) {
          this.ndq();
@@ -4068,7 +4068,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndq() {
+   void ndq() {
       this.mud = 0;
       this.mue = 0;
       this.muf = 0;
@@ -4079,7 +4079,7 @@ public class mpq extends pnc {
       this.ndu();
    }
 
-   private int ndr() {
+   int ndr() {
       PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = this.mui != -1 ? this.mui : 13;
       int var3 = -1;
@@ -4098,7 +4098,7 @@ public class mpq extends pnc {
       return var3;
    }
 
-   private static double nds(int var0, int var1) {
+   static double nds(int var0, int var1) {
       double var2 = var0 < 9 ? 3.25 : (var0 - 9) / 9;
       double var4 = var0 < 9 ? var0 : (var0 - 9) % 9;
       double var6 = var1 < 9 ? 3.25 : (var1 - 9) / 9;
@@ -4106,7 +4106,7 @@ public class mpq extends pnc {
       return Math.hypot(var2 - var6, var4 - var8);
    }
 
-   private int ndt(double var1) {
+   int ndt(double var1) {
       int var3 = var1 <= 1.5 ? 2 : (var1 <= 4.0 ? 3 : 4);
       float var4 = this.mty.nextFloat();
       if (var3 == 2 && var4 < 0.12F) {
@@ -4118,7 +4118,7 @@ public class mpq extends pnc {
       return var3 - 1;
    }
 
-   private void ndu() {
+   void ndu() {
       if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
             this.mc.options.forwardKey,
@@ -4135,7 +4135,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndv(int var1, int var2, SlotActionType var3) {
+   void ndv(int var1, int var2, SlotActionType var3) {
       if (this.mc.interactionManager != null && this.getPlayer() != null) {
          int var4 = var1 < 9 ? var1 + 36 : var1;
          this.mc.interactionManager.clickSlot(this.getPlayer().playerScreenHandler.syncId, var4, var2, var3, this.getPlayer());
@@ -4145,7 +4145,7 @@ public class mpq extends pnc {
       }
    }
 
-   private void ndw() {
+   void ndw() {
       if (this.muw) {
          this.muw = false;
          if (this.mc.currentScreen == null && this.getPlayer() != null && this.getNetworkHandler() != null) {
@@ -4154,7 +4154,7 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean ndx() {
+   boolean ndx() {
       return this.mc.currentScreen == null
          && !this.muw
          && this.msy.isEmpty()
@@ -4170,7 +4170,7 @@ public class mpq extends pnc {
          && !this.mvh;
    }
 
-   private int ndy() {
+   int ndy() {
       PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = var1.getSelectedSlot();
       int var3 = -1;
@@ -4184,7 +4184,7 @@ public class mpq extends pnc {
       return var3;
    }
 
-   private void ndz(int var1) {
+   void ndz(int var1) {
       this.neb();
       this.muk = var1;
       boolean var2 = this.getPlayer().getInventory().getSelectedSlot() == var1;
@@ -4192,12 +4192,12 @@ public class mpq extends pnc {
       this.getPlayer().getInventory().setSelectedSlot(var1);
    }
 
-   private int nea() {
+   int nea() {
       float var1 = this.mty.nextFloat();
       return var1 < 0.2F ? 0 : (var1 < 0.6F ? 1 : (var1 < 0.9F ? 2 : 3));
    }
 
-   private void neb() {
+   void neb() {
       this.muk = -1;
       this.mul = 0;
       this.mun = false;
@@ -4205,7 +4205,7 @@ public class mpq extends pnc {
       this.mup = 0;
    }
 
-   private boolean nec() {
+   boolean nec() {
       if (this.muk == -1) {
          return false;
       }
@@ -4258,7 +4258,7 @@ public class mpq extends pnc {
       }
    }
 
-   private boolean ned(int var1, int var2) {
+   boolean ned(int var1, int var2) {
       ClientPlayerEntity var3 = this.mc.player;
       if (var2 == this.muq && this.mun && var3 != null && this.mc.currentScreen == null && !var3.isSpectator() && var3.getInventory().getSelectedSlot() == var1
          )
@@ -4283,7 +4283,7 @@ public class mpq extends pnc {
       return !this.msy.isEmpty() || this.mud > 0 || this.mtb > 0 || this.mc.currentScreen instanceof GenericContainerScreen;
    }
 
-   private void nee() {
+   void nee() {
       if (this.mc.currentScreen == null && this.msy.isEmpty() && this.mud <= 0 && this.muk == -1) {
          int var1 = 0;
 
@@ -4312,7 +4312,7 @@ public class mpq extends pnc {
       }
    }
 
-   private int nef() {
+   int nef() {
       for (int var1 = 9; var1 < 36; var1++) {
          if (this.getPlayer().getInventory().getStack(var1).isEmpty()) {
             return var1;
@@ -4322,7 +4322,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private boolean neg(ItemStack var1) {
+   boolean neg(ItemStack var1) {
       if (var1.isEmpty()) {
          return true;
       } else {
@@ -4330,7 +4330,7 @@ public class mpq extends pnc {
       }
    }
 
-   private PlayerEntity neh() {
+   PlayerEntity neh() {
       PlayerEntity var1 = null;
       double var2 = 2500.0;
 
@@ -4347,7 +4347,7 @@ public class mpq extends pnc {
       return var1;
    }
 
-   private int nei(Item var1) {
+   int nei(Item var1) {
       for (int var2 = 0; var2 < 9; var2++) {
          if (this.getPlayer().getInventory().getStack(var2).getItem() == var1) {
             return var2;
@@ -4357,7 +4357,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private int nej() {
+   int nej() {
       for (int var1 = 0; var1 < 9; var1++) {
          if (this.nel(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
@@ -4367,7 +4367,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private int nek() {
+   int nek() {
       for (int var1 = 9; var1 < 36; var1++) {
          if (this.nel(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
@@ -4377,7 +4377,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private boolean nel(ItemStack var1) {
+   boolean nel(ItemStack var1) {
       if (var1.isEmpty()) {
          return false;
       }
@@ -4407,7 +4407,7 @@ public class mpq extends pnc {
       return var7.contains(a.d("諹\uf340禔\ue7ef水\uea89僞", -425032786, 1206390125));
    }
 
-   private int nem() {
+   int nem() {
       for (int var1 = 0; var1 < 9; var1++) {
          if (this.neo(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
@@ -4417,7 +4417,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private int nen() {
+   int nen() {
       for (int var1 = 9; var1 < 36; var1++) {
          if (this.neo(this.getPlayer().getInventory().getStack(var1))) {
             return var1;
@@ -4427,7 +4427,7 @@ public class mpq extends pnc {
       return -1;
    }
 
-   private boolean neo(ItemStack var1) {
+   boolean neo(ItemStack var1) {
       if (var1.isEmpty()) {
          return false;
       }

@@ -24,16 +24,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
 
 final class fga {
-   private static final String fgb = a.d("ꊋ\udb10净쾩䑋싗碟\uf12b", 89280975, 1072362250);
-   private static int fgc;
-   private static dtv fgd;
-   private static int fge = -1;
-   private static double fgf;
-   private static int fgg;
-   private static float fgh;
-   private static float fgi;
+   static final String fgb = a.d("ꊋ\udb10净쾩䑋싗碟\uf12b", 89280975, 1072362250);
+   static int fgc;
+   static dtv fgd;
+   static int fge = -1;
+   static double fgf;
+   static int fgg;
+   static float fgh;
+   static float fgi;
 
-   private fga() {
+   fga() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -412,7 +412,7 @@ final class fga {
       }
    }
 
-   private static void fgl(String var0) {
+   static void fgl(String var0) {
       try {
          Class var1 = Class.forName(a.d("뱉엲伢텋嫅\udc38晦\uef8c熉ﭔ粪蛀࠰醱᯳鴕❚ꢀ㉹둘㶚䟈", -2122152327, 1288583744));
          Field var2 = BotScreen.class.getDeclaredField(a.d("\udcc3ꕧ⾷", 309031401, -2122928803));
@@ -423,7 +423,7 @@ final class fga {
       }
    }
 
-   private static void fgm(String var0, boolean var1) {
+   static void fgm(String var0, boolean var1) {
       try {
          Field var2 = BotScreen.class.getDeclaredField(var0);
          var2.setAccessible(true);
@@ -433,7 +433,7 @@ final class fga {
       }
    }
 
-   private static void fgn() {
+   static void fgn() {
       if (fgd != null) {
          for (ech var1 : fgd.getChat().lines()) {
             fgq(a.b("芰\ufb0a燐\uefb4搷\ue2fd", -104955179) + var1.kind + a.c(-1103987934, "筽ʱ") + var1.text.getString());
@@ -441,7 +441,7 @@ final class fga {
       }
    }
 
-   private static void fgo(boolean var0, String var1) {
+   static void fgo(boolean var0, String var1) {
       if (var0) {
          fgq(a.c(-312308744, "讴\uf201碹") + var1);
       } else {
@@ -449,16 +449,16 @@ final class fga {
       }
    }
 
-   private static void fgp(String var0) {
+   static void fgp(String var0) {
       fgg++;
       fgq(a.d("㺃䜵췮厚\ud821", -1100895633, -379087697) + var0);
    }
 
-   private static void fgq(String var0) {
+   static void fgq(String var0) {
       System.out.println(a.d("\ua8dc텠宨엞乀죫", -504240883, -2012262987) + var0);
    }
 
-   private static void fgr(MinecraftClient var0, String var1) {
+   static void fgr(MinecraftClient var0, String var1) {
       fgq(a.c(435751021, "ࠛ熱ﭥ攏\uee8c") + var1);
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

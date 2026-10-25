@@ -27,7 +27,7 @@ public final class kbm {
    public static final vkl PARALLAX = new vkl(a.c(1018353912, "\ud880ꄠ⯠떂㹘룩ʷ譟"), true);
    public static final List<vmo> ALL = List.of(TITLE, POSITION, BUTTONS, BLUR, ROUND, DIM, PARTICLES, PARALLAX);
 
-   private kbm() {
+   kbm() {
    }
 
    public static void reset() {

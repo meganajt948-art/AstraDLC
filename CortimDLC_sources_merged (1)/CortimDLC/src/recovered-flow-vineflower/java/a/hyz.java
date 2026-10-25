@@ -15,21 +15,21 @@ import java.util.Properties;
 import java.util.Map.Entry;
 
 public final class hyz {
-   private static final String hza = a.d("⢻儘\udbd7䗡칫䣊\uf288筤\ue538澉\ue818", -958074736, 2118965319);
-   private static final String hzb = a.b("멌쎴䥭휟峐\uda39怡\ue9d1瞍ﴻ竼肔๛鞳ᶪ魉ℚ꺌㑡눲㯘䆖켰哶튏塃\ue1fc澻", -1462453633);
-   private static final int hzc = 4;
-   private static final int hzd = 1;
-   private static final int hze = 1;
-   private static final int hzf = 1;
+   static final String hza = a.d("⢻儘\udbd7䗡칫䣊\uf288筤\ue538澉\ue818", -958074736, 2118965319);
+   static final String hzb = a.b("멌쎴䥭휟峐\uda39怡\ue9d1瞍ﴻ竼肔๛鞳ᶪ魉ℚ꺌㑡눲㯘䆖켰哶튏塃\ue1fc澻", -1462453633);
+   static final int hzc = 4;
+   static final int hzd = 1;
+   static final int hze = 1;
+   static final int hzf = 1;
 
-   private hyz() {
+   hyz() {
    }
 
    static Path gameDir() {
       return ConfigManager.gameDir();
    }
 
-   private static List<Object[]> hzi() {
+   static List<Object[]> hzi() {
       ArrayList var0 = new ArrayList();
 
       for (vmo var2 : iov.ALL) {
@@ -203,7 +203,7 @@ public final class hyz {
       }
    }
 
-   private static Properties hzj() {
+   static Properties hzj() {
       Properties var0 = new Properties();
 
       for (Object[] var2 : hzi()) {
@@ -261,7 +261,7 @@ public final class hyz {
       return var0;
    }
 
-   private static void hzk(Properties var0) {
+   static void hzk(Properties var0) {
       try {
          ByteArrayOutputStream var1 = new ByteArrayOutputStream();
          var0.store(

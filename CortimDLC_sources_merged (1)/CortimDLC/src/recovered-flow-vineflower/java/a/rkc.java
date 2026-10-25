@@ -11,8 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 
 final class rkc extends FogModifier {
-   private final FogModifier rkd;
-   private final BooleanSupplier rke;
+   final FogModifier rkd;
+   final BooleanSupplier rke;
 
    rkc(FogModifier var1, BooleanSupplier var2) {
       this.rkd = var1;

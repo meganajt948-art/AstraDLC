@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 public class vlj extends vmo {
-   private final vlg vlk;
-   private final List<String> vll;
-   private final Set<String> vlm = new LinkedHashSet<>();
-   private int vln;
+   final vlg vlk;
+   final List<String> vll;
+   final Set<String> vlm = new LinkedHashSet<>();
+   int vln;
 
    public vlj(String var1, vlg var2, String... var3) {
       super(var1);

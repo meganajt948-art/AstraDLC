@@ -11,9 +11,9 @@ import net.minecraft.client.texture.NativeImage;
 public final class elb implements AutoCloseable {
    public final int width;
    public final int height;
-   private final NativeImage elc;
-   private final GpuTexture eld;
-   private final GpuTextureView ele;
+   final NativeImage elc;
+   final GpuTexture eld;
+   final GpuTextureView ele;
 
    elb(String var1, int var2, int var3) {
       this.width = var2;

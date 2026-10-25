@@ -8,7 +8,7 @@ import java.util.Locale;
 final class vnb {
    static final List<String> NAMES = List.of(a.c(-1980250628, "얶밡㛻ꢃ⍂ꗴᾺ陃ࠑ"), a.d("ፈ櫎\ue00a繻\uf5a2猚", -1710906119, 1216198645), a.b("\uddb6ꐤ⻩낟㭍뷻ޡ", 2099633637));
 
-   private vnb() {
+   vnb() {
    }
 
    static boolean has(String var0) {

@@ -1,14 +1,14 @@
 package a;
 
 final class fot {
-   private final String fou;
-   private final int fov;
-   private final boolean fow;
-   private final double fox;
-   private final boolean foy;
-   private final float foz;
+   final String fou;
+   final int fov;
+   final boolean fow;
+   final double fox;
+   final boolean foy;
+   final float foz;
 
-   private fot(String name, int ticks, boolean jump, double aggression, boolean botJumps, float aim) {
+   fot(String name, int ticks, boolean jump, double aggression, boolean botJumps, float aim) {
       this.fou = name;
       this.fov = ticks;
       this.fow = jump;

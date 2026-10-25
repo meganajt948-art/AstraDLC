@@ -6,23 +6,23 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.math.RotationAxis;
 
 public class rxa extends kfe implements vht {
-   private final vmc rxb = this.add(new vmc("X", 0.0, -1.0, 1.0, 0.01));
-   private final vmc rxc = this.add(new vmc("Y", 0.0, -1.0, 1.0, 0.01));
-   private final vmc rxd = this.add(new vmc("Z", 0.0, -1.0, 1.0, 0.01));
-   private final vmc rxe = this.add(new vmc("Size", 1.0, 0.3, 2.0, 0.01).unit("x"));
-   private final vmc rxf = this.add(new vmc("Turn X", 0.0, -180.0, 180.0, 1.0).unit("°"));
-   private final vmc rxg = this.add(new vmc("Turn Y", 0.0, -180.0, 180.0, 1.0).unit("°"));
-   private final vmc rxh = this.add(new vmc("Turn Z", 0.0, -180.0, 180.0, 1.0).unit("°"));
-   private final vkl rxi = this.add(new vkl("Left mirrors right", true));
-   private final vmc rxj = this.add(new vmc("Left X", 0.0, -1.0, 1.0, 0.01));
-   private final vmc rxk = this.add(new vmc("Left Y", 0.0, -1.0, 1.0, 0.01));
-   private final vmc rxl = this.add(new vmc("Left Z", 0.0, -1.0, 1.0, 0.01));
-   private final vmc rxm = this.add(new vmc("Left size", 1.0, 0.3, 2.0, 0.01).unit("x"));
-   private final vmc rxn = this.add(new vmc("Left turn X", 0.0, -180.0, 180.0, 1.0).unit("°"));
-   private final vmc rxo = this.add(new vmc("Left turn Y", 0.0, -180.0, 180.0, 1.0).unit("°"));
-   private final vmc rxp = this.add(new vmc("Left turn Z", 0.0, -180.0, 180.0, 1.0).unit("°"));
-   private final vkl rxq = this.add(new vkl("Mace charge", true));
-   private final vkw rxr = this.add(new vkw("Reset", new vkq("Reset", vhz.RESET, this::rxu)));
+   final vmc rxb = this.add(new vmc("X", 0.0, -1.0, 1.0, 0.01));
+   final vmc rxc = this.add(new vmc("Y", 0.0, -1.0, 1.0, 0.01));
+   final vmc rxd = this.add(new vmc("Z", 0.0, -1.0, 1.0, 0.01));
+   final vmc rxe = this.add(new vmc("Size", 1.0, 0.3, 2.0, 0.01).unit("x"));
+   final vmc rxf = this.add(new vmc("Turn X", 0.0, -180.0, 180.0, 1.0).unit("°"));
+   final vmc rxg = this.add(new vmc("Turn Y", 0.0, -180.0, 180.0, 1.0).unit("°"));
+   final vmc rxh = this.add(new vmc("Turn Z", 0.0, -180.0, 180.0, 1.0).unit("°"));
+   final vkl rxi = this.add(new vkl("Left mirrors right", true));
+   final vmc rxj = this.add(new vmc("Left X", 0.0, -1.0, 1.0, 0.01));
+   final vmc rxk = this.add(new vmc("Left Y", 0.0, -1.0, 1.0, 0.01));
+   final vmc rxl = this.add(new vmc("Left Z", 0.0, -1.0, 1.0, 0.01));
+   final vmc rxm = this.add(new vmc("Left size", 1.0, 0.3, 2.0, 0.01).unit("x"));
+   final vmc rxn = this.add(new vmc("Left turn X", 0.0, -180.0, 180.0, 1.0).unit("°"));
+   final vmc rxo = this.add(new vmc("Left turn Y", 0.0, -180.0, 180.0, 1.0).unit("°"));
+   final vmc rxp = this.add(new vmc("Left turn Z", 0.0, -180.0, 180.0, 1.0).unit("°"));
+   final vkl rxq = this.add(new vkl("Mace charge", true));
+   final vkw rxr = this.add(new vkw("Reset", new vkq("Reset", vhz.RESET, this::rxu)));
 
    public rxa() {
       super(new String(new char[]{'V', 'i', 'e', 'w', 'M', 'o', 'd', 'e', 'l'}), "Move, turn and resize your hands", kfa.RENDER);
@@ -33,7 +33,7 @@ public class rxa extends kfe implements vht {
       }
    }
 
-   private void rxu() {
+   void rxu() {
       for (vmo var2 : this.getSettings()) {
          if (var2 instanceof vmc var3) {
             var3.reset();

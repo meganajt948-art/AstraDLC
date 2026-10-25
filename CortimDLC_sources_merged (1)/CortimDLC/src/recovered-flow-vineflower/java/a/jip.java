@@ -13,21 +13,21 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
 
 public final class jip {
-   private static final String jiq = a.c(-1106909821, "\ue5ec鱗ᚇ裮ͼ薠㿘똭⡱");
-   private static final int jir = 6;
-   private static final long[] jis = new long[6];
-   private static final long[] jit = new long[6];
-   private static int jiu;
-   private static int jiv;
-   private static Field jiw;
-   private static boolean jix;
-   private static ClientConnection jiy;
-   private static double jiz = Double.NaN;
-   private static double jja;
-   private static float jjb;
-   private static boolean jjc;
+   static final String jiq = a.c(-1106909821, "\ue5ec鱗ᚇ裮ͼ薠㿘똭⡱");
+   static final int jir = 6;
+   static final long[] jis = new long[6];
+   static final long[] jit = new long[6];
+   static int jiu;
+   static int jiv;
+   static Field jiw;
+   static boolean jix;
+   static ClientConnection jiy;
+   static double jiz = Double.NaN;
+   static double jja;
+   static float jjb;
+   static boolean jjc;
 
-   private jip() {
+   jip() {
    }
 
    public static void tick(MinecraftClient var0) {
@@ -88,12 +88,12 @@ public final class jip {
       }
    }
 
-   private static synchronized void jjf() {
+   static synchronized void jjf() {
       jiu = 0;
       jiv = 0;
    }
 
-   private static synchronized void jjg(long var0) {
+   static synchronized void jjg(long var0) {
       long var2 = System.nanoTime();
       if (jiu > 0 && var0 <= jis[(jiv - 1 + 6) % 6]) {
          jiu = 0;
@@ -105,7 +105,7 @@ public final class jip {
       jiu = Math.min(6, jiu + 1);
    }
 
-   private static boolean jjh(ClientConnection var0) {
+   static boolean jjh(ClientConnection var0) {
       Channel var1 = jji(var0);
       if (var1 == null) {
          return false;
@@ -142,7 +142,7 @@ public final class jip {
       }
    }
 
-   private static Channel jji(ClientConnection var0) {
+   static Channel jji(ClientConnection var0) {
       if (jiw == null && !jix) {
          for (Field var4 : ClientConnection.class.getDeclaredFields()) {
             if (Channel.class.isAssignableFrom(var4.getType())) {

@@ -13,10 +13,10 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
 
 final class svp {
-   private static final int svq = -1;
-   private static final float svr = 7.0F;
+   static final int svq = -1;
+   static final float svr = 7.0F;
 
-   private svp() {
+   svp() {
    }
 
    static List<svi> of(Text var0, swb var1) {
@@ -28,7 +28,7 @@ final class svp {
       return var2;
    }
 
-   private static void svu(List<svi> var0, Style var1, String var2, swb var3) {
+   static void svu(List<svi> var0, Style var1, String var2, swb var3) {
       int var4 = var1.getColor() != null ? 0xFF000000 | var1.getColor().getRgb() : -1;
       boolean var5 = var1.getFont() != null && !StyleSpriteSource.DEFAULT.equals(var1.getFont());
       int var6 = var4;
@@ -80,7 +80,7 @@ final class svp {
       svv(var0, var9, var10, var1, var6, var7);
    }
 
-   private static void svv(List<svi> var0, StringBuilder var1, StringBuilder var2, Style var3, int var4, boolean var5) {
+   static void svv(List<svi> var0, StringBuilder var1, StringBuilder var2, Style var3, int var4, boolean var5) {
       if (var1 != null && !var1.isEmpty()) {
          var0.add(new svi(var1.toString(), var4, var5, null));
          var1.setLength(0);
@@ -93,11 +93,11 @@ final class svp {
       }
    }
 
-   private static boolean svw(int var0) {
+   static boolean svw(int var0) {
       return Character.getType(var0) == 18;
    }
 
-   private static float svx(swb var0) {
+   static float svx(swb var0) {
       return var0.capHeight() * 1.2F / 7.0F;
    }
 

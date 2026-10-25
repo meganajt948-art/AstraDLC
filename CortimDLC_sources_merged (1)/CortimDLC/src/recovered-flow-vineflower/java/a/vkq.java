@@ -1,9 +1,9 @@
 package a;
 
 public final class vkq {
-   private final String vkr;
-   private final vhz vks;
-   private final Runnable vkt;
+   final String vkr;
+   final vhz vks;
+   final Runnable vkt;
 
    public vkq(String label, vhz icon, Runnable action) {
       this.vkr = label;

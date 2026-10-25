@@ -3,9 +3,9 @@ package a;
 import net.minecraft.client.gui.DrawContext;
 
 final class swb {
-   private final vek swc;
-   private final float swd;
-   private final vdn[] swe = new vdn[swh.sxj.length];
+   final vek swc;
+   final float swd;
+   final vdn[] swe = new vdn[swh.sxj.length];
 
    swb(vek var1, float var2) {
       this.swc = var1;

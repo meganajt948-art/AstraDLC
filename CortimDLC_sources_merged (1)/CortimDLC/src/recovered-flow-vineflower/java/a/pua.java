@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public final class pua {
    public static final double STEP = 0.6;
 
-   private pua() {
+   pua() {
    }
 
    public static boolean bodyFits(World var0, Entity var1, double var2, double var4, double var6, double var8) {

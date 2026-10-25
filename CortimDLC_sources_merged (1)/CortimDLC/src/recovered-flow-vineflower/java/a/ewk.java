@@ -32,7 +32,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public final class ewk {
-   private static final String ewl = new String(
+   static final String ewl = new String(
       new char[]{
          'h',
          't',
@@ -77,27 +77,27 @@ public final class ewk {
          'v'
       }
    );
-   private static final long ewm = 5000L;
-   private static final long ewn = 1500L;
-   private static final Map<String, String> ewo = new ConcurrentHashMap<>();
-   private static final Map<String, evy> ewp = new ConcurrentHashMap<>();
-   private static final Set<String> ewq = new HashSet<>();
-   private static final Set<String> ewr = new HashSet<>();
-   private static final Set<String> ews = new HashSet<>();
-   private static final Object ewt = new Object();
-   private static volatile boolean ewu;
-   private static volatile boolean ewv;
-   private static final CountDownLatch eww = new CountDownLatch(1);
-   private static HttpClient ewx;
-   private static ScheduledExecutorService ewy;
-   private static ScheduledFuture<?> ewz;
-   private static volatile int exa;
-   private static volatile long exb;
+   static final long ewm = 5000L;
+   static final long ewn = 1500L;
+   static final Map<String, String> ewo = new ConcurrentHashMap<>();
+   static final Map<String, evy> ewp = new ConcurrentHashMap<>();
+   static final Set<String> ewq = new HashSet<>();
+   static final Set<String> ewr = new HashSet<>();
+   static final Set<String> ews = new HashSet<>();
+   static final Object ewt = new Object();
+   static volatile boolean ewu;
+   static volatile boolean ewv;
+   static final CountDownLatch eww = new CountDownLatch(1);
+   static HttpClient ewx;
+   static ScheduledExecutorService ewy;
+   static ScheduledFuture<?> ewz;
+   static volatile int exa;
+   static volatile long exb;
 
-   private ewk() {
+   ewk() {
    }
 
-   private static String exe() {
+   static String exe() {
       String var0 = LoaderInfo.api();
       if (var0 != null && !var0.isBlank()) {
          var0 = var0.trim();
@@ -150,7 +150,7 @@ public final class ewk {
       }
    }
 
-   private static void exf() {
+   static void exf() {
       try {
          HttpRequest var0 = HttpRequest.newBuilder(URI.create(exe() + a.b("\ue7d6鸩ᓫ誃Ē蟨㶾둚⨐ꃯ❣\udd17叙쩨", 1851647991)))
             .timeout(Duration.ofSeconds(8L))
@@ -210,13 +210,13 @@ public final class ewk {
       }
    }
 
-   private static boolean exg(String var0) {
+   static boolean exg(String var0) {
       synchronized (ewt) {
          return ewq.contains(var0);
       }
    }
 
-   private static boolean exh(String var0) {
+   static boolean exh(String var0) {
       synchronized (ewt) {
          return ewr.contains(var0) || ews.contains(var0);
       }
@@ -376,7 +376,7 @@ public final class ewk {
       }
    }
 
-   private static void exi() {
+   static void exi() {
       if (ewy != null) {
          if (ewz != null) {
             ewz.cancel(false);
@@ -386,7 +386,7 @@ public final class ewk {
       }
    }
 
-   private static void exj() {
+   static void exj() {
       JsonObject var0;
       synchronized (ewt) {
          if (ewq.isEmpty() && ewr.isEmpty() && ews.isEmpty()) {
@@ -417,7 +417,7 @@ public final class ewk {
       }
    }
 
-   private static void exk(JsonObject var0) {
+   static void exk(JsonObject var0) {
       synchronized (ewt) {
          if (var0.has(a.c(1113055403, "\ue0dd饳Ꭳ跉ؙ"))) {
             ewq.addAll(var0.getAsJsonObject(a.c(-83611927, "⺟圱\udde1䎋졛")).keySet());
@@ -433,7 +433,7 @@ public final class ewk {
       }
    }
 
-   private static JsonObject exl() {
+   static JsonObject exl() {
       JsonObject var0 = new JsonObject();
       JsonObject var1 = new JsonObject();
 
@@ -484,7 +484,7 @@ public final class ewk {
       return var0;
    }
 
-   private static void exm(int var0) {
+   static void exm(int var0) {
       if (var0 == 401 || var0 == 403) {
          long var1 = System.currentTimeMillis();
          if (var0 != exa || var1 - exb >= 15000L) {

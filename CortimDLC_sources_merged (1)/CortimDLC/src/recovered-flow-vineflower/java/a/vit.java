@@ -8,7 +8,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
 final class vit {
-   private vit() {
+   vit() {
    }
 
    static void paint(Graphics2D var0, vhz var1, int var2, int var3, float var4, float var5, float var6) {

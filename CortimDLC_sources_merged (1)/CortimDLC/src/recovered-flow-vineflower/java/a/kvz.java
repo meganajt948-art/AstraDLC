@@ -5,9 +5,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Items;
 
 public class kvz extends kfe {
-   private static kvz kwa;
-   private final vlq kwb = this.add(new vlq(a.b("\ueb9c鈊ᣚ蚪൸诃㖀론♎겁⬭턧忺", 66842507)));
-   private final vzh kwc = new vzh(Items.ENDER_PEARL, true);
+   static kvz kwa;
+   final vlq kwb = this.add(new vlq(a.b("\ueb9c鈊ᣚ蚪൸诃㖀론♎겁⬭턧忺", 66842507)));
+   final vzh kwc = new vzh(Items.ENDER_PEARL, true);
 
    public kvz() {
       super(a.d("긗히嵇쌟䣽칈琈\ufde7", 667402227, 1502744999), a.c(-2080823843, "▗尚훓䢿썰䗅ￅ癵\ue825拚\ue54cἶ釫࡛舟Ҽ뺣ㅧꯐⶒꑻ\ude66傚쭊䵻쟫縙\uf003櫺\uecb7"), kfa.COMBAT);

@@ -18,7 +18,7 @@ final class vjb {
    final GpuTexture texture;
    final GpuTextureView view;
 
-   private vjb(int var1, int var2, int var3, int var4, GpuTexture var5, GpuTextureView var6) {
+   vjb(int var1, int var2, int var3, int var4, GpuTexture var5, GpuTextureView var6) {
       this.px = var1;
       this.columns = var2;
       this.width = var3;
@@ -74,7 +74,7 @@ final class vjb {
       this.texture.close();
    }
 
-   private static int vje(int var0) {
+   static int vje(int var0) {
       byte var1 = 1;
 
       while (var1 < var0) {

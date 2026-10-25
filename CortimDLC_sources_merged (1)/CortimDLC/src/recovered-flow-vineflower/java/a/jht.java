@@ -4,14 +4,14 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 
 final class jht {
-   private final String jhu;
-   private final RegistryEntry<StatusEffect> jhv;
-   private final String jhw;
-   private final int jhx;
-   private final boolean jhy;
-   private final float jhz;
-   private final int jia;
-   private final boolean jib;
+   final String jhu;
+   final RegistryEntry<StatusEffect> jhv;
+   final String jhw;
+   final int jhx;
+   final boolean jhy;
+   final float jhz;
+   final int jia;
+   final boolean jib;
 
    jht(String key, RegistryEntry<StatusEffect> type, String name, int ticks, boolean infinite, float fraction, int color, boolean harmful) {
       this.jhu = key;

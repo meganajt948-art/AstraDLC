@@ -15,15 +15,15 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 final class gwv {
-   private static final AtomicInteger gww = new AtomicInteger();
-   private static qdz gwx;
-   private static final tel gwy = new tel();
-   private static final qmh gwz = new qmh();
-   private static BlockPos gxa;
-   private static volatile BlockPos gxb;
-   private static int gxc = -1;
+   static final AtomicInteger gww = new AtomicInteger();
+   static qdz gwx;
+   static final tel gwy = new tel();
+   static final qmh gwz = new qmh();
+   static BlockPos gxa;
+   static volatile BlockPos gxb;
+   static int gxc = -1;
 
-   private gwv() {
+   gwv() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {

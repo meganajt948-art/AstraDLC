@@ -1,10 +1,10 @@
 package a;
 
 public final class vcj {
-   private static final float vck = 1.7F;
-   private final float vcl;
-   private float vcm;
-   private float vcn;
+   static final float vck = 1.7F;
+   final float vcl;
+   float vcm;
+   float vcn;
 
    public vcj(float var1, float var2) {
       this.vcl = var1;

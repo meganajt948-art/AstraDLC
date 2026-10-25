@@ -1,11 +1,11 @@
 package a;
 
 final class wjq {
-   private final int wjr;
-   private final int wjs;
-   private final String wjt;
+   final int wjr;
+   final int wjs;
+   final String wjt;
 
-   private wjq(int start, int end, String value) {
+   wjq(int start, int end, String value) {
       this.wjr = start;
       this.wjs = end;
       this.wjt = value;

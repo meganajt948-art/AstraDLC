@@ -18,15 +18,15 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public final class ptr {
-   private static final Field pts = vxr.find(
+   static final Field pts = vxr.find(
       MinecraftClient.class,
       a.d("襇\uf0fd稿\ue414澀\ue935卡\uda9b䓂칢䦢돔㴑ꓺ⻤ꠚቘ鶛ܨ腕࣎犝ﰯ", -1390575708, 2014508698),
       a.c(-1826627949, "\udeffꝁ\u2d9e돦㠹뺳Ҏ赹ጤ馒"),
       a.b("栃", 841246795)
    );
-   private static pth ptt = new pth();
+   static pth ptt = new pth();
 
-   private ptr() {
+   ptr() {
    }
 
    public static pth swap(pth var0) {
@@ -93,7 +93,7 @@ public final class ptr {
       }
    }
 
-   private static void ptw(pth var0, MinecraftClient var1) {
+   static void ptw(pth var0, MinecraftClient var1) {
       if (!var0.ptn.isEmpty()) {
          if (var1 != null && var1.player != null && var1.world != null && var1.player.age - var0.pto <= 3 && var1.player.age >= var0.pto) {
             Runnable var2;
@@ -109,7 +109,7 @@ public final class ptr {
       }
    }
 
-   private static void ptx(pth var0, MinecraftClient var1) {
+   static void ptx(pth var0, MinecraftClient var1) {
       if (var0.ptl > 0 && (var0.pti != null || var0.ptm)) {
          var0.ptl--;
          if (var1 != null && var1.player != null && var1.world != null) {
@@ -129,7 +129,7 @@ public final class ptr {
       }
    }
 
-   private static void pty(pth var0, MinecraftClient var1) {
+   static void pty(pth var0, MinecraftClient var1) {
       if (var0.ptl > 0 && (var0.pti != null || var0.ptm)) {
          var0.ptl--;
          if (var1 != null && var1.player != null && var1.world != null && var1.options != null && var1.interactionManager != null) {
@@ -157,7 +157,7 @@ public final class ptr {
       }
    }
 
-   private static void ptz(MinecraftClient var0) {
+   static void ptz(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
 
       while (var0.options.useKey.wasPressed()) {

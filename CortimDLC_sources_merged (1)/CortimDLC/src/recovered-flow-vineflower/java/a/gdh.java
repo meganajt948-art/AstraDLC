@@ -20,14 +20,14 @@ import net.minecraft.client.util.ScreenshotRecorder;
 import org.lwjgl.glfw.GLFW;
 
 public final class gdh {
-   private static final float[] gdi = new float[]{0.5F, 1.5F, 2.9F, 3.5F, 3.8F, 4.2F, 4.8F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F};
-   private static int gdj;
-   private static long gdk;
-   private static int gdl;
-   private static int gdm;
-   private static jte gdn;
+   static final float[] gdi = new float[]{0.5F, 1.5F, 2.9F, 3.5F, 3.8F, 4.2F, 4.8F, 5.5F, 6.5F, 7.5F, 8.5F, 9.5F};
+   static int gdj;
+   static long gdk;
+   static int gdl;
+   static int gdm;
+   static jte gdn;
 
-   private gdh() {
+   gdh() {
    }
 
    public static void install() {
@@ -37,16 +37,16 @@ public final class gdh {
       }
    }
 
-   private static float gdq() {
+   static float gdq() {
       return (float)(System.nanoTime() - gdk) / 1.0E9F;
    }
 
-   private static void gdr() {
+   static void gdr() {
       gdk = System.nanoTime();
       gdl = 0;
    }
 
-   private static void gds(MinecraftClient var0) {
+   static void gds(MinecraftClient var0) {
       gdm++;
 
       try {
@@ -59,7 +59,7 @@ public final class gdh {
       }
    }
 
-   private static void gdt(MinecraftClient var0) throws Exception {
+   static void gdt(MinecraftClient var0) throws Exception {
       switch (gdj) {
          case 0:
             if (gdm % 100 == 0) {
@@ -272,7 +272,7 @@ public final class gdh {
       }
    }
 
-   private static void gdu(MinecraftClient var0, float var1) {
+   static void gdu(MinecraftClient var0, float var1) {
       if (var0.currentScreen instanceof jos var2) {
          float var6 = kbp.scale(var2.width, var2.height);
          float var4 = (var2.width / var6 - 268.0F) * 0.5F;
@@ -281,26 +281,26 @@ public final class gdh {
       }
    }
 
-   private static void gdv(MinecraftClient var0, float var1, float var2) {
+   static void gdv(MinecraftClient var0, float var1, float var2) {
       int[] var3 = new int[1];
       int[] var4 = new int[1];
       GLFW.glfwGetWindowSize(var0.getWindow().getHandle(), var3, var4);
       GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), var1 * var3[0], var2 * var4[0]);
    }
 
-   private static void gdw(Object var0, String var1, Class<?>[] var2, Object... var3) throws Exception {
+   static void gdw(Object var0, String var1, Class<?>[] var2, Object... var3) throws Exception {
       Method var4 = var0.getClass().getDeclaredMethod(var1, var2);
       var4.setAccessible(true);
       var4.invoke(var0, var3);
    }
 
-   private static void gdx(Object var0, String var1, Object var2) throws Exception {
+   static void gdx(Object var0, String var1, Object var2) throws Exception {
       Field var3 = var0.getClass().getDeclaredField(var1);
       var3.setAccessible(true);
       var3.set(var0, var2);
    }
 
-   private static void gdy(MinecraftClient var0, String var1) {
+   static void gdy(MinecraftClient var0, String var1) {
       System.out
          .println(a.b("뗤챝䚅\ud8ef卭했濊\ue62d硵\uf290", 181253507) + var1 + a.d("坂⺓ꐠ", -281767153, -1212038034) + var0.getCurrentFps() + a.b("킥ꥒ⎗뷥", 371642497));
       ScreenshotRecorder.saveScreenshot(

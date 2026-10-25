@@ -5,13 +5,13 @@ import java.util.function.IntPredicate;
 import net.minecraft.client.gui.DrawContext;
 
 final class hxv extends imn {
-   private static final float hxw = 17.0F;
-   private static final float hxx = 52.0F;
-   private static final IntPredicate hxy = var0 -> var0 > 32 && var0 != 127 && var0 != 167;
+   static final float hxw = 17.0F;
+   static final float hxx = 52.0F;
+   static final IntPredicate hxy = var0 -> var0 > 32 && var0 != 127 && var0 != 167;
    final iah name = new iah(a.c(1291375195, "툀ꮍ⅓뼺㓱뉗ࡖ臩Ᾱ锄ዟ"), vhz.USER_PLUS, 20, hxy);
-   private final vcj hxz = new vcj(16.0F);
-   private final vcj hya = new vcj(9.0F);
-   private hlc hyb;
+   final vcj hxz = new vcj(16.0F);
+   final vcj hya = new vcj(9.0F);
+   hlc hyb;
 
    hxv() {
       super(null);
@@ -23,7 +23,7 @@ final class hxv extends imn {
       return 24.0F;
    }
 
-   private float hye() {
+   float hye() {
       return this.x + this.w - 52.0F;
    }
 
@@ -64,7 +64,7 @@ final class hxv extends imn {
       }
    }
 
-   private void hyf() {
+   void hyf() {
       String var1 = hhf.clean(this.name.text);
       if (var1 == null) {
          this.name.error();

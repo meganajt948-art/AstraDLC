@@ -6,10 +6,10 @@ import net.minecraft.client.gui.DrawContext;
 abstract class imn {
    final vmo setting;
    final vcj hover = new vcj(16.0F);
-   private final vcj imo = new vcj(14.0F, 1.0F);
-   private final vcj imp = new vcj(12.0F, 1.0F);
-   private BooleanSupplier imq = () -> true;
-   private BooleanSupplier imr = () -> true;
+   final vcj imo = new vcj(14.0F, 1.0F);
+   final vcj imp = new vcj(12.0F, 1.0F);
+   BooleanSupplier imq = () -> true;
+   BooleanSupplier imr = () -> true;
    float x;
    float y;
    float w;

@@ -19,9 +19,9 @@ import org.joml.Matrix4f;
 import org.jspecify.annotations.Nullable;
 
 final class ssj {
-   private static final float ssk = 0.9375F;
+   static final float ssk = 0.9375F;
 
-   private ssj() {
+   ssj() {
    }
 
    static @Nullable List<spg> capture(MinecraftClient var0, LivingEntity var1, float var2, double[] var3) {
@@ -84,7 +84,7 @@ final class ssj {
       return var3;
    }
 
-   private static void ssn(
+   static void ssn(
       List<spg> var0, MatrixStack var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8, float var9, float var10
    ) {
       var1.push();
@@ -94,7 +94,7 @@ final class ssj {
       var1.pop();
    }
 
-   private static MatrixStack sso(float var0, float var1, float var2) {
+   static MatrixStack sso(float var0, float var1, float var2) {
       MatrixStack var3 = new MatrixStack();
       var3.scale(var0, var0, var0);
       var3.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0F - var1));
@@ -104,13 +104,13 @@ final class ssj {
       return var3;
    }
 
-   private static spg ssp(Matrix4f var0, Matrix3f var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
+   static spg ssp(Matrix4f var0, Matrix3f var1, float var2, float var3, float var4, float var5, float var6, float var7, float var8) {
       Matrix4f var9 = new Matrix4f(var0).translate((var2 + var5) / 32.0F, (var3 + var6) / 32.0F, (var4 + var7) / 32.0F);
       float var10 = var8 / 16.0F;
       return new spg(var9, new Matrix3f(var1), (var5 - var2) / 32.0F + var10, (var6 - var3) / 32.0F + var10, (var7 - var4) / 32.0F + var10);
    }
 
-   private static float ssq(LivingEntity var0, String var1, boolean var2) {
+   static float ssq(LivingEntity var0, String var1, boolean var2) {
       if (!var2) {
          return 0.35F;
       }
@@ -129,7 +129,7 @@ final class ssj {
       return var6 ? 1.1F : 0.6F;
    }
 
-   private static void ssr(EntityModel var0, LivingEntityRenderState var1) {
+   static void ssr(EntityModel var0, LivingEntityRenderState var1) {
       var0.setAngles(var1);
    }
 }

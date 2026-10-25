@@ -23,10 +23,10 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 final class fvb {
-   private static int fvc;
-   private static BlockPos fvd;
+   static int fvc;
+   static BlockPos fvd;
 
-   private fvb() {
+   fvb() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -136,7 +136,7 @@ final class fvb {
       }
    }
 
-   private static double[] fvg(MinecraftClient var0, Class<? extends kfe> var1) throws Exception {
+   static double[] fvg(MinecraftClient var0, Class<? extends kfe> var1) throws Exception {
       if (var0.currentScreen instanceof hlc var2) {
          Field var11 = hlc.class.getDeclaredField(a.d("\uf24a诤ĭ齆ᒚ鈥⡿", 113480592, -554737237));
          var11.setAccessible(true);
@@ -159,14 +159,14 @@ final class fvb {
       }
    }
 
-   private static void fvh(MinecraftClient var0, Class<? extends kfe> var1, int var2) throws Exception {
+   static void fvh(MinecraftClient var0, Class<? extends kfe> var1, int var2) throws Exception {
       double[] var3 = fvg(var0, var1);
       if (var3 != null) {
          var0.currentScreen.mouseClicked(new Click(var3[0], var3[1], new MouseInput(var2, 0)), false);
       }
    }
 
-   private static void fvi(MinecraftClient var0, Class<? extends kfe> var1) throws Exception {
+   static void fvi(MinecraftClient var0, Class<? extends kfe> var1) throws Exception {
       double[] var2 = fvg(var0, var1);
       if (var2 != null) {
          double var3 = var0.getWindow().getScaleFactor();
@@ -182,7 +182,7 @@ final class fvb {
       }
    }
 
-   private static Object fvj(Object var0, String var1) throws Exception {
+   static Object fvj(Object var0, String var1) throws Exception {
       for (Class var2 = var0.getClass(); var2 != null; var2 = var2.getSuperclass()) {
          try {
             Field var3 = var2.getDeclaredField(var1);
@@ -195,7 +195,7 @@ final class fvb {
       throw new NoSuchFieldException(var1);
    }
 
-   private static void fvk(MinecraftClient var0, String var1) throws Exception {
+   static void fvk(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.c(192585945, "ꂫ\ud90f叟춇䙾샓"));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -209,7 +209,7 @@ final class fvb {
       var0.setScreen(new hlc());
    }
 
-   private static void fvl() {
+   static void fvl() {
       List var0 = List.of(ppu.WARDEN_DEFAULTS);
       List var1 = List.of(ppu.END_DEFAULTS);
       fvr(a.d("\uee70韗ᴗ荰ࢦ踜㐁붼⏦ꥍ⺙풼娣쎛䧚콸產\ufaf1恕\ue648澺ᗬ魔\u0093", 1971120378, 1994196709), var0.size() == 57, String.valueOf(var0.size()));
@@ -292,25 +292,25 @@ final class fvb {
       );
    }
 
-   private static void fvm(String var0, ItemStack var1, boolean var2, boolean var3) {
+   static void fvm(String var0, ItemStack var1, boolean var2, boolean var3) {
       boolean var4 = ppu.picked(var1, Set.of(ppu.WARDEN_DEFAULTS));
       boolean var5 = ppu.picked(var1, Set.of(ppu.END_DEFAULTS));
       fvr(var0, var4 == var2 && var5 == var3, a.b("沦ᔁ鿁Ʀ詰ೊ뛊", -383357738) + var4 + a.c(-233890183, "Ṝ枨\ued70猋\uf885") + var5);
    }
 
-   private static ItemStack fvn(Item var0, String var1) {
+   static ItemStack fvn(Item var0, String var1) {
       ItemStack var2 = new ItemStack(var0);
       var2.set(DataComponentTypes.CUSTOM_NAME, Text.literal(var1));
       return var2;
    }
 
-   private static ItemStack fvo(Item var0, String var1, String var2) {
+   static ItemStack fvo(Item var0, String var1, String var2) {
       ItemStack var3 = fvn(var0, var1);
       var3.set(DataComponentTypes.LORE, new LoreComponent(List.of(Text.literal(var2))));
       return var3;
    }
 
-   private static void fvp() {
+   static void fvp() {
       Object var0 = new Object();
       Object var1 = new Object();
       Object var2 = new Object();
@@ -386,7 +386,7 @@ final class fvb {
       }
    }
 
-   private static void fvq(kfx var0) {
+   static void fvq(kfx var0) {
       wap.set(wam.RU);
       int var1 = 0;
 
@@ -408,7 +408,7 @@ final class fvb {
       fvr(a.b("ﲉ蔫\u0feb醍ᩑ鲹⚧꽔\u3100뮠㱪옒䢀텵嬧\uddc0枟\ue85f狷\uf4ad絝܍觺ቢ鐚ẅꝄ⤲돃㖒븻䃢쪢", 269941965), var1 == 0, var1 + a.c(445628220, "뼗웯䰻툄妶\udf2c敶\uec8c狖\uf87d羵"));
    }
 
-   private static void fvr(String var0, boolean var1, String var2) {
+   static void fvr(String var0, boolean var1, String var2) {
       if (!var1) {
          fvc++;
       }
@@ -422,14 +422,14 @@ final class fvb {
          );
    }
 
-   private static void fvs(MinecraftClient var0, vlj var1) throws Exception {
+   static void fvs(MinecraftClient var0, vlj var1) throws Exception {
       fvk(var0, a.b("孔⋙ꠇ㙮붥㬃", 1179540226));
       Method var2 = hlc.class.getDeclaredMethod(a.b("艓ﯽ焻\uef41撨\ue220塹톀俑앷", -2008448458), vlj.class);
       var2.setAccessible(true);
       var2.invoke(var0.currentScreen, var1);
    }
 
-   private static void fvt(Screen var0, String var1) {
+   static void fvt(Screen var0, String var1) {
       if (var0 != null) {
          for (char var5 : var1.toCharArray()) {
             var0.charTyped(new CharInput(var5, 0));
@@ -437,11 +437,11 @@ final class fvb {
       }
    }
 
-   private static void fvu(MinecraftClient var0, String var1) {
+   static void fvu(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fvv(MinecraftClient var0, String var1) {
+   static void fvv(MinecraftClient var0, String var1) {
       System.out
          .println(a.d("\uec53间Ἦ腕ૄ谡㙣뾄⇜ꬹ", -1513393298, 2127535940) + var1 + a.c(-1309758798, "ꪑ퍀姳") + var0.getCurrentFps() + a.d("▣屔횑䣣", 820680132, -1706774461));
       ScreenshotRecorder.saveScreenshot(

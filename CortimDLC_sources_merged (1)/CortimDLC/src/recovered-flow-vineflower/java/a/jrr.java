@@ -9,18 +9,18 @@ import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.render.GameRenderer;
 
 public final class jrr extends RotatingCubeMapRenderer {
-   private static boolean jrs;
-   private static boolean jrt;
-   private static kap jru;
-   private static long jrv;
-   private static RotatingCubeMapRenderer jrw;
-   private static Field jrx;
-   private final kam jry = new kam();
-   private float jrz;
-   private float jsa;
-   private long jsb;
+   static boolean jrs;
+   static boolean jrt;
+   static kap jru;
+   static long jrv;
+   static RotatingCubeMapRenderer jrw;
+   static Field jrx;
+   final kam jry = new kam();
+   float jrz;
+   float jsa;
+   long jsb;
 
-   private jrr(CubeMapRenderer var1) {
+   jrr(CubeMapRenderer var1) {
       super(var1);
    }
 
@@ -43,7 +43,7 @@ public final class jrr extends RotatingCubeMapRenderer {
       }
    }
 
-   private static void jse(GameRenderer var0) throws IllegalAccessException {
+   static void jse(GameRenderer var0) throws IllegalAccessException {
       Field var1 = vxr.find(
          GameRenderer.class,
          a.d("ꚾ\udf04嗆쯭䁹워粘\uf562欻\ue19b晛鰭የ謃ĝ蟣㶡뉢⣑꺬✳嵠폑", -73438213, -786313924),

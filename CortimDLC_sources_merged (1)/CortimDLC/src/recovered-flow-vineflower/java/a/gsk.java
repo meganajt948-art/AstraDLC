@@ -11,10 +11,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 public final class gsk {
    public static final boolean ON = Boolean.getBoolean(a.b("﴾蒅๕逼ᮮ鴃✎껽タ먇", -4784814));
    public static boolean variant;
-   private static final Map<String, long[]> gsl = new LinkedHashMap<>();
-   private static long gsm;
+   static final Map<String, long[]> gsl = new LinkedHashMap<>();
+   static long gsm;
 
-   private gsk() {
+   gsk() {
    }
 
    public static void add(String var0, long var1) {

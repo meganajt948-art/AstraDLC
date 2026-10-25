@@ -30,52 +30,52 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 public class rrx extends kfe {
-   private static rrx rry;
-   private final vlv rrz = this.add(new vlv("Style", "Angel", "Angel", "Glass"));
-   private final vkl rsa = this.add(new vkl("On kill", true));
-   private final vkl rsb = this.add(new vkl("On totem pop", true));
-   private final vkl rsc = this.add(new vkl("Only my targets", true));
-   private final vkl rsd = this.add(new vkl("Mobs", false));
-   private final vla rse = this.add(new vla("Color", "Ice"));
-   private final vla rsf = this.add(new vla("Totem color", "Gold"));
-   private final vmc rsg = this.add(new vmc("Size", 1.0, 0.6, 1.6, 0.05).percent());
-   private final vmc rsh = this.add(new vmc("Duration", 3.0, 1.5, 5.0, 0.1).suffix("s"));
-   private final vkl rsi = this.add(new vkl("Wings", true));
-   private final vkl rsj = this.add(new vkl("Halo", true));
-   private final vlv rsk = this.add(new vlv("Pieces", "Shards", "Shards", "Cubes"));
-   private final vkl rsl = this.add(new vkl("Sound", true));
-   private final vkl rsm = this.add(new vkl("Particles", true));
-   private static final long rsn = 12000L;
-   private static final int rso = 6;
-   private static final float rsp = (float) (Math.PI * 2);
-   private static final float rsq = 0.0625F;
-   private static final Queue<rrj> rsr = new ConcurrentLinkedQueue<>();
-   private static final Map<Integer, Long> rss = new HashMap<>();
-   private final List<rru> rst = new ArrayList<>();
-   private long rsu = -1L;
-   private float rsv;
-   private static final int rsw = 4;
-   private final List<rrj> rsx = new ArrayList<>();
-   private final List<sql> rsy = new ArrayList<>();
-   private final List<uwg> rsz = new ArrayList<>();
-   private final Matrix4f rta = new Matrix4f();
-   private final Quaternionf rtb = new Quaternionf();
-   private final Random rtc = new Random();
-   private final double[] rtd = new double[6];
-   private long rte;
-   private final Matrix4f rtf = new Matrix4f();
-   private final Vector3f rtg = new Vector3f();
-   private final float[][] rth = new float[8][2];
-   private final boolean[] rti = new boolean[8];
-   private final double[][] rtj = new double[8][3];
-   private final float[] rtk = new float[2];
-   private final float[] rtl = new float[2];
-   private final float[] rtm = new float[2];
-   private final float[] rtn = new float[2];
-   private final int[] rto = new int[4];
-   private final float[][] rtp;
-   private final boolean[] rtq;
-   private static final float[][] rtr = new float[][]{
+   static rrx rry;
+   final vlv rrz = this.add(new vlv("Style", "Angel", "Angel", "Glass"));
+   final vkl rsa = this.add(new vkl("On kill", true));
+   final vkl rsb = this.add(new vkl("On totem pop", true));
+   final vkl rsc = this.add(new vkl("Only my targets", true));
+   final vkl rsd = this.add(new vkl("Mobs", false));
+   final vla rse = this.add(new vla("Color", "Ice"));
+   final vla rsf = this.add(new vla("Totem color", "Gold"));
+   final vmc rsg = this.add(new vmc("Size", 1.0, 0.6, 1.6, 0.05).percent());
+   final vmc rsh = this.add(new vmc("Duration", 3.0, 1.5, 5.0, 0.1).suffix("s"));
+   final vkl rsi = this.add(new vkl("Wings", true));
+   final vkl rsj = this.add(new vkl("Halo", true));
+   final vlv rsk = this.add(new vlv("Pieces", "Shards", "Shards", "Cubes"));
+   final vkl rsl = this.add(new vkl("Sound", true));
+   final vkl rsm = this.add(new vkl("Particles", true));
+   static final long rsn = 12000L;
+   static final int rso = 6;
+   static final float rsp = (float) (Math.PI * 2);
+   static final float rsq = 0.0625F;
+   static final Queue<rrj> rsr = new ConcurrentLinkedQueue<>();
+   static final Map<Integer, Long> rss = new HashMap<>();
+   final List<rru> rst = new ArrayList<>();
+   long rsu = -1L;
+   float rsv;
+   static final int rsw = 4;
+   final List<rrj> rsx = new ArrayList<>();
+   final List<sql> rsy = new ArrayList<>();
+   final List<uwg> rsz = new ArrayList<>();
+   final Matrix4f rta = new Matrix4f();
+   final Quaternionf rtb = new Quaternionf();
+   final Random rtc = new Random();
+   final double[] rtd = new double[6];
+   long rte;
+   final Matrix4f rtf = new Matrix4f();
+   final Vector3f rtg = new Vector3f();
+   final float[][] rth = new float[8][2];
+   final boolean[] rti = new boolean[8];
+   final double[][] rtj = new double[8][3];
+   final float[] rtk = new float[2];
+   final float[] rtl = new float[2];
+   final float[] rtm = new float[2];
+   final float[] rtn = new float[2];
+   final int[] rto = new int[4];
+   final float[][] rtp;
+   final boolean[] rtq;
+   static final float[][] rtr = new float[][]{
       {0.1F, 0.28F},
       {0.28F, 0.55F},
       {0.5F, 0.78F},
@@ -96,8 +96,8 @@ public class rrx extends kfe {
       {0.26F, -0.4F},
       {0.12F, -0.14F}
    };
-   private static final int[][] rts = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-   private static final float[][] rtt = new float[][]{
+   static final int[][] rts = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
+   static final float[][] rtt = new float[][]{
       {0.0F, -1.0F, 0.0F}, {0.0F, 1.0F, 0.0F}, {0.0F, 0.0F, -1.0F}, {0.0F, 0.0F, 1.0F}, {-1.0F, 0.0F, 0.0F}, {1.0F, 0.0F, 0.0F}
    };
 
@@ -133,7 +133,7 @@ public class rrx extends kfe {
       }
    }
 
-   private static void rtw(Packet<?> var0) {
+   static void rtw(Packet<?> var0) {
       rrx var1 = rry;
       if (var1 != null && var1.isEnabled() && var0 instanceof EntityStatusS2CPacket var2) {
          byte var3 = var2.getStatus();
@@ -283,7 +283,7 @@ public class rrx extends kfe {
       }
    }
 
-   private void rtx(ClientWorld var1, sql var2) {
+   void rtx(ClientWorld var1, sql var2) {
       int var3 = var2.takeEvents();
       if (var3 != 0) {
          double var4 = var2.centerX();
@@ -378,7 +378,7 @@ public class rrx extends kfe {
       }
    }
 
-   private void rty(DrawContext var1, usn var2, rru var3, float var4) {
+   void rty(DrawContext var1, usn var2, rru var3, float var4) {
       float var5 = vcq.outCubic(Math.min(1.0F, var4 / 0.12F));
       float var6 = var4 < 0.55F ? 1.0F : 1.0F - vcq.inCubic((var4 - 0.55F) / 0.45F);
       float var7 = var5 * var6;
@@ -409,7 +409,7 @@ public class rrx extends kfe {
       }
    }
 
-   private void rtz(DrawContext var1, usn var2, rru var3, double var4, float var6, float var7, float var8, int var9, int var10) {
+   void rtz(DrawContext var1, usn var2, rru var3, double var4, float var6, float var7, float var8, int var9, int var10) {
       float var11 = var3.scale;
       float var12 = -(0.35F + 2.1F * var7);
       this.rua(var1, var2, var3, var4, var6, var11, -4.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, -2.0F, 12.0F, 0.0F, -0.15F * var7, var8 * 0.55F, var9, var10);
@@ -420,7 +420,7 @@ public class rrx extends kfe {
       this.rua(var1, var2, var3, var4, var6, var11, 4.0F, 12.0F, -2.0F, 4.0F, 12.0F, 4.0F, 5.0F, 22.0F, -var12, 0.0F, var8 * 0.7F, var9, var10);
    }
 
-   private void rua(
+   void rua(
       DrawContext var1,
       usn var2,
       rru var3,
@@ -492,7 +492,7 @@ public class rrx extends kfe {
       }
    }
 
-   private void rub(DrawContext var1, usn var2, rru var3, double var4, float var6, float var7, float var8, int var9, int var10) {
+   void rub(DrawContext var1, usn var2, rru var3, double var4, float var6, float var7, float var8, int var9, int var10) {
       float var11 = var3.scale;
       float var12 = (float)Math.sin(this.rsv * 3.2F + var3.seed) * 0.16F;
       double var13 = 0.95 * var11 * (0.35 + 0.65 * var7);
@@ -537,11 +537,11 @@ public class rrx extends kfe {
       }
    }
 
-   private static boolean ruc(usn var0, rru var1, double var2, double var4, double var6, double var8, double var10, double var12, float[] var14) {
+   static boolean ruc(usn var0, rru var1, double var2, double var4, double var6, double var8, double var10, double var12, float[] var14) {
       return var0.project(var1.x + var4 * var10 + var8 * var12, var2 + var6, var1.z - var4 * var12 + var8 * var10, var14);
    }
 
-   private void rud(DrawContext var1, usn var2, rru var3, double var4, float var6, int var7, int var8) {
+   void rud(DrawContext var1, usn var2, rru var3, double var4, float var6, int var7, int var8) {
       float var9 = var2.unitsPerBlock(var3.x, var4, var3.z);
       if (!(var9 <= 0.0F)) {
          double var10 = 0.3 * var3.scale;
@@ -568,7 +568,7 @@ public class rrx extends kfe {
       }
    }
 
-   private void rue(DrawContext var1, usn var2, rru var3, double var4, float var6, int var7, int var8, float var9) {
+   void rue(DrawContext var1, usn var2, rru var3, double var4, float var6, int var7, int var8, float var9) {
       float var10 = var2.unitsPerBlock(var3.x, var4 + 1.0, var3.z);
       if (!(var10 <= 0.0F)) {
          float var11 = Math.max(0.7F, Math.min(2.0F, var10 * 0.02F));
@@ -615,7 +615,7 @@ public class rrx extends kfe {
       }
    }
 
-   private void ruf(DrawContext var1, usn var2, rru var3, double var4, float var6, int var7, int var8) {
+   void ruf(DrawContext var1, usn var2, rru var3, double var4, float var6, int var7, int var8) {
       GpuTextureView var9 = unm.view();
       float var10 = var2.unitsPerBlock(var3.x, var4 + 1.0, var3.z);
       if (var9 != null && !(var10 <= 0.0F)) {

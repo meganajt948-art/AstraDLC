@@ -1,10 +1,10 @@
 package a;
 
 public final class ney {
-   private final int nez;
-   private final qwj nfa;
-   private final long nfb;
-   private final boolean nfc;
+   final int nez;
+   final qwj nfa;
+   final long nfb;
+   final boolean nfc;
 
    public ney(int id, qwj tier, long refreshAt, boolean focus) {
       this.nez = id;

@@ -1,10 +1,10 @@
 package a;
 
 final class viw {
-   private final vjb vix;
-   private final long viy;
+   final vjb vix;
+   final long viy;
 
-   private viw(vjb sheet, long frame) {
+   viw(vjb sheet, long frame) {
       this.vix = sheet;
       this.viy = frame;
    }

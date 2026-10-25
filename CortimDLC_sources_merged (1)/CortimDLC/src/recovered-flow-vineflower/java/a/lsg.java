@@ -8,18 +8,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 
 public class lsg extends kfe {
-   private static lsg lsh;
-   private final vlv lsi = this.add(
+   static lsg lsh;
+   final vlv lsi = this.add(
       new vlv(a.d("眊\u0e80葛ᨪ釶ᝎ", -1385517365, 1254218131), a.d("敖茇ঢ়鞥ᱤ髒ₜꥥ㜷", 760641135, 1036029109), lst(false).toArray(String[]::new))
    );
-   private final vkl lsj = this.add(new vkl(a.c(562964867, "⧊偓\uda8b䓡"), true));
-   private final vlv lsk = this.add(new vlv(a.b("\ude10Ꞁⵎ", 138731099), a.b("\ue9b9逡\u1af2", -481695243), lst(true).toArray(String[]::new)));
-   private final vmc lsl = this.add(new vmc(a.d("\uf796踞ӎ骦ᅩ韐", 522986322, -1863920492), 0.6, 0.0, 1.5, 0.05).percent());
-   private long lsm;
-   private long lsn;
-   private int lso = vpo.version();
-   private String lsp;
-   private String lsq;
+   final vkl lsj = this.add(new vkl(a.c(562964867, "⧊偓\uda8b䓡"), true));
+   final vlv lsk = this.add(new vlv(a.b("\ude10Ꞁⵎ", 138731099), a.b("\ue9b9逡\u1af2", -481695243), lst(true).toArray(String[]::new)));
+   final vmc lsl = this.add(new vmc(a.d("\uf796踞ӎ骦ᅩ韐", 522986322, -1863920492), 0.6, 0.0, 1.5, 0.05).percent());
+   long lsm;
+   long lsn;
+   int lso = vpo.version();
+   String lsp;
+   String lsq;
 
    public lsg() {
       super(a.d("迉\uf657粁\ue2fc椠\uef8b嗿\udc32䉷죝伄땢", -925663867, 1116205571), a.c(1724206838, "亾㜳뷺⎐ꡍ⻫铫ᵜ茊দ踧琂龜捷\ue924濞햘婟삿䚯콗딌㯻ꁢ☜곐ᕤ"), kfa.MISC);
@@ -49,7 +49,7 @@ public class lsg extends kfe {
       this.lsq = this.lsk.get();
    }
 
-   private static List<String> lst(boolean var0) {
+   static List<String> lst(boolean var0) {
       vpo.scan();
       ArrayList var1 = new ArrayList();
       if (var0) {
@@ -65,13 +65,13 @@ public class lsg extends kfe {
       return var1;
    }
 
-   private void lsu() {
+   void lsu() {
       this.lsi.setModes(lst(false));
       this.lsk.setModes(lst(true));
       this.lso = vpo.version();
    }
 
-   private static void lsv() {
+   static void lsv() {
       lsg var0 = lsh;
       vpo.scan();
       if (var0 != null) {
@@ -82,7 +82,7 @@ public class lsg extends kfe {
       }
    }
 
-   private static boolean lsw() {
+   static boolean lsw() {
       MinecraftClient var0 = MinecraftClient.getInstance();
       return lsh != null && lsh.isEnabled() && var0.player != null;
    }

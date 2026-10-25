@@ -41,6 +41,6 @@ final class phx {
       -1116261847
    );
 
-   private phx() {
+   phx() {
    }
 }

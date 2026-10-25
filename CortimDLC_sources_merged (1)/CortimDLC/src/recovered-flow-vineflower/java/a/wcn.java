@@ -16,14 +16,14 @@ import net.minecraft.network.packet.BundlePacket;
 import net.minecraft.network.packet.Packet;
 
 public final class wcn {
-   private static final String wco = a.d("㲆䔽쿭冄\uda16峊\ue6b4潒\uf109箽ﱯ؉", 437783686, -1226887062);
-   private static final String wcp = a.d("⦙倹\udae8䒑콈䧨\uf390穖\ue400溾\ue967ጞ鷀Ѧ", -652043958, 908439725);
-   private static final List<Consumer<Packet<?>>> wcq = new CopyOnWriteArrayList<>();
-   private static final List<UnaryOperator<Packet<?>>> wcr = new CopyOnWriteArrayList<>();
-   private static Field wcs;
-   private static boolean wct;
+   static final String wco = a.d("㲆䔽쿭冄\uda16峊\ue6b4潒\uf109箽ﱯ؉", 437783686, -1226887062);
+   static final String wcp = a.d("⦙倹\udae8䒑콈䧨\uf390穖\ue400溾\ue967ጞ鷀Ѧ", -652043958, 908439725);
+   static final List<Consumer<Packet<?>>> wcq = new CopyOnWriteArrayList<>();
+   static final List<UnaryOperator<Packet<?>>> wcr = new CopyOnWriteArrayList<>();
+   static Field wcs;
+   static boolean wct;
 
-   private wcn() {
+   wcn() {
    }
 
    public static void listen(Consumer<Packet<?>> var0) {
@@ -74,7 +74,7 @@ public final class wcn {
       }
    }
 
-   private static void wcw(Packet<?> var0) {
+   static void wcw(Packet<?> var0) {
       if (var0 instanceof BundlePacket var5) {
          for (Packet var3 : var5.getPackets()) {
             wcw(var3);
@@ -89,7 +89,7 @@ public final class wcn {
       }
    }
 
-   private static Packet<?> wcx(Packet<?> var0) {
+   static Packet<?> wcx(Packet<?> var0) {
       for (UnaryOperator var2 : wcr) {
          try {
             Packet var3 = var2.apply(var0);

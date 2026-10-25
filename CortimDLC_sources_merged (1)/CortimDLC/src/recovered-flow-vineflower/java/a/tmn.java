@@ -1,9 +1,9 @@
 package a;
 
 final class tmn {
-   private final sze tmo;
-   private final int tmp;
-   private final int tmq;
+   final sze tmo;
+   final int tmp;
+   final int tmq;
 
    tmn(sze seg, int from, int to) {
       this.tmo = seg;

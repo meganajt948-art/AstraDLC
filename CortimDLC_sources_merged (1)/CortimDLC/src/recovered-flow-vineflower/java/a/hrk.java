@@ -1,14 +1,14 @@
 package a;
 
 final class hrk {
-   private final float hrl;
-   private final float hrm;
-   private final float hrn;
-   private final float hro;
-   private final Runnable hrp;
-   private final Runnable hrq;
+   final float hrl;
+   final float hrm;
+   final float hrn;
+   final float hro;
+   final Runnable hrp;
+   final Runnable hrq;
 
-   private hrk(float x, float y, float w, float h, Runnable left, Runnable right) {
+   hrk(float x, float y, float w, float h, Runnable left, Runnable right) {
       this.hrl = x;
       this.hrm = y;
       this.hrn = w;

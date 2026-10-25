@@ -16,11 +16,11 @@ import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.tooltip.TooltipType;
 
 final class gml {
-   private static final Set<Integer> gmm = ConcurrentHashMap.newKeySet();
-   private static int gmn;
-   private static int gmo;
+   static final Set<Integer> gmm = ConcurrentHashMap.newKeySet();
+   static int gmn;
+   static int gmo;
 
-   private gml() {
+   gml() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -238,11 +238,11 @@ final class gml {
       return false;
    }
 
-   private static ItemStack gmr(MinecraftClient var0, EquipmentSlot var1) {
+   static ItemStack gmr(MinecraftClient var0, EquipmentSlot var1) {
       return var0.player.getEquippedStack(var1);
    }
 
-   private static void gms(String var0, boolean var1, Object var2) {
+   static void gms(String var0, boolean var1, Object var2) {
       if (!var1) {
          gmn++;
       }
@@ -257,7 +257,7 @@ final class gml {
          );
    }
 
-   private static kfe gmt(String var0, boolean var1) {
+   static kfe gmt(String var0, boolean var1) {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(var0);
       if (var2 == null) {
          System.out.println(a.c(1226504343, "\uf8c5腢ஸ闃Ṓ颷⋵ꬒ㕊뾯㠲쉈䲍픦彷\ud98d揕\uec57皂\uf0d4礫Ϳ趠ᘿ遁\u1adfꌡ\u2d72랎㇎멤䒼캶") + var0);
@@ -270,7 +270,7 @@ final class gml {
       }
    }
 
-   private static String gmu(MinecraftClient var0) {
+   static String gmu(MinecraftClient var0) {
       try {
          for (Field var4 : var0.inGameHud.getChatHud().getClass().getDeclaredFields()) {
             if (List.class.isAssignableFrom(var4.getType())) {
@@ -288,11 +288,11 @@ final class gml {
       }
    }
 
-   private static void gmv(MinecraftClient var0, String var1) {
+   static void gmv(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void gmw(MinecraftClient var0, String var1) {
+   static void gmw(MinecraftClient var0, String var1) {
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,
          a.d("菿梅炔\ueefd敯\ue3c1", -848198097, 758515120) + var1 + a.c(944517745, "㉛䮴셹弁"),

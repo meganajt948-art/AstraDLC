@@ -26,7 +26,7 @@ import net.minecraft.world.dimension.DimensionType;
 import org.jspecify.annotations.Nullable;
 
 final class elh extends ClientWorld {
-   private final dtv eli;
+   final dtv eli;
 
    elh(
       ClientPlayNetworkHandler var1,

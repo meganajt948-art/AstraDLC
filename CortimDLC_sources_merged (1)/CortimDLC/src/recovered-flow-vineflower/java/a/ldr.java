@@ -16,20 +16,20 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 public class ldr extends kfe {
-   private static ldr lds;
-   private static tiq ldt;
-   private static String ldu = "";
-   private final vkw ldv = this.add(
+   static ldr lds;
+   static tiq ldt;
+   static String ldu = "";
+   final vkw ldv = this.add(
       new vkw(a.d("\uf769軿Э驍ᆗ霠", 780206722, -2098661954), new vkq(a.d("玧\u0a29胯ẕ锌Ꮾꦺ⁊븄㒸덭", 2017663258, 490367737), vhz.LAYERS, ign::open))
    );
-   private final vmu ldw = this.add(new vmu(a.b("诰\uf263碭\ue6d5洍\uebb9凣", -533623897), "", 32));
-   private final vmc ldx = this.add(new vmc(a.b("윂뺐㑖ꨧ⇱", 981649236), 1.0, 0.3, 1.6, 0.05).percent());
-   private final vmc ldy = this.add(new vmc(a.d("ٯ翯\uf521歜\ue08a昼\udc78", -2139191000, 1589350164), 1.0, 0.0, 1.5, 0.05).percent());
-   private final vmc ldz = this.add(new vmc(a.c(-307741767, "㯧䉥좡囖\udd1c宧\ue1f6栊"), 1.0, 0.0, 1.0, 0.05).percent());
-   private final vmc lea = this.add(new vmc(a.d("炇ि菵", 1505155032, 2141366042), 120.0, 20.0, 360.0, 5.0).unit(a.d("喦", -1903928790, 915476285)));
-   private final vmc leb = this.add(new vmc(a.b("㹈䟔총卫\ud8a9帗\ue449涾", -170836476), 5.0, 3.0, 8.0, 0.1).suffix(a.b("䴌", 1134710112)));
-   private final vmc lec = this.add(new vmc(a.b("稗Α襆᜵鳵ᩙꀌ⧼", 318601805), 120.0, 0.0, 300.0, 10.0).suffix(a.d("㻉䝦", 1028598471, 92476513)));
-   private final vlv led = this.add(
+   final vmu ldw = this.add(new vmu(a.b("诰\uf263碭\ue6d5洍\uebb9凣", -533623897), "", 32));
+   final vmc ldx = this.add(new vmc(a.b("윂뺐㑖ꨧ⇱", 981649236), 1.0, 0.3, 1.6, 0.05).percent());
+   final vmc ldy = this.add(new vmc(a.d("ٯ翯\uf521歜\ue08a昼\udc78", -2139191000, 1589350164), 1.0, 0.0, 1.5, 0.05).percent());
+   final vmc ldz = this.add(new vmc(a.c(-307741767, "㯧䉥좡囖\udd1c宧\ue1f6栊"), 1.0, 0.0, 1.0, 0.05).percent());
+   final vmc lea = this.add(new vmc(a.d("炇ि菵", 1505155032, 2141366042), 120.0, 20.0, 360.0, 5.0).unit(a.d("喦", -1903928790, 915476285)));
+   final vmc leb = this.add(new vmc(a.b("㹈䟔총卫\ud8a9帗\ue449涾", -170836476), 5.0, 3.0, 8.0, 0.1).suffix(a.b("䴌", 1134710112)));
+   final vmc lec = this.add(new vmc(a.b("稗Α襆᜵鳵ᩙꀌ⧼", 318601805), 120.0, 0.0, 300.0, 10.0).suffix(a.d("㻉䝦", 1028598471, 92476513)));
+   final vlv led = this.add(
       new vlv(
          a.c(-1569348712, "ꏓ\uda40傄컨䔠쎆秀\uf02c湵\ue4c5"),
          a.d("꒾\udd22埪즍䉂쓹", 539739820, 435511893),
@@ -38,18 +38,18 @@ public class ldr extends kfe {
          a.c(-92398713, "ᯎ扞\ue8c3盹ﴠ箍")
       )
    );
-   private final vlq lee = this.add(new vlq(a.d("⠮冷\udb60䕜컀䡿\uf230", 193216056, 1876301392)));
-   private final vlv lef = this.add(
+   final vlq lee = this.add(new vlq(a.d("⠮冷\udb60䕜컀䡿\uf230", 193216056, 1876301392)));
+   final vlv lef = this.add(
       new vlv(a.c(-215736653, "ỿ杳\uedb1珈\uf801"), a.c(-694124604, "羔ؗ賀አ饨Ῐꖖ"), a.d("╚峙혎䡮쎦䔖ｘ", 1115285953, -940651317), a.c(2124927995, "펹ꨧ⃣"))
    );
-   private final vkl leg = this.add(new vkl(a.d("남줥䏻\udd92噙탿檭", 1845338409, 1088360918), true));
-   private final vkl leh = this.add(new vkl(a.c(1497455759, "峆╕꾋\u31eb"), false));
-   private final vkl lei = this.add(new vkl(a.c(1220612220, "ဥ榨\ue361納\uf6c0灣쨿䎆\udd8e圩탷⪆ꑎ"), false));
-   private final vkl lej = this.add(new vkl(a.d("\udc7fꗾ⼡녙㪆뱳ٴ辞ᆎ魲Უ\ue6c8栙\uf1be", 709825337, -1890922735), true));
-   private final vlq lek = this.add(new vlq(a.d("㗜䱊욂壬퍫喉\uefdd昹\uf869狒\uf516", 1195546156, 893625256), 269));
-   private final tel lel = new tel();
-   private long lem;
-   private long len;
+   final vkl leg = this.add(new vkl(a.d("남줥䏻\udd92噙탿檭", 1845338409, 1088360918), true));
+   final vkl leh = this.add(new vkl(a.c(1497455759, "峆╕꾋\u31eb"), false));
+   final vkl lei = this.add(new vkl(a.c(1220612220, "ဥ榨\ue361納\uf6c0灣쨿䎆\udd8e圩탷⪆ꑎ"), false));
+   final vkl lej = this.add(new vkl(a.d("\udc7fꗾ⼡녙㪆뱳ٴ辞ᆎ魲Უ\ue6c8栙\uf1be", 709825337, -1890922735), true));
+   final vlq lek = this.add(new vlq(a.d("㗜䱊욂壬퍫喉\uefdd昹\uf869狒\uf516", 1195546156, 893625256), 269));
+   final tel lel = new tel();
+   long lem;
+   long len;
 
    public ldr() {
       super(a.b("疟అ蛆ᢰ鍺ᗥ꾞♫", 1400796633), a.d("祁Ø訏ᐳ龰ᤇꍇ⪾듦㹜릎䎻촣咓\ude8e堦\ue27f涴\uf700焃\uf8bb苲ౘ韇ᇪ鬦⊎곊㘨끤㯑씁", 1740756178, -380981774), kfa.COMBAT);
@@ -121,14 +121,14 @@ public class ldr extends kfe {
       }
    }
 
-   private void leq(MinecraftClient var1) {
+   void leq(MinecraftClient var1) {
       if (var1.options.attackKey.isPressed()
          || var1.currentScreen == null && var1.getWindow() != null && GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 0) == 1) {
          this.lem = System.currentTimeMillis();
       }
    }
 
-   private boolean ler(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ler(MinecraftClient var1, ClientPlayerEntity var2) {
       if (!this.lel.ready()
          || var1.currentScreen != null
          || !var1.isWindowFocused()
@@ -162,13 +162,13 @@ public class ldr extends kfe {
       }
    }
 
-   private boolean les(ItemStack var1) {
+   boolean les(ItemStack var1) {
       return this.lef.is(a.d("栋ᆕ魑", -650041140, -1607712635))
          ? true
          : var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
    }
 
-   private Entity let(MinecraftClient var1, ClientPlayerEntity var2) {
+   Entity let(MinecraftClient var1, ClientPlayerEntity var2) {
       Vec3d var3 = var2.getEyePos();
       double var4 = this.leb.get();
       double var6 = this.lea.get() * 0.5;
@@ -193,7 +193,7 @@ public class ldr extends kfe {
       return var9;
    }
 
-   private boolean leu(ClientPlayerEntity var1, Entity var2) {
+   boolean leu(ClientPlayerEntity var1, Entity var2) {
       if (!(var2 != var1 && var2 instanceof LivingEntity var3) || !var3.isAlive() || !var2.isAttackable()) {
          return false;
       } else {
@@ -213,11 +213,11 @@ public class ldr extends kfe {
       }
    }
 
-   private static boolean lev(Vec3d var0, Entity var1, double var2) {
+   static boolean lev(Vec3d var0, Entity var1, double var2) {
       return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
-   private static double lew(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
+   static double lew(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
       Vec3d var3 = var2.getBoundingBox().getCenter();
       double var4 = Math.toDegrees(Math.atan2(var3.z - var1.z, var3.x - var1.x)) - 90.0;
       double var6 = -Math.toDegrees(Math.atan2(var3.y - var1.y, Math.hypot(var3.x - var1.x, var3.z - var1.z)));

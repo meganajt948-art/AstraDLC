@@ -13,9 +13,9 @@ import net.minecraft.world.biome.BiomeKeys;
 import org.lwjgl.glfw.GLFW;
 
 final class gzt {
-   private static final int gzu = 520;
-   private static final String gzv = System.getenv(a.b("韃\uee78撨贈煳\uf7af䷰쐆婂탮圢", -156526706));
-   private static final gzj[] gzw = new gzj[]{
+   static final int gzu = 520;
+   static final String gzv = System.getenv(a.b("韃\uee78撨贈煳\uf7af䷰쐆婂탮圢", -156526706));
+   static final gzj[] gzw = new gzj[]{
       new gzj(0, a.d("䜐㺤둯⩊ꇘ❮鴠ᓊ誆\"蟰", -51852174, 424184589), 6000L, 20.0F, -5.0F, true),
       new gzj(40, a.b("⩗口\ud928䜍첟䨩\uf067禍\ue7c1浥\ueab7ႅ鸐ި跻", 435169852), 6000L, 20.0F, -5.0F, false),
       new gzj(80, a.d("繴߀贋ጮ颧Ḏꑏ", 1647265527, -576243488), 6000L, 20.0F, -45.0F, true),
@@ -41,19 +41,19 @@ final class gzt {
       new gzj(1230, a.c(1837369384, "ࡕ燲שּׁ敝\ueecb栰퉶宔에佾"), 6000L, -45.0F, 4.0F, true),
       new gzj(1270, a.b("疽చ蛄ᢵ錣ᗙ꾍♯롯㊜땆伷", 508720582), 6000L, -140.0F, -4.0F, false)
    };
-   private static final String[] gzx = new String[]{
+   static final String[] gzx = new String[]{
       a.c(60010768, "녜죞䈔\udc65垜턝歕\ue2aa糺\uf657"),
       a.b("্灅歹擽\uef32榋평娾쑺仁줷㍯붰", 484706710),
       a.d("\udaadꌧ⧽랉㱟뫹«", 2064107261, 115416068),
       a.b("ꨗ펝奇윳䳥쩃瀱笠枵", 710126157),
       a.d("阪\uefb9敱יִ烌\uf67c䰃엜定턬", 1943758016, -996281683)
    };
-   private static boolean[] gzy;
-   private static volatile BlockPos gzz;
-   private static volatile boolean haa;
-   private static int hab = -1;
+   static boolean[] gzy;
+   static volatile BlockPos gzz;
+   static volatile boolean haa;
+   static int hab = -1;
 
-   private gzt() {
+   gzt() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -241,7 +241,7 @@ final class gzt {
       }
    }
 
-   private static void hae(MinecraftClient var0) {
+   static void hae(MinecraftClient var0) {
       gzz = null;
       haa = false;
       IntegratedServer var1 = var0.getServer();
@@ -264,14 +264,14 @@ final class gzt {
       });
    }
 
-   private static void haf(MinecraftClient var0, float var1, float var2) {
+   static void haf(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static vmo hag(kfe var0, String var1) {
+   static vmo hag(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -281,11 +281,11 @@ final class gzt {
       throw new IllegalStateException(var0.getName() + a.c(825255096, "撐ᵩ鞳\u09d0艔ҫ뻹㝇") + var1);
    }
 
-   private static void hah(MinecraftClient var0, String var1) {
+   static void hah(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void hai(MinecraftClient var0, String var1) {
+   static void hai(MinecraftClient var0, String var1) {
       System.out.println(a.b("ㄼ䢛쉁尺\ud7ab兎\ueb0c拫ﲳ癖", 1767715141) + var1 + a.c(-678339050, "帵⟤굗") + var0.getCurrentFps() + a.d("䩗㎠륥✗", -1698887769, 701779412));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

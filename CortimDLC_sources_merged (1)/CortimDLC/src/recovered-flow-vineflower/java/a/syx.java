@@ -1,12 +1,12 @@
 package a;
 
 final class syx {
-   private final int syy;
-   private final int syz;
-   private final double sza;
-   private final double szb;
+   final int syy;
+   final int syz;
+   final double sza;
+   final double szb;
 
-   private syx(int tick, int id, double u, double v) {
+   syx(int tick, int id, double u, double v) {
       this.syy = tick;
       this.syz = id;
       this.sza = u;

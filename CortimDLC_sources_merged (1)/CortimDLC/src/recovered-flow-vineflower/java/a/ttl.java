@@ -18,33 +18,33 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
 public final class ttl {
-   private static final int ttm = 1200;
-   private static final long ttn = 180000L;
-   private static final int tto = 12;
-   private static final int ttp = 40;
-   private static final int ttq = 200;
-   private static final double ttr = 24.0;
+   static final int ttm = 1200;
+   static final long ttn = 180000L;
+   static final int tto = 12;
+   static final int ttp = 40;
+   static final int ttq = 200;
+   static final double ttr = 24.0;
    public final tiq profile;
-   private final String tts;
-   private final tvc ttt = new tvc();
-   private final List<tte> ttu = new ArrayList<>();
-   private final int[] ttv = new int[2];
-   private boolean ttw;
-   private boolean ttx = true;
-   private int tty;
-   private ClientWorld ttz;
-   private pzc tua;
-   private int tub = -200;
-   private tvn tuc;
-   private int tud;
-   private int tue;
-   private int tuf;
-   private int tug;
-   private int tuh;
-   private int tui;
-   private boolean tuj;
-   private boolean tuk;
-   private long tul = System.currentTimeMillis();
+   final String tts;
+   final tvc ttt = new tvc();
+   final List<tte> ttu = new ArrayList<>();
+   final int[] ttv = new int[2];
+   boolean ttw;
+   boolean ttx = true;
+   int tty;
+   ClientWorld ttz;
+   pzc tua;
+   int tub = -200;
+   tvn tuc;
+   int tud;
+   int tue;
+   int tuf;
+   int tug;
+   int tuh;
+   int tui;
+   boolean tuj;
+   boolean tuk;
+   long tul = System.currentTimeMillis();
    public int blocks;
    public int decisions;
    public int diamonds;
@@ -93,7 +93,7 @@ public final class ttl {
       }
    }
 
-   private static Vec3d tuo(MinecraftClient var0, ClientPlayerEntity var1, BlockPos var2, Direction var3) {
+   static Vec3d tuo(MinecraftClient var0, ClientPlayerEntity var1, BlockPos var2, Direction var3) {
       HitResult var4 = var0.crosshairTarget;
       if (var4 instanceof BlockHitResult var5 && var4.getType() == Type.BLOCK && var5.getBlockPos().equals(var2)) {
          return var5.getPos();
@@ -194,7 +194,7 @@ public final class ttl {
       }
    }
 
-   private void tup(MinecraftClient var1, ClientPlayerEntity var2, int var3) {
+   void tup(MinecraftClient var1, ClientPlayerEntity var2, int var3) {
       Vec3d var4 = var2.getEntityPos();
       if (this.tua != null) {
          if (this.tua.distanceTo(var4) <= 24.0) {
@@ -216,7 +216,7 @@ public final class ttl {
       }
    }
 
-   private void tuq(tte var1, int var2) {
+   void tuq(tte var1, int var2) {
       tuw var3 = new tuw();
       var3.tick = var2;
       var3.x = var1.pos().getX() - this.ttt.ox;
@@ -277,7 +277,7 @@ public final class ttl {
       }
    }
 
-   private int tur(tuw var1, int var2, int var3) {
+   int tur(tuw var1, int var2, int var3) {
       double var4 = tus(this.ttt.ticks.get(var2), var1);
 
       for (int var6 = var2 - 1; var6 >= var3; var6--) {
@@ -292,7 +292,7 @@ public final class ttl {
       return var3;
    }
 
-   private static double tus(tuz var0, tuw var1) {
+   static double tus(tuz var0, tuw var1) {
       double var2 = var1.px - var0.x;
       double var4 = var1.py - var0.y;
       double var6 = var1.pz - var0.z;

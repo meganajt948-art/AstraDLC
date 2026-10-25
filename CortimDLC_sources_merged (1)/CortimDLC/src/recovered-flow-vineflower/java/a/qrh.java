@@ -3,10 +3,10 @@ package a;
 import net.minecraft.block.BlockState;
 
 final class qrh {
-   private final BlockState qri;
-   private final int qrj;
+   final BlockState qri;
+   final int qrj;
 
-   private qrh(BlockState was, int until) {
+   qrh(BlockState was, int until) {
       this.qri = was;
       this.qrj = until;
    }

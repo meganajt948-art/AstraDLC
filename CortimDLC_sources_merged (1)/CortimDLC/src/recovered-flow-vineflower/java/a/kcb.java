@@ -4,7 +4,7 @@ import com.mojang.blaze3d.textures.GpuTextureView;
 import net.minecraft.client.gui.DrawContext;
 
 public final class kcb {
-   private kcb() {
+   kcb() {
    }
 
    public static void draw(DrawContext var0, GpuTextureView var1, float var2, float var3, float var4, float var5, float var6, float var7, int var8) {

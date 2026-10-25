@@ -15,27 +15,27 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 final class hvq extends imn {
-   private static final float hvr = 30.0F;
-   private static final float hvs = 3.0F;
-   private static final float hvt = 18.0F;
-   private static final vhz[] hvu = new vhz[]{vhz.DOWNLOAD, vhz.SAVE, vhz.PENCIL, vhz.SHARE, vhz.TRASH};
-   private static final int hvv = 3;
-   private static final int hvw = 4;
-   private static final SimpleDateFormat hvx = new SimpleDateFormat(a.d("㋅䬰솎忿퐨勸\ue8a7愾｡疢\uf226ࡗ", 1038541595, -666906186), Locale.ROOT);
-   private static final SimpleDateFormat hvy = new SimpleDateFormat(
+   static final float hvr = 30.0F;
+   static final float hvs = 3.0F;
+   static final float hvt = 18.0F;
+   static final vhz[] hvu = new vhz[]{vhz.DOWNLOAD, vhz.SAVE, vhz.PENCIL, vhz.SHARE, vhz.TRASH};
+   static final int hvv = 3;
+   static final int hvw = 4;
+   static final SimpleDateFormat hvx = new SimpleDateFormat(a.d("㋅䬰솎忿퐨勸\ue8a7愾｡疢\uf226ࡗ", 1038541595, -666906186), Locale.ROOT);
+   static final SimpleDateFormat hvy = new SimpleDateFormat(
       a.d("\uf4c1贴ފ駻ሬ铼⺣Ꜻ㥥뎦㐢칓", 1156223964, -2001901707), Locale.forLanguageTag(a.d("쥏냹", -107638558, 48650717))
    );
-   private final hur hvz;
-   private List<ConfigManager.Info> hwa = new ArrayList<>();
-   private Map<String, String> hwb = new HashMap<>();
-   private String hwc;
-   private int hwd = -1;
-   private long hwe;
-   private final Map<String, hvn> hwf = new HashMap<>();
-   private String hwg;
-   private long hwh;
+   final hur hvz;
+   List<ConfigManager.Info> hwa = new ArrayList<>();
+   Map<String, String> hwb = new HashMap<>();
+   String hwc;
+   int hwd = -1;
+   long hwe;
+   final Map<String, hvn> hwf = new HashMap<>();
+   String hwg;
+   long hwh;
 
-   private static String hwk(int var0, String var1) {
+   static String hwk(int var0, String var1) {
       return switch (var0) {
          case 0 -> wap.s(a.d("횀꼒●뮻〨뛍ಂ蕲ᬷ釕ᙅ\uec38拮ﭗ焋\uf7f4", 2141701512, -1699409068), a.c(820253083, "ᖙ氏\ue6df磝\uf309痌쾐䘛\ud84a嚗픩⽗ꇼ㠱똀㓫躠Ų鮸ᶕ鑩"));
          case 1 -> wap.s(
@@ -66,7 +66,7 @@ final class hvq extends imn {
       this.hvz = var1;
    }
 
-   private List<ConfigManager.Info> hwl() {
+   List<ConfigManager.Info> hwl() {
       long var1 = System.currentTimeMillis();
       if (this.hwd != ConfigManager.version() || var1 - this.hwe > 1500L) {
          this.hwd = ConfigManager.version();
@@ -84,11 +84,11 @@ final class hvq extends imn {
       return var1 == 0 ? 58.0F : 2.0F + var1 * 33.0F;
    }
 
-   private float hwm(int var1) {
+   float hwm(int var1) {
       return this.y + 2.0F + var1 * 33.0F;
    }
 
-   private float hwn(int var1) {
+   float hwn(int var1) {
       return this.x + this.w - 8.0F - (hvu.length - var1) * 22.0F + 4.0F;
    }
 
@@ -183,7 +183,7 @@ final class hvq extends imn {
       }
    }
 
-   private void hwo(DrawContext var1) {
+   void hwo(DrawContext var1) {
       float var2 = this.x + this.w * 0.5F;
       uut.circle(var1, var2, this.y + 17.0F, 12.0F, iov.hover);
       vjf.draw(var1, vhz.LAYERS, var2, this.y + 17.0F, 11.0F, iov.textMuted);
@@ -233,7 +233,7 @@ final class hvq extends imn {
       return false;
    }
 
-   private void hwp(hlc var1, int var2, String var3) {
+   void hwp(hlc var1, int var2, String var3) {
       try {
          switch (var2) {
             case 0:
@@ -305,7 +305,7 @@ final class hvq extends imn {
       this.hwd = -1;
    }
 
-   private void hwq(hlc var1, String var2) {
+   void hwq(hlc var1, String var2) {
       if (this.hwc == null) {
          this.hwc = var2;
          ConfigShare.share(var2)

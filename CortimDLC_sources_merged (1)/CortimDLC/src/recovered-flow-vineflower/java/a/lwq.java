@@ -11,8 +11,8 @@ public class lwq extends kfe {
    public static final double MAX_STEP = 9.5;
    public static final double SPEED = 40.0;
    public static final double VERTICAL = 25.0;
-   private PlayerAbilities lwr;
-   private float lws;
+   PlayerAbilities lwr;
+   float lws;
 
    public lwq() {
       super(
@@ -68,14 +68,14 @@ public class lwq extends kfe {
       this.lwv();
    }
 
-   private void lwv() {
+   void lwv() {
       if (this.lwr != null) {
          this.lwr.setFlySpeed(this.lws);
          this.lwr = null;
       }
    }
 
-   private static double lww(boolean var0, boolean var1) {
+   static double lww(boolean var0, boolean var1) {
       return (var0 ? 1 : 0) - (var1 ? 1 : 0);
    }
 }

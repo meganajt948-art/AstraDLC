@@ -22,14 +22,14 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 final class fjv {
-   private static final List<List<fjo>> fjw = new ArrayList<>();
-   private static final List<List<fjo>> fjx = new ArrayList<>();
-   private static final List<String> fjy = new ArrayList<>();
-   private static int fjz;
-   private static int fka;
-   private static int fkb;
+   static final List<List<fjo>> fjw = new ArrayList<>();
+   static final List<List<fjo>> fjx = new ArrayList<>();
+   static final List<String> fjy = new ArrayList<>();
+   static int fjz;
+   static int fka;
+   static int fkb;
 
-   private fjv() {
+   fjv() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -127,7 +127,7 @@ final class fjv {
       }
    }
 
-   private static kfe fke() {
+   static kfe fke() {
       for (kfe var1 : Flow.getInstance().getModuleManager().getModules()) {
          if (var1.getName().equals(a.d("䇀㡅늗⳽꜆↛鯋ሺ豬ۛ脟筵\uf5bf", -477235129, -1691174453))) {
             return var1;
@@ -137,7 +137,7 @@ final class fjv {
       throw new IllegalStateException(a.d("㴟䒯츳倣\udbc0嵰\ue738滥\uf096稤ﷷޏ襞ჸ骰ᱜ", 411646939, -270465350));
    }
 
-   private static int fkf(MinecraftClient var0, Item var1) {
+   static int fkf(MinecraftClient var0, Item var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 41; var3++) {
@@ -150,7 +150,7 @@ final class fjv {
       return var2;
    }
 
-   private static void fkg(MinecraftClient var0) {
+   static void fkg(MinecraftClient var0) {
       var0.options.pauseOnLostFocus = false;
       fjw.clear();
       fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 100, false), new fjo(Items.GOLDEN_APPLE, 8, 90, false), new fjo(Items.DIAMOND, 1, 5, false)));
@@ -191,7 +191,7 @@ final class fjv {
       var0.getNetworkHandler().sendChatCommand(a.c(-1101271582, "\ued89鐷ử肘ଡ଼趿㞌빎"));
    }
 
-   private static void fkh(ServerPlayerEntity var0, String var1, List<List<fjo>> var2) {
+   static void fkh(ServerPlayerEntity var0, String var1, List<List<fjo>> var2) {
       var0.getEntityWorld()
          .getServer()
          .execute(
@@ -203,7 +203,7 @@ final class fjv {
          );
    }
 
-   private static ItemStack fki(fjo var0) {
+   static ItemStack fki(fjo var0) {
       ItemStack var1 = new ItemStack(var0.item(), var0.count());
       var1.set(
          DataComponentTypes.LORE,
@@ -224,17 +224,17 @@ final class fjv {
       return var1;
    }
 
-   private static ItemStack fkj(Item var0, String var1) {
+   static ItemStack fkj(Item var0, String var1) {
       ItemStack var2 = new ItemStack(var0);
       var2.set(DataComponentTypes.CUSTOM_NAME, Text.literal(var1));
       return var2;
    }
 
-   private static void fkk(MinecraftClient var0) {
+   static void fkk(MinecraftClient var0) {
       fkl(var0, a.b("\ue5b4鰉ᛙ袨Ͷ藁㾅뙯⠭ꋃ╜\udf39凸졞䈐쓧纩", -1050810938));
    }
 
-   private static void fkl(MinecraftClient var0, String var1) {
+   static void fkl(MinecraftClient var0, String var1) {
       System.out.println(a.d("룋셬䮶헍幜\ud8b9拻\ueb1c畄ﾡ", -1257100161, -1836018483) + var1);
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

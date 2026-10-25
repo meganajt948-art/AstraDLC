@@ -9,7 +9,7 @@ import java.net.http.WebSocket.Listener;
 import java.util.concurrent.CompletionStage;
 
 final class uhd implements Listener {
-   private uhd(uhg var1) {
+   uhd(uhg var1) {
       this.this$0 = var1;
    }
 

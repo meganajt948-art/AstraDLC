@@ -24,17 +24,17 @@ public final class hia {
    static final String[] SLOTS = new String[]{
       a.c(2033973355, "\uf818膬୭"), a.b("戳ᮀ酆", 1019241043), a.d("ͬ竟\uf00d湹\ue5a0挍", 1311606500, -592214557), a.b("䕚㳳똹", 1249723702)
    };
-   private static final int hib = 8;
-   private static final Map<String, BufferedImage> hic = new HashMap<>();
-   private static final Set<String> hid = new HashSet<>();
-   private static final Map<String, uok> hie = new LinkedHashMap<>();
-   private static final Map<uok, Long> hif = new LinkedHashMap<>();
-   private static String hig = IDS[0];
-   private static String hih = "";
-   private static int hii;
-   private static boolean hij;
+   static final int hib = 8;
+   static final Map<String, BufferedImage> hic = new HashMap<>();
+   static final Set<String> hid = new HashSet<>();
+   static final Map<String, uok> hie = new LinkedHashMap<>();
+   static final Map<uok, Long> hif = new LinkedHashMap<>();
+   static String hig = IDS[0];
+   static String hih = "";
+   static int hii;
+   static boolean hij;
 
-   private hia() {
+   hia() {
    }
 
    static String selected() {
@@ -76,7 +76,7 @@ public final class hia {
       };
    }
 
-   private static void him() {
+   static void him() {
       evi.boot();
       int var0 = evi.version();
       if (var0 != hii) {
@@ -136,7 +136,7 @@ public final class hia {
       return true;
    }
 
-   private static uok hin(String var0, float var1) {
+   static uok hin(String var0, float var1) {
       if (hid.contains(var0)) {
          return null;
       }
@@ -201,7 +201,7 @@ public final class hia {
       return var6;
    }
 
-   private static BufferedImage hio(BufferedImage var0, int var1) {
+   static BufferedImage hio(BufferedImage var0, int var1) {
       int var2 = Math.min(var0.getWidth(), var0.getHeight());
       BufferedImage var3 = new BufferedImage(var2, var2, 1);
       Graphics2D var4 = var3.createGraphics();

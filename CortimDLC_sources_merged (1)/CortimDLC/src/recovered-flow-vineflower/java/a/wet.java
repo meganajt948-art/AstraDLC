@@ -6,64 +6,64 @@ import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 final class wet implements AutoCloseable {
-   private static final String weu = "ole32.dll";
-   private static final String wev = "mfplat.dll";
-   private static final String wew = "mfreadwrite.dll";
-   private static final String wex = "shlwapi.dll";
-   private static final String wey = "d3d11.dll";
-   private static final long wez = 4294967292L;
-   private static final long wfa = 4294967294L;
-   private static final int wfb = 131184;
-   private static final int wfc = 2;
-   private static final int wfd = 1;
-   private static final int wfe = 32;
-   private static final int wff = 7;
-   private static final int wfg = 8;
-   private static final int wfh = 15;
-   private static final int wfi = 21;
-   private static final int wfj = 24;
-   private static final int wfk = 25;
-   private static final int wfl = 27;
-   private static final int wfm = 4;
-   private static final int wfn = 6;
-   private static final int wfo = 7;
-   private static final int wfp = 8;
-   private static final int wfq = 9;
-   private static final int wfr = 40;
-   private static final int wfs = 3;
-   private static final int wft = 4;
-   private static final int wfu = 3;
-   private static final int wfv = 4;
-   private static final int wfw = 5;
-   private static final int wfx = 7;
-   private static final String wfy = "2cd2d921-c447-44a7-a13c-4adabfc247e3";
-   private static final String wfz = "7dc9d5f9-9ed9-44ec-9bbf-0600bb589fbb";
-   private static final String wga = "9b7e4e00-342c-4106-a19f-4f2704f689f0";
-   private static final String wgb = "fc358289-3cb6-460c-a424-b6681260375a";
-   private static final String wgc = "ec822da2-e1e9-4b29-a0d8-563c719f5269";
-   private static final String wgd = "a634a91c-822b-41b9-a494-4de4643612b0";
-   private static final String wge = "48eba18e-f8c9-4687-bf11-0a74c9f96a8f";
-   private static final String wgf = "f7e34c9a-42e8-4714-b74b-cb29d72c35e5";
-   private static final String wgg = "1652c33d-d6b2-4012-b834-72030849a37d";
-   private static final String wgh = "644b4e48-1e02-4516-b0eb-c01ca9d49ac6";
-   private static final String wgi = "d7388766-18fe-48c6-a177-ee894867c8c4";
-   private static final String wgj = "73646976-0000-0010-8000-00aa00389b71";
-   private static final String wgk = "3231564e-0000-0010-8000-00aa00389b71";
-   private static final String wgl = "00000000-0000-0000-0000-000000000000";
+   static final String weu = "ole32.dll";
+   static final String wev = "mfplat.dll";
+   static final String wew = "mfreadwrite.dll";
+   static final String wex = "shlwapi.dll";
+   static final String wey = "d3d11.dll";
+   static final long wez = 4294967292L;
+   static final long wfa = 4294967294L;
+   static final int wfb = 131184;
+   static final int wfc = 2;
+   static final int wfd = 1;
+   static final int wfe = 32;
+   static final int wff = 7;
+   static final int wfg = 8;
+   static final int wfh = 15;
+   static final int wfi = 21;
+   static final int wfj = 24;
+   static final int wfk = 25;
+   static final int wfl = 27;
+   static final int wfm = 4;
+   static final int wfn = 6;
+   static final int wfo = 7;
+   static final int wfp = 8;
+   static final int wfq = 9;
+   static final int wfr = 40;
+   static final int wfs = 3;
+   static final int wft = 4;
+   static final int wfu = 3;
+   static final int wfv = 4;
+   static final int wfw = 5;
+   static final int wfx = 7;
+   static final String wfy = "2cd2d921-c447-44a7-a13c-4adabfc247e3";
+   static final String wfz = "7dc9d5f9-9ed9-44ec-9bbf-0600bb589fbb";
+   static final String wga = "9b7e4e00-342c-4106-a19f-4f2704f689f0";
+   static final String wgb = "fc358289-3cb6-460c-a424-b6681260375a";
+   static final String wgc = "ec822da2-e1e9-4b29-a0d8-563c719f5269";
+   static final String wgd = "a634a91c-822b-41b9-a494-4de4643612b0";
+   static final String wge = "48eba18e-f8c9-4687-bf11-0a74c9f96a8f";
+   static final String wgf = "f7e34c9a-42e8-4714-b74b-cb29d72c35e5";
+   static final String wgg = "1652c33d-d6b2-4012-b834-72030849a37d";
+   static final String wgh = "644b4e48-1e02-4516-b0eb-c01ca9d49ac6";
+   static final String wgi = "d7388766-18fe-48c6-a177-ee894867c8c4";
+   static final String wgj = "73646976-0000-0010-8000-00aa00389b71";
+   static final String wgk = "3231564e-0000-0010-8000-00aa00389b71";
+   static final String wgl = "00000000-0000-0000-0000-000000000000";
    final boolean hardware;
    int width;
    int height;
-   private int wgm;
-   private int wgn;
-   private int wgo;
-   private int wgp;
-   private long wgq;
-   private long wgr;
-   private long wgs;
-   private long wgt;
-   private long wgu;
-   private long wgv;
-   private long wgw;
+   int wgm;
+   int wgn;
+   int wgo;
+   int wgp;
+   long wgq;
+   long wgr;
+   long wgs;
+   long wgt;
+   long wgu;
+   long wgv;
+   long wgw;
 
    static void startThread() throws IOException {
       wjh.check((int)wjh.call(wjh.function("ole32.dll", "CoInitializeEx"), 0L, 0L), "CoInitializeEx");
@@ -89,7 +89,7 @@ final class wet implements AutoCloseable {
       }
    }
 
-   private void wgz(byte[] var1) throws IOException {
+   void wgz(byte[] var1) throws IOException {
       long var2 = MemoryUtil.nmemAlloc(var1.length);
 
       try {
@@ -162,7 +162,7 @@ final class wet implements AutoCloseable {
       this.whb();
    }
 
-   private void wha(MemoryStack var1) throws IOException {
+   void wha(MemoryStack var1) throws IOException {
       long var2 = var1.ncalloc(8, 1, 8);
       long var4 = var1.ncalloc(4, 1, 4);
       long var6 = var1.ncalloc(8, 1, 8);
@@ -186,7 +186,7 @@ final class wet implements AutoCloseable {
       wjh.check(wjh.com(this.wgs, 21, wjh.guid("a634a91c-822b-41b9-a494-4de4643612b0"), 1L), "hardware transforms");
    }
 
-   private void whb() throws IOException {
+   void whb() throws IOException {
       MemoryStack var1 = MemoryStack.stackPush();
 
       try {
@@ -317,7 +317,7 @@ final class wet implements AutoCloseable {
       }
    }
 
-   private void whc(long var1, long var3, long var5) throws IOException {
+   void whc(long var1, long var3, long var5) throws IOException {
       MemoryStack var7 = MemoryStack.stackPush();
 
       try {
@@ -376,7 +376,7 @@ final class wet implements AutoCloseable {
       }
    }
 
-   private void whd(long var1, int var3, long var4, long var6) throws IOException {
+   void whd(long var1, int var3, long var4, long var6) throws IOException {
       if (var3 < this.width) {
          throw new IOException("pitch " + var3);
       }

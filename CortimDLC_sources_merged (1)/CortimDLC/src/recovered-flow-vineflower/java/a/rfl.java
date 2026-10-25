@@ -1,7 +1,7 @@
 package a;
 
 public class rfl extends kfe {
-   private static rfl rfm;
+   static rfl rfm;
    public final vmc range = this.add(new vmc("Range", 32.0, 8.0, 96.0, 4.0).suffix("m"));
    public final vmc size = this.add(new vmc("Size", 1.0, 0.6, 1.6, 0.05).percent());
    public final vlv background = this.add(new vlv("Background", "Solid", "Solid", "None"));

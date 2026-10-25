@@ -12,18 +12,18 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 final class ifj extends imn {
-   private static final int ifk = 6;
-   private static final float ifl = 24.0F;
-   private static final float ifm = 2.0F;
-   private static final float ifn = 16.0F;
-   private static final float ifo = 18.0F;
-   private final Map<Integer, vcj[]> ifp = new HashMap<>();
+   static final int ifk = 6;
+   static final float ifl = 24.0F;
+   static final float ifm = 2.0F;
+   static final float ifn = 16.0F;
+   static final float ifo = 18.0F;
+   final Map<Integer, vcj[]> ifp = new HashMap<>();
 
    ifj() {
       super(null);
    }
 
-   private static List<PlayerEntity> ifs() {
+   static List<PlayerEntity> ifs() {
       MinecraftClient var0 = MinecraftClient.getInstance();
       ArrayList var1 = new ArrayList();
       if (var0.world != null && var0.player != null) {
@@ -46,11 +46,11 @@ final class ifj extends imn {
       return var1 == 0 ? 30.0F : 2.0F + var1 * 26.0F;
    }
 
-   private float ift(int var1) {
+   float ift(int var1) {
       return this.y + 2.0F + var1 * 26.0F;
    }
 
-   private float ifu() {
+   float ifu() {
       return this.x + this.w - 5.0F - 18.0F;
    }
 

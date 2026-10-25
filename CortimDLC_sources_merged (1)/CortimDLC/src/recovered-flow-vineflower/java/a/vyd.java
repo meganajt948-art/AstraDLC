@@ -1,10 +1,10 @@
 package a;
 
 public final class vyd {
-   private final float vye;
-   private final float vyf;
-   private final float vyg;
-   private final boolean vyh;
+   final float vye;
+   final float vyf;
+   final float vyg;
+   final boolean vyh;
 
    public vyd(float health, float absorption, float max, boolean unknown) {
       this.vye = health;

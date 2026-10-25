@@ -99,9 +99,9 @@ public enum vhz {
    DICE("rect 4 4 16 16 3.5", "dot 9 9 1.3", "dot 15 15 1.3", "dot 15 9 1.3", "dot 9 15 1.3", "dot 12 12 1.3"),
    LOGO("M2.5 9c2.1-2.2 4.2-2.2 6.33 0s4.2 2.2 6.33 0 4.2-2.2 6.33 0", "M2.5 15c2.1-2.2 4.2-2.2 6.33 0s4.2 2.2 6.33 0 4.2-2.2 6.33 0");
 
-   private final String[] via;
-   private List<Shape> vib;
-   private List<Shape> vic;
+   final String[] via;
+   List<Shape> vib;
+   List<Shape> vic;
 
    vhz(String... var3) {
       this.via = var3;
@@ -117,7 +117,7 @@ public enum vhz {
       return this.vic;
    }
 
-   private synchronized void vif() {
+   synchronized void vif() {
       if (this.vib == null) {
          ArrayList var1 = new ArrayList();
          List var2 = new ArrayList();
@@ -165,14 +165,14 @@ public enum vhz {
       }
    }
 
-   private static Shape vig(String[] var0) {
+   static Shape vig(String[] var0) {
       float var1 = vih(var0[1]);
       float var2 = vih(var0[2]);
       float var3 = vih(var0[3]);
       return new java.awt.geom.Ellipse2D.Float(var1 - var3, var2 - var3, var3 * 2.0F, var3 * 2.0F);
    }
 
-   private static float vih(String var0) {
+   static float vih(String var0) {
       return java.lang.Float.parseFloat(var0);
    }
 }

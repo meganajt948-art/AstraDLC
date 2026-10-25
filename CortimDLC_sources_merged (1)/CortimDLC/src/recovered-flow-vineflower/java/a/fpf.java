@@ -1,14 +1,14 @@
 package a;
 
 final class fpf {
-   private final long fpg;
-   private final boolean fph;
-   private final float fpi;
-   private final double fpj;
-   private final boolean fpk;
-   private final boolean fpl;
+   final long fpg;
+   final boolean fph;
+   final float fpi;
+   final double fpj;
+   final boolean fpk;
+   final boolean fpl;
 
-   private fpf(long nanos, boolean crit, float charge, double fall, boolean ground, boolean sprint) {
+   fpf(long nanos, boolean crit, float charge, double fall, boolean ground, boolean sprint) {
       this.fpg = nanos;
       this.fph = crit;
       this.fpi = charge;

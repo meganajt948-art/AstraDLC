@@ -1,10 +1,10 @@
 package a;
 
 final class vdi {
-   private final vfk vdj;
-   private final long vdk;
+   final vfk vdj;
+   final long vdk;
 
-   private vdi(vfk atlas, long frame) {
+   vdi(vfk atlas, long frame) {
       this.vdj = atlas;
       this.vdk = frame;
    }

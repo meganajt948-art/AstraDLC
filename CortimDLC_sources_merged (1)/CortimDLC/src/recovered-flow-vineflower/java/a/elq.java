@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 import net.minecraft.item.ItemStack;
 
 public final class elq {
-   private final Set<String> elr = new LinkedHashSet<>();
-   private final Supplier<List<emu>> els;
+   final Set<String> elr = new LinkedHashSet<>();
+   final Supplier<List<emu>> els;
 
    elq(Supplier<List<emu>> var1) {
       this.els = var1;
@@ -83,7 +83,7 @@ public final class elq {
       }
    }
 
-   private static String elv(String var0) {
+   static String elv(String var0) {
       if (var0 == null) {
          return "";
       }

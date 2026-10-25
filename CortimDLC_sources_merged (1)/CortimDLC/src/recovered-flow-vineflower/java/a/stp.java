@@ -6,25 +6,25 @@ import java.util.Random;
 import net.minecraft.util.math.Vec3d;
 
 public final class stp {
-   private static final float stq = 343.0F;
-   private final Random str = new Random();
-   private final float[] sts = new float[320];
-   private final float[] stt = new float[320];
-   private final ArrayDeque<stf> stu = new ArrayDeque<>();
-   private final ArrayDeque<sti> stv = new ArrayDeque<>();
-   private int stw;
-   private double stx = 4.0;
-   private boolean sty;
-   private boolean stz;
-   private double sua;
-   private double sub;
-   private float[] suc = new float[0];
-   private float[] sud = new float[0];
-   private double sue;
-   private double suf;
-   private double sug;
-   private float suh;
-   private double sui = -1.0;
+   static final float stq = 343.0F;
+   final Random str = new Random();
+   final float[] sts = new float[320];
+   final float[] stt = new float[320];
+   final ArrayDeque<stf> stu = new ArrayDeque<>();
+   final ArrayDeque<sti> stv = new ArrayDeque<>();
+   int stw;
+   double stx = 4.0;
+   boolean sty;
+   boolean stz;
+   double sua;
+   double sub;
+   float[] suc = new float[0];
+   float[] sud = new float[0];
+   double sue;
+   double suf;
+   double sug;
+   float suh;
+   double sui = -1.0;
 
    public void freeze(double var1) {
       this.sui = var1;
@@ -77,7 +77,7 @@ public final class stp {
       }
    }
 
-   private void sul(Vec3d var1, float var2, double var3, float var5, boolean var6, double var7) {
+   void sul(Vec3d var1, float var2, double var3, float var5, boolean var6, double var7) {
       this.suh = var5;
       this.sue = var1.x + Math.cos(var7) * var5;
       this.sug = var1.z + Math.sin(var7) * var5;
@@ -188,7 +188,7 @@ public final class stp {
       return this.stt;
    }
 
-   private void sum(double var1) {
+   void sum(double var1) {
       double var3 = (this.str.nextDouble() - 0.5) * 120.0;
       double var5 = (this.str.nextDouble() - 0.5) * 120.0;
       double var7 = var1 - this.suf;
@@ -213,7 +213,7 @@ public final class stp {
       }
    }
 
-   private float[] sun(double var1, double var3, double var5, double var7, double var9, double var11, int var13, double var14) {
+   float[] sun(double var1, double var3, double var5, double var7, double var9, double var11, int var13, double var14) {
       float[] var16 = new float[(var13 + 1) * 3];
       double var17 = var7 - var1;
       double var19 = var9 - var3;
@@ -244,7 +244,7 @@ public final class stp {
       return var16;
    }
 
-   private void suo(float[] var1, float var2, float var3, float var4) {
+   void suo(float[] var1, float var2, float var3, float var4) {
       int var5 = var1.length / 3;
 
       for (int var6 = 0; var6 < var5 - 1 && this.stw < 80; var6++) {

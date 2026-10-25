@@ -1,8 +1,8 @@
 package a;
 
 public final class eso {
-   private final String esp;
-   private final String esq;
+   final String esp;
+   final String esq;
 
    public eso(String code, String message) {
       this.esp = code;

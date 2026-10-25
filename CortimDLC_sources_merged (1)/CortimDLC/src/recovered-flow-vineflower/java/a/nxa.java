@@ -75,291 +75,291 @@ import net.minecraft.world.RaycastContext.ShapeType;
 import net.minecraft.world.chunk.WorldChunk;
 
 public class nxa extends pnc {
-   private static final String nxb = a.c(-729813488, "\uee74韊ᵅ茵ࣩ");
-   private static final String nxc = a.d("늘쬦䆩\udfd9各", 675656037, -668925031);
-   private static final String nxd = a.c(348483266, "溎\u1718鷉ΰ");
-   private static final String nxe = a.d("ꉨ\udbef儯콜", -603660189, -1943190952);
-   private static final String nxf = a.c(1809714706, "\u0e63矄ﴄ捣\ue8b5渏");
-   private static final String nxg = a.d("\uef38雹ᱛ艔ৼ", -181515372, -427450136);
-   private static final String nxh = a.d("䨴㎄륓", -1746088683, -839613673);
-   private static final String nxi = a.d("৴灀煮擧\uef3f", -1555736928, 226057065);
-   private static final String nxj = a.d("耇料獪\ued11曊\ue077娠", -112699413, 802280406);
-   private static final String nxk = a.b("揿ᨵ郢\u0eed蕄Ί맚", 265643961);
-   private static final String nxl = a.b("\uf18d蠚˯鳣ፙ閝⿍\ua632㡩뛄㔇콼䇓\ud818剁풷滰", 2015556044);
-   private static final String nxm = a.c(-1019693863, "냨쥎䎓\uddec嘱킁檬\ue35f絲\uf7b5瀘訞¦鵰ᝑ釕⯯ꐼ㪂");
-   private static final String nxn = a.c(-1020520630, "ፋ櫟\ue003繵\uf5aa獤쥅䃄\ude97偊펆⧶Ꜥ㺐듀㘬豮β鴜ᭀ隧\ue897晐ﶍ篹");
-   private static final String nxo = a.d("⮗剄\ud8e9䚑촱䯹\uf1a8籁\ue67f沱\ueb6dᅭ鿊ٶ豓້뒋㭗ꗹ⎥깂큲庵앨䌜", 2143303911, 888149832);
-   private static final String nxp = a.d("〭䦴쌐夃훉偰\uea24揟ﶌ眱\uf0e6ક落ᶏ鞦ᕏ꼍⃑빿㠣뗄쯴䔳\udeee墚", 211270009, -1555591856);
-   private static final String nxq = a.d("ㅭ䣴쉐塃힉儰\ueb64抟ﳌ癱\uf1a6\u0bd5蕽\u1ccf雦ᐏ꩝▁묢㥢낔쫂䑳\udbb7巅휙檼\ue4ef繽\uf841", -84916901, -451514315);
-   private static final String nxr = a.c(-1303116514, "Ē碋\uf22f格\ue7fe慎\udb62囸좪䈖쇘㮤녣ⲳꚔ\u2069騭");
-   private static final String nxs = a.c(1558973535, "\u086e燂\ufb18攜\ueec9桶홉徵쇧佋좕㛴뱂▇꿘⤢");
-   private static final String nxt = a.d("䏘㩋냨⻭ꔻ⎂鷌ၝ踍Ӈ茞祭\uf3a6樚\ue044拖\ud89f圵춌䯑숢", 1766663742, -329752095);
-   private static final String nxu = a.d("벡씽䯾퇮婍\udcf0暨\uef5e甔\ufbc6籠蘒\u0cd0镲ἲ鷞➜꠵㋶듚㥈䌔춪剭퐐庤\ue77a洷\uf3de痶︷\u0093誩ፙ锆", 736967255, -711425336);
-   private static final String nxv = a.b("ᩨ掊\ue92d獉ﲎ稲쁦䦕폒嵸\udad3₣긆㎧뷣㬕腗\u0ef4鑊ሒ龎\ue5d2歬\uf4ab狖\uf862䆼쯱唘팰壱ꙕⱯ떟㏀", 500506201);
-   private static final String nxw = a.c(1418924330, "ᔇ沞\ue258硋\uf3eb畔켉䛲\ud8ac剣햲⾹ꄖ㣙늆㑵踱ǥ齈ᴋ郮\ueeac怒﮽綼\uf767䫀쒜幦\udc28埤ꥋ⌋몈㲭똕ෞ莻Ԝ鲮ᚁ栀\ue25e憁ｆ焺죮䈦");
-   private static final double nxx = 120.0;
-   private static final double nxy = 100.0;
-   private static final int nxz = 200;
-   private static final double nya = 7.0;
-   private static final int nyb = 2400;
-   private static final long nyc = 6000L;
-   private static final long nyd = 10000L;
-   private static final double nye = 14.0;
-   private static final long nyf = 240L;
-   private static final int nyg = 3;
-   private static final int[] nyh = new int[]{0, 45, -45, 90, -90, 135, -135, 180};
-   private static final float nyi = -55.0F;
-   private static final float nyj = 86.0F;
-   private static final int nyk = 3;
-   private static final int nyl = 3;
-   private static final int nym = 100;
-   private static nxa nyn;
-   private static boolean nyo;
-   private final pnz nyp = new pnz();
-   private final vmc nyq = this.add(new vmc(a.c(1538886874, "貝\uf500翊\ue1e3橷\ueccd嚓\udf74䄬쮚"), 5.0, 1.0, 30.0, 1.0));
-   private final vlj nyr = this.add(new vlj(a.c(-792673846, "솏렝㋎겤✧ꇚᮌ鉧ి"), vlg.LOOT, ppu.WARDEN_DEFAULTS));
-   private final vmc nys = this.add(new vmc(a.d("쪝댏㧜Ꞷⰵꫀ႒饪ܸ趑", -2103134400, -329679461), 60.0, 35.0, 200.0, 5.0).suffix(a.c(1642534583, "ᛘ潷")));
-   private final vkl nyt = this.add(new vkl(a.b("픇것♚력㎷땕༅蛡ᢾ鈎", 578905), false));
-   private final vmu nyu = this.add(new vmu(a.c(356087237, "疚ఙ蛝ᢿ錭ᗝ꾁♿렳㊓땋伫"), a.c(961501262, "堪↔\uab1b㕫뺷"), 32));
-   private final vmu nyv = this.add(new vmu(a.c(264744924, "꾜혎峝슷䤴쿄疘ﱦ截\ue88a潒锲"), a.d("杅ỻ鑴\u0a04臙", 1230052507, 2120383418), 120));
-   private final vlv nyw = this.add(
+   static final String nxb = a.c(-729813488, "\uee74韊ᵅ茵ࣩ");
+   static final String nxc = a.d("늘쬦䆩\udfd9各", 675656037, -668925031);
+   static final String nxd = a.c(348483266, "溎\u1718鷉ΰ");
+   static final String nxe = a.d("ꉨ\udbef儯콜", -603660189, -1943190952);
+   static final String nxf = a.c(1809714706, "\u0e63矄ﴄ捣\ue8b5渏");
+   static final String nxg = a.d("\uef38雹ᱛ艔ৼ", -181515372, -427450136);
+   static final String nxh = a.d("䨴㎄륓", -1746088683, -839613673);
+   static final String nxi = a.d("৴灀煮擧\uef3f", -1555736928, 226057065);
+   static final String nxj = a.d("耇料獪\ued11曊\ue077娠", -112699413, 802280406);
+   static final String nxk = a.b("揿ᨵ郢\u0eed蕄Ί맚", 265643961);
+   static final String nxl = a.b("\uf18d蠚˯鳣ፙ閝⿍\ua632㡩뛄㔇콼䇓\ud818剁풷滰", 2015556044);
+   static final String nxm = a.c(-1019693863, "냨쥎䎓\uddec嘱킁檬\ue35f絲\uf7b5瀘訞¦鵰ᝑ釕⯯ꐼ㪂");
+   static final String nxn = a.c(-1020520630, "ፋ櫟\ue003繵\uf5aa獤쥅䃄\ude97偊펆⧶Ꜥ㺐듀㘬豮β鴜ᭀ隧\ue897晐ﶍ篹");
+   static final String nxo = a.d("⮗剄\ud8e9䚑촱䯹\uf1a8籁\ue67f沱\ueb6dᅭ鿊ٶ豓້뒋㭗ꗹ⎥깂큲庵앨䌜", 2143303911, 888149832);
+   static final String nxp = a.d("〭䦴쌐夃훉偰\uea24揟ﶌ眱\uf0e6ક落ᶏ鞦ᕏ꼍⃑빿㠣뗄쯴䔳\udeee墚", 211270009, -1555591856);
+   static final String nxq = a.d("ㅭ䣴쉐塃힉儰\ueb64抟ﳌ癱\uf1a6\u0bd5蕽\u1ccf雦ᐏ꩝▁묢㥢낔쫂䑳\udbb7巅휙檼\ue4ef繽\uf841", -84916901, -451514315);
+   static final String nxr = a.c(-1303116514, "Ē碋\uf22f格\ue7fe慎\udb62囸좪䈖쇘㮤녣ⲳꚔ\u2069騭");
+   static final String nxs = a.c(1558973535, "\u086e燂\ufb18攜\ueec9桶홉徵쇧佋좕㛴뱂▇꿘⤢");
+   static final String nxt = a.d("䏘㩋냨⻭ꔻ⎂鷌ၝ踍Ӈ茞祭\uf3a6樚\ue044拖\ud89f圵춌䯑숢", 1766663742, -329752095);
+   static final String nxu = a.d("벡씽䯾퇮婍\udcf0暨\uef5e甔\ufbc6籠蘒\u0cd0镲ἲ鷞➜꠵㋶듚㥈䌔춪剭퐐庤\ue77a洷\uf3de痶︷\u0093誩ፙ锆", 736967255, -711425336);
+   static final String nxv = a.b("ᩨ掊\ue92d獉ﲎ稲쁦䦕폒嵸\udad3₣긆㎧뷣㬕腗\u0ef4鑊ሒ龎\ue5d2歬\uf4ab狖\uf862䆼쯱唘팰壱ꙕⱯ떟㏀", 500506201);
+   static final String nxw = a.c(1418924330, "ᔇ沞\ue258硋\uf3eb畔켉䛲\ud8ac剣햲⾹ꄖ㣙늆㑵踱ǥ齈ᴋ郮\ueeac怒﮽綼\uf767䫀쒜幦\udc28埤ꥋ⌋몈㲭똕ෞ莻Ԝ鲮ᚁ栀\ue25e憁ｆ焺죮䈦");
+   static final double nxx = 120.0;
+   static final double nxy = 100.0;
+   static final int nxz = 200;
+   static final double nya = 7.0;
+   static final int nyb = 2400;
+   static final long nyc = 6000L;
+   static final long nyd = 10000L;
+   static final double nye = 14.0;
+   static final long nyf = 240L;
+   static final int nyg = 3;
+   static final int[] nyh = new int[]{0, 45, -45, 90, -90, 135, -135, 180};
+   static final float nyi = -55.0F;
+   static final float nyj = 86.0F;
+   static final int nyk = 3;
+   static final int nyl = 3;
+   static final int nym = 100;
+   static nxa nyn;
+   static boolean nyo;
+   final pnz nyp = new pnz();
+   final vmc nyq = this.add(new vmc(a.c(1538886874, "貝\uf500翊\ue1e3橷\ueccd嚓\udf74䄬쮚"), 5.0, 1.0, 30.0, 1.0));
+   final vlj nyr = this.add(new vlj(a.c(-792673846, "솏렝㋎겤✧ꇚᮌ鉧ి"), vlg.LOOT, ppu.WARDEN_DEFAULTS));
+   final vmc nys = this.add(new vmc(a.d("쪝댏㧜Ꞷⰵꫀ႒饪ܸ趑", -2103134400, -329679461), 60.0, 35.0, 200.0, 5.0).suffix(a.c(1642534583, "ᛘ潷")));
+   final vkl nyt = this.add(new vkl(a.b("픇것♚력㎷땕༅蛡ᢾ鈎", 578905), false));
+   final vmu nyu = this.add(new vmu(a.c(356087237, "疚ఙ蛝ᢿ錭ᗝ꾁♿렳㊓땋伫"), a.c(961501262, "堪↔\uab1b㕫뺷"), 32));
+   final vmu nyv = this.add(new vmu(a.c(264744924, "꾜혎峝슷䤴쿄疘ﱦ截\ue88a潒锲"), a.d("杅ỻ鑴\u0a04臙", 1230052507, 2120383418), 120));
+   final vlv nyw = this.add(
       new vlv(
          a.b("蚒２痈\uebb0恲\ue6dc岒핥䭮솝䙕", -572881203), a.d("\uec25閳ὢ脛", -691721589, -1487681822), a.c(313494045, "詑\uf3c7礖\ue76f"), a.b("뛜콛䖛\udbe8", -27281777)
       )
    );
-   private final vmu nyx = this.add(new vmu(a.d("⼭嚻\udc6a䈓즁佾\uf522糟\ue288", 1143535024, 517135068), a.d("뮑숶䣶횑嵇\udbfd", -692494820, 37414396), 32));
-   private final vmu nyy = this.add(new vmu(a.d("☄徃핃䬰삷䙈ﰔ痩\uebbe", 1713913152, 666442522), a.b("憺\u181d鋝\u0cba蝬ǖ", 2026136011), 32));
-   private final vkl nyz = this.add(new vkl(a.d("ﴅ蒏๛進᮲鵑✟껴オ먊", 1259604267, 1657533559), false));
-   private final vkw nza = this.add(
+   final vmu nyx = this.add(new vmu(a.d("⼭嚻\udc6a䈓즁佾\uf522糟\ue288", 1143535024, 517135068), a.d("뮑숶䣶횑嵇\udbfd", -692494820, 37414396), 32));
+   final vmu nyy = this.add(new vmu(a.d("☄徃핃䬰삷䙈ﰔ痩\uebbe", 1713913152, 666442522), a.b("憺\u181d鋝\u0cba蝬ǖ", 2026136011), 32));
+   final vkl nyz = this.add(new vkl(a.d("ﴅ蒏๛進᮲鵑✟껴オ먊", 1259604267, 1657533559), false));
+   final vkw nza = this.add(
       new vkw(
          a.c(1713758171, "\udf98ꘂⳁ늷㥽뾃և豠ሲ预ὕ\ue523毽"),
          new vkq(a.b("š磧\uf232汏\ue785愢\udb35劅쳕䙮쇹㯜딍ⲯ꛴ ", 1689649443), vhz.LAYERS, () -> ign.openWalk(a.d("\udc8aꔏ\u2fdd놷㩘볟ڟ轸ᄦ鮜", 228617762, 483242723)))
       )
    );
-   private nwx nzb = nwx.BOOT;
-   private int nzc = 0;
-   private int nzd = 0;
-   private int nze = 0;
-   private final Random nzf = new Random();
-   private int nzg = 0;
-   private BlockPos nzh = null;
-   private final Map<BlockPos, Long> nzi = new HashMap<>();
-   private final Map<BlockPos, Long> nzj = new HashMap<>();
-   private final Set<BlockPos> nzk = new HashSet<>();
-   private final Map<BlockPos, Long> nzl = new HashMap<>();
-   private final Map<BlockPos, Long> nzm = new HashMap<>();
-   private long nzn = 0L;
-   private int nzo = 0;
-   private final Map<BlockPos, Integer> nzp = new HashMap<>();
-   private List<BlockPos> nzq = List.of();
-   private volatile long nzr = 0L;
-   private final ConcurrentLinkedQueue<String> nzs = new ConcurrentLinkedQueue<>();
-   private rzv nzt = null;
-   private BlockPos nzu = null;
-   private int nzv = 99;
-   private BlockPos nzw = null;
-   private int nzx = 0;
-   private int nzy = 0;
-   private long nzz = 700L;
-   private int oaa = 0;
-   private BlockPos oab = null;
-   private int oac = 0;
-   private int oad = 0;
-   private int oae = 0;
-   private Vec3d oaf = null;
-   private boolean oag = false;
-   private boolean oah = false;
-   private boolean oai = false;
-   private boolean oaj = false;
-   private final List<nwg> oak = new ArrayList<>(List.of(nwg.FOOD, nwg.INVIS, nwg.SPEED));
-   private int oal = 3;
-   private BlockPos oam = null;
-   private nwg oan = nwg.NONE;
-   private int oao = 0;
-   private int oap = 0;
-   private int oaq = 0;
-   private long oar = 0L;
-   private int oas = 0;
-   private int oat = 0;
-   private boolean oau = false;
-   private boolean oav = false;
-   private BlockPos oaw = null;
-   private int oax = 0;
-   private int oay = 0;
-   private nwg oaz = nwg.NONE;
-   private int oba = -1;
-   private BlockPos obb = null;
-   private long obc = 0L;
-   private long obd = 0L;
-   private volatile int obe = -1;
-   private boolean obf = false;
-   private boolean obg = false;
-   private long obh = 0L;
-   private int obi = -1;
-   private double obj = 88.0;
-   private double obk = 84.0;
-   private int obl = 0;
-   private int obm = 0;
-   private boolean obn = false;
-   private final Map<Integer, Integer> obo = new HashMap<>();
-   private final Set<Integer> obp = new HashSet<>();
-   private pmf obq = null;
-   private int obr = 0;
-   private BlockPos obs = null;
-   private long obt = 0L;
-   private nwg obu = nwg.NONE;
-   private long obv = 0L;
-   private boolean obw = false;
-   private boolean obx = false;
-   private long oby = 0L;
-   private long obz = 0L;
-   private int oca = 0;
-   private int ocb = 0;
-   private int occ = -1;
-   private int ocd = 0;
-   private boolean oce = false;
-   private boolean ocf = false;
-   private int ocg = -1;
-   private int och = 0;
-   private int oci = 0;
-   private boolean ocj = false;
-   private int ock = 0;
-   private int ocl = 0;
-   private int ocm = 0;
-   private float ocn = 0.0F;
-   private int oco = 0;
-   private int ocp = 0;
-   private int ocq = -100000;
-   private final Map<ItemStack, Boolean> ocr = new IdentityHashMap<>();
-   private int ocs = -1;
-   private int oct = -1;
-   private int ocu = 0;
-   private float ocv = 10.0F;
-   private int ocw = 0;
-   private int ocx = 0;
-   private World ocy = null;
-   private World ocz = null;
-   private PlayerEntity oda = null;
-   private Vec3d odb = null;
-   private int odc = -1;
-   private boolean odd = false;
-   private int ode = -100000;
-   private String odf = "";
-   private int odg = 0;
-   private float odh = 0.0F;
-   private int odi = 0;
-   private boolean odj = false;
-   private int odk = 0;
-   private int odl = 0;
-   private int odm = -1;
-   private int odn = -100000;
-   private final int[] odo = new int[]{-1, -1};
-   private final int[] odp = new int[2];
-   private final int[] odq = new int[2];
-   private final int[] odr = new int[2];
-   private final int[] ods = new int[2];
-   private final boolean[] odt = new boolean[2];
-   private String odu = null;
-   private int odv = 0;
-   private String odw = "";
-   private boolean odx = false;
-   private boolean ody = false;
-   private final Map<String, BlockPos> odz = new HashMap<>();
-   private final Map<String, String> oea = new HashMap<>();
-   private boolean oeb = false;
-   private BlockPos oec = null;
-   private World oed = null;
-   private int oee = -100000;
-   private PlayerEntity oef = null;
-   private int oeg = -100000;
-   private float oeh = 0.0F;
-   private boolean oei = false;
-   private int oej = 0;
-   private int oek = -100000;
-   private boolean oel = false;
-   private int oem = 0;
-   private int oen = 0;
-   private int oeo = 40;
-   private boolean oep = false;
-   private Vec3d oeq = null;
-   private int oer = 0;
-   private int oes = 0;
-   private int oet = 0;
-   private BlockPos oeu = null;
-   private int oev = 0;
-   private int oew = 0;
-   private boolean oex = false;
-   private int oey = 0;
-   private int oez = 1;
-   private boolean ofa = false;
-   private List<BlockPos> ofb = null;
-   private int ofc = 0;
-   private int ofd = 0;
-   private final pyd ofe = new pyd();
-   private psf off = null;
-   private pqq ofg = null;
-   private BlockPos ofh = null;
-   private boolean ofi = false;
-   private boolean ofj = false;
-   private boolean ofk = false;
-   private final double[] ofl = new double[2];
-   private double ofm = Double.NaN;
-   private int ofn = 0;
-   private int ofo = 0;
-   private final Set<Long> ofp = new HashSet<>();
-   private BlockPos ofq = null;
-   private BlockPos ofr = null;
-   private final Map<BlockPos, Long> ofs = new HashMap<>();
-   private BlockPos oft = null;
-   private Vec3d ofu = null;
-   private int ofv = 0;
-   private int ofw = 0;
-   private int ofx = 0;
-   private int ofy = 0;
-   private boolean ofz = false;
-   private int oga = 0;
-   private float ogb = 0.0F;
-   private int ogc = 0;
-   private Vec3d ogd = null;
-   private boolean oge = true;
-   private double ogf = Double.NaN;
-   private rzy ogg;
-   private int ogh = 0;
-   private int ogi = 0;
-   private long ogj = 0L;
-   private long ogk = 0L;
-   private final pjw ogl = new pjw().neuro(lex.WARDEN);
-   private final pud ogm = pud.INSTANCE;
-   private boolean ogn = false;
-   private boolean ogo = false;
-   private boolean ogp = false;
-   private boolean ogq = false;
-   private boolean ogr = false;
-   private float ogs = 0.0F;
-   private float ogt = 0.0F;
-   private double ogu = 0.0;
-   private float ogv = 0.0F;
-   private float ogw = 0.0F;
-   private PlayerEntity ogx = null;
-   private Vec3d ogy = null;
-   private BlockPos ogz = null;
-   private Vec3d oha = null;
-   private boolean ohb = false;
-   private boolean ohc = false;
-   private int ohd = 0;
-   private int ohe = 0;
-   private double ohf = 0.0;
-   private double ohg = 0.0;
-   private double ohh = 0.0;
-   private int ohi = 0;
-   private int ohj = 0;
-   private boolean ohk = false;
-   private int ohl = -1000;
-   private float ohm = 0.0F;
-   private boolean ohn = false;
-   private boolean oho = false;
-   private boolean ohp = false;
-   private boolean ohq = false;
+   nwx nzb = nwx.BOOT;
+   int nzc = 0;
+   int nzd = 0;
+   int nze = 0;
+   final Random nzf = new Random();
+   int nzg = 0;
+   BlockPos nzh = null;
+   final Map<BlockPos, Long> nzi = new HashMap<>();
+   final Map<BlockPos, Long> nzj = new HashMap<>();
+   final Set<BlockPos> nzk = new HashSet<>();
+   final Map<BlockPos, Long> nzl = new HashMap<>();
+   final Map<BlockPos, Long> nzm = new HashMap<>();
+   long nzn = 0L;
+   int nzo = 0;
+   final Map<BlockPos, Integer> nzp = new HashMap<>();
+   List<BlockPos> nzq = List.of();
+   volatile long nzr = 0L;
+   final ConcurrentLinkedQueue<String> nzs = new ConcurrentLinkedQueue<>();
+   rzv nzt = null;
+   BlockPos nzu = null;
+   int nzv = 99;
+   BlockPos nzw = null;
+   int nzx = 0;
+   int nzy = 0;
+   long nzz = 700L;
+   int oaa = 0;
+   BlockPos oab = null;
+   int oac = 0;
+   int oad = 0;
+   int oae = 0;
+   Vec3d oaf = null;
+   boolean oag = false;
+   boolean oah = false;
+   boolean oai = false;
+   boolean oaj = false;
+   final List<nwg> oak = new ArrayList<>(List.of(nwg.FOOD, nwg.INVIS, nwg.SPEED));
+   int oal = 3;
+   BlockPos oam = null;
+   nwg oan = nwg.NONE;
+   int oao = 0;
+   int oap = 0;
+   int oaq = 0;
+   long oar = 0L;
+   int oas = 0;
+   int oat = 0;
+   boolean oau = false;
+   boolean oav = false;
+   BlockPos oaw = null;
+   int oax = 0;
+   int oay = 0;
+   nwg oaz = nwg.NONE;
+   int oba = -1;
+   BlockPos obb = null;
+   long obc = 0L;
+   long obd = 0L;
+   volatile int obe = -1;
+   boolean obf = false;
+   boolean obg = false;
+   long obh = 0L;
+   int obi = -1;
+   double obj = 88.0;
+   double obk = 84.0;
+   int obl = 0;
+   int obm = 0;
+   boolean obn = false;
+   final Map<Integer, Integer> obo = new HashMap<>();
+   final Set<Integer> obp = new HashSet<>();
+   pmf obq = null;
+   int obr = 0;
+   BlockPos obs = null;
+   long obt = 0L;
+   nwg obu = nwg.NONE;
+   long obv = 0L;
+   boolean obw = false;
+   boolean obx = false;
+   long oby = 0L;
+   long obz = 0L;
+   int oca = 0;
+   int ocb = 0;
+   int occ = -1;
+   int ocd = 0;
+   boolean oce = false;
+   boolean ocf = false;
+   int ocg = -1;
+   int och = 0;
+   int oci = 0;
+   boolean ocj = false;
+   int ock = 0;
+   int ocl = 0;
+   int ocm = 0;
+   float ocn = 0.0F;
+   int oco = 0;
+   int ocp = 0;
+   int ocq = -100000;
+   final Map<ItemStack, Boolean> ocr = new IdentityHashMap<>();
+   int ocs = -1;
+   int oct = -1;
+   int ocu = 0;
+   float ocv = 10.0F;
+   int ocw = 0;
+   int ocx = 0;
+   World ocy = null;
+   World ocz = null;
+   PlayerEntity oda = null;
+   Vec3d odb = null;
+   int odc = -1;
+   boolean odd = false;
+   int ode = -100000;
+   String odf = "";
+   int odg = 0;
+   float odh = 0.0F;
+   int odi = 0;
+   boolean odj = false;
+   int odk = 0;
+   int odl = 0;
+   int odm = -1;
+   int odn = -100000;
+   final int[] odo = new int[]{-1, -1};
+   final int[] odp = new int[2];
+   final int[] odq = new int[2];
+   final int[] odr = new int[2];
+   final int[] ods = new int[2];
+   final boolean[] odt = new boolean[2];
+   String odu = null;
+   int odv = 0;
+   String odw = "";
+   boolean odx = false;
+   boolean ody = false;
+   final Map<String, BlockPos> odz = new HashMap<>();
+   final Map<String, String> oea = new HashMap<>();
+   boolean oeb = false;
+   BlockPos oec = null;
+   World oed = null;
+   int oee = -100000;
+   PlayerEntity oef = null;
+   int oeg = -100000;
+   float oeh = 0.0F;
+   boolean oei = false;
+   int oej = 0;
+   int oek = -100000;
+   boolean oel = false;
+   int oem = 0;
+   int oen = 0;
+   int oeo = 40;
+   boolean oep = false;
+   Vec3d oeq = null;
+   int oer = 0;
+   int oes = 0;
+   int oet = 0;
+   BlockPos oeu = null;
+   int oev = 0;
+   int oew = 0;
+   boolean oex = false;
+   int oey = 0;
+   int oez = 1;
+   boolean ofa = false;
+   List<BlockPos> ofb = null;
+   int ofc = 0;
+   int ofd = 0;
+   final pyd ofe = new pyd();
+   psf off = null;
+   pqq ofg = null;
+   BlockPos ofh = null;
+   boolean ofi = false;
+   boolean ofj = false;
+   boolean ofk = false;
+   final double[] ofl = new double[2];
+   double ofm = Double.NaN;
+   int ofn = 0;
+   int ofo = 0;
+   final Set<Long> ofp = new HashSet<>();
+   BlockPos ofq = null;
+   BlockPos ofr = null;
+   final Map<BlockPos, Long> ofs = new HashMap<>();
+   BlockPos oft = null;
+   Vec3d ofu = null;
+   int ofv = 0;
+   int ofw = 0;
+   int ofx = 0;
+   int ofy = 0;
+   boolean ofz = false;
+   int oga = 0;
+   float ogb = 0.0F;
+   int ogc = 0;
+   Vec3d ogd = null;
+   boolean oge = true;
+   double ogf = Double.NaN;
+   rzy ogg;
+   int ogh = 0;
+   int ogi = 0;
+   long ogj = 0L;
+   long ogk = 0L;
+   final pjw ogl = new pjw().neuro(lex.WARDEN);
+   final pud ogm = pud.INSTANCE;
+   boolean ogn = false;
+   boolean ogo = false;
+   boolean ogp = false;
+   boolean ogq = false;
+   boolean ogr = false;
+   float ogs = 0.0F;
+   float ogt = 0.0F;
+   double ogu = 0.0;
+   float ogv = 0.0F;
+   float ogw = 0.0F;
+   PlayerEntity ogx = null;
+   Vec3d ogy = null;
+   BlockPos ogz = null;
+   Vec3d oha = null;
+   boolean ohb = false;
+   boolean ohc = false;
+   int ohd = 0;
+   int ohe = 0;
+   double ohf = 0.0;
+   double ohg = 0.0;
+   double ohh = 0.0;
+   int ohi = 0;
+   int ohj = 0;
+   boolean ohk = false;
+   int ohl = -1000;
+   float ohm = 0.0F;
+   boolean ohn = false;
+   boolean oho = false;
+   boolean ohp = false;
+   boolean ohq = false;
 
    public nxa() {
       super(
@@ -425,7 +425,7 @@ public class nxa extends pnc {
       return this.driver != null && var1 != null && var1 != this ? var1.nyr : this.nyr;
    }
 
-   private boolean oht(ItemStack var1) {
+   boolean oht(ItemStack var1) {
       if (var1.isEmpty()) {
          return false;
       }
@@ -450,7 +450,7 @@ public class nxa extends pnc {
       return this.odf;
    }
 
-   private Object ohu() {
+   Object ohu() {
       return this.driver != null ? this.driver : pjd.MAIN;
    }
 
@@ -592,7 +592,7 @@ public class nxa extends pnc {
       this.odf = "";
    }
 
-   private void ohv() {
+   void ohv() {
       this.ohy(nwx.RESTOCK);
       this.ohx();
       this.oab = null;
@@ -665,7 +665,7 @@ public class nxa extends pnc {
       this.oje();
    }
 
-   private void ohw() {
+   void ohw() {
       this.nzg = 0;
       this.nzh = null;
       this.nzi.clear();
@@ -690,7 +690,7 @@ public class nxa extends pnc {
       this.olm();
    }
 
-   private void ohx() {
+   void ohx() {
       this.nzt = null;
       this.nzu = null;
       this.nzv = 99;
@@ -700,7 +700,7 @@ public class nxa extends pnc {
       this.ohb = false;
    }
 
-   private void ohy(nwx var1) {
+   void ohy(nwx var1) {
       if (this.nzb != var1) {
          this.odf = "";
       }
@@ -708,7 +708,7 @@ public class nxa extends pnc {
       this.nzb = var1;
    }
 
-   private rzy ohz() {
+   rzy ohz() {
       if (this.driver != null) {
          return this.ogg;
       }
@@ -720,7 +720,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oia() {
+   void oia() {
       rzy var1 = this.ohz();
       if (var1 != null) {
          var1.clearTimers();
@@ -853,23 +853,23 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oib() {
+   boolean oib() {
       return this.driver == null && nyn == this && this.isEnabled() && tcz.walkGuide();
    }
 
-   private boolean oic() {
+   boolean oic() {
       return this.ofk || this.getPlayer().isUsingItem() || this.obw || this.ocf || this.oaz != nwg.NONE || this.mc.currentScreen != null;
    }
 
-   private int oid(int var1) {
+   int oid(int var1) {
       return this.oib() ? var1 * 3 : var1;
    }
 
-   private txs oie() {
+   txs oie() {
       return lfa.walkModel(lex.WARDEN);
    }
 
-   private void oif() {
+   void oif() {
       GameOptions var1 = this.mc.options;
       if (var1 != null && !this.obw && this.oaz == nwg.NONE && !this.ocf) {
          KeyBinding[] var2 = new KeyBinding[]{var1.forwardKey, var1.backKey, var1.leftKey, var1.rightKey, var1.jumpKey};
@@ -896,7 +896,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oig() {
+   void oig() {
       if (this.ogn) {
          this.ogn = false;
          if (this.driver == null) {
@@ -922,7 +922,7 @@ public class nxa extends pnc {
       this.opg();
    }
 
-   private void oih() {
+   void oih() {
       long var1 = System.currentTimeMillis();
       this.oha = null;
       this.ohq = false;
@@ -1141,7 +1141,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oii() {
+   void oii() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       rzy var2 = this.ohz();
       String var3 = this.oij();
@@ -1164,11 +1164,11 @@ public class nxa extends pnc {
       }
    }
 
-   private String oij() {
+   String oij() {
       return this.mc.world == null ? "" : this.mc.world.getRegistryKey().getValue().toString();
    }
 
-   private boolean oik() {
+   boolean oik() {
       return this.nzb == nwx.EXPLORING
          || this.nzb == nwx.WAITING_FOR_CHEST
          || this.nzb == nwx.CHECK_PVP_COOLDOWN
@@ -1177,13 +1177,13 @@ public class nxa extends pnc {
          || this.nzb == nwx.TELEPORT_TO_SAVE && this.nzh != null && !this.odf.isEmpty();
    }
 
-   private boolean oil() {
+   boolean oil() {
       return this.mc.currentScreen instanceof HandledScreen var1
          && !(var1 instanceof InventoryScreen)
          && !(var1.getScreenHandler() instanceof PlayerScreenHandler);
    }
 
-   private void oim() {
+   void oim() {
       String var1;
       while ((var1 = this.nzs.poll()) != null) {
          String var2 = var1.toLowerCase();
@@ -1214,7 +1214,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oin() {
+   void oin() {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 != this.oef) {
          this.oeg = this.nzd;
@@ -1223,7 +1223,7 @@ public class nxa extends pnc {
       this.oef = var1;
    }
 
-   private void oio() {
+   void oio() {
       if (this.nzd - this.oee <= 100) {
          ClientPlayerEntity var1 = this.getPlayer();
          boolean var2 = var1.isDead() || var1.getHealth() <= 0.0F;
@@ -1239,7 +1239,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oip() {
+   void oip() {
       if (!this.oel) {
          this.oel = true;
          this.oem = 0;
@@ -1251,7 +1251,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oiq() {
+   boolean oiq() {
       if (!(this.mc.currentScreen instanceof DeathScreen)) {
          this.oen = 0;
          this.oep = false;
@@ -1268,7 +1268,7 @@ public class nxa extends pnc {
       return true;
    }
 
-   private boolean oir() {
+   boolean oir() {
       if (this.oes > 0) {
          this.oes--;
       }
@@ -1315,7 +1315,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ois(boolean var1) {
+   void ois(boolean var1) {
       boolean var2 = var1 && this.ofz && this.ohi <= 0 && !this.obw && this.oga <= 0;
       Vec3d var3 = this.getPlayer().getEntityPos();
       if (!var2) {
@@ -1333,11 +1333,11 @@ public class nxa extends pnc {
       }
    }
 
-   private static double oit(Vec3d var0, Vec3d var1) {
+   static double oit(Vec3d var0, Vec3d var1) {
       return Math.hypot(var0.x - var1.x, var0.z - var1.z);
    }
 
-   private void oiu(boolean var1) {
+   void oiu(boolean var1) {
       ClientPlayerEntity var2 = this.getPlayer();
       boolean var3 = var2.isOnGround();
       if (var3 || Double.isNaN(this.ogf)) {
@@ -1363,7 +1363,7 @@ public class nxa extends pnc {
       this.oge = var3;
    }
 
-   private void oiv(boolean var1) {
+   void oiv(boolean var1) {
       this.oet++;
       this.ofy = 0;
       BlockPos var2 = this.opb() ? this.ofb.get(this.ofc) : null;
@@ -1383,7 +1383,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oiw(BlockPos var1, long var2) {
+   void oiw(BlockPos var1, long var2) {
       if (this.ofs.size() > 256) {
          this.ofs.clear();
       }
@@ -1391,7 +1391,7 @@ public class nxa extends pnc {
       this.ofs.put(var1.toImmutable(), System.currentTimeMillis() + var2);
    }
 
-   private Set<BlockPos> oix() {
+   Set<BlockPos> oix() {
       if (this.ofs.isEmpty()) {
          return Set.of();
       }
@@ -1401,7 +1401,7 @@ public class nxa extends pnc {
       return this.ofs.isEmpty() ? Set.of() : new HashSet<>(this.ofs.keySet());
    }
 
-   private void oiy() {
+   void oiy() {
       this.oga = 0;
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 != null && var1.isOnGround()) {
@@ -1422,7 +1422,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oiz() {
+   void oiz() {
       if (this.ocu >= 6 && this.oga <= 0) {
          ClientPlayerEntity var1 = this.getPlayer();
          if (!this.opb() || !(pqf.getStandY(this.ofb.get(this.ofc)) > var1.getY() + 0.6)) {
@@ -1444,7 +1444,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oja() {
+   void oja() {
       float var1 = -1.0F;
       float var2 = 0.0F;
       float var3 = Float.MAX_VALUE;
@@ -1473,7 +1473,7 @@ public class nxa extends pnc {
       this.mc.options.jumpKey.setPressed(false);
    }
 
-   private void ojb() {
+   void ojb() {
       long var1 = System.currentTimeMillis();
       if (this.nzb == nwx.WAITING_FOR_CHEST && this.nzu != null) {
          this.nzj.put(this.nzu, var1 + 30000L);
@@ -1487,7 +1487,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojc(boolean var1) {
+   void ojc(boolean var1) {
       boolean var2 = this.mc.options.forwardKey.isPressed();
       if (var1 && var2 && pqf.isBlockedHorizontally()) {
          this.oey++;
@@ -1513,7 +1513,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojd() {
+   void ojd() {
       if (this.mc.options != null && !this.obw && this.oaz == nwg.NONE) {
          KeyBinding[] var1 = new KeyBinding[]{
             this.mc.options.forwardKey,
@@ -1533,7 +1533,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oje() {
+   void oje() {
       if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
             this.mc.options.forwardKey,
@@ -1555,7 +1555,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojf() {
+   void ojf() {
       if (this.mc.options != null) {
          KeyBinding[] var1 = new KeyBinding[]{
             this.mc.options.forwardKey,
@@ -1576,13 +1576,13 @@ public class nxa extends pnc {
       return this.oaz != nwg.NONE || this.obw || this.ocf;
    }
 
-   private void ojg(BlockPos var1, nwg var2, long var3) {
+   void ojg(BlockPos var1, nwg var2, long var3) {
       this.obs = var1;
       this.obt = var3;
       this.obu = var2;
    }
 
-   private boolean ojh(long var1) {
+   boolean ojh(long var1) {
       if (this.mc.currentScreen instanceof HandledScreen var3) {
          ScreenHandler var7 = var3.getScreenHandler();
          if (var7 instanceof GenericContainerScreenHandler var5 && this.obs != null && this.obu != nwg.NONE && var1 - this.obt <= 2500L) {
@@ -1627,7 +1627,7 @@ public class nxa extends pnc {
       }
    }
 
-   private int oji(BlockPos var1) {
+   int oji(BlockPos var1) {
       if (this.getWorld() == null) {
          return 0;
       } else {
@@ -1640,11 +1640,11 @@ public class nxa extends pnc {
       }
    }
 
-   private HandledScreen<?> ojj() {
+   HandledScreen<?> ojj() {
       return this.mc.currentScreen instanceof HandledScreen var1 && var1.getScreenHandler().syncId == this.oba ? var1 : null;
    }
 
-   private void ojk(long var1) {
+   void ojk(long var1) {
       if (this.oaz != nwg.NONE && this.getPlayer() != null && this.getInteractionManager() != null) {
          HandledScreen var3 = this.ojj();
          if (var3 == null) {
@@ -1701,7 +1701,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojl(ScreenHandler var1, int var2, int var3, SlotActionType var4) {
+   void ojl(ScreenHandler var1, int var2, int var3, SlotActionType var4) {
       this.getInteractionManager().clickSlot(var1.syncId, var2, var3, var4, this.getPlayer());
       this.obh = System.currentTimeMillis();
       if (var2 >= 0 && var2 < var1.slots.size()) {
@@ -1711,7 +1711,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojm(ScreenHandler var1, long var2) {
+   void ojm(ScreenHandler var1, long var2) {
       Slot var4 = this.obi >= 0 && this.oju(var1, this.obi) ? var1.slots.get(this.obi) : this.ojt(var1, -1, true);
       if (var4 == null) {
          if (this.obh > 0L && var2 - this.obh < 240L) {
@@ -1740,7 +1740,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojn(ScreenHandler var1, long var2) {
+   void ojn(ScreenHandler var1, long var2) {
       Slot var4 = this.obi >= 0 && this.ojv(var1, this.obi) ? var1.slots.get(this.obi) : this.ojt(var1, -1, false);
       if (var4 == null) {
          if (this.obh > 0L && var2 - this.obh < 240L) {
@@ -1764,7 +1764,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ojo(ScreenHandler var1, long var2) {
+   void ojo(ScreenHandler var1, long var2) {
       int var4 = this.oqh(Items.GOLDEN_CARROT);
       if (var4 > this.oal && this.obm < 6) {
          int var5 = this.ojr(var1, var0 -> var0.isOf(Items.GOLDEN_CARROT));
@@ -1789,7 +1789,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean ojp(ScreenHandler var1, long var2) {
+   boolean ojp(ScreenHandler var1, long var2) {
       ItemStack var4 = var1.getCursorStack();
       if (!var4.isEmpty() && this.obr < 8) {
          boolean var5 = this.oaz == nwg.DUMP
@@ -1814,7 +1814,7 @@ public class nxa extends pnc {
       }
    }
 
-   private int ojq(ScreenHandler var1, ItemStack var2) {
+   int ojq(ScreenHandler var1, ItemStack var2) {
       PlayerInventory var3 = this.getPlayer().getInventory();
       int var4 = -1;
 
@@ -1834,7 +1834,7 @@ public class nxa extends pnc {
       return var4;
    }
 
-   private int ojr(ScreenHandler var1, Predicate<ItemStack> var2) {
+   int ojr(ScreenHandler var1, Predicate<ItemStack> var2) {
       PlayerInventory var3 = this.getPlayer().getInventory();
       int var4 = -1;
       int var5 = 0;
@@ -1850,7 +1850,7 @@ public class nxa extends pnc {
       return var4;
    }
 
-   private void ojs(ScreenHandler var1, long var2, boolean var4) {
+   void ojs(ScreenHandler var1, long var2, boolean var4) {
       int var5 = this.oqg(var4);
       if (var5 != 1 && this.obm <= 4) {
          if (var5 > 1) {
@@ -1878,7 +1878,7 @@ public class nxa extends pnc {
       }
    }
 
-   private Slot ojt(ScreenHandler var1, int var2, boolean var3) {
+   Slot ojt(ScreenHandler var1, int var2, boolean var3) {
       Slot var4 = null;
       double var5 = Double.MAX_VALUE;
 
@@ -1896,7 +1896,7 @@ public class nxa extends pnc {
       return var4;
    }
 
-   private boolean oju(ScreenHandler var1, int var2) {
+   boolean oju(ScreenHandler var1, int var2) {
       if (var2 >= 0 && var2 < var1.slots.size() && !this.obp.contains(var2)) {
          Slot var3 = var1.slots.get(var2);
          PlayerInventory var4 = this.getPlayer().getInventory();
@@ -1911,7 +1911,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean ojv(ScreenHandler var1, int var2) {
+   boolean ojv(ScreenHandler var1, int var2) {
       if (var2 >= 0 && var2 < var1.slots.size() && !this.obp.contains(var2)) {
          Slot var3 = var1.slots.get(var2);
          if (var3.inventory == this.getPlayer().getInventory() && var3.hasStack() && var3.getIndex() < 36) {
@@ -1925,7 +1925,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean ojw(ScreenHandler var1) {
+   boolean ojw(ScreenHandler var1) {
       PlayerInventory var2 = this.getPlayer().getInventory();
 
       for (Slot var4 : var1.slots) {
@@ -1937,7 +1937,7 @@ public class nxa extends pnc {
       return false;
    }
 
-   private static boolean ojx(PlayerInventory var0, ItemStack var1) {
+   static boolean ojx(PlayerInventory var0, ItemStack var1) {
       for (int var2 = 0; var2 < 36; var2++) {
          ItemStack var3 = var0.getStack(var2);
          if (var3.isEmpty()) {
@@ -1952,12 +1952,12 @@ public class nxa extends pnc {
       return false;
    }
 
-   private void ojy(long var1) {
+   void ojy(long var1) {
       this.obf = true;
       this.obc = var1 + Math.round(MathHelper.clamp(160.0 * Math.exp(this.nzf.nextGaussian() * 0.25), 90.0, 400.0));
    }
 
-   private void ojz() {
+   void ojz() {
       nwg var1 = this.oaz;
       BlockPos var2 = this.obb;
       boolean var3 = this.obg;
@@ -1990,7 +1990,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oka() {
+   void oka() {
       this.oaz = nwg.NONE;
       this.oba = -1;
       this.obb = null;
@@ -2003,7 +2003,7 @@ public class nxa extends pnc {
       this.obr = 0;
    }
 
-   private void okb(BlockPos var1) {
+   void okb(BlockPos var1) {
       long var2 = System.currentTimeMillis();
       if (var1 != null) {
          this.nzi.put(var1, var2);
@@ -2037,7 +2037,7 @@ public class nxa extends pnc {
       }
    }
 
-   private long okc(double var1, double var3) {
+   long okc(double var1, double var3) {
       double var5 = this.nys.get() * var3;
       double var7 = var5 * Math.exp(this.nzf.nextGaussian() * 0.22) + var5 * 0.32 * (Math.log(1.0 + var1) / Math.log(2.0));
       if (this.nzf.nextDouble() < 0.04) {
@@ -2047,7 +2047,7 @@ public class nxa extends pnc {
       return Math.round(MathHelper.clamp(var7, var5 * 0.6, var5 * 5.0));
    }
 
-   private void okd(long var1) {
+   void okd(long var1) {
       if (!this.okv()) {
          if (!this.obw && this.oaz == nwg.NONE && this.mc.currentScreen == null) {
             if (this.nzb != nwx.ESCAPING
@@ -2113,11 +2113,11 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oke() {
+   boolean oke() {
       return this.nzb != nwx.RESTOCK && this.nzb != nwx.WARPING_TO_SAVE_BASE && this.nzb != nwx.TELEPORT_TO_SAVE ? this.okj() != null : false;
    }
 
-   private void okf(long var1) {
+   void okf(long var1) {
       if (!this.obw) {
          this.oku();
          this.obw = true;
@@ -2131,7 +2131,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void okg(long var1) {
+   void okg(long var1) {
       if (this.obw) {
          if (this.getPlayer() == null || this.mc.currentScreen != null || this.nzb == nwx.ESCAPING || var1 - this.obz > 9000L) {
             this.okh();
@@ -2164,7 +2164,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void okh() {
+   void okh() {
       if (this.obw) {
          boolean var1 = this.ocb == 0;
          this.obw = false;
@@ -2175,7 +2175,7 @@ public class nxa extends pnc {
       }
    }
 
-   private nwj oki() {
+   nwj oki() {
       PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = this.occ != -1 ? this.occ : 13;
       int var3 = -1;
@@ -2216,7 +2216,7 @@ public class nxa extends pnc {
       return null;
    }
 
-   private nwj okj() {
+   nwj okj() {
       PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = -1;
       if (this.oqi(var1x -> this.oqf(var1x, true)) == -1) {
@@ -2252,7 +2252,7 @@ public class nxa extends pnc {
       return var3 == -1 ? null : new nwj(var2, var3, SlotActionType.SWAP, var2);
    }
 
-   private int okk(int var1) {
+   int okk(int var1) {
       PlayerInventory var2 = this.getPlayer().getInventory();
       int var3 = -1;
       double var4 = Double.MAX_VALUE;
@@ -2270,7 +2270,7 @@ public class nxa extends pnc {
       return var3;
    }
 
-   private static double okl(int var0, int var1) {
+   static double okl(int var0, int var1) {
       double var2 = var0 < 9 ? 3.25 : (var0 - 9) / 9;
       double var4 = var0 < 9 ? var0 : (var0 - 9) % 9;
       double var6 = var1 < 9 ? 3.25 : (var1 - 9) / 9;
@@ -2278,7 +2278,7 @@ public class nxa extends pnc {
       return Math.hypot(var2 - var6, var4 - var8);
    }
 
-   private long okm(double var1) {
+   long okm(double var1) {
       double var3 = 95.0 * Math.exp(this.nzf.nextGaussian() * 0.25) + 28.0 * (Math.log(1.0 + var1) / Math.log(2.0));
       if (this.nzf.nextDouble() < 0.04) {
          var3 += 120.0 + this.nzf.nextDouble() * 180.0;
@@ -2287,11 +2287,11 @@ public class nxa extends pnc {
       return Math.round(MathHelper.clamp(var3, 55.0, 520.0));
    }
 
-   private long okn() {
+   long okn() {
       return Math.round(MathHelper.clamp(150.0 * Math.exp(this.nzf.nextGaussian() * 0.3), 80.0, 420.0));
    }
 
-   private void oko(int var1, int var2, SlotActionType var3) {
+   void oko(int var1, int var2, SlotActionType var3) {
       if (this.getInteractionManager() != null && this.getPlayer() != null) {
          int var4 = var1 < 9 ? var1 + 36 : var1;
          this.getInteractionManager().clickSlot(this.getPlayer().playerScreenHandler.syncId, var4, var2, var3, this.getPlayer());
@@ -2301,7 +2301,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void okp() {
+   void okp() {
       if (this.ocf) {
          this.ocf = false;
          if (this.mc.currentScreen == null && this.getPlayer() != null && this.getNetworkHandler() != null) {
@@ -2310,7 +2310,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean okq() {
+   boolean okq() {
       return this.mc.currentScreen == null
          && !this.ocf
          && !this.obw
@@ -2326,13 +2326,13 @@ public class nxa extends pnc {
          && this.okr();
    }
 
-   private boolean okr() {
+   boolean okr() {
       return this.oco <= 0 && this.nzd - this.oek >= 40 && this.opb()
          ? this.nzb == nwx.EXPLORING || this.nzb == nwx.RESTOCK || this.nzb == nwx.WAITING_FOR_CHEST && !this.oni()
          : false;
    }
 
-   private int oks() {
+   int oks() {
       PlayerInventory var1 = this.getPlayer().getInventory();
       int var2 = var1.getSelectedSlot();
       int var3 = -1;
@@ -2346,7 +2346,7 @@ public class nxa extends pnc {
       return var3;
    }
 
-   private void okt(int var1) {
+   void okt(int var1) {
       this.oku();
       this.ocg = var1;
       boolean var2 = this.getPlayer().getInventory().getSelectedSlot() == var1;
@@ -2355,7 +2355,7 @@ public class nxa extends pnc {
       this.getPlayer().getInventory().setSelectedSlot(var1);
    }
 
-   private void oku() {
+   void oku() {
       this.ocg = -1;
       this.och = 0;
       this.ocj = false;
@@ -2363,7 +2363,7 @@ public class nxa extends pnc {
       this.ocl = 0;
    }
 
-   private boolean okv() {
+   boolean okv() {
       if (this.ocg == -1) {
          return false;
       }
@@ -2411,7 +2411,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean okw(int var1, int var2) {
+   boolean okw(int var1, int var2) {
       ClientPlayerEntity var3 = this.mc.player;
       if (var2 == this.ocm && this.ocj && var3 != null && this.mc.currentScreen == null && !var3.isSpectator() && var3.getInventory().getSelectedSlot() == var1
          )
@@ -2432,7 +2432,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean okx() {
+   boolean okx() {
       boolean var1 = this.nzb == nwx.WARPING_TO_LOOT_BASE && this.oau && (this.omo() > 0 || this.omk());
       boolean var2 = this.nzb == nwx.EXPLORING || this.nzb == nwx.WAITING_FOR_CHEST || this.nzb == nwx.CHECK_PVP_COOLDOWN;
       if ((var1 || var2) && this.odl <= 0 && !this.ond(System.currentTimeMillis())) {
@@ -2517,7 +2517,7 @@ public class nxa extends pnc {
       return false;
    }
 
-   private boolean oky(boolean var1, int var2) {
+   boolean oky(boolean var1, int var2) {
       int var3 = var1 ? 0 : 1;
       if (!this.odt[var3] && this.odp[var3] <= 0 && this.oqg(var1) != 0) {
          int var4 = this.odr[var3] > 0 ? Math.min(var2, this.odr[var3] * 3 / 4) : var2;
@@ -2527,7 +2527,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void okz() {
+   void okz() {
       for (int var1 = 0; var1 < 2; var1++) {
          boolean var2 = var1 == 0;
          int var3 = this.oqg(var2);
@@ -2550,7 +2550,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ola(int var1) {
+   void ola(int var1) {
       if (!this.odt[var1]) {
          this.odt[var1] = true;
          this.notifyUser(
@@ -2568,12 +2568,12 @@ public class nxa extends pnc {
       }
    }
 
-   private int olb(boolean var1) {
+   int olb(boolean var1) {
       StatusEffectInstance var2 = this.getPlayer().getStatusEffect(var1 ? StatusEffects.INVISIBILITY : StatusEffects.SPEED);
       return var2 == null ? 0 : (var2.isInfinite() ? Integer.MAX_VALUE : var2.getDuration());
    }
 
-   private boolean olc() {
+   boolean olc() {
       boolean var1 = this.getPlayer().getHungerManager().getFoodLevel() < 14;
       int var2 = this.oqi(var0 -> var0.isOf(Items.GOLDEN_CARROT));
       boolean var3 = this.opb();
@@ -2635,12 +2635,12 @@ public class nxa extends pnc {
       return true;
    }
 
-   private boolean old(float var1) {
+   boolean old(float var1) {
       this.oom(this.ogo ? this.ogs : this.ogl.intentYaw(), var1);
       return Math.abs(this.ogl.intentPitch() - var1) <= 0.75F;
    }
 
-   private void ole() {
+   void ole() {
       if (this.opb()) {
          this.opq();
          pyd.setSprint(this.mc.options, false);
@@ -2651,30 +2651,30 @@ public class nxa extends pnc {
       }
    }
 
-   private void olf() {
+   void olf() {
       this.olh();
       this.odg = 0;
       this.odi = 0;
    }
 
-   private void olg(boolean var1) {
+   void olg(boolean var1) {
       this.mc.options.sneakKey.setPressed(var1);
       this.mc.options.useKey.setPressed(true);
       ptr.miss();
    }
 
-   private void olh() {
+   void olh() {
       if (this.mc.options != null) {
          this.mc.options.useKey.setPressed(false);
          this.mc.options.sneakKey.setPressed(false);
       }
    }
 
-   private boolean oli(ItemStack var1) {
+   boolean oli(ItemStack var1) {
       return !var1.isEmpty() && (var1.isOf(Items.GOLDEN_CARROT) || this.oqf(var1, true) || this.oqf(var1, false));
    }
 
-   private void olj() {
+   void olj() {
       PlayerInventory var1 = this.getPlayer().getInventory();
 
       for (int var2 = 0; var2 < 9; var2++) {
@@ -2692,7 +2692,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void olk(long var1) {
+   void olk(long var1) {
       this.odj = false;
       if (!this.oai && this.oqg(true) == 1) {
          this.oai = true;
@@ -2811,7 +2811,7 @@ public class nxa extends pnc {
       }
    }
 
-   private nwg oll() {
+   nwg oll() {
       for (nwg var2 : this.oak) {
          if (var2 == nwg.FOOD && !this.oah) {
             return var2;
@@ -2829,13 +2829,13 @@ public class nxa extends pnc {
       return nwg.SPEED;
    }
 
-   private void olm() {
+   void olm() {
       Collections.shuffle(this.oak, this.nzf);
       this.oal = 3;
       this.ocv = 4.0F + this.nzf.nextFloat() * 14.0F;
    }
 
-   private void oln() {
+   void oln() {
       if (++this.oap >= 3) {
          this.oap = 0;
          switch (this.oan) {
@@ -2854,19 +2854,19 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean olo(BlockPos var1) {
+   boolean olo(BlockPos var1) {
       return this.getPlayer().isOnGround() && this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter(var1)) <= 12.0 && this.onl(var1) != null;
    }
 
-   private BlockPos olp(String... var1) {
+   BlockPos olp(String... var1) {
       return this.getWorld() != null && this.getPlayer() != null ? pte.find(this.mc, this.getPlayer().getBlockPos(), var1) : null;
    }
 
-   private boolean olq(BlockPos var1) {
+   boolean olq(BlockPos var1) {
       return this.getWorld() != null && this.getWorld().getBlockState(var1).getBlock() instanceof ChestBlock;
    }
 
-   private String olr() {
+   String olr() {
       String var1 = this.nyv.get();
       String[] var2 = var1 == null ? new String[0] : var1.trim().split(a.b("\ue40b鷍ᝮ褰ˉ萎", 875422806));
       if (var2.length != 0 && !var2[0].isEmpty()) {
@@ -2880,7 +2880,7 @@ public class nxa extends pnc {
       }
    }
 
-   private static String ols(String var0, String var1) {
+   static String ols(String var0, String var1) {
       String var2 = var0 == null ? "" : var0.trim();
 
       while (var2.startsWith(a.c(-690656584, "檖"))) {
@@ -2890,7 +2890,7 @@ public class nxa extends pnc {
       return var2.isEmpty() ? var1 : var2;
    }
 
-   private String olt() {
+   String olt() {
       if (a.d("뛟콘䖘\udbeb", -1694636612, 1880576816).equals(this.nyw.get())) {
          String var1 = ols(this.nyy.get(), a.c(-1452440530, "葟ﷸ眸\ue95f抉\ue433"));
          if (var1.toLowerCase().startsWith(a.c(-27186685, "⩱取\ud916䝥쳢"))) {
@@ -2903,7 +2903,7 @@ public class nxa extends pnc {
       }
    }
 
-   private String olu() {
+   String olu() {
       String var1 = ols(this.nyx.get(), a.b("ᗕ汲\ue6b2磕\uf303疹", 2059933092));
       if (var1.toLowerCase().startsWith(a.d("⡮凘\udb09䕰컢", 1742183438, 705541133))) {
          var1 = var1.substring(5).trim();
@@ -2912,7 +2912,7 @@ public class nxa extends pnc {
       return a.b("ᔐ沦\ue677砎\uf39c", -1888610947) + (var1.isEmpty() ? a.c(-566673034, "䄇㢠뉠ⰇꟑⅫ") : var1);
    }
 
-   private void olv() {
+   void olv() {
       this.oas = 0;
       this.oau = false;
       this.oav = false;
@@ -2936,13 +2936,13 @@ public class nxa extends pnc {
       this.oed = null;
    }
 
-   private String[] olw() {
+   String[] olw() {
       String var1 = this.nyv.get();
       String[] var2 = var1 == null ? new String[0] : var1.trim().split(a.c(-946926314, "ോ璍︮恰\ueb89济"));
       return var2.length != 0 && !var2[0].isEmpty() ? var2 : new String[]{a.c(505358758, "⧂偼\udaf3䒃콞")};
    }
 
-   private void olx() {
+   void olx() {
       pqf.resetKeys();
       String[] var1 = this.olw();
 
@@ -2971,7 +2971,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oly(String var1, boolean var2) {
+   void oly(String var1, boolean var2) {
       int var3 = pjd.position(this.ohu());
       this.odf = wap.t(var1)
          + (
@@ -2992,7 +2992,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void olz() {
+   void olz() {
       pqf.resetKeys();
       this.oot();
       this.omh();
@@ -3038,14 +3038,14 @@ public class nxa extends pnc {
       }
    }
 
-   private void oma() {
+   void oma() {
       this.notifyUser(a.c(547284444, "\ue1f1顨ᚮ貽ܝ膢㯿누ⱚꚕ⅄\udb4f嗠찯䙰삃竇\uf513殾\ue9fd搘ᩚ铤ཋ襊Α븶なꪐ⣞ꌒ嶽\ud7fd乾졛䋣廊睍\uf1ea桘\ue277鳶ᚨ長ர藌㰘뛐"), false);
       this.omd(wap.t(a.b("⼊嚓\ud855䉆짦余\uf504糿\ue2a1桮\uefbfᖴ鬛˔袋\u0e78됼㯨ꕅ✆ꫣ풡娟솰䞱쵪烍ﺑ摫\ue625淩鍆ᤆ肅ڠ谘㟓릶㼑ꚣⲌ刍\ud853完앋䬷\uf2e3砫", -1839060185)));
       this.nze++;
       this.ohy(nwx.TELEPORT_TO_SAVE);
    }
 
-   private void omb() {
+   void omb() {
       BlockPos var1 = this.omc() ? this.odz.get(pjd.key(this.olr())) : null;
       this.nzh = var1 != null ? var1 : this.getPlayer().getBlockPos();
       this.oaa = 0;
@@ -3053,19 +3053,19 @@ public class nxa extends pnc {
       this.ohy(nwx.EXPLORING);
    }
 
-   private boolean omc() {
+   boolean omc() {
       String var1 = pjd.key(this.olr());
       BlockPos var2 = this.odz.get(var1);
       double var3 = 100.0;
       return var2 != null && this.oij().equals(this.oea.get(var1)) && this.getPlayer().getBlockPos().getSquaredDistance(var2) < var3 * var3;
    }
 
-   private void omd(String var1) {
+   void omd(String var1) {
       this.odv++;
       this.odw = var1;
    }
 
-   private boolean ome() {
+   boolean ome() {
       if (this.odv < 3) {
          return false;
       }
@@ -3095,12 +3095,12 @@ public class nxa extends pnc {
       return true;
    }
 
-   private boolean omf() {
+   boolean omf() {
       ClientPlayerEntity var1 = this.getPlayer();
       return this.odd || this.getWorld() != this.ocz || var1 != this.oda || this.odb != null && var1.getEntityPos().distanceTo(this.odb) > 48.0;
    }
 
-   private boolean omg() {
+   boolean omg() {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 != null && this.getWorld() != null) {
          rzy var2 = this.ohz();
@@ -3121,13 +3121,13 @@ public class nxa extends pnc {
       }
    }
 
-   private void omh() {
+   void omh() {
       if (pqf.onClimbable(this.getPlayer()) && this.mc.options != null) {
          this.mc.options.sneakKey.setPressed(true);
       }
    }
 
-   private void omi(String var1) {
+   void omi(String var1) {
       this.getNetworkHandler().sendChatCommand(var1);
       this.oau = true;
       this.ocx++;
@@ -3141,15 +3141,15 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean omj() {
+   boolean omj() {
       return this.oaw != null && this.getPlayer().getBlockPos().getSquaredDistance(this.oaw) > 9.0;
    }
 
-   private boolean omk() {
+   boolean omk() {
       return this.oec != null && (this.getWorld() != this.oed || this.getPlayer().getBlockPos().getSquaredDistance(this.oec) > 576.0);
    }
 
-   private void oml(String var1) {
+   void oml(String var1) {
       if (this.odu == null) {
          this.odu = var1 == null ? "" : var1;
          if (var1 != null) {
@@ -3172,7 +3172,7 @@ public class nxa extends pnc {
       this.ohy(nwx.CHECK_PVP_COOLDOWN);
    }
 
-   private void omm() {
+   void omm() {
       String var1 = ols(this.nyu.get(), a.c(-1081936808, "\uf43c趂܍饽ኡ"));
       if (!pjd.enter(this.ohu(), var1)) {
          this.oly(a.c(37602478, "삐뤌㟏귟♼ꃁ᪙鍯थ蟷Q﨣烡\ue943挃\ue1ef宭퐄仇죫䕹㼥놛⹜ꠡ⊕魋ᄆ迯ে舆粢\uf698潨\ue937"), this.nzh != null);
@@ -3189,7 +3189,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void omn() {
+   void omn() {
       pqf.resetKeys();
       this.oot();
       this.omh();
@@ -3211,15 +3211,15 @@ public class nxa extends pnc {
       }
    }
 
-   private int omo() {
+   int omo() {
       return pjn.teleportSeconds(this.mc, a.d("薠ﰆ盛\ue8a4捹\ue5c9忤혗䠺싽䕐뽖㗮꠸∙꒝ầ酴࿊", -536219444, -1095208611));
    }
 
-   private boolean omp() {
+   boolean omp() {
       return pjn.contains(this.mc, a.b("ⰼ喫\udf5e䅒컨䠬\uf27c箃\ue5d8歵\ue8b6ው鱢֩述आ덁", 1341402237));
    }
 
-   private void omq(long var1) {
+   void omq(long var1) {
       if (this.nzh == null) {
          this.nzh = this.getPlayer().getBlockPos();
       }
@@ -3251,7 +3251,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void omr(nwq var1) {
+   void omr(nwq var1) {
       this.ohx();
       this.nzt = var1.timer();
       this.nzu = var1.chest();
@@ -3263,7 +3263,7 @@ public class nxa extends pnc {
       this.oov();
    }
 
-   private void oms(long var1) {
+   void oms(long var1) {
       if (this.oab != null) {
          double var3 = this.getPlayer().getBlockPos().getSquaredDistance(this.oab);
          if (!this.olq(this.oab) || var3 <= 144.0) {
@@ -3295,7 +3295,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void omt() {
+   void omt() {
       BlockPos var1 = this.getPlayer().getBlockPos();
 
       for (BlockPos var3 : this.omv(1)) {
@@ -3305,7 +3305,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void omu(long var1) {
+   void omu(long var1) {
       BlockPos var3 = this.getPlayer().getBlockPos();
       this.omt();
       ArrayList var4 = new ArrayList();
@@ -3336,7 +3336,7 @@ public class nxa extends pnc {
       }
    }
 
-   private List<BlockPos> omv(int var1) {
+   List<BlockPos> omv(int var1) {
       ArrayList var2 = new ArrayList();
       if (this.mc.world == null) {
          return var2;
@@ -3362,7 +3362,7 @@ public class nxa extends pnc {
       return var2;
    }
 
-   private nwq omw(long var1) {
+   nwq omw(long var1) {
       rzy var3 = this.ohz();
       if (var3 == null) {
          return null;
@@ -3425,11 +3425,11 @@ public class nxa extends pnc {
       }
    }
 
-   private static long omx(rzv var0, long var1) {
+   static long omx(rzv var0, long var1) {
       return var0.isReady ? -1L : var0.expirationTime - var1;
    }
 
-   private void omy(long var1) {
+   void omy(long var1) {
       rzy var3 = this.ohz();
       if (var3 != null && this.nzn != 0L && var1 - this.nzn >= 3000L) {
          String var4 = this.oij();
@@ -3476,7 +3476,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean omz(BlockPos var1, long var2) {
+   boolean omz(BlockPos var1, long var2) {
       Long var4 = this.nzi.get(var1);
       if (var4 != null && var2 - var4 < 600000L) {
          return true;
@@ -3487,7 +3487,7 @@ public class nxa extends pnc {
       return var6 != null && var2 - var6 < 600000L;
    }
 
-   private BlockPos ona(BlockPos var1) {
+   BlockPos ona(BlockPos var1) {
       if (this.getWorld() == null) {
          return null;
       } else {
@@ -3501,7 +3501,7 @@ public class nxa extends pnc {
       }
    }
 
-   private BlockPos onb(BlockPos var1) {
+   BlockPos onb(BlockPos var1) {
       BlockPos var2 = this.ona(var1);
       if (var2 == null) {
          return var1;
@@ -3510,7 +3510,7 @@ public class nxa extends pnc {
       }
    }
 
-   private BlockPos onc(rzv var1) {
+   BlockPos onc(rzv var1) {
       BlockPos var2 = BlockPos.ofFloored(var1.pos.x, var1.pos.y, var1.pos.z);
 
       for (int var3 = 0; var3 >= -3; var3--) {
@@ -3531,11 +3531,11 @@ public class nxa extends pnc {
       return null;
    }
 
-   private boolean ond(long var1) {
+   boolean ond(long var1) {
       return this.nzb == nwx.WAITING_FOR_CHEST && this.nzt != null && omx(this.nzt, var1) < 3500L && this.nzw != null && this.oni();
    }
 
-   private void one(long var1) {
+   void one(long var1) {
       rzy var3 = this.ohz();
       rzv var4 = this.nzt;
       BlockPos var5 = this.nzu;
@@ -3611,7 +3611,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean onf(rzv var1, long var2, long var4) {
+   boolean onf(rzv var1, long var2, long var4) {
       if (var2 > 1000L) {
          return false;
       } else {
@@ -3619,7 +3619,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ong(BlockPos var1, long var2) {
+   void ong(BlockPos var1, long var2) {
       if (++this.nzx > this.oid(400)) {
          this.nzj.put(var1, var2 + 30000L);
          this.ohx();
@@ -3660,7 +3660,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean onh() {
+   boolean onh() {
       if (this.oad > 0) {
          this.oad--;
          if (this.oaf != null) {
@@ -3682,7 +3682,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oni() {
+   boolean oni() {
       if (this.nzw == null) {
          return false;
       } else {
@@ -3703,7 +3703,7 @@ public class nxa extends pnc {
       }
    }
 
-   private BlockPos onj(BlockPos var1) {
+   BlockPos onj(BlockPos var1) {
       if (this.getWorld() != null && this.getPlayer() != null) {
          double var2 = this.getPlayer().getEyeHeight(EntityPose.STANDING);
          Vec3d var4 = Vec3d.ofCenter(var1);
@@ -3742,7 +3742,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean onk(BlockPos var1) {
+   boolean onk(BlockPos var1) {
       return this.getWorld() == null
          ? false
          : this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty()
@@ -3750,11 +3750,11 @@ public class nxa extends pnc {
             && !this.getWorld().getBlockState(var1.down()).getCollisionShape(this.getWorld(), var1.down()).isEmpty();
    }
 
-   private Vec3d onl(BlockPos var1) {
+   Vec3d onl(BlockPos var1) {
       return this.onm(this.getPlayer().getEyePos(), var1);
    }
 
-   private Vec3d onm(Vec3d var1, BlockPos var2) {
+   Vec3d onm(Vec3d var1, BlockPos var2) {
       Vec3d var3 = Vec3d.ofCenter(var2).add(0.0, -0.06, 0.0);
       Vec3d var4 = var3.add(this.ohf, this.ohg * 0.6, this.ohh);
       if (this.onn(var1, var4, var2)) {
@@ -3780,12 +3780,12 @@ public class nxa extends pnc {
       return var5;
    }
 
-   private boolean onn(Vec3d var1, Vec3d var2, BlockPos var3) {
+   boolean onn(Vec3d var1, Vec3d var2, BlockPos var3) {
       BlockHitResult var4 = this.getWorld().raycast(new RaycastContext(var1, var2, ShapeType.OUTLINE, FluidHandling.NONE, this.getPlayer()));
       return var4.getType() == Type.BLOCK && var4.getBlockPos().equals(var3);
    }
 
-   private void ono(BlockPos var1, nwg var2, long var3) {
+   void ono(BlockPos var1, nwg var2, long var3) {
       if (this.mc.currentScreen == null) {
          this.ohk = true;
          this.ohl = this.nzd;
@@ -3821,14 +3821,14 @@ public class nxa extends pnc {
       }
    }
 
-   private void onp(BlockPos var1, nwg var2, long var3) {
+   void onp(BlockPos var1, nwg var2, long var3) {
       this.oar = var3;
       this.nzz = 550L + this.nzf.nextInt(450);
       this.nzy++;
       this.ojg(var1, var2, var3);
    }
 
-   private BlockHitResult onq(BlockPos var1) {
+   BlockHitResult onq(BlockPos var1) {
       Vec3d var2 = this.getPlayer().getEyePos();
       Vec3d var3 = Vec3d.ofCenter(var1);
       BlockHitResult var4 = this.getWorld().raycast(new RaycastContext(var2, var3, ShapeType.COLLIDER, FluidHandling.NONE, this.getPlayer()));
@@ -3845,7 +3845,7 @@ public class nxa extends pnc {
       return new BlockHitResult(var6, var5, var1, false);
    }
 
-   private void onr() {
+   void onr() {
       if (this.mc.world != null) {
          boolean var1 = false;
 
@@ -3870,11 +3870,11 @@ public class nxa extends pnc {
       }
    }
 
-   private List<BlockPos> ons() {
+   List<BlockPos> ons() {
       return this.nzq;
    }
 
-   private boolean ont(BlockPos var1, double var2) {
+   boolean ont(BlockPos var1, double var2) {
       double var4 = var2 * var2;
 
       for (BlockPos var7 : this.nzp.keySet()) {
@@ -3886,7 +3886,7 @@ public class nxa extends pnc {
       return false;
    }
 
-   private WardenEntity onu(double var1) {
+   WardenEntity onu(double var1) {
       if (this.mc.world == null) {
          return null;
       }
@@ -3907,7 +3907,7 @@ public class nxa extends pnc {
       return var3;
    }
 
-   private boolean onv(BlockPos var1) {
+   boolean onv(BlockPos var1) {
       Vec3d var2 = Vec3d.ofCenter(var1);
 
       for (PlayerEntity var4 : this.mc.world.getPlayers()) {
@@ -3926,12 +3926,12 @@ public class nxa extends pnc {
       return false;
    }
 
-   private static boolean onw(ItemStack var0) {
+   static boolean onw(ItemStack var0) {
       return !var0.isEmpty()
          && (var0.isIn(ItemTags.HEAD_ARMOR) || var0.isIn(ItemTags.CHEST_ARMOR) || var0.isIn(ItemTags.LEG_ARMOR) || var0.isIn(ItemTags.FOOT_ARMOR));
    }
 
-   private boolean onx() {
+   boolean onx() {
       boolean var1 = System.currentTimeMillis() - this.nzr < 5000L;
 
       for (Entity var3 : this.mc.world.getEntities()) {
@@ -3955,16 +3955,16 @@ public class nxa extends pnc {
       return false;
    }
 
-   private boolean ony(WardenEntity var1) {
+   boolean ony(WardenEntity var1) {
       double var2 = Math.toDegrees(Math.atan2(-(this.getPlayer().getX() - var1.getX()), this.getPlayer().getZ() - var1.getZ()));
       return Math.abs(MathHelper.wrapDegrees(var1.getBodyYaw() - var2)) < 30.0;
    }
 
-   private boolean onz(WardenEntity var1) {
+   boolean onz(WardenEntity var1) {
       return (this.getPlayer().getX() - var1.getX()) * (var1.getX() - var1.lastX) + (this.getPlayer().getZ() - var1.getZ()) * (var1.getZ() - var1.lastZ) > 0.01;
    }
 
-   private void ooa(boolean var1) {
+   void ooa(boolean var1) {
       if (this.nzb != nwx.ESCAPING) {
          this.oex = var1;
          this.oev = 0;
@@ -3980,7 +3980,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oob() {
+   void oob() {
       this.oev++;
       this.mc.options.attackKey.setPressed(false);
       this.olh();
@@ -4015,13 +4015,13 @@ public class nxa extends pnc {
       }
    }
 
-   private static Vec3d ooc(Vec3d var0, double var1) {
+   static Vec3d ooc(Vec3d var0, double var1) {
       double var3 = Math.cos(var1);
       double var5 = Math.sin(var1);
       return new Vec3d(var0.x * var3 - var0.z * var5, 0.0, var0.x * var5 + var0.z * var3).normalize();
    }
 
-   private void ood(Vec3d var1) {
+   void ood(Vec3d var1) {
       Vec3d var2 = this.getPlayer().getEntityPos().subtract(var1).normalize();
       BlockPos var3 = this.getPlayer().getBlockPos();
 
@@ -4044,7 +4044,7 @@ public class nxa extends pnc {
       this.ofc = 0;
    }
 
-   private BlockPos ooe(BlockPos var1) {
+   BlockPos ooe(BlockPos var1) {
       if (this.nzh == null) {
          return var1;
       }
@@ -4061,7 +4061,7 @@ public class nxa extends pnc {
       return this.oph(new BlockPos(this.nzh.getX() + (int)(var2 * var10), var1.getY(), this.nzh.getZ() + (int)(var4 * var10)));
    }
 
-   private void oof() {
+   void oof() {
       if (this.nzd - this.oek > 60) {
          this.nze++;
          this.oeu = null;
@@ -4071,7 +4071,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oog() {
+   void oog() {
       PlayerEntity var1 = this.ooh();
       BlockPos var2 = this.getPlayer().getBlockPos();
       if (this.ofd <= 0) {
@@ -4100,7 +4100,7 @@ public class nxa extends pnc {
       }
    }
 
-   private PlayerEntity ooh() {
+   PlayerEntity ooh() {
       PlayerEntity var1 = null;
       double var2 = 2500.0;
 
@@ -4117,7 +4117,7 @@ public class nxa extends pnc {
       return var1;
    }
 
-   private void ooi() {
+   void ooi() {
       this.ogx = this.getPlayer();
       if (this.ogx != null) {
          this.ool(this.ogx);
@@ -4135,7 +4135,7 @@ public class nxa extends pnc {
       this.nzn = System.currentTimeMillis();
    }
 
-   private void ooj() {
+   void ooj() {
       ptr.clear();
       if (this.ogn) {
          this.ogn = false;
@@ -4145,7 +4145,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ook() {
+   void ook() {
       ClientPlayerEntity var1 = this.getPlayer();
       if (var1 != null) {
          boolean var2 = this.ogx != var1 || this.ogy == null || var1.getEntityPos().squaredDistanceTo(this.ogy) > 400.0;
@@ -4175,7 +4175,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ool(PlayerEntity var1) {
+   void ool(PlayerEntity var1) {
       String var2 = var1.getGameProfile() != null ? var1.getGameProfile().name() : null;
       long var3 = 1125899906842597L;
       if (var2 != null) {
@@ -4188,11 +4188,11 @@ public class nxa extends pnc {
       this.ofe.personalize(var3);
    }
 
-   private void oom(float var1, float var2) {
+   void oom(float var1, float var2) {
       this.oon(var1, var2, false);
    }
 
-   private void oon(float var1, float var2, boolean var3) {
+   void oon(float var1, float var2, boolean var3) {
       this.ogs = var1;
       this.ogt = var2;
       this.ogq = var3;
@@ -4202,22 +4202,22 @@ public class nxa extends pnc {
       this.ogp = false;
    }
 
-   private void ooo(Vec3d var1) {
+   void ooo(Vec3d var1) {
       float[] var2 = prt.calculateAngle(var1);
       this.oon(var2[0], var2[1], false);
    }
 
-   private void oop(Vec3d var1) {
+   void oop(Vec3d var1) {
       float[] var2 = prt.calculateAngle(var1);
       this.oon(var2[0], var2[1], true);
    }
 
-   private void ooq(BlockPos var1, Vec3d var2) {
+   void ooq(BlockPos var1, Vec3d var2) {
       this.ooo(var2);
       this.ogu = this.ohc ? 0.25 : this.oor(var1, var2);
    }
 
-   private double oor(BlockPos var1, Vec3d var2) {
+   double oor(BlockPos var1, Vec3d var2) {
       if (this.getWorld() != null && this.getPlayer() != null && var1 != null && var2 != null) {
          VoxelShape var3 = this.getWorld().getBlockState(var1).getOutlineShape(this.getWorld(), var1);
          Box var4 = var3.isEmpty() ? new Box(var1) : var3.getBoundingBox().offset(var1);
@@ -4236,7 +4236,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oos(boolean var1) {
+   void oos(boolean var1) {
       if (!var1 && !this.ogl.isMoving()) {
          if (++this.ohd >= 3) {
             this.ohc = true;
@@ -4246,13 +4246,13 @@ public class nxa extends pnc {
       }
    }
 
-   private void oot() {
+   void oot() {
       if (!this.ogo) {
          this.ogp = true;
       }
    }
 
-   private void oou() {
+   void oou() {
       float var1 = this.ogl.intentPitch();
       if (Math.abs(var1 - this.ocv) > 6.0F) {
          this.oon(this.ogl.intentYaw(), this.ocv, true);
@@ -4261,7 +4261,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void oov() {
+   void oov() {
       this.ohb = false;
       this.ohc = false;
       this.ohd = 0;
@@ -4271,11 +4271,11 @@ public class nxa extends pnc {
       this.ohe = 1 + this.nzf.nextInt(4);
    }
 
-   private float oow() {
+   float oow() {
       return (float)this.ofe.moveYaw(this.ogv);
    }
 
-   private void oox() {
+   void oox() {
       if (this.getPlayer() != null) {
          this.ofk = this.ogo && !this.ogq;
          boolean var1 = this.ofe.takeTurn(this.ofl);
@@ -4328,7 +4328,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void ooy() {
+   void ooy() {
       this.ogo = false;
       this.ogp = false;
       ClientPlayerEntity var1 = this.getPlayer();
@@ -4351,7 +4351,7 @@ public class nxa extends pnc {
       this.ogz = null;
    }
 
-   private BlockHitResult ooz() {
+   BlockHitResult ooz() {
       if (this.getWorld() != null && this.getPlayer() != null) {
          Vec3d var1 = this.getPlayer().getEyePos();
          Vec3d var2 = Vec3d.fromPolar(this.ogw, this.ogv);
@@ -4363,7 +4363,7 @@ public class nxa extends pnc {
       }
    }
 
-   private BlockHitResult opa(BlockPos var1) {
+   BlockHitResult opa(BlockPos var1) {
       BlockHitResult var2 = this.ooz();
       if (var2 != null && var2.getType() == Type.BLOCK && var2.getBlockPos().equals(var1)) {
          this.ogz = var1;
@@ -4373,11 +4373,11 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean opb() {
+   boolean opb() {
       return this.ofb != null && this.ofc < this.ofb.size();
    }
 
-   private boolean opc(BlockPos var1, boolean var2) {
+   boolean opc(BlockPos var1, boolean var2) {
       if (var1 == null) {
          return false;
       }
@@ -4391,7 +4391,7 @@ public class nxa extends pnc {
       return this.ofb != null && !this.ofb.isEmpty();
    }
 
-   private List<BlockPos> opd(BlockPos var1) {
+   List<BlockPos> opd(BlockPos var1) {
       this.ofq = var1;
       this.ofr = this.ope();
       if (this.ofg == null || !var1.equals(this.ofh)) {
@@ -4402,7 +4402,7 @@ public class nxa extends pnc {
       return pqx.findPath(this.getWorld(), this.getPlayer(), this.ofr, var1, this.ons(), 7.0, true, this.oix(), this.ofg);
    }
 
-   private BlockPos ope() {
+   BlockPos ope() {
       ClientPlayerEntity var1 = this.getPlayer();
       BlockPos var2 = BlockPos.ofFloored(var1.getX(), var1.getY() + 0.001, var1.getZ());
       if (!this.opz(var2)) {
@@ -4422,7 +4422,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void opf(List<BlockPos> var1) {
+   void opf(List<BlockPos> var1) {
       this.ofb = var1;
       this.ofc = 0;
       this.ofw = 0;
@@ -4441,7 +4441,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void opg() {
+   void opg() {
       this.ofq = null;
       this.ofr = null;
       this.oft = null;
@@ -4458,7 +4458,7 @@ public class nxa extends pnc {
       this.ogf = Double.NaN;
    }
 
-   private BlockPos oph(BlockPos var1) {
+   BlockPos oph(BlockPos var1) {
       if (this.getWorld() == null) {
          return var1;
       }
@@ -4481,7 +4481,7 @@ public class nxa extends pnc {
       return var1;
    }
 
-   private void opi() {
+   void opi() {
       if (this.opb() && this.off != null && this.ofd <= 0 && !this.oib() && this.ofe.remaining(this.off) < 3.5) {
          this.ofd = 8;
          this.opj();
@@ -4506,7 +4506,7 @@ public class nxa extends pnc {
       }
    }
 
-   private void opj() {
+   void opj() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       this.opl(var1);
       if (Double.isNaN(this.ofm)) {
@@ -4543,11 +4543,11 @@ public class nxa extends pnc {
       this.opf(null);
    }
 
-   private static long opk(BlockPos var0) {
+   static long opk(BlockPos var0) {
       return (long)(var0.getX() >> 4) << 32 ^ var0.getZ() >> 4 & 4294967295L;
    }
 
-   private void opl(BlockPos var1) {
+   void opl(BlockPos var1) {
       if (this.ofp.size() > 512) {
          this.ofp.clear();
       }
@@ -4555,15 +4555,15 @@ public class nxa extends pnc {
       this.ofp.add(opk(var1));
    }
 
-   private boolean opm(BlockPos var1) {
+   boolean opm(BlockPos var1) {
       return this.ofp.contains(opk(var1));
    }
 
-   private void opn(Vec3d var1) {
+   void opn(Vec3d var1) {
       this.opo(var1, false);
    }
 
-   private void opo(Vec3d var1, boolean var2) {
+   void opo(Vec3d var1, boolean var2) {
       int var3 = this.ofe.walkTo(this.mc, this.getPlayer(), this.getWorld(), var1, this.ogv, this.ogw, null, this.nzb == nwx.ESCAPING, this.oib(), this.oie());
       if (var3 != 0 && !this.oib()) {
          pqf.resetKeys();
@@ -4573,13 +4573,13 @@ public class nxa extends pnc {
       this.ofa = true;
    }
 
-   private double opp(BlockPos var1) {
+   double opp(BlockPos var1) {
       double var2 = this.getPlayer().getX() - (var1.getX() + 0.5);
       double var4 = this.getPlayer().getZ() - (var1.getZ() + 0.5);
       return var2 * var2 + var4 * var4;
    }
 
-   private void opq() {
+   void opq() {
       if (this.opb()) {
          if (!this.oib() && this.ops()) {
             pqf.resetKeys();
@@ -4645,12 +4645,12 @@ public class nxa extends pnc {
       }
    }
 
-   private double opr() {
+   double opr() {
       ClientPlayerEntity var1 = this.getPlayer();
       return !var1.isOnGround() && !Double.isNaN(this.ogf) ? this.ogf : var1.getY();
    }
 
-   private boolean ops() {
+   boolean ops() {
       if (this.ohi > 0) {
          this.ohi--;
          return true;
@@ -4666,15 +4666,15 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean opt(Vec3d var1) {
+   boolean opt(Vec3d var1) {
       return this.opv(var1, true);
    }
 
-   private boolean opu(Vec3d var1) {
+   boolean opu(Vec3d var1) {
       return this.opv(var1, false);
    }
 
-   private boolean opv(Vec3d var1, boolean var2) {
+   boolean opv(Vec3d var1, boolean var2) {
       if (this.getWorld() != null && this.getPlayer() != null) {
          Vec3d var3 = this.getPlayer().getEntityPos();
          double var4 = var1.x - var3.x;
@@ -4706,7 +4706,7 @@ public class nxa extends pnc {
       }
    }
 
-   private double opw() {
+   double opw() {
       double var1 = this.opr();
       if (!this.opb()) {
          return var1;
@@ -4717,11 +4717,11 @@ public class nxa extends pnc {
       return var5 > 0.0 && var5 <= 0.6 ? var3 : var1;
    }
 
-   private boolean opx(double var1, double var3, double var5) {
+   boolean opx(double var1, double var3, double var5) {
       return this.opy(new Box(var1 - 0.31, var5 + 0.6, var3 - 0.31, var1 + 0.31, var5 + 1.8, var3 + 0.31));
    }
 
-   private boolean opy(Box var1) {
+   boolean opy(Box var1) {
       for (VoxelShape var3 : this.getWorld().getBlockCollisions(this.getPlayer(), var1)) {
          if (!var3.isEmpty()) {
             return false;
@@ -4731,11 +4731,11 @@ public class nxa extends pnc {
       return true;
    }
 
-   private boolean opz(BlockPos var1) {
+   boolean opz(BlockPos var1) {
       return this.getWorld().getBlockState(var1).getCollisionShape(this.getWorld(), var1).isEmpty();
    }
 
-   private boolean oqa(ItemStack var1) {
+   boolean oqa(ItemStack var1) {
       if (!var1.isEmpty() && !var1.isOf(Items.GLASS_BOTTLE)) {
          return !this.oqf(var1, true) && (!this.nyt.get() || !this.oqf(var1, false)) ? !this.oht(var1) : false;
       } else {
@@ -4743,7 +4743,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oqb(ItemStack var1) {
+   boolean oqb(ItemStack var1) {
       if (var1.isEmpty()) {
          return false;
       } else {
@@ -4751,7 +4751,7 @@ public class nxa extends pnc {
       }
    }
 
-   private static boolean oqc(ItemStack var0) {
+   static boolean oqc(ItemStack var0) {
       Item var1 = var0.getItem();
       return var1 instanceof ShovelItem
          || var1 instanceof AxeItem
@@ -4772,7 +4772,7 @@ public class nxa extends pnc {
          || var0.isOf(Items.COOKED_PORKCHOP);
    }
 
-   private boolean oqd(ItemStack var1) {
+   boolean oqd(ItemStack var1) {
       if (var1.isEmpty()) {
          return true;
       } else if (var1.isOf(Items.GOLDEN_CARROT) || var1.isOf(Items.TOTEM_OF_UNDYING) || var1.isOf(Items.MACE)) {
@@ -4784,7 +4784,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oqe(ItemStack var1) {
+   boolean oqe(ItemStack var1) {
       if (this.oqf(var1, true) || this.oqf(var1, false)) {
          return true;
       } else {
@@ -4792,7 +4792,7 @@ public class nxa extends pnc {
       }
    }
 
-   private boolean oqf(ItemStack var1, boolean var2) {
+   boolean oqf(ItemStack var1, boolean var2) {
       if (var1.isEmpty()) {
          return false;
       }
@@ -4824,7 +4824,7 @@ public class nxa extends pnc {
          : var8.contains(a.c(252853652, "㧒䀘쫏哀\udf69妧\ue3f7")) || var8.contains(a.d("ণ瀑𧻓撦\uef70", 897879409, -15498076));
    }
 
-   private int oqg(boolean var1) {
+   int oqg(boolean var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
@@ -4837,7 +4837,7 @@ public class nxa extends pnc {
       return var2;
    }
 
-   private int oqh(Item var1) {
+   int oqh(Item var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < 36; var3++) {
@@ -4850,7 +4850,7 @@ public class nxa extends pnc {
       return var2;
    }
 
-   private int oqi(Predicate<ItemStack> var1) {
+   int oqi(Predicate<ItemStack> var1) {
       for (int var2 = 0; var2 < 9; var2++) {
          if (var1.test(this.getPlayer().getInventory().getStack(var2))) {
             return var2;
@@ -4860,7 +4860,7 @@ public class nxa extends pnc {
       return -1;
    }
 
-   private int oqj(Predicate<ItemStack> var1) {
+   int oqj(Predicate<ItemStack> var1) {
       for (int var2 = 9; var2 < 36; var2++) {
          if (var1.test(this.getPlayer().getInventory().getStack(var2))) {
             return var2;
@@ -4870,7 +4870,7 @@ public class nxa extends pnc {
       return -1;
    }
 
-   private int oqk() {
+   int oqk() {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {
@@ -4882,7 +4882,7 @@ public class nxa extends pnc {
       return var1;
    }
 
-   private int oql() {
+   int oql() {
       int var1 = 0;
 
       for (int var2 = 0; var2 < 36; var2++) {

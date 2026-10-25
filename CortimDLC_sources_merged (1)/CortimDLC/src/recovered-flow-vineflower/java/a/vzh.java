@@ -12,15 +12,15 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 
 public final class vzh {
-   private static final int vzi = 20;
-   private final Item vzj;
-   private final vyn vzk;
-   private vze vzl;
-   private int vzm;
-   private boolean vzn;
-   private int vzo;
-   private int vzp;
-   private int vzq = -1;
+   static final int vzi = 20;
+   final Item vzj;
+   final vyn vzk;
+   vze vzl;
+   int vzm;
+   boolean vzn;
+   int vzo;
+   int vzp;
+   int vzq = -1;
 
    public vzh(Item var1) {
       this(var1, false);
@@ -45,7 +45,7 @@ public final class vzh {
       }
    }
 
-   private void vzt(MinecraftClient var1, String var2, String var3) {
+   void vzt(MinecraftClient var1, String var2, String var3) {
       ClientPlayerEntity var4 = var1.player;
       if (var4 != null && var4.isAlive() && !var4.isSpectator() && var4.currentScreenHandler == var4.playerScreenHandler) {
          int var5 = this.vzy(var4);
@@ -137,7 +137,7 @@ public final class vzh {
       }
    }
 
-   private void vzu(MinecraftClient var1, ClientPlayerEntity var2) {
+   void vzu(MinecraftClient var1, ClientPlayerEntity var2) {
       PlayerInventory var3 = var2.getInventory();
       if (!this.vzn) {
          this.vzw(var1, var2);
@@ -171,7 +171,7 @@ public final class vzh {
       this.vzl = null;
    }
 
-   private void vzv(MinecraftClient var1, int var2) {
+   void vzv(MinecraftClient var1, int var2) {
       PlayerInventory var3 = var1.player.getInventory();
       int var4 = var3.getSelectedSlot();
       if (this.vzq >= 0 && var4 != this.vzq && var4 < var1.options.hotbarKeys.length) {
@@ -182,18 +182,18 @@ public final class vzh {
       }
    }
 
-   private void vzw(MinecraftClient var1, ClientPlayerEntity var2) {
+   void vzw(MinecraftClient var1, ClientPlayerEntity var2) {
       this.vzk.hold(var1);
       if (var2.isUsingItem()) {
          var1.interactionManager.stopUsingItem(var2);
       }
    }
 
-   private boolean vzx(ClientPlayerEntity var1) {
+   boolean vzx(ClientPlayerEntity var1) {
       return wdq.canClick(var1) && this.vzk.idle(var1) && !var1.isUsingItem();
    }
 
-   private int vzy(ClientPlayerEntity var1) {
+   int vzy(ClientPlayerEntity var1) {
       PlayerInventory var2 = var1.getInventory();
       int var3 = var2.getSelectedSlot();
       if (var2.getStack(var3).isOf(this.vzj)) {

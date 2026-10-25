@@ -51,21 +51,21 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 public class lsx extends kfe {
-   private static lsx lsy;
-   private final vmu lsz = this.add(new vmu(a.d("\uf589谟ۆ颹ጫ闔⾈ꙵ㠢", 2089744475, 1544293789), a.b("ᮡ戺\ue8ea皃", -2001527837), 16));
-   private final vkl lta = this.add(new vkl(a.c(-1965125330, "酣\ue8e6戮ﱓ瞏\uf134䭰싒峙홳冠"), false));
-   private final vmu ltb = this.add(new vmu(a.d("㽅䛀찈創\ud9a9弒\ue556泳\uf2ab硔ﾈ\u05f5謪", -1788343796, 708654338), a.c(1923590349, "ꢍ턈寀얽乡죚"), 16));
-   private static boolean ltc;
-   private String ltd = "";
-   private Pattern lte;
-   private int ltf = -1;
-   private final Map<UUID, Text> ltg = new HashMap<>();
-   private static final StackWalker lth = StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE);
-   private static Field[] lti;
-   private static Field[] ltj;
-   private static Field ltk;
-   private static Comparator<ScoreboardEntry> ltl;
-   private static final Map<Screen, Text> ltm = new WeakHashMap<>();
+   static lsx lsy;
+   final vmu lsz = this.add(new vmu(a.d("\uf589谟ۆ颹ጫ闔⾈ꙵ㠢", 2089744475, 1544293789), a.b("ᮡ戺\ue8ea皃", -2001527837), 16));
+   final vkl lta = this.add(new vkl(a.c(-1965125330, "酣\ue8e6戮ﱓ瞏\uf134䭰싒峙홳冠"), false));
+   final vmu ltb = this.add(new vmu(a.d("㽅䛀찈創\ud9a9弒\ue556泳\uf2ab硔ﾈ\u05f5謪", -1788343796, 708654338), a.c(1923590349, "ꢍ턈寀얽乡죚"), 16));
+   static boolean ltc;
+   String ltd = "";
+   Pattern lte;
+   int ltf = -1;
+   final Map<UUID, Text> ltg = new HashMap<>();
+   static final StackWalker lth = StackWalker.getInstance(Option.RETAIN_CLASS_REFERENCE);
+   static Field[] lti;
+   static Field[] ltj;
+   static Field ltk;
+   static Comparator<ScoreboardEntry> ltl;
+   static final Map<Screen, Text> ltm = new WeakHashMap<>();
 
    public lsx() {
       super(
@@ -90,7 +90,7 @@ public class lsx extends kfe {
       this.ltt();
    }
 
-   private static void ltp() {
+   static void ltp() {
       if (!ltc) {
          ltc = true;
 
@@ -144,12 +144,12 @@ public class lsx extends kfe {
       return var0 != null && var0.isEnabled();
    }
 
-   private boolean ltq(String var1) {
+   boolean ltq(String var1) {
       Pattern var2 = this.lts();
       return var2 != null && var1 != null && var2.matcher(var1).find();
    }
 
-   private String ltr(String var1) {
+   String ltr(String var1) {
       Pattern var2 = this.lts();
       if (var2 != null && !var1.isEmpty()) {
          MinecraftClient var3 = MinecraftClient.getInstance();
@@ -178,7 +178,7 @@ public class lsx extends kfe {
       }
    }
 
-   private Pattern lts() {
+   Pattern lts() {
       MinecraftClient var1 = MinecraftClient.getInstance();
       String var2 = var1.getSession() == null ? "" : var1.getSession().getUsername();
       int var3 = this.lta.get() ? hhf.version() : -2;
@@ -232,7 +232,7 @@ public class lsx extends kfe {
       }
    }
 
-   private void ltt() {
+   void ltt() {
       ClientPlayNetworkHandler var1 = this.mc.getNetworkHandler();
       if (var1 != null) {
          for (PlayerListEntry var3 : var1.getPlayerList()) {
@@ -245,7 +245,7 @@ public class lsx extends kfe {
       this.ltg.clear();
    }
 
-   private static void ltu(ItemStack var0, List<Text> var1) {
+   static void ltu(ItemStack var0, List<Text> var1) {
       lsx var2 = lsy;
       if (var2 != null && var2.isEnabled() && !var1.isEmpty()) {
          boolean var3 = false;
@@ -265,7 +265,7 @@ public class lsx extends kfe {
       }
    }
 
-   private static boolean ltv() {
+   static boolean ltv() {
       try {
          CodeSource var0 = lsx.class.getProtectionDomain().getCodeSource();
          return var0 == null ? true : lth.walk(var1x -> {
@@ -297,7 +297,7 @@ public class lsx extends kfe {
       }
    }
 
-   private static void ltw(Screen var0, boolean var1) {
+   static void ltw(Screen var0, boolean var1) {
       Field var2 = ltx();
       if (var2 != null) {
          try {
@@ -321,7 +321,7 @@ public class lsx extends kfe {
       }
    }
 
-   private static Field ltx() {
+   static Field ltx() {
       if (ltk == null) {
          for (Field var3 : Screen.class.getDeclaredFields()) {
             if (!Modifier.isStatic(var3.getModifiers()) && var3.getType() == Text.class) {
@@ -374,7 +374,7 @@ public class lsx extends kfe {
       lty(var0.inGameHud == null ? null : var0.inGameHud.getPlayerListHud(), ltj, var1);
    }
 
-   private static void lty(Object var0, Field[] var1, Runnable var2) {
+   static void lty(Object var0, Field[] var1, Runnable var2) {
       lsx var3 = lsy;
       if (var3 != null && var3.isEnabled() && var0 != null && var1.length != 0) {
          Object[] var4 = new Object[var1.length];
@@ -415,7 +415,7 @@ public class lsx extends kfe {
       }
    }
 
-   private static Field[] ltz(Class<?> var0) {
+   static Field[] ltz(Class<?> var0) {
       ArrayList var1 = new ArrayList();
 
       for (Field var5 : var0.getDeclaredFields()) {
@@ -507,7 +507,7 @@ public class lsx extends kfe {
       }
    }
 
-   private static Comparator<ScoreboardEntry> lua() {
+   static Comparator<ScoreboardEntry> lua() {
       if (ltl == null) {
          for (Field var3 : InGameHud.class.getDeclaredFields()) {
             if (Modifier.isStatic(var3.getModifiers()) && Comparator.class.isAssignableFrom(var3.getType())) {

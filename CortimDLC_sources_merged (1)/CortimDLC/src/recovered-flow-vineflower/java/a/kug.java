@@ -16,42 +16,42 @@ final class kug {
    static final int IN = 15;
    static final int OUT = 8;
    static final int READY = 400;
-   private static final int kuh = 32;
-   private static final int kui = 16;
-   private static final int kuj = 20000;
-   private static final int kuk = 16;
-   private static final int kul = 6;
-   private static final int kum = 64;
-   private static final double kun = 0.001;
-   private static final double kuo = 0.9;
-   private static final double kup = 0.999;
-   private static final double kuq = 1.0E-8;
-   private static final int kur = 2000;
-   private static final int kus = 1177700436;
-   private tbx kut;
-   private double[] kuu;
-   private double[] kuv;
-   private long kuw;
-   private long kux;
-   private double kuy = 0.5;
-   private double kuz = 0.5;
-   private int kva;
-   private boolean kvb;
-   private final float[] kvc = new float[300000];
-   private final byte[] kvd = new byte[20000];
-   private final byte[] kve = new byte[20000];
-   private int kvf;
-   private int kvg;
-   private final ArrayDeque<kud> kvh = new ArrayDeque<>();
-   private final double[] kvi = new double[32];
-   private final double[] kvj = new double[16];
-   private final double[] kvk = new double[8];
-   private final double[] kvl = new double[8];
-   private final double[] kvm = new double[32];
-   private final double[] kvn = new double[16];
-   private final double[] kvo = new double[15];
-   private double[] kvp;
-   private static final String kvq = a.c(-1344875438, "퐼권❂뤩㋵둕");
+   static final int kuh = 32;
+   static final int kui = 16;
+   static final int kuj = 20000;
+   static final int kuk = 16;
+   static final int kul = 6;
+   static final int kum = 64;
+   static final double kun = 0.001;
+   static final double kuo = 0.9;
+   static final double kup = 0.999;
+   static final double kuq = 1.0E-8;
+   static final int kur = 2000;
+   static final int kus = 1177700436;
+   tbx kut;
+   double[] kuu;
+   double[] kuv;
+   long kuw;
+   long kux;
+   double kuy = 0.5;
+   double kuz = 0.5;
+   int kva;
+   boolean kvb;
+   final float[] kvc = new float[300000];
+   final byte[] kvd = new byte[20000];
+   final byte[] kve = new byte[20000];
+   int kvf;
+   int kvg;
+   final ArrayDeque<kud> kvh = new ArrayDeque<>();
+   final double[] kvi = new double[32];
+   final double[] kvj = new double[16];
+   final double[] kvk = new double[8];
+   final double[] kvl = new double[8];
+   final double[] kvm = new double[32];
+   final double[] kvn = new double[16];
+   final double[] kvo = new double[15];
+   double[] kvp;
+   static final String kvq = a.c(-1344875438, "퐼권❂뤩㋵둕");
 
    boolean ready() {
       this.kvv();
@@ -113,7 +113,7 @@ final class kug {
       }
    }
 
-   private void kvt(kud var1) {
+   void kvt(kud var1) {
       if (var1.mask != 0) {
          int var2 = 0;
          int var3 = 0;
@@ -191,7 +191,7 @@ final class kug {
       }
    }
 
-   private void kvu() {
+   void kvu() {
       this.kuw++;
       double var1 = 1.0 - Math.pow(0.9, this.kuw);
       double var3 = 1.0 - Math.pow(0.999, this.kuw);
@@ -232,7 +232,7 @@ final class kug {
       }
    }
 
-   private void kvv() {
+   void kvv() {
       if (!this.kvb) {
          this.kvb = true;
 
@@ -262,7 +262,7 @@ final class kug {
       }
    }
 
-   private void kvw() {
+   void kvw() {
       tbx var1 = new tbx(15, 32, 16, 8);
       var1.init(new Random(), new double[8]);
       this.kvx(var1);
@@ -272,7 +272,7 @@ final class kug {
       this.kuw = 0L;
    }
 
-   private void kvx(tbx var1) {
+   void kvx(tbx var1) {
       this.kut = var1;
       this.kuu = new double[var1.size()];
       this.kuv = new double[var1.size()];
@@ -280,7 +280,7 @@ final class kug {
       this.kuw = 0L;
    }
 
-   private static double kvy(double var0) {
+   static double kvy(double var0) {
       return 1.0 / (1.0 + Math.exp(-var0));
    }
 }

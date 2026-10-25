@@ -15,15 +15,15 @@ import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.option.SimpleOption;
 
 public final class wbu<T> {
-   private static final List<wbu<?>> wbv = new ArrayList<>();
-   private static Field wbw;
-   private static Field wbx;
-   private static boolean wby;
-   private final Function<MinecraftClient, SimpleOption<T>> wbz;
-   private SimpleOption<T> wca;
-   private volatile boolean wcb;
-   private volatile T wcc;
-   private Object wcd;
+   static final List<wbu<?>> wbv = new ArrayList<>();
+   static Field wbw;
+   static Field wbx;
+   static boolean wby;
+   final Function<MinecraftClient, SimpleOption<T>> wbz;
+   SimpleOption<T> wca;
+   volatile boolean wcb;
+   volatile T wcc;
+   Object wcd;
 
    public wbu(Function<MinecraftClient, SimpleOption<T>> var1) {
       this.wbz = var1;
@@ -97,12 +97,12 @@ public final class wbu<T> {
       return var0.currentScreen instanceof GameOptionsScreen;
    }
 
-   private SimpleOption<T> wcg() {
+   SimpleOption<T> wcg() {
       MinecraftClient var1 = MinecraftClient.getInstance();
       return var1 != null && var1.options != null ? this.wbz.apply(var1) : null;
    }
 
-   private boolean wch(SimpleOption<T> var1) {
+   boolean wch(SimpleOption<T> var1) {
       if (wby) {
          return false;
       }
@@ -134,7 +134,7 @@ public final class wbu<T> {
       return true;
    }
 
-   private void wci(SimpleOption<T> var1) {
+   void wci(SimpleOption<T> var1) {
       if (wbx != null) {
          try {
             final Codec var2 = var1.getCodec();
@@ -154,7 +154,7 @@ public final class wbu<T> {
       }
    }
 
-   private static void wcj(Throwable var0) {
+   static void wcj(Throwable var0) {
       if (!wby) {
          wby = true;
          System.out.println(a.b("ⳃ啭\udfba䇖쨇䲷\uf6f9罛\ue151毻\uec27ᙁ颁ĸ譮ඒ럞㠁ꊻ⒵굘", 660810937) + var0);

@@ -1,9 +1,9 @@
 package a;
 
 public final class vdc {
-   private final float vdd;
-   private float vde;
-   private boolean vdf = true;
+   final float vdd;
+   float vde;
+   boolean vdf = true;
 
    public vdc(float var1, float var2) {
       this.vdd = Math.max(0.001F, var1);

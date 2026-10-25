@@ -9,10 +9,10 @@ public abstract class jcs {
    public final String id;
    public final String name;
    public final vkl enabled;
-   private final int jct;
-   private final int jcu;
-   private final float jcv;
-   private final float jcw;
+   final int jct;
+   final int jcu;
+   final float jcv;
+   final float jcw;
    int ax;
    int ay;
    float ox;

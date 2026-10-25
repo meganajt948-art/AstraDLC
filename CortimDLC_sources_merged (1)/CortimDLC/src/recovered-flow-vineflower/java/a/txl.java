@@ -39,7 +39,7 @@ public final class txl {
    public static final int N = ROUTE + 59 + 16;
    public static final double FAR_LATERAL = 3.0;
 
-   private txl() {
+   txl() {
    }
 
    public static void features(txi var0, tvt var1, int var2, tzg var3, double[] var4, int var5) {
@@ -159,7 +159,7 @@ public final class txl {
       var2[var3 + I_DYAW2] = -var0[var1 + I_DYAW2];
    }
 
-   private static double txo(double var0, double var2) {
+   static double txo(double var0, double var2) {
       return var0 > var2 ? var2 : (var0 < -var2 ? -var2 : var0);
    }
 }

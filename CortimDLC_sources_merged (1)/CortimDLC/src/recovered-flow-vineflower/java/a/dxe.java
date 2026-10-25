@@ -1,10 +1,10 @@
 package a;
 
 public final class dxe {
-   private final String dxf;
-   private final float dxg;
-   private final float dxh;
-   private final int dxi;
+   final String dxf;
+   final float dxg;
+   final float dxh;
+   final int dxi;
 
    public dxe(String text, float x, float y, int color) {
       this.dxf = text;

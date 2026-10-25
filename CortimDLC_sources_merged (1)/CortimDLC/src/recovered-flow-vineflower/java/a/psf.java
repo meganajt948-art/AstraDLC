@@ -11,10 +11,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public final class psf {
-   private static final AtomicLong psg = new AtomicLong();
-   private static final double psh = 0.25;
-   private static final double psi = 0.32;
-   private static final byte psj = 0;
+   static final AtomicLong psg = new AtomicLong();
+   static final double psh = 0.25;
+   static final double psi = 0.32;
+   static final byte psj = 0;
    public final long id = psg.incrementAndGet();
    public final List<BlockPos> nodes;
    public final tvt track;
@@ -22,7 +22,7 @@ public final class psf {
    public final BlockPos goal;
    public final boolean direct;
 
-   private psf(List<BlockPos> var1, tvt var2, int[] var3, BlockPos var4, boolean var5) {
+   psf(List<BlockPos> var1, tvt var2, int[] var3, BlockPos var4, boolean var5) {
       this.nodes = var1;
       this.track = var2;
       this.nodeAt = var3;
@@ -133,12 +133,12 @@ public final class psf {
       return pss(var4, List.of(), BlockPos.ofFloored(var3), true);
    }
 
-   private static double psm(World var0, Vec3d var1) {
+   static double psm(World var0, Vec3d var1) {
       double var2 = pua.standAt(var0, var1.x, var1.y + 0.01, var1.z, 3.0);
       return Double.isNaN(var2) ? var1.y : var2;
    }
 
-   private static List<double[]> psn(prw var0, List<double[]> var1, double var2) {
+   static List<double[]> psn(prw var0, List<double[]> var1, double var2) {
       ArrayList var4 = new ArrayList();
       if (var1.isEmpty()) {
          return var4;
@@ -173,7 +173,7 @@ public final class psf {
       return var4;
    }
 
-   private static List<double[]> pso(prw var0, List<double[]> var1, double var2, Random var4) {
+   static List<double[]> pso(prw var0, List<double[]> var1, double var2, Random var4) {
       if (var1.size() < 3) {
          return var1;
       }
@@ -259,7 +259,7 @@ public final class psf {
       return var5;
    }
 
-   private static void psp(prw var0, List<double[]> var1, double var2, Random var4) {
+   static void psp(prw var0, List<double[]> var1, double var2, Random var4) {
       ArrayList var5 = new ArrayList();
       var5.add((double[])var1.get(0));
 
@@ -353,7 +353,7 @@ public final class psf {
       }
    }
 
-   private static double[] psq(List<double[]> var0, int var1, double var2) {
+   static double[] psq(List<double[]> var0, int var1, double var2) {
       if (var2 == 0.0) {
          return (double[])var0.get(var1);
       }
@@ -373,7 +373,7 @@ public final class psf {
       return new double[]{var16[0] + var12 * var2, var16[1], var16[2] + var14 * var2};
    }
 
-   private static void psr(prw var0, double[] var1, double[] var2, byte var3) {
+   static void psr(prw var0, double[] var1, double[] var2, byte var3) {
       double var4 = var2[0] - var1[0];
       double var6 = var2[2] - var1[2];
       double var8 = Math.hypot(var4, var6);
@@ -410,7 +410,7 @@ public final class psf {
       }
    }
 
-   private static psf pss(prw var0, List<BlockPos> var1, BlockPos var2, boolean var3) {
+   static psf pss(prw var0, List<BlockPos> var1, BlockPos var2, boolean var3) {
       int var4 = var0.xs.size();
       if (var4 < 2) {
          return null;
@@ -448,7 +448,7 @@ public final class psf {
       return new psf(var1, var13, var10, var2, var3);
    }
 
-   private static double pst(BlockPos var0, double var1, double var3) {
+   static double pst(BlockPos var0, double var1, double var3) {
       double var5 = var0.getX() + 0.5 - var1;
       double var7 = var0.getZ() + 0.5 - var3;
       return var5 * var5 + var7 * var7;

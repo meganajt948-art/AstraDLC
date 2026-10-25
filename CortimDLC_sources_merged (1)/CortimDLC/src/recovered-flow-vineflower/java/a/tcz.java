@@ -29,30 +29,30 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 
 public final class tcz {
-   private static final int tda = -789577728;
-   private static final String[] tdb = new String[]{
+   static final int tda = -789577728;
+   static final String[] tdb = new String[]{
       a.d("렴솴䭿픎廍\ud85a戗\uebc4疝", -788012186, 793074463),
       a.c(801353398, "껸흸嶳쏂䠁캖瓘ﴄ捘\ue9f1"),
       a.d("끠짠䌫\udd5a嚙퀎橁\ue381緃\uf76a", -877860424, -602449514),
       a.b("쮅눅㣎ꚿ\u2d7c꯫ᆣ顣غ貓", -1118712885)
    };
-   private static final List<tkx> tdc = new ArrayList<>();
-   private static final Random tdd = new Random();
-   private static tcw tde = tcw.NONE;
-   private static tiq tdf;
-   private static tkc tdg;
-   private static ttl tdh;
-   private static tyd tdi;
-   private static kfe tdj;
-   private static tkc tdk;
-   private static ClientWorld tdl;
-   private static Field tdm;
-   private static boolean tdn;
-   private static boolean tdo;
-   private static volatile tct tdp;
-   private static volatile tiq tdq;
+   static final List<tkx> tdc = new ArrayList<>();
+   static final Random tdd = new Random();
+   static tcw tde = tcw.NONE;
+   static tiq tdf;
+   static tkc tdg;
+   static ttl tdh;
+   static tyd tdi;
+   static kfe tdj;
+   static tkc tdk;
+   static ClientWorld tdl;
+   static Field tdm;
+   static boolean tdn;
+   static boolean tdo;
+   static volatile tct tdp;
+   static volatile tiq tdq;
 
-   private tcz() {
+   tcz() {
    }
 
    public static void install() {
@@ -111,7 +111,7 @@ public final class tcz {
       }
    }
 
-   private static String tdt(MinecraftClient var0) {
+   static String tdt(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       if (var0.currentScreen != null) {
          return a.b("曾Ὗ閝\u0bfb耬ږ", 1756063371);
@@ -140,7 +140,7 @@ public final class tcz {
       }
    }
 
-   private static String tdu(MinecraftClient var0) {
+   static String tdu(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       if (var0.currentScreen != null) {
          return a.d("쨑뎰㥲꜔ⳃ꩹", -2106492669, -767773849);
@@ -213,7 +213,7 @@ public final class tcz {
       tdv(var0, tcw.TEST);
    }
 
-   private static void tdv(tiq var0, tcw var1) {
+   static void tdv(tiq var0, tcw var1) {
       MinecraftClient var2 = MinecraftClient.getInstance();
       if (var2.player != null && var2.world != null && var0 != null) {
          stop();
@@ -254,7 +254,7 @@ public final class tcz {
       tdf = null;
    }
 
-   private static void tdw() {
+   static void tdw() {
       if (tdk != null) {
          tdk.finish();
          tdk = null;
@@ -266,7 +266,7 @@ public final class tcz {
       return var1 * var1 * var1 * 8.0 * 0.15;
    }
 
-   private static void tdx(MinecraftClient var0, tiq var1) {
+   static void tdx(MinecraftClient var0, tiq var1) {
       tdy(var0);
       int var2 = var1.standCount();
 
@@ -284,7 +284,7 @@ public final class tcz {
       }
    }
 
-   private static void tdy(MinecraftClient var0) {
+   static void tdy(MinecraftClient var0) {
       if (var0.world != null && var0.world == tdl) {
          for (tkx var2 : tdc) {
             if (!var2.isRemoved()) {
@@ -349,7 +349,7 @@ public final class tcz {
       }
    }
 
-   private static int tdz(MinecraftClient var0) {
+   static int tdz(MinecraftClient var0) {
       if (!tdn) {
          tdn = true;
          tdm = vxr.find(
@@ -363,7 +363,7 @@ public final class tcz {
       return Math.max(0, vxr.getInt(tdm, var0.options.attackKey, 0));
    }
 
-   private static void tea(MinecraftClient var0) {
+   static void tea(MinecraftClient var0) {
       if (var0.player != null && var0.currentScreen == null) {
          int var1 = tdg == null && tdk == null ? 0 : tdz(var0);
          if (var1 > 0) {
@@ -380,7 +380,7 @@ public final class tcz {
       }
    }
 
-   private static void teb(MinecraftClient var0) {
+   static void teb(MinecraftClient var0) {
       if ((tdh != null || tdi != null) && dry.armed()) {
          stop();
       }
@@ -459,7 +459,7 @@ public final class tcz {
       }
    }
 
-   private static void tec(MinecraftClient var0) {
+   static void tec(MinecraftClient var0) {
       for (int var1 = 0; var1 < tdc.size(); var1++) {
          tkx var2 = tdc.get(var1);
          if (var2.isRemoved() || var0.world.getEntityById(var2.getId()) != var2) {
@@ -477,7 +477,7 @@ public final class tcz {
       }
    }
 
-   private static String ted(MinecraftClient var0) {
+   static String ted(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       if (var0.currentScreen != null) {
          return a.b("王ਪ胨Ẏ镙Ꮳ", -987335682);
@@ -499,12 +499,12 @@ public final class tcz {
       }
    }
 
-   private static kfe tee(String var0) {
+   static kfe tee(String var0) {
       Flow var1 = Flow.getInstance();
       return var1.getModuleManager() == null ? null : var1.getModuleManager().getByName(var0);
    }
 
-   private static void tef(MinecraftClient var0) {
+   static void tef(MinecraftClient var0) {
       tiq var1 = lfa.activeProfile();
       boolean var2 = tde == tcw.NONE && var1 != null && var1.fights() && !lfa.turning();
       if (!var2) {
@@ -530,11 +530,11 @@ public final class tcz {
       }
    }
 
-   private static boolean teg(ClientPlayerEntity var0, Entity var1) {
+   static boolean teg(ClientPlayerEntity var0, Entity var1) {
       return var1 instanceof PlayerEntity var2 && var2 != var0 && var2.isAlive() && !var2.isSpectator() && !(var1 instanceof tkx) && !hhf.protects(var2);
    }
 
-   private static List<Entity> teh(MinecraftClient var0) {
+   static List<Entity> teh(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       ArrayList var2 = new ArrayList();
 
@@ -548,7 +548,7 @@ public final class tcz {
       return var2.size() > 4 ? new ArrayList<>(var2.subList(0, 4)) : var2;
    }
 
-   private static void tei(MinecraftClient var0) {
+   static void tei(MinecraftClient var0) {
       int var1 = lfa.stopKey();
       boolean var2 = var0.currentScreen == null && var1 != -1 && vzz.isDown(var0, var1);
       if (var2 && !tdo && tde != tcw.NONE) {
@@ -611,7 +611,7 @@ public final class tcz {
       }
    }
 
-   private static void tej(tct var0) {
+   static void tej(tct var0) {
       tiq var1 = var0.profile;
       Thread var2 = new Thread(() -> {
          try {
@@ -658,7 +658,7 @@ public final class tcz {
       var2.start();
    }
 
-   private static void tek(tct var0) {
+   static void tek(tct var0) {
       tiq var1 = var0.profile;
       Thread var2 = new Thread(() -> {
          try {

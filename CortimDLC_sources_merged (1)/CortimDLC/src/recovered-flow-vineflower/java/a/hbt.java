@@ -33,23 +33,23 @@ import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.BlockPos;
 
 final class hbt {
-   private static final Set<Integer> hbu = ConcurrentHashMap.newKeySet();
-   private static final AtomicInteger hbv = new AtomicInteger();
-   private static final AtomicInteger hbw = new AtomicInteger();
-   private static final StringBuffer hbx = new StringBuffer();
-   private static volatile boolean hby;
-   private static volatile boolean hbz;
-   private static volatile boolean hca;
-   private static volatile boolean hcb;
-   private static volatile int hcc;
-   private static boolean hcd;
-   private static int hce;
-   private static boolean hcf;
-   private static BlockPos hcg;
-   private static int hch;
-   private static int hci;
+   static final Set<Integer> hbu = ConcurrentHashMap.newKeySet();
+   static final AtomicInteger hbv = new AtomicInteger();
+   static final AtomicInteger hbw = new AtomicInteger();
+   static final StringBuffer hbx = new StringBuffer();
+   static volatile boolean hby;
+   static volatile boolean hbz;
+   static volatile boolean hca;
+   static volatile boolean hcb;
+   static volatile int hcc;
+   static boolean hcd;
+   static int hce;
+   static boolean hcf;
+   static BlockPos hcg;
+   static int hch;
+   static int hci;
 
-   private hbt() {
+   hbt() {
    }
 
    static boolean totem(MinecraftClient var0, int var1) throws Exception {
@@ -752,7 +752,7 @@ final class hbt {
       return false;
    }
 
-   private static void hcl(MinecraftClient var0, String var1) {
+   static void hcl(MinecraftClient var0, String var1) {
       hdf(
          var0,
          a.c(734464194, "ࢸ焟ﯝ斺\uee63棑튎孷앣")
@@ -766,7 +766,7 @@ final class hbt {
       );
    }
 
-   private static void hcm(MinecraftClient var0, boolean var1, int var2) {
+   static void hcm(MinecraftClient var0, boolean var1, int var2) {
       hcf = var1;
       KeyBinding var3 = var0.options.attackKey;
       if (var1) {
@@ -779,12 +779,12 @@ final class hbt {
       }
    }
 
-   private static void hcn(ClientPlayerEntity var0) {
+   static void hcn(ClientPlayerEntity var0) {
       var0.setYaw(0.0F);
       var0.setPitch(0.0F);
    }
 
-   private static void hco(MinecraftClient var0, boolean var1, boolean var2) {
+   static void hco(MinecraftClient var0, boolean var1, boolean var2) {
       if (var1) {
          hbu.add(87);
          var0.options.forwardKey.setPressed(true);
@@ -800,7 +800,7 @@ final class hbt {
       }
    }
 
-   private static void hcp(MinecraftClient var0, boolean var1) {
+   static void hcp(MinecraftClient var0, boolean var1) {
       if (var1) {
          hbu.add(340);
       } else {
@@ -810,7 +810,7 @@ final class hbt {
       var0.options.sneakKey.setPressed(var1);
    }
 
-   private static void hcq(MinecraftClient var0) throws Exception {
+   static void hcq(MinecraftClient var0) throws Exception {
       for (Field var4 : Mouse.class.getDeclaredFields()) {
          if (var4.getName().equals(a.d("ᅍ棪\ue23e籎\uf785焩쭄䊖\udcc5噼톡⯑", 1805990665, 1680681515))) {
             var4.setAccessible(true);
@@ -819,7 +819,7 @@ final class hbt {
       }
    }
 
-   private static kfe hcr(MinecraftClient var0, String var1, boolean var2) {
+   static kfe hcr(MinecraftClient var0, String var1, boolean var2) {
       kfe var3 = Flow.getInstance().getModuleManager().getByName(var1);
       if (var3 != null) {
          var3.setEnabled(var2);
@@ -828,38 +828,38 @@ final class hbt {
       return var3;
    }
 
-   private static void hcs(MinecraftClient var0, float var1) {
+   static void hcs(MinecraftClient var0, float var1) {
       IntegratedServer var2 = var0.getServer();
       ServerPlayerEntity var3 = hct(var0);
       var2.execute(() -> var3.setHealth(var1));
    }
 
-   private static ServerPlayerEntity hct(MinecraftClient var0) {
+   static ServerPlayerEntity hct(MinecraftClient var0) {
       return var0.getServer().getPlayerManager().getPlayer(var0.player.getUuid());
    }
 
-   private static ItemStack hcu(MinecraftClient var0) {
+   static ItemStack hcu(MinecraftClient var0) {
       return hct(var0).getOffHandStack();
    }
 
-   private static ItemStack hcv(MinecraftClient var0, int var1) {
+   static ItemStack hcv(MinecraftClient var0, int var1) {
       return hct(var0).getInventory().getStack(var1);
    }
 
-   private static ItemStack hcw(MinecraftClient var0) {
+   static ItemStack hcw(MinecraftClient var0) {
       return hct(var0).getMainHandStack();
    }
 
-   private static int hcx(MinecraftClient var0) {
+   static int hcx(MinecraftClient var0) {
       return hct(var0).getInventory().getSelectedSlot();
    }
 
-   private static String hcy(ItemStack var0) {
+   static String hcy(ItemStack var0) {
       Item var1 = var0.getItem();
       return var0.isEmpty() ? a.d("猡ઘ聖ḣ闹", 1703722534, 773377383) : var1 + (var0.hasGlint() ? a.d("겙", 899128468, 1416376358) : "");
    }
 
-   private static void hcz(MinecraftClient var0, String var1, int var2) {
+   static void hcz(MinecraftClient var0, String var1, int var2) {
       ClientPlayerEntity var3 = var0.player;
       System.out
          .println(
@@ -896,7 +896,7 @@ final class hbt {
          );
    }
 
-   private static String hda(Object var0, String var1) {
+   static String hda(Object var0, String var1) {
       try {
          Field var2 = var0.getClass().getDeclaredField(var1);
          var2.setAccessible(true);
@@ -906,18 +906,18 @@ final class hbt {
       }
    }
 
-   private static void hdb(String var0, boolean var1, String var2) {
+   static void hdb(String var0, boolean var1, String var2) {
       if (!var1) {
          hce++;
          System.out.println(a.b("傄⤱ꏴ㶔똓", 1668829426) + var0 + a.c(-1185889547, "싓묄㇐꾩⑻ꊦ") + var2);
       }
    }
 
-   private static void hdc(String var0) {
+   static void hdc(String var0) {
       hdd(var0, true);
    }
 
-   private static void hdd(String var0, boolean var1) {
+   static void hdd(String var0, boolean var1) {
       hcb = false;
       System.out
          .println(
@@ -949,18 +949,18 @@ final class hbt {
       }
    }
 
-   private static void hde() {
+   static void hde() {
       hbv.set(0);
       hbw.set(0);
       hbx.setLength(0);
       hcb = true;
    }
 
-   private static void hdf(MinecraftClient var0, String var1) {
+   static void hdf(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void hdg(MinecraftClient var0) throws Exception {
+   static void hdg(MinecraftClient var0) throws Exception {
       if (!hcd) {
          ServerPlayerEntity var1 = hct(var0);
          ClientConnection var2 = null;
@@ -996,7 +996,7 @@ final class hbt {
       }
    }
 
-   private static void hdh(Object var0) {
+   static void hdh(Object var0) {
       if (var0 instanceof PlayerInputC2SPacket var1) {
          PlayerInput var5 = var1.input();
          boolean var6 = var5.forward() || var5.backward() || var5.left() || var5.right() || var5.jump();
@@ -1043,7 +1043,7 @@ final class hbt {
       }
    }
 
-   private static void hdi(String var0) {
+   static void hdi(String var0) {
       if (hcb && hbx.length() < 600) {
          hbx.append(' ').append(hcc).append(':').append(var0);
       }

@@ -36,8 +36,8 @@ import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.WorldChunk;
 
 public class rae extends kfe {
-   private static rae raf;
-   private final vlj rag = this.add(
+   static rae raf;
+   final vlj rag = this.add(
       new vlj(
          "Blocks",
          vlg.BLOCKS,
@@ -55,34 +55,34 @@ public class rae extends kfe {
          "minecraft:barrel"
       )
    );
-   private final vlv rah = this.add(new vlv("Mode", "Box", "Box", "Corners", "Fill"));
-   private final vkl rai = this.add(new vkl("Block colors", true));
-   private final vla raj = this.add(new vla("Color", "Theme"));
-   private final vmc rak = this.add(new vmc("Range", 48.0, 16.0, 128.0, 8.0).suffix("blocks"));
-   private final vmc ral = this.add(new vmc("Fill", 0.18, 0.0, 0.6, 0.02).percent());
-   private final vmc ram = this.add(new vmc("Width", 1.0, 0.5, 2.5, 0.1));
-   private final vmc ran = this.add(new vmc("Limit", 300.0, 50.0, 1000.0, 50.0));
-   private static final long rao = 1500000L;
-   private final Long2IntOpenHashMap rap = new Long2IntOpenHashMap();
-   private static final int[][] raq = new int[][]{{0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}};
-   private final Long2ObjectOpenHashMap<List<qzt>> rar = new Long2ObjectOpenHashMap();
-   private final LongLinkedOpenHashSet ras = new LongLinkedOpenHashSet();
-   private final LongLinkedOpenHashSet rat = new LongLinkedOpenHashSet();
-   private static final Set<Long> rau = ConcurrentHashMap.newKeySet();
-   private boolean[] rav = new boolean[0];
-   private int raw = -1;
-   private ClientWorld rax;
-   private final List<qzt> ray = new ArrayList<>();
-   private int raz;
-   private long rba = -1L;
-   private final double[][] rbb = new double[8][3];
-   private final float[][] rbc = new float[8][2];
-   private final boolean[] rbd = new boolean[8];
-   private final boolean[] rbe = new boolean[6];
-   private final float[] rbf = new float[4];
-   private final float[] rbg = new float[2];
-   private static final int[][] rbh = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-   private static final int[][] rbi = new int[][]{
+   final vlv rah = this.add(new vlv("Mode", "Box", "Box", "Corners", "Fill"));
+   final vkl rai = this.add(new vkl("Block colors", true));
+   final vla raj = this.add(new vla("Color", "Theme"));
+   final vmc rak = this.add(new vmc("Range", 48.0, 16.0, 128.0, 8.0).suffix("blocks"));
+   final vmc ral = this.add(new vmc("Fill", 0.18, 0.0, 0.6, 0.02).percent());
+   final vmc ram = this.add(new vmc("Width", 1.0, 0.5, 2.5, 0.1));
+   final vmc ran = this.add(new vmc("Limit", 300.0, 50.0, 1000.0, 50.0));
+   static final long rao = 1500000L;
+   final Long2IntOpenHashMap rap = new Long2IntOpenHashMap();
+   static final int[][] raq = new int[][]{{0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}};
+   final Long2ObjectOpenHashMap<List<qzt>> rar = new Long2ObjectOpenHashMap();
+   final LongLinkedOpenHashSet ras = new LongLinkedOpenHashSet();
+   final LongLinkedOpenHashSet rat = new LongLinkedOpenHashSet();
+   static final Set<Long> rau = ConcurrentHashMap.newKeySet();
+   boolean[] rav = new boolean[0];
+   int raw = -1;
+   ClientWorld rax;
+   final List<qzt> ray = new ArrayList<>();
+   int raz;
+   long rba = -1L;
+   final double[][] rbb = new double[8][3];
+   final float[][] rbc = new float[8][2];
+   final boolean[] rbd = new boolean[8];
+   final boolean[] rbe = new boolean[6];
+   final float[] rbf = new float[4];
+   final float[] rbg = new float[2];
+   static final int[][] rbh = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
+   static final int[][] rbi = new int[][]{
       {0, 1, 0, 2},
       {2, 3, 1, 2},
       {4, 5, 0, 3},
@@ -96,7 +96,7 @@ public class rae extends kfe {
       {2, 6, 1, 4},
       {3, 7, 1, 5}
    };
-   private boolean rbj;
+   boolean rbj;
 
    public rae() {
       super(new String(new char[]{'B', 'l', 'o', 'c', 'k', 'E', 'S', 'P'}), "Chosen blocks seen through walls", kfa.RENDER);
@@ -107,7 +107,7 @@ public class rae extends kfe {
       this.ram.visibleWhen(() -> !this.rah.is("Fill"));
    }
 
-   private static void rbm(Packet<?> var0) {
+   static void rbm(Packet<?> var0) {
       rae var1 = raf;
       if (var1 != null && var1.isEnabled()) {
          if (var0 instanceof BlockUpdateS2CPacket var2) {
@@ -138,7 +138,7 @@ public class rae extends kfe {
       this.rbn();
    }
 
-   private void rbn() {
+   void rbn() {
       this.rar.clear();
       this.ras.clear();
       this.rat.clear();
@@ -148,7 +148,7 @@ public class rae extends kfe {
       this.raw = -1;
    }
 
-   private void rbo() {
+   void rbo() {
       boolean[] var1 = new boolean[Registries.BLOCK.size()];
 
       for (String var3 : this.rag.ids()) {
@@ -166,7 +166,7 @@ public class rae extends kfe {
       this.raw = this.rag.version();
    }
 
-   private boolean rbp(BlockState var1) {
+   boolean rbp(BlockState var1) {
       int var2 = Registries.BLOCK.getRawId(var1.getBlock());
       return var2 >= 0 && var2 < this.rav.length && this.rav[var2];
    }
@@ -241,7 +241,7 @@ public class rae extends kfe {
       }
    }
 
-   private void rbq(ClientWorld var1, WorldChunk var2, long var3) {
+   void rbq(ClientWorld var1, WorldChunk var2, long var3) {
       ArrayList var5 = null;
       ChunkSection[] var6 = var2.getSectionArray();
       int var7 = var2.getBottomSectionCoord();
@@ -280,7 +280,7 @@ public class rae extends kfe {
       }
    }
 
-   private qzt rbr(ClientWorld var1, BlockPos var2, BlockState var3) {
+   qzt rbr(ClientWorld var1, BlockPos var2, BlockState var3) {
       Box var4 = new Box(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
 
       try {
@@ -294,7 +294,7 @@ public class rae extends kfe {
       return new qzt(var2.asLong(), this.rbu(var3), (float)var4.minX, (float)var4.minY, (float)var4.minZ, (float)var4.maxX, (float)var4.maxY, (float)var4.maxZ);
    }
 
-   private void rbs(MinecraftClient var1) {
+   void rbs(MinecraftClient var1) {
       this.ray.clear();
       double var2 = this.rak.get();
       double var4 = var2 * var2;
@@ -347,12 +347,12 @@ public class rae extends kfe {
       }
    }
 
-   private boolean rbt(long var1, int var3, int var4, int var5, int var6, boolean var7) {
+   boolean rbt(long var1, int var3, int var4, int var5, int var6, boolean var7) {
       long var8 = BlockPos.add(var1, var3, var4, var5);
       return this.rap.containsKey(var8) && (var7 || this.rap.get(var8) == var6);
    }
 
-   private int rbu(BlockState var1) {
+   int rbu(BlockState var1) {
       Block var2 = var1.getBlock();
       if (var2 instanceof ShulkerBoxBlock var6) {
          DyeColor var7 = var6.getColor();
@@ -457,7 +457,7 @@ public class rae extends kfe {
       }
    }
 
-   private void rbv(
+   void rbv(
       DrawContext var1,
       usn var2,
       Vec3d var3,
@@ -550,7 +550,7 @@ public class rae extends kfe {
       }
    }
 
-   private boolean rbw(qzt var1, int var2, int var3, int var4, boolean var5) {
+   boolean rbw(qzt var1, int var2, int var3, int var4, boolean var5) {
       boolean var6 = (var4 & 1 << var2) != 0;
       boolean var7 = (var4 & 1 << var3) != 0;
       int[] var8 = raq[var2];
@@ -580,7 +580,7 @@ public class rae extends kfe {
       }
    }
 
-   private void rbx(DrawContext var1, usn var2, double[] var3, double[] var4, double var5, double var7, float var9, int var10) {
+   void rbx(DrawContext var1, usn var2, double[] var3, double[] var4, double var5, double var7, float var9, int var10) {
       if (var2.projectSegment(
          var3[0] + (var4[0] - var3[0]) * var5,
          var3[1] + (var4[1] - var3[1]) * var5,

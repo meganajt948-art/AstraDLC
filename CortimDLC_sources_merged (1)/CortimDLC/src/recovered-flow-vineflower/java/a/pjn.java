@@ -13,11 +13,11 @@ import net.minecraft.client.gui.hud.BossBarHud;
 import net.minecraft.client.gui.hud.ClientBossBar;
 
 public final class pjn {
-   private static final Pattern pjo = Pattern.compile(a.d("蜒ﻗ琼\uea02懗", -528009649, -1113018000));
-   private static Field pjp;
-   private static boolean pjq;
+   static final Pattern pjo = Pattern.compile(a.d("蜒ﻗ琼\uea02懗", -528009649, -1113018000));
+   static Field pjp;
+   static boolean pjq;
 
-   private pjn() {
+   pjn() {
    }
 
    public static Field field() {

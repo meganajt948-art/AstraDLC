@@ -28,13 +28,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 
 final class fbk {
-   private static final String fbl = a.c(1293647272, "紕е躋㚤鬫ᷧꜳ⸀되㺻륣䌑춿味\ude2c壐\ue682浩\uf780燒\uf82e舏ೆ靠ᄑ鮴");
-   private static final String fbm = a.b("묉쉹䳛튃契\udfe5旊\uec47爓ﲷ缋蔄\u0bd9鉭ᠺ黏", -108610626);
-   private static final List<String> fbn = Collections.synchronizedList(new ArrayList<>());
-   private static final List<String> fbo = Collections.synchronizedList(new ArrayList<>());
-   private static int fbp;
+   static final String fbl = a.c(1293647272, "紕е躋㚤鬫ᷧꜳ⸀되㺻륣䌑춿味\ude2c壐\ue682浩\uf780燒\uf82e舏ೆ靠ᄑ鮴");
+   static final String fbm = a.b("묉쉹䳛튃契\udfe5旊\uec47爓ﲷ缋蔄\u0bd9鉭ᠺ黏", -108610626);
+   static final List<String> fbn = Collections.synchronizedList(new ArrayList<>());
+   static final List<String> fbo = Collections.synchronizedList(new ArrayList<>());
+   static int fbp;
 
-   private fbk() {
+   fbk() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -79,7 +79,7 @@ final class fbk {
       }
    }
 
-   private static void fbs(MinecraftClient var0) {
+   static void fbs(MinecraftClient var0) {
       var0.getServer()
          .execute(
             () -> {
@@ -138,7 +138,7 @@ final class fbk {
          );
    }
 
-   private static void fbt(ServerPlayerEntity var0, String var1) {
+   static void fbt(ServerPlayerEntity var0, String var1) {
       ArrayList var2 = new ArrayList();
       if (var1.contains(a.d("࿊瘉ﳑ抣\ue90d濁햞屢", -834313699, -515282531))) {
          for (int var6 : new int[]{5000, 1200, 1000, 1300}) {
@@ -172,7 +172,7 @@ final class fbk {
       }, Text.literal(a.b("놂졠䋊\udcc7坮퇙殉\ue20e砺\uf210畘", -77351527) + var1))));
    }
 
-   private static ItemStack fbu(Item var0, String var1, int var2, int var3) {
+   static ItemStack fbu(Item var0, String var1, int var2, int var3) {
       ItemStack var4 = fbv(var0, var1, var2);
       var4.set(
          DataComponentTypes.LORE,
@@ -187,7 +187,7 @@ final class fbk {
       return var4;
    }
 
-   private static ItemStack fbv(Item var0, String var1, int var2) {
+   static ItemStack fbv(Item var0, String var1, int var2) {
       ItemStack var3 = new ItemStack(var0, var2);
       var3.set(DataComponentTypes.CUSTOM_NAME, Text.literal(var1));
       return var3;

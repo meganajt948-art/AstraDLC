@@ -7,15 +7,15 @@ import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.profiler.Recorder;
 
 public final class ell implements Recorder {
-   private static final Field elm = vxr.find(
+   static final Field elm = vxr.find(
       MinecraftClient.class,
       a.d("渴ណ鵌ͧ裳ๆ됒㷨ꎱ⤑껑咧\uda62䎉즗佩\uf52b竨\ue05b昦\uefbd问᭜", -19234698, 1910828603),
       a.d("쁁맿㌠굘⚇ꀍᨳ鏉ක蜨ô", -931353639, 1638689781),
       a.b("⊂嬑퇉侩쐥䋖\uf881煷\uef23斔\ue256ᠴ雤ཇ蕏ϲ릲㙮곏⪞ꍅ\ud97e埁찟䩤삼", 778904276)
    );
-   private final Recorder eln;
+   final Recorder eln;
 
-   private ell(Recorder var1) {
+   ell(Recorder var1) {
       this.eln = var1;
    }
 

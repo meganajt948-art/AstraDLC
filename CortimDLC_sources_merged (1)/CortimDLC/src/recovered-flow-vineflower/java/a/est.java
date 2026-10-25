@@ -1,11 +1,11 @@
 package a;
 
 final class est {
-   private final byte esu;
-   private final float[] esv;
-   private final float esw;
+   final byte esu;
+   final float[] esv;
+   final float esw;
 
-   private est(byte digit, float[] feat, float norm) {
+   est(byte digit, float[] feat, float norm) {
       this.esu = digit;
       this.esv = feat;
       this.esw = norm;

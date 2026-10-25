@@ -91,7 +91,7 @@ final class wah {
       return var12;
    }
 
-   private boolean wak(String var1) {
+   boolean wak(String var1) {
       if (wal(this.nameWords, var1, false)) {
          return true;
       }
@@ -126,7 +126,7 @@ final class wah {
       return false;
    }
 
-   private static boolean wal(String[] var0, String var1, boolean var2) {
+   static boolean wal(String[] var0, String var1, boolean var2) {
       for (String var6 : var0) {
          if (var2 ? var6.equals(var1) : var6.startsWith(var1)) {
             return true;

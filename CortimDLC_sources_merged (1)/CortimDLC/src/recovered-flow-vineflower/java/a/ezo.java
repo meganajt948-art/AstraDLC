@@ -18,43 +18,43 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 final class ezo {
-   private static final int ezp = 1200;
-   private static final int ezq = 300;
-   private static final Field ezr = vxr.find(
+   static final int ezp = 1200;
+   static final int ezq = 300;
+   static final Field ezr = vxr.find(
       Mouse.class,
       a.d("珂\u0a78肺ẑ锅Ꮀꧤ„빇㓧댧䥑잔广푡功\ue8dd朞ﶭ篐\uf24b蠘ڨ", -1485326510, -1020214039),
       a.d("឴渊\ue4d5窭\uf172矸췅䐲\uda62僘", -2083282817, 1968093095),
       a.b("壘", -1922565871)
    );
-   private static final Field ezs = vxr.find(
+   static final Field ezs = vxr.find(
       MinecraftClient.class,
       a.c(295900337, "ᓈ浲\ue7b0禛\uf20f璺컮䜔\ud94d叭퐭⹛ꂞ㥵덫㖕迗\u0014骧᳚镁\uef12憠"),
       a.d("쟳빍㒒ꫪℵꞿᶂ鑴ਤ肙", 137919040, -1116160545),
       a.d("ம", -336775945, -1328136446)
    );
-   private static final Random ezt = new Random(5L);
-   private static final List<Double> ezu = new ArrayList<>();
-   private static double ezv;
-   private static double ezw;
-   private static double ezx;
-   private static int ezy;
-   private static int ezz;
-   private static int faa;
-   private static int fab;
-   private static int fac;
-   private static int fad;
-   private static int fae;
-   private static boolean faf;
-   private static int fag;
-   private static int fah;
-   private static double fai;
-   private static double faj;
-   private static boolean fak;
-   private static float fal;
-   private static float fam;
-   private static boolean fan;
+   static final Random ezt = new Random(5L);
+   static final List<Double> ezu = new ArrayList<>();
+   static double ezv;
+   static double ezw;
+   static double ezx;
+   static int ezy;
+   static int ezz;
+   static int faa;
+   static int fab;
+   static int fac;
+   static int fad;
+   static int fae;
+   static boolean faf;
+   static int fag;
+   static int fah;
+   static double fai;
+   static double faj;
+   static boolean fak;
+   static float fal;
+   static float fam;
+   static boolean fan;
 
-   private ezo() {
+   ezo() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -107,7 +107,7 @@ final class ezo {
       return false;
    }
 
-   private static void faq(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void faq(MinecraftClient var0, ClientPlayerEntity var1) {
       var0.options.pauseOnLostFocus = false;
       long var2 = var0.getWindow().getHandle();
       GLFW.glfwSetCursorPosCallback(var2, (var0x, var2x, var4x) -> {});
@@ -161,7 +161,7 @@ final class ezo {
       }
    }
 
-   private static void far(MinecraftClient var0, int var1) {
+   static void far(MinecraftClient var0, int var1) {
       for (int var2 = 0; var2 < 2; var2++) {
          double var3 = Math.toRadians(-35.0 + 70.0 * var2 + 25.0 * Math.sin(var1 * (0.045 + 0.02 * var2) + var2));
          double var5 = 2.8 + 0.45 * Math.sin(var1 * 0.03 + var2 * 2.0);
@@ -179,7 +179,7 @@ final class ezo {
       }
    }
 
-   private static void fas(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void fas(MinecraftClient var0, ClientPlayerEntity var1) {
       fau(var0, var1);
       boolean var2 = fav(var0, var1);
       if (fan) {
@@ -206,7 +206,7 @@ final class ezo {
       }
    }
 
-   private static void fat(MinecraftClient var0, ClientPlayerEntity var1, int var2) {
+   static void fat(MinecraftClient var0, ClientPlayerEntity var1, int var2) {
       float var3 = var1.getYaw();
       float var4 = var1.getPitch();
       if (fak && var2 > 20) {
@@ -221,7 +221,7 @@ final class ezo {
       }
    }
 
-   private static void fau(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void fau(MinecraftClient var0, ClientPlayerEntity var1) {
       float var2 = var1.getYaw();
       float var3 = var1.getPitch();
       if (fak) {
@@ -246,7 +246,7 @@ final class ezo {
       fak = true;
    }
 
-   private static boolean fav(MinecraftClient var0, ClientPlayerEntity var1) {
+   static boolean fav(MinecraftClient var0, ClientPlayerEntity var1) {
       Vec3d var2 = var1.getEyePos();
       Vec3d var3 = var2.add(var1.getRotationVec(1.0F).multiply(6.0));
 
@@ -262,7 +262,7 @@ final class ezo {
       return false;
    }
 
-   private static boolean faw() {
+   static boolean faw() {
       fay().setEnabled(false);
       double[] var0 = ezu.stream().mapToDouble(Double::doubleValue).sorted().toArray();
       String var1 = var0.length == 0
@@ -297,7 +297,7 @@ final class ezo {
       return true;
    }
 
-   private static void fax(boolean var0, boolean var1) {
+   static void fax(boolean var0, boolean var1) {
       for (vmo var3 : fay().getSettings()) {
          switch (var3.getName()) {
             case a.d("윩뺺㑤ꨄ", 641918419, 738140851):
@@ -315,16 +315,16 @@ final class ezo {
       }
    }
 
-   private static kfe fay() {
+   static kfe fay() {
       return Flow.getInstance().getModuleManager().getByName(a.c(-993895056, "崸⒡깶〫믎㵿蜶ໝ邅"));
    }
 
-   private static void faz(int var0) {
+   static void faz(int var0) {
       ezy++;
       ezz = var0;
    }
 
-   private static void fba(MinecraftClient var0) {
+   static void fba(MinecraftClient var0) {
       try {
          if (ezr != null && var0.currentScreen == null) {
             ezr.setBoolean(var0.mouse, true);
@@ -337,7 +337,7 @@ final class ezo {
       }
    }
 
-   private static void fbb(MinecraftClient var0, String var1) {
+   static void fbb(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

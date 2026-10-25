@@ -4,15 +4,15 @@ import flow.dev.a;
 import java.util.function.DoubleFunction;
 
 public class vmc extends vmo {
-   private double vmd;
-   private final double vme;
-   private final double vmf;
-   private final double vmg;
-   private final double vmh;
-   private String vmi = "";
-   private boolean vmj;
-   private boolean vmk;
-   private DoubleFunction<String> vml;
+   double vmd;
+   final double vme;
+   final double vmf;
+   final double vmg;
+   final double vmh;
+   String vmi = "";
+   boolean vmj;
+   boolean vmk;
+   DoubleFunction<String> vml;
 
    public vmc(String var1, double var2, double var4, double var6, double var8) {
       super(var1);

@@ -1,10 +1,10 @@
 package a;
 
 final class isq {
-   private final uok isr;
-   private final long iss;
+   final uok isr;
+   final long iss;
 
-   private isq(uok texture, long frame) {
+   isq(uok texture, long frame) {
       this.isr = texture;
       this.iss = frame;
    }

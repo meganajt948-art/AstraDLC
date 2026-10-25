@@ -94,21 +94,21 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.chunk.WorldChunk;
 
 final class ehy extends ClientPlayNetworkHandler {
-   private static final long ehz = ejl.offset(ClientPlayNetworkHandler.class, ClientWorld.class);
-   private static final long eia = ejl.offset(ClientPlayNetworkHandler.class, Properties.class);
-   private static final long eib = ejl.offset(ClientPlayNetworkHandler.class, SearchManager.class);
-   private static final Field eic = vxr.find(
+   static final long ehz = ejl.offset(ClientPlayNetworkHandler.class, ClientWorld.class);
+   static final long eia = ejl.offset(ClientPlayNetworkHandler.class, Properties.class);
+   static final long eib = ejl.offset(ClientPlayNetworkHandler.class, SearchManager.class);
+   static final Field eic = vxr.find(
       ClientPlayNetworkHandler.class,
       a.c(-1291259695, "\uf0a8褒ϐ鷻ᙯ郚⪎ꍴ㴭랍き쨻䓾\udd15國퇵殷\ue474织\uf8ba焤୰藄"),
       a.d("⽛囥\udc3a䉂증众\uf52d糞\ue283栳\uefe3", -946701221, 1768641389),
       a.d("뚋", -1562936494, 647286146)
    );
-   private final dtv eid;
-   private Properties eie;
-   private int eif = 3;
-   private int eig = 3;
+   final dtv eid;
+   Properties eie;
+   int eif = 3;
+   int eig = 3;
 
-   private ehy(MinecraftClient var1, ClientConnection var2, ClientConnectionState var3, dtv var4) {
+   ehy(MinecraftClient var1, ClientConnection var2, ClientConnectionState var3, dtv var4) {
       super(var1, var2, var3);
       this.eid = var4;
       ejl.put(this, eib, eky.SEARCH);
@@ -130,7 +130,7 @@ final class ehy extends ClientPlayNetworkHandler {
       }
    }
 
-   private void eij(ClientWorld var1) {
+   void eij(ClientWorld var1) {
       ejl.put(this, ehz, var1);
       ejl.put(this, eia, this.eie);
    }

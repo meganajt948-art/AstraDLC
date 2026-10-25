@@ -13,7 +13,7 @@ import net.minecraft.world.biome.BiomeKeys;
 import org.lwjgl.glfw.GLFW;
 
 final class gsz {
-   private static final gsp[] gta = new gsp[]{
+   static final gsp[] gta = new gsp[]{
       new gsp(
          a.d("浶ᓙ鸍f讠ആ", -878195154, -1436900567), BiomeKeys.GROVE, a.b("뇋졄䊐\udcfb圽톛", 874033562), a.d("⡲凥\udb2d䕁캀䠠", 371511944, 1487469231), 23200L, 22, 12.0F
       ),
@@ -37,15 +37,15 @@ final class gsz {
       ),
       new gsp(a.c(-564303336, "橿Ꮪ餈ݸ買ਅ"), BiomeKeys.BIRCH_FOREST, a.b("࿙癜ﲎ拾\ue931澃", -866512994), a.d("뛣콴䖼\udbd0們횱", -412317646, 1636646532), 11400L, 12, 14.0F)
    };
-   private static final float[] gtb = new float[]{0.0F, 45.0F, 90.0F, 135.0F, 180.0F, 225.0F, 270.0F, 315.0F};
-   private static final int gtc = 760;
-   private static final int gtd = 30;
-   private static int gte = -1;
-   private static int gtf;
-   private static volatile BlockPos gtg;
-   private static volatile boolean gth;
+   static final float[] gtb = new float[]{0.0F, 45.0F, 90.0F, 135.0F, 180.0F, 225.0F, 270.0F, 315.0F};
+   static final int gtc = 760;
+   static final int gtd = 30;
+   static int gte = -1;
+   static int gtf;
+   static volatile BlockPos gtg;
+   static volatile boolean gth;
 
-   private gsz() {
+   gsz() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -128,7 +128,7 @@ final class gsz {
       }
    }
 
-   private static int gtk(int var0) {
+   static int gtk(int var0) {
       String var1 = System.getenv(a.b("嚟⼤ꗴ㮝뀯㛳責Ս鬔ᆮ陶氐\ue2cc", -1269737772));
 
       for (int var2 = var0 + 1; var2 < gta.length; var2++) {
@@ -140,7 +140,7 @@ final class gsz {
       return gta.length;
    }
 
-   private static void gtl(MinecraftClient var0, gsp var1) {
+   static void gtl(MinecraftClient var0, gsp var1) {
       gtg = null;
       gth = false;
       IntegratedServer var2 = var0.getServer();
@@ -163,14 +163,14 @@ final class gsz {
       });
    }
 
-   private static void gtm(MinecraftClient var0, float var1, float var2) {
+   static void gtm(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static vmo gtn(kfe var0, String var1) {
+   static vmo gtn(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -180,11 +180,11 @@ final class gsz {
       throw new IllegalStateException(var0.getName() + a.b("캜띥㶿ꏜ⡘꺧ᓵ鵋", -64762188) + var1);
    }
 
-   private static void gto(MinecraftClient var0, String var1) {
+   static void gto(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void gtp(MinecraftClient var0, String var1) {
+   static void gtp(MinecraftClient var0, String var1) {
       System.out
          .println(
             a.b("ഄ璥ﹰ怊\uebd6浰휨庀", 2146307455)

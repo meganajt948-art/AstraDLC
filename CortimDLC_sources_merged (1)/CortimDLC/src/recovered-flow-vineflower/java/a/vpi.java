@@ -1,9 +1,9 @@
 package a;
 
 final class vpi {
-   private final short[] vpj;
-   private final int vpk;
-   private final int vpl;
+   final short[] vpj;
+   final int vpk;
+   final int vpl;
 
    vpi(short[] data, int channels, int rate) {
       this.vpj = data;

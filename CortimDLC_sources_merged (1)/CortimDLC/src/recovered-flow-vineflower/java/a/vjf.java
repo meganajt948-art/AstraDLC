@@ -13,15 +13,15 @@ import net.minecraft.client.texture.TextureSetup;
 import org.joml.Matrix3x2f;
 
 public final class vjf {
-   private static final float vjg = 1.8F;
-   private static final float vjh = 1.15F;
-   private static final int vji = 1;
-   private static final int vjj = 12;
-   private static final Map<Long, vjb> vjk = new LinkedHashMap<>(16, 0.75F, true);
-   private static final List<viw> vjl = new ArrayList<>();
-   private static boolean vjm;
+   static final float vjg = 1.8F;
+   static final float vjh = 1.15F;
+   static final int vji = 1;
+   static final int vjj = 12;
+   static final Map<Long, vjb> vjk = new LinkedHashMap<>(16, 0.75F, true);
+   static final List<viw> vjl = new ArrayList<>();
+   static boolean vjm;
 
-   private vjf() {
+   vjf() {
    }
 
    public static void draw(DrawContext var0, vhz var1, float var2, float var3, float var4, int var5) {
@@ -52,13 +52,13 @@ public final class vjf {
       }
    }
 
-   private static float vjp() {
+   static float vjp() {
       MinecraftClient var0 = MinecraftClient.getInstance();
       int var1 = var0.getWindow() != null ? var0.getWindow().getScaleFactor() : 2;
       return Math.max(1, var1) * vdn.renderScale();
    }
 
-   private static vjb vjq(float var0, float var1) {
+   static vjb vjq(float var0, float var1) {
       int var2 = Math.max(6, Math.round(var0 * var1));
       vjb var3 = vjk.get((long)var2);
       if (var3 != null) {
@@ -87,7 +87,7 @@ public final class vjf {
       return var3;
    }
 
-   private static void vjr() {
+   static void vjr() {
       if (!vjl.isEmpty()) {
          long var0 = unf.frame();
          vjl.removeIf(var2 -> {

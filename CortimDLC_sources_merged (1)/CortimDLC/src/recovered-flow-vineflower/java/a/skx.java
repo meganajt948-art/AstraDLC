@@ -1,10 +1,10 @@
 package a;
 
 public final class skx {
-   private final long sky;
-   private final long skz;
-   private final String sla;
-   private final long[] slb;
+   final long sky;
+   final long skz;
+   final String sla;
+   final long[] slb;
 
    public skx(long start, long end, String text, long[] words) {
       this.sky = start;

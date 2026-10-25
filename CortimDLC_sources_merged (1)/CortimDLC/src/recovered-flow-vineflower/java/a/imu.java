@@ -3,13 +3,13 @@ package a;
 import net.minecraft.client.gui.DrawContext;
 
 final class imu extends imn {
-   private static final float imv = 25.0F;
-   private static final float imw = 17.5F;
-   private static final float imx = 2.5F;
-   private final vmc imy;
-   private final vcj imz;
-   private final vcj ina = new vcj(16.0F);
-   private boolean inb;
+   static final float imv = 25.0F;
+   static final float imw = 17.5F;
+   static final float imx = 2.5F;
+   final vmc imy;
+   final vcj imz;
+   final vcj ina = new vcj(16.0F);
+   boolean inb;
 
    imu(vmc var1) {
       super(var1);

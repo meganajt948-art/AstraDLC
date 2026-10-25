@@ -56,7 +56,7 @@ public final class hzv {
       throw new IllegalStateException(a.d("嗍ⱽꛡ㣀댆㖤迱؍頋ዷ锨潊\ue184硾\uf265璓컇䄉\udbb4巹", -1231193829, -1296814932));
    }
 
-   private hzv() {
+   hzv() {
    }
 
    public static void run(int var0) {
@@ -98,7 +98,7 @@ public final class hzv {
       return var2;
    }
 
-   private static void hzy() {
+   static void hzy() {
       MinecraftClient var0 = MinecraftClient.getInstance();
       if (var0.player != null && var0.world != null) {
          int var1 = wlk.inWorld().size();
@@ -117,12 +117,12 @@ public final class hzv {
       }
    }
 
-   private static void hzz(String var0, vkl var1) {
+   static void hzz(String var0, vkl var1) {
       var1.toggle();
       iaa(var0 + a.c(1606273036, "젮놟") + wap.value(var1.get() ? a.c(-1163236512, "欭ኽ") : a.d("뽓웋䰘", 1393738908, -1984201853)).toLowerCase(Locale.ROOT));
    }
 
-   private static void iaa(String var0) {
+   static void iaa(String var0) {
       izx.notify(a.c(-2141799571, "묯슴䡤혍"), var0);
    }
 

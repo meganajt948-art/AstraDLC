@@ -19,14 +19,14 @@ import net.minecraft.screen.slot.SlotActionType;
 import org.lwjgl.glfw.GLFW;
 
 public class owo extends kfe {
-   private static owo owp;
-   private final vkl owq = this.add(new vkl(a.c(677360224, "눹쮳䅡\udf1f哚툿栨\ue1cf羃\uf534"), true));
-   private final vkl owr = this.add(new vkl(a.d("備⤗ꏉ㶸뙦", -1305334915, 1830058934), true));
-   private final vmc ows = this.add(new vmc(a.d("ɰ篢\uf124潕\ue483", -84827491, -172187461), 2.0, 1.0, 6.0, 1.0).suffix(a.d("潫ᚁ鱏ȴ觫", 1449612396, -627295443)));
-   private final ArrayDeque<Integer> owt = new ArrayDeque<>();
-   private final Set<Integer> owu = new HashSet<>();
-   private int owv = -1;
-   private boolean oww;
+   static owo owp;
+   final vkl owq = this.add(new vkl(a.c(677360224, "눹쮳䅡\udf1f哚툿栨\ue1cf羃\uf534"), true));
+   final vkl owr = this.add(new vkl(a.d("備⤗ꏉ㶸뙦", -1305334915, 1830058934), true));
+   final vmc ows = this.add(new vmc(a.d("ɰ篢\uf124潕\ue483", -84827491, -172187461), 2.0, 1.0, 6.0, 1.0).suffix(a.d("潫ᚁ鱏ȴ觫", 1449612396, -627295443)));
+   final ArrayDeque<Integer> owt = new ArrayDeque<>();
+   final Set<Integer> owu = new HashSet<>();
+   int owv = -1;
+   boolean oww;
 
    public owo() {
       super(a.b("舦ﮪ煨\uef11擸\ue279堻퇗例씺䋠뢆", -1402961309), a.c(1765240970, "烺॰莢ᷜ阙ჼꫫ⌌뵀㟷끣䩓쒋崰휧冁\uebd1損ﺾ磦\uf15d識װ鹮ᡜ銏⬥ꕧ㿕맗㉣첧䛪\udf13奘"), kfa.PLAYER);
@@ -69,7 +69,7 @@ public class owo extends kfe {
       }
    }
 
-   private boolean owz(HandledScreen<?> var1, double var2) {
+   boolean owz(HandledScreen<?> var1, double var2) {
       if (this.isEnabled() && this.owr.get() && var2 != 0.0) {
          Slot var4 = vxl.hovered(var1);
          if (var4 != null && var4.hasStack()) {
@@ -83,7 +83,7 @@ public class owo extends kfe {
       }
    }
 
-   private void oxa(HandledScreen<?> var1) {
+   void oxa(HandledScreen<?> var1) {
       MinecraftClient var2 = MinecraftClient.getInstance();
       if (this.isEnabled() && this.owq.get() && var2.getWindow() != null) {
          long var3 = var2.getWindow().getHandle();
@@ -111,7 +111,7 @@ public class owo extends kfe {
       }
    }
 
-   private void oxb(HandledScreen<?> var1, Slot var2) {
+   void oxb(HandledScreen<?> var1, Slot var2) {
       int var3 = var1.getScreenHandler().syncId;
       if (var3 != this.owv) {
          this.owt.clear();

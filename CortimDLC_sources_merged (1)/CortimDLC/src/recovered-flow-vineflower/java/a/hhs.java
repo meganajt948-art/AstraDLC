@@ -5,10 +5,10 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 final class hhs extends imn {
-   private static final float hht = 22.0F;
-   private static final float hhu = 12.0F;
-   private final vcj[] hhv;
-   private final vcj[] hhw;
+   static final float hht = 22.0F;
+   static final float hhu = 12.0F;
+   final vcj[] hhv;
+   final vcj[] hhw;
 
    hhs() {
       super(iov.ACCENT);
@@ -27,7 +27,7 @@ final class hhs extends imn {
       return 22.0F;
    }
 
-   private float hhz(int var1, int var2) {
+   float hhz(int var1, int var2) {
       float var3 = (this.w - 12.0F * var2) / (var2 - 1);
       return this.x + 6.0F + var1 * (12.0F + var3);
    }

@@ -4,7 +4,7 @@ import flow.dev.a;
 
 public class vla extends vlv {
    public static final String THEME = a.c(1358628362, "ٛ翖\uf508歱\ue0ae");
-   private static final String[] vlb = new String[]{
+   static final String[] vlb = new String[]{
       a.c(-22177671, "頨\ue1a5死\uf502绝"),
       a.b("胑凜玀\uedec昦\ue084", 949649558),
       a.b("販\uf52a翳\ue19c橌\uecee", 620465404),
@@ -16,7 +16,7 @@ public class vla extends vlv {
       a.b("읬뻵㐥꩜", 907331375),
       a.c(699486684, "冋⠇ꋕ㲼")
    };
-   private static final int[][] vlc = new int[][]{
+   static final int[][] vlc = new int[][]{
       null,
       {-10556716, -5796870},
       {-28744, -14630},
@@ -63,7 +63,7 @@ public class vla extends vlv {
       return this.index() == 0 && var1[0] == var1[1] ? vlf(var1[0]) : var1[1];
    }
 
-   private static int vlf(int var0) {
+   static int vlf(int var0) {
       int var1 = var0 >> 16 & 0xFF;
       int var2 = var0 >> 8 & 0xFF;
       int var3 = var0 & 0xFF;

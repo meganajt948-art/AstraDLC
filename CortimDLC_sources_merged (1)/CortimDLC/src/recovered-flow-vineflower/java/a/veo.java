@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public final class veo {
-   private static final Map<vek, Font> vep = new EnumMap<>(vek.class);
-   private static final Map<vek, Boolean> veq = new EnumMap<>(vek.class);
-   private static final Map<Long, vdn> ver = new HashMap<>();
+   static final Map<vek, Font> vep = new EnumMap<>(vek.class);
+   static final Map<vek, Boolean> veq = new EnumMap<>(vek.class);
+   static final Map<Long, vdn> ver = new HashMap<>();
 
-   private veo() {
+   veo() {
    }
 
    public static vdn get(vek var0, float var1) {
@@ -41,7 +41,7 @@ public final class veo {
       return get(vek.BOLD, var0);
    }
 
-   private static synchronized Font veu(vek var0) {
+   static synchronized Font veu(vek var0) {
       Font var1 = vep.get(var0);
       if (var1 == null && !veq.containsKey(var0)) {
          try (InputStream var2 = veo.class.getResourceAsStream(var0.vel)) {

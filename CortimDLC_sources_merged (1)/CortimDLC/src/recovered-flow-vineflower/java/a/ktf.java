@@ -10,26 +10,26 @@ import net.minecraft.world.World;
 
 final class ktf {
    static final int HORIZON = 20;
-   private static final double ktg = 0.003;
-   private static final double kth = 4.0E-8;
-   private static final double kti = 16.0;
-   private final ktc ktj = new ktc();
-   private final ktc ktk = new ktc();
-   private ClientPlayerEntity ktl;
-   private double ktm;
-   private double ktn;
-   private double kto;
-   private float ktp;
-   private float ktq;
-   private boolean ktr;
-   private final boolean[] kts = new boolean[20];
-   private final boolean[] ktt = new boolean[20];
-   private final boolean[] ktu = new boolean[20];
-   private final boolean[] ktv = new boolean[20];
-   private final double[] ktw = new double[20];
-   private final double[] ktx = new double[20];
-   private final double[] kty = new double[20];
-   private final double[] ktz = new double[20];
+   static final double ktg = 0.003;
+   static final double kth = 4.0E-8;
+   static final double kti = 16.0;
+   final ktc ktj = new ktc();
+   final ktc ktk = new ktc();
+   ClientPlayerEntity ktl;
+   double ktm;
+   double ktn;
+   double kto;
+   float ktp;
+   float ktq;
+   boolean ktr;
+   final boolean[] kts = new boolean[20];
+   final boolean[] ktt = new boolean[20];
+   final boolean[] ktu = new boolean[20];
+   final boolean[] ktv = new boolean[20];
+   final double[] ktw = new double[20];
+   final double[] ktx = new double[20];
+   final double[] kty = new double[20];
+   final double[] ktz = new double[20];
 
    void sync(ClientPlayerEntity var1) {
       this.ktl = var1;
@@ -229,7 +229,7 @@ final class ktf {
       return new Vec3d(this.ktx[var2], this.kty[var2], this.ktz[var2]);
    }
 
-   private static double kuc(Entity var0, World var1, Box var2, double var3) {
+   static double kuc(Entity var0, World var1, Box var2, double var3) {
       return Entity.adjustMovementForCollisions(var0, new Vec3d(0.0, var3, 0.0), var2, var1, List.of()).y;
    }
 }

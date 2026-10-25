@@ -5,20 +5,20 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public final class kbs {
-   private static final kbs[] kbt;
+   static final kbs[] kbt;
    public static final kbs DEFAULT;
-   private static kbs kbu;
+   static kbs kbu;
    public final String key;
-   private final String kbv;
-   private final String kbw;
+   final String kbv;
+   final String kbw;
    public final int accent;
    public final jsf particles;
    public final int tint;
    public final int fill;
    public final boolean light;
-   private int kbx;
+   int kbx;
 
-   private kbs(String var1, String var2, String var3, int var4, jsf var5, int var6, int var7, boolean var8) {
+   kbs(String var1, String var2, String var3, int var4, jsf var5, int var6, int var7, boolean var8) {
       this.key = var1;
       this.kbv = var2;
       this.kbw = var3;
@@ -80,7 +80,7 @@ public final class kbs {
          : a.b("\ua8c7턿實얔乛좲犣ﭚ攎\uefa4栭", 833399011) + var0 + a.d("⛤弑험䮾", -731496764, -226617334);
    }
 
-   private static int kca(int var0) {
+   static int kca(int var0) {
       float[] var1 = Color.RGBtoHSB(var0 >> 16 & 0xFF, var0 >> 8 & 0xFF, var0 & 0xFF, null);
       float var2 = Math.max(0.32F, Math.min(0.62F, var1[1]));
       return Color.HSBtoRGB(var1[0], var2, 1.0F) & 16777215;

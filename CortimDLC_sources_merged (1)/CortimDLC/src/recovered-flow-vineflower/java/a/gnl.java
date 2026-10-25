@@ -31,6 +31,6 @@ final class gnl {
    double spin;
    int orbitTicks;
 
-   private gnl() {
+   gnl() {
    }
 }

@@ -19,30 +19,30 @@ import net.minecraft.registry.Registries;
 final class ibf extends ijy {
    static final float W = 430.0F;
    static final float H = 318.0F;
-   private static final float ibg = 12.0F;
-   private static final float ibh = 30.0F;
-   private static final float ibi = 22.0F;
-   private static final float ibj = 22.0F;
-   private static final float ibk = 20.0F;
-   private static final float ibl = 3.0F;
-   private static final float ibm = 16.0F;
-   private static final Map<vlg, List<iay>> ibn = new EnumMap<>(vlg.class);
+   static final float ibg = 12.0F;
+   static final float ibh = 30.0F;
+   static final float ibi = 22.0F;
+   static final float ibj = 22.0F;
+   static final float ibk = 20.0F;
+   static final float ibl = 3.0F;
+   static final float ibm = 16.0F;
+   static final Map<vlg, List<iay>> ibn = new EnumMap<>(vlg.class);
    final vlj setting;
    final iah search = new iah(a.b("\ue7ed鹪ᒽ諟ę螣", -1955862600), vhz.SEARCH, 32, iah.ANY);
-   private final float ibo;
-   private final float ibp;
-   private final vcj ibq = new vcj(16.0F);
-   private final vcj ibr = new vcj(18.0F);
-   private final vcj[] ibs = new vcj[]{new vcj(16.0F), new vcj(16.0F), new vcj(16.0F), new vcj(16.0F), new vcj(16.0F)};
-   private final vcj ibt = new vcj(16.0F);
-   private float ibu;
-   private boolean ibv;
-   private boolean ibw;
-   private List<iay> ibx = List.of();
-   private String iby;
-   private String ibz;
-   private int ica = -1;
-   private final vcj icb = new vcj(20.0F);
+   final float ibo;
+   final float ibp;
+   final vcj ibq = new vcj(16.0F);
+   final vcj ibr = new vcj(18.0F);
+   final vcj[] ibs = new vcj[]{new vcj(16.0F), new vcj(16.0F), new vcj(16.0F), new vcj(16.0F), new vcj(16.0F)};
+   final vcj ibt = new vcj(16.0F);
+   float ibu;
+   boolean ibv;
+   boolean ibw;
+   List<iay> ibx = List.of();
+   String iby;
+   String ibz;
+   int ica = -1;
+   final vcj icb = new vcj(20.0F);
 
    ibf(vlj var1, float var2, float var3) {
       this.setting = var1;
@@ -52,7 +52,7 @@ final class ibf extends ijy {
       this.icg();
    }
 
-   private static List<iay> ice(vlg var0) {
+   static List<iay> ice(vlg var0) {
       if (var0 != vlg.LOOT) {
          return ibn.computeIfAbsent(var0, var0x -> {
             ArrayList var1x = new ArrayList();
@@ -109,7 +109,7 @@ final class ibf extends ijy {
       return var1;
    }
 
-   private static iay icf(String var0, ItemStack var1, String var2) {
+   static iay icf(String var0, ItemStack var1, String var2) {
       String var3 = var0.startsWith(a.c(-467973585, "䩈㏽뤩❓겂⨢遢ᦔ蟙ദ")) ? var0.substring(10) : var0;
       return new iay(var0, var1, var2, var2 + a.d("戠", 1869347576, 1312856313) + var3 + a.c(-1647638294, "࣋") + var3.replace('_', ' '));
    }
@@ -124,7 +124,7 @@ final class ibf extends ijy {
       return ItemStack.EMPTY;
    }
 
-   private void icg() {
+   void icg() {
       ArrayList var1 = new ArrayList();
       String var2 = this.search.text;
 
@@ -138,39 +138,39 @@ final class ibf extends ijy {
       this.ibu = Math.min(this.ibu, this.icr());
    }
 
-   private float ich() {
+   float ich() {
       return this.ibo + 12.0F;
    }
 
-   private float ici() {
+   float ici() {
       return this.ibp + 30.0F + 22.0F + 8.0F;
    }
 
-   private float icj() {
+   float icj() {
       return 406.0F;
    }
 
-   private float ick() {
+   float ick() {
       return 318.0F - (this.ici() - this.ibp) - 16.0F - 6.0F;
    }
 
-   private boolean icl() {
+   boolean icl() {
       return this.setting.kind() == vlg.LOOT || this.setting.kind() == vlg.MOBS;
    }
 
-   private int icm() {
+   int icm() {
       return this.icl() ? 2 : Math.max(1, (int)((this.icj() + 3.0F) / 25.0F));
    }
 
-   private float icn() {
+   float icn() {
       return this.icl() ? (this.icj() - 3.0F) * 0.5F : 22.0F;
    }
 
-   private float ico() {
+   float ico() {
       return this.icl() ? 20.0F : 22.0F;
    }
 
-   private float icp() {
+   float icp() {
       int var1 = this.icm();
       if (this.icl()) {
          return this.icn() + 3.0F;
@@ -179,12 +179,12 @@ final class ibf extends ijy {
       }
    }
 
-   private float icq() {
+   float icq() {
       int var1 = (this.ibx.size() + this.icm() - 1) / this.icm();
       return var1 * (this.ico() + 3.0F);
    }
 
-   private float icr() {
+   float icr() {
       return Math.max(0.0F, this.icq() - this.ick());
    }
 
@@ -326,7 +326,7 @@ final class ibf extends ijy {
       }
    }
 
-   private void ics(DrawContext var1, float var2, float var3, float var4, boolean var5) {
+   void ics(DrawContext var1, float var2, float var3, float var4, boolean var5) {
       float var6 = this.ich();
       float var7 = this.ici();
       float var8 = this.icj();

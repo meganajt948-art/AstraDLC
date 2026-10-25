@@ -17,16 +17,16 @@ import net.minecraft.screen.slot.SlotActionType;
 
 final class qbo {
    static final int XP_DIAMOND_BLOCKS = 15;
-   private final ArrayDeque<qbf> qbp = new ArrayDeque<>();
-   private final List<String> qbq = new ArrayList<>();
-   private int qbr;
-   private int qbs;
-   private int qbt = -1;
-   private int qbu;
-   private boolean qbv;
-   private int qbw = -1;
-   private int qbx;
-   private int qby;
+   final ArrayDeque<qbf> qbp = new ArrayDeque<>();
+   final List<String> qbq = new ArrayList<>();
+   int qbr;
+   int qbs;
+   int qbt = -1;
+   int qbu;
+   boolean qbv;
+   int qbw = -1;
+   int qbx;
+   int qby;
 
    void plan(boolean var1, int var2) {
       this.qbp.clear();
@@ -47,7 +47,7 @@ final class qbo {
       this.qbp.add(new qbf(qbi.CLEAR, null, null, 0));
    }
 
-   private void qcb() {
+   void qcb() {
       this.qbp.add(new qbf(qbi.COMPRESS, Items.GOLD_NUGGET, Items.GOLD_INGOT, 0));
       this.qbp.add(new qbf(qbi.COMPRESS, Items.GOLD_INGOT, Items.GOLD_BLOCK, 0));
       this.qbp.add(new qbf(qbi.COMPRESS, Items.DIAMOND, Items.DIAMOND_BLOCK, 0));
@@ -115,7 +115,7 @@ final class qbo {
       return false;
    }
 
-   private qbl qcc(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, qbf var4) {
+   qbl qcc(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, qbf var4) {
       List var5 = var3.getInputSlots();
 
       return switch (var4.kind) {
@@ -138,7 +138,7 @@ final class qbo {
       };
    }
 
-   private qbl qcd(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, qbf var5) {
+   qbl qcd(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, qbf var5) {
       if (qcl(var4, var5.item, null)) {
          return this.qcj(var1, var2, var3, var4, var5.item);
       }
@@ -174,7 +174,7 @@ final class qbo {
       }
    }
 
-   private qbl qce(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, qbf var5) {
+   qbl qce(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, qbf var5) {
       Slot var6 = (Slot)var4.get(4);
       if (qcl(var4, var5.item, var6)) {
          return this.qcj(var1, var2, var3, var4, null);
@@ -203,7 +203,7 @@ final class qbo {
       return var6.hasStack() ? this.qci(var1, var2, var3, var5.result) : qbl.DONE;
    }
 
-   private qbl qcf(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, qbf var5) {
+   qbl qcf(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, qbf var5) {
       Slot var6 = (Slot)var4.get(4);
       if (qcl(var4, var5.item, var6)) {
          return this.qcj(var1, var2, var3, var4, null);
@@ -233,7 +233,7 @@ final class qbo {
       }
    }
 
-   private qbl qcg(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4) {
+   qbl qcg(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4) {
       if (this.qbv) {
          return this.qcj(var1, var2, var3, var4, null);
       }
@@ -315,7 +315,7 @@ final class qbo {
       }
    }
 
-   private qbl qch(ClientPlayerEntity var1, CraftingScreenHandler var2) {
+   qbl qch(ClientPlayerEntity var1, CraftingScreenHandler var2) {
       int var3 = count(var2, var1, Items.DIAMOND_BLOCK);
       int var4 = count(var2, var1, Items.DIAMOND);
       int var5 = count(var2, var1, Items.GOLD_BLOCK);
@@ -356,7 +356,7 @@ final class qbo {
       return qbl.DONE;
    }
 
-   private qbl qci(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, Item var4) {
+   qbl qci(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, Item var4) {
       Slot var5 = var3.getOutputSlot();
       ItemStack var6 = var5.getStack();
       boolean var7 = var4 != null
@@ -394,7 +394,7 @@ final class qbo {
       }
    }
 
-   private qbl qcj(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, Item var5) {
+   qbl qcj(MinecraftClient var1, ClientPlayerEntity var2, CraftingScreenHandler var3, List<Slot> var4, Item var5) {
       if (!var3.getCursorStack().isEmpty()) {
          putBack(var1, var2, var3, -1);
          return qbl.ACT;
@@ -422,7 +422,7 @@ final class qbo {
       return qbl.DONE;
    }
 
-   private static String qck(CraftingScreenHandler var0) {
+   static String qck(CraftingScreenHandler var0) {
       StringBuilder var1 = new StringBuilder(a.c(344476069, "䧿"));
 
       for (Slot var3 : var0.getInputSlots()) {
@@ -432,7 +432,7 @@ final class qbo {
       return var1.append(']').toString();
    }
 
-   private static boolean qcl(List<Slot> var0, Item var1, Slot var2) {
+   static boolean qcl(List<Slot> var0, Item var1, Slot var2) {
       for (Slot var4 : var0) {
          if (var4.hasStack() && (!var4.getStack().isOf(var1) || var2 != null && var4 != var2)) {
             return true;
@@ -442,7 +442,7 @@ final class qbo {
       return false;
    }
 
-   private static int qcm(List<Slot> var0) {
+   static int qcm(List<Slot> var0) {
       int var1 = 17;
 
       for (Slot var3 : var0) {
@@ -452,7 +452,7 @@ final class qbo {
       return var1;
    }
 
-   private static int qcn(MinecraftClient var0, ClientPlayerEntity var1) {
+   static int qcn(MinecraftClient var0, ClientPlayerEntity var1) {
       if (var0.getNetworkHandler() == null) {
          return 100;
       }
@@ -461,19 +461,19 @@ final class qbo {
       return var2 == null ? 100 : Math.max(0, var2.getLatency());
    }
 
-   private static int qco(MinecraftClient var0, ClientPlayerEntity var1) {
+   static int qco(MinecraftClient var0, ClientPlayerEntity var1) {
       return Math.min(14, 3 + qcn(var0, var1) / 50);
    }
 
-   private static int qcp(MinecraftClient var0, ClientPlayerEntity var1) {
+   static int qcp(MinecraftClient var0, ClientPlayerEntity var1) {
       return Math.min(100, 30 + qcn(var0, var1) / 20);
    }
 
-   private static void qcq(MinecraftClient var0, ClientPlayerEntity var1, ScreenHandler var2, int var3, int var4, SlotActionType var5) {
+   static void qcq(MinecraftClient var0, ClientPlayerEntity var1, ScreenHandler var2, int var3, int var4, SlotActionType var5) {
       var0.interactionManager.clickSlot(var2.syncId, var3, var4, var5, var1);
    }
 
-   private static void qcr(MinecraftClient var0, ClientPlayerEntity var1, ScreenHandler var2, List<Slot> var3) {
+   static void qcr(MinecraftClient var0, ClientPlayerEntity var1, ScreenHandler var2, List<Slot> var3) {
       qcq(var0, var1, var2, -999, ScreenHandler.packQuickCraftData(0, 0), SlotActionType.QUICK_CRAFT);
 
       for (Slot var5 : var3) {
@@ -532,7 +532,7 @@ final class qbo {
       return var3;
    }
 
-   private static Slot qcs(ScreenHandler var0, ClientPlayerEntity var1, Item var2) {
+   static Slot qcs(ScreenHandler var0, ClientPlayerEntity var1, Item var2) {
       Slot var3 = null;
 
       for (Slot var5 : var0.slots) {
@@ -544,7 +544,7 @@ final class qbo {
       return var3;
    }
 
-   private static Slot qct(ScreenHandler var0, ClientPlayerEntity var1, Item var2, Slot var3) {
+   static Slot qct(ScreenHandler var0, ClientPlayerEntity var1, Item var2, Slot var3) {
       Slot var4 = null;
 
       for (Slot var6 : var0.slots) {

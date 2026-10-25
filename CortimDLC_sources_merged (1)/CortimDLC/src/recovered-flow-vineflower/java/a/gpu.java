@@ -33,18 +33,18 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 final class gpu {
-   private static final String[] gpv = new String[]{
+   static final String[] gpv = new String[]{
       a.b("\ud83bꆾ⭬딆㻭롿Ȯ评ᖜ鼷", 304863344), a.c(536155090, "᎗樇\ue0f1线\uf570珜즻䁫\ude3d咁퍊"), a.c(2074543756, "ێ罂\uf580毹\ue013暚\udcd8唣쭦䇝옞")
    };
-   private static String gpw;
-   private static String gpx;
-   private static double gpy;
-   private static NarratorMode gpz;
-   private static Object gqa;
-   private static Entity gqb;
-   private static float gqc;
+   static String gpw;
+   static String gpx;
+   static double gpy;
+   static NarratorMode gpz;
+   static Object gqa;
+   static Entity gqb;
+   static float gqc;
 
-   private gpu() {
+   gpu() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -325,7 +325,7 @@ final class gpu {
       return false;
    }
 
-   private static void gqf(MinecraftClient var0, String var1) throws Exception {
+   static void gqf(MinecraftClient var0, String var1) throws Exception {
       ((Map)gqo(hlc.class, a.d("큓꧲⌰뵜㚈뀹ੵ", -2023371267, -579789318))).clear();
 
       for (String var5 : new String[]{a.b("⟙并풢䫙섅䞬\ufdd0", 32712617), a.b("蕟ﳰ瘤\ue85f掃\ue52a彗", 98796847)}) {
@@ -340,11 +340,11 @@ final class gpu {
       var0.setScreen(new hlc());
    }
 
-   private static List<?> gqg(String var0) throws Exception {
+   static List<?> gqg(String var0) throws Exception {
       return (List<?>)gqo(hlc.class, var0);
    }
 
-   private static Object gqh(String var0, String var1) throws Exception {
+   static Object gqh(String var0, String var1) throws Exception {
       for (Object var3 : gqg(var0)) {
          if (var1.equals(gqp(var3, a.d("尥▉꽇ㄮ뫰", 1102343416, 1941385388)))) {
             return var3;
@@ -354,7 +354,7 @@ final class gpu {
       throw new IllegalStateException(a.d("\ufada荪৶韄ᰑ骳\u20f6ꥃ", 1569691067, 1720217351) + var1);
    }
 
-   private static void gqi(Object var0) throws Exception {
+   static void gqi(Object var0) throws Exception {
       Field var1 = var0.getClass().getDeclaredField(a.c(-1359154353, "\uf325誘H鸹ᗣ鍃⤓ꃴ㺪"));
       var1.setAccessible(true);
       var1.setBoolean(var0, true);
@@ -362,7 +362,7 @@ final class gpu {
       var2.getClass().getMethod(a.c(2013756832, "緐ѷ躵"), float.class).invoke(var2, 0.0F);
    }
 
-   private static Object gqj() throws Exception {
+   static Object gqj() throws Exception {
       for (Object var1 : (List)gqp(gqh(a.c(-301995437, "\uea2d鎀ᥞ蜧\u0cf8詯〞맼➵괓"), a.c(53910478, "鮁\ue206棓\uf6a5絩ﯚ䇄졡嘢\udc9e孅ꄼ")), a.c(1447823760, "০灊嬨擴"))) {
          if (var1.getClass().getSimpleName().equals(a.c(1578460042, "揀ᩝ邍\u0eff蔵΅맷〻깼"))) {
             return var1;
@@ -372,7 +372,7 @@ final class gpu {
       throw new IllegalStateException(a.b("滞ᝮ鷲π蠛ຩ듹㴒ꍊ⧺깺呙\uda93䌺", -1101566274));
    }
 
-   private static void gqk(String var0, int var1, int var2) throws Exception {
+   static void gqk(String var0, int var1, int var2) throws Exception {
       Object var3 = Array.get(gqo(iov.class, var0), var1);
       float[] var4 = Color.RGBtoHSB(var2 >> 16 & 0xFF, var2 >> 8 & 0xFF, var2 & 0xFF, null);
       Method var5 = iov.class
@@ -381,21 +381,21 @@ final class gpu {
       var5.invoke(null, var3, var2, var4[0], var4[1], var4[2]);
    }
 
-   private static void gql(Screen var0, float var1, float var2, int var3) throws Exception {
+   static void gql(Screen var0, float var1, float var2, int var3) throws Exception {
       float var4 = gqq(var0, a.c(1598578063, "巧\u244b꺃ー묥㶓蟶"));
       float var5 = gqq(var0, a.d("崦⒊깂〽믤㵒蜶", -924067320, 1131251526));
       float var6 = gqq(var0, a.d("啧Ⳇꘗ㡫뎵", -161907536, -1335088735));
       var0.mouseClicked(new Click(var4 + var1 * var6, var5 + var2 * var6, new MouseInput(var3, 0)), false);
    }
 
-   private static void gqm(Screen var0, float var1, float var2, double var3) throws Exception {
+   static void gqm(Screen var0, float var1, float var2, double var3) throws Exception {
       float var5 = gqq(var0, a.c(-1251054510, "氺ᖖ齞ġ諸\u0c4e똫"));
       float var6 = gqq(var0, a.b("뉷쯛䄓\udf6c咵툃桧", 1314304543));
       float var7 = gqq(var0, a.b("\uf0ee襏Ξ鷢ᘼ", -331157352));
       var0.mouseScrolled(var5 + var1 * var7, var6 + var2 * var7, 0.0, var3);
    }
 
-   private static byte[] gqn(double var0, double var2) {
+   static byte[] gqn(double var0, double var2) {
       char var4 = '뮀';
       int var5 = (int)(var4 * var2);
       ByteBuffer var6 = ByteBuffer.allocate(44 + var5 * 2).order(ByteOrder.LITTLE_ENDIAN);
@@ -417,13 +417,13 @@ final class gpu {
       return var6.array();
    }
 
-   private static Object gqo(Class<?> var0, String var1) throws Exception {
+   static Object gqo(Class<?> var0, String var1) throws Exception {
       Field var2 = var0.getDeclaredField(var1);
       var2.setAccessible(true);
       return var2.get(null);
    }
 
-   private static Object gqp(Object var0, String var1) throws Exception {
+   static Object gqp(Object var0, String var1) throws Exception {
       for (Class var2 = var0.getClass(); var2 != null; var2 = var2.getSuperclass()) {
          try {
             Field var3 = var2.getDeclaredField(var1);
@@ -436,11 +436,11 @@ final class gpu {
       throw new NoSuchFieldException(var1);
    }
 
-   private static float gqq(Object var0, String var1) throws Exception {
+   static float gqq(Object var0, String var1) throws Exception {
       return ((Number)gqp(var0, var1)).floatValue();
    }
 
-   private static vmo gqr(kfe var0, String var1) {
+   static vmo gqr(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -450,11 +450,11 @@ final class gpu {
       throw new IllegalStateException(a.d("ش羄\uf518欺\ue0fb晛\udc08嗤쮼䄄욐", 929969473, 2026582800) + var1);
    }
 
-   private static String gqs(int var0) {
+   static String gqs(int var0) {
       return String.format(a.d("ㅉ䣭숶尧", -2062390563, 916675509), var0);
    }
 
-   private static void gqt(MinecraftClient var0, String var1) {
+   static void gqt(MinecraftClient var0, String var1) {
       System.out
          .println(a.d("䑲㷕뜏⥴ꋥ␀鹂ឥ觽̘", 1518544043, -8626016) + var1 + a.d("棺ᄫ鮘", -383990543, -261837784) + var0.getCurrentFps() + a.b("늨쭟䆚\udfe8", 715305612));
       ScreenshotRecorder.saveScreenshot(

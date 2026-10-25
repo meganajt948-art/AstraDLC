@@ -23,44 +23,44 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 final class gkm {
-   private static final int gkn = Integer.getInteger(a.d("ﭺ苁ࠑ陸ᷪ魇⅔ꢮ㛡뱗㮙솩伢횄峑", 250015868, -1923871889), 2400);
-   private static final int gko = 1600;
-   private static final boolean gkp = a.d("\udba7", 1013606485, 1609216962).equals(System.getenv(a.b("恵菐ऀ革᳛騇⁅ꦿ㟰뵆㪈삇", 1281882657)));
-   private static final boolean gkq = a.b("‾", -2129518578).equals(System.getenv(a.d("駁\ue07a檪\uf4c3罱玲䏯쨕呚\udeec夢ꍃ\u2d9c됵㹫뢚˛贃", 1993108701, -1415973560)));
-   private static final boolean gkr = a.b("倁", 1338527793).equals(System.getenv(a.c(246098352, "⧦偝\uda8d䓤콖䦊\uf3c8稲\ue47d滋\ue905፤鶮М蹝ࢺ")));
-   private static final Random gks = new Random(11L);
-   private static Field gkt;
-   private static Field gku;
-   private static int gkv;
-   private static int gkw;
-   private static tiq gkx;
-   private static final gkj gky = new gkj(a.c(1704126509, "\ue840釬ᬧ蕚ຂ"));
-   private static final gkj gkz = new gkj(a.c(-1796949976, "례쇳䬫핛庅"));
-   private static final List<String> gla = new ArrayList<>();
-   private static final Map<String, Integer> glb = new TreeMap<>();
-   private static tkx glc;
-   private static int gld;
-   private static double gle;
-   private static double glf;
-   private static final LinkedList<double[]> glg = new LinkedList<>();
-   private static double glh;
-   private static double gli;
-   private static int glj;
-   private static int glk;
-   private static double gll;
-   private static double glm;
-   private static double gln;
-   private static double glo;
-   private static int glp;
-   private static float glq;
-   private static float glr;
-   private static boolean gls;
-   private static int glt;
-   private static int glu;
-   private static int glv;
-   private static boolean glw;
+   static final int gkn = Integer.getInteger(a.d("ﭺ苁ࠑ陸ᷪ魇⅔ꢮ㛡뱗㮙솩伢횄峑", 250015868, -1923871889), 2400);
+   static final int gko = 1600;
+   static final boolean gkp = a.d("\udba7", 1013606485, 1609216962).equals(System.getenv(a.b("恵菐ऀ革᳛騇⁅ꦿ㟰뵆㪈삇", 1281882657)));
+   static final boolean gkq = a.b("‾", -2129518578).equals(System.getenv(a.d("駁\ue07a檪\uf4c3罱玲䏯쨕呚\udeec夢ꍃ\u2d9c됵㹫뢚˛贃", 1993108701, -1415973560)));
+   static final boolean gkr = a.b("倁", 1338527793).equals(System.getenv(a.c(246098352, "⧦偝\uda8d䓤콖䦊\uf3c8稲\ue47d滋\ue905፤鶮М蹝ࢺ")));
+   static final Random gks = new Random(11L);
+   static Field gkt;
+   static Field gku;
+   static int gkv;
+   static int gkw;
+   static tiq gkx;
+   static final gkj gky = new gkj(a.c(1704126509, "\ue840釬ᬧ蕚ຂ"));
+   static final gkj gkz = new gkj(a.c(-1796949976, "례쇳䬫핛庅"));
+   static final List<String> gla = new ArrayList<>();
+   static final Map<String, Integer> glb = new TreeMap<>();
+   static tkx glc;
+   static int gld;
+   static double gle;
+   static double glf;
+   static final LinkedList<double[]> glg = new LinkedList<>();
+   static double glh;
+   static double gli;
+   static int glj;
+   static int glk;
+   static double gll;
+   static double glm;
+   static double gln;
+   static double glo;
+   static int glp;
+   static float glq;
+   static float glr;
+   static boolean gls;
+   static int glt;
+   static int glu;
+   static int glv;
+   static boolean glw;
 
-   private gkm() {
+   gkm() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -281,16 +281,16 @@ final class gkm {
       return false;
    }
 
-   private static kgj glz() {
+   static kgj glz() {
       return (kgj)Flow.getInstance().getModuleManager().getByName(a.d("ᖌ氕\ue6c2碟\uf37a痋쾂䙩\ud831", 2136601038, -1797331958));
    }
 
-   private static void gma(int var0) {
+   static void gma(int var0) {
       gkv++;
       gkw = var0;
    }
 
-   private static void gmb(MinecraftClient var0) {
+   static void gmb(MinecraftClient var0) {
       var0.options.pauseOnLostFocus = false;
       gmj(var0, a.c(1377092853, "쒃봴㟫ꦒ≍꓾Ầ靖ौ莮ѻ︍烞\ue970挼\ue5da徘"));
       gmj(var0, a.c(624971756, "侕㘹볮⊗꤅\u2fe7関᱂艉ࢶ轤甕\ufbc3"));
@@ -332,7 +332,7 @@ final class gkm {
       }
    }
 
-   private static void gmc(MinecraftClient var0) throws Exception {
+   static void gmc(MinecraftClient var0) throws Exception {
       if (gkt != null && var0.currentScreen == null) {
          gkt.setBoolean(var0.mouse, true);
       }
@@ -342,7 +342,7 @@ final class gkm {
       }
    }
 
-   private static void gmd() {
+   static void gmd() {
       for (vmo var1 : ldr.get().getSettings()) {
          switch (var1.getName()) {
             case a.d("\u18ff慇\ueb8d", -649256303, 2113550891):
@@ -363,7 +363,7 @@ final class gkm {
       }
    }
 
-   private static void gme(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void gme(MinecraftClient var0, ClientPlayerEntity var1) {
       List var2 = tcz.stands();
       if (!var2.isEmpty()) {
          if (glc == null || glc.isRemoved() || --gld <= 0) {
@@ -465,7 +465,7 @@ final class gkm {
       }
    }
 
-   private static void gmf(MinecraftClient var0, ClientPlayerEntity var1) {
+   static void gmf(MinecraftClient var0, ClientPlayerEntity var1) {
       float var2 = var1.getYaw();
       float var3 = var1.getPitch();
       if (gls) {
@@ -561,26 +561,26 @@ final class gkm {
       }
    }
 
-   private static boolean gmg(ClientPlayerEntity var0, Box var1) {
+   static boolean gmg(ClientPlayerEntity var0, Box var1) {
       Vec3d var2 = var0.getEyePos();
       Vec3d var3 = var2.add(var0.getRotationVec(1.0F).multiply(6.0));
       return var1.raycast(var2, var3).isPresent() || var1.contains(var2);
    }
 
-   private static void gmh(MinecraftClient var0) {
+   static void gmh(MinecraftClient var0) {
       KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(var0.options.attackKey));
    }
 
-   private static double gmi(double var0) {
+   static double gmi(double var0) {
       var0 = Math.max(0.0, Math.min(1.0, var0));
       return var0 * var0 * var0 * (10.0 - 15.0 * var0 + 6.0 * var0 * var0);
    }
 
-   private static void gmj(MinecraftClient var0, String var1) {
+   static void gmj(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void gmk(MinecraftClient var0, String var1) {
+   static void gmk(MinecraftClient var0, String var1) {
       System.out.println(a.b("撫ᴌ韖ভ舼ә뺛㝼ꤤ⏁", -367958830) + var1);
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

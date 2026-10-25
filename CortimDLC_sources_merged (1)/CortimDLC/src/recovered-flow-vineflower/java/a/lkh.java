@@ -8,29 +8,29 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class lkh {
-   private static final MinecraftClient lki = MinecraftClient.getInstance();
-   private static final double lkj = 33.5;
-   private static final double lkk = 15.0;
-   private static final double lkl = 0.021321961620469083;
-   private static final double lkm = 0.8;
-   private static final double lkn = 1.25;
-   private static final int lko = 24;
-   private static final double lkp = 1.5;
-   private static final int lkq = 12;
-   private static final int lkr = 2;
-   private static final double lks = 0.4;
-   private static final long lkt = 50L;
-   private final ljx lku;
-   private final lka lkv = new lka();
-   private final float[] lkw = new float[16];
-   private final float[] lkx = new float[16];
-   private double lky;
-   private long lkz;
-   private double lla;
-   private double llb;
-   private float llc;
-   private float lld;
-   private int lle = -1;
+   static final MinecraftClient lki = MinecraftClient.getInstance();
+   static final double lkj = 33.5;
+   static final double lkk = 15.0;
+   static final double lkl = 0.021321961620469083;
+   static final double lkm = 0.8;
+   static final double lkn = 1.25;
+   static final int lko = 24;
+   static final double lkp = 1.5;
+   static final int lkq = 12;
+   static final int lkr = 2;
+   static final double lks = 0.4;
+   static final long lkt = 50L;
+   final ljx lku;
+   final lka lkv = new lka();
+   final float[] lkw = new float[16];
+   final float[] lkx = new float[16];
+   double lky;
+   long lkz;
+   double lla;
+   double llb;
+   float llc;
+   float lld;
+   int lle = -1;
 
    public lkh(ljx var1) {
       this.lku = var1;
@@ -69,7 +69,7 @@ public final class lkh {
       }
    }
 
-   private double llh(float var1, float var2, double var3) {
+   double llh(float var1, float var2, double var3) {
       if (this.lkz == 0L) {
          this.lkz = System.currentTimeMillis();
          this.lky = this.lkz * 0.021321961620469083;
@@ -91,7 +91,7 @@ public final class lkh {
       return this.lky;
    }
 
-   private void lli(double var1, float var3, float var4, double var5, int var7, int var8, double var9, double var11) {
+   void lli(double var1, float var3, float var4, double var5, int var7, int var8, double var9, double var11) {
       double var13 = 1.0;
       double var15 = Double.MAX_VALUE;
       double var17 = Double.MAX_VALUE;
@@ -111,7 +111,7 @@ public final class lkh {
       this.llb = var17;
    }
 
-   private double llj(double var1, float var3, float var4, double var5, int var7, int var8, double var9, double var11) {
+   double llj(double var1, float var3, float var4, double var5, int var7, int var8, double var9, double var11) {
       double var13 = this.lky;
       float var15 = var3;
       float var16 = var4;
@@ -134,11 +134,11 @@ public final class lkh {
       return var17;
    }
 
-   private int llk() {
+   int llk() {
       return MathHelper.clamp(this.lku.strikeIn, 0, 12);
    }
 
-   private void lll(int var1) {
+   void lll(int var1) {
       this.lkw[0] = this.lku.yawToTarget;
       this.lkx[0] = this.lku.pitchToTarget;
 
@@ -158,7 +158,7 @@ public final class lkh {
       }
    }
 
-   private double llm(boolean var1) {
+   double llm(boolean var1) {
       Box var2 = this.lku.box;
       double var3 = var1 ? Math.min(var2.getLengthX(), var2.getLengthZ()) : var2.getLengthY();
       Vec3d var5 = lki.player.getEyePos();

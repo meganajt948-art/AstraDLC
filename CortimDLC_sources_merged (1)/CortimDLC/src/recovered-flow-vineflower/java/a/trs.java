@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Random;
 
 public final class trs {
-   private static final int trt = 128;
-   private static final double tru = 0.002;
-   private static final double trv = 2.0E-4;
-   private static final double trw = 1.0E-4;
-   private static final double trx = 5.0;
+   static final int trt = 128;
+   static final double tru = 0.002;
+   static final double trv = 2.0E-4;
+   static final double trw = 1.0E-4;
+   static final double trx = 5.0;
 
-   private trs() {
+   trs() {
    }
 
    public static trm train(trp var0, int var1, long var2, tmw var4) {
@@ -154,13 +154,13 @@ public final class trs {
       return var49;
    }
 
-   private static void tsa(trp var0, int var1, double[] var2) {
+   static void tsa(trp var0, int var1, double[] var2) {
       for (int var3 = 0; var3 < 71; var3++) {
          var2[var3] = var0.x[var1 * 71 + var3];
       }
    }
 
-   private static void tsb(double[] var0, int var1, boolean var2, boolean var3, double var4, double[] var6) {
+   static void tsb(double[] var0, int var1, boolean var2, boolean var3, double var4, double[] var6) {
       double var7 = Double.NEGATIVE_INFINITY;
 
       for (int var9 = 0; var9 < 9; var9++) {
@@ -183,7 +183,7 @@ public final class trs {
       var6[10] = 0.5 * var4 * (var13 - (var3 ? 1.0 : 0.0));
    }
 
-   private static double tsc(trp var0, List<Integer> var1, trj var2, double[] var3) {
+   static double tsc(trp var0, List<Integer> var1, trj var2, double[] var3) {
       tbx var4 = var2.net;
       double[] var5 = new double[71];
       double[] var6 = new double[71];
@@ -252,7 +252,7 @@ public final class trs {
       return var12 <= 0.0 ? Double.NaN : var10 / var12;
    }
 
-   private static boolean[] tsd(trp var0, List<Integer> var1, trj var2) {
+   static boolean[] tsd(trp var0, List<Integer> var1, trj var2) {
       byte var3 = 71;
       double[] var4 = new double[var3];
       double[] var5 = new double[var3];
@@ -279,7 +279,7 @@ public final class trs {
       return var14;
    }
 
-   private static void tse(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
+   static void tse(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
       double var7 = 0.9;
       double var9 = 0.999;
       double var11 = 1.0 - Math.pow(var7, var4);
@@ -292,7 +292,7 @@ public final class trs {
       }
    }
 
-   private static void tsf(int[] var0, Random var1) {
+   static void tsf(int[] var0, Random var1) {
       for (int var2 = var0.length - 1; var2 > 0; var2--) {
          int var3 = var1.nextInt(var2 + 1);
          int var4 = var0[var2];
@@ -301,7 +301,7 @@ public final class trs {
       }
    }
 
-   private static float[] tsg(List<Float> var0) {
+   static float[] tsg(List<Float> var0) {
       float[] var1 = new float[var0.size()];
 
       for (int var2 = 0; var2 < var1.length; var2++) {

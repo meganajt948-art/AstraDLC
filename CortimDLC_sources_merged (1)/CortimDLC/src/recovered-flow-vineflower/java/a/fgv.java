@@ -29,27 +29,27 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.PlayerInput;
 
 final class fgv {
-   private static final String fgw = a.d(
+   static final String fgw = a.d(
       "᳦故\uef9b熴嗢粅웒伤텰寇\udc05♧ꢷㄔ묉㶱蟣࠳銘ᓜ鴨\ue774槇\uf258琩ﺷ䜈쥃厯헤帙ꃊ⪑댯㕰뿃\t詧ವ锏Ὓ憰\uebe4氜\uf68a碢섾䮋췃嘙\ud86c⊬\uab08ⵞ랿㦠艆ҁ軴ᜢ馎\ue3dd搜\uee7c炼更䍚여侣퀊廚\ud8b7Ⅰꯒ㖉빼㰱芗ୃ锾ῳ駜\ue211泉\uf6b3罨\ufdc9䟇져",
       644535152,
       656789428
    );
-   private static final Set<Integer> fgx = ConcurrentHashMap.newKeySet();
-   private static final StringBuffer fgy = new StringBuffer();
-   private static volatile boolean fgz;
-   private static volatile boolean fha;
-   private static volatile boolean fhb;
-   private static volatile int fhc;
-   private static volatile int fhd;
-   private static volatile int fhe;
-   private static int fhf;
-   private static boolean fhg;
-   private static kfe fhh;
-   private static int fhi = 75;
-   private static int fhj = 74;
-   private static int fhk;
+   static final Set<Integer> fgx = ConcurrentHashMap.newKeySet();
+   static final StringBuffer fgy = new StringBuffer();
+   static volatile boolean fgz;
+   static volatile boolean fha;
+   static volatile boolean fhb;
+   static volatile int fhc;
+   static volatile int fhd;
+   static volatile int fhe;
+   static int fhf;
+   static boolean fhg;
+   static kfe fhh;
+   static int fhi = 75;
+   static int fhj = 74;
+   static int fhk;
 
-   private fgv() {
+   fgv() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -223,7 +223,7 @@ final class fgv {
       return false;
    }
 
-   private static void fhn(MinecraftClient var0, int var1) {
+   static void fhn(MinecraftClient var0, int var1) {
       fhc = 0;
       fhd = 0;
       fgy.setLength(0);
@@ -232,7 +232,7 @@ final class fgv {
       fhh.onKey(var0, var1);
    }
 
-   private static void fho(MinecraftClient var0, boolean var1) {
+   static void fho(MinecraftClient var0, boolean var1) {
       byte var2 = 87;
       short var3 = 341;
       if (var1) {
@@ -247,7 +247,7 @@ final class fgv {
       var0.options.sprintKey.setPressed(var1);
    }
 
-   private static void fhp(MinecraftClient var0, String var1) {
+   static void fhp(MinecraftClient var0, String var1) {
       fia(var0, a.c(862828649, "렐솣䭵프废\ud84e戸\uebf7疇［磡芅ఊ闯ᾡ饁⌆곧"));
       fia(var0, a.b("Ʝ\ude0c哖쪣䅧임綷\uf475", -150362151));
 
@@ -263,11 +263,11 @@ final class fgv {
       }
    }
 
-   private static ServerPlayerEntity fhq(MinecraftClient var0) {
+   static ServerPlayerEntity fhq(MinecraftClient var0) {
       return var0.getServer().getPlayerManager().getPlayer(var0.player.getUuid());
    }
 
-   private static void fhr(MinecraftClient var0, String var1, Item var2) {
+   static void fhr(MinecraftClient var0, String var1, Item var2) {
       ItemStack var3 = fhq(var0).getMainHandStack();
       fhy(var1, var2 == Items.AIR ? var3.isEmpty() : var3.isOf(var2), a.c(1389889576, "ࡅ燽ﬡ敚\ueed4") + var3);
       fhy(
@@ -278,12 +278,12 @@ final class fgv {
       fhy(var1, !oxw.busy(), a.b("ᦾ怈\ueac6璲･禘쎉䩯퐶庍", 1209276871));
    }
 
-   private static void fhs(MinecraftClient var0, String var1, int var2, Item var3, int var4) {
+   static void fhs(MinecraftClient var0, String var1, int var2, Item var3, int var4) {
       ItemStack var5 = fhq(var0).getInventory().getStack(var2);
       fhy(var1, var5.isOf(var3) && var5.getCount() == var4, a.b("胠漏玞\uedf4", 1199669399) + var2 + a.b("䡧", -1880995749) + var5);
    }
 
-   private static void fht(MinecraftClient var0, String var1, int var2, Item var3, int var4) {
+   static void fht(MinecraftClient var0, String var1, int var2, Item var3, int var4) {
       BundleContentsComponent var5 = vvn.contents(fhq(var0).getInventory().getStack(var2));
       int var6 = 0;
       if (var5 != null) {
@@ -309,7 +309,7 @@ final class fgv {
       );
    }
 
-   private static void fhu(MinecraftClient var0, String var1, Item var2, int var3) {
+   static void fhu(MinecraftClient var0, String var1, Item var2, int var3) {
       PlayerInventory var4 = fhq(var0).getInventory();
       int var5 = 0;
 
@@ -326,7 +326,7 @@ final class fgv {
       );
    }
 
-   private static void fhv(MinecraftClient var0, String var1) {
+   static void fhv(MinecraftClient var0, String var1) {
       PlayerInventory var2 = fhq(var0).getInventory();
 
       for (int var3 = 0; var3 < 36; var3++) {
@@ -335,13 +335,13 @@ final class fgv {
       }
    }
 
-   private static void fhw(MinecraftClient var0, String var1) {
+   static void fhw(MinecraftClient var0, String var1) {
       ServerPlayerEntity var2 = fhq(var0);
       int var3 = var2.getEntityWorld().getEntitiesByClass(ItemEntity.class, var2.getBoundingBox().expand(16.0), var0x -> true).size();
       fhy(var1, var3 == 0, a.d("舤ﮃ煍\uef23擴\ue250堂톷価씍䋏뢶㙿꾀", -339271658, -1234001320) + var3);
    }
 
-   private static void fhx(String var0) {
+   static void fhx(String var0) {
       fgz = false;
       System.out
          .println(
@@ -357,14 +357,14 @@ final class fgv {
       fhy(var0, fhd == 0, a.c(-2062944450, "\uf764軭Ч驎ᆄ霝\u2d6cꒊ㫈끿㞭췁䍅\udaa3僨혃汕\ue38c祻ｬ皑್艸"));
    }
 
-   private static void fhy(String var0, boolean var1, String var2) {
+   static void fhy(String var0, boolean var1, String var2) {
       if (!var1) {
          fhf++;
          System.out.println(a.b("ꃷ\ud951厙췢䘽삅窓", -1226923886) + var0 + a.c(552997084, "ჺ椭\ue3f9綀\uf652炏") + var2);
       }
    }
 
-   private static kfe fhz(String var0, boolean var1) {
+   static kfe fhz(String var0, boolean var1) {
       kfe var2 = Flow.getInstance().getModuleManager().getByName(var0);
       if (var2 != null) {
          var2.setEnabled(var1);
@@ -373,11 +373,11 @@ final class fgv {
       return var2;
    }
 
-   private static void fia(MinecraftClient var0, String var1) {
+   static void fia(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fib(MinecraftClient var0) throws Exception {
+   static void fib(MinecraftClient var0) throws Exception {
       if (!fhg) {
          ServerPlayerEntity var1 = fhq(var0);
          ClientConnection var2 = null;
@@ -409,7 +409,7 @@ final class fgv {
       }
    }
 
-   private static void fic(Object var0) {
+   static void fic(Object var0) {
       if (var0 instanceof PlayerInputC2SPacket var1) {
          PlayerInput var6 = var1.input();
          boolean var7 = var6.forward() || var6.backward() || var6.left() || var6.right() || var6.jump() || var6.sneak();
@@ -442,14 +442,14 @@ final class fgv {
       }
    }
 
-   private static void fid() {
+   static void fid() {
       if (fgz && (fha || fhb)) {
          fhd++;
          fie(a.b("럎츈䓄\udab3內ퟛ涝\ue471稨\uf098", -736905243));
       }
    }
 
-   private static void fie(String var0) {
+   static void fie(String var0) {
       if (fgz && fgy.length() < 800) {
          fgy.append(' ').append(fhe).append(':').append(var0);
       }

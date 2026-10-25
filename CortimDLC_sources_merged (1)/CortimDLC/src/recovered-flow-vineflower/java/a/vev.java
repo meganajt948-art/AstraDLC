@@ -1,15 +1,15 @@
 package a;
 
 final class vev {
-   private final float vew;
-   private final float vex;
-   private final float vey;
-   private final float vez;
-   private final float vfa;
-   private final float vfb;
-   private final float vfc;
-   private final float vfd;
-   private final float vfe;
+   final float vew;
+   final float vex;
+   final float vey;
+   final float vez;
+   final float vfa;
+   final float vfb;
+   final float vfc;
+   final float vfd;
+   final float vfe;
 
    vev(float u0, float v0, float u1, float v1, float ox, float oy, float w, float h, float advance) {
       this.vew = u0;

@@ -8,15 +8,15 @@ import java.util.Locale;
 import java.util.Map;
 
 public final class wap {
-   private static wam waq = wam.EN;
-   private static boolean war;
-   private static final Map<Integer, String> was = new HashMap<>();
-   private static final Map<Integer, String> wat = new HashMap<>();
-   private static final Map<Integer, String> wau = new HashMap<>();
-   private static final Map<Integer, String> wav = new HashMap<>();
-   private static final Map<Integer, String> waw = new HashMap<>();
-   private static final String wax = a.d("毎ሀ飖۞贆ி뇢㡨\ua636⳹ꭘ儦\udfff䙁챫䪘\uf0d8罶\ue5bb揯\uea17遄Ẍ蕟̨觿〱빤ⓩꊶ⥸ퟖ嶆", 532580841, 315483711);
-   private static final String way = a.d("ꥍ탺娻쑝侌줰獯廒擛\uee75榍鏺ᴑ蒲\u0ef6蠅㉋붕✤ꅴ⢄劂\udc2d䞡쇜䬖\uf2b0糵\ue60e恜\uebaeᕽ齼", 305849715, 162221166);
+   static wam waq = wam.EN;
+   static boolean war;
+   static final Map<Integer, String> was = new HashMap<>();
+   static final Map<Integer, String> wat = new HashMap<>();
+   static final Map<Integer, String> wau = new HashMap<>();
+   static final Map<Integer, String> wav = new HashMap<>();
+   static final Map<Integer, String> waw = new HashMap<>();
+   static final String wax = a.d("毎ሀ飖۞贆ி뇢㡨\ua636⳹ꭘ儦\udfff䙁챫䪘\uf0d8罶\ue5bb揯\uea17遄Ẍ蕟̨觿〱빤ⓩꊶ⥸ퟖ嶆", 532580841, 315483711);
+   static final String way = a.d("ꥍ탺娻쑝侌줰獯廒擛\uee75榍鏺ᴑ蒲\u0ef6蠅㉋붕✤ꅴ⢄劂\udc2d䞡쇜䬖\uf2b0糵\ue60e恜\uebaeᕽ齼", 305849715, 162221166);
    public static final int NAME_EXACT = 100;
    public static final int NAME_START = 90;
    public static final int NAME_SOUND = 88;
@@ -25,7 +25,7 @@ public final class wap {
    public static final int SETTING = 60;
    public static final int DESCRIPTION = 40;
 
-   private wap() {
+   wap() {
    }
 
    public static wam get() {
@@ -198,11 +198,11 @@ public final class wap {
       }
    }
 
-   private static String wbb(String var0) {
+   static String wbb(String var0) {
       return var0.toLowerCase(Locale.ROOT).replace('ё', 'е');
    }
 
-   private static String[] wbc(String var0) {
+   static String[] wbc(String var0) {
       if (var0 != null && !var0.isEmpty()) {
          ArrayList var1 = new ArrayList();
          StringBuilder var2 = new StringBuilder();
@@ -230,14 +230,14 @@ public final class wap {
       }
    }
 
-   private static void wbd(StringBuilder var0, List<String> var1) {
+   static void wbd(StringBuilder var0, List<String> var1) {
       if (!var0.isEmpty()) {
          var1.add(wbb(var0.toString()));
          var0.setLength(0);
       }
    }
 
-   private static String wbe(String var0, String var1, String var2) {
+   static String wbe(String var0, String var1, String var2) {
       StringBuilder var3 = new StringBuilder(var0.length());
 
       for (int var4 = 0; var4 < var0.length(); var4++) {
@@ -249,7 +249,7 @@ public final class wap {
       return var3.toString();
    }
 
-   private static String wbf(String var0) {
+   static String wbf(String var0) {
       StringBuilder var1 = new StringBuilder(var0.length());
 
       for (int var2 = 0; var2 < var0.length(); var2++) {
@@ -262,7 +262,7 @@ public final class wap {
       return var1.toString();
    }
 
-   private static String wbg(String var0) {
+   static String wbg(String var0) {
       StringBuilder var1 = new StringBuilder(var0.length() + 4);
 
       for (int var2 = 0; var2 < var0.length(); var2++) {
@@ -306,7 +306,7 @@ public final class wap {
       return var1.toString();
    }
 
-   private static String wbh(String var0) {
+   static String wbh(String var0) {
       String var1 = var0.replace(a.c(1832779881, "\b禱"), a.c(1858770382, "閤"))
          .replace(a.d("䠗ㆾ", 326644314, -2120189377), a.c(-1357527679, "엦"))
          .replace(a.b("\u18f7慆", 1970411664), a.d("亃", -946575057, -1385289788))

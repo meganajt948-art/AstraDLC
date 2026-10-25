@@ -3,13 +3,13 @@ package a;
 import flow.dev.a;
 
 public final class jgd {
-   private final String jge;
-   private final String jgf;
-   private final String jgg;
-   private final boolean jgh;
-   private final long jgi;
-   private final long jgj;
-   private final long jgk;
+   final String jge;
+   final String jgf;
+   final String jgg;
+   final boolean jgh;
+   final long jgi;
+   final long jgj;
+   final long jgk;
 
    public jgd(String app, String title, String artist, boolean playing, long pos, long duration, long stamp) {
       this.jge = app;

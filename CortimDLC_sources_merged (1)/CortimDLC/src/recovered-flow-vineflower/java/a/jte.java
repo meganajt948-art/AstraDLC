@@ -23,80 +23,80 @@ public final class jte extends Screen {
       new char[]{'h', 't', 't', 'p', 's', ':', '/', '/', 't', '.', 'm', 'e', '/', 'F', 'l', 'o', 'w', 'w', 'C', 'l', 'i', 'e', 'n', 't'}
    );
    public static final String DISCORD = a.c(767143374, "궺퐗廄삱䭥춝矛︪怾\uea82测霪᧱聝ਘ貣㚥르⎏ꖖⰲ嘱\ud889䍬씧俜\uf64d砫");
-   private static final float jtf = 138.0F;
-   private static final float jtg = 25.0F;
-   private static final float jth = 7.0F;
-   private static final float jti = 0.24F;
-   private static final float jtj = 228.0F;
-   private static final float jtk = 118.0F;
-   private static final float jtl = 21.0F;
-   private static final float jtm = 6.0F;
-   private static final float jtn = 12.0F;
-   private static final float jto = 74.0F;
-   private static final float jtp = 42.0F;
-   private static final float jtq = 254.0F;
-   private static final int jtr = 4;
-   private static final int jts = 4;
-   private final kap jtt = new kap();
-   private final kap jtu = new kap();
-   private final kam jtv = new kam();
-   private final kam jtw = new kam();
-   private final kce jtx = new kce(34.0F);
-   private final vcj[] jty = new vcj[4];
-   private final vcj[] jtz = new vcj[4];
-   private final vcj[] jua = new vcj[kbs.values().length];
-   private final vcj jub = new vcj(11.0F);
-   private final vcj juc = new vcj(10.0F);
-   private final vcj[] jud = new vcj[]{new vcj(14.0F), new vcj(14.0F)};
-   private final float[] jue = new float[]{-10.0F, -10.0F, -10.0F, -10.0F};
-   private final float[] juf = new float[kbs.values().length];
-   private kbs jug = kbs.selected();
-   private jsi juh = new jsi(this.jug.particles, 7L);
-   private String jui;
-   private jsi juj;
-   private float juk = -10.0F;
-   private float jul = 1.0F;
-   private boolean jum;
-   private float jun = -1.0F;
-   private float juo = -1.0F;
-   private boolean jup;
-   private boolean juq;
-   private boolean jur;
-   private int jus = -1;
-   private float jut;
-   private float juu;
-   private float juv = -10.0F;
-   private float juw;
-   private int jux = -1;
-   private float juy = -1.0F;
-   private float juz;
-   private float jva;
-   private long jvb;
-   private float jvc;
-   private float jvd = 1.0F;
-   private float jve = 480.0F;
-   private float jvf = 270.0F;
-   private float jvg = -1.0F;
-   private int jvh = -1;
-   private int jvi = -1;
-   private final vcj jvj = new vcj(9.0F, kbm.TITLE.get() && !kbs.selected().logo() ? 1.0F : 0.0F);
-   private final vcj jvk = new vcj(6.0F, kbs.selected().logo() ? 1.0F : 0.0F);
-   private final vcj jvl = new vcj(6.0F, kbs.selected().light ? 1.0F : 0.0F);
-   private final vcj jvm = new vcj(6.0F, kbm.PARTICLES.get() ? 1.0F : 0.0F);
-   private final vcj[] jvn = new vcj[9];
-   private final vcj[] jvo = new vcj[9];
-   private int jvp = -1;
-   private float jvq = -1.0F;
-   private static final float jvr = 0.95F;
-   private static final float jvs = 0.56F;
-   private static final float jvt = 24.0F;
-   private static final float jvu = 34.0F;
-   private static final int jvv = 9;
-   private static final float jvw = 19.0F;
-   private static final float jvx = 132.0F;
-   private static final float jvy = 13.0F;
-   private static final float jvz = 20.0F;
-   private static final int jwa = 3;
+   static final float jtf = 138.0F;
+   static final float jtg = 25.0F;
+   static final float jth = 7.0F;
+   static final float jti = 0.24F;
+   static final float jtj = 228.0F;
+   static final float jtk = 118.0F;
+   static final float jtl = 21.0F;
+   static final float jtm = 6.0F;
+   static final float jtn = 12.0F;
+   static final float jto = 74.0F;
+   static final float jtp = 42.0F;
+   static final float jtq = 254.0F;
+   static final int jtr = 4;
+   static final int jts = 4;
+   final kap jtt = new kap();
+   final kap jtu = new kap();
+   final kam jtv = new kam();
+   final kam jtw = new kam();
+   final kce jtx = new kce(34.0F);
+   final vcj[] jty = new vcj[4];
+   final vcj[] jtz = new vcj[4];
+   final vcj[] jua = new vcj[kbs.values().length];
+   final vcj jub = new vcj(11.0F);
+   final vcj juc = new vcj(10.0F);
+   final vcj[] jud = new vcj[]{new vcj(14.0F), new vcj(14.0F)};
+   final float[] jue = new float[]{-10.0F, -10.0F, -10.0F, -10.0F};
+   final float[] juf = new float[kbs.values().length];
+   kbs jug = kbs.selected();
+   jsi juh = new jsi(this.jug.particles, 7L);
+   String jui;
+   jsi juj;
+   float juk = -10.0F;
+   float jul = 1.0F;
+   boolean jum;
+   float jun = -1.0F;
+   float juo = -1.0F;
+   boolean jup;
+   boolean juq;
+   boolean jur;
+   int jus = -1;
+   float jut;
+   float juu;
+   float juv = -10.0F;
+   float juw;
+   int jux = -1;
+   float juy = -1.0F;
+   float juz;
+   float jva;
+   long jvb;
+   float jvc;
+   float jvd = 1.0F;
+   float jve = 480.0F;
+   float jvf = 270.0F;
+   float jvg = -1.0F;
+   int jvh = -1;
+   int jvi = -1;
+   final vcj jvj = new vcj(9.0F, kbm.TITLE.get() && !kbs.selected().logo() ? 1.0F : 0.0F);
+   final vcj jvk = new vcj(6.0F, kbs.selected().logo() ? 1.0F : 0.0F);
+   final vcj jvl = new vcj(6.0F, kbs.selected().light ? 1.0F : 0.0F);
+   final vcj jvm = new vcj(6.0F, kbm.PARTICLES.get() ? 1.0F : 0.0F);
+   final vcj[] jvn = new vcj[9];
+   final vcj[] jvo = new vcj[9];
+   int jvp = -1;
+   float jvq = -1.0F;
+   static final float jvr = 0.95F;
+   static final float jvs = 0.56F;
+   static final float jvt = 24.0F;
+   static final float jvu = 34.0F;
+   static final int jvv = 9;
+   static final float jvw = 19.0F;
+   static final float jvx = 132.0F;
+   static final float jvy = 13.0F;
+   static final float jvz = 20.0F;
+   static final int jwa = 3;
 
    public jte() {
       super(Text.literal(vvi.get()));
@@ -274,7 +274,7 @@ public final class jte extends Screen {
       }
    }
 
-   private float jwd() {
+   float jwd() {
       if (this.jui == null) {
          return 0.0F;
       } else {
@@ -291,7 +291,7 @@ public final class jte extends Screen {
       }
    }
 
-   private void jwe(DrawContext var1, float var2, float var3) {
+   void jwe(DrawContext var1, float var2, float var3) {
       jza var4 = jzh.get(this.jug.key);
       if (var4 == null && this.jui != null) {
          this.juk = var2;
@@ -335,7 +335,7 @@ public final class jte extends Screen {
       }
    }
 
-   private void jwf(DrawContext var1) {
+   void jwf(DrawContext var1) {
       float var2 = 1.0F - this.jvl.get();
       if (!(var2 <= 0.01F)) {
          uut.gradientV(var1, 0.0F, 0.0F, this.jve, 120.0F, 0.0F, jyh(329484, 0.42F * var2), jyh(329484, 0.0F));
@@ -344,12 +344,12 @@ public final class jte extends Screen {
       }
    }
 
-   private float jwg() {
+   float jwg() {
       float var1 = Math.max(1.0F, this.jve * 0.5F - 34.0F - 69.0F);
       return Math.max(-1.0F, Math.min(1.0F, (this.jwk() + 69.0F - this.jve * 0.5F) / var1));
    }
 
-   private void jwh(kam var1, float var2) {
+   void jwh(kam var1, float var2) {
       float var3 = this.jwg();
       float var4 = Math.abs(var3);
       float var5 = this.jwk();
@@ -362,20 +362,20 @@ public final class jte extends Screen {
       var1.logoF(0.5F + (var10 / this.jve - 0.5F) * var2, 0.5F + (var11 / this.jvf - 0.5F) * var2, 0.92F + (var7 - 0.92F) * var2, this.jve / this.jvf);
    }
 
-   private float jwi() {
+   float jwi() {
       float var1 = 1.0F - Math.abs(this.jwg());
       return this.jvf * 0.5F - 25.6F - 34.9F * (1.0F - this.jvj.get()) + 56.9F * this.jvk.get() * var1;
    }
 
-   private float jwj(int var1) {
+   float jwj(int var1) {
       return this.jwi() + var1 * 32.0F;
    }
 
-   private float jwk() {
+   float jwk() {
       return this.jvg < 0.0F ? this.jwl() : this.jvg;
    }
 
-   private float jwl() {
+   float jwl() {
       return switch (kbm.POSITION.get()) {
          case a.c(51235075, "쥋냓㨃ꑠ") -> 34.0F;
          case a.b("\ue4dc鵖ឋ觵Ⱦ", -655104885) -> this.jve - 34.0F - 138.0F;
@@ -383,7 +383,7 @@ public final class jte extends Screen {
       };
    }
 
-   private void jwm(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, boolean var7) {
+   void jwm(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, boolean var7) {
       float var8 = vcq.clamp01((var6 - this.juo - 0.45F - var3 * 0.1F) / 0.6F);
       if (!(var8 <= 0.0F)) {
          float var9 = vcq.outBack(var8);
@@ -507,11 +507,11 @@ public final class jte extends Screen {
       }
    }
 
-   private float jwn(int var1) {
+   float jwn(int var1) {
       return this.jve - 12.0F - 21.0F - (3 - var1) * 27.0F - (var1 < 2 ? 5.0F : 0.0F);
    }
 
-   private void jwo(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6) {
+   void jwo(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6) {
       float var7 = this.jwn(var3);
       float var8 = 12.0F + (1.0F - var6) * -8.0F;
       boolean var9 = !this.jur && jyf(var4, var5, var7, 12.0F, 21.0F, 21.0F) && (!this.juq || var3 == 2 || !this.jxb(var4, var5));
@@ -605,61 +605,61 @@ public final class jte extends Screen {
       }
    }
 
-   private void jwp(DrawContext var1) {
+   void jwp(DrawContext var1) {
       vdn var2 = veo.medium(6.2F);
       String var3 = a.d("妄‑\uaac5㒿뽮㧎莎\u0a78鐵Ố", -2045428213, 1438345160) + SharedConstants.getGameVersion().name();
       var2.drawRight(var1, var3, this.jve - 12.0F, var2.centerTop(this.jvf - 12.0F), jyh(jyg(16777215, 2764342, this.jvl.get()), 0.55F));
    }
 
-   private float jwq() {
+   float jwq() {
       return this.jve - 12.0F - 254.0F;
    }
 
-   private float jwr() {
+   float jwr() {
       return 40.0F;
    }
 
-   private float jws() {
+   float jws() {
       return Math.min(this.jvf - this.jwr() - 12.0F, 24.0F + this.jww() + 6.0F);
    }
 
-   private float jwt() {
+   float jwt() {
       return this.jwr() + 24.0F;
    }
 
-   private float jwu() {
+   float jwu() {
       return this.jws() - 24.0F - 4.0F;
    }
 
-   private static int jwv(int var0, int var1) {
+   static int jwv(int var0, int var1) {
       return (var0 + var1 - 1) / var1;
    }
 
-   private float jww() {
+   float jww() {
       return this.jwx() + 13.0F + 171.0F + 4.0F;
    }
 
-   private float jwx() {
+   float jwx() {
       return 13.0F + jwv(kbs.values().length, 3) * 62.0F + 2.0F;
    }
 
-   private float jwy() {
+   float jwy() {
       return Math.max(0.0F, this.jww() - this.jwu());
    }
 
-   private float jwz(int var1) {
+   float jwz(int var1) {
       return this.jwq() + 8.0F + var1 % 3 * 82.0F;
    }
 
-   private float jxa(int var1) {
+   float jxa(int var1) {
       return this.jwt() + 13.0F + var1 / 3 * 62.0F - this.jut;
    }
 
-   private boolean jxb(float var1, float var2) {
+   boolean jxb(float var1, float var2) {
       return this.jub.get() > 0.5F && jyf(var1, var2, this.jwq(), this.jwr(), 254.0F, this.jws());
    }
 
-   private int jxc(float var1, float var2) {
+   int jxc(float var1, float var2) {
       if (!jyf(var1, var2, this.jwq(), this.jwt(), 254.0F, this.jwu())) {
          return -1;
       }
@@ -675,7 +675,7 @@ public final class jte extends Screen {
       return -1;
    }
 
-   private void jxd(DrawContext var1, float var2, float var3) {
+   void jxd(DrawContext var1, float var2, float var3) {
       float var4 = this.jub.step(this.juq, this.jvc);
       if (!(var4 <= 0.003F)) {
          float var5 = vcq.outCubic(var4);
@@ -758,7 +758,7 @@ public final class jte extends Screen {
       }
    }
 
-   private void jxe(DrawContext var1, kbs var2, int var3, boolean var4) {
+   void jxe(DrawContext var1, kbs var2, int var3, boolean var4) {
       float var5 = this.jwz(var3);
       float var6 = this.jxa(var3);
       float var7 = 7.0F;
@@ -781,7 +781,7 @@ public final class jte extends Screen {
       }
    }
 
-   private void jxf(DrawContext var1, kbs var2, float var3, float var4, float var5, float var6, float var7, float var8, boolean var9) {
+   void jxf(DrawContext var1, kbs var2, float var3, float var4, float var5, float var6, float var7, float var8, boolean var9) {
       uok var10 = jzh.thumb(var2.key);
       if (var10 != null) {
          float var11 = (float)var10.width / var10.height;
@@ -833,24 +833,24 @@ public final class jte extends Screen {
       uut.circle(var1, var3 + var5 - 4.0F, var4 + var6 + 7.0F, 2.2F, jyh(var16, var9 ? 1.0F : 0.45F));
    }
 
-   private float jxg() {
+   float jxg() {
       return (this.jve - 228.0F) * 0.5F;
    }
 
-   private float jxh() {
+   float jxh() {
       return (this.jvf - 118.0F) * 0.5F;
    }
 
-   private float jxi(int var1) {
+   float jxi(int var1) {
       float var2 = 96.0F;
       return this.jxg() + 14.0F + var1 * (var2 + 8.0F);
    }
 
-   private float jxj() {
+   float jxj() {
       return this.jxh() + 118.0F - 34.0F;
    }
 
-   private void jxk(DrawContext var1, GpuTextureView var2, float var3, float var4, float var5) {
+   void jxk(DrawContext var1, GpuTextureView var2, float var3, float var4, float var5) {
       float var6 = this.juc.step(this.jur, this.jvc);
       if (!(var6 <= 0.003F)) {
          float var7 = vcq.outBack(var6);
@@ -930,7 +930,7 @@ public final class jte extends Screen {
       }
    }
 
-   private void jxl(DrawContext var1, int var2, float var3, float var4, int var5, boolean var6) {
+   void jxl(DrawContext var1, int var2, float var3, float var4, int var5, boolean var6) {
       float var7 = 96.0F;
       float var8 = 20.0F;
       float var9 = this.jxi(var2);
@@ -953,7 +953,7 @@ public final class jte extends Screen {
       var13.draw(var1, var14, var9 + (var7 - var15) * 0.5F + (var12 ? 3.0F : 0.0F), var13.centerTop(var10 + var8 * 0.5F), jyh(16777215, 0.95F));
    }
 
-   private void jxm(kbs var1) {
+   void jxm(kbs var1) {
       if (var1 != this.jug) {
          this.jtu.close();
          this.jui = this.jug.key;
@@ -968,12 +968,12 @@ public final class jte extends Screen {
       }
    }
 
-   private static kbs jxn(String var0) {
+   static kbs jxn(String var0) {
       kbs var1 = kbs.byKey(var0);
       return var1 != null ? var1 : kbs.DEFAULT;
    }
 
-   private static String jxo(int var0) {
+   static String jxo(int var0) {
       return switch (var0) {
          case 0 -> wap.s(vvi.get() + a.d("꺬흉嶇쏫䠤캜", -2056648614, 1420338896), a.b("\u2ef6坪\uddbd䏇젗仟\uf481礜", 2013342435) + vvi.get());
          case 1 -> wap.s(a.d("勃⭅ꆗ㿦됪㊚裔", -1867779212, -1590582798), a.b("糍՛辋ᇻ騩Ლ", 1969584337));
@@ -987,7 +987,7 @@ public final class jte extends Screen {
       };
    }
 
-   private static String[] jxp(int var0) {
+   static String[] jxp(int var0) {
       return var0 == 1
          ? new String[]{
             wap.s(a.d("ቷ毯\ue13f罜", -1326154102, -1732350795), a.d("\udc71ꗚ⼇녱㪤", 1599536237, 340272184)),
@@ -1002,11 +1002,11 @@ public final class jte extends Screen {
          };
    }
 
-   private static vmc jxq(int var0) {
+   static vmc jxq(int var0) {
       return var0 == 3 ? kbm.BLUR : (var0 == 4 ? kbm.ROUND : kbm.DIM);
    }
 
-   private static boolean jxr(int var0) {
+   static boolean jxr(int var0) {
       return switch (var0) {
          case 0 -> kbm.TITLE.get();
          case 6 -> kbm.PARTICLES.get();
@@ -1014,7 +1014,7 @@ public final class jte extends Screen {
       };
    }
 
-   private static float jxs(int var0) {
+   static float jxs(int var0) {
       return switch (var0) {
          case 1 -> kbm.POSITION.index();
          case 2 -> kbm.BUTTONS.index();
@@ -1024,23 +1024,23 @@ public final class jte extends Screen {
       };
    }
 
-   private float jxt(int var1) {
+   float jxt(int var1) {
       return this.jwt() + this.jwx() + 13.0F + var1 * 19.0F - this.jut;
    }
 
-   private float jxu() {
+   float jxu() {
       return this.jwq() + 254.0F - 10.0F - 132.0F;
    }
 
-   private float jxv() {
+   float jxv() {
       return this.jxu() + 30.0F;
    }
 
-   private float jxw() {
+   float jxw() {
       return 98.0F;
    }
 
-   private int jxx(float var1, float var2) {
+   int jxx(float var1, float var2) {
       if (!jyf(var1, var2, this.jwq(), this.jwt(), 254.0F, this.jwu())) {
          return -1;
       }
@@ -1054,7 +1054,7 @@ public final class jte extends Screen {
       return -1;
    }
 
-   private void jxy(int var1, float var2) {
+   void jxy(int var1, float var2) {
       switch (var1) {
          case 0:
             kbm.TITLE.toggle();
@@ -1094,15 +1094,15 @@ public final class jte extends Screen {
       hyz.saveLater();
    }
 
-   private void jxz(int var1, float var2) {
+   void jxz(int var1, float var2) {
       jxq(var1).setFromFraction(vcq.clamp01((var2 - this.jxv()) / this.jxw()));
    }
 
-   private static int jya(kbs var0) {
+   static int jya(kbs var0) {
       return var0.light ? 13225945 : var0.accent;
    }
 
-   private void jyb(DrawContext var1, float var2, float var3, boolean var4) {
+   void jyb(DrawContext var1, float var2, float var3, boolean var4) {
       int var5 = jya(this.jug);
       vdn var6 = veo.medium(6.3F);
       vdn var7 = veo.medium(5.7F);
@@ -1130,7 +1130,7 @@ public final class jte extends Screen {
       }
    }
 
-   private void jyc(
+   void jyc(
       DrawContext var1, int var2, float var3, float var4, float var5, float var6, boolean var7, float var8, float var9, int var10, vdn var11, vdn var12
    ) {
       if (var2 < 8) {
@@ -1313,7 +1313,7 @@ public final class jte extends Screen {
       return true;
    }
 
-   private void jyd(int var1) {
+   void jyd(int var1) {
       MinecraftClient var2 = this.client;
       switch (var1) {
          case 0:
@@ -1334,7 +1334,7 @@ public final class jte extends Screen {
       }
    }
 
-   private static void jye(String var0) {
+   static void jye(String var0) {
       try {
          Util.getOperatingSystem().open(URI.create(var0));
       } catch (Exception var2) {
@@ -1380,15 +1380,15 @@ public final class jte extends Screen {
       vdn.setRenderScale(1.0F);
    }
 
-   private static boolean jyf(float var0, float var1, float var2, float var3, float var4, float var5) {
+   static boolean jyf(float var0, float var1, float var2, float var3, float var4, float var5) {
       return var0 >= var2 && var1 >= var3 && var0 < var2 + var4 && var1 < var3 + var5;
    }
 
-   private static int jyg(int var0, int var1, float var2) {
+   static int jyg(int var0, int var1, float var2) {
       return kce.mix(var0, var1, var2);
    }
 
-   private static int jyh(int var0, float var1) {
+   static int jyh(int var0, float var1) {
       return kce.rgba(var0, var1);
    }
 }

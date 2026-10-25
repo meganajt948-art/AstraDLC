@@ -4,15 +4,15 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
 final class gsp {
-   private final String gsq;
-   private final RegistryKey<Biome> gsr;
-   private final String gss;
-   private final String gst;
-   private final long gsu;
-   private final int gsv;
-   private final float gsw;
+   final String gsq;
+   final RegistryKey<Biome> gsr;
+   final String gss;
+   final String gst;
+   final long gsu;
+   final int gsv;
+   final float gsw;
 
-   private gsp(String name, RegistryKey<Biome> biome, String season, String sky, long time, int lift, float pitch) {
+   gsp(String name, RegistryKey<Biome> biome, String season, String sky, long time, int lift, float pitch) {
       this.gsq = name;
       this.gsr = biome;
       this.gss = season;

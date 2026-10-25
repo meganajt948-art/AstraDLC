@@ -1,14 +1,14 @@
 package a;
 
 final class gmx {
-   private final String gmy;
-   private final int gmz;
-   private final int gna;
-   private final boolean gnb;
-   private final double gnc;
-   private final boolean gnd;
+   final String gmy;
+   final int gmz;
+   final int gna;
+   final boolean gnb;
+   final double gnc;
+   final boolean gnd;
 
-   private gmx(String name, int ticks, int orbit, boolean jump, double fight, boolean move) {
+   gmx(String name, int ticks, int orbit, boolean jump, double fight, boolean move) {
       this.gmy = name;
       this.gmz = ticks;
       this.gna = orbit;

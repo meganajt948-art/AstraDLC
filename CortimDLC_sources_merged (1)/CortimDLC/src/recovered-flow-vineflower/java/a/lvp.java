@@ -22,19 +22,19 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.BlockPos.Mutable;
 
 public class lvp extends kfe {
-   private static final int lvq = -23296;
-   private static final double lvr = 6400.0;
-   private static final ConcurrentLinkedQueue<Long> lvs = new ConcurrentLinkedQueue<>();
-   private static lvp lvt;
-   private static boolean lvu;
-   private static volatile long[] lvv = new long[0];
-   private static long lvw = -1L;
-   private final LongLinkedOpenHashSet lvx = new LongLinkedOpenHashSet();
-   private final Long2IntOpenHashMap lvy = new Long2IntOpenHashMap();
-   private final Long2IntOpenHashMap lvz = new Long2IntOpenHashMap();
-   private boolean lwa;
-   private int lwb;
-   private int lwc;
+   static final int lvq = -23296;
+   static final double lvr = 6400.0;
+   static final ConcurrentLinkedQueue<Long> lvs = new ConcurrentLinkedQueue<>();
+   static lvp lvt;
+   static boolean lvu;
+   static volatile long[] lvv = new long[0];
+   static long lvw = -1L;
+   final LongLinkedOpenHashSet lvx = new LongLinkedOpenHashSet();
+   final Long2IntOpenHashMap lvy = new Long2IntOpenHashMap();
+   final Long2IntOpenHashMap lvz = new Long2IntOpenHashMap();
+   boolean lwa;
+   int lwb;
+   int lwc;
 
    public lvp() {
       super(a.b("\uf251诪Ċ齣", -294850035), a.b("勵⭥ꆸ㿆됕㊡裼Ă齁ᗷ鉷桇\ue69f缣\uf57a率짃䘈\udcef嫺파\ua95a⟹밳㩖냔व蝳ᶗ鯕ၢ\ueebe擸ﴈ笟\uf1ec丠쐈䊯\udb04允⿄ꗕ≪뢰㛓輇ֱ", -236498291), kfa.MISC);
@@ -53,7 +53,7 @@ public class lvp extends kfe {
       return this.lvx;
    }
 
-   private static void lwf(Packet<?> var0) {
+   static void lwf(Packet<?> var0) {
       lvp var1 = lvt;
       if (var1 != null && var1.isEnabled()) {
          if (var0 instanceof ChunkDeltaUpdateS2CPacket var2) {
@@ -78,7 +78,7 @@ public class lvp extends kfe {
       this.lwg();
    }
 
-   private void lwg() {
+   void lwg() {
       this.lvx.clear();
       this.lvy.clear();
       this.lvz.clear();

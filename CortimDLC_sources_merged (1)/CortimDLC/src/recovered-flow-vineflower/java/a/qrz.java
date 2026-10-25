@@ -9,7 +9,7 @@ final class qrz {
    double y;
    double z;
 
-   private qrz() {
+   qrz() {
    }
 
    void center() {

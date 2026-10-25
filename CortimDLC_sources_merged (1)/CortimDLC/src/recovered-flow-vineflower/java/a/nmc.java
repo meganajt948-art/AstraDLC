@@ -15,7 +15,7 @@ enum nmc {
    CHEST_OPEN(6000L),
    CHEST_LOOT(40000L);
 
-   private final long nmd;
+   final long nmd;
 
    nmc(long var3) {
       this.nmd = var3;

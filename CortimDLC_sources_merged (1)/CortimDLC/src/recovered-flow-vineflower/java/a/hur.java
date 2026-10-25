@@ -6,12 +6,12 @@ import java.io.IOException;
 import net.minecraft.client.gui.DrawContext;
 
 final class hur extends imn {
-   private static final float hus = 26.0F;
-   private static final float hut = 78.0F;
+   static final float hus = 26.0F;
+   static final float hut = 78.0F;
    final iah name = new iah(a.d("ℹ墤퉶䰏쟗䅨ﭼ狃\uec93昮\ue1f5", -557382057, -1569708250), vhz.LAYERS, 32, iah.ANY);
-   private final vcj huu = new vcj(16.0F);
-   private final vcj huv = new vcj(9.0F);
-   private hlc huw;
+   final vcj huu = new vcj(16.0F);
+   final vcj huv = new vcj(9.0F);
+   hlc huw;
 
    hur() {
       super(null);
@@ -23,7 +23,7 @@ final class hur extends imn {
       return 26.0F;
    }
 
-   private float huz() {
+   float huz() {
       return 17.0F;
    }
 

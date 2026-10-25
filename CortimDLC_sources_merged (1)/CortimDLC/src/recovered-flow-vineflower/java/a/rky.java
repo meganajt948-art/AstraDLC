@@ -11,35 +11,35 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class rky extends kfe {
-   private static rky rkz;
-   private final vlv rla = this.add(new vlv("Mode", "Outline", "Outline", "Box"));
-   private final vla rlb = this.add(new vla("Color", "Theme"));
-   private final vkl rlc = this.add(new vkl("Friends", true));
-   private final vkl rld = this.add(new vkl("Health color", false));
-   private final vkl rle = this.add(new vkl("Health bar", true));
-   private final vmc rlf = this.add(new vmc("Outline", 1.0, 0.0, 1.0, 0.05).percent());
-   private final vmc rlg = this.add(new vmc("Width", 1.5, 0.5, 4.0, 0.1));
-   private final vmc rlh = this.add(new vmc("Fill", 0.1, 0.0, 0.6, 0.01).percent());
-   private final vmc rli = this.add(new vmc("Glow", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc rlj = this.add(new vmc("Glow size", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc rlk = this.add(new vmc("Animation", 1.0, 0.0, 3.0, 0.1).unit("x"));
-   private final vmc rll = this.add(new vmc("Range", 128.0, 16.0, 256.0, 8.0).suffix("blocks"));
-   private final vkl rlm = this.add(new vkl("Self", false));
+   static rky rkz;
+   final vlv rla = this.add(new vlv("Mode", "Outline", "Outline", "Box"));
+   final vla rlb = this.add(new vla("Color", "Theme"));
+   final vkl rlc = this.add(new vkl("Friends", true));
+   final vkl rld = this.add(new vkl("Health color", false));
+   final vkl rle = this.add(new vkl("Health bar", true));
+   final vmc rlf = this.add(new vmc("Outline", 1.0, 0.0, 1.0, 0.05).percent());
+   final vmc rlg = this.add(new vmc("Width", 1.5, 0.5, 4.0, 0.1));
+   final vmc rlh = this.add(new vmc("Fill", 0.1, 0.0, 0.6, 0.01).percent());
+   final vmc rli = this.add(new vmc("Glow", 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc rlj = this.add(new vmc("Glow size", 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc rlk = this.add(new vmc("Animation", 1.0, 0.0, 3.0, 0.1).unit("x"));
+   final vmc rll = this.add(new vmc("Range", 128.0, 16.0, 256.0, 8.0).suffix("blocks"));
+   final vkl rlm = this.add(new vkl("Self", false));
    static final int FRIEND = -10686326;
-   private long rln = -1L;
-   private final float[] rlo = new float[2];
-   private final float[] rlp = new float[4];
-   private final float[] rlq = new float[2];
-   private final double[][] rlr = new double[8][3];
-   private final float[][] rls = new float[8][2];
-   private final boolean[] rlt = new boolean[8];
-   private static final int[][] rlu = new int[][]{{0, 1}, {2, 3}, {4, 5}, {6, 7}, {0, 2}, {1, 3}, {4, 6}, {5, 7}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
-   private static final int[][] rlv = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-   private float rlw;
-   private float rlx;
-   private float rly;
-   private float rlz;
-   private boolean rma;
+   long rln = -1L;
+   final float[] rlo = new float[2];
+   final float[] rlp = new float[4];
+   final float[] rlq = new float[2];
+   final double[][] rlr = new double[8][3];
+   final float[][] rls = new float[8][2];
+   final boolean[] rlt = new boolean[8];
+   static final int[][] rlu = new int[][]{{0, 1}, {2, 3}, {4, 5}, {6, 7}, {0, 2}, {1, 3}, {4, 6}, {5, 7}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
+   static final int[][] rlv = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
+   float rlw;
+   float rlx;
+   float rly;
+   float rlz;
+   boolean rma;
 
    public rky() {
       super(new String(new char[]{'P', 'l', 'a', 'y', 'e', 'r', 'E', 'S', 'P'}), "Players through walls: outline or box", kfa.RENDER);
@@ -51,7 +51,7 @@ public class rky extends kfe {
       this.rlk.visibleWhen(() -> this.rla.is("Outline"));
    }
 
-   private boolean rmd(MinecraftClient var1, PlayerEntity var2) {
+   boolean rmd(MinecraftClient var1, PlayerEntity var2) {
       if (var2 != var1.player) {
          if (!var2.isAlive() || var2.isSpectator() || var2 == var1.getCameraEntity()) {
             return false;
@@ -68,7 +68,7 @@ public class rky extends kfe {
       }
    }
 
-   private int rme(PlayerEntity var1) {
+   int rme(PlayerEntity var1) {
       if (hhf.isFriend(var1)) {
          return -10686326;
       } else {
@@ -143,7 +143,7 @@ public class rky extends kfe {
       }
    }
 
-   private void rmf(double var1, double var3, double var5, double var7, double var9) {
+   void rmf(double var1, double var3, double var5, double var7, double var9) {
       for (int var11 = 0; var11 < 8; var11++) {
          this.rlr[var11][0] = (var11 & 1) == 0 ? var1 - var7 : var1 + var7;
          this.rlr[var11][1] = (var11 & 2) == 0 ? var3 : var3 + var9;
@@ -151,7 +151,7 @@ public class rky extends kfe {
       }
    }
 
-   private void rmg(DrawContext var1, usn var2, PlayerEntity var3, Vec3d var4, int var5) {
+   void rmg(DrawContext var1, usn var2, PlayerEntity var3, Vec3d var4, int var5) {
       double var6 = var3.getWidth() * 0.5 + 0.02;
       this.rmf(var4.x, var4.y, var4.z, var6, var3.getHeight() + 0.02);
 
@@ -207,7 +207,7 @@ public class rky extends kfe {
       }
    }
 
-   private boolean rmh(int var1, Vec3d var2, Vec3d var3, double var4, double var6) {
+   boolean rmh(int var1, Vec3d var2, Vec3d var3, double var4, double var6) {
       return switch (var1) {
          case 0 -> var2.y < var3.y;
          case 1 -> var2.y > var3.y + var6;
@@ -218,7 +218,7 @@ public class rky extends kfe {
       };
    }
 
-   private void rmi(usn var1) {
+   void rmi(usn var1) {
       this.rma = false;
       this.rlw = Float.MAX_VALUE;
       this.rlx = Float.MAX_VALUE;
@@ -240,7 +240,7 @@ public class rky extends kfe {
       this.rma = this.rly - this.rlw > 1.0F && this.rlz - this.rlx > 1.0F;
    }
 
-   private void rmj(DrawContext var1, PlayerEntity var2) {
+   void rmj(DrawContext var1, PlayerEntity var2) {
       float var3 = MathHelper.clamp(vyk.of(var2).fraction(), 0.0F, 1.0F);
       float var4 = this.rlz - this.rlx;
       float var5 = Math.max(1.5F, Math.min(3.0F, var4 * 0.025F));

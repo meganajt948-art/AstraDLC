@@ -35,7 +35,7 @@ public final class izx {
    public static final jdc ITEMS = new jdc();
    public static final ixu ARMOR = new ixu();
    public static final List<jcs> ELEMENTS = List.of(KEYBINDS, POTIONS, COOLDOWNS, ITEMS, ARMOR, TARGET, WATERMARK);
-   private static final int izy = 2;
+   static final int izy = 2;
    static final vdn BRAND = veo.semibold(7.6F);
    static final vdn HEAD = veo.semibold(6.8F);
    static final vdn TEXT = veo.medium(6.6F);
@@ -45,33 +45,33 @@ public final class izx {
    static final vdn SUB = veo.regular(6.1F);
    static final vdn RING = veo.semibold(7.4F);
    static final vdn TINY = veo.medium(4.4F);
-   private static final float izz = 4.0F;
-   private static final float jaa = 4.0F;
-   private static final float jab = 4.0F;
-   private static final float jac = 5.0F;
-   private static long jad = -1L;
-   private static GpuTextureView jae;
-   private static boolean jaf = true;
-   private static boolean jag;
-   private static float jah = -1000.0F;
-   private static float jai = -1000.0F;
-   private static float jaj = 1.0F;
-   private static jcs jak;
-   private static float jal;
-   private static float jam;
-   private static float jan = Float.NaN;
-   private static float jao = Float.NaN;
-   private static final Map<jcs, vcj> jap = new LinkedHashMap<>();
-   private static Field jaq;
-   private static boolean jar;
-   private static float jas;
-   private static long jat;
-   private static int jau;
-   private static jcs jav;
-   private static float jaw;
-   private static float jax;
+   static final float izz = 4.0F;
+   static final float jaa = 4.0F;
+   static final float jab = 4.0F;
+   static final float jac = 5.0F;
+   static long jad = -1L;
+   static GpuTextureView jae;
+   static boolean jaf = true;
+   static boolean jag;
+   static float jah = -1000.0F;
+   static float jai = -1000.0F;
+   static float jaj = 1.0F;
+   static jcs jak;
+   static float jal;
+   static float jam;
+   static float jan = Float.NaN;
+   static float jao = Float.NaN;
+   static final Map<jcs, vcj> jap = new LinkedHashMap<>();
+   static Field jaq;
+   static boolean jar;
+   static float jas;
+   static long jat;
+   static int jau;
+   static jcs jav;
+   static float jaw;
+   static float jax;
 
-   private izx() {
+   izx() {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
@@ -107,7 +107,7 @@ public final class izx {
       jba(var0, true, false, -1000.0F, -1000.0F);
    }
 
-   private static void jba(DrawContext var0, boolean var1, boolean var2, float var3, float var4) {
+   static void jba(DrawContext var0, boolean var1, boolean var2, float var3, float var4) {
       MinecraftClient var5 = MinecraftClient.getInstance();
       unf.observe(var0);
       if (unf.frame() != jad) {
@@ -131,7 +131,7 @@ public final class izx {
       }
    }
 
-   private static void jbb(DrawContext var0, boolean var1, boolean var2, float var3) {
+   static void jbb(DrawContext var0, boolean var1, boolean var2, float var3) {
       MinecraftClient var4 = MinecraftClient.getInstance();
       jae = null;
       if (jaf && BACKGROUND.is(a.c(-1330669848, "險\uef30旮ﮍ灚")) && hyv.ENABLED.get() && uij.HUD.capture(var0, hyv.FROST.getInt(), null)) {
@@ -192,7 +192,7 @@ public final class izx {
       }
    }
 
-   private static void jbc(DrawContext var0, float var1, float var2) {
+   static void jbc(DrawContext var0, float var1, float var2) {
       jcs var3 = jak != null ? jak : jav;
       jcs var4 = var3 != null ? var3 : at(jah, jai);
 
@@ -221,7 +221,7 @@ public final class izx {
       }
    }
 
-   private static void jbd(DrawContext var0, jcs var1, float var2, boolean var3) {
+   static void jbd(DrawContext var0, jcs var1, float var2, boolean var3) {
       String var4 = var3
          ? Math.round(var1.size * 100.0F) + a.d("㠅", -221134532, -1448937187)
          : (
@@ -243,7 +243,7 @@ public final class izx {
       uut.popAlpha();
    }
 
-   private static float jbe(MinecraftClient var0, float var1, float var2) {
+   static float jbe(MinecraftClient var0, float var1, float var2) {
       jas = 0.0F;
       Map var3 = jbf(var0);
       if (var3 != null && !var3.isEmpty()) {
@@ -270,7 +270,7 @@ public final class izx {
       }
    }
 
-   private static Map<?, ?> jbf(MinecraftClient var0) {
+   static Map<?, ?> jbf(MinecraftClient var0) {
       if (!jar && var0.inGameHud != null) {
          try {
             BossBarHud var1 = var0.inGameHud.getBossBarHud();
@@ -299,7 +299,7 @@ public final class izx {
       }
    }
 
-   private static float jbg(jcs var0, float var1, float var2) {
+   static float jbg(jcs var0, float var1, float var2) {
       if (!(var2 <= 0.0F) && var0.ay == 0) {
          float var3 = var1 * 0.5F;
          return !(var0.x > var3 + jas) && !(var0.x + var0.w < var3 - jas) ? Math.max(0.0F, var2 + 5.0F - var0.y) : 0.0F;
@@ -421,7 +421,7 @@ public final class izx {
       return new float[]{var6, var7};
    }
 
-   private static float[] jbh(jcs var0, float var1, float var2, float var3, boolean var4) {
+   static float[] jbh(jcs var0, float var1, float var2, float var3, boolean var4) {
       ArrayList var5 = new ArrayList();
       var5.add(new float[]{4.0F, 4.0F});
       var5.add(new float[]{(var3 - var2) * 0.5F, var3 * 0.5F});
@@ -561,7 +561,7 @@ public final class izx {
       return var0;
    }
 
-   private static String jbi(vmo var0) {
+   static String jbi(vmo var0) {
       return var0.getName().toLowerCase(Locale.ROOT).replace(' ', '-');
    }
 

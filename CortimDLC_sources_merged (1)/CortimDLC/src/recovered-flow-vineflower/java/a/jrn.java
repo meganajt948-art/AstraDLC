@@ -9,9 +9,9 @@ public final class jrn {
       -1517792795,
       982288209
    );
-   private static Boolean jro;
+   static Boolean jro;
 
-   private jrn() {
+   jrn() {
    }
 
    public static boolean available() {

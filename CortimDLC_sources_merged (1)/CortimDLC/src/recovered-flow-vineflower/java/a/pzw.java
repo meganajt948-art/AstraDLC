@@ -17,14 +17,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 public final class pzw {
-   private static final Pattern pzx = Pattern.compile(a.b("䍇㪂끩⸇ꖚ⌶饻Ⴥ軎Ѭ莭禨\uf747滩\ue4f3才\ud856垔촵䬐싟뢑㙫귵⯞", -753384586));
-   private static final Pattern pzy = Pattern.compile(a.c(539086795, "쿲똷㳜ꊲ⤯꾃ᗏ鱰ɻ裙༘\uf51d篲\ue25c框\ueef8哣"));
-   private static final Pattern pzz = Pattern.compile(a.b("䌁㫄뀯⸑ꗄ⌀饼ე誝(蟾", 1357595426));
-   private static final Pattern qaa = Pattern.compile(a.b("\ue0fb餾Ꮥ跫ؾ胺㪆댮⤚ꏟ␃", 1589567704));
-   private static TrackedData<?> qab;
-   private static boolean qac;
+   static final Pattern pzx = Pattern.compile(a.b("䍇㪂끩⸇ꖚ⌶饻Ⴥ軎Ѭ莭禨\uf747滩\ue4f3才\ud856垔촵䬐싟뢑㙫귵⯞", -753384586));
+   static final Pattern pzy = Pattern.compile(a.c(539086795, "쿲똷㳜ꊲ⤯꾃ᗏ鱰ɻ裙༘\uf51d篲\ue25c框\ueef8哣"));
+   static final Pattern pzz = Pattern.compile(a.b("䌁㫄뀯⸑ꗄ⌀饼ე誝(蟾", 1357595426));
+   static final Pattern qaa = Pattern.compile(a.b("\ue0fb餾Ꮥ跫ؾ胺㪆댮⤚ꏟ␃", 1589567704));
+   static TrackedData<?> qab;
+   static boolean qac;
 
-   private pzw() {
+   pzw() {
    }
 
    public static pzp read(MinecraftClient var0, double var1) {
@@ -188,7 +188,7 @@ public final class pzw {
       return var1;
    }
 
-   private static Text qaf(TextDisplayEntity var0) {
+   static Text qaf(TextDisplayEntity var0) {
       if (!qac) {
          qac = true;
 

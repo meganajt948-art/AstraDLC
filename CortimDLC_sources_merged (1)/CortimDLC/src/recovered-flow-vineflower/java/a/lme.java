@@ -13,12 +13,12 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public final class lme {
-   private static final double[] lmf = new double[]{0.0, 0.35, 0.6, 0.8, 1.0};
-   private static final double lmg = 0.12;
-   private final Random lmh = new Random();
-   private double lmi = 0.5;
-   private double lmj = 0.5;
-   private double lmk = 0.5;
+   static final double[] lmf = new double[]{0.0, 0.35, 0.6, 0.8, 1.0};
+   static final double lmg = 0.12;
+   final Random lmh = new Random();
+   double lmi = 0.5;
+   double lmj = 0.5;
+   double lmk = 0.5;
 
    public void roll(double var1) {
       double var3 = MathHelper.clamp(var1, 0.0, 0.9);

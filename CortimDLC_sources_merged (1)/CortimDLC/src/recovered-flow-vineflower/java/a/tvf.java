@@ -10,12 +10,12 @@ import java.util.Random;
 public final class tvf {
    public static final int MIN_EVENTS = 80;
    public static final int MIN_LEGS = 2000;
-   private static final int tvg = 24;
-   private static final int tvh = 600;
-   private static final int tvi = 14000;
-   private static final int tvj = 1500;
+   static final int tvg = 24;
+   static final int tvh = 600;
+   static final int tvi = 14000;
+   static final int tvj = 1500;
 
-   private tvf() {
+   tvf() {
    }
 
    public static double beta(int var0) {
@@ -75,7 +75,7 @@ public final class tvf {
       return var18;
    }
 
-   private static void tvm(tck var0) {
+   static void tvm(tck var0) {
       int var1 = var0.resX.length;
       if (var1 > 14000) {
          var0.resX = Arrays.copyOf(var0.resX, 14000);

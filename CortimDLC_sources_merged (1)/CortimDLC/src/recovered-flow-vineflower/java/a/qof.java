@@ -25,28 +25,28 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 public final class qof {
-   private static final int qog = 420;
-   private final vyn qoh = new vyn();
-   private final Random qoi = new Random();
-   private final ArrayDeque<int[]> qoj = new ArrayDeque<>();
-   private final IntArrayList qok = new IntArrayList();
-   private qoc qol = qoc.NONE;
-   private int qom;
-   private int qon;
-   private boolean qoo;
-   private int qop;
-   private int qoq;
-   private int qor;
-   private Item[] qos;
-   private boolean[] qot;
-   private int qou;
-   private boolean qov;
-   private boolean qow;
-   private int qox = -1;
-   private int qoy = -1;
-   private int qoz = -1;
-   private int qpa = -1;
-   private Item qpb;
+   static final int qog = 420;
+   final vyn qoh = new vyn();
+   final Random qoi = new Random();
+   final ArrayDeque<int[]> qoj = new ArrayDeque<>();
+   final IntArrayList qok = new IntArrayList();
+   qoc qol = qoc.NONE;
+   int qom;
+   int qon;
+   boolean qoo;
+   int qop;
+   int qoq;
+   int qor;
+   Item[] qos;
+   boolean[] qot;
+   int qou;
+   boolean qov;
+   boolean qow;
+   int qox = -1;
+   int qoy = -1;
+   int qoz = -1;
+   int qpa = -1;
+   Item qpb;
    public boolean noThrow;
 
    public boolean busy() {
@@ -134,7 +134,7 @@ public final class qof {
       return qpe(var0, var1);
    }
 
-   private static boolean qpe(ItemStack var0, Set<String> var1) {
+   static boolean qpe(ItemStack var0, Set<String> var1) {
       return !var0.isEmpty() && var1.contains(Registries.ITEM.getId(var0.getItem()).toString());
    }
 
@@ -222,7 +222,7 @@ public final class qof {
       }
    }
 
-   private void qpf(qoc var1) {
+   void qpf(qoc var1) {
       this.qol = var1;
       this.qom = 0;
       this.qon = 0;
@@ -315,7 +315,7 @@ public final class qof {
       }
    }
 
-   private void qpg(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3, Set<String> var4) {
+   void qpg(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3, Set<String> var4) {
       if (this.noThrow) {
          this.qpm(var1);
       } else if (this.qon > 0) {
@@ -338,7 +338,7 @@ public final class qof {
       }
    }
 
-   private void qph(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3, Set<String> var4) {
+   void qph(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3, Set<String> var4) {
       PlayerScreenHandler var5 = var2.playerScreenHandler;
       if (this.qon > 0) {
          this.qon--;
@@ -401,7 +401,7 @@ public final class qof {
       }
    }
 
-   private static int qpi(PlayerInventory var0) {
+   static int qpi(PlayerInventory var0) {
       int var1 = var0.getSelectedSlot();
       if (!var0.getStack(var1).isIn(ItemTags.PICKAXES)) {
          return var1;
@@ -419,7 +419,7 @@ public final class qof {
       return var2 >= 0 ? var2 : var1;
    }
 
-   private static int[] qpj(PlayerInventory var0, int var1) {
+   static int[] qpj(PlayerInventory var0, int var1) {
       int[] var2 = null;
       int var3 = Integer.MAX_VALUE;
 
@@ -445,7 +445,7 @@ public final class qof {
       return var2;
    }
 
-   private void qpk(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3) {
+   void qpk(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3) {
       PlayerScreenHandler var4 = var2.playerScreenHandler;
       byte var5 = -1;
       int var6 = -1;
@@ -490,7 +490,7 @@ public final class qof {
       }
    }
 
-   private void qpl(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3, Set<String> var4) {
+   void qpl(MinecraftClient var1, ClientPlayerEntity var2, PlayerInventory var3, Set<String> var4) {
       PlayerScreenHandler var5 = var2.playerScreenHandler;
       if (!this.qov) {
          this.qov = true;
@@ -558,7 +558,7 @@ public final class qof {
       }
    }
 
-   private void qpm(MinecraftClient var1) {
+   void qpm(MinecraftClient var1) {
       if (this.qoo) {
          wdq.close(var1);
       }
@@ -574,7 +574,7 @@ public final class qof {
       this.qpn(var1);
    }
 
-   private void qpn(MinecraftClient var1) {
+   void qpn(MinecraftClient var1) {
       if (this.qol != qoc.NONE) {
          qsw.log(
             a.d("駛\ue06d檦\uf481", -1205381147, -1964061101)
@@ -595,7 +595,7 @@ public final class qof {
       }
    }
 
-   private static int qpo(ItemStack var0) {
+   static int qpo(ItemStack var0) {
       for (Entry var2 : var0.getEnchantments().getEnchantmentEntries()) {
          if (((RegistryEntry)var2.getKey()).matchesKey(Enchantments.EFFICIENCY)) {
             return var2.getIntValue();
@@ -605,7 +605,7 @@ public final class qof {
       return 0;
    }
 
-   private static String qpp(ItemStack var0) {
+   static String qpp(ItemStack var0) {
       StringBuilder var1 = new StringBuilder();
       LoreComponent var2 = var0.get(DataComponentTypes.LORE);
       if (var2 != null) {

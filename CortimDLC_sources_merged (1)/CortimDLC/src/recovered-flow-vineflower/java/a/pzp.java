@@ -3,10 +3,10 @@ package a;
 import net.minecraft.util.math.Vec3d;
 
 public final class pzp {
-   private final qwj pzq;
-   private final String pzr;
-   private final int pzs;
-   private final Vec3d pzt;
+   final qwj pzq;
+   final String pzr;
+   final int pzs;
+   final Vec3d pzt;
 
    public pzp(qwj tier, String tierWord, int seconds, Vec3d pos) {
       this.pzq = tier;

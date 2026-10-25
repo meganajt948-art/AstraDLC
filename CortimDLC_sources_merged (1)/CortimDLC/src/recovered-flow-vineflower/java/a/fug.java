@@ -20,19 +20,19 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.Vec3d;
 
 final class fug {
-   private static final List<Entity> fuh = new ArrayList<>();
-   private static final String[] fui = new String[]{
+   static final List<Entity> fuh = new ArrayList<>();
+   static final String[] fui = new String[]{
       a.c(1067002255, "⧖偛\uda85䓬켧䦁\uf3e5稂\ue45e"),
       a.c(-1583623650, "퉘ꯏℏ뽱㒻눉ࡋ膩ῡ镛ኒ\ue8d1昲ﾘ症\uf33d䥸욾"),
       a.b("围⽾ꖪ㯃뀪㚼賷ԙ魜ᇷ阯汐\ue28e", 1994938026),
       a.b("塢⇨ꬲ㕆뺐㠶艟இ闗Ὤ風", -1766893510)
    };
-   private static int fuj;
-   private static int fuk;
-   private static int ful;
-   private static boolean fum;
+   static int fuj;
+   static int fuk;
+   static int ful;
+   static boolean fum;
 
-   private fug() {
+   fug() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -133,7 +133,7 @@ final class fug {
       }
    }
 
-   private static void fup(MinecraftClient var0, kfx var1) {
+   static void fup(MinecraftClient var0, kfx var1) {
       for (String var5 : fui) {
          fuq(var1, var5, false);
 
@@ -154,15 +154,15 @@ final class fug {
       izx.TARGET.enabled.set(false);
    }
 
-   private static void fuq(kfx var0, String var1, boolean var2) {
+   static void fuq(kfx var0, String var1, boolean var2) {
       var0.getByName(var1).setEnabled(var2);
    }
 
-   private static void fur(kfe var0, String var1, double var2) {
+   static void fur(kfe var0, String var1, double var2) {
       ((vmc)fus(var0, var1)).set(var2);
    }
 
-   private static vmo fus(kfe var0, String var1) {
+   static vmo fus(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -172,14 +172,14 @@ final class fug {
       throw new IllegalStateException(var0.getName() + a.c(404436688, "㛸企엛宸퀼囃\uec91支") + var1);
    }
 
-   private static void fut(MinecraftClient var0, float var1, float var2) {
+   static void fut(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static PlayerEntity fuu(MinecraftClient var0, String var1, double var2, double var4, boolean var6) {
+   static PlayerEntity fuu(MinecraftClient var0, String var1, double var2, double var4, boolean var6) {
       OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var8 = var0.player.getEntityPos().add(new Vec3d(0.0, 0.0, 1.0).multiply(var2)).add(new Vec3d(-1.0, 0.0, 0.0).multiply(var4));
       var7.refreshPositionAndAngles(var8.x, var0.player.getY(), var8.z, 180.0F, 0.0F);
@@ -194,11 +194,11 @@ final class fug {
       return var7;
    }
 
-   private static void fuv(MinecraftClient var0, String var1) {
+   static void fuv(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fuw(MinecraftClient var0, String var1) {
+   static void fuw(MinecraftClient var0, String var1) {
       System.out
          .println(a.b("닓쭴䆮\udfd5呄튡棣\ue104罜\uf5b9", -2106674518) + var1 + a.b("\u086d熼\ufb0f", -1435236274) + var0.getCurrentFps() + a.c(-1494075902, "㘦俑씔学"));
       ScreenshotRecorder.saveScreenshot(

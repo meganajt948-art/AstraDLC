@@ -6,10 +6,10 @@ import net.minecraft.client.util.ScreenshotRecorder;
 import org.lwjgl.glfw.GLFW;
 
 final class fdp {
-   private static final String fdq = System.getenv()
+   static final String fdq = System.getenv()
       .getOrDefault(a.c(231149979, "ᇏ桴\ue2a4糍\uf77f熣쯮䈋\udc53囱턼⭂ꖗ㰻뙡ゟ諕ԍ"), a.d("\ue2f7魲ᆦ迄Ц芦㣣넕", 146637828, -1505270086));
 
-   private fdp() {
+   fdp() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {

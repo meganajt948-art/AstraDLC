@@ -22,10 +22,10 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.Vec3d;
 
 final class hfi {
-   private static final List<PlayerEntity> hfj = new ArrayList<>();
-   private static PlayerEntity hfk;
-   private static final int hfl = 80;
-   private static final String[] hfm = new String[]{
+   static final List<PlayerEntity> hfj = new ArrayList<>();
+   static PlayerEntity hfk;
+   static final int hfl = 80;
+   static final String[] hfm = new String[]{
       a.c(496399700, "甸ಀ虓"),
       a.d("䬝㊡롲♏귗⭧", -443151681, -1676459579),
       a.d("\uf2f9譁ƒ", -1959514627, -973480088),
@@ -35,7 +35,7 @@ final class hfi {
       a.c(1056645037, "῁晹\uecaa"),
       a.b("뇅졹䊪\udc97圏톿", 1380561314)
    };
-   private static final String[] hfn = new String[]{
+   static final String[] hfn = new String[]{
       a.c(-765029261, "鐮\uedaa杪癩狛\uf47b丙쟾妢"),
       a.c(1345099157, "闛\uec57暕\uf8ec猓\uf5b4俤"),
       a.b("痜\u0c50蚒ᣫ錁ᖈ꿊☱롴㋏딌", 1917285790),
@@ -44,11 +44,11 @@ final class hfi {
       a.b("\ueedd靂ᶒ華࠰躥㓌봼⍻ꧏ⸛푡", 444853907),
       a.c(-2080681175, "卽⫷ꀭ㹙떏㌩襻")
    };
-   private static long hfo;
-   private static long hfp;
-   private static boolean hfq;
+   static long hfo;
+   static long hfp;
+   static boolean hfq;
 
-   private hfi() {
+   hfi() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -462,18 +462,18 @@ final class hfi {
       return false;
    }
 
-   private static void hft() {
+   static void hft() {
       if (!hfq) {
          hfq = true;
          HudRenderCallback.EVENT.register((HudRenderCallback)(var0, var1) -> hfo++);
       }
    }
 
-   private static void hfu(kfx var0, String var1, boolean var2) {
+   static void hfu(kfx var0, String var1, boolean var2) {
       var0.getByName(var1).setEnabled(var2);
    }
 
-   private static vmo hfv(kfe var0, String var1) {
+   static vmo hfv(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -483,19 +483,19 @@ final class hfi {
       throw new IllegalStateException(var0.getName() + a.c(1701043776, "\ude68ꞑⵋ댨㢬빓Ё趿") + var1);
    }
 
-   private static void hfw(MinecraftClient var0, float var1, float var2) {
+   static void hfw(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static void hfx(MinecraftClient var0, Vec3d var1) {
+   static void hfx(MinecraftClient var0, Vec3d var1) {
       Vec3d var2 = var1.subtract(var0.player.getEyePos());
       hfw(var0, (float)Math.toDegrees(Math.atan2(-var2.x, var2.z)), (float)(-Math.toDegrees(Math.atan2(var2.y, Math.hypot(var2.x, var2.z)))));
    }
 
-   private static PlayerEntity hfy(MinecraftClient var0, String var1, double var2, double var4) {
+   static PlayerEntity hfy(MinecraftClient var0, String var1, double var2, double var4) {
       OtherClientPlayerEntity var6 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var7 = new Vec3d(0.0, 0.0, 1.0);
       Vec3d var8 = new Vec3d(-1.0, 0.0, 0.0);
@@ -510,13 +510,13 @@ final class hfi {
       return var6;
    }
 
-   private static void hfz(MinecraftClient var0, Entity var1) {
+   static void hfz(MinecraftClient var0, Entity var1) {
       if (var1 != null) {
          var0.world.removeEntity(var1.getId(), RemovalReason.DISCARDED);
       }
    }
 
-   private static void hga(MinecraftClient var0, String var1) throws Exception {
+   static void hga(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.d("듡쵅䞕\ud9cd刴풙", 1522891369, 1873727226));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -533,15 +533,15 @@ final class hfi {
       var0.setScreen(new hlc());
    }
 
-   private static void hgb(MinecraftClient var0, String var1) {
+   static void hgb(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static String hgc(double var0) {
+   static String hgc(double var0) {
       return String.format(Locale.ROOT, a.d("↷堍틂䳧", 2082499842, -1915401068), var0);
    }
 
-   private static void hgd(MinecraftClient var0, String var1) {
+   static void hgd(MinecraftClient var0, String var1) {
       System.out.println(a.b("ી獧尿柆\uec57檲탰夗읏䶪", 334564025) + var1 + a.c(915238833, "澒ᙃ鳰") + var0.getCurrentFps() + a.b("뱟얨佭턟", 828357755));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

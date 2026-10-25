@@ -10,7 +10,7 @@ final class epj {
    final List<String> inputs = new ArrayList<>();
    final Map<String, eoc> attrs = new HashMap<>();
 
-   private epj() {
+   epj() {
    }
 
    static epj read(epm var0) {

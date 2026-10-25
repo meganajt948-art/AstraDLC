@@ -5,6 +5,6 @@ final class hyg {
    final vcj hover = new vcj(14.0F);
    final vcj button = new vcj(18.0F);
 
-   private hyg() {
+   hyg() {
    }
 }

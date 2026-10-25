@@ -15,7 +15,7 @@ enum lxu {
    CHEST_OPEN(6000L),
    CHEST_LOOT(40000L);
 
-   private final long lxv;
+   final long lxv;
 
    lxu(long var3) {
       this.lxv = var3;

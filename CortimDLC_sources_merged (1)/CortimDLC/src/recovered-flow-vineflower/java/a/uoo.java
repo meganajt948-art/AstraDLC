@@ -7,6 +7,6 @@ final class uoo {
    long tick = Long.MIN_VALUE;
    long frame;
 
-   private uoo() {
+   uoo() {
    }
 }

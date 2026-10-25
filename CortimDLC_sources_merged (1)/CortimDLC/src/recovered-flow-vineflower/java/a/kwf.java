@@ -21,7 +21,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class kwf extends kfe {
-   private final vlv kwg = this.add(
+   final vlv kwg = this.add(
       new vlv(
          a.c(233082365, "趧\uf42b绣\ue087歅\uede9垼\ude4c"),
          a.b("ᗱ決\ue6ac磔\uf308疣", -1076030044),
@@ -29,10 +29,10 @@ public class kwf extends kfe {
          a.b("먛쎅䥓휮峲\uda59", -268846498)
       )
    );
-   private final vlv kwh = this.add(
+   final vlv kwh = this.add(
       new vlv(a.b("\uf02a観ͤ", 1299902568), a.b("韜\uee46撅\ufaf3焷\uf78b", 1119721364), a.c(459830664, "痀ౚ蚙ᣯ錫ᖗ"), a.b("鋻\ueb71憫\uffc9琈", 1293259437))
    );
-   private final vlv kwi = this.add(
+   final vlv kwi = this.add(
       new vlv(
          a.c(215903861, "渷ឭ鵮̘補\u0e60둿㷃ꎞ⤤껶咎"),
          a.b("㋊䭙솗忯퐷劃\ue8d9慭Ｃ", 1659122323),
@@ -40,19 +40,19 @@ public class kwf extends kfe {
          a.c(-1785420293, "ꖮ\udc38囪좊䍐엧")
       )
    );
-   private final vmu kwj = this.add(new vmu(a.d("籴ױ輥ᅇ髑ᰰꙡ⾍뇛㭥벳䛋", -2120129952, -1019732391), "", 32));
-   private final vmc kwk = this.add(new vmc(a.d("㋆䭔솒忣퐵", 2046298678, 1360869542), 1.0, 0.3, 1.6, 0.05).percent());
-   private final vmc kwl = this.add(new vmc(a.c(500444174, "ⱐ嗒\udf16䅡쪫䰐\uf641羽"), 1.0, 0.0, 1.0, 0.05).percent());
-   private final vlv kwm = this.add(
+   final vmu kwj = this.add(new vmu(a.d("籴ױ輥ᅇ髑ᰰꙡ⾍뇛㭥벳䛋", -2120129952, -1019732391), "", 32));
+   final vmc kwk = this.add(new vmc(a.d("㋆䭔솒忣퐵", 2046298678, 1360869542), 1.0, 0.3, 1.6, 0.05).percent());
+   final vmc kwl = this.add(new vmc(a.c(500444174, "ⱐ嗒\udf16䅡쪫䰐\uf641羽"), 1.0, 0.0, 1.0, 0.05).percent());
+   final vlv kwm = this.add(
       new vlv(
          a.c(305277693, "⪶匯\ud9f8䟄챛䫧\uf0b8祇\ue717涺"), a.d("ǿ硬\uf2b4泄\ue71a", -249325704, -627665201), a.b("\ud944ꃗ⨏둿㾡", -33892084), a.b("志♐겅㋳뤿㾌", -210083950)
       )
    );
-   private final vmc kwn = this.add(new vmc(a.c(-1727678203, "륆샚䨅푺徢\ud90f挈\ueabf瓴﹘禉"), 0.45, 0.0, 1.0, 0.05).percent());
-   private final vmc kwo = this.add(new vmc(a.c(1334337753, "悘ᤄ鏛ඤ虼Ñ뫖㍳괷"), 0.85, 0.0, 1.0, 0.05).percent());
-   private final vmc kwp = this.add(new vmc(a.c(1927083304, "\uf56d賕؟"), 360.0, 10.0, 360.0, 5.0).unit(a.d("㉵", -850838333, 1147276807)));
-   private final vmc kwq = this.add(new vmc(a.b("諮\uf372离\ue7cd氏\ueab1僯\ud918", 1612090018), 4.0, 2.0, 6.0, 0.1).suffix(a.c(1180195030, "墺")));
-   private final vlv kwr = this.add(
+   final vmc kwn = this.add(new vmc(a.c(-1727678203, "륆샚䨅푺徢\ud90f挈\ueabf瓴﹘禉"), 0.45, 0.0, 1.0, 0.05).percent());
+   final vmc kwo = this.add(new vmc(a.c(1334337753, "悘ᤄ鏛ඤ虼Ñ뫖㍳괷"), 0.85, 0.0, 1.0, 0.05).percent());
+   final vmc kwp = this.add(new vmc(a.c(1927083304, "\uf56d賕؟"), 360.0, 10.0, 360.0, 5.0).unit(a.d("㉵", -850838333, 1147276807)));
+   final vmc kwq = this.add(new vmc(a.b("諮\uf372离\ue7cd氏\ueab1僯\ud918", 1612090018), 4.0, 2.0, 6.0, 0.1).suffix(a.c(1180195030, "墺")));
+   final vlv kwr = this.add(
       new vlv(
          a.c(281209406, "\uea72鏾\u193c蝅ಌ"),
          a.b("㟩乪쒽嫝턕垥\uedeb", -2091567175),
@@ -62,7 +62,7 @@ public class kwf extends kfe {
          a.d("帮➰굴", -1237545396, -409087968)
       )
    );
-   private final vlv kws = this.add(
+   final vlv kws = this.add(
       new vlv(
          a.d("ﯞ艍ࢅ雲ᴸ鮒⇜ꠠ", -1153097373, 535026405),
          a.d("悺ᤤ鏾\u0d84虚", 1523545751, 485758569),
@@ -71,35 +71,35 @@ public class kwf extends kfe {
          a.d("ቒ毎\ue119罥\uf4aa爇", 640434405, 1461408505)
       )
    );
-   private final vkl kwt = this.add(new vkl(a.d("\u0ff1癱ﲹ拕\ue905", -887580280, -1212246465), true));
-   private final vkl kwu = this.add(new vkl(a.b("ٹ翪\uf520歂\ue0d0昧\udc7b喛", 2056652348), true));
-   private final vkl kwv = this.add(new vkl(a.b("셂룄㈆걶➦ꄋᬖ銱ೱ虌ƍ", -1719287525), false));
-   private final vkl kww = this.add(new vkl(a.b("ᅭ棠\ue23e籗\uf79c焺쭨", -377941702), true));
-   private final vkl kwx = this.add(new vkl(a.b("艉ﯚ焄\uef64", -1355120128), false));
-   private final vkl kwy = this.add(new vkl(a.b("憇᠊鋃ಯ蝢ǁ뮝㈤갬⚋ꅕ嬤헬", -443981346), false));
-   private static final double kwz = 1.2;
-   private static final int kxa = 2;
-   private static final double kxb = Math.sin(Math.toRadians(22.5));
-   private static final int kxc = 8;
-   private static final int kxd = 2;
-   private final Random kxe = new Random();
-   private static kwf kxf;
-   private final lng kxg = new lng();
-   private final kjq kxh = kjq.embedded(this::kyg);
-   private final ljx kxi = new ljx();
-   private final lkh kxj = new lkh(this.kxi);
-   private Entity kxk;
-   private Vec3d kxl;
-   private double kxm;
-   private boolean kxn;
-   private boolean kxo;
-   private boolean kxp;
-   private ClientPlayerEntity kxq;
-   private tiq kxr;
-   private String kxs = "";
-   private tck kxt;
-   private long kxu;
-   private int kxv = 2;
+   final vkl kwt = this.add(new vkl(a.d("\u0ff1癱ﲹ拕\ue905", -887580280, -1212246465), true));
+   final vkl kwu = this.add(new vkl(a.b("ٹ翪\uf520歂\ue0d0昧\udc7b喛", 2056652348), true));
+   final vkl kwv = this.add(new vkl(a.b("셂룄㈆걶➦ꄋᬖ銱ೱ虌ƍ", -1719287525), false));
+   final vkl kww = this.add(new vkl(a.b("ᅭ棠\ue23e籗\uf79c焺쭨", -377941702), true));
+   final vkl kwx = this.add(new vkl(a.b("艉ﯚ焄\uef64", -1355120128), false));
+   final vkl kwy = this.add(new vkl(a.b("憇᠊鋃ಯ蝢ǁ뮝㈤갬⚋ꅕ嬤헬", -443981346), false));
+   static final double kwz = 1.2;
+   static final int kxa = 2;
+   static final double kxb = Math.sin(Math.toRadians(22.5));
+   static final int kxc = 8;
+   static final int kxd = 2;
+   final Random kxe = new Random();
+   static kwf kxf;
+   final lng kxg = new lng();
+   final kjq kxh = kjq.embedded(this::kyg);
+   final ljx kxi = new ljx();
+   final lkh kxj = new lkh(this.kxi);
+   Entity kxk;
+   Vec3d kxl;
+   double kxm;
+   boolean kxn;
+   boolean kxo;
+   boolean kxp;
+   ClientPlayerEntity kxq;
+   tiq kxr;
+   String kxs = "";
+   tck kxt;
+   long kxu;
+   int kxv = 2;
 
    public kwf() {
       super(
@@ -163,7 +163,7 @@ public class kwf extends kfe {
       }
    }
 
-   private tck kxy() {
+   tck kxy() {
       if (!this.kwi.is(a.c(1647453411, "Ⓐ崠ퟲ䦒쉈䓿"))) {
          return tck.profile1();
       }
@@ -310,7 +310,7 @@ public class kwf extends kfe {
       }
    }
 
-   private void kxz(MinecraftClient var1, ClientPlayerEntity var2, Entity var3) {
+   void kxz(MinecraftClient var1, ClientPlayerEntity var2, Entity var3) {
       float var4 = this.kxg.serverYaw(var2);
       float var5 = this.kxg.serverPitch(var2);
       Box var6 = var3.getBoundingBox();
@@ -331,7 +331,7 @@ public class kwf extends kfe {
       }
    }
 
-   private void kya(Entity var1, Vec3d var2, Vec3d var3) {
+   void kya(Entity var1, Vec3d var2, Vec3d var3) {
       Vec3d var4 = var1.getEntityPos();
       Vec3d var5 = var1 == this.kxk && this.kxl != null ? var4.subtract(this.kxl) : Vec3d.ZERO;
       if (var5.lengthSquared() > 1.0) {
@@ -366,7 +366,7 @@ public class kwf extends kfe {
       }
    }
 
-   private void kyb(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kyb(MinecraftClient var1, ClientPlayerEntity var2) {
       if (var2 != this.kxq || var2 == null || !var2.isAlive() || !this.kwg.is(a.b("ꢙ턒寄얼习죋", 1240377548)) || this.kxg.home(var1, var2)) {
          this.kxg.reset();
          this.kxp = false;
@@ -374,7 +374,7 @@ public class kwf extends kfe {
       }
    }
 
-   private void kyc(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kyc(MinecraftClient var1, ClientPlayerEntity var2) {
       if (!var2.isAlive()) {
          this.kxg.forget();
       } else if (!this.kwv.get() && !this.kwg.is(a.b("ᛎ潅\ue593篫\uf037皜", -1848633701))) {
@@ -384,7 +384,7 @@ public class kwf extends kfe {
       }
    }
 
-   private void kyd(MinecraftClient var1, ClientPlayerEntity var2) {
+   void kyd(MinecraftClient var1, ClientPlayerEntity var2) {
       GameOptions var3 = var1.options;
       double var4 = (vzz.isPhysicallyDown(var1, var3.forwardKey) ? 1 : 0) - (vzz.isPhysicallyDown(var1, var3.backKey) ? 1 : 0);
       double var6 = (vzz.isPhysicallyDown(var1, var3.leftKey) ? 1 : 0) - (vzz.isPhysicallyDown(var1, var3.rightKey) ? 1 : 0);
@@ -404,7 +404,7 @@ public class kwf extends kfe {
       }
    }
 
-   private void kye(MinecraftClient var1) {
+   void kye(MinecraftClient var1) {
       if (this.kxn && var1.options != null) {
          this.kxn = false;
 
@@ -414,7 +414,7 @@ public class kwf extends kfe {
       }
    }
 
-   private Entity kyf(MinecraftClient var1, ClientPlayerEntity var2) {
+   Entity kyf(MinecraftClient var1, ClientPlayerEntity var2) {
       Vec3d var3 = var2.getEyePos();
       double var4 = this.kwq.get();
       double var6 = this.kwp.get() * 0.5;
@@ -447,32 +447,32 @@ public class kwf extends kfe {
       return var10;
    }
 
-   private boolean kyg(Entity var1) {
+   boolean kyg(Entity var1) {
       return var1 instanceof PlayerEntity var2 ? this.kww.get() && !var2.isSpectator() && !hhf.protects(var2) : this.kwx.get() && var1 instanceof Monster;
    }
 
-   private boolean kyh(ClientPlayerEntity var1, Entity var2) {
+   boolean kyh(ClientPlayerEntity var1, Entity var2) {
       return var2 != var1 && var2 instanceof LivingEntity var3 && var3.isAlive() && var2.isAttackable() && this.kyg(var2)
          ? this.kwy.get() || var1.canSee(var2)
          : false;
    }
 
-   private static double kyi(LivingEntity var0) {
+   static double kyi(LivingEntity var0) {
       vyd var1 = vyk.of(var0);
       return var1.unknown() ? 100.0 : var1.total();
    }
 
-   private static boolean kyj(Vec3d var0, Entity var1, double var2) {
+   static boolean kyj(Vec3d var0, Entity var1, double var2) {
       return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
-   private static double kyk(float var0, Vec3d var1, Entity var2) {
+   static double kyk(float var0, Vec3d var1, Entity var2) {
       Vec3d var3 = var2.getEntityPos();
       double var4 = Math.toDegrees(Math.atan2(var3.z - var1.z, var3.x - var1.x)) - 90.0;
       return Math.abs(MathHelper.wrapDegrees(var4 - var0));
    }
 
-   private boolean kyl(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kyl(MinecraftClient var1, ClientPlayerEntity var2) {
       return var1.currentScreen == null
          && var2.isAlive()
          && !var2.isSpectator()
@@ -487,7 +487,7 @@ public class kwf extends kfe {
          && (var1.interactionManager == null || !var1.interactionManager.isBreakingBlock());
    }
 
-   private boolean kym(ItemStack var1) {
+   boolean kym(ItemStack var1) {
       return switch (this.kwr.get()) {
          case a.b("\uf656迈Ԍ", 407696916) -> true;
          case a.d("䝻㻮됥⩉ꆈ✮", -149477138, -786141248) -> var1.isIn(ItemTags.SWORDS);

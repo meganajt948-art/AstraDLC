@@ -9,7 +9,7 @@ final class ktc {
    boolean ground;
    double fall;
 
-   private ktc() {
+   ktc() {
    }
 
    void copy(ktc var1) {

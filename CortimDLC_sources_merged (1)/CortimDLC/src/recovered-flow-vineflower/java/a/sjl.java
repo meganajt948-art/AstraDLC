@@ -8,29 +8,29 @@ import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.glfw.GLFWScrollCallbackI;
 
 public class sjl extends kfe {
-   private static sjl sjm;
-   private final vlq sjn = this.add(new vlq("Key", 67));
-   private final vlv sjo = this.add(new vlv("Press", "Hold", "Hold", "Toggle"));
-   private final vmc sjp = this.add(new vmc(new String(new char[]{'Z', 'o', 'o', 'm'}), 4.0, 1.5, 15.0, 0.5).unit("x"));
-   private final vmc sjq = this.add(new vmc("Speed", 1.0, 0.3, 3.0, 0.1).unit("x"));
-   private final vkl sjr = this.add(new vkl("Scroll", true));
-   private final vkl sjs = this.add(new vkl("Slow mouse", true));
-   private final vkl sjt = this.add(new vkl("Cinematic", false));
-   private static final wbu<Double> sju = new wbu<>(var0 -> var0.options.getMouseSensitivity());
-   private static Field sjv;
-   private static Field sjw;
-   private static boolean sjx;
-   private boolean sjy;
-   private double sjz;
-   private double ska = 1.0;
-   private long skb;
-   private boolean skc;
-   private boolean skd;
-   private boolean ske;
-   private static GLFWScrollCallback skf;
-   private static GLFWScrollCallbackI skg;
-   private static long skh;
-   private boolean ski;
+   static sjl sjm;
+   final vlq sjn = this.add(new vlq("Key", 67));
+   final vlv sjo = this.add(new vlv("Press", "Hold", "Hold", "Toggle"));
+   final vmc sjp = this.add(new vmc(new String(new char[]{'Z', 'o', 'o', 'm'}), 4.0, 1.5, 15.0, 0.5).unit("x"));
+   final vmc sjq = this.add(new vmc("Speed", 1.0, 0.3, 3.0, 0.1).unit("x"));
+   final vkl sjr = this.add(new vkl("Scroll", true));
+   final vkl sjs = this.add(new vkl("Slow mouse", true));
+   final vkl sjt = this.add(new vkl("Cinematic", false));
+   static final wbu<Double> sju = new wbu<>(var0 -> var0.options.getMouseSensitivity());
+   static Field sjv;
+   static Field sjw;
+   static boolean sjx;
+   boolean sjy;
+   double sjz;
+   double ska = 1.0;
+   long skb;
+   boolean skc;
+   boolean skd;
+   boolean ske;
+   static GLFWScrollCallback skf;
+   static GLFWScrollCallbackI skg;
+   static long skh;
+   boolean ski;
 
    public sjl() {
       super(new String(new char[]{'Z', 'o', 'o', 'm'}), "Smooth zoom on a key", kfa.RENDER);
@@ -84,7 +84,7 @@ public class sjl extends kfe {
       this.skm(var1);
    }
 
-   private boolean skl(MinecraftClient var1) {
+   boolean skl(MinecraftClient var1) {
       if (var1.currentScreen == null && var1.player != null) {
          return this.sjo.is("Toggle") ? this.sjy : vzz.isDown(var1, this.sjn.get());
       } else {
@@ -92,7 +92,7 @@ public class sjl extends kfe {
       }
    }
 
-   private void skm(MinecraftClient var1) {
+   void skm(MinecraftClient var1) {
       if (var1.player != null && var1.gameRenderer != null) {
          if (this.ska <= 1.001) {
             this.skn(var1);
@@ -128,7 +128,7 @@ public class sjl extends kfe {
       }
    }
 
-   private void skn(MinecraftClient var1) {
+   void skn(MinecraftClient var1) {
       if (this.skc && var1.player != null && var1.gameRenderer != null && sko()) {
          float var2 = var1.player.getFovMultiplier(var1.options.getPerspective().isFirstPerson(), var1.options.getFovEffectScale().getValue().floatValue());
 
@@ -147,7 +147,7 @@ public class sjl extends kfe {
       }
    }
 
-   private static boolean sko() {
+   static boolean sko() {
       if (sjv == null && !sjx) {
          sjv = vxr.find(GameRenderer.class, "net.minecraft.class_757", "field_4019", "F");
          sjw = vxr.find(GameRenderer.class, "net.minecraft.class_757", "field_3999", "F");
@@ -157,7 +157,7 @@ public class sjl extends kfe {
       return !sjx;
    }
 
-   private static void skp(MinecraftClient var0) {
+   static void skp(MinecraftClient var0) {
       if (var0.getWindow() != null) {
          long var1 = var0.getWindow().getHandle();
          if (skh != var1 || skf == null) {
@@ -178,7 +178,7 @@ public class sjl extends kfe {
       }
    }
 
-   private static void skq(long var0, double var2, double var4) {
+   static void skq(long var0, double var2, double var4) {
       sjl var6 = sjm;
       MinecraftClient var7 = MinecraftClient.getInstance();
       if (var6 != null && var6.isEnabled() && var6.sjr.get() && var7.currentScreen == null && var6.ski && var4 != 0.0) {

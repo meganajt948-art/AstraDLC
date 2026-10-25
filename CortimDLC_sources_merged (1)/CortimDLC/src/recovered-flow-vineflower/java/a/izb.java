@@ -3,11 +3,11 @@ package a;
 import net.minecraft.item.ItemStack;
 
 final class izb {
-   private final String izc;
-   private final ItemStack izd;
-   private final String ize;
-   private final long izf;
-   private final float izg;
+   final String izc;
+   final ItemStack izd;
+   final String ize;
+   final long izf;
+   final float izg;
 
    izb(String key, ItemStack stack, String name, long endsAt, float totalSeconds) {
       this.izc = key;

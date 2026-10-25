@@ -16,24 +16,24 @@ import net.minecraft.world.chunk.WorldChunk;
 
 public final class eip {
    public static final int SIZE = 96;
-   private static final int eiq = 12;
-   private static final MinecraftClient eir = MinecraftClient.getInstance();
-   private final dtv eis;
-   private final int[] eit = new int[9216];
-   private final Mutable eiu = new Mutable();
-   private elb eiv;
-   private boolean eiw;
-   private int eix;
-   private int eiy;
-   private int eiz;
-   private int eja;
-   private int ejb;
-   private boolean ejc;
-   private long ejd;
-   private MapIdComponent eje;
-   private long ejf;
-   private elb ejg;
-   private boolean ejh;
+   static final int eiq = 12;
+   static final MinecraftClient eir = MinecraftClient.getInstance();
+   final dtv eis;
+   final int[] eit = new int[9216];
+   final Mutable eiu = new Mutable();
+   elb eiv;
+   boolean eiw;
+   int eix;
+   int eiy;
+   int eiz;
+   int eja;
+   int ejb;
+   boolean ejc;
+   long ejd;
+   MapIdComponent eje;
+   long ejf;
+   elb ejg;
+   boolean ejh;
 
    eip(dtv var1) {
       this.eis = var1;
@@ -95,7 +95,7 @@ public final class eip {
       }
    }
 
-   private int ejk(ClientWorld var1, int var2, int var3, int var4, int var5) {
+   int ejk(ClientWorld var1, int var2, int var3, int var4, int var5) {
       WorldChunk var6 = var1.getChunkManager().getWorldChunk(var2 >> 4, var3 >> 4, false);
       if (var6 == null) {
          return 0;

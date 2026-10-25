@@ -12,7 +12,7 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 
 public final class usj extends ItemEntityRenderer {
-   private final Random usk = Random.create();
+   final Random usk = Random.create();
 
    public usj(Context var1) {
       super(var1);

@@ -18,18 +18,18 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
 public final class evi {
-   private static final long evj = 10000L;
-   private static final int evk = 2097152;
-   private static final int evl = 4096;
-   private static final AtomicBoolean evm = new AtomicBoolean();
-   private static volatile BufferedImage evn;
-   private static volatile String evo = "";
-   private static volatile boolean evp;
-   private static volatile int evq;
-   private static volatile long evr;
-   private static HttpClient evs;
+   static final long evj = 10000L;
+   static final int evk = 2097152;
+   static final int evl = 4096;
+   static final AtomicBoolean evm = new AtomicBoolean();
+   static volatile BufferedImage evn;
+   static volatile String evo = "";
+   static volatile boolean evp;
+   static volatile int evq;
+   static volatile long evr;
+   static HttpClient evs;
 
-   private evi() {
+   evi() {
    }
 
    public static BufferedImage image() {
@@ -74,7 +74,7 @@ public final class evi {
       }
    }
 
-   private static synchronized HttpClient evv() {
+   static synchronized HttpClient evv() {
       if (evs == null) {
          evs = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(8L)).build();
       }
@@ -82,7 +82,7 @@ public final class evi {
       return evs;
    }
 
-   private static void evw() throws Exception {
+   static void evw() throws Exception {
       Builder var0 = HttpRequest.newBuilder(URI.create(ewk.endpoint() + a.b("夯⃐ꨒ㑺뿫㤔荐શ铼Ṙ馘", -929605365)))
          .timeout(Duration.ofSeconds(20L))
          .header(a.d("㬥䊀졒嘿\uddef孃\ue10b棩\uf6ad簉\ufbc7ư车", 1871235344, 1157558873), a.c(1364330743, "ࢲ焤ﯳ斑\uee51棷틶") + LoaderInfo.token())
@@ -115,7 +115,7 @@ public final class evi {
       }
    }
 
-   private static BufferedImage evx(byte[] var0) throws Exception {
+   static BufferedImage evx(byte[] var0) throws Exception {
       try (ImageInputStream var1 = ImageIO.createImageInputStream(new ByteArrayInputStream(var0))) {
          Iterator var2 = ImageIO.getImageReaders(var1);
          if (!var2.hasNext()) {

@@ -3,9 +3,9 @@ package a;
 import net.minecraft.util.math.BlockPos;
 
 public final class qmx {
-   private final BlockPos qmy;
-   private final int[] qmz;
-   private final float qna;
+   final BlockPos qmy;
+   final int[] qmz;
+   final float qna;
 
    public qmx(BlockPos target, int[] path, float cost) {
       this.qmy = target;

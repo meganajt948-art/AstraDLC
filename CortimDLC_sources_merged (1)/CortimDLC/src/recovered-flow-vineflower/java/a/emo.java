@@ -1,11 +1,11 @@
 package a;
 
 final class emo {
-   private final String emp;
-   private final int emq;
-   private final boolean emr;
+   final String emp;
+   final int emq;
+   final boolean emr;
 
-   private emo(String text, int level, boolean deny) {
+   emo(String text, int level, boolean deny) {
       this.emp = text;
       this.emq = level;
       this.emr = deny;

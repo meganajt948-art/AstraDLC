@@ -8,15 +8,15 @@ import net.minecraft.client.render.state.WorldRenderState;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class rwo extends kfe {
-   private static rwo rwp;
-   private final vmc rwq = this.add(new vmc("Transparency", 0.6, 0.0, 1.0, 0.05).percent());
-   private final vla rwr = this.add(new vla("Color", "Mint"));
-   private final vmc rws = this.add(new vmc("Outline", 0.9, 0.0, 1.0, 0.05).percent());
-   private final vmc rwt = this.add(new vmc("Width", 1.5, 0.5, 4.0, 0.1));
-   private final vmc rwu = this.add(new vmc("Fill", 0.0, 0.0, 0.6, 0.01).percent());
-   private final vmc rwv = this.add(new vmc("Glow", 0.35, 0.0, 1.0, 0.05).percent());
-   private final vmc rww = this.add(new vmc("Glow size", 0.4, 0.0, 1.0, 0.05).percent());
-   private final vmc rwx = this.add(new vmc("Animation", 1.0, 0.0, 3.0, 0.1).unit("x"));
+   static rwo rwp;
+   final vmc rwq = this.add(new vmc("Transparency", 0.6, 0.0, 1.0, 0.05).percent());
+   final vla rwr = this.add(new vla("Color", "Mint"));
+   final vmc rws = this.add(new vmc("Outline", 0.9, 0.0, 1.0, 0.05).percent());
+   final vmc rwt = this.add(new vmc("Width", 1.5, 0.5, 4.0, 0.1));
+   final vmc rwu = this.add(new vmc("Fill", 0.0, 0.0, 0.6, 0.01).percent());
+   final vmc rwv = this.add(new vmc("Glow", 0.35, 0.0, 1.0, 0.05).percent());
+   final vmc rww = this.add(new vmc("Glow size", 0.4, 0.0, 1.0, 0.05).percent());
+   final vmc rwx = this.add(new vmc("Animation", 1.0, 0.0, 3.0, 0.1).unit("x"));
 
    public rwo() {
       super(

@@ -11,18 +11,18 @@ import org.lwjgl.openal.ALC10;
 
 public final class voa {
    public static final List<String> BUILT_IN = vnb.NAMES;
-   private static final float vob = 0.8909F;
-   private static final int voc = 8;
-   private static final int vod = 787;
-   private static final BlockingQueue<vnl> voe = new ArrayBlockingQueue<>(32);
-   private static final vnl vof = new vnl("", true, 0.0F, 0L, "", 0.0F, 0.0F);
-   private static Thread vog;
-   private static volatile boolean voh;
-   private static final String voi = a.d("\ueb40鋧ᠤ蘊", -827944839, 702184286);
-   private static long voj;
-   private static volatile String vok = "";
+   static final float vob = 0.8909F;
+   static final int voc = 8;
+   static final int vod = 787;
+   static final BlockingQueue<vnl> voe = new ArrayBlockingQueue<>(32);
+   static final vnl vof = new vnl("", true, 0.0F, 0L, "", 0.0F, 0.0F);
+   static Thread vog;
+   static volatile boolean voh;
+   static final String voi = a.d("\ueb40鋧ᠤ蘊", -827944839, 702184286);
+   static long voj;
+   static volatile String vok = "";
 
-   private voa() {
+   voa() {
    }
 
    public static void shutdown() {
@@ -56,7 +56,7 @@ public final class voa {
       von(var0, var1, var2, 0.0F, 0.0F);
    }
 
-   private static void von(String var0, boolean var1, float var2, float var3, float var4) {
+   static void von(String var0, boolean var1, float var2, float var3, float var4) {
       if (!voh && !(var2 <= 0.001F) && var0 != null) {
          voo();
          long var5 = 0L;
@@ -75,7 +75,7 @@ public final class voa {
       }
    }
 
-   private static synchronized void voo() {
+   static synchronized void voo() {
       if (vog == null) {
          vog = new Thread(voa::vop, a.d("̼窧\uf077渞\ue58c振\ud92f僂캇䐭쏴㦒", 1969676732, -1719541046));
          vog.setDaemon(true);
@@ -83,7 +83,7 @@ public final class voa {
       }
    }
 
-   private static void vop() {
+   static void vop() {
       vne var0 = null;
       long var1 = 0L;
       String var3 = null;

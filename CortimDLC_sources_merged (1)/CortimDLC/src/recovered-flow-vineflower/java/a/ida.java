@@ -8,25 +8,25 @@ import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 
 public final class ida extends Screen {
-   private static final float idb = 240.0F;
-   private static final float idc = 150.0F;
-   private static final float idd = 16.0F;
-   private static final float ide = 52.0F;
-   private static final float idf = 64.0F;
-   private static final float idg = 10.0F;
-   private static final wam[] idh = new wam[]{wam.RU, wam.EN};
-   private final Screen idi;
-   private final vdc idj = new vdc(0.32F, 0.0F);
-   private final vcj[] idk = new vcj[]{new vcj(16.0F), new vcj(16.0F)};
-   private final vcj[] idl = new vcj[]{new vcj(12.0F), new vcj(12.0F)};
-   private int idm;
-   private boolean idn;
-   private boolean ido;
-   private long idp = -1L;
-   private float idq = 0.016666668F;
-   private float idr = 1.0F;
-   private float ids;
-   private float idt;
+   static final float idb = 240.0F;
+   static final float idc = 150.0F;
+   static final float idd = 16.0F;
+   static final float ide = 52.0F;
+   static final float idf = 64.0F;
+   static final float idg = 10.0F;
+   static final wam[] idh = new wam[]{wam.RU, wam.EN};
+   final Screen idi;
+   final vdc idj = new vdc(0.32F, 0.0F);
+   final vcj[] idk = new vcj[]{new vcj(16.0F), new vcj(16.0F)};
+   final vcj[] idl = new vcj[]{new vcj(12.0F), new vcj(12.0F)};
+   int idm;
+   boolean idn;
+   boolean ido;
+   long idp = -1L;
+   float idq = 0.016666668F;
+   float idr = 1.0F;
+   float ids;
+   float idt;
 
    public ida(Screen var1) {
       super(Text.literal(a.b("㫨䍴즨埐\udc15媰\ue0e5椖", -1252902228)));
@@ -38,7 +38,7 @@ public final class ida extends Screen {
       }
    }
 
-   private void idw(DrawContext var1) {
+   void idw(DrawContext var1) {
       unf.observe(var1);
       if (unf.frame() != this.idp) {
          this.idp = unf.frame();
@@ -52,7 +52,7 @@ public final class ida extends Screen {
       }
    }
 
-   private float idx() {
+   float idx() {
       float var1 = this.idj.linear();
       return this.idn ? vcq.outCubic(var1) : vcq.outQuint(var1);
    }
@@ -99,15 +99,15 @@ public final class ida extends Screen {
       }
    }
 
-   private float idy() {
+   float idy() {
       return 99.0F;
    }
 
-   private float idz(int var1) {
+   float idz(int var1) {
       return 16.0F + var1 * (this.idy() + 10.0F);
    }
 
-   private void iea(DrawContext var1, float var2, float var3) {
+   void iea(DrawContext var1, float var2, float var3) {
       float var4 = iov.r(12.0F);
       float var5 = iov.lightness();
       uut.shadow(var1, 0.0F, 4.0F, 240.0F, 150.0F, var4, 18.0F, iov.shadow);
@@ -139,7 +139,7 @@ public final class ida extends Screen {
       irr.SMALL.drawCentered(var1, irr.SMALL.ellipsize(var9, 208.0F), 120.0F, irr.SMALL.centerTop(135.0F), ujt.mulAlpha(iov.textMuted, 0.9F));
    }
 
-   private void ieb(DrawContext var1, int var2, float var3, float var4) {
+   void ieb(DrawContext var1, int var2, float var3, float var4) {
       float var5 = this.idz(var2);
       float var6 = this.idy();
       boolean var7 = !this.idn && irr.inside(var3, var4, var5, 52.0F, var6, 64.0F);
@@ -194,7 +194,7 @@ public final class ida extends Screen {
       }
    }
 
-   private boolean iec(float var1, float var2) {
+   boolean iec(float var1, float var2) {
       for (int var3 = 0; var3 < idh.length; var3++) {
          if (irr.inside(var1, var2, this.idz(var3), 52.0F, this.idy(), 64.0F)) {
             return true;
@@ -228,7 +228,7 @@ public final class ida extends Screen {
       uut.outline(var0, var2, var3, var4, var5, var6, 0.8F, 805306368);
    }
 
-   private void ied(int var1) {
+   void ied(int var1) {
       if (!this.idn) {
          wap.set(idh[var1]);
          hyz.saveLater();

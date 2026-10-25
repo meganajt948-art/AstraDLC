@@ -13,9 +13,9 @@ public final class tqa {
    public final double[] p;
    public final double[] mu;
    public final double[] sd;
-   private final int tqb;
-   private final int tqc;
-   private final int tqd;
+   final int tqb;
+   final int tqc;
+   final int tqd;
 
    public tqa(int var1, int var2) {
       this.in = var1;

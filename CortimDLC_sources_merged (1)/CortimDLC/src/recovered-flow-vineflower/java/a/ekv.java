@@ -10,7 +10,7 @@ import net.minecraft.world.BlockView;
 import org.jspecify.annotations.Nullable;
 
 final class ekv extends WorldRenderer {
-   private ekv() {
+   ekv() {
       super(null, null, null, null, null, null);
    }
 

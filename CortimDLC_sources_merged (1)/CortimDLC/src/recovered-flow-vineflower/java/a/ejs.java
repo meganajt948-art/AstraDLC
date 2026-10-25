@@ -1,10 +1,10 @@
 package a;
 
 final class ejs {
-   private final String ejt;
-   private final String eju;
-   private final String ejv;
-   private final boolean ejw;
+   final String ejt;
+   final String eju;
+   final String ejv;
+   final boolean ejw;
 
    ejs(String name, String address, String password, boolean autoReconnect) {
       this.ejt = name;

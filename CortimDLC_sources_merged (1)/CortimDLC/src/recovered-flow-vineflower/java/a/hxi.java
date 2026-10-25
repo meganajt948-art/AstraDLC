@@ -5,16 +5,16 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 final class hxi {
-   private static final float hxj = 15.0F;
-   private static final float hxk = 3.0F;
+   static final float hxj = 15.0F;
+   static final float hxk = 3.0F;
    final vlv mode;
-   private final float hxl;
-   private final float hxm;
-   private final float hxn;
-   private final boolean hxo;
-   private final vcj hxp = new vcj(18.0F);
-   private final List<vcj> hxq = new ArrayList<>();
-   private boolean hxr;
+   final float hxl;
+   final float hxm;
+   final float hxn;
+   final boolean hxo;
+   final vcj hxp = new vcj(18.0F);
+   final List<vcj> hxq = new ArrayList<>();
+   boolean hxr;
 
    hxi(vlv var1, float var2, float var3, float var4, float var5, float var6) {
       this.mode = var1;
@@ -29,7 +29,7 @@ final class hxi {
       }
    }
 
-   private float hxu() {
+   float hxu() {
       return this.mode.getModes().size() * 15.0F + 6.0F;
    }
 

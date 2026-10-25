@@ -3,9 +3,9 @@ package a;
 import java.util.Random;
 
 public final class pqq {
-   private final long pqr;
-   private final double pqs;
-   private final double pqt;
+   final long pqr;
+   final double pqs;
+   final double pqt;
    public final double wall;
 
    public pqq(long var1, double var3, double var5, double var7) {
@@ -36,7 +36,7 @@ public final class pqq {
       return 1.0 + this.pqt * (var21 * 2.0 - 1.0);
    }
 
-   private double pqw(int var1, int var2) {
+   double pqw(int var1, int var2) {
       long var3 = this.pqr ^ var1 * -7046029254386353131L ^ var2 * -4417276706812531889L;
       var3 ^= var3 >>> 31;
       var3 *= -4658895280553007687L;

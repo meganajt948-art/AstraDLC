@@ -6,12 +6,12 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 final class ega {
-   private static final Field[] egb = ege();
+   static final Field[] egb = ege();
 
-   private ega() {
+   ega() {
    }
 
-   private static Field[] ege() {
+   static Field[] ege() {
       try {
          Class var0 = Class.forName(
             a.d(

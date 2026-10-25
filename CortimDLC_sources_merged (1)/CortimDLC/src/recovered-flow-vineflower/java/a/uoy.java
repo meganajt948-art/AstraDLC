@@ -1,12 +1,12 @@
 package a;
 
 public final class uoy {
-   private final float uoz;
-   private final float upa;
-   private final float upb;
-   private final float upc;
-   private final float upd;
-   private final float upe;
+   final float uoz;
+   final float upa;
+   final float upb;
+   final float upc;
+   final float upd;
+   final float upe;
 
    public uoy(float refraction, float bezel, float dispersion, float highlight, float saturation, float lightAngle) {
       this.uoz = refraction;
@@ -31,7 +31,7 @@ public final class uoy {
       return uph(var1, 255) | uph(this.upc, 255) << 8 | uph(this.upd * 0.5F, 255) << 16;
    }
 
-   private static int uph(float var0, int var1) {
+   static int uph(float var0, int var1) {
       return Math.round(Math.max(0.0F, Math.min(1.0F, var0)) * var1);
    }
 

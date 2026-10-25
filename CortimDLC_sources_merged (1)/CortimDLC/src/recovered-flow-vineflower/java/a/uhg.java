@@ -12,16 +12,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import net.minecraft.client.MinecraftClient;
 
 final class uhg {
-   private static final HttpClient uhh = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
-   private static final ExecutorService uhi = Executors.newSingleThreadExecutor(var0 -> {
+   static final HttpClient uhh = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10L)).build();
+   static final ExecutorService uhi = Executors.newSingleThreadExecutor(var0 -> {
       Thread var1 = new Thread(var0, a.d("啈ⳓꘃ㡪돸㕛轘ڸ飴ቃ閝", -937584473, -397226590));
       var1.setDaemon(true);
       return var1;
    });
-   private final uhc uhj;
-   private final AtomicBoolean uhk = new AtomicBoolean();
-   private final StringBuilder uhl = new StringBuilder();
-   private volatile WebSocket uhm;
+   final uhc uhj;
+   final AtomicBoolean uhk = new AtomicBoolean();
+   final StringBuilder uhl = new StringBuilder();
+   volatile WebSocket uhm;
 
    uhg(URI var1, uhc var2) {
       this.uhj = var2;
@@ -62,7 +62,7 @@ final class uhg {
       }
    }
 
-   private void uhp(int var1, String var2) {
+   void uhp(int var1, String var2) {
       if (this.uhk.compareAndSet(false, true)) {
          WebSocket var3 = this.uhm;
          if (var3 != null) {
@@ -73,7 +73,7 @@ final class uhg {
       }
    }
 
-   private static String uhq(Throwable var0) {
+   static String uhq(Throwable var0) {
       while (var0.getCause() != null && var0.getCause() != var0) {
          var0 = var0.getCause();
       }
@@ -82,7 +82,7 @@ final class uhg {
       return var0.getClass().getSimpleName() + (var1 != null ? a.c(1142845654, "烮ॅ") + var1 : "");
    }
 
-   private static void uhr(Runnable var0) {
+   static void uhr(Runnable var0) {
       MinecraftClient.getInstance().execute(var0);
    }
 }

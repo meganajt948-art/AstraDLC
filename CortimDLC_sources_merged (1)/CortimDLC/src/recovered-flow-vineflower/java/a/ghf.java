@@ -10,14 +10,14 @@ import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.entity.Entity;
 
 final class ghf {
-   private static final String[] ghg = new String[]{
+   static final String[] ghg = new String[]{
       a.b("A秒\uf30c浚\ue69b怩", -2142765046), a.c(1784499189, "䮳㈭룲⚋굍⯩醼ᡙ"), a.d("饋\ue0c9樚\uf476羹奈", 1554658804, 1363979512)
    };
-   private static double ghh;
-   private static double ghi;
-   private static double ghj;
+   static double ghh;
+   static double ghi;
+   static double ghj;
 
-   private ghf() {
+   ghf() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -123,7 +123,7 @@ final class ghf {
       return false;
    }
 
-   private static boolean ghm(MinecraftClient var0, int var1) {
+   static boolean ghm(MinecraftClient var0, int var1) {
       String var2 = PetFollowTest.step(var0, 0.05F);
       if (var1 < 120) {
          ghv(var0, 0.0F, 0.0F);
@@ -164,7 +164,7 @@ final class ghf {
       }
    }
 
-   private static int ghn(MinecraftClient var0) {
+   static int ghn(MinecraftClient var0) {
       rhs var1 = rhs.get();
       int var2 = 0;
 
@@ -177,14 +177,14 @@ final class ghf {
       return var2;
    }
 
-   private static void gho(MinecraftClient var0, String var1, double var2, double var4, String var6) {
+   static void gho(MinecraftClient var0, String var1, double var2, double var4, String var6) {
       ghw(
          var0,
          ghp(a.d("ၯ様\ue313絢\uf6b7瀇쨚䎦\uddfd坋킓⫤ꐢ㶀럔ㄷ謶Ӹ鸝\u181f釭\uebb7攛ﺝ碤\uf270䯈얆弦\ud931劇걝☍뾫㦾댊ಋ", 2120224008, -2130698959), var1, ghh + var2, ghi, ghj + var4, var6)
       );
    }
 
-   private static String ghp(String var0, Object... var1) {
+   static String ghp(String var0, Object... var1) {
       Object[] var2 = (Object[])var1.clone();
       if (var0.startsWith(a.d("艚ﯤ焲\uef43", 666902432, 703896984))) {
          int var3 = (int)Math.floor(ghh);
@@ -200,19 +200,19 @@ final class ghf {
       return String.format(Locale.ROOT, var0, var2);
    }
 
-   private static void ghq(kfx var0, String var1, boolean var2) {
+   static void ghq(kfx var0, String var1, boolean var2) {
       var0.getByName(var1).setEnabled(var2);
    }
 
-   private static void ghr(kfe var0, String var1, boolean var2) {
+   static void ghr(kfe var0, String var1, boolean var2) {
       ((vkl)ght(var0, var1)).set(var2);
    }
 
-   private static void ghs(kfe var0, String var1, String var2) {
+   static void ghs(kfe var0, String var1, String var2) {
       ((vlv)ght(var0, var1)).set(var2);
    }
 
-   private static vmo ght(kfe var0, String var1) {
+   static vmo ght(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -222,7 +222,7 @@ final class ghf {
       throw new IllegalStateException(var0.getName() + a.c(-1353162658, "恶ᦏ鍕ശ蚲M먟㎡") + var1);
    }
 
-   private static boolean ghu(String var0, String var1) {
+   static boolean ghu(String var0, String var1) {
       try {
          Field var2 = Class.forName(var0).getDeclaredField(var1);
          var2.setAccessible(true);
@@ -232,7 +232,7 @@ final class ghf {
       }
    }
 
-   private static void ghv(MinecraftClient var0, float var1, float var2) {
+   static void ghv(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
@@ -242,11 +242,11 @@ final class ghf {
       var0.player.setHeadYaw(var1);
    }
 
-   private static void ghw(MinecraftClient var0, String var1) {
+   static void ghw(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void ghx(MinecraftClient var0, String var1) {
+   static void ghx(MinecraftClient var0, String var1) {
       System.out.println(a.b("\ue237鮐ᅊ輱Ҡ艅㠇뇠⾸ꕝ", -1822563762) + var1 + a.c(-1258235870, "\ud801ꇐ⭣") + var0.getCurrentFps() + a.c(1858616429, "㱉䖾콻儉"));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

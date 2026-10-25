@@ -22,7 +22,7 @@ public final class irr {
    public static final float SWITCH_W = 17.0F;
    public static final float SWITCH_H = 9.5F;
 
-   private irr() {
+   irr() {
    }
 
    static boolean inside(double var0, double var2, float var4, float var5, float var6, float var7) {
@@ -80,7 +80,7 @@ public final class irr {
       var0.getMatrices().popMatrix();
    }
 
-   private static void iru(DrawContext var0, String var1, vhz var2, float var3, float var4, int var5) {
+   static void iru(DrawContext var0, String var1, vhz var2, float var3, float var4, int var5) {
       float var6 = var2 != null ? 7.0F + (var1.isEmpty() ? 0.0F : 4.0F) : 0.0F;
       float var7 = VALUE.width(var1) + var6;
       float var8 = (var3 - var7) * 0.5F;

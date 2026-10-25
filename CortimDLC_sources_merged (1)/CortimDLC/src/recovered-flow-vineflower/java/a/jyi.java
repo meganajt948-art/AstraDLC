@@ -3,11 +3,11 @@ package a;
 import java.util.UUID;
 
 final class jyi {
-   private final String jyj;
-   private final UUID jyk;
-   private final UUID jyl;
-   private final boolean jym;
-   private final Object jyn;
+   final String jyj;
+   final UUID jyk;
+   final UUID jyl;
+   final boolean jym;
+   final Object jyn;
 
    jyi(String name, UUID uuid, UUID skin, boolean microsoft, Object handle) {
       this.jyj = name;

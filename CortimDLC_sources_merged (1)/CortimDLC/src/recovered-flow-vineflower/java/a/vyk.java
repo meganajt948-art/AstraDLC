@@ -11,7 +11,7 @@ import net.minecraft.scoreboard.ScoreboardObjective;
 public final class vyk {
    public static final int HIDDEN = 1000;
 
-   private vyk() {
+   vyk() {
    }
 
    public static vyd of(LivingEntity var0) {

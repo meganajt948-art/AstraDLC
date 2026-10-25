@@ -14,23 +14,23 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 
 public final class egq {
-   private static final egq egr = new egq();
-   private static final Pattern egs = Pattern.compile(a.d("爉\u0ba2脝Ἓ铷ሊꠎ↵뿷㕒닧䢔왥徜헐匼\ue974曮", -1684923850, -795318154));
-   private static final MinecraftClient egt = MinecraftClient.getInstance();
-   private static final long egu = 10000000L;
-   private static final long egv = 2500L;
-   private static final long egw = 20000L;
-   private final List<dtv> egx = new CopyOnWriteArrayList<>();
-   private final Random egy = new Random();
-   private final Set<dtv> egz = Collections.newSetFromMap(new IdentityHashMap<>());
-   private int eha = 4;
-   private boolean ehb;
-   private int ehc;
-   private volatile boolean ehd;
-   private long ehe;
-   private long ehf;
+   static final egq egr = new egq();
+   static final Pattern egs = Pattern.compile(a.d("爉\u0ba2脝Ἓ铷ሊꠎ↵뿷㕒닧䢔왥徜헐匼\ue974曮", -1684923850, -795318154));
+   static final MinecraftClient egt = MinecraftClient.getInstance();
+   static final long egu = 10000000L;
+   static final long egv = 2500L;
+   static final long egw = 20000L;
+   final List<dtv> egx = new CopyOnWriteArrayList<>();
+   final Random egy = new Random();
+   final Set<dtv> egz = Collections.newSetFromMap(new IdentityHashMap<>());
+   int eha = 4;
+   boolean ehb;
+   int ehc;
+   volatile boolean ehd;
+   long ehe;
+   long ehf;
 
-   private egq() {
+   egq() {
    }
 
    public static egq get() {
@@ -87,12 +87,12 @@ public final class egq {
       }
    }
 
-   private static kfx ehi() {
+   static kfx ehi() {
       Flow var0 = Flow.getInstance();
       return var0 == null ? null : var0.getModuleManager();
    }
 
-   private void ehj() {
+   void ehj() {
       if (!this.ehd && egt.isOnThread() && egt.runDirectory != null && ehi() != null) {
          this.ehd = true;
          ejz var1 = eke.load();
@@ -140,7 +140,7 @@ public final class egq {
       return var1;
    }
 
-   private void ehk() {
+   void ehk() {
       long var1 = System.nanoTime();
       int var3 = this.egx.size();
 
@@ -165,7 +165,7 @@ public final class egq {
       return true;
    }
 
-   private List<dtv> ehl() {
+   List<dtv> ehl() {
       ArrayList var1 = new ArrayList();
 
       for (dtv var3 : this.egx) {
@@ -328,7 +328,7 @@ public final class egq {
       egr.ehm();
    }
 
-   private void ehm() {
+   void ehm() {
       this.ehj();
       dyh.awaitAll();
       if (!this.ehb && !this.egx.isEmpty() && !ejp.isActive()) {

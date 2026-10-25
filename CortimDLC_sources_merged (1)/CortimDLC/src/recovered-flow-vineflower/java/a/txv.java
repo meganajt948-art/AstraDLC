@@ -31,10 +31,10 @@ public final class txv {
    public final tbx net;
    public final double[] mu = new double[txl.N];
    public final double[] sd = new double[txl.N];
-   private final double[] txw = new double[txl.N];
-   private double[] txx;
-   private double[] txy;
-   private final double[] txz = new double[OUT];
+   final double[] txw = new double[txl.N];
+   double[] txx;
+   double[] txy;
+   final double[] txz = new double[OUT];
 
    public txv(tbx var1) {
       this.net = var1;
@@ -43,7 +43,7 @@ public final class txv {
       this.txy = new double[var1.h2];
    }
 
-   private static float[] tyc(float[] var0) {
+   static float[] tyc(float[] var0) {
       float[] var1 = new float[var0.length * 2 + 1];
       int var2 = var0.length;
 

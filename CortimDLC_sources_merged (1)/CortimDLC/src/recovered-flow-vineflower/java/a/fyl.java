@@ -26,25 +26,25 @@ import net.minecraft.util.PlayerInput;
 import net.minecraft.util.math.Vec3d;
 
 final class fyl {
-   private static final int fym = 170;
-   private static final Set<Integer> fyn = ConcurrentHashMap.newKeySet();
-   private static final AtomicInteger fyo = new AtomicInteger();
-   private static final AtomicInteger fyp = new AtomicInteger();
-   private static final AtomicInteger fyq = new AtomicInteger();
-   private static final StringBuffer fyr = new StringBuffer();
-   private static volatile boolean fys;
-   private static volatile boolean fyt;
-   private static volatile boolean fyu;
-   private static int fyv;
-   private static int fyw;
-   private static int fyx;
-   private static int fyy;
-   private static double fyz;
-   private static Vec3d fza;
-   private static int fzb;
-   private static boolean fzc;
+   static final int fym = 170;
+   static final Set<Integer> fyn = ConcurrentHashMap.newKeySet();
+   static final AtomicInteger fyo = new AtomicInteger();
+   static final AtomicInteger fyp = new AtomicInteger();
+   static final AtomicInteger fyq = new AtomicInteger();
+   static final StringBuffer fyr = new StringBuffer();
+   static volatile boolean fys;
+   static volatile boolean fyt;
+   static volatile boolean fyu;
+   static int fyv;
+   static int fyw;
+   static int fyx;
+   static int fyy;
+   static double fyz;
+   static Vec3d fza;
+   static int fzb;
+   static boolean fzc;
 
-   private fyl() {
+   fyl() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -87,7 +87,7 @@ final class fyl {
       }
    }
 
-   private static void fzf(MinecraftClient var0, boolean var1, int var2) {
+   static void fzf(MinecraftClient var0, boolean var1, int var2) {
       ClientPlayerEntity var3 = var0.player;
       String var4 = var1 ? a.c(-844494835, "ࡆ熞ﬂ敵\ueeb7栗툁宿엡众") : a.b("忖☍겑㋦뤤㾄薒బ鉺ᣋ齗", 1356554143);
       switch (var2) {
@@ -225,13 +225,13 @@ final class fyl {
       }
    }
 
-   private static void fzg(MinecraftClient var0, int var1, int var2, SlotActionType var3) {
+   static void fzg(MinecraftClient var0, int var1, int var2, SlotActionType var3) {
       ClientPlayerEntity var4 = var0.player;
       var0.interactionManager.clickSlot(var4.currentScreenHandler.syncId, var1, var2, var3, var4);
       fyv++;
    }
 
-   private static void fzh(String var0, boolean var1, ClientPlayerEntity var2) {
+   static void fzh(String var0, boolean var1, ClientPlayerEntity var2) {
       double var3 = fyw == 0 ? 0.0 : fyz / fyw * 20.0;
       System.out
          .println(
@@ -285,7 +285,7 @@ final class fyl {
       }
    }
 
-   private static void fzi(boolean var0) {
+   static void fzi(boolean var0) {
       kfe var1 = Flow.getInstance().getModuleManager().getByName(a.b("䗏㱌뚃⣖ꌣ▋鿋", 726156687));
 
       for (vmo var3 : var1.getSettings()) {
@@ -295,7 +295,7 @@ final class fyl {
       }
    }
 
-   private static void fzj(MinecraftClient var0) throws Exception {
+   static void fzj(MinecraftClient var0) throws Exception {
       if (!fzc) {
          IntegratedServer var1 = var0.getServer();
          ServerPlayerEntity var2 = var1.getPlayerManager().getPlayer(var0.player.getUuid());
@@ -333,7 +333,7 @@ final class fyl {
       }
    }
 
-   private static void fzk(Object var0) {
+   static void fzk(Object var0) {
       if (var0 instanceof PlayerInputC2SPacket var1) {
          PlayerInput var3 = var1.input();
          fys = var3.forward() || var3.backward() || var3.left() || var3.right() || var3.jump();

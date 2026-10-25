@@ -32,61 +32,61 @@ import net.minecraft.util.math.Vec3d;
 public final class dyh {
    public static final int WIDTH = 256;
    public static final int HEIGHT = 170;
-   private static final double dyi = 56.0;
-   private static final long dyj = 45000000L;
-   private static final int dyk = Math.max(1, Math.min(6, Runtime.getRuntime().availableProcessors() - 1));
-   private static final ExecutorService dyl = Executors.newFixedThreadPool(dyk, var0 -> {
+   static final double dyi = 56.0;
+   static final long dyj = 45000000L;
+   static final int dyk = Math.max(1, Math.min(6, Runtime.getRuntime().availableProcessors() - 1));
+   static final ExecutorService dyl = Executors.newFixedThreadPool(dyk, var0 -> {
       Thread var1 = new Thread(var0, a.b("涻ᐠ黰\u0099謋ඨ랹㹅ꀁ⫤굴圇\ud9dc䁥쨡䳃", 422145517));
       var1.setDaemon(true);
       var1.setPriority(5);
       return var1;
    });
-   private static final Map<BlockState, dxq> dym = new ConcurrentHashMap<>();
-   private static final Map<Sprite, dxy> dyn = new ConcurrentHashMap<>();
-   private static final long dyo = ead();
-   private static final Direction[] dyp = Direction.values();
-   private static final MinecraftClient dyq = MinecraftClient.getInstance();
-   private static final Set<dyh> dyr = Collections.newSetFromMap(new IdentityHashMap<>());
-   private static final double[] dys = eac();
-   private final dtv dyt;
-   private final int[] dyu = new int[43520];
-   private final float[] dyv = new float[43520];
-   private final List<dxe> dyw = new ArrayList<>();
-   private final dye[] dyx = new dye[dyk * 3];
-   private final long[] dyy = new long[dyk * 3];
-   private List<Future<?>> dyz;
-   private ClientWorld dza;
-   private ClientPlayerEntity dzb;
-   private float dzc;
-   private long dzd;
-   private int dze;
-   private elb dzf;
-   private long dzg;
-   private long dzh;
-   private boolean dzi;
-   private String dzj = a.c(-1071423468, "携ᶁ非द芄х먆㟥ꦲ⌂꒤廜큼䧈쏬䔞｟瓯\uee5c栍");
-   private Object dzk;
-   private float dzl;
-   private float dzm;
-   private double dzn;
-   private double dzo;
-   private double dzp;
-   private double dzq;
-   private double dzr;
-   private double dzs;
-   private double dzt;
-   private double dzu;
-   private double dzv;
-   private double dzw;
-   private double dzx;
-   private double dzy;
-   private double dzz;
+   static final Map<BlockState, dxq> dym = new ConcurrentHashMap<>();
+   static final Map<Sprite, dxy> dyn = new ConcurrentHashMap<>();
+   static final long dyo = ead();
+   static final Direction[] dyp = Direction.values();
+   static final MinecraftClient dyq = MinecraftClient.getInstance();
+   static final Set<dyh> dyr = Collections.newSetFromMap(new IdentityHashMap<>());
+   static final double[] dys = eac();
+   final dtv dyt;
+   final int[] dyu = new int[43520];
+   final float[] dyv = new float[43520];
+   final List<dxe> dyw = new ArrayList<>();
+   final dye[] dyx = new dye[dyk * 3];
+   final long[] dyy = new long[dyk * 3];
+   List<Future<?>> dyz;
+   ClientWorld dza;
+   ClientPlayerEntity dzb;
+   float dzc;
+   long dzd;
+   int dze;
+   elb dzf;
+   long dzg;
+   long dzh;
+   boolean dzi;
+   String dzj = a.c(-1071423468, "携ᶁ非द芄х먆㟥ꦲ⌂꒤廜큼䧈쏬䔞｟瓯\uee5c栍");
+   Object dzk;
+   float dzl;
+   float dzm;
+   double dzn;
+   double dzo;
+   double dzp;
+   double dzq;
+   double dzr;
+   double dzs;
+   double dzt;
+   double dzu;
+   double dzv;
+   double dzw;
+   double dzx;
+   double dzy;
+   double dzz;
 
    dyh(dtv var1) {
       this.dyt = var1;
    }
 
-   private static double[] eac() {
+   static double[] eac() {
       double[] var0 = new double[61];
 
       for (int var1 = 0; var1 < var0.length; var1++) {
@@ -96,7 +96,7 @@ public final class dyh {
       return var0;
    }
 
-   private static long ead() {
+   static long ead() {
       try {
          return ejl.offset(SpriteContents.class, NativeImage.class);
       } catch (Throwable var1) {
@@ -164,7 +164,7 @@ public final class dyh {
       }
    }
 
-   private void eae() {
+   void eae() {
       List var1 = this.dyz;
       if (var1 == null) {
          dyr.remove(this);
@@ -178,7 +178,7 @@ public final class dyh {
       }
    }
 
-   private void eaf() {
+   void eaf() {
       List var1 = this.dyz;
       this.dyz = null;
       dyr.remove(this);
@@ -210,7 +210,7 @@ public final class dyh {
       this.dzb = null;
    }
 
-   private void eag() {
+   void eag() {
       if (this.dzf == null) {
          this.dzf = new elb(a.b("ែ湱\ue4ae竗\uf117瞵", -1310582873), 256, 170);
       }
@@ -244,7 +244,7 @@ public final class dyh {
       this.dzi = false;
    }
 
-   private boolean eah() {
+   boolean eah() {
       ClientPlayerEntity var1 = this.dyt.getPlayer();
       ClientWorld var2 = this.dyt.getWorld();
       if (var1 != null && var2 != null) {
@@ -318,7 +318,7 @@ public final class dyh {
       }
    }
 
-   private void eai(dye var1, int var2) {
+   void eai(dye var1, int var2) {
       double var3 = (1.0 - 2.0 * (var2 + 0.5) / 170.0) * this.dzz;
       int var5 = var2 * 256;
 
@@ -336,7 +336,7 @@ public final class dyh {
       }
    }
 
-   private boolean eaj(double var1, double var3, double var5, double[] var7) {
+   boolean eaj(double var1, double var3, double var5, double[] var7) {
       double var8 = var1 - this.dzn;
       double var10 = var3 - this.dzo;
       double var12 = var5 - this.dzp;
@@ -353,7 +353,7 @@ public final class dyh {
       return true;
    }
 
-   private void eak(ClientWorld var1, ClientPlayerEntity var2, float var3) {
+   void eak(ClientWorld var1, ClientPlayerEntity var2, float var3) {
       this.dyw.clear();
       double[] var4 = new double[3];
       Entity var5 = var2.getRootVehicle();
@@ -385,7 +385,7 @@ public final class dyh {
       }
    }
 
-   private static int eal(Entity var0) {
+   static int eal(Entity var0) {
       if (var0 instanceof OtherClientPlayerEntity) {
          return -12685352;
       } else if (var0 instanceof ItemEntity) {
@@ -397,7 +397,7 @@ public final class dyh {
       }
    }
 
-   private void eam(Box var1, int var2) {
+   void eam(Box var1, int var2) {
       double[] var3 = new double[3];
       double var4 = Double.MAX_VALUE;
       double var6 = Double.MAX_VALUE;
@@ -506,7 +506,7 @@ public final class dyh {
       return 0xFF000000 | var6 << 16 | var7 << 8 | var8;
    }
 
-   private static dxy ean(Sprite var0) {
+   static dxy ean(Sprite var0) {
       return var0 != null && dyo >= 0L ? dyn.computeIfAbsent(var0, var0x -> {
          try {
             SpriteContents var1 = var0x.getContents();

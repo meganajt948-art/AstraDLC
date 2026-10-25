@@ -47,56 +47,56 @@ public final class ukl {
    public static final int PLAIN = 2;
    public static final int VANILLA = 3;
    public static final int MOBS = 4;
-   private static final int ukm = 5;
-   private static final int ukn = 128;
-   private static final int uko = 4144;
-   private static final int ukp = 5;
-   private static final RenderPipeline ukq = une("fx_mask", null, "OutlineSampler");
-   private static final RenderPipeline ukr = une("fx_down", null, "InSampler");
-   private static final RenderPipeline uks = une("fx_up", null, "InSampler");
-   private static final RenderPipeline ukt = une("fx_composite", BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA, "OutlineSampler", "GlowSampler");
-   private static final RenderPipeline uku = une("fx_fade", BlendFunction.TRANSLUCENT, "OutlineSampler", "OutlineDepthSampler", "DepthSampler", "BackSampler");
-   private static final uki[] ukv = new uki[5];
-   private static final EntityRenderState[] ukw = new EntityRenderState[128];
-   private static final int[] ukx = new int[128];
-   private static final int[] uky = new int[128];
-   private static final int[] ukz = new int[128];
-   private static final float[] ula = new float[128];
-   private static final List<EntityRenderState> ulb = new ArrayList<>();
-   private static int ulc;
-   private static int uld;
-   private static boolean ule;
-   private static @Nullable CameraRenderState ulf;
-   private static boolean ulg;
-   private static boolean ulh;
-   private static final float[] uli = new float[4];
-   private static final float[] ulj = new float[4];
-   private static boolean ulk = true;
-   private static boolean ull = true;
-   private static final float[] ulm = new float[2];
+   static final int ukm = 5;
+   static final int ukn = 128;
+   static final int uko = 4144;
+   static final int ukp = 5;
+   static final RenderPipeline ukq = une("fx_mask", null, "OutlineSampler");
+   static final RenderPipeline ukr = une("fx_down", null, "InSampler");
+   static final RenderPipeline uks = une("fx_up", null, "InSampler");
+   static final RenderPipeline ukt = une("fx_composite", BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA, "OutlineSampler", "GlowSampler");
+   static final RenderPipeline uku = une("fx_fade", BlendFunction.TRANSLUCENT, "OutlineSampler", "OutlineDepthSampler", "DepthSampler", "BackSampler");
+   static final uki[] ukv = new uki[5];
+   static final EntityRenderState[] ukw = new EntityRenderState[128];
+   static final int[] ukx = new int[128];
+   static final int[] uky = new int[128];
+   static final int[] ukz = new int[128];
+   static final float[] ula = new float[128];
+   static final List<EntityRenderState> ulb = new ArrayList<>();
+   static int ulc;
+   static int uld;
+   static boolean ule;
+   static @Nullable CameraRenderState ulf;
+   static boolean ulg;
+   static boolean ulh;
+   static final float[] uli = new float[4];
+   static final float[] ulj = new float[4];
+   static boolean ulk = true;
+   static boolean ull = true;
+   static final float[] ulm = new float[2];
    public static boolean noScissor;
    public static int devMode;
-   private static final Identifier uln = Identifier.ofVanilla("entity_outline");
-   private static @Nullable Map<Object, Object> ulo;
-   private static @Nullable Object ulp;
-   private static boolean ulq;
-   private static boolean ulr;
-   private static final GpuBuffer[] uls = new GpuBuffer[5];
-   private static final GpuTexture[] ult = new GpuTexture[5];
-   private static final GpuTextureView[] ulu = new GpuTextureView[5];
-   private static final GpuTexture[] ulv = new GpuTexture[4];
-   private static final GpuTextureView[] ulw = new GpuTextureView[4];
-   private static @Nullable GpuTexture ulx;
-   private static @Nullable GpuTextureView uly;
-   private static int ulz = -1;
-   private static int uma = -1;
-   private static Field[] umb;
-   private static boolean umc;
-   private static boolean umd;
-   private static Field ume;
-   private static Field umf;
+   static final Identifier uln = Identifier.ofVanilla("entity_outline");
+   static @Nullable Map<Object, Object> ulo;
+   static @Nullable Object ulp;
+   static boolean ulq;
+   static boolean ulr;
+   static final GpuBuffer[] uls = new GpuBuffer[5];
+   static final GpuTexture[] ult = new GpuTexture[5];
+   static final GpuTextureView[] ulu = new GpuTextureView[5];
+   static final GpuTexture[] ulv = new GpuTexture[4];
+   static final GpuTextureView[] ulw = new GpuTextureView[4];
+   static @Nullable GpuTexture ulx;
+   static @Nullable GpuTextureView uly;
+   static int ulz = -1;
+   static int uma = -1;
+   static Field[] umb;
+   static boolean umc;
+   static boolean umd;
+   static Field ume;
+   static Field umf;
 
-   private ukl() {
+   ukl() {
    }
 
    public static boolean canFade() {
@@ -129,7 +129,7 @@ public final class ukl {
       }
    }
 
-   private static int umi(EntityRenderState var0) {
+   static int umi(EntityRenderState var0) {
       for (int var1 = 0; var1 < ulc; var1++) {
          if (ukw[var1] == var0) {
             return var1;
@@ -208,7 +208,7 @@ public final class ukl {
       }
    }
 
-   private static void umj() {
+   static void umj() {
       for (int var0 = 0; var0 < ulc; var0++) {
          ukw[var0] = null;
       }
@@ -222,7 +222,7 @@ public final class ukl {
       ukv[3].on = true;
    }
 
-   private static boolean umk(usn var0, List<EntityRenderState> var1, float[] var2) {
+   static boolean umk(usn var0, List<EntityRenderState> var1, float[] var2) {
       float var3 = Float.MAX_VALUE;
       float var4 = Float.MAX_VALUE;
       float var5 = -Float.MAX_VALUE;
@@ -253,7 +253,7 @@ public final class ukl {
       return true;
    }
 
-   private static void uml(RenderPass var0, float[] var1, float var2, float var3, int var4, int var5) {
+   static void uml(RenderPass var0, float[] var1, float var2, float var3, int var4, int var5) {
       int var6 = Math.max(0, (int)Math.floor((var1[0] - var2) * var3));
       int var7 = Math.min(var4, (int)Math.ceil((var1[2] + var2) * var3));
       int var8 = (int)Math.floor((var1[1] - var2) * var3);
@@ -268,7 +268,7 @@ public final class ukl {
       unb(false);
    }
 
-   private static void umm(boolean var0) {
+   static void umm(boolean var0) {
       if (!ulr && var0 != ulq) {
          try {
             if (var0) {
@@ -302,7 +302,7 @@ public final class ukl {
       }
    }
 
-   private static @Nullable Map<Object, Object> umn() throws IllegalAccessException {
+   static @Nullable Map<Object, Object> umn() throws IllegalAccessException {
       ShaderLoader var0 = MinecraftClient.getInstance().getShaderLoader();
 
       for (Field var4 : var0.getClass().getDeclaredFields()) {
@@ -323,7 +323,7 @@ public final class ukl {
       return null;
    }
 
-   private static int umo(EntityRenderState var0) {
+   static int umo(EntityRenderState var0) {
       for (int var1 = 0; var1 < ulc; var1++) {
          if (ukw[var1] == var0) {
             return var1;
@@ -333,7 +333,7 @@ public final class ukl {
       return -1;
    }
 
-   private static int ump(int var0) {
+   static int ump(int var0) {
       return -16318464 | var0 << 8 | 179;
    }
 
@@ -401,7 +401,7 @@ public final class ukl {
       }
    }
 
-   private static void umq(MinecraftClient var0, List<EntityRenderState> var1, @Nullable RenderDispatcher var2) {
+   static void umq(MinecraftClient var0, List<EntityRenderState> var1, @Nullable RenderDispatcher var2) {
       if (var2 != null) {
          CameraRenderState var3 = ulf;
          MatrixStack var4 = new MatrixStack();
@@ -449,7 +449,7 @@ public final class ukl {
       }
    }
 
-   private static void umr(CommandEncoder var0, int var1, uki var2, GpuTextureView var3, GpuTextureView var4, int var5, int var6) {
+   static void umr(CommandEncoder var0, int var1, uki var2, GpuTextureView var3, GpuTextureView var4, int var5, int var6) {
       int var7 = Math.max(2, Math.min(4, 2 + Math.round(var2.spread * 2.0F)));
       float var8 = (4 << var7) + Math.min(var2.width * Math.max(1.0F, var6 / 1080.0F), 6.0F) + 4.0F;
       if (!ulk) {
@@ -491,7 +491,7 @@ public final class ukl {
       }
    }
 
-   private static void ums(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3) {
+   static void ums(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3) {
       try (RenderPass var4 = var0.createRenderPass(() -> "Flow2 fx glow", var3, OptionalInt.empty())) {
          var4.setPipeline(var1);
          var4.bindTexture("InSampler", var2, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
@@ -499,7 +499,7 @@ public final class ukl {
       }
    }
 
-   private static void umt(CommandEncoder var0, int var1, int var2, int var3, float var4) {
+   static void umt(CommandEncoder var0, int var1, int var2, int var3, float var4) {
       uki var5 = ukv[var1];
       MemoryStack var6 = MemoryStack.stackPush();
 
@@ -535,19 +535,19 @@ public final class ukl {
       }
    }
 
-   private static float umu(int var0) {
+   static float umu(int var0) {
       return (var0 >> 16 & 0xFF) / 255.0F;
    }
 
-   private static float umv(int var0) {
+   static float umv(int var0) {
       return (var0 >> 8 & 0xFF) / 255.0F;
    }
 
-   private static float umw(int var0) {
+   static float umw(int var0) {
       return (var0 & 0xFF) / 255.0F;
    }
 
-   private static void umx(GpuDevice var0, int var1, int var2) {
+   static void umx(GpuDevice var0, int var1, int var2) {
       for (int var3 = 0; var3 < 5; var3++) {
          if (uls[var3] == null) {
             int var4 = var3;
@@ -577,7 +577,7 @@ public final class ukl {
       }
    }
 
-   private static void umy() {
+   static void umy() {
       if (uly != null) {
          uly.close();
          ulx.close();
@@ -605,7 +605,7 @@ public final class ukl {
       uma = -1;
    }
 
-   private static @Nullable Framebuffer umz(WorldRenderer var0) {
+   static @Nullable Framebuffer umz(WorldRenderer var0) {
       try {
          if (umf == null) {
             for (Field var4 : WorldRenderer.class.getDeclaredFields()) {
@@ -629,7 +629,7 @@ public final class ukl {
       }
    }
 
-   private static @Nullable RenderDispatcher una(WorldRenderer var0) throws IllegalAccessException {
+   static @Nullable RenderDispatcher una(WorldRenderer var0) throws IllegalAccessException {
       if (ume == null) {
          for (Field var4 : WorldRenderer.class.getDeclaredFields()) {
             if (!Modifier.isStatic(var4.getModifiers()) && var4.getType() == RenderDispatcher.class) {
@@ -647,7 +647,7 @@ public final class ukl {
       return (RenderDispatcher)ume.get(var0);
    }
 
-   private static boolean unb(boolean var0) {
+   static boolean unb(boolean var0) {
       if (!umd && var0 != umc) {
          try {
             if (umb == null) {
@@ -671,7 +671,7 @@ public final class ukl {
       }
    }
 
-   private static Field[] unc() throws ReflectiveOperationException {
+   static Field[] unc() throws ReflectiveOperationException {
       RenderPipeline var0 = und(false);
       RenderPipeline var1 = und(true);
       Field var2 = null;
@@ -695,7 +695,7 @@ public final class ukl {
       }
    }
 
-   private static RenderPipeline und(boolean var0) {
+   static RenderPipeline und(boolean var0) {
       return RenderPipeline.builder()
          .withLocation(uvq.id("pipeline/probe_" + var0))
          .withVertexShader(uvq.id("core/blur"))
@@ -705,7 +705,7 @@ public final class ukl {
          .build();
    }
 
-   private static RenderPipeline une(String var0, @Nullable BlendFunction var1, String... var2) {
+   static RenderPipeline une(String var0, @Nullable BlendFunction var1, String... var2) {
       Builder var3 = RenderPipeline.builder()
          .withLocation(uvq.id("pipeline/" + var0))
          .withVertexShader(uvq.id("core/blur"))

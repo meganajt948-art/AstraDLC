@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public final class lfy {
-   private static final EquipmentSlot[] lfz = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+   static final EquipmentSlot[] lfz = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
    public final vkl naked = new vkl(a.b("鼖\ue688汑\uf22e秸", -2021679267), true);
    public final vkl invisible = new vkl(a.d("\udb77ꋡ⠪뙄㶉묢ź袅ᛓ", 2016256898, 1796503733), true);
    public final vkl armored = new vkl(a.c(-1998809439, "雧\uef65斩ﯚ瀐\uf6b6䳤"), true);

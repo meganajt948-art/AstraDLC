@@ -6,9 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 public final class fzl {
-   private static final String fzm = System.getenv(a.d("ᚱ漊\ue5da箳\uf001盝첕䕥\udb29冑화Ⱒꋱ㭏넚㟼", -847691455, -847423578));
+   static final String fzm = System.getenv(a.d("ᚱ漊\ue5da箳\uf001盝첕䕥\udb29冑화Ⱒꋱ㭏넚㟼", -847691455, -847423578));
 
-   private fzl() {
+   fzl() {
    }
 
    public static boolean intercept(Flow var0) {
@@ -63,7 +63,7 @@ public final class fzl {
       }
    }
 
-   private static void fzp(long var0) {
+   static void fzp(long var0) {
       try {
          Thread.sleep(var0);
       } catch (InterruptedException var3) {

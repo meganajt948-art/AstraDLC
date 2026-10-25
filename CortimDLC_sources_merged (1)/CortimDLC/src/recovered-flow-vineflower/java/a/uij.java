@@ -24,27 +24,27 @@ public final class uij {
    public static final uij BACKDROP = new uij("backdrop");
    public static final uij HUD = new uij("hud");
    public static final uij TAGS = new uij("tags");
-   private final String uik;
-   private final GpuTexture[] uil = new GpuTexture[6];
-   private final GpuTextureView[] uim = new GpuTextureView[6];
-   private @Nullable GpuTexture uin;
-   private @Nullable GpuTextureView uio;
-   private int uip = -1;
-   private int uiq = -1;
-   private @Nullable GpuTextureView uir;
-   private long uis = -1L;
-   private int uit;
-   private @Nullable Object uiu;
-   private boolean uiv;
-   private boolean uiw;
-   private double uix;
-   private double uiy;
-   private double uiz;
-   private float uja;
-   private float ujb;
-   private static uij[] ujc;
+   final String uik;
+   final GpuTexture[] uil = new GpuTexture[6];
+   final GpuTextureView[] uim = new GpuTextureView[6];
+   @Nullable GpuTexture uin;
+   @Nullable GpuTextureView uio;
+   int uip = -1;
+   int uiq = -1;
+   @Nullable GpuTextureView uir;
+   long uis = -1L;
+   int uit;
+   @Nullable Object uiu;
+   boolean uiv;
+   boolean uiw;
+   double uix;
+   double uiy;
+   double uiz;
+   float uja;
+   float ujb;
+   static uij[] ujc;
 
-   private uij(String var1) {
+   uij(String var1) {
       this.uik = var1;
    }
 
@@ -142,7 +142,7 @@ public final class uij {
       }
    }
 
-   private static uij[] ujf() {
+   static uij[] ujf() {
       if (ujc == null) {
          ujc = new uij[]{SCENE, BACKDROP, HUD, TAGS};
       }
@@ -150,7 +150,7 @@ public final class uij {
       return ujc;
    }
 
-   private void ujg() {
+   void ujg() {
       Camera var1 = MinecraftClient.getInstance().gameRenderer.getCamera();
       Vec3d var2 = var1.getCameraPos();
       this.uix = var2.x;
@@ -160,7 +160,7 @@ public final class uij {
       this.ujb = var1.getPitch();
    }
 
-   private boolean ujh() {
+   boolean ujh() {
       MinecraftClient var1 = MinecraftClient.getInstance();
       if (var1.gameRenderer != null && var1.world != null) {
          Camera var2 = var1.gameRenderer.getCamera();
@@ -178,7 +178,7 @@ public final class uij {
       return this.uis == unf.frame() ? this.uir : null;
    }
 
-   private static void uji(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuSampler var4) {
+   static void uji(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuSampler var4) {
       try (RenderPass var5 = var0.createRenderPass(() -> "Flow2 blur", var3, OptionalInt.empty())) {
          var5.setPipeline(var1);
          var5.bindTexture("InSampler", var2, var4);
@@ -186,7 +186,7 @@ public final class uij {
       }
    }
 
-   private void ujj(int var1, int var2) {
+   void ujj(int var1, int var2) {
       if (var1 != this.uip || var2 != this.uiq || this.uim[0] == null) {
          this.ujk();
          GpuDevice var3 = RenderSystem.getDevice();
@@ -205,7 +205,7 @@ public final class uij {
       }
    }
 
-   private void ujk() {
+   void ujk() {
       if (this.uio != null) {
          this.uio.close();
          this.uio = null;

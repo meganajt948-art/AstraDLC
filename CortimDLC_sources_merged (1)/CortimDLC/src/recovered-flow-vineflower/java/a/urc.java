@@ -23,19 +23,19 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class urc {
-   private static final int urd = 176;
-   private static @Nullable GpuTexture ure;
-   private static @Nullable GpuTextureView urf;
-   private static @Nullable GpuBuffer urg;
-   private static int urh = -1;
-   private static int uri = -1;
-   private static boolean urj;
-   private static boolean urk;
-   private static final ArrayDeque<GpuQuery> url = new ArrayDeque<>();
-   private static long urm;
-   private static int urn;
+   static final int urd = 176;
+   static @Nullable GpuTexture ure;
+   static @Nullable GpuTextureView urf;
+   static @Nullable GpuBuffer urg;
+   static int urh = -1;
+   static int uri = -1;
+   static boolean urj;
+   static boolean urk;
+   static final ArrayDeque<GpuQuery> url = new ArrayDeque<>();
+   static long urm;
+   static int urn;
 
-   private urc() {
+   urc() {
    }
 
    public static boolean draw(Matrix4f var0, Matrix4f var1, float var2, float var3, float var4, float var5, int var6, float var7) {
@@ -102,7 +102,7 @@ public final class urc {
       }
    }
 
-   private static void urq(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuTextureView var4, GpuBufferSlice var5) {
+   static void urq(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuTextureView var4, GpuBufferSlice var5) {
       try (RenderPass var6 = var0.createRenderPass(() -> "Flow2 motion blur", var3, OptionalInt.empty())) {
          var6.setPipeline(var1);
          var6.bindTexture("InSampler", var2, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
@@ -127,7 +127,7 @@ public final class urc {
       return var0;
    }
 
-   private static void urr() {
+   static void urr() {
       while (!url.isEmpty()) {
          OptionalLong var0 = url.peek().getValue();
          if (var0.isEmpty()) {
@@ -160,7 +160,7 @@ public final class urc {
       urj = false;
    }
 
-   private static void urs(GpuDevice var0, int var1, int var2) {
+   static void urs(GpuDevice var0, int var1, int var2) {
       if (urg == null) {
          urg = var0.createBuffer(() -> "Flow2 motion blur", 136, 176L);
       }

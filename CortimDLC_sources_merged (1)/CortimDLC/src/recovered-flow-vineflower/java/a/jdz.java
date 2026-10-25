@@ -1,9 +1,9 @@
 package a;
 
 final class jdz {
-   private final String jea;
-   private final int jeb;
-   private final boolean jec;
+   final String jea;
+   final int jeb;
+   final boolean jec;
 
    jdz(String name, int key, boolean on) {
       this.jea = name;

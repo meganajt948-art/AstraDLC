@@ -3,10 +3,10 @@ package a;
 import net.minecraft.screen.slot.Slot;
 
 final class mgg implements Comparable<mgg> {
-   private final Slot mgh;
-   private final int mgi;
+   final Slot mgh;
+   final int mgi;
 
-   private mgg(Slot slot, int price) {
+   mgg(Slot slot, int price) {
       this.mgh = slot;
       this.mgi = price;
    }

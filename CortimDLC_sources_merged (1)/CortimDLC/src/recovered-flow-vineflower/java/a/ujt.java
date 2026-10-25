@@ -3,7 +3,7 @@ package a;
 import java.awt.Color;
 
 public final class ujt {
-   private ujt() {
+   ujt() {
    }
 
    public static int alpha(int var0) {

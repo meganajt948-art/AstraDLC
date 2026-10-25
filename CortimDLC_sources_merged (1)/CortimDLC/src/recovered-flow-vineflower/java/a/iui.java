@@ -6,24 +6,24 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 final class iui extends imn {
-   private static final float iuj = 17.0F;
-   private static final float iuk = 11.0F;
+   static final float iuj = 17.0F;
+   static final float iuk = 11.0F;
    final iah name = new iah(a.b("ᒃ洝\ue7c2离\uf229璐캄䝪\ud931厝푈⸸ꃠ㥜덊", -219343678), vhz.PIN, 24, iah.ANY);
    final iah fx = new iah("", null, 10, iah.NUMBER);
    final iah fy = new iah("", null, 10, iah.NUMBER);
    final iah fz = new iah("", null, 10, iah.NUMBER);
-   private int iul;
-   private boolean ium;
-   private wkq iun;
-   private hlc iuo;
-   private final vcj[] iup = new vcj[wlk.COLORS.length];
-   private final vcj[] iuq = new vcj[wlk.COLORS.length];
-   private final vcj iur = new vcj(16.0F);
-   private final vcj ius = new vcj(9.0F);
-   private final vcj iut = new vcj(16.0F);
-   private final vcj iuu = new vcj(9.0F);
-   private final vcj iuv = new vcj(16.0F);
-   private final vcj iuw = new vcj(12.0F);
+   int iul;
+   boolean ium;
+   wkq iun;
+   hlc iuo;
+   final vcj[] iup = new vcj[wlk.COLORS.length];
+   final vcj[] iuq = new vcj[wlk.COLORS.length];
+   final vcj iur = new vcj(16.0F);
+   final vcj ius = new vcj(9.0F);
+   final vcj iut = new vcj(16.0F);
+   final vcj iuu = new vcj(9.0F);
+   final vcj iuv = new vcj(16.0F);
+   final vcj iuw = new vcj(12.0F);
 
    iui() {
       super(null);
@@ -51,7 +51,7 @@ final class iui extends imn {
       return 91.0F;
    }
 
-   private float iuz(int var1) {
+   float iuz(int var1) {
       return switch (var1) {
          case 0 -> this.y + 4.0F;
          case 1 -> this.y + 4.0F + 17.0F + 6.0F;
@@ -60,7 +60,7 @@ final class iui extends imn {
       };
    }
 
-   private float iva(int var1) {
+   float iva(int var1) {
       int var2 = wlk.COLORS.length;
       float var3 = (this.w - 11.0F * var2) / (var2 - 1);
       return this.x + var1 * (11.0F + var3);
@@ -223,7 +223,7 @@ final class iui extends imn {
       }
    }
 
-   private void ivb() {
+   void ivb() {
       MinecraftClient var1 = MinecraftClient.getInstance();
       if (var1.player != null) {
          this.fx.setText(String.valueOf(var1.player.getBlockX()));
@@ -252,12 +252,12 @@ final class iui extends imn {
       }
    }
 
-   private void ivc() {
+   void ivc() {
       this.iun = null;
       this.ivd();
    }
 
-   private void ivd() {
+   void ivd() {
       this.ium = false;
       this.name.setText("");
       this.fx.setText("");
@@ -265,11 +265,11 @@ final class iui extends imn {
       this.fz.setText("");
    }
 
-   private static String ive(double var0) {
+   static String ive(double var0) {
       return var0 == Math.floor(var0) ? String.valueOf((long)var0) : String.format(Locale.ROOT, a.b("햜갦⛪료", -1164192323), var0);
    }
 
-   private static Double ivf(iah var0) {
+   static Double ivf(iah var0) {
       try {
          return var0.text.isBlank() ? null : Double.parseDouble(var0.text.trim());
       } catch (NumberFormatException var2) {
@@ -277,7 +277,7 @@ final class iui extends imn {
       }
    }
 
-   private void ivg() {
+   void ivg() {
       Double var1 = ivf(this.fx);
       Double var2 = ivf(this.fy);
       Double var3 = ivf(this.fz);

@@ -23,9 +23,9 @@ public final class jie extends jeq<jht> {
    public static final vlv COLORS = new vlv(
       a.b("ꑛ\uddc9圉줪䊾쐃繓\uf7a1槤\ue352", -786389997), a.d("砷Ƥ護ᔀ黜ᡷ", -416103728, -554845536), a.b("\uf54a賙؊顽Ꭱ锊", 550106381), a.b("䖙㰋뛘⢪ꍻ◝", -1880013350)
    );
-   private static final float jif = 15.0F;
-   private static final float jig = 10.0F;
-   private final Map<String, Integer> jih = new HashMap<>();
+   static final float jif = 15.0F;
+   static final float jig = 10.0F;
+   final Map<String, Integer> jih = new HashMap<>();
 
    jie() {
       super(a.b("ﾏ蘡೩銅ᥔ鿤▪", -783024136), a.c(-1335372626, "퓹굷➿맓㈂뒲\u0efc"), vhz.POTION, true, 2, 0, 6.0F, 6.0F);
@@ -71,7 +71,7 @@ public final class jie extends jeq<jht> {
       return var3;
    }
 
-   private static jht jik(String var0, RegistryEntry<StatusEffect> var1, int var2, int var3, boolean var4, float var5) {
+   static jht jik(String var0, RegistryEntry<StatusEffect> var1, int var2, int var3, boolean var4, float var5) {
       StatusEffect var6 = (StatusEffect)var1.value();
       String var7 = var6.getName().getString();
       if (var2 > 0) {
@@ -81,7 +81,7 @@ public final class jie extends jeq<jht> {
       return new jht(var0, var1, var7, var3, var4, var5, 0xFF000000 | var6.getColor(), var6.getCategory() == StatusEffectCategory.HARMFUL);
    }
 
-   private static String jil(int var0) {
+   static String jil(int var0) {
       String[] var1 = new String[]{
          a.d("랬", 281513375, 1300314747),
          a.b("ﶇ萶", -2023293492),

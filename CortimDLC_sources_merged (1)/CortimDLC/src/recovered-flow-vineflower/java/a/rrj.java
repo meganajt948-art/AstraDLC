@@ -1,16 +1,16 @@
 package a;
 
 final class rrj {
-   private final int rrk;
-   private final double rrl;
-   private final double rrm;
-   private final double rrn;
-   private final float rro;
-   private final float rrp;
-   private final boolean rrq;
-   private final boolean rrr;
+   final int rrk;
+   final double rrl;
+   final double rrm;
+   final double rrn;
+   final float rro;
+   final float rrp;
+   final boolean rrq;
+   final boolean rrr;
 
-   private rrj(int id, double x, double y, double z, float yaw, float height, boolean player, boolean totem) {
+   rrj(int id, double x, double y, double z, float yaw, float height, boolean player, boolean totem) {
       this.rrk = id;
       this.rrl = x;
       this.rrm = y;

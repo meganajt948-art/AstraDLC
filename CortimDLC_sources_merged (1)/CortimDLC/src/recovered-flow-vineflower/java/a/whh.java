@@ -9,7 +9,7 @@ final class whh implements Runnable {
    final ArrayBlockingQueue<whe> free;
    volatile boolean done;
 
-   private whh(whl var1) {
+   whh(whl var1) {
       this.this$0 = var1;
       this.ready = new ArrayBlockingQueue<>(4);
       this.free = new ArrayBlockingQueue<>(4);
@@ -118,7 +118,7 @@ final class whh implements Runnable {
       }
    }
 
-   private wet whk(byte[] var1, boolean var2) throws IOException {
+   wet whk(byte[] var1, boolean var2) throws IOException {
       try {
          wet var3 = new wet(var1, var2);
          if (!this.this$0.wiv) {

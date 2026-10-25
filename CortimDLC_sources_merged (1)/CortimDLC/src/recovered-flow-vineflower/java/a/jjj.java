@@ -4,19 +4,19 @@ import net.minecraft.entity.player.SkinTextures;
 import net.minecraft.item.ItemStack;
 
 final class jjj {
-   private final String jjk;
-   private final SkinTextures jjl;
-   private final float jjm;
-   private final float jjn;
-   private final float jjo;
-   private final boolean jjp;
-   private final ItemStack[] jjq;
-   private final ItemStack jjr;
-   private final ItemStack jjs;
-   private final float jjt;
-   private final int jju;
+   final String jjk;
+   final SkinTextures jjl;
+   final float jjm;
+   final float jjn;
+   final float jjo;
+   final boolean jjp;
+   final ItemStack[] jjq;
+   final ItemStack jjr;
+   final ItemStack jjs;
+   final float jjt;
+   final int jju;
 
-   private jjj(
+   jjj(
       String name,
       SkinTextures skin,
       float health,

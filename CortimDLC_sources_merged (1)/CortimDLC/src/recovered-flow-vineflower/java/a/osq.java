@@ -20,19 +20,19 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
 public class osq extends kfe {
-   private static osq osr;
-   private final vlq oss = this.add(new vlq(a.d("矰\u0e6f蒠", -808112537, 232151519), 82));
-   private final vlv ost = this.add(
+   static osq osr;
+   final vlq oss = this.add(new vlq(a.d("矰\u0e6f蒠", -808112537, 232151519), 82));
+   final vlv ost = this.add(
       new vlv(a.b("놛젗䋒\udca2坢", -1335053871), a.b("궣퐿廥삁", -1850429965), a.c(917678284, "ꢜ턀寚얾"), a.c(1141941567, "ꕵ\udceb嘴졍"), a.c(-1297863666, "ⱈ嗕\udf1c䅶쪻"))
    );
-   private final vkl osu = this.add(new vkl(a.b("폳ꩪ₮뻊㔟돫৫耝ṗ铤ጿ\ue956", 296539058), true));
-   private final vmc osv = this.add(new vmc(a.b("渦឴鵲̃裕", 1703177840), 3.0, 1.0, 8.0, 1.0).suffix(a.c(-1379208413, "\uf309諣-鹖ᖉ")));
-   private final vkl osw = this.add(new vkl(a.c(-973303991, "輁\uf691籙\ue235槭\uef43"), true));
-   private static final int osx = 600;
-   private boolean osy;
-   private boolean osz;
-   private int ota = -1;
-   private int otb;
+   final vkl osu = this.add(new vkl(a.b("폳ꩪ₮뻊㔟돫৫耝ṗ铤ጿ\ue956", 296539058), true));
+   final vmc osv = this.add(new vmc(a.b("渦឴鵲̃裕", 1703177840), 3.0, 1.0, 8.0, 1.0).suffix(a.c(-1379208413, "\uf309諣-鹖ᖉ")));
+   final vkl osw = this.add(new vkl(a.c(-973303991, "輁\uf691籙\ue235槭\uef43"), true));
+   static final int osx = 600;
+   boolean osy;
+   boolean osz;
+   int ota = -1;
+   int otb;
 
    public osq() {
       super(a.d("\u0019禃\uf35d洺\ue6ea恼\uda13叿춦䜆샂", -620719173, -1006398486), a.b("䓿㵲랼⧋ꈛ⓹黾ᜓ襁ε萩繇\uf085椿\ue322斐\udfd4倈쪭䳻았뽆ㇴꩫⱕꛅἽ酢உ", -139311951), kfa.PLAYER);
@@ -101,7 +101,7 @@ public class osq extends kfe {
       }
    }
 
-   private void ote(MinecraftClient var1) {
+   void ote(MinecraftClient var1) {
       HandledScreen var2 = (HandledScreen)var1.currentScreen;
       if (!var2.getScreenHandler().getCursorStack().isEmpty()) {
          if (this.osw.get()) {
@@ -122,19 +122,19 @@ public class osq extends kfe {
       }
    }
 
-   private void otf(String var1, boolean var2) {
+   void otf(String var1, boolean var2) {
       this.osz = false;
       if (this.osw.get()) {
          izx.alert(this.getName(), var1, var2 ? vhz.CHECK : vhz.INFO, var2);
       }
    }
 
-   private void otg(MinecraftClient var1, ScreenHandler var2, Slot var3) {
+   void otg(MinecraftClient var1, ScreenHandler var2, Slot var3) {
       vxl.click(var1, var2, var3.id, 0, SlotActionType.PICKUP);
       this.otb++;
    }
 
-   private static Slot oth(List<Slot> var0) {
+   static Slot oth(List<Slot> var0) {
       for (Slot var2 : var0) {
          if (!var2.hasStack()) {
             return var2;
@@ -144,7 +144,7 @@ public class osq extends kfe {
       return null;
    }
 
-   private boolean oti(MinecraftClient var1, ScreenHandler var2, List<Slot> var3) {
+   boolean oti(MinecraftClient var1, ScreenHandler var2, List<Slot> var3) {
       for (int var4 = 0; var4 < var3.size(); var4++) {
          ItemStack var5 = ((Slot)var3.get(var4)).getStack();
          if (!var5.isEmpty() && var5.getCount() < var5.getMaxCount()) {
@@ -166,7 +166,7 @@ public class osq extends kfe {
       return false;
    }
 
-   private boolean otj(MinecraftClient var1, ScreenHandler var2, List<Slot> var3) {
+   boolean otj(MinecraftClient var1, ScreenHandler var2, List<Slot> var3) {
       ArrayList var4 = new ArrayList();
 
       for (Slot var6 : var3) {
@@ -204,13 +204,13 @@ public class osq extends kfe {
       return false;
    }
 
-   private static boolean otk(ItemStack var0, ItemStack var1) {
+   static boolean otk(ItemStack var0, ItemStack var1) {
       return !var0.isEmpty() && !var1.isEmpty()
          ? var0.getCount() == var1.getCount() && ItemStack.areItemsAndComponentsEqual(var0, var1)
          : var0.isEmpty() == var1.isEmpty();
    }
 
-   private Comparator<ItemStack> otl() {
+   Comparator<ItemStack> otl() {
       Comparator var1 = Comparator.comparing(var0 -> var0.getName().getString().toLowerCase(Locale.ROOT));
       Comparator var2 = Comparator.comparingInt(ItemStack::getCount).reversed();
       Comparator var3 = Comparator.comparingInt(var0 -> Registries.ITEM.getRawId(var0.getItem()));
@@ -222,7 +222,7 @@ public class osq extends kfe {
       };
    }
 
-   private static int otm(ItemStack var0) {
+   static int otm(ItemStack var0) {
       Item var1 = var0.getItem();
       String var2 = Registries.ITEM.getId(var1).getPath();
       if (var2.endsWith(a.b("ⁱ姬팻䵒욘䀿", 1796415528))

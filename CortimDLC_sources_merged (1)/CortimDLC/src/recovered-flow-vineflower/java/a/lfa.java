@@ -5,21 +5,21 @@ import flow.config.ConfigManager;
 import flow.dev.a;
 
 public class lfa extends kfe {
-   private static lfa lfb;
-   private static tiq lfc;
-   private static String lfd = "";
-   private final vkw lfe = this.add(new vkw(a.d("㹘䟎촜卼\ud8a6帑", 1125465510, -1174142037), new vkq(a.c(-1758046623, "嘥⾫ꕭ㬗낎㙬谸\u05c8鮆ᄺ雯"), vhz.LAYERS, ign::open)));
-   private final vmu lff = this.add(new vmu(a.b("쏝멎む껸┠ꎔ\u19ce", 722125706), "", 32));
-   private final vkl lfg = this.add(new vkl(a.c(-987561507, "Ɣ砑\uf2c3沩\ue75c應\udb9d剧"), true));
-   private final vkl lfh = this.add(new vkl(a.d("쯅뉀㢒\ua6f8ⴅꮟᇆ", -1771926427, -791263258), true));
-   private final vkl lfi = this.add(new vkl(a.d("ᗱ汴\ue6a6磌\uf323疤쿤䘃\ud85d勧", -38231102, 769767032), true));
-   private final vlq lfj = this.add(new vlq(a.b("焈࢞艖\u1c38鞿ᅝꬉ⋭벽㘆뇂", 737177936), 269));
-   private final vmu lfk = this.add(new vmu(a.d("똺쾯䕻\udb01傓홲氣\ue5cf箙\uf127盱貉", -628552157, -1278101416), "", 32));
-   private final vmu lfl = this.add(new vmu(a.c(-903150683, "Ͼ穹\uf0a7滑\ue54d掬\ud9fd們칇䓹쌯㥗"), "", 32));
-   private static tiq lfm;
-   private static String lfn = "";
-   private static tiq lfo;
-   private static String lfp = "";
+   static lfa lfb;
+   static tiq lfc;
+   static String lfd = "";
+   final vkw lfe = this.add(new vkw(a.d("㹘䟎촜卼\ud8a6帑", 1125465510, -1174142037), new vkq(a.c(-1758046623, "嘥⾫ꕭ㬗낎㙬谸\u05c8鮆ᄺ雯"), vhz.LAYERS, ign::open)));
+   final vmu lff = this.add(new vmu(a.b("쏝멎む껸┠ꎔ\u19ce", 722125706), "", 32));
+   final vkl lfg = this.add(new vkl(a.c(-987561507, "Ɣ砑\uf2c3沩\ue75c應\udb9d剧"), true));
+   final vkl lfh = this.add(new vkl(a.d("쯅뉀㢒\ua6f8ⴅꮟᇆ", -1771926427, -791263258), true));
+   final vkl lfi = this.add(new vkl(a.d("ᗱ汴\ue6a6磌\uf323疤쿤䘃\ud85d勧", -38231102, 769767032), true));
+   final vlq lfj = this.add(new vlq(a.b("焈࢞艖\u1c38鞿ᅝꬉ⋭벽㘆뇂", 737177936), 269));
+   final vmu lfk = this.add(new vmu(a.d("똺쾯䕻\udb01傓홲氣\ue5cf箙\uf127盱貉", -628552157, -1278101416), "", 32));
+   final vmu lfl = this.add(new vmu(a.c(-903150683, "Ͼ穹\uf0a7滑\ue54d掬\ud9fd們칇䓹쌯㥗"), "", 32));
+   static tiq lfm;
+   static String lfn = "";
+   static tiq lfo;
+   static String lfp = "";
 
    public lfa() {
       super(
@@ -222,13 +222,13 @@ public class lfa extends kfe {
          || lqq.busy();
    }
 
-   private static boolean lfs(String var0) {
+   static boolean lfs(String var0) {
       Flow var1 = Flow.getInstance();
       kfe var2 = var1.getModuleManager() == null ? null : var1.getModuleManager().getByName(var0);
       return var2 != null && var2.isEnabled();
    }
 
-   private boolean lft(lex var1) {
+   boolean lft(lex var1) {
       return switch (var1) {
          case MINE -> this.lfg.get();
          case END -> this.lfh.get();

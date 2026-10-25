@@ -22,14 +22,14 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
 public final class izj extends jeq<izb> {
-   private static Method izk;
-   private static Method izl;
-   private static final float izm = 15.0F;
-   private static final float izn = 10.0F;
-   private static final float izo = 64.0F;
-   private static Field izp;
-   private static Field izq;
-   private static boolean izr;
+   static Method izk;
+   static Method izl;
+   static final float izm = 15.0F;
+   static final float izn = 10.0F;
+   static final float izo = 64.0F;
+   static Field izp;
+   static Field izq;
+   static boolean izr;
 
    izj() {
       super(a.b("\ue513鲮ᙽ蠏ϐ蕪㼡뛉⢋", 1568466297), a.b("㚸伥엶宄큛囡\uecaa敂ﬀ", -783141134), vhz.CLOCK, true, 2, 2, 6.0F, 6.0F);
@@ -60,7 +60,7 @@ public final class izj extends jeq<izb> {
       return var2;
    }
 
-   private static izb izu(Item var0, float var1, float var2) {
+   static izb izu(Item var0, float var1, float var2) {
       ItemStack var3 = new ItemStack(var0);
       return new izb(
          a.b("䵕㓦븢⁀ꮈⴵ靴Ỉ", -1985000147) + Registries.ITEM.getId(var0),
@@ -71,7 +71,7 @@ public final class izj extends jeq<izb> {
       );
    }
 
-   private static void izv(ClientPlayerEntity var0, float var1, List<izb> var2) throws Exception {
+   static void izv(ClientPlayerEntity var0, float var1, List<izb> var2) throws Exception {
       if (!izr) {
          ItemCooldownManager var3 = var0.getItemCooldownManager();
          if (izp == null) {
@@ -161,7 +161,7 @@ public final class izj extends jeq<izb> {
       return var3.isEmpty() ? var1.getPath() : var3;
    }
 
-   private static ItemStack izw(ItemCooldownManager var0, PlayerInventory var1, Identifier var2) {
+   static ItemStack izw(ItemCooldownManager var0, PlayerInventory var1, Identifier var2) {
       for (int var3 = 0; var3 < var1.size(); var3++) {
          ItemStack var4 = var1.getStack(var3);
          if (!var4.isEmpty() && var2.equals(var0.getGroup(var4))) {

@@ -8,13 +8,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 final class ivk extends imn {
-   private static final float ivl = 30.0F;
-   private static final float ivm = 3.0F;
-   private static final float ivn = 18.0F;
-   private final iui ivo;
-   private final Map<wkq, ivh> ivp = new IdentityHashMap<>();
-   private wkq ivq;
-   private long ivr;
+   static final float ivl = 30.0F;
+   static final float ivm = 3.0F;
+   static final float ivn = 18.0F;
+   final iui ivo;
+   final Map<wkq, ivh> ivp = new IdentityHashMap<>();
+   wkq ivq;
+   long ivr;
 
    ivk(iui var1) {
       super(null);
@@ -27,11 +27,11 @@ final class ivk extends imn {
       return var1 == 0 ? 58.0F : 2.0F + var1 * 33.0F;
    }
 
-   private float ivu(int var1) {
+   float ivu(int var1) {
       return this.y + 2.0F + var1 * 33.0F;
    }
 
-   private float ivv(int var1) {
+   float ivv(int var1) {
       return this.x + this.w - 6.0F - (3 - var1) * 21.0F + 3.0F;
    }
 

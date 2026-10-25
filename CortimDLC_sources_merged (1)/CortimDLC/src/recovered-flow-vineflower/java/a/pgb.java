@@ -8,10 +8,10 @@ import java.util.Set;
 public final class pgb {
    public static final int PAGES = 16;
    public static final int SLOTS = 4;
-   private static final double pgc = 0.03;
-   private final List<pfw> pgd = new ArrayList<>(4);
-   private final Set<Integer> pge = new HashSet<>();
-   private boolean pgf;
+   static final double pgc = 0.03;
+   final List<pfw> pgd = new ArrayList<>(4);
+   final Set<Integer> pge = new HashSet<>();
+   boolean pgf;
 
    public boolean markPage(int var1) {
       return this.pge.add(var1);

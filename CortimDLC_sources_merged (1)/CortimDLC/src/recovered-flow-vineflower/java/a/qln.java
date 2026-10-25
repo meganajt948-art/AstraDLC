@@ -12,13 +12,13 @@ public final class qln {
    public static final int FACE = 0;
    public static final int LOOK = 1;
    public static final int NONE = 2;
-   private static final double qlo = 6.0;
-   private static final int qlp = 20;
-   private final double[] qlq = new double[3];
-   private boolean qlr = true;
-   private double qls = 4.0;
-   private int qlt;
-   private qlk qlu;
+   static final double qlo = 6.0;
+   static final int qlp = 20;
+   final double[] qlq = new double[3];
+   boolean qlr = true;
+   double qls = 4.0;
+   int qlt;
+   qlk qlu;
 
    public void wide(boolean var1) {
       this.qlr = var1;
@@ -98,7 +98,7 @@ public final class qln {
       }
    }
 
-   private static int qlx(int var0, int var1, int var2, int var3) {
+   static int qlx(int var0, int var1, int var2, int var3) {
       return var3 == 0 ? var0 : (var3 == 1 ? var1 : var2);
    }
 
@@ -203,7 +203,7 @@ public final class qln {
       }
    }
 
-   private static boolean qly(qlk var0, int var1, LongOpenHashSet var2) {
+   static boolean qly(qlk var0, int var1, LongOpenHashSet var2) {
       ObjectIterator var3 = var0.blocks.long2IntEntrySet().iterator();
 
       while (var3.hasNext()) {
@@ -217,7 +217,7 @@ public final class qln {
       return true;
    }
 
-   private void qlz(int var1, boolean var2) {
+   void qlz(int var1, boolean var2) {
       this.qlq[var1] = Math.max(-6.0, Math.min(6.0, this.qlq[var1] + (var2 ? 1.0 : -1.0)));
    }
 

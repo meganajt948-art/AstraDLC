@@ -18,7 +18,7 @@ enum mpm {
    WARPING_TO_SAVE_BASE(a.b("㏆䩊쒦廊픐垱\ue9f3怃﹛璞\uf72eൗ螉Ḭ鑳\u1289곝", -1636222987)),
    ESCAPING(a.c(-95383346, "铹\ued5a枍狀爮\uf49a什쌭奬펡倐깿₩뤗㌵떸\u0ff4聚\u1aea鳁"));
 
-   private final String mpn;
+   final String mpn;
 
    mpm(String var3) {
       this.mpn = var3;

@@ -1,11 +1,11 @@
 package a;
 
 final class tnc {
-   private final sze tnd;
-   private final int tne;
-   private final int tnf;
+   final sze tnd;
+   final int tne;
+   final int tnf;
 
-   private tnc(sze seg, int k0, int limit) {
+   tnc(sze seg, int k0, int limit) {
       this.tnd = seg;
       this.tne = k0;
       this.tnf = limit;

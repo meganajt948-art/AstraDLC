@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;
 
 final class fkm {
-   private static final String[][] fkn = new String[][]{
+   static final String[][] fkn = new String[][]{
       {a.c(1025493841, "쬼늙㡍꘡ⷫꭉᄤ飽ڼ谊ௐ\uf1b5"), a.c(1429218099, "⍙嫹퀷乞얐䌐若炌\ueec6"), a.b("ᑥ淖\ue710祊\uf2b2琖칔", 1725830145)},
       {a.c(-1455105884, "\ud8d9ꅰ⮤뗟㸃뢵˷謡ᕖ鿹ᠭ\ue255沖"), a.d("⓽嵋힅䧨숢䒿ﻛ眣\ue969", 1075746262, 1093710154), a.b("쎻먉ニ꺩╧ꏢᦞ遺ิ", -980237375)},
       {a.c(-2055241250, "膳\uf816狘\uecb5来\ue1ff宄퉫䰳욋䅌"), a.d("夲₈꩕㐠뿇㥌茛ૹ钧", 1592752730, 411968271), a.d("\uf0a2褑ϟ鶩ᙸ郒⪊ꍁ㴱랕し", -632387585, 1846835005)},
@@ -37,17 +37,17 @@ final class fkm {
       {a.c(-646497243, "㱏䗪켾兒\uda98尺\ue657澚\uf1c7筧ﲡ"), a.d("꼢횂屌숥䧫콫甏ﳷ抽", 197097614, -145107002)},
       {a.c(790220942, "탫ꥑ⎅뷣㘭낑ૼ茱ᵬ韌ည"), a.b("虎￡甯\ueb49悕\ue613屷햏䯅", 544769584)}
    };
-   private static final String fko = a.b("境ℬ꯸㖀빃㢻芶\u0b46锑ᾢ顰戰\ueccf畠Ｔ秌쎗䰙훶傲\ud954ꍋⶦ뙡」뫚͡贱៷醉ᨯ\ue4ef滸\uf74d焗﮳䐪츉䣝텱嬲◞꾡⠧당㲝蔖\u0fe9覥ቶ鰍暍\uef6a椴\uf3d6綃옭䃾쪅", -1791534897);
-   private static final int fkp = 60;
-   private static double fkq;
-   private static double fkr;
-   private static double fks;
-   private static boolean fkt;
-   private static boolean fku;
-   private static final int fkv = 50;
-   private static final String fkw = System.getenv(a.b("\uf0ee襕΅鷬ᙞ邂⫍ꌰ㵳럎〃쩥", 144437412));
+   static final String fko = a.b("境ℬ꯸㖀빃㢻芶\u0b46锑ᾢ顰戰\ueccf畠Ｔ秌쎗䰙훶傲\ud954ꍋⶦ뙡」뫚͡贱៷醉ᨯ\ue4ef滸\uf74d焗﮳䐪츉䣝텱嬲◞꾡⠧당㲝蔖\u0fe9覥ቶ鰍暍\uef6a椴\uf3d6綃옭䃾쪅", -1791534897);
+   static final int fkp = 60;
+   static double fkq;
+   static double fkr;
+   static double fks;
+   static boolean fkt;
+   static boolean fku;
+   static final int fkv = 50;
+   static final String fkw = System.getenv(a.b("\uf0ee襕΅鷬ᙞ邂⫍ꌰ㵳럎〃쩥", 144437412));
 
-   private fkm() {
+   fkm() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) {
@@ -273,15 +273,15 @@ final class fkm {
       }
    }
 
-   private static int fkz() {
+   static int fkz() {
       return fkw != null ? 1 : 24;
    }
 
-   private static int fla() {
+   static int fla() {
       return fkz() * 50 + 240;
    }
 
-   private static void flb(MinecraftClient var0, int var1) {
+   static void flb(MinecraftClient var0, int var1) {
       List var2 = fkw != null && Cosmetics.get(fkw) != null ? List.of(Cosmetics.get(fkw)) : Cosmetics.ofSlot(a.b("་皭ﱩ戍\ue9cf潭", -2056122516));
       int var3 = var1 / 50;
       int var4 = var1 % 50;
@@ -402,7 +402,7 @@ final class fkm {
       }
    }
 
-   private static void flc(String[] var0) {
+   static void flc(String[] var0) {
       Cosmetics.clearAll();
 
       for (String var4 : var0) {
@@ -415,7 +415,7 @@ final class fkm {
       }
    }
 
-   private static boolean fld() {
+   static boolean fld() {
       try {
          Field var0 = ucg.class.getDeclaredField(a.d("\ufde5葘\u0e80郰", -1420035194, 67569156));
          Field var1 = ucg.class.getDeclaredField(a.c(556005734, "螺肱ੱ鐆\u1fdc饝⌣"));
@@ -447,7 +447,7 @@ final class fkm {
       }
    }
 
-   private static boolean fle(MinecraftClient var0) {
+   static boolean fle(MinecraftClient var0) {
       try {
          Entity var1 = var0.world.getEntityById(fnq.spawned);
          Field var2 = Cosmetics.class.getDeclaredField(a.c(420921525, "샿륌㎄귨☹ꂉ᫇"));
@@ -468,7 +468,7 @@ final class fkm {
       }
    }
 
-   private static boolean flf(String var0, String var1) {
+   static boolean flf(String var0, String var1) {
       try {
          Field var2 = Class.forName(var0).getDeclaredField(var1);
          var2.setAccessible(true);
@@ -478,7 +478,7 @@ final class fkm {
       }
    }
 
-   private static void flg(MinecraftClient var0, float var1, float var2) {
+   static void flg(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
@@ -488,11 +488,11 @@ final class fkm {
       var0.player.setHeadYaw(var1);
    }
 
-   private static void flh(MinecraftClient var0, String var1) {
+   static void flh(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fli(MinecraftClient var0, String var1) {
+   static void fli(MinecraftClient var0, String var1) {
       System.out.println(a.b("ꄣ\ud884剞찥䞴셑笓\uf2f4沬\ue649", 1112318298) + var1 + a.c(1259479249, "\u20f2夣펐") + var0.getCurrentFps() + a.b("ꮀ퉷墲움", -1293243484));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

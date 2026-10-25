@@ -1,8 +1,8 @@
 package a;
 
 public class vlq extends vmo {
-   private final int vlr;
-   private int vls;
+   final int vlr;
+   int vls;
 
    public vlq(String var1) {
       this(var1, -1);

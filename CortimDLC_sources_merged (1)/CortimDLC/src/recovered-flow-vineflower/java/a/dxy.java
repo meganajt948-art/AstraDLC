@@ -3,11 +3,11 @@ package a;
 import net.minecraft.util.math.MathHelper;
 
 final class dxy {
-   private final int dxz;
-   private final int dya;
-   private final int[] dyb;
+   final int dxz;
+   final int dya;
+   final int[] dyb;
 
-   private dxy(int w, int h, int[] px) {
+   dxy(int w, int h, int[] px) {
       this.dxz = w;
       this.dya = h;
       this.dyb = px;

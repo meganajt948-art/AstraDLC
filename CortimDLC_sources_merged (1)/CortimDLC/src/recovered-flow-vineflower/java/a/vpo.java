@@ -23,7 +23,7 @@ import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.system.libc.LibCStdlib;
 
 public final class vpo {
-   private static final List<String> vpp = List.of(
+   static final List<String> vpp = List.of(
       a.b("Ⲫ唍\udfc9", 1895836894),
       a.b("罁۸谤ቕ", -1964343516),
       a.c(-9902984, "\ue41a鶣\u177f"),
@@ -31,23 +31,23 @@ public final class vpo {
       a.c(-675841240, "筈˻蠯"),
       a.d("ꆷ\ud80e勝", -1995638541, 153704744)
    );
-   private static final long vpq = 25165824L;
-   private static final int vpr = 12;
-   private static final int vps = 12;
-   private static final Map<String, Object[]> vpt = new HashMap<>();
-   private static volatile voq vpu;
-   private static volatile int vpv;
-   private static boolean vpw;
-   private static final Set<String> vpx;
-   private static final int[] vpy;
-   private static final int[] vpz;
-   private static final String vqa = a.d(
+   static final long vpq = 25165824L;
+   static final int vpr = 12;
+   static final int vps = 12;
+   static final Map<String, Object[]> vpt = new HashMap<>();
+   static volatile voq vpu;
+   static volatile int vpv;
+   static boolean vpw;
+   static final Set<String> vpx;
+   static final int[] vpy;
+   static final int[] vpz;
+   static final String vqa = a.d(
       "쟣빸㒨꫁⅓\ua7f0ᶮ鑒บ蒮̌滑矑\uea78怤\ue6da峆팋䦢쿨䘕㱓늙⥿꼀◑鱢ሳ裄ຕ蔦篷\uf1b8桉\uee1a撫\udb7c儍ퟞ乯쐰뫁を뜣ⷴꎲᩡ铅ካ西܉\ufdd0瑩\uf620梲\ue6ec崩\udbfc喟젪䛩㲱뭀ㅡꯅ♣鰵᪵邛༮藱ޒ﹀瓼\ueacc愒\ue740巽퐥䩎삦䛋㵢뎨⧕ꀓ⛳颳\u173e贘ப舌簙\uf6d0浨\ueb4a懵\udff6嘫죶䪹섵묃㖠걱⨉ꂮἜ锷៘觪(ﻫ璼\uf332洈\ue39b幤퐍劢쥡䜼㶽믥㘣골⋬餫έ閸౧艷碨６畅\uebde憍\ud85f庎퓸䭅쇸䟄㸽둲⫊ꅷ❋鶡᎓証\u008f蚉紭\uf3ff榣\ue059戗\ud8ae圊촰䯆솒렢㛹ꢐ⭑ꗲᯚ鈽ࡹ躰Ճגּ痳\uec66橚\ue4e4廳핖叨즻䁃㨂날㝬꤈⟜鸚ᐲ雛ಂ蜥緡﮴牎\ue860曒\udd03弒퇕䱼왏볎㫨념⿳ꗺ᱀騙Ⴏ轳đ菝穦\uf422滏\ue49c挩\ud9f3埲쩁䃡욪봡㍆ꦈ…\ua62d᳐鋓ॽ辽\u0590ﱏ犬\ue8e0漈\ue55b寶툰䠨컗䓂㭴놷㞟깂Ⓙ髠ᄐ靁෩葤稛\uf09a盉\ued7d掩\ud9dd偍훰䳰쌝륉㿽뙣Ⱎꊊ\u193d齧ᖟ识Ȑ\uf8be继\uf51d欌\ue1b3堠\ude48咎쬽䅢잜분㐻ꪾ\u20f2ꜝᵉ鏽ਭ聕۩殺眳\uedc7毣\ue224壷튘䵟쯡䇚㱤똅Ⳝ꭪ⅎ龴ᖗ谠\u0af4胰筎\uf1f6瞨\uea49恡\udedf啯퍉䦱잔븭㓻닽ⵗꏼᦳ鑆ሕ裗͵便羚\uf5ca氷\ue2e9墑\udf5c凫쾾䘲㠒뻀㔡ꭟ\u218e须Ḣ郸ຄ蕘Ζ惡灌\uee16擒\ue76d嵞펚䨼쁫䚔㳎덅⦺꿢☑鰈ዦ褡ཅ藋米\uf206泮\uea9b愮\udbe8嗺챘䨛삡뽴㔈럁⸏ꑬ᪔郋\u173c觽ߵ\ufe53瓣\uf2c5椽\ue700巙푯刳쳑䚘㴠뮂ㆍꡙ⚝颮ᬻ鄖࿙艪簳贈璇\uef21旳\ue3f3婙퓲亰알䜏㧜끷⸅ꃋ⍧餭៲趂H蛛碛\uf73d洓\ueba3扵\udc1f囚촙䭋쇈뾔㙜ꣴ⫃ꅆἘ閫ࡣ踚Ðｬ田\uf3be榑\ue024廾퓺坕쵉䏮㩫끂㚏괦⍬香ᾂ陨ಯ苏祁\ufffb熵\ue87b晻\udcd5孮텃侱여렲㫿뒜⼮ꗡ⎱騹ထ躯ŵ茳秅\uf7e5渫\ue4fe抁\udd42埢춲䑋옎룘㝺괅⯒ꆙᰴ雿ಊ譔ǭﾶ癎\ue803準\ue150开헓䱨츫䃆㺀땙㎙궦⁏鹢ᒩ錂ॶ螮繡\uf022盙\ue8ec末\uddf3宾툿䰇용뵿㬄놦⡠\ua63dᲾ髤ᄬ迹\u05f6ﰩ窛\uf0da此\ue576揖\uda6d倸쫓䂊쌥맷㞇\uaa4eⓣꊵ᥅霕ෟ葤اﳔ皿\ued21毾\ue18c塟훤䳍쬲䔋㮸뙹⠚꺶Ⓢ魾ᆣ韟ด蒀竭\uf108睂\uedfb搽\uda10僆흑䴀쎕링〓뛶Ⳳꌟᥖ鿼ᘩ谜ʉ路罥\uf59d毘\ue23a墽\udee1唅쭃䆱㠡빝㒆ꭽ⅏ꞓ᷇鑼દ胏ܹ﵊珡\uea29恒\ue692嵰퍳䦞쿌䙥㲼늞⤝꾰◮鰗ሕ袍༹蕵箅\uf1c5桲\ueea6撝\udb03冹\ud7ae丐쑜뫨ㅪ띪ⶃꏉᨸ郡ᛧ财΄說灜\uf66e泗\ue30f奾\udfc7噺챖䊅㣱뽊㗱ꯏ∴顥ẳ镆\u0b79膇砵\ufe6d瓛\ueac4愄\ue7b9巢푖䨜산䜰㵝뎘⨲ꁫ⛄鲉፼覹࿕蘅簈\uf2b7椶\uef5e斐\udc7f刢좏仅앯뮾㇕ꠍ\u2ef7꒪ᬡ酑ថ蹺С朗烏\uf77d涢\ue3cc婃탾囹촔䍂㧴뀾㘨곗⋕饾ᾤ闒\u0c4e苽磯：畂\uebfc戻\ud84f広퓄䭸쇫䞖㸃뒥⫡ꄐ❁鷹ᑣ訞\u009d蜯絢\uf394槞\ue008暲\udca8卑줜俽옣뱐㊉ꥡ⽑ꖖᯆ鈻ࣥ躥Ոשּ燷\ue82c湕\ue4dd嬍텢垚췉䐾㪯냗㜙귺⏺騪ၒ集ഹ荡禟ￄ瘽\ueca3拑\ud902徠햦䱱쉫뢋㼭딧⮙ꇕᡸ麦ᓀ譍ƺ蟦縒\uf44c檸\ue129束\udd96友쩺䂣웂뵀㎲ꦢ\u200eꙃᳪ錠ढ़迈شﱬ狥\ue8dd漓\ue5a5审툟䡔컼䕡㬜놚⠰깭⒝髙ᄺ鞼\u0df0萄稆\uf0ff眡\ued5e掇\uda73倆",
       -1450911383,
       1527455158
    );
 
-   private vpo() {
+   vpo() {
    }
 
    public static Path dir() {
@@ -154,23 +154,23 @@ public final class vpo {
    public static void openFolder() {
    }
 
-   private static String vqd(String var0) {
+   static String vqd(String var0) {
       return var0.toLowerCase(Locale.ROOT).strip().replace(' ', '_').replace('-', '_');
    }
 
-   private static void vqe(String var0, Boolean var1, String... var2) {
+   static void vqe(String var0, Boolean var1, String... var2) {
       for (String var6 : var2) {
          vpt.putIfAbsent(vqd(var6), new Object[]{var0, var1});
       }
    }
 
-   private static String vqf(Path var0) {
+   static String vqf(Path var0) {
       String var1 = var0.getFileName().toString();
       int var2 = var1.lastIndexOf(46);
       return var2 > 0 ? var1.substring(0, var2) : var1;
    }
 
-   private static String vqg(Path var0) {
+   static String vqg(Path var0) {
       String var1 = var0.getFileName().toString();
       int var2 = var1.lastIndexOf(46);
       return var2 > 0 ? var1.substring(var2 + 1).toLowerCase(Locale.ROOT) : "";
@@ -220,7 +220,7 @@ public final class vpo {
       }
    }
 
-   private static vpi vqh(byte[] var0) throws IOException {
+   static vpi vqh(byte[] var0) throws IOException {
       int var1 = -1;
       int var2 = 0;
       int var3 = 0;
@@ -266,7 +266,7 @@ public final class vpo {
       }
    }
 
-   private static vpi vqi(byte[] var0, boolean var1) throws IOException {
+   static vpi vqi(byte[] var0, boolean var1) throws IOException {
       int var2 = 0;
       int var3 = 0;
       double var4 = 0.0;
@@ -314,7 +314,7 @@ public final class vpo {
       }
    }
 
-   private static vpi vqj(byte[] var0) throws IOException {
+   static vpi vqj(byte[] var0) throws IOException {
       double var1 = 0.0;
       String var3 = "";
       int var4 = 0;
@@ -364,7 +364,7 @@ public final class vpo {
       }
    }
 
-   private static vpi vqk(byte[] var0) throws IOException {
+   static vpi vqk(byte[] var0) throws IOException {
       ByteBuffer var1 = MemoryUtil.memAlloc(var0.length);
 
       vpi var26;
@@ -418,7 +418,7 @@ public final class vpo {
       return var26;
    }
 
-   private static vpi vql(byte[] var0, int var1, int var2, int var3, int var4, boolean var5, boolean var6, boolean var7, int var8) throws IOException {
+   static vpi vql(byte[] var0, int var1, int var2, int var3, int var4, boolean var5, boolean var6, boolean var7, int var8) throws IOException {
       int var9 = (var4 + 7) / 8;
       if (var9 >= 1 && var9 <= 8 && (!var6 || var9 == 4 || var9 == 8)) {
          int var10 = Math.min(2, var3);
@@ -457,7 +457,7 @@ public final class vpo {
       }
    }
 
-   private static vpi vqm(byte[] var0, int var1, int var2, int var3, int var4) {
+   static vpi vqm(byte[] var0, int var1, int var2, int var3, int var4) {
       int var5 = 34 * var3;
       int var6 = Math.min(var2 / var5, (var4 * 12 + 63) / 64);
       int var7 = Math.min(2, var3);
@@ -498,7 +498,7 @@ public final class vpo {
       return new vpi(var8, var7, var4);
    }
 
-   private static boolean vqn(byte[] var0, int var1, String var2) {
+   static boolean vqn(byte[] var0, int var1, String var2) {
       if (var1 + 4 > var0.length) {
          return false;
       }
@@ -512,27 +512,27 @@ public final class vpo {
       return true;
    }
 
-   private static int vqo(byte[] var0, int var1) {
+   static int vqo(byte[] var0, int var1) {
       return var0[var1] & 0xFF | (var0[var1 + 1] & 0xFF) << 8;
    }
 
-   private static int vqp(byte[] var0, int var1) {
+   static int vqp(byte[] var0, int var1) {
       return vqo(var0, var1) | vqo(var0, var1 + 2) << 16;
    }
 
-   private static int vqq(byte[] var0, int var1) {
+   static int vqq(byte[] var0, int var1) {
       return (var0[var1] & 0xFF) << 8 | var0[var1 + 1] & 0xFF;
    }
 
-   private static int vqr(byte[] var0, int var1) {
+   static int vqr(byte[] var0, int var1) {
       return vqq(var0, var1) << 16 | vqq(var0, var1 + 2);
    }
 
-   private static long vqs(byte[] var0, int var1) {
+   static long vqs(byte[] var0, int var1) {
       return (long)vqr(var0, var1) << 32 | vqr(var0, var1 + 4) & 4294967295L;
    }
 
-   private static double vqt(byte[] var0, int var1) {
+   static double vqt(byte[] var0, int var1) {
       int var2 = (var0[var1] & 127) << 8 | var0[var1 + 1] & 255;
       long var3 = 0L;
 

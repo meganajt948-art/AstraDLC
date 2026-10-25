@@ -7,12 +7,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.CloudRenderer;
 
 public final class ujl {
-   private static final Set<Object> ujm = new HashSet<>();
-   private static Field ujn;
-   private static boolean ujo;
-   private static Object ujp;
+   static final Set<Object> ujm = new HashSet<>();
+   static Field ujn;
+   static boolean ujo;
+   static Object ujp;
 
-   private ujl() {
+   ujl() {
    }
 
    public static void hide(Object var0, boolean var1) {
@@ -25,7 +25,7 @@ public final class ujl {
       ujs(!ujm.isEmpty());
    }
 
-   private static void ujs(boolean var0) {
+   static void ujs(boolean var0) {
       MinecraftClient var1 = MinecraftClient.getInstance();
       if (!ujo && var1.worldRenderer != null) {
          try {

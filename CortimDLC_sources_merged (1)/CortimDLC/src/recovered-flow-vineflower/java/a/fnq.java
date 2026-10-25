@@ -21,8 +21,8 @@ import net.minecraft.world.GameMode;
 
 final class fnq {
    static final String NAME = a.c(-1790195458, "좿네㯴ꖝ\u2e7f꣣ካ");
-   private static final double fnr = 3.0;
-   private static final float fns = 30.0F;
+   static final double fnr = 3.0;
+   static final float fns = 30.0F;
    static volatile boolean active;
    static volatile double aggression;
    static volatile boolean jumping;
@@ -36,24 +36,24 @@ final class fnq {
    static volatile double orbitRadiusSum;
    static volatile double orbitTurnSum;
    static volatile int orbitTicks;
-   private static ServerPlayerEntity fnt;
-   private static fux fnu;
-   private static UUID fnv;
-   private static boolean fnw;
-   private static final Random fnx = new Random(5L);
-   private static int fny;
-   private static float fnz;
-   private static int foa;
-   private static float fob;
-   private static float foc;
-   private static int fod;
-   private static int foe = 1;
-   private static int fof;
-   private static double fog = Double.NaN;
-   private static double foh = 2.5;
-   private static double foi = Double.NaN;
+   static ServerPlayerEntity fnt;
+   static fux fnu;
+   static UUID fnv;
+   static boolean fnw;
+   static final Random fnx = new Random(5L);
+   static int fny;
+   static float fnz;
+   static int foa;
+   static float fob;
+   static float foc;
+   static int fod;
+   static int foe = 1;
+   static int fof;
+   static double fog = Double.NaN;
+   static double foh = 2.5;
+   static double foi = Double.NaN;
 
-   private fnq() {
+   fnq() {
    }
 
    static void spawn(MinecraftServer var0, UUID var1, double var2, double var4, double var6) {
@@ -79,7 +79,7 @@ final class fnq {
       spawned = var11.getId();
    }
 
-   private static void fol(MinecraftServer var0) {
+   static void fol(MinecraftServer var0) {
       if (fnt != null) {
          fnu.drain();
          if (fnt.isRemoved()) {
@@ -114,7 +114,7 @@ final class fnq {
       }
    }
 
-   private static void fom(ServerPlayerEntity var0) {
+   static void fom(ServerPlayerEntity var0) {
       if (--fof <= 0) {
          fof = 25 + fnx.nextInt(60);
          foe = fnx.nextBoolean() ? 1 : -1;
@@ -185,7 +185,7 @@ final class fnq {
       }
    }
 
-   private static void fon(ServerPlayerEntity var0) {
+   static void fon(ServerPlayerEntity var0) {
       if (--foa <= 0) {
          foa = 5 + fnx.nextInt(12);
          fob = (float)fnx.nextGaussian() * 5.0F;

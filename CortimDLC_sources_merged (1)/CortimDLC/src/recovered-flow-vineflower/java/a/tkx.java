@@ -15,30 +15,30 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class tkx extends OtherClientPlayerEntity {
-   private static final double tky = 0.216;
-   private static final double tkz = 0.28;
-   private final Random tla;
-   private final String tlb;
-   private final double tlc;
-   private final double tld;
-   private final double tle;
-   private String tlf;
-   private int tlg;
-   private double tlh;
-   private double tli;
-   private double tlj;
-   private double tlk = 1.0;
-   private int tll;
-   private int tlm;
-   private double tln;
-   private int tlo;
-   private double tlp;
-   private double tlq;
-   private boolean tlr;
-   private int tls;
-   private float tlt;
-   private float tlu;
-   private int tlv;
+   static final double tky = 0.216;
+   static final double tkz = 0.28;
+   final Random tla;
+   final String tlb;
+   final double tlc;
+   final double tld;
+   final double tle;
+   String tlf;
+   int tlg;
+   double tlh;
+   double tli;
+   double tlj;
+   double tlk = 1.0;
+   int tll;
+   int tlm;
+   double tln;
+   int tlo;
+   double tlp;
+   double tlq;
+   boolean tlr;
+   int tls;
+   float tlt;
+   float tlu;
+   int tlv;
 
    public tkx(ClientWorld var1, String var2, long var3, String var5, double var6, double var8, double var10) {
       super(var1, new GameProfile(UUID.nameUUIDFromBytes((a.b("힙긢⓲몛ㄉ랧ඪ葜ᨖ邨\u1771\ued49", 542365683) + var2).getBytes()), var2));
@@ -95,7 +95,7 @@ public final class tkx extends OtherClientPlayerEntity {
       this.animateDamage((float)Math.toDegrees(Math.atan2(var5, var3)));
    }
 
-   private void tly() {
+   void tly() {
       if (this.tlb.equals(a.d("끸짭䌯", 1254660201, -608819105))) {
          String[] var1 = new String[]{
             a.c(1224692643, "口⩣ꂠ㻘"),
@@ -114,7 +114,7 @@ public final class tkx extends OtherClientPlayerEntity {
       }
    }
 
-   private void tlz(ClientPlayerEntity var1) {
+   void tlz(ClientPlayerEntity var1) {
       if (--this.tlg <= 0) {
          this.tly();
       }
@@ -139,7 +139,7 @@ public final class tkx extends OtherClientPlayerEntity {
       }
    }
 
-   private void tma() {
+   void tma() {
       ClientPlayerEntity var1 = MinecraftClient.getInstance().player;
       double var2 = var1.getX();
       double var4 = var1.getZ();
@@ -264,7 +264,7 @@ public final class tkx extends OtherClientPlayerEntity {
       }
    }
 
-   private void tmb(ClientPlayerEntity var1) {
+   void tmb(ClientPlayerEntity var1) {
       Vec3d var2 = var1.getEyePos();
       double var3 = var2.x - this.getX();
       double var5 = var2.z - this.getZ();
@@ -296,7 +296,7 @@ public final class tkx extends OtherClientPlayerEntity {
       this.tmd(var1.getX() + Math.cos(var2) * this.tlc, var1.getY(), var1.getZ() + Math.sin(var2) * this.tlc);
    }
 
-   private Double tmc(ClientPlayerEntity var1, double var2, double var4) {
+   Double tmc(ClientPlayerEntity var1, double var2, double var4) {
       double var6 = this.getWidth() * 0.5;
 
       for (int var8 = 2; var8 >= -4; var8--) {
@@ -311,7 +311,7 @@ public final class tkx extends OtherClientPlayerEntity {
       return null;
    }
 
-   private void tmd(double var1, double var3, double var5) {
+   void tmd(double var1, double var3, double var5) {
       this.tlh = this.tli = this.tlj = 0.0;
       this.refreshPositionAndAngles(var1, var3, var5, this.getYaw(), this.getPitch());
       this.lastRenderX = var1;

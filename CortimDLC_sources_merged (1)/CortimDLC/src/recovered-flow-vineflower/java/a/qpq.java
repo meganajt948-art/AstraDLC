@@ -3,9 +3,9 @@ package a;
 import net.minecraft.screen.slot.SlotActionType;
 
 public final class qpq {
-   private final int qpr;
-   private final int qps;
-   private final SlotActionType qpt;
+   final int qpr;
+   final int qps;
+   final SlotActionType qpt;
 
    public qpq(int slot, int button, SlotActionType type) {
       this.qpr = slot;

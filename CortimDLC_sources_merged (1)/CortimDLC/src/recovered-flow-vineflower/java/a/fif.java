@@ -36,12 +36,12 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 final class fif {
-   private static BlockPos fig;
-   private static Entity fih;
-   private static Entity fii;
-   private static String fij;
+   static BlockPos fig;
+   static Entity fih;
+   static Entity fii;
+   static String fij;
 
-   private fif() {
+   fif() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -355,11 +355,11 @@ final class fif {
       }
    }
 
-   private static void fim(MinecraftClient var0, BlockPos var1) {
+   static void fim(MinecraftClient var0, BlockPos var1) {
       var0.interactionManager.interactBlock(var0.player, Hand.MAIN_HAND, new BlockHitResult(Vec3d.ofCenter(var1), Direction.UP, var1, false));
    }
 
-   private static void fin(MinecraftClient var0, Item var1) {
+   static void fin(MinecraftClient var0, Item var1) {
       if (var0.currentScreen instanceof HandledScreen var2) {
          for (Slot var4 : var2.getScreenHandler().slots) {
             if (var4.getStack().isOf(var1)) {
@@ -382,7 +382,7 @@ final class fif {
       }
    }
 
-   private static int fio(MinecraftClient var0, Item var1) {
+   static int fio(MinecraftClient var0, Item var1) {
       int var2 = 0;
 
       for (int var3 = 0; var3 < var0.player.getInventory().size(); var3++) {
@@ -395,7 +395,7 @@ final class fif {
       return var2;
    }
 
-   private static String fip(MinecraftClient var0) {
+   static String fip(MinecraftClient var0) {
       if (var0.currentScreen instanceof HandledScreen var1) {
          StringBuilder var5 = new StringBuilder();
 
@@ -416,7 +416,7 @@ final class fif {
       }
    }
 
-   private static List<ChatHudLine> fiq(ChatHud var0) throws Exception {
+   static List<ChatHudLine> fiq(ChatHud var0) throws Exception {
       for (Field var4 : ChatHud.class.getDeclaredFields()) {
          if (var4.getGenericType() instanceof ParameterizedType var5 && var5.getActualTypeArguments()[0] == ChatHudLine.class) {
             var4.setAccessible(true);
@@ -427,7 +427,7 @@ final class fif {
       throw new IllegalStateException(a.c(-1200458734, "瑩ෙ蝅\u1977銫ᐓ깕⟰맢㍛뒞仯쀪妝폌唫\uef37悪靖籗\uf5a7"));
    }
 
-   private static List<?> fir(ChatHud var0) throws Exception {
+   static List<?> fir(ChatHud var0) throws Exception {
       for (Field var4 : ChatHud.class.getDeclaredFields()) {
          if (var4.getGenericType() instanceof ParameterizedType var5 && var5.getActualTypeArguments()[0] == Visible.class) {
             var4.setAccessible(true);
@@ -438,13 +438,13 @@ final class fif {
       throw new IllegalStateException(a.b("뎰쨀䂜\udeae啲폊榌\ue029縺\uf48e獚褠ߡ鸃ᐜ鋨⢽ꝫ", 616608716));
    }
 
-   private static Object fis(Object var0, String var1, MinecraftClient var2) throws Exception {
+   static Object fis(Object var0, String var1, MinecraftClient var2) throws Exception {
       Method var3 = var0.getClass().getDeclaredMethod(var1, MinecraftClient.class);
       var3.setAccessible(true);
       return var3.invoke(var0, var2);
    }
 
-   private static Entity fit(MinecraftClient var0, String var1, double var2) {
+   static Entity fit(MinecraftClient var0, String var1, double var2) {
       OtherClientPlayerEntity var4 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var5 = var0.player.getEntityPos().add(0.0, 0.0, var2);
       var4.refreshPositionAndAngles(var5.x, var0.player.getY(), var5.z, 180.0F, 0.0F);
@@ -453,15 +453,15 @@ final class fif {
       return var4;
    }
 
-   private static String fiu(Entity var0) {
+   static String fiu(Entity var0) {
       return var0 == null ? a.b("߂繲\uf4ba櫗\ue101枷\udded", 1479411627) : var0.getName().getString();
    }
 
-   private static void fiv(kfx var0, String var1, boolean var2) {
+   static void fiv(kfx var0, String var1, boolean var2) {
       var0.getByName(var1).setEnabled(var2);
    }
 
-   private static vmo fiw(kfe var0, String var1) {
+   static vmo fiw(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -471,19 +471,19 @@ final class fif {
       throw new IllegalStateException(var0.getName() + a.b("ꑦ\udd9f坅줦䊢쑝縏\uf7b1", 1566876750) + var1);
    }
 
-   private static void fix(MinecraftClient var0, float var1, float var2) {
+   static void fix(MinecraftClient var0, float var1, float var2) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
       var0.player.lastPitch = var2;
    }
 
-   private static void fiy(MinecraftClient var0, Vec3d var1) {
+   static void fiy(MinecraftClient var0, Vec3d var1) {
       Vec3d var2 = var1.subtract(var0.player.getEyePos());
       fix(var0, (float)Math.toDegrees(Math.atan2(-var2.x, var2.z)), (float)(-Math.toDegrees(Math.atan2(var2.y, Math.hypot(var2.x, var2.z)))));
    }
 
-   private static void fiz(MinecraftClient var0, String var1) throws Exception {
+   static void fiz(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.c(833923379, "ꥁ탥娵쑭侔줹"));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -497,11 +497,11 @@ final class fif {
       var0.setScreen(new hlc());
    }
 
-   private static void fja(MinecraftClient var0, String var1) {
+   static void fja(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void fjb(MinecraftClient var0, String var1) {
+   static void fjb(MinecraftClient var0, String var1) {
       System.out.println(a.b("䟊㹭뒷⫌ꅝ➸鷺ᐝ詅 ", -2043131981) + var1 + a.d("㵒䒃츰", -471153242, 327153879) + var0.getCurrentFps() + a.c(-993185052, "㋀䬷쇲往"));
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory,

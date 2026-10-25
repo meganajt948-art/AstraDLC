@@ -22,36 +22,36 @@ public final class jjx extends jcs {
    public static final vkl PLAYERS_ONLY = new vkl(a.b("ʦ笫\uf1f5澜\ue457拱\ud8a3儁켑䖡쉰㠔", -1863122182), true);
    public static final vkl ITEMS = new vkl(a.c(-1917470152, "멶쏴䤸흋岁\uda62恰\ue98e矛ﴮ窵胍ต鞮ᷪ"), true);
    public static final List<vmo> OPTIONS = List.of(PLAYERS_ONLY, ITEMS);
-   private static final float jjy = 168.0F;
-   private static final float jjz = 46.0F;
-   private static final float jka = 40.0F;
-   private static final float jkb = 8.0F;
-   private static final float jkc = 30.0F;
-   private static final float jkd = 15.0F;
-   private static final float jke = 2.4F;
-   private static final float jkf = 10.5F;
-   private static final long jkg = 6000L;
-   private static final long jkh = 900L;
-   private static final double jki = 10.0;
-   private static final int jkj = -12595334;
-   private static final int jkk = -865972;
-   private static final int jkl = -1092784;
-   private static final int jkm = -670639;
-   private static final EquipmentSlot[] jkn = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
-   private static LivingEntity jko;
-   private static long jkp;
-   private LivingEntity jkq;
-   private long jkr;
-   private jjj jks;
-   private boolean jkt;
-   private int jku;
-   private final vcj jkv = new vcj(9.0F, 1.0F);
-   private final vcj jkw = new vcj(4.5F, 1.0F);
-   private final vcj jkx = new vcj(9.0F);
-   private final vcj jky = new vcj(6.0F);
-   private final vcj jkz = new vcj(10.0F);
-   private final vcj jla = new vcj(9.0F);
-   private long jlb;
+   static final float jjy = 168.0F;
+   static final float jjz = 46.0F;
+   static final float jka = 40.0F;
+   static final float jkb = 8.0F;
+   static final float jkc = 30.0F;
+   static final float jkd = 15.0F;
+   static final float jke = 2.4F;
+   static final float jkf = 10.5F;
+   static final long jkg = 6000L;
+   static final long jkh = 900L;
+   static final double jki = 10.0;
+   static final int jkj = -12595334;
+   static final int jkk = -865972;
+   static final int jkl = -1092784;
+   static final int jkm = -670639;
+   static final EquipmentSlot[] jkn = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+   static LivingEntity jko;
+   static long jkp;
+   LivingEntity jkq;
+   long jkr;
+   jjj jks;
+   boolean jkt;
+   int jku;
+   final vcj jkv = new vcj(9.0F, 1.0F);
+   final vcj jkw = new vcj(4.5F, 1.0F);
+   final vcj jkx = new vcj(9.0F);
+   final vcj jky = new vcj(6.0F);
+   final vcj jkz = new vcj(10.0F);
+   final vcj jla = new vcj(9.0F);
+   long jlb;
 
    jjx() {
       super(a.d("끯짋䌋\udd6f嚺퀚", -1709636020, 78624337), a.b("倰⦴ꍴ㴐뛅づ", 787959906), true, 1, 1, 0.0F, 44.0F);
@@ -127,7 +127,7 @@ public final class jjx extends jcs {
       }
    }
 
-   private static LivingEntity jle(MinecraftClient var0, long var1) {
+   static LivingEntity jle(MinecraftClient var0, long var1) {
       if (jko != null && var1 - jkp < 6000L && jlf(var0, jko)) {
          return jko;
       } else if (var0.targetedEntity instanceof LivingEntity var3 && !(var3 instanceof ArmorStandEntity) && jlf(var0, var3)) {
@@ -161,7 +161,7 @@ public final class jjx extends jcs {
       }
    }
 
-   private static boolean jlf(MinecraftClient var0, LivingEntity var1) {
+   static boolean jlf(MinecraftClient var0, LivingEntity var1) {
       if (var0.world == null
          || var0.player == null
          || var1 == var0.player
@@ -174,7 +174,7 @@ public final class jjx extends jcs {
       }
    }
 
-   private static jjj jlg(LivingEntity var0, MinecraftClient var1) {
+   static jjj jlg(LivingEntity var0, MinecraftClient var1) {
       SkinTextures var2 = var0 instanceof AbstractClientPlayerEntity var3 ? var3.getSkin() : null;
       vyd var6 = vyk.of(var0);
       ItemStack[] var4 = new ItemStack[4];
@@ -199,7 +199,7 @@ public final class jjx extends jcs {
       );
    }
 
-   private static jjj jlh(ClientPlayerEntity var0) {
+   static jjj jlh(ClientPlayerEntity var0) {
       ItemStack[] var1 = new ItemStack[]{
          jli(Items.NETHERITE_HELMET, 0.08F), jli(Items.NETHERITE_CHESTPLATE, 0.35F), jli(Items.DIAMOND_LEGGINGS, 0.62F), jli(Items.DIAMOND_BOOTS, 0.86F)
       };
@@ -218,7 +218,7 @@ public final class jjx extends jcs {
       );
    }
 
-   private static ItemStack jli(Item var0, float var1) {
+   static ItemStack jli(Item var0, float var1) {
       ItemStack var2 = new ItemStack(var0);
       if (var2.isDamageable()) {
          var2.setDamage(Math.round(var2.getMaxDamage() * var1));
@@ -274,7 +274,7 @@ public final class jjx extends jcs {
       }
    }
 
-   private void jlj(DrawContext var1, jjj var2, float var3, float var4) {
+   void jlj(DrawContext var1, jjj var2, float var3, float var4) {
       float var5 = Math.min(15.0F, iov.r(7.0F));
       float var6 = vcq.outCubic(this.jky.get());
       float var7 = 1.0F - 0.07F * var6;
@@ -295,7 +295,7 @@ public final class jjx extends jcs {
       var1.getMatrices().popMatrix();
    }
 
-   private void jlk(DrawContext var1, jjj var2, float var3, float var4) {
+   void jlk(DrawContext var1, jjj var2, float var3, float var4) {
       float var5 = 123.0F;
       boolean var6 = ITEMS.get();
       float var7 = var6 ? 12.5F : var4 * 0.5F - 4.0F;
@@ -330,7 +330,7 @@ public final class jjx extends jcs {
       }
    }
 
-   private void jll(DrawContext var1, ItemStack var2, float var3, float var4) {
+   void jll(DrawContext var1, ItemStack var2, float var3, float var4) {
       if (var2 != null && !var2.isEmpty()) {
          float var5 = uut.alpha();
          float var6 = 0.65625F * Math.min(1.0F, var5 * 2.5F);
@@ -354,11 +354,11 @@ public final class jjx extends jcs {
       }
    }
 
-   private static int jlm(float var0) {
+   static int jlm(float var0) {
       return var0 > 0.5F ? ujt.lerp(-865972, -12595334, (var0 - 0.5F) * 2.0F) : ujt.lerp(-1092784, -865972, var0 * 2.0F);
    }
 
-   private void jln(DrawContext var1, jjj var2, float var3, float var4) {
+   void jln(DrawContext var1, jjj var2, float var3, float var4) {
       uut.arc(var1, var3, var4, 15.0F, 2.4F, 0.0F, 1.0F, ujt.mulAlpha(iov.text, 0.12F));
       if (var2.jjp) {
          float var11 = (float)(System.nanoTime() / 1.0E9 * 0.6 % 1.0);

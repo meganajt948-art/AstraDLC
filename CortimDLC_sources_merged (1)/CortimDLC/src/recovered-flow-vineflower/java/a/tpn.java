@@ -8,8 +8,8 @@ public final class tpn {
    public static final double REACH = 4.5;
    public static final int UP = 2;
    public static final int DOWN = 3;
-   private static final int[][] tpo = new int[][]{{1, 0, 0}, {-1, 0, 0}, {0, 1, 0}, {0, -1, 0}, {0, 0, 1}, {0, 0, -1}};
-   private static final double[][] tpp = new double[][]{{0.0, 0.0}, {0.3, 0.3}, {-0.3, 0.3}, {0.3, -0.3}, {-0.3, -0.3}};
+   static final int[][] tpo = new int[][]{{1, 0, 0}, {-1, 0, 0}, {0, 1, 0}, {0, -1, 0}, {0, 0, 1}, {0, 0, -1}};
+   static final double[][] tpp = new double[][]{{0.0, 0.0}, {0.3, 0.3}, {-0.3, 0.3}, {0.3, -0.3}, {-0.3, -0.3}};
    public int n;
    public int[] x = new int[64];
    public int[] y = new int[64];
@@ -21,7 +21,7 @@ public final class tpn {
    public double[] ang = new double[64];
    public double[] f = new double[2048];
 
-   private tpn() {
+   tpn() {
    }
 
    public int indexOf(int var1, int var2, int var3) {
@@ -46,7 +46,7 @@ public final class tpn {
       return var1;
    }
 
-   private void tps() {
+   void tps() {
       int var1 = this.x.length * 2;
       this.x = Arrays.copyOf(this.x, var1);
       this.y = Arrays.copyOf(this.y, var1);
@@ -155,18 +155,18 @@ public final class tpn {
       return var2;
    }
 
-   private static double tpt(tra var0, int var1, int var2, int var3) {
+   static double tpt(tra var0, int var1, int var2, int var3) {
       double var4 = Math.max(0.0, Math.max(var1 - var0.ex, var0.ex - (var1 + 1)));
       double var6 = Math.max(0.0, Math.max(var2 - var0.ey, var0.ey - (var2 + 1)));
       double var8 = Math.max(0.0, Math.max(var3 - var0.ez, var0.ez - (var3 + 1)));
       return Math.sqrt(var4 * var4 + var6 * var6 + var8 * var8);
    }
 
-   private static long tpu(int var0, int var1, int var2) {
+   static long tpu(int var0, int var1, int var2) {
       return (long)(var0 & 67108863) << 38 | (long)(var2 & 67108863) << 12 | var1 & 4095;
    }
 
-   private static LongOpenHashSet tpv(tvn var0, tra var1, tpn var2) {
+   static LongOpenHashSet tpv(tvn var0, tra var1, tpn var2) {
       LongOpenHashSet var3 = new LongOpenHashSet();
 
       for (int var4 = 0; var4 < var2.n; var4++) {
@@ -254,7 +254,7 @@ public final class tpn {
       return false;
    }
 
-   private void tpw(tvn var1, tra var2, double var3, double var5, LongOpenHashSet var7) {
+   void tpw(tvn var1, tra var2, double var3, double var5, LongOpenHashSet var7) {
       double var8 = Math.hypot(var2.vyaw, var2.vpitch);
       double var10 = Math.hypot(var2.vx, var2.vz);
       boolean var12 = var10 > 0.04;

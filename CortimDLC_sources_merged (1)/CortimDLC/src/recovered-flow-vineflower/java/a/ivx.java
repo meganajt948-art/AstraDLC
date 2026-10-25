@@ -3,11 +3,11 @@ package a;
 import net.minecraft.item.ItemStack;
 
 public final class ivx {
-   private final ItemStack ivy;
-   private final String ivz;
-   private final String iwa;
-   private final float iwb;
-   private final boolean iwc;
+   final ItemStack ivy;
+   final String ivz;
+   final String iwa;
+   final float iwb;
+   final boolean iwc;
 
    public ivx(ItemStack icon, String title, String note, float cooldown, boolean usable) {
       this.ivy = icon;

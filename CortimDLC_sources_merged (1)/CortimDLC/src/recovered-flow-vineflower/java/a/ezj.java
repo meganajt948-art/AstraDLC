@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public final class ezj {
-   private static final String[] ezk = new String[]{
+   static final String[] ezk = new String[]{
       a.b("\ue42b鷓ᜊ襸ʷ葞㹔랺⧨ꍘ⒁\udeb0", 1740563464),
       a.d("\uf010觨̱鵃ᚌ遥⩺ꎇ㷄띫グ쫐䐚\udda1埢텏", 1123916396, 1545693763),
       a.c(438051307, "⇕堭틴䲆읉䆠ﮫ牌\uec1e暯\ue160ᬀ闆ౢ蘦Ö뫅"),
@@ -15,10 +15,10 @@ public final class ezj {
       a.b("⯵刍\ud8d4䚦쵩䮀\uf18f硢\ue627沍\ueb54ᄲ龹ِ谑\u0ae4낾㽳ꗍ⎋ꨡ", -1761727537)
    };
 
-   private ezj() {
+   ezj() {
    }
 
-   private static boolean ezn(String var0) {
+   static boolean ezn(String var0) {
       return var0 != null
          && var0.length() <= 512
          && !var0.contains(a.d("즘뀩", -750130496, 161293172))

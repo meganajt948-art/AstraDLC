@@ -9,29 +9,29 @@ import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 public final class hrt extends ijy {
-   private static final float hru = 470.0F;
-   private static final float hrv = 336.0F;
-   private static final float hrw = 12.0F;
-   private static final float hrx = 30.0F;
-   private static final float hry = 22.0F;
-   private static final float hrz = 16.0F;
-   private static final float hsa = 26.0F;
-   private static final float hsb = 4.0F;
-   private static final float hsc = 266.0F;
-   private static final float hsd = 14.0F;
+   static final float hru = 470.0F;
+   static final float hrv = 336.0F;
+   static final float hrw = 12.0F;
+   static final float hrx = 30.0F;
+   static final float hry = 22.0F;
+   static final float hrz = 16.0F;
+   static final float hsa = 26.0F;
+   static final float hsb = 4.0F;
+   static final float hsc = 266.0F;
+   static final float hsd = 14.0F;
    final iah search = new iah(a.d("﹋蟌ഛ鍹ᢿ鸅", 1574397152, -1990026498), vhz.SEARCH, 32, iah.ANY);
-   private final float hse;
-   private final float hsf;
-   private final vcj hsg = new vcj(16.0F);
-   private final vcj hsh = new vcj(18.0F);
-   private final List<hrk> hsi = new ArrayList<>();
-   private final List<pdr> hsj = new ArrayList<>();
-   private float hsk;
-   private boolean hsl;
-   private pdr hsm;
-   private String hsn;
+   final float hse;
+   final float hsf;
+   final vcj hsg = new vcj(16.0F);
+   final vcj hsh = new vcj(18.0F);
+   final List<hrk> hsi = new ArrayList<>();
+   final List<pdr> hsj = new ArrayList<>();
+   float hsk;
+   boolean hsl;
+   pdr hsm;
+   String hsn;
 
-   private hrt(float var1, float var2) {
+   hrt(float var1, float var2) {
       this.hse = (var1 - 470.0F) * 0.5F;
       this.hsf = (var2 - 336.0F) * 0.5F;
       this.search.onChange = var1x -> this.hsq();
@@ -46,7 +46,7 @@ public final class hrt extends ijy {
       }
    }
 
-   private void hsq() {
+   void hsq() {
       this.hsj.clear();
       String var1 = this.search.text.toLowerCase(Locale.ROOT).trim();
 
@@ -59,7 +59,7 @@ public final class hrt extends ijy {
       this.hsk = Math.min(this.hsk, this.hsy());
    }
 
-   private void hsr() {
+   void hsr() {
       pej.changed();
    }
 
@@ -83,33 +83,33 @@ public final class hrt extends ijy {
       this.hsl = true;
    }
 
-   private float hss() {
+   float hss() {
       return this.hse + 12.0F;
    }
 
-   private float hst() {
+   float hst() {
       return this.hsf + 30.0F + 22.0F + 8.0F;
    }
 
-   private float hsu() {
+   float hsu() {
       return 336.0F - (this.hst() - this.hsf) - 16.0F - 8.0F;
    }
 
-   private int hsv() {
+   int hsv() {
       return Math.max(1, 9);
    }
 
-   private float hsw() {
+   float hsw() {
       int var1 = this.hsv();
       return var1 <= 1 ? 30.0F : 240.0F / (var1 - 1);
    }
 
-   private float hsx() {
+   float hsx() {
       int var1 = (this.hsj.size() + this.hsv() - 1) / this.hsv();
       return var1 * 30.0F - 4.0F;
    }
 
-   private float hsy() {
+   float hsy() {
       return Math.max(0.0F, this.hsx() - this.hsu());
    }
 
@@ -150,7 +150,7 @@ public final class hrt extends ijy {
       }
    }
 
-   private void hsz(DrawContext var1, float var2, float var3) {
+   void hsz(DrawContext var1, float var2, float var3) {
       float var4 = this.hsf + 15.0F + 1.0F;
       vjf.draw(var1, vhz.LAYERS, this.hse + 12.0F + 5.0F, var4, 10.0F, iov.accent());
       String var5 = wap.s(a.b("䇹㡼늮Ⳅꜿ↢鯲ሃ豕ۢ脦筌\uf586汥\ue67a悎\udadb唍", -1134083670), a.b("媩⌆꧒㟚뱲㫇蒎ഞ鍵ᧅ鸍摐\ueaab猙壘羲엻䨽킕囙", 1088708252));
@@ -175,7 +175,7 @@ public final class hrt extends ijy {
       this.hsi.add(new hrk(var10, var11, var13, var13, this::close, null));
    }
 
-   private void hta(DrawContext var1, hlc var2, float var3, float var4, float var5) {
+   void hta(DrawContext var1, hlc var2, float var3, float var4, float var5) {
       float var6 = this.hsf + 30.0F + 2.0F;
       this.search.x = this.hse + 12.0F;
       this.search.y = var6 + 3.0F;
@@ -213,7 +213,7 @@ public final class hrt extends ijy {
       }
    }
 
-   private void htb(boolean var1) {
+   void htb(boolean var1) {
       for (pdr var3 : this.hsj) {
          var3.setActive(var1);
       }
@@ -221,7 +221,7 @@ public final class hrt extends ijy {
       this.hsr();
    }
 
-   private void htc(DrawContext var1, float var2, float var3, float var4) {
+   void htc(DrawContext var1, float var2, float var3, float var4) {
       float var5 = this.hss();
       float var6 = this.hst();
       float var7 = this.hsu();
@@ -286,7 +286,7 @@ public final class hrt extends ijy {
       }
    }
 
-   private void htd(DrawContext var1, float var2, float var3) {
+   void htd(DrawContext var1, float var2, float var3) {
       float var4 = this.hss() + 266.0F + 14.0F;
       float var5 = this.hst();
       float var6 = this.hse + 470.0F - 12.0F - var4;
@@ -435,23 +435,23 @@ public final class hrt extends ijy {
       }
    }
 
-   private static int hte(pdr var0) {
+   static int hte(pdr var0) {
       long var1 = MinecraftClient.getInstance().getWindow().getHandle();
       boolean var3 = GLFW.glfwGetKey(var1, 340) == 1 || GLFW.glfwGetKey(var1, 344) == 1;
       return var3 && var0.maxCount() > 16 ? 8 : 1;
    }
 
-   private static String htf(int var0) {
+   static String htf(int var0) {
       int var1 = var0 / 20;
       return var1 / 60 + a.c(-421161944, "鐓") + String.format(Locale.ROOT, a.b("ⶫ吏\udede䃹", 1565732234), var1 % 60);
    }
 
-   private float htg(DrawContext var1, String var2, float var3, float var4, float var5) {
+   float htg(DrawContext var1, String var2, float var3, float var4, float var5) {
       irr.SECTION.draw(var1, var2.toUpperCase(Locale.ROOT), var3, irr.SECTION.centerTop(var4 + 6.0F), iov.textMuted);
       return var4 + 12.0F;
    }
 
-   private void hth(DrawContext var1, float var2, float var3, float var4, float var5, String var6, Runnable var7, Runnable var8) {
+   void hth(DrawContext var1, float var2, float var3, float var4, float var5, String var6, Runnable var7, Runnable var8) {
       float var9 = 12.0F;
       float var10 = 18.0F;
       float var11 = var4 - var9;
@@ -470,7 +470,7 @@ public final class hrt extends ijy {
       this.hsi.add(new hrk(var11, var14, var9, var9, var8, null));
    }
 
-   private void hti(DrawContext var1) {
+   void hti(DrawContext var1) {
       float var2 = this.hsf + 336.0F - 8.0F - 5.0F;
       uut.rect(var1, this.hse + 12.0F, this.hsf + 336.0F - 16.0F - 8.0F, 446.0F, 1.0F, iov.divider);
       String var3 = this.hsn != null

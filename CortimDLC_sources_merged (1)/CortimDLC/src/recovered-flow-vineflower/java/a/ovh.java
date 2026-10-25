@@ -14,29 +14,29 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class ovh extends kfe {
-   private static ovh ovi;
-   private final vmc ovj = this.add(new vmc(a.b("䈌㮞녘⼩꓿", -1405140390), 10.0, 1.0, 50.0, 1.0).suffix(a.d("渧៛鵔", -937067049, 1378358161)));
-   private final vmc ovk = this.add(new vmc(a.b("鏐\uea5f悎\ufeff申\uf39e", 683971461), 0.5, 0.0, 1.0, 0.05).percent());
-   private static Field ovl;
-   private static Field ovm;
-   private static Field ovn;
-   private static Field[] ovo;
-   private static boolean ovp;
-   private ove ovq;
-   private Input ovr;
-   private Perspective ovs;
-   private boolean ovt = true;
-   private boolean ovu;
-   private float ovv;
-   private float ovw;
-   private float ovx;
-   private float ovy;
-   private double ovz;
-   private double owa;
-   private double owb;
-   private long owc;
-   private long owd;
-   private long owe = -1L;
+   static ovh ovi;
+   final vmc ovj = this.add(new vmc(a.b("䈌㮞녘⼩꓿", -1405140390), 10.0, 1.0, 50.0, 1.0).suffix(a.d("渧៛鵔", -937067049, 1378358161)));
+   final vmc ovk = this.add(new vmc(a.b("鏐\uea5f悎\ufeff申\uf39e", 683971461), 0.5, 0.0, 1.0, 0.05).percent());
+   static Field ovl;
+   static Field ovm;
+   static Field ovn;
+   static Field[] ovo;
+   static boolean ovp;
+   ove ovq;
+   Input ovr;
+   Perspective ovs;
+   boolean ovt = true;
+   boolean ovu;
+   float ovv;
+   float ovw;
+   float ovx;
+   float ovy;
+   double ovz;
+   double owa;
+   double owb;
+   long owc;
+   long owd;
+   long owe = -1L;
 
    public ovh() {
       super(a.d("턾ꢻ≿밎㟿녬ଳ", 891867848, -1659108425), a.b("ꃮ\ud975厳춛䘘삵竫\uf35f浃\ue7f0怯驖ᒖ贴ܪ臗㯁됆⺯꣹⅜孝헲丮졉䊄ﬠ産\uef87槑\ue277Ჾ電", -27615095), kfa.PLAYER);
@@ -156,7 +156,7 @@ public class ovh extends kfe {
       this.owl(var1);
    }
 
-   private void owh(ClientPlayerEntity var1) {
+   void owh(ClientPlayerEntity var1) {
       if (this.ovu && var1 != null) {
          var1.noClip = false;
       }
@@ -164,7 +164,7 @@ public class ovh extends kfe {
       this.ovu = false;
    }
 
-   private static void owi(MinecraftClient var0, Entity var1) {
+   static void owi(MinecraftClient var0, Entity var1) {
       if (var1 != null) {
          try {
             if (ovn != null) {
@@ -178,7 +178,7 @@ public class ovh extends kfe {
       }
    }
 
-   private void owj() {
+   void owj() {
       if (this.owe != this.owd) {
          this.owe = this.owd;
          MinecraftClient var1 = MinecraftClient.getInstance();
@@ -226,11 +226,11 @@ public class ovh extends kfe {
       }
    }
 
-   private static double owk(KeyBinding var0, KeyBinding var1) {
+   static double owk(KeyBinding var0, KeyBinding var1) {
       return (var0.isPressed() ? 1 : 0) - (var1.isPressed() ? 1 : 0);
    }
 
-   private void owl(MinecraftClient var1) {
+   void owl(MinecraftClient var1) {
       if (this.ovq != null && ovo != null) {
          HeldItemRenderer var2 = var1.getEntityRenderDispatcher().getHeldItemRenderer();
 
@@ -240,7 +240,7 @@ public class ovh extends kfe {
       }
    }
 
-   private static void owm() {
+   static void owm() {
       if (!ovp) {
          ovp = true;
          ovl = vxr.find(
@@ -282,7 +282,7 @@ public class ovh extends kfe {
       }
    }
 
-   private static void own(MinecraftClient var0, float var1) {
+   static void own(MinecraftClient var0, float var1) {
       Camera var2 = var0.gameRenderer.getCamera();
       vxr.setFloat(ovl, var2, var1);
       vxr.setFloat(ovm, var2, var1);

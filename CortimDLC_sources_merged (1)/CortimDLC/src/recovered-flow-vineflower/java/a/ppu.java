@@ -16,22 +16,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public final class ppu {
-   private static final List<ppn> ppv = new ArrayList<>();
+   static final List<ppn> ppv = new ArrayList<>();
    public static final String[] WARDEN_DEFAULTS;
    public static final String[] END_DEFAULTS;
 
-   private ppu() {
+   ppu() {
    }
 
-   private static void ppy(String var0, String var1, String var2, Item var3, Predicate<ppi> var4) {
+   static void ppy(String var0, String var1, String var2, Item var3, Predicate<ppi> var4) {
       ppv.add(new ppn(var0, var1, var2, var3, null, var4));
    }
 
-   private static void ppz(String var0, String var1, String var2, Item var3, String var4, Predicate<ppi> var5) {
+   static void ppz(String var0, String var1, String var2, Item var3, String var4, Predicate<ppi> var5) {
       ppv.add(new ppn(var0, var1, var2, var3, var4, var5));
    }
 
-   private static void pqa(String var0, String var1, String var2, String var3) {
+   static void pqa(String var0, String var1, String var2, String var3) {
       ppz(
          var0,
          var1,
@@ -42,7 +42,7 @@ public final class ppu {
       );
    }
 
-   private static void pqb(String var0, String var1, String var2, String var3) {
+   static void pqb(String var0, String var1, String var2, String var3) {
       ppz(
          var0,
          var1,
@@ -53,18 +53,18 @@ public final class ppu {
       );
    }
 
-   private static boolean pqc(ppi var0) {
+   static boolean pqc(ppi var0) {
       return var0.is(Items.TNT)
          && (var0.named(a.c(551348825, "\uee6f韜ᴆ茌")) || var0.lore().contains(a.c(-1636467348, "祎ӭ踯ၟ鮘᥉ꍪ⪜냔㸄릮䏜쵼咼\udee7堖")))
          && !var0.lore().contains(a.c(-747489610, "㋭䬢쇰忾푖勨\ue8bf慆ﬄ疧\uf271ࠉ蚠ὣ锲Ꮁ꧰≍볠㪾댹중䞮\udc73娄탘"));
    }
 
-   private static boolean pqd(ppi var0) {
+   static boolean pqd(ppi var0) {
       return var0.is(Items.TNT)
          && (var0.named(a.d("矂\u0e79蓜\u1ada", -47719745, 847882568)) || var0.lore().contains(a.b("砤ǫ謹ᔷ麟ᠡꉶ⮏뇍㽮뢸䋀챩喪\udffb奸\ue339梄\uf629灷藺菘൧隺Ⴭ騑", -2080015233)));
    }
 
-   private static boolean pqe(ItemStack var0) {
+   static boolean pqe(ItemStack var0) {
       PotionContentsComponent var1 = var0.get(DataComponentTypes.POTION_CONTENTS);
       if (var1 == null) {
          return false;

@@ -7,15 +7,15 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 
 final class iee extends imn {
-   private static final float ief = 26.0F;
-   private static final float ieg = 66.0F;
-   private static final float ieh = 17.0F;
-   private static final int iei = 5;
-   private final vlj iej;
-   private final vcj iek = new vcj(16.0F);
-   private final vcj iel = new vcj(10.0F);
-   private int iem = -1;
-   private final List<ItemStack> ien = new ArrayList<>();
+   static final float ief = 26.0F;
+   static final float ieg = 66.0F;
+   static final float ieh = 17.0F;
+   static final int iei = 5;
+   final vlj iej;
+   final vcj iek = new vcj(16.0F);
+   final vcj iel = new vcj(10.0F);
+   int iem = -1;
+   final List<ItemStack> ien = new ArrayList<>();
 
    iee(vlj var1) {
       super(var1);
@@ -27,7 +27,7 @@ final class iee extends imn {
       return 26.0F;
    }
 
-   private void ieq() {
+   void ieq() {
       if (this.iem != this.iej.version()) {
          this.iem = this.iej.version();
          this.ien.clear();

@@ -10,33 +10,33 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.attribute.EntityAttributes;
 
 public final class tyd {
-   private static final int tye = 1200;
-   private static final long tyf = 180000L;
-   private static final int tyg = 10;
+   static final int tye = 1200;
+   static final long tyf = 180000L;
+   static final int tyg = 10;
    public final tiq profile;
    public final String module;
-   private final String tyh;
-   private final tzs tyi = new tzs();
-   private final Map<Long, Integer> tyj = new HashMap<>();
-   private boolean tyk;
-   private boolean tyl = true;
-   private ClientWorld tym;
-   private int tyn = -1000;
-   private int tyo;
-   private int typ;
-   private int tyq;
-   private int tyr = -1;
-   private int tys;
-   private int tyt;
-   private double tyu;
-   private int tyv;
-   private int tyw;
-   private boolean tyx;
-   private boolean tyy;
-   private long tyz = System.currentTimeMillis();
-   private boolean tza;
-   private double tzb;
-   private double tzc;
+   final String tyh;
+   final tzs tyi = new tzs();
+   final Map<Long, Integer> tyj = new HashMap<>();
+   boolean tyk;
+   boolean tyl = true;
+   ClientWorld tym;
+   int tyn = -1000;
+   int tyo;
+   int typ;
+   int tyq;
+   int tyr = -1;
+   int tys;
+   int tyt;
+   double tyu;
+   int tyv;
+   int tyw;
+   boolean tyx;
+   boolean tyy;
+   long tyz = System.currentTimeMillis();
+   boolean tza;
+   double tzb;
+   double tzc;
    public int recorded;
    public double meters;
    public int routes;
@@ -175,7 +175,7 @@ public final class tyd {
       }
    }
 
-   private tzm tzf(psf var1) {
+   tzm tzf(psf var1) {
       tvt var2 = var1.track;
       tzm var3 = new tzm();
       int var4 = var2.n;

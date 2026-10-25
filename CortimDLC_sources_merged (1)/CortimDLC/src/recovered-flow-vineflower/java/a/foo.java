@@ -1,10 +1,10 @@
 package a;
 
 final class foo {
-   private final long fop;
-   private final float foq;
+   final long fop;
+   final float foq;
 
-   private foo(long nanos, float amount) {
+   foo(long nanos, float amount) {
       this.fop = nanos;
       this.foq = amount;
    }

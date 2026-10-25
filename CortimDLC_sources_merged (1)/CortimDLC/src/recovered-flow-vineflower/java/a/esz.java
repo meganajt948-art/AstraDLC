@@ -18,12 +18,12 @@ import java.util.HashSet;
 import java.util.List;
 
 public final class esz {
-   private static final int eta = 20;
-   private static final int etb = 28;
-   private static final int etc = 560;
-   private static volatile est[] etd;
+   static final int eta = 20;
+   static final int etb = 28;
+   static final int etc = 560;
+   static volatile est[] etd;
 
-   private esz() {
+   esz() {
    }
 
    public static eso solve(BufferedImage var0) {
@@ -96,7 +96,7 @@ public final class esz {
       }
    }
 
-   private static int[] etg(BufferedImage var0, int var1, int var2) {
+   static int[] etg(BufferedImage var0, int var1, int var2) {
       BufferedImage var3 = new BufferedImage(var1, var2, 1);
       Graphics2D var4 = var3.createGraphics();
       var4.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -116,7 +116,7 @@ public final class esz {
       return var5;
    }
 
-   private static int[] eth(int[] var0, int var1, int var2) {
+   static int[] eth(int[] var0, int var1, int var2) {
       int[] var3 = new int[var1 * var2];
       int[] var4 = new int[9];
 
@@ -140,7 +140,7 @@ public final class esz {
       return var3;
    }
 
-   private static boolean[] eti(boolean[] var0, int var1, int var2, int var3) {
+   static boolean[] eti(boolean[] var0, int var1, int var2, int var3) {
       int var4 = var3 * var3;
       ArrayList var5 = new ArrayList();
 
@@ -190,7 +190,7 @@ public final class esz {
       return var19;
    }
 
-   private static List<int[]> etj(boolean[] var0, int var1, int var2, int[] var3) {
+   static List<int[]> etj(boolean[] var0, int var1, int var2, int[] var3) {
       int[] var4 = new int[var1 * var2 + 1];
       int var5 = 1;
 
@@ -272,7 +272,7 @@ public final class esz {
       return var18;
    }
 
-   private static int etk(int[] var0, int var1) {
+   static int etk(int[] var0, int var1) {
       while (var0[var1] != var1) {
          var0[var1] = var0[var0[var1]];
          var1 = var0[var1];
@@ -281,7 +281,7 @@ public final class esz {
       return var1;
    }
 
-   private static void etl(int[] var0, int var1, int var2) {
+   static void etl(int[] var0, int var1, int var2) {
       int var3 = etk(var0, var1);
       int var4 = etk(var0, var2);
       if (var3 != var4) {
@@ -289,7 +289,7 @@ public final class esz {
       }
    }
 
-   private static boolean[] etm(int[] var0, int var1, int[] var2) {
+   static boolean[] etm(int[] var0, int var1, int[] var2) {
       int var3 = var2[0];
       int var4 = var2[1];
       int var5 = var2[2];
@@ -306,7 +306,7 @@ public final class esz {
       return var8;
    }
 
-   private static float[] etn(boolean[] var0, int var1, int var2) {
+   static float[] etn(boolean[] var0, int var1, int var2) {
       float var3 = Math.min(20.0F / var1, 28.0F / var2);
       int var4 = Math.max(1, Math.round(var1 * var3));
       int var5 = Math.max(1, Math.round(var2 * var3));
@@ -340,7 +340,7 @@ public final class esz {
       return var8;
    }
 
-   private static float eto(float[] var0) {
+   static float eto(float[] var0) {
       float var1 = 0.0F;
 
       for (float var5 : var0) {
@@ -350,7 +350,7 @@ public final class esz {
       return (float)Math.sqrt(var1);
    }
 
-   private static int etp(float[] var0, est[] var1) {
+   static int etp(float[] var0, est[] var1) {
       float var2 = eto(var0);
       if (var2 < 1.0E-4F) {
          return -1;
@@ -391,7 +391,7 @@ public final class esz {
       return !(var12 < 0.55F) && !(var12 - var13 < 0.04F) ? var11 : -1;
    }
 
-   private static est[] etq() {
+   static est[] etq() {
       est[] var0 = etd;
       if (var0 != null) {
          return var0;
@@ -407,7 +407,7 @@ public final class esz {
       }
    }
 
-   private static est[] etr() {
+   static est[] etr() {
       String[] var0 = new String[]{
          a.b("銂\ueb00懈ﾱ瑫", 409244358),
          a.b("렣송䭥픂廐\ud86e戲", 90093682),
@@ -453,7 +453,7 @@ public final class esz {
       return var17.toArray(new est[0]);
    }
 
-   private static float[] ets(int var0, Font var1, double var2) {
+   static float[] ets(int var0, Font var1, double var2) {
       short var4 = 320;
       BufferedImage var5 = new BufferedImage(var4, var4, 10);
       Graphics2D var6 = var5.createGraphics();

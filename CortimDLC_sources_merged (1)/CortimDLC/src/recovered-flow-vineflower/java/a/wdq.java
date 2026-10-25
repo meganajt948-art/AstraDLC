@@ -10,7 +10,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
 public final class wdq {
-   private wdq() {
+   wdq() {
    }
 
    public static void swap(MinecraftClient var0, int var1, int var2) {

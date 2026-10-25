@@ -1,12 +1,12 @@
 package a;
 
 final class jfn {
-   private final String jfo;
-   private final String jfp;
-   private final int jfq;
-   private final qwj jfr;
-   private final long jfs;
-   private final boolean jft;
+   final String jfo;
+   final String jfp;
+   final int jfq;
+   final qwj jfr;
+   final long jfs;
+   final boolean jft;
 
    jfn(String key, String status, int id, qwj tier, long refreshAt, boolean focus) {
       this.jfo = key;

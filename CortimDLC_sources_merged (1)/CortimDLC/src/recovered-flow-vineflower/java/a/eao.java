@@ -20,37 +20,37 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 
 public final class eao {
-   private static final MinecraftClient eap = MinecraftClient.getInstance();
-   private static final int eaq = 128;
-   private static final int ear = 8;
-   private static final long eas = 120000L;
-   private static final long eat = 60000L;
-   private static final int eau = 40;
-   private static final int eav = 3;
-   private final dtv eaw;
-   private long eax;
-   private int eay;
-   private int eaz;
-   private boolean eba;
-   private long ebb;
-   private long ebc;
-   private int[] ebd;
-   private int ebe;
-   private int ebf;
-   private int ebg;
-   private int ebh;
-   private boolean ebi;
-   private boolean ebj;
-   private long ebk;
-   private boolean ebl;
-   private int ebm;
-   private int ebn;
-   private int ebo;
-   private volatile String ebp = "";
-   private volatile String ebq = "";
-   private String ebr;
-   private long ebs;
-   private elb ebt;
+   static final MinecraftClient eap = MinecraftClient.getInstance();
+   static final int eaq = 128;
+   static final int ear = 8;
+   static final long eas = 120000L;
+   static final long eat = 60000L;
+   static final int eau = 40;
+   static final int eav = 3;
+   final dtv eaw;
+   long eax;
+   int eay;
+   int eaz;
+   boolean eba;
+   long ebb;
+   long ebc;
+   int[] ebd;
+   int ebe;
+   int ebf;
+   int ebg;
+   int ebh;
+   boolean ebi;
+   boolean ebj;
+   long ebk;
+   boolean ebl;
+   int ebm;
+   int ebn;
+   int ebo;
+   volatile String ebp = "";
+   volatile String ebq = "";
+   String ebr;
+   long ebs;
+   elb ebt;
 
    eao(dtv var1) {
       this.eaw = var1;
@@ -128,7 +128,7 @@ public final class eao {
       }
    }
 
-   private boolean ebw(ClientPlayerEntity var1, ClientWorld var2) {
+   boolean ebw(ClientPlayerEntity var1, ClientWorld var2) {
       for (List var4 : enq.findWalls(var2, var1, 16.0)) {
          if (this.ebx(var4, var2)) {
             return true;
@@ -138,7 +138,7 @@ public final class eao {
       return false;
    }
 
-   private boolean ebx(List<ItemFrameEntity> var1, ClientWorld var2) {
+   boolean ebx(List<ItemFrameEntity> var1, ClientWorld var2) {
       Direction var3 = ((ItemFrameEntity)var1.get(0)).getHorizontalFacing();
       boolean var4 = var3.getAxis() == Axis.Z;
       boolean var5 = var3 == Direction.NORTH || var3 == Direction.EAST;
@@ -204,7 +204,7 @@ public final class eao {
       }
    }
 
-   private boolean eby(ClientPlayerEntity var1, ClientWorld var2) {
+   boolean eby(ClientPlayerEntity var1, ClientWorld var2) {
       ItemStack var3 = var1.getMainHandStack();
       if (!(var3.getItem() instanceof FilledMapItem)) {
          return false;
@@ -229,12 +229,12 @@ public final class eao {
       }
    }
 
-   private static int ebz(ItemStack var0) {
+   static int ebz(ItemStack var0) {
       MapIdComponent var1 = var0.get(DataComponentTypes.MAP_ID);
       return var1 == null ? -1 : var1.id();
    }
 
-   private static void eca(byte[] var0, int var1, int[] var2, int var3, int var4, int var5) {
+   static void eca(byte[] var0, int var1, int[] var2, int var3, int var4, int var5) {
       for (int var6 = 0; var6 < 128; var6++) {
          for (int var7 = 0; var7 < 128; var7++) {
             int var8 = var0[var6 * 128 + var7] & 255;
@@ -264,7 +264,7 @@ public final class eao {
       }
    }
 
-   private void ecb(int[] var1, int var2, int var3, int var4, int var5, boolean var6) {
+   void ecb(int[] var1, int var2, int var3, int var4, int var5, boolean var6) {
       this.ebd = var1;
       this.ebe = var2;
       this.ebf = var3;
@@ -305,7 +305,7 @@ public final class eao {
       }
    }
 
-   private void ecc(int[] var1, int var2, int var3, int var4) {
+   void ecc(int[] var1, int var2, int var3, int var4) {
       if (var4 != this.ebn && egq.get().isSolvingCaptcha()) {
          this.ebn = var4;
          if (this.ebo >= 3) {
@@ -344,7 +344,7 @@ public final class eao {
       }
    }
 
-   private void ecd() {
+   void ecd() {
       if (this.ebr != null && System.currentTimeMillis() - this.ebs < 60000L) {
          this.eaw.chat.system(a.d("〔䦏썓嵚훺呛\uea17掙ﶾ眊\uf0ab\u0ad7葲ᧉ鎀", 545135425, 1064316736) + this.ebr);
       }

@@ -5,14 +5,14 @@ import java.util.Locale;
 import net.minecraft.client.gui.DrawContext;
 
 final class ilz extends imn {
-   private static final float ima = 67.0F;
-   private static final float imb = 50.0F;
-   private static final float imc = 9.0F;
-   private static final float imd = 7.0F;
-   private final vmc ime;
-   private final vmc imf;
-   private final vmc img;
-   private int imh;
+   static final float ima = 67.0F;
+   static final float imb = 50.0F;
+   static final float imc = 9.0F;
+   static final float imd = 7.0F;
+   final vmc ime;
+   final vmc imf;
+   final vmc img;
+   int imh;
 
    ilz() {
       this(iov.HUE, iov.SATURATION, iov.BRIGHTNESS);
@@ -30,11 +30,11 @@ final class ilz extends imn {
       return 67.0F;
    }
 
-   private float imk() {
+   float imk() {
       return this.y + 3.0F;
    }
 
-   private float iml() {
+   float iml() {
       return this.w - 9.0F - 7.0F;
    }
 
@@ -126,7 +126,7 @@ final class ilz extends imn {
       }
    }
 
-   private static float imm(float var0) {
+   static float imm(float var0) {
       return Math.max(0.0F, Math.min(1.0F, var0));
    }
 }

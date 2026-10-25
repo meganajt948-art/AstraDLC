@@ -37,27 +37,27 @@ public final class tiq {
    public static final String AURA = a.b("墟℺\uabee㖌", -281454342);
    public static final String MINE = a.d("䯔㉡뢵⛏", -748936263, -1389926396);
    public static final String WALK = a.b("寞≹ꢧ㛑", 318790573);
-   private static final String tir = a.b("쉻믁\u3102꽴Ⓘꉎᡚ醬\u0ff9蕉ʇ", 335069726);
-   private static final String tis = a.b("㿏䙵첶勀\ud90a忺\ue5f7汘", -544653399);
-   private static final String[] tit = new String[]{a.c(457859688, "戆᮲酴༐蒈ɤ렰㇔꾇┫")};
-   private static final Map<String, tiq> tiu = new LinkedHashMap<>();
-   private static boolean tiv;
+   static final String tir = a.b("쉻믁\u3102꽴Ⓘꉎᡚ醬\u0ff9蕉ʇ", 335069726);
+   static final String tis = a.b("㿏䙵첶勀\ud90a忺\ue5f7汘", -544653399);
+   static final String[] tit = new String[]{a.c(457859688, "戆᮲酴༐蒈ɤ렰㇔꾇┫")};
+   static final Map<String, tiq> tiu = new LinkedHashMap<>();
+   static boolean tiv;
    public final String name;
-   private final Properties tiw = new Properties();
-   private final Map<String, tmh> tix = new LinkedHashMap<>();
-   private final Map<String, tvc> tiy = new LinkedHashMap<>();
-   private final Map<String, tzs> tiz = new LinkedHashMap<>();
-   private final Map<String, tin> tja = new LinkedHashMap<>();
-   private final Set<String> tjb = new HashSet<>();
-   private volatile List<eyg> tjc = List.of();
-   private volatile long tjd;
-   private volatile boolean tje;
-   private volatile int tjf = -1;
-   private volatile int tjg;
-   private volatile boolean tjh;
-   private volatile CompletableFuture<Void> tji;
+   final Properties tiw = new Properties();
+   final Map<String, tmh> tix = new LinkedHashMap<>();
+   final Map<String, tvc> tiy = new LinkedHashMap<>();
+   final Map<String, tzs> tiz = new LinkedHashMap<>();
+   final Map<String, tin> tja = new LinkedHashMap<>();
+   final Set<String> tjb = new HashSet<>();
+   volatile List<eyg> tjc = List.of();
+   volatile long tjd;
+   volatile boolean tje;
+   volatile int tjf = -1;
+   volatile int tjg;
+   volatile boolean tjh;
+   volatile CompletableFuture<Void> tji;
 
-   private tiq(String var1, String var2) {
+   tiq(String var1, String var2) {
       this.name = var1;
       if (var2 != null && !var2.isEmpty()) {
          try {
@@ -92,7 +92,7 @@ public final class tiq {
       }
    }
 
-   private static void tjl() {
+   static void tjl() {
       if (!tiv) {
          tiv = true;
          String var0 = ewk.get(a.b("䀫㦑덒ⴤꛮ„騊ᏼ趩ܙ胗", 920731726));
@@ -110,7 +110,7 @@ public final class tiq {
       }
    }
 
-   private static void tjm() {
+   static void tjm() {
       ewk.put(a.c(1661195665, "헴걎⚍룻㌱뗁࿕蘣ᡶ鋆ᔈ"), String.join(a.d("⻟", -669535535, -330130427), tiu.keySet()));
    }
 
@@ -252,7 +252,7 @@ public final class tiq {
       this.tjn(a.d("醈\ue864", 1458554316, -1267575756) + this.id() + a.b("蚧", 1821148809) + var1, var2::bytes, var3);
    }
 
-   private void tjn(String var1, tij var2, Map<String, String> var3) {
+   void tjn(String var1, tij var2, Map<String, String> var3) {
       if (eyn.online()) {
          CompletableFuture.runAsync(() -> {
             try {
@@ -522,7 +522,7 @@ public final class tiq {
       return this.tja.get(var1).loading;
    }
 
-   private synchronized Object tjo(String var1) {
+   synchronized Object tjo(String var1) {
       tin var2 = this.tja.get(var1);
       String var3 = this.activeKey(var1);
       if (var3.isEmpty() || var3.equals(var2.key) || var2.loading || System.currentTimeMillis() < var2.retryAt) {
@@ -638,7 +638,7 @@ public final class tiq {
       this.tjp(a.d("쇳롔㊊과", 1375617296, -579501936), var1, var1.bytes(), var2, var1.created);
    }
 
-   private void tjp(String var1, Object var2, byte[] var3, Map<String, String> var4, long var5) {
+   void tjp(String var1, Object var2, byte[] var3, Map<String, String> var4, long var5) {
       String var7 = a.b("䉧㮉", -380026347) + this.id() + a.d("㠝", 188684499, -1589436192) + var1 + a.d("㌈", 1693892526, 548244616) + var5;
       var4.put(a.b("縙ު赾ጅ", -1427734922), var1);
       var4.put(a.c(-849418035, "\ue8ba鄉ᯇ薿\u0e67裓㊉"), this.name);
@@ -814,7 +814,7 @@ public final class tiq {
       this.tjq(this.tjr());
    }
 
-   private void tjq(String var1) {
+   void tjq(String var1) {
       synchronized (tiq.class) {
          if (tiu.get(this.name) == this) {
             ewk.put(a.d("硥ǟ謜ᕪ麠ᡐꉝ⯲", 250720199, 1750390724) + this.name, var1);
@@ -822,7 +822,7 @@ public final class tiq {
       }
    }
 
-   private synchronized String tjr() {
+   synchronized String tjr() {
       StringBuilder var1 = new StringBuilder();
       this.tiw
          .stringPropertyNames()

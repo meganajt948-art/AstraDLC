@@ -10,7 +10,7 @@ import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.state.NetworkState;
 
 final class fux extends ClientConnection {
-   private final EmbeddedChannel fuy = new EmbeddedChannel();
+   final EmbeddedChannel fuy = new EmbeddedChannel();
 
    fux() {
       super(NetworkSide.SERVERBOUND);

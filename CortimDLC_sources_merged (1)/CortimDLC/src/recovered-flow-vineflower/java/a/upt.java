@@ -14,13 +14,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 public final class upt {
-   private static final int upu = 3;
-   private static final Map<Integer, uok> upv = new LinkedHashMap<>();
-   private static BufferedImage upw;
-   private static boolean upx;
-   private static final Map<uok, Long> upy = new LinkedHashMap<>();
+   static final int upu = 3;
+   static final Map<Integer, uok> upv = new LinkedHashMap<>();
+   static BufferedImage upw;
+   static boolean upx;
+   static final Map<uok, Long> upy = new LinkedHashMap<>();
 
-   private upt() {
+   upt() {
    }
 
    public static boolean draw(DrawContext var0, float var1, float var2, float var3, int var4) {
@@ -33,7 +33,7 @@ public final class upt {
       return true;
    }
 
-   private static uok uqb(float var0) {
+   static uok uqb(float var0) {
       if (upx) {
          return null;
       }
@@ -77,7 +77,7 @@ public final class upt {
       return var4;
    }
 
-   private static void uqc() {
+   static void uqc() {
       long var0 = unf.frame();
       upy.entrySet().removeIf(var2 -> {
          if (var0 - var2.getValue() > 3L) {
@@ -89,7 +89,7 @@ public final class upt {
       });
    }
 
-   private static BufferedImage uqd(BufferedImage var0, int var1) {
+   static BufferedImage uqd(BufferedImage var0, int var1) {
       BufferedImage var2 = new BufferedImage(var0.getWidth(), var0.getHeight(), 3);
       Graphics2D var3 = var2.createGraphics();
       var3.drawImage(var0, 0, 0, null);

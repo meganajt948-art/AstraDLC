@@ -4,17 +4,17 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 final class ier extends imn {
-   private static final float ies = 21.0F;
-   private static final float iet = 14.0F;
-   private static final float ieu = 11.0F;
-   private final vlv iev;
-   private final vcj iew = new vcj(16.0F);
-   private final vcj iex = new vcj(18.0F, -1.0F);
-   private final vcj iey = new vcj(18.0F, -1.0F);
-   private boolean iez;
-   private float ifa;
-   private float ifb;
-   private float ifc;
+   static final float ies = 21.0F;
+   static final float iet = 14.0F;
+   static final float ieu = 11.0F;
+   final vlv iev;
+   final vcj iew = new vcj(16.0F);
+   final vcj iex = new vcj(18.0F, -1.0F);
+   final vcj iey = new vcj(18.0F, -1.0F);
+   boolean iez;
+   float ifa;
+   float ifb;
+   float ifc;
 
    ier(vlv var1) {
       super(var1);
@@ -26,11 +26,11 @@ final class ier extends imn {
       return 21.0F;
    }
 
-   private float iff(String var1) {
+   float iff(String var1) {
       return irr.VALUE.width(wap.value(var1)) + 11.0F;
    }
 
-   private void ifg() {
+   void ifg() {
       List var1 = this.iev.getModes();
       float var2 = 3.0F;
 
@@ -74,7 +74,7 @@ final class ier extends imn {
       }
    }
 
-   private void ifh(DrawContext var1, float var2, float var3, float var4) {
+   void ifh(DrawContext var1, float var2, float var3, float var4) {
       List var5 = this.iev.getModes();
       float var6 = this.ifa + 1.5F;
       float var7 = var6;
@@ -118,7 +118,7 @@ final class ier extends imn {
       }
    }
 
-   private void ifi(DrawContext var1, float var2, float var3) {
+   void ifi(DrawContext var1, float var2, float var3) {
       String var4 = irr.VALUE.ellipsize(wap.value(this.iev.get()), this.ifc - 22.0F);
       float var5 = this.ifb + 7.0F;
       irr.VALUE.draw(var1, var4, this.ifa + 7.0F, irr.VALUE.centerTop(var5), ujt.lerp(iov.textDim, iov.text, 0.6F + var2 * 0.4F));

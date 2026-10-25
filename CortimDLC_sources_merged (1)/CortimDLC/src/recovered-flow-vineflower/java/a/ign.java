@@ -13,40 +13,40 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 public final class ign extends ijy {
-   private static final float igo = 510.0F;
-   private static final float igp = 360.0F;
-   private static final float igq = 12.0F;
-   private static final float igr = 30.0F;
-   private static final float igs = 16.0F;
-   private static final float igt = 146.0F;
-   private static final float igu = 30.0F;
-   private static final float igv = 16.0F;
-   private static final float igw = 10.0F;
-   private final iah igx = new iah(a.d("㶂䐘컙僿\udb78巋\ue785湽\uf02d窙﵃", -1238865262, -1338288299), vhz.PLUS, 24, iah.ANY);
-   private final float igy;
-   private final float igz;
-   private final vcj iha = new vcj(16.0F);
-   private final vcj ihb = new vcj(18.0F);
-   private final List<ige> ihc = new ArrayList<>();
-   private List<tiq> ihd = new ArrayList<>();
-   private tiq ihe;
-   private float ihf;
-   private boolean ihg;
-   private float ihh;
-   private float ihi;
-   private float ihj;
-   private float ihk;
-   private String ihl;
-   private long ihm;
-   private boolean ihn;
-   private String iho;
-   private tiq ihp;
-   private long ihq;
-   private long ihr;
-   private tct ihs;
-   private hlc iht;
+   static final float igo = 510.0F;
+   static final float igp = 360.0F;
+   static final float igq = 12.0F;
+   static final float igr = 30.0F;
+   static final float igs = 16.0F;
+   static final float igt = 146.0F;
+   static final float igu = 30.0F;
+   static final float igv = 16.0F;
+   static final float igw = 10.0F;
+   final iah igx = new iah(a.d("㶂䐘컙僿\udb78巋\ue785湽\uf02d窙﵃", -1238865262, -1338288299), vhz.PLUS, 24, iah.ANY);
+   final float igy;
+   final float igz;
+   final vcj iha = new vcj(16.0F);
+   final vcj ihb = new vcj(18.0F);
+   final List<ige> ihc = new ArrayList<>();
+   List<tiq> ihd = new ArrayList<>();
+   tiq ihe;
+   float ihf;
+   boolean ihg;
+   float ihh;
+   float ihi;
+   float ihj;
+   float ihk;
+   String ihl;
+   long ihm;
+   boolean ihn;
+   String iho;
+   tiq ihp;
+   long ihq;
+   long ihr;
+   tct ihs;
+   hlc iht;
 
-   private ign(float var1, float var2) {
+   ign(float var1, float var2) {
       this.igy = (var1 - 510.0F) * 0.5F;
       this.igz = (var2 - 360.0F) * 0.5F;
       this.igx.onSubmit = this::iia;
@@ -81,7 +81,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ihw(String var1) {
+   void ihw(String var1) {
       tiq var2 = lfa.walkProfile();
       if (var2 == null) {
          for (tiq var4 : this.ihd) {
@@ -114,7 +114,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ihx() {
+   void ihx() {
       tiq var1 = lfa.mineProfile();
       if (var1 == null) {
          for (tiq var3 : this.ihd) {
@@ -142,14 +142,14 @@ public final class ign extends ijy {
       }
    }
 
-   private void ihy() {
+   void ihy() {
       this.ihd = tiq.list();
       if (this.ihe != null) {
          this.ihe = this.ihz(this.ihe.name);
       }
    }
 
-   private tiq ihz(String var1) {
+   tiq ihz(String var1) {
       for (tiq var3 : this.ihd) {
          if (var3.name.equals(var1)) {
             return var3;
@@ -159,7 +159,7 @@ public final class ign extends ijy {
       return null;
    }
 
-   private void iia() {
+   void iia() {
       String var1 = this.igx.text;
       if (tiq.clean(var1).isEmpty()) {
          var1 = wap.s(a.c(-1830752251, "\uf05d觎̀鵸ᚠ途⩎ꏺ"), a.c(1964932682, "穝γ褞᜕鲾ᨌꀨⶵ")) + (this.ihd.size() + 1);
@@ -187,7 +187,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iib(String var1, vhz var2, boolean var3) {
+   void iib(String var1, vhz var2, boolean var3) {
       if (this.iht != null) {
          this.iht.toast(var1, var2, var3);
       }
@@ -262,7 +262,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iic() {
+   void iic() {
       tct var1 = tcz.job();
       if (var1 != null && var1 != this.ihs && var1.done) {
          this.ihs = var1;
@@ -317,7 +317,7 @@ public final class ign extends ijy {
       }
    }
 
-   private static String iid(String var0, boolean var1, boolean var2, boolean var3) {
+   static String iid(String var0, boolean var1, boolean var2, boolean var3) {
       return switch (var0) {
          case a.d("䀜㦮덯", 1327956262, -548847265) -> var3
             ? wap.s(
@@ -350,7 +350,7 @@ public final class ign extends ijy {
       };
    }
 
-   private void iie(DrawContext var1, float var2, float var3) {
+   void iie(DrawContext var1, float var2, float var3) {
       float var4 = this.igz + 15.0F + 1.0F;
       vjf.draw(var1, vhz.LAYERS, this.igy + 12.0F + 5.0F, var4, 10.0F, iov.accent());
       String var5 = wap.s(a.c(899444391, "滥\u177f鶼ϊ蠀\u0efe듾㴈ꍖ⧶긨呟"), a.c(-748384553, "諆\uf35f禀\ue788氡\uee83傼\ud94e䜐췖䨉뀏"));
@@ -446,19 +446,19 @@ public final class ign extends ijy {
       this.ihc.add(new ige(var21, var22, var20, var20, this::close, null));
    }
 
-   private float iif() {
+   float iif() {
       return this.igz + 30.0F + 16.0F;
    }
 
-   private float iig() {
+   float iig() {
       return this.igz + 360.0F - 16.0F - 8.0F - 26.0F - this.iif();
    }
 
-   private float iih() {
+   float iih() {
       return Math.max(0.0F, this.ihd.size() * 34.0F - 4.0F - this.iig());
    }
 
-   private void iii(DrawContext var1, hlc var2, float var3, float var4, float var5) {
+   void iii(DrawContext var1, hlc var2, float var3, float var4, float var5) {
       float var6 = this.igy + 12.0F;
       this.ijn(var1, wap.s(a.c(969497074, "妪‹\uaaf7㒏뽗㧣莹ਫ਼"), a.b("ຑ睿\ufdd2揙\ue872滀풐", -1234892151)), var6, this.igz + 30.0F + 4.0F);
       float var7 = this.iif();
@@ -637,7 +637,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iij(tiq var1) {
+   void iij(tiq var1) {
       long var2 = System.currentTimeMillis();
       if (this.ihp == var1 && var2 - this.ihq <= 3000L) {
          this.ihp = null;
@@ -684,7 +684,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iik(DrawContext var1) {
+   void iik(DrawContext var1) {
       float var2 = this.igy + 12.0F + 146.0F + 10.0F;
       float var3 = this.igy + 510.0F - 12.0F - var2;
       float var4 = this.igz + 180.0F - 10.0F;
@@ -709,7 +709,7 @@ public final class ign extends ijy {
          );
    }
 
-   private void iil(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
+   void iil(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
       tiq var7 = this.ihe;
       float var8 = this.ijn(var1, wap.s(a.c(156140754, "蒏ﴚ矎\ue9b8扨\ue4d0廄흧䤯쎘䑇븫リ\ua956⌂ꗺ"), a.b("㷯䑹캥僓\udb7d巁\ue3fe渕\uf04e竾ﴢݞ覌၊", 164248054)), var4, var5);
       ttl var9 = tcz.mineRecorder();
@@ -905,14 +905,14 @@ public final class ign extends ijy {
       irr.SMALL.draw(var1, irr.SMALL.ellipsize(var45, var6), var4, irr.SMALL.centerTop(var8 + 5.0F), iov.textMuted);
    }
 
-   private static String iim(tiq var0) {
+   static String iim(tiq var0) {
       return a.b("Ź磼\uf22e汄\ue7ab愬\udb6c劋쳕䙯", 1552089394)
             .equals(var0.get(a.d("㺔䜳췭厛\ud809廡\ue4ac浀\uf303", 2109866907, -1940112015), a.c(1484887688, "雎\uef4b料ﯳ瀎\uf694䳍")))
          ? a.d("䌂㪇끕⸿ꗐ⍗餗ჰ躮Д", -621873166, 435401915)
          : a.d("뢌섉䯛햱幌\ud8d6抏", 679289206, -334390852);
    }
 
-   private void iin(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
+   void iin(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
       tiq var7 = this.ihe;
       float var8 = this.ijn(var1, wap.s(a.c(-1002744357, "喝Ⱊꛄ㢲덧㗑辋ؽ頰ኖ镃漾\ue1f4硓\uf20d瓻캽"), a.b("ↁ堗틋䲽윓䆯ﾐ爄\uec20暛\ue130ᬼ閑", 1152198043)), var4, var5);
       tyd var9 = tcz.walkRecorder();
@@ -1107,7 +1107,7 @@ public final class ign extends ijy {
       irr.SMALL.draw(var1, irr.SMALL.ellipsize(var44, var6), var4, irr.SMALL.centerTop(var8 + 5.0F), iov.textMuted);
    }
 
-   private void iio(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
+   void iio(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
       txs var8 = var4.walkModel();
       if (var8 == null) {
          boolean var25 = a.c(1353163000, "ꂔ\ud926叽").equals(var4.walkIssue());
@@ -1328,7 +1328,7 @@ public final class ign extends ijy {
       }
    }
 
-   private static double iip(txs var0) {
+   static double iip(txs var0) {
       double var1 = -1.0;
 
       for (tvz var6 : new tvz[]{
@@ -1342,7 +1342,7 @@ public final class ign extends ijy {
       return var1;
    }
 
-   private void iiq(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
+   void iiq(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
       tiq var7 = this.ihe;
       if (var7.walk()) {
          this.iin(var1, var2, var3, var4, var5, var6);
@@ -1566,7 +1566,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iir(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
+   void iir(DrawContext var1, float var2, float var3, float var4, float var5, float var6) {
       tiq var7 = this.ihe;
       boolean var8 = var7.aura();
       boolean var9 = var7.mine();
@@ -1638,7 +1638,7 @@ public final class ign extends ijy {
       this.iit(var1, var2, var3, var7, var4, var12, var6);
    }
 
-   private float iis(DrawContext var1, float var2, float var3, tiq var4, boolean var5, boolean var6, boolean var7, float var8, float var9, float var10) {
+   float iis(DrawContext var1, float var2, float var3, tiq var4, boolean var5, boolean var6, boolean var7, float var8, float var9, float var10) {
       this.ijr(
          var1,
          var2,
@@ -1762,7 +1762,7 @@ public final class ign extends ijy {
       return var9 + 16.0F;
    }
 
-   private void iit(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
+   void iit(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
       boolean var8 = var4.aura();
       boolean var9 = var4.mine();
       boolean var10 = var4.walk();
@@ -2021,7 +2021,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iiu(DrawContext var1, float var2, float var3, tiq var4, tck var5, float var6, float var7, float var8) {
+   void iiu(DrawContext var1, float var2, float var3, tiq var4, tck var5, float var6, float var7, float var8) {
       String var9 = new SimpleDateFormat(a.b("萮ﶟ眆\ue914拃\ue41f帤ퟕ䧸쌞䓍", 714703937), Locale.ROOT).format(new Date(var5.created));
       irr.LABEL
          .draw(
@@ -2219,7 +2219,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iiv(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
+   void iiv(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
       ttb var8 = var4.mineModel();
       if (var8 == null) {
          boolean var27 = a.b("먨쎚䥁", -109462972).equals(var4.mineIssue());
@@ -2459,7 +2459,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iiw(tiq var1) {
+   void iiw(tiq var1) {
       if (this.ihe != var1) {
          this.ihg = false;
          this.ihi = 0.0F;
@@ -2471,7 +2471,7 @@ public final class ign extends ijy {
       }
    }
 
-   private static String iix(tiq var0) {
+   static String iix(tiq var0) {
       if (!eyn.online()) {
          return wap.s(a.d("횄꼵╱뮗\u3040뚲೮蔜᭙釹᙮\uec50抎\ufb3f", 385415165, -1842273961), a.b("固⽋ꔏ㯩뀾㊑裍Ķ齢ᗙ鈎污\ue6a4罬\uf54e玾", 1968199370));
       } else if (var0.recordingsLoading()) {
@@ -2490,7 +2490,7 @@ public final class ign extends ijy {
       }
    }
 
-   private List<eyg> iiy(tiq var1) {
+   List<eyg> iiy(tiq var1) {
       ArrayList var2 = new ArrayList();
       String var3 = var1.kind();
 
@@ -2503,7 +2503,7 @@ public final class ign extends ijy {
       return var2;
    }
 
-   private void iiz(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6) {
+   void iiz(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6) {
       int var7 = this.iiy(var4).size();
       tik var8 = var4.cloud(var4.kind());
       String var9 = this.ihg
@@ -2539,7 +2539,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ija(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
+   void ija(DrawContext var1, float var2, float var3, tiq var4, float var5, float var6, float var7) {
       float var8 = this.igz + 360.0F - 16.0F - 12.0F;
       if (!eyn.online()) {
          irr.SMALL
@@ -2729,7 +2729,7 @@ public final class ign extends ijy {
       }
    }
 
-   private static String ijb(eyg var0) {
+   static String ijb(eyg var0) {
       Map var1 = var0.meta();
       if (a.d("ꟃ\ude64咺쫌", -356377622, 1701755994).equals(var1.get(a.d("뮣숐䣄횿", -1053645378, 2131566194)))) {
          return wap.s(a.d("馢\ue01d櫒\uf4a9缭", -1354311621, -1253424649), a.c(841166283, "⧹偉\uda91䓢켿䧾\uf3dd縴"))
@@ -2763,7 +2763,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ijc(DrawContext var1, String var2, String var3, double var4, double var6, float var8, float var9, float var10) {
+   void ijc(DrawContext var1, String var2, String var3, double var4, double var6, float var8, float var9, float var10) {
       irr.SMALL.draw(var1, var2 + a.d("업뱴", 1573951842, 768433285) + var3, var8, irr.SMALL.centerTop(var9 + 5.0F), iov.textDim);
       String var11 = Double.isNaN(var6)
          ? ""
@@ -2774,11 +2774,11 @@ public final class ign extends ijy {
       irr.LABEL.drawRight(var1, ijd(var4), var8 + var10 - var12, irr.LABEL.centerTop(var9 + 5.0F), var13);
    }
 
-   private static String ijd(double var0) {
+   static String ijd(double var0) {
       return Double.isNaN(var0) ? a.b("蝎", -1833982117) : Math.round(var0) + a.b("朋", -232036561);
    }
 
-   private void ije(tiq var1) {
+   void ije(tiq var1) {
       long var2 = System.currentTimeMillis();
       if (var2 - this.ihr > 3000L) {
          this.ihr = var2;
@@ -2803,7 +2803,7 @@ public final class ign extends ijy {
       }
    }
 
-   private static void ijf(tiq var0, int var1) {
+   static void ijf(tiq var0, int var1) {
       int[] var2 = tiq.BOOSTS;
       int var3 = 0;
 
@@ -2817,24 +2817,24 @@ public final class ign extends ijy {
       var0.save();
    }
 
-   private static void ijg(tiq var0, String var1, int var2) {
+   static void ijg(tiq var0, String var1, int var2) {
       var0.set(var1, var2);
       var0.save();
    }
 
-   private static void ijh(tiq var0, String var1, double var2) {
+   static void ijh(tiq var0, String var1, double var2) {
       var0.set(var1, Math.round(var2 * 100.0) / 100.0);
       var0.save();
    }
 
-   private static void iji(tiq var0, double var1) {
+   static void iji(tiq var0, double var1) {
       double var3 = Math.max(2.6, Math.min(6.5, var0.standFar() + var1));
       var0.set(a.c(-334764225, "\ue746黰ᐶ詈ƕ蜳㴽뒄⫝̸ꁾ"), Math.round(var3 * 10.0) / 10.0);
       var0.set(a.d("∻宍텋伵쓨䉎\uf840燱\uefa5攐\ue2d0", 660026003, -313782064), Math.round(Math.max(2.0, var3 - 1.2) * 10.0) / 10.0);
       var0.save();
    }
 
-   private static void ijj(tiq var0, String var1, String[] var2, String var3, int var4) {
+   static void ijj(tiq var0, String var1, String[] var2, String var3, int var4) {
       int var5 = 0;
 
       for (int var6 = 0; var6 < var2.length; var6++) {
@@ -2847,7 +2847,7 @@ public final class ign extends ijy {
       var0.save();
    }
 
-   private static String ijk(String var0) {
+   static String ijk(String var0) {
       return switch (var0) {
          case a.c(-1369665500, "遤\ue9e4挧ﵟ") -> wap.s(a.b("ꭤ틤堧왟", 1368238884), a.b("볅씣俾퇹婙", 1242478804));
          case a.d("ߍ繛\uf48e櫬\ue13c枎", 1144288218, 39810114) -> wap.s(a.b("ꠔ톂字씵以졗", -823285695), a.d("뗇찕䛄\ud8c0匛헗", -565333163, -873725259));
@@ -2858,7 +2858,7 @@ public final class ign extends ijy {
       };
    }
 
-   private static String ijl(String var0) {
+   static String ijl(String var0) {
       return switch (var0) {
          case a.b("뛕콃䖂\udbf4", -1503349097) -> wap.s(a.d("땱쳧䘦\ud850", -1495355796, -1639834785), a.c(691533611, "\uf33c諗\u000e鹼ᖩ鍦"));
          case a.d("ࣉ煔ﮞ", -432960288, 919503975) -> wap.s(a.d("琉ඔ蝞", -2064260870, 719295677), a.d("ᯪ扷\ue8ae皤ﴊ箿솓䠝", 419407606, -38029048));
@@ -2866,7 +2866,7 @@ public final class ign extends ijy {
       };
    }
 
-   private static String ijm(String var0) {
+   static String ijm(String var0) {
       return switch (var0) {
          case a.c(1802573855, "ᡉ懆\ueb19略ﺲ") -> wap.s(a.c(452122618, "\ud7ac긣⓼몀ㅗ"), a.c(819771376, "돩쩴䂬\uded6啾"));
          case a.c(466998349, "퐄궘❘뤼㋩") -> wap.s(a.d("鬣\ue2bf桿\uf61b緎", 1665900776, 359349122), a.b("\uf31c誂T鹒ᖁ鍈⥤", -1924729078));
@@ -2874,24 +2874,24 @@ public final class ign extends ijy {
       };
    }
 
-   private float ijn(DrawContext var1, String var2, float var3, float var4) {
+   float ijn(DrawContext var1, String var2, float var3, float var4) {
       irr.SECTION.draw(var1, var2.toUpperCase(Locale.ROOT), var3, irr.SECTION.centerTop(var4 + 5.0F), iov.textMuted);
       return var4 + 12.0F;
    }
 
-   private void ijo(DrawContext var1, String var2, String var3, float var4, float var5, float var6, boolean var7) {
+   void ijo(DrawContext var1, String var2, String var3, float var4, float var5, float var6, boolean var7) {
       float var8 = 26.0F;
       uut.round(var1, var4, var5, var6, var8, iov.r(6.0F), iov.field);
       irr.CARD_TITLE.draw(var1, var3, var4 + 7.0F, irr.CARD_TITLE.centerTop(var5 + 9.0F), var7 ? iov.accent() : iov.text);
       irr.SMALL.draw(var1, irr.SMALL.ellipsize(var2, var6 - 10.0F), var4 + 7.0F, irr.SMALL.centerTop(var5 + 19.5F), iov.textMuted);
    }
 
-   private void ijp(DrawContext var1, String var2, String var3, float var4, float var5, float var6) {
+   void ijp(DrawContext var1, String var2, String var3, float var4, float var5, float var6) {
       irr.SMALL.draw(var1, var2, var4, irr.SMALL.centerTop(var5 + 5.0F), iov.textDim);
       irr.SMALL.drawRight(var1, var3, var4 + var6, irr.SMALL.centerTop(var5 + 5.0F), iov.text);
    }
 
-   private void ijq(DrawContext var1, float var2, float var3, String var4, boolean var5, float var6, float var7, float var8, Runnable var9, String var10) {
+   void ijq(DrawContext var1, float var2, float var3, String var4, boolean var5, float var6, float var7, float var8, Runnable var9, String var10) {
       boolean var11 = irr.inside(var2, var3, var6, var7, var8, 16.0F);
       irr.LABEL.draw(var1, irr.LABEL.ellipsize(var4, var8 - 17.0F - 6.0F), var6, irr.LABEL.centerTop(var7 + 8.0F), var11 ? iov.text : iov.textDim);
       irr.drawSwitch(var1, var6 + var8 - 17.0F, var7 + 3.25F, var5 ? 1.0F : 0.0F, var11 ? 1.0F : 0.0F);
@@ -2901,7 +2901,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ijr(
+   void ijr(
       DrawContext var1, float var2, float var3, String var4, String var5, float var6, float var7, float var8, Runnable var9, Runnable var10, String var11
    ) {
       boolean var12 = irr.inside(var2, var3, var6, var7, var8, 16.0F);
@@ -2914,7 +2914,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ijs(
+   void ijs(
       DrawContext var1, float var2, float var3, String var4, String var5, float var6, float var7, float var8, Runnable var9, Runnable var10, String var11
    ) {
       irr.LABEL.draw(var1, var4, var6, irr.LABEL.centerTop(var7 + 8.0F), iov.textDim);
@@ -2938,7 +2938,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void ijt(DrawContext var1, float[] var2, float var3, float var4, float var5, float var6) {
+   void ijt(DrawContext var1, float[] var2, float var3, float var4, float var5, float var6) {
       uut.round(var1, var3, var4, var5, var6, iov.r(4.0F), iov.field);
       if (var2.length >= 2) {
          float var7 = Float.MAX_VALUE;
@@ -2971,7 +2971,7 @@ public final class ign extends ijy {
       }
    }
 
-   private void iju(DrawContext var1) {
+   void iju(DrawContext var1) {
       float var2 = this.igz + 360.0F - 8.0F - 5.0F;
       uut.rect(var1, this.igy + 12.0F, this.igz + 360.0F - 16.0F - 8.0F, 486.0F, 1.0F, iov.divider);
       boolean var3 = this.ihe != null && this.ihe.aura();
@@ -3032,15 +3032,15 @@ public final class ign extends ijy {
       irr.SMALL.draw(var1, irr.SMALL.ellipsize(var6, 486.0F), this.igy + 12.0F, irr.SMALL.centerTop(var2), this.iho != null ? iov.text : iov.textMuted);
    }
 
-   private static String ijv(long var0) {
+   static String ijv(long var0) {
       return var0 / 60L + a.b("齞", -1501126811) + String.format(Locale.ROOT, a.c(1057187625, "月Ậ鑽ਗ਼"), var0 % 60L);
    }
 
-   private static String ijw(double var0) {
+   static String ijw(double var0) {
       return String.format(Locale.ROOT, a.d("䚰㼊뗆⯠", -393168842, 1176698535), var0);
    }
 
-   private static String ijx(double var0) {
+   static String ijx(double var0) {
       return String.format(Locale.ROOT, a.d("ꉇ\udbfd儳켗", -407176391, 37443935), var0);
    }
 

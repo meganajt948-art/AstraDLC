@@ -1,16 +1,16 @@
 package a;
 
 final class saw {
-   private final double sax;
-   private final double say;
-   private final double saz;
-   private final float sba;
-   private final float sbb;
-   private final float sbc;
-   private final long sbd;
-   private final float sbe;
+   final double sax;
+   final double say;
+   final double saz;
+   final float sba;
+   final float sbb;
+   final float sbc;
+   final long sbd;
+   final float sbe;
 
-   private saw(double x, double y, double z, float fx, float fz, float side, long at, float strength) {
+   saw(double x, double y, double z, float fx, float fz, float side, long at, float strength) {
       this.sax = x;
       this.say = y;
       this.saz = z;

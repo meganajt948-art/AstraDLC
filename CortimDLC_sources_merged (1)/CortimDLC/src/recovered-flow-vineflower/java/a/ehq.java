@@ -11,8 +11,8 @@ import net.minecraft.network.packet.c2s.common.ResourcePackStatusC2SPacket.Statu
 import net.minecraft.network.packet.s2c.common.ResourcePackSendS2CPacket;
 
 final class ehq {
-   private final List<ehn> ehr = new ArrayList<>();
-   private final Random ehs = new Random();
+   final List<ehn> ehr = new ArrayList<>();
+   final Random ehs = new Random();
 
    void offer(ResourcePackSendS2CPacket var1, ClientConnection var2) {
       String var3 = var1.url();

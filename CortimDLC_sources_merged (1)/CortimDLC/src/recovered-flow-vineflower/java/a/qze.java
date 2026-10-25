@@ -24,9 +24,9 @@ import net.minecraft.util.Identifier;
 import org.lwjgl.system.MemoryStack;
 
 public class qze extends kfe {
-   private static qze qzf;
-   private final vmc qzg = this.add(new vmc("Ratio", 1.33, 0.5, 3.0, 0.01).format(var0 -> vxu.fixed(var0, 2) + " : 1"));
-   private static final RenderPipeline qzh = RenderPipeline.builder()
+   static qze qzf;
+   final vmc qzg = this.add(new vmc("Ratio", 1.33, 0.5, 3.0, 0.01).format(var0 -> vxu.fixed(var0, 2) + " : 1"));
+   static final RenderPipeline qzh = RenderPipeline.builder()
       .withLocation(Identifier.of("flow2", "pipeline/stretch"))
       .withVertexShader(Identifier.of("flow2", "core/blur"))
       .withFragmentShader(Identifier.of("flow2", "core/stretch"))
@@ -37,12 +37,12 @@ public class qze extends kfe {
       .withCull(false)
       .withVertexFormat(VertexFormats.EMPTY, DrawMode.TRIANGLES)
       .build();
-   private GpuTexture qzi;
-   private GpuTextureView qzj;
-   private GpuBuffer qzk;
-   private int qzl = -1;
-   private int qzm = -1;
-   private boolean qzn;
+   GpuTexture qzi;
+   GpuTextureView qzj;
+   GpuBuffer qzk;
+   int qzl = -1;
+   int qzm = -1;
+   boolean qzn;
 
    public qze() {
       super("AspectRatio", "Stretched resolution: change the screen's width with a slider", kfa.RENDER);
@@ -61,7 +61,7 @@ public class qze extends kfe {
       }
    }
 
-   private void qzq() {
+   void qzq() {
       MinecraftClient var1 = MinecraftClient.getInstance();
       Framebuffer var2 = var1.getFramebuffer();
       if (var1.world != null && var2 != null && var2.getColorAttachment() != null && var2.textureWidth >= 4 && var2.textureHeight >= 4) {
@@ -110,7 +110,7 @@ public class qze extends kfe {
       }
    }
 
-   private void qzr(GpuDevice var1, int var2, int var3) {
+   void qzr(GpuDevice var1, int var2, int var3) {
       if (this.qzk == null) {
          this.qzk = var1.createBuffer(() -> "Flow2 aspect ratio", 136, 16L);
       }
@@ -125,7 +125,7 @@ public class qze extends kfe {
       }
    }
 
-   private void qzs() {
+   void qzs() {
       if (this.qzj != null) {
          this.qzj.close();
          this.qzj = null;

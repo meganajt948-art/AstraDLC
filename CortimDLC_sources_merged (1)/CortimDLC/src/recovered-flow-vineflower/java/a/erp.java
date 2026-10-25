@@ -19,22 +19,22 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public final class erp {
-   private static final int erq = 10;
-   private static final double err = 0.35;
-   private static final int ers = 5;
-   private static final int ert = 22;
-   private static final int eru = 15527144;
-   private static final double erv = Math.log(2.0);
-   private static final String erw = new String(new char[]{'f', 'l', 'o', 'w'});
-   private static final String erx = new String(new char[]{'c', 'a', 'p', 't', 'c', 'h', 'a', '/', 'd', 'i', 'g', 'i', 't', 's', '.', 'o', 'n', 'n', 'x'});
-   private static final Object ery = new Object();
-   private static volatile eqc erz;
-   private static final ThreadPoolExecutor esa = esd();
+   static final int erq = 10;
+   static final double err = 0.35;
+   static final int ers = 5;
+   static final int ert = 22;
+   static final int eru = 15527144;
+   static final double erv = Math.log(2.0);
+   static final String erw = new String(new char[]{'f', 'l', 'o', 'w'});
+   static final String erx = new String(new char[]{'c', 'a', 'p', 't', 'c', 'h', 'a', '/', 'd', 'i', 'g', 'i', 't', 's', '.', 'o', 'n', 'n', 'x'});
+   static final Object ery = new Object();
+   static volatile eqc erz;
+   static final ThreadPoolExecutor esa = esd();
 
-   private erp() {
+   erp() {
    }
 
-   private static ThreadPoolExecutor esd() {
+   static ThreadPoolExecutor esd() {
       int var0 = Math.max(1, Math.min(6, Runtime.getRuntime().availableProcessors() - 1));
       ThreadPoolExecutor var1 = new ThreadPoolExecutor(var0, var0, 20L, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), var0x -> {
          Thread var1x = Executors.defaultThreadFactory().newThread(var0x);
@@ -149,7 +149,7 @@ public final class erp {
       return new erk(var15, var20 * Math.min(1.0, var22 * 2.5));
    }
 
-   private static String ese(float[][] var0) {
+   static String ese(float[][] var0) {
       StringBuilder var1 = new StringBuilder();
       int var2 = 10;
 
@@ -172,7 +172,7 @@ public final class erp {
       return var1.toString();
    }
 
-   private static double esf(float[][] var0, String var1) {
+   static double esf(float[][] var0, String var1) {
       int var2 = var1.length() * 2 + 1;
       int[] var3 = new int[var2];
       var3[0] = 10;
@@ -211,7 +211,7 @@ public final class erp {
       return esg(var6[var2 - 1], var6[var2 - 2]);
    }
 
-   private static double esg(double var0, double var2) {
+   static double esg(double var0, double var2) {
       if (var0 == var2) {
          return var0 + erv;
       }
@@ -220,7 +220,7 @@ public final class erp {
       return var4 > 0.0 ? var0 + Math.log1p(Math.exp(-var4)) : var2 + Math.log1p(Math.exp(var4));
    }
 
-   private static float[][] esh(float[][] var0) {
+   static float[][] esh(float[][] var0) {
       float[][] var1 = new float[var0.length][];
 
       for (int var2 = 0; var2 < var0.length; var2++) {
@@ -270,7 +270,7 @@ public final class erp {
       return new eqw(var3, var1, var2);
    }
 
-   private static int esi(int var0, int var1, int var2) {
+   static int esi(int var0, int var1, int var2) {
       int var3 = var0 * var1 + 255 * var2 + 16384;
       return (var3 >> 8) + var3 >> 8 >> 7;
    }
@@ -307,7 +307,7 @@ public final class erp {
       return var3;
    }
 
-   private static eqw esj(eqw var0, int var1, int var2, int var3, int var4) {
+   static eqw esj(eqw var0, int var1, int var2, int var3, int var4) {
       int var5 = var3 - var1;
       int var6 = var4 - var2;
       int[] var7 = new int[var5 * var6];
@@ -332,7 +332,7 @@ public final class erp {
       return var3;
    }
 
-   private static eqw esk(eqw var0, int var1, boolean var2) {
+   static eqw esk(eqw var0, int var1, boolean var2) {
       int var3 = var2 ? var0.w() : var0.h();
       double var4 = (double)var3 / var1;
       double var6 = Math.max(1.0, var4);
@@ -406,7 +406,7 @@ public final class erp {
       return new eqw(var16, var32, var33);
    }
 
-   private static int esl(int var0) {
+   static int esl(int var0) {
       int var1 = var0 >> 22;
       return var1 < 0 ? 0 : Math.min(var1, 255);
    }
@@ -426,7 +426,7 @@ public final class erp {
       return var2;
    }
 
-   private static eqc esm() throws erh {
+   static eqc esm() throws erh {
       eqc var0 = erz;
       if (var0 != null) {
          return var0;
@@ -452,7 +452,7 @@ public final class erp {
       }
    }
 
-   private static byte[] esn(String var0) {
+   static byte[] esn(String var0) {
       try (InputStream var1 = ezj.open(a.c(-1900730780, "♊") + erw + a.c(-1866488690, "꒠") + var0)) {
          if (var1 == null) {
             return null;

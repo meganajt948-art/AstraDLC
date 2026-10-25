@@ -6,7 +6,7 @@ public final class trd {
    public static final int WORKING = 8;
    public static final int DIA_WEIGHT = 6;
 
-   private trd() {
+   trd() {
    }
 
    public static void diff(tvn var0, tvn var1, double var2, double var4, double var6, int[] var8) {

@@ -14,7 +14,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 
 public final class txf {
-   private txf() {
+   txf() {
    }
 
    public static boolean hazard(BlockState var0) {

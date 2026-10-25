@@ -1,9 +1,9 @@
 package a;
 
 public final class vxu {
-   private static final long[] vxv = new long[]{1L, 10L, 100L, 1000L, 10000L};
+   static final long[] vxv = new long[]{1L, 10L, 100L, 1000L, 10000L};
 
-   private vxu() {
+   vxu() {
    }
 
    public static String fixed(double var0, int var2) {
@@ -52,7 +52,7 @@ public final class vxu {
       return var2.toString();
    }
 
-   private static void vxy(StringBuilder var0, long var1) {
+   static void vxy(StringBuilder var0, long var1) {
       if (var1 < 10L) {
          var0.append('0');
       }

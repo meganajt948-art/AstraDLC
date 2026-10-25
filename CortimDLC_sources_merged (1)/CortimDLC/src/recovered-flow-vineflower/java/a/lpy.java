@@ -10,11 +10,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public final class lpy {
-   private static final float lpz = 0.9F;
-   private final lmn lqa = new lmn();
-   private final lqk lqb = new lqk();
-   private final lme lqc = new lme();
-   private LivingEntity lqd;
+   static final float lpz = 0.9F;
+   final lmn lqa = new lmn();
+   final lqk lqb = new lqk();
+   final lme lqc = new lme();
+   LivingEntity lqd;
 
    public lmn path() {
       return this.lqa;
@@ -76,7 +76,7 @@ public final class lpy {
       this.lqd = null;
    }
 
-   private int lqg() {
+   int lqg() {
       for (int var1 = 0; var1 < 40; var1++) {
          if (this.lqa.smash(var1)) {
             return var1;
@@ -86,7 +86,7 @@ public final class lpy {
       return -1;
    }
 
-   private lpp lqh(ClientPlayerEntity var1, World var2, LivingEntity var3, int var4, lpc var5) {
+   lpp lqh(ClientPlayerEntity var1, World var2, LivingEntity var3, int var4, lpc var5) {
       this.lqb.predict(var3, var2);
       lpp var6 = null;
       lpp var7 = null;
@@ -120,13 +120,13 @@ public final class lpy {
       return var6 != null ? var6 : var7;
    }
 
-   private static boolean lqi(lpc var0, Vec3d var1, Vec3d var2, int var3) {
+   static boolean lqi(lpc var0, Vec3d var1, Vec3d var2, int var3) {
       double var4 = MathHelper.wrapDegrees(lme.yaw(var1, var2) - var0.lookYaw());
       double var6 = lme.pitch(var1, var2) - var0.lookPitch();
       return Math.sqrt(var4 * var4 + var6 * var6) <= var0.maxTurn() * (var3 + 1) + 0.5;
    }
 
-   private static boolean lqj(ClientPlayerEntity var0, int var1) {
+   static boolean lqj(ClientPlayerEntity var0, int var1) {
       return var0.getAttackCooldownProgress(0.5F + var1) > 0.9F;
    }
 }

@@ -14,16 +14,16 @@ import net.minecraft.world.World;
 public final class lmn {
    public static final int HORIZON = 40;
    public static final double SMASH_FALL = 1.52;
-   private static final int lmo = 2;
-   private static final int lmp = 43;
-   private final double[] lmq = new double[43];
-   private final double[] lmr = new double[43];
-   private final double[] lms = new double[43];
-   private final double[] lmt = new double[43];
-   private final boolean[] lmu = new boolean[43];
-   private int lmv = 43;
-   private double lmw = 1.52;
-   private double lmx = Double.MAX_VALUE;
+   static final int lmo = 2;
+   static final int lmp = 43;
+   final double[] lmq = new double[43];
+   final double[] lmr = new double[43];
+   final double[] lms = new double[43];
+   final double[] lmt = new double[43];
+   final boolean[] lmu = new boolean[43];
+   int lmv = 43;
+   double lmw = 1.52;
+   double lmx = Double.MAX_VALUE;
 
    public void threshold(double var1) {
       this.threshold(var1, Double.MAX_VALUE);
@@ -183,7 +183,7 @@ public final class lmn {
          && var1.getStatesInBox(var0.getBoundingBox().contract(1.0E-7)).noneMatch(lmn::lna);
    }
 
-   private static boolean lna(BlockState var0) {
+   static boolean lna(BlockState var0) {
       return var0.isOf(Blocks.COBWEB) || var0.isOf(Blocks.SWEET_BERRY_BUSH) || var0.isOf(Blocks.POWDER_SNOW);
    }
 }

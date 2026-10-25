@@ -10,9 +10,9 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Items;
 
 public final class egl {
-   private static List<emu> egm;
+   static List<emu> egm;
 
-   private egl() {
+   egl() {
    }
 
    public static List<emu> entries() {
@@ -31,7 +31,7 @@ public final class egl {
       return egm;
    }
 
-   private static List<emu> egp() {
+   static List<emu> egp() {
       return List.of(
          emu.of(a.b("뺯\ue140䷋폇尕\udaba惬\ue91c眿ﶅ稤聟", -1704673544), Items.SPLASH_POTION)
             .effect(StatusEffects.SLOWNESS, 10, 200)

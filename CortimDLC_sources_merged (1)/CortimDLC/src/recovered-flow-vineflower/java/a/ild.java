@@ -9,26 +9,26 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 
 final class ild extends imn {
-   private static final float ile = 26.0F;
-   private static final float ilf = 3.0F;
-   private static final float ilg = 16.0F;
-   private static final float ilh = 18.0F;
-   private static final float ili = 24.0F;
-   private static final float ilj = 58.0F;
-   private final Map<String, vcj[]> ilk = new HashMap<>();
-   private final vcj ill = new vcj(16.0F);
-   private String ilm;
-   private long iln;
+   static final float ile = 26.0F;
+   static final float ilf = 3.0F;
+   static final float ilg = 16.0F;
+   static final float ilh = 18.0F;
+   static final float ili = 24.0F;
+   static final float ilj = 58.0F;
+   final Map<String, vcj[]> ilk = new HashMap<>();
+   final vcj ill = new vcj(16.0F);
+   String ilm;
+   long iln;
 
    ild() {
       super(null);
    }
 
-   private static List<ubg> ilq() {
+   static List<ubg> ilq() {
       return ucg.invites();
    }
 
-   private static List<ubm> ilr() {
+   static List<ubm> ilr() {
       return ucg.inParty() ? ucg.members() : List.of();
    }
 
@@ -38,19 +38,19 @@ final class ild extends imn {
       return var1 == 0 ? 58.0F : 2.0F + var1 * 29.0F + (ucg.inParty() ? 24.0F : 0.0F);
    }
 
-   private float ils(int var1) {
+   float ils(int var1) {
       return this.y + 2.0F + var1 * 29.0F;
    }
 
-   private vcj[] ilt(String var1) {
+   vcj[] ilt(String var1) {
       return this.ilk.computeIfAbsent(var1, var0 -> new vcj[]{new vcj(9.0F), new vcj(14.0F), new vcj(18.0F), new vcj(18.0F)});
    }
 
-   private float ilu() {
+   float ilu() {
       return this.x + this.w - 6.0F - 18.0F;
    }
 
-   private float ilv() {
+   float ilv() {
       return this.ilu() - 18.0F - 3.0F;
    }
 
@@ -117,7 +117,7 @@ final class ild extends imn {
       }
    }
 
-   private void ilw(DrawContext var1, hlc var2, ubg var3, float var4, float var5, float var6, float var7) {
+   void ilw(DrawContext var1, hlc var2, ubg var3, float var4, float var5, float var6, float var7) {
       vcj[] var8 = this.ilt(a.c(-120173457, "䰄㗦") + var3.party);
       float var9 = vcq.outCubic(var8[0].step(1.0F, var7));
       boolean var10 = var2.canHover() && irr.inside(var5, var6, this.x, var4, this.w, 26.0F);
@@ -173,7 +173,7 @@ final class ild extends imn {
       uut.popAlpha();
    }
 
-   private void ilx(DrawContext var1, hlc var2, ubm var3, float var4, float var5, float var6, float var7) {
+   void ilx(DrawContext var1, hlc var2, ubm var3, float var4, float var5, float var6, float var7) {
       vcj[] var8 = this.ilt(a.d("Ⴋ楍", -1335554178, 1029644218) + var3.code);
       float var9 = vcq.outCubic(var8[0].step(1.0F, var7));
       boolean var10 = var2.canHover() && irr.inside(var5, var6, this.x, var4, this.w, 26.0F);
@@ -264,7 +264,7 @@ final class ild extends imn {
       uut.popAlpha();
    }
 
-   private static String ily(String var0) {
+   static String ily(String var0) {
       if (var0.startsWith(a.c(-988806947, "³礟\uf386"))) {
          return var0.substring(3);
       } else {

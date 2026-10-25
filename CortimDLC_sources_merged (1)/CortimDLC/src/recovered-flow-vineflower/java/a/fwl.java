@@ -10,11 +10,11 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 public final class fwl {
-   private static int fwm;
-   private static int fwn;
-   private static jte fwo;
+   static int fwm;
+   static int fwn;
+   static jte fwo;
 
-   private fwl() {
+   fwl() {
    }
 
    public static void install() {
@@ -24,7 +24,7 @@ public final class fwl {
       }
    }
 
-   private static void fwr(MinecraftClient var0) {
+   static void fwr(MinecraftClient var0) {
       fwn++;
 
       try {
@@ -116,19 +116,19 @@ public final class fwl {
       }
    }
 
-   private static void fws(String var0) throws Exception {
+   static void fws(String var0) throws Exception {
       Method var1 = jte.class.getDeclaredMethod(a.d("열뱜㚅꣼", -13756320, -1431118368), kbs.class);
       var1.setAccessible(true);
       var1.invoke(fwo, kbs.byKey(var0));
    }
 
-   private static void fwt(String var0, Object var1) throws Exception {
+   static void fwt(String var0, Object var1) throws Exception {
       Field var2 = jte.class.getDeclaredField(var0);
       var2.setAccessible(true);
       var2.set(fwo, var1);
    }
 
-   private static void fwu(MinecraftClient var0, String var1) {
+   static void fwu(MinecraftClient var0, String var1) {
       System.out.println(a.b("\uf25a诡ı齘ᓘ鈤⡿ꆅ㿁딥㊢죂䘃\udfb5喲", 195752499) + var1);
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory, a.d("䂚㤡돱\u2d98ꘊ₤", 1867066142, 771714020) + var1 + a.c(757021108, "㦞䁱쪼哄"), var0.getFramebuffer(), 1, var0x -> {}

@@ -15,20 +15,20 @@ import org.joml.Quaternionf;
 import org.joml.Vector4f;
 
 public final class usn {
-   private static Method uso;
-   private static boolean usp;
-   private final Matrix4f usq;
-   private final Matrix4f usr;
-   private final Matrix4f uss;
-   private final Vec3d ust;
-   private final float usu;
-   private final float usv;
-   private static usn usw;
-   private static long usx = -1L;
-   private static float usy = Float.NaN;
-   private final Vector4f usz = new Vector4f();
+   static Method uso;
+   static boolean usp;
+   final Matrix4f usq;
+   final Matrix4f usr;
+   final Matrix4f uss;
+   final Vec3d ust;
+   final float usu;
+   final float usv;
+   static usn usw;
+   static long usx = -1L;
+   static float usy = Float.NaN;
+   final Vector4f usz = new Vector4f();
 
-   private usn(Matrix4f var1, Matrix4f var2, Vec3d var3, float var4, float var5) {
+   usn(Matrix4f var1, Matrix4f var2, Vec3d var3, float var4, float var5) {
       this.usq = var1;
       this.usr = var2;
       this.uss = new Matrix4f(var1).mul(var2);
@@ -54,7 +54,7 @@ public final class usn {
       return utc(var0, var1, var2);
    }
 
-   private static usn utc(float var0, float var1, float var2) {
+   static usn utc(float var0, float var1, float var2) {
       MinecraftClient var3 = MinecraftClient.getInstance();
       GameRenderer var4 = var3.gameRenderer;
       Camera var5 = var4.getCamera();
@@ -67,7 +67,7 @@ public final class usn {
       return new usn(var6, var9, var5.getCameraPos(), var1, var2);
    }
 
-   private static float utd(GameRenderer var0, Camera var1, float var2) {
+   static float utd(GameRenderer var0, Camera var1, float var2) {
       if (uso == null && !usp) {
          for (Method var6 : GameRenderer.class.getDeclaredMethods()) {
             Class[] var7 = var6.getParameterTypes();
@@ -93,7 +93,7 @@ public final class usn {
       return MinecraftClient.getInstance().options.getFov().getValue().floatValue();
    }
 
-   private static Matrix4f ute(AbstractClientPlayerEntity var0, float var1) {
+   static Matrix4f ute(AbstractClientPlayerEntity var0, float var1) {
       ClientPlayerLikeState var2 = var0.getState();
       float var3 = var2.getReverseLerpedDistanceMoved(var1);
       float var4 = var2.lerpMovement(var1);

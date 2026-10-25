@@ -3,9 +3,9 @@ package a;
 import net.minecraft.item.ItemStack;
 
 public final class vuc {
-   private final int vud;
-   private final int vue;
-   private final ItemStack vuf;
+   final int vud;
+   final int vue;
+   final ItemStack vuf;
 
    public vuc(int index, int entry, ItemStack stack) {
       this.vud = index;

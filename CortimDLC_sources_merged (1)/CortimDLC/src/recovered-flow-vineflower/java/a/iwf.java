@@ -12,28 +12,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
 public final class iwf extends Screen {
-   private static final float iwg = (float) (Math.PI * 2);
-   private static final float iwh = 30.0F;
-   private static final float iwi = 12.0F;
-   private static final float iwj = 19.0F;
-   private static final float iwk = 9.0F;
-   private static final long iwl = 240000000L;
-   private final ivw iwm;
-   private final int iwn;
-   private final long iwo = System.nanoTime();
-   private final vcj iwp = new vcj(20.0F);
-   private final vcj iwq = new vcj(18.0F);
-   private final List<vcj> iwr = new ArrayList<>();
-   private List<ivx> iws = List.of();
-   private int iwt = -1;
-   private int iwu = -1;
-   private int iwv;
-   private boolean iww;
-   private boolean iwx = true;
-   private boolean iwy;
-   private long iwz = -1L;
-   private float ixa = 0.016666668F;
-   private static final int ixb = 37;
+   static final float iwg = (float) (Math.PI * 2);
+   static final float iwh = 30.0F;
+   static final float iwi = 12.0F;
+   static final float iwj = 19.0F;
+   static final float iwk = 9.0F;
+   static final long iwl = 240000000L;
+   final ivw iwm;
+   final int iwn;
+   final long iwo = System.nanoTime();
+   final vcj iwp = new vcj(20.0F);
+   final vcj iwq = new vcj(18.0F);
+   final List<vcj> iwr = new ArrayList<>();
+   List<ivx> iws = List.of();
+   int iwt = -1;
+   int iwu = -1;
+   int iwv;
+   boolean iww;
+   boolean iwx = true;
+   boolean iwy;
+   long iwz = -1L;
+   float ixa = 0.016666668F;
+   static final int ixb = 37;
 
    public iwf(ivw var1, int var2) {
       super(Text.literal(a.b("ࠦ熨ﭶ攇\ueed9", 251660404)));
@@ -42,7 +42,7 @@ public final class iwf extends Screen {
       this.iww = var2 == -1;
    }
 
-   private void ixe(DrawContext var1) {
+   void ixe(DrawContext var1) {
       unf.observe(var1);
       if (unf.frame() != this.iwz) {
          this.iwz = unf.frame();
@@ -98,11 +98,11 @@ public final class iwf extends Screen {
       }
    }
 
-   private static float ixf(int var0) {
+   static float ixf(int var0) {
       return Math.max(50.0F, var0 * 42.0F / (float) (Math.PI * 2));
    }
 
-   private static int ixg(float var0, float var1, int var2) {
+   static int ixg(float var0, float var1, int var2) {
       if (var0 * var0 + var1 * var1 < 144.0F) {
          return -1;
       }
@@ -115,7 +115,7 @@ public final class iwf extends Screen {
       return (int)Math.floor(var3 * var2 + 0.5F) % var2;
    }
 
-   private void ixh(DrawContext var1, float var2, float var3, int var4, float var5) {
+   void ixh(DrawContext var1, float var2, float var3, int var4, float var5) {
       float var6 = ixf(var4) * var5;
       float var7 = 30.0F * var5;
       float var8 = var6 + var7 * 0.5F;
@@ -215,7 +215,7 @@ public final class iwf extends Screen {
       }
    }
 
-   private void ixi() {
+   void ixi() {
       if (!this.iwy && this.iwu < 0 && this.client != null) {
          boolean var1 = this.iwn != -1 && vzz.isDown(this.client, this.iwn);
          if (this.iww) {
@@ -236,7 +236,7 @@ public final class iwf extends Screen {
       }
    }
 
-   private void ixj(int var1) {
+   void ixj(int var1) {
       if (!this.iwy && var1 >= 0 && var1 < this.iws.size()) {
          if (this.iwm.editable() && this.iws.get(var1).icon().isEmpty()) {
             this.ixk(var1);
@@ -247,14 +247,14 @@ public final class iwf extends Screen {
       }
    }
 
-   private void ixk(int var1) {
+   void ixk(int var1) {
       this.iwu = var1;
       this.iwv = var1;
       this.iww = true;
       this.iwx = true;
    }
 
-   private void ixl() {
+   void ixl() {
       if (!this.iwy) {
          this.iwy = true;
          if (this.client != null) {
@@ -308,28 +308,28 @@ public final class iwf extends Screen {
       return true;
    }
 
-   private static int ixm(int var0) {
+   static int ixm(int var0) {
       return var0 < 27 ? 9 + var0 : (var0 < 36 ? var0 - 27 : 40);
    }
 
-   private float ixn() {
+   float ixn() {
       return 189.0F;
    }
 
-   private float ixo() {
+   float ixo() {
       return 130.0F;
    }
 
-   private float ixp(int var1) {
+   float ixp(int var1) {
       return this.width * 0.5F - this.ixn() * 0.5F + 9.0F + (var1 < 36 ? var1 % 9 : 0) * 19.0F;
    }
 
-   private float ixq(int var1) {
+   float ixq(int var1) {
       float var2 = this.height * 0.5F - this.ixo() * 0.5F + 17.0F;
       return var1 < 27 ? var2 + var1 / 9 * 19.0F : (var1 < 36 ? var2 + 57.0F + 4.0F : var2 + 76.0F + 9.0F);
    }
 
-   private void ixr(DrawContext var1, float var2, float var3, float var4) {
+   void ixr(DrawContext var1, float var2, float var3, float var4) {
       float var5 = this.ixn();
       float var6 = this.ixo();
       float var7 = this.width * 0.5F - var5 * 0.5F;
@@ -392,11 +392,11 @@ public final class iwf extends Screen {
          );
    }
 
-   private float ixs() {
+   float ixs() {
       return irr.VALUE.width(wap.s(a.c(-671545764, "ؚ羄\uf55e欫\ue0ef"), a.c(2096318454, "䏠㨈낤⺬ꕸ⎳馚ၥ"))) + 14.0F;
    }
 
-   private void ixt(float var1, float var2, int var3) {
+   void ixt(float var1, float var2, int var3) {
       float var4 = this.ixn();
       float var5 = this.ixo();
       float var6 = this.width * 0.5F - var4 * 0.5F;

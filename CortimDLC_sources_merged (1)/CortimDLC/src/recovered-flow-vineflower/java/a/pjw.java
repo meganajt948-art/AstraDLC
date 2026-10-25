@@ -5,52 +5,52 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.MathHelper;
 
 public final class pjw {
-   private static final double pjx = 10.0;
-   private static final double pjy = 0.45;
-   private static final double pjz = 0.55;
-   private static final double pka = 0.5;
-   private static final double pkb = 1.6;
-   private static final double pkc = 2.4;
-   private static final double pkd = 8.0;
-   private static final double pke = 40.0;
-   private static final double pkf = 1.2;
-   private static final double pkg = 45.0;
-   private static final int pkh = 2;
-   private final Random pki = new Random();
-   private final tel pkj = new tel();
-   private final double[] pkk = new double[2];
-   private lex pkl;
-   private double pkm = 1.0;
-   private double pkn = 1.0;
-   private double pko = 2.0;
-   private double pkp = 6.5;
-   private double pkq = 0.65;
-   private double pkr;
-   private double pks;
-   private boolean pkt;
-   private double pku = 0.15;
-   private boolean pkv;
-   private double pkw;
-   private double pkx;
-   private Object pky = new Object();
-   private Object pkz;
-   private double pla;
-   private double plb;
-   private double plc;
-   private double pld;
-   private boolean ple;
-   private double plf;
-   private double plg;
-   private double plh;
-   private int pli;
-   private int plj = 120;
-   private boolean plk;
-   private double pll;
-   private double plm;
-   private double pln;
-   private double plo;
-   private int plp;
-   private int plq = 40;
+   static final double pjx = 10.0;
+   static final double pjy = 0.45;
+   static final double pjz = 0.55;
+   static final double pka = 0.5;
+   static final double pkb = 1.6;
+   static final double pkc = 2.4;
+   static final double pkd = 8.0;
+   static final double pke = 40.0;
+   static final double pkf = 1.2;
+   static final double pkg = 45.0;
+   static final int pkh = 2;
+   final Random pki = new Random();
+   final tel pkj = new tel();
+   final double[] pkk = new double[2];
+   lex pkl;
+   double pkm = 1.0;
+   double pkn = 1.0;
+   double pko = 2.0;
+   double pkp = 6.5;
+   double pkq = 0.65;
+   double pkr;
+   double pks;
+   boolean pkt;
+   double pku = 0.15;
+   boolean pkv;
+   double pkw;
+   double pkx;
+   Object pky = new Object();
+   Object pkz;
+   double pla;
+   double plb;
+   double plc;
+   double pld;
+   boolean ple;
+   double plf;
+   double plg;
+   double plh;
+   int pli;
+   int plj = 120;
+   boolean plk;
+   double pll;
+   double plm;
+   double pln;
+   double plo;
+   int plp;
+   int plq = 40;
 
    public pjw neuro(lex var1) {
       this.pkl = var1;
@@ -112,7 +112,7 @@ public final class pjw {
       this.plt(var1, var2, pjt.RELAXED, 0.0);
    }
 
-   private void plt(float var1, float var2, pjt var3, double var4) {
+   void plt(float var1, float var2, pjt var3, double var4) {
       var2 = MathHelper.clamp(var2, -89.0F, 89.0F);
       this.plk = false;
       if (!this.pkt) {
@@ -209,7 +209,7 @@ public final class pjw {
       }
    }
 
-   private void plu() {
+   void plu() {
       this.plf = MathHelper.clamp(this.plf * 0.992 + this.pki.nextGaussian() * 0.12, -3.0, 3.0);
       this.plg = MathHelper.clamp(this.plg * 0.99 + this.pki.nextGaussian() * 0.35, -9.0, 8.0);
       if (this.pli > 0) {
@@ -223,11 +223,11 @@ public final class pjw {
       }
    }
 
-   private double plv() {
+   double plv() {
       return this.pli > 0 ? this.plh : 0.0;
    }
 
-   private void plw(double var1, double var3, pjt var5, double var6) {
+   void plw(double var1, double var3, pjt var5, double var6) {
       this.pla = var1;
       this.plb = var3;
       if (this.ple && Math.hypot(MathHelper.wrapDegrees(var1 - this.plc), var3 - this.pld) > 10.0) {
@@ -309,7 +309,7 @@ public final class pjw {
       }
    }
 
-   private static double plx(double var0) {
+   static double plx(double var0) {
       var0 = MathHelper.clamp(var0, 0.0, 1.0);
       return var0 * var0 * (3.0 - 2.0 * var0);
    }

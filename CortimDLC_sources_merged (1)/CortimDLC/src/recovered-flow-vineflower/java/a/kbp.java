@@ -4,7 +4,7 @@ public final class kbp {
    public static final float MIN_W = 330.0F;
    public static final float MIN_H = 270.0F;
 
-   private kbp() {
+   kbp() {
    }
 
    public static float scale(int var0, int var1) {

@@ -31,14 +31,14 @@ public final class hhf {
    public static final List<vmo> CLICK_OPTIONS = List.of(CLICK_RANGE);
    public static final List<vmo> ALL = List.of(PROTECT, CLICK, CLICK_RANGE);
    public static final int MAX_NAME = 20;
-   private static final double hhg = 0.3;
-   private static final Gson hhh = new GsonBuilder().setPrettyPrinting().create();
-   private static final List<hhc> hhi = new ArrayList<>();
-   private static final Set<String> hhj = new HashSet<>();
-   private static boolean hhk;
-   private static int hhl;
+   static final double hhg = 0.3;
+   static final Gson hhh = new GsonBuilder().setPrettyPrinting().create();
+   static final List<hhc> hhi = new ArrayList<>();
+   static final Set<String> hhj = new HashSet<>();
+   static boolean hhk;
+   static int hhl;
 
-   private hhf() {
+   hhf() {
    }
 
    public static int version() {
@@ -109,7 +109,7 @@ public final class hhf {
       return !var1.isEmpty() && var1.length() <= 20 && !var1.chars().anyMatch(var0x -> var0x <= 32 || var0x == 167) ? var1 : null;
    }
 
-   private static String hho(String var0) {
+   static String hho(String var0) {
       return var0.toLowerCase(Locale.ROOT);
    }
 
@@ -210,12 +210,12 @@ public final class hhf {
       return null;
    }
 
-   private static void hhp() {
+   static void hhp() {
       hhl++;
       hhr();
    }
 
-   private static void hhq() {
+   static void hhq() {
       if (!hhk) {
          hhk = true;
          String var0 = ewk.get(a.b("g秂\uf30a海\ue6ab怐\uda54", 705691654));
@@ -238,7 +238,7 @@ public final class hhf {
       }
    }
 
-   private static void hhr() {
+   static void hhr() {
       ewk.put(a.d("嘉⾬ꕤ㬙냅㙾谺", -1945592374, -1723479134), hhh.toJson(hhi));
    }
 }

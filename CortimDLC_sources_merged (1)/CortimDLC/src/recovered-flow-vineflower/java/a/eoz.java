@@ -1,15 +1,15 @@
 package a;
 
 final class eoz {
-   private final float[][] epa;
-   private final float[][] epb;
-   private final float[] epc;
-   private final int epd;
-   private final int epe;
-   private final int epf;
-   private final boolean epg;
+   final float[][] epa;
+   final float[][] epb;
+   final float[] epc;
+   final int epd;
+   final int epe;
+   final int epf;
+   final boolean epg;
 
-   private eoz(float[][] w, float[][] r, float[] b, int hidden, int input, int dirs, boolean reverse) {
+   eoz(float[][] w, float[][] r, float[] b, int hidden, int input, int dirs, boolean reverse) {
       this.epa = w;
       this.epb = r;
       this.epc = b;

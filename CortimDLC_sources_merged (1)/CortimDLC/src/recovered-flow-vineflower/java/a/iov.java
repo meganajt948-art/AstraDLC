@@ -28,7 +28,7 @@ public final class iov {
    static final int ACCENT_SLOT = 15;
    static final int ACCENT2_SLOT = 16;
    static final int PAINT_SLOTS = 17;
-   private static final String[] iow = new String[]{
+   static final String[] iow = new String[]{
       a.c(1586193622, "撧ᴈ韜ধ艻Ӓ"),
       a.b("稳Γ襏᜵鳫", 1455782470),
       a.b("魜\ue2ef栯\uf648", -469918917),
@@ -55,8 +55,8 @@ public final class iov {
    static final String FLOW = a.b("푻균✰륙", 510252089);
    static final String FLOW_BLACK = a.b("龲\ue629泹\uf290礐ￃ䖾챂刟\ud8a6", -1893294082);
    static final String FLOW_WHITE = a.d("蓞﵅瞕\ue9fc扼\ue4ba廖휦䥤쏄", -1165763834, 894590868);
-   private static final int[] iox = new int[]{-1776408, -4934468};
-   private static final int[] ioy = new int[]{-14474457, -10592666};
+   static final int[] iox = new int[]{-1776408, -4934468};
+   static final int[] ioy = new int[]{-14474457, -10592666};
    static final iom[] PRESETS = new iom[]{
       new iom(
          a.d("鑇\ueddc朌便狥\uf436之잷姪퍓", -922979740, 1865803375),
@@ -317,12 +317,12 @@ public final class iov {
       new iog(a.c(2094112589, "鼕\ue680汍\uf221秡｛䕀쳺加\ud810忎"), 13, true),
       new iog(a.b("ჶ楠\ue3aa緈\uf608", -127332165), 14, true)
    };
-   private static final int[] ioz = new int[17];
-   private static final boolean[] ipa = new boolean[17];
-   private static final int[] ipb = new int[17];
-   private static final boolean[] ipc = new boolean[17];
-   private static int ipd;
-   private static final String[] ipe = new String[]{
+   static final int[] ioz = new int[17];
+   static final boolean[] ipa = new boolean[17];
+   static final int[] ipb = new int[17];
+   static final boolean[] ipc = new boolean[17];
+   static int ipd;
+   static final String[] ipe = new String[]{
       a.d("ส瞯ﵽ挗", 1039991029, 1588989594),
       a.b("\uf7bb踨Ӻ骊", -1552877582),
       a.d("䒳㴽럨⦚ꉄⓤ", -732865084, -188737241),
@@ -336,7 +336,7 @@ public final class iov {
       a.b("뢈섄䯋햬", 1780398302),
       a.b("㼖䚑채刲\ud9fe彍", -1677377709)
    };
-   private static final int[][] ipf = new int[][]{
+   static final int[][] ipf = new int[][]{
       null,
       iox,
       {-7701008, -5660683},
@@ -396,29 +396,29 @@ public final class iov {
    public static int shadow;
    public static int knob;
    public static int hover;
-   private static final int[] ipg = (int[])PRESETS[0].iop.clone();
-   private static float iph = 1.0F;
-   private static float ipi;
-   private static float ipj = 0.4F;
-   private static int ipk = iox[0];
-   private static int ipl = iox[0];
-   private static int ipm = iox[0];
-   private static float ipn;
-   private static final float[] ipo = new float[3];
-   private static String ipp = a.b("䳠㕤뾤⇄ꨋⲻ雵ἕ", -235058001);
-   private static long ipq = -1L;
-   private static long ipr = Long.MIN_VALUE;
-   private static iom ips;
-   private static long ipt = Long.MIN_VALUE;
-   private static final int[] ipu = new int[17];
-   private static float ipv;
-   private static boolean ipw;
-   private static final float ipx = 0.3F;
+   static final int[] ipg = (int[])PRESETS[0].iop.clone();
+   static float iph = 1.0F;
+   static float ipi;
+   static float ipj = 0.4F;
+   static int ipk = iox[0];
+   static int ipl = iox[0];
+   static int ipm = iox[0];
+   static float ipn;
+   static final float[] ipo = new float[3];
+   static String ipp = a.b("䳠㕤뾤⇄ꨋⲻ雵ἕ", -235058001);
+   static long ipq = -1L;
+   static long ipr = Long.MIN_VALUE;
+   static iom ips;
+   static long ipt = Long.MIN_VALUE;
+   static final int[] ipu = new int[17];
+   static float ipv;
+   static boolean ipw;
+   static final float ipx = 0.3F;
 
-   private iov() {
+   iov() {
    }
 
-   private static String[] iqa() {
+   static String[] iqa() {
       ArrayList var0 = new ArrayList();
 
       for (iom var4 : PRESETS) {
@@ -429,7 +429,7 @@ public final class iov {
       return var0.toArray(new String[0]);
    }
 
-   private static int[] iqb(int var0, int var1, float var2) {
+   static int[] iqb(int var0, int var1, float var2) {
       int var3 = ujt.lerp(var1, -1, 0.8F);
       int var4 = ujt.lerp(-1, var1, 0.08F);
       return new int[]{
@@ -451,7 +451,7 @@ public final class iov {
       };
    }
 
-   private static int[] iqc(int var0, int var1, float var2) {
+   static int[] iqc(int var0, int var1, float var2) {
       int var3 = ujt.lerp(-15395301, var1, 0.14F);
       int var4 = ujt.lerp(-16777216, var1, 0.2F);
       return new int[]{
@@ -473,7 +473,7 @@ public final class iov {
       };
    }
 
-   private static int[] iqd(int var0, int var1, float var2) {
+   static int[] iqd(int var0, int var1, float var2) {
       int var3 = ujt.lerp(-1, ujt.shade(var1, 0.8F), 0.55F);
       return new int[]{
          var0,
@@ -494,7 +494,7 @@ public final class iov {
       };
    }
 
-   private static int[] iqe(int var0, int var1, float var2) {
+   static int[] iqe(int var0, int var1, float var2) {
       int var3 = ujt.lerp(-15724266, var1, 0.14F);
       return new int[]{
          var0,
@@ -515,11 +515,11 @@ public final class iov {
       };
    }
 
-   private static iom iqf(String var0, String var1, int var2, int var3, int var4, int var5) {
+   static iom iqf(String var0, String var1, int var2, int var3, int var4, int var5) {
       return new iom(var0, var1, iqb(var2, var3, 1.0F), 1.0F, false, new int[]{var4, var5});
    }
 
-   private static iom iqg(String var0, int var1, int var2, int var3, int var4, int var5, int var6) {
+   static iom iqg(String var0, int var1, int var2, int var3, int var4, int var5, int var6) {
       int[] var7 = (int[])iqb(var3, var5, 1.0F).clone();
       var7[2] = ujt.withAlpha(var2, 230);
       var7[3] = ujt.withAlpha(var1, 235);
@@ -706,11 +706,11 @@ public final class iov {
       ipd++;
    }
 
-   private static String iqh(int var0) {
+   static String iqh(int var0) {
       return String.format(Locale.ROOT, a.b("甏ಫ虰ᡡ", 1641641262), var0);
    }
 
-   private static Integer iqi(String var0) {
+   static Integer iqi(String var0) {
       if (var0 == null) {
          return null;
       }
@@ -750,7 +750,7 @@ public final class iov {
       }
    }
 
-   private static boolean iqj() {
+   static boolean iqj() {
       for (boolean var3 : ipc) {
          if (var3) {
             return true;
@@ -760,7 +760,7 @@ public final class iov {
       return false;
    }
 
-   private static int iqk(int var0) {
+   static int iqk(int var0) {
       return switch (var0) {
          case 15 -> ipk;
          case 16 -> ipl;
@@ -768,7 +768,7 @@ public final class iov {
       };
    }
 
-   private static void iql(int var0, int var1) {
+   static void iql(int var0, int var1) {
       switch (var0) {
          case 15:
             ipk = var1;
@@ -822,7 +822,7 @@ public final class iov {
       }
    }
 
-   private static void iqm() {
+   static void iqm() {
       custom();
       if (ipt != Long.MIN_VALUE && ipt != ipr && !PRESET.is(a.c(-188472272, "⑵已휧䥑슝䐮"))) {
          PRESET.set(a.c(1462290806, "줳내㩡ꐗ\u2fdbꥨ"));
@@ -831,7 +831,7 @@ public final class iov {
       ipt = ipr;
    }
 
-   private static void iqn() {
+   static void iqn() {
       window = ipg[0];
       panel = ipg[1];
       card = ipg[2];
@@ -967,7 +967,7 @@ public final class iov {
       return ujt.withAlpha(var0, Math.round(40.0F + 70.0F * ipn));
    }
 
-   private static float iqo() {
+   static float iqo() {
       float var0 = ujt.luminance(window);
       float var1;
       if (ipi > 0.5F) {

@@ -94,55 +94,55 @@ public final class ucg {
    );
    public static final List<vmo> OPTIONS = List.of(MARK_TIME, SOUNDS, VOLUME, LISTEN);
    public static final List<vmo> ALL = List.of(ENABLED, MARK_TIME, SOUNDS, VOLUME);
-   private static final double uch = 400.0;
-   private static final long uci = 400L;
-   private static final int ucj = 3;
-   private static final long uck = 25000L;
-   private static final long ucl = 1000L;
-   private static final long ucm = 10000L;
-   private static final int ucn = 3;
-   private static final int uco = 1000;
-   private static final long ucp = 15000L;
-   private static final int ucq = 32;
-   private static final List<ubm> ucr = new ArrayList<>();
-   private static final List<ubg> ucs = new ArrayList<>();
-   private static final List<ubj> uct = new ArrayList<>();
-   private static final Map<Integer, byte[]> ucu = new TreeMap<>();
-   private static final Set<String> ucv = new HashSet<>();
-   private static final List<ubs> ucw = new ArrayList<>();
-   private static final List<ubx> ucx = new ArrayList<>();
-   private static final Set<String> ucy = new HashSet<>();
-   private static final Map<String, ubg> ucz = new HashMap<>();
-   private static final Map<String, Long> uda = new HashMap<>();
-   private static String udb;
-   private static PrivateKey udc;
-   private static String udd;
-   private static String ude;
-   private static int udf;
-   private static byte[] udg;
-   private static uhg udh;
-   private static String udi;
-   private static ucd udj = ucd.OFF;
-   private static String udk;
-   private static String udl;
-   private static String udm;
-   private static String udn;
-   private static long udo;
-   private static int udp;
-   private static long udq;
-   private static long udr;
-   private static String uds;
-   private static long udt;
-   private static long udu;
-   private static long udv;
-   private static ubj udw;
-   private static int udx;
-   private static String udy;
-   private static String udz;
-   private static boolean uea;
-   private static int ueb;
+   static final double uch = 400.0;
+   static final long uci = 400L;
+   static final int ucj = 3;
+   static final long uck = 25000L;
+   static final long ucl = 1000L;
+   static final long ucm = 10000L;
+   static final int ucn = 3;
+   static final int uco = 1000;
+   static final long ucp = 15000L;
+   static final int ucq = 32;
+   static final List<ubm> ucr = new ArrayList<>();
+   static final List<ubg> ucs = new ArrayList<>();
+   static final List<ubj> uct = new ArrayList<>();
+   static final Map<Integer, byte[]> ucu = new TreeMap<>();
+   static final Set<String> ucv = new HashSet<>();
+   static final List<ubs> ucw = new ArrayList<>();
+   static final List<ubx> ucx = new ArrayList<>();
+   static final Set<String> ucy = new HashSet<>();
+   static final Map<String, ubg> ucz = new HashMap<>();
+   static final Map<String, Long> uda = new HashMap<>();
+   static String udb;
+   static PrivateKey udc;
+   static String udd;
+   static String ude;
+   static int udf;
+   static byte[] udg;
+   static uhg udh;
+   static String udi;
+   static ucd udj = ucd.OFF;
+   static String udk;
+   static String udl;
+   static String udm;
+   static String udn;
+   static long udo;
+   static int udp;
+   static long udq;
+   static long udr;
+   static String uds;
+   static long udt;
+   static long udu;
+   static long udv;
+   static ubj udw;
+   static int udx;
+   static String udy;
+   static String udz;
+   static boolean uea;
+   static int ueb;
 
-   private ucg() {
+   ucg() {
    }
 
    public static int version() {
@@ -497,7 +497,7 @@ public final class ucg {
       }
    }
 
-   private static void uee(ubj var0) {
+   static void uee(ubj var0) {
       JsonObject var1 = new JsonObject();
       var1.addProperty(a.b("ﶛ", 1478426094), a.b("綦Л軛Ⴓ", -1413382705));
       var1.addProperty(a.d("첵딉", -1667400072, 346862246), var0.id);
@@ -515,7 +515,7 @@ public final class ucg {
       ufj(var1);
    }
 
-   private static void uef(ubj var0) {
+   static void uef(ubj var0) {
       uct.removeIf(var1x -> var1x.from.equals(var0.from) && var1x.id == var0.id);
       int var1 = 0;
 
@@ -537,7 +537,7 @@ public final class ucg {
       uct.add(var0);
    }
 
-   private static void ueg(String var0, Vec3d var1) {
+   static void ueg(String var0, Vec3d var1) {
       if (SOUNDS.get()) {
          float var2 = 0.0F;
          float var3 = 0.0F;
@@ -598,7 +598,7 @@ public final class ucg {
       }
    }
 
-   private static void ueh(MinecraftClient var0) {
+   static void ueh(MinecraftClient var0) {
       if (secured()) {
          String var1 = var0.getSession().getUsername();
          String var2 = wlk.worldId();
@@ -632,7 +632,7 @@ public final class ucg {
       }
    }
 
-   private static void uei(String var0) {
+   static void uei(String var0) {
       URI var1;
       try {
          ufu();
@@ -717,7 +717,7 @@ public final class ucg {
       return URI.create(var3 + a.c(-827551249, "釙\ue821抹ﳇ眄\uf1f8䮥쉈屓") + var1 + a.b("떟챸䚮\ud8c8區", 504411580) + var2);
    }
 
-   private static void uej() {
+   static void uej() {
       if (udh != null) {
          uhg var0 = udh;
          udh = null;
@@ -736,7 +736,7 @@ public final class ucg {
       udx++;
    }
 
-   private static void uek() {
+   static void uek() {
       udl = null;
       udm = null;
       ucr.clear();
@@ -753,7 +753,7 @@ public final class ucg {
       udx++;
    }
 
-   private static void uel(JsonObject var0) {
+   static void uel(JsonObject var0) {
       String var1 = ufq(var0, a.b("갿", 2077535306));
       if (var1 != null) {
          switch (var1) {
@@ -862,7 +862,7 @@ public final class ucg {
       }
    }
 
-   private static void uem(JsonObject var0) {
+   static void uem(JsonObject var0) {
       String var1 = ufq(var0, a.c(232011783, "㡬䇐"));
       if (var1 == null) {
          if (udl != null || ude != null) {
@@ -992,7 +992,7 @@ public final class ucg {
       }
    }
 
-   private static void uen() {
+   static void uen() {
       if (udl != null) {
          if (!udl.equals(udy)) {
             ucy.clear();
@@ -1016,7 +1016,7 @@ public final class ucg {
       }
    }
 
-   private static void ueo(ubm var0, String var1) {
+   static void ueo(ubm var0, String var1) {
       var0.blob = var1;
       if (var1 != null) {
          JsonObject var2 = ufi(a.d("⍉嫿퀤", -2131953694, -1070213925) + udl + a.c(-934315034, "箛") + var0.code, var1);
@@ -1033,7 +1033,7 @@ public final class ucg {
       }
    }
 
-   private static void uep(JsonObject var0) {
+   static void uep(JsonObject var0) {
       String var1 = ufq(var0, a.c(480155086, "閩\uec14曌\uf8bc"));
       String var2 = ufq(var0, a.d("麮\ue71a淞", -238690597, 1506557958));
       if (var1 != null && var2 != null && ucv.remove(var1)) {
@@ -1072,7 +1072,7 @@ public final class ucg {
       }
    }
 
-   private static ubg ueq(JsonObject var0) {
+   static ubg ueq(JsonObject var0) {
       String var1 = ufq(var0, a.d("\uf1dd衽ʽ鳊ᜐ", 692882414, -1739883962));
       String var2 = ufq(var0, a.c(710334805, "\ud937ꂒ⩜됯"));
       String var3 = ufq(var0, a.d("䛸㽌떈", 1564022613, -414494242));
@@ -1101,7 +1101,7 @@ public final class ucg {
       }
    }
 
-   private static void uer() {
+   static void uer() {
       if (!ucw.isEmpty() && udl != null) {
          ArrayList var0 = new ArrayList<>(ucw);
          ucw.clear();
@@ -1156,7 +1156,7 @@ public final class ucg {
       }
    }
 
-   private static void ues(String var0) {
+   static void ues(String var0) {
       if (var0 != null && secured() && member(var0) != null) {
          String var1 = null;
          ubm var2 = member(udm);
@@ -1189,7 +1189,7 @@ public final class ucg {
       }
    }
 
-   private static void uet(ubm var0) {
+   static void uet(ubm var0) {
       long var1 = System.currentTimeMillis();
       Long var3 = uda.get(var0.code);
       if (var0.pub != null && (var3 == null || var1 - var3 >= 5000L)) {
@@ -1210,7 +1210,7 @@ public final class ucg {
       }
    }
 
-   private static void ueu() {
+   static void ueu() {
       byte[] var0 = ufw.randomKey();
       int var1 = udf + 1;
       JsonArray var2 = new JsonArray();
@@ -1240,7 +1240,7 @@ public final class ucg {
       }
    }
 
-   private static void uev() {
+   static void uev() {
       long var0 = System.currentTimeMillis();
       if (inParty() && var0 - udt > 10000L) {
          udt = var0;
@@ -1248,7 +1248,7 @@ public final class ucg {
       }
    }
 
-   private static void uew(String var0, String var1) {
+   static void uew(String var0, String var1) {
       if (var0 != null && var1 != null) {
          if (!uey(var0, var1, System.currentTimeMillis())) {
             ucx.add(new ubx(var0, var1, System.currentTimeMillis()));
@@ -1260,7 +1260,7 @@ public final class ucg {
       }
    }
 
-   private static void uex() {
+   static void uex() {
       if (!ucx.isEmpty()) {
          long var0 = System.currentTimeMillis();
          ArrayList var2 = new ArrayList<>(ucx);
@@ -1284,7 +1284,7 @@ public final class ucg {
       }
    }
 
-   private static boolean uey(String var0, String var1, long var2) {
+   static boolean uey(String var0, String var1, long var2) {
       ubm var4 = member(var0);
       if (var4 == null) {
          System.out
@@ -1430,7 +1430,7 @@ public final class ucg {
       }
    }
 
-   private static String uez(String var0) {
+   static String uez(String var0) {
       if (var0 == null) {
          return wap.s(a.c(-1788251526, "爽ர腡Ἐ铞ታꠡ⇗뾁㕷닳䢐왌忧헠卆\ue90c曀ﱲ稪"), a.b("ᖨ汼\ue6d3粱\uf309痄쮉䙧\ud839勾핞⼪ꗣ㡏눔ヰ軝ž鯇", 1470370204));
       }
@@ -1471,7 +1471,7 @@ public final class ucg {
       };
    }
 
-   private static String ufa() {
+   static String ufa() {
       return udj == ucd.NO_SERVER
          ? wap.s(
             a.d("ၺ槽\ue33f級\uf699瀴쩪䏞\uddd1坱킱⫆ꐜ㷴럴ㄓ譋Ҟ鸾ᡸ針\uebca敶ﺼ磂\uf214", -1612297663, 1967020658),
@@ -1483,7 +1483,7 @@ public final class ucg {
          );
    }
 
-   private static void ufb(String var0, boolean var1) {
+   static void ufb(String var0, boolean var1) {
       udz = var0;
       uea = var1;
       ueb++;
@@ -1493,11 +1493,11 @@ public final class ucg {
       }
    }
 
-   private static void ufc(String var0) {
+   static void ufc(String var0) {
       izx.alert(wap.s(a.c(-568203025, "\ue8ba鄺\u1bfa薍๗"), a.d("\uee8e霐ᶱ莺", 2116546724, -391636431)), var0, vhz.FRIENDS, true);
    }
 
-   private static void ufd(String var0, int var1, byte[] var2) {
+   static void ufd(String var0, int var1, byte[] var2) {
       ucu.clear();
       ude = var0;
       udf = var1;
@@ -1506,13 +1506,13 @@ public final class ucg {
       ufv();
    }
 
-   private static void ufe() {
+   static void ufe() {
       while (ucu.size() > 3) {
          ucu.remove(((TreeMap)ucu).firstKey());
       }
    }
 
-   private static String uff(String var0, String var1, byte[] var2, int var3) {
+   static String uff(String var0, String var1, byte[] var2, int var3) {
       try {
          JsonObject var4 = new JsonObject();
          var4.addProperty(a.d("㲉", -1628388570, 664338373), ufw.b64(var2));
@@ -1526,7 +1526,7 @@ public final class ucg {
       }
    }
 
-   private static JsonObject ufg(String var0, String var1, String var2) {
+   static JsonObject ufg(String var0, String var1, String var2) {
       if (var2 != null && udc != null) {
          try {
             byte[] var3 = ufw.boxKey(udc, udd, var1);
@@ -1540,7 +1540,7 @@ public final class ucg {
       }
    }
 
-   private static String ufh(String var0, JsonObject var1) {
+   static String ufh(String var0, JsonObject var1) {
       byte[] var2 = ucu.get(udf);
       if (var2 != null && secured()) {
          try {
@@ -1554,7 +1554,7 @@ public final class ucg {
       }
    }
 
-   private static JsonObject ufi(String var0, String var1) {
+   static JsonObject ufi(String var0, String var1) {
       int var2 = var1.indexOf(46);
       if (var2 > 0 && udl != null && udl.equals(ude)) {
          int var3;
@@ -1584,14 +1584,14 @@ public final class ucg {
       }
    }
 
-   private static void ufj(JsonObject var0) {
+   static void ufj(JsonObject var0) {
       String var1 = ufh(a.d("瓀൯螨ᧂ", -196674301, -1225815638) + udl + a.b("鬒", -1756259473) + udk, var0);
       if (var1 != null) {
          ufn(ufm(a.d("馛\ue034櫳", 1465524378, -573589137)).put(a.c(1802278384, "閒"), var1));
       }
    }
 
-   private static String ufk(String var0) {
+   static String ufk(String var0) {
       String var1 = ufl(var0);
       if (var1 != null && var1.length() > 20) {
          var1 = var1.substring(0, 20);
@@ -1600,7 +1600,7 @@ public final class ucg {
       return var1;
    }
 
-   private static String ufl(String var0) {
+   static String ufl(String var0) {
       if (var0 == null) {
          return null;
       }
@@ -1617,15 +1617,15 @@ public final class ucg {
       return var6.isEmpty() ? null : var6;
    }
 
-   private static ubp ufm(String var0) {
+   static ubp ufm(String var0) {
       return new ubp().put(a.d("k", 1310780117, -477173045), var0);
    }
 
-   private static boolean ufn(ubp var0) {
+   static boolean ufn(ubp var0) {
       return ufo(var0.json);
    }
 
-   private static boolean ufo(JsonObject var0) {
+   static boolean ufo(JsonObject var0) {
       if (udh != null && udj == ucd.ONLINE) {
          udh.send(var0.toString());
          return true;
@@ -1634,27 +1634,27 @@ public final class ucg {
       }
    }
 
-   private static JsonArray ufp(JsonObject var0, String var1) {
+   static JsonArray ufp(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && var2.isJsonArray() ? var2.getAsJsonArray() : new JsonArray();
    }
 
-   private static String ufq(JsonObject var0, String var1) {
+   static String ufq(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && var2.isJsonPrimitive() ? var2.getAsString() : null;
    }
 
-   private static boolean ufr(JsonObject var0, String var1) {
+   static boolean ufr(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && var2.isJsonPrimitive() && var2.getAsBoolean();
    }
 
-   private static double ufs(JsonObject var0, String var1) {
+   static double ufs(JsonObject var0, String var1) {
       JsonElement var2 = var0.get(var1);
       return var2 != null && var2.isJsonPrimitive() ? var2.getAsDouble() : Double.NaN;
    }
 
-   private static byte[] uft(JsonObject var0, String var1) {
+   static byte[] uft(JsonObject var0, String var1) {
       String var2 = ufq(var0, var1);
       if (var2 == null) {
          return null;
@@ -1667,7 +1667,7 @@ public final class ucg {
       }
    }
 
-   private static void ufu() throws GeneralSecurityException {
+   static void ufu() throws GeneralSecurityException {
       if (udb == null || udc == null) {
          try {
             String var0 = ewk.get(a.c(1787517127, "墲ℒꯒ㖥빿"));
@@ -1718,7 +1718,7 @@ public final class ucg {
       }
    }
 
-   private static void ufv() {
+   static void ufv() {
       if (udb != null && udc != null) {
          JsonObject var0 = new JsonObject();
          var0.addProperty(a.d("\ue7e6鹙ᒖ", 2039475014, 1497697480), udb);

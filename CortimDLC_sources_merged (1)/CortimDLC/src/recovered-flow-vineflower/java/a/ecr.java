@@ -36,14 +36,14 @@ import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.text.Text;
 
 final class ecr extends ClientConfigurationNetworkHandler {
-   private final dtv ecs;
-   private final GameProfile ect;
-   private final Immutable ecu;
-   private final ClientRegistries ecv = new ClientRegistries();
-   private ClientDataPackManager ecw;
-   private FeatureSet ecx;
+   final dtv ecs;
+   final GameProfile ect;
+   final Immutable ecu;
+   final ClientRegistries ecv = new ClientRegistries();
+   ClientDataPackManager ecw;
+   FeatureSet ecx;
 
-   private ecr(MinecraftClient var1, ClientConnection var2, ClientConnectionState var3, dtv var4, GameProfile var5, Immutable var6) {
+   ecr(MinecraftClient var1, ClientConnection var2, ClientConnectionState var3, dtv var4, GameProfile var5, Immutable var6) {
       super(var1, var2, var3);
       this.ecs = var4;
       this.ect = var5;
@@ -133,7 +133,7 @@ final class ecr extends ClientConfigurationNetworkHandler {
       });
    }
 
-   private Immutable eda() {
+   Immutable eda() {
       if (this.ecw == null) {
          return this.ecv.createRegistryManager(ResourceFactory.MISSING, this.ecu, this.connection.isLocal());
       }

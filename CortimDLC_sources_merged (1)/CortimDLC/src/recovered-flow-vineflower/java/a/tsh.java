@@ -12,9 +12,9 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.world.World;
 
 public final class tsh {
-   private static final Map<BlockState, Byte> tsi = new ConcurrentHashMap<>();
+   static final Map<BlockState, Byte> tsi = new ConcurrentHashMap<>();
 
-   private tsh() {
+   tsh() {
    }
 
    public static boolean diamond(BlockState var0) {

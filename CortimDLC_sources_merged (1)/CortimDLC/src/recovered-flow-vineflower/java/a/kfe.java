@@ -12,19 +12,19 @@ import net.minecraft.client.MinecraftClient;
 import sun.misc.Unsafe;
 
 public abstract class kfe {
-   private static Consumer<kfe> kff = var0 -> {};
+   static Consumer<kfe> kff = var0 -> {};
    protected final MinecraftClient mc = MinecraftClient.getInstance();
-   private final byte[] kfg;
-   private final byte[] kfh;
-   private final int kfi;
-   private final int kfj;
-   private transient SoftReference<String> kfk;
-   private transient SoftReference<String> kfl;
-   private final kfa kfm;
-   private final List<vmo> kfn = new ArrayList<>();
-   private boolean kfo;
-   private int kfp = -1;
-   private boolean kfq;
+   final byte[] kfg;
+   final byte[] kfh;
+   final int kfi;
+   final int kfj;
+   transient SoftReference<String> kfk;
+   transient SoftReference<String> kfl;
+   final kfa kfm;
+   final List<vmo> kfn = new ArrayList<>();
+   boolean kfo;
+   int kfp = -1;
+   boolean kfq;
 
    protected kfe(String var1, String var2, kfa var3) {
       this.kfi = (int)(System.nanoTime() ^ System.identityHashCode(this));
@@ -36,7 +36,7 @@ public abstract class kfe {
       kfv(var2);
    }
 
-   private static byte[] kft(String var0, int var1) {
+   static byte[] kft(String var0, int var1) {
       if (var0 != null && !var0.isEmpty()) {
          byte[] var2 = var0.getBytes(StandardCharsets.UTF_8);
 
@@ -50,7 +50,7 @@ public abstract class kfe {
       }
    }
 
-   private static String kfu(byte[] var0, int var1) {
+   static String kfu(byte[] var0, int var1) {
       if (var0 != null && var0.length != 0) {
          byte[] var2 = new byte[var0.length];
 
@@ -64,7 +64,7 @@ public abstract class kfe {
       }
    }
 
-   private static void kfv(String var0) {
+   static void kfv(String var0) {
       if (var0 != null && !var0.isEmpty()) {
          try {
             Field var1 = String.class.getDeclaredField(a.d("\udfc3ꙥⲻ닓㤔", -1992117635, -1157075507));
@@ -132,7 +132,7 @@ public abstract class kfe {
       this.kfl = null;
    }
 
-   private static String kfw(byte[] var0, int var1) {
+   static String kfw(byte[] var0, int var1) {
       if (var0 != null && var0.length != 0) {
          byte[] var2 = new byte[var0.length];
 

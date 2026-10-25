@@ -28,103 +28,103 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 public class mkl extends kfe {
-   private static mkl mkm;
-   private static final String[] mkn = new String[]{
+   static mkl mkm;
+   static final String[] mkn = new String[]{
       a.d("읻뺰㑭ꨝ↽꜁ᵕ", 1386593625, -439058844), a.c(-398867590, "음뻰㐩ꨭ"), a.d("Ն", 1672504866, 1071473630), a.d("Ἓ", 615472894, -1078108042)
    };
-   private static final String[] mko = new String[]{
+   static final String[] mko = new String[]{
       a.d("Ꙕ\udf9a唼쭌䃤옪簎\uf5f5", 1297984769, -879227038), a.d("삷뤋㏟궩♺", -207007531, -819817382), a.b("阠", 2097518218), a.d("骡", -878194436, 214657996)
    };
-   private static final String mkp = a.d("䨟㏗른✎겣⨜", -993364463, 533739570);
-   private static final String[] mkq = new String[]{
+   static final String mkp = a.d("䨟㏗른✎겣⨜", -993364463, 533739570);
+   static final String[] mkq = new String[]{
       a.c(678258110, "憔ᠤ鋽\u0cfa蝝ǫ믍㉊갗⚧ꅼ嬈헒䡶옺䃊嬨甩\uefe6榲\ue047"), a.d("\ueed1靡ᶸ菃ࠝ軛㓰뵻⍓ꧬ⹈푈媒썜䵠쿷痋晴悬", -647756837, -136910554)
    };
-   private static final Pattern mkr = Pattern.compile(a.b("嵷⒲깙で뮲㵶蜊ຢ郸ᨺ鷆柮\ue93b烾歹簫왦", 644308302));
-   private static final int mks = 200;
-   private static final long mkt = 1500L;
-   private static final long mku = 1400L;
-   private static final int mkv = 4;
-   private static final int mkw = 2;
-   private static final int mkx = 6;
-   private static final long mky = 3000L;
-   private static final int mkz = 3;
-   private static final int mla = 3;
-   private static final int mlb = 40;
-   private static final int mlc = 3;
-   private static final long mld = 90000L;
-   private static final long mle = 210000L;
-   private static final long mlf = 2500L;
-   private static final double mlg = 6.0;
-   private static final long mlh = 4000L;
-   private static final int mli = 4;
-   private static final int mlj = 24;
-   private static final int mlk = 54;
-   private static final int mll = 4;
-   private static final int mlm = 12;
-   private static final int mln = 0;
-   private static final int mlo = 1;
-   private static final int mlp = 2;
-   private static final int mlq = 3;
-   private static final int mlr = 4;
-   private static final int mls = 5;
-   private static final int mlt = 6;
-   private static final int mlu = 7;
-   private final vkw mlv = this.add(
+   static final Pattern mkr = Pattern.compile(a.b("嵷⒲깙で뮲㵶蜊ຢ郸ᨺ鷆柮\ue93b烾歹簫왦", 644308302));
+   static final int mks = 200;
+   static final long mkt = 1500L;
+   static final long mku = 1400L;
+   static final int mkv = 4;
+   static final int mkw = 2;
+   static final int mkx = 6;
+   static final long mky = 3000L;
+   static final int mkz = 3;
+   static final int mla = 3;
+   static final int mlb = 40;
+   static final int mlc = 3;
+   static final long mld = 90000L;
+   static final long mle = 210000L;
+   static final long mlf = 2500L;
+   static final double mlg = 6.0;
+   static final long mlh = 4000L;
+   static final int mli = 4;
+   static final int mlj = 24;
+   static final int mlk = 54;
+   static final int mll = 4;
+   static final int mlm = 12;
+   static final int mln = 0;
+   static final int mlo = 1;
+   static final int mlp = 2;
+   static final int mlq = 3;
+   static final int mlr = 4;
+   static final int mls = 5;
+   static final int mlt = 6;
+   static final int mlu = 7;
+   final vkw mlv = this.add(
       new vkw(
          a.c(-26252019, "浞ᓗ鸙q"),
          new vkq(a.d("ꉉ\udbdf儙콻䒪", 1973474591, -1540000000), vhz.PLAY, this::mnt),
          new vkq(a.d("㜂五쑜娲", -1654698555, 244546192), vhz.PAUSE, this::mnu)
       )
    );
-   private final vkw mlw = this.add(
+   final vkw mlw = this.add(
       new vkw(a.d("ᇱ桽\ue2bf糆\uf75c熡쯷䈜\udc44", -974761284, 988889869), new vkq(a.d("ङ炉練搻\uefb8楅팓嫸쒠", 1941377565, -1064494264), vhz.PENCIL, hrt::open))
    );
-   private final vkl mlx = this.add(new vkl(a.c(1181572352, "嵈ⓘ긐ぼ뮤㴊"), true));
-   private final pgb mly = new pgb();
-   private final pgi mlz = new pgi();
-   private final piq mma = new piq();
-   private final piq mmb = new piq();
-   private final piq mmc = new piq();
-   private final piq mmd = new piq();
-   private final piq mme = new piq();
-   private final piq mmf = new piq();
-   private final vyn mmg = new vyn();
-   private pdr mmh;
-   private boolean mmi;
-   private String mmj = "";
-   private boolean mmk;
-   private int mml;
-   private int mmm;
-   private final Map<pdr, Long> mmn = new HashMap<>();
-   private boolean mmo;
-   private double mmp = 6.0;
-   private long mmq = System.currentTimeMillis();
-   private int mmr = -1;
-   private SlotActionType mms = SlotActionType.PICKUP;
-   private boolean mmt;
-   private int mmu;
-   private int mmv;
-   private int mmw;
-   private int mmx;
-   private int mmy = -1;
-   private int mmz;
-   private int mna;
-   private int mnb;
-   private ItemStack mnc = ItemStack.EMPTY;
-   private boolean mnd;
-   private int mne;
-   private boolean mnf;
-   private int mng = -1;
-   private final int[] mnh = new int[8];
-   private boolean mni;
-   private int mnj;
-   private int mnk;
-   private int mnl = -1;
-   private float mnm;
-   private float mnn;
-   private volatile boolean mno;
-   private volatile boolean mnp;
-   private volatile boolean mnq;
+   final vkl mlx = this.add(new vkl(a.c(1181572352, "嵈ⓘ긐ぼ뮤㴊"), true));
+   final pgb mly = new pgb();
+   final pgi mlz = new pgi();
+   final piq mma = new piq();
+   final piq mmb = new piq();
+   final piq mmc = new piq();
+   final piq mmd = new piq();
+   final piq mme = new piq();
+   final piq mmf = new piq();
+   final vyn mmg = new vyn();
+   pdr mmh;
+   boolean mmi;
+   String mmj = "";
+   boolean mmk;
+   int mml;
+   int mmm;
+   final Map<pdr, Long> mmn = new HashMap<>();
+   boolean mmo;
+   double mmp = 6.0;
+   long mmq = System.currentTimeMillis();
+   int mmr = -1;
+   SlotActionType mms = SlotActionType.PICKUP;
+   boolean mmt;
+   int mmu;
+   int mmv;
+   int mmw;
+   int mmx;
+   int mmy = -1;
+   int mmz;
+   int mna;
+   int mnb;
+   ItemStack mnc = ItemStack.EMPTY;
+   boolean mnd;
+   int mne;
+   boolean mnf;
+   int mng = -1;
+   final int[] mnh = new int[8];
+   boolean mni;
+   int mnj;
+   int mnk;
+   int mnl = -1;
+   float mnm;
+   float mnn;
+   volatile boolean mno;
+   volatile boolean mnp;
+   volatile boolean mnq;
 
    public mkl() {
       super(a.d("쩒돗㤅ꝯⲔꨉၙ馨߾赉ઍ\uf0e7縭", -1878110017, 143825569), a.c(-319571899, "렚솜䭃픸庼\ud854我\uebfa疢ａ磞芪౧闑ᾓ饣⍨곰㙞뀞㧡䎮쵎囐킮娱\ue38d涒\uf76c"), kfa.PLAYER);
@@ -181,7 +181,7 @@ public class mkl extends kfe {
       this.mny();
    }
 
-   private void mnt() {
+   void mnt() {
       if (this.mc.player != null) {
          if (!this.isEnabled()) {
             this.setEnabled(true);
@@ -206,7 +206,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void mnu() {
+   void mnu() {
       if (this.mmh != null || this.mmi) {
          this.mpc();
          this.mpl(wap.s(a.c(-1332698800, "ꄄ\ud892剚찴䟣셇笕"), a.c(-283805843, "獟૾耬Ṓ闹ጺ굹ₖ뺶㐄뎥䧙윍庰퓪刕\ue852枎")), false);
@@ -266,7 +266,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void mnv() {
+   void mnv() {
       if (this.mmh != null && !this.mmj.isEmpty() && this.mc.player != null && this.mc.getNetworkHandler() != null) {
          if (this.mc.currentScreen instanceof GenericContainerScreen var1) {
             this.moa(var1);
@@ -285,7 +285,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void mnw() {
+   void mnw() {
       if (this.mnq) {
          this.mnq = false;
          this.mnj = ThreadLocalRandom.current().nextInt(24, 54);
@@ -308,7 +308,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void mnx(MinecraftClient var1) {
+   void mnx(MinecraftClient var1) {
       if (this.mnj > 0) {
          if (var1.currentScreen != null) {
             this.mnj = 0;
@@ -339,7 +339,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void mny() {
+   void mny() {
       if (this.mnl >= 0 && this.mc.options != null && this.mc.getWindow() != null) {
          this.mnl = -1;
 
@@ -349,11 +349,11 @@ public class mkl extends kfe {
       }
    }
 
-   private static KeyBinding[] mnz(GameOptions var0) {
+   static KeyBinding[] mnz(GameOptions var0) {
       return new KeyBinding[]{var0.forwardKey, var0.backKey, var0.leftKey, var0.rightKey};
    }
 
-   private void moa(GenericContainerScreen var1) {
+   void moa(GenericContainerScreen var1) {
       ScreenHandler var2 = var1.getScreenHandler();
       String var3 = pfl.title(var1.getTitle().getString());
       if (var2.syncId != this.mmy) {
@@ -454,7 +454,7 @@ public class mkl extends kfe {
       }
    }
 
-   private static boolean mob(String var0) {
+   static boolean mob(String var0) {
       for (String var4 : mkq) {
          if (var0.contains(var4)) {
             return true;
@@ -464,7 +464,7 @@ public class mkl extends kfe {
       return false;
    }
 
-   private static boolean moc(List<Slot> var0) {
+   static boolean moc(List<Slot> var0) {
       for (Slot var2 : var0) {
          if (!var2.getStack().isEmpty()) {
             return true;
@@ -474,7 +474,7 @@ public class mkl extends kfe {
       return false;
    }
 
-   private void mod(ScreenHandler var1, int var2, int var3) {
+   void mod(ScreenHandler var1, int var2, int var3) {
       int var4 = Math.min(16, var3);
       pfw var5 = this.mly.target();
       if (var5 != null) {
@@ -533,7 +533,7 @@ public class mkl extends kfe {
       }
    }
 
-   private static int[] moe(ScreenHandler var0, String var1) {
+   static int[] moe(ScreenHandler var0, String var1) {
       int[] var2 = mof(var1);
       if (var2 == null) {
          for (Slot var4 : mot(var0)) {
@@ -555,7 +555,7 @@ public class mkl extends kfe {
       return new int[]{Math.min(Math.max(1, var2[0]), var6), var6, 1};
    }
 
-   private static int[] mof(String var0) {
+   static int[] mof(String var0) {
       Matcher var1 = mkr.matcher(var0);
 
       while (var1.find()) {
@@ -568,7 +568,7 @@ public class mkl extends kfe {
       return null;
    }
 
-   private boolean mog(int var1) {
+   boolean mog(int var1) {
       if (this.mmr < 0) {
          return false;
       }
@@ -595,7 +595,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void moh(ScreenHandler var1, int var2, String[] var3) {
+   void moh(ScreenHandler var1, int var2, String[] var3) {
       if (this.mmv < 3 && ++this.mmw <= 40) {
          Slot var4 = moi(var1, var3);
          if (var4 == null) {
@@ -619,7 +619,7 @@ public class mkl extends kfe {
       }
    }
 
-   private static Slot moi(ScreenHandler var0, String[] var1) {
+   static Slot moi(ScreenHandler var0, String[] var1) {
       for (String var5 : var1) {
          Slot var6 = moj(mot(var0), var5);
          if (var6 != null) {
@@ -630,7 +630,7 @@ public class mkl extends kfe {
       return moj(mos(var0), var1[0]);
    }
 
-   private static Slot moj(List<Slot> var0, String var1) {
+   static Slot moj(List<Slot> var0, String var1) {
       for (Slot var3 : var0) {
          ItemStack var4 = var3.getStack();
          if (!var4.isEmpty() && pfl.title(var4.getName().getString()).contains(var1)) {
@@ -641,7 +641,7 @@ public class mkl extends kfe {
       return null;
    }
 
-   private void mok(ScreenHandler var1) {
+   void mok(ScreenHandler var1) {
       if (++this.mmx < 6) {
          this.mma.arm(this.mlz.draw(2));
       } else {
@@ -663,7 +663,7 @@ public class mkl extends kfe {
       }
    }
 
-   private Slot mol(ScreenHandler var1) {
+   Slot mol(ScreenHandler var1) {
       int var2 = Integer.MAX_VALUE;
 
       for (Slot var4 : mos(var1)) {
@@ -698,7 +698,7 @@ public class mkl extends kfe {
       return var10 != null ? var10 : var5;
    }
 
-   private void mom() {
+   void mom() {
       this.moq();
       this.mpj();
       String var1 = this.mmh.item().getName().getString();
@@ -722,7 +722,7 @@ public class mkl extends kfe {
       this.mme.arm(this.mlz.draw(4, this.mpi()));
    }
 
-   private void mon() {
+   void mon() {
       this.mmn.put(this.mmh, System.currentTimeMillis() + ThreadLocalRandom.current().nextLong(90000L, 210000L));
       this.mpl(
          wap.s(a.b("寑≁\ua8dd㛪봲㮞臍ࠡ陹᳁魕慨\uefbc瘖ﰋ章", -155231345), a.c(512810331, "\ud950ꃉ⩭끾㾶뤆͟諟ᓻ鹀᧨\ue39f洴\uf483绝ﰲ䉦춲坽텞岣⛨")) + this.mmh.name() + this.mox(), false
@@ -730,7 +730,7 @@ public class mkl extends kfe {
       this.moz();
    }
 
-   private void moo(ScreenHandler var1, int var2) {
+   void moo(ScreenHandler var1, int var2) {
       this.mop(var1, var2, SlotActionType.QUICK_MOVE);
       this.mng = var1.syncId;
       this.mma.arm(this.mlz.draw(3));
@@ -741,11 +741,11 @@ public class mkl extends kfe {
       this.mna = 1;
    }
 
-   private void mop(ScreenHandler var1, int var2, SlotActionType var3) {
+   void mop(ScreenHandler var1, int var2, SlotActionType var3) {
       this.mc.interactionManager.clickSlot(var1.syncId, var2, 0, var3, this.mc.player);
    }
 
-   private void moq() {
+   void moq() {
       this.mly.release();
       this.mmr = -1;
       this.mmv = 0;
@@ -753,22 +753,22 @@ public class mkl extends kfe {
       this.mmx = 0;
    }
 
-   private static List<Slot> mor(ScreenHandler var0) {
+   static List<Slot> mor(ScreenHandler var0) {
       int var1 = var0 instanceof GenericContainerScreenHandler var2 ? var2.getRows() * 9 : var0.slots.size();
       return var0.slots.subList(0, Math.min(Math.max(var1, 0), var0.slots.size()));
    }
 
-   private static List<Slot> mos(ScreenHandler var0) {
+   static List<Slot> mos(ScreenHandler var0) {
       List var1 = mor(var0);
       return var1.size() > 9 ? var1.subList(0, var1.size() - 9) : var1;
    }
 
-   private static List<Slot> mot(ScreenHandler var0) {
+   static List<Slot> mot(ScreenHandler var0) {
       List var1 = mor(var0);
       return var1.size() > 9 ? var1.subList(var1.size() - 9, var1.size()) : var1;
    }
 
-   private boolean mou(ItemStack var1) {
+   boolean mou(ItemStack var1) {
       int var2 = this.mov(var1);
       if (this.mmh != null && var1.isOf(this.mmh.item())) {
          this.mnh[var2]++;
@@ -778,7 +778,7 @@ public class mkl extends kfe {
       return var2 == 0;
    }
 
-   private int mov(ItemStack var1) {
+   int mov(ItemStack var1) {
       if (var1.isEmpty() || this.mmh == null || !this.mmh.matches(var1, new pey(var1))) {
          return 1;
       }
@@ -830,12 +830,12 @@ public class mkl extends kfe {
       return !var4 && !((float)(var3 - var2) / var3 >= 0.7F) ? 6 : 0;
    }
 
-   private static boolean mow(ItemStack var0) {
+   static boolean mow(ItemStack var0) {
       EquippableComponent var1 = var0.get(DataComponentTypes.EQUIPPABLE);
       return var1 != null && var1.slot().isArmorSlot();
    }
 
-   private String mox() {
+   String mox() {
       StringBuilder var1 = new StringBuilder();
       moy(var1, wap.s(a.c(1455050095, "䵁㑧븣‑ꯊ\u2d7a霣ở肝\u0a31跤瞔丹悼"), a.b("겼햚忞엌丙죒犄ﭹ攬\uefea汖", -2024887145)), this.mnh[1]);
       moy(var1, wap.s(a.b("曕ῳ閷உ聅ۨ벶㕐ꭝ↼꙰尚틐䭧섵䞊", -596941083), a.b("䕌㱪똮ⱋ\ua7e8⅚魹ኅ賑ɵ膱篂\uf51b泝\ue6f7搓", 111691132)), this.mnh[2]);
@@ -847,13 +847,13 @@ public class mkl extends kfe {
       return var1.toString();
    }
 
-   private static void moy(StringBuilder var0, String var1, int var2) {
+   static void moy(StringBuilder var0, String var1, int var2) {
       if (var2 > 0) {
          var0.append(var1).append(var2);
       }
    }
 
-   private void moz() {
+   void moz() {
       List var1 = pej.items();
       int var2 = this.mmh == null ? 0 : var1.indexOf(this.mmh) + 1;
       this.moq();
@@ -897,7 +897,7 @@ public class mkl extends kfe {
       }
    }
 
-   private pdr mpa(List<pdr> var1, int var2) {
+   pdr mpa(List<pdr> var1, int var2) {
       long var3 = System.currentTimeMillis();
       this.mmn.values().removeIf(var2x -> var2x <= var3);
 
@@ -911,14 +911,14 @@ public class mkl extends kfe {
       return null;
    }
 
-   private void mpb() {
+   void mpb() {
       if (this.mmi && !this.mmn.isEmpty() && this.mmf.elapsed(2500L)) {
          this.mmf.restart();
          this.moz();
       }
    }
 
-   private void mpc() {
+   void mpc() {
       this.mmh = null;
       this.mmi = false;
       this.mmo = false;
@@ -932,7 +932,7 @@ public class mkl extends kfe {
       this.mml = 0;
    }
 
-   private void mpd() {
+   void mpd() {
       this.mpc();
       this.mms = SlotActionType.PICKUP;
       this.mmt = false;
@@ -953,7 +953,7 @@ public class mkl extends kfe {
       this.mnq = false;
    }
 
-   private void mpe(boolean var1) {
+   void mpe(boolean var1) {
       if (this.mmh != null && (var1 || --this.mna <= 0)) {
          this.mna = 4;
          this.mmz = this.mpf(this.mmh);
@@ -963,7 +963,7 @@ public class mkl extends kfe {
       }
    }
 
-   private int mpf(pdr var1) {
+   int mpf(pdr var1) {
       if (this.mc.player == null) {
          return 0;
       }
@@ -981,7 +981,7 @@ public class mkl extends kfe {
       return var3;
    }
 
-   private ItemStack mpg(pdr var1) {
+   ItemStack mpg(pdr var1) {
       PlayerInventory var2 = this.mc.player.getInventory();
 
       for (int var3 = 0; var3 < 41; var3++) {
@@ -994,7 +994,7 @@ public class mkl extends kfe {
       return ItemStack.EMPTY;
    }
 
-   private boolean mph() {
+   boolean mph() {
       long var1 = System.currentTimeMillis();
       this.mmp = Math.min(6.0, this.mmp + (var1 - this.mmq) / 4000.0);
       this.mmq = var1;
@@ -1006,11 +1006,11 @@ public class mkl extends kfe {
       return true;
    }
 
-   private double mpi() {
+   double mpi() {
       return 1 << Math.min(this.mmm, 3);
    }
 
-   private void mpj() {
+   void mpj() {
       this.mmr = -1;
       this.mmx = 0;
       this.mmy = -1;
@@ -1020,7 +1020,7 @@ public class mkl extends kfe {
       }
    }
 
-   private boolean mpk(MinecraftClient var1) {
+   boolean mpk(MinecraftClient var1) {
       boolean var2 = vzz.isDown(var1, 256);
       if (var1.currentScreen instanceof hlc) {
          this.mni = var2;
@@ -1036,7 +1036,7 @@ public class mkl extends kfe {
       }
    }
 
-   private void mpl(String var1, boolean var2) {
+   void mpl(String var1, boolean var2) {
       if (this.mlx.get()) {
          izx.alert(this.getName(), var1, var2 ? vhz.CHECK : vhz.INFO, var2);
       }

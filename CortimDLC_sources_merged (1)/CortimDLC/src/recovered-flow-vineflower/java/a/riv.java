@@ -9,29 +9,29 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 public class riv extends kfe {
-   private static final float riw = 0.045F;
-   private static final float rix = 0.16F;
-   private static final long riy = 250000000L;
-   private final vmc riz = this.add(new vmc("Сила", 0.5, 0.05, 1.0, 0.05).percent());
-   private final vmc rja = this.add(new vmc("Плавность", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc rjb = this.add(new vmc("От движения", 0.5, 0.0, 1.0, 0.05).percent());
-   private final vlv rjc = this.add(new vlv("Качество", "Высокое", "Низкое", "Среднее", "Высокое", "Ультра"));
-   private static float rjd;
-   private final Quaternionf rje = new Quaternionf();
-   private final Quaternionf rjf = new Quaternionf();
-   private final Quaternionf rjg = new Quaternionf();
-   private final Matrix4f rjh = new Matrix4f();
-   private final Matrix4f rji = new Matrix4f();
-   private final float[] rjj = new float[3];
-   private final float[] rjk = new float[3];
-   private final float[] rjl = new float[3];
-   private final float[] rjm = new float[3];
-   private Vec3d rjn;
-   private ClientWorld rjo;
-   private long rjp;
-   private float rjq;
-   private float rjr;
-   private float rjs;
+   static final float riw = 0.045F;
+   static final float rix = 0.16F;
+   static final long riy = 250000000L;
+   final vmc riz = this.add(new vmc("Сила", 0.5, 0.05, 1.0, 0.05).percent());
+   final vmc rja = this.add(new vmc("Плавность", 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc rjb = this.add(new vmc("От движения", 0.5, 0.0, 1.0, 0.05).percent());
+   final vlv rjc = this.add(new vlv("Качество", "Высокое", "Низкое", "Среднее", "Высокое", "Ультра"));
+   static float rjd;
+   final Quaternionf rje = new Quaternionf();
+   final Quaternionf rjf = new Quaternionf();
+   final Quaternionf rjg = new Quaternionf();
+   final Matrix4f rjh = new Matrix4f();
+   final Matrix4f rji = new Matrix4f();
+   final float[] rjj = new float[3];
+   final float[] rjk = new float[3];
+   final float[] rjl = new float[3];
+   final float[] rjm = new float[3];
+   Vec3d rjn;
+   ClientWorld rjo;
+   long rjp;
+   float rjq;
+   float rjr;
+   float rjs;
 
    public riv() {
       super(new String(new char[]{'M', 'o', 't', 'i', 'o', 'n', 'B', 'l', 'u', 'r'}), "Smooth motion blur, hand and HUD stay sharp", kfa.RENDER);
@@ -52,7 +52,7 @@ public class riv extends kfe {
       this.rjv();
    }
 
-   private void rjv() {
+   void rjv() {
       this.rjn = null;
       this.rjo = null;
       this.rjp = 0L;
@@ -142,7 +142,7 @@ public class riv extends kfe {
       }
    }
 
-   private void rjw(Quaternionf var1, Vec3d var2, float var3) {
+   void rjw(Quaternionf var1, Vec3d var2, float var3) {
       this.rje.conjugate(this.rjf);
       var1.mul(this.rjf, this.rjf);
       if (this.rjf.w < 0.0F) {
@@ -169,7 +169,7 @@ public class riv extends kfe {
       this.rjn = var2;
    }
 
-   private static void rjx(float[] var0, float[] var1, float var2, float var3, float var4, float var5) {
+   static void rjx(float[] var0, float[] var1, float var2, float var3, float var4, float var5) {
       var0[0] += (var2 - var0[0]) * var5;
       var0[1] += (var3 - var0[1]) * var5;
       var0[2] += (var4 - var0[2]) * var5;

@@ -9,7 +9,7 @@ import net.minecraft.entity.player.SkinTextures;
 import net.minecraft.util.Identifier;
 
 public final class uog {
-   private uog() {
+   uog() {
    }
 
    public static boolean draw(DrawContext var0, AbstractClientPlayerEntity var1, float var2, float var3, float var4, float var5, int var6) {
@@ -35,7 +35,7 @@ public final class uog {
       return true;
    }
 
-   private static GpuTextureView uoj(SkinTextures var0) {
+   static GpuTextureView uoj(SkinTextures var0) {
       try {
          Identifier var1 = var0.body().texturePath();
          AbstractTexture var2 = MinecraftClient.getInstance().getTextureManager().getTexture(var1);

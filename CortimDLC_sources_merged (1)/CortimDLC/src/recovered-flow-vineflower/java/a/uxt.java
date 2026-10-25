@@ -12,7 +12,7 @@ public enum uxt {
    public final int color2;
    public final float stars;
    public final float luminance;
-   private static final long uxu = System.nanoTime();
+   static final long uxu = System.nanoTime();
 
    uxt(String var3, int var4, int var5, float var6, float var7) {
       this.title = var3;

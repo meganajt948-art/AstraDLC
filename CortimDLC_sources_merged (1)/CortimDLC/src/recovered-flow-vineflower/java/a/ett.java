@@ -15,20 +15,20 @@ import net.minecraft.world.World;
 import sun.misc.Unsafe;
 
 public final class ett extends Camera {
-   private static Unsafe etu;
-   private static long etv = -1L;
-   private static Camera etw;
-   private static boolean etx;
-   private static boolean ety;
-   private static float etz;
-   private boolean eua;
-   private static float eub;
-   private static float euc;
-   private static boolean eud;
-   private static long eue;
-   private static boolean euf = true;
+   static Unsafe etu;
+   static long etv = -1L;
+   static Camera etw;
+   static boolean etx;
+   static boolean ety;
+   static float etz;
+   boolean eua;
+   static float eub;
+   static float euc;
+   static boolean eud;
+   static long eue;
+   static boolean euf = true;
 
-   private ett() {
+   ett() {
    }
 
    public static void distance(float var0) {
@@ -45,7 +45,7 @@ public final class ett extends Camera {
       eud = false;
    }
 
-   private void eui() {
+   void eui() {
       long var1 = System.nanoTime();
       float var3 = eue == 0L ? 0.0F : Math.min(0.1F, (float)(var1 - eue) / 1.0E9F);
       eue = var1;
@@ -163,7 +163,7 @@ public final class ett extends Camera {
       return this.eua;
    }
 
-   private static void euj(MinecraftClient var0, boolean var1) {
+   static void euj(MinecraftClient var0, boolean var1) {
       if (var0 != null && var1 != ety) {
          ety = var1;
          if (var1) {
@@ -175,7 +175,7 @@ public final class ett extends Camera {
       }
    }
 
-   private static Unsafe euk() throws ReflectiveOperationException {
+   static Unsafe euk() throws ReflectiveOperationException {
       if (etu == null) {
          Field var0 = Unsafe.class.getDeclaredField(a.b("餅\ue0a8橶\uf437翛亮䌶쫀咜", -1765172872));
          var0.setAccessible(true);

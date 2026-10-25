@@ -21,21 +21,21 @@ import net.minecraft.text.Style;
 import net.minecraft.util.math.MathHelper;
 
 public class lre extends kfe {
-   private static lre lrf;
-   private final vkl lrg = this.add(new vkl(a.b("箒Ȁ裒ᚪ鴺ᯃꆑ⡺똢㲈뭆䄼", 1981709266), true));
-   private final vmc lrh = this.add(new vmc(a.c(-603737482, "눹쮩䅠\udf16哚퉶栮"), 1000.0, 200.0, 5000.0, 100.0));
-   private final vkl lri = this.add(new vkl(a.d("࿃癜ﲏ拫\ue96c澞헆尾쉴", 1755679320, -395475495), true));
-   private final vkl lrj = this.add(new vkl(a.d("䆄㠝닙ⲽꝨ↜鮝ቻ谱ڕ腂符\uf5f6", 1314207725, 143095337), true));
-   private final vkl lrk = this.add(new vkl(a.b("鱺\ue5e7漫\uf153竝ﰣ䙱쿎凃\udb69岴ꛊ⠁뇤㯴봊݀袛ሠ", -1622565846), true));
-   private static final int lrl = 100;
-   private static Field lrm;
-   private static Field lrn;
-   private static Field lro;
-   private static boolean lrp;
-   private static ChatHud lrq;
-   private static ChatHudLine lrr;
-   private static String lrs;
-   private static int lrt;
+   static lre lrf;
+   final vkl lrg = this.add(new vkl(a.b("箒Ȁ裒ᚪ鴺ᯃꆑ⡺똢㲈뭆䄼", 1981709266), true));
+   final vmc lrh = this.add(new vmc(a.c(-603737482, "눹쮩䅠\udf16哚퉶栮"), 1000.0, 200.0, 5000.0, 100.0));
+   final vkl lri = this.add(new vkl(a.d("࿃癜ﲏ拫\ue96c澞헆尾쉴", 1755679320, -395475495), true));
+   final vkl lrj = this.add(new vkl(a.d("䆄㠝닙ⲽꝨ↜鮝ቻ谱ڕ腂符\uf5f6", 1314207725, 143095337), true));
+   final vkl lrk = this.add(new vkl(a.b("鱺\ue5e7漫\uf153竝ﰣ䙱쿎凃\udb69岴ꛊ⠁뇤㯴봊݀袛ሠ", -1622565846), true));
+   static final int lrl = 100;
+   static Field lrm;
+   static Field lrn;
+   static Field lro;
+   static boolean lrp;
+   static ChatHud lrq;
+   static ChatHudLine lrr;
+   static String lrs;
+   static int lrt;
 
    public lre() {
       super(
@@ -57,7 +57,7 @@ public class lre extends kfe {
       }
    }
 
-   private static boolean lrw() {
+   static boolean lrw() {
       return lrf != null && lrf.isEnabled();
    }
 
@@ -73,7 +73,7 @@ public class lre extends kfe {
       }
    }
 
-   private static void lrx(ChatHud var0) {
+   static void lrx(ChatHud var0) {
       try {
          if (lrm == null) {
             for (Field var4 : ChatHud.class.getDeclaredFields()) {
@@ -118,11 +118,11 @@ public class lre extends kfe {
       }
    }
 
-   private static int lry() {
+   static int lry() {
       return lrw() && lrf.lrg.get() ? lrf.lrh.getInt() : 100;
    }
 
-   private static void lrz(List<Visible> var0, ChatHudLine var1) {
+   static void lrz(List<Visible> var0, ChatHudLine var1) {
       MinecraftClient var2 = MinecraftClient.getInstance();
       double var3 = var2.options.getChatScale().getValue();
       int var5 = MathHelper.floor(ChatHud.getWidth(var2.options.getChatWidth().getValue()) / var3);
@@ -133,7 +133,7 @@ public class lre extends kfe {
       }
    }
 
-   private static String lsa(List<Visible> var0, int var1) {
+   static String lsa(List<Visible> var0, int var1) {
       StringBuilder var2 = new StringBuilder();
 
       for (int var3 = var1 - 1; var3 >= 0; var3--) {
@@ -146,11 +146,11 @@ public class lre extends kfe {
       return lsb(var2.toString());
    }
 
-   private static String lsb(String var0) {
+   static String lsb(String var0) {
       return var0.replaceAll(a.d("\uda83ꎻ⤺띫㲓멺", 2018923283, 1440778545), "");
    }
 
-   private static int lsc(List<Visible> var0, int var1) {
+   static int lsc(List<Visible> var0, int var1) {
       if (var1 < var0.size() && ((Visible)var0.get(var1)).endOfEntry()) {
          int var2 = 1;
 
@@ -195,7 +195,7 @@ public class lre extends kfe {
       }
    }
 
-   private static int lsd(List<Visible> var0, ChatHud var1, double var2, double var4) throws IllegalAccessException {
+   static int lsd(List<Visible> var0, ChatHud var1, double var2, double var4) throws IllegalAccessException {
       MinecraftClient var6 = MinecraftClient.getInstance();
       int var7 = lro.getInt(var1);
       double var8 = var6.options.getChatScale().getValue();
@@ -218,7 +218,7 @@ public class lre extends kfe {
       }
    }
 
-   private static Style lse(double var0, double var2) {
+   static Style lse(double var0, double var2) {
       MinecraftClient var4 = MinecraftClient.getInstance();
       if (lrn != null && lro != null) {
          try {
@@ -251,7 +251,7 @@ public class lre extends kfe {
       }
    }
 
-   private static String lsf(double var0, double var2) {
+   static String lsf(double var0, double var2) {
       MinecraftClient var4 = MinecraftClient.getInstance();
       ChatHud var5 = var4.inGameHud.getChatHud();
       if (lrn != null && lro != null) {

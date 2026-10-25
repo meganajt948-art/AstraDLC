@@ -12,28 +12,28 @@ import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 
 public final class poi {
-   private static final long poj = 1500L;
-   private static final int pok = 9;
-   private static final EquipmentSlot[] pol = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
-   private static final long pom = 1000L;
-   private static final long pon = 15000L;
-   private static final int poo = 3;
-   private static final long pop = 4000L;
-   private static final long poq = 30000L;
-   private pof por = pof.NONE;
-   private long pos;
-   private long pot;
-   private long pou;
-   private long pov;
-   private int pow;
-   private String pox = "";
-   private boolean poy;
-   private boolean poz;
-   private boolean ppa;
-   private Object ppb;
-   private boolean ppc;
-   private String ppd = "";
-   private Consumer<String> ppe = var0 -> {};
+   static final long poj = 1500L;
+   static final int pok = 9;
+   static final EquipmentSlot[] pol = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+   static final long pom = 1000L;
+   static final long pon = 15000L;
+   static final int poo = 3;
+   static final long pop = 4000L;
+   static final long poq = 30000L;
+   pof por = pof.NONE;
+   long pos;
+   long pot;
+   long pou;
+   long pov;
+   int pow;
+   String pox = "";
+   boolean poy;
+   boolean poz;
+   boolean ppa;
+   Object ppb;
+   boolean ppc;
+   String ppd = "";
+   Consumer<String> ppe = var0 -> {};
 
    public void notes(Consumer<String> var1) {
       this.ppe = var1;
@@ -231,7 +231,7 @@ public final class poi {
       }
    }
 
-   private void pph(MinecraftClient var1, long var2) {
+   void pph(MinecraftClient var1, long var2) {
       this.por = pof.HOP;
       this.pot = var2;
       this.poz = false;

@@ -4,9 +4,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.MathHelper;
 
 public final class prp {
-   private static final double prq = 0.15F;
+   static final double prq = 0.15F;
 
-   private prp() {
+   prp() {
    }
 
    public static double multiplier() {

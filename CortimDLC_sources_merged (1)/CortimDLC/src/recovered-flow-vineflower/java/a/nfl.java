@@ -34,34 +34,34 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.world.World;
 
 public class nfl extends kfe {
-   private static final int nfm = 0;
-   private static final double nfn = 72.0;
-   private static final double nfo = 36.0;
-   private static final double nfp = 30.0;
-   private static final double nfq = 6.0;
-   private static final int nfr = 3;
-   private static final long nfs = 600000L;
-   private static final Pattern nft = Pattern.compile(a.b("ꔋ\udcce嘥젛䏎씊罶\uf6de泪\ue62f懳", 89761064));
-   private static final Pattern nfu = Pattern.compile(a.c(-2097066369, "乒㞗뵼⍂ꢗ"));
-   private static final String nfv = a.c(-1501091926, "➰帀퓐䪿셴䟅ﶕ瑺\uea29悊\ue75bᴩ鏠\u0a4e耜۪벽㍠꧀⾒ꙧ\udc29劄쥔伪엤籛\uf21f棭\ueebd攒鯛ᆐ衤ฯ蒒㭜네㟶깛␐嫨킿");
-   private static final String nfw = a.b("〛䦥", 483995768);
-   private static final String nfx = a.c(337423386, "걤헃弃셰䫷찋癜ﾪ懾");
-   private static final long nfy = 30000L;
-   private static final long nfz = 7000L;
-   private static final long nga = 25000L;
-   private static final long ngb = 150000L;
-   private static final String ngc = a.b("滞\u1774鶠π蠁\u0ebf듵㴗ꍎ", 324955898);
-   private static final String ngd = a.b("✩序푐䨽쇽", 598681422);
-   private static final String nge = a.c(-1423223801, "呷ⷜ꜒");
-   private static final String ngf = a.b("\uf3a5訓Â麻", 1570829257);
-   private static final int ngg = 190;
-   private static final int ngh = 576;
-   private static final float ngi = 3.0F;
-   private static final int ngj = 576;
-   private static final int ngk = 20;
-   private static final long ngl = 60000L;
-   private static final long ngm = 20000L;
-   private static final Set<String> ngn = Set.of(
+   static final int nfm = 0;
+   static final double nfn = 72.0;
+   static final double nfo = 36.0;
+   static final double nfp = 30.0;
+   static final double nfq = 6.0;
+   static final int nfr = 3;
+   static final long nfs = 600000L;
+   static final Pattern nft = Pattern.compile(a.b("ꔋ\udcce嘥젛䏎씊罶\uf6de泪\ue62f懳", 89761064));
+   static final Pattern nfu = Pattern.compile(a.c(-2097066369, "乒㞗뵼⍂ꢗ"));
+   static final String nfv = a.c(-1501091926, "➰帀퓐䪿셴䟅ﶕ瑺\uea29悊\ue75bᴩ鏠\u0a4e耜۪벽㍠꧀⾒ꙧ\udc29劄쥔伪엤籛\uf21f棭\ueebd攒鯛ᆐ衤ฯ蒒㭜네㟶깛␐嫨킿");
+   static final String nfw = a.b("〛䦥", 483995768);
+   static final String nfx = a.c(337423386, "걤헃弃셰䫷찋癜ﾪ懾");
+   static final long nfy = 30000L;
+   static final long nfz = 7000L;
+   static final long nga = 25000L;
+   static final long ngb = 150000L;
+   static final String ngc = a.b("滞\u1774鶠π蠁\u0ebf듵㴗ꍎ", 324955898);
+   static final String ngd = a.b("✩序푐䨽쇽", 598681422);
+   static final String nge = a.c(-1423223801, "呷ⷜ꜒");
+   static final String ngf = a.b("\uf3a5訓Â麻", 1570829257);
+   static final int ngg = 190;
+   static final int ngh = 576;
+   static final float ngi = 3.0F;
+   static final int ngj = 576;
+   static final int ngk = 20;
+   static final long ngl = 60000L;
+   static final long ngm = 20000L;
+   static final Set<String> ngn = Set.of(
       a.d("鏱\uea44悐ﻪ画\uf39b䧛쀭幠풟匕ꥨ➲븃㑞늦ࣿ蜩ᶁ鯑ር", 1145636931, -1590584374),
       a.c(2124664663, "켡뚔㱀ꈺ⧫꽋ᔋ鳽ʰ衏࿅\uf5b8筢\ue2d3梎\uee76吸\udbd2䅚윊份㒹먉⇇ꞵ\u2d71铓"),
       a.b("薌ﰹ盭\ue897捆\ue5e6徦홐䠝싢䕸뼎㇂ꡲ∪", 954303982),
@@ -79,90 +79,90 @@ public class nfl extends kfe {
       a.c(-995143975, "亣㜖뷂⎸ꡩ⻉钉ᵿ茲্蹗琸\ufaed捜\ue914濹햁婭생䚞콻딧㮌"),
       a.d("碖ģ请ᖍ鹜\u18fcꊼ⭊딇㿸롷䈌쳞啨\udf21", 890770786, 1439329686)
    );
-   private final vmu ngo = this.add(new vmu(a.b("\udd4bꓗ⸃끸㾿뵯݇躷უ驖ᶁ", 1109186896), "", 16));
-   private final vkl ngp = this.add(new vkl(a.c(-727505227, "⊦嬸톑俬쑁䊆\uf8ab畏\uef78斱\ue217ᡡ隿"), true));
-   private final vkl ngq = this.add(new vkl(a.c(249814891, "\udb67ꋲ⡝뙐㷸묻Ĝ袖ᛋ鱷ᾱ\ue1a8漇\uf6c3粗\ufa6f"), true));
-   private final vkl ngr = this.add(new vkl(a.b("吹ⶦꝳ㤄닛㑣踴\u07b5馗ፐ铽檙\ue026积\uf3c9甿콹", 913133619), true));
-   private final vkl ngs = this.add(new vkl(a.c(1512283722, "驚\ue3b4椒\uf762粹見䀡춲埶\udd42媓ꃮ⸴란㶤"), true));
-   private final vkw ngt = this.add(
+   final vmu ngo = this.add(new vmu(a.b("\udd4bꓗ⸃끸㾿뵯݇躷უ驖ᶁ", 1109186896), "", 16));
+   final vkl ngp = this.add(new vkl(a.c(-727505227, "⊦嬸톑俬쑁䊆\uf8ab畏\uef78斱\ue217ᡡ隿"), true));
+   final vkl ngq = this.add(new vkl(a.c(249814891, "\udb67ꋲ⡝뙐㷸묻Ĝ袖ᛋ鱷ᾱ\ue1a8漇\uf6c3粗\ufa6f"), true));
+   final vkl ngr = this.add(new vkl(a.b("吹ⶦꝳ㤄닛㑣踴\u07b5馗ፐ铽檙\ue026积\uf3c9甿콹", 913133619), true));
+   final vkl ngs = this.add(new vkl(a.c(1512283722, "驚\ue3b4椒\uf762粹見䀡춲埶\udd42媓ꃮ⸴란㶤"), true));
+   final vkw ngt = this.add(
       new vkw(a.c(-1235147233, "∏宖텉佁쓨䙊\uf80e燻\uefa5攛\ue2c5ᢱ陫"), new vkq(a.b("嘌⾚ꕆ㬰낞㙞豿ր龳ᄚ鋑沾\ue266箥\uf1f2睼쵉䊖", 2140951049), vhz.LAYERS, ign::openMine))
    );
-   private static nfl ngu;
-   private static boolean ngv;
-   private efz ngw;
-   private final qqs ngx = new qqs();
-   private final qqd ngy = new qqd();
-   private final qdz ngz = new qdz();
-   private final qof nha = new qof();
-   private final tel nhb = new tel();
-   private final qmh nhc = new qmh();
-   private final qsw nhd = new qsw();
-   private final qaj nhe = new qaj();
-   private final qma nhf = new qma();
-   private final Map<Integer, pzc> nhg = new HashMap<>();
-   private final Map<Integer, Vec3d> nhh = new HashMap<>();
-   private final Set<Integer> nhi = new HashSet<>();
-   private final Map<String, Long> nhj = new HashMap<>();
-   private final poi nhk = new poi();
-   private final Map<Integer, Long> nhl = new HashMap<>();
-   private final Map<Integer, Long> nhm = new HashMap<>();
-   private boolean nhn;
-   private boolean nho;
-   private nff nhp = nff.START;
-   private long nhq;
-   private int nhr = -1;
-   private int nhs = -1;
-   private boolean nht;
-   private ClientPlayerEntity nhu;
-   private int nhv = -1;
-   private long nhw;
-   private boolean nhx;
-   private ClientWorld nhy;
-   private ClientPlayerEntity nhz;
-   private Vec3d nia;
-   private boolean nib;
-   private boolean nic;
-   private int nid;
-   private long nie;
-   private long nif;
-   private int nig;
-   private Vec3d nih;
-   private ClientWorld nii;
-   private ClientPlayerEntity nij;
-   private long nik;
-   private boolean nil;
-   private long nim;
-   private int nin;
-   private long nio;
-   private boolean nip;
-   private String niq = "";
-   private long nir;
-   private int nis = -1;
-   private boolean nit;
-   private boolean niu;
-   private long niv;
-   private int niw = -1;
-   private long nix;
-   private qwj niy;
-   private qwj niz;
-   private long nja;
-   private int njb;
-   private boolean njc;
-   private int njd;
-   private boolean nje;
-   private boolean njf;
-   private boolean njg;
-   private boolean njh;
-   private long nji;
-   private long njj;
-   private String njk;
-   private long njl;
-   private long njm;
-   private Vec3d njn;
-   private Object njo;
-   private long njp;
-   private String njq = "";
-   private int njr;
+   static nfl ngu;
+   static boolean ngv;
+   efz ngw;
+   final qqs ngx = new qqs();
+   final qqd ngy = new qqd();
+   final qdz ngz = new qdz();
+   final qof nha = new qof();
+   final tel nhb = new tel();
+   final qmh nhc = new qmh();
+   final qsw nhd = new qsw();
+   final qaj nhe = new qaj();
+   final qma nhf = new qma();
+   final Map<Integer, pzc> nhg = new HashMap<>();
+   final Map<Integer, Vec3d> nhh = new HashMap<>();
+   final Set<Integer> nhi = new HashSet<>();
+   final Map<String, Long> nhj = new HashMap<>();
+   final poi nhk = new poi();
+   final Map<Integer, Long> nhl = new HashMap<>();
+   final Map<Integer, Long> nhm = new HashMap<>();
+   boolean nhn;
+   boolean nho;
+   nff nhp = nff.START;
+   long nhq;
+   int nhr = -1;
+   int nhs = -1;
+   boolean nht;
+   ClientPlayerEntity nhu;
+   int nhv = -1;
+   long nhw;
+   boolean nhx;
+   ClientWorld nhy;
+   ClientPlayerEntity nhz;
+   Vec3d nia;
+   boolean nib;
+   boolean nic;
+   int nid;
+   long nie;
+   long nif;
+   int nig;
+   Vec3d nih;
+   ClientWorld nii;
+   ClientPlayerEntity nij;
+   long nik;
+   boolean nil;
+   long nim;
+   int nin;
+   long nio;
+   boolean nip;
+   String niq = "";
+   long nir;
+   int nis = -1;
+   boolean nit;
+   boolean niu;
+   long niv;
+   int niw = -1;
+   long nix;
+   qwj niy;
+   qwj niz;
+   long nja;
+   int njb;
+   boolean njc;
+   int njd;
+   boolean nje;
+   boolean njf;
+   boolean njg;
+   boolean njh;
+   long nji;
+   long njj;
+   String njk;
+   long njl;
+   long njm;
+   Vec3d njn;
+   Object njo;
+   long njp;
+   String njq = "";
+   int njr;
 
    public nfl() {
       super(a.c(610722204, "\ue1d5顐ኂ賨ܝ膈㯜눦"), a.d("喚Ⰴꛞ㢫덯㗟迟ٺ頹ኅ锓漣\ue1fb硅\uf205瓥캡䅡\udb8b嶛푸긨₀묓㴬럹ํ耗\u1af6鳴ᜅ\ue9cf揙視簯\uf699䥘쌠䗹", -439984955, 95422779), kfa.PLAYER);
@@ -187,7 +187,7 @@ public class nfl extends kfe {
       return false;
    }
 
-   private static void nju(Packet<?> var0) {
+   static void nju(Packet<?> var0) {
       nfl var1 = ngu;
       if (var1 != null && var1.ngw == null && var1.isEnabled()) {
          var1.ngz.echo(var0);
@@ -231,7 +231,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void njv() {
+   void njv() {
       Flow var1 = Flow.getInstance();
       if (var1 != null && var1.getModuleManager() != null) {
          nfl var2 = var1.getModuleManager().get(nfl.class);
@@ -375,7 +375,7 @@ public class nfl extends kfe {
       };
    }
 
-   private String njw() {
+   String njw() {
       toq var1 = this.ngz.brain();
       double var2 = var1 == null ? Double.NaN : var1.ratio();
       if (Double.isNaN(var2)) {
@@ -466,27 +466,27 @@ public class nfl extends kfe {
       }
    }
 
-   private boolean njx() {
+   boolean njx() {
       Boolean var1 = nfi.solo;
       return var1 == null || !var1;
    }
 
-   private static String njy() {
+   static String njy() {
       String var0 = nfi.anarchies;
       return var0 != null ? var0 : a.b("㽷䛇찗剸\ud9b3异\ue552沽\uf2ee硍ﾜ\u05ee謧\u1289飛ḭꑺ⮧넇㝕뺠쓮䩃톓埭\udd23撜\uead8瀪\uf67a緕茜ॗ那ᛨ鱕⎛ꧣ⼱뚜㳗䈯졸", -166772883);
    }
 
-   private static long njz() {
+   static long njz() {
       Long var0 = nfi.minMineMs;
       return var0 != null ? var0 : 25000L;
    }
 
-   private static long nka() {
+   static long nka() {
       Long var0 = nfi.maxMineMs;
       return var0 != null ? var0 : 150000L;
    }
 
-   private Set<qwj> nkb() {
+   Set<qwj> nkb() {
       EnumSet var1 = EnumSet.noneOf(qwj.class);
       if (this.ngp.get()) {
          var1.add(qwj.COMMON);
@@ -503,11 +503,11 @@ public class nfl extends kfe {
       return var1.isEmpty() ? EnumSet.allOf(qwj.class) : var1;
    }
 
-   private static boolean nkc(BlockState var0) {
+   static boolean nkc(BlockState var0) {
       return var0.isOf(Blocks.DIAMOND_ORE) || var0.isOf(Blocks.DEEPSLATE_DIAMOND_ORE);
    }
 
-   private void nkd() {
+   void nkd() {
       if (this.mc.getNetworkHandler() != null) {
          this.mc.getNetworkHandler().sendChatCommand(a.b("\ueeb5霞᷐", -1258623291));
       }
@@ -595,7 +595,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nke(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nke(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       boolean var5 = var2.isAlive() && (this.nhp != nff.BASE || this.nin != 2) && !this.nkg() && qdz.trapped(var1.world, var2) != null;
       if (!var5) {
          if (this.njg) {
@@ -621,7 +621,7 @@ public class nfl extends kfe {
       }
    }
 
-   private boolean nkf(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   boolean nkf(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (this.nhk.tick(var1, var2, this.nmb(), this.ngo.get(), var3)) {
          if (!this.nhn) {
             this.nhn = true;
@@ -658,7 +658,7 @@ public class nfl extends kfe {
       }
    }
 
-   private boolean nkg() {
+   boolean nkg() {
       return this.nhp == nff.MINE || (this.nhp == nff.WAIT || this.nhp == nff.SETTLE) && this.ngz.status() == qdw.WORKING;
    }
 
@@ -783,12 +783,12 @@ public class nfl extends kfe {
       }
    }
 
-   private void nkh(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Vec3d var4) {
+   void nkh(MinecraftClient var1, ClientPlayerEntity var2, Object var3, Vec3d var4) {
       this.nhb.assistAt(var1, var2, null, null, 1);
       this.nhc.aim(var1, var2, var3, var4);
    }
 
-   private void nki(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nki(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (this.nhe.active()) {
          if (this.nhe.tick(var1, var2, var3)) {
             this.nhi.add(this.nis);
@@ -841,7 +841,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nkj(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nkj(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       ArrayList var5 = new ArrayList<>(this.njx() ? qqs.parseList(njy()) : List.of(0));
       var5.remove(Integer.valueOf(this.nln()));
       this.ngx.list(var5);
@@ -873,7 +873,7 @@ public class nfl extends kfe {
 
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
-   private void nkk(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nkk(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (!qof.holdsPickaxe(var2) && qof.bestPickaxe(var2.getInventory()) < 0 && !poi.inLobby(var2)) {
          if (this.njp == 0L) {
             this.njp = var3;
@@ -989,7 +989,7 @@ public class nfl extends kfe {
       }
    }
 
-   private nes nkl(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   nes nkl(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       Vec3d var5 = this.nhh.get(this.nhr);
       qqm var6 = this.ngx.entry(this.nhr);
       if (var5 == null || var6 == null || this.nhr == this.nln() || var1.world == null) {
@@ -1038,7 +1038,7 @@ public class nfl extends kfe {
       }
    }
 
-   private static int nkm(World var0, pzc var1) {
+   static int nkm(World var0, pzc var1) {
       int var2 = 0;
       Mutable var3 = new Mutable();
 
@@ -1057,18 +1057,18 @@ public class nfl extends kfe {
       return var2;
    }
 
-   private static boolean nkn(Long var0, long var1) {
+   static boolean nkn(Long var0, long var1) {
       return var0 != null && Math.abs(var0 - var1) < 60000L;
    }
 
-   private void nko() {
+   void nko() {
       qqm var1 = this.nhr >= 0 ? this.ngx.entry(this.nhr) : null;
       if (var1 != null) {
          this.nhl.put(this.nhr, var1.refreshAt);
       }
    }
 
-   private void nkp(MinecraftClient var1, ClientPlayerEntity var2, int var3, long var4) {
+   void nkp(MinecraftClient var1, ClientPlayerEntity var2, int var3, long var4) {
       if (!pjd.enter(this.nmb(), String.valueOf(var3))) {
          pjd.cancel(this.nmb());
          this.ngx.block(var3, var4 + 30000L);
@@ -1086,7 +1086,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nkq(MinecraftClient var1, ClientPlayerEntity var2) {
+   void nkq(MinecraftClient var1, ClientPlayerEntity var2) {
       this.nhy = var1.world;
       this.nhz = var2;
       this.nia = var2.getEntityPos();
@@ -1095,11 +1095,11 @@ public class nfl extends kfe {
       var1.getNetworkHandler().sendChatCommand(a.b("漗ᚩ", -523538572) + this.nhv);
    }
 
-   private boolean nkr(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean nkr(MinecraftClient var1, ClientPlayerEntity var2) {
       return var1.world != this.nhy || var2 != this.nhz || this.nia != null && var2.getEntityPos().distanceTo(this.nia) > 48.0;
    }
 
-   private void nks(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nks(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (this.nkr(var1, var2) || this.nib) {
          this.nhr = this.nhv;
          this.nht = false;
@@ -1126,7 +1126,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nkt(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nkt(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (var1.currentScreen != null && !(var1.currentScreen instanceof DeathScreen)) {
          if (var3 - this.nhq > 20000L) {
             this.nly(nff.DECIDE);
@@ -1150,13 +1150,13 @@ public class nfl extends kfe {
       }
    }
 
-   private void nku(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nku(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       this.nig = 0;
       this.nly(nff.WARP);
       this.nkv(var1, var2, var3, a.d("蓁ﵦ瞦\ue9d5扒\ue4ae廹휏䥛", 1800882882, -253309315));
    }
 
-   private void nkv(MinecraftClient var1, ClientPlayerEntity var2, long var3, String var5) {
+   void nkv(MinecraftClient var1, ClientPlayerEntity var2, long var3, String var5) {
       String var6 = var5.trim();
       if (var6.startsWith(a.b("䭜", -922530958))) {
          var6 = var6.substring(1);
@@ -1176,7 +1176,7 @@ public class nfl extends kfe {
       this.nim = 0L;
    }
 
-   private void nkw(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nkw(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (this.nim != 0L) {
          if (var3 - this.nim >= 700L) {
             pzp var10 = pzw.read(var1, 72.0);
@@ -1227,12 +1227,12 @@ public class nfl extends kfe {
       }
    }
 
-   private void nkx(ClientPlayerEntity var1) {
+   void nkx(ClientPlayerEntity var1) {
       this.nht = true;
       this.nhu = var1;
    }
 
-   private void nky(MinecraftClient var1, qqm var2, long var3) {
+   void nky(MinecraftClient var1, qqm var2, long var3) {
       this.niy = var2 == null ? null : var2.tier;
       this.niw = -1;
       this.njf = false;
@@ -1250,7 +1250,7 @@ public class nfl extends kfe {
       this.nlm(var1, var3);
    }
 
-   private void nkz(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nkz(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (this.njf && (this.ngz.parkLost() || this.ngz.status() != qdw.WORKING)) {
          this.njf = false;
          this.ngz.stop(var1);
@@ -1314,14 +1314,14 @@ public class nfl extends kfe {
       }
    }
 
-   private void nla(ClientPlayerEntity var1) {
+   void nla(ClientPlayerEntity var1) {
       if (this.ngz.status() != qdw.WORKING) {
          pzc var2 = this.nhg.get(this.nhr);
          this.ngz.guard(var2 != null && var2.distanceTo(var1.getEntityPos()) < 30.0 ? var2 : pzc.empty(var1.getBlockPos()));
       }
    }
 
-   private void nlb(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nlb(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       if (var2.isOnGround() || var2.hasVehicle()) {
          BlockPos var5 = nle(a.d("刱⮛ꅏ㼯듮㉐蠚Ǹ龡", -454491144, 1331646957));
          if (var5 == null) {
@@ -1344,7 +1344,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlc(String var1, long var2) {
+   void nlc(String var1, long var2) {
       this.njj = var2 + 3000L;
       if (!var1.equals(this.njk)) {
          this.njk = var1;
@@ -1352,7 +1352,7 @@ public class nfl extends kfe {
       }
    }
 
-   private pzc nld(MinecraftClient var1, Vec3d var2, BlockPos var3) {
+   pzc nld(MinecraftClient var1, Vec3d var2, BlockPos var3) {
       pzc var4 = this.nhg.get(this.nhr);
       if (var4 == null || var2 != null && !(var4.distanceTo(var2) <= 30.0)) {
          if (var2 != null) {
@@ -1380,7 +1380,7 @@ public class nfl extends kfe {
       }
    }
 
-   private static BlockPos nle(String var0) {
+   static BlockPos nle(String var0) {
       String[] var1 = var0.trim().replace(',', ' ').split(a.b("囐⽎ꗅ", -1219733873));
       if (var1.length < 3) {
          return null;
@@ -1393,7 +1393,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlf(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nlf(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       this.njb++;
       if (this.nht && this.ngz.status() != qdw.WORKING) {
          this.nla(var2);
@@ -1455,14 +1455,14 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlg(boolean var1) {
+   void nlg(boolean var1) {
       this.njb = 0;
       this.njc = var1;
       this.njd = 0;
       this.nly(nff.SETTLE);
    }
 
-   private void nlh(MinecraftClient var1, ClientPlayerEntity var2, pzc var3, long var4) {
+   void nlh(MinecraftClient var1, ClientPlayerEntity var2, pzc var3, long var4) {
       this.nja = var4;
       this.ngx.mined(this.nhr);
       this.nko();
@@ -1474,7 +1474,7 @@ public class nfl extends kfe {
       this.nlm(var1, var4);
    }
 
-   private void nli(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nli(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       PlayerInventory var5 = var2.getInventory();
       if (!this.nlp(var1, var2, var3)) {
          this.nha.unstow(var2);
@@ -1597,7 +1597,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlj(ClientPlayerEntity var1) {
+   void nlj(ClientPlayerEntity var1) {
       this.nha.dropJunk(64);
       this.njo = new Object();
       Vec3d var2 = var1.getEyePos();
@@ -1626,7 +1626,7 @@ public class nfl extends kfe {
       this.njn = var2.add(var3.x * 4.0, 2.2, var3.z * 4.0);
    }
 
-   private void nlk(MinecraftClient var1, ClientPlayerEntity var2) {
+   void nlk(MinecraftClient var1, ClientPlayerEntity var2) {
       pzc var3 = this.nhr >= 0 ? this.nhg.get(this.nhr) : null;
       if (var3 == null && this.nkg()) {
          var3 = this.ngz.area();
@@ -1643,7 +1643,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nll(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nll(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       PlayerInventory var5 = var2.getInventory();
       if (qpw.count(var5, Items.ANCIENT_DEBRIS) <= 0 && qof.empty(var5) <= 0) {
          boolean var6 = !var1.world
@@ -1670,7 +1670,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlm(MinecraftClient var1, long var2) {
+   void nlm(MinecraftClient var1, long var2) {
       int var4 = this.njx() ? this.nhr : 0;
       if (!this.nhe.active() && var4 >= 0 && var4 != this.nln() && !this.nhi.contains(var4)) {
          this.nis = var4;
@@ -1678,7 +1678,7 @@ public class nfl extends kfe {
       }
    }
 
-   private int nln() {
+   int nln() {
       Matcher var1 = nfu.matcher(this.ngo.get());
       if (!var1.find()) {
          return -1;
@@ -1691,7 +1691,7 @@ public class nfl extends kfe {
       }
    }
 
-   private String nlo(ClientPlayerEntity var1, long var2) {
+   String nlo(ClientPlayerEntity var1, long var2) {
       if (this.nln() > 0 && var2 >= this.nir) {
          if (qdz.trapped(var1.getEntityWorld(), var1) != null) {
             return null;
@@ -1712,7 +1712,7 @@ public class nfl extends kfe {
       }
    }
 
-   private boolean nlp(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   boolean nlp(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       int var5 = qpw.pickaxeDurability(var2);
       if (var5 < 0 || var5 >= 190) {
          this.njh = false;
@@ -1744,12 +1744,12 @@ public class nfl extends kfe {
       return true;
    }
 
-   private boolean nlq(String var1, long var2) {
+   boolean nlq(String var1, long var2) {
       Long var4 = this.nhj.get(var1);
       return var4 == null || var4 <= var2;
    }
 
-   private static String nlr(String var0) {
+   static String nlr(String var0) {
       return switch (var0) {
          case a.d("긂\ud7ab", 643588259, 1846267595) -> a.d("ꔍ\udcb0器제䟕섌筇", -1273960703, -1706211785);
          case a.d("훾꽖▏믶", -1774369912, -1863871230) -> a.d("\ud95aꃩ⩂둉㾔봵ͽ誉ᓔ鹩ᦿ\ue3b9浭\uf4d2", 1435623102, 1451885520);
@@ -1758,7 +1758,7 @@ public class nfl extends kfe {
       };
    }
 
-   private boolean nls(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   boolean nls(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       String var5 = this.nlo(var2, var3);
       if (var5 != null && !this.nha.busy()) {
          if (this.njx() && this.nhr != this.nln() && qof.hasJunk(var2.getInventory(), ngn) && var3 - this.njm > 15000L) {
@@ -1809,7 +1809,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlt(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
+   void nlt(MinecraftClient var1, ClientPlayerEntity var2, long var3) {
       switch (this.nin) {
          case -1:
             if (this.njr % 20 == 0 && pjd.enter(this.nmb(), String.valueOf(this.nhv))) {
@@ -1897,7 +1897,7 @@ public class nfl extends kfe {
       }
    }
 
-   private static int nlu(ClientPlayerEntity var0) {
+   static int nlu(ClientPlayerEntity var0) {
       ItemStack var1 = var0.getMainHandStack();
       if (!var1.isIn(ItemTags.PICKAXES)) {
          int var2 = qof.bestPickaxe(var0.getInventory());
@@ -1907,7 +1907,7 @@ public class nfl extends kfe {
       return var1.isIn(ItemTags.PICKAXES) && var1.getMaxDamage() > 0 ? Math.max(200, var1.getMaxDamage() - 2) : 1500;
    }
 
-   private void nlv(MinecraftClient var1, ClientPlayerEntity var2, boolean var3, String var4, long var5) {
+   void nlv(MinecraftClient var1, ClientPlayerEntity var2, boolean var3, String var4, long var5) {
       this.nhd.stop(var1);
       if (var4 != null) {
          this.nma(var4, vhz.ALERT);
@@ -1930,7 +1930,7 @@ public class nfl extends kfe {
       this.nly(nff.DECIDE);
    }
 
-   private void nlw(int var1, pzp var2, long var3, boolean var5) {
+   void nlw(int var1, pzp var2, long var3, boolean var5) {
       if (var1 >= 0 && var2 != null) {
          qwj var6 = var2.tier();
          if (var6 == null) {
@@ -1957,14 +1957,14 @@ public class nfl extends kfe {
       }
    }
 
-   private void nlx() {
+   void nlx() {
       this.ngy.tiers = this.nkb();
       this.ngy.waitMs = 30000L;
       this.ngy.leadMs = 7000L;
       this.ngy.minMineMs = njz();
    }
 
-   private void nly(nff var1) {
+   void nly(nff var1) {
       if (this.njf && var1 != nff.WAIT) {
          this.njf = false;
          if (var1 != nff.SETTLE) {
@@ -1980,7 +1980,7 @@ public class nfl extends kfe {
       this.nhq = System.currentTimeMillis();
    }
 
-   private void nlz() {
+   void nlz() {
       if (this.ngw != null) {
          this.setEnabledSilently(false);
       } else {
@@ -1988,7 +1988,7 @@ public class nfl extends kfe {
       }
    }
 
-   private void nma(String var1, vhz var2) {
+   void nma(String var1, vhz var2) {
       this.njq = var1;
       if (this.ngw != null) {
          this.ngw.report(a.b("㸺䞿쵭匇\ud8f2幧\ue433淉\uf3c9祢", 1288519281) + var1, true);
@@ -1998,7 +1998,7 @@ public class nfl extends kfe {
       }
    }
 
-   private Object nmb() {
+   Object nmb() {
       return this.ngw != null ? this.ngw : pjd.MAIN;
    }
 

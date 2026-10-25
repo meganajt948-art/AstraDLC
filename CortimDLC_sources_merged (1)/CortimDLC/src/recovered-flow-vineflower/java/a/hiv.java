@@ -3,12 +3,12 @@ package a;
 import net.minecraft.client.gui.DrawContext;
 
 final class hiv extends imn {
-   private static final float hiw = 24.0F;
-   private static final float hix = 17.0F;
-   private static final float hiy = 6.0F;
-   private final hip[] hiz;
-   private final vcj[] hja;
-   private final vcj[] hjb;
+   static final float hiw = 24.0F;
+   static final float hix = 17.0F;
+   static final float hiy = 6.0F;
+   final hip[] hiz;
+   final vcj[] hja;
+   final vcj[] hjb;
 
    hiv(String var1, vhz var2, Runnable var3) {
       this(new hip(var1, var2, var3));
@@ -22,7 +22,7 @@ final class hiv extends imn {
       this(var1, var1.buttons().stream().map(var0 -> new hip(var0.label(), var0.icon(), var0.action())).toArray(hip[]::new));
    }
 
-   private hiv(vmo var1, hip[] var2) {
+   hiv(vmo var1, hip[] var2) {
       super(var1);
       this.hiz = var2;
       this.hja = new vcj[var2.length];
@@ -39,11 +39,11 @@ final class hiv extends imn {
       return 24.0F;
    }
 
-   private float hje() {
+   float hje() {
       return (this.w - 6.0F * (this.hiz.length - 1)) / this.hiz.length;
    }
 
-   private float hjf(int var1) {
+   float hjf(int var1) {
       return this.x + var1 * (this.hje() + 6.0F);
    }
 

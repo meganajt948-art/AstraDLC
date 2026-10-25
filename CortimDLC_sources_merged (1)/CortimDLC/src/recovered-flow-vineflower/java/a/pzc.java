@@ -12,10 +12,10 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.world.World;
 
 public final class pzc {
-   private static final int pzd = 40;
-   private static final int pze = 26;
-   private static final int pzf = 8;
-   private static final Map<Block, Boolean> pzg = new IdentityHashMap<>();
+   static final int pzd = 40;
+   static final int pze = 26;
+   static final int pzf = 8;
+   static final Map<Block, Boolean> pzg = new IdentityHashMap<>();
    public final int minX;
    public final int minY;
    public final int minZ;
@@ -182,7 +182,7 @@ public final class pzc {
       }
    }
 
-   private static int[] pzj(int[] var0) {
+   static int[] pzj(int[] var0) {
       int var1 = 0;
 
       for (int var5 : var0) {

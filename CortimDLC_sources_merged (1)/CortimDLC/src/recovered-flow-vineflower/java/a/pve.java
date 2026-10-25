@@ -9,43 +9,43 @@ public final class pve {
    public static final int WALK = 0;
    public static final int DONE = 1;
    public static final int OFF = 2;
-   private static final float[][] pvf = new float[][]{
+   static final float[][] pvf = new float[][]{
       {1.0F, 0.0F}, {1.0F, 1.0F}, {1.0F, -1.0F}, {0.0F, 1.0F}, {0.0F, -1.0F}, {-1.0F, 0.0F}, {-1.0F, 1.0F}, {-1.0F, -1.0F}
    };
-   private static final double[] pvg = new double[]{0.0, 6.0, 6.0, 22.0, 22.0, 40.0, 44.0, 44.0};
-   private final Random pvh = new Random();
-   private double pvi = 1.0;
-   private double pvj = 0.13;
-   private double pvk = 0.5;
-   private double pvl = 30.0;
-   private double pvm = 14.0;
-   private double pvn = 0.4;
-   private boolean pvo = true;
-   private psc pvp = new psc();
-   private psf pvq;
-   private int pvr;
-   private double pvs;
-   private int pvt;
-   private int pvu;
-   private long pvv;
-   private double pvw;
-   private double pvx;
-   private double pvy;
-   private double pvz;
-   private int pwa = -1;
-   private int pwb;
-   private int pwc;
-   private int pwd = 240;
-   private double pwe;
-   private int pwf;
-   private int pwg = 40;
-   private int pwh;
-   private int pwi = 1;
-   private int pwj;
-   private boolean pwk = true;
-   private final pvb pwl = new pvb();
-   private final double[] pwm = new double[3];
-   private final double[] pwn = new double[1];
+   static final double[] pvg = new double[]{0.0, 6.0, 6.0, 22.0, 22.0, 40.0, 44.0, 44.0};
+   final Random pvh = new Random();
+   double pvi = 1.0;
+   double pvj = 0.13;
+   double pvk = 0.5;
+   double pvl = 30.0;
+   double pvm = 14.0;
+   double pvn = 0.4;
+   boolean pvo = true;
+   psc pvp = new psc();
+   psf pvq;
+   int pvr;
+   double pvs;
+   int pvt;
+   int pvu;
+   long pvv;
+   double pvw;
+   double pvx;
+   double pvy;
+   double pvz;
+   int pwa = -1;
+   int pwb;
+   int pwc;
+   int pwd = 240;
+   double pwe;
+   int pwf;
+   int pwg = 40;
+   int pwh;
+   int pwi = 1;
+   int pwj;
+   boolean pwk = true;
+   final pvb pwl = new pvb();
+   final double[] pwm = new double[3];
+   final double[] pwn = new double[1];
 
    public void personalize(long var1) {
       Random var3 = new Random(var1 ^ 4354685564936845355L);
@@ -345,7 +345,7 @@ public final class pve {
       }
    }
 
-   private void pwq(tvt var1, double var2, boolean var4) {
+   void pwq(tvt var1, double var2, boolean var4) {
       if (this.pwb <= 0) {
          if (this.pwd > 0) {
             this.pwd--;
@@ -360,7 +360,7 @@ public final class pve {
       }
    }
 
-   private boolean pwr(PlayerEntity var1, tvt var2, double var3, boolean var5, boolean var6, double var7, double var9) {
+   boolean pwr(PlayerEntity var1, tvt var2, double var3, boolean var5, boolean var6, double var7, double var9) {
       double var11 = var5 ? Math.max(0.75, this.pvn) : this.pvn;
       if (var6 && !(var11 <= 0.0) && var1.getHungerManager().getFoodLevel() >= 14) {
          boolean var13 = var3 > 6.0 && var2.flatAhead(this.pvs, 6.0, var1.getY()) >= 5.5 && var2.bend(this.pvs, 6.0) < 14.0 && (var7 < 0.0 || var7 > 5.0);
@@ -396,7 +396,7 @@ public final class pve {
       }
    }
 
-   private static boolean pws(World var0, PlayerEntity var1, double var2, double var4, double var6, double[] var8) {
+   static boolean pws(World var0, PlayerEntity var1, double var2, double var4, double var6, double[] var8) {
       double var9 = var8[0] - var2;
       double var11 = var8[2] - var6;
       double var13 = Math.hypot(var9, var11);
@@ -454,7 +454,7 @@ public final class pve {
       return var7;
    }
 
-   private static int pwt(World var0, PlayerEntity var1, double var2) {
+   static int pwt(World var0, PlayerEntity var1, double var2) {
       double var4 = Math.toRadians(var2);
       double var6 = -Math.sin(var4);
       double var8 = Math.cos(var4);
@@ -474,16 +474,16 @@ public final class pve {
       }
    }
 
-   private static double pwu(int var0, double var1, double var3) {
+   static double pwu(int var0, double var1, double var3) {
       double var5 = Math.toDegrees(pud.inputDirection((float)var1, pvf[var0][0], pvf[var0][1]));
       return Math.abs(tvt.wrap(var5 - var3));
    }
 
-   private static double pwv(double var0, double var2) {
+   static double pwv(double var0, double var2) {
       return var0 > var2 ? var2 : (var0 < -var2 ? -var2 : var0);
    }
 
-   private static double pww(double var0, double var2, double var4) {
+   static double pww(double var0, double var2, double var4) {
       return var0 < var2 ? var2 : (var0 > var4 ? var4 : var0);
    }
 }

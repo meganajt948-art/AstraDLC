@@ -9,8 +9,8 @@ import net.minecraft.text.Text;
 
 final class ppi {
    final ItemStack stack;
-   private String ppj;
-   private String ppk;
+   String ppj;
+   String ppk;
 
    ppi(ItemStack var1) {
       this.stack = var1;

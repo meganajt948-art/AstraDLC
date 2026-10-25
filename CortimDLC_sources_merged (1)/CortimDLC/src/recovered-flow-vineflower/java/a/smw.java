@@ -1,15 +1,15 @@
 package a;
 
 final class smw {
-   private final String smx;
-   private final vek smy;
-   private final float smz;
-   private final long sna;
-   private final long snb;
-   private final boolean snc;
-   private final boolean snd;
+   final String smx;
+   final vek smy;
+   final float smz;
+   final long sna;
+   final long snb;
+   final boolean snc;
+   final boolean snd;
 
-   private smw(String text, vek weight, float scale, long start, long end, boolean newRow, boolean dim) {
+   smw(String text, vek weight, float scale, long start, long end, boolean newRow, boolean dim) {
       this.smx = text;
       this.smy = weight;
       this.smz = scale;

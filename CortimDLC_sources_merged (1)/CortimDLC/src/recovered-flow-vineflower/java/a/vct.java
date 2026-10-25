@@ -1,12 +1,12 @@
 package a;
 
 public final class vct {
-   private static final float vcu = 0.004166667F;
-   private final float vcv;
-   private final float vcw;
-   private float vcx;
-   private float vcy;
-   private boolean vcz;
+   static final float vcu = 0.004166667F;
+   final float vcv;
+   final float vcw;
+   float vcx;
+   float vcy;
+   boolean vcz;
 
    public vct(float var1, float var2) {
       this.vcv = var1;

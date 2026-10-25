@@ -1,12 +1,12 @@
 package a;
 
 final class iom {
-   private final String ion;
-   private final String ioo;
-   private final int[] iop;
-   private final float ioq;
-   private final boolean ior;
-   private final int[] ios;
+   final String ion;
+   final String ioo;
+   final int[] iop;
+   final float ioq;
+   final boolean ior;
+   final int[] ios;
 
    iom(String name, String group, int[] colors, float tintScale, boolean light, int[] accent) {
       this.ion = name;

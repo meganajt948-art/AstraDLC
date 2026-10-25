@@ -26,20 +26,20 @@ import net.minecraft.scoreboard.ScoreboardObjective;
 import org.joml.Matrix3x2fStack;
 
 public class qxi extends kfe {
-   private static qxi qxj;
-   private static boolean qxk;
-   private final vkl qxl = this.add(new vkl("Tab", true));
-   private final vkl qxm = this.add(new vkl("Chat", true));
-   private final vkl qxn = this.add(new vkl("Inventory", true));
-   private final vmc qxo = this.add(new vmc("Speed", 1.0, 0.5, 2.0, 0.1));
-   private static float qxp;
-   private static long qxq;
-   private static Field qxr;
-   private static boolean qxs;
-   private static Object qxt;
-   private static long qxu;
-   private static final Map<Screen, Long> qxv = new WeakHashMap<>();
-   private static boolean qxw;
+   static qxi qxj;
+   static boolean qxk;
+   final vkl qxl = this.add(new vkl("Tab", true));
+   final vkl qxm = this.add(new vkl("Chat", true));
+   final vkl qxn = this.add(new vkl("Inventory", true));
+   final vmc qxo = this.add(new vmc("Speed", 1.0, 0.5, 2.0, 0.1));
+   static float qxp;
+   static long qxq;
+   static Field qxr;
+   static boolean qxs;
+   static Object qxt;
+   static long qxu;
+   static final Map<Screen, Long> qxv = new WeakHashMap<>();
+   static boolean qxw;
 
    public qxi() {
       super(new String(new char[]{'A', 'n', 'i', 'm', 'a', 't', 'i', 'o', 'n', 's'}), "Smooth tab list, chat and inventories", kfa.RENDER);
@@ -48,15 +48,15 @@ public class qxi extends kfe {
       qyb();
    }
 
-   private static boolean qxz(vkl var0) {
+   static boolean qxz(vkl var0) {
       return qxj != null && qxj.isEnabled() && var0.get();
    }
 
-   private static float qya(float var0) {
+   static float qya(float var0) {
       return var0 / (float)Math.max(0.2, qxj.qxo.get());
    }
 
-   private static void qyb() {
+   static void qyb() {
       if (!qxk) {
          qxk = true;
 
@@ -69,7 +69,7 @@ public class qxi extends kfe {
       }
    }
 
-   private static HudElement qyc(HudElement var0) {
+   static HudElement qyc(HudElement var0) {
       return (var1, var2) -> {
          if (qxj != null && qxz(qxj.qxl)) {
             try {
@@ -85,7 +85,7 @@ public class qxi extends kfe {
       };
    }
 
-   private static void qyd(DrawContext var0, RenderTickCounter var1, HudElement var2) {
+   static void qyd(DrawContext var0, RenderTickCounter var1, HudElement var2) {
       MinecraftClient var3 = MinecraftClient.getInstance();
       long var4 = System.nanoTime();
       float var6 = qxq == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - qxq) / 1.0E9F);
@@ -129,7 +129,7 @@ public class qxi extends kfe {
       }
    }
 
-   private static HudElement qye(HudElement var0) {
+   static HudElement qye(HudElement var0) {
       return (var1, var2) -> {
          if (qxj != null && qxz(qxj.qxm) && !qxs) {
             float var3 = 0.0F;
@@ -160,7 +160,7 @@ public class qxi extends kfe {
       };
    }
 
-   private static float qyf(MinecraftClient var0) throws IllegalAccessException {
+   static float qyf(MinecraftClient var0) throws IllegalAccessException {
       ChatHud var1 = var0.inGameHud.getChatHud();
       if (qxr == null) {
          for (Field var5 : ChatHud.class.getDeclaredFields()) {
@@ -209,7 +209,7 @@ public class qxi extends kfe {
       }
    }
 
-   private static void qyg(Screen var0, DrawContext var1) {
+   static void qyg(Screen var0, DrawContext var1) {
       qxw = false;
       Long var2 = qxv.get(var0);
       if (var2 != null) {
@@ -248,18 +248,18 @@ public class qxi extends kfe {
       }
    }
 
-   private static void qyh(DrawContext var0, int var1, int var2, int var3, int var4, int var5) {
+   static void qyh(DrawContext var0, int var1, int var2, int var3, int var4, int var5) {
       if (var3 > var1 && var4 > var2) {
          var0.fillGradient(var1, var2, var3, var4, qyi((float)var2 / var5), qyi((float)var4 / var5));
       }
    }
 
-   private static int qyi(float var0) {
+   static int qyi(float var0) {
       int var1 = Math.round(192.0F + 16.0F * Math.max(0.0F, Math.min(1.0F, var0)));
       return var1 << 24 | 1052688;
    }
 
-   private static void qyj(DrawContext var0) {
+   static void qyj(DrawContext var0) {
       if (qxw) {
          qxw = false;
          var0.getMatrices().popMatrix();

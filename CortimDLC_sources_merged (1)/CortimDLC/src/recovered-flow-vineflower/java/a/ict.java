@@ -4,10 +4,10 @@ import flow.dev.a;
 import net.minecraft.client.gui.DrawContext;
 
 final class ict extends imn {
-   private static final float icu = 20.0F;
-   private final String icv;
-   private final irk icw;
-   private final vcj icx = new vcj(14.0F);
+   static final float icu = 20.0F;
+   final String icv;
+   final irk icw;
+   final vcj icx = new vcj(14.0F);
 
    ict(String var1, irk var2) {
       this(null, var1, var2);

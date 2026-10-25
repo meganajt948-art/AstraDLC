@@ -4,11 +4,11 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 final class ine extends imn {
-   private static final float inf = 30.0F;
-   private static final float ing = 10.0F;
-   private final vla inh;
-   private final vcj[] ini;
-   private final vcj[] inj;
+   static final float inf = 30.0F;
+   static final float ing = 10.0F;
+   final vla inh;
+   final vcj[] ini;
+   final vcj[] inj;
 
    ine(vla var1) {
       super(var1);
@@ -28,12 +28,12 @@ final class ine extends imn {
       return 30.0F;
    }
 
-   private float inm(int var1, int var2) {
+   float inm(int var1, int var2) {
       float var3 = (this.w - 10.0F * var2) / (var2 - 1);
       return this.x + 5.0F + var1 * (10.0F + var3);
    }
 
-   private float inn() {
+   float inn() {
       return this.y + 30.0F - 5.0F - 4.0F;
    }
 

@@ -29,16 +29,16 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public final class pqx {
-   private static final int pqy = 6000;
-   private static final int pqz = 100;
+   static final int pqy = 6000;
+   static final int pqz = 100;
    public static final double STEP_HEIGHT = 0.6;
    public static final double JUMP_HEIGHT = 1.2;
-   private static final double pra = 8.0;
-   private static final int[][] prb = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-   private static final int[][] prc = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-   private static final Direction[] prd = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
+   static final double pra = 8.0;
+   static final int[][] prb = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+   static final int[][] prc = new int[][]{{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+   static final Direction[] prd = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
-   private pqx() {
+   pqx() {
    }
 
    public static List<BlockPos> findPath(BlockPos var0, BlockPos var1, List<BlockPos> var2, double var3, boolean var5) {
@@ -197,7 +197,7 @@ public final class pqx {
       return var7;
    }
 
-   private static boolean prg(BlockView var0, BlockPos var1, int var2, int var3, double var4) {
+   static boolean prg(BlockView var0, BlockPos var1, int var2, int var3, double var4) {
       VoxelShape var6 = var0.getBlockState(var1).getCollisionShape(var0, var1);
       if (var6.isEmpty()) {
          return false;
@@ -219,7 +219,7 @@ public final class pqx {
       return var17 >= var7 - 1.0E-4 ? false : var1.getY() + var17 - var4 <= 0.6001 && var7 - var17 <= 0.6001;
    }
 
-   private static double prh(BlockView var0, BlockPos var1, Map<BlockPos, Double> var2) {
+   static double prh(BlockView var0, BlockPos var1, Map<BlockPos, Double> var2) {
       Double var3 = (Double)var2.get(var1);
       if (var3 != null) {
          return var3;
@@ -244,13 +244,13 @@ public final class pqx {
       return var4;
    }
 
-   private static boolean pri(BlockView var0, BlockPos var1) {
+   static boolean pri(BlockView var0, BlockPos var1) {
       BlockState var2 = var0.getBlockState(var1);
       VoxelShape var3 = var2.getCollisionShape(var0, var1);
       return var3.isEmpty() ? false : var3.getMax(Axis.Y) > 1.0;
    }
 
-   private static boolean prj(BlockView var0, BlockPos var1, List<BlockPos> var2, double var3) {
+   static boolean prj(BlockView var0, BlockPos var1, List<BlockPos> var2, double var3) {
       if (!var2.isEmpty() && var3 > 0.0) {
          double var5 = var3 * var3;
 
@@ -294,11 +294,11 @@ public final class pqx {
       }
    }
 
-   private static boolean prk(BlockState var0) {
+   static boolean prk(BlockState var0) {
       return var0.isOf(Blocks.LAVA) || var0.isOf(Blocks.FIRE) || var0.isOf(Blocks.CAMPFIRE) || var0.isOf(Blocks.MAGMA_BLOCK);
    }
 
-   private static boolean prl(BlockView var0, BlockPos var1) {
+   static boolean prl(BlockView var0, BlockPos var1) {
       BlockState var2 = var0.getBlockState(var1);
       return var2.getCollisionShape(var0, var1).isEmpty() && !var2.isOf(Blocks.LAVA);
    }
@@ -307,7 +307,7 @@ public final class pqx {
       return var0.getBlockState(var1).isIn(BlockTags.CLIMBABLE);
    }
 
-   private static boolean prm(BlockView var0, Entity var1, BlockPos var2, BlockPos var3) {
+   static boolean prm(BlockView var0, Entity var1, BlockPos var2, BlockPos var3) {
       if (prn(var2, var3) > 4.0) {
          return false;
       }
@@ -320,14 +320,14 @@ public final class pqx {
       return var6.getType() == Type.MISS || var6.getBlockPos().equals(var3);
    }
 
-   private static double prn(BlockPos var0, BlockPos var1) {
+   static double prn(BlockPos var0, BlockPos var1) {
       double var2 = var0.getX() - var1.getX();
       double var4 = var0.getY() - var1.getY();
       double var6 = var0.getZ() - var1.getZ();
       return Math.sqrt(var2 * var2 + var4 * var4 + var6 * var6);
    }
 
-   private static List<BlockPos> pro(pqj var0) {
+   static List<BlockPos> pro(pqj var0) {
       ArrayList var1 = new ArrayList();
 
       for (pqj var2 = var0; var2 != null && var2.pql != null; var2 = var2.pql) {

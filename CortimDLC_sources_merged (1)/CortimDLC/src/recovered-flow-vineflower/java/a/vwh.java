@@ -16,12 +16,12 @@ import net.minecraft.util.PlayerInput;
 
 final class vwh extends ChannelOutboundHandlerAdapter {
    final Channel channel;
-   private final ArrayDeque<vwt> vwi = new ArrayDeque<>();
-   private ChannelHandlerContext vwj;
-   private boolean vwk;
-   private boolean vwl;
-   private boolean vwm;
-   private int vwn;
+   final ArrayDeque<vwt> vwi = new ArrayDeque<>();
+   ChannelHandlerContext vwj;
+   boolean vwk;
+   boolean vwl;
+   boolean vwm;
+   int vwn;
 
    vwh(Channel var1, PlayerInput var2, boolean var3) {
       this.channel = var1;
@@ -69,7 +69,7 @@ final class vwh extends ChannelOutboundHandlerAdapter {
       }
    }
 
-   private void vwq(Object var1) {
+   void vwq(Object var1) {
       if (var1 instanceof PlayerInputC2SPacket var2) {
          this.vwk = vwy.vxk(var2.input());
          this.vwl = var2.input().sneak();
@@ -82,11 +82,11 @@ final class vwh extends ChannelOutboundHandlerAdapter {
       }
    }
 
-   private boolean vwr() {
+   boolean vwr() {
       return this.vwk || this.vwl && !vwy.vxf || this.vwm;
    }
 
-   private void vws(ChannelHandlerContext var1) {
+   void vws(ChannelHandlerContext var1) {
       vwt var2;
       while ((var2 = this.vwi.poll()) != null) {
          var1.write(var2.msg(), var2.promise());

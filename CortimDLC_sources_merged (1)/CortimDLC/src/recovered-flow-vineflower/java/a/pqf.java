@@ -17,10 +17,10 @@ import net.minecraft.util.shape.VoxelShape;
 public final class pqf {
    public static final double MAX_JUMP = 1.25;
 
-   private pqf() {
+   pqf() {
    }
 
-   private static MinecraftClient pqi() {
+   static MinecraftClient pqi() {
       return MinecraftClient.getInstance();
    }
 

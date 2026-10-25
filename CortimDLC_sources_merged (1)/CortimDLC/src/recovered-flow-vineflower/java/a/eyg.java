@@ -3,10 +3,10 @@ package a;
 import java.util.Map;
 
 public final class eyg {
-   private final String eyh;
-   private final long eyi;
-   private final long eyj;
-   private final Map<String, String> eyk;
+   final String eyh;
+   final long eyi;
+   final long eyj;
+   final Map<String, String> eyk;
 
    public eyg(String key, long size, long uploaded, Map<String, String> meta) {
       this.eyh = key;

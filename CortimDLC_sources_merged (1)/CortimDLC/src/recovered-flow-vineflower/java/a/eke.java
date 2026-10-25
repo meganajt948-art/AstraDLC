@@ -11,12 +11,12 @@ import java.util.Base64;
 import java.util.List;
 
 final class eke {
-   private static final byte[] ekf = a.b("\ue797鸬ᓼ誕ć螩㶵둉⨍ꂻ", -1307187205).getBytes(StandardCharsets.UTF_8);
+   static final byte[] ekf = a.b("\ue797鸬ᓼ誕ć螩㶵둉⨍ꂻ", -1307187205).getBytes(StandardCharsets.UTF_8);
 
-   private eke() {
+   eke() {
    }
 
-   private static byte[] eki(byte[] var0) {
+   static byte[] eki(byte[] var0) {
       byte[] var1 = new byte[var0.length];
 
       for (int var2 = 0; var2 < var0.length; var2++) {

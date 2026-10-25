@@ -10,7 +10,7 @@ final class eoc {
    String s;
    final List<Long> ints = new ArrayList<>();
 
-   private eoc() {
+   eoc() {
    }
 
    static eoc read(epm var0) {

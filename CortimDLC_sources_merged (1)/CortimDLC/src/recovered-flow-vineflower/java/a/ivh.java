@@ -6,6 +6,6 @@ final class ivh {
    final vcj shown = new vcj(12.0F, 1.0F);
    final vcj[] buttons = new vcj[]{new vcj(18.0F), new vcj(18.0F), new vcj(18.0F)};
 
-   private ivh() {
+   ivh() {
    }
 }

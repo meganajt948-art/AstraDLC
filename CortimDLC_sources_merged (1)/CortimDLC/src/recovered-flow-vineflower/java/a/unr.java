@@ -20,18 +20,18 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class unr {
-   private static final int uns = 3;
-   private static final int unt = 48;
-   private static @Nullable GpuTexture unu;
-   private static @Nullable GpuTextureView unv;
-   private static final GpuTexture[] unw = new GpuTexture[3];
-   private static final GpuTextureView[] unx = new GpuTextureView[3];
-   private static @Nullable GpuBuffer uny;
-   private static int unz = -1;
-   private static int uoa = -1;
-   private static boolean uob;
+   static final int uns = 3;
+   static final int unt = 48;
+   static @Nullable GpuTexture unu;
+   static @Nullable GpuTextureView unv;
+   static final GpuTexture[] unw = new GpuTexture[3];
+   static final GpuTextureView[] unx = new GpuTextureView[3];
+   static @Nullable GpuBuffer uny;
+   static int unz = -1;
+   static int uoa = -1;
+   static boolean uob;
 
-   private unr() {
+   unr() {
    }
 
    public static void apply(float var0, float var1, float var2, float var3, float var4, float var5, float var6) {
@@ -102,7 +102,7 @@ public final class unr {
       }
    }
 
-   private static void uoe(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuSampler var4) {
+   static void uoe(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuSampler var4) {
       try (RenderPass var5 = var0.createRenderPass(() -> "Flow2 grade glow", var3, OptionalInt.empty())) {
          var5.setPipeline(var1);
          var5.bindTexture("InSampler", var2, var4);
@@ -132,7 +132,7 @@ public final class unr {
       uob = false;
    }
 
-   private static void uof(int var0, int var1) {
+   static void uof(int var0, int var1) {
       GpuDevice var2 = RenderSystem.getDevice();
       if (uny == null) {
          uny = var2.createBuffer(() -> "Flow2 grade", 136, 48L);

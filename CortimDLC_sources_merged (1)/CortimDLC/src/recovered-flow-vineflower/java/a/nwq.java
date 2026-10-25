@@ -3,12 +3,12 @@ package a;
 import net.minecraft.util.math.BlockPos;
 
 final class nwq {
-   private final rzv nwr;
-   private final BlockPos nws;
-   private final int nwt;
-   private final double nwu;
+   final rzv nwr;
+   final BlockPos nws;
+   final int nwt;
+   final double nwu;
 
-   private nwq(rzv timer, BlockPos chest, int tier, double score) {
+   nwq(rzv timer, BlockPos chest, int tier, double score) {
       this.nwr = timer;
       this.nws = chest;
       this.nwt = tier;

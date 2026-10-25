@@ -27,24 +27,24 @@ import org.lwjgl.system.MemoryStack;
 
 public final class vaf {
    public static final int UNIFORM_SIZE = 624;
-   private static final int vag = 256;
-   private static @Nullable GpuTexture vah;
-   private static @Nullable GpuTextureView vai;
-   private static final GpuTexture[] vaj = new GpuTexture[3];
-   private static final GpuTextureView[] vak = new GpuTextureView[3];
-   private static @Nullable GpuBuffer val;
-   private static int vam = -1;
-   private static int van = -1;
-   private static int vao = 1;
-   private static boolean vap;
-   private static int vaq;
-   private static boolean var;
-   private static boolean vas;
-   private static final ArrayDeque<GpuQuery> vat = new ArrayDeque<>();
-   private static long vau;
-   private static int vav;
+   static final int vag = 256;
+   static @Nullable GpuTexture vah;
+   static @Nullable GpuTextureView vai;
+   static final GpuTexture[] vaj = new GpuTexture[3];
+   static final GpuTextureView[] vak = new GpuTextureView[3];
+   static @Nullable GpuBuffer val;
+   static int vam = -1;
+   static int van = -1;
+   static int vao = 1;
+   static boolean vap;
+   static int vaq;
+   static boolean var;
+   static boolean vas;
+   static final ArrayDeque<GpuQuery> vat = new ArrayDeque<>();
+   static long vau;
+   static int vav;
 
-   private vaf() {
+   vaf() {
    }
 
    public static boolean draw(float var0, boolean var1, Consumer<Std140Builder> var2) {
@@ -159,7 +159,7 @@ public final class vaf {
       return var0;
    }
 
-   private static void vay() {
+   static void vay() {
       while (!vat.isEmpty()) {
          OptionalLong var0 = vat.peek().getValue();
          if (var0.isEmpty()) {
@@ -195,7 +195,7 @@ public final class vaf {
       var = false;
    }
 
-   private static void vaz(int var0, int var1) {
+   static void vaz(int var0, int var1) {
       GpuDevice var2 = RenderSystem.getDevice();
       if (val == null) {
          val = var2.createBuffer(() -> "Flow2 fog", 136, 624L);
@@ -220,7 +220,7 @@ public final class vaf {
       }
    }
 
-   private static void vba(GpuDevice var0) {
+   static void vba(GpuDevice var0) {
       Random var1 = new Random(99540742L);
       int[] var2 = new int[65536];
       int[] var3 = new int[65536];

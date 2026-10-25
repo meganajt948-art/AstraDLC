@@ -19,23 +19,23 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class kap {
-   private static final int kaq = 144;
-   private static final float kar = 0.3F;
-   private static final long kas = System.nanoTime();
+   static final int kaq = 144;
+   static final float kar = 0.3F;
+   static final long kas = System.nanoTime();
    public static final float F_HEIGHT = 0.435F;
-   private static final float kat = 0.016F;
-   private static final float kau = -0.011F;
-   private @Nullable uok kav;
-   private @Nullable uok kaw;
-   private @Nullable uok kax;
-   private @Nullable uok kay;
-   private long kaz;
-   private @Nullable GpuBuffer kba;
-   private @Nullable GpuBuffer kbb;
-   private boolean kbc;
-   private static final float[] kbd = new float[]{1.0F, 1.0F, 0.0F, 0.0F};
-   private static final List<uok> kbe = new ArrayList<>();
-   private static final List<Long> kbf = new ArrayList<>();
+   static final float kat = 0.016F;
+   static final float kau = -0.011F;
+   @Nullable uok kav;
+   @Nullable uok kaw;
+   @Nullable uok kax;
+   @Nullable uok kay;
+   long kaz;
+   @Nullable GpuBuffer kba;
+   @Nullable GpuBuffer kbb;
+   boolean kbc;
+   static final float[] kbd = new float[]{1.0F, 1.0F, 0.0F, 0.0F};
+   static final List<uok> kbe = new ArrayList<>();
+   static final List<Long> kbf = new ArrayList<>();
 
    public static float clock() {
       return (float)((System.nanoTime() - kas) / 1.0E9 % 3000.0);
@@ -68,7 +68,7 @@ public final class kap {
       }
    }
 
-   private boolean kbi(jza var1, kam var2, boolean var3) {
+   boolean kbi(jza var1, kam var2, boolean var3) {
       collect();
       if (!this.kbc && uvq.ensure(uvq.MENU_SCENE)) {
          MinecraftClient var4 = MinecraftClient.getInstance();
@@ -101,7 +101,7 @@ public final class kap {
       }
    }
 
-   private static void kbj(CommandEncoder var0, GpuBuffer var1, uok var2, jza var3, kam var4, float var5, float var6, float var7) {
+   static void kbj(CommandEncoder var0, GpuBuffer var1, uok var2, jza var3, kam var4, float var5, float var6, float var7) {
       float[] var8 = var4.fall != null ? var4.fall : kbd;
       float[] var9 = var4.pool != null ? var4.pool : kbd;
       float[] var10 = var4.shape != null ? var4.shape : kbd;
@@ -157,7 +157,7 @@ public final class kap {
       }
    }
 
-   private void kbk(int var1, int var2) {
+   void kbk(int var1, int var2) {
       long var3 = unf.frame();
       if (this.kax != null && var3 - this.kaz > 2L) {
          this.kax.close();
@@ -213,7 +213,7 @@ public final class kap {
       }
    }
 
-   private static int kbl(float var0) {
+   static int kbl(float var0) {
       int var1 = Math.max(0, Math.min(255, Math.round(var0 * 255.0F)));
       return var1 << 24 | 16777215;
    }

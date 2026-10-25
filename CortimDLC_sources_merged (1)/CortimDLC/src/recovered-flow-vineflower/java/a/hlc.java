@@ -25,110 +25,110 @@ import net.minecraft.text.Text;
 public class hlc extends Screen {
    static final float W = 540.0F;
    static final float H = 409.0F;
-   private static final float hld = 136.0F;
-   private static final float hle = 46.0F;
-   private static final float hlf = 14.0F;
-   private static final float hlg = 10.0F;
-   private static final float hlh = 23.0F;
-   private static final float hli = 25.0F;
-   private static final float hlj = 62.0F;
-   private static final float hlk = 136.0F;
-   private static final float hll = 20.0F;
-   private static final float hlm = 20.0F;
-   private static int hln;
-   private static String hlo;
-   private static float hlp = Float.NaN;
-   private static float hlq = Float.NaN;
-   private static final Map<String, Float> hlr = new HashMap<>();
-   private static final Map<kfe, hjg> hls = new IdentityHashMap<>();
-   private static List<hjg> hlt;
-   private static List<hjg> hlu;
-   private static List<hjg> hlv;
-   private static List<hjg> hlw;
-   private static List<hjg> hlx;
-   private static List<hjg> hly;
-   private final List<hkv> hlz = new ArrayList<>();
-   private int hma;
-   private List<hjg> hmb = new ArrayList<>();
-   private final vdc hmc = new vdc(0.3F, 0.0F);
-   private final vdc hmd = new vdc(0.42F, 0.0F);
-   private final vdc hme = new vdc(0.32F, 1.0F);
-   private final vdc hmf = new vdc(0.18F, 1.0F);
-   private final vcj hmg = new vcj(16.0F);
-   private final List<vcj> hmh = new ArrayList<>();
-   private final List<vcj> hmi = new ArrayList<>();
-   private final List<vcj> hmj = new ArrayList<>();
-   private int[] hmk = new int[0];
-   private final vcj hml = new vcj(16.0F);
-   private final vcj hmm = new vcj(8.0F);
-   private final vcj hmn = new vcj(14.0F);
-   private final vcj hmo = new vcj(8.0F);
-   private float hmp;
-   private float hmq;
-   private long hmr;
-   private int hms;
-   private String hmt = "";
-   private String hmu = "";
-   private String hmv = "";
-   private String hmw = "";
-   private boolean hmx;
-   private boolean hmy;
-   private boolean hmz;
-   private float hna;
-   private float hnb;
-   private imn hnc;
-   private hxi hnd;
-   private ijy hne;
-   private irk hnf;
-   private String hng = "";
-   private int hnh = -1;
-   private String hni = "";
-   private vhz hnj = vhz.INFO;
-   private boolean hnk;
-   private long hnl;
-   private String hnm;
-   private String hnn;
-   private static final long hno = 350L;
-   private static final float hnp = 220.0F;
-   private static final float hnq = 7.0F;
-   private final vcj hnr = new vcj(14.0F);
-   private hjg hns;
-   private long hnt;
-   private hjg hnu;
-   private hjg hnv;
-   private List<String> hnw = List.of();
-   private hjg hnx;
-   private wam hny;
-   private float hnz;
-   private static String hoa = "";
-   private static final Set<hjg> hob = new HashSet<>();
-   private static final int hoc = 4;
-   private String hod = "";
-   private final iah hoe = new iah(a.c(1134752445, "\uf2e8譯Ƹ鿚ᐜ銦"), vhz.SEARCH, 24, iah.ANY);
-   private iah hof;
-   private final vcj hog = new vcj(16.0F);
-   private final vcj hoh = new vcj(14.0F);
-   private final vcj[] hoi = new vcj[]{new vcj(16.0F), new vcj(16.0F), new vcj(16.0F), new vcj(16.0F)};
-   private long hoj;
-   private final vcj hok = new vcj(14.0F);
-   private final vcj hol = new vcj(9.0F);
-   private final vcj hom = new vcj(13.0F);
-   private boolean hon;
-   private long hoo = -1L;
-   private float hop = 0.016666668F;
-   private float hoq = 1.0F;
-   private float hor = 1.0F;
-   private float hos;
-   private float hot;
-   private float hou;
-   private float hov;
-   private GpuTextureView how;
-   private static final float hox = 18.0F;
-   private static final float hoy = 24.0F;
-   private static final float hoz = 7.0F;
-   private static final float hpa = 18.0F;
-   private static final int hpb = -1750963;
-   private static final float hpc = 46.0F;
+   static final float hld = 136.0F;
+   static final float hle = 46.0F;
+   static final float hlf = 14.0F;
+   static final float hlg = 10.0F;
+   static final float hlh = 23.0F;
+   static final float hli = 25.0F;
+   static final float hlj = 62.0F;
+   static final float hlk = 136.0F;
+   static final float hll = 20.0F;
+   static final float hlm = 20.0F;
+   static int hln;
+   static String hlo;
+   static float hlp = Float.NaN;
+   static float hlq = Float.NaN;
+   static final Map<String, Float> hlr = new HashMap<>();
+   static final Map<kfe, hjg> hls = new IdentityHashMap<>();
+   static List<hjg> hlt;
+   static List<hjg> hlu;
+   static List<hjg> hlv;
+   static List<hjg> hlw;
+   static List<hjg> hlx;
+   static List<hjg> hly;
+   final List<hkv> hlz = new ArrayList<>();
+   int hma;
+   List<hjg> hmb = new ArrayList<>();
+   final vdc hmc = new vdc(0.3F, 0.0F);
+   final vdc hmd = new vdc(0.42F, 0.0F);
+   final vdc hme = new vdc(0.32F, 1.0F);
+   final vdc hmf = new vdc(0.18F, 1.0F);
+   final vcj hmg = new vcj(16.0F);
+   final List<vcj> hmh = new ArrayList<>();
+   final List<vcj> hmi = new ArrayList<>();
+   final List<vcj> hmj = new ArrayList<>();
+   int[] hmk = new int[0];
+   final vcj hml = new vcj(16.0F);
+   final vcj hmm = new vcj(8.0F);
+   final vcj hmn = new vcj(14.0F);
+   final vcj hmo = new vcj(8.0F);
+   float hmp;
+   float hmq;
+   long hmr;
+   int hms;
+   String hmt = "";
+   String hmu = "";
+   String hmv = "";
+   String hmw = "";
+   boolean hmx;
+   boolean hmy;
+   boolean hmz;
+   float hna;
+   float hnb;
+   imn hnc;
+   hxi hnd;
+   ijy hne;
+   irk hnf;
+   String hng = "";
+   int hnh = -1;
+   String hni = "";
+   vhz hnj = vhz.INFO;
+   boolean hnk;
+   long hnl;
+   String hnm;
+   String hnn;
+   static final long hno = 350L;
+   static final float hnp = 220.0F;
+   static final float hnq = 7.0F;
+   final vcj hnr = new vcj(14.0F);
+   hjg hns;
+   long hnt;
+   hjg hnu;
+   hjg hnv;
+   List<String> hnw = List.of();
+   hjg hnx;
+   wam hny;
+   float hnz;
+   static String hoa = "";
+   static final Set<hjg> hob = new HashSet<>();
+   static final int hoc = 4;
+   String hod = "";
+   final iah hoe = new iah(a.c(1134752445, "\uf2e8譯Ƹ鿚ᐜ銦"), vhz.SEARCH, 24, iah.ANY);
+   iah hof;
+   final vcj hog = new vcj(16.0F);
+   final vcj hoh = new vcj(14.0F);
+   final vcj[] hoi = new vcj[]{new vcj(16.0F), new vcj(16.0F), new vcj(16.0F), new vcj(16.0F)};
+   long hoj;
+   final vcj hok = new vcj(14.0F);
+   final vcj hol = new vcj(9.0F);
+   final vcj hom = new vcj(13.0F);
+   boolean hon;
+   long hoo = -1L;
+   float hop = 0.016666668F;
+   float hoq = 1.0F;
+   float hor = 1.0F;
+   float hos;
+   float hot;
+   float hou;
+   float hov;
+   GpuTextureView how;
+   static final float hox = 18.0F;
+   static final float hoy = 24.0F;
+   static final float hoz = 7.0F;
+   static final float hpa = 18.0F;
+   static final int hpb = -1750963;
+   static final float hpc = 46.0F;
 
    public hlc() {
       super(Text.literal(a.d("씘벃㙓\ua83a⎨", -449570389, 2014764272)));
@@ -228,7 +228,7 @@ public class hlc extends Screen {
       }
    }
 
-   private static void hpf() {
+   static void hpf() {
       hjg var0 = new hjg(a.b("泤ᕩ龷ǎ訑", 988769461), a.c(-710839456, "猛ઈ职ḫ闪ፊꤞ₲뻣㐵돍䦱이廅퓅剻\ue835柯﵊筈\uf2f3被؉鶌ᮧ酪⣔ꛀ㱧먯㆖콐䔞\udce8媬큘濛\ue5b6捿䀘炖\u0e75萩")).row(new iqp());
       var0.wide = true;
       hjg var1 = new hjg(a.c(476446350, "ﻉ蝚ඉ鏾ᠢ麉"), a.c(-1509108493, "풝괘⟊릠㈸득ປ蝠ᤱ鎖ᐖ\uee33惸籠獒\uf5f7侤쁸嫃\udc9a唯⼪ꇊ㩔밳㛻輈ŗ鯏ᶣ陂棃\ue295筮ﴵ矏졁䈦쓯嵙흔ꧦ⎹ꐋ㻟내ॠ"))
@@ -532,7 +532,7 @@ public class hlc extends Screen {
       hly = List.copyOf(var35);
    }
 
-   private static void hpg() {
+   static void hpg() {
       Thread var0 = new Thread(ewk::flushNow, a.b("ဂ榙\ue349素\uf6b2瀑쨁䏿\udda3圈탊⫿ꑻ㷀랄ㅸ", -1738993580));
       var0.setDaemon(true);
       var0.start();
@@ -550,7 +550,7 @@ public class hlc extends Screen {
       };
    }
 
-   private static int hph(kfa var0) {
+   static int hph(kfa var0) {
       int var1 = 0;
 
       for (kfe var3 : Flow.getInstance().getModuleManager().getModules()) {
@@ -562,12 +562,12 @@ public class hlc extends Screen {
       return var1;
    }
 
-   private float hpi() {
+   float hpi() {
       float var1 = Math.min((this.width - 16.0F) / 540.0F, (this.height - 16.0F) / 409.0F);
       return Math.max(0.3F, Math.min((float)iov.SCALE.get(), var1));
    }
 
-   private void hpj() {
+   void hpj() {
       if (this.width >= 64 && this.height >= 64) {
          float var1 = this.hpi();
          float var2 = 540.0F * var1;
@@ -582,14 +582,14 @@ public class hlc extends Screen {
       }
    }
 
-   private static List<kfe> hpk(List<kfe> var0) {
+   static List<kfe> hpk(List<kfe> var0) {
       ArrayList var1 = new ArrayList(var0);
       var1.removeIf(kfe::isHidden);
       var1.sort(Comparator.comparing(var0x -> var0x.getName().toLowerCase(Locale.ROOT)));
       return var1;
    }
 
-   private List<hjg> hpl(hkv var1) {
+   List<hjg> hpl(hkv var1) {
       return switch (var1.hkz) {
          case MODULES -> {
             ArrayList var2 = new ArrayList();
@@ -609,7 +609,7 @@ public class hlc extends Screen {
       };
    }
 
-   private void hpm(boolean var1) {
+   void hpm(boolean var1) {
       ArrayList var2 = new ArrayList();
       HashSet var3 = new HashSet();
       if (!this.hod.isEmpty()) {
@@ -668,7 +668,7 @@ public class hlc extends Screen {
       }
    }
 
-   private static int hpn(hjg var0, String var1) {
+   static int hpn(hjg var0, String var1) {
       StringBuilder var2 = new StringBuilder();
       if (var0.module != null) {
          var2.append(wap.both(var0.module.getCategory().title()));
@@ -690,7 +690,7 @@ public class hlc extends Screen {
       return wap.score(var1, wap.names(var8), var9, var2.toString(), var0.searchDescription());
    }
 
-   private void hpo() {
+   void hpo() {
       boolean var1 = this.hod.isEmpty() && this.hlz.get(hln).hkz != hks.MODULES;
       if (var1) {
          for (hjg var10 : this.hmb) {
@@ -726,13 +726,13 @@ public class hlc extends Screen {
       }
    }
 
-   private void hpp() {
+   void hpp() {
       if (this.hod.isEmpty() && !this.hlz.isEmpty()) {
          hlr.put(this.hlz.get(hln).hkw, this.hmp);
       }
    }
 
-   private void hpq() {
+   void hpq() {
       float var1 = hlr.getOrDefault(this.hlz.get(hln).hkw, 0.0F);
       this.hmp = var1;
       this.hml.set(var1);
@@ -742,7 +742,7 @@ public class hlc extends Screen {
       return !this.hmx && !this.hpr() && !this.hmz && this.hnc == null && this.hnf == null;
    }
 
-   private boolean hpr() {
+   boolean hpr() {
       return this.hnd != null && !this.hnd.closing();
    }
 
@@ -775,7 +775,7 @@ public class hlc extends Screen {
       this.focus(var1.field());
    }
 
-   private boolean hps() {
+   boolean hps() {
       return this.hne != null && !this.hne.closing();
    }
 
@@ -806,7 +806,7 @@ public class hlc extends Screen {
          );
    }
 
-   private void hpt(int var1) {
+   void hpt(int var1) {
       this.hnf.set(var1);
       List var2 = this.hnf.clearable() ? hzv.boundTo(var1, this.hnf.name()) : List.of();
       if (!var2.isEmpty()) {
@@ -849,7 +849,7 @@ public class hlc extends Screen {
       this.hnn = var1;
    }
 
-   private void hpu(DrawContext var1) {
+   void hpu(DrawContext var1) {
       unf.observe(var1);
       if (unf.frame() != this.hoo) {
          this.hoo = unf.frame();
@@ -880,7 +880,7 @@ public class hlc extends Screen {
       }
    }
 
-   private float hpv() {
+   float hpv() {
       float var1 = this.hmc.linear();
       return this.hmx ? vcq.outCubic(var1) : vcq.outQuint(var1);
    }
@@ -928,7 +928,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hpw() {
+   void hpw() {
       float var1 = this.hpv();
       float var2 = this.hpi();
       this.hoq = var2 * (0.95F + 0.05F * var1);
@@ -967,15 +967,15 @@ public class hlc extends Screen {
       }
    }
 
-   private float hpx(double var1) {
+   float hpx(double var1) {
       return (float)((var1 - this.hos) / this.hoq);
    }
 
-   private float hpy(double var1) {
+   float hpy(double var1) {
       return (float)((var1 - this.hot) / this.hor);
    }
 
-   private void hpz(DrawContext var1) {
+   void hpz(DrawContext var1) {
       float var2 = this.hne != null ? -10000.0F : this.hou;
       float var3 = this.hne != null ? -10000.0F : this.hov;
       float var4 = iov.r(12.0F);
@@ -1020,15 +1020,15 @@ public class hlc extends Screen {
       this.hrh(var1);
    }
 
-   private float hqa(int var1) {
+   float hqa(int var1) {
       return var1 < this.hma ? 62.0F + var1 * 25.0F : this.hqb() + (var1 - this.hma) * 25.0F;
    }
 
-   private float hqb() {
+   float hqb() {
       return 62.0F + this.hma * 25.0F + 20.0F;
    }
 
-   private void hqc(DrawContext var1, float var2, float var3) {
+   void hqc(DrawContext var1, float var2, float var3) {
       float var4 = 24.0F;
       float var5 = 19.0F;
       if (!uqe.draw(var1, 13.0F, var4 - var5 * 0.5F, var5, iov.isLight(), -1) && !upt.draw(var1, 15.0F, var4 - 8.5F, 17.0F, iov.logoTint())) {
@@ -1120,43 +1120,43 @@ public class hlc extends Screen {
       this.hqm(var1, var2, var3);
    }
 
-   private float hqd() {
+   float hqd() {
       return 365.0F;
    }
 
-   private float hqe() {
+   float hqe() {
       return 26.0F;
    }
 
-   private float hqf() {
+   float hqf() {
       return this.hqd() + 22.0F;
    }
 
-   private float hqg() {
+   float hqg() {
       return 12.0F;
    }
 
-   private float hqh() {
+   float hqh() {
       return hia.SLOTS.length * 24.0F + (hia.SLOTS.length - 1) * 7.0F + 16.0F;
    }
 
-   private float hqi() {
+   float hqi() {
       return this.hqd() - 24.0F - 20.0F;
    }
 
-   private float hqj(int var1) {
+   float hqj(int var1) {
       return this.hqg() + 8.0F + var1 * 31.0F;
    }
 
-   private boolean hqk(float var1, float var2) {
+   boolean hqk(float var1, float var2) {
       return irr.inside(var1, var2, this.hqe() - 9.0F - 3.0F, this.hqf() - 9.0F - 3.0F, 24.0F, 24.0F);
    }
 
-   private boolean hql(float var1, float var2) {
+   boolean hql(float var1, float var2) {
       return irr.inside(var1, var2, this.hqg(), this.hqi(), this.hqh(), 40.0F);
    }
 
-   private void hqm(DrawContext var1, float var2, float var3) {
+   void hqm(DrawContext var1, float var2, float var3) {
       float var4 = this.hqd();
       uut.rect(var1, 14.0F, var4, 108.0F, 1.0F, iov.divider);
       String var5 = LoaderInfo.login();
@@ -1181,15 +1181,15 @@ public class hlc extends Screen {
       this.hqp(var1, var2, var3);
    }
 
-   private float hqn() {
+   float hqn() {
       return 113.0F;
    }
 
-   private boolean hqo(float var1, float var2) {
+   boolean hqo(float var1, float var2) {
       return irr.inside(var1, var2, this.hqn() - 9.0F - 2.0F, this.hqf() - 9.0F - 2.0F, 22.0F, 22.0F);
    }
 
-   private void hqp(DrawContext var1, float var2, float var3) {
+   void hqp(DrawContext var1, float var2, float var3) {
       this.hon = this.canHover() && this.hqo(var2, var3);
       float var4 = vcq.outCubic(this.hok.step(this.hon, this.hop));
       float var5 = this.hol.step(0.0F, this.hop);
@@ -1205,7 +1205,7 @@ public class hlc extends Screen {
       vjf.draw(var1, vhz.POWER, var8 + var7 * 0.5F, var9 + var7 * 0.5F, 9.0F, ujt.lerp(iov.textDim, -1750963, var4));
    }
 
-   private void hqq(DrawContext var1) {
+   void hqq(DrawContext var1) {
       float var2 = vcq.outCubic(this.hom.step(this.hon, this.hop));
       if (!(var2 <= 0.01F)) {
          String var3 = wap.s(a.b("銖\ueb16懊ﾼ瑡", 334533315), a.b("闬\uec72暬\uf8d8猍", -1241869834));
@@ -1245,7 +1245,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hqr(DrawContext var1, float var2, float var3) {
+   void hqr(DrawContext var1, float var2, float var3) {
       boolean var4 = this.canHover() && (this.hqk(var2, var3) || this.hoh.get() > 0.3F && this.hql(var2, var3));
       long var5 = System.currentTimeMillis();
       if (var4) {
@@ -1299,23 +1299,23 @@ public class hlc extends Screen {
       }
    }
 
-   private float hqs() {
+   float hqs() {
       return 480.0F;
    }
 
-   private float hqt() {
+   float hqt() {
       return this.hqs() - 8.0F - 136.0F;
    }
 
-   private float hqu() {
+   float hqu() {
       return 13.0F;
    }
 
-   private float hqv() {
+   float hqv() {
       return 13.0F;
    }
 
-   private String hqw(hkv var1, float var2, float var3) {
+   String hqw(hkv var1, float var2, float var3) {
       if (this.hnm != null) {
          return this.hnm;
       }
@@ -1398,7 +1398,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hqx(DrawContext var1, float var2, float var3) {
+   void hqx(DrawContext var1, float var2, float var3) {
       float var4 = 152.0F;
       hkv var5 = this.hlz.get(hln);
       String var6 = wap.t(this.hod.isEmpty() ? var5.hkw : a.b("헦걡⚶룔㌒떨", -586033741));
@@ -1473,23 +1473,23 @@ public class hlc extends Screen {
       uut.rect(var1, 137.0F, 46.0F, 403.0F, 1.0F, iov.divider);
    }
 
-   private float hqy() {
+   float hqy() {
       return 150.0F;
    }
 
-   private float hqz() {
+   float hqz() {
       return 56.0F;
    }
 
-   private float hra() {
+   float hra() {
       return 399.0F;
    }
 
-   private float hrb() {
+   float hrb() {
       return 183.0F;
    }
 
-   private hjg hrc(float var1, float var2) {
+   hjg hrc(float var1, float var2) {
       if (this.canHover() && irr.inside(var1, var2, 136.0F, 46.0F, 404.0F, 363.0F)) {
          for (hjg var4 : this.hmb) {
             if (var4.hovered(var1, var2)) {
@@ -1503,7 +1503,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hrd(DrawContext var1, float var2, float var3) {
+   void hrd(DrawContext var1, float var2, float var3) {
       float var4 = this.hqz();
       float var5 = this.hra() - var4;
       float var6 = this.hrb();
@@ -1574,7 +1574,7 @@ public class hlc extends Screen {
       uut.popScissor(var1);
    }
 
-   private void hre(DrawContext var1) {
+   void hre(DrawContext var1) {
       float var2 = 338.0F;
       float var3 = 217.5F;
       float var4 = vcq.outCubic(this.hmd.linear() * 1.5F);
@@ -1600,7 +1600,7 @@ public class hlc extends Screen {
       uut.popAlpha();
    }
 
-   private void hrf(DrawContext var1, float var2, float var3) {
+   void hrf(DrawContext var1, float var2, float var3) {
       hjg var4 = null;
       if (this.canHover() && this.hne == null && irr.inside(var2, var3, 136.0F, 46.0F, 404.0F, 363.0F)) {
          for (hjg var6 : this.hmb) {
@@ -1683,7 +1683,7 @@ public class hlc extends Screen {
       }
    }
 
-   private static List<String> hrg(String var0, float var1) {
+   static List<String> hrg(String var0, float var1) {
       ArrayList var2 = new ArrayList();
       if (var0 != null && !var0.isBlank()) {
          for (String var6 : var0.split(a.d("秐", 289488599, 865879820))) {
@@ -1715,7 +1715,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hrh(DrawContext var1) {
+   void hrh(DrawContext var1) {
       boolean var2 = this.hnf != null || System.currentTimeMillis() < this.hnl;
       float var3 = vcq.outCubic(this.hmn.step(var2, this.hop));
       if (!(var3 <= 0.01F)) {
@@ -1985,7 +1985,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hri(String var1) {
+   void hri(String var1) {
       if (!var1.equals(this.hod)) {
          boolean var2 = this.hod.isEmpty();
          if (var2 && !var1.isEmpty()) {
@@ -2001,7 +2001,7 @@ public class hlc extends Screen {
       }
    }
 
-   private void hrj(int var1) {
+   void hrj(int var1) {
       this.hnd = null;
       this.hne = null;
       if (!this.hod.isEmpty()) {

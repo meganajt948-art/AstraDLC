@@ -24,45 +24,45 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 
 public final class swh {
-   private static final float swi = 5.5F;
-   private static final float swj = 4.5F;
-   private static final float swk = 14.0F;
-   private static final float swl = 12.5F;
-   private static final float swm = 10.0F;
-   private static final float swn = 1.4F;
-   private static final float swo = 9.0F;
-   private static final float swp = 3.0F;
-   private static final float swq = 2.6F;
-   private static final float swr = 2.4F;
-   private static final float sws = 56.0F;
-   private static final float swt = 16.0F;
-   private static final float swu = 1.4F;
-   private static final float swv = 2.4F;
-   private static final double sww = 8.0;
-   private static final float swx = 0.3F;
-   private static final double swy = 0.3;
-   private static final int swz = -11870592;
-   private static final int sxa = -340971;
-   private static final int sxb = -38357;
-   private static final int sxc = -1096636;
-   private static final int sxd = -670639;
-   private static final int sxe = -11870592;
-   private static final int sxf = -15368131;
-   private static final int sxg = -1258291201;
-   private static final EquipmentSlot[] sxh = new EquipmentSlot[]{
+   static final float swi = 5.5F;
+   static final float swj = 4.5F;
+   static final float swk = 14.0F;
+   static final float swl = 12.5F;
+   static final float swm = 10.0F;
+   static final float swn = 1.4F;
+   static final float swo = 9.0F;
+   static final float swp = 3.0F;
+   static final float swq = 2.6F;
+   static final float swr = 2.4F;
+   static final float sws = 56.0F;
+   static final float swt = 16.0F;
+   static final float swu = 1.4F;
+   static final float swv = 2.4F;
+   static final double sww = 8.0;
+   static final float swx = 0.3F;
+   static final double swy = 0.3;
+   static final int swz = -11870592;
+   static final int sxa = -340971;
+   static final int sxb = -38357;
+   static final int sxc = -1096636;
+   static final int sxd = -670639;
+   static final int sxe = -11870592;
+   static final int sxf = -15368131;
+   static final int sxg = -1258291201;
+   static final EquipmentSlot[] sxh = new EquipmentSlot[]{
       EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND
    };
-   private static final int sxi = 14;
-   private static final float[] sxj = sxq();
+   static final int sxi = 14;
+   static final float[] sxj = sxq();
    static int step = 14;
    static final swb NAME = new swb(vek.SEMIBOLD, 7.4F);
    static final swb NAME_BOLD = new swb(vek.BOLD, 7.4F);
-   private static final swb sxk = new swb(vek.MEDIUM, 5.4F);
-   private static final swb sxl = new swb(vek.BOLD, 5.2F);
-   private static final Map<Integer, svy> sxm = new HashMap<>();
-   private static long sxn = -1L;
+   static final swb sxk = new swb(vek.MEDIUM, 5.4F);
+   static final swb sxl = new swb(vek.BOLD, 5.2F);
+   static final Map<Integer, svy> sxm = new HashMap<>();
+   static long sxn = -1L;
 
-   private static float[] sxq() {
+   static float[] sxq() {
       float[] var0 = new float[26];
 
       for (int var1 = 0; var1 < var0.length; var1++) {
@@ -73,7 +73,7 @@ public final class swh {
       return var0;
    }
 
-   private swh() {
+   swh() {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
@@ -107,7 +107,7 @@ public final class swh {
       }
    }
 
-   private static boolean sxr() {
+   static boolean sxr() {
       for (svy var1 : sxm.values()) {
          if (var1.mob) {
             return true;
@@ -117,7 +117,7 @@ public final class swh {
       return false;
    }
 
-   private static boolean sxs(EntityRenderState var0) {
+   static boolean sxs(EntityRenderState var0) {
       for (svy var2 : sxm.values()) {
          if (var2.mob && var2.player.getType() == var0.entityType) {
             double var3 = var2.player.getX() - var0.x;
@@ -132,7 +132,7 @@ public final class swh {
       return false;
    }
 
-   private static boolean sxt(rjy var0, MinecraftClient var1, LivingEntity var2) {
+   static boolean sxt(rjy var0, MinecraftClient var1, LivingEntity var2) {
       if (var2 instanceof PlayerEntity var4) {
          return var0.shows(var1, var4);
       } else {
@@ -141,7 +141,7 @@ public final class swh {
       }
    }
 
-   private static void sxu(DrawContext var0, float var1) {
+   static void sxu(DrawContext var0, float var1) {
       MinecraftClient var2 = MinecraftClient.getInstance();
       rjy var3 = rjy.get();
       if (var3 != null && var3.isEnabled() && var2.world != null && var2.player != null && !var2.options.hudHidden) {
@@ -227,7 +227,7 @@ public final class swh {
       }
    }
 
-   private static void sxv(List<svy> var0) {
+   static void sxv(List<svy> var0) {
       for (svy var2 : var0) {
          var2.crowd = 1;
          var2.folded = false;
@@ -260,7 +260,7 @@ public final class swh {
       }
    }
 
-   private static float sxw(rjy var0, double var1) {
+   static float sxw(rjy var0, double var1) {
       float var3 = (float)Math.max(0.3F, Math.min(1.0, 8.0 / Math.max(0.1, var1)));
       float var4 = (float)var0.shrink.get();
       return (float)var0.size.get() * (1.0F - var4 * (1.0F - var3));
@@ -275,7 +275,7 @@ public final class swh {
       return Math.max(0, Math.min(sxj.length - 1, (int)Math.round(var1) + 14));
    }
 
-   private static void sxx(DrawContext var0, MinecraftClient var1, rjy var2, svy var3, GpuTextureView var4, float var5, float var6) {
+   static void sxx(DrawContext var0, MinecraftClient var1, rjy var2, svy var3, GpuTextureView var4, float var5, float var6) {
       LivingEntity var7 = var3.player;
       step = stepFor(sxw(var2, var3.distance));
       float var8 = sxj[step];
@@ -411,7 +411,7 @@ public final class swh {
       }
    }
 
-   private static void sxy(DrawContext var0, rjy var1, GpuTextureView var2, float var3, float var4, float var5, float var6, float var7) {
+   static void sxy(DrawContext var0, rjy var1, GpuTextureView var2, float var3, float var4, float var5, float var6, float var7) {
       if (!var1.background.is(a.c(1139034866, "䪸㌨맺➀"))) {
          float var8 = (float)var1.opacity.get();
 
@@ -439,7 +439,7 @@ public final class swh {
       }
    }
 
-   private static void sxz(DrawContext var0, float var1, float var2) {
+   static void sxz(DrawContext var0, float var1, float var2) {
       float var3 = var2 - 4.5F;
       float var4 = var1 + 4.5F;
       float var5 = 4.5F;
@@ -450,7 +450,7 @@ public final class swh {
       syc(var0, vhz.FRIEND_BADGE, var4, var2 + 0.1F, 6.2999997F, -1);
    }
 
-   private static void sya(DrawContext var0, List<ItemStack> var1, float var2, float var3, float var4) {
+   static void sya(DrawContext var0, List<ItemStack> var1, float var2, float var3, float var4) {
       float var5 = 0.625F * Math.min(1.0F, var4 * 2.5F);
 
       for (ItemStack var7 : var1) {
@@ -481,7 +481,7 @@ public final class swh {
       }
    }
 
-   private static void syb(DrawContext var0, svy var1, float var2, float var3, float var4, boolean var5) {
+   static void syb(DrawContext var0, svy var1, float var2, float var3, float var4, boolean var5) {
       uut.round(var0, var2, var3, var4, 1.4F, 0.7F, 822083583);
       if (!var5) {
          float var6 = var1.health.get();
@@ -494,7 +494,7 @@ public final class swh {
       }
    }
 
-   private static void syc(DrawContext var0, vhz var1, float var2, float var3, float var4, int var5) {
+   static void syc(DrawContext var0, vhz var1, float var2, float var3, float var4, int var5) {
       float var6 = sxj[step];
       var0.getMatrices().pushMatrix();
       var0.getMatrices().scale(1.0F / var6, 1.0F / var6);
@@ -502,7 +502,7 @@ public final class swh {
       var0.getMatrices().popMatrix();
    }
 
-   private static void syd(svy var0, float var1, float var2) {
+   static void syd(svy var0, float var1, float var2) {
       if (var0.health.get() < 0.0F) {
          var0.health.set(var1);
          var0.trail.set(var1);
@@ -529,17 +529,17 @@ public final class swh {
       }
    }
 
-   private static int sye(MinecraftClient var0, PlayerEntity var1) {
+   static int sye(MinecraftClient var0, PlayerEntity var1) {
       ClientPlayNetworkHandler var2 = var0.getNetworkHandler();
       PlayerListEntry var3 = var2 != null ? var2.getPlayerListEntry(var1.getUuid()) : null;
       return var3 != null ? var3.getLatency() : -1;
    }
 
-   private static int syf(int var0) {
+   static int syf(int var0) {
       return var0 < 80 ? -11870592 : (var0 < 160 ? -340971 : -1096636);
    }
 
-   private static String syg(double var0) {
+   static String syg(double var0) {
       String var2 = wap.unit(a.b("뫊", 866237094));
       return var0 < 10.0 ? vxu.fixed(var0, 1) + var2 : Math.round(var0) + var2;
    }

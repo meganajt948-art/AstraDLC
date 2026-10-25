@@ -26,7 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 final class gnr {
-   private static final gmx[] gns = new gmx[]{
+   static final gmx[] gns = new gmx[]{
       new gmx(a.b("䝣㻕됀⩢ꆲ✀鴛ᒴ諬H螔緯", -1603254500), 500, 1, false, 0.0, false),
       new gmx(a.c(-271553502, "汚ᗬ鼹ś誋హ똢㾔ꇔ⭽겳"), 700, 1, true, 0.0, false),
       new gmx(a.b("穩ϛ褊ᝠ鲰ᨛꀑ⦧럧㵎몀", -732464623), 700, 2, true, 0.0, false),
@@ -36,56 +36,56 @@ final class gnr {
       new gmx(a.b("镎\uecf0昭\uf853玘\uf570佽욏壒퉸喬꿇ⅉ뢸㋩됁\u0e5d", 880448825), 700, 2, true, 0.7, true),
       new gmx(a.d("钍\ued33柮戀牛\uf4b3亾음夑펻呯긄₊를㌰뗙ྋ", 554932272, -1115484982), 700, 2, true, 1.0, false)
    };
-   private static final gmx[] gnt = gph();
-   private static final int gnu = 100;
-   private static final int gnv = 20;
-   private static final boolean gnw = System.getenv(a.d("쉽믆ㄖ꽿Ⓧꈑᡒ醾\u0ff1蕋ʅ\uf8ff瘣\uef94旔\ue327奮", -1010335564, 1053180574)) != null;
-   private static final Field gnx = vxr.find(
+   static final gmx[] gnt = gph();
+   static final int gnu = 100;
+   static final int gnv = 20;
+   static final boolean gnw = System.getenv(a.d("쉽믆ㄖ꽿Ⓧꈑᡒ醾\u0ff1蕋ʅ\uf8ff瘣\uef94旔\ue327奮", -1010335564, 1053180574)) != null;
+   static final Field gnx = vxr.find(
       ClientPlayerEntity.class,
       a.b("㤤䂞쩜呷\udfe3奖\ue302櫸\uf4a1縁療η赲ᒙ麇\u1879ꈻⷸ띋ㄶ뢩싻䱊", 1983723869),
       a.d("ﻑ蝯ධ鏈᠗麝⒢굙㌋릿", -1441070749, 2063007710),
       a.d("깒", -49736635, 876264016)
    );
-   private static final Field gny = vxr.find(
+   static final Field gny = vxr.find(
       ClientPlayerEntity.class, a.b("봍쒷乵큞寊\udd7f末\ueed1炈﨨編螞ज़邰\u1aae鱐☒꧑㍢딟㲀䛒졣", 579059060), a.c(-266001706, "⊺嬄퇛侣쑼䋶\uf8c9焲\uef66旐"), a.b("醵", 1591316978)
    );
-   private static final gnl[] gnz = new gnl[gnt.length];
-   private static final ConcurrentLinkedQueue<gng> goa = new ConcurrentLinkedQueue<>();
-   private static final Random gob = new Random(23L);
-   private static volatile boolean goc;
-   private static volatile int god;
-   private static volatile int goe = -1;
-   private static volatile UUID gof;
-   private static volatile int gog = -1;
-   private static boolean goh;
-   private static int goi;
-   private static int goj;
-   private static double gok;
-   private static double gol;
-   private static double gom;
-   private static int gon = -1;
-   private static gno goo;
-   private static int gop = -1;
-   private static boolean goq = true;
-   private static boolean gor;
-   private static boolean gos;
-   private static boolean got;
-   private static float gou = Float.NaN;
-   private static float gov;
-   private static double gow;
-   private static int gox;
-   private static long goy;
-   private static boolean goz;
-   private static final Set<Integer> gpa = new HashSet<>();
-   private static volatile int gpb = -1;
-   private static final ConcurrentLinkedQueue<Integer> gpc = new ConcurrentLinkedQueue<>();
-   private static int gpd;
-   private static int gpe;
+   static final gnl[] gnz = new gnl[gnt.length];
+   static final ConcurrentLinkedQueue<gng> goa = new ConcurrentLinkedQueue<>();
+   static final Random gob = new Random(23L);
+   static volatile boolean goc;
+   static volatile int god;
+   static volatile int goe = -1;
+   static volatile UUID gof;
+   static volatile int gog = -1;
+   static boolean goh;
+   static int goi;
+   static int goj;
+   static double gok;
+   static double gol;
+   static double gom;
+   static int gon = -1;
+   static gno goo;
+   static int gop = -1;
+   static boolean goq = true;
+   static boolean gor;
+   static boolean gos;
+   static boolean got;
+   static float gou = Float.NaN;
+   static float gov;
+   static double gow;
+   static int gox;
+   static long goy;
+   static boolean goz;
+   static final Set<Integer> gpa = new HashSet<>();
+   static volatile int gpb = -1;
+   static final ConcurrentLinkedQueue<Integer> gpc = new ConcurrentLinkedQueue<>();
+   static int gpd;
+   static int gpe;
 
-   private gnr() {
+   gnr() {
    }
 
-   private static gmx[] gph() {
+   static gmx[] gph() {
       String var0 = System.getenv(a.c(-234343922, "㉘䯣섳彚퓨刴\ue877憛ￔ畮\uf2a0ࣚ蘝ᾭ闼ጘ"));
       if (var0 != null && !var0.isBlank()) {
          List var1 = Arrays.asList(var0.split(a.d("뙑", 1411887142, -1141701030)));
@@ -225,7 +225,7 @@ final class gnr {
       }
    }
 
-   private static void gpi(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
+   static void gpi(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
       gpa.clear();
       if (!var3) {
          gpj(var0.options.forwardKey, false);
@@ -270,14 +270,14 @@ final class gnr {
       }
    }
 
-   private static void gpj(KeyBinding var0, boolean var1) {
+   static void gpj(KeyBinding var0, boolean var1) {
       var0.setPressed(var1);
       if (var1) {
          gpa.add(KeyBindingHelper.getBoundKeyOf(var0).getCode());
       }
    }
 
-   private static void gpk(MinecraftClient var0) {
+   static void gpk(MinecraftClient var0) {
       var0.options.forwardKey.setPressed(false);
       var0.options.backKey.setPressed(false);
       var0.options.leftKey.setPressed(false);
@@ -285,7 +285,7 @@ final class gnr {
       vzz.simulated = null;
    }
 
-   private static void gpl() {
+   static void gpl() {
       if (gog >= 0 && gnz[gog] != null) {
          gnl var0 = gnz[gog];
          var0.radius = fnq.orbitRadiusSum;
@@ -294,7 +294,7 @@ final class gnr {
       }
    }
 
-   private static void gpm(MinecraftClient var0) {
+   static void gpm(MinecraftClient var0) {
       god++;
       ClientPlayerEntity var1 = var0.player;
       if (goc && var1 != null && goe >= 0 && gog >= 0) {
@@ -378,7 +378,7 @@ final class gnr {
       }
    }
 
-   private static void gpn(gno var0, boolean var1) {
+   static void gpn(gno var0, boolean var1) {
       gnl var2 = gnz[var0.phase];
       var2.ticks++;
       if (var0.aimed) {
@@ -449,7 +449,7 @@ final class gnr {
       }
    }
 
-   private static void gpo(gnl var0) {
+   static void gpo(gnl var0) {
       if (gos) {
          var0.jumpsHit++;
       }
@@ -466,7 +466,7 @@ final class gnr {
       }
    }
 
-   private static void gpp() {
+   static void gpp() {
       gpl();
       int var0 = 0;
       int var1 = 0;
@@ -590,7 +590,7 @@ final class gnr {
          );
    }
 
-   private static void gpq() {
+   static void gpq() {
       String var0 = System.getenv().getOrDefault(a.b("悹ᤂ鏒ර蘉Õ몖㍺괵➏ꁁ娻퓲䵋윜", 652370160), a.c(984674386, "\uf024覎͔鴶ᛷ"));
       String var1 = System.getenv().getOrDefault(a.d("緇Ѽ躬Ⴥ魷ᶫ\ua7e8⸄끋㫱봿䝅즟倳\uda7b", 885744427, 416816805), a.d("ࢲ焙\ufbcf斷\uee6b检", 1894576825, -409863554));
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.d("ᡞ懍\ueb1b番ﺐ砕쉁䮣", 1737661281, -2121563268));
@@ -639,7 +639,7 @@ final class gnr {
       }
    }
 
-   private static Entity gpr(MinecraftClient var0) {
+   static Entity gpr(MinecraftClient var0) {
       if (goe >= 0) {
          Entity var1 = var0.world.getEntityById(goe);
          if (var1 != null) {
@@ -657,7 +657,7 @@ final class gnr {
       return null;
    }
 
-   private static void gps() {
+   static void gps() {
       if (!goh) {
          goh = true;
          ClientTickEvents.START_CLIENT_TICK.register(gnr::gpm);
@@ -693,7 +693,7 @@ final class gnr {
       }
    }
 
-   private static void gpt(MinecraftClient var0, String var1) {
+   static void gpt(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

@@ -20,21 +20,21 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
 public class kgj extends kfe {
-   private final vkw kgk = this.add(new vkw(a.b("拏᭜醘\u0fff萾ʞ", -298884455), new vkq(a.d("턠ꢃ", 65597041, -988594411), vhz.CHECK, this::kit)));
-   private final vmc kgl = this.add(new vmc(a.b("ዏ歝\ue19b翪\uf43c", -2056514919), 1.0, 0.3, 1.6, 0.05).percent());
-   private final vmc kgm = this.add(new vmc(a.b("䯕㉌뢛⚧괣⮌針ᠬ虨\u0cc5", -462533730), 0.5, 0.0, 1.0, 0.05).percent());
-   private final vmc kgn = this.add(new vmc(a.d("ู瞠ﵷ捋\ue8d1湬퐦嶏쎃䤱컷㒆멐", 598303519, 1257925994), 30.0, 5.0, 90.0, 1.0).suffix(a.d("덉쩧䃯", 1326574415, 941512885)));
-   private final vmc kgo = this.add(new vmc(a.d("퓃굚➍릱㈴뒒\u0ec5蜶\u197e鏒ᐇ\uee77", -1461957813, 908173253), 100.0, 0.0, 300.0, 10.0).suffix(a.c(-49848727, "帆➩")));
-   private final vkl kgp = this.add(new vkl(a.b("徶☯곸㋄륊㿫薴ౌ鈛ᣮ齩攃\ueb9b牧\uf836绝쒔䭓", 1134911461), false));
-   private final vkl kgq = this.add(new vkl(a.c(262682685, "㡩䇰쬧唛\ude83堳\ue262殆\uf580罦\uf8aa˚谈ᖰ龦ᤚꍗⲟ똳づ릛"), false));
-   private final vmc kgr = this.add(new vmc(a.b("溋ᜒ鷅Ϲ衺໐뒛㵼ꌰ⦗글吥\udae7䍅줃俰\uf5ae", -1750372645), 3.0, 1.0, 3.0, 0.05).suffix(a.d("ⵂ", 321923545, -1607793438)));
-   private final vmc kgs = this.add(
+   final vkw kgk = this.add(new vkw(a.b("拏᭜醘\u0fff萾ʞ", -298884455), new vkq(a.d("턠ꢃ", 65597041, -988594411), vhz.CHECK, this::kit)));
+   final vmc kgl = this.add(new vmc(a.b("ዏ歝\ue19b翪\uf43c", -2056514919), 1.0, 0.3, 1.6, 0.05).percent());
+   final vmc kgm = this.add(new vmc(a.b("䯕㉌뢛⚧괣⮌針ᠬ虨\u0cc5", -462533730), 0.5, 0.0, 1.0, 0.05).percent());
+   final vmc kgn = this.add(new vmc(a.d("ู瞠ﵷ捋\ue8d1湬퐦嶏쎃䤱컷㒆멐", 598303519, 1257925994), 30.0, 5.0, 90.0, 1.0).suffix(a.d("덉쩧䃯", 1326574415, 941512885)));
+   final vmc kgo = this.add(new vmc(a.d("퓃굚➍릱㈴뒒\u0ec5蜶\u197e鏒ᐇ\uee77", -1461957813, 908173253), 100.0, 0.0, 300.0, 10.0).suffix(a.c(-49848727, "帆➩")));
+   final vkl kgp = this.add(new vkl(a.b("徶☯곸㋄륊㿫薴ౌ鈛ᣮ齩攃\ueb9b牧\uf836绝쒔䭓", 1134911461), false));
+   final vkl kgq = this.add(new vkl(a.c(262682685, "㡩䇰쬧唛\ude83堳\ue262殆\uf580罦\uf8aa˚谈ᖰ龦ᤚꍗⲟ똳づ릛"), false));
+   final vmc kgr = this.add(new vmc(a.b("溋ᜒ鷅Ϲ衺໐뒛㵼ꌰ⦗글吥\udae7䍅줃俰\uf5ae", -1750372645), 3.0, 1.0, 3.0, 0.05).suffix(a.d("ⵂ", 321923545, -1607793438)));
+   final vmc kgs = this.add(
       new vmc(a.d("駾\ue067檰\uf48c缚尿䏸쨑吗\udee0大ꍋ\u2d9e둢㹥뢁˝贙ឨ釨", 312764874, -1922830239), 1.0, 0.0, 1.0, 0.05).suffix(a.c(-2110588573, "駱"))
    );
-   private final vmc kgt = this.add(new vmc(a.c(1001716339, "喝莎ॄ"), 70.0, 10.0, 360.0, 5.0).unit(a.d("꯳", -806019792, 996193906)));
-   private final vmc kgu = this.add(new vmc(a.c(1610531071, "삳뤯㏦궐♒ꃬ᪲鍅"), 4.5, 2.0, 8.0, 0.1).suffix(a.d("Ꭻ", -556907735, 1997885678)));
-   private final vmc kgv = this.add(new vmc(a.d("펑ꨓ⃗뺠㕪돑ঀ聼", 2054289274, 1499604149), 1.0, 0.0, 1.0, 0.05).percent());
-   private final vlv kgw = this.add(
+   final vmc kgt = this.add(new vmc(a.c(1001716339, "喝莎ॄ"), 70.0, 10.0, 360.0, 5.0).unit(a.d("꯳", -806019792, 996193906)));
+   final vmc kgu = this.add(new vmc(a.c(1610531071, "삳뤯㏦궐♒ꃬ᪲鍅"), 4.5, 2.0, 8.0, 0.1).suffix(a.d("Ꭻ", -556907735, 1997885678)));
+   final vmc kgv = this.add(new vmc(a.d("펑ꨓ⃗뺠㕪돑ঀ聼", 2054289274, 1499604149), 1.0, 0.0, 1.0, 0.05).percent());
+   final vlv kgw = this.add(
       new vlv(
          a.b("헤걨⚪룓㌚", 2097141160),
          a.c(454254467, "忓♐겇㋧뤯㾟藑"),
@@ -44,7 +44,7 @@ public class kgj extends kfe {
          a.c(-1714421323, "Ƿ硩\uf2ad")
       )
    );
-   private final vlv kgx = this.add(
+   final vlv kgx = this.add(
       new vlv(
          a.b("짥끶㪾\ua4c9⼃ꦩᏧ騛", 1231669693),
          a.c(760418819, "ቇ毙\ue103罹\uf4a7"),
@@ -53,51 +53,51 @@ public class kgj extends kfe {
          a.c(1998113016, "좶넪㯽ꖁ⹎꣣")
       )
    );
-   private final vkl kgy = this.add(new vkl(a.c(150882620, "䥵ル먽⑆꾙⥣鍿\u1a8f蓒\u0e76"), false));
-   private final vkl kgz = this.add(new vkl(a.d("窨̥觻ធ鱙\u1affꂭ", 1686979734, -161399191), true));
-   private final vkl kha = this.add(new vkl(a.d("㸩䞺쵤匄", 1229063014, 1845116166), false));
-   private final vkl khb = this.add(new vkl(a.c(-508081671, "䦠〭뫤⒈꽅⧦鎺ᨃ萋ຬ襲猃\ufdcb"), false));
-   private final lfy khc = new lfy();
-   private static final double khd = 1.2;
-   private static final double khe = 1.5;
-   private static final int khf = 12;
-   private static final long khg = 1200L;
-   private static final long khh = 650L;
-   private static final double khi = 1.0;
-   private static final double khj = 0.8;
-   private static final long khk = 180L;
-   private static final double khl = 1.5;
-   private static final double khm = 8.0;
-   private static final double khn = 350.0;
-   private static final double kho = 1000.0;
-   private static final double khp = 0.25;
-   private static Field khq;
-   private static Field khr;
-   private static Field khs;
-   private final tel kht;
-   private final tbm khu;
-   private final double[] khv;
-   private long khw;
-   private Entity khx;
-   private long khy;
-   private GLFWCursorPosCallback khz;
-   private GLFWCursorPosCallback kia;
-   private boolean kib;
-   private double kic;
-   private double kid;
-   private double kie;
-   private double kif;
-   private double kig;
-   private long kih;
-   private double kii;
-   private double kij;
-   private double kik;
-   private double kil;
-   private double kim;
-   private volatile long kin;
-   private Entity kio;
-   private long kip;
-   private int kiq;
+   final vkl kgy = this.add(new vkl(a.c(150882620, "䥵ル먽⑆꾙⥣鍿\u1a8f蓒\u0e76"), false));
+   final vkl kgz = this.add(new vkl(a.d("窨̥觻ធ鱙\u1affꂭ", 1686979734, -161399191), true));
+   final vkl kha = this.add(new vkl(a.d("㸩䞺쵤匄", 1229063014, 1845116166), false));
+   final vkl khb = this.add(new vkl(a.c(-508081671, "䦠〭뫤⒈꽅⧦鎺ᨃ萋ຬ襲猃\ufdcb"), false));
+   final lfy khc = new lfy();
+   static final double khd = 1.2;
+   static final double khe = 1.5;
+   static final int khf = 12;
+   static final long khg = 1200L;
+   static final long khh = 650L;
+   static final double khi = 1.0;
+   static final double khj = 0.8;
+   static final long khk = 180L;
+   static final double khl = 1.5;
+   static final double khm = 8.0;
+   static final double khn = 350.0;
+   static final double kho = 1000.0;
+   static final double khp = 0.25;
+   static Field khq;
+   static Field khr;
+   static Field khs;
+   final tel kht;
+   final tbm khu;
+   final double[] khv;
+   long khw;
+   Entity khx;
+   long khy;
+   GLFWCursorPosCallback khz;
+   GLFWCursorPosCallback kia;
+   boolean kib;
+   double kic;
+   double kid;
+   double kie;
+   double kif;
+   double kig;
+   long kih;
+   double kii;
+   double kij;
+   double kik;
+   double kil;
+   double kim;
+   volatile long kin;
+   Entity kio;
+   long kip;
+   int kiq;
 
    public kgj() {
       super(a.c(295261415, "咯ⴶ\ua7e1㦼뉙㓨躡݊餒"), a.b("ṟ某\ued01獰\uf8bc縑쐊䶺폭奘\udec6⓿ꨥ㎝맒㽳蕫ત逊ᙇ鿸\ue5e8欚\uf09c盱ﰤ䖆쯈儾", 1288707601), kfa.COMBAT);
@@ -115,7 +115,7 @@ public class kgj extends kfe {
       }
    }
 
-   private void kit() {
+   void kit() {
       this.kgl.set(0.9);
       this.kgt.set(360.0);
       this.kgu.set(4.5);
@@ -188,7 +188,7 @@ public class kgj extends kfe {
       }
    }
 
-   private Entity kiu(MinecraftClient var1, ClientPlayerEntity var2) {
+   Entity kiu(MinecraftClient var1, ClientPlayerEntity var2) {
       Vec3d var3 = var2.getEyePos();
       double var4 = this.kgu.get();
       double var6 = this.kgt.get() * 0.5;
@@ -225,7 +225,7 @@ public class kgj extends kfe {
       return var9;
    }
 
-   private boolean kiv(ClientPlayerEntity var1, Vec3d var2, Entity var3, double var4, double var6) {
+   boolean kiv(ClientPlayerEntity var1, Vec3d var2, Entity var3, double var4, double var6) {
       if (var3.isRemoved() || !this.kix(var1, var3, false) || !kiz(var2, var3, var4 + 1.5) || kja(var1, var2, var3) > var6 * 1.2) {
          return false;
       }
@@ -238,11 +238,11 @@ public class kgj extends kfe {
       return true;
    }
 
-   private boolean kiw(ClientPlayerEntity var1, Entity var2) {
+   boolean kiw(ClientPlayerEntity var1, Entity var2) {
       return this.kix(var1, var2, true);
    }
 
-   private boolean kix(ClientPlayerEntity var1, Entity var2, boolean var3) {
+   boolean kix(ClientPlayerEntity var1, Entity var2, boolean var3) {
       if (var2 != var1 && var2 instanceof LivingEntity var4 && var4.isAlive() && var2.isAttackable()) {
          if (var2 instanceof PlayerEntity var5) {
             if (!this.kgz.get() || var5.isSpectator() || hhf.protects(var5)) {
@@ -258,22 +258,22 @@ public class kgj extends kfe {
       }
    }
 
-   private static double kiy(LivingEntity var0) {
+   static double kiy(LivingEntity var0) {
       vyd var1 = vyk.of(var0);
       return var1.unknown() ? 100.0 : var1.total();
    }
 
-   private static boolean kiz(Vec3d var0, Entity var1, double var2) {
+   static boolean kiz(Vec3d var0, Entity var1, double var2) {
       return var1.getBoundingBox().squaredMagnitude(var0) <= var2 * var2;
    }
 
-   private static double kja(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
+   static double kja(ClientPlayerEntity var0, Vec3d var1, Entity var2) {
       Vec3d var3 = var2.getEntityPos();
       double var4 = Math.toDegrees(Math.atan2(var3.z - var1.z, var3.x - var1.x)) - 90.0;
       return Math.abs(MathHelper.wrapDegrees(var4 - var0.getYaw()));
    }
 
-   private void kjb(MinecraftClient var1) {
+   void kjb(MinecraftClient var1) {
       boolean var2 = var1.options.attackKey.isPressed()
          || var1.currentScreen == null && var1.getWindow() != null && GLFW.glfwGetMouseButton(var1.getWindow().getHandle(), 0) == 1;
       if (var2) {
@@ -281,7 +281,7 @@ public class kgj extends kfe {
       }
    }
 
-   private boolean kjc(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean kjc(MinecraftClient var1, ClientPlayerEntity var2) {
       if (var1.currentScreen != null || !var1.isWindowFocused() || !var1.mouse.isCursorLocked() || !var2.isAlive() || var2.isSpectator()) {
          return false;
       } else if (var1.interactionManager != null && var1.interactionManager.isBreakingBlock()) {
@@ -295,7 +295,7 @@ public class kgj extends kfe {
       }
    }
 
-   private boolean kjd(ItemStack var1) {
+   boolean kjd(ItemStack var1) {
       return switch (this.kgw.get()) {
          case a.c(138839254, "蒔ﴊ矎") -> true;
          case a.d("Ἲ暯\uec64爈柳罯", 1174444933, -987331350) -> var1.isIn(ItemTags.SWORDS);
@@ -304,7 +304,7 @@ public class kgj extends kfe {
       };
    }
 
-   private void kje(long var1) {
+   void kje(long var1) {
       if (khq == null || khr == null || khs == null) {
          khq = vxr.find(
             Mouse.class, a.d("쓯뵕㞗ꦼ∨꒝ỉ霳४菊Њﹼ点\ue952捌\ue5b2忰퀳䪀쳽䕦㼵놅", 2047519207, 312634737), a.c(326382811, "㒷䴉쟖妮퉱哻\ueec6朱率珑"), a.c(-2056003935, "\udee4")
@@ -332,7 +332,7 @@ public class kgj extends kfe {
       }
    }
 
-   private void kjf() {
+   void kjf() {
       this.kib = false;
       if (this.kia != null) {
          GLFWCursorPosCallback var1 = GLFW.glfwSetCursorPosCallback(this.khy, this.khz);
@@ -346,7 +346,7 @@ public class kgj extends kfe {
       }
    }
 
-   private void kjg(long var1, double var3, double var5) {
+   void kjg(long var1, double var3, double var5) {
       if (this.khz != null) {
          this.khz.invoke(var1, var3, var5);
       }
@@ -356,7 +356,7 @@ public class kgj extends kfe {
       }
    }
 
-   private void kjh() {
+   void kjh() {
       if (this.kib && khq != null) {
          MinecraftClient var1 = MinecraftClient.getInstance();
 
@@ -393,7 +393,7 @@ public class kgj extends kfe {
       }
    }
 
-   private void kji(MinecraftClient var1) {
+   void kji(MinecraftClient var1) {
       this.khv[0] = this.khv[1] = 0.0;
       ClientPlayerEntity var2 = var1.player;
       Entity var3 = this.khx;
@@ -439,7 +439,7 @@ public class kgj extends kfe {
       }
    }
 
-   private double kjj(double var1, double var3, double var5, double var7) {
+   double kjj(double var1, double var3, double var5, double var7) {
       if (var1 == 0.0) {
          return 0.0;
       }
@@ -458,18 +458,18 @@ public class kgj extends kfe {
       return Math.abs(var10) > var12 ? Math.copySign(var12, var1) : var10;
    }
 
-   private static double kjk(double var0, double var2) {
+   static double kjk(double var0, double var2) {
       return var0 > 0.0 ? var0 : (var2 < 0.0 ? var2 : 0.0);
    }
 
-   private static double kjl(MinecraftClient var0, ClientPlayerEntity var1) {
+   static double kjl(MinecraftClient var0, ClientPlayerEntity var1) {
       double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
       boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();
       return (var6 ? var4 : var4 * 8.0) * 0.15;
    }
 
-   private static double kjm(double var0, double var2, double var4) {
+   static double kjm(double var0, double var2, double var4) {
       double var6 = MathHelper.clamp((var4 - var0) / (var2 - var0), 0.0, 1.0);
       return var6 * var6 * (3.0 - 2.0 * var6);
    }

@@ -7,21 +7,21 @@ public final class szk {
    public static final int MAXW = 60;
    public static final int GRACE = 8;
    public static final double FLICK = 20.0;
-   private static final int szl = 6;
-   private static final int szm = 6;
-   private static final int szn = 2;
+   static final int szl = 6;
+   static final int szm = 6;
+   static final int szn = 2;
    public final List<sze> segments = new ArrayList<>();
    public final List<double[]> aimPoints = new ArrayList<>();
    public final szh stats = new szh();
    public final List<float[]> chain = new ArrayList<>();
    public final List<Integer> reactions = new ArrayList<>();
-   private double szo;
-   private int szp = 3;
+   double szo;
+   int szp = 3;
    public static final double TRACK_RANGE = 6.0;
    public static final double TRACK_FOV = 75.0;
-   private static final double szq = 20.0;
+   static final double szq = 20.0;
    public static final double REACT_FROM = 15.0;
-   private static final int szr = 20;
+   static final int szr = 20;
 
    public static szk build(List<tmh> var0, boolean var1) {
       return build(var0, var1, 3);
@@ -48,7 +48,7 @@ public final class szk {
       return var2;
    }
 
-   private void szu(tmh var1, boolean var2) {
+   void szu(tmh var1, boolean var2) {
       this.szo = var1.unit;
       List var3 = var1.ticks;
       int var4 = var3.size();
@@ -154,7 +154,7 @@ public final class szk {
       }
    }
 
-   private static int szv(List<tme> var0, int var1, int var2) {
+   static int szv(List<tme> var0, int var1, int var2) {
       tbm var3 = new tbm();
       int var4 = 0;
 
@@ -205,7 +205,7 @@ public final class szk {
       return -1;
    }
 
-   private static double[] szw(List<tme> var0) {
+   static double[] szw(List<tme> var0) {
       ArrayList var1 = new ArrayList();
       ArrayList var2 = new ArrayList();
 
@@ -219,7 +219,7 @@ public final class szk {
       return var1.size() < 5 ? new double[]{0.0, 0.62} : new double[]{0.0, tnl.quantile(var2, 0.5)};
    }
 
-   private void szx(tmh var1, int var2, int var3, int var4, double[] var5, boolean var6) {
+   void szx(tmh var1, int var2, int var3, int var4, double[] var5, boolean var6) {
       List var7 = var1.ticks;
       ArrayList var8 = new ArrayList();
 
@@ -328,7 +328,7 @@ public final class szk {
       }
    }
 
-   private static double[] szy(
+   static double[] szy(
       List<tme> var0, int var1, int var2, double[] var3, double[] var4, double[] var5, double[] var6, double[] var7, double[] var8, double[][] var9
    ) {
       byte var10 = 32;
@@ -370,7 +370,7 @@ public final class szk {
       return var11;
    }
 
-   private static boolean szz(List<tme> var0, int var1) {
+   static boolean szz(List<tme> var0, int var1) {
       if (var1 <= 0) {
          return false;
       } else {
@@ -387,7 +387,7 @@ public final class szk {
       }
    }
 
-   private void taa(tmh var1, boolean var2) {
+   void taa(tmh var1, boolean var2) {
       this.szo = var1.unit;
       List var3 = var1.ticks;
       int var4 = var3.size();
@@ -464,7 +464,7 @@ public final class szk {
       }
    }
 
-   private void tab(tmh var1, List<syx> var2, int var3, boolean var4) {
+   void tab(tmh var1, List<syx> var2, int var3, boolean var4) {
       if (!var2.isEmpty() && var3 >= 0) {
          int var5 = ((syx)var2.get(var2.size() - 1)).syy;
          int var6 = var5 - var3;
@@ -562,7 +562,7 @@ public final class szk {
       }
    }
 
-   private void tac(double[] var1, int var2, int var3, List<syx> var4, int[] var5, int var6) {
+   void tac(double[] var1, int var2, int var3, List<syx> var4, int[] var5, int var6) {
       int var7 = var3 - var2;
       if (var7 >= var6) {
          byte var8 = 32;
@@ -591,7 +591,7 @@ public final class szk {
       }
    }
 
-   private void tad(double[] var1, int var2, int[] var3, boolean[] var4) {
+   void tad(double[] var1, int var2, int[] var3, boolean[] var4) {
       byte var5 = 32;
       int var6 = 0;
 
@@ -686,7 +686,7 @@ public final class szk {
       return var3;
    }
 
-   private static void tae(boolean[] var0, int var1, int var2, int var3) {
+   static void tae(boolean[] var0, int var1, int var2, int var3) {
       for (int var4 = Math.max(0, var1); var4 <= Math.min(var3, var2); var4++) {
          var0[var4] = true;
       }

@@ -5,7 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import net.minecraft.network.packet.Packet;
 
 final class wck extends ChannelInboundHandlerAdapter {
-   private wck() {
+   wck() {
    }
 
    public void channelRead(ChannelHandlerContext var1, Object var2) throws Exception {

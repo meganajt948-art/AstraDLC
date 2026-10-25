@@ -27,32 +27,32 @@ import net.minecraft.util.Util;
 import net.minecraft.util.Util.OperatingSystem;
 
 public final class jgn {
-   private static final String jgo = a.d("\ueb81鉹ᢠ蛒ഝ说\u31e5렜♂곾⬥턚後옼䱷쫜烎＃施\ue3f4樓၅黿է荆ঔ끥", -1695641948, 591226129);
-   private static final long jgp = 8000L;
-   private static final int jgq = 5;
-   private static final int jgr = 96;
-   private static final ExecutorService jgs = Executors.newSingleThreadExecutor(var0 -> {
+   static final String jgo = a.d("\ueb81鉹ᢠ蛒ഝ说\u31e5렜♂곾⬥턚後옼䱷쫜烎＃施\ue3f4樓၅黿է荆ঔ끥", -1695641948, 591226129);
+   static final long jgp = 8000L;
+   static final int jgq = 5;
+   static final int jgr = 96;
+   static final ExecutorService jgs = Executors.newSingleThreadExecutor(var0 -> {
       Thread var1 = new Thread(var0, a.c(-1395982246, "\u0005禞\uf34e洧\ue6b5怖\uda0b叻춼䝚샙㪴둮\u2dc7Ꞅⅲ鬴ᒢ蹒ࠏ臹﮲甇\ueecb梷"));
       var1.setDaemon(true);
       return var1;
    });
-   private static volatile jgd jgt;
-   private static volatile String jgu = a.b("뽌월䰇", -2098348288);
-   private static volatile long jgv;
-   private static volatile BufferedImage jgw;
-   private static volatile String jgx;
-   private static volatile int jgy;
-   private static uok jgz;
-   private static String jha;
-   private static int jhb;
-   private static final List<Object[]> jhc = new ArrayList<>();
-   private static Process jhd;
-   private static Writer jhe;
-   private static long jhf;
-   private static int jhg;
-   private static boolean jhh;
+   static volatile jgd jgt;
+   static volatile String jgu = a.b("뽌월䰇", -2098348288);
+   static volatile long jgv;
+   static volatile BufferedImage jgw;
+   static volatile String jgx;
+   static volatile int jgy;
+   static uok jgz;
+   static String jha;
+   static int jhb;
+   static final List<Object[]> jhc = new ArrayList<>();
+   static Process jhd;
+   static Writer jhe;
+   static long jhf;
+   static int jhg;
+   static boolean jhh;
 
-   private jgn() {
+   jgn() {
    }
 
    public static jgd track() {
@@ -149,7 +149,7 @@ public final class jgn {
       jhf = Long.MAX_VALUE;
    }
 
-   private static void jhk() {
+   static void jhk() {
       try {
          String var0;
          try (InputStream var1 = jgn.class.getResourceAsStream(a.d("壟℧\uabfe㖌빃㢪芻ୂ锜ᾠ须扄\uecd2畢Ｉ禂쎐䱝훣傪\ud94dꌛⶡ똹〘뫊̻", -632328891, -770624082))) {
@@ -197,7 +197,7 @@ public final class jgn {
       }
    }
 
-   private static synchronized void jhl() {
+   static synchronized void jhl() {
       Process var0 = jhd;
       jhd = null;
       jgt = null;
@@ -215,7 +215,7 @@ public final class jgn {
       }
    }
 
-   private static synchronized void jhm() {
+   static synchronized void jhm() {
       jhg++;
       jhd = null;
       jhe = null;
@@ -224,7 +224,7 @@ public final class jgn {
       jhf = System.currentTimeMillis() + 8000L * jhg;
    }
 
-   private static String jhn() {
+   static String jhn() {
       String var0 = System.getenv(a.c(1726359160, "☡徺핣䬕샓䙪ﰆ痊\ueb95愿"));
       if (var0 != null) {
          Path var1 = Path.of(
@@ -242,7 +242,7 @@ public final class jgn {
       return a.b("\u0df5瑛ﺐ想\ueb33涃ퟋ帷쁡䫐쵁㝻릱”", 1977617803);
    }
 
-   private static void jho(Process var0) {
+   static void jho(Process var0) {
       boolean var1 = false;
 
       String var3;
@@ -278,7 +278,7 @@ public final class jgn {
       }
    }
 
-   private static void jhp(String var0) {
+   static void jhp(String var0) {
       try {
          JsonObject var1 = JsonParser.parseString(var0).getAsJsonObject();
          String var2 = var1.get(a.c(-1347011835, "㭴䋘젖噿\udda1")).getAsString().trim();
@@ -309,7 +309,7 @@ public final class jgn {
       }
    }
 
-   private static void jhq(String var0) {
+   static void jhq(String var0) {
       jgd var1 = jgt;
 
       try {
@@ -334,7 +334,7 @@ public final class jgn {
       }
    }
 
-   private static int jhr(BufferedImage var0) {
+   static int jhr(BufferedImage var0) {
       double var1 = 0.0;
       double var3 = 0.0;
       double var5 = 0.0;
@@ -364,7 +364,7 @@ public final class jgn {
       return 0xFF000000 | Color.HSBtoRGB(var19[0], Math.min(1.0F, var19[1] * 1.25F), Math.max(0.75F, var19[2])) & 16777215;
    }
 
-   private static void jhs() {
+   static void jhs() {
       long var0 = unf.frame();
       jhc.removeIf(var2 -> {
          if (var0 - (Long)var2[1] > 2L) {

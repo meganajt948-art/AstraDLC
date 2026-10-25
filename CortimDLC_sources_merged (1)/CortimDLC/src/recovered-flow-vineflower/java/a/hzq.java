@@ -3,8 +3,8 @@ package a;
 public final class hzq {
    public final String id;
    public final String name;
-   private final Runnable hzr;
-   private final int hzs;
+   final Runnable hzr;
+   final int hzs;
    int key;
    final irk bind;
 

@@ -17,26 +17,26 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 public final class uqe {
-   private static final int uqf = 60;
-   private static final int uqg = 10;
-   private static final int uqh = 128;
-   private static final float uqi = 10.0F;
-   private static final int uqj = 4;
-   private static final ExecutorService uqk = Executors.newSingleThreadExecutor(var0 -> {
+   static final int uqf = 60;
+   static final int uqg = 10;
+   static final int uqh = 128;
+   static final float uqi = 10.0F;
+   static final int uqj = 4;
+   static final ExecutorService uqk = Executors.newSingleThreadExecutor(var0 -> {
       Thread var1 = new Thread(var0, "Flow2 logo frames");
       var1.setDaemon(true);
       var1.setPriority(1);
       return var1;
    });
-   private static final BufferedImage[] uql = new BufferedImage[2];
-   private static final uok[] uqm = new uok[2];
-   private static final Map<Integer, uok> uqn = new LinkedHashMap<>();
-   private static final Map<Integer, CompletableFuture<BufferedImage>> uqo = new LinkedHashMap<>();
-   private static final Map<uok, Long> uqp = new LinkedHashMap<>();
-   private static boolean uqq;
-   private static final long uqr = System.nanoTime();
+   static final BufferedImage[] uql = new BufferedImage[2];
+   static final uok[] uqm = new uok[2];
+   static final Map<Integer, uok> uqn = new LinkedHashMap<>();
+   static final Map<Integer, CompletableFuture<BufferedImage>> uqo = new LinkedHashMap<>();
+   static final Map<uok, Long> uqp = new LinkedHashMap<>();
+   static boolean uqq;
+   static final long uqr = System.nanoTime();
 
-   private uqe() {
+   uqe() {
    }
 
    public static boolean draw(DrawContext var0, float var1, float var2, float var3, boolean var4, int var5) {
@@ -71,7 +71,7 @@ public final class uqe {
       return true;
    }
 
-   private static void uqu(DrawContext var0, uok var1, int var2, int var3, float var4, float var5, float var6, int var7) {
+   static void uqu(DrawContext var0, uok var1, int var2, int var3, float var4, float var5, float var6, int var7) {
       int var8 = var3 % 10;
       int var9 = var3 / 10;
       float var10 = (var8 * var2 + 0.5F) / var1.width;
@@ -81,7 +81,7 @@ public final class uqe {
       uut.imageRegion(var0, var1.view, var4, var5, var6, var6, 0.0F, var10, var11, var12, var13, var7, false);
    }
 
-   private static BufferedImage uqv(int var0) {
+   static BufferedImage uqv(int var0) {
       if (uql[var0] == null) {
          String var1 = var0 == 1 ? "/flow/logo_anim_ink.png" : "/flow/logo_anim_silver.png";
 
@@ -101,7 +101,7 @@ public final class uqe {
       return uql[var0];
    }
 
-   private static uok uqw(int var0) {
+   static uok uqw(int var0) {
       if (uqm[var0] == null) {
          BufferedImage var1 = uqv(var0);
          if (var1 == null) {
@@ -114,7 +114,7 @@ public final class uqe {
       return uqm[var0];
    }
 
-   private static uok uqx(int var0, int var1) {
+   static uok uqx(int var0, int var1) {
       int var2 = var0 * 1000 + var1;
       uok var3 = uqn.get(var2);
       if (var3 != null) {
@@ -155,7 +155,7 @@ public final class uqe {
       }
    }
 
-   private static void uqy() {
+   static void uqy() {
       long var0 = unf.frame();
       uqp.entrySet().removeIf(var2 -> {
          if (var0 - var2.getValue() > 3L) {
@@ -167,7 +167,7 @@ public final class uqe {
       });
    }
 
-   private static void uqz(BufferedImage var0, float var1) {
+   static void uqz(BufferedImage var0, float var1) {
       int var2 = var0.getWidth();
       int var3 = var0.getHeight();
       int[] var4 = var0.getRGB(0, 0, var2, var3, null, 0, var2);
@@ -208,11 +208,11 @@ public final class uqe {
       var0.setRGB(0, 0, var2, var3, var5, 0, var2);
    }
 
-   private static int ura(int var0) {
+   static int ura(int var0) {
       return Math.max(0, Math.min(255, var0));
    }
 
-   private static BufferedImage urb(BufferedImage var0, int var1) {
+   static BufferedImage urb(BufferedImage var0, int var1) {
       try {
          byte var2 = 6;
          BufferedImage var3 = new BufferedImage(10 * var1, var2 * var1, 2);

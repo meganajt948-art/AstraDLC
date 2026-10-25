@@ -10,11 +10,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 final class kqa {
-   private final String kqb;
-   private final boolean kqc;
-   private final String kqd;
+   final String kqb;
+   final boolean kqc;
+   final String kqd;
 
-   private kqa(String id, boolean glint, String name) {
+   kqa(String id, boolean glint, String name) {
       this.kqb = id;
       this.kqc = glint;
       this.kqd = name;
@@ -50,7 +50,7 @@ final class kqa {
       return var1 == null ? Items.AIR : Registries.ITEM.get(var1);
    }
 
-   private static String kqg(ItemStack var0) {
+   static String kqg(ItemStack var0) {
       Text var1 = var0.get(DataComponentTypes.CUSTOM_NAME);
       return var1 == null ? "" : var1.getString();
    }

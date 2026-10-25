@@ -7,10 +7,10 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 
 public final class vhu {
-   private static vht vhv;
-   private static vhs vhw;
+   static vht vhv;
+   static vhs vhw;
 
-   private vhu() {
+   vhu() {
    }
 
    public static void register(vht var0) {

@@ -9,11 +9,11 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 public final class gah {
-   private static int gai;
-   private static int gaj;
-   private static jte gak;
+   static int gai;
+   static int gaj;
+   static jte gak;
 
-   private gah() {
+   gah() {
    }
 
    public static void install() {
@@ -23,7 +23,7 @@ public final class gah {
       }
    }
 
-   private static void gan(MinecraftClient var0) {
+   static void gan(MinecraftClient var0) {
       gaj++;
 
       try {
@@ -99,13 +99,13 @@ public final class gah {
       }
    }
 
-   private static void gao(String var0, Object var1) throws Exception {
+   static void gao(String var0, Object var1) throws Exception {
       Field var2 = jte.class.getDeclaredField(var0);
       var2.setAccessible(true);
       var2.set(gak, var1);
    }
 
-   private static void gap(MinecraftClient var0, String var1) {
+   static void gap(MinecraftClient var0, String var1) {
       System.out.println(a.d("귪푘庋샾䭢춇矅︢恺\uea9f", -1702102730, -1614588742) + var1);
       ScreenshotRecorder.saveScreenshot(
          var0.runDirectory, a.b("\ueebd霆ᷖ莿࠭躃", 1098837725) + var1 + a.d("멉쎦䥫휓", 1308586951, -234239580), var0.getFramebuffer(), 1, var0x -> {}

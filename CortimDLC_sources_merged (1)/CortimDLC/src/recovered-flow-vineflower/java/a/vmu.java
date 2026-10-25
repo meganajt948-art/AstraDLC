@@ -1,10 +1,10 @@
 package a;
 
 public class vmu extends vmo {
-   private final String vmv;
-   private final int vmw;
-   private String vmx;
-   private String vmy;
+   final String vmv;
+   final int vmw;
+   String vmx;
+   String vmy;
 
    public vmu(String var1, String var2, int var3) {
       super(var1);

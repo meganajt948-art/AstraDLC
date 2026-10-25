@@ -3,12 +3,12 @@ package a;
 import net.minecraft.item.Item;
 
 final class fjo {
-   private final Item fjp;
-   private final int fjq;
-   private final int fjr;
-   private final boolean fjs;
+   final Item fjp;
+   final int fjq;
+   final int fjr;
+   final boolean fjs;
 
-   private fjo(Item item, int count, int price, boolean glint) {
+   fjo(Item item, int count, int price, boolean glint) {
       this.fjp = item;
       this.fjq = count;
       this.fjr = price;

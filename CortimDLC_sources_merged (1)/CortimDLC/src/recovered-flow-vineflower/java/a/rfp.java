@@ -5,9 +5,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 
 public class rfp extends kfe {
-   private static rfp rfq;
-   private static boolean rfr;
-   private final vmc rfs = this.add(new vmc("Spin", 1.0, 0.2, 2.0, 0.1).unit("x"));
+   static rfp rfq;
+   static boolean rfr;
+   final vmc rfs = this.add(new vmc("Spin", 1.0, 0.2, 2.0, 0.1).unit("x"));
 
    public rfp() {
       super(new String(new char[]{'I', 't', 'e', 'm', 'P', 'h', 'y', 's', 'i', 'c', 's'}), "Items lie flat and tumble", kfa.RENDER);

@@ -8,15 +8,15 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 
 final class hva extends imn {
-   private static final float hvb = 24.0F;
-   private static final float hvc = 17.0F;
-   private static final float hvd = 78.0F;
-   private static final IntPredicate hve = var0 -> Character.isLetterOrDigit(var0) || var0 == 45 || var0 == 32;
+   static final float hvb = 24.0F;
+   static final float hvc = 17.0F;
+   static final float hvd = 78.0F;
+   static final IntPredicate hve = var0 -> Character.isLetterOrDigit(var0) || var0 == 45 || var0 == 32;
    final iah field = new iah(a.b("\uf7bb踥ӱ骊ᄙ韩ⷻꑉ㨚낪㝱촏䏖\uda20倱훛泍\ue35f秠ﾺ癌", -84936728), vhz.SEARCH, 20, hve);
-   private final vcj hvf = new vcj(16.0F);
-   private final vcj hvg = new vcj(9.0F);
-   private hlc hvh;
-   private boolean hvi;
+   final vcj hvf = new vcj(16.0F);
+   final vcj hvg = new vcj(9.0F);
+   hlc hvh;
+   boolean hvi;
 
    hva() {
       super(null);
@@ -28,7 +28,7 @@ final class hva extends imn {
       return 24.0F;
    }
 
-   private float hvl() {
+   float hvl() {
       return this.x + this.w - 78.0F;
    }
 
@@ -83,7 +83,7 @@ final class hva extends imn {
       }
    }
 
-   private void hvm() {
+   void hvm() {
       if (!this.hvi) {
          if (ConfigShare.normalize(this.field.text) == null) {
             this.field.error();

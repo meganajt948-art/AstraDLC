@@ -1,11 +1,11 @@
 package a;
 
 final class nes {
-   private final pzc net;
-   private final int neu;
-   private final boolean nev;
+   final pzc net;
+   final int neu;
+   final boolean nev;
 
-   private nes(pzc area, int diamonds, boolean look) {
+   nes(pzc area, int diamonds, boolean look) {
       this.net = area;
       this.neu = diamonds;
       this.nev = look;

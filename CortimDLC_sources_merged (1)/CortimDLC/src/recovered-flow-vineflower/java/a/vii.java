@@ -3,10 +3,10 @@ package a;
 import java.awt.geom.Path2D.Float;
 
 final class vii {
-   private final String vij;
-   private int vik;
+   final String vij;
+   int vik;
 
-   private vii(String var1) {
+   vii(String var1) {
       this.vij = var1;
    }
 
@@ -14,7 +14,7 @@ final class vii {
       return new vii(var0).vin();
    }
 
-   private Float vin() {
+   Float vin() {
       Float var1 = new Float();
       float var2 = 0.0F;
       float var3 = 0.0F;
@@ -159,7 +159,7 @@ final class vii {
       }
    }
 
-   private void vio() {
+   void vio() {
       while (this.vik < this.vij.length()) {
          char var1 = this.vij.charAt(this.vik);
          if (var1 == ' ' || var1 == ',' || var1 == '\n' || var1 == '\t') {
@@ -170,7 +170,7 @@ final class vii {
       }
    }
 
-   private float vip() {
+   float vip() {
       this.vio();
       int var1 = this.vik;
       if (this.vik < this.vij.length() && (this.vij.charAt(this.vik) == '-' || this.vij.charAt(this.vik) == '+')) {
@@ -200,13 +200,13 @@ final class vii {
       }
    }
 
-   private boolean viq() {
+   boolean viq() {
       this.vio();
       char var1 = this.vij.charAt(this.vik++);
       return var1 == '1';
    }
 
-   private static void vir(Float var0, float var1, float var2, float var3, float var4, float var5, boolean var6, boolean var7, float var8, float var9) {
+   static void vir(Float var0, float var1, float var2, float var3, float var4, float var5, boolean var6, boolean var7, float var8, float var9) {
       if (var3 != 0.0F && var4 != 0.0F && (var1 != var8 || var2 != var9)) {
          var3 = Math.abs(var3);
          var4 = Math.abs(var4);
@@ -264,7 +264,7 @@ final class vii {
       }
    }
 
-   private static double[] vis(double var0, double var2, double var4, double var6, double var8, double var10, double var12, double var14) {
+   static double[] vis(double var0, double var2, double var4, double var6, double var8, double var10, double var12, double var14) {
       double var16 = var0 * var4;
       double var18 = var2 * var6;
       return new double[]{var8 * var16 - var10 * var18 + var12, var10 * var16 + var8 * var18 + var14};

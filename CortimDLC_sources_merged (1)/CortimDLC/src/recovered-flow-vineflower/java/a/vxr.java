@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class vxr {
-   private vxr() {
+   vxr() {
    }
 
    public static Field find(Class<?> var0, String var1, String var2, String var3) {

@@ -15,26 +15,26 @@ import java.util.concurrent.Future;
 
 public final class tnl {
    static final int MAX_K = 24;
-   private static final int tnm = 64;
-   private static final int tnn = 24000;
-   private static final double tno = 10.0;
-   private static final double tnp = 0.8;
-   private static final double tnq = 1.5;
-   private static final double tnr = 0.003;
-   private static final double tns = 1.0E-4;
-   private static final double tnt = 1.0E-5;
-   private static final double tnu = 2.0;
-   private static final int tnv = 30;
+   static final int tnm = 64;
+   static final int tnn = 24000;
+   static final double tno = 10.0;
+   static final double tnp = 0.8;
+   static final double tnq = 1.5;
+   static final double tnr = 0.003;
+   static final double tns = 1.0E-4;
+   static final double tnt = 1.0E-5;
+   static final double tnu = 2.0;
+   static final int tnv = 30;
    static final int TRACK_EPISODE = 40;
-   private static final int[] tnw = new int[]{2, 4};
-   private static final int[] tnx = new int[]{2, 4};
+   static final int[] tnw = new int[]{2, 4};
+   static final int[] tnx = new int[]{2, 4};
    static volatile List<tmn> lastEpisodes = List.of();
-   private static final int tny = 8000;
-   private static final int tnz = 600;
-   private static final float[] toa = new float[]{0.35F, 0.7F, 1.0F, 1.5F, 2.2F};
-   private static final float[] tob = new float[]{0.6F, 0.8F, 1.0F, 1.25F, 1.5F, 1.8F, 2.2F, 2.7F, 3.2F};
+   static final int tny = 8000;
+   static final int tnz = 600;
+   static final float[] toa = new float[]{0.35F, 0.7F, 1.0F, 1.5F, 2.2F};
+   static final float[] tob = new float[]{0.6F, 0.8F, 1.0F, 1.25F, 1.5F, 1.8F, 2.2F, 2.7F, 3.2F};
 
-   private tnl() {
+   tnl() {
    }
 
    public static tck run(List<tmh> var0, tmk var1, tmw var2) {
@@ -258,7 +258,7 @@ public final class tnl {
       return var1;
    }
 
-   private static List<tmn> toe(List<sze> var0) {
+   static List<tmn> toe(List<sze> var0) {
       ArrayList var1 = new ArrayList();
 
       for (sze var3 : var0) {
@@ -277,7 +277,7 @@ public final class tnl {
       return var1;
    }
 
-   private static int tof(
+   static int tof(
       tbx var0,
       tck var1,
       List<sze> var2,
@@ -430,7 +430,7 @@ public final class tnl {
       return var24;
    }
 
-   private static float[] tog(List<Float> var0) {
+   static float[] tog(List<Float> var0) {
       float[] var1 = new float[var0.size()];
 
       for (int var2 = 0; var2 < var1.length; var2++) {
@@ -453,7 +453,7 @@ public final class tnl {
       }
    }
 
-   private static int toh(List<sze> var0) {
+   static int toh(List<sze> var0) {
       int var1 = 0;
 
       for (sze var3 : var0) {
@@ -463,7 +463,7 @@ public final class tnl {
       return var1;
    }
 
-   private static List<tnc> toi(List<sze> var0, Map<sze, boolean[]> var1, int var2) {
+   static List<tnc> toi(List<sze> var0, Map<sze, boolean[]> var1, int var2) {
       ArrayList var3 = new ArrayList();
       byte var4 = 32;
 
@@ -490,7 +490,7 @@ public final class tnl {
       return var3;
    }
 
-   private static void toj(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
+   static void toj(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
       double var7 = 0.9;
       double var9 = 0.999;
       double var11 = 1.0 - Math.pow(var7, var4);
@@ -740,7 +740,7 @@ public final class tnl {
       return var9 > 0 ? var7 / var9 : Double.NaN;
    }
 
-   private static void tok(List<sze> var0, tck var1) {
+   static void tok(List<sze> var0, tck var1) {
       byte var2 = 32;
       double[] var3 = new double[var2];
       double[] var4 = new double[var2];
@@ -770,7 +770,7 @@ public final class tnl {
       }
    }
 
-   private static void tol(List<sze> var0, tck var1) {
+   static void tol(List<sze> var0, tck var1) {
       ArrayList var2 = new ArrayList();
       ArrayList var3 = new ArrayList();
 
@@ -897,7 +897,7 @@ public final class tnl {
       }
    }
 
-   private static void tom(tck var0, int var1, float var2) {
+   static void tom(tck var0, int var1, float var2) {
       switch (var1) {
          case 0:
             var0.texCap = var2;
@@ -910,7 +910,7 @@ public final class tnl {
       }
    }
 
-   private static double ton(tck var0, List<tmn> var1, syn var2, taf var3, long var4) {
+   static double ton(tck var0, List<tmn> var1, syn var2, taf var3, long var4) {
       syk var6 = syq.compare(var2, syq.model(var0, var1, new Random(var4), var3));
       return 0.6 * Math.min(var6.simX, var6.simY) + 0.4 * var6.total();
    }
@@ -1003,7 +1003,7 @@ public final class tnl {
       return var3[Math.min(var3.length - 1, (int)Math.floor(var1 * (var3.length - 1)))];
    }
 
-   private static void too(szk var0, tck var1, Random var2) {
+   static void too(szk var0, tck var1, Random var2) {
       ArrayList var3 = new ArrayList<>(var0.aimPoints);
       Collections.shuffle(var3, var2);
       int var4 = Math.min(var3.size(), 4000);
@@ -1016,7 +1016,7 @@ public final class tnl {
       }
    }
 
-   private static void top(List<sze> var0, tck var1, Random var2) {
+   static void top(List<sze> var0, tck var1, Random var2) {
       ArrayList var3 = new ArrayList(var0);
       Collections.shuffle(var3, var2);
       tch var4 = new tch();

@@ -5,9 +5,9 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 
 public final class pnz {
-   private long poa;
-   private long pob;
-   private Object poc;
+   long poa;
+   long pob;
+   Object poc;
 
    public boolean check(PlayerEntity var1, long var2, long var4) {
       ClientWorld var6 = MinecraftClient.getInstance().world;

@@ -5,9 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 final class epm {
-   private final byte[] epn;
-   private int epo;
-   private final int epp;
+   final byte[] epn;
+   int epo;
+   final int epp;
 
    epm(byte[] var1, int var2, int var3) {
       this.epn = var1;

@@ -7,9 +7,9 @@ import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public final class pia {
-   private final RegistryEntry<EntityAttribute> pib;
-   private final double pic;
-   private final Operation pid;
+   final RegistryEntry<EntityAttribute> pib;
+   final double pic;
+   final Operation pid;
 
    public pia(RegistryEntry<EntityAttribute> attribute, double amount, Operation op) {
       this.pib = attribute;

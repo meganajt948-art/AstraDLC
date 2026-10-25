@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class vhf {
-   private static final int vhg = 96;
+   static final int vhg = 96;
    public static final RenderPipeline MASK = RenderPipeline.builder()
       .withLocation(uvq.id("pipeline/hand_mask"))
       .withVertexShader(uvq.id("core/blur"))
@@ -49,15 +49,15 @@ public final class vhf {
       .withCull(false)
       .withVertexFormat(VertexFormats.EMPTY, DrawMode.TRIANGLES)
       .build();
-   private static vhe vhh;
-   private static final GpuTexture[] vhi = new GpuTexture[7];
-   private static final GpuTextureView[] vhj = new GpuTextureView[7];
-   private static @Nullable GpuBuffer vhk;
-   private static int vhl = -1;
-   private static int vhm = -1;
-   private static boolean vhn;
+   static vhe vhh;
+   static final GpuTexture[] vhi = new GpuTexture[7];
+   static final GpuTextureView[] vhj = new GpuTextureView[7];
+   static @Nullable GpuBuffer vhk;
+   static int vhl = -1;
+   static int vhm = -1;
+   static boolean vhn;
 
-   private vhf() {
+   vhf() {
    }
 
    public static void register(vhe var0) {
@@ -138,7 +138,7 @@ public final class vhf {
       }
    }
 
-   private static void vhq(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3) {
+   static void vhq(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3) {
       try (RenderPass var4 = var0.createRenderPass(() -> "Flow2 hand glow", var3, OptionalInt.empty())) {
          var4.setPipeline(var1);
          var4.bindTexture("InSampler", var2, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
@@ -146,7 +146,7 @@ public final class vhf {
       }
    }
 
-   private static void vhr(GpuDevice var0, int var1, int var2) {
+   static void vhr(GpuDevice var0, int var1, int var2) {
       if (vhk == null) {
          vhk = var0.createBuffer(() -> "Flow2 hands", 136, 96L);
       }

@@ -24,44 +24,44 @@ import org.lwjgl.system.MemoryStack;
 
 public final class whl {
    public static final String PREFIX = "video:";
-   private static final int whm = 4;
-   private static final int whn = 64;
-   private static final boolean who = false;
-   private static final long whp = 2000000000L;
-   private static final long whq = 4000000000L;
-   private static final long whr = 250000000L;
-   private static final long whs = 1000000000L;
-   private static final Map<String, whl> wht = new HashMap<>();
-   private static final List<uok> whu = new ArrayList<>();
-   private static final List<Long> whv = new ArrayList<>();
-   private static boolean whw;
-   private final String whx;
-   private volatile long why;
-   private volatile boolean whz;
-   private volatile whh/* @Nullable */ wia;
-   private long wib;
-   private whh/* @Nullable */ wic;
-   private long wid;
-   private @Nullable GpuTexture wie;
-   private @Nullable GpuTexture wif;
-   private @Nullable GpuTextureView wig;
-   private @Nullable GpuTextureView wih;
-   private int wii;
-   private int wij;
-   private long wik;
-   private @Nullable uok wil;
-   private long wim = -1L;
-   private @Nullable uok win;
-   private long wio = -1L;
-   private @Nullable uok wip;
-   private long wiq = -1L;
-   private long wir;
-   private final float[] wis = new float[4];
-   private int wit;
-   private @Nullable GpuBuffer wiu;
-   private boolean wiv;
+   static final int whm = 4;
+   static final int whn = 64;
+   static final boolean who = false;
+   static final long whp = 2000000000L;
+   static final long whq = 4000000000L;
+   static final long whr = 250000000L;
+   static final long whs = 1000000000L;
+   static final Map<String, whl> wht = new HashMap<>();
+   static final List<uok> whu = new ArrayList<>();
+   static final List<Long> whv = new ArrayList<>();
+   static boolean whw;
+   final String whx;
+   volatile long why;
+   volatile boolean whz;
+   volatile whh/* @Nullable */ wia;
+   long wib;
+   whh/* @Nullable */ wic;
+   long wid;
+   @Nullable GpuTexture wie;
+   @Nullable GpuTexture wif;
+   @Nullable GpuTextureView wig;
+   @Nullable GpuTextureView wih;
+   int wii;
+   int wij;
+   long wik;
+   @Nullable uok wil;
+   long wim = -1L;
+   @Nullable uok win;
+   long wio = -1L;
+   @Nullable uok wip;
+   long wiq = -1L;
+   long wir;
+   final float[] wis = new float[4];
+   int wit;
+   @Nullable GpuBuffer wiu;
+   boolean wiv;
 
-   private whl(String var1) {
+   whl(String var1) {
       this.whx = var1;
    }
 
@@ -89,7 +89,7 @@ public final class whl {
       }
    }
 
-   private void wiy() {
+   void wiy() {
       boolean var1 = false;
 
       try {
@@ -242,7 +242,7 @@ public final class whl {
       whv.clear();
    }
 
-   private boolean wiz() {
+   boolean wiz() {
       long var1 = System.nanoTime();
       this.why = var1;
       if (!this.whz) {
@@ -264,7 +264,7 @@ public final class whl {
       return this.wig != null && uvq.ensure(uvq.VIDEO);
    }
 
-   private void wja(whh var1, long var2) {
+   void wja(whh var1, long var2) {
       whe var4 = null;
 
       whe var5;
@@ -301,7 +301,7 @@ public final class whl {
       }
    }
 
-   private void wjb(whe var1) {
+   void wjb(whe var1) {
       GpuDevice var2 = RenderSystem.getDevice();
       if (this.wie == null || this.wii != var1.width || this.wij != var1.height) {
          this.wje();
@@ -320,7 +320,7 @@ public final class whl {
       this.wik++;
    }
 
-   private boolean wjc(uok var1, float var2, float var3, float var4, float var5) {
+   boolean wjc(uok var1, float var2, float var3, float var4, float var5) {
       try {
          GpuDevice var6 = RenderSystem.getDevice();
          if (this.wiu == null) {
@@ -372,7 +372,7 @@ public final class whl {
       }
    }
 
-   private void wjd() {
+   void wjd() {
       if (this.wie != null || this.wil != null || this.win != null || this.wip != null || this.wiu != null) {
          this.wje();
          if (this.wil != null) {
@@ -400,7 +400,7 @@ public final class whl {
       }
    }
 
-   private void wje() {
+   void wje() {
       if (this.wig != null) {
          this.wig.close();
          this.wih.close();
@@ -412,14 +412,14 @@ public final class whl {
       this.wie = this.wif = null;
    }
 
-   private static void wjf(@Nullable uok var0) {
+   static void wjf(@Nullable uok var0) {
       if (var0 != null) {
          whu.add(var0);
          whv.add(unf.frame());
       }
    }
 
-   private byte[] wjg() throws IOException {
+   byte[] wjg() throws IOException {
       return eul.bytes("video/" + this.whx + ".mp4");
    }
 }

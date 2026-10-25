@@ -1,9 +1,9 @@
 package a;
 
 final class eqw {
-   private final int[] eqx;
-   private final int eqy;
-   private final int eqz;
+   final int[] eqx;
+   final int eqy;
+   final int eqz;
 
    eqw(int[] px, int w, int h) {
       this.eqx = px;

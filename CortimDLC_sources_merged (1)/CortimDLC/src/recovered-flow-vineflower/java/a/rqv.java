@@ -20,14 +20,14 @@ import net.minecraft.client.render.state.WorldRenderState;
 import net.minecraft.item.ItemStack;
 
 public class rqv extends kfe {
-   private static rqv rqw;
-   private static final Map<Class<?>, List<Field>> rqx = new HashMap<>();
-   private static final Map<Class<?>, Constructor<?>> rqy = new HashMap<>();
-   private static final Set<EntityRenderState> rqz = Collections.newSetFromMap(new IdentityHashMap<>());
-   private static Field rra;
-   private static boolean rrb;
-   private final vmc rrc = this.add(new vmc("Transparency", 0.5, 0.0, 0.95, 0.05).percent());
-   private final vkl rrd = this.add(new vkl("Mobs", false));
+   static rqv rqw;
+   static final Map<Class<?>, List<Field>> rqx = new HashMap<>();
+   static final Map<Class<?>, Constructor<?>> rqy = new HashMap<>();
+   static final Set<EntityRenderState> rqz = Collections.newSetFromMap(new IdentityHashMap<>());
+   static Field rra;
+   static boolean rrb;
+   final vmc rrc = this.add(new vmc("Transparency", 0.5, 0.0, 0.95, 0.05).percent());
+   final vkl rrd = this.add(new vkl("Mobs", false));
 
    public rqv() {
       super(new String(new char[]{'S', 'h', 'o', 'w', 'I', 'n', 'v', 'i', 's', 'i', 'b', 'l', 'e'}), "Invisible players show up see-through", kfa.RENDER);
@@ -84,11 +84,11 @@ public class rqv extends kfe {
       }
    }
 
-   private static boolean rrg(BipedEntityRenderState var0) {
+   static boolean rrg(BipedEntityRenderState var0) {
       return !var0.equippedHeadStack.isEmpty() || !var0.equippedChestStack.isEmpty() || !var0.equippedLegsStack.isEmpty() || !var0.equippedFeetStack.isEmpty();
    }
 
-   private static BipedEntityRenderState rrh(BipedEntityRenderState var0) {
+   static BipedEntityRenderState rrh(BipedEntityRenderState var0) {
       if (rrb) {
          return null;
       }
@@ -168,7 +168,7 @@ public class rqv extends kfe {
       }
    }
 
-   private static List<Field> rri(Class<?> var0) {
+   static List<Field> rri(Class<?> var0) {
       List var1 = rqx.get(var0);
       if (var1 != null) {
          return var1;

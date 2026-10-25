@@ -8,21 +8,21 @@ import net.minecraft.client.texture.TextureSetup;
 import org.jspecify.annotations.Nullable;
 
 final class utf implements SimpleGuiElementRenderState {
-   private final RenderPipeline utg;
-   private final float uth;
-   private final float uti;
-   private final float utj;
-   private final float utk;
-   private final float utl;
-   private final float utm;
-   private final float utn;
-   private final float uto;
-   private final int utp;
-   private final int utq;
-   private final int utr;
-   private final int uts;
-   private final @Nullable ScreenRect utt;
-   private final @Nullable ScreenRect utu;
+   final RenderPipeline utg;
+   final float uth;
+   final float uti;
+   final float utj;
+   final float utk;
+   final float utl;
+   final float utm;
+   final float utn;
+   final float uto;
+   final int utp;
+   final int utq;
+   final int utr;
+   final int uts;
+   final @Nullable ScreenRect utt;
+   final @Nullable ScreenRect utu;
 
    utf(
       RenderPipeline pipeline,

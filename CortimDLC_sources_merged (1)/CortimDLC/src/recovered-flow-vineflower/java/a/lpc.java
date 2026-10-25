@@ -1,16 +1,16 @@
 package a;
 
 public final class lpc {
-   private final double lpd;
-   private final boolean lpe;
-   private final boolean lpf;
-   private final boolean lpg;
-   private final double lph;
-   private final float lpi;
-   private final float lpj;
-   private final double lpk;
-   private final double lpl;
-   private final double lpm;
+   final double lpd;
+   final boolean lpe;
+   final boolean lpf;
+   final boolean lpg;
+   final double lph;
+   final float lpi;
+   final float lpj;
+   final double lpk;
+   final double lpl;
+   final double lpm;
 
    public lpc(
       double reach,

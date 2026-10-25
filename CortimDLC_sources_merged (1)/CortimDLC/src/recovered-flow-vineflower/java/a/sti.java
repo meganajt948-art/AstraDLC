@@ -1,10 +1,10 @@
 package a;
 
 public final class sti {
-   private final double stj;
-   private final double stk;
-   private final float stl;
-   private final boolean stm;
+   final double stj;
+   final double stk;
+   final float stl;
+   final boolean stm;
 
    public sti(double x, double z, float distance, boolean bolt) {
       this.stj = x;

@@ -11,10 +11,10 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 
 final class keb implements Drawable {
-   private final Screen kec;
-   private final EntryListWidget<?> ked;
+   final Screen kec;
+   final EntryListWidget<?> ked;
 
-   private keb(Screen screen, EntryListWidget<?> list) {
+   keb(Screen screen, EntryListWidget<?> list) {
       this.kec = screen;
       this.ked = list;
    }

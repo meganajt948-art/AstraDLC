@@ -9,7 +9,7 @@ public enum kfa {
    RENDER(a.b("劕⬓ꇋ㾰둦㋀", -1417588031)),
    MISC(a.d("헷걢⚫룊", 86891091, 1928400877));
 
-   private final String kfb;
+   final String kfb;
 
    kfa(String var3) {
       this.kfb = var3;

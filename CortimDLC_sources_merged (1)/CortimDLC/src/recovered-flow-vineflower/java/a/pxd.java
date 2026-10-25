@@ -16,25 +16,25 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.CollisionView;
 
 public final class pxd {
-   private static final double pxe = 0.98F;
-   private static final double pxf = 0.98F;
-   private final CollisionView pxg;
-   private final Entity pxh;
-   private final float pxi;
-   private final double pxj;
-   private final double pxk;
-   private final double pxl;
-   private final double pxm;
-   private final boolean pxn;
-   private Box pxo;
-   private double pxp;
-   private double pxq;
-   private double pxr;
-   private boolean pxs;
-   private double pxt;
-   private double pxu;
+   static final double pxe = 0.98F;
+   static final double pxf = 0.98F;
+   final CollisionView pxg;
+   final Entity pxh;
+   final float pxi;
+   final double pxj;
+   final double pxk;
+   final double pxl;
+   final double pxm;
+   final boolean pxn;
+   Box pxo;
+   double pxp;
+   double pxq;
+   double pxr;
+   boolean pxs;
+   double pxt;
+   double pxu;
 
-   private pxd(CollisionView var1, Entity var2, pwx var3, boolean var4) {
+   pxd(CollisionView var1, Entity var2, pwx var3, boolean var4) {
       this.pxg = var1;
       this.pxh = var2;
       this.pxn = var4;
@@ -132,15 +132,15 @@ public final class pxd {
       return false;
    }
 
-   private double pxx() {
+   double pxx() {
       return (this.pxo.minX + this.pxo.maxX) * 0.5;
    }
 
-   private double pxy() {
+   double pxy() {
       return (this.pxo.minZ + this.pxo.maxZ) * 0.5;
    }
 
-   private void pxz(double var1, double var3, boolean var5) {
+   void pxz(double var1, double var3, boolean var5) {
       if (Math.abs(this.pxp) < 0.003) {
          this.pxp = 0.0;
       }
@@ -197,7 +197,7 @@ public final class pxd {
       this.pxr *= var14;
    }
 
-   private Vec3d pya(Vec3d var1) {
+   Vec3d pya(Vec3d var1) {
       if (var1.lengthSquared() == 0.0) {
          return var1;
       }
@@ -248,7 +248,7 @@ public final class pxd {
       }
    }
 
-   private List<VoxelShape> pyb(Box var1) {
+   List<VoxelShape> pyb(Box var1) {
       ArrayList var2 = new ArrayList();
 
       for (VoxelShape var4 : this.pxg.getBlockCollisions(this.pxh, var1)) {
@@ -260,7 +260,7 @@ public final class pxd {
       return var2;
    }
 
-   private static Vec3d pyc(Vec3d var0, Box var1, List<VoxelShape> var2) {
+   static Vec3d pyc(Vec3d var0, Box var1, List<VoxelShape> var2) {
       if (var2.isEmpty()) {
          return var0;
       }

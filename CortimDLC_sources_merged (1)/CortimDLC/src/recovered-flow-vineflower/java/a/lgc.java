@@ -33,78 +33,78 @@ import net.minecraft.world.RaycastContext.FluidHandling;
 import net.minecraft.world.RaycastContext.ShapeType;
 
 public class lgc extends kfe {
-   private final vlv lgd = this.add(
+   final vlv lgd = this.add(
       new vlv(a.d("䃠㥠뎨ⷄꘔ", 448129708, -410670582), a.b("⼁嚎\udc51䈳짢", -1905053865), a.d("ꗙ\udc56嚉죫䌺", 1286650616, 2056396663), a.d("쟀빘㒋", 359545675, 885062855))
    );
-   private final vkl lge = this.add(new vkl(a.c(1364002008, "ҏ紜\uf7d8榨\ue272擉\ude8d"), true));
-   private final vkl lgf = this.add(new vkl(a.c(-1166832502, "賕\uf547羖\ue1fc樬\uec87嚀\udf23䅫쯌䰉뙩"), true));
-   private final vkl lgg = this.add(new vkl(a.c(1878724242, "໖睋ﶚ揭\ue80c溃퓜崿썻"), true));
-   private final vmc lgh = this.add(new vmc(a.b("\u1289欏\ue1d8羫\uf46b狇좒䅢", 275845843), 0.0, 0.0, 500.0, 10.0).suffix(a.d("␒嶽", 1749851769, -156124668)));
-   private final vmc lgi = this.add(new vmc(a.d("齭\ue6fd氧\uf25b禔", -1164547851, -363661351), 0.0, 0.0, 10.0, 1.0).suffix(a.c(770298799, "폞ꩲ₫뻒㔝")));
-   private final vmc lgj = this.add(new vmc(a.c(1822894818, "⪮匲\ud9fb䞍챏䫱\uf0af祘"), 3.0, 2.5, 3.0, 0.05));
-   private final vkl lgk = this.add(new vkl(a.c(1691564813, "㭚䋗젉噠\uddab嬍\ue15f"), true));
-   private final vkl lgl = this.add(new vkl(a.c(-1694340878, "梻ᄨ鯶֖"), true));
-   private final vkl lgm = this.add(new vkl(a.b("ﴫ蒦\u0e6f逃ᯎ鵭✱꺈ゑ먴㷼잁䥝탦媢", -1106510480), true));
-   private static final float lgn = 0.9F;
-   private static final double lgo = 1.5;
-   private static final int lgp = 2;
-   private static final int lgq = 10;
-   private static final int lgr = 2;
-   private static final int lgs = 14;
-   private static final int lgt = 18;
-   private static final int lgu = 30;
-   private static final int lgv = 4;
-   private static final int lgw = 26;
-   private static final int lgx = 2;
-   private static final int lgy = 7;
-   private static final double lgz = 0.16;
-   private static final int lha = 10;
-   private static final double lhb = 0.6;
-   private static final double lhc = 0.766;
-   private static final double lhd = 0.1;
-   private static final double lhe = 1.5;
-   private static final double lhf = 0.1;
-   private static final Field lhg = vxr.find(
+   final vkl lge = this.add(new vkl(a.c(1364002008, "ҏ紜\uf7d8榨\ue272擉\ude8d"), true));
+   final vkl lgf = this.add(new vkl(a.c(-1166832502, "賕\uf547羖\ue1fc樬\uec87嚀\udf23䅫쯌䰉뙩"), true));
+   final vkl lgg = this.add(new vkl(a.c(1878724242, "໖睋ﶚ揭\ue80c溃퓜崿썻"), true));
+   final vmc lgh = this.add(new vmc(a.b("\u1289欏\ue1d8羫\uf46b狇좒䅢", 275845843), 0.0, 0.0, 500.0, 10.0).suffix(a.d("␒嶽", 1749851769, -156124668)));
+   final vmc lgi = this.add(new vmc(a.d("齭\ue6fd氧\uf25b禔", -1164547851, -363661351), 0.0, 0.0, 10.0, 1.0).suffix(a.c(770298799, "폞ꩲ₫뻒㔝")));
+   final vmc lgj = this.add(new vmc(a.c(1822894818, "⪮匲\ud9fb䞍챏䫱\uf0af祘"), 3.0, 2.5, 3.0, 0.05));
+   final vkl lgk = this.add(new vkl(a.c(1691564813, "㭚䋗젉噠\uddab嬍\ue15f"), true));
+   final vkl lgl = this.add(new vkl(a.c(-1694340878, "梻ᄨ鯶֖"), true));
+   final vkl lgm = this.add(new vkl(a.b("ﴫ蒦\u0e6f逃ᯎ鵭✱꺈ゑ먴㷼잁䥝탦媢", -1106510480), true));
+   static final float lgn = 0.9F;
+   static final double lgo = 1.5;
+   static final int lgp = 2;
+   static final int lgq = 10;
+   static final int lgr = 2;
+   static final int lgs = 14;
+   static final int lgt = 18;
+   static final int lgu = 30;
+   static final int lgv = 4;
+   static final int lgw = 26;
+   static final int lgx = 2;
+   static final int lgy = 7;
+   static final double lgz = 0.16;
+   static final int lha = 10;
+   static final double lhb = 0.6;
+   static final double lhc = 0.766;
+   static final double lhd = 0.1;
+   static final double lhe = 1.5;
+   static final double lhf = 0.1;
+   static final Field lhg = vxr.find(
       MinecraftClient.class,
       a.d("䥢ヘ먚\u2431꾥⤐鍄᪾蓧็覇珱ﴴ擟\ueec1栿퉽嶾윍䅰죫늸㰊", -1598645460, -767897033),
       a.d("쑫뷕㜊ꥲ⊭ꐧḚ韭ল茅", 1698091193, 1554322622),
       a.d("౫", 1127164230, -1823201947)
    );
-   private static final Field lhh = vxr.find(
+   static final Field lhh = vxr.find(
       LivingEntity.class, a.d("\ue8c5酿ᮽ薖ข袷㋣묙╀꿠⠠퉖岓앸佦즘珚ﰙ暪\ue0d7楎ጝ鶭ٵ", 1060335984, -419653181), a.c(292519284, "紘Ҧ蹹ခ鯞ᵔꝮ⺛냄㩿"), a.d("⫵", -919185265, 1639805490)
    );
-   private static final Field lhi = vxr.find(
+   static final Field lhi = vxr.find(
       KeyBinding.class, a.d("俏㙵벷⊜꤈⾽闩ᰓ艊࣪輪畜ﮙ扲\ue86c溒퓐嬓솠䟝칆됔㪣", 658182611, -1007985051), a.b("\ueaa2錜ᧃ螻\u0c64諮ビ뤥❺귌", -640881970), a.d("ᥤ", 1480884821, 1875549049)
    );
-   private static lgc lhj;
-   private final wdt lhk = new wdt();
-   private final ktf lhl = new ktf();
-   private int lhm;
-   private int lhn;
-   private int lho;
-   private int lhp;
-   private int lhq = 1;
-   private int lhr;
-   private int lhs;
-   private int lht;
-   private boolean lhu;
-   private Entity lhv;
-   private int lhw = 10;
-   private Entity lhx;
-   private Vec3d lhy;
-   private int lhz = 1000;
-   private int lia;
-   private boolean lib;
-   private boolean lic;
-   private boolean lid;
-   private int lie;
-   private boolean lif = true;
-   private boolean lig;
-   private int lih;
-   private int lii = -1000;
-   private boolean lij;
-   private int lik = -1000;
-   private double lil = 2.0;
+   static lgc lhj;
+   final wdt lhk = new wdt();
+   final ktf lhl = new ktf();
+   int lhm;
+   int lhn;
+   int lho;
+   int lhp;
+   int lhq = 1;
+   int lhr;
+   int lhs;
+   int lht;
+   boolean lhu;
+   Entity lhv;
+   int lhw = 10;
+   Entity lhx;
+   Vec3d lhy;
+   int lhz = 1000;
+   int lia;
+   boolean lib;
+   boolean lic;
+   boolean lid;
+   int lie;
+   boolean lif = true;
+   boolean lig;
+   int lih;
+   int lii = -1000;
+   boolean lij;
+   int lik = -1000;
+   double lil = 2.0;
 
    public lgc() {
       super(a.b("잓븄㓌ꪳⅤꟗᶓ鑒ਠ肊", 1598736333), a.b("癒࿂蔌᭺郾ᘛ걔▨뮲ㅗ뚑䳳숱宂퇀坥\ued7f抵\uf80c繜\uf7bc趿͕颒ỷ鐡ⷀꏒ㤴뽸㓗쨆䁒\ud9aa忱핛", -990480834), kfa.COMBAT);
@@ -282,7 +282,7 @@ public class lgc extends kfe {
       }
    }
 
-   private int lio(ClientPlayerEntity var1, boolean var2) {
+   int lio(ClientPlayerEntity var1, boolean var2) {
       int var3 = var2 ? 1 : 0;
       int var4 = -1;
       int var5 = -1;
@@ -322,25 +322,25 @@ public class lgc extends kfe {
       return -1;
    }
 
-   private boolean lip(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
+   boolean lip(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
       return this.lij && this.lhm - this.lii <= 26 && !var2.isSneaking() && !var2.isTouchingWater() && (!var3 || this.lih <= this.liq())
          ? ksp.headroom(var2, var1.world, 0.16) >= 0.16
          : false;
    }
 
-   private int liq() {
+   int liq() {
       return MathHelper.clamp((int)Math.ceil(this.lil) + 2, 2, 7);
    }
 
-   private boolean lir(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
+   boolean lir(MinecraftClient var1, ClientPlayerEntity var2, boolean var3) {
       return this.lib && var3 && var2.isSprinting() && !wdt.anyHeld() && (!var2.isOnGround() || !var1.options.jumpKey.isPressed());
    }
 
-   private boolean lis(ClientPlayerEntity var1) {
+   boolean lis(ClientPlayerEntity var1) {
       return !this.lhu || this.liw(var1, -this.lhp) >= 1.0F;
    }
 
-   private void lit(MinecraftClient var1, ClientPlayerEntity var2, Entity var3) {
+   void lit(MinecraftClient var1, ClientPlayerEntity var2, Entity var3) {
       if (wdt.serverSprinting(var2) && !this.lib && this.liv(var2, 0) && !(var3 instanceof LivingEntity var4 && (var4.hurtTime > 0 || var4.isBlocking()))) {
          this.lib = true;
       }
@@ -360,22 +360,22 @@ public class lgc extends kfe {
       this.lhq = liz();
    }
 
-   private void liu(MinecraftClient var1) {
+   void liu(MinecraftClient var1) {
       this.lhk.release(var1);
       this.lid = false;
       this.lie = 0;
    }
 
-   private boolean liv(ClientPlayerEntity var1, int var2) {
+   boolean liv(ClientPlayerEntity var1, int var2) {
       return this.liw(var1, var2) > 0.9F;
    }
 
-   private float liw(ClientPlayerEntity var1, int var2) {
+   float liw(ClientPlayerEntity var1, int var2) {
       float var3 = MathHelper.clamp((this.lhz + 0.5F + var2) / var1.getAttackCooldownProgressPerTick(), 0.0F, 1.0F);
       return Math.min(var1.getAttackCooldownProgress(0.5F + var2), var3);
    }
 
-   private static void lix(MinecraftClient var0) {
+   static void lix(MinecraftClient var0) {
       KeyBinding var1 = var0.options.attackKey;
       int var2 = vxr.getInt(lhi, var1, -1);
       if (var2 <= 0) {
@@ -388,15 +388,15 @@ public class lgc extends kfe {
       }
    }
 
-   private static int liy() {
+   static int liy() {
       return ThreadLocalRandom.current().nextDouble() < 0.2 ? 1 : 0;
    }
 
-   private static int liz() {
+   static int liz() {
       return ThreadLocalRandom.current().nextDouble() < 0.3 ? 2 : 1;
    }
 
-   private boolean lja(ClientPlayerEntity var1, Entity var2, int var3) {
+   boolean lja(ClientPlayerEntity var1, Entity var2, int var3) {
       int var4 = Math.min(var3, 4);
       double var5 = Math.min(ljl(var1), this.lgj.get());
       Vec3d var7 = var1.getEyePos().add(this.lhl.offsetAt(var4));
@@ -404,7 +404,7 @@ public class lgc extends kfe {
       return var8.squaredMagnitude(var7) > var5 * var5;
    }
 
-   private boolean ljb(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ljb(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = Math.min(ljl(var2), this.lgj.get()) + 1.5;
       Vec3d var5 = var2.getEyePos();
       Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
@@ -419,7 +419,7 @@ public class lgc extends kfe {
       return false;
    }
 
-   private boolean ljc(ClientPlayerEntity var1, Entity var2) {
+   boolean ljc(ClientPlayerEntity var1, Entity var2) {
       float var3 = 2.0F * var1.getYaw() - var1.lastYaw;
       float var4 = MathHelper.clamp(2.0F * var1.getPitch() - var1.lastPitch, -90.0F, 90.0F);
       Vec3d var5 = var1.getEyePos().add(this.lhl.offsetAt(1));
@@ -430,11 +430,11 @@ public class lgc extends kfe {
       return !var7.contains(var5) && var7.raycast(var5, var6).isEmpty();
    }
 
-   private boolean ljd(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ljd(MinecraftClient var1, ClientPlayerEntity var2) {
       return this.lje(var1, var2) || this.ljf(var1, var2);
    }
 
-   private boolean lje(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean lje(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = Math.min(ljl(var2), this.lgj.get()) + 0.6;
       Vec3d var5 = var2.getEyePos();
       Vec3d var6 = var2.getRotationVec(1.0F);
@@ -449,7 +449,7 @@ public class lgc extends kfe {
       return false;
    }
 
-   private boolean ljf(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ljf(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = ljl(var2);
       Vec3d var5 = var2.getEyePos();
       Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
@@ -470,12 +470,12 @@ public class lgc extends kfe {
       return false;
    }
 
-   private static Vec3d ljg(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2, Vec3d var3) {
+   static Vec3d ljg(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2, Vec3d var3) {
       BlockHitResult var4 = var0.world.raycast(new RaycastContext(var2, var3, ShapeType.OUTLINE, FluidHandling.NONE, var1));
       return var4.getType() == Type.MISS ? var3 : var4.getPos();
    }
 
-   private static boolean ljh(Box var0, Vec3d var1, Vec3d var2, Vec3d var3) {
+   static boolean ljh(Box var0, Vec3d var1, Vec3d var2, Vec3d var3) {
       if (var0.contains(var1)) {
          return true;
       }
@@ -484,7 +484,7 @@ public class lgc extends kfe {
       return var0.raycast(var1, var2).filter(var3x -> var1.squaredDistanceTo(var3x) <= var4).isPresent();
    }
 
-   private boolean lji(Entity var1) {
+   boolean lji(Entity var1) {
       if (var1 == null) {
          if (++this.lhs > 2) {
             this.lhr = 0;
@@ -498,13 +498,13 @@ public class lgc extends kfe {
       }
    }
 
-   private static void ljj(MinecraftClient var0) {
+   static void ljj(MinecraftClient var0) {
       if (vxr.getInt(lhg, var0, 0) > 10) {
          vxr.setInt(lhg, var0, 0);
       }
    }
 
-   private static boolean ljk(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2) {
+   static boolean ljk(MinecraftClient var0, ClientPlayerEntity var1, Vec3d var2) {
       if (vxr.getInt(lhg, var0, 0) > 0) {
          return false;
       }
@@ -518,16 +518,16 @@ public class lgc extends kfe {
       return var4 == null || var4.isWithinRange(var1, var2);
    }
 
-   private static double ljl(ClientPlayerEntity var0) {
+   static double ljl(ClientPlayerEntity var0) {
       AttackRangeComponent var1 = var0.getMainHandStack().get(DataComponentTypes.ATTACK_RANGE);
       return var1 != null ? var1.getEffectiveMaxRange(var0) : var0.getEntityInteractionRange();
    }
 
-   private boolean ljm(Entity var1) {
+   boolean ljm(Entity var1) {
       return var1 instanceof LivingEntity var2 && var2.hurtTime > 0 || var1 == this.lhv && this.lhw < 10;
    }
 
-   private boolean ljn(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ljn(MinecraftClient var1, ClientPlayerEntity var2) {
       return !var2.isClimbing()
          && !var2.isTouchingWater()
          && !var2.isInLava()
@@ -540,15 +540,15 @@ public class lgc extends kfe {
          && var1.world.getStatesInBox(var2.getBoundingBox().contract(1.0E-7)).noneMatch(lgc::ljp);
    }
 
-   private boolean ljo(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ljo(MinecraftClient var1, ClientPlayerEntity var2) {
       return !var2.hasStatusEffect(StatusEffects.BLINDNESS) && this.ljn(var1, var2);
    }
 
-   private static boolean ljp(BlockState var0) {
+   static boolean ljp(BlockState var0) {
       return var0.isOf(Blocks.COBWEB) || var0.isOf(Blocks.SWEET_BERRY_BUSH) || var0.isOf(Blocks.POWDER_SNOW);
    }
 
-   private boolean ljq(MinecraftClient var1, ClientPlayerEntity var2) {
+   boolean ljq(MinecraftClient var1, ClientPlayerEntity var2) {
       return var1.currentScreen != null
          || var2.isSpectator()
          || !var2.isAlive()
@@ -563,20 +563,20 @@ public class lgc extends kfe {
          || lqq.busy();
    }
 
-   private void ljr() {
+   void ljr() {
       this.lhr = 0;
       this.lhs = 0;
       this.lho = 0;
       this.lht = 0;
    }
 
-   private boolean ljs(MinecraftClient var1) {
+   boolean ljs(MinecraftClient var1) {
       return var1.interactionManager != null && var1.interactionManager.isBreakingBlock()
          ? true
          : var1.options.attackKey.isPressed() && var1.crosshairTarget != null && var1.crosshairTarget.getType() == Type.BLOCK;
    }
 
-   private Entity ljt(MinecraftClient var1) {
+   Entity ljt(MinecraftClient var1) {
       this.lhx = null;
       HitResult var2 = var1.crosshairTarget;
       if (var2 != null && var2.getType() == Type.ENTITY) {
@@ -594,7 +594,7 @@ public class lgc extends kfe {
       }
    }
 
-   private Entity lju(MinecraftClient var1, ClientPlayerEntity var2) {
+   Entity lju(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = ljl(var2);
       Vec3d var5 = var2.getEyePos();
       Vec3d var6 = var5.add(var2.getRotationVec(1.0F).multiply(var3));
@@ -618,7 +618,7 @@ public class lgc extends kfe {
       return var9;
    }
 
-   private boolean ljv(MinecraftClient var1, Entity var2) {
+   boolean ljv(MinecraftClient var1, Entity var2) {
       if (var2 != null && var2 != var1.player) {
          if (!(var2 instanceof LivingEntity var3 && var3.isAlive() && var2.isAttackable())) {
             return false;
@@ -630,7 +630,7 @@ public class lgc extends kfe {
       }
    }
 
-   private static boolean ljw(ClientPlayerEntity var0) {
+   static boolean ljw(ClientPlayerEntity var0) {
       ItemStack var1 = var0.getMainHandStack();
       return var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.isOf(Items.MACE) || var1.isOf(Items.TRIDENT);
    }

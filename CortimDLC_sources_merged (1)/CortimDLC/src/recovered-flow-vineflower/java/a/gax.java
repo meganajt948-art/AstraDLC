@@ -20,65 +20,65 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.MathHelper;
 
 final class gax {
-   private static final int gay = 40;
-   private static final int gaz = 24;
-   private static final int gba = 140;
-   private static final List<gaq> gbb = new ArrayList<>();
-   private static final Field gbc = vxr.find(
+   static final int gay = 40;
+   static final int gaz = 24;
+   static final int gba = 140;
+   static final List<gaq> gbb = new ArrayList<>();
+   static final Field gbc = vxr.find(
       ClientPlayerEntity.class, a.c(-1274661362, "㙷俍씏嬤킰嘅\uec51斫ﯲ煒\uf692\u0ce4舡ᯊ釔ᜪ굨⊫렘㹥럺춨䌙"), a.d("氮ᖐ齏ķ諨ౢ뙝㾦ꇴ⭀", 665238109, -1623730657), a.b("밝", 1812118618)
    );
-   private static final Field gbd = vxr.find(
+   static final Field gbd = vxr.find(
       ClientPlayerEntity.class,
       a.d("ḃ枹\ued7b獐\uf8c4繱쐥䷟펆夦\udee6⒐꩕㎾릠㽞蔜\u0adf遬ᘑ龎\ue5dc歭", -1022138324, -978356650),
       a.c(-489357927, "ﷵ葋ດ郬ᬳ鶹➆깽〩몟"),
       a.d("蠏", 866256624, -1860202824)
    );
-   private static final double gbe = 25.0;
-   private static final double gbf = 45.0;
-   private static final double gbg = 10.0;
-   private static final double gbh = 10.0;
-   private static final double[] gbi = new double[256];
-   private static final double[] gbj = new double[256];
-   private static final double[] gbk = new double[256];
-   private static float gbl = Float.NaN;
-   private static float gbm;
-   private static int gbn;
-   private static int gbo = 99;
-   private static final int[] gbp = new int[256];
-   private static final int[] gbq = new int[256];
-   private static final int[] gbr = new int[256];
-   private static final double[] gbs = new double[256];
-   private static final boolean[] gbt = new boolean[256];
-   private static final boolean[] gbu = new boolean[256];
-   private static final double[] gbv = new double[256];
-   private static final double[] gbw = new double[256];
-   private static final int[] gbx = new int[256];
-   private static final int[] gby = new int[256];
-   private static volatile int gbz = -1;
-   private static volatile int gca = -1;
-   private static boolean gcb;
-   private static int gcc;
-   private static double gcd;
-   private static double gce;
-   private static double gcf;
-   private static int gcg = -1;
-   private static int gch;
-   private static int gci;
-   private static int gcj;
-   private static float gck;
-   private static float gcl;
-   private static float gcm;
-   private static float gcn;
-   private static double gco;
-   private static boolean gcp;
-   private static boolean gcq;
-   private static boolean gcr;
-   private static final List<Double> gcs = new ArrayList<>();
-   private static final lnb gct = new lnb();
-   private static final lmn gcu = new lmn();
-   private static final Random gcv = new Random(11L);
+   static final double gbe = 25.0;
+   static final double gbf = 45.0;
+   static final double gbg = 10.0;
+   static final double gbh = 10.0;
+   static final double[] gbi = new double[256];
+   static final double[] gbj = new double[256];
+   static final double[] gbk = new double[256];
+   static float gbl = Float.NaN;
+   static float gbm;
+   static int gbn;
+   static int gbo = 99;
+   static final int[] gbp = new int[256];
+   static final int[] gbq = new int[256];
+   static final int[] gbr = new int[256];
+   static final double[] gbs = new double[256];
+   static final boolean[] gbt = new boolean[256];
+   static final boolean[] gbu = new boolean[256];
+   static final double[] gbv = new double[256];
+   static final double[] gbw = new double[256];
+   static final int[] gbx = new int[256];
+   static final int[] gby = new int[256];
+   static volatile int gbz = -1;
+   static volatile int gca = -1;
+   static boolean gcb;
+   static int gcc;
+   static double gcd;
+   static double gce;
+   static double gcf;
+   static int gcg = -1;
+   static int gch;
+   static int gci;
+   static int gcj;
+   static float gck;
+   static float gcl;
+   static float gcm;
+   static float gcn;
+   static double gco;
+   static boolean gcp;
+   static boolean gcq;
+   static boolean gcr;
+   static final List<Double> gcs = new ArrayList<>();
+   static final lnb gct = new lnb();
+   static final lmn gcu = new lmn();
+   static final Random gcv = new Random(11L);
 
-   private gax() {
+   gax() {
    }
 
    static boolean tick(MinecraftClient var0) {
@@ -170,7 +170,7 @@ final class gax {
       }
    }
 
-   private static void gcy() {
+   static void gcy() {
       String var0 = System.getenv(a.c(1402896268, "翅پ貮\u12c7饵ᾩꗨⰕ뉈㣿뼶䕗쮁刲\ud874"));
       if (var0 == null || var0.contains(a.d("姾⁋ꪊ㓻뼹", -1649138588, 1874099692))) {
          for (int var1 = 1; var1 <= 4; var1++) {
@@ -225,7 +225,7 @@ final class gax {
       }
    }
 
-   private static void gcz(MinecraftClient var0, ClientPlayerEntity var1, gaq var2) {
+   static void gcz(MinecraftClient var0, ClientPlayerEntity var1, gaq var2) {
       boolean var3 = var2.phase().equals(a.d("吓ⶦꝧ㤖닔", -553690804, 1237519657));
       kfe var4 = Flow.getInstance().getModuleManager().getByName(a.d("쁂맇㌕굿⚊ꀗᩆ鎱", -691619115, -1359119650));
       gdd(
@@ -267,7 +267,7 @@ final class gax {
       gbl = Float.NaN;
    }
 
-   private static void gda(MinecraftClient var0, ClientPlayerEntity var1, gaq var2) {
+   static void gda(MinecraftClient var0, ClientPlayerEntity var1, gaq var2) {
       gci++;
       if (var2.phase().equals(a.d("≸寋턁佯쒿䈇", 713464405, -679167930))) {
          gco += 0.1388888888888889;
@@ -427,7 +427,7 @@ final class gax {
       }
    }
 
-   private static boolean gdb() {
+   static boolean gdb() {
       gdf(a.d("藋ﱎ皜\ue8f6挃\ue59e忏호", 1168533370, 460514040));
       int var0 = 0;
 
@@ -664,7 +664,7 @@ final class gax {
       return true;
    }
 
-   private static float gdc(Field var0, ClientPlayerEntity var1) {
+   static float gdc(Field var0, ClientPlayerEntity var1) {
       try {
          return var0.getFloat(var1);
       } catch (ReflectiveOperationException | RuntimeException var3) {
@@ -672,7 +672,7 @@ final class gax {
       }
    }
 
-   private static void gdd(kfe var0, boolean var1, boolean var2, double var3) {
+   static void gdd(kfe var0, boolean var1, boolean var2, double var3) {
       for (vmo var6 : var0.getSettings()) {
          switch (var6.getName()) {
             case a.b("\udd17ꒂ⹔됶㿯뵌ݦ躝Ⴝ驰᷑\ue3b0椄\uf0c2窕ﰔ䘫", -2113283814):
@@ -703,7 +703,7 @@ final class gax {
       }
    }
 
-   private static void gde() {
+   static void gde() {
       if (!gcb) {
          gcb = true;
          AttackEntityCallback.EVENT
@@ -753,14 +753,14 @@ final class gax {
       }
    }
 
-   private static void gdf(String var0) {
+   static void gdf(String var0) {
       kfe var1 = Flow.getInstance().getModuleManager().getByName(var0);
       if (var1 != null) {
          var1.setEnabled(false);
       }
    }
 
-   private static void gdg(MinecraftClient var0, String var1) {
+   static void gdg(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

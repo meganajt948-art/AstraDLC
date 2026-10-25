@@ -7,12 +7,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class qmh {
-   private final Random qmi = new Random();
-   private double qmj = 110.0;
-   private double qmk;
-   private double qml;
-   private Object qmm;
-   private double qmn;
+   final Random qmi = new Random();
+   double qmj = 110.0;
+   double qmk;
+   double qml;
+   Object qmm;
+   double qmn;
 
    public void cap(double var1) {
       this.qmj = var1;
@@ -73,7 +73,7 @@ public final class qmh {
       }
    }
 
-   private void qmq(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5) {
+   void qmq(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5) {
       double var7 = tcz.unit(var1);
       if (!(var7 <= 0.0)) {
          this.qmk += var3 / var7;

@@ -11,7 +11,7 @@ final class epz {
    long[] dims = new long[0];
    float[] data;
 
-   private epz() {
+   epz() {
    }
 
    static epz read(epm var0) {

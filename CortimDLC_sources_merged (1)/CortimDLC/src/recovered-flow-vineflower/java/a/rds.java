@@ -5,21 +5,21 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.Perspective;
 
 public class rds extends kfe {
-   private final vlq rdt = this.add(new vlq("Key", 342));
-   private final vlv rdu = this.add(new vlv("Press", "Hold", "Hold", "Toggle"));
-   private final vlv rdv = this.add(new vlv("View", "Back", "Back", "Front", "First person"));
-   private final vmc rdw = this.add(new vmc("Distance", 4.0, 1.0, 12.0, 0.5).suffix("blocks"));
-   private final vmc rdx = this.add(new vmc("Sensitivity", 1.0, 0.2, 2.0, 0.05).unit("x"));
-   private boolean rdy;
-   private boolean rdz;
-   private float rea;
-   private float reb;
-   private float rec;
-   private float red;
-   private float ree;
-   private float ref;
-   private Perspective reg;
-   private Perspective reh;
+   final vlq rdt = this.add(new vlq("Key", 342));
+   final vlv rdu = this.add(new vlv("Press", "Hold", "Hold", "Toggle"));
+   final vlv rdv = this.add(new vlv("View", "Back", "Back", "Front", "First person"));
+   final vmc rdw = this.add(new vmc("Distance", 4.0, 1.0, 12.0, 0.5).suffix("blocks"));
+   final vmc rdx = this.add(new vmc("Sensitivity", 1.0, 0.2, 2.0, 0.05).unit("x"));
+   boolean rdy;
+   boolean rdz;
+   float rea;
+   float reb;
+   float rec;
+   float red;
+   float ree;
+   float ref;
+   Perspective reg;
+   Perspective reh;
 
    public rds() {
       super(new String(new char[]{'F', 'r', 'e', 'e', 'L', 'o', 'o', 'k'}), "Look around without turning your player", kfa.RENDER);
@@ -67,7 +67,7 @@ public class rds extends kfe {
       }
    }
 
-   private void rek(ClientPlayerEntity var1) {
+   void rek(ClientPlayerEntity var1) {
       double var2 = this.rdx.get();
       float var4 = var1.getYaw();
       float var5 = var1.getPitch();
@@ -110,7 +110,7 @@ public class rds extends kfe {
       }
    }
 
-   private Perspective rel() {
+   Perspective rel() {
       return switch (this.rdv.get()) {
          case "Front" -> Perspective.THIRD_PERSON_FRONT;
          case "First person" -> Perspective.FIRST_PERSON;
@@ -118,7 +118,7 @@ public class rds extends kfe {
       };
    }
 
-   private void rem(MinecraftClient var1) {
+   void rem(MinecraftClient var1) {
       ClientPlayerEntity var2 = var1.player;
       if (var2 != null) {
          this.rdy = true;
@@ -134,7 +134,7 @@ public class rds extends kfe {
       }
    }
 
-   private void ren(MinecraftClient var1) {
+   void ren(MinecraftClient var1) {
       if (this.rdy) {
          this.rdy = false;
          ett.distance(0.0F);

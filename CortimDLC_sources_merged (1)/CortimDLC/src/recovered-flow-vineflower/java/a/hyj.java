@@ -11,14 +11,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.SkinTextures;
 
 final class hyj extends imn {
-   private static final float hyk = 26.0F;
-   private static final float hyl = 3.0F;
-   private static final float hym = 16.0F;
-   private static final float hyn = 18.0F;
+   static final float hyk = 26.0F;
+   static final float hyl = 3.0F;
+   static final float hym = 16.0F;
+   static final float hyn = 18.0F;
    static final int HERE = -11870592;
-   private final Map<String, hyg> hyo = new HashMap<>();
-   private String hyp;
-   private long hyq;
+   final Map<String, hyg> hyo = new HashMap<>();
+   String hyp;
+   long hyq;
 
    hyj() {
       super(null);
@@ -30,11 +30,11 @@ final class hyj extends imn {
       return var1 == 0 ? 58.0F : 2.0F + var1 * 29.0F;
    }
 
-   private float hyt(int var1) {
+   float hyt(int var1) {
       return this.y + 2.0F + var1 * 29.0F;
    }
 
-   private float hyu() {
+   float hyu() {
       return this.x + this.w - 6.0F - 18.0F;
    }
 

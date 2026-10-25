@@ -13,20 +13,20 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 public class qyk extends kfe {
-   private static qyk qyl;
-   private final vmc qym = this.add(new vmc("Range", 64.0, 8.0, 256.0, 8.0).suffix("m"));
-   private final vmc qyn = this.add(new vmc("Radius", 44.0, 20.0, 140.0, 2.0));
-   private final vmc qyo = this.add(new vmc("Size", 1.0, 0.6, 1.8, 0.05).percent());
-   private final vla qyp = this.add(new vla("Color", "Theme"));
-   private final vkl qyq = this.add(new vkl("Friends", true));
-   private final vla qyr = this.add(new vla("Friend color", "Mint"));
-   private final vkl qys = this.add(new vkl("Distance", false));
-   private final vkl qyt = this.add(new vkl("Mobs", false));
-   private final vmc qyu = this.add(new vmc("Mob range", 64.0, 8.0, 256.0, 8.0).suffix("m"));
-   private static final vdn qyv = veo.semibold(5.6F);
-   private final Map<Integer, vcj> qyw = new HashMap<>();
-   private final Set<Integer> qyx = new HashSet<>();
-   private long qyy = -1L;
+   static qyk qyl;
+   final vmc qym = this.add(new vmc("Range", 64.0, 8.0, 256.0, 8.0).suffix("m"));
+   final vmc qyn = this.add(new vmc("Radius", 44.0, 20.0, 140.0, 2.0));
+   final vmc qyo = this.add(new vmc("Size", 1.0, 0.6, 1.8, 0.05).percent());
+   final vla qyp = this.add(new vla("Color", "Theme"));
+   final vkl qyq = this.add(new vkl("Friends", true));
+   final vla qyr = this.add(new vla("Friend color", "Mint"));
+   final vkl qys = this.add(new vkl("Distance", false));
+   final vkl qyt = this.add(new vkl("Mobs", false));
+   final vmc qyu = this.add(new vmc("Mob range", 64.0, 8.0, 256.0, 8.0).suffix("m"));
+   static final vdn qyv = veo.semibold(5.6F);
+   final Map<Integer, vcj> qyw = new HashMap<>();
+   final Set<Integer> qyx = new HashSet<>();
+   long qyy = -1L;
 
    public qyk() {
       super(new String(new char[]{'A', 'r', 'r', 'o', 'w', 's'}), "Arrows pointing at players and mobs around you", kfa.RENDER);
@@ -51,7 +51,7 @@ public class qyk extends kfe {
       }
    }
 
-   private void qzb(DrawContext var1, MinecraftClient var2, float var3, float var4) {
+   void qzb(DrawContext var1, MinecraftClient var2, float var3, float var4) {
       Camera var5 = var2.gameRenderer.getCamera();
       Vec3d var6 = var5.getCameraPos();
       float var7 = var5.getYaw();
@@ -88,7 +88,7 @@ public class qyk extends kfe {
       this.qyw.keySet().retainAll(this.qyx);
    }
 
-   private void qzc(DrawContext var1, Entity var2, float var3, Vec3d var4, float var5, float var6, float var7, double var8, float var10, float var11, int var12) {
+   void qzc(DrawContext var1, Entity var2, float var3, Vec3d var4, float var5, float var6, float var7, double var8, float var10, float var11, int var12) {
       Vec3d var13 = var2.getLerpedPos(var3);
       double var14 = var13.x - var4.x;
       double var16 = var13.z - var4.z;
@@ -114,7 +114,7 @@ public class qyk extends kfe {
       }
    }
 
-   private static void qzd(DrawContext var0, float var1, float var2, float var3, float var4, float var5, int var6, float var7) {
+   static void qzd(DrawContext var0, float var1, float var2, float var3, float var4, float var5, int var6, float var7) {
       var0.getMatrices().pushMatrix();
       var0.getMatrices().translate(var1, var2);
       var0.getMatrices().rotate(var3);

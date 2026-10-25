@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import flow.dev.a;
 
 public final class ewf {
-   private final int ewg;
-   private final JsonObject ewh;
+   final int ewg;
+   final JsonObject ewh;
 
    public ewf(int status, JsonObject body) {
       this.ewg = status;

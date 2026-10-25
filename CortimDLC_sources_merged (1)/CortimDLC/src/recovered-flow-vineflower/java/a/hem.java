@@ -13,20 +13,20 @@ import net.minecraft.client.util.ScreenshotRecorder;
 import org.lwjgl.glfw.GLFW;
 
 public final class hem {
-   private static final float[] hen = new float[]{0.4F, 1.2F, 1.45F, 2.5F, 4.0F, 5.9F, 6.6F, 8.0F};
-   private static final float[] heo = new float[]{1.0F, 1.6F, 3.0F};
-   private static int hep;
-   private static long heq;
-   private static int her;
-   private static int hes;
-   private static jte het;
-   private static kbs heu;
-   private static String hev;
-   private static int hew = -1;
-   private static long hex;
-   private static long hey;
+   static final float[] hen = new float[]{0.4F, 1.2F, 1.45F, 2.5F, 4.0F, 5.9F, 6.6F, 8.0F};
+   static final float[] heo = new float[]{1.0F, 1.6F, 3.0F};
+   static int hep;
+   static long heq;
+   static int her;
+   static int hes;
+   static jte het;
+   static kbs heu;
+   static String hev;
+   static int hew = -1;
+   static long hex;
+   static long hey;
 
-   private hem() {
+   hem() {
    }
 
    public static void install() {
@@ -36,16 +36,16 @@ public final class hem {
       }
    }
 
-   private static float hfb() {
+   static float hfb() {
       return (float)(System.nanoTime() - heq) / 1.0E9F;
    }
 
-   private static void hfc() {
+   static void hfc() {
       heq = System.nanoTime();
       her = 0;
    }
 
-   private static void hfd(MinecraftClient var0) {
+   static void hfd(MinecraftClient var0) {
       hes++;
 
       try {
@@ -58,7 +58,7 @@ public final class hem {
       }
    }
 
-   private static void hfe(MinecraftClient var0) throws Exception {
+   static void hfe(MinecraftClient var0) throws Exception {
       switch (hep) {
          case 0:
             if (var0.getOverlay() == null && var0.currentScreen instanceof AccessibilityOnboardingScreen) {
@@ -188,7 +188,7 @@ public final class hem {
       }
    }
 
-   private static boolean hff(MinecraftClient var0, String var1, float var2, int var3) {
+   static boolean hff(MinecraftClient var0, String var1, float var2, int var3) {
       int var4 = (int)Math.floor(hfb() - var2);
       if (var4 >= 0 && var4 != hew) {
          hew = var4;
@@ -228,13 +228,13 @@ public final class hem {
       }
    }
 
-   private static void hfg(kbs var0) throws Exception {
+   static void hfg(kbs var0) throws Exception {
       Method var1 = jte.class.getDeclaredMethod(a.b("٢翊\uf513歪", 1714947606), kbs.class);
       var1.setAccessible(true);
       var1.invoke(het, var0);
    }
 
-   private static void hfh(MinecraftClient var0, String var1) {
+   static void hfh(MinecraftClient var0, String var1) {
       System.out
          .println(
             a.b("譩\uf2c7砙\ue669涴\ueb4a免\ud8ad䛤챒䯕", -1710781676)

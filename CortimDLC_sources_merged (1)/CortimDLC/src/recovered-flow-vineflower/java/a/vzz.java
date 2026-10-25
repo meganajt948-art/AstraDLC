@@ -10,13 +10,13 @@ import net.minecraft.client.util.InputUtil.Type;
 import org.lwjgl.glfw.GLFW;
 
 public final class vzz {
-   private static final int waa = -100;
-   private static final int wab = 8;
-   private static final int wac = 16;
-   private static final int wad = 7;
+   static final int waa = -100;
+   static final int wab = 8;
+   static final int wac = 16;
+   static final int wad = 7;
    public static volatile IntPredicate simulated;
 
-   private vzz() {
+   vzz() {
    }
 
    public static int mouse(int var0) {
@@ -69,7 +69,7 @@ public final class vzz {
       return var0.getWindow() == null ? 0 : (wag(var0, 340, 344) ? 1 : 0) | (wag(var0, 341, 345) ? 2 : 0) | (wag(var0, 342, 346) ? 4 : 0);
    }
 
-   private static boolean wag(MinecraftClient var0, int var1, int var2) {
+   static boolean wag(MinecraftClient var0, int var1, int var2) {
       return InputUtil.isKeyPressed(var0.getWindow(), var1) || InputUtil.isKeyPressed(var0.getWindow(), var2);
    }
 

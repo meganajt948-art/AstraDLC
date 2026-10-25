@@ -12,9 +12,9 @@ public final class uok implements AutoCloseable {
    public final int width;
    public final int height;
    public final GpuTextureView view;
-   private final GpuTexture uol;
+   final GpuTexture uol;
 
-   private uok(int var1, int var2, GpuTexture var3, GpuTextureView var4) {
+   uok(int var1, int var2, GpuTexture var3, GpuTextureView var4) {
       this.width = var1;
       this.height = var2;
       this.uol = var3;

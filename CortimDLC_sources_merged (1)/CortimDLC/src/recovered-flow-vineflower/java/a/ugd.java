@@ -5,6 +5,6 @@ final class ugd {
    final vcj focus = new vcj(12.0F);
    boolean placed;
 
-   private ugd() {
+   ugd() {
    }
 }

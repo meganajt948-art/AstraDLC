@@ -4,10 +4,10 @@ import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 
 final class irk {
-   private final String irl;
-   private final IntSupplier irm;
-   private final IntConsumer irn;
-   private final boolean iro;
+   final String irl;
+   final IntSupplier irm;
+   final IntConsumer irn;
+   final boolean iro;
 
    irk(String name, IntSupplier getter, IntConsumer setter, boolean clearable) {
       this.irl = name;

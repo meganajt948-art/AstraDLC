@@ -11,44 +11,44 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class lng {
-   private static final double lnh = 30.0;
-   private static final int lni = 10;
-   private static final double lnj = 8.0;
-   private static final double lnk = 45.0;
-   private static final int lnl = 1;
-   private static final int lnm = 2;
-   private static final double lnn = 1.0;
-   private static final double lno = 4.0;
-   private static final double lnp = 4.0;
-   private static final int lnq = 12;
-   private static final double lnr = 150.0;
-   private static final double lns = 1.5;
-   private static final Object lnt = new Object();
-   private final tel lnu = new tel();
-   private final Random lnv = new Random();
-   private final double[] lnw = new double[2];
-   private boolean lnx;
-   private double lny = 1.0;
-   private double lnz = 45.0;
-   private double loa;
-   private double lob;
-   private double loc;
-   private double lod;
-   private boolean loe;
-   private float lof;
-   private float log;
-   private float loh;
-   private float loi;
-   private boolean loj;
-   private Entity lok;
-   private int lol;
-   private int lom;
-   private double lon;
-   private ClientPlayerEntity loo;
-   private float lop;
-   private float loq;
-   private double lor;
-   private double los;
+   static final double lnh = 30.0;
+   static final int lni = 10;
+   static final double lnj = 8.0;
+   static final double lnk = 45.0;
+   static final int lnl = 1;
+   static final int lnm = 2;
+   static final double lnn = 1.0;
+   static final double lno = 4.0;
+   static final double lnp = 4.0;
+   static final int lnq = 12;
+   static final double lnr = 150.0;
+   static final double lns = 1.5;
+   static final Object lnt = new Object();
+   final tel lnu = new tel();
+   final Random lnv = new Random();
+   final double[] lnw = new double[2];
+   boolean lnx;
+   double lny = 1.0;
+   double lnz = 45.0;
+   double loa;
+   double lob;
+   double loc;
+   double lod;
+   boolean loe;
+   float lof;
+   float log;
+   float loh;
+   float loi;
+   boolean loj;
+   Entity lok;
+   int lol;
+   int lom;
+   double lon;
+   ClientPlayerEntity loo;
+   float lop;
+   float loq;
+   double lor;
+   double los;
 
    public void use(tck var1, double var2) {
       this.lny = var2;
@@ -234,7 +234,7 @@ public final class lng {
       this.loz(var1, var2, var4, var6, true);
    }
 
-   private void lov(MinecraftClient var1, ClientPlayerEntity var2) {
+   void lov(MinecraftClient var1, ClientPlayerEntity var2) {
       double var3 = Math.hypot(this.lnw[0], this.lnw[1]);
       double var5 = var3 > this.lnz ? this.lnz / var3 : 1.0;
       this.loz(var1, var2, this.lnw[0] * var5, this.lnw[1] * var5, true);
@@ -287,7 +287,7 @@ public final class lng {
       this.lnu.drop();
    }
 
-   private void low(ClientPlayerEntity var1) {
+   void low(ClientPlayerEntity var1) {
       float var2 = var1.getPitch();
       if (this.lnx) {
          this.lob = MathHelper.clamp((float)(var2 + this.lob), -90.0F, 90.0F) - var2;
@@ -311,7 +311,7 @@ public final class lng {
       }
    }
 
-   private void lox(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5) {
+   void lox(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5) {
       double var7 = this.offset();
       if (!(var7 <= 0.0)) {
          double var9 = Math.min(var3, var5 / var7);
@@ -319,7 +319,7 @@ public final class lng {
       }
    }
 
-   private void loy(ClientPlayerEntity var1) {
+   void loy(ClientPlayerEntity var1) {
       this.lof = var1.getYaw();
       this.log = var1.getPitch();
       this.loh = var1.renderYaw;
@@ -327,7 +327,7 @@ public final class lng {
       this.loe = true;
    }
 
-   private void loz(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5, boolean var7) {
+   void loz(MinecraftClient var1, ClientPlayerEntity var2, double var3, double var5, boolean var7) {
       double var8 = lpb(var1, var2);
       double var10 = var8 * 0.15;
       if (!(var10 <= 0.0)) {
@@ -380,11 +380,11 @@ public final class lng {
       }
    }
 
-   private static double lpa(MinecraftClient var0, ClientPlayerEntity var1) {
+   static double lpa(MinecraftClient var0, ClientPlayerEntity var1) {
       return lpb(var0, var1) * 0.15;
    }
 
-   private static double lpb(MinecraftClient var0, ClientPlayerEntity var1) {
+   static double lpb(MinecraftClient var0, ClientPlayerEntity var1) {
       double var2 = var0.options.getMouseSensitivity().getValue() * 0.6F + 0.2F;
       double var4 = var2 * var2 * var2;
       boolean var6 = var0.options.getPerspective().isFirstPerson() && var1.isUsingSpyglass();

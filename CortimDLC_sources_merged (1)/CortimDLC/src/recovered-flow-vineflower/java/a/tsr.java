@@ -11,12 +11,12 @@ public final class tsr {
    public static final int MAX_TARGETS = 24;
    public static final int HORIZON = 40;
    public static final double REACT_FROM = 15.0;
-   private static final int tss = 20;
-   private static final double tst = 20.0;
-   private static final double tsu = 0.25;
-   private static final double tsv = 4.0;
+   static final int tss = 20;
+   static final double tst = 20.0;
+   static final double tsu = 0.25;
+   static final double tsv = 4.0;
 
-   private tsr() {
+   tsr() {
    }
 
    public static List<tso> prepare(List<tvc> var0, double var1, tmw var3) {
@@ -263,7 +263,7 @@ public final class tsr {
       return var1;
    }
 
-   private static boolean tsy(tvc var0, int var1) {
+   static boolean tsy(tvc var0, int var1) {
       if (var1 > 0 && var1 < var0.ticks.size()) {
          tuz var2 = var0.ticks.get(var1);
          tuz var3 = var0.ticks.get(var1 - 1);
@@ -299,14 +299,14 @@ public final class tsr {
       return var1;
    }
 
-   private static double tsz(tuz var0, tuw var1) {
+   static double tsz(tuz var0, tuw var1) {
       double var2 = var1.px - var0.x;
       double var4 = var1.py - var0.y;
       double var6 = var1.pz - var0.z;
       return Math.hypot(tbp.wrap(tbp.yawTo(var2, var6) - var0.yaw), tbp.pitchTo(var4, Math.sqrt(var2 * var2 + var6 * var6)) - var0.pitch);
    }
 
-   private static int tta(tvc var0, int var1, tuw var2) {
+   static int tta(tvc var0, int var1, tuw var2) {
       for (int var3 = 0; var3 < 20; var3++) {
          int var4 = var1 + var3;
          int var5 = var4 + 1;

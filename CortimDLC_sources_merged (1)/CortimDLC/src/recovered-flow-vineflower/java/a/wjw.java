@@ -19,41 +19,41 @@ import net.minecraft.text.ClickEvent.CopyToClipboard;
 import net.minecraft.text.HoverEvent.ShowText;
 
 public final class wjw {
-   private static final String wjx = a.c(-1333798558, "\ud941ꃵ⨴됦㿉륧;誒ᓙ鸭ᦪ");
-   private static final String wjy = a.c(-1103426556, "ఏ疩ｿ愜\ueadc汮혼彗솁䬷첱㚔롔⇦ꮨⴣ靫ᢖ舮ш趎\uf7fe祡\ue2bb擱\uee13垂\ud9a2䍁씉举끥㩚ꏟ▌");
-   private static final String wjz = a.c(104882550, "慁ᣧ鈱\u0c52螒Ġ뭲㈙곏♹ꇿ寚픚䲨웦䁭逸痘\uef60椆\ue0c0骰ᐯ迵ি荝㫌둥\u2e68ꡍ⏾");
-   private static final String wka = a.b("०烀嗀搆\uefd6楋팓嫕쒻丫짔㎮뵌Ⓨ꺿⡌鈢ᷔ蜒Ł袠\uf296簤\ue7cd懿", 1872431447);
-   private static final Pattern wkb = Pattern.compile(
+   static final String wjx = a.c(-1333798558, "\ud941ꃵ⨴됦㿉륧;誒ᓙ鸭ᦪ");
+   static final String wjy = a.c(-1103426556, "ఏ疩ｿ愜\ueadc汮혼彗솁䬷첱㚔롔⇦ꮨⴣ靫ᢖ舮ш趎\uf7fe祡\ue2bb擱\uee13垂\ud9a2䍁씉举끥㩚ꏟ▌");
+   static final String wjz = a.c(104882550, "慁ᣧ鈱\u0c52螒Ġ뭲㈙곏♹ꇿ寚픚䲨웦䁭逸痘\uef60椆\ue0c0骰ᐯ迵ি荝㫌둥\u2e68ꡍ⏾");
+   static final String wka = a.b("०烀嗀搆\uefd6楋팓嫕쒻丫짔㎮뵌Ⓨ꺿⡌鈢ᷔ蜒Ł袠\uf296簤\ue7cd懿", 1872431447);
+   static final Pattern wkb = Pattern.compile(
       a.b(
          "鉠\uebc6愐ｳ璳\uf201䡓세忮하勞ꣻ☻뾉㗇덌ऄ蛹᱁騧Ꮱ榑\ue70e糔爵灼짭䝄\udd49孬탟\u2e7cꐐ㷁뾏㕞軱ҁ艽ᮕ醻\uef2b敿\ue2ae砛\uf609俵씝䍐\ud884囥걗◘ꎖ㤯띣ೈ詜{駘ᝨ洖\ueaba惼﹕瞒춱䭢섕媾퀍刂ꯜ⅂뽈㓈닾ࡈ臻Ῠ镄ጺ棐\ue603籱\uf5b2獢줋䛫\udcf0婞펛⦩Ꜭ㳭못せ蹵ޱ鵦ᭇ郆\ueeb4搥﷽箍\uf171亙쒿䈯\ud87b冪꼇┵ꋩ㣡뙔ྀ藡͓飔ᚚ氣\uea6f揌菱睿첯䫷쁘姱힇\u2d7c\uaac6₢빢㐜趁\u0b59脝ỹ鑪ሻ毫\ue183缧\uf496狑졁䘑\udf9a唆",
          1816040144
       )
    );
-   private static final Pattern wkc = Pattern.compile(
+   static final Pattern wkc = Pattern.compile(
       a.d(
          "\ud894ꄲ⯤떇㹇룵ʧ诌ᔚ龬ᠪ\ue20f泏\uf57d缳隸䏰찍嚵탓夕⍥귺㘠끪㪈茙ධ鞽ᆘ騫撈\ueee4眵\uf57b羪쐅乵좉兡\udb4fꗟ⾋ꡚ㋯볽ԁ迩ত鉰ᰑ\ue6a3漬\ue962珛ﶗ䘼삨䪏팬嶜⟢ꁎ⨈뒡㵦蝅ƕ询ᑔ麆ᣘ\ue15e殞\uf5ac繚\uf86d䊾쬎啐\udfc6妕∣고㛴뼝㦱莪ై阍჻饾挈\uedce癣\uf048窀쓝䴅힃凥\uda35ꑊ⻰뜚ㅘ뮩К蹬ࢺ銜ᬯ\ue5f6激\ue832牛ﲡ",
          -187939995,
          -2053596244
       )
    );
-   private static final Pattern wkd = Pattern.compile(
+   static final Pattern wkd = Pattern.compile(
       a.d(
          "ᓌ浪\ue7bc租\uf21f璭컿䞔\ud942叴푲⹗ꂗ㤥덫㗠辨U髭\u1c8b镍\uef3d憢喝簲\uf6d0佁셡宂\uddca国ꢦ⊙묜㵏럿࠭艎Ӿ鵷\u1737榌\ue3c2摧ﻵ烐줂䏇얧帯퀭⪋ꌫ╮뿯ㆿ訯ಧ蚂έ釫\uebe2氓\ue643碉\uf12a䬚췓䞛\ud860劮퓋ⵑꞴ㧦뉣㐛軳ݑ饗ᎏ闊\uee0b惛廙猋\uf5ee侟쁏婆\udcf7唧꽕↖멆㰯뛿ࣄ脊ᮯ鶽ᘘ桊\ue2ec笭ﴦ矲졯䈳쓵店휇⧤ꎾ⑸븚わ襜̎藸Ḳ遡\uea84沲\ue504翭\uf1d3",
          1474877724,
          -1676817017
       )
    );
-   private static final Pattern wke = Pattern.compile(
+   static final Pattern wke = Pattern.compile(
       a.b(
          "㚒伴엢宁큁図\ueca1旊\ufb1c熪\uf62cఉ苉᭻鄵ើ귶∋뢳㻕뜓쵣䏼\ud826幬풎洟\ue33f秜ﾔ璣諸Ç饂ἑ閡⩳ꀐ⚠뼩㕩䯒솜䘹\udcab劎\ueb28憶\ue7a0簀\uf204ࣂ脓݃鶟᎗꠪\u2efe꒟㴭뎢짬乕쐙嫂팶椱\uefc1斁郞炇\uf6f1༂薸ᯜ逜ᙪ곷┯뭫㆗럤챕䊥\ud8f5兑ퟠ涧\ue23f硯ﻤ睸",
          1273771750
       )
    );
-   private static final int wkf = 8192;
-   private static final Set<ClickEvent> wkg = Collections.newSetFromMap(new IdentityHashMap<>());
-   private static final ArrayDeque<ClickEvent> wkh = new ArrayDeque<>();
+   static final int wkf = 8192;
+   static final Set<ClickEvent> wkg = Collections.newSetFromMap(new IdentityHashMap<>());
+   static final ArrayDeque<ClickEvent> wkh = new ArrayDeque<>();
 
-   private wjw() {
+   wjw() {
    }
 
    public static Text link(Text var0) {
@@ -143,7 +143,7 @@ public final class wjw {
       }
    }
 
-   private static ClickEvent wkk(String var0) {
+   static ClickEvent wkk(String var0) {
       CopyToClipboard var1 = new CopyToClipboard(var0);
       synchronized (wkg) {
          wkg.add(var1);
@@ -173,7 +173,7 @@ public final class wjw {
       }
    }
 
-   private static void wkl(String var0) {
+   static void wkl(String var0) {
       MinecraftClient var1 = MinecraftClient.getInstance();
       if (var1.player != null && var1.world != null) {
          String[] var2 = var0.split(a.c(-1584130995, "ᑬ"));
@@ -223,7 +223,7 @@ public final class wjw {
       }
    }
 
-   private static List<wjq> wkm(String var0) {
+   static List<wjq> wkm(String var0) {
       ArrayList var1 = new ArrayList();
       if (var0.length() >= 3 && !var0.chars().noneMatch(Character::isDigit)) {
          Matcher var2 = wkb.matcher(var0);
@@ -266,7 +266,7 @@ public final class wjw {
       }
    }
 
-   private static void wkn(List<wjq> var0, Matcher var1, Integer var2, Integer var3, Integer var4) {
+   static void wkn(List<wjq> var0, Matcher var1, Integer var2, Integer var3, Integer var4) {
       if (var2 != null && var4 != null && Math.abs(var2) <= 30000000 && Math.abs(var4) <= 30000000) {
          if (var3 == null || var3 >= -64 && var3 <= 320) {
             for (wjq var6 : var0) {
@@ -286,7 +286,7 @@ public final class wjw {
       }
    }
 
-   private static boolean wko(String var0, int var1, int var2) {
+   static boolean wko(String var0, int var1, int var2) {
       int var3 = var1 - 1;
 
       while (var3 >= 0 && var0.charAt(var3) == ' ') {
@@ -314,7 +314,7 @@ public final class wjw {
       }
    }
 
-   private static Integer wkp(String var0) {
+   static Integer wkp(String var0) {
       try {
          return var0 == null ? null : Integer.valueOf(var0);
       } catch (NumberFormatException var2) {

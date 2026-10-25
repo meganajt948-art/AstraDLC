@@ -34,7 +34,7 @@ final class dye {
    BlockState lastState;
    dxq lastLook;
 
-   private dye() {
+   dye() {
    }
 
    void begin(dxv var1, boolean var2) {

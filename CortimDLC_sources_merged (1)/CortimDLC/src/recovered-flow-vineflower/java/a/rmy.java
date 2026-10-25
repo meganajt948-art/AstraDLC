@@ -15,7 +15,7 @@ final class rmy {
    Entity entity;
    int ticks;
 
-   private rmy() {
+   rmy() {
    }
 
    void add(double var1, double var3, double var5) {

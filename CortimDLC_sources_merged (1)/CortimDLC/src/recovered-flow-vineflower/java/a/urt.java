@@ -8,16 +8,16 @@ import net.minecraft.client.texture.TextureSetup;
 import org.jspecify.annotations.Nullable;
 
 final class urt implements SimpleGuiElementRenderState {
-   private final RenderPipeline uru;
-   private final float[] urv;
-   private final int urw;
-   private final int urx;
-   private final int ury;
-   private final int urz;
-   private final float usa;
-   private final float usb;
-   private final @Nullable ScreenRect usc;
-   private final @Nullable ScreenRect usd;
+   final RenderPipeline uru;
+   final float[] urv;
+   final int urw;
+   final int urx;
+   final int ury;
+   final int urz;
+   final float usa;
+   final float usb;
+   final @Nullable ScreenRect usc;
+   final @Nullable ScreenRect usd;
 
    urt(
       RenderPipeline pipeline,

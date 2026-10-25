@@ -1,9 +1,9 @@
 package a;
 
 public final class vxz {
-   private static final wbu<Double> vya = new wbu<>(var0 -> var0.options.getGamma());
+   static final wbu<Double> vya = new wbu<>(var0 -> var0.options.getGamma());
 
-   private vxz() {
+   vxz() {
    }
 
    public static boolean override(double var0) {

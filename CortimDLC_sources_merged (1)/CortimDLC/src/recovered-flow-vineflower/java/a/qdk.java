@@ -133,7 +133,7 @@ final class qdk {
       return new Vec3d(this.cellX(var2[var3]) + 0.5, this.y, this.cellZ(var2[var3]) + 0.5);
    }
 
-   private boolean qdn(double var1, double var3, double var5, double var7) {
+   boolean qdn(double var1, double var3, double var5, double var7) {
       double var9 = Math.hypot(var5 - var1, var7 - var3);
       int var11 = Math.max(1, (int)Math.ceil(var9 / 0.25));
 

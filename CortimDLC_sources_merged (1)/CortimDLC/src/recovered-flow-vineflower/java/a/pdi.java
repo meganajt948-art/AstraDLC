@@ -7,13 +7,13 @@ import java.util.Locale;
 public final class pdi {
    public static final int SEARCH = 0;
    public static final int SELL = 1;
-   private static final long pdj = 60000L;
-   private static final long pdk = 600000L;
-   private static final ArrayDeque<Long>[] pdl = new ArrayDeque[]{new ArrayDeque(), new ArrayDeque()};
-   private static int pdm;
-   private static long pdn;
+   static final long pdj = 60000L;
+   static final long pdk = 600000L;
+   static final ArrayDeque<Long>[] pdl = new ArrayDeque[]{new ArrayDeque(), new ArrayDeque()};
+   static int pdm;
+   static long pdn;
 
-   private pdi() {
+   pdi() {
    }
 
    public static void observe(String var0) {
@@ -72,7 +72,7 @@ public final class pdi {
       return pdm;
    }
 
-   private static void pdq(int var0, long var1) {
+   static void pdq(int var0, long var1) {
       ArrayDeque var3 = pdl[var0];
 
       while (!var3.isEmpty() && var1 - var3.peekFirst() > 60000L) {

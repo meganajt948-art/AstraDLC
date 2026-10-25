@@ -1,9 +1,9 @@
 package a;
 
 final class hip {
-   private final String hiq;
-   private final vhz hir;
-   private final Runnable his;
+   final String hiq;
+   final vhz hir;
+   final Runnable his;
 
    hip(String label, vhz icon, Runnable action) {
       this.hiq = label;

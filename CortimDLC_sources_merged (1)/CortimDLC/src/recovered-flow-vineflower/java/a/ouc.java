@@ -9,15 +9,15 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 
 public class ouc extends kfe {
-   private static final int oud = 6;
-   private final vlq oue = this.add(new vlq(a.b("ꧮ큻媾쓞余즣現﨓", 95922613)));
-   private final vlq ouf = this.add(new vlq(a.d("\uf05b觅̍鵫ᚮ逇⩉ꎡ㶵띏を쫿", 1374212688, 1801200193)));
-   private final vzh oug = new vzh(Items.FIREWORK_ROCKET);
-   private final vyn ouh = new vyn();
-   private boolean oui;
-   private boolean ouj;
-   private int ouk;
-   private int oul;
+   static final int oud = 6;
+   final vlq oue = this.add(new vlq(a.b("ꧮ큻媾쓞余즣現﨓", 95922613)));
+   final vlq ouf = this.add(new vlq(a.d("\uf05b觅̍鵫ᚮ逇⩉ꎡ㶵띏を쫿", 1374212688, 1801200193)));
+   final vzh oug = new vzh(Items.FIREWORK_ROCKET);
+   final vyn ouh = new vyn();
+   boolean oui;
+   boolean ouj;
+   int ouk;
+   int oul;
 
    public ouc() {
       super(
@@ -99,7 +99,7 @@ public class ouc extends kfe {
       }
    }
 
-   private void ouo(MinecraftClient var1, ClientPlayerEntity var2) {
+   void ouo(MinecraftClient var1, ClientPlayerEntity var2) {
       ItemStack var3 = var2.getEquippedStack(EquipmentSlot.CHEST);
       boolean var4 = !var3.isOf(Items.ELYTRA);
       vuc var5 = vui.best(
@@ -153,14 +153,14 @@ public class ouc extends kfe {
       }
    }
 
-   private void oup() {
+   void oup() {
       if (this.oui) {
          this.ouh.release(this.mc);
          this.oui = false;
       }
    }
 
-   private void ouq() {
+   void ouq() {
       if (this.mc.options != null && this.mc.getWindow() != null) {
          this.mc.options.jumpKey.setPressed(vzz.isPhysicallyDown(this.mc, this.mc.options.jumpKey));
       }

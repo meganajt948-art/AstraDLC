@@ -8,7 +8,7 @@ public final class ejp {
    static volatile dtv active;
    static volatile boolean any;
 
-   private ejp() {
+   ejp() {
    }
 
    public static boolean isActive() {

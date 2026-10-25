@@ -1,10 +1,10 @@
 package a;
 
 public final class evy {
-   private final String evz;
-   private final int ewa;
-   private final int ewb;
-   private final long ewc;
+   final String evz;
+   final int ewa;
+   final int ewb;
+   final long ewc;
 
    public evy(String data, int enabled, int modules, long updated) {
       this.evz = data;

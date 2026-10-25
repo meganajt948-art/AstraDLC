@@ -7,12 +7,12 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 
 public final class wek {
-   private static GLFWKeyCallback wel;
-   private static GLFWKeyCallbackI wem;
-   private static long wen;
-   private static Boolean weo;
+   static GLFWKeyCallback wel;
+   static GLFWKeyCallbackI wem;
+   static long wen;
+   static Boolean weo;
 
-   private wek() {
+   wek() {
    }
 
    public static void tick(MinecraftClient var0) {
@@ -38,7 +38,7 @@ public final class wek {
       }
    }
 
-   private static void wer(MinecraftClient var0) {
+   static void wer(MinecraftClient var0) {
       if (var0.getWindow() != null) {
          long var1 = var0.getWindow().getHandle();
          if (var1 != 0L && wen != var1) {
@@ -57,7 +57,7 @@ public final class wek {
       }
    }
 
-   private static void wes(long var0, int var2, int var3, int var4, int var5) {
+   static void wes(long var0, int var2, int var3, int var4, int var5) {
       if (var2 == 66) {
          var5 &= -11;
       }

@@ -41,117 +41,117 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 final class fpo {
-   private static final fot[] fpp = new fot[]{
+   static final fot[] fpp = new fot[]{
       new fot(a.d("䠌ㆬ뭯┗", 1018781309, -34138607), 900, true, 0.6, true, 16.0F),
       new fot(a.c(-190063754, "\udb12ꊥ⡶똒㷘"), 700, true, 1.0, true, 16.0F),
       new fot(a.d("讎\uf23d磣\ue693", 580668412, -1982218219), 600, true, 0.1, false, 14.0F),
       new fot(a.c(-1397452765, "遂\ue9e6挨﵃皏\uf034"), 500, false, 0.5, true, 16.0F)
    };
-   private static final fot[] fpq = fue();
-   private static final int fpr = 100;
-   private static final int fps = 8;
-   private static final boolean fpt = System.getenv(a.c(-1229975286, "ᅜ棧\ue237籞\uf7ec焰쭸䊘\udcd7噯톯⯕ꔄ㲦뛷　")) != null;
-   private static final String fpu = System.getenv(a.c(1915715256, "绱݊趚Ᏻ顁ẝꓕⴵ덺㧂븂䑭쪮匘\ud958"));
-   private static final Field fpv = vxr.find(
+   static final fot[] fpq = fue();
+   static final int fpr = 100;
+   static final int fps = 8;
+   static final boolean fpt = System.getenv(a.c(-1229975286, "ᅜ棧\ue237籞\uf7ec焰쭸䊘\udcd7噯톯⯕ꔄ㲦뛷　")) != null;
+   static final String fpu = System.getenv(a.c(1915715256, "绱݊趚Ᏻ顁ẝꓕⴵ덺㧂븂䑭쪮匘\ud958"));
+   static final Field fpv = vxr.find(
       ClientPlayerEntity.class,
       a.d("便胟ਝ鐶ᾢ餗⍃ꪹ㓠빀㦀쏶䴳퓘廆\ud838扺\uedb9眊\uf177磨ʺ谋", -1609502571, -586151543),
       a.c(-701688847, "\u139d樣\ue0fc纄\uf55b珑짮䀕\ude47哳"),
       a.d("嘔", -101762424, 875523291)
    );
-   private static final Field fpw = vxr.find(
+   static final Field fpw = vxr.find(
       ClientPlayerEntity.class, a.b("瞦ผ蓞\u1af5酡។궀⑺먣ゃ띃䴵쏰娛퀅囻\uecb9捺柳羴\uf62b豹ˈ", -100304929), a.c(-1656699692, "쒸봆㟙ꦡ≾ꓴị霰।菒"), a.d("ᒖ", 1322923978, -2116934885)
    );
-   private static final Set<Integer> fpx = new HashSet<>();
-   private static final List<Double> fpy = new ArrayList<>();
-   private static final List<double[]> fpz = new ArrayList<>();
-   private static final List<double[]> fqa = new ArrayList<>();
-   private static final List<Double> fqb = new ArrayList<>();
-   private static final List<Double> fqc = new ArrayList<>();
-   private static float fqd = Float.NaN;
-   private static float fqe;
-   private static double fqf;
-   private static int fqg;
-   private static int fqh;
-   private static double fqi;
-   private static final List<Double> fqj = new ArrayList<>();
-   private static final boolean fqk = System.getenv(a.b("\uf493质߸馑ሣ铿⺷ꝗ㤘뎠㑠츏䃌\ud97a区헕澑\ue05b章ﲱ畍༕", 37614787)) != null;
-   private static int fql = -1;
-   private static double fqm;
-   private static double fqn;
-   private static int fqo = -1;
-   private static int fqp;
-   private static int fqq;
-   private static int fqr;
-   private static double fqs;
-   private static double fqt;
-   private static final ConcurrentLinkedQueue<fpf> fqu = new ConcurrentLinkedQueue<>();
-   private static final ConcurrentLinkedQueue<foo> fqv = new ConcurrentLinkedQueue<>();
-   private static final ConcurrentLinkedQueue<Integer> fqw = new ConcurrentLinkedQueue<>();
-   private static final ConcurrentLinkedQueue<Integer> fqx = new ConcurrentLinkedQueue<>();
-   private static final List<fpc> fqy = new ArrayList<>();
-   private static final ArrayDeque<fpc> fqz = new ArrayDeque<>();
-   private static volatile int fra;
-   private static volatile int frb = -1;
-   private static volatile int frc = -1;
-   private static volatile UUID frd;
-   private static volatile boolean fre;
-   private static volatile int frf = -1;
-   private static boolean frg;
-   private static int frh;
-   private static double fri;
-   private static double frj;
-   private static double frk;
-   private static int frl;
-   private static int frm;
-   private static int frn;
-   private static final Random fro = new Random(17L);
-   private static boolean frp = true;
-   private static int frq;
-   private static int frr;
-   private static boolean frs;
-   private static int frt = -1000;
-   private static boolean fru;
-   private static float frv = -1.0F;
-   private static boolean frw;
-   private static String frx = "";
-   private static int fry = -1;
-   private static int frz = 99;
-   private static int fsa = -1;
-   private static boolean fsb;
-   private static boolean fsc;
-   private static final Vec3d[] fsd = new Vec3d[12];
-   private static float fse = 1.0F;
-   private static float fsf;
-   private static float fsg = 1.2F;
-   private static int fsh;
-   private static int fsi;
-   private static int fsj = 80;
-   private static float fsk;
-   private static int fsl;
-   private static int fsm;
-   private static final int[] fsn = new int[8];
-   private static final int[] fso = new int[8];
-   private static final int[] fsp = new int[8];
-   private static final int[] fsq = new int[8];
-   private static final int[] fsr = new int[8];
-   private static final int[] fss = new int[8];
-   private static final int[] fst = new int[8];
-   private static final int[] fsu = new int[8];
-   private static final int[][] fsv = new int[8][6];
-   private static final int[] fsw = new int[8];
-   private static final int[] fsx = new int[8];
-   private static final int[] fsy = new int[8];
-   private static final int[] fsz = new int[8];
-   private static final int[] fta = new int[8];
-   private static final double[] ftb = new double[8];
-   private static final double[] ftc = new double[8];
-   private static final int[] ftd = new int[8];
-   private static final int[] fte = new int[8];
-   private static final int[] ftf = new int[8];
-   private static final int[] ftg = new int[8];
-   private static final List<Double> fth = new ArrayList<>();
+   static final Set<Integer> fpx = new HashSet<>();
+   static final List<Double> fpy = new ArrayList<>();
+   static final List<double[]> fpz = new ArrayList<>();
+   static final List<double[]> fqa = new ArrayList<>();
+   static final List<Double> fqb = new ArrayList<>();
+   static final List<Double> fqc = new ArrayList<>();
+   static float fqd = Float.NaN;
+   static float fqe;
+   static double fqf;
+   static int fqg;
+   static int fqh;
+   static double fqi;
+   static final List<Double> fqj = new ArrayList<>();
+   static final boolean fqk = System.getenv(a.b("\uf493质߸馑ሣ铿⺷ꝗ㤘뎠㑠츏䃌\ud97a区헕澑\ue05b章ﲱ畍༕", 37614787)) != null;
+   static int fql = -1;
+   static double fqm;
+   static double fqn;
+   static int fqo = -1;
+   static int fqp;
+   static int fqq;
+   static int fqr;
+   static double fqs;
+   static double fqt;
+   static final ConcurrentLinkedQueue<fpf> fqu = new ConcurrentLinkedQueue<>();
+   static final ConcurrentLinkedQueue<foo> fqv = new ConcurrentLinkedQueue<>();
+   static final ConcurrentLinkedQueue<Integer> fqw = new ConcurrentLinkedQueue<>();
+   static final ConcurrentLinkedQueue<Integer> fqx = new ConcurrentLinkedQueue<>();
+   static final List<fpc> fqy = new ArrayList<>();
+   static final ArrayDeque<fpc> fqz = new ArrayDeque<>();
+   static volatile int fra;
+   static volatile int frb = -1;
+   static volatile int frc = -1;
+   static volatile UUID frd;
+   static volatile boolean fre;
+   static volatile int frf = -1;
+   static boolean frg;
+   static int frh;
+   static double fri;
+   static double frj;
+   static double frk;
+   static int frl;
+   static int frm;
+   static int frn;
+   static final Random fro = new Random(17L);
+   static boolean frp = true;
+   static int frq;
+   static int frr;
+   static boolean frs;
+   static int frt = -1000;
+   static boolean fru;
+   static float frv = -1.0F;
+   static boolean frw;
+   static String frx = "";
+   static int fry = -1;
+   static int frz = 99;
+   static int fsa = -1;
+   static boolean fsb;
+   static boolean fsc;
+   static final Vec3d[] fsd = new Vec3d[12];
+   static float fse = 1.0F;
+   static float fsf;
+   static float fsg = 1.2F;
+   static int fsh;
+   static int fsi;
+   static int fsj = 80;
+   static float fsk;
+   static int fsl;
+   static int fsm;
+   static final int[] fsn = new int[8];
+   static final int[] fso = new int[8];
+   static final int[] fsp = new int[8];
+   static final int[] fsq = new int[8];
+   static final int[] fsr = new int[8];
+   static final int[] fss = new int[8];
+   static final int[] fst = new int[8];
+   static final int[] fsu = new int[8];
+   static final int[][] fsv = new int[8][6];
+   static final int[] fsw = new int[8];
+   static final int[] fsx = new int[8];
+   static final int[] fsy = new int[8];
+   static final int[] fsz = new int[8];
+   static final int[] fta = new int[8];
+   static final double[] ftb = new double[8];
+   static final double[] ftc = new double[8];
+   static final int[] ftd = new int[8];
+   static final int[] fte = new int[8];
+   static final int[] ftf = new int[8];
+   static final int[] ftg = new int[8];
+   static final List<Double> fth = new ArrayList<>();
 
-   private fpo() {
+   fpo() {
    }
 
    static boolean tick(MinecraftClient var0) {
@@ -288,7 +288,7 @@ final class fpo {
       }
    }
 
-   private static void ftk(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
+   static void ftk(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
       float var4 = vxr.getFloat(fpv, var1, var1.getYaw());
       float var5 = vxr.getFloat(fpw, var1, var1.getPitch());
       if (!Float.isNaN(fqd)) {
@@ -380,7 +380,7 @@ final class fpo {
       vzz.simulated = fpx::contains;
    }
 
-   private static void ftl() {
+   static void ftl() {
       if (fqb.size() >= 8) {
          fpz.add(fqb.stream().mapToDouble(Double::doubleValue).toArray());
          fqa.add(fqc.stream().mapToDouble(Double::doubleValue).toArray());
@@ -390,7 +390,7 @@ final class fpo {
       fqc.clear();
    }
 
-   private static void ftm(ClientPlayerEntity var0, float var1, float var2) {
+   static void ftm(ClientPlayerEntity var0, float var1, float var2) {
       kfe var3 = Flow.getInstance().getModuleManager().getByName(a.d("ꚓ\udf00嗖쮧䁝웘粌\uf56e", -365975033, -779416361));
       int var4 = fqh % 100;
       if (fql >= 0) {
@@ -446,7 +446,7 @@ final class fpo {
       }
    }
 
-   private static void ftn(MinecraftClient var0, KeyBinding var1, boolean var2) {
+   static void ftn(MinecraftClient var0, KeyBinding var1, boolean var2) {
       var1.setPressed(var2);
       Key var3 = KeyBindingHelper.getBoundKeyOf(var1);
       if (var2) {
@@ -454,7 +454,7 @@ final class fpo {
       }
    }
 
-   private static void fto(MinecraftClient var0) {
+   static void fto(MinecraftClient var0) {
       fra++;
       ClientPlayerEntity var1 = var0.player;
       if (fre && var1 != null && frb >= 0) {
@@ -622,11 +622,11 @@ final class fpo {
       }
    }
 
-   private static double ftp(String var0, double var1) {
+   static double ftp(String var0, double var1) {
       return ftq(var0, var1, 0);
    }
 
-   private static double ftq(String var0, double var1, int var3) {
+   static double ftq(String var0, double var1, int var3) {
       String var4 = System.getenv(var0);
       if (var4 == null) {
          return var1;
@@ -636,7 +636,7 @@ final class fpo {
       return Double.parseDouble(var5[Math.min(var3, var5.length - 1)].trim());
    }
 
-   private static void ftr(MinecraftClient var0, Entity var1) {
+   static void ftr(MinecraftClient var0, Entity var1) {
       ClientPlayerEntity var2 = var0.player;
       if (fre && var1.getId() == frb && var2 != null) {
          if (var0.crosshairTarget instanceof EntityHitResult var3 && var3.getEntity() == var1) {
@@ -677,7 +677,7 @@ final class fpo {
       }
    }
 
-   private static fpc fts(int var0) {
+   static fpc fts(int var0) {
       fpc var1 = null;
 
       for (fpc var3 : fqz) {
@@ -689,7 +689,7 @@ final class fpo {
       return var1;
    }
 
-   private static fpc ftt(long var0) {
+   static fpc ftt(long var0) {
       fpc var2 = null;
 
       for (fpc var4 : fqz) {
@@ -701,7 +701,7 @@ final class fpo {
       return var2;
    }
 
-   private static void ftu(int var0) {
+   static void ftu(int var0) {
       if (var0 >= 0 && fsn[var0] != 0) {
          if (frr > 0) {
             fso[var0]++;
@@ -720,7 +720,7 @@ final class fpo {
       }
    }
 
-   private static void ftv(int var0) {
+   static void ftv(int var0) {
       if (fsa >= 0 && fsb && !fsc && var0 >= 0) {
          fsv[var0][5]++;
       }
@@ -728,7 +728,7 @@ final class fpo {
       fsa = -1;
    }
 
-   private static void ftw() {
+   static void ftw() {
       for (fpc var1 : fqy) {
          if (var1.sinceKnock >= 0 && var1.sinceKnock <= 15) {
             boolean var2 = var1.serverCrit != null ? var1.serverCrit : var1.seenCrit;
@@ -743,7 +743,7 @@ final class fpo {
       }
    }
 
-   private static void ftx(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, fot var3, int var4) {
+   static void ftx(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, fot var3, int var4) {
       System.arraycopy(fsd, 0, fsd, 1, fsd.length - 1);
       fsd[0] = var2.getEntityPos();
 
@@ -797,7 +797,7 @@ final class fpo {
       fth.add(var33);
    }
 
-   private static void fty(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
+   static void fty(MinecraftClient var0, ClientPlayerEntity var1, Entity var2, boolean var3) {
       double var4 = var2.getX() - var1.getX();
       double var6 = var2.getZ() - var1.getZ();
       double var8 = Math.sqrt(var4 * var4 + var6 * var6);
@@ -814,7 +814,7 @@ final class fpo {
       var0.options.jumpKey.setPressed(var3);
    }
 
-   private static void ftz(MinecraftClient var0) {
+   static void ftz(MinecraftClient var0) {
       var0.options.forwardKey.setPressed(false);
       var0.options.backKey.setPressed(false);
       var0.options.leftKey.setPressed(false);
@@ -822,7 +822,7 @@ final class fpo {
       var0.options.jumpKey.setPressed(false);
    }
 
-   private static Entity fua(MinecraftClient var0) {
+   static Entity fua(MinecraftClient var0) {
       if (frb >= 0) {
          Entity var1 = var0.world.getEntityById(frb);
          if (var1 != null) {
@@ -840,7 +840,7 @@ final class fpo {
       return null;
    }
 
-   private static void fub(MinecraftClient var0) {
+   static void fub(MinecraftClient var0) {
       if (!frg) {
          frg = true;
          ClientTickEvents.START_CLIENT_TICK.register(fpo::fto);
@@ -881,7 +881,7 @@ final class fpo {
       }
    }
 
-   private static void fuc() {
+   static void fuc() {
       kfe var0 = Flow.getInstance().getModuleManager().getByName(a.d("훣꽴▼믃〔뚧ೣ蔢᭐釺", 974682502, 1151512379));
 
       for (vmo var2 : var0.getSettings()) {
@@ -987,7 +987,7 @@ final class fpo {
       }
    }
 
-   private static void fud() {
+   static void fud() {
       StringBuilder var0 = new StringBuilder(
          a.d(
             "뿋왢䲸틛多\udfe2早\uec05牐\uf8e9罽蕃\u0b9b鈯ᡰ麊ⓟꬹㆻ럱㸛䐒쫾儹흑嶄\ue424橢\uf0a4盄ﵬΠ覷မ陜᳭ꌱ⥭꾏㘥뱧싎䣒콨営\udbd4戒\ue8a1溧\uf53c筈膔ࠣ蹊ᒄ髟Ⅸꟾⷍ됑㪩䃲읉䵇펒娤\ue07a暍\uecf4獠零翏蘘೮鋼ᤉ齓◇갼㉖뢠㻔䕦쮻凄\ud852庾\ue4ec欑\uf15b矯︤Ѵ誓ᄫ靠᷷ꏎ⨘낥㛾봉썘䦠퀠噇\udc83挶\ue972澔\uf5f1籥芦ࣻ輎ᕝ鮅",
@@ -1315,7 +1315,7 @@ final class fpo {
       }
    }
 
-   private static fot[] fue() {
+   static fot[] fue() {
       String var0 = System.getenv(a.b("䷓㑨뺸⃑ꭣ\u2dbf韷ḗ聘ૠ贠睁聯怤\uea62", -531083878));
       if (var0 == null) {
          return fpp;
@@ -1334,7 +1334,7 @@ final class fpo {
       return var1.toArray(new fot[0]);
    }
 
-   private static void fuf(MinecraftClient var0, String var1) {
+   static void fuf(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 }

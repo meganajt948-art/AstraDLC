@@ -6,10 +6,10 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 public final class jfw extends jeq<jfn> {
-   private static final float jfx = 12.0F;
-   private static final int jfy = -4932924;
-   private static final int jfz = -4160260;
-   private static final int jga = -278748;
+   static final float jfx = 12.0F;
+   static final int jfy = -4932924;
+   static final int jfz = -4160260;
+   static final int jga = -278748;
 
    jfw() {
       super(a.c(-1080403275, "嫝⍨ꦼ㟆밇"), a.b("俶㙣벷⋍ꤌ", -1290252354), vhz.CLOCK, true, 2, 1, 6.0F, 0.0F);

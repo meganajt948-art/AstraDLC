@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 final class voq {
-   private final String vor;
-   private final Map<String, vow> vos;
-   private final List<String> vot;
+   final String vor;
+   final Map<String, vow> vos;
+   final List<String> vot;
 
-   private voq(String signature, Map<String, vow> sounds, List<String> extras) {
+   voq(String signature, Map<String, vow> sounds, List<String> extras) {
       this.vor = signature;
       this.vos = sounds;
       this.vot = extras;

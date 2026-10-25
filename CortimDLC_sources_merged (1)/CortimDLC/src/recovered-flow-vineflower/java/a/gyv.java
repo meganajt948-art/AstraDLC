@@ -9,16 +9,16 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.ScreenshotRecorder;
 
 public final class gyv {
-   private static final boolean gyw = System.getenv(a.d("П綤\uf774椝\ue2af摳\ude2c埞증䌡쓠㺊끊⧳ꎲ╊鼊თ試ి", 976739528, -1374365563)) != null;
-   private static final float[] gyx = gyw
+   static final boolean gyw = System.getenv(a.d("П綤\uf774椝\ue2af摳\ude2c埞증䌡쓠㺊끊⧳ꎲ╊鼊თ試ి", 976739528, -1374365563)) != null;
+   static final float[] gyx = gyw
       ? new float[]{0.6F, 2.5F, 5.3F, 5.9F, 6.5F, 7.2F, 8.2F, 9.2F, 10.0F, 10.6F}
       : new float[]{0.15F, 0.35F, 0.6F, 0.9F, 1.2F, 1.55F, 1.95F, 2.35F, 2.8F, 3.6F, 4.6F, 5.35F, 5.75F, 6.05F, 6.35F};
-   private static int gyy;
-   private static long gyz;
-   private static int gza;
-   private static int gzb;
+   static int gyy;
+   static long gyz;
+   static int gza;
+   static int gzb;
 
-   private gyv() {
+   gyv() {
    }
 
    public static void install() {
@@ -28,11 +28,11 @@ public final class gyv {
       }
    }
 
-   private static float gze() {
+   static float gze() {
       return (float)(System.nanoTime() - gyz) / 1.0E9F;
    }
 
-   private static void gzf(MinecraftClient var0) {
+   static void gzf(MinecraftClient var0) {
       switch (gyy) {
          case 0:
             if (var0.getOverlay() instanceof FlowSplash) {
@@ -119,7 +119,7 @@ public final class gyv {
       }
    }
 
-   private static void gzg(boolean var0) {
+   static void gzg(boolean var0) {
       try {
          Field var1 = wap.class.getDeclaredField(a.d("硞Ǥ謰ᕝ麜ᠦ", -1349352270, 1268251785));
          var1.setAccessible(true);
@@ -129,7 +129,7 @@ public final class gyv {
       }
    }
 
-   private static void gzh() {
+   static void gzh() {
       try {
          Field var0 = gtq.class.getDeclaredField(a.c(-503078855, "ꁏ\ud9f9匿쵛䚝"));
          var0.setAccessible(true);
@@ -139,7 +139,7 @@ public final class gyv {
       }
    }
 
-   private static void gzi(MinecraftClient var0, String var1, float var2) {
+   static void gzi(MinecraftClient var0, String var1, float var2) {
       System.out
          .println(
             a.b("ᬛ抩\ue866瘚\ufddf筵셮䣋횅尢\udbf6⇓", -1286661276)

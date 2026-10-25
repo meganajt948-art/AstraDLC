@@ -16,7 +16,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import org.apache.commons.lang3.math.Fraction;
 
 public final class vui {
-   private vui() {
+   vui() {
    }
 
    // $VF: Unable to simplify switch on enum
@@ -158,11 +158,11 @@ public final class vui {
       return !var0.isEmpty() && var1.test(var0);
    }
 
-   private static ItemStack vul(ClientPlayerEntity var0) {
+   static ItemStack vul(ClientPlayerEntity var0) {
       return var0.playerScreenHandler.getCursorStack();
    }
 
-   private static int vum(PlayerInventory var0) {
+   static int vum(PlayerInventory var0) {
       for (int var1 = 9; var1 < 36; var1++) {
          if (var0.getStack(var1).isEmpty()) {
             return var1;
@@ -178,7 +178,7 @@ public final class vui {
       return -1;
    }
 
-   private static void vun(MinecraftClient var0, int var1, int var2) {
+   static void vun(MinecraftClient var0, int var1, int var2) {
       ItemStack var3 = var0.player.getInventory().getStack(var1);
       BundleContentsComponent var4 = vvn.contents(var3);
       int var5 = var4 == null ? -1 : var4.getSelectedStackIndex();
@@ -188,7 +188,7 @@ public final class vui {
       }
    }
 
-   private static void vuo(MinecraftClient var0, int var1, int var2) {
+   static void vuo(MinecraftClient var0, int var1, int var2) {
       ClientPlayerEntity var3 = var0.player;
       var0.interactionManager.clickSlot(var3.playerScreenHandler.syncId, var1, var2, SlotActionType.PICKUP, var3);
    }

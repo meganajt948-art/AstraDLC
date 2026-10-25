@@ -11,14 +11,14 @@ final class eqc {
    final int inputH;
    final int inputW;
    final int classes;
-   private final List<Object> eqd = new ArrayList<>();
-   private final List<eoz> eqe = new ArrayList<>();
-   private float[] eqf;
-   private float[] eqg;
-   private int eqh;
-   private static final Object eqi = new Object();
+   final List<Object> eqd = new ArrayList<>();
+   final List<eoz> eqe = new ArrayList<>();
+   float[] eqf;
+   float[] eqg;
+   int eqh;
+   static final Object eqi = new Object();
 
-   private eqc(int var1, int var2, int var3) {
+   eqc(int var1, int var2, int var3) {
       this.inputH = var1;
       this.inputW = var2;
       this.classes = var3;
@@ -90,7 +90,7 @@ final class eqc {
       return var18;
    }
 
-   private static float[] eql(float[] var0, int var1, int var2, eof var3) {
+   static float[] eql(float[] var0, int var1, int var2, eof var3) {
       int var4 = var3.eoq;
       int var5 = var3.eor;
       int var6 = var3.eol;
@@ -162,19 +162,19 @@ final class eqc {
       return var23;
    }
 
-   private static void eqm(float[] var0, float[] var1, float[] var2, float[] var3, float var4, float var5, float var6, int var7) {
+   static void eqm(float[] var0, float[] var1, float[] var2, float[] var3, float var4, float var5, float var6, int var7) {
       for (int var8 = 0; var8 < var7; var8++) {
          var0[var8] += var4 * var1[var8] + var5 * var2[var8] + var6 * var3[var8];
       }
    }
 
-   private static void eqn(float[] var0, float[] var1, float var2, int var3) {
+   static void eqn(float[] var0, float[] var1, float var2, int var3) {
       for (int var4 = 0; var4 < var3; var4++) {
          var0[var4] += var2 * var1[var4];
       }
    }
 
-   private static float[] eqo(float[] var0, int var1, int var2, int var3, eps var4, int var5, int var6) {
+   static float[] eqo(float[] var0, int var1, int var2, int var3, eps var4, int var5, int var6) {
       float[] var7 = new float[var1 * var5 * var6];
 
       for (int var8 = 0; var8 < var1; var8++) {
@@ -204,7 +204,7 @@ final class eqc {
       return var7;
    }
 
-   private static float[][] eqp(float[][] var0, eoz var1) {
+   static float[][] eqp(float[][] var0, eoz var1) {
       int var2 = var0.length;
       int var3 = var1.epd;
       int var4 = 4 * var3;
@@ -253,7 +253,7 @@ final class eqc {
       return var5;
    }
 
-   private static float eqq(float var0) {
+   static float eqq(float var0) {
       return (float)(1.0 / (1.0 + Math.exp(-var0)));
    }
 
@@ -310,7 +310,7 @@ final class eqc {
       }
    }
 
-   private static eqc eqr(List<epj> var0, Map<String, epz> var1, int var2, int var3) {
+   static eqc eqr(List<epj> var0, Map<String, epz> var1, int var2, int var3) {
       ArrayList var4 = new ArrayList();
       ArrayList var5 = new ArrayList();
       float[] var6 = null;
@@ -543,7 +543,7 @@ final class eqc {
       }
    }
 
-   private static int eqs(int var0, int var1) {
+   static int eqs(int var0, int var1) {
       if (var1 != 1) {
          throw new IllegalArgumentException(a.d("Ἴ暀\uec53牬麟罏씐䳯튿堒\udf95", -1324712268, 1724932576) + var1);
       } else {
@@ -551,7 +551,7 @@ final class eqc {
       }
    }
 
-   private static float[][] eqt(float[] var0, int var1, int var2, int var3) {
+   static float[][] eqt(float[] var0, int var1, int var2, int var3) {
       int var4 = 4 * var2;
       float[][] var5 = new float[var1 * var3][var4];
 
@@ -568,7 +568,7 @@ final class eqc {
       return var5;
    }
 
-   private static float[] equ(float[] var0, int var1, int var2) {
+   static float[] equ(float[] var0, int var1, int var2) {
       float[] var3 = new float[var0.length];
 
       for (int var4 = 0; var4 < var1; var4++) {
@@ -580,7 +580,7 @@ final class eqc {
       return var3;
    }
 
-   private static epz eqv(Map<String, epz> var0, epj var1, int var2) {
+   static epz eqv(Map<String, epz> var0, epj var1, int var2) {
       epz var3 = var2 < var1.inputs.size() ? (epz)var0.get(var1.inputs.get(var2)) : null;
       if (var3 != null && var3.data != null) {
          return var3;

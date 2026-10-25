@@ -12,25 +12,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public final class jdc extends jcs {
-   private static final float jdd = 14.0F;
-   private static final float jde = 5.0F;
-   private static final float jdf = 9.0F;
-   private static final float jdg = 5.0F;
-   private static final float jdh = 40.0F;
-   private List<jcz> jdi = new ArrayList<>();
-   private final Map<String, jcz> jdj = new HashMap<>();
-   private final vcj jdk = new vcj(13.0F, 40.0F);
-   private boolean jdl;
-   private boolean jdm;
-   private long jdn;
-   private boolean jdo;
-   private boolean jdp;
+   static final float jdd = 14.0F;
+   static final float jde = 5.0F;
+   static final float jdf = 9.0F;
+   static final float jdg = 5.0F;
+   static final float jdh = 40.0F;
+   List<jcz> jdi = new ArrayList<>();
+   final Map<String, jcz> jdj = new HashMap<>();
+   final vcj jdk = new vcj(13.0F, 40.0F);
+   boolean jdl;
+   boolean jdm;
+   long jdn;
+   boolean jdo;
+   boolean jdp;
 
    jdc() {
       super(a.d("ჽ楑\ue393緪\uf623", 2012081028, -2140669163), a.b("䛷㽻떹⯀ꀉ", 929056443), true, 1, 2, 0.0F, 72.0F);
    }
 
-   private static List<oxi> jds(boolean var0) {
+   static List<oxi> jds(boolean var0) {
       ArrayList var1 = new ArrayList();
       oxw var2 = oxw.get();
       if (var2 != null && var2.isEnabled()) {
@@ -48,7 +48,7 @@ public final class jdc extends jcs {
       return var1;
    }
 
-   private static oxi jdt(String var0, ItemStack var1, int var2) {
+   static oxi jdt(String var0, ItemStack var1, int var2) {
       return new oxi(a.c(1120294939, "塣⇐ꬔ㕶뺾㠃艂\u0bfe") + var0, var0, var1, var1.getCount(), var2, 0.0F, 0L, false);
    }
 
@@ -76,7 +76,7 @@ public final class jdc extends jcs {
       this.jdk.set(Math.max(40.0F, var6 - 5.0F));
    }
 
-   private void jdu(boolean var1, boolean var2) {
+   void jdu(boolean var1, boolean var2) {
       List var3 = var1 ? jds(false) : List.of();
       this.jdm = false;
       if (var3.isEmpty() && var2 && var1) {
@@ -141,11 +141,11 @@ public final class jdc extends jcs {
       return 14.0F;
    }
 
-   private static String jdv(oxi var0) {
+   static String jdv(oxi var0) {
       return a.b("焢", -1168215717) + var0.count();
    }
 
-   private static float jdw(oxi var0) {
+   static float jdw(oxi var0) {
       return 17.5F + izx.TEXT.width(jdv(var0)) + 6.0F + izx.TEXT.width(irr.keyName(var0.key())) + 5.0F;
    }
 
@@ -183,7 +183,7 @@ public final class jdc extends jcs {
       }
    }
 
-   private void jdx(DrawContext var1, jcz var2, float var3, float var4, long var5) {
+   void jdx(DrawContext var1, jcz var2, float var3, float var4, long var5) {
       oxi var7 = var2.item;
       float var8 = iov.r(4.0F);
       float var9 = Math.max(var2.busy.get(), 1.0F - vcq.outCubic(Math.min(1.0F, (float)(var5 - var7.usedAt()) / 700.0F)));
@@ -217,7 +217,7 @@ public final class jdc extends jcs {
       }
    }
 
-   private static float jdy(oxi var0) {
+   static float jdy(oxi var0) {
       MinecraftClient var1 = MinecraftClient.getInstance();
       ClientPlayerEntity var2 = var1.player;
       return var2 != null && var0.count() > 0 && !var0.id().startsWith(a.c(1906302599, "\udeffꝌⶈ돪㠢뺟Ӟ赢"))

@@ -18,10 +18,10 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
 public final class vxl {
-   private static Field vxm;
-   private static boolean vxn;
+   static Field vxm;
+   static boolean vxn;
 
-   private vxl() {
+   vxl() {
    }
 
    public static boolean isStorage(Screen var0) {
@@ -84,7 +84,7 @@ public final class vxl {
       return null;
    }
 
-   private static boolean vxq(Slot var0, boolean var1) {
+   static boolean vxq(Slot var0, boolean var1) {
       int var2 = var0.getIndex();
       return var2 >= 9 && var2 < 36 || var1 && var2 >= 0 && var2 < 9;
    }

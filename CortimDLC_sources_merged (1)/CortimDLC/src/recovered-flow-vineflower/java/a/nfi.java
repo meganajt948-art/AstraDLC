@@ -6,6 +6,6 @@ public final class nfi {
    public static volatile Long minMineMs;
    public static volatile Long maxMineMs;
 
-   private nfi() {
+   nfi() {
    }
 }

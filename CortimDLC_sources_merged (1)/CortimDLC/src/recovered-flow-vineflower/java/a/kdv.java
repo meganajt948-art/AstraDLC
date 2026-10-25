@@ -6,11 +6,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 
 final class kdv implements Drawable {
-   private final Screen kdw;
-   private final ClickableWidget kdx;
-   private final float kdy;
+   final Screen kdw;
+   final ClickableWidget kdx;
+   final float kdy;
 
-   private kdv(Screen screen, ClickableWidget widget, float delay) {
+   kdv(Screen screen, ClickableWidget widget, float delay) {
       this.kdw = screen;
       this.kdx = widget;
       this.kdy = delay;

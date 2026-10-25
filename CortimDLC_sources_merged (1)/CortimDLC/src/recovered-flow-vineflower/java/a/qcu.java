@@ -3,11 +3,11 @@ package a;
 import net.minecraft.block.Block;
 
 final class qcu {
-   private final long qcv;
-   private final Block qcw;
-   private final int qcx;
+   final long qcv;
+   final Block qcw;
+   final int qcx;
 
-   private qcu(long pos, Block block, int tick) {
+   qcu(long pos, Block block, int tick) {
       this.qcv = pos;
       this.qcw = block;
       this.qcx = tick;

@@ -26,18 +26,18 @@ import org.lwjgl.system.MemoryUtil;
 public final class uwt {
    public static final int VERTEX_SIZE = 28;
    public static final int MAX_BATCHES = 8;
-   private static final int uwu = 128;
-   private static final GpuBuffer[] uwv = new GpuBuffer[8];
-   private static @Nullable GpuBuffer uww;
-   private static long uwx;
-   private static @Nullable ByteBuffer uwy;
-   private static @Nullable GpuTexture uwz;
-   private static @Nullable GpuTextureView uxa;
-   private static int uxb = -1;
-   private static int uxc = -1;
-   private static boolean uxd;
+   static final int uwu = 128;
+   static final GpuBuffer[] uwv = new GpuBuffer[8];
+   static @Nullable GpuBuffer uww;
+   static long uwx;
+   static @Nullable ByteBuffer uwy;
+   static @Nullable GpuTexture uwz;
+   static @Nullable GpuTextureView uxa;
+   static int uxb = -1;
+   static int uxc = -1;
+   static boolean uxd;
 
-   private uwt() {
+   uwt() {
    }
 
    public static ByteBuffer staging(int var0) {
@@ -129,7 +129,7 @@ public final class uwt {
       }
    }
 
-   private static void uxg(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuBufferSlice var4, List<uwg> var5, int var6) {
+   static void uxg(CommandEncoder var0, RenderPipeline var1, GpuTextureView var2, GpuTextureView var3, GpuBufferSlice var4, List<uwg> var5, int var6) {
       try (RenderPass var7 = var0.createRenderPass(() -> "Flow2 shatter", var2, OptionalInt.empty(), var3, OptionalDouble.empty())) {
          var7.setPipeline(var1);
          var7.bindTexture("SceneSampler", uxa, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
@@ -146,7 +146,7 @@ public final class uwt {
       }
    }
 
-   private static void uxh(GpuDevice var0, int var1, int var2, int var3) {
+   static void uxh(GpuDevice var0, int var1, int var2, int var3) {
       for (int var4 = 0; var4 < 8; var4++) {
          if (uwv[var4] == null) {
             int var5 = var4;

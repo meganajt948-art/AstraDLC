@@ -25,12 +25,12 @@ import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
 
 public final class enq {
-   private static final int enr = 128;
-   private static final int ens = 16;
-   private static final int ent = 4;
+   static final int enr = 128;
+   static final int ens = 16;
+   static final int ent = 4;
    public static final double SHUFFLED_SEAMS = 2.0;
 
-   private enq() {
+   enq() {
    }
 
    public static BufferedImage capture(ItemFrameEntity var0) {
@@ -187,18 +187,18 @@ public final class enq {
       return seamRatio(var0.getRGB(0, 0, var1, var2, null, 0, var1), var1, var2) > 2.0;
    }
 
-   private static double enw(int var0, int var1) {
+   static double enw(int var0, int var1) {
       return (Math.abs((var0 >> 16 & 0xFF) - (var1 >> 16 & 0xFF)) + Math.abs((var0 >> 8 & 0xFF) - (var1 >> 8 & 0xFF)) + Math.abs((var0 & 0xFF) - (var1 & 0xFF)))
          / 3.0;
    }
 
-   private static boolean enx(ItemFrameEntity var0, Vec3d var1) {
+   static boolean enx(ItemFrameEntity var0, Vec3d var1) {
       Direction var2 = var0.getHorizontalFacing();
       Vec3d var3 = var1.subtract(var0.getEntityPos());
       return var3.x * var2.getOffsetX() + var3.z * var2.getOffsetZ() > 0.25;
    }
 
-   private static double eny(List<ItemFrameEntity> var0, Vec3d var1, Vec3d var2) {
+   static double eny(List<ItemFrameEntity> var0, Vec3d var1, Vec3d var2) {
       double var3 = Double.MAX_VALUE;
       Vec3d var5 = Vec3d.ZERO;
 
@@ -211,7 +211,7 @@ public final class enq {
       return var3 * (1.5 - 0.5 * var8.dotProduct(var2));
    }
 
-   private static List<List<ItemFrameEntity>> enz(List<ItemFrameEntity> var0) {
+   static List<List<ItemFrameEntity>> enz(List<ItemFrameEntity> var0) {
       HashMap var1 = new HashMap();
 
       for (ItemFrameEntity var3 : var0) {
@@ -235,7 +235,7 @@ public final class enq {
       return var7;
    }
 
-   private static List<ItemFrameEntity> eoa(List<ItemFrameEntity> var0, ItemFrameEntity var1) {
+   static List<ItemFrameEntity> eoa(List<ItemFrameEntity> var0, ItemFrameEntity var1) {
       boolean var2 = var1.getHorizontalFacing().getAxis() == Axis.Z;
       ArrayList var3 = new ArrayList();
       HashSet var4 = new HashSet();
@@ -273,7 +273,7 @@ public final class enq {
       }
    }
 
-   private static int eob(BlockPos var0, boolean var1) {
+   static int eob(BlockPos var0, boolean var1) {
       return var1 ? var0.getZ() : var0.getX();
    }
 }

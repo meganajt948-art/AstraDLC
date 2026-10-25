@@ -18,19 +18,19 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class vjs {
-   private static final AtomicBoolean vjt = new AtomicBoolean(false);
-   private static final long vju = 2000000000L;
-   private static final long vjv = 100000000L;
-   private static final long vjw = 60000000000L;
-   private static volatile long vjx;
-   private static volatile Map<Class<?>, byte[]> vjy;
-   private static volatile ClassLoader vjz;
-   private static volatile Set<String> vka;
-   private static volatile Set<String> vkb;
-   private static volatile long vkc;
-   private static volatile String vkd;
+   static final AtomicBoolean vjt = new AtomicBoolean(false);
+   static final long vju = 2000000000L;
+   static final long vjv = 100000000L;
+   static final long vjw = 60000000000L;
+   static volatile long vjx;
+   static volatile Map<Class<?>, byte[]> vjy;
+   static volatile ClassLoader vjz;
+   static volatile Set<String> vka;
+   static volatile Set<String> vkb;
+   static volatile long vkc;
+   static volatile String vkd;
 
-   private vjs() {
+   vjs() {
    }
 
    public static void boot() {
@@ -39,7 +39,7 @@ public final class vjs {
       var0.start();
    }
 
-   private static void vkg() {
+   static void vkg() {
       try {
          Thread.sleep(3000L);
       } catch (InterruptedException var11) {
@@ -203,7 +203,7 @@ public final class vjs {
       }
    }
 
-   private static boolean vkh(String var0) {
+   static boolean vkh(String var0) {
       return var0 == null
          ? false
          : var0.startsWith(a.b("蒂ﵿ瞪\ue9d9戅\ue4ae廥휑䥅쎬䐯빐ゔꤢ", 1690535073))
@@ -212,7 +212,7 @@ public final class vjs {
             || var0.startsWith(a.d("ꆁ\ud845努쳚䜊솬篭", 1194690464, 70985227));
    }
 
-   private static byte[] vki(Class<?> var0) {
+   static byte[] vki(Class<?> var0) {
       try {
          Method[] var1 = var0.getDeclaredMethods();
          Arrays.sort(var1, (var0x, var1x) -> {
@@ -243,7 +243,7 @@ public final class vjs {
       }
    }
 
-   private static boolean vkj(byte[] var0, byte[] var1) {
+   static boolean vkj(byte[] var0, byte[] var1) {
       if (var0 != null && var1 != null && var0.length == var1.length) {
          int var2 = 0;
 
@@ -261,7 +261,7 @@ public final class vjs {
       vkk(a.c(2061013130, "郤\ue957掉ﷸ瘦\uf080䪁쌷嵮\ud7ca倈ꨦ⓫") + var0);
    }
 
-   private static void vkk(String var0) {
+   static void vkk(String var0) {
       if (vjt.compareAndSet(false, true)) {
          vkd = var0;
 

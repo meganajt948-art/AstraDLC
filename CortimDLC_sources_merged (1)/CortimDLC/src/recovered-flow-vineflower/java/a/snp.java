@@ -9,30 +9,30 @@ import net.minecraft.client.gui.DrawContext;
 import org.joml.Matrix3x2fStack;
 
 public final class snp {
-   private static final float snq = 16.0F;
-   private static final int snr = 20;
-   private static final float[] sns = new float[44];
-   private static final vdn[][] snt = new vdn[vek.values().length][sns.length];
-   private static final float snu = 1.3F;
-   private static final float snv = 11.0F;
-   private static final float snw = 11.0F;
-   private static final float snx = 0.7F;
-   private static final float sny = 0.95F;
-   private static final float snz = 0.55F;
-   private static final float soa = 0.024F;
-   private static final float sob = 0.045F;
-   private static final long soc = 4500L;
-   private static final long sod = 80L;
-   private static final float soe = (float) (Math.PI * 2);
-   private final smt[] sof;
-   private final long[] sog;
-   private final long[] soh;
-   private final float[] soi;
-   private final float[] soj;
-   private final float[] sok;
-   private final float[] sol;
-   private final float som;
-   private final float son;
+   static final float snq = 16.0F;
+   static final int snr = 20;
+   static final float[] sns = new float[44];
+   static final vdn[][] snt = new vdn[vek.values().length][sns.length];
+   static final float snu = 1.3F;
+   static final float snv = 11.0F;
+   static final float snw = 11.0F;
+   static final float snx = 0.7F;
+   static final float sny = 0.95F;
+   static final float snz = 0.55F;
+   static final float soa = 0.024F;
+   static final float sob = 0.045F;
+   static final long soc = 4500L;
+   static final long sod = 80L;
+   static final float soe = (float) (Math.PI * 2);
+   final smt[] sof;
+   final long[] sog;
+   final long[] soh;
+   final float[] soi;
+   final float[] soj;
+   final float[] sok;
+   final float[] sol;
+   final float som;
+   final float son;
    public final int line;
    public final boolean card;
    public final long holdUntil;
@@ -44,20 +44,20 @@ public final class snp {
    public float dist;
    public float age;
    public float hidden;
-   private float soo = -1.0F;
-   private float sop = -1.0F;
-   private float[] soq = new float[0];
-   private float[] sor = new float[0];
-   private float[] sos = new float[0];
-   private float[] sot = new float[0];
-   private float[] sou = new float[0];
-   private float[] sov = new float[0];
-   private float[] sow = new float[0];
-   private int[] sox = new int[0];
-   private final float[] soy;
-   private final float[] soz;
+   float soo = -1.0F;
+   float sop = -1.0F;
+   float[] soq = new float[0];
+   float[] sor = new float[0];
+   float[] sos = new float[0];
+   float[] sot = new float[0];
+   float[] sou = new float[0];
+   float[] sov = new float[0];
+   float[] sow = new float[0];
+   int[] sox = new int[0];
+   final float[] soy;
+   final float[] soz;
 
-   private snp(int var1, boolean var2, List<smw> var3, float var4, long var5, Random var7) {
+   snp(int var1, boolean var2, List<smw> var3, float var4, long var5, Random var7) {
       this.line = var1;
       this.card = var2;
       this.holdUntil = var5;
@@ -476,7 +476,7 @@ public final class snp {
       }
    }
 
-   private static void spc(DrawContext var0, smt var1, float var2, float var3, float var4, float var5, float var6, int var7) {
+   static void spc(DrawContext var0, smt var1, float var2, float var3, float var4, float var5, float var6, int var7) {
       if (var7 >>> 24 != 0) {
          float var8 = var4 * var1.scale;
          int var9 = spd(var8);
@@ -495,12 +495,12 @@ public final class snp {
       }
    }
 
-   private static int spd(float var0) {
+   static int spd(float var0) {
       int var1 = Math.round((float)(Math.log(Math.max(0.01F, var0) / 16.0F) / Math.log(2.0) * 8.0)) + 20;
       return Math.max(0, Math.min(sns.length - 1, var1));
    }
 
-   private static vdn spe(vek var0, int var1) {
+   static vdn spe(vek var0, int var1) {
       vdn var2 = snt[var0.ordinal()][var1];
       if (var2 == null) {
          var2 = veo.get(var0, 16.0F * sns[var1]);
@@ -510,7 +510,7 @@ public final class snp {
       return var2;
    }
 
-   private static float spf(String var0, vek var1) {
+   static float spf(String var0, vek var1) {
       return spe(var1, 20).width(var0) / 16.0F;
    }
 

@@ -12,12 +12,12 @@ public final class tbx {
    public final int h2;
    public final int out;
    public final double[] p;
-   private final int tby;
-   private final int tbz;
-   private final int tca;
-   private final int tcb;
-   private final int tcc;
-   private final int tcd;
+   final int tby;
+   final int tbz;
+   final int tca;
+   final int tcb;
+   final int tcc;
+   final int tcd;
 
    public tbx(int var1, int var2, int var3, int var4) {
       this.in = var1;
@@ -43,7 +43,7 @@ public final class tbx {
       }
    }
 
-   private void tcg(Random var1, int var2, int var3, double var4) {
+   void tcg(Random var1, int var2, int var3, double var4) {
       for (int var6 = 0; var6 < var3; var6++) {
          this.p[var2 + var6] = var1.nextGaussian() * var4;
       }

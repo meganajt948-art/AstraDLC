@@ -13,7 +13,7 @@ import net.minecraft.client.render.state.WorldRenderState;
 import net.minecraft.particle.ParticlesMode;
 
 public class lub extends kfe {
-   private final vlv luc = this.add(
+   final vlv luc = this.add(
       new vlv(
          a.c(-494823657, "靚\ueedf搟謁熽\uf749䵖쒢嫹큌垂"),
          a.c(-767722965, "穷Ͻ褬\u1758鲋ᨾꁰ⦐럎"),
@@ -22,41 +22,41 @@ public class lub extends kfe {
          a.b("涻ᐬ黳\u008a", -2112721416)
       )
    );
-   private final vkl lud = this.add(new vkl(a.c(204055694, "\ua4c8\udd58埄짣䈱쒊绎\uf732"), true));
-   private final vkl lue = this.add(new vkl(a.d("節茽ড鞕᱉髢€ꥀ㜒뷺㩺쀐从흺崢\udbcb憀", 654949909, 262489319), true));
-   private final vkl luf = this.add(new vkl(a.d("Ꮄ樤\ue0b8纊\uf552珠즩䁉\ude01", 1454330699, 1758019768), true));
-   private final vkl lug = this.add(new vkl(a.d("킑꤃⏂붡㙡낂ઁ荡ᴭ鞚ၔ\uea2f擷﵏眊", 802527693, 445204757), true));
-   private final vkl luh = this.add(new vkl(a.c(1178039888, "瘐ྀ蔜ᬯ郳ᙄ강◬믶ㄅ뛘䲠쉼寇"), true));
-   private final vkl lui = this.add(new vkl(a.c(-1878324811, "৷灧\ufafb擇\uef18榢폪婎쑓们줦㍐"), true));
-   private final vkl luj = this.add(new vkl(a.d("둷췧䝻\ud943劐퐼湭\ue781秇\uf365璷躂\u0001馶\u13f6锈⽚ꂈ㨪뱨㖈俒셬媧", 484727756, -1159663635), true));
-   private final vkl luk = this.add(new vkl(a.c(1787067349, "箁ȓ裒ᚱ鵱ᮒꆇ⡱똽㳞뭈䄲쿿噓\udc1d嫱\ue0b2潵"), true));
-   private final vkl lul = this.add(new vkl(a.b("欥\u12b1顬ؒ跙଼넩㣟ꚓⱰ꯳冞\udf44䛭첢䩄\uf00a", 103377784), true));
-   private final vmc lum = this.add(
+   final vkl lud = this.add(new vkl(a.c(204055694, "\ua4c8\udd58埄짣䈱쒊绎\uf732"), true));
+   final vkl lue = this.add(new vkl(a.d("節茽ড鞕᱉髢€ꥀ㜒뷺㩺쀐从흺崢\udbcb憀", 654949909, 262489319), true));
+   final vkl luf = this.add(new vkl(a.d("Ꮄ樤\ue0b8纊\uf552珠즩䁉\ude01", 1454330699, 1758019768), true));
+   final vkl lug = this.add(new vkl(a.d("킑꤃⏂붡㙡낂ઁ荡ᴭ鞚ၔ\uea2f擷﵏眊", 802527693, 445204757), true));
+   final vkl luh = this.add(new vkl(a.c(1178039888, "瘐ྀ蔜ᬯ郳ᙄ강◬믶ㄅ뛘䲠쉼寇"), true));
+   final vkl lui = this.add(new vkl(a.c(-1878324811, "৷灧\ufafb擇\uef18榢폪婎쑓们줦㍐"), true));
+   final vkl luj = this.add(new vkl(a.d("둷췧䝻\ud943劐퐼湭\ue781秇\uf365璷躂\u0001馶\u13f6锈⽚ꂈ㨪뱨㖈俒셬媧", 484727756, -1159663635), true));
+   final vkl luk = this.add(new vkl(a.c(1787067349, "箁ȓ裒ᚱ鵱ᮒꆇ⡱똽㳞뭈䄲쿿噓\udc1d嫱\ue0b2潵"), true));
+   final vkl lul = this.add(new vkl(a.b("欥\u12b1顬ؒ跙଼넩㣟ꚓⱰ꯳冞\udf44䛭첢䩄\uf00a", 103377784), true));
+   final vmc lum = this.add(
       new vmc(a.d("냬쥸䎥\udddb嘐탵櫠\ue305絇\uf7f4", 1274602420, 668160798), 24.0, 8.0, 64.0, 4.0).suffix(a.b("٧翘\uf508歵\ue0aa昃", 311887363))
    );
-   private final vkl lun = this.add(new vkl(a.b("\u0cd1畁ﾟ懯\uea7d沊훞弼성䯄찚㙱뢥℈ꭖ\u2dbf韺", 858066056), true));
-   private final vmc luo = this.add(
+   final vkl lun = this.add(new vkl(a.b("\u0cd1畁ﾟ懯\uea7d沊훞弼성䯄찚㙱뢥℈ꭖ\u2dbf韺", 858066056), true));
+   final vmc luo = this.add(
       new vmc(a.d("執\u2e6b꒢㫐넛㞧跬З騛ჿ霩洈\ue38b稡", 1269412753, -2100960212), 32.0, 8.0, 96.0, 4.0).suffix(a.c(-295833461, "\uf0ef襐\u0380鷽ᘢ邋"))
    );
-   private final vkl lup = this.add(new vkl(a.b("讧\uf231磰\ue686洅\uebf8冢\ud857䘟첽䭸", 986090474), false));
-   private final vkl luq = this.add(new vkl(a.b("䭽㋭롱♓궚⬩酺ᢐ蛓ప讵燁８暦\uece9樅큍徕", 54479649), false));
-   private static lub lur;
-   private static final wbu<Integer> lus = new wbu<>(var0 -> var0.options.getMaxFps());
-   private static final wbu<Boolean> lut = new wbu<>(var0 -> var0.options.getEnableVsync());
-   private static final wbu<Boolean> luu = new wbu<>(var0 -> var0.options.getEntityShadows());
-   private static final wbu<CloudRenderMode> luv = new wbu<>(var0 -> var0.options.getCloudRenderMode());
-   private static final wbu<ParticlesMode> luw = new wbu<>(var0 -> var0.options.getParticles());
-   private static final wbu<Integer> lux = new wbu<>(var0 -> var0.options.getBiomeBlendRadius());
-   private static final wbu<Integer> luy = new wbu<>(var0 -> var0.options.getMenuBackgroundBlurriness());
-   private static final wbu<Boolean> luz = new wbu<>(var0 -> var0.options.getImprovedTransparency());
-   private static final wbu<Double> lva = new wbu<>(var0 -> var0.options.getEntityDistanceScaling());
-   private static final wbu<Boolean> lvb = new wbu<>(var0 -> var0.options.getCutoutLeaves());
-   private static final wbu<Boolean> lvc = new wbu<>(var0 -> var0.options.getAo());
-   private static final int lvd = 260;
-   private int lve = -1;
-   private int lvf = -1;
-   private Boolean lvg;
-   private static final wbu<?>[] lvh = new wbu[]{lus, lut, luu, luv, luw, lux, luy, luz, lva, lvb, lvc};
+   final vkl lup = this.add(new vkl(a.b("讧\uf231磰\ue686洅\uebf8冢\ud857䘟첽䭸", 986090474), false));
+   final vkl luq = this.add(new vkl(a.b("䭽㋭롱♓궚⬩酺ᢐ蛓ప讵燁８暦\uece9樅큍徕", 54479649), false));
+   static lub lur;
+   static final wbu<Integer> lus = new wbu<>(var0 -> var0.options.getMaxFps());
+   static final wbu<Boolean> lut = new wbu<>(var0 -> var0.options.getEnableVsync());
+   static final wbu<Boolean> luu = new wbu<>(var0 -> var0.options.getEntityShadows());
+   static final wbu<CloudRenderMode> luv = new wbu<>(var0 -> var0.options.getCloudRenderMode());
+   static final wbu<ParticlesMode> luw = new wbu<>(var0 -> var0.options.getParticles());
+   static final wbu<Integer> lux = new wbu<>(var0 -> var0.options.getBiomeBlendRadius());
+   static final wbu<Integer> luy = new wbu<>(var0 -> var0.options.getMenuBackgroundBlurriness());
+   static final wbu<Boolean> luz = new wbu<>(var0 -> var0.options.getImprovedTransparency());
+   static final wbu<Double> lva = new wbu<>(var0 -> var0.options.getEntityDistanceScaling());
+   static final wbu<Boolean> lvb = new wbu<>(var0 -> var0.options.getCutoutLeaves());
+   static final wbu<Boolean> lvc = new wbu<>(var0 -> var0.options.getAo());
+   static final int lvd = 260;
+   int lve = -1;
+   int lvf = -1;
+   Boolean lvg;
+   static final wbu<?>[] lvh = new wbu[]{lus, lut, luu, luv, luw, lux, luy, luz, lva, lvb, lvc};
 
    public lub() {
       super(
@@ -103,7 +103,7 @@ public class lub extends kfe {
       }
    }
 
-   private static void lvk() {
+   static void lvk() {
       for (wbu var3 : lvh) {
          var3.release();
       }
@@ -163,11 +163,11 @@ public class lub extends kfe {
       }
    }
 
-   private static int lvl() {
+   static int lvl() {
       return (Boolean.TRUE.equals(luz.own()) ? 1 : 0) | (Boolean.TRUE.equals(lvb.own()) ? 2 : 0) | (Boolean.TRUE.equals(lvc.own()) ? 4 : 0);
    }
 
-   private void lvm(MinecraftClient var1) {
+   void lvm(MinecraftClient var1) {
       Integer var2 = var1.options.getMaxFps().getValue();
       if (var2 != null && var2 != this.lvf) {
          this.lvf = var2;
@@ -181,13 +181,13 @@ public class lub extends kfe {
       }
    }
 
-   private static void lvn(MinecraftClient var0) {
+   static void lvn(MinecraftClient var0) {
       if (var0.worldRenderer != null && var0.world != null) {
          var0.worldRenderer.reload();
       }
    }
 
-   private static <T> void lvo(wbu<T> var0, boolean var1, T var2) {
+   static <T> void lvo(wbu<T> var0, boolean var1, T var2) {
       if (var1) {
          var0.override(var2);
       } else {

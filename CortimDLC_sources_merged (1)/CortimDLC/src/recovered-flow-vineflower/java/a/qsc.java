@@ -8,11 +8,11 @@ import java.util.List;
 import net.minecraft.util.math.BlockPos;
 
 public final class qsc {
-   private static final double qsd = 4.0;
-   private static final double qse = 1.5;
-   private final List<qrz> qsf = new ArrayList<>();
-   private final LongOpenHashSet qsg = new LongOpenHashSet();
-   private LongOpenHashSet qsh;
+   static final double qsd = 4.0;
+   static final double qse = 1.5;
+   final List<qrz> qsf = new ArrayList<>();
+   final LongOpenHashSet qsg = new LongOpenHashSet();
+   LongOpenHashSet qsh;
 
    public void clear() {
       this.qsf.clear();
@@ -112,7 +112,7 @@ public final class qsc {
       }
    }
 
-   private void qsk(qrz var1, double var2, double var4, double var6) {
+   void qsk(qrz var1, double var2, double var4, double var6) {
       int var8 = this.qsf.size();
       int var9 = var8;
       double var10 = Double.MAX_VALUE;
@@ -140,7 +140,7 @@ public final class qsc {
       }
    }
 
-   private static List<qrz> qsl(LongArrayList var0) {
+   static List<qrz> qsl(LongArrayList var0) {
       ArrayList var1 = new ArrayList();
       LongArrayList var2 = new LongArrayList(var0);
 
@@ -182,7 +182,7 @@ public final class qsc {
       return var1;
    }
 
-   private static List<qrz> qsm(List<qrz> var0, double var1, double var3, double var5) {
+   static List<qrz> qsm(List<qrz> var0, double var1, double var3, double var5) {
       ArrayList var7 = new ArrayList(var0);
       ArrayList var8 = new ArrayList(var0.size());
       double var9 = var1;
@@ -212,7 +212,7 @@ public final class qsc {
       return var8;
    }
 
-   private static void qsn(List<qrz> var0, int var1, double var2, double var4, double var6, int var8) {
+   static void qsn(List<qrz> var0, int var1, double var2, double var4, double var6, int var8) {
       int var9 = var0.size();
       boolean var10 = true;
 
@@ -241,7 +241,7 @@ public final class qsc {
       }
    }
 
-   private static double qso(double var0, double var2, double var4, double var6, double var8, double var10) {
+   static double qso(double var0, double var2, double var4, double var6, double var8, double var10) {
       double var12 = var0 - var6;
       double var14 = (var2 - var8) * 1.5;
       double var16 = var4 - var10;

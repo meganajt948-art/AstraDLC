@@ -6,29 +6,29 @@ import java.util.List;
 import net.minecraft.client.gui.DrawContext;
 
 final class hjg {
-   private static final float hjh = 10.0F;
-   private static final float hji = 27.0F;
-   private static final vdn hjj = veo.bold(5.5F);
-   private static final String hjk = a.c(2065082239, "Ꜫ\ude84呎");
-   private static final int hjl = -14003;
-   private static final int hjm = -1013204;
-   private static final int hjn = -14018301;
-   private static final boolean hjo = !Boolean.getBoolean(a.b("셍룶㈦걏⟝ꅰ᭾銙\u0ccf虴Ƶﯕ甔\ueca2", 1706410277));
+   static final float hjh = 10.0F;
+   static final float hji = 27.0F;
+   static final vdn hjj = veo.bold(5.5F);
+   static final String hjk = a.c(2065082239, "Ꜫ\ude84呎");
+   static final int hjl = -14003;
+   static final int hjm = -1013204;
+   static final int hjn = -14018301;
+   static final boolean hjo = !Boolean.getBoolean(a.b("셍룶㈦걏⟝ꅰ᭾銙\u0ccf虴Ƶﯕ甔\ueca2", 1706410277));
    final kfe module;
    final String title;
-   private final String hjp;
+   final String hjp;
    final List<imn> rows = new ArrayList<>();
-   private vkl hjq;
-   private final irk hjr;
-   private final vcj hjs = new vcj(14.0F);
-   private final vcj hjt;
-   private final vcj hju = new vcj(13.0F, 1.0F);
-   private final vcj hjv = new vcj(16.0F);
-   private final vcj hjw = new vcj(14.0F);
-   private final vcj hjx = new vcj(7.0F);
-   private boolean hjy;
-   private float hjz;
-   private float hka;
+   vkl hjq;
+   final irk hjr;
+   final vcj hjs = new vcj(14.0F);
+   final vcj hjt;
+   final vcj hju = new vcj(13.0F, 1.0F);
+   final vcj hjv = new vcj(16.0F);
+   final vcj hjw = new vcj(14.0F);
+   final vcj hjx = new vcj(7.0F);
+   boolean hjy;
+   float hjz;
+   float hka;
    float x;
    float y;
    float w;
@@ -124,27 +124,27 @@ final class hjg {
       this.hjy = var1 && !this.rows.isEmpty();
    }
 
-   private boolean hkd() {
+   boolean hkd() {
       return this.module != null ? this.module.isEnabled() : this.hjq != null && this.hjq.get();
    }
 
-   private boolean hke() {
+   boolean hke() {
       return this.module != null && !this.module.isLocked() || this.hjq != null;
    }
 
-   private boolean hkf() {
+   boolean hkf() {
       return this.module != null && this.module.isVip();
    }
 
-   private boolean hkg() {
+   boolean hkg() {
       return this.module != null && this.module.isMaintenance();
    }
 
-   private boolean hkh() {
+   boolean hkh() {
       return this.module != null && this.module.isLocked();
    }
 
-   private float hki() {
+   float hki() {
       if (this.rows.isEmpty()) {
          return 0.0F;
       }
@@ -158,7 +158,7 @@ final class hjg {
       return var1 + 6.0F;
    }
 
-   private float hkj() {
+   float hkj() {
       if (this.rows.isEmpty()) {
          return 0.0F;
       }
@@ -292,20 +292,20 @@ final class hjg {
       var1.getMatrices().popMatrix();
    }
 
-   private float hkk(float var1) {
+   float hkk(float var1) {
       float var2 = this.hjx.step(0.0F, var1);
       return var2 < 0.01F ? 0.0F : (float)Math.sin((1.0F - var2) * Math.PI * 6.0) * 2.2F * var2;
    }
 
-   private static String hkl() {
+   static String hkl() {
       return wap.s(a.c(-1818683432, "ឞ渃\ue4d8窮\uf163矃춛䑥\uda35傉흜"), a.b("㔱䲗옴尮ퟷ唦\uef05曵\uf8a5牨\uf5b2", -1266339560));
    }
 
-   private static float hkm(String var0) {
+   static float hkm(String var0) {
       return 8.5F + hjj.width(var0) + 9.0F;
    }
 
-   private void hkn(DrawContext var1, float var2, float var3, float var4, vhz var5, String var6, int var7, int var8, int var9, int var10) {
+   void hkn(DrawContext var1, float var2, float var3, float var4, vhz var5, String var6, int var7, int var8, int var9, int var10) {
       float var11 = hkm(var6);
       float var12 = 11.0F;
       float var13 = var3 - var12 * 0.5F;
@@ -332,7 +332,7 @@ final class hjg {
       hjj.draw(var1, var6, var2 + 4.5F + var21 + 2.5F, hjj.centerTop(var3), var9);
    }
 
-   private float hko(DrawContext var1, hlc var2, float var3, float var4, float var5, float var6, float var7, float var8, float var9) {
+   float hko(DrawContext var1, hlc var2, float var3, float var4, float var5, float var6, float var7, float var8, float var9) {
       int var10 = this.hjr.get();
       boolean var11 = var10 != -1;
       String var12 = var9 > 0.5F

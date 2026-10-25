@@ -15,7 +15,7 @@ final class vqu {
       a.b("\udf4dꛙⰌ뉺", 1551884035)
    );
 
-   private vqu() {
+   vqu() {
    }
 
    static float[] cue(String var0) {
@@ -30,7 +30,7 @@ final class vqu {
       };
    }
 
-   private static float[] vqx() {
+   static float[] vqx() {
       float[] var0 = vrh(0.7);
       vrn(var0, 0.0, 5400.0, 2.2, 0.22, 2.0E-4, 0.0018, 61L);
       vrj(var0, 0.0, 2349.32, 0.12, 4.0E-4, 0.012, 0.0);
@@ -40,7 +40,7 @@ final class vqu {
       return vrr(vrp(var0, 0.2, 0.7), 0.5);
    }
 
-   private static float[] vqy() {
+   static float[] vqy() {
       float[] var0 = vrh(0.8);
       double[] var1 = new double[]{1396.91, 1046.5, 1396.91};
 
@@ -55,7 +55,7 @@ final class vqu {
       return vrr(vrp(var0, 0.16, 0.55), 0.55);
    }
 
-   private static float[] vqz() {
+   static float[] vqz() {
       float[] var0 = vrh(0.6);
       vrl(var0, 0.0, 640.0, 1900.0, 0.018, 0.5, 0.0012, 0.045, 0.12);
       vrg(var0, 0.058, 4300.0, 6600.0, 0.55, 0.0012, 81L);
@@ -64,14 +64,14 @@ final class vqu {
       return vrr(vrp(var0, 0.15, 0.5), 0.5);
    }
 
-   private static float[] vra() {
+   static float[] vra() {
       float[] var0 = vrh(0.3);
       vrl(var0, 0.0, 1320.0, 640.0, 0.028, 0.7, 0.0015, 0.045, 0.08);
       vrn(var0, 0.0, 3000.0, 2.0, 0.12, 2.0E-4, 0.002, 91L);
       return vrr(vrp(var0, 0.1, 0.3), 0.42);
    }
 
-   private static float[] vrb() {
+   static float[] vrb() {
       float[] var0 = vrh(1.0);
       double[] var1 = new double[]{1046.5, 1318.51, 1567.98};
 
@@ -84,7 +84,7 @@ final class vqu {
       return vrr(vrp(var0, 0.22, 0.8), 0.5);
    }
 
-   private static float[] vrc() {
+   static float[] vrc() {
       float[] var0 = vrh(0.8);
       vre(var0, 0.0, 1046.5, 0.7, 0.16);
       vre(var0, 0.075, 1567.98, 0.9, 0.24);
@@ -92,42 +92,42 @@ final class vqu {
       return vrr(vrp(var0, 0.2, 0.7), 0.48);
    }
 
-   private static void vrd(float[] var0, double var1, double var3, double var5, double var7) {
+   static void vrd(float[] var0, double var1, double var3, double var5, double var7) {
       vrj(var0, var1, var3, var5, 0.0015, var7, 0.0);
       vrj(var0, var1, var3 * 3.93, var5 * 0.22, 0.001, 0.028, 0.6);
       vrj(var0, var1, var3 * 9.2, var5 * 0.05, 6.0E-4, 0.008, 1.2);
       vrn(var0, var1, var3 * 2.0, 1.5, var5 * 0.4, 6.0E-4, 0.002, (long)var3);
    }
 
-   private static void vre(float[] var0, double var1, double var3, double var5, double var7) {
+   static void vre(float[] var0, double var1, double var3, double var5, double var7) {
       vrj(var0, var1, var3, var5 * 0.8, 0.006, var7, 0.0);
       vrj(var0, var1, var3 * 1.0017, var5 * 0.2, 0.006, var7 * 1.2, 1.1);
       vrj(var0, var1, var3 * 2.0, var5 * 0.14, 0.004, var7 * 0.35, 0.4);
       vrj(var0, var1, var3 * 3.0, var5 * 0.04, 0.003, var7 * 0.15, 2.2);
    }
 
-   private static void vrf(float[] var0, double var1, double var3, double var5, long var7) {
+   static void vrf(float[] var0, double var1, double var3, double var5, long var7) {
       vrn(var0, var1, var3, 6.0, var5, 3.0E-4, 0.018, var7);
       vrj(var0, var1, var3, var5 * 0.35, 5.0E-4, 0.03, 0.0);
       vrj(var0, var1, var3 * 2.76, var5 * 0.08, 4.0E-4, 0.01, 0.7);
       vrj(var0, var1, var3 * 0.5, var5 * 0.1, 0.001, 0.02, 0.3);
    }
 
-   private static void vrg(float[] var0, double var1, double var3, double var5, double var7, double var9, long var11) {
+   static void vrg(float[] var0, double var1, double var3, double var5, double var7, double var9, long var11) {
       vrn(var0, var1, var3, 4.0, var7, 1.0E-4, var9, var11);
       vrn(var0, var1, var5, 5.0, var7 * 0.6, 1.0E-4, var9 * 0.7, var11 + 1L);
       vrj(var0, var1, var3, var7 * 0.25, 2.0E-4, var9 * 1.5, 0.0);
    }
 
-   private static float[] vrh(double var0) {
+   static float[] vrh(double var0) {
       return new float[(int)Math.ceil(var0 * 44100.0)];
    }
 
-   private static double vri(double var0, double var2) {
+   static double vri(double var0, double var2) {
       return !(var2 <= 0.0) && !(var0 >= var2) ? 0.5 - 0.5 * Math.cos(Math.PI * var0 / var2) : 1.0;
    }
 
-   private static void vrj(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11) {
+   static void vrj(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11) {
       if (!(var3 >= 19845.0)) {
          int var13 = (int)(var1 * 44100.0);
          int var14 = Math.min(var0.length, var13 + (int)((var7 + var9 * 9.0) * 44100.0));
@@ -140,7 +140,7 @@ final class vqu {
       }
    }
 
-   private static void vrk(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, double var13) {
+   static void vrk(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, double var13) {
       int var15 = (int)(var1 * 44100.0);
       int var16 = Math.min(var0.length, var15 + (int)((var11 + var13 * 9.0) * 44100.0));
       double var17 = (Math.PI * 2) * var3 / 44100.0;
@@ -154,7 +154,7 @@ final class vqu {
       }
    }
 
-   private static void vrl(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, double var13, double var15) {
+   static void vrl(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, double var13, double var15) {
       int var17 = (int)(var1 * 44100.0);
       int var18 = Math.min(var0.length, var17 + (int)((var11 + var13 * 9.0) * 44100.0));
       double var19 = 0.0;
@@ -168,7 +168,7 @@ final class vqu {
       }
    }
 
-   private static void vrm(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, double var13, long var15) {
+   static void vrm(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, double var13, long var15) {
       Random var17 = new Random(var15);
       int var18 = (int)(var1 * 44100.0);
       int var19 = Math.min(var0.length - var18, (int)((var3 + var13) * 44100.0));
@@ -198,7 +198,7 @@ final class vqu {
       }
    }
 
-   private static void vrn(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, long var13) {
+   static void vrn(float[] var0, double var1, double var3, double var5, double var7, double var9, double var11, long var13) {
       if (!(var3 >= 19845.0)) {
          Random var15 = new Random(var13);
          double var16 = (Math.PI * 2) * var3 / 44100.0;
@@ -227,7 +227,7 @@ final class vqu {
       }
    }
 
-   private static void vro(float[] var0, double var1) {
+   static void vro(float[] var0, double var1) {
       double var3 = (Math.PI * 2) * var1 / 44100.0;
       double var5 = Math.sin(var3) / 1.4142;
       double var7 = Math.cos(var3);
@@ -252,7 +252,7 @@ final class vqu {
       }
    }
 
-   private static float[] vrp(float[] var0, double var1, double var3) {
+   static float[] vrp(float[] var0, double var1, double var3) {
       vrq(var0, 0.06);
       float[] var5 = new float[var0.length + (int)(var3 * 0.8 * 44100.0)];
       double[] var6 = new double[var5.length];
@@ -297,7 +297,7 @@ final class vqu {
       return var5;
    }
 
-   private static void vrq(float[] var0, double var1) {
+   static void vrq(float[] var0, double var1) {
       int var3 = Math.min(var0.length, (int)(var1 * 44100.0));
 
       for (int var4 = 0; var4 < var3; var4++) {
@@ -305,7 +305,7 @@ final class vqu {
       }
    }
 
-   private static float[] vrr(float[] var0, double var1) {
+   static float[] vrr(float[] var0, double var1) {
       float var3 = 0.0F;
 
       for (float var7 : var0) {

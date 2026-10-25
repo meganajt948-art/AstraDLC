@@ -24,13 +24,13 @@ import org.lwjgl.glfw.GLFW;
 
 public final class kej {
    public static final boolean ENABLED = !a.c(55813747, "ꘐ\udfa6啸쬖䃗").equalsIgnoreCase(System.getProperty(a.b("笭ʖ衆ᘯ鶽ᬐꄏ⣩뚷㰆믎䆾콴", -716801210)));
-   private static final Map<ClickableWidget, keg> kek = new WeakHashMap<>();
-   private static Field kel;
-   private static Field kem;
-   private static boolean ken;
-   private static boolean keo;
+   static final Map<ClickableWidget, keg> kek = new WeakHashMap<>();
+   static Field kel;
+   static Field kem;
+   static boolean ken;
+   static boolean keo;
 
-   private kej() {
+   kej() {
    }
 
    public static void attach(Screen var0) {
@@ -45,7 +45,7 @@ public final class kej {
       }
    }
 
-   private static void ker(Screen var0) {
+   static void ker(Screen var0) {
       if (!keo && !dry.armed()) {
          if (!ken) {
             ken = true;
@@ -92,12 +92,12 @@ public final class kej {
       }
    }
 
-   private static boolean kes(ClickableWidget var0) {
+   static boolean kes(ClickableWidget var0) {
       Class var1 = var0.getClass();
       return var1 == Text.class || var1 == CyclingButtonWidget.class || var0 instanceof SliderWidget;
    }
 
-   private static void ket(DrawContext var0, ClickableWidget var1, int var2, int var3, float var4, float var5) {
+   static void ket(DrawContext var0, ClickableWidget var1, int var2, int var3, float var4, float var5) {
       if (var1.visible) {
          float var6 = var1.getAlpha();
          var1.setAlpha(0.0F);
@@ -112,7 +112,7 @@ public final class kej {
       }
    }
 
-   private static void keu(DrawContext var0, ClickableWidget var1, int var2, int var3, float var4, float var5) {
+   static void keu(DrawContext var0, ClickableWidget var1, int var2, int var3, float var4, float var5) {
       if (!(var4 <= 0.003F)) {
          unf.observe(var0);
          keg var6 = kek.computeIfAbsent(var1, var1x -> new keg(var5));
@@ -202,7 +202,7 @@ public final class kej {
       }
    }
 
-   private static void kev(DrawContext var0, ClickableWidget var1, float var2, float var3, float var4, float var5, int var6, boolean var7) {
+   static void kev(DrawContext var0, ClickableWidget var1, float var2, float var3, float var4, float var5, int var6, boolean var7) {
       double var8 = 0.0;
 
       try {
@@ -221,7 +221,7 @@ public final class kej {
       uut.circle(var0, var13, var14, 1.7F + 0.5F * var5, kez(kce.mix(16777215, var6, 0.2F), var7 ? 1.0F : 0.5F));
    }
 
-   private static void kew(DrawContext var0, ClickableWidget var1, float var2, float var3, float var4, boolean var5, float var6) {
+   static void kew(DrawContext var0, ClickableWidget var1, float var2, float var3, float var4, boolean var5, float var6) {
       net.minecraft.text.Text var7 = var1.getMessage();
       String var8 = var7.getString();
       int var9 = var5 ? kce.mix(15133683, 16777215, var4) : 8028814;
@@ -246,12 +246,12 @@ public final class kej {
       }
    }
 
-   private static boolean kex(net.minecraft.text.Text var0) {
+   static boolean kex(net.minecraft.text.Text var0) {
       Optional var1 = var0.visit((var0x, var1x) -> var0x.getColor() != null ? Optional.of(Boolean.TRUE) : Optional.empty(), Style.EMPTY);
       return var1.isEmpty();
    }
 
-   private static boolean key(vdn var0, String var1) {
+   static boolean key(vdn var0, String var1) {
       int var2 = 0;
 
       while (var2 < var1.length()) {
@@ -266,7 +266,7 @@ public final class kej {
       return true;
    }
 
-   private static int kez(int var0, float var1) {
+   static int kez(int var0, float var1) {
       return kce.rgba(var0, var1);
    }
 }

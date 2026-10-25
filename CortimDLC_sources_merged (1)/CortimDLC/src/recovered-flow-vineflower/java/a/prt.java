@@ -6,7 +6,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class prt {
-   private prt() {
+   prt() {
    }
 
    public static Vec3d getEyesPos(Entity var0) {

@@ -23,8 +23,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class rhs extends kfe {
-   private static rhs rht;
-   private final vlj rhu = this.add(
+   static rhs rht;
+   final vlj rhu = this.add(
       new vlj(
          "Mobs",
          vlg.MOBS,
@@ -46,25 +46,25 @@ public class rhs extends kfe {
          "minecraft:shulker"
       )
    );
-   private final vlv rhv = this.add(new vlv("Mode", "Outline", "Outline", "Box"));
-   private final vkl rhw = this.add(new vkl("Mob colors", true));
-   private final vla rhx = this.add(new vla("Color", "Theme"));
-   private final vkl rhy = this.add(new vkl("Only owned", false));
-   private final vmc rhz = this.add(new vmc("Range", 96.0, 16.0, 256.0, 8.0).suffix("blocks"));
-   private final vmc ria = this.add(new vmc("Outline", 1.0, 0.0, 1.0, 0.05).percent());
-   private final vmc rib = this.add(new vmc("Width", 1.5, 0.5, 4.0, 0.1));
-   private final vmc ric = this.add(new vmc("Fill", 0.12, 0.0, 0.6, 0.01).percent());
-   private final vmc rid = this.add(new vmc("Glow", 0.4, 0.0, 1.0, 0.05).percent());
-   private boolean[] rie = new boolean[0];
-   private int rif = -1;
-   private long rig = -1L;
-   private final double[][] rih = new double[8][3];
-   private final float[][] rii = new float[8][2];
-   private final boolean[] rij = new boolean[8];
-   private final float[] rik = new float[4];
-   private final float[] ril = new float[2];
-   private static final int[][] rim = new int[][]{{0, 1}, {2, 3}, {4, 5}, {6, 7}, {0, 2}, {1, 3}, {4, 6}, {5, 7}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
-   private static final int[][] rin = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
+   final vlv rhv = this.add(new vlv("Mode", "Outline", "Outline", "Box"));
+   final vkl rhw = this.add(new vkl("Mob colors", true));
+   final vla rhx = this.add(new vla("Color", "Theme"));
+   final vkl rhy = this.add(new vkl("Only owned", false));
+   final vmc rhz = this.add(new vmc("Range", 96.0, 16.0, 256.0, 8.0).suffix("blocks"));
+   final vmc ria = this.add(new vmc("Outline", 1.0, 0.0, 1.0, 0.05).percent());
+   final vmc rib = this.add(new vmc("Width", 1.5, 0.5, 4.0, 0.1));
+   final vmc ric = this.add(new vmc("Fill", 0.12, 0.0, 0.6, 0.01).percent());
+   final vmc rid = this.add(new vmc("Glow", 0.4, 0.0, 1.0, 0.05).percent());
+   boolean[] rie = new boolean[0];
+   int rif = -1;
+   long rig = -1L;
+   final double[][] rih = new double[8][3];
+   final float[][] rii = new float[8][2];
+   final boolean[] rij = new boolean[8];
+   final float[] rik = new float[4];
+   final float[] ril = new float[2];
+   static final int[][] rim = new int[][]{{0, 1}, {2, 3}, {4, 5}, {6, 7}, {0, 2}, {1, 3}, {4, 6}, {5, 7}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
+   static final int[][] rin = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
 
    public rhs() {
       super(new String(new char[]{'M', 'o', 'b', 'E', 'S', 'P'}), "Chosen mobs through walls, each in its colour", kfa.RENDER);
@@ -95,7 +95,7 @@ public class rhs extends kfe {
       return this.rhw.get() ? kindColor(var1) : this.rhx.color() | 0xFF000000;
    }
 
-   private void riq() {
+   void riq() {
       boolean[] var1 = new boolean[Registries.ENTITY_TYPE.size()];
 
       for (String var3 : this.rhu.ids()) {
@@ -112,7 +112,7 @@ public class rhs extends kfe {
       this.rif = this.rhu.version();
    }
 
-   private static boolean rir(Entity var0) {
+   static boolean rir(Entity var0) {
       return !(var0 instanceof TameableEntity var1 && var1.isTamed()) && !(var0 instanceof AbstractHorseEntity var2 && var2.isTame())
          ? var0.hasCustomName() || var0 instanceof MobEntity var3 && var3.isLeashed()
          : true;
@@ -212,7 +212,7 @@ public class rhs extends kfe {
       }
    }
 
-   private List<LivingEntity> ris(MinecraftClient var1, Vec3d var2, double var3) {
+   List<LivingEntity> ris(MinecraftClient var1, Vec3d var2, double var3) {
       ArrayList var5 = new ArrayList();
       double var6 = var3 * var3;
 
@@ -314,7 +314,7 @@ public class rhs extends kfe {
       }
    }
 
-   private void rit(DrawContext var1, usn var2, LivingEntity var3, Vec3d var4, int var5) {
+   void rit(DrawContext var1, usn var2, LivingEntity var3, Vec3d var4, int var5) {
       double var6 = var3.getWidth() * 0.5 + 0.02;
       double var8 = var3.getHeight() + 0.02;
 
@@ -366,7 +366,7 @@ public class rhs extends kfe {
       }
    }
 
-   private static boolean riu(int var0, Vec3d var1, Vec3d var2, double var3, double var5) {
+   static boolean riu(int var0, Vec3d var1, Vec3d var2, double var3, double var5) {
       return switch (var0) {
          case 0 -> var1.y < var2.y;
          case 1 -> var1.y > var2.y + var5;

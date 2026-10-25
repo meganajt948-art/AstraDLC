@@ -3,12 +3,12 @@ package a;
 import net.minecraft.screen.slot.SlotActionType;
 
 final class nwj {
-   private final int nwk;
-   private final int nwl;
-   private final SlotActionType nwm;
-   private final int nwn;
+   final int nwk;
+   final int nwl;
+   final SlotActionType nwm;
+   final int nwn;
 
-   private nwj(int slot, int button, SlotActionType type, int cursor) {
+   nwj(int slot, int button, SlotActionType type, int cursor) {
       this.nwk = slot;
       this.nwl = button;
       this.nwm = type;

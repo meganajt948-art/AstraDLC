@@ -54,13 +54,13 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 public final class gtq {
-   private static int gtr;
-   private static int gts;
-   private static final String gtt = System.getenv(a.d("ꇍ\ud876劦쳏䝽송篾\uf219汏\ue6f4愵魕ᖔ谢ٺ肇㫘딏⾷ꧭ", -2057813570, -1980833759));
-   private static final List<PlayerEntity> gtu = new ArrayList<>();
-   private static Team gtv;
-   private static final int gtw = 70;
-   private static final String[] gtx = new String[]{
+   static int gtr;
+   static int gts;
+   static final String gtt = System.getenv(a.d("ꇍ\ud876劦쳏䝽송篾\uf219汏\ue6f4愵魕ᖔ谢ٺ肇㫘딏⾷ꧭ", -2057813570, -1980833759));
+   static final List<PlayerEntity> gtu = new ArrayList<>();
+   static Team gtv;
+   static final int gtw = 70;
+   static final String[] gtx = new String[]{
       a.d("ꉈ\udbf0儣", -1446839478, -795453074),
       a.b("羞ز賰ዥ饾Ὴꖁⱴ눷㢋", 1699446748),
       a.d("걒헪弹", 1844249284, 116109050),
@@ -74,30 +74,30 @@ public final class gtq {
       a.c(459575618, "鄦\ue89e才ﱺ矹\uf149䬝싰岨혞凄"),
       a.d("뷻쑇五킩嬱\udd81果\uee39灧𣏕紞蝨স退", 313983572, 781696960)
    };
-   private static final int[] gty = new int[]{0, 1, 0, 4, 0, 5, 0, 7, 0, 8, 9, 8};
-   private static long gtz;
-   private static long gua;
-   private static boolean gub;
-   private static PlayerEntity guc;
-   private static String gud;
-   private static final List<ServerBossBar> gue = new ArrayList<>();
-   private static double guf;
-   private static float gug = Float.NaN;
-   private static double guh;
-   private static float gui;
-   private static int guj;
-   private static final int[] guk = new int[]{Integer.MIN_VALUE, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 8};
-   private static final int gul = 70;
-   private static int gum;
-   private static int gun;
-   private static int guo;
-   private static int gup;
-   private static String guq;
-   private static String gur = a.b("敧᳟阄\u083f莩ԛ뽈㚽ꢤ", -1344969464);
-   private static int gus = -1;
-   private static int gut;
+   static final int[] gty = new int[]{0, 1, 0, 4, 0, 5, 0, 7, 0, 8, 9, 8};
+   static long gtz;
+   static long gua;
+   static boolean gub;
+   static PlayerEntity guc;
+   static String gud;
+   static final List<ServerBossBar> gue = new ArrayList<>();
+   static double guf;
+   static float gug = Float.NaN;
+   static double guh;
+   static float gui;
+   static int guj;
+   static final int[] guk = new int[]{Integer.MIN_VALUE, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 8};
+   static final int gul = 70;
+   static int gum;
+   static int gun;
+   static int guo;
+   static int gup;
+   static String guq;
+   static String gur = a.b("敧᳟阄\u083f莩ԛ뽈㚽ꢤ", -1344969464);
+   static int gus = -1;
+   static int gut;
 
-   private gtq() {
+   gtq() {
    }
 
    public static void install() {
@@ -111,7 +111,7 @@ public final class gtq {
       }
    }
 
-   private static void guw(MinecraftClient var0) {
+   static void guw(MinecraftClient var0) {
       gts++;
 
       try {
@@ -671,7 +671,7 @@ public final class gtq {
       }
    }
 
-   private static void gux(MinecraftClient var0) throws Exception {
+   static void gux(MinecraftClient var0) throws Exception {
       Screen var1 = var0.currentScreen;
       switch (gts) {
          case 1:
@@ -1098,7 +1098,7 @@ public final class gtq {
       }
    }
 
-   private static void guy(MinecraftClient var0) throws Exception {
+   static void guy(MinecraftClient var0) throws Exception {
       Screen var1 = var0.currentScreen;
       switch (gts) {
          case 1:
@@ -1185,7 +1185,7 @@ public final class gtq {
       }
    }
 
-   private static void guz(MinecraftClient var0, Screen var1, float var2, float var3) throws Exception {
+   static void guz(MinecraftClient var0, Screen var1, float var2, float var3) throws Exception {
       float var4 = gva(var1, a.c(-774990299, "降\uefe1攩ﭖ炏\uf639䱜"));
       float var5 = gva(var1, a.d("㡲䇞쬖啩\udeb0堆\ue262", -165481251, 1770179783));
       float var6 = gva(var1, a.c(-1285709508, "ꅊ\ud8eb刺챆䞘"));
@@ -1194,13 +1194,13 @@ public final class gtq {
       GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), (var4 + var2 * var6) * var8, (var5 + var3 * var7) * var8);
    }
 
-   private static float gva(Object var0, String var1) throws Exception {
+   static float gva(Object var0, String var1) throws Exception {
       Field var2 = var0.getClass().getDeclaredField(var1);
       var2.setAccessible(true);
       return var2.getFloat(var0);
    }
 
-   private static void gvb(MinecraftClient var0) throws Exception {
+   static void gvb(MinecraftClient var0) throws Exception {
       rjy var1 = rjy.get();
       Screen var2 = var0.currentScreen;
       switch (gts) {
@@ -1313,7 +1313,7 @@ public final class gtq {
       }
    }
 
-   private static void gvc(MinecraftClient var0) throws Exception {
+   static void gvc(MinecraftClient var0) throws Exception {
       kfx var1 = Flow.getInstance().getModuleManager();
       ruv var2 = (ruv)var1.getByName(a.c(1052493468, "웁뽅㖅ꯡ‴Ꚕᳶ锑୍"));
       switch (gts) {
@@ -1493,14 +1493,14 @@ public final class gtq {
       }
    }
 
-   private static void gvd() {
+   static void gvd() {
       if (!gub) {
          gub = true;
          HudRenderCallback.EVENT.register((HudRenderCallback)(var0, var1) -> gtz++);
       }
    }
 
-   private static void gve(MinecraftClient var0, ruv var1, int var2) {
+   static void gve(MinecraftClient var0, ruv var1, int var2) {
       if (var0.currentScreen != null) {
          var0.setScreen(null);
       }
@@ -1514,25 +1514,25 @@ public final class gtq {
       var1.setEnabled(var2 == 6 || var3);
    }
 
-   private static void gvf(PlayerEntity var0) {
+   static void gvf(PlayerEntity var0) {
       var0.setHealth(Math.max(2.0F, var0.getHealth() - 5.0F));
       var0.hurtTime = 10;
       var0.maxHurtTime = 10;
    }
 
-   private static float gvg(jcs var0, String var1) throws Exception {
+   static float gvg(jcs var0, String var1) throws Exception {
       Field var2 = jcs.class.getDeclaredField(var1);
       var2.setAccessible(true);
       return var2.getFloat(var0);
    }
 
-   private static void gvh(jcs var0) throws Exception {
+   static void gvh(jcs var0) throws Exception {
       Field var1 = jcs.class.getDeclaredField(a.b("砩Ƃ譂ᔬ", 2024503390));
       var1.setAccessible(true);
       var1.setFloat(var0, 1.0F);
    }
 
-   private static PlayerEntity gvi(MinecraftClient var0, String var1, double var2, double var4, float var6) {
+   static PlayerEntity gvi(MinecraftClient var0, String var1, double var2, double var4, float var6) {
       OtherClientPlayerEntity var7 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), var1));
       Vec3d var8 = var0.player.getRotationVec(1.0F).multiply(1.0, 0.0, 1.0).normalize();
       Vec3d var9 = new Vec3d(-var8.z, 0.0, var8.x);
@@ -1544,13 +1544,13 @@ public final class gtq {
       return var7;
    }
 
-   private static ItemStack gvj(Item var0) {
+   static ItemStack gvj(Item var0) {
       ItemStack var1 = new ItemStack(var0);
       var1.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true);
       return var1;
    }
 
-   private static PlayerEntity gvk(MinecraftClient var0) {
+   static PlayerEntity gvk(MinecraftClient var0) {
       OtherClientPlayerEntity var1 = new OtherClientPlayerEntity(var0.world, new GameProfile(UUID.randomUUID(), a.c(-36600509, "蔂ﲅ癁\ue834揯")));
       Vec3d var2 = var0.player.getRotationVec(1.0F).multiply(1.0, 0.0, 1.0).normalize();
       Vec3d var3 = var0.player.getEntityPos().add(var2.multiply(3.2));
@@ -1566,13 +1566,13 @@ public final class gtq {
       return var1;
    }
 
-   private static ItemStack gvl(Item var0, float var1) {
+   static ItemStack gvl(Item var0, float var1) {
       ItemStack var2 = new ItemStack(var0);
       var2.setDamage(Math.round(var2.getMaxDamage() * var1));
       return var2;
    }
 
-   private static void gvm(MinecraftClient var0, String var1) throws Exception {
+   static void gvm(MinecraftClient var0, String var1) throws Exception {
       Field var2 = hlc.class.getDeclaredField(a.c(1747766233, "쮫눏㣟ꚇ\u2d7eꯓ"));
       var2.setAccessible(true);
       var2.set(null, var1);
@@ -1583,7 +1583,7 @@ public final class gtq {
       var0.setScreen(new hlc());
    }
 
-   private static void gvn() throws Exception {
+   static void gvn() throws Exception {
       for (String var3 : new String[]{a.d("顲\ue1dd欉\uf572纮\uf807䉻", 283812617, -34325749), a.d("띳컜䐈\uda73冯휆浻", 1029626087, 1635282916)}) {
          Field var4 = hlc.class.getDeclaredField(var3);
          var4.setAccessible(true);
@@ -1591,13 +1591,13 @@ public final class gtq {
       }
    }
 
-   private static float gvo(Object var0, String var1) throws Exception {
+   static float gvo(Object var0, String var1) throws Exception {
       Field var2 = jcs.class.getDeclaredField(var1);
       var2.setAccessible(true);
       return var2.getFloat(var0);
    }
 
-   private static void gvp(MinecraftClient var0) {
+   static void gvp(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.c(230570316, "㤓䂔쩐吥\udfe1奇\ue32e櫲\uf4a4縉紐Ω"));
       vlq var3 = null;
@@ -1706,7 +1706,7 @@ public final class gtq {
       }
    }
 
-   private static void gvq(MinecraftClient var0) {
+   static void gvq(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       if (gts == 1) {
          gwi(var0, a.d("\u16ff潈\ue597篮\uf031皂쳚䔪\udb30凒혇ⱱꊢ㬌녀㞦跤", 1033529558, -1361674657));
@@ -1779,7 +1779,7 @@ public final class gtq {
       }
    }
 
-   private static void gvr(MinecraftClient var0) {
+   static void gvr(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       kfe var2 = Flow.getInstance().getModuleManager().getByName(a.b("랞츁䓎\uda96兴ퟁ涁\ue46e", 1589491677));
       byte var3 = 75;
@@ -1875,7 +1875,7 @@ public final class gtq {
       }
    }
 
-   private static void gvs(MinecraftClient var0, String var1) {
+   static void gvs(MinecraftClient var0, String var1) {
       gwi(var0, a.c(1683506763, "䘠㾞땄⬱ꃵ☖鰥ᗧ"));
       gwi(var0, a.b("\ud8f2ꅞ⮜뗥㹿뢜˘謼ᕿ鿃᠒\ue265泷\uf503罛聆䏢찮嚐킘夏⍭궍㘔끬㪦范\u0d51鞵ᆸ騕擔\ueecc眣\uf16d節쑟乣좴儂\udb56ꖡ\u2fe3ꡁ㊑볲կ辀ূ鈛ᱤ\ue6b7漁\ue95a玒\ufdef䙔삝䫳팴", -844441433));
       gwi(var0, a.b("\uf716躺Ѹ騁ᆛ靸ⴼꓘ㪛뀧㟶춁䌓\udae7傿화氆\ue3ca祴ｼ盫ಉ艩", 671151976) + var1 + a.c(-1016843499, "㌫䫍쀀幬햧卞\ue940悵ﻭ瑗\uf382ৢ蜦Ẑ铑ቮ\ua87e➤봝㭍늭죑䙍\udd89寲터條\ue680籦侮"));
@@ -1883,7 +1883,7 @@ public final class gtq {
       gun = 0;
    }
 
-   private static void gvt(MinecraftClient var0, kfe var1, int var2) {
+   static void gvt(MinecraftClient var0, kfe var1, int var2) {
       ClientPlayerEntity var3 = var0.player;
       var3.getInventory().setSelectedSlot(0);
       var3.setPitch(-35.0F);
@@ -1899,7 +1899,7 @@ public final class gtq {
       var1.onKey(var0, var2);
    }
 
-   private static void gvu(MinecraftClient var0, String var1) {
+   static void gvu(MinecraftClient var0, String var1) {
       ClientPlayerEntity var2 = var0.player;
       System.out
          .println(
@@ -1920,7 +1920,7 @@ public final class gtq {
          );
    }
 
-   private static void gvv(MinecraftClient var0, String var1, int var2) {
+   static void gvv(MinecraftClient var0, String var1, int var2) {
       ClientPlayerEntity var3 = var0.player;
       PlayerInventory var4 = var3.getInventory();
       ItemStack var5 = var4.getStack(var2);
@@ -1957,7 +1957,7 @@ public final class gtq {
          );
    }
 
-   private static void gvw(MinecraftClient var0) {
+   static void gvw(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
       pbz var2 = pbz.get();
       switch (gts) {
@@ -2013,7 +2013,7 @@ public final class gtq {
       }
    }
 
-   private static void gvx(MinecraftClient var0) throws Exception {
+   static void gvx(MinecraftClient var0) throws Exception {
       kfx var1 = Flow.getInstance().getModuleManager();
       kfe var2 = var1.getByName(a.c(96451058, "릩쀡䫱풙彖\ud9ef掭\uea5a琞ﺥ祓茋ු"));
       vlv var3 = (vlv)gwg(var2, a.c(40203084, "睞\u0ec5葡ᩢ釁ᝳ교⒭"));
@@ -2160,7 +2160,7 @@ public final class gtq {
       }
    }
 
-   private static void gvy(MinecraftClient var0) throws Exception {
+   static void gvy(MinecraftClient var0) throws Exception {
       kfe var1 = Flow.getInstance().getModuleManager().getByName(a.c(748729174, "댍쪅䁕\ude3d嗲퍋椉\ue0fe纺\uf401珷覯ݰ"));
       switch (gts) {
          case 1:
@@ -2253,7 +2253,7 @@ public final class gtq {
       }
    }
 
-   private static void gvz(MinecraftClient var0, float var1, float var2, String var3) {
+   static void gvz(MinecraftClient var0, float var1, float var2, String var3) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
@@ -2262,7 +2262,7 @@ public final class gtq {
       gus = gts + 8;
    }
 
-   private static void gwa(MinecraftClient var0) {
+   static void gwa(MinecraftClient var0) {
       if (gts == gus) {
          gup++;
          gwd(guq);
@@ -2270,7 +2270,7 @@ public final class gtq {
       }
    }
 
-   private static void gwb(MinecraftClient var0) throws Exception {
+   static void gwb(MinecraftClient var0) throws Exception {
       kfe var1 = Flow.getInstance().getModuleManager().getByName(a.c(-2039851968, "吐ⶓꝄ㤠닫㑗踓"));
       vlv var2 = (vlv)gwg(var1, a.c(-1161351236, "\u2fe9噮\udcb9䋚중価"));
       kfe var3 = Flow.getInstance().getModuleManager().getByName(a.d("䙶㿴딾⭏ꂶ☷鱿ᖀ诐Ž", 907978929, -198381941));
@@ -2438,7 +2438,7 @@ public final class gtq {
       }
    }
 
-   private static void gwc(MinecraftClient var0) throws Exception {
+   static void gwc(MinecraftClient var0) throws Exception {
       kfe var1 = Flow.getInstance().getModuleManager().getByName(a.c(720668653, "螽︾瓩\uea8d慆\ue7fa嶾"));
       vlv var2 = (vlv)gwg(var1, a.d("슿문\u31ef꾌⑇ꋷ", -1340581858, -1139303692));
       gur = a.c(-548175726, "胢淚玙\uedf2昴\ue092媞");
@@ -2570,11 +2570,11 @@ public final class gtq {
       }
    }
 
-   private static void gwd(String var0) {
+   static void gwd(String var0) {
       System.out.println(a.c(1672833861, "欫ና顈پ跮ୈ넞㢺") + var0 + a.d("니", 739107060, 2134200861) + gwn(vaf.gpuMillis()) + a.d("艕ﮩ煤", 177424450, -285095372));
    }
 
-   private static void gwe(MinecraftClient var0) throws Exception {
+   static void gwe(MinecraftClient var0) throws Exception {
       kfx var1 = Flow.getInstance().getModuleManager();
       kfe var2 = var1.getByName(a.c(-2068583380, "\uec60闢Ἠ腙ઠ谡㙩뾖⇆꭫"));
       kfe var3 = var1.getByName(a.c(-1287073067, "튜\uab1b⇎뾸㑴닇ࢭ腡Ἲ閃"));
@@ -2710,7 +2710,7 @@ public final class gtq {
       }
    }
 
-   private static void gwf(MinecraftClient var0, String var1, double var2, double var4) {
+   static void gwf(MinecraftClient var0, String var1, double var2, double var4) {
       double var6 = var0.options.getGamma().getValue();
       boolean var8 = var6 >= var2 && var6 <= var4;
       if (!var8) {
@@ -2732,7 +2732,7 @@ public final class gtq {
          );
    }
 
-   private static vmo gwg(kfe var0, String var1) {
+   static vmo gwg(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -2742,7 +2742,7 @@ public final class gtq {
       throw new IllegalStateException(var0.getName() + a.b("ꇌ\ud835勯첌䜈쇷箥\uf21b", -1050369564) + var1);
    }
 
-   private static void gwh(MinecraftClient var0, String var1, int var2, int var3) {
+   static void gwh(MinecraftClient var0, String var1, int var2, int var3) {
       pbz var4 = pbz.get();
       int var5 = 0;
 
@@ -2776,11 +2776,11 @@ public final class gtq {
          );
    }
 
-   private static void gwi(MinecraftClient var0, String var1) {
+   static void gwi(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void gwj(MinecraftClient var0, String var1, String var2, int var3) {
+   static void gwj(MinecraftClient var0, String var1, String var2, int var3) {
       gwi(var0, a.c(-430470675, "覆\uf038竢\ue497潓\ue9b0厃\uda41"));
       gwi(var0, a.b("\uf538貔ٖ頯Ꮅ镖⼒꛶㢵눉㗘쾯䄽\ud8c9劑푺渨\ue1e4筚ﵒ瓅ວ聇ᯞ鶦ᝬ껉ₛ멿㱲럟䤞쌆嫩\udca7嘊\ue995掩\ue57e糈\uf69c衫ȩ薋Ὓ鄸⢥ꉊ␈뿑ㆮ쭽䋋쒐幘퀥殞\ued57朹\ufefe", -1916930707));
       gwi(
@@ -2793,7 +2793,7 @@ public final class gtq {
       var0.player.getInventory().setSelectedSlot(var3);
    }
 
-   private static void gwk(MinecraftClient var0, kfe var1, int var2, float var3) {
+   static void gwk(MinecraftClient var0, kfe var1, int var2, float var3) {
       ClientPlayerEntity var4 = var0.player;
       var4.getInventory().setSelectedSlot(0);
       var4.setPitch(var3);
@@ -2815,7 +2815,7 @@ public final class gtq {
       var1.onKey(var0, var2);
    }
 
-   private static void gwl(MinecraftClient var0, String var1) {
+   static void gwl(MinecraftClient var0, String var1) {
       ClientPlayerEntity var2 = var0.player;
       System.out
          .println(
@@ -2838,7 +2838,7 @@ public final class gtq {
          );
    }
 
-   private static void gwm(MinecraftClient var0, String var1, Item var2, int var3, int var4, int var5, double var6, double var8) {
+   static void gwm(MinecraftClient var0, String var1, Item var2, int var3, int var4, int var5, double var6, double var8) {
       ClientPlayerEntity var10 = var0.player;
       PlayerInventory var11 = var10.getInventory();
       ItemStack var12 = var11.getStack(var3);
@@ -2898,16 +2898,16 @@ public final class gtq {
          );
    }
 
-   private static String gwn(double var0) {
+   static String gwn(double var0) {
       return String.format(Locale.ROOT, a.b("틗\uab6d↢뾇", 427807478), var0);
    }
 
-   private static void gwo() {
+   static void gwo() {
       gtr++;
       gts = 0;
    }
 
-   private static void gwp(MinecraftClient var0, String var1) {
+   static void gwp(MinecraftClient var0, String var1) {
       System.out
          .println(
             a.c(2030422834, "쭋달㠶ꙍⷜꬹᅻ颜ۄ谡")
@@ -2926,13 +2926,13 @@ public final class gtq {
       );
    }
 
-   private static void gwq(Screen var0, int var1) {
+   static void gwq(Screen var0, int var1) {
       if (var0 != null) {
          var0.keyPressed(new KeyInput(var1, 0, 0));
       }
    }
 
-   private static void gwr(Screen var0, String var1) {
+   static void gwr(Screen var0, String var1) {
       if (var0 != null) {
          for (char var5 : var1.toCharArray()) {
             var0.charTyped(new CharInput(var5, 0));
@@ -2940,7 +2940,7 @@ public final class gtq {
       }
    }
 
-   private static void gws(Screen var0, float var1, float var2, int var3) throws Exception {
+   static void gws(Screen var0, float var1, float var2, int var3) throws Exception {
       if (var0 instanceof hlc) {
          float var4 = gwu(var0, a.b("\ud867ꇋ⬃땼㺥렓ɶ", 1040242703));
          float var5 = gwu(var0, a.d("⢘儴\udbfc䖃칚䣬\uf288", -1828865134, -1146252446));
@@ -2949,7 +2949,7 @@ public final class gtq {
       }
    }
 
-   private static void gwt(Screen var0, float var1, float var2, double var3) throws Exception {
+   static void gwt(Screen var0, float var1, float var2, double var3) throws Exception {
       if (var0 instanceof hlc) {
          float var5 = gwu(var0, a.d("쌒몾ぶ급◐ꍦᤃ", 1228529131, 1881087633));
          float var6 = gwu(var0, a.d("⇯塃튋䳴윭䆛ﯿ", 1138024897, -1296252858));
@@ -2958,7 +2958,7 @@ public final class gtq {
       }
    }
 
-   private static float gwu(Object var0, String var1) throws Exception {
+   static float gwu(Object var0, String var1) throws Exception {
       Field var2 = var0.getClass().getDeclaredField(var1);
       var2.setAccessible(true);
       return var2.getFloat(var0);

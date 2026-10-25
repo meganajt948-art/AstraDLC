@@ -17,16 +17,16 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.collection.DefaultedList;
 
 public class pbe extends kfe {
-   private static pbe pbf;
-   private final vmc pbg = this.add(new vmc(a.b("唢ⲩꙩ㠇", -1053993611), 1.0, 0.6, 1.6, 0.05).unit(a.b("\uf0cd", -1699745612)));
-   private final vkl pbh = this.add(new vkl(a.b("譑\uf2cd砉\ue620涴\ueb09兙\ud8ab䛩", 998804250), true));
-   private final vkl pbi = this.add(new vkl(a.b("ꚁ\udf1c嗍쮡䁧월粐", -648567099), false));
-   private static final vdn pbj = veo.semibold(6.5F);
-   private static final vdn pbk = veo.medium(5.5F);
-   private static final float pbl = 18.0F;
-   private static final float pbm = 5.0F;
-   private static final float pbn = 13.0F;
-   private final DefaultedList<ItemStack> pbo = DefaultedList.ofSize(27, ItemStack.EMPTY);
+   static pbe pbf;
+   final vmc pbg = this.add(new vmc(a.b("唢ⲩꙩ㠇", -1053993611), 1.0, 0.6, 1.6, 0.05).unit(a.b("\uf0cd", -1699745612)));
+   final vkl pbh = this.add(new vkl(a.b("譑\uf2cd砉\ue620涴\ueb09兙\ud8ab䛩", 998804250), true));
+   final vkl pbi = this.add(new vkl(a.b("ꚁ\udf1c嗍쮡䁧월粐", -648567099), false));
+   static final vdn pbj = veo.semibold(6.5F);
+   static final vdn pbk = veo.medium(5.5F);
+   static final float pbl = 18.0F;
+   static final float pbm = 5.0F;
+   static final float pbn = 13.0F;
+   final DefaultedList<ItemStack> pbo = DefaultedList.ofSize(27, ItemStack.EMPTY);
 
    public pbe() {
       super(a.c(-1436817267, "\ue8d0酚ᮔ藼ฬ袓㋗묄╹꿟⠟퉱岪씉"), a.d("煸ࣿ般ᰘ鞆ᄰꭾ⊕볇㙷뇡䯑앇岥훭倁\uea57斁＼祺\uf0df諁ѳ鿬\u19db錍⪧ꓥ㸅", -2057239957, 1035236189), kfa.PLAYER);
@@ -44,7 +44,7 @@ public class pbe extends kfe {
       }
    }
 
-   private void pbr(HandledScreen<?> var1, DrawContext var2, int var3, int var4) {
+   void pbr(HandledScreen<?> var1, DrawContext var2, int var3, int var4) {
       if (var1.getScreenHandler().getCursorStack().isEmpty()) {
          Slot var5 = vxl.hovered(var1);
          if (var5 != null && var5.hasStack()) {

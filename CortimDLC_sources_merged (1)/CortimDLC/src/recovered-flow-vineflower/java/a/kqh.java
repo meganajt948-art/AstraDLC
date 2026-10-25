@@ -12,19 +12,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public class kqh extends kfe implements ivw {
-   private static final int kqi = 3;
-   private static final int kqj = -1;
-   private final vlv kqk = this.add(new vlv(a.d("\uf5e0豥ګ飘", 99149815, 1287918165), a.c(796706570, "읟뻍㐆ꩺ↺ꜜ"), kpx.names()));
-   private final vlv kql = this.add(new vlv(a.d("ﮆ舌", 2122457743, -546121377), a.d("蝊ﻀ琈\uea68憷", 448561641, -129235214), kpx.names()));
-   private final vlq kqm = this.add(new vlq(a.c(-378499829, "赐\uf4c5縀\ue060毧\ued1d址\udead")));
-   private final vlq kqn = this.add(new vlq(a.b("\uf69f輑\u05cf鮾ၠ隝ⲅꕺ㬹", -213584191)));
-   private final vmu[] kqo = new vmu[3];
-   private static final int kqp = 10;
-   private final vyn kqq = new vyn();
-   private final EnumMap<kpx, ItemStack> kqr = new EnumMap<>(kpx.class);
-   private boolean kqs;
-   private int kqt = -1;
-   private int kqu;
+   static final int kqi = 3;
+   static final int kqj = -1;
+   final vlv kqk = this.add(new vlv(a.d("\uf5e0豥ګ飘", 99149815, 1287918165), a.c(796706570, "읟뻍㐆ꩺ↺ꜜ"), kpx.names()));
+   final vlv kql = this.add(new vlv(a.d("ﮆ舌", 2122457743, -546121377), a.d("蝊ﻀ琈\uea68憷", 448561641, -129235214), kpx.names()));
+   final vlq kqm = this.add(new vlq(a.c(-378499829, "赐\uf4c5縀\ue060毧\ued1d址\udead")));
+   final vlq kqn = this.add(new vlq(a.b("\uf69f輑\u05cf鮾ၠ隝ⲅꕺ㬹", -213584191)));
+   final vmu[] kqo = new vmu[3];
+   static final int kqp = 10;
+   final vyn kqq = new vyn();
+   final EnumMap<kpx, ItemStack> kqr = new EnumMap<>(kpx.class);
+   boolean kqs;
+   int kqt = -1;
+   int kqu;
 
    public kqh() {
       super(
@@ -162,16 +162,16 @@ public class kqh extends kfe implements ivw {
       }
    }
 
-   private static boolean kqx(ClientPlayerEntity var0) {
+   static boolean kqx(ClientPlayerEntity var0) {
       return wdq.canClick(var0) && vyn.serverIdle(var0) && !var0.isUsingItem();
    }
 
-   private void kqy(MinecraftClient var1) {
+   void kqy(MinecraftClient var1) {
       this.kqs = false;
       this.kqq.release(var1);
    }
 
-   private void kqz(MinecraftClient var1) {
+   void kqz(MinecraftClient var1) {
       ClientPlayerEntity var2 = var1.player;
       ItemStack var3 = var2.getOffHandStack();
       int var4;
@@ -222,11 +222,11 @@ public class kqh extends kfe implements ivw {
       this.kqy(var1);
    }
 
-   private static boolean kra(ItemStack var0) {
+   static boolean kra(ItemStack var0) {
       return krd.needsTotem() && var0.isOf(Items.TOTEM_OF_UNDYING);
    }
 
-   private int krb(ClientPlayerEntity var1, kpx var2, ItemStack var3) {
+   int krb(ClientPlayerEntity var1, kpx var2, ItemStack var3) {
       Predicate var4 = var1x -> !ItemStack.areItemsAndComponentsEqual(var1x, var3);
       ItemStack var5 = this.kqr.getOrDefault(var2, ItemStack.EMPTY);
       if (!var5.isEmpty() && var4.test(var5)) {
@@ -244,7 +244,7 @@ public class kqh extends kfe implements ivw {
       return var7;
    }
 
-   private static int krc(ClientPlayerEntity var0, Predicate<ItemStack> var1) {
+   static int krc(ClientPlayerEntity var0, Predicate<ItemStack> var1) {
       PlayerInventory var2 = var0.getInventory();
       int var3 = var2.getSelectedSlot();
 

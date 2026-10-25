@@ -10,29 +10,29 @@ import java.util.Random;
 
 public final class tzy {
    public static final int MIN_SAMPLES = 2400;
-   private static final int tzz = 128;
-   private static final double uaa = 0.002;
-   private static final double uab = 2.0E-4;
-   private static final double uac = 1.0E-4;
-   private static final double uad = 5.0;
-   private static final double uae = 0.6;
-   private static final double uaf = 0.4;
-   private static final double uag = 0.8;
-   private static final double uah = 0.5;
-   private static final double uai = 2.0;
-   private static final int uaj = 30;
-   private static final int uak = 3;
-   private static final double ual = 0.2;
-   private static final int uam = txl.N;
-   private static final int uan = 15;
-   private static final double[] uao = new double[]{0.8, 0.6, 0.8, 0.6, 0.3};
-   private static final double[] uap = new double[]{0.5, 0.65, 0.8, 1.0};
-   private static final double[] uaq = new double[]{0.0, 0.25, 0.5, 0.75, 1.0};
+   static final int tzz = 128;
+   static final double uaa = 0.002;
+   static final double uab = 2.0E-4;
+   static final double uac = 1.0E-4;
+   static final double uad = 5.0;
+   static final double uae = 0.6;
+   static final double uaf = 0.4;
+   static final double uag = 0.8;
+   static final double uah = 0.5;
+   static final double uai = 2.0;
+   static final int uaj = 30;
+   static final int uak = 3;
+   static final double ual = 0.2;
+   static final int uam = txl.N;
+   static final int uan = 15;
+   static final double[] uao = new double[]{0.8, 0.6, 0.8, 0.6, 0.3};
+   static final double[] uap = new double[]{0.5, 0.65, 0.8, 1.0};
+   static final double[] uaq = new double[]{0.0, 0.25, 0.5, 0.75, 1.0};
 
-   private tzy() {
+   tzy() {
    }
 
-   private static boolean uat(tzp var0, tzp var1) {
+   static boolean uat(tzp var0, tzp var1) {
       if ((var0.flags & 1) != 0 && (var1.flags & 1) != 0 && (var1.flags & 4) == 0) {
          if (Math.abs(tvt.wrap(var1.yaw - var0.yaw)) > 90.0) {
             return false;
@@ -379,7 +379,7 @@ public final class tzy {
       return var7;
    }
 
-   private static double[] uau(tzv var0, List<Integer> var1) {
+   static double[] uau(tzv var0, List<Integer> var1) {
       double[] var2 = new double[txv.OUT];
       double[] var3 = new double[9];
       double[] var4 = new double[txv.YAW.length];
@@ -421,7 +421,7 @@ public final class tzy {
       return var2;
    }
 
-   private static void uav(double[] var0, int var1, boolean var2, boolean var3, int var4, int var5, double[] var6, double[] var7) {
+   static void uav(double[] var0, int var1, boolean var2, boolean var3, int var4, int var5, double[] var6, double[] var7) {
       Arrays.fill(var6, 0.0);
       txv.softmax(var0, 0, 9, 1.0, var7);
 
@@ -448,7 +448,7 @@ public final class tzy {
       }
    }
 
-   private static double[] uaw(tzv var0, List<Integer> var1, txv var2, long var3) {
+   static double[] uaw(tzv var0, List<Integer> var1, txv var2, long var3) {
       tbx var5 = var2.net;
       int var6 = Math.min(var1.size(), 6000);
       double[][] var7 = new double[var6][];
@@ -539,7 +539,7 @@ public final class tzy {
       return var39;
    }
 
-   private static double uax(tzv var0, List<Integer> var1, txv var2, double[] var3, Random var4, double[] var5) {
+   static double uax(tzv var0, List<Integer> var1, txv var2, double[] var3, Random var4, double[] var5) {
       tbx var6 = var2.net;
       double[] var7 = new double[uam];
       double[] var8 = new double[uam];
@@ -670,7 +670,7 @@ public final class tzy {
       }
    }
 
-   private static boolean[] uay(tzv var0, List<Integer> var1, txv var2) {
+   static boolean[] uay(tzv var0, List<Integer> var1, txv var2) {
       double[] var3 = new double[uam];
       double[] var4 = new double[uam];
 
@@ -696,13 +696,13 @@ public final class tzy {
       return var13;
    }
 
-   private static void uaz(tzv var0, int var1, double[] var2) {
+   static void uaz(tzv var0, int var1, double[] var2) {
       for (int var3 = 0; var3 < uam; var3++) {
          var2[var3] = var0.x[var1 * uam + var3];
       }
    }
 
-   private static void uba(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
+   static void uba(double[] var0, double[] var1, double[] var2, double[] var3, int var4, double var5) {
       double var7 = 0.9;
       double var9 = 0.999;
       double var11 = 1.0 - Math.pow(var7, var4);
@@ -715,7 +715,7 @@ public final class tzy {
       }
    }
 
-   private static void ubb(int[] var0, Random var1) {
+   static void ubb(int[] var0, Random var1) {
       for (int var2 = var0.length - 1; var2 > 0; var2--) {
          int var3 = var1.nextInt(var2 + 1);
          int var4 = var0[var2];
@@ -734,7 +734,7 @@ public final class tzy {
       return var3[var4];
    }
 
-   private static float[] ubc(List<Float> var0) {
+   static float[] ubc(List<Float> var0) {
       float[] var1 = new float[var0.size()];
 
       for (int var2 = 0; var2 < var1.length; var2++) {

@@ -87,7 +87,7 @@ final class dxq {
       }
    }
 
-   private static void dxt(List<dxl> var0, BakedQuad var1) {
+   static void dxt(List<dxl> var0, BakedQuad var1) {
       if (var0.size() < 2) {
          dxy var2 = dyh.ean(var1.sprite());
          if (var2 != null) {
@@ -96,7 +96,7 @@ final class dxq {
       }
    }
 
-   private static dxl dxu(BlockState var0, BlockStateModel var1, List<BlockModelPart> var2) {
+   static dxl dxu(BlockState var0, BlockStateModel var1, List<BlockModelPart> var2) {
       for (BlockModelPart var4 : var2) {
          for (BakedQuad var6 : var4.getQuads(null)) {
             dxy var7 = dyh.ean(var6.sprite());

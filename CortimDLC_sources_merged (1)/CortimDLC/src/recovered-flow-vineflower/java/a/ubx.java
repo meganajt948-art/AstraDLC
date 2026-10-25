@@ -1,11 +1,11 @@
 package a;
 
 final class ubx {
-   private final String uby;
-   private final String ubz;
-   private final long uca;
+   final String uby;
+   final String ubz;
+   final long uca;
 
-   private ubx(String from, String c, long at) {
+   ubx(String from, String c, long at) {
       this.uby = from;
       this.ubz = c;
       this.uca = at;

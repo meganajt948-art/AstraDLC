@@ -11,15 +11,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 public class rug extends kfe implements vhs {
-   private static final float ruh = (float) Math.PI;
-   private final vkl rui = this.add(new vkl("Only main hand", true));
-   private final vlv ruj = this.add(
+   static final float ruh = (float) Math.PI;
+   final vkl rui = this.add(new vkl("Only main hand", true));
+   final vlv ruj = this.add(
       new vlv("Mode", "Smooth", "Smooth", "Static", "Down", "Poke", "SelfBack", "Feast", "ToBack", "Block", "Akrien", "Break", "Pander", "Slant")
    );
-   private final vmc ruk = this.add(new vmc("Strength", 1.2, 0.1, 3.0, 0.01).unit("x"));
-   private final vkl rul = this.add(new vkl("Mace charge", true));
-   private float rum;
-   private long run;
+   final vmc ruk = this.add(new vmc("Strength", 1.2, 0.1, 3.0, 0.01).unit("x"));
+   final vkl rul = this.add(new vkl("Mace charge", true));
+   float rum;
+   long run;
 
    public rug() {
       super(new String(new char[]{'S', 'w', 'i', 'n', 'g', 'A', 'n', 'i', 'm', 'a', 't', 'i', 'o', 'n', 's'}), "Swing animations for the held item", kfa.RENDER);
@@ -56,7 +56,7 @@ public class rug extends kfe implements vhs {
       var1.translate(-0.56F * var8, 0.52F, 0.72F);
    }
 
-   private void ruq(MatrixStack var1, int var2, float var3, float var4) {
+   void ruq(MatrixStack var1, int var2, float var3, float var4) {
       float var5 = MathHelper.sin(var3 * var3 * (float) Math.PI);
       float var6 = MathHelper.sin(MathHelper.sqrt(var3) * (float) Math.PI);
       float var7 = MathHelper.sin(var3 * (float) Math.PI);
@@ -158,7 +158,7 @@ public class rug extends kfe implements vhs {
       }
    }
 
-   private void rur(MatrixStack var1, AbstractClientPlayerEntity var2, float var3, long var4) {
+   void rur(MatrixStack var1, AbstractClientPlayerEntity var2, float var3, long var4) {
       float var6 = this.run == 0L ? 0.0F : Math.min(0.1F, (float)(var4 - this.run) / 1.0E9F);
       this.run = var4;
       float var7 = 0.0F;

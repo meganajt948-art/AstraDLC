@@ -23,8 +23,8 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.math.BlockPos;
 
 public class oqv extends kfe {
-   private static oqv oqw;
-   private final vlj oqx = this.add(
+   static oqv oqw;
+   final vlj oqx = this.add(
       new vlj(
          a.c(-1554001738, "탺ꥶ⎴뷍㘄"),
          vlg.ITEMS,
@@ -45,43 +45,43 @@ public class oqv extends kfe {
          a.d("ﶝ萨\u0efc邆᭗鷷➷깁「뫳㵷윊䧟큨", 1940026685, 286099651)
       )
    );
-   private final vlq oqy = this.add(new vlq(a.b("礃\u009c詓", -1838319285), 71));
-   private final vmc oqz = this.add(new vmc(a.b("簻֫轱ᄍ髂", -1273594758), 85.0, 30.0, 300.0, 5.0).suffix(a.c(1541256811, "똄쾫")));
-   private final vkl ora = this.add(new vkl(a.b("힊긔Ⓞ목ㅨ랜ඌ葶ᨤ邃\u1757", 693688258), true));
-   private final vkl orb = this.add(new vkl(a.c(-89836003, "㙛俆씆孮탲嘀\uec58斤ﯭ煛\uf68f"), true));
-   private final vkl orc = this.add(new vkl(a.b("ҩ紹\uf7f1榝\ue245擫", -1553333023), true));
-   private final vkw ord = this.add(new vkw(a.b("쥙냄㨄ꑬ⾣", 297126161), new vkq(a.b("\u0aca獔年査\uec3f櫜탂夿읳䷛쨐", -428537214), vhz.TRASH, oqv::osi)));
-   private static final int ore = 1;
-   private static final int orf = 2;
-   private static final int org = -45730;
-   private static final int orh = -15795;
-   private static final int ori = 1024;
-   private static final double orj = 160.0;
-   private static final vdn ork = veo.medium(6.0F);
-   private static final Map<BlockPos, oqq> orl = new HashMap<>();
-   private static ClientWorld orm;
-   private static BlockPos orn;
-   private static long oro;
-   private final ArrayDeque<Integer> orp = new ArrayDeque<>();
-   private boolean orq;
-   private boolean orr;
-   private int ors = -1;
-   private int ort;
-   private int oru;
-   private int orv;
-   private long orw;
-   private BlockPos orx;
-   private String ory;
-   private long orz;
-   private long osa = -1L;
-   private final float[] osb = new float[2];
-   private final float[] osc = new float[4];
-   private final float[] osd = new float[2];
+   final vlq oqy = this.add(new vlq(a.b("礃\u009c詓", -1838319285), 71));
+   final vmc oqz = this.add(new vmc(a.b("簻֫轱ᄍ髂", -1273594758), 85.0, 30.0, 300.0, 5.0).suffix(a.c(1541256811, "똄쾫")));
+   final vkl ora = this.add(new vkl(a.b("힊긔Ⓞ목ㅨ랜ඌ葶ᨤ邃\u1757", 693688258), true));
+   final vkl orb = this.add(new vkl(a.c(-89836003, "㙛俆씆孮탲嘀\uec58斤ﯭ煛\uf68f"), true));
+   final vkl orc = this.add(new vkl(a.b("ҩ紹\uf7f1榝\ue245擫", -1553333023), true));
+   final vkw ord = this.add(new vkw(a.b("쥙냄㨄ꑬ⾣", 297126161), new vkq(a.b("\u0aca獔年査\uec3f櫜탂夿읳䷛쨐", -428537214), vhz.TRASH, oqv::osi)));
+   static final int ore = 1;
+   static final int orf = 2;
+   static final int org = -45730;
+   static final int orh = -15795;
+   static final int ori = 1024;
+   static final double orj = 160.0;
+   static final vdn ork = veo.medium(6.0F);
+   static final Map<BlockPos, oqq> orl = new HashMap<>();
+   static ClientWorld orm;
+   static BlockPos orn;
+   static long oro;
+   final ArrayDeque<Integer> orp = new ArrayDeque<>();
+   boolean orq;
+   boolean orr;
+   int ors = -1;
+   int ort;
+   int oru;
+   int orv;
+   long orw;
+   BlockPos orx;
+   String ory;
+   long orz;
+   long osa = -1L;
+   final float[] osb = new float[2];
+   final float[] osc = new float[4];
+   final float[] osd = new float[2];
    public static final int MARK_NONE = 0;
    public static final int MARK_DONE = 1;
    public static final int MARK_LEFT = 2;
-   private static final int[][] ose = new int[][]{{0, 1}, {2, 3}, {4, 5}, {6, 7}, {0, 2}, {1, 3}, {4, 6}, {5, 7}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
-   private final double[][] osf = new double[8][3];
+   static final int[][] ose = new int[][]{{0, 1}, {2, 3}, {4, 5}, {6, 7}, {0, 2}, {1, 3}, {4, 6}, {5, 7}, {0, 4}, {1, 5}, {2, 6}, {3, 7}};
+   final double[][] osf = new double[8][3];
 
    public oqv() {
       super(
@@ -135,7 +135,7 @@ public class oqv extends kfe {
       }
    }
 
-   private static void osi() {
+   static void osi() {
       orl.clear();
    }
 
@@ -208,11 +208,11 @@ public class oqv extends kfe {
       }
    }
 
-   private boolean osj(Slot var1) {
+   boolean osj(Slot var1) {
       return this.oqx.contains(Registries.ITEM.getId(var1.getStack().getItem()).toString());
    }
 
-   private void osk(MinecraftClient var1) {
+   void osk(MinecraftClient var1) {
       HandledScreen var2 = (HandledScreen)var1.currentScreen;
       ScreenHandler var3 = var2.getScreenHandler();
       long var4 = System.currentTimeMillis();
@@ -253,7 +253,7 @@ public class oqv extends kfe {
       }
    }
 
-   private void osl(MinecraftClient var1, HandledScreen<?> var2) {
+   void osl(MinecraftClient var1, HandledScreen<?> var2) {
       this.orq = false;
       long var3 = System.currentTimeMillis();
       if (this.orv > 0) {
@@ -280,7 +280,7 @@ public class oqv extends kfe {
       this.orz = var3 + 2000L;
    }
 
-   private void osm(int var1) {
+   void osm(int var1) {
       if (this.orx != null && this.orb.get()) {
          if (orl.size() >= 1024) {
             Iterator var2 = orl.keySet().iterator();
@@ -292,13 +292,13 @@ public class oqv extends kfe {
       }
    }
 
-   private void osn(String var1, boolean var2) {
+   void osn(String var1, boolean var2) {
       if (this.orc.get()) {
          izx.alert(this.getName(), var1, var2 ? vhz.CHECK : vhz.INFO, var2);
       }
    }
 
-   private void oso(DrawContext var1) {
+   void oso(DrawContext var1) {
       if (this.ory != null && System.currentTimeMillis() <= this.orz) {
          uut.beginFrame();
          float var2 = ork.width(this.ory) + 16.0F;
@@ -355,7 +355,7 @@ public class oqv extends kfe {
       }
    }
 
-   private void osp(DrawContext var1, usn var2, BlockPos var3, int var4, float var5) {
+   void osp(DrawContext var1, usn var2, BlockPos var3, int var4, float var5) {
       double var6 = 0.06 * (1.0 - var5);
       double var8 = var3.getX() + 0.0625 - var6;
       double var10 = var3.getY() - var6;

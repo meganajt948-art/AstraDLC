@@ -4,10 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public final class vvi {
-   private static final int vvj = (int)(System.nanoTime() ^ -1640531527L);
-   private static final byte[] vvk;
+   static final int vvj = (int)(System.nanoTime() ^ -1640531527L);
+   static final byte[] vvk;
 
-   private vvi() {
+   vvi() {
    }
 
    public static String get() {

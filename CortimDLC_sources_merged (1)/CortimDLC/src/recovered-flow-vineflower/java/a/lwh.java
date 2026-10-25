@@ -7,10 +7,10 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 
 public class lwh extends kfe {
-   private static final int lwi = 7;
-   private static lwh lwj;
-   private boolean lwk;
-   private boolean lwl;
+   static final int lwi = 7;
+   static lwh lwj;
+   boolean lwk;
+   boolean lwl;
 
    public lwh() {
       super(a.d("岃┆꿔ㆾ멕㳇蚖ོ鄤ᮏ", 2043464830, -1213755210), a.b("蠦\uf1b4筥\ue50f滟\ue874删\udb82䖊켤䣶늂㱜ꖨ⾢ꥅጐ鲔ٰ耷্玛ﵣ更\ue082橎폸嶿읛䄜", 1527351403), kfa.MOVEMENT);
@@ -46,7 +46,7 @@ public class lwh extends kfe {
       }
    }
 
-   private void lwo(GameOptions var1) {
+   void lwo(GameOptions var1) {
       KeyBinding var2 = var1.sprintKey;
       if (var1.getSprintToggled().getValue()) {
          if (!var2.isPressed()) {
@@ -60,7 +60,7 @@ public class lwh extends kfe {
       this.lwk = true;
    }
 
-   private void lwp(MinecraftClient var1) {
+   void lwp(MinecraftClient var1) {
       if (this.lwk) {
          this.lwk = false;
          if (var1 != null && var1.options != null && var1.getWindow() != null) {

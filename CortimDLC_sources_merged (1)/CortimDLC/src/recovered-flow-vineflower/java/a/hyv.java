@@ -30,9 +30,9 @@ public final class hyv {
    static final List<vmo> LIQUID_ONLY = List.of(REFRACTION, EDGE, DISPERSION, HIGHLIGHT, LIGHT);
    static final List<vmo> TARGETS = List.of(WINDOW, TABS, CARDS, POPUPS);
    static final List<vmo> ALL = List.of(ENABLED, STYLE, FROST, TINT, REFRACTION, EDGE, DISPERSION, HIGHLIGHT, LIGHT, VIBRANCY, WINDOW, TABS, CARDS, POPUPS);
-   private static boolean hyw;
+   static boolean hyw;
 
-   private hyv() {
+   hyv() {
    }
 
    public static boolean liquid() {

@@ -16,9 +16,9 @@ import net.minecraft.network.packet.s2c.common.DisconnectS2CPacket;
 import net.minecraft.text.Text;
 
 final class edb extends ClientConnection {
-   private final dtv edc;
-   private final ConcurrentLinkedQueue<Packet<?>> edd = new ConcurrentLinkedQueue<>();
-   private volatile Channel ede;
+   final dtv edc;
+   final ConcurrentLinkedQueue<Packet<?>> edd = new ConcurrentLinkedQueue<>();
+   volatile Channel ede;
 
    edb(dtv var1) {
       super(NetworkSide.CLIENTBOUND);
@@ -50,7 +50,7 @@ final class edb extends ClientConnection {
       }
    }
 
-   private void edh(DisconnectionInfo var1) {
+   void edh(DisconnectionInfo var1) {
       super.disconnect(var1);
    }
 
@@ -112,7 +112,7 @@ final class edb extends ClientConnection {
       return this.edd.size();
    }
 
-   private static <T extends PacketListener> void edi(Packet<T> var0, PacketListener var1) {
+   static <T extends PacketListener> void edi(Packet<T> var0, PacketListener var1) {
       var0.apply(var1);
    }
 }

@@ -6,12 +6,12 @@ import java.util.Locale;
 import net.minecraft.client.gui.DrawContext;
 
 final class iqp extends imn {
-   private static final float iqq = 54.0F;
-   private static final float iqr = 6.0F;
-   private static final float iqs = 27.0F;
-   private static final float iqt = 10.0F;
-   private static final float iqu = 13.0F;
-   private static final String[] iqv = new String[]{
+   static final float iqq = 54.0F;
+   static final float iqr = 6.0F;
+   static final float iqs = 27.0F;
+   static final float iqt = 10.0F;
+   static final float iqu = 13.0F;
+   static final String[] iqv = new String[]{
       a.b("䈎㮕녅⼬", -1947778484),
       a.d("零\uef62斢\ufbca", -2137659388, -1690468686),
       a.d("鰖\ue58b潛\uf129竤ﱒ", -737654130, -1916217635),
@@ -19,9 +19,9 @@ final class iqp extends imn {
       a.c(-728604230, "懻ᡯ銲ೌ蜇Ǣ뮷㉀걘⛢ꄼ孟했"),
       a.d("赖\uf4d1縄\ue072殾\ued0d", 744460765, 1977556174)
    };
-   private final int[] iqw;
-   private final vcj[] iqx;
-   private final vcj[] iqy;
+   final int[] iqw;
+   final vcj[] iqx;
+   final vcj[] iqy;
 
    iqp() {
       super(iov.PRESET);
@@ -49,19 +49,19 @@ final class iqp extends imn {
       }
    }
 
-   private iom irb(int var1) {
+   iom irb(int var1) {
       return this.iqw[var1] < 0 ? iov.custom() : iov.PRESETS[this.iqw[var1]];
    }
 
-   private String irc(int var1) {
+   String irc(int var1) {
       return this.iqw[var1] < 0 ? a.b("琥ජ蝷ᤁ鋍ᑾ", -86936480) : iov.PRESETS[this.iqw[var1]].name();
    }
 
-   private String ird(int var1) {
+   String ird(int var1) {
       return this.iqw[var1] < 0 ? a.d("⠃冄\udb51䔧컫䡘", -42394172, -972999294) : iov.PRESETS[this.iqw[var1]].group();
    }
 
-   private static String ire(String var0) {
+   static String ire(String var0) {
       return switch (var0) {
          case a.c(1971397428, "⍶嫭퀽乔") -> wap.s(
             a.c(-1391901443, "䒩㴲럢⦋ꈋⒺ鹾\u1718襇κ葬縂\uf0c6椲\ue32d旟\udf98偁"), a.d("簑֊轚ᄳ骳ᰂꛆ⾠뇿㽘뢅䋾찥喓\udbd9夳\ue379沥\uf61b瀶僚菭", 325711077, -1366718300)
@@ -74,17 +74,17 @@ final class iqp extends imn {
       };
    }
 
-   private int irf() {
+   int irf() {
       float var1 = this.w > 0.0F ? this.w : 376.0F;
       return Math.max(3, (int)((var1 + 6.0F) / 60.0F));
    }
 
-   private float irg() {
+   float irg() {
       int var1 = this.irf();
       return (this.w - 6.0F * (var1 - 1)) / var1;
    }
 
-   private float irh(float[] var1, float[] var2) {
+   float irh(float[] var1, float[] var2) {
       int var3 = this.irf();
       float var4 = this.w > 0.0F ? this.irg() : 54.0F;
       float var5 = 1.0F;
@@ -237,12 +237,12 @@ final class iqp extends imn {
       }
    }
 
-   private static uok iri(String var0) {
+   static uok iri(String var0) {
       isn var1 = isv.find(var0);
       return var1 == null ? null : isv.thumbnail(var1);
    }
 
-   private static uok irj() {
+   static uok irj() {
       isn var0 = isv.find(isv.selected());
       return var0 != null && !var0.isWorld() ? isv.thumbnail(var0) : null;
    }

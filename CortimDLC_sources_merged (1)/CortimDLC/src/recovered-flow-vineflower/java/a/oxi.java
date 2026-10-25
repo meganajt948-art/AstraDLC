@@ -3,14 +3,14 @@ package a;
 import net.minecraft.item.ItemStack;
 
 public final class oxi {
-   private final String oxj;
-   private final String oxk;
-   private final ItemStack oxl;
-   private final int oxm;
-   private final int oxn;
-   private final float oxo;
-   private final long oxp;
-   private final boolean oxq;
+   final String oxj;
+   final String oxk;
+   final ItemStack oxl;
+   final int oxm;
+   final int oxn;
+   final float oxo;
+   final long oxp;
+   final boolean oxq;
 
    public oxi(String id, String name, ItemStack icon, int count, int key, float cooldown, long usedAt, boolean active) {
       this.oxj = id;

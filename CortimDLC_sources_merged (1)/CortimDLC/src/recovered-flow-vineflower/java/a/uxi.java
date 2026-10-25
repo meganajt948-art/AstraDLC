@@ -20,15 +20,15 @@ import org.jspecify.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 public final class uxi {
-   private static final int uxj = 128;
-   private static @Nullable GpuBuffer uxk;
-   private static boolean uxl;
-   private static boolean uxm;
-   private static final ArrayDeque<GpuQuery> uxn = new ArrayDeque<>();
-   private static long uxo;
-   private static int uxp;
+   static final int uxj = 128;
+   static @Nullable GpuBuffer uxk;
+   static boolean uxl;
+   static boolean uxm;
+   static final ArrayDeque<GpuQuery> uxn = new ArrayDeque<>();
+   static long uxo;
+   static int uxp;
 
-   private uxi() {
+   uxi() {
    }
 
    public static boolean draw(Matrix4f var0, uxt var1, float var2, float var3, float var4, int var5, int var6, int var7, float var8) {
@@ -121,7 +121,7 @@ public final class uxi {
       return var0;
    }
 
-   private static void uxs() {
+   static void uxs() {
       while (!uxn.isEmpty()) {
          OptionalLong var0 = uxn.peek().getValue();
          if (var0.isEmpty()) {

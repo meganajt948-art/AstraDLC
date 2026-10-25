@@ -10,10 +10,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 
 public final class qma {
-   private int qmb = -1;
-   private int qmc = -1;
-   private int qmd;
-   private boolean qme;
+   int qmb = -1;
+   int qmc = -1;
+   int qmd;
+   boolean qme;
 
    public boolean active() {
       return this.qmb >= 0;

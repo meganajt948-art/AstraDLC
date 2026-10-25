@@ -7,10 +7,10 @@ import javax.imageio.ImageIO;
 import org.jspecify.annotations.Nullable;
 
 public final class unm {
-   private static uok unn;
-   private static boolean uno;
+   static uok unn;
+   static boolean uno;
 
-   private unm() {
+   unm() {
    }
 
    public static @Nullable GpuTextureView view() {

@@ -15,13 +15,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
 public class rpj extends kfe {
-   private static rpj rpk;
-   private final vkl rpl = this.add(new vkl("Food preview", true));
-   private final vkl rpm = this.add(new vkl("Number", false));
-   private static final Identifier rpn = Identifier.ofVanilla("hud/food_full");
-   private static final Identifier rpo = Identifier.ofVanilla("hud/food_half");
-   private static final int rpp = -670639;
-   private static final vdn rpq = veo.semibold(5.8F);
+   static rpj rpk;
+   final vkl rpl = this.add(new vkl("Food preview", true));
+   final vkl rpm = this.add(new vkl("Number", false));
+   static final Identifier rpn = Identifier.ofVanilla("hud/food_full");
+   static final Identifier rpo = Identifier.ofVanilla("hud/food_half");
+   static final int rpp = -670639;
+   static final vdn rpq = veo.semibold(5.8F);
 
    public rpj() {
       super(new String(new char[]{'S', 'a', 't', 'u', 'r', 'a', 't', 'i', 'o', 'n'}), "Shows saturation on the hunger bar", kfa.RENDER);

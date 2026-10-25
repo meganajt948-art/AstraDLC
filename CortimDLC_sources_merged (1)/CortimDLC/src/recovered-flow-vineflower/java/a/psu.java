@@ -5,14 +5,14 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 
 public final class psu {
-   private static final float[] psv = new float[4];
-   private static final float[] psw = new float[2];
-   private static final double psx = 0.05;
-   private static final double psy = 0.85;
-   private static final double psz = 56.0;
-   private static long pta = -1L;
+   static final float[] psv = new float[4];
+   static final float[] psw = new float[2];
+   static final double psx = 0.05;
+   static final double psy = 0.85;
+   static final double psz = 56.0;
+   static long pta = -1L;
 
-   private psu() {
+   psu() {
    }
 
    public static void render(DrawContext var0, RenderTickCounter var1) {
@@ -91,7 +91,7 @@ public final class psu {
       }
    }
 
-   private static void ptd(DrawContext var0, usn var1, double var2, double var4, double var6, double var8, int var10, float var11) {
+   static void ptd(DrawContext var0, usn var1, double var2, double var4, double var6, double var8, int var10, float var11) {
       byte var12 = 28;
       double var13 = var2 + var8;
       double var15 = var6;

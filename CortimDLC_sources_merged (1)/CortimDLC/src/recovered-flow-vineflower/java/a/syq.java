@@ -49,7 +49,7 @@ public final class syq {
       return var4;
    }
 
-   private syq() {
+   syq() {
    }
 
    static syn user(List<tmn> var0) {
@@ -173,7 +173,7 @@ public final class syq {
       return var2;
    }
 
-   private static void syt(List<double[]> var0, List<double[]> var1, List<double[]> var2, List<double[]> var3, double[] var4) {
+   static void syt(List<double[]> var0, List<double[]> var1, List<double[]> var2, List<double[]> var3, double[] var4) {
       var4[0] = 1.0 - ks(diff(var0, 0), diff(var2, 0));
       var4[1] = 1.0 - ks(diff(var0, 1), diff(var2, 1));
       var4[2] = 1.0 - ks(diff(var0, 2), diff(var2, 2));
@@ -181,7 +181,7 @@ public final class syq {
       var4[4] = 1.0 - Math.min(1.0, Math.abs(autocorr(var0) - autocorr(var2)));
    }
 
-   private static double syu(double[] var0) {
+   static double syu(double[] var0) {
       double var1 = 0.0;
 
       for (double var6 : var0) {
@@ -263,7 +263,7 @@ public final class syq {
       return var0.depth.size() >= 20 && var1.depth.size() >= 20 ? 0.5 * var6 + 0.5 * (1.0 - ks(syv(var0.depth), syv(var1.depth))) : var6;
    }
 
-   private static double[] syv(List<Double> var0) {
+   static double[] syv(List<Double> var0) {
       double[] var1 = new double[var0.size()];
 
       for (int var2 = 0; var2 < var1.length; var2++) {
@@ -378,7 +378,7 @@ public final class syq {
       return new double[]{var2 == 0 ? 0.0 : (double)var3 / var2, var2};
    }
 
-   private static String syw(String var0, List<double[]> var1) {
+   static String syw(String var0, List<double[]> var1) {
       double[] var2 = diff(var1, 0);
       double[] var3 = diff(var1, 1);
       if (var2.length == 0) {

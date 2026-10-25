@@ -9,20 +9,20 @@ import net.minecraft.entity.player.PlayerInventory;
 import org.lwjgl.glfw.GLFW;
 
 final class gxf {
-   private static final String[] gxg = new String[]{
+   static final String[] gxg = new String[]{
       a.b("\ue1b9頼የ貄ݎ臬", 286974462),
       a.b("膩\uf833狧\uec81杏\ue1f3", -1340177951),
       a.d("\uf3a5訲ì麐ᕞ鏮", 1093878435, 1254666567),
       a.b("\uf1cd衚ʒ鳾\u173f醟", 1486549400),
       a.d("쒧봹㟩ꦂ≄ꓢ", 2093519116, 793531886)
    };
-   private static final int gxh = 40;
-   private static final int gxi = 40 + gxg.length * 40 + 80;
-   private static String gxj;
-   private static int gxk = -1;
-   private static String gxl;
+   static final int gxh = 40;
+   static final int gxi = 40 + gxg.length * 40 + 80;
+   static String gxj;
+   static int gxk = -1;
+   static String gxl;
 
-   private gxf() {
+   gxf() {
    }
 
    static boolean tick(MinecraftClient var0, int var1) throws Exception {
@@ -212,7 +212,7 @@ final class gxf {
       return false;
    }
 
-   private static void gxo(MinecraftClient var0, float var1, float var2, String var3, int var4) {
+   static void gxo(MinecraftClient var0, float var1, float var2, String var3, int var4) {
       var0.player.setYaw(var1);
       var0.player.setPitch(var2);
       var0.player.lastYaw = var1;
@@ -220,19 +220,19 @@ final class gxf {
       gxp(var3, var4);
    }
 
-   private static void gxp(String var0, int var1) {
+   static void gxp(String var0, int var1) {
       gxj = var0;
       gxk = var1 + 10;
    }
 
-   private static void gxq(MinecraftClient var0, float var1, float var2) {
+   static void gxq(MinecraftClient var0, float var1, float var2) {
       int[] var3 = new int[1];
       int[] var4 = new int[1];
       GLFW.glfwGetWindowSize(var0.getWindow().getHandle(), var3, var4);
       GLFW.glfwSetCursorPos(var0.getWindow().getHandle(), var3[0] * var1, var4[0] * var2);
    }
 
-   private static kfe gxr(String var0) {
+   static kfe gxr(String var0) {
       kfe var1 = Flow.getInstance().getModuleManager().getByName(var0);
       if (var1 == null) {
          throw new IllegalStateException(a.b("Ӣ絒\uf7ce槲\ue227撝\udedf圷쥡䎕", 704185478) + var0);
@@ -241,7 +241,7 @@ final class gxf {
       }
    }
 
-   private static vmo gxs(kfe var0, String var1) {
+   static vmo gxs(kfe var0, String var1) {
       for (vmo var3 : var0.getSettings()) {
          if (var3.getName().equals(var1)) {
             return var3;
@@ -251,11 +251,11 @@ final class gxf {
       throw new IllegalStateException(var0.getName() + a.b("車\uf733緩\ue38a栎\ueef1咣\udd1d", -637563166) + var1);
    }
 
-   private static void gxt(MinecraftClient var0, String var1) {
+   static void gxt(MinecraftClient var0, String var1) {
       var0.getNetworkHandler().sendChatCommand(var1);
    }
 
-   private static void gxu(MinecraftClient var0, String var1) {
+   static void gxu(MinecraftClient var0, String var1) {
       System.out
          .println(a.b("폝ꩺ₠뻛㕊뎯৭耊Ṓ钷", -1202728028) + var1 + a.d("儥⣴ꉇ", -1595525772, -944544654) + var0.getCurrentFps() + a.d("\ud862ꆕ⭐딢", -1519773701, -73674819));
       ScreenshotRecorder.saveScreenshot(

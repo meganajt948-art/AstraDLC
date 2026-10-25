@@ -34,7 +34,7 @@ final class gqu implements Listener {
    volatile int keyBoxes;
    volatile int lastMarkAt;
    volatile WebSocket ws;
-   private final StringBuilder gqv = new StringBuilder();
+   final StringBuilder gqv = new StringBuilder();
 
    gqu(String var1) {
       this.name = var1;
@@ -130,7 +130,7 @@ final class gqu implements Listener {
       }
    }
 
-   private String gqy(String var1, JsonObject var2) {
+   String gqy(String var1, JsonObject var2) {
       try {
          return this.epoch
             + a.b("冡", -555658866)
@@ -140,7 +140,7 @@ final class gqu implements Listener {
       }
    }
 
-   private String gqz(String var1, String var2) {
+   String gqz(String var1, String var2) {
       int var3 = var2.indexOf(46);
       int var4 = Integer.parseInt(var2.substring(0, var3));
       byte[] var5 = this.keys.get(var4);
@@ -152,7 +152,7 @@ final class gqu implements Listener {
       return var6 == null ? null : new String(var6, StandardCharsets.UTF_8);
    }
 
-   private String gra(String var1, String var2) {
+   String gra(String var1, String var2) {
       try {
          JsonObject var3 = new JsonObject();
          var3.addProperty(a.b("蜿", 833128277), ufw.b64(this.keys.get(this.epoch)));
@@ -167,7 +167,7 @@ final class gqu implements Listener {
       }
    }
 
-   private JsonObject grb(String var1, String var2, String var3) {
+   JsonObject grb(String var1, String var2, String var3) {
       try {
          byte[] var4 = ufw.boxKey(this.pair.getPrivate(), this.pub, var2);
          byte[] var5 = ufw.open(var4, a.b("\ue8ac鄐ᯔ薡", 1510729930) + var1 + a.c(1825670474, "蔷") + this.code, var3);
@@ -177,7 +177,7 @@ final class gqu implements Listener {
       }
    }
 
-   private void grc(JsonObject var1) {
+   void grc(JsonObject var1) {
       switch (var1.get(a.d("싗", 51045068, -1407180690)).getAsString()) {
          case a.c(-2046880061, "ᚮ漒\ue5c8箹\uf06d"):
             this.code = var1.get(a.d("勺菊ऒ面", -901148505, 1856596663)).getAsString();

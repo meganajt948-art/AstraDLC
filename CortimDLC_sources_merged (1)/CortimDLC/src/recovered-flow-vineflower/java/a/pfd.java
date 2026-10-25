@@ -13,12 +13,12 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 
 public final class pfd {
-   private static final String pfe = a.c(-235674391, "\ue0ab饩Ꮂ跎");
-   private static final String pff = a.b("\uda38ꎁⵇ뜦㳻먲`觢ា鴉\u1ad2", 1628560910);
-   private static final String pfg = a.d("䁪㧞덱ⴏꚢ⑸騼Ꮚ趔ݔ胷竴\uf42d", 2081749670, -116146554);
-   private static final Pattern pfh = Pattern.compile(a.c(1902488767, "겚핟徴쇺䨪첣盈６愔\ueba7氅阃ᣗ"));
+   static final String pfe = a.c(-235674391, "\ue0ab饩Ꮂ跎");
+   static final String pff = a.b("\uda38ꎁⵇ뜦㳻먲`觢ា鴉\u1ad2", 1628560910);
+   static final String pfg = a.d("䁪㧞덱ⴏꚢ⑸騼Ꮚ趔ݔ胷竴\uf42d", 2081749670, -116146554);
+   static final Pattern pfh = Pattern.compile(a.c(1902488767, "겚핟徴쇺䨪첣盈６愔\ueba7氅阃ᣗ"));
 
-   private pfd() {
+   pfd() {
    }
 
    public static int of(ItemStack var0) {
@@ -31,7 +31,7 @@ public final class pfd {
       return var1 > 0L ? (int)Math.min(2147483647L, var1) : -1;
    }
 
-   private static long pfk(ItemStack var0) {
+   static long pfk(ItemStack var0) {
       if (!var0.isEmpty() && !var0.isOf(Items.GRAY_DYE)) {
          List var1 = lines(var0);
 

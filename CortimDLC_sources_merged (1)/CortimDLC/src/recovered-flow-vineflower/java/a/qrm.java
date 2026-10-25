@@ -18,13 +18,13 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 
 final class qrm {
-   private final Long2ObjectOpenHashMap<qrh> qrn = new Long2ObjectOpenHashMap();
-   private final Set<Long> qro = ConcurrentHashMap.newKeySet();
-   private final ConcurrentLinkedQueue<Long> qrp = new ConcurrentLinkedQueue<>();
-   private final ConcurrentLinkedQueue<Long> qrq = new ConcurrentLinkedQueue<>();
-   private World qrr;
-   private int qrs;
-   private int qrt;
+   final Long2ObjectOpenHashMap<qrh> qrn = new Long2ObjectOpenHashMap();
+   final Set<Long> qro = ConcurrentHashMap.newKeySet();
+   final ConcurrentLinkedQueue<Long> qrp = new ConcurrentLinkedQueue<>();
+   final ConcurrentLinkedQueue<Long> qrq = new ConcurrentLinkedQueue<>();
+   World qrr;
+   int qrs;
+   int qrt;
 
    void echo(Packet<?> var1) {
       if (!this.qro.isEmpty()) {
@@ -42,7 +42,7 @@ final class qrm {
       }
    }
 
-   private void qrw(long var1) {
+   void qrw(long var1) {
       if (this.qro.contains(var1)) {
          this.qrp.add(var1);
       }
@@ -99,7 +99,7 @@ final class qrm {
       }
    }
 
-   private void qrx() {
+   void qrx() {
       Long var1;
       while ((var1 = this.qrp.poll()) != null) {
          if (this.qrn.remove(var1) != null) {
@@ -138,7 +138,7 @@ final class qrm {
       this.qry();
    }
 
-   private void qry() {
+   void qry() {
       this.qrn.clear();
       this.qro.clear();
       this.qrp.clear();

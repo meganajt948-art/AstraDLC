@@ -11,25 +11,25 @@ import net.minecraft.text.Text;
 import org.joml.Matrix3x2fStack;
 
 public final class kct extends Screen {
-   private static final float kcu = 116.0F;
-   private static final float kcv = 92.0F;
-   private static final float kcw = 14.0F;
-   private static final wam[] kcx = new wam[]{wam.RU, wam.EN};
-   private final Screen kcy;
-   private final kap kcz = new kap();
-   private final kam kda = new kam();
-   private final kbs kdb = kbs.selected();
-   private final vcj[] kdc = new vcj[]{new vcj(13.0F), new vcj(13.0F)};
-   private int kdd;
-   private float kde = -1.0F;
-   private float kdf = -1.0F;
-   private int kdg = -1;
-   private boolean kdh;
-   private long kdi;
-   private float kdj;
-   private float kdk = 1.0F;
-   private float kdl = 480.0F;
-   private float kdm = 270.0F;
+   static final float kcu = 116.0F;
+   static final float kcv = 92.0F;
+   static final float kcw = 14.0F;
+   static final wam[] kcx = new wam[]{wam.RU, wam.EN};
+   final Screen kcy;
+   final kap kcz = new kap();
+   final kam kda = new kam();
+   final kbs kdb = kbs.selected();
+   final vcj[] kdc = new vcj[]{new vcj(13.0F), new vcj(13.0F)};
+   int kdd;
+   float kde = -1.0F;
+   float kdf = -1.0F;
+   int kdg = -1;
+   boolean kdh;
+   long kdi;
+   float kdj;
+   float kdk = 1.0F;
+   float kdl = 480.0F;
+   float kdm = 270.0F;
 
    public kct(Screen var1) {
       super(Text.literal(a.d("긆힅嵟쌡䣺칉琒", 1951642780, -2068833590)));
@@ -122,15 +122,15 @@ public final class kct extends Screen {
       }
    }
 
-   private float kdp(int var1) {
+   float kdp(int var1) {
       return this.kdl * 0.5F - 116.0F - 7.0F + var1 * 130.0F;
    }
 
-   private float kdq() {
+   float kdq() {
       return this.kdm * 0.5F - 46.0F;
    }
 
-   private void kdr(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, float var7) {
+   void kdr(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, float var7) {
       float var8 = vcq.clamp01((var6 - 0.2F - var3 * 0.1F) / 0.6F);
       if (!(var8 <= 0.0F)) {
          float var9 = vcq.outBack(var8);
@@ -218,7 +218,7 @@ public final class kct extends Screen {
       }
    }
 
-   private void kds(int var1) {
+   void kds(int var1) {
       if (!(this.kdf >= 0.0F)) {
          this.kdg = var1;
          wap.set(kcx[var1]);
@@ -280,11 +280,11 @@ public final class kct extends Screen {
       vdn.setRenderScale(1.0F);
    }
 
-   private static boolean kdt(float var0, float var1, float var2, float var3, float var4, float var5) {
+   static boolean kdt(float var0, float var1, float var2, float var3, float var4, float var5) {
       return var0 >= var2 && var1 >= var3 && var0 < var2 + var4 && var1 < var3 + var5;
    }
 
-   private static int kdu(int var0, float var1) {
+   static int kdu(int var0, float var1) {
       return kce.rgba(var0, var1);
    }
 }

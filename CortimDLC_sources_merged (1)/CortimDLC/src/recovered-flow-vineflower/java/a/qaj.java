@@ -17,19 +17,19 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 public final class qaj {
-   private static final Item[] qak = new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.COAL, Items.IRON_INGOT};
-   private static final long qal = 6000L;
-   private static final long qam = 4000L;
-   private static final long qan = 12000L;
-   private static final long qao = 1300L;
-   private final Map<Item, Long> qap = new HashMap<>();
-   private final Map<Item, String> qaq = new HashMap<>();
-   private qag qar = qag.IDLE;
-   private long qas;
-   private long qat;
-   private int qau;
-   private boolean qav;
-   private String qaw = "";
+   static final Item[] qak = new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.COAL, Items.IRON_INGOT};
+   static final long qal = 6000L;
+   static final long qam = 4000L;
+   static final long qan = 12000L;
+   static final long qao = 1300L;
+   final Map<Item, Long> qap = new HashMap<>();
+   final Map<Item, String> qaq = new HashMap<>();
+   qag qar = qag.IDLE;
+   long qas;
+   long qat;
+   int qau;
+   boolean qav;
+   String qaw = "";
 
    public boolean active() {
       return this.qar != qag.IDLE && this.qar != qag.DONE;
@@ -141,7 +141,7 @@ public final class qaj {
       return !this.active();
    }
 
-   private boolean qaz(MinecraftClient var1, ClientPlayerEntity var2, HandledScreen<?> var3, long var4) {
+   boolean qaz(MinecraftClient var1, ClientPlayerEntity var2, HandledScreen<?> var3, long var4) {
       ScreenHandler var6 = var3.getScreenHandler();
       int var7 = 0;
       int var8 = 0;
@@ -173,12 +173,12 @@ public final class qaj {
       return true;
    }
 
-   private void qba(qag var1, long var2) {
+   void qba(qag var1, long var2) {
       this.qar = var1;
       this.qat = var2;
    }
 
-   private void qbb(MinecraftClient var1, boolean var2, String var3) {
+   void qbb(MinecraftClient var1, boolean var2, String var3) {
       this.qav = var2;
       this.qaw = var3;
       this.qar = qag.DONE;
@@ -187,7 +187,7 @@ public final class qaj {
       }
    }
 
-   private static int qbc(ScreenHandler var0, ClientPlayerEntity var1) {
+   static int qbc(ScreenHandler var0, ClientPlayerEntity var1) {
       int var2 = 0;
 
       for (Item var6 : qak) {
@@ -199,7 +199,7 @@ public final class qaj {
       return var2;
    }
 
-   private static Slot qbd(ScreenHandler var0, ClientPlayerEntity var1, Item var2) {
+   static Slot qbd(ScreenHandler var0, ClientPlayerEntity var1, Item var2) {
       for (Slot var4 : vxl.own(var0, var1.getInventory())) {
          ItemStack var5 = var4.getStack();
          if (var5.isOf(var2) && loreLine(var5).contains(a.d("鯁\ue20b梡\uf6ac絾", 960845424, -1930769931))) {
@@ -210,7 +210,7 @@ public final class qaj {
       return null;
    }
 
-   private static Slot qbe(ScreenHandler var0, ClientPlayerEntity var1) {
+   static Slot qbe(ScreenHandler var0, ClientPlayerEntity var1) {
       Slot var2 = null;
 
       for (Slot var4 : vxl.own(var0, var1.getInventory())) {
