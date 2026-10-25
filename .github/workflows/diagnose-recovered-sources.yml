@@ -36,4 +36,4 @@ jobs:
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle compileRecoveredJava --no-daemon --stacktrace
 
-# Recompile after latest targeted generic and registry fixes.
+# Recompile after the final three generic typing fixes.
