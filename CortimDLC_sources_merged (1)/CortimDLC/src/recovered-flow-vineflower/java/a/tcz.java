@@ -536,7 +536,7 @@ public final class tcz {
 
    static List<Entity> teh(MinecraftClient var0) {
       ClientPlayerEntity var1 = var0.player;
-      ArrayList var2 = new ArrayList();
+      ArrayList<Entity> var2 = new ArrayList<>();
 
       for (PlayerEntity var4 : var0.world.getPlayers()) {
          if (teg(var1, var4) && var4.squaredDistanceTo(var1) < 64.0) {
