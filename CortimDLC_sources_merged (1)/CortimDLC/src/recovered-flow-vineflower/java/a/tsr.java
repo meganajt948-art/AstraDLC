@@ -20,7 +20,7 @@ public final class tsr {
    }
 
    public static List<tso> prepare(List<tvc> var0, double var1, tmw var3) {
-      ArrayList var4 = new ArrayList();
+      ArrayList<tso> var4 = new ArrayList<>();
       int[] var5 = new int[2];
       double var6 = 0.0;
       double var8 = 0.0;
