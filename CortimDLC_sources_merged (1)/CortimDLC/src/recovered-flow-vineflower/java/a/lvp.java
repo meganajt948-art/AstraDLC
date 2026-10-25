@@ -98,7 +98,7 @@ public class lvp extends kfe {
          Long var4;
          while ((var4 = lvs.poll()) != null) {
             if (!this.lvx.contains(var4) && !this.lvz.containsKey(var4)) {
-               this.lvz.put(var4, this.lwc);
+               this.lvz.put(var4.longValue(), this.lwc);
             }
          }
 
