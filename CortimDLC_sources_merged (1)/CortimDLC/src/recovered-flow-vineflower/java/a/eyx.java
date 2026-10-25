@@ -128,10 +128,10 @@ public final class eyx {
          label94: {
             try {
                var14 = true;
-               LinkedHashSet var3 = new LinkedHashSet<>(List.of(eza));
+               LinkedHashSet<String> var3 = new LinkedHashSet<>(List.of(eza));
                var3.addAll(ezg(var0));
                ezd = var3.size();
-               ArrayList var4 = new ArrayList();
+               ArrayList<Future<?>> var4 = new ArrayList<>();
 
                for (String var6 : var3) {
                   var4.add(var2.submit(() -> {
