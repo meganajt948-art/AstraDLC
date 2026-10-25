@@ -3169,6 +3169,18 @@ sourceSets {
     }
 }
 
+/*
+ * Diagnostic source set for the 800 Vineflower-recovered classes.
+ * It is deliberately not part of the production JAR yet: this lets CI expose
+ * mapping/decompiler errors while the already working nested runtime remains intact.
+ */
+sourceSets {
+    recovered {
+        java.setSrcDirs(["src/recovered-flow-vineflower/java"])
+        compileClasspath += sourceSets.main.compileClasspath
+    }
+}
+
 // Build trigger: October 25 keep search clear of the header label; preserve bottom-left controls.
 
 // Build trigger: periodic walking jumps for AutoWarden and AutoEnd (24 October 2026).
