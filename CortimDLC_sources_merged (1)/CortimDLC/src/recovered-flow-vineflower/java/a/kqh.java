@@ -227,7 +227,7 @@ public class kqh extends kfe implements ivw {
    }
 
    int krb(ClientPlayerEntity var1, kpx var2, ItemStack var3) {
-      Predicate var4 = var1x -> !ItemStack.areItemsAndComponentsEqual(var1x, var3);
+      Predicate<ItemStack> var4 = var1x -> !ItemStack.areItemsAndComponentsEqual(var1x, var3);
       ItemStack var5 = this.kqr.getOrDefault(var2, ItemStack.EMPTY);
       if (!var5.isEmpty() && var4.test(var5)) {
          int var6 = krc(var1, var1x -> ItemStack.areItemsAndComponentsEqual(var1x, var5));
