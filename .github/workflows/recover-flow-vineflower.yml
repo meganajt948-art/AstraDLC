@@ -8,6 +8,9 @@ on:
     paths:
       - '.github/workflows/recover-flow-vineflower.yml'
 
+permissions:
+  contents: write
+
 jobs:
   decompile:
     runs-on: ubuntu-latest
@@ -31,10 +34,35 @@ jobs:
           mkdir -p recovered-flow-vineflower
           java -Xmx4g -jar vineflower.jar flow.jar recovered-flow-vineflower
           find recovered-flow-vineflower -type f -name '*.java' | wc -l
-      - name: Package recovered sources
-        run: zip -qr flow-vineflower-sources.zip recovered-flow-vineflower
-      - name: Upload recovered sources
+      - name: Stage recovered Java sources in project
+        shell: bash
+        run: |
+          target="CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower/java"
+          mkdir -p "$target"
+          find recovered-flow-vineflower -type f -name '*.java' -print0 | while IFS= read -r -d '' src; do
+            rel="${src#recovered-flow-vineflower/}"
+            mkdir -p "$target/$(dirname "$rel")"
+            cp "$src" "$target/$rel"
+          done
+          echo "Recovered Java files: $(find "$target" -type f -name '*.java' | wc -l)"
+      - name: Package source-only artifact
+        run: |
+          cd "CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower"
+          zip -qr "$GITHUB_WORKSPACE/flow-vineflower-java-sources.zip" java
+      - name: Upload recovered Java sources
         uses: actions/upload-artifact@v4
         with:
-          name: flow-vineflower-sources
-          path: flow-vineflower-sources.zip
+          name: flow-vineflower-java-sources
+          path: flow-vineflower-java-sources.zip
+      - name: Commit recovered Java sources to the migration branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-vineflower/java"
+          if git diff --cached --quiet; then
+            echo "Recovered sources are already up to date."
+          else
+            git commit -m "Add full Vineflower-recovered Flow Java sources"
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi
