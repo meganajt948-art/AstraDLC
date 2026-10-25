@@ -653,16 +653,11 @@ public final class qsw {
 
    static void qva(String var0, BlockPos var1, BlockPos var2, BlockPos[] var3, double[] var4) {
       if (var1 != null) {
-         byte var5;
-         if (var0.equals(a.c(1447178763, "㉫䯋섀彬"))) {
-            var5 = 0;
-         }
-         else if (var0.equals(a.c(1726920595, "럱칉䒚\udae0"))) {
-            var5 = 1;
-         }
-         else {
-            var5 = 2;
-         }
+         byte var5 = switch (var0) {
+            case a.c(1447178763, "㉫䯋섀彬") -> 0;
+            case a.c(1726920595, "럱칉䒚\udae0") -> 1;
+            default -> 2;
+         };
          double var8 = var1.getSquaredDistance(var2);
          if (var8 < var4[var5]) {
             var4[var5] = var8;

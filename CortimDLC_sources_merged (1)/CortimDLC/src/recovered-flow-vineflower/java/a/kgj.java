@@ -209,16 +209,11 @@ public class kgj extends kfe {
          if (kiz(var3, var13, var4)) {
             double var14 = kja(var2, var3, var13);
             if (!(var14 > var6)) {
-               double var16;
-               if (this.kgx.get().equals(a.b("\udec7ꝛⶒ돤㠦뺘ӆ贱", -46866805))) {
-                  var16 = var13.getBoundingBox().squaredMagnitude(var3);
-               }
-               else if (this.kgx.get().equals(a.b("ꂐ\ud90c叛춧䙨샅", -2138464034))) {
-                  var16 = var13 instanceof LivingEntity var20 ? kiy(var20) : 100.0;
-               }
-               else {
-                  var16 = var14;
-               }
+               double var16 = switch (this.kgx.get()) {
+                  case a.b("\udec7ꝛⶒ돤㠦뺘ӆ贱", -46866805) -> var13.getBoundingBox().squaredMagnitude(var3);
+                  case a.b("ꂐ\ud90c叛춧䙨샅", -2138464034) -> var13 instanceof LivingEntity var20 ? kiy(var20) : 100.0;
+                  default -> var14;
+               };
                if (var16 < var10) {
                   var10 = var16;
                   var9 = var13;
@@ -301,18 +296,12 @@ public class kgj extends kfe {
    }
 
    boolean kjd(ItemStack var1) {
-      if (this.kgw.get().equals(a.c(138839254, "蒔ﴊ矎"))) {
-         return true;
-      }
-      else if (this.kgw.get().equals(a.d("Ἲ暯\uec64爈柳罯", 1174444933, -987331350))) {
-         return var1.isIn(ItemTags.SWORDS);
-      }
-      else if (this.kgw.get().equals(a.d("ᒜ洔\ue7da禽", 1898114766, 1348401687))) {
-         return var1.isIn(ItemTags.AXES);
-      }
-      else {
-         return var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
-      }
+      return switch (this.kgw.get()) {
+         case a.c(138839254, "蒔ﴊ矎") -> true;
+         case a.d("Ἲ暯\uec64爈柳罯", 1174444933, -987331350) -> var1.isIn(ItemTags.SWORDS);
+         case a.d("ᒜ洔\ue7da禽", 1898114766, 1348401687) -> var1.isIn(ItemTags.AXES);
+         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
+      };
    }
 
    void kje(long var1) {

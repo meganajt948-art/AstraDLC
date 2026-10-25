@@ -888,15 +888,11 @@ public final class iov {
    }
 
    static String wallpaperOf(String var0) {
-      if (var0.equals(a.c(1967915595, "ȇ箜\uf14c漥\ue4a5扶\ud80b凷쾪䔓"))) {
-         return a.b("䪍㌣맽➍걐⪴邻᥀蜜ඵ証瀄ﻖ杴\ued3e", 1113541364);
-      }
-      else if (var0.equals(a.d("箳Ȩ裸ᚑ鴑ᯗꆻ⡋똉㲩", 106724394, -1651636267))) {
-         return a.d("ꚨ\udf06嗘쮨䁵욑粞\uf565欹\ue190昙鰩ዻ譄Ę蟵", -414093818, 1911015624);
-      }
-      else {
-         return null;
-      }
+      return switch (var0) {
+         case a.c(1967915595, "ȇ箜\uf14c漥\ue4a5扶\ud80b凷쾪䔓") -> a.b("䪍㌣맽➍걐⪴邻᥀蜜ඵ証瀄ﻖ杴\ued3e", 1113541364);
+         case a.d("箳Ȩ裸ᚑ鴑ᯗꆻ⡋똉㲩", 106724394, -1651636267) -> a.d("ꚨ\udf06嗘쮨䁵욑粞\uf565欹\ue190昙鰩ዻ譄Ę蟵", -414093818, 1911015624);
+         default -> null;
+      };
    }
 
    static void toggleLight() {

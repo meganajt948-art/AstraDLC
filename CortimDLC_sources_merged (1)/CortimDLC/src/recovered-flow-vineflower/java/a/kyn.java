@@ -358,18 +358,12 @@ public class kyn extends kfe {
    }
 
    boolean lbz(ItemStack var1) {
-      if (this.kyu.get().equals(a.b("㙺俤씠", 1158100536))) {
-         return true;
-      }
-      else if (this.kyu.get().equals(a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141))) {
-         return var1.isIn(ItemTags.SWORDS);
-      }
-      else if (this.kyu.get().equals(a.c(1324087958, "䀘荛ক韲"))) {
-         return var1.isIn(ItemTags.AXES);
-      }
-      else {
-         return var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
-      }
+      return switch (this.kyu.get()) {
+         case a.b("㙺俤씠", 1158100536) -> true;
+         case a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141) -> var1.isIn(ItemTags.SWORDS);
+         case a.c(1324087958, "䀘荛ক韲") -> var1.isIn(ItemTags.AXES);
+         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
+      };
    }
 
    static lck lca() {

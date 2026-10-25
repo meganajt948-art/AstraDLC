@@ -1896,16 +1896,11 @@ public class mpq extends pnc {
 
    BlockPos mzn(String var1) {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         String[] var2;
-         if (var1.equals(a.b("椆Ⴒ驮Е迍", -467702469))) {
-            var2 = new String[]{a.d("↲堆틚䲡읹", -1600239057, -2112458848), a.d("ᎇ樾\ue0ea纑\uf54a珷즠", 1042776697, 1667798468)};
-         }
-         else if (var1.equals(a.c(738142290, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁"))) {
-            var2 = new String[]{a.b("侬㙦벱⊾ꤗ\u2fd9閉", -1858057238)};
-         }
-         else {
-            var2 = new String[]{var1};
-         }
+         String[] var2 = switch (var1) {
+            case a.b("椆Ⴒ驮Е迍", -467702469) -> new String[]{a.d("↲堆틚䲡읹", -1600239057, -2112458848), a.d("ᎇ樾\ue0ea纑\uf54a珷즠", 1042776697, 1667798468)};
+            case a.c(738142290, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁") -> new String[]{a.b("侬㙦벱⊾ꤗ\u2fd9閉", -1858057238)};
+            default -> new String[]{var1};
+         };
          return pte.find(this.mc, this.getPlayer().getBlockPos(), var2);
       } else {
          return null;
