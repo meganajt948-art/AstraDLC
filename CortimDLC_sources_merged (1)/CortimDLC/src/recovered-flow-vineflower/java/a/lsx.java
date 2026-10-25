@@ -338,7 +338,7 @@ public class lsx extends kfe {
    public static void bossBars(MinecraftClient var0, Runnable var1) {
       lsx var2 = lsy;
       if (var2 != null && var2.isEnabled()) {
-         IdentityHashMap var3 = new IdentityHashMap();
+         IdentityHashMap<BossBar, Text> var3 = new IdentityHashMap<>();
 
          for (ClientBossBar var5 : pjn.of(var0).values()) {
             Text var6 = var5.getName();
@@ -416,7 +416,7 @@ public class lsx extends kfe {
    }
 
    static Field[] ltz(Class<?> var0) {
-      ArrayList var1 = new ArrayList();
+      ArrayList<Field> var1 = new ArrayList<>();
 
       for (Field var5 : var0.getDeclaredFields()) {
          if (!Modifier.isStatic(var5.getModifiers()) && var5.getType() == Text.class) {
