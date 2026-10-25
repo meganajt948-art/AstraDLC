@@ -31,7 +31,7 @@ public final class pzw {
       ClientPlayerEntity var3 = var0.player;
       if (var3 != null && var0.world != null) {
          Vec3d var4 = var3.getEntityPos();
-         ArrayList var5 = new ArrayList();
+         ArrayList<pzk> var5 = new ArrayList<>();
          pzk var6 = null;
          double var7 = Double.MAX_VALUE;
 
@@ -39,7 +39,7 @@ public final class pzw {
             if (var10 != var3) {
                Vec3d var11 = var10.getEntityPos();
                if (!(var11.squaredDistanceTo(var4) > var1 * var1)) {
-                  List var12 = lines(var10);
+                  List<String> var12 = lines(var10);
                   if (!var12.isEmpty()) {
                      pzk var13 = new pzk(var11, var12);
                      var5.add(var13);
@@ -63,7 +63,7 @@ public final class pzw {
             return null;
          }
 
-         ArrayList var18 = new ArrayList();
+         ArrayList<pzk> var18 = new ArrayList<>();
 
          for (pzk var21 : var5) {
             double var24 = var21.pzl.x - var6.pzl.x;
@@ -74,7 +74,7 @@ public final class pzw {
          }
 
          var18.sort((var0x, var1x) -> Double.compare(var1x.pzl.y, var0x.pzl.y));
-         ArrayList var20 = new ArrayList();
+         ArrayList<String> var20 = new ArrayList<>();
 
          for (pzk var25 : var18) {
             for (String var32 : var25.pzm) {
