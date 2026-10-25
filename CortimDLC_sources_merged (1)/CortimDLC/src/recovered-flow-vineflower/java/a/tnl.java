@@ -42,11 +42,11 @@ public final class tnl {
       szk var3 = var1.track ? szk.track(var0, var1.dropOvershoot) : szk.build(var0, var1.dropOvershoot, var1.minWindow);
       if (var1.track ? var3.stats.steps >= 1500 : var3.stats.usedHits >= 25 && var3.stats.steps >= 250) {
          Random var4 = new Random(var1.seed);
-         ArrayList var5 = new ArrayList<>(var3.segments);
-         List var6 = var1.track ? windows(var5) : toe(var5);
+         ArrayList<sze> var5 = new ArrayList<>(var3.segments);
+         List<tmn> var6 = var1.track ? windows(var5) : toe(var5);
          Collections.shuffle(var6, var4);
-         ArrayList var7 = new ArrayList();
-         IdentityHashMap var8 = new IdentityHashMap();
+         ArrayList<tmn> var7 = new ArrayList<>();
+         IdentityHashMap<sze, boolean[]> var8 = new IdentityHashMap<>();
          int var9 = var6.size() >= 40 ? Math.max(6, var6.size() * 15 / 100) : 0;
 
          for (int var10 = 0; var10 < var9; var10++) {
@@ -59,9 +59,9 @@ public final class tnl {
             }
          }
 
-         List var30 = var7.isEmpty() ? var6 : var7;
+         List<tmn> var30 = var7.isEmpty() ? var6 : var7;
          lastEpisodes = var30;
-         ArrayList var31 = new ArrayList(var5);
+         ArrayList<sze> var31 = new ArrayList<>(var5);
          if (var1.mirror) {
             for (sze var34 : var5) {
                sze var14 = var34.mirror();
@@ -89,8 +89,8 @@ public final class tnl {
          var2.members = var37;
          int var16 = Math.max(4, var1.epochs);
          var2.epochs = var16;
-         ArrayList var17 = new ArrayList();
-         ArrayList var18 = new ArrayList();
+         ArrayList<tbx> var17 = new ArrayList<>();
+         ArrayList<Callable<Integer>> var18 = new ArrayList<>();
          int var19 = 0;
 
          try {
@@ -195,7 +195,7 @@ public final class tnl {
    }
 
    static void ownHand(szk var0, List<sze> var1, tck var2, Random var3) {
-      ArrayList var4 = new ArrayList();
+      ArrayList<List<float[]>> var4 = new ArrayList<>();
 
       for (float[] var6 : var0.chain) {
          if (var6[2] == 0.0F || var4.isEmpty()) {
@@ -206,9 +206,9 @@ public final class tnl {
       }
 
       Collections.shuffle(var4, var3);
-      ArrayList var12 = new ArrayList();
+      ArrayList<float[]> var12 = new ArrayList<>();
 
-      for (List var7 : var4) {
+      for (List<float[]> var7 : var4) {
          if (var12.size() + var7.size() > 8000) {
             break;
          }
@@ -330,8 +330,8 @@ public final class tnl {
             }
 
             int var33 = Math.min(var28, var32 + 64);
-            List var34 = var27.subList(var32, var33);
-            ArrayList var35 = new ArrayList();
+            List<tnc> var34 = var27.subList(var32, var33);
+            ArrayList<Callable<Void>> var35 = new ArrayList<>();
 
             for (int var36 = 0; var36 < var6; var36++) {
                tni var37 = var14[var36];
@@ -353,7 +353,7 @@ public final class tnl {
                });
             }
 
-            for (Future var53 : var7.invokeAll(var35)) {
+            for (Future<Void> var53 : var7.invokeAll(var35)) {
                var53.get();
             }
 
@@ -1017,7 +1017,7 @@ public final class tnl {
    }
 
    static void top(List<sze> var0, tck var1, Random var2) {
-      ArrayList var3 = new ArrayList(var0);
+      ArrayList<sze> var3 = new ArrayList<>(var0);
       Collections.shuffle(var3, var2);
       tch var4 = new tch();
       double[] var5 = new double[32];
