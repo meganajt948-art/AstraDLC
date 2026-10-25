@@ -1,0 +1,49 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package flow.offline;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.ConcurrentHashMap;
+
+public final class LocalAssets {
+    private static final ConcurrentHashMap<String, byte[]> CACHE = new ConcurrentHashMap();
+
+    private LocalAssets() {
+    }
+
+    public static byte[] bytes(String name) throws IOException {
+        if (name == null) {
+            throw new IOException("Empty resource name");
+        }
+        String key = name.replace('\\', '/').trim();
+        while (key.startsWith("/")) {
+            key = key.substring(1);
+        }
+        if (key.startsWith("flow/")) {
+            key = key.substring(5);
+        }
+        for (String part : key.split("/")) {
+            if (!part.isEmpty() && !part.equals(".") && !part.equals("..")) continue;
+            throw new IOException("Invalid resource name");
+        }
+        byte[] cached = CACHE.get(key);
+        if (cached != null) {
+            return cached;
+        }
+        try (InputStream in = LocalAssets.class.getResourceAsStream("/flow_offline_assets/" + key);){
+            if (in == null) {
+                throw new FileNotFoundException("Resource was not present in the supplied dump: " + key);
+            }
+            byte[] data = in.readAllBytes();
+            if (data.length <= 0x200000) {
+                CACHE.putIfAbsent(key, data);
+            }
+            byte[] byArray = data;
+            return byArray;
+        }
+    }
+}
+
