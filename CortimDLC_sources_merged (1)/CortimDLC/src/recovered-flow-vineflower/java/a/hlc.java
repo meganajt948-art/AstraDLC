@@ -583,7 +583,7 @@ public class hlc extends Screen {
    }
 
    static List<kfe> hpk(List<kfe> var0) {
-      ArrayList var1 = new ArrayList(var0);
+      ArrayList<kfe> var1 = new ArrayList<>(var0);
       var1.removeIf(kfe::isHidden);
       var1.sort(Comparator.comparing(var0x -> var0x.getName().toLowerCase(Locale.ROOT)));
       return var1;
@@ -592,7 +592,7 @@ public class hlc extends Screen {
    List<hjg> hpl(hkv var1) {
       return switch (var1.hkz) {
          case MODULES -> {
-            ArrayList var2 = new ArrayList();
+            ArrayList<hjg> var2 = new ArrayList<>();
 
             for (kfe var4 : hpk(Flow.getInstance().getModuleManager().getByCategory(var1.hky))) {
                var2.add(hls.get(var4));
@@ -610,11 +610,11 @@ public class hlc extends Screen {
    }
 
    void hpm(boolean var1) {
-      ArrayList var2 = new ArrayList();
-      HashSet var3 = new HashSet();
+      ArrayList<hjg> var2 = new ArrayList<>();
+      HashSet<hjg> var3 = new HashSet<>();
       if (!this.hod.isEmpty()) {
          String var4 = this.hod.trim();
-         ArrayList var5 = new ArrayList();
+         ArrayList<hjg> var5 = new ArrayList<>();
 
          for (kfe var7 : hpk(Flow.getInstance().getModuleManager().getModules())) {
             var5.add(hls.get(var7));
@@ -624,7 +624,7 @@ public class hlc extends Screen {
             var5.addAll(var17);
          }
 
-         HashMap var16 = new HashMap();
+         HashMap<hjg, Integer> var16 = new HashMap<>();
 
          for (hjg var8 : var5) {
             int var9 = hpn(var8, var4);
