@@ -119,7 +119,7 @@ public final class enq {
    }
 
    public static BufferedImage captureNearest(World var0, Entity var1) {
-      for (List var3 : findWalls(var0, var1, 24.0)) {
+      for (List<ItemFrameEntity> var3 : findWalls(var0, var1, 24.0)) {
          BufferedImage var4 = capture(var3.stream().min(Comparator.comparingDouble(var1x -> var1x.squaredDistanceTo(var1))).orElseThrow());
          if (var4 != null && !isShuffled(var4)) {
             return var4;
