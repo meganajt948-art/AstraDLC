@@ -299,11 +299,11 @@ public class rae extends kfe {
       double var2 = this.rak.get();
       double var4 = var2 * var2;
       Vec3d var6 = var1.player.getEyePos();
-      ArrayList var7 = new ArrayList();
+      ArrayList<qzt> var7 = new ArrayList<>();
       ObjectIterator var8 = this.rar.values().iterator();
 
       while (var8.hasNext()) {
-         List var9 = (List)var8.next();
+         List<qzt> var9 = (List<qzt>)var8.next();
 
          for (qzt var11 : var9) {
             double var12 = BlockPos.unpackLongX(var11.qzu) + 0.5 - var6.x;
