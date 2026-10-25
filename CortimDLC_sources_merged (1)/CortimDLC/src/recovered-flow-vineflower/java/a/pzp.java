@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.util.math.Vec3d;
 
-public record pzp(qwj tier, String tierWord, int seconds, Vec3d pos) {
+public final class pzp {
    private final qwj pzq;
    private final String pzr;
    private final int pzs;

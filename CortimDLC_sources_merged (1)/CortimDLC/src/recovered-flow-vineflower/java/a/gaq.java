@@ -1,6 +1,6 @@
 package a;
 
-record gaq(String phase, double height, double offset, int sweep) {
+final class gaq {
    private final String gar;
    private final double gas;
    private final double gat;

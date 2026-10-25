@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.block.Block;
 
-record qcu(long pos, Block block, int tick) {
+final class qcu {
    private final long qcv;
    private final Block qcw;
    private final int qcx;

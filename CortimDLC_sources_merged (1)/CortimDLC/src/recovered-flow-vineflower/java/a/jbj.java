@@ -1,6 +1,6 @@
 package a;
 
-record jbj(String label, vhz icon, Runnable action, jcs element, float x, float w) {
+final class jbj {
    private final String jbk;
    private final vhz jbl;
    private final Runnable jbm;

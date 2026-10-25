@@ -57,7 +57,7 @@ public final class sle {
 
          ArrayList var4 = new ArrayList();
 
-         record Raw(long start, String text, long[] words) {
+         final class Raw {
             private final long sks;
             private final String skt;
             private final long[] sku;

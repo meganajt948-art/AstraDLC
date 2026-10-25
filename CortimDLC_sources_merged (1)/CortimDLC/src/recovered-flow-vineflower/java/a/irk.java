@@ -3,7 +3,7 @@ package a;
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 
-record irk(String name, IntSupplier getter, IntConsumer setter, boolean clearable) {
+final class irk {
    private final String irl;
    private final IntSupplier irm;
    private final IntConsumer irn;

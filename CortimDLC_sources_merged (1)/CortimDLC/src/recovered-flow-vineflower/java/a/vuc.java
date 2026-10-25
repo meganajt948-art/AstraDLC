@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.item.ItemStack;
 
-public record vuc(int index, int entry, ItemStack stack) {
+public final class vuc {
    private final int vud;
    private final int vue;
    private final ItemStack vuf;

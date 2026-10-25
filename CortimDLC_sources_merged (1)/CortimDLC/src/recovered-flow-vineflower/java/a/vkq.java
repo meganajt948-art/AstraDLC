@@ -1,6 +1,6 @@
 package a;
 
-public record vkq(String label, vhz icon, Runnable action) {
+public final class vkq {
    private final String vkr;
    private final vhz vks;
    private final Runnable vkt;

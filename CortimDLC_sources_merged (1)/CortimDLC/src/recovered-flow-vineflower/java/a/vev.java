@@ -1,6 +1,6 @@
 package a;
 
-record vev(float u0, float v0, float u1, float v1, float ox, float oy, float w, float h, float advance) {
+final class vev {
    private final float vew;
    private final float vex;
    private final float vey;

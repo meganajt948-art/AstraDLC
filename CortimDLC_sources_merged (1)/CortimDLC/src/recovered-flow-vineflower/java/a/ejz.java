@@ -2,7 +2,7 @@ package a;
 
 import java.util.List;
 
-record ejz(int viewDistance, List<ejs> bots) {
+final class ejz {
    private final int eka;
    private final List<ejs> ekb;
 

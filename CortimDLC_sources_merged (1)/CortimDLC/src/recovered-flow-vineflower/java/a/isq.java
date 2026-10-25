@@ -1,6 +1,6 @@
 package a;
 
-record isq(uok texture, long frame) {
+final class isq {
    private final uok isr;
    private final long iss;
 

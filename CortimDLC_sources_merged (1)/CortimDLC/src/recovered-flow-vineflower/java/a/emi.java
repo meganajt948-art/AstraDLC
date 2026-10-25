@@ -3,7 +3,7 @@ package a;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.registry.RegistryKey;
 
-record emi(RegistryKey<Enchantment> key, int level, boolean deny) {
+final class emi {
    private final RegistryKey<Enchantment> emj;
    private final int emk;
    private final boolean eml;

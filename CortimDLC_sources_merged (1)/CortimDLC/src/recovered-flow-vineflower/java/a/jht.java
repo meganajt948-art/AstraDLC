@@ -3,7 +3,7 @@ package a;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 
-record jht(String key, RegistryEntry<StatusEffect> type, String name, int ticks, boolean infinite, float fraction, int color, boolean harmful) {
+final class jht {
    private final String jhu;
    private final RegistryEntry<StatusEffect> jhv;
    private final String jhw;

@@ -1,6 +1,6 @@
 package a;
 
-record vdi(vfk atlas, long frame) {
+final class vdi {
    private final vfk vdj;
    private final long vdk;
 

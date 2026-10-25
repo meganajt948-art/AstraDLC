@@ -3,7 +3,7 @@ package a;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-record qda(BlockPos pos, Vec3d point, int axis, double[] look, double turn, float yaw, float pitch) {
+final class qda {
    private final BlockPos qdb;
    private final Vec3d qdc;
    private final int qdd;

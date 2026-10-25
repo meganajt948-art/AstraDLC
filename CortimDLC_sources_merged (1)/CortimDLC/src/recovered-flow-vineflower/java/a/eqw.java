@@ -1,6 +1,6 @@
 package a;
 
-record eqw(int[] px, int w, int h) {
+final class eqw {
    private final int[] eqx;
    private final int eqy;
    private final int eqz;

@@ -1,6 +1,6 @@
 package a;
 
-record iom(String name, String group, int[] colors, float tintScale, boolean light, int[] accent) {
+final class iom {
    private final String ion;
    private final String ioo;
    private final int[] iop;

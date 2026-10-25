@@ -1,6 +1,6 @@
 package a;
 
-record oqq(int state, long at) {
+final class oqq {
    private final int oqr;
    private final long oqs;
 

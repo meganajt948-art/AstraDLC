@@ -1,6 +1,6 @@
 package a;
 
-record nes(pzc area, int diamonds, boolean look) {
+final class nes {
    private final pzc net;
    private final int neu;
    private final boolean nev;

@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.item.Item;
 
-record fjo(Item item, int count, int price, boolean glint) {
+final class fjo {
    private final Item fjp;
    private final int fjq;
    private final int fjr;

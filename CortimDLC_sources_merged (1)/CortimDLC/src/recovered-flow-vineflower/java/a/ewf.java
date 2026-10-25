@@ -3,7 +3,7 @@ package a;
 import com.google.gson.JsonObject;
 import flow.dev.a;
 
-public record ewf(int status, JsonObject body) {
+public final class ewf {
    private final int ewg;
    private final JsonObject ewh;
 

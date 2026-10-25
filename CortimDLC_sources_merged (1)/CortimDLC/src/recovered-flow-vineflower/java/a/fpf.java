@@ -1,6 +1,6 @@
 package a;
 
-record fpf(long nanos, boolean crit, float charge, double fall, boolean ground, boolean sprint) {
+final class fpf {
    private final long fpg;
    private final boolean fph;
    private final float fpi;

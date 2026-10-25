@@ -3,7 +3,7 @@ package a;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 
-public record emc(RegistryEntry<StatusEffect> effect, int level, int duration) {
+public final class emc {
    private final RegistryEntry<StatusEffect> emd;
    private final int eme;
    private final int emf;

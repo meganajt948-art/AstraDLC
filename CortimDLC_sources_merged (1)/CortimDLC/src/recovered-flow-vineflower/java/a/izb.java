@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.item.ItemStack;
 
-record izb(String key, ItemStack stack, String name, long endsAt, float totalSeconds) {
+final class izb {
    private final String izc;
    private final ItemStack izd;
    private final String ize;

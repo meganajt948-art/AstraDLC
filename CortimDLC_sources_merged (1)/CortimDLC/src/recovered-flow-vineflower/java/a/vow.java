@@ -2,7 +2,7 @@ package a;
 
 import java.nio.file.Path;
 
-record vow(String name, Path both, Path on, Path off) {
+final class vow {
    private final String vox;
    private final Path voy;
    private final Path voz;

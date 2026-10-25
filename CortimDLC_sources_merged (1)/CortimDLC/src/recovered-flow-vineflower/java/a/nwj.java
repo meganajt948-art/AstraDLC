@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.screen.slot.SlotActionType;
 
-record nwj(int slot, int button, SlotActionType type, int cursor) {
+final class nwj {
    private final int nwk;
    private final int nwl;
    private final SlotActionType nwm;

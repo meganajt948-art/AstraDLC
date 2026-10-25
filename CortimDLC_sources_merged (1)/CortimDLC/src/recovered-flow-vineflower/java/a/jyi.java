@@ -2,7 +2,7 @@ package a;
 
 import java.util.UUID;
 
-record jyi(String name, UUID uuid, UUID skin, boolean microsoft, Object handle) {
+final class jyi {
    private final String jyj;
    private final UUID jyk;
    private final UUID jyl;

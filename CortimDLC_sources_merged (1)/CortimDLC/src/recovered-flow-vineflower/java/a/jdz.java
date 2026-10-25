@@ -1,6 +1,6 @@
 package a;
 
-record jdz(String name, int key, boolean on) {
+final class jdz {
    private final String jea;
    private final int jeb;
    private final boolean jec;

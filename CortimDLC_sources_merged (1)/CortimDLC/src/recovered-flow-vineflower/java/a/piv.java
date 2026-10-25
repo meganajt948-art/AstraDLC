@@ -1,6 +1,6 @@
 package a;
 
-record piv(String anarchy, long seen) {
+final class piv {
    private final String piw;
    private final long pix;
 

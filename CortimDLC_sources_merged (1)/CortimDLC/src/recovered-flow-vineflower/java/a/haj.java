@@ -2,7 +2,7 @@ package a;
 
 import flow.dev.a;
 
-record haj(int at, String name, long time, float yaw, float pitch, int lift, boolean on, String weather, String quality) {
+final class haj {
    private final int hak;
    private final String hal;
    private final long ham;

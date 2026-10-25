@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.item.ItemStack;
 
-record iay(String id, ItemStack icon, String name, String search) {
+final class iay {
    private final String iaz;
    private final ItemStack iba;
    private final String ibb;

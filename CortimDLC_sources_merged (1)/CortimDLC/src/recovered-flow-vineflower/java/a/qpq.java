@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.screen.slot.SlotActionType;
 
-public record qpq(int slot, int button, SlotActionType type) {
+public final class qpq {
    private final int qpr;
    private final int qps;
    private final SlotActionType qpt;

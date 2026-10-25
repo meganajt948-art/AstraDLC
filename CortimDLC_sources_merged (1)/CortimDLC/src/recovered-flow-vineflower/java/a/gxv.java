@@ -1,6 +1,6 @@
 package a;
 
-record gxv(int at, String name, long time, float yaw, float pitch, boolean on, String extra) {
+final class gxv {
    private final int gxw;
    private final String gxx;
    private final long gxy;

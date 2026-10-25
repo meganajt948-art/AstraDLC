@@ -1,6 +1,6 @@
 package a;
 
-record ubs(String from, String box) {
+final class ubs {
    private final String ubt;
    private final String ubu;
 

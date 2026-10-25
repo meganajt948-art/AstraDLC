@@ -1,6 +1,6 @@
 package a;
 
-record dxl(dxy tex, int tintIndex) {
+final class dxl {
    private final dxy dxm;
    private final int dxn;
 

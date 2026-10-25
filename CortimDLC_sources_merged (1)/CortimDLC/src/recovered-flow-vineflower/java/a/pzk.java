@@ -3,7 +3,7 @@ package a;
 import java.util.List;
 import net.minecraft.util.math.Vec3d;
 
-record pzk(Vec3d pos, List<String> lines) {
+final class pzk {
    private final Vec3d pzl;
    private final List<String> pzm;
 

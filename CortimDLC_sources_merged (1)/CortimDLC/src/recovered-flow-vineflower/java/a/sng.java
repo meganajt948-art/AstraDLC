@@ -1,6 +1,6 @@
 package a;
 
-public record sng(int tone, int tone2, float glow, boolean shadow, boolean particles, float alpha) {
+public final class sng {
    private final int snh;
    private final int sni;
    private final float snj;

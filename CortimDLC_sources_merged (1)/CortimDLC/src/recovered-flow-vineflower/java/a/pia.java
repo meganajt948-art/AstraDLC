@@ -6,7 +6,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.registry.entry.RegistryEntry;
 
-public record pia(RegistryEntry<EntityAttribute> attribute, double amount, Operation op) {
+public final class pia {
    private final RegistryEntry<EntityAttribute> pib;
    private final double pic;
    private final Operation pid;

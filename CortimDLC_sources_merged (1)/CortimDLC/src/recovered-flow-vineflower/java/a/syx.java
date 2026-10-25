@@ -1,6 +1,6 @@
 package a;
 
-record syx(int tick, int id, double u, double v) {
+final class syx {
    private final int syy;
    private final int syz;
    private final double sza;

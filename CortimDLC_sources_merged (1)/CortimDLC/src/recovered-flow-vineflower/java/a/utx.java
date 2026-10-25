@@ -9,26 +9,7 @@ import org.joml.Matrix3x2f;
 import org.joml.Vector2f;
 import org.jspecify.annotations.Nullable;
 
-record utx(
-   RenderPipeline pipeline,
-   TextureSetup textureSetup,
-   Matrix3x2f pose,
-   float x,
-   float y,
-   float w,
-   float h,
-   int cTL,
-   int cTR,
-   int cBR,
-   int cBL,
-   int radiiA,
-   int radiiB,
-   float z,
-   float pad,
-   float param,
-   @Nullable ScreenRect scissorArea,
-   @Nullable ScreenRect bounds
-) implements SimpleGuiElementRenderState {
+final class utx implements SimpleGuiElementRenderState {
    private final RenderPipeline uty;
    private final TextureSetup utz;
    private final Matrix3x2f uua;

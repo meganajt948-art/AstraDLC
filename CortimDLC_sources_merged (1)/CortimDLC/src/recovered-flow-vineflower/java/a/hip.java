@@ -1,6 +1,6 @@
 package a;
 
-record hip(String label, vhz icon, Runnable action) {
+final class hip {
    private final String hiq;
    private final vhz hir;
    private final Runnable his;

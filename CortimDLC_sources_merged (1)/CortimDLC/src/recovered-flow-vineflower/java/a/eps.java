@@ -1,6 +1,6 @@
 package a;
 
-record eps(int kh, int kw, int sh, int sw) {
+final class eps {
    private final int ept;
    private final int epu;
    private final int epv;

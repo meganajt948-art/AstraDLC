@@ -1,6 +1,6 @@
 package a;
 
-record foo(long nanos, float amount) {
+final class foo {
    private final long fop;
    private final float foq;
 

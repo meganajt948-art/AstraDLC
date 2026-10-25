@@ -1,6 +1,6 @@
 package a;
 
-record smw(String text, vek weight, float scale, long start, long end, boolean newRow, boolean dim) {
+final class smw {
    private final String smx;
    private final vek smy;
    private final float smz;

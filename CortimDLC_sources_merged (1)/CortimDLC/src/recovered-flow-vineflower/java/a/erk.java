@@ -1,6 +1,6 @@
 package a;
 
-record erk(String code, double strength) {
+final class erk {
    private final String erl;
    private final double erm;
 

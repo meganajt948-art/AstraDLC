@@ -1,6 +1,6 @@
 package a;
 
-record iog(String name, int slot, boolean hud) {
+final class iog {
    private final String ioh;
    private final int ioi;
    private final boolean ioj;

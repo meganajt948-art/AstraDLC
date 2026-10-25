@@ -1,6 +1,6 @@
 package a;
 
-record sfz(double x, double y, double z, float fx, float fz, float side, long at, float strength) {
+final class sfz {
    private final double sga;
    private final double sgb;
    private final double sgc;

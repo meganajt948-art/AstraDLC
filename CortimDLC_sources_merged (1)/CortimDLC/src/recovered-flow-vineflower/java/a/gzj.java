@@ -1,6 +1,6 @@
 package a;
 
-record gzj(int at, String name, long time, float yaw, float pitch, boolean on, String extra) {
+final class gzj {
    private final int gzk;
    private final String gzl;
    private final long gzm;

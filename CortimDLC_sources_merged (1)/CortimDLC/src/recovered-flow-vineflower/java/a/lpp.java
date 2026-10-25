@@ -4,7 +4,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
-public record lpp(LivingEntity target, int tick, boolean crit, Vec3d eye, Vec3d aim, Box box) {
+public final class lpp {
    private final LivingEntity lpq;
    private final int lpr;
    private final boolean lps;

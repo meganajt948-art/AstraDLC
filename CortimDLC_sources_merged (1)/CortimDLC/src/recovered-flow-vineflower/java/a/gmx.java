@@ -1,6 +1,6 @@
 package a;
 
-record gmx(String name, int ticks, int orbit, boolean jump, double fight, boolean move) {
+final class gmx {
    private final String gmy;
    private final int gmz;
    private final int gna;

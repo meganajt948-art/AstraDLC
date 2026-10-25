@@ -3,19 +3,7 @@ package a;
 import net.minecraft.entity.player.SkinTextures;
 import net.minecraft.item.ItemStack;
 
-record jjj(
-   String name,
-   SkinTextures skin,
-   float health,
-   float max,
-   float absorption,
-   boolean unknown,
-   ItemStack[] armor,
-   ItemStack main,
-   ItemStack off,
-   float distance,
-   int hurtTime
-) {
+final class jjj {
    private final String jjk;
    private final SkinTextures jjl;
    private final float jjm;

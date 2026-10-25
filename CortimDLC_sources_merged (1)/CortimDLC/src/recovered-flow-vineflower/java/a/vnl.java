@@ -1,6 +1,6 @@
 package a;
 
-record vnl(String sound, boolean on, float gain, long gameContext, String device, float x, float z) {
+final class vnl {
    private final String vnm;
    private final boolean vnn;
    private final float vno;

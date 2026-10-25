@@ -1,6 +1,6 @@
 package a;
 
-public record evy(String data, int enabled, int modules, long updated) {
+public final class evy {
    private final String evz;
    private final int ewa;
    private final int ewb;

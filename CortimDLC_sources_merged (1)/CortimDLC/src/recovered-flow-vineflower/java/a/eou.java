@@ -2,7 +2,7 @@ package a;
 
 import java.util.ArrayList;
 
-record eou(String name, long[] dims) {
+final class eou {
    private final String eov;
    private final long[] eow;
 

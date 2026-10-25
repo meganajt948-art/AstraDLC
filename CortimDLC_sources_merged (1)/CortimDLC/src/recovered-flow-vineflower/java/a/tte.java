@@ -4,7 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
-record tte(BlockPos pos, Direction side, Vec3d point, byte cell) {
+final class tte {
    private final BlockPos ttf;
    private final Direction ttg;
    private final Vec3d tth;

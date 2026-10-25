@@ -1,6 +1,6 @@
 package a;
 
-record vpi(short[] data, int channels, int rate) {
+final class vpi {
    private final short[] vpj;
    private final int vpk;
    private final int vpl;

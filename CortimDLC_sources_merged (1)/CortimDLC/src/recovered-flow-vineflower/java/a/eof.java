@@ -1,6 +1,6 @@
 package a;
 
-record eof(float[] w, float[] b, int co, int ci, int kh, int kw, int pt, int pl, int sh, int sw, int ho, int wo) {
+final class eof {
    private final float[] eog;
    private final float[] eoh;
    private final int eoi;

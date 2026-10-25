@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.item.ItemStack;
 
-public record ivx(ItemStack icon, String title, String note, float cooldown, boolean usable) {
+public final class ivx {
    private final ItemStack ivy;
    private final String ivz;
    private final String iwa;

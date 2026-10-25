@@ -3,7 +3,7 @@ package a;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-record spg(Matrix4f matrix, Matrix3f normals, float hx, float hy, float hz) {
+final class spg {
    private final Matrix4f sph;
    private final Matrix3f spi;
    private final float spj;

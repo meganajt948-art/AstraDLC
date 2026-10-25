@@ -1,6 +1,6 @@
 package a;
 
-public record vyd(float health, float absorption, float max, boolean unknown) {
+public final class vyd {
    private final float vye;
    private final float vyf;
    private final float vyg;

@@ -1,6 +1,6 @@
 package a;
 
-record fot(String name, int ticks, boolean jump, double aggression, boolean botJumps, float aim) {
+final class fot {
    private final String fou;
    private final int fov;
    private final boolean fow;

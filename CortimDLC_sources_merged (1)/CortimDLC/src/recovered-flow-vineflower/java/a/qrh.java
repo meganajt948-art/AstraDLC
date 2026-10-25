@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.block.BlockState;
 
-record qrh(BlockState was, int until) {
+final class qrh {
    private final BlockState qri;
    private final int qrj;
 

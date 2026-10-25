@@ -2,7 +2,7 @@ package a;
 
 import io.netty.channel.ChannelPromise;
 
-record vwt(Object msg, ChannelPromise promise) {
+final class vwt {
    private final Object vwu;
    private final ChannelPromise vwv;
 

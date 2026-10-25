@@ -3,7 +3,7 @@ package a;
 import java.util.List;
 import java.util.Map;
 
-record voq(String signature, Map<String, vow> sounds, List<String> extras) {
+final class voq {
    private final String vor;
    private final Map<String, vow> vos;
    private final List<String> vot;

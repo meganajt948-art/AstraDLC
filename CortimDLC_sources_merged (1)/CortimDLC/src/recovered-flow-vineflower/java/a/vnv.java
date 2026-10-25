@@ -1,6 +1,6 @@
 package a;
 
-record vnv(int buffer, float pitch) {
+final class vnv {
    private final int vnw;
    private final float vnx;
 

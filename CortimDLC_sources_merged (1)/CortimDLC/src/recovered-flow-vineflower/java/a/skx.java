@@ -1,6 +1,6 @@
 package a;
 
-public record skx(long start, long end, String text, long[] words) {
+public final class skx {
    private final long sky;
    private final long skz;
    private final String sla;

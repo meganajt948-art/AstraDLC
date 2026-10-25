@@ -1,6 +1,6 @@
 package a;
 
-record rnb(double speed, double gravity, double drag, double waterDrag, float roll, boolean arrow) {
+final class rnb {
    private final double rnc;
    private final double rnd;
    private final double rne;

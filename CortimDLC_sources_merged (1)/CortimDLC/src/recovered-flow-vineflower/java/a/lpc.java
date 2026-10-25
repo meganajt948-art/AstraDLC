@@ -1,17 +1,6 @@
 package a;
 
-public record lpc(
-   double reach,
-   boolean crits,
-   boolean serverSprinting,
-   boolean lateSmash,
-   double spread,
-   float lookYaw,
-   float lookPitch,
-   double maxTurn,
-   double minFall,
-   double maxFall
-) {
+public final class lpc {
    private final double lpd;
    private final boolean lpe;
    private final boolean lpf;

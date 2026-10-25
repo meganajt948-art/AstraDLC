@@ -1,6 +1,6 @@
 package a;
 
-record saw(double x, double y, double z, float fx, float fz, float side, long at, float strength) {
+final class saw {
    private final double sax;
    private final double say;
    private final double saz;

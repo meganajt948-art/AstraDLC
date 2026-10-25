@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.screen.slot.Slot;
 
-record mgg(Slot slot, int price) implements Comparable<mgg> {
+final class mgg implements Comparable<mgg> {
    private final Slot mgh;
    private final int mgi;
 

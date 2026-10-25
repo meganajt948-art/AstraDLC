@@ -2,7 +2,7 @@ package a;
 
 import flow.dev.a;
 
-public record jgd(String app, String title, String artist, boolean playing, long pos, long duration, long stamp) {
+public final class jgd {
    private final String jge;
    private final String jgf;
    private final String jgg;

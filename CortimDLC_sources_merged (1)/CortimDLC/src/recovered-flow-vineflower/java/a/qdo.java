@@ -2,7 +2,7 @@ package a;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 
-record qdo(int tick, LongOpenHashSet blocks) {
+final class qdo {
    private final int qdp;
    private final LongOpenHashSet qdq;
 

@@ -1,6 +1,6 @@
 package a;
 
-record vrs(String name, float gain, float x, float z, float pitch, float high, float wet, long due) {
+final class vrs {
    private final String vrt;
    private final float vru;
    private final float vrv;

@@ -10,7 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.EntryListWidget;
 
-record keb(Screen screen, EntryListWidget<?> list) implements Drawable {
+final class keb implements Drawable {
    private final Screen kec;
    private final EntryListWidget<?> ked;
 

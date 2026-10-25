@@ -3,7 +3,7 @@ package a;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
-record gsp(String name, RegistryKey<Biome> biome, String season, String sky, long time, int lift, float pitch) {
+final class gsp {
    private final String gsq;
    private final RegistryKey<Biome> gsr;
    private final String gss;

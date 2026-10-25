@@ -4,7 +4,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.registry.entry.RegistryEntry;
 
-record elw(RegistryEntry<EntityAttribute> attribute, double amount, Operation operation) {
+final class elw {
    private final RegistryEntry<EntityAttribute> elx;
    private final double ely;
    private final Operation elz;

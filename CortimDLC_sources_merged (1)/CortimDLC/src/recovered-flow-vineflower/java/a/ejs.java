@@ -1,6 +1,6 @@
 package a;
 
-record ejs(String name, String address, String password, boolean autoReconnect) {
+final class ejs {
    private final String ejt;
    private final String eju;
    private final String ejv;

@@ -1,6 +1,6 @@
 package a;
 
-record wjq(int start, int end, String value) {
+final class wjq {
    private final int wjr;
    private final int wjs;
    private final String wjt;

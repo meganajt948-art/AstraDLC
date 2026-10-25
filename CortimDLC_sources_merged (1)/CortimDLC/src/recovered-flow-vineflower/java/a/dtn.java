@@ -1,6 +1,6 @@
 package a;
 
-record dtn(long at, Runnable action) {
+final class dtn {
    private final long dto;
    private final Runnable dtp;
 

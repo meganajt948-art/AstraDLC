@@ -1,6 +1,6 @@
 package a;
 
-public record qqg(qqp kind, int id, qqm entry) {
+public final class qqg {
    private final qqp qqh;
    private final int qqi;
    private final qqm qqj;

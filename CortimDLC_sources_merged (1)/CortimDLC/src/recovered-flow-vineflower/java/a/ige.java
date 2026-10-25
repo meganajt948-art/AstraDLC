@@ -1,6 +1,6 @@
 package a;
 
-record ige(float x, float y, float w, float h, Runnable left, Runnable right) {
+final class ige {
    private final float igf;
    private final float igg;
    private final float igh;

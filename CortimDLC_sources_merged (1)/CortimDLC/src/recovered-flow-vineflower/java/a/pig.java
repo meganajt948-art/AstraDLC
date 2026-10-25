@@ -5,7 +5,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.entry.RegistryEntry;
 
-public record pig(RegistryEntry<StatusEffect> effect, int level, int duration) {
+public final class pig {
    private final RegistryEntry<StatusEffect> pih;
    private final int pii;
    private final int pij;

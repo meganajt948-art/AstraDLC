@@ -7,18 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.texture.TextureSetup;
 import org.jspecify.annotations.Nullable;
 
-record urt(
-   RenderPipeline pipeline,
-   float[] corners,
-   int color,
-   int color2,
-   int pattern,
-   int flags,
-   float param,
-   float time,
-   @Nullable ScreenRect scissorArea,
-   @Nullable ScreenRect bounds
-) implements SimpleGuiElementRenderState {
+final class urt implements SimpleGuiElementRenderState {
    private final RenderPipeline uru;
    private final float[] urv;
    private final int urw;

@@ -7,23 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.texture.TextureSetup;
 import org.jspecify.annotations.Nullable;
 
-record utf(
-   RenderPipeline pipeline,
-   float x0,
-   float y0,
-   float x1,
-   float y1,
-   float x2,
-   float y2,
-   float x3,
-   float y3,
-   int c0,
-   int c1,
-   int c2,
-   int c3,
-   @Nullable ScreenRect scissorArea,
-   @Nullable ScreenRect bounds
-) implements SimpleGuiElementRenderState {
+final class utf implements SimpleGuiElementRenderState {
    private final RenderPipeline utg;
    private final float uth;
    private final float uti;

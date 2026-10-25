@@ -1,6 +1,6 @@
 package a;
 
-record jfn(String key, String status, int id, qwj tier, long refreshAt, boolean focus) {
+final class jfn {
    private final String jfo;
    private final String jfp;
    private final int jfq;

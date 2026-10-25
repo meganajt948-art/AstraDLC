@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.text.Text;
 
-record svi(String text, int color, boolean bold, Text vanilla) {
+final class svi {
    private final String svj;
    private final int svk;
    private final boolean svl;

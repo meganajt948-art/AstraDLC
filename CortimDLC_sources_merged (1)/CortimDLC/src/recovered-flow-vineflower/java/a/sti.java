@@ -1,6 +1,6 @@
 package a;
 
-public record sti(double x, double z, float distance, boolean bolt) {
+public final class sti {
    private final double stj;
    private final double stk;
    private final float stl;

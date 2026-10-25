@@ -1,6 +1,6 @@
 package a;
 
-public record eso(String code, String message) {
+public final class eso {
    private final String esp;
    private final String esq;
 

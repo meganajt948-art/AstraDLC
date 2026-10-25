@@ -2,7 +2,7 @@ package a;
 
 import java.util.Map;
 
-public record eyg(String key, long size, long uploaded, Map<String, String> meta) {
+public final class eyg {
    private final String eyh;
    private final long eyi;
    private final long eyj;

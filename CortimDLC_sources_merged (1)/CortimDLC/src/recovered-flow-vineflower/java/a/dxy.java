@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.util.math.MathHelper;
 
-record dxy(int w, int h, int[] px) {
+final class dxy {
    private final int dxz;
    private final int dya;
    private final int[] dyb;

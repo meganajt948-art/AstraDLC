@@ -1,6 +1,6 @@
 package a;
 
-public record jza(uok sharp, uok blur, boolean video, int fill) {
+public final class jza {
    private final uok jzb;
    private final uok jzc;
    private final boolean jzd;

@@ -1,6 +1,6 @@
 package a;
 
-record eoz(float[][] w, float[][] r, float[] b, int hidden, int input, int dirs, boolean reverse) {
+final class eoz {
    private final float[][] epa;
    private final float[][] epb;
    private final float[] epc;

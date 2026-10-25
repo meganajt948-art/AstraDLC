@@ -9,9 +9,7 @@ import net.minecraft.client.texture.TextureSetup;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
 
-public record vfw(
-   TextureSetup textureSetup, Matrix3x2f pose, float[] quads, int[] colors, int count, @Nullable ScreenRect scissorArea, @Nullable ScreenRect bounds
-) implements SimpleGuiElementRenderState {
+public final class vfw implements SimpleGuiElementRenderState {
    private final TextureSetup vfx;
    private final Matrix3x2f vfy;
    private final float[] vfz;

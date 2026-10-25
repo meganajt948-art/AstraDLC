@@ -1,6 +1,6 @@
 package a;
 
-public record uoy(float refraction, float bezel, float dispersion, float highlight, float saturation, float lightAngle) {
+public final class uoy {
    private final float uoz;
    private final float upa;
    private final float upb;

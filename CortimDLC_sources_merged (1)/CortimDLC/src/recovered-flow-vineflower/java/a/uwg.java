@@ -1,6 +1,6 @@
 package a;
 
-public record uwg(int first, int count, float r, float g, float b, float a, float scan, float sweep, float flash, float broken) {
+public final class uwg {
    private final int uwh;
    private final int uwi;
    private final float uwj;

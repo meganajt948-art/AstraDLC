@@ -1,6 +1,6 @@
 package a;
 
-record gng(int tick, boolean crit) {
+final class gng {
    private final int gnh;
    private final boolean gni;
 

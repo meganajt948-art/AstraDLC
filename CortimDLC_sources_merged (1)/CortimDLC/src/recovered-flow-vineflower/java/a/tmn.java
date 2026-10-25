@@ -1,6 +1,6 @@
 package a;
 
-record tmn(sze seg, int from, int to) {
+final class tmn {
    private final sze tmo;
    private final int tmp;
    private final int tmq;

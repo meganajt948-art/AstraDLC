@@ -1,6 +1,6 @@
 package a;
 
-public record pfw(int page, int price) {
+public final class pfw {
    private final int pfx;
    private final int pfy;
 

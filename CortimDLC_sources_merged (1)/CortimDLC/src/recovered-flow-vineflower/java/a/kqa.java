@@ -9,7 +9,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-record kqa(String id, boolean glint, String name) {
+final class kqa {
    private final String kqb;
    private final boolean kqc;
    private final String kqd;

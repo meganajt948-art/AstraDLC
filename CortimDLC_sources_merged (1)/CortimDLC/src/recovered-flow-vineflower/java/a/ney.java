@@ -1,6 +1,6 @@
 package a;
 
-public record ney(int id, qwj tier, long refreshAt, boolean focus) {
+public final class ney {
    private final int nez;
    private final qwj nfa;
    private final long nfb;

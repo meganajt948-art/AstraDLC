@@ -1,6 +1,6 @@
 package a;
 
-record ubx(String from, String c, long at) {
+final class ubx {
    private final String uby;
    private final String ubz;
    private final long uca;

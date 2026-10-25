@@ -1,6 +1,6 @@
 package a;
 
-public record erc(String code, String message) {
+public final class erc {
    private final String erd;
    private final String ere;
 

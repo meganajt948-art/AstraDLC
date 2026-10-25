@@ -1,6 +1,6 @@
 package a;
 
-record hrk(float x, float y, float w, float h, Runnable left, Runnable right) {
+final class hrk {
    private final float hrl;
    private final float hrm;
    private final float hrn;

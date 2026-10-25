@@ -1,6 +1,6 @@
 package a;
 
-public record dxe(String text, float x, float y, int color) {
+public final class dxe {
    private final String dxf;
    private final float dxg;
    private final float dxh;

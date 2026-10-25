@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 
-record kdv(Screen screen, ClickableWidget widget, float delay) implements Drawable {
+final class kdv implements Drawable {
    private final Screen kdw;
    private final ClickableWidget kdx;
    private final float kdy;

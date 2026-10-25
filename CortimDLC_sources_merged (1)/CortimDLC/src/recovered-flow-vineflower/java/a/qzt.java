@@ -1,6 +1,6 @@
 package a;
 
-record qzt(long pos, int color, float x0, float y0, float z0, float x1, float y1, float z1) {
+final class qzt {
    private final long qzu;
    private final int qzv;
    private final float qzw;

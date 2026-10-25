@@ -1,6 +1,6 @@
 package a;
 
-record est(byte digit, float[] feat, float norm) {
+final class est {
    private final byte esu;
    private final float[] esv;
    private final float esw;

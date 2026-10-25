@@ -1,6 +1,6 @@
 package a;
 
-record rrj(int id, double x, double y, double z, float yaw, float height, boolean player, boolean totem) {
+final class rrj {
    private final int rrk;
    private final double rrl;
    private final double rrm;

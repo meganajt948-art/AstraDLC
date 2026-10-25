@@ -1,6 +1,6 @@
 package a;
 
-record tnc(sze seg, int k0, int limit) {
+final class tnc {
    private final sze tnd;
    private final int tne;
    private final int tnf;

@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.item.ItemStack;
 
-public record oxi(String id, String name, ItemStack icon, int count, int key, float cooldown, long usedAt, boolean active) {
+public final class oxi {
    private final String oxj;
    private final String oxk;
    private final ItemStack oxl;

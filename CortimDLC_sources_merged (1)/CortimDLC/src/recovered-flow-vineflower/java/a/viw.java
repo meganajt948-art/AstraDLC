@@ -1,6 +1,6 @@
 package a;
 
-record viw(vjb sheet, long frame) {
+final class viw {
    private final vjb vix;
    private final long viy;
 

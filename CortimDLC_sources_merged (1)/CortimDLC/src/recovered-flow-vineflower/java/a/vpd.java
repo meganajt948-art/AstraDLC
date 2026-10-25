@@ -2,7 +2,7 @@ package a;
 
 import java.nio.file.Path;
 
-record vpd(Path file, boolean own) {
+final class vpd {
    private final Path vpe;
    private final boolean vpf;
 

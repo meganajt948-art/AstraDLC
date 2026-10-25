@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.util.math.BlockPos;
 
-record nwq(rzv timer, BlockPos chest, int tier, double score) {
+final class nwq {
    private final rzv nwr;
    private final BlockPos nws;
    private final int nwt;

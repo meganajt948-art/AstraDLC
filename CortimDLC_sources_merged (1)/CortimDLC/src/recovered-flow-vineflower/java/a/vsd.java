@@ -2,7 +2,7 @@ package a;
 
 import java.nio.ShortBuffer;
 
-record vsd(ShortBuffer data, int channels, int rate) {
+final class vsd {
    private final ShortBuffer vse;
    private final int vsf;
    private final int vsg;

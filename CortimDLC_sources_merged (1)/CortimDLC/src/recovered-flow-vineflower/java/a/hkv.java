@@ -1,6 +1,6 @@
 package a;
 
-record hkv(String title, vhz icon, kfa category, hks page) {
+final class hkv {
    private final String hkw;
    private final vhz hkx;
    private final kfa hky;

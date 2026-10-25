@@ -2,7 +2,7 @@ package a;
 
 import net.minecraft.util.math.BlockPos;
 
-public record qmx(BlockPos target, int[] path, float cost) {
+public final class qmx {
    private final BlockPos qmy;
    private final int[] qmz;
    private final float qna;
