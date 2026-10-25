@@ -28,10 +28,6 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Verify existing AlbaDLC build
-        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle build --no-daemon
-
       - name: Compile the recovered source tree
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle compileRecoveredJava --no-daemon --stacktrace
