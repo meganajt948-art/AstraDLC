@@ -144,14 +144,14 @@ public class pbz extends kfe {
    }
 
    void pcy() {
-      HashSet var1 = new HashSet<>(this.pco.keySet());
-      ArrayDeque var2 = new ArrayDeque();
+      HashSet<BlockPos> var1 = new HashSet<>(this.pco.keySet());
+      ArrayDeque<BlockPos> var2 = new ArrayDeque<>();
 
       while (!var1.isEmpty()) {
          BlockPos var3 = (BlockPos)var1.iterator().next();
          var1.remove(var3);
          var2.add(var3);
-         ArrayList var4 = new ArrayList();
+         ArrayList<BlockPos> var4 = new ArrayList<>();
          int var5 = Integer.MAX_VALUE;
          int var6 = Integer.MIN_VALUE;
 
