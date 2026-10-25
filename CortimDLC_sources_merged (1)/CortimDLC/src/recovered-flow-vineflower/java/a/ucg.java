@@ -869,7 +869,7 @@ public final class ucg {
          }
       } else {
          boolean var2 = !var1.equals(udl);
-         HashSet var3 = new HashSet();
+         HashSet<String> var3 = new HashSet<>();
          if (!var2) {
             for (ubm var5 : ucr) {
                var3.add(var5.code);
