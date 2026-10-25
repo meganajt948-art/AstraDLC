@@ -119,9 +119,9 @@ public enum vhz {
 
    synchronized void vif() {
       if (this.vib == null) {
-         ArrayList var1 = new ArrayList();
-         List var2 = new ArrayList();
-         ArrayList var3 = new ArrayList();
+         List<Shape> var1 = new ArrayList<>();
+         List<Shape> var2 = new ArrayList<>();
+         List<Shape> var3 = new ArrayList<>();
 
          for (String var7 : this.via) {
             String[] var8 = var7.trim().split("\\s+");
