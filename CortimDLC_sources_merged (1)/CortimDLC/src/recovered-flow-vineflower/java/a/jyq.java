@@ -4,7 +4,8 @@ import flow.dev.a;
 import java.util.concurrent.CompletableFuture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
-import ru.vidtu.ias.IASMinecraft;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import ru.vidtu.ias.auth.LoginData;
 import ru.vidtu.ias.auth.handlers.LoginHandler;
 import ru.vidtu.ias.utils.exceptions.FriendlyException;
@@ -36,10 +37,27 @@ final class jyq implements LoginHandler {
       }
 
       this.jys.execute(() -> this.jyr.stage(Text.translatable(a.c(1226454407, "㗼䱅욄墨팽喏\uefd4昫\uf873犂\uf50cཫ膫\u181e鉒ᒩ껠℧")).getString()));
-      IASMinecraft.account(this.jys, var1).thenRunAsync(() -> this.jyr.done(var1.name()), this.jys).exceptionally(var1x -> {
-         this.error(var1x);
-         return null;
-      });
+      try {
+         Class<?> iasMinecraft = Class.forName("ru.vidtu.ias.IASMinecraft");
+         Method accountMethod = java.util.Arrays.stream(iasMinecraft.getMethods())
+            .filter(candidate -> Modifier.isStatic(candidate.getModifiers())
+               && candidate.getName().equals("account")
+               && candidate.getParameterCount() == 2
+               && candidate.getParameterTypes()[0].isInstance(this.jys)
+               && candidate.getParameterTypes()[1].isInstance(var1))
+            .findFirst()
+            .orElseThrow(() -> new NoSuchMethodException("Compatible IASMinecraft.account method not found"));
+         Object result = accountMethod.invoke(null, this.jys, var1);
+         if (!(result instanceof CompletableFuture<?> future)) {
+            throw new IllegalStateException("IAS account activation did not return a CompletableFuture");
+         }
+         future.thenRunAsync(() -> this.jyr.done(var1.name()), this.jys).exceptionally(error -> {
+            this.error(error);
+            return null;
+         });
+      } catch (Throwable error) {
+         this.error(error);
+      }
    }
 
    public void error(Throwable var1) {
