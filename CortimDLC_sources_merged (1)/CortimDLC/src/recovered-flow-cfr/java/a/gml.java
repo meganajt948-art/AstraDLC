@@ -70,11 +70,11 @@ final class gml {
                 break;
             }
             case 60: {
-                gml.gms(a.c(-1690082569, "\u62b9\u1b3c\u91ee\u0f84\u847d\u02ff\ub8b3\u3140\uaf02\u25e1\ua271\u580b\ud6d1\u4f76\uc522"), gml.gmr(minecraftClient, EquipmentSlot.field_6174).method_31574(Items.field_8058), gml.gmr(minecraftClient, EquipmentSlot.field_6174));
-                gml.gms(a.b("\ub7d4\uce51\u4483\udae9\u5110\ud792\u6dde\ue42d\u7a6f\uf08c\u7717\u8d6b\u03b8\u9a0c\u101b\u96e2\u2ce7\ua321\u3989\ubfd2\u362d\u4c75\uc28a", -2129938558), gml.gmr(minecraftClient, EquipmentSlot.field_6169).method_31574(Items.field_22027), gml.gmr(minecraftClient, EquipmentSlot.field_6169));
-                gml.gms(a.d("\uab32\ud2b7\u5865\uc60f\u4df6\ucb74\u7138\uf8cb\u6689\uec6a\u6bf7\u9187\u1f1f\u86e7\u0caf\u8a43\u300d", 755053315, -400254879), gml.gmr(minecraftClient, EquipmentSlot.field_6166).method_7960(), gml.gmr(minecraftClient, EquipmentSlot.field_6166));
-                ItemStack itemStack = gml.gmr(minecraftClient, EquipmentSlot.field_6172);
-                gml.gms(a.d("\u6ec2\u1747\u9d95\u03ff\u8806\u0e84\ub4c8\u3d3b\ua379\u299a\uae05\u547d\udaa8\u430d", 598271865, -779908620), itemStack.method_31574(Items.field_8348) && itemStack.method_7919() == 0, itemStack);
+                gml.gms(a.c(-1690082569, "\u62b9\u1b3c\u91ee\u0f84\u847d\u02ff\ub8b3\u3140\uaf02\u25e1\ua271\u580b\ud6d1\u4f76\uc522"), gml.gmr(minecraftClient, EquipmentSlot.CHEST).isOf(Items.DIAMOND_CHESTPLATE), gml.gmr(minecraftClient, EquipmentSlot.CHEST));
+                gml.gms(a.b("\ub7d4\uce51\u4483\udae9\u5110\ud792\u6dde\ue42d\u7a6f\uf08c\u7717\u8d6b\u03b8\u9a0c\u101b\u96e2\u2ce7\ua321\u3989\ubfd2\u362d\u4c75\uc28a", -2129938558), gml.gmr(minecraftClient, EquipmentSlot.HEAD).isOf(Items.NETHERITE_HELMET), gml.gmr(minecraftClient, EquipmentSlot.HEAD));
+                gml.gms(a.d("\uab32\ud2b7\u5865\uc60f\u4df6\ucb74\u7138\uf8cb\u6689\uec6a\u6bf7\u9187\u1f1f\u86e7\u0caf\u8a43\u300d", 755053315, -400254879), gml.gmr(minecraftClient, EquipmentSlot.FEET).isEmpty(), gml.gmr(minecraftClient, EquipmentSlot.FEET));
+                ItemStack itemStack = gml.gmr(minecraftClient, EquipmentSlot.LEGS);
+                gml.gms(a.d("\u6ec2\u1747\u9d95\u03ff\u8806\u0e84\ub4c8\u3d3b\ua379\u299a\uae05\u547d\udaa8\u430d", 598271865, -779908620), itemStack.isOf(Items.DIAMOND_LEGGINGS) && itemStack.getDamage() == 0, itemStack);
                 break;
             }
             case 70: {
@@ -86,8 +86,8 @@ final class gml {
                 break;
             }
             case 110: {
-                ItemStack itemStack = gml.gmr(minecraftClient, EquipmentSlot.field_6172);
-                gml.gms(a.d("\u8e18\uf79d\u7d4f\ue325\u68dc\uee5e\u5412\udde1\u43a3\uc940\u4ed1\ub4b0\u3a70\ua3c5\u299c\uaf6f\u1527\u9aff\u000b\u8609\u0ffa\u75bd\ufb1f", 1771123776, 2046540302), itemStack.method_7919() == 0, itemStack);
+                ItemStack itemStack = gml.gmr(minecraftClient, EquipmentSlot.LEGS);
+                gml.gms(a.d("\u8e18\uf79d\u7d4f\ue325\u68dc\uee5e\u5412\udde1\u43a3\uc940\u4ed1\ub4b0\u3a70\ua3c5\u299c\uaf6f\u1527\u9aff\u000b\u8609\u0ffa\u75bd\ufb1f", 1771123776, 2046540302), itemStack.getDamage() == 0, itemStack);
                 gml.gmt(a.c(-1053344482, "\u3d56\u44d3\uce01\u506b\udb92\u5d10\ue75c\u6eaf\uf0ed"), false);
                 break;
             }
@@ -112,7 +112,7 @@ final class gml {
                 break;
             }
             case 160: {
-                gml.gms(a.d("\ufa1f\u8387\u0941\u973d\u1cec\u9a4e\u202f\ua9fa\u37b3\ubd13\u3a90\uc0ae\u4e78", 1920992336, 784268807), gml.gmr(minecraftClient, EquipmentSlot.field_6174).method_31574(Items.field_8833), gml.gmr(minecraftClient, EquipmentSlot.field_6174));
+                gml.gms(a.d("\ufa1f\u8387\u0941\u973d\u1cec\u9a4e\u202f\ua9fa\u37b3\ubd13\u3a90\uc0ae\u4e78", 1920992336, 784268807), gml.gmr(minecraftClient, EquipmentSlot.CHEST).isOf(Items.ELYTRA), gml.gmr(minecraftClient, EquipmentSlot.CHEST));
                 gmm.add(74);
                 break;
             }
@@ -121,10 +121,10 @@ final class gml {
                 break;
             }
             case 190: {
-                gml.gms(a.b("\uea3a\u93a2\u1964\u8718\u0cc9\u8a6b\u300a\ub9df\u2796\uad36\u2ab5\ud086\u5e52\uc7e1\u4dba", -1339037072), gml.gmr(minecraftClient, EquipmentSlot.field_6174).method_31574(Items.field_8058), gml.gmr(minecraftClient, EquipmentSlot.field_6174));
+                gml.gms(a.b("\uea3a\u93a2\u1964\u8718\u0cc9\u8a6b\u300a\ub9df\u2796\uad36\u2ab5\ud086\u5e52\uc7e1\u4dba", -1339037072), gml.gmr(minecraftClient, EquipmentSlot.CHEST).isOf(Items.DIAMOND_CHESTPLATE), gml.gmr(minecraftClient, EquipmentSlot.CHEST));
                 gml.gmv(minecraftClient, a.b("\udc28\ua584\u2f46\ub13f\u3aa5\ubc46\u0602\u8fe6\u11a5\u9b19\u1cc8\ue6bf\u682d\uf1d9\u7b81\ufd6a\u4738\uc8f4\u524a\ud442\u5dd5\u27b7\ua957\u32cf\ub4b7\u3e7e\u87de\u0984\u9369\u1523\u9e8d\u6057\uea4f\u73a2\uf5f3\u7f52\uc0d2\u4abd\ucc73\u55de\udfc9\ua175\u2b22\uac94\u3648\ub83f\u01fd\u8b5f\u0d17\u96d4\u18e9\ue264\u6bdc\ued96\u7772\uf931\u4296\uc45a\u4e30\ud7d5\u594f\u2303\ua4fc\u2ea5\ub064\u39c4\u83c3\u0523\u8f73", -360915964));
-                minecraftClient.field_1724.method_36457(90.0f);
-                gmo = minecraftClient.field_1724.method_31548().method_67532();
+                minecraftClient.player.setPitch(90.0f);
+                gmo = minecraftClient.player.getInventory().getSelectedSlot();
                 break;
             }
             case 195: {
@@ -137,20 +137,20 @@ final class gml {
             }
             case 230: {
                 int n3 = 0;
-                for (int i = 0; i < minecraftClient.field_1724.method_31548().method_5439(); ++i) {
-                    ItemStack itemStack = minecraftClient.field_1724.method_31548().method_5438(i);
-                    if (!itemStack.method_31574(Items.field_8639)) continue;
-                    n3 += itemStack.method_7947();
+                for (int i = 0; i < minecraftClient.player.getInventory().size(); ++i) {
+                    ItemStack itemStack = minecraftClient.player.getInventory().getStack(i);
+                    if (!itemStack.isOf(Items.FIREWORK_ROCKET)) continue;
+                    n3 += itemStack.getCount();
                 }
                 gml.gms(a.c(1976948043, "\ud516\uac8e\u2648\ub834\u33e5\ub547\u0f26\u86f3\u18ba\u921a\u1599\uefae\u6176\uf8dc\u7298\uf47b\u4e2c\uc1e0\u5b4a\udd50\u54f2\u2ea5\ua000\u3bd0"), n3 == 15, n3);
-                gml.gms(a.d("\ue85b\u91c3\u1b05\u8579\u0ea8\u880a\u326b\ubbbe\u25f7\uaf57\u28d4\ud2e3\u5c3b\uc591\u4fd5\uc936\u7361\ufcad\u6607\ue01d\u69a8\u13fa\u9d4b\u0692\u80a6\u0a3e\ub38a\u3d95\ua732\u217f\uaac1\u5412\ude5b", 359606986, 476693237), minecraftClient.field_1724.method_31548().method_5438(29).method_31574(Items.field_8639) && minecraftClient.field_1724.method_31548().method_67532() == gmo, minecraftClient.field_1724.method_31548().method_5438(29));
+                gml.gms(a.d("\ue85b\u91c3\u1b05\u8579\u0ea8\u880a\u326b\ubbbe\u25f7\uaf57\u28d4\ud2e3\u5c3b\uc591\u4fd5\uc936\u7361\ufcad\u6607\ue01d\u69a8\u13fa\u9d4b\u0692\u80a6\u0a3e\ub38a\u3d95\ua732\u217f\uaac1\u5412\ude5b", 359606986, 476693237), minecraftClient.player.getInventory().getStack(29).isOf(Items.FIREWORK_ROCKET) && minecraftClient.player.getInventory().getSelectedSlot() == gmo, minecraftClient.player.getInventory().getStack(29));
                 gml.gmt(a.c(-1964206851, "\u94b2\ued2a\u67ec\uf990\u7241\uf4e3\u4e82\uc757\u591e\ud3be"), false);
-                minecraftClient.field_1724.method_36457(0.0f);
+                minecraftClient.player.setPitch(0.0f);
                 break;
             }
             case 240: {
                 gml.gmt(a.c(1476554783, "\u705a\u09c4\u831b\u1d62\u9680\u1013\uaa5d\u23b7\ubdf9\u374e\ub08a"), true);
-                String string = minecraftClient.method_1548().method_1676();
+                String string = minecraftClient.getSession().getUsername();
                 gml.gmv(minecraftClient, a.d("\u33ec\u4a4d\uc092\u5efe\ud53e\u5388\ue9d6\u6029\ufe65\u74c2\uf355\u096b\u87b1\u1e08\u9454\u12a3\ua8fb\u2737\ubd9b\u3bd9\ub238\uc83a\u46c8\udd1c\u5b63\ud1f6\u680b\ue644\u7ce3\ufaf6\u7154\u8f9d\u05d2\u9c37\u1a3d\u908e\u2b64\ua14a\u27e7\ube2c\u340f\u4afd\uc0d9\u4304", 809384694, 457574725) + string + a.b("\uacb4", 505326743));
                 gml.gmv(minecraftClient, a.c(1555381848, "\u3e00\u47a1\ucd7e\u5312\ud8d2\u5e64\ue43a\u6dc5\uf389\u792e\ufeb9\u0487\u8a5d\u13e4\u99b8\u1f4f\ua517\u2adb\ub077\u3635\ubfd4\uc5d6\u4b36\ud0f1\u569f\udc5e\u65e0\uebab\u715f\uf712\u7cac\u8265\u0873\u91d1\u1798\u9d24\u22f2\ua884\u2e54\ub7f6\u3dfb\u4344\uc909"));
                 gml.gmv(minecraftClient, a.d("\u9b50\ue2f1\u682e\uf642\u7d82\ufb34\u416a\uc895\u56d9\udc7e\u5be9\ua1c8\u2f03\ub6bf\u3cf4\uba19A\u8f91\u1571\u9373\u1a92\u60d2\uee35", -621032919, -624471779) + string + a.d("\uca47\ub3b8\u3975\ua754\u2c94", -679766179, 59530559));
@@ -161,20 +161,20 @@ final class gml {
                 break;
             }
             case 245: {
-                gml.gmv(minecraftClient, a.d("\u6aa1\u1301\u99db\u07aa\u8c63\u0ac1\ub084\u3922\ua71d\u2d9f\uaa1f\u506c\udef1\u474d\ucd17\u4be6\uf1aa\u7e34", 1724644439, 1063098000) + minecraftClient.method_1548().method_1676() + a.d("\u2530\u5cc9\ud617\u4871\uc3b1\u4547", 1448794323, -1867711035));
+                gml.gmv(minecraftClient, a.d("\u6aa1\u1301\u99db\u07aa\u8c63\u0ac1\ub084\u3922\ua71d\u2d9f\uaa1f\u506c\udef1\u474d\ucd17\u4be6\uf1aa\u7e34", 1724644439, 1063098000) + minecraftClient.getSession().getUsername() + a.d("\u2530\u5cc9\ud617\u4871\uc3b1\u4547", 1448794323, -1867711035));
                 break;
             }
             case 248: {
-                gml.gmv(minecraftClient, a.b("\u9b07\ue2ab\u6865\uf60c\u7dd2\ufb26\u4115\uc8d7\u56db\udc3e\u5bf0\ua19c\u2f53\ub6eb\u3cfd\uba0e\u047c\u8bf2\u1139\u9762\u1e92\u64b4\uee69\u75b4", 1469225835) + minecraftClient.method_1548().method_1676() + a.d("\ud5f9", -218393377, -1458880251));
+                gml.gmv(minecraftClient, a.b("\u9b07\ue2ab\u6865\uf60c\u7dd2\ufb26\u4115\uc8d7\u56db\udc3e\u5bf0\ua19c\u2f53\ub6eb\u3cfd\uba0e\u047c\u8bf2\u1139\u9762\u1e92\u64b4\uee69\u75b4", 1469225835) + minecraftClient.getSession().getUsername() + a.d("\ud5f9", -218393377, -1458880251));
                 break;
             }
             case 252: {
                 String string = gml.gmu(minecraftClient);
-                gml.gms(a.b("\ub156\uc8c8\u4217\udc6e\u578c\ud11f\u6b51\ue2bb\u7cf5\uf642\u7186\u8ba3\u0537\u9c8d\u16d7\u9033", -708529912), string.contains(a.c(-777997596, "\ub2a6\ucb3d\u41ed\udf84")) && !string.contains(minecraftClient.method_1548().method_1676()), string);
-                ItemStack itemStack = minecraftClient.field_1724.method_31548().method_5438(1);
-                String string2 = itemStack.method_7950(Item.TooltipContext.field_51353, (PlayerEntity)minecraftClient.field_1724, (TooltipType)TooltipType.field_41070).toString();
-                gml.gms(a.c(-1324821619, "\ud3e1\uaa7f\u20a0\ubed9\u353b\ub3a8\u09e6\u800c\u1e42\u94f5\u1331\ue914\u678f\ufe37\u7460\uf286\u48da\uc71d\u5dfd\udbe0\u5214\u2858\ua6fc\u3d68\ubb43\u3189\u8875\u0669\u9c9c\u1ac6\u9164\u6fac\ue5ea\u7c0d"), string2.contains(minecraftClient.method_1548().method_1676()), string2);
-                minecraftClient.field_1690.field_1907.method_23481(true);
+                gml.gms(a.b("\ub156\uc8c8\u4217\udc6e\u578c\ud11f\u6b51\ue2bb\u7cf5\uf642\u7186\u8ba3\u0537\u9c8d\u16d7\u9033", -708529912), string.contains(a.c(-777997596, "\ub2a6\ucb3d\u41ed\udf84")) && !string.contains(minecraftClient.getSession().getUsername()), string);
+                ItemStack itemStack = minecraftClient.player.getInventory().getStack(1);
+                String string2 = itemStack.getTooltip(Item.TooltipContext.DEFAULT, (PlayerEntity)minecraftClient.player, (TooltipType)TooltipType.BASIC).toString();
+                gml.gms(a.c(-1324821619, "\ud3e1\uaa7f\u20a0\ubed9\u353b\ub3a8\u09e6\u800c\u1e42\u94f5\u1331\ue914\u678f\ufe37\u7460\uf286\u48da\uc71d\u5dfd\udbe0\u5214\u2858\ua6fc\u3d68\ubb43\u3189\u8875\u0669\u9c9c\u1ac6\u9164\u6fac\ue5ea\u7c0d"), string2.contains(minecraftClient.getSession().getUsername()), string2);
+                minecraftClient.options.playerListKey.setPressed(true);
                 break;
             }
             case 256: {
@@ -182,7 +182,7 @@ final class gml {
                 break;
             }
             case 258: {
-                minecraftClient.field_1690.field_1907.method_23481(false);
+                minecraftClient.options.playerListKey.setPressed(false);
                 gml.gmt(a.d("\udb31\ua2af\u2870\ub609\u3deb\ubb78\u0136\u88dc\u1692\u9c25\u1be1", -2063666699, 267332225), false);
                 break;
             }
@@ -191,7 +191,7 @@ final class gml {
                 break;
             }
             case 264: {
-                String string = minecraftClient.method_1548().method_1676();
+                String string = minecraftClient.getSession().getUsername();
                 gml.gmv(minecraftClient, a.d("\u4079\u39d8\ub307\u2d6b\ua6ab\u201d\u9a43\u13bc\u8df0\u0757\u80c0\u7afe\uf424\u6d9d\ue7c1\u6136\udb6e\u54a2\uce0e\u484c\uc1ad\ubbaf\u354e\uae88\u28ff\ua22c\u1b86\u95c4\u0f76\u8969\u02c4", 90450245, 453011792));
                 gml.gmv(minecraftClient, a.c(-951125806, "\uf8a6\u811a\u0bd5\u95a4\u1e62\u98d0\u2290\uab33\u353e\ubf98\u3843\uc230\u4cfe\ud55c\u5f4a\ud9fd\u63b8\uec6a\u76c1\uf0dd\u797e\u0331"));
                 gml.gmv(minecraftClient, a.d("\u43ee\u3a42\ub08c\u2ee5\ua53b\u23cf\u99fc\u103e\u8e32\u04c0\u831c\u7964\uf7b7\u6e15", -355964792, 87960348));
@@ -221,7 +221,7 @@ final class gml {
     }
 
     private static ItemStack gmr(MinecraftClient minecraftClient, EquipmentSlot equipmentSlot) {
-        return minecraftClient.field_1724.method_6118(equipmentSlot);
+        return minecraftClient.player.getEquippedStack(equipmentSlot);
     }
 
     private static void gms(String string, boolean bl, Object object) {
@@ -245,14 +245,14 @@ final class gml {
 
     private static String gmu(MinecraftClient minecraftClient) {
         try {
-            for (Field field : minecraftClient.field_1705.method_1743().getClass().getDeclaredFields()) {
+            for (Field field : minecraftClient.inGameHud.getChatHud().getClass().getDeclaredFields()) {
                 Object e;
                 if (!List.class.isAssignableFrom(field.getType())) continue;
                 field.setAccessible(true);
-                List list = (List)field.get(minecraftClient.field_1705.method_1743());
+                List list = (List)field.get(minecraftClient.inGameHud.getChatHud());
                 if (list.isEmpty() || !((e = list.get(0)) instanceof ChatHudLine)) continue;
                 ChatHudLine chatHudLine = (ChatHudLine)e;
-                return chatHudLine.comp_893().getString();
+                return chatHudLine.content().getString();
             }
         }
         catch (Exception exception) {
@@ -262,11 +262,11 @@ final class gml {
     }
 
     private static void gmv(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void gmw(MinecraftClient minecraftClient, String string) {
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.d("\u83ff\ufa44\u7094\ueefd\u656f\ue3c1", -848198097, 758515120) + string + a.c(944517745, "\u325b\u4bb4\uc179\u5f01")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.d("\u83ff\ufa44\u7094\ueefd\u656f\ue3c1", -848198097, 758515120) + string + a.c(944517745, "\u325b\u4bb4\uc179\u5f01")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int ux(int n, int n2) {

@@ -50,24 +50,24 @@ public final class pte {
     }
 
     public static BlockPos find(MinecraftClient minecraftClient, BlockPos blockPos, int n, int n2, String ... stringArray) {
-        if (minecraftClient.field_1687 == null || blockPos == null) {
+        if (minecraftClient.world == null || blockPos == null) {
             return null;
         }
         BlockPos blockPos2 = null;
         double d = Double.MAX_VALUE;
-        int n3 = blockPos.method_10263() >> 4;
-        int n4 = blockPos.method_10260() >> 4;
+        int n3 = blockPos.getX() >> 4;
+        int n4 = blockPos.getZ() >> 4;
         int n5 = (n >> 4) + 1;
         for (int i = -n5; i <= n5; ++i) {
             for (int j = -n5; j <= n5; ++j) {
-                WorldChunk worldChunk = minecraftClient.field_1687.method_2935().method_12126(n3 + i, n4 + j, false);
+                WorldChunk worldChunk = minecraftClient.world.getChunkManager().getWorldChunk(n3 + i, n4 + j, false);
                 if (worldChunk == null) continue;
-                for (BlockEntity blockEntity : worldChunk.method_12214().values()) {
+                for (BlockEntity blockEntity : worldChunk.getBlockEntities().values()) {
                     double d2;
                     BlockPos blockPos3;
                     SignBlockEntity signBlockEntity;
                     BlockPos blockPos4;
-                    if (!(blockEntity instanceof SignBlockEntity) || Math.abs((blockPos4 = (signBlockEntity = (SignBlockEntity)blockEntity).method_11016()).method_10263() - blockPos.method_10263()) > n || Math.abs(blockPos4.method_10264() - blockPos.method_10264()) > n2 || Math.abs(blockPos4.method_10260() - blockPos.method_10260()) > n || !pte.matches(signBlockEntity, stringArray) || (blockPos3 = pte.chestFor((World)minecraftClient.field_1687, blockPos4)) == null || !((d2 = blockPos3.method_10262((Vec3i)blockPos)) < d)) continue;
+                    if (!(blockEntity instanceof SignBlockEntity) || Math.abs((blockPos4 = (signBlockEntity = (SignBlockEntity)blockEntity).getPos()).getX() - blockPos.getX()) > n || Math.abs(blockPos4.getY() - blockPos.getY()) > n2 || Math.abs(blockPos4.getZ() - blockPos.getZ()) > n || !pte.matches(signBlockEntity, stringArray) || (blockPos3 = pte.chestFor((World)minecraftClient.world, blockPos4)) == null || !((d2 = blockPos3.getSquaredDistance((Vec3i)blockPos)) < d)) continue;
                     d = d2;
                     blockPos2 = blockPos3;
                 }
@@ -79,7 +79,7 @@ public final class pte {
     public static boolean matches(SignBlockEntity signBlockEntity, String ... stringArray) {
         for (boolean bl : new boolean[]{true, false}) {
             Text[] textArray;
-            for (Text text : textArray = signBlockEntity.method_49843(bl).method_49877(false)) {
+            for (Text text : textArray = signBlockEntity.getText(bl).getMessages(false)) {
                 if (text == null) continue;
                 String string = text.getString().replace(a.c(-1697674788, "\u89fd"), "").toLowerCase(Locale.ROOT).replace('\u0451', '\u0435');
                 for (String string2 : stringArray) {
@@ -92,30 +92,30 @@ public final class pte {
     }
 
     public static BlockPos chestFor(World world, BlockPos blockPos) {
-        BlockState blockState = world.method_8320(blockPos);
-        if (blockState.method_26204() instanceof WallSignBlock) {
-            BlockPos blockPos2 = blockPos.method_10093(((Direction)blockState.method_11654((Property)WallSignBlock.field_11726)).method_10153());
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.getBlock() instanceof WallSignBlock) {
+            BlockPos blockPos2 = blockPos.offset(((Direction)blockState.get((Property)WallSignBlock.FACING)).getOpposite());
             if (pte.isChest(world, blockPos2)) {
                 return blockPos2;
             }
-            return pte.isChest(world, blockPos.method_10074()) ? blockPos.method_10074() : null;
+            return pte.isChest(world, blockPos.down()) ? blockPos.down() : null;
         }
-        if (blockState.method_26204() instanceof WallHangingSignBlock) {
-            Direction direction = (Direction)blockState.method_11654((Property)WallHangingSignBlock.field_40319);
-            for (Direction direction2 : new Direction[]{direction.method_10170(), direction.method_10160(), direction.method_10153()}) {
-                if (!pte.isChest(world, blockPos.method_10093(direction2))) continue;
-                return blockPos.method_10093(direction2);
+        if (blockState.getBlock() instanceof WallHangingSignBlock) {
+            Direction direction = (Direction)blockState.get((Property)WallHangingSignBlock.FACING);
+            for (Direction direction2 : new Direction[]{direction.rotateYClockwise(), direction.rotateYCounterclockwise(), direction.getOpposite()}) {
+                if (!pte.isChest(world, blockPos.offset(direction2))) continue;
+                return blockPos.offset(direction2);
             }
-            return pte.isChest(world, blockPos.method_10074()) ? blockPos.method_10074() : null;
+            return pte.isChest(world, blockPos.down()) ? blockPos.down() : null;
         }
-        if (blockState.method_26204() instanceof HangingSignBlock) {
-            return pte.isChest(world, blockPos.method_10084()) ? blockPos.method_10084() : null;
+        if (blockState.getBlock() instanceof HangingSignBlock) {
+            return pte.isChest(world, blockPos.up()) ? blockPos.up() : null;
         }
-        return pte.isChest(world, blockPos.method_10074()) ? blockPos.method_10074() : null;
+        return pte.isChest(world, blockPos.down()) ? blockPos.down() : null;
     }
 
     public static boolean isChest(World world, BlockPos blockPos) {
-        return world.method_8320(blockPos).method_26204() instanceof ChestBlock;
+        return world.getBlockState(blockPos).getBlock() instanceof ChestBlock;
     }
 
     private static /* synthetic */ int bog(int n, int n2) {

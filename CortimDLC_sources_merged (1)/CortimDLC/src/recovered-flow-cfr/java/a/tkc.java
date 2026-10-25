@@ -67,9 +67,9 @@ public final class tkc {
         this.tkh = tiq2.newTapeName();
         this.tkf.created = System.currentTimeMillis();
         this.tkf.source = n;
-        this.tkf.originX = Math.floor(vec3d.field_1352);
-        this.tkf.originY = Math.floor(vec3d.field_1351);
-        this.tkf.originZ = Math.floor(vec3d.field_1350);
+        this.tkf.originX = Math.floor(vec3d.x);
+        this.tkf.originY = Math.floor(vec3d.y);
+        this.tkf.originZ = Math.floor(vec3d.z);
         this.tkf.unit = f;
     }
 
@@ -81,35 +81,35 @@ public final class tkc {
         if (this.tkl != 0) {
             return;
         }
-        Box box = entity.method_5829();
-        double d = (box.field_1323 + box.field_1320) * 0.5;
-        double d2 = (box.field_1321 + box.field_1324) * 0.5;
-        Vec3d vec3d2 = clientPlayerEntity.method_33571();
-        this.tkl = entity.method_5628() == 0 ? 1 : entity.method_5628();
-        this.tkm = (float)tbp.hitU(vec3d2.field_1352, vec3d2.field_1350, d, d2, (box.field_1320 - box.field_1323) * 0.5, vec3d.field_1352, vec3d.field_1350);
-        this.tkn = (float)tbp.hitV(box.field_1322, box.field_1325 - box.field_1322, vec3d.field_1351);
+        Box box = entity.getBoundingBox();
+        double d = (box.minX + box.maxX) * 0.5;
+        double d2 = (box.minZ + box.maxZ) * 0.5;
+        Vec3d vec3d2 = clientPlayerEntity.getEyePos();
+        this.tkl = entity.getId() == 0 ? 1 : entity.getId();
+        this.tkm = (float)tbp.hitU(vec3d2.x, vec3d2.z, d, d2, (box.maxX - box.minX) * 0.5, vec3d.x, vec3d.z);
+        this.tkn = (float)tbp.hitV(box.minY, box.maxY - box.minY, vec3d.y);
     }
 
     public void aim(MinecraftClient minecraftClient, List<? extends Entity> list) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (this.tkl != 0 || clientPlayerEntity == null || minecraftClient.field_1687 == null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (this.tkl != 0 || clientPlayerEntity == null || minecraftClient.world == null) {
             return;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = vec3d.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(8.0));
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = vec3d.add(clientPlayerEntity.getRotationVec(1.0f).multiply(8.0));
         double d = 8.0;
-        BlockHitResult blockHitResult = minecraftClient.field_1687.method_17742(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.field_17558, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-        if (blockHitResult.method_17783() != HitResult.Type.field_1333) {
-            d = blockHitResult.method_17784().method_1022(vec3d);
+        BlockHitResult blockHitResult = minecraftClient.world.raycast(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+        if (blockHitResult.getType() != HitResult.Type.MISS) {
+            d = blockHitResult.getPos().distanceTo(vec3d);
         }
         Entity entity = null;
         Vec3d vec3d3 = null;
         double d2 = d;
         for (Entity entity2 : list) {
-            Box box = entity2.method_5829().method_1014((double)entity2.method_5871());
-            Optional optional = box.method_992(vec3d, vec3d2);
-            if (!optional.isPresent() || !(((Vec3d)optional.get()).method_1022(vec3d) < d2)) continue;
-            d2 = ((Vec3d)optional.get()).method_1022(vec3d);
+            Box box = entity2.getBoundingBox().expand((double)entity2.getTargetingMargin());
+            Optional optional = box.raycast(vec3d, vec3d2);
+            if (!optional.isPresent() || !(((Vec3d)optional.get()).distanceTo(vec3d) < d2)) continue;
+            d2 = ((Vec3d)optional.get()).distanceTo(vec3d);
             entity = entity2;
             vec3d3 = (Vec3d)optional.get();
         }
@@ -128,22 +128,22 @@ public final class tkc {
 
     public void tick(MinecraftClient minecraftClient, List<? extends Entity> list) {
         int n;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return;
         }
         this.paused = false;
         this.pauseReason = "";
         tme tme2 = new tme();
-        tme2.flags = 1 | (clientPlayerEntity.method_24828() ? 2 : 0) | (this.tkj ? 4 : 0);
+        tme2.flags = 1 | (clientPlayerEntity.isOnGround() ? 2 : 0) | (this.tkj ? 4 : 0);
         this.tkj = false;
-        tme2.yaw = clientPlayerEntity.method_36454();
-        tme2.pitch = clientPlayerEntity.method_36455();
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        tme2.eyeX = (float)(vec3d.field_1352 - this.tkf.originX);
-        tme2.eyeY = (float)(vec3d.field_1351 - this.tkf.originY);
-        tme2.eyeZ = (float)(vec3d.field_1350 - this.tkf.originZ);
-        tme2.cooldown = clientPlayerEntity.method_7261(0.5f);
+        tme2.yaw = clientPlayerEntity.getYaw();
+        tme2.pitch = clientPlayerEntity.getPitch();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        tme2.eyeX = (float)(vec3d.x - this.tkf.originX);
+        tme2.eyeY = (float)(vec3d.y - this.tkf.originY);
+        tme2.eyeZ = (float)(vec3d.z - this.tkf.originZ);
+        tme2.cooldown = clientPlayerEntity.getAttackCooldownProgress(0.5f);
         tme2.presses = this.tkk;
         tme2.hitId = this.tkl;
         tme2.hitU = this.tkm;
@@ -153,13 +153,13 @@ public final class tkc {
         tme2.boxes = new float[n2 * 5];
         for (n = 0; n < n2; ++n) {
             Entity entity = list.get(n);
-            Box box = entity.method_5829();
-            tme2.ids[n] = entity.method_5628() == 0 ? 1 : entity.method_5628();
-            tme2.boxes[n * 5] = (float)((box.field_1323 + box.field_1320) * 0.5 - this.tkf.originX);
-            tme2.boxes[n * 5 + 1] = (float)(box.field_1322 - this.tkf.originY);
-            tme2.boxes[n * 5 + 2] = (float)((box.field_1321 + box.field_1324) * 0.5 - this.tkf.originZ);
-            tme2.boxes[n * 5 + 3] = (float)((box.field_1320 - box.field_1323) * 0.5);
-            tme2.boxes[n * 5 + 4] = (float)(box.field_1325 - box.field_1322);
+            Box box = entity.getBoundingBox();
+            tme2.ids[n] = entity.getId() == 0 ? 1 : entity.getId();
+            tme2.boxes[n * 5] = (float)((box.minX + box.maxX) * 0.5 - this.tkf.originX);
+            tme2.boxes[n * 5 + 1] = (float)(box.minY - this.tkf.originY);
+            tme2.boxes[n * 5 + 2] = (float)((box.minZ + box.maxZ) * 0.5 - this.tkf.originZ);
+            tme2.boxes[n * 5 + 3] = (float)((box.maxX - box.minX) * 0.5);
+            tme2.boxes[n * 5 + 4] = (float)(box.maxY - box.minY);
         }
         n = this.tkg.size();
         this.tkg.add(tme2);

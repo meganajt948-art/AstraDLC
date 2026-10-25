@@ -33,13 +33,13 @@ public final class hzl {
 
     public static void steps(List<BooleanSupplier> list) {
         float f;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         hzl.hzp(irr.class);
         hzl.hzp(izx.class);
         float f2 = 1.0f;
-        if (minecraftClient.method_22683() != null) {
-            f = minecraftClient.method_22683().method_4486();
-            float f3 = minecraftClient.method_22683().method_4502();
+        if (minecraftClient.getWindow() != null) {
+            f = minecraftClient.getWindow().getScaledWidth();
+            float f3 = minecraftClient.getWindow().getScaledHeight();
             float f4 = Math.min((f - 16.0f) / 540.0f, (f3 - 16.0f) / 409.0f);
             f2 = Math.max(0.3f, Math.min((float)iov.SCALE.get(), f4));
         }

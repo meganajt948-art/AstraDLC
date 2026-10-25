@@ -54,7 +54,7 @@ final class fbc {
                 break;
             }
             case 20: {
-                minecraftClient.field_1690.field_1907.method_23481(true);
+                minecraftClient.options.playerListKey.setPressed(true);
                 break;
             }
             case 22: {
@@ -66,7 +66,7 @@ final class fbc {
                 break;
             }
             case 35: {
-                minecraftClient.field_1690.field_1907.method_23481(false);
+                minecraftClient.options.playerListKey.setPressed(false);
                 break;
             }
             case 37: {
@@ -74,11 +74,11 @@ final class fbc {
                 break;
             }
             case 50: {
-                minecraftClient.field_1705.method_1743().method_1812((Text)Text.method_43470((String)a.c(2044120767, "\uceee\ub772\u3da8\ua3d9\u280d\uaef3\u14e6\u9d03\u0341\u89f2\u0e6c\uf47b\u7a86\ue334\u697f\uefd5\u5596\uda0b\u40bd\uc6eb\u4f17\u3503\ubbff\u202f\ua65b")));
+                minecraftClient.inGameHud.getChatHud().addMessage((Text)Text.literal((String)a.c(2044120767, "\uceee\ub772\u3da8\ua3d9\u280d\uaef3\u14e6\u9d03\u0341\u89f2\u0e6c\uf47b\u7a86\ue334\u697f\uefd5\u5596\uda0b\u40bd\uc6eb\u4f17\u3503\ubbff\u202f\ua65b")));
                 break;
             }
             case 56: {
-                minecraftClient.field_1705.method_1743().method_1812((Text)Text.method_43470((String)a.d("\u6c33\u15e3\u9f63\u0104\u8ad5\u0c68\ub63a\u3fc1\ua1da\u2b27\uacf1\u5687\ud85b\u41af\ucbaf\u4d41\uf70b\u78d7\ue265\u6422\ued86\u9783\u192c\u82f0\u04ca\u8e58\u37e0\ub9b8\u235a\ua55f\u2eb9\ud06d", -1398516817, -1926021123)));
+                minecraftClient.inGameHud.getChatHud().addMessage((Text)Text.literal((String)a.d("\u6c33\u15e3\u9f63\u0104\u8ad5\u0c68\ub63a\u3fc1\ua1da\u2b27\uacf1\u5687\ud85b\u41af\ucbaf\u4d41\uf70b\u78d7\ue265\u6422\ued86\u9783\u192c\u82f0\u04ca\u8e58\u37e0\ub9b8\u235a\ua55f\u2eb9\ud06d", -1398516817, -1926021123)));
                 break;
             }
             case 57: {
@@ -90,7 +90,7 @@ final class fbc {
                 break;
             }
             case 80: {
-                minecraftClient.method_1507((Screen)new ChatScreen("", false));
+                minecraftClient.setScreen((Screen)new ChatScreen("", false));
                 break;
             }
             case 82: {
@@ -99,11 +99,11 @@ final class fbc {
             }
             case 95: {
                 fbc.fbg(minecraftClient, a.b("\ubacb\uc375\u49a1\ud7d4\u5c43\udaef\u60bb\ue950\u7741\ufdfb\u7a21\u8045\u0ecb\u9738\u1d74\u9b90\u21d4", 227588795));
-                minecraftClient.method_1507(null);
+                minecraftClient.setScreen(null);
                 break;
             }
             case 110: {
-                minecraftClient.method_1507((Screen)new InventoryScreen((PlayerEntity)minecraftClient.field_1724));
+                minecraftClient.setScreen((Screen)new InventoryScreen((PlayerEntity)minecraftClient.player));
                 break;
             }
             case 112: {
@@ -112,11 +112,11 @@ final class fbc {
             }
             case 130: {
                 fbc.fbg(minecraftClient, a.b("\ue385\u9a3b\u10ef\u8e9a\u050d\u83a1\u39fb\ub01e\u2e05\ua4b3\u2378\ud91a\u57c6\uce6d\u4425\uc2c9\u788d\uf708\u6df9\uebb7\u6255\u180f", 2061362162));
-                minecraftClient.method_1507(null);
+                minecraftClient.setScreen(null);
                 break;
             }
             case 140: {
-                minecraftClient.method_1507((Screen)new GameMenuScreen(true));
+                minecraftClient.setScreen((Screen)new GameMenuScreen(true));
                 break;
             }
             case 142: {
@@ -128,7 +128,7 @@ final class fbc {
                 break;
             }
             case 170: {
-                minecraftClient.method_1507(null);
+                minecraftClient.setScreen(null);
                 System.out.println(a.b("\u7869\u01d7\u8b03\u1576\u9eec\u1809\ua24b\u2bac\ub5f4\u3f11\ub8b2\u42d2\ucc17\u55a6", 1386772486));
                 return true;
             }
@@ -137,12 +137,12 @@ final class fbc {
     }
 
     private static void fbf(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void fbg(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.b("\u6720\u1e87\u945d\u0a26\u81b7\u0752\ubd10\u34f7\uaaaf\u204a", 2029217625) + string + a.d("\u60ce\u191f\u93ac", 1877185048, 1344271093) + minecraftClient.method_47599() + a.d("\u9e53\ue7a4\u6d61\uf313", 296859215, 1779968056));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.b("\u664d\u1ff6\u9526\u0b4f\u80dd\u0673", -67082707) + string + a.d("\ub6ee\ucf01\u45cc\udbb4", 1305709896, 1252277132)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> {});
+        System.out.println(a.b("\u6720\u1e87\u945d\u0a26\u81b7\u0752\ubd10\u34f7\uaaaf\u204a", 2029217625) + string + a.d("\u60ce\u191f\u93ac", 1877185048, 1344271093) + minecraftClient.getCurrentFps() + a.d("\u9e53\ue7a4\u6d61\uf313", 296859215, 1779968056));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.b("\u664d\u1ff6\u9526\u0b4f\u80dd\u0673", -67082707) + string + a.d("\ub6ee\ucf01\u45cc\udbb4", 1305709896, 1252277132)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> {});
     }
 
     private static /* synthetic */ int na(int n, int n2) {

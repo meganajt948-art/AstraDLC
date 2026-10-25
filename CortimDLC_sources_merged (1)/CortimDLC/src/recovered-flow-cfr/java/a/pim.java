@@ -36,11 +36,11 @@ public final class pim {
     }
 
     public static pia flat(RegistryEntry<EntityAttribute> registryEntry, double d) {
-        return new pia(registryEntry, d, EntityAttributeModifier.Operation.field_6328);
+        return new pia(registryEntry, d, EntityAttributeModifier.Operation.ADD_VALUE);
     }
 
     public static pia scaled(RegistryEntry<EntityAttribute> registryEntry, double d) {
-        return new pia(registryEntry, d, EntityAttributeModifier.Operation.field_6330);
+        return new pia(registryEntry, d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE);
     }
 
     public static pig effect(RegistryEntry<StatusEffect> registryEntry, int n, int n2) {
@@ -48,7 +48,7 @@ public final class pim {
     }
 
     static boolean attrs(ItemStack itemStack, List<pia> list) {
-        AttributeModifiersComponent attributeModifiersComponent = (AttributeModifiersComponent)itemStack.method_58695(DataComponentTypes.field_49636, (Object)AttributeModifiersComponent.field_49326);
+        AttributeModifiersComponent attributeModifiersComponent = (AttributeModifiersComponent)itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, (Object)AttributeModifiersComponent.DEFAULT);
         for (pia pia2 : list) {
             if (pia2.in(attributeModifiersComponent)) continue;
             return false;
@@ -57,12 +57,12 @@ public final class pim {
     }
 
     static boolean effects(ItemStack itemStack, List<pig> list) {
-        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.method_58694(DataComponentTypes.field_49651);
+        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.get(DataComponentTypes.POTION_CONTENTS);
         if (potionContentsComponent == null) {
             return false;
         }
         int n = 0;
-        for (StatusEffectInstance object : potionContentsComponent.method_57397()) {
+        for (StatusEffectInstance object : potionContentsComponent.getEffects()) {
             ++n;
         }
         if (n != list.size()) {

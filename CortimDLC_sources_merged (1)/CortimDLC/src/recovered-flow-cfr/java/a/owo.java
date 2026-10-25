@@ -87,19 +87,19 @@ extends kfe {
                 if (this.owt.isEmpty()) {
                     return;
                 }
-                screen = minecraftClient.field_1755;
+                screen = minecraftClient.currentScreen;
                 if (!(screen instanceof HandledScreen)) break block5;
                 handledScreen = (HandledScreen)screen;
-                if (minecraftClient.field_1724 != null && handledScreen.method_17577().field_7763 == this.owv) break block6;
+                if (minecraftClient.player != null && handledScreen.getScreenHandler().syncId == this.owv) break block6;
             }
             this.owt.clear();
             return;
         }
-        screen = handledScreen.method_17577();
+        screen = handledScreen.getScreenHandler();
         for (int i = 0; i < this.ows.getInt() && !this.owt.isEmpty(); ++i) {
             int n = this.owt.poll();
-            if (n < 0 || n >= screen.field_7761.size() || !((Slot)screen.field_7761.get(n)).method_7681() || !screen.method_34255().method_7960()) continue;
-            minecraftClient.field_1761.method_2906(screen.field_7763, n, 0, SlotActionType.field_7794, (PlayerEntity)minecraftClient.field_1724);
+            if (n < 0 || n >= screen.slots.size() || !((Slot)screen.slots.get(n)).hasStack() || !screen.getCursorStack().isEmpty()) continue;
+            minecraftClient.interactionManager.clickSlot(screen.syncId, n, 0, SlotActionType.QUICK_MOVE, (PlayerEntity)minecraftClient.player);
         }
     }
 
@@ -108,7 +108,7 @@ extends kfe {
             return false;
         }
         Slot slot = vxl.hovered(handledScreen);
-        if (slot == null || !slot.method_7681()) {
+        if (slot == null || !slot.hasStack()) {
             return false;
         }
         this.oxb(handledScreen, slot);
@@ -117,15 +117,15 @@ extends kfe {
 
     private void oxa(HandledScreen<?> handledScreen) {
         boolean bl;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (!this.isEnabled() || !this.owq.get() || minecraftClient.method_22683() == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (!this.isEnabled() || !this.owq.get() || minecraftClient.getWindow() == null) {
             this.oww = false;
             return;
         }
-        long l = minecraftClient.method_22683().method_4490();
+        long l = minecraftClient.getWindow().getHandle();
         boolean bl2 = GLFW.glfwGetKey((long)l, (int)340) == 1 || GLFW.glfwGetKey((long)l, (int)344) == 1;
         boolean bl3 = bl = GLFW.glfwGetMouseButton((long)l, (int)0) == 1;
-        if (!(bl2 && bl && handledScreen.method_17577().method_34255().method_7960())) {
+        if (!(bl2 && bl && handledScreen.getScreenHandler().getCursorStack().isEmpty())) {
             this.oww = false;
             this.owu.clear();
             return;
@@ -135,23 +135,23 @@ extends kfe {
             this.oww = true;
             this.owu.clear();
             if (slot != null) {
-                this.owu.add(slot.field_7874);
+                this.owu.add(slot.id);
             }
             return;
         }
-        if (slot != null && slot.method_7681() && this.owu.add(slot.field_7874)) {
+        if (slot != null && slot.hasStack() && this.owu.add(slot.id)) {
             this.oxb(handledScreen, slot);
         }
     }
 
     private void oxb(HandledScreen<?> handledScreen, Slot slot) {
-        int n = handledScreen.method_17577().field_7763;
+        int n = handledScreen.getScreenHandler().syncId;
         if (n != this.owv) {
             this.owt.clear();
             this.owv = n;
         }
-        if (!this.owt.contains(slot.field_7874)) {
-            this.owt.add(slot.field_7874);
+        if (!this.owt.contains(slot.id)) {
+            this.owt.add(slot.id);
         }
     }
 

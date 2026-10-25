@@ -103,14 +103,14 @@ extends kfe {
             block5: {
                 if (!(entity instanceof LivingEntity)) break block5;
                 LivingEntity livingEntity = (LivingEntity)entity;
-                if (!(entity instanceof PlayerEntity) && livingEntity.method_5805() && !entity.method_31481()) break block6;
+                if (!(entity instanceof PlayerEntity) && livingEntity.isAlive() && !entity.isRemoved()) break block6;
             }
             return false;
         }
         if (this.rif != this.rhu.version()) {
             this.riq();
         }
-        if ((n = Registries.field_41177.method_10206((Object)entity.method_5864())) < 0 || n >= this.rie.length || !this.rie[n]) {
+        if ((n = Registries.ENTITY_TYPE.getRawId((Object)entity.getType())) < 0 || n >= this.rie.length || !this.rie[n]) {
             return false;
         }
         return !this.rhy.get() || rhs.rir(entity);
@@ -121,11 +121,11 @@ extends kfe {
     }
 
     private void riq() {
-        boolean[] blArray = new boolean[Registries.field_41177.method_10204()];
+        boolean[] blArray = new boolean[Registries.ENTITY_TYPE.size()];
         for (String string : this.rhu.ids()) {
             int n;
-            Identifier identifier = Identifier.method_12829((String)string);
-            if (identifier == null || !Registries.field_41177.method_10250(identifier) || (n = Registries.field_41177.method_10206((Object)((EntityType)Registries.field_41177.method_63535(identifier)))) < 0 || n >= blArray.length) continue;
+            Identifier identifier = Identifier.tryParse((String)string);
+            if (identifier == null || !Registries.ENTITY_TYPE.containsId(identifier) || (n = Registries.ENTITY_TYPE.getRawId((Object)((EntityType)Registries.ENTITY_TYPE.get(identifier)))) < 0 || n >= blArray.length) continue;
             blArray[n] = true;
         }
         this.rie = blArray;
@@ -135,74 +135,74 @@ extends kfe {
     private static boolean rir(Entity entity) {
         AbstractHorseEntity abstractHorseEntity;
         TameableEntity tameableEntity;
-        if (entity instanceof TameableEntity && (tameableEntity = (TameableEntity)entity).method_6181() || entity instanceof AbstractHorseEntity && (abstractHorseEntity = (AbstractHorseEntity)entity).method_6727()) {
+        if (entity instanceof TameableEntity && (tameableEntity = (TameableEntity)entity).isTamed() || entity instanceof AbstractHorseEntity && (abstractHorseEntity = (AbstractHorseEntity)entity).isTame()) {
             return true;
         }
-        return entity.method_16914() || entity instanceof MobEntity && (tameableEntity = (MobEntity)entity).method_60953();
+        return entity.hasCustomName() || entity instanceof MobEntity && (tameableEntity = (MobEntity)entity).isLeashed();
     }
 
     public static int kindColor(Entity entity) {
-        EntityType entityType = entity.method_5864();
-        if (entityType == EntityType.field_6077 || entityType == EntityType.field_17713) {
+        EntityType entityType = entity.getType();
+        if (entityType == EntityType.VILLAGER || entityType == EntityType.WANDERING_TRADER) {
             return -12723068;
         }
-        if (entityType == EntityType.field_6054) {
+        if (entityType == EntityType.ZOMBIE_VILLAGER) {
             return -6563510;
         }
-        if (entityType == EntityType.field_6102) {
+        if (entityType == EntityType.MAGMA_CUBE) {
             return -48077;
         }
-        if (entityType == EntityType.field_6069) {
+        if (entityType == EntityType.SLIME) {
             return -7607718;
         }
-        if (entityType == EntityType.field_6147) {
+        if (entityType == EntityType.IRON_GOLEM) {
             return -1517372;
         }
-        if (entityType == EntityType.field_6047) {
+        if (entityType == EntityType.SNOW_GOLEM) {
             return -1641217;
         }
-        if (entityType == EntityType.field_6099) {
+        if (entityType == EntityType.BLAZE) {
             return -20163;
         }
-        if (entityType == EntityType.field_6055 || entityType == EntityType.field_16281 || entityType == EntityType.field_6081 || entityType == EntityType.field_17943) {
+        if (entityType == EntityType.WOLF || entityType == EntityType.CAT || entityType == EntityType.OCELOT || entityType == EntityType.FOX) {
             return -15253;
         }
-        if (entityType == EntityType.field_6139 || entityType == EntityType.field_6067 || entityType == EntityType.field_6057 || entityType == EntityType.field_6074 || entityType == EntityType.field_17714 || entityType == EntityType.field_40116 || entityType == EntityType.field_6075 || entityType == EntityType.field_6048) {
+        if (entityType == EntityType.HORSE || entityType == EntityType.DONKEY || entityType == EntityType.MULE || entityType == EntityType.LLAMA || entityType == EntityType.TRADER_LLAMA || entityType == EntityType.CAMEL || entityType == EntityType.SKELETON_HORSE || entityType == EntityType.ZOMBIE_HORSE) {
             return -3632802;
         }
-        if (entityType == EntityType.field_6104 || entityType == EntityType.field_38384) {
+        if (entityType == EntityType.PARROT || entityType == EntityType.ALLAY) {
             return -11544321;
         }
-        if (entityType == EntityType.field_28315) {
+        if (entityType == EntityType.AXOLOTL) {
             return -29992;
         }
-        if (entityType == EntityType.field_20346) {
+        if (entityType == EntityType.BEE) {
             return -11443;
         }
-        if (entityType == EntityType.field_6109 || entityType == EntityType.field_6091 || entityType == EntityType.field_6128) {
+        if (entityType == EntityType.SHULKER || entityType == EntityType.ENDERMAN || entityType == EntityType.ENDERMITE) {
             return -5018625;
         }
-        if (entityType == EntityType.field_22281 || entityType == EntityType.field_25751 || entityType == EntityType.field_6050) {
+        if (entityType == EntityType.PIGLIN || entityType == EntityType.PIGLIN_BRUTE || entityType == EntityType.ZOMBIFIED_PIGLIN) {
             return -11443;
         }
-        if (entityType == EntityType.field_6085 || entityType == EntityType.field_6143) {
+        if (entityType == EntityType.COW || entityType == EntityType.MOOSHROOM) {
             return -4158870;
         }
-        if (entityType == EntityType.field_6093 || entityType == EntityType.field_21973) {
+        if (entityType == EntityType.PIG || entityType == EntityType.HOGLIN) {
             return -25932;
         }
-        if (entityType == EntityType.field_6115 || entityType == EntityType.field_6132) {
+        if (entityType == EntityType.SHEEP || entityType == EntityType.CHICKEN) {
             return -724502;
         }
-        if (entityType == EntityType.field_6119 || entityType == EntityType.field_6116 || entityType == EntityType.field_38095) {
+        if (entityType == EntityType.WITHER || entityType == EntityType.ENDER_DRAGON || entityType == EntityType.WARDEN) {
             return -53910;
         }
-        SpawnGroup spawnGroup = entityType.method_5891();
+        SpawnGroup spawnGroup = entityType.getSpawnGroup();
         return switch (spawnGroup) {
-            case SpawnGroup.field_6302 -> -41378;
-            case SpawnGroup.field_6294 -> -8587360;
-            case SpawnGroup.field_6300, SpawnGroup.field_30092, SpawnGroup.field_24460, SpawnGroup.field_34447 -> -11691009;
-            case SpawnGroup.field_6303 -> -5197638;
+            case SpawnGroup.MONSTER -> -41378;
+            case SpawnGroup.CREATURE -> -8587360;
+            case SpawnGroup.WATER_CREATURE, SpawnGroup.UNDERGROUND_WATER_CREATURE, SpawnGroup.WATER_AMBIENT, SpawnGroup.AXOLOTLS -> -11691009;
+            case SpawnGroup.AMBIENT -> -5197638;
             default -> -1;
         };
     }
@@ -210,46 +210,46 @@ extends kfe {
     private List<LivingEntity> ris(MinecraftClient minecraftClient, Vec3d vec3d, double d) {
         ArrayList<LivingEntity> arrayList = new ArrayList<LivingEntity>();
         double d2 = d * d;
-        for (Entity entity : minecraftClient.field_1687.method_18112()) {
-            if (entity == minecraftClient.method_1560() || !this.picks(entity) || !(entity.method_5707(vec3d) <= d2)) continue;
+        for (Entity entity : minecraftClient.world.getEntities()) {
+            if (entity == minecraftClient.getCameraEntity() || !this.picks(entity) || !(entity.squaredDistanceTo(vec3d) <= d2)) continue;
             arrayList.add((LivingEntity)entity);
         }
-        arrayList.sort((livingEntity, livingEntity2) -> Double.compare(livingEntity.method_5707(vec3d), livingEntity2.method_5707(vec3d)));
+        arrayList.sort((livingEntity, livingEntity2) -> Double.compare(livingEntity.squaredDistanceTo(vec3d), livingEntity2.squaredDistanceTo(vec3d)));
         return arrayList;
     }
 
     public static void afterExtraction(WorldRenderState worldRenderState) {
         Object object2;
         rhs rhs2 = rht;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rhs2 == null || !rhs2.isEnabled() || !rhs2.rhv.is("Outline") || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rhs2 == null || !rhs2.isEnabled() || !rhs2.rhv.is("Outline") || minecraftClient.world == null || minecraftClient.player == null) {
             return;
         }
-        Vec3d vec3d = minecraftClient.field_1773.method_19418().method_71156();
+        Vec3d vec3d = minecraftClient.gameRenderer.getCamera().getCameraPos();
         List<LivingEntity> list = rhs2.ris(minecraftClient, vec3d, rhs2.rhz.get());
         if (list.isEmpty()) {
             return;
         }
         ukl.style(4).set((float)rhs2.ric.get(), (float)rhs2.ria.get(), (float)rhs2.rib.get(), (float)rhs2.rid.get(), 0.4f, 0.6f);
         IdentityHashMap<EntityType, List> identityHashMap = new IdentityHashMap<EntityType, List>();
-        for (Object object2 : worldRenderState.field_61735) {
+        for (Object object2 : worldRenderState.entityRenderStates) {
             if (!(object2 instanceof LivingEntityRenderState)) continue;
             LivingEntityRenderState livingEntityRenderState = (LivingEntityRenderState)object2;
-            if (object2 instanceof PlayerEntityRenderState || ((EntityRenderState)object2).field_58171 == null) continue;
-            identityHashMap.computeIfAbsent(((EntityRenderState)object2).field_58171, entityType -> new ArrayList()).add(livingEntityRenderState);
+            if (object2 instanceof PlayerEntityRenderState || ((EntityRenderState)object2).entityType == null) continue;
+            identityHashMap.computeIfAbsent(((EntityRenderState)object2).entityType, entityType -> new ArrayList()).add(livingEntityRenderState);
         }
-        float f = minecraftClient.method_61966().method_60637(true);
+        float f = minecraftClient.getRenderTickCounter().getTickProgress(true);
         object2 = new IdentityHashMap();
         for (LivingEntity livingEntity : list) {
-            List list2 = (List)identityHashMap.get(livingEntity.method_5864());
+            List list2 = (List)identityHashMap.get(livingEntity.getType());
             if (list2 == null) continue;
-            Vec3d vec3d2 = livingEntity.method_30950(f);
+            Vec3d vec3d2 = livingEntity.getLerpedPos(f);
             LivingEntityRenderState livingEntityRenderState = null;
             double d = 0.04;
             for (LivingEntityRenderState livingEntityRenderState2 : list2) {
-                double d2 = livingEntityRenderState2.field_53325 - vec3d2.field_1352;
-                double d3 = livingEntityRenderState2.field_53326 - vec3d2.field_1351;
-                double d4 = livingEntityRenderState2.field_53327 - vec3d2.field_1350;
+                double d2 = livingEntityRenderState2.x - vec3d2.x;
+                double d3 = livingEntityRenderState2.y - vec3d2.y;
+                double d4 = livingEntityRenderState2.z - vec3d2.z;
                 double d5 = d2 * d2 + d3 * d3 + d4 * d4;
                 if (!(d5 < d) || object2.containsKey(livingEntityRenderState2)) continue;
                 d = d5;
@@ -268,8 +268,8 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         rhs rhs2 = rht;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rhs2 == null || !rhs2.isEnabled() || !rhs2.rhv.is("Box") || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rhs2 == null || !rhs2.isEnabled() || !rhs2.rhv.is("Box") || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -277,9 +277,9 @@ extends kfe {
             return;
         }
         rhs2.rig = unf.frame();
-        float f = renderTickCounter.method_60637(true);
+        float f = renderTickCounter.getTickProgress(true);
         try {
-            usn2 = usn.capture(f, drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(f, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -293,7 +293,7 @@ extends kfe {
         try {
             for (int i = list.size() - 1; i >= 0; --i) {
                 LivingEntity livingEntity = list.get(i);
-                rhs2.rit(drawContext, usn2, livingEntity, livingEntity.method_30950(f), rhs2.colorOf((Entity)livingEntity));
+                rhs2.rit(drawContext, usn2, livingEntity, livingEntity.getLerpedPos(f), rhs2.colorOf((Entity)livingEntity));
             }
         }
         finally {
@@ -303,12 +303,12 @@ extends kfe {
 
     private void rit(DrawContext drawContext, usn usn2, LivingEntity livingEntity, Vec3d vec3d, int n) {
         int n2;
-        double d = (double)livingEntity.method_17681() * 0.5 + 0.02;
-        double d2 = (double)livingEntity.method_17682() + 0.02;
+        double d = (double)livingEntity.getWidth() * 0.5 + 0.02;
+        double d2 = (double)livingEntity.getHeight() + 0.02;
         for (int i = 0; i < 8; ++i) {
-            this.rih[i][0] = (i & 1) == 0 ? vec3d.field_1352 - d : vec3d.field_1352 + d;
-            this.rih[i][1] = (i & 2) == 0 ? vec3d.field_1351 : vec3d.field_1351 + d2;
-            this.rih[i][2] = (i & 4) == 0 ? vec3d.field_1350 - d : vec3d.field_1350 + d;
+            this.rih[i][0] = (i & 1) == 0 ? vec3d.x - d : vec3d.x + d;
+            this.rih[i][1] = (i & 2) == 0 ? vec3d.y : vec3d.y + d2;
+            this.rih[i][2] = (i & 4) == 0 ? vec3d.z - d : vec3d.z + d;
             this.rij[i] = usn2.depth(this.rih[i][0], this.rih[i][1], this.rih[i][2]) > 0.05f && usn2.project(this.rih[i][0], this.rih[i][1], this.rih[i][2], this.rii[i]);
         }
         float f = (float)this.ric.get();
@@ -335,36 +335,36 @@ extends kfe {
     private static boolean riu(int n, Vec3d vec3d, Vec3d vec3d2, double d, double d2) {
         return switch (n) {
             case 0 -> {
-                if (vec3d.field_1351 < vec3d2.field_1351) {
+                if (vec3d.y < vec3d2.y) {
                     yield true;
                 }
                 yield false;
             }
             case 1 -> {
-                if (vec3d.field_1351 > vec3d2.field_1351 + d2) {
+                if (vec3d.y > vec3d2.y + d2) {
                     yield true;
                 }
                 yield false;
             }
             case 2 -> {
-                if (vec3d.field_1350 < vec3d2.field_1350 - d) {
+                if (vec3d.z < vec3d2.z - d) {
                     yield true;
                 }
                 yield false;
             }
             case 3 -> {
-                if (vec3d.field_1350 > vec3d2.field_1350 + d) {
+                if (vec3d.z > vec3d2.z + d) {
                     yield true;
                 }
                 yield false;
             }
             case 4 -> {
-                if (vec3d.field_1352 < vec3d2.field_1352 - d) {
+                if (vec3d.x < vec3d2.x - d) {
                     yield true;
                 }
                 yield false;
             }
-            default -> vec3d.field_1352 > vec3d2.field_1352 + d;
+            default -> vec3d.x > vec3d2.x + d;
         };
     }
 

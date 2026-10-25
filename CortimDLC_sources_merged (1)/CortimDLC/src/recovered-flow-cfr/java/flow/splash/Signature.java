@@ -289,7 +289,7 @@ final class Signature {
                 for (int y = 0; y < this.height; ++y) {
                     int row = y * this.width;
                     for (int x = 0; x < this.width; ++x) {
-                        image.method_61941(x, y, this.texels[row + x]);
+                        image.setColorArgb(x, y, this.texels[row + x]);
                     }
                 }
                 device.createCommandEncoder().writeToTexture(this.texture, image);

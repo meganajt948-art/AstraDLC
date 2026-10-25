@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public final class lkh {
-    private static final MinecraftClient lki = MinecraftClient.method_1551();
+    private static final MinecraftClient lki = MinecraftClient.getInstance();
     private static final double lkj = 33.5;
     private static final double lkk = 15.0;
     private static final double lkl = 0.021321961620469083;
@@ -62,21 +62,21 @@ public final class lkh {
     }
 
     public boolean rotate(float f, float f2) {
-        if (lkh.lki.field_1724 == null || this.lku.target == null) {
+        if (lkh.lki.player == null || this.lku.target == null) {
             return false;
         }
         double d = 1.0;
         if (this.lku.attackReady) {
             d = 0.5;
         }
-        float f3 = MathHelper.method_15393((float)(this.lku.yawToTarget - f));
-        float f4 = MathHelper.method_15363((float)(this.lku.pitchToTarget - f2), (float)-90.0f, (float)90.0f);
+        float f3 = MathHelper.wrapDegrees((float)(this.lku.yawToTarget - f));
+        float f4 = MathHelper.clamp((float)(this.lku.pitchToTarget - f2), (float)-90.0f, (float)90.0f);
         f3 += Math.signum(f3) * 25.0f;
         double d2 = this.llh(f, f2, d);
         float f5 = (float)(Math.sin(d2) * 33.5 * d + (double)f3 * 0.2);
         float f6 = (float)(Math.cos(d2) * 15.0 * d + (double)f4 * 0.1);
         this.llc = f + this.lkv.fix(f5, true);
-        this.lld = MathHelper.method_15363((float)(f2 + this.lkv.fix(f6, false)), (float)-90.0f, (float)90.0f);
+        this.lld = MathHelper.clamp((float)(f2 + this.lkv.fix(f6, false)), (float)-90.0f, (float)90.0f);
         return true;
     }
 
@@ -124,12 +124,12 @@ public final class lkh {
         double d6 = Double.MAX_VALUE;
         for (int i = 0; i <= n2; ++i) {
             double d7 = i >= n ? Math.min(d2, 0.5) : d2;
-            float f5 = MathHelper.method_15393((float)(this.lkw[i] - f3));
-            float f6 = MathHelper.method_15363((float)(this.lkx[i] - f4), (float)-90.0f, (float)90.0f);
+            float f5 = MathHelper.wrapDegrees((float)(this.lkw[i] - f3));
+            float f6 = MathHelper.clamp((float)(this.lkx[i] - f4), (float)-90.0f, (float)90.0f);
             f3 += (float)(Math.sin(d5 += d) * 33.5 * d7 + (double)(f5 + Math.signum(f5) * 25.0f) * 0.2);
-            f4 = MathHelper.method_15363((float)(f4 + (float)(Math.cos(d5) * 15.0 * d7 + (double)f6 * 0.1)), (float)-90.0f, (float)90.0f);
+            f4 = MathHelper.clamp((float)(f4 + (float)(Math.cos(d5) * 15.0 * d7 + (double)f6 * 0.1)), (float)-90.0f, (float)90.0f);
             if (i < n) continue;
-            double d8 = Math.max(0.0, (double)Math.abs(MathHelper.method_15393((float)(this.lkw[i] - f3))) - d3);
+            double d8 = Math.max(0.0, (double)Math.abs(MathHelper.wrapDegrees((float)(this.lkw[i] - f3))) - d3);
             double d9 = Math.max(0.0, (double)Math.abs(this.lkx[i] - f4) - d4);
             d6 = Math.min(d6, d8 + d9);
         }
@@ -137,7 +137,7 @@ public final class lkh {
     }
 
     private int llk() {
-        return MathHelper.method_15340((int)this.lku.strikeIn, (int)0, (int)12);
+        return MathHelper.clamp((int)this.lku.strikeIn, (int)0, (int)12);
     }
 
     private void lll(int n) {
@@ -151,9 +151,9 @@ public final class lkh {
                 this.lkx[i] = this.lkx[i - 1];
                 continue;
             }
-            double d = vec3d2.field_1352 - vec3d.field_1352;
-            double d2 = vec3d2.field_1351 - vec3d.field_1351;
-            double d3 = vec3d2.field_1350 - vec3d.field_1350;
+            double d = vec3d2.x - vec3d.x;
+            double d2 = vec3d2.y - vec3d.y;
+            double d3 = vec3d2.z - vec3d.z;
             this.lkw[i] = (float)(Math.toDegrees(Math.atan2(d3, d)) - 90.0);
             this.lkx[i] = (float)(-Math.toDegrees(Math.atan2(d2, Math.hypot(d, d3))));
         }
@@ -161,10 +161,10 @@ public final class lkh {
 
     private double llm(boolean bl) {
         Box box = this.lku.box;
-        double d = bl ? Math.min(box.method_17939(), box.method_17941()) : box.method_17940();
-        Vec3d vec3d = lkh.lki.field_1724.method_33571();
-        Vec3d vec3d2 = box.method_1005();
-        double d2 = Math.max(0.05, Math.hypot(vec3d2.field_1352 - vec3d.field_1352, vec3d2.field_1350 - vec3d.field_1350));
+        double d = bl ? Math.min(box.getLengthX(), box.getLengthZ()) : box.getLengthY();
+        Vec3d vec3d = lkh.lki.player.getEyePos();
+        Vec3d vec3d2 = box.getCenter();
+        double d2 = Math.max(0.05, Math.hypot(vec3d2.x - vec3d.x, vec3d2.z - vec3d.z));
         return Math.toDegrees(Math.atan2(d * 0.4, d2));
     }
 

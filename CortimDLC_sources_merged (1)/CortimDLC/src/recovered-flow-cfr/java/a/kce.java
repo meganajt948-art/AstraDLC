@@ -43,7 +43,7 @@ public final class kce {
     public void draw(DrawContext drawContext, GpuTextureView gpuTextureView, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, int n) {
         this.kcs();
         Wordmark wordmark = this.kcr(f4 * f3);
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f, f2);
         matrix3x2fStack.scale(f3, f3);

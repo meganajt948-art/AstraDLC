@@ -20,15 +20,15 @@ public final class lnb {
     }
 
     public void update(ClientPlayerEntity clientPlayerEntity) {
-        double d = clientPlayerEntity.method_23318();
+        double d = clientPlayerEntity.getY();
         double d2 = Double.isNaN(this.lnd) ? 0.0 : d - this.lnd;
         this.lnd = d;
         if (d2 > 0.0 || d2 < -4.0) {
             this.lnc = 0.0;
-        } else if (d2 < 0.0 && !clientPlayerEntity.method_5799()) {
+        } else if (d2 < 0.0 && !clientPlayerEntity.isTouchingWater()) {
             this.lnc -= d2;
         }
-        this.lnc = Math.min(this.lnc, clientPlayerEntity.field_6017);
+        this.lnc = Math.min(this.lnc, clientPlayerEntity.fallDistance);
     }
 
     public void landed() {

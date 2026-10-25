@@ -60,21 +60,21 @@ extends kfe {
         float f2;
         Object object;
         rpj rpj2 = rpk;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (rpj2 == null || !rpj2.isEnabled() || clientPlayerEntity == null || minecraftClient.field_1761 == null || !minecraftClient.field_1761.method_2908() || clientPlayerEntity.method_5854() instanceof LivingEntity) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (rpj2 == null || !rpj2.isEnabled() || clientPlayerEntity == null || minecraftClient.interactionManager == null || !minecraftClient.interactionManager.hasStatusBars() || clientPlayerEntity.getVehicle() instanceof LivingEntity) {
             return;
         }
-        HungerManager hungerManager = clientPlayerEntity.method_7344();
-        int n = hungerManager.method_7586();
-        float f3 = hungerManager.method_7589();
-        int n2 = drawContext.method_51421() / 2 + 91;
-        int n3 = drawContext.method_51443() - 39;
+        HungerManager hungerManager = clientPlayerEntity.getHungerManager();
+        int n = hungerManager.getFoodLevel();
+        float f3 = hungerManager.getSaturationLevel();
+        int n2 = drawContext.getScaledWindowWidth() / 2 + 91;
+        int n3 = drawContext.getScaledWindowHeight() - 39;
         FoodComponent foodComponent = null;
         if (rpj2.rpl.get()) {
             for (Hand hand : Hand.values()) {
-                ItemStack itemStack = clientPlayerEntity.method_5998(hand);
-                object = (FoodComponent)itemStack.method_58694(DataComponentTypes.field_50075);
+                ItemStack itemStack = clientPlayerEntity.getStackInHand(hand);
+                object = (FoodComponent)itemStack.get(DataComponentTypes.FOOD);
                 if (object == null) continue;
                 foodComponent = object;
                 break;
@@ -82,7 +82,7 @@ extends kfe {
         }
         float f4 = 0.35f + 0.3f * (float)Math.sin((double)System.currentTimeMillis() / 180.0);
         if (foodComponent != null && n < 20) {
-            int n4 = Math.min(20, n + foodComponent.comp_2491());
+            int n4 = Math.min(20, n + foodComponent.nutrition());
             int n5 = ujt.withAlpha(-1, Math.round(255.0f * f4));
             for (int i = 0; i < 10; ++i) {
                 int n6;
@@ -91,7 +91,7 @@ extends kfe {
                 int n9 = n8 < n ? 2 : (n7 = n8 == n ? 1 : 0);
                 int n10 = n8 < n4 ? 2 : (n6 = n8 == n4 ? 1 : 0);
                 if (n6 <= n7) continue;
-                drawContext.method_52707(RenderPipelines.field_56883, n6 == 2 ? rpn : rpo, n2 - i * 8 - 9, n3, 9, 9, n5);
+                drawContext.drawGuiTexture(RenderPipelines.GUI_TEXTURED, n6 == 2 ? rpn : rpo, n2 - i * 8 - 9, n3, 9, 9, n5);
             }
         }
         uut.beginFrame();
@@ -100,7 +100,7 @@ extends kfe {
         float f7 = (float)n3 - f6 - 0.6f;
         uut.round(drawContext, (float)n2 - f5 - 0.5f, f7, f5, f6, f6 * 0.5f, 0x55000000);
         float f8 = f5 * Math.max(0.0f, Math.min(20.0f, f3)) / 20.0f;
-        if (foodComponent != null && (f2 = f5 * Math.max(0.0f, f = Math.min(Math.min(20.0f, (float)(n + foodComponent.comp_2491())), f3 + foodComponent.comp_2492())) / 20.0f) > f8) {
+        if (foodComponent != null && (f2 = f5 * Math.max(0.0f, f = Math.min(Math.min(20.0f, (float)(n + foodComponent.nutrition())), f3 + foodComponent.saturation())) / 20.0f) > f8) {
             uut.round(drawContext, (float)n2 - f2 - 0.5f, f7, f2, f6, f6 * 0.5f, ujt.withAlpha(-670639, Math.round(255.0f * f4)));
         }
         if (f8 > 0.2f) {
@@ -114,8 +114,8 @@ extends kfe {
     }
 
     static {
-        rpn = Identifier.method_60656((String)"hud/food_full");
-        rpo = Identifier.method_60656((String)"hud/food_half");
+        rpn = Identifier.ofVanilla((String)"hud/food_full");
+        rpo = Identifier.ofVanilla((String)"hud/food_half");
         rpq = veo.semibold(5.8f);
     }
 

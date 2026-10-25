@@ -89,24 +89,24 @@ extends kfe {
         }
         double d = lub2.lum.get() * lub2.lum.get();
         double d2 = lub2.luo.get() * lub2.luo.get();
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        int n = minecraftClient.field_1724 != null ? minecraftClient.field_1724.method_5628() : Integer.MIN_VALUE;
-        Iterator iterator = worldRenderState.field_61735.iterator();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        int n = minecraftClient.player != null ? minecraftClient.player.getId() : Integer.MIN_VALUE;
+        Iterator iterator = worldRenderState.entityRenderStates.iterator();
         while (iterator.hasNext()) {
             EntityRenderState entityRenderState = (EntityRenderState)iterator.next();
-            if (bl2 && entityRenderState.field_53332 > d2 && (entityRenderState instanceof ItemDisplayEntityRenderState || entityRenderState instanceof BlockDisplayEntityRenderState)) {
+            if (bl2 && entityRenderState.squaredDistanceToCamera > d2 && (entityRenderState instanceof ItemDisplayEntityRenderState || entityRenderState instanceof BlockDisplayEntityRenderState)) {
                 iterator.remove();
                 continue;
             }
-            if (!bl || !(entityRenderState.field_53332 > d) || !(entityRenderState instanceof ArmedEntityRenderState)) continue;
+            if (!bl || !(entityRenderState.squaredDistanceToCamera > d) || !(entityRenderState instanceof ArmedEntityRenderState)) continue;
             ArmedEntityRenderState armedEntityRenderState = (ArmedEntityRenderState)entityRenderState;
             if (entityRenderState instanceof PlayerEntityRenderState) {
                 PlayerEntityRenderState playerEntityRenderState = (PlayerEntityRenderState)entityRenderState;
-                if (playerEntityRenderState.field_53528 == n) continue;
+                if (playerEntityRenderState.id == n) continue;
             }
-            armedEntityRenderState.field_55305.method_65605();
-            armedEntityRenderState.field_55307.method_65605();
-            armedEntityRenderState.field_53467.method_65605();
+            armedEntityRenderState.rightHandItemState.clear();
+            armedEntityRenderState.leftHandItemState.clear();
+            armedEntityRenderState.headItemRenderState.clear();
         }
     }
 
@@ -119,8 +119,8 @@ extends kfe {
     @Override
     protected void onDisable() {
         lub.lvk();
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient != null && minecraftClient.field_1690 != null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient != null && minecraftClient.options != null) {
             this.lvm(minecraftClient);
             if (this.lve >= 0 && this.lve != lub.lvl()) {
                 lub.lvn(minecraftClient);
@@ -138,7 +138,7 @@ extends kfe {
             this.lvm(minecraftClient);
             return;
         }
-        int n2 = n = minecraftClient.method_22683() != null ? minecraftClient.method_22683().method_22092() : 0;
+        int n2 = n = minecraftClient.getWindow() != null ? minecraftClient.getWindow().getRefreshRate() : 0;
         if (this.luc.is(a.c(-597070565, "\u6d47\u14cd\u9e1ch\u8bbb\u0d0e\ub740\u3ea0\ua0fe"))) {
             lub.lvo(lus, true, 260);
         } else {
@@ -146,8 +146,8 @@ extends kfe {
         }
         lub.lvo(lut, this.lud.get() || this.luc.is(a.c(-2029731414, "\uc1f6\ub87c\u32ad\uacd9\u270a\ua1bf\u1bf1\u9211\u0c4f")), false);
         lub.lvo(luu, this.lue.get(), false);
-        lub.lvo(luv, this.luf.get(), CloudRenderMode.field_18162);
-        lub.lvo(luw, this.lug.get() && luw.own() == ParticlesMode.field_18197, ParticlesMode.field_18198);
+        lub.lvo(luv, this.luf.get(), CloudRenderMode.OFF);
+        lub.lvo(luw, this.lug.get() && luw.own() == ParticlesMode.ALL, ParticlesMode.DECREASED);
         lub.lvo(luy, this.lui.get(), 0);
         Double d = lva.own();
         lub.lvo(lva, this.luk.get() && d != null && d > 0.75, 0.75);
@@ -156,7 +156,7 @@ extends kfe {
         lub.lvo(lvb, this.lup.get(), false);
         lub.lvo(lvc, this.luq.get(), false);
         this.lvm(minecraftClient);
-        int n3 = (Boolean.TRUE.equals(minecraftClient.field_1690.method_75337().method_41753()) ? 1 : 0) | (Boolean.TRUE.equals(minecraftClient.field_1690.method_75334().method_41753()) ? 2 : 0) | (Boolean.TRUE.equals(minecraftClient.field_1690.method_41792().method_41753()) ? 4 : 0);
+        int n3 = (Boolean.TRUE.equals(minecraftClient.options.getImprovedTransparency().getValue()) ? 1 : 0) | (Boolean.TRUE.equals(minecraftClient.options.getCutoutLeaves().getValue()) ? 2 : 0) | (Boolean.TRUE.equals(minecraftClient.options.getAo().getValue()) ? 4 : 0);
         if (this.lve < 0) {
             this.lve = lub.lvl();
         }
@@ -172,20 +172,20 @@ extends kfe {
 
     private void lvm(MinecraftClient minecraftClient) {
         Boolean bl;
-        Integer n = (Integer)minecraftClient.field_1690.method_42524().method_41753();
+        Integer n = (Integer)minecraftClient.options.getMaxFps().getValue();
         if (n != null && n != this.lvf) {
             this.lvf = n;
-            minecraftClient.method_61964().method_61938(n.intValue());
+            minecraftClient.getInactivityFpsLimiter().setMaxFps(n.intValue());
         }
-        if ((bl = (Boolean)minecraftClient.field_1690.method_42433().method_41753()) != null && !bl.equals(this.lvg) && minecraftClient.method_22683() != null) {
+        if ((bl = (Boolean)minecraftClient.options.getEnableVsync().getValue()) != null && !bl.equals(this.lvg) && minecraftClient.getWindow() != null) {
             this.lvg = bl;
-            minecraftClient.method_22683().method_4497(bl.booleanValue());
+            minecraftClient.getWindow().setVsync(bl.booleanValue());
         }
     }
 
     private static void lvn(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1769 != null && minecraftClient.field_1687 != null) {
-            minecraftClient.field_1769.method_3279();
+        if (minecraftClient.worldRenderer != null && minecraftClient.world != null) {
+            minecraftClient.worldRenderer.reload();
         }
     }
 
@@ -198,17 +198,17 @@ extends kfe {
     }
 
     static {
-        lus = new wbu(minecraftClient -> minecraftClient.field_1690.method_42524());
-        lut = new wbu(minecraftClient -> minecraftClient.field_1690.method_42433());
-        luu = new wbu(minecraftClient -> minecraftClient.field_1690.method_42435());
-        luv = new wbu(minecraftClient -> minecraftClient.field_1690.method_42528());
-        luw = new wbu(minecraftClient -> minecraftClient.field_1690.method_42475());
-        lux = new wbu(minecraftClient -> minecraftClient.field_1690.method_41805());
-        luy = new wbu(minecraftClient -> minecraftClient.field_1690.method_57702());
-        luz = new wbu(minecraftClient -> minecraftClient.field_1690.method_75337());
-        lva = new wbu(minecraftClient -> minecraftClient.field_1690.method_42517());
-        lvb = new wbu(minecraftClient -> minecraftClient.field_1690.method_75334());
-        lvc = new wbu(minecraftClient -> minecraftClient.field_1690.method_41792());
+        lus = new wbu(minecraftClient -> minecraftClient.options.getMaxFps());
+        lut = new wbu(minecraftClient -> minecraftClient.options.getEnableVsync());
+        luu = new wbu(minecraftClient -> minecraftClient.options.getEntityShadows());
+        luv = new wbu(minecraftClient -> minecraftClient.options.getCloudRenderMode());
+        luw = new wbu(minecraftClient -> minecraftClient.options.getParticles());
+        lux = new wbu(minecraftClient -> minecraftClient.options.getBiomeBlendRadius());
+        luy = new wbu(minecraftClient -> minecraftClient.options.getMenuBackgroundBlurriness());
+        luz = new wbu(minecraftClient -> minecraftClient.options.getImprovedTransparency());
+        lva = new wbu(minecraftClient -> minecraftClient.options.getEntityDistanceScaling());
+        lvb = new wbu(minecraftClient -> minecraftClient.options.getCutoutLeaves());
+        lvc = new wbu(minecraftClient -> minecraftClient.options.getAo());
         lvh = new wbu[]{lus, lut, luu, luv, luw, lux, luy, luz, lva, lvb, lvc};
     }
 

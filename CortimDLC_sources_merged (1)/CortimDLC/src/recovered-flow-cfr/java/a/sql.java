@@ -237,9 +237,9 @@ public final class sql {
             list = ssj.steve(f, f4);
         }
         spo spo2 = spo.build(list, bl3, random);
-        Vec3d vec3d = minecraftClient.field_1724 != null ? minecraftClient.field_1724.method_33571() : new Vec3d(dArray[0], dArray[1] + 1.6, dArray[2] + 3.0);
-        float f5 = sql.ssd(minecraftClient.field_1687, dArray[0], dArray[1], dArray[2]);
-        return new sql(spo2, dArray[0], dArray[1], dArray[2], vec3d.field_1352, vec3d.field_1350, f5, bl2, n, random);
+        Vec3d vec3d = minecraftClient.player != null ? minecraftClient.player.getEyePos() : new Vec3d(dArray[0], dArray[1] + 1.6, dArray[2] + 3.0);
+        float f5 = sql.ssd(minecraftClient.world, dArray[0], dArray[1], dArray[2]);
+        return new sql(spo2, dArray[0], dArray[1], dArray[2], vec3d.x, vec3d.z, f5, bl2, n, random);
     }
 
     private static float ssd(@Nullable ClientWorld clientWorld, double d, double d2, double d3) {
@@ -248,13 +248,13 @@ public final class sql {
             return 0.0f;
         }
         BlockPos.Mutable mutable = new BlockPos.Mutable();
-        int n2 = MathHelper.method_15357((double)d);
-        int n3 = MathHelper.method_15357((double)d3);
-        for (int i = n = MathHelper.method_15357((double)(d2 + 0.5)); i > n - 10; --i) {
+        int n2 = MathHelper.floor((double)d);
+        int n3 = MathHelper.floor((double)d3);
+        for (int i = n = MathHelper.floor((double)(d2 + 0.5)); i > n - 10; --i) {
             double d4;
-            mutable.method_10103(n2, i, n3);
-            VoxelShape voxelShape = clientWorld.method_8320((BlockPos)mutable).method_26220((BlockView)clientWorld, (BlockPos)mutable);
-            if (voxelShape.method_1110() || !((d4 = (double)i + voxelShape.method_1105(Direction.Axis.field_11052)) <= d2 + 0.6)) continue;
+            mutable.set(n2, i, n3);
+            VoxelShape voxelShape = clientWorld.getBlockState((BlockPos)mutable).getCollisionShape((BlockView)clientWorld, (BlockPos)mutable);
+            if (voxelShape.isEmpty() || !((d4 = (double)i + voxelShape.getMax(Direction.Axis.Y)) <= d2 + 0.6)) continue;
             return (float)(d4 - d2);
         }
         return -10.0f;

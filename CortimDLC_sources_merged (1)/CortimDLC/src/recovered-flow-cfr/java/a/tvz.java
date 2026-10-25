@@ -80,9 +80,9 @@ public final class tvz {
         long l = System.currentTimeMillis();
         boolean bl2 = l - this.twr > 140L;
         this.twr = l;
-        int n2 = (int)Math.floor(playerEntity.method_23317());
-        int n3 = (int)Math.floor(playerEntity.method_23318() + 0.001);
-        int n4 = (int)Math.floor(playerEntity.method_23321());
+        int n2 = (int)Math.floor(playerEntity.getX());
+        int n3 = (int)Math.floor(playerEntity.getY() + 0.001);
+        int n4 = (int)Math.floor(playerEntity.getZ());
         if (this.twl == null || world != this.twm || n2 != this.twn || n3 != this.two || n4 != this.twp || ++this.twq >= 10) {
             this.twl = txf.snap((BlockView)world, n2, n3, n4);
             this.twm = world;
@@ -110,21 +110,21 @@ public final class tvz {
             this.txa = this.twy && !this.twz ? 0 : Math.min(20, this.txa + 1);
             this.twz = this.twy;
         }
-        this.twj.x = playerEntity.method_23317();
-        this.twj.y = playerEntity.method_23318();
-        this.twj.z = playerEntity.method_23321();
+        this.twj.x = playerEntity.getX();
+        this.twj.y = playerEntity.getY();
+        this.twj.z = playerEntity.getZ();
         this.twj.yaw = f;
         this.twj.pitch = f2;
-        this.twj.vx = playerEntity.method_23317() - playerEntity.field_6014;
-        this.twj.vy = playerEntity.method_23318() - playerEntity.field_6036;
-        this.twj.vz = playerEntity.method_23321() - playerEntity.field_5969;
-        this.twj.ground = playerEntity.method_24828();
-        this.twj.water = playerEntity.method_5799();
-        this.twj.climb = playerEntity.method_6101();
-        this.twj.collide = playerEntity.field_5976;
-        this.twj.sprinting = playerEntity.method_5624();
-        double d4 = playerEntity.method_45325(EntityAttributes.field_23719);
-        this.twj.speed = playerEntity.method_5624() ? d4 / 1.3 : d4;
+        this.twj.vx = playerEntity.getX() - playerEntity.lastX;
+        this.twj.vy = playerEntity.getY() - playerEntity.lastY;
+        this.twj.vz = playerEntity.getZ() - playerEntity.lastZ;
+        this.twj.ground = playerEntity.isOnGround();
+        this.twj.water = playerEntity.isTouchingWater();
+        this.twj.climb = playerEntity.isClimbing();
+        this.twj.collide = playerEntity.horizontalCollision;
+        this.twj.sprinting = playerEntity.isSprinting();
+        double d4 = playerEntity.getAttributeValue(EntityAttributes.MOVEMENT_SPEED);
+        this.twj.speed = playerEntity.isSprinting() ? d4 / 1.3 : d4;
         this.twj.sinceJump = this.txa;
         txl.features(this.twj, tvt2, n, this.twl, this.twf, 0);
         double[] dArray = this.twd.forward(this.twf);

@@ -63,10 +63,10 @@ public final class uxi {
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
         GpuBufferSlice gpuBufferSlice2 = RenderSystem.getShaderFog();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
-        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
+        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         try {
@@ -76,12 +76,12 @@ public final class uxi {
             }
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                commandEncoder.writeToBuffer(uxk.slice(), Std140Builder.onStack((MemoryStack)memoryStack, (int)128).putVec4((float)framebuffer.field_1482, (float)framebuffer.field_1481, 1.0f / (float)framebuffer.field_1482, 1.0f / (float)framebuffer.field_1481).putMat4f((Matrix4fc)matrix4f).putVec4((float)uxt2.id(), f, f2, f3).putVec4(uxi.r(n), uxi.g(n), uxi.b(n), (float)n3).putVec4(uxi.r(n2), uxi.g(n2), uxi.b(n2), f4).get());
+                commandEncoder.writeToBuffer(uxk.slice(), Std140Builder.onStack((MemoryStack)memoryStack, (int)128).putVec4((float)framebuffer.textureWidth, (float)framebuffer.textureHeight, 1.0f / (float)framebuffer.textureWidth, 1.0f / (float)framebuffer.textureHeight).putMat4f((Matrix4fc)matrix4f).putVec4((float)uxt2.id(), f, f2, f3).putVec4(uxi.r(n), uxi.g(n), uxi.b(n), (float)n3).putVec4(uxi.r(n2), uxi.g(n2), uxi.b(n2), f4).get());
             }
             memoryStack = uxm ? commandEncoder.timerQueryBegin() : null;
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 sky", gpuTextureView, OptionalInt.empty());){
                 renderPass.setPipeline(uvq.SKY);
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("Fog", gpuBufferSlice2);
                 renderPass.setUniform("FlowSky", uxk);

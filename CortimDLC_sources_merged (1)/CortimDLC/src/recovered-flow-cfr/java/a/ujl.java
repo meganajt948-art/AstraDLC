@@ -34,12 +34,12 @@ public final class ujl {
     }
 
     private static void ujs(boolean bl) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (ujo || minecraftClient.field_1769 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (ujo || minecraftClient.worldRenderer == null) {
             return;
         }
         try {
-            CloudRenderer cloudRenderer = minecraftClient.field_1769.method_62196();
+            CloudRenderer cloudRenderer = minecraftClient.worldRenderer.getCloudRenderer();
             if (ujn == null) {
                 for (Field field : CloudRenderer.class.getDeclaredFields()) {
                     if (!field.getType().isRecord() || field.getType().getEnclosingClass() != CloudRenderer.class) continue;

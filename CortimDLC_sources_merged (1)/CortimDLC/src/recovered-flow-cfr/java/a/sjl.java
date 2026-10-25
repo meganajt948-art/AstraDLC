@@ -68,7 +68,7 @@ extends kfe {
     protected void onDisable() {
         this.sjy = false;
         this.ska = 1.0;
-        this.skn(MinecraftClient.method_1551());
+        this.skn(MinecraftClient.getInstance());
     }
 
     @Override
@@ -105,14 +105,14 @@ extends kfe {
     }
 
     private boolean skl(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1755 != null || minecraftClient.field_1724 == null) {
+        if (minecraftClient.currentScreen != null || minecraftClient.player == null) {
             return this.sjo.is("Toggle") && this.sjy;
         }
         return this.sjo.is("Toggle") ? this.sjy : vzz.isDown(minecraftClient, this.sjn.get());
     }
 
     private void skm(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1773 == null) {
+        if (minecraftClient.player == null || minecraftClient.gameRenderer == null) {
             return;
         }
         if (this.ska <= 1.001) {
@@ -123,11 +123,11 @@ extends kfe {
             return;
         }
         this.skc = true;
-        float f = minecraftClient.field_1724.method_3118(minecraftClient.field_1690.method_31044().method_31034(), ((Double)minecraftClient.field_1690.method_42454().method_41753()).floatValue());
+        float f = minecraftClient.player.getFovMultiplier(minecraftClient.options.getPerspective().isFirstPerson(), ((Double)minecraftClient.options.getFovEffectScale().getValue()).floatValue());
         float f2 = (float)((double)f / this.ska);
         try {
-            sjv.setFloat(minecraftClient.field_1773, f2);
-            sjw.setFloat(minecraftClient.field_1773, f2);
+            sjv.setFloat(minecraftClient.gameRenderer, f2);
+            sjw.setFloat(minecraftClient.gameRenderer, f2);
         }
         catch (IllegalAccessException | RuntimeException exception) {
             sjx = true;
@@ -143,18 +143,18 @@ extends kfe {
             sju.release();
         }
         if (this.sjt.get() && !this.ske) {
-            this.skd = minecraftClient.field_1690.field_1914;
-            minecraftClient.field_1690.field_1914 = true;
+            this.skd = minecraftClient.options.smoothCameraEnabled;
+            minecraftClient.options.smoothCameraEnabled = true;
             this.ske = true;
         }
     }
 
     private void skn(MinecraftClient minecraftClient) {
-        if (this.skc && minecraftClient.field_1724 != null && minecraftClient.field_1773 != null && sjl.sko()) {
-            float f = minecraftClient.field_1724.method_3118(minecraftClient.field_1690.method_31044().method_31034(), ((Double)minecraftClient.field_1690.method_42454().method_41753()).floatValue());
+        if (this.skc && minecraftClient.player != null && minecraftClient.gameRenderer != null && sjl.sko()) {
+            float f = minecraftClient.player.getFovMultiplier(minecraftClient.options.getPerspective().isFirstPerson(), ((Double)minecraftClient.options.getFovEffectScale().getValue()).floatValue());
             try {
-                sjv.setFloat(minecraftClient.field_1773, f);
-                sjw.setFloat(minecraftClient.field_1773, f);
+                sjv.setFloat(minecraftClient.gameRenderer, f);
+                sjw.setFloat(minecraftClient.gameRenderer, f);
             }
             catch (IllegalAccessException | RuntimeException exception) {
                 // empty catch block
@@ -163,7 +163,7 @@ extends kfe {
         this.skc = false;
         sju.release();
         if (this.ske) {
-            minecraftClient.field_1690.field_1914 = this.skd;
+            minecraftClient.options.smoothCameraEnabled = this.skd;
             this.ske = false;
         }
     }
@@ -178,10 +178,10 @@ extends kfe {
     }
 
     private static void skp(MinecraftClient minecraftClient) {
-        if (minecraftClient.method_22683() == null) {
+        if (minecraftClient.getWindow() == null) {
             return;
         }
-        long l = minecraftClient.method_22683().method_4490();
+        long l = minecraftClient.getWindow().getHandle();
         if (skh == l && skf != null) {
             return;
         }
@@ -201,8 +201,8 @@ extends kfe {
 
     private static void skq(long l, double d, double d2) {
         sjl sjl2 = sjm;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (sjl2 != null && sjl2.isEnabled() && sjl2.sjr.get() && minecraftClient.field_1755 == null && sjl2.ski && d2 != 0.0) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (sjl2 != null && sjl2.isEnabled() && sjl2.sjr.get() && minecraftClient.currentScreen == null && sjl2.ski && d2 != 0.0) {
             sjl2.sjz = Math.max(1.5, Math.min(40.0, sjl2.sjz * Math.pow(1.18, d2)));
             return;
         }
@@ -212,7 +212,7 @@ extends kfe {
     }
 
     static {
-        sju = new wbu(minecraftClient -> minecraftClient.field_1690.method_42495());
+        sju = new wbu(minecraftClient -> minecraftClient.options.getMouseSensitivity());
     }
 
     private static /* synthetic */ int cdz(int n, int n2) {

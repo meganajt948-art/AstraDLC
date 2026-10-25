@@ -20,7 +20,7 @@ public class kvz
 extends kfe {
     private static kvz kwa;
     private final vlq kwb = this.add(new vlq(a.b("\ueb9c\u920a\u18da\u86aa\u0d78\u8bc3\u3580\ub860\u264e\uac81\u2b2d\ud127\u5ffa", 66842507)));
-    private final vzh kwc = new vzh(Items.field_8634, true);
+    private final vzh kwc = new vzh(Items.ENDER_PEARL, true);
     private static /* synthetic */ boolean kwd;
     private static /* synthetic */ long kwe;
 

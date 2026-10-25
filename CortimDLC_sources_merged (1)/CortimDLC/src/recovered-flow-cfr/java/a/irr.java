@@ -72,31 +72,31 @@ public final class irr {
     static void primaryButton(DrawContext drawContext, String string, vhz vhz2, float f, float f2, float f3, float f4, float f5, float f6) {
         float f7 = iov.r(5.0f);
         float f8 = 1.0f - 0.05f * f6;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f + f3 * 0.5f, f2 + f4 * 0.5f + 0.6f * f6 - 0.4f * f5);
-        drawContext.method_51448().scale(f8, f8);
-        drawContext.method_51448().translate(-f3 * 0.5f, -f4 * 0.5f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f + f3 * 0.5f, f2 + f4 * 0.5f + 0.6f * f6 - 0.4f * f5);
+        drawContext.getMatrices().scale(f8, f8);
+        drawContext.getMatrices().translate(-f3 * 0.5f, -f4 * 0.5f);
         ukf.shadow(drawContext, 0.0f, 0.0f, f3, f4, f7, 0.4f + 0.6f * f5 - 0.4f * f6, iov.lightness());
         uut.gradientH(drawContext, 0.0f, 0.0f, f3, f4, f7, ujt.lerp(iov.accent(), -1, 0.1f * f5), ujt.lerp(iov.accent2(), -1, 0.1f * f5));
         ukf.sheen(drawContext, 0.0f, 0.0f, f3, f4, f7, 1.8f);
         uut.outlineGradientV(drawContext, 0.0f, 0.0f, f3, f4, f7, 1.0f, 0x40FFFFFF, 0x10000000);
         irr.iru(drawContext, string, vhz2, f3, f4, iov.onAccent());
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     static void secondaryButton(DrawContext drawContext, String string, vhz vhz2, float f, float f2, float f3, float f4, float f5, float f6) {
         float f7 = iov.r(5.0f);
         float f8 = 1.0f - 0.05f * f6;
         float f9 = iov.lightness();
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f + f3 * 0.5f, f2 + f4 * 0.5f + 0.6f * f6 - 0.4f * f5);
-        drawContext.method_51448().scale(f8, f8);
-        drawContext.method_51448().translate(-f3 * 0.5f, -f4 * 0.5f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f + f3 * 0.5f, f2 + f4 * 0.5f + 0.6f * f6 - 0.4f * f5);
+        drawContext.getMatrices().scale(f8, f8);
+        drawContext.getMatrices().translate(-f3 * 0.5f, -f4 * 0.5f);
         ukf.shadow(drawContext, 0.0f, 0.0f, f3, f4, f7, 0.2f + 0.6f * f5 - 0.2f * f6, f9);
         uut.round(drawContext, 0.0f, 0.0f, f3, f4, f7, ujt.lerp(iov.field, iov.fieldHover, f5));
         ukf.rim(drawContext, 0.0f, 0.0f, f3, f4, f7, f9, 0.7f + 0.5f * f5);
         irr.iru(drawContext, string, vhz2, f3, f4, ujt.lerp(iov.textDim, iov.text, f5));
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     private static void iru(DrawContext drawContext, String string, vhz vhz2, float f, float f2, int n) {
@@ -239,7 +239,7 @@ public final class irr {
             return string.toUpperCase();
         }
         try {
-            return InputUtil.Type.field_1668.method_1447(n).method_27445().getString();
+            return InputUtil.Type.KEYSYM.createFromCode(n).getLocalizedText().getString();
         }
         catch (RuntimeException runtimeException) {
             return a.d("\uadab", 1570214490, 826490835) + n;

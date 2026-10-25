@@ -48,7 +48,7 @@ public final class pzc {
     }
 
     public static pzc empty(BlockPos blockPos) {
-        return new pzc(blockPos.method_10263(), blockPos.method_10264(), blockPos.method_10260(), blockPos.method_10263() - 1, blockPos.method_10264() - 1, blockPos.method_10260() - 1, 0);
+        return new pzc(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX() - 1, blockPos.getY() - 1, blockPos.getZ() - 1, 0);
     }
 
     public boolean contains(int n, int n2, int n3) {
@@ -56,7 +56,7 @@ public final class pzc {
     }
 
     public boolean contains(BlockPos blockPos) {
-        return this.contains(blockPos.method_10263(), blockPos.method_10264(), blockPos.method_10260());
+        return this.contains(blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
 
     public int volume() {
@@ -72,9 +72,9 @@ public final class pzc {
     }
 
     public double distanceTo(Vec3d vec3d) {
-        double d = Math.max(0.0, Math.max((double)this.minX - vec3d.field_1352, vec3d.field_1352 - (double)(this.maxX + 1)));
-        double d2 = Math.max(0.0, Math.max((double)this.minY - vec3d.field_1351, vec3d.field_1351 - (double)(this.maxY + 1)));
-        double d3 = Math.max(0.0, Math.max((double)this.minZ - vec3d.field_1350, vec3d.field_1350 - (double)(this.maxZ + 1)));
+        double d = Math.max(0.0, Math.max((double)this.minX - vec3d.x, vec3d.x - (double)(this.maxX + 1)));
+        double d2 = Math.max(0.0, Math.max((double)this.minY - vec3d.y, vec3d.y - (double)(this.maxY + 1)));
+        double d3 = Math.max(0.0, Math.max((double)this.minZ - vec3d.z, vec3d.z - (double)(this.maxZ + 1)));
         return Math.sqrt(d * d + d2 * d2 + d3 * d3);
     }
 
@@ -83,10 +83,10 @@ public final class pzc {
     }
 
     public static boolean isOre(BlockState blockState) {
-        Block block = blockState.method_26204();
+        Block block = blockState.getBlock();
         Boolean bl = pzg.get(block);
         if (bl == null) {
-            String string = Registries.field_41175.method_10221((Object)block).method_12832();
+            String string = Registries.BLOCK.getId((Object)block).getPath();
             bl = string.endsWith(a.d("\u89c7\uf046\u7a88\ue4ee", 677064703, -1548704157)) || string.equals(a.d("\ue6d2\u9f6c\u15b2\u8bc9\u0012\u86a8\u3ce1\ub53b\u2b5f\ua1ef\u263b\udc5a\u5296\ucb3d", 1293802267, -383828570));
             pzg.put(block, bl);
         }
@@ -94,11 +94,11 @@ public final class pzc {
     }
 
     public static boolean loaded(World world, Vec3d vec3d) {
-        int n = (int)Math.floor(vec3d.field_1352);
-        int n2 = (int)Math.floor(vec3d.field_1350);
+        int n = (int)Math.floor(vec3d.x);
+        int n2 = (int)Math.floor(vec3d.z);
         for (int i = n - 40 >> 4; i <= n + 40 >> 4; ++i) {
             for (int j = n2 - 40 >> 4; j <= n2 + 40 >> 4; ++j) {
-                if (world.method_8393(i, j)) continue;
+                if (world.isChunkLoaded(i, j)) continue;
                 return false;
             }
         }
@@ -108,9 +108,9 @@ public final class pzc {
     public static pzc detect(World world, Vec3d vec3d) {
         int n;
         int n2;
-        int n3 = (int)Math.floor(vec3d.field_1352);
-        int n4 = (int)Math.floor(vec3d.field_1351);
-        int n5 = (int)Math.floor(vec3d.field_1350);
+        int n3 = (int)Math.floor(vec3d.x);
+        int n4 = (int)Math.floor(vec3d.y);
+        int n5 = (int)Math.floor(vec3d.z);
         int n6 = 81;
         int n7 = 35;
         int[] nArray = new int[n6];
@@ -122,10 +122,10 @@ public final class pzc {
             for (int j = 0; j < n6; ++j) {
                 int n9 = n3 - 40 + i;
                 n2 = n5 - 40 + j;
-                if (!world.method_8393(n9 >> 4, n2 >> 4)) continue;
+                if (!world.isChunkLoaded(n9 >> 4, n2 >> 4)) continue;
                 for (n = 0; n < n7; ++n) {
-                    mutable.method_10103(n9, n4 - 26 + n, n2);
-                    if (!pzc.isOre(world.method_8320((BlockPos)mutable))) continue;
+                    mutable.set(n9, n4 - 26 + n, n2);
+                    if (!pzc.isOre(world.getBlockState((BlockPos)mutable))) continue;
                     int n10 = i;
                     nArray[n10] = nArray[n10] + 1;
                     int n11 = j;
@@ -156,7 +156,7 @@ public final class pzc {
         for (int i = pzc2.minX; i <= pzc2.maxX; ++i) {
             for (int j = pzc2.minZ; j <= pzc2.maxZ; ++j) {
                 for (int k = pzc2.minY; k <= pzc2.maxY; ++k) {
-                    if (!pzc.isOre(world.method_8320((BlockPos)mutable.method_10103(i, k, j)))) continue;
+                    if (!pzc.isOre(world.getBlockState((BlockPos)mutable.set(i, k, j)))) continue;
                     ++n14;
                 }
             }

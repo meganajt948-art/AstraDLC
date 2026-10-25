@@ -40,7 +40,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 public final class qaj {
-    private static final Item[] qak = new Item[]{Items.field_8725, Items.field_8759, Items.field_8713, Items.field_8620};
+    private static final Item[] qak = new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.COAL, Items.IRON_INGOT};
     private static final long qal = 6000L;
     private static final long qam = 4000L;
     private static final long qan = 12000L;
@@ -79,20 +79,20 @@ public final class qaj {
         if (string2.startsWith(a.d("\u3276", -2117650585, 1868367167))) {
             string2 = string2.substring(1);
         }
-        if (minecraftClient.field_1724 != null && minecraftClient.field_1755 instanceof HandledScreen) {
-            minecraftClient.field_1724.method_7346();
+        if (minecraftClient.player != null && minecraftClient.currentScreen instanceof HandledScreen) {
+            minecraftClient.player.closeHandledScreen();
         }
-        if (string2.isEmpty() || minecraftClient.method_1562() == null) {
+        if (string2.isEmpty() || minecraftClient.getNetworkHandler() == null) {
             this.qbb(minecraftClient, false, a.b("\u2b42\u52fb\ud85f\u424c\ucd81\u4b34\uf165\u7898\ue6ca\u6c72\uebde\u15c4\u9f72\u06b8\u8c92\u0a1f\ub026\u3f86\ua537\u236c", -799527061));
             return;
         }
-        minecraftClient.method_1562().method_45730(string2);
+        minecraftClient.getNetworkHandler().sendChatCommand(string2);
         this.qba(qag.MENU, l);
     }
 
     public void cancel(MinecraftClient minecraftClient) {
-        if (this.active() && minecraftClient.field_1724 != null && minecraftClient.field_1755 instanceof HandledScreen) {
-            minecraftClient.field_1724.method_7346();
+        if (this.active() && minecraftClient.player != null && minecraftClient.currentScreen instanceof HandledScreen) {
+            minecraftClient.player.closeHandledScreen();
         }
         this.qar = qag.IDLE;
     }
@@ -106,7 +106,7 @@ public final class qaj {
             this.qbb(minecraftClient, false, a.b("\u1f04\u66ce\uec64\u7269\uf9c8\u7f08\uc559\u48b2\ud2f0\u5849\udb8f\u25e0\uab4b\u328a\ub8de\u3e58\u846d\u0bbf\u9517\u1754\u9eaf\ue4f2\u6a33\uf197\u77e1\ufd43", 1952127839));
             return true;
         }
-        Screen screen = minecraftClient.field_1755;
+        Screen screen = minecraftClient.currentScreen;
         HandledScreen handledScreen2 = screen instanceof HandledScreen && vxl.isStorage((Screen)(handledScreen = (HandledScreen)screen)) ? handledScreen : null;
         switch (this.qar.ordinal()) {
             case 1: {
@@ -116,7 +116,7 @@ public final class qaj {
                     }
                     return !this.active();
                 }
-                handledScreen = handledScreen2.method_17577();
+                handledScreen = handledScreen2.getScreenHandler();
                 if (qaj.qbc((ScreenHandler)handledScreen, clientPlayerEntity) > 0) {
                     this.qba(qag.TOGGLE, l);
                     return false;
@@ -128,13 +128,13 @@ public final class qaj {
                     }
                     return !this.active();
                 }
-                vxl.click(minecraftClient, (ScreenHandler)handledScreen, screen.field_7874, 0, SlotActionType.field_7790);
+                vxl.click(minecraftClient, (ScreenHandler)handledScreen, screen.id, 0, SlotActionType.PICKUP);
                 ++this.qau;
                 this.qba(qag.SECTION, l);
                 break;
             }
             case 2: {
-                if (handledScreen2 != null && qaj.qbc(handledScreen2.method_17577(), clientPlayerEntity) > 0) {
+                if (handledScreen2 != null && qaj.qbc(handledScreen2.getScreenHandler(), clientPlayerEntity) > 0) {
                     this.qba(qag.TOGGLE, l);
                     return this.qaz(minecraftClient, clientPlayerEntity, handledScreen2, l);
                 }
@@ -158,7 +158,7 @@ public final class qaj {
     }
 
     private boolean qaz(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, HandledScreen<?> handledScreen, long l) {
-        ScreenHandler screenHandler = handledScreen.method_17577();
+        ScreenHandler screenHandler = handledScreen.getScreenHandler();
         int n = 0;
         int n2 = 0;
         for (Item item : qak) {
@@ -166,7 +166,7 @@ public final class qaj {
             Slot slot = qaj.qbd(screenHandler, clientPlayerEntity, item);
             if (slot == null) continue;
             ++n2;
-            String string = qaj.loreLine(slot.method_7677());
+            String string = qaj.loreLine(slot.getStack());
             if (qaj.enabled(string)) {
                 ++n;
                 continue;
@@ -174,7 +174,7 @@ public final class qaj {
             Long l2 = this.qap.get(item);
             boolean bl2 = bl = l2 != null && !string.equals(this.qaq.get(item));
             if (l2 != null && !bl && l - l2 <= 1300L) continue;
-            vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7795);
+            vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.THROW);
             this.qap.put(item, l);
             this.qaq.put(item, string);
         }
@@ -194,8 +194,8 @@ public final class qaj {
         this.qav = bl;
         this.qaw = string;
         this.qar = qag.DONE;
-        if (minecraftClient.field_1724 != null && minecraftClient.field_1755 instanceof HandledScreen) {
-            minecraftClient.field_1724.method_7346();
+        if (minecraftClient.player != null && minecraftClient.currentScreen instanceof HandledScreen) {
+            minecraftClient.player.closeHandledScreen();
         }
     }
 
@@ -209,9 +209,9 @@ public final class qaj {
     }
 
     private static Slot qbd(ScreenHandler screenHandler, ClientPlayerEntity clientPlayerEntity, Item item) {
-        for (Slot slot : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-            ItemStack itemStack = slot.method_7677();
-            if (!itemStack.method_31574(item) || !qaj.loreLine(itemStack).contains(a.d("\u9bc1\ue20b\u68a1\uf6ac\u7d7e", 960845424, -1930769931))) continue;
+        for (Slot slot : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+            ItemStack itemStack = slot.getStack();
+            if (!itemStack.isOf(item) || !qaj.loreLine(itemStack).contains(a.d("\u9bc1\ue20b\u68a1\uf6ac\u7d7e", 960845424, -1930769931))) continue;
             return slot;
         }
         return null;
@@ -219,25 +219,25 @@ public final class qaj {
 
     private static Slot qbe(ScreenHandler screenHandler, ClientPlayerEntity clientPlayerEntity) {
         Slot slot = null;
-        for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-            ItemStack itemStack = slot2.method_7677();
-            if (itemStack.method_7960()) continue;
-            String string = pfl.title(itemStack.method_7964().getString());
+        for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+            ItemStack itemStack = slot2.getStack();
+            if (itemStack.isEmpty()) continue;
+            String string = pfl.title(itemStack.getName().getString());
             if (string.contains(a.c(-16408195, "\ua531\udcf8\u565e\uc828"))) {
                 return slot2;
             }
-            if (slot != null || !itemStack.method_31574(Items.field_8759)) continue;
+            if (slot != null || !itemStack.isOf(Items.LAPIS_LAZULI)) continue;
             slot = slot2;
         }
         return slot;
     }
 
     static String loreLine(ItemStack itemStack) {
-        LoreComponent loreComponent = (LoreComponent)itemStack.method_58694(DataComponentTypes.field_49632);
+        LoreComponent loreComponent = (LoreComponent)itemStack.get(DataComponentTypes.LORE);
         if (loreComponent == null) {
             return "";
         }
-        List list = loreComponent.comp_2400();
+        List list = loreComponent.lines();
         for (Text text : list) {
             String string = pfl.title(text.getString());
             if (!string.contains(a.d("\uf7a5\u8e6f\u04c5\u9ac8\u111a", -441072656, 1379348497))) continue;

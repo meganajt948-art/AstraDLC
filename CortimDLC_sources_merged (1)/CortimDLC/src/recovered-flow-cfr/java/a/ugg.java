@@ -60,8 +60,8 @@ public final class ugg {
         if (ubj2.target != null) {
             PlayerEntity playerEntity = hhf.inWorld(ubj2.target);
             if (playerEntity != null) {
-                Vec3d vec3d = playerEntity.method_30950(f);
-                return new Vec3d(vec3d.field_1352, vec3d.field_1351 + (double)playerEntity.method_17682() + 0.3, vec3d.field_1350);
+                Vec3d vec3d = playerEntity.getLerpedPos(f);
+                return new Vec3d(vec3d.x, vec3d.y + (double)playerEntity.getHeight() + 0.3, vec3d.z);
             }
             return new Vec3d(ubj2.x, ubj2.y + 2.1, ubj2.z);
         }
@@ -70,9 +70,9 @@ public final class ugg {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         List<ubj> list = ucg.marks();
-        if (list.isEmpty() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842) {
+        if (list.isEmpty() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden) {
             ugq.clear();
             return;
         }
@@ -88,9 +88,9 @@ public final class ugg {
         unf.observe(drawContext);
         float f = unf.delta();
         iov.update(f * (float)iov.ANIMATION.get());
-        float f2 = drawContext.method_51421();
-        float f3 = drawContext.method_51443();
-        float f4 = renderTickCounter.method_60637(true);
+        float f2 = drawContext.getScaledWindowWidth();
+        float f3 = drawContext.getScaledWindowHeight();
+        float f4 = renderTickCounter.getTickProgress(true);
         try {
             usn2 = usn.capture(f4, f2, f3);
         }
@@ -109,7 +109,7 @@ public final class ugg {
         for (int i = 0; i < integerArray.length; ++i) {
             integerArray[i] = i;
         }
-        Arrays.sort(integerArray, (n, n2) -> Double.compare(usn2.distance(((Vec3d)list.get((int)n2.intValue())).field_1352, ((Vec3d)list.get((int)n2.intValue())).field_1351, ((Vec3d)list.get((int)n2.intValue())).field_1350), usn2.distance(((Vec3d)list.get((int)n.intValue())).field_1352, ((Vec3d)list.get((int)n.intValue())).field_1351, ((Vec3d)list.get((int)n.intValue())).field_1350)));
+        Arrays.sort(integerArray, (n, n2) -> Double.compare(usn2.distance(((Vec3d)list.get((int)n2.intValue())).x, ((Vec3d)list.get((int)n2.intValue())).y, ((Vec3d)list.get((int)n2.intValue())).z), usn2.distance(((Vec3d)list.get((int)n.intValue())).x, ((Vec3d)list.get((int)n.intValue())).y, ((Vec3d)list.get((int)n.intValue())).z)));
         Integer[] integerArray2 = integerArray;
         int n3 = integerArray2.length;
         for (int i = 0; i < n3; ++i) {
@@ -121,11 +121,11 @@ public final class ugg {
             float f6 = (float)(ubj5.life - (l - ubj5.born)) / 1000.0f;
             float f7 = Math.min(1.0f, f5 / 0.15f) * Math.min(1.0f, Math.max(0.0f, f6 / 1.2f));
             if (f7 <= 0.01f) continue;
-            double d = usn2.distance(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350);
-            boolean bl = usn2.project(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, fArray);
+            double d = usn2.distance(vec3d.x, vec3d.y, vec3d.z);
+            boolean bl = usn2.project(vec3d.x, vec3d.y, vec3d.z, fArray);
             float f8 = 28.0f;
             boolean bl2 = bl && fArray[0] > f8 && fArray[0] < f2 - f8 && fArray[1] > f8 + 22.0f && fArray[1] < f3 - f8;
-            usn2.direction(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, fArray2);
+            usn2.direction(vec3d.x, vec3d.y, vec3d.z, fArray2);
             float f9 = 32.0f;
             float f10 = f3 - 24.0f - 40.0f;
             float f11 = (f9 + f10) * 0.5f;
@@ -179,17 +179,17 @@ public final class ugg {
         float f7 = f5 * ugg.uhb(f3) * (1.0f + 0.1f * f4);
         float f8 = (1.0f - f6) * -6.0f - f4 * 1.5f;
         vhz vhz2 = ubj2.danger() ? vhz.MARK_ALERT : vhz.MARK;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f2);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f2);
         ugg.ugx(drawContext, n, ubj2.danger(), f3, f5);
         uut.shadow(drawContext, -3.0f * f5, -1.0f * f5, 6.0f * f5, 2.0f * f5, 1.0f * f5, 2.5f * f5, 0x46000000);
-        drawContext.method_51448().translate(0.0f, f8);
-        drawContext.method_51448().scale(f7, f7);
+        drawContext.getMatrices().translate(0.0f, f8);
+        drawContext.getMatrices().scale(f7, f7);
         if (ubj2.danger()) {
             ugg.ugy(drawContext, n, 0.0f, -11.916666f, 6.6000004f, f3);
         }
         wkw.pin(drawContext, vhz2, 0.0f, -9.166666f, 22.0f, n, 0.85f + 0.15f * f4);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         ugg.ugz(drawContext, ubj2, f, f2 + f8 - 18.333332f * f7 - 2.0f, d, f4);
     }
 
@@ -199,18 +199,18 @@ public final class ugg {
         float f6 = ugg.ugu(d) * (1.0f + 0.1f * f4);
         float f7 = 15.0f * (1.0f + 0.8f * (1.0f - f5));
         float f8 = f2 - 7.5f * f6 - 1.5f;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f8);
-        drawContext.method_51448().scale(f6, f6);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f8);
+        drawContext.getMatrices().scale(f6, f6);
         if (ubj2.danger()) {
             ugg.ugy(drawContext, n, 0.0f, 0.0f, 7.5f, f3);
         }
         float f9 = f7 * 0.5f;
         uut.shadow(drawContext, -f9, -f9, f9 * 2.0f, f9 * 2.0f, f9, f7 * 0.55f, ujt.withAlpha(n, Math.round(110.0f + 40.0f * f4)));
-        drawContext.method_51448().rotate((1.0f - f5) * (float)Math.PI * 0.5f);
+        drawContext.getMatrices().rotate((1.0f - f5) * (float)Math.PI * 0.5f);
         vjf.draw(drawContext, vhz.MARK_TARGET, 0.0f, Math.max(0.5f, f7 * 0.04f), f7, 0x55000000);
         vjf.draw(drawContext, vhz.MARK_TARGET, 0.0f, 0.0f, f7, n);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         ugg.ugz(drawContext, ubj2, f, f8 - 7.5f * f6 - 2.5f, d, f4);
     }
 
@@ -223,10 +223,10 @@ public final class ugg {
             float f6 = (2.0f + 13.0f * vcq.outCubic(f5)) * f2;
             int n2 = Math.round(190.0f * (1.0f - f5) * (1.0f - f5));
             if (n2 < 3) continue;
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().scale(1.0f, 0.36f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().scale(1.0f, 0.36f);
             uut.circleOutline(drawContext, 0.0f, 0.0f, f6, 2.4f, ujt.withAlpha(n, n2));
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
     }
 
@@ -273,15 +273,15 @@ public final class ugg {
         }
         float f8 = (float)Math.atan2(f4, f3) + 1.5707964f;
         float f9 = 0.8f + 0.8f * (float)Math.sin((double)f5 * 5.0);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f + f3 * (f7 + 4.5f + f9), f2 + f4 * (f7 + 4.5f + f9));
-        drawContext.method_51448().rotate(f8);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f + f3 * (f7 + 4.5f + f9), f2 + f4 * (f7 + 4.5f + f9));
+        drawContext.getMatrices().rotate(f8);
         vjf.draw(drawContext, vhz.NAV, 0.0f, 0.6f, 7.5f * f6, 0x55000000);
         vjf.draw(drawContext, vhz.NAV, 0.0f, 0.0f, 7.5f * f6, n);
-        drawContext.method_51448().popMatrix();
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f2);
-        drawContext.method_51448().scale(f6, f6);
+        drawContext.getMatrices().popMatrix();
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f2);
+        drawContext.getMatrices().scale(f6, f6);
         if (ubj2.target != null) {
             float f10 = 7.5f;
             uut.shadow(drawContext, -f10, -f10, f10 * 2.0f, f10 * 2.0f, f10, 8.25f, ujt.withAlpha(n, 110));
@@ -290,7 +290,7 @@ public final class ugg {
         } else {
             wkw.pin(drawContext, ubj2.danger() ? vhz.MARK_ALERT : vhz.MARK, 0.0f, 1.875f, 15.0f, n, 1.0f);
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         String string = wkw.formatDistance(d);
         float f11 = ugi.width(string);
         float f12 = f2 - f4 * (f7 + 7.0f);

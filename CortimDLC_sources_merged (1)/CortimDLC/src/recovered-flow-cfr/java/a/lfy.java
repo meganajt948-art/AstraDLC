@@ -23,7 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 public final class lfy {
-    private static final EquipmentSlot[] lfz = new EquipmentSlot[]{EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166};
+    private static final EquipmentSlot[] lfz = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
     public final vkl naked = new vkl(a.b("\u9f16\ue688\u6c51\uf22e\u79f8", -2021679267), true);
     public final vkl invisible = new vkl(a.d("\udb77\ua2e1\u282a\ub644\u3d89\ubb22\u017a\u8885\u16d3", 2016256898, 1796503733), true);
     public final vkl armored = new vkl(a.c(-1998809439, "\u96e7\uef65\u65a9\ufbda\u7010\uf6b6\u4ce4"), true);
@@ -43,13 +43,13 @@ public final class lfy {
 
     public static boolean invisible(Entity entity) {
         LivingEntity livingEntity;
-        return entity.method_5767() || entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).method_6059(StatusEffects.field_5905);
+        return entity.isInvisible() || entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).hasStatusEffect(StatusEffects.INVISIBILITY);
     }
 
     public static boolean armor(LivingEntity livingEntity) {
         for (EquipmentSlot equipmentSlot : lfz) {
-            ItemStack itemStack = livingEntity.method_6118(equipmentSlot);
-            if (itemStack.method_7960() || itemStack.method_31574(Items.field_8833)) continue;
+            ItemStack itemStack = livingEntity.getEquippedStack(equipmentSlot);
+            if (itemStack.isEmpty() || itemStack.isOf(Items.ELYTRA)) continue;
             return true;
         }
         return false;

@@ -100,32 +100,32 @@ extends ijy {
         return ibn.computeIfAbsent(vlg3, vlg2 -> {
             ArrayList<iay> arrayList = new ArrayList<iay>();
             if (vlg2 == vlg.MOBS) {
-                for (EntityType entityType : Registries.field_41177) {
-                    SpawnEggItem spawnEggItem = SpawnEggItem.method_8019((EntityType)entityType);
+                for (EntityType entityType : Registries.ENTITY_TYPE) {
+                    SpawnEggItem spawnEggItem = SpawnEggItem.forEntity((EntityType)entityType);
                     if (spawnEggItem == null) continue;
-                    arrayList.add(ibf.icf(Registries.field_41177.method_10221((Object)entityType).toString(), new ItemStack((ItemConvertible)spawnEggItem), entityType.method_5897().getString()));
+                    arrayList.add(ibf.icf(Registries.ENTITY_TYPE.getId((Object)entityType).toString(), new ItemStack((ItemConvertible)spawnEggItem), entityType.getName().getString()));
                 }
                 arrayList.sort((iay2, iay3) -> iay2.ibb.compareToIgnoreCase(iay3.ibb));
             } else if (vlg2 == vlg.BLOCKS) {
-                for (Block block : Registries.field_41175) {
-                    if (block == Blocks.field_10124 || block == Blocks.field_10543 || block == Blocks.field_10243) continue;
-                    Item item = block.method_8389();
-                    if (block == Blocks.field_10382) {
-                        item = Items.field_8705;
-                    } else if (block == Blocks.field_10164) {
-                        item = Items.field_8187;
-                    } else if (block == Blocks.field_10316 || block == Blocks.field_10027) {
-                        item = Items.field_8449;
+                for (Block block : Registries.BLOCK) {
+                    if (block == Blocks.AIR || block == Blocks.CAVE_AIR || block == Blocks.VOID_AIR) continue;
+                    Item item = block.asItem();
+                    if (block == Blocks.WATER) {
+                        item = Items.WATER_BUCKET;
+                    } else if (block == Blocks.LAVA) {
+                        item = Items.LAVA_BUCKET;
+                    } else if (block == Blocks.NETHER_PORTAL || block == Blocks.END_PORTAL) {
+                        item = Items.ENDER_EYE;
                     }
-                    if (item == Items.field_8162) continue;
-                    String string = Registries.field_41175.method_10221((Object)block).toString();
-                    arrayList.add(ibf.icf(string, new ItemStack((ItemConvertible)item), block.method_9518().getString()));
+                    if (item == Items.AIR) continue;
+                    String string = Registries.BLOCK.getId((Object)block).toString();
+                    arrayList.add(ibf.icf(string, new ItemStack((ItemConvertible)item), block.getName().getString()));
                 }
             } else {
-                for (Item item : Registries.field_41178) {
-                    if (item == Items.field_8162) continue;
+                for (Item item : Registries.ITEM) {
+                    if (item == Items.AIR) continue;
                     ItemStack itemStack = new ItemStack((ItemConvertible)item);
-                    arrayList.add(ibf.icf(Registries.field_41178.method_10221((Object)item).toString(), itemStack, itemStack.method_7964().getString()));
+                    arrayList.add(ibf.icf(Registries.ITEM.getId((Object)item).toString(), itemStack, itemStack.getName().getString()));
                 }
             }
             return arrayList;
@@ -142,7 +142,7 @@ extends ijy {
             if (!iay2.iaz.equals(string)) continue;
             return iay2.iba;
         }
-        return ItemStack.field_8037;
+        return ItemStack.EMPTY;
     }
 
     private void icg() {
@@ -241,11 +241,11 @@ extends ijy {
         float f9 = iov.lightness();
         uut.round(drawContext, 0.0f, 0.0f, f4, f5, iov.r(12.0f), ujt.withAlpha(0, Math.round(110.0f * f7)));
         uut.pushAlpha(f7);
-        drawContext.method_51448().pushMatrix();
+        drawContext.getMatrices().pushMatrix();
         float f10 = 0.96f + 0.04f * f7;
-        drawContext.method_51448().translate(this.ibo + 215.0f, this.ibp + 159.0f + (1.0f - f7) * 6.0f);
-        drawContext.method_51448().scale(f10, f10);
-        drawContext.method_51448().translate(-(this.ibo + 215.0f), -(this.ibp + 159.0f));
+        drawContext.getMatrices().translate(this.ibo + 215.0f, this.ibp + 159.0f + (1.0f - f7) * 6.0f);
+        drawContext.getMatrices().scale(f10, f10);
+        drawContext.getMatrices().translate(-(this.ibo + 215.0f), -(this.ibp + 159.0f));
         uut.shadow(drawContext, this.ibo, this.ibp + 4.0f, 430.0f, 318.0f, f8, 18.0f, iov.shadow);
         uut.round(drawContext, this.ibo, this.ibp, 430.0f, 318.0f, f8, ujt.withAlpha(iov.window, 252));
         uut.round(drawContext, this.ibo, this.ibp, 430.0f, 318.0f, f8, iov.card);
@@ -297,7 +297,7 @@ extends ijy {
             String string3 = this.ibx.isEmpty() ? wap.s(a.d("\u17a9\u6e39\ue4f1\u7a9c\uf14a\u77fc\ucda6\u4410\uda09\u50b1\ud778\u2d12\ua3cf", 820329225, -1529598749), a.b("\u1b5b\u62cf\ue863\u7660\ufdb1\u7b0d\uc540\u48ac\ud6fb\u585f\udb91\u21ed\uaf33\u368f\ubcdd\u3a24\u8068", -461103273)) : wap.s(a.c(-488482956, "\u572c\u2eb2\ua464\u3a1f\ub1c0\u373a\u8d3d\u04d7\u9ac7\u1037\u97e1\u6d90\ue303\u7afd\uf0b3\u7610\ucc0d\u43cb\ud970\u5f23\ud6cd\uac8f\u2279\ub9a8\u3f40\ub506\u0cb5"), a.b("\u7df2\u0462\u8eb2\u10c1\u9f0c\u3989\ua3ee\u2e0b\ub05e\u3ae0\ubd32\u4741\uc99c\u5057\uda0a\u5897\ue6c0\u6912\uf3a2\u71eb\ufc7f\u865c\u089e\u933f\u1532\u9fed\u2232\uac63\u3603\ub0c5\u3b76", 1206352375)) + this.ibx.size() + wap.s(a.c(-1919566204, "\ubea2\uc740\u4d88\ud3fe\u5831\ude99"), a.c(-278559244, "\u85dd\uf873\u72a1\uecd4\u6709\ue1bf\u5beb\ud217\u4c4b"));
             irr.SMALL.draw(drawContext, string3, this.ibo + 12.0f, irr.SMALL.centerTop(f24), iov.textMuted);
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 
@@ -341,10 +341,10 @@ extends ijy {
                 if (bl4) {
                     uut.outline(drawContext, f15, f16 - f17, f10, f11, f12, 1.0f, iov.accent(200));
                 }
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f15 + (bl2 ? 2.0f : 3.0f), f16 + (f11 - 16.0f) * 0.5f - f17);
-                drawContext.method_51427(iay2.iba, 0, 0);
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f15 + (bl2 ? 2.0f : 3.0f), f16 + (f11 - 16.0f) * 0.5f - f17);
+                drawContext.drawItem(iay2.iba, 0, 0);
+                drawContext.getMatrices().popMatrix();
                 if (bl2) {
                     f14 = f15 + 21.0f;
                     f13 = f10 - 21.0f - (bl4 ? 14.0f : 4.0f);

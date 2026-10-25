@@ -62,7 +62,7 @@ extends kfe {
     private final float[] krq = new float[20];
     private ClientPlayerEntity krr;
     private boolean krs;
-    private ItemStack krt = ItemStack.field_8037;
+    private ItemStack krt = ItemStack.EMPTY;
     private int kru = -1;
     private boolean krv;
     private int krw;
@@ -102,7 +102,7 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         int n;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity != this.krr) {
             this.ksb(clientPlayerEntity);
         }
@@ -110,7 +110,7 @@ extends kfe {
         if (this.krx < 1) {
             ++this.krx;
         }
-        if (!clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325() || clientPlayerEntity.method_68878()) {
+        if (!clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator() || clientPlayerEntity.isCreative()) {
             this.ksk();
             return;
         }
@@ -136,8 +136,8 @@ extends kfe {
             return;
         }
         this.krp.hold(minecraftClient);
-        if (clientPlayerEntity.method_6115()) {
-            minecraftClient.field_1761.method_2897((PlayerEntity)clientPlayerEntity);
+        if (clientPlayerEntity.isUsingItem()) {
+            minecraftClient.interactionManager.stopUsingItem((PlayerEntity)clientPlayerEntity);
         }
         this.krv = true;
     }
@@ -147,7 +147,7 @@ extends kfe {
         if (!this.krv) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         int n = this.ksg(clientPlayerEntity);
         if (n < 0 || !krd.ksm(minecraftClient, clientPlayerEntity)) {
             this.ksk();
@@ -163,7 +163,7 @@ extends kfe {
     }
 
     private void ksb(ClientPlayerEntity clientPlayerEntity) {
-        boolean bl = this.krr != null && this.krr.method_5805();
+        boolean bl = this.krr != null && this.krr.isAlive();
         this.krr = clientPlayerEntity;
         Arrays.fill(this.krq, krd.ksd(clientPlayerEntity));
         if (!bl) {
@@ -180,17 +180,17 @@ extends kfe {
     }
 
     private static float ksd(ClientPlayerEntity clientPlayerEntity) {
-        float f = clientPlayerEntity.method_6059(StatusEffects.field_5898) ? clientPlayerEntity.method_6067() : 0.0f;
-        return clientPlayerEntity.method_6032() + f;
+        float f = clientPlayerEntity.hasStatusEffect(StatusEffects.ABSORPTION) ? clientPlayerEntity.getAbsorptionAmount() : 0.0f;
+        return clientPlayerEntity.getHealth() + f;
     }
 
     private Boolean kse(ClientPlayerEntity clientPlayerEntity) {
         float f;
-        if (clientPlayerEntity.method_7357().method_7904(Items.field_8288.method_7854())) {
+        if (clientPlayerEntity.getItemCooldownManager().isCoolingDown(Items.TOTEM_OF_UNDYING.getDefaultStack())) {
             return Boolean.FALSE;
         }
-        if (this.kro.get() && krd.ksf(clientPlayerEntity) && clientPlayerEntity.method_6030().method_7935((LivingEntity)clientPlayerEntity) > 5) {
-            int n = clientPlayerEntity.method_6014();
+        if (this.kro.get() && krd.ksf(clientPlayerEntity) && clientPlayerEntity.getActiveItem().getMaxUseTime((LivingEntity)clientPlayerEntity) > 5) {
+            int n = clientPlayerEntity.getItemUseTimeLeft();
             if (n < 10) {
                 return null;
             }
@@ -206,8 +206,8 @@ extends kfe {
     }
 
     private static boolean ksf(ClientPlayerEntity clientPlayerEntity) {
-        ItemStack itemStack = clientPlayerEntity.method_6030();
-        return clientPlayerEntity.method_6115() && !itemStack.method_7960() && itemStack.method_58694(DataComponentTypes.field_50075) != null;
+        ItemStack itemStack = clientPlayerEntity.getActiveItem();
+        return clientPlayerEntity.isUsingItem() && !itemStack.isEmpty() && itemStack.get(DataComponentTypes.FOOD) != null;
     }
 
     private int ksg(ClientPlayerEntity clientPlayerEntity) {
@@ -216,35 +216,35 @@ extends kfe {
 
     private int ksh(ClientPlayerEntity clientPlayerEntity) {
         int n;
-        ItemStack itemStack2 = clientPlayerEntity.method_6079();
+        ItemStack itemStack2 = clientPlayerEntity.getOffHandStack();
         boolean bl = this.krm.get();
-        boolean bl2 = itemStack2.method_31574(Items.field_8288);
-        if (!(!bl2 || bl && itemStack2.method_7958())) {
+        boolean bl2 = itemStack2.isOf(Items.TOTEM_OF_UNDYING);
+        if (!(!bl2 || bl && itemStack2.hasGlint())) {
             return -1;
         }
-        int n2 = n = bl ? krd.kso(clientPlayerEntity, itemStack -> itemStack.method_31574(Items.field_8288) && !itemStack.method_7958()) : -1;
+        int n2 = n = bl ? krd.kso(clientPlayerEntity, itemStack -> itemStack.isOf(Items.TOTEM_OF_UNDYING) && !itemStack.hasGlint()) : -1;
         if (n < 0 && !bl2) {
-            n = krd.kso(clientPlayerEntity, itemStack -> itemStack.method_31574(Items.field_8288));
+            n = krd.kso(clientPlayerEntity, itemStack -> itemStack.isOf(Items.TOTEM_OF_UNDYING));
         }
         return n;
     }
 
     private int ksi(ClientPlayerEntity clientPlayerEntity) {
-        if (this.krt.method_7960()) {
+        if (this.krt.isEmpty()) {
             return -1;
         }
-        ItemStack itemStack2 = clientPlayerEntity.method_6079();
-        if (!this.krl.get() || !itemStack2.method_7960() && !itemStack2.method_31574(Items.field_8288)) {
+        ItemStack itemStack2 = clientPlayerEntity.getOffHandStack();
+        if (!this.krl.get() || !itemStack2.isEmpty() && !itemStack2.isOf(Items.TOTEM_OF_UNDYING)) {
             this.ksl();
             return -1;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        if (this.kru >= 0 && ItemStack.method_31577((ItemStack)playerInventory.method_5438(this.kru), (ItemStack)this.krt)) {
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        if (this.kru >= 0 && ItemStack.areItemsAndComponentsEqual((ItemStack)playerInventory.getStack(this.kru), (ItemStack)this.krt)) {
             return this.kru;
         }
-        int n = krd.kso(clientPlayerEntity, itemStack -> ItemStack.method_31577((ItemStack)itemStack, (ItemStack)this.krt));
+        int n = krd.kso(clientPlayerEntity, itemStack -> ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack, (ItemStack)this.krt));
         if (n < 0) {
-            n = krd.kso(clientPlayerEntity, itemStack -> itemStack.method_31574(this.krt.method_7909()));
+            n = krd.kso(clientPlayerEntity, itemStack -> itemStack.isOf(this.krt.getItem()));
         }
         if (n < 0) {
             this.ksl();
@@ -253,18 +253,18 @@ extends kfe {
     }
 
     private void ksj(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, int n) {
-        ItemStack itemStack = clientPlayerEntity.method_6079();
+        ItemStack itemStack = clientPlayerEntity.getOffHandStack();
         if (!this.krs) {
             this.ksl();
-        } else if (this.krl.get() && this.krt.method_7960() && !itemStack.method_7960() && !itemStack.method_31574(Items.field_8288)) {
-            this.krt = itemStack.method_7972();
+        } else if (this.krl.get() && this.krt.isEmpty() && !itemStack.isEmpty() && !itemStack.isOf(Items.TOTEM_OF_UNDYING)) {
+            this.krt = itemStack.copy();
             this.kru = n;
         }
-        ScreenHandler screenHandler = clientPlayerEntity.field_7512;
-        int n2 = wdq.slotId(screenHandler, (Inventory)clientPlayerEntity.method_31548(), n);
+        ScreenHandler screenHandler = clientPlayerEntity.currentScreenHandler;
+        int n2 = wdq.slotId(screenHandler, (Inventory)clientPlayerEntity.getInventory(), n);
         if (n2 >= 0) {
-            minecraftClient.field_1761.method_2906(screenHandler.field_7763, n2, 40, SlotActionType.field_7791, (PlayerEntity)clientPlayerEntity);
-            if (screenHandler == clientPlayerEntity.field_7498) {
+            minecraftClient.interactionManager.clickSlot(screenHandler.syncId, n2, 40, SlotActionType.SWAP, (PlayerEntity)clientPlayerEntity);
+            if (screenHandler == clientPlayerEntity.playerScreenHandler) {
                 wdq.close(minecraftClient);
             }
         }
@@ -281,37 +281,37 @@ extends kfe {
     }
 
     private void ksl() {
-        this.krt = ItemStack.field_8037;
+        this.krt = ItemStack.EMPTY;
         this.kru = -1;
     }
 
     private static boolean ksm(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         HandledScreen handledScreen;
         Screen screen;
-        ScreenHandler screenHandler = clientPlayerEntity.field_7512;
-        if (screenHandler == null || !screenHandler.method_34255().method_7960()) {
+        ScreenHandler screenHandler = clientPlayerEntity.currentScreenHandler;
+        if (screenHandler == null || !screenHandler.getCursorStack().isEmpty()) {
             return false;
         }
-        return screenHandler == clientPlayerEntity.field_7498 || (screen = minecraftClient.field_1755) instanceof HandledScreen && (handledScreen = (HandledScreen)screen).method_17577() == screenHandler;
+        return screenHandler == clientPlayerEntity.playerScreenHandler || (screen = minecraftClient.currentScreen) instanceof HandledScreen && (handledScreen = (HandledScreen)screen).getScreenHandler() == screenHandler;
     }
 
     private static boolean ksn(ClientPlayerEntity clientPlayerEntity) {
-        return vyn.serverIdle(clientPlayerEntity) && !clientPlayerEntity.method_6115();
+        return vyn.serverIdle(clientPlayerEntity) && !clientPlayerEntity.isUsingItem();
     }
 
     private static int kso(ClientPlayerEntity clientPlayerEntity, Predicate<ItemStack> predicate) {
         int n;
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        int n2 = playerInventory.method_67532();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        int n2 = playerInventory.getSelectedSlot();
         for (n = 9; n < 36; ++n) {
-            if (!predicate.test(playerInventory.method_5438(n))) continue;
+            if (!predicate.test(playerInventory.getStack(n))) continue;
             return n;
         }
         for (n = 0; n < 9; ++n) {
-            if (n == n2 || !predicate.test(playerInventory.method_5438(n))) continue;
+            if (n == n2 || !predicate.test(playerInventory.getStack(n))) continue;
             return n;
         }
-        return predicate.test(playerInventory.method_5438(n2)) ? n2 : -1;
+        return predicate.test(playerInventory.getStack(n2)) ? n2 : -1;
     }
 
     private static /* synthetic */ int auj(int n, int n2) {

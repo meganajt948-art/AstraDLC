@@ -40,8 +40,8 @@ public final class psu {
      */
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || dry.armed() || minecraftClient.field_1755 instanceof hlc || !pnf.visible()) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || dry.armed() || minecraftClient.currentScreen instanceof hlc || !pnf.visible()) {
             return;
         }
         psf psf2 = pnf.route();
@@ -54,7 +54,7 @@ public final class psu {
         }
         pta = unf.frame();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;

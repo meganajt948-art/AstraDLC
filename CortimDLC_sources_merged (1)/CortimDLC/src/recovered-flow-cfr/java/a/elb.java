@@ -39,7 +39,7 @@ implements AutoCloseable {
     }
 
     void set(int n, int n2, int n3) {
-        this.elc.method_61941(n, n2, n3);
+        this.elc.setColorArgb(n, n2, n3);
     }
 
     void upload() {

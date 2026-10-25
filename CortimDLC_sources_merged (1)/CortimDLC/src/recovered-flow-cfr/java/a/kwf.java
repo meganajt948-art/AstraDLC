@@ -176,7 +176,7 @@ extends kfe {
         if (kxf == null) {
             return a.b("\u9ebc\ue704\u6dd7", -178938160);
         }
-        ClientPlayerEntity clientPlayerEntity = MinecraftClient.method_1551().field_1724;
+        ClientPlayerEntity clientPlayerEntity = MinecraftClient.getInstance().player;
         return String.format(Locale.ROOT, a.d("\ued0a\u94b2\u1e61\u8005\u0bc4\u8d64\u377e\ube97\u209e\uaa7c\u2de9\ud797\u594e\uc0f0\u4abf\ucc53\u761b\uf9c3\u632a\ue563\u6cc2\u16c0\u983a\u03e6\u8591\u0f49\ub6a2\u38eb\ua24a\u2448\uafad\u5163\udb20\u42c3\uc4da\u4e73\uf1af\u7bc1\ufd45\u64bd\ueee8\u9012\u1a5e\u9db8\u0729\u890b\u30c3\uba7b\u3c27\ua7e0\u29ac\ud303\u5ae2\udc9d\u4613\uc800\u73b2\uf578\u7f24\ue68b\u686a\u1215", -728323603, 1423393974), kwf.kxf.kxg.debugOffsets(), kwf.kxf.kxo, kwf.kxf.kxg.idle(), clientPlayerEntity == null ? 0.0 : (double)kwf.kxf.kxg.serverYaw(clientPlayerEntity), clientPlayerEntity == null ? 0.0 : (double)kwf.kxf.kxg.serverPitch(clientPlayerEntity), kwf.kxf.kxj.debug(), kwf.kxf.kxh.trace());
     }
 
@@ -205,8 +205,8 @@ extends kfe {
     protected void onDisable() {
         this.kxh.onDisable();
         this.kxo = false;
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (this.kwg.is(a.c(1014196903, "\u6af2\u1379\u99af\u07d7\u8c0b\u0aa0")) && clientPlayerEntity != null && clientPlayerEntity.method_5805() && !this.kxg.idle()) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (this.kwg.is(a.c(1014196903, "\u6af2\u1379\u99af\u07d7\u8c0b\u0aa0")) && clientPlayerEntity != null && clientPlayerEntity.isAlive() && !this.kxg.idle()) {
             this.kxg.hit(2 + this.kxe.nextInt(3));
             this.kxp = true;
             this.kxq = clientPlayerEntity;
@@ -219,11 +219,11 @@ extends kfe {
 
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (!this.isEnabled()) {
             if (this.kxp && clientPlayerEntity == this.kxq) {
                 this.kxg.begin(clientPlayerEntity);
-                if (this.kwu.get() && !this.kxg.idle() && minecraftClient.field_1755 == null) {
+                if (this.kwu.get() && !this.kxg.idle() && minecraftClient.currentScreen == null) {
                     this.kyd(minecraftClient, clientPlayerEntity);
                 }
             }
@@ -232,10 +232,10 @@ extends kfe {
         boolean bl = this.kwg.is(a.d("\u6fbf\u1634\u9ce2\u029a\u8946\u0fed", -717577097, -817247331));
         this.kxg.mode(bl, clientPlayerEntity);
         this.kxg.begin(clientPlayerEntity);
-        if (bl && this.kwu.get() && !this.kxg.idle() && minecraftClient.field_1755 == null) {
+        if (bl && this.kwu.get() && !this.kxg.idle() && minecraftClient.currentScreen == null) {
             this.kyd(minecraftClient, clientPlayerEntity);
         }
-        if (this.kyl(minecraftClient, clientPlayerEntity) && this.kym(clientPlayerEntity.method_6047()) && !lgc.moduleOn()) {
+        if (this.kyl(minecraftClient, clientPlayerEntity) && this.kym(clientPlayerEntity.getMainHandStack()) && !lgc.moduleOn()) {
             this.kxh.crits(this.kwt.get());
             this.kxh.onStartTick(minecraftClient);
         }
@@ -244,7 +244,7 @@ extends kfe {
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
         Entity entity;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         this.kxg.end(clientPlayerEntity);
         this.kxg.newTick(clientPlayerEntity);
         this.kye(minecraftClient);
@@ -265,13 +265,13 @@ extends kfe {
             return;
         }
         this.kxh.onEndTick(minecraftClient);
-        Entity entity2 = entity = this.kyl(minecraftClient, clientPlayerEntity) && this.kym(clientPlayerEntity.method_6047()) ? this.kyf(minecraftClient, clientPlayerEntity) : null;
+        Entity entity2 = entity = this.kyl(minecraftClient, clientPlayerEntity) && this.kym(clientPlayerEntity.getMainHandStack()) ? this.kyf(minecraftClient, clientPlayerEntity) : null;
         if (entity == null) {
             this.kxj.targetNull();
             this.kxi.target = null;
             this.kxk = null;
             this.kxl = null;
-            if (this.kxo && clientPlayerEntity.method_5805()) {
+            if (this.kxo && clientPlayerEntity.isAlive()) {
                 this.kxg.hit(8 + this.kxe.nextInt(5));
             }
             this.kxo = false;
@@ -289,12 +289,12 @@ extends kfe {
     private void kxz(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Entity entity) {
         float f = this.kxg.serverYaw(clientPlayerEntity);
         float f2 = this.kxg.serverPitch(clientPlayerEntity);
-        Box box = entity.method_5829();
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = box.method_1005();
-        double d = vec3d2.field_1352 - vec3d.field_1352;
-        double d2 = vec3d2.field_1351 - vec3d.field_1351;
-        double d3 = vec3d2.field_1350 - vec3d.field_1350;
+        Box box = entity.getBoundingBox();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = box.getCenter();
+        double d = vec3d2.x - vec3d.x;
+        double d2 = vec3d2.y - vec3d.y;
+        double d3 = vec3d2.z - vec3d.z;
         this.kxi.target = entity;
         this.kxi.box = box;
         this.kxi.yawToTarget = (float)(Math.toDegrees(Math.atan2(d3, d)) - 90.0);
@@ -309,26 +309,26 @@ extends kfe {
 
     private void kya(Entity entity, Vec3d vec3d, Vec3d vec3d2) {
         Vec3d vec3d3;
-        Vec3d vec3d4 = entity.method_73189();
-        Vec3d vec3d5 = vec3d3 = entity == this.kxk && this.kxl != null ? vec3d4.method_1020(this.kxl) : Vec3d.field_1353;
-        if (vec3d3.method_1027() > 1.0) {
-            vec3d3 = Vec3d.field_1353;
+        Vec3d vec3d4 = entity.getEntityPos();
+        Vec3d vec3d5 = vec3d3 = entity == this.kxk && this.kxl != null ? vec3d4.subtract(this.kxl) : Vec3d.ZERO;
+        if (vec3d3.lengthSquared() > 1.0) {
+            vec3d3 = Vec3d.ZERO;
         }
-        if (entity != this.kxk || entity.method_24828()) {
-            this.kxm = vec3d4.field_1351;
+        if (entity != this.kxk || entity.isOnGround()) {
+            this.kxm = vec3d4.y;
         }
         this.kxk = entity;
         this.kxl = vec3d4;
-        double d = vec3d2.field_1352;
-        double d2 = vec3d2.field_1351;
-        double d3 = vec3d2.field_1350;
-        double d4 = entity.method_24828() ? 0.0 : vec3d3.field_1351;
-        double d5 = vec3d2.field_1351 - (vec3d4.field_1351 - this.kxm);
+        double d = vec3d2.x;
+        double d2 = vec3d2.y;
+        double d3 = vec3d2.z;
+        double d4 = entity.isOnGround() ? 0.0 : vec3d3.y;
+        double d5 = vec3d2.y - (vec3d4.y - this.kxm);
         for (int i = 0; i < 16; ++i) {
-            this.kxi.eyeAt[i] = vec3d.method_1019(this.kxh.selfOffset(i));
+            this.kxi.eyeAt[i] = vec3d.add(this.kxh.selfOffset(i));
             this.kxi.targetAt[i] = new Vec3d(d, d2, d3);
-            d += vec3d3.field_1352;
-            d3 += vec3d3.field_1350;
+            d += vec3d3.x;
+            d3 += vec3d3.z;
             if (d4 == 0.0 && !(d2 > d5)) continue;
             d2 += d4;
             d4 = (d4 - 0.08) * 0.98;
@@ -339,7 +339,7 @@ extends kfe {
     }
 
     private void kyb(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        if (clientPlayerEntity != this.kxq || clientPlayerEntity == null || !clientPlayerEntity.method_5805() || !this.kwg.is(a.b("\ua899\ud112\u5bc4\uc5bc\u4e60\uc8cb", 1240377548)) || this.kxg.home(minecraftClient, clientPlayerEntity)) {
+        if (clientPlayerEntity != this.kxq || clientPlayerEntity == null || !clientPlayerEntity.isAlive() || !this.kwg.is(a.b("\ua899\ud112\u5bc4\uc5bc\u4e60\uc8cb", 1240377548)) || this.kxg.home(minecraftClient, clientPlayerEntity)) {
             this.kxg.reset();
             this.kxp = false;
             this.kxq = null;
@@ -347,7 +347,7 @@ extends kfe {
     }
 
     private void kyc(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        if (!clientPlayerEntity.method_5805()) {
+        if (!clientPlayerEntity.isAlive()) {
             this.kxg.forget();
         } else if (this.kwv.get() || this.kwg.is(a.b("\u16ce\u6f45\ue593\u7beb\uf037\u769c", -1848633701))) {
             this.kxg.home(minecraftClient, clientPlayerEntity);
@@ -357,9 +357,9 @@ extends kfe {
     }
 
     private void kyd(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        GameOptions gameOptions = minecraftClient.field_1690;
-        double d = (vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1894) ? 1 : 0) - (vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1881) ? 1 : 0);
-        double d2 = (vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1913) ? 1 : 0) - (vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1849) ? 1 : 0);
+        GameOptions gameOptions = minecraftClient.options;
+        double d = (vzz.isPhysicallyDown(minecraftClient, gameOptions.forwardKey) ? 1 : 0) - (vzz.isPhysicallyDown(minecraftClient, gameOptions.backKey) ? 1 : 0);
+        double d2 = (vzz.isPhysicallyDown(minecraftClient, gameOptions.leftKey) ? 1 : 0) - (vzz.isPhysicallyDown(minecraftClient, gameOptions.rightKey) ? 1 : 0);
         if (d == 0.0 && d2 == 0.0) {
             return;
         }
@@ -367,23 +367,23 @@ extends kfe {
         double d4 = d2 * Math.cos(d3) - d * Math.sin(d3);
         double d5 = d * Math.cos(d3) + d2 * Math.sin(d3);
         double d6 = Math.hypot(d4, d5);
-        double d7 = Math.toRadians(clientPlayerEntity.method_36454());
+        double d7 = Math.toRadians(clientPlayerEntity.getYaw());
         double d8 = (d5 * Math.cos(d7) - d4 * Math.sin(d7)) / d6;
         double d9 = (d4 * Math.cos(d7) + d5 * Math.sin(d7)) / d6;
-        gameOptions.field_1894.method_23481(d8 > kxb);
-        gameOptions.field_1881.method_23481(d8 < -kxb);
-        gameOptions.field_1913.method_23481(d9 > kxb);
-        gameOptions.field_1849.method_23481(d9 < -kxb);
+        gameOptions.forwardKey.setPressed(d8 > kxb);
+        gameOptions.backKey.setPressed(d8 < -kxb);
+        gameOptions.leftKey.setPressed(d9 > kxb);
+        gameOptions.rightKey.setPressed(d9 < -kxb);
         this.kxn = true;
     }
 
     private void kye(MinecraftClient minecraftClient) {
-        if (!this.kxn || minecraftClient.field_1690 == null) {
+        if (!this.kxn || minecraftClient.options == null) {
             return;
         }
         this.kxn = false;
-        for (KeyBinding keyBinding : new KeyBinding[]{minecraftClient.field_1690.field_1894, minecraftClient.field_1690.field_1881, minecraftClient.field_1690.field_1913, minecraftClient.field_1690.field_1849}) {
-            keyBinding.method_23481(minecraftClient.field_1755 == null && vzz.isPhysicallyDown(minecraftClient, keyBinding));
+        for (KeyBinding keyBinding : new KeyBinding[]{minecraftClient.options.forwardKey, minecraftClient.options.backKey, minecraftClient.options.leftKey, minecraftClient.options.rightKey}) {
+            keyBinding.setPressed(minecraftClient.currentScreen == null && vzz.isPhysicallyDown(minecraftClient, keyBinding));
         }
     }
 
@@ -422,17 +422,17 @@ extends kfe {
     private boolean kyg(Entity entity) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity)entity;
-            return this.kww.get() && !playerEntity.method_7325() && !hhf.protects((Entity)playerEntity);
+            return this.kww.get() && !playerEntity.isSpectator() && !hhf.protects((Entity)playerEntity);
         }
         return this.kwx.get() && entity instanceof Monster;
     }
 
     private boolean kyh(ClientPlayerEntity clientPlayerEntity, Entity entity) {
         LivingEntity livingEntity;
-        if (!(entity != clientPlayerEntity && entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).method_5805() && entity.method_5732() && this.kyg(entity))) {
+        if (!(entity != clientPlayerEntity && entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).isAlive() && entity.isAttackable() && this.kyg(entity))) {
             return false;
         }
-        return this.kwy.get() || clientPlayerEntity.method_6057(entity);
+        return this.kwy.get() || clientPlayerEntity.canSee(entity);
     }
 
     private static double kyi(LivingEntity livingEntity) {
@@ -441,17 +441,17 @@ extends kfe {
     }
 
     private static boolean kyj(Vec3d vec3d, Entity entity, double d) {
-        return entity.method_5829().method_49271(vec3d) <= d * d;
+        return entity.getBoundingBox().squaredMagnitude(vec3d) <= d * d;
     }
 
     private static double kyk(float f, Vec3d vec3d, Entity entity) {
-        Vec3d vec3d2 = entity.method_73189();
-        double d = Math.toDegrees(Math.atan2(vec3d2.field_1350 - vec3d.field_1350, vec3d2.field_1352 - vec3d.field_1352)) - 90.0;
-        return Math.abs(MathHelper.method_15338((double)(d - (double)f)));
+        Vec3d vec3d2 = entity.getEntityPos();
+        double d = Math.toDegrees(Math.atan2(vec3d2.z - vec3d.z, vec3d2.x - vec3d.x)) - 90.0;
+        return Math.abs(MathHelper.wrapDegrees((double)(d - (double)f)));
     }
 
     private boolean kyl(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        return minecraftClient.field_1755 == null && clientPlayerEntity.method_5805() && !clientPlayerEntity.method_7325() && !clientPlayerEntity.method_6115() && !clientPlayerEntity.method_3144() && !ovh.active() && !oxw.busy() && !kvz.busy() && !nuo.busy() && !kmy.busy() && tcz.mode() != tcw.RECORD && (minecraftClient.field_1761 == null || !minecraftClient.field_1761.method_2923());
+        return minecraftClient.currentScreen == null && clientPlayerEntity.isAlive() && !clientPlayerEntity.isSpectator() && !clientPlayerEntity.isUsingItem() && !clientPlayerEntity.isRiding() && !ovh.active() && !oxw.busy() && !kvz.busy() && !nuo.busy() && !kmy.busy() && tcz.mode() != tcw.RECORD && (minecraftClient.interactionManager == null || !minecraftClient.interactionManager.isBreakingBlock());
     }
 
     /*

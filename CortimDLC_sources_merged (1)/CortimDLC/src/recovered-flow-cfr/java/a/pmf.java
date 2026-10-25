@@ -55,7 +55,7 @@ public final class pmf {
         if (n2 == -1) {
             return null;
         }
-        int n3 = pmf.pna(screenHandler, playerInventory, ((Slot)screenHandler.field_7761.get(n2)).method_7677(), random);
+        int n3 = pmf.pna(screenHandler, playerInventory, ((Slot)screenHandler.slots.get(n2)).getStack(), random);
         if (n3 == -1) {
             return null;
         }
@@ -72,16 +72,16 @@ public final class pmf {
             return pmc.WAIT;
         }
         if (this.pmq > this.pmk + 2 + 6) {
-            if (screenHandler.method_34255().method_7960() || this.pmp >= 8) {
+            if (screenHandler.getCursorStack().isEmpty() || this.pmp >= 8) {
                 return this.pmv(true);
             }
             ++this.pmp;
             this.pml = plz.RETURN;
         }
-        ItemStack itemStack = screenHandler.method_34255();
+        ItemStack itemStack = screenHandler.getCursorStack();
         switch (this.pml.ordinal()) {
             case 0: {
-                if (!itemStack.method_7960()) {
+                if (!itemStack.isEmpty()) {
                     this.pml = plz.RETURN;
                     return pmc.WAIT;
                 }
@@ -91,14 +91,14 @@ public final class pmf {
                         return this.pmv(true);
                     }
                 }
-                int n = ((Slot)screenHandler.field_7761.get(this.pmm)).method_7677().method_7947();
+                int n = ((Slot)screenHandler.slots.get(this.pmm)).getStack().getCount();
                 this.pmw(ply2, this.pmm, 0, l);
                 this.pml = n <= this.pmk ? plz.PLACE_ALL : plz.PLACE_ONE;
                 return pmc.CLICKED;
             }
             case 1: 
             case 2: {
-                if (itemStack.method_7960()) {
+                if (itemStack.isEmpty()) {
                     if (++this.pmp > 2) {
                         return this.pmv(true);
                     }
@@ -130,7 +130,7 @@ public final class pmf {
                 return pmc.CLICKED;
             }
             case 3: {
-                if (itemStack.method_7960()) {
+                if (itemStack.isEmpty()) {
                     this.pml = plz.VERIFY;
                     this.pmr = l + pmf.settleDelay(this.pmj);
                     return pmc.WAIT;
@@ -145,7 +145,7 @@ public final class pmf {
                 return pmc.CLICKED;
             }
             case 4: {
-                if (!itemStack.method_7960()) {
+                if (!itemStack.isEmpty()) {
                     if (++this.pmp > 3) {
                         return this.pmv(true);
                     }
@@ -177,39 +177,39 @@ public final class pmf {
     }
 
     private void pmw(ply ply2, int n, int n2, long l) {
-        ply2.click(n, n2, SlotActionType.field_7790);
+        ply2.click(n, n2, SlotActionType.PICKUP);
         ++this.pmq;
         this.pmr = l + pmf.clickDelay(this.pmj);
     }
 
     private boolean pmx(ScreenHandler screenHandler, int n) {
-        if (n < 0 || n >= screenHandler.field_7761.size()) {
+        if (n < 0 || n >= screenHandler.slots.size()) {
             return false;
         }
-        Slot slot = (Slot)screenHandler.field_7761.get(n);
-        return slot.field_7871 != this.pmi && slot.method_7681() && this.pmh.test(slot.method_7677());
+        Slot slot = (Slot)screenHandler.slots.get(n);
+        return slot.inventory != this.pmi && slot.hasStack() && this.pmh.test(slot.getStack());
     }
 
     private static boolean pmy(ScreenHandler screenHandler, PlayerInventory playerInventory, int n, ItemStack itemStack) {
-        if (n < 0 || n >= screenHandler.field_7761.size()) {
+        if (n < 0 || n >= screenHandler.slots.size()) {
             return false;
         }
-        Slot slot = (Slot)screenHandler.field_7761.get(n);
-        if (slot.field_7871 != playerInventory || slot.method_34266() >= 36) {
+        Slot slot = (Slot)screenHandler.slots.get(n);
+        if (slot.inventory != playerInventory || slot.getIndex() >= 36) {
             return false;
         }
-        if (!slot.method_7681()) {
+        if (!slot.hasStack()) {
             return true;
         }
-        ItemStack itemStack2 = slot.method_7677();
-        return ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack) && itemStack2.method_7947() < itemStack2.method_7914();
+        ItemStack itemStack2 = slot.getStack();
+        return ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack) && itemStack2.getCount() < itemStack2.getMaxCount();
     }
 
     private static int pmz(ScreenHandler screenHandler, PlayerInventory playerInventory, Predicate<ItemStack> predicate, Random random) {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
-        for (int i = 0; i < screenHandler.field_7761.size(); ++i) {
-            Slot slot = (Slot)screenHandler.field_7761.get(i);
-            if (slot.field_7871 == playerInventory || !slot.method_7681() || !predicate.test(slot.method_7677())) continue;
+        for (int i = 0; i < screenHandler.slots.size(); ++i) {
+            Slot slot = (Slot)screenHandler.slots.get(i);
+            if (slot.inventory == playerInventory || !slot.hasStack() || !predicate.test(slot.getStack())) continue;
             arrayList.add(i);
         }
         return arrayList.isEmpty() ? -1 : (Integer)arrayList.get(random.nextInt(arrayList.size()));
@@ -219,14 +219,14 @@ public final class pmf {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         ArrayList arrayList2 = new ArrayList();
         ArrayList<Integer> arrayList3 = new ArrayList<Integer>();
-        for (int i = 0; i < screenHandler.field_7761.size(); ++i) {
-            Slot slot = (Slot)screenHandler.field_7761.get(i);
-            if (slot.field_7871 != playerInventory || slot.method_34266() >= 36) continue;
-            if (!slot.method_7681()) {
-                (slot.method_34266() < 9 ? arrayList : arrayList2).add(i);
+        for (int i = 0; i < screenHandler.slots.size(); ++i) {
+            Slot slot = (Slot)screenHandler.slots.get(i);
+            if (slot.inventory != playerInventory || slot.getIndex() >= 36) continue;
+            if (!slot.hasStack()) {
+                (slot.getIndex() < 9 ? arrayList : arrayList2).add(i);
                 continue;
             }
-            if (!ItemStack.method_31577((ItemStack)slot.method_7677(), (ItemStack)itemStack) || slot.method_7677().method_7947() >= slot.method_7677().method_7914()) continue;
+            if (!ItemStack.areItemsAndComponentsEqual((ItemStack)slot.getStack(), (ItemStack)itemStack) || slot.getStack().getCount() >= slot.getStack().getMaxCount()) continue;
             arrayList3.add(i);
         }
         ArrayList<Integer> arrayList4 = !arrayList.isEmpty() ? arrayList : (!arrayList2.isEmpty() ? arrayList2 : arrayList3);
@@ -235,17 +235,17 @@ public final class pmf {
 
     public static int stashSlot(ScreenHandler screenHandler, PlayerInventory playerInventory, ItemStack itemStack, int n) {
         int n2;
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return -1;
         }
         if (pmf.pnb(screenHandler, playerInventory, n, itemStack, false)) {
             return n;
         }
         int n3 = -1;
-        for (n2 = 0; n2 < screenHandler.field_7761.size(); ++n2) {
-            Slot slot = (Slot)screenHandler.field_7761.get(n2);
-            if (slot.field_7871 == playerInventory) continue;
-            if (!slot.method_7681()) {
+        for (n2 = 0; n2 < screenHandler.slots.size(); ++n2) {
+            Slot slot = (Slot)screenHandler.slots.get(n2);
+            if (slot.inventory == playerInventory) continue;
+            if (!slot.hasStack()) {
                 return n2;
             }
             if (n3 != -1 || !pmf.pnb(screenHandler, playerInventory, n2, itemStack, false)) continue;
@@ -254,7 +254,7 @@ public final class pmf {
         if (n3 != -1) {
             return n3;
         }
-        for (n2 = 0; n2 < screenHandler.field_7761.size(); ++n2) {
+        for (n2 = 0; n2 < screenHandler.slots.size(); ++n2) {
             if (!pmf.pnb(screenHandler, playerInventory, n2, itemStack, true)) continue;
             return n2;
         }
@@ -262,18 +262,18 @@ public final class pmf {
     }
 
     private static boolean pnb(ScreenHandler screenHandler, PlayerInventory playerInventory, int n, ItemStack itemStack, boolean bl) {
-        if (n < 0 || n >= screenHandler.field_7761.size()) {
+        if (n < 0 || n >= screenHandler.slots.size()) {
             return false;
         }
-        Slot slot = (Slot)screenHandler.field_7761.get(n);
-        if (slot.field_7871 == playerInventory != bl || bl && slot.method_34266() >= 36) {
+        Slot slot = (Slot)screenHandler.slots.get(n);
+        if (slot.inventory == playerInventory != bl || bl && slot.getIndex() >= 36) {
             return false;
         }
-        if (!slot.method_7681()) {
-            return slot.method_7680(itemStack);
+        if (!slot.hasStack()) {
+            return slot.canInsert(itemStack);
         }
-        ItemStack itemStack2 = slot.method_7677();
-        return ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack) && itemStack2.method_7947() < Math.min(itemStack2.method_7914(), slot.method_7676(itemStack2));
+        ItemStack itemStack2 = slot.getStack();
+        return ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack) && itemStack2.getCount() < Math.min(itemStack2.getMaxCount(), slot.getMaxItemCount(itemStack2));
     }
 
     public static long clickDelay(Random random) {
@@ -281,15 +281,15 @@ public final class pmf {
         if (random.nextDouble() < 0.05) {
             d += 100.0 + random.nextDouble() * 160.0;
         }
-        return Math.round(MathHelper.method_15350((double)d, (double)45.0, (double)320.0));
+        return Math.round(MathHelper.clamp((double)d, (double)45.0, (double)320.0));
     }
 
     public static long travelDelay(Random random) {
-        return Math.round(MathHelper.method_15350((double)(160.0 * Math.exp(random.nextGaussian() * 0.25)), (double)110.0, (double)300.0));
+        return Math.round(MathHelper.clamp((double)(160.0 * Math.exp(random.nextGaussian() * 0.25)), (double)110.0, (double)300.0));
     }
 
     public static long settleDelay(Random random) {
-        return Math.round(MathHelper.method_15350((double)(150.0 * Math.exp(random.nextGaussian() * 0.2)), (double)110.0, (double)260.0));
+        return Math.round(MathHelper.clamp((double)(150.0 * Math.exp(random.nextGaussian() * 0.2)), (double)110.0, (double)260.0));
     }
 
     private static /* synthetic */ int ble(int n, int n2) {

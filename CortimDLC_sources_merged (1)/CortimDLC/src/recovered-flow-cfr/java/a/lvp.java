@@ -98,13 +98,13 @@ extends kfe {
         }
         if (packet instanceof ChunkDeltaUpdateS2CPacket) {
             ChunkDeltaUpdateS2CPacket chunkDeltaUpdateS2CPacket = (ChunkDeltaUpdateS2CPacket)packet;
-            chunkDeltaUpdateS2CPacket.method_30621((blockPos, blockState) -> {
-                if (blockState.method_27852(Blocks.field_22109)) {
-                    lvs.add(blockPos.method_10063());
+            chunkDeltaUpdateS2CPacket.visitUpdates((blockPos, blockState) -> {
+                if (blockState.isOf(Blocks.ANCIENT_DEBRIS)) {
+                    lvs.add(blockPos.asLong());
                 }
             });
-        } else if (packet instanceof BlockUpdateS2CPacket && (blockUpdateS2CPacket = (BlockUpdateS2CPacket)packet).method_11308().method_27852(Blocks.field_22109)) {
-            lvs.add(blockUpdateS2CPacket.method_11309().method_10063());
+        } else if (packet instanceof BlockUpdateS2CPacket && (blockUpdateS2CPacket = (BlockUpdateS2CPacket)packet).getState().isOf(Blocks.ANCIENT_DEBRIS)) {
+            lvs.add(blockUpdateS2CPacket.getPos().asLong());
         }
     }
 
@@ -134,8 +134,8 @@ extends kfe {
         Long l;
         ++this.lwc;
         wcn.ensure(minecraftClient);
-        ClientWorld clientWorld = minecraftClient.field_1687;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientWorld clientWorld = minecraftClient.world;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientWorld == null || clientPlayerEntity == null) {
             lvs.clear();
             return;
@@ -149,7 +149,7 @@ extends kfe {
         while (objectIterator.hasNext()) {
             entry = (Long2IntMap.Entry)objectIterator.next();
             long l2 = entry.getLongKey();
-            if (clientWorld.method_8320((BlockPos)mutable.method_16363(l2)).method_27852(Blocks.field_22109)) {
+            if (clientWorld.getBlockState((BlockPos)mutable.set(l2)).isOf(Blocks.ANCIENT_DEBRIS)) {
                 objectIterator.remove();
                 if (!this.lvx.add(l2)) continue;
                 this.lvy.put(l2, this.lwc);
@@ -165,16 +165,16 @@ extends kfe {
             this.lwa = false;
             izx.alert(this.getName(), a.d("\ucefa\ub764\u3dbb\ua3c7\u2860\uaed2\u14f4\u9d06\u0351\u89e3\u0a2e", -1446818473, 1540130744) + this.lvx.size() + a.c(1298647633, "\uca60\ub7c5\u3d62\ua366\u28b6\uae08\u145e\u9dd2\u07e8\u8947\u0e9b\uf4e0\u7a32\ue381\u69d4\uef21\u5562"), vhz.INFO, true);
         }
-        objectIterator = clientPlayerEntity.method_73189();
+        objectIterator = clientPlayerEntity.getEntityPos();
         entry = new BlockPos.Mutable();
         LongListIterator longListIterator = this.lvx.iterator();
         while (longListIterator.hasNext()) {
             boolean bl;
             long l3 = longListIterator.nextLong();
-            entry.method_16363(l3);
-            BlockState blockState = clientWorld.method_8320((BlockPos)entry);
-            boolean bl2 = bl = !blockState.method_27852(Blocks.field_22109);
-            if (!bl && !(entry.method_19770((Position)objectIterator) >= 6400.0) && clientWorld.method_2935().method_12123(entry.method_10263() >> 4, entry.method_10260() >> 4)) continue;
+            entry.set(l3);
+            BlockState blockState = clientWorld.getBlockState((BlockPos)entry);
+            boolean bl2 = bl = !blockState.isOf(Blocks.ANCIENT_DEBRIS);
+            if (!bl && !(entry.getSquaredDistance((Position)objectIterator) >= 6400.0) && clientWorld.getChunkManager().isChunkLoaded(entry.getX() >> 4, entry.getZ() >> 4)) continue;
             longListIterator.remove();
             this.lvy.remove(l3);
         }
@@ -188,8 +188,8 @@ extends kfe {
         usn usn2;
         lvp lvp2 = lvt;
         long[] lArray = lvp2 != null && lvp2.isEnabled() ? lvv : new long[]{};
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (lArray.length == 0 || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (lArray.length == 0 || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -198,7 +198,7 @@ extends kfe {
         }
         lvw = unf.frame();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -210,8 +210,8 @@ extends kfe {
             for (long l : lArray) {
                 double d;
                 double d2;
-                double d3 = BlockPos.method_10061((long)l);
-                if (usn2.depth(d3 + 0.5, (d2 = (double)BlockPos.method_10071((long)l)) + 0.5, (d = (double)BlockPos.method_10083((long)l)) + 0.5) < -1.0f) continue;
+                double d3 = BlockPos.unpackLongX((long)l);
+                if (usn2.depth(d3 + 0.5, (d2 = (double)BlockPos.unpackLongY((long)l)) + 0.5, (d = (double)BlockPos.unpackLongZ((long)l)) + 0.5) < -1.0f) continue;
                 qwo.cube(drawContext, usn2, vec3d, d3, d2, d, -23296, 0, 1.0f, 0.16f);
             }
         }

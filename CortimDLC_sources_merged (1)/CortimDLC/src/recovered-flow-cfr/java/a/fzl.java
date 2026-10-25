@@ -43,12 +43,12 @@ public final class fzl {
             flow.start();
             flow.injected();
             System.out.println(a.b("\ued2d\u949d\u1e5d\u807a\u0be4\u8d52\u3705\ubefb\u20a2\uaa04\u2d99\ud7f2\u5976\uc0c0\u4a86\ucc64\u762d\uf9a0\u6312\ue54a\u6cb6\u16ec\u9816\u03c0\u85bb\u0f65\ub6d0\u3896\ua270\u2420\uafdf\u510f\udb49\u42ea\uc4ae\u4e0e\uf1d8\u7bae\ufd61\u64db\uee85\u9030\u1a22\u9d94\u0751\u8931\u30f5\uba16", -1174606471) + (System.currentTimeMillis() - l2) + a.c(360838496, "\uf55c\u8ca0\u066d\u984f\u1390\u957d\u2f32\ua6ce\u38d4\ub229\u35f9\ucf86\u4154\ud8e4\u52a0\ud403\u6e05\ue1ce\u7b2e\ufd3b\u74c7\u0e97\u802f\u1bbb\u9d8a\u175a\uaef1\u20fe"));
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
             int n2 = 0;
             while (n2 < n) {
                 fzl.fzp(1000L);
                 int n3 = n2++;
-                minecraftClient.execute(() -> ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.b("\u8d6b\uf4d0\u7e00\ue069\u6bfb\ued55\u5742\udeb4\u40ef\uca51\u4d84\ub7e2\u396c", 1400147200) + n3 + a.c(2027250248, "\u6262\u1b8d\u9140\u0f38")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> {}));
+                minecraftClient.execute(() -> ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.b("\u8d6b\uf4d0\u7e00\ue069\u6bfb\ued55\u5742\udeb4\u40ef\uca51\u4d84\ub7e2\u396c", 1400147200) + n3 + a.c(2027250248, "\u6262\u1b8d\u9140\u0f38")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> {}));
             }
         }, a.d("\u6307\u1ab7\u9077\u0e50\u85ce\u0378\ub92f\u30d1\uae88\u242e", -1122929840, 1716129849));
         thread.setDaemon(true);

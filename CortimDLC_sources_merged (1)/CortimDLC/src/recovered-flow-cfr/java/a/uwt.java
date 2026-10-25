@@ -86,10 +86,10 @@ public final class uwt {
             return false;
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
-        if (gpuBufferSlice == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
+        if (gpuBufferSlice == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         int n = byteBuffer.position();
@@ -99,12 +99,12 @@ public final class uwt {
         byteBuffer.flip();
         try {
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            uwt.uxh(gpuDevice, framebuffer.field_1482, framebuffer.field_1481, n);
+            uwt.uxh(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight, n);
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             commandEncoder.writeToBuffer(uww.slice(0L, (long)n), byteBuffer);
             int n2 = Math.min(list.size(), 8);
-            float f5 = framebuffer.field_1482;
-            float f6 = framebuffer.field_1481;
+            float f5 = framebuffer.textureWidth;
+            float f6 = framebuffer.textureHeight;
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
                 for (int i = 0; i < n2; ++i) {
                     uwg uwg2 = list.get(i);
@@ -114,7 +114,7 @@ public final class uwt {
             memoryStack = commandEncoder.createRenderPass(() -> "Flow2 shatter scene copy", uxa, OptionalInt.empty());
             try {
                 memoryStack.setPipeline(uvq.BLUR_COPY);
-                memoryStack.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                memoryStack.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 memoryStack.draw(0, 3);
             }
             finally {
@@ -137,7 +137,7 @@ public final class uwt {
     private static void uxg(CommandEncoder commandEncoder, RenderPipeline renderPipeline, GpuTextureView gpuTextureView, GpuTextureView gpuTextureView2, GpuBufferSlice gpuBufferSlice, List<uwg> list, int n) {
         try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 shatter", gpuTextureView, OptionalInt.empty(), gpuTextureView2, OptionalDouble.empty());){
             renderPass.setPipeline(renderPipeline);
-            renderPass.bindTexture("SceneSampler", uxa, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+            renderPass.bindTexture("SceneSampler", uxa, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             renderPass.setUniform("Projection", gpuBufferSlice);
             renderPass.setVertexBuffer(0, uww);
             for (int i = 0; i < n; ++i) {

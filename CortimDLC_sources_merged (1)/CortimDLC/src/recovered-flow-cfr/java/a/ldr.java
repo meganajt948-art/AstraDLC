@@ -122,7 +122,7 @@ extends kfe {
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
         tiq tiq2;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return;
         }
@@ -142,8 +142,8 @@ extends kfe {
 
     @Override
     public void onWorldRender(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1755 != null || !minecraftClient.field_1729.method_1613()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.currentScreen != null || !minecraftClient.mouse.isCursorLocked()) {
             this.lel.forgetFrame();
             return;
         }
@@ -151,7 +151,7 @@ extends kfe {
     }
 
     private void leq(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1690.field_1886.method_1434() || minecraftClient.field_1755 == null && minecraftClient.method_22683() != null && GLFW.glfwGetMouseButton((long)minecraftClient.method_22683().method_4490(), (int)0) == 1) {
+        if (minecraftClient.options.attackKey.isPressed() || minecraftClient.currentScreen == null && minecraftClient.getWindow() != null && GLFW.glfwGetMouseButton((long)minecraftClient.getWindow().getHandle(), (int)0) == 1) {
             this.lem = System.currentTimeMillis();
         }
     }
@@ -192,11 +192,11 @@ extends kfe {
         if (this.lef.is(a.d("\u680b\u1195\u9b51", -650041140, -1607712635))) {
             return true;
         }
-        return itemStack.method_31573(ItemTags.field_42611) || itemStack.method_31573(ItemTags.field_42612) || itemStack.method_7909() instanceof MaceItem || itemStack.method_7909() instanceof TridentItem;
+        return itemStack.isIn(ItemTags.SWORDS) || itemStack.isIn(ItemTags.AXES) || itemStack.getItem() instanceof MaceItem || itemStack.getItem() instanceof TridentItem;
     }
 
     private Entity let(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         double d = this.leb.get();
         double d2 = this.lea.get() * 0.5;
         Entity entity2 = this.lel.target();
@@ -205,7 +205,7 @@ extends kfe {
         }
         Entity entity3 = null;
         double d3 = Double.MAX_VALUE;
-        for (Entity entity4 : minecraftClient.field_1687.method_8333((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(d + 1.0), entity -> this.leu(clientPlayerEntity, (Entity)entity))) {
+        for (Entity entity4 : minecraftClient.world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(d + 1.0), entity -> this.leu(clientPlayerEntity, (Entity)entity))) {
             double d4;
             if (!ldr.lev(vec3d, entity4, d) || (d4 = ldr.lew(clientPlayerEntity, vec3d, entity4)) > d2 || !(d4 < d3)) continue;
             d3 = d4;
@@ -216,7 +216,7 @@ extends kfe {
 
     private boolean leu(ClientPlayerEntity clientPlayerEntity, Entity entity) {
         LivingEntity livingEntity;
-        if (!(entity != clientPlayerEntity && entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).method_5805() && entity.method_5732())) {
+        if (!(entity != clientPlayerEntity && entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).isAlive() && entity.isAttackable())) {
             return false;
         }
         if (entity instanceof tkx) {
@@ -224,25 +224,25 @@ extends kfe {
         }
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity)entity;
-            if (!this.leg.get() || playerEntity.method_7325() || hhf.protects((Entity)playerEntity)) {
+            if (!this.leg.get() || playerEntity.isSpectator() || hhf.protects((Entity)playerEntity)) {
                 return false;
             }
         } else if (!this.leh.get() || !(entity instanceof Monster)) {
             return false;
         }
-        return this.lei.get() || clientPlayerEntity.method_6057(entity);
+        return this.lei.get() || clientPlayerEntity.canSee(entity);
     }
 
     private static boolean lev(Vec3d vec3d, Entity entity, double d) {
-        return entity.method_5829().method_49271(vec3d) <= d * d;
+        return entity.getBoundingBox().squaredMagnitude(vec3d) <= d * d;
     }
 
     private static double lew(ClientPlayerEntity clientPlayerEntity, Vec3d vec3d, Entity entity) {
-        Vec3d vec3d2 = entity.method_5829().method_1005();
-        double d = Math.toDegrees(Math.atan2(vec3d2.field_1350 - vec3d.field_1350, vec3d2.field_1352 - vec3d.field_1352)) - 90.0;
-        double d2 = -Math.toDegrees(Math.atan2(vec3d2.field_1351 - vec3d.field_1351, Math.hypot(vec3d2.field_1352 - vec3d.field_1352, vec3d2.field_1350 - vec3d.field_1350)));
-        double d3 = MathHelper.method_15338((double)(d - (double)clientPlayerEntity.method_36454()));
-        double d4 = d2 - (double)clientPlayerEntity.method_36455();
+        Vec3d vec3d2 = entity.getBoundingBox().getCenter();
+        double d = Math.toDegrees(Math.atan2(vec3d2.z - vec3d.z, vec3d2.x - vec3d.x)) - 90.0;
+        double d2 = -Math.toDegrees(Math.atan2(vec3d2.y - vec3d.y, Math.hypot(vec3d2.x - vec3d.x, vec3d2.z - vec3d.z)));
+        double d3 = MathHelper.wrapDegrees((double)(d - (double)clientPlayerEntity.getYaw()));
+        double d4 = d2 - (double)clientPlayerEntity.getPitch();
         return Math.sqrt(d3 * d3 + d4 * d4 * 0.25);
     }
 

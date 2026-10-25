@@ -22,7 +22,7 @@ import sun.misc.Unsafe;
 
 public abstract class kfe {
     private static Consumer<kfe> kff = kfe2 -> {};
-    protected final MinecraftClient mc = MinecraftClient.method_1551();
+    protected final MinecraftClient mc = MinecraftClient.getInstance();
     private final byte[] kfg;
     private final byte[] kfh;
     private final int kfi;

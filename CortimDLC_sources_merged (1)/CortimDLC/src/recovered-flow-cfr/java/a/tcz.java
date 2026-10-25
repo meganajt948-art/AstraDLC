@@ -111,15 +111,15 @@ public final class tcz {
         try {
             AttackBlockCallback.EVENT.register((playerEntity, world, hand, blockPos, direction) -> {
                 ttl ttl2 = tdh;
-                MinecraftClient minecraftClient = MinecraftClient.method_1551();
-                if (ttl2 != null && world.method_8608() && playerEntity == minecraftClient.field_1724 && !ejp.isActive()) {
+                MinecraftClient minecraftClient = MinecraftClient.getInstance();
+                if (ttl2 != null && world.isClient() && playerEntity == minecraftClient.player && !ejp.isActive()) {
                     ttl2.attack(minecraftClient, blockPos, direction);
                 }
-                return ActionResult.field_5811;
+                return ActionResult.PASS;
             });
             ClientPlayerBlockBreakEvents.AFTER.register((clientWorld, clientPlayerEntity, blockPos, blockState) -> {
                 ttl ttl2 = tdh;
-                if (ttl2 != null && clientPlayerEntity == MinecraftClient.method_1551().field_1724 && !ejp.isActive()) {
+                if (ttl2 != null && clientPlayerEntity == MinecraftClient.getInstance().player && !ejp.isActive()) {
                     ttl2.broken(blockState);
                 }
             });
@@ -142,15 +142,15 @@ public final class tcz {
     }
 
     public static void startWalking(tiq tiq2, String string) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || tiq2 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.world == null || tiq2 == null) {
             return;
         }
         tcz.stop();
         tcz.tdw();
         tdf = tiq2;
         tde = tcw.RECORD;
-        tdl = minecraftClient.field_1687;
+        tdl = minecraftClient.world;
         String string2 = a.b("\ua8ad\ud128\u5bfa\uc590\u4e7f\uc8f8\u72b8\ufb5f\u6501\uefbb", 1396812006).equals(string) ? a.b("\u2ecf\u574a\udd98\u43f2\uc81d\u4e9a\uf4da\u7d3d\ue363\u69d9", -1905250684) : a.d("\u25e7\u5c62\ud6b0\u48da\uc327\u45bd\uffe4", 613483270, 1031153319);
         tdi = new tyd(tiq2, string2, (float)tcz.unit(minecraftClient));
         kfe kfe2 = tcz.tee(string2);
@@ -162,14 +162,14 @@ public final class tcz {
     }
 
     private static String tdt(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (minecraftClient.field_1755 != null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (minecraftClient.currentScreen != null) {
             return a.b("\u66fe\u1f5f\u959d\u0bfb\u802c\u0696", 1756063371);
         }
-        if (!minecraftClient.method_1569()) {
+        if (!minecraftClient.isWindowFocused()) {
             return a.b("\u40d8\u3960\ub3bf\u2dd8\ua609", -1324400453);
         }
-        if (!clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325()) {
+        if (!clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator()) {
             return a.b("\udac1\ua371\u29a6\ub7d2", -2033395039);
         }
         if (ovh.active()) {
@@ -183,27 +183,27 @@ public final class tcz {
     }
 
     public static void startMining(tiq tiq2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || tiq2 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.world == null || tiq2 == null) {
             return;
         }
         tcz.stop();
         tcz.tdw();
         tdf = tiq2;
         tde = tcw.RECORD;
-        tdl = minecraftClient.field_1687;
+        tdl = minecraftClient.world;
         tdh = new ttl(tiq2, (float)tcz.unit(minecraftClient));
     }
 
     private static String tdu(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (minecraftClient.field_1755 != null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (minecraftClient.currentScreen != null) {
             return a.d("\uca11\ub3b0\u3972\ua714\u2cc3\uaa79", -2106492669, -767773849);
         }
-        if (!minecraftClient.method_1569()) {
+        if (!minecraftClient.isWindowFocused()) {
             return a.d("\u4c3a\u3582\ubf5d\u213a\uaaeb", 367600820, -1607833363);
         }
-        if (!clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325()) {
+        if (!clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator()) {
             return a.c(-1806067046, "\u9afa\ue34a\u699d\uf7e9");
         }
         kfe kfe2 = tcz.tee(a.d("\u6ada\u135f\u998d\u07e7\u8c12\u0a87\ub0d3\u3929", -10262202, -87489579));
@@ -268,18 +268,18 @@ public final class tcz {
     }
 
     private static void tdv(tiq tiq2, tcw tcw2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || tiq2 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.world == null || tiq2 == null) {
             return;
         }
         tcz.stop();
         tcz.tdw();
         tdf = tiq2;
         tde = tcw2;
-        tdl = minecraftClient.field_1687;
+        tdl = minecraftClient.world;
         tcz.tdx(minecraftClient, tiq2);
         if (tcw2 == tcw.RECORD) {
-            tdg = new tkc(tiq2, 0, minecraftClient.field_1724.method_73189(), (float)tcz.unit(minecraftClient));
+            tdg = new tkc(tiq2, 0, minecraftClient.player.getEntityPos(), (float)tcz.unit(minecraftClient));
         }
     }
 
@@ -301,7 +301,7 @@ public final class tcz {
                 kfe2.setEnabled(false);
             }
         }
-        tcz.tdy(MinecraftClient.method_1551());
+        tcz.tdy(MinecraftClient.getInstance());
         tde = tcw.NONE;
         tdf = null;
     }
@@ -314,7 +314,7 @@ public final class tcz {
     }
 
     public static double unit(MinecraftClient minecraftClient) {
-        double d = (Double)minecraftClient.field_1690.method_42495().method_41753() * 0.6 + 0.2;
+        double d = (Double)minecraftClient.options.getMouseSensitivity().getValue() * 0.6 + 0.2;
         return d * d * d * 8.0 * 0.15;
     }
 
@@ -322,24 +322,24 @@ public final class tcz {
         tcz.tdy(minecraftClient);
         int n = tiq2.standCount();
         for (int i = 0; i < n; ++i) {
-            tkx tkx2 = new tkx(minecraftClient.field_1687, tdb[i % tdb.length], tdd.nextLong(), tiq2.standMode(), tiq2.standNear(), tiq2.standFar(), tiq2.standSpeed());
-            tkx2.method_5838(-789577728 - i);
-            tkx2.method_5673(EquipmentSlot.field_6169, new ItemStack((ItemConvertible)Items.field_8805));
-            tkx2.method_5673(EquipmentSlot.field_6174, new ItemStack((ItemConvertible)Items.field_8058));
-            tkx2.method_5673(EquipmentSlot.field_6172, new ItemStack((ItemConvertible)Items.field_8348));
-            tkx2.method_5673(EquipmentSlot.field_6166, new ItemStack((ItemConvertible)Items.field_8285));
-            tkx2.method_5673(EquipmentSlot.field_6173, new ItemStack((ItemConvertible)Items.field_8802));
-            tkx2.relocate(minecraftClient.field_1724);
-            minecraftClient.field_1687.method_53875((Entity)tkx2);
+            tkx tkx2 = new tkx(minecraftClient.world, tdb[i % tdb.length], tdd.nextLong(), tiq2.standMode(), tiq2.standNear(), tiq2.standFar(), tiq2.standSpeed());
+            tkx2.setId(-789577728 - i);
+            tkx2.equipStack(EquipmentSlot.HEAD, new ItemStack((ItemConvertible)Items.DIAMOND_HELMET));
+            tkx2.equipStack(EquipmentSlot.CHEST, new ItemStack((ItemConvertible)Items.DIAMOND_CHESTPLATE));
+            tkx2.equipStack(EquipmentSlot.LEGS, new ItemStack((ItemConvertible)Items.DIAMOND_LEGGINGS));
+            tkx2.equipStack(EquipmentSlot.FEET, new ItemStack((ItemConvertible)Items.DIAMOND_BOOTS));
+            tkx2.equipStack(EquipmentSlot.MAINHAND, new ItemStack((ItemConvertible)Items.DIAMOND_SWORD));
+            tkx2.relocate(minecraftClient.player);
+            minecraftClient.world.addEntity((Entity)tkx2);
             tdc.add(tkx2);
         }
     }
 
     private static void tdy(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1687 != null && minecraftClient.field_1687 == tdl) {
+        if (minecraftClient.world != null && minecraftClient.world == tdl) {
             for (tkx tkx2 : tdc) {
-                if (tkx2.method_31481()) continue;
-                minecraftClient.field_1687.method_2945(tkx2.method_5628(), Entity.RemovalReason.field_26999);
+                if (tkx2.isRemoved()) continue;
+                minecraftClient.world.removeEntity(tkx2.getId(), Entity.RemovalReason.DISCARDED);
             }
         }
         tdc.clear();
@@ -347,25 +347,25 @@ public final class tcz {
 
     public static boolean onAttack(PlayerEntity playerEntity, Entity entity, EntityHitResult entityHitResult) {
         Vec3d vec3d;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (!(playerEntity instanceof ClientPlayerEntity)) {
             return false;
         }
         ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity)playerEntity;
-        Vec3d vec3d2 = vec3d = entityHitResult != null ? entityHitResult.method_17784() : entity.method_5829().method_1005();
+        Vec3d vec3d2 = vec3d = entityHitResult != null ? entityHitResult.getPos() : entity.getBoundingBox().getCenter();
         if (entity instanceof tkx) {
             tkx tkx2 = (tkx)entity;
             if (tdg != null) {
                 tdg.hit(entity, vec3d, clientPlayerEntity);
             }
-            boolean bl = clientPlayerEntity.field_6017 > 0.0 && !clientPlayerEntity.method_24828() && !clientPlayerEntity.method_6101() && !clientPlayerEntity.method_5799() && !clientPlayerEntity.method_5624();
-            tkx2.knock(clientPlayerEntity.method_73189(), clientPlayerEntity.method_5624());
-            clientPlayerEntity.method_7350();
-            if (minecraftClient.field_1687 != null) {
-                minecraftClient.field_1687.method_8486(tkx2.method_23317(), tkx2.method_23320(), tkx2.method_23321(), bl ? SoundEvents.field_15016 : SoundEvents.field_14840, SoundCategory.field_15248, 0.8f, 0.95f + tdd.nextFloat() * 0.1f, false);
-                minecraftClient.field_1687.method_8486(tkx2.method_23317(), tkx2.method_23320(), tkx2.method_23321(), SoundEvents.field_15115, SoundCategory.field_15248, 0.6f, 0.9f + tdd.nextFloat() * 0.2f, false);
+            boolean bl = clientPlayerEntity.fallDistance > 0.0 && !clientPlayerEntity.isOnGround() && !clientPlayerEntity.isClimbing() && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.isSprinting();
+            tkx2.knock(clientPlayerEntity.getEntityPos(), clientPlayerEntity.isSprinting());
+            clientPlayerEntity.resetTicksSince();
+            if (minecraftClient.world != null) {
+                minecraftClient.world.playSoundClient(tkx2.getX(), tkx2.getEyeY(), tkx2.getZ(), bl ? SoundEvents.ENTITY_PLAYER_ATTACK_CRIT : SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, SoundCategory.PLAYERS, 0.8f, 0.95f + tdd.nextFloat() * 0.1f, false);
+                minecraftClient.world.playSoundClient(tkx2.getX(), tkx2.getEyeY(), tkx2.getZ(), SoundEvents.ENTITY_PLAYER_HURT, SoundCategory.PLAYERS, 0.6f, 0.9f + tdd.nextFloat() * 0.2f, false);
                 if (bl) {
-                    minecraftClient.field_1713.method_3061((Entity)tkx2, (ParticleEffect)ParticleTypes.field_11205);
+                    minecraftClient.particleManager.addEmitter((Entity)tkx2, (ParticleEffect)ParticleTypes.CRIT);
                 }
             }
             return true;
@@ -381,12 +381,12 @@ public final class tcz {
             tdn = true;
             tdm = vxr.find(KeyBinding.class, a.d("\udd9a\ua420\u2ee2\ub0c9\u3b5d\ubde8\u07bc\u8e46\u101f\u9abf\u1d7f\ue709\u69cc\uf027\u7a39\ufcc7\u4685\uc946\u53f5\ud588\u5c13\u2641\ua8f6", -779239710, 1212900097), a.c(2048388231, "\ueceb\u9555\u1f8a\u81f2\u0a2d\u8ca7\u369a\ubf6c\u2133\uab85"), a.d("\u01a9", 978839039, -2096896994));
         }
-        return Math.max(0, vxr.getInt(tdm, minecraftClient.field_1690.field_1886, 0));
+        return Math.max(0, vxr.getInt(tdm, minecraftClient.options.attackKey, 0));
     }
 
     private static void tea(MinecraftClient minecraftClient) {
         int n;
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1755 != null) {
+        if (minecraftClient.player == null || minecraftClient.currentScreen != null) {
             return;
         }
         int n2 = n = tdg != null || tdk != null ? tcz.tdz(minecraftClient) : 0;
@@ -410,10 +410,10 @@ public final class tcz {
         if ((tdh != null || tdi != null) && dry.armed()) {
             tcz.stop();
         }
-        if ((tdh != null || tdi != null) && minecraftClient.field_1687 != null && minecraftClient.field_1687 != tdl) {
-            tdl = minecraftClient.field_1687;
+        if ((tdh != null || tdi != null) && minecraftClient.world != null && minecraftClient.world != tdl) {
+            tdl = minecraftClient.world;
         }
-        if (minecraftClient.field_1687 != tdl && tde != tcw.NONE && tdh == null && tdi == null) {
+        if (minecraftClient.world != tdl && tde != tcw.NONE && tdh == null && tdi == null) {
             if (tdg != null) {
                 tdg.finish();
                 tdg = null;
@@ -422,7 +422,7 @@ public final class tcz {
             tde = tcw.NONE;
             tdf = null;
         }
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null) {
+        if (minecraftClient.player == null || minecraftClient.world == null) {
             tcz.tdw();
             return;
         }
@@ -476,27 +476,27 @@ public final class tcz {
     private static void tec(MinecraftClient minecraftClient) {
         for (int i = 0; i < tdc.size(); ++i) {
             tkx tkx2 = tdc.get(i);
-            if (!tkx2.method_31481() && minecraftClient.field_1687.method_8469(tkx2.method_5628()) == tkx2) continue;
-            tkx tkx3 = new tkx(minecraftClient.field_1687, tdb[i % tdb.length], tdd.nextLong(), tdf.standMode(), tdf.standNear(), tdf.standFar(), tdf.standSpeed());
-            tkx3.method_5838(-789577728 - i);
+            if (!tkx2.isRemoved() && minecraftClient.world.getEntityById(tkx2.getId()) == tkx2) continue;
+            tkx tkx3 = new tkx(minecraftClient.world, tdb[i % tdb.length], tdd.nextLong(), tdf.standMode(), tdf.standNear(), tdf.standFar(), tdf.standSpeed());
+            tkx3.setId(-789577728 - i);
             for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
-                tkx3.method_5673(equipmentSlot, tkx2.method_6118(equipmentSlot).method_7972());
+                tkx3.equipStack(equipmentSlot, tkx2.getEquippedStack(equipmentSlot).copy());
             }
-            tkx3.relocate(minecraftClient.field_1724);
-            minecraftClient.field_1687.method_53875((Entity)tkx3);
+            tkx3.relocate(minecraftClient.player);
+            minecraftClient.world.addEntity((Entity)tkx3);
             tdc.set(i, tkx3);
         }
     }
 
     private static String ted(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (minecraftClient.field_1755 != null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (minecraftClient.currentScreen != null) {
             return a.b("\u738b\u0a2a\u80e8\u1e8e\u9559\u13e3", -987335682);
         }
-        if (!minecraftClient.method_1569()) {
+        if (!minecraftClient.isWindowFocused()) {
             return a.c(-239097764, "\ua83f\ud187\u5b58\uc53f\u4eee");
         }
-        if (!clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325()) {
+        if (!clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator()) {
             return a.d("\ua5a9\udc19\u56ce\uc8ba", -382912701, -1206807926);
         }
         kfe kfe2 = tcz.tee(a.c(168907861, "\u541d\u2d84\ua753\u390e\ub2eb\u345a\u8e13\u07f8\u99a0"));
@@ -526,7 +526,7 @@ public final class tcz {
             tcz.tdw();
         }
         if (tdk == null) {
-            tdk = new tkc(tiq2, 1, minecraftClient.field_1724.method_73189(), (float)tcz.unit(minecraftClient));
+            tdk = new tkc(tiq2, 1, minecraftClient.player.getEntityPos(), (float)tcz.unit(minecraftClient));
         }
         String string = tcz.ted(minecraftClient);
         List<Entity> list = tcz.teh(minecraftClient);
@@ -541,24 +541,24 @@ public final class tcz {
 
     private static boolean teg(ClientPlayerEntity clientPlayerEntity, Entity entity) {
         PlayerEntity playerEntity;
-        return entity instanceof PlayerEntity && (playerEntity = (PlayerEntity)entity) != clientPlayerEntity && playerEntity.method_5805() && !playerEntity.method_7325() && !(entity instanceof tkx) && !hhf.protects((Entity)playerEntity);
+        return entity instanceof PlayerEntity && (playerEntity = (PlayerEntity)entity) != clientPlayerEntity && playerEntity.isAlive() && !playerEntity.isSpectator() && !(entity instanceof tkx) && !hhf.protects((Entity)playerEntity);
     }
 
     private static List<Entity> teh(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         ArrayList<Object> arrayList = new ArrayList<Object>();
-        for (PlayerEntity playerEntity : minecraftClient.field_1687.method_18456()) {
-            if (!tcz.teg(clientPlayerEntity, (Entity)playerEntity) || !(playerEntity.method_5858((Entity)clientPlayerEntity) < 64.0)) continue;
+        for (PlayerEntity playerEntity : minecraftClient.world.getPlayers()) {
+            if (!tcz.teg(clientPlayerEntity, (Entity)playerEntity) || !(playerEntity.squaredDistanceTo((Entity)clientPlayerEntity) < 64.0)) continue;
             arrayList.add(playerEntity);
         }
-        arrayList.sort(Comparator.comparingDouble(entity -> entity.method_5858((Entity)clientPlayerEntity)));
+        arrayList.sort(Comparator.comparingDouble(entity -> entity.squaredDistanceTo((Entity)clientPlayerEntity)));
         return arrayList.size() > 4 ? new ArrayList<Object>(arrayList.subList(0, 4)) : arrayList;
     }
 
     private static void tei(MinecraftClient minecraftClient) {
         boolean bl;
         int n = lfa.stopKey();
-        boolean bl2 = bl = minecraftClient.field_1755 == null && n != -1 && vzz.isDown(minecraftClient, n);
+        boolean bl2 = bl = minecraftClient.currentScreen == null && n != -1 && vzz.isDown(minecraftClient, n);
         if (bl && !tdo && tde != tcw.NONE) {
             tcz.stop();
         }

@@ -122,8 +122,8 @@ extends imn {
             float f7 = hvn2.hover.step(bl, f3);
             boolean bl2 = info.name().equals(string2);
             uut.pushAlpha(f6);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate((1.0f - f6) * 18.0f, 0.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate((1.0f - f6) * 18.0f, 0.0f);
             int n = bl2 ? iov.accent(26) : ujt.withAlpha(iov.hover, (int)((float)ujt.alpha(iov.hover) * (0.6f + 1.4f * f7)));
             uut.round(drawContext, this.x, f5, this.w, 30.0f, f4, n);
             if (bl2 || f7 > 0.01f) {
@@ -161,7 +161,7 @@ extends imn {
                 if (!bl3) continue;
                 hlc2.hint(bl4 ? wap.s(a.d("\u0e7e\u77e0\ufd36\u634d\ue892\u6e68\ud47a\u5d8d\uc3d4\u496d\uceb9\u3486\uba05\u23af\ua9b3\u2f06\u9548\u1a90\u802a\u066a\u8f8c\uf598\u5b17", 392938758, 117492524) + info.name() + a.b("\u4cc3", 1432055007), a.b("\u6c5f\u15c3\u9f16\u016d\u8abe\u0c75\ub651\u3bb5\ua1ff\u2b32\uacf9\u52f9\ud84e\u418f\ucbdb\u4931\uf372\u78c4\ue272\u645f\ueda7\u978c\u1d54\u82e6\u04ee\u8e3b\u3783\ub9d1\u235c\ua503\u2adc\ud486", -548837278) + info.name() + a.c(-1671697380, "\ueca6")) : hvq.hwk(j, string4));
             }
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             uut.popAlpha();
         }
     }
@@ -255,9 +255,9 @@ extends imn {
                 hlc2.toast(ConfigShare.describe(throwable), vhz.INFO, true);
                 return;
             }
-            MinecraftClient.method_1551().field_1774.method_1455(string);
+            MinecraftClient.getInstance().keyboard.setClipboard(string);
             hlc2.toast(wap.s(a.d("\u98b6\ue12b\u6bf3\uf583\u7e11\uf8e3\u42bc\ucb52\u5514\udfa9\u587b\ua254\u2c99", 987904556, 1637982932) + string, a.d("\u4322\u3ab7\ub06e\u2a0b\ua5bd\u2377\u9920\u10d0\u8e88\u0441\u83ec\u7991\uf744\u6ef8\ue0ac\u6647", -1479171144, -584850288) + string), vhz.SHARE, false);
-        }, (Executor)MinecraftClient.method_1551());
+        }, (Executor)MinecraftClient.getInstance());
     }
 
     private static /* synthetic */ int acz(int n, int n2) {

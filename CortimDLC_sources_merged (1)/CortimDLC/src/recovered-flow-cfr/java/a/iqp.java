@@ -215,12 +215,12 @@ extends imn {
                 float f15 = f9 + 5.5f;
                 float f16 = vcq.outBack(f8);
                 uut.pushAlpha(f8);
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f14, f15);
-                drawContext.method_51448().scale(f16, f16);
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f14, f15);
+                drawContext.getMatrices().scale(f16, f16);
                 uut.circle(drawContext, 0.0f, 0.0f, 3.8f, iov.accent());
                 vjf.draw(drawContext, vhz.CHECK, 0.0f, 0.0f, 5.5f, iov.onAccent());
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().popMatrix();
                 uut.popAlpha();
             }
             irr.SMALL.drawCentered(drawContext, irr.SMALL.ellipsize(iov.shownName(this.irc(i)), f4), f5 + f4 * 0.5f, irr.SMALL.centerTop(f6 + 27.0f + 5.0f + 1.0f), ujt.lerp(ujt.lerp(iov.textMuted, iov.textDim, f7), iov.text, f8));

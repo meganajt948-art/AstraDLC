@@ -220,7 +220,7 @@ public final class tel {
         this.tfb = true;
         try {
             double d = this.tfc;
-            this.thu(minecraftClient, clientPlayerEntity, object, new Box(vec3d.field_1352 - d, vec3d.field_1351 - d, vec3d.field_1350 - d, vec3d.field_1352 + d, vec3d.field_1351 + d, vec3d.field_1350 + d), n, false);
+            this.thu(minecraftClient, clientPlayerEntity, object, new Box(vec3d.x - d, vec3d.y - d, vec3d.z - d, vec3d.x + d, vec3d.y + d, vec3d.z + d), n, false);
         }
         finally {
             this.tfa = false;
@@ -237,9 +237,9 @@ public final class tel {
             return;
         }
         if (object != this.tey) {
-            Vec3d vec3d2 = clientPlayerEntity.method_33571();
-            this.tfh = tbp.hitU(vec3d2.field_1352, vec3d2.field_1350, (box.field_1323 + box.field_1320) * 0.5, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, vec3d.field_1352, vec3d.field_1350);
-            this.tfi = tbp.hitV(box.field_1322, box.field_1325 - box.field_1322, vec3d.field_1351);
+            Vec3d vec3d2 = clientPlayerEntity.getEyePos();
+            this.tfh = tbp.hitU(vec3d2.x, vec3d2.z, (box.minX + box.maxX) * 0.5, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, vec3d.x, vec3d.z);
+            this.tfi = tbp.hitV(box.minY, box.maxY - box.minY, vec3d.y);
         }
         this.tfa = true;
         this.tff = this.tfh;
@@ -255,20 +255,20 @@ public final class tel {
     }
 
     private void tht(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Entity entity, int n, boolean bl) {
-        this.thu(minecraftClient, clientPlayerEntity, entity, entity == null ? null : entity.method_5829(), n, bl);
+        this.thu(minecraftClient, clientPlayerEntity, entity, entity == null ? null : entity.getBoundingBox(), n, bl);
     }
 
     private void thu(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Object object, Box box, int n, boolean bl) {
         this.tgx = bl;
-        float f = clientPlayerEntity.method_36454();
-        float f2 = clientPlayerEntity.method_36455();
+        float f = clientPlayerEntity.getYaw();
+        float f2 = clientPlayerEntity.getPitch();
         this.thv(f, f2);
         double d = this.thl;
         double d2 = this.thm;
         this.thm = 0.0;
         this.thl = 0.0;
         this.tgz = false;
-        if (!this.thw(clientPlayerEntity, object, box, clientPlayerEntity.method_33571(), n, bl, d, d2, f, f2)) {
+        if (!this.thw(clientPlayerEntity, object, box, clientPlayerEntity.getEyePos(), n, bl, d, d2, f, f2)) {
             return;
         }
         double d3 = Math.hypot(this.tha, this.thb);
@@ -286,8 +286,8 @@ public final class tel {
             this.the = this.tha;
             this.thf = this.thb;
             this.tgz = false;
-            this.thj = clientPlayerEntity.method_36454();
-            this.thk = clientPlayerEntity.method_36455();
+            this.thj = clientPlayerEntity.getYaw();
+            this.thk = clientPlayerEntity.getPitch();
         }
     }
 
@@ -400,7 +400,7 @@ public final class tel {
             } else if (!this.tez) {
                 this.tif();
             }
-            if (!tbp.aim(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, (box.field_1323 + box.field_1320) * 0.5, box.field_1322, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, box.field_1325 - box.field_1322, this.tfo, this.tfp, this.tet)) {
+            if (!tbp.aim(vec3d.x, vec3d.y, vec3d.z, (box.minX + box.maxX) * 0.5, box.minY, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, box.maxY - box.minY, this.tfo, this.tfp, this.tet)) {
                 this.tga = false;
                 return false;
             }
@@ -467,7 +467,7 @@ public final class tel {
         this.ter[24] = this.tfo;
         this.ter[25] = this.tfp;
         this.ter[26] = this.tet.dist;
-        this.ter[27] = box == null || this.tfb ? 1.0 : (double)clientPlayerEntity.method_7261(0.5f);
+        this.ter[27] = box == null || this.tfb ? 1.0 : (double)clientPlayerEntity.getAttackCooldownProgress(0.5f);
         this.ter[28] = this.tet.la;
         this.ter[29] = this.tet.ra;
         this.ter[30] = this.tet.ta;
@@ -483,7 +483,7 @@ public final class tel {
 
     private boolean thx(Vec3d vec3d, Box box, float f, float f2) {
         tbm tbm2 = new tbm();
-        if (!tbp.aim(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, (box.field_1323 + box.field_1320) * 0.5, box.field_1322, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, box.field_1325 - box.field_1322, 0.0, 0.5, tbm2)) {
+        if (!tbp.aim(vec3d.x, vec3d.y, vec3d.z, (box.minX + box.maxX) * 0.5, box.minY, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, box.maxY - box.minY, 0.0, 0.5, tbm2)) {
             return false;
         }
         return Math.hypot(tbp.wrap(tbm2.yaw - (double)f), tbm2.pitch - (double)f2) >= 15.0;
@@ -647,8 +647,8 @@ public final class tel {
             this.tho += (d / 0.05 - this.tho) * 0.2;
         }
         this.thn = l;
-        float f = clientPlayerEntity.method_36454();
-        float f2 = clientPlayerEntity.method_36455();
+        float f = clientPlayerEntity.getYaw();
+        float f2 = clientPlayerEntity.getPitch();
         if (this.thi) {
             this.thl += tbp.wrap(f - this.thj);
             this.thm += (double)(f2 - this.thk);
@@ -659,7 +659,7 @@ public final class tel {
             double d3;
             double d4;
             double d5;
-            float f3 = minecraftClient.method_61966().method_60637(true);
+            float f3 = minecraftClient.getRenderTickCounter().getTickProgress(true);
             double d6 = Math.max(0.5, Math.min(1.0, 1.0 - this.tho * 0.9));
             double d7 = Math.min(1.0, (double)f3 / d6);
             double d8 = tel.tih(d7, this.thc, this.tha) - this.the;
@@ -675,8 +675,8 @@ public final class tel {
             this.the += d8;
             this.thf += d9;
         }
-        this.thj = clientPlayerEntity.method_36454();
-        this.thk = clientPlayerEntity.method_36455();
+        this.thj = clientPlayerEntity.getYaw();
+        this.thk = clientPlayerEntity.getPitch();
         this.thi = true;
     }
 
@@ -713,7 +713,7 @@ public final class tel {
             return;
         }
         d3 = d6 / 0.15;
-        clientPlayerEntity.method_5872((double)l * d3, (double)l2 * d3);
+        clientPlayerEntity.changeLookDirection((double)l * d3, (double)l2 * d3);
         this.tgv += (double)l * d6;
         this.tgw += (double)l2 * d6;
         this.tfe += Math.hypot((double)l * d6, (double)l2 * d6);

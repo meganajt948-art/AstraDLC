@@ -109,13 +109,13 @@ final class gax {
     }
 
     static boolean tick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         gax.gde();
         if (++gcc == 1) {
             gax.gcy();
-            int n = MathHelper.method_15357((double)clientPlayerEntity.method_23317());
-            int n2 = MathHelper.method_15357((double)clientPlayerEntity.method_23318());
-            int n3 = MathHelper.method_15357((double)clientPlayerEntity.method_23321());
+            int n = MathHelper.floor((double)clientPlayerEntity.getX());
+            int n2 = MathHelper.floor((double)clientPlayerEntity.getY());
+            int n3 = MathHelper.floor((double)clientPlayerEntity.getZ());
             gcd = (double)n + 4.5;
             gce = n2;
             gcf = (double)n3 + 0.5;
@@ -130,16 +130,16 @@ final class gax {
             gax.gdg(minecraftClient, String.format(Locale.ROOT, a.c(-1336177453, "\u8cbf\uf50a\u7f89\ue198\u6a7c\uec9e\u56c8\udf32\u4172\ucb94\u4c01\ub675\u38e3\ua116\u2b40\uadba\u17ea\u986c\u0299\u84c5\u0d26\u777e\uf9dd\u621c"), (double)n + 0.5, n2, (double)n3 + 0.5));
             gax.gdg(minecraftClient, String.format(Locale.ROOT, a.d("\u4122\u3895\ub25e\u2c2f\ua7fa\u214a\u9b57\u12eb\u8cb0\u0606\u81de\u7ba9\uf56f\u6ccd\ue699\u607a\uda7b\u55f8\ucf56\u4901\uc0ee\ubaf4\u3442\uaf98\u29fb\ua37e\u1a8b\u94df\u0e69\u887c\u03ca\ufd10\u7743\ueee6\u68f3\ue219\u5dfb\ud7ab\u5156\uc8ef\u42c3\u3c39\ub639\u31c6\uab6e\u2525\u9cf3\u164b\u900f\u0bc4\u85f9\u7f23\uf6c7\u70d8\uea57\u6433\udf9b\u594b\ud322\u4ae9\uc459\ube19\u39e1\ub3bd\u2d74\ua4f2\u1e96\u9873\u1220\u8d8d\u0745\u8123\u78fd\uf212\u6c4a\ue7e8\u61f1\udb0d\u52cb\uccba\u4673\uc039\ubb81\u3547\uaf31\u26f1\ua054\u1a4c\u95d2\u0fa3\u8902\u00de\ufaf7\u743e\uefc2\u6997\ue35f\u5d25\ud4f0\u4e50\uc814\u43e2\u3da3\ub75c\u2ed4\ua8a9\u2263\u9df5\u1795\u9169\u0b3e\u8282\u7c55\uf618\u71a1\uebfe\u6507\udcd5\u56b4\ud073\u4b93\uc5c9\ubf3b\u3968\ub0d9\u2a12\ua47f\u1fe3\u998c\u134c\u8afb\u04a7\ufe74\u79c8\uf383\u6d6e\ue763\u5ed9\ud80b\u5278\ucda9\u474a\uc102", -1308396412, 109720922), gcd, n2, gcf));
             gax.gdg(minecraftClient, a.d("\u42f6\u3b44\ub197\u2fe5\ua434\u2292\u9895\u1123\u8f72\u05dc\u821c\u7828\uf69f\u6f0b\ue566\u63b8\ud9fa\u5622\ucc84\u4a8d\uc32a\ub97f\u37cb\uac11\u2a68\ua0a8\u1908\u975e\u0dbb\u8ba4E\ufe89\u74c0\ued29\u6b4c\ue180\u5e05\ud463\u52a6\ucb0d\u4148\u3fbe\ub5f8\u3246\ua89c\u26eb\u9f7d\u1585\u93cd\u0814\u8668\u7cbe\uf50e\u7342\ue9a0\u67b4\udc18\u5ada\ud0fd\u492a\uc79a\ubddb", -956233788, -1948367511));
-            clientPlayerEntity.method_31548().method_61496(1);
+            clientPlayerEntity.getInventory().setSelectedSlot(1);
             return false;
         }
         if (gcc == 30) {
-            for (Entity entity : minecraftClient.field_1687.method_18112()) {
+            for (Entity entity : minecraftClient.world.getEntities()) {
                 if (!(entity instanceof HuskEntity)) continue;
-                gca = entity.method_5628();
-                gcd = entity.method_23317();
-                gce = entity.method_23318();
-                gcf = entity.method_23321();
+                gca = entity.getId();
+                gcd = entity.getX();
+                gce = entity.getY();
+                gcf = entity.getZ();
             }
             if (gca < 0) {
                 System.out.println(a.c(1195040937, "\ue0d2\u9977\u13a5\u8dcf\u061a\u80a7\u3af6\ub301\u2d1b\ua7fe\u203c\uda5b\u548b\ucd6e\u475b\uc1ad\u7bea\uf43e\u6ee1\ue8fe\u6108\u1b16\u95ed\u0e21\u8858\u0291"));
@@ -154,8 +154,8 @@ final class gax {
             return false;
         }
         gct.update(clientPlayerEntity);
-        if (minecraftClient.field_1729.method_1613()) {
-            minecraftClient.field_1729.method_1610();
+        if (minecraftClient.mouse.isCursorLocked()) {
+            minecraftClient.mouse.unlockCursor();
         }
         if (gcg < 0 || gch == 3) {
             if (++gcg >= gbb.size()) {
@@ -225,7 +225,7 @@ final class gax {
         if (gaq2.phase().equals(a.d("\u6530\u1c96\u9642\u0832\u83e2", 311657617, 1640292806))) {
             gax.gdg(minecraftClient, a.c(-577265585, "\ua07a\ud9d6\u5314\ucd6d\u46f7\uc014\u7a50\uf3b4\u6df7\ue74b\u609a\u9aed\u147f\u8d8b\u07d3\u8138\u3b6a\ub4a6\u2e18\ua810\u2187\u5be5\ud505\u4e9c\uc8e4\u422e\ufb8b\u75d9\uef3d\u6930\ue29d\u1c5c\u9644\u0fab\u89e5\u0348\ubcd7\u36eb\ub03c\u298a\ua3de\udd29\u576b\ud0c9\u4a19\uc47a\u7de7\uf701\u7142\uea91\u64e4\u9e0b\u1782\u91d8\u0b26\u857c\u3eca\ub814\u327d\uabb5\u250a\u5f50\ud8b9\u52ef\ucc6e\u4599\uff93\u792d\uf37e\u6cc8\ue610\u6067\u99a9\u130b\u8d5f\u06bc\u80a5\u3a59\ub394\u2de2\ua727\u214d\u5ac3\ud405\u4e75\uc7a5\u4111\ufb16\u74f1\ueea9\u6854\ue1a5"));
         }
-        clientPlayerEntity.method_31548().method_61496(bl ? 0 : 1);
+        clientPlayerEntity.getInventory().setSelectedSlot(bl ? 0 : 1);
         double d = gcv.nextDouble() * Math.PI * 2.0;
         double d2 = gcd + Math.cos(d) * gaq2.offset();
         double d3 = gcf + Math.sin(d) * gaq2.offset();
@@ -251,15 +251,15 @@ final class gax {
             gax.gdg(minecraftClient, String.format(Locale.ROOT, a.c(1034511288, "\u63e5\u1a50\u90d3\u0ec2\u8530\u03bf\ub9c3\u303f\uae69\u24cd\ua346\u5967\ud7b4\u4e02\uc45a\u42ad\uf8f3\u7731\ued85\u6bc6\ue27f\u987c\u16d2\u8d05\u0b62\u8185\u384b\ub61f\u2ce3\uaaaf\u2149\udfde\u5594\ucc6e\u4a20\uc0c4\u7f55\uf521\u73f9\uea55\u605f"), gcd + Math.cos(gco += 0.1388888888888889) * 1.8, gce, gcf + Math.sin(gco) * 1.8));
         }
         if (gch == 0) {
-            if (clientPlayerEntity.method_23318() > gce + gaq2.height() - 0.5 || gci > 20) {
+            if (clientPlayerEntity.getY() > gce + gaq2.height() - 0.5 || gci > 20) {
                 gch = 1;
                 gci = 0;
-                gcm = clientPlayerEntity.method_36454();
-                gcn = clientPlayerEntity.method_36455();
+                gcm = clientPlayerEntity.getYaw();
+                gcn = clientPlayerEntity.getPitch();
             }
             return;
         }
-        boolean bl2 = clientPlayerEntity.method_24828();
+        boolean bl2 = clientPlayerEntity.isOnGround();
         if (!bl2) {
             gcq = true;
         }
@@ -269,7 +269,7 @@ final class gax {
         gbo = n != gbn ? 0 : gbo + 1;
         gbn = n;
         if (!Float.isNaN(gbl) && gci > 2 && gaq2.sweep() == 0) {
-            double d = Math.sqrt(MathHelper.method_27285((float)MathHelper.method_15393((float)(f - gbl))) + MathHelper.method_27285((float)(f2 - gbm)));
+            double d = Math.sqrt(MathHelper.square((float)MathHelper.wrapDegrees((float)(f - gbl))) + MathHelper.square((float)(f2 - gbm)));
             gax.gbi[gax.gcg] = Math.max(gbi[gcg], d);
             if (gbo == 0) {
                 gax.gbj[gax.gcg] = Math.max(gbj[gcg], d);
@@ -284,9 +284,9 @@ final class gax {
             gby[n2] = gby[n2] + 1;
         }
         gcp = bl2;
-        float f3 = clientPlayerEntity.method_36454();
-        float f4 = clientPlayerEntity.method_36455();
-        double d = MathHelper.method_15393((float)(f3 - gck));
+        float f3 = clientPlayerEntity.getYaw();
+        float f4 = clientPlayerEntity.getPitch();
+        double d = MathHelper.wrapDegrees((float)(f3 - gck));
         double d2 = f4 - gcl;
         double d3 = Math.sqrt(d * d + d2 * d2);
         if (gaq2.phase().equals(a.c(1458140965, "\u7750\u0efb\u842d\u1a55\u9189\u1722"))) {
@@ -301,7 +301,7 @@ final class gax {
                 int n3 = gcg;
                 gbx[n3] = gbx[n3] + 1;
             }
-            if ((d4 = Math.sqrt(MathHelper.method_27285((float)MathHelper.method_15393((float)(f3 - gcm))) + MathHelper.method_27285((float)(f4 - gcn)))) > 2.0) {
+            if ((d4 = Math.sqrt(MathHelper.square((float)MathHelper.wrapDegrees((float)(f3 - gcm))) + MathHelper.square((float)(f4 - gcn)))) > 2.0) {
                 gcs.add(d4);
             }
             if (d4 > 0.5 && System.getenv(a.d("\u6975\u10ce\u9a1e\u0477\u8fc5\u0919\ub358\u3aa5\ua4f8\u2e4f\ua986\u53fc\udd2d\u448f\ucede\u4829", -1813186387, -2118086258)) != null) {
@@ -311,17 +311,17 @@ final class gax {
         gcm = f3;
         gcn = f4;
         if (gaq2.sweep() > 0) {
-            gcu.predict(clientPlayerEntity, (World)minecraftClient.field_1687, gct.get());
+            gcu.predict(clientPlayerEntity, (World)minecraftClient.world, gct.get());
             if (!bl2 && !gcr && gcu.landing() == gaq2.sweep()) {
                 gcr = true;
-                KeyBinding.method_1420((InputUtil.Key)KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.field_1690.field_1886));
+                KeyBinding.onKeyPressed((InputUtil.Key)KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.options.attackKey));
             }
         }
         boolean bl3 = gaq2.phase().equals(a.c(-1360991899, "\ue902\u90a4\u1a70\u8400\u0fd0")) ? gci > 420 : (bl = gcq && bl2);
         gcj = bl ? ++gcj : 0;
         if (gcj > 24 || gci > (gaq2.phase().equals(a.c(-72865706, "\u2831\u5197\udb43\u4533\ucee3")) ? 440 : 140)) {
             gax.gbt[gax.gcg] = d3 < 1.5;
-            gax.gbu[gax.gcg] = clientPlayerEntity.method_31548().method_67532() == (gaq2.sweep() > 0 ? 0 : 1);
+            gax.gbu[gax.gcg] = clientPlayerEntity.getInventory().getSelectedSlot() == (gaq2.sweep() > 0 ? 0 : 1);
             System.out.println(String.format(Locale.ROOT, a.c(-2125728045, "\uf601\u8fa4\u0576\u9b1c\u10c9\u9674\u2c25\ua5d2\u3bc8\ub13d\u36f8\ucc94\u425c\udbbd\u51eb\ud75b\u6d50\ue284\u7861\ufe63\u77dc\u0dd8\u8373\u18a9\u9ec8\u144f\uadba\u23a4\ub95a\u3f0b\ub4e3\u4a2a\uc06e\u5980\udf84\u5573\ueaf7\u6082\ue643\u7ff2\uf5b8\u8b04\u014f\u86bf\u1c36\u925d\u2bcf\ua16b\u2724\ubce0\u3291\uc848\u41e7\uc7f8\u5d13\ud303\u68f8\uee7a\u6417\ufdca\u736f\u0925\u8e83\u04ca\u9a44\u13b1\ua9a1\u2f41\ua50d\u3aa1\ub03b\u3652\ucfcc\u4539\udb2c\u50da\ud680\u6c31\ue5b3\u7bda\uf11e\u7753\u0cb4\u8223\u1806\u91c0\u1762\uad32\u22ca\ub887\u3e3f\ub7ef\u4dc1\uc308\u58ed\udeef\u5473\uea1d\u63cd\uf967\u7f79\uf490\u8a95w\u99e5\u1f98\u9552\u2ad4\ua0aa\u265b\ubc53\u35fa\ucb3e\u4170\uc6d4\u5cc3\ud235\u6bf2\ue197\u675e\ufca5\u72ec\u085e\u8e4b\u07bf\u9d6c\u1313\ua892\u2ec5\ua47f\u3db0\ub395\u4904\ucef9\u44a7\uda59\u500c\ue9b0\u6f64\ue51c\u7adf\uf020\u766b\u0fdb\u85d0\u1b52\u90f7\u16ad\uac40\u2258\ubbf3\u3129\ub749\u4ccf\uc23a\u582a\ud1c8\u5786\ued63\u62aa\uf8ee\u7e00\uf404\u8df3\u0365\u9913\u1ed2\u9472\u2a3a\ua384\u39cf\ubf75\u34bd\uca9b\u400e\ud9e3\u5ff0\ud524\u6b01"), gcg, gaq2.phase(), gaq2.height(), gaq2.offset(), gaq2.sweep(), gbp[gcg], gbq[gcg], gbr[gcg], gbs[gcg], gbt[gcg], gbu[gcg], gbv[gcg], gbx[gcg], gbw[gcg], gby[gcg], gbi[gcg], gbj[gcg], gbk[gcg], kmy.debug()));
             gbz = -1;
             gch = 3;
@@ -417,7 +417,7 @@ final class gax {
     }
 
     private static void gdg(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     /*
@@ -425,15 +425,15 @@ final class gax {
      */
     private static /* synthetic */ ActionResult lambda$hook$0(PlayerEntity var0, World var1_1, Hand var2_2, Entity var3_3, EntityHitResult var4_4) {
         var5_5 = gax.gbz;
-        if (var1_1.method_8608() || var5_5 < 0 || var3_3.method_5628() != gax.gca) {
-            return ActionResult.field_5811;
+        if (var1_1.isClient() || var5_5 < 0 || var3_3.getId() != gax.gca) {
+            return ActionResult.PASS;
         }
-        var6_6 = var0.method_7261(0.5f);
-        var7_7 = var6_6 > 0.9f && var0.field_6017 > 0.0 && var0.method_24828() == false && var0.method_5624() == false;
-        v0 = var8_8 = var0.method_6047().method_31574(Items.field_49814) != false && var0.field_6017 > 1.5 && var0.method_6128() == false;
+        var6_6 = var0.getAttackCooldownProgress(0.5f);
+        var7_7 = var6_6 > 0.9f && var0.fallDistance > 0.0 && var0.isOnGround() == false && var0.isSprinting() == false;
+        v0 = var8_8 = var0.getMainHandStack().isOf(Items.MACE) != false && var0.fallDistance > 1.5 && var0.isGliding() == false;
         if (!(var3_3 instanceof LivingEntity)) ** GOTO lbl-1000
         var10_9 = (LivingEntity)var3_3;
-        if (var10_9.field_6008 > 10) {
+        if (var10_9.timeUntilRegen > 10) {
             v1 = true;
         } else lbl-1000:
         // 2 sources
@@ -452,9 +452,9 @@ final class gax {
             v4 = var5_5;
             gax.gbr[v4] = gax.gbr[v4] + 1;
         }
-        gax.gbs[var5_5] = var0.field_6017;
-        System.out.println(String.format(Locale.ROOT, a.d("\u0bdc\u7279\uf8ab\u66c1\ued14\u6ba9\ud1f8\u580f\uc615\u4cf7\ucb32\u3154\ubf87\u2625\uac61\u2ac2\u90cc\u1f08\u85bb\u03ff\u8a0a\uf053\u7eab\ue53e\u6357\ue99b\u5037\ude2b\u44c4\uc2d4\u4923\ub7ab\u3da0\ua449\u2211\ua8bc\u173f\u9d08\u1b9d\u822b\u0879\u7688\ufc8a\u7b23\ue1ff\u6f92\ud615\u5ce2\udaea\u412e\ucf40\u358b\ubc27\u3a7c\ua0d6\u2e9f\u9576\u13f4\u99c4\u001e\u8ea0\uf4e2\u7304\uf957\u67c0\uee69\u5431\ud2dc\u58df\uc728\u4da8\ucbc7\u3214\ub8b7\u26ff\uad5b\u2b14\u91f3\u1873\u8641\u0c9f\u8ad5\uf17b\u7fe3\ue58c\u6c0b\ueaeb\u50f3\udf03\u4546\uc3e6\u4a3b\ub044\u3e83\ua57e\u2337\ua9ae", 1329275695, -645060365), new Object[]{var5_5, var0.method_23318() - gax.gce, var0.field_6017, var0.method_24828(), Float.valueOf(var6_6), var8_8, var7_7, var9_10}));
-        return ActionResult.field_5811;
+        gax.gbs[var5_5] = var0.fallDistance;
+        System.out.println(String.format(Locale.ROOT, a.d("\u0bdc\u7279\uf8ab\u66c1\ued14\u6ba9\ud1f8\u580f\uc615\u4cf7\ucb32\u3154\ubf87\u2625\uac61\u2ac2\u90cc\u1f08\u85bb\u03ff\u8a0a\uf053\u7eab\ue53e\u6357\ue99b\u5037\ude2b\u44c4\uc2d4\u4923\ub7ab\u3da0\ua449\u2211\ua8bc\u173f\u9d08\u1b9d\u822b\u0879\u7688\ufc8a\u7b23\ue1ff\u6f92\ud615\u5ce2\udaea\u412e\ucf40\u358b\ubc27\u3a7c\ua0d6\u2e9f\u9576\u13f4\u99c4\u001e\u8ea0\uf4e2\u7304\uf957\u67c0\uee69\u5431\ud2dc\u58df\uc728\u4da8\ucbc7\u3214\ub8b7\u26ff\uad5b\u2b14\u91f3\u1873\u8641\u0c9f\u8ad5\uf17b\u7fe3\ue58c\u6c0b\ueaeb\u50f3\udf03\u4546\uc3e6\u4a3b\ub044\u3e83\ua57e\u2337\ua9ae", 1329275695, -645060365), new Object[]{var5_5, var0.getY() - gax.gce, var0.fallDistance, var0.isOnGround(), Float.valueOf(var6_6), var8_8, var7_7, var9_10}));
+        return ActionResult.PASS;
     }
 
     static {

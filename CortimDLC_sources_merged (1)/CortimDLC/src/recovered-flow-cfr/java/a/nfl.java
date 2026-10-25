@@ -391,7 +391,7 @@ extends kfe {
             }
             case 5 -> {
                 qqm var4_3 = nfl2.ngx.entry(nfl2.nhr);
-                String var5_4 = !nfl2.njf ? a.b("\u15b2\u6c21\ue685\u7c97", -931393120) : (nfl2.ngz.parked() ? (nfl2.mc.field_1724 != null && nfl2.mc.field_1724.method_5765() ? a.d("\u4ae9\u3341\ub99c\u2798\ua82c\u2a80\u90de\u1d3f\u8701\u0db3\u8a61\u706c\ufeb1\u6708\ued2a\u6bad\ud1e8\u5e4c\uc096\u46cb\ucb2a\ub179\u3fbd\ua00f", -163365951, 690320657) : a.c(-2021787155, "\ufdde\u806c\u0ede\u90ac\u1b7a\u9db7\u27ee\uae17\u3040\ubafe\u393b\uc346\u4987\ud034\u5a10\ud882")) : a.d("\ubed8\uc745\u4de1\ud7f3\u583e\uda95\u64a7\ued55\u730b\uf9c6\u7e1f\u8466\u0ac0\u9307\u195e\u9fa3\u21fc\uae21\u3084\ub6d7\u3f57\u4165", -1334101007, 1841922343));
+                String var5_4 = !nfl2.njf ? a.b("\u15b2\u6c21\ue685\u7c97", -931393120) : (nfl2.ngz.parked() ? (nfl2.mc.player != null && nfl2.mc.player.hasVehicle() ? a.d("\u4ae9\u3341\ub99c\u2798\ua82c\u2a80\u90de\u1d3f\u8701\u0db3\u8a61\u706c\ufeb1\u6708\ued2a\u6bad\ud1e8\u5e4c\uc096\u46cb\ucb2a\ub179\u3fbd\ua00f", -163365951, 690320657) : a.c(-2021787155, "\ufdde\u806c\u0ede\u90ac\u1b7a\u9db7\u27ee\uae17\u3040\ubafe\u393b\uc346\u4987\ud034\u5a10\ud882")) : a.d("\ubed8\uc745\u4de1\ud7f3\u583e\uda95\u64a7\ued55\u730b\uf9c6\u7e1f\u8466\u0ac0\u9307\u195e\u9fa3\u21fc\uae21\u3084\ub6d7\u3f57\u4165", -1334101007, 1841922343));
                 yield var5_4 + (nfl2.niy == null ? a.c(711954127, "\u8a82\uf34b\u79ed\ue79b\u6c4d") : nfl2.niy.title()) + (var4_3 == null ? "" : a.c(-607763068, "\u45a7\u3c81\ub6c5") + nfl.clock(var4_3.refreshAt - l));
             }
             case 6 -> a.c(-1211701687, "\ue271\u9bd8\u117e\u8f08\u04ad\u860c\u3841\ub1bf\u2fec\ua55e\u2281\ud8fa\u562e\ucf94\u45b6\uc34a");
@@ -510,12 +510,12 @@ extends kfe {
     }
 
     private static boolean nkc(BlockState blockState) {
-        return blockState.method_27852(Blocks.field_10442) || blockState.method_27852(Blocks.field_29029);
+        return blockState.isOf(Blocks.DIAMOND_ORE) || blockState.isOf(Blocks.DEEPSLATE_DIAMOND_ORE);
     }
 
     private void nkd() {
-        if (this.mc.method_1562() != null) {
-            this.mc.method_1562().method_45730(a.b("\ueeb5\u971e\u1dd0", -1258623291));
+        if (this.mc.getNetworkHandler() != null) {
+            this.mc.getNetworkHandler().sendChatCommand(a.b("\ueeb5\u971e\u1dd0", -1258623291));
         }
     }
 
@@ -542,8 +542,8 @@ extends kfe {
         this.nhc.reset();
         this.nhb.reset();
         this.nhb.forgetFrame();
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        this.nit = clientPlayerEntity != null && qpw.ready(clientPlayerEntity.method_31548()) && qpw.misplaced(clientPlayerEntity.method_31548(), qpw.targets(clientPlayerEntity.method_31548(), clientPlayerEntity.method_6079())) == 0;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        this.nit = clientPlayerEntity != null && qpw.ready(clientPlayerEntity.getInventory()) && qpw.misplaced(clientPlayerEntity.getInventory(), qpw.targets(clientPlayerEntity.getInventory(), clientPlayerEntity.getOffHandStack())) == 0;
         this.nly(nff.START);
     }
 
@@ -552,7 +552,7 @@ extends kfe {
         this.ngz.stop(this.mc);
         this.nhd.stop(this.mc);
         this.nhe.cancel(this.mc);
-        this.nhf.stop(this.mc, this.mc.field_1724);
+        this.nhf.stop(this.mc, this.mc.player);
         this.nha.cancel(this.mc);
         this.nhb.reset();
         this.nhb.forgetFrame();
@@ -567,7 +567,7 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         this.nhb.newTick();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return;
         }
@@ -611,7 +611,7 @@ extends kfe {
 
     private void nke(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
         boolean bl;
-        boolean bl2 = bl = clientPlayerEntity.method_5805() && (this.nhp != nff.BASE || this.nin != 2) && !this.nkg() && qdz.trapped((World)minecraftClient.field_1687, clientPlayerEntity) != null;
+        boolean bl2 = bl = clientPlayerEntity.isAlive() && (this.nhp != nff.BASE || this.nin != 2) && !this.nkg() && qdz.trapped((World)minecraftClient.world, clientPlayerEntity) != null;
         if (!bl) {
             if (this.njg) {
                 this.njg = false;
@@ -630,7 +630,7 @@ extends kfe {
             this.nma(a.b("\u69df\u1049\u9aeb\u0499\u8f4c\u09f2\ub3d5\u3e3f\ua472\u2ad1\ua913\u5368\uddba\u440f\uce56\u48d2\uf6f8\u591d\ue39a\u61d9\ue857\u9277\u1cce\u8710\u011b\u8bb3\u3202\ubc2d\u26d5\ua089", 798453206), vhz.ALERT);
         }
         if (this.ngz.status() != qdw.WORKING || !this.ngz.guarding()) {
-            this.ngz.guard(pzc.empty(clientPlayerEntity.method_24515()));
+            this.ngz.guard(pzc.empty(clientPlayerEntity.getBlockPos()));
         }
     }
 
@@ -682,7 +682,7 @@ extends kfe {
         if (this.ngw != null && this.njr % 20 == 1) {
             this.njv();
         }
-        if ((clientPlayerEntity = minecraftClient.field_1724) == null || minecraftClient.field_1687 == null) {
+        if ((clientPlayerEntity = minecraftClient.player) == null || minecraftClient.world == null) {
             return;
         }
         pjd.keep(this.nmb());
@@ -705,11 +705,11 @@ extends kfe {
         this.nhd.walker().configure(this.nhc, true, false);
         this.nha.noThrow = this.nhp == nff.BASE;
         this.nlx();
-        if (minecraftClient.field_1755 instanceof DeathScreen && clientPlayerEntity.method_29504() && this.njr % 20 == 0) {
-            clientPlayerEntity.method_7331();
-            minecraftClient.method_1507(null);
+        if (minecraftClient.currentScreen instanceof DeathScreen && clientPlayerEntity.isDead() && this.njr % 20 == 0) {
+            clientPlayerEntity.requestRespawn();
+            minecraftClient.setScreen(null);
         }
-        if (clientPlayerEntity.method_29504() && this.nhp == nff.BASE) {
+        if (clientPlayerEntity.isDead() && this.nhp == nff.BASE) {
             this.nhd.stop(minecraftClient);
             this.nly(nff.DECIDE);
         }
@@ -721,13 +721,13 @@ extends kfe {
         }
         this.nke(minecraftClient, clientPlayerEntity, l);
         boolean bl2 = bl = !this.njg && (this.nhp != nff.BASE || this.nin == 2 && this.nhd.canPause());
-        if (this.njr % 10 == 0 && !this.nhf.active() && !this.nha.busy() && !this.nhe.active() && minecraftClient.field_1755 == null && bl && clientPlayerEntity.method_5805() && qma.hungry(clientPlayerEntity)) {
+        if (this.njr % 10 == 0 && !this.nhf.active() && !this.nha.busy() && !this.nhe.active() && minecraftClient.currentScreen == null && bl && clientPlayerEntity.isAlive() && qma.hungry(clientPlayerEntity)) {
             if (qma.canEat(clientPlayerEntity)) {
                 this.nhf.start(clientPlayerEntity);
             } else {
                 int n = qma.stored(clientPlayerEntity);
                 if (n >= 0) {
-                    this.nha.swaps(n, clientPlayerEntity.method_6079().method_7960() ? 40 : 8);
+                    this.nha.swaps(n, clientPlayerEntity.getOffHandStack().isEmpty() ? 40 : 8);
                 }
             }
         }
@@ -773,8 +773,8 @@ extends kfe {
 
     @Override
     public void onWorldRender(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1755 != null || !minecraftClient.field_1729.method_1613()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.currentScreen != null || !minecraftClient.mouse.isCursorLocked()) {
             this.nhb.forgetFrame();
             return;
         }
@@ -850,7 +850,7 @@ extends kfe {
         if (!this.njx()) {
             this.nhr = 0;
         }
-        if ((pzp2 = pzw.read(minecraftClient, 72.0)) != null && pzp2.pos().method_1022(clientPlayerEntity.method_73189()) <= 30.0 && (pzc2 = pzc.detect((World)minecraftClient.field_1687, pzp2.pos())) != null && pzc2.ores >= 20 && pzc2.distanceTo(clientPlayerEntity.method_73189()) < 24.0) {
+        if ((pzp2 = pzw.read(minecraftClient, 72.0)) != null && pzp2.pos().distanceTo(clientPlayerEntity.getEntityPos()) <= 30.0 && (pzc2 = pzc.detect((World)minecraftClient.world, pzp2.pos())) != null && pzc2.ores >= 20 && pzc2.distanceTo(clientPlayerEntity.getEntityPos()) < 24.0) {
             this.nkx(clientPlayerEntity);
             if (this.nhr >= 0) {
                 this.nlw(this.nhr, pzp2, l, false);
@@ -869,7 +869,7 @@ extends kfe {
     private void nkk(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
         nes nes2;
         Object object;
-        if (!qof.holdsPickaxe(clientPlayerEntity) && qof.bestPickaxe(clientPlayerEntity.method_31548()) < 0 && !poi.inLobby((PlayerEntity)clientPlayerEntity)) {
+        if (!qof.holdsPickaxe(clientPlayerEntity) && qof.bestPickaxe(clientPlayerEntity.getInventory()) < 0 && !poi.inLobby((PlayerEntity)clientPlayerEntity)) {
             if (this.njp == 0L) {
                 this.njp = l;
             }
@@ -883,7 +883,7 @@ extends kfe {
         if (this.nls(minecraftClient, clientPlayerEntity, l) || this.nlp(minecraftClient, clientPlayerEntity, l)) {
             return;
         }
-        if (this.nht && (object = this.nhh.get(this.nhr)) != null && object.method_1022(clientPlayerEntity.method_73189()) > 36.0) {
+        if (this.nht && (object = this.nhh.get(this.nhr)) != null && object.distanceTo(clientPlayerEntity.getEntityPos()) > 36.0) {
             this.nht = false;
         }
         if (!this.njx()) {
@@ -918,7 +918,7 @@ extends kfe {
             qqm qqm2 = this.ngx.entry(this.nhr);
             this.niz = qqm2 != null && qqm2.lastTier != null ? qqm2.lastTier : qwj.COMMON;
             String string2 = string = this.nhr > 0 ? a.d("\u4778\u3ad4\ub00a\u2a6b", -1780191993, 1315252827) + this.nhr : "";
-            if (!nes2.look() && (this.nht || nes2.area().distanceTo(clientPlayerEntity.method_73189()) < 24.0)) {
+            if (!nes2.look() && (this.nht || nes2.area().distanceTo(clientPlayerEntity.getEntityPos()) < 24.0)) {
                 this.nma(a.b("\u1095\u693c\ue39a\u7dec\uf649", 2060260536) + string + a.b("\uac34\ud1e7\u5b48\uc53c\u4e9c\uc85b\u720c\uffe3\u65db\uef6f\u68c0\u96af\u1c66\u85d8\u0f87\u8975\u3336\ubced\u265d\ua007\u2981\u53dd\ud918\u42d3", -1043682292) + nes2.diamonds() + a.c(-95041365, "\uc89b\ub53a\u3fe2\ua194\u2a4f\uacf9\u16a3\u9f5e\u0513\uaf96\u0871\uf61a\u78c9\ue179\u6b25\uedaa"), vhz.PLAYER);
                 this.nlh(minecraftClient, clientPlayerEntity, nes2.area(), l);
             } else {
@@ -959,7 +959,7 @@ extends kfe {
         int n;
         Vec3d vec3d = this.nhh.get(this.nhr);
         qqm qqm2 = this.ngx.entry(this.nhr);
-        if (vec3d == null || qqm2 == null || this.nhr == this.nln() || minecraftClient.field_1687 == null) {
+        if (vec3d == null || qqm2 == null || this.nhr == this.nln() || minecraftClient.world == null) {
             return null;
         }
         if (qqm2.refreshAt - l < this.ngy.minMineMs + 20000L) {
@@ -975,19 +975,19 @@ extends kfe {
         }
         pzc pzc2 = this.nhg.get(this.nhr);
         if (pzc2 == null || pzc2.distanceTo(vec3d) > 30.0) {
-            pzc2 = pzc.detect((World)minecraftClient.field_1687, vec3d);
+            pzc2 = pzc.detect((World)minecraftClient.world, vec3d);
             if (pzc2 == null) {
                 return null;
             }
             this.nhg.put(this.nhr, pzc2);
         }
-        if ((n = nfl.nkm((World)minecraftClient.field_1687, pzc2)) >= 20) {
+        if ((n = nfl.nkm((World)minecraftClient.world, pzc2)) >= 20) {
             if (!this.nht) {
                 this.nhm.put(this.nhr, qqm2.refreshAt);
             }
             return new nes(pzc2, n, false);
         }
-        if (this.nht || pzc.loaded((World)minecraftClient.field_1687, vec3d)) {
+        if (this.nht || pzc.loaded((World)minecraftClient.world, vec3d)) {
             this.nhl.put(this.nhr, qqm2.refreshAt);
             return null;
         }
@@ -1003,9 +1003,9 @@ extends kfe {
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         for (int i = pzc2.minX; i <= pzc2.maxX; ++i) {
             for (int j = pzc2.minZ; j <= pzc2.maxZ; ++j) {
-                if (!world.method_8393(i >> 4, j >> 4)) continue;
+                if (!world.isChunkLoaded(i >> 4, j >> 4)) continue;
                 for (int k = pzc2.minY; k <= pzc2.maxY; ++k) {
-                    if (!nfl.nkc(world.method_8320((BlockPos)mutable.method_10103(i, k, j)))) continue;
+                    if (!nfl.nkc(world.getBlockState((BlockPos)mutable.set(i, k, j)))) continue;
                     ++n;
                 }
             }
@@ -1044,16 +1044,16 @@ extends kfe {
     }
 
     private void nkq(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        this.nhy = minecraftClient.field_1687;
+        this.nhy = minecraftClient.world;
         this.nhz = clientPlayerEntity;
-        this.nia = clientPlayerEntity.method_73189();
+        this.nia = clientPlayerEntity.getEntityPos();
         this.nib = false;
         this.nic = false;
-        minecraftClient.method_1562().method_45730(a.b("\u6f17\u16a9", -523538572) + this.nhv);
+        minecraftClient.getNetworkHandler().sendChatCommand(a.b("\u6f17\u16a9", -523538572) + this.nhv);
     }
 
     private boolean nkr(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        return minecraftClient.field_1687 != this.nhy || clientPlayerEntity != this.nhz || this.nia != null && clientPlayerEntity.method_73189().method_1022(this.nia) > 48.0;
+        return minecraftClient.world != this.nhy || clientPlayerEntity != this.nhz || this.nia != null && clientPlayerEntity.getEntityPos().distanceTo(this.nia) > 48.0;
     }
 
     private void nks(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
@@ -1088,7 +1088,7 @@ extends kfe {
     }
 
     private void nkt(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
-        if (minecraftClient.field_1755 != null && !(minecraftClient.field_1755 instanceof DeathScreen)) {
+        if (minecraftClient.currentScreen != null && !(minecraftClient.currentScreen instanceof DeathScreen)) {
             if (l - this.nhq > 20000L) {
                 this.nly(nff.DECIDE);
             }
@@ -1102,7 +1102,7 @@ extends kfe {
             this.nhh.put(this.nhr, pzp2.pos());
             this.nlw(this.nhr, pzp2, l, this.nhx);
             this.nhx = false;
-            if (pzp2.pos().method_1022(clientPlayerEntity.method_73189()) <= 12.0) {
+            if (pzp2.pos().distanceTo(clientPlayerEntity.getEntityPos()) <= 12.0) {
                 this.nkx(clientPlayerEntity);
             }
             this.nly(nff.DECIDE);
@@ -1125,12 +1125,12 @@ extends kfe {
             string2 = string2.substring(1);
         }
         if (!string2.isEmpty()) {
-            minecraftClient.method_1562().method_45730(string2);
+            minecraftClient.getNetworkHandler().sendChatCommand(string2);
         }
         ++this.nig;
         this.nif = l;
-        this.nih = clientPlayerEntity.method_73189();
-        this.nii = minecraftClient.field_1687;
+        this.nih = clientPlayerEntity.getEntityPos();
+        this.nii = minecraftClient.world;
         this.nij = clientPlayerEntity;
         this.nik = 0L;
         this.nil = false;
@@ -1141,9 +1141,9 @@ extends kfe {
         if (this.nim == 0L) {
             long l2;
             boolean bl;
-            boolean bl2 = minecraftClient.field_1687 != this.nii || clientPlayerEntity != this.nij || clientPlayerEntity.method_73189().method_1022(this.nih) > 2.5;
+            boolean bl2 = minecraftClient.world != this.nii || clientPlayerEntity != this.nij || clientPlayerEntity.getEntityPos().distanceTo(this.nih) > 2.5;
             Vec3d vec3d = this.nhh.get(this.nhr);
-            boolean bl3 = bl = this.nik > 0L && l > this.nik + 1500L && vec3d != null && vec3d.method_1022(clientPlayerEntity.method_73189()) <= 14.0;
+            boolean bl3 = bl = this.nik > 0L && l > this.nik + 1500L && vec3d != null && vec3d.distanceTo(clientPlayerEntity.getEntityPos()) <= 14.0;
             if (bl2 || bl) {
                 this.nim = l;
                 this.nkx(clientPlayerEntity);
@@ -1215,7 +1215,7 @@ extends kfe {
         if (!this.njf && this.nht) {
             this.nla(clientPlayerEntity);
         }
-        boolean bl4 = bl3 = this.njf || clientPlayerEntity.method_5765();
+        boolean bl4 = bl3 = this.njf || clientPlayerEntity.hasVehicle();
         if (!bl3 && this.njr % 20 == 0 && this.nls(minecraftClient, clientPlayerEntity, l)) {
             return;
         }
@@ -1225,10 +1225,10 @@ extends kfe {
         pzp pzp2 = pzw.read(minecraftClient, 72.0);
         qqm qqm2 = this.ngx.entry(this.nhr);
         boolean bl5 = bl2 = qqm2 != null && l > qqm2.refreshAt + 2500L;
-        if (pzp2 == null || pzp2.pos().method_1022(clientPlayerEntity.method_73189()) > 36.0) {
+        if (pzp2 == null || pzp2.pos().distanceTo(clientPlayerEntity.getEntityPos()) > 36.0) {
             boolean bl6;
             Vec3d vec3d = this.nhh.get(this.nhr);
-            boolean bl7 = bl6 = bl3 || vec3d != null && vec3d.method_1022(clientPlayerEntity.method_73189()) <= 36.0;
+            boolean bl7 = bl6 = bl3 || vec3d != null && vec3d.distanceTo(clientPlayerEntity.getEntityPos()) <= 36.0;
             if (bl6 && bl2) {
                 this.niz = this.niy != null ? this.niy : qqm2.tier;
                 this.nlg(false);
@@ -1268,11 +1268,11 @@ extends kfe {
             return;
         }
         pzc pzc2 = this.nhg.get(this.nhr);
-        this.ngz.guard(pzc2 != null && pzc2.distanceTo(clientPlayerEntity.method_73189()) < 30.0 ? pzc2 : pzc.empty(clientPlayerEntity.method_24515()));
+        this.ngz.guard(pzc2 != null && pzc2.distanceTo(clientPlayerEntity.getEntityPos()) < 30.0 ? pzc2 : pzc.empty(clientPlayerEntity.getBlockPos()));
     }
 
     private void nlb(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
-        if (!clientPlayerEntity.method_24828() && !clientPlayerEntity.method_5765()) {
+        if (!clientPlayerEntity.isOnGround() && !clientPlayerEntity.hasVehicle()) {
             return;
         }
         BlockPos blockPos = nfl.nle(a.d("\u5231\u2b9b\ua14f\u3f2f\ub4ee\u3250\u881a\u01f8\u9fa1", -454491144, 1331646957));
@@ -1280,10 +1280,10 @@ extends kfe {
             this.nlc(a.c(-2032489325, "\ua8b1\ud108\u5fce\uc5a0\u4e76\uc8c4\u72e5\ufb60\u6124\uef8f\u6858\u9229\u1c80\u8545\u0f1a\u89ee\u33ac\ubc0f\u26b5\ua48f\u2df3\u5724\ud98c\u425a\uc434\u4ef3\uf74f\u7907\ue3e3\u65b4\uee89"), l);
             return;
         }
-        Vec3d vec3d = Vec3d.method_24953((Vec3i)blockPos);
+        Vec3d vec3d = Vec3d.ofCenter((Vec3i)blockPos);
         Vec3d vec3d2 = this.nhh.get(this.nhr);
-        if (vec3d2 != null && vec3d2.method_1022(vec3d) > 48.0 || vec3d.method_1022(clientPlayerEntity.method_73189()) > 48.0) {
-            this.nlc(a.b("\u6583\u1c31\u96e3\u08ee\u8333\u058a\ubfa8\u362f\ua872\u26db", 1024483784) + blockPos.method_23854() + a.d("\u6d25\u1080\u9a57\u042d\u8ff4\u094a\ub31d", 1962118724, -1142430906), l);
+        if (vec3d2 != null && vec3d2.distanceTo(vec3d) > 48.0 || vec3d.distanceTo(clientPlayerEntity.getEntityPos()) > 48.0) {
+            this.nlc(a.b("\u6583\u1c31\u96e3\u08ee\u8333\u058a\ubfa8\u362f\ua872\u26db", 1024483784) + blockPos.toShortString() + a.d("\u6d25\u1080\u9a57\u042d\u8ff4\u094a\ub31d", 1962118724, -1142430906), l);
             return;
         }
         pzc pzc2 = this.nld(minecraftClient, vec3d2, blockPos);
@@ -1291,7 +1291,7 @@ extends kfe {
         this.ngz.park(pzc2, blockPos, true);
         this.njf = true;
         if (this.njk == null) {
-            this.nma(a.b("\u35c5\u4c58\uc6fc\u5cee\ud323\u5188\uefba\u6648\uf816\u72db\uf502\u0f7b\u81dd\u181a\u9243\u14be\uaaed", -2062011956) + blockPos.method_23854(), vhz.NAV);
+            this.nma(a.b("\u35c5\u4c58\uc6fc\u5cee\ud323\u5188\uefba\u6648\uf816\u72db\uf502\u0f7b\u81dd\u181a\u9243\u14be\uaaed", -2062011956) + blockPos.toShortString(), vhz.NAV);
         }
     }
 
@@ -1309,18 +1309,18 @@ extends kfe {
             return pzc2;
         }
         if (vec3d != null) {
-            pzc pzc3 = pzc.detect((World)minecraftClient.field_1687, vec3d);
+            pzc pzc3 = pzc.detect((World)minecraftClient.world, vec3d);
             if (pzc3 != null) {
                 this.nhg.put(this.nhr, pzc3);
                 return pzc3;
             }
             for (Map.Entry<Integer, pzc> entry : this.nhg.entrySet()) {
                 Vec3d vec3d2 = this.nhh.get(entry.getKey());
-                if (entry.getKey() == this.nhr || vec3d2 == null || vec3d2.method_1022(vec3d) > 3.0) continue;
+                if (entry.getKey() == this.nhr || vec3d2 == null || vec3d2.distanceTo(vec3d) > 3.0) continue;
                 pzc pzc4 = entry.getValue();
-                int n = (int)Math.round(vec3d.field_1352 - vec3d2.field_1352);
-                int n2 = (int)Math.round(vec3d.field_1351 - vec3d2.field_1351);
-                int n3 = (int)Math.round(vec3d.field_1350 - vec3d2.field_1350);
+                int n = (int)Math.round(vec3d.x - vec3d2.x);
+                int n2 = (int)Math.round(vec3d.y - vec3d2.y);
+                int n3 = (int)Math.round(vec3d.z - vec3d2.z);
                 return new pzc(pzc4.minX + n, pzc4.minY + n2, pzc4.minZ + n3, pzc4.maxX + n, pzc4.maxY + n2, pzc4.maxZ + n3, pzc4.ores);
             }
         }
@@ -1333,7 +1333,7 @@ extends kfe {
             return null;
         }
         try {
-            return BlockPos.method_49637((double)Double.parseDouble(stringArray[0]), (double)Double.parseDouble(stringArray[1]), (double)Double.parseDouble(stringArray[2]));
+            return BlockPos.ofFloored((double)Double.parseDouble(stringArray[0]), (double)Double.parseDouble(stringArray[1]), (double)Double.parseDouble(stringArray[2]));
         }
         catch (NumberFormatException numberFormatException) {
             return null;
@@ -1345,7 +1345,7 @@ extends kfe {
         if (this.nht && this.ngz.status() != qdw.WORKING) {
             this.nla(clientPlayerEntity);
         }
-        if (this.njb % 20 == 0 && !clientPlayerEntity.method_5765() && this.nls(minecraftClient, clientPlayerEntity, l)) {
+        if (this.njb % 20 == 0 && !clientPlayerEntity.hasVehicle() && this.nls(minecraftClient, clientPlayerEntity, l)) {
             return;
         }
         if (this.njb % 3 != 0) {
@@ -1371,9 +1371,9 @@ extends kfe {
             return;
         }
         if (vec3d == null) {
-            vec3d = clientPlayerEntity.method_73189();
+            vec3d = clientPlayerEntity.getEntityPos();
         }
-        pzc pzc2 = pzc.detect((World)minecraftClient.field_1687, vec3d);
+        pzc pzc2 = pzc.detect((World)minecraftClient.world, vec3d);
         pzc pzc3 = this.nhg.get(this.nhr);
         if (pzc3 != null && pzc3.distanceTo(vec3d) > 30.0) {
             pzc3 = null;
@@ -1416,7 +1416,7 @@ extends kfe {
     private void nli(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
         int n;
         boolean bl;
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         if (this.nlp(minecraftClient, clientPlayerEntity, l)) {
             return;
         }
@@ -1452,7 +1452,7 @@ extends kfe {
                 this.nlz();
                 return;
             }
-            if (this.nit && this.njr % 400 == 0 && qpw.misplaced(playerInventory, qpw.targets(playerInventory, clientPlayerEntity.method_6079())) > 3) {
+            if (this.nit && this.njr % 400 == 0 && qpw.misplaced(playerInventory, qpw.targets(playerInventory, clientPlayerEntity.getOffHandStack())) > 3) {
                 this.nit = false;
             }
         }
@@ -1465,11 +1465,11 @@ extends kfe {
         if (this.nit && this.njr % 10 == 5 && l - this.niv > 3000L && !this.nha.busy()) {
             this.nll(minecraftClient, clientPlayerEntity, l);
         }
-        boolean bl2 = bl = minecraftClient.field_1761 != null && minecraftClient.field_1761.method_2923();
+        boolean bl2 = bl = minecraftClient.interactionManager != null && minecraftClient.interactionManager.isBreakingBlock();
         if (!this.nha.busy() && !bl && this.njr % 5 == 0 && l - this.njl > 5000L && (n = qof.empty(playerInventory)) <= 2) {
             if (qof.hasJunk(playerInventory, ngn)) {
                 this.nlj(clientPlayerEntity);
-                this.ngz.avoid(clientPlayerEntity.method_73189(), 1200);
+                this.ngz.avoid(clientPlayerEntity.getEntityPos(), 1200);
                 this.njl = l;
                 this.nje = false;
             } else if (!this.nje && n == 0 && !this.nit) {
@@ -1508,7 +1508,7 @@ extends kfe {
         pzc pzc2;
         this.nha.dropJunk(64);
         this.njo = new Object();
-        Vec3d vec3d2 = clientPlayerEntity.method_33571();
+        Vec3d vec3d2 = clientPlayerEntity.getEyePos();
         Vec3d vec3d3 = null;
         pzc pzc3 = pzc2 = this.nhr >= 0 ? this.nhg.get(this.nhr) : null;
         if (pzc2 == null) {
@@ -1516,19 +1516,19 @@ extends kfe {
         }
         if (pzc2 != null && pzc2.maxX >= pzc2.minX) {
             vec3d = pzc2.center();
-            d = vec3d2.field_1352 - vec3d.field_1352;
-            double d2 = vec3d2.field_1350 - vec3d.field_1350;
+            d = vec3d2.x - vec3d.x;
+            double d2 = vec3d2.z - vec3d.z;
             double d3 = Math.sqrt(d * d + d2 * d2);
             if (d3 > 1.5) {
                 vec3d3 = new Vec3d(d / d3, 0.0, d2 / d3);
             }
         }
         if (vec3d3 == null) {
-            vec3d = clientPlayerEntity.method_5828(1.0f);
-            d = Math.sqrt(vec3d.field_1352 * vec3d.field_1352 + vec3d.field_1350 * vec3d.field_1350);
-            vec3d3 = d < 0.1 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(vec3d.field_1352 / d, 0.0, vec3d.field_1350 / d);
+            vec3d = clientPlayerEntity.getRotationVec(1.0f);
+            d = Math.sqrt(vec3d.x * vec3d.x + vec3d.z * vec3d.z);
+            vec3d3 = d < 0.1 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(vec3d.x / d, 0.0, vec3d.z / d);
         }
-        this.njn = vec3d2.method_1031(vec3d3.field_1352 * 4.0, 2.2, vec3d3.field_1350 * 4.0);
+        this.njn = vec3d2.add(vec3d3.x * 4.0, 2.2, vec3d3.z * 4.0);
     }
 
     private void nlk(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
@@ -1537,32 +1537,32 @@ extends kfe {
         if (pzc2 == null && this.nkg()) {
             pzc2 = this.ngz.area();
         }
-        if (pzc2 == null || pzc2.maxX < pzc2.minX || pzc2.distanceTo(clientPlayerEntity.method_73189()) > 64.0) {
+        if (pzc2 == null || pzc2.maxX < pzc2.minX || pzc2.distanceTo(clientPlayerEntity.getEntityPos()) > 64.0) {
             qwo.clear();
             return;
         }
         if (this.njr % 10 == 0) {
-            qwo.scan((World)minecraftClient.field_1687, pzc2, clientPlayerEntity.method_33571());
+            qwo.scan((World)minecraftClient.world, pzc2, clientPlayerEntity.getEyePos());
         }
         qwo.focus(this.ngz.focus());
     }
 
     private void nll(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, long l) {
         boolean bl;
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        if (qpw.count(playerInventory, Items.field_22019) > 0 || qof.empty(playerInventory) > 0) {
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        if (qpw.count(playerInventory, Items.ANCIENT_DEBRIS) > 0 || qof.empty(playerInventory) > 0) {
             return;
         }
-        boolean bl2 = bl = !minecraftClient.field_1687.method_8390(ItemEntity.class, clientPlayerEntity.method_5829().method_1009(6.0, 3.0, 6.0), itemEntity -> itemEntity.method_6983().method_31574(Items.field_22019)).isEmpty();
+        boolean bl2 = bl = !minecraftClient.world.getEntitiesByClass(ItemEntity.class, clientPlayerEntity.getBoundingBox().expand(6.0, 3.0, 6.0), itemEntity -> itemEntity.getStack().isOf(Items.ANCIENT_DEBRIS)).isEmpty();
         if (!bl) {
             return;
         }
         int n = -1;
-        if (playerInventory.method_5438(32).method_31574(Items.field_8695) && playerInventory.method_5438(32).method_7947() == 1) {
+        if (playerInventory.getStack(32).isOf(Items.GOLD_INGOT) && playerInventory.getStack(32).getCount() == 1) {
             n = 32;
         } else {
             for (int i = 9; i < 36 && n < 0; ++i) {
-                if (!playerInventory.method_5438(i).method_31574(Items.field_8695) || playerInventory.method_5438(i).method_7947() != 1) continue;
+                if (!playerInventory.getStack(i).isOf(Items.GOLD_INGOT) || playerInventory.getStack(i).getCount() != 1) continue;
                 n = i;
             }
         }
@@ -1600,17 +1600,17 @@ extends kfe {
         if (this.nln() <= 0 || l < this.nir) {
             return null;
         }
-        if (qdz.trapped(clientPlayerEntity.method_73183(), clientPlayerEntity) != null) {
+        if (qdz.trapped(clientPlayerEntity.getEntityWorld(), clientPlayerEntity) != null) {
             return null;
         }
-        if (clientPlayerEntity.method_6032() < 3.0f && this.nlq(a.c(1760422779, "\ueb11\u92b8"), l)) {
+        if (clientPlayerEntity.getHealth() < 3.0f && this.nlq(a.c(1760422779, "\ueb11\u92b8"), l)) {
             return a.b("\u1547\u6cee", 1859523885);
         }
         int n = qpw.pickaxeDurability(clientPlayerEntity);
         if (n >= 0 && n < 190 && !this.nhd.repairFailed() && this.nlq(a.b("\u08e0\u7148\ufb91\u65e8", -1479407468), l)) {
             return a.d("\uf950\u80f8\u0a21\u9458", -1009286406, 1505131486);
         }
-        if (qpw.count(clientPlayerEntity.method_31548(), Items.field_8477) > 576 && this.nlq(a.c(-5401926, "\u92d6\ueb6a\u61b1\uffcc\u7419\uf2a9\u48f0\uc116"), l)) {
+        if (qpw.count(clientPlayerEntity.getInventory(), Items.DIAMOND) > 576 && this.nlq(a.c(-5401926, "\u92d6\ueb6a\u61b1\uffcc\u7419\uf2a9\u48f0\uc116"), l)) {
             return a.b("\u9909\ue0b5\u6a6e\uf413\u7fc6\uf976\u432f\ucac9", -2124179099);
         }
         if (qpw.food((PlayerEntity)clientPlayerEntity) < 3 && this.nlq(a.b("\ubff8\uc640\u4c93\ud2e9", -1445216358), l)) {
@@ -1628,7 +1628,7 @@ extends kfe {
         if (this.nls(minecraftClient, clientPlayerEntity, l)) {
             return true;
         }
-        if (qdz.trapped(clientPlayerEntity.method_73183(), clientPlayerEntity) != null) {
+        if (qdz.trapped(clientPlayerEntity.getEntityWorld(), clientPlayerEntity) != null) {
             return false;
         }
         this.ngz.stop(minecraftClient);
@@ -1682,7 +1682,7 @@ extends kfe {
         if (string == null || this.nha.busy()) {
             return false;
         }
-        if (this.njx() && this.nhr != this.nln() && qof.hasJunk(clientPlayerEntity.method_31548(), ngn) && l - this.njm > 15000L) {
+        if (this.njx() && this.nhr != this.nln() && qof.hasJunk(clientPlayerEntity.getInventory(), ngn) && l - this.njm > 15000L) {
             this.njm = l;
             this.ngz.stop(minecraftClient);
             this.nlj(clientPlayerEntity);
@@ -1696,7 +1696,7 @@ extends kfe {
         this.nht = false;
         this.nhs = -1;
         int n = this.nln();
-        if (this.nhd.atHome((World)minecraftClient.field_1687, clientPlayerEntity, 6.0)) {
+        if (this.nhd.atHome((World)minecraftClient.world, clientPlayerEntity, 6.0)) {
             if (this.njx()) {
                 this.nhr = n;
             }
@@ -1764,10 +1764,10 @@ extends kfe {
             case 1: {
                 long l2;
                 if (!this.nip) {
-                    if (l - this.nio < 1500L || minecraftClient.field_1755 != null && !(minecraftClient.field_1755 instanceof DeathScreen)) {
+                    if (l - this.nio < 1500L || minecraftClient.currentScreen != null && !(minecraftClient.currentScreen instanceof DeathScreen)) {
                         return;
                     }
-                    if (this.nhd.atHome((World)minecraftClient.field_1687, clientPlayerEntity, 6.0)) {
+                    if (this.nhd.atHome((World)minecraftClient.world, clientPlayerEntity, 6.0)) {
                         this.nin = 2;
                         this.nhd.begin(l);
                         this.nma(a.d("\u7b08\u02ac\u887c\u1218\u9dac\u1f7e\ua14c\u28c6\ub698\u3c22\ubbf5\u4180\ucb47\u72c2\ud8a5\u5a45\ue00e\u6fdd\uf179\u7727\ufe97\u84c1\u0a70\u91a9", 1407884293, 1144709942), vhz.CHECK);
@@ -1778,7 +1778,7 @@ extends kfe {
                     this.nkv(minecraftClient, clientPlayerEntity, l, a.b("\u8452\ufde4\u7735\ue94c", -662141890));
                     return;
                 }
-                boolean bl = minecraftClient.field_1687 != this.nii || clientPlayerEntity != this.nij || clientPlayerEntity.method_73189().method_1022(this.nih) > 2.5;
+                boolean bl = minecraftClient.world != this.nii || clientPlayerEntity != this.nij || clientPlayerEntity.getEntityPos().distanceTo(this.nih) > 2.5;
                 long l3 = l2 = this.nik > 0L ? this.nik + 5000L : this.nif + 12000L;
                 if (bl || this.nig >= 2 && (this.nil || l > l2)) {
                     this.nin = 2;
@@ -1801,15 +1801,15 @@ extends kfe {
     }
 
     private static int nlu(ClientPlayerEntity clientPlayerEntity) {
-        ItemStack itemStack = clientPlayerEntity.method_6047();
-        if (!itemStack.method_31573(ItemTags.field_42614)) {
-            int n = qof.bestPickaxe(clientPlayerEntity.method_31548());
-            ItemStack itemStack2 = itemStack = n >= 0 ? clientPlayerEntity.method_31548().method_5438(n) : clientPlayerEntity.method_6079();
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
+        if (!itemStack.isIn(ItemTags.PICKAXES)) {
+            int n = qof.bestPickaxe(clientPlayerEntity.getInventory());
+            ItemStack itemStack2 = itemStack = n >= 0 ? clientPlayerEntity.getInventory().getStack(n) : clientPlayerEntity.getOffHandStack();
         }
-        if (!itemStack.method_31573(ItemTags.field_42614) || itemStack.method_7936() <= 0) {
+        if (!itemStack.isIn(ItemTags.PICKAXES) || itemStack.getMaxDamage() <= 0) {
             return 1500;
         }
-        return Math.max(200, itemStack.method_7936() - 2);
+        return Math.max(200, itemStack.getMaxDamage() - 2);
     }
 
     private void nlv(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, boolean bl, String string, long l) {

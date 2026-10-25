@@ -80,7 +80,7 @@ final class fvb {
             fvb.fvl();
             fvb.fvp();
             fvb.fvq(kfx2);
-            fvd = minecraftClient.field_1724.method_24515();
+            fvd = minecraftClient.player.getBlockPos();
             fvb.fvu(minecraftClient, a.b("\ub13d\uc89a\u4258\udc3f\u57e6\ud154\u6b0b\ue2f2\u7ce6\uf609\u7196\u8bf5\u057c\u9c93\u169e\u9025\u2a7e\ua5e2\u3f55\ub903\u30ff\u4aa8\uc40a\u5fc8\ud9b0\u5373\uea8e\u6486\ufe7a\u7826\uf383\u0d55", -744246930));
             fvb.fvu(minecraftClient, a.b("\uf2e3\u8b44\u0186\u9fe1\u1438\u928a\u28d5\ua12c\u3f38\ub5d7\u3248\uc82b\u46a2\udf5c\u551e\ud3b1\u69b4\ue671\u7c8f\ufada\u732a\u0970\u87c5\u1c05\u9a69\u10bf\ua91e\u2701\ubdaf\u3bf5\ub04b\u4e8c\uc4c4", 291369649));
             fvb.fvu(minecraftClient, a.c(2137639030, "\uc864\ub1c3\u3b01\ua566\u2ebf\ua80d\u1252\u9bab\u05bf\u8f50\u08cf\uf2ac\u7c25\ue5db\u6f99\ue936\u5334\udcf6\u4608\uc05d\u49ad\u33f7\ubd42\u2682\ua0ee\u2a38\u9399\u1d86\u8724\u017b\u8ac2\u7427\ufe40\u67a7\ue1f9\u6b48\ud4ac\u5ef1\ud838\u4187\ucbd1\ub515\u3f7b\ub8cd\u2218\uac63\u15b7\u9f0f\u191a\u8298\u0cea\uf626\u7f97\uf9da\u631c\ued6b\u56c9\ud00c\u5a62\uc3b2\u4d1f\u3765\ub0bd\u3afd\ua42f\u2d92\u978f\u113f\u9b7e\u04c7\u8e02\u0873\uf1be\u7b09\ue558\u6ebf\ue8a1\u5271\udbdb\u41b0\ucb7a\u4d24\u369d\ub843\u2621\uaffe\u2943\u9312\u1ce3\u86bc\u000f\u89d0\u73a9\ufd78\u66b4\ue0c5\u6a0a"));
@@ -90,8 +90,8 @@ final class fvb {
         if (n == 20) {
             BlockPos blockPos = pte.find(minecraftClient, fvd, a.c(1428921349, "\u9838\ue18c\u6b50\uf52b\u7ef3"), a.b("\u0da8\u7411\ufec5\u60be\ueb65\u6dd8\ud78f", -2026829422));
             BlockPos blockPos2 = pte.find(minecraftClient, fvd, a.b("\u75ee\u0c2f\u868d\u1882\u932a", 173896106));
-            fvb.fvr(a.c(-1752077886, "\u6990\u1037\u9ae9\u0498\u8f03\u09e1\ub3a8\u3a57\ua401\u2efe\ua960\u531d\uddd9\u4471\uce3a\u4898\uf283\u7d4e\ue7f0\u61e4\ue850\u920a\u1cb4\u8773\u010b\u8b8e\u3274\ubc38\u269b\ua082\u2b38\ud5e6\u5fa0\uc645\u4045\ucabb\u756d"), fvd.method_10069(2, 1, 4).equals((Object)blockPos), String.valueOf(blockPos));
-            fvb.fvr(a.c(-1459945252, "\u0089\u793f\uf3f9\u6d87\ue65a\u60e6\udab2\u534a\ucd52\u47b0\uc079\u3a06\ub4d8\u2d27\ua739\u21c4\u9b98\u1450\u8efb\u08f9\u815a\ufb17\u75a9\uee3d\u6801\ue2db\u5b65\ud522\u4fd2\uc9d7\u4231\ubcfb\u36be\uaf4e\u290a\ua3e9\u1c77\u961b"), fvd.method_10069(-2, 0, 4).equals((Object)blockPos2), String.valueOf(blockPos2));
+            fvb.fvr(a.c(-1752077886, "\u6990\u1037\u9ae9\u0498\u8f03\u09e1\ub3a8\u3a57\ua401\u2efe\ua960\u531d\uddd9\u4471\uce3a\u4898\uf283\u7d4e\ue7f0\u61e4\ue850\u920a\u1cb4\u8773\u010b\u8b8e\u3274\ubc38\u269b\ua082\u2b38\ud5e6\u5fa0\uc645\u4045\ucabb\u756d"), fvd.add(2, 1, 4).equals((Object)blockPos), String.valueOf(blockPos));
+            fvb.fvr(a.c(-1459945252, "\u0089\u793f\uf3f9\u6d87\ue65a\u60e6\udab2\u534a\ucd52\u47b0\uc079\u3a06\ub4d8\u2d27\ua739\u21c4\u9b98\u1450\u8efb\u08f9\u815a\ufb17\u75a9\uee3d\u6801\ue2db\u5b65\ud522\u4fd2\uc9d7\u4231\ubcfb\u36be\uaf4e\u290a\ua3e9\u1c77\u961b"), fvd.add(-2, 0, 4).equals((Object)blockPos2), String.valueOf(blockPos2));
         }
         if (n == 24) {
             wap.set(wam.EN);
@@ -101,7 +101,7 @@ final class fvb {
             fvb.fvv(minecraftClient, a.b("\u2498\u5d2e\ud7ee\u4980\uc217\u44e7\ufeb7\u7746\ue902\u63ea\ue463\u1e04\u90c0\u0967\u8335\u05cf\ubfc3\u305a\uaae2", 1708270829));
         }
         if (n == 37) {
-            minecraftClient.method_1507(null);
+            minecraftClient.setScreen(null);
             wap.set(wam.RU);
             fvb.fvs(minecraftClient, kfx2.get(mpq.class).lootList());
         }
@@ -109,11 +109,11 @@ final class fvb {
             fvb.fvv(minecraftClient, a.d("\u2ce0\u5556\udf96\u41f8\uca6f\u4c9f\uf6cf\u7f3e\ue17a\u6b92\uec09\u1673\u98ae\u0156\u8b5a\u0dac", 528783803, -796609235));
         }
         if (n == 50) {
-            fvb.fvt(minecraftClient.field_1755, a.d("\ud56d\uacae\u2676\ub804\u33aa", -69843545, -1833200499));
+            fvb.fvt(minecraftClient.currentScreen, a.d("\ud56d\uacae\u2676\ub804\u33aa", -69843545, -1833200499));
         }
         if (n == 58) {
             fvb.fvv(minecraftClient, a.c(-432105100, "\u9906\ue0b0\u6a70\uf41e\u7f89\uf979\u4329\ucad8\u549c\ude74\u59ef\ua395\u2d48\ub4b0\u3ebd\ub85a\u0211\u8dd3\u1771\u912b"));
-            minecraftClient.method_1507(null);
+            minecraftClient.setScreen(null);
         }
         if (n == 60 || n == 116) {
             wap.set(n == 60 ? wam.RU : wam.EN);
@@ -139,7 +139,7 @@ final class fvb {
         }
         if (n == 142) {
             fvb.fvv(minecraftClient, a.b("\u34fb\u4d4d\uc78d\u59e3\ud274\u549c\ueed4\u6725\uf979\u73d0\uf41e\u0e76\u80fc\u1905\u935d", -469748590));
-            minecraftClient.method_1507(null);
+            minecraftClient.setScreen(null);
             wap.set(wam.RU);
         }
         if (n == 146) {
@@ -150,7 +150,7 @@ final class fvb {
     }
 
     private static double[] fvg(MinecraftClient minecraftClient, Class<? extends kfe> clazz) throws Exception {
-        Object object = minecraftClient.field_1755;
+        Object object = minecraftClient.currentScreen;
         if (!(object instanceof hlc)) {
             return null;
         }
@@ -173,17 +173,17 @@ final class fvb {
     private static void fvh(MinecraftClient minecraftClient, Class<? extends kfe> clazz, int n) throws Exception {
         double[] dArray = fvb.fvg(minecraftClient, clazz);
         if (dArray != null) {
-            minecraftClient.field_1755.method_25402(new Click(dArray[0], dArray[1], new MouseInput(n, 0)), false);
+            minecraftClient.currentScreen.mouseClicked(new Click(dArray[0], dArray[1], new MouseInput(n, 0)), false);
         }
     }
 
     private static void fvi(MinecraftClient minecraftClient, Class<? extends kfe> clazz) throws Exception {
         double[] dArray = fvb.fvg(minecraftClient, clazz);
         if (dArray != null) {
-            double d = minecraftClient.method_22683().method_4495();
+            double d = minecraftClient.getWindow().getScaleFactor();
             double d2 = dArray[0] * d;
             double d3 = dArray[1] * d;
-            long l = minecraftClient.method_22683().method_4490();
+            long l = minecraftClient.getWindow().getHandle();
             GLFWCursorPosCallback gLFWCursorPosCallback = GLFW.glfwSetCursorPosCallback((long)l, null);
             GLFW.glfwSetCursorPosCallback((long)l, (GLFWCursorPosCallbackI)gLFWCursorPosCallback);
             GLFW.glfwSetCursorPos((long)l, (double)d2, (double)d3);
@@ -216,7 +216,7 @@ final class fvb {
             field2.setAccessible(true);
             field2.setFloat(null, Float.NaN);
         }
-        minecraftClient.method_1507((Screen)new hlc());
+        minecraftClient.setScreen((Screen)new hlc());
     }
 
     private static void fvl() {
@@ -224,27 +224,27 @@ final class fvb {
         List<String> list2 = List.of(ppu.END_DEFAULTS);
         fvb.fvr(a.d("\uee70\u97d7\u1d17\u8370\u08a6\u8e1c\u3401\ubdbc\u23e6\ua94d\u2e99\ud4bc\u5a23\uc39b\u49da\ucf78\u7522\ufaf1\u6055\ue648\u6fba\u15ec\u9b54\u0093", 1971120378, 1994196709), list.size() == 57, String.valueOf(list.size()));
         fvb.fvr(a.c(981350604, "\u38bc\u4106\ucbdf\u55ea\ude71\u58c5\ue28c\u6b7a\uf571\u7f88\uf852\u0231\u8cb5\u1511\u9f4e\u19a6\ua3a5\u2c71\ub6c5\u309f\ub97e"), list2.size() == 59, String.valueOf(list2.size()));
-        fvb.fvm(a.d("\u181a\u61a2\ueb64\u7518\ufec9\u786b", -1562568576, 1620639993), new ItemStack((ItemConvertible)Items.field_8833), true, true);
-        fvb.fvm(a.c(-876147091, "\u0e0c\u77b6\ufd74\u6319\ue8c3\u6e65\ud42d\u5dc1\uc38f\u497b\uceea\u3496\uba41\u23eb\ua9bf"), new ItemStack((ItemConvertible)Items.field_22030), true, true);
-        fvb.fvm(a.c(-54121679, "\u2b5b\u52e1\ud83f\u4645\ucd9b\u4b25\uf16c\u788c\ue6d2\u6c27\uebb5\u11d5\u9f02\u06af\u8cf5"), new ItemStack((ItemConvertible)Items.field_8367), true, true);
-        fvb.fvm(a.c(-102886311, "\u1422\u6d9e\ue746\u7924\uf2fc\u7457\uce50\u47f5\ud9bf\u5303\ud4d5\u2ebe\ua077\u39ca\ub396"), fvb.fvn(Items.field_8288, a.c(-1371863710, "\u052a\u5ac5\uf64e\u6842\ue797\u6134\udb6c\u529e\uccb8\u4674\uc1ab\u3bd7\ub11d\u2cae\ua6e7\u206e\u9a51\u158d\u8f33")), true, true);
-        fvb.fvm(a.b("\uf454\u8df6\u0722\u9958\u12d6\u9433\u2e75\ua789\u39d3\ub378\u34b5\ucec8\u4010\ud9f5\u53bc\ud528\u6f4c\ue097\u7a60\ufc7e\u7588\u0fdb\u817d", 1648882725), fvb.fvn(Items.field_8288, a.c(-1202624810, "\u669e\u3971\u95fa\u0bf6\u8423\u0280\ub8d8\u312a\uaf0c\u25c0\ua21f\u5863\ud2a9\u4f17\uc52b\u43a4\uf994\u7646\uec8f")), false, true);
-        fvb.fvm(a.d("\u26fe\u5f43\ud592\u4be5\uc077\u468e\ufcd0\u7525\ueb7f\u6190\ue659\u1c4d\u92b1\u0b0a\u811d\u07a3\ubded\u323e\ua898", -1636613435, 184837189), new ItemStack((ItemConvertible)Items.field_49813), false, true);
-        fvb.fvm(a.c(-48757466, "\u0542\u7ce2\uf62c\u684b\ue38f\u657f\udf7f\u568d\uc8ca\u4276\uc5b2\u3fd4"), fvb.fvn(Items.field_8575, a.d("\uda37\u85d8\u2953\ub75f\u3889\ube5d\u047f\u8dfb\u13d4\u9d75\u1e95\ue4cf\u6a14\uf3d1\u7989", 1016128547, 1326267968)), true, true);
-        fvb.fvm(a.c(-608273165, "\u7c98\u052f\u8fef\u118f\u9a08\u1cb1\ua6b9\u2f58\ub116\u3bb4\ubc76\u4657\uc8d7\u5178\udb36\u5ddb\ue7dc\u6859\uf2f6\u74aa\ufd18\u870a\u09bb\u926c\u1411\u9e85\u2775\ua926\u33c3\ub595\u3e7b"), fvb.fvo(Items.field_22021, a.c(-885893216, "\u57f1\u081e\ua495\u3a99\ub54c\u339f\u89bcB\u9e18\u14a3"), a.b("\u38e7\u417c\ucbde\u55ac\uda03\u5ca8\ue2c6\u6b1f\uf535\u7f87\uf85f\u025e\u8c8d\u1530\u9f1c\u1d82\ua3d7\u2c07\ub6ba\u309c\ub913\uc348", 1345207531)), true, true);
-        fvb.fvr(a.c(-1230220475, "\u5339\u2ac9\ua04e\u3e39\ub5fd\u335d\u895e\u00e6\u9ea3\u1441\u93dc\u69ac\ue760\u7e85\uf498\u7262\uc83c\u47f1\udd4f\u5b09\ud2e5\ua8a9\u260b\ubd9f\u3bb3\ub172\u08d0\u8692\u1c74"), !ppu.picked(fvb.fvo(Items.field_22021, a.c(-1588496992, "\u75f1\u2a1e\u8695\u1899\u974c\u119f\uabbc\u2242\ubc18\u36a3"), a.c(1158358909, "\u2371\u5aea\ud048\u4e3a\uc195\u473e\uf950\u7089\ueea3\u6411\ue3c9\u19c8\u971b\u0ea6\u848a\u0614\ub841\u3791\uad2c\u2b0a\ua285\ud8de")), Set.of(a.c(1106050426, "\ufd1b\u84a1\u0e63\u900e\u1bd4\u9d72\u273a\uaed6\u3098\uba13\u3dec\uc78d\u494b\ud0e9\u5aab"))), "");
-        fvb.fvr(a.d("\u55af\u2c02\ua6dc\u38a5\ub375\u358a\u8f8a\u066b\u9825\u1287\u9545\u6f64\ue1fa\u7851\uf251\u74ee\uceaa\u416a\udbc5\u5d99\ud479\uae33\u209d\ubb5d\u3d67\ub7e5\u0e46\u8006\u1ae2\u9ca2", 1943216333, 1028748556), ppu.picked(new ItemStack((ItemConvertible)Items.field_22021), Set.of(a.c(-874594990, "\ubd33\uc489\u4e4b\ud026\u5bfc\udd5a\u6712\ueefe\u70b0\ufa3b\u7dc4\u87a5\u0963\u90c1\u1a83"))), "");
-        ItemStack itemStack = fvb.fvo(Items.field_8626, a.b("\u3eef\u6100\ucd8b\u5387\udc61\u5afa\ue0df\u6959", -692568388), a.b("\u35a3\u4c0c\uc6de\u58d0\ud378\u55c6\uef91\u6668\ufc2a\u7289\uf55f\u0f27\u818e\u184d\u921c\u149f\uaede\u2563\ubbce\u3d90\ub417\uce3f\u4080\udb5d\u5d2a\ud7f6", -1549127272));
+        fvb.fvm(a.d("\u181a\u61a2\ueb64\u7518\ufec9\u786b", -1562568576, 1620639993), new ItemStack((ItemConvertible)Items.ELYTRA), true, true);
+        fvb.fvm(a.c(-876147091, "\u0e0c\u77b6\ufd74\u6319\ue8c3\u6e65\ud42d\u5dc1\uc38f\u497b\uceea\u3496\uba41\u23eb\ua9bf"), new ItemStack((ItemConvertible)Items.NETHERITE_BOOTS), true, true);
+        fvb.fvm(a.c(-54121679, "\u2b5b\u52e1\ud83f\u4645\ucd9b\u4b25\uf16c\u788c\ue6d2\u6c27\uebb5\u11d5\u9f02\u06af\u8cf5"), new ItemStack((ItemConvertible)Items.ENCHANTED_GOLDEN_APPLE), true, true);
+        fvb.fvm(a.c(-102886311, "\u1422\u6d9e\ue746\u7924\uf2fc\u7457\uce50\u47f5\ud9bf\u5303\ud4d5\u2ebe\ua077\u39ca\ub396"), fvb.fvn(Items.TOTEM_OF_UNDYING, a.c(-1371863710, "\u052a\u5ac5\uf64e\u6842\ue797\u6134\udb6c\u529e\uccb8\u4674\uc1ab\u3bd7\ub11d\u2cae\ua6e7\u206e\u9a51\u158d\u8f33")), true, true);
+        fvb.fvm(a.b("\uf454\u8df6\u0722\u9958\u12d6\u9433\u2e75\ua789\u39d3\ub378\u34b5\ucec8\u4010\ud9f5\u53bc\ud528\u6f4c\ue097\u7a60\ufc7e\u7588\u0fdb\u817d", 1648882725), fvb.fvn(Items.TOTEM_OF_UNDYING, a.c(-1202624810, "\u669e\u3971\u95fa\u0bf6\u8423\u0280\ub8d8\u312a\uaf0c\u25c0\ua21f\u5863\ud2a9\u4f17\uc52b\u43a4\uf994\u7646\uec8f")), false, true);
+        fvb.fvm(a.d("\u26fe\u5f43\ud592\u4be5\uc077\u468e\ufcd0\u7525\ueb7f\u6190\ue659\u1c4d\u92b1\u0b0a\u811d\u07a3\ubded\u323e\ua898", -1636613435, 184837189), new ItemStack((ItemConvertible)Items.HEAVY_CORE), false, true);
+        fvb.fvm(a.c(-48757466, "\u0542\u7ce2\uf62c\u684b\ue38f\u657f\udf7f\u568d\uc8ca\u4276\uc5b2\u3fd4"), fvb.fvn(Items.PLAYER_HEAD, a.d("\uda37\u85d8\u2953\ub75f\u3889\ube5d\u047f\u8dfb\u13d4\u9d75\u1e95\ue4cf\u6a14\uf3d1\u7989", 1016128547, 1326267968)), true, true);
+        fvb.fvm(a.c(-608273165, "\u7c98\u052f\u8fef\u118f\u9a08\u1cb1\ua6b9\u2f58\ub116\u3bb4\ubc76\u4657\uc8d7\u5178\udb36\u5ddb\ue7dc\u6859\uf2f6\u74aa\ufd18\u870a\u09bb\u926c\u1411\u9e85\u2775\ua926\u33c3\ub595\u3e7b"), fvb.fvo(Items.NETHERITE_SCRAP, a.c(-885893216, "\u57f1\u081e\ua495\u3a99\ub54c\u339f\u89bcB\u9e18\u14a3"), a.b("\u38e7\u417c\ucbde\u55ac\uda03\u5ca8\ue2c6\u6b1f\uf535\u7f87\uf85f\u025e\u8c8d\u1530\u9f1c\u1d82\ua3d7\u2c07\ub6ba\u309c\ub913\uc348", 1345207531)), true, true);
+        fvb.fvr(a.c(-1230220475, "\u5339\u2ac9\ua04e\u3e39\ub5fd\u335d\u895e\u00e6\u9ea3\u1441\u93dc\u69ac\ue760\u7e85\uf498\u7262\uc83c\u47f1\udd4f\u5b09\ud2e5\ua8a9\u260b\ubd9f\u3bb3\ub172\u08d0\u8692\u1c74"), !ppu.picked(fvb.fvo(Items.NETHERITE_SCRAP, a.c(-1588496992, "\u75f1\u2a1e\u8695\u1899\u974c\u119f\uabbc\u2242\ubc18\u36a3"), a.c(1158358909, "\u2371\u5aea\ud048\u4e3a\uc195\u473e\uf950\u7089\ueea3\u6411\ue3c9\u19c8\u971b\u0ea6\u848a\u0614\ub841\u3791\uad2c\u2b0a\ua285\ud8de")), Set.of(a.c(1106050426, "\ufd1b\u84a1\u0e63\u900e\u1bd4\u9d72\u273a\uaed6\u3098\uba13\u3dec\uc78d\u494b\ud0e9\u5aab"))), "");
+        fvb.fvr(a.d("\u55af\u2c02\ua6dc\u38a5\ub375\u358a\u8f8a\u066b\u9825\u1287\u9545\u6f64\ue1fa\u7851\uf251\u74ee\uceaa\u416a\udbc5\u5d99\ud479\uae33\u209d\ubb5d\u3d67\ub7e5\u0e46\u8006\u1ae2\u9ca2", 1943216333, 1028748556), ppu.picked(new ItemStack((ItemConvertible)Items.NETHERITE_SCRAP), Set.of(a.c(-874594990, "\ubd33\uc489\u4e4b\ud026\u5bfc\udd5a\u6712\ueefe\u70b0\ufa3b\u7dc4\u87a5\u0963\u90c1\u1a83"))), "");
+        ItemStack itemStack = fvb.fvo(Items.TNT, a.b("\u3eef\u6100\ucd8b\u5387\udc61\u5afa\ue0df\u6959", -692568388), a.b("\u35a3\u4c0c\uc6de\u58d0\ud378\u55c6\uef91\u6668\ufc2a\u7289\uf55f\u0f27\u818e\u184d\u921c\u149f\uaede\u2563\ubbce\u3d90\ub417\uce3f\u4080\udb5d\u5d2a\ud7f6", -1549127272));
         fvb.fvr(a.d("\ubc99\uc526\u4ff8\ud18b\u5a54\udcae\u6689\uef62\u7127\ufbe2\u7c78\u8613\u0897\u9164\u1b39\u9dc5\u2788\ua851\u32a5\ub4f8\u3d41\u4711\uc9b9\u523c\ud414\u5eda\ue768\u6924\uf3c2\u75d6\ufe2a\u00e6\u8afb\u135a\u9515\u1fa9\ua076\u2a00", -216373198, 974509295), ppu.picked(itemStack, Set.of(a.d("\u3f4a\u46f5\ucc2b\u5258\ud987\u5f02\ue57a\u6c91\uf2d4", -1934723647, -360166688))) && !ppu.picked(itemStack, Set.of(a.c(-1383198576, "\u10ee\u6940\ue392\u7dfe\uf638\u70b3\ucacb\u4320\udd65"), a.c(548423481, "\u474e\u3ee5\ub42c"))), "");
-        fvb.fvr(a.b("\ua15f\ud8f2\u522c\ucc55\u4785\uc17a\u7b5d\uf2b6\u6cf3\ue636\u61ac\u9bc7\u1543\u8ca2\u06ed\u8011\u3a56\ub580\u2f7d\ua958\u20b5\u5afe", 927506745), ppu.picked(new ItemStack((ItemConvertible)Items.field_8626), Set.of(a.d("\u8ec7\uf76c\u7da5", -1160098614, 1384891002))) && !ppu.picked(new ItemStack((ItemConvertible)Items.field_8626), Set.of(a.b("\u624c\u1be2\u9130\u0f5c\u849a\u0211\ub869\u3182\uafc7", 325935666), a.d("\u4f36\u3689\ubc57\u2224\ua9fb\u2f7e\u9506\u1ced\u82a8", -2025542650, -326442149))), "");
-        fvb.fvm(a.c(-1371588117, "\u398f\u403d\ucae2\u549b\udf57\u59ff\ue3a6\u6a5f"), fvb.fvn(Items.field_8366, a.c(-855751823, "\u433e\u1cd1\ub05a\u2e56\ua1bf\u2752\u9d7f\u14f9\u8aaaf\u87bf\u79de\uf313\u6eb8\ue0ea\u667e\udc40\u53e4\uc927\u4f7a")), true, true);
-        fvb.fvm(a.b("\ue2ab\u9b0c\u11cc\u8fbb\u0464\u82d4\u38c9\ub16b\u2f2c\ua59f\u224b", 1116594884), fvb.fvo(Items.field_8407, a.d("\uc095\u9f7a\u33f1\uadfd\u221e\ua4fb\u1ed8\u9723\u0978\u83ca\u041c\ufe6c\u74a2\ue972\u635a\ue5a9\u5fe3", -1523819686, -96953467), a.b("\ub7d2\uce4e\u449b\udae0\u5133\ud7f8\u6ddc\ue034\u7e67\uf0b1\u7767\u8d6a\u03b2\u9a79\u1441\u96af\u2ce1\ua335\u39fe\ubfab\u3623\u4c08\uc2b5\u5d08\udf43\u55c6\uec05\u625e\uf8ad\u7eff\uf549\u0b99\u85cf\u185f\u9e77\u14c4\uab16", 2072753130)), true, true);
-        fvb.fvm(a.c(-1393361415, "\ufd93\u8428\u0eee\u90c6\u1b5c\u9def\u27b7\uae4b\u301b\ubaa5\u3d7a\uc71c"), fvb.fvo(Items.field_8153, a.d("\u7d1e\u2255\u8e7a\u1076\u9f9d\u190e\ua357\u2aaa\ub489\u3e44\ub995\u43ee\ucd4b\u5486\udeab\u5c3a\ue26a\u6dba\uf70c\u7137\uf8d3\u82f0", -55062592, -731794797), a.d("\u77d8\u0e43\u84ef\u1a9d\u914b\u1786\ua9ca\u2421\ube64\u34da\ub340\u493b\uc7f9", 848060730, -256896261)), true, true);
-        fvb.fvm(a.c(565637939, "\uf359\u8ae00\u9e49\u159f\u9325\u2938\ua08a\u3ed7\ub475\u33a6\uc9ca\u4706"), new ItemStack((ItemConvertible)Items.field_8071), true, true);
-        fvb.fvm(a.d("\u620e\u1bbc\u9178\u0f16\u84c9\u0273\ub83a\u31da\uaf84\u2571\ua2e7\u588a\ud641", -431120216, -969096499), new ItemStack((ItemConvertible)Items.field_8711), true, true);
-        fvb.fvr(a.d("\u8c30\uf5c0\u7f43\ue12e\u6af4\uec4d\u5619\udfa6\u41ad\ucb07\u4ccf\ub6af\u3870\ua18c\u2b96\uad7d\u1761\u98fe\u024c\u8452\u0de9\u77bd\uf909\u62d3", -1178905405, -1584473974), !ppu.known(new ItemStack((ItemConvertible)Items.field_8288)), "");
-        fvb.fvr(a.b("\u9a83\ue33f\u69f7\uf780\u7c03\ufafb\u40b2\uc910\u5701\uddb1\u5a2d\ua010\u2ec2\ub774\u3d2c", -1386439960), !ppu.known(new ItemStack((ItemConvertible)Items.field_8831)), "");
-        fvb.fvr(a.c(-1379258625, "\u2e84\u5774\uddf7\u439a\uc840\u4ef9\uf4ad\u7d12\ue30b\u69b9\uee6e\u140a\u9ac1\u037d\u8939\u0f9a\ub59c\u3a57\ua0b7\u26a8\uaf5e\ud540\u5bbf\uc06b\u4613\uccc9"), !ppu.known(new ItemStack((ItemConvertible)Items.field_8153)), "");
+        fvb.fvr(a.b("\ua15f\ud8f2\u522c\ucc55\u4785\uc17a\u7b5d\uf2b6\u6cf3\ue636\u61ac\u9bc7\u1543\u8ca2\u06ed\u8011\u3a56\ub580\u2f7d\ua958\u20b5\u5afe", 927506745), ppu.picked(new ItemStack((ItemConvertible)Items.TNT), Set.of(a.d("\u8ec7\uf76c\u7da5", -1160098614, 1384891002))) && !ppu.picked(new ItemStack((ItemConvertible)Items.TNT), Set.of(a.b("\u624c\u1be2\u9130\u0f5c\u849a\u0211\ub869\u3182\uafc7", 325935666), a.d("\u4f36\u3689\ubc57\u2224\ua9fb\u2f7e\u9506\u1ced\u82a8", -2025542650, -326442149))), "");
+        fvb.fvm(a.c(-1371588117, "\u398f\u403d\ucae2\u549b\udf57\u59ff\ue3a6\u6a5f"), fvb.fvn(Items.TRIPWIRE_HOOK, a.c(-855751823, "\u433e\u1cd1\ub05a\u2e56\ua1bf\u2752\u9d7f\u14f9\u8aaaf\u87bf\u79de\uf313\u6eb8\ue0ea\u667e\udc40\u53e4\uc927\u4f7a")), true, true);
+        fvb.fvm(a.b("\ue2ab\u9b0c\u11cc\u8fbb\u0464\u82d4\u38c9\ub16b\u2f2c\ua59f\u224b", 1116594884), fvb.fvo(Items.PAPER, a.d("\uc095\u9f7a\u33f1\uadfd\u221e\ua4fb\u1ed8\u9723\u0978\u83ca\u041c\ufe6c\u74a2\ue972\u635a\ue5a9\u5fe3", -1523819686, -96953467), a.b("\ub7d2\uce4e\u449b\udae0\u5133\ud7f8\u6ddc\ue034\u7e67\uf0b1\u7767\u8d6a\u03b2\u9a79\u1441\u96af\u2ce1\ua335\u39fe\ubfab\u3623\u4c08\uc2b5\u5d08\udf43\u55c6\uec05\u625e\uf8ad\u7eff\uf549\u0b99\u85cf\u185f\u9e77\u14c4\uab16", 2072753130)), true, true);
+        fvb.fvm(a.c(-1393361415, "\ufd93\u8428\u0eee\u90c6\u1b5c\u9def\u27b7\uae4b\u301b\ubaa5\u3d7a\uc71c"), fvb.fvo(Items.FEATHER, a.d("\u7d1e\u2255\u8e7a\u1076\u9f9d\u190e\ua357\u2aaa\ub489\u3e44\ub995\u43ee\ucd4b\u5486\udeab\u5c3a\ue26a\u6dba\uf70c\u7137\uf8d3\u82f0", -55062592, -731794797), a.d("\u77d8\u0e43\u84ef\u1a9d\u914b\u1786\ua9ca\u2421\ube64\u34da\ub340\u493b\uc7f9", 848060730, -256896261)), true, true);
+        fvb.fvm(a.c(565637939, "\uf359\u8ae00\u9e49\u159f\u9325\u2938\ua08a\u3ed7\ub475\u33a6\uc9ca\u4706"), new ItemStack((ItemConvertible)Items.GOLDEN_CARROT), true, true);
+        fvb.fvm(a.d("\u620e\u1bbc\u9178\u0f16\u84c9\u0273\ub83a\u31da\uaf84\u2571\ua2e7\u588a\ud641", -431120216, -969096499), new ItemStack((ItemConvertible)Items.FERMENTED_SPIDER_EYE), true, true);
+        fvb.fvr(a.d("\u8c30\uf5c0\u7f43\ue12e\u6af4\uec4d\u5619\udfa6\u41ad\ucb07\u4ccf\ub6af\u3870\ua18c\u2b96\uad7d\u1761\u98fe\u024c\u8452\u0de9\u77bd\uf909\u62d3", -1178905405, -1584473974), !ppu.known(new ItemStack((ItemConvertible)Items.TOTEM_OF_UNDYING)), "");
+        fvb.fvr(a.b("\u9a83\ue33f\u69f7\uf780\u7c03\ufafb\u40b2\uc910\u5701\uddb1\u5a2d\ua010\u2ec2\ub774\u3d2c", -1386439960), !ppu.known(new ItemStack((ItemConvertible)Items.DIRT)), "");
+        fvb.fvr(a.c(-1379258625, "\u2e84\u5774\uddf7\u439a\uc840\u4ef9\uf4ad\u7d12\ue30b\u69b9\uee6e\u140a\u9ac1\u037d\u8939\u0f9a\ub59c\u3a57\ua0b7\u26a8\uaf5e\ud540\u5bbf\uc06b\u4613\uccc9"), !ppu.known(new ItemStack((ItemConvertible)Items.FEATHER)), "");
         fvb.fvr(a.d("\u9b4a\ue2e7\u6839\uf60d\u7da8\ufb3e\u416b\uc89a\u56df\udc66\u5bba\ua185\u2f1c\ub6a2\u3cfd\uba04\u000e\u8f96\u1522\u933d\u1ab8\u60ce\uee7b\u75aa\uf3cf\u7916\uc0aa", 895776694, -602608493), ppu.byId((String)a.d((String)"\uc4ff\ubd5b\u3785\ua9f1\u223c\ua493\u1ecc\u9732\u095c\u83c6\u0418\ufe62\u70a6\ue918\u6351", (int)-158138273, (int)1121240283)).name.equals(a.c(-50827258, "\u742b\u0d88\u8750\u1922\u928c\u1440\uae1f\u27e3\ubda1\u3312\ub4db\u4ed2\uc075\u59c9\ud397")), "");
     }
 
@@ -256,13 +256,13 @@ final class fvb {
 
     private static ItemStack fvn(Item item, String string) {
         ItemStack itemStack = new ItemStack((ItemConvertible)item);
-        itemStack.method_57379(DataComponentTypes.field_49631, (Object)Text.method_43470((String)string));
+        itemStack.set(DataComponentTypes.CUSTOM_NAME, (Object)Text.literal((String)string));
         return itemStack;
     }
 
     private static ItemStack fvo(Item item, String string, String string2) {
         ItemStack itemStack = fvb.fvn(item, string);
-        itemStack.method_57379(DataComponentTypes.field_49632, (Object)new LoreComponent(List.of(Text.method_43470((String)string2))));
+        itemStack.set(DataComponentTypes.LORE, (Object)new LoreComponent(List.of(Text.literal((String)string2))));
         return itemStack;
     }
 
@@ -330,24 +330,24 @@ final class fvb {
         fvb.fvk(minecraftClient, a.b("\u5b54\u22d9\ua807\u366e\ubda5\u3b03", 1179540226));
         Method method = hlc.class.getDeclaredMethod(a.b("\u8253\ufbfd\u713b\uef41\u64a8\ue220\u5879\ud180\u4fd1\uc577", -2008448458), vlj.class);
         method.setAccessible(true);
-        method.invoke((Object)minecraftClient.field_1755, vlj2);
+        method.invoke((Object)minecraftClient.currentScreen, vlj2);
     }
 
     private static void fvt(Screen screen, String string) {
         if (screen != null) {
             for (char c : string.toCharArray()) {
-                screen.method_25400(new CharInput((int)c, 0));
+                screen.charTyped(new CharInput((int)c, 0));
             }
         }
     }
 
     private static void fvu(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void fvv(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.d("\uec53\u95f4\u1f2e\u8155\u0ac4\u8c21\u3663\ubf84\u21dc\uab39", -1513393298, 2127535940) + string + a.c(-1309758798, "\uaa91\ud340\u59f3") + minecraftClient.method_47599() + a.d("\u25a3\u5c54\ud691\u48e3", 820680132, -1706774461));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.c(-1820769666, "\u421e\u3ba5\ub175\u2f1c\ua48e\u2220") + string + a.b("\u6b39\u12d6\u981b\u0663", 1241148179)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.d("\uec53\u95f4\u1f2e\u8155\u0ac4\u8c21\u3663\ubf84\u21dc\uab39", -1513393298, 2127535940) + string + a.c(-1309758798, "\uaa91\ud340\u59f3") + minecraftClient.getCurrentFps() + a.d("\u25a3\u5c54\ud691\u48e3", 820680132, -1706774461));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.c(-1820769666, "\u421e\u3ba5\ub175\u2f1c\ua48e\u2220") + string + a.b("\u6b39\u12d6\u981b\u0663", 1241148179)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int ri(int n, int n2) {

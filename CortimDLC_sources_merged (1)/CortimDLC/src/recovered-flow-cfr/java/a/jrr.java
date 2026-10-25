@@ -52,7 +52,7 @@ extends RotatingCubeMapRenderer {
         try {
             if (!jrs) {
                 jrs = true;
-                jrr.jse(minecraftClient.field_1773);
+                jrr.jse(minecraftClient.gameRenderer);
             }
             if (jru != null && unf.frame() - jrv > 30L) {
                 jru.close();
@@ -79,8 +79,8 @@ extends RotatingCubeMapRenderer {
     public static void uninstall(MinecraftClient minecraftClient) {
         jrt = true;
         try {
-            if (jrx != null && jrw != null && minecraftClient != null && minecraftClient.field_1773 != null && jrx.get(minecraftClient.field_1773) instanceof jrr) {
-                jrx.set(minecraftClient.field_1773, jrw);
+            if (jrx != null && jrw != null && minecraftClient != null && minecraftClient.gameRenderer != null && jrx.get(minecraftClient.gameRenderer) instanceof jrr) {
+                jrx.set(minecraftClient.gameRenderer, jrw);
             }
         }
         catch (Throwable throwable) {
@@ -97,32 +97,32 @@ extends RotatingCubeMapRenderer {
         }
     }
 
-    public void method_3317(DrawContext drawContext, int n, int n2, boolean bl) {
+    public void render(DrawContext context, int width, int height, boolean rotate) {
         jza jza2;
         if (dry.armed()) {
-            super.method_3317(drawContext, n, n2, bl);
+            super.render(context, width, height, rotate);
             return;
         }
         jza jza3 = jza2 = jrt ? null : jzh.get(kbs.selected().key);
         if (jza2 == null) {
-            super.method_3317(drawContext, n, n2, bl);
+            super.render(context, width, height, rotate);
             return;
         }
         try {
-            unf.observe(drawContext);
+            unf.observe(context);
             jrv = unf.frame();
             if (jru == null) {
                 jru = new kap();
             }
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
             long l = System.nanoTime();
             float f = this.jsb == 0L ? 0.0f : Math.min(0.1f, (float)(l - this.jsb) / 1.0E9f);
             this.jsb = l;
             float f2 = 1.0f - (float)Math.exp(-f * 2.2f);
-            double d = Math.max(1, minecraftClient.method_22683().method_4480());
-            double d2 = Math.max(1, minecraftClient.method_22683().method_4507());
-            this.jrz += ((float)(minecraftClient.field_1729.method_1603() / d) - 0.5f - this.jrz) * f2;
-            this.jsa += ((float)(minecraftClient.field_1729.method_1604() / d2) - 0.5f - this.jsa) * f2;
+            double d = Math.max(1, minecraftClient.getWindow().getWidth());
+            double d2 = Math.max(1, minecraftClient.getWindow().getHeight());
+            this.jrz += ((float)(minecraftClient.mouse.getX() / d) - 0.5f - this.jrz) * f2;
+            this.jsa += ((float)(minecraftClient.mouse.getY() / d2) - 0.5f - this.jsa) * f2;
             kbs kbs2 = kbs.selected();
             this.jry.time = kap.clock();
             this.jry.zoom = 1.05f;
@@ -134,14 +134,14 @@ extends RotatingCubeMapRenderer {
             this.jry.tintAmount = 0.3f;
             this.jry.fall = null;
             this.jry.pool = null;
-            if (!jru.draw(drawContext, jza2, this.jry, n, n2, 1.0f, false)) {
-                super.method_3317(drawContext, n, n2, bl);
+            if (!jru.draw(context, jza2, this.jry, width, height, 1.0f, false)) {
+                super.render(context, width, height, rotate);
             }
         }
         catch (Throwable throwable) {
             jrt = true;
             System.out.println(a.b("\u761f\u0fa6\u857e\u1b14\u9096\u1665\uac35\u25c6\ubb91\u312f\ub6ea\u4c86\uc24e\u5baf\ud1ba\u574c\ued0b\u62df\uf865\u7e35\uf78a\u8dd7\u0326\u98f4\u1e89\u9450\u2da8\ua3ad\u3941\ubf5f\u34b8\uca75\u4037\ud983\u5f80\ud520\u6af8\ue088\u6646\uffe4\u75b7\u0b4a\u8142\u06e9", 29193822) + throwable);
-            super.method_3317(drawContext, n, n2, bl);
+            super.render(context, width, height, rotate);
         }
     }
 

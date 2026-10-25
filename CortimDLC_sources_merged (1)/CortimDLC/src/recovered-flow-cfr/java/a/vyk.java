@@ -34,30 +34,30 @@ public final class vyk {
     public static vyd of(LivingEntity livingEntity) {
         PlayerEntity playerEntity;
         Integer n;
-        float f = Math.max(1.0f, livingEntity.method_6063());
+        float f = Math.max(1.0f, livingEntity.getMaxHealth());
         if (livingEntity instanceof PlayerEntity && (n = vyk.belowName(playerEntity = (PlayerEntity)livingEntity)) != null) {
             if (n >= 1000) {
                 return new vyd(f, 0.0f, f, true);
             }
             return new vyd(Math.max(0, n), 0.0f, f, false);
         }
-        float f2 = livingEntity.method_6032();
-        boolean bl = livingEntity.method_5767() || Float.isNaN(f2) || f2 > Math.max(f, 20.0f) * 1.5f;
-        return new vyd(f2, livingEntity.method_6067(), f, bl);
+        float f2 = livingEntity.getHealth();
+        boolean bl = livingEntity.isInvisible() || Float.isNaN(f2) || f2 > Math.max(f, 20.0f) * 1.5f;
+        return new vyd(f2, livingEntity.getAbsorptionAmount(), f, bl);
     }
 
     public static Integer belowName(PlayerEntity playerEntity) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.world == null) {
             return null;
         }
-        Scoreboard scoreboard = minecraftClient.field_1687.method_8428();
-        ScoreboardObjective scoreboardObjective = scoreboard.method_1189(ScoreboardDisplaySlot.field_45158);
+        Scoreboard scoreboard = minecraftClient.world.getScoreboard();
+        ScoreboardObjective scoreboardObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.BELOW_NAME);
         if (scoreboardObjective == null) {
             return null;
         }
-        ReadableScoreboardScore readableScoreboardScore = scoreboard.method_55430((ScoreHolder)playerEntity, scoreboardObjective);
-        return readableScoreboardScore != null ? Integer.valueOf(readableScoreboardScore.method_55397()) : null;
+        ReadableScoreboardScore readableScoreboardScore = scoreboard.getScore((ScoreHolder)playerEntity, scoreboardObjective);
+        return readableScoreboardScore != null ? Integer.valueOf(readableScoreboardScore.getScore()) : null;
     }
 
     private static /* synthetic */ int dmo(int n, int n2) {

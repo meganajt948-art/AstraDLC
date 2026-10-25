@@ -86,12 +86,12 @@ extends kfe {
     }
 
     private void qzq() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        Framebuffer framebuffer = minecraftClient.method_1522();
-        if (minecraftClient.field_1687 == null || framebuffer == null || framebuffer.method_30277() == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        Framebuffer framebuffer = minecraftClient.getFramebuffer();
+        if (minecraftClient.world == null || framebuffer == null || framebuffer.getColorAttachment() == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return;
         }
-        float f = (float)framebuffer.field_1482 / (float)framebuffer.field_1481;
+        float f = (float)framebuffer.textureWidth / (float)framebuffer.textureHeight;
         float f2 = (float)this.qzg.get();
         if (Math.abs(f2 - f) < 0.005f || !uvq.ensure(qzh)) {
             return;
@@ -100,16 +100,16 @@ extends kfe {
         float f4 = Math.min(1.0f, f / f2);
         try {
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            this.qzr(gpuDevice, framebuffer.field_1482, framebuffer.field_1481);
+            this.qzr(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight);
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
-            commandEncoder.copyTextureToTexture(framebuffer.method_30277(), this.qzi, 0, 0, 0, 0, 0, framebuffer.field_1482, framebuffer.field_1481);
+            commandEncoder.copyTextureToTexture(framebuffer.getColorAttachment(), this.qzi, 0, 0, 0, 0, 0, framebuffer.textureWidth, framebuffer.textureHeight);
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
                 commandEncoder.writeToBuffer(this.qzk.slice(), Std140Builder.onStack((MemoryStack)memoryStack, (int)16).putVec4((1.0f - f3) * 0.5f, (1.0f - f4) * 0.5f, f3, f4).get());
             }
-            memoryStack = commandEncoder.createRenderPass(() -> "Flow2 aspect ratio", framebuffer.method_71639(), OptionalInt.empty());
+            memoryStack = commandEncoder.createRenderPass(() -> "Flow2 aspect ratio", framebuffer.getColorAttachmentView(), OptionalInt.empty());
             try {
                 memoryStack.setPipeline(qzh);
-                memoryStack.bindTexture("InSampler", this.qzj, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                memoryStack.bindTexture("InSampler", this.qzj, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                 memoryStack.setUniform("FlowStretch", this.qzk);
                 memoryStack.draw(0, 3);
             }
@@ -154,7 +154,7 @@ extends kfe {
     }
 
     static {
-        qzh = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(Identifier.method_60655((String)"flow2", (String)"pipeline/stretch")).withVertexShader(Identifier.method_60655((String)"flow2", (String)"core/blur")).withFragmentShader(Identifier.method_60655((String)"flow2", (String)"core/stretch")).withSampler("InSampler").withUniform("FlowStretch", UniformType.field_60031).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379).build();
+        qzh = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(Identifier.of((String)"flow2", (String)"pipeline/stretch")).withVertexShader(Identifier.of((String)"flow2", (String)"core/blur")).withFragmentShader(Identifier.of((String)"flow2", (String)"core/stretch")).withSampler("InSampler").withUniform("FlowStretch", UniformType.UNIFORM_BUFFER).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES).build();
     }
 
     private static /* synthetic */ int bwu(int n, int n2) {

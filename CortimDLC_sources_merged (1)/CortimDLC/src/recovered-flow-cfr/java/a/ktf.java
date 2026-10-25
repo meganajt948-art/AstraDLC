@@ -51,13 +51,13 @@ final class ktf {
 
     void sync(ClientPlayerEntity clientPlayerEntity) {
         this.ktl = clientPlayerEntity;
-        this.ktm = clientPlayerEntity.method_23317();
-        this.ktn = clientPlayerEntity.method_23318();
-        this.kto = clientPlayerEntity.method_23321();
-        this.ktp = clientPlayerEntity.method_36454();
-        this.ktq = clientPlayerEntity.method_36455();
-        this.ktj.ground = this.ktr = clientPlayerEntity.method_24828();
-        this.ktj.velocity = this.ktr ? -clientPlayerEntity.method_56989() * 0.98 : clientPlayerEntity.method_18798().field_1351;
+        this.ktm = clientPlayerEntity.getX();
+        this.ktn = clientPlayerEntity.getY();
+        this.kto = clientPlayerEntity.getZ();
+        this.ktp = clientPlayerEntity.getYaw();
+        this.ktq = clientPlayerEntity.getPitch();
+        this.ktj.ground = this.ktr = clientPlayerEntity.isOnGround();
+        this.ktj.velocity = this.ktr ? -clientPlayerEntity.getFinalGravity() * 0.98 : clientPlayerEntity.getVelocity().y;
         this.ktj.fall = 0.0;
     }
 
@@ -69,40 +69,40 @@ final class ktf {
             this.sync(clientPlayerEntity);
             return;
         }
-        double d3 = clientPlayerEntity.method_23317() - this.ktm;
-        double d4 = d3 * d3 + (d2 = clientPlayerEntity.method_23318() - this.ktn) * d2 + (d = clientPlayerEntity.method_23321() - this.kto) * d;
-        if (d4 > 16.0 || clientPlayerEntity.method_5765()) {
+        double d3 = clientPlayerEntity.getX() - this.ktm;
+        double d4 = d3 * d3 + (d2 = clientPlayerEntity.getY() - this.ktn) * d2 + (d = clientPlayerEntity.getZ() - this.kto) * d;
+        if (d4 > 16.0 || clientPlayerEntity.hasVehicle()) {
             this.sync(clientPlayerEntity);
             return;
         }
-        boolean bl2 = clientPlayerEntity.method_24828();
+        boolean bl2 = clientPlayerEntity.isOnGround();
         boolean bl3 = d4 > 4.0E-8;
-        boolean bl4 = bl = clientPlayerEntity.method_36454() != this.ktp || clientPlayerEntity.method_36455() != this.ktq;
+        boolean bl4 = bl = clientPlayerEntity.getYaw() != this.ktp || clientPlayerEntity.getPitch() != this.ktq;
         if (bl3 || bl || bl2 != this.ktr) {
-            this.ktj.receive(bl3 ? d2 : 0.0, bl2, ksp.jumpVelocity(clientPlayerEntity, world), clientPlayerEntity.method_5799());
+            this.ktj.receive(bl3 ? d2 : 0.0, bl2, ksp.jumpVelocity(clientPlayerEntity, world), clientPlayerEntity.isTouchingWater());
             if (bl3) {
-                this.ktm = clientPlayerEntity.method_23317();
-                this.ktn = clientPlayerEntity.method_23318();
-                this.kto = clientPlayerEntity.method_23321();
+                this.ktm = clientPlayerEntity.getX();
+                this.ktn = clientPlayerEntity.getY();
+                this.kto = clientPlayerEntity.getZ();
             }
             if (bl) {
-                this.ktp = clientPlayerEntity.method_36454();
-                this.ktq = clientPlayerEntity.method_36455();
+                this.ktp = clientPlayerEntity.getYaw();
+                this.ktq = clientPlayerEntity.getPitch();
             }
             this.ktr = bl2;
         }
-        this.ktj.tick((Entity)clientPlayerEntity, world, clientPlayerEntity.method_5829(), clientPlayerEntity.method_56989());
+        this.ktj.tick((Entity)clientPlayerEntity, world, clientPlayerEntity.getBoundingBox(), clientPlayerEntity.getFinalGravity());
     }
 
     void predict(ClientPlayerEntity clientPlayerEntity, World world, boolean bl, int n, boolean bl2) {
-        Box box = clientPlayerEntity.method_5829();
-        boolean bl3 = clientPlayerEntity.method_24828();
-        Vec3d vec3d = clientPlayerEntity.method_18798();
-        double d = vec3d.field_1352;
-        double d2 = vec3d.field_1351;
-        double d3 = vec3d.field_1350;
-        double d4 = clientPlayerEntity.field_6212;
-        double d5 = clientPlayerEntity.field_6250;
+        Box box = clientPlayerEntity.getBoundingBox();
+        boolean bl3 = clientPlayerEntity.isOnGround();
+        Vec3d vec3d = clientPlayerEntity.getVelocity();
+        double d = vec3d.x;
+        double d2 = vec3d.y;
+        double d3 = vec3d.z;
+        double d4 = clientPlayerEntity.sidewaysSpeed;
+        double d5 = clientPlayerEntity.forwardSpeed;
         double d6 = d4 * d4 + d5 * d5;
         if (d6 < 1.0E-7) {
             d4 = 0.0;
@@ -112,25 +112,25 @@ final class ktf {
             d4 /= d7;
             d5 /= d7;
         }
-        float f = clientPlayerEntity.method_36454() * ((float)Math.PI / 180);
-        double d8 = MathHelper.method_15374((double)f);
-        double d9 = MathHelper.method_15362((double)f);
+        float f = clientPlayerEntity.getYaw() * ((float)Math.PI / 180);
+        double d8 = MathHelper.sin((double)f);
+        double d9 = MathHelper.cos((double)f);
         double d10 = d4 * d9 - d5 * d8;
         double d11 = d5 * d9 + d4 * d8;
-        if (bl3 && clientPlayerEntity.method_5715()) {
+        if (bl3 && clientPlayerEntity.isSneaking()) {
             d = 0.0;
             d3 = 0.0;
             d10 = 0.0;
             d11 = 0.0;
         }
-        float f2 = world.method_8320(clientPlayerEntity.method_23314()).method_26204().method_9499();
-        double d12 = (double)clientPlayerEntity.method_6029() * (0.21600002 / (double)(f2 * f2 * f2));
-        double d13 = clientPlayerEntity.method_5624() ? 0.026 : 0.02;
-        boolean bl4 = clientPlayerEntity.method_5624();
-        double d14 = clientPlayerEntity.method_56989();
+        float f2 = world.getBlockState(clientPlayerEntity.getVelocityAffectingPos()).getBlock().getSlipperiness();
+        double d12 = (double)clientPlayerEntity.getMovementSpeed() * (0.21600002 / (double)(f2 * f2 * f2));
+        double d13 = clientPlayerEntity.isSprinting() ? 0.026 : 0.02;
+        boolean bl4 = clientPlayerEntity.isSprinting();
+        double d14 = clientPlayerEntity.getFinalGravity();
         float f3 = ksp.jumpVelocity(clientPlayerEntity, world);
         int n2 = bl2 ? 0 : n;
-        boolean bl5 = clientPlayerEntity.method_5799();
+        boolean bl5 = clientPlayerEntity.isTouchingWater();
         this.ktk.copy(this.ktj);
         double d15 = 0.0;
         double d16 = 0.0;
@@ -168,19 +168,19 @@ final class ktf {
                 n2 = 0;
             }
             double d18 = (bl6 = bl3) ? d12 : d13;
-            Vec3d vec3d2 = Entity.method_20736((Entity)clientPlayerEntity, (Vec3d)new Vec3d(d += d10 * d18, d2, d3 += d11 * d18), (Box)box, (World)world, List.of());
-            boolean bl7 = vec3d2.field_1351 != d2;
+            Vec3d vec3d2 = Entity.adjustMovementForCollisions((Entity)clientPlayerEntity, (Vec3d)new Vec3d(d += d10 * d18, d2, d3 += d11 * d18), (Box)box, (World)world, List.of());
+            boolean bl7 = vec3d2.y != d2;
             boolean bl8 = bl3 = bl7 && d2 < 0.0;
-            if (vec3d2.field_1352 != d) {
+            if (vec3d2.x != d) {
                 d = 0.0;
             }
-            if (vec3d2.field_1350 != d3) {
+            if (vec3d2.z != d3) {
                 d3 = 0.0;
             }
-            box = box.method_997(vec3d2);
-            d15 += vec3d2.field_1352;
-            d16 += vec3d2.field_1351;
-            d17 += vec3d2.field_1350;
+            box = box.offset(vec3d2);
+            d15 += vec3d2.x;
+            d16 += vec3d2.y;
+            d17 += vec3d2.z;
             if (bl7) {
                 d2 = 0.0;
             }
@@ -188,7 +188,7 @@ final class ktf {
             double d19 = (bl6 ? (double)f2 : 1.0) * 0.91;
             d *= d19;
             d3 *= d19;
-            this.ktk.receive(vec3d2.field_1351, bl3, f3, bl5);
+            this.ktk.receive(vec3d2.y, bl3, f3, bl5);
             this.ktk.tick((Entity)clientPlayerEntity, world, box, d14);
         }
     }
@@ -230,7 +230,7 @@ final class ktf {
     }
 
     private static double kuc(Entity entity, World world, Box box, double d) {
-        return Entity.method_20736((Entity)entity, (Vec3d)new Vec3d((double)0.0, (double)d, (double)0.0), (Box)box, (World)world, List.of()).field_1351;
+        return Entity.adjustMovementForCollisions((Entity)entity, (Vec3d)new Vec3d((double)0.0, (double)d, (double)0.0), (Box)box, (World)world, List.of()).y;
     }
 
     private static /* synthetic */ int auu(int n, int n2) {

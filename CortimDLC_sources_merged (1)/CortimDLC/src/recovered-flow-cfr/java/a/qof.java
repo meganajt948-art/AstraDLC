@@ -99,14 +99,14 @@ public final class qof {
     }
 
     public static int bestPickaxe(PlayerInventory playerInventory) {
-        BlockState blockState = Blocks.field_10340.method_9564();
+        BlockState blockState = Blocks.STONE.getDefaultState();
         int n = -1;
         double d = 0.0;
         for (int i = 0; i < 36; ++i) {
             String string;
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960() || !itemStack.method_31573(ItemTags.field_42614) || itemStack.method_7963() && itemStack.method_7936() - itemStack.method_7919() <= 5) continue;
-            double d2 = itemStack.method_7924(blockState);
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty() || !itemStack.isIn(ItemTags.PICKAXES) || itemStack.isDamageable() && itemStack.getMaxDamage() - itemStack.getDamage() <= 5) continue;
+            double d2 = itemStack.getMiningSpeedMultiplier(blockState);
             int n2 = qof.qpo(itemStack);
             if (n2 > 0) {
                 d2 += (double)(n2 * n2 + 1);
@@ -117,7 +117,7 @@ public final class qof {
             if (string.contains(a.d("\ud406\uadbb\u276b\ub914\u32c6\ub40d", 172131137, 390157181))) {
                 d2 += 500.0;
             }
-            if (i == playerInventory.method_67532()) {
+            if (i == playerInventory.getSelectedSlot()) {
                 d2 += 0.5;
             } else if (i < 9) {
                 d2 += 0.25;
@@ -130,12 +130,12 @@ public final class qof {
     }
 
     public static boolean holdsPickaxe(ClientPlayerEntity clientPlayerEntity) {
-        return clientPlayerEntity.method_6047().method_31573(ItemTags.field_42614);
+        return clientPlayerEntity.getMainHandStack().isIn(ItemTags.PICKAXES);
     }
 
     public static boolean hasJunk(PlayerInventory playerInventory, Set<String> set) {
         for (int i = 0; i < 36; ++i) {
-            if (!qof.qpe(playerInventory.method_5438(i), set)) continue;
+            if (!qof.qpe(playerInventory.getStack(i), set)) continue;
             return true;
         }
         return false;
@@ -144,7 +144,7 @@ public final class qof {
     public static int empty(PlayerInventory playerInventory) {
         int n = 0;
         for (int i = 0; i < 36; ++i) {
-            if (!playerInventory.method_5438(i).method_7960()) continue;
+            if (!playerInventory.getStack(i).isEmpty()) continue;
             ++n;
         }
         return n;
@@ -155,18 +155,18 @@ public final class qof {
     }
 
     private static boolean qpe(ItemStack itemStack, Set<String> set) {
-        return !itemStack.method_7960() && set.contains(Registries.field_41178.method_10221((Object)itemStack.method_7909()).toString());
+        return !itemStack.isEmpty() && set.contains(Registries.ITEM.getId((Object)itemStack.getItem()).toString());
     }
 
     public boolean equip(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         int n = qof.bestPickaxe(playerInventory);
         if (n < 0) {
             return false;
         }
         if (n < 9) {
-            if (playerInventory.method_67532() != n) {
-                playerInventory.method_61496(n);
+            if (playerInventory.getSelectedSlot() != n) {
+                playerInventory.setSelectedSlot(n);
             }
             return true;
         }
@@ -231,11 +231,11 @@ public final class qof {
         if (this.qpa < 0 || this.qol != qoc.NONE) {
             return;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         int n = this.qoz;
         int n2 = this.qpa;
         this.qpa = -1;
-        if (playerInventory.method_5438(n).method_7960() && playerInventory.method_5438(n2).method_31574(this.qpb)) {
+        if (playerInventory.getStack(n).isEmpty() && playerInventory.getStack(n2).isOf(this.qpb)) {
             this.swaps(n2, n);
         }
     }
@@ -260,25 +260,25 @@ public final class qof {
         if (this.qol == qoc.NONE) {
             return;
         }
-        boolean bl3 = bl2 = clientPlayerEntity.method_5805() && !clientPlayerEntity.method_7325() && clientPlayerEntity.field_7512 == clientPlayerEntity.field_7498;
+        boolean bl3 = bl2 = clientPlayerEntity.isAlive() && !clientPlayerEntity.isSpectator() && clientPlayerEntity.currentScreenHandler == clientPlayerEntity.playerScreenHandler;
         if (!bl2 || this.qol != qoc.LAYOUT && this.qol != qoc.COMPACT && this.qol != qoc.HAND && !wdq.canClick(clientPlayerEntity)) {
-            qsw.log(a.d("\ufc65\u85d3\u0f18\u913f", -1859296817, -1221812793) + (Object)((Object)this.qol) + a.c(1060193063, "\u4315\u3ae7\ub036\u2e48\ua5d6\u2334\u9933\u1081\u8ed1\u0465\u83bc\u79c5\uf743\u6ee8\ue4f4\u621d\ud84b\u57c9") + bl2 + a.b("\ub7c8\uce31\u44eb\uda95\u5148\ud7f1\u6dab\ue44d\u7a5d", -452937759) + clientPlayerEntity.field_7512 + a.c(915444762, "\u9432\uedc0\u6705\uf973\u72a5\uf408\u4e46\uc7f8") + clientPlayerEntity.field_7498.method_34255() + a.c(-962717369, "\u196f\u608d\uea4e\u742e\uffee\u795f\uc307\u4aa5") + minecraftClient.field_1755);
+            qsw.log(a.d("\ufc65\u85d3\u0f18\u913f", -1859296817, -1221812793) + (Object)((Object)this.qol) + a.c(1060193063, "\u4315\u3ae7\ub036\u2e48\ua5d6\u2334\u9933\u1081\u8ed1\u0465\u83bc\u79c5\uf743\u6ee8\ue4f4\u621d\ud84b\u57c9") + bl2 + a.b("\ub7c8\uce31\u44eb\uda95\u5148\ud7f1\u6dab\ue44d\u7a5d", -452937759) + clientPlayerEntity.currentScreenHandler + a.c(915444762, "\u9432\uedc0\u6705\uf973\u72a5\uf408\u4e46\uc7f8") + clientPlayerEntity.playerScreenHandler.getCursorStack() + a.c(-962717369, "\u196f\u608d\uea4e\u742e\uffee\u795f\uc307\u4aa5") + minecraftClient.currentScreen);
             this.qpn(minecraftClient);
             return;
         }
-        boolean bl4 = bl = vyn.serverIdle(clientPlayerEntity) && vyn.still(clientPlayerEntity) && !clientPlayerEntity.method_6115() && (minecraftClient.field_1761 == null || !minecraftClient.field_1761.method_2923());
+        boolean bl4 = bl = vyn.serverIdle(clientPlayerEntity) && vyn.still(clientPlayerEntity) && !clientPlayerEntity.isUsingItem() && (minecraftClient.interactionManager == null || !minecraftClient.interactionManager.isBreakingBlock());
         if (!bl) {
             if (++this.qom > 24) {
                 this.qpn(minecraftClient);
             }
             return;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         switch (this.qol.ordinal()) {
             case 1: {
                 int n = qof.bestPickaxe(playerInventory);
                 if (n >= 9) {
-                    wdq.swap(minecraftClient, n, playerInventory.method_67532());
+                    wdq.swap(minecraftClient, n, playerInventory.getSelectedSlot());
                 }
                 this.qpn(minecraftClient);
                 break;
@@ -296,8 +296,8 @@ public final class qof {
                 break;
             }
             case 4: {
-                if (!this.noThrow && !playerInventory.method_5438(this.qor).method_7960()) {
-                    minecraftClient.field_1761.method_2906(clientPlayerEntity.field_7498.field_7763, wdq.slotId(this.qor), 0, SlotActionType.field_7795, (PlayerEntity)clientPlayerEntity);
+                if (!this.noThrow && !playerInventory.getStack(this.qor).isEmpty()) {
+                    minecraftClient.interactionManager.clickSlot(clientPlayerEntity.playerScreenHandler.syncId, wdq.slotId(this.qor), 0, SlotActionType.THROW, (PlayerEntity)clientPlayerEntity);
                     this.qoo = true;
                     ++this.qop;
                 }
@@ -335,11 +335,11 @@ public final class qof {
             --this.qon;
             return;
         }
-        int n = playerInventory.method_67532();
+        int n = playerInventory.getSelectedSlot();
         for (int i = 35; i >= 0 && this.qoq > 0; --i) {
-            if (i == n || !qof.qpe(playerInventory.method_5438(i), set)) continue;
+            if (i == n || !qof.qpe(playerInventory.getStack(i), set)) continue;
             --this.qoq;
-            minecraftClient.field_1761.method_2906(clientPlayerEntity.field_7498.field_7763, wdq.slotId(i), 1, SlotActionType.field_7795, (PlayerEntity)clientPlayerEntity);
+            minecraftClient.interactionManager.clickSlot(clientPlayerEntity.playerScreenHandler.syncId, wdq.slotId(i), 1, SlotActionType.THROW, (PlayerEntity)clientPlayerEntity);
             this.qoo = true;
             ++this.qop;
             this.qon = this.qoi.nextInt(5) == 0 ? 1 : 0;
@@ -351,26 +351,26 @@ public final class qof {
     private void qph(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, PlayerInventory playerInventory, Set<String> set) {
         int n;
         int n2;
-        PlayerScreenHandler playerScreenHandler = clientPlayerEntity.field_7498;
+        PlayerScreenHandler playerScreenHandler = clientPlayerEntity.playerScreenHandler;
         if (this.qon > 0) {
             --this.qon;
             return;
         }
         if (this.qox >= 0) {
-            minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(this.qox), 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
-            if (!playerScreenHandler.method_34255().method_7960()) {
-                minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(this.qoy), 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
+            minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(this.qox), 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
+            if (!playerScreenHandler.getCursorStack().isEmpty()) {
+                minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(this.qoy), 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
             }
             this.qox = -1;
             this.qon = 1;
             return;
         }
-        if (!playerScreenHandler.method_34255().method_7960()) {
+        if (!playerScreenHandler.getCursorStack().isEmpty()) {
             this.qpm(minecraftClient);
             return;
         }
         for (n2 = 0; n2 < 9; ++n2) {
-            if (!playerInventory.method_5438(n2).method_7960()) continue;
+            if (!playerInventory.getStack(n2).isEmpty()) continue;
             this.qpm(minecraftClient);
             return;
         }
@@ -380,18 +380,18 @@ public final class qof {
         }
         n2 = qof.qpi(playerInventory);
         for (n = 9; n < 36; ++n) {
-            if (!playerInventory.method_5438(n).method_7960()) continue;
+            if (!playerInventory.getStack(n).isEmpty()) continue;
             this.qoz = n2;
             this.qpa = n;
-            this.qpb = playerInventory.method_5438(n2).method_7909();
+            this.qpb = playerInventory.getStack(n2).getItem();
             wdq.click(minecraftClient, n, n2);
             this.qoo = true;
             this.qpm(minecraftClient);
             return;
         }
         for (n = 35; n >= 0 && !this.noThrow; --n) {
-            if (!qof.qpe(playerInventory.method_5438(n), set)) continue;
-            minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(n), 1, SlotActionType.field_7795, (PlayerEntity)clientPlayerEntity);
+            if (!qof.qpe(playerInventory.getStack(n), set)) continue;
+            minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(n), 1, SlotActionType.THROW, (PlayerEntity)clientPlayerEntity);
             this.qoo = true;
             ++this.qop;
             this.qon = 1;
@@ -403,21 +403,21 @@ public final class qof {
             return;
         }
         this.qoy = nArray[0];
-        minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(nArray[0]), 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
+        minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(nArray[0]), 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
         this.qoo = true;
         this.qox = nArray[1];
         this.qon = 1;
     }
 
     private static int qpi(PlayerInventory playerInventory) {
-        int n = playerInventory.method_67532();
-        if (!playerInventory.method_5438(n).method_31573(ItemTags.field_42614)) {
+        int n = playerInventory.getSelectedSlot();
+        if (!playerInventory.getStack(n).isIn(ItemTags.PICKAXES)) {
             return n;
         }
         int n2 = -1;
         for (int i = 0; i < 9; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_31573(ItemTags.field_42614) || n2 >= 0 && itemStack.method_7947() >= playerInventory.method_5438(n2).method_7947()) continue;
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isIn(ItemTags.PICKAXES) || n2 >= 0 && itemStack.getCount() >= playerInventory.getStack(n2).getCount()) continue;
             n2 = i;
         }
         return n2 >= 0 ? n2 : n;
@@ -427,12 +427,12 @@ public final class qof {
         int[] nArray = null;
         int n2 = Integer.MAX_VALUE;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960() || itemStack.method_7914() <= 1 || itemStack.method_31573(ItemTags.field_42614)) continue;
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty() || itemStack.getMaxCount() <= 1 || itemStack.isIn(ItemTags.PICKAXES)) continue;
             for (int j = 0; j < 36; ++j) {
                 int n3;
-                ItemStack itemStack2 = playerInventory.method_5438(j);
-                if (j == i || itemStack2.method_7960() || itemStack.method_7947() + itemStack2.method_7947() > itemStack2.method_7914() || !ItemStack.method_31577((ItemStack)itemStack, (ItemStack)itemStack2) || (n3 = (i == n ? 0 : (i < 9 ? 200 : 100)) + itemStack.method_7947()) >= n2) continue;
+                ItemStack itemStack2 = playerInventory.getStack(j);
+                if (j == i || itemStack2.isEmpty() || itemStack.getCount() + itemStack2.getCount() > itemStack2.getMaxCount() || !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack, (ItemStack)itemStack2) || (n3 = (i == n ? 0 : (i < 9 ? 200 : 100)) + itemStack.getCount()) >= n2) continue;
                 n2 = n3;
                 nArray = new int[]{i, j};
             }
@@ -442,72 +442,72 @@ public final class qof {
 
     private void qpk(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, PlayerInventory playerInventory) {
         int n;
-        PlayerScreenHandler playerScreenHandler = clientPlayerEntity.field_7498;
+        PlayerScreenHandler playerScreenHandler = clientPlayerEntity.playerScreenHandler;
         int n2 = -1;
         int n3 = -1;
-        if (playerScreenHandler.method_34255().method_7960() && ++this.qou < 120) {
+        if (playerScreenHandler.getCursorStack().isEmpty() && ++this.qou < 120) {
             for (n = 0; n < 36 && n2 < 0; ++n) {
-                ItemStack itemStack = playerInventory.method_5438(n);
-                if (itemStack.method_7960() || itemStack.method_7947() >= itemStack.method_7914()) continue;
+                ItemStack itemStack = playerInventory.getStack(n);
+                if (itemStack.isEmpty() || itemStack.getCount() >= itemStack.getMaxCount()) continue;
                 for (int i = 0; i < 36; ++i) {
-                    ItemStack itemStack2 = playerInventory.method_5438(i);
-                    if (i == n || itemStack2.method_7960() || itemStack2.method_7947() >= itemStack2.method_7914() || !ItemStack.method_31577((ItemStack)itemStack, (ItemStack)itemStack2) || n3 >= 0 && itemStack2.method_7947() <= playerInventory.method_5438(n3).method_7947()) continue;
+                    ItemStack itemStack2 = playerInventory.getStack(i);
+                    if (i == n || itemStack2.isEmpty() || itemStack2.getCount() >= itemStack2.getMaxCount() || !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack, (ItemStack)itemStack2) || n3 >= 0 && itemStack2.getCount() <= playerInventory.getStack(n3).getCount()) continue;
                     n3 = i;
                 }
                 if (n3 < 0) continue;
-                n2 = itemStack.method_7947() <= playerInventory.method_5438(n3).method_7947() ? n : n3;
+                n2 = itemStack.getCount() <= playerInventory.getStack(n3).getCount() ? n : n3;
                 n3 = n2 == n ? n3 : n;
             }
         }
         if (n2 < 0) {
-            if (!playerScreenHandler.method_34255().method_7960()) {
+            if (!playerScreenHandler.getCursorStack().isEmpty()) {
                 n = qpw.emptySlot(playerInventory);
-                minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, n >= 0 ? wdq.slotId(n) : -999, 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
+                minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, n >= 0 ? wdq.slotId(n) : -999, 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
             }
             this.qpm(minecraftClient);
             return;
         }
-        minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(n2), 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
-        minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(n3), 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
-        if (!playerScreenHandler.method_34255().method_7960()) {
-            minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(n2), 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
+        minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(n2), 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
+        minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(n3), 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
+        if (!playerScreenHandler.getCursorStack().isEmpty()) {
+            minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(n2), 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
         }
         this.qoo = true;
     }
 
     private void qpl(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, PlayerInventory playerInventory, Set<String> set) {
-        PlayerScreenHandler playerScreenHandler = clientPlayerEntity.field_7498;
+        PlayerScreenHandler playerScreenHandler = clientPlayerEntity.playerScreenHandler;
         if (!this.qov) {
             this.qov = true;
             this.qok.clear();
             for (int i = 0; i < 36 && !this.noThrow; ++i) {
-                ItemStack itemStack = playerInventory.method_5438(i);
+                ItemStack itemStack = playerInventory.getStack(i);
                 if (!qpw.throwable(itemStack) && !qof.qpe(itemStack, set)) continue;
                 this.qok.add(i);
             }
             for (Item item : this.noThrow ? new Item[]{} : qpw.MARKERS) {
                 int n = qpw.find(playerInventory, item);
                 for (int i = 0; i < 36; ++i) {
-                    if (i == n || !playerInventory.method_5438(i).method_31574(item)) continue;
+                    if (i == n || !playerInventory.getStack(i).isOf(item)) continue;
                     this.qok.add(i);
                 }
             }
         }
-        if (!this.qok.isEmpty() && playerScreenHandler.method_34255().method_7960()) {
+        if (!this.qok.isEmpty() && playerScreenHandler.getCursorStack().isEmpty()) {
             int n = this.qok.removeInt(this.qok.size() - 1);
-            if (!playerInventory.method_5438(n).method_7960()) {
-                minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, wdq.slotId(n), 1, SlotActionType.field_7795, (PlayerEntity)clientPlayerEntity);
+            if (!playerInventory.getStack(n).isEmpty()) {
+                minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, wdq.slotId(n), 1, SlotActionType.THROW, (PlayerEntity)clientPlayerEntity);
                 this.qoo = true;
                 ++this.qop;
             }
             return;
         }
         if (this.qos == null) {
-            this.qos = qpw.targets(playerInventory, clientPlayerEntity.method_6079());
+            this.qos = qpw.targets(playerInventory, clientPlayerEntity.getOffHandStack());
             this.qot = new boolean[36];
         }
         for (int i = 0; i < 2; ++i) {
-            qpq qpq2 = qpw.next(playerInventory, playerScreenHandler.method_34255(), clientPlayerEntity.method_6079(), this.qos, this.qot, this.noThrow);
+            qpq qpq2 = qpw.next(playerInventory, playerScreenHandler.getCursorStack(), clientPlayerEntity.getOffHandStack(), this.qos, this.qot, this.noThrow);
             int n = 0;
             if (qpq2 != null && this.noThrow && qpq2.slot() == -999) {
                 qpq2 = null;
@@ -516,16 +516,16 @@ public final class qof {
             if (qpq2 == null || ++this.qou > 420) {
                 int n2;
                 boolean bl = this.qow = qpq2 == null && n == 0;
-                if (!(playerScreenHandler.method_34255().method_7960() || (n2 = qpw.emptySlot(playerInventory)) < 0 && this.noThrow)) {
-                    minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, n2 >= 0 ? wdq.slotId(n2) : -999, 0, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
+                if (!(playerScreenHandler.getCursorStack().isEmpty() || (n2 = qpw.emptySlot(playerInventory)) < 0 && this.noThrow)) {
+                    minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, n2 >= 0 ? wdq.slotId(n2) : -999, 0, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
                 }
                 this.qpm(minecraftClient);
                 return;
             }
             int n3 = qpq2.slot() == -999 ? -999 : (qpq2.slot() == 40 ? 45 : wdq.slotId(qpq2.slot()));
-            minecraftClient.field_1761.method_2906(playerScreenHandler.field_7763, n3, qpq2.button(), qpq2.type(), (PlayerEntity)clientPlayerEntity);
+            minecraftClient.interactionManager.clickSlot(playerScreenHandler.syncId, n3, qpq2.button(), qpq2.type(), (PlayerEntity)clientPlayerEntity);
             this.qoo = true;
-            if (qpq2.type() == SlotActionType.field_7790) continue;
+            if (qpq2.type() == SlotActionType.PICKUP) continue;
             return;
         }
     }
@@ -538,7 +538,7 @@ public final class qof {
     }
 
     public void cancel(MinecraftClient minecraftClient) {
-        if (this.qoo && minecraftClient.field_1724 != null) {
+        if (this.qoo && minecraftClient.player != null) {
             wdq.close(minecraftClient);
         }
         this.qpn(minecraftClient);
@@ -559,8 +559,8 @@ public final class qof {
     }
 
     private static int qpo(ItemStack itemStack) {
-        for (Object2IntMap.Entry entry : itemStack.method_58657().method_57539()) {
-            if (!((RegistryEntry)entry.getKey()).method_40225(Enchantments.field_9131)) continue;
+        for (Object2IntMap.Entry entry : itemStack.getEnchantments().getEnchantmentEntries()) {
+            if (!((RegistryEntry)entry.getKey()).matchesKey(Enchantments.EFFICIENCY)) continue;
             return entry.getIntValue();
         }
         return 0;
@@ -568,13 +568,13 @@ public final class qof {
 
     private static String qpp(ItemStack itemStack) {
         StringBuilder stringBuilder = new StringBuilder();
-        LoreComponent loreComponent = (LoreComponent)itemStack.method_58694(DataComponentTypes.field_49632);
+        LoreComponent loreComponent = (LoreComponent)itemStack.get(DataComponentTypes.LORE);
         if (loreComponent != null) {
-            for (Text text : loreComponent.comp_2400()) {
+            for (Text text : loreComponent.lines()) {
                 stringBuilder.append(text.getString()).append('\n');
             }
         }
-        stringBuilder.append(itemStack.method_7964().getString());
+        stringBuilder.append(itemStack.getName().getString());
         return stringBuilder.toString().toLowerCase(Locale.ROOT);
     }
 

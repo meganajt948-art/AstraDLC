@@ -79,19 +79,19 @@ public final class uze {
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
         GpuBufferSlice gpuBufferSlice2 = RenderSystem.getShaderFog();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
         GpuTextureView gpuTextureView3 = vbb.heightView();
-        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || gpuTextureView3 == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || gpuTextureView3 == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         try {
             Std140Builder std140Builder;
-            int n = Math.max(1, Math.round((float)framebuffer.field_1482 * f));
-            int n2 = Math.max(1, Math.round((float)framebuffer.field_1481 * f));
+            int n = Math.max(1, Math.round((float)framebuffer.textureWidth * f));
+            int n2 = Math.max(1, Math.round((float)framebuffer.textureHeight * f));
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            uze.vae(gpuDevice, n, n2, framebuffer.field_1482, framebuffer.field_1481);
+            uze.vae(gpuDevice, n, n2, framebuffer.textureWidth, framebuffer.textureHeight);
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             if (!uzk) {
                 try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 cloud noise", uzh, OptionalInt.empty());){
@@ -113,7 +113,7 @@ public final class uze {
             uzu = uzu + 1 & 0x3FF;
             boolean bl2 = uzt && bl;
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)368).putVec4((float)n, (float)n2, (float)framebuffer.field_1482, (float)framebuffer.field_1481).putVec4((float)uzu, bl2 ? 1.0f : 0.0f, f3, f4);
+                std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)368).putVec4((float)n, (float)n2, (float)framebuffer.textureWidth, (float)framebuffer.textureHeight).putVec4((float)uzu, bl2 ? 1.0f : 0.0f, f3, f4);
                 consumer.accept(std140Builder);
                 std140Builder.putVec4(uze.vad(uzu & 0xF, 2), uze.vad(uzu & 0xF, 3), f2, 0.0f);
                 commandEncoder.writeToBuffer(uzp.slice(), std140Builder.get());
@@ -125,10 +125,10 @@ public final class uze {
             GpuQuery gpuQuery = uzw ? commandEncoder.timerQueryBegin() : null;
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 cloud march", (GpuTextureView)memoryStack, OptionalInt.empty());){
                 renderPass.setPipeline(uvq.CLOUD_MARCH);
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("Fog", gpuBufferSlice2);
                 renderPass.setUniform("FlowCloud", uzp);
@@ -137,9 +137,9 @@ public final class uze {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 cloud resolve", gpuTextureView5, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.CLOUD_RESOLVE);
-                renderPass.bindTexture("RawSampler", (GpuTextureView)memoryStack, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("HistorySampler", gpuTextureView4, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("RawSampler", (GpuTextureView)memoryStack, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("HistorySampler", gpuTextureView4, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowCloud", uzp);
                 renderPass.draw(0, 3);
@@ -152,8 +152,8 @@ public final class uze {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 sun rays", (GpuTextureView)std140Builder, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.CLOUD_RAYS);
-                renderPass.bindTexture("CloudSampler", gpuTextureView5, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("CloudSampler", gpuTextureView5, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowCloud", uzp);
                 renderPass.draw(0, 3);
@@ -166,12 +166,12 @@ public final class uze {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 cloud composite", gpuTextureView, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.CLOUD_COMPOSITE);
-                renderPass.bindTexture("CloudSampler", gpuTextureView5, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("RaysSampler", (GpuTextureView)std140Builder, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("CloudSampler", gpuTextureView5, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("RaysSampler", (GpuTextureView)std140Builder, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("CloudNoise", uzh, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("CloudW", uzj, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowCloud", uzp);
                 renderPass.draw(0, 3);

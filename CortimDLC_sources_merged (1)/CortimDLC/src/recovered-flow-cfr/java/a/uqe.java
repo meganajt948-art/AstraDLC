@@ -59,8 +59,8 @@ public final class uqe {
         }
         uqe.uqy();
         int n2 = bl ? 1 : 0;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        float f4 = minecraftClient.method_22683() != null ? (float)Math.max(1, minecraftClient.method_22683().method_4495()) : 2.0f;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        float f4 = minecraftClient.getWindow() != null ? (float)Math.max(1, minecraftClient.getWindow().getScaleFactor()) : 2.0f;
         int n3 = Math.max(8, Math.min(128, Math.round(f3 * f4 * vdn.renderScale())));
         uok uok2 = uqe.uqx(n2, n3);
         int n4 = n3;

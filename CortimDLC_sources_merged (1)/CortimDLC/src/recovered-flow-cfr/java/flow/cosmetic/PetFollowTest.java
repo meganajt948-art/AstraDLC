@@ -33,19 +33,19 @@ public final class PetFollowTest {
             pet = new CosmeticItem("test_pet", "test", "test", "", "", "pet", "pet", 0, 1, 0.0f, new float[]{6.0f, 22.0f, 0.0f}, 0.0f, 0.0f, 0.0f, new CosmeticItem.Bone[]{bone}, Map.of(), new CosmeticItem.Emitter[0], null, null);
             m = new Motion(-1);
         }
-        ClientPlayerEntity p = mc.field_1724;
-        PetFollowTest.m.bodyYaw = p.method_73188();
-        Vec3d pp = p.method_73189();
+        ClientPlayerEntity p = mc.player;
+        PetFollowTest.m.bodyYaw = p.getBodyYaw();
+        Vec3d pp = p.getEntityPos();
         Vec3d target = Cosmetics.groundSpot(mc, (PlayerEntity)p, pp, m, pet);
-        if (PetFollowTest.m.petPos == null || PetFollowTest.m.petWorld != mc.field_1687 || PetFollowTest.m.petPos.method_1025(target) > 196.0) {
+        if (PetFollowTest.m.petPos == null || PetFollowTest.m.petWorld != mc.world || PetFollowTest.m.petPos.squaredDistanceTo(target) > 196.0) {
             PetFollowTest.m.petPos = target;
-            PetFollowTest.m.petVel = Vec3d.field_1353;
-            PetFollowTest.m.petWorld = mc.field_1687;
+            PetFollowTest.m.petVel = Vec3d.ZERO;
+            PetFollowTest.m.petWorld = mc.world;
         } else {
             Cosmetics.follow(m, target, dt, true);
         }
-        double feet = PetFollowTest.m.petPos.field_1351 - 0.25;
-        return String.format(Locale.ROOT, "feet-over-player-floor %.2f, distance %.2f, speed %.2f, running %s", feet - pp.field_1351, Math.hypot(PetFollowTest.m.petPos.field_1352 - pp.field_1352, PetFollowTest.m.petPos.field_1350 - pp.field_1350), Math.hypot(PetFollowTest.m.petVel.field_1352, PetFollowTest.m.petVel.field_1350), PetFollowTest.m.petRun);
+        double feet = PetFollowTest.m.petPos.y - 0.25;
+        return String.format(Locale.ROOT, "feet-over-player-floor %.2f, distance %.2f, speed %.2f, running %s", feet - pp.y, Math.hypot(PetFollowTest.m.petPos.x - pp.x, PetFollowTest.m.petPos.z - pp.z), Math.hypot(PetFollowTest.m.petVel.x, PetFollowTest.m.petVel.z), PetFollowTest.m.petRun);
     }
 }
 

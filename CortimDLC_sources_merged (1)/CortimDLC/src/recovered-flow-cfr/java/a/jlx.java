@@ -238,12 +238,12 @@ extends jcs {
         }
         this.jmt = l;
         this.jmu = string;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         this.jmr.clear();
         int n = 0;
         if (FPS.get()) {
             clientPlayerEntity = this.jms[n++];
-            jlx.jnt((jlu)clientPlayerEntity, "", String.valueOf(minecraftClient.method_47599()), a.b("\u54a7\u2d00\ua7d0", -1889971006), 0, 0);
+            jlx.jnt((jlu)clientPlayerEntity, "", String.valueOf(minecraftClient.getCurrentFps()), a.b("\u54a7\u2d00\ua7d0", -1889971006), 0, 0);
             this.jmr.add((jlu)clientPlayerEntity);
         }
         if (PING.get()) {
@@ -265,8 +265,8 @@ extends jcs {
             this.jmr.add((jlu)clientPlayerEntity);
         }
         if (COORDS.get()) {
-            clientPlayerEntity = minecraftClient.field_1724;
-            String string2 = clientPlayerEntity == null ? a.b("\u23bf\u5a1e\ud0dd\u4ebc\uc57b", -1454627958) : clientPlayerEntity.method_31477() + a.d("\u49bf", 125077958, -661274536) + clientPlayerEntity.method_31478() + a.c(1154353709, "\u0a0c") + clientPlayerEntity.method_31479();
+            clientPlayerEntity = minecraftClient.player;
+            String string2 = clientPlayerEntity == null ? a.b("\u23bf\u5a1e\ud0dd\u4ebc\uc57b", -1454627958) : clientPlayerEntity.getBlockX() + a.d("\u49bf", 125077958, -661274536) + clientPlayerEntity.getBlockY() + a.c(1154353709, "\u0a0c") + clientPlayerEntity.getBlockZ();
             jlu jlu3 = this.jms[n++];
             jlx.jnt(jlu3, a.c(501304440, "\u4c23\u3593\ubf43"), string2, "", 0, 0);
             this.jmr.add(jlu3);
@@ -326,10 +326,10 @@ extends jcs {
         }
         float f7 = f2 = this.jmq == this.jmp ? 1.0f : vcq.outCubic(Math.max(0.0f, (f6 - 0.25f) / 0.75f));
         if (f2 > 0.01f) {
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(0.0f, (1.0f - f2) * 3.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(0.0f, (1.0f - f2) * 3.0f);
             this.jnv(drawContext, this.jmp, f3, f4, f2, f);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
         uut.popScissor(drawContext);
     }
@@ -455,11 +455,11 @@ extends jcs {
     }
 
     private static int joc(MinecraftClient minecraftClient) {
-        if (minecraftClient.method_1562() == null || minecraftClient.field_1724 == null) {
+        if (minecraftClient.getNetworkHandler() == null || minecraftClient.player == null) {
             return 0;
         }
-        PlayerListEntry playerListEntry = minecraftClient.method_1562().method_2871(minecraftClient.field_1724.method_5667());
-        return playerListEntry != null ? Math.max(0, playerListEntry.method_2959()) : 0;
+        PlayerListEntry playerListEntry = minecraftClient.getNetworkHandler().getPlayerListEntry(minecraftClient.player.getUuid());
+        return playerListEntry != null ? Math.max(0, playerListEntry.getLatency()) : 0;
     }
 
     private float jod(DrawContext drawContext, float f, float f2, int n, float f3) {
@@ -530,8 +530,8 @@ extends jcs {
             if (f3 <= 0.01f || (f10 = f7 * vcq.clamp01(1.0f - Math.max(0.0f, f9 = Math.max(2.5f - (f11 - f8), f11 + f8 - (f2 - 2.5f))) / 3.0f)) <= 0.01f) continue;
             float f12 = vcq.outCubic(f3);
             uut.pushAlpha(Math.min(1.0f, f3 * 1.4f) * f10);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(0.0f, (1.0f - f12) * 3.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(0.0f, (1.0f - f12) * 3.0f);
             float f13 = vcq.clamp01(jlo2.flip.get());
             float f14 = vcq.outBack(vcq.clamp01((float)(l - jlo2.at) / 320.0f));
             float f15 = f5 + 2.3f;
@@ -542,7 +542,7 @@ extends jcs {
             float f16 = f5 + 4.6f + 5.5f;
             f16 = izx.HEAD.draw(drawContext, jlo2.name, f16, izx.HEAD.centerTop(f11), iov.text) + 5.0f;
             izx.VALUE.draw(drawContext, jlo2.state, f16, izx.VALUE.centerTop(f11), ujt.lerp(iov.textMuted, n, f13));
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             uut.popAlpha();
         }
         float f17 = 1.0f - vcq.clamp01((float)(l - l2) / 1700.0f);
@@ -567,9 +567,9 @@ extends jcs {
         float f10 = Math.min(15.0f, iov.r(6.0f));
         uok uok2 = this.jnc;
         float f11 = 0.9f + 0.1f * vcq.outCubic(this.jnd.get());
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f8 + 15.0f, f9 + 15.0f);
-        drawContext.method_51448().scale(f11, f11);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f8 + 15.0f, f9 + 15.0f);
+        drawContext.getMatrices().scale(f11, f11);
         uut.shadow(drawContext, -15.0f, -13.5f, 30.0f, 30.0f, f10, 5.0f, 0x70000000);
         if (uok2 != null) {
             uut.image(drawContext, uok2.view, -15.0f, -15.0f, 30.0f, 30.0f, f10, -1);
@@ -578,7 +578,7 @@ extends jcs {
             vjf.draw(drawContext, vhz.MUSIC, 0.0f, 0.0f, 13.0f, iov.textDim);
         }
         uut.outlineGradientV(drawContext, -15.0f, -15.0f, 30.0f, 30.0f, f10, 1.0f, 0x30FFFFFF, 0x8FFFFFF);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         float f12 = f8 + 30.0f + 8.0f;
         float f13 = f6 + 200.0f - 8.0f;
         boolean bl = izx.pointer();
@@ -616,9 +616,9 @@ extends jcs {
                 this.jnh[i] = f21 = f13 - 12.0f * (float)(3 - i) - 2.0f * (float)(2 - i);
                 float f22 = this.jnf[i].step(f4 >= f21 && f4 < f21 + 12.0f && f20 >= this.jni && f20 < this.jni + 12.0f, f3);
                 float f23 = 1.0f - 0.12f * this.jng[i].get();
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f21 + 6.0f, f5);
-                drawContext.method_51448().scale(f23, f23);
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f21 + 6.0f, f5);
+                drawContext.getMatrices().scale(f23, f23);
                 boolean bl3 = bl2 = i == 1;
                 if (bl2) {
                     uut.shadow(drawContext, -6.0f, -5.2f, 12.0f, 12.0f, 6.0f, 2.0f, 0x70000000);
@@ -627,7 +627,7 @@ extends jcs {
                     uut.circle(drawContext, 0.0f, 0.0f, 6.0f, ujt.withAlpha(iov.hover, Math.min(255, Math.round((float)ujt.alpha(iov.hover) * 3.0f * f22))));
                 }
                 vjf.draw(drawContext, vhzArray[i], bl2 && !jgd2.playing() ? 0.6f : 0.0f, 0.0f, bl2 ? 6.5f : 7.0f, bl2 ? iov.onAccent() : ujt.lerp(iov.textDim, iov.text, f22));
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().popMatrix();
             }
         } else {
             this.jni = -100.0f;

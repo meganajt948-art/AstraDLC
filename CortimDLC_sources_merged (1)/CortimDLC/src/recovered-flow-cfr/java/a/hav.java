@@ -64,15 +64,15 @@ final class hav {
                 if (!hbb[i]) continue;
                 kfe3.setEnabled(false);
             }
-            minecraftClient.field_1690.field_1842 = true;
-            minecraftClient.field_1690.field_1837 = false;
-            minecraftClient.field_1690.method_42503().method_41748((Object)12);
-            minecraftClient.field_1690.method_41808().method_41748((Object)70);
+            minecraftClient.options.hudHidden = true;
+            minecraftClient.options.pauseOnLostFocus = false;
+            minecraftClient.options.getViewDistance().setValue((Object)12);
+            minecraftClient.options.getFov().setValue((Object)70);
             hav.hbo(minecraftClient, a.d("\u4741\u3ef6\ub429\u2a50\ua18f\u273c\u9d64\u1494\u8a8e|\u87be\u7dd8\uf30b\u6aaf\ue0e1\u660f\udc53", -1572610255, -1307994106));
             hav.hbo(minecraftClient, a.d("\u23f4\u5a43\ud09c\u4ee5\uc525\u4393\uf9d9\u7021\uee3b\u64ce\ue316\u194c\u97be\u0e17\u8451\u02a5\ub8e4\u373a\uad95\u2bf3\ua23e\ud875\u56c9\ucd11\u4b2b\uc1bc\u7808\uf654\u6cbc\ueafb", -1818013770, -2041680837));
             hav.hbo(minecraftClient, a.b("\u4ed2\u3765\ubdba\u23c3\ua803\u2eb5\u94ff\u1d07\u831d\u09e8\u8e30\u7479\ufa9c\u6329\ue96f\u6f82\ud5c0\u5a06\uc084\u46ef\ucf02\ub55c\u3be6\ua072\u264b\uac9d\u1523\u9b6d\u018c", -1012248920));
             hav.hbo(minecraftClient, a.d("\u218b\u5828\ud2ff\u4c9b\uc750\u41ec\ufba8\u720b\uec17\u66a9\ue173\u1b06\u95c2", -1765912565, -1984794118));
-            GLFW.glfwSetWindowSize((long)minecraftClient.method_22683().method_4490(), (int)1920, (int)1080);
+            GLFW.glfwSetWindowSize((long)minecraftClient.getWindow().getHandle(), (int)1920, (int)1080);
             hav.hbj(minecraftClient);
             return false;
         }
@@ -87,7 +87,7 @@ final class hav {
                 System.out.println(a.d("\u47c8\u3e7f\ub4b4\u2ac5\ua11a\u27bc\u9dee\u1407\u8a4a\u00b8\u8771\u7d4e\uf398\u6a66\ue073\u668b\udcd9\u531f\uc9ba\u4fec\uc64f\ubc58\u32e2\ua929\u2f4d\ua596", 424227595, -1101826902));
                 return true;
             }
-            System.out.println(a.c(655411913, "\ucab7\ub300\u39cb\ua7ba\u2c65\uaac3\u1091\u9978\u0735\u8ddd\u0a4f\uf02b\u7ea8") + hbc.method_23854());
+            System.out.println(a.c(655411913, "\ucab7\ub300\u39cb\ua7ba\u2c65\uaac3\u1091\u9978\u0735\u8ddd\u0a4f\uf02b\u7ea8") + hbc.toShortString());
             hav.hbi(minecraftClient, 2);
             hav.hbo(minecraftClient, a.c(-1938870532, "\u2e85\u5729\uddfe\u4387\uc815\u4ef7\uf4b2\u7d52\ue359\u69fe\uee2b\u145a\u9a8d"));
             ((vlv)hav.hbn(kfe2, a.c(793307129, "\ue7ac\u9e2b\u14fc\u8a9f\u0154\u87e4"))).set(a.d("\udb92\ua205\u28ce\ub6bf\u3d60\ubbc6", -1953456993, 1671513944));
@@ -103,9 +103,9 @@ final class hav {
             hbe = n;
             return false;
         }
-        minecraftClient.field_1724.method_31549().field_7479 = true;
-        if (minecraftClient.field_1755 != null) {
-            minecraftClient.method_1507(null);
+        minecraftClient.player.getAbilities().flying = true;
+        if (minecraftClient.currentScreen != null) {
+            minecraftClient.setScreen(null);
         }
         if ((n2 = n - hbe - 560) == -40) {
             uze.gpuMillis();
@@ -146,7 +146,7 @@ final class hav {
         if (n2 > hav.haz[hav.haz.length - 1].hak + 10) {
             uze.timing(false);
             hav.hbo(minecraftClient, a.c(2008863721, "\ud393\uaa30\u20e7\ube83\u3548\ub3f4\u09b0\u8013\u1e0f\u94b1\u136b\ue91e\u67da"));
-            minecraftClient.field_1690.field_1842 = false;
+            minecraftClient.options.hudHidden = false;
             for (int i = 0; i < hba.length; ++i) {
                 kfe kfe4 = Flow.getInstance().getModuleManager().getByName(hba[i]);
                 if (kfe4 == null) continue;
@@ -160,18 +160,18 @@ final class hav {
     private static void hbi(MinecraftClient minecraftClient, int n) {
         hbf = n;
         BlockPos blockPos = hbc;
-        hav.hbo(minecraftClient, a.b("\u6871\u11c4\u9b47\u0556\u8eb2\u0850", -1251710973) + blockPos.method_10263() + a.b("\uf435", -1131416556) + (blockPos.method_10264() + n) + a.b("\u8201", 706380320) + blockPos.method_10260());
+        hav.hbo(minecraftClient, a.b("\u6871\u11c4\u9b47\u0556\u8eb2\u0850", -1251710973) + blockPos.getX() + a.b("\uf435", -1131416556) + (blockPos.getY() + n) + a.b("\u8201", 706380320) + blockPos.getZ());
     }
 
     private static void hbj(MinecraftClient minecraftClient) {
         hbc = null;
         hbd = false;
-        IntegratedServer integratedServer = minecraftClient.method_1576();
-        BlockPos blockPos = minecraftClient.field_1724.method_24515();
+        IntegratedServer integratedServer = minecraftClient.getServer();
+        BlockPos blockPos = minecraftClient.player.getBlockPos();
         integratedServer.execute(() -> {
             try {
-                ServerWorld serverWorld = integratedServer.method_30002();
-                Pair pair = serverWorld.method_42108(registryEntry -> registryEntry.method_40225(BiomeKeys.field_9409), blockPos, 6400, 32, 64);
+                ServerWorld serverWorld = integratedServer.getOverworld();
+                Pair pair = serverWorld.locateBiome(registryEntry -> registryEntry.matchesKey(BiomeKeys.FOREST), blockPos, 6400, 32, 64);
                 if (pair != null) {
                     BlockPos blockPos2 = (BlockPos)pair.getFirst();
                     BlockPos blockPos3 = null;
@@ -179,11 +179,11 @@ final class hav {
                     for (int i = -64; i <= 64; i += 4) {
                         for (int j = -64; j <= 64; j += 4) {
                             int n2;
-                            int n3 = blockPos2.method_10263() + j;
-                            int n4 = hav.hbl(serverWorld, n3, n2 = blockPos2.method_10260() + i);
+                            int n3 = blockPos2.getX() + j;
+                            int n4 = hav.hbl(serverWorld, n3, n2 = blockPos2.getZ() + i);
                             if (n4 <= n) continue;
                             n = n4;
-                            blockPos3 = new BlockPos(n3, hav.hbk(serverWorld, Heightmap.Type.field_13197, n3, n2), n2);
+                            blockPos3 = new BlockPos(n3, hav.hbk(serverWorld, Heightmap.Type.MOTION_BLOCKING, n3, n2), n2);
                         }
                     }
                     hbc = blockPos3;
@@ -197,8 +197,8 @@ final class hav {
     }
 
     private static int hbk(ServerWorld serverWorld, Heightmap.Type type, int n, int n2) {
-        serverWorld.method_8497(n >> 4, n2 >> 4);
-        return serverWorld.method_8624(type, n, n2);
+        serverWorld.getChunk(n >> 4, n2 >> 4);
+        return serverWorld.getTopY(type, n, n2);
     }
 
     private static int hbl(ServerWorld serverWorld, int n, int n2) {
@@ -207,8 +207,8 @@ final class hav {
         for (int i = -12; i <= 12; i += 2) {
             for (int j = -12; j <= 12; j += 2) {
                 boolean bl;
-                int n5 = hav.hbk(serverWorld, Heightmap.Type.field_13197, n + j, n2 + i);
-                int n6 = hav.hbk(serverWorld, Heightmap.Type.field_13203, n + j, n2 + i);
+                int n5 = hav.hbk(serverWorld, Heightmap.Type.MOTION_BLOCKING, n + j, n2 + i);
+                int n6 = hav.hbk(serverWorld, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, n + j, n2 + i);
                 boolean bl2 = bl = Math.abs(j) <= 4 && Math.abs(i) <= 4;
                 if (n5 == n6) {
                     if (!bl) continue;
@@ -223,10 +223,10 @@ final class hav {
     }
 
     private static void hbm(MinecraftClient minecraftClient, float f, float f2) {
-        minecraftClient.field_1724.method_36456(f);
-        minecraftClient.field_1724.method_36457(f2);
-        minecraftClient.field_1724.field_5982 = f;
-        minecraftClient.field_1724.field_6004 = f2;
+        minecraftClient.player.setYaw(f);
+        minecraftClient.player.setPitch(f2);
+        minecraftClient.player.lastYaw = f;
+        minecraftClient.player.lastPitch = f2;
     }
 
     private static vmo hbn(kfe kfe2, String string) {
@@ -238,12 +238,12 @@ final class hav {
     }
 
     private static void hbo(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void hbp(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.b("\u8bbc\uf21b\u78c1\ue6ba\u6d2b\uebce\u518c\ud86b\u4633\uccd6", 387877829) + string + a.d("\ub186\uc857\u42e4", -2081660703, -1918774972) + minecraftClient.method_47599() + a.b("\uf4b2\u8d45\u0780\u99f2", -1447955306));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.b("\uaf3f\ud684\u5c54\uc23d\u49af\ucf01", -1107120289) + string + a.c(2121033031, "\u656d\u1c82\u964f\u0837")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.b("\u8bbc\uf21b\u78c1\ue6ba\u6d2b\uebce\u518c\ud86b\u4633\uccd6", 387877829) + string + a.d("\ub186\uc857\u42e4", -2081660703, -1918774972) + minecraftClient.getCurrentFps() + a.b("\uf4b2\u8d45\u0780\u99f2", -1447955306));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.b("\uaf3f\ud684\u5c54\uc23d\u49af\ucf01", -1107120289) + string + a.c(2121033031, "\u656d\u1c82\u964f\u0837")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     static {

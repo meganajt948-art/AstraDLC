@@ -89,7 +89,7 @@ public final class swh {
     private static final int sxe = -11870592;
     private static final int sxf = -15368131;
     private static final int sxg = -1258291201;
-    private static final EquipmentSlot[] sxh = new EquipmentSlot[]{EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166, EquipmentSlot.field_6173, EquipmentSlot.field_6171};
+    private static final EquipmentSlot[] sxh = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
     private static final int sxi = 14;
     private static final float[] sxj = swh.sxq();
     static int step = 14;
@@ -115,37 +115,37 @@ public final class swh {
     }
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
-        if (MinecraftClient.method_1551().field_1755 instanceof hlc) {
+        if (MinecraftClient.getInstance().currentScreen instanceof hlc) {
             return;
         }
         uut.beginFrame();
-        swh.sxu(drawContext, renderTickCounter.method_60637(true));
+        swh.sxu(drawContext, renderTickCounter.getTickProgress(true));
     }
 
     public static void renderInMenu(DrawContext drawContext) {
-        swh.sxu(drawContext, MinecraftClient.method_1551().method_61966().method_60637(true));
+        swh.sxu(drawContext, MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true));
     }
 
     public static void hideVanilla(WorldRenderState worldRenderState) {
         rjy rjy2 = rjy.get();
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rjy2 == null || !rjy2.isEnabled() || minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rjy2 == null || !rjy2.isEnabled() || minecraftClient.world == null) {
             return;
         }
         boolean bl = rjy2.mobs.get() && swh.sxr();
-        for (EntityRenderState entityRenderState : worldRenderState.field_61735) {
+        for (EntityRenderState entityRenderState : worldRenderState.entityRenderStates) {
             if (entityRenderState instanceof PlayerEntityRenderState) {
                 PlayerEntity playerEntity;
                 Entity entity;
                 PlayerEntityRenderState playerEntityRenderState = (PlayerEntityRenderState)entityRenderState;
-                if ((playerEntityRenderState.field_53337 != null || playerEntityRenderState.field_53525 != null) && (entity = minecraftClient.field_1687.method_8469(playerEntityRenderState.field_53528)) instanceof PlayerEntity && rjy2.shows(minecraftClient, playerEntity = (PlayerEntity)entity)) {
-                    playerEntityRenderState.field_53337 = null;
-                    playerEntityRenderState.field_53525 = null;
+                if ((playerEntityRenderState.displayName != null || playerEntityRenderState.playerName != null) && (entity = minecraftClient.world.getEntityById(playerEntityRenderState.id)) instanceof PlayerEntity && rjy2.shows(minecraftClient, playerEntity = (PlayerEntity)entity)) {
+                    playerEntityRenderState.displayName = null;
+                    playerEntityRenderState.playerName = null;
                     continue;
                 }
             }
-            if (!bl || entityRenderState.field_53337 == null || !(entityRenderState instanceof LivingEntityRenderState) || entityRenderState instanceof PlayerEntityRenderState || !swh.sxs(entityRenderState)) continue;
-            entityRenderState.field_53337 = null;
+            if (!bl || entityRenderState.displayName == null || !(entityRenderState instanceof LivingEntityRenderState) || entityRenderState instanceof PlayerEntityRenderState || !swh.sxs(entityRenderState)) continue;
+            entityRenderState.displayName = null;
         }
     }
 
@@ -159,10 +159,10 @@ public final class swh {
 
     private static boolean sxs(EntityRenderState entityRenderState) {
         for (svy svy2 : sxm.values()) {
-            if (!svy2.mob || svy2.player.method_5864() != entityRenderState.field_58171) continue;
-            double d = svy2.player.method_23317() - entityRenderState.field_53325;
-            double d2 = svy2.player.method_23321() - entityRenderState.field_53327;
-            double d3 = svy2.player.method_23318() - entityRenderState.field_53326;
+            if (!svy2.mob || svy2.player.getType() != entityRenderState.entityType) continue;
+            double d = svy2.player.getX() - entityRenderState.x;
+            double d2 = svy2.player.getZ() - entityRenderState.z;
+            double d3 = svy2.player.getY() - entityRenderState.y;
             if (!(d * d + d3 * d3 + d2 * d2 < 1.0)) continue;
             return true;
         }
@@ -184,9 +184,9 @@ public final class swh {
         LivingEntity livingEntity;
         Object object322;
         usn usn2;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         rjy rjy2 = rjy.get();
-        if (rjy2 == null || !rjy2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842) {
+        if (rjy2 == null || !rjy2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden) {
             sxm.clear();
             return;
         }
@@ -197,25 +197,25 @@ public final class swh {
         sxn = unf.frame();
         float f2 = unf.delta() * (float)iov.ANIMATION.get();
         iov.update(f2);
-        float f3 = drawContext.method_51421();
-        float f4 = drawContext.method_51443();
+        float f3 = drawContext.getScaledWindowWidth();
+        float f4 = drawContext.getScaledWindowHeight();
         try {
             usn2 = usn.capture(f, f3, f4);
         }
         catch (Throwable throwable) {
             return;
         }
-        sxm.values().removeIf(svy2 -> svy2.player.method_31481() || minecraftClient.field_1687.method_8469(svy2.player.method_5628()) != svy2.player);
-        for (Object object322 : minecraftClient.field_1687.method_18456()) {
+        sxm.values().removeIf(svy2 -> svy2.player.isRemoved() || minecraftClient.world.getEntityById(svy2.player.getId()) != svy2.player);
+        for (Object object322 : minecraftClient.world.getPlayers()) {
             if (!rjy2.shows(minecraftClient, (PlayerEntity)object322)) continue;
-            sxm.computeIfAbsent(object322.method_5628(), arg_0 -> swh.lambda$draw$1((PlayerEntity)object322, arg_0));
+            sxm.computeIfAbsent(object322.getId(), arg_0 -> swh.lambda$draw$1((PlayerEntity)object322, arg_0));
         }
         if (rjy2.mobs.get() && rhs.get() != null) {
-            for (Object object322 : minecraftClient.field_1687.method_18112()) {
+            for (Object object322 : minecraftClient.world.getEntities()) {
                 if (!(object322 instanceof LivingEntity)) continue;
                 livingEntity = (LivingEntity)object322;
                 if (object322 instanceof PlayerEntity || !swh.sxt(rjy2, minecraftClient, livingEntity)) continue;
-                sxm.computeIfAbsent(livingEntity.method_5628(), n -> new svy(livingEntity));
+                sxm.computeIfAbsent(livingEntity.getId(), n -> new svy(livingEntity));
             }
         }
         Iterator iterator = new ArrayList();
@@ -223,10 +223,10 @@ public final class swh {
         for (Map.Entry<Integer, svy> object4 : sxm.entrySet()) {
             object2 = object4.getValue();
             object = ((svy)object2).player;
-            Vec3d vec3d = object.method_30950(f);
-            double d = vec3d.field_1352;
-            double d2 = vec3d.field_1351 + (double)object.method_17682() + 0.3;
-            double d3 = vec3d.field_1350;
+            Vec3d vec3d = object.getLerpedPos(f);
+            double d = vec3d.x;
+            double d2 = vec3d.y + (double)object.getHeight() + 0.3;
+            double d3 = vec3d.z;
             boolean bl = swh.sxt(rjy2, minecraftClient, object);
             boolean bl2 = usn2.project(d, d2, d3, ((svy)object2).screen);
             float f5 = ((svy)object2).shown.step(bl && bl2, f2);
@@ -253,7 +253,7 @@ public final class swh {
         if (rjy2.glass() && uij.TAGS.capture(drawContext, rjy2.blur.getInt(), null)) {
             livingEntity = uij.TAGS.result(drawContext);
         }
-        float f6 = Math.max(1, minecraftClient.method_22683().method_4495());
+        float f6 = Math.max(1, minecraftClient.getWindow().getScaleFactor());
         object2 = iterator.iterator();
         while (object2.hasNext()) {
             object = (svy)object2.next();
@@ -271,10 +271,10 @@ public final class swh {
         block1: for (int i = list.size() - 1; i >= 0; --i) {
             svy svy2;
             svy2 = list.get(i);
-            if (!svy2.mob || svy2.player.method_16914()) continue;
+            if (!svy2.mob || svy2.player.hasCustomName()) continue;
             for (int j = list.size() - 1; j > i; --j) {
                 svy svy3 = list.get(j);
-                if (!svy3.mob || svy3.folded || svy3.player.method_5864() != svy2.player.method_5864() || svy3.player.method_16914() || !(Math.abs(svy3.screen[0] - svy2.screen[0]) < 56.0f) || !(Math.abs(svy3.screen[1] - svy2.screen[1]) < 16.0f)) continue;
+                if (!svy3.mob || svy3.folded || svy3.player.getType() != svy2.player.getType() || svy3.player.hasCustomName() || !(Math.abs(svy3.screen[0] - svy2.screen[0]) < 56.0f) || !(Math.abs(svy3.screen[1] - svy2.screen[1]) < 16.0f)) continue;
                 svy2.folded = true;
                 ++svy3.crowd;
                 continue block1;
@@ -310,7 +310,7 @@ public final class swh {
         LivingEntity livingEntity = svy2.player;
         step = swh.stepFor(swh.sxw(rjy2, svy2.distance));
         float f3 = sxj[step];
-        long l = minecraftClient.field_1687.method_75260();
+        long l = minecraftClient.world.getTime();
         svy2.info(minecraftClient, l);
         boolean bl = rjy2.friends.get() && svy2.friend;
         List<svi> list = svy2.name(l);
@@ -360,18 +360,18 @@ public final class swh {
         float f13 = f9 * 0.5f * (float)rjy2.rounding.get();
         float f14 = svy2.shown.get();
         float f15 = vcq.outCubic(f14);
-        float f16 = f14 * (livingEntity.method_5767() ? 0.55f : 1.0f);
+        float f16 = f14 * (livingEntity.isInvisible() ? 0.55f : 1.0f);
         float f17 = (float)Math.round(svy2.screen[0] * f2) / f2;
         float f18 = (float)Math.round(svy2.screen[1] * f2) / f2;
         float f19 = f3 * (0.86f + 0.14f * f15);
         float f20 = (bl3 || list2.isEmpty() ? f11 : f11 - 2.0f - 10.0f) - 2.0f;
         float f21 = f18 + (1.0f - f15) * 4.0f;
-        if (f17 + (f10 - 2.0f) * f19 > (float)drawContext.method_51421() || f17 - (f10 - 2.0f) * f19 < 0.0f || f21 + f20 * f19 > (float)drawContext.method_51443() || f21 + 4.0f * f19 < 0.0f) {
+        if (f17 + (f10 - 2.0f) * f19 > (float)drawContext.getScaledWindowWidth() || f17 - (f10 - 2.0f) * f19 < 0.0f || f21 + f20 * f19 > (float)drawContext.getScaledWindowHeight() || f21 + 4.0f * f19 < 0.0f) {
             return;
         }
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f17, f18 + (1.0f - f15) * 4.0f);
-        drawContext.method_51448().scale(f19, f19);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f17, f18 + (1.0f - f15) * 4.0f);
+        drawContext.getMatrices().scale(f19, f19);
         uut.pushAlpha(f16);
         try {
             float f22;
@@ -421,7 +421,7 @@ public final class swh {
         }
         finally {
             uut.popAlpha();
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
     }
 
@@ -473,20 +473,20 @@ public final class swh {
         for (ItemStack itemStack : list) {
             float f5;
             if (f4 > 0.02f) {
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f + 5.0f, f2 + 5.0f);
-                drawContext.method_51448().scale(f4, f4);
-                drawContext.method_51427(itemStack, -8, -8);
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f + 5.0f, f2 + 5.0f);
+                drawContext.getMatrices().scale(f4, f4);
+                drawContext.drawItem(itemStack, -8, -8);
+                drawContext.getMatrices().popMatrix();
             }
-            if (itemStack.method_7963() && itemStack.method_7986() && itemStack.method_7936() > 0) {
-                float f6 = 1.0f - (float)itemStack.method_7919() / (float)itemStack.method_7936();
+            if (itemStack.isDamageable() && itemStack.isDamaged() && itemStack.getMaxDamage() > 0) {
+                float f6 = 1.0f - (float)itemStack.getDamage() / (float)itemStack.getMaxDamage();
                 f5 = 8.0f;
                 uut.round(drawContext, f + 1.0f, f2 + 10.0f + 0.6f, f5, 1.1f, 0.55f, 0x66000000);
                 uut.round(drawContext, f + 1.0f, f2 + 10.0f + 0.6f, Math.max(1.1f, f5 * f6), 1.1f, 0.55f, swh.healthColor(f6));
             }
-            if (itemStack.method_7947() > 1) {
-                String string = String.valueOf(itemStack.method_7947());
+            if (itemStack.getCount() > 1) {
+                String string = String.valueOf(itemStack.getCount());
                 f5 = f + 10.0f + 0.8f - sxl.width(string);
                 float f7 = sxl.centerTop(f2 + 10.0f - 1.4f);
                 sxl.draw(drawContext, string, f5 + 0.5f, f7 + 0.5f, -1073741824);
@@ -511,10 +511,10 @@ public final class swh {
 
     private static void syc(DrawContext drawContext, vhz vhz2, float f, float f2, float f3, int n) {
         float f4 = sxj[step];
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().scale(1.0f / f4, 1.0f / f4);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().scale(1.0f / f4, 1.0f / f4);
         vjf.draw(drawContext, vhz2, f * f4, f2 * f4, f3 * f4, n);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     private static void syd(svy svy2, float f, float f2) {
@@ -545,9 +545,9 @@ public final class swh {
     }
 
     private static int sye(MinecraftClient minecraftClient, PlayerEntity playerEntity) {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
-        PlayerListEntry playerListEntry = clientPlayNetworkHandler != null ? clientPlayNetworkHandler.method_2871(playerEntity.method_5667()) : null;
-        return playerListEntry != null ? playerListEntry.method_2959() : -1;
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
+        PlayerListEntry playerListEntry = clientPlayNetworkHandler != null ? clientPlayNetworkHandler.getPlayerListEntry(playerEntity.getUuid()) : null;
+        return playerListEntry != null ? playerListEntry.getLatency() : -1;
     }
 
     private static int syf(int n) {

@@ -65,9 +65,9 @@ public final class rhf {
     }
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 != null || !minecraftClient.field_1690.method_31044().method_31034()) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen != null || !minecraftClient.options.getPerspective().isFirstPerson()) {
             return;
         }
         unf.observe(drawContext);
@@ -76,11 +76,11 @@ public final class rhf {
         }
         rhk = unf.frame();
         float f = unf.delta();
-        boolean bl = clientPlayerEntity.method_6047().method_31574(Items.field_49814) && rhf.rho();
-        float f2 = renderTickCounter.method_60637(true);
-        float f3 = bl ? clientPlayerEntity.method_7261(f2) : 1.0f;
-        double d = clientPlayerEntity.field_6017;
-        boolean bl2 = bl && !clientPlayerEntity.method_24828() && !clientPlayerEntity.method_6128() && d > 1.5;
+        boolean bl = clientPlayerEntity.getMainHandStack().isOf(Items.MACE) && rhf.rho();
+        float f2 = renderTickCounter.getTickProgress(true);
+        float f3 = bl ? clientPlayerEntity.getAttackCooldownProgress(f2) : 1.0f;
+        double d = clientPlayerEntity.fallDistance;
+        boolean bl2 = bl && !clientPlayerEntity.isOnGround() && !clientPlayerEntity.isGliding() && d > 1.5;
         rhl = f3 >= 0.999f ? rhl + f : 0.0f;
         boolean bl3 = bl && (f3 < 0.999f || rhl < 0.6f || bl2);
         float f4 = rhh.step(bl3, f);
@@ -90,8 +90,8 @@ public final class rhf {
             return;
         }
         uut.beginFrame();
-        float f7 = (float)drawContext.method_51421() * 0.5f;
-        float f8 = (float)drawContext.method_51443() * 0.5f;
+        float f7 = (float)drawContext.getScaledWindowWidth() * 0.5f;
+        float f8 = (float)drawContext.getScaledWindowHeight() * 0.5f;
         float f9 = 11.0f;
         int n = ujt.lerp(iov.accent() | 0xFF000000, -11443, f5);
         uut.pushAlpha(f4);

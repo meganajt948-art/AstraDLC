@@ -67,67 +67,67 @@ extends Screen {
     private static /* synthetic */ long kdo;
 
     public kct(Screen screen) {
-        super((Text)Text.method_43470((String)a.d("\uae06\ud785\u5d5f\uc321\u48fa\uce49\u7412", 1951642780, -2068833590)));
+        super((Text)Text.literal((String)a.d("\uae06\ud785\u5d5f\uc321\u48fa\uce49\u7412", 1951642780, -2068833590)));
         this.kcy = screen;
         this.kdd = wap.chosen() && !wap.ru() ? 1 : 0;
         jzh.preload(this.kdb.key);
     }
 
-    public void method_25420(DrawContext drawContext, int n, int n2, float f) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext drawContext, int n, int n2, float f) {
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
-        unf.observe(drawContext);
+        unf.observe(context);
         long l = System.nanoTime();
         this.kdj = this.kdi == 0L ? 0.016666668f : Math.min(0.1f, (float)(l - this.kdi) / 1.0E9f);
         this.kdi = l;
-        float f2 = kap.clock();
+        float f = kap.clock();
         if (this.kde < 0.0f) {
-            this.kde = f2;
+            this.kde = f;
         }
-        float f3 = f2 - this.kde;
-        float f4 = this.kdf >= 0.0f ? vcq.clamp01((f2 - this.kdf) / 0.42f) : 0.0f;
-        this.kdk = kbp.scale(this.field_22789, this.field_22790);
-        this.kdl = (float)this.field_22789 / this.kdk;
-        this.kdm = (float)this.field_22790 / this.kdk;
-        float f5 = (float)n / this.kdk;
-        float f6 = (float)n2 / this.kdk;
+        float f2 = f - this.kde;
+        float f3 = this.kdf >= 0.0f ? vcq.clamp01((f - this.kdf) / 0.42f) : 0.0f;
+        this.kdk = kbp.scale(this.width, this.height);
+        this.kdl = (float)this.width / this.kdk;
+        this.kdm = (float)this.height / this.kdk;
+        float f4 = (float)mouseX / this.kdk;
+        float f5 = (float)mouseY / this.kdk;
         GpuTextureView gpuTextureView = unm.view();
-        uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, -16315888);
+        uut.rect(context, 0.0f, 0.0f, this.width, this.height, -16315888);
         jza jza2 = jzh.get(this.kdb.key);
         if (jza2 != null) {
-            this.kda.time = f2;
+            this.kda.time = f;
             this.kda.blur = 1.0f;
             this.kda.dim = 0.22f;
             this.kda.zoom = 1.06f;
             this.kda.tint = this.kdb.tint;
             this.kda.tintAmount = 0.3f;
-            this.kcz.draw(drawContext, jza2, this.kda, this.field_22789, this.field_22790, 1.0f, true);
+            this.kcz.draw(context, jza2, this.kda, this.width, this.height, 1.0f, true);
         }
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = context.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.scale(this.kdk, this.kdk);
         vdn.setRenderScaleStepped(this.kdk);
-        uut.pushAlpha(1.0f - vcq.inCubic(f4));
+        uut.pushAlpha(1.0f - vcq.inCubic(f3));
         try {
-            float f7 = vcq.outCubic(vcq.clamp01((f3 - 0.05f) / 0.6f));
-            uut.pushAlpha(f7);
-            float f8 = this.kdm * 0.5f - 46.0f - 38.0f + (1.0f - f7) * 6.0f;
+            float f6 = vcq.outCubic(vcq.clamp01((f2 - 0.05f) / 0.6f));
+            uut.pushAlpha(f6);
+            float f7 = this.kdm * 0.5f - 46.0f - 38.0f + (1.0f - f6) * 6.0f;
             vdn vdn2 = veo.semibold(12.0f);
-            vdn2.drawCentered(drawContext, a.c(662017462, "\u95e1\uec7b\u66af\uf8de\u7315\uf5b2\u4fa4\uc60c\u5845\ud2ee\u553a\uaf19\u2182\ub83e\u3262\ub49a\u0ec7\u8102\u1bb7\u9de4"), this.kdl * 0.5f, vdn2.centerTop(f8), kct.kdu(0xFFFFFF, 0.97f));
+            vdn2.drawCentered(context, a.c(662017462, "\u95e1\uec7b\u66af\uf8de\u7315\uf5b2\u4fa4\uc60c\u5845\ud2ee\u553a\uaf19\u2182\ub83e\u3262\ub49a\u0ec7\u8102\u1bb7\u9de4"), this.kdl * 0.5f, vdn2.centerTop(f7), kct.kdu(0xFFFFFF, 0.97f));
             vdn vdn3 = veo.medium(7.6f);
-            vdn3.drawCentered(drawContext, a.c(237958896, "\uf2ef\u8b07\u01ae\u9fdb\u1479\u92b0\u2899\ua11f\u3b55\ub58b\u3220\uc82d\u468b"), this.kdl * 0.5f, vdn3.centerTop(f8 + 15.0f), kct.kdu(14149365, 0.72f));
+            vdn3.drawCentered(context, a.c(237958896, "\uf2ef\u8b07\u01ae\u9fdb\u1479\u92b0\u2899\ua11f\u3b55\ub58b\u3220\uc82d\u468b"), this.kdl * 0.5f, vdn3.centerTop(f7 + 15.0f), kct.kdu(14149365, 0.72f));
             uut.popAlpha();
             for (int i = 0; i < kcx.length; ++i) {
-                this.kdr(drawContext, gpuTextureView, i, f5, f6, f3, f4);
+                this.kdr(context, gpuTextureView, i, f4, f5, f2, f3);
             }
             vdn vdn4 = veo.medium(6.2f);
-            uut.pushAlpha(vcq.clamp01((f3 - 0.7f) / 0.6f));
-            vdn4.drawCentered(drawContext, a.c(738804110, "\u45cc\u3c60\ub6ba\u28c3\ua311\u25da\u9f87\u121a\u885a\u02ea\u8545\u7f48\uf19d\u6c2a\ue663\u6488\udec0\u5112\ucba0\u4df4\uc409\uba48\u309a\uaf2a\u2d46\ua79f\u1e29\u9077\u0af2\u8ca1\u076d\uf9be\u77ed\uea0e\u684f\ue699\u5931\ud33a\u5186\ucc26\u4670\u3889\ub2a9\u3176\uaba1\u2547\u9c03\u16b2\u909e\u0b64\u851e\u7fc0\uf67e\u702d\uea9b\u6483\udf21\u59a4\ud39b\u4a47\uc4e5\ubea5\u3941\ub358\u2d8d\ua468\u1e27\u98db\u12c9\u8d3f\u07e7\u8195\u7847\uf2f1\u6ce7\ue754\u6114\udba4\u5277\ucc1d\u46d3\uc0cc\ubb36\u35e0\uafd9\u265c\ua0f3\u1aaf\u9515\u0f07\u89bfc\ufa10\u74d4\uef33\u692f\ue3e8\u5d92\ud45a"), this.kdl * 0.5f, vdn4.centerTop(this.kdm * 0.5f + 46.0f + 24.0f), kct.kdu(0xFFFFFF, 0.45f));
+            uut.pushAlpha(vcq.clamp01((f2 - 0.7f) / 0.6f));
+            vdn4.drawCentered(context, a.c(738804110, "\u45cc\u3c60\ub6ba\u28c3\ua311\u25da\u9f87\u121a\u885a\u02ea\u8545\u7f48\uf19d\u6c2a\ue663\u6488\udec0\u5112\ucba0\u4df4\uc409\uba48\u309a\uaf2a\u2d46\ua79f\u1e29\u9077\u0af2\u8ca1\u076d\uf9be\u77ed\uea0e\u684f\ue699\u5931\ud33a\u5186\ucc26\u4670\u3889\ub2a9\u3176\uaba1\u2547\u9c03\u16b2\u909e\u0b64\u851e\u7fc0\uf67e\u702d\uea9b\u6483\udf21\u59a4\ud39b\u4a47\uc4e5\ubea5\u3941\ub358\u2d8d\ua468\u1e27\u98db\u12c9\u8d3f\u07e7\u8195\u7847\uf2f1\u6ce7\ue754\u6114\udba4\u5277\ucc1d\u46d3\uc0cc\ubb36\u35e0\uafd9\u265c\ua0f3\u1aaf\u9515\u0f07\u89bfc\ufa10\u74d4\uef33\u692f\ue3e8\u5d92\ud45a"), this.kdl * 0.5f, vdn4.centerTop(this.kdm * 0.5f + 46.0f + 24.0f), kct.kdu(0xFFFFFF, 0.45f));
             uut.popAlpha();
         }
         finally {
@@ -136,11 +136,11 @@ extends Screen {
             matrix3x2fStack.popMatrix();
             vdn.setRenderScale(1.0f);
         }
-        if (f4 >= 1.0f && !this.kdh) {
+        if (f3 >= 1.0f && !this.kdh) {
             this.kdh = true;
-            MinecraftClient minecraftClient = this.field_22787;
-            jte jte2 = minecraftClient.field_1687 == null ? jte.afterWelcome() : this.kcy;
-            minecraftClient.method_63588(() -> minecraftClient.method_1507(jte2));
+            MinecraftClient minecraftClient = this.client;
+            jte jte2 = minecraftClient.world == null ? jte.afterWelcome() : this.kcy;
+            minecraftClient.send(() -> minecraftClient.setScreen(jte2));
         }
     }
 
@@ -175,7 +175,7 @@ extends Screen {
         float f12 = (0.92f + 0.08f * f6) * (1.0f + 0.03f * f10) * (this.kdg >= 0 && this.kdg != n ? 1.0f - 0.05f * f4 : 1.0f);
         float f13 = 13.0f;
         int n2 = this.kdb.accent;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f7 + 58.0f, f11 + 46.0f);
         matrix3x2fStack.scale(f12, f12);
@@ -221,12 +221,12 @@ extends Screen {
         this.kdf = kap.clock();
     }
 
-    public boolean method_25402(Click click, boolean bl) {
-        if (click.method_74245() != 0) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (click.button() != 0) {
             return true;
         }
-        float f = (float)click.comp_4798() / this.kdk;
-        float f2 = (float)click.comp_4799() / this.kdk;
+        float f = (float)click.x() / this.kdk;
+        float f2 = (float)click.y() / this.kdk;
         for (int i = 0; i < kcx.length; ++i) {
             if (!kct.kdt(f, f2, this.kdp(i), this.kdq(), 116.0f, 92.0f)) continue;
             this.kds(i);
@@ -234,8 +234,8 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25404(KeyInput keyInput) {
-        switch (keyInput.comp_4795()) {
+    public boolean keyPressed(KeyInput input) {
+        switch (input.key()) {
             case 263: {
                 this.kdd = 0;
                 break;
@@ -255,15 +255,15 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25422() {
+    public boolean shouldCloseOnEsc() {
         return false;
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public void method_25432() {
+    public void removed() {
         this.kcz.close();
         vdn.setRenderScale(1.0f);
     }

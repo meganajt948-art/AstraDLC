@@ -62,15 +62,15 @@ final class gyf {
                 if (!gyk[i]) continue;
                 kfe3.setEnabled(false);
             }
-            minecraftClient.field_1690.field_1842 = true;
-            minecraftClient.field_1690.field_1837 = false;
-            minecraftClient.field_1690.method_42503().method_41748((Object)12);
-            minecraftClient.field_1690.method_41808().method_41748((Object)70);
+            minecraftClient.options.hudHidden = true;
+            minecraftClient.options.pauseOnLostFocus = false;
+            minecraftClient.options.getViewDistance().setValue((Object)12);
+            minecraftClient.options.getFov().setValue((Object)70);
             gyf.gyt(minecraftClient, a.d("\uc33d\uba8a\u3055\uae2c\u25f3\ua340\u1918\u90e8\u0ef2\u8400\u03c2\uf9a4\u7777\ueed3\u649d\ue273\u582f", 1618221021, 822727830));
             gyf.gyt(minecraftClient, a.c(1050601701, "\ue89c\u912b\u1bf4\u858d\u0e4d\u88fb\u32b1\ubb49\u2553\uafa6\u287e\ud224\u5cd6\uc57f\u4f39\uc9cd\u738c\ufc52\u66fd\ue09b\u6956\u131d\u9da1\u0679\u8043\u0ad4\ub360\u3d3c\ua7d4\u2193"));
             gyf.gyt(minecraftClient, a.c(-988955079, "\ube43\uc7f4\u4d2b\ud352\u5892\ude24\u646e\ued96\u738c\uf979\u7ea1\u84e8\u0a0d\u93b8\u19fe\u9f13\u2551\uaa97\u3015\ub67e\u3f93\u45cd\ucb77\u50e3\ud6da\u5c0c\ue5b2\u6bfc\uf11d"));
             gyf.gyt(minecraftClient, a.c(1727764634, "\u98e0\ue143\u6b94\uf5f0\u7e3b\uf887\u42c3\ucb60\u557c\udfc2\u5818\ua26d\u2ca9"));
-            GLFW.glfwSetWindowSize((long)minecraftClient.method_22683().method_4490(), (int)1920, (int)1080);
+            GLFW.glfwSetWindowSize((long)minecraftClient.getWindow().getHandle(), (int)1920, (int)1080);
             gyf.gyq(minecraftClient);
             return false;
         }
@@ -86,8 +86,8 @@ final class gyf {
                 System.out.println(a.b("\uf632\u8f9e\u054c\u9b25\u10f6\u965f\u2c1e\ua5ac\u3be9\ub116\u36c4\uccfa\u427e\udbd2\u5180\ud769\u6d28\ue2a0\u7851\ufe0b\u77fa\u0da9\u8312\u1886\u9ebf\u1467\uadce\u2384\ub979", -1958414756));
                 return true;
             }
-            System.out.println(a.d("\ua62a\udf86\u5554\ucb3d\u40ee\uc647\u7c06\uf5ae\u6bb0\ue114\u6693", -391784404, 94928510) + blockPos.method_23854());
-            gyf.gyt(minecraftClient, a.b("\ua250\udbe5\u5166\ucf77\u4493\uc271", 1153802786) + blockPos.method_10263() + a.b("\uba92", -1421034829) + (blockPos.method_10264() + 7) + a.b("\ue034", 1230888981) + blockPos.method_10260());
+            System.out.println(a.d("\ua62a\udf86\u5554\ucb3d\u40ee\uc647\u7c06\uf5ae\u6bb0\ue114\u6693", -391784404, 94928510) + blockPos.toShortString());
+            gyf.gyt(minecraftClient, a.b("\ua250\udbe5\u5166\ucf77\u4493\uc271", 1153802786) + blockPos.getX() + a.b("\uba92", -1421034829) + (blockPos.getY() + 7) + a.b("\ue034", 1230888981) + blockPos.getZ());
             gyf.gyt(minecraftClient, a.c(1676439914, "\u7113\u08bf\u8268\u1c11\u9783\u1161\uab24\u22c4\ubccf\u3668\ub1bd\u4bcc\uc51b"));
             ((vlv)gyf.gys(kfe2, a.c(1458586027, "\u41fe\u3879\ub2ae\u2ccd\ua706\u21b6"))).set(a.d("\u79f2}\u8aa9\u14c2\u9f04\u19a2", 389692322, -4046335));
             ((vmc)gyf.gys(kfe2, a.c(-1925699973, "\u2622\u5fa2\ud562\u4b15\uc0df\u4664\ufc38\u75c0\ueb89"))).set(0.6);
@@ -99,9 +99,9 @@ final class gyf {
             gyn = n;
             return false;
         }
-        minecraftClient.field_1724.method_31549().field_7479 = true;
-        if (minecraftClient.field_1755 != null) {
-            minecraftClient.method_1507(null);
+        minecraftClient.player.getAbilities().flying = true;
+        if (minecraftClient.currentScreen != null) {
+            minecraftClient.setScreen(null);
         }
         if ((n2 = n - gyn - 520) == -40) {
             vbb.gpuMillis();
@@ -131,7 +131,7 @@ final class gyf {
         }
         if (n2 > gyf.gyi[gyf.gyi.length - 1].gxw + 10) {
             vbb.timing(false);
-            minecraftClient.field_1690.field_1842 = false;
+            minecraftClient.options.hudHidden = false;
             for (int i = 0; i < gyj.length; ++i) {
                 kfe kfe5 = Flow.getInstance().getModuleManager().getByName(gyj[i]);
                 if (kfe5 == null) continue;
@@ -145,17 +145,17 @@ final class gyf {
     private static void gyq(MinecraftClient minecraftClient) {
         gyl = null;
         gym = false;
-        IntegratedServer integratedServer = minecraftClient.method_1576();
-        BlockPos blockPos = minecraftClient.field_1724.method_24515();
+        IntegratedServer integratedServer = minecraftClient.getServer();
+        BlockPos blockPos = minecraftClient.player.getBlockPos();
         integratedServer.execute(() -> {
             try {
-                ServerWorld serverWorld = integratedServer.method_30002();
-                Pair pair = serverWorld.method_42108(registryEntry -> registryEntry.method_40225(BiomeKeys.field_35117), blockPos, 6400, 32, 64);
+                ServerWorld serverWorld = integratedServer.getOverworld();
+                Pair pair = serverWorld.locateBiome(registryEntry -> registryEntry.matchesKey(BiomeKeys.SNOWY_PLAINS), blockPos, 6400, 32, 64);
                 if (pair != null) {
                     BlockPos blockPos2 = (BlockPos)pair.getFirst();
-                    serverWorld.method_8500(blockPos2);
-                    int n = serverWorld.method_8624(Heightmap.Type.field_13197, blockPos2.method_10263(), blockPos2.method_10260());
-                    gyl = new BlockPos(blockPos2.method_10263(), n, blockPos2.method_10260());
+                    serverWorld.getWorldChunk(blockPos2);
+                    int n = serverWorld.getTopY(Heightmap.Type.MOTION_BLOCKING, blockPos2.getX(), blockPos2.getZ());
+                    gyl = new BlockPos(blockPos2.getX(), n, blockPos2.getZ());
                 }
             }
             catch (Throwable throwable) {
@@ -166,10 +166,10 @@ final class gyf {
     }
 
     private static void gyr(MinecraftClient minecraftClient, float f, float f2) {
-        minecraftClient.field_1724.method_36456(f);
-        minecraftClient.field_1724.method_36457(f2);
-        minecraftClient.field_1724.field_5982 = f;
-        minecraftClient.field_1724.field_6004 = f2;
+        minecraftClient.player.setYaw(f);
+        minecraftClient.player.setPitch(f2);
+        minecraftClient.player.lastYaw = f;
+        minecraftClient.player.lastPitch = f2;
     }
 
     private static vmo gys(kfe kfe2, String string) {
@@ -181,12 +181,12 @@ final class gyf {
     }
 
     private static void gyt(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void gyu(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.c(-100638969, "\u5f7e\u26d9\uac03\u3278\ub9e9\u3f0c\u854e\u0ca9\u92f1\u1814") + string + a.c(210580171, "\u32e8\u4b39\uc18a") + minecraftClient.method_47599() + a.d("\ufd76\u8481\u0e44\u9036", 593010428, 928801710));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.d("\u78bc\u0107\u8bd7\u15be\u9e2c\u1882", -97740393, 974643531) + string + a.c(672632092, "\u8d36\uf4d9\u7e14\ue06c")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.c(-100638969, "\u5f7e\u26d9\uac03\u3278\ub9e9\u3f0c\u854e\u0ca9\u92f1\u1814") + string + a.c(210580171, "\u32e8\u4b39\uc18a") + minecraftClient.getCurrentFps() + a.d("\ufd76\u8481\u0e44\u9036", 593010428, 928801710));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.d("\u78bc\u0107\u8bd7\u15be\u9e2c\u1882", -97740393, 974643531) + string + a.c(672632092, "\u8d36\uf4d9\u7e14\ue06c")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     static {

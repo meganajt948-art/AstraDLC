@@ -77,7 +77,7 @@ final class jyw {
     }
 
     static void openOriginal(Screen screen) {
-        MinecraftClient.method_1551().method_1507((Screen)new AccountScreen(screen));
+        MinecraftClient.getInstance().setScreen((Screen)new AccountScreen(screen));
     }
 
     static void login(jyi jyi2, jyv jyv2) {

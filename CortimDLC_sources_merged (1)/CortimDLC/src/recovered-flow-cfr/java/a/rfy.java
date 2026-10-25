@@ -67,7 +67,7 @@ extends kfe {
     @Override
     protected void onEnable() {
         this.rgi.clear();
-        this.rgk = this.mc.field_1724 == null || this.mc.field_1724.method_24828();
+        this.rgk = this.mc.player == null || this.mc.player.isOnGround();
     }
 
     @Override
@@ -77,13 +77,13 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        boolean bl = clientPlayerEntity.method_24828();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        boolean bl = clientPlayerEntity.isOnGround();
         if (bl) {
-            this.rgl = clientPlayerEntity.method_23318();
+            this.rgl = clientPlayerEntity.getY();
         }
-        if (!(!this.rgk || bl || !(clientPlayerEntity.method_18798().field_1351 > 0.06) || clientPlayerEntity.method_5765() || clientPlayerEntity.method_7325() || clientPlayerEntity.method_5799() || clientPlayerEntity.method_6101())) {
-            this.rgv(clientPlayerEntity.method_23317(), this.rgl, clientPlayerEntity.method_23321());
+        if (!(!this.rgk || bl || !(clientPlayerEntity.getVelocity().y > 0.06) || clientPlayerEntity.hasVehicle() || clientPlayerEntity.isSpectator() || clientPlayerEntity.isTouchingWater() || clientPlayerEntity.isClimbing())) {
+            this.rgv(clientPlayerEntity.getX(), this.rgl, clientPlayerEntity.getZ());
         }
         this.rgk = bl;
     }
@@ -158,8 +158,8 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         rfy rfy2 = rfz;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rfy2 == null || !rfy2.isEnabled() || rfy2.rgi.isEmpty() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rfy2 == null || !rfy2.isEnabled() || rfy2.rgi.isEmpty() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -170,7 +170,7 @@ extends kfe {
         float f = unf.delta();
         rfy2.rgn += f;
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;

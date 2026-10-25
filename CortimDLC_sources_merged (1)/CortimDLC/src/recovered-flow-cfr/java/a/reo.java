@@ -75,11 +75,11 @@ extends kfe {
     }
 
     private double rex(MinecraftClient minecraftClient, double d) {
-        ClientWorld clientWorld = minecraftClient.field_1687;
-        BlockPos blockPos = minecraftClient.field_1724.method_24515();
-        BlockPos blockPos2 = BlockPos.method_49638((Position)minecraftClient.field_1724.method_33571());
-        int n = Math.max(clientWorld.method_8314(LightType.field_9282, blockPos), clientWorld.method_8314(LightType.field_9282, blockPos2));
-        int n2 = Math.max(clientWorld.method_8314(LightType.field_9284, blockPos), clientWorld.method_8314(LightType.field_9284, blockPos2));
+        ClientWorld clientWorld = minecraftClient.world;
+        BlockPos blockPos = minecraftClient.player.getBlockPos();
+        BlockPos blockPos2 = BlockPos.ofFloored((Position)minecraftClient.player.getEyePos());
+        int n = Math.max(clientWorld.getLightLevel(LightType.BLOCK, blockPos), clientWorld.getLightLevel(LightType.BLOCK, blockPos2));
+        int n2 = Math.max(clientWorld.getLightLevel(LightType.SKY, blockPos), clientWorld.getLightLevel(LightType.SKY, blockPos2));
         double d2 = Math.max((float)n, (float)n2 * reo.rey(minecraftClient));
         this.reu = this.reu < 0.0 ? d2 : this.reu + (d2 - this.reu) * 0.15;
         double d3 = 1.0 - reo.rez(2.0, 12.0, this.reu);
@@ -92,7 +92,7 @@ extends kfe {
 
     private static float rey(MinecraftClient minecraftClient) {
         try {
-            Float f = (Float)minecraftClient.field_1773.method_19418().method_75756().method_75689(EnvironmentAttributes.field_64346, 1.0f);
+            Float f = (Float)minecraftClient.gameRenderer.getCamera().getEnvironmentAttributeInterpolator().get(EnvironmentAttributes.SKY_LIGHT_FACTOR_VISUAL, 1.0f);
             return f == null ? 1.0f : Math.max(0.0f, Math.min(1.0f, f.floatValue()));
         }
         catch (RuntimeException runtimeException) {

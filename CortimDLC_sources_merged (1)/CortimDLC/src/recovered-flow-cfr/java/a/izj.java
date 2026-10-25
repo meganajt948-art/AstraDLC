@@ -67,11 +67,11 @@ extends jeq<izb> {
         ArrayList<izb> arrayList;
         block4: {
             arrayList = new ArrayList<izb>();
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
-            ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
+            ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
             if (clientPlayerEntity != null) {
                 try {
-                    izj.izv(clientPlayerEntity, minecraftClient.method_61966().method_60637(true), arrayList);
+                    izj.izv(clientPlayerEntity, minecraftClient.getRenderTickCounter().getTickProgress(true), arrayList);
                 }
                 catch (Throwable throwable) {
                     if (izr) break block4;
@@ -81,8 +81,8 @@ extends jeq<izb> {
             }
         }
         if (arrayList.isEmpty() && bl) {
-            arrayList.add(izj.izu(Items.field_8634, 0.8f, 0.8f));
-            arrayList.add(izj.izu(Items.field_49098, 0.3f, 0.6f));
+            arrayList.add(izj.izu(Items.ENDER_PEARL, 0.8f, 0.8f));
+            arrayList.add(izj.izu(Items.WIND_CHARGE, 0.3f, 0.6f));
         }
         arrayList.sort(Comparator.comparing(izb2 -> -izb2.izf));
         return arrayList;
@@ -90,7 +90,7 @@ extends jeq<izb> {
 
     private static izb izu(Item item, float f, float f2) {
         ItemStack itemStack = new ItemStack((ItemConvertible)item);
-        return new izb(a.b("\u4d55\u34e6\ube22\u2040\uab88\u2d35\u9774\u1ec8", -1985000147) + Registries.field_41178.method_10221((Object)item), itemStack, izj.shortName(itemStack, Registries.field_41178.method_10221((Object)item)), System.nanoTime() + (long)(f * 1.0E9f), f / f2);
+        return new izb(a.b("\u4d55\u34e6\ube22\u2040\uab88\u2d35\u9774\u1ec8", -1985000147) + Registries.ITEM.getId((Object)item), itemStack, izj.shortName(itemStack, Registries.ITEM.getId((Object)item)), System.nanoTime() + (long)(f * 1.0E9f), f / f2);
     }
 
     private static void izv(ClientPlayerEntity clientPlayerEntity, float f, List<izb> list) throws Exception {
@@ -99,7 +99,7 @@ extends jeq<izb> {
         if (izr) {
             return;
         }
-        ItemCooldownManager itemCooldownManager = clientPlayerEntity.method_7357();
+        ItemCooldownManager itemCooldownManager = clientPlayerEntity.getItemCooldownManager();
         if (izp == null) {
             object = ItemCooldownManager.class.getDeclaredFields();
             n = ((Field[])object).length;
@@ -123,7 +123,7 @@ extends jeq<izb> {
             return;
         }
         n = izq.getInt(itemCooldownManager);
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         long l = System.nanoTime();
         for (Map.Entry entry : object.entrySet()) {
             Object object3 = entry.getKey();
@@ -150,40 +150,40 @@ extends jeq<izb> {
 
     static String shortName(ItemStack itemStack, Identifier identifier) {
         Item item;
-        Item item2 = item = itemStack.method_7960() ? (Item)Registries.field_41178.method_63535(identifier) : itemStack.method_7909();
-        if (item == Items.field_8367) {
+        Item item2 = item = itemStack.isEmpty() ? (Item)Registries.ITEM.get(identifier) : itemStack.getItem();
+        if (item == Items.ENCHANTED_GOLDEN_APPLE) {
             return wap.s(a.d("\u6b4e\u12d7\u980f\u063a\u8dac\u0b0c\ub15f\u38b2\ua6e4", 375357988, 871426340), a.b("\u43e8\u3a4e\ub0ed\u2ee6\ua53b", 1677477834));
         }
-        if (item == Items.field_8463) {
+        if (item == Items.GOLDEN_APPLE) {
             return wap.s(a.b("\u3850\u41c7\ucb05\u5574\udebf\u5807", -1734789103), a.c(118144588, "\uba5b\uc3b4\u4915\ud760"));
         }
-        if (item == Items.field_8634) {
+        if (item == Items.ENDER_PEARL) {
             return wap.s(a.d("\u56b0\u2f34\ua5e3\u3b81\ub048", -1087293075, 869560200), a.d("\u73b8\u0a2a\u80f0\u1efa\u9529\u13e8", -905268007, -1331575951));
         }
-        if (item == Items.field_8233) {
+        if (item == Items.CHORUS_FRUIT) {
             return wap.s(a.c(-1927313584, "\u8715\ufe8f\u745b\uea37\u61e7\ue750"), a.b("\u2497\u5d3d\ud790\u49e2\uc237", -969858889));
         }
-        if (item == Items.field_49098) {
+        if (item == Items.WIND_CHARGE) {
             return wap.s(a.d("\ud760\uaeef\u243b\uba40\u31d3\ub721\u0d79\u8481\u1acd\u9069\u17b8", -1413031756, -192082040), a.c(-1244043857, "\u61b3\u1825\u9286\u0cf8\u8754\u05f1\ubbb0\u3246\uac6e\u26dd\ua17e"));
         }
-        if (item == Items.field_8288) {
+        if (item == Items.TOTEM_OF_UNDYING) {
             return wap.s(a.b("\u0bac\u7226\uf8ee\u668e\ued51", 1141443581), a.c(515004581, "\u5c82\u252f\uaf80\u3186\uba58"));
         }
-        if (item == Items.field_8287) {
+        if (item == Items.EXPERIENCE_BOTTLE) {
             return wap.s(a.d("\u69f1\u1048\u9aeb\u04d8\u8f02\u09a8\ub3fb\u3a12\ua444", 1436287464, -483432376), a.d("\ue139\u98d4\u1273\u8c7e\u07a2\u8102\u3b3a\ub6d1\u2c90\ua620\u2187\udbff\u555a", -335633187, 1051476470));
         }
-        String string = item == Items.field_8162 ? identifier.method_12832().replace('_', ' ') : item.method_63680().getString();
-        return string.isEmpty() ? identifier.method_12832() : string;
+        String string = item == Items.AIR ? identifier.getPath().replace('_', ' ') : item.getName().getString();
+        return string.isEmpty() ? identifier.getPath() : string;
     }
 
     private static ItemStack izw(ItemCooldownManager itemCooldownManager, PlayerInventory playerInventory, Identifier identifier) {
-        for (int i = 0; i < playerInventory.method_5439(); ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960() || !identifier.equals((Object)itemCooldownManager.method_62836(itemStack))) continue;
-            return new ItemStack((ItemConvertible)itemStack.method_7909());
+        for (int i = 0; i < playerInventory.size(); ++i) {
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty() || !identifier.equals((Object)itemCooldownManager.getGroup(itemStack))) continue;
+            return new ItemStack((ItemConvertible)itemStack.getItem());
         }
-        Item item = (Item)Registries.field_41178.method_63535(identifier);
-        return item == Items.field_8162 ? ItemStack.field_8037 : new ItemStack((ItemConvertible)item);
+        Item item = (Item)Registries.ITEM.get(identifier);
+        return item == Items.AIR ? ItemStack.EMPTY : new ItemStack((ItemConvertible)item);
     }
 
     static String seconds(float f) {
@@ -209,14 +209,14 @@ extends jeq<izb> {
     void drawRow(DrawContext drawContext, izb izb2, float f, float f2, float f3, float f4, float f5, float f6) {
         float f7;
         float f8 = f2 + 6.0f;
-        if (!izb2.izd.method_7960()) {
+        if (!izb2.izd.isEmpty()) {
             f7 = 0.625f * f5;
             uut.pushScissor(drawContext, f - 1.0f, f8 - 5.0f - 1.0f, 12.0f, 12.0f);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f + 5.0f, f8);
-            drawContext.method_51448().scale(f7, f7);
-            drawContext.method_51427(izb2.izd, -8, -8);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f + 5.0f, f8);
+            drawContext.getMatrices().scale(f7, f7);
+            drawContext.drawItem(izb2.izd, -8, -8);
+            drawContext.getMatrices().popMatrix();
             uut.popScissor(drawContext);
         }
         f7 = f + 10.0f + 4.0f;

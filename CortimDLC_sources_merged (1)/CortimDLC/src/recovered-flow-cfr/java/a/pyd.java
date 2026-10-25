@@ -136,7 +136,7 @@ public final class pyd {
             return null;
         }
         try {
-            return psf.of(world, (Entity)playerEntity, playerEntity.method_73189(), list, blockPos, this.style(), prz2, this.pyh);
+            return psf.of(world, (Entity)playerEntity, playerEntity.getEntityPos(), list, blockPos, this.style(), prz2, this.pyh);
         }
         catch (RuntimeException runtimeException) {
             return null;
@@ -145,8 +145,8 @@ public final class pyd {
 
     public int walkTo(MinecraftClient minecraftClient, PlayerEntity playerEntity, World world, Vec3d vec3d, float f, float f2, Vec3d vec3d2, boolean bl, boolean bl2, txs txs2) {
         ++this.pyl;
-        if (this.pyj == null || this.pyk == null || this.pyk.method_1025(vec3d) > 0.36 || this.pyl > 60) {
-            this.pyj = psf.direct(world, (Entity)playerEntity, playerEntity.method_73189(), vec3d);
+        if (this.pyj == null || this.pyk == null || this.pyk.squaredDistanceTo(vec3d) > 0.36 || this.pyl > 60) {
+            this.pyj = psf.direct(world, (Entity)playerEntity, playerEntity.getEntityPos(), vec3d);
             this.pyk = vec3d;
             this.pyl = 0;
         }
@@ -177,14 +177,14 @@ public final class pyd {
             return n;
         }
         this.pys = true;
-        boolean bl4 = bl3 = playerEntity.method_7344().method_7586() > 6 && !playerEntity.method_6115();
+        boolean bl4 = bl3 = playerEntity.getHungerManager().getFoodLevel() > 6 && !playerEntity.isUsingItem();
         if (txs2 != null && this.pyt <= 0) {
             if (this.pyi == null || this.pyi.model != txs2) {
                 this.pyi = new tvz(txs2);
             }
             object = this.pyi.decide(world, playerEntity, psf2.track, this.stride.at(), f, f2, bl3);
             double d = this.stride.progress();
-            double d2 = Math.hypot(playerEntity.method_23317() - playerEntity.field_6014, playerEntity.method_23321() - playerEntity.field_5969);
+            double d2 = Math.hypot(playerEntity.getX() - playerEntity.lastX, playerEntity.getZ() - playerEntity.lastZ);
             if (d > this.pyu + 0.3) {
                 this.pyu = d;
                 this.pyv = 0;
@@ -241,26 +241,26 @@ public final class pyd {
     }
 
     public static void apply(MinecraftClient minecraftClient, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-        GameOptions gameOptions = minecraftClient.field_1690;
+        GameOptions gameOptions = minecraftClient.options;
         if (gameOptions == null) {
             return;
         }
-        gameOptions.field_1894.method_23481(bl);
-        gameOptions.field_1881.method_23481(bl2);
-        gameOptions.field_1913.method_23481(bl3);
-        gameOptions.field_1849.method_23481(bl4);
-        gameOptions.field_1903.method_23481(bl5);
+        gameOptions.forwardKey.setPressed(bl);
+        gameOptions.backKey.setPressed(bl2);
+        gameOptions.leftKey.setPressed(bl3);
+        gameOptions.rightKey.setPressed(bl4);
+        gameOptions.jumpKey.setPressed(bl5);
         pyd.setSprint(gameOptions, bl6);
     }
 
     public static void setSprint(GameOptions gameOptions, boolean bl) {
-        KeyBinding keyBinding = gameOptions.field_1867;
-        if (((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            if (bl != keyBinding.method_1434()) {
-                keyBinding.method_23481(true);
+        KeyBinding keyBinding = gameOptions.sprintKey;
+        if (((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            if (bl != keyBinding.isPressed()) {
+                keyBinding.setPressed(true);
             }
         } else {
-            keyBinding.method_23481(bl);
+            keyBinding.setPressed(bl);
         }
     }
 

@@ -67,8 +67,8 @@ extends kfe {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         qyk qyk2 = qyl;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (qyk2 == null || !qyk2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (qyk2 == null || !qyk2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             if (qyk2 != null) {
                 qyk2.qyw.clear();
             }
@@ -79,23 +79,23 @@ extends kfe {
             return;
         }
         qyk2.qyy = unf.frame();
-        qyk2.qzb(drawContext, minecraftClient, renderTickCounter.method_60637(true), unf.delta());
+        qyk2.qzb(drawContext, minecraftClient, renderTickCounter.getTickProgress(true), unf.delta());
     }
 
     private void qzb(DrawContext drawContext, MinecraftClient minecraftClient, float f, float f2) {
-        Camera camera = minecraftClient.field_1773.method_19418();
-        Vec3d vec3d = camera.method_71156();
-        float f3 = camera.method_19330();
-        float f4 = (float)drawContext.method_51421() * 0.5f;
-        float f5 = (float)drawContext.method_51443() * 0.5f;
+        Camera camera = minecraftClient.gameRenderer.getCamera();
+        Vec3d vec3d = camera.getCameraPos();
+        float f3 = camera.getYaw();
+        float f4 = (float)drawContext.getScaledWindowWidth() * 0.5f;
+        float f5 = (float)drawContext.getScaledWindowHeight() * 0.5f;
         double d = this.qym.get();
         float f6 = (float)this.qyo.get();
         iov.update(f2);
         uut.beginFrame();
         this.qyx.clear();
-        for (PlayerEntity playerEntity : minecraftClient.field_1687.method_18456()) {
+        for (PlayerEntity playerEntity : minecraftClient.world.getPlayers()) {
             boolean bl;
-            if (playerEntity == minecraftClient.field_1724 || playerEntity == minecraftClient.method_1560() || playerEntity.method_7325() || !playerEntity.method_5805() || (bl = hhf.isFriend((Entity)playerEntity)) && !this.qyq.get()) continue;
+            if (playerEntity == minecraftClient.player || playerEntity == minecraftClient.getCameraEntity() || playerEntity.isSpectator() || !playerEntity.isAlive() || (bl = hhf.isFriend((Entity)playerEntity)) && !this.qyq.get()) continue;
             int n = bl ? this.qyr.color() : this.qyp.color();
             this.qzc(drawContext, (Entity)playerEntity, f, vec3d, f3, f4, f5, d, f6, f2, n);
         }
@@ -103,8 +103,8 @@ extends kfe {
         if (this.qyt.get() && rhs2 != null) {
             double d2 = this.qyu.get();
             double d3 = (d2 + 4.0) * (d2 + 4.0);
-            for (Entity entity : minecraftClient.field_1687.method_18112()) {
-                if (entity == minecraftClient.method_1560() || !(entity.method_5707(vec3d) <= d3) || !rhs2.picks(entity)) continue;
+            for (Entity entity : minecraftClient.world.getEntities()) {
+                if (entity == minecraftClient.getCameraEntity() || !(entity.squaredDistanceTo(vec3d) <= d3) || !rhs2.picks(entity)) continue;
                 this.qzc(drawContext, entity, f, vec3d, f3, f4, f5, d2, f6, f2, rhs2.colorOf(entity));
             }
         }
@@ -112,12 +112,12 @@ extends kfe {
     }
 
     private void qzc(DrawContext drawContext, Entity entity, float f, Vec3d vec3d, float f2, float f3, float f4, double d, float f5, float f6, int n2) {
-        Vec3d vec3d2 = entity.method_30950(f);
-        double d2 = vec3d2.field_1352 - vec3d.field_1352;
-        double d3 = vec3d2.field_1350 - vec3d.field_1350;
-        double d4 = Math.sqrt(d2 * d2 + d3 * d3 + (vec3d2.field_1351 - vec3d.field_1351) * (vec3d2.field_1351 - vec3d.field_1351));
-        vcj vcj2 = this.qyw.computeIfAbsent(entity.method_5628(), n -> new vcj(10.0f));
-        this.qyx.add(entity.method_5628());
+        Vec3d vec3d2 = entity.getLerpedPos(f);
+        double d2 = vec3d2.x - vec3d.x;
+        double d3 = vec3d2.z - vec3d.z;
+        double d4 = Math.sqrt(d2 * d2 + d3 * d3 + (vec3d2.y - vec3d.y) * (vec3d2.y - vec3d.y));
+        vcj vcj2 = this.qyw.computeIfAbsent(entity.getId(), n -> new vcj(10.0f));
+        this.qyx.add(entity.getId());
         float f7 = vcj2.step(d4 <= d, f6);
         if (f7 <= 0.01f) {
             return;
@@ -139,10 +139,10 @@ extends kfe {
     }
 
     private static void qzd(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, int n, float f6) {
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f2);
-        drawContext.method_51448().rotate(f3);
-        drawContext.method_51448().translate(0.0f, -f4);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f2);
+        drawContext.getMatrices().rotate(f3);
+        drawContext.getMatrices().translate(0.0f, -f4);
         uut.pushAlpha(f6);
         float f7 = 5.2f * f5;
         float f8 = 4.2f * f5;
@@ -151,7 +151,7 @@ extends kfe {
         uut.line(drawContext, -f7, f8 * 0.5f, 0.0f, -f8 * 0.5f, f9, n);
         uut.line(drawContext, f7, f8 * 0.5f, 0.0f, -f8 * 0.5f, f9, n);
         uut.popAlpha();
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     static {

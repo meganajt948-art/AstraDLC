@@ -333,14 +333,14 @@ final class CosmeticMesh {
     }
 
     static void emit(CosmeticItem item, Matrix4f[] bones, Matrix4f base, MatrixStack.Entry entry, VertexConsumer vc, int pass, int light, int argb, int frame, int part, boolean blink, boolean liveVideo) {
-        Matrix4f pos = E_POS.set((Matrix4fc)entry.method_23761()).mul((Matrix4fc)base);
-        Matrix3f nrm = E_NRM.set((Matrix3fc)entry.method_23762()).mul((Matrix3fc)E_TMP.set((Matrix4fc)base).invert().transpose());
+        Matrix4f pos = E_POS.set((Matrix4fc)entry.getPositionMatrix()).mul((Matrix4fc)base);
+        Matrix3f nrm = E_NRM.set((Matrix3fc)entry.getNormalMatrix()).mul((Matrix3fc)E_TMP.set((Matrix4fc)base).invert().transpose());
         int frames = Math.max(1, item.frames);
         float vScale = 1.0f / (float)frames;
         float vOff = (float)(frame % frames) / (float)frames;
         Vector4f p = E_P;
         Vector3f n = E_N;
-        int overlay = OverlayTexture.field_21444;
+        int overlay = OverlayTexture.DEFAULT_UV;
         for (int i = 0; i < item.bones.length; ++i) {
             float bv;
             CosmeticItem.Bone bone = item.bones[i];
@@ -380,7 +380,7 @@ final class CosmeticMesh {
             }
             float u = Math.min(1.0f, Math.max(0.0f, (v[k + 3] - r[0]) / du));
             float w = Math.min(1.0f, Math.max(0.0f, (v[k + 4] - r[1]) / dv));
-            vc.method_23919(p.x, p.y, p.z, argb, u, w, overlay, light, n.x, n.y, n.z);
+            vc.vertex(p.x, p.y, p.z, argb, u, w, overlay, light, n.x, n.y, n.z);
             k += 8;
         }
     }
@@ -399,7 +399,7 @@ final class CosmeticMesh {
             if (len > 1.0E-6f) {
                 n.div(len);
             }
-            vc.method_23919(p.x, p.y, p.z, argb, v[k + 3] + bu, vOff + (v[k + 4] + bv) * vScale, overlay, light, n.x, n.y, n.z);
+            vc.vertex(p.x, p.y, p.z, argb, v[k + 3] + bu, vOff + (v[k + 4] + bv) * vScale, overlay, light, n.x, n.y, n.z);
             k += 8;
         }
     }

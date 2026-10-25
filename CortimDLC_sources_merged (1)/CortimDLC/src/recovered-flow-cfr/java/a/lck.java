@@ -78,15 +78,15 @@ extends kfe {
 
     @Override
     public void onWorldRender(MinecraftClient minecraftClient) {
-        if (this.lcy == null && minecraftClient.method_22683() != null) {
-            this.ldl(minecraftClient.method_22683().method_4490());
+        if (this.lcy == null && minecraftClient.getWindow() != null) {
+            this.ldl(minecraftClient.getWindow().getHandle());
         }
     }
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1687 == null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.world == null) {
             this.lcv = null;
             return;
         }
@@ -100,7 +100,7 @@ extends kfe {
         LivingEntity livingEntity = null;
         double d2 = Double.MAX_VALUE;
         double d3 = this.lcp.get() * 0.5;
-        for (Entity entity : minecraftClient.field_1687.method_8335((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(d))) {
+        for (Entity entity : minecraftClient.world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(d))) {
             double d4;
             LivingEntity livingEntity2;
             if (!(entity instanceof LivingEntity) || !this.ldh(clientPlayerEntity, livingEntity2 = (LivingEntity)entity) || !lck.ldi(clientPlayerEntity, (Entity)livingEntity2, d) || !((d4 = lck.ldj(clientPlayerEntity, (Entity)livingEntity2)) <= d3) || !(d4 < d2)) continue;
@@ -111,32 +111,32 @@ extends kfe {
     }
 
     private boolean ldh(ClientPlayerEntity clientPlayerEntity, LivingEntity livingEntity) {
-        if (livingEntity == clientPlayerEntity || livingEntity.method_31481() || !livingEntity.method_5805() || livingEntity.method_29504() || livingEntity instanceof ArmorStandEntity) {
+        if (livingEntity == clientPlayerEntity || livingEntity.isRemoved() || !livingEntity.isAlive() || livingEntity.isDead() || livingEntity instanceof ArmorStandEntity) {
             return false;
         }
         if (livingEntity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity)livingEntity;
-            if (!this.lcq.get() || playerEntity.method_7325() || hhf.protects((Entity)playerEntity)) {
+            if (!this.lcq.get() || playerEntity.isSpectator() || hhf.protects((Entity)playerEntity)) {
                 return false;
             }
         } else if (!this.lcr.get()) {
             return false;
         }
-        return this.lcs.get() || clientPlayerEntity.method_6057((Entity)livingEntity);
+        return this.lcs.get() || clientPlayerEntity.canSee((Entity)livingEntity);
     }
 
     private static boolean ldi(ClientPlayerEntity clientPlayerEntity, Entity entity, double d) {
-        return clientPlayerEntity.method_5858(entity) <= d * d;
+        return clientPlayerEntity.squaredDistanceTo(entity) <= d * d;
     }
 
     private static double ldj(ClientPlayerEntity clientPlayerEntity, Entity entity) {
-        return Math.abs(lck.ldk(clientPlayerEntity, entity.method_5829().method_1005()));
+        return Math.abs(lck.ldk(clientPlayerEntity, entity.getBoundingBox().getCenter()));
     }
 
     private static double ldk(ClientPlayerEntity clientPlayerEntity, Vec3d vec3d) {
-        Vec3d vec3d2 = clientPlayerEntity.method_33571();
-        double d = Math.toDegrees(Math.atan2(-(vec3d.field_1352 - vec3d2.field_1352), vec3d.field_1350 - vec3d2.field_1350));
-        return MathHelper.method_15338((double)(d - (double)clientPlayerEntity.method_36454()));
+        Vec3d vec3d2 = clientPlayerEntity.getEyePos();
+        double d = Math.toDegrees(Math.atan2(-(vec3d.x - vec3d2.x), vec3d.z - vec3d2.z));
+        return MathHelper.wrapDegrees((double)(d - (double)clientPlayerEntity.getYaw()));
     }
 
     private void ldl(long l) {
@@ -173,7 +173,7 @@ extends kfe {
             this.lcx.invoke(l, d, d2);
         }
         if (lct != null && lcu != null) {
-            MinecraftClient.method_1551().execute(this::ldo);
+            MinecraftClient.getInstance().execute(this::ldo);
         }
     }
 
@@ -181,10 +181,10 @@ extends kfe {
         if (this.lcy == null) {
             return;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         try {
-            double d = lct.getDouble(minecraftClient.field_1729);
-            double d2 = lcu.getDouble(minecraftClient.field_1729);
+            double d = lct.getDouble(minecraftClient.mouse);
+            double d2 = lcu.getDouble(minecraftClient.mouse);
             if (d2 != this.ldb) {
                 this.ldc = d2 - this.ldb < 0.25 ? this.ldd : 0.0;
                 this.ldd = 0.0;
@@ -194,7 +194,7 @@ extends kfe {
                 this.lcz += d - this.lda;
             }
             this.lda = this.lcz + this.ldp(minecraftClient, this.lcz);
-            lct.setDouble(minecraftClient.field_1729, this.lda);
+            lct.setDouble(minecraftClient.mouse, this.lda);
         }
         catch (IllegalAccessException illegalAccessException) {
             lct = null;
@@ -203,18 +203,18 @@ extends kfe {
 
     private double ldp(MinecraftClient minecraftClient, double d) {
         double d2;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (d == 0.0 || !this.isEnabled() || clientPlayerEntity == null || this.lcv == null || !this.lcv.method_5805() || !minecraftClient.field_1729.method_1613() || minecraftClient.field_1755 != null || minecraftClient.field_1690.field_1914 || ovh.active() || kmy.busy() || tcz.mode() == tcw.RECORD) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (d == 0.0 || !this.isEnabled() || clientPlayerEntity == null || this.lcv == null || !this.lcv.isAlive() || !minecraftClient.mouse.isCursorLocked() || minecraftClient.currentScreen != null || minecraftClient.options.smoothCameraEnabled || ovh.active() || kmy.busy() || tcz.mode() == tcw.RECORD) {
             this.ldd = 0.0;
             return 0.0;
         }
         double d3 = d * lck.ldq(minecraftClient, clientPlayerEntity);
-        if (((Boolean)minecraftClient.field_1690.method_72706().method_41753()).booleanValue()) {
+        if (((Boolean)minecraftClient.options.getInvertMouseX().getValue()).booleanValue()) {
             d3 = -d3;
         }
-        double d4 = d3 * (d2 = lck.ldk(clientPlayerEntity, this.lcv.method_5829().method_1005())) > 0.0 ? this.lcl.get() : this.lcm.get();
-        double d5 = MathHelper.method_15350((double)(1.0 - Math.abs(d3) / this.lcn.get()), (double)0.0, (double)1.0);
-        d4 = MathHelper.method_16436((double)d5, (double)1.0, (double)d4);
+        double d4 = d3 * (d2 = lck.ldk(clientPlayerEntity, this.lcv.getBoundingBox().getCenter())) > 0.0 ? this.lcl.get() : this.lcm.get();
+        double d5 = MathHelper.clamp((double)(1.0 - Math.abs(d3) / this.lcn.get()), (double)0.0, (double)1.0);
+        d4 = MathHelper.lerp((double)d5, (double)1.0, (double)d4);
         double d6 = d * (d4 - 1.0) + this.ldc;
         double d7 = Math.rint(d6);
         this.ldd = d6 - d7;
@@ -222,9 +222,9 @@ extends kfe {
     }
 
     private static double ldq(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        double d = (Double)minecraftClient.field_1690.method_42495().method_41753() * (double)0.6f + (double)0.2f;
+        double d = (Double)minecraftClient.options.getMouseSensitivity().getValue() * (double)0.6f + (double)0.2f;
         double d2 = d * d * d;
-        boolean bl = minecraftClient.field_1690.method_31044().method_31034() && clientPlayerEntity.method_31550();
+        boolean bl = minecraftClient.options.getPerspective().isFirstPerson() && clientPlayerEntity.isUsingSpyglass();
         return bl ? d2 : d2 * 8.0;
     }
 

@@ -41,19 +41,19 @@ final class svp {
 
     static List<svi> of(Text text, swb swb2) {
         ArrayList<svi> arrayList = new ArrayList<svi>();
-        text.method_27658((style, string) -> {
+        text.visit((style, string) -> {
             svp.svu(arrayList, style, string, swb2);
             return Optional.empty();
-        }, Style.field_24360);
+        }, Style.EMPTY);
         return arrayList;
     }
 
     private static void svu(List<svi> list, Style style, String string, swb swb2) {
-        int n = style.method_10973() != null ? 0xFF000000 | style.method_10973().method_27716() : -1;
-        boolean bl = style.method_27708() != null && !StyleSpriteSource.field_61972.equals((Object)style.method_27708());
+        int n = style.getColor() != null ? 0xFF000000 | style.getColor().getRgb() : -1;
+        boolean bl = style.getFont() != null && !StyleSpriteSource.DEFAULT.equals((Object)style.getFont());
         int n2 = n;
-        boolean bl2 = style.method_10984();
-        boolean bl3 = style.method_10987();
+        boolean bl2 = style.isBold();
+        boolean bl3 = style.isObfuscated();
         StringBuilder stringBuilder = new StringBuilder();
         StringBuilder stringBuilder2 = new StringBuilder();
         int n3 = 0;
@@ -63,24 +63,24 @@ final class svp {
             if (n4 == 167 && (n3 += Character.charCount(n4)) < string.length()) {
                 Formatting formatting;
                 svp.svv(list, stringBuilder, stringBuilder2, style, n2, bl2);
-                if ((formatting = Formatting.method_544((char)string.charAt(n3++))) == null) continue;
-                if (formatting == Formatting.field_1070) {
+                if ((formatting = Formatting.byCode((char)string.charAt(n3++))) == null) continue;
+                if (formatting == Formatting.RESET) {
                     n2 = n;
-                    bl2 = style.method_10984();
-                    bl3 = style.method_10987();
+                    bl2 = style.isBold();
+                    bl3 = style.isObfuscated();
                     continue;
                 }
-                if (formatting.method_543() && formatting.method_532() != null) {
-                    n2 = 0xFF000000 | formatting.method_532();
+                if (formatting.isColor() && formatting.getColorValue() != null) {
+                    n2 = 0xFF000000 | formatting.getColorValue();
                     bl2 = false;
                     bl3 = false;
                     continue;
                 }
-                if (formatting == Formatting.field_1067) {
+                if (formatting == Formatting.BOLD) {
                     bl2 = true;
                     continue;
                 }
-                if (formatting != Formatting.field_1051) continue;
+                if (formatting != Formatting.OBFUSCATED) continue;
                 bl3 = true;
                 continue;
             }
@@ -106,8 +106,8 @@ final class svp {
             stringBuilder.setLength(0);
         }
         if (stringBuilder2 != null && !stringBuilder2.isEmpty()) {
-            Style style2 = style.method_27703(TextColor.method_27717((int)(n & 0xFFFFFF))).method_10982(Boolean.valueOf(bl));
-            list.add(new svi(stringBuilder2.toString(), n, bl, (Text)Text.method_43470((String)stringBuilder2.toString()).method_10862(style2)));
+            Style style2 = style.withColor(TextColor.fromRgb((int)(n & 0xFFFFFF))).withBold(Boolean.valueOf(bl));
+            list.add(new svi(stringBuilder2.toString(), n, bl, (Text)Text.literal((String)stringBuilder2.toString()).setStyle(style2)));
             stringBuilder2.setLength(0);
         }
     }
@@ -121,26 +121,26 @@ final class svp {
     }
 
     static float width(List<svi> list, swb swb2, swb swb3) {
-        TextRenderer textRenderer = MinecraftClient.method_1551().field_1772;
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         float f = 0.0f;
         for (svi svi2 : list) {
-            f += svi2.svm != null ? (float)textRenderer.method_27525((StringVisitable)svi2.svm) * svp.svx(swb2) : (svi2.svl ? swb3 : swb2).width(svi2.svj);
+            f += svi2.svm != null ? (float)textRenderer.getWidth((StringVisitable)svi2.svm) * svp.svx(swb2) : (svi2.svl ? swb3 : swb2).width(svi2.svj);
         }
         return f;
     }
 
     static float draw(DrawContext drawContext, List<svi> list, float f, float f2, swb swb2, swb swb3, int n) {
-        TextRenderer textRenderer = MinecraftClient.method_1551().field_1772;
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         float f3 = f2 + swb2.capHeight() * 0.5f;
         for (svi svi2 : list) {
             if (svi2.svm != null) {
                 float f4 = svp.svx(swb2);
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f, f3 - 7.0f * f4);
-                drawContext.method_51448().scale(f4, f4);
-                drawContext.method_51439(textRenderer, svi2.svm, 0, 0, uut.fade(-1), false);
-                drawContext.method_51448().popMatrix();
-                f += (float)textRenderer.method_27525((StringVisitable)svi2.svm) * f4;
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f, f3 - 7.0f * f4);
+                drawContext.getMatrices().scale(f4, f4);
+                drawContext.drawText(textRenderer, svi2.svm, 0, 0, uut.fade(-1), false);
+                drawContext.getMatrices().popMatrix();
+                f += (float)textRenderer.getWidth((StringVisitable)svi2.svm) * f4;
                 continue;
             }
             swb swb4 = svi2.svl ? swb3 : swb2;

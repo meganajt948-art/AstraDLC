@@ -196,8 +196,8 @@ public final class ukl {
         uld = 0;
         ulb.clear();
         ulf = null;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        boolean bl2 = bl = !ulh && minecraftClient.field_1769 != null && ukl.umz(minecraftClient.field_1769) != null;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        boolean bl2 = bl = !ulh && minecraftClient.worldRenderer != null && ukl.umz(minecraftClient.worldRenderer) != null;
         if (ulc == 0 || !bl) {
             ukl.umj();
             ukl.unb(false);
@@ -206,16 +206,16 @@ public final class ukl {
         }
         ukl.umm(devMode == 0);
         ule = false;
-        for (EntityRenderState entityRenderState : worldRenderState.field_61735) {
-            if (entityRenderState.field_61821 == 0 || ukl.umo(entityRenderState) >= 0) continue;
+        for (EntityRenderState entityRenderState : worldRenderState.entityRenderStates) {
+            if (entityRenderState.outlineColor == 0 || ukl.umo(entityRenderState) >= 0) continue;
             ule = true;
             break;
         }
         boolean bl3 = ulg && ukl.unb(true);
         for (int i = 0; i < ulc; ++i) {
             ukiArray = ukw[i];
-            ukiArray.field_61821 = ukl.ump(i);
-            if (bl3 && ula[i] < 0.995f && worldRenderState.field_61735.remove(ukiArray)) {
+            ukiArray.outlineColor = ukl.ump(i);
+            if (bl3 && ula[i] < 0.995f && worldRenderState.entityRenderStates.remove(ukiArray)) {
                 ulb.add((EntityRenderState)ukiArray);
                 continue;
             }
@@ -223,8 +223,8 @@ public final class ukl {
         }
         usn usn2 = null;
         try {
-            ukiArray = minecraftClient.method_1522();
-            usn2 = usn.fresh(minecraftClient.method_61966().method_60637(true), ukiArray.field_1482, ukiArray.field_1481);
+            ukiArray = minecraftClient.getFramebuffer();
+            usn2 = usn.fresh(minecraftClient.getRenderTickCounter().getTickProgress(true), ukiArray.textureWidth, ukiArray.textureHeight);
         }
         catch (Throwable throwable) {
             // empty catch block
@@ -234,8 +234,8 @@ public final class ukl {
         if (!bl3) {
             ukl.unb(false);
         }
-        worldRenderState.field_61736 = true;
-        ulf = worldRenderState.field_63082;
+        worldRenderState.hasOutline = true;
+        ulf = worldRenderState.cameraRenderState;
         for (uki uki2 : ukv) {
             uki2.shown = uki2.on;
         }
@@ -260,12 +260,12 @@ public final class ukl {
         float f3 = -3.4028235E38f;
         float f4 = -3.4028235E38f;
         for (EntityRenderState entityRenderState : list) {
-            double d = (double)entityRenderState.field_53329 * 0.5 + 0.6;
+            double d = (double)entityRenderState.width * 0.5 + 0.6;
             for (int i = 0; i < 8; ++i) {
                 double d2;
-                double d3 = (i & 1) == 0 ? entityRenderState.field_53325 - d : entityRenderState.field_53325 + d;
-                double d4 = (i & 2) == 0 ? entityRenderState.field_53326 - 0.2 : entityRenderState.field_53326 + (double)entityRenderState.field_53330 + 0.4;
-                double d5 = d2 = (i & 4) == 0 ? entityRenderState.field_53327 - d : entityRenderState.field_53327 + d;
+                double d3 = (i & 1) == 0 ? entityRenderState.x - d : entityRenderState.x + d;
+                double d4 = (i & 2) == 0 ? entityRenderState.y - 0.2 : entityRenderState.y + (double)entityRenderState.height + 0.4;
+                double d5 = d2 = (i & 4) == 0 ? entityRenderState.z - d : entityRenderState.z + d;
                 if (usn2.depth(d3, d4, d2) <= 0.05f || !usn2.project(d3, d4, d2, ulm)) {
                     return false;
                 }
@@ -333,7 +333,7 @@ public final class ukl {
     }
 
     private static @Nullable Map<Object, Object> umn() throws IllegalAccessException {
-        ShaderLoader shaderLoader = MinecraftClient.method_1551().method_62887();
+        ShaderLoader shaderLoader = MinecraftClient.getInstance().getShaderLoader();
         for (Field field : shaderLoader.getClass().getDeclaredFields()) {
             if (Modifier.isStatic(field.getModifiers()) || field.getType().getDeclaringClass() != ShaderLoader.class) continue;
             field.setAccessible(true);
@@ -367,7 +367,7 @@ public final class ukl {
     public static boolean invisible(EntityRenderState entityRenderState) {
         if (!(entityRenderState instanceof LivingEntityRenderState)) return false;
         LivingEntityRenderState livingEntityRenderState = (LivingEntityRenderState)entityRenderState;
-        if (!livingEntityRenderState.field_53461) return false;
+        if (!livingEntityRenderState.invisibleToPlayer) return false;
         return true;
     }
 
@@ -375,41 +375,41 @@ public final class ukl {
         if (ulb.isEmpty() || ulf == null || ulh) {
             return;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         ArrayList<EntityRenderState> arrayList = new ArrayList<EntityRenderState>(ulb);
         ulb.clear();
         try {
-            Framebuffer framebuffer = minecraftClient.method_1522();
-            Framebuffer framebuffer2 = ukl.umz(minecraftClient.field_1769);
-            RenderDispatcher renderDispatcher = ukl.una(minecraftClient.field_1769);
-            if (framebuffer2 == null || renderDispatcher == null || !uvq.ensure(uku) || !uvq.ensure(uvq.BLUR_COPY) || framebuffer.method_71639() == null || framebuffer.method_71640() == null || framebuffer2.method_71639() == null || framebuffer2.method_71640() == null) {
+            Framebuffer framebuffer = minecraftClient.getFramebuffer();
+            Framebuffer framebuffer2 = ukl.umz(minecraftClient.worldRenderer);
+            RenderDispatcher renderDispatcher = ukl.una(minecraftClient.worldRenderer);
+            if (framebuffer2 == null || renderDispatcher == null || !uvq.ensure(uku) || !uvq.ensure(uvq.BLUR_COPY) || framebuffer.getColorAttachmentView() == null || framebuffer.getDepthAttachmentView() == null || framebuffer2.getColorAttachmentView() == null || framebuffer2.getDepthAttachmentView() == null) {
                 ukl.umq(minecraftClient, arrayList, renderDispatcher);
                 return;
             }
-            minecraftClient.method_22940().method_23000().method_22993();
+            minecraftClient.getBufferBuilders().getEntityVertexConsumers().draw();
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            ukl.umx(gpuDevice, framebuffer.field_1482, framebuffer.field_1481);
+            ukl.umx(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight);
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 fx back", uly, OptionalInt.empty());){
                 if (!ull) {
-                    ukl.uml(renderPass, ulj, 4.0f, 1.0f, framebuffer.field_1482, framebuffer.field_1481);
+                    ukl.uml(renderPass, ulj, 4.0f, 1.0f, framebuffer.textureWidth, framebuffer.textureHeight);
                 }
                 renderPass.setPipeline(uvq.BLUR_COPY);
-                renderPass.bindTexture("InSampler", framebuffer.method_71639(), RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("InSampler", framebuffer.getColorAttachmentView(), RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.draw(0, 3);
             }
             ukl.umq(minecraftClient, arrayList, renderDispatcher);
-            ukl.umt(commandEncoder, 0, framebuffer.field_1482, framebuffer.field_1481, 0.0f);
-            renderPass = commandEncoder.createRenderPass(() -> "Flow2 fx fade", framebuffer.method_71639(), OptionalInt.empty());
+            ukl.umt(commandEncoder, 0, framebuffer.textureWidth, framebuffer.textureHeight, 0.0f);
+            renderPass = commandEncoder.createRenderPass(() -> "Flow2 fx fade", framebuffer.getColorAttachmentView(), OptionalInt.empty());
             try {
                 if (!ull) {
-                    ukl.uml(renderPass, ulj, 4.0f, 1.0f, framebuffer.field_1482, framebuffer.field_1481);
+                    ukl.uml(renderPass, ulj, 4.0f, 1.0f, framebuffer.textureWidth, framebuffer.textureHeight);
                 }
                 renderPass.setPipeline(uku);
-                renderPass.bindTexture("OutlineSampler", framebuffer2.method_71639(), RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("OutlineDepthSampler", framebuffer2.method_71640(), RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("DepthSampler", framebuffer.method_71640(), RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("BackSampler", uly, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("OutlineSampler", framebuffer2.getColorAttachmentView(), RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("OutlineDepthSampler", framebuffer2.getDepthAttachmentView(), RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("DepthSampler", framebuffer.getDepthAttachmentView(), RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("BackSampler", uly, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("FlowFx", uls[0]);
                 renderPass.draw(0, 3);
             }
@@ -432,11 +432,11 @@ public final class ukl {
         CameraRenderState cameraRenderState = ulf;
         MatrixStack matrixStack = new MatrixStack();
         for (EntityRenderState entityRenderState : list) {
-            minecraftClient.method_1561().method_72976(entityRenderState, cameraRenderState, entityRenderState.field_53325 - cameraRenderState.field_63078.field_1352, entityRenderState.field_53326 - cameraRenderState.field_63078.field_1351, entityRenderState.field_53327 - cameraRenderState.field_63078.field_1350, matrixStack, (OrderedRenderCommandQueue)renderDispatcher.method_73003());
+            minecraftClient.getEntityRenderDispatcher().render(entityRenderState, cameraRenderState, entityRenderState.x - cameraRenderState.pos.x, entityRenderState.y - cameraRenderState.pos.y, entityRenderState.z - cameraRenderState.pos.z, matrixStack, (OrderedRenderCommandQueue)renderDispatcher.getQueue());
         }
-        renderDispatcher.method_73002();
-        minecraftClient.method_22940().method_23000().method_22993();
-        minecraftClient.method_22940().method_23003().method_23285();
+        renderDispatcher.render();
+        minecraftClient.getBufferBuilders().getEntityVertexConsumers().draw();
+        minecraftClient.getBufferBuilders().getOutlineVertexConsumers().draw();
     }
 
     /*
@@ -447,26 +447,26 @@ public final class ukl {
         if (uld == 0 || ulh) {
             return;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        Framebuffer framebuffer2 = minecraftClient.method_1522();
-        Framebuffer framebuffer3 = framebuffer = minecraftClient.field_1769 == null ? null : ukl.umz(minecraftClient.field_1769);
-        if (framebuffer == null || framebuffer.method_30277() == null || framebuffer2.method_71639() == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        Framebuffer framebuffer2 = minecraftClient.getFramebuffer();
+        Framebuffer framebuffer3 = framebuffer = minecraftClient.worldRenderer == null ? null : ukl.umz(minecraftClient.worldRenderer);
+        if (framebuffer == null || framebuffer.getColorAttachment() == null || framebuffer2.getColorAttachmentView() == null) {
             return;
         }
         try {
             GpuDevice gpuDevice = RenderSystem.getDevice();
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             if (devMode != 1 && uvq.ensure(ukq) && uvq.ensure(ukr) && uvq.ensure(uks) && uvq.ensure(ukt)) {
-                ukl.umx(gpuDevice, framebuffer2.field_1482, framebuffer2.field_1481);
+                ukl.umx(gpuDevice, framebuffer2.textureWidth, framebuffer2.textureHeight);
                 float f = (float)(System.nanoTime() / 1000000L % 3600000L) / 1000.0f;
                 for (int i = 0; i < 5; ++i) {
                     uki uki2 = ukv[i];
                     if (!uki2.visible() || i == 3 && !ule) continue;
-                    ukl.umt(commandEncoder, i, framebuffer2.field_1482, framebuffer2.field_1481, f);
-                    ukl.umr(commandEncoder, i, uki2, framebuffer.method_71639(), framebuffer2.method_71639(), framebuffer2.field_1482, framebuffer2.field_1481);
+                    ukl.umt(commandEncoder, i, framebuffer2.textureWidth, framebuffer2.textureHeight, f);
+                    ukl.umr(commandEncoder, i, uki2, framebuffer.getColorAttachmentView(), framebuffer2.getColorAttachmentView(), framebuffer2.textureWidth, framebuffer2.textureHeight);
                 }
             }
-            commandEncoder.clearColorTexture(framebuffer.method_30277(), 0);
+            commandEncoder.clearColorTexture(framebuffer.getColorAttachment(), 0);
         }
         catch (Throwable throwable) {
             ulh = true;
@@ -488,7 +488,7 @@ public final class ukl {
                 ukl.uml(renderPass, uli, f, 0.5f, Math.max(1, n2 / 2), Math.max(1, n3 / 2));
             }
             renderPass.setPipeline(ukq);
-            renderPass.bindTexture("OutlineSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+            renderPass.bindTexture("OutlineSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
             renderPass.setUniform("FlowFx", uls[n]);
             renderPass.draw(0, 3);
         }
@@ -505,8 +505,8 @@ public final class ukl {
                 ukl.uml(renderPass, uli, f, 1.0f, n2, n3);
             }
             renderPass.setPipeline(ukt);
-            renderPass.bindTexture("OutlineSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-            renderPass.bindTexture("GlowSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+            renderPass.bindTexture("OutlineSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+            renderPass.bindTexture("GlowSampler", gpuTextureView3, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             renderPass.setUniform("FlowFx", uls[n]);
             renderPass.draw(0, 3);
         }
@@ -515,7 +515,7 @@ public final class ukl {
     private static void ums(CommandEncoder commandEncoder, RenderPipeline renderPipeline, GpuTextureView gpuTextureView, GpuTextureView gpuTextureView2) {
         try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 fx glow", gpuTextureView2, OptionalInt.empty());){
             renderPass.setPipeline(renderPipeline);
-            renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+            renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             renderPass.draw(0, 3);
         }
     }
@@ -644,7 +644,7 @@ public final class ukl {
             if (umb == null) {
                 umb = ukl.unc();
             }
-            for (RenderPipeline renderPipeline : new RenderPipeline[]{RenderPipelines.field_56842, RenderPipelines.field_56843}) {
+            for (RenderPipeline renderPipeline : new RenderPipeline[]{RenderPipelines.OUTLINE_CULL, RenderPipelines.OUTLINE_NO_CULL}) {
                 umb[0].set(renderPipeline, bl ? DepthTestFunction.LEQUAL_DEPTH_TEST : DepthTestFunction.NO_DEPTH_TEST);
                 umb[1].setBoolean(renderPipeline, bl);
             }
@@ -680,16 +680,16 @@ public final class ukl {
     }
 
     private static RenderPipeline und(boolean bl) {
-        return RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/probe_" + bl)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/blur_copy")).withDepthWrite(bl).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379).build();
+        return RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/probe_" + bl)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/blur_copy")).withDepthWrite(bl).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES).build();
     }
 
     private static RenderPipeline une(String string, @Nullable BlendFunction blendFunction, String ... stringArray) {
-        RenderPipeline.Builder builder = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/" + string)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/" + string)).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379);
+        RenderPipeline.Builder builder = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/" + string)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/" + string)).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES);
         for (String string2 : stringArray) {
             builder.withSampler(string2);
         }
         if (!string.equals("fx_down") && !string.equals("fx_up")) {
-            builder.withUniform("FlowFx", UniformType.field_60031);
+            builder.withUniform("FlowFx", UniformType.UNIFORM_BUFFER);
         }
         if (blendFunction != null) {
             builder.withBlend(blendFunction);
@@ -703,7 +703,7 @@ public final class ukl {
         ulk = true;
         ull = true;
         ulm = new float[2];
-        uln = Identifier.method_60656((String)"entity_outline");
+        uln = Identifier.ofVanilla((String)"entity_outline");
         uls = new GpuBuffer[5];
         ult = new GpuTexture[5];
         ulu = new GpuTextureView[5];

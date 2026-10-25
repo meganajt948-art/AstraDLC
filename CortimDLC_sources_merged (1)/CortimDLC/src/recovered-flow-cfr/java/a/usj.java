@@ -34,7 +34,7 @@ import org.joml.Quaternionfc;
 
 public final class usj
 extends ItemEntityRenderer {
-    private final Random usk = Random.method_43047();
+    private final Random usk = Random.create();
     private static /* synthetic */ long usl;
     private static /* synthetic */ boolean usm;
 
@@ -42,55 +42,55 @@ extends ItemEntityRenderer {
         super(context);
     }
 
-    public ItemEntityRenderState method_62469() {
+    public ItemEntityRenderState createRenderState() {
         return new usg();
     }
 
-    public void method_62470(ItemEntity itemEntity, ItemEntityRenderState itemEntityRenderState, float f) {
-        super.method_62470(itemEntity, itemEntityRenderState, f);
+    public void updateRenderState(ItemEntity itemEntity, ItemEntityRenderState itemEntityRenderState, float f) {
+        super.updateRenderState(itemEntity, itemEntityRenderState, f);
         if (itemEntityRenderState instanceof usg) {
             usg usg2 = (usg)itemEntityRenderState;
-            usg2.onGround = itemEntity.method_24828();
-            usg2.inWater = itemEntity.method_5799();
-            usg2.id = itemEntity.method_5628();
+            usg2.onGround = itemEntity.isOnGround();
+            usg2.inWater = itemEntity.isTouchingWater();
+            usg2.id = itemEntity.getId();
         }
     }
 
-    public void method_3996(ItemEntityRenderState itemEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState) {
+    public void render(ItemEntityRenderState itemEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState) {
         usg usg2;
         block8: {
             block7: {
                 if (!rfp.on() || !(itemEntityRenderState instanceof usg)) break block7;
                 usg2 = (usg)itemEntityRenderState;
-                if (!itemEntityRenderState.field_55310.method_65606()) break block8;
+                if (!itemEntityRenderState.itemRenderState.isEmpty()) break block8;
             }
-            super.method_3996(itemEntityRenderState, matrixStack, orderedRenderCommandQueue, cameraRenderState);
+            super.render(itemEntityRenderState, matrixStack, orderedRenderCommandQueue, cameraRenderState);
             return;
         }
-        Box box = itemEntityRenderState.field_55310.method_72173();
-        boolean bl = box.method_17941() <= 0.0625;
+        Box box = itemEntityRenderState.itemRenderState.getModelBoundingBox();
+        boolean bl = box.getLengthZ() <= 0.0625;
         float f = (float)usg2.id * 137.508f % 360.0f;
-        int n = Math.max(1, itemEntityRenderState.field_55311);
-        matrixStack.method_22903();
+        int n = Math.max(1, itemEntityRenderState.renderedAmount);
+        matrixStack.push();
         if (usg2.onGround && !usg2.inWater) {
             if (bl) {
-                float f2 = (float)(box.method_17941() * 0.5) + (float)(n - 1) * 0.046875f + 0.004f;
-                matrixStack.method_46416(0.0f, f2, 0.0f);
-                matrixStack.method_22907((Quaternionfc)RotationAxis.field_40716.rotationDegrees(f));
-                matrixStack.method_22907((Quaternionfc)RotationAxis.field_40713.rotationDegrees(90.0f));
-                matrixStack.method_46416((float)(-box.method_1005().field_1352), (float)(-box.method_1005().field_1351), 0.0f);
+                float f2 = (float)(box.getLengthZ() * 0.5) + (float)(n - 1) * 0.046875f + 0.004f;
+                matrixStack.translate(0.0f, f2, 0.0f);
+                matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Y.rotationDegrees(f));
+                matrixStack.multiply((Quaternionfc)RotationAxis.NEGATIVE_X.rotationDegrees(90.0f));
+                matrixStack.translate((float)(-box.getCenter().x), (float)(-box.getCenter().y), 0.0f);
             } else {
-                matrixStack.method_46416(0.0f, (float)(-box.field_1322), 0.0f);
-                matrixStack.method_22907((Quaternionfc)RotationAxis.field_40716.rotationDegrees(f));
+                matrixStack.translate(0.0f, (float)(-box.minY), 0.0f);
+                matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Y.rotationDegrees(f));
             }
         } else {
-            float f3 = itemEntityRenderState.field_53328 * (usg2.inWater ? 4.0f : 14.0f) * rfp.spin();
-            matrixStack.method_46416(0.0f, (float)(-box.field_1322 + 0.0625), 0.0f);
-            matrixStack.method_22907((Quaternionfc)RotationAxis.field_40716.rotationDegrees(f + f3));
-            matrixStack.method_22907((Quaternionfc)RotationAxis.field_40714.rotationDegrees(f3 * 0.8f));
+            float f3 = itemEntityRenderState.age * (usg2.inWater ? 4.0f : 14.0f) * rfp.spin();
+            matrixStack.translate(0.0f, (float)(-box.minY + 0.0625), 0.0f);
+            matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Y.rotationDegrees(f + f3));
+            matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_X.rotationDegrees(f3 * 0.8f));
         }
-        ItemEntityRenderer.method_72986((MatrixStack)matrixStack, (OrderedRenderCommandQueue)orderedRenderCommandQueue, (int)itemEntityRenderState.field_61820, (ItemStackEntityRenderState)itemEntityRenderState, (Random)this.usk, (Box)box);
-        matrixStack.method_22909();
+        ItemEntityRenderer.render((MatrixStack)matrixStack, (OrderedRenderCommandQueue)orderedRenderCommandQueue, (int)itemEntityRenderState.light, (ItemStackEntityRenderState)itemEntityRenderState, (Random)this.usk, (Box)box);
+        matrixStack.pop();
     }
 
     private static /* synthetic */ int dam(int n, int n2) {

@@ -28,21 +28,21 @@ public final class wek {
 
     public static void tick(MinecraftClient minecraftClient) {
         wek.wer(minecraftClient);
-        if (minecraftClient.field_1690 != null) {
+        if (minecraftClient.options != null) {
             if (weo == null) {
-                weo = minecraftClient.field_1690.field_1837;
+                weo = minecraftClient.options.pauseOnLostFocus;
             }
-            minecraftClient.field_1690.field_1837 = false;
+            minecraftClient.options.pauseOnLostFocus = false;
         }
     }
 
     public static void shutdown(MinecraftClient minecraftClient) {
-        if (weo == null || minecraftClient.field_1690 == null || weo == minecraftClient.field_1690.field_1837) {
+        if (weo == null || minecraftClient.options == null || weo == minecraftClient.options.pauseOnLostFocus) {
             return;
         }
-        minecraftClient.field_1690.field_1837 = weo;
+        minecraftClient.options.pauseOnLostFocus = weo;
         try {
-            minecraftClient.field_1690.method_1640();
+            minecraftClient.options.write();
         }
         catch (Throwable throwable) {
             System.out.println(a.b("\ub96e\uc0dd\u4a01\ud439\u5fbd\ud958\u634c\ueab3\u74f3\ufe51\u79c7\u83f9\u0d31\u9484\u1eca\u983d\u2273\uadbf\u3751\ub15a\u38a1\u42fc\ucc1b\u5783\ud1e1\u5b37\ue2d7\u6cd6\uf630\u7075\ufbc0\u0507\u8f00\u16b3\u90e1\u1a13\ua58f\u2ff7\ua928\u308f\ubad6\uc474\u4e65\uc9d7\u5302\udd7b\u64f9\uee52", -401295043) + throwable);
@@ -50,10 +50,10 @@ public final class wek {
     }
 
     private static void wer(MinecraftClient minecraftClient) {
-        if (minecraftClient.method_22683() == null) {
+        if (minecraftClient.getWindow() == null) {
             return;
         }
-        long l = minecraftClient.method_22683().method_4490();
+        long l = minecraftClient.getWindow().getHandle();
         if (l == 0L || wen == l) {
             return;
         }

@@ -61,20 +61,20 @@ extends jcs {
         ArrayList<oxi> arrayList = new ArrayList<oxi>();
         oxw oxw2 = oxw.get();
         if (oxw2 != null && oxw2.isEnabled()) {
-            arrayList.addAll(oxw2.entries(MinecraftClient.method_1551().method_61966().method_60637(true)));
+            arrayList.addAll(oxw2.entries(MinecraftClient.getInstance().getRenderTickCounter().getTickProgress(true)));
         }
         if (arrayList.isEmpty() && bl) {
-            arrayList.add(jdc.jdt(a.d("\u0961\u70c4\ufa10\u6472", 40181496, -368830468), new ItemStack((ItemConvertible)Items.field_8614, 15), 90));
-            arrayList.add(jdc.jdt(a.d("\ue670\u9fd0\u1505\u8b73", -940031681, -401496273), new ItemStack((ItemConvertible)Items.field_8479, 20), 89));
-            arrayList.add(jdc.jdt(a.b("\u9e3a\ue78d\u6d4d\uf32d", 1707449930), new ItemStack((ItemConvertible)Items.field_22021, 15), 86));
-            arrayList.add(jdc.jdt(a.b("\ue7fe\u9e53\u148d\u8aee\u013e", 186640267), new ItemStack((ItemConvertible)Items.field_8551, 18), 66));
-            arrayList.add(jdc.jdt(a.b("\ufc58\u85ee\u0f3e\u915a\u1a83\u9c24\u2662\uaf82\u31ca", -341509063), new ItemStack((ItemConvertible)Items.field_8436, 2), vzz.combo(50, 2)));
+            arrayList.add(jdc.jdt(a.d("\u0961\u70c4\ufa10\u6472", 40181496, -368830468), new ItemStack((ItemConvertible)Items.PHANTOM_MEMBRANE, 15), 90));
+            arrayList.add(jdc.jdt(a.d("\ue670\u9fd0\u1505\u8b73", -940031681, -401496273), new ItemStack((ItemConvertible)Items.SUGAR, 20), 89));
+            arrayList.add(jdc.jdt(a.b("\u9e3a\ue78d\u6d4d\uf32d", 1707449930), new ItemStack((ItemConvertible)Items.NETHERITE_SCRAP, 15), 86));
+            arrayList.add(jdc.jdt(a.b("\ue7fe\u9e53\u148d\u8aee\u013e", 186640267), new ItemStack((ItemConvertible)Items.DRIED_KELP, 18), 66));
+            arrayList.add(jdc.jdt(a.b("\ufc58\u85ee\u0f3e\u915a\u1a83\u9c24\u2662\uaf82\u31ca", -341509063), new ItemStack((ItemConvertible)Items.SPLASH_POTION, 2), vzz.combo(50, 2)));
         }
         return arrayList;
     }
 
     private static oxi jdt(String string, ItemStack itemStack, int n) {
-        return new oxi(a.c(1120294939, "\u5863\u21d0\uab14\u3576\ubebe\u3803\u8242\u0bfe") + string, string, itemStack, itemStack.method_7947(), n, 0.0f, 0L, false);
+        return new oxi(a.c(1120294939, "\u5863\u21d0\uab14\u3576\ubebe\u3803\u8242\u0bfe") + string, string, itemStack, itemStack.getCount(), n, 0.0f, 0L, false);
     }
 
     @Override
@@ -187,16 +187,16 @@ extends jcs {
             float f5 = jdc.jdw(jcz2.item);
             if (f4 > 0.02f) {
                 uut.pushAlpha(Math.min(1.0f, f4 * 1.2f) * (0.45f + 0.55f * jcz2.owned.get()));
-                drawContext.method_51448().pushMatrix();
+                drawContext.getMatrices().pushMatrix();
                 float f6 = 0.8f + 0.2f * f4;
-                drawContext.method_51448().translate(f3 + f5 * f4 * 0.5f, 7.0f);
-                drawContext.method_51448().scale(f6, f6);
-                drawContext.method_51448().translate(-f5 * 0.5f, -7.0f);
+                drawContext.getMatrices().translate(f3 + f5 * f4 * 0.5f, 7.0f);
+                drawContext.getMatrices().scale(f6, f6);
+                drawContext.getMatrices().translate(-f5 * 0.5f, -7.0f);
                 try {
                     this.jdx(drawContext, jcz2, f5, f4, l);
                 }
                 finally {
-                    drawContext.method_51448().popMatrix();
+                    drawContext.getMatrices().popMatrix();
                     uut.popAlpha();
                 }
             }
@@ -218,11 +218,11 @@ extends jcs {
         }
         float f5 = 7.0f;
         float f6 = 0.5625f * f2;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(9.5f, f5);
-        drawContext.method_51448().scale(f6, f6);
-        drawContext.method_51427(oxi2.icon(), -8, -8);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(9.5f, f5);
+        drawContext.getMatrices().scale(f6, f6);
+        drawContext.drawItem(oxi2.icon(), -8, -8);
+        drawContext.getMatrices().popMatrix();
         float f7 = jdc.jdy(oxi2);
         float f8 = 17.5f;
         String string = jdc.jdv(oxi2);
@@ -237,12 +237,12 @@ extends jcs {
     }
 
     private static float jdy(oxi oxi2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null || oxi2.count() <= 0 || oxi2.id().startsWith(a.c(1906302599, "\udeff\ua74c\u2d88\ub3ea\u3822\ube9f\u04de\u8d62"))) {
             return oxi2.cooldown();
         }
-        return clientPlayerEntity.method_7357().method_7905(oxi2.icon(), minecraftClient.method_61966().method_60637(true));
+        return clientPlayerEntity.getItemCooldownManager().getCooldownProgress(oxi2.icon(), minecraftClient.getRenderTickCounter().getTickProgress(true));
     }
 
     private static /* synthetic */ int aly(int n, int n2) {

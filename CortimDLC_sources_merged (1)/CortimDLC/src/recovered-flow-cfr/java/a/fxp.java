@@ -72,7 +72,7 @@ final class fxp {
             fxp.fyg(minecraftClient, a.b("\uc420\ubd9e\u3748\ua939\u22a2\ua44d\u1e4d\u97a5\u09ee\u8301\u049d\ufefd\u7074\ue983\u63c8\ue567\u5f7b\ud0b4\u4a14\ucc1b\u45a1\u3fe3\ub10e\u2a99\uacfe\u2662\u9fd5\u1183\u8b7f\u0d28\u868a\u7848\uf200\u6be3\uedfe\u6707\ud8c7\u52b7\ud45f\u4dc6\uc781\ub970\u3320", -741161875));
             fxp.fyg(minecraftClient, a.c(-1161171553, "\uedd3\u946d\u1ebb\u80ca\u0b51\u8dbe\u37a0\ube42\u2043\uaabd\u2d7f\ud750\u59c1\uc068\u4a65\uccde\u7685\uf90a\u63f4\ue5b6\u6c1f\u1608\u98a3\u033f\u8544\u0f92\ub62a\u387d\ua29b\u24d9\uaf6d\u51ae\udbaf\u4206\uc45b\u4ef3\uf134\u7b7f\ufd84\u642d\uee72\u9080"));
             fxp.fyg(minecraftClient, a.d("\u0cc6\u7578\uffae\u61df\uea44\u6cab\ud6ab\u5f46\uc108\u4be7\ucc78\u361b\ub892\u2165\uab2e\u2d81\u9781\u1841\u82ac\u04b1\u8d54\uf75b\u79ae\ue267\u6455\uee80\u5734\ud96e\u439f\uc5df\u4e7f\ub0a9\u3af4\ua34b\u2545\uafff\u102b\u9a42\u1c95\u8523\u0f67\u7197\ufbcf", -1276858182, 1699068977));
-            minecraftClient.field_1690.method_31043(Perspective.field_26664);
+            minecraftClient.options.setPerspective(Perspective.FIRST_PERSON);
             izx.TARGET.enabled.set(false);
             fxp.fyd(kfe2, a.d("\u06cf\u7f59\uf587\u6be3\ue03d", 1073549776, -1348921527), a.d("\u9e77\ue7ed\u6d33\uf350\u7887", -1888879784, 1472423277));
             fxp.fyd(kfe2, a.b("\u1ef0\u6778\ueda7\u73d0\uf801\u7ea6", 1969692326), a.c(1151542322, "\u2467\u5ded\ud737\u4955\uc294\u4432"));
@@ -90,7 +90,7 @@ final class fxp {
             fxv = fxp.fyb(minecraftClient, a.d("\u6dcd\u1443\u9e9a\u00fc\u8b36\u0d83", -1956033962, -728487989), 3.6);
         }
         if (n == 38 && fxv != null) {
-            fxv.method_6104(Hand.field_5808);
+            fxv.swingHand(Hand.MAIN_HAND);
         }
         if (n == 40) {
             fxp.fya(fxv, false);
@@ -157,27 +157,27 @@ final class fxp {
         rrx.onAttack((Entity)otherClientPlayerEntity);
         rrx.trigger((LivingEntity)otherClientPlayerEntity, bl);
         if (!bl) {
-            otherClientPlayerEntity.method_6033(0.0f);
+            otherClientPlayerEntity.setHealth(0.0f);
         }
     }
 
     private static OtherClientPlayerEntity fyb(MinecraftClient minecraftClient, String string, double d) {
-        OtherClientPlayerEntity otherClientPlayerEntity = new OtherClientPlayerEntity(minecraftClient.field_1687, new GameProfile(UUID.randomUUID(), string));
-        Vec3d vec3d = minecraftClient.field_1724.method_73189().method_1031(0.0, 0.0, d);
-        otherClientPlayerEntity.method_5808(vec3d.field_1352, minecraftClient.field_1724.method_23318(), vec3d.field_1350, 160.0f, 0.0f);
-        otherClientPlayerEntity.method_5636(160.0f);
-        otherClientPlayerEntity.method_5847(170.0f);
-        otherClientPlayerEntity.field_6220 = 160.0f;
-        otherClientPlayerEntity.field_6259 = 170.0f;
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6174, new ItemStack((ItemConvertible)Items.field_8058));
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6173, new ItemStack((ItemConvertible)Items.field_22022));
-        minecraftClient.field_1687.method_53875((Entity)otherClientPlayerEntity);
+        OtherClientPlayerEntity otherClientPlayerEntity = new OtherClientPlayerEntity(minecraftClient.world, new GameProfile(UUID.randomUUID(), string));
+        Vec3d vec3d = minecraftClient.player.getEntityPos().add(0.0, 0.0, d);
+        otherClientPlayerEntity.refreshPositionAndAngles(vec3d.x, minecraftClient.player.getY(), vec3d.z, 160.0f, 0.0f);
+        otherClientPlayerEntity.setBodyYaw(160.0f);
+        otherClientPlayerEntity.setHeadYaw(170.0f);
+        otherClientPlayerEntity.lastBodyYaw = 160.0f;
+        otherClientPlayerEntity.lastHeadYaw = 170.0f;
+        otherClientPlayerEntity.equipStack(EquipmentSlot.CHEST, new ItemStack((ItemConvertible)Items.DIAMOND_CHESTPLATE));
+        otherClientPlayerEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack((ItemConvertible)Items.NETHERITE_SWORD));
+        minecraftClient.world.addEntity((Entity)otherClientPlayerEntity);
         return otherClientPlayerEntity;
     }
 
     private static void fyc(MinecraftClient minecraftClient, Entity entity) {
-        if (entity != null && minecraftClient.field_1687.method_8469(entity.method_5628()) != null) {
-            minecraftClient.field_1687.method_2945(entity.method_5628(), Entity.RemovalReason.field_26999);
+        if (entity != null && minecraftClient.world.getEntityById(entity.getId()) != null) {
+            minecraftClient.world.removeEntity(entity.getId(), Entity.RemovalReason.DISCARDED);
         }
     }
 
@@ -194,19 +194,19 @@ final class fxp {
     }
 
     private static void fyf(MinecraftClient minecraftClient, float f, float f2) {
-        minecraftClient.field_1724.method_36456(f);
-        minecraftClient.field_1724.method_36457(f2);
-        minecraftClient.field_1724.field_5982 = f;
-        minecraftClient.field_1724.field_6004 = f2;
+        minecraftClient.player.setYaw(f);
+        minecraftClient.player.setPitch(f2);
+        minecraftClient.player.lastYaw = f;
+        minecraftClient.player.lastPitch = f2;
     }
 
     private static void fyg(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void fyh(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.c(-129992095, "\u7a18\u03bf\u8965\u171e\u9c8f\u1a6a\ua028\u29cf\ub797\u3d72") + string + a.b("\u741f\u0dce\u877d", -861309892) + minecraftClient.method_47599() + a.c(1440106112, "\u46a4\u3f53\ub596\u2be4"));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.d("\u03d4\u7a6f\uf0bf\u6ed6\ue544\u63ea", 1691498866, 1212037830) + string + a.d("\uea83\u936c\u19a1\u87d9", 439445360, -1020031527)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.c(-129992095, "\u7a18\u03bf\u8965\u171e\u9c8f\u1a6a\ua028\u29cf\ub797\u3d72") + string + a.b("\u741f\u0dce\u877d", -861309892) + minecraftClient.getCurrentFps() + a.c(1440106112, "\u46a4\u3f53\ub596\u2be4"));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.d("\u03d4\u7a6f\uf0bf\u6ed6\ue544\u63ea", 1691498866, 1212037830) + string + a.d("\uea83\u936c\u19a1\u87d9", 439445360, -1020031527)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int sc(int n, int n2) {

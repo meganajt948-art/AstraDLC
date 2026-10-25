@@ -68,41 +68,41 @@ extends OtherClientPlayerEntity {
         this.tly();
     }
 
-    public boolean method_5810() {
+    public boolean isPushable() {
         return false;
     }
 
-    public void method_5697(Entity entity) {
+    public void pushAwayFrom(Entity entity) {
     }
 
-    protected void method_6070() {
+    protected void tickCramming() {
     }
 
-    public void method_5773() {
-        ClientPlayerEntity clientPlayerEntity = MinecraftClient.method_1551().field_1724;
-        if (clientPlayerEntity != null && !this.method_31481()) {
+    public void tick() {
+        ClientPlayerEntity clientPlayerEntity = MinecraftClient.getInstance().player;
+        if (clientPlayerEntity != null && !this.isRemoved()) {
             this.tlz(clientPlayerEntity);
             this.tma();
         }
-        super.method_5773();
-        this.field_5960 = true;
+        super.tick();
+        this.noClip = true;
         if (clientPlayerEntity != null) {
             this.tmb(clientPlayerEntity);
         }
     }
 
     public void knock(Vec3d vec3d, boolean bl) {
-        double d = this.method_23317() - vec3d.field_1352;
-        double d2 = this.method_23321() - vec3d.field_1350;
+        double d = this.getX() - vec3d.x;
+        double d2 = this.getZ() - vec3d.z;
         double d3 = Math.max(0.001, Math.sqrt(d * d + d2 * d2));
         double d4 = bl ? 0.55 : 0.4;
         this.tlh = this.tlh * 0.5 + d / d3 * d4;
         this.tlj = this.tlj * 0.5 + d2 / d3 * d4;
-        if (this.method_24828()) {
+        if (this.isOnGround()) {
             this.tli = Math.min(0.4, this.tli * 0.5 + 0.36);
         }
         this.tlv = 8 + this.tla.nextInt(8);
-        this.method_5879((float)Math.toDegrees(Math.atan2(d2, d)));
+        this.animateDamage((float)Math.toDegrees(Math.atan2(d2, d)));
     }
 
     private void tly() {
@@ -170,41 +170,41 @@ extends OtherClientPlayerEntity {
     }
 
     private void tmb(ClientPlayerEntity clientPlayerEntity) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        double d = vec3d.field_1352 - this.method_23317();
-        double d2 = vec3d.field_1350 - this.method_23321();
-        double d3 = vec3d.field_1351 - this.method_23320();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        double d = vec3d.x - this.getX();
+        double d2 = vec3d.z - this.getZ();
+        double d3 = vec3d.y - this.getEyeY();
         float f = (float)(Math.toDegrees(Math.atan2(d2, d)) - 90.0);
         float f2 = (float)(-Math.toDegrees(Math.atan2(d3, Math.sqrt(d * d + d2 * d2))));
-        this.tlt += MathHelper.method_15393((float)(f + (float)this.tla.nextGaussian() * 4.0f - this.tlt)) * 0.45f;
+        this.tlt += MathHelper.wrapDegrees((float)(f + (float)this.tla.nextGaussian() * 4.0f - this.tlt)) * 0.45f;
         this.tlu += (f2 + (float)this.tla.nextGaussian() * 2.0f - this.tlu) * 0.4f;
-        this.method_36456(this.tlt);
-        this.method_36457(MathHelper.method_15363((float)this.tlu, (float)-60.0f, (float)60.0f));
-        this.method_5847(this.tlt);
+        this.setYaw(this.tlt);
+        this.setPitch(MathHelper.clamp((float)this.tlu, (float)-60.0f, (float)60.0f));
+        this.setHeadYaw(this.tlt);
     }
 
     public void relocate(ClientPlayerEntity clientPlayerEntity) {
-        double d = Math.toRadians((double)clientPlayerEntity.method_36454() + 90.0);
+        double d = Math.toRadians((double)clientPlayerEntity.getYaw() + 90.0);
         for (int i = 0; i < 24; ++i) {
             double d2;
             double d3 = d + (this.tla.nextDouble() - 0.5) * Math.PI * (i < 12 ? 1.2 : 2.0);
             double d4 = this.tlc + this.tla.nextDouble() * (this.tld - this.tlc);
-            double d5 = clientPlayerEntity.method_23317() + Math.cos(d3) * d4;
-            Double d6 = this.tmc(clientPlayerEntity, d5, d2 = clientPlayerEntity.method_23321() + Math.sin(d3) * d4);
+            double d5 = clientPlayerEntity.getX() + Math.cos(d3) * d4;
+            Double d6 = this.tmc(clientPlayerEntity, d5, d2 = clientPlayerEntity.getZ() + Math.sin(d3) * d4);
             if (d6 == null) continue;
             this.tmd(d5, d6, d2);
             return;
         }
-        this.tmd(clientPlayerEntity.method_23317() + Math.cos(d) * this.tlc, clientPlayerEntity.method_23318(), clientPlayerEntity.method_23321() + Math.sin(d) * this.tlc);
+        this.tmd(clientPlayerEntity.getX() + Math.cos(d) * this.tlc, clientPlayerEntity.getY(), clientPlayerEntity.getZ() + Math.sin(d) * this.tlc);
     }
 
     private Double tmc(ClientPlayerEntity clientPlayerEntity, double d, double d2) {
-        double d3 = (double)this.method_17681() * 0.5;
+        double d3 = (double)this.getWidth() * 0.5;
         for (int i = 2; i >= -4; --i) {
-            double d4 = Math.floor(clientPlayerEntity.method_23318()) + (double)i;
-            Box box = new Box(d - d3, d4, d2 - d3, d + d3, d4 + (double)this.method_17682(), d2 + d3);
-            Box box2 = box.method_989(0.0, -0.2, 0.0);
-            if (!this.method_73183().method_8587((Entity)this, box) || this.method_73183().method_8587((Entity)this, box2)) continue;
+            double d4 = Math.floor(clientPlayerEntity.getY()) + (double)i;
+            Box box = new Box(d - d3, d4, d2 - d3, d + d3, d4 + (double)this.getHeight(), d2 + d3);
+            Box box2 = box.offset(0.0, -0.2, 0.0);
+            if (!this.getEntityWorld().isSpaceEmpty((Entity)this, box) || this.getEntityWorld().isSpaceEmpty((Entity)this, box2)) continue;
             return d4;
         }
         return null;
@@ -214,10 +214,10 @@ extends OtherClientPlayerEntity {
         this.tlj = 0.0;
         this.tli = 0.0;
         this.tlh = 0.0;
-        this.method_5808(d, d2, d3, this.method_36454(), this.method_36455());
-        this.field_6038 = d;
-        this.field_5971 = d2;
-        this.field_5989 = d3;
+        this.refreshPositionAndAngles(d, d2, d3, this.getYaw(), this.getPitch());
+        this.lastRenderX = d;
+        this.lastRenderY = d2;
+        this.lastRenderZ = d3;
         this.tls = 0;
         this.tlr = false;
     }

@@ -147,7 +147,7 @@ extends Screen {
     private static /* synthetic */ long jwc;
 
     public jte() {
-        super((Text)Text.method_43470((String)vvi.get()));
+        super((Text)Text.literal((String)vvi.get()));
         int n;
         this.juh = new jsi(this.jug.particles, 7L);
         this.juk = -10.0f;
@@ -195,9 +195,9 @@ extends Screen {
         return jte2;
     }
 
-    protected void method_25426() {
-        if (dry.armed() && this.field_22787 != null) {
-            this.field_22787.method_1507((Screen)new TitleScreen());
+    protected void init() {
+        if (dry.armed() && this.client != null) {
+            this.client.setScreen((Screen)new TitleScreen());
             return;
         }
         if (this.jup) {
@@ -208,111 +208,111 @@ extends Screen {
         }
     }
 
-    public void method_25420(DrawContext drawContext, int n, int n2, float f) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext drawContext, int n, int n2, float f) {
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
-        unf.observe(drawContext);
+        unf.observe(context);
         long l = System.nanoTime();
-        if (this.field_22789 < 64 || this.field_22790 < 64) {
+        if (this.width < 64 || this.height < 64) {
             this.jvb = 0L;
             return;
         }
-        if (this.field_22789 != this.jvh || this.field_22790 != this.jvi) {
-            this.jvh = this.field_22789;
-            this.jvi = this.field_22790;
+        if (this.width != this.jvh || this.height != this.jvi) {
+            this.jvh = this.width;
+            this.jvi = this.height;
             this.jvg = -1.0f;
         }
         this.jvc = this.jvb == 0L ? 0.016666668f : Math.min(0.1f, (float)(l - this.jvb) / 1.0E9f);
         this.jvb = l;
-        float f2 = kap.clock();
+        float f = kap.clock();
         if (this.jun < 0.0f) {
-            this.jun = f2;
-            this.juo = f2;
-            this.jvq = f2;
+            this.jun = f;
+            this.juo = f;
+            this.jvq = f;
         }
-        float f3 = f2 - this.jun;
-        float f4 = f2 - this.jvq;
-        this.jvd = kbp.scale(this.field_22789, this.field_22790);
-        this.jve = (float)this.field_22789 / this.jvd;
-        this.jvf = (float)this.field_22790 / this.jvd;
-        float f5 = (float)n / this.jvd;
-        float f6 = (float)n2 / this.jvd;
-        float f7 = 1.0f - (float)Math.exp(-this.jvc * 2.2f);
+        float f2 = f - this.jun;
+        float f3 = f - this.jvq;
+        this.jvd = kbp.scale(this.width, this.height);
+        this.jve = (float)this.width / this.jvd;
+        this.jvf = (float)this.height / this.jvd;
+        float f4 = (float)mouseX / this.jvd;
+        float f5 = (float)mouseY / this.jvd;
+        float f6 = 1.0f - (float)Math.exp(-this.jvc * 2.2f);
         if (!kbm.PARALLAX.get()) {
-            this.juz -= this.juz * f7;
-            this.jva -= this.jva * f7;
-        } else if (n >= 0 && n2 >= 0 && n <= this.field_22789 && n2 <= this.field_22790) {
-            this.juz += ((float)n / (float)this.field_22789 - 0.5f - this.juz) * f7;
-            this.jva += ((float)n2 / (float)this.field_22790 - 0.5f - this.jva) * f7;
+            this.juz -= this.juz * f6;
+            this.jva -= this.jva * f6;
+        } else if (mouseX >= 0 && mouseY >= 0 && mouseX <= this.width && mouseY <= this.height) {
+            this.juz += ((float)mouseX / (float)this.width - 0.5f - this.juz) * f6;
+            this.jva += ((float)mouseY / (float)this.height - 0.5f - this.jva) * f6;
         }
-        float f8 = this.jwl();
-        this.jvg = this.jvg < 0.0f ? f8 : this.jvg + (f8 - this.jvg) * (1.0f - (float)Math.exp(-this.jvc * 9.0f));
-        float f9 = this.jvj.step(kbm.TITLE.get() && !this.jug.logo(), this.jvc);
+        float f7 = this.jwl();
+        this.jvg = this.jvg < 0.0f ? f7 : this.jvg + (f7 - this.jvg) * (1.0f - (float)Math.exp(-this.jvc * 9.0f));
+        float f8 = this.jvj.step(kbm.TITLE.get() && !this.jug.logo(), this.jvc);
         this.jvk.step(this.jug.logo(), this.jvc);
         this.jvl.step(this.jug.light, this.jvc);
-        float f10 = this.jvm.step(kbm.PARTICLES.get(), this.jvc);
+        float f9 = this.jvm.step(kbm.PARTICLES.get(), this.jvc);
         GpuTextureView gpuTextureView = unm.view();
-        this.jwe(drawContext, f2, f3);
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        this.jwe(context, f, f2);
+        Matrix3x2fStack matrix3x2fStack = context.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.scale(this.jvd, this.jvd);
         vdn.setRenderScaleStepped(this.jvd);
         try {
-            this.jwf(drawContext);
-            float f11 = this.jwd();
-            if (this.juj != null && f11 > 0.0f) {
-                this.juj.draw(drawContext, gpuTextureView, this.jve, this.jvf, f2, false, this.juz, this.jva, f11 * f10);
+            this.jwf(context);
+            float f10 = this.jwd();
+            if (this.juj != null && f10 > 0.0f) {
+                this.juj.draw(context, gpuTextureView, this.jve, this.jvf, f, false, this.juz, this.jva, f10 * f9);
             }
-            this.juh.draw(drawContext, gpuTextureView, this.jve, this.jvf, f2, false, this.juz, this.jva, vcq.clamp01(f3 / 1.2f) * (1.0f - f11) * f10);
-            float f12 = this.jvd * (float)MinecraftClient.method_1551().method_22683().method_4495();
-            float f13 = vcq.clamp01((f4 - 0.1f) / 1.25f);
-            if (f9 > 0.01f) {
-                float f14 = this.jtx.width(f12) * 0.5f + 14.0f;
-                float f15 = Math.max(f14, Math.min(this.jve - f14, this.jvg + 69.0f));
-                uut.pushAlpha(f9);
-                this.jtx.draw(drawContext, gpuTextureView, f15 - this.juz * 5.0f, this.jvf * 0.5f - 75.0f - this.jva * 3.0f - (1.0f - f9) * 8.0f, 1.0f, f12, f2, f13, this.juz * 2.0f, this.jva * 2.0f, this.jug.accent);
+            this.juh.draw(context, gpuTextureView, this.jve, this.jvf, f, false, this.juz, this.jva, vcq.clamp01(f2 / 1.2f) * (1.0f - f10) * f9);
+            float f11 = this.jvd * (float)MinecraftClient.getInstance().getWindow().getScaleFactor();
+            float f12 = vcq.clamp01((f3 - 0.1f) / 1.25f);
+            if (f8 > 0.01f) {
+                float f13 = this.jtx.width(f11) * 0.5f + 14.0f;
+                float f14 = Math.max(f13, Math.min(this.jve - f13, this.jvg + 69.0f));
+                uut.pushAlpha(f8);
+                this.jtx.draw(context, gpuTextureView, f14 - this.juz * 5.0f, this.jvf * 0.5f - 75.0f - this.jva * 3.0f - (1.0f - f8) * 8.0f, 1.0f, f11, f, f12, this.juz * 2.0f, this.jva * 2.0f, this.jug.accent);
                 uut.popAlpha();
             }
-            boolean bl = this.juq && this.jxb(f5, f6);
+            boolean bl = this.juq && this.jxb(f4, f5);
             for (int i = 0; i < 4; ++i) {
-                this.jwm(drawContext, gpuTextureView, i, f5, f6, f2, bl);
+                this.jwm(context, gpuTextureView, i, f4, f5, f, bl);
             }
-            if (this.juj != null && f11 > 0.0f) {
-                this.juj.draw(drawContext, gpuTextureView, this.jve, this.jvf, f2, true, this.juz, this.jva, f11 * f10);
+            if (this.juj != null && f10 > 0.0f) {
+                this.juj.draw(context, gpuTextureView, this.jve, this.jvf, f, true, this.juz, this.jva, f10 * f9);
             }
-            this.juh.draw(drawContext, gpuTextureView, this.jve, this.jvf, f2, true, this.juz, this.jva, vcq.clamp01(f3 / 1.2f) * (1.0f - f11) * f10);
-            float f16 = vcq.outCubic(vcq.clamp01((f4 - 0.6f) / 0.7f));
-            uut.pushAlpha(f16);
+            this.juh.draw(context, gpuTextureView, this.jve, this.jvf, f, true, this.juz, this.jva, vcq.clamp01(f2 / 1.2f) * (1.0f - f10) * f9);
+            float f15 = vcq.outCubic(vcq.clamp01((f3 - 0.6f) / 0.7f));
+            uut.pushAlpha(f15);
             try {
                 for (int i = 0; i < 4; ++i) {
-                    this.jwo(drawContext, gpuTextureView, i, f5, f6, f16);
+                    this.jwo(context, gpuTextureView, i, f4, f5, f15);
                 }
-                this.jwp(drawContext);
+                this.jwp(context);
             }
             finally {
                 uut.popAlpha();
             }
-            this.jxd(drawContext, f5, f6);
-            this.jxk(drawContext, gpuTextureView, f5, f6, f2);
+            this.jxd(context, f4, f5);
+            this.jxk(context, gpuTextureView, f4, f5, f);
         }
         finally {
             uut.additive(false);
             matrix3x2fStack.popMatrix();
             vdn.setRenderScale(1.0f);
         }
-        if (this.jux >= 0 && f2 - this.juv >= 0.24f) {
-            int n3 = this.jux;
+        if (this.jux >= 0 && f - this.juv >= 0.24f) {
+            int n = this.jux;
             this.jux = -1;
-            this.jyd(n3);
+            this.jyd(n);
         }
-        if (this.juy >= 0.0f && f2 >= this.juy) {
+        if (this.juy >= 0.0f && f >= this.juy) {
             this.juy = -1.0f;
-            this.field_22787.method_1592();
+            this.client.scheduleStop();
         }
     }
 
@@ -339,7 +339,7 @@ extends Screen {
             this.juk = f;
         }
         float f4 = this.jwd();
-        uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, -16118250);
+        uut.rect(drawContext, 0.0f, 0.0f, this.width, this.height, -16118250);
         float f5 = f3 = this.jum ? vcq.inOutCubic(vcq.clamp01((f2 - 0.1f) / 1.3f)) : 1.0f;
         if (jza3 != null) {
             this.jtv.time = f;
@@ -353,7 +353,7 @@ extends Screen {
             this.jtv.fall = null;
             this.jtv.pool = null;
             this.jwh(this.jtv, f3);
-            this.jtt.draw(drawContext, jza3, this.jtv, this.field_22789, this.field_22790, 1.0f, true);
+            this.jtt.draw(drawContext, jza3, this.jtv, this.width, this.height, 1.0f, true);
         }
         if (f4 > 0.0f && (jza2 = jzh.get(this.jui)) != null) {
             this.jtw.time = f;
@@ -368,7 +368,7 @@ extends Screen {
             this.jtw.fall = null;
             this.jtw.pool = null;
             this.jwh(this.jtw, 1.0f);
-            this.jtu.draw(drawContext, jza2, this.jtw, this.field_22789, this.field_22790, f4, false);
+            this.jtu.draw(drawContext, jza2, this.jtw, this.width, this.height, f4, false);
         }
     }
 
@@ -501,7 +501,7 @@ extends Screen {
         float f10 = 10.5f;
         float f11 = f5 + f10;
         float f12 = f6 + f10;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f11, f12);
         float f13 = 1.0f + 0.08f * f7 - 0.14f * f9;
@@ -560,7 +560,7 @@ extends Screen {
 
     private void jwp(DrawContext drawContext) {
         vdn vdn2 = veo.medium(6.2f);
-        String string = a.d("\u5984\u2011\uaac5\u34bf\ubf6e\u39ce\u838e\u0a78\u9435\u1ed0", -2045428213, 1438345160) + SharedConstants.method_16673().comp_4025();
+        String string = a.d("\u5984\u2011\uaac5\u34bf\ubf6e\u39ce\u838e\u0a78\u9435\u1ed0", -2045428213, 1438345160) + SharedConstants.getGameVersion().name();
         vdn2.drawRight(drawContext, string, this.jve - 12.0f, vdn2.centerTop(this.jvf - 12.0f), jte.jyh(jte.jyg(0xFFFFFF, 2764342, this.jvl.get()), 0.55f));
     }
 
@@ -637,7 +637,7 @@ extends Screen {
         float f6 = this.jwr();
         float f7 = this.jws();
         float f8 = 11.0f;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         float f9 = this.jwn(2) + 10.5f;
         matrix3x2fStack.translate(f9, f6);
@@ -709,7 +709,7 @@ extends Screen {
         boolean bl2 = kbs2 == this.jug;
         float f7 = vcq.clamp01((kap.clock() - this.juf[n]) / 0.45f);
         float f8 = f7 < 1.0f ? (float)Math.sin(Math.PI * (double)vcq.clamp01(f7 * 2.4f)) * (1.0f - f7 * 0.5f) : 0.0f;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f + f4 * 0.5f, f2 + f5 * 0.5f);
         matrix3x2fStack.scale(1.0f - 0.06f * f8, 1.0f - 0.06f * f8);
@@ -787,7 +787,7 @@ extends Screen {
         float f6 = this.jxg();
         float f7 = this.jxh();
         float f8 = 14.0f;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f6 + 114.0f, f7 + 59.0f);
         float f9 = 0.9f + 0.1f * Math.min(1.05f, f5);
@@ -1085,13 +1085,13 @@ extends Screen {
         }
     }
 
-    public boolean method_25402(Click click, boolean bl) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         int n;
-        if (click.method_74245() != 0) {
+        if (click.button() != 0) {
             return true;
         }
-        float f = (float)click.comp_4798() / this.jvd;
-        float f2 = (float)click.comp_4799() / this.jvd;
+        float f = (float)click.x() / this.jvd;
+        float f2 = (float)click.y() / this.jvd;
         if (this.jux >= 0 || this.juy >= 0.0f) {
             return true;
         }
@@ -1136,7 +1136,7 @@ extends Screen {
                     break;
                 }
                 case 2: {
-                    boolean bl2 = this.juq = !this.juq;
+                    boolean bl = this.juq = !this.juq;
                     if (!this.juq) break;
                     float f4 = this.jxa(this.jug.ordinal()) + this.jut - this.jwt();
                     this.juu = this.jut = Math.max(0.0f, Math.min(this.jwy(), f4 - this.jwu() * 0.35f));
@@ -1163,66 +1163,66 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25403(Click click, double d, double d2) {
+    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
         if (this.jvp >= 0) {
-            this.jxz(this.jvp, (float)click.comp_4798() / this.jvd);
+            this.jxz(this.jvp, (float)click.x() / this.jvd);
             return true;
         }
-        return super.method_25403(click, d, d2);
+        return super.mouseDragged(click, offsetX, offsetY);
     }
 
-    public boolean method_25406(Click click) {
+    public boolean mouseReleased(Click click) {
         if (this.jvp >= 0) {
             this.jvp = -1;
             hyz.saveLater();
             return true;
         }
-        return super.method_25406(click);
+        return super.mouseReleased(click);
     }
 
-    public boolean method_25401(double d, double d2, double d3, double d4) {
-        if (this.juq && this.jxb((float)d / this.jvd, (float)d2 / this.jvd)) {
-            this.juu = Math.max(0.0f, Math.min(this.jwy(), this.juu - (float)d4 * 28.0f));
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (this.juq && this.jxb((float)mouseX / this.jvd, (float)mouseY / this.jvd)) {
+            this.juu = Math.max(0.0f, Math.min(this.jwy(), this.juu - (float)verticalAmount * 28.0f));
         }
         return true;
     }
 
     private void jyd(int n) {
-        MinecraftClient minecraftClient = this.field_22787;
+        MinecraftClient minecraftClient = this.client;
         switch (n) {
             case 0: {
-                minecraftClient.method_1507((Screen)new SelectWorldScreen((Screen)this));
+                minecraftClient.setScreen((Screen)new SelectWorldScreen((Screen)this));
                 break;
             }
             case 1: {
-                minecraftClient.method_1507((Screen)(minecraftClient.field_1690.field_21840 ? new MultiplayerScreen((Screen)this) : new MultiplayerWarningScreen((Screen)this)));
+                minecraftClient.setScreen((Screen)(minecraftClient.options.skipMultiplayerWarning ? new MultiplayerScreen((Screen)this) : new MultiplayerWarningScreen((Screen)this)));
                 break;
             }
             case 2: {
                 if (jrn.available()) {
-                    minecraftClient.method_1507((Screen)new jos(this));
+                    minecraftClient.setScreen((Screen)new jos(this));
                     break;
                 }
                 this.jur = true;
                 break;
             }
             default: {
-                minecraftClient.method_1507((Screen)new OptionsScreen((Screen)this, minecraftClient.field_1690));
+                minecraftClient.setScreen((Screen)new OptionsScreen((Screen)this, minecraftClient.options));
             }
         }
     }
 
     private static void jye(String string) {
         try {
-            Util.method_668().method_673(URI.create(string));
+            Util.getOperatingSystem().open(URI.create(string));
         }
         catch (Exception exception) {
             System.out.println(a.c(945862716, "\ub854\uc1e7\u4b3b\ud503\u5e87\ud862\u627e\ueb90\u75da\uff60\u78fd") + string + a.b("\ub9da\uc071", 382122466) + exception);
         }
     }
 
-    public boolean method_25404(KeyInput keyInput) {
-        if (keyInput.comp_4795() == 256) {
+    public boolean keyPressed(KeyInput input) {
+        if (input.key() == 256) {
             if (this.jur) {
                 this.jur = false;
             } else if (this.juq) {
@@ -1232,15 +1232,15 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25422() {
+    public boolean shouldCloseOnEsc() {
         return false;
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public void method_25432() {
+    public void removed() {
         this.jup = true;
         this.juq = false;
         this.jvp = -1;

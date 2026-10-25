@@ -81,16 +81,16 @@ public final class usn {
     private static usn utc(float f, float f2, float f3) {
         AbstractClientPlayerEntity abstractClientPlayerEntity;
         Entity entity;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        GameRenderer gameRenderer = minecraftClient.field_1773;
-        Camera camera = gameRenderer.method_19418();
-        Matrix4f matrix4f = new Matrix4f((Matrix4fc)gameRenderer.method_22973(usn.utd(gameRenderer, camera, f)));
-        if (((Boolean)minecraftClient.field_1690.method_42448().method_41753()).booleanValue() && (entity = minecraftClient.method_1560()) instanceof AbstractClientPlayerEntity) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        GameRenderer gameRenderer = minecraftClient.gameRenderer;
+        Camera camera = gameRenderer.getCamera();
+        Matrix4f matrix4f = new Matrix4f((Matrix4fc)gameRenderer.getBasicProjectionMatrix(usn.utd(gameRenderer, camera, f)));
+        if (((Boolean)minecraftClient.options.getBobView().getValue()).booleanValue() && (entity = minecraftClient.getCameraEntity()) instanceof AbstractClientPlayerEntity) {
             abstractClientPlayerEntity = (AbstractClientPlayerEntity)entity;
-            matrix4f.mul((Matrix4fc)usn.ute(abstractClientPlayerEntity, camera.method_55437()));
+            matrix4f.mul((Matrix4fc)usn.ute(abstractClientPlayerEntity, camera.getLastTickProgress()));
         }
-        abstractClientPlayerEntity = new Matrix4f().rotation((Quaternionfc)camera.method_23767().conjugate(new Quaternionf()));
-        return new usn(matrix4f, (Matrix4f)abstractClientPlayerEntity, camera.method_71156(), f2, f3);
+        abstractClientPlayerEntity = new Matrix4f().rotation((Quaternionfc)camera.getRotation().conjugate(new Quaternionf()));
+        return new usn(matrix4f, (Matrix4f)abstractClientPlayerEntity, camera.getCameraPos(), f2, f3);
     }
 
     private static float utd(GameRenderer gameRenderer, Camera camera, float f) {
@@ -113,34 +113,34 @@ public final class usn {
                 uso = null;
             }
         }
-        return ((Integer)MinecraftClient.method_1551().field_1690.method_41808().method_41753()).floatValue();
+        return ((Integer)MinecraftClient.getInstance().options.getFov().getValue()).floatValue();
     }
 
     private static Matrix4f ute(AbstractClientPlayerEntity abstractClientPlayerEntity, float f) {
-        ClientPlayerLikeState clientPlayerLikeState = abstractClientPlayerEntity.method_74192();
-        float f2 = clientPlayerLikeState.method_74205(f);
-        float f3 = clientPlayerLikeState.method_74204(f);
+        ClientPlayerLikeState clientPlayerLikeState = abstractClientPlayerEntity.getState();
+        float f2 = clientPlayerLikeState.getReverseLerpedDistanceMoved(f);
+        float f3 = clientPlayerLikeState.lerpMovement(f);
         MatrixStack matrixStack = new MatrixStack();
-        matrixStack.method_46416(MathHelper.method_15374((double)(f2 * (float)Math.PI)) * f3 * 0.5f, -Math.abs(MathHelper.method_15362((double)(f2 * (float)Math.PI)) * f3), 0.0f);
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40718.rotationDegrees(MathHelper.method_15374((double)(f2 * (float)Math.PI)) * f3 * 3.0f));
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40714.rotationDegrees(Math.abs(MathHelper.method_15362((double)(f2 * (float)Math.PI - 0.2f)) * f3) * 5.0f));
-        return matrixStack.method_23760().method_23761();
+        matrixStack.translate(MathHelper.sin((double)(f2 * (float)Math.PI)) * f3 * 0.5f, -Math.abs(MathHelper.cos((double)(f2 * (float)Math.PI)) * f3), 0.0f);
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.sin((double)(f2 * (float)Math.PI)) * f3 * 3.0f));
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_X.rotationDegrees(Math.abs(MathHelper.cos((double)(f2 * (float)Math.PI - 0.2f)) * f3) * 5.0f));
+        return matrixStack.peek().getPositionMatrix();
     }
 
     public Vector4f viewSpace(double d, double d2, double d3) {
-        Vector4f vector4f = new Vector4f((float)(d - this.ust.field_1352), (float)(d2 - this.ust.field_1351), (float)(d3 - this.ust.field_1350), 1.0f);
+        Vector4f vector4f = new Vector4f((float)(d - this.ust.x), (float)(d2 - this.ust.y), (float)(d3 - this.ust.z), 1.0f);
         return this.usr.transform(vector4f);
     }
 
     public float depth(double d, double d2, double d3) {
-        float f = (float)(d - this.ust.field_1352);
-        float f2 = (float)(d2 - this.ust.field_1351);
-        float f3 = (float)(d3 - this.ust.field_1350);
+        float f = (float)(d - this.ust.x);
+        float f2 = (float)(d2 - this.ust.y);
+        float f3 = (float)(d3 - this.ust.z);
         return -(this.usr.m02() * f + this.usr.m12() * f2 + this.usr.m22() * f3 + this.usr.m32());
     }
 
     public boolean project(double d, double d2, double d3, float[] fArray) {
-        Vector4f vector4f = this.usz.set((float)(d - this.ust.field_1352), (float)(d2 - this.ust.field_1351), (float)(d3 - this.ust.field_1350), 1.0f);
+        Vector4f vector4f = this.usz.set((float)(d - this.ust.x), (float)(d2 - this.ust.y), (float)(d3 - this.ust.z), 1.0f);
         this.uss.transform(vector4f);
         if (vector4f.w <= 0.05f) {
             return false;
@@ -151,7 +151,7 @@ public final class usn {
     }
 
     public boolean project3(double d, double d2, double d3, float[] fArray) {
-        Vector4f vector4f = this.usz.set((float)(d - this.ust.field_1352), (float)(d2 - this.ust.field_1351), (float)(d3 - this.ust.field_1350), 1.0f);
+        Vector4f vector4f = this.usz.set((float)(d - this.ust.x), (float)(d2 - this.ust.y), (float)(d3 - this.ust.z), 1.0f);
         this.uss.transform(vector4f);
         if (vector4f.w <= 0.05f) {
             return false;
@@ -163,7 +163,7 @@ public final class usn {
     }
 
     public void direction(double d, double d2, double d3, float[] fArray) {
-        Vector4f vector4f = this.usz.set((float)(d - this.ust.field_1352), (float)(d2 - this.ust.field_1351), (float)(d3 - this.ust.field_1350), 1.0f);
+        Vector4f vector4f = this.usz.set((float)(d - this.ust.x), (float)(d2 - this.ust.y), (float)(d3 - this.ust.z), 1.0f);
         this.uss.transform(vector4f);
         float f = vector4f.x * this.usu;
         float f2 = -vector4f.y * this.usv;
@@ -225,7 +225,7 @@ public final class usn {
     }
 
     public double distance(double d, double d2, double d3) {
-        return Math.sqrt(this.ust.method_1028(d, d2, d3));
+        return Math.sqrt(this.ust.squaredDistanceTo(d, d2, d3));
     }
 
     static {

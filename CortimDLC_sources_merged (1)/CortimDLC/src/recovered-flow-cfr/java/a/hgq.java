@@ -195,10 +195,10 @@ final class hgq {
     }
 
     private static void hgv(MinecraftClient minecraftClient, float f, float f2, String string, int n) {
-        minecraftClient.field_1724.method_36456(f);
-        minecraftClient.field_1724.method_36457(f2);
-        minecraftClient.field_1724.field_5982 = f;
-        minecraftClient.field_1724.field_6004 = f2;
+        minecraftClient.player.setYaw(f);
+        minecraftClient.player.setPitch(f2);
+        minecraftClient.player.lastYaw = f;
+        minecraftClient.player.lastPitch = f2;
         hgr = string;
         hgs = n + 10;
     }
@@ -212,12 +212,12 @@ final class hgq {
     }
 
     private static void hgx(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void hgy(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.c(118715274, "\u73f3\u0a54\u808e\u1ef5\u9564\u1381\ua9c3\u2024\ube7c\u3499") + string + a.b("\uc100\ub8d1\u3262", -1503739613) + minecraftClient.method_47599() + a.b("\u2586\u5c71\ud6b4\u48c6", -87480926));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.b("\ua9b2\ud009\u5ad9\uc4b0\u4f22\uc98c", -812537390) + string + a.d("\u034d\u7aa2\uf06f\u6e17", -883199394, -1723895495)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.c(118715274, "\u73f3\u0a54\u808e\u1ef5\u9564\u1381\ua9c3\u2024\ube7c\u3499") + string + a.b("\uc100\ub8d1\u3262", -1503739613) + minecraftClient.getCurrentFps() + a.b("\u2586\u5c71\ud6b4\u48c6", -87480926));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.b("\ua9b2\ud009\u5ad9\uc4b0\u4f22\uc98c", -812537390) + string + a.d("\u034d\u7aa2\uf06f\u6e17", -883199394, -1723895495)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     static {

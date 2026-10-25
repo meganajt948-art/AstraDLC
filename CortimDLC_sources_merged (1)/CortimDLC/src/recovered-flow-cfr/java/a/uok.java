@@ -50,7 +50,7 @@ implements AutoCloseable {
             for (int i = 0; i < n2; ++i) {
                 int n4 = (bl ? n2 - 1 - i : i) * n;
                 for (int j = 0; j < n; ++j) {
-                    nativeImage.method_61941(j, i, nArray[n4 + j] | n3);
+                    nativeImage.setColorArgb(j, i, nArray[n4 + j] | n3);
                 }
             }
             gpuDevice.createCommandEncoder().writeToTexture(gpuTexture, nativeImage);

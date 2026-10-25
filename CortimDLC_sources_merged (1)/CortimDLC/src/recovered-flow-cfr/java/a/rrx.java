@@ -152,13 +152,13 @@ extends kfe {
 
     public static void trigger(LivingEntity livingEntity, boolean bl) {
         if (rry != null && rry.isEnabled()) {
-            rsr.add(new rrj(livingEntity.method_5628(), livingEntity.method_23317(), livingEntity.method_23318(), livingEntity.method_23321(), livingEntity.field_6283, livingEntity.method_17682(), livingEntity instanceof PlayerEntity, bl));
+            rsr.add(new rrj(livingEntity.getId(), livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), livingEntity.bodyYaw, livingEntity.getHeight(), livingEntity instanceof PlayerEntity, bl));
         }
     }
 
     public static void onAttack(Entity entity) {
         if (rry != null && rry.isEnabled()) {
-            rss.put(entity.method_5628(), System.currentTimeMillis());
+            rss.put(entity.getId(), System.currentTimeMillis());
         }
     }
 
@@ -173,22 +173,22 @@ extends kfe {
                     return;
                 }
                 EntityStatusS2CPacket entityStatusS2CPacket = (EntityStatusS2CPacket)packet;
-                by = entityStatusS2CPacket.method_11470();
+                by = entityStatusS2CPacket.getStatus();
                 if (by != 3 && by != 35) {
                     return;
                 }
-                ClientWorld clientWorld = MinecraftClient.method_1551().field_1687;
+                ClientWorld clientWorld = MinecraftClient.getInstance().world;
                 if (clientWorld == null) {
                     return;
                 }
-                entity = entityStatusS2CPacket.method_11469((World)clientWorld);
+                entity = entityStatusS2CPacket.getEntity((World)clientWorld);
                 if (!(entity instanceof LivingEntity)) break block7;
                 livingEntity = (LivingEntity)entity;
-                if (entity != MinecraftClient.method_1551().field_1724) break block8;
+                if (entity != MinecraftClient.getInstance().player) break block8;
             }
             return;
         }
-        rsr.add(new rrj(entity.method_5628(), entity.method_23317(), entity.method_23318(), entity.method_23321(), livingEntity.field_6283, entity.method_17682(), entity instanceof PlayerEntity, by == 35));
+        rsr.add(new rrj(entity.getId(), entity.getX(), entity.getY(), entity.getZ(), livingEntity.bodyYaw, entity.getHeight(), entity instanceof PlayerEntity, by == 35));
         if (rsr.size() > 32) {
             rsr.poll();
         }
@@ -241,8 +241,8 @@ extends kfe {
             this.rte = 0L;
             return;
         }
-        ClientWorld clientWorld = minecraftClient.field_1687;
-        if (clientWorld == null || minecraftClient.field_1724 == null) {
+        ClientWorld clientWorld = minecraftClient.world;
+        if (clientWorld == null || minecraftClient.player == null) {
             this.rsx.clear();
             this.rsy.clear();
             return;
@@ -250,10 +250,10 @@ extends kfe {
         long l = System.nanoTime();
         float f = this.rte == 0L ? 0.0f : Math.min(0.1f, (float)(l - this.rte) / 1.0E9f);
         this.rte = l;
-        float f2 = minecraftClient.method_61966().method_60637(false);
+        float f2 = minecraftClient.getRenderTickCounter().getTickProgress(false);
         for (rrj rrj2 : this.rsx) {
             LivingEntity livingEntity;
-            object = clientWorld.method_8469(rrj2.rrk);
+            object = clientWorld.getEntityById(rrj2.rrk);
             int n = (rrj2.rrr ? this.rsf : this.rse).color();
             if (object instanceof LivingEntity) {
                 LivingEntity livingEntity2 = (LivingEntity)object;
@@ -281,17 +281,17 @@ extends kfe {
         if (this.rsy.isEmpty()) {
             return;
         }
-        Camera camera = minecraftClient.field_1773.method_19418();
-        object = camera.method_71156();
+        Camera camera = minecraftClient.gameRenderer.getCamera();
+        object = camera.getCameraPos();
         ByteBuffer byteBuffer = uwt.staging(n);
         this.rsz.clear();
         int n2 = 0;
         for (sql sql3 : this.rsy) {
-            int n3 = sql3.write(byteBuffer, ((Vec3d)object).field_1352, ((Vec3d)object).field_1351, ((Vec3d)object).field_1350);
-            this.rsz.add(new uwg(n2, n3, sql3.red, sql3.green, sql3.blue, sql3.alpha(), (float)(sql3.y + (double)sql3.scan() - ((Vec3d)object).field_1351), (float)(sql3.y + (double)sql3.sweep() - ((Vec3d)object).field_1351), sql3.flash(), sql3.broken()));
+            int n3 = sql3.write(byteBuffer, ((Vec3d)object).x, ((Vec3d)object).y, ((Vec3d)object).z);
+            this.rsz.add(new uwg(n2, n3, sql3.red, sql3.green, sql3.blue, sql3.alpha(), (float)(sql3.y + (double)sql3.scan() - ((Vec3d)object).y), (float)(sql3.y + (double)sql3.sweep() - ((Vec3d)object).y), sql3.flash(), sql3.broken()));
             n2 += n3;
         }
-        this.rta.rotation((Quaternionfc)camera.method_23767().conjugate(this.rtb));
+        this.rta.rotation((Quaternionfc)camera.getRotation().conjugate(this.rtb));
         uwt.draw(this.rta, 0.36f, 0.86f, 0.36f, 1.0f, this.rsz, byteBuffer);
     }
 
@@ -305,35 +305,35 @@ extends kfe {
         double d3 = sql2.centerZ();
         if (this.rsl.get()) {
             if ((n & 1) != 0) {
-                clientWorld.method_8486(d, d2, d3, SoundEvents.field_26980, SoundCategory.field_15248, 0.9f, 1.4f, false);
+                clientWorld.playSoundClient(d, d2, d3, SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME, SoundCategory.PLAYERS, 0.9f, 1.4f, false);
             }
             if ((n & 2) != 0) {
                 if (sql2.totem) {
-                    clientWorld.method_8486(d, d2, d3, SoundEvents.field_26942, SoundCategory.field_15248, 0.9f, 1.2f, false);
+                    clientWorld.playSoundClient(d, d2, d3, SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.PLAYERS, 0.9f, 1.2f, false);
                 } else {
-                    clientWorld.method_8486(d, d2, d3, SoundEvents.field_14583, SoundCategory.field_15248, 0.8f, 0.7f, false);
+                    clientWorld.playSoundClient(d, d2, d3, SoundEvents.BLOCK_GLASS_HIT, SoundCategory.PLAYERS, 0.8f, 0.7f, false);
                 }
             }
             if ((n & 4) != 0) {
                 if (sql2.totem) {
-                    clientWorld.method_8486(d, d2, d3, SoundEvents.field_15081, SoundCategory.field_15248, 0.35f, 1.6f, false);
+                    clientWorld.playSoundClient(d, d2, d3, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 0.35f, 1.6f, false);
                 } else {
-                    clientWorld.method_8486(d, d2, d3, SoundEvents.field_15081, SoundCategory.field_15248, 1.0f, 0.92f + this.rtc.nextFloat() * 0.14f, false);
-                    clientWorld.method_8486(d, d2, d3, SoundEvents.field_26979, SoundCategory.field_15248, 0.5f, 1.35f, false);
+                    clientWorld.playSoundClient(d, d2, d3, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1.0f, 0.92f + this.rtc.nextFloat() * 0.14f, false);
+                    clientWorld.playSoundClient(d, d2, d3, SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK, SoundCategory.PLAYERS, 0.5f, 1.35f, false);
                 }
             }
         }
         if (this.rsm.get() && (n & 4) != 0) {
             int n2;
-            BlockStateParticleEffect blockStateParticleEffect = new BlockStateParticleEffect(ParticleTypes.field_11217, Blocks.field_10033.method_9564());
+            BlockStateParticleEffect blockStateParticleEffect = new BlockStateParticleEffect(ParticleTypes.BLOCK, Blocks.GLASS.getDefaultState());
             int n3 = sql2.totem ? 8 : 40;
             for (n2 = 0; n2 < n3; ++n2) {
                 if (!sql2.sample(this.rtc, this.rtd)) continue;
-                clientWorld.method_8406((ParticleEffect)blockStateParticleEffect, this.rtd[0], this.rtd[1], this.rtd[2], this.rtd[3] * 0.3, this.rtd[4] * 0.3, this.rtd[5] * 0.3);
+                clientWorld.addParticleClient((ParticleEffect)blockStateParticleEffect, this.rtd[0], this.rtd[1], this.rtd[2], this.rtd[3] * 0.3, this.rtd[4] * 0.3, this.rtd[5] * 0.3);
             }
             n2 = sql2.totem ? 5 : 14;
             for (int i = 0; i < n2; ++i) {
-                clientWorld.method_8406((ParticleEffect)ParticleTypes.field_11207, d + (this.rtc.nextDouble() - 0.5) * 0.6, d2 + (this.rtc.nextDouble() - 0.5) * 1.4, d3 + (this.rtc.nextDouble() - 0.5) * 0.6, (this.rtc.nextDouble() - 0.5) * 0.12, this.rtc.nextDouble() * 0.08, (this.rtc.nextDouble() - 0.5) * 0.12);
+                clientWorld.addParticleClient((ParticleEffect)ParticleTypes.END_ROD, d + (this.rtc.nextDouble() - 0.5) * 0.6, d2 + (this.rtc.nextDouble() - 0.5) * 1.4, d3 + (this.rtc.nextDouble() - 0.5) * 0.6, (this.rtc.nextDouble() - 0.5) * 0.12, this.rtc.nextDouble() * 0.08, (this.rtc.nextDouble() - 0.5) * 0.12);
             }
         }
     }
@@ -344,8 +344,8 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         rrx rrx2 = rry;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rrx2 == null || !rrx2.isEnabled() || rrx2.rst.isEmpty() || minecraftClient.field_1687 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rrx2 == null || !rrx2.isEnabled() || rrx2.rst.isEmpty() || minecraftClient.world == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -356,7 +356,7 @@ extends kfe {
         float f = unf.delta();
         rrx2.rsv += f;
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -443,7 +443,7 @@ extends kfe {
             double d2 = (this.rtj[nArray[0]][0] + this.rtj[nArray[2]][0]) * 0.5;
             double d3 = (this.rtj[nArray[0]][1] + this.rtj[nArray[2]][1]) * 0.5;
             double d4 = (this.rtj[nArray[0]][2] + this.rtj[nArray[2]][2]) * 0.5;
-            if ((double)this.rtg.x * (vec3d.field_1352 - d2) + (double)this.rtg.y * (vec3d.field_1351 - d3) + (double)this.rtg.z * (vec3d.field_1350 - d4) <= 0.0) continue;
+            if ((double)this.rtg.x * (vec3d.x - d2) + (double)this.rtg.y * (vec3d.y - d3) + (double)this.rtg.z * (vec3d.z - d4) <= 0.0) continue;
             for (int j = 0; j < 4; ++j) {
                 this.rto[j] = (nArray[j] & 2) != 0 ? n3 : n4;
             }

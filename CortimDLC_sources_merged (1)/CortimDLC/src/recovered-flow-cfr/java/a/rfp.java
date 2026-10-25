@@ -44,8 +44,8 @@ extends kfe {
         }
         rfr = true;
         try {
-            EntityRendererRegistry.register((EntityType)EntityType.field_6052, usj::new);
-            minecraftClient.method_1561().method_14491(minecraftClient.method_1478());
+            EntityRendererRegistry.register((EntityType)EntityType.ITEM, usj::new);
+            minecraftClient.getEntityRenderDispatcher().reload(minecraftClient.getResourceManager());
         }
         catch (Throwable throwable) {
             System.out.println("item physics unavailable: " + throwable);

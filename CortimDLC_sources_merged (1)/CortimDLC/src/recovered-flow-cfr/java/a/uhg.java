@@ -95,7 +95,7 @@ final class uhg {
     }
 
     private static void uhr(Runnable runnable) {
-        MinecraftClient.method_1551().execute(runnable);
+        MinecraftClient.getInstance().execute(runnable);
     }
 
     private static /* synthetic */ int cwu(int n, int n2) {

@@ -59,7 +59,7 @@ public final class qwo {
     }
 
     public static boolean isDiamond(BlockState blockState) {
-        return blockState.method_27852(Blocks.field_10442) || blockState.method_27852(Blocks.field_29029);
+        return blockState.isOf(Blocks.DIAMOND_ORE) || blockState.isOf(Blocks.DEEPSLATE_DIAMOND_ORE);
     }
 
     public static void scan(World world, pzc pzc2, Vec3d vec3d) {
@@ -72,8 +72,8 @@ public final class qwo {
         for (int i = pzc2.minY; i <= pzc2.maxY; ++i) {
             for (int j = pzc2.minX; j <= pzc2.maxX; ++j) {
                 for (int k = pzc2.minZ; k <= pzc2.maxZ; ++k) {
-                    if (!qwo.isDiamond(world.method_8320((BlockPos)mutable.method_10103(j, i, k)))) continue;
-                    longArrayList.add(mutable.method_10063());
+                    if (!qwo.isDiamond(world.getBlockState((BlockPos)mutable.set(j, i, k)))) continue;
+                    longArrayList.add(mutable.asLong());
                 }
             }
         }
@@ -86,14 +86,14 @@ public final class qwo {
     }
 
     private static double qxh(long l, Vec3d vec3d) {
-        double d = (double)BlockPos.method_10061((long)l) + 0.5 - vec3d.field_1352;
-        double d2 = (double)BlockPos.method_10071((long)l) + 0.5 - vec3d.field_1351;
-        double d3 = (double)BlockPos.method_10083((long)l) + 0.5 - vec3d.field_1350;
+        double d = (double)BlockPos.unpackLongX((long)l) + 0.5 - vec3d.x;
+        double d2 = (double)BlockPos.unpackLongY((long)l) + 0.5 - vec3d.y;
+        double d3 = (double)BlockPos.unpackLongZ((long)l) + 0.5 - vec3d.z;
         return d * d + d2 * d2 + d3 * d3;
     }
 
     public static void focus(BlockPos blockPos) {
-        qwx = blockPos == null ? Long.MIN_VALUE : blockPos.method_10063();
+        qwx = blockPos == null ? Long.MIN_VALUE : blockPos.asLong();
     }
 
     public static void clear() {
@@ -110,8 +110,8 @@ public final class qwo {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         long[] lArray = qwv;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (lArray.length == 0 || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (lArray.length == 0 || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -120,7 +120,7 @@ public final class qwo {
         }
         qwy = unf.frame();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -137,13 +137,13 @@ public final class qwo {
                 float f3;
                 double d;
                 double d2;
-                double d3 = BlockPos.method_10061((long)l2);
-                if (usn2.depth(d3 + 0.5, (d2 = (double)BlockPos.method_10071((long)l2)) + 0.5, (d = (double)BlockPos.method_10083((long)l2)) + 0.5) < -1.0f || usn2.depth(d3 + 0.5, d2 + 0.5, d + 0.5) > 2.0f && usn2.project(d3 + 0.5, d2 + 0.5, d + 0.5, qxe) && (qxe[0] < -(f3 = usn2.unitsPerBlock(d3 + 0.5, d2 + 0.5, d + 0.5) * 0.9f) || qxe[1] < -f3 || qxe[0] > f + f3 || qxe[1] > f2 + f3)) continue;
+                double d3 = BlockPos.unpackLongX((long)l2);
+                if (usn2.depth(d3 + 0.5, (d2 = (double)BlockPos.unpackLongY((long)l2)) + 0.5, (d = (double)BlockPos.unpackLongZ((long)l2)) + 0.5) < -1.0f || usn2.depth(d3 + 0.5, d2 + 0.5, d + 0.5) > 2.0f && usn2.project(d3 + 0.5, d2 + 0.5, d + 0.5, qxe) && (qxe[0] < -(f3 = usn2.unitsPerBlock(d3 + 0.5, d2 + 0.5, d + 0.5) * 0.9f) || qxe[1] < -f3 || qxe[0] > f + f3 || qxe[1] > f2 + f3)) continue;
                 boolean bl = l2 == l;
                 int n = 0;
                 if (!bl) {
                     for (int i = 0; i < 6; ++i) {
-                        long l3 = BlockPos.method_10096((long)l2, (int)qwt[i][0], (int)qwt[i][1], (int)qwt[i][2]);
+                        long l3 = BlockPos.add((long)l2, (int)qwt[i][0], (int)qwt[i][1], (int)qwt[i][2]);
                         if (l3 == l || !longOpenHashSet.contains(l3)) continue;
                         n |= 1 << i;
                     }
@@ -172,12 +172,12 @@ public final class qwo {
             qwo.qwz[n4][2] = (n4 & 4) == 0 ? d7 : d10;
             qwo.qxb[n4] = usn2.depth(qwz[n4][0], qwz[n4][1], qwz[n4][2]) > 0.05f && usn2.project(qwz[n4][0], qwz[n4][1], qwz[n4][2], qxa[n4]);
         }
-        qwo.qxc[0] = vec3d.field_1351 < d6;
-        qwo.qxc[1] = vec3d.field_1351 > d9;
-        qwo.qxc[2] = vec3d.field_1350 < d7;
-        qwo.qxc[3] = vec3d.field_1350 > d10;
-        qwo.qxc[4] = vec3d.field_1352 < d5;
-        qwo.qxc[5] = vec3d.field_1352 > d8;
+        qwo.qxc[0] = vec3d.y < d6;
+        qwo.qxc[1] = vec3d.y > d9;
+        qwo.qxc[2] = vec3d.z < d7;
+        qwo.qxc[3] = vec3d.z > d10;
+        qwo.qxc[4] = vec3d.x < d5;
+        qwo.qxc[5] = vec3d.x > d8;
         n4 = ujt.withAlpha(n, Math.round(255.0f * f2));
         for (n3 = 0; n3 < 6; ++n3) {
             int[] object = qws[n3];

@@ -76,7 +76,7 @@ extends jcs {
     private static final int jkk = -865972;
     private static final int jkl = -1092784;
     private static final int jkm = -670639;
-    private static final EquipmentSlot[] jkn = new EquipmentSlot[]{EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166};
+    private static final EquipmentSlot[] jkn = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
     private static LivingEntity jko;
     private static long jkp;
     private LivingEntity jkq;
@@ -115,7 +115,7 @@ extends jcs {
     void update(float f, boolean bl) {
         float f2;
         LivingEntity livingEntity;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         long l = System.currentTimeMillis();
         LivingEntity livingEntity2 = livingEntity = this.enabled.get() ? jjx.jle(minecraftClient, l) : null;
         if (livingEntity != null) {
@@ -125,7 +125,7 @@ extends jcs {
                     this.jla.set(1.0f);
                 }
                 this.jkq = livingEntity;
-                this.jku = livingEntity.field_6235;
+                this.jku = livingEntity.hurtTime;
                 vyd vyd2 = vyk.of(livingEntity);
                 f2 = vyd2.fraction();
                 this.jkv.set(f2);
@@ -139,8 +139,8 @@ extends jcs {
         this.jkt = false;
         if (this.jkq != null) {
             this.jks = jjx.jlg(this.jkq, minecraftClient);
-        } else if (bl && minecraftClient.field_1724 != null) {
-            this.jks = jjx.jlh(minecraftClient.field_1724);
+        } else if (bl && minecraftClient.player != null) {
+            this.jks = jjx.jlh(minecraftClient.player);
             this.jkt = true;
         }
         if (this.jks == null) {
@@ -157,10 +157,10 @@ extends jcs {
         }
         this.jkx.step(this.jks.jjp ? 0.0f : Math.min(1.0f, this.jks.jjo / Math.max(1.0f, this.jks.jjn)), f);
         this.jkz.step(f3 < 0.3f ? 1.0f : 0.0f, f);
-        if (this.jkq != null && this.jkq.field_6235 > this.jku) {
+        if (this.jkq != null && this.jkq.hurtTime > this.jku) {
             this.jky.set(1.0f);
         }
-        this.jku = this.jkq != null ? this.jkq.field_6235 : 0;
+        this.jku = this.jkq != null ? this.jkq.hurtTime : 0;
         this.jky.step(0.0f, f);
         this.jla.step(0.0f, f);
     }
@@ -170,23 +170,23 @@ extends jcs {
         if (jko != null && l - jkp < 6000L && jjx.jlf(minecraftClient, jko)) {
             return jko;
         }
-        Entity entity = minecraftClient.field_1692;
+        Entity entity = minecraftClient.targetedEntity;
         if (entity instanceof LivingEntity && !((livingEntity = (LivingEntity)entity) instanceof ArmorStandEntity) && jjx.jlf(minecraftClient, livingEntity)) {
             return livingEntity;
         }
-        livingEntity = minecraftClient.field_1724;
-        if (livingEntity == null || minecraftClient.field_1687 == null) {
+        livingEntity = minecraftClient.player;
+        if (livingEntity == null || minecraftClient.world == null) {
             return null;
         }
-        entity = livingEntity.method_33571();
-        Vec3d vec3d = livingEntity.method_5828(1.0f);
+        entity = livingEntity.getEyePos();
+        Vec3d vec3d = livingEntity.getRotationVec(1.0f);
         PlayerEntity playerEntity = null;
         double d = Math.cos(Math.toRadians(5.0));
-        for (PlayerEntity playerEntity2 : minecraftClient.field_1687.method_18456()) {
+        for (PlayerEntity playerEntity2 : minecraftClient.world.getPlayers()) {
             double d2;
             Vec3d vec3d2;
             double d3;
-            if (playerEntity2 == livingEntity || !jjx.jlf(minecraftClient, (LivingEntity)playerEntity2) || (d3 = (vec3d2 = playerEntity2.method_5829().method_1005().method_1020((Vec3d)entity)).method_1033()) > 10.0 || d3 < 0.01 || !((d2 = vec3d2.method_1021(1.0 / d3).method_1026(vec3d)) > d) || !livingEntity.method_6057((Entity)playerEntity2)) continue;
+            if (playerEntity2 == livingEntity || !jjx.jlf(minecraftClient, (LivingEntity)playerEntity2) || (d3 = (vec3d2 = playerEntity2.getBoundingBox().getCenter().subtract((Vec3d)entity)).length()) > 10.0 || d3 < 0.01 || !((d2 = vec3d2.multiply(1.0 / d3).dotProduct(vec3d)) > d) || !livingEntity.canSee((Entity)playerEntity2)) continue;
             d = d2;
             playerEntity = playerEntity2;
         }
@@ -194,13 +194,13 @@ extends jcs {
     }
 
     private static boolean jlf(MinecraftClient minecraftClient, LivingEntity livingEntity) {
-        if (minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || livingEntity == minecraftClient.field_1724 || !livingEntity.method_5805() || livingEntity.method_31481() || minecraftClient.field_1687.method_8469(livingEntity.method_5628()) != livingEntity) {
+        if (minecraftClient.world == null || minecraftClient.player == null || livingEntity == minecraftClient.player || !livingEntity.isAlive() || livingEntity.isRemoved() || minecraftClient.world.getEntityById(livingEntity.getId()) != livingEntity) {
             return false;
         }
         if (PLAYERS_ONLY.get() && !(livingEntity instanceof PlayerEntity)) {
             return false;
         }
-        return minecraftClient.field_1724.method_5858((Entity)livingEntity) < 576.0;
+        return minecraftClient.player.squaredDistanceTo((Entity)livingEntity) < 576.0;
     }
 
     private static jjj jlg(LivingEntity livingEntity, MinecraftClient minecraftClient) {
@@ -208,7 +208,7 @@ extends jcs {
         Object object;
         if (livingEntity instanceof AbstractClientPlayerEntity) {
             object = (AbstractClientPlayerEntity)livingEntity;
-            skinTextures = object.method_52814();
+            skinTextures = object.getSkin();
         } else {
             skinTextures = null;
         }
@@ -216,21 +216,21 @@ extends jcs {
         object = vyk.of(livingEntity);
         ItemStack[] itemStackArray = new ItemStack[4];
         for (int i = 0; i < 4; ++i) {
-            itemStackArray[i] = livingEntity.method_6118(jkn[i]);
+            itemStackArray[i] = livingEntity.getEquippedStack(jkn[i]);
         }
-        float f = minecraftClient.field_1724 != null ? (float)Math.sqrt(minecraftClient.field_1724.method_5858((Entity)livingEntity)) : 0.0f;
-        return new jjj(lsx.protect(livingEntity.method_5477().getString()), skinTextures2, ((vyd)object).health(), ((vyd)object).max(), ((vyd)object).absorption(), ((vyd)object).unknown(), itemStackArray, livingEntity.method_6047(), livingEntity.method_6079(), f, livingEntity.field_6235);
+        float f = minecraftClient.player != null ? (float)Math.sqrt(minecraftClient.player.squaredDistanceTo((Entity)livingEntity)) : 0.0f;
+        return new jjj(lsx.protect(livingEntity.getName().getString()), skinTextures2, ((vyd)object).health(), ((vyd)object).max(), ((vyd)object).absorption(), ((vyd)object).unknown(), itemStackArray, livingEntity.getMainHandStack(), livingEntity.getOffHandStack(), f, livingEntity.hurtTime);
     }
 
     private static jjj jlh(ClientPlayerEntity clientPlayerEntity) {
-        ItemStack[] itemStackArray = new ItemStack[]{jjx.jli(Items.field_22027, 0.08f), jjx.jli(Items.field_22028, 0.35f), jjx.jli(Items.field_8348, 0.62f), jjx.jli(Items.field_8285, 0.86f)};
-        return new jjj(lsx.protect(clientPlayerEntity.method_5477().getString()), clientPlayerEntity.method_52814(), 13.5f, 20.0f, 4.0f, false, itemStackArray, jjx.jli(Items.field_22022, 0.2f), new ItemStack((ItemConvertible)Items.field_8288), 3.4f, 0);
+        ItemStack[] itemStackArray = new ItemStack[]{jjx.jli(Items.NETHERITE_HELMET, 0.08f), jjx.jli(Items.NETHERITE_CHESTPLATE, 0.35f), jjx.jli(Items.DIAMOND_LEGGINGS, 0.62f), jjx.jli(Items.DIAMOND_BOOTS, 0.86f)};
+        return new jjj(lsx.protect(clientPlayerEntity.getName().getString()), clientPlayerEntity.getSkin(), 13.5f, 20.0f, 4.0f, false, itemStackArray, jjx.jli(Items.NETHERITE_SWORD, 0.2f), new ItemStack((ItemConvertible)Items.TOTEM_OF_UNDYING), 3.4f, 0);
     }
 
     private static ItemStack jli(Item item, float f) {
         ItemStack itemStack = new ItemStack((ItemConvertible)item);
-        if (itemStack.method_7963()) {
-            itemStack.method_7974(Math.round((float)itemStack.method_7936() * f));
+        if (itemStack.isDamageable()) {
+            itemStack.setDamage(Math.round((float)itemStack.getMaxDamage() * f));
         }
         return itemStack;
     }
@@ -271,16 +271,16 @@ extends jcs {
         float f4 = iov.r(9.0f);
         izx.panel(drawContext, f2, f3, f4);
         float f5 = vcq.outCubic(this.jla.get());
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(0.0f, f3 * 0.5f);
-        drawContext.method_51448().scale(1.0f, 1.0f - 0.18f * f5);
-        drawContext.method_51448().translate(0.0f, -f3 * 0.5f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(0.0f, f3 * 0.5f);
+        drawContext.getMatrices().scale(1.0f, 1.0f - 0.18f * f5);
+        drawContext.getMatrices().translate(0.0f, -f3 * 0.5f);
         uut.pushAlpha(1.0f - 0.85f * f5);
         this.jlj(drawContext, jjj2, 8.0f, (f3 - 30.0f) * 0.5f);
         this.jlk(drawContext, jjj2, 46.0f, f3);
         this.jln(drawContext, jjj2, f2 - 8.0f - 15.0f, f3 * 0.5f);
         uut.popAlpha();
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     private void jlj(DrawContext drawContext, jjj jjj2, float f, float f2) {
@@ -288,9 +288,9 @@ extends jcs {
         float f3 = Math.min(15.0f, iov.r(7.0f));
         float f4 = vcq.outCubic(this.jky.get());
         float f5 = 1.0f - 0.07f * f4;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f + 15.0f, f2 + 15.0f);
-        drawContext.method_51448().scale(f5, f5);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f + 15.0f, f2 + 15.0f);
+        drawContext.getMatrices().scale(f5, f5);
         float f6 = -15.0f;
         ukf.shadow(drawContext, f6, f6, 30.0f, 30.0f, f3, 0.8f, iov.lightness());
         int n = ujt.lerp(-1, -34182, f4);
@@ -301,7 +301,7 @@ extends jcs {
             izx.RING.drawCentered(drawContext, string, 0.0f, izx.RING.centerTop(0.0f), iov.textDim);
         }
         uut.outlineGradientV(drawContext, f6, f6, 30.0f, 30.0f, f3, 1.0f, 0x38FFFFFF, 0xAFFFFFF);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     private void jlk(DrawContext drawContext, jjj jjj2, float f, float f2) {
@@ -334,21 +334,21 @@ extends jcs {
     }
 
     private void jll(DrawContext drawContext, ItemStack itemStack, float f, float f2) {
-        if (itemStack == null || itemStack.method_7960()) {
+        if (itemStack == null || itemStack.isEmpty()) {
             uut.round(drawContext, f + 5.25f - 1.2f, f2 + 5.25f - 1.2f, 2.4f, 2.4f, 1.2f, ujt.mulAlpha(iov.textMuted, 0.35f));
             return;
         }
         float f3 = uut.alpha();
         float f4 = 0.65625f * Math.min(1.0f, f3 * 2.5f);
         if (f4 > 0.02f) {
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f + 5.25f, f2 + 5.25f);
-            drawContext.method_51448().scale(f4, f4);
-            drawContext.method_51427(itemStack, -8, -8);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f + 5.25f, f2 + 5.25f);
+            drawContext.getMatrices().scale(f4, f4);
+            drawContext.drawItem(itemStack, -8, -8);
+            drawContext.getMatrices().popMatrix();
         }
-        if (itemStack.method_7963() && itemStack.method_7936() > 0) {
-            float f5 = 1.0f - (float)itemStack.method_7919() / (float)itemStack.method_7936();
+        if (itemStack.isDamageable() && itemStack.getMaxDamage() > 0) {
+            float f5 = 1.0f - (float)itemStack.getDamage() / (float)itemStack.getMaxDamage();
             float f6 = 8.5f;
             float f7 = f2 + 10.5f + 2.2f;
             uut.round(drawContext, f + 1.0f, f7, f6, 1.3f, 0.65f, iov.track);

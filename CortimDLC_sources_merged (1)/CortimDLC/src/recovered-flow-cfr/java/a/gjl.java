@@ -41,7 +41,7 @@ final class gjl {
     static boolean tick(MinecraftClient minecraftClient, int n) {
         kfe kfe2 = Flow.getInstance().getModuleManager().getByName(a.b("\u7616\u0f85\u854c\u1b3b\u90fa\u166f\uac0e\u25ff\ubbba\u3111\ub6c5", -1841007024));
         if (n == 1) {
-            minecraftClient.field_1690.field_1837 = false;
+            minecraftClient.options.pauseOnLostFocus = false;
             gjl.gju(minecraftClient, a.b("\ub820\uc197\u4b48\ud531\u5eee\ud85d\u6205\uebf5\u75ef\uff0d\u78d8\u82ae\u0c7d\u95d3\u1f9f\u9979\u233b", 503560278));
             gjl.gju(minecraftClient, a.b("\ub211\ucbbd\u416a\udf13\u5481\ud263\u6826\ue1c6\u7fcd\uf532\u72e0\u8891\u0647", -441011608));
             gjl.gju(minecraftClient, a.c(2118270715, "\u3eb5\u4707\ucdd4\u53a6\ud877\u5ed1\ue4d6\u6d60\uf331\u799f\ufe5f\u046b\u8adc\u135e\u995e\u1ffd\ua5a5\u2a62\ub0cb\u3680\ubf70\uc534\u4b88\ud054\u562d\udcb9\u6543\ueb15\u71ea\uf7b4\u7c00\u82d6\u0884\u9164\u1772\u9dd1\u2201\ua870\u2eb6\ub753\u3d0a\u43fc\uc9bf"));
@@ -50,11 +50,11 @@ final class gjl {
             gjl.gju(minecraftClient, a.b("\ucfcf\ub678\u3cb3\ua2c2\u2917\uafa7\u15ba\u9c06\u025d\u88eb\u0f33\uf544\u7b82\ue220\u6874\uee97\u5496\udb07\u41a1\uc7f2\u4e0a\u3450\ubaef\u217b\ua75a\u2dc4\u9468\u1a22\u80c0\u06cf\u8d22\u73ad\uf9af\u604d\ue645\u6cc1\ud337\u5968\udfb3\u4671\ucc25\ub287\u389a\ubf54\u25b9\uabcd\u1217\u98ad\u1ef8\u8567\u0b1f\uf19d\u7864\ufe49\u648f\ueac9\u5177\ud7bc\u5dd5\uc403\u4aa5\u30ff\ub701\u3d56\ua3ae\u2a28\u906f\u169a\u9cd1\u037b\u89bf\u0fcf\uf64e\u7cf4\ue2f4\u691a", -1216753680));
             return false;
         }
-        if (!minecraftClient.method_1569()) {
+        if (!minecraftClient.isWindowFocused()) {
             gjl.gjr(minecraftClient);
         }
-        if (minecraftClient.field_1755 == null && !minecraftClient.field_1729.method_1613()) {
-            minecraftClient.field_1729.method_1612();
+        if (minecraftClient.currentScreen == null && !minecraftClient.mouse.isCursorLocked()) {
+            minecraftClient.mouse.lockCursor();
         }
         if (n < 40) {
             return false;
@@ -68,10 +68,10 @@ final class gjl {
         }
         if (n4 == 0) {
             kfe2.setEnabled(gjm[n3].startsWith(a.d("\ua504\udcb4", 502728803, 140422410)));
-            minecraftClient.field_1724.method_36456(0.0f);
-            minecraftClient.field_1724.method_36457(0.0f);
+            minecraftClient.player.setYaw(0.0f);
+            minecraftClient.player.setPitch(0.0f);
         } else if (n4 == 10) {
-            gjo = minecraftClient.field_1724.method_36454();
+            gjo = minecraftClient.player.getYaw();
         } else if (n4 > 10 && n4 <= 16) {
             int n5 = gjm[n3].contains(a.b("\u1e5e\u67f4\ued29\u7357\uf89c", -118022615)) ? 1 : -1;
             int n6 = gjm[n3].contains(a.c(857404759, "\uf535\u8c83\u0642\u9834")) ? 60 : 8;
@@ -79,19 +79,19 @@ final class gjl {
                 gjl.gjt(n5 * n6 / 4);
             }
         } else if (n4 == 28) {
-            float f = minecraftClient.field_1724.method_36454() - gjo;
-            System.out.printf(a.c(29663991, "\ua2af\udb1c\u51d5\ucfa2\u4463\uc2c5\u7881\uf174\u6f26\ue5db\u620d\u982a\u16b4\u8f1f\u0518\u83e8\u39a0\ub66d\u2cd5\uaa85\u2336\u5962\ud7da\u4c16\uca3c\u40ab\uf95c\u770c\uedf9\u6be3\ue05c\u1ecb\u948d\u0d70\u8b35\u0182\ube43\u3433\ub2b9\u2b10\ua119\udfbb\u55a4\ud216\u48cd\uc6b4\u7f69\uf5d9\u73cf\ue806\u6623\u9ca4\u1558"), gjm[n3], Float.valueOf(f), minecraftClient.method_1569(), minecraftClient.field_1729.method_1613());
+            float f = minecraftClient.player.getYaw() - gjo;
+            System.out.printf(a.c(29663991, "\ua2af\udb1c\u51d5\ucfa2\u4463\uc2c5\u7881\uf174\u6f26\ue5db\u620d\u982a\u16b4\u8f1f\u0518\u83e8\u39a0\ub66d\u2cd5\uaa85\u2336\u5962\ud7da\u4c16\uca3c\u40ab\uf95c\u770c\uedf9\u6be3\ue05c\u1ecb\u948d\u0d70\u8b35\u0182\ube43\u3433\ub2b9\u2b10\ua119\udfbb\u55a4\ud216\u48cd\uc6b4\u7f69\uf5d9\u73cf\ue806\u6623\u9ca4\u1558"), gjm[n3], Float.valueOf(f), minecraftClient.isWindowFocused(), minecraftClient.mouse.isCursorLocked());
         }
         return false;
     }
 
     private static void gjr(MinecraftClient minecraftClient) {
-        WinDef.HWND hWND = new WinDef.HWND(new Pointer(GLFWNativeWin32.glfwGetWin32Window((long)minecraftClient.method_22683().method_4490())));
+        WinDef.HWND hWND = new WinDef.HWND(new Pointer(GLFWNativeWin32.glfwGetWin32Window((long)minecraftClient.getWindow().getHandle())));
         gjl.gjs(18, 0);
         gjl.gjs(18, 2);
         User32.INSTANCE.ShowWindow(hWND, 9);
         User32.INSTANCE.SetForegroundWindow(hWND);
-        GLFW.glfwFocusWindow((long)minecraftClient.method_22683().method_4490());
+        GLFW.glfwFocusWindow((long)minecraftClient.getWindow().getHandle());
     }
 
     private static void gjs(int n, int n2) {
@@ -116,7 +116,7 @@ final class gjl {
     }
 
     private static void gju(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static /* synthetic */ int ug(int n, int n2) {

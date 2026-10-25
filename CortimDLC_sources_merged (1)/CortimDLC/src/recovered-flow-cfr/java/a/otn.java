@@ -59,7 +59,7 @@ extends kfe {
         long l;
         block12: {
             block11: {
-                Screen screen = minecraftClient.field_1755;
+                Screen screen = minecraftClient.currentScreen;
                 l = System.currentTimeMillis();
                 if (screen != this.otv) {
                     this.otv = screen;
@@ -73,29 +73,29 @@ extends kfe {
             }
             return;
         }
-        ScreenHandler screenHandler = handledScreen.method_17577();
-        if (!screenHandler.method_34255().method_7960() || l < this.otx) {
+        ScreenHandler screenHandler = handledScreen.getScreenHandler();
+        if (!screenHandler.getCursorStack().isEmpty() || l < this.otx) {
             return;
         }
-        PlayerInventory playerInventory = minecraftClient.field_1724.method_31548();
+        PlayerInventory playerInventory = minecraftClient.player.getInventory();
         for (Slot slot : vxl.own(screenHandler, playerInventory)) {
-            if (!slot.method_7681() || !slot.method_7674((PlayerEntity)minecraftClient.field_1724) || vxl.room(screenHandler, playerInventory, slot.method_7677(), !this.otr.get()) == null) continue;
+            if (!slot.hasStack() || !slot.canTakeItems((PlayerEntity)minecraftClient.player) || vxl.room(screenHandler, playerInventory, slot.getStack(), !this.otr.get()) == null) continue;
             if (this.otr.get()) {
-                Slot slot2 = vxl.room(screenHandler, playerInventory, slot.method_7677(), false);
-                vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7790);
-                vxl.click(minecraftClient, screenHandler, slot2.field_7874, 0, SlotActionType.field_7790);
-                if (!screenHandler.method_34255().method_7960()) {
-                    vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7790);
+                Slot slot2 = vxl.room(screenHandler, playerInventory, slot.getStack(), false);
+                vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.PICKUP);
+                vxl.click(minecraftClient, screenHandler, slot2.id, 0, SlotActionType.PICKUP);
+                if (!screenHandler.getCursorStack().isEmpty()) {
+                    vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.PICKUP);
                 }
             } else {
-                vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7794);
+                vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.QUICK_MOVE);
             }
             this.oty = l;
             this.otx = l + (long)this.oto.getInt() + (long)(this.otp.getInt() > 0 ? this.otu.nextInt(this.otp.getInt() + 1) : 0);
             return;
         }
         if (this.otq.get() && l - this.oty > 300L && l - this.otw > 480L) {
-            handledScreen.method_25419();
+            handledScreen.close();
         }
     }
 

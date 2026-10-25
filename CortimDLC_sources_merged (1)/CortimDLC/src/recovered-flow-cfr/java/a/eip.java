@@ -37,7 +37,7 @@ import net.minecraft.world.chunk.WorldChunk;
 public final class eip {
     public static final int SIZE = 96;
     private static final int eiq = 12;
-    private static final MinecraftClient eir = MinecraftClient.method_1551();
+    private static final MinecraftClient eir = MinecraftClient.getInstance();
     private final dtv eis;
     private final int[] eit = new int[9216];
     private final BlockPos.Mutable eiu = new BlockPos.Mutable();
@@ -86,17 +86,17 @@ public final class eip {
         if (System.currentTimeMillis() > this.ejd) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = eip.eir.field_1724;
-        ClientWorld clientWorld = eip.eir.field_1687;
+        ClientPlayerEntity clientPlayerEntity = eip.eir.player;
+        ClientWorld clientWorld = eip.eir.world;
         if (clientPlayerEntity == null || clientWorld == null) {
             return;
         }
         if (this.eix == 0) {
-            this.eiy = clientPlayerEntity.method_31477();
-            this.eiz = clientPlayerEntity.method_31479();
+            this.eiy = clientPlayerEntity.getBlockX();
+            this.eiz = clientPlayerEntity.getBlockZ();
         }
-        int n = clientPlayerEntity.method_31478();
-        int n2 = clientWorld.method_31607();
+        int n = clientPlayerEntity.getBlockY();
+        int n2 = clientWorld.getBottomY();
         int n3 = Math.min(96, this.eix + 12);
         for (int i = this.eix; i < n3; ++i) {
             int n4 = this.eiz + i - 48;
@@ -116,21 +116,21 @@ public final class eip {
     }
 
     private int ejk(ClientWorld clientWorld, int n, int n2, int n3, int n4) {
-        WorldChunk worldChunk = clientWorld.method_2935().method_12126(n >> 4, n2 >> 4, false);
+        WorldChunk worldChunk = clientWorld.getChunkManager().getWorldChunk(n >> 4, n2 >> 4, false);
         if (worldChunk == null) {
             return 0;
         }
-        int n5 = worldChunk.method_12005(Heightmap.Type.field_13202, n & 0xF, n2 & 0xF);
+        int n5 = worldChunk.sampleHeightmap(Heightmap.Type.WORLD_SURFACE, n & 0xF, n2 & 0xF);
         int n6 = Math.min(n5, n3 + 6);
         int n7 = Math.max(n4, n6 - 40);
         for (int i = n6; i >= n7; --i) {
             MapColor mapColor;
-            this.eiu.method_10103(n, i, n2);
-            BlockState blockState = worldChunk.method_8320((BlockPos)this.eiu);
-            if (blockState.method_26215() || (mapColor = blockState.method_26205((BlockView)clientWorld, (BlockPos)this.eiu)) == MapColor.field_16008) continue;
+            this.eiu.set(n, i, n2);
+            BlockState blockState = worldChunk.getBlockState((BlockPos)this.eiu);
+            if (blockState.isAir() || (mapColor = blockState.getMapColor((BlockView)clientWorld, (BlockPos)this.eiu)) == MapColor.CLEAR) continue;
             int n8 = i - n3;
-            MapColor.Brightness brightness = n8 > 1 ? MapColor.Brightness.field_34761 : (n8 >= -2 ? MapColor.Brightness.field_34760 : (n8 >= -8 ? MapColor.Brightness.field_34759 : MapColor.Brightness.field_34762));
-            return mapColor.method_15820(brightness);
+            MapColor.Brightness brightness = n8 > 1 ? MapColor.Brightness.HIGH : (n8 >= -2 ? MapColor.Brightness.NORMAL : (n8 >= -8 ? MapColor.Brightness.LOW : MapColor.Brightness.LOWEST));
+            return mapColor.getRenderColor(brightness);
         }
         return 0;
     }
@@ -168,7 +168,7 @@ public final class eip {
         if (this.eje == null || clientWorld == null || System.currentTimeMillis() - this.ejf > 120000L) {
             return null;
         }
-        MapState mapState = clientWorld.method_17891(this.eje);
+        MapState mapState = clientWorld.getMapState(this.eje);
         if (mapState == null) {
             return null;
         }
@@ -178,7 +178,7 @@ public final class eip {
         }
         if (this.ejh) {
             for (int i = 0; i < 16384; ++i) {
-                this.ejg.set(i % 128, i / 128, MapColor.method_38480((int)mapState.field_122[i]));
+                this.ejg.set(i % 128, i / 128, MapColor.getRenderColor((int)mapState.colors[i]));
             }
             this.ejg.upload();
             this.ejh = false;

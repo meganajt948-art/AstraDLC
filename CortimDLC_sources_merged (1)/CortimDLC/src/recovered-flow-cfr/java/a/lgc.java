@@ -159,9 +159,9 @@ extends kfe {
 
     @Override
     protected void onEnable() {
-        if (this.mc.field_1724 != null) {
-            this.lhl.sync(this.mc.field_1724);
-            this.lic = wdt.serverSprinting(this.mc.field_1724);
+        if (this.mc.player != null) {
+            this.lhl.sync(this.mc.player);
+            this.lic = wdt.serverSprinting(this.mc.player);
         }
         this.lia = wee.count();
         this.lhz = 1000;
@@ -184,15 +184,15 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        this.lhl.afterMove(clientPlayerEntity, (World)minecraftClient.field_1687);
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        this.lhl.afterMove(clientPlayerEntity, (World)minecraftClient.world);
         boolean bl = wdt.serverSprinting(clientPlayerEntity);
         if (bl != this.lic) {
             this.lic = bl;
             this.lib = false;
         }
-        boolean bl2 = clientPlayerEntity.method_24828();
-        if (this.lif && !bl2 && this.lig && clientPlayerEntity.method_23318() > clientPlayerEntity.field_6036 + 1.0E-4) {
+        boolean bl2 = clientPlayerEntity.isOnGround();
+        if (this.lif && !bl2 && this.lig && clientPlayerEntity.getY() > clientPlayerEntity.lastY + 1.0E-4) {
             if (this.lik > this.lii) {
                 this.lil = this.lil * 0.7 + (double)Math.min(10, this.lhm - this.lik) * 0.3;
             }
@@ -206,7 +206,7 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         boolean bl;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         ++this.lhm;
         if (this.lhn > 0) {
             --this.lhn;
@@ -222,11 +222,11 @@ extends kfe {
         } else if (this.lhz < 1000) {
             ++this.lhz;
         }
-        boolean bl2 = clientPlayerEntity.method_24828();
+        boolean bl2 = clientPlayerEntity.isOnGround();
         this.lih = bl2 ? Math.min(this.lih + 1, 1000) : 0;
         this.lif = bl2;
-        this.lig = minecraftClient.field_1690.field_1903.method_1434();
-        minecraftClient.field_1773.method_3190(1.0f);
+        this.lig = minecraftClient.options.jumpKey.isPressed();
+        minecraftClient.gameRenderer.updateCrosshairTarget(1.0f);
         if (this.ljq(minecraftClient, clientPlayerEntity)) {
             this.liu(minecraftClient);
             this.ljr();
@@ -237,18 +237,18 @@ extends kfe {
         this.lhu = Integer.bitCount(this.lht) >= 2;
         this.lht = (this.lht << 1 | (bl3 ? 1 : 0)) & 0xFFFF;
         boolean bl4 = this.lji(entity);
-        boolean bl5 = this.lgg.get() && clientPlayerEntity.method_6047().method_31574(Items.field_49814);
+        boolean bl5 = this.lgg.get() && clientPlayerEntity.getMainHandStack().isOf(Items.MACE);
         boolean bl6 = wdt.serverSprinting(clientPlayerEntity) && !this.lib;
         boolean bl7 = this.lgf.get();
         boolean bl8 = this.lgd.is(a.b("\u7f7f\u06f0\u8c2f\u124d\u999c", -1413644503)) && !bl5 && this.ljo(minecraftClient, clientPlayerEntity) && (bl7 || !bl6);
-        this.lhl.predict(clientPlayerEntity, (World)minecraftClient.field_1687, minecraftClient.field_1690.field_1903.method_1434(), vxr.getInt(lhh, clientPlayerEntity, 0), lxp.active());
+        this.lhl.predict(clientPlayerEntity, (World)minecraftClient.world, minecraftClient.options.jumpKey.isPressed(), vxr.getInt(lhh, clientPlayerEntity, 0), lxp.active());
         int n2 = bl8 ? this.lio(clientPlayerEntity, bl6) : -1;
         boolean bl9 = bl8 && this.lge.get() && this.lip(minecraftClient, clientPlayerEntity, bl2);
         boolean bl10 = bl = entity != null && bl4 && this.lhn == 0;
         if (bl) {
-            Vec3d vec3d = this.lhx != null ? this.lhy : minecraftClient.field_1765.method_17784();
+            Vec3d vec3d = this.lhx != null ? this.lhy : minecraftClient.crosshairTarget.getPos();
             lgc.ljj(minecraftClient);
-            bl = lgc.ljk(minecraftClient, clientPlayerEntity, vec3d) && clientPlayerEntity.method_33571().method_1025(vec3d) <= this.lgj.get() * this.lgj.get();
+            bl = lgc.ljk(minecraftClient, clientPlayerEntity, vec3d) && clientPlayerEntity.getEyePos().squaredDistanceTo(vec3d) <= this.lgj.get() * this.lgj.get();
         }
         boolean bl11 = this.liv(clientPlayerEntity, 0);
         if (bl && bl11) {
@@ -337,18 +337,18 @@ extends kfe {
     }
 
     private boolean lip(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, boolean bl) {
-        if (!this.lij || this.lhm - this.lii > 26 || clientPlayerEntity.method_5715() || clientPlayerEntity.method_5799() || bl && this.lih > this.liq()) {
+        if (!this.lij || this.lhm - this.lii > 26 || clientPlayerEntity.isSneaking() || clientPlayerEntity.isTouchingWater() || bl && this.lih > this.liq()) {
             return false;
         }
-        return ksp.headroom(clientPlayerEntity, (World)minecraftClient.field_1687, 0.16) >= 0.16;
+        return ksp.headroom(clientPlayerEntity, (World)minecraftClient.world, 0.16) >= 0.16;
     }
 
     private int liq() {
-        return MathHelper.method_15340((int)((int)Math.ceil(this.lil) + 2), (int)2, (int)7);
+        return MathHelper.clamp((int)((int)Math.ceil(this.lil) + 2), (int)2, (int)7);
     }
 
     private boolean lir(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, boolean bl) {
-        return this.lib && bl && clientPlayerEntity.method_5624() && !wdt.anyHeld() && (!clientPlayerEntity.method_24828() || !minecraftClient.field_1690.field_1903.method_1434());
+        return this.lib && bl && clientPlayerEntity.isSprinting() && !wdt.anyHeld() && (!clientPlayerEntity.isOnGround() || !minecraftClient.options.jumpKey.isPressed());
     }
 
     private boolean lis(ClientPlayerEntity clientPlayerEntity) {
@@ -361,13 +361,13 @@ extends kfe {
                 if (!wdt.serverSprinting(clientPlayerEntity) || this.lib || !this.liv(clientPlayerEntity, 0)) break block5;
                 if (!(entity instanceof LivingEntity)) break block6;
                 LivingEntity livingEntity = (LivingEntity)entity;
-                if (livingEntity.field_6235 > 0 || livingEntity.method_6039()) break block5;
+                if (livingEntity.hurtTime > 0 || livingEntity.isBlocking()) break block5;
             }
             this.lib = true;
         }
         if (this.lhx != null) {
-            minecraftClient.field_1761.method_2918((PlayerEntity)clientPlayerEntity, this.lhx);
-            clientPlayerEntity.method_6104(Hand.field_5808);
+            minecraftClient.interactionManager.attackEntity((PlayerEntity)clientPlayerEntity, this.lhx);
+            clientPlayerEntity.swingHand(Hand.MAIN_HAND);
         } else {
             lgc.lix(minecraftClient);
         }
@@ -390,12 +390,12 @@ extends kfe {
     }
 
     private float liw(ClientPlayerEntity clientPlayerEntity, int n) {
-        float f = MathHelper.method_15363((float)(((float)this.lhz + 0.5f + (float)n) / clientPlayerEntity.method_7279()), (float)0.0f, (float)1.0f);
-        return Math.min(clientPlayerEntity.method_7261(0.5f + (float)n), f);
+        float f = MathHelper.clamp((float)(((float)this.lhz + 0.5f + (float)n) / clientPlayerEntity.getAttackCooldownProgressPerTick()), (float)0.0f, (float)1.0f);
+        return Math.min(clientPlayerEntity.getAttackCooldownProgress(0.5f + (float)n), f);
     }
 
     private static void lix(MinecraftClient minecraftClient) {
-        KeyBinding keyBinding = minecraftClient.field_1690.field_1886;
+        KeyBinding keyBinding = minecraftClient.options.attackKey;
         int n = vxr.getInt(lhi, keyBinding, -1);
         if (n > 0) {
             return;
@@ -404,8 +404,8 @@ extends kfe {
             return;
         }
         InputUtil.Key key = KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding);
-        if (!key.equals((Object)InputUtil.field_16237)) {
-            KeyBinding.method_1420((InputUtil.Key)key);
+        if (!key.equals((Object)InputUtil.UNKNOWN_KEY)) {
+            KeyBinding.onKeyPressed((InputUtil.Key)key);
         }
     }
 
@@ -420,30 +420,30 @@ extends kfe {
     private boolean lja(ClientPlayerEntity clientPlayerEntity, Entity entity, int n) {
         int n2 = Math.min(n, 4);
         double d = Math.min(lgc.ljl(clientPlayerEntity), this.lgj.get());
-        Vec3d vec3d = clientPlayerEntity.method_33571().method_1019(this.lhl.offsetAt(n2));
-        Box box = entity.method_5829().method_989((entity.method_23317() - entity.field_6014) * (double)n2, 0.0, (entity.method_23321() - entity.field_5969) * (double)n2);
-        return box.method_49271(vec3d) > d * d;
+        Vec3d vec3d = clientPlayerEntity.getEyePos().add(this.lhl.offsetAt(n2));
+        Box box = entity.getBoundingBox().offset((entity.getX() - entity.lastX) * (double)n2, 0.0, (entity.getZ() - entity.lastZ) * (double)n2);
+        return box.squaredMagnitude(vec3d) > d * d;
     }
 
     private boolean ljb(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         double d = Math.min(lgc.ljl(clientPlayerEntity), this.lgj.get()) + 1.5;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = vec3d.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(d));
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = vec3d.add(clientPlayerEntity.getRotationVec(1.0f).multiply(d));
         Vec3d vec3d3 = lgc.ljg(minecraftClient, clientPlayerEntity, vec3d, vec3d2);
-        for (Entity entity2 : minecraftClient.field_1687.method_8333((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(d + 1.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
-            if (!lgc.ljh(entity2.method_5829().method_1014((double)entity2.method_5871()), vec3d, vec3d2, vec3d3)) continue;
+        for (Entity entity2 : minecraftClient.world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(d + 1.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
+            if (!lgc.ljh(entity2.getBoundingBox().expand((double)entity2.getTargetingMargin()), vec3d, vec3d2, vec3d3)) continue;
             return true;
         }
         return false;
     }
 
     private boolean ljc(ClientPlayerEntity clientPlayerEntity, Entity entity) {
-        float f = 2.0f * clientPlayerEntity.method_36454() - clientPlayerEntity.field_5982;
-        float f2 = MathHelper.method_15363((float)(2.0f * clientPlayerEntity.method_36455() - clientPlayerEntity.field_6004), (float)-90.0f, (float)90.0f);
-        Vec3d vec3d = clientPlayerEntity.method_33571().method_1019(this.lhl.offsetAt(1));
-        Vec3d vec3d2 = vec3d.method_1019(Vec3d.method_1030((float)f2, (float)f).method_1021(Math.min(lgc.ljl(clientPlayerEntity), this.lgj.get())));
-        Box box = entity.method_5829().method_989(entity.method_23317() - entity.field_6014, entity.method_23318() - entity.field_6036, entity.method_23321() - entity.field_5969).method_1014((double)entity.method_5871() + 0.1);
-        return !box.method_1006(vec3d) && box.method_992(vec3d, vec3d2).isEmpty();
+        float f = 2.0f * clientPlayerEntity.getYaw() - clientPlayerEntity.lastYaw;
+        float f2 = MathHelper.clamp((float)(2.0f * clientPlayerEntity.getPitch() - clientPlayerEntity.lastPitch), (float)-90.0f, (float)90.0f);
+        Vec3d vec3d = clientPlayerEntity.getEyePos().add(this.lhl.offsetAt(1));
+        Vec3d vec3d2 = vec3d.add(Vec3d.fromPolar((float)f2, (float)f).multiply(Math.min(lgc.ljl(clientPlayerEntity), this.lgj.get())));
+        Box box = entity.getBoundingBox().offset(entity.getX() - entity.lastX, entity.getY() - entity.lastY, entity.getZ() - entity.lastZ).expand((double)entity.getTargetingMargin() + 0.1);
+        return !box.contains(vec3d) && box.raycast(vec3d, vec3d2).isEmpty();
     }
 
     private boolean ljd(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
@@ -452,11 +452,11 @@ extends kfe {
 
     private boolean lje(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         double d = Math.min(lgc.ljl(clientPlayerEntity), this.lgj.get()) + 0.6;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = clientPlayerEntity.method_5828(1.0f);
-        for (Entity entity2 : minecraftClient.field_1687.method_8333((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(d + 1.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
-            Box box = entity2.method_5829();
-            if (box.method_49271(vec3d) > d * d || !(box.method_1005().method_1020(vec3d).method_1029().method_1026(vec3d2) >= 0.766)) continue;
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = clientPlayerEntity.getRotationVec(1.0f);
+        for (Entity entity2 : minecraftClient.world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(d + 1.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
+            Box box = entity2.getBoundingBox();
+            if (box.squaredMagnitude(vec3d) > d * d || !(box.getCenter().subtract(vec3d).normalize().dotProduct(vec3d2) >= 0.766)) continue;
             return true;
         }
         return false;
@@ -464,16 +464,16 @@ extends kfe {
 
     private boolean ljf(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         double d = lgc.ljl(clientPlayerEntity);
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = vec3d.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(d));
-        float f = MathHelper.method_15363((float)(2.0f * clientPlayerEntity.method_36455() - clientPlayerEntity.field_6004), (float)-90.0f, (float)90.0f);
-        float f2 = 2.0f * clientPlayerEntity.method_36454() - clientPlayerEntity.field_5982;
-        Vec3d vec3d3 = vec3d.method_1019(Vec3d.method_1030((float)f, (float)f2).method_1021(d));
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = vec3d.add(clientPlayerEntity.getRotationVec(1.0f).multiply(d));
+        float f = MathHelper.clamp((float)(2.0f * clientPlayerEntity.getPitch() - clientPlayerEntity.lastPitch), (float)-90.0f, (float)90.0f);
+        float f2 = 2.0f * clientPlayerEntity.getYaw() - clientPlayerEntity.lastYaw;
+        Vec3d vec3d3 = vec3d.add(Vec3d.fromPolar((float)f, (float)f2).multiply(d));
         Vec3d vec3d4 = lgc.ljg(minecraftClient, clientPlayerEntity, vec3d, vec3d2);
         Vec3d vec3d5 = lgc.ljg(minecraftClient, clientPlayerEntity, vec3d, vec3d3);
-        for (Entity entity2 : minecraftClient.field_1687.method_8333((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(d + 2.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
-            Box box = entity2.method_5829();
-            Box box2 = box.method_991(box.method_989(entity2.method_23317() - entity2.field_6014, entity2.method_23318() - entity2.field_6036, entity2.method_23321() - entity2.field_5969)).method_1014(0.1);
+        for (Entity entity2 : minecraftClient.world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(d + 2.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
+            Box box = entity2.getBoundingBox();
+            Box box2 = box.union(box.offset(entity2.getX() - entity2.lastX, entity2.getY() - entity2.lastY, entity2.getZ() - entity2.lastZ)).expand(0.1);
             if (!lgc.ljh(box2, vec3d, vec3d2, vec3d4) && !lgc.ljh(box2, vec3d, vec3d3, vec3d5)) continue;
             return true;
         }
@@ -481,16 +481,16 @@ extends kfe {
     }
 
     private static Vec3d ljg(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Vec3d vec3d, Vec3d vec3d2) {
-        BlockHitResult blockHitResult = minecraftClient.field_1687.method_17742(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-        return blockHitResult.method_17783() == HitResult.Type.field_1333 ? vec3d2 : blockHitResult.method_17784();
+        BlockHitResult blockHitResult = minecraftClient.world.raycast(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+        return blockHitResult.getType() == HitResult.Type.MISS ? vec3d2 : blockHitResult.getPos();
     }
 
     private static boolean ljh(Box box, Vec3d vec3d, Vec3d vec3d3, Vec3d vec3d4) {
-        if (box.method_1006(vec3d)) {
+        if (box.contains(vec3d)) {
             return true;
         }
-        double d = vec3d.method_1025(vec3d4);
-        return box.method_992(vec3d, vec3d3).filter(vec3d2 -> vec3d.method_1025(vec3d2) <= d).isPresent();
+        double d = vec3d.squaredDistanceTo(vec3d4);
+        return box.raycast(vec3d, vec3d3).filter(vec3d2 -> vec3d.squaredDistanceTo(vec3d2) <= d).isPresent();
     }
 
     private boolean lji(Entity entity) {
@@ -515,17 +515,17 @@ extends kfe {
         if (vxr.getInt(lhg, minecraftClient, 0) > 0) {
             return false;
         }
-        ItemStack itemStack = clientPlayerEntity.method_6047();
-        if (clientPlayerEntity.method_75202(itemStack, 0)) {
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
+        if (clientPlayerEntity.isBelowMinimumAttackCharge(itemStack, 0)) {
             return false;
         }
-        AttackRangeComponent attackRangeComponent = (AttackRangeComponent)itemStack.method_58694(DataComponentTypes.field_64680);
-        return attackRangeComponent == null || attackRangeComponent.method_76736((LivingEntity)clientPlayerEntity, vec3d);
+        AttackRangeComponent attackRangeComponent = (AttackRangeComponent)itemStack.get(DataComponentTypes.ATTACK_RANGE);
+        return attackRangeComponent == null || attackRangeComponent.isWithinRange((LivingEntity)clientPlayerEntity, vec3d);
     }
 
     private static double ljl(ClientPlayerEntity clientPlayerEntity) {
-        AttackRangeComponent attackRangeComponent = (AttackRangeComponent)clientPlayerEntity.method_6047().method_58694(DataComponentTypes.field_64680);
-        return attackRangeComponent != null ? (double)attackRangeComponent.method_76739((Entity)clientPlayerEntity) : clientPlayerEntity.method_55755();
+        AttackRangeComponent attackRangeComponent = (AttackRangeComponent)clientPlayerEntity.getMainHandStack().get(DataComponentTypes.ATTACK_RANGE);
+        return attackRangeComponent != null ? (double)attackRangeComponent.getEffectiveMaxRange((Entity)clientPlayerEntity) : clientPlayerEntity.getEntityInteractionRange();
     }
 
     /*
@@ -535,7 +535,7 @@ extends kfe {
     private boolean ljm(Entity entity) {
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity)entity;
-            if (livingEntity.field_6235 > 0) return true;
+            if (livingEntity.hurtTime > 0) return true;
         }
         if (entity != this.lhv) return false;
         if (this.lhw >= 10) return false;
@@ -543,19 +543,19 @@ extends kfe {
     }
 
     private boolean ljn(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        return !clientPlayerEntity.method_6101() && !clientPlayerEntity.method_5799() && !clientPlayerEntity.method_5771() && !clientPlayerEntity.method_5765() && !clientPlayerEntity.method_6128() && !clientPlayerEntity.method_31549().field_7479 && !clientPlayerEntity.field_27857 && !clientPlayerEntity.method_6059(StatusEffects.field_5902) && !clientPlayerEntity.method_6059(StatusEffects.field_5906) && minecraftClient.field_1687.method_29546(clientPlayerEntity.method_5829().method_1011(1.0E-7)).noneMatch(lgc::ljp);
+        return !clientPlayerEntity.isClimbing() && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.isInLava() && !clientPlayerEntity.hasVehicle() && !clientPlayerEntity.isGliding() && !clientPlayerEntity.getAbilities().flying && !clientPlayerEntity.inPowderSnow && !clientPlayerEntity.hasStatusEffect(StatusEffects.LEVITATION) && !clientPlayerEntity.hasStatusEffect(StatusEffects.SLOW_FALLING) && minecraftClient.world.getStatesInBox(clientPlayerEntity.getBoundingBox().contract(1.0E-7)).noneMatch(lgc::ljp);
     }
 
     private boolean ljo(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        return !clientPlayerEntity.method_6059(StatusEffects.field_5919) && this.ljn(minecraftClient, clientPlayerEntity);
+        return !clientPlayerEntity.hasStatusEffect(StatusEffects.BLINDNESS) && this.ljn(minecraftClient, clientPlayerEntity);
     }
 
     private static boolean ljp(BlockState blockState) {
-        return blockState.method_27852(Blocks.field_10343) || blockState.method_27852(Blocks.field_16999) || blockState.method_27852(Blocks.field_27879);
+        return blockState.isOf(Blocks.COBWEB) || blockState.isOf(Blocks.SWEET_BERRY_BUSH) || blockState.isOf(Blocks.POWDER_SNOW);
     }
 
     private boolean ljq(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        return minecraftClient.field_1755 != null || clientPlayerEntity.method_7325() || !clientPlayerEntity.method_5805() || clientPlayerEntity.method_6115() || clientPlayerEntity.method_3144() || this.ljs(minecraftClient) || oxw.busy() || kvz.busy() || nuo.busy() && !lgc.ljw(clientPlayerEntity) || kmy.busy() || nfl.busy() || lqq.busy();
+        return minecraftClient.currentScreen != null || clientPlayerEntity.isSpectator() || !clientPlayerEntity.isAlive() || clientPlayerEntity.isUsingItem() || clientPlayerEntity.isRiding() || this.ljs(minecraftClient) || oxw.busy() || kvz.busy() || nuo.busy() && !lgc.ljw(clientPlayerEntity) || kmy.busy() || nfl.busy() || lqq.busy();
     }
 
     private void ljr() {
@@ -566,24 +566,24 @@ extends kfe {
     }
 
     private boolean ljs(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1761 != null && minecraftClient.field_1761.method_2923()) {
+        if (minecraftClient.interactionManager != null && minecraftClient.interactionManager.isBreakingBlock()) {
             return true;
         }
-        return minecraftClient.field_1690.field_1886.method_1434() && minecraftClient.field_1765 != null && minecraftClient.field_1765.method_17783() == HitResult.Type.field_1332;
+        return minecraftClient.options.attackKey.isPressed() && minecraftClient.crosshairTarget != null && minecraftClient.crosshairTarget.getType() == HitResult.Type.BLOCK;
     }
 
     private Entity ljt(MinecraftClient minecraftClient) {
         this.lhx = null;
-        HitResult hitResult = minecraftClient.field_1765;
-        if (hitResult == null || hitResult.method_17783() != HitResult.Type.field_1331) {
+        HitResult hitResult = minecraftClient.crosshairTarget;
+        if (hitResult == null || hitResult.getType() != HitResult.Type.ENTITY) {
             return null;
         }
-        Entity entity = ((EntityHitResult)hitResult).method_17782();
+        Entity entity = ((EntityHitResult)hitResult).getEntity();
         if (this.ljv(minecraftClient, entity)) {
             return entity;
         }
         if (this.lgm.get() && entity instanceof PlayerEntity && hhf.isFriend(entity)) {
-            this.lhx = this.lju(minecraftClient, minecraftClient.field_1724);
+            this.lhx = this.lju(minecraftClient, minecraftClient.player);
             return this.lhx;
         }
         return null;
@@ -591,16 +591,16 @@ extends kfe {
 
     private Entity lju(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         double d = lgc.ljl(clientPlayerEntity);
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = vec3d.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(d));
-        double d2 = vec3d.method_1025(lgc.ljg(minecraftClient, clientPlayerEntity, vec3d, vec3d2));
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = vec3d.add(clientPlayerEntity.getRotationVec(1.0f).multiply(d));
+        double d2 = vec3d.squaredDistanceTo(lgc.ljg(minecraftClient, clientPlayerEntity, vec3d, vec3d2));
         Entity entity2 = null;
         double d3 = Double.MAX_VALUE;
-        for (Entity entity3 : minecraftClient.field_1687.method_8333((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(d + 1.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
+        for (Entity entity3 : minecraftClient.world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(d + 1.0), entity -> this.ljv(minecraftClient, (Entity)entity))) {
             double d4;
-            Box box = entity3.method_5829().method_1014((double)entity3.method_5871());
-            Vec3d vec3d3 = box.method_1006(vec3d) ? vec3d : (Vec3d)box.method_992(vec3d, vec3d2).orElse(null);
-            if (vec3d3 == null || !((d4 = vec3d.method_1025(vec3d3)) <= d2) || !(d4 < d3)) continue;
+            Box box = entity3.getBoundingBox().expand((double)entity3.getTargetingMargin());
+            Vec3d vec3d3 = box.contains(vec3d) ? vec3d : (Vec3d)box.raycast(vec3d, vec3d2).orElse(null);
+            if (vec3d3 == null || !((d4 = vec3d.squaredDistanceTo(vec3d3)) <= d2) || !(d4 < d3)) continue;
             entity2 = entity3;
             d3 = d4;
             this.lhy = vec3d3;
@@ -610,10 +610,10 @@ extends kfe {
 
     private boolean ljv(MinecraftClient minecraftClient, Entity entity) {
         LivingEntity livingEntity;
-        if (entity == null || entity == minecraftClient.field_1724) {
+        if (entity == null || entity == minecraftClient.player) {
             return false;
         }
-        if (!(entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).method_5805() && entity.method_5732())) {
+        if (!(entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).isAlive() && entity.isAttackable())) {
             return false;
         }
         if (entity instanceof PlayerEntity) {
@@ -623,8 +623,8 @@ extends kfe {
     }
 
     private static boolean ljw(ClientPlayerEntity clientPlayerEntity) {
-        ItemStack itemStack = clientPlayerEntity.method_6047();
-        return itemStack.method_31573(ItemTags.field_42611) || itemStack.method_31573(ItemTags.field_42612) || itemStack.method_31574(Items.field_49814) || itemStack.method_31574(Items.field_8547);
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
+        return itemStack.isIn(ItemTags.SWORDS) || itemStack.isIn(ItemTags.AXES) || itemStack.isOf(Items.MACE) || itemStack.isOf(Items.TRIDENT);
     }
 
     private static /* synthetic */ int awr(int n, int n2) {

@@ -38,11 +38,11 @@ extends kfe {
 
     @Override
     protected void onEnable() {
-        ClientWorld clientWorld = this.mc.field_1687;
+        ClientWorld clientWorld = this.mc.world;
         if (clientWorld != null) {
-            rdi = clientWorld.method_8532();
+            rdi = clientWorld.getTimeOfDay();
             rdj = true;
-            rdk = clientWorld.method_75260();
+            rdk = clientWorld.getTime();
             wcn.ensure(this.mc);
         }
         rdh = this.rdq();
@@ -53,10 +53,10 @@ extends kfe {
     @Override
     protected void onDisable() {
         rdg = false;
-        ClientWorld clientWorld = this.mc.field_1687;
+        ClientWorld clientWorld = this.mc.world;
         if (clientWorld != null) {
-            long l = rdj ? Math.max(0L, clientWorld.method_75260() - rdk) : 0L;
-            clientWorld.method_29089(clientWorld.method_75260(), rdi + l, rdj);
+            long l = rdj ? Math.max(0L, clientWorld.getTime() - rdk) : 0L;
+            clientWorld.setTime(clientWorld.getTime(), rdi + l, rdj);
         }
     }
 
@@ -68,13 +68,13 @@ extends kfe {
     }
 
     private static void rdn(MinecraftClient minecraftClient) {
-        ClientWorld clientWorld = minecraftClient.field_1687;
+        ClientWorld clientWorld = minecraftClient.world;
         if (clientWorld == null) {
             return;
         }
-        long l = rdd.rdp(clientWorld.method_8532());
-        if (clientWorld.method_8532() != l) {
-            clientWorld.method_29089(clientWorld.method_75260(), l, false);
+        long l = rdd.rdp(clientWorld.getTimeOfDay());
+        if (clientWorld.getTimeOfDay() != l) {
+            clientWorld.setTime(clientWorld.getTime(), l, false);
         }
     }
 
@@ -83,10 +83,10 @@ extends kfe {
             return packet;
         }
         WorldTimeUpdateS2CPacket worldTimeUpdateS2CPacket = (WorldTimeUpdateS2CPacket)packet;
-        rdi = worldTimeUpdateS2CPacket.comp_3220();
-        rdj = worldTimeUpdateS2CPacket.comp_3221();
-        rdk = worldTimeUpdateS2CPacket.comp_3219();
-        return new WorldTimeUpdateS2CPacket(worldTimeUpdateS2CPacket.comp_3219(), rdd.rdp(worldTimeUpdateS2CPacket.comp_3220()), false);
+        rdi = worldTimeUpdateS2CPacket.timeOfDay();
+        rdj = worldTimeUpdateS2CPacket.tickDayTime();
+        rdk = worldTimeUpdateS2CPacket.time();
+        return new WorldTimeUpdateS2CPacket(worldTimeUpdateS2CPacket.time(), rdd.rdp(worldTimeUpdateS2CPacket.timeOfDay()), false);
     }
 
     private static long rdp(long l) {

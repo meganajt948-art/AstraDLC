@@ -182,11 +182,11 @@ extends jcs {
             String string = String.valueOf(this.jey);
             f2 = this.jex.get();
             float f7 = 1.0f + 0.25f * f2;
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f3 - 7.0f - izx.SMALL.width(string) * 0.5f, f6);
-            drawContext.method_51448().scale(f7, f7);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f3 - 7.0f - izx.SMALL.width(string) * 0.5f, f6);
+            drawContext.getMatrices().scale(f7, f7);
             izx.SMALL.drawCentered(drawContext, string, 0.0f, izx.SMALL.centerTop(0.0f), ujt.lerp(iov.textMuted, iov.text, f2));
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
         if (f4 <= 16.5f) {
             return;
@@ -199,10 +199,10 @@ extends jcs {
             float f10 = f2 * f9;
             if (f10 > 0.2f) {
                 uut.pushAlpha(Math.min(1.0f, f9 * 1.2f));
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate((1.0f - f9) * 8.0f * this.slideSide(), 0.0f);
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate((1.0f - f9) * 8.0f * this.slideSide(), 0.0f);
                 this.drawRow(drawContext, jen2.item, 7.0f, f8, f3 - 14.0f, f2, f9, f);
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().popMatrix();
                 uut.popAlpha();
             }
             f8 += f10;

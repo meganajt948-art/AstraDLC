@@ -36,36 +36,36 @@ public final class txf {
     }
 
     public static boolean hazard(BlockState blockState) {
-        return blockState.method_27852(Blocks.field_10164) || blockState.method_27852(Blocks.field_10036) || blockState.method_27852(Blocks.field_22089) || blockState.method_27852(Blocks.field_10092) || blockState.method_27852(Blocks.field_17350) || blockState.method_27852(Blocks.field_23860) || blockState.method_27852(Blocks.field_10029) || blockState.method_27852(Blocks.field_16999) || blockState.method_27852(Blocks.field_10606) || blockState.method_27852(Blocks.field_27879) || blockState.method_27852(Blocks.field_28048) || blockState.method_26227().method_15767(FluidTags.field_15518);
+        return blockState.isOf(Blocks.LAVA) || blockState.isOf(Blocks.FIRE) || blockState.isOf(Blocks.SOUL_FIRE) || blockState.isOf(Blocks.MAGMA_BLOCK) || blockState.isOf(Blocks.CAMPFIRE) || blockState.isOf(Blocks.SOUL_CAMPFIRE) || blockState.isOf(Blocks.CACTUS) || blockState.isOf(Blocks.SWEET_BERRY_BUSH) || blockState.isOf(Blocks.WITHER_ROSE) || blockState.isOf(Blocks.POWDER_SNOW) || blockState.isOf(Blocks.POINTED_DRIPSTONE) || blockState.getFluidState().isIn(FluidTags.LAVA);
     }
 
     public static int code(BlockView blockView, BlockPos blockPos, BlockState blockState, Map<BlockState, Integer> map) {
         Integer n;
         boolean bl;
-        if (blockState.method_26215()) {
+        if (blockState.isAir()) {
             return 0;
         }
-        boolean bl2 = bl = !blockState.method_31709();
+        boolean bl2 = bl = !blockState.hasBlockEntity();
         if (bl && (n = map.get(blockState)) != null) {
             return n;
         }
         int n2 = 0;
-        VoxelShape voxelShape = blockState.method_26220(blockView, blockPos);
-        if (!voxelShape.method_1110()) {
-            double d = voxelShape.method_1105(Direction.Axis.field_11052);
+        VoxelShape voxelShape = blockState.getCollisionShape(blockView, blockPos);
+        if (!voxelShape.isEmpty()) {
+            double d = voxelShape.getMax(Direction.Axis.Y);
             n2 = d > 1.0001 ? 9 : Math.max(1, Math.min(8, (int)Math.round(d * 8.0)));
-            Box box = voxelShape.method_1107();
-            if (box.method_17939() < 0.7 || box.method_17941() < 0.7) {
+            Box box = voxelShape.getBoundingBox();
+            if (box.getLengthX() < 0.7 || box.getLengthZ() < 0.7) {
                 n2 |= 0x80;
             }
         }
-        if (blockState.method_26227().method_15767(FluidTags.field_15517)) {
+        if (blockState.getFluidState().isIn(FluidTags.WATER)) {
             n2 |= 0x10;
         }
         if (txf.hazard(blockState)) {
             n2 |= 0x20;
         }
-        if (blockState.method_26164(BlockTags.field_22414)) {
+        if (blockState.isIn(BlockTags.CLIMBABLE)) {
             n2 |= 0x40;
         }
         if (bl) {
@@ -84,8 +84,8 @@ public final class txf {
         for (int i = 0; i < 13; ++i) {
             for (int j = 0; j < 7; ++j) {
                 for (int k = 0; k < 13; ++k) {
-                    mutable.method_10103(n4 + i, n5 + j, n6 + k);
-                    byArray[tzg.index((int)i, (int)j, (int)k)] = (byte)txf.code(blockView, (BlockPos)mutable, blockView.method_8320((BlockPos)mutable), identityHashMap);
+                    mutable.set(n4 + i, n5 + j, n6 + k);
+                    byArray[tzg.index((int)i, (int)j, (int)k)] = (byte)txf.code(blockView, (BlockPos)mutable, blockView.getBlockState((BlockPos)mutable), identityHashMap);
                 }
             }
         }

@@ -35,11 +35,11 @@ public final class wee {
     }
 
     public static void ensure(MinecraftClient minecraftClient) {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
         if (clientPlayNetworkHandler == null || ejp.isActive()) {
             return;
         }
-        Channel channel = wcn.channel(clientPlayNetworkHandler.method_48296());
+        Channel channel = wcn.channel(clientPlayNetworkHandler.getConnection());
         if (channel == null || !channel.isOpen()) {
             return;
         }

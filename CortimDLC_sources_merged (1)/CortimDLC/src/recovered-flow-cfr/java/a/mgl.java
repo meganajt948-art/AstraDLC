@@ -136,17 +136,17 @@ extends kfe {
     }
 
     private void mhy(GenericContainerScreen genericContainerScreen, DrawContext drawContext, int n, int n2) {
-        if (!((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_34255().method_7960()) {
-            genericContainerScreen.method_71083(drawContext, n, n2);
+        if (!((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getCursorStack().isEmpty()) {
+            genericContainerScreen.renderCursorStack(drawContext, n, n2);
             return;
         }
         Slot slot = vxl.hovered(genericContainerScreen);
-        if (slot == null || !slot.method_7681()) {
+        if (slot == null || !slot.hasStack()) {
             return;
         }
-        ItemStack itemStack = slot.method_7677();
-        drawContext.method_51437(this.mc.field_1772, Screen.method_25408((MinecraftClient)this.mc, (ItemStack)itemStack), itemStack.method_32347(), n, n2, (Identifier)itemStack.method_58694(DataComponentTypes.field_54198));
-        drawContext.method_73199();
+        ItemStack itemStack = slot.getStack();
+        drawContext.drawTooltip(this.mc.textRenderer, Screen.getTooltipFromItem((MinecraftClient)this.mc, (ItemStack)itemStack), itemStack.getTooltipData(), n, n2, (Identifier)itemStack.get(DataComponentTypes.TOOLTIP_STYLE));
+        drawContext.drawDeferredElements();
     }
 
     @Override
@@ -159,33 +159,33 @@ extends kfe {
 
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1724 == null) {
+        if (minecraftClient.player == null) {
             return;
         }
         this.mhz(minecraftClient);
     }
 
     private void mhz(MinecraftClient minecraftClient) {
-        if (minecraftClient.method_22683() == null) {
+        if (minecraftClient.getWindow() == null) {
             this.mhv = false;
             return;
         }
-        boolean bl = GLFW.glfwGetMouseButton((long)minecraftClient.method_22683().method_4490(), (int)2) == 1;
-        boolean bl2 = bl && !this.mhv && minecraftClient.field_1755 instanceof GenericContainerScreen;
+        boolean bl = GLFW.glfwGetMouseButton((long)minecraftClient.getWindow().getHandle(), (int)2) == 1;
+        boolean bl2 = bl && !this.mhv && minecraftClient.currentScreen instanceof GenericContainerScreen;
         this.mhv = bl;
         if (!bl2) {
             return;
         }
-        GenericContainerScreen genericContainerScreen = (GenericContainerScreen)minecraftClient.field_1755;
-        String string = pfl.title(genericContainerScreen.method_25440().getString());
+        GenericContainerScreen genericContainerScreen = (GenericContainerScreen)minecraftClient.currentScreen;
+        String string = pfl.title(genericContainerScreen.getTitle().getString());
         if (mgl.mij(string)) {
             return;
         }
         Slot slot = vxl.hovered(genericContainerScreen);
-        if (slot == null || !slot.method_7681()) {
+        if (slot == null || !slot.hasStack()) {
             return;
         }
-        String string2 = mgl.cleanQuery(slot.method_7677().method_7964().getString());
+        String string2 = mgl.cleanQuery(slot.getStack().getName().getString());
         if (string2.isEmpty()) {
             return;
         }
@@ -194,7 +194,7 @@ extends kfe {
     }
 
     private void mia(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1724 == null || minecraftClient.method_1562() == null) {
+        if (minecraftClient.player == null || minecraftClient.getNetworkHandler() == null) {
             return;
         }
         long l = System.currentTimeMillis();
@@ -205,13 +205,13 @@ extends kfe {
             izx.alert(this.getName(), wap.s(a.d("\u127e\u6bfc\ue13a\u7f5a\uf4c8\u7235\uc863\u4196\udfcd\u5561", -1126204088, -646484114), a.c(1479946693, "\u35e9\u4c42\uc692\u5893\ud336\u5583\uefd2\u623f\uf807\u72c1\uf563\u0f11\u81ba")), vhz.CLOCK, false);
             return;
         }
-        String string = this.mic(minecraftClient.field_1724);
+        String string = this.mic(minecraftClient.player);
         if (string.isEmpty()) {
             izx.alert(this.getName(), wap.s(a.d("\udbff\ua26f\u28a7\ub6ca\u3d1c\ubbaa\u01f0\u8846\u164d\u9ce7\u1b7b\ue159\u6f98\uf62d\u7c6d\ufa8d\u40c9", 1204759264, 2038100288), a.c(316499322, "\u6176\u18ef\u9629\u0c4a\u87e4\u012f\ubb0d\u328c\uacde\u2272\ua1be\u5bb0\ud512\u4ca2\uc6f9\u4001\ufa39")), vhz.INFO, false);
             return;
         }
         this.mhl = l;
-        minecraftClient.method_1562().method_45730(a.b("\u931d\ueaa5\u603e\ufe1c\u75dd\uf368\u4928\uc0c8\u5e9c\ud465", -569339018) + string);
+        minecraftClient.getNetworkHandler().sendChatCommand(a.b("\u931d\ueaa5\u603e\ufe1c\u75dd\uf368\u4928\uc0c8\u5e9c\ud465", -569339018) + string);
     }
 
     private boolean mib(long l) {
@@ -221,12 +221,12 @@ extends kfe {
     private String mic(ClientPlayerEntity clientPlayerEntity) {
         String string;
         HandledScreen handledScreen;
-        Object object = this.mc.field_1755;
-        if (object instanceof HandledScreen && (object = vxl.hovered(handledScreen = (HandledScreen)object)) != null && object.method_7681() && !(string = mgl.cleanQuery(object.method_7677().method_7964().getString())).isEmpty()) {
+        Object object = this.mc.currentScreen;
+        if (object instanceof HandledScreen && (object = vxl.hovered(handledScreen = (HandledScreen)object)) != null && object.hasStack() && !(string = mgl.cleanQuery(object.getStack().getName().getString())).isEmpty()) {
             return string;
         }
-        handledScreen = clientPlayerEntity.method_6047();
-        if (handledScreen != null && !handledScreen.method_7960() && !((String)(object = mgl.cleanQuery(handledScreen.method_7964().getString()))).isEmpty()) {
+        handledScreen = clientPlayerEntity.getMainHandStack();
+        if (handledScreen != null && !handledScreen.isEmpty() && !((String)(object = mgl.cleanQuery(handledScreen.getName().getString()))).isEmpty()) {
             return object;
         }
         return this.mhk;
@@ -261,14 +261,14 @@ extends kfe {
 
     private boolean mid(GenericContainerScreen genericContainerScreen, DrawContext drawContext) {
         String string;
-        int n = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7763;
+        int n = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).syncId;
         if (n != this.mhq) {
             this.mih();
             this.mhq = n;
             this.mhr = 0;
             this.mhs = 0L;
         }
-        if (mgl.mij(string = pfl.title(genericContainerScreen.method_25440().getString()))) {
+        if (mgl.mij(string = pfl.title(genericContainerScreen.getTitle().getString()))) {
             this.mih();
             return false;
         }
@@ -293,19 +293,19 @@ extends kfe {
         ArrayList<mgg> arrayList = new ArrayList<mgg>();
         Slot slot = null;
         int n = Integer.MAX_VALUE;
-        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_17388();
+        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getRows();
         int n3 = n2 * 9;
         boolean bl = mgl.mik(string);
-        for (Slot slot2 : ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7761) {
+        for (Slot slot2 : ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).slots) {
             int n4;
             List<String> list;
             ItemStack itemStack;
-            if (slot2.field_7874 >= n3 || (itemStack = slot2.method_7677()).method_7960() || (list = pfd.lines(itemStack)).isEmpty() || mgl.mim(list.get(0), mgo) || (n4 = pfd.total(itemStack)) <= 0 || !bl && !mgl.min(list, mgp) || this.mhc.get() && mgl.mip(itemStack, list, a.c(689709357, "\u2561\u5ca0\ud674\u4871"), a.d("\u96e4\uef49\u659d\ufbf1\u703a\uf696", -534221121, -2065500119)) || this.mhd.get() && mgl.mis(itemStack) && !mgl.miq(list, a.b("\u435d\u3a93\ub03e\u2e36\ua59b\u2329\u9905\u10f7\u8ea6", -1228978325), a.c(-2105282421, "\uf0f4\u895e\u0381\u9de0\u1620\u9095\u2acc\ua33f\u3d67\ub7df"), 5) || this.mhe.get() && mgl.mis(itemStack) && !mgl.miq(list, a.b("\u8510\ufca6\u760c\ue80c\u63a1\ue562", 340885793), a.d("\udd39\ua48a\u2e44\ub02e\u3be8\ubd5f\u071b\u8ef7\u10ae\u9a1e", 1366089607, 415826628), 5) || this.mhf.get() && mgl.miw(itemStack) && !mgl.miq(list, a.c(-1470047695, "\ude1e\ua7ae\u2d77\ub300\u38db\ube60\u043a\u8dc6\u13e6\u9d38\u1e8e\ue484\u6a59\uf390\u79be\uff4e"), a.d("\u5f39\u2689\uac4f\u323a\ub9f1\u3f08\u8508\u0cfe\u92a7\u180d\u9fd3\u65a3\ueb63", -1457165316, -647351124), 3) || this.mhg.get() && itemStack.method_7963() && itemStack.method_7986() || mgl.mio(list)) continue;
+            if (slot2.id >= n3 || (itemStack = slot2.getStack()).isEmpty() || (list = pfd.lines(itemStack)).isEmpty() || mgl.mim(list.get(0), mgo) || (n4 = pfd.total(itemStack)) <= 0 || !bl && !mgl.min(list, mgp) || this.mhc.get() && mgl.mip(itemStack, list, a.c(689709357, "\u2561\u5ca0\ud674\u4871"), a.d("\u96e4\uef49\u659d\ufbf1\u703a\uf696", -534221121, -2065500119)) || this.mhd.get() && mgl.mis(itemStack) && !mgl.miq(list, a.b("\u435d\u3a93\ub03e\u2e36\ua59b\u2329\u9905\u10f7\u8ea6", -1228978325), a.c(-2105282421, "\uf0f4\u895e\u0381\u9de0\u1620\u9095\u2acc\ua33f\u3d67\ub7df"), 5) || this.mhe.get() && mgl.mis(itemStack) && !mgl.miq(list, a.b("\u8510\ufca6\u760c\ue80c\u63a1\ue562", 340885793), a.d("\udd39\ua48a\u2e44\ub02e\u3be8\ubd5f\u071b\u8ef7\u10ae\u9a1e", 1366089607, 415826628), 5) || this.mhf.get() && mgl.miw(itemStack) && !mgl.miq(list, a.c(-1470047695, "\ude1e\ua7ae\u2d77\ub300\u38db\ube60\u043a\u8dc6\u13e6\u9d38\u1e8e\ue484\u6a59\uf390\u79be\uff4e"), a.d("\u5f39\u2689\uac4f\u323a\ub9f1\u3f08\u8508\u0cfe\u92a7\u180d\u9fd3\u65a3\ueb63", -1457165316, -647351124), 3) || this.mhg.get() && itemStack.isDamageable() && itemStack.isDamaged() || mgl.mio(list)) continue;
             if (n4 < n) {
                 n = n4;
                 slot = slot2;
             }
-            int n5 = this.mhh.get() && itemStack.method_7947() > 1 ? n4 / itemStack.method_7947() : n4;
+            int n5 = this.mhh.get() && itemStack.getCount() > 1 ? n4 / itemStack.getCount() : n4;
             arrayList.add(new mgg(slot2, n5));
         }
         Collections.sort(arrayList);
@@ -317,37 +317,37 @@ extends kfe {
 
     private int mif(GenericContainerScreen genericContainerScreen) {
         int n = 1;
-        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_17388();
+        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getRows();
         int n3 = n2 * 9;
-        for (Slot slot : ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7761) {
+        for (Slot slot : ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).slots) {
             ItemStack itemStack;
-            if (slot.field_7874 >= n3 || (itemStack = slot.method_7677()).method_7960()) continue;
-            n = 31 * n + Registries.field_41178.method_10206((Object)itemStack.method_7909());
-            n = 31 * n + itemStack.method_7947();
-            if (itemStack.method_57826(DataComponentTypes.field_49631)) {
-                n = 31 * n + itemStack.method_7964().hashCode();
+            if (slot.id >= n3 || (itemStack = slot.getStack()).isEmpty()) continue;
+            n = 31 * n + Registries.ITEM.getRawId((Object)itemStack.getItem());
+            n = 31 * n + itemStack.getCount();
+            if (itemStack.contains(DataComponentTypes.CUSTOM_NAME)) {
+                n = 31 * n + itemStack.getName().hashCode();
             }
-            if (!itemStack.method_57826(DataComponentTypes.field_49632)) continue;
-            n = 31 * n + ((LoreComponent)itemStack.method_58694(DataComponentTypes.field_49632)).hashCode();
+            if (!itemStack.contains(DataComponentTypes.LORE)) continue;
+            n = 31 * n + ((LoreComponent)itemStack.get(DataComponentTypes.LORE)).hashCode();
         }
         return n;
     }
 
     private boolean mig(DrawContext drawContext, Slot slot, int[] nArray, int n) {
-        if (slot == null || slot.method_7677().method_7960()) {
+        if (slot == null || slot.getStack().isEmpty()) {
             return false;
         }
         int n2 = 0x4B000000 | n & 0xFFFFFF;
         int n3 = 0x99000000 | n & 0xFFFFFF;
-        int n4 = nArray[0] + slot.field_7873;
-        int n5 = nArray[1] + slot.field_7872;
+        int n4 = nArray[0] + slot.x;
+        int n5 = nArray[1] + slot.y;
         int n6 = n4 + 16;
         int n7 = n5 + 16;
-        drawContext.method_25294(n4, n5, n6, n7, n2);
-        drawContext.method_25294(n4 - 1, n5 - 1, n6 + 1, n5, n3);
-        drawContext.method_25294(n4 - 1, n7, n6 + 1, n7 + 1, n3);
-        drawContext.method_25294(n4 - 1, n5, n4, n7, n3);
-        drawContext.method_25294(n6, n5, n6 + 1, n7, n3);
+        drawContext.fill(n4, n5, n6, n7, n2);
+        drawContext.fill(n4 - 1, n5 - 1, n6 + 1, n5, n3);
+        drawContext.fill(n4 - 1, n7, n6 + 1, n7 + 1, n3);
+        drawContext.fill(n4 - 1, n5, n4, n7, n3);
+        drawContext.fill(n6, n5, n6 + 1, n7, n3);
         return true;
     }
 
@@ -359,11 +359,11 @@ extends kfe {
     }
 
     private int[] mii(GenericContainerScreen genericContainerScreen) {
-        int n = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_17388();
+        int n = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getRows();
         int n2 = 176;
         int n3 = 114 + n * 18;
-        int n4 = (genericContainerScreen.field_22789 - n2) / 2;
-        int n5 = (genericContainerScreen.field_22790 - n3) / 2;
+        int n4 = (genericContainerScreen.width - n2) / 2;
+        int n5 = (genericContainerScreen.height - n3) / 2;
         return new int[]{n4, n5};
     }
 
@@ -412,11 +412,11 @@ extends kfe {
             return true;
         }
         try {
-            ItemEnchantmentsComponent itemEnchantmentsComponent = (ItemEnchantmentsComponent)itemStack.method_58694(DataComponentTypes.field_49633);
+            ItemEnchantmentsComponent itemEnchantmentsComponent = (ItemEnchantmentsComponent)itemStack.get(DataComponentTypes.ENCHANTMENTS);
             if (itemEnchantmentsComponent != null && itemEnchantmentsComponent.toString().toLowerCase(Locale.ROOT).contains(string2)) {
                 return true;
             }
-            ItemEnchantmentsComponent itemEnchantmentsComponent2 = (ItemEnchantmentsComponent)itemStack.method_58694(DataComponentTypes.field_49643);
+            ItemEnchantmentsComponent itemEnchantmentsComponent2 = (ItemEnchantmentsComponent)itemStack.get(DataComponentTypes.STORED_ENCHANTMENTS);
             if (itemEnchantmentsComponent2 != null && itemEnchantmentsComponent2.toString().toLowerCase(Locale.ROOT).contains(string2)) {
                 return true;
             }
@@ -448,19 +448,19 @@ extends kfe {
     }
 
     private static boolean mit(ItemStack itemStack) {
-        return itemStack.method_31574(Items.field_22027) || itemStack.method_31574(Items.field_8805) || itemStack.method_31574(Items.field_8743) || itemStack.method_31574(Items.field_8862) || itemStack.method_31574(Items.field_8283) || itemStack.method_31574(Items.field_8267) || itemStack.method_31574(Items.field_8090);
+        return itemStack.isOf(Items.NETHERITE_HELMET) || itemStack.isOf(Items.DIAMOND_HELMET) || itemStack.isOf(Items.IRON_HELMET) || itemStack.isOf(Items.GOLDEN_HELMET) || itemStack.isOf(Items.CHAINMAIL_HELMET) || itemStack.isOf(Items.LEATHER_HELMET) || itemStack.isOf(Items.TURTLE_HELMET);
     }
 
     private static boolean miu(ItemStack itemStack) {
-        return itemStack.method_31574(Items.field_22028) || itemStack.method_31574(Items.field_8058) || itemStack.method_31574(Items.field_8523) || itemStack.method_31574(Items.field_8678) || itemStack.method_31574(Items.field_8873) || itemStack.method_31574(Items.field_8577);
+        return itemStack.isOf(Items.NETHERITE_CHESTPLATE) || itemStack.isOf(Items.DIAMOND_CHESTPLATE) || itemStack.isOf(Items.IRON_CHESTPLATE) || itemStack.isOf(Items.GOLDEN_CHESTPLATE) || itemStack.isOf(Items.CHAINMAIL_CHESTPLATE) || itemStack.isOf(Items.LEATHER_CHESTPLATE);
     }
 
     private static boolean miv(ItemStack itemStack) {
-        return itemStack.method_31574(Items.field_22029) || itemStack.method_31574(Items.field_8348) || itemStack.method_31574(Items.field_8396) || itemStack.method_31574(Items.field_8416) || itemStack.method_31574(Items.field_8218) || itemStack.method_31574(Items.field_8570);
+        return itemStack.isOf(Items.NETHERITE_LEGGINGS) || itemStack.isOf(Items.DIAMOND_LEGGINGS) || itemStack.isOf(Items.IRON_LEGGINGS) || itemStack.isOf(Items.GOLDEN_LEGGINGS) || itemStack.isOf(Items.CHAINMAIL_LEGGINGS) || itemStack.isOf(Items.LEATHER_LEGGINGS);
     }
 
     private static boolean miw(ItemStack itemStack) {
-        return itemStack.method_31574(Items.field_22030) || itemStack.method_31574(Items.field_8285) || itemStack.method_31574(Items.field_8660) || itemStack.method_31574(Items.field_8753) || itemStack.method_31574(Items.field_8313) || itemStack.method_31574(Items.field_8370);
+        return itemStack.isOf(Items.NETHERITE_BOOTS) || itemStack.isOf(Items.DIAMOND_BOOTS) || itemStack.isOf(Items.IRON_BOOTS) || itemStack.isOf(Items.GOLDEN_BOOTS) || itemStack.isOf(Items.CHAINMAIL_BOOTS) || itemStack.isOf(Items.LEATHER_BOOTS);
     }
 
     private static /* synthetic */ int bba(int n, int n2) {

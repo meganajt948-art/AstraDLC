@@ -78,24 +78,24 @@ public final class vaf {
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
         GpuBufferSlice gpuBufferSlice2 = RenderSystem.getShaderFog();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
-        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
+        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         try {
             ByteBuffer byteBuffer;
             Std140Builder std140Builder;
-            int n = Math.max(1, Math.round((float)framebuffer.field_1482 * f));
-            int n2 = Math.max(1, Math.round((float)framebuffer.field_1481 * f));
+            int n = Math.max(1, Math.round((float)framebuffer.textureWidth * f));
+            int n2 = Math.max(1, Math.round((float)framebuffer.textureHeight * f));
             vaf.vaz(n, n2);
             GpuDevice gpuDevice = RenderSystem.getDevice();
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             vaq = vaq + 1 & 0x3FF;
             boolean bl2 = vap && bl;
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)624).putVec4((float)n, (float)n2, (float)framebuffer.field_1482, (float)framebuffer.field_1481).putVec4((float)vaq, bl2 ? 1.0f : 0.0f, 0.0f, 0.0f);
+                std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)624).putVec4((float)n, (float)n2, (float)framebuffer.textureWidth, (float)framebuffer.textureHeight).putVec4((float)vaq, bl2 ? 1.0f : 0.0f, 0.0f, 0.0f);
                 consumer.accept(std140Builder);
                 byteBuffer = std140Builder.get();
                 commandEncoder.writeToBuffer(val.slice(), byteBuffer);
@@ -106,8 +106,8 @@ public final class vaf {
             GpuQuery gpuQuery = vas ? commandEncoder.timerQueryBegin() : null;
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 fog march", (GpuTextureView)memoryStack, OptionalInt.empty());){
                 renderPass.setPipeline(uvq.FOG_MARCH);
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("NoiseSampler", vai, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("NoiseSampler", vai, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("Fog", gpuBufferSlice2);
                 renderPass.setUniform("FlowFog", val);
@@ -116,9 +116,9 @@ public final class vaf {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 fog resolve", (GpuTextureView)byteBuffer, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.FOG_RESOLVE);
-                renderPass.bindTexture("RawSampler", (GpuTextureView)memoryStack, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("HistorySampler", (GpuTextureView)std140Builder, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("RawSampler", (GpuTextureView)memoryStack, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("HistorySampler", (GpuTextureView)std140Builder, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowFog", val);
                 renderPass.draw(0, 3);
@@ -131,8 +131,8 @@ public final class vaf {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 fog composite", gpuTextureView, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.FOG_COMPOSITE);
-                renderPass.bindTexture("FogSampler", (GpuTextureView)byteBuffer, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("FogSampler", (GpuTextureView)byteBuffer, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowFog", val);
                 renderPass.draw(0, 3);
@@ -235,13 +235,13 @@ public final class vaf {
             nArray[i] = random.nextInt(256);
             nArray2[i] = random.nextInt(256);
         }
-        try (NativeImage nativeImage = new NativeImage(NativeImage.Format.field_4997, 256, 256, false);){
+        try (NativeImage nativeImage = new NativeImage(NativeImage.Format.RGBA, 256, 256, false);){
             int n;
             for (n = 0; n < 256; ++n) {
                 for (int i = 0; i < 256; ++i) {
                     int n2 = (n + 17 & 0xFF) * 256 + (i + 37 & 0xFF);
                     int n3 = n * 256 + i;
-                    nativeImage.method_61941(i, n, nArray2[n3] << 24 | nArray[n2] << 16 | nArray[n3] << 8 | nArray2[n2]);
+                    nativeImage.setColorArgb(i, n, nArray2[n3] << 24 | nArray[n2] << 16 | nArray[n3] << 8 | nArray2[n2]);
                 }
             }
             n = 5;

@@ -56,12 +56,12 @@ public final class vwy {
     }
 
     public static void ensure(MinecraftClient minecraftClient) {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayNetworkHandler == null || clientPlayerEntity == null) {
             return;
         }
-        Channel channel = wcn.channel(clientPlayNetworkHandler.method_48296());
+        Channel channel = wcn.channel(clientPlayNetworkHandler.getConnection());
         if (channel == null || !channel.isOpen()) {
             return;
         }
@@ -120,7 +120,7 @@ public final class vwy {
     }
 
     private static boolean vxk(PlayerInput playerInput) {
-        return playerInput.comp_3159() || playerInput.comp_3160() || playerInput.comp_3161() || playerInput.comp_3162() || playerInput.comp_3163();
+        return playerInput.forward() || playerInput.backward() || playerInput.left() || playerInput.right() || playerInput.jump();
     }
 
     private static /* synthetic */ int dlq(int n, int n2) {

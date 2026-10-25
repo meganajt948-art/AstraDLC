@@ -74,9 +74,9 @@ extends kfe {
 
     @Override
     public void onWorldRender(MinecraftClient minecraftClient) {
-        Camera camera = minecraftClient.field_1773.method_19418();
-        DimensionType.Skybox skybox = minecraftClient.field_1687.method_8597().comp_5220();
-        boolean bl = skybox != DimensionType.Skybox.field_64385 && camera.method_19332() && camera.method_19334() == CameraSubmersionType.field_27888;
+        Camera camera = minecraftClient.gameRenderer.getCamera();
+        DimensionType.Skybox skybox = minecraftClient.world.getDimension().skybox();
+        boolean bl = skybox != DimensionType.Skybox.NONE && camera.isReady() && camera.getSubmersionType() == CameraSubmersionType.NONE;
         ujl.hide(this, bl && this.rqo.get());
         long l = System.nanoTime();
         this.rqs += this.rqr == 0L ? 0.0f : Math.min(0.1f, (float)(l - this.rqr) / 1.0E9f) * (float)this.rql.get();
@@ -92,8 +92,8 @@ extends kfe {
             n = nArray[0];
             n2 = nArray[1];
         }
-        this.rqq.rotation((Quaternionfc)camera.method_23767());
-        float f = skybox == DimensionType.Skybox.field_64386 ? (float)this.rqn.get() : 0.0f;
+        this.rqq.rotation((Quaternionfc)camera.getRotation());
+        float f = skybox == DimensionType.Skybox.OVERWORLD ? (float)this.rqn.get() : 0.0f;
         uxi.draw(this.rqq, uxt2, 40.0f + this.rqs, (float)this.rqk.get(), f, n, n2, this.rqp.is("Low") ? 3 : 4, uxt2.stars * (float)this.rqm.get());
     }
 

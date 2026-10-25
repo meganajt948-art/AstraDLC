@@ -64,7 +64,7 @@ public final class dry {
         dry.dsd(hyz::saveLater);
         drz = true;
         dsa = System.currentTimeMillis();
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         dry.dsd(() -> {
             kfx kfx2 = Flow.getInstance().getModuleManager();
             if (kfx2 != null) {
@@ -92,8 +92,8 @@ public final class dry {
             dry.dsd(ukl::restoreVanilla);
             dry.dsd(whl::stopAll);
             dry.dsd(() -> {
-                if (dry.ours(minecraftClient.field_1755)) {
-                    minecraftClient.method_1507((Screen)(minecraftClient.field_1687 == null ? new TitleScreen() : null));
+                if (dry.ours(minecraftClient.currentScreen)) {
+                    minecraftClient.setScreen((Screen)(minecraftClient.world == null ? new TitleScreen() : null));
                 }
             });
         });
@@ -104,9 +104,9 @@ public final class dry {
     }
 
     public static void shut(MinecraftClient minecraftClient, Screen screen) {
-        minecraftClient.method_63588(() -> {
-            if (minecraftClient.field_1755 == screen) {
-                minecraftClient.method_1507((Screen)(minecraftClient.field_1687 == null ? new TitleScreen() : null));
+        minecraftClient.send(() -> {
+            if (minecraftClient.currentScreen == screen) {
+                minecraftClient.setScreen((Screen)(minecraftClient.world == null ? new TitleScreen() : null));
             }
         });
     }

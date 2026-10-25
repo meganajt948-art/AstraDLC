@@ -105,7 +105,7 @@ extends kfe {
     }
 
     private boolean sao() {
-        return this.mc.field_1724 == null || this.mc.field_1687 == null;
+        return this.mc.player == null || this.mc.world == null;
     }
 
     public void tickTimers(boolean bl) {
@@ -113,17 +113,17 @@ extends kfe {
             return;
         }
         long l = System.currentTimeMillis();
-        String string = this.mc.field_1687.method_27983().method_29177().toString();
+        String string = this.mc.world.getRegistryKey().getValue().toString();
         this.sai.removeIf(rzv2 -> {
             if (!rzv2.dimension.equals(string)) {
                 return false;
             }
-            if (this.mc.field_1724 != null) {
-                double d = rzv2.pos.method_1025(this.mc.field_1724.method_73189());
+            if (this.mc.player != null) {
+                double d = rzv2.pos.squaredDistanceTo(this.mc.player.getEntityPos());
                 if (d > 40000.0) {
                     return true;
                 }
-                if (d < 2500.0 && !this.saq(BlockPos.method_49637((double)rzv2.pos.field_1352, (double)(rzv2.pos.field_1351 - 1.0), (double)rzv2.pos.field_1350))) {
+                if (d < 2500.0 && !this.saq(BlockPos.ofFloored((double)rzv2.pos.x, (double)(rzv2.pos.y - 1.0), (double)rzv2.pos.z))) {
                     return true;
                 }
             }
@@ -132,15 +132,15 @@ extends kfe {
             }
             return !rzv2.isReady && rzv2.expirationTime + 10000L <= l;
         });
-        for (Entity object : this.mc.field_1687.method_18112()) {
+        for (Entity object : this.mc.world.getEntities()) {
             Object object2;
             Object object3;
             if (!(object instanceof ArmorStandEntity) && !(object instanceof DisplayEntity.TextDisplayEntity)) continue;
             String l4 = "";
             if (object instanceof ArmorStandEntity) {
                 object3 = (ArmorStandEntity)object;
-                if (object3.method_16914() && object3.method_5797() != null) {
-                    l4 = object3.method_5797().getString();
+                if (object3.hasCustomName() && object3.getCustomName() != null) {
+                    l4 = object3.getCustomName().getString();
                 }
             } else {
                 object2 = rzy.sar((DisplayEntity.TextDisplayEntity)object);
@@ -148,21 +148,21 @@ extends kfe {
                     l4 = object2.getString();
                 }
             }
-            if (l4.isEmpty() || (object3 = this.sap(object.method_5628(), l4)) == null) continue;
+            if (l4.isEmpty() || (object3 = this.sap(object.getId(), l4)) == null) continue;
             object2 = rzz.matcher((CharSequence)object3);
             boolean bl2 = sab.matcher((CharSequence)object3).find();
             if (!((Matcher)object2).find() && !bl2) continue;
             if (bl && this.sag.get()) {
-                object.method_5648(true);
+                object.setInvisible(true);
                 if (object instanceof ArmorStandEntity) {
                     ArmorStandEntity armorStandEntity = (ArmorStandEntity)object;
-                    armorStandEntity.method_5880(false);
+                    armorStandEntity.setCustomNameVisible(false);
                 }
             }
             double d = object instanceof ArmorStandEntity ? 1.8 : 0.5;
-            Vec3d vec3d = new Vec3d(object.method_23317(), object.method_23318() + d, object.method_23321());
-            Vec3d vec3d2 = new Vec3d(Math.floor(vec3d.field_1352) + 0.5, vec3d.field_1351, Math.floor(vec3d.field_1350) + 0.5);
-            if (!this.saq(BlockPos.method_49637((double)vec3d2.field_1352, (double)(vec3d2.field_1351 - 1.0), (double)vec3d2.field_1350))) continue;
+            Vec3d vec3d = new Vec3d(object.getX(), object.getY() + d, object.getZ());
+            Vec3d vec3d2 = new Vec3d(Math.floor(vec3d.x) + 0.5, vec3d.y, Math.floor(vec3d.z) + 0.5);
+            if (!this.saq(BlockPos.ofFloored((double)vec3d2.x, (double)(vec3d2.y - 1.0), (double)vec3d2.z))) continue;
             rzv rzv4 = null;
             for (rzv rzv5 : this.sai) {
                 if (!rzv5.dimension.equals(string) || !(this.sau(rzv5.pos, vec3d2) < 1.0)) continue;
@@ -230,9 +230,9 @@ extends kfe {
             rzv8.notifiedReady = true;
             rzv8.isReady = true;
         }
-        if (this.mc.field_1724 != null) {
-            Iterator<Object> iterator = this.mc.field_1724.method_73189();
-            this.sai.sort((rzv2, rzv3) -> Double.compare(rzv3.pos.method_1025(iterator), rzv2.pos.method_1025(iterator)));
+        if (this.mc.player != null) {
+            Iterator<Object> iterator = this.mc.player.getEntityPos();
+            this.sai.sort((rzv2, rzv3) -> Double.compare(rzv3.pos.squaredDistanceTo(iterator), rzv2.pos.squaredDistanceTo(iterator)));
         }
     }
 
@@ -260,10 +260,10 @@ extends kfe {
         for (int i = -1; i <= 1; ++i) {
             for (int j = -2; j <= 1; ++j) {
                 for (int k = -1; k <= 1; ++k) {
-                    Block block = this.mc.field_1687.method_8320((BlockPos)mutable.method_25504((Vec3i)blockPos, i, j, k)).method_26204();
+                    Block block = this.mc.world.getBlockState((BlockPos)mutable.set((Vec3i)blockPos, i, j, k)).getBlock();
                     Boolean bl = sak.get(block);
                     if (bl == null) {
-                        String string = block.method_63499().toLowerCase(Locale.ROOT);
+                        String string = block.getTranslationKey().toLowerCase(Locale.ROOT);
                         bl = string.contains("chest") || string.contains("barrel") || string.contains("shulker");
                         sak.put(block, bl);
                     }
@@ -283,7 +283,7 @@ extends kfe {
                 try {
                     field.setAccessible(true);
                     TrackedData exception = (TrackedData)field.get(null);
-                    if (exception == null || exception.comp_2328() != TrackedDataHandlerRegistry.field_13317) continue;
+                    if (exception == null || exception.dataType() != TrackedDataHandlerRegistry.TEXT_COMPONENT) continue;
                     sae = exception;
                     break;
                 }
@@ -297,7 +297,7 @@ extends kfe {
         }
         try {
             Text text;
-            Object runtimeException = textDisplayEntity.method_5841().method_12789(sae);
+            Object runtimeException = textDisplayEntity.getDataTracker().get(sae);
             return runtimeException instanceof Text ? (text = (Text)runtimeException) : null;
         }
         catch (RuntimeException runtimeException) {
@@ -308,15 +308,15 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         rzy rzy2 = sad;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rzy2 == null || !rzy2.isEnabled() || rzy2.sai.isEmpty() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rzy2 == null || !rzy2.isEnabled() || rzy2.sai.isEmpty() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden) {
             return;
         }
         unf.observe(drawContext);
-        float f = drawContext.method_51421();
-        float f2 = drawContext.method_51443();
+        float f = drawContext.getScaledWindowWidth();
+        float f2 = drawContext.getScaledWindowHeight();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), f, f2);
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), f, f2);
         }
         catch (Throwable throwable) {
             return;
@@ -325,12 +325,12 @@ extends kfe {
         GpuTextureView gpuTextureView = null;
         boolean bl = false;
         long l = System.currentTimeMillis();
-        String string = minecraftClient.field_1687.method_27983().method_29177().toString();
+        String string = minecraftClient.world.getRegistryKey().getValue().toString();
         float[] fArray = new float[2];
         int n = 0;
         for (rzv rzv2 : rzy2.sai) {
             int n2;
-            if (!rzv2.dimension.equals(string) || n >= 30 || !usn2.project(rzv2.pos.field_1352, rzv2.pos.field_1351, rzv2.pos.field_1350, fArray) || fArray[0] < 0.0f || fArray[0] > f || fArray[1] < 0.0f || fArray[1] > f2) continue;
+            if (!rzv2.dimension.equals(string) || n >= 30 || !usn2.project(rzv2.pos.x, rzv2.pos.y, rzv2.pos.z, fArray) || fArray[0] < 0.0f || fArray[0] > f || fArray[1] < 0.0f || fArray[1] > f2) continue;
             if (!bl) {
                 bl = true;
                 if (rzy2.sah.get() && uij.HUD.capture(drawContext, 2, null)) {
@@ -369,8 +369,8 @@ extends kfe {
     }
 
     private double sau(Vec3d vec3d, Vec3d vec3d2) {
-        double d = vec3d.field_1352 - vec3d2.field_1352;
-        double d2 = vec3d.field_1350 - vec3d2.field_1350;
+        double d = vec3d.x - vec3d2.x;
+        double d2 = vec3d.z - vec3d2.z;
         return d * d + d2 * d2;
     }
 
@@ -391,9 +391,9 @@ extends kfe {
 
     public rzv markUntimedReady(BlockPos blockPos, String string) {
         long l = System.currentTimeMillis();
-        Vec3d vec3d = new Vec3d((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 1.5, (double)blockPos.method_10260() + 0.5);
+        Vec3d vec3d = new Vec3d((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 1.5, (double)blockPos.getZ() + 0.5);
         for (rzv rzv2 : this.sai) {
-            if (!rzv2.dimension.equals(string) || !(this.sau(rzv2.pos, vec3d) < 1.0) || !(Math.abs(rzv2.pos.field_1351 - vec3d.field_1351) < 4.0)) continue;
+            if (!rzv2.dimension.equals(string) || !(this.sau(rzv2.pos, vec3d) < 1.0) || !(Math.abs(rzv2.pos.y - vec3d.y) < 4.0)) continue;
             return rzv2;
         }
         rzv rzv3 = new rzv(vec3d, l, string, l);

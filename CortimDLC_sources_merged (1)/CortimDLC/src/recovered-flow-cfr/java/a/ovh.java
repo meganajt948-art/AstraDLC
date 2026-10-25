@@ -74,59 +74,59 @@ extends kfe {
 
     @Override
     protected void onEnable() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.world == null) {
             this.setEnabled(false);
             return;
         }
         ovh.owm();
-        this.ovv = clientPlayerEntity.method_36454();
-        this.ovw = clientPlayerEntity.method_36455();
+        this.ovv = clientPlayerEntity.getYaw();
+        this.ovw = clientPlayerEntity.getPitch();
         this.ovx = this.ovv;
         this.ovy = this.ovw;
         this.owb = 0.0;
         this.owa = 0.0;
         this.ovz = 0.0;
         this.owc = 0L;
-        Vec3d vec3d = clientPlayerEntity.method_5836(1.0f);
-        this.ovq = new ove(this, (World)minecraftClient.field_1687);
-        this.ovq.method_5814(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350);
-        this.ovq.field_6014 = vec3d.field_1352;
-        this.ovq.field_6036 = vec3d.field_1351;
-        this.ovq.field_5969 = vec3d.field_1350;
-        this.ovr = clientPlayerEntity.field_3913;
-        clientPlayerEntity.field_3913 = new Input();
-        clientPlayerEntity.method_5728(false);
-        this.ovs = minecraftClient.field_1690.method_31044();
-        minecraftClient.field_1690.method_31043(Perspective.field_26664);
-        this.ovt = minecraftClient.field_1730;
-        minecraftClient.field_1730 = false;
-        minecraftClient.method_1504((Entity)this.ovq);
+        Vec3d vec3d = clientPlayerEntity.getCameraPosVec(1.0f);
+        this.ovq = new ove(this, (World)minecraftClient.world);
+        this.ovq.setPosition(vec3d.x, vec3d.y, vec3d.z);
+        this.ovq.lastX = vec3d.x;
+        this.ovq.lastY = vec3d.y;
+        this.ovq.lastZ = vec3d.z;
+        this.ovr = clientPlayerEntity.input;
+        clientPlayerEntity.input = new Input();
+        clientPlayerEntity.setSprinting(false);
+        this.ovs = minecraftClient.options.getPerspective();
+        minecraftClient.options.setPerspective(Perspective.FIRST_PERSON);
+        this.ovt = minecraftClient.chunkCullingEnabled;
+        minecraftClient.chunkCullingEnabled = false;
+        minecraftClient.setCameraEntity((Entity)this.ovq);
         ovh.own(minecraftClient, 0.0f);
     }
 
     @Override
     protected void onDisable() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         this.owh(clientPlayerEntity);
         if (this.ovq != null && clientPlayerEntity != null) {
-            minecraftClient.method_1504((Entity)clientPlayerEntity);
+            minecraftClient.setCameraEntity((Entity)clientPlayerEntity);
             if (this.ovr != null) {
-                clientPlayerEntity.field_3913 = this.ovr;
+                clientPlayerEntity.input = this.ovr;
             }
-            clientPlayerEntity.method_36456(this.ovv);
-            clientPlayerEntity.method_36457(this.ovw);
-            clientPlayerEntity.field_5982 = this.ovv;
-            clientPlayerEntity.field_6004 = this.ovw;
-            ovh.own(minecraftClient, clientPlayerEntity.method_5751());
+            clientPlayerEntity.setYaw(this.ovv);
+            clientPlayerEntity.setPitch(this.ovw);
+            clientPlayerEntity.lastYaw = this.ovv;
+            clientPlayerEntity.lastPitch = this.ovw;
+            ovh.own(minecraftClient, clientPlayerEntity.getStandingEyeHeight());
         }
         if (this.ovq != null) {
-            minecraftClient.field_1730 = this.ovt;
+            minecraftClient.chunkCullingEnabled = this.ovt;
         }
         if (this.ovs != null) {
-            minecraftClient.field_1690.method_31043(this.ovs);
+            minecraftClient.options.setPerspective(this.ovs);
         }
         this.ovq = null;
         this.ovr = null;
@@ -138,20 +138,20 @@ extends kfe {
         if (this.ovq == null) {
             return;
         }
-        this.owh(minecraftClient.field_1724);
-        if (this.ovq.method_73183() != minecraftClient.field_1687 || minecraftClient.method_1560() != this.ovq) {
+        this.owh(minecraftClient.player);
+        if (this.ovq.getEntityWorld() != minecraftClient.world || minecraftClient.getCameraEntity() != this.ovq) {
             this.setEnabled(false);
             return;
         }
-        ovh.owi(minecraftClient, (Entity)minecraftClient.field_1724);
-        for (KeyBinding keyBinding : new KeyBinding[]{minecraftClient.field_1690.field_1886, minecraftClient.field_1690.field_1904, minecraftClient.field_1690.field_1871, minecraftClient.field_1690.field_1869, minecraftClient.field_1690.field_1831}) {
-            while (keyBinding.method_1436()) {
+        ovh.owi(minecraftClient, (Entity)minecraftClient.player);
+        for (KeyBinding keyBinding : new KeyBinding[]{minecraftClient.options.attackKey, minecraftClient.options.useKey, minecraftClient.options.pickItemKey, minecraftClient.options.dropKey, minecraftClient.options.swapHandsKey}) {
+            while (keyBinding.wasPressed()) {
             }
-            keyBinding.method_23481(false);
+            keyBinding.setPressed(false);
         }
-        if (minecraftClient.field_1724.field_3913 != null && minecraftClient.field_1724.field_3913.getClass() != Input.class) {
-            this.ovr = minecraftClient.field_1724.field_3913;
-            minecraftClient.field_1724.field_3913 = new Input();
+        if (minecraftClient.player.input != null && minecraftClient.player.input.getClass() != Input.class) {
+            this.ovr = minecraftClient.player.input;
+            minecraftClient.player.input = new Input();
         }
     }
 
@@ -159,16 +159,16 @@ extends kfe {
     public void onWorldRender(MinecraftClient minecraftClient) {
         ++this.owd;
         this.owl(minecraftClient);
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (this.ovq != null && clientPlayerEntity != null && !clientPlayerEntity.field_5960) {
-            clientPlayerEntity.field_5960 = true;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (this.ovq != null && clientPlayerEntity != null && !clientPlayerEntity.noClip) {
+            clientPlayerEntity.noClip = true;
             this.ovu = true;
         }
     }
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        if (this.ovq != null && minecraftClient.method_1560() == minecraftClient.field_1724) {
+        if (this.ovq != null && minecraftClient.getCameraEntity() == minecraftClient.player) {
             ovh.owi(minecraftClient, (Entity)this.ovq);
         }
         this.owl(minecraftClient);
@@ -176,7 +176,7 @@ extends kfe {
 
     private void owh(ClientPlayerEntity clientPlayerEntity) {
         if (this.ovu && clientPlayerEntity != null) {
-            clientPlayerEntity.field_5960 = false;
+            clientPlayerEntity.noClip = false;
         }
         this.ovu = false;
     }
@@ -194,7 +194,7 @@ extends kfe {
         catch (IllegalAccessException | RuntimeException exception) {
             // empty catch block
         }
-        minecraftClient.method_1504(entity);
+        minecraftClient.setCameraEntity(entity);
     }
 
     private void owj() {
@@ -202,24 +202,24 @@ extends kfe {
             return;
         }
         this.owe = this.owd;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null || this.ovq == null) {
             return;
         }
-        this.ovx += clientPlayerEntity.method_36454() - this.ovv;
-        this.ovy = MathHelper.method_15363((float)(this.ovy + clientPlayerEntity.method_36455() - this.ovw), (float)-90.0f, (float)90.0f);
-        clientPlayerEntity.method_36456(this.ovv);
-        clientPlayerEntity.method_36457(this.ovw);
-        clientPlayerEntity.field_5982 = this.ovv;
-        clientPlayerEntity.field_6004 = this.ovw;
+        this.ovx += clientPlayerEntity.getYaw() - this.ovv;
+        this.ovy = MathHelper.clamp((float)(this.ovy + clientPlayerEntity.getPitch() - this.ovw), (float)-90.0f, (float)90.0f);
+        clientPlayerEntity.setYaw(this.ovv);
+        clientPlayerEntity.setPitch(this.ovw);
+        clientPlayerEntity.lastYaw = this.ovv;
+        clientPlayerEntity.lastPitch = this.ovw;
         long l = System.nanoTime();
         double d = this.owc == 0L ? 0.0 : Math.min(0.1, (double)(l - this.owc) / 1.0E9);
         this.owc = l;
-        double d2 = ovh.owk(minecraftClient.field_1690.field_1894, minecraftClient.field_1690.field_1881);
-        double d3 = ovh.owk(minecraftClient.field_1690.field_1913, minecraftClient.field_1690.field_1849);
-        double d4 = ovh.owk(minecraftClient.field_1690.field_1903, minecraftClient.field_1690.field_1832);
-        double d5 = this.ovj.get() * (minecraftClient.field_1690.field_1867.method_1434() ? 2.5 : 1.0);
+        double d2 = ovh.owk(minecraftClient.options.forwardKey, minecraftClient.options.backKey);
+        double d3 = ovh.owk(minecraftClient.options.leftKey, minecraftClient.options.rightKey);
+        double d4 = ovh.owk(minecraftClient.options.jumpKey, minecraftClient.options.sneakKey);
+        double d5 = this.ovj.get() * (minecraftClient.options.sprintKey.isPressed() ? 2.5 : 1.0);
         double d6 = Math.toRadians(this.ovx);
         double d7 = Math.sin(d6);
         double d8 = Math.cos(d6);
@@ -235,24 +235,24 @@ extends kfe {
         this.ovz += (d10 - this.ovz) * d13;
         this.owa += (d12 - this.owa) * d13;
         this.owb += (d11 - this.owb) * d13;
-        double d14 = this.ovq.method_23317() + this.ovz * d;
-        double d15 = this.ovq.method_23318() + this.owa * d;
-        double d16 = this.ovq.method_23321() + this.owb * d;
-        this.ovq.method_5814(d14, d15, d16);
-        this.ovq.field_6014 = d14;
-        this.ovq.field_6036 = d15;
-        this.ovq.field_5969 = d16;
+        double d14 = this.ovq.getX() + this.ovz * d;
+        double d15 = this.ovq.getY() + this.owa * d;
+        double d16 = this.ovq.getZ() + this.owb * d;
+        this.ovq.setPosition(d14, d15, d16);
+        this.ovq.lastX = d14;
+        this.ovq.lastY = d15;
+        this.ovq.lastZ = d16;
     }
 
     private static double owk(KeyBinding keyBinding, KeyBinding keyBinding2) {
-        return (keyBinding.method_1434() ? 1 : 0) - (keyBinding2.method_1434() ? 1 : 0);
+        return (keyBinding.isPressed() ? 1 : 0) - (keyBinding2.isPressed() ? 1 : 0);
     }
 
     private void owl(MinecraftClient minecraftClient) {
         if (this.ovq == null || ovo == null) {
             return;
         }
-        HeldItemRenderer heldItemRenderer = minecraftClient.method_1561().method_43336();
+        HeldItemRenderer heldItemRenderer = minecraftClient.getEntityRenderDispatcher().getHeldItemRenderer();
         for (Field field : ovo) {
             vxr.setFloat(field, heldItemRenderer, 0.0f);
         }
@@ -271,7 +271,7 @@ extends kfe {
     }
 
     private static void own(MinecraftClient minecraftClient, float f) {
-        Camera camera = minecraftClient.field_1773.method_19418();
+        Camera camera = minecraftClient.gameRenderer.getCamera();
         vxr.setFloat(ovl, camera, f);
         vxr.setFloat(ovm, camera, f);
     }

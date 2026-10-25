@@ -293,15 +293,15 @@ public final class qdz {
     }
 
     private static double qim(ClientPlayerEntity clientPlayerEntity, Vec3d vec3d) {
-        Vec3d vec3d2 = vec3d.method_1020(clientPlayerEntity.method_33571());
-        double d = tbp.yawTo(vec3d2.field_1352, vec3d2.field_1350);
-        double d2 = tbp.pitchTo(vec3d2.field_1351, Math.sqrt(vec3d2.field_1352 * vec3d2.field_1352 + vec3d2.field_1350 * vec3d2.field_1350));
-        return Math.hypot(MathHelper.method_15338((double)(d - (double)clientPlayerEntity.method_36454())), d2 - (double)clientPlayerEntity.method_36455());
+        Vec3d vec3d2 = vec3d.subtract(clientPlayerEntity.getEyePos());
+        double d = tbp.yawTo(vec3d2.x, vec3d2.z);
+        double d2 = tbp.pitchTo(vec3d2.y, Math.sqrt(vec3d2.x * vec3d2.x + vec3d2.z * vec3d2.z));
+        return Math.hypot(MathHelper.wrapDegrees((double)(d - (double)clientPlayerEntity.getYaw())), d2 - (double)clientPlayerEntity.getPitch());
     }
 
     public void predict(boolean bl, MinecraftClient minecraftClient) {
         if (this.qeu && !bl && minecraftClient != null) {
-            this.qet.restore((World)minecraftClient.field_1687);
+            this.qet.restore((World)minecraftClient.world);
         }
         this.qeu = bl;
     }
@@ -324,7 +324,7 @@ public final class qdz {
 
     public void park(pzc pzc2, BlockPos blockPos, boolean bl) {
         this.start(pzc2);
-        this.qhc = blockPos.method_10062();
+        this.qhc = blockPos.toImmutable();
         this.qhg = bl;
     }
 
@@ -428,7 +428,7 @@ public final class qdz {
 
     public String action() {
         if (this.qfr != null) {
-            return a.b("\uccdb\ub57a\u3fbe\ua1cb\u2a16\uacec", 262851775) + this.qfr.method_23854() + a.c(1916832265, "\u8a2c\uf3dc\u7907\ue772\u6ce8") + qdz.qin(this.qfu);
+            return a.b("\uccdb\ub57a\u3fbe\ua1cb\u2a16\uacec", 262851775) + this.qfr.toShortString() + a.c(1916832265, "\u8a2c\uf3dc\u7907\ue772\u6ce8") + qdz.qin(this.qfu);
         }
         if (this.qfx != null) {
             return a.c(-550039396, "\u10ee\u6949\ue397\u7de1\uf67d") + qdz.qin(this.qfx) + a.c(327677930, "\uf7cc\u8e31\u04e1\u9a90\u1143\u97b9") + qdz.qin(this.qga);
@@ -437,7 +437,7 @@ public final class qdz {
     }
 
     private static String qin(Vec3d vec3d) {
-        return vec3d == null ? a.d("\ucade", -819785257, 1821563685) : String.format(Locale.ROOT, a.c(681747764, "\ua51f\udca5\u566a\uc84f\u43d2\uc56a\u7f32\uf6df\u68d4\ue22f\u65f5\u9f8f\u1144\u88a1"), vec3d.field_1352, vec3d.field_1351, vec3d.field_1350);
+        return vec3d == null ? a.d("\ucade", -819785257, 1821563685) : String.format(Locale.ROOT, a.c(681747764, "\ua51f\udca5\u566a\uc84f\u43d2\uc56a\u7f32\uf6df\u68d4\ue22f\u65f5\u9f8f\u1144\u88a1"), vec3d.x, vec3d.y, vec3d.z);
     }
 
     public void resetCounters() {
@@ -455,7 +455,7 @@ public final class qdz {
         this.qfx = null;
         this.qfc.clear();
         if (minecraftClient != null) {
-            this.qet.restore((World)minecraftClient.field_1687);
+            this.qet.restore((World)minecraftClient.world);
         }
         this.releaseKeys(minecraftClient);
     }
@@ -464,7 +464,7 @@ public final class qdz {
         Vec3d vec3d;
         ++this.qfi;
         this.qgu = false;
-        ClientWorld clientWorld = minecraftClient.field_1687;
+        ClientWorld clientWorld = minecraftClient.world;
         if (clientWorld != null) {
             this.qet.tick((World)clientWorld, this.qfi);
         }
@@ -479,14 +479,14 @@ public final class qdz {
         if (this.qgs != null) {
             this.qgs.tick((World)clientWorld, clientPlayerEntity, this.qfg);
         }
-        if (this.qfg.distanceTo(clientPlayerEntity.method_73189()) > 40.0) {
+        if (this.qfg.distanceTo(clientPlayerEntity.getEntityPos()) > 40.0) {
             this.qfh = qdw.FAR;
             this.qfr = null;
             this.qfx = null;
             this.qiq(minecraftClient, clientPlayerEntity, tel2, null, null);
             return;
         }
-        if (minecraftClient.field_1755 != null || !clientPlayerEntity.method_5805()) {
+        if (minecraftClient.currentScreen != null || !clientPlayerEntity.isAlive()) {
             this.qfr = null;
             this.qfx = null;
             this.qiq(minecraftClient, clientPlayerEntity, tel2, null, null);
@@ -506,13 +506,13 @@ public final class qdz {
             blockPos = null;
         }
         if (blockPos != null && !blockPos.equals((Object)this.qfr)) {
-            this.qlj(a.b("\u1960\u60d7\uea17\u7477\uffa0\u7904\uc356\u4ae3\ud4f5\u5e43\ud9de", -2055792353) + blockPos.method_23854());
-            this.qku(blockPos, clientWorld.method_8320(blockPos).method_26204(), false, qdz.qkw(clientPlayerEntity, blockPos));
-            vec3d = clientPlayerEntity.method_31548();
-            if (!clientPlayerEntity.method_6047().method_31573(ItemTags.field_42614)) {
+            this.qlj(a.b("\u1960\u60d7\uea17\u7477\uffa0\u7904\uc356\u4ae3\ud4f5\u5e43\ud9de", -2055792353) + blockPos.toShortString());
+            this.qku(blockPos, clientWorld.getBlockState(blockPos).getBlock(), false, qdz.qkw(clientPlayerEntity, blockPos));
+            vec3d = clientPlayerEntity.getInventory();
+            if (!clientPlayerEntity.getMainHandStack().isIn(ItemTags.PICKAXES)) {
                 for (int i = 0; i < 9; ++i) {
-                    if (!vec3d.method_5438(i).method_31573(ItemTags.field_42614)) continue;
-                    vec3d.method_61496(i);
+                    if (!vec3d.getStack(i).isIn(ItemTags.PICKAXES)) continue;
+                    vec3d.setSelectedSlot(i);
                     break;
                 }
             }
@@ -520,11 +520,11 @@ public final class qdz {
         if (this.qfr == null) {
             this.qjd((World)clientWorld, clientPlayerEntity);
         }
-        if (this.qhd && this.qhg && this.qfr == null && this.qfx == null && !clientPlayerEntity.method_5765()) {
+        if (this.qhd && this.qhg && this.qfr == null && this.qfx == null && !clientPlayerEntity.hasVehicle()) {
             this.qiu((World)clientWorld, clientPlayerEntity);
-            vec3d = clientPlayerEntity.method_33571();
-            if (this.qhi != null && Math.hypot(this.qhi.field_1352 - vec3d.field_1352, this.qhi.field_1350 - vec3d.field_1350) > 1.2) {
-                this.qiq(minecraftClient, clientPlayerEntity, tel2, this.qhj, new Vec3d(this.qhi.field_1352, vec3d.field_1351 - 0.35, this.qhi.field_1350));
+            vec3d = clientPlayerEntity.getEyePos();
+            if (this.qhi != null && Math.hypot(this.qhi.x - vec3d.x, this.qhi.z - vec3d.z) > 1.2) {
+                this.qiq(minecraftClient, clientPlayerEntity, tel2, this.qhj, new Vec3d(this.qhi.x, vec3d.y - 0.35, this.qhi.z));
             } else {
                 this.qiq(minecraftClient, clientPlayerEntity, tel2, null, null);
             }
@@ -551,9 +551,9 @@ public final class qdz {
         if (this.qgs == null) {
             return;
         }
-        boolean bl = this.qgs.hasLegs() && this.qgr == null && this.qhc == null && !this.qhf && this.qfg.maxX >= this.qfg.minX && this.qho == Integer.MIN_VALUE && this.qfx == null && this.qfi >= this.qgw && !clientPlayerEntity.method_5765();
-        double d = clientPlayerEntity.method_23317();
-        double d2 = clientPlayerEntity.method_23321();
+        boolean bl = this.qgs.hasLegs() && this.qgr == null && this.qhc == null && !this.qhf && this.qfg.maxX >= this.qfg.minX && this.qho == Integer.MIN_VALUE && this.qfx == null && this.qfi >= this.qgw && !clientPlayerEntity.hasVehicle();
+        double d = clientPlayerEntity.getX();
+        double d2 = clientPlayerEntity.getZ();
         if (bl && (d < (double)this.qfg.minX - 0.5 || d > (double)this.qfg.maxX + 1.5 || d2 < (double)this.qfg.minZ - 0.5 || d2 > (double)this.qfg.maxZ + 1.5)) {
             bl = false;
         }
@@ -563,13 +563,13 @@ public final class qdz {
             return;
         }
         int n = this.qgs.move();
-        double d3 = Math.hypot(clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014, clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969);
+        double d3 = Math.hypot(clientPlayerEntity.getX() - clientPlayerEntity.lastX, clientPlayerEntity.getZ() - clientPlayerEntity.lastZ);
         if (n != 0 && d3 < 0.02) {
             if (++this.qgv >= 20) {
                 this.qgv = 0;
                 this.qgw = this.qfi + 30;
                 this.qgs.stopLegs();
-                this.qlj(a.d("\u3dc4\u447c\ucead\u50c8\udb4c\u5dae\ue7fa\u6e0a\uf043\u7afa\ufd62\u0752\u8990\u1075", 1504850795, -1538978099) + clientPlayerEntity.method_24515().method_23854());
+                this.qlj(a.d("\u3dc4\u447c\ucead\u50c8\udb4c\u5dae\ue7fa\u6e0a\uf043\u7afa\ufd62\u0752\u8990\u1075", 1504850795, -1538978099) + clientPlayerEntity.getBlockPos().toShortString());
                 return;
             }
         } else {
@@ -581,15 +581,15 @@ public final class qdz {
 
     private static boolean qip(World world, ClientPlayerEntity clientPlayerEntity, int n) {
         double d;
-        double d2 = Math.toRadians(clientPlayerEntity.method_36454());
+        double d2 = Math.toRadians(clientPlayerEntity.getYaw());
         double d3 = (double)trj.FWD[n] * -Math.sin(d2) + (double)trj.LEFT[n] * Math.cos(d2);
         double d4 = Math.hypot(d3, d = (double)trj.FWD[n] * Math.cos(d2) + (double)trj.LEFT[n] * Math.sin(d2));
         if (d4 < 1.0E-6) {
             return false;
         }
-        int n2 = MathHelper.method_15357((double)(clientPlayerEntity.method_23317() + d3 / d4 * 0.9));
-        int n3 = MathHelper.method_15357((double)(clientPlayerEntity.method_23321() + d / d4 * 0.9));
-        int n4 = qdz.standing(world, clientPlayerEntity).method_10264();
+        int n2 = MathHelper.floor((double)(clientPlayerEntity.getX() + d3 / d4 * 0.9));
+        int n3 = MathHelper.floor((double)(clientPlayerEntity.getZ() + d / d4 * 0.9));
+        int n4 = qdz.standing(world, clientPlayerEntity).getY();
         for (int i = n4 - 1; i >= n4 - 4; --i) {
             if (qdz.qjs(world, new BlockPos(n2, i, n3))) continue;
             return false;
@@ -613,11 +613,11 @@ public final class qdz {
         if (this.qgk < 3 || this.qfi - this.qfw < 4) {
             return;
         }
-        Vec3d vec3d = this.qfu.method_1020(clientPlayerEntity.method_33571());
-        double d2 = tbp.yawTo(vec3d.field_1352, vec3d.field_1350);
-        double d3 = tbp.pitchTo(vec3d.field_1351, Math.sqrt(vec3d.field_1352 * vec3d.field_1352 + vec3d.field_1350 * vec3d.field_1350));
-        double d4 = MathHelper.method_15338((double)(d2 - (double)clientPlayerEntity.method_36454()));
-        double d5 = Math.hypot(d4, d = d3 - (double)clientPlayerEntity.method_36455());
+        Vec3d vec3d = this.qfu.subtract(clientPlayerEntity.getEyePos());
+        double d2 = tbp.yawTo(vec3d.x, vec3d.z);
+        double d3 = tbp.pitchTo(vec3d.y, Math.sqrt(vec3d.x * vec3d.x + vec3d.z * vec3d.z));
+        double d4 = MathHelper.wrapDegrees((double)(d2 - (double)clientPlayerEntity.getYaw()));
+        double d5 = Math.hypot(d4, d = d3 - (double)clientPlayerEntity.getPitch());
         if (d5 > 9.0 || d5 < 0.05) {
             return;
         }
@@ -639,28 +639,28 @@ public final class qdz {
             }
         }
         double d8 = d7 / 0.15;
-        clientPlayerEntity.method_5872((double)l * d8, (double)l2 * d8);
+        clientPlayerEntity.changeLookDirection((double)l * d8, (double)l2 * d8);
         tel2.spent(Math.hypot((double)l * d7, (double)l2 * d7));
     }
 
     public void startTick(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         Vec3d vec3d;
-        if (this.qfh != qdw.WORKING || minecraftClient.field_1755 != null || clientPlayerEntity == null || !clientPlayerEntity.method_5805()) {
+        if (this.qfh != qdw.WORKING || minecraftClient.currentScreen != null || clientPlayerEntity == null || !clientPlayerEntity.isAlive()) {
             this.releaseKeys(minecraftClient);
             return;
         }
-        GameOptions gameOptions = minecraftClient.field_1690;
-        if (clientPlayerEntity.method_5765() && this.qhc == null) {
-            gameOptions.field_1894.method_23481(false);
-            gameOptions.field_1881.method_23481(false);
-            gameOptions.field_1913.method_23481(false);
-            gameOptions.field_1849.method_23481(false);
-            gameOptions.field_1903.method_23481(false);
+        GameOptions gameOptions = minecraftClient.options;
+        if (clientPlayerEntity.hasVehicle() && this.qhc == null) {
+            gameOptions.forwardKey.setPressed(false);
+            gameOptions.backKey.setPressed(false);
+            gameOptions.leftKey.setPressed(false);
+            gameOptions.rightKey.setPressed(false);
+            gameOptions.jumpKey.setPressed(false);
             this.qix(minecraftClient, false);
             this.qis(minecraftClient, true);
             this.qgl = true;
             if (this.qgd) {
-                gameOptions.field_1886.method_23481(false);
+                gameOptions.attackKey.setPressed(false);
                 this.qgd = false;
             }
             return;
@@ -668,7 +668,7 @@ public final class qdz {
         if (this.qhb) {
             this.qis(minecraftClient, false);
         }
-        if (this.qhd && this.qhg && !clientPlayerEntity.method_5765()) {
+        if (this.qhd && this.qhg && !clientPlayerEntity.hasVehicle()) {
             this.qit(minecraftClient, clientPlayerEntity);
             return;
         }
@@ -681,54 +681,54 @@ public final class qdz {
         boolean bl7 = false;
         if ((this.qfr == null || this.qgz) && this.qfx != null) {
             boolean bl8;
-            vec3d = clientPlayerEntity.method_73189();
-            double d = this.qfx.field_1352 - vec3d.field_1352;
-            double d2 = this.qfx.field_1350 - vec3d.field_1350;
+            vec3d = clientPlayerEntity.getEntityPos();
+            double d = this.qfx.x - vec3d.x;
+            double d2 = this.qfx.z - vec3d.z;
             double d3 = Math.sqrt(d * d + d2 * d2);
-            Vec3d vec3d2 = clientPlayerEntity.method_18798();
-            double d4 = Math.sqrt(vec3d2.field_1352 * vec3d2.field_1352 + vec3d2.field_1350 * vec3d2.field_1350);
-            boolean bl9 = bl8 = this.qfz && clientPlayerEntity.method_24828() && d3 < d4 * 1.3 + 0.05;
+            Vec3d vec3d2 = clientPlayerEntity.getVelocity();
+            double d4 = Math.sqrt(vec3d2.x * vec3d2.x + vec3d2.z * vec3d2.z);
+            boolean bl9 = bl8 = this.qfz && clientPlayerEntity.isOnGround() && d3 < d4 * 1.3 + 0.05;
             if (d3 > 0.12 && !bl8) {
                 double d5 = tbp.yawTo(d, d2);
-                double d6 = MathHelper.method_15338((double)(d5 - (double)clientPlayerEntity.method_36454()));
+                double d6 = MathHelper.wrapDegrees((double)(d5 - (double)clientPlayerEntity.getYaw()));
                 bl = Math.abs(d6) < 67.5;
                 bl2 = Math.abs(d6) > 112.5;
                 bl4 = d6 > 22.5 && d6 < 157.5;
                 bl3 = d6 < -22.5 && d6 > -157.5;
             }
             bl6 = this.qfz && d3 < 1.6;
-            bl5 = this.qfy && clientPlayerEntity.method_24828() && d3 < 1.25 || this.qgn >= 10 && this.qgn % 10 == 0 && clientPlayerEntity.method_24828() && (bl || bl2 || bl3 || bl4);
-        } else if (this.qgu && this.qgs != null && minecraftClient.field_1687 != null) {
+            bl5 = this.qfy && clientPlayerEntity.isOnGround() && d3 < 1.25 || this.qgn >= 10 && this.qgn % 10 == 0 && clientPlayerEntity.isOnGround() && (bl || bl2 || bl3 || bl4);
+        } else if (this.qgu && this.qgs != null && minecraftClient.world != null) {
             int n = this.qgs.move();
             bl = trj.FWD[n] > 0;
             bl2 = trj.FWD[n] < 0;
             bl3 = trj.LEFT[n] > 0;
             boolean bl10 = bl4 = trj.LEFT[n] < 0;
-            if ((bl || bl2 || bl3 || bl4) && qdz.qip((World)minecraftClient.field_1687, clientPlayerEntity, n)) {
+            if ((bl || bl2 || bl3 || bl4) && qdz.qip((World)minecraftClient.world, clientPlayerEntity, n)) {
                 bl4 = false;
                 bl3 = false;
                 bl2 = false;
                 bl = false;
             }
-            bl5 = this.qgs.jump() && clientPlayerEntity.method_24828();
+            bl5 = this.qgs.jump() && clientPlayerEntity.isOnGround();
             bl7 = true;
         }
-        gameOptions.field_1894.method_23481(bl);
-        gameOptions.field_1881.method_23481(bl2);
-        gameOptions.field_1913.method_23481(bl3);
-        gameOptions.field_1849.method_23481(bl4);
-        gameOptions.field_1903.method_23481(bl5);
+        gameOptions.forwardKey.setPressed(bl);
+        gameOptions.backKey.setPressed(bl2);
+        gameOptions.leftKey.setPressed(bl3);
+        gameOptions.rightKey.setPressed(bl4);
+        gameOptions.jumpKey.setPressed(bl5);
         boolean bl11 = this.qgl = bl || bl2 || bl3 || bl4 || bl5;
         this.qix(minecraftClient, bl7 ? this.qgs.sprint() && bl && !bl2 : this.qgx && bl && !bl2 && !bl6);
-        vec3d = gameOptions.field_1886;
+        vec3d = gameOptions.attackKey;
         boolean bl12 = false;
         BlockHitResult blockHitResult = null;
         if (this.qfr != null) {
-            minecraftClient.field_1773.method_3190(1.0f);
-            HitResult hitResult = minecraftClient.field_1765;
+            minecraftClient.gameRenderer.updateCrosshairTarget(1.0f);
+            HitResult hitResult = minecraftClient.crosshairTarget;
             if (hitResult instanceof BlockHitResult) {
                 BlockHitResult blockHitResult2 = (BlockHitResult)hitResult;
-                if (hitResult.method_17783() == HitResult.Type.field_1332 && blockHitResult2.method_17777().equals((Object)this.qfr)) {
+                if (hitResult.getType() == HitResult.Type.BLOCK && blockHitResult2.getBlockPos().equals((Object)this.qfr)) {
                     bl12 = true;
                     blockHitResult = blockHitResult2;
                 }
@@ -739,13 +739,13 @@ public final class qdz {
             bl12 = false;
             this.qgk = 0;
             if (this.qgd) {
-                vec3d.method_23481(false);
+                vec3d.setPressed(false);
                 this.qgd = false;
             }
             return;
         }
         int n = this.qgk = this.qfr == null || bl12 ? 0 : this.qgk + 1;
-        if (bl12 && this.qgd && this.qfr.equals((Object)this.qgf) && !minecraftClient.field_1761.method_2923()) {
+        if (bl12 && this.qgd && this.qfr.equals((Object)this.qgf) && !minecraftClient.interactionManager.isBreakingBlock()) {
             if (++this.qge >= 2) {
                 this.qge = 0;
                 bl12 = false;
@@ -757,39 +757,39 @@ public final class qdz {
         if (bl12) {
             if (!this.qfr.equals((Object)this.qgf)) {
                 InputUtil.Key key = KeyBindingHelper.getBoundKeyOf((KeyBinding)vec3d);
-                if (!key.equals((Object)InputUtil.field_16237)) {
-                    KeyBinding.method_1420((InputUtil.Key)key);
+                if (!key.equals((Object)InputUtil.UNKNOWN_KEY)) {
+                    KeyBinding.onKeyPressed((InputUtil.Key)key);
                 }
-                this.qgg = this.qgf = this.qfr.method_10062();
-                this.qgh = blockHitResult.method_17780();
-                this.qgi = vxr.getFloat(qek, clientPlayerEntity, clientPlayerEntity.method_36454());
-                this.qgj = vxr.getFloat(qel, clientPlayerEntity, clientPlayerEntity.method_36455());
+                this.qgg = this.qgf = this.qfr.toImmutable();
+                this.qgh = blockHitResult.getSide();
+                this.qgi = vxr.getFloat(qek, clientPlayerEntity, clientPlayerEntity.getYaw());
+                this.qgj = vxr.getFloat(qel, clientPlayerEntity, clientPlayerEntity.getPitch());
             }
-            vec3d.method_23481(true);
+            vec3d.setPressed(true);
             this.qgd = true;
         } else if (this.qgd) {
-            vec3d.method_23481(false);
+            vec3d.setPressed(false);
             this.qgd = false;
         }
     }
 
     private void qis(MinecraftClient minecraftClient, boolean bl) {
-        KeyBinding keyBinding = minecraftClient.field_1690.field_1832;
-        if (((Boolean)minecraftClient.field_1690.method_42449().method_41753()).booleanValue()) {
-            if (bl != keyBinding.method_1434()) {
-                keyBinding.method_23481(true);
+        KeyBinding keyBinding = minecraftClient.options.sneakKey;
+        if (((Boolean)minecraftClient.options.getSneakToggled().getValue()).booleanValue()) {
+            if (bl != keyBinding.isPressed()) {
+                keyBinding.setPressed(true);
             }
         } else {
-            keyBinding.method_23481(bl);
+            keyBinding.setPressed(bl);
         }
         this.qhb = bl;
     }
 
     private void qit(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        GameOptions gameOptions = minecraftClient.field_1690;
+        GameOptions gameOptions = minecraftClient.options;
         this.qix(minecraftClient, false);
         if (this.qgd) {
-            gameOptions.field_1886.method_23481(false);
+            gameOptions.attackKey.setPressed(false);
             this.qgd = false;
         }
         boolean bl = false;
@@ -799,15 +799,15 @@ public final class qdz {
         boolean bl5 = false;
         boolean bl6 = false;
         if (this.qhi != null && this.qhk < 3) {
-            double d = this.qhi.field_1352 - clientPlayerEntity.method_23317();
-            double d2 = this.qhi.field_1350 - clientPlayerEntity.method_23321();
+            double d = this.qhi.x - clientPlayerEntity.getX();
+            double d2 = this.qhi.z - clientPlayerEntity.getZ();
             double d3 = Math.sqrt(d * d + d2 * d2);
-            Vec3d vec3d = clientPlayerEntity.method_18798();
-            double d4 = Math.sqrt(vec3d.field_1352 * vec3d.field_1352 + vec3d.field_1350 * vec3d.field_1350);
+            Vec3d vec3d = clientPlayerEntity.getVelocity();
+            double d4 = Math.sqrt(vec3d.x * vec3d.x + vec3d.z * vec3d.z);
             if (d3 > 0.2) {
                 boolean bl7;
-                double d5 = MathHelper.method_15338((double)(tbp.yawTo(d, d2) - (double)clientPlayerEntity.method_36454()));
-                boolean bl8 = bl7 = clientPlayerEntity.method_24828() && d3 < d4 * 1.5 + 0.04;
+                double d5 = MathHelper.wrapDegrees((double)(tbp.yawTo(d, d2) - (double)clientPlayerEntity.getYaw()));
+                boolean bl8 = bl7 = clientPlayerEntity.isOnGround() && d3 < d4 * 1.5 + 0.04;
                 if (!bl7) {
                     bl = Math.abs(d5) < 67.5;
                     bl2 = Math.abs(d5) > 112.5;
@@ -815,24 +815,24 @@ public final class qdz {
                     bl3 = d5 < -22.5 && d5 > -157.5;
                 }
                 bl6 = d3 < 0.9;
-                bl5 = clientPlayerEntity.method_24828() && clientPlayerEntity.field_5976 && this.qhi.field_1351 > clientPlayerEntity.method_23318() + 0.6;
+                bl5 = clientPlayerEntity.isOnGround() && clientPlayerEntity.horizontalCollision && this.qhi.y > clientPlayerEntity.getY() + 0.6;
                 this.qhl = Math.max(this.qhl, 6);
-            } else if (clientPlayerEntity.method_24828() && d4 < 0.02 && Math.abs(clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014) + Math.abs(clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969) < 0.003) {
+            } else if (clientPlayerEntity.isOnGround() && d4 < 0.02 && Math.abs(clientPlayerEntity.getX() - clientPlayerEntity.lastX) + Math.abs(clientPlayerEntity.getZ() - clientPlayerEntity.lastZ) < 0.003) {
                 if (this.qhl > 0) {
                     --this.qhl;
                 } else {
                     this.qhm.run();
                     ++this.qhk;
                     this.qhl = 40;
-                    this.qlj(a.b("\uff94\u8679\u0cb0\u92dc\u195f\u9faf\u25e9\uac4c", 1763049395) + clientPlayerEntity.method_24515().method_23854() + a.b("\u0f2e\u76cb\ufc1e\u6264\ue9ea", 313003787) + this.qhk);
+                    this.qlj(a.b("\uff94\u8679\u0cb0\u92dc\u195f\u9faf\u25e9\uac4c", 1763049395) + clientPlayerEntity.getBlockPos().toShortString() + a.b("\u0f2e\u76cb\ufc1e\u6264\ue9ea", 313003787) + this.qhk);
                 }
             }
         }
-        gameOptions.field_1894.method_23481(bl);
-        gameOptions.field_1881.method_23481(bl2);
-        gameOptions.field_1913.method_23481(bl3);
-        gameOptions.field_1849.method_23481(bl4);
-        gameOptions.field_1903.method_23481(bl5);
+        gameOptions.forwardKey.setPressed(bl);
+        gameOptions.backKey.setPressed(bl2);
+        gameOptions.leftKey.setPressed(bl3);
+        gameOptions.rightKey.setPressed(bl4);
+        gameOptions.jumpKey.setPressed(bl5);
         this.qgl = bl || bl2 || bl3 || bl4 || bl5;
         this.qis(minecraftClient, bl6);
     }
@@ -840,98 +840,98 @@ public final class qdz {
     private void qiu(World world, ClientPlayerEntity clientPlayerEntity) {
         double d;
         Vec3d vec3d;
-        if (clientPlayerEntity.method_5765() || this.qhc == null) {
+        if (clientPlayerEntity.hasVehicle() || this.qhc == null) {
             return;
         }
-        if (this.qhi != null && (this.qhh == null || qdz.qiw(world.method_8320(this.qhh)))) {
+        if (this.qhi != null && (this.qhh == null || qdz.qiw(world.getBlockState(this.qhh)))) {
             return;
         }
         this.qhh = null;
-        if (qdz.qiw(world.method_8320(this.qhc)) && qdz.qiv(world, this.qhc)) {
+        if (qdz.qiw(world.getBlockState(this.qhc)) && qdz.qiv(world, this.qhc)) {
             this.qhh = this.qhc;
-        } else if (qdz.qiw(world.method_8320(this.qhc.method_10074())) && qdz.qiv(world, this.qhc.method_10074())) {
-            this.qhh = this.qhc.method_10074();
+        } else if (qdz.qiw(world.getBlockState(this.qhc.down())) && qdz.qiv(world, this.qhc.down())) {
+            this.qhh = this.qhc.down();
         } else {
-            vec3d = Vec3d.method_24953((Vec3i)this.qhc);
+            vec3d = Vec3d.ofCenter((Vec3i)this.qhc);
             d = Double.MAX_VALUE;
             for (int i = -3; i <= 3; ++i) {
                 for (int j = -2; j <= 2; ++j) {
                     for (int k = -3; k <= 3; ++k) {
-                        BlockPos blockPos = this.qhc.method_10069(i, j, k);
-                        BlockState blockState = world.method_8320(blockPos);
+                        BlockPos blockPos = this.qhc.add(i, j, k);
+                        BlockState blockState = world.getBlockState(blockPos);
                         if (!qdz.qiw(blockState) || !qdz.qiv(world, blockPos)) continue;
-                        double d2 = Vec3d.method_24953((Vec3i)blockPos).method_1022(vec3d) + (blockState.method_26204() instanceof StairsBlock ? 0.0 : 1.5);
+                        double d2 = Vec3d.ofCenter((Vec3i)blockPos).distanceTo(vec3d) + (blockState.getBlock() instanceof StairsBlock ? 0.0 : 1.5);
                         if (!(d2 < d)) continue;
                         d = d2;
-                        this.qhh = blockPos.method_10062();
+                        this.qhh = blockPos.toImmutable();
                     }
                 }
             }
         }
         if (this.qhh != null) {
-            vec3d = world.method_8320(this.qhh).method_26220((BlockView)world, this.qhh);
-            d = vec3d.method_1110() ? 0.0 : vec3d.method_1105(Direction.Axis.field_11052);
-            this.qhi = new Vec3d((double)this.qhh.method_10263() + 0.5, (double)this.qhh.method_10264() + d, (double)this.qhh.method_10260() + 0.5);
+            vec3d = world.getBlockState(this.qhh).getCollisionShape((BlockView)world, this.qhh);
+            d = vec3d.isEmpty() ? 0.0 : vec3d.getMax(Direction.Axis.Y);
+            this.qhi = new Vec3d((double)this.qhh.getX() + 0.5, (double)this.qhh.getY() + d, (double)this.qhh.getZ() + 0.5);
         } else {
-            this.qhi = new Vec3d((double)this.qhc.method_10263() + 0.5, (double)this.qhc.method_10264(), (double)this.qhc.method_10260() + 0.5);
+            this.qhi = new Vec3d((double)this.qhc.getX() + 0.5, (double)this.qhc.getY(), (double)this.qhc.getZ() + 0.5);
         }
         this.qhj = new Object();
-        this.qlj(a.d("\u2572\u5cd5\ud602\u4866\uc3e5", -1718510172, 2050734240) + (this.qhh == null ? a.d("\u456e\u3cdc\ub610\u287a\ua3f9", 1785730449, 419385481) + this.qhc.method_23854() : this.qhh.method_23854()));
+        this.qlj(a.d("\u2572\u5cd5\ud602\u4866\uc3e5", -1718510172, 2050734240) + (this.qhh == null ? a.d("\u456e\u3cdc\ub610\u287a\ua3f9", 1785730449, 419385481) + this.qhc.toShortString() : this.qhh.toShortString()));
     }
 
     private static boolean qiv(World world, BlockPos blockPos) {
-        return world.method_8320(blockPos.method_10084()).method_26220((BlockView)world, blockPos.method_10084()).method_1110() && world.method_8320(blockPos.method_10086(2)).method_26220((BlockView)world, blockPos.method_10086(2)).method_1110();
+        return world.getBlockState(blockPos.up()).getCollisionShape((BlockView)world, blockPos.up()).isEmpty() && world.getBlockState(blockPos.up(2)).getCollisionShape((BlockView)world, blockPos.up(2)).isEmpty();
     }
 
     private static boolean qiw(BlockState blockState) {
-        return blockState.method_26204() instanceof StairsBlock || blockState.method_26204() instanceof SlabBlock;
+        return blockState.getBlock() instanceof StairsBlock || blockState.getBlock() instanceof SlabBlock;
     }
 
     private void qix(MinecraftClient minecraftClient, boolean bl) {
-        KeyBinding keyBinding = minecraftClient.field_1690.field_1867;
-        if (((Boolean)minecraftClient.field_1690.method_42450().method_41753()).booleanValue()) {
-            if (bl != keyBinding.method_1434()) {
-                keyBinding.method_23481(true);
+        KeyBinding keyBinding = minecraftClient.options.sprintKey;
+        if (((Boolean)minecraftClient.options.getSprintToggled().getValue()).booleanValue()) {
+            if (bl != keyBinding.isPressed()) {
+                keyBinding.setPressed(true);
             }
         } else {
-            keyBinding.method_23481(bl);
+            keyBinding.setPressed(bl);
         }
         this.qha = bl;
     }
 
     public void releaseKeys(MinecraftClient minecraftClient) {
-        if (minecraftClient == null || minecraftClient.field_1690 == null || minecraftClient.method_22683() == null) {
+        if (minecraftClient == null || minecraftClient.options == null || minecraftClient.getWindow() == null) {
             return;
         }
-        GameOptions gameOptions = minecraftClient.field_1690;
+        GameOptions gameOptions = minecraftClient.options;
         if (this.qhb) {
-            if (((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-                if (gameOptions.field_1832.method_1434()) {
-                    gameOptions.field_1832.method_23481(true);
+            if (((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+                if (gameOptions.sneakKey.isPressed()) {
+                    gameOptions.sneakKey.setPressed(true);
                 }
             } else {
-                gameOptions.field_1832.method_23481(vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1832));
+                gameOptions.sneakKey.setPressed(vzz.isPhysicallyDown(minecraftClient, gameOptions.sneakKey));
             }
             this.qhb = false;
         }
         if (this.qha) {
-            if (((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-                if (gameOptions.field_1867.method_1434()) {
-                    gameOptions.field_1867.method_23481(true);
+            if (((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+                if (gameOptions.sprintKey.isPressed()) {
+                    gameOptions.sprintKey.setPressed(true);
                 }
             } else {
-                gameOptions.field_1867.method_23481(vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1867));
+                gameOptions.sprintKey.setPressed(vzz.isPhysicallyDown(minecraftClient, gameOptions.sprintKey));
             }
             this.qha = false;
         }
         if (this.qgl) {
-            for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849, gameOptions.field_1903}) {
-                keyBinding.method_23481(vzz.isPhysicallyDown(minecraftClient, keyBinding));
+            for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey, gameOptions.jumpKey}) {
+                keyBinding.setPressed(vzz.isPhysicallyDown(minecraftClient, keyBinding));
             }
             this.qgl = false;
         }
         if (this.qgd) {
-            gameOptions.field_1886.method_23481(vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1886));
+            gameOptions.attackKey.setPressed(vzz.isPhysicallyDown(minecraftClient, gameOptions.attackKey));
             this.qgd = false;
         }
         this.qgf = null;
@@ -939,15 +939,15 @@ public final class qdz {
 
     private boolean qiy(World world, ClientPlayerEntity clientPlayerEntity) {
         Vec3d vec3d;
-        BlockState blockState = world.method_8320(this.qfr);
-        if (blockState.method_26215() || blockState.method_26204() != this.qfs || !qdz.qld(world, this.qfr)) {
-            if (blockState.method_26215()) {
+        BlockState blockState = world.getBlockState(this.qfr);
+        if (blockState.isAir() || blockState.getBlock() != this.qfs || !qdz.qld(world, this.qfr)) {
+            if (blockState.isAir()) {
                 this.qiz(world, clientPlayerEntity);
             }
             return false;
         }
         if (this.qfi - this.qfw > 200 || this.qgk > (this.qgr != null ? 12 : (this.qgs != null ? 14 : 80))) {
-            this.qlj((this.qfi - this.qfw > 200 ? a.d("\uc449\ubde8\u372c\ua959\u2284\ua47e\u1e79\u9795\u09ce\u8377\u04ae\ufec5\u7013\ue9f6", 419097087, 1869688282) : a.c(2012211012, "\ue72e\u9e97\u1440\u8a7c\u01ed\u875b\u3d00\ub4f4\u2aa2\ua012\u2785")) + this.qfr.method_23854());
+            this.qlj((this.qfi - this.qfw > 200 ? a.d("\uc449\ubde8\u372c\ua959\u2284\ua47e\u1e79\u9795\u09ce\u8377\u04ae\ufec5\u7013\ue9f6", 419097087, 1869688282) : a.c(2012211012, "\ue72e\u9e97\u1440\u8a7c\u01ed\u875b\u3d00\ub4f4\u2aa2\ua012\u2785")) + this.qfr.toShortString());
             this.qlf(this.qfr, this.qgr != null ? 100 : (this.qgs != null ? 200 : 600));
             if (this.qfj != null && this.qgr == null && this.qgs == null) {
                 this.qlf(this.qfj.target(), 600);
@@ -962,7 +962,7 @@ public final class qdz {
             this.qfu = vec3d;
             this.qfv = new Object();
         }
-        if (((this.qfi - this.qfw) % 5 == 0 || this.qgr != null && this.qgk > 0) && (this.qfu.method_1022(vec3d = clientPlayerEntity.method_33571()) > 4.4 || !qdz.qky(world, clientPlayerEntity, vec3d, this.qfr, this.qfu))) {
+        if (((this.qfi - this.qfw) % 5 == 0 || this.qgr != null && this.qgk > 0) && (this.qfu.distanceTo(vec3d = clientPlayerEntity.getEyePos()) > 4.4 || !qdz.qky(world, clientPlayerEntity, vec3d, this.qfr, this.qfu))) {
             Vec3d vec3d2 = this.qkx(world, clientPlayerEntity, this.qfr);
             if (vec3d2 == null) {
                 return false;
@@ -973,7 +973,7 @@ public final class qdz {
     }
 
     private void qiz(World world, ClientPlayerEntity clientPlayerEntity) {
-        long l2 = this.qfr.method_10063();
+        long l2 = this.qfr.asLong();
         this.qey.add(new qcu(l2, this.qfs, this.qfi));
         if (!this.qgy || this.qgh == null || !this.qfr.equals((Object)this.qgg)) {
             LongOpenHashSet longOpenHashSet = new LongOpenHashSet();
@@ -982,7 +982,7 @@ public final class qdz {
             return;
         }
         this.qgg = null;
-        int n = this.qgh.method_10166().ordinal();
+        int n = this.qgh.getAxis().ordinal();
         double[] dArray = qln.lookAxes(this.qgi, this.qgj);
         LongOpenHashSet longOpenHashSet = new LongOpenHashSet();
         int n2 = this.qes.lag() + 3;
@@ -995,8 +995,8 @@ public final class qdz {
                     for (int i2 = 0; i2 < 3 && !bl; ++i2) {
                         bl = dArray[i2] > 0.0 && nArray[i2] == 0;
                     }
-                    long l3 = BlockPos.method_10096((long)l2, (int)i, (int)j, (int)k);
-                    if (!bl || !this.qfg.contains(BlockPos.method_10061((long)l3), BlockPos.method_10071((long)l3), BlockPos.method_10083((long)l3))) continue;
+                    long l3 = BlockPos.add((long)l2, (int)i, (int)j, (int)k);
+                    if (!bl || !this.qfg.contains(BlockPos.unpackLongX((long)l3), BlockPos.unpackLongY((long)l3), BlockPos.unpackLongZ((long)l3))) continue;
                     longOpenHashSet.add(l3);
                     if (!(this.qes.expect(l3, l2, n, dArray) >= 0.5)) continue;
                     this.qfb.put(l3, this.qfi + n2);
@@ -1020,44 +1020,44 @@ public final class qdz {
         if (!this.qeu || this.qes.votes() < 3 || clientPlayerEntity == null) {
             return;
         }
-        LongOpenHashSet longOpenHashSet2 = qdz.qjp(world, clientPlayerEntity, qdz.standing(world, clientPlayerEntity).method_10264());
-        Box box = clientPlayerEntity.method_5829().method_1014(0.05);
+        LongOpenHashSet longOpenHashSet2 = qdz.qjp(world, clientPlayerEntity, qdz.standing(world, clientPlayerEntity).getY());
+        Box box = clientPlayerEntity.getBoundingBox().expand(0.05);
         int n2 = this.qfi + this.qes.lag() * 2 + 6;
         LongIterator longIterator = longOpenHashSet.iterator();
         while (longIterator.hasNext()) {
             BlockPos blockPos;
             long l2 = longIterator.nextLong();
-            if (l2 == l || longOpenHashSet2.contains(l2) || !this.qjb(world, l2) || this.qes.expect(l2, l, n, dArray) < 0.9 || new Box(blockPos = BlockPos.method_10092((long)l2)).method_994(box)) continue;
+            if (l2 == l || longOpenHashSet2.contains(l2) || !this.qjb(world, l2) || this.qes.expect(l2, l, n, dArray) < 0.9 || new Box(blockPos = BlockPos.fromLong((long)l2)).intersects(box)) continue;
             this.qet.ghost(world, blockPos, n2);
         }
     }
 
     private boolean qjb(World world, long l) {
-        BlockPos blockPos = BlockPos.method_10092((long)l);
+        BlockPos blockPos = BlockPos.fromLong((long)l);
         if (this.qfg == null || !this.qfg.contains(blockPos) || this.qev.contains(l)) {
             return false;
         }
-        BlockState blockState = world.method_8320(blockPos);
-        return !blockState.method_26215() && blockState.method_26227().method_15769() && blockState.method_26214((BlockView)world, blockPos) >= 0.0f;
+        BlockState blockState = world.getBlockState(blockPos);
+        return !blockState.isAir() && blockState.getFluidState().isEmpty() && blockState.getHardness((BlockView)world, blockPos) >= 0.0f;
     }
 
     private void qjc(World world, ClientPlayerEntity clientPlayerEntity) {
         if (this.qfc.isEmpty()) {
             return;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         LongIterator longIterator = this.qfc.iterator();
         while (longIterator.hasNext()) {
             long l = longIterator.nextLong();
-            BlockPos blockPos = BlockPos.method_10092((long)l);
-            BlockState blockState = world.method_8320(blockPos);
-            if (blockState.method_26215()) {
+            BlockPos blockPos = BlockPos.fromLong((long)l);
+            BlockState blockState = world.getBlockState(blockPos);
+            if (blockState.isAir()) {
                 if (this.qet.isGhost(l)) continue;
                 ++this.qfp;
                 longIterator.remove();
                 continue;
             }
-            if (this.qfe.test(blockState) && !(Vec3d.method_24953((Vec3i)blockPos).method_1025(vec3d) > 81.0)) continue;
+            if (this.qfe.test(blockState) && !(Vec3d.ofCenter((Vec3i)blockPos).squaredDistanceTo(vec3d) > 81.0)) continue;
             longIterator.remove();
         }
     }
@@ -1069,7 +1069,7 @@ public final class qdz {
             this.qga = null;
             return;
         }
-        if (this.qhc != null && this.qhd && qdz.standing(world, clientPlayerEntity).method_10262((Vec3i)this.qhc) <= 25.0) {
+        if (this.qhc != null && this.qhd && qdz.standing(world, clientPlayerEntity).getSquaredDistance((Vec3i)this.qhc) <= 25.0) {
             this.qfx = null;
             this.qga = null;
             return;
@@ -1082,21 +1082,21 @@ public final class qdz {
             this.qfn = 0;
             return;
         }
-        if (!(clientPlayerEntity.method_24828() || clientPlayerEntity.method_5799() || clientPlayerEntity.method_6101())) {
+        if (!(clientPlayerEntity.isOnGround() || clientPlayerEntity.isTouchingWater() || clientPlayerEntity.isClimbing())) {
             return;
         }
         BlockPos blockPos = qdz.standing(world, clientPlayerEntity);
         if (this.qfj != null && !this.qfl && this.qfi < this.qfm) {
             int n = this.qkm(blockPos);
             if (n < 0) {
-                this.qlj(a.d("\ud0cd\ua975\u23a6\ubd91\u3616\ub0b6\u0af0\u831d\u1d0a\u97fa\u103c\uea19", -142309247, 481187887) + blockPos.method_23854());
+                this.qlj(a.d("\ud0cd\ua975\u23a6\ubd91\u3616\ub0b6\u0af0\u831d\u1d0a\u97fa\u103c\uea19", -142309247, 481187887) + blockPos.toShortString());
                 this.qfl = true;
             } else {
                 this.qfk = n;
             }
         }
         if (this.qhc == null && this.qfj != null && !this.qfl && !this.qkr(world, this.qfj.target())) {
-            this.qlj(a.d("\ub71f\ucebb\u447b\uda1f\u51ca\ud76a\u6d6d\ue4db\u7a8c\uf03c\u77e4\u8dd0", 1816040736, 167584327) + this.qfj.target().method_23854());
+            this.qlj(a.d("\ub71f\ucebb\u447b\uda1f\u51ca\ud76a\u6d6d\ue4db\u7a8c\uf03c\u77e4\u8dd0", 1816040736, 167584327) + this.qfj.target().toShortString());
             this.qfl = true;
         }
         if (this.qfj == null || this.qfl || this.qfi >= this.qfm) {
@@ -1106,7 +1106,7 @@ public final class qdz {
             if (this.qfj == null) {
                 this.qfx = null;
                 this.qga = null;
-                if (blockPos.method_10262((Vec3i)this.qhc) <= 25.0) {
+                if (blockPos.getSquaredDistance((Vec3i)this.qhc) <= 25.0) {
                     this.qhd = true;
                 } else if (!this.qhd) {
                     this.qhe = true;
@@ -1115,7 +1115,7 @@ public final class qdz {
             }
             if (this.qfk >= this.qkl() - 1) {
                 if (!this.qhd) {
-                    this.qlj(a.d("\u8fc6\uf666\u7ca6\ue2ce\u6917\uefa7\u55b0\udc00\u424a\uc8af", 1472536667, -1142247449) + blockPos.method_23854());
+                    this.qlj(a.d("\u8fc6\uf666\u7ca6\ue2ce\u6917\uefa7\u55b0\udc00\u424a\uc8af", 1472536667, -1142247449) + blockPos.toShortString());
                 }
                 this.qhd = true;
                 this.qfx = null;
@@ -1136,16 +1136,16 @@ public final class qdz {
         }
         this.qfn = 0;
         BlockPos blockPos2 = this.qfj.target();
-        if (this.qfb.getOrDefault(blockPos2.method_10063(), 0) > this.qfi) {
+        if (this.qfb.getOrDefault(blockPos2.asLong(), 0) > this.qfi) {
             this.qfx = null;
             return;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         boolean bl2 = bl = this.qfk >= this.qkl() - 1;
-        if (bl || Vec3d.method_24953((Vec3i)blockPos2).method_1022(vec3d) <= 4.2) {
+        if (bl || Vec3d.ofCenter((Vec3i)blockPos2).distanceTo(vec3d) <= 4.2) {
             Vec3d vec3d2 = this.qkx(world, clientPlayerEntity, blockPos2);
             if (vec3d2 != null) {
-                this.qku(blockPos2, world.method_8320(blockPos2).method_26204(), true, vec3d2);
+                this.qku(blockPos2, world.getBlockState(blockPos2).getBlock(), true, vec3d2);
                 return;
             }
             if (bl) {
@@ -1168,7 +1168,7 @@ public final class qdz {
     private void qje(World world, ClientPlayerEntity clientPlayerEntity) {
         boolean bl;
         boolean bl2;
-        boolean bl3 = bl2 = clientPlayerEntity.method_24828() || clientPlayerEntity.method_5799() || clientPlayerEntity.method_6101();
+        boolean bl3 = bl2 = clientPlayerEntity.isOnGround() || clientPlayerEntity.isTouchingWater() || clientPlayerEntity.isClimbing();
         if (!bl2) {
             int n;
             this.qfx = null;
@@ -1180,7 +1180,7 @@ public final class qdz {
             return;
         }
         BlockPos blockPos = qdz.standing(world, clientPlayerEntity);
-        int n = blockPos.method_10264();
+        int n = blockPos.getY();
         if (this.qho != Integer.MIN_VALUE) {
             if (n > this.qho && this.qjk(world, clientPlayerEntity, this.qji(world, clientPlayerEntity, n - 1))) {
                 this.qfn = 0;
@@ -1249,7 +1249,7 @@ public final class qdz {
         for (int i = this.qfg.minX; i <= this.qfg.maxX; ++i) {
             for (int j = this.qfg.minZ; j <= this.qfg.maxZ; ++j) {
                 for (int k = this.qfg.minY; k <= this.qfg.maxY; ++k) {
-                    if (!this.qfe.test(world.method_8320((BlockPos)mutable.method_10103(i, k, j))) || this.qev.contains(mutable.method_10063())) continue;
+                    if (!this.qfe.test(world.getBlockState((BlockPos)mutable.set(i, k, j))) || this.qev.contains(mutable.asLong())) continue;
                     ++n;
                 }
             }
@@ -1280,7 +1280,7 @@ public final class qdz {
         ObjectIterator objectIterator = this.qew.long2LongEntrySet().fastIterator();
         while (objectIterator.hasNext()) {
             Long2LongMap.Entry entry = (Long2LongMap.Entry)objectIterator.next();
-            int n3 = BlockPos.method_10071((long)entry.getLongKey());
+            int n3 = BlockPos.unpackLongY((long)entry.getLongKey());
             if (entry.getLongValue() <= (long)this.qfi || n3 < n || n3 > n2) continue;
             objectIterator.remove();
             bl = true;
@@ -1289,18 +1289,18 @@ public final class qdz {
     }
 
     private BlockPos qji(World world, ClientPlayerEntity clientPlayerEntity, int n) {
-        Box box = clientPlayerEntity.method_5829();
+        Box box = clientPlayerEntity.getBoundingBox();
         BlockPos blockPos = null;
         double d = Double.MAX_VALUE;
-        for (int i = MathHelper.method_15357((double)(box.field_1323 + 0.001)); i <= MathHelper.method_15357((double)(box.field_1320 - 0.001)); ++i) {
-            for (int j = MathHelper.method_15357((double)(box.field_1321 + 0.001)); j <= MathHelper.method_15357((double)(box.field_1324 - 0.001)); ++j) {
+        for (int i = MathHelper.floor((double)(box.minX + 0.001)); i <= MathHelper.floor((double)(box.maxX - 0.001)); ++i) {
+            for (int j = MathHelper.floor((double)(box.minZ + 0.001)); j <= MathHelper.floor((double)(box.maxZ - 0.001)); ++j) {
                 BlockPos blockPos2 = new BlockPos(i, n, j);
-                BlockState blockState = world.method_8320(blockPos2);
-                if (blockState.method_26220((BlockView)world, blockPos2).method_1110()) continue;
-                if (!this.qfg.contains(blockPos2) || !qdz.qjq(world, blockPos2, blockState) || this.qev.contains(blockPos2.method_10063()) || this.qew.getOrDefault(blockPos2.method_10063(), 0L) > (long)this.qfi) {
+                BlockState blockState = world.getBlockState(blockPos2);
+                if (blockState.getCollisionShape((BlockView)world, blockPos2).isEmpty()) continue;
+                if (!this.qfg.contains(blockPos2) || !qdz.qjq(world, blockPos2, blockState) || this.qev.contains(blockPos2.asLong()) || this.qew.getOrDefault(blockPos2.asLong(), 0L) > (long)this.qfi) {
                     return null;
                 }
-                double d2 = ((double)i + 0.5 - clientPlayerEntity.method_23317()) * ((double)i + 0.5 - clientPlayerEntity.method_23317()) + ((double)j + 0.5 - clientPlayerEntity.method_23321()) * ((double)j + 0.5 - clientPlayerEntity.method_23321());
+                double d2 = ((double)i + 0.5 - clientPlayerEntity.getX()) * ((double)i + 0.5 - clientPlayerEntity.getX()) + ((double)j + 0.5 - clientPlayerEntity.getZ()) * ((double)j + 0.5 - clientPlayerEntity.getZ());
                 if (!(d2 < d)) continue;
                 d = d2;
                 blockPos = blockPos2;
@@ -1311,12 +1311,12 @@ public final class qdz {
 
     private int qjj(World world, ClientPlayerEntity clientPlayerEntity) {
         int n;
-        Box box = clientPlayerEntity.method_5829();
-        for (int i = n = MathHelper.method_15357((double)(clientPlayerEntity.method_23318() - 0.001)); i >= n - 4; --i) {
-            for (int j = MathHelper.method_15357((double)(box.field_1323 + 0.001)); j <= MathHelper.method_15357((double)(box.field_1320 - 0.001)); ++j) {
-                for (int k = MathHelper.method_15357((double)(box.field_1321 + 0.001)); k <= MathHelper.method_15357((double)(box.field_1324 - 0.001)); ++k) {
+        Box box = clientPlayerEntity.getBoundingBox();
+        for (int i = n = MathHelper.floor((double)(clientPlayerEntity.getY() - 0.001)); i >= n - 4; --i) {
+            for (int j = MathHelper.floor((double)(box.minX + 0.001)); j <= MathHelper.floor((double)(box.maxX - 0.001)); ++j) {
+                for (int k = MathHelper.floor((double)(box.minZ + 0.001)); k <= MathHelper.floor((double)(box.maxZ - 0.001)); ++k) {
                     BlockPos blockPos = new BlockPos(j, i, k);
-                    if (world.method_8320(blockPos).method_26220((BlockView)world, blockPos).method_1110()) continue;
+                    if (world.getBlockState(blockPos).getCollisionShape((BlockView)world, blockPos).isEmpty()) continue;
                     return i;
                 }
             }
@@ -1328,13 +1328,13 @@ public final class qdz {
         if (blockPos == null) {
             return false;
         }
-        if (this.qfb.getOrDefault(blockPos.method_10063(), 0) > this.qfi) {
+        if (this.qfb.getOrDefault(blockPos.asLong(), 0) > this.qfi) {
             this.qfx = null;
             return true;
         }
         Vec3d vec3d = null;
         for (qda qda2 : this.qki(world, clientPlayerEntity, blockPos)) {
-            if (qda2.axis() != Direction.Axis.field_11052.ordinal() || !(qda2.point().field_1351 < clientPlayerEntity.method_23320())) continue;
+            if (qda2.axis() != Direction.Axis.Y.ordinal() || !(qda2.point().y < clientPlayerEntity.getEyeY())) continue;
             vec3d = qda2.point();
             break;
         }
@@ -1344,8 +1344,8 @@ public final class qdz {
         if (vec3d == null) {
             return false;
         }
-        BlockState blockState = world.method_8320(blockPos);
-        this.qku(blockPos, blockState.method_26204(), this.qfe.test(blockState), vec3d);
+        BlockState blockState = world.getBlockState(blockPos);
+        this.qku(blockPos, blockState.getBlock(), this.qfe.test(blockState), vec3d);
         this.qfx = null;
         this.qga = null;
         return true;
@@ -1355,11 +1355,11 @@ public final class qdz {
         double d;
         double d2;
         int n4;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        int n5 = MathHelper.method_15357((double)vec3d.field_1352);
-        int n6 = MathHelper.method_15357((double)vec3d.field_1350);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        int n5 = MathHelper.floor((double)vec3d.x);
+        int n6 = MathHelper.floor((double)vec3d.z);
         int n7 = Math.max(this.qfg.minY, n3);
-        int n8 = Math.min(this.qfg.maxY, MathHelper.method_15357((double)(vec3d.field_1351 + 4.4)));
+        int n8 = Math.min(this.qfg.maxY, MathHelper.floor((double)(vec3d.y + 4.4)));
         LongOpenHashSet longOpenHashSet = qdz.qjp(world, clientPlayerEntity, n3);
         LongArrayList longArrayList = new LongArrayList();
         DoubleArrayList doubleArrayList = new DoubleArrayList();
@@ -1372,12 +1372,12 @@ public final class qdz {
                     double d5;
                     double d6;
                     BlockState blockState;
-                    if (!this.qfg.contains(i, j, n4) || !qdz.qjq(world, (BlockPos)mutable, blockState = world.method_8320((BlockPos)mutable.method_10103(i, j, n4)))) continue;
-                    long l = BlockPos.method_10064((int)i, (int)j, (int)n4);
+                    if (!this.qfg.contains(i, j, n4) || !qdz.qjq(world, (BlockPos)mutable, blockState = world.getBlockState((BlockPos)mutable.set(i, j, n4)))) continue;
+                    long l = BlockPos.asLong((int)i, (int)j, (int)n4);
                     if (this.qfe.test(blockState)) {
                         this.qfc.add(l);
                     }
-                    if ((d6 = (double)i + 0.5 - vec3d.field_1352) * d6 + (d5 = (double)j + 0.5 - vec3d.field_1351) * d5 + (d4 = (double)n4 + 0.5 - vec3d.field_1350) * d4 > d3 || this.qkb(l) || !qdz.qjr(world, (BlockPos)mutable)) continue;
+                    if ((d6 = (double)i + 0.5 - vec3d.x) * d6 + (d5 = (double)j + 0.5 - vec3d.y) * d5 + (d4 = (double)n4 + 0.5 - vec3d.z) * d4 > d3 || this.qkb(l) || !qdz.qjr(world, (BlockPos)mutable)) continue;
                     d2 = qdz.qim(clientPlayerEntity, new Vec3d((double)i + 0.5, (double)j + 0.5, (double)n4 + 0.5));
                     d = j == n3 + 1 ? 3.0 : (j == n3 ? 1.2 : 1.8);
                     longArrayList.add(l);
@@ -1398,8 +1398,8 @@ public final class qdz {
         boolean bl2 = false;
         for (int i = 0; i < Math.min(14, integerArray.length); ++i) {
             long l = longArrayList.getLong(integerArray[i].intValue());
-            BlockPos blockPos = BlockPos.method_10092((long)l);
-            BlockState blockState = world.method_8320(blockPos);
+            BlockPos blockPos = BlockPos.fromLong((long)l);
+            BlockState blockState = world.getBlockState(blockPos);
             for (qda qda3 : this.qki(world, clientPlayerEntity, blockPos)) {
                 d2 = qdz.qjo(qda3.turn());
                 d = this.qjn(world, blockPos, blockState, qda3.axis(), qda3.look(), n3, longOpenHashSet, mutable) / d2;
@@ -1415,8 +1415,8 @@ public final class qdz {
         if (qda2 == null) {
             return false;
         }
-        BlockState blockState = world.method_8320(qda2.pos());
-        this.qkv(qda2.pos(), blockState.method_26204(), this.qfe.test(blockState), qda2.point(), bl);
+        BlockState blockState = world.getBlockState(qda2.pos());
+        this.qkv(qda2.pos(), blockState.getBlock(), this.qfe.test(blockState), qda2.point(), bl);
         this.qhr = bl2 ? 1 : 0;
         return true;
     }
@@ -1425,7 +1425,7 @@ public final class qdz {
         Object object;
         BlockPos blockPos = null;
         if (!this.qey.isEmpty() && this.qfi - ((qcu)(object = this.qey.get(this.qey.size() - 1))).tick() <= 40) {
-            blockPos = BlockPos.method_10092((long)((qcu)object).pos());
+            blockPos = BlockPos.fromLong((long)((qcu)object).pos());
         }
         if (((Object)(object = (Object)this.qgs.rank(world, clientPlayerEntity, this.qfg, l -> this.qew.getOrDefault(l, 0L) > (long)this.qfi || this.qev.contains(l), l -> this.qfb.getOrDefault(l, 0) > this.qfi, blockPos, 6))).length == 0) {
             return false;
@@ -1433,8 +1433,8 @@ public final class qdz {
         LongOpenHashSet longOpenHashSet = qdz.qjp(world, clientPlayerEntity, n);
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         for (Object object2 : object) {
-            BlockPos blockPos2 = BlockPos.method_10092((long)object2);
-            BlockState blockState = world.method_8320(blockPos2);
+            BlockPos blockPos2 = BlockPos.fromLong((long)object2);
+            BlockState blockState = world.getBlockState(blockPos2);
             if (!this.qfg.contains(blockPos2) || this.qkb((long)object2) || !qdz.qjq(world, blockPos2, blockState)) continue;
             qda qda2 = null;
             double d = Double.NEGATIVE_INFINITY;
@@ -1450,7 +1450,7 @@ public final class qdz {
                 bl2 = d4 > d3;
             }
             if (qda2 == null) continue;
-            this.qkv(blockPos2, blockState.method_26204(), this.qfe.test(blockState), qda2.point(), bl);
+            this.qkv(blockPos2, blockState.getBlock(), this.qfe.test(blockState), qda2.point(), bl);
             this.qhr = bl2 ? 1 : 0;
             return true;
         }
@@ -1458,7 +1458,7 @@ public final class qdz {
     }
 
     private double qjn(World world, BlockPos blockPos, BlockState blockState, int n, double[] dArray, int n2, LongOpenHashSet longOpenHashSet, BlockPos.Mutable mutable) {
-        long l = blockPos.method_10063();
+        long l = blockPos.asLong();
         double d = this.qka(blockState);
         for (int i = -1; i <= 1; ++i) {
             for (int j = -1; j <= 1; ++j) {
@@ -1469,7 +1469,7 @@ public final class qdz {
                     int n3;
                     int n4;
                     int n5;
-                    if (i == 0 && j == 0 && k == 0 || !this.qfg.contains(n5 = blockPos.method_10263() + i, n4 = blockPos.method_10264() + j, n3 = blockPos.method_10260() + k) || this.qkb(l2 = BlockPos.method_10064((int)n5, (int)n4, (int)n3)) || !qdz.qjq(world, (BlockPos)mutable, blockState2 = world.method_8320((BlockPos)mutable.method_10103(n5, n4, n3))) || (d2 = this.qes.expect(l2, l, n, dArray)) <= 0.0) continue;
+                    if (i == 0 && j == 0 && k == 0 || !this.qfg.contains(n5 = blockPos.getX() + i, n4 = blockPos.getY() + j, n3 = blockPos.getZ() + k) || this.qkb(l2 = BlockPos.asLong((int)n5, (int)n4, (int)n3)) || !qdz.qjq(world, (BlockPos)mutable, blockState2 = world.getBlockState((BlockPos)mutable.set(n5, n4, n3))) || (d2 = this.qes.expect(l2, l, n, dArray)) <= 0.0) continue;
                     if (n4 < n2) {
                         d -= (longOpenHashSet.contains(l2) ? 8.0 : 0.7) * d2;
                         continue;
@@ -1487,30 +1487,30 @@ public final class qdz {
 
     private static LongOpenHashSet qjp(World world, ClientPlayerEntity clientPlayerEntity, int n) {
         LongOpenHashSet longOpenHashSet = new LongOpenHashSet();
-        Box box = clientPlayerEntity.method_5829();
-        for (int i = MathHelper.method_15357((double)(box.field_1323 + 0.001)); i <= MathHelper.method_15357((double)(box.field_1320 - 0.001)); ++i) {
-            for (int j = MathHelper.method_15357((double)(box.field_1321 + 0.001)); j <= MathHelper.method_15357((double)(box.field_1324 - 0.001)); ++j) {
-                longOpenHashSet.add(BlockPos.method_10064((int)i, (int)(n - 1), (int)j));
+        Box box = clientPlayerEntity.getBoundingBox();
+        for (int i = MathHelper.floor((double)(box.minX + 0.001)); i <= MathHelper.floor((double)(box.maxX - 0.001)); ++i) {
+            for (int j = MathHelper.floor((double)(box.minZ + 0.001)); j <= MathHelper.floor((double)(box.maxZ - 0.001)); ++j) {
+                longOpenHashSet.add(BlockPos.asLong((int)i, (int)(n - 1), (int)j));
             }
         }
         return longOpenHashSet;
     }
 
     private static boolean qjq(World world, BlockPos blockPos, BlockState blockState) {
-        return !blockState.method_26215() && blockState.method_26227().method_15769() && blockState.method_26214((BlockView)world, blockPos) >= 0.0f && !blockState.method_26220((BlockView)world, blockPos).method_1110();
+        return !blockState.isAir() && blockState.getFluidState().isEmpty() && blockState.getHardness((BlockView)world, blockPos) >= 0.0f && !blockState.getCollisionShape((BlockView)world, blockPos).isEmpty();
     }
 
     private static boolean qjr(World world, BlockPos blockPos) {
         for (Direction direction : Direction.values()) {
-            BlockPos blockPos2 = blockPos.method_10093(direction);
-            if (!world.method_8320(blockPos2).method_26218((BlockView)world, blockPos2).method_1110()) continue;
+            BlockPos blockPos2 = blockPos.offset(direction);
+            if (!world.getBlockState(blockPos2).getOutlineShape((BlockView)world, blockPos2).isEmpty()) continue;
             return true;
         }
         return false;
     }
 
     private static boolean qjs(World world, BlockPos blockPos) {
-        return world.method_8320(blockPos).method_26220((BlockView)world, blockPos).method_1110();
+        return world.getBlockState(blockPos).getCollisionShape((BlockView)world, blockPos).isEmpty();
     }
 
     private boolean qjt(World world, ClientPlayerEntity clientPlayerEntity, int n2) {
@@ -1528,8 +1528,8 @@ public final class qdz {
         for (int i = this.qfg.minX; i <= this.qfg.maxX; ++i) {
             block1: for (int j = this.qfg.minZ; j <= this.qfg.maxZ; ++j) {
                 for (int k = Math.max(this.qfg.minY, n2); k <= n3; ++k) {
-                    long l = BlockPos.method_10064((int)i, (int)k, (int)j);
-                    if (this.qkb(l) || !qdz.qjq(world, (BlockPos)mutable.method_10103(i, k, j), world.method_8320((BlockPos)mutable))) continue;
+                    long l = BlockPos.asLong((int)i, (int)k, (int)j);
+                    if (this.qkb(l) || !qdz.qjq(world, (BlockPos)mutable.set(i, k, j), world.getBlockState((BlockPos)mutable))) continue;
                     bl = true;
                     for (int i2 = i - 3; i2 <= i + 3; ++i2) {
                         for (int i3 = j - 3; i3 <= j + 3; ++i3) {
@@ -1548,7 +1548,7 @@ public final class qdz {
         if (!bl) {
             return false;
         }
-        if (this.qhq != Long.MIN_VALUE && this.qfi - this.qhp <= 2 && Vec3d.method_24953((Vec3i)(blockPos = BlockPos.method_10092((long)this.qhq))).method_1022(clientPlayerEntity.method_33571()) <= 3.9) {
+        if (this.qhq != Long.MIN_VALUE && this.qfi - this.qhp <= 2 && Vec3d.ofCenter((Vec3i)(blockPos = BlockPos.fromLong((long)this.qhq))).distanceTo(clientPlayerEntity.getEyePos()) <= 3.9) {
             this.qlf(blockPos, 400);
             this.qhq = Long.MIN_VALUE;
         }
@@ -1556,7 +1556,7 @@ public final class qdz {
             return false;
         }
         long l = lArray[nArray[nArray.length - 1]];
-        this.qjv(qdk2.waypoint(clientPlayerEntity, nArray), nArray.length <= 3, l, Vec3d.method_24953((Vec3i)BlockPos.method_10092((long)l)));
+        this.qjv(qdk2.waypoint(clientPlayerEntity, nArray), nArray.length <= 3, l, Vec3d.ofCenter((Vec3i)BlockPos.fromLong((long)l)));
         return true;
     }
 
@@ -1572,17 +1572,17 @@ public final class qdz {
                 return false;
             }
             int n4 = qdk2.cellX(n2);
-            if (!this.qfg.contains(n4, n - 1, n3 = qdk2.cellZ(n2)) || this.qkb(BlockPos.method_10064((int)n4, (int)(n - 1), (int)n3))) {
+            if (!this.qfg.contains(n4, n - 1, n3 = qdk2.cellZ(n2)) || this.qkb(BlockPos.asLong((int)n4, (int)(n - 1), (int)n3))) {
                 return false;
             }
-            return qdz.qjq(world, (BlockPos)mutable.method_10103(n4, n - 1, n3), world.method_8320((BlockPos)mutable));
+            return qdz.qjq(world, (BlockPos)mutable.set(n4, n - 1, n3), world.getBlockState((BlockPos)mutable));
         });
         if (nArray == null) {
             return false;
         }
         int n3 = nArray[nArray.length - 1];
         Vec3d vec3d = nArray.length <= 2 ? new Vec3d((double)qdk2.cellX(n3) + 0.5, (double)n, (double)qdk2.cellZ(n3) + 0.5) : qdk2.waypoint(clientPlayerEntity, nArray);
-        this.qjv(vec3d, true, BlockPos.method_10064((int)qdk2.cellX(n3), (int)(n - 1), (int)qdk2.cellZ(n3)), new Vec3d((double)qdk2.cellX(n3) + 0.5, (double)n - 0.5, (double)qdk2.cellZ(n3) + 0.5));
+        this.qjv(vec3d, true, BlockPos.asLong((int)qdk2.cellX(n3), (int)(n - 1), (int)qdk2.cellZ(n3)), new Vec3d((double)qdk2.cellX(n3) + 0.5, (double)n - 0.5, (double)qdk2.cellZ(n3) + 0.5));
         return true;
     }
 
@@ -1592,7 +1592,7 @@ public final class qdz {
             this.qgb = new Object();
         } else if (this.qgn > 40) {
             this.qgn = 0;
-            this.qlf(BlockPos.method_10092((long)l), 400);
+            this.qlf(BlockPos.fromLong((long)l), 400);
         }
         this.qfx = vec3d;
         this.qhp = this.qfi;
@@ -1632,7 +1632,7 @@ public final class qdz {
             for (BlockPos blockPos2 : this.qks(n2, n3, n4, n5, n6, n7)) {
                 if (!qdz.qle(world, blockPos2)) continue;
                 if (!this.qlc(world, blockPos2)) {
-                    this.qlj(a.b("\u3f3f\u4680\ucc50\u522d\ud9f2\u5f4d\ue51f\u6caa", -702202027) + blockPos2.method_23854() + a.c(178799320, "\u42fe\u3b1c\ub1c8\u2fa8\ua46a\u228b") + n2 + a.d("\ub1ae", 296989217, 626197410) + n3 + a.d("\u355e", 227536667, -1637885336) + n4 + a.d("\u825a\ufbe6\u7126\uef49", 10353374, 732068000) + n5 + a.b("\uf903", 756152622) + n6 + a.d("\u2ae4", 298627232, -1451976087) + n7);
+                    this.qlj(a.b("\u3f3f\u4680\ucc50\u522d\ud9f2\u5f4d\ue51f\u6caa", -702202027) + blockPos2.toShortString() + a.c(178799320, "\u42fe\u3b1c\ub1c8\u2fa8\ua46a\u228b") + n2 + a.d("\ub1ae", 296989217, 626197410) + n3 + a.d("\u355e", 227536667, -1637885336) + n4 + a.d("\u825a\ufbe6\u7126\uef49", 10353374, 732068000) + n5 + a.b("\uf903", 756152622) + n6 + a.d("\u2ae4", 298627232, -1451976087) + n7);
                     this.qfl = true;
                     this.qfx = null;
                     return;
@@ -1641,13 +1641,13 @@ public final class qdz {
                 if (this.qfr != null) {
                     return;
                 }
-                this.qlj(a.b("\u4e87\u3737\ubdab\u239b\ua844\u2ef1\u94ef", -1146532114) + blockPos2.method_23854() + a.b("\u3801\u41e3\ucb37\u5557\ude95\u5874", -731826137) + n2 + a.b("\uf6fb", -170592554) + n3 + a.b("\ud543", -775694994) + n4 + a.b("\uc863\ub1df\u3b1f\ua570", 783534151) + n5 + a.d("\ue21e", 1966740213, 1608052934) + n6 + a.c(-1758479877, "\ub9d6") + n7);
+                this.qlj(a.b("\u4e87\u3737\ubdab\u239b\ua844\u2ef1\u94ef", -1146532114) + blockPos2.toShortString() + a.b("\u3801\u41e3\ucb37\u5557\ude95\u5874", -731826137) + n2 + a.b("\uf6fb", -170592554) + n3 + a.b("\ud543", -775694994) + n4 + a.b("\uc863\ub1df\u3b1f\ua570", 783534151) + n5 + a.d("\ue21e", 1966740213, 1608052934) + n6 + a.c(-1758479877, "\ub9d6") + n7);
                 this.qfl = true;
                 return;
             }
         }
         if (this.qgn > 50) {
-            this.qlj(a.b("\u78c9\u017f\u8bad\u15ca\u9e15\u18ef\ua2fd\u2b19\ub512", 855406771) + clientPlayerEntity.method_24515().method_23854() + a.d("\u5d0f\u24ea\uae22\u301c", 1758371912, 667549027) + n5 + a.c(-1347100770, "\udfb3") + n6 + a.d("\ub385", -657149490, -474611098) + n7);
+            this.qlj(a.b("\u78c9\u017f\u8bad\u15ca\u9e15\u18ef\ua2fd\u2b19\ub512", 855406771) + clientPlayerEntity.getBlockPos().toShortString() + a.d("\u5d0f\u24ea\uae22\u301c", 1758371912, 667549027) + n5 + a.c(-1347100770, "\udfb3") + n6 + a.d("\ub385", -657149490, -474611098) + n7);
             this.qgn = 0;
             if (++this.qgo >= 3) {
                 if (this.qhc != null) {
@@ -1662,7 +1662,7 @@ public final class qdz {
             return;
         }
         boolean bl2 = this.qfz = n6 <= n3 && (n8 >= this.qkl() - 1 || this.qko(n8));
-        if (this.qfx == null || this.qfx.field_1352 != vec3d.field_1352 || this.qfx.field_1351 != vec3d.field_1351 || this.qfx.field_1350 != vec3d.field_1350) {
+        if (this.qfx == null || this.qfx.x != vec3d.x || this.qfx.y != vec3d.y || this.qfx.z != vec3d.z) {
             this.qlj(a.b("\ud536\uac91\u264f\ub839\u33a5", 224449860) + n2 + a.c(-593811850, "\u265b") + n3 + a.c(865264831, "\ue492") + n4 + a.b("\u5009\u29b5\ua375\u3d1a", -978956243) + n9 + a.c(-389982549, "\u5686") + n6 + a.b("\u6c31", -1629328356) + n10);
         }
         this.qfx = vec3d;
@@ -1671,47 +1671,47 @@ public final class qdz {
         int n11 = this.qfj.path()[n * 3];
         int n12 = this.qfj.path()[n * 3 + 1];
         int n13 = this.qfj.path()[n * 3 + 2];
-        Vec3d vec3d2 = clientPlayerEntity.method_33571();
+        Vec3d vec3d2 = clientPlayerEntity.getEyePos();
         if (bl && this.qgr != null && qdz.qjx(vec3d2, n11, n13, blockPos)) {
-            long l = blockPos.method_10063() ^ 0x5DEECE66DL;
+            long l = blockPos.asLong() ^ 0x5DEECE66DL;
             if (l != this.qgc || this.qga == null) {
                 this.qgc = l;
                 this.qgb = new Object();
-                this.qga = Vec3d.method_24953((Vec3i)blockPos);
+                this.qga = Vec3d.ofCenter((Vec3i)blockPos);
             }
             return;
         }
-        long l = BlockPos.method_10064((int)n11, (int)n12, (int)n13);
+        long l = BlockPos.asLong((int)n11, (int)n12, (int)n13);
         if (l != this.qgc || this.qga == null) {
             this.qgc = l;
             this.qgb = new Object();
             Vec3d vec3d3 = new Vec3d((double)n11 + 0.5, (double)n12 + (this.qgr != null ? 1.45 : 0.9), (double)n13 + 0.5);
-            Vec3d vec3d4 = vec3d3.method_1020(vec3d2);
-            double d = Math.sqrt(vec3d4.field_1352 * vec3d4.field_1352 + vec3d4.field_1350 * vec3d4.field_1350);
+            Vec3d vec3d4 = vec3d3.subtract(vec3d2);
+            double d = Math.sqrt(vec3d4.x * vec3d4.x + vec3d4.z * vec3d4.z);
             if (d < 1.5) {
                 double d2 = n5 - n2;
                 double d3 = n7 - n4;
                 double d4 = Math.sqrt(d2 * d2 + d3 * d3);
                 if (d4 < 0.5) {
-                    double d5 = Math.toRadians(clientPlayerEntity.method_36454());
+                    double d5 = Math.toRadians(clientPlayerEntity.getYaw());
                     d2 = -Math.sin(d5);
                     d3 = Math.cos(d5);
                     d4 = 1.0;
                 }
-                vec3d3 = new Vec3d(vec3d2.field_1352 + d2 / d4 * 3.0, vec3d2.field_1351 - (n6 < n3 ? 1.6 : 0.4), vec3d2.field_1350 + d3 / d4 * 3.0);
+                vec3d3 = new Vec3d(vec3d2.x + d2 / d4 * 3.0, vec3d2.y - (n6 < n3 ? 1.6 : 0.4), vec3d2.z + d3 / d4 * 3.0);
             }
             this.qga = vec3d3;
         }
     }
 
     private static boolean qjx(Vec3d vec3d, int n, int n2, BlockPos blockPos) {
-        double d = (double)n + 0.5 - vec3d.field_1352;
-        double d2 = (double)n2 + 0.5 - vec3d.field_1350;
-        double d3 = (double)blockPos.method_10263() + 0.5 - vec3d.field_1352;
-        double d4 = (double)blockPos.method_10260() + 0.5 - vec3d.field_1350;
+        double d = (double)n + 0.5 - vec3d.x;
+        double d2 = (double)n2 + 0.5 - vec3d.z;
+        double d3 = (double)blockPos.getX() + 0.5 - vec3d.x;
+        double d4 = (double)blockPos.getZ() + 0.5 - vec3d.z;
         double d5 = Math.sqrt(d * d + d2 * d2);
         double d6 = Math.sqrt(d3 * d3 + d4 * d4);
-        if (d5 < 0.5 || d6 < 0.5 || Math.abs((double)blockPos.method_10264() + 0.5 - vec3d.field_1351) > d6 * 0.7) {
+        if (d5 < 0.5 || d6 < 0.5 || Math.abs((double)blockPos.getY() + 0.5 - vec3d.y) > d6 * 0.7) {
             return false;
         }
         return (d * d3 + d2 * d4) / (d5 * d6) > 0.34;
@@ -1759,7 +1759,7 @@ public final class qdz {
     }
 
     private int qkc(World world, ClientPlayerEntity clientPlayerEntity, BlockPos blockPos, BlockState blockState) {
-        float f = blockState.method_26165((PlayerEntity)clientPlayerEntity, (BlockView)world, blockPos);
+        float f = blockState.calcBlockBreakingDelta((PlayerEntity)clientPlayerEntity, (BlockView)world, blockPos);
         if (f <= 0.0f) {
             return 600;
         }
@@ -1779,10 +1779,10 @@ public final class qdz {
         if (this.qfg == null || this.qfg.maxX < this.qfg.minX) {
             return false;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        int n = MathHelper.method_15357((double)vec3d.field_1352);
-        int n2 = MathHelper.method_15357((double)vec3d.field_1351);
-        int n3 = MathHelper.method_15357((double)vec3d.field_1350);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        int n = MathHelper.floor((double)vec3d.x);
+        int n2 = MathHelper.floor((double)vec3d.y);
+        int n3 = MathHelper.floor((double)vec3d.z);
         double d2 = 6.0;
         Long2DoubleOpenHashMap long2DoubleOpenHashMap = new Long2DoubleOpenHashMap();
         BlockPos.Mutable mutable = new BlockPos.Mutable();
@@ -1794,7 +1794,7 @@ public final class qdz {
                     double d3;
                     double d4;
                     double d5;
-                    if (!this.qfg.contains(i, j, k) || (d5 = (double)i + 0.5 - vec3d.field_1352) * d5 + (d4 = (double)j + 0.5 - vec3d.field_1351) * d4 + (d3 = (double)k + 0.5 - vec3d.field_1350) * d3 > d2 * d2 || this.qkb(l3 = BlockPos.method_10064((int)i, (int)j, (int)k)) || (blockState = world.method_8320((BlockPos)mutable.method_10103(i, j, k))).method_26215() || !this.qfe.test(blockState)) continue;
+                    if (!this.qfg.contains(i, j, k) || (d5 = (double)i + 0.5 - vec3d.x) * d5 + (d4 = (double)j + 0.5 - vec3d.y) * d4 + (d3 = (double)k + 0.5 - vec3d.z) * d3 > d2 * d2 || this.qkb(l3 = BlockPos.asLong((int)i, (int)j, (int)k)) || (blockState = world.getBlockState((BlockPos)mutable.set(i, j, k))).isAir() || !this.qfe.test(blockState)) continue;
                     long2DoubleOpenHashMap.put(l3, this.qka(blockState));
                     this.qfc.add(l3);
                 }
@@ -1812,16 +1812,16 @@ public final class qdz {
                 for (int j = -1; j <= 1; ++j) {
                     for (int k = -1; k <= 1; ++k) {
                         if ((i != 0 || j != 0 || k != 0) && !this.qgy) continue;
-                        longOpenHashSet.add(BlockPos.method_10096((long)l4, (int)i, (int)j, (int)k));
+                        longOpenHashSet.add(BlockPos.add((long)l4, (int)i, (int)j, (int)k));
                     }
                 }
             }
-            BlockPos blockPos2 = BlockPos.method_10092((long)l4);
-            if (!(Vec3d.method_24953((Vec3i)blockPos2).method_1022(vec3d) <= 4.7) || (blockPos = qdz.qla(world, clientPlayerEntity, vec3d, blockPos2)) == null || qdz.qkg(blockPos.method_10063(), l4) <= (this.qgy ? 1 : 0)) continue;
-            longOpenHashSet.add(blockPos.method_10063());
+            BlockPos blockPos2 = BlockPos.fromLong((long)l4);
+            if (!(Vec3d.ofCenter((Vec3i)blockPos2).distanceTo(vec3d) <= 4.7) || (blockPos = qdz.qla(world, clientPlayerEntity, vec3d, blockPos2)) == null || qdz.qkg(blockPos.asLong(), l4) <= (this.qgy ? 1 : 0)) continue;
+            longOpenHashSet.add(blockPos.asLong());
             double d6 = 0.45 * entry.getDoubleValue();
-            if (!(d6 > long2DoubleOpenHashMap2.get(blockPos.method_10063()))) continue;
-            long2DoubleOpenHashMap2.put(blockPos.method_10063(), d6);
+            if (!(d6 > long2DoubleOpenHashMap2.get(blockPos.asLong()))) continue;
+            long2DoubleOpenHashMap2.put(blockPos.asLong(), d6);
         }
         boolean bl = this.qgy && this.qes.p(2) < 0.98;
         LongArrayList longArrayList = new LongArrayList();
@@ -1831,8 +1831,8 @@ public final class qdz {
             Vec3d vec3d2;
             double d7;
             long l5 = longIterator.nextLong();
-            BlockPos blockPos = BlockPos.method_10092((long)l5);
-            if (!this.qfg.contains(blockPos) || this.qkb(l5) || (d7 = (vec3d2 = Vec3d.method_24953((Vec3i)blockPos)).method_1022(vec3d)) > 4.45 || (object = world.method_8320(blockPos)).method_26215() || !object.method_26227().method_15769() || object.method_26214((BlockView)world, blockPos) < 0.0f) continue;
+            BlockPos blockPos = BlockPos.fromLong((long)l5);
+            if (!this.qfg.contains(blockPos) || this.qkb(l5) || (d7 = (vec3d2 = Vec3d.ofCenter((Vec3i)blockPos)).distanceTo(vec3d)) > 4.45 || (object = world.getBlockState(blockPos)).isAir() || !object.getFluidState().isEmpty() || object.getHardness((BlockView)world, blockPos) < 0.0f) continue;
             double d8 = long2DoubleOpenHashMap.get(l5) + long2DoubleOpenHashMap2.get(l5);
             if (bl) {
                 for (Object object2 : long2DoubleOpenHashMap.long2DoubleEntrySet()) {
@@ -1851,7 +1851,7 @@ public final class qdz {
             return false;
         }
         longArrayList.sort((l, l2) -> Double.compare(long2DoubleOpenHashMap3.get(l2), long2DoubleOpenHashMap3.get(l)));
-        long l7 = qdz.standing(world, clientPlayerEntity).method_10074().method_10063();
+        long l7 = qdz.standing(world, clientPlayerEntity).down().asLong();
         ArrayList<Long2DoubleMap.Entry> arrayList = new ArrayList<Long2DoubleMap.Entry>();
         int n4 = 0;
         for (int i = 0; i < longArrayList.size() && n4 < 32; ++i) {
@@ -1860,8 +1860,8 @@ public final class qdz {
             long l8 = longArrayList.getLong(i);
             if (arrayList.size() >= 10 && long2DoubleOpenHashMap3.get(l8) <= ((qdt)arrayList.get(9)).rate()) break;
             ++n4;
-            object = BlockPos.method_10092((long)l8);
-            BlockState blockState = world.method_8320((BlockPos)object);
+            object = BlockPos.fromLong((long)l8);
+            BlockState blockState = world.getBlockState((BlockPos)object);
             d = this.qkc(world, clientPlayerEntity, (BlockPos)object, blockState);
             object2 = null;
             for (qda qda2 : this.qki(world, clientPlayerEntity, (BlockPos)object)) {
@@ -1926,53 +1926,53 @@ public final class qdz {
             return false;
         }
         object = qdt3.hit.pos();
-        BlockState blockState = world.method_8320((BlockPos)object);
-        this.qkv((BlockPos)object, blockState.method_26204(), long2DoubleOpenHashMap.containsKey(qdt3.key), qdt3.hit.point(), this.qfx != null && this.qfj != null);
+        BlockState blockState = world.getBlockState((BlockPos)object);
+        this.qkv((BlockPos)object, blockState.getBlock(), long2DoubleOpenHashMap.containsKey(qdt3.key), qdt3.hit.point(), this.qfx != null && this.qfj != null);
         if (trace != null) {
-            this.qlj(String.format(Locale.ROOT, a.c(-894157631, "\u3c84\u452c\ucff5\u518c\uda10\u5ca4\ue6a1\u6f03\uf10a\u7bf0\ufc3b\u0641\u888a\u116f\u9b7a\u1ddf\ua7d9\u2810\ub2a8\u34e5\ubd46\uc751\u49b6\ud266\u541e\uded3\u6733\ue97a\u7386\uf5c9\u7e2c\u80bb\u0aa7\u9346\u1519\u9fb5\u2075\uaa5c\u2c97\ub52d\u3f6e\u41cb\ucbde\u4c20\ud6fe\u58c9\ue11f\u6bef\uede4\u763d\uf843\u02c4\u8b29"), object.method_23854(), qdt3.value, qdt3.time, qdt3.hit.turn(), d13, arrayList.size(), this.qes.describe()));
+            this.qlj(String.format(Locale.ROOT, a.c(-894157631, "\u3c84\u452c\ucff5\u518c\uda10\u5ca4\ue6a1\u6f03\uf10a\u7bf0\ufc3b\u0641\u888a\u116f\u9b7a\u1ddf\ua7d9\u2810\ub2a8\u34e5\ubd46\uc751\u49b6\ud266\u541e\uded3\u6733\ue97a\u7386\uf5c9\u7e2c\u80bb\u0aa7\u9346\u1519\u9fb5\u2075\uaa5c\u2c97\ub52d\u3f6e\u41cb\ucbde\u4c20\ud6fe\u58c9\ue11f\u6bef\uede4\u763d\uf843\u02c4\u8b29"), object.toShortString(), qdt3.value, qdt3.time, qdt3.hit.turn(), d13, arrayList.size(), this.qes.describe()));
         }
         return true;
     }
 
     private static double qkf(Vec3d vec3d, Vec3d vec3d2, Vec3d vec3d3) {
-        Vec3d vec3d4 = vec3d2.method_1020(vec3d).method_1029();
-        Vec3d vec3d5 = vec3d3.method_1020(vec3d).method_1029();
-        return Math.toDegrees(Math.acos(MathHelper.method_15350((double)vec3d4.method_1026(vec3d5), (double)-1.0, (double)1.0)));
+        Vec3d vec3d4 = vec3d2.subtract(vec3d).normalize();
+        Vec3d vec3d5 = vec3d3.subtract(vec3d).normalize();
+        return Math.toDegrees(Math.acos(MathHelper.clamp((double)vec3d4.dotProduct(vec3d5), (double)-1.0, (double)1.0)));
     }
 
     private static int qkg(long l, long l2) {
-        return Math.max(Math.abs(BlockPos.method_10061((long)l) - BlockPos.method_10061((long)l2)), Math.max(Math.abs(BlockPos.method_10071((long)l) - BlockPos.method_10071((long)l2)), Math.abs(BlockPos.method_10083((long)l) - BlockPos.method_10083((long)l2))));
+        return Math.max(Math.abs(BlockPos.unpackLongX((long)l) - BlockPos.unpackLongX((long)l2)), Math.max(Math.abs(BlockPos.unpackLongY((long)l) - BlockPos.unpackLongY((long)l2)), Math.abs(BlockPos.unpackLongZ((long)l) - BlockPos.unpackLongZ((long)l2))));
     }
 
     private static boolean qkh(long l, long l2) {
-        return BlockPos.method_10061((long)l) == BlockPos.method_10061((long)l2) || BlockPos.method_10071((long)l) == BlockPos.method_10071((long)l2) || BlockPos.method_10083((long)l) == BlockPos.method_10083((long)l2);
+        return BlockPos.unpackLongX((long)l) == BlockPos.unpackLongX((long)l2) || BlockPos.unpackLongY((long)l) == BlockPos.unpackLongY((long)l2) || BlockPos.unpackLongZ((long)l) == BlockPos.unpackLongZ((long)l2);
     }
 
     private List<qda> qki(World world, ClientPlayerEntity clientPlayerEntity, BlockPos blockPos) {
         ArrayList<qda> arrayList = new ArrayList<qda>(3);
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         double d = (this.qep.nextDouble() - 0.5) * 0.3;
         double d2 = (this.qep.nextDouble() - 0.5) * 0.3;
         block0: for (Direction direction : Direction.values()) {
-            BlockPos blockPos2 = blockPos.method_10093(direction);
-            if (!world.method_8320(blockPos2).method_26218((BlockView)world, blockPos2).method_1110()) continue;
-            Vec3d vec3d2 = new Vec3d((double)direction.method_10148(), (double)direction.method_10164(), (double)direction.method_10165());
-            Vec3d vec3d3 = Vec3d.method_24953((Vec3i)blockPos).method_1019(vec3d2.method_1021(0.5));
-            if (vec3d.method_1020(vec3d3).method_1026(vec3d2) <= 0.02) continue;
-            Vec3d vec3d4 = direction.method_10166() == Direction.Axis.field_11048 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
-            Vec3d vec3d5 = direction.method_10166() == Direction.Axis.field_11052 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
+            BlockPos blockPos2 = blockPos.offset(direction);
+            if (!world.getBlockState(blockPos2).getOutlineShape((BlockView)world, blockPos2).isEmpty()) continue;
+            Vec3d vec3d2 = new Vec3d((double)direction.getOffsetX(), (double)direction.getOffsetY(), (double)direction.getOffsetZ());
+            Vec3d vec3d3 = Vec3d.ofCenter((Vec3i)blockPos).add(vec3d2.multiply(0.5));
+            if (vec3d.subtract(vec3d3).dotProduct(vec3d2) <= 0.02) continue;
+            Vec3d vec3d4 = direction.getAxis() == Direction.Axis.X ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
+            Vec3d vec3d5 = direction.getAxis() == Direction.Axis.Y ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
             for (double[] dArray : qej) {
                 double d3;
                 double d4 = dArray[0] == 0.0 && dArray[1] == 0.0 ? d : dArray[0];
                 double d5 = dArray[0] == 0.0 && dArray[1] == 0.0 ? d2 : dArray[1];
-                Vec3d vec3d6 = vec3d3.method_1019(vec3d4.method_1021(d4)).method_1019(vec3d5.method_1021(d5));
-                Vec3d vec3d7 = vec3d6.method_1020(vec3d);
-                double d6 = vec3d7.method_1033();
-                if (d6 > 4.4 || d6 < 0.3 || (d3 = Math.sqrt(vec3d7.field_1352 * vec3d7.field_1352 + vec3d7.field_1350 * vec3d7.field_1350)) < 0.25 || !qdz.qky(world, clientPlayerEntity, vec3d, blockPos, vec3d6)) continue;
-                float f = (float)tbp.yawTo(vec3d7.field_1352, vec3d7.field_1350);
-                float f2 = (float)tbp.pitchTo(vec3d7.field_1351, d3);
-                double d7 = Math.hypot(MathHelper.method_15393((float)(f - clientPlayerEntity.method_36454())), f2 - clientPlayerEntity.method_36455());
-                arrayList.add(new qda(blockPos.method_10062(), vec3d6, direction.method_10166().ordinal(), this.qkj(clientPlayerEntity, f, f2, d7), d7, f, f2));
+                Vec3d vec3d6 = vec3d3.add(vec3d4.multiply(d4)).add(vec3d5.multiply(d5));
+                Vec3d vec3d7 = vec3d6.subtract(vec3d);
+                double d6 = vec3d7.length();
+                if (d6 > 4.4 || d6 < 0.3 || (d3 = Math.sqrt(vec3d7.x * vec3d7.x + vec3d7.z * vec3d7.z)) < 0.25 || !qdz.qky(world, clientPlayerEntity, vec3d, blockPos, vec3d6)) continue;
+                float f = (float)tbp.yawTo(vec3d7.x, vec3d7.z);
+                float f2 = (float)tbp.pitchTo(vec3d7.y, d3);
+                double d7 = Math.hypot(MathHelper.wrapDegrees((float)(f - clientPlayerEntity.getYaw())), f2 - clientPlayerEntity.getPitch());
+                arrayList.add(new qda(blockPos.toImmutable(), vec3d6, direction.getAxis().ordinal(), this.qkj(clientPlayerEntity, f, f2, d7), d7, f, f2));
                 continue block0;
             }
         }
@@ -1980,14 +1980,14 @@ public final class qdz {
     }
 
     private double[] qkj(ClientPlayerEntity clientPlayerEntity, float f, float f2, double d) {
-        float f3 = clientPlayerEntity.method_36454();
-        float f4 = clientPlayerEntity.method_36455();
+        float f3 = clientPlayerEntity.getYaw();
+        float f4 = clientPlayerEntity.getPitch();
         double d2 = this.qil();
         if (d <= d2 * 0.97) {
             return qln.lookAxes(f3, f4);
         }
         double d3 = d2 / d;
-        return qln.lookAxes((float)((double)f3 + (double)MathHelper.method_15393((float)(f - f3)) * d3), (float)((double)f4 + (double)(f2 - f4) * d3));
+        return qln.lookAxes((float)((double)f3 + (double)MathHelper.wrapDegrees((float)(f - f3)) * d3), (float)((double)f4 + (double)(f2 - f4) * d3));
     }
 
     private int qkk(World world, ClientPlayerEntity clientPlayerEntity) {
@@ -2001,7 +2001,7 @@ public final class qdz {
         block0: for (int i = this.qfk; i < Math.min(n2 - 1, this.qfk + 3); ++i) {
             for (BlockPos blockPos : this.qks(nArray[i * 3], nArray[i * 3 + 1], nArray[i * 3 + 2], nArray[(i + 1) * 3], nArray[(i + 1) * 3 + 1], nArray[(i + 1) * 3 + 2])) {
                 if (!qdz.qle(world, blockPos)) continue;
-                l = blockPos.method_10063();
+                l = blockPos.asLong();
                 if (this.qfb.getOrDefault(l, 0) > this.qfi) {
                     bl |= i == this.qfk;
                     continue;
@@ -2019,9 +2019,9 @@ public final class qdz {
             return bl ? 2 : 0;
         }
         LongOpenHashSet longOpenHashSet = new LongOpenHashSet();
-        longOpenHashSet.add(qdz.standing(world, clientPlayerEntity).method_10074().method_10063());
+        longOpenHashSet.add(qdz.standing(world, clientPlayerEntity).down().asLong());
         for (n = this.qfk; n < Math.min(n2, this.qfk + 5); ++n) {
-            longOpenHashSet.add(BlockPos.method_10064((int)nArray[n * 3], (int)(nArray[n * 3 + 1] - 1), (int)nArray[n * 3 + 2]));
+            longOpenHashSet.add(BlockPos.asLong((int)nArray[n * 3], (int)(nArray[n * 3 + 1] - 1), (int)nArray[n * 3 + 2]));
         }
         for (n = 0; n < longArrayList.size(); ++n) {
             longOpenHashSet.remove(longArrayList.getLong(n));
@@ -2031,18 +2031,18 @@ public final class qdz {
             l = longArrayList.getLong(i);
             longOpenHashSet2.add(l);
             if (!this.qgy) continue;
-            longOpenHashSet2.add(BlockPos.method_10096((long)l, (int)0, (int)1, (int)0));
-            longOpenHashSet2.add(BlockPos.method_10096((long)l, (int)0, (int)-1, (int)0));
+            longOpenHashSet2.add(BlockPos.add((long)l, (int)0, (int)1, (int)0));
+            longOpenHashSet2.add(BlockPos.add((long)l, (int)0, (int)-1, (int)0));
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         qda qda2 = null;
         double d = 0.0;
         LongIterator longIterator = longOpenHashSet2.iterator();
         while (longIterator.hasNext()) {
             long l2 = longIterator.nextLong();
-            BlockPos blockPos = BlockPos.method_10092((long)l2);
-            if (longOpenHashSet.contains(l2) || this.qfb.getOrDefault(l2, 0) > this.qfi || !this.qlc(world, blockPos) || Vec3d.method_24953((Vec3i)blockPos).method_1022(vec3d) > 4.5) continue;
-            BlockState blockState = world.method_8320(blockPos);
+            BlockPos blockPos = BlockPos.fromLong((long)l2);
+            if (longOpenHashSet.contains(l2) || this.qfb.getOrDefault(l2, 0) > this.qfi || !this.qlc(world, blockPos) || Vec3d.ofCenter((Vec3i)blockPos).distanceTo(vec3d) > 4.5) continue;
+            BlockState blockState = world.getBlockState(blockPos);
             double d2 = this.qkc(world, clientPlayerEntity, blockPos, blockState);
             for (qda qda3 : this.qki(world, clientPlayerEntity, blockPos)) {
                 double d3 = 0.0;
@@ -2061,7 +2061,7 @@ public final class qdz {
             }
         }
         if (qda2 == null) {
-            longIterator = BlockPos.method_10092((long)longArrayList.getLong(0));
+            longIterator = BlockPos.fromLong((long)longArrayList.getLong(0));
             this.qkt(world, clientPlayerEntity, (BlockPos)longIterator, false);
             if (this.qfr == null) {
                 return -1;
@@ -2069,8 +2069,8 @@ public final class qdz {
             this.qgz = true;
             return 1;
         }
-        longIterator = world.method_8320(qda2.pos());
-        this.qkv(qda2.pos(), longIterator.method_26204(), this.qfe.test((BlockState)longIterator), qda2.point(), true);
+        longIterator = world.getBlockState(qda2.pos());
+        this.qkv(qda2.pos(), longIterator.getBlock(), this.qfe.test((BlockState)longIterator), qda2.point(), true);
         return 1;
     }
 
@@ -2084,20 +2084,20 @@ public final class qdz {
             int n2 = this.qfj.path()[i * 3];
             int n3 = this.qfj.path()[i * 3 + 1];
             int n4 = this.qfj.path()[i * 3 + 2];
-            if (blockPos.method_10263() == n2 && blockPos.method_10264() == n3 && blockPos.method_10260() == n4) {
+            if (blockPos.getX() == n2 && blockPos.getY() == n3 && blockPos.getZ() == n4) {
                 if (i == this.qfk || !this.qko(i) || this.qkn(blockPos, n2, n4)) {
                     return i;
                 }
                 return i - 1;
             }
-            if (i <= 0 || blockPos.method_10263() != n2 || blockPos.method_10260() != n4 || blockPos.method_10264() <= n3 || blockPos.method_10264() > this.qfj.path()[(i - 1) * 3 + 1]) continue;
+            if (i <= 0 || blockPos.getX() != n2 || blockPos.getZ() != n4 || blockPos.getY() <= n3 || blockPos.getY() > this.qfj.path()[(i - 1) * 3 + 1]) continue;
             return i - 1;
         }
         return -1;
     }
 
     private boolean qkn(BlockPos blockPos, int n, int n2) {
-        return this.qgm != null && Math.abs(this.qgm.field_1352 - ((double)n + 0.5)) < 0.32 && Math.abs(this.qgm.field_1350 - ((double)n2 + 0.5)) < 0.32;
+        return this.qgm != null && Math.abs(this.qgm.x - ((double)n + 0.5)) < 0.32 && Math.abs(this.qgm.z - ((double)n2 + 0.5)) < 0.32;
     }
 
     private boolean qko(int n) {
@@ -2120,11 +2120,11 @@ public final class qdz {
         }
         Box box = new Box((double)(this.qfg.minX - 4), (double)(this.qfg.minY - 2), (double)(this.qfg.minZ - 4), (double)(this.qfg.maxX + 5), (double)(this.qfg.maxY + 6), (double)(this.qfg.maxZ + 5));
         if (this.qhc != null) {
-            box = box.method_991(new Box(this.qhc).method_1014(6.0));
+            box = box.union(new Box(this.qhc).expand(6.0));
         }
-        for (ItemEntity itemEntity2 : world.method_8390(ItemEntity.class, box, itemEntity -> this.qff.test(itemEntity.method_6983()))) {
+        for (ItemEntity itemEntity2 : world.getEntitiesByClass(ItemEntity.class, box, itemEntity -> this.qff.test(itemEntity.getStack()))) {
             if (arrayList.size() >= 40) continue;
-            arrayList.add(itemEntity2.method_73189());
+            arrayList.add(itemEntity2.getEntityPos());
         }
         return arrayList;
     }
@@ -2161,21 +2161,21 @@ public final class qdz {
             this.qfj = this.qeq.toward(this.qhc, 3);
             this.qfk = 0;
             this.qgc = Long.MIN_VALUE;
-            this.qlj(this.qfj == null ? a.c(1041995744, "\u9780\uee20\u64e0\ufa88\u710e\uf7a5\u4db8\uc448\u5a58\ud0be\u577b\uad12\u239c\uba79\u3031\ub68f") + this.qhc.method_23854() : a.c(-117214198, "\u7471\u0dd1\u8711\u1979\u92ff\u1454\uae57\u27b7\ub9fd\u3350\ub4cb") + this.qfj.path().length / 3 + a.c(-92191881, "\u435d\u3aa2\ub070\u2e0a\ua5dc\u237b\u997b\u10de\u8e9a\u0464") + this.qhc.method_23854());
+            this.qlj(this.qfj == null ? a.c(1041995744, "\u9780\uee20\u64e0\ufa88\u710e\uf7a5\u4db8\uc448\u5a58\ud0be\u577b\uad12\u239c\uba79\u3031\ub68f") + this.qhc.toShortString() : a.c(-117214198, "\u7471\u0dd1\u8711\u1979\u92ff\u1454\uae57\u27b7\ub9fd\u3350\ub4cb") + this.qfj.path().length / 3 + a.c(-92191881, "\u435d\u3aa2\ub070\u2e0a\ua5dc\u237b\u997b\u10de\u8e9a\u0464") + this.qhc.toShortString());
             return;
         }
         this.qeq.build(world, clientPlayerEntity, this.qfg, this.qfe, (LongSet)this.qev, this.qkp(world));
         this.qeq.search(qdz.standing(world, clientPlayerEntity));
-        objectIterator = clientPlayerEntity.method_33571();
-        entry = clientPlayerEntity.method_5828(1.0f);
+        objectIterator = clientPlayerEntity.getEyePos();
+        entry = clientPlayerEntity.getRotationVec(1.0f);
         LongArrayList longArrayList = new LongArrayList();
         for (int i = 0; i < this.qeq.targetCount(); ++i) {
             long l = this.qeq.targetKey(i);
             if (longOpenHashSet.contains(l)) continue;
             longArrayList.add(l);
         }
-        Vec3d vec3d = clientPlayerEntity.method_73189();
-        this.qer.update(longArrayList, vec3d.field_1352, vec3d.field_1351, vec3d.field_1350);
+        Vec3d vec3d = clientPlayerEntity.getEntityPos();
+        this.qer.update(longArrayList, vec3d.x, vec3d.y, vec3d.z);
         this.qfj = null;
         for (int i = 0; i < 4 && this.qfj == null && !this.qer.isEmpty(); ++i) {
             LongOpenHashSet longOpenHashSet2 = this.qer.head();
@@ -2190,12 +2190,12 @@ public final class qdz {
                 this.qfo = true;
                 break;
             }
-            this.qlj(a.c(-97302964, "\u4625\u3f89\ub540\u2b30\ua0f6\u2618\u9c51\u15e3\u8bbe\u0100\u869a\u7cb8\uf23b\u6bd8\ue19c\u6769\udd24\u52fe\uc805\u4e07\uc7f7\ubdbd\u3311\ua890\u2eae\ua46a\u1d8d") + this.qer.headCenter().method_23854());
+            this.qlj(a.c(-97302964, "\u4625\u3f89\ub540\u2b30\ua0f6\u2618\u9c51\u15e3\u8bbe\u0100\u869a\u7cb8\uf23b\u6bd8\ue19c\u6769\udd24\u52fe\uc805\u4e07\uc7f7\ubdbd\u3311\ua890\u2eae\ua46a\u1d8d") + this.qer.headCenter().toShortString());
             longIterator = longOpenHashSet2.iterator();
             while (longIterator.hasNext()) {
                 long l = longIterator.nextLong();
                 if (this.qfb.getOrDefault(l, 0) > this.qfi) continue;
-                this.qlf(BlockPos.method_10092((long)l), 600);
+                this.qlf(BlockPos.fromLong((long)l), 600);
                 this.qex.add(l);
             }
             this.qer.dropHead();
@@ -2208,14 +2208,14 @@ public final class qdz {
         }
         this.qfk = 0;
         if (trace != null) {
-            this.qlj(this.qfj == null ? a.c(-550309427, "\uf1b6\u881b\u02c5\u9cbb\u1722\u91dd\u2b8f\ua27f\u3c2b\ub6df\u3104") + this.qeq.targetCount() + a.d("\u2ee9\u570c\uddca\u43a8\uc86a\u4ed9\uf49b\u7d6d", 662695574, 420134999) + (this.qfo ? a.b("\uccea\ub557\u3f97\ua1ad\u2a31\uac93\u1690\u9f74\u0120\u8b9b\u0c45\uf633\u78ed", 1169476811) : "") + a.c(-481008132, "\u65d4") : a.c(19509695, "\ub1ca\uc867\u42b9\udcc7\u575e") + this.qfj.target().method_23854() + a.c(-106514153, "\ub930\uc0cf\u4a1d\ud467\u5fb1\ud916\u630b") + this.qfj.path().length / 3 + a.c(-462008687, "\u4eb7\u3745\ubd9a\u23f7\ua827\u2edf") + (int)this.qfj.cost() + a.b("\ubd85\uc460\u4ea6\ud0c4\u5b06\uddb5\u67f7\uee01\u7010", 1665056172) + this.qeq.targetCount() + a.b("\udd4c\ua4ae\u2e7a\ub010\u3bd8\ubd6a\u0777", 1148312939) + this.qer.size() + a.b("\u689c\u116c\u9baa\u058f", 2061134008) + clientPlayerEntity.method_24515().method_23854());
+            this.qlj(this.qfj == null ? a.c(-550309427, "\uf1b6\u881b\u02c5\u9cbb\u1722\u91dd\u2b8f\ua27f\u3c2b\ub6df\u3104") + this.qeq.targetCount() + a.d("\u2ee9\u570c\uddca\u43a8\uc86a\u4ed9\uf49b\u7d6d", 662695574, 420134999) + (this.qfo ? a.b("\uccea\ub557\u3f97\ua1ad\u2a31\uac93\u1690\u9f74\u0120\u8b9b\u0c45\uf633\u78ed", 1169476811) : "") + a.c(-481008132, "\u65d4") : a.c(19509695, "\ub1ca\uc867\u42b9\udcc7\u575e") + this.qfj.target().toShortString() + a.c(-106514153, "\ub930\uc0cf\u4a1d\ud467\u5fb1\ud916\u630b") + this.qfj.path().length / 3 + a.c(-462008687, "\u4eb7\u3745\ubd9a\u23f7\ua827\u2edf") + (int)this.qfj.cost() + a.b("\ubd85\uc460\u4ea6\ud0c4\u5b06\uddb5\u67f7\uee01\u7010", 1665056172) + this.qeq.targetCount() + a.b("\udd4c\ua4ae\u2e7a\ub010\u3bd8\ubd6a\u0777", 1148312939) + this.qer.size() + a.b("\u689c\u116c\u9baa\u058f", 2061134008) + clientPlayerEntity.getBlockPos().toShortString());
         }
         this.qgc = Long.MIN_VALUE;
     }
 
     private boolean qkr(World world, BlockPos blockPos) {
-        BlockState blockState = world.method_8320(blockPos);
-        return !blockState.method_26215() && this.qfe.test(blockState) && !this.qew.containsKey(blockPos.method_10063());
+        BlockState blockState = world.getBlockState(blockPos);
+        return !blockState.isAir() && this.qfe.test(blockState) && !this.qew.containsKey(blockPos.asLong());
     }
 
     private List<BlockPos> qks(int n, int n2, int n3, int n4, int n5, int n6) {
@@ -2240,13 +2240,13 @@ public final class qdz {
     private void qkt(World world, ClientPlayerEntity clientPlayerEntity, BlockPos blockPos, boolean bl) {
         Vec3d vec3d = this.qkx(world, clientPlayerEntity, blockPos);
         if (vec3d == null) {
-            BlockPos blockPos2 = qdz.qla(world, clientPlayerEntity, clientPlayerEntity.method_33571(), blockPos);
+            BlockPos blockPos2 = qdz.qla(world, clientPlayerEntity, clientPlayerEntity.getEyePos(), blockPos);
             if (blockPos2 != null && !blockPos2.equals((Object)blockPos) && this.qlc(world, blockPos2) && (vec3d = this.qkx(world, clientPlayerEntity, blockPos2)) != null) {
-                this.qku(blockPos2, world.method_8320(blockPos2).method_26204(), this.qfe.test(world.method_8320(blockPos2)), vec3d);
+                this.qku(blockPos2, world.getBlockState(blockPos2).getBlock(), this.qfe.test(world.getBlockState(blockPos2)), vec3d);
             }
             return;
         }
-        this.qku(blockPos, world.method_8320(blockPos).method_26204(), bl || this.qfe.test(world.method_8320(blockPos)), vec3d);
+        this.qku(blockPos, world.getBlockState(blockPos).getBlock(), bl || this.qfe.test(world.getBlockState(blockPos)), vec3d);
     }
 
     private void qku(BlockPos blockPos, Block block, boolean bl, Vec3d vec3d) {
@@ -2258,12 +2258,12 @@ public final class qdz {
             return;
         }
         this.qgz = bl2;
-        this.qlj(a.d("\u23e6\u5a47\ud083\u4ef6\uc52b\u43d1", -296734278, -1279978952) + blockPos.method_23854() + a.c(1884253044, "\u6b55") + block.method_63499().replace(a.d("\u9dc0\ue47f\u6eaf\uf0d2\u7b0d\ufdf9\u47e9\uce1c\u5044\udafe\u5d2b\ua74b\u298f\ub039\u3a78\ubcd3", -1621958378, -237470556), "") + (bl ? a.d("\ud0ed\ua928", -1642896548, 1212593043) : ""));
-        this.qfr = blockPos.method_10062();
+        this.qlj(a.d("\u23e6\u5a47\ud083\u4ef6\uc52b\u43d1", -296734278, -1279978952) + blockPos.toShortString() + a.c(1884253044, "\u6b55") + block.getTranslationKey().replace(a.d("\u9dc0\ue47f\u6eaf\uf0d2\u7b0d\ufdf9\u47e9\uce1c\u5044\udafe\u5d2b\ua74b\u298f\ub039\u3a78\ubcd3", -1621958378, -237470556), "") + (bl ? a.d("\ud0ed\ua928", -1642896548, 1212593043) : ""));
+        this.qfr = blockPos.toImmutable();
         this.qfs = block;
         this.qft = bl;
         if (bl) {
-            this.qfc.add(this.qfr.method_10063());
+            this.qfc.add(this.qfr.asLong());
         }
         this.qfu = vec3d;
         this.qfv = new Object();
@@ -2275,49 +2275,49 @@ public final class qdz {
     }
 
     private static Vec3d qkw(ClientPlayerEntity clientPlayerEntity, BlockPos blockPos) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = clientPlayerEntity.method_5828(1.0f);
-        if (BlockPos.method_49638((Position)vec3d).equals((Object)blockPos)) {
-            return vec3d.method_1031(vec3d2.field_1352 * 0.6, -0.3, vec3d2.field_1350 * 0.6);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = clientPlayerEntity.getRotationVec(1.0f);
+        if (BlockPos.ofFloored((Position)vec3d).equals((Object)blockPos)) {
+            return vec3d.add(vec3d2.x * 0.6, -0.3, vec3d2.z * 0.6);
         }
-        double d = Math.max(0.001, Math.sqrt(vec3d2.field_1352 * vec3d2.field_1352 + vec3d2.field_1350 * vec3d2.field_1350));
-        return new Vec3d((double)blockPos.method_10263() + 0.5 + vec3d2.field_1352 / d * 0.25, (double)blockPos.method_10264() + 1.0, (double)blockPos.method_10260() + 0.5 + vec3d2.field_1350 / d * 0.25);
+        double d = Math.max(0.001, Math.sqrt(vec3d2.x * vec3d2.x + vec3d2.z * vec3d2.z));
+        return new Vec3d((double)blockPos.getX() + 0.5 + vec3d2.x / d * 0.25, (double)blockPos.getY() + 1.0, (double)blockPos.getZ() + 0.5 + vec3d2.z / d * 0.25);
     }
 
     private Vec3d qkx(World world, ClientPlayerEntity clientPlayerEntity, BlockPos blockPos) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = clientPlayerEntity.method_5828(1.0f);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = clientPlayerEntity.getRotationVec(1.0f);
         Vec3d vec3d3 = null;
         double d = Double.MAX_VALUE;
         double d2 = (this.qep.nextDouble() - 0.5) * 0.3;
         double d3 = (this.qep.nextDouble() - 0.5) * 0.3;
         block0: for (Direction direction : Direction.values()) {
-            BlockPos blockPos2 = blockPos.method_10093(direction);
-            if (!world.method_8320(blockPos2).method_26218((BlockView)world, blockPos2).method_1110()) continue;
-            Vec3d vec3d4 = new Vec3d((double)direction.method_10148(), (double)direction.method_10164(), (double)direction.method_10165());
-            Vec3d vec3d5 = Vec3d.method_24953((Vec3i)blockPos).method_1019(vec3d4.method_1021(0.5));
-            if (vec3d.method_1020(vec3d5).method_1026(vec3d4) <= 0.02) continue;
-            Vec3d vec3d6 = direction.method_10166() == Direction.Axis.field_11048 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
-            Vec3d vec3d7 = direction.method_10166() == Direction.Axis.field_11052 ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
+            BlockPos blockPos2 = blockPos.offset(direction);
+            if (!world.getBlockState(blockPos2).getOutlineShape((BlockView)world, blockPos2).isEmpty()) continue;
+            Vec3d vec3d4 = new Vec3d((double)direction.getOffsetX(), (double)direction.getOffsetY(), (double)direction.getOffsetZ());
+            Vec3d vec3d5 = Vec3d.ofCenter((Vec3i)blockPos).add(vec3d4.multiply(0.5));
+            if (vec3d.subtract(vec3d5).dotProduct(vec3d4) <= 0.02) continue;
+            Vec3d vec3d6 = direction.getAxis() == Direction.Axis.X ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(1.0, 0.0, 0.0);
+            Vec3d vec3d7 = direction.getAxis() == Direction.Axis.Y ? new Vec3d(0.0, 0.0, 1.0) : new Vec3d(0.0, 1.0, 0.0);
             for (double[] dArray : qej) {
                 double d4;
                 double d5;
                 double d6;
                 double d7 = dArray[0] == 0.0 && dArray[1] == 0.0 ? d2 : dArray[0];
                 double d8 = dArray[0] == 0.0 && dArray[1] == 0.0 ? d3 : dArray[1];
-                Vec3d vec3d8 = vec3d5.method_1019(vec3d6.method_1021(d7)).method_1019(vec3d7.method_1021(d8));
-                Vec3d vec3d9 = vec3d8.method_1020(vec3d);
-                double d9 = vec3d9.method_1033();
-                if (d9 > 4.4 || d9 < 0.3 || (d6 = Math.sqrt(vec3d9.field_1352 * vec3d9.field_1352 + vec3d9.field_1350 * vec3d9.field_1350)) < 0.25 || !qdz.qky(world, clientPlayerEntity, vec3d, blockPos, vec3d8)) continue;
+                Vec3d vec3d8 = vec3d5.add(vec3d6.multiply(d7)).add(vec3d7.multiply(d8));
+                Vec3d vec3d9 = vec3d8.subtract(vec3d);
+                double d9 = vec3d9.length();
+                if (d9 > 4.4 || d9 < 0.3 || (d6 = Math.sqrt(vec3d9.x * vec3d9.x + vec3d9.z * vec3d9.z)) < 0.25 || !qdz.qky(world, clientPlayerEntity, vec3d, blockPos, vec3d8)) continue;
                 int n = 0;
                 for (double[] dArray2 : qei) {
-                    d5 = MathHelper.method_15350((double)(d7 + dArray2[0]), (double)-0.47, (double)0.47);
-                    double d10 = MathHelper.method_15350((double)(d8 + dArray2[1]), (double)-0.47, (double)0.47);
-                    if (!qdz.qky(world, clientPlayerEntity, vec3d, blockPos, vec3d5.method_1019(vec3d6.method_1021(d5)).method_1019(vec3d7.method_1021(d10)))) continue;
+                    d5 = MathHelper.clamp((double)(d7 + dArray2[0]), (double)-0.47, (double)0.47);
+                    double d10 = MathHelper.clamp((double)(d8 + dArray2[1]), (double)-0.47, (double)0.47);
+                    if (!qdz.qky(world, clientPlayerEntity, vec3d, blockPos, vec3d5.add(vec3d6.multiply(d5)).add(vec3d7.multiply(d10)))) continue;
                     ++n;
                 }
-                double d11 = Math.acos(MathHelper.method_15350((double)vec3d9.method_1021(1.0 / d9).method_1026(vec3d2), (double)-1.0, (double)1.0));
-                d5 = d11 + (double)(qei.length - n) * 0.35 + ((d4 = d6 / Math.max(0.05, Math.abs(vec3d9.field_1351))) < 0.4 ? (0.4 - d4) * 2.0 : 0.0);
+                double d11 = Math.acos(MathHelper.clamp((double)vec3d9.multiply(1.0 / d9).dotProduct(vec3d2), (double)-1.0, (double)1.0));
+                d5 = d11 + (double)(qei.length - n) * 0.35 + ((d4 = d6 / Math.max(0.05, Math.abs(vec3d9.y))) < 0.4 ? (0.4 - d4) * 2.0 : 0.0);
                 if (d5 < d) {
                     d = d5;
                     vec3d3 = vec3d8;
@@ -2329,18 +2329,18 @@ public final class qdz {
     }
 
     private static boolean qky(World world, ClientPlayerEntity clientPlayerEntity, Vec3d vec3d, BlockPos blockPos, Vec3d vec3d2) {
-        Vec3d vec3d3 = vec3d2.method_1020(vec3d);
-        double d = vec3d3.method_1033();
+        Vec3d vec3d3 = vec3d2.subtract(vec3d);
+        double d = vec3d3.length();
         if (d < 1.0E-4) {
             return false;
         }
-        Vec3d vec3d4 = vec3d2.method_1019(vec3d3.method_1021(0.08 / d));
-        BlockHitResult blockHitResult = world.method_17742(new RaycastContext(vec3d, vec3d4, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-        if (blockHitResult.method_17783() != HitResult.Type.field_1332 || !blockHitResult.method_17777().equals((Object)blockPos)) {
+        Vec3d vec3d4 = vec3d2.add(vec3d3.multiply(0.08 / d));
+        BlockHitResult blockHitResult = world.raycast(new RaycastContext(vec3d, vec3d4, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+        if (blockHitResult.getType() != HitResult.Type.BLOCK || !blockHitResult.getBlockPos().equals((Object)blockPos)) {
             return false;
         }
         for (Box box : qhs) {
-            if (!box.method_1006(vec3d) && !box.method_992(vec3d, vec3d4).isPresent()) continue;
+            if (!box.contains(vec3d) && !box.raycast(vec3d, vec3d4).isPresent()) continue;
             return false;
         }
         return true;
@@ -2348,78 +2348,78 @@ public final class qdz {
 
     private static void qkz(World world, ClientPlayerEntity clientPlayerEntity) {
         qhs.clear();
-        for (Entity entity : world.method_8333((Entity)clientPlayerEntity, clientPlayerEntity.method_5829().method_1014(7.0), EntityPredicates.field_52443)) {
-            qhs.add(entity.method_5829().method_1014((double)entity.method_5871()));
+        for (Entity entity : world.getOtherEntities((Entity)clientPlayerEntity, clientPlayerEntity.getBoundingBox().expand(7.0), EntityPredicates.CAN_HIT)) {
+            qhs.add(entity.getBoundingBox().expand((double)entity.getTargetingMargin()));
         }
     }
 
     private static BlockPos qla(World world, ClientPlayerEntity clientPlayerEntity, Vec3d vec3d, BlockPos blockPos) {
-        BlockHitResult blockHitResult = world.method_17742(new RaycastContext(vec3d, Vec3d.method_24953((Vec3i)blockPos), RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-        if (blockHitResult.method_17783() != HitResult.Type.field_1332 || blockHitResult.method_17777().equals((Object)blockPos)) {
+        BlockHitResult blockHitResult = world.raycast(new RaycastContext(vec3d, Vec3d.ofCenter((Vec3i)blockPos), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+        if (blockHitResult.getType() != HitResult.Type.BLOCK || blockHitResult.getBlockPos().equals((Object)blockPos)) {
             return null;
         }
-        return blockHitResult.method_17777();
+        return blockHitResult.getBlockPos();
     }
 
     static BlockPos standing(World world, ClientPlayerEntity clientPlayerEntity) {
-        BlockPos blockPos = clientPlayerEntity.method_24515();
-        if (clientPlayerEntity.method_23318() - (double)blockPos.method_10264() >= 0.49 && !world.method_8320(blockPos).method_26220((BlockView)world, blockPos).method_1110()) {
-            return blockPos.method_10084();
+        BlockPos blockPos = clientPlayerEntity.getBlockPos();
+        if (clientPlayerEntity.getY() - (double)blockPos.getY() >= 0.49 && !world.getBlockState(blockPos).getCollisionShape((BlockView)world, blockPos).isEmpty()) {
+            return blockPos.up();
         }
         return blockPos;
     }
 
     public static BlockPos trapped(World world, ClientPlayerEntity clientPlayerEntity) {
-        Box box = clientPlayerEntity.method_5829().method_1011(0.001);
-        if (world.method_8587((Entity)clientPlayerEntity, box)) {
-            BlockPos blockPos = BlockPos.method_49637((double)clientPlayerEntity.method_23317(), (double)box.field_1322, (double)clientPlayerEntity.method_23321()).method_10084();
-            return clientPlayerEntity.method_20448() && qdz.qlb(world, blockPos) ? blockPos : null;
+        Box box = clientPlayerEntity.getBoundingBox().contract(0.001);
+        if (world.isSpaceEmpty((Entity)clientPlayerEntity, box)) {
+            BlockPos blockPos = BlockPos.ofFloored((double)clientPlayerEntity.getX(), (double)box.minY, (double)clientPlayerEntity.getZ()).up();
+            return clientPlayerEntity.isCrawling() && qdz.qlb(world, blockPos) ? blockPos : null;
         }
-        BlockPos blockPos = BlockPos.method_49638((Position)clientPlayerEntity.method_33571());
+        BlockPos blockPos = BlockPos.ofFloored((Position)clientPlayerEntity.getEyePos());
         if (qdz.qlb(world, blockPos)) {
             return blockPos;
         }
-        BlockPos blockPos2 = BlockPos.method_49637((double)clientPlayerEntity.method_23317(), (double)box.field_1322, (double)clientPlayerEntity.method_23321());
+        BlockPos blockPos2 = BlockPos.ofFloored((double)clientPlayerEntity.getX(), (double)box.minY, (double)clientPlayerEntity.getZ());
         if (qdz.qlb(world, blockPos2)) {
             return blockPos2;
         }
-        for (BlockPos blockPos3 : BlockPos.method_10097((BlockPos)BlockPos.method_49637((double)box.field_1323, (double)box.field_1322, (double)box.field_1321), (BlockPos)BlockPos.method_49637((double)box.field_1320, (double)box.field_1325, (double)box.field_1324))) {
-            if (!qdz.qlb(world, blockPos3) || !world.method_8320(blockPos3).method_26220((BlockView)world, blockPos3).method_1107().method_996(blockPos3).method_994(box)) continue;
-            return blockPos3.method_10062();
+        for (BlockPos blockPos3 : BlockPos.iterate((BlockPos)BlockPos.ofFloored((double)box.minX, (double)box.minY, (double)box.minZ), (BlockPos)BlockPos.ofFloored((double)box.maxX, (double)box.maxY, (double)box.maxZ))) {
+            if (!qdz.qlb(world, blockPos3) || !world.getBlockState(blockPos3).getCollisionShape((BlockView)world, blockPos3).getBoundingBox().offset(blockPos3).intersects(box)) continue;
+            return blockPos3.toImmutable();
         }
         return null;
     }
 
     private static boolean qlb(World world, BlockPos blockPos) {
-        BlockState blockState = world.method_8320(blockPos);
-        return !blockState.method_26215() && blockState.method_26227().method_15769() && blockState.method_26214((BlockView)world, blockPos) >= 0.0f && blockState.method_26234((BlockView)world, blockPos);
+        BlockState blockState = world.getBlockState(blockPos);
+        return !blockState.isAir() && blockState.getFluidState().isEmpty() && blockState.getHardness((BlockView)world, blockPos) >= 0.0f && blockState.isFullCube((BlockView)world, blockPos);
     }
 
     private boolean qlc(World world, BlockPos blockPos) {
-        if (this.qfg == null || !this.qfg.contains(blockPos) || this.qev.contains(blockPos.method_10063())) {
+        if (this.qfg == null || !this.qfg.contains(blockPos) || this.qev.contains(blockPos.asLong())) {
             return false;
         }
-        BlockState blockState = world.method_8320(blockPos);
-        return !blockState.method_26215() && blockState.method_26227().method_15769() && blockState.method_26214((BlockView)world, blockPos) >= 0.0f;
+        BlockState blockState = world.getBlockState(blockPos);
+        return !blockState.isAir() && blockState.getFluidState().isEmpty() && blockState.getHardness((BlockView)world, blockPos) >= 0.0f;
     }
 
     private static boolean qld(World world, BlockPos blockPos) {
-        return !world.method_8320(blockPos).method_26220((BlockView)world, blockPos).method_1110();
+        return !world.getBlockState(blockPos).getCollisionShape((BlockView)world, blockPos).isEmpty();
     }
 
     private static boolean qle(World world, BlockPos blockPos) {
-        VoxelShape voxelShape = world.method_8320(blockPos).method_26220((BlockView)world, blockPos);
-        return !voxelShape.method_1110() && voxelShape.method_1105(Direction.Axis.field_11052) > 0.25;
+        VoxelShape voxelShape = world.getBlockState(blockPos).getCollisionShape((BlockView)world, blockPos);
+        return !voxelShape.isEmpty() && voxelShape.getMax(Direction.Axis.Y) > 0.25;
     }
 
     private void qlf(BlockPos blockPos, int n) {
-        this.qlj(a.c(-564323151, "\u1cc7\u656e\uefbf\u71d7\ufa50") + blockPos.method_23854() + a.d("\uc928", 1780711411, -1700415750) + n);
-        this.qew.put(blockPos.method_10063(), (long)(this.qfi + n));
+        this.qlj(a.c(-564323151, "\u1cc7\u656e\uefbf\u71d7\ufa50") + blockPos.toShortString() + a.d("\uc928", 1780711411, -1700415750) + n);
+        this.qew.put(blockPos.asLong(), (long)(this.qfi + n));
     }
 
     private void qlg(ClientPlayerEntity clientPlayerEntity) {
-        Vec3d vec3d = clientPlayerEntity.method_73189();
-        this.qgn = this.qfx != null && this.qfr == null && this.qgm != null && vec3d.method_1025(this.qgm) < 4.0E-4 ? ++this.qgn : 0;
+        Vec3d vec3d = clientPlayerEntity.getEntityPos();
+        this.qgn = this.qfx != null && this.qfr == null && this.qgm != null && vec3d.squaredDistanceTo(this.qgm) < 4.0E-4 ? ++this.qgn : 0;
         this.qgm = vec3d;
     }
 
@@ -2431,8 +2431,8 @@ public final class qdz {
                 iterator.remove();
                 continue;
             }
-            BlockPos blockPos = BlockPos.method_10092((long)qcu2.pos());
-            if (world.method_8320(blockPos).method_26204() != qcu2.block()) {
+            BlockPos blockPos = BlockPos.fromLong((long)qcu2.pos());
+            if (world.getBlockState(blockPos).getBlock() != qcu2.block()) {
                 this.qez.remove(qcu2.pos());
                 continue;
             }
@@ -2456,7 +2456,7 @@ public final class qdz {
         this.qez.remove(l);
         ++this.qfq;
         this.qfl = true;
-        this.qlj(a.b("\u387f\u41cd\ucb11\u552e", -1674627047) + BlockPos.method_10092((long)l).method_23854() + a.b("\uc262", 1437909571) + string);
+        this.qlj(a.b("\u387f\u41cd\ucb11\u552e", -1674627047) + BlockPos.fromLong((long)l).toShortString() + a.b("\uc262", 1437909571) + string);
     }
 
     private void qlj(String string) {
@@ -2467,7 +2467,7 @@ public final class qdz {
     }
 
     private /* synthetic */ boolean lambda$endTick$4(World world, long l) {
-        return !this.qet.isGhost(l) && world.method_8320(BlockPos.method_10092((long)l)).method_26215();
+        return !this.qet.isGhost(l) && world.getBlockState(BlockPos.fromLong((long)l)).isAir();
     }
 
     static {

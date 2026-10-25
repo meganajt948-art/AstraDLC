@@ -64,18 +64,18 @@ public final class elq {
     }
 
     public emu match(ItemStack itemStack) {
-        if (itemStack == null || itemStack.method_7960() || this.elr.isEmpty()) {
+        if (itemStack == null || itemStack.isEmpty() || this.elr.isEmpty()) {
             return null;
         }
         String string = null;
         for (emu emu2 : this.entries()) {
             String string2;
-            if (!this.elr.contains(emu2.getName()) || !itemStack.method_31574(emu2.getItem())) continue;
+            if (!this.elr.contains(emu2.getName()) || !itemStack.isOf(emu2.getItem())) continue;
             if (emu2.matches(itemStack)) {
                 return emu2;
             }
             if (string == null) {
-                string = elq.elv(itemStack.method_7964().getString());
+                string = elq.elv(itemStack.getName().getString());
             }
             if ((string2 = elq.elv(emu2.getSearchQuery())).isEmpty() || !string.contains(string2)) continue;
             return emu2;

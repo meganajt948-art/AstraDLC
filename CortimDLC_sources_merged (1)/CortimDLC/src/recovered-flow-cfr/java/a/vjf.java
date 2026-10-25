@@ -72,19 +72,19 @@ public final class vjf {
         float f10 = f8 + f5 + f6 * 2.0f;
         int n3 = vhz2.ordinal();
         float[] fArray = vjb2.uv(n3);
-        Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.method_51448());
+        Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.getMatrices());
         ScreenRect screenRect2 = uut.bounds(matrix3x2f, f7, f8, f9, f10, screenRect = uut.scissor());
         if (screenRect2 == null) {
             return;
         }
-        TextureSetup textureSetup = TextureSetup.method_70900((GpuTextureView)vjb2.view, (GpuSampler)RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+        TextureSetup textureSetup = TextureSetup.of((GpuTextureView)vjb2.view, (GpuSampler)RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
         float[] fArray2 = new float[]{f7, f8, f9, f10, fArray[0], fArray[1], fArray[2], fArray[3]};
         uut.submit(drawContext, new vfw(textureSetup, matrix3x2f, fArray2, new int[]{n2}, 1, screenRect, screenRect2));
     }
 
     private static float vjp() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        int n = minecraftClient.method_22683() != null ? minecraftClient.method_22683().method_4495() : 2;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        int n = minecraftClient.getWindow() != null ? minecraftClient.getWindow().getScaleFactor() : 2;
         return (float)Math.max(1, n) * vdn.renderScale();
     }
 

@@ -48,30 +48,30 @@ extends kfe {
 
     public static void afterExtraction(WorldRenderState worldRenderState) {
         rwo rwo2 = rwp;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rwo2 == null || !rwo2.isEnabled() || minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rwo2 == null || !rwo2.isEnabled() || minecraftClient.world == null) {
             return;
         }
         ukl.style(1).set((float)rwo2.rwu.get(), (float)rwo2.rws.get(), (float)rwo2.rwt.get(), (float)rwo2.rwv.get(), (float)rwo2.rww.get(), (float)rwo2.rwx.get());
         int n = rwo2.rwr.color() | 0xFF000000;
         int n2 = rwo2.rwr.color2() | 0xFF000000;
         boolean bl = ukl.canFade();
-        for (EntityRenderState entityRenderState : worldRenderState.field_61735) {
+        for (EntityRenderState entityRenderState : worldRenderState.entityRenderStates) {
             PlayerEntity playerEntity;
             if (!(entityRenderState instanceof PlayerEntityRenderState)) continue;
             PlayerEntityRenderState playerEntityRenderState = (PlayerEntityRenderState)entityRenderState;
-            Entity entity = minecraftClient.field_1687.method_8469(playerEntityRenderState.field_53528);
-            if (!(entity instanceof PlayerEntity) || (playerEntity = (PlayerEntity)entity) == minecraftClient.field_1724 || !hhf.isFriend((Entity)playerEntity)) continue;
+            Entity entity = minecraftClient.world.getEntityById(playerEntityRenderState.id);
+            if (!(entity instanceof PlayerEntity) || (playerEntity = (PlayerEntity)entity) == minecraftClient.player || !hhf.isFriend((Entity)playerEntity)) continue;
             boolean bl2 = Cosmetics.hidesBody((EntityRenderState)playerEntityRenderState);
             if (bl) {
                 if (!bl2) {
-                    playerEntityRenderState.field_53333 = false;
-                    playerEntityRenderState.field_53461 = false;
+                    playerEntityRenderState.invisible = false;
+                    playerEntityRenderState.invisibleToPlayer = false;
                 }
                 ukl.fade(entityRenderState, 1.0f - (float)rwo2.rwq.get());
             } else if (rwo2.rwq.get() > 0.0 && !bl2) {
-                playerEntityRenderState.field_53333 = true;
-                playerEntityRenderState.field_53461 = false;
+                playerEntityRenderState.invisible = true;
+                playerEntityRenderState.invisibleToPlayer = false;
             }
             ukl.paint(entityRenderState, 1, n, n2);
         }

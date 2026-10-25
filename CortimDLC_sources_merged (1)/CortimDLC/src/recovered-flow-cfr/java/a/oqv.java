@@ -117,12 +117,12 @@ extends kfe {
     }
 
     public static void onUseBlock(BlockPos blockPos) {
-        orn = blockPos.method_10062();
+        orn = blockPos.toImmutable();
         oro = System.currentTimeMillis();
     }
 
     public static boolean wantsItem(Item item) {
-        return oqw != null && oqv.oqw.oqx.contains(Registries.field_41178.method_10221((Object)item).toString());
+        return oqw != null && oqv.oqw.oqx.contains(Registries.ITEM.getId((Object)item).toString());
     }
 
     public static boolean listEmpty() {
@@ -150,7 +150,7 @@ extends kfe {
             iterator.next();
             iterator.remove();
         }
-        orl.put(blockPos.method_10062(), new oqq(bl ? 2 : 1, System.currentTimeMillis()));
+        orl.put(blockPos.toImmutable(), new oqq(bl ? 2 : 1, System.currentTimeMillis()));
     }
 
     private static void osi() {
@@ -180,11 +180,11 @@ extends kfe {
         block11: {
             block10: {
                 boolean bl;
-                if (minecraftClient.field_1687 != orm) {
-                    orm = minecraftClient.field_1687;
+                if (minecraftClient.world != orm) {
+                    orm = minecraftClient.world;
                     orl.clear();
                 }
-                boolean bl2 = minecraftClient.field_1755 instanceof HandledScreen && vxl.isStorage(minecraftClient.field_1755);
+                boolean bl2 = minecraftClient.currentScreen instanceof HandledScreen && vxl.isStorage(minecraftClient.currentScreen);
                 boolean bl3 = bl = bl2 && this.oqy.isBound() && vzz.isDown(minecraftClient, this.oqy.get());
                 if (bl && !this.orr && !this.orq && !osq.busy()) {
                     this.osk(minecraftClient);
@@ -193,10 +193,10 @@ extends kfe {
                 if (!this.orq) {
                     return;
                 }
-                Screen screen = minecraftClient.field_1755;
+                Screen screen = minecraftClient.currentScreen;
                 if (!(screen instanceof HandledScreen)) break block10;
                 handledScreen = (HandledScreen)screen;
-                if (handledScreen.method_17577().field_7763 == this.ors) break block11;
+                if (handledScreen.getScreenHandler().syncId == this.ors) break block11;
             }
             this.orq = false;
             return;
@@ -205,18 +205,18 @@ extends kfe {
         if (l < this.orw) {
             return;
         }
-        ScreenHandler screenHandler = handledScreen.method_17577();
-        PlayerInventory playerInventory = minecraftClient.field_1724.method_31548();
+        ScreenHandler screenHandler = handledScreen.getScreenHandler();
+        PlayerInventory playerInventory = minecraftClient.player.getInventory();
         while (!this.orp.isEmpty()) {
             int n = this.orp.poll();
-            Slot slot = (Slot)screenHandler.field_7761.get(n);
-            if (!slot.method_7681() || !this.osj(slot)) continue;
-            if (!vxl.hasRoom(screenHandler, playerInventory, slot.method_7677())) {
+            Slot slot = (Slot)screenHandler.slots.get(n);
+            if (!slot.hasStack() || !this.osj(slot)) continue;
+            if (!vxl.hasRoom(screenHandler, playerInventory, slot.getStack())) {
                 ++this.orv;
                 continue;
             }
-            vxl.click(minecraftClient, screenHandler, n, 0, SlotActionType.field_7794);
-            if (slot.method_7681() && this.osj(slot)) {
+            vxl.click(minecraftClient, screenHandler, n, 0, SlotActionType.QUICK_MOVE);
+            if (slot.hasStack() && this.osj(slot)) {
                 ++this.orv;
             }
             ++this.ort;
@@ -229,12 +229,12 @@ extends kfe {
     }
 
     private boolean osj(Slot slot) {
-        return this.oqx.contains(Registries.field_41178.method_10221((Object)slot.method_7677().method_7909()).toString());
+        return this.oqx.contains(Registries.ITEM.getId((Object)slot.getStack().getItem()).toString());
     }
 
     private void osk(MinecraftClient minecraftClient) {
-        HandledScreen handledScreen = (HandledScreen)minecraftClient.field_1755;
-        ScreenHandler screenHandler = handledScreen.method_17577();
+        HandledScreen handledScreen = (HandledScreen)minecraftClient.currentScreen;
+        ScreenHandler screenHandler = handledScreen.getScreenHandler();
         long l = System.currentTimeMillis();
         this.orx = orn != null && l - oro < 5000L ? orn : null;
         this.orp.clear();
@@ -244,13 +244,13 @@ extends kfe {
             this.osn(wap.s(a.d("\u6326\u1aab\u9075\u0e41\u85da\u036e\ub927\u30d1\uaeda\u2422\ua3eb\u59c9\ud75b\u4ee2\uc4ac\u4259\uf81b\u7789\ued20\u6b21\ue2cf\u9894\u162f\u8db5\u0b83\u814f\u38ed\ub6b4\u2c5d\uaa5f\u21a5\udf73\u5572\uccd7\u4a98\uc024\u7fb6\uf58a\u735b\ueae1\u60af\u1e47\u941d", -2071066928, 2003592585), a.d("\u49a3\u300c\ubad8\u24d0\uaf78\u29cd\u9784\u1a6a\u8449\u0efa\u892a\u7739\ud9da\u605f\uee1e\u6896\ud2a3\u5d76\uc7b0\u4199\uc814\ub232\u3894\ua75a\u215a\uabfe\u124c\u9c15\u06eb\u80cd\u0b77\uf1cd\u7f90\ue273\u603c\uea8f\u5552\udf54\u59ff\uc040", 463319755, 718405473)), false);
             return;
         }
-        if (!screenHandler.method_34255().method_7960()) {
+        if (!screenHandler.getCursorStack().isEmpty()) {
             this.osn(wap.s(a.d("\ud2bd\uab29\u21fb\ubfde\u345d\ub2f0\u08ae\u811a\u1f0c\u95a0\u1262\ue81b\u6681\uff7f\u752d\uf392\u4989\uc644\u5cfa\udaee\u535a\u291d\ua7a9\u3c79\uba1a\u30d6\u8937\u0722\u9dde\u1b97\u903d", 183186264, 446685610), a.b("\u7b28\u028b\u885c\u1658\u9df7\u1b3c\ua118\u2cfc\ub6bc\u3c72\ubbd4\u41a4\ucf7b\u56c3\udce7\u5e74\ue05a\u6bea\uf543\u736b\ufa9f\u80cf\u0e03\u95ac\u13a3", 356351762)), false);
             return;
         }
-        for (Slot slot : vxl.own(screenHandler, minecraftClient.field_1724.method_31548())) {
-            if (!slot.method_7681() || !this.osj(slot)) continue;
-            this.orp.add(slot.field_7874);
+        for (Slot slot : vxl.own(screenHandler, minecraftClient.player.getInventory())) {
+            if (!slot.hasStack() || !this.osj(slot)) continue;
+            this.orp.add(slot.id);
         }
         this.oru = this.orp.size();
         if (this.oru == 0) {
@@ -260,7 +260,7 @@ extends kfe {
             return;
         }
         this.orq = true;
-        this.ors = screenHandler.field_7763;
+        this.ors = screenHandler.syncId;
         this.orw = l;
     }
 
@@ -276,7 +276,7 @@ extends kfe {
             this.osm(1);
             this.osn(wap.s(a.d("\ud98f\ua00b\u2ad2\ub4ad\u3f71\ub98e", -1728190778, -1501020389), a.b("\u6586\u1c10\u96c2\u08c2\u8365\u05d9\ubf89\u3266", 1918591385)) + this.ort, true);
             if (this.ora.get()) {
-                handledScreen.method_25419();
+                handledScreen.close();
             }
         }
         this.orz = l + 2000L;
@@ -307,7 +307,7 @@ extends kfe {
         uut.beginFrame();
         float f = ork.width(this.ory) + 16.0f;
         float f2 = 13.0f;
-        float f3 = ((float)drawContext.method_51421() - f) * 0.5f;
+        float f3 = ((float)drawContext.getScaledWindowWidth() - f) * 0.5f;
         float f4 = 6.0f;
         uut.shadow(drawContext, f3, f4 + 1.0f, f, f2, f2 * 0.5f, 6.0f, 0x60000000);
         uut.round(drawContext, f3, f4, f, f2, f2 * 0.5f, ujt.withAlpha(iov.window, 240));
@@ -321,8 +321,8 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         oqv oqv2 = oqw;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (oqv2 == null || !oqv2.isEnabled() || !oqv2.orb.get() || orl.isEmpty() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (oqv2 == null || !oqv2.isEnabled() || !oqv2.orb.get() || orl.isEmpty() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -331,7 +331,7 @@ extends kfe {
         }
         oqv2.osa = unf.frame();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -342,7 +342,7 @@ extends kfe {
             long l = System.currentTimeMillis();
             for (Map.Entry<BlockPos, oqq> entry : orl.entrySet()) {
                 BlockPos blockPos = entry.getKey();
-                if (usn2.distance((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 0.5, (double)blockPos.method_10260() + 0.5) > 160.0) continue;
+                if (usn2.distance((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5) > 160.0) continue;
                 float f = Math.min(1.0f, (float)(l - entry.getValue().at()) / 650.0f);
                 int n = entry.getValue().state() == 1 ? -45730 : -15795;
                 oqv2.osp(drawContext, usn2, blockPos, n, f);
@@ -355,12 +355,12 @@ extends kfe {
 
     private void osp(DrawContext drawContext, usn usn2, BlockPos blockPos, int n, float f) {
         double d = 0.06 * (1.0 - (double)f);
-        double d2 = (double)blockPos.method_10263() + 0.0625 - d;
-        double d3 = (double)blockPos.method_10264() - d;
-        double d4 = (double)blockPos.method_10260() + 0.0625 - d;
-        double d5 = (double)blockPos.method_10263() + 0.9375 + d;
-        double d6 = (double)blockPos.method_10264() + 0.875 + d;
-        double d7 = (double)blockPos.method_10260() + 0.9375 + d;
+        double d2 = (double)blockPos.getX() + 0.0625 - d;
+        double d3 = (double)blockPos.getY() - d;
+        double d4 = (double)blockPos.getZ() + 0.0625 - d;
+        double d5 = (double)blockPos.getX() + 0.9375 + d;
+        double d6 = (double)blockPos.getY() + 0.875 + d;
+        double d7 = (double)blockPos.getZ() + 0.9375 + d;
         int n2 = ujt.withAlpha(n, Math.round(210.0f * f));
         double[][] dArray = this.osf;
         for (int i = 0; i < 8; ++i) {
@@ -374,7 +374,7 @@ extends kfe {
             if (!usn2.projectSegment(dArray2[0], dArray2[1], dArray2[2], dArray3[0], dArray3[1], dArray3[2], 0.05f, this.osc, this.osd)) continue;
             uut.line(drawContext, this.osc[0], this.osc[1], this.osc[2], this.osc[3], 1.1f, n2);
         }
-        if (usn2.project((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 1.15, (double)blockPos.method_10260() + 0.5, this.osb)) {
+        if (usn2.project((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 1.15, (double)blockPos.getZ() + 0.5, this.osb)) {
             uut.circle(drawContext, this.osb[0], this.osb[1], 2.2f, ujt.withAlpha(n, Math.round(230.0f * f)));
         }
     }

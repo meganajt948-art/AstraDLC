@@ -61,7 +61,7 @@ extends kfe {
             return;
         }
         ouz = System.currentTimeMillis();
-        if (minecraftClient.field_1724 != null && (minecraftClient.field_1724.method_6047().method_31574(Items.field_8287) || minecraftClient.field_1724.method_6079().method_31574(Items.field_8287))) {
+        if (minecraftClient.player != null && (minecraftClient.player.getMainHandStack().isOf(Items.EXPERIENCE_BOTTLE) || minecraftClient.player.getOffHandStack().isOf(Items.EXPERIENCE_BOTTLE))) {
             our.ovc(minecraftClient, n);
         }
     }
@@ -78,7 +78,7 @@ extends kfe {
             this.setEnabled(false);
             return;
         }
-        if (minecraftClient.field_1724 == null || !minecraftClient.field_1690.field_1904.method_1434() || !this.ovd(minecraftClient.field_1724.method_6047()) && !this.ovd(minecraftClient.field_1724.method_6079())) {
+        if (minecraftClient.player == null || !minecraftClient.options.useKey.isPressed() || !this.ovd(minecraftClient.player.getMainHandStack()) && !this.ovd(minecraftClient.player.getOffHandStack())) {
             return;
         }
         our.ovc(minecraftClient, this.ouu.getInt());

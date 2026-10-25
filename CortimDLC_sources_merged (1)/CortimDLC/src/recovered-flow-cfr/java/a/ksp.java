@@ -37,17 +37,17 @@ final class ksp {
     }
 
     void predict(ClientPlayerEntity clientPlayerEntity, World world, boolean bl, int n, boolean bl2, double d) {
-        Box box = clientPlayerEntity.method_5829();
-        boolean bl3 = clientPlayerEntity.method_24828();
+        Box box = clientPlayerEntity.getBoundingBox();
+        boolean bl3 = clientPlayerEntity.isOnGround();
         double d2 = d;
-        double d3 = clientPlayerEntity.method_18798().field_1351;
-        double d4 = clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014;
-        double d5 = clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969;
-        if (bl3 && clientPlayerEntity.method_5715()) {
+        double d3 = clientPlayerEntity.getVelocity().y;
+        double d4 = clientPlayerEntity.getX() - clientPlayerEntity.lastX;
+        double d5 = clientPlayerEntity.getZ() - clientPlayerEntity.lastZ;
+        if (bl3 && clientPlayerEntity.isSneaking()) {
             d4 = 0.0;
             d5 = 0.0;
         }
-        double d6 = clientPlayerEntity.method_56989();
+        double d6 = clientPlayerEntity.getFinalGravity();
         float f = ksp.jumpVelocity(clientPlayerEntity, world);
         int n2 = bl2 ? 0 : n;
         double d7 = 0.0;
@@ -74,27 +74,27 @@ final class ksp {
             } else {
                 n2 = 0;
             }
-            Vec3d vec3d = Entity.method_20736((Entity)clientPlayerEntity, (Vec3d)new Vec3d(d4, d3, d5), (Box)box, (World)world, List.of());
-            boolean bl4 = vec3d.field_1351 != d3;
+            Vec3d vec3d = Entity.adjustMovementForCollisions((Entity)clientPlayerEntity, (Vec3d)new Vec3d(d4, d3, d5), (Box)box, (World)world, List.of());
+            boolean bl4 = vec3d.y != d3;
             boolean bl5 = bl3 = bl4 && d3 < 0.0;
-            if (vec3d.field_1352 != d4) {
+            if (vec3d.x != d4) {
                 d4 = 0.0;
             }
-            if (vec3d.field_1350 != d5) {
+            if (vec3d.z != d5) {
                 d5 = 0.0;
             }
-            if (vec3d.field_1351 > 0.0) {
+            if (vec3d.y > 0.0) {
                 d2 = 0.0;
-            } else if (vec3d.field_1351 < 0.0) {
-                d2 -= vec3d.field_1351;
+            } else if (vec3d.y < 0.0) {
+                d2 -= vec3d.y;
             }
             if (bl3) {
                 d2 = 0.0;
             }
-            box = box.method_997(vec3d);
-            d7 += vec3d.field_1352;
-            d8 += vec3d.field_1351;
-            d9 += vec3d.field_1350;
+            box = box.offset(vec3d);
+            d7 += vec3d.x;
+            d8 += vec3d.y;
+            d9 += vec3d.z;
             if (bl4) {
                 d3 = 0.0;
             }
@@ -148,14 +148,14 @@ final class ksp {
     }
 
     static double headroom(ClientPlayerEntity clientPlayerEntity, World world, double d) {
-        return Entity.method_20736((Entity)clientPlayerEntity, (Vec3d)new Vec3d((double)0.0, (double)d, (double)0.0), (Box)clientPlayerEntity.method_5829(), (World)world, List.of()).field_1351;
+        return Entity.adjustMovementForCollisions((Entity)clientPlayerEntity, (Vec3d)new Vec3d((double)0.0, (double)d, (double)0.0), (Box)clientPlayerEntity.getBoundingBox(), (World)world, List.of()).y;
     }
 
     static float jumpVelocity(ClientPlayerEntity clientPlayerEntity, World world) {
-        float f = world.method_8320(clientPlayerEntity.method_24515()).method_26204().method_23350();
-        float f2 = world.method_8320(clientPlayerEntity.method_23314()).method_26204().method_23350();
+        float f = world.getBlockState(clientPlayerEntity.getBlockPos()).getBlock().getJumpVelocityMultiplier();
+        float f2 = world.getBlockState(clientPlayerEntity.getVelocityAffectingPos()).getBlock().getJumpVelocityMultiplier();
         float f3 = f == 1.0f ? f2 : f;
-        return (float)clientPlayerEntity.method_45325(EntityAttributes.field_23728) * f3 + clientPlayerEntity.method_37416();
+        return (float)clientPlayerEntity.getAttributeValue(EntityAttributes.JUMP_STRENGTH) * f3 + clientPlayerEntity.getJumpBoostVelocityModifier();
     }
 
     private static /* synthetic */ int aum(int n, int n2) {

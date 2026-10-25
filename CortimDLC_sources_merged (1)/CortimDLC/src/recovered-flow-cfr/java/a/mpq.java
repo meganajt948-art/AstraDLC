@@ -508,7 +508,7 @@ extends pnc {
     @Override
     protected void onEnable() {
         if (this.getPlayer() != null) {
-            this.mtc = this.getPlayer().method_6032();
+            this.mtc = this.getPlayer().getHealth();
         }
         if (this.driver == null) {
             try {
@@ -608,8 +608,8 @@ extends pnc {
         this.msn = 0;
         this.mso = Double.MAX_VALUE;
         this.msp = -1;
-        if (this.mc.field_1761 != null) {
-            this.mc.field_1761.method_2925();
+        if (this.mc.interactionManager != null) {
+            this.mc.interactionManager.cancelBlockBreaking();
         }
         ptr.clear();
         this.mvk = null;
@@ -662,17 +662,17 @@ extends pnc {
     }
 
     private void mxw(boolean bl) {
-        this.mc.field_1690.field_1832.method_23481(bl);
-        this.mc.field_1690.field_1904.method_23481(true);
+        this.mc.options.sneakKey.setPressed(bl);
+        this.mc.options.useKey.setPressed(true);
         ptr.miss();
     }
 
     private void mxx() {
-        if (this.mc.field_1690 == null) {
+        if (this.mc.options == null) {
             return;
         }
-        this.mc.field_1690.field_1904.method_23481(false);
-        this.mc.field_1690.field_1832.method_23481(false);
+        this.mc.options.useKey.setPressed(false);
+        this.mc.options.sneakKey.setPressed(false);
     }
 
     private boolean mxy(float f) {
@@ -681,14 +681,14 @@ extends pnc {
     }
 
     private boolean mxz() {
-        boolean bl = this.getPlayer().method_7344().method_7586() < 18;
-        int n = this.nei(Items.field_8071);
+        boolean bl = this.getPlayer().getHungerManager().getFoodLevel() < 18;
+        int n = this.nei(Items.GOLDEN_CARROT);
         boolean bl2 = this.nci();
         if (this.mtf == 0) {
             if (!bl || n == -1) {
-                if (this.mc.field_1690.field_1904.method_1434() && this.mqq != mpm.BRUSHING_SAND) {
+                if (this.mc.options.useKey.isPressed() && this.mqq != mpm.BRUSHING_SAND) {
                     this.mxx();
-                    if (this.getPlayer().method_6047().method_7909() == Items.field_8071) {
+                    if (this.getPlayer().getMainHandStack().getItem() == Items.GOLDEN_CARROT) {
                         this.nat();
                     }
                 }
@@ -718,7 +718,7 @@ extends pnc {
                 if (!bl2) {
                     this.mxy(-55.0f);
                 }
-                this.getPlayer().method_31548().method_61496(n);
+                this.getPlayer().getInventory().setSelectedSlot(n);
                 this.mxw(!bl2);
                 ++this.mth;
                 if (this.mth <= 200) break;
@@ -740,8 +740,8 @@ extends pnc {
     private void mya() {
         if (this.nci()) {
             this.ncr();
-            this.mc.field_1690.field_1867.method_23481(false);
-            this.mc.field_1690.field_1903.method_23481(false);
+            this.mc.options.sprintKey.setPressed(false);
+            this.mc.options.jumpKey.setPressed(false);
         } else {
             pqf.resetKeys();
             this.ncf();
@@ -755,10 +755,10 @@ extends pnc {
     }
 
     private boolean myc(ItemStack itemStack) {
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return false;
         }
-        return itemStack.method_7909() == Items.field_8071 || itemStack.method_7909() == Items.field_8705 || this.nel(itemStack) || this.neo(itemStack);
+        return itemStack.getItem() == Items.GOLDEN_CARROT || itemStack.getItem() == Items.WATER_BUCKET || this.nel(itemStack) || this.neo(itemStack);
     }
 
     private void myd(mpm mpm2) {
@@ -815,7 +815,7 @@ extends pnc {
             return;
         }
         ClientPlayerEntity clientPlayerEntity = this.getPlayer();
-        boolean bl2 = clientPlayerEntity.method_29504() || clientPlayerEntity.method_6032() <= 0.0f;
+        boolean bl2 = clientPlayerEntity.isDead() || clientPlayerEntity.getHealth() <= 0.0f;
         boolean bl3 = this.mqq == mpm.TELEPORT_TO_LOOT || this.mqq == mpm.TELEPORT_TO_SAVE || this.mqq == mpm.WARPING_TO_SAVE_BASE || this.mqq == mpm.WARPING_TO_LOOT_BASE && (this.mxc < 0 || this.mrn - this.mxc < 100);
         boolean bl4 = bl = !bl3 && this.mxo >= n - 100;
         if (bl2 || bl) {
@@ -825,24 +825,24 @@ extends pnc {
     }
 
     private boolean myh() {
-        StatusEffectInstance statusEffectInstance = this.getPlayer().method_6112(StatusEffects.field_5905);
+        StatusEffectInstance statusEffectInstance = this.getPlayer().getStatusEffect(StatusEffects.INVISIBILITY);
         if (statusEffectInstance != null) {
-            return statusEffectInstance.method_5584() > 600;
+            return statusEffectInstance.getDuration() > 600;
         }
         return false;
     }
 
     private boolean myi() {
-        StatusEffectInstance statusEffectInstance = this.getPlayer().method_6112(StatusEffects.field_5904);
+        StatusEffectInstance statusEffectInstance = this.getPlayer().getStatusEffect(StatusEffects.SPEED);
         if (statusEffectInstance != null) {
-            return statusEffectInstance.method_5584() > 600;
+            return statusEffectInstance.getDuration() > 600;
         }
         return false;
     }
 
     private int myj(boolean bl) {
-        StatusEffectInstance statusEffectInstance = this.getPlayer().method_6112(bl ? StatusEffects.field_5905 : StatusEffects.field_5904);
-        return statusEffectInstance == null ? 0 : (statusEffectInstance.method_48559() ? Integer.MAX_VALUE : statusEffectInstance.method_5584());
+        StatusEffectInstance statusEffectInstance = this.getPlayer().getStatusEffect(bl ? StatusEffects.INVISIBILITY : StatusEffects.SPEED);
+        return statusEffectInstance == null ? 0 : (statusEffectInstance.isInfinite() ? Integer.MAX_VALUE : statusEffectInstance.getDuration());
     }
 
     private boolean myk(boolean bl) {
@@ -955,13 +955,13 @@ extends pnc {
             this.myw();
             pjd.keep(this.mxs());
             this.nbx();
-            this.mtz = this.getPlayer().method_36454();
+            this.mtz = this.getPlayer().getYaw();
             this.mua = true;
             this.mvl.beginTick();
             bl = this.myq();
-            if (bl && this.mc.field_1690 != null) {
-                this.mvp = this.mc.field_1690.field_1867.method_1434();
-                this.mvq = this.mc.field_1690.field_1832.method_1434();
+            if (bl && this.mc.options != null) {
+                this.mvp = this.mc.options.sprintKey.isPressed();
+                this.mvq = this.mc.options.sneakKey.isPressed();
             }
             try {
                 this.myz();
@@ -969,31 +969,31 @@ extends pnc {
                     this.myu();
                 }
                 this.nck();
-                if (this.mud <= 0 || this.mc.field_1690 == null) break block14;
+                if (this.mud <= 0 || this.mc.options == null) break block14;
             }
             catch (Throwable throwable) {
                 if (bl) {
                     this.myu();
                 }
                 this.nck();
-                if (this.mud > 0 && this.mc.field_1690 != null) {
-                    this.mc.field_1690.field_1886.method_23481(false);
-                    this.mc.field_1690.field_1904.method_23481(false);
+                if (this.mud > 0 && this.mc.options != null) {
+                    this.mc.options.attackKey.setPressed(false);
+                    this.mc.options.useKey.setPressed(false);
                 }
                 this.myx();
-                this.mub = this.mc.field_1690 != null && this.mc.field_1690.field_1886.method_1434();
-                boolean bl2 = this.muc = this.mc.field_1690 != null && this.mc.field_1690.field_1904.method_1434();
+                this.mub = this.mc.options != null && this.mc.options.attackKey.isPressed();
+                boolean bl2 = this.muc = this.mc.options != null && this.mc.options.useKey.isPressed();
                 if (this.driver == null) {
                     pnf.publish(this.mvl.shown(), this.mvl.shownAt(), bl, bl && this.myr(), this.mql.get(), this.getName());
                 }
                 throw throwable;
             }
-            this.mc.field_1690.field_1886.method_23481(false);
-            this.mc.field_1690.field_1904.method_23481(false);
+            this.mc.options.attackKey.setPressed(false);
+            this.mc.options.useKey.setPressed(false);
         }
         this.myx();
-        this.mub = this.mc.field_1690 != null && this.mc.field_1690.field_1886.method_1434();
-        boolean bl3 = this.muc = this.mc.field_1690 != null && this.mc.field_1690.field_1904.method_1434();
+        this.mub = this.mc.options != null && this.mc.options.attackKey.isPressed();
+        boolean bl3 = this.muc = this.mc.options != null && this.mc.options.useKey.isPressed();
         if (this.driver == null) {
             pnf.publish(this.mvl.shown(), this.mvl.shownAt(), bl, bl && this.myr(), this.mql.get(), this.getName());
         }
@@ -1004,7 +1004,7 @@ extends pnc {
     }
 
     private boolean myr() {
-        return this.mvr || this.getPlayer().method_6115() || this.ncm() || this.mrf != null || this.muw || this.mc.field_1755 != null;
+        return this.mvr || this.getPlayer().isUsingItem() || this.ncm() || this.mrf != null || this.muw || this.mc.currentScreen != null;
     }
 
     private int mys(int n) {
@@ -1017,26 +1017,26 @@ extends pnc {
 
     private void myu() {
         KeyBinding[] keyBindingArray;
-        GameOptions gameOptions = this.mc.field_1690;
+        GameOptions gameOptions = this.mc.options;
         if (gameOptions == null || this.ncm() || this.mrf != null || this.muw) {
             return;
         }
-        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849, gameOptions.field_1903}) {
-            keyBinding.method_23481(this.heldByHuman(keyBinding));
+        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey, gameOptions.jumpKey}) {
+            keyBinding.setPressed(this.heldByHuman(keyBinding));
         }
-        if (((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            if (gameOptions.field_1867.method_1434() != this.mvp) {
-                gameOptions.field_1867.method_23481(true);
+        if (((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            if (gameOptions.sprintKey.isPressed() != this.mvp) {
+                gameOptions.sprintKey.setPressed(true);
             }
         } else {
-            gameOptions.field_1867.method_23481(this.heldByHuman(gameOptions.field_1867));
+            gameOptions.sprintKey.setPressed(this.heldByHuman(gameOptions.sprintKey));
         }
-        if (((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-            if (gameOptions.field_1832.method_1434() != this.mvq) {
-                gameOptions.field_1832.method_23481(true);
+        if (((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+            if (gameOptions.sneakKey.isPressed() != this.mvq) {
+                gameOptions.sneakKey.setPressed(true);
             }
         } else {
-            gameOptions.field_1832.method_23481(this.heldByHuman(gameOptions.field_1832));
+            gameOptions.sneakKey.setPressed(this.heldByHuman(gameOptions.sneakKey));
         }
     }
 
@@ -1052,15 +1052,15 @@ extends pnc {
     private void myw() {
         boolean bl;
         int n;
-        PlayerInventory playerInventory = this.getPlayer().method_31548();
+        PlayerInventory playerInventory = this.getPlayer().getInventory();
         int n2 = 0;
-        for (n = 0; n < playerInventory.method_5439(); ++n) {
-            ItemStack itemStack = playerInventory.method_5438(n);
+        for (n = 0; n < playerInventory.size(); ++n) {
+            ItemStack itemStack = playerInventory.getStack(n);
             if (!mpq.ndf(itemStack)) continue;
-            n2 += itemStack.method_7947();
+            n2 += itemStack.getCount();
         }
         n = this.mqq == mpm.FARMING || this.mqq == mpm.LOOTING_VASE || this.mqq == mpm.FARMING_SAND || this.mqq == mpm.BRUSHING_SAND || this.mqq == mpm.LOOTING_SAND || this.mqq == mpm.CHECK_PVP_COOLDOWN || this.mqq == mpm.ESCAPING || this.mqq == mpm.RUN_TO_FARM_COORDS ? 1 : 0;
-        boolean bl2 = bl = this.getPlayer().field_7512 != this.getPlayer().field_7498;
+        boolean bl2 = bl = this.getPlayer().currentScreenHandler != this.getPlayer().playerScreenHandler;
         if (this.mqx >= 0 && n2 > this.mqx && n != 0 && !bl) {
             this.mqw += n2 - this.mqx;
         }
@@ -1069,21 +1069,21 @@ extends pnc {
 
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
-        if (this.mc.field_1690 == null) {
+        if (this.mc.options == null) {
             return;
         }
-        this.mc.field_1690.field_1886.method_23481(this.mub);
-        this.mc.field_1690.field_1904.method_23481(this.muc);
-        while (this.mc.field_1690.field_1886.method_1436()) {
+        this.mc.options.attackKey.setPressed(this.mub);
+        this.mc.options.useKey.setPressed(this.muc);
+        while (this.mc.options.attackKey.wasPressed()) {
         }
-        while (this.mc.field_1690.field_1904.method_1436()) {
+        while (this.mc.options.useKey.wasPressed()) {
         }
         if (this.mud > 0) {
             this.silenceMovement();
         }
-        if (this.mc.field_1724 != null && this.mc.field_1687 != null) {
+        if (this.mc.player != null && this.mc.world != null) {
             if (this.driver == null && !this.mux && this.mua && this.mtn && this.mud == 0) {
-                this.mtm.remapHumanKeys(this.mc, this.mtm.cameraYaw(this.mc.field_1724), this.mtu);
+                this.mtm.remapHumanKeys(this.mc, this.mtm.cameraYaw(this.mc.player), this.mtu);
             }
             ptr.applyOwn(this.mc);
         }
@@ -1091,23 +1091,23 @@ extends pnc {
 
     private void myx() {
         KeyBinding[] keyBindingArray;
-        if (this.mc.field_1690 == null || this.mud > 0) {
+        if (this.mc.options == null || this.mud > 0) {
             return;
         }
-        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{this.mc.field_1690.field_1894, this.mc.field_1690.field_1881, this.mc.field_1690.field_1913, this.mc.field_1690.field_1849, this.mc.field_1690.field_1903, this.mc.field_1690.field_1832, this.mc.field_1690.field_1867}) {
+        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{this.mc.options.forwardKey, this.mc.options.backKey, this.mc.options.leftKey, this.mc.options.rightKey, this.mc.options.jumpKey, this.mc.options.sneakKey, this.mc.options.sprintKey}) {
             if (!this.heldByHuman(keyBinding)) continue;
-            keyBinding.method_23481(true);
+            keyBinding.setPressed(true);
         }
     }
 
     private void myy() {
         KeyBinding[] keyBindingArray;
-        if (this.mc.field_1690 == null) {
+        if (this.mc.options == null) {
             return;
         }
-        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{this.mc.field_1690.field_1894, this.mc.field_1690.field_1881, this.mc.field_1690.field_1913, this.mc.field_1690.field_1849, this.mc.field_1690.field_1903, this.mc.field_1690.field_1867, this.mc.field_1690.field_1832, this.mc.field_1690.field_1886, this.mc.field_1690.field_1904}) {
+        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{this.mc.options.forwardKey, this.mc.options.backKey, this.mc.options.leftKey, this.mc.options.rightKey, this.mc.options.jumpKey, this.mc.options.sprintKey, this.mc.options.sneakKey, this.mc.options.attackKey, this.mc.options.useKey}) {
             if (this.heldByHuman(keyBinding)) continue;
-            keyBinding.method_23481(false);
+            keyBinding.setPressed(false);
         }
     }
 
@@ -1156,10 +1156,10 @@ extends pnc {
             return;
         }
         boolean bl2 = bl = this.mqq != mpm.WARPING_TO_LOOT_BASE && this.mqq != mpm.WARPING_TO_SAVE_BASE && this.mqq != mpm.RESTOCK_AND_DUMP;
-        if (this.mwo != null && this.getPlayer().method_73189().method_1025(this.mwo) < 1.0E-4 && bl && this.mvi <= 0 && this.mud == 0 && !this.myq() && (this.mc.field_1690.field_1894.method_1434() || this.mqy != null)) {
+        if (this.mwo != null && this.getPlayer().getEntityPos().squaredDistanceTo(this.mwo) < 1.0E-4 && bl && this.mvi <= 0 && this.mud == 0 && !this.myq() && (this.mc.options.forwardKey.isPressed() || this.mqy != null)) {
             ++this.mwp;
-            if (this.mwp > 6 && this.getPlayer().method_24828() && pqf.isJumpUseful(this.ncj())) {
-                this.mc.field_1690.field_1903.method_23481(true);
+            if (this.mwp > 6 && this.getPlayer().isOnGround() && pqf.isJumpUseful(this.ncj())) {
+                this.mc.options.jumpKey.setPressed(true);
             }
             if (this.mwp > 16) {
                 this.mqy = null;
@@ -1181,20 +1181,20 @@ extends pnc {
                 this.mwq = 0;
             }
             this.mwp = 0;
-            this.mwo = this.getPlayer().method_73189();
+            this.mwo = this.getPlayer().getEntityPos();
         }
         int n = this.mwf = pqf.onClimbable((PlayerEntity)this.getPlayer()) ? this.mwf + 1 : 0;
-        if (this.mc.field_1755 instanceof AbstractSignEditScreen) {
-            this.mc.field_1755.method_25419();
+        if (this.mc.currentScreen instanceof AbstractSignEditScreen) {
+            this.mc.currentScreen.close();
             return;
         }
-        if (this.mqq != mpm.RESTOCK_AND_DUMP && this.mc.field_1755 instanceof HandledScreen && !(this.mc.field_1755 instanceof InventoryScreen)) {
+        if (this.mqq != mpm.RESTOCK_AND_DUMP && this.mc.currentScreen instanceof HandledScreen && !(this.mc.currentScreen instanceof InventoryScreen)) {
             this.mxx();
-            this.mc.field_1724.method_7346();
+            this.mc.player.closeHandledScreen();
             return;
         }
-        this.mc.field_1690.field_1832.method_23481(this.mc.field_1690.field_1904.method_1434() && this.myc(this.getPlayer().method_6047()) && !this.nci());
-        if (this.getPlayer().method_6032() <= 0.0f || this.getPlayer().method_29504()) {
+        this.mc.options.sneakKey.setPressed(this.mc.options.useKey.isPressed() && this.myc(this.getPlayer().getMainHandStack()) && !this.nci());
+        if (this.getPlayer().getHealth() <= 0.0f || this.getPlayer().isDead()) {
             if (this.mqq != mpm.TELEPORT_TO_SAVE && this.mqq != mpm.WARPING_TO_SAVE_BASE && !this.mvy) {
                 this.mye(null);
             }
@@ -1203,13 +1203,13 @@ extends pnc {
         if (this.mte > 0) {
             --this.mte;
         }
-        if (this.getPlayer().field_6017 > 3.0) {
+        if (this.getPlayer().fallDistance > 3.0) {
             this.mtd = true;
         } else if (this.mtd) {
             this.mtd = false;
             this.mte = 6;
         }
-        float f = this.getPlayer().method_6032();
+        float f = this.getPlayer().getHealth();
         if (f < this.mtc && this.mte <= 0 && this.mqq != mpm.ESCAPING && this.mqq != mpm.TELEPORT_TO_SAVE && this.mqq != mpm.WARPING_TO_SAVE_BASE && this.mqq != mpm.RESTOCK_AND_DUMP && this.mqq != mpm.WARPING_TO_LOOT_BASE && this.mzh()) {
             this.myd(mpm.ESCAPING);
             this.mru = 0;
@@ -1222,11 +1222,11 @@ extends pnc {
         if (this.ndj()) {
             this.mwb = this.mwa;
         }
-        if (!this.mst && !this.mc.field_1690.field_1904.method_1434()) {
+        if (!this.mst && !this.mc.options.useKey.isPressed()) {
             ItemStack itemStack;
             this.nee();
             this.ndo();
-            if (!(this.muk != -1 || this.ncm() || this.muw || this.mqq == mpm.BRUSHING_SAND || this.mqq == mpm.ESCAPING || (itemStack = this.getPlayer().method_6047()).method_7960() || itemStack.method_7909().method_7876().contains(a.b("\u9984\ue031\u6afa\uf496\u7f57", -2090100238)) || itemStack.method_7909().method_7876().contains(a.b("\uff82\u863f\u0cee\u9299", -937033749)) || itemStack.method_7909() == Items.field_8071 || this.nel(itemStack) || this.neo(itemStack))) {
+            if (!(this.muk != -1 || this.ncm() || this.muw || this.mqq == mpm.BRUSHING_SAND || this.mqq == mpm.ESCAPING || (itemStack = this.getPlayer().getMainHandStack()).isEmpty() || itemStack.getItem().getTranslationKey().contains(a.b("\u9984\ue031\u6afa\uf496\u7f57", -2090100238)) || itemStack.getItem().getTranslationKey().contains(a.b("\uff82\u863f\u0cee\u9299", -937033749)) || itemStack.getItem() == Items.GOLDEN_CARROT || this.nel(itemStack) || this.neo(itemStack))) {
                 this.nat();
             }
         } else {
@@ -1255,13 +1255,13 @@ extends pnc {
                 this.msz = 0;
                 this.muj = 0;
                 this.mzy();
-                if (this.mc.field_1724 != null && this.mc.field_1755 != null) {
-                    this.mc.field_1724.method_7346();
+                if (this.mc.player != null && this.mc.currentScreen != null) {
+                    this.mc.player.closeHandledScreen();
                 }
                 return;
             }
             ++this.msz;
-            boolean bl3 = this.mc.field_1755 instanceof GenericContainerScreen;
+            boolean bl3 = this.mc.currentScreen instanceof GenericContainerScreen;
             if (this.msz >= (bl3 ? 4 : 2)) {
                 this.msy.poll().run();
                 this.msz = 0;
@@ -1302,15 +1302,15 @@ extends pnc {
                 }
                 if (n3 != -1) {
                     pqf.resetKeys();
-                    if (this.getPlayer().method_31548().method_67532() != n3) {
-                        this.getPlayer().method_31548().method_61496(n3);
+                    if (this.getPlayer().getInventory().getSelectedSlot() != n3) {
+                        this.getPlayer().getInventory().setSelectedSlot(n3);
                         this.mxx();
                         this.msw = 0;
                         return;
                     }
                     n2 = bl5 ? 0 : 1;
                     ++this.msw;
-                    if (!(this.getPlayer().method_31548().method_5438(n3).method_31574(Items.field_8574) || this.mxy(86.0f) && !(this.mtv < 78.0f))) {
+                    if (!(this.getPlayer().getInventory().getStack(n3).isOf(Items.POTION) || this.mxy(86.0f) && !(this.mtv < 78.0f))) {
                         this.mxx();
                         if (this.msw > 100) {
                             this.msw = 0;
@@ -1325,10 +1325,10 @@ extends pnc {
                     this.mwr = n2;
                     this.mws = this.mwa;
                     this.mxv();
-                    if (!this.getPlayer().method_6115() && this.msw % 5 == 0) {
+                    if (!this.getPlayer().isUsingItem() && this.msw % 5 == 0) {
                         ptr.later(() -> {
-                            if (this.mc.field_1724 != null && this.mc.field_1761 != null && !this.mc.field_1724.method_6115()) {
-                                this.mc.field_1761.method_2919((PlayerEntity)this.mc.field_1724, Hand.field_5808);
+                            if (this.mc.player != null && this.mc.interactionManager != null && !this.mc.player.isUsingItem()) {
+                                this.mc.interactionManager.interactItem((PlayerEntity)this.mc.player, Hand.MAIN_HAND);
                             }
                         });
                     }
@@ -1364,10 +1364,10 @@ extends pnc {
             this.myb();
         }
         if (this.mqf.get() && this.nde() && (this.mqq == mpm.FARMING || this.mqq == mpm.LOOTING_VASE)) {
-            this.mc.field_1690.field_1886.method_23481(false);
-            this.mc.field_1690.field_1904.method_23481(false);
-            if (this.mc.field_1761 != null) {
-                this.mc.field_1761.method_2925();
+            this.mc.options.attackKey.setPressed(false);
+            this.mc.options.useKey.setPressed(false);
+            if (this.mc.interactionManager != null) {
+                this.mc.interactionManager.cancelBlockBreaking();
             }
             this.mrr = null;
             this.msu = false;
@@ -1452,8 +1452,8 @@ extends pnc {
         if (this.mtk > 0) {
             --this.mtk;
         }
-        Vec3d vec3d = this.getPlayer().method_73189();
-        if (this.mti == null || vec3d.method_1025(this.mti) > 2.25) {
+        Vec3d vec3d = this.getPlayer().getEntityPos();
+        if (this.mti == null || vec3d.squaredDistanceTo(this.mti) > 2.25) {
             this.mti = vec3d;
             this.mtj = 0;
             return false;
@@ -1468,8 +1468,8 @@ extends pnc {
         }
         pqf.resetKeys();
         this.mxx();
-        if (this.mc.field_1724 != null && this.mc.field_1755 != null) {
-            this.mc.field_1724.method_7346();
+        if (this.mc.player != null && this.mc.currentScreen != null) {
+            this.mc.player.closeHandledScreen();
         }
         if (this.mqq == mpm.WARPING_TO_LOOT_BASE || this.mqq == mpm.ENTER_PORTAL || this.mqq == mpm.RUN_TO_FARM_COORDS || this.mqq == mpm.RESTOCK_AND_DUMP || this.mqq == mpm.WARPING_TO_SAVE_BASE) {
             this.myo(wap.s(a.b("\u7fb5\u0603\u8ccb\u12ba\u9966\u1f93\ua593\u2c65\ub227\u3893\ubf40\u457d\ucbec\u5254\ud81a\u5eb9\ue4e4\u6b27\uf1d9\u778c\ufe7c\u8436\u0a84\u9144\u172d", 1031176159), a.c(-906289479, "\u1aef\u635d\ue9f2\u77f2\ufc51\u7efb\uc0b5\u4949\ud306\u5dab\uda71\u2074\uaea0\u3766\ub920\u3fc3\u859e\u0e53\u94e4\u12b0\u9b39\ue169\u6fd3")));
@@ -1485,12 +1485,12 @@ extends pnc {
     }
 
     private void mzb(boolean bl) {
-        boolean bl2 = this.mc.field_1690.field_1894.method_1434();
+        boolean bl2 = this.mc.options.forwardKey.isPressed();
         if (!(bl && bl2 && pqf.isBlockedHorizontally())) {
             this.mrw = 0;
             if (!this.mry) {
-                this.mc.field_1690.field_1913.method_23481(false);
-                this.mc.field_1690.field_1849.method_23481(false);
+                this.mc.options.leftKey.setPressed(false);
+                this.mc.options.rightKey.setPressed(false);
             }
             return;
         }
@@ -1503,11 +1503,11 @@ extends pnc {
             this.mrx = -this.mrx;
         }
         if (this.mrx > 0) {
-            this.mc.field_1690.field_1849.method_23481(true);
-            this.mc.field_1690.field_1913.method_23481(false);
+            this.mc.options.rightKey.setPressed(true);
+            this.mc.options.leftKey.setPressed(false);
         } else {
-            this.mc.field_1690.field_1913.method_23481(true);
-            this.mc.field_1690.field_1849.method_23481(false);
+            this.mc.options.leftKey.setPressed(true);
+            this.mc.options.rightKey.setPressed(false);
         }
         if (this.mrw > 30) {
             this.mrw = 0;
@@ -1526,7 +1526,7 @@ extends pnc {
             for (float f6 = -1.0f; f6 <= 1.0f; f6 += 1.0f) {
                 double d;
                 float f7;
-                if (f5 == 0.0f && f6 == 0.0f || !((f7 = Math.abs(MathHelper.method_15393((float)((float)(d = Math.toDegrees(pud.inputDirection(this.mtu, f5, f6))) - f)))) < f4)) continue;
+                if (f5 == 0.0f && f6 == 0.0f || !((f7 = Math.abs(MathHelper.wrapDegrees((float)((float)(d = Math.toDegrees(pud.inputDirection(this.mtu, f5, f6))) - f)))) < f4)) continue;
                 f4 = f7;
                 f2 = f5;
                 f3 = f6;
@@ -1534,10 +1534,10 @@ extends pnc {
         }
         this.mux = true;
         this.mry = true;
-        this.mc.field_1690.field_1894.method_23481(f2 > 0.0f);
-        this.mc.field_1690.field_1881.method_23481(f2 < 0.0f);
-        this.mc.field_1690.field_1913.method_23481(f3 > 0.0f);
-        this.mc.field_1690.field_1849.method_23481(f3 < 0.0f);
+        this.mc.options.forwardKey.setPressed(f2 > 0.0f);
+        this.mc.options.backKey.setPressed(f2 < 0.0f);
+        this.mc.options.leftKey.setPressed(f3 > 0.0f);
+        this.mc.options.rightKey.setPressed(f3 < 0.0f);
     }
 
     private static float mzd(double d, double d2) {
@@ -1549,7 +1549,7 @@ extends pnc {
             return false;
         }
         ClientPlayerEntity clientPlayerEntity = this.getPlayer();
-        if (this.nci() && pqf.getStandY(this.mqy.get(this.mqz)) > clientPlayerEntity.method_23318() + 0.6) {
+        if (this.nci() && pqf.getStandY(this.mqy.get(this.mqz)) > clientPlayerEntity.getY() + 0.6) {
             return false;
         }
         this.mqy = null;
@@ -1558,8 +1558,8 @@ extends pnc {
         this.ncf();
         Vec3d vec3d = pqf.awayFromClimbable((PlayerEntity)clientPlayerEntity);
         pqf.resetKeys();
-        this.mzc(vec3d != null ? mpq.mzd(vec3d.field_1352, vec3d.field_1350) : this.ncj() + 180.0f);
-        this.mc.field_1690.field_1867.method_23481(false);
+        this.mzc(vec3d != null ? mpq.mzd(vec3d.x, vec3d.z) : this.ncj() + 180.0f);
+        this.mc.options.sprintKey.setPressed(false);
         if (this.mwf > 200) {
             this.mwf = 0;
             if (this.mrr != null) {
@@ -1572,8 +1572,8 @@ extends pnc {
     }
 
     private void mzf() {
-        if (pqf.onClimbable((PlayerEntity)this.getPlayer()) && this.mc.field_1690 != null) {
-            this.mc.field_1690.field_1832.method_23481(true);
+        if (pqf.onClimbable((PlayerEntity)this.getPlayer()) && this.mc.options != null) {
+            this.mc.options.sneakKey.setPressed(true);
         }
     }
 
@@ -1586,12 +1586,12 @@ extends pnc {
     }
 
     private boolean mzh() {
-        if (this.mc.field_1687 == null || this.getPlayer() == null) {
+        if (this.mc.world == null || this.getPlayer() == null) {
             return false;
         }
-        String string = this.mc.field_1687.method_27983().method_29177().toString().toLowerCase();
-        Optional optional = this.mc.field_1687.method_23753(this.getPlayer().method_24515()).method_40230();
-        String string2 = optional.isPresent() ? ((RegistryKey)optional.get()).method_29177().toString().toLowerCase() : "";
+        String string = this.mc.world.getRegistryKey().getValue().toString().toLowerCase();
+        Optional optional = this.mc.world.getBiome(this.getPlayer().getBlockPos()).getKey();
+        String string2 = optional.isPresent() ? ((RegistryKey)optional.get()).getValue().toString().toLowerCase() : "";
         return string.contains(a.b("\uc587\ubc3d\u36e4", -832584223)) || string2.contains(a.c(-30972929, "\u6399\u1a23\u90fa"));
     }
 
@@ -1600,12 +1600,12 @@ extends pnc {
         PlayerEntity playerEntity;
         double d;
         ++this.mru;
-        this.mc.field_1690.field_1886.method_23481(false);
+        this.mc.options.attackKey.setPressed(false);
         this.mxx();
-        if (this.mc.field_1761 != null) {
-            this.mc.field_1761.method_2925();
+        if (this.mc.interactionManager != null) {
+            this.mc.interactionManager.cancelBlockBreaking();
         }
-        double d2 = d = (playerEntity = this.neh()) != null ? playerEntity.method_5858((Entity)this.getPlayer()) : Double.MAX_VALUE;
+        double d2 = d = (playerEntity = this.neh()) != null ? playerEntity.squaredDistanceTo((Entity)this.getPlayer()) : Double.MAX_VALUE;
         if (this.mru > 20 && d > 1600.0) {
             pqf.resetKeys();
             this.myd(mpm.FARMING);
@@ -1619,14 +1619,14 @@ extends pnc {
         if (this.mqy != null && this.mqz < this.mqy.size()) {
             this.ncr();
         } else if (playerEntity != null) {
-            Vec3d vec3d = this.mzj(this.getPlayer().method_73189().method_1020(playerEntity.method_73189()).method_1029(), Math.toRadians(mpu[this.mrv]));
-            Vec3d vec3d2 = this.getPlayer().method_73189().method_1019(vec3d.method_1021(12.0));
-            this.ncp(new Vec3d(vec3d2.field_1352, this.getPlayer().method_23318(), vec3d2.field_1350));
+            Vec3d vec3d = this.mzj(this.getPlayer().getEntityPos().subtract(playerEntity.getEntityPos()).normalize(), Math.toRadians(mpu[this.mrv]));
+            Vec3d vec3d2 = this.getPlayer().getEntityPos().add(vec3d.multiply(12.0));
+            this.ncp(new Vec3d(vec3d2.x, this.getPlayer().getY(), vec3d2.z));
         } else {
             this.ncf();
             this.mux = true;
-            this.mc.field_1690.field_1894.method_23481(true);
-            pyd.setSprint(this.mc.field_1690, true);
+            this.mc.options.forwardKey.setPressed(true);
+            pyd.setSprint(this.mc.options, true);
         }
         if (this.mru > 200) {
             pqf.resetKeys();
@@ -1637,18 +1637,18 @@ extends pnc {
     private Vec3d mzj(Vec3d vec3d, double d) {
         double d2 = Math.cos(d);
         double d3 = Math.sin(d);
-        return new Vec3d(vec3d.field_1352 * d2 - vec3d.field_1350 * d3, 0.0, vec3d.field_1352 * d3 + vec3d.field_1350 * d2).method_1029();
+        return new Vec3d(vec3d.x * d2 - vec3d.z * d3, 0.0, vec3d.x * d3 + vec3d.z * d2).normalize();
     }
 
     private void mzk(PlayerEntity playerEntity) {
-        Vec3d vec3d = this.getPlayer().method_73189().method_1020(playerEntity.method_73189()).method_1029();
-        BlockPos blockPos = this.getPlayer().method_24515();
+        Vec3d vec3d = this.getPlayer().getEntityPos().subtract(playerEntity.getEntityPos()).normalize();
+        BlockPos blockPos = this.getPlayer().getBlockPos();
         for (int i = 0; i < 3; ++i) {
             int n = (this.mrv + i) % mpu.length;
             double d = (double)mpu[n] + this.mty.nextGaussian() * 12.0;
             Vec3d vec3d2 = this.mzj(vec3d, Math.toRadians(d));
             double d2 = 26.0 + this.mty.nextDouble() * 12.0;
-            BlockPos blockPos2 = this.nbd(blockPos.method_10069((int)(vec3d2.field_1352 * d2), 0, (int)(vec3d2.field_1350 * d2)));
+            BlockPos blockPos2 = this.nbd(blockPos.add((int)(vec3d2.x * d2), 0, (int)(vec3d2.z * d2)));
             List<BlockPos> list = this.nbb(blockPos, blockPos2);
             if (list == null || list.size() < 5) continue;
             this.nbc(list);
@@ -1692,10 +1692,10 @@ extends pnc {
             this.myd(mpm.TELEPORT_TO_LOOT);
             return;
         }
-        if (this.mrl != null && !(this.mc.field_1755 instanceof GenericContainerScreen) && this.mwa - this.mwh > 400) {
+        if (this.mrl != null && !(this.mc.currentScreen instanceof GenericContainerScreen) && this.mwa - this.mwh > 400) {
             this.mrl = null;
             this.mqy = null;
-            this.mc.field_1690.field_1904.method_23481(false);
+            this.mc.options.useKey.setPressed(false);
             this.msh = 40;
             if (++this.mwi >= 3) {
                 this.mwi = 0;
@@ -1732,13 +1732,13 @@ extends pnc {
             GenericContainerScreen genericContainerScreen;
             pqf.resetKeys();
             Vec3d vec3d = this.nbo(this.mrl);
-            this.ncb(this.mrl, vec3d != null ? vec3d : Vec3d.method_24953((Vec3i)this.mrl));
-            Screen screen = this.mc.field_1755;
+            this.ncb(this.mrl, vec3d != null ? vec3d : Vec3d.ofCenter((Vec3i)this.mrl));
+            Screen screen = this.mc.currentScreen;
             if (screen instanceof GenericContainerScreen && !this.mzp(genericContainerScreen = (GenericContainerScreen)screen)) {
-                this.mc.field_1724.method_7346();
+                this.mc.player.closeHandledScreen();
                 return;
             }
-            if (!(this.mc.field_1755 instanceof GenericContainerScreen)) {
+            if (!(this.mc.currentScreen instanceof GenericContainerScreen)) {
                 genericContainerScreen = this.nco(this.mrl);
                 boolean bl = false;
                 if (genericContainerScreen != null && this.mvc > 0) {
@@ -1748,11 +1748,11 @@ extends pnc {
                 } else {
                     BlockHitResult blockHitResult;
                     ++this.mvg;
-                    if (this.mvg > 40 && this.getPlayer().method_24515().method_10262((Vec3i)this.mrl) < 16.0 && System.currentTimeMillis() - this.mta > 500L && (blockHitResult = this.mzr(this.mrl)) != null) {
+                    if (this.mvg > 40 && this.getPlayer().getBlockPos().getSquaredDistance((Vec3i)this.mrl) < 16.0 && System.currentTimeMillis() - this.mta > 500L && (blockHitResult = this.mzr(this.mrl)) != null) {
                         ptr.later(() -> {
-                            if (this.mc.field_1761 != null && this.mc.field_1724 != null && this.mc.field_1755 == null) {
-                                this.mc.field_1761.method_2896(this.mc.field_1724, Hand.field_5808, blockHitResult);
-                                this.mc.field_1724.method_6104(Hand.field_5808);
+                            if (this.mc.interactionManager != null && this.mc.player != null && this.mc.currentScreen == null) {
+                                this.mc.interactionManager.interactBlock(this.mc.player, Hand.MAIN_HAND, blockHitResult);
+                                this.mc.player.swingHand(Hand.MAIN_HAND);
                             }
                         });
                         this.mta = System.currentTimeMillis();
@@ -1763,34 +1763,34 @@ extends pnc {
                     this.mta = System.currentTimeMillis();
                     this.mzo(this.mrl);
                 }
-                this.mc.field_1690.field_1904.method_23481(bl);
+                this.mc.options.useKey.setPressed(bl);
             } else {
-                this.mc.field_1690.field_1904.method_23481(false);
-                genericContainerScreen = (GenericContainerScreen)this.mc.field_1755;
+                this.mc.options.useKey.setPressed(false);
+                genericContainerScreen = (GenericContainerScreen)this.mc.currentScreen;
                 if (this.mrm.equals(a.c(-1340484654, "\ud796\uae57\u24f5\ubafa\u3152"))) {
                     this.mzt(genericContainerScreen);
                     this.msy.add(() -> {
                         this.mrh = true;
-                        this.mc.field_1724.method_7346();
+                        this.mc.player.closeHandledScreen();
                         this.mrl = null;
                     });
                 } else if (this.mrm.equals(a.d("\ub94c\uc0fc\u4a2b", 1143429311, 1234232773))) {
                     if (this.msy.isEmpty()) {
                         int n = 0;
-                        for (int i = 0; i < this.getPlayer().method_31548().method_5439(); ++i) {
-                            if (this.getPlayer().method_31548().method_5438(i).method_7909() != Items.field_8071) continue;
-                            n += this.getPlayer().method_31548().method_5438(i).method_7947();
+                        for (int i = 0; i < this.getPlayer().getInventory().size(); ++i) {
+                            if (this.getPlayer().getInventory().getStack(i).getItem() != Items.GOLDEN_CARROT) continue;
+                            n += this.getPlayer().getInventory().getStack(i).getCount();
                         }
                         if (n > this.mre && this.mrc < 4) {
                             ++this.mrc;
-                            if (!this.nae(genericContainerScreen, itemStack -> itemStack.method_7909() == Items.field_8071)) {
+                            if (!this.nae(genericContainerScreen, itemStack -> itemStack.getItem() == Items.GOLDEN_CARROT)) {
                                 this.mrc = 4;
                             }
                         } else if (n >= this.mre || this.mrc >= 4) {
                             this.mrc = 0;
                             this.msy.add(() -> {
                                 this.mri = true;
-                                this.mc.field_1724.method_7346();
+                                this.mc.player.closeHandledScreen();
                                 this.mrl = null;
                             });
                         } else {
@@ -1799,7 +1799,7 @@ extends pnc {
                                 this.mrc = 0;
                                 this.msy.add(() -> {
                                     this.mri = true;
-                                    this.mc.field_1724.method_7346();
+                                    this.mc.player.closeHandledScreen();
                                     this.mrl = null;
                                 });
                             }
@@ -1814,11 +1814,11 @@ extends pnc {
 
     private void mzm() {
         int n;
-        if (this.mc.field_1755 != null || this.msu || this.mus) {
+        if (this.mc.currentScreen != null || this.msu || this.mus) {
             return;
         }
         for (n = 0; n < 9; ++n) {
-            if (this.getPlayer().method_31548().method_5438(n).method_7909() != Items.field_8469) continue;
+            if (this.getPlayer().getInventory().getStack(n).getItem() != Items.GLASS_BOTTLE) continue;
             if (this.muk == -1 && this.mum <= 0 && this.ndx()) {
                 this.ndz(n);
             }
@@ -1828,9 +1828,9 @@ extends pnc {
             return;
         }
         for (n = 9; n < 36; ++n) {
-            if (this.getPlayer().method_31548().method_5438(n).method_7909() != Items.field_8469) continue;
+            if (this.getPlayer().getInventory().getStack(n).getItem() != Items.GLASS_BOTTLE) continue;
             int n2 = n;
-            this.msy.add(() -> this.ndv(n2, 1, SlotActionType.field_7795));
+            this.msy.add(() -> this.ndv(n2, 1, SlotActionType.THROW));
             return;
         }
     }
@@ -1874,19 +1874,19 @@ extends pnc {
 
     private boolean mzp(GenericContainerScreen genericContainerScreen) {
         int n;
-        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7763;
+        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).syncId;
         if (n2 == this.mwl) {
             return true;
         }
         if (this.mwj == null || !this.mwj.equals((Object)this.mrl) || System.currentTimeMillis() - this.mwk > 3000L) {
             return false;
         }
-        BlockState blockState = this.getWorld().method_8320(this.mwj);
-        if (!(blockState.method_26204() instanceof ChestBlock)) {
+        BlockState blockState = this.getWorld().getBlockState(this.mwj);
+        if (!(blockState.getBlock() instanceof ChestBlock)) {
             return false;
         }
-        int n3 = n = blockState.method_11654((Property)ChestBlock.field_10770) == ChestType.field_12569 ? 27 : 54;
-        if (((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_17388() * 9 != n) {
+        int n3 = n = blockState.get((Property)ChestBlock.CHEST_TYPE) == ChestType.SINGLE ? 27 : 54;
+        if (((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getRows() * 9 != n) {
             return false;
         }
         this.mwl = n2;
@@ -1926,17 +1926,17 @@ extends pnc {
     }
 
     private BlockHitResult mzr(BlockPos blockPos) {
-        Vec3d vec3d = this.getPlayer().method_33571();
-        Vec3d vec3d2 = Vec3d.method_24953((Vec3i)blockPos);
-        BlockHitResult blockHitResult = this.getWorld().method_17742(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.field_17558, RaycastContext.FluidHandling.field_1348, (Entity)this.getPlayer()));
-        if (blockHitResult.method_17783() == HitResult.Type.field_1332 && blockHitResult.method_17777().equals((Object)blockPos)) {
+        Vec3d vec3d = this.getPlayer().getEyePos();
+        Vec3d vec3d2 = Vec3d.ofCenter((Vec3i)blockPos);
+        BlockHitResult blockHitResult = this.getWorld().raycast(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, (Entity)this.getPlayer()));
+        if (blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals((Object)blockPos)) {
             return blockHitResult;
         }
         if (this.mvg <= 80) {
             return null;
         }
-        Direction direction = Direction.method_10142((double)(vec3d.field_1352 - vec3d2.field_1352), (double)(vec3d.field_1351 - vec3d2.field_1351), (double)(vec3d.field_1350 - vec3d2.field_1350));
-        Vec3d vec3d3 = vec3d2.method_1031((double)direction.method_10148() * 0.5, (double)direction.method_10164() * 0.5, (double)direction.method_10165() * 0.5);
+        Direction direction = Direction.getFacing((double)(vec3d.x - vec3d2.x), (double)(vec3d.y - vec3d2.y), (double)(vec3d.z - vec3d2.z));
+        Vec3d vec3d3 = vec3d2.add((double)direction.getOffsetX() * 0.5, (double)direction.getOffsetY() * 0.5, (double)direction.getOffsetZ() * 0.5);
         return new BlockHitResult(vec3d3, direction, blockPos, false);
     }
 
@@ -1944,44 +1944,44 @@ extends pnc {
         if (this.getWorld() == null) {
             return false;
         }
-        String string = this.getWorld().method_8320(blockPos).method_26204().method_63499().toLowerCase();
+        String string = this.getWorld().getBlockState(blockPos).getBlock().getTranslationKey().toLowerCase();
         return string.contains(a.d("\uf851\u81eb\u0b35\u9552\u1e82", 842418189, 574402618)) && !string.contains(a.b("\u6cc9\u1573\u9faa\u01da\u8a1a\u0c86\ub6e9\u3f13\ua141\u2be6\uac32", 1928031399));
     }
 
     private void mzt(GenericContainerScreen genericContainerScreen) {
         int n;
-        int n2 = this.mzv(Items.field_8071);
-        for (int i = n = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_7629().method_5439(); i < ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7761.size(); ++i) {
+        int n2 = this.mzv(Items.GOLDEN_CARROT);
+        for (int i = n = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getInventory().size(); i < ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).slots.size(); ++i) {
             ItemStack itemStack;
-            Slot slot = (Slot)((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7761.get(i);
-            if (slot.field_7871 != this.getPlayer().method_31548() || slot.method_34266() >= 36 || (itemStack = slot.method_7677()).method_7960() || itemStack.method_31574(Items.field_42716) || itemStack.method_31574(Items.field_8469) || this.isTrashItem(itemStack) || this.nel(itemStack) || this.neo(itemStack) || itemStack.method_31574(Items.field_8705) || (itemStack.method_31574(Items.field_8071) ? n2 <= this.mre : !this.mxr(itemStack) && (itemStack.method_7909().method_7876().contains(a.b("\uabb1\ud204\u58cf\uc6a3\u4d62", -1008227385)) || itemStack.method_7909().method_7876().contains(a.b("\u305e\u49e3\uc332\u5d45", -662491081)) || itemStack.method_31574(Items.field_8288)))) continue;
+            Slot slot = (Slot)((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).slots.get(i);
+            if (slot.inventory != this.getPlayer().getInventory() || slot.getIndex() >= 36 || (itemStack = slot.getStack()).isEmpty() || itemStack.isOf(Items.BRUSH) || itemStack.isOf(Items.GLASS_BOTTLE) || this.isTrashItem(itemStack) || this.nel(itemStack) || this.neo(itemStack) || itemStack.isOf(Items.WATER_BUCKET) || (itemStack.isOf(Items.GOLDEN_CARROT) ? n2 <= this.mre : !this.mxr(itemStack) && (itemStack.getItem().getTranslationKey().contains(a.b("\uabb1\ud204\u58cf\uc6a3\u4d62", -1008227385)) || itemStack.getItem().getTranslationKey().contains(a.b("\u305e\u49e3\uc332\u5d45", -662491081)) || itemStack.isOf(Items.TOTEM_OF_UNDYING)))) continue;
             int n3 = i;
-            int n4 = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7763;
+            int n4 = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).syncId;
             this.msy.add(() -> {
-                if (this.mc.field_1761 != null && this.getPlayer() != null && this.getPlayer().field_7512.field_7763 == n4 && !this.mzu(n3)) {
-                    this.mc.field_1761.method_2906(n4, n3, 0, SlotActionType.field_7794, (PlayerEntity)this.getPlayer());
+                if (this.mc.interactionManager != null && this.getPlayer() != null && this.getPlayer().currentScreenHandler.syncId == n4 && !this.mzu(n3)) {
+                    this.mc.interactionManager.clickSlot(n4, n3, 0, SlotActionType.QUICK_MOVE, (PlayerEntity)this.getPlayer());
                 }
             });
         }
     }
 
     private boolean mzu(int n) {
-        ScreenHandler screenHandler = this.getPlayer().field_7512;
-        return n >= 0 && n < screenHandler.field_7761.size() && ((Slot)screenHandler.field_7761.get(n)).method_7677().method_31574(Items.field_42716);
+        ScreenHandler screenHandler = this.getPlayer().currentScreenHandler;
+        return n >= 0 && n < screenHandler.slots.size() && ((Slot)screenHandler.slots.get(n)).getStack().isOf(Items.BRUSH);
     }
 
     private int mzv(Item item) {
         int n = 0;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = this.getPlayer().method_31548().method_5438(i);
-            if (!itemStack.method_31574(item)) continue;
-            n += itemStack.method_7947();
+            ItemStack itemStack = this.getPlayer().getInventory().getStack(i);
+            if (!itemStack.isOf(item)) continue;
+            n += itemStack.getCount();
         }
         return n;
     }
 
     private boolean mzw(GenericContainerScreen genericContainerScreen, int n) {
-        this.mrf = pmf.plan(genericContainerScreen.method_17577(), this.getPlayer().method_31548(), itemStack -> itemStack.method_7909() == Items.field_8071, n, this.mty, System.currentTimeMillis());
+        this.mrf = pmf.plan(genericContainerScreen.getScreenHandler(), this.getPlayer().getInventory(), itemStack -> itemStack.getItem() == Items.GOLDEN_CARROT, n, this.mty, System.currentTimeMillis());
         this.mrg = 0;
         return this.mrf != null;
     }
@@ -1992,16 +1992,16 @@ extends pnc {
         Screen screen;
         block6: {
             block5: {
-                screen = this.mc.field_1755;
+                screen = this.mc.currentScreen;
                 if (!(screen instanceof GenericContainerScreen)) break block5;
                 genericContainerScreen = (GenericContainerScreen)screen;
-                if (this.mc.field_1761 != null && this.getPlayer() != null) break block6;
+                if (this.mc.interactionManager != null && this.getPlayer() != null) break block6;
             }
             this.mrf = null;
             this.mrg = 0;
             return;
         }
-        screen = genericContainerScreen.method_17577();
+        screen = genericContainerScreen.getScreenHandler();
         if (++this.mrg == 120) {
             this.mrf.abort();
         }
@@ -2017,17 +2017,17 @@ extends pnc {
         Screen screen;
         block5: {
             block4: {
-                screen = this.mc.field_1755;
+                screen = this.mc.currentScreen;
                 if (!(screen instanceof GenericContainerScreen)) break block4;
                 genericContainerScreen = (GenericContainerScreen)screen;
-                if (this.mc.field_1761 != null && this.getPlayer() != null) break block5;
+                if (this.mc.interactionManager != null && this.getPlayer() != null) break block5;
             }
             return;
         }
-        screen = genericContainerScreen.method_17577();
-        int n = pmf.stashSlot((ScreenHandler)screen, this.getPlayer().method_31548(), screen.method_34255(), -1);
+        screen = genericContainerScreen.getScreenHandler();
+        int n = pmf.stashSlot((ScreenHandler)screen, this.getPlayer().getInventory(), screen.getCursorStack(), -1);
         if (n != -1) {
-            this.mc.field_1761.method_2906(screen.field_7763, n, 0, SlotActionType.field_7790, (PlayerEntity)this.getPlayer());
+            this.mc.interactionManager.clickSlot(screen.syncId, n, 0, SlotActionType.PICKUP, (PlayerEntity)this.getPlayer());
         }
     }
 
@@ -2055,15 +2055,15 @@ extends pnc {
     private int nab(boolean bl) {
         int n = 0;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = this.getPlayer().method_31548().method_5438(i);
+            ItemStack itemStack = this.getPlayer().getInventory().getStack(i);
             if (!(bl ? this.nel(itemStack) : this.neo(itemStack))) continue;
-            n += itemStack.method_7947();
+            n += itemStack.getCount();
         }
         return n;
     }
 
     private int nac(GenericContainerScreen genericContainerScreen, int n) {
-        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.method_17577()).method_7629().method_5439();
+        int n2 = ((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).getInventory().size();
         if (n < 9) {
             return n2 + 27 + n;
         }
@@ -2077,10 +2077,10 @@ extends pnc {
     private boolean nae(GenericContainerScreen genericContainerScreen, Predicate<ItemStack> predicate) {
         boolean bl = false;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = this.getPlayer().method_31548().method_5438(i);
+            ItemStack itemStack = this.getPlayer().getInventory().getStack(i);
             if (!predicate.test(itemStack)) continue;
             int n = this.nac(genericContainerScreen, i);
-            this.msy.add(() -> this.mc.field_1761.method_2906(((GenericContainerScreenHandler)genericContainerScreen.method_17577()).field_7763, n, 0, SlotActionType.field_7794, (PlayerEntity)this.getPlayer()));
+            this.msy.add(() -> this.mc.interactionManager.clickSlot(((GenericContainerScreenHandler)genericContainerScreen.getScreenHandler()).syncId, n, 0, SlotActionType.QUICK_MOVE, (PlayerEntity)this.getPlayer()));
             bl = true;
         }
         return bl;
@@ -2116,12 +2116,12 @@ extends pnc {
             this.mrk = true;
         }
         this.mrb = 0;
-        this.mc.field_1724.method_7346();
+        this.mc.player.closeHandledScreen();
         this.mrl = null;
     }
 
     private boolean nah(GenericContainerScreen genericContainerScreen, boolean bl) {
-        this.mrf = pmf.plan(genericContainerScreen.method_17577(), this.getPlayer().method_31548(), itemStack -> bl ? this.nel((ItemStack)itemStack) : this.neo((ItemStack)itemStack), 1, this.mty, System.currentTimeMillis());
+        this.mrf = pmf.plan(genericContainerScreen.getScreenHandler(), this.getPlayer().getInventory(), itemStack -> bl ? this.nel((ItemStack)itemStack) : this.neo((ItemStack)itemStack), 1, this.mty, System.currentTimeMillis());
         this.mrg = 0;
         return this.mrf != null;
     }
@@ -2187,7 +2187,7 @@ extends pnc {
             return;
         }
         this.mwn = "";
-        this.getNetworkHandler().method_45730(string);
+        this.getNetworkHandler().sendChatCommand(string);
         this.mrn = 0;
         this.mro = false;
         this.mrp = null;
@@ -2199,7 +2199,7 @@ extends pnc {
         this.mut = this.getWorld();
         this.mwz = this.getWorld();
         this.mxa = this.getPlayer();
-        this.mxb = this.getPlayer() == null ? null : this.getPlayer().method_73189();
+        this.mxb = this.getPlayer() == null ? null : this.getPlayer().getEntityPos();
         this.mxc = -1;
         this.mxd = false;
         this.mxe = 0;
@@ -2209,7 +2209,7 @@ extends pnc {
 
     private boolean nan() {
         ClientPlayerEntity clientPlayerEntity = this.getPlayer();
-        return this.mxd || this.getWorld() != this.mwz || clientPlayerEntity != this.mxa || this.mxb != null && clientPlayerEntity.method_73189().method_1022(this.mxb) > 48.0;
+        return this.mxd || this.getWorld() != this.mwz || clientPlayerEntity != this.mxa || this.mxb != null && clientPlayerEntity.getEntityPos().distanceTo(this.mxb) > 48.0;
     }
 
     private void nao() {
@@ -2247,10 +2247,10 @@ extends pnc {
             this.mrq = 0;
             return;
         }
-        if (this.mc.field_1690 != null) {
-            this.mc.field_1690.field_1904.method_23481(false);
+        if (this.mc.options != null) {
+            this.mc.options.useKey.setPressed(false);
         }
-        boolean bl2 = bl = this.mrp != null && this.getPlayer().method_24515().method_10262((Vec3i)this.mrp) > 9.0;
+        boolean bl2 = bl = this.mrp != null && this.getPlayer().getBlockPos().getSquaredDistance((Vec3i)this.mrp) > 9.0;
         if (!bl && this.mrn - this.mxf < 200) {
             return;
         }
@@ -2265,10 +2265,10 @@ extends pnc {
     }
 
     private void nap() {
-        this.getNetworkHandler().method_45730(this.mxt());
+        this.getNetworkHandler().sendChatCommand(this.mxt());
         this.mro = true;
         ++this.mxe;
-        this.mrp = this.getPlayer().method_24515();
+        this.mrp = this.getPlayer().getBlockPos();
         this.mxf = this.mrn;
         this.mrq = 0;
     }
@@ -2282,9 +2282,9 @@ extends pnc {
         }
         this.ncf();
         this.mux = true;
-        this.mc.field_1690.field_1894.method_23481(true);
-        this.mc.field_1690.field_1867.method_23481(true);
-        this.mc.field_1690.field_1903.method_23481(this.getPlayer().field_5976 && this.getPlayer().method_24828());
+        this.mc.options.forwardKey.setPressed(true);
+        this.mc.options.sprintKey.setPressed(true);
+        this.mc.options.jumpKey.setPressed(this.getPlayer().horizontalCollision && this.getPlayer().isOnGround());
         ++this.msc;
         if (this.msc > 600) {
             this.msc = 0;
@@ -2300,7 +2300,7 @@ extends pnc {
     private void nar() {
         int n;
         BlockPos blockPos = new BlockPos(0, 66, 1);
-        if (Math.abs(this.getPlayer().method_23317()) <= 10.0 && Math.abs(this.getPlayer().method_23321() - 1.0) <= 10.0 && Math.abs(this.getPlayer().method_23318() - 66.0) <= 3.0) {
+        if (Math.abs(this.getPlayer().getX()) <= 10.0 && Math.abs(this.getPlayer().getZ() - 1.0) <= 10.0 && Math.abs(this.getPlayer().getY() - 66.0) <= 3.0) {
             pqf.resetKeys();
             this.mqy = null;
             this.mxg = 0;
@@ -2323,8 +2323,8 @@ extends pnc {
         } else {
             pqf.resetKeys();
         }
-        if (this.getPlayer().field_6017 > 3.0 && (n = this.nei(Items.field_8705)) != -1) {
-            this.getPlayer().method_31548().method_61496(n);
+        if (this.getPlayer().fallDistance > 3.0 && (n = this.nei(Items.WATER_BUCKET)) != -1) {
+            this.getPlayer().getInventory().setSelectedSlot(n);
             this.nby(this.mtl.intentYaw(), 89.0f);
             if (this.mtl.intentPitch() > 65.0f) {
                 this.mxv();
@@ -2336,21 +2336,21 @@ extends pnc {
         this.msq = true;
         this.mst = false;
         this.mss = this.mrn;
-        this.mc.field_1690.field_1904.method_23481(false);
+        this.mc.options.useKey.setPressed(false);
         this.nat();
     }
 
     private void nat() {
         int n;
         for (n = 0; n < 9; ++n) {
-            if (!this.getPlayer().method_31548().method_5438(n).method_7960()) continue;
-            this.getPlayer().method_31548().method_61496(n);
+            if (!this.getPlayer().getInventory().getStack(n).isEmpty()) continue;
+            this.getPlayer().getInventory().setSelectedSlot(n);
             return;
         }
         for (n = 0; n < 9; ++n) {
-            ItemStack itemStack = this.getPlayer().method_31548().method_5438(n);
-            if (this.nel(itemStack) || this.neo(itemStack) || itemStack.method_7909() == Items.field_8071) continue;
-            this.getPlayer().method_31548().method_61496(n);
+            ItemStack itemStack = this.getPlayer().getInventory().getStack(n);
+            if (this.nel(itemStack) || this.neo(itemStack) || itemStack.getItem() == Items.GOLDEN_CARROT) continue;
+            this.getPlayer().getInventory().setSelectedSlot(n);
             return;
         }
     }
@@ -2359,12 +2359,12 @@ extends pnc {
         int n2 = this.nav();
         int n3 = n2 != -1 ? n2 : 8;
         int n4 = n;
-        this.msy.add(() -> this.ndv(n4, n3, SlotActionType.field_7791));
+        this.msy.add(() -> this.ndv(n4, n3, SlotActionType.SWAP));
     }
 
     private int nav() {
         for (int i = 0; i < 9; ++i) {
-            if (!this.getPlayer().method_31548().method_5438(i).method_7960()) continue;
+            if (!this.getPlayer().getInventory().getStack(i).isEmpty()) continue;
             return i;
         }
         return -1;
@@ -2377,7 +2377,7 @@ extends pnc {
     private void nax() {
         this.msu = false;
         this.msv = 0;
-        if ((double)this.mqr >= this.mqd.get() || this.getPlayer().method_31548().method_7376() == -1) {
+        if ((double)this.mqr >= this.mqd.get() || this.getPlayer().getInventory().getEmptySlot() == -1) {
             this.myd(mpm.CHECK_PVP_COOLDOWN);
             return;
         }
@@ -2400,7 +2400,7 @@ extends pnc {
             return;
         }
         ++this.msi;
-        double d = this.getPlayer().method_33571().method_1025(Vec3d.method_24953((Vec3i)this.mrr));
+        double d = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter((Vec3i)this.mrr));
         boolean bl = this.nbm(this.mrr);
         if (bl && d <= 16.0) {
             this.mqy = null;
@@ -2415,7 +2415,7 @@ extends pnc {
             this.nay(true);
             return;
         }
-        if (!this.mvh && bl && d <= 36.0 && this.ncs(Vec3d.method_24953((Vec3i)this.mrr))) {
+        if (!this.mvh && bl && d <= 36.0 && this.ncs(Vec3d.ofCenter((Vec3i)this.mrr))) {
             this.mvh = true;
         }
         if (this.mvh && bl) {
@@ -2432,7 +2432,7 @@ extends pnc {
             return;
         }
         if (bl && d < 100.0) {
-            this.ncp(Vec3d.method_24953((Vec3i)this.mrr));
+            this.ncp(Vec3d.ofCenter((Vec3i)this.mrr));
         } else if (!this.naz(this.mrr, false)) {
             pqf.resetKeys();
         }
@@ -2448,10 +2448,10 @@ extends pnc {
         this.mqz = 0;
         this.msx = 0;
         this.msi = 0;
-        if (this.mc.field_1761 != null) {
-            this.mc.field_1761.method_2925();
+        if (this.mc.interactionManager != null) {
+            this.mc.interactionManager.cancelBlockBreaking();
         }
-        this.mc.field_1690.field_1886.method_23481(false);
+        this.mc.options.attackKey.setPressed(false);
     }
 
     private boolean naz(BlockPos blockPos, boolean bl) {
@@ -2467,7 +2467,7 @@ extends pnc {
     }
 
     private List<BlockPos> nba(BlockPos blockPos) {
-        return this.nbb(this.getPlayer().method_24515(), blockPos);
+        return this.nbb(this.getPlayer().getBlockPos(), blockPos);
     }
 
     private List<BlockPos> nbb(BlockPos blockPos, BlockPos blockPos2) {
@@ -2497,9 +2497,9 @@ extends pnc {
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         block0: for (int i = 0; i <= 10; ++i) {
             for (int j = 1; j >= -1; j -= 2) {
-                mutable.method_10103(blockPos.method_10263(), blockPos.method_10264() + i * j, blockPos.method_10260());
+                mutable.set(blockPos.getX(), blockPos.getY() + i * j, blockPos.getZ());
                 if (this.nbe((BlockPos)mutable)) {
-                    return mutable.method_10062();
+                    return mutable.toImmutable();
                 }
                 if (i == 0) continue block0;
             }
@@ -2511,7 +2511,7 @@ extends pnc {
         if (this.getWorld() == null) {
             return false;
         }
-        return this.getWorld().method_8320(blockPos).method_26220((BlockView)this.getWorld(), blockPos).method_1110() && this.getWorld().method_8320(blockPos.method_10084()).method_26220((BlockView)this.getWorld(), blockPos.method_10084()).method_1110() && !this.getWorld().method_8320(blockPos.method_10074()).method_26220((BlockView)this.getWorld(), blockPos.method_10074()).method_1110();
+        return this.getWorld().getBlockState(blockPos).getCollisionShape((BlockView)this.getWorld(), blockPos).isEmpty() && this.getWorld().getBlockState(blockPos.up()).getCollisionShape((BlockView)this.getWorld(), blockPos.up()).isEmpty() && !this.getWorld().getBlockState(blockPos.down()).getCollisionShape((BlockView)this.getWorld(), blockPos.down()).isEmpty();
     }
 
     private void nbf() {
@@ -2537,7 +2537,7 @@ extends pnc {
     }
 
     private void nbg() {
-        BlockPos blockPos = this.getPlayer().method_24515();
+        BlockPos blockPos = this.getPlayer().getBlockPos();
         this.nbi(blockPos);
         if (Double.isNaN(this.mvt)) {
             this.mvt = Math.toRadians((double)this.ncj() + 90.0);
@@ -2547,7 +2547,7 @@ extends pnc {
         for (int i = 0; i < dArray.length && n < 2; ++i) {
             double d = this.mvt + dArray[(i + this.mvv) % dArray.length] + this.mty.nextGaussian() * 0.28;
             double d2 = 17.0 + this.mty.nextDouble() * 19.0;
-            BlockPos blockPos2 = blockPos.method_10069((int)Math.round(Math.cos(d) * d2), 0, (int)Math.round(Math.sin(d) * d2));
+            BlockPos blockPos2 = blockPos.add((int)Math.round(Math.cos(d) * d2), 0, (int)Math.round(Math.sin(d) * d2));
             if (this.nbj(blockPos2) && this.mvu < 2) continue;
             ++n;
             List<BlockPos> list = this.nbb(blockPos, this.nbd(blockPos2));
@@ -2565,7 +2565,7 @@ extends pnc {
     }
 
     private static long nbh(BlockPos blockPos) {
-        return (long)(blockPos.method_10263() >> 4) << 32 ^ (long)(blockPos.method_10260() >> 4) & 0xFFFFFFFFL;
+        return (long)(blockPos.getX() >> 4) << 32 ^ (long)(blockPos.getZ() >> 4) & 0xFFFFFFFFL;
     }
 
     private void nbi(BlockPos blockPos) {
@@ -2580,13 +2580,13 @@ extends pnc {
     }
 
     private BlockPos nbk() {
-        BlockPos blockPos = this.getPlayer().method_24515();
+        BlockPos blockPos = this.getPlayer().getBlockPos();
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         ArrayList<Vec3d> arrayList = new ArrayList<Vec3d>();
         if (this.getWorld() != null) {
-            for (PlayerEntity playerEntity : this.getWorld().method_18456()) {
+            for (PlayerEntity playerEntity : this.getWorld().getPlayers()) {
                 if (playerEntity == this.getPlayer()) continue;
-                arrayList.add(playerEntity.method_73189());
+                arrayList.add(playerEntity.getEntityPos());
             }
         }
         BlockPos blockPos2 = null;
@@ -2598,24 +2598,24 @@ extends pnc {
                 for (int k = -i; k <= i; ++k) {
                     if (Math.max(Math.abs(j), Math.abs(k)) != i) continue;
                     for (int i2 = -8; i2 <= 8; ++i2) {
-                        int n3 = blockPos.method_10264() + i2;
+                        int n3 = blockPos.getY() + i2;
                         if (n3 >= 80 && n3 <= 90) continue;
-                        mutable.method_10103(blockPos.method_10263() + j, n3, blockPos.method_10260() + k);
+                        mutable.set(blockPos.getX() + j, n3, blockPos.getZ() + k);
                         if (!this.nbl((BlockPos)mutable) || this.mra.contains(mutable)) continue;
-                        double d2 = mutable.method_10262((Vec3i)blockPos) * (0.8 + this.mty.nextDouble() * 0.65);
+                        double d2 = mutable.getSquaredDistance((Vec3i)blockPos) * (0.8 + this.mty.nextDouble() * 0.65);
                         if (!this.nbn((BlockPos)mutable)) {
                             d2 *= 2.4;
                         }
-                        Vec3d vec3d = Vec3d.method_24953((Vec3i)mutable);
+                        Vec3d vec3d = Vec3d.ofCenter((Vec3i)mutable);
                         for (Vec3d vec3d2 : arrayList) {
-                            if (!(vec3d2.method_1025(vec3d) < 1600.0)) continue;
+                            if (!(vec3d2.squaredDistanceTo(vec3d) < 1600.0)) continue;
                             d2 += 100000.0;
                             break;
                         }
                         ++n;
                         if (!(d2 < d)) continue;
                         d = d2;
-                        blockPos2 = mutable.method_10062();
+                        blockPos2 = mutable.toImmutable();
                     }
                 }
             }
@@ -2633,7 +2633,7 @@ extends pnc {
         if (this.getWorld() == null || blockPos == null) {
             return false;
         }
-        return this.getWorld().method_8320(blockPos).method_27852(Blocks.field_42752);
+        return this.getWorld().getBlockState(blockPos).isOf(Blocks.DECORATED_POT);
     }
 
     private boolean nbm(BlockPos blockPos) {
@@ -2642,10 +2642,10 @@ extends pnc {
 
     private boolean nbn(BlockPos blockPos) {
         Vec3d[] vec3dArray;
-        Vec3d vec3d = this.getPlayer().method_33571();
-        for (Vec3d vec3d2 : vec3dArray = new Vec3d[]{Vec3d.method_24953((Vec3i)blockPos), Vec3d.method_24953((Vec3i)blockPos).method_1031(0.0, 0.4, 0.0)}) {
-            BlockHitResult blockHitResult = this.getWorld().method_17742(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)this.getPlayer()));
-            if (blockHitResult.method_17783() != HitResult.Type.field_1333 && !blockHitResult.method_17777().equals((Object)blockPos)) continue;
+        Vec3d vec3d = this.getPlayer().getEyePos();
+        for (Vec3d vec3d2 : vec3dArray = new Vec3d[]{Vec3d.ofCenter((Vec3i)blockPos), Vec3d.ofCenter((Vec3i)blockPos).add(0.0, 0.4, 0.0)}) {
+            BlockHitResult blockHitResult = this.getWorld().raycast(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)this.getPlayer()));
+            if (blockHitResult.getType() != HitResult.Type.MISS && !blockHitResult.getBlockPos().equals((Object)blockPos)) continue;
             return true;
         }
         return false;
@@ -2656,11 +2656,11 @@ extends pnc {
         if (this.getWorld() == null || this.getPlayer() == null || blockPos == null) {
             return null;
         }
-        Vec3d vec3d = this.getPlayer().method_33571();
-        Vec3d vec3d2 = Vec3d.method_24953((Vec3i)blockPos);
-        for (Vec3d vec3d3 : vec3dArray = new Vec3d[]{vec3d2.method_1031(this.muz, this.mva, this.mvb), vec3d2.method_1031(0.0, 0.35, 0.0), vec3d2.method_1031(0.0, -0.35, 0.0), vec3d2.method_1031(0.3, 0.0, 0.0), vec3d2.method_1031(-0.3, 0.0, 0.0), vec3d2.method_1031(0.0, 0.0, 0.3), vec3d2.method_1031(0.0, 0.0, -0.3)}) {
-            BlockHitResult blockHitResult = this.getWorld().method_17742(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)this.getPlayer()));
-            if (blockHitResult.method_17783() != HitResult.Type.field_1333 && !blockHitResult.method_17777().equals((Object)blockPos)) continue;
+        Vec3d vec3d = this.getPlayer().getEyePos();
+        Vec3d vec3d2 = Vec3d.ofCenter((Vec3i)blockPos);
+        for (Vec3d vec3d3 : vec3dArray = new Vec3d[]{vec3d2.add(this.muz, this.mva, this.mvb), vec3d2.add(0.0, 0.35, 0.0), vec3d2.add(0.0, -0.35, 0.0), vec3d2.add(0.3, 0.0, 0.0), vec3d2.add(-0.3, 0.0, 0.0), vec3d2.add(0.0, 0.0, 0.3), vec3d2.add(0.0, 0.0, -0.3)}) {
+            BlockHitResult blockHitResult = this.getWorld().raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)this.getPlayer()));
+            if (blockHitResult.getType() != HitResult.Type.MISS && !blockHitResult.getBlockPos().equals((Object)blockPos)) continue;
             return vec3d3;
         }
         return null;
@@ -2677,18 +2677,18 @@ extends pnc {
         this.msl.clear();
         this.mqy = null;
         this.mqz = 0;
-        this.mc.field_1690.field_1886.method_23481(false);
+        this.mc.options.attackKey.setPressed(false);
         this.mxx();
-        if (this.mc.field_1761 != null) {
-            this.mc.field_1761.method_2925();
+        if (this.mc.interactionManager != null) {
+            this.mc.interactionManager.cancelBlockBreaking();
         }
         this.msj = vec3d;
         this.msm.clear();
-        if (this.mc.field_1687 != null) {
-            for (Entity entity : this.mc.field_1687.method_18112()) {
+        if (this.mc.world != null) {
+            for (Entity entity : this.mc.world.getEntities()) {
                 ItemEntity itemEntity;
-                if (!(entity instanceof ItemEntity) || !((itemEntity = (ItemEntity)entity).method_5707(vec3d) < 100.0) || itemEntity.method_6985() <= 20) continue;
-                this.msm.add(itemEntity.method_5628());
+                if (!(entity instanceof ItemEntity) || !((itemEntity = (ItemEntity)entity).squaredDistanceTo(vec3d) < 100.0) || itemEntity.getItemAge() <= 20) continue;
+                this.msm.add(itemEntity.getId());
             }
         }
     }
@@ -2697,7 +2697,7 @@ extends pnc {
         if (this.mrr == null || !this.nbl(this.mrr)) {
             if (!this.msu) {
                 Vec3d vec3d;
-                Vec3d vec3d2 = vec3d = this.mrr != null ? Vec3d.method_24953((Vec3i)this.mrr) : this.getPlayer().method_73189();
+                Vec3d vec3d2 = vec3d = this.mrr != null ? Vec3d.ofCenter((Vec3i)this.mrr) : this.getPlayer().getEntityPos();
                 if (this.mrr != null) {
                     this.mra.add(this.mrr);
                     ++this.mqu;
@@ -2710,11 +2710,11 @@ extends pnc {
         }
         ++this.mrs;
         Vec3d vec3d = this.nbo(this.mrr);
-        double d = this.getPlayer().method_33571().method_1025(Vec3d.method_24953((Vec3i)this.mrr));
+        double d = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter((Vec3i)this.mrr));
         if (vec3d == null || d > 20.25) {
-            this.mc.field_1690.field_1886.method_23481(false);
-            if (this.mc.field_1761 != null) {
-                this.mc.field_1761.method_2925();
+            this.mc.options.attackKey.setPressed(false);
+            if (this.mc.interactionManager != null) {
+                this.mc.interactionManager.cancelBlockBreaking();
             }
             if (this.mqy == null || this.mqz >= this.mqy.size()) {
                 this.naz(this.mrr, false);
@@ -2732,9 +2732,9 @@ extends pnc {
         }
         if (this.nbr(this.mrr)) {
             this.mux = true;
-            this.mc.field_1690.field_1894.method_23481(true);
-            this.mc.field_1690.field_1867.method_23481(true);
-            this.mc.field_1690.field_1903.method_23481(false);
+            this.mc.options.forwardKey.setPressed(true);
+            this.mc.options.sprintKey.setPressed(true);
+            this.mc.options.jumpKey.setPressed(false);
         } else {
             pqf.resetKeys();
         }
@@ -2745,7 +2745,7 @@ extends pnc {
             --this.mvc;
             bl = false;
         }
-        this.mc.field_1690.field_1886.method_23481(bl);
+        this.mc.options.attackKey.setPressed(bl);
         if (this.mrs > this.mys(100)) {
             this.nay(true);
             this.myd(mpm.FARMING);
@@ -2754,38 +2754,38 @@ extends pnc {
 
     private boolean nbr(BlockPos blockPos) {
         double d;
-        if (!this.getPlayer().method_24828() || this.getPlayer().method_5799()) {
+        if (!this.getPlayer().isOnGround() || this.getPlayer().isTouchingWater()) {
             return false;
         }
-        if (Math.abs((double)blockPos.method_10264() - this.getPlayer().method_23318()) > 1.0) {
+        if (Math.abs((double)blockPos.getY() - this.getPlayer().getY()) > 1.0) {
             return false;
         }
-        double d2 = (double)blockPos.method_10263() + 0.5 - this.getPlayer().method_23317();
-        double d3 = Math.hypot(d2, d = (double)blockPos.method_10260() + 0.5 - this.getPlayer().method_23321());
+        double d2 = (double)blockPos.getX() + 0.5 - this.getPlayer().getX();
+        double d3 = Math.hypot(d2, d = (double)blockPos.getZ() + 0.5 - this.getPlayer().getZ());
         if (d3 < 2.0) {
             return false;
         }
         double d4 = (d3 - 1.3) / d3;
-        return this.nct(new Vec3d(this.getPlayer().method_23317() + d2 * d4, this.getPlayer().method_23318(), this.getPlayer().method_23321() + d * d4), true);
+        return this.nct(new Vec3d(this.getPlayer().getX() + d2 * d4, this.getPlayer().getY(), this.getPlayer().getZ() + d * d4), true);
     }
 
     private void nbs(mpm mpm2) {
         int n;
         ++this.mrs;
-        this.mc.field_1690.field_1886.method_23481(false);
-        this.mc.field_1690.field_1904.method_23481(false);
-        Vec3d vec3d = this.msj != null ? this.msj : this.getPlayer().method_73189();
+        this.mc.options.attackKey.setPressed(false);
+        this.mc.options.useKey.setPressed(false);
+        Vec3d vec3d = this.msj != null ? this.msj : this.getPlayer().getEntityPos();
         ItemEntity itemEntity = null;
         double d = Double.MAX_VALUE;
-        if (this.mc.field_1687 != null) {
-            for (Entity entity : this.mc.field_1687.method_18112()) {
+        if (this.mc.world != null) {
+            for (Entity entity : this.mc.world.getEntities()) {
                 double d2;
                 ItemEntity itemEntity2;
-                if (!(entity instanceof ItemEntity) || !(itemEntity2 = (ItemEntity)entity).method_5805() || itemEntity2.method_5707(vec3d) > 64.0 && itemEntity2.method_5858((Entity)this.getPlayer()) > 36.0) continue;
-                if (!this.msm.contains(itemEntity2.method_5628())) {
+                if (!(entity instanceof ItemEntity) || !(itemEntity2 = (ItemEntity)entity).isAlive() || itemEntity2.squaredDistanceTo(vec3d) > 64.0 && itemEntity2.squaredDistanceTo((Entity)this.getPlayer()) > 36.0) continue;
+                if (!this.msm.contains(itemEntity2.getId())) {
                     this.msk = true;
                 }
-                if (this.isTrashItem(itemEntity2.method_6983()) || this.msl.contains(itemEntity2.method_5628()) || !((d2 = itemEntity2.method_5858((Entity)this.getPlayer())) < d)) continue;
+                if (this.isTrashItem(itemEntity2.getStack()) || this.msl.contains(itemEntity2.getId()) || !((d2 = itemEntity2.squaredDistanceTo((Entity)this.getPlayer())) < d)) continue;
                 d = d2;
                 itemEntity = itemEntity2;
             }
@@ -2793,8 +2793,8 @@ extends pnc {
         if (itemEntity != null) {
             int n2;
             this.msv = 0;
-            if (itemEntity.method_5628() != this.msp) {
-                this.msp = itemEntity.method_5628();
+            if (itemEntity.getId() != this.msp) {
+                this.msp = itemEntity.getId();
                 this.msn = 0;
                 this.mso = d;
                 this.mqy = null;
@@ -2806,7 +2806,7 @@ extends pnc {
                 this.msn = 0;
             }
             if (this.msn > (n2 = this.mys(d < 2.25 ? 30 : 60))) {
-                this.msl.add(itemEntity.method_5628());
+                this.msl.add(itemEntity.getId());
                 this.msp = -1;
                 this.mqy = null;
                 this.mqz = 0;
@@ -2815,33 +2815,33 @@ extends pnc {
             }
             if (d > 6.25) {
                 Entity entity;
-                entity = itemEntity.method_24515();
-                if (this.mqy == null || this.mqy.isEmpty() || this.mqz >= this.mqy.size() || this.mqy.get(this.mqy.size() - 1).method_10262((Vec3i)entity) > 4.0) {
+                entity = itemEntity.getBlockPos();
+                if (this.mqy == null || this.mqy.isEmpty() || this.mqz >= this.mqy.size() || this.mqy.get(this.mqy.size() - 1).getSquaredDistance((Vec3i)entity) > 4.0) {
                     this.naz((BlockPos)entity, false);
                 }
                 if (this.mqy != null && this.mqz < this.mqy.size()) {
                     this.ncr();
                 } else {
-                    this.ncq(itemEntity.method_73189(), true);
+                    this.ncq(itemEntity.getEntityPos(), true);
                 }
             } else if (pqf.isBlockedHorizontally() && this.msn > 12) {
                 if (this.mqy == null || this.mqz >= this.mqy.size()) {
-                    this.naz(itemEntity.method_24515(), false);
+                    this.naz(itemEntity.getBlockPos(), false);
                 }
                 if (this.mqy != null && this.mqz < this.mqy.size()) {
                     this.ncr();
                 } else {
-                    this.nbt(itemEntity.method_73189());
+                    this.nbt(itemEntity.getEntityPos());
                 }
             } else {
                 this.mqy = null;
-                this.nbt(itemEntity.method_73189());
+                this.nbt(itemEntity.getEntityPos());
             }
         } else {
             ++this.msv;
-            double d3 = Math.hypot(vec3d.field_1352 - this.getPlayer().method_23317(), vec3d.field_1350 - this.getPlayer().method_23321());
-            if (!this.msk && this.msj != null && this.mrs < 12 && d3 > 1.1 && this.ncx(BlockPos.method_49638((Position)this.msj))) {
-                this.ncq(new Vec3d(vec3d.field_1352, this.getPlayer().method_23318(), vec3d.field_1350), true);
+            double d3 = Math.hypot(vec3d.x - this.getPlayer().getX(), vec3d.z - this.getPlayer().getZ());
+            if (!this.msk && this.msj != null && this.mrs < 12 && d3 > 1.1 && this.ncx(BlockPos.ofFloored((Position)this.msj))) {
+                this.ncq(new Vec3d(vec3d.x, this.getPlayer().getY(), vec3d.z), true);
             } else {
                 pqf.resetKeys();
             }
@@ -2855,7 +2855,7 @@ extends pnc {
 
     private void nbt(Vec3d vec3d) {
         ClientPlayerEntity clientPlayerEntity = this.getPlayer();
-        Vec3d vec3d2 = new Vec3d(vec3d.field_1352, clientPlayerEntity.method_33571().field_1351 - 0.6, vec3d.field_1350);
+        Vec3d vec3d2 = new Vec3d(vec3d.x, clientPlayerEntity.getEyePos().y - 0.6, vec3d.z);
         int n = this.mvl.walkTo(this.mc, (PlayerEntity)clientPlayerEntity, (World)this.getWorld(), vec3d, this.mtu, this.mtv, vec3d2, false, this.myq(), this.myt());
         if (n != 0 && !this.myq()) {
             pqf.resetKeys();
@@ -2892,10 +2892,10 @@ extends pnc {
         this.mtw = this.getPlayer();
         if (this.mtw != null) {
             this.nce(this.mtw);
-            this.mtl.reset(this.mtw.method_36454(), this.mtw.method_36455());
-            this.mtu = this.mtw.method_36454();
-            this.mtv = this.mtw.method_36455();
-            this.mtx = this.mtw.method_73189();
+            this.mtl.reset(this.mtw.getYaw(), this.mtw.getPitch());
+            this.mtu = this.mtw.getYaw();
+            this.mtv = this.mtw.getPitch();
+            this.mtx = this.mtw.getEntityPos();
         }
         this.mtn = false;
         this.mto = false;
@@ -2909,7 +2909,7 @@ extends pnc {
         if (this.mtn) {
             this.mtn = false;
             if (this.driver == null && this.mtm.ownedBy(this)) {
-                this.mtm.release(this.mc.field_1724);
+                this.mtm.release(this.mc.player);
             }
         }
     }
@@ -2920,7 +2920,7 @@ extends pnc {
         if (clientPlayerEntity == null) {
             return false;
         }
-        boolean bl2 = bl = this.mtw != clientPlayerEntity || this.mtx == null || clientPlayerEntity.method_73189().method_1025(this.mtx) > 400.0;
+        boolean bl2 = bl = this.mtw != clientPlayerEntity || this.mtx == null || clientPlayerEntity.getEntityPos().squaredDistanceTo(this.mtx) > 400.0;
         if (bl) {
             if (this.driver == null) {
                 this.mtm.reset();
@@ -2928,9 +2928,9 @@ extends pnc {
             if (this.mtw != clientPlayerEntity) {
                 this.nce((PlayerEntity)clientPlayerEntity);
             }
-            this.mtl.reset(clientPlayerEntity.method_36454(), clientPlayerEntity.method_36455());
-            this.mtu = clientPlayerEntity.method_36454();
-            this.mtv = clientPlayerEntity.method_36455();
+            this.mtl.reset(clientPlayerEntity.getYaw(), clientPlayerEntity.getPitch());
+            this.mtu = clientPlayerEntity.getYaw();
+            this.mtv = clientPlayerEntity.getPitch();
             this.mtw = clientPlayerEntity;
             this.mtn = false;
             this.mqy = null;
@@ -2938,7 +2938,7 @@ extends pnc {
             this.mvm = null;
             this.mvl.reset();
         }
-        this.mtx = clientPlayerEntity.method_73189();
+        this.mtx = clientPlayerEntity.getEntityPos();
         return bl;
     }
 
@@ -2970,14 +2970,14 @@ extends pnc {
         if (this.getWorld() == null || this.getPlayer() == null || blockPos == null || vec3d == null) {
             return 0.0;
         }
-        VoxelShape voxelShape = this.getWorld().method_8320(blockPos).method_26218((BlockView)this.getWorld(), blockPos);
-        Box box = voxelShape.method_1110() ? new Box(blockPos) : voxelShape.method_1107().method_996(blockPos);
-        double d = Math.min(Math.min(Math.min(vec3d.field_1352 - box.field_1323, box.field_1320 - vec3d.field_1352), Math.min(vec3d.field_1351 - box.field_1322, box.field_1325 - vec3d.field_1351)), Math.min(vec3d.field_1350 - box.field_1321, box.field_1324 - vec3d.field_1350));
+        VoxelShape voxelShape = this.getWorld().getBlockState(blockPos).getOutlineShape((BlockView)this.getWorld(), blockPos);
+        Box box = voxelShape.isEmpty() ? new Box(blockPos) : voxelShape.getBoundingBox().offset(blockPos);
+        double d = Math.min(Math.min(Math.min(vec3d.x - box.minX, box.maxX - vec3d.x), Math.min(vec3d.y - box.minY, box.maxY - vec3d.y)), Math.min(vec3d.z - box.minZ, box.maxZ - vec3d.z));
         if (d <= 0.02) {
             return 0.25;
         }
-        double d2 = Math.max(0.5, this.getPlayer().method_33571().method_1022(vec3d));
-        return MathHelper.method_15350((double)(Math.toDegrees(Math.atan2(d, d2)) * 0.55), (double)0.25, (double)4.0);
+        double d2 = Math.max(0.5, this.getPlayer().getEyePos().distanceTo(vec3d));
+        return MathHelper.clamp((double)(Math.toDegrees(Math.atan2(d, d2)) * 0.55), (double)0.25, (double)4.0);
     }
 
     private void ncd(boolean bl) {
@@ -2991,7 +2991,7 @@ extends pnc {
     }
 
     private void nce(PlayerEntity playerEntity) {
-        String string = playerEntity.method_7334() != null ? playerEntity.method_7334().name() : null;
+        String string = playerEntity.getGameProfile() != null ? playerEntity.getGameProfile().name() : null;
         long l = 1125899906842597L;
         if (string != null) {
             for (int i = 0; i < string.length(); ++i) {
@@ -3053,7 +3053,7 @@ extends pnc {
             this.ncl();
             return;
         }
-        if (this.mc.field_1755 == null) {
+        if (this.mc.currentScreen == null) {
             this.mtl.setMouseStep(this.driver != null ? this.driver.mouseStep() : prp.step());
             if (this.ncm()) {
                 this.mtl.freeze();
@@ -3078,14 +3078,14 @@ extends pnc {
         this.mto = false;
         this.mtp = false;
         if (this.driver != null) {
-            if (this.mc.field_1755 == null) {
-                this.driver.look(this.mtu, MathHelper.method_15363((float)this.mtv, (float)-90.0f, (float)90.0f));
+            if (this.mc.currentScreen == null) {
+                this.driver.look(this.mtu, MathHelper.clamp((float)this.mtv, (float)-90.0f, (float)90.0f));
             }
         } else {
-            this.mtm.set(this, this.mtu, MathHelper.method_15363((float)this.mtv, (float)-90.0f, (float)90.0f));
+            this.mtm.set(this, this.mtu, MathHelper.clamp((float)this.mtv, (float)-90.0f, (float)90.0f));
         }
         this.mtn = true;
-        if (this.mc.field_1755 != null) {
+        if (this.mc.currentScreen != null) {
             ptr.clear();
         } else if (this.mvk != null) {
             ptr.aimAt(this.mvk, this.mtu, this.mtv);
@@ -3097,16 +3097,16 @@ extends pnc {
         this.mto = false;
         this.mtp = false;
         ClientPlayerEntity clientPlayerEntity = this.getPlayer();
-        this.mtl.reset(clientPlayerEntity.method_36454(), clientPlayerEntity.method_36455());
-        this.mtu = clientPlayerEntity.method_36454();
-        this.mtv = clientPlayerEntity.method_36455();
+        this.mtl.reset(clientPlayerEntity.getYaw(), clientPlayerEntity.getPitch());
+        this.mtu = clientPlayerEntity.getYaw();
+        this.mtv = clientPlayerEntity.getPitch();
         if (this.mtn) {
             this.mtn = false;
             if (this.mtm.ownedBy(this)) {
-                this.mtm.release(this.mc.field_1724);
+                this.mtm.release(this.mc.player);
             }
         }
-        if (this.mc.field_1755 != null) {
+        if (this.mc.currentScreen != null) {
             ptr.clear();
         } else if (this.mvk != null) {
             ptr.aimAt(this.mvk, this.mtu, this.mtv);
@@ -3122,16 +3122,16 @@ extends pnc {
         if (this.getWorld() == null || this.getPlayer() == null) {
             return null;
         }
-        Vec3d vec3d = this.getPlayer().method_33571();
-        Vec3d vec3d2 = Vec3d.method_1030((float)this.mtv, (float)this.mtu);
+        Vec3d vec3d = this.getPlayer().getEyePos();
+        Vec3d vec3d2 = Vec3d.fromPolar((float)this.mtv, (float)this.mtu);
         double d = 4.5;
-        Vec3d vec3d3 = vec3d.method_1031(vec3d2.field_1352 * d, vec3d2.field_1351 * d, vec3d2.field_1350 * d);
-        return this.getWorld().method_17742(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)this.getPlayer()));
+        Vec3d vec3d3 = vec3d.add(vec3d2.x * d, vec3d2.y * d, vec3d2.z * d);
+        return this.getWorld().raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)this.getPlayer()));
     }
 
     private BlockHitResult nco(BlockPos blockPos) {
         BlockHitResult blockHitResult = this.ncn();
-        if (blockHitResult != null && blockHitResult.method_17783() == HitResult.Type.field_1332 && blockHitResult.method_17777().equals((Object)blockPos)) {
+        if (blockHitResult != null && blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals((Object)blockPos)) {
             this.mvk = blockPos;
             return blockHitResult;
         }
@@ -3202,9 +3202,9 @@ extends pnc {
         if (this.getWorld() == null || this.getPlayer() == null) {
             return false;
         }
-        Vec3d vec3d2 = this.getPlayer().method_73189();
-        double d = vec3d.field_1352 - vec3d2.field_1352;
-        double d2 = vec3d.field_1350 - vec3d2.field_1350;
+        Vec3d vec3d2 = this.getPlayer().getEntityPos();
+        double d = vec3d.x - vec3d2.x;
+        double d2 = vec3d.z - vec3d2.z;
         double d3 = Math.hypot(d, d2);
         if (d3 < 0.1) {
             return true;
@@ -3213,19 +3213,19 @@ extends pnc {
         int n = (int)Math.ceil(d3 / 0.45);
         for (int i = 1; i <= n; ++i) {
             double d5 = (double)i / (double)n;
-            double d6 = vec3d2.field_1352 + d * d5;
-            double d7 = vec3d2.field_1350 + d2 * d5;
+            double d6 = vec3d2.x + d * d5;
+            double d7 = vec3d2.z + d2 * d5;
             if (!this.ncv(d6, d7, d4)) {
                 return false;
             }
-            if (!bl || !this.ncx(BlockPos.method_49637((double)d6, (double)(d4 - 0.2), (double)d7))) continue;
+            if (!bl || !this.ncx(BlockPos.ofFloored((double)d6, (double)(d4 - 0.2), (double)d7))) continue;
             return false;
         }
         return true;
     }
 
     private double ncu() {
-        return this.nci() ? pqf.getStandY(this.mqy.get(this.mqz)) : this.getPlayer().method_23318();
+        return this.nci() ? pqf.getStandY(this.mqy.get(this.mqz)) : this.getPlayer().getY();
     }
 
     private boolean ncv(double d, double d2, double d3) {
@@ -3233,15 +3233,15 @@ extends pnc {
     }
 
     private boolean ncw(Box box) {
-        for (VoxelShape voxelShape : this.getWorld().method_20812((Entity)this.getPlayer(), box)) {
-            if (voxelShape.method_1110()) continue;
+        for (VoxelShape voxelShape : this.getWorld().getBlockCollisions((Entity)this.getPlayer(), box)) {
+            if (voxelShape.isEmpty()) continue;
             return false;
         }
         return true;
     }
 
     private boolean ncx(BlockPos blockPos) {
-        return this.getWorld().method_8320(blockPos).method_26220((BlockView)this.getWorld(), blockPos).method_1110();
+        return this.getWorld().getBlockState(blockPos).getCollisionShape((BlockView)this.getWorld(), blockPos).isEmpty();
     }
 
     private void ncy() {
@@ -3270,7 +3270,7 @@ extends pnc {
             return;
         }
         ++this.msi;
-        double d = this.getPlayer().method_33571().method_1025(Vec3d.method_24953((Vec3i)this.mrz));
+        double d = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter((Vec3i)this.mrz));
         boolean bl = this.nbm(this.mrz);
         if (bl && d <= 16.0) {
             pqf.resetKeys();
@@ -3286,7 +3286,7 @@ extends pnc {
             this.ncz(true);
             return;
         }
-        if (!this.mvh && bl && d <= 36.0 && this.ncs(Vec3d.method_24953((Vec3i)this.mrz))) {
+        if (!this.mvh && bl && d <= 36.0 && this.ncs(Vec3d.ofCenter((Vec3i)this.mrz))) {
             this.mvh = true;
         }
         if (this.mvh && bl) {
@@ -3303,7 +3303,7 @@ extends pnc {
             return;
         }
         if (bl && d < 100.0) {
-            this.ncp(Vec3d.method_24953((Vec3i)this.mrz));
+            this.ncp(Vec3d.ofCenter((Vec3i)this.mrz));
         } else if (!this.naz(this.mrz, false)) {
             pqf.resetKeys();
         }
@@ -3320,16 +3320,16 @@ extends pnc {
         this.msx = 0;
         this.msi = 0;
         this.msb = false;
-        this.mc.field_1690.field_1904.method_23481(false);
+        this.mc.options.useKey.setPressed(false);
     }
 
     private BlockPos nda() {
-        BlockPos blockPos = this.getPlayer().method_24515();
+        BlockPos blockPos = this.getPlayer().getBlockPos();
         BlockPos.Mutable mutable = new BlockPos.Mutable();
         ArrayList<Vec3d> arrayList = new ArrayList<Vec3d>();
-        for (PlayerEntity playerEntity : this.getWorld().method_18456()) {
+        for (PlayerEntity playerEntity : this.getWorld().getPlayers()) {
             if (playerEntity == this.getPlayer()) continue;
-            arrayList.add(playerEntity.method_73189());
+            arrayList.add(playerEntity.getEntityPos());
         }
         BlockPos blockPos2 = null;
         double d = Double.MAX_VALUE;
@@ -3338,18 +3338,18 @@ extends pnc {
                 for (int k = -i; k <= i; ++k) {
                     if (Math.max(Math.abs(j), Math.abs(k)) != i) continue;
                     for (int i2 = -8; i2 <= 8; ++i2) {
-                        mutable.method_10103(blockPos.method_10263() + j, blockPos.method_10264() + i2, blockPos.method_10260() + k);
+                        mutable.set(blockPos.getX() + j, blockPos.getY() + i2, blockPos.getZ() + k);
                         if (!this.ndb((BlockPos)mutable) || this.mra.contains(mutable)) continue;
-                        double d2 = mutable.method_10262((Vec3i)blockPos);
-                        Vec3d vec3d = Vec3d.method_24953((Vec3i)mutable);
+                        double d2 = mutable.getSquaredDistance((Vec3i)blockPos);
+                        Vec3d vec3d = Vec3d.ofCenter((Vec3i)mutable);
                         for (Vec3d vec3d2 : arrayList) {
-                            if (!(vec3d2.method_1025(vec3d) < 1600.0)) continue;
+                            if (!(vec3d2.squaredDistanceTo(vec3d) < 1600.0)) continue;
                             d2 += 100000.0;
                             break;
                         }
                         if (!(d2 < d)) continue;
                         d = d2;
-                        blockPos2 = mutable.method_10062();
+                        blockPos2 = mutable.toImmutable();
                     }
                 }
             }
@@ -3363,21 +3363,21 @@ extends pnc {
         if (this.getWorld() == null || blockPos == null) {
             return false;
         }
-        return this.getWorld().method_8320(blockPos).method_27852(Blocks.field_42728);
+        return this.getWorld().getBlockState(blockPos).isOf(Blocks.SUSPICIOUS_SAND);
     }
 
     private void ndc() {
         if (!this.nde()) {
-            this.mc.field_1690.field_1904.method_23481(false);
-            this.msj = this.mrz != null ? Vec3d.method_24953((Vec3i)this.mrz) : this.getPlayer().method_73189();
+            this.mc.options.useKey.setPressed(false);
+            this.msj = this.mrz != null ? Vec3d.ofCenter((Vec3i)this.mrz) : this.getPlayer().getEntityPos();
             this.mrz = null;
             this.msu = false;
             this.myd(mpm.LOOTING_SAND);
             return;
         }
         if (this.mrz == null || !this.ndb(this.mrz)) {
-            this.mc.field_1690.field_1904.method_23481(false);
-            Vec3d vec3d = this.msj = this.mrz != null ? Vec3d.method_24953((Vec3i)this.mrz) : this.getPlayer().method_73189();
+            this.mc.options.useKey.setPressed(false);
+            Vec3d vec3d = this.msj = this.mrz != null ? Vec3d.ofCenter((Vec3i)this.mrz) : this.getPlayer().getEntityPos();
             if (this.mrz != null) {
                 this.mra.add(this.mrz);
                 ++this.mqv;
@@ -3398,17 +3398,17 @@ extends pnc {
                 }
                 int n4 = n3;
                 int n5 = n2;
-                this.msy.add(() -> this.ndv(n5, n4, SlotActionType.field_7791));
+                this.msy.add(() -> this.ndv(n5, n4, SlotActionType.SWAP));
             }
             return;
         }
-        this.getPlayer().method_31548().method_61496(n);
-        double d = this.getPlayer().method_33571().method_1025(Vec3d.method_24953((Vec3i)this.mrz));
+        this.getPlayer().getInventory().setSelectedSlot(n);
+        double d = this.getPlayer().getEyePos().squaredDistanceTo(Vec3d.ofCenter((Vec3i)this.mrz));
         if (d > 5.0) {
             this.msb = false;
-            this.mc.field_1690.field_1904.method_23481(false);
+            this.mc.options.useKey.setPressed(false);
             if (this.nbm(this.mrz)) {
-                this.ncp(Vec3d.method_24953((Vec3i)this.mrz));
+                this.ncp(Vec3d.ofCenter((Vec3i)this.mrz));
             } else {
                 if (this.mqy == null || this.mqz >= this.mqy.size()) {
                     this.naz(this.mrz, false);
@@ -3422,7 +3422,7 @@ extends pnc {
             if (this.msa > this.mys(120)) {
                 this.mra.add(this.mrz);
                 this.mrz = null;
-                this.mc.field_1690.field_1904.method_23481(false);
+                this.mc.options.useKey.setPressed(false);
                 this.myd(mpm.FARMING_SAND);
             }
             return;
@@ -3434,7 +3434,7 @@ extends pnc {
             this.mqz = 0;
         }
         pqf.resetKeys();
-        this.ncb(this.mrz, Vec3d.method_24953((Vec3i)this.mrz));
+        this.ncb(this.mrz, Vec3d.ofCenter((Vec3i)this.mrz));
         BlockHitResult blockHitResult = this.nco(this.mrz);
         boolean bl = blockHitResult != null;
         this.ncd(bl);
@@ -3444,19 +3444,19 @@ extends pnc {
             blockHitResult = null;
         }
         if (bl) {
-            this.mc.field_1690.field_1904.method_23481(true);
-            if (!this.getPlayer().method_6115()) {
+            this.mc.options.useKey.setPressed(true);
+            if (!this.getPlayer().isUsingItem()) {
                 BlockHitResult blockHitResult2 = blockHitResult;
                 ptr.later(() -> {
-                    if (this.mc.field_1761 != null && this.mc.field_1724 != null && !this.mc.field_1724.method_6115() && mpq.ndf(this.mc.field_1724.method_6047())) {
-                        this.mc.field_1761.method_2896(this.mc.field_1724, Hand.field_5808, blockHitResult2);
-                        this.mc.field_1724.method_6019(Hand.field_5808);
+                    if (this.mc.interactionManager != null && this.mc.player != null && !this.mc.player.isUsingItem() && mpq.ndf(this.mc.player.getMainHandStack())) {
+                        this.mc.interactionManager.interactBlock(this.mc.player, Hand.MAIN_HAND, blockHitResult2);
+                        this.mc.player.setCurrentHand(Hand.MAIN_HAND);
                     }
                 });
             }
             this.msx = 0;
         } else {
-            this.mc.field_1690.field_1904.method_23481(false);
+            this.mc.options.useKey.setPressed(false);
             ++this.msx;
             if (this.msx > 40) {
                 this.mra.add(this.mrz);
@@ -3469,10 +3469,10 @@ extends pnc {
         }
         if (this.msa > 200) {
             this.mra.add(this.mrz);
-            this.msj = Vec3d.method_24953((Vec3i)this.mrz);
+            this.msj = Vec3d.ofCenter((Vec3i)this.mrz);
             this.mrz = null;
             this.msb = false;
-            this.mc.field_1690.field_1904.method_23481(false);
+            this.mc.options.useKey.setPressed(false);
             this.msu = false;
             this.myd(mpm.LOOTING_SAND);
         }
@@ -3480,7 +3480,7 @@ extends pnc {
 
     private void ndd() {
         if (!this.msu) {
-            this.nbp(this.msj != null ? this.msj : this.getPlayer().method_73189());
+            this.nbp(this.msj != null ? this.msj : this.getPlayer().getEntityPos());
         }
         this.nbs(this.nde() ? mpm.FARMING_SAND : mpm.CHECK_PVP_COOLDOWN);
     }
@@ -3490,17 +3490,17 @@ extends pnc {
     }
 
     private static boolean ndf(ItemStack itemStack) {
-        if (!itemStack.method_31574(Items.field_42716)) {
+        if (!itemStack.isOf(Items.BRUSH)) {
             return false;
         }
-        if (itemStack.method_57826(DataComponentTypes.field_49630)) {
+        if (itemStack.contains(DataComponentTypes.UNBREAKABLE)) {
             return true;
         }
-        LoreComponent loreComponent = (LoreComponent)itemStack.method_58694(DataComponentTypes.field_49632);
+        LoreComponent loreComponent = (LoreComponent)itemStack.get(DataComponentTypes.LORE);
         if (loreComponent == null) {
             return false;
         }
-        for (Text text : loreComponent.comp_2400()) {
+        for (Text text : loreComponent.lines()) {
             if (!text.getString().toLowerCase().contains(a.b("\u3f90\u4629\ucc8f\u528e\ud95e\u5f98\ue5c8\u6c32\uf215\u78a1\uff7b", 1763457958))) continue;
             return true;
         }
@@ -3509,7 +3509,7 @@ extends pnc {
 
     private int ndg(int n, int n2) {
         for (int i = n; i < n2; ++i) {
-            if (!mpq.ndf(this.getPlayer().method_31548().method_5438(i))) continue;
+            if (!mpq.ndf(this.getPlayer().getInventory().getStack(i))) continue;
             return i;
         }
         return -1;
@@ -3528,17 +3528,17 @@ extends pnc {
     private void ndi() {
         PlayerEntity playerEntity = this.neh();
         if (playerEntity != null) {
-            if (this.mse <= 0 && (this.mrt == null || this.mrt.method_10262((Vec3i)this.getPlayer().method_24515()) < 10.0 || playerEntity.method_5858((Entity)this.getPlayer()) < 400.0)) {
-                Vec3d vec3d = this.mzj(this.getPlayer().method_73189().method_1020(playerEntity.method_73189()).method_1029(), Math.toRadians(this.mty.nextGaussian() * 20.0));
+            if (this.mse <= 0 && (this.mrt == null || this.mrt.getSquaredDistance((Vec3i)this.getPlayer().getBlockPos()) < 10.0 || playerEntity.squaredDistanceTo((Entity)this.getPlayer()) < 400.0)) {
+                Vec3d vec3d = this.mzj(this.getPlayer().getEntityPos().subtract(playerEntity.getEntityPos()).normalize(), Math.toRadians(this.mty.nextGaussian() * 20.0));
                 double d = 26.0 + this.mty.nextDouble() * 14.0;
-                this.mrt = this.nbd(this.getPlayer().method_24515().method_10069((int)(vec3d.field_1352 * d), 0, (int)(vec3d.field_1350 * d)));
+                this.mrt = this.nbd(this.getPlayer().getBlockPos().add((int)(vec3d.x * d), 0, (int)(vec3d.z * d)));
                 this.mse = 10;
                 this.nbc(this.nba(this.mrt));
             }
-        } else if (this.mse <= 0 && (this.mrt == null || this.mrt.method_10262((Vec3i)this.getPlayer().method_24515()) < 4.0)) {
+        } else if (this.mse <= 0 && (this.mrt == null || this.mrt.getSquaredDistance((Vec3i)this.getPlayer().getBlockPos()) < 4.0)) {
             double d = this.mty.nextDouble() * Math.PI * 2.0;
             double d2 = 18.0 + this.mty.nextDouble() * 20.0;
-            this.mrt = this.nbd(this.getPlayer().method_24515().method_10069((int)Math.round(Math.cos(d) * d2), 0, (int)Math.round(Math.sin(d) * d2)));
+            this.mrt = this.nbd(this.getPlayer().getBlockPos().add((int)Math.round(Math.cos(d) * d2), 0, (int)Math.round(Math.sin(d) * d2)));
             this.mse = 10;
             this.nbc(this.nba(this.mrt));
         }
@@ -3560,7 +3560,7 @@ extends pnc {
             return;
         }
         this.mwn = "";
-        this.getNetworkHandler().method_45730(string);
+        this.getNetworkHandler().sendChatCommand(string);
         this.mrh = false;
         this.mri = false;
         this.mrj = false;
@@ -3595,7 +3595,7 @@ extends pnc {
 
     public boolean isTrashItem(ItemStack itemStack) {
         Boolean bl;
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return false;
         }
         vlj vlj2 = this.lootList();
@@ -3615,7 +3615,7 @@ extends pnc {
         if (this.neg(itemStack)) {
             return false;
         }
-        if (itemStack.method_31574(Items.field_42716)) {
+        if (itemStack.isOf(Items.BRUSH)) {
             return true;
         }
         if (ppu.picked(itemStack, vlj2.ids())) {
@@ -3624,127 +3624,127 @@ extends pnc {
         if (ppu.known(itemStack)) {
             return true;
         }
-        Item item = itemStack.method_7909();
-        String string = item.method_7876().toLowerCase();
-        if (item == Items.field_8712) {
+        Item item = itemStack.getItem();
+        String string = item.getTranslationKey().toLowerCase();
+        if (item == Items.DRAGON_HEAD) {
             return false;
         }
-        if (item == Items.field_8071) {
+        if (item == Items.GOLDEN_CARROT) {
             return false;
         }
-        if (item == Items.field_8086 || item == Items.field_8136) {
+        if (item == Items.VILLAGER_SPAWN_EGG || item == Items.ZOMBIE_VILLAGER_SPAWN_EGG) {
             return false;
         }
-        if (item == Items.field_8463 || item == Items.field_8367) {
+        if (item == Items.GOLDEN_APPLE || item == Items.ENCHANTED_GOLDEN_APPLE) {
             return false;
         }
-        if (item == Items.field_49813) {
+        if (item == Items.HEAVY_CORE) {
             return false;
         }
         if (string.contains(a.d("\u856b\ufcd7\u7600\ue874", -1352822735, 531371318)) || string.contains(a.d("\uf3e2\u8a4b\u0086\u9eee\u1539", 1696324825, -305647795))) {
             return false;
         }
-        if (item == Items.field_8675) {
+        if (item == Items.IRON_NUGGET) {
             return false;
         }
-        String string2 = itemStack.method_7964().getString().toLowerCase();
+        String string2 = itemStack.getName().getString().toLowerCase();
         if (string.contains(a.b("\u7ee0\u0742\u8d91\u13fd\u9832", 302743172))) {
             if (string2.contains(a.d("\ud49b\uad28\u27fc\ub9fe", -805642075, 1178742797)) || string2.contains(a.d("\uf0f4\u893f\u0392\u9def\u163a\u9089", -630686278, 1317964146)) || string2.contains(a.c(2070976211, "\u92e6\ueb28\u61ff\ufff1\u745c\uf29a\u48c7\uc141\u5f6f"))) {
                 return true;
             }
-            return item != Items.field_8087 && !itemStack.method_57826(DataComponentTypes.field_49631);
+            return item != Items.TIPPED_ARROW && !itemStack.contains(DataComponentTypes.CUSTOM_NAME);
         }
         if (string2.contains(a.d("\uc91a\ub0d5\u3a03\ua473\u2fd8\ua962\u1343", -1753364669, 1573915163))) {
             return true;
         }
-        if (item == Items.field_8719) {
+        if (item == Items.LEAD) {
             return true;
         }
-        if (item == Items.field_8613) {
+        if (item == Items.DRAGON_BREATH) {
             return true;
         }
-        if (item == Items.field_8803) {
+        if (item == Items.EGG) {
             return true;
         }
-        if (item == Items.field_8469) {
+        if (item == Items.GLASS_BOTTLE) {
             return true;
         }
-        if (item == Items.field_8153) {
-            return !itemStack.method_57826(DataComponentTypes.field_49631);
+        if (item == Items.FEATHER) {
+            return !itemStack.contains(DataComponentTypes.CUSTOM_NAME);
         }
-        if (item == Items.field_20417 || item == Items.field_20414) {
+        if (item == Items.HONEY_BOTTLE || item == Items.HONEYCOMB) {
             return true;
         }
-        if (item == Items.field_8657) {
+        if (item == Items.ENCHANTING_TABLE) {
             return true;
         }
-        if (item == Items.field_8536) {
+        if (item == Items.BOOKSHELF) {
             return true;
         }
-        if (item == Items.field_8070) {
+        if (item == Items.GHAST_TEAR) {
             return true;
         }
-        if (item == Items.field_8815) {
+        if (item == Items.SHULKER_SHELL) {
             return true;
         }
-        if (item == Items.field_8711) {
+        if (item == Items.FERMENTED_SPIDER_EYE) {
             return true;
         }
-        if (item == Items.field_8301) {
+        if (item == Items.END_CRYSTAL) {
             return true;
         }
-        if (item == Items.field_8102) {
+        if (item == Items.BOW) {
             return true;
         }
-        if (item == Items.field_8745) {
+        if (item == Items.LEATHER) {
             return true;
         }
-        if (item == Items.field_8687) {
+        if (item == Items.EMERALD) {
             return true;
         }
-        if (item == Items.field_8620) {
+        if (item == Items.IRON_INGOT) {
             return true;
         }
-        if (item == Items.field_8695 || item == Items.field_8397) {
+        if (item == Items.GOLD_INGOT || item == Items.GOLD_NUGGET) {
             return true;
         }
-        if (item == Items.field_8864) {
+        if (item == Items.NAUTILUS_SHELL) {
             return true;
         }
-        if (item == Items.field_8054) {
+        if (item == Items.GUNPOWDER) {
             return true;
         }
-        if (item == Items.field_8233 || item == Items.field_8882) {
+        if (item == Items.CHORUS_FRUIT || item == Items.POPPED_CHORUS_FRUIT) {
             return true;
         }
         if (string.contains(a.c(753118924, "\uae95\ud708\u5ddf\uc3b6\u487c\ucedb"))) {
             return true;
         }
-        if (item == Items.field_8606) {
+        if (item == Items.BONE) {
             return true;
         }
         if (string.contains(a.b("\uf296\u8b20\u01ee\u9f9e\u145f\u92d4\u28b9\ua15b\u3f1b\ub5a8\u3266", 2075063029)) || string.contains(a.b("\u9dcb\ue462\u6eb2\uf0c9\u7b27\ufda8\u47e8\uce06\u505b\udaf7", 1642700214))) {
             return true;
         }
-        if (item == Items.field_8894) {
+        if (item == Items.BLAZE_ROD) {
             return true;
         }
-        if (item == Items.field_8777) {
+        if (item == Items.SLIME_BALL) {
             return true;
         }
-        if (itemStack.method_57826(DataComponentTypes.field_50075)) {
+        if (itemStack.contains(DataComponentTypes.FOOD)) {
             return true;
         }
         if (string.contains(a.d("\ua8a5\ud117\u5bd5\uc5b2\u4e7c\uc8fc\u7295\ufb66\u6539", -244918230, -2124713739))) {
             return true;
         }
-        if (item == Items.field_8466) {
+        if (item == Items.ENDER_CHEST) {
             return true;
         }
-        if (item == Items.field_8639) {
+        if (item == Items.FIREWORK_ROCKET) {
             return true;
         }
-        if (item == Items.field_8598 || item == Items.field_8529 || item == Items.field_8360 || item == Items.field_8674) {
+        if (item == Items.ENCHANTED_BOOK || item == Items.BOOK || item == Items.WRITTEN_BOOK || item == Items.WRITABLE_BOOK) {
             return true;
         }
         if (string.contains(a.c(201042272, "\ua904\ud0ba\u5a71\uc41f\u4fcd"))) {
@@ -3756,13 +3756,13 @@ extends pnc {
         if (string.contains(a.d("\u1ff3\u6659\uec8d\u72e5\uf921\u7f99", 690090973, 1491856475))) {
             return true;
         }
-        if (item == Items.field_17515) {
+        if (item == Items.WITHER_ROSE) {
             return true;
         }
-        if (item == Items.field_8547) {
+        if (item == Items.TRIDENT) {
             return true;
         }
-        if (item == Items.field_8140) {
+        if (item == Items.CONDUIT) {
             return true;
         }
         if (string.contains(a.b("\u8a9f\uf336\u79e3\ue788\u6c55\uead8\u50b0\ud94c\u4709\ucda8", 1858439928))) {
@@ -3771,22 +3771,22 @@ extends pnc {
         if (string.contains(a.d("\u0e53\u77f5\ufd32\u635a\ue895", -123881445, -206719429))) {
             return true;
         }
-        if (item == Items.field_8323) {
+        if (item == Items.PUFFERFISH) {
             return true;
         }
-        if (item == Items.field_8666 || item == Items.field_8714 || item == Items.field_8478 || item == Items.field_8108) {
+        if (item == Items.COD_BUCKET || item == Items.SALMON_BUCKET || item == Items.TROPICAL_FISH_BUCKET || item == Items.PUFFERFISH_BUCKET) {
             return true;
         }
         if (string.contains(a.c(-1623003556, "\uee38\u978a\u1d56\u8327\u08fb\u8e5d"))) {
             return true;
         }
-        if (item == Items.field_8276) {
+        if (item == Items.STRING) {
             return true;
         }
-        if (item == Items.field_8448) {
+        if (item == Items.NAME_TAG) {
             return true;
         }
-        if (item == Items.field_8207) {
+        if (item == Items.HEART_OF_THE_SEA) {
             return true;
         }
         if ((string.endsWith(a.b("\ueb8f\u9209\u18d7\u86af\u0d79\u8bc0\u3182", 120908759)) || string.endsWith(a.c(-1549359105, "\ua7ab\ude26\u54fe\uca82\u4143\uc7f5\u7da2\uf44f\u6a1d\ue0b9\u677b")) || string.endsWith(a.d("\u47b4\u3e36\ub4ec\u2a9f\ua148\u27f7\u9da3\u145b\u8a10", 1280063692, -1278771410)) || string.endsWith(a.b("\ubc20\uc5ac\u4f72\ud103\u5acf\udc79", -1565016967))) && !string.contains(a.d("\u798f5\u8af7\u149a\u9f40\u19e6\ua3ae\u2a42\ub40c", -1978584711, -1364703087))) {
@@ -3798,7 +3798,7 @@ extends pnc {
         if (string.contains(a.c(-385664684, "\u392b\u4091\uca53\u543e\udfe4\u5942\ue30a\u6ae6\uf4a8\u7e23\uf9df\u03b7\u8d6a\u14d3\u9e8a\u1862\ua230")) || string.contains(a.c(376136199, "\u6264\u1bde\u911c\u0f71\u84ab\u020d\ub845\u31a9\uafe7\u256c\ua281\u58e9\ud623"))) {
             return true;
         }
-        return item == Items.field_8062;
+        return item == Items.STONE_AXE;
     }
 
     private void ndn() {
@@ -3837,7 +3837,7 @@ extends pnc {
         if (this.nec()) {
             return;
         }
-        if (this.mc.field_1755 != null || !this.msy.isEmpty() || this.mud > 0) {
+        if (this.mc.currentScreen != null || !this.msy.isEmpty() || this.mud > 0) {
             return;
         }
         if (this.mum <= 0 && this.ndx() && (n2 = this.ndy()) != -1) {
@@ -3851,17 +3851,17 @@ extends pnc {
         if (this.mus || this.mqq == mpm.ESCAPING) {
             return;
         }
-        if (this.mc.field_1690.field_1886.method_1434()) {
+        if (this.mc.options.attackKey.isPressed()) {
             return;
         }
-        if (this.msu && this.getPlayer().method_31548().method_7376() != -1) {
+        if (this.msu && this.getPlayer().getInventory().getEmptySlot() != -1) {
             return;
         }
         n2 = 0;
         int n3 = 0;
         for (n = 9; n < 36; ++n) {
-            ItemStack itemStack = this.getPlayer().method_31548().method_5438(n);
-            if (itemStack.method_7960()) {
+            ItemStack itemStack = this.getPlayer().getInventory().getStack(n);
+            if (itemStack.isEmpty()) {
                 ++n3;
                 continue;
             }
@@ -3871,12 +3871,12 @@ extends pnc {
         if (n2 == 0) {
             return;
         }
-        if (this.muv <= 0 && n3 > 3 && n2 < 5 && this.getPlayer().method_31548().method_7376() != -1) {
+        if (this.muv <= 0 && n3 > 3 && n2 < 5 && this.getPlayer().getInventory().getEmptySlot() != -1) {
             return;
         }
         this.muv = 0;
         for (n = 0; n < 9; ++n) {
-            if (!this.isTrashItem(this.getPlayer().method_31548().method_5438(n))) continue;
+            if (!this.isTrashItem(this.getPlayer().getInventory().getStack(n))) continue;
             ++n2;
         }
         this.mud = 1;
@@ -3890,7 +3890,7 @@ extends pnc {
     private void ndp() {
         int n;
         ++this.mug;
-        if (this.mug > this.muh || this.mc.field_1755 != null || this.getPlayer() == null || this.mqq == mpm.ESCAPING || this.mus) {
+        if (this.mug > this.muh || this.mc.currentScreen != null || this.getPlayer() == null || this.mqq == mpm.ESCAPING || this.mus) {
             this.ndq();
             return;
         }
@@ -3911,7 +3911,7 @@ extends pnc {
             this.muf = 1 + this.mty.nextInt(2);
             return;
         }
-        this.ndv(n2, 1, SlotActionType.field_7795);
+        this.ndv(n2, 1, SlotActionType.THROW);
         this.mui = n2;
         --this.mue;
         int n3 = n = this.mue > 0 ? this.ndr() : -1;
@@ -3935,13 +3935,13 @@ extends pnc {
     }
 
     private int ndr() {
-        PlayerInventory playerInventory = this.getPlayer().method_31548();
+        PlayerInventory playerInventory = this.getPlayer().getInventory();
         int n = this.mui != -1 ? this.mui : 13;
         int n2 = -1;
         double d = Double.MAX_VALUE;
         for (int i = 0; i < 36; ++i) {
             double d2;
-            if (!this.isTrashItem(playerInventory.method_5438(i)) || !((d2 = mpq.nds(n, i)) < d)) continue;
+            if (!this.isTrashItem(playerInventory.getStack(i)) || !((d2 = mpq.nds(n, i)) < d)) continue;
             d = d2;
             n2 = i;
         }
@@ -3969,21 +3969,21 @@ extends pnc {
 
     private void ndu() {
         KeyBinding[] keyBindingArray;
-        if (this.mc.field_1690 == null) {
+        if (this.mc.options == null) {
             return;
         }
-        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{this.mc.field_1690.field_1894, this.mc.field_1690.field_1881, this.mc.field_1690.field_1913, this.mc.field_1690.field_1849, this.mc.field_1690.field_1903, this.mc.field_1690.field_1867}) {
-            keyBinding.method_23481(this.heldByHuman(keyBinding));
+        for (KeyBinding keyBinding : keyBindingArray = new KeyBinding[]{this.mc.options.forwardKey, this.mc.options.backKey, this.mc.options.leftKey, this.mc.options.rightKey, this.mc.options.jumpKey, this.mc.options.sprintKey}) {
+            keyBinding.setPressed(this.heldByHuman(keyBinding));
         }
     }
 
     private void ndv(int n, int n2, SlotActionType slotActionType) {
-        if (this.mc.field_1761 == null || this.getPlayer() == null) {
+        if (this.mc.interactionManager == null || this.getPlayer() == null) {
             return;
         }
         int n3 = n < 9 ? n + 36 : n;
-        this.mc.field_1761.method_2906(this.getPlayer().field_7498.field_7763, n3, n2, slotActionType, (PlayerEntity)this.getPlayer());
-        if (this.mc.field_1755 == null) {
+        this.mc.interactionManager.clickSlot(this.getPlayer().playerScreenHandler.syncId, n3, n2, slotActionType, (PlayerEntity)this.getPlayer());
+        if (this.mc.currentScreen == null) {
             this.muw = true;
         }
     }
@@ -3993,22 +3993,22 @@ extends pnc {
             return;
         }
         this.muw = false;
-        if (this.mc.field_1755 != null || this.getPlayer() == null || this.getNetworkHandler() == null) {
+        if (this.mc.currentScreen != null || this.getPlayer() == null || this.getNetworkHandler() == null) {
             return;
         }
-        this.getNetworkHandler().method_52787((Packet)new CloseHandledScreenC2SPacket(this.getPlayer().field_7498.field_7763));
+        this.getNetworkHandler().sendPacket((Packet)new CloseHandledScreenC2SPacket(this.getPlayer().playerScreenHandler.syncId));
     }
 
     private boolean ndx() {
-        return this.mc.field_1755 == null && !this.muw && this.msy.isEmpty() && this.mud == 0 && !this.mus && !this.mc.field_1690.field_1886.method_1434() && !this.mc.field_1690.field_1904.method_1434() && !this.getPlayer().method_6115() && !this.getPlayer().method_7325() && this.mqq != mpm.BRUSHING_SAND && this.mqq != mpm.ESCAPING && this.mqq != mpm.LOOTING_VASE && !this.mvh;
+        return this.mc.currentScreen == null && !this.muw && this.msy.isEmpty() && this.mud == 0 && !this.mus && !this.mc.options.attackKey.isPressed() && !this.mc.options.useKey.isPressed() && !this.getPlayer().isUsingItem() && !this.getPlayer().isSpectator() && this.mqq != mpm.BRUSHING_SAND && this.mqq != mpm.ESCAPING && this.mqq != mpm.LOOTING_VASE && !this.mvh;
     }
 
     private int ndy() {
-        PlayerInventory playerInventory = this.getPlayer().method_31548();
-        int n = playerInventory.method_67532();
+        PlayerInventory playerInventory = this.getPlayer().getInventory();
+        int n = playerInventory.getSelectedSlot();
         int n2 = -1;
         for (int i = 0; i < 9; ++i) {
-            if (!this.isTrashItem(playerInventory.method_5438(i)) || n2 != -1 && Math.abs(i - n) >= Math.abs(n2 - n)) continue;
+            if (!this.isTrashItem(playerInventory.getStack(i)) || n2 != -1 && Math.abs(i - n) >= Math.abs(n2 - n)) continue;
             n2 = i;
         }
         return n2;
@@ -4017,9 +4017,9 @@ extends pnc {
     private void ndz(int n) {
         this.neb();
         this.muk = n;
-        boolean bl = this.getPlayer().method_31548().method_67532() == n;
+        boolean bl = this.getPlayer().getInventory().getSelectedSlot() == n;
         this.mul = bl ? 0 : this.nea();
-        this.getPlayer().method_31548().method_61496(n);
+        this.getPlayer().getInventory().setSelectedSlot(n);
     }
 
     private int nea() {
@@ -4053,13 +4053,13 @@ extends pnc {
             }
             return false;
         }
-        PlayerInventory playerInventory = this.getPlayer().method_31548();
-        if (!this.ndx() || !this.isTrashItem(playerInventory.method_5438(this.muk))) {
+        PlayerInventory playerInventory = this.getPlayer().getInventory();
+        if (!this.ndx() || !this.isTrashItem(playerInventory.getStack(this.muk))) {
             this.neb();
             this.mum = 4 + this.mty.nextInt(8);
             return false;
         }
-        if (playerInventory.method_67532() != this.muk) {
+        if (playerInventory.getSelectedSlot() != this.muk) {
             this.neb();
             this.mum = 10 + this.mty.nextInt(10);
             return false;
@@ -4082,40 +4082,40 @@ extends pnc {
     }
 
     private boolean ned(int n, int n2) {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (n2 != this.muq || !this.mun || clientPlayerEntity == null || this.mc.field_1755 != null || clientPlayerEntity.method_7325() || clientPlayerEntity.method_31548().method_67532() != n) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (n2 != this.muq || !this.mun || clientPlayerEntity == null || this.mc.currentScreen != null || clientPlayerEntity.isSpectator() || clientPlayerEntity.getInventory().getSelectedSlot() != n) {
             return false;
         }
-        ItemStack itemStack = clientPlayerEntity.method_6047();
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
         if (!this.isTrashItem(itemStack)) {
             return false;
         }
-        if (!clientPlayerEntity.method_7290(itemStack.method_7947() > 1)) {
+        if (!clientPlayerEntity.dropSelectedItem(itemStack.getCount() > 1)) {
             return false;
         }
-        clientPlayerEntity.method_6104(Hand.field_5808);
+        clientPlayerEntity.swingHand(Hand.MAIN_HAND);
         return true;
     }
 
     public boolean busy() {
-        return !this.msy.isEmpty() || this.mud > 0 || this.mtb > 0 || this.mc.field_1755 instanceof GenericContainerScreen;
+        return !this.msy.isEmpty() || this.mud > 0 || this.mtb > 0 || this.mc.currentScreen instanceof GenericContainerScreen;
     }
 
     private void nee() {
         int n;
-        if (this.mc.field_1755 != null || !this.msy.isEmpty() || this.mud > 0 || this.muk != -1) {
+        if (this.mc.currentScreen != null || !this.msy.isEmpty() || this.mud > 0 || this.muk != -1) {
             return;
         }
         int n2 = 0;
         for (n = 0; n < 9; ++n) {
-            if (!this.getPlayer().method_31548().method_5438(n).method_7960()) continue;
+            if (!this.getPlayer().getInventory().getStack(n).isEmpty()) continue;
             ++n2;
         }
         if (n2 >= 2) {
             return;
         }
         for (n = 0; n < 9; ++n) {
-            ItemStack itemStack = this.getPlayer().method_31548().method_5438(n);
+            ItemStack itemStack = this.getPlayer().getInventory().getStack(n);
             if (this.isTrashItem(itemStack) || this.neg(itemStack)) continue;
             int n3 = this.nef();
             if (n3 == -1) {
@@ -4123,24 +4123,24 @@ extends pnc {
             }
             int n4 = n;
             int n5 = n3;
-            this.msy.add(() -> this.ndv(n5, n4, SlotActionType.field_7791));
+            this.msy.add(() -> this.ndv(n5, n4, SlotActionType.SWAP));
             return;
         }
     }
 
     private int nef() {
         for (int i = 9; i < 36; ++i) {
-            if (!this.getPlayer().method_31548().method_5438(i).method_7960()) continue;
+            if (!this.getPlayer().getInventory().getStack(i).isEmpty()) continue;
             return i;
         }
         return -1;
     }
 
     private boolean neg(ItemStack itemStack) {
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return true;
         }
-        if (itemStack.method_7909() == Items.field_8071 || mpq.ndf(itemStack) || itemStack.method_7909() == Items.field_8705) {
+        if (itemStack.getItem() == Items.GOLDEN_CARROT || mpq.ndf(itemStack) || itemStack.getItem() == Items.WATER_BUCKET) {
             return true;
         }
         return this.nel(itemStack) || this.neo(itemStack);
@@ -4149,9 +4149,9 @@ extends pnc {
     private PlayerEntity neh() {
         PlayerEntity playerEntity = null;
         double d = 2500.0;
-        for (PlayerEntity playerEntity2 : this.getWorld().method_18456()) {
+        for (PlayerEntity playerEntity2 : this.getWorld().getPlayers()) {
             double d2;
-            if (playerEntity2 == this.getPlayer() || !((d2 = playerEntity2.method_5858((Entity)this.getPlayer())) < d)) continue;
+            if (playerEntity2 == this.getPlayer() || !((d2 = playerEntity2.squaredDistanceTo((Entity)this.getPlayer())) < d)) continue;
             d = d2;
             playerEntity = playerEntity2;
         }
@@ -4160,7 +4160,7 @@ extends pnc {
 
     private int nei(Item item) {
         for (int i = 0; i < 9; ++i) {
-            if (this.getPlayer().method_31548().method_5438(i).method_7909() != item) continue;
+            if (this.getPlayer().getInventory().getStack(i).getItem() != item) continue;
             return i;
         }
         return -1;
@@ -4168,7 +4168,7 @@ extends pnc {
 
     private int nej() {
         for (int i = 0; i < 9; ++i) {
-            if (!this.nel(this.getPlayer().method_31548().method_5438(i))) continue;
+            if (!this.nel(this.getPlayer().getInventory().getStack(i))) continue;
             return i;
         }
         return -1;
@@ -4176,39 +4176,39 @@ extends pnc {
 
     private int nek() {
         for (int i = 9; i < 36; ++i) {
-            if (!this.nel(this.getPlayer().method_31548().method_5438(i))) continue;
+            if (!this.nel(this.getPlayer().getInventory().getStack(i))) continue;
             return i;
         }
         return -1;
     }
 
     private boolean nel(ItemStack itemStack) {
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return false;
         }
-        if (itemStack.method_7909() != Items.field_8574 && itemStack.method_7909() != Items.field_8436 && itemStack.method_7909() != Items.field_8150) {
+        if (itemStack.getItem() != Items.POTION && itemStack.getItem() != Items.SPLASH_POTION && itemStack.getItem() != Items.LINGERING_POTION) {
             return false;
         }
-        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.method_58694(DataComponentTypes.field_49651);
+        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.get(DataComponentTypes.POTION_CONTENTS);
         if (potionContentsComponent != null) {
             int n = 0;
             boolean bl = false;
-            for (StatusEffectInstance statusEffectInstance : potionContentsComponent.method_57397()) {
+            for (StatusEffectInstance statusEffectInstance : potionContentsComponent.getEffects()) {
                 ++n;
-                if (statusEffectInstance.method_5579() != StatusEffects.field_5905) continue;
+                if (statusEffectInstance.getEffectType() != StatusEffects.INVISIBILITY) continue;
                 bl = true;
             }
             if (n > 0) {
                 return n == 1 && bl;
             }
         }
-        String string = itemStack.method_7964().getString().toLowerCase();
+        String string = itemStack.getName().getString().toLowerCase();
         return string.contains(a.d("\u8af9\uf340\u7994\ue7ef\u6c34\uea89\u50de", -425032786, 1206390125));
     }
 
     private int nem() {
         for (int i = 0; i < 9; ++i) {
-            if (!this.neo(this.getPlayer().method_31548().method_5438(i))) continue;
+            if (!this.neo(this.getPlayer().getInventory().getStack(i))) continue;
             return i;
         }
         return -1;
@@ -4216,7 +4216,7 @@ extends pnc {
 
     private int nen() {
         for (int i = 9; i < 36; ++i) {
-            if (!this.neo(this.getPlayer().method_31548().method_5438(i))) continue;
+            if (!this.neo(this.getPlayer().getInventory().getStack(i))) continue;
             return i;
         }
         return -1;
@@ -4224,30 +4224,30 @@ extends pnc {
 
     private boolean neo(ItemStack itemStack) {
         String string;
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return false;
         }
-        if (itemStack.method_7909() != Items.field_8574 && itemStack.method_7909() != Items.field_8436 && itemStack.method_7909() != Items.field_8150) {
+        if (itemStack.getItem() != Items.POTION && itemStack.getItem() != Items.SPLASH_POTION && itemStack.getItem() != Items.LINGERING_POTION) {
             return false;
         }
-        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.method_58694(DataComponentTypes.field_49651);
+        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.get(DataComponentTypes.POTION_CONTENTS);
         if (potionContentsComponent != null) {
             int n = 0;
             boolean bl = false;
-            for (StatusEffectInstance statusEffectInstance : potionContentsComponent.method_57397()) {
+            for (StatusEffectInstance statusEffectInstance : potionContentsComponent.getEffects()) {
                 ++n;
-                if (statusEffectInstance.method_5579() != StatusEffects.field_5904) continue;
+                if (statusEffectInstance.getEffectType() != StatusEffects.SPEED) continue;
                 bl = true;
             }
             if (n > 0) {
                 return n == 1 && bl;
             }
         }
-        return (string = itemStack.method_7964().getString().toLowerCase()).contains(a.b("\u91d9\ue813\u62c4\ufccb\u7762\uf1ac\u4bfc", -1835756129)) || string.contains(a.c(-96193484, "\u3442\u4df0\uc736\u5947\ud291"));
+        return (string = itemStack.getName().getString().toLowerCase()).contains(a.b("\u91d9\ue813\u62c4\ufccb\u7762\uf1ac\u4bfc", -1835756129)) || string.contains(a.c(-96193484, "\u3442\u4df0\uc736\u5947\ud291"));
     }
 
     private /* synthetic */ void lambda$driveTake$11(ScreenHandler screenHandler, int n, int n2, SlotActionType slotActionType) {
-        this.mc.field_1761.method_2906(screenHandler.field_7763, n, n2, slotActionType, (PlayerEntity)this.getPlayer());
+        this.mc.interactionManager.clickSlot(screenHandler.syncId, n, n2, slotActionType, (PlayerEntity)this.getPlayer());
     }
 
     private static /* synthetic */ int bbt(int n, int n2) {

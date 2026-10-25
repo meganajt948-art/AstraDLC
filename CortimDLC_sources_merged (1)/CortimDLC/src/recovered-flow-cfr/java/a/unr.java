@@ -62,19 +62,19 @@ public final class unr {
         if (uob || !uvq.ensure(uvq.GRADE) || !uvq.ensure(uvq.BLUR_COPY) || f6 > 0.0f && (!uvq.ensure(uvq.BLUR_DOWN) || !uvq.ensure(uvq.BLUR_UP))) {
             return;
         }
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        if (gpuTextureView == null || framebuffer.field_1482 < 8 || framebuffer.field_1481 < 8) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        if (gpuTextureView == null || framebuffer.textureWidth < 8 || framebuffer.textureHeight < 8) {
             return;
         }
         try {
             ByteBuffer byteBuffer;
-            unr.uof(framebuffer.field_1482, framebuffer.field_1481);
+            unr.uof(framebuffer.textureWidth, framebuffer.textureHeight);
             GpuDevice gpuDevice = RenderSystem.getDevice();
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
-            GpuSampler gpuSampler = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+            GpuSampler gpuSampler = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                byteBuffer = Std140Builder.onStack((MemoryStack)memoryStack, (int)48).putVec4(f, f2, f3, f4).putVec4(f5, f6, 1.0f / (float)framebuffer.field_1482, 1.0f / (float)framebuffer.field_1481).putVec4(f7, 0.62f, 0.0f, 0.0f).get();
+                byteBuffer = Std140Builder.onStack((MemoryStack)memoryStack, (int)48).putVec4(f, f2, f3, f4).putVec4(f5, f6, 1.0f / (float)framebuffer.textureWidth, 1.0f / (float)framebuffer.textureHeight).putVec4(f7, 0.62f, 0.0f, 0.0f).get();
                 commandEncoder.writeToBuffer(uny.slice(), byteBuffer);
             }
             memoryStack = gpuTextureView;
@@ -103,7 +103,7 @@ public final class unr {
                     byteBuffer.close();
                 }
             }
-            unr.uoe(commandEncoder, uvq.BLUR_COPY, unv, gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+            unr.uoe(commandEncoder, uvq.BLUR_COPY, unv, gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
         }
         catch (Throwable throwable) {
             uob = true;

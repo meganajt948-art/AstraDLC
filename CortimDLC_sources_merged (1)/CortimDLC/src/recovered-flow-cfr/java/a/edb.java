@@ -41,7 +41,7 @@ extends ClientConnection {
     private static /* synthetic */ String edg;
 
     edb(dtv dtv2) {
-        super(NetworkSide.field_11942);
+        super(NetworkSide.CLIENTBOUND);
         this.edc = dtv2;
     }
 
@@ -59,50 +59,50 @@ extends ClientConnection {
         channel.eventLoop().execute(runnable);
     }
 
-    public void method_60924(DisconnectionInfo disconnectionInfo) {
+    public void disconnect(DisconnectionInfo disconnectionInfo) {
         Channel channel = this.ede;
         if (channel != null && !channel.eventLoop().inEventLoop()) {
             channel.eventLoop().execute(() -> this.edh(disconnectionInfo));
             return;
         }
-        super.method_60924(disconnectionInfo);
+        super.disconnect(disconnectionInfo);
     }
 
     private void edh(DisconnectionInfo disconnectionInfo) {
-        super.method_60924(disconnectionInfo);
+        super.disconnect(disconnectionInfo);
     }
 
-    protected void method_10770(ChannelHandlerContext channelHandlerContext, Packet<?> packet) {
-        PacketListener packetListener = this.method_10744();
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet) {
+        PacketListener packetListener = this.getPacketListener();
         if (packetListener == null || packetListener instanceof ClientLoginPacketListener) {
-            super.method_10770(channelHandlerContext, packet);
+            super.channelRead0(channelHandlerContext, packet);
             return;
         }
         if (packet instanceof DisconnectS2CPacket) {
             DisconnectS2CPacket disconnectS2CPacket = (DisconnectS2CPacket)packet;
-            this.method_10747(disconnectS2CPacket.comp_2325());
+            this.disconnect(disconnectS2CPacket.reason());
             return;
         }
-        if (this.method_10758()) {
+        if (this.isOpen()) {
             this.edd.add(packet);
             this.edc.onPacketReceived();
         }
     }
 
     public void channelInactive(ChannelHandlerContext channelHandlerContext) {
-        this.method_10747((Text)Text.method_43471((String)a.c(1077229057, "\u3673\u4fcf\uc506\u5b67\ud0bc\u560c\uec5f\u65a5\ufbfc\u715a\uf6d3\u0ce9\u8235\u1b8e\u91f6\u172e\uad54\u22a2\ub817\u3e51\ub7a2\ucdff")));
+        this.disconnect((Text)Text.translatable((String)a.c(1077229057, "\u3673\u4fcf\uc506\u5b67\ud0bc\u560c\uec5f\u65a5\ufbfc\u715a\uf6d3\u0ce9\u8235\u1b8e\u91f6\u172e\uad54\u22a2\ub817\u3e51\ub7a2\ucdff")));
     }
 
     void drain(long l) {
         Packet<?> packet;
         long l2 = System.nanoTime();
         while ((packet = this.edd.poll()) != null) {
-            PacketListener packetListener = this.method_10744();
-            if (packetListener == null || !this.method_10758()) {
+            PacketListener packetListener = this.getPacketListener();
+            if (packetListener == null || !this.isOpen()) {
                 this.edd.clear();
                 return;
             }
-            if (packetListener.method_52413(packet)) {
+            if (packetListener.accepts(packet)) {
                 this.edc.beforePacket(packet);
                 try {
                     edb.edi(packet, packetListener);
@@ -110,11 +110,11 @@ extends ClientConnection {
                 catch (OffThreadException offThreadException) {
                 }
                 catch (RejectedExecutionException rejectedExecutionException) {
-                    this.method_10747((Text)Text.method_43471((String)a.d("\u4e1b\u37b2\ubd78\u2311\ua8db\u2e73\u943c\u1dc0\u8387\u092a\u8eee\u74c3\ufa5e\u63e2\ue9ab\u6f4a\ud509\u5ad9\uc06a\u4630\ucfc1\ub587\u3b6e\ua0e2\u268b\uac4d\u15fa\u9bb8\u0158\u8724\u0cbb\uf271\u7823\ue1d3\u6790\ued2a\u52e5\ud88d", 553167652, 2043929972)));
+                    this.disconnect((Text)Text.translatable((String)a.d("\u4e1b\u37b2\ubd78\u2311\ua8db\u2e73\u943c\u1dc0\u8387\u092a\u8eee\u74c3\ufa5e\u63e2\ue9ab\u6f4a\ud509\u5ad9\uc06a\u4630\ucfc1\ub587\u3b6e\ua0e2\u268b\uac4d\u15fa\u9bb8\u0158\u8724\u0cbb\uf271\u7823\ue1d3\u6790\ued2a\u52e5\ud88d", 553167652, 2043929972)));
                     return;
                 }
                 catch (ClassCastException classCastException) {
-                    this.method_10747((Text)Text.method_43471((String)a.b("\ud024\ua98d\u2347\ubd2e\u36e4\ub04c\u0a03\u83ff\u1db8\u9715\u10d1\ueafc\u6461\ufddd\u7794\uf175\u4b36\uc4e6\u5e55\ud80f\u51fe\u2bb8\ua551\u3ec7\ub8bf\u3276\u8bd2\u058e\u9f7c\u1920\u92a8\u6c56\ue608\u7ffb\uf9a0\u731f\uccd9", 662032492)));
+                    this.disconnect((Text)Text.translatable((String)a.b("\ud024\ua98d\u2347\ubd2e\u36e4\ub04c\u0a03\u83ff\u1db8\u9715\u10d1\ueafc\u6461\ufddd\u7794\uf175\u4b36\uc4e6\u5e55\ud80f\u51fe\u2bb8\ua551\u3ec7\ub8bf\u3276\u8bd2\u058e\u9f7c\u1920\u92a8\u6c56\ue608\u7ffb\uf9a0\u731f\uccd9", 662032492)));
                     return;
                 }
                 catch (Throwable throwable) {
@@ -131,7 +131,7 @@ extends ClientConnection {
     }
 
     private static <T extends PacketListener> void edi(Packet<T> packet, PacketListener packetListener) {
-        packet.method_65081(packetListener);
+        packet.apply(packetListener);
     }
 
     private static /* synthetic */ int cz(int n, int n2) {

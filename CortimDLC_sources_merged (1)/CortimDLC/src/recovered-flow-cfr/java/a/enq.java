@@ -60,15 +60,15 @@ public final class enq {
      */
     public static BufferedImage capture(ItemFrameEntity itemFrameEntity2) {
         Object object;
-        World world = itemFrameEntity2.method_73183();
-        Direction direction = itemFrameEntity2.method_5735();
-        if (direction.method_10166() == Direction.Axis.field_11052 || !(itemFrameEntity2.method_6940().method_7909() instanceof FilledMapItem)) {
+        World world = itemFrameEntity2.getEntityWorld();
+        Direction direction = itemFrameEntity2.getHorizontalFacing();
+        if (direction.getAxis() == Direction.Axis.Y || !(itemFrameEntity2.getHeldItemStack().getItem() instanceof FilledMapItem)) {
             return null;
         }
-        boolean bl = direction.method_10166() == Direction.Axis.field_11051;
-        boolean bl2 = direction == Direction.field_11043 || direction == Direction.field_11034;
-        int n = enq.eob(itemFrameEntity2.method_59940(), bl);
-        List list = world.method_8390(ItemFrameEntity.class, itemFrameEntity2.method_5829().method_1014(16.0), itemFrameEntity -> itemFrameEntity.method_5735() == direction && enq.eob(itemFrameEntity.method_59940(), bl) == n && itemFrameEntity.method_6940().method_7909() instanceof FilledMapItem);
+        boolean bl = direction.getAxis() == Direction.Axis.Z;
+        boolean bl2 = direction == Direction.NORTH || direction == Direction.EAST;
+        int n = enq.eob(itemFrameEntity2.getAttachedBlockPos(), bl);
+        List list = world.getEntitiesByClass(ItemFrameEntity.class, itemFrameEntity2.getBoundingBox().expand(16.0), itemFrameEntity -> itemFrameEntity.getHorizontalFacing() == direction && enq.eob(itemFrameEntity.getAttachedBlockPos(), bl) == n && itemFrameEntity.getHeldItemStack().getItem() instanceof FilledMapItem);
         List<ItemFrameEntity> list2 = enq.eoa(list, itemFrameEntity2);
         if (list2.isEmpty()) {
             return null;
@@ -79,15 +79,15 @@ public final class enq {
         int n5 = Integer.MIN_VALUE;
         HashSet<BlockPos> hashSet = new HashSet<BlockPos>();
         for (ItemFrameEntity itemFrameEntity3 : list2) {
-            object = itemFrameEntity3.method_59940();
+            object = itemFrameEntity3.getAttachedBlockPos();
             if (!hashSet.add((BlockPos)object)) {
                 return null;
             }
-            int n6 = bl ? object.method_10263() : object.method_10260();
+            int n6 = bl ? object.getX() : object.getZ();
             n2 = Math.min(n2, n6);
             n3 = Math.max(n3, n6);
-            n4 = Math.min(n4, object.method_10264());
-            n5 = Math.max(n5, object.method_10264());
+            n4 = Math.min(n4, object.getY());
+            n5 = Math.max(n5, object.getY());
         }
         int n7 = n3 - n2 + 1;
         int n8 = n5 - n4 + 1;
@@ -100,28 +100,28 @@ public final class enq {
             for (ItemFrameEntity itemFrameEntity4 : list2) {
                 int n9;
                 BufferedImage bufferedImage;
-                MapState mapState = FilledMapItem.method_8001((ItemStack)itemFrameEntity4.method_6940(), (World)world);
-                if (mapState == null || mapState.field_122 == null || mapState.field_122.length != 16384) {
+                MapState mapState = FilledMapItem.getMapState((ItemStack)itemFrameEntity4.getHeldItemStack(), (World)world);
+                if (mapState == null || mapState.colors == null || mapState.colors.length != 16384) {
                     bufferedImage = null;
                     return bufferedImage;
                 }
                 bufferedImage = new BufferedImage(128, 128, 2);
                 boolean bl3 = false;
-                for (int i = 0; i < mapState.field_122.length; ++i) {
-                    n9 = mapState.field_122[i] & 0xFF;
+                for (int i = 0; i < mapState.colors.length; ++i) {
+                    n9 = mapState.colors[i] & 0xFF;
                     bl3 |= n9 >= 4;
-                    bufferedImage.setRGB(i % 128, i / 128, n9 < 4 ? 0 : MapColor.method_38480((int)n9));
+                    bufferedImage.setRGB(i % 128, i / 128, n9 < 4 ? 0 : MapColor.getRenderColor((int)n9));
                 }
                 if (!bl3) {
                     BufferedImage bufferedImage2 = null;
                     return bufferedImage2;
                 }
-                BlockPos blockPos = itemFrameEntity4.method_59940();
-                n9 = bl ? blockPos.method_10263() : blockPos.method_10260();
+                BlockPos blockPos = itemFrameEntity4.getAttachedBlockPos();
+                n9 = bl ? blockPos.getX() : blockPos.getZ();
                 int n10 = (bl2 ? n3 - n9 : n9 - n2) * 128;
-                int n11 = (n5 - blockPos.method_10264()) * 128;
+                int n11 = (n5 - blockPos.getY()) * 128;
                 AffineTransform affineTransform = AffineTransform.getTranslateInstance(n10, n11);
-                affineTransform.rotate((double)(itemFrameEntity4.method_6934() & 3) * Math.PI / 2.0, 64.0, 64.0);
+                affineTransform.rotate((double)(itemFrameEntity4.getRotation() & 3) * Math.PI / 2.0, 64.0, 64.0);
                 graphics2D.drawImage(bufferedImage, affineTransform, null);
             }
         }
@@ -133,7 +133,7 @@ public final class enq {
 
     public static BufferedImage captureNearest(World world, Entity entity) {
         for (List<ItemFrameEntity> list : enq.findWalls(world, entity, 24.0)) {
-            BufferedImage bufferedImage = enq.capture(list.stream().min(Comparator.comparingDouble(itemFrameEntity -> itemFrameEntity.method_5858(entity))).orElseThrow());
+            BufferedImage bufferedImage = enq.capture(list.stream().min(Comparator.comparingDouble(itemFrameEntity -> itemFrameEntity.squaredDistanceTo(entity))).orElseThrow());
             if (bufferedImage == null || enq.isShuffled(bufferedImage)) continue;
             return bufferedImage;
         }
@@ -141,9 +141,9 @@ public final class enq {
     }
 
     public static List<List<ItemFrameEntity>> findWalls(World world, Entity entity, double d) {
-        Vec3d vec3d = entity.method_33571();
-        List list2 = world.method_8390(ItemFrameEntity.class, entity.method_5829().method_1014(d), itemFrameEntity -> itemFrameEntity.method_5735().method_10166() != Direction.Axis.field_11052 && itemFrameEntity.method_6940().method_7909() instanceof FilledMapItem && enq.enx(itemFrameEntity, vec3d));
-        Vec3d vec3d2 = entity.method_5828(1.0f);
+        Vec3d vec3d = entity.getEyePos();
+        List list2 = world.getEntitiesByClass(ItemFrameEntity.class, entity.getBoundingBox().expand(d), itemFrameEntity -> itemFrameEntity.getHorizontalFacing().getAxis() != Direction.Axis.Y && itemFrameEntity.getHeldItemStack().getItem() instanceof FilledMapItem && enq.enx(itemFrameEntity, vec3d));
+        Vec3d vec3d2 = entity.getRotationVec(1.0f);
         List<List<ItemFrameEntity>> list3 = enq.enz(list2);
         list3.removeIf(list -> list.size() < 2);
         list3.sort(Comparator.comparingInt(list -> list.size() >= 4 ? 0 : 1).thenComparingDouble(list -> enq.eny(list, vec3d, vec3d2)));
@@ -198,27 +198,27 @@ public final class enq {
     }
 
     private static boolean enx(ItemFrameEntity itemFrameEntity, Vec3d vec3d) {
-        Direction direction = itemFrameEntity.method_5735();
-        Vec3d vec3d2 = vec3d.method_1020(itemFrameEntity.method_73189());
-        return vec3d2.field_1352 * (double)direction.method_10148() + vec3d2.field_1350 * (double)direction.method_10165() > 0.25;
+        Direction direction = itemFrameEntity.getHorizontalFacing();
+        Vec3d vec3d2 = vec3d.subtract(itemFrameEntity.getEntityPos());
+        return vec3d2.x * (double)direction.getOffsetX() + vec3d2.z * (double)direction.getOffsetZ() > 0.25;
     }
 
     private static double eny(List<ItemFrameEntity> list, Vec3d vec3d, Vec3d vec3d2) {
         double d = Double.MAX_VALUE;
-        Vec3d vec3d3 = Vec3d.field_1353;
+        Vec3d vec3d3 = Vec3d.ZERO;
         for (ItemFrameEntity itemFrameEntity : list) {
-            d = Math.min(d, itemFrameEntity.method_73189().method_1022(vec3d));
-            vec3d3 = vec3d3.method_1019(itemFrameEntity.method_73189());
+            d = Math.min(d, itemFrameEntity.getEntityPos().distanceTo(vec3d));
+            vec3d3 = vec3d3.add(itemFrameEntity.getEntityPos());
         }
-        Vec3d vec3d4 = vec3d3.method_1021(1.0 / (double)list.size()).method_1020(vec3d).method_1029();
-        return d * (1.5 - 0.5 * vec3d4.method_1026(vec3d2));
+        Vec3d vec3d4 = vec3d3.multiply(1.0 / (double)list.size()).subtract(vec3d).normalize();
+        return d * (1.5 - 0.5 * vec3d4.dotProduct(vec3d2));
     }
 
     private static List<List<ItemFrameEntity>> enz(List<ItemFrameEntity> list) {
         HashMap<Long, List> hashMap = new HashMap<Long, List>();
         for (ItemFrameEntity object : list) {
-            boolean list2 = object.method_5735().method_10166() == Direction.Axis.field_11051;
-            long arrayList2 = (long)object.method_5735().ordinal() << 32 | (long)enq.eob(object.method_59940(), list2) & 0xFFFFFFFFL;
+            boolean list2 = object.getHorizontalFacing().getAxis() == Direction.Axis.Z;
+            long arrayList2 = (long)object.getHorizontalFacing().ordinal() << 32 | (long)enq.eob(object.getAttachedBlockPos(), list2) & 0xFFFFFFFFL;
             hashMap.computeIfAbsent(arrayList2, l -> new ArrayList()).add(object);
         }
         ArrayList arrayList = new ArrayList();
@@ -234,7 +234,7 @@ public final class enq {
     }
 
     private static List<ItemFrameEntity> eoa(List<ItemFrameEntity> list, ItemFrameEntity itemFrameEntity) {
-        boolean bl = itemFrameEntity.method_5735().method_10166() == Direction.Axis.field_11051;
+        boolean bl = itemFrameEntity.getHorizontalFacing().getAxis() == Direction.Axis.Z;
         ArrayList<ItemFrameEntity> arrayList = new ArrayList<ItemFrameEntity>();
         HashSet<ItemFrameEntity> hashSet = new HashSet<ItemFrameEntity>();
         ArrayDeque<ItemFrameEntity> arrayDeque = new ArrayDeque<ItemFrameEntity>();
@@ -243,13 +243,13 @@ public final class enq {
         while (!arrayDeque.isEmpty()) {
             ItemFrameEntity itemFrameEntity2 = (ItemFrameEntity)arrayDeque.poll();
             arrayList.add(itemFrameEntity2);
-            BlockPos blockPos = itemFrameEntity2.method_59940();
-            int n = bl ? blockPos.method_10263() : blockPos.method_10260();
+            BlockPos blockPos = itemFrameEntity2.getAttachedBlockPos();
+            int n = bl ? blockPos.getX() : blockPos.getZ();
             for (ItemFrameEntity itemFrameEntity3 : list) {
                 if (hashSet.contains(itemFrameEntity3)) continue;
-                BlockPos blockPos2 = itemFrameEntity3.method_59940();
-                int n2 = Math.abs((bl ? blockPos2.method_10263() : blockPos2.method_10260()) - n);
-                if (n2 > 1 || Math.abs(blockPos2.method_10264() - blockPos.method_10264()) > 1) continue;
+                BlockPos blockPos2 = itemFrameEntity3.getAttachedBlockPos();
+                int n2 = Math.abs((bl ? blockPos2.getX() : blockPos2.getZ()) - n);
+                if (n2 > 1 || Math.abs(blockPos2.getY() - blockPos.getY()) > 1) continue;
                 hashSet.add(itemFrameEntity3);
                 arrayDeque.add(itemFrameEntity3);
             }
@@ -266,7 +266,7 @@ public final class enq {
     }
 
     private static int eob(BlockPos blockPos, boolean bl) {
-        return bl ? blockPos.method_10260() : blockPos.method_10263();
+        return bl ? blockPos.getZ() : blockPos.getX();
     }
 
     private static /* synthetic */ int if(int n, int n2) {

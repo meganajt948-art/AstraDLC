@@ -47,8 +47,8 @@ public final class wkw {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (!wlk.ENABLED.get() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || dry.armed()) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (!wlk.ENABLED.get() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || dry.armed()) {
             return;
         }
         List<wkq> list = wlk.drawable();
@@ -59,10 +59,10 @@ public final class wkw {
         unf.observe(drawContext);
         float f = unf.delta();
         iov.update(f * (float)iov.ANIMATION.get());
-        float f2 = drawContext.method_51421();
-        float f3 = drawContext.method_51443();
+        float f2 = drawContext.getScaledWindowWidth();
+        float f3 = drawContext.getScaledWindowHeight();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), f2, f3);
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), f2, f3);
         }
         catch (Throwable throwable) {
             return;
@@ -94,13 +94,13 @@ public final class wkw {
         uut.pushAlpha(f3 * f6);
         float f9 = f7 * (1.0f + 0.1f * f4);
         float f10 = (1.0f - f8) * -5.0f - f4 * 1.5f;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f2);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f2);
         uut.shadow(drawContext, -3.0f * f9, -1.0f * f9, 6.0f * f9, 2.0f * f9, 1.0f * f9, 2.5f * f9, 0x46000000);
-        drawContext.method_51448().translate(0.0f, f10);
-        drawContext.method_51448().scale(f9, f9);
+        drawContext.getMatrices().translate(0.0f, f10);
+        drawContext.getMatrices().scale(f9, f9);
         wkw.pin(drawContext, 0.0f, -20.0f * f5 * 0.41666666f, 20.0f * f5, n, 0.8f + 0.2f * f4);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         wkw.wlg(drawContext, wkq2, f, f2 + 4.0f * f9, d, n, f4);
         uut.popAlpha();
     }

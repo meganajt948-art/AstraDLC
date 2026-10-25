@@ -57,7 +57,7 @@ final class Motion {
     private float nextBlink = 3.0f;
     private float blinkLeft;
     Vec3d petPos;
-    Vec3d petVel = Vec3d.field_1353;
+    Vec3d petVel = Vec3d.ZERO;
     Vec3d petLast;
     float petYaw;
     float petLastYaw;
@@ -119,17 +119,17 @@ final class Motion {
 
     void update(PlayerEntity p, float td, float dt, boolean local) {
         ThreadLocalRandom r;
-        Vec3d pos = p.method_30950(td);
-        float yaw = MathHelper.method_17821((float)td, (float)p.field_6220, (float)p.field_6283);
-        this.headYaw = MathHelper.method_17821((float)td, (float)p.field_6259, (float)p.field_6241);
-        this.headPitch = p.method_5695(td);
+        Vec3d pos = p.getLerpedPos(td);
+        float yaw = MathHelper.lerpAngleDegrees((float)td, (float)p.lastBodyYaw, (float)p.bodyYaw);
+        this.headYaw = MathHelper.lerpAngleDegrees((float)td, (float)p.lastHeadYaw, (float)p.headYaw);
+        this.headPitch = p.getPitch(td);
         this.bodyYaw = yaw;
-        boolean onGround = p.method_24828();
-        if (!this.ready || pos.method_1028(this.lx, this.ly, this.lz) > 64.0) {
+        boolean onGround = p.isOnGround();
+        if (!this.ready || pos.squaredDistanceTo(this.lx, this.ly, this.lz) > 64.0) {
             this.ready = true;
-            this.lx = pos.field_1352;
-            this.ly = pos.field_1351;
-            this.lz = pos.field_1350;
+            this.lx = pos.x;
+            this.ly = pos.y;
+            this.lz = pos.z;
             this.lyaw = yaw;
             this.ground = onGround;
             return;
@@ -137,15 +137,15 @@ final class Motion {
         if (dt < 1.0E-4f) {
             return;
         }
-        float vx = Motion.clamp((float)(pos.field_1352 - this.lx) / dt, -40.0f, 40.0f);
-        float vy = Motion.clamp((float)(pos.field_1351 - this.ly) / dt, -80.0f, 40.0f);
-        float vz = Motion.clamp((float)(pos.field_1350 - this.lz) / dt, -40.0f, 40.0f);
+        float vx = Motion.clamp((float)(pos.x - this.lx) / dt, -40.0f, 40.0f);
+        float vy = Motion.clamp((float)(pos.y - this.ly) / dt, -80.0f, 40.0f);
+        float vz = Motion.clamp((float)(pos.z - this.lz) / dt, -40.0f, 40.0f);
         float a2 = (float)Math.toRadians(180.0f - yaw);
         float c = (float)Math.cos(a2);
         float s = (float)Math.sin(a2);
         float bx = vx * c - vz * s;
         float bz = vx * s + vz * c;
-        float omega = (float)Math.toRadians(MathHelper.method_15393((float)(yaw - this.lyaw))) / dt;
+        float omega = (float)Math.toRadians(MathHelper.wrapDegrees((float)(yaw - this.lyaw))) / dt;
         omega = Motion.clamp(omega, -14.0f, 14.0f);
         this.speed = (float)Math.sqrt(vx * vx + vz * vz);
         Motion.spring(this.sx, Motion.clamp(-bx * 0.9f + omega * 0.4f, -14.0f, 14.0f), 1.6f, 0.42f, dt);
@@ -157,26 +157,26 @@ final class Motion {
             this.bodyHead = Motion.push(this.bodyLag, this.bodyHead, this.sx[0], this.sy[0], this.sz[0]);
         }
         float f = this.air = onGround ? 0.0f : this.air + dt;
-        boolean fly = p.method_6128() || (local ? p.method_31549().field_7479 && !onGround : !onGround && this.air > 0.7f && Math.abs(vy) < 0.8f && !p.method_5799());
+        boolean fly = p.isGliding() || (local ? p.getAbilities().flying && !onGround : !onGround && this.air > 0.7f && Math.abs(vy) < 0.8f && !p.isTouchingWater());
         this.walkW = Motion.approach(this.walkW, fly ? 0.0f : Motion.smooth(0.35f, 2.4f, this.speed), 7.0f, dt);
         this.flyW = Motion.approach(this.flyW, fly ? 1.0f : 0.0f, 4.0f, dt);
-        this.sneakW = Motion.approach(this.sneakW, p.method_18276() ? 1.0f : 0.0f, 9.0f, dt);
+        this.sneakW = Motion.approach(this.sneakW, p.isInSneakingPose() ? 1.0f : 0.0f, 9.0f, dt);
         this.tIdle += dt;
         this.tWalk += dt * (0.75f + 0.35f * Motion.clamp(this.speed / 4.3f, 0.0f, 2.0f));
         this.tFly += dt * (1.0f + 0.15f * Motion.clamp(this.speed / 10.0f, 0.0f, 2.0f));
-        float phase = p.field_42108.method_48572(td) * 0.6662f;
+        float phase = p.limbAnimator.getAnimationProgress(td) * 0.6662f;
         if (!this.ground && onGround && this.lastVy < -5.0f) {
             this.bob[1] = this.bob[1] + this.lastVy * 0.35f;
         }
         Motion.spring(this.bob, -0.4f * this.walkW * (1.0f - this.flyW) * Math.abs((float)Math.sin(phase)), 5.5f, 0.35f, dt);
-        this.airW = Motion.approach(this.airW, !onGround && !fly && !p.method_5799() && this.air > 0.12f ? 1.0f : 0.0f, 7.0f, dt);
+        this.airW = Motion.approach(this.airW, !onGround && !fly && !p.isTouchingWater() && this.air > 0.12f ? 1.0f : 0.0f, 7.0f, dt);
         this.nextHappy -= dt;
         this.happyLeft = Math.max(0.0f, this.happyLeft - dt);
         if (this.nextHappy <= 0.0f) {
             this.happyLeft = this.walkW < 0.3f ? 1.5f : 0.0f;
             this.nextHappy = 9.0f + ThreadLocalRandom.current().nextFloat() * 10.0f;
         }
-        float step = -1.7f * this.walkW * (1.0f - this.flyW) * Math.abs((float)Math.sin(phase)) * (p.method_5624() ? 1.35f : 1.0f);
+        float step = -1.7f * this.walkW * (1.0f - this.flyW) * Math.abs((float)Math.sin(phase)) * (p.isSprinting() ? 1.35f : 1.0f);
         float stepV = (step - this.lastStep) / dt;
         this.jig[1] = Motion.clamp(this.jig[1] - (stepV - this.lastStepV) * 0.9f - (vy - this.lastVy) * 3.0f, -50.0f, 50.0f);
         this.lastStep = step;
@@ -196,9 +196,9 @@ final class Motion {
             this.blinkLeft = 0.13f;
             this.nextBlink = r.nextFloat() < 0.2f ? 0.3f : 2.2f + r.nextFloat() * 3.8f;
         }
-        this.lx = pos.field_1352;
-        this.ly = pos.field_1351;
-        this.lz = pos.field_1350;
+        this.lx = pos.x;
+        this.ly = pos.y;
+        this.lz = pos.z;
         this.lyaw = yaw;
         this.lastVy = vy;
         this.ground = onGround;
@@ -239,13 +239,13 @@ final class Motion {
             this.petLastYaw = this.petYaw;
             return;
         }
-        float vx = Motion.clamp((float)(this.petPos.field_1352 - this.petLast.field_1352) / dt, -30.0f, 30.0f);
-        float vy = Motion.clamp((float)(this.petPos.field_1351 - this.petLast.field_1351) / dt, -30.0f, 30.0f);
-        float vz = Motion.clamp((float)(this.petPos.field_1350 - this.petLast.field_1350) / dt, -30.0f, 30.0f);
+        float vx = Motion.clamp((float)(this.petPos.x - this.petLast.x) / dt, -30.0f, 30.0f);
+        float vy = Motion.clamp((float)(this.petPos.y - this.petLast.y) / dt, -30.0f, 30.0f);
+        float vz = Motion.clamp((float)(this.petPos.z - this.petLast.z) / dt, -30.0f, 30.0f);
         float a2 = (float)Math.toRadians(180.0f - this.petYaw);
         float c = (float)Math.cos(a2);
         float s = (float)Math.sin(a2);
-        float omega = Motion.clamp((float)Math.toRadians(MathHelper.method_15393((float)(this.petYaw - this.petLastYaw))) / dt, -10.0f, 10.0f);
+        float omega = Motion.clamp((float)Math.toRadians(MathHelper.wrapDegrees((float)(this.petYaw - this.petLastYaw))) / dt, -10.0f, 10.0f);
         Motion.spring(this.px, vx * c - vz * s, 1.8f, 0.5f, dt);
         Motion.spring(this.py, vy, 1.8f, 0.5f, dt);
         Motion.spring(this.pz, vx * s + vz * c, 1.8f, 0.5f, dt);
@@ -271,7 +271,7 @@ final class Motion {
         d.tilt = 0.0f;
         d.roll = Motion.clamp(this.px[0] * 7.0f + this.pturn[0] * 4.0f, -24.0f, 24.0f);
         d.pitch = Motion.clamp(this.pz[0] * 5.0f + this.py[0] * 3.0f, -20.0f, 20.0f);
-        d.lookYaw = Motion.clamp(MathHelper.method_15393((float)(this.headYaw - this.petYaw)), -70.0f, 70.0f) * 0.85f;
+        d.lookYaw = Motion.clamp(MathHelper.wrapDegrees((float)(this.headYaw - this.petYaw)), -70.0f, 70.0f) * 0.85f;
         d.lookPitch = Motion.clamp(this.headPitch, -45.0f, 45.0f) * 0.6f;
         d.twitch = Motion.clamp(this.twitch[0], -25.0f, 25.0f);
         d.blink = this.blinkLeft > 0.0f;

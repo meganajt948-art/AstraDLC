@@ -49,27 +49,27 @@ public final class qpw {
     public static int count(PlayerInventory playerInventory, Item item) {
         int n = 0;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (!itemStack.method_31574(item)) continue;
-            n += itemStack.method_7947();
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (!itemStack.isOf(item)) continue;
+            n += itemStack.getCount();
         }
         return n;
     }
 
     public static int countAll(PlayerEntity playerEntity, Item item) {
-        ItemStack itemStack = playerEntity.method_6079();
-        return qpw.count(playerEntity.method_31548(), item) + (itemStack.method_31574(item) ? itemStack.method_7947() : 0);
+        ItemStack itemStack = playerEntity.getOffHandStack();
+        return qpw.count(playerEntity.getInventory(), item) + (itemStack.isOf(item) ? itemStack.getCount() : 0);
     }
 
     public static int food(PlayerEntity playerEntity) {
-        return qpw.countAll(playerEntity, Items.field_8071);
+        return qpw.countAll(playerEntity, Items.GOLDEN_CARROT);
     }
 
     public static int find(PlayerInventory playerInventory, Item item) {
         int n = -1;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (!itemStack.method_31574(item) || n >= 0 && itemStack.method_7947() <= playerInventory.method_5438(n).method_7947()) continue;
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (!itemStack.isOf(item) || n >= 0 && itemStack.getCount() <= playerInventory.getStack(n).getCount()) continue;
             n = i;
         }
         return n;
@@ -77,18 +77,18 @@ public final class qpw {
 
     public static int emptySlot(PlayerInventory playerInventory) {
         for (int i = 35; i >= 0; --i) {
-            if (!playerInventory.method_5438(i).method_7960()) continue;
+            if (!playerInventory.getStack(i).isEmpty()) continue;
             return i;
         }
         return -1;
     }
 
     public static int durability(ItemStack itemStack) {
-        return itemStack.method_7960() || !itemStack.method_7963() ? -1 : itemStack.method_7936() - itemStack.method_7919();
+        return itemStack.isEmpty() || !itemStack.isDamageable() ? -1 : itemStack.getMaxDamage() - itemStack.getDamage();
     }
 
     public static int pickaxe(PlayerInventory playerInventory) {
-        if (playerInventory.method_5438(0).method_31573(ItemTags.field_42614)) {
+        if (playerInventory.getStack(0).isIn(ItemTags.PICKAXES)) {
             return 0;
         }
         int n = qof.bestPickaxe(playerInventory);
@@ -96,34 +96,34 @@ public final class qpw {
             return n;
         }
         for (int i = 0; i < 36; ++i) {
-            if (!playerInventory.method_5438(i).method_31573(ItemTags.field_42614)) continue;
+            if (!playerInventory.getStack(i).isIn(ItemTags.PICKAXES)) continue;
             return i;
         }
         return -1;
     }
 
     public static int pickaxeDurability(ClientPlayerEntity clientPlayerEntity) {
-        ItemStack itemStack = clientPlayerEntity.method_6047();
-        if (itemStack.method_31573(ItemTags.field_42614) && itemStack.method_7963()) {
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
+        if (itemStack.isIn(ItemTags.PICKAXES) && itemStack.isDamageable()) {
             return qpw.durability(itemStack);
         }
-        int n = qpw.pickaxe(clientPlayerEntity.method_31548());
+        int n = qpw.pickaxe(clientPlayerEntity.getInventory());
         if (n >= 0) {
-            return qpw.durability(clientPlayerEntity.method_31548().method_5438(n));
+            return qpw.durability(clientPlayerEntity.getInventory().getStack(n));
         }
-        ItemStack itemStack2 = clientPlayerEntity.method_6079();
-        return itemStack2.method_31573(ItemTags.field_42614) ? qpw.durability(itemStack2) : -1;
+        ItemStack itemStack2 = clientPlayerEntity.getOffHandStack();
+        return itemStack2.isIn(ItemTags.PICKAXES) ? qpw.durability(itemStack2) : -1;
     }
 
     public static boolean isFood(ItemStack itemStack) {
-        if (itemStack.method_7960() || itemStack.method_58694(DataComponentTypes.field_50075) == null) {
+        if (itemStack.isEmpty() || itemStack.get(DataComponentTypes.FOOD) == null) {
             return false;
         }
-        return !itemStack.method_31574(Items.field_8511) && !itemStack.method_31574(Items.field_8680) && !itemStack.method_31574(Items.field_8635) && !itemStack.method_31574(Items.field_8323) && !itemStack.method_31574(Items.field_8233) && !itemStack.method_31574(Items.field_8766) && !itemStack.method_31574(Items.field_8367);
+        return !itemStack.isOf(Items.ROTTEN_FLESH) && !itemStack.isOf(Items.SPIDER_EYE) && !itemStack.isOf(Items.POISONOUS_POTATO) && !itemStack.isOf(Items.PUFFERFISH) && !itemStack.isOf(Items.CHORUS_FRUIT) && !itemStack.isOf(Items.SUSPICIOUS_STEW) && !itemStack.isOf(Items.ENCHANTED_GOLDEN_APPLE);
     }
 
     public static boolean isLayoutItem(Item item) {
-        if (item == Items.field_8477 || item == Items.field_8695 || item == Items.field_22019) {
+        if (item == Items.DIAMOND || item == Items.GOLD_INGOT || item == Items.ANCIENT_DEBRIS) {
             return true;
         }
         for (Item item2 : MARKERS) {
@@ -143,50 +143,50 @@ public final class qpw {
 
     public static boolean keeps(ItemStack itemStack) {
         BlockItem blockItem;
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return false;
         }
-        if (itemStack.method_31573(ItemTags.field_42614) || itemStack.method_7963() || qpw.isFood(itemStack) || itemStack.method_31574(Items.field_8367)) {
+        if (itemStack.isIn(ItemTags.PICKAXES) || itemStack.isDamageable() || qpw.isFood(itemStack) || itemStack.isOf(Items.ENCHANTED_GOLDEN_APPLE)) {
             return true;
         }
-        if (itemStack.method_31574(Items.field_8288) || itemStack.method_31574(Items.field_8287) || itemStack.method_31574(Items.field_22020) || itemStack.method_31574(Items.field_22021) || itemStack.method_31574(Items.field_8603) || itemStack.method_31574(Items.field_8494) || itemStack.method_31574(Items.field_8634) || itemStack.method_31574(Items.field_8833) || itemStack.method_31574(Items.field_8687) || itemStack.method_31574(Items.field_8733) || itemStack.method_31574(Items.field_22018)) {
+        if (itemStack.isOf(Items.TOTEM_OF_UNDYING) || itemStack.isOf(Items.EXPERIENCE_BOTTLE) || itemStack.isOf(Items.NETHERITE_INGOT) || itemStack.isOf(Items.NETHERITE_SCRAP) || itemStack.isOf(Items.DIAMOND_BLOCK) || itemStack.isOf(Items.GOLD_BLOCK) || itemStack.isOf(Items.ENDER_PEARL) || itemStack.isOf(Items.ELYTRA) || itemStack.isOf(Items.EMERALD) || itemStack.isOf(Items.EMERALD_BLOCK) || itemStack.isOf(Items.NETHERITE_BLOCK)) {
             return true;
         }
-        Item item = itemStack.method_7909();
-        return item instanceof BlockItem && (blockItem = (BlockItem)item).method_7711() instanceof ShulkerBoxBlock;
+        Item item = itemStack.getItem();
+        return item instanceof BlockItem && (blockItem = (BlockItem)item).getBlock() instanceof ShulkerBoxBlock;
     }
 
     public static boolean throwable(ItemStack itemStack) {
-        return !itemStack.method_7960() && !qpw.keeps(itemStack) && !qpw.isLayoutItem(itemStack.method_7909());
+        return !itemStack.isEmpty() && !qpw.keeps(itemStack) && !qpw.isLayoutItem(itemStack.getItem());
     }
 
     public static boolean ready(PlayerInventory playerInventory) {
-        int n = 14 + (qpw.count(playerInventory, Items.field_22019) == 0 ? 1 : 0);
-        return qpw.count(playerInventory, Items.field_8477) >= 16 && qpw.count(playerInventory, Items.field_8695) >= n;
+        int n = 14 + (qpw.count(playerInventory, Items.ANCIENT_DEBRIS) == 0 ? 1 : 0);
+        return qpw.count(playerInventory, Items.DIAMOND) >= 16 && qpw.count(playerInventory, Items.GOLD_INGOT) >= n;
     }
 
     public static int keepGold(PlayerInventory playerInventory) {
-        return 14 + (qpw.count(playerInventory, Items.field_22019) == 0 ? 1 : 0);
+        return 14 + (qpw.count(playerInventory, Items.ANCIENT_DEBRIS) == 0 ? 1 : 0);
     }
 
     public static Item[] targets(PlayerInventory playerInventory, ItemStack itemStack) {
         int n;
         int n2;
         Item[] itemArray = (Item[])qpx.clone();
-        if (qpw.count(playerInventory, Items.field_22019) == 0) {
-            itemArray[32] = Items.field_8695;
+        if (qpw.count(playerInventory, Items.ANCIENT_DEBRIS) == 0) {
+            itemArray[32] = Items.GOLD_INGOT;
         }
         for (n2 = 0; n2 < MARKERS.length; ++n2) {
             if (qpw.count(playerInventory, MARKERS[n2]) != 0) continue;
             itemArray[9 + n2] = null;
         }
         n2 = qpw.pickaxe(playerInventory);
-        boolean bl = itemStack.method_7960() || itemStack.method_31574(Items.field_8071);
+        boolean bl = itemStack.isEmpty() || itemStack.isOf(Items.GOLDEN_CARROT);
         int n3 = 0;
         for (n = 0; n < 36; ++n) {
-            ItemStack itemStack2 = playerInventory.method_5438(n);
-            if (itemStack2.method_7960() || n == n2 || qpw.isLayoutItem(itemStack2.method_7909()) || !qpw.keeps(itemStack2)) continue;
-            if (bl && itemStack2.method_31574(Items.field_8071)) {
+            ItemStack itemStack2 = playerInventory.getStack(n);
+            if (itemStack2.isEmpty() || n == n2 || qpw.isLayoutItem(itemStack2.getItem()) || !qpw.keeps(itemStack2)) continue;
+            if (bl && itemStack2.isOf(Items.GOLDEN_CARROT)) {
                 bl = false;
                 continue;
             }
@@ -207,7 +207,7 @@ public final class qpw {
     public static int misplaced(PlayerInventory playerInventory, Item[] itemArray) {
         int n = 0;
         for (int i = 1; i < 36; ++i) {
-            if (itemArray[i] == null || playerInventory.method_5438(i).method_31574(itemArray[i])) continue;
+            if (itemArray[i] == null || playerInventory.getStack(i).isOf(itemArray[i])) continue;
             ++n;
         }
         return n;
@@ -219,69 +219,69 @@ public final class qpw {
 
     public static qpq next(PlayerInventory playerInventory, ItemStack itemStack, ItemStack itemStack2, Item[] itemArray, boolean[] blArray, boolean bl) {
         int n;
-        if (!itemStack.method_7960()) {
-            if (itemStack.method_31574(Items.field_8071) && (itemStack2.method_7960() || ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack) && itemStack2.method_7947() < itemStack2.method_7914())) {
-                return new qpq(40, 0, SlotActionType.field_7790);
+        if (!itemStack.isEmpty()) {
+            if (itemStack.isOf(Items.GOLDEN_CARROT) && (itemStack2.isEmpty() || ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack) && itemStack2.getCount() < itemStack2.getMaxCount())) {
+                return new qpq(40, 0, SlotActionType.PICKUP);
             }
             return qpw.qqb(playerInventory, itemStack, itemArray, blArray, bl);
         }
         int n2 = qpw.pickaxe(playerInventory);
-        if (n2 > 0 && !playerInventory.method_5438(0).method_31573(ItemTags.field_42614)) {
-            return new qpq(n2, 0, SlotActionType.field_7791);
+        if (n2 > 0 && !playerInventory.getStack(0).isIn(ItemTags.PICKAXES)) {
+            return new qpq(n2, 0, SlotActionType.SWAP);
         }
         for (int n3 : qpy) {
             ItemStack itemStack3;
             Item item = itemArray[n3];
-            if (item == null || blArray[n3] || (itemStack3 = playerInventory.method_5438(n3)).method_31574(item)) continue;
-            if (!itemStack3.method_7960()) {
-                return new qpq(n3, 0, SlotActionType.field_7790);
+            if (item == null || blArray[n3] || (itemStack3 = playerInventory.getStack(n3)).isOf(item)) continue;
+            if (!itemStack3.isEmpty()) {
+                return new qpq(n3, 0, SlotActionType.PICKUP);
             }
             int n4 = qpw.qqc(playerInventory, itemArray, item);
             if (n4 < 0) {
                 blArray[n3] = true;
                 continue;
             }
-            return new qpq(n4, 0, SlotActionType.field_7790);
+            return new qpq(n4, 0, SlotActionType.PICKUP);
         }
-        if (!itemStack2.method_31574(Items.field_8071) && itemStack2.method_7960() && (n = qpw.find(playerInventory, Items.field_8071)) >= 0) {
-            return new qpq(n, 40, SlotActionType.field_7791);
+        if (!itemStack2.isOf(Items.GOLDEN_CARROT) && itemStack2.isEmpty() && (n = qpw.find(playerInventory, Items.GOLDEN_CARROT)) >= 0) {
+            return new qpq(n, 40, SlotActionType.SWAP);
         }
         return null;
     }
 
     private static qpq qqb(PlayerInventory playerInventory, ItemStack itemStack, Item[] itemArray, boolean[] blArray, boolean bl) {
         int n;
-        Item item = itemStack.method_7909();
+        Item item = itemStack.getItem();
         int[] nArray = qpy;
         int n2 = nArray.length;
         for (n = 0; n < n2; ++n) {
             int n3 = nArray[n];
-            if (itemArray[n3] != item || blArray[n3] || !playerInventory.method_5438(n3).method_7960()) continue;
-            return new qpq(n3, itemStack.method_7947() > 1 ? 1 : 0, SlotActionType.field_7790);
+            if (itemArray[n3] != item || blArray[n3] || !playerInventory.getStack(n3).isEmpty()) continue;
+            return new qpq(n3, itemStack.getCount() > 1 ? 1 : 0, SlotActionType.PICKUP);
         }
         int n4 = -1;
         for (n2 = 0; n2 < 36; ++n2) {
-            ItemStack itemStack2 = playerInventory.method_5438(n2);
-            if (itemStack2.method_7960() || !ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack) || itemStack2.method_7947() >= itemStack2.method_7914() || n4 >= 0 && (itemArray[n2] != item || itemArray[n4] == item)) continue;
+            ItemStack itemStack2 = playerInventory.getStack(n2);
+            if (itemStack2.isEmpty() || !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack) || itemStack2.getCount() >= itemStack2.getMaxCount() || n4 >= 0 && (itemArray[n2] != item || itemArray[n4] == item)) continue;
             n4 = n2;
         }
         if (n4 >= 0) {
-            return new qpq(n4, 0, SlotActionType.field_7790);
+            return new qpq(n4, 0, SlotActionType.PICKUP);
         }
         for (n2 = 35; n2 >= 1; --n2) {
-            if (itemArray[n2] != null || !playerInventory.method_5438(n2).method_7960()) continue;
-            return new qpq(n2, 0, SlotActionType.field_7790);
+            if (itemArray[n2] != null || !playerInventory.getStack(n2).isEmpty()) continue;
+            return new qpq(n2, 0, SlotActionType.PICKUP);
         }
         if (!(bl || qpw.keeps(itemStack) || qpw.isLayoutItem(item))) {
-            return new qpq(-999, 0, SlotActionType.field_7790);
+            return new qpq(-999, 0, SlotActionType.PICKUP);
         }
         for (n2 = qpy.length - 1; n2 >= 0; --n2) {
             n = qpy[n2];
-            if (!playerInventory.method_5438(n).method_7960()) continue;
+            if (!playerInventory.getStack(n).isEmpty()) continue;
             blArray[n] = true;
-            return new qpq(n, 0, SlotActionType.field_7790);
+            return new qpq(n, 0, SlotActionType.PICKUP);
         }
-        return bl ? null : new qpq(-999, 0, SlotActionType.field_7790);
+        return bl ? null : new qpq(-999, 0, SlotActionType.PICKUP);
     }
 
     private static int qqc(PlayerInventory playerInventory, Item[] itemArray, Item item) {
@@ -290,10 +290,10 @@ public final class qpw {
         for (int i = 0; i < 36; ++i) {
             int n3;
             boolean bl;
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (!itemStack.method_31574(item)) continue;
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (!itemStack.isOf(item)) continue;
             boolean bl2 = bl = itemArray[i] == item;
-            if (bl && itemStack.method_7947() < 2 || (n3 = (bl ? 0 : 1000) + itemStack.method_7947()) <= n2) continue;
+            if (bl && itemStack.getCount() < 2 || (n3 = (bl ? 0 : 1000) + itemStack.getCount()) <= n2) continue;
             n2 = n3;
             n = i;
         }
@@ -302,21 +302,21 @@ public final class qpw {
 
     static {
         int n;
-        MARKERS = new Item[]{Items.field_8725, Items.field_8759, Items.field_8620, Items.field_8713};
+        MARKERS = new Item[]{Items.REDSTONE, Items.LAPIS_LAZULI, Items.IRON_INGOT, Items.COAL};
         qpx = new Item[36];
         for (n = 1; n <= 8; ++n) {
-            qpw.qpx[n] = Items.field_8477;
+            qpw.qpx[n] = Items.DIAMOND;
         }
         for (n = 0; n < MARKERS.length; ++n) {
             qpw.qpx[9 + n] = MARKERS[n];
         }
         for (n = 13; n <= 26; ++n) {
-            qpw.qpx[n] = Items.field_8695;
+            qpw.qpx[n] = Items.GOLD_INGOT;
         }
         for (n = 27; n <= 35; ++n) {
-            qpw.qpx[n] = Items.field_8477;
+            qpw.qpx[n] = Items.DIAMOND;
         }
-        qpw.qpx[32] = Items.field_22019;
+        qpw.qpx[32] = Items.ANCIENT_DEBRIS;
         int[] nArray = new int[35];
         int n2 = 0;
         int n3 = 9;

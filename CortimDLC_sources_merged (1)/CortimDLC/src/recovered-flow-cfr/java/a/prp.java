@@ -19,13 +19,13 @@ public final class prp {
     }
 
     public static double multiplier() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1690 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.options == null) {
             return 0.0;
         }
-        double d = (Double)minecraftClient.field_1690.method_42495().method_41753() * (double)0.6f + (double)0.2f;
+        double d = (Double)minecraftClient.options.getMouseSensitivity().getValue() * (double)0.6f + (double)0.2f;
         double d2 = d * d * d;
-        return minecraftClient.field_1724 != null && minecraftClient.field_1690.method_31044().method_31034() && minecraftClient.field_1724.method_31550() ? d2 : d2 * 8.0;
+        return minecraftClient.player != null && minecraftClient.options.getPerspective().isFirstPerson() && minecraftClient.player.isUsingSpyglass() ? d2 : d2 * 8.0;
     }
 
     public static double step() {
@@ -52,7 +52,7 @@ public final class prp {
         double d2 = (double)f3 - (double)f;
         double d3 = Math.floor((d2 + 180.0) / 360.0) * 360.0;
         float f5 = (float)((double)f + d3) + prp.quantize(d2 - d3, d);
-        float f6 = MathHelper.method_15363((float)(f2 + prp.quantize((double)f4 - (double)f2, d)), (float)-90.0f, (float)90.0f);
+        float f6 = MathHelper.clamp((float)(f2 + prp.quantize((double)f4 - (double)f2, d)), (float)-90.0f, (float)90.0f);
         return new float[]{Float.isFinite(f5) ? f5 : f3, Float.isFinite(f6) ? f6 : f4};
     }
 

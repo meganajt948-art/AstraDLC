@@ -45,42 +45,42 @@ public final class pqf {
     }
 
     private static MinecraftClient pqi() {
-        return MinecraftClient.method_1551();
+        return MinecraftClient.getInstance();
     }
 
     public static double getStandY(BlockPos blockPos) {
         MinecraftClient minecraftClient = pqf.pqi();
-        if (minecraftClient.field_1687 == null) {
-            return blockPos.method_10264();
+        if (minecraftClient.world == null) {
+            return blockPos.getY();
         }
-        return pqx.getStandY((BlockView)minecraftClient.field_1687, blockPos);
+        return pqx.getStandY((BlockView)minecraftClient.world, blockPos);
     }
 
     public static boolean isBlockedHorizontally() {
         MinecraftClient minecraftClient = pqf.pqi();
-        if (minecraftClient.field_1724 == null) {
+        if (minecraftClient.player == null) {
             return false;
         }
-        return minecraftClient.field_1724.field_5976 && minecraftClient.field_1724.method_18798().method_37268() < 0.0025;
+        return minecraftClient.player.horizontalCollision && minecraftClient.player.getVelocity().horizontalLengthSquared() < 0.0025;
     }
 
     public static double getFrontStepUp(float f) {
         BlockPos blockPos;
         VoxelShape voxelShape;
         MinecraftClient minecraftClient = pqf.pqi();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null) {
+        if (minecraftClient.player == null || minecraftClient.world == null) {
             return 0.0;
         }
-        Vec3d vec3d = Vec3d.method_1030((float)0.0f, (float)f).method_1029();
-        BlockPos blockPos2 = BlockPos.method_49637((double)(minecraftClient.field_1724.method_23317() + vec3d.field_1352 * 0.65), (double)(minecraftClient.field_1724.method_23318() + 0.1), (double)(minecraftClient.field_1724.method_23321() + vec3d.field_1350 * 0.65));
+        Vec3d vec3d = Vec3d.fromPolar((float)0.0f, (float)f).normalize();
+        BlockPos blockPos2 = BlockPos.ofFloored((double)(minecraftClient.player.getX() + vec3d.x * 0.65), (double)(minecraftClient.player.getY() + 0.1), (double)(minecraftClient.player.getZ() + vec3d.z * 0.65));
         double d = Double.NEGATIVE_INFINITY;
-        for (int i = 0; i <= 2 && !(voxelShape = minecraftClient.field_1687.method_8320(blockPos = blockPos2.method_10086(i)).method_26220((BlockView)minecraftClient.field_1687, blockPos)).method_1110(); ++i) {
-            d = (double)blockPos.method_10264() + voxelShape.method_1105(Direction.Axis.field_11052);
+        for (int i = 0; i <= 2 && !(voxelShape = minecraftClient.world.getBlockState(blockPos = blockPos2.up(i)).getCollisionShape((BlockView)minecraftClient.world, blockPos)).isEmpty(); ++i) {
+            d = (double)blockPos.getY() + voxelShape.getMax(Direction.Axis.Y);
         }
         if (d == Double.NEGATIVE_INFINITY) {
             return 0.0;
         }
-        return Math.max(0.0, d - minecraftClient.field_1724.method_23318());
+        return Math.max(0.0, d - minecraftClient.player.getY());
     }
 
     public static boolean isJumpUseful(float f) {
@@ -89,68 +89,68 @@ public final class pqf {
     }
 
     public static boolean onClimbable(PlayerEntity playerEntity) {
-        return playerEntity != null && playerEntity.method_6101() && !playerEntity.method_5799() && !playerEntity.method_31549().field_7479;
+        return playerEntity != null && playerEntity.isClimbing() && !playerEntity.isTouchingWater() && !playerEntity.getAbilities().flying;
     }
 
     public static Vec3d awayFromClimbable(PlayerEntity playerEntity) {
         MinecraftClient minecraftClient = pqf.pqi();
-        if (minecraftClient.field_1687 == null || playerEntity == null) {
+        if (minecraftClient.world == null || playerEntity == null) {
             return null;
         }
-        BlockPos blockPos = playerEntity.method_24515();
+        BlockPos blockPos = playerEntity.getBlockPos();
         double d = 0.0;
         double d2 = 0.0;
-        for (BlockPos blockPos2 : new BlockPos[]{blockPos, blockPos.method_10084()}) {
-            BlockState blockState = minecraftClient.field_1687.method_8320(blockPos2);
-            if (blockState.method_26204() instanceof VineBlock) {
-                for (Direction direction : Direction.Type.field_11062) {
-                    BooleanProperty booleanProperty = VineBlock.method_10828((Direction)direction);
-                    if (booleanProperty == null || !((Boolean)blockState.method_11654((Property)booleanProperty)).booleanValue()) continue;
-                    d -= (double)direction.method_10148();
-                    d2 -= (double)direction.method_10165();
+        for (BlockPos blockPos2 : new BlockPos[]{blockPos, blockPos.up()}) {
+            BlockState blockState = minecraftClient.world.getBlockState(blockPos2);
+            if (blockState.getBlock() instanceof VineBlock) {
+                for (Direction direction : Direction.Type.HORIZONTAL) {
+                    BooleanProperty booleanProperty = VineBlock.getFacingProperty((Direction)direction);
+                    if (booleanProperty == null || !((Boolean)blockState.get((Property)booleanProperty)).booleanValue()) continue;
+                    d -= (double)direction.getOffsetX();
+                    d2 -= (double)direction.getOffsetZ();
                 }
                 continue;
             }
-            if (!(blockState.method_26204() instanceof LadderBlock)) continue;
-            Iterator iterator = (Direction)blockState.method_11654((Property)LadderBlock.field_11253);
-            d += (double)iterator.method_10148();
-            d2 += (double)iterator.method_10165();
+            if (!(blockState.getBlock() instanceof LadderBlock)) continue;
+            Iterator iterator = (Direction)blockState.get((Property)LadderBlock.FACING);
+            d += (double)iterator.getOffsetX();
+            d2 += (double)iterator.getOffsetZ();
         }
         if (d != 0.0 || d2 != 0.0) {
             double d3 = Math.hypot(d, d2);
             return new Vec3d(d / d3, 0.0, d2 / d3);
         }
-        for (Direction direction : Direction.Type.field_11062) {
-            BlockPos blockPos3 = blockPos.method_10093(direction);
-            boolean bl = minecraftClient.field_1687.method_8320(blockPos3).method_26220((BlockView)minecraftClient.field_1687, blockPos3).method_1110() && minecraftClient.field_1687.method_8320(blockPos3.method_10084()).method_26220((BlockView)minecraftClient.field_1687, blockPos3.method_10084()).method_1110() && !minecraftClient.field_1687.method_8320(blockPos3).method_26164(BlockTags.field_22414);
+        for (Direction direction : Direction.Type.HORIZONTAL) {
+            BlockPos blockPos3 = blockPos.offset(direction);
+            boolean bl = minecraftClient.world.getBlockState(blockPos3).getCollisionShape((BlockView)minecraftClient.world, blockPos3).isEmpty() && minecraftClient.world.getBlockState(blockPos3.up()).getCollisionShape((BlockView)minecraftClient.world, blockPos3.up()).isEmpty() && !minecraftClient.world.getBlockState(blockPos3).isIn(BlockTags.CLIMBABLE);
             if (!bl) continue;
-            return new Vec3d((double)direction.method_10148(), 0.0, (double)direction.method_10165());
+            return new Vec3d((double)direction.getOffsetX(), 0.0, (double)direction.getOffsetZ());
         }
         return null;
     }
 
     public static void resetKeys() {
         MinecraftClient minecraftClient = pqf.pqi();
-        if (minecraftClient.field_1690 != null) {
-            minecraftClient.field_1690.field_1894.method_23481(false);
-            minecraftClient.field_1690.field_1881.method_23481(false);
-            minecraftClient.field_1690.field_1913.method_23481(false);
-            minecraftClient.field_1690.field_1849.method_23481(false);
-            minecraftClient.field_1690.field_1903.method_23481(false);
-            minecraftClient.field_1690.field_1867.method_23481(false);
+        if (minecraftClient.options != null) {
+            minecraftClient.options.forwardKey.setPressed(false);
+            minecraftClient.options.backKey.setPressed(false);
+            minecraftClient.options.leftKey.setPressed(false);
+            minecraftClient.options.rightKey.setPressed(false);
+            minecraftClient.options.jumpKey.setPressed(false);
+            minecraftClient.options.sprintKey.setPressed(false);
         }
     }
 
     public static boolean hasReachedNode(BlockPos blockPos) {
         double d;
         MinecraftClient minecraftClient = pqf.pqi();
-        if (minecraftClient.field_1724 == null) {
+        if (minecraftClient.player == null) {
             return false;
         }
-        double d2 = minecraftClient.field_1724.method_23317() - ((double)blockPos.method_10263() + 0.5);
-        double d3 = d2 * d2 + (d = minecraftClient.field_1724.method_23321() - ((double)blockPos.method_10260() + 0.5)) * d;
+        double d2 = minecraftClient.player.getX() - ((double)blockPos.getX() + 0.5);
+        double d3 = d2 * d2 + (d = minecraftClient.player.getZ() - ((double)blockPos.getZ() + 0.5)) * d;
         boolean bl = d3 < 0.36;
-        double d4 = minecraftClient.field_1724.method_23318() - pqf.getStandY(blockPos);
+        double d4 = minecraftClient.player.getY() - pqf.getStandY(blockPos);
         boolean bl2 = d4 > -0.6 && d4 < 1.6;
         return bl && bl2;
     }

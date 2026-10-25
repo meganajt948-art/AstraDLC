@@ -68,74 +68,74 @@ extends ClientWorld {
     }
 
     Map<MapIdComponent, MapState> maps() {
-        return this.method_35754();
+        return this.getMapStates();
     }
 
     void copyMaps(Map<MapIdComponent, MapState> map) {
-        this.method_35753(map);
+        this.putMapStates(map);
     }
 
-    public void method_8413(BlockPos blockPos, BlockState blockState, BlockState blockState2, int n) {
+    public void updateListeners(BlockPos pos, BlockState oldState, BlockState newState, int flags) {
     }
 
-    public void method_16109(BlockPos blockPos, BlockState blockState, BlockState blockState2) {
+    public void scheduleBlockRerenderIfNeeded(BlockPos pos, BlockState old, BlockState updated) {
     }
 
-    public void method_18113(int n, int n2, int n3) {
+    public void scheduleBlockRenders(int x, int y, int z) {
     }
 
-    public void method_62146(int n, int n2, int n3, int n4, int n5, int n6) {
+    public void scheduleChunkRenders(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
     }
 
-    public void method_8517(int n, BlockPos blockPos, int n2) {
+    public void setBlockBreakingInfo(int entityId, BlockPos pos, int progress) {
     }
 
-    public void method_62895(long l) {
+    public void onChunkUnload(long sectionPos) {
     }
 
-    public void method_8474(int n, BlockPos blockPos, int n2) {
+    public void syncGlobalEvent(int eventId, BlockPos pos, int data) {
     }
 
-    public void method_8444(@Nullable Entity entity, int n, BlockPos blockPos, int n2) {
+    public void syncWorldEvent(@Nullable Entity source, int eventId, BlockPos pos, int data) {
     }
 
-    public void method_8406(ParticleEffect particleEffect, double d, double d2, double d3, double d4, double d5, double d6) {
+    public void addParticleClient(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
     }
 
-    public void method_8466(ParticleEffect particleEffect, boolean bl, boolean bl2, double d, double d2, double d3, double d4, double d5, double d6) {
+    public void addParticleClient(ParticleEffect parameters, boolean force, boolean canSpawnOnMinimal, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
     }
 
-    public void method_8494(ParticleEffect particleEffect, double d, double d2, double d3, double d4, double d5, double d6) {
+    public void addImportantParticleClient(ParticleEffect parameters, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
     }
 
-    public void method_17452(ParticleEffect particleEffect, boolean bl, double d, double d2, double d3, double d4, double d5, double d6) {
+    public void addImportantParticleClient(ParticleEffect parameters, boolean force, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
     }
 
-    public void method_8547(double d, double d2, double d3, double d4, double d5, double d6, List<FireworkExplosionComponent> list) {
+    public void addFireworkParticle(double x, double y, double z, double velocityX, double velocityY, double velocityZ, List<FireworkExplosionComponent> explosions) {
     }
 
-    public void method_31595(BlockPos blockPos, BlockState blockState) {
+    public void addBlockBreakParticles(BlockPos pos, BlockState state) {
     }
 
-    public void method_74254(BlockPos blockPos, Direction direction) {
+    public void spawnBlockBreakingParticle(BlockPos pos, Direction direction) {
     }
 
-    public void method_73228(Vec3d vec3d, float f, int n, Pool<BlockParticleEffect> pool) {
+    public void addBlockParticleEffects(Vec3d center, float radius, int blockCount, Pool<BlockParticleEffect> particles) {
     }
 
-    public void method_8465(@Nullable Entity entity, double d, double d2, double d3, RegistryEntry<SoundEvent> registryEntry, SoundCategory soundCategory, float f, float f2, long l) {
+    public void playSound(@Nullable Entity source, double x, double y, double z, RegistryEntry<SoundEvent> sound, SoundCategory category, float volume, float pitch, long seed) {
     }
 
-    public void method_8449(@Nullable Entity entity, Entity entity2, RegistryEntry<SoundEvent> registryEntry, SoundCategory soundCategory, float f, float f2, long l) {
+    public void playSoundFromEntity(@Nullable Entity source, Entity entity, RegistryEntry<SoundEvent> sound, SoundCategory category, float volume, float pitch, long seed) {
     }
 
-    public void method_55116(Entity entity, SoundEvent soundEvent, SoundCategory soundCategory, float f, float f2) {
+    public void playSoundFromEntityClient(Entity entity, SoundEvent sound, SoundCategory category, float volume, float pitch) {
     }
 
-    public void method_67392(SoundEvent soundEvent, SoundCategory soundCategory, float f, float f2) {
+    public void playSoundClient(SoundEvent sound, SoundCategory category, float volume, float pitch) {
     }
 
-    public void method_8486(double d, double d2, double d3, SoundEvent soundEvent, SoundCategory soundCategory, float f, float f2, boolean bl) {
+    public void playSoundClient(double x, double y, double z, SoundEvent sound, SoundCategory category, float volume, float pitch, boolean useDistance) {
     }
 
     private static /* synthetic */ int gz(int n, int n2) {

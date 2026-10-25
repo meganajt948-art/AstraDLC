@@ -90,20 +90,20 @@ final class fnq {
             ServerTickEvents.END_SERVER_TICK.register(fnq::fol);
         }
         fnv = uUID;
-        ServerWorld serverWorld = minecraftServer.method_30002();
+        ServerWorld serverWorld = minecraftServer.getOverworld();
         UUID uUID2 = UUID.nameUUIDFromBytes(a.c(-425270718, "\ue218\u9b80\u1153\u8f28\u04fa\u824c\u3814\ub1d0\u2fb3\ua50f\u22c4\ud8a9\u5669\ucf90\u45bf\uc364\u7928\uf6e1\u6c67\uea1b\u63f7").getBytes(StandardCharsets.UTF_8));
         GameProfile gameProfile = new GameProfile(uUID2, a.d("\u22ba\u5b21\ud1f1\u4f98\uc47a\u42e6\uf8ae", 825027198, -1867593595));
-        ServerPlayerEntity serverPlayerEntity = new ServerPlayerEntity(minecraftServer, serverWorld, gameProfile, SyncedClientOptions.method_53821());
-        serverPlayerEntity.method_5808(d, d2, d3, 90.0f, 0.0f);
+        ServerPlayerEntity serverPlayerEntity = new ServerPlayerEntity(minecraftServer, serverWorld, gameProfile, SyncedClientOptions.createDefault());
+        serverPlayerEntity.refreshPositionAndAngles(d, d2, d3, 90.0f, 0.0f);
         fnu = new fux();
-        minecraftServer.method_3760().method_14570((ClientConnection)fnu, serverPlayerEntity, new ConnectedClientData(gameProfile, 0, serverPlayerEntity.method_53823(), false));
-        serverPlayerEntity.method_7336(GameMode.field_9215);
-        serverPlayerEntity.method_5996(EntityAttributes.field_23716).method_6192(1024.0);
-        serverPlayerEntity.method_6033(1024.0f);
-        serverPlayerEntity.method_31548().method_5447(0, new ItemStack((ItemConvertible)Items.field_8802));
-        serverPlayerEntity.method_31548().method_61496(0);
+        minecraftServer.getPlayerManager().onPlayerConnect((ClientConnection)fnu, serverPlayerEntity, new ConnectedClientData(gameProfile, 0, serverPlayerEntity.getClientOptions(), false));
+        serverPlayerEntity.changeGameMode(GameMode.SURVIVAL);
+        serverPlayerEntity.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(1024.0);
+        serverPlayerEntity.setHealth(1024.0f);
+        serverPlayerEntity.getInventory().setStack(0, new ItemStack((ItemConvertible)Items.DIAMOND_SWORD));
+        serverPlayerEntity.getInventory().setSelectedSlot(0);
         fnt = serverPlayerEntity;
-        spawned = serverPlayerEntity.method_5628();
+        spawned = serverPlayerEntity.getId();
     }
 
     private static void fol(MinecraftServer minecraftServer) {
@@ -112,32 +112,32 @@ final class fnq {
             return;
         }
         fnu.drain();
-        if (fnt.method_31481()) {
+        if (fnt.isRemoved()) {
             fnt = null;
             return;
         }
-        fnt.method_7344().method_7580(20);
-        if (fnt.method_6032() < 600.0f) {
-            fnt.method_6033(1024.0f);
+        fnt.getHungerManager().setFoodLevel(20);
+        if (fnt.getHealth() < 600.0f) {
+            fnt.setHealth(1024.0f);
         }
-        ServerPlayerEntity serverPlayerEntity2 = serverPlayerEntity = fnv == null ? null : minecraftServer.method_3760().method_14602(fnv);
+        ServerPlayerEntity serverPlayerEntity2 = serverPlayerEntity = fnv == null ? null : minecraftServer.getPlayerManager().getPlayer(fnv);
         if (serverPlayerEntity != null && active && orbit != 0) {
             fnq.fom(serverPlayerEntity);
         } else if (serverPlayerEntity != null && active) {
             fnq.fon(serverPlayerEntity);
         } else {
-            fnq.fnt.field_6250 = 0.0f;
-            fnq.fnt.field_6212 = 0.0f;
-            fnt.method_6100(false);
-            fnt.method_5728(false);
+            fnq.fnt.forwardSpeed = 0.0f;
+            fnq.fnt.sidewaysSpeed = 0.0f;
+            fnt.setJumping(false);
+            fnt.setSprinting(false);
         }
-        double d = fnt.method_23318();
-        fnt.method_14226();
-        double d2 = fnt.method_23318() - d;
-        if (fnt.method_24828() || d2 > 0.0) {
-            fnq.fnt.field_6017 = 0.0;
+        double d = fnt.getY();
+        fnt.playerTick();
+        double d2 = fnt.getY() - d;
+        if (fnt.isOnGround() || d2 > 0.0) {
+            fnq.fnt.fallDistance = 0.0;
         } else if (d2 < 0.0) {
-            fnq.fnt.field_6017 -= d2;
+            fnq.fnt.fallDistance -= d2;
         }
     }
 
@@ -148,62 +148,62 @@ final class fnq {
             fof = 25 + fnx.nextInt(60);
             foe = fnx.nextBoolean() ? 1 : -1;
         }
-        double d = serverPlayerEntity.method_23317() - fnt.method_23317();
-        double d2 = serverPlayerEntity.method_23321() - fnt.method_23321();
+        double d = serverPlayerEntity.getX() - fnt.getX();
+        double d2 = serverPlayerEntity.getZ() - fnt.getZ();
         double d3 = Math.max(0.001, Math.hypot(d, d2));
         float f2 = (float)Math.toDegrees(Math.atan2(d2, d)) - 90.0f;
-        double d4 = MathHelper.method_15350((double)((d3 - (orbitMin + orbitMax) * 0.5) / 0.3), (double)-1.0, (double)1.0);
+        double d4 = MathHelper.clamp((double)((d3 - (orbitMin + orbitMax) * 0.5) / 0.3), (double)-1.0, (double)1.0);
         double d5 = Math.toDegrees(Math.atan2(-d2, -d));
         if (!Double.isNaN(fog)) {
-            orbitTurnSum += Math.abs(MathHelper.method_15338((double)(d5 - fog)));
+            orbitTurnSum += Math.abs(MathHelper.wrapDegrees((double)(d5 - fog)));
             orbitRadiusSum += d3;
             ++orbitTicks;
         }
         fog = d5;
         if (orbit == 1) {
             f = f2;
-            fnq.fnt.field_6250 = (float)d4;
-            fnq.fnt.field_6212 = foe;
-            fnt.method_5728(false);
+            fnq.fnt.forwardSpeed = (float)d4;
+            fnq.fnt.sidewaysSpeed = foe;
+            fnt.setSprinting(false);
         } else {
             foi = Double.isNaN(foi) ? d3 : foi + (d3 - foi) * 0.02;
             double d6 = (orbitMin + orbitMax) * 0.5;
-            foh = MathHelper.method_15350((double)(foh + (d6 - foi) * 0.01), (double)1.6, (double)d6);
-            double d7 = MathHelper.method_15350((double)((d3 - foh) / 0.25), (double)-1.0, (double)1.0);
+            foh = MathHelper.clamp((double)(foh + (d6 - foi) * 0.01), (double)1.6, (double)d6);
+            double d7 = MathHelper.clamp((double)((d3 - foh) / 0.25), (double)-1.0, (double)1.0);
             f = f2 + (float)foe * (float)(90.0 - d7 * 60.0);
-            fnq.fnt.field_6250 = 1.0f;
-            fnq.fnt.field_6212 = 0.0f;
-            fnt.method_5728(true);
+            fnq.fnt.forwardSpeed = 1.0f;
+            fnq.fnt.sidewaysSpeed = 0.0f;
+            fnt.setSprinting(true);
         }
-        Vec3d vec3d = fnt.method_33571();
-        double d8 = serverPlayerEntity.method_23320() - vec3d.field_1351;
-        fnt.method_36456(f);
-        fnt.method_5847(orbit == 1 ? f : f2);
-        fnt.method_5636(f);
-        fnt.method_36457((float)(-Math.toDegrees(Math.atan2(d8, d3))));
-        fnt.method_6100(jumping);
+        Vec3d vec3d = fnt.getEyePos();
+        double d8 = serverPlayerEntity.getEyeY() - vec3d.y;
+        fnt.setYaw(f);
+        fnt.setHeadYaw(orbit == 1 ? f : f2);
+        fnt.setBodyYaw(f);
+        fnt.setPitch((float)(-Math.toDegrees(Math.atan2(d8, d3))));
+        fnt.setJumping(jumping);
         if (aggression <= 0.0) {
             return;
         }
         if (fod > 0) {
             --fod;
         }
-        double d9 = serverPlayerEntity.method_5829().method_49271(vec3d);
-        boolean bl2 = fnq.fnt.field_6017 > 0.0 && !fnt.method_24828();
+        double d9 = serverPlayerEntity.getBoundingBox().squaredMagnitude(vec3d);
+        boolean bl2 = fnq.fnt.fallDistance > 0.0 && !fnt.isOnGround();
         boolean bl3 = bl = bl2 || fnx.nextDouble() < aggression * 0.08;
-        if (d9 <= 9.0 && fnt.method_7261(0.5f) > 0.9f && fod == 0 && bl && fnx.nextDouble() < 0.2 + 0.8 * aggression) {
-            boolean bl4 = fnt.method_5624();
+        if (d9 <= 9.0 && fnt.getAttackCooldownProgress(0.5f) > 0.9f && fod == 0 && bl && fnx.nextDouble() < 0.2 + 0.8 * aggression) {
+            boolean bl4 = fnt.isSprinting();
             if (bl2) {
-                fnt.method_5728(false);
+                fnt.setSprinting(false);
             }
-            boolean bl5 = bl2 && !fnt.method_5624();
-            fnt.method_7324((Entity)serverPlayerEntity);
-            fnt.method_6104(Hand.field_5808);
+            boolean bl5 = bl2 && !fnt.isSprinting();
+            fnt.attack((Entity)serverPlayerEntity);
+            fnt.swingHand(Hand.MAIN_HAND);
             ++hits;
             if (bl5) {
                 ++critHits;
             }
-            fnt.method_5728(bl4);
+            fnt.setSprinting(bl4);
             fod = aggression < 0.5 ? 10 + fnx.nextInt(20) : 0;
         }
     }
@@ -216,33 +216,33 @@ final class fnq {
             fob = (float)fnx.nextGaussian() * 5.0f;
             foc = 0.7f + fnx.nextFloat() * 0.8f;
         }
-        Vec3d vec3d = fnt.method_33571();
-        Vec3d vec3d2 = serverPlayerEntity.method_73189().method_1031(0.0, (double)foc, 0.0);
-        double d = vec3d2.field_1352 - vec3d.field_1352;
-        double d2 = vec3d2.field_1351 - vec3d.field_1351;
-        double d3 = vec3d2.field_1350 - vec3d.field_1350;
+        Vec3d vec3d = fnt.getEyePos();
+        Vec3d vec3d2 = serverPlayerEntity.getEntityPos().add(0.0, (double)foc, 0.0);
+        double d = vec3d2.x - vec3d.x;
+        double d2 = vec3d2.y - vec3d.y;
+        double d3 = vec3d2.z - vec3d.z;
         double d4 = Math.sqrt(d * d + d3 * d3);
-        float f2 = (float)(MathHelper.method_15349((double)d3, (double)d) * 57.2957763671875) - 90.0f + fob;
-        float f3 = (float)(-(MathHelper.method_15349((double)d2, (double)d4) * 57.2957763671875));
-        float f4 = fnt.method_36454() + MathHelper.method_15363((float)MathHelper.method_15393((float)(f2 - fnt.method_36454())), (float)-30.0f, (float)30.0f);
-        float f5 = MathHelper.method_15363((float)(fnt.method_36455() + MathHelper.method_15363((float)(f3 - fnt.method_36455()), (float)-20.0f, (float)20.0f)), (float)-90.0f, (float)90.0f);
-        fnt.method_36456(f4);
-        fnt.method_5847(f4);
-        fnt.method_5636(f4);
-        fnt.method_36457(f5);
+        float f2 = (float)(MathHelper.atan2((double)d3, (double)d) * 57.2957763671875) - 90.0f + fob;
+        float f3 = (float)(-(MathHelper.atan2((double)d2, (double)d4) * 57.2957763671875));
+        float f4 = fnt.getYaw() + MathHelper.clamp((float)MathHelper.wrapDegrees((float)(f2 - fnt.getYaw())), (float)-30.0f, (float)30.0f);
+        float f5 = MathHelper.clamp((float)(fnt.getPitch() + MathHelper.clamp((float)(f3 - fnt.getPitch()), (float)-20.0f, (float)20.0f)), (float)-90.0f, (float)90.0f);
+        fnt.setYaw(f4);
+        fnt.setHeadYaw(f4);
+        fnt.setBodyYaw(f4);
+        fnt.setPitch(f5);
         if (--fny <= 0) {
             fny = 10 + fnx.nextInt(30);
             int n = fnx.nextInt(3);
             float f6 = n == 0 ? 0.0f : (fnz = n == 1 ? 1.0f : -1.0f);
         }
-        fnq.fnt.field_6250 = f = d4 > 2.7 ? 1.0f : (d4 < 1.5 ? -0.7f : 0.3f);
-        fnq.fnt.field_6212 = strafing ? fnz : 0.0f;
-        fnt.method_6100(jumping);
+        fnq.fnt.forwardSpeed = f = d4 > 2.7 ? 1.0f : (d4 < 1.5 ? -0.7f : 0.3f);
+        fnq.fnt.sidewaysSpeed = strafing ? fnz : 0.0f;
+        fnt.setJumping(jumping);
         boolean bl2 = f > 0.5f && d4 > 2.2;
-        double d5 = serverPlayerEntity.method_5829().method_49271(vec3d);
-        float f7 = fnt.method_7261(0.5f);
-        boolean bl3 = fnq.fnt.field_6017 > 0.0 && !fnt.method_24828();
-        float f8 = Math.abs(MathHelper.method_15393((float)(f2 - fob - f4)));
+        double d5 = serverPlayerEntity.getBoundingBox().squaredMagnitude(vec3d);
+        float f7 = fnt.getAttackCooldownProgress(0.5f);
+        boolean bl3 = fnq.fnt.fallDistance > 0.0 && !fnt.isOnGround();
+        float f8 = Math.abs(MathHelper.wrapDegrees((float)(f2 - fob - f4)));
         if (fod > 0) {
             --fod;
         }
@@ -251,17 +251,17 @@ final class fnq {
             if (bl3) {
                 bl2 = false;
             }
-            fnt.method_5728(bl2);
-            boolean bl5 = bl3 && !fnt.method_5624();
-            fnt.method_7324((Entity)serverPlayerEntity);
-            fnt.method_6104(Hand.field_5808);
+            fnt.setSprinting(bl2);
+            boolean bl5 = bl3 && !fnt.isSprinting();
+            fnt.attack((Entity)serverPlayerEntity);
+            fnt.swingHand(Hand.MAIN_HAND);
             ++hits;
             if (bl5) {
                 ++critHits;
             }
             fod = aggression < 0.5 ? 10 + fnx.nextInt(20) : 0;
         } else {
-            fnt.method_5728(bl2);
+            fnt.setSprinting(bl2);
         }
     }
 

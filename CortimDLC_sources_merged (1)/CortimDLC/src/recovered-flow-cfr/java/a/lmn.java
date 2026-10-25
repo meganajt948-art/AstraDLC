@@ -56,19 +56,19 @@ public final class lmn {
 
     public void predict(ClientPlayerEntity clientPlayerEntity, World world, double d) {
         double d2;
-        Box box = clientPlayerEntity.method_5829();
-        boolean bl = clientPlayerEntity.method_24828();
+        Box box = clientPlayerEntity.getBoundingBox();
+        boolean bl = clientPlayerEntity.isOnGround();
         double d3 = d;
-        Vec3d vec3d = clientPlayerEntity.method_18798();
-        double d4 = vec3d.field_1352;
-        double d5 = vec3d.field_1351;
-        double d6 = vec3d.field_1350;
-        double d7 = clientPlayerEntity.method_23320() - clientPlayerEntity.method_23318();
-        double d8 = clientPlayerEntity.method_56989();
+        Vec3d vec3d = clientPlayerEntity.getVelocity();
+        double d4 = vec3d.x;
+        double d5 = vec3d.y;
+        double d6 = vec3d.z;
+        double d7 = clientPlayerEntity.getEyeY() - clientPlayerEntity.getY();
+        double d8 = clientPlayerEntity.getFinalGravity();
         double d9 = 0.0;
         double d10 = 0.0;
-        double d11 = clientPlayerEntity.field_6212;
-        double d12 = clientPlayerEntity.field_6250;
+        double d11 = clientPlayerEntity.sidewaysSpeed;
+        double d12 = clientPlayerEntity.forwardSpeed;
         double d13 = d11 * d11 + d12 * d12;
         if (d13 > 1.0E-7) {
             if (d13 > 1.0) {
@@ -76,16 +76,16 @@ public final class lmn {
                 d11 /= d2;
                 d12 /= d2;
             }
-            d2 = clientPlayerEntity.method_5624() ? 0.026 : 0.02;
-            float f = clientPlayerEntity.method_36454() * ((float)Math.PI / 180);
-            double d14 = MathHelper.method_15374((double)f);
-            double d15 = MathHelper.method_15362((double)f);
+            d2 = clientPlayerEntity.isSprinting() ? 0.026 : 0.02;
+            float f = clientPlayerEntity.getYaw() * ((float)Math.PI / 180);
+            double d14 = MathHelper.sin((double)f);
+            double d15 = MathHelper.cos((double)f);
             d9 = (d11 * d15 - d12 * d14) * d2;
             d10 = (d12 * d15 + d11 * d14) * d2;
         }
-        d2 = clientPlayerEntity.method_23317();
-        double d16 = clientPlayerEntity.method_23318();
-        double d17 = clientPlayerEntity.method_23321();
+        d2 = clientPlayerEntity.getX();
+        double d16 = clientPlayerEntity.getY();
+        double d17 = clientPlayerEntity.getZ();
         this.lmv = 43;
         for (int i = 0; i < 43; ++i) {
             this.lmq[i] = d2;
@@ -107,27 +107,27 @@ public final class lmn {
             if (Math.abs(d6) < 0.003) {
                 d6 = 0.0;
             }
-            Vec3d vec3d2 = Entity.method_20736((Entity)clientPlayerEntity, (Vec3d)new Vec3d(d4 += d9, d5, d6 += d10), (Box)box, (World)world, List.of());
-            boolean bl2 = vec3d2.field_1351 != d5;
+            Vec3d vec3d2 = Entity.adjustMovementForCollisions((Entity)clientPlayerEntity, (Vec3d)new Vec3d(d4 += d9, d5, d6 += d10), (Box)box, (World)world, List.of());
+            boolean bl2 = vec3d2.y != d5;
             boolean bl3 = bl = bl2 && d5 < 0.0;
-            if (vec3d2.field_1352 != d4) {
+            if (vec3d2.x != d4) {
                 d4 = 0.0;
             }
-            if (vec3d2.field_1350 != d6) {
+            if (vec3d2.z != d6) {
                 d6 = 0.0;
             }
-            if (vec3d2.field_1351 > 0.0) {
+            if (vec3d2.y > 0.0) {
                 d3 = 0.0;
-            } else if (vec3d2.field_1351 < 0.0) {
-                d3 -= vec3d2.field_1351;
+            } else if (vec3d2.y < 0.0) {
+                d3 -= vec3d2.y;
             }
             if (bl) {
                 d3 = 0.0;
             }
-            box = box.method_997(vec3d2);
-            d2 += vec3d2.field_1352;
-            d16 += vec3d2.field_1351;
-            d17 += vec3d2.field_1350;
+            box = box.offset(vec3d2);
+            d2 += vec3d2.x;
+            d16 += vec3d2.y;
+            d17 += vec3d2.z;
             if (bl2) {
                 d5 = 0.0;
             }
@@ -153,12 +153,12 @@ public final class lmn {
     }
 
     public Vec3d eye(int n) {
-        int n2 = MathHelper.method_15340((int)n, (int)0, (int)42);
+        int n2 = MathHelper.clamp((int)n, (int)0, (int)42);
         return new Vec3d(this.lmq[n2], this.lmr[n2], this.lms[n2]);
     }
 
     public double fall(int n) {
-        return this.lmt[MathHelper.method_15340((int)n, (int)0, (int)42)];
+        return this.lmt[MathHelper.clamp((int)n, (int)0, (int)42)];
     }
 
     public int landing() {
@@ -166,16 +166,16 @@ public final class lmn {
     }
 
     public Box sweep(ClientPlayerEntity clientPlayerEntity) {
-        Vec3d vec3d = this.eye(39).method_1020(this.eye(0));
-        return clientPlayerEntity.method_5829().method_18804(vec3d);
+        Vec3d vec3d = this.eye(39).subtract(this.eye(0));
+        return clientPlayerEntity.getBoundingBox().stretch(vec3d);
     }
 
     public static boolean environment(ClientPlayerEntity clientPlayerEntity, World world) {
-        return !clientPlayerEntity.method_6101() && !clientPlayerEntity.method_5799() && !clientPlayerEntity.method_5771() && !clientPlayerEntity.method_5765() && !clientPlayerEntity.method_6128() && !clientPlayerEntity.method_31549().field_7479 && !clientPlayerEntity.field_27857 && !clientPlayerEntity.method_6059(StatusEffects.field_5902) && !clientPlayerEntity.method_6059(StatusEffects.field_5906) && world.method_29546(clientPlayerEntity.method_5829().method_1011(1.0E-7)).noneMatch(lmn::lna);
+        return !clientPlayerEntity.isClimbing() && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.isInLava() && !clientPlayerEntity.hasVehicle() && !clientPlayerEntity.isGliding() && !clientPlayerEntity.getAbilities().flying && !clientPlayerEntity.inPowderSnow && !clientPlayerEntity.hasStatusEffect(StatusEffects.LEVITATION) && !clientPlayerEntity.hasStatusEffect(StatusEffects.SLOW_FALLING) && world.getStatesInBox(clientPlayerEntity.getBoundingBox().contract(1.0E-7)).noneMatch(lmn::lna);
     }
 
     private static boolean lna(BlockState blockState) {
-        return blockState.method_27852(Blocks.field_10343) || blockState.method_27852(Blocks.field_16999) || blockState.method_27852(Blocks.field_27879);
+        return blockState.isOf(Blocks.COBWEB) || blockState.isOf(Blocks.SWEET_BERRY_BUSH) || blockState.isOf(Blocks.POWDER_SNOW);
     }
 
     private static /* synthetic */ int axq(int n, int n2) {

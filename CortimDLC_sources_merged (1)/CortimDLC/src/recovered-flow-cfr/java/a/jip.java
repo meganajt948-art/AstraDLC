@@ -48,21 +48,21 @@ public final class jip {
     public static void tick(MinecraftClient minecraftClient) {
         ClientPlayerEntity clientPlayerEntity;
         ClientConnection clientConnection;
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
-        ClientConnection clientConnection2 = clientConnection = clientPlayNetworkHandler != null ? clientPlayNetworkHandler.method_48296() : null;
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
+        ClientConnection clientConnection2 = clientConnection = clientPlayNetworkHandler != null ? clientPlayNetworkHandler.getConnection() : null;
         if (clientConnection != jiy) {
             jip.jjf();
             ClientConnection clientConnection3 = jiy = clientConnection != null && jip.jjh(clientConnection) ? clientConnection : null;
         }
-        if ((clientPlayerEntity = minecraftClient.field_1724) == null) {
+        if ((clientPlayerEntity = minecraftClient.player) == null) {
             jiz = Double.NaN;
             jjb = 0.0f;
             return;
         }
         if (!Double.isNaN(jiz)) {
             double d;
-            double d2 = clientPlayerEntity.method_23317() - jiz;
-            float f = (float)Math.sqrt(d2 * d2 + (d = clientPlayerEntity.method_23321() - jja) * d) * 20.0f;
+            double d2 = clientPlayerEntity.getX() - jiz;
+            float f = (float)Math.sqrt(d2 * d2 + (d = clientPlayerEntity.getZ() - jja) * d) * 20.0f;
             if (f > 400.0f) {
                 f = jjb;
             }
@@ -70,8 +70,8 @@ public final class jip {
                 jjb = 0.0f;
             }
         }
-        jiz = clientPlayerEntity.method_23317();
-        jja = clientPlayerEntity.method_23321();
+        jiz = clientPlayerEntity.getX();
+        jja = clientPlayerEntity.getZ();
     }
 
     public static float bps() {

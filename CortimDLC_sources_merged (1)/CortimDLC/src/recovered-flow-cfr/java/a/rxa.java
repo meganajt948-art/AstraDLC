@@ -83,7 +83,7 @@ implements vht {
 
     @Override
     public void apply(MatrixStack matrixStack, Arm arm) {
-        boolean bl = arm == Arm.field_6183;
+        boolean bl = arm == Arm.RIGHT;
         boolean bl2 = !bl && !this.rxi.get();
         float f = bl ? 1.0f : -1.0f;
         float f2 = (float)(bl2 ? this.rxj.get() : this.rxb.get());
@@ -96,13 +96,13 @@ implements vht {
         if (f2 == 0.0f && f3 == 0.0f && f4 == 0.0f && f5 == 1.0f && f6 == 0.0f && f7 == 0.0f && f8 == 0.0f) {
             return;
         }
-        matrixStack.method_46416(f2 * f, f3, f4);
-        matrixStack.method_46416(0.56f * f, -0.52f, -0.72f);
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40716.rotationDegrees(f7 * f));
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40714.rotationDegrees(f6));
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40718.rotationDegrees(f8 * f));
-        matrixStack.method_22905(f5, f5, f5);
-        matrixStack.method_46416(-0.56f * f, 0.52f, 0.72f);
+        matrixStack.translate(f2 * f, f3, f4);
+        matrixStack.translate(0.56f * f, -0.52f, -0.72f);
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Y.rotationDegrees(f7 * f));
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_X.rotationDegrees(f6));
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Z.rotationDegrees(f8 * f));
+        matrixStack.scale(f5, f5, f5);
+        matrixStack.translate(-0.56f * f, 0.52f, 0.72f);
     }
 
     private static /* synthetic */ int cch(int n, int n2) {

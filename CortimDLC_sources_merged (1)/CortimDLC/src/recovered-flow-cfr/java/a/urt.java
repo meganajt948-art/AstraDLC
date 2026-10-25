@@ -49,11 +49,11 @@ implements SimpleGuiElementRenderState {
         this.usd = screenRect2;
     }
 
-    public TextureSetup comp_4056() {
-        return TextureSetup.method_70899();
+    public TextureSetup textureSetup() {
+        return TextureSetup.empty();
     }
 
-    public void method_70917(VertexConsumer vertexConsumer) {
+    public void setupVertices(VertexConsumer vertices) {
         int n = this.urx >> 16 & 0xFF;
         int n2 = this.urx >> 8 & 0xFF;
         int n3 = this.urx & 0xFF;
@@ -63,7 +63,7 @@ implements SimpleGuiElementRenderState {
         for (int i = 0; i < 4; ++i) {
             int n7 = i * 5;
             float f = this.urv[n7 + 4];
-            vertexConsumer.method_22912(this.urv[n7], this.urv[n7 + 1], this.usb).method_39415(this.urw).method_22913(this.urv[n7 + 2] * f, this.urv[n7 + 3] * f).method_60796(this.ury, this.urz).method_22921(n5, n6).method_75298(f);
+            vertices.vertex(this.urv[n7], this.urv[n7 + 1], this.usb).color(this.urw).texture(this.urv[n7 + 2] * f, this.urv[n7 + 3] * f).overlay(this.ury, this.urz).light(n5, n6).lineWidth(f);
         }
     }
 
@@ -82,7 +82,7 @@ implements SimpleGuiElementRenderState {
         return (boolean)ObjectMethods.bootstrap("equals", new MethodHandle[]{urt.class, "pipeline;corners;color;color2;pattern;flags;param;time;scissorArea;bounds", "uru", "urv", "urw", "urx", "ury", "urz", "usa", "usb", "usc", "usd"}, this, object);
     }
 
-    public RenderPipeline comp_4055() {
+    public RenderPipeline pipeline() {
         return this.uru;
     }
 
@@ -114,11 +114,11 @@ implements SimpleGuiElementRenderState {
         return this.usb;
     }
 
-    public @Nullable ScreenRect comp_4069() {
+    public @Nullable ScreenRect scissorArea() {
         return this.usc;
     }
 
-    public @Nullable ScreenRect comp_4274() {
+    public @Nullable ScreenRect bounds() {
         return this.usd;
     }
 

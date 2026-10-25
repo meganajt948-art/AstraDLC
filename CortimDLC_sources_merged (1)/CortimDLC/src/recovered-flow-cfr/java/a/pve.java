@@ -110,9 +110,9 @@ public final class pve {
     public int track(PlayerEntity playerEntity, psf psf2) {
         boolean bl;
         tvt tvt2 = psf2.track;
-        double d = playerEntity.method_23317();
-        double d2 = playerEntity.method_23318();
-        double d3 = playerEntity.method_23321();
+        double d = playerEntity.getX();
+        double d2 = playerEntity.getY();
+        double d3 = playerEntity.getZ();
         if (psf2 != this.pvq) {
             this.pvq = psf2;
             this.pvr = tvt2.closest(d, d2, d3, 0, 0, tvt2.n);
@@ -123,7 +123,7 @@ public final class pve {
         this.pvs = tvt2.project(d, d3, this.pvr);
         double d4 = tvt2.offset(d, d3, this.pvs);
         double d5 = d2 - (double)tvt2.y[this.pvr];
-        boolean bl2 = bl = playerEntity.method_24828() || playerEntity.method_5799();
+        boolean bl2 = bl = playerEntity.isOnGround() || playerEntity.isTouchingWater();
         if (bl && (d4 > 2.2 || d5 < -1.9 || d5 > 2.6)) {
             ++this.pvt;
         } else if (d4 < 1.6 && d5 > -1.6) {
@@ -133,7 +133,7 @@ public final class pve {
             return 2;
         }
         double d6 = tvt2.length() - this.pvs;
-        double d7 = Math.hypot(d - playerEntity.field_6014, d3 - playerEntity.field_5969);
+        double d7 = Math.hypot(d - playerEntity.lastX, d3 - playerEntity.lastZ);
         int n = this.pvu = d7 < 0.02 ? this.pvu + 1 : 0;
         if (bl && Math.abs(d5) < 1.2 && (d6 < 0.32 || d6 < 1.3 && this.pvu >= 3)) {
             return 1;
@@ -174,14 +174,14 @@ public final class pve {
                         }
                         this.pvv = l;
                         tvt2 = this.pvq.track;
-                        double d8 = playerEntity.method_23317();
-                        d2 = playerEntity.method_23318();
-                        double d9 = playerEntity.method_23321();
-                        double d10 = d8 - playerEntity.field_6014;
-                        double d11 = d9 - playerEntity.field_5969;
+                        double d8 = playerEntity.getX();
+                        d2 = playerEntity.getY();
+                        double d9 = playerEntity.getZ();
+                        double d10 = d8 - playerEntity.lastX;
+                        double d11 = d9 - playerEntity.lastZ;
                         double d12 = Math.hypot(d10, d11);
-                        bl5 = playerEntity.method_24828();
-                        bl4 = playerEntity.method_5799();
+                        bl5 = playerEntity.isOnGround();
+                        bl4 = playerEntity.isTouchingWater();
                         d4 = tvt2.length() - this.pvs;
                         double d13 = pve.pww(1.05 + 5.0 * d12, 1.25, 2.7) * this.pvi;
                         tvt2.at(this.pvs + d13, this.pwm);
@@ -197,18 +197,18 @@ public final class pve {
                         double d18 = this.pwm[2] - d9;
                         double d19 = Math.hypot(d17, d18) > 0.3 ? tvt.yawOf(d17, d18) : d3;
                         double d20 = d3 + pve.pwv(tvt.wrap(d19 - d3) * 0.45, 24.0);
-                        Vec3d vec3d2 = playerEntity.method_33571();
+                        Vec3d vec3d2 = playerEntity.getEyePos();
                         if (vec3d != null) {
-                            d7 = vec3d.field_1352 - vec3d2.field_1352;
-                            d6 = vec3d.field_1351 - vec3d2.field_1351;
-                            d5 = vec3d.field_1350 - vec3d2.field_1350;
+                            d7 = vec3d.x - vec3d2.x;
+                            d6 = vec3d.y - vec3d2.y;
+                            d5 = vec3d.z - vec3d2.z;
                             d20 = tvt.yawOf(d7, d5);
                             var46_34 = -Math.toDegrees(Math.atan2(d6, Math.max(0.2, Math.hypot(d7, d5))));
                             this.pwb = 0;
                         } else {
                             tvt2.at(this.pvs + 3.2 + 5.5 * d12, this.pwm);
                             d7 = Math.max(1.5, Math.hypot(this.pwm[0] - d8, this.pwm[2] - d9));
-                            d6 = Math.toDegrees(Math.atan2(vec3d2.field_1351 - this.pwm[1], d7));
+                            d6 = Math.toDegrees(Math.atan2(vec3d2.y - this.pwm[1], d7));
                             var46_34 = pve.pww(0.55 * this.pvm + 0.45 * d6, -12.0, 50.0);
                             this.pwq(tvt2, d4, bl);
                             if (this.pwb > 0) {
@@ -258,7 +258,7 @@ public final class pve {
                             n = this.pwa;
                         }
                         double d30 = (d = tvt2.next(this.pvs, 2.5, (byte)2, d2, this.pwn)) >= 0.0 ? this.pwn[0] : 0.0;
-                        bl7 = playerEntity.field_5976;
+                        bl7 = playerEntity.horizontalCollision;
                         int n2 = this.pwh = bl7 && bl5 ? this.pwh + 1 : 0;
                         if (this.pwh >= 3 && pvf[n][0] > 0.0f) {
                             int n3 = pve.pwt(world, playerEntity, d3);
@@ -276,7 +276,7 @@ public final class pve {
                         pvb2.back = f3 < 0.0f;
                         pvb2.left = f4 > 0.0f;
                         pvb2.right = f4 < 0.0f;
-                        bl6 = playerEntity.method_5624();
+                        bl6 = playerEntity.isSprinting();
                         pvb2.sprint = bl2 && pvb2.forward && !bl4 && (bl || d4 > 1.4 + 5.0 * d12) && d30 <= 2.0;
                         bl3 = false;
                         if (!bl4) break block20;
@@ -325,27 +325,27 @@ public final class pve {
 
     public double aheadYaw(PlayerEntity playerEntity, double d) {
         if (this.pvq == null) {
-            return playerEntity.method_36454();
+            return playerEntity.getYaw();
         }
         this.pvq.track.at(this.pvs + d, this.pwm);
-        double d2 = this.pwm[0] - playerEntity.method_23317();
-        double d3 = this.pwm[2] - playerEntity.method_23321();
+        double d2 = this.pwm[0] - playerEntity.getX();
+        double d3 = this.pwm[2] - playerEntity.getZ();
         return Math.hypot(d2, d3) < 0.1 ? this.pvq.track.heading(this.pvs) : tvt.yawOf(d2, d3);
     }
 
     public boolean mustJump(PlayerEntity playerEntity, double d) {
-        if (this.pvq == null || !playerEntity.method_24828() || playerEntity.method_5799()) {
+        if (this.pvq == null || !playerEntity.isOnGround() || playerEntity.isTouchingWater()) {
             return false;
         }
-        boolean bl = playerEntity.method_5624();
-        double d2 = this.pvq.track.next(this.pvs, 2.2, (byte)1, playerEntity.method_23318(), this.pwn);
+        boolean bl = playerEntity.isSprinting();
+        double d2 = this.pvq.track.next(this.pvs, 2.2, (byte)1, playerEntity.getY(), this.pwn);
         if (d2 >= 0.0) {
             double d3 = bl ? 0.3 : 0.15;
             if (d2 < 0.95 + d3) {
                 return true;
             }
         }
-        return playerEntity.field_5976 && pxd.jumpHelps(playerEntity, (float)d, bl, 3);
+        return playerEntity.horizontalCollision && pxd.jumpHelps(playerEntity, (float)d, bl, 3);
     }
 
     public boolean safe(PlayerEntity playerEntity, World world, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, double d) {
@@ -360,7 +360,7 @@ public final class pve {
         float f2 = bl ? 1.0f : (f = bl2 ? -1.0f : 0.0f);
         float f3 = bl3 ? 1.0f : (bl4 ? -1.0f : 0.0f);
         double d2 = Math.toDegrees(pud.inputDirection((float)d, f, f3));
-        pxa pxa2 = pxd.run(playerEntity, (float)d2, bl5 && bl, bl6 && playerEntity.method_24828(), n);
+        pxa pxa2 = pxd.run(playerEntity, (float)d2, bl5 && bl, bl6 && playerEntity.isOnGround(), n);
         tvt tvt2 = this.pvq.track;
         double d3 = pxa2.endX;
         double d4 = pxa2.endZ;
@@ -370,7 +370,7 @@ public final class pve {
             return false;
         }
         double d6 = Math.min(tvt2.y[n2], tvt2.y[Math.max(0, n2 - 2)]);
-        if (pxa2.minY < d6 - 0.9 && pxa2.minY < playerEntity.method_23318() - 0.9) {
+        if (pxa2.minY < d6 - 0.9 && pxa2.minY < playerEntity.getY() - 0.9) {
             return false;
         }
         return !pua.hazard(world, d3, pxa2.endY, d4);
@@ -396,11 +396,11 @@ public final class pve {
         boolean bl3;
         double d4;
         double d5 = d4 = bl ? Math.max(0.75, this.pvn) : this.pvn;
-        if (!bl2 || d4 <= 0.0 || playerEntity.method_7344().method_7586() < 14) {
+        if (!bl2 || d4 <= 0.0 || playerEntity.getHungerManager().getFoodLevel() < 14) {
             this.pwf = 0;
             return false;
         }
-        boolean bl4 = bl3 = d > 6.0 && tvt2.flatAhead(this.pvs, 6.0, playerEntity.method_23318()) >= 5.5 && tvt2.bend(this.pvs, 6.0) < 14.0 && (d2 < 0.0 || d2 > 5.0);
+        boolean bl4 = bl3 = d > 6.0 && tvt2.flatAhead(this.pvs, 6.0, playerEntity.getY()) >= 5.5 && tvt2.bend(this.pvs, 6.0) < 14.0 && (d2 < 0.0 || d2 > 5.0);
         if (!bl3) {
             this.pwf = 0;
             return false;
@@ -448,7 +448,7 @@ public final class pve {
         boolean bl2;
         tvt tvt2 = this.pvq.track;
         tvt2.at(this.pvs + 0.7, this.pwm);
-        double d = tvt.yawOf(this.pwm[0] - playerEntity.method_23317(), this.pwm[2] - playerEntity.method_23321());
+        double d = tvt.yawOf(this.pwm[0] - playerEntity.getX(), this.pwm[2] - playerEntity.getZ());
         pvb pvb2 = this.pwl;
         pvb2.forward = false;
         pvb2.back = false;
@@ -486,8 +486,8 @@ public final class pve {
         double d6 = Math.cos(d4);
         double d7 = -d6;
         double d8 = d5;
-        double d9 = playerEntity.method_23317() + d5 * 0.5;
-        boolean bl2 = pua.bodyFits(world, (Entity)playerEntity, d9 + d7 * 0.5, (d3 = playerEntity.method_23321() + d6 * 0.5) + d8 * 0.5, d2 = playerEntity.method_23318(), 0.3) && !Double.isNaN(pua.standAt(world, d9 + d7 * 0.5, d2, d3 + d8 * 0.5, 1.0));
+        double d9 = playerEntity.getX() + d5 * 0.5;
+        boolean bl2 = pua.bodyFits(world, (Entity)playerEntity, d9 + d7 * 0.5, (d3 = playerEntity.getZ() + d6 * 0.5) + d8 * 0.5, d2 = playerEntity.getY(), 0.3) && !Double.isNaN(pua.standAt(world, d9 + d7 * 0.5, d2, d3 + d8 * 0.5, 1.0));
         boolean bl3 = bl = pua.bodyFits(world, (Entity)playerEntity, d9 - d7 * 0.5, d3 - d8 * 0.5, d2, 0.3) && !Double.isNaN(pua.standAt(world, d9 - d7 * 0.5, d2, d3 - d8 * 0.5, 1.0));
         if (bl2 == bl) {
             return 0;

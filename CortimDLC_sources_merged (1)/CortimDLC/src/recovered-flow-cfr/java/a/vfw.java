@@ -49,11 +49,11 @@ implements SimpleGuiElementRenderState {
         this.vgd = screenRect2;
     }
 
-    public RenderPipeline comp_4055() {
-        return RenderPipelines.field_56883;
+    public RenderPipeline pipeline() {
+        return RenderPipelines.GUI_TEXTURED;
     }
 
-    public void method_70917(VertexConsumer vertexConsumer) {
+    public void setupVertices(VertexConsumer vertices) {
         for (int i = 0; i < this.vgb; ++i) {
             int n = i * 8;
             float f = this.vfz[n];
@@ -65,10 +65,10 @@ implements SimpleGuiElementRenderState {
             float f7 = this.vfz[n + 6];
             float f8 = this.vfz[n + 7];
             int n2 = this.vga[i];
-            vertexConsumer.method_70815((Matrix3x2fc)this.vfy, f, f2).method_22913(f5, f6).method_39415(n2);
-            vertexConsumer.method_70815((Matrix3x2fc)this.vfy, f, f4).method_22913(f5, f8).method_39415(n2);
-            vertexConsumer.method_70815((Matrix3x2fc)this.vfy, f3, f4).method_22913(f7, f8).method_39415(n2);
-            vertexConsumer.method_70815((Matrix3x2fc)this.vfy, f3, f2).method_22913(f7, f6).method_39415(n2);
+            vertices.vertex((Matrix3x2fc)this.vfy, f, f2).texture(f5, f6).color(n2);
+            vertices.vertex((Matrix3x2fc)this.vfy, f, f4).texture(f5, f8).color(n2);
+            vertices.vertex((Matrix3x2fc)this.vfy, f3, f4).texture(f7, f8).color(n2);
+            vertices.vertex((Matrix3x2fc)this.vfy, f3, f2).texture(f7, f6).color(n2);
         }
     }
 
@@ -87,7 +87,7 @@ implements SimpleGuiElementRenderState {
         return (boolean)ObjectMethods.bootstrap("equals", new MethodHandle[]{vfw.class, "textureSetup;pose;quads;colors;count;scissorArea;bounds", "vfx", "vfy", "vfz", "vga", "vgb", "vgc", "vgd"}, this, object);
     }
 
-    public TextureSetup comp_4056() {
+    public TextureSetup textureSetup() {
         return this.vfx;
     }
 
@@ -107,11 +107,11 @@ implements SimpleGuiElementRenderState {
         return this.vgb;
     }
 
-    public @Nullable ScreenRect comp_4069() {
+    public @Nullable ScreenRect scissorArea() {
         return this.vgc;
     }
 
-    public @Nullable ScreenRect comp_4274() {
+    public @Nullable ScreenRect bounds() {
         return this.vgd;
     }
 

@@ -110,7 +110,7 @@ public final class upi {
             try {
                 memoryStack.setPipeline(renderPipeline);
                 if (gpuTextureView != null) {
-                    memoryStack.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                    memoryStack.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                 }
                 memoryStack.setUniform("FlowWall", upn);
                 memoryStack.draw(0, 3);

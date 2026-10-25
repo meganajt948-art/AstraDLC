@@ -360,9 +360,9 @@ public final class ucg {
         Object object;
         Object object2;
         ubj ubj22;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        Entity entity = minecraftClient.method_1560();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || entity == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        Entity entity = minecraftClient.getCameraEntity();
+        if (minecraftClient.player == null || minecraftClient.world == null || entity == null) {
             return;
         }
         if (!ucg.inParty()) {
@@ -386,14 +386,14 @@ public final class ucg {
             ucg.ueg(a.c(1192402223, "\u9d6d\ue4f9\u6e25\uf05d\u7b88\ufd2e"), null);
             return;
         }
-        Vec3d vec3d = entity.method_5836(1.0f);
-        Vec3d vec3d2 = entity.method_5828(1.0f);
+        Vec3d vec3d = entity.getCameraPosVec(1.0f);
+        Vec3d vec3d2 = entity.getRotationVec(1.0f);
         ubj ubj3 = null;
         double d = Math.cos(Math.toRadians(2.5));
         for (ubj ubj22 : uct) {
             double d2;
             double d3;
-            if (!ubj22.mine || !ucg.visible(ubj22) || (d3 = (object2 = ugg.anchor(ubj22, 1.0f).method_1020(vec3d)).method_1033()) < 0.001 || !((d2 = object2.method_1026(vec3d2) / d3) > d)) continue;
+            if (!ubj22.mine || !ucg.visible(ubj22) || (d3 = (object2 = ugg.anchor(ubj22, 1.0f).subtract(vec3d)).length()) < 0.001 || !((d2 = object2.dotProduct(vec3d2) / d3) > d)) continue;
             d = d2;
             ubj3 = ubj22;
         }
@@ -411,22 +411,22 @@ public final class ucg {
         ubj22 = hhf.aimed(minecraftClient, 160.0);
         if (ubj22 != null) {
             ((ubj)object).target = hhf.nameOf((PlayerEntity)ubj22);
-            ((ubj)object).x = ubj22.method_23317();
-            ((ubj)object).y = ubj22.method_23318();
-            ((ubj)object).z = ubj22.method_23321();
+            ((ubj)object).x = ubj22.getX();
+            ((ubj)object).y = ubj22.getY();
+            ((ubj)object).z = ubj22.getZ();
         } else {
-            object2 = entity.method_5745(400.0, 1.0f, false);
-            if (object2 == null || object2.method_17783() == HitResult.Type.field_1333) {
+            object2 = entity.raycast(400.0, 1.0f, false);
+            if (object2 == null || object2.getType() == HitResult.Type.MISS) {
                 ucg.ufc(wap.s(a.d("\u2fa4\u562e\udcfd\u42c3\uc952\u4fe4\uf5a4\u7c07\ue20c\u68a6\uef3a\u1506\u9bdd\u027f\u8835", 119151263, 1794061664), a.d("\ubff4\uc65f\u4c8f\ud28e\u592b\udf9e\u65cf\ue822\u7269\uf8dc\u7f04\u857b\u0ba3\u9216\u1c5b\u9ebe\u24fe\uab5b\u3587\ub7ca\u3e34\u4412\ucad9\u510a", -2128539552, -774263891)));
                 return;
             }
-            Vec3d vec3d3 = object2.method_17784();
-            ((ubj)object).x = vec3d3.field_1352;
-            ((ubj)object).y = vec3d3.field_1351;
-            ((ubj)object).z = vec3d3.field_1350;
+            Vec3d vec3d3 = object2.getPos();
+            ((ubj)object).x = vec3d3.x;
+            ((ubj)object).y = vec3d3.y;
+            ((ubj)object).z = vec3d3.z;
         }
         ((ubj)object).from = udk;
-        ((ubj)object).name = minecraftClient.method_1548().method_1676();
+        ((ubj)object).name = minecraftClient.getSession().getUsername();
         ((ubj)object).id = ufw.RANDOM.nextInt(Integer.MAX_VALUE);
         ((ubj)object).world = string;
         ((ubj)object).dim = string2;
@@ -483,13 +483,13 @@ public final class ucg {
         }
         float f = 0.0f;
         float f2 = 0.0f;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (vec3d != null && minecraftClient.field_1724 != null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (vec3d != null && minecraftClient.player != null) {
             double d;
-            Vec3d vec3d2 = minecraftClient.field_1724.method_33571();
-            double d2 = vec3d.field_1352 - vec3d2.field_1352;
-            double d3 = vec3d.field_1350 - vec3d2.field_1350;
-            double d4 = Math.toRadians(minecraftClient.field_1724.method_36454());
+            Vec3d vec3d2 = minecraftClient.player.getEyePos();
+            double d2 = vec3d.x - vec3d2.x;
+            double d3 = vec3d.z - vec3d2.z;
+            double d4 = Math.toRadians(minecraftClient.player.getYaw());
             double d5 = -d2 * Math.cos(d4) - d3 * Math.sin(d4);
             double d6 = Math.hypot(d5, d = -d2 * Math.sin(d4) + d3 * Math.cos(d4));
             if (d6 > 1.5) {
@@ -544,7 +544,7 @@ public final class ucg {
         if (!ucg.secured()) {
             return;
         }
-        String string2 = minecraftClient.method_1548().method_1676();
+        String string2 = minecraftClient.getSession().getUsername();
         String string3 = wlk.worldId();
         String string4 = wlk.dimensionId();
         String string5 = Cosmetics.shareCode();
@@ -715,7 +715,7 @@ public final class ucg {
             ubm3.color = COLORS[n++ % COLORS.length];
             ucg.ueo(ubm3, ucg.ufq(jsonObject2, a.d("\u7fe7", -1412333055, -1509687916)));
             if (ubm3.code.equals(udk)) {
-                ubm3.name = MinecraftClient.method_1551().method_1548().method_1676();
+                ubm3.name = MinecraftClient.getInstance().getSession().getUsername();
             }
             if (ubm3.name == null) {
                 ubm3.name = ucg.pretty(ubm3.code);
@@ -1069,7 +1069,7 @@ public final class ucg {
         ubj3.born = l;
         ubj3.life = Math.round(MARK_TIME.get() * 1000.0);
         ubj3.color = ubj3.danger() ? -1096636 : ubm2.color;
-        String string4 = MinecraftClient.method_1551().method_1548().method_1676();
+        String string4 = MinecraftClient.getInstance().getSession().getUsername();
         if (ubj3.target != null && ubj3.target.equalsIgnoreCase(string4)) {
             ucg.ufc(ubj3.name + (ubj3.danger() ? wap.s(a.c(-912299550, "\u69db\u103d\u9af8\u049a\u8f51\u09fd\ub3e7\u3a0c\ua40a\u2ead\ua964\u5340\uddd6\u4474\uce30\u4884\uf282\u7d54\ue7a9\u61bc\ue84e\u9210\u1caa\u8779\u0111"), a.d("\ub5f6\uc858\u42f4\udcf0\u5726\ud1e0\u6bcf\ue241\u7c6b\uf6d9\u7108\u8b7d\u05af\u9c69\u1242\u94a9\u2af4\ua55c\u3b84\ub9c7\u3422\u4a6d\uc4df\u5f01\ud90f\u53a2\uea12\u643c\ufec8\u78e3", -449334283, -1490614723)) : wap.s(a.c(1734139359, "\uddf4\ua408\u2ed7\ub0b5\u3b7b\ubdc4\u0796\u8e23\u1025\u9a82\u1d4b"), a.d("\u318a\u4c25\uc68a\u5885\ud35b\u559d\uefb4\u6646\ufc02\u72a1\uf570\u0f70", -381938098, -1965021208))));
             ucg.ueg(ubj3.danger() ? a.d("\u4b09\u329d\ub841\u2639\uadec\u2b4a", -1702779158, 1913515425) : a.d("\ufb73\u82e1\u083e\u9647", 2099081318, -452162723), null);
@@ -1128,8 +1128,8 @@ public final class ucg {
         udz = string;
         uea = bl;
         ++ueb;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (!(minecraftClient.field_1755 instanceof hlc) && minecraftClient.field_1687 != null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (!(minecraftClient.currentScreen instanceof hlc) && minecraftClient.world != null) {
             izx.alert(wap.s(a.d("\u896f\uf0ef\u7a2f\ue458\u6f82", -1940308102, 1139062336), a.d("\uab53\ud2cd\u586c\uc667", -1262502738, 297341926)), string, vhz.FRIENDS, !bl);
         }
     }
@@ -1158,7 +1158,7 @@ public final class ucg {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty(a.d("\u3c89", -1628388570, 664338373), ufw.b64(byArray));
             jsonObject.addProperty(a.d("\u88a0", 1904953047, -1038889453), (Number)n);
-            jsonObject.addProperty(a.b("\u31d7", -1492635208), MinecraftClient.method_1551().method_1548().method_1676());
+            jsonObject.addProperty(a.b("\u31d7", -1492635208), MinecraftClient.getInstance().getSession().getUsername());
             byte[] byArray2 = ufw.boxKey(udc, udd, string2);
             return ufw.seal(byArray2, a.c(-1790445640, "\uf7de\u8e62\u04a6\u9ad3") + udk + a.c(-178260090, "\uf7fb") + string, jsonObject.toString().getBytes(StandardCharsets.UTF_8));
         }

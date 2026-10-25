@@ -71,7 +71,7 @@ final class Intro {
     private static final float[] WHITE = new float[]{1.0f, 0.894f, 0.965f};
     private static final RenderPipeline EMIT = Intro.screen("intro_emit", "GlyphSampler", "SMapSampler");
     private static final RenderPipeline COMPOSITE = Intro.screen("intro_composite", "GlyphSampler", "SMapSampler", "EmitSampler", "MidSampler", "WideSampler");
-    private static final RenderPipeline FX = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/intro_fx")).withVertexShader(uvq.id("core/intro_fx")).withFragmentShader(uvq.id("core/intro_fx")).withUniform("FlowIntro", UniformType.field_60031).withBlend(BlendFunction.ADDITIVE).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_1575, VertexFormat.DrawMode.field_27379).build();
+    private static final RenderPipeline FX = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/intro_fx")).withVertexShader(uvq.id("core/intro_fx")).withFragmentShader(uvq.id("core/intro_fx")).withUniform("FlowIntro", UniformType.UNIFORM_BUFFER).withBlend(BlendFunction.ADDITIVE).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.POSITION_TEXTURE_COLOR, VertexFormat.DrawMode.TRIANGLES).build();
     private static CompletableFuture<Signature> loading;
     private static final List<AutoCloseable> RETIRED;
     private static final List<Long> RETIRED_AT;
@@ -462,9 +462,9 @@ final class Intro {
         }
         try {
             unf.observe(ctx);
-            MinecraftClient mc = MinecraftClient.method_1551();
-            int w = Math.max(8, mc.method_22683().method_4489());
-            int h = Math.max(8, mc.method_22683().method_4506());
+            MinecraftClient mc = MinecraftClient.getInstance();
+            int w = Math.max(8, mc.getWindow().getFramebufferWidth());
+            int h = Math.max(8, mc.getWindow().getFramebufferHeight());
             GpuDevice device = RenderSystem.getDevice();
             this.targets(device, w, h);
             GpuTextureView glyph = this.sig.view();
@@ -473,8 +473,8 @@ final class Intro {
             this.rectY = ((float)h - (float)this.sig.height * this.fit) * 0.5f - (float)h * 0.035f;
             CommandEncoder encoder = device.createCommandEncoder();
             this.writeUniforms(encoder, w, h);
-            GpuSampler linear = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
-            GpuSampler nearest = RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST);
+            GpuSampler linear = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
+            GpuSampler nearest = RenderSystem.getSamplerCache().get(FilterMode.NEAREST);
             try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 intro emit", this.emit.view, OptionalInt.empty());){
                 pass.setPipeline(EMIT);
                 pass.bindTexture("GlyphSampler", glyph, linear);
@@ -726,7 +726,7 @@ final class Intro {
     }
 
     private static RenderPipeline screen(String name, String ... samplers) {
-        RenderPipeline.Builder builder = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/" + name)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/" + name)).withUniform("FlowIntro", UniformType.field_60031).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379);
+        RenderPipeline.Builder builder = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/" + name)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/" + name)).withUniform("FlowIntro", UniformType.UNIFORM_BUFFER).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES);
         for (String s : samplers) {
             builder.withSampler(s);
         }

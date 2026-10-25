@@ -120,7 +120,7 @@ extends Screen {
     private static /* synthetic */ String jqq;
 
     public jos(Screen screen) {
-        super((Text)Text.method_43470((String)a.b("\u3d30\u44ac\uce67\u5042\udbd8\u5d65\ue739\u6ec7\uf09e\u7a2d\ufde9", -1369686662)));
+        super((Text)Text.literal((String)a.b("\u3d30\u44ac\uce67\u5042\udbd8\u5d65\ue739\u6ec7\uf09e\u7a2d\ufde9", -1369686662)));
         this.jpg = new jsi(this.jpf.particles, 11L);
         this.jph = new ArrayList<jyi>();
         this.jpi = new IdentityHashMap<Object, jop>();
@@ -171,70 +171,70 @@ extends Screen {
         }
     }
 
-    public void method_25420(DrawContext drawContext, int n, int n2, float f) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext drawContext, int n, int n2, float f) {
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
-        unf.observe(drawContext);
+        unf.observe(context);
         long l = System.nanoTime();
         this.jqj = this.jqi == 0L ? 0.016666668f : Math.min(0.1f, (float)(l - this.jqi) / 1.0E9f);
         this.jqi = l;
-        float f2 = kap.clock();
+        float f = kap.clock();
         if (this.jqd < 0.0f) {
-            this.jqd = f2;
+            this.jqd = f;
         }
-        float f3 = f2 - this.jqd;
-        float f4 = this.jqe >= 0.0f ? vcq.clamp01((f2 - this.jqe) / 0.22f) : 0.0f;
-        this.jqk = kbp.scale(this.field_22789, this.field_22790);
-        this.jql = (float)this.field_22789 / this.jqk;
-        this.jqm = (float)this.field_22790 / this.jqk;
-        float f5 = (float)n / this.jqk;
-        float f6 = (float)n2 / this.jqk;
-        float f7 = 1.0f - (float)Math.exp(-this.jqj * 2.2f);
-        if (n >= 0 && n2 >= 0 && n <= this.field_22789 && n2 <= this.field_22790) {
-            this.jqg += ((float)n / (float)this.field_22789 - 0.5f - this.jqg) * f7;
-            this.jqh += ((float)n2 / (float)this.field_22790 - 0.5f - this.jqh) * f7;
+        float f2 = f - this.jqd;
+        float f3 = this.jqe >= 0.0f ? vcq.clamp01((f - this.jqe) / 0.22f) : 0.0f;
+        this.jqk = kbp.scale(this.width, this.height);
+        this.jql = (float)this.width / this.jqk;
+        this.jqm = (float)this.height / this.jqk;
+        float f4 = (float)mouseX / this.jqk;
+        float f5 = (float)mouseY / this.jqk;
+        float f6 = 1.0f - (float)Math.exp(-this.jqj * 2.2f);
+        if (mouseX >= 0 && mouseY >= 0 && mouseX <= this.width && mouseY <= this.height) {
+            this.jqg += ((float)mouseX / (float)this.width - 0.5f - this.jqg) * f6;
+            this.jqh += ((float)mouseY / (float)this.height - 0.5f - this.jqh) * f6;
         }
         GpuTextureView gpuTextureView = unm.view();
-        uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, -16118250);
+        uut.rect(context, 0.0f, 0.0f, this.width, this.height, -16118250);
         jza jza2 = jzh.get(this.jpf.key);
         if (jza2 != null) {
-            float f8 = vcq.outCubic(vcq.clamp01(f3 / 0.5f)) * (1.0f - vcq.inOutCubic(f4));
-            this.jpe.time = f2;
-            this.jpe.zoom = 1.05f + 0.01f * f8;
+            float f7 = vcq.outCubic(vcq.clamp01(f2 / 0.5f)) * (1.0f - vcq.inOutCubic(f3));
+            this.jpe.time = f;
+            this.jpe.zoom = 1.05f + 0.01f * f7;
             this.jpe.panX = -this.jqg * 0.014f;
             this.jpe.panY = -this.jqh * 0.01f;
-            this.jpe.blur = 0.55f * f8;
-            this.jpe.dim = 0.04f + 0.12f * f8;
+            this.jpe.blur = 0.55f * f7;
+            this.jpe.dim = 0.04f + 0.12f * f7;
             this.jpe.tint = this.jpf.tint;
             this.jpe.tintAmount = 0.3f;
             this.jpe.fall = null;
             this.jpe.pool = null;
-            this.jpd.draw(drawContext, jza2, this.jpe, this.field_22789, this.field_22790, 1.0f, true);
+            this.jpd.draw(context, jza2, this.jpe, this.width, this.height, 1.0f, true);
         }
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = context.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.scale(this.jqk, this.jqk);
         vdn.setRenderScaleStepped(this.jqk);
         try {
-            this.jpg.draw(drawContext, gpuTextureView, this.jql, this.jqm, f2, false, this.jqg, this.jqh, 1.0f);
-            float f9 = vcq.clamp01(f3 / 0.42f);
-            float f10 = vcq.outBack(f9) * (1.0f - f4) + 0.0f;
-            float f11 = vcq.clamp01(f9 * 1.6f) * (1.0f - vcq.inCubic(f4));
-            float f12 = this.jqs();
-            float f13 = this.jqt();
+            this.jpg.draw(context, gpuTextureView, this.jql, this.jqm, f, false, this.jqg, this.jqh, 1.0f);
+            float f8 = vcq.clamp01(f2 / 0.42f);
+            float f9 = vcq.outBack(f8) * (1.0f - f3) + 0.0f;
+            float f10 = vcq.clamp01(f8 * 1.6f) * (1.0f - vcq.inCubic(f3));
+            float f11 = this.jqs();
+            float f12 = this.jqt();
             matrix3x2fStack.pushMatrix();
-            matrix3x2fStack.translate(f12 + 134.0f, f13 + 109.0f);
-            float f14 = 0.94f + 0.06f * Math.min(1.0f, f10) - 0.03f * f4;
-            matrix3x2fStack.scale(f14, f14);
-            matrix3x2fStack.translate(-134.0f, -109.0f + (1.0f - Math.min(1.0f, f10)) * 10.0f);
-            uut.pushAlpha(f11);
+            matrix3x2fStack.translate(f11 + 134.0f, f12 + 109.0f);
+            float f13 = 0.94f + 0.06f * Math.min(1.0f, f9) - 0.03f * f3;
+            matrix3x2fStack.scale(f13, f13);
+            matrix3x2fStack.translate(-134.0f, -109.0f + (1.0f - Math.min(1.0f, f9)) * 10.0f);
+            uut.pushAlpha(f10);
             try {
-                this.jqu(drawContext, gpuTextureView, f5 - f12, f6 - f13, f2, f12, f13);
+                this.jqu(context, gpuTextureView, f4 - f11, f5 - f12, f, f11, f12);
             }
             finally {
                 uut.popAlpha();
@@ -246,9 +246,9 @@ extends Screen {
             matrix3x2fStack.popMatrix();
             vdn.setRenderScale(1.0f);
         }
-        if (f4 >= 1.0f && !this.jqf) {
+        if (f3 >= 1.0f && !this.jqf) {
             this.jqf = true;
-            this.field_22787.method_63588(() -> this.field_22787.method_1507(this.jpc));
+            this.client.send(() -> this.client.setScreen(this.jpc));
         }
     }
 
@@ -280,7 +280,7 @@ extends Screen {
         vdn vdn2 = veo.semibold(10.4f);
         vdn2.draw(drawContext, wap.s(a.d("\u0775\u7ee9\uf422\u6a07\ue19d\u6720\udd7c\u5482\ucadb\u4068\uc7ac", -13408373, 1128620212), a.d("\u30dc\u4946\uc3e2\u5d9d\ud228\u5085\ueadf\u6326\ufd71\u77c1\uf010\u0a62\u84c0", -1804484324, -151063075)), 44.0f, vdn2.centerTop(19.0f), jos.jrm(0xFFFFFF, 0.97f));
         vdn vdn3 = veo.medium(6.4f);
-        String string = this.field_22787.method_1548().method_1676();
+        String string = this.client.getSession().getUsername();
         String string2 = wap.s(a.c(896021282, "\u3379\u4af4\uc02a\u5e43\ud584\u5332\ue968\u60de\ufec0\u7463\uf3e3"), a.c(-194294653, "\u48aa\u310f\ubbd0\u25df\uae7f\u28bf\u9697\u1f7c"));
         float f3 = vdn3.width(string2);
         vdn3.draw(drawContext, string2, 44.0f, vdn3.centerTop(31.5f), jos.jrm(0xFFFFFF, 0.5f));
@@ -384,7 +384,7 @@ extends Screen {
             return;
         }
         jyi jyi2 = jop2.alt;
-        boolean bl2 = jyi2.name().equals(this.field_22787.method_1548().method_1676());
+        boolean bl2 = jyi2.name().equals(this.client.getSession().getUsername());
         boolean bl3 = this.jpy == jyi2.handle();
         boolean bl4 = bl && this.jqe < 0.0f && jos.jrk(f3, f4, f, f2, f6, 28.0f);
         float f8 = jop2.hover.step(bl4 || bl3, this.jqj);
@@ -396,7 +396,7 @@ extends Screen {
         float f12 = jop2.loginHover.step(bl6, this.jqj);
         boolean bl7 = this.jpz == jyi2.handle() && f5 - this.jqa < 2.5f;
         float f13 = vcq.clamp01((f5 - jop2.pressAt) / 0.45f);
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate((1.0f - f7) * 14.0f, 0.0f);
         uut.pushAlpha(f7);
@@ -503,7 +503,7 @@ extends Screen {
     private void jrd(DrawContext drawContext, float f, float f2, float f3, vhz vhz2, float f4, float f5, float f6, int n, int n2, boolean bl) {
         float f7 = vcq.clamp01((f6 - f5) / 0.4f);
         float f8 = f7 < 1.0f ? (float)Math.sin(Math.PI * (double)vcq.clamp01(f7 * 2.4f)) : 0.0f;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f + f3 * 0.5f, f2 + f3 * 0.5f);
         float f9 = 1.0f + 0.06f * f4 - 0.1f * f8;
@@ -524,13 +524,13 @@ extends Screen {
         if (skinTextures != null) {
             return skinTextures;
         }
-        SkinTextures skinTextures2 = DefaultSkinHelper.method_4648((UUID)uUID);
+        SkinTextures skinTextures2 = DefaultSkinHelper.getSkinTextures((UUID)uUID);
         if (jyi2.microsoft() && !jpb.containsKey(uUID)) {
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
             jpb.put(uUID, (CompletableFuture<?>)((CompletableFuture)((CompletableFuture)CompletableFuture.supplyAsync(() -> {
-                ProfileResult profileResult = minecraftClient.method_73361().comp_837().fetchProfile(uUID, false);
+                ProfileResult profileResult = minecraftClient.getApiServices().sessionService().fetchProfile(uUID, false);
                 return profileResult != null ? profileResult.profile() : null;
-            }).thenCompose(gameProfile -> gameProfile == null ? CompletableFuture.completedFuture(Optional.empty()) : minecraftClient.method_1582().method_52863(gameProfile))).thenAcceptAsync(optional -> optional.ifPresent(skinTextures -> jpa.put(uUID, (SkinTextures)skinTextures)), (Executor)minecraftClient)).exceptionally(throwable -> null));
+            }).thenCompose(gameProfile -> gameProfile == null ? CompletableFuture.completedFuture(Optional.empty()) : minecraftClient.getSkinProvider().fetchSkinTextures(gameProfile))).thenAcceptAsync(optional -> optional.ifPresent(skinTextures -> jpa.put(uUID, (SkinTextures)skinTextures)), (Executor)minecraftClient)).exceptionally(throwable -> null));
         }
         return skinTextures2;
     }
@@ -585,28 +585,28 @@ extends Screen {
         jyw.login(jop2.alt, new jom(this));
     }
 
-    public void method_25419() {
+    public void close() {
         if (this.jqe < 0.0f) {
             this.jqe = kap.clock();
         }
     }
 
-    public boolean method_25402(Click click, boolean bl) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         if (this.jqe >= 0.0f) {
             return true;
         }
-        float f = (float)click.comp_4798() / this.jqk - this.jqs();
-        float f2 = (float)click.comp_4799() / this.jqk - this.jqt();
-        if (click.method_74245() != 0) {
+        float f = (float)click.x() / this.jqk - this.jqs();
+        float f2 = (float)click.y() / this.jqk - this.jqt();
+        if (click.button() != 0) {
             return true;
         }
         float f3 = kap.clock();
         if (!jos.jrk(f, f2, 0.0f, 0.0f, 268.0f, 218.0f)) {
-            this.method_25419();
+            this.close();
             return true;
         }
         if (jos.jrl(f, f2, 246.0f, 22.0f) < 9.0f) {
-            this.method_25419();
+            this.close();
             return true;
         }
         vdn vdn2 = veo.medium(6.4f);
@@ -618,7 +618,7 @@ extends Screen {
         float f5 = 184.0f;
         float f6 = 22.0f;
         float f7 = 244.0f - 2.0f * (f6 + 6.0f);
-        boolean bl2 = this.jpr = jos.jrk(f, f2, 12.0f, f5, f7, f6) || this.jpr && !jos.jrk(f, f2, 10.0f, this.jqx(), 248.0f, this.jqy());
+        boolean bl = this.jpr = jos.jrk(f, f2, 12.0f, f5, f7, f6) || this.jpr && !jos.jrk(f, f2, 10.0f, this.jqx(), 248.0f, this.jqy());
         if (jos.jrk(f, f2, 12.0f + f7 + 6.0f, f5, f6, f6)) {
             this.jrh();
             return true;
@@ -656,16 +656,16 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25401(double d, double d2, double d3, double d4) {
-        this.jqc -= (float)d4 * 32.0f;
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        this.jqc -= (float)verticalAmount * 32.0f;
         return true;
     }
 
-    public boolean method_25400(CharInput charInput) {
+    public boolean charTyped(CharInput input) {
         if (!this.jpr || this.jqe >= 0.0f) {
             return true;
         }
-        String string = charInput.method_74226();
+        String string = input.asString();
         StringBuilder stringBuilder = new StringBuilder(this.jpq);
         for (char c : string.toCharArray()) {
             if (stringBuilder.length() >= 16 || !Character.isLetterOrDigit(c) && c != '_' || c >= '\u0080') continue;
@@ -675,16 +675,16 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25404(KeyInput keyInput) {
-        int n = keyInput.comp_4795();
+    public boolean keyPressed(KeyInput input) {
+        int n = input.key();
         if (n == 256) {
-            this.method_25419();
+            this.close();
             return true;
         }
         if (!this.jpr) {
             return true;
         }
-        boolean bl = (keyInput.comp_4797() & 0xA) != 0;
+        boolean bl = (input.modifiers() & 0xA) != 0;
         switch (n) {
             case 259: {
                 if (bl) {
@@ -710,7 +710,7 @@ extends Screen {
     }
 
     private void jrj() {
-        String string = this.field_22787.field_1774.method_1460();
+        String string = this.client.keyboard.getClipboard();
         StringBuilder stringBuilder = new StringBuilder(this.jpq);
         for (char c : string.toCharArray()) {
             if (stringBuilder.length() >= 16 || !Character.isLetterOrDigit(c) && c != '_' || c >= '\u0080') continue;
@@ -719,15 +719,15 @@ extends Screen {
         this.jpq = stringBuilder.toString();
     }
 
-    public boolean method_25422() {
+    public boolean shouldCloseOnEsc() {
         return false;
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public void method_25432() {
+    public void removed() {
         this.jpd.close();
         vdn.setRenderScale(1.0f);
     }

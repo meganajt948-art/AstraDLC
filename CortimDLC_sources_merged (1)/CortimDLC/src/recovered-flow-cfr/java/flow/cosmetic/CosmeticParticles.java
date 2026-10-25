@@ -225,8 +225,8 @@ final class CosmeticParticles {
             failed = true;
             return null;
         }
-        sheet = Identifier.method_60655((String)"flow2", (String)"cosmetic/particles");
-        MinecraftClient.method_1551().method_1531().method_4616(sheet, (AbstractTexture)new NativeImageBackedTexture(() -> "Flow2 cosmetic particles", img));
+        sheet = Identifier.of((String)"flow2", (String)"cosmetic/particles");
+        MinecraftClient.getInstance().getTextureManager().registerTexture(sheet, (AbstractTexture)new NativeImageBackedTexture(() -> "Flow2 cosmetic particles", img));
         return sheet;
     }
 
@@ -247,20 +247,20 @@ final class CosmeticParticles {
         }
         Quaternionf q = new Quaternionf((Quaternionfc)camRot);
         if (!add.isEmpty()) {
-            queue.method_73483(matrices, RenderLayers.method_76014((Identifier)tex), (entry, vc) -> CosmeticParticles.quads(add, entry, vc, cam, q, true));
+            queue.submitCustom(matrices, RenderLayers.eyes((Identifier)tex), (entry, vc) -> CosmeticParticles.quads(add, entry, vc, cam, q, true));
             if (CosmeticGlow.active()) {
                 CosmeticParticles.glow(add, tex, cam, q);
             }
         }
         if (!blend.isEmpty()) {
             for (P p : blend) {
-                double dx = p.x - cam.field_1352;
-                double dy = p.y - cam.field_1351;
-                double dz = p.z - cam.field_1350;
+                double dx = p.x - cam.x;
+                double dy = p.y - cam.y;
+                double dz = p.z - cam.z;
                 p.depth = dx * dx + dy * dy + dz * dz;
             }
             blend.sort((a2, b) -> Double.compare(b.depth, a2.depth));
-            queue.method_73483(matrices, RenderLayers.method_76000((Identifier)tex), (entry, vc) -> CosmeticParticles.quads(blend, entry, vc, cam, q, false));
+            queue.submitCustom(matrices, RenderLayers.entityTranslucent((Identifier)tex), (entry, vc) -> CosmeticParticles.quads(blend, entry, vc, cam, q, false));
         }
     }
 
@@ -282,9 +282,9 @@ final class CosmeticParticles {
             float sn = (float)Math.sin(rot) * size;
             a2.set((Vector3fc)right).mul(cs).add(up.x * sn, up.y * sn, up.z * sn);
             b.set((Vector3fc)up).mul(cs).sub(right.x * sn, right.y * sn, right.z * sn);
-            float cx = (float)(p.x - cam.field_1352);
-            float cy = (float)(p.y - cam.field_1351);
-            float cz = (float)(p.z - cam.field_1350);
+            float cx = (float)(p.x - cam.x);
+            float cy = (float)(p.y - cam.y);
+            float cz = (float)(p.z - cam.z);
             float u0 = (float)p.kind / 8.0f;
             float u1 = (float)(p.kind + 1) / 8.0f;
             CosmeticParticles.set(c[0], uv[0], cx - a2.x - b.x, cy - a2.y - b.y, cz - a2.z - b.z, u0, 1.0f);
@@ -320,7 +320,7 @@ final class CosmeticParticles {
         Vector3f a2 = new Vector3f();
         Vector3f b = new Vector3f();
         int light = 0xF000F0;
-        int overlay = OverlayTexture.field_21444;
+        int overlay = OverlayTexture.DEFAULT_UV;
         for (P p : list) {
             int argb;
             float t = p.age / p.life;
@@ -341,9 +341,9 @@ final class CosmeticParticles {
             float s = (float)Math.sin(rot) * size;
             a2.set((Vector3fc)right).mul(c).add(up.x * s, up.y * s, up.z * s);
             b.set((Vector3fc)up).mul(c).sub(right.x * s, right.y * s, right.z * s);
-            float cx = (float)(p.x - cam.field_1352);
-            float cy = (float)(p.y - cam.field_1351);
-            float cz = (float)(p.z - cam.field_1350);
+            float cx = (float)(p.x - cam.x);
+            float cy = (float)(p.y - cam.y);
+            float cz = (float)(p.z - cam.z);
             float u0 = (float)p.kind / 8.0f;
             float u1 = (float)(p.kind + 1) / 8.0f;
             CosmeticParticles.vertex(vc, entry, cx - a2.x - b.x, cy - a2.y - b.y, cz - a2.z - b.z, argb, u0, 1.0f, overlay, light, normal);
@@ -354,8 +354,8 @@ final class CosmeticParticles {
     }
 
     private static void vertex(VertexConsumer vc, MatrixStack.Entry entry, float x, float y, float z, int argb, float u, float v, int overlay, int light, Vector3f n) {
-        Vector3f p = entry.method_23761().transformPosition(x, y, z, VERTEX);
-        vc.method_23919(p.x, p.y, p.z, argb, u, v, overlay, light, n.x, n.y, n.z);
+        Vector3f p = entry.getPositionMatrix().transformPosition(x, y, z, VERTEX);
+        vc.vertex(p.x, p.y, p.z, argb, u, v, overlay, light, n.x, n.y, n.z);
     }
 
     static {

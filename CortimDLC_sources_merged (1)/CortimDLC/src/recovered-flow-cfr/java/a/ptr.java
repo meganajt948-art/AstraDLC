@@ -83,12 +83,12 @@ public final class ptr {
 
     public static void later(Runnable runnable) {
         pth pth2 = ptt;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (runnable == null || pth2.ptn.size() >= 4) {
             return;
         }
         pth2.ptn.add(runnable);
-        pth2.pto = minecraftClient.field_1724 != null ? minecraftClient.field_1724.field_6012 : 0;
+        pth2.pto = minecraftClient.player != null ? minecraftClient.player.age : 0;
     }
 
     public static boolean isOrdered() {
@@ -121,7 +121,7 @@ public final class ptr {
         if (pth2.ptn.isEmpty()) {
             return;
         }
-        if (minecraftClient == null || minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || minecraftClient.field_1724.field_6012 - pth2.pto > 3 || minecraftClient.field_1724.field_6012 < pth2.pto) {
+        if (minecraftClient == null || minecraftClient.player == null || minecraftClient.world == null || minecraftClient.player.age - pth2.pto > 3 || minecraftClient.player.age < pth2.pto) {
             pth2.ptn.clear();
             return;
         }
@@ -138,19 +138,19 @@ public final class ptr {
             return;
         }
         --pth2.ptl;
-        if (minecraftClient == null || minecraftClient.field_1724 == null || minecraftClient.field_1687 == null) {
+        if (minecraftClient == null || minecraftClient.player == null || minecraftClient.world == null) {
             return;
         }
-        Vec3d vec3d = minecraftClient.field_1724.method_33571();
-        Vec3d vec3d2 = Vec3d.method_1030((float)pth2.ptk, (float)pth2.ptj);
-        double d = minecraftClient.field_1724.method_55754();
-        Vec3d vec3d3 = vec3d.method_1031(vec3d2.field_1352 * d, vec3d2.field_1351 * d, vec3d2.field_1350 * d);
+        Vec3d vec3d = minecraftClient.player.getEyePos();
+        Vec3d vec3d2 = Vec3d.fromPolar((float)pth2.ptk, (float)pth2.ptj);
+        double d = minecraftClient.player.getBlockInteractionRange();
+        Vec3d vec3d3 = vec3d.add(vec3d2.x * d, vec3d2.y * d, vec3d2.z * d);
         if (pth2.ptm) {
-            minecraftClient.field_1765 = BlockHitResult.method_17778((Vec3d)vec3d3, (Direction)Direction.field_11036, (BlockPos)BlockPos.method_49638((Position)vec3d3));
+            minecraftClient.crosshairTarget = BlockHitResult.createMissed((Vec3d)vec3d3, (Direction)Direction.UP, (BlockPos)BlockPos.ofFloored((Position)vec3d3));
             return;
         }
-        BlockHitResult blockHitResult = minecraftClient.field_1687.method_17742(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)minecraftClient.field_1724));
-        minecraftClient.field_1765 = blockHitResult.method_17783() == HitResult.Type.field_1332 && blockHitResult.method_17777().equals((Object)pth2.pti) ? blockHitResult : BlockHitResult.method_17778((Vec3d)vec3d3, (Direction)Direction.field_11036, (BlockPos)BlockPos.method_49638((Position)vec3d3));
+        BlockHitResult blockHitResult = minecraftClient.world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)minecraftClient.player));
+        minecraftClient.crosshairTarget = blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals((Object)pth2.pti) ? blockHitResult : BlockHitResult.createMissed((Vec3d)vec3d3, (Direction)Direction.UP, (BlockPos)BlockPos.ofFloored((Position)vec3d3));
     }
 
     private static void pty(pth pth2, MinecraftClient minecraftClient) {
@@ -158,49 +158,49 @@ public final class ptr {
             return;
         }
         --pth2.ptl;
-        if (minecraftClient == null || minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || minecraftClient.field_1690 == null || minecraftClient.field_1761 == null) {
+        if (minecraftClient == null || minecraftClient.player == null || minecraftClient.world == null || minecraftClient.options == null || minecraftClient.interactionManager == null) {
             return;
         }
         if (pth2.ptm) {
             ptr.ptz(minecraftClient);
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = Vec3d.method_1030((float)clientPlayerEntity.method_36455(), (float)clientPlayerEntity.method_36454());
-        double d = clientPlayerEntity.method_55754();
-        Vec3d vec3d3 = vec3d.method_1031(vec3d2.field_1352 * d, vec3d2.field_1351 * d, vec3d2.field_1350 * d);
-        BlockHitResult blockHitResult = minecraftClient.field_1687.method_17742(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-        if (blockHitResult.method_17783() == HitResult.Type.field_1332 && blockHitResult.method_17777().equals((Object)pth2.pti)) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = Vec3d.fromPolar((float)clientPlayerEntity.getPitch(), (float)clientPlayerEntity.getYaw());
+        double d = clientPlayerEntity.getBlockInteractionRange();
+        Vec3d vec3d3 = vec3d.add(vec3d2.x * d, vec3d2.y * d, vec3d2.z * d);
+        BlockHitResult blockHitResult = minecraftClient.world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+        if (blockHitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals((Object)pth2.pti)) {
             return;
         }
-        minecraftClient.field_1690.field_1886.method_23481(false);
-        minecraftClient.field_1690.field_1904.method_23481(false);
-        while (minecraftClient.field_1690.field_1886.method_1436()) {
+        minecraftClient.options.attackKey.setPressed(false);
+        minecraftClient.options.useKey.setPressed(false);
+        while (minecraftClient.options.attackKey.wasPressed()) {
         }
-        while (minecraftClient.field_1690.field_1904.method_1436()) {
+        while (minecraftClient.options.useKey.wasPressed()) {
         }
     }
 
     private static void ptz(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        while (minecraftClient.field_1690.field_1904.method_1436()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        while (minecraftClient.options.useKey.wasPressed()) {
         }
-        if (!minecraftClient.field_1690.field_1904.method_1434() || clientPlayerEntity.method_6115()) {
+        if (!minecraftClient.options.useKey.isPressed() || clientPlayerEntity.isUsingItem()) {
             return;
         }
         int n = vxr.getInt(pts, minecraftClient, 0);
-        if (n <= 0 && !minecraftClient.field_1761.method_2923() && !clientPlayerEntity.method_3144()) {
+        if (n <= 0 && !minecraftClient.interactionManager.isBreakingBlock() && !clientPlayerEntity.isRiding()) {
             Hand hand;
             ItemStack itemStack;
             Hand[] handArray = Hand.values();
             int n2 = handArray.length;
-            for (int i = 0; i < n2 && (itemStack = clientPlayerEntity.method_5998(hand = handArray[i])).method_45435(minecraftClient.field_1687.method_45162()); ++i) {
+            for (int i = 0; i < n2 && (itemStack = clientPlayerEntity.getStackInHand(hand = handArray[i])).isItemEnabled(minecraftClient.world.getEnabledFeatures()); ++i) {
                 ActionResult actionResult;
-                if (itemStack.method_7960() || !((actionResult = minecraftClient.field_1761.method_2919((PlayerEntity)clientPlayerEntity, hand)) instanceof ActionResult.Success)) continue;
+                if (itemStack.isEmpty() || !((actionResult = minecraftClient.interactionManager.interactItem((PlayerEntity)clientPlayerEntity, hand)) instanceof ActionResult.Success)) continue;
                 ActionResult.Success success = (ActionResult.Success)actionResult;
-                if (success.comp_2909() != ActionResult.SwingSource.field_52427) break;
-                clientPlayerEntity.method_6104(hand);
+                if (success.swingSource() != ActionResult.SwingSource.CLIENT) break;
+                clientPlayerEntity.swingHand(hand);
                 break;
             }
             n = 4;

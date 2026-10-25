@@ -55,8 +55,8 @@ import org.lwjgl.system.MemoryStack;
 
 public final class vhf {
     private static final int vhg = 96;
-    public static final RenderPipeline MASK = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/hand_mask")).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/hand_mask")).withSampler("DepthSampler").withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379).build();
-    public static final RenderPipeline FX = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/hand_fx")).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/hand_fx")).withSampler("DepthSampler").withSampler("GlowSampler").withUniform("FlowHands", UniformType.field_60031).withBlend(BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379).build();
+    public static final RenderPipeline MASK = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/hand_mask")).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/hand_mask")).withSampler("DepthSampler").withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES).build();
+    public static final RenderPipeline FX = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/hand_fx")).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/hand_fx")).withSampler("DepthSampler").withSampler("GlowSampler").withUniform("FlowHands", UniformType.UNIFORM_BUFFER).withBlend(BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES).build();
     private static vhe vhh;
     private static final GpuTexture[] vhi;
     private static final GpuTextureView[] vhj;
@@ -82,26 +82,26 @@ public final class vhf {
         if (!(uvq.ensure(MASK) && uvq.ensure(FX) && uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP))) {
             return;
         }
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
-        if (gpuTextureView == null || gpuTextureView2 == null || framebuffer.field_1482 < 16 || framebuffer.field_1481 < 16) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
+        if (gpuTextureView == null || gpuTextureView2 == null || framebuffer.textureWidth < 16 || framebuffer.textureHeight < 16) {
             return;
         }
         try {
             ByteBuffer byteBuffer;
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            vhf.vhr(gpuDevice, framebuffer.field_1482, framebuffer.field_1481);
+            vhf.vhr(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight);
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             int[] nArray = vhe2.colors(clientPlayerEntity);
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                byteBuffer = Std140Builder.onStack((MemoryStack)memoryStack, (int)96).putVec4((float)framebuffer.field_1482, (float)framebuffer.field_1481, 1.0f / (float)framebuffer.field_1482, 1.0f / (float)framebuffer.field_1481).putVec4(vhe2.time(), 0.0f, vhe2.fill(), vhe2.glow()).putVec4((float)(nArray[0] >> 16 & 0xFF) / 255.0f, (float)(nArray[0] >> 8 & 0xFF) / 255.0f, (float)(nArray[0] & 0xFF) / 255.0f, 1.0f).putVec4((float)(nArray[1] >> 16 & 0xFF) / 255.0f, (float)(nArray[1] >> 8 & 0xFF) / 255.0f, (float)(nArray[1] & 0xFF) / 255.0f, 1.0f).putVec4(vhe2.rim(), 0.0f, 0.0f, 0.0f).putVec4(0.0f, 0.0f, 0.0f, 0.0f).get();
+                byteBuffer = Std140Builder.onStack((MemoryStack)memoryStack, (int)96).putVec4((float)framebuffer.textureWidth, (float)framebuffer.textureHeight, 1.0f / (float)framebuffer.textureWidth, 1.0f / (float)framebuffer.textureHeight).putVec4(vhe2.time(), 0.0f, vhe2.fill(), vhe2.glow()).putVec4((float)(nArray[0] >> 16 & 0xFF) / 255.0f, (float)(nArray[0] >> 8 & 0xFF) / 255.0f, (float)(nArray[0] & 0xFF) / 255.0f, 1.0f).putVec4((float)(nArray[1] >> 16 & 0xFF) / 255.0f, (float)(nArray[1] >> 8 & 0xFF) / 255.0f, (float)(nArray[1] & 0xFF) / 255.0f, 1.0f).putVec4(vhe2.rim(), 0.0f, 0.0f, 0.0f).putVec4(0.0f, 0.0f, 0.0f, 0.0f).get();
                 commandEncoder.writeToBuffer(vhk.slice(), byteBuffer);
             }
             memoryStack = commandEncoder.createRenderPass(() -> "Flow2 hand mask", vhj[0], OptionalInt.empty());
             try {
                 memoryStack.setPipeline(MASK);
-                memoryStack.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                memoryStack.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 memoryStack.draw(0, 3);
             }
             finally {
@@ -122,8 +122,8 @@ public final class vhf {
             byteBuffer = commandEncoder.createRenderPass(() -> "Flow2 hand shader", gpuTextureView, OptionalInt.empty());
             try {
                 byteBuffer.setPipeline(FX);
-                byteBuffer.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                byteBuffer.bindTexture("GlowSampler", (GpuTextureView)memoryStack, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                byteBuffer.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                byteBuffer.bindTexture("GlowSampler", (GpuTextureView)memoryStack, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                 byteBuffer.setUniform("FlowHands", vhk);
                 byteBuffer.draw(0, 3);
             }
@@ -142,7 +142,7 @@ public final class vhf {
     private static void vhq(CommandEncoder commandEncoder, RenderPipeline renderPipeline, GpuTextureView gpuTextureView, GpuTextureView gpuTextureView2) {
         try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 hand glow", gpuTextureView2, OptionalInt.empty());){
             renderPass.setPipeline(renderPipeline);
-            renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+            renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             renderPass.draw(0, 3);
         }
     }

@@ -33,7 +33,7 @@ final class fwd {
     static boolean tick(MinecraftClient minecraftClient, int n) throws Exception {
         switch (n) {
             case 1: {
-                minecraftClient.method_1562().method_45730(a.c(-1837125820, "\uaf3d\ud691\u5c46\uc23f\u49ad\ucf4f\u750a\ufcea\u62e1\ue846\u6f93\u95e2\u1b35"));
+                minecraftClient.getNetworkHandler().sendChatCommand(a.c(-1837125820, "\uaf3d\ud691\u5c46\uc23f\u49ad\ucf4f\u750a\ufcea\u62e1\ue846\u6f93\u95e2\u1b35"));
                 fwe = iov.PRESET.get();
                 fwf = isv.selected();
                 fwd.fwi(a.d("\ubec5\uc75e\u4d8e\ud3e7\u5867\udeb4\u64c9\ued35\u7368\uf9d1", 1537582006, -447734465), a.d("\uf155\u88fb\u0225\u9c55\u1788\u916c\u2b63\ua298\u3cc4\ub66d\u31e4\ucbdc\u450e\udcac\u56e6", -605365332, 390146688));
@@ -71,7 +71,7 @@ final class fwd {
             }
             case 212: {
                 fwd.fwi(a.b("\uf575\u8cee\u063e\u9857\u13d7\u9504\u2f79\ua685\u38d8\ub261", -142019271), a.d("\udca7\ua509\u2fd7\ub1a7\u3a7a\ubc9e\u0691\u8f6a\u1136\u9b9f\u1c16\ue62e\u68fc\uf15e\u7b14", -1845516047, -576752593));
-                minecraftClient.method_1507(null);
+                minecraftClient.setScreen(null);
                 break;
             }
             case 250: {
@@ -113,12 +113,12 @@ final class fwd {
         Field field3 = hlc.class.getDeclaredField(a.b("\u601f\u19be\u937c\u0d10\u86c4u\uba39", -1194762165));
         field3.setAccessible(true);
         ((Map)field3.get(null)).clear();
-        minecraftClient.method_1507((Screen)new hlc());
+        minecraftClient.setScreen((Screen)new hlc());
     }
 
     private static void fwk(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.b("\u874c\ufeeb\u7431\uea4a\u61db\ue73e\u5d7c\ud49b\u4ac3\uc026", -369326283) + string + a.b("\u1adc\u630d\ue9be", 944577279) + minecraftClient.method_47599() + a.d("\ub6b6\ucf41\u4584\udbf6", 507106358, 565535396));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.d("\u163f\u6f84\ue554\u7b3d\uf0af\u7601", 817397468, -991270781) + string + a.d("\u873f\ufed0\u741d\uea65", 1964396508, 1584449737)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.b("\u874c\ufeeb\u7431\uea4a\u61db\ue73e\u5d7c\ud49b\u4ac3\uc026", -369326283) + string + a.b("\u1adc\u630d\ue9be", 944577279) + minecraftClient.getCurrentFps() + a.d("\ub6b6\ucf41\u4584\udbf6", 507106358, 565535396));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.d("\u163f\u6f84\ue554\u7b3d\uf0af\u7601", 817397468, -991270781) + string + a.d("\u873f\ufed0\u741d\uea65", 1964396508, 1584449737)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int rr(int n, int n2) {

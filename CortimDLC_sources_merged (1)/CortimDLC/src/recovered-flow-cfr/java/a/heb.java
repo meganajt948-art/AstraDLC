@@ -57,7 +57,7 @@ final class heb {
         }
         if (n == n2 + 24) {
             heb.hel(minecraftClient, a.d("\uca30\ub39d\u3943\ua73a\u2ce5\uaa42\u104f\u99f0\u07be\u8d14\u0ac3\uf0ac\u7e67\ue7d7\u6dc7\ueb78\u513b\udee8\u4454\uc206\u4be4", -2034779261, 1176990162));
-            minecraftClient.method_1507(null);
+            minecraftClient.setScreen(null);
         }
         if (n == n2 + 50) {
             heb.hel(minecraftClient, a.c(-1045055429, "\ub85d\uc1f0\u4b2e\ud557\u5e88\ud82f\u6222\ueb9d\u75d3\uff79\u78ae\u82c1\u0c0a\u95ba\u1faa\u991e\u234c\uac8c"));
@@ -82,13 +82,13 @@ final class heb {
         if (n == n2 + 150) {
             heb.hel(minecraftClient, a.c(-1063172167, "\u47d8\u3e75\ub4ab\u2ad2\ua10d\u27aa\u9da7\u1408\u8a41\u00f4\u8734\u7d54\uf388\u6a7c\ue061\u669f\udcd9\u530c\uc9ac\u4fea\uc61c"));
             iov.PRESET.set(hee);
-            minecraftClient.method_1507(null);
+            minecraftClient.setScreen(null);
         }
         return n >= n2 + 154;
     }
 
     private static void heh(MinecraftClient minecraftClient) throws Exception {
-        Object object = minecraftClient.field_1755;
+        Object object = minecraftClient.currentScreen;
         if (!(object instanceof hlc)) {
             System.out.println(a.b("\ub44b\ucdec\u473b\ud959\u529f\ud425\u6e3e\ue79b\u79d5\uf372\u74a6\u8e99T\u99ab\u13f9\u9547\u2f45\ua09c\u3a24\ubc6e", -1087523796));
             return;
@@ -117,7 +117,7 @@ final class heb {
     }
 
     private static void hei(MinecraftClient minecraftClient) throws Exception {
-        Object object = minecraftClient.field_1755;
+        Object object = minecraftClient.currentScreen;
         if (object instanceof hlc) {
             hlc hlc2 = (hlc)((Object)object);
             object = hlc.class.getDeclaredMethod(a.d("\uacc7\ud560\u5fa2\uc1f4\u4a15\ucca0\u76e0\uff00\u6154", -2031593148, -955124231), String.class);
@@ -138,16 +138,16 @@ final class heb {
         Field field3 = hlc.class.getDeclaredField(a.b("\u4555\u3cf4\ub636\u285a\ua38e\u253f\u9f73", 1361921281));
         field3.setAccessible(true);
         ((Map)field3.get(null)).clear();
-        minecraftClient.method_1507((Screen)new hlc());
+        minecraftClient.setScreen((Screen)new hlc());
     }
 
     private static void hek(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void hel(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.b("\ubad2\uc375\u49af\ud7d4\u5c45\udaa0\u60e2\ue905\u775d\ufdb8", -414729557) + string + a.c(787828274, "\u4e11\u37c0\ubd73") + minecraftClient.method_47599() + a.c(-1513143353, "\u43e3\u3a14\ub0d1\u2ea3"));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.b("\uafb0\ud60b\u5cdb\uc2b2\u4920\ucf8e", -1970556976) + string + a.c(-1948281975, "\u93a3\uea4c\u6081\ufef9")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        System.out.println(a.b("\ubad2\uc375\u49af\ud7d4\u5c45\udaa0\u60e2\ue905\u775d\ufdb8", -414729557) + string + a.c(787828274, "\u4e11\u37c0\ubd73") + minecraftClient.getCurrentFps() + a.c(-1513143353, "\u43e3\u3a14\ub0d1\u2ea3"));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.b("\uafb0\ud60b\u5cdb\uc2b2\u4920\ucf8e", -1970556976) + string + a.c(-1948281975, "\u93a3\uea4c\u6081\ufef9")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int zh(int n, int n2) {

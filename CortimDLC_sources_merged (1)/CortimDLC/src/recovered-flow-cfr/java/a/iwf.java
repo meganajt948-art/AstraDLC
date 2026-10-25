@@ -65,7 +65,7 @@ extends Screen {
     private static /* synthetic */ String ixd;
 
     public iwf(ivw ivw2, int n) {
-        super((Text)Text.method_43470((String)a.b("\u0826\u71a8\ufb76\u6507\ueed9", 251660404)));
+        super((Text)Text.literal((String)a.b("\u0826\u71a8\ufb76\u6507\ueed9", 251660404)));
         this.iwm = ivw2;
         this.iwn = n;
         this.iww = n == -1;
@@ -82,44 +82,44 @@ extends Screen {
         this.iwp.step(true, this.ixa);
     }
 
-    public void method_25420(DrawContext drawContext, int n, int n2, float f) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
-        this.ixe(drawContext);
+        this.ixe(context);
         hyv.skip();
-        uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(64.0f * vcq.outCubic(this.iwp.get()))));
+        uut.rect(context, 0.0f, 0.0f, this.width, this.height, ujt.withAlpha(0, Math.round(64.0f * vcq.outCubic(this.iwp.get()))));
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext drawContext, int n, int n2, float f) {
-        this.ixe(drawContext);
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        this.ixe(context);
         this.iws = this.iwm.slots();
-        int n3 = this.iws.size();
-        if (n3 == 0) {
+        int n = this.iws.size();
+        if (n == 0) {
             this.ixl();
             return;
         }
-        while (this.iwr.size() < n3) {
+        while (this.iwr.size() < n) {
             this.iwr.add(new vcj(18.0f));
         }
-        float f2 = vcq.outCubic(this.iwp.get());
-        float f3 = (float)this.field_22789 * 0.5f;
-        float f4 = (float)this.field_22790 * 0.5f;
-        float f5 = this.iwq.step(this.iwu >= 0, this.ixa);
-        this.iwt = this.iwu >= 0 || this.iwy ? -1 : iwf.ixg((float)n - f3, (float)n2 - f4, n3);
+        float f = vcq.outCubic(this.iwp.get());
+        float f2 = (float)this.width * 0.5f;
+        float f3 = (float)this.height * 0.5f;
+        float f4 = this.iwq.step(this.iwu >= 0, this.ixa);
+        this.iwt = this.iwu >= 0 || this.iwy ? -1 : iwf.ixg((float)mouseX - f2, (float)mouseY - f3, n);
         this.ixi();
-        uut.pushAlpha(f2 * (1.0f - 0.6f * f5));
+        uut.pushAlpha(f * (1.0f - 0.6f * f4));
         try {
-            this.ixh(drawContext, f3, f4, n3, 0.9f + 0.1f * f2);
+            this.ixh(context, f2, f3, n, 0.9f + 0.1f * f);
         }
         finally {
             uut.popAlpha();
         }
-        if (f5 > 0.01f) {
-            uut.pushAlpha(f5);
+        if (f4 > 0.01f) {
+            uut.pushAlpha(f4);
             try {
-                this.ixr(drawContext, n, n2, f5);
+                this.ixr(context, mouseX, mouseY, f4);
             }
             finally {
                 uut.popAlpha();
@@ -164,18 +164,18 @@ extends Screen {
             float f14 = f + (float)Math.sin(f12) * f13;
             float f15 = f2 - (float)Math.cos(f12) * f13;
             boolean bl2 = bl = ivx2.note() != null && !ivx2.note().isEmpty();
-            if (ivx2.icon().method_7960()) {
+            if (ivx2.icon().isEmpty()) {
                 vjf.draw(drawContext, vhz.PLUS, f14, f15, 9.0f * f3, ujt.lerp(iov.textMuted, iov.accent(), f10));
                 continue;
             }
             if (this.iwq.get() > 0.01f) continue;
             float f16 = (ivx2.usable() ? 1.15f + 0.15f * f10 : 0.8f) * f3 * uut.alpha();
             float f17 = bl ? 3.0f : 0.0f;
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f14, f15 - f17);
-            drawContext.method_51448().scale(f16, f16);
-            drawContext.method_51427(ivx2.icon(), -8, -8);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f14, f15 - f17);
+            drawContext.getMatrices().scale(f16, f16);
+            drawContext.drawItem(ivx2.icon(), -8, -8);
+            drawContext.getMatrices().popMatrix();
             if (ivx2.cooldown() > 0.001f) {
                 uut.arc(drawContext, f14, f15 - f17, 11.0f * f3, 1.5f, 0.0f, Math.min(1.0f, ivx2.cooldown()), iov.accent(), iov.accent2(), iov.accent2(), iov.accent());
             }
@@ -191,7 +191,7 @@ extends Screen {
         }
         irr.SMALL.drawCentered(drawContext, irr.SMALL.ellipsize(this.iwm.title(), f18 * 2.0f - 6.0f), f, irr.SMALL.centerTop(f2), this.iwt >= 0 ? iov.text : iov.textDim);
         float f20 = f2 + f7 + 16.0f;
-        if (this.iwt >= 0 && !this.iws.get(this.iwt).icon().method_7960()) {
+        if (this.iwt >= 0 && !this.iws.get(this.iwt).icon().isEmpty()) {
             ivx ivx3 = this.iws.get(this.iwt);
             String string = irr.NAME.ellipsize(ivx3.title(), 170.0f);
             f4 = irr.NAME.width(string) + 18.0f;
@@ -206,10 +206,10 @@ extends Screen {
 
     private void ixi() {
         boolean bl;
-        if (this.iwy || this.iwu >= 0 || this.field_22787 == null) {
+        if (this.iwy || this.iwu >= 0 || this.client == null) {
             return;
         }
-        boolean bl2 = bl = this.iwn != -1 && vzz.isDown(this.field_22787, this.iwn);
+        boolean bl2 = bl = this.iwn != -1 && vzz.isDown(this.client, this.iwn);
         if (this.iww) {
             if (bl && !this.iwx) {
                 this.ixl();
@@ -230,7 +230,7 @@ extends Screen {
         if (this.iwy || n < 0 || n >= this.iws.size()) {
             return;
         }
-        if (this.iwm.editable() && this.iws.get(n).icon().method_7960()) {
+        if (this.iwm.editable() && this.iws.get(n).icon().isEmpty()) {
             this.ixk(n);
             return;
         }
@@ -250,38 +250,38 @@ extends Screen {
             return;
         }
         this.iwy = true;
-        if (this.field_22787 != null) {
-            this.field_22787.method_63588(() -> {
-                if (this.field_22787.field_1755 == this) {
-                    this.field_22787.method_1507(null);
+        if (this.client != null) {
+            this.client.send(() -> {
+                if (this.client.currentScreen == this) {
+                    this.client.setScreen(null);
                 }
             });
         }
     }
 
-    public boolean method_25402(Click click, boolean bl) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         int n;
         if (this.iwy) {
             return true;
         }
         if (this.iwu >= 0) {
-            this.ixt((float)click.comp_4798(), (float)click.comp_4799(), click.method_74245());
+            this.ixt((float)click.x(), (float)click.y(), click.button());
             return true;
         }
-        int n2 = n = this.iws.isEmpty() ? -1 : iwf.ixg((float)click.comp_4798() - (float)this.field_22789 * 0.5f, (float)click.comp_4799() - (float)this.field_22790 * 0.5f, this.iws.size());
+        int n2 = n = this.iws.isEmpty() ? -1 : iwf.ixg((float)click.x() - (float)this.width * 0.5f, (float)click.y() - (float)this.height * 0.5f, this.iws.size());
         if (n < 0) {
             return true;
         }
-        if (click.method_74245() == 1 && this.iwm.editable()) {
+        if (click.button() == 1 && this.iwm.editable()) {
             this.ixk(n);
-        } else if (!(click.method_74245() != 0 || vzz.isMouse(this.iwn) && vzz.mouseButton(this.iwn) == 0)) {
+        } else if (!(click.button() != 0 || vzz.isMouse(this.iwn) && vzz.mouseButton(this.iwn) == 0)) {
             this.ixj(n);
         }
         return true;
     }
 
-    public boolean method_25404(KeyInput keyInput) {
-        int n = keyInput.comp_4795();
+    public boolean keyPressed(KeyInput input) {
+        int n = input.key();
         if (n == 256) {
             if (this.iwu >= 0) {
                 this.iwu = -1;
@@ -307,11 +307,11 @@ extends Screen {
     }
 
     private float ixp(int n) {
-        return (float)this.field_22789 * 0.5f - this.ixn() * 0.5f + 9.0f + (float)(n < 36 ? n % 9 : 0) * 19.0f;
+        return (float)this.width * 0.5f - this.ixn() * 0.5f + 9.0f + (float)(n < 36 ? n % 9 : 0) * 19.0f;
     }
 
     private float ixq(int n) {
-        float f = (float)this.field_22790 * 0.5f - this.ixo() * 0.5f + 17.0f;
+        float f = (float)this.height * 0.5f - this.ixo() * 0.5f + 17.0f;
         return n < 27 ? f + (float)(n / 9) * 19.0f : (n < 36 ? f + 57.0f + 4.0f : f + 76.0f + 9.0f);
     }
 
@@ -320,29 +320,29 @@ extends Screen {
         float f5;
         float f6 = this.ixn();
         float f7 = this.ixo();
-        float f8 = (float)this.field_22789 * 0.5f - f6 * 0.5f;
-        float f9 = (float)this.field_22790 * 0.5f - f7 * 0.5f + (1.0f - f3) * 5.0f;
+        float f8 = (float)this.width * 0.5f - f6 * 0.5f;
+        float f9 = (float)this.height * 0.5f - f7 * 0.5f + (1.0f - f3) * 5.0f;
         float f10 = iov.r(8.0f);
         uut.shadow(drawContext, f8, f9 + 3.0f, f6, f7, f10, 14.0f, iov.shadow);
         uut.round(drawContext, f8, f9, f6, f7, f10, ujt.withAlpha(iov.window, 255));
         uut.outline(drawContext, f8, f9, f6, f7, f10, 1.0f, iov.stroke);
         irr.VALUE.draw(drawContext, wap.s(a.b("\u376e\u4ee9\uc438\u5a43\ud19c\u5726\ued6f\u64ca", -699320523), a.b("\uffcd\u8614\u0cb5\u92c8\u191c\u9fa7\u21e4", 196148197)) + (this.iwv + 1) + wap.s(a.b("\u2103\u58a8\ud22b\u4c43\uc79e\u4127\ufb3f\u728f\uecdf\u6620\ue1ba\u1bd6\u9510\u0ca9", 2117804343), a.b("\u3697\u4f3c\uc1fd\u5ff5\ud458\u52ed\ue8cb\u6142\uff67\u75a1\uf667\u0809\u86a1\u1f65\u9537\u13ce\ua988\u262e", -689621313)), f8 + 9.0f, irr.VALUE.centerTop(f9 + 9.5f), iov.text);
-        PlayerInventory playerInventory = this.field_22787 != null && this.field_22787.field_1724 != null ? this.field_22787.field_1724.method_31548() : null;
+        PlayerInventory playerInventory = this.client != null && this.client.player != null ? this.client.player.getInventory() : null;
         float f11 = iov.r(3.5f);
         for (int i = 0; i < 37; ++i) {
             f5 = this.ixp(i);
             f4 = this.ixq(i) + (1.0f - f3) * 5.0f;
-            ItemStack itemStack = playerInventory == null ? ItemStack.field_8037 : playerInventory.method_5438(iwf.ixm(i));
-            boolean bl = !itemStack.method_7960() && irr.inside(f, f2, f5, f4, 17.5f, 17.5f);
+            ItemStack itemStack = playerInventory == null ? ItemStack.EMPTY : playerInventory.getStack(iwf.ixm(i));
+            boolean bl = !itemStack.isEmpty() && irr.inside(f, f2, f5, f4, 17.5f, 17.5f);
             uut.round(drawContext, f5, f4, 17.5f, 17.5f, f11, bl ? iov.fieldHover : iov.field);
             if (bl) {
                 uut.outline(drawContext, f5, f4, 17.5f, 17.5f, f11, 1.0f, iov.accent());
             }
-            if (itemStack.method_7960() || !(f3 > 0.5f)) continue;
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f5 + 8.75f, f4 + 8.75f);
-            drawContext.method_51427(itemStack, -8, -8);
-            drawContext.method_51448().popMatrix();
+            if (itemStack.isEmpty() || !(f3 > 0.5f)) continue;
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f5 + 8.75f, f4 + 8.75f);
+            drawContext.drawItem(itemStack, -8, -8);
+            drawContext.getMatrices().popMatrix();
         }
         float f12 = this.ixq(36) + (1.0f - f3) * 5.0f + 8.75f;
         irr.SMALL.draw(drawContext, wap.s(a.d("\ud040\ua9f8\u232b\ubd54\u368a\ub034\u0a6d", -1775130896, -1335134504), a.c(-1056576496, "\ue829\u91e8\u1b47\u8548\u0eef\u8821\u361d\ubb8c\u25d0\uaf18\u28c1")), this.ixp(36) + 19.0f + 3.0f, irr.SMALL.centerTop(f12), iov.textMuted);
@@ -360,8 +360,8 @@ extends Screen {
     private void ixt(float f, float f2, int n) {
         float f3 = this.ixn();
         float f4 = this.ixo();
-        float f5 = (float)this.field_22789 * 0.5f - f3 * 0.5f;
-        float f6 = (float)this.field_22790 * 0.5f - f4 * 0.5f;
+        float f5 = (float)this.width * 0.5f - f3 * 0.5f;
+        float f6 = (float)this.height * 0.5f - f4 * 0.5f;
         if (n != 0 || !irr.inside(f, f2, f5, f6, f3, f4)) {
             this.iwu = -1;
             return;
@@ -369,28 +369,28 @@ extends Screen {
         float f7 = this.ixq(36) + 8.75f;
         float f8 = this.ixs();
         if (irr.inside(f, f2, f5 + f3 - 9.0f - f8, f7 - 7.0f, f8, 14.0f)) {
-            this.iwm.assign(this.iwu, ItemStack.field_8037);
+            this.iwm.assign(this.iwu, ItemStack.EMPTY);
             this.iwu = -1;
             return;
         }
-        if (this.field_22787 == null || this.field_22787.field_1724 == null) {
+        if (this.client == null || this.client.player == null) {
             return;
         }
-        PlayerInventory playerInventory = this.field_22787.field_1724.method_31548();
+        PlayerInventory playerInventory = this.client.player.getInventory();
         for (int i = 0; i < 37; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(iwf.ixm(i));
-            if (itemStack.method_7960() || !irr.inside(f, f2, this.ixp(i), this.ixq(i), 17.5f, 17.5f)) continue;
+            ItemStack itemStack = playerInventory.getStack(iwf.ixm(i));
+            if (itemStack.isEmpty() || !irr.inside(f, f2, this.ixp(i), this.ixq(i), 17.5f, 17.5f)) continue;
             this.iwm.assign(this.iwu, itemStack);
             this.iwu = -1;
             return;
         }
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public boolean method_25422() {
+    public boolean shouldCloseOnEsc() {
         return false;
     }
 

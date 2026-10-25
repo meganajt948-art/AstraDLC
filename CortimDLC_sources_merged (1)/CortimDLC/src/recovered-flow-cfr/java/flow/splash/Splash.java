@@ -65,18 +65,18 @@ public final class Splash {
         final CompletableFuture done = new CompletableFuture();
         ResourceReload fake = new ResourceReload(){
 
-            public CompletableFuture<?> method_18364() {
-                if (!done.isDone() && this.method_18229() >= 1.0f) {
+            public CompletableFuture<?> whenComplete() {
+                if (!done.isDone() && this.getProgress() >= 1.0f) {
                     done.complete(null);
                 }
                 return done;
             }
 
-            public float method_18229() {
+            public float getProgress() {
                 return Math.min(1.0f, (float)(System.nanoTime() - start) / 1.0E9f / seconds);
             }
         };
-        mc.method_18502((Overlay)new FlowSplash(mc, fake, result -> {}, true, injected));
+        mc.setOverlay((Overlay)new FlowSplash(mc, fake, result -> {}, true, injected));
     }
 
     public static void tick(MinecraftClient mc) {
@@ -86,13 +86,13 @@ public final class Splash {
         }
         try {
             boolean artReady;
-            Overlay overlay = mc.method_18506();
+            Overlay overlay = mc.getOverlay();
             boolean bl = artReady = !pending || jzh.decoded(kbs.selected().key) || ++artWait > 40;
             if (pending && artReady) {
                 artWait = 0;
                 if (overlay == null) {
                     pending = false;
-                    mc.method_1521();
+                    mc.reloadResources();
                     Splash.adopt(mc, true);
                 } else if (overlay instanceof FlowSplash) {
                     FlowSplash splash = (FlowSplash)overlay;
@@ -105,7 +105,7 @@ public final class Splash {
             } else if (overlay instanceof SplashOverlay && !(overlay instanceof FlowSplash)) {
                 Splash.adopt(mc, false);
             }
-            if (mc.method_18506() instanceof FlowSplash) {
+            if (mc.getOverlay() instanceof FlowSplash) {
                 idle = 0;
             } else {
                 ClientLoad.frame();
@@ -120,8 +120,8 @@ public final class Splash {
             if (MENU) {
                 jrr.tick(mc);
             }
-            if (mc.method_18506() == null && mc.field_1755 instanceof TitleScreen && MENU && !pending) {
-                mc.method_1507((Screen)new jte());
+            if (mc.getOverlay() == null && mc.currentScreen instanceof TitleScreen && MENU && !pending) {
+                mc.setScreen((Screen)new jte());
             }
         }
         catch (Throwable t) {
@@ -133,7 +133,7 @@ public final class Splash {
     private static void adopt(MinecraftClient mc, boolean injected) throws IllegalAccessException {
         boolean reloading;
         SplashOverlay vanilla;
-        Overlay overlay = mc.method_18506();
+        Overlay overlay = mc.getOverlay();
         if (!(overlay instanceof SplashOverlay) || (vanilla = (SplashOverlay)overlay) instanceof FlowSplash) {
             return;
         }
@@ -150,7 +150,7 @@ public final class Splash {
         if (reload == null || handler == null) {
             return;
         }
-        mc.method_18502((Overlay)new FlowSplash(mc, reload, handler, reloading, injected));
+        mc.setOverlay((Overlay)new FlowSplash(mc, reload, handler, reloading, injected));
     }
 
     private static void lookup() {

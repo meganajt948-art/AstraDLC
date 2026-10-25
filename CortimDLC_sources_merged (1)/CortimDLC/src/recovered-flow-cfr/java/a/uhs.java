@@ -25,7 +25,7 @@ public final class uhs {
 
     public static float daylight(MinecraftClient minecraftClient) {
         try {
-            Float f = (Float)minecraftClient.field_1773.method_19418().method_75756().method_75689(EnvironmentAttributes.field_64346, 1.0f);
+            Float f = (Float)minecraftClient.gameRenderer.getCamera().getEnvironmentAttributeInterpolator().get(EnvironmentAttributes.SKY_LIGHT_FACTOR_VISUAL, 1.0f);
             return f == null ? 1.0f : Math.max(0.0f, Math.min(1.0f, f.floatValue()));
         }
         catch (RuntimeException runtimeException) {
@@ -34,17 +34,17 @@ public final class uhs {
     }
 
     public static float boost(MinecraftClient minecraftClient) {
-        Double d = (Double)minecraftClient.field_1690.method_42473().method_41753();
+        Double d = (Double)minecraftClient.options.getGamma().getValue();
         return d == null ? 0.0f : (float)Math.max(0.0, Math.min(1.0, (d - 1.0) / 5.0));
     }
 
     public static float light(MinecraftClient minecraftClient) {
         float f;
-        Camera camera = minecraftClient.field_1773.method_19418();
+        Camera camera = minecraftClient.gameRenderer.getCamera();
         float f2 = 0.5f;
-        if (minecraftClient.field_1687 != null && camera.method_19332()) {
-            float f3 = (float)minecraftClient.field_1687.method_8314(LightType.field_9284, camera.method_19328()) / 15.0f;
-            float f4 = (float)minecraftClient.field_1687.method_8314(LightType.field_9282, camera.method_19328()) / 15.0f;
+        if (minecraftClient.world != null && camera.isReady()) {
+            float f3 = (float)minecraftClient.world.getLightLevel(LightType.SKY, camera.getBlockPos()) / 15.0f;
+            float f4 = (float)minecraftClient.world.getLightLevel(LightType.BLOCK, camera.getBlockPos()) / 15.0f;
             f = uhs.daylight(minecraftClient);
             f2 = Math.max(f3 * (0.18f + 0.82f * f), f4 * 0.75f);
             f2 = Math.max(f2, 0.08f);

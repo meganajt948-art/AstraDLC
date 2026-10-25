@@ -31,13 +31,13 @@ final class ehq {
     }
 
     void offer(ResourcePackSendS2CPacket resourcePackSendS2CPacket, ClientConnection clientConnection) {
-        String string = resourcePackSendS2CPacket.comp_2159();
+        String string = resourcePackSendS2CPacket.url();
         if (string == null || !string.startsWith(a.d("\ud5df\uac72\u26a1\ub8d4\u3349\ub5ed\u0fbe", 1891259999, -444169233)) && !string.startsWith(a.c(-975468472, "\u8828\uf185\u7b56\ue523\u6ef7\ue80f\u5249\udbb8"))) {
-            clientConnection.method_10743((Packet)new ResourcePackStatusC2SPacket(resourcePackSendS2CPacket.comp_2158(), ResourcePackStatusC2SPacket.Status.field_47667));
+            clientConnection.send((Packet)new ResourcePackStatusC2SPacket(resourcePackSendS2CPacket.id(), ResourcePackStatusC2SPacket.Status.INVALID_URL));
             return;
         }
-        clientConnection.method_10743((Packet)new ResourcePackStatusC2SPacket(resourcePackSendS2CPacket.comp_2158(), ResourcePackStatusC2SPacket.Status.field_13016));
-        this.ehr.add(new ehn(resourcePackSendS2CPacket.comp_2158(), 24 + this.ehs.nextInt(46)));
+        clientConnection.send((Packet)new ResourcePackStatusC2SPacket(resourcePackSendS2CPacket.id(), ResourcePackStatusC2SPacket.Status.ACCEPTED));
+        this.ehr.add(new ehn(resourcePackSendS2CPacket.id(), 24 + this.ehs.nextInt(46)));
     }
 
     void tick(ClientConnection clientConnection) {
@@ -46,12 +46,12 @@ final class ehq {
             ehn ehn2 = iterator.next();
             if (--ehn2.ticks > 0) continue;
             if (ehn2.stage == 0) {
-                clientConnection.method_10743((Packet)new ResourcePackStatusC2SPacket(ehn2.id, ResourcePackStatusC2SPacket.Status.field_47704));
+                clientConnection.send((Packet)new ResourcePackStatusC2SPacket(ehn2.id, ResourcePackStatusC2SPacket.Status.DOWNLOADED));
                 ehn2.stage = 1;
                 ehn2.ticks = 6 + this.ehs.nextInt(14);
                 continue;
             }
-            clientConnection.method_10743((Packet)new ResourcePackStatusC2SPacket(ehn2.id, ResourcePackStatusC2SPacket.Status.field_13017));
+            clientConnection.send((Packet)new ResourcePackStatusC2SPacket(ehn2.id, ResourcePackStatusC2SPacket.Status.SUCCESSFULLY_LOADED));
             iterator.remove();
         }
     }

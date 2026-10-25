@@ -220,14 +220,14 @@ final class iah {
                 if (!bl) {
                     return false;
                 }
-                MinecraftClient.method_1551().field_1774.method_1455(this.text);
+                MinecraftClient.getInstance().keyboard.setClipboard(this.text);
                 break;
             }
             case 86: {
                 if (!bl) {
                     return false;
                 }
-                String string = MinecraftClient.method_1551().field_1774.method_1460();
+                String string = MinecraftClient.getInstance().keyboard.getClipboard();
                 if (string == null) break;
                 this.iaw(string.replace(a.d("\u3604", -2127784439, 425762822), a.d("\u3d05", -775079790, 171640246)).replace(a.d("\u08dc", -445323027, 128704573), ""));
                 break;

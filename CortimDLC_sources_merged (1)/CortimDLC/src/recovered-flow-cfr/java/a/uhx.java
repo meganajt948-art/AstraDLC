@@ -36,26 +36,26 @@ implements SimpleGuiElementRenderState {
     private static /* synthetic */ long uii;
 
     uhx(SimpleGuiElementRenderState simpleGuiElementRenderState) {
-        this.uhy = simpleGuiElementRenderState.comp_4055();
-        this.uhz = simpleGuiElementRenderState.comp_4056();
-        this.uia = simpleGuiElementRenderState.comp_4069();
+        this.uhy = simpleGuiElementRenderState.pipeline();
+        this.uhz = simpleGuiElementRenderState.textureSetup();
+        this.uia = simpleGuiElementRenderState.scissorArea();
         this.add(simpleGuiElementRenderState);
     }
 
     boolean accepts(SimpleGuiElementRenderState simpleGuiElementRenderState) {
-        return simpleGuiElementRenderState.comp_4055() == this.uhy && Objects.equals(simpleGuiElementRenderState.comp_4069(), this.uia) && simpleGuiElementRenderState.comp_4056().equals((Object)this.uhz);
+        return simpleGuiElementRenderState.pipeline() == this.uhy && Objects.equals(simpleGuiElementRenderState.scissorArea(), this.uia) && simpleGuiElementRenderState.textureSetup().equals((Object)this.uhz);
     }
 
     void add(SimpleGuiElementRenderState simpleGuiElementRenderState) {
-        ScreenRect screenRect = simpleGuiElementRenderState.comp_4274();
+        ScreenRect screenRect = simpleGuiElementRenderState.bounds();
         if (screenRect == null) {
             return;
         }
         this.uib.add(simpleGuiElementRenderState);
-        this.uic = Math.min(this.uic, screenRect.method_49620());
-        this.uid = Math.min(this.uid, screenRect.method_49618());
-        this.uie = Math.max(this.uie, screenRect.method_49621());
-        this.uif = Math.max(this.uif, screenRect.method_49619());
+        this.uic = Math.min(this.uic, screenRect.getLeft());
+        this.uid = Math.min(this.uid, screenRect.getTop());
+        this.uie = Math.max(this.uie, screenRect.getRight());
+        this.uif = Math.max(this.uif, screenRect.getBottom());
         this.uig = null;
     }
 
@@ -63,25 +63,25 @@ implements SimpleGuiElementRenderState {
         return this.uib.isEmpty();
     }
 
-    public void method_70917(VertexConsumer vertexConsumer) {
+    public void setupVertices(VertexConsumer vertices) {
         for (SimpleGuiElementRenderState simpleGuiElementRenderState : this.uib) {
-            simpleGuiElementRenderState.method_70917(vertexConsumer);
+            simpleGuiElementRenderState.setupVertices(vertices);
         }
     }
 
-    public RenderPipeline comp_4055() {
+    public RenderPipeline pipeline() {
         return this.uhy;
     }
 
-    public TextureSetup comp_4056() {
+    public TextureSetup textureSetup() {
         return this.uhz;
     }
 
-    public @Nullable ScreenRect comp_4069() {
+    public @Nullable ScreenRect scissorArea() {
         return this.uia;
     }
 
-    public @Nullable ScreenRect comp_4274() {
+    public @Nullable ScreenRect bounds() {
         if (this.uig == null && this.uie > this.uic && this.uif > this.uid) {
             this.uig = new ScreenRect(this.uic, this.uid, this.uie - this.uic, this.uif - this.uid);
         }

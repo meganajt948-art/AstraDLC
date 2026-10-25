@@ -82,9 +82,9 @@ public final class qln {
         if (l == l2) {
             return 1.0;
         }
-        int n2 = BlockPos.method_10061((long)l) - BlockPos.method_10061((long)l2);
-        int n3 = BlockPos.method_10071((long)l) - BlockPos.method_10071((long)l2);
-        int n4 = BlockPos.method_10083((long)l) - BlockPos.method_10083((long)l2);
+        int n2 = BlockPos.unpackLongX((long)l) - BlockPos.unpackLongX((long)l2);
+        int n3 = BlockPos.unpackLongY((long)l) - BlockPos.unpackLongY((long)l2);
+        int n4 = BlockPos.unpackLongZ((long)l) - BlockPos.unpackLongZ((long)l2);
         if (Math.abs(n2) > 1 || Math.abs(n3) > 1 || Math.abs(n4) > 1) {
             return 0.0;
         }
@@ -116,9 +116,9 @@ public final class qln {
             return;
         }
         qlk qlk2 = new qlk(l, n, n2, dArray);
-        int n3 = BlockPos.method_10061((long)l);
-        int n4 = BlockPos.method_10071((long)l);
-        int n5 = BlockPos.method_10083((long)l);
+        int n3 = BlockPos.unpackLongX((long)l);
+        int n4 = BlockPos.unpackLongY((long)l);
+        int n5 = BlockPos.unpackLongZ((long)l);
         for (int i = -1; i <= 1; ++i) {
             for (int j = -1; j <= 1; ++j) {
                 for (int k = -1; k <= 1; ++k) {
@@ -132,7 +132,7 @@ public final class qln {
                         if (!(dArray[i2] > 0.0) || qln.qlx(i, j, k, i2) != 0) continue;
                         n6 |= 2 << i2;
                     }
-                    if (n6 == 0 || longOpenHashSet.contains(l2 = BlockPos.method_10064((int)(n3 + i), (int)(n4 + j), (int)(n5 + k))) || !longPredicate.test(l2)) continue;
+                    if (n6 == 0 || longOpenHashSet.contains(l2 = BlockPos.asLong((int)(n3 + i), (int)(n4 + j), (int)(n5 + k))) || !longPredicate.test(l2)) continue;
                     qlk2.blocks.put(l2, n6);
                 }
             }

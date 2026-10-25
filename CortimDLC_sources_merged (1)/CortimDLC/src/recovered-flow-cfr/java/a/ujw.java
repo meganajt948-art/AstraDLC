@@ -52,16 +52,16 @@ public final class ujw {
             return null;
         }
         try {
-            Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-            GpuTextureView gpuTextureView2 = framebuffer.method_71639();
-            if (gpuTextureView2 == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+            Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+            GpuTextureView gpuTextureView2 = framebuffer.getColorAttachmentView();
+            if (gpuTextureView2 == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
                 return null;
             }
-            ujw.uke(framebuffer.field_1482, framebuffer.field_1481);
+            ujw.uke(framebuffer.textureWidth, framebuffer.textureHeight);
             GpuDevice gpuDevice = RenderSystem.getDevice();
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
-            float f6 = framebuffer.field_1482;
-            float f7 = framebuffer.field_1481;
+            float f6 = framebuffer.textureWidth;
+            float f7 = framebuffer.textureHeight;
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
                 ByteBuffer byteBuffer = Std140Builder.onStack((MemoryStack)memoryStack, (int)32).putVec4(f / f6, 1.0f - f4 / f7, f3 / f6, 1.0f - f2 / f7).putVec4(f5, (float)(n >> 16 & 0xFF) / 255.0f, (float)(n >> 8 & 0xFF) / 255.0f, (float)(n & 0xFF) / 255.0f).get();
                 commandEncoder.writeToBuffer(ujz.slice(), byteBuffer);
@@ -69,8 +69,8 @@ public final class ujw {
             memoryStack = commandEncoder.createRenderPass(() -> "Flow2 composite", ujy, OptionalInt.empty());
             try {
                 memoryStack.setPipeline(uvq.COMPOSITE);
-                memoryStack.bindTexture("InSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                memoryStack.bindTexture("WallSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                memoryStack.bindTexture("InSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                memoryStack.bindTexture("WallSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                 memoryStack.setUniform("FlowComposite", ujz);
                 memoryStack.draw(0, 3);
             }

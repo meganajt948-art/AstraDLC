@@ -123,12 +123,12 @@ extends imn {
                 float f13 = f11 + 5.5f;
                 float f14 = vcq.outBack(f10);
                 uut.pushAlpha(f10);
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f12, f13);
-                drawContext.method_51448().scale(f14, f14);
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f12, f13);
+                drawContext.getMatrices().scale(f14, f14);
                 uut.circle(drawContext, 0.0f, 0.0f, 3.8f, iov.accent());
                 vjf.draw(drawContext, vhz.CHECK, 0.0f, 0.0f, 5.5f, iov.onAccent());
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().popMatrix();
                 uut.popAlpha();
             }
             irr.SMALL.drawCentered(drawContext, irr.SMALL.ellipsize(isv.label(isn2), f4), f7 + f4 * 0.5f, irr.SMALL.centerTop(f8 + f5 + 5.0f + 1.0f), ujt.lerp(ujt.lerp(iov.textMuted, iov.textDim, f9), iov.text, f10));

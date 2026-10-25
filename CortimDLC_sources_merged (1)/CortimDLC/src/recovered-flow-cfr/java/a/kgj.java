@@ -161,7 +161,7 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             this.khx = null;
             return;
@@ -190,16 +190,16 @@ extends kfe {
 
     @Override
     public void onWorldRender(MinecraftClient minecraftClient) {
-        if (!(this.kia != null && this.kib || minecraftClient.method_22683() == null)) {
-            this.kje(minecraftClient.method_22683().method_4490());
+        if (!(this.kia != null && this.kib || minecraftClient.getWindow() == null)) {
+            this.kje(minecraftClient.getWindow().getHandle());
         }
         long l = System.nanoTime();
         if (this.kih != 0L) {
             this.kii += (Math.min(0.1, (double)(l - this.kih) / 1.0E9) - this.kii) * 0.2;
         }
         this.kih = l;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1755 != null || !minecraftClient.field_1729.method_1613()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.currentScreen != null || !minecraftClient.mouse.isCursorLocked()) {
             this.kht.forgetFrame();
             return;
         }
@@ -239,10 +239,10 @@ extends kfe {
     }
 
     private boolean kiv(ClientPlayerEntity clientPlayerEntity, Vec3d vec3d, Entity entity, double d, double d2) {
-        if (entity.method_31481() || !this.kix(clientPlayerEntity, entity, false) || !kgj.kiz(vec3d, entity, d + 1.5) || kgj.kja(clientPlayerEntity, vec3d, entity) > d2 * 1.2) {
+        if (entity.isRemoved() || !this.kix(clientPlayerEntity, entity, false) || !kgj.kiz(vec3d, entity, d + 1.5) || kgj.kja(clientPlayerEntity, vec3d, entity) > d2 * 1.2) {
             return false;
         }
-        if (this.khb.get() || clientPlayerEntity.method_6057(entity)) {
+        if (this.khb.get() || clientPlayerEntity.canSee(entity)) {
             this.kiq = 0;
             return true;
         }
@@ -255,12 +255,12 @@ extends kfe {
 
     private boolean kix(ClientPlayerEntity clientPlayerEntity, Entity entity, boolean bl) {
         LivingEntity livingEntity;
-        if (!(entity != clientPlayerEntity && entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).method_5805() && entity.method_5732())) {
+        if (!(entity != clientPlayerEntity && entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).isAlive() && entity.isAttackable())) {
             return false;
         }
         if (entity instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity)entity;
-            if (!this.kgz.get() || playerEntity.method_7325() || hhf.protects((Entity)playerEntity)) {
+            if (!this.kgz.get() || playerEntity.isSpectator() || hhf.protects((Entity)playerEntity)) {
                 return false;
             }
         } else if (!this.kha.get() || !(entity instanceof Monster)) {
@@ -269,7 +269,7 @@ extends kfe {
         if (!this.khc.allows(entity)) {
             return false;
         }
-        return !bl || this.khb.get() || clientPlayerEntity.method_6057(entity);
+        return !bl || this.khb.get() || clientPlayerEntity.canSee(entity);
     }
 
     private static double kiy(LivingEntity livingEntity) {
@@ -278,31 +278,31 @@ extends kfe {
     }
 
     private static boolean kiz(Vec3d vec3d, Entity entity, double d) {
-        return entity.method_5829().method_49271(vec3d) <= d * d;
+        return entity.getBoundingBox().squaredMagnitude(vec3d) <= d * d;
     }
 
     private static double kja(ClientPlayerEntity clientPlayerEntity, Vec3d vec3d, Entity entity) {
-        Vec3d vec3d2 = entity.method_73189();
-        double d = Math.toDegrees(Math.atan2(vec3d2.field_1350 - vec3d.field_1350, vec3d2.field_1352 - vec3d.field_1352)) - 90.0;
-        return Math.abs(MathHelper.method_15338((double)(d - (double)clientPlayerEntity.method_36454())));
+        Vec3d vec3d2 = entity.getEntityPos();
+        double d = Math.toDegrees(Math.atan2(vec3d2.z - vec3d.z, vec3d2.x - vec3d.x)) - 90.0;
+        return Math.abs(MathHelper.wrapDegrees((double)(d - (double)clientPlayerEntity.getYaw())));
     }
 
     private void kjb(MinecraftClient minecraftClient) {
         boolean bl;
-        boolean bl2 = bl = minecraftClient.field_1690.field_1886.method_1434() || minecraftClient.field_1755 == null && minecraftClient.method_22683() != null && GLFW.glfwGetMouseButton((long)minecraftClient.method_22683().method_4490(), (int)0) == 1;
+        boolean bl2 = bl = minecraftClient.options.attackKey.isPressed() || minecraftClient.currentScreen == null && minecraftClient.getWindow() != null && GLFW.glfwGetMouseButton((long)minecraftClient.getWindow().getHandle(), (int)0) == 1;
         if (bl) {
             this.khw = System.currentTimeMillis();
         }
     }
 
     private boolean kjc(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        if (minecraftClient.field_1755 != null || !minecraftClient.method_1569() || !minecraftClient.field_1729.method_1613() || !clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325()) {
+        if (minecraftClient.currentScreen != null || !minecraftClient.isWindowFocused() || !minecraftClient.mouse.isCursorLocked() || !clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator()) {
             return false;
         }
-        if (minecraftClient.field_1761 != null && minecraftClient.field_1761.method_2923()) {
+        if (minecraftClient.interactionManager != null && minecraftClient.interactionManager.isBreakingBlock()) {
             return false;
         }
-        if (clientPlayerEntity.method_6115()) {
+        if (clientPlayerEntity.isUsingItem()) {
             return false;
         }
         if (kmy.busy() || tcz.mode() == tcw.RECORD || nfl.busy() || lqq.busy()) {
@@ -311,7 +311,7 @@ extends kfe {
         if (this.kgy.get() && System.currentTimeMillis() - this.khw > 650L) {
             return false;
         }
-        return this.kjd(clientPlayerEntity.method_6047());
+        return this.kjd(clientPlayerEntity.getMainHandStack());
     }
 
     /*
@@ -392,7 +392,7 @@ extends kfe {
             this.khz.invoke(l, d, d2);
         }
         if (this.kib) {
-            MinecraftClient.method_1551().execute(this::kjh);
+            MinecraftClient.getInstance().execute(this::kjh);
         }
     }
 
@@ -400,11 +400,11 @@ extends kfe {
         if (!this.kib || khq == null) {
             return;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         try {
-            double d = khq.getDouble(minecraftClient.field_1729);
-            double d2 = khr.getDouble(minecraftClient.field_1729);
-            double d3 = khs.getDouble(minecraftClient.field_1729);
+            double d = khq.getDouble(minecraftClient.mouse);
+            double d2 = khr.getDouble(minecraftClient.mouse);
+            double d3 = khs.getDouble(minecraftClient.mouse);
             if (d3 != this.kig) {
                 boolean bl = !Double.isNaN(this.kig) && d3 - this.kig < 0.25;
                 this.kij = bl ? this.kil : 0.0;
@@ -424,8 +424,8 @@ extends kfe {
             this.kji(minecraftClient);
             this.kie = this.kic + this.khv[0];
             this.kif = this.kid + this.khv[1];
-            khq.setDouble(minecraftClient.field_1729, this.kie);
-            khr.setDouble(minecraftClient.field_1729, this.kif);
+            khq.setDouble(minecraftClient.mouse, this.kie);
+            khr.setDouble(minecraftClient.mouse, this.kif);
         }
         catch (IllegalAccessException illegalAccessException) {
             khq = null;
@@ -436,28 +436,28 @@ extends kfe {
     private void kji(MinecraftClient minecraftClient) {
         this.khv[1] = 0.0;
         this.khv[0] = 0.0;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         Entity entity = this.khx;
-        if (this.kic == 0.0 && this.kid == 0.0 || !this.isEnabled() || clientPlayerEntity == null || entity == null || !entity.method_5805() || entity.method_31481() || minecraftClient.field_1755 != null || !minecraftClient.field_1729.method_1613() || minecraftClient.field_1690.field_1914 || !minecraftClient.field_1690.method_31044().method_31034() || ovh.active()) {
+        if (this.kic == 0.0 && this.kid == 0.0 || !this.isEnabled() || clientPlayerEntity == null || entity == null || !entity.isAlive() || entity.isRemoved() || minecraftClient.currentScreen != null || !minecraftClient.mouse.isCursorLocked() || minecraftClient.options.smoothCameraEnabled || !minecraftClient.options.getPerspective().isFirstPerson() || ovh.active()) {
             this.kim = 0.0;
             this.kil = 0.0;
             return;
         }
         double d = kgj.kjl(minecraftClient, clientPlayerEntity);
-        float f = minecraftClient.method_61966().method_60637(true);
-        Vec3d vec3d = clientPlayerEntity.method_5836(f);
-        Vec3d vec3d2 = entity.method_30950(f);
-        if (d <= 0.0 || !tbp.aim(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, vec3d2.field_1352, vec3d2.field_1351, vec3d2.field_1350, (double)entity.method_17681() * 0.5, entity.method_17682(), 0.0, 0.5, this.khu)) {
+        float f = minecraftClient.getRenderTickCounter().getTickProgress(true);
+        Vec3d vec3d = clientPlayerEntity.getCameraPosVec(f);
+        Vec3d vec3d2 = entity.getLerpedPos(f);
+        if (d <= 0.0 || !tbp.aim(vec3d.x, vec3d.y, vec3d.z, vec3d2.x, vec3d2.y, vec3d2.z, (double)entity.getWidth() * 0.5, entity.getHeight(), 0.0, 0.5, this.khu)) {
             this.kim = 0.0;
             this.kil = 0.0;
             return;
         }
-        double d2 = (Boolean)minecraftClient.field_1690.method_72706().method_41753() != false ? -1.0 : 1.0;
-        double d3 = (Boolean)minecraftClient.field_1690.method_42438().method_41753() != false ? -1.0 : 1.0;
+        double d2 = (Boolean)minecraftClient.options.getInvertMouseX().getValue() != false ? -1.0 : 1.0;
+        double d3 = (Boolean)minecraftClient.options.getInvertMouseY().getValue() != false ? -1.0 : 1.0;
         double d4 = this.kic * d * d2;
         double d5 = this.kid * d * d3;
-        double d6 = tbp.wrap(this.khu.yaw - (double)clientPlayerEntity.method_36454());
-        double d7 = this.khu.pitch - (double)clientPlayerEntity.method_36455();
+        double d6 = tbp.wrap(this.khu.yaw - (double)clientPlayerEntity.getYaw());
+        double d7 = this.khu.pitch - (double)clientPlayerEntity.getPitch();
         double d8 = kgj.kjk(d6 + this.khu.la, d6 + this.khu.ra);
         double d9 = kgj.kjk(d7 + this.khu.ta, d7 + this.khu.ba);
         double d10 = 1.0 - kgj.kjm(1.5, 8.0, Math.hypot(d8, d9));
@@ -479,7 +479,7 @@ extends kfe {
         }
         boolean bl2 = d2 != 0.0 ? d * d2 > 0.0 : (bl = d * d3 > 0.0);
         if (!bl) {
-            return d * MathHelper.method_16436((double)d4, (double)1.0, (double)this.kgs.get());
+            return d * MathHelper.lerp((double)d4, (double)1.0, (double)this.kgs.get());
         }
         if (d2 == 0.0) {
             return d;
@@ -494,14 +494,14 @@ extends kfe {
     }
 
     private static double kjl(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        double d = (Double)minecraftClient.field_1690.method_42495().method_41753() * (double)0.6f + (double)0.2f;
+        double d = (Double)minecraftClient.options.getMouseSensitivity().getValue() * (double)0.6f + (double)0.2f;
         double d2 = d * d * d;
-        boolean bl = minecraftClient.field_1690.method_31044().method_31034() && clientPlayerEntity.method_31550();
+        boolean bl = minecraftClient.options.getPerspective().isFirstPerson() && clientPlayerEntity.isUsingSpyglass();
         return (bl ? d2 : d2 * 8.0) * 0.15;
     }
 
     private static double kjm(double d, double d2, double d3) {
-        double d4 = MathHelper.method_15350((double)((d3 - d) / (d2 - d)), (double)0.0, (double)1.0);
+        double d4 = MathHelper.clamp((double)((d3 - d) / (d2 - d)), (double)0.0, (double)1.0);
         return d4 * d4 * (3.0 - 2.0 * d4);
     }
 

@@ -185,18 +185,18 @@ final class fpo {
 
     static boolean tick(MinecraftClient minecraftClient) {
         int n;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         fpo.fub(minecraftClient);
         wcn.ensure(minecraftClient);
         if (++frh == 1) {
-            int n2 = MathHelper.method_15357((double)clientPlayerEntity.method_23317());
-            int n3 = MathHelper.method_15357((double)clientPlayerEntity.method_23318());
-            int n4 = MathHelper.method_15357((double)clientPlayerEntity.method_23321());
+            int n2 = MathHelper.floor((double)clientPlayerEntity.getX());
+            int n3 = MathHelper.floor((double)clientPlayerEntity.getY());
+            int n4 = MathHelper.floor((double)clientPlayerEntity.getZ());
             fri = (double)n2 + 0.5;
             frj = n3;
             frk = (double)n4 + 0.5;
-            frd = clientPlayerEntity.method_5667();
-            frc = clientPlayerEntity.method_5628();
+            frd = clientPlayerEntity.getUuid();
+            frc = clientPlayerEntity.getId();
             fpo.fuf(minecraftClient, a.d("\uabd9\ud26e\u58b1\uc6c8\u4d17\ucba4\u71fc\uf80c\u6616\uecf4\u6b21\u9157\u1f84\u862a\u0c66\u8a80\u30c2", -307556399, -364993410));
             fpo.fuf(minecraftClient, a.d("\u2e1b\u57b7\udd60\u4319\uc88b\u4e69\uf42c\u7dcc\ue3c7\u6932\ueee4\u148d", -574092651, 232137974));
             fpo.fuf(minecraftClient, a.b("\ucb61\ub2c2\u3815\ua671\u2dba\uab06\u1142\u98e1\u06fd\u8c43\u0b99\uf1ec\u7f28", -2032481509));
@@ -207,12 +207,12 @@ final class fpo {
             fpo.fuf(minecraftClient, a.d("\u9579\uecd5\u6617\uf86e\u73f4\uf517\u4f53\uc6b7\u58f4\ud248\u5599\uafee\u217c\ub888\u32d0\ub43b\u0e69\u81a5\u1b1b\u9d13\u1484\u6ee6\ue006\u7b9f\ufde7\u772d\uce88\u40da\uda3e\u5c33\ud79e\u295f\ua347\u3aa8\ubce6\u364b\u89d4\u03e8\u853f\u1c89\u96dd\ue82a\u6268\ue5ca\u7f1a\uf179\u48e4\uc20b\u4449\udf90\u51ef\uab3c\u228a\ua4d1\u3e19\ub064\u0bdf\u8d16\u0778\u9ebf", -1299412435, 1701519105));
             fpo.fuf(minecraftClient, String.format(Locale.ROOT, a.b("\u21fc\u5842\ud294\u4ce5\uc77e\u41ca\ufbd8\u726d\uec37\u66c7\ue150\u1b24\u95b2\u0c47\u8611\u00a1\ubaaa\u357e\uaf8c\u2999\ua06b\uda7b\u548c\ucf10\u496b\uc3bd\u7a05\uf452\u6eb4\ue8f6\u6342\u9d81\u1780\u8e2c\u0874\u82c8\u3d0d\ub77c\u31fc\ua805\u225d\u5caf\ud6fc\u514e\ucb81", 955851191), n2 - 16, n3 - 1, n4 - 16, n2 + 16, n3 + 9, n4 + 16));
             fpo.fuf(minecraftClient, String.format(Locale.ROOT, a.b("\uc130\ub885\u3206\uac17\u27f3\ua111\u1b47\u92bd\u0cfd\u861b\u018e\ufbfa\u756c\uec99\u66cf\ue035\u5a65\ud5e3\u4f16\uc94a\u40a9\u3af1\ub452\u2f93", -892878500), fri, n3, frk));
-            clientPlayerEntity.method_31548().method_61496(0);
+            clientPlayerEntity.getInventory().setSelectedSlot(0);
             return false;
         }
         if (frh == 8) {
             double d = fri + 3.0;
-            minecraftClient.method_1576().execute(() -> fnq.spawn((MinecraftServer)minecraftClient.method_1576(), frd, d, frj, frk));
+            minecraftClient.getServer().execute(() -> fnq.spawn((MinecraftServer)minecraftClient.getServer(), frd, d, frj, frk));
             return false;
         }
         if (frh == 40) {
@@ -229,8 +229,8 @@ final class fpo {
             System.out.println(a.d("\ucbdc\ub27c\u38bf\ua6c7\u2d5c\uabb9\u11fb\u981c\u0644\u8ca1\u0b14\uf162\u7fbd\ue609\u6c36\uea89\u50c7\udf59\u45a8\uc3f4\u4a18", 843544986, 1544139319));
             return true;
         }
-        if (minecraftClient.field_1729.method_1613()) {
-            minecraftClient.field_1729.method_1610();
+        if (minecraftClient.mouse.isCursorLocked()) {
+            minecraftClient.mouse.unlockCursor();
         }
         int n5 = frh - 100;
         int n6 = 0;
@@ -287,10 +287,10 @@ final class fpo {
         double d;
         boolean bl2;
         double d2;
-        float f = vxr.getFloat(fpv, clientPlayerEntity, clientPlayerEntity.method_36454());
-        float f2 = vxr.getFloat(fpw, clientPlayerEntity, clientPlayerEntity.method_36455());
+        float f = vxr.getFloat(fpv, clientPlayerEntity, clientPlayerEntity.getYaw());
+        float f2 = vxr.getFloat(fpw, clientPlayerEntity, clientPlayerEntity.getPitch());
         if (!Float.isNaN(fqd)) {
-            double d3 = MathHelper.method_15393((float)(f - fqd));
+            double d3 = MathHelper.wrapDegrees((float)(f - fqd));
             d2 = f2 - fqe;
             fpy.add(Math.sqrt(d3 * d3 + d2 * d2));
             if (kwf.target() != null) {
@@ -300,7 +300,7 @@ final class fpo {
                 fpo.ftl();
             }
             if (System.getenv(a.c(-365273819, "\u5d76\u24cd\uae1d\u3074\ubbc6\u3d1a\u8752\u0eb2\u90fd\u1a45\u9d85\u67ea\ue929\u709f\ufadf\u7c30\uc674\u49a3\ud303\u5550\udca1")) != null || Math.sqrt(d3 * d3 + d2 * d2) > 30.0) {
-                System.out.println(String.format(Locale.ROOT, a.c(-1066221823, "\ubf34\uc694\u4c57\ud22f\u59b4\udf64\u6523\uecd5\u7299\uf849\u7fd8\u85a2\u0b7b\u928d\u188a\u9e7a\u2432\uabff\u3102\ub707\u3eb9\u44f0\uca02\u5197\ud7bb\u5d7c\ue4c4\u6a8f\uf02c\u7678\ufdc0\u030e\u8916\u10ae\u96f7\u1c4d\ua385\u29a3\uaf36\u368a\ubcc6\uc229\u487f\ucfc5\u550d\udb2b\u62b1\ue80a\u6e4e\uf580\u7ba4\u8133\u08c7\u8e94\u146b\u9a32\u219a\ua758\u2d6a\ub4be\u3a02\u404c\uc7e8\u4df0\ud335\u5a8f\ue0c3\u6665\uec74\u7391\uf957\u7f35\u86ff\u0c4c\u920e\u19b6\u9ff9\u251e\uac9e\u32ea\ub873"), fra, Float.valueOf(fqd), Float.valueOf(fqe), Float.valueOf(f), Float.valueOf(f2), Float.valueOf(clientPlayerEntity.method_36454()), Float.valueOf(clientPlayerEntity.method_36455()), kwf.target(), kwf.debug()));
+                System.out.println(String.format(Locale.ROOT, a.c(-1066221823, "\ubf34\uc694\u4c57\ud22f\u59b4\udf64\u6523\uecd5\u7299\uf849\u7fd8\u85a2\u0b7b\u928d\u188a\u9e7a\u2432\uabff\u3102\ub707\u3eb9\u44f0\uca02\u5197\ud7bb\u5d7c\ue4c4\u6a8f\uf02c\u7678\ufdc0\u030e\u8916\u10ae\u96f7\u1c4d\ua385\u29a3\uaf36\u368a\ubcc6\uc229\u487f\ucfc5\u550d\udb2b\u62b1\ue80a\u6e4e\uf580\u7ba4\u8133\u08c7\u8e94\u146b\u9a32\u219a\ua758\u2d6a\ub4be\u3a02\u404c\uc7e8\u4df0\ud335\u5a8f\ue0c3\u6665\uec74\u7391\uf957\u7f35\u86ff\u0c4c\u920e\u19b6\u9ff9\u251e\uac9e\u32ea\ub873"), fra, Float.valueOf(fqd), Float.valueOf(fqe), Float.valueOf(f), Float.valueOf(f2), Float.valueOf(clientPlayerEntity.getYaw()), Float.valueOf(clientPlayerEntity.getPitch()), kwf.target(), kwf.debug()));
             }
         }
         fqd = f;
@@ -308,29 +308,29 @@ final class fpo {
         if (fqk) {
             fpo.ftm(clientPlayerEntity, f, f2);
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = entity.method_73189();
-        d2 = Math.toDegrees(Math.atan2(vec3d2.field_1350 - vec3d.field_1350, vec3d2.field_1352 - vec3d.field_1352)) - 90.0;
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = entity.getEntityPos();
+        d2 = Math.toDegrees(Math.atan2(vec3d2.z - vec3d.z, vec3d2.x - vec3d.x)) - 90.0;
         if (a.b("\ucbdf\ub274\u38a2\ua6da\u2d06\uabad", 798280618).equals(fpu)) {
             if (--fsh <= 0) {
                 fsh = 30 + fro.nextInt(60);
                 fqf = (fro.nextDouble() - 0.5) * 6.0;
             }
-            clientPlayerEntity.method_5872(fqf / 0.15, 0.0);
-            if (Math.abs(MathHelper.method_15338((double)(d2 - (double)clientPlayerEntity.method_36454()))) > 90.0) {
+            clientPlayerEntity.changeLookDirection(fqf / 0.15, 0.0);
+            if (Math.abs(MathHelper.wrapDegrees((double)(d2 - (double)clientPlayerEntity.getYaw()))) > 90.0) {
                 ++fqg;
             }
         }
         ++fqh;
-        double d4 = vec3d2.field_1352 - clientPlayerEntity.method_23317();
-        double d5 = vec3d2.field_1350 - clientPlayerEntity.method_23321();
+        double d4 = vec3d2.x - clientPlayerEntity.getX();
+        double d5 = vec3d2.z - clientPlayerEntity.getZ();
         double d6 = Math.max(0.001, Math.sqrt(d4 * d4 + d5 * d5));
         fqi += d6;
         if (--fsl <= 0) {
             fsl = 15 + fro.nextInt(30);
             fsm = fro.nextInt(3) - 1;
         }
-        boolean bl3 = bl2 = Math.abs(clientPlayerEntity.method_23317() - fri) > 12.0 || Math.abs(clientPlayerEntity.method_23321() - frk) > 12.0;
+        boolean bl3 = bl2 = Math.abs(clientPlayerEntity.getX() - fri) > 12.0 || Math.abs(clientPlayerEntity.getZ() - frk) > 12.0;
         double d7 = d6 > 2.6 ? 1.0 : (d6 < 1.4 ? -1.0 : 0.0);
         double d8 = bl2 ? 0.0 : (double)fsm;
         double d9 = d4 / d6 * d7 + d5 / d6 * d8;
@@ -339,17 +339,17 @@ final class fpo {
         double d12 = 0.0;
         double d13 = 0.0;
         if (d11 > 1.0E-6) {
-            d = Math.toRadians(clientPlayerEntity.method_36454());
+            d = Math.toRadians(clientPlayerEntity.getYaw());
             d12 = (d10 * Math.cos(d) - d9 * Math.sin(d)) / d11;
             d13 = (d9 * Math.cos(d) + d10 * Math.sin(d)) / d11;
         }
         d = Math.sin(Math.toRadians(22.5));
         fpx.clear();
-        fpo.ftn(minecraftClient, minecraftClient.field_1690.field_1894, d12 > d);
-        fpo.ftn(minecraftClient, minecraftClient.field_1690.field_1881, d12 < -d);
-        fpo.ftn(minecraftClient, minecraftClient.field_1690.field_1913, d13 > d);
-        fpo.ftn(minecraftClient, minecraftClient.field_1690.field_1849, d13 < -d);
-        minecraftClient.field_1690.field_1903.method_23481(bl);
+        fpo.ftn(minecraftClient, minecraftClient.options.forwardKey, d12 > d);
+        fpo.ftn(minecraftClient, minecraftClient.options.backKey, d12 < -d);
+        fpo.ftn(minecraftClient, minecraftClient.options.leftKey, d13 > d);
+        fpo.ftn(minecraftClient, minecraftClient.options.rightKey, d13 < -d);
+        minecraftClient.options.jumpKey.setPressed(bl);
         vzz.simulated = fpx::contains;
     }
 
@@ -370,7 +370,7 @@ final class fpo {
             if (n2 > 0 && fpy.size() > 0) {
                 fqn = Math.max(fqn, fpy.get(fpy.size() - 1));
             }
-            double d = Math.hypot(MathHelper.method_15393((float)(f - clientPlayerEntity.method_36454())), f2 - clientPlayerEntity.method_36455());
+            double d = Math.hypot(MathHelper.wrapDegrees((float)(f - clientPlayerEntity.getYaw())), f2 - clientPlayerEntity.getPitch());
             if (fqo < 0 && n2 > 0 && d < 1.0) {
                 fqo = n2;
             }
@@ -391,7 +391,7 @@ final class fpo {
         }
         if (n == 0 && kfe2.isEnabled()) {
             fql = fra;
-            fqm = Math.hypot(MathHelper.method_15393((float)(f - clientPlayerEntity.method_36454())), f2 - clientPlayerEntity.method_36455());
+            fqm = Math.hypot(MathHelper.wrapDegrees((float)(f - clientPlayerEntity.getYaw())), f2 - clientPlayerEntity.getPitch());
             fqn = 0.0;
             fqo = -1;
             kfe2.setEnabled(false);
@@ -401,10 +401,10 @@ final class fpo {
     }
 
     private static void ftn(MinecraftClient minecraftClient, KeyBinding keyBinding, boolean bl) {
-        keyBinding.method_23481(bl);
+        keyBinding.setPressed(bl);
         InputUtil.Key key = KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding);
         if (bl) {
-            fpx.add(key.method_1444());
+            fpx.add(key.getCode());
         }
     }
 
@@ -415,29 +415,29 @@ final class fpo {
         Object object2;
         Integer n;
         ++fra;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (!fre || clientPlayerEntity == null || frb < 0) {
             return;
         }
         int n2 = frf;
-        Entity entity = minecraftClient.field_1687.method_8469(frb);
+        Entity entity = minecraftClient.world.getEntityById(frb);
         if (entity == null) {
             return;
         }
         if (System.getenv(a.d("\ucb1d\ub2a6\u3876\ua61f\u2dad\uab71\u1139\u98d9\u0696\u8c2e\u0bee\uf181\u7f42\ue6f4\u6cb4\uea5b\u501f\udfc8\u4568\uc33b\u4aca", 9974764, -796526430)) != null) {
-            System.out.println(String.format(Locale.ROOT, a.d("\ub321\uca81\u4042\ude3a\u55a1\ud371\u6936\ue0c0\u7e8c\uf45c\u73dc\u89aa\u0768\u9eca\u149f\u923a\u2821\ua7b9\u3d12\ubb02\u32b1\u48b9\uc612\u5dd5\udbe0\u5129\ue891\u66df\ufc7f\u7a68\uf188\u0f4f\u850b\u1ce0\u9afa\u1053\uaf8f\u25e1\ua365\u3a92\ub081\uce7d\u443c\uc38a\u5914\ud77d\u6ea5\ue40b\u6213", -571099507, -2046622215), fra, Float.valueOf(clientPlayerEntity.method_36454()), Float.valueOf(vxr.getFloat(fpv, clientPlayerEntity, Float.NaN)), Float.valueOf(clientPlayerEntity.field_5982)));
+            System.out.println(String.format(Locale.ROOT, a.d("\ub321\uca81\u4042\ude3a\u55a1\ud371\u6936\ue0c0\u7e8c\uf45c\u73dc\u89aa\u0768\u9eca\u149f\u923a\u2821\ua7b9\u3d12\ubb02\u32b1\u48b9\uc612\u5dd5\udbe0\u5129\ue891\u66df\ufc7f\u7a68\uf188\u0f4f\u850b\u1ce0\u9afa\u1053\uaf8f\u25e1\ua365\u3a92\ub081\uce7d\u443c\uc38a\u5914\ud77d\u6ea5\ue40b\u6213", -571099507, -2046622215), fra, Float.valueOf(clientPlayerEntity.getYaw()), Float.valueOf(vxr.getFloat(fpv, clientPlayerEntity, Float.NaN)), Float.valueOf(clientPlayerEntity.lastYaw)));
         }
         while ((n = fqx.poll()) != null) {
             frt = n;
-            fru = !clientPlayerEntity.method_24828() && clientPlayerEntity.field_6017 > 0.0;
+            fru = !clientPlayerEntity.isOnGround() && clientPlayerEntity.fallDistance > 0.0;
             int n3 = n2;
             fsw[n3] = fsw[n3] + 1;
             if (!fru) continue;
             int n4 = n2;
             fsx[n4] = fsx[n4] + 1;
         }
-        double d = clientPlayerEntity.method_23318() - clientPlayerEntity.field_6036;
-        boolean bl = clientPlayerEntity.method_24828();
+        double d = clientPlayerEntity.getY() - clientPlayerEntity.lastY;
+        boolean bl = clientPlayerEntity.isOnGround();
         frq = !bl && d < 0.0 ? ++frq : 0;
         for (fpc fpc2 : fqz) {
             if (fpc2.land >= 0 || !bl) continue;
@@ -451,12 +451,12 @@ final class fpo {
             fsn[n5] = fsn[n5] + 1;
         }
         frp = bl;
-        HitResult hitResult = minecraftClient.field_1765;
-        boolean bl2 = hitResult != null && hitResult.method_17783() == HitResult.Type.field_1331 && ((EntityHitResult)hitResult).method_17782() == entity;
-        boolean bl3 = clientPlayerEntity.method_7261(0.5f) > 0.9f;
+        HitResult hitResult = minecraftClient.crosshairTarget;
+        boolean bl2 = hitResult != null && hitResult.getType() == HitResult.Type.ENTITY && ((EntityHitResult)hitResult).getEntity() == entity;
+        boolean bl3 = clientPlayerEntity.getAttackCooldownProgress(0.5f) > 0.9f;
         boolean bl4 = frw = bl2 && bl3;
         if (fpt && frw) {
-            frx = String.format(Locale.ROOT, a.d("\u05a6\u7c5e\uf695\u68a5\ue336\u65c0\udf86\u566a\uc82f\u4285\uc55c\u3f74\ub1bb\u285c\ua25c\u24eb\u9ea3\u117f\u8bcc\u0da5\u846f\ufe34\u708f\ueb08\u6d6f\ue7ff\u5e08\ud01d\u4af7\ucce2\u4749\ub993\u33c1\uaa65\u2c70\ua687\u1957\u932b\u15f8\u8c18\u065f\u78a5\uf2ea\u750f\uef9e\u61b9\ud865\u5290\ud4c7\u4f1d\uc173\u3bf7\ub206\u3404\uaef4\u20a7\u9b03\u1dd5\u97bc\u0e4a\u80cb\ufa91\u7d78\uf760\u69b7\ue050\u5a50\udce2\u56be\uc906\u43c6\uc5a2\u3c7f\ub696\u28dd\ua327\u256c\u9f89\u161c\u8826\u02ec\u84bc\uff03\u71da\uebfb\u6232\ue4c0\u5ed5\ud169\u4b34\ucd86\u444d\ube2f\u30fc\uab58\u2d40\ua797\u19a7", 1871305566, 49798894), fra, bl, frq, d, clientPlayerEntity.field_6017, clientPlayerEntity.method_18798().field_1351, wdt.serverSprinting(clientPlayerEntity), Float.valueOf(clientPlayerEntity.method_7261(0.5f)), fra - frt, fsa < 0 ? -1 : fra - fsa);
+            frx = String.format(Locale.ROOT, a.d("\u05a6\u7c5e\uf695\u68a5\ue336\u65c0\udf86\u566a\uc82f\u4285\uc55c\u3f74\ub1bb\u285c\ua25c\u24eb\u9ea3\u117f\u8bcc\u0da5\u846f\ufe34\u708f\ueb08\u6d6f\ue7ff\u5e08\ud01d\u4af7\ucce2\u4749\ub993\u33c1\uaa65\u2c70\ua687\u1957\u932b\u15f8\u8c18\u065f\u78a5\uf2ea\u750f\uef9e\u61b9\ud865\u5290\ud4c7\u4f1d\uc173\u3bf7\ub206\u3404\uaef4\u20a7\u9b03\u1dd5\u97bc\u0e4a\u80cb\ufa91\u7d78\uf760\u69b7\ue050\u5a50\udce2\u56be\uc906\u43c6\uc5a2\u3c7f\ub696\u28dd\ua327\u256c\u9f89\u161c\u8826\u02ec\u84bc\uff03\u71da\uebfb\u6232\ue4c0\u5ed5\ud169\u4b34\ucd86\u444d\ube2f\u30fc\uab58\u2d40\ua797\u19a7", 1871305566, 49798894), fra, bl, frq, d, clientPlayerEntity.fallDistance, clientPlayerEntity.getVelocity().y, wdt.serverSprinting(clientPlayerEntity), Float.valueOf(clientPlayerEntity.getAttackCooldownProgress(0.5f)), fra - frt, fsa < 0 ? -1 : fra - fsa);
         }
         if (bl2) {
             int n6 = n2;
@@ -482,7 +482,7 @@ final class fpo {
         }
         if (entity instanceof LivingEntity) {
             object2 = (LivingEntity)entity;
-            v7 = object2.method_6032();
+            v7 = object2.getHealth();
         } else {
             v7 = f = 0.0f;
         }
@@ -530,22 +530,22 @@ final class fpo {
 
     private static void ftr(MinecraftClient minecraftClient, Entity entity) {
         Object object;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (!fre || entity.method_5628() != frb || clientPlayerEntity == null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (!fre || entity.getId() != frb || clientPlayerEntity == null) {
             return;
         }
-        HitResult hitResult = minecraftClient.field_1765;
-        if (hitResult instanceof EntityHitResult && (object = (EntityHitResult)hitResult).method_17782() == entity) {
-            hitResult = entity.method_5829();
-            fqj.add((object.method_17784().field_1351 - hitResult.field_1322) / (hitResult.field_1325 - hitResult.field_1322));
+        HitResult hitResult = minecraftClient.crosshairTarget;
+        if (hitResult instanceof EntityHitResult && (object = (EntityHitResult)hitResult).getEntity() == entity) {
+            hitResult = entity.getBoundingBox();
+            fqj.add((object.getPos().y - hitResult.minY) / (hitResult.maxY - hitResult.minY));
         }
         object = new fpc();
         object.phase = frf;
         object.tick = fra;
         object.nanos = System.nanoTime();
-        object.charge = clientPlayerEntity.method_7261(0.5f);
+        object.charge = clientPlayerEntity.getAttackCooldownProgress(0.5f);
         object.sprintSent = wdt.serverSprinting(clientPlayerEntity);
-        object.clientCrit = object.charge > 0.9f && clientPlayerEntity.field_6017 > 0.0 && !clientPlayerEntity.method_24828() && !clientPlayerEntity.method_6101() && !clientPlayerEntity.method_5799() && !clientPlayerEntity.method_6059(StatusEffects.field_5919) && !clientPlayerEntity.method_5765() && !object.sprintSent;
+        object.clientCrit = object.charge > 0.9f && clientPlayerEntity.fallDistance > 0.0 && !clientPlayerEntity.isOnGround() && !clientPlayerEntity.isClimbing() && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.hasStatusEffect(StatusEffects.BLINDNESS) && !clientPlayerEntity.hasVehicle() && !object.sprintSent;
         object.fallTick = frq;
         fry = fra;
         object.sinceKnock = fra - frt;
@@ -631,7 +631,7 @@ final class fpo {
     private static void ftx(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Entity entity, fot fot2, int n) {
         int n2;
         System.arraycopy(fsd, 0, fsd, 1, fsd.length - 1);
-        fpo.fsd[0] = entity.method_73189();
+        fpo.fsd[0] = entity.getEntityPos();
         for (n2 = 1; n2 < fsd.length; ++n2) {
             if (fsd[n2] != null) continue;
             fpo.fsd[n2] = fsd[0];
@@ -644,19 +644,19 @@ final class fpo {
         }
         n2 = 2 + fro.nextInt(2);
         Vec3d vec3d = fsd[n2];
-        Vec3d vec3d2 = fsd[n2].method_1020(fsd[n2 + 1]);
-        Vec3d vec3d3 = vec3d.method_1019(vec3d2.method_1021((double)n2 * 0.6));
-        Vec3d vec3d4 = clientPlayerEntity.method_33571();
-        double d = vec3d3.field_1352 - vec3d4.field_1352;
-        double d2 = vec3d3.field_1350 - vec3d4.field_1350;
+        Vec3d vec3d2 = fsd[n2].subtract(fsd[n2 + 1]);
+        Vec3d vec3d3 = vec3d.add(vec3d2.multiply((double)n2 * 0.6));
+        Vec3d vec3d4 = clientPlayerEntity.getEyePos();
+        double d = vec3d3.x - vec3d4.x;
+        double d2 = vec3d3.z - vec3d4.z;
         double d3 = Math.max(0.001, Math.sqrt(d * d + d2 * d2));
         double d4 = -d2 / d3;
         double d5 = d / d3;
-        double d6 = vec3d3.field_1352 + d4 * (double)fsf - vec3d4.field_1352;
-        double d7 = vec3d3.field_1350 + d5 * (double)fsf - vec3d4.field_1350;
-        double d8 = vec3d3.field_1351 + (double)fsg - vec3d4.field_1351;
-        float f = (float)(MathHelper.method_15349((double)d7, (double)d6) * 57.2957763671875) - 90.0f;
-        float f2 = (float)(-(MathHelper.method_15349((double)d8, (double)Math.sqrt(d6 * d6 + d7 * d7)) * 57.2957763671875));
+        double d6 = vec3d3.x + d4 * (double)fsf - vec3d4.x;
+        double d7 = vec3d3.z + d5 * (double)fsf - vec3d4.z;
+        double d8 = vec3d3.y + (double)fsg - vec3d4.y;
+        float f = (float)(MathHelper.atan2((double)d7, (double)d6) * 57.2957763671875) - 90.0f;
+        float f2 = (float)(-(MathHelper.atan2((double)d8, (double)Math.sqrt(d6 * d6 + d7 * d7)) * 57.2957763671875));
         if (fsi > 0) {
             --fsi;
             f += fsk;
@@ -666,11 +666,11 @@ final class fpo {
             fsk = (float)(fro.nextBoolean() ? 1 : -1) * (35.0f + fro.nextFloat() * 40.0f);
         }
         float f3 = fot2.foz * fse;
-        float f4 = MathHelper.method_15393((float)(f - clientPlayerEntity.method_36454()));
-        float f5 = f2 - clientPlayerEntity.method_36455();
-        float f6 = MathHelper.method_15363((float)(f4 * 0.55f), (float)(-f3), (float)f3) + (float)fro.nextGaussian() * 0.35f;
-        float f7 = MathHelper.method_15363((float)(f5 * 0.35f), (float)(-f3 * 0.6f), (float)(f3 * 0.6f)) + (float)fro.nextGaussian() * 0.2f;
-        clientPlayerEntity.method_5872((double)(f6 / 0.15f), (double)(f7 / 0.15f));
+        float f4 = MathHelper.wrapDegrees((float)(f - clientPlayerEntity.getYaw()));
+        float f5 = f2 - clientPlayerEntity.getPitch();
+        float f6 = MathHelper.clamp((float)(f4 * 0.55f), (float)(-f3), (float)f3) + (float)fro.nextGaussian() * 0.35f;
+        float f7 = MathHelper.clamp((float)(f5 * 0.35f), (float)(-f3 * 0.6f), (float)(f3 * 0.6f)) + (float)fro.nextGaussian() * 0.2f;
+        clientPlayerEntity.changeLookDirection((double)(f6 / 0.15f), (double)(f7 / 0.15f));
         double d9 = Math.sqrt(f6 * f6 + f7 * f7);
         int n3 = n;
         ftb[n3] = ftb[n3] + d9;
@@ -681,37 +681,37 @@ final class fpo {
     }
 
     private static void fty(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Entity entity, boolean bl) {
-        double d = entity.method_23317() - clientPlayerEntity.method_23317();
-        double d2 = entity.method_23321() - clientPlayerEntity.method_23321();
+        double d = entity.getX() - clientPlayerEntity.getX();
+        double d2 = entity.getZ() - clientPlayerEntity.getZ();
         double d3 = Math.sqrt(d * d + d2 * d2);
         if (--fsl <= 0) {
             fsl = 15 + fro.nextInt(30);
             fsm = fro.nextInt(3) - 1;
         }
-        boolean bl2 = Math.abs(clientPlayerEntity.method_23317() - fri) > 12.0 || Math.abs(clientPlayerEntity.method_23321() - frk) > 12.0;
-        minecraftClient.field_1690.field_1894.method_23481(d3 > 2.6);
-        minecraftClient.field_1690.field_1881.method_23481(d3 < 1.4);
-        minecraftClient.field_1690.field_1913.method_23481(!bl2 && fsm < 0);
-        minecraftClient.field_1690.field_1849.method_23481(!bl2 && fsm > 0);
-        minecraftClient.field_1690.field_1903.method_23481(bl);
+        boolean bl2 = Math.abs(clientPlayerEntity.getX() - fri) > 12.0 || Math.abs(clientPlayerEntity.getZ() - frk) > 12.0;
+        minecraftClient.options.forwardKey.setPressed(d3 > 2.6);
+        minecraftClient.options.backKey.setPressed(d3 < 1.4);
+        minecraftClient.options.leftKey.setPressed(!bl2 && fsm < 0);
+        minecraftClient.options.rightKey.setPressed(!bl2 && fsm > 0);
+        minecraftClient.options.jumpKey.setPressed(bl);
     }
 
     private static void ftz(MinecraftClient minecraftClient) {
-        minecraftClient.field_1690.field_1894.method_23481(false);
-        minecraftClient.field_1690.field_1881.method_23481(false);
-        minecraftClient.field_1690.field_1913.method_23481(false);
-        minecraftClient.field_1690.field_1849.method_23481(false);
-        minecraftClient.field_1690.field_1903.method_23481(false);
+        minecraftClient.options.forwardKey.setPressed(false);
+        minecraftClient.options.backKey.setPressed(false);
+        minecraftClient.options.leftKey.setPressed(false);
+        minecraftClient.options.rightKey.setPressed(false);
+        minecraftClient.options.jumpKey.setPressed(false);
     }
 
     private static Entity fua(MinecraftClient minecraftClient) {
         Object object;
-        if (frb >= 0 && (object = minecraftClient.field_1687.method_8469(frb)) != null) {
+        if (frb >= 0 && (object = minecraftClient.world.getEntityById(frb)) != null) {
             return object;
         }
-        for (PlayerEntity playerEntity : minecraftClient.field_1687.method_18456()) {
-            if (!a.b("\u312d\u48b6\uc266\u5c0f\ud7ed\u5171\ueb39", 1180709228).equals(playerEntity.method_7334().name())) continue;
-            frb = playerEntity.method_5628();
+        for (PlayerEntity playerEntity : minecraftClient.world.getPlayers()) {
+            if (!a.b("\u312d\u48b6\uc266\u5c0f\ud7ed\u5171\ueb39", 1180709228).equals(playerEntity.getGameProfile().name())) continue;
+            frb = playerEntity.getId();
             return playerEntity;
         }
         return null;
@@ -724,29 +724,29 @@ final class fpo {
         frg = true;
         ClientTickEvents.START_CLIENT_TICK.register(fpo::fto);
         AttackEntityCallback.EVENT.register((playerEntity, world, hand, entity, entityHitResult) -> {
-            if (world.method_8608()) {
-                fpo.ftr(MinecraftClient.method_1551(), entity);
-                return ActionResult.field_5811;
+            if (world.isClient()) {
+                fpo.ftr(MinecraftClient.getInstance(), entity);
+                return ActionResult.PASS;
             }
-            if (!fre || entity.method_5628() != fnq.spawned || !playerEntity.method_5667().equals(frd)) {
-                return ActionResult.field_5811;
+            if (!fre || entity.getId() != fnq.spawned || !playerEntity.getUuid().equals(frd)) {
+                return ActionResult.PASS;
             }
-            float f = playerEntity.method_7261(0.5f);
-            boolean bl = f > 0.9f && playerEntity.field_6017 > 0.0 && !playerEntity.method_24828() && !playerEntity.method_6101() && !playerEntity.method_5799() && !playerEntity.method_5765() && !playerEntity.method_5624();
-            fqu.add(new fpf(System.nanoTime(), bl, f, playerEntity.field_6017, playerEntity.method_24828(), playerEntity.method_5624()));
-            return ActionResult.field_5811;
+            float f = playerEntity.getAttackCooldownProgress(0.5f);
+            boolean bl = f > 0.9f && playerEntity.fallDistance > 0.0 && !playerEntity.isOnGround() && !playerEntity.isClimbing() && !playerEntity.isTouchingWater() && !playerEntity.hasVehicle() && !playerEntity.isSprinting();
+            fqu.add(new fpf(System.nanoTime(), bl, f, playerEntity.fallDistance, playerEntity.isOnGround(), playerEntity.isSprinting()));
+            return ActionResult.PASS;
         });
         ServerLivingEntityEvents.AFTER_DAMAGE.register((livingEntity, damageSource, f, f2, bl) -> {
-            if (fre && livingEntity.method_5628() == fnq.spawned) {
+            if (fre && livingEntity.getId() == fnq.spawned) {
                 fqv.add(new foo(System.nanoTime(), f2));
             }
         });
         wcn.listen(packet -> {
             EntityVelocityUpdateS2CPacket entityVelocityUpdateS2CPacket;
             EntityAnimationS2CPacket entityAnimationS2CPacket;
-            if (packet instanceof EntityAnimationS2CPacket && (entityAnimationS2CPacket = (EntityAnimationS2CPacket)packet).method_11269() == frb && entityAnimationS2CPacket.method_11267() == 4) {
+            if (packet instanceof EntityAnimationS2CPacket && (entityAnimationS2CPacket = (EntityAnimationS2CPacket)packet).getEntityId() == frb && entityAnimationS2CPacket.getAnimationId() == 4) {
                 fqw.add(fra);
-            } else if (packet instanceof EntityVelocityUpdateS2CPacket && (entityVelocityUpdateS2CPacket = (EntityVelocityUpdateS2CPacket)packet).method_11818() == frc && fre) {
+            } else if (packet instanceof EntityVelocityUpdateS2CPacket && (entityVelocityUpdateS2CPacket = (EntityVelocityUpdateS2CPacket)packet).getEntityId() == frc && fre) {
                 fqx.add(fra);
             }
         });
@@ -917,7 +917,7 @@ final class fpo {
     }
 
     private static void fuf(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     static {

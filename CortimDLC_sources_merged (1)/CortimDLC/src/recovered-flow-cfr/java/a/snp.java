@@ -419,7 +419,7 @@ public final class snp {
         int n2 = snp.spd(f6);
         vdn vdn2 = snp.spe(smt2.weight, n2);
         float f7 = f6 * f4 / (16.0f * sns[n2]);
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         matrix3x2fStack.translate(f, f2);
         if (f5 != 0.0f) {

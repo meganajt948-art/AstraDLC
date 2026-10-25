@@ -100,12 +100,12 @@ implements ivw {
 
     @Override
     public void onKey(MinecraftClient minecraftClient, int n) {
-        if (minecraftClient.field_1724 == null) {
+        if (minecraftClient.player == null) {
             return;
         }
         if (n == this.kqn.get()) {
-            if (minecraftClient.field_1755 == null) {
-                minecraftClient.method_1507((Screen)new iwf(this, n));
+            if (minecraftClient.currentScreen == null) {
+                minecraftClient.setScreen((Screen)new iwf(this, n));
             }
             return;
         }
@@ -113,7 +113,7 @@ implements ivw {
             this.kqt = -1;
             this.kqs = true;
             this.kqu = 0;
-            if (kqh.kqx(minecraftClient.field_1724) && !oxw.busy() && !kvz.busy()) {
+            if (kqh.kqx(minecraftClient.player) && !oxw.busy() && !kvz.busy()) {
                 this.kqz(minecraftClient);
             }
         }
@@ -124,7 +124,7 @@ implements ivw {
         if (!this.kqs) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (++this.kqu > 10) {
             this.kqy(minecraftClient);
             return;
@@ -137,14 +137,14 @@ implements ivw {
             return;
         }
         this.kqq.hold(minecraftClient);
-        if (clientPlayerEntity.method_6115()) {
-            minecraftClient.field_1761.method_2897((PlayerEntity)clientPlayerEntity);
+        if (clientPlayerEntity.isUsingItem()) {
+            minecraftClient.interactionManager.stopUsingItem((PlayerEntity)clientPlayerEntity);
         }
     }
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        if (this.kqs && kqh.kqx(minecraftClient.field_1724) && !oxw.busy() && !kvz.busy()) {
+        if (this.kqs && kqh.kqx(minecraftClient.player) && !oxw.busy() && !kvz.busy()) {
             this.kqz(minecraftClient);
         }
     }
@@ -162,24 +162,24 @@ implements ivw {
     @Override
     public List<ivx> slots() {
         ArrayList<ivx> arrayList = new ArrayList<ivx>(3);
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
         for (int i = 0; i < 3; ++i) {
             String string;
             ItemStack itemStack;
             int n;
             kqa kqa2 = kqa.parse(this.kqo[i].get());
             if (kqa2 == null || clientPlayerEntity == null) {
-                arrayList.add(new ivx(ItemStack.field_8037, "", "", 0.0f, false));
+                arrayList.add(new ivx(ItemStack.EMPTY, "", "", 0.0f, false));
                 continue;
             }
-            ItemStack itemStack2 = clientPlayerEntity.method_6079();
+            ItemStack itemStack2 = clientPlayerEntity.getOffHandStack();
             boolean bl = kqa2.matches(itemStack2);
             int n2 = n = bl ? -1 : kqh.krc(clientPlayerEntity, kqa2::matches);
-            ItemStack itemStack3 = bl ? itemStack2 : (n >= 0 ? clientPlayerEntity.method_31548().method_5438(n) : ItemStack.field_8037);
-            ItemStack itemStack4 = itemStack = itemStack3.method_7960() ? new ItemStack((ItemConvertible)kqa2.item()) : itemStack3;
-            String string2 = !itemStack3.method_7960() ? itemStack3.method_7964().getString() : (string = kqa2.name().isEmpty() ? itemStack.method_7964().getString() : kqa2.name());
-            String string3 = bl ? wap.s(a.b("\uc0dc\ub960\u33ba\uadc3", -1551187792), a.d("\u2b54\u56f7\ud844\u4636\ucd98\u4b26", 1607784061, 1379465501)) : (itemStack3.method_7960() ? wap.s(a.c(834091486, "\u39b4\u4004\ucad6\u54ac"), a.b("\u2321\u5a98\ud03c", 800401183)) : "");
-            arrayList.add(new ivx(itemStack, string, string3, 0.0f, !itemStack3.method_7960() && !bl));
+            ItemStack itemStack3 = bl ? itemStack2 : (n >= 0 ? clientPlayerEntity.getInventory().getStack(n) : ItemStack.EMPTY);
+            ItemStack itemStack4 = itemStack = itemStack3.isEmpty() ? new ItemStack((ItemConvertible)kqa2.item()) : itemStack3;
+            String string2 = !itemStack3.isEmpty() ? itemStack3.getName().getString() : (string = kqa2.name().isEmpty() ? itemStack.getName().getString() : kqa2.name());
+            String string3 = bl ? wap.s(a.b("\uc0dc\ub960\u33ba\uadc3", -1551187792), a.d("\u2b54\u56f7\ud844\u4636\ucd98\u4b26", 1607784061, 1379465501)) : (itemStack3.isEmpty() ? wap.s(a.c(834091486, "\u39b4\u4004\ucad6\u54ac"), a.b("\u2321\u5a98\ud03c", 800401183)) : "");
+            arrayList.add(new ivx(itemStack, string, string3, 0.0f, !itemStack3.isEmpty() && !bl));
         }
         return arrayList;
     }
@@ -197,12 +197,12 @@ implements ivw {
     @Override
     public void assign(int n, ItemStack itemStack) {
         if (n >= 0 && n < 3) {
-            this.kqo[n].set(itemStack.method_7960() ? "" : kqa.of(itemStack).text());
+            this.kqo[n].set(itemStack.isEmpty() ? "" : kqa.of(itemStack).text());
         }
     }
 
     private static boolean kqx(ClientPlayerEntity clientPlayerEntity) {
-        return wdq.canClick(clientPlayerEntity) && vyn.serverIdle(clientPlayerEntity) && !clientPlayerEntity.method_6115();
+        return wdq.canClick(clientPlayerEntity) && vyn.serverIdle(clientPlayerEntity) && !clientPlayerEntity.isUsingItem();
     }
 
     private void kqy(MinecraftClient minecraftClient) {
@@ -217,12 +217,12 @@ implements ivw {
     private void kqz(MinecraftClient var1_1) {
         block9: {
             block8: {
-                var2_2 = var1_1.field_1724;
-                var3_3 = var2_2.method_6079();
+                var2_2 = var1_1.player;
+                var3_3 = var2_2.getOffHandStack();
                 if (this.kqt != -1) break block8;
                 var6_4 = kpx.of(this.kqk);
                 var7_5 = kpx.of(this.kql);
-                var8_7 = var7_5.matches(var3_3) != false || var7_5.isTotem() != false && var3_3.method_31574(Items.field_8288) != false && var6_4.matches(var3_3) == false ? 1 : 0;
+                var8_7 = var7_5.matches(var3_3) != false || var7_5.isTotem() != false && var3_3.isOf(Items.TOTEM_OF_UNDYING) != false && var6_4.matches(var3_3) == false ? 1 : 0;
                 var9_8 = var8_7 != 0 ? var6_4 : var7_5;
                 var5_9 = var9_8.isTotem();
                 var4_10 = var5_9 != false || kqh.kra(var3_3) == false ? this.krb(var2_2, (kpx)var9_8, var3_3) : -1;
@@ -233,7 +233,7 @@ implements ivw {
                 this.kqy(var1_1);
                 return;
             }
-            v0 = var5_9 = var6_4.item() == Items.field_8288;
+            v0 = var5_9 = var6_4.item() == Items.TOTEM_OF_UNDYING;
             if (var5_9) ** GOTO lbl22
             if (!kqh.kra(var3_3)) {
 lbl22:
@@ -252,7 +252,7 @@ lbl22:
         } else if (var4_10 >= 0) {
             for (Object var9_8 : kpx.values()) {
                 if (!var9_8.matches(var3_3)) continue;
-                this.kqr.put((kpx)var9_8, var3_3.method_7972());
+                this.kqr.put((kpx)var9_8, var3_3.copy());
             }
             wdq.swap(var1_1, var4_10, 40);
         }
@@ -260,36 +260,36 @@ lbl22:
     }
 
     private static boolean kra(ItemStack itemStack) {
-        return krd.needsTotem() && itemStack.method_31574(Items.field_8288);
+        return krd.needsTotem() && itemStack.isOf(Items.TOTEM_OF_UNDYING);
     }
 
     private int krb(ClientPlayerEntity clientPlayerEntity, kpx kpx2, ItemStack itemStack3) {
         int n;
-        Predicate<ItemStack> predicate = itemStack2 -> !ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack3);
-        ItemStack itemStack4 = this.kqr.getOrDefault((Object)kpx2, ItemStack.field_8037);
-        if (!itemStack4.method_7960() && predicate.test(itemStack4) && (n = kqh.krc(clientPlayerEntity, itemStack2 -> ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack4))) >= 0) {
+        Predicate<ItemStack> predicate = itemStack2 -> !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack3);
+        ItemStack itemStack4 = this.kqr.getOrDefault((Object)kpx2, ItemStack.EMPTY);
+        if (!itemStack4.isEmpty() && predicate.test(itemStack4) && (n = kqh.krc(clientPlayerEntity, itemStack2 -> ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack4))) >= 0) {
             return n;
         }
         n = kqh.krc(clientPlayerEntity, itemStack -> kpx2.matches((ItemStack)itemStack) && predicate.test((ItemStack)itemStack));
         if (n < 0 && kpx2.isTotem()) {
-            n = kqh.krc(clientPlayerEntity, itemStack -> itemStack.method_31574(Items.field_8288) && predicate.test((ItemStack)itemStack));
+            n = kqh.krc(clientPlayerEntity, itemStack -> itemStack.isOf(Items.TOTEM_OF_UNDYING) && predicate.test((ItemStack)itemStack));
         }
         return n;
     }
 
     private static int krc(ClientPlayerEntity clientPlayerEntity, Predicate<ItemStack> predicate) {
         int n;
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        int n2 = playerInventory.method_67532();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        int n2 = playerInventory.getSelectedSlot();
         for (n = 9; n < 36; ++n) {
-            if (!predicate.test(playerInventory.method_5438(n))) continue;
+            if (!predicate.test(playerInventory.getStack(n))) continue;
             return n;
         }
         for (n = 0; n < 9; ++n) {
-            if (n == n2 || !predicate.test(playerInventory.method_5438(n))) continue;
+            if (n == n2 || !predicate.test(playerInventory.getStack(n))) continue;
             return n;
         }
-        return predicate.test(playerInventory.method_5438(n2)) ? n2 : -1;
+        return predicate.test(playerInventory.getStack(n2)) ? n2 : -1;
     }
 
     private static /* synthetic */ int aug(int n, int n2) {

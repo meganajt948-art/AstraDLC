@@ -58,32 +58,32 @@ final class ssj {
 
     static @Nullable List<spg> capture(MinecraftClient minecraftClient, LivingEntity livingEntity, float f, double[] dArray) {
         try {
-            EntityRenderer entityRenderer = minecraftClient.method_1561().method_3953((Entity)livingEntity);
+            EntityRenderer entityRenderer = minecraftClient.getEntityRenderDispatcher().getRenderer((Entity)livingEntity);
             if (!(entityRenderer instanceof LivingEntityRenderer)) {
                 return null;
             }
             LivingEntityRenderer livingEntityRenderer = (LivingEntityRenderer)entityRenderer;
-            EntityRenderState entityRenderState = entityRenderer.method_62425((Entity)livingEntity, f);
+            EntityRenderState entityRenderState = entityRenderer.getAndUpdateRenderState((Entity)livingEntity, f);
             if (!(entityRenderState instanceof LivingEntityRenderState)) {
                 return null;
             }
             LivingEntityRenderState livingEntityRenderState = (LivingEntityRenderState)entityRenderState;
-            EntityModel entityModel = livingEntityRenderer.method_4038();
+            EntityModel entityModel = livingEntityRenderer.getModel();
             ssj.ssr(entityModel, livingEntityRenderState);
             boolean bl = entityModel instanceof BipedEntityModel;
             boolean bl2 = livingEntity instanceof PlayerEntity;
-            MatrixStack matrixStack = ssj.sso(livingEntityRenderState.field_53453, livingEntityRenderState.field_53446, bl2 ? 0.9375f : 1.0f);
+            MatrixStack matrixStack = ssj.sso(livingEntityRenderState.baseScale, livingEntityRenderState.bodyYaw, bl2 ? 0.9375f : 1.0f);
             ArrayList arrayList = new ArrayList();
-            entityModel.method_63512().method_35745(matrixStack, (entry, string, n, cuboid) -> {
+            entityModel.getRootPart().forEachCuboid(matrixStack, (entry, string, n, cuboid) -> {
                 if (bl && string.lastIndexOf(47) > 0) {
                     return;
                 }
-                arrayList.add(ssj.ssp(entry.method_23761(), entry.method_23762(), cuboid.field_3645, cuboid.field_3644, cuboid.field_3643, cuboid.field_3648, cuboid.field_3647, cuboid.field_3646, ssj.ssq(livingEntity, string, bl)));
+                arrayList.add(ssj.ssp(entry.getPositionMatrix(), entry.getNormalMatrix(), cuboid.minX, cuboid.minY, cuboid.minZ, cuboid.maxX, cuboid.maxY, cuboid.maxZ, ssj.ssq(livingEntity, string, bl)));
             });
-            entityModel.method_63514();
-            dArray[0] = livingEntityRenderState.field_53325;
-            dArray[1] = livingEntityRenderState.field_53326;
-            dArray[2] = livingEntityRenderState.field_53327;
+            entityModel.resetTransforms();
+            dArray[0] = livingEntityRenderState.x;
+            dArray[1] = livingEntityRenderState.y;
+            dArray[2] = livingEntityRenderState.z;
             return arrayList.isEmpty() || arrayList.size() > 64 ? null : arrayList;
         }
         catch (Throwable throwable) {
@@ -104,20 +104,20 @@ final class ssj {
     }
 
     private static void ssn(List<spg> list, MatrixStack matrixStack, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9) {
-        matrixStack.method_22903();
-        matrixStack.method_46416(f / 16.0f, f2 / 16.0f, f3 / 16.0f);
-        MatrixStack.Entry entry = matrixStack.method_23760();
-        list.add(ssj.ssp(entry.method_23761(), entry.method_23762(), f4, f5, f6, f7, f8, f9, 0.6f));
-        matrixStack.method_22909();
+        matrixStack.push();
+        matrixStack.translate(f / 16.0f, f2 / 16.0f, f3 / 16.0f);
+        MatrixStack.Entry entry = matrixStack.peek();
+        list.add(ssj.ssp(entry.getPositionMatrix(), entry.getNormalMatrix(), f4, f5, f6, f7, f8, f9, 0.6f));
+        matrixStack.pop();
     }
 
     private static MatrixStack sso(float f, float f2, float f3) {
         MatrixStack matrixStack = new MatrixStack();
-        matrixStack.method_22905(f, f, f);
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40716.rotationDegrees(180.0f - f2));
-        matrixStack.method_22905(-1.0f, -1.0f, 1.0f);
-        matrixStack.method_22905(f3, f3, f3);
-        matrixStack.method_46416(0.0f, -1.501f, 0.0f);
+        matrixStack.scale(f, f, f);
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Y.rotationDegrees(180.0f - f2));
+        matrixStack.scale(-1.0f, -1.0f, 1.0f);
+        matrixStack.scale(f3, f3, f3);
+        matrixStack.translate(0.0f, -1.501f, 0.0f);
         return matrixStack;
     }
 
@@ -134,18 +134,18 @@ final class ssj {
         }
         switch (string) {
             case "/head": {
-                EquipmentSlot equipmentSlot2 = EquipmentSlot.field_6169;
+                EquipmentSlot equipmentSlot2 = EquipmentSlot.HEAD;
                 break;
             }
             case "/body": 
             case "/right_arm": 
             case "/left_arm": {
-                EquipmentSlot equipmentSlot2 = EquipmentSlot.field_6174;
+                EquipmentSlot equipmentSlot2 = EquipmentSlot.CHEST;
                 break;
             }
             case "/right_leg": 
             case "/left_leg": {
-                EquipmentSlot equipmentSlot2 = EquipmentSlot.field_6172;
+                EquipmentSlot equipmentSlot2 = EquipmentSlot.LEGS;
                 break;
             }
             default: {
@@ -155,12 +155,12 @@ final class ssj {
         if (equipmentSlot == null) {
             return 0.6f;
         }
-        boolean bl2 = !livingEntity.method_6118(equipmentSlot).method_7960() || equipmentSlot == EquipmentSlot.field_6172 && !livingEntity.method_6118(EquipmentSlot.field_6166).method_7960();
+        boolean bl2 = !livingEntity.getEquippedStack(equipmentSlot).isEmpty() || equipmentSlot == EquipmentSlot.LEGS && !livingEntity.getEquippedStack(EquipmentSlot.FEET).isEmpty();
         return bl2 ? 1.1f : 0.6f;
     }
 
     private static void ssr(EntityModel entityModel, LivingEntityRenderState livingEntityRenderState) {
-        entityModel.method_2819((Object)livingEntityRenderState);
+        entityModel.setAngles((Object)livingEntityRenderState);
     }
 
     private static /* synthetic */ int cfy(int n, int n2) {

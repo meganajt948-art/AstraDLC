@@ -45,7 +45,7 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        boolean bl = minecraftClient.field_1755 instanceof hlc;
+        boolean bl = minecraftClient.currentScreen instanceof hlc;
         long l = System.currentTimeMillis();
         if (bl && l - this.lsn > 1200L) {
             this.lsn = l;
@@ -95,8 +95,8 @@ extends kfe {
     }
 
     private static boolean lsw() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        return lsh != null && lsh.isEnabled() && minecraftClient.field_1724 != null;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        return lsh != null && lsh.isEnabled() && minecraftClient.player != null;
     }
 
     public static void toggled(kfe kfe2) {

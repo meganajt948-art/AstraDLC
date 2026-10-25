@@ -87,7 +87,7 @@ public final class jgn {
     }
 
     public static boolean supported() {
-        return Util.method_668() == Util.OperatingSystem.field_1133;
+        return Util.getOperatingSystem() == Util.OperatingSystem.WINDOWS;
     }
 
     public static synchronized void tick(boolean bl) {

@@ -36,63 +36,63 @@ public final class qma {
     }
 
     public static boolean hungry(ClientPlayerEntity clientPlayerEntity) {
-        int n = clientPlayerEntity.method_7344().method_7586();
-        return n <= 14 || n < 20 && clientPlayerEntity.method_6032() < clientPlayerEntity.method_6063() * 0.6f;
+        int n = clientPlayerEntity.getHungerManager().getFoodLevel();
+        return n <= 14 || n < 20 && clientPlayerEntity.getHealth() < clientPlayerEntity.getMaxHealth() * 0.6f;
     }
 
     public static boolean canEat(ClientPlayerEntity clientPlayerEntity) {
-        if (qpw.isFood(clientPlayerEntity.method_6079())) {
+        if (qpw.isFood(clientPlayerEntity.getOffHandStack())) {
             return true;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         for (int i = 0; i < 9; ++i) {
-            if (!qpw.isFood(playerInventory.method_5438(i))) continue;
+            if (!qpw.isFood(playerInventory.getStack(i))) continue;
             return true;
         }
         return false;
     }
 
     public static int stored(ClientPlayerEntity clientPlayerEntity) {
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        int n = qpw.find(playerInventory, Items.field_8071);
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        int n = qpw.find(playerInventory, Items.GOLDEN_CARROT);
         if (n >= 9) {
             return n;
         }
         for (int i = 9; i < 36; ++i) {
-            if (!qpw.isFood(playerInventory.method_5438(i))) continue;
+            if (!qpw.isFood(playerInventory.getStack(i))) continue;
             return i;
         }
         return -1;
     }
 
     public boolean start(ClientPlayerEntity clientPlayerEntity) {
-        if (this.active() || clientPlayerEntity.method_6115()) {
+        if (this.active() || clientPlayerEntity.isUsingItem()) {
             return false;
         }
         this.qmc = -1;
-        if (!qpw.isFood(clientPlayerEntity.method_6079())) {
-            PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        if (!qpw.isFood(clientPlayerEntity.getOffHandStack())) {
+            PlayerInventory playerInventory = clientPlayerEntity.getInventory();
             int n = -1;
             for (int i = 0; i < 9; ++i) {
-                if (!playerInventory.method_5438(i).method_31574(Items.field_8071) && (n >= 0 || !qpw.isFood(playerInventory.method_5438(i)))) continue;
+                if (!playerInventory.getStack(i).isOf(Items.GOLDEN_CARROT) && (n >= 0 || !qpw.isFood(playerInventory.getStack(i)))) continue;
                 n = i;
             }
             if (n < 0) {
                 return false;
             }
-            if (playerInventory.method_67532() != n) {
-                this.qmc = playerInventory.method_67532();
-                playerInventory.method_61496(n);
+            if (playerInventory.getSelectedSlot() != n) {
+                this.qmc = playerInventory.getSelectedSlot();
+                playerInventory.setSelectedSlot(n);
             }
         }
         this.qmb = 0;
-        this.qmd = clientPlayerEntity.method_7344().method_7586();
+        this.qmd = clientPlayerEntity.getHungerManager().getFoodLevel();
         return true;
     }
 
     public void startTick(MinecraftClient minecraftClient) {
         if (this.active()) {
-            minecraftClient.field_1690.field_1904.method_23481(true);
+            minecraftClient.options.useKey.setPressed(true);
             this.qme = true;
         }
     }
@@ -104,22 +104,22 @@ public final class qma {
             return;
         }
         ++this.qmb;
-        if ((this.qmb == 1 || this.qmb == 12 && !clientPlayerEntity.method_6115()) && !(key = KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.field_1690.field_1904)).equals((Object)InputUtil.field_16237)) {
-            KeyBinding.method_1420((InputUtil.Key)key);
+        if ((this.qmb == 1 || this.qmb == 12 && !clientPlayerEntity.isUsingItem()) && !(key = KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.options.useKey)).equals((Object)InputUtil.UNKNOWN_KEY)) {
+            KeyBinding.onKeyPressed((InputUtil.Key)key);
         }
-        boolean bl2 = bl = clientPlayerEntity.method_7344().method_7586() > this.qmd && !clientPlayerEntity.method_6115();
-        if (bl || this.qmb > 70 || this.qmb > 24 && !clientPlayerEntity.method_6115() || !clientPlayerEntity.method_5805()) {
+        boolean bl2 = bl = clientPlayerEntity.getHungerManager().getFoodLevel() > this.qmd && !clientPlayerEntity.isUsingItem();
+        if (bl || this.qmb > 70 || this.qmb > 24 && !clientPlayerEntity.isUsingItem() || !clientPlayerEntity.isAlive()) {
             this.stop(minecraftClient, clientPlayerEntity);
         }
     }
 
     public void stop(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        if (this.qme && minecraftClient.field_1690 != null && minecraftClient.method_22683() != null) {
-            minecraftClient.field_1690.field_1904.method_23481(vzz.isPhysicallyDown(minecraftClient, minecraftClient.field_1690.field_1904));
+        if (this.qme && minecraftClient.options != null && minecraftClient.getWindow() != null) {
+            minecraftClient.options.useKey.setPressed(vzz.isPhysicallyDown(minecraftClient, minecraftClient.options.useKey));
         }
         this.qme = false;
         if (this.qmc >= 0 && clientPlayerEntity != null) {
-            clientPlayerEntity.method_31548().method_61496(this.qmc);
+            clientPlayerEntity.getInventory().setSelectedSlot(this.qmc);
         }
         this.qmc = -1;
         this.qmb = -1;

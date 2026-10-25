@@ -109,7 +109,7 @@ extends imn {
                 hlc2.focus(null);
                 hlc2.toast(imported.existed() ? wap.s(a.c(-420528099, "\u4052\u39d5\ub31c\u2d38\ua6ae\u2012\u9a5f\u13b9\u8de2\u0756\u8098\u7ab0\uf42f\u6d97\ue7d3\u6131\udb3b\u54a3\uce0d\u4812\uc1ff\u9b92") + imported.name() + a.c(-1946215197, "\u3cff"), a.d("\u6047\u19e3\u9333\u0957\u8695P\uba00\u33ff\ua9cc\u271e\ua4ae\u5acd\ud418\u4dd8\uc3f0\u451b\uffdf", -362043109, 1555484014) + imported.name() + a.b("\uba0c", 1473821366)) : wap.s(a.b("\ufbe8\u827c\u08af\u96df\u1d09\u9bfc\u0193", 1966930862) + imported.name() + a.c(679319738, "\ub8a6"), a.d("\uca95\ub30e\u39d2\ua7a2\u2c77\uaacf\u1092\u996b\u0329\u8913", -500554656, 357034731) + imported.name() + a.b("\u4730", 1397901194)), vhz.DOWNLOAD, false);
             }
-        }, (Executor)MinecraftClient.method_1551());
+        }, (Executor)MinecraftClient.getInstance());
     }
 
     private static /* synthetic */ int acr(int n, int n2) {

@@ -64,7 +64,7 @@ public final class ConfigManager {
             return FabricLoader.getInstance().getGameDir();
         }
         catch (Throwable t) {
-            return MinecraftClient.method_1551().field_1697.toPath();
+            return MinecraftClient.getInstance().runDirectory.toPath();
         }
     }
 

@@ -42,7 +42,7 @@ final class giw {
     static boolean tick(MinecraftClient minecraftClient, int n) throws Exception {
         kfe kfe2 = Flow.getInstance().getModuleManager().getByName(a.d("\u9373\ueae0\u6029\ufe5e\u759f\uf30a\u496b\uc09a\u5edf\ud474\u53a0", -337836748, -192178687));
         if (n == 1) {
-            minecraftClient.field_1690.field_1837 = false;
+            minecraftClient.options.pauseOnLostFocus = false;
             giz = vxr.find(Mouse.class, a.d("\ua495\udd2f\u57ed\uc9c6\u4252\uc4e7\u7eb3\uf749\u6910\ue3b0\u6470\u9e06\u10c3\u8928\u0336\u85c8\u3f8a\ub049\u2afa\uac87\u251c\u5f4f\ud1ff", -900973984, 632790668), a.b("\u3172\u48cc\uc213\u5c6b\ud7b4\u513e\ueb03\u62f4\ufca4\u761e", 1053176094), a.c(2052076535, "\u33ac"));
             gja = vxr.find(MinecraftClient.class, a.c(1581135735, "\u370e\u4eb4\uc476\u5a5d\ud1c9\u577c\ued28\u64d2\ufa8b\u702b\uf7eb\u0d9d\u8358\u1ab3\u90ad\u1653\uac11\u23d2\ub961\u3f1c\ub687\uccd4\u4266"), a.d("\uc9c1\ub07f\u3aa0\ua4d8\u2f07\ua98d\u13b0\u9a46\u0416\u8eab", 1381446249, -1430848572), a.c(-873861807, "\ued0a"));
             if (!gjb) {
@@ -72,10 +72,10 @@ final class giw {
         String string = gix[n3];
         if (n4 == 0) {
             kfe2.setEnabled(!string.startsWith(a.c(-2039700502, "\ua386\uda3e\u50ed")));
-            minecraftClient.field_1724.method_36456(0.0f);
-            minecraftClient.field_1724.method_36457(0.0f);
+            minecraftClient.player.setYaw(0.0f);
+            minecraftClient.player.setPitch(0.0f);
         } else if (n4 == 4) {
-            gjf = minecraftClient.field_1724.method_36454();
+            gjf = minecraftClient.player.getYaw();
             gje = 0L;
             int n5 = Integer.parseInt(string.substring(string.lastIndexOf(45) + 1));
             boolean bl = string.contains(a.b("\u55bf\u2c15\ua6c8\u38b6\ub37d", -1586539064)) || string.startsWith(a.c(1340571852, "\u80a9\uf90e\u73cb\ueda2"));
@@ -83,9 +83,9 @@ final class giw {
         } else if (n4 == 14) {
             gjc = 0;
         } else if (n4 == 22) {
-            double d = (Double)minecraftClient.field_1690.method_42495().method_41753() * 0.6 + 0.2;
+            double d = (Double)minecraftClient.options.getMouseSensitivity().getValue() * 0.6 + 0.2;
             double d2 = (double)gje * d * d * d * 8.0 * 0.15;
-            float f = minecraftClient.field_1724.method_36454() - gjf;
+            float f = minecraftClient.player.getYaw() - gjf;
             System.out.printf(a.b("\ud34b\uaaf8\u2031\ube46\u3587\ub335\u0972\u8090\u1ec3\u947a\u13ec\ue998\u6719\ufee1\u74a8\uf20d\u4843\uc795\u5d3a\udb60\u5296\u2883\ua635\u3def\ubb8d\u3109\u88fc\u06e9\u9c1f\u1a4c\u91b4\u6f69\ue570\u7c96\ufaca\u707c\ucfae\u45df\uc301\u5af1\ud0ab\uae51\u241f\ua3fb\u396a\ub75f\u0e8d\u843e\u023a\u99e7\u17c6\ued04\u64a6\ue2ea\u781f\uf601\u4dbb\ucb61\u410f\ud88b\u567f\u2c65", 1689572120), string, Float.valueOf(f), d2, (double)Math.abs(f) / Math.abs(d2));
         }
         return false;
@@ -96,8 +96,8 @@ final class giw {
         if (n == 0) {
             return;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        long l = minecraftClient.method_22683().method_4490();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        long l = minecraftClient.getWindow().getHandle();
         GLFWCursorPosCallback gLFWCursorPosCallback = GLFW.glfwSetCursorPosCallback((long)l, null);
         GLFW.glfwSetCursorPosCallback((long)l, (GLFWCursorPosCallbackI)gLFWCursorPosCallback);
         gje += (long)Math.abs(n);
@@ -105,8 +105,8 @@ final class giw {
     }
 
     private static void gjj(MinecraftClient minecraftClient) throws Exception {
-        if (giz != null && minecraftClient.field_1755 == null) {
-            giz.setBoolean(minecraftClient.field_1729, true);
+        if (giz != null && minecraftClient.currentScreen == null) {
+            giz.setBoolean(minecraftClient.mouse, true);
         }
         if (gja != null) {
             gja.setBoolean(minecraftClient, true);
@@ -114,7 +114,7 @@ final class giw {
     }
 
     private static void gjk(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     static {

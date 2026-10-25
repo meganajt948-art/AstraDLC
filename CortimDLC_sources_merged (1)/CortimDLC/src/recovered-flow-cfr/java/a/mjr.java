@@ -37,7 +37,7 @@ import net.minecraft.registry.Registries;
 
 public class mjr
 extends kfe {
-    private static final EquipmentSlot[] mjs = new EquipmentSlot[]{EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6169, EquipmentSlot.field_6166};
+    private static final EquipmentSlot[] mjs = new EquipmentSlot[]{EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.FEET};
     private static final int mjt = 6;
     private final vmc mju = this.add(new vmc(a.b("\u3b97\u4202\uc8c7\u56a7\udd20\u5bd3\ue187\u687f\uf623\u7c8a\ufb0e\u013b\u8ffd\u164b\u9c0b\u1af9\ua0bd\u2f69\ub5df\u3393\uba69", -1943454767), 2.0, 1.0, 100.0, 1.0));
     private final vkl mjv = this.add(new vkl(a.c(318390738, "\u4198\u381d\ub2d3\u2ca0\ua73a\u21c9\u9b8d\u1267\u8c32\u068b\u8151\u7b36"), true));
@@ -65,7 +65,7 @@ extends kfe {
 
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
-        if (this.mjz && !this.mjy && minecraftClient.field_1724 != null) {
+        if (this.mjz && !this.mjy && minecraftClient.player != null) {
             this.mjx.hold(minecraftClient);
             this.mjy = true;
             this.mka = 0;
@@ -75,7 +75,7 @@ extends kfe {
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
         boolean bl;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return;
         }
@@ -111,19 +111,19 @@ extends kfe {
     }
 
     private boolean mkf(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        if (!clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325() || !wdq.canClick(clientPlayerEntity)) {
+        if (!clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator() || !wdq.canClick(clientPlayerEntity)) {
             return false;
         }
-        if (minecraftClient.field_1755 != null && !mjr.mkg(minecraftClient, clientPlayerEntity)) {
+        if (minecraftClient.currentScreen != null && !mjr.mkg(minecraftClient, clientPlayerEntity)) {
             return false;
         }
-        return !oxw.busy() && !kvz.busy() && !clientPlayerEntity.method_6115();
+        return !oxw.busy() && !kvz.busy() && !clientPlayerEntity.isUsingItem();
     }
 
     private static boolean mkg(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         HandledScreen handledScreen;
-        Screen screen = minecraftClient.field_1755;
-        return screen instanceof HandledScreen && (handledScreen = (HandledScreen)screen).method_17577() == clientPlayerEntity.field_7498;
+        Screen screen = minecraftClient.currentScreen;
+        return screen instanceof HandledScreen && (handledScreen = (HandledScreen)screen).getScreenHandler() == clientPlayerEntity.playerScreenHandler;
     }
 
     private boolean mkh(ClientPlayerEntity clientPlayerEntity) {
@@ -144,18 +144,18 @@ extends kfe {
 
     private vuc mkj(ClientPlayerEntity clientPlayerEntity, EquipmentSlot equipmentSlot) {
         boolean bl;
-        ItemStack itemStack2 = clientPlayerEntity.method_6118(equipmentSlot);
-        if (equipmentSlot == EquipmentSlot.field_6174 && this.mjw.get() && itemStack2.method_31574(Items.field_8833)) {
+        ItemStack itemStack2 = clientPlayerEntity.getEquippedStack(equipmentSlot);
+        if (equipmentSlot == EquipmentSlot.CHEST && this.mjw.get() && itemStack2.isOf(Items.ELYTRA)) {
             return null;
         }
         int n = this.mju.getInt();
-        boolean bl2 = itemStack2.method_7960();
-        boolean bl3 = bl = !bl2 && itemStack2.method_7963() && vui.left(itemStack2) <= n;
+        boolean bl2 = itemStack2.isEmpty();
+        boolean bl3 = bl = !bl2 && itemStack2.isDamageable() && vui.left(itemStack2) <= n;
         if (!bl2 && !bl) {
             return null;
         }
         int n2 = bl2 ? 0 : vui.left(itemStack2);
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         vuc vuc2 = vui.best(playerInventory, this.mjv.get(), itemStack -> {
             if (vui.wornIn(itemStack) != equipmentSlot || mjr.mkk(itemStack) == 0) {
                 return 0;
@@ -173,7 +173,7 @@ extends kfe {
     }
 
     private static int mkk(ItemStack itemStack) {
-        String string = Registries.field_41178.method_10221((Object)itemStack.method_7909()).method_12832();
+        String string = Registries.ITEM.getId((Object)itemStack.getItem()).getPath();
         if (string.startsWith(a.c(1739830118, "\ub302\ucab8\u407a\ude17\u55cd\ud36b\u6923\ue0cf\u7e81\uf40a"))) {
             return 2;
         }

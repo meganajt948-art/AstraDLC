@@ -54,23 +54,23 @@ public final class pzw {
         void var11_16;
         void var11_14;
         Object object222;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1687 == null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.world == null) {
             return null;
         }
-        Vec3d vec3d = clientPlayerEntity.method_73189();
+        Vec3d vec3d = clientPlayerEntity.getEntityPos();
         ArrayList<pzk> arrayList = new ArrayList<pzk>();
         pzk pzk4 = null;
         double d2 = Double.MAX_VALUE;
-        block0: for (Object object222 : minecraftClient.field_1687.method_18112()) {
+        block0: for (Object object222 : minecraftClient.world.getEntities()) {
             List<String> list;
             Vec3d object3;
-            if (object222 == clientPlayerEntity || (object3 = object222.method_73189()).method_1025(vec3d) > d * d || (list = pzw.lines((Entity)object222)).isEmpty()) continue;
+            if (object222 == clientPlayerEntity || (object3 = object222.getEntityPos()).squaredDistanceTo(vec3d) > d * d || (list = pzw.lines((Entity)object222)).isEmpty()) continue;
             pzk pzk5 = new pzk(object3, list);
             arrayList.add(pzk5);
             for (String string : list) {
                 if (!pfl.title(string).contains(a.d("\ua317\udade\u5078\uce0e", 373595790, -2000078379))) continue;
-                double d3 = object3.method_1025(vec3d);
+                double d3 = object3.squaredDistanceTo(vec3d);
                 if (!(d3 < d2)) continue block0;
                 d2 = d3;
                 pzk4 = pzk5;
@@ -82,12 +82,12 @@ public final class pzw {
         }
         ArrayList arrayList2 = new ArrayList();
         for (pzk pzk6 : arrayList) {
-            double d4 = pzk6.pzl.field_1352 - pzk4.pzl.field_1352;
-            double d5 = pzk6.pzl.field_1350 - pzk4.pzl.field_1350;
-            if (!(d4 * d4 + d5 * d5 <= 9.0) || !(Math.abs(pzk6.pzl.field_1351 - pzk4.pzl.field_1351) <= 5.0)) continue;
+            double d4 = pzk6.pzl.x - pzk4.pzl.x;
+            double d5 = pzk6.pzl.z - pzk4.pzl.z;
+            if (!(d4 * d4 + d5 * d5 <= 9.0) || !(Math.abs(pzk6.pzl.y - pzk4.pzl.y) <= 5.0)) continue;
             arrayList2.add(pzk6);
         }
-        arrayList2.sort((pzk2, pzk3) -> Double.compare(pzk3.pzl.field_1351, pzk2.pzl.field_1351));
+        arrayList2.sort((pzk2, pzk3) -> Double.compare(pzk3.pzl.y, pzk2.pzl.y));
         object222 = new ArrayList();
         Iterator iterator = arrayList2.iterator();
         while (iterator.hasNext()) {
@@ -173,7 +173,7 @@ public final class pzw {
                 arrayList.add(string);
             }
         }
-        if (entity.method_16914() && entity.method_5797() != null && !((String)(object = entity.method_5797().getString())).isBlank()) {
+        if (entity.hasCustomName() && entity.getCustomName() != null && !((String)(object = entity.getCustomName().getString())).isBlank()) {
             arrayList.add((String)object);
         }
         return arrayList;
@@ -187,7 +187,7 @@ public final class pzw {
                 try {
                     field.setAccessible(true);
                     TrackedData exception = (TrackedData)field.get(null);
-                    if (exception == null || exception.comp_2328() != TrackedDataHandlerRegistry.field_13317) continue;
+                    if (exception == null || exception.dataType() != TrackedDataHandlerRegistry.TEXT_COMPONENT) continue;
                     qab = exception;
                     break;
                 }
@@ -201,7 +201,7 @@ public final class pzw {
         }
         try {
             Text text;
-            Object runtimeException = textDisplayEntity.method_5841().method_12789(qab);
+            Object runtimeException = textDisplayEntity.getDataTracker().get(qab);
             return runtimeException instanceof Text ? (text = (Text)runtimeException) : null;
         }
         catch (RuntimeException runtimeException) {

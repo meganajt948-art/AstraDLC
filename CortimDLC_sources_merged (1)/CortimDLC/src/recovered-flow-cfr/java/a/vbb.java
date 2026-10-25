@@ -125,23 +125,23 @@ public final class vbb {
     }
 
     public static boolean entityMask() {
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        return vbt && vbu && vbn != null && vbq == framebuffer.field_1482 && vbr == framebuffer.field_1481;
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        return vbt && vbu && vbn != null && vbq == framebuffer.textureWidth && vbr == framebuffer.textureHeight;
     }
 
     public static void captureDepth(boolean bl) {
         if (!vbs || vbv) {
             return;
         }
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTexture gpuTexture = framebuffer.method_30278();
-        if (gpuTexture == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTexture gpuTexture = framebuffer.getDepthAttachment();
+        if (gpuTexture == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return;
         }
         try {
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            vbb.vcf(gpuDevice, framebuffer.field_1482, framebuffer.field_1481);
-            gpuDevice.createCommandEncoder().copyTextureToTexture(gpuTexture, bl ? vbm : vbk, 0, 0, 0, 0, 0, framebuffer.field_1482, framebuffer.field_1481);
+            vbb.vcf(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight);
+            gpuDevice.createCommandEncoder().copyTextureToTexture(gpuTexture, bl ? vbm : vbk, 0, 0, 0, 0, 0, framebuffer.textureWidth, framebuffer.textureHeight);
             if (bl) {
                 vbu = vbt;
             } else {
@@ -162,9 +162,9 @@ public final class vbb {
             return;
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
         if (gpuBufferSlice == null || gpuTextureView == null || gpuTextureView2 == null || vbh == null) {
             return;
         }
@@ -173,7 +173,7 @@ public final class vbb {
             GpuQuery gpuQuery = vbw ? commandEncoder.timerQueryBegin() : null;
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 season particles", gpuTextureView, OptionalInt.empty(), gpuTextureView2, OptionalDouble.empty());){
                 renderPass.setPipeline(uvq.SEASON_PARTICLES);
-                renderPass.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowSeason", vbj);
                 renderPass.draw(0, n * 6);
@@ -195,9 +195,9 @@ public final class vbb {
             return;
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        if (gpuBufferSlice == null || gpuTextureView == null || framebuffer.field_1482 != vbo || framebuffer.field_1481 != vbp) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        if (gpuBufferSlice == null || gpuTextureView == null || framebuffer.textureWidth != vbo || framebuffer.textureHeight != vbp) {
             return;
         }
         try {
@@ -205,13 +205,13 @@ public final class vbb {
             GpuQuery gpuQuery = vbw ? commandEncoder.timerQueryBegin() : null;
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 season grade copy", vbd, OptionalInt.empty());){
                 renderPass.setPipeline(uvq.BLUR_COPY);
-                renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.draw(0, 3);
             }
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 season grade", gpuTextureView, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.SEASON_GRADE);
-                renderPass.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowSeason", vbj);
                 renderPass.draw(0, 3);
@@ -239,20 +239,20 @@ public final class vbb {
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
         GpuBufferSlice gpuBufferSlice2 = RenderSystem.getShaderFog();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
-        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.method_30277() == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
+        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || framebuffer.getColorAttachment() == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         try {
             Std140Builder std140Builder;
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            vbb.vcg(gpuDevice, framebuffer.field_1482, framebuffer.field_1481);
+            vbb.vcg(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight);
             GpuBuffer gpuBuffer = bl ? vbj : vbi;
             CommandEncoder commandEncoder = gpuDevice.createCommandEncoder();
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)n).putVec4((float)framebuffer.field_1482, (float)framebuffer.field_1481, 1.0f / (float)framebuffer.field_1482, 1.0f / (float)framebuffer.field_1481);
+                std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)n).putVec4((float)framebuffer.textureWidth, (float)framebuffer.textureHeight, 1.0f / (float)framebuffer.textureWidth, 1.0f / (float)framebuffer.textureHeight);
                 consumer.accept(std140Builder);
                 commandEncoder.writeToBuffer(gpuBuffer.slice(), std140Builder.get());
             }
@@ -260,7 +260,7 @@ public final class vbb {
             std140Builder = commandEncoder.createRenderPass(() -> "Flow2 weather scene copy", vbd, OptionalInt.empty());
             try {
                 std140Builder.setPipeline(uvq.BLUR_COPY);
-                std140Builder.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                std140Builder.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 std140Builder.draw(0, 3);
             }
             finally {
@@ -271,14 +271,14 @@ public final class vbb {
             std140Builder = commandEncoder.createRenderPass(() -> "Flow2 weather", gpuTextureView, OptionalInt.empty());
             try {
                 std140Builder.setPipeline(renderPipeline);
-                std140Builder.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                std140Builder.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                std140Builder.bindTexture("NoiseSampler", vbf, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                std140Builder.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                std140Builder.bindTexture("SceneSampler", vbd, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                std140Builder.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                std140Builder.bindTexture("NoiseSampler", vbf, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                std140Builder.bindTexture("HeightSampler", vbh, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 if (bl) {
                     boolean bl2 = vbb.entityMask();
-                    std140Builder.bindTexture("TerrainDepthSampler", bl2 ? vbl : gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                    std140Builder.bindTexture("EntityDepthSampler", bl2 ? vbn : gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                    std140Builder.bindTexture("TerrainDepthSampler", bl2 ? vbl : gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                    std140Builder.bindTexture("EntityDepthSampler", bl2 ? vbn : gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 }
                 std140Builder.setUniform("Projection", gpuBufferSlice);
                 std140Builder.setUniform("Fog", gpuBufferSlice2);
@@ -346,10 +346,10 @@ public final class vbb {
         try {
             GpuDevice gpuDevice = RenderSystem.getDevice();
             vbb.vch(gpuDevice);
-            try (NativeImage nativeImage = new NativeImage(NativeImage.Format.field_4997, 128, 128, false);){
+            try (NativeImage nativeImage = new NativeImage(NativeImage.Format.RGBA, 128, 128, false);){
                 for (int i = 0; i < 128; ++i) {
                     for (int j = 0; j < 128; ++j) {
-                        nativeImage.method_61941(j, i, nArray[i * 128 + j]);
+                        nativeImage.setColorArgb(j, i, nArray[i * 128 + j]);
                     }
                 }
                 gpuDevice.createCommandEncoder().writeToTexture(vbg, nativeImage);
@@ -446,11 +446,11 @@ public final class vbb {
 
     private static void vci(GpuDevice gpuDevice) {
         Random random = new Random(65532160L);
-        try (NativeImage nativeImage = new NativeImage(NativeImage.Format.field_4997, 256, 256, false);){
+        try (NativeImage nativeImage = new NativeImage(NativeImage.Format.RGBA, 256, 256, false);){
             int n;
             for (n = 0; n < 256; ++n) {
                 for (int i = 0; i < 256; ++i) {
-                    nativeImage.method_61941(i, n, random.nextInt());
+                    nativeImage.setColorArgb(i, n, random.nextInt());
                 }
             }
             n = 5;

@@ -33,7 +33,7 @@ public final class wdt {
     }
 
     public static boolean serverSprinting(ClientPlayerEntity clientPlayerEntity) {
-        return vxr.getBoolean(wdu, clientPlayerEntity, clientPlayerEntity.method_5624());
+        return vxr.getBoolean(wdu, clientPlayerEntity, clientPlayerEntity.isSprinting());
     }
 
     public boolean isHeld() {
@@ -41,12 +41,12 @@ public final class wdt {
     }
 
     public void hold(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (!this.wdx) {
-            this.wdy = clientPlayerEntity.method_5624() || vxr.getBoolean(wdu, clientPlayerEntity, false);
+            this.wdy = clientPlayerEntity.isSprinting() || vxr.getBoolean(wdu, clientPlayerEntity, false);
             ++wdv;
         }
-        minecraftClient.field_1690.field_1894.method_23481(false);
+        minecraftClient.options.forwardKey.setPressed(false);
         this.wdx = true;
     }
 
@@ -56,15 +56,15 @@ public final class wdt {
         }
         this.wdx = false;
         wdv = Math.max(0, wdv - 1);
-        if (minecraftClient == null || minecraftClient.field_1690 == null || minecraftClient.field_1724 == null) {
+        if (minecraftClient == null || minecraftClient.options == null || minecraftClient.player == null) {
             this.wdy = false;
             return;
         }
-        KeyBinding keyBinding = minecraftClient.field_1690.field_1894;
-        keyBinding.method_23481(vzz.isPhysicallyDown(minecraftClient, keyBinding));
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (this.wdy && !lwh.active() && !((Boolean)minecraftClient.field_1690.method_42450().method_41753()).booleanValue() && !minecraftClient.field_1690.field_1867.method_1434() && wdt.canResumeSprint(minecraftClient, clientPlayerEntity)) {
-            minecraftClient.field_1690.field_1867.method_23481(true);
+        KeyBinding keyBinding = minecraftClient.options.forwardKey;
+        keyBinding.setPressed(vzz.isPhysicallyDown(minecraftClient, keyBinding));
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (this.wdy && !lwh.active() && !((Boolean)minecraftClient.options.getSprintToggled().getValue()).booleanValue() && !minecraftClient.options.sprintKey.isPressed() && wdt.canResumeSprint(minecraftClient, clientPlayerEntity)) {
+            minecraftClient.options.sprintKey.setPressed(true);
             wdw = 2;
         }
         this.wdy = false;
@@ -74,13 +74,13 @@ public final class wdt {
         if (wdw <= 0 || --wdw > 0) {
             return;
         }
-        if (minecraftClient.field_1690 != null && minecraftClient.method_22683() != null && !((Boolean)minecraftClient.field_1690.method_42450().method_41753()).booleanValue()) {
-            minecraftClient.field_1690.field_1867.method_23481(vzz.isPhysicallyDown(minecraftClient, minecraftClient.field_1690.field_1867));
+        if (minecraftClient.options != null && minecraftClient.getWindow() != null && !((Boolean)minecraftClient.options.getSprintToggled().getValue()).booleanValue()) {
+            minecraftClient.options.sprintKey.setPressed(vzz.isPhysicallyDown(minecraftClient, minecraftClient.options.sprintKey));
         }
     }
 
     public static boolean canResumeSprint(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        return minecraftClient.field_1690.field_1894.method_1434() && !minecraftClient.field_1690.field_1881.method_1434() && !clientPlayerEntity.method_5715() && !clientPlayerEntity.method_6115() && !clientPlayerEntity.field_5976 && !clientPlayerEntity.method_5799() && !clientPlayerEntity.method_6128() && !clientPlayerEntity.method_6059(StatusEffects.field_5919) && (clientPlayerEntity.method_7344().method_7586() > 6 || clientPlayerEntity.method_31549().field_7478);
+        return minecraftClient.options.forwardKey.isPressed() && !minecraftClient.options.backKey.isPressed() && !clientPlayerEntity.isSneaking() && !clientPlayerEntity.isUsingItem() && !clientPlayerEntity.horizontalCollision && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.isGliding() && !clientPlayerEntity.hasStatusEffect(StatusEffects.BLINDNESS) && (clientPlayerEntity.getHungerManager().getFoodLevel() > 6 || clientPlayerEntity.getAbilities().allowFlying);
     }
 
     private static /* synthetic */ int dpn(int n, int n2) {

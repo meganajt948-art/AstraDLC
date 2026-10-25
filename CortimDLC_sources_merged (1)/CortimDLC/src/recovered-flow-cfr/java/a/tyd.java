@@ -94,8 +94,8 @@ public final class tyd {
 
     public void tick(MinecraftClient minecraftClient) {
         tzg tzg2;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        ClientWorld clientWorld = minecraftClient.field_1687;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        ClientWorld clientWorld = minecraftClient.world;
         if (clientPlayerEntity == null || clientWorld == null) {
             this.pause(a.c(-506266187, "\ufdd5\u8465\u0eb2\u90c6"));
             return;
@@ -120,9 +120,9 @@ public final class tyd {
         }
         if (!this.tyk) {
             this.tyk = true;
-            this.tyi.ox = (int)Math.floor(clientPlayerEntity.method_23317());
-            this.tyi.oy = (int)Math.floor(clientPlayerEntity.method_23318());
-            this.tyi.oz = (int)Math.floor(clientPlayerEntity.method_23321());
+            this.tyi.ox = (int)Math.floor(clientPlayerEntity.getX());
+            this.tyi.oy = (int)Math.floor(clientPlayerEntity.getY());
+            this.tyi.oz = (int)Math.floor(clientPlayerEntity.getZ());
         }
         this.paused = false;
         this.pauseReason = "";
@@ -134,9 +134,9 @@ public final class tyd {
             ++this.routes;
         }
         int n2 = this.tyi.ticks.size();
-        int n3 = (int)Math.floor(clientPlayerEntity.method_23317());
-        int n4 = (int)Math.floor(clientPlayerEntity.method_23318() + 0.001);
-        int n5 = (int)Math.floor(clientPlayerEntity.method_23321());
+        int n3 = (int)Math.floor(clientPlayerEntity.getX());
+        int n4 = (int)Math.floor(clientPlayerEntity.getY() + 0.001);
+        int n5 = (int)Math.floor(clientPlayerEntity.getZ());
         if (this.tyr < 0 || n3 != this.tyo || n4 != this.typ || n5 != this.tyq || n2 - this.tyn >= 10) {
             tzg2 = txf.snap((BlockView)clientWorld, n3, n4, n5);
             tzj tzj2 = new tzj();
@@ -151,33 +151,33 @@ public final class tyd {
             this.tyq = n5;
             this.tyn = n2;
         }
-        tzg2 = minecraftClient.field_1690;
-        boolean bl = vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).field_1903);
-        int n6 = (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).field_1894) ? 1 : 0) | (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).field_1881) ? 2 : 0) | (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).field_1913) ? 4 : 0) | (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).field_1849) ? 8 : 0) | (bl ? 16 : 0) | (clientPlayerEntity.method_5624() ? 32 : 0) | (clientPlayerEntity.method_5715() ? 64 : 0);
+        tzg2 = minecraftClient.options;
+        boolean bl = vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).jumpKey);
+        int n6 = (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).forwardKey) ? 1 : 0) | (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).backKey) ? 2 : 0) | (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).leftKey) ? 4 : 0) | (vzz.isPhysicallyDown(minecraftClient, ((GameOptions)tzg2).rightKey) ? 8 : 0) | (bl ? 16 : 0) | (clientPlayerEntity.isSprinting() ? 32 : 0) | (clientPlayerEntity.isSneaking() ? 64 : 0);
         tzp tzp2 = new tzp();
-        tzp2.flags = 1 | (clientPlayerEntity.method_24828() ? 2 : 0) | (this.tyl ? 4 : 0) | (clientPlayerEntity.method_5624() ? 8 : 0) | (clientPlayerEntity.method_5715() ? 16 : 0) | (clientPlayerEntity.method_5799() ? 32 : 0) | (clientPlayerEntity.method_6101() ? 64 : 0) | (clientPlayerEntity.field_5976 ? 128 : 0);
+        tzp2.flags = 1 | (clientPlayerEntity.isOnGround() ? 2 : 0) | (this.tyl ? 4 : 0) | (clientPlayerEntity.isSprinting() ? 8 : 0) | (clientPlayerEntity.isSneaking() ? 16 : 0) | (clientPlayerEntity.isTouchingWater() ? 32 : 0) | (clientPlayerEntity.isClimbing() ? 64 : 0) | (clientPlayerEntity.horizontalCollision ? 128 : 0);
         tzp2.keys = n6;
-        tzp2.yaw = clientPlayerEntity.method_36454();
-        tzp2.pitch = clientPlayerEntity.method_36455();
-        tzp2.x = (float)(clientPlayerEntity.method_23317() - (double)this.tyi.ox);
-        tzp2.y = (float)(clientPlayerEntity.method_23318() - (double)this.tyi.oy);
-        tzp2.z = (float)(clientPlayerEntity.method_23321() - (double)this.tyi.oz);
-        tzp2.vx = (float)(clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014);
-        tzp2.vy = (float)(clientPlayerEntity.method_23318() - clientPlayerEntity.field_6036);
-        tzp2.vz = (float)(clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969);
-        double d = clientPlayerEntity.method_45325(EntityAttributes.field_23719);
-        tzp2.speed = (float)(clientPlayerEntity.method_5624() ? d / 1.3 : d);
-        tzp2.food = Math.max(0, Math.min(255, clientPlayerEntity.method_7344().method_7586()));
+        tzp2.yaw = clientPlayerEntity.getYaw();
+        tzp2.pitch = clientPlayerEntity.getPitch();
+        tzp2.x = (float)(clientPlayerEntity.getX() - (double)this.tyi.ox);
+        tzp2.y = (float)(clientPlayerEntity.getY() - (double)this.tyi.oy);
+        tzp2.z = (float)(clientPlayerEntity.getZ() - (double)this.tyi.oz);
+        tzp2.vx = (float)(clientPlayerEntity.getX() - clientPlayerEntity.lastX);
+        tzp2.vy = (float)(clientPlayerEntity.getY() - clientPlayerEntity.lastY);
+        tzp2.vz = (float)(clientPlayerEntity.getZ() - clientPlayerEntity.lastZ);
+        double d = clientPlayerEntity.getAttributeValue(EntityAttributes.MOVEMENT_SPEED);
+        tzp2.speed = (float)(clientPlayerEntity.isSprinting() ? d / 1.3 : d);
+        tzp2.food = Math.max(0, Math.min(255, clientPlayerEntity.getHungerManager().getFoodLevel()));
         tzp2.route = n;
         tzp2.snap = this.tyr;
         if (!this.tyl) {
-            this.meters += Math.hypot(clientPlayerEntity.method_23317() - this.tzb, clientPlayerEntity.method_23321() - this.tzc);
+            this.meters += Math.hypot(clientPlayerEntity.getX() - this.tzb, clientPlayerEntity.getZ() - this.tzc);
             if (bl && !this.tza) {
                 ++this.jumps;
             }
         }
-        this.tzb = clientPlayerEntity.method_23317();
-        this.tzc = clientPlayerEntity.method_23321();
+        this.tzb = clientPlayerEntity.getX();
+        this.tzc = clientPlayerEntity.getZ();
         this.tza = bl;
         this.tyl = false;
         this.tyi.ticks.add(tzp2);

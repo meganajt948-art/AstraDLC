@@ -39,14 +39,14 @@ public final class wdq {
     }
 
     public static void click(MinecraftClient minecraftClient, int n, int n2) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        minecraftClient.field_1761.method_2906(clientPlayerEntity.field_7498.field_7763, wdq.slotId(n), n2, SlotActionType.field_7791, (PlayerEntity)clientPlayerEntity);
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        minecraftClient.interactionManager.clickSlot(clientPlayerEntity.playerScreenHandler.syncId, wdq.slotId(n), n2, SlotActionType.SWAP, (PlayerEntity)clientPlayerEntity);
     }
 
     public static void close(MinecraftClient minecraftClient) {
-        if (!(minecraftClient.field_1755 instanceof HandledScreen)) {
-            ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-            clientPlayerEntity.field_3944.method_52787((Packet)new CloseHandledScreenC2SPacket(clientPlayerEntity.field_7498.field_7763));
+        if (!(minecraftClient.currentScreen instanceof HandledScreen)) {
+            ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+            clientPlayerEntity.networkHandler.sendPacket((Packet)new CloseHandledScreenC2SPacket(clientPlayerEntity.playerScreenHandler.syncId));
         }
     }
 
@@ -55,15 +55,15 @@ public final class wdq {
     }
 
     public static int slotId(ScreenHandler screenHandler, Inventory inventory, int n) {
-        for (Slot slot : screenHandler.field_7761) {
-            if (slot.field_7871 != inventory || slot.method_34266() != n) continue;
-            return slot.field_7874;
+        for (Slot slot : screenHandler.slots) {
+            if (slot.inventory != inventory || slot.getIndex() != n) continue;
+            return slot.id;
         }
         return -1;
     }
 
     public static boolean canClick(ClientPlayerEntity clientPlayerEntity) {
-        return clientPlayerEntity != null && clientPlayerEntity.method_5805() && !clientPlayerEntity.method_7325() && clientPlayerEntity.field_7512 == clientPlayerEntity.field_7498 && clientPlayerEntity.field_7498.method_34255().method_7960();
+        return clientPlayerEntity != null && clientPlayerEntity.isAlive() && !clientPlayerEntity.isSpectator() && clientPlayerEntity.currentScreenHandler == clientPlayerEntity.playerScreenHandler && clientPlayerEntity.playerScreenHandler.getCursorStack().isEmpty();
     }
 
     private static /* synthetic */ int dpk(int n, int n2) {

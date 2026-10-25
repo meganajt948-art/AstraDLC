@@ -71,7 +71,7 @@ public final class hyv {
             uij uij2;
             uij uij3 = uij2 = n == n2 && gpuTextureView == null ? uij.SCENE : uij.BACKDROP;
             if (uij2.capture(drawContext, n, null)) {
-                uut.glass(drawContext, uij2.result(drawContext), 0.0f, 0.0f, drawContext.method_51421(), drawContext.method_51443(), 0.0f, 0, f);
+                uut.glass(drawContext, uij2.result(drawContext), 0.0f, 0.0f, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight(), 0.0f, 0, f);
             }
         }
         hyw = ENABLED.get() && uij.SCENE.capture(drawContext, n2, gpuTextureView);

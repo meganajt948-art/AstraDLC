@@ -65,25 +65,25 @@ extends kfe {
     }
 
     public boolean shows(MinecraftClient minecraftClient, PlayerEntity playerEntity) {
-        if (!this.isEnabled() || minecraftClient.field_1724 == null || playerEntity.method_7325() || !playerEntity.method_5805() || playerEntity.method_31481()) {
+        if (!this.isEnabled() || minecraftClient.player == null || playerEntity.isSpectator() || !playerEntity.isAlive() || playerEntity.isRemoved()) {
             return false;
         }
-        if (playerEntity == minecraftClient.field_1724 && (!this.self.get() || minecraftClient.field_1690.method_31044().method_31034())) {
+        if (playerEntity == minecraftClient.player && (!this.self.get() || minecraftClient.options.getPerspective().isFirstPerson())) {
             return false;
         }
-        if (playerEntity == minecraftClient.method_1560() && playerEntity != minecraftClient.field_1724) {
+        if (playerEntity == minecraftClient.getCameraEntity() && playerEntity != minecraftClient.player) {
             return false;
         }
         double d = this.range.get();
-        return minecraftClient.field_1773.method_19418().method_71156().method_1025(playerEntity.method_73189()) <= d * d;
+        return minecraftClient.gameRenderer.getCamera().getCameraPos().squaredDistanceTo(playerEntity.getEntityPos()) <= d * d;
     }
 
     public boolean showsMob(MinecraftClient minecraftClient, LivingEntity livingEntity) {
-        if (!this.isEnabled() || !this.mobs.get() || minecraftClient.field_1724 == null || !livingEntity.method_5805() || livingEntity.method_31481() || livingEntity == minecraftClient.method_1560()) {
+        if (!this.isEnabled() || !this.mobs.get() || minecraftClient.player == null || !livingEntity.isAlive() || livingEntity.isRemoved() || livingEntity == minecraftClient.getCameraEntity()) {
             return false;
         }
         double d = this.mobRange.get();
-        return minecraftClient.field_1773.method_19418().method_71156().method_1025(livingEntity.method_73189()) <= d * d;
+        return minecraftClient.gameRenderer.getCamera().getCameraPos().squaredDistanceTo(livingEntity.getEntityPos()) <= d * d;
     }
 
     private static /* synthetic */ int bzf(int n, int n2) {

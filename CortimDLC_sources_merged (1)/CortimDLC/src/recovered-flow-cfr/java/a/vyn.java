@@ -53,7 +53,7 @@ public final class vyn {
         if (wdt.serverSprinting(clientPlayerEntity)) {
             return false;
         }
-        Object object = clientPlayerEntity.field_3913.field_54155;
+        Object object = clientPlayerEntity.input.playerInput;
         if (vyo != null) {
             try {
                 object = vyo.get(clientPlayerEntity);
@@ -64,15 +64,15 @@ public final class vyn {
         }
         if (bl && object instanceof PlayerInput) {
             Object object2 = object;
-            return !object2.comp_3159() && !object2.comp_3160() && !object2.comp_3161() && !object2.comp_3162() && !object2.comp_3163() && !object2.comp_3165();
+            return !object2.forward() && !object2.backward() && !object2.left() && !object2.right() && !object2.jump() && !object2.sprint();
         }
-        return PlayerInput.field_54098.equals(object);
+        return PlayerInput.DEFAULT.equals(object);
     }
 
     public static boolean still(ClientPlayerEntity clientPlayerEntity) {
-        double d = clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014;
-        double d2 = clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969;
-        return clientPlayerEntity.method_24828() && d * d + d2 * d2 < 9.0E-4;
+        double d = clientPlayerEntity.getX() - clientPlayerEntity.lastX;
+        double d2 = clientPlayerEntity.getZ() - clientPlayerEntity.lastZ;
+        return clientPlayerEntity.isOnGround() && d * d + d2 * d2 < 9.0E-4;
     }
 
     public static PlayerInput lastSent(ClientPlayerEntity clientPlayerEntity) {
@@ -88,7 +88,7 @@ public final class vyn {
                 // empty catch block
             }
         }
-        return clientPlayerEntity.field_3913.field_54155;
+        return clientPlayerEntity.input.playerInput;
     }
 
     public boolean isHeld() {
@@ -100,29 +100,29 @@ public final class vyn {
     }
 
     public void hold(MinecraftClient minecraftClient) {
-        GameOptions gameOptions = minecraftClient.field_1690;
+        GameOptions gameOptions = minecraftClient.options;
         for (KeyBinding keyBinding : vyn.vyy(gameOptions)) {
-            keyBinding.method_23481(false);
+            keyBinding.setPressed(false);
         }
-        KeyBinding keyBinding = gameOptions.field_1832;
+        KeyBinding keyBinding = gameOptions.sneakKey;
         if (this.vyr) {
             vwy.sneakOk(true);
-        } else if (((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-            if (keyBinding.method_1434()) {
-                keyBinding.method_23481(true);
+        } else if (((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+            if (keyBinding.isPressed()) {
+                keyBinding.setPressed(true);
                 this.vyt = true;
             }
         } else {
-            keyBinding.method_23481(false);
+            keyBinding.setPressed(false);
         }
-        KeyBinding keyBinding2 = gameOptions.field_1867;
-        if (((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            if (keyBinding2.method_1434()) {
-                keyBinding2.method_23481(true);
+        KeyBinding keyBinding2 = gameOptions.sprintKey;
+        if (((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            if (keyBinding2.isPressed()) {
+                keyBinding2.setPressed(true);
                 this.vyu = true;
             }
         } else {
-            keyBinding2.method_23481(false);
+            keyBinding2.setPressed(false);
         }
         this.vyq.hold(minecraftClient);
         if (!this.vys) {
@@ -140,41 +140,41 @@ public final class vyn {
         if (this.vyr) {
             vwy.sneakOk(false);
         }
-        if (minecraftClient == null || minecraftClient.field_1690 == null || minecraftClient.method_22683() == null) {
+        if (minecraftClient == null || minecraftClient.options == null || minecraftClient.getWindow() == null) {
             this.vyt = false;
             this.vyu = false;
             this.vyq.release(minecraftClient);
             return;
         }
-        GameOptions gameOptions = minecraftClient.field_1690;
+        GameOptions gameOptions = minecraftClient.options;
         for (KeyBinding keyBinding : vyn.vyy(gameOptions)) {
-            keyBinding.method_23481(vzz.isPhysicallyDown(minecraftClient, keyBinding));
+            keyBinding.setPressed(vzz.isPhysicallyDown(minecraftClient, keyBinding));
         }
-        KeyBinding keyBinding = gameOptions.field_1832;
+        KeyBinding keyBinding = gameOptions.sneakKey;
         if (!this.vyr) {
-            if (((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-                if (this.vyt && !keyBinding.method_1434()) {
-                    keyBinding.method_23481(true);
+            if (((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+                if (this.vyt && !keyBinding.isPressed()) {
+                    keyBinding.setPressed(true);
                 }
             } else {
-                keyBinding.method_23481(vzz.isPhysicallyDown(minecraftClient, keyBinding));
+                keyBinding.setPressed(vzz.isPhysicallyDown(minecraftClient, keyBinding));
             }
         }
         this.vyt = false;
-        KeyBinding keyBinding2 = gameOptions.field_1867;
-        if (((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            if (this.vyu && !keyBinding2.method_1434()) {
-                keyBinding2.method_23481(true);
+        KeyBinding keyBinding2 = gameOptions.sprintKey;
+        if (((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            if (this.vyu && !keyBinding2.isPressed()) {
+                keyBinding2.setPressed(true);
             }
         } else {
-            keyBinding2.method_23481(vzz.isPhysicallyDown(minecraftClient, keyBinding2));
+            keyBinding2.setPressed(vzz.isPhysicallyDown(minecraftClient, keyBinding2));
         }
         this.vyu = false;
         this.vyq.release(minecraftClient);
     }
 
     private static KeyBinding[] vyy(GameOptions gameOptions) {
-        return new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849, gameOptions.field_1903, gameOptions.field_1904};
+        return new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey, gameOptions.jumpKey, gameOptions.useKey};
     }
 
     private static /* synthetic */ int dmt(int n, int n2) {

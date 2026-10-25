@@ -60,7 +60,7 @@ public final class lpy {
         for (LivingEntity livingEntity : list) {
             lpp lpp3;
             if (livingEntity == this.lqd || (lpp3 = this.lqh(clientPlayerEntity, world, livingEntity, toIntFunction.applyAsInt(livingEntity), lpc2)) == null) continue;
-            double d3 = this.lqb.box(lpp3.tick()).method_49271(lpp3.eye());
+            double d3 = this.lqb.box(lpp3.tick()).squaredMagnitude(lpp3.eye());
             if (lpp2 != null && lpp3.tick() >= lpp2.tick() && (lpp3.tick() != lpp2.tick() || !(d3 < d2))) continue;
             lpp2 = lpp3;
             d2 = d3;
@@ -77,7 +77,7 @@ public final class lpy {
     }
 
     public Vec3d aimNow(World world, ClientPlayerEntity clientPlayerEntity, LivingEntity livingEntity, double d) {
-        return this.lqc.resolve(world, (Entity)clientPlayerEntity, clientPlayerEntity.method_33571(), livingEntity.method_5829(), d);
+        return this.lqc.resolve(world, (Entity)clientPlayerEntity, clientPlayerEntity.getEyePos(), livingEntity.getBoundingBox(), d);
     }
 
     public void hit() {
@@ -119,12 +119,12 @@ public final class lpy {
 
     private static boolean lqi(lpc lpc2, Vec3d vec3d, Vec3d vec3d2, int n) {
         double d;
-        double d2 = MathHelper.method_15393((float)(lme.yaw(vec3d, vec3d2) - lpc2.lookYaw()));
+        double d2 = MathHelper.wrapDegrees((float)(lme.yaw(vec3d, vec3d2) - lpc2.lookYaw()));
         return Math.sqrt(d2 * d2 + (d = (double)(lme.pitch(vec3d, vec3d2) - lpc2.lookPitch())) * d) <= lpc2.maxTurn() * (double)(n + 1) + 0.5;
     }
 
     private static boolean lqj(ClientPlayerEntity clientPlayerEntity, int n) {
-        return clientPlayerEntity.method_7261(0.5f + (float)n) > 0.9f;
+        return clientPlayerEntity.getAttackCooldownProgress(0.5f + (float)n) > 0.9f;
     }
 
     private static /* synthetic */ int ayh(int n, int n2) {

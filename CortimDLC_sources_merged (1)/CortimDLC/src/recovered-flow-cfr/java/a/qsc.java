@@ -48,7 +48,7 @@ public final class qsc {
             return null;
         }
         qrz qrz2 = this.qsf.get(0);
-        return BlockPos.method_49637((double)qrz2.x, (double)qrz2.y, (double)qrz2.z);
+        return BlockPos.ofFloored((double)qrz2.x, (double)qrz2.y, (double)qrz2.z);
     }
 
     public LongOpenHashSet head() {
@@ -150,19 +150,19 @@ public final class qsc {
             long l = longArrayList2.removeLong(longArrayList2.size() - 1);
             qrz qrz2 = new qrz();
             qrz2.ores.add(l);
-            int n = BlockPos.method_10061((long)l);
-            int n2 = BlockPos.method_10071((long)l);
-            int n3 = BlockPos.method_10083((long)l);
+            int n = BlockPos.unpackLongX((long)l);
+            int n2 = BlockPos.unpackLongY((long)l);
+            int n3 = BlockPos.unpackLongZ((long)l);
             for (int i = 0; i < qrz2.ores.size(); ++i) {
                 long l2 = qrz2.ores.getLong(i);
-                int n4 = BlockPos.method_10061((long)l2);
-                int n5 = BlockPos.method_10071((long)l2);
-                int n6 = BlockPos.method_10083((long)l2);
+                int n4 = BlockPos.unpackLongX((long)l2);
+                int n5 = BlockPos.unpackLongY((long)l2);
+                int n6 = BlockPos.unpackLongZ((long)l2);
                 for (int j = longArrayList2.size() - 1; j >= 0; --j) {
                     long l3 = longArrayList2.getLong(j);
-                    int n7 = BlockPos.method_10061((long)l3);
-                    int n8 = BlockPos.method_10071((long)l3);
-                    int n9 = BlockPos.method_10083((long)l3);
+                    int n7 = BlockPos.unpackLongX((long)l3);
+                    int n8 = BlockPos.unpackLongY((long)l3);
+                    int n9 = BlockPos.unpackLongZ((long)l3);
                     if (Math.abs(n7 - n4) > 2 || Math.abs(n8 - n5) > 2 || Math.abs(n9 - n6) > 2 || Math.abs(n7 - n) > 3 || Math.abs(n8 - n2) > 3 || Math.abs(n9 - n3) > 3) continue;
                     qrz2.ores.add(l3);
                     longArrayList2.removeLong(j);

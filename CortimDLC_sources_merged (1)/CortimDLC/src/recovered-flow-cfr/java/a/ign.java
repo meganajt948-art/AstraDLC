@@ -109,7 +109,7 @@ extends ijy {
     }
 
     public static void open() {
-        Screen screen = MinecraftClient.method_1551().field_1755;
+        Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof hlc) {
             hlc hlc2 = (hlc)screen;
             hlc2.openOverlay(new ign(540.0f, 409.0f));
@@ -117,7 +117,7 @@ extends ijy {
     }
 
     public static void openMine() {
-        Object object = MinecraftClient.method_1551().field_1755;
+        Object object = MinecraftClient.getInstance().currentScreen;
         if (object instanceof hlc) {
             hlc hlc2 = (hlc)((Object)object);
             object = new ign(540.0f, 409.0f);
@@ -127,7 +127,7 @@ extends ijy {
     }
 
     public static void openWalk(String string) {
-        Object object = MinecraftClient.method_1551().field_1755;
+        Object object = MinecraftClient.getInstance().currentScreen;
         if (object instanceof hlc) {
             hlc hlc2 = (hlc)((Object)object);
             object = new ign(540.0f, 409.0f);
@@ -278,11 +278,11 @@ extends ijy {
         float f8 = iov.lightness();
         uut.round(drawContext, 0.0f, 0.0f, f4, f5, iov.r(12.0f), ujt.withAlpha(0, Math.round(110.0f * f6)));
         uut.pushAlpha(f6);
-        drawContext.method_51448().pushMatrix();
+        drawContext.getMatrices().pushMatrix();
         float f9 = 0.96f + 0.04f * f6;
-        drawContext.method_51448().translate(this.igy + 255.0f, this.igz + 180.0f + (1.0f - f6) * 6.0f);
-        drawContext.method_51448().scale(f9, f9);
-        drawContext.method_51448().translate(-(this.igy + 255.0f), -(this.igz + 180.0f));
+        drawContext.getMatrices().translate(this.igy + 255.0f, this.igz + 180.0f + (1.0f - f6) * 6.0f);
+        drawContext.getMatrices().scale(f9, f9);
+        drawContext.getMatrices().translate(-(this.igy + 255.0f), -(this.igz + 180.0f));
         uut.shadow(drawContext, this.igy, this.igz + 4.0f, 510.0f, 360.0f, f7, 18.0f, iov.shadow);
         uut.round(drawContext, this.igy, this.igz, 510.0f, 360.0f, f7, ujt.withAlpha(iov.window, 252));
         uut.round(drawContext, this.igy, this.igz, 510.0f, 360.0f, f7, iov.card);
@@ -302,7 +302,7 @@ extends ijy {
             this.iir(drawContext, f, f2, f10 + f12 + 10.0f, f13, f12);
         }
         this.iju(drawContext);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 
@@ -587,7 +587,7 @@ extends ijy {
                 tcz.startMining(tiq2);
                 this.close();
                 if (this.iht != null) {
-                    this.iht.method_25419();
+                    this.iht.close();
                 }
             }, null));
         }
@@ -623,7 +623,7 @@ extends ijy {
             f6 += 11.0f;
         }
         f6 += 4.0f;
-        double d = tcz.unit(MinecraftClient.method_1551());
+        double d = tcz.unit(MinecraftClient.getInstance());
         ttb ttb2 = tiq2.mineModel();
         string3 = wap.s(a.b("\u29ac\u502b\udaf3\u449f\ucf52\u49fe\uf3b0\u7a5e\ue41e\u6eb2\ue96c\u135e\u9d93", -1348982286), a.c(-1070830805, "\u6f0d\u16a8\u9c73\u027e\u89d8\u0b63\ub12a")) + ign.ijx(d) + wap.s(a.b("\u0d26\u7408\ufe97\u60ea\ueb27\u6d8d\ud7c4", 175771025), a.b("\u59bb\u2095\uae57\u305a\ubb8e\u3d39\u877c\u0e9e", -1261938429)) + ign.iix(tiq2);
         if (ttb2 != null && ttb2.hand.unit > 0.0f && Math.abs((double)ttb2.hand.unit - d) / (double)ttb2.hand.unit > 0.15) {
@@ -684,7 +684,7 @@ extends ijy {
                 tcz.startWalking(tiq2, ign.iim(tiq2));
                 this.close();
                 if (this.iht != null) {
-                    this.iht.method_25419();
+                    this.iht.close();
                 }
             }, null));
         }
@@ -719,7 +719,7 @@ extends ijy {
             irr.SMALL.draw(drawContext, irr.SMALL.ellipsize(string3, f5 - 8.0f), f3 + 7.0f, irr.SMALL.centerTop(f6 + 5.5f), iov.textDim);
             f6 += 11.0f;
         }
-        double d = tcz.unit(MinecraftClient.method_1551());
+        double d = tcz.unit(MinecraftClient.getInstance());
         String string4 = wap.s(a.c(-792372005, "\u5c85\u2502\uafda\u31b6\uba7b\u3cd7\u8699\u0f77\u9137\u1b9b\u9c45\u6677\ue8ba"), a.b("\u8966\uf0c3\u7a18\ue415\u6fb3\ued08\u5741", 1492356416)) + ign.ijx(d) + wap.s(a.c(1616488958, "\ua949\ud067\u5af8\uc485\u4f48\uc9e2\u73ab"), a.b("\ua88f\ud1a1\u5f63\uc16e\u4aba\ucc0d\u7648\uffaa", 1520347191)) + ign.iix(tiq2);
         irr.SMALL.draw(drawContext, irr.SMALL.ellipsize(string4, f5), f3, irr.SMALL.centerTop((f6 += 4.0f) + 5.0f), iov.textMuted);
     }
@@ -815,7 +815,7 @@ extends ijy {
                 tcz.startRecording(tiq2);
                 this.close();
                 if (this.iht != null) {
-                    this.iht.method_25419();
+                    this.iht.close();
                 }
             }, null));
         }
@@ -843,7 +843,7 @@ extends ijy {
         this.ijs(drawContext, f, f2, wap.s(a.c(172739429, "\ucb29\ub2b5\u387c\ua60a\u2dc8\uab76\u1128\u98df"), a.b("\u2f8c\u5611\udcbb\u42c9\uc96c\u4fd0\uf5f8\u7c77\ue25f", 833760145)), string, f3, f6 += 16.0f, f5, () -> ign.iji(tiq2, -0.3), () -> ign.iji(tiq2, 0.3), wap.s(a.d("\ua87e\ud1e8\u5b23\uc505\u4e94\uc822\u7262\ufbc1\u65ca\uef67\u68b9\u928d\u1c09\u85bf\u0ff9\u8907\u3342\ubc84\u2664\ua07e\u2987\u53d6\udd70\u46ea\uc08e\u4a1e\uf3a5\u7df0\ue703\u6155\ueaef\u1479\u9e75\u0788\u81c1\u0b6b\ub4a6\u3ed0\ub850\u21a4\uabe8\ud50a\u5f52\ud8ad\u4235\ucc5e\u758c\uff69\u7969\ue2b1\u6c84\u9607\u1fa7\u99f2\u0303\u8d59", -1844638268, 1003726282), a.b("\u5767\u2efc\ua425\u3e4e\ub18d\u3738\u8d60\u049f\u9acf\u107a\u93b7\u6dd2\ue304\u7ac0\uf0e5\u7612\ucc2f\u43fd\ud940\u5b7e\ud6e8\uacba\u227e\ub9a7\u3fd1\ub57f\u08bc\u86f6\u181c\u9e40\u15f1\ueb27\u6169\uf899\u7ec2\uf476\u4bac\uc5c8\u470c\udeba\u5494\u2a63\ua04f\u2784\ubd5a\u3352\u8a837\u860f\u1ddd\u93a0\u6d1e\ue0b1\u62f8\ufc19\u7247\uc9f0\u4b34\uc553\u5c88\ud240\ua81f\u2f90\ua5c2\u3b08\ub2b0\u08e1\u8e6f\u043b\u9bf0", -1645587653)));
         this.ijs(drawContext, f, f2, wap.s(a.b("\u3f8b\u4619\uccdf\u52ae\ud978", 1965440989), a.c(883786078, "\u8577\ufcdd\u760a\ue805\u63ac\ue562\u5f32\ud6cd")), Math.round(tiq2.standSpeed() * 100.0) + a.c(-1366367728, "\ue234"), f3, f6 += 16.0f, f5, () -> ign.ijh(tiq2, a.c(-88483189, "\udaf4\ua342\u2984\ub7fa\u3c27\uba81\u008f\u8923\u177f\u9ddb\u1a08\ue078"), Math.max(0.3, tiq2.standSpeed() - 0.1)), () -> ign.ijh(tiq2, a.c(1807697629, "\u46a2\u3f14\ub5d2\u2bac\ua071\u26d7\u9cd9\u1575\u8b29\u018d\u865e\u7c2e"), Math.min(1.6, tiq2.standSpeed() + 0.1)), wap.s(a.d("\u7501\u0c97\u865c\u187a\u93eb\u155d\uaf1c\u26ea\ub8e1\u3204\ub5cb\u4fb7\uc125\u58c7\ud293\u5477\uee37\u61ec\ufb48\u7d4a\uf4f0\u8ea3\t\u9bcb", -1886890339, -1365564468), a.d("\u0349\u7ad2\uf00b\u6a60\ue5a6\u636d\ud934\u50c6\uce9b\u4454\uc799\u39fc\ub72d\u2e96\ua4ce\u223c\u980d\u17d0\u8d60\u0b3f\u86a7\uf897\u7627\ued81\u6bf6\ue12e\u58e2", 1030979002, -1473873166)));
         f6 += 20.0f;
-        double d = tcz.unit(MinecraftClient.method_1551());
+        double d = tcz.unit(MinecraftClient.getInstance());
         tck tck2 = tiq2.model(tiq2.aura());
         String string2 = wap.s(a.b("\u5014\u2993\ua34b\u3d27\ub6ea\u3046\u8a08\u03e6\u9da6\u170a\u90d4\u6ae6\ue42b", -1297592246), a.d("\u56f1\u2f54\ua58f\u3b82\ub024\u329f\u88d6", 1389692553, 1133597790)) + ign.ijx(d) + wap.s(a.b("\u42da\u3bf4\ub16b\u2f16\ua4db\u2271\u9838", 1917534829), a.c(616350100, "\uc12c\ub802\u36c0\ua8cd\u2319\ua5ae\u1feb\u9609")) + ign.iix(tiq2);
         if (tck2 != null && tck2.unit > 0.0f && Math.abs((double)tck2.unit - d) / (double)tck2.unit > 0.15) {
@@ -979,7 +979,7 @@ extends ijy {
             tcz.startTest(tiq2);
             this.close();
             if (this.iht != null) {
-                this.iht.method_25419();
+                this.iht.close();
             }
         }, null));
         if (bl4) {

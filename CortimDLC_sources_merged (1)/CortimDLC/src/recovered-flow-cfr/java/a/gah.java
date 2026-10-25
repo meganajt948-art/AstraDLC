@@ -46,11 +46,11 @@ public final class gah {
         try {
             if (gak == null) {
                 Screen screen;
-                if (minecraftClient.method_18506() == null && minecraftClient.field_1755 instanceof AccessibilityOnboardingScreen) {
-                    minecraftClient.field_1690.field_41785 = false;
-                    minecraftClient.method_1507((Screen)new TitleScreen());
+                if (minecraftClient.getOverlay() == null && minecraftClient.currentScreen instanceof AccessibilityOnboardingScreen) {
+                    minecraftClient.options.onboardAccessibility = false;
+                    minecraftClient.setScreen((Screen)new TitleScreen());
                 }
-                if (minecraftClient.method_18506() == null && (screen = minecraftClient.field_1755) instanceof jte) {
+                if (minecraftClient.getOverlay() == null && (screen = minecraftClient.currentScreen) instanceof jte) {
                     jte jte2 = (jte)screen;
                     if (gaj > 60) {
                         gak = jte2;
@@ -113,7 +113,7 @@ public final class gah {
                     kbm.reset();
                     gah.gao(a.b("\u5d32\u249a\uae43\u303a\ubbe3\u3d45\u872b\u0ee5\u90af\u1a15", 1847549256), false);
                     System.out.println(a.b("\u2246\u5bf4\ud127\u4f52\uc4ce\u422b\uf869\u718e\uefd6\u6533\ue290\u18f0\u9635\u0f84", 0x54522224));
-                    minecraftClient.method_1592();
+                    minecraftClient.scheduleStop();
                     gaj = Integer.MIN_VALUE;
                     break;
                 }
@@ -122,7 +122,7 @@ public final class gah {
         catch (Throwable throwable) {
             System.out.println(a.d("\u9657\uefe5\u6536\ufb43\u70df\uf63a\u4c78\uc59f\u5bc7\ud122\u5697\uace1\u223e\ubb8a\u31af\ub744", 1581932315, 1981729072) + throwable);
             throwable.printStackTrace();
-            minecraftClient.method_1592();
+            minecraftClient.scheduleStop();
             gaj = Integer.MIN_VALUE;
         }
     }
@@ -135,7 +135,7 @@ public final class gah {
 
     private static void gap(MinecraftClient minecraftClient, String string) {
         System.out.println(a.d("\uadea\ud458\u5e8b\uc0fe\u4b62\ucd87\u77c5\ufe22\u607a\uea9f", -1702102730, -1614588742) + string);
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.b("\ueebd\u9706\u1dd6\u83bf\u082d\u8e83", 1098837725) + string + a.d("\uba49\uc3a6\u496b\ud713", 1308586951, -234239580)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> {});
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.b("\ueebd\u9706\u1dd6\u83bf\u082d\u8e83", 1098837725) + string + a.d("\uba49\uc3a6\u496b\ud713", 1308586951, -234239580)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> {});
     }
 
     private static /* synthetic */ int su(int n, int n2) {

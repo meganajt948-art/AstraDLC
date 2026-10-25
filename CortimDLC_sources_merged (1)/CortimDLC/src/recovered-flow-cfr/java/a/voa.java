@@ -83,9 +83,9 @@ public final class voa {
         String string2 = "";
         try {
             l = ALC10.alcGetCurrentContext();
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
-            if (minecraftClient.field_1690 != null) {
-                string2 = (String)minecraftClient.field_1690.method_42477().method_41753();
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
+            if (minecraftClient.options != null) {
+                string2 = (String)minecraftClient.options.getSoundDevice().getValue();
             }
         }
         catch (Throwable throwable) {

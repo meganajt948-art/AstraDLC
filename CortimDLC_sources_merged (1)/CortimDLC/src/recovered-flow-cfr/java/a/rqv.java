@@ -64,21 +64,21 @@ extends kfe {
     public static void afterExtraction(WorldRenderState var0) {
         rqv.rqz.clear();
         var1_1 = rqv.rqw;
-        if (var1_1 == null || !var1_1.isEnabled() || MinecraftClient.method_1551().field_1687 == null) {
+        if (var1_1 == null || !var1_1.isEnabled() || MinecraftClient.getInstance().world == null) {
             return;
         }
         var2_2 = ukl.canFade();
         var3_3 = null;
-        for (EntityRenderState var5_5 : var0.field_61735) {
+        for (EntityRenderState var5_5 : var0.entityRenderStates) {
             if (!(var5_5 instanceof LivingEntityRenderState)) continue;
             var6_6 = (LivingEntityRenderState)var5_5;
-            if (!var6_6.field_53461 || !(var5_5 instanceof PlayerEntityRenderState) && !var1_1.rrd.get() || Cosmetics.hidesBody(var5_5)) continue;
-            var6_6.field_53461 = false;
+            if (!var6_6.invisibleToPlayer || !(var5_5 instanceof PlayerEntityRenderState) && !var1_1.rrd.get() || Cosmetics.hidesBody(var5_5)) continue;
+            var6_6.invisibleToPlayer = false;
             if (!var2_2) continue;
-            var6_6.field_53333 = false;
+            var6_6.invisible = false;
             if (!(var5_5 instanceof PlayerEntityRenderState)) ** GOTO lbl-1000
             var8_8 = (PlayerEntityRenderState)var5_5;
-            if (Cosmetics.wears(var8_8.field_53528)) {
+            if (Cosmetics.wears(var8_8.id)) {
                 v0 = true;
             } else lbl-1000:
             // 2 sources
@@ -96,21 +96,21 @@ extends kfe {
                     if (var7_7) {
                         rqv.rqz.add(var5_5);
                     }
-                    var8_8.field_55309 = ItemStack.field_8037;
-                    var8_8.field_53418 = ItemStack.field_8037;
-                    var8_8.field_53419 = ItemStack.field_8037;
-                    var8_8.field_53420 = ItemStack.field_8037;
+                    var8_8.equippedHeadStack = ItemStack.EMPTY;
+                    var8_8.equippedChestStack = ItemStack.EMPTY;
+                    var8_8.equippedLegsStack = ItemStack.EMPTY;
+                    var8_8.equippedFeetStack = ItemStack.EMPTY;
                 }
             }
             ukl.fade(var5_5, 1.0f - (float)var1_1.rrc.get());
         }
         if (var3_3 != null) {
-            var0.field_61735.addAll(var3_3);
+            var0.entityRenderStates.addAll(var3_3);
         }
     }
 
     private static boolean rrg(BipedEntityRenderState bipedEntityRenderState) {
-        return !bipedEntityRenderState.field_55309.method_7960() || !bipedEntityRenderState.field_53418.method_7960() || !bipedEntityRenderState.field_53419.method_7960() || !bipedEntityRenderState.field_53420.method_7960();
+        return !bipedEntityRenderState.equippedHeadStack.isEmpty() || !bipedEntityRenderState.equippedChestStack.isEmpty() || !bipedEntityRenderState.equippedLegsStack.isEmpty() || !bipedEntityRenderState.equippedFeetStack.isEmpty();
     }
 
     private static BipedEntityRenderState rrh(BipedEntityRenderState bipedEntityRenderState) {
@@ -129,13 +129,13 @@ extends kfe {
             for (Field field : rqv.rri(clazz)) {
                 field.set(bipedEntityRenderState2, field.get(bipedEntityRenderState));
             }
-            bipedEntityRenderState2.field_53333 = true;
-            bipedEntityRenderState2.field_53461 = true;
-            bipedEntityRenderState2.field_61821 = 0;
-            bipedEntityRenderState2.field_53337 = null;
-            bipedEntityRenderState2.field_53338 = null;
-            bipedEntityRenderState2.field_60160 = null;
-            bipedEntityRenderState2.field_61822 = 0.0f;
+            bipedEntityRenderState2.invisible = true;
+            bipedEntityRenderState2.invisibleToPlayer = true;
+            bipedEntityRenderState2.outlineColor = 0;
+            bipedEntityRenderState2.displayName = null;
+            bipedEntityRenderState2.nameLabelPos = null;
+            bipedEntityRenderState2.leashDatas = null;
+            bipedEntityRenderState2.shadowRadius = 0.0f;
             if (rra != null) {
                 rra.set(bipedEntityRenderState2, new ArrayList());
             }

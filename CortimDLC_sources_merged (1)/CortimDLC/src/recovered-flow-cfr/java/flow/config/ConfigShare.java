@@ -226,7 +226,7 @@ public final class ConfigShare {
         if (!ewk.online()) {
             return CompletableFuture.failedFuture(new IOException("offline"));
         }
-        MinecraftClient main = MinecraftClient.method_1551();
+        MinecraftClient main = MinecraftClient.getInstance();
         return ((CompletableFuture)CompletableFuture.supplyAsync(() -> ConfigShare.keys(code)).thenCompose(k -> {
             JsonObject req = new JsonObject();
             req.addProperty("id", k.id());

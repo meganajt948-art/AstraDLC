@@ -87,17 +87,17 @@ extends kfe {
     }
 
     private boolean rmd(MinecraftClient minecraftClient, PlayerEntity playerEntity) {
-        if (playerEntity == minecraftClient.field_1724) {
-            return this.rlm.get() && !minecraftClient.field_1690.method_31044().method_31034();
+        if (playerEntity == minecraftClient.player) {
+            return this.rlm.get() && !minecraftClient.options.getPerspective().isFirstPerson();
         }
-        if (!playerEntity.method_5805() || playerEntity.method_7325() || playerEntity == minecraftClient.method_1560()) {
+        if (!playerEntity.isAlive() || playerEntity.isSpectator() || playerEntity == minecraftClient.getCameraEntity()) {
             return false;
         }
         if (!this.rlc.get() && hhf.isFriend((Entity)playerEntity)) {
             return false;
         }
         double d = this.rll.get();
-        return minecraftClient.field_1724.method_5858((Entity)playerEntity) <= d * d;
+        return minecraftClient.player.squaredDistanceTo((Entity)playerEntity) <= d * d;
     }
 
     private int rme(PlayerEntity playerEntity) {
@@ -114,19 +114,19 @@ extends kfe {
 
     public static void afterExtraction(WorldRenderState worldRenderState) {
         rky rky2 = rkz;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rky2 == null || !rky2.isEnabled() || !rky2.rla.is("Outline") || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rky2 == null || !rky2.isEnabled() || !rky2.rla.is("Outline") || minecraftClient.world == null || minecraftClient.player == null) {
             return;
         }
         ukl.style(0).set((float)rky2.rlh.get(), (float)rky2.rlf.get(), (float)rky2.rlg.get(), (float)rky2.rli.get(), (float)rky2.rlj.get(), (float)rky2.rlk.get());
         int n = rky2.rlb.color() | 0xFF000000;
         int n2 = rky2.rlb.color2() | 0xFF000000;
         boolean bl = rky2.rld.get();
-        for (EntityRenderState entityRenderState : worldRenderState.field_61735) {
+        for (EntityRenderState entityRenderState : worldRenderState.entityRenderStates) {
             PlayerEntity playerEntity;
             if (!(entityRenderState instanceof PlayerEntityRenderState)) continue;
             PlayerEntityRenderState playerEntityRenderState = (PlayerEntityRenderState)entityRenderState;
-            Entity entity = minecraftClient.field_1687.method_8469(playerEntityRenderState.field_53528);
+            Entity entity = minecraftClient.world.getEntityById(playerEntityRenderState.id);
             if (!(entity instanceof PlayerEntity) || !rky2.rmd(minecraftClient, playerEntity = (PlayerEntity)entity)) continue;
             boolean bl2 = hhf.isFriend((Entity)playerEntity);
             int n3 = bl2 ? -10686326 : (bl ? ujt.lerp(-45730, -10686326, vyk.of((LivingEntity)playerEntity).fraction()) : n);
@@ -141,8 +141,8 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         rky rky2 = rkz;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rky2 == null || !rky2.isEnabled() || rky2.rla.is("Outline") || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rky2 == null || !rky2.isEnabled() || rky2.rla.is("Outline") || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -150,9 +150,9 @@ extends kfe {
             return;
         }
         rky2.rln = unf.frame();
-        float f = renderTickCounter.method_60637(true);
+        float f = renderTickCounter.getTickProgress(true);
         try {
-            usn2 = usn.capture(f, drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(f, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -160,9 +160,9 @@ extends kfe {
         uut.beginFrame();
         uut.beginBatch();
         try {
-            for (PlayerEntity playerEntity : minecraftClient.field_1687.method_18456()) {
+            for (PlayerEntity playerEntity : minecraftClient.world.getPlayers()) {
                 if (!rky2.rmd(minecraftClient, playerEntity)) continue;
-                Vec3d vec3d = playerEntity.method_30950(f);
+                Vec3d vec3d = playerEntity.getLerpedPos(f);
                 int n = rky2.rme(playerEntity);
                 rky2.rmg(drawContext, usn2, playerEntity, vec3d, n);
             }
@@ -182,8 +182,8 @@ extends kfe {
 
     private void rmg(DrawContext drawContext, usn usn2, PlayerEntity playerEntity, Vec3d vec3d, int n) {
         int n2;
-        double d = (double)playerEntity.method_17681() * 0.5 + 0.02;
-        this.rmf(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, d, (double)playerEntity.method_17682() + 0.02);
+        double d = (double)playerEntity.getWidth() * 0.5 + 0.02;
+        this.rmf(vec3d.x, vec3d.y, vec3d.z, d, (double)playerEntity.getHeight() + 0.02);
         for (int i = 0; i < 8; ++i) {
             this.rlt[i] = usn2.depth(this.rlr[i][0], this.rlr[i][1], this.rlr[i][2]) > 0.05f && usn2.project(this.rlr[i][0], this.rlr[i][1], this.rlr[i][2], this.rls[i]);
         }
@@ -194,7 +194,7 @@ extends kfe {
             int n3 = ujt.withAlpha(n, Math.round(255.0f * f * 0.25f));
             for (int i = 0; i < 6; ++i) {
                 int[] nArray = rlv[i];
-                if (!this.rlt[nArray[0]] || !this.rlt[nArray[1]] || !this.rlt[nArray[2]] || !this.rlt[nArray[3]] || !this.rmh(i, vec3d2, vec3d, d, playerEntity.method_17682())) continue;
+                if (!this.rlt[nArray[0]] || !this.rlt[nArray[1]] || !this.rlt[nArray[2]] || !this.rlt[nArray[3]] || !this.rmh(i, vec3d2, vec3d, d, playerEntity.getHeight())) continue;
                 uut.quad(drawContext, this.rls[nArray[0]][0], this.rls[nArray[0]][1], (nArray[0] & 2) != 0 ? n2 : n3, this.rls[nArray[1]][0], this.rls[nArray[1]][1], (nArray[1] & 2) != 0 ? n2 : n3, this.rls[nArray[2]][0], this.rls[nArray[2]][1], (nArray[2] & 2) != 0 ? n2 : n3, this.rls[nArray[3]][0], this.rls[nArray[3]][1], (nArray[3] & 2) != 0 ? n2 : n3);
             }
         }
@@ -217,36 +217,36 @@ extends kfe {
     private boolean rmh(int n, Vec3d vec3d, Vec3d vec3d2, double d, double d2) {
         return switch (n) {
             case 0 -> {
-                if (vec3d.field_1351 < vec3d2.field_1351) {
+                if (vec3d.y < vec3d2.y) {
                     yield true;
                 }
                 yield false;
             }
             case 1 -> {
-                if (vec3d.field_1351 > vec3d2.field_1351 + d2) {
+                if (vec3d.y > vec3d2.y + d2) {
                     yield true;
                 }
                 yield false;
             }
             case 2 -> {
-                if (vec3d.field_1350 < vec3d2.field_1350 - d) {
+                if (vec3d.z < vec3d2.z - d) {
                     yield true;
                 }
                 yield false;
             }
             case 3 -> {
-                if (vec3d.field_1350 > vec3d2.field_1350 + d) {
+                if (vec3d.z > vec3d2.z + d) {
                     yield true;
                 }
                 yield false;
             }
             case 4 -> {
-                if (vec3d.field_1352 < vec3d2.field_1352 - d) {
+                if (vec3d.x < vec3d2.x - d) {
                     yield true;
                 }
                 yield false;
             }
-            default -> vec3d.field_1352 > vec3d2.field_1352 + d;
+            default -> vec3d.x > vec3d2.x + d;
         };
     }
 
@@ -269,7 +269,7 @@ extends kfe {
     }
 
     private void rmj(DrawContext drawContext, PlayerEntity playerEntity) {
-        float f = MathHelper.method_15363((float)vyk.of((LivingEntity)playerEntity).fraction(), (float)0.0f, (float)1.0f);
+        float f = MathHelper.clamp((float)vyk.of((LivingEntity)playerEntity).fraction(), (float)0.0f, (float)1.0f);
         float f2 = this.rlz - this.rlx;
         float f3 = Math.max(1.5f, Math.min(3.0f, f2 * 0.025f));
         float f4 = this.rlw - f3 - 3.0f;

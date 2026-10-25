@@ -6,7 +6,7 @@ package a;
 import a.wbu;
 
 public final class vxz {
-    private static final wbu<Double> vya = new wbu(minecraftClient -> minecraftClient.field_1690.method_42473());
+    private static final wbu<Double> vya = new wbu(minecraftClient -> minecraftClient.options.getGamma());
     private static /* synthetic */ int vyb;
     private static /* synthetic */ boolean vyc;
 

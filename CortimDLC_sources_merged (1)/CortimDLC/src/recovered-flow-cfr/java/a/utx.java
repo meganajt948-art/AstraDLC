@@ -73,7 +73,7 @@ implements SimpleGuiElementRenderState {
         return f + 1.5f;
     }
 
-    public void method_70917(VertexConsumer vertexConsumer) {
+    public void setupVertices(VertexConsumer vertices) {
         float f = this.uub - this.uum;
         float f2 = this.uuc - this.uum;
         float f3 = this.uub + this.uud + this.uum;
@@ -83,15 +83,15 @@ implements SimpleGuiElementRenderState {
         int n = Math.min(Short.MAX_VALUE, Math.round(this.uud * 4.0f));
         int n2 = Math.min(Short.MAX_VALUE, Math.round(this.uue * 4.0f));
         Vector2f vector2f = new Vector2f();
-        this.uus(vertexConsumer, vector2f, f, f2, f - f5, f2 - f6, this.uuf, n, n2);
-        this.uus(vertexConsumer, vector2f, f, f4, f - f5, f4 - f6, this.uui, n, n2);
-        this.uus(vertexConsumer, vector2f, f3, f4, f3 - f5, f4 - f6, this.uuh, n, n2);
-        this.uus(vertexConsumer, vector2f, f3, f2, f3 - f5, f2 - f6, this.uug, n, n2);
+        this.uus(vertices, vector2f, f, f2, f - f5, f2 - f6, this.uuf, n, n2);
+        this.uus(vertices, vector2f, f, f4, f - f5, f4 - f6, this.uui, n, n2);
+        this.uus(vertices, vector2f, f3, f4, f3 - f5, f4 - f6, this.uuh, n, n2);
+        this.uus(vertices, vector2f, f3, f2, f3 - f5, f2 - f6, this.uug, n, n2);
     }
 
     private void uus(VertexConsumer vertexConsumer, Vector2f vector2f, float f, float f2, float f3, float f4, int n, int n2, int n3) {
         this.uua.transformPosition(f, f2, vector2f);
-        vertexConsumer.method_22912(vector2f.x, vector2f.y, this.uul).method_39415(n).method_22913(f3, f4).method_60796(n2, n3).method_22921(this.uuj, this.uuk).method_75298(this.uun);
+        vertexConsumer.vertex(vector2f.x, vector2f.y, this.uul).color(n).texture(f3, f4).overlay(n2, n3).light(this.uuj, this.uuk).lineWidth(this.uun);
     }
 
     static int packRadii(float f, float f2) {
@@ -115,11 +115,11 @@ implements SimpleGuiElementRenderState {
         return (boolean)ObjectMethods.bootstrap("equals", new MethodHandle[]{utx.class, "pipeline;textureSetup;pose;x;y;w;h;cTL;cTR;cBR;cBL;radiiA;radiiB;z;pad;param;scissorArea;bounds", "uty", "utz", "uua", "uub", "uuc", "uud", "uue", "uuf", "uug", "uuh", "uui", "uuj", "uuk", "uul", "uum", "uun", "uuo", "uup"}, this, object);
     }
 
-    public RenderPipeline comp_4055() {
+    public RenderPipeline pipeline() {
         return this.uty;
     }
 
-    public TextureSetup comp_4056() {
+    public TextureSetup textureSetup() {
         return this.utz;
     }
 
@@ -179,11 +179,11 @@ implements SimpleGuiElementRenderState {
         return this.uun;
     }
 
-    public @Nullable ScreenRect comp_4069() {
+    public @Nullable ScreenRect scissorArea() {
         return this.uuo;
     }
 
-    public @Nullable ScreenRect comp_4274() {
+    public @Nullable ScreenRect bounds() {
         return this.uup;
     }
 

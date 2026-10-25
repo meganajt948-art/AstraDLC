@@ -40,11 +40,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 
 final class edj {
-    private static final MinecraftClient edk = MinecraftClient.method_1551();
-    private static final long edl = ejl.offsetOf(edk, edk.method_1483());
-    private static final long edm = ejl.offsetOf(edk, edj.edk.field_1713);
-    private static final long edn = ejl.offsetOf(edk, edj.edk.field_1729);
-    private static final long edo = ejl.offsetOf(edk, edj.edk.field_1769);
+    private static final MinecraftClient edk = MinecraftClient.getInstance();
+    private static final long edl = ejl.offsetOf(edk, edk.getSoundManager());
+    private static final long edm = ejl.offsetOf(edk, edj.edk.particleManager);
+    private static final long edn = ejl.offsetOf(edk, edj.edk.mouse);
+    private static final long edo = ejl.offsetOf(edk, edj.edk.worldRenderer);
     private static final Field edp = vxr.find(MinecraftClient.class, a.d("\u6899\u1123\u9be1\u05ca\u8e5e\u08eb\ub2bf\u3b45\ua51c\u2fbc\ua87c\u520a\udccf\u4524\ucf3a\u49c4\uf386\u7c45\ue6f6\u608b\ue910\u9343\u1df1", 1340244188, -820320196), a.c(2090077296, "\u0c1c\u75a2\uff7d\u6105\ueada\u6c50\ud66d\u5f9a\uc1c3\u4b7a"), a.d("\u01f3\u7860\uf2b8\u6cd8\ue754\u61a7\udbf0\u5206\ucc52\u46e5\uc127\u3b45\ub595\u2c36\ua63e\u2083\u9ac3\u151f\u8fbe\u09ef\u8034\ufa0b\u74bb\uef61\u6910\ue3cd", 494456179, 1285475542));
     private static final Field edq = vxr.find(MinecraftClient.class, a.c(-439245696, "\ua4f9\udd43\u5781\uc9aa\u423e\uc48b\u7edf\uf725\u697c\ue3dc\u641c\u9e6a\u10af\u8944\u035a\u85a4\u3fe6\ub025\u2a96\uaceb\u2570\u5f23\ud191"), a.d("\ua6dc\udf62\u55bd\ucbc5\u401a\uc690\u7cad\uf55a\u6b07\ue1b1", 1933986926, 1530850014), a.d("\u6c1f", 1206452448, 1835822263));
     private static final long edr = edp == null ? -1L : ejl.U.objectFieldOffset(edp);
@@ -93,16 +93,16 @@ final class edj {
                 if (Modifier.isStatic(field.getModifiers())) continue;
                 long l3 = ejl.U.objectFieldOffset(field);
                 if (field.getType() == Boolean.TYPE && l < 0L) {
-                    keyBinding.method_23481(true);
+                    keyBinding.setPressed(true);
                     boolean bl = ejl.U.getBoolean(keyBinding, l3);
-                    keyBinding.method_23481(false);
+                    keyBinding.setPressed(false);
                     if (!bl || ejl.U.getBoolean(keyBinding, l3)) continue;
                     l = l3;
                     continue;
                 }
                 if (field.getType() != Integer.TYPE || l2 >= 0L) continue;
                 ejl.U.putInt(keyBinding, l3, 1);
-                if (keyBinding.method_1436() && ejl.U.getInt(keyBinding, l3) == 0) {
+                if (keyBinding.wasPressed() && ejl.U.getInt(keyBinding, l3) == 0) {
                     l2 = l3;
                     continue;
                 }
@@ -144,7 +144,7 @@ final class edj {
     }
 
     private static Entity eez() {
-        return edr < 0L ? edk.method_1560() : (Entity)ejl.U.getObject(edk, edr);
+        return edr < 0L ? edk.getCameraEntity() : (Entity)ejl.U.getObject(edk, edr);
     }
 
     static void camera(Entity entity) {
@@ -154,7 +154,7 @@ final class edj {
     }
 
     static boolean enter(dtv dtv2) {
-        if (ejp.active != null || !edk.method_18854()) {
+        if (ejp.active != null || !edk.isOnThread()) {
             return false;
         }
         try {
@@ -166,18 +166,18 @@ final class edj {
             Thread.currentThread().interrupt();
             return false;
         }
-        edv = edj.edk.field_1724;
-        edw = edj.edk.field_1687;
-        edx = edj.edk.field_1761;
-        edy = edj.edk.field_1755;
-        edz = edj.edk.field_1765;
-        eea = edj.edk.field_1692;
+        edv = edj.edk.player;
+        edw = edj.edk.world;
+        edx = edj.edk.interactionManager;
+        edy = edj.edk.currentScreen;
+        edz = edj.edk.crosshairTarget;
+        eea = edj.edk.targetedEntity;
         eeb = edj.eez();
         eec = ejl.get(edk, edl);
         eed = ejl.get(edk, edm);
         eee = ejl.get(edk, edn);
         eef = ejl.get(edk, edo);
-        eej = edj.edk.field_1705 == null ? null : edj.edk.field_1705.method_1740();
+        eej = edj.edk.inGameHud == null ? null : edj.edk.inGameHud.getBossBarHud();
         Field field = pjn.field();
         try {
             eeg = eej == null || field == null ? null : field.get(eej);
@@ -187,12 +187,12 @@ final class edj {
         }
         try {
             ejp.active = dtv2;
-            edj.edk.field_1724 = dtv2.player;
-            edj.edk.field_1687 = dtv2.world;
-            edj.edk.field_1761 = dtv2.interaction;
-            edj.edk.field_1755 = dtv2.screen;
-            edj.edk.field_1765 = dtv2.crosshair;
-            edj.edk.field_1692 = dtv2.targeted;
+            edj.edk.player = dtv2.player;
+            edj.edk.world = dtv2.world;
+            edj.edk.interactionManager = dtv2.interaction;
+            edj.edk.currentScreen = dtv2.screen;
+            edj.edk.crosshairTarget = dtv2.crosshair;
+            edj.edk.targetedEntity = dtv2.targeted;
             edj.camera(dtv2.camera);
             ejl.put(edk, edl, eky.SOUND);
             ejl.put(edk, edm, eky.PARTICLES);
@@ -227,24 +227,24 @@ final class edj {
         if (dtv2 == null) {
             return;
         }
-        dtv2.player = edj.edk.field_1724;
-        dtv2.world = edj.edk.field_1687;
-        dtv2.interaction = edj.edk.field_1761;
-        dtv2.screen = edj.edk.field_1755;
-        dtv2.crosshair = edj.edk.field_1765;
-        dtv2.targeted = edj.edk.field_1692;
+        dtv2.player = edj.edk.player;
+        dtv2.world = edj.edk.world;
+        dtv2.interaction = edj.edk.interactionManager;
+        dtv2.screen = edj.edk.currentScreen;
+        dtv2.crosshair = edj.edk.crosshairTarget;
+        dtv2.targeted = edj.edk.targetedEntity;
         dtv2.camera = edj.eez();
         edj.efa(dtv2);
     }
 
     private static void efa(dtv dtv2) {
         try {
-            edj.edk.field_1724 = edv;
-            edj.edk.field_1687 = edw;
-            edj.edk.field_1761 = edx;
-            edj.edk.field_1755 = edy;
-            edj.edk.field_1765 = edz;
-            edj.edk.field_1692 = eea;
+            edj.edk.player = edv;
+            edj.edk.world = edw;
+            edj.edk.interactionManager = edx;
+            edj.edk.currentScreen = edy;
+            edj.edk.crosshairTarget = edz;
+            edj.edk.targetedEntity = eea;
             edj.camera(eeb);
             if (eec != null) {
                 ejl.put(edk, edl, eec);
@@ -318,7 +318,7 @@ final class edj {
 
     private static void efb(dtv dtv2) {
         int n;
-        KeyBinding[] keyBindingArray = edj.edk.field_1690.field_1839;
+        KeyBinding[] keyBindingArray = edj.edk.options.allKeys;
         if (eem.length != keyBindingArray.length) {
             eem = new boolean[keyBindingArray.length];
             een = new int[keyBindingArray.length];
@@ -336,7 +336,7 @@ final class edj {
     }
 
     private static void efc(dtv dtv2) {
-        KeyBinding[] keyBindingArray = edj.edk.field_1690.field_1839;
+        KeyBinding[] keyBindingArray = edj.edk.options.allKeys;
         int n = Math.min(keyBindingArray.length, eem.length);
         for (int i = 0; i < n; ++i) {
             KeyBinding keyBinding = keyBindingArray[i];
@@ -350,39 +350,39 @@ final class edj {
     }
 
     private static void efd() {
-        GameOptions gameOptions = edj.edk.field_1690;
-        eep = (Boolean)gameOptions.method_42449().method_41753();
-        eeq = (Boolean)gameOptions.method_42450().method_41753();
-        eer = (Boolean)gameOptions.method_42423().method_41753();
-        ees = (Double)gameOptions.method_42495().method_41753();
+        GameOptions gameOptions = edj.edk.options;
+        eep = (Boolean)gameOptions.getSneakToggled().getValue();
+        eeq = (Boolean)gameOptions.getSprintToggled().getValue();
+        eer = (Boolean)gameOptions.getAutoJump().getValue();
+        ees = (Double)gameOptions.getMouseSensitivity().getValue();
         eet = true;
         dtv dtv2 = ejp.active;
         if (dtv2 != null) {
-            gameOptions.method_42495().method_41748((Object)dtv2.sensitivity());
+            gameOptions.getMouseSensitivity().setValue((Object)dtv2.sensitivity());
         }
         if (eep) {
-            gameOptions.method_42449().method_41748((Object)false);
+            gameOptions.getSneakToggled().setValue((Object)false);
         }
         if (eeq) {
-            gameOptions.method_42450().method_41748((Object)false);
+            gameOptions.getSprintToggled().setValue((Object)false);
         }
         if (eer) {
-            gameOptions.method_42423().method_41748((Object)false);
+            gameOptions.getAutoJump().setValue((Object)false);
         }
     }
 
     private static void efe() {
-        GameOptions gameOptions = edj.edk.field_1690;
+        GameOptions gameOptions = edj.edk.options;
         if (eep) {
-            gameOptions.method_42449().method_41748((Object)true);
+            gameOptions.getSneakToggled().setValue((Object)true);
         }
         if (eeq) {
-            gameOptions.method_42450().method_41748((Object)true);
+            gameOptions.getSprintToggled().setValue((Object)true);
         }
         if (eer) {
-            gameOptions.method_42423().method_41748((Object)true);
+            gameOptions.getAutoJump().setValue((Object)true);
         }
-        gameOptions.method_42495().method_41748((Object)ees);
+        gameOptions.getMouseSensitivity().setValue((Object)ees);
     }
 
     static {

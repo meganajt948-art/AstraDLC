@@ -60,9 +60,9 @@ public final class sus {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         rfl rfl2 = rfl.get();
-        if (rfl2 == null || !rfl2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        if (rfl2 == null || !rfl2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             suz.clear();
             svb = Long.MIN_VALUE;
             return;
@@ -72,7 +72,7 @@ public final class sus {
             return;
         }
         svc = unf.frame();
-        long l = minecraftClient.field_1687.method_75260();
+        long l = minecraftClient.world.getTime();
         if (l != svb) {
             svb = l;
             sus.svf(minecraftClient, rfl2);
@@ -80,25 +80,25 @@ public final class sus {
         if (suz.isEmpty()) {
             return;
         }
-        float f = renderTickCounter.method_60637(true);
+        float f = renderTickCounter.getTickProgress(true);
         try {
-            usn2 = usn.capture(f, drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(f, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
         }
         sva.clear();
         for (sup object : suz) {
-            if (object.first.method_31481()) continue;
-            Vec3d vec3d = object.first.method_30950(f);
-            double d = vec3d.field_1351 + (double)object.first.method_17682() + 0.12;
-            if (!usn2.project(vec3d.field_1352, d, vec3d.field_1350, object.screen)) continue;
-            object.distance = usn2.distance(vec3d.field_1352, d, vec3d.field_1350);
+            if (object.first.isRemoved()) continue;
+            Vec3d vec3d = object.first.getLerpedPos(f);
+            double d = vec3d.y + (double)object.first.getHeight() + 0.12;
+            if (!usn2.project(vec3d.x, d, vec3d.z, object.screen)) continue;
+            object.distance = usn2.distance(vec3d.x, d, vec3d.z);
             sva.add(object);
         }
         sva.sort((sup2, sup3) -> Double.compare(sup3.distance, sup2.distance));
         uut.beginFrame();
-        float f2 = Math.max(1, minecraftClient.method_22683().method_4495());
+        float f2 = Math.max(1, minecraftClient.getWindow().getScaleFactor());
         for (sup sup4 : sva) {
             sus.svh(drawContext, rfl2, sup4, f2);
         }
@@ -109,28 +109,28 @@ public final class sus {
         ItemEntity itemEntity2;
         suz.clear();
         double d = rfl2.range.get();
-        Box box = minecraftClient.field_1724.method_5829().method_1009(d, d * 0.6, d);
-        List list = minecraftClient.field_1687.method_8390(ItemEntity.class, box, itemEntity -> itemEntity.method_5805() && !itemEntity.method_6983().method_7960());
-        Vec3d vec3d = minecraftClient.field_1724.method_33571();
-        list.sort(Comparator.comparingDouble(itemEntity -> itemEntity.method_5707(vec3d)));
+        Box box = minecraftClient.player.getBoundingBox().expand(d, d * 0.6, d);
+        List list = minecraftClient.world.getEntitiesByClass(ItemEntity.class, box, itemEntity -> itemEntity.isAlive() && !itemEntity.getStack().isEmpty());
+        Vec3d vec3d = minecraftClient.player.getEyePos();
+        list.sort(Comparator.comparingDouble(itemEntity -> itemEntity.squaredDistanceTo(vec3d)));
         boolean bl = rfl2.merge.get();
         Iterator iterator = list.iterator();
-        while (iterator.hasNext() && !((itemEntity2 = (ItemEntity)iterator.next()).method_5707(vec3d) > d * d)) {
+        while (iterator.hasNext() && !((itemEntity2 = (ItemEntity)iterator.next()).squaredDistanceTo(vec3d) > d * d)) {
             sup sup2 = null;
             if (bl) {
                 for (sup sup3 : suz) {
-                    if (!(sup3.first.method_5858((Entity)itemEntity2) < 1.44) || !ItemStack.method_31577((ItemStack)sup3.stack, (ItemStack)itemEntity2.method_6983())) continue;
+                    if (!(sup3.first.squaredDistanceTo((Entity)itemEntity2) < 1.44) || !ItemStack.areItemsAndComponentsEqual((ItemStack)sup3.stack, (ItemStack)itemEntity2.getStack())) continue;
                     sup2 = sup3;
                     break;
                 }
             }
             if (sup2 != null) {
-                sup2.count += itemEntity2.method_6983().method_7947();
+                sup2.count += itemEntity2.getStack().getCount();
                 continue;
             }
             if (suz.size() >= 48) continue;
             sup sup4 = new sup(itemEntity2);
-            sup4.name = sup4.stack.method_7964().getString();
+            sup4.name = sup4.stack.getName().getString();
             sup4.color = sus.svg(sup4.stack, rfl2.rarity.get());
             suz.add(sup4);
         }
@@ -140,12 +140,12 @@ public final class sus {
         if (!bl) {
             return -723722;
         }
-        Rarity rarity = itemStack.method_7932();
-        if (rarity == Rarity.field_8906) {
+        Rarity rarity = itemStack.getRarity();
+        if (rarity == Rarity.COMMON) {
             return -723722;
         }
-        Formatting formatting = rarity.method_58413();
-        Integer n = formatting != null ? formatting.method_532() : null;
+        Formatting formatting = rarity.getFormatting();
+        Integer n = formatting != null ? formatting.getColorValue() : null;
         return n == null ? -723722 : ujt.lerp(0xFF000000 | n, -1, 0.2f);
     }
 
@@ -173,9 +173,9 @@ public final class sus {
         float f9 = (float)Math.max(0.35, Math.min(1.0, 1.25 - sup2.distance / (rfl2.range.get() * 1.1)));
         float f10 = (float)Math.round(sup2.screen[0] * f) / f;
         float f11 = (float)Math.round(sup2.screen[1] * f) / f;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f10, f11);
-        drawContext.method_51448().scale(f3, f3);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f10, f11);
+        drawContext.getMatrices().scale(f3, f3);
         uut.pushAlpha(f9);
         try {
             float f12;
@@ -188,11 +188,11 @@ public final class sus {
             float f13 = f6 + 4.0f;
             if (bl) {
                 f12 = 0.53125f;
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(f13 + 4.25f, f8);
-                drawContext.method_51448().scale(f12, f12);
-                drawContext.method_51427(sup2.stack, -8, -8);
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(f13 + 4.25f, f8);
+                drawContext.getMatrices().scale(f12, f12);
+                drawContext.drawItem(sup2.stack, -8, -8);
+                drawContext.getMatrices().popMatrix();
                 f13 += 11.5f;
             }
             f12 = sut.centerTop(f8);
@@ -204,7 +204,7 @@ public final class sus {
         }
         finally {
             uut.popAlpha();
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
     }
 

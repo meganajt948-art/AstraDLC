@@ -62,7 +62,7 @@ extends kfe {
             return;
         }
         if (screen2 instanceof HandledScreen) {
-            ScreenKeyboardEvents.allowKeyPress((Screen)screen2).register((screen, keyInput) -> !lwx2.isEnabled() || !lwx2.lxc.get() || !lwx2.mc.field_1690.field_1903.method_1417(keyInput) || lwx.lxk(screen));
+            ScreenKeyboardEvents.allowKeyPress((Screen)screen2).register((screen, keyInput) -> !lwx2.isEnabled() || !lwx2.lxc.get() || !lwx2.mc.options.jumpKey.matchesKey(keyInput) || lwx.lxk(screen));
         }
         if (lwx2.isEnabled() && lwx2.lxj(screen2) && !lwx2.lxf.isHeld()) {
             lwx2.lxl(lwx2.mc);
@@ -74,7 +74,7 @@ extends kfe {
     protected void onDisable() {
         vwy.setActive(false);
         this.lxf.release(this.mc);
-        if (this.mc.field_1755 != null && this.mc.field_1690 != null) {
+        if (this.mc.currentScreen != null && this.mc.options != null) {
             lwx.lxm(this.mc);
         }
         this.lxg = false;
@@ -92,7 +92,7 @@ extends kfe {
         }
         boolean bl = this.lxf.isHeld();
         this.lxf.release(minecraftClient);
-        Screen screen = minecraftClient.field_1755;
+        Screen screen = minecraftClient.currentScreen;
         if (screen == null) {
             if (this.lxg) {
                 lwx.lxn(minecraftClient);
@@ -128,16 +128,16 @@ extends kfe {
     private static boolean lxk(Screen screen) {
         Object object;
         Element element;
-        Object object2 = screen.method_25396().iterator();
+        Object object2 = screen.children().iterator();
         while (object2.hasNext()) {
             element = (Element)object2.next();
-            if (!(element instanceof TextFieldWidget) || !(object = (TextFieldWidget)element).method_25370() || !object.method_1885()) continue;
+            if (!(element instanceof TextFieldWidget) || !(object = (TextFieldWidget)element).isFocused() || !object.isVisible()) continue;
             return true;
         }
         if (screen instanceof RecipeBookScreen && lwy != null && lwz != null) {
             try {
                 object = lwy.get(screen);
-                return object instanceof RecipeBookWidget && (element = (RecipeBookWidget)object).method_2605() && (object = lwz.get(element)) instanceof TextFieldWidget && (object2 = object).method_25370();
+                return object instanceof RecipeBookWidget && (element = (RecipeBookWidget)object).isOpen() && (object = lwz.get(element)) instanceof TextFieldWidget && (object2 = object).isFocused();
             }
             catch (IllegalAccessException | RuntimeException exception) {
                 // empty catch block
@@ -147,49 +147,49 @@ extends kfe {
     }
 
     private void lxl(MinecraftClient minecraftClient) {
-        GameOptions gameOptions = minecraftClient.field_1690;
-        lwx.lxo(minecraftClient, gameOptions.field_1894, true);
-        lwx.lxo(minecraftClient, gameOptions.field_1881, true);
-        lwx.lxo(minecraftClient, gameOptions.field_1913, true);
-        lwx.lxo(minecraftClient, gameOptions.field_1849, true);
-        lwx.lxo(minecraftClient, gameOptions.field_1903, this.lxc.get());
-        if (!((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            lwx.lxo(minecraftClient, gameOptions.field_1867, this.lxb.get());
+        GameOptions gameOptions = minecraftClient.options;
+        lwx.lxo(minecraftClient, gameOptions.forwardKey, true);
+        lwx.lxo(minecraftClient, gameOptions.backKey, true);
+        lwx.lxo(minecraftClient, gameOptions.leftKey, true);
+        lwx.lxo(minecraftClient, gameOptions.rightKey, true);
+        lwx.lxo(minecraftClient, gameOptions.jumpKey, this.lxc.get());
+        if (!((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            lwx.lxo(minecraftClient, gameOptions.sprintKey, this.lxb.get());
         }
-        if (!((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-            gameOptions.field_1832.method_23481(false);
+        if (!((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+            gameOptions.sneakKey.setPressed(false);
         }
-        gameOptions.field_1904.method_23481(false);
+        gameOptions.useKey.setPressed(false);
     }
 
     private static void lxm(MinecraftClient minecraftClient) {
-        GameOptions gameOptions = minecraftClient.field_1690;
-        for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849, gameOptions.field_1903, gameOptions.field_1904}) {
-            keyBinding.method_23481(false);
+        GameOptions gameOptions = minecraftClient.options;
+        for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey, gameOptions.jumpKey, gameOptions.useKey}) {
+            keyBinding.setPressed(false);
         }
-        if (!((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            gameOptions.field_1867.method_23481(false);
+        if (!((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            gameOptions.sprintKey.setPressed(false);
         }
-        if (!((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-            gameOptions.field_1832.method_23481(false);
+        if (!((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+            gameOptions.sneakKey.setPressed(false);
         }
     }
 
     private static void lxn(MinecraftClient minecraftClient) {
-        GameOptions gameOptions = minecraftClient.field_1690;
-        for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849, gameOptions.field_1903}) {
+        GameOptions gameOptions = minecraftClient.options;
+        for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey, gameOptions.jumpKey}) {
             lwx.lxo(minecraftClient, keyBinding, true);
         }
-        if (!((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            lwx.lxo(minecraftClient, gameOptions.field_1867, true);
+        if (!((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            lwx.lxo(minecraftClient, gameOptions.sprintKey, true);
         }
-        if (!((Boolean)gameOptions.method_42449().method_41753()).booleanValue()) {
-            lwx.lxo(minecraftClient, gameOptions.field_1832, true);
+        if (!((Boolean)gameOptions.getSneakToggled().getValue()).booleanValue()) {
+            lwx.lxo(minecraftClient, gameOptions.sneakKey, true);
         }
     }
 
     private static void lxo(MinecraftClient minecraftClient, KeyBinding keyBinding, boolean bl) {
-        keyBinding.method_23481(bl && vzz.isPhysicallyDown(minecraftClient, keyBinding));
+        keyBinding.setPressed(bl && vzz.isPhysicallyDown(minecraftClient, keyBinding));
     }
 
     private static /* synthetic */ int bad(int n, int n2) {

@@ -33,8 +33,8 @@ extends kfe {
 
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
-        if (vxr.getInt(lxq, minecraftClient.field_1724, 0) > 0) {
-            vxr.setInt(lxq, minecraftClient.field_1724, 0);
+        if (vxr.getInt(lxq, minecraftClient.player, 0) > 0) {
+            vxr.setInt(lxq, minecraftClient.player, 0);
         }
     }
 

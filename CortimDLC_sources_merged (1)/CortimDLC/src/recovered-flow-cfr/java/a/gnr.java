@@ -110,17 +110,17 @@ final class gnr {
 
     static boolean tick(MinecraftClient minecraftClient) {
         int n;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         gnr.gps();
         if (++goi == 1) {
-            int n2 = MathHelper.method_15357((double)clientPlayerEntity.method_23317());
-            int n3 = MathHelper.method_15357((double)clientPlayerEntity.method_23318());
-            int n4 = MathHelper.method_15357((double)clientPlayerEntity.method_23321());
+            int n2 = MathHelper.floor((double)clientPlayerEntity.getX());
+            int n3 = MathHelper.floor((double)clientPlayerEntity.getY());
+            int n4 = MathHelper.floor((double)clientPlayerEntity.getZ());
             gok = (double)n2 + 0.5;
             gol = n3;
             gom = (double)n4 + 0.5;
-            gof = clientPlayerEntity.method_5667();
-            gpb = clientPlayerEntity.method_5628();
+            gof = clientPlayerEntity.getUuid();
+            gpb = clientPlayerEntity.getId();
             gnr.gpt(minecraftClient, a.d("\u7c2e\u0599\u8f46\u113f\u9ae0\u1c53\ua60b\u2ffb\ub1e1\u3b03\ubcd6\u46a0\uc873\u51dd\udb91\u5d77\ue735", 1663005300, 1826295340));
             gnr.gpt(minecraftClient, a.c(811379863, "\uacef\ud543\u5f94\uc1ed\u4a7f\ucc9d\u76d8\uff38\u6133\uebc6\u6c10\u9679"));
             gnr.gpt(minecraftClient, a.c(14001628, "\ua5a6\udc05\u56d2\uc8b6\u437d\uc5c1\u7f85\uf626\u683a\ue284\u655e\u9f2b\u11ef"));
@@ -131,12 +131,12 @@ final class gnr {
             gnr.gpt(minecraftClient, a.b("\u8762\ufece\u740c\uea75\u61ef\ue70c\u5d48\ud4ac\u4aef\uc053\u4782\ubdf5\u3367\uaa93\u20cb\ua620\u1c72\u93be\u0900\u8f08\u069f\u7cfd\uf21d\u6984\ueffc\u6536\udc93\u52c1\uc825\u4e28\uc585\u3b44\ub15c\u28b3\uaefd\u2450\u9bcf\u11f3\u9724\u0e92\u84c6\ufa31\u7073\uf7d1\u6d01\ue362\u5aff\ud010\u5652\ucd8b\u43f4\ub927\u3091\ub6ca\u2c02\ua27f\u19c4\u9f0d\u1563\u8ca4", -142833865));
             gnr.gpt(minecraftClient, String.format(Locale.ROOT, a.d("\u0f5e\u76e0\ufc36\u6247\ue9dc\u6f68\ud57a\u5ccf\uc295\u4865\ucff2\u3586\ubb10\u22e5\ua8b3\u2e03\u9408\u1bdc\u812e\u073b\u8ec9\uf4d9\u7a2e\ue1b2\u67c9\ued1f\u54a7\udaf0\u4016\uc654\u4de0\ub323\u3922\ua08e\u26d6\uac6a\u13af\u99de\u1f5e\u86a7\u0cff\u720d\uf85e\u7fec\ue523", -1297874748, -321384495), n2 - 16, n3 - 1, n4 - 16, n2 + 16, n3 + 9, n4 + 16));
             gnr.gpt(minecraftClient, String.format(Locale.ROOT, a.b("\u26d2\u5f67\ud5e4\u4bf5\uc011\u46f3\ufca5\u755f\ueb1f\u61f9\ue66c\u1c18\u928e\u0b7b\u812d\u07d7\ubd87\u3201\ua8f4\u2ea8\ua74b\udd13\u53b0\uc871", 61023934), gok, n3, gom));
-            clientPlayerEntity.method_31548().method_61496(0);
+            clientPlayerEntity.getInventory().setSelectedSlot(0);
             return false;
         }
         if (goi == 8) {
             double d = gok + 2.7;
-            minecraftClient.method_1576().execute(() -> fnq.spawn((MinecraftServer)minecraftClient.method_1576(), gof, d, gol, gom));
+            minecraftClient.getServer().execute(() -> fnq.spawn((MinecraftServer)minecraftClient.getServer(), gof, d, gol, gom));
             return false;
         }
         if (goi == 40) {
@@ -154,8 +154,8 @@ final class gnr {
             System.out.println(a.c(-468677319, "\u8d40\uf4ec\u7e2f\ue055\u6b9f\ued7a\u577d\ude9d\u40d4\uca62\u4de5\ub7f2\u3922\ua09b\u2acd\uac50\u1651\u9981\u037d\u856e\u0c94\u76de"));
             return true;
         }
-        if (minecraftClient.field_1729.method_1613()) {
-            minecraftClient.field_1729.method_1610();
+        if (minecraftClient.mouse.isCursorLocked()) {
+            minecraftClient.mouse.unlockCursor();
         }
         int n5 = goi - 100;
         int n6 = 0;
@@ -166,7 +166,7 @@ final class gnr {
             goc = false;
             fnq.active = false;
             fnq.orbit = 0;
-            minecraftClient.field_1690.field_1903.method_23481(false);
+            minecraftClient.options.jumpKey.setPressed(false);
             gnr.gpk(minecraftClient);
             gnr.gpp();
             return true;
@@ -197,13 +197,13 @@ final class gnr {
             gox = 30 + gob.nextInt(60);
             gow = (gob.nextDouble() - 0.5) * 6.0;
         }
-        clientPlayerEntity.method_5872(gow / 0.15, 0.0);
-        minecraftClient.field_1690.field_1903.method_23481(gmx2.gnb && goi - goj >= 20);
+        clientPlayerEntity.changeLookDirection(gow / 0.15, 0.0);
+        minecraftClient.options.jumpKey.setPressed(gmx2.gnb && goi - goj >= 20);
         gnr.gpi(minecraftClient, clientPlayerEntity, entity, gmx2.gnd && goi - goj >= 20);
-        float f = vxr.getFloat(gnx, clientPlayerEntity, clientPlayerEntity.method_36454());
-        float f2 = vxr.getFloat(gny, clientPlayerEntity, clientPlayerEntity.method_36455());
+        float f = vxr.getFloat(gnx, clientPlayerEntity, clientPlayerEntity.getYaw());
+        float f2 = vxr.getFloat(gny, clientPlayerEntity, clientPlayerEntity.getPitch());
         if (!Float.isNaN(gou) && goi - goj >= 20) {
-            double d = MathHelper.method_15393((float)(f - gou));
+            double d = MathHelper.wrapDegrees((float)(f - gou));
             double d2 = f2 - gov;
             gnr.gnz[n].turns.add(Math.sqrt(d * d + d2 * d2));
         }
@@ -217,57 +217,57 @@ final class gnr {
         boolean bl2;
         gpa.clear();
         if (!bl) {
-            gnr.gpj(minecraftClient.field_1690.field_1894, false);
-            gnr.gpj(minecraftClient.field_1690.field_1881, false);
-            gnr.gpj(minecraftClient.field_1690.field_1913, false);
-            gnr.gpj(minecraftClient.field_1690.field_1849, false);
+            gnr.gpj(minecraftClient.options.forwardKey, false);
+            gnr.gpj(minecraftClient.options.backKey, false);
+            gnr.gpj(minecraftClient.options.leftKey, false);
+            gnr.gpj(minecraftClient.options.rightKey, false);
             vzz.simulated = gpa::contains;
             return;
         }
-        double d2 = entity.method_23317() - clientPlayerEntity.method_23317();
-        double d3 = entity.method_23321() - clientPlayerEntity.method_23321();
+        double d2 = entity.getX() - clientPlayerEntity.getX();
+        double d3 = entity.getZ() - clientPlayerEntity.getZ();
         double d4 = Math.max(0.001, Math.sqrt(d2 * d2 + d3 * d3));
         if (--gpd <= 0) {
             gpd = 15 + gob.nextInt(30);
             gpe = gob.nextInt(3) - 1;
         }
-        boolean bl3 = bl2 = Math.abs(clientPlayerEntity.method_23317() - gok) > 11.0 || Math.abs(clientPlayerEntity.method_23321() - gom) > 11.0;
+        boolean bl3 = bl2 = Math.abs(clientPlayerEntity.getX() - gok) > 11.0 || Math.abs(clientPlayerEntity.getZ() - gom) > 11.0;
         double d5 = d4 > 3.0 ? 1.0 : (d4 < 2.0 ? -1.0 : 0.0);
         double d6 = bl2 ? 0.0 : (double)gpe;
         double d7 = d2 / d4 * d5 + d3 / d4 * d6;
         double d8 = d3 / d4 * d5 - d2 / d4 * d6;
         if (bl2) {
-            d7 = gok - clientPlayerEntity.method_23317();
-            d8 = gom - clientPlayerEntity.method_23321();
+            d7 = gok - clientPlayerEntity.getX();
+            d8 = gom - clientPlayerEntity.getZ();
         }
         double d9 = Math.hypot(d7, d8);
         double d10 = 0.0;
         double d11 = 0.0;
         if (d9 > 1.0E-6) {
-            d = Math.toRadians(clientPlayerEntity.method_36454());
+            d = Math.toRadians(clientPlayerEntity.getYaw());
             d10 = (d8 * Math.cos(d) - d7 * Math.sin(d)) / d9;
             d11 = (d7 * Math.cos(d) + d8 * Math.sin(d)) / d9;
         }
         d = Math.sin(Math.toRadians(22.5));
-        gnr.gpj(minecraftClient.field_1690.field_1894, d10 > d);
-        gnr.gpj(minecraftClient.field_1690.field_1881, d10 < -d);
-        gnr.gpj(minecraftClient.field_1690.field_1913, d11 > d);
-        gnr.gpj(minecraftClient.field_1690.field_1849, d11 < -d);
+        gnr.gpj(minecraftClient.options.forwardKey, d10 > d);
+        gnr.gpj(minecraftClient.options.backKey, d10 < -d);
+        gnr.gpj(minecraftClient.options.leftKey, d11 > d);
+        gnr.gpj(minecraftClient.options.rightKey, d11 < -d);
         vzz.simulated = gpa::contains;
     }
 
     private static void gpj(KeyBinding keyBinding, boolean bl) {
-        keyBinding.method_23481(bl);
+        keyBinding.setPressed(bl);
         if (bl) {
-            gpa.add(KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding).method_1444());
+            gpa.add(KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding).getCode());
         }
     }
 
     private static void gpk(MinecraftClient minecraftClient) {
-        minecraftClient.field_1690.field_1894.method_23481(false);
-        minecraftClient.field_1690.field_1881.method_23481(false);
-        minecraftClient.field_1690.field_1913.method_23481(false);
-        minecraftClient.field_1690.field_1849.method_23481(false);
+        minecraftClient.options.forwardKey.setPressed(false);
+        minecraftClient.options.backKey.setPressed(false);
+        minecraftClient.options.leftKey.setPressed(false);
+        minecraftClient.options.rightKey.setPressed(false);
         vzz.simulated = null;
     }
 
@@ -283,11 +283,11 @@ final class gnr {
     private static void gpm(MinecraftClient minecraftClient) {
         gng gng2;
         ++god;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (!goc || clientPlayerEntity == null || goe < 0 || gog < 0) {
             return;
         }
-        Entity entity = minecraftClient.field_1687.method_8469(goe);
+        Entity entity = minecraftClient.world.getEntityById(goe);
         if (entity == null) {
             return;
         }
@@ -314,19 +314,19 @@ final class gnr {
             goo = null;
             return;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Box box = entity.method_5829();
-        Vec3d vec3d2 = vec3d.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(3.0));
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Box box = entity.getBoundingBox();
+        Vec3d vec3d2 = vec3d.add(clientPlayerEntity.getRotationVec(1.0f).multiply(3.0));
         gno gno2 = new gno();
         gno2.tick = god;
         gno2.phase = gog;
-        gno2.charged = clientPlayerEntity.method_7261(0.5f) > 0.9f;
-        gno2.reach = box.method_49271(vec3d) <= 9.0;
-        gno2.aimed = box.method_1006(vec3d) || box.method_992(vec3d, vec3d2).isPresent();
-        gno2.ground = clientPlayerEntity.method_24828();
-        gno2.crit = !gno2.ground && clientPlayerEntity.field_6017 > 0.0;
+        gno2.charged = clientPlayerEntity.getAttackCooldownProgress(0.5f) > 0.9f;
+        gno2.reach = box.squaredMagnitude(vec3d) <= 9.0;
+        gno2.aimed = box.contains(vec3d) || box.raycast(vec3d, vec3d2).isPresent();
+        gno2.ground = clientPlayerEntity.isOnGround();
+        gno2.crit = !gno2.ground && clientPlayerEntity.fallDistance > 0.0;
         gno2.why = kwf.debug();
-        double d = box.method_49271(vec3d);
+        double d = box.squaredMagnitude(vec3d);
         if (d <= 16.0) {
             ++gnl2.nearTicks;
             if (kwf.target() == null) {
@@ -336,12 +336,12 @@ final class gnr {
         if (d > 9.0) {
             ++gnl2.farTicks;
         }
-        Vec3d vec3d3 = box.method_1005();
-        double d2 = vec3d3.field_1352 - vec3d.field_1352;
-        double d3 = vec3d3.field_1350 - vec3d.field_1350;
-        gno2.yawErr = MathHelper.method_15338((double)(Math.toDegrees(Math.atan2(d3, d2)) - 90.0 - (double)clientPlayerEntity.method_36454()));
-        gno2.pitchErr = -Math.toDegrees(Math.atan2(vec3d3.field_1351 - vec3d.field_1351, Math.hypot(d2, d3))) - (double)clientPlayerEntity.method_36455();
-        if (goq && !gno2.ground && clientPlayerEntity.method_18798().field_1351 > 0.0) {
+        Vec3d vec3d3 = box.getCenter();
+        double d2 = vec3d3.x - vec3d.x;
+        double d3 = vec3d3.z - vec3d.z;
+        gno2.yawErr = MathHelper.wrapDegrees((double)(Math.toDegrees(Math.atan2(d3, d2)) - 90.0 - (double)clientPlayerEntity.getYaw()));
+        gno2.pitchErr = -Math.toDegrees(Math.atan2(vec3d3.y - vec3d.y, Math.hypot(d2, d3))) - (double)clientPlayerEntity.getPitch();
+        if (goq && !gno2.ground && clientPlayerEntity.getVelocity().y > 0.0) {
             if (gor) {
                 gnr.gpo(gnl2);
             }
@@ -480,12 +480,12 @@ final class gnr {
 
     private static Entity gpr(MinecraftClient minecraftClient) {
         Object object;
-        if (goe >= 0 && (object = minecraftClient.field_1687.method_8469(goe)) != null) {
+        if (goe >= 0 && (object = minecraftClient.world.getEntityById(goe)) != null) {
             return object;
         }
-        for (PlayerEntity playerEntity : minecraftClient.field_1687.method_18456()) {
-            if (!a.b("\u0f24\u76bf\ufc6f\u6206\ue9e4\u6f78\ud530", -1451815067).equals(playerEntity.method_7334().name())) continue;
-            goe = playerEntity.method_5628();
+        for (PlayerEntity playerEntity : minecraftClient.world.getPlayers()) {
+            if (!a.b("\u0f24\u76bf\ufc6f\u6206\ue9e4\u6f78\ud530", -1451815067).equals(playerEntity.getGameProfile().name())) continue;
+            goe = playerEntity.getId();
             return playerEntity;
         }
         return null;
@@ -499,28 +499,28 @@ final class gnr {
         ClientTickEvents.START_CLIENT_TICK.register(gnr::gpm);
         wcn.listen(packet -> {
             EntityVelocityUpdateS2CPacket entityVelocityUpdateS2CPacket;
-            if (goc && packet instanceof EntityVelocityUpdateS2CPacket && (entityVelocityUpdateS2CPacket = (EntityVelocityUpdateS2CPacket)packet).method_11818() == gpb) {
+            if (goc && packet instanceof EntityVelocityUpdateS2CPacket && (entityVelocityUpdateS2CPacket = (EntityVelocityUpdateS2CPacket)packet).getEntityId() == gpb) {
                 gpc.add(god);
             }
         });
         AttackEntityCallback.EVENT.register((playerEntity, world, hand, entity, entityHitResult) -> {
-            if (world.method_8608()) {
-                if (goc && entity.method_5628() == goe) {
+            if (world.isClient()) {
+                if (goc && entity.getId() == goe) {
                     gon = god;
                 }
-                return ActionResult.field_5811;
+                return ActionResult.PASS;
             }
-            if (!goc || entity.method_5628() != fnq.spawned || !playerEntity.method_5667().equals(gof)) {
-                return ActionResult.field_5811;
+            if (!goc || entity.getId() != fnq.spawned || !playerEntity.getUuid().equals(gof)) {
+                return ActionResult.PASS;
             }
-            boolean bl = playerEntity.method_7261(0.5f) > 0.9f && playerEntity.field_6017 > 0.0 && !playerEntity.method_24828() && !playerEntity.method_6101() && !playerEntity.method_5799() && !playerEntity.method_5765() && !playerEntity.method_5624();
+            boolean bl = playerEntity.getAttackCooldownProgress(0.5f) > 0.9f && playerEntity.fallDistance > 0.0 && !playerEntity.isOnGround() && !playerEntity.isClimbing() && !playerEntity.isTouchingWater() && !playerEntity.hasVehicle() && !playerEntity.isSprinting();
             goa.add(new gng(god, bl));
-            return ActionResult.field_5811;
+            return ActionResult.PASS;
         });
     }
 
     private static void gpt(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     static {

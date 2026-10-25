@@ -47,18 +47,18 @@ public final class uor {
     }
 
     public static void draw(DrawContext drawContext, ItemStack itemStack, int n, int n2) {
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         GuiRenderState guiRenderState = uut.state(drawContext);
-        if (guiRenderState == null || minecraftClient.field_1687 == null || uut.scissor() != null) {
-            drawContext.method_51427(itemStack, n, n2);
+        if (guiRenderState == null || minecraftClient.world == null || uut.scissor() != null) {
+            drawContext.drawItem(itemStack, n, n2);
             return;
         }
         unf.observe(drawContext);
         long l = unf.frame();
-        long l2 = minecraftClient.field_1687.method_75260();
+        long l2 = minecraftClient.world.getTime();
         uoo uoo2 = uos.get(itemStack);
         if (uoo2 == null) {
             uoo2 = new uoo();
@@ -66,10 +66,10 @@ public final class uor {
         }
         if (uoo2.tick != l2) {
             uoo2.tick = l2;
-            minecraftClient.method_65386().method_65598((ItemRenderState)uoo2.state, itemStack, ItemDisplayContext.field_4317, (World)minecraftClient.field_1687, (HeldItemContext)minecraftClient.field_1724, 0);
+            minecraftClient.getItemModelManager().clearAndUpdate((ItemRenderState)uoo2.state, itemStack, ItemDisplayContext.GUI, (World)minecraftClient.world, (HeldItemContext)minecraftClient.player, 0);
         }
         uoo2.frame = l;
-        guiRenderState.method_70920(new ItemGuiElementRenderState(uor.uox(itemStack.method_7909()), new Matrix3x2f((Matrix3x2fc)drawContext.method_51448()), uoo2.state, n, n2, null));
+        guiRenderState.addItem(new ItemGuiElementRenderState(uor.uox(itemStack.getItem()), new Matrix3x2f((Matrix3x2fc)drawContext.getMatrices()), uoo2.state, n, n2, null));
         if (l - uou > 120L) {
             uou = l;
             Iterator<uoo> iterator = uos.values().iterator();
@@ -81,7 +81,7 @@ public final class uor {
     }
 
     private static String uox(Item item2) {
-        return uot.computeIfAbsent(item2, item -> item.method_63680().toString());
+        return uot.computeIfAbsent(item2, item -> item.getName().toString());
     }
 
     private static /* synthetic */ int czl(int n, int n2) {

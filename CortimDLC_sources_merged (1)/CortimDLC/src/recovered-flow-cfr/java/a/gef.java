@@ -193,12 +193,12 @@ final class gef {
         Object object;
         Object object2;
         boolean bl;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         gef.ghc(minecraftClient);
         boolean bl2 = geg.equals(a.c(165453408, "\u9e0c\ue7b0\u6d6b\uf316\u78c3\ufe73\u442a\ucdcc"));
         boolean bl3 = bl = geg.equals(a.b("\u6683\u1f3f\u95e2", -34380060)) || bl2 || gel;
         if (n == 1) {
-            GLFW.glfwSetCursorPosCallback((long)minecraftClient.method_22683().method_4490(), (l, d, d2) -> {});
+            GLFW.glfwSetCursorPosCallback((long)minecraftClient.getWindow().getHandle(), (l, d, d2) -> {});
             gef.ghb(minecraftClient, a.d("\uf5d5\u8c4c\u069b\u98c6\u1323\u9592\u2fdb\ua630\u3868", 1887683373, 1204958896), false);
             gef.ghb(minecraftClient, a.d("\u6fc3\u1646\u9c82\u02f3\u890d\u0f9f\ub5cc\u3c39", -672883749, -1220479914), false);
             gef.ghe(minecraftClient, a.c(982801653, "\u5c83\u2534\uafeb\u3192\uba4d\u3cfe\u86a6\u0f56\u914c\u1bae\u9c7b\u660d\ue8de\u7170\ufb3c\u7dda\uc798"));
@@ -209,20 +209,20 @@ final class gef {
             gef.ghe(minecraftClient, a.b("\u1086\u692a\ue3fd\u7d84\uf616\u70f4\ucab1\u4351\udd5a\u57af\ud079\u2a10", 116789502));
             gef.ghe(minecraftClient, a.b("\u3098\u492f\uc3f0\u5d89\ud649\u50ff\ueab5\u634d\ufd57\u77a2\uf07a\u0a20\u84d2\u1d7b\u973d\u11c9\uab88\u2456\ubef9\u389f\ub152\ucb19\u45a5\ude7d\u5847\ud2d0\u6b64\ue538\u7fd0\uf997", 1747661025));
             gef.ghe(minecraftClient, a.d("\ubf96\uc621\u4cfe\ud287\u5947\udff1\u65bb\uec43\u7259\uf8ac\u7f74\u8527\u0bd2\u926e\u180c\u9ede\u2480\uab47\u31ed\ub7bb\u3e4b\u4413\ucae7\u5170\ud708\u5dd4\ue478\u6a3f", 1508632464, 1544378493));
-            minecraftClient.field_1690.method_42503().method_41748((Object)12);
+            minecraftClient.options.getViewDistance().setValue((Object)12);
         }
         if (n == 5) {
-            object2 = clientPlayerEntity.method_24515();
-            gfn = clientPlayerEntity.method_5477().getString();
-            object = minecraftClient.method_1576();
+            object2 = clientPlayerEntity.getBlockPos();
+            gfn = clientPlayerEntity.getName().getString();
+            object = minecraftClient.getServer();
             object.execute(() -> gef.lambda$tick$1((MinecraftServer)object, (BlockPos)object2, bl));
         }
         if (n == 40) {
-            object2 = minecraftClient.method_1576();
+            object2 = minecraftClient.getServer();
             object2.execute(() -> gef.lambda$tick$2((MinecraftServer)object2, bl));
         }
         if (n == 60) {
-            clientPlayerEntity.method_31548().method_61496(3);
+            clientPlayerEntity.getInventory().setSelectedSlot(3);
         }
         if (!ggc && n >= 140 && clientPlayerEntity != null && gef.ggn(clientPlayerEntity)) {
             ggc = true;
@@ -231,11 +231,11 @@ final class gef {
             nfi.anarchies = a.b("\uadc7\ud477\u5ea5\uc0c9\u4b12\ucdb2\u77e0\ufe15\u6052\ueaef\u6d2d\u975d\u1988\u8027\u0a78\u8c98\u36d6\ub904", -519197212);
             nfi.minMineMs = 15000L;
             nfi.maxMineMs = gel ? 110000L : (bl ? 75000L : 45000L);
-            gev = clientPlayerEntity.method_31548().method_18861(Items.field_8477);
+            gev = clientPlayerEntity.getInventory().count(Items.DIAMOND);
             gef.ghb(minecraftClient, a.d("\u7e31\u07a8\u8d7f\u1322\u98c7\u1e76\ua43f\u2dd4\ub38c", -30546963, 405511572), false);
             gef.ghb(minecraftClient, a.c(1578336311, "\u8069\uf9fe\u7336\ued49\u669e\ue02d\u5a69\ud3a8\u4dda\uc770"), false);
             gef.ghb(minecraftClient, a.c(1937055168, "\u1d89\u640c\ueede\u70b4\ufb58\u7dd2\uc781\u4e73"), false);
-            minecraftClient.method_1576().execute(() -> {
+            minecraftClient.getServer().execute(() -> {
                 long l = gfe;
                 for (gec gec2 : gez) {
                     gec2.refreshAt += l;
@@ -251,16 +251,16 @@ final class gef {
             System.out.println(a.c(1373211119, "\u8993\uf026\u7af2\ue488\u6f1a\ue9ff\u53bd\uda5a\u4402\ucefd\u4934\ub316\u3dc6\ua462\u2e22\ua8d5\u12ce") + geg);
         }
         if (ggc && n > gfp && clientPlayerEntity != null) {
-            float f = clientPlayerEntity.method_36454();
-            float f2 = clientPlayerEntity.method_36455();
+            float f = clientPlayerEntity.getYaw();
+            float f2 = clientPlayerEntity.getPitch();
             if (gft) {
-                double d3 = MathHelper.method_15393((float)(f - gfr));
+                double d3 = MathHelper.wrapDegrees((float)(f - gfr));
                 double d4 = f2 - gfs;
                 double d5 = Math.sqrt(d3 * d3 + d4 * d4);
                 gfu.add(d5);
                 if (d5 > 35.0) {
                     String string2 = ((nfl)Flow.getInstance().getModuleManager().getByName(a.c(100858135, "\uf95e\u80db\u0a09\u9463\u1f96\u9903\u2357\uaaad"))).debug();
-                    System.out.println(String.format(Locale.ROOT, a.d("\u43b3\u3a06\ub0d2\u2ea8\ua53a\u23c9\u9991\u106e\u8e76\u0493\u8341\u7937\uf7fc\u6e03\ue404\u62bc\ud8eb\u5731\ucd9e\u4b9b\uc22a\ub822\u3689\uad4e\u2b66\ua1b2\u180a\u9644\u0ce4\u8afe\u015e\uff94\u75d0\uec3e\u6a3a\ue0cd\u5f4a\ud522\u53ec\uca4a\u401e\u3ea7\ub4f1\u334b\ua983\u27a5\u9e3d\u149f\u92cb\u0911\u877d\u7dfb\uf40a\u721d\ue8e7\u66ba\udd13\u5bc4\ud1f9", 541572881, 127073524) + minecraftClient.method_1569() + a.d("\u1ba2\u6216\ue893\u76b1\ufd36\u7b98\uc1d7\u4868\ud62f\u5cc8", 405123969, 1953474569), (double)(n - gfp) / 20.0, Float.valueOf(gfr), Float.valueOf(f), Float.valueOf(gfs), Float.valueOf(f2), string2.substring(0, string2.indexOf(32)), clientPlayerEntity.method_73189()) + a.b("\u5b5c", 1314020221) + ((nfl)Flow.getInstance().getModuleManager().getByName(a.d("\uaec9\ud74c\u5d9e\uc3f4\u4801\uce94\u74c0\ufd3a", 1209790223, -62963313))).action());
+                    System.out.println(String.format(Locale.ROOT, a.d("\u43b3\u3a06\ub0d2\u2ea8\ua53a\u23c9\u9991\u106e\u8e76\u0493\u8341\u7937\uf7fc\u6e03\ue404\u62bc\ud8eb\u5731\ucd9e\u4b9b\uc22a\ub822\u3689\uad4e\u2b66\ua1b2\u180a\u9644\u0ce4\u8afe\u015e\uff94\u75d0\uec3e\u6a3a\ue0cd\u5f4a\ud522\u53ec\uca4a\u401e\u3ea7\ub4f1\u334b\ua983\u27a5\u9e3d\u149f\u92cb\u0911\u877d\u7dfb\uf40a\u721d\ue8e7\u66ba\udd13\u5bc4\ud1f9", 541572881, 127073524) + minecraftClient.isWindowFocused() + a.d("\u1ba2\u6216\ue893\u76b1\ufd36\u7b98\uc1d7\u4868\ud62f\u5cc8", 405123969, 1953474569), (double)(n - gfp) / 20.0, Float.valueOf(gfr), Float.valueOf(f), Float.valueOf(gfs), Float.valueOf(f2), string2.substring(0, string2.indexOf(32)), clientPlayerEntity.getEntityPos()) + a.b("\u5b5c", 1314020221) + ((nfl)Flow.getInstance().getModuleManager().getByName(a.d("\uaec9\ud74c\u5d9e\uc3f4\u4801\uce94\u74c0\ufd3a", 1209790223, -62963313))).action());
                 }
             }
             gfr = f;
@@ -285,7 +285,7 @@ final class gef {
                 gef.ghd(minecraftClient, a.d("\u823e\ufb9b\u7149\uef23\u64f6\ue243\u5817\ud1ed\u4ffa\uc50e\u42c0\ub8a0\u363e", -1016964414, 1375590544) + (string3.startsWith(a.c(393267519, "\uc96c\ub0cb\u3a10\ua47c")) ? a.c(-31466991, "\uda62\ua3c5\u291e\ub772") : a.d("\u6321\u1a94\u9040\u0e3a", 178712417, 1587711017)));
             }
             if ((n - gfp) % 200 == 0) {
-                System.out.println(a.c(-1067171860, "\u3f8d\u4638\uccec\u5296\ud904\u5fe1\ue5a3\u6c44\uf21c\u78f9\uff7e\u0546") + (double)(n - gfp) / 20.0 + a.d("\u55d4\u2c36", 1752225080, 2032763037) + string3 + a.d("\u5946\u20a7\uaa6b\u3406\ubf9f", 2066111919, -1701772084) + clientPlayerEntity.method_24515().method_23854());
+                System.out.println(a.c(-1067171860, "\u3f8d\u4638\uccec\u5296\ud904\u5fe1\ue5a3\u6c44\uf21c\u78f9\uff7e\u0546") + (double)(n - gfp) / 20.0 + a.d("\u55d4\u2c36", 1752225080, 2032763037) + string3 + a.d("\u5946\u20a7\uaa6b\u3406\ubf9f", 2066111919, -1701772084) + clientPlayerEntity.getBlockPos().toShortString());
             }
         }
         if (n == gfq) {
@@ -327,10 +327,10 @@ final class gef {
         long l = arrayList.stream().filter(d -> d > 30.0).count();
         System.out.println(String.format(Locale.ROOT, a.d("\uddc8\ua47d\u2ea9\ub0d3\u3b41\ubda4\u07f6\u8e00\u1043\u9aef\u1d6f\ue716\u699a\uf03d\u7a79\ufc8c\u46d0\uc916\u53f7\ud5f6\u5c10\u2643\ua8f8\u3327\ub549\u3f9f\u8676\u0834\u92d9\u14c6\u9f26\u61ef\uebe1\u7254\uf457\u7eaf\uc174\u4b10\ucdc6\u547c\ude3c\ua09a\u2a8f\uad73\u37a8\ub9c0K\u8aff\u0cbb\u9775\u1951\ue3c6\u6a35\uec65\u7694\uf88d\u436d\uc5ad\u4fdc\ud605\u58bc\u22fc\ua557\u2f0a\ub1db\u3867\u8237\u04cc\u8e81\u1135\u9ba7", 110775105, -1444309341), arrayList.size(), d5, d4, l));
         d2 = d4;
-        ServerWorld serverWorld = minecraftClient.method_1576().method_30002();
+        ServerWorld serverWorld = minecraftClient.getServer().getOverworld();
         int n = 0;
         for (Object object : gfa) {
-            if (serverWorld.method_8320(object).method_26215()) continue;
+            if (serverWorld.getBlockState(object).isAir()) continue;
             ++n;
         }
         gef.ggo(gfk == 0, a.c(-285880556, "\ucf7e\ub6cd\u3c03\ua269\u29af\uaf18\u155c\u9cbc\u02e2\u8817\u0f86\uf5e7\u7b27\ue292\u68cb\uee71\u547f\udbbb\u4108\uc748\u4eb7\u34fb\uba4c\u219a\ua7ac\u2d67") + gfk);
@@ -343,7 +343,7 @@ final class gef {
         if (gel) {
             var18_18 = gez.get(0);
             int n2 = 289 * gen;
-            int n3 = minecraftClient.field_1724 == null ? 0 : minecraftClient.field_1724.method_31548().method_18861(Items.field_8477) - gev;
+            int n3 = minecraftClient.player == null ? 0 : minecraftClient.player.getInventory().count(Items.DIAMOND) - gev;
             double d6 = ggj;
             System.out.println(String.format(Locale.ROOT, a.c(-180534992, "\u41e7\u3852\ub286\u2cfc\ua76e\u218c\u9bdb\u1238\u8c67\u06c3\u815a\u7b31\uf5e3\u6c13\ue604\u60ba\udafc\u556b\ucfdd\u49cd\uc07e\uba6d\u34d0\uaf02\u2971\ua3a8\u1a03\u9401\u0eb4\u88f5\u035b\ufd8e\u77cf\uee35\u6824\ue299\u5d4b\ud77b\u51ec\uc811\u4247\u3cb5\ub6f4\u311d\uabc6\u25fb\u9c21\u1693\u90ce\u0b4b\u856c\u7fa1\uf61b\u700f\ueab1\u64e4\udf5c\u5986\ud3b0\u4a20\uc482\ube87\u3971\ub32b\u2dfb\ua41d\u1e08\u98aa\u12a2\u8d1f\u07c9\u81b3\u7873\uf295\u6c80\ue733\u616a\udbd8\u5207\ucc7e\u46a9\uc0a4\ubb4b\u35c5\uafbe\u262b\ua095\u1acc\u953f\u0f6c\u89de\u0005\ufa65\u74e7\uef51\u6941\ue3ca\u5df2\ud426\u4ed9\uc8da\u4337\u3d69\ub79d\u2e0f\ua87a\u22ae\u9d14\u170a\u91f7\u0ba1\u8251\u7cda\uf6c7\u713d\ueb6f\u65ca\udc4f\u5675\ud0a3\u4b52\uc54a\ubfa4\u39ad\ub016\u2ac2\ua4f0\u1f65\u997a\u13d2\u8a0b\u0472\ufeab\u791b\uf30c\u6da8\ue7f2\u5e1f\ud8c0\u52b4\ucd22\u47d7\uc1c7\ub839\u3273\uaca8\u2713\ua15a\u1bfe\u95a7\u0c19\u86c3\u00a0\ufb25\u75d0\uefc3\u663a\ue068\u5ad7\ud50e\u4f59\uc9fb\u43e9\u3a19\ub48d\u2ef3\ua925\u239e\u9dc9\u147a\u8e2c\u0891\u8343\u7d73\uf7e4\u6e10\ue854\u629f\udcf1\u573d\ud187\u4b8f\uc234\ubc64\u36c6\ub110"), ((gec)var18_18).mined, n2, geq, d6, (double)((gec)var18_18).mined / Math.max(1.0, d6 > 0.0 ? d6 : (double)(gfq - gfp) / 20.0), ger, ges, n3, gew, (double)((gec)var18_18).mined / (double)Math.max(1, gew), geu));
             gef.ggo(d6 > 0.0 && d6 < 75.0, a.c(-2133174628, "\u56e7\u2f5b\ua585\u3bfe\ub060\u3682\u8c85\u0538\u9b6e\u11db\u961f\u6c7d\ue2ef\u7b0a\uf145\u77b9\ucdb3\u422f\ud898\u5ece\ud732\uad26\u23dc\ub80a\u3e3b\ub4be\u0d10\u8345\u19ba\u9fb4\u141d") + d6);
@@ -372,7 +372,7 @@ final class gef {
 
     private static boolean ggn(ClientPlayerEntity clientPlayerEntity) {
         for (int i = 0; i < 36; ++i) {
-            if (!clientPlayerEntity.method_31548().method_5438(i).method_31574(Items.field_22024)) continue;
+            if (!clientPlayerEntity.getInventory().getStack(i).isOf(Items.NETHERITE_PICKAXE)) continue;
             return true;
         }
         return false;
@@ -387,43 +387,43 @@ final class gef {
 
     private static void ggp(MinecraftServer minecraftServer, BlockPos blockPos2, boolean bl) {
         VillagerEntity villagerEntity;
-        ServerWorld serverWorld = minecraftServer.method_30002();
+        ServerWorld serverWorld = minecraftServer.getOverworld();
         gez.clear();
         gfa.clear();
-        int n = blockPos2.method_10264() + 10;
-        gfg = new BlockPos(blockPos2.method_10263() + 100, blockPos2.method_10264(), blockPos2.method_10260() - 250);
-        for (int i = (gfg.method_10263() >> 4) - 2; i <= (gfg.method_10263() >> 4) + 2; ++i) {
-            for (int j = (gfg.method_10260() >> 4) - 2; j <= (gfg.method_10260() >> 4) + 2; ++j) {
-                serverWorld.method_8497(i, j);
+        int n = blockPos2.getY() + 10;
+        gfg = new BlockPos(blockPos2.getX() + 100, blockPos2.getY(), blockPos2.getZ() - 250);
+        for (int i = (gfg.getX() >> 4) - 2; i <= (gfg.getX() >> 4) + 2; ++i) {
+            for (int j = (gfg.getZ() >> 4) - 2; j <= (gfg.getZ() >> 4) + 2; ++j) {
+                serverWorld.getChunk(i, j);
             }
         }
         if (gel) {
-            gez.add(new gec(0, blockPos2.method_10263(), blockPos2.method_10260() + 40, n, false, 8000L, 8000L, a.c(-1226431568, "\u27a9\u5e37\ud49e\u4ae3\uc14e\u47f2\ufdde")));
+            gez.add(new gec(0, blockPos2.getX(), blockPos2.getZ() + 40, n, false, 8000L, 8000L, a.c(-1226431568, "\u27a9\u5e37\ud49e\u4ae3\uc14e\u47f2\ufdde")));
         } else if (bl) {
-            gez.add(new gec(0, blockPos2.method_10263(), blockPos2.method_10260() + 40, n, false, 120L, 1800L, a.b("\ud596\uac08\u26a1\ub8dc\u3371\ub5cd\u0fe1", 38523279), a.b("\uc4d5\ubd40\u37ef\ua9e2\u224a\ua489\u1eae\u9724\u0971\u83bf", -466698045)));
+            gez.add(new gec(0, blockPos2.getX(), blockPos2.getZ() + 40, n, false, 120L, 1800L, a.b("\ud596\uac08\u26a1\ub8dc\u3371\ub5cd\u0fe1", 38523279), a.b("\uc4d5\ubd40\u37ef\ua9e2\u224a\ua489\u1eae\u9724\u0971\u83bf", -466698045)));
         } else {
-            gez.add(new gec(101, blockPos2.method_10263(), blockPos2.method_10260() + 40, n, false, 1000L, 2000L, a.d("\u87dd\ufe48\u74e7\ueaea\u6142\ue781\u5da6\ud42c\u4a79\uc0b7", 1170327791, -568898780), a.c(419298126, "\uff57\u86c9\u0c60\u921d\u19b0\u9f0c\u2520")));
-            gez.add(new gec(102, blockPos2.method_10263() + 220, blockPos2.method_10260() + 40, n, true, 2400L, 2400L, a.b("\u14ae\u6d31\ue7e4\u7993\uf24c\u74f4\ucea3\u4722\ud900\u53bc\ud410", -283897666), a.d("\u81cb\uf855\u72fc\uec81\u672c\ue190\u5bbc", 465268563, -705238399)));
-            gez.add(new gec(103, blockPos2.method_10263() + 440, blockPos2.method_10260() + 40, n, false, 4000L, 2000L, a.c(-1212736577, "\u1fa6\u6638\uec91\u72ec\uf941\u7ffd\uc5d1"), a.d("\u0af1\u7364\uf9cb\u67c6\uec6e\u6aad\ud08a\u5900\uc755\u4d9b", 77332126, -292032391)));
+            gez.add(new gec(101, blockPos2.getX(), blockPos2.getZ() + 40, n, false, 1000L, 2000L, a.d("\u87dd\ufe48\u74e7\ueaea\u6142\ue781\u5da6\ud42c\u4a79\uc0b7", 1170327791, -568898780), a.c(419298126, "\uff57\u86c9\u0c60\u921d\u19b0\u9f0c\u2520")));
+            gez.add(new gec(102, blockPos2.getX() + 220, blockPos2.getZ() + 40, n, true, 2400L, 2400L, a.b("\u14ae\u6d31\ue7e4\u7993\uf24c\u74f4\ucea3\u4722\ud900\u53bc\ud410", -283897666), a.d("\u81cb\uf855\u72fc\uec81\u672c\ue190\u5bbc", 465268563, -705238399)));
+            gez.add(new gec(103, blockPos2.getX() + 440, blockPos2.getZ() + 40, n, false, 4000L, 2000L, a.c(-1212736577, "\u1fa6\u6638\uec91\u72ec\uf941\u7ffd\uc5d1"), a.d("\u0af1\u7364\uf9cb\u67c6\uec6e\u6aad\ud08a\u5900\uc755\u4d9b", 77332126, -292032391)));
         }
         for (gec gec2 : gez) {
-            gef.ggv(serverWorld, gec2, blockPos2.method_10264());
+            gef.ggv(serverWorld, gec2, blockPos2.getY());
         }
         if (gel) {
-            villagerEntity = (VillagerEntity)EntityType.field_6077.method_5883((World)serverWorld, SpawnReason.field_16462);
+            villagerEntity = (VillagerEntity)EntityType.VILLAGER.create((World)serverWorld, SpawnReason.COMMAND);
             gec gec3 = gez.get(0);
-            villagerEntity.method_5808((double)gec3.cx + 0.5, (double)gec3.y0, (double)gec3.cz + 0.5, 0.0f, 0.0f);
-            villagerEntity.method_5977(true);
-            villagerEntity.method_5684(true);
-            villagerEntity.method_5803(true);
-            serverWorld.method_8649((Entity)villagerEntity);
+            villagerEntity.refreshPositionAndAngles((double)gec3.cx + 0.5, (double)gec3.y0, (double)gec3.cz + 0.5, 0.0f, 0.0f);
+            villagerEntity.setAiDisabled(true);
+            villagerEntity.setInvulnerable(true);
+            villagerEntity.setSilent(true);
+            serverWorld.spawnEntity((Entity)villagerEntity);
             get = villagerEntity;
         }
         if (!gfc) {
             gfc = true;
             ServerTickEvents.END_SERVER_TICK.register(gef::ggt);
             PlayerBlockBreakEvents.BEFORE.register((world, playerEntity, blockPos, blockState, blockEntity) -> {
-                if (!gfd || world.method_8608()) {
+                if (!gfd || world.isClient()) {
                     return true;
                 }
                 for (gec gec2 : gez) {
@@ -431,31 +431,31 @@ final class gef {
                     return true;
                 }
                 ++gfk;
-                gfb.add(a.b("\ua3a9\uda1a\u50d4\ucebe\u4578\uc3cf\u798b\uf06b\u6e35\ue4c0", -61496365) + blockPos.method_23854() + a.d("\ub473", 1358619015, -62237227) + blockState.method_26204());
+                gfb.add(a.b("\ua3a9\uda1a\u50d4\ucebe\u4578\uc3cf\u798b\uf06b\u6e35\ue4c0", -61496365) + blockPos.toShortString() + a.d("\ub473", 1358619015, -62237227) + blockState.getBlock());
                 return false;
             });
             PlayerBlockBreakEvents.AFTER.register((world, playerEntity, blockPos, blockState, blockEntity) -> {
-                if (!gfd || world.method_8608() || !(playerEntity instanceof ServerPlayerEntity)) {
+                if (!gfd || world.isClient() || !(playerEntity instanceof ServerPlayerEntity)) {
                     return;
                 }
                 ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)playerEntity;
                 for (gec gec2 : gez) {
                     if (!gec2.inMine(blockPos)) continue;
                     if (geh) {
-                        System.out.println(a.b("\u041e\u7dae\uf779\u695e\ue2cb\u646a\ude24\u57d1\uc980\u4374", -648018841) + blockPos.method_23854() + a.c(-831419046, "\u8d79\uf49c\u7e06") + gfe);
+                        System.out.println(a.b("\u041e\u7dae\uf779\u695e\ue2cb\u646a\ude24\u57d1\uc980\u4374", -648018841) + blockPos.toShortString() + a.c(-831419046, "\u8d79\uf49c\u7e06") + gfe);
                     }
-                    ggi = Math.min(ggi, blockPos.method_10264());
+                    ggi = Math.min(ggi, blockPos.getY());
                     gef.ggr(gec2, blockState);
                     gef.ggs((ServerWorld)world, serverPlayerEntity, gec2, blockPos);
                 }
             });
         }
-        villagerEntity = minecraftServer.method_3734().method_9235();
+        villagerEntity = minecraftServer.getCommandManager().getDispatcher();
         for (gec gec4 : gez) {
-            villagerEntity.register((LiteralArgumentBuilder)CommandManager.method_9247((String)(a.d("\ucf64\ub6da", 312840183, -1160494864) + gec4.id)).executes(commandContext -> {
-                ServerPlayerEntity serverPlayerEntity = ((ServerCommandSource)commandContext.getSource()).method_9207();
+            villagerEntity.register((LiteralArgumentBuilder)CommandManager.literal((String)(a.d("\ucf64\ub6da", 312840183, -1160494864) + gec4.id)).executes(commandContext -> {
+                ServerPlayerEntity serverPlayerEntity = ((ServerCommandSource)commandContext.getSource()).getPlayerOrThrow();
                 if (gff == gec4) {
-                    serverPlayerEntity.method_64398((Text)Text.method_43470((String)a.b("\u6728\u1e5d\u90ff\u0ed7\u816b\u03b9\ub99f\u306d\uaa27\u248b\ua355\u5951\ud7fd\u4e46\uc419\u4292\uf8aa\u770f\uedb1\u6f8c\ue266\u983a\u1299\u8d25\u0b55\u81f8\u3849\ub204\u2c92\uaab7\u2171\udfd2\u559a\ucc1e\u4a38\uc49d", -692426837)));
+                    serverPlayerEntity.sendMessage((Text)Text.literal((String)a.b("\u6728\u1e5d\u90ff\u0ed7\u816b\u03b9\ub99f\u306d\uaa27\u248b\ua355\u5951\ud7fd\u4e46\uc419\u4292\uf8aa\u770f\uedb1\u6f8c\ue266\u983a\u1299\u8d25\u0b55\u81f8\u3849\ub204\u2c92\uaab7\u2171\udfd2\u559a\ucc1e\u4a38\uc49d", -692426837)));
                     return 1;
                 }
                 gfh = gec4;
@@ -463,27 +463,27 @@ final class gef {
                 return 1;
             }));
         }
-        villagerEntity.register((LiteralArgumentBuilder)CommandManager.method_9247((String)a.c(-554375817, "\ue504\u9ca3\u1663\u8810")).then(CommandManager.method_9247((String)a.d("\uc4bd\ubd08\u37dc\ua9a6", -1597473755, -2145601295)).executes(commandContext -> {
-            ServerPlayerEntity serverPlayerEntity = ((ServerCommandSource)commandContext.getSource()).method_9207();
+        villagerEntity.register((LiteralArgumentBuilder)CommandManager.literal((String)a.c(-554375817, "\ue504\u9ca3\u1663\u8810")).then(CommandManager.literal((String)a.d("\uc4bd\ubd08\u37dc\ua9a6", -1597473755, -2145601295)).executes(commandContext -> {
+            ServerPlayerEntity serverPlayerEntity = ((ServerCommandSource)commandContext.getSource()).getPlayerOrThrow();
             if (gfj >= 0L) {
                 ++gfl;
                 gfb.add(a.d("\u3821\u41d9", -2035115413, 421372476) + (double)gfe / 20.0 + a.b("\u5713\u2ed1\ua414\u3a63\ub1b8\u3708\u8d51\u04c4\u9aec\u104b\u978b\u6df8\ue35f\u7ab9\uf0f5\u7605\ucc4f\u4397\ud961\u5f64\ud682\uacda\u2260\ub9a4\u3fc4\ub508\u0cbd\u82f1\u1801\u9e59", 1586517805));
             }
             gfj = gfe + 140L;
-            serverPlayerEntity.method_64398((Text)Text.method_43470((String)a.b("\u8a1b\uf33b\u5f7f\ue78f\u6cdf\ueaaf\u5485\udd5e\u4374\uc9b0\u4e6a\ub412\u3ab9\ua374\u292f\uafdb\u1599\u9e5d\u00f3\u86af\u0b48\u750b\ufbba\u601b\ue61b\u68d5\ud1e1\u5f72\uc58d\u43d8\uc86c\u36b6\ubc3b\u250b\ua310", -1861121377)));
-            serverPlayerEntity.method_64398((Text)Text.method_43470((String)a.b("\u0b40\u7235\uf8de\u4055\ued7e\u6bb2\ud5e3\u5c05\uc254\u48eb\ucf32\u3542\ubbeb\u2258\ua879\u2efe\u94cf\u1b69\u85b4\u03e4\u8a94\uf004\u7ace\ue135\u673f\ued9b\u5421\uda79\u40f2\uc6df\u4d64\ub3b0\u39f2\ua416\u2622\uace1\u1343\u9947\u1f96\u8230\u08e8\u76df\ufcda\u7b7c\ue5ca\u6bcf\ud213", -118551608)));
-            serverPlayerEntity.method_64398((Text)Text.method_43470((String)a.d("\u5f7a\u260f\uace4\u146f\ub944\u3f88\u81e9\u0837\u966d\u1cd8\u9b07\u617b\uefa9\u7615\uf852\u7ea2\uc46a\u4b7a\ud5b2\u53cb\ude29\ua067\u2ed5\ub501\u3306\ub9d3\u0017\u8e4f\u14c3\u92e5\u1d43\ue315\u699e\uf44f\u721f\uf8d0\u4704\uc968\u4f3c\ud64c\u584b\u26c6\ua8f7\u2b5e\ub182\u3f80\u862d\u0c98\u8ad3\u110e\u9b6e", -590989279, 1566205903)));
-            serverPlayerEntity.method_64398((Text)Text.method_43470((String)a.d("\uecbf\u95ca\u1f5a\u812b\u0afc\u8c4d\u361e\ubfef\u21b0\uab01\u2ca9\ud29d\u5c16\uc5d9\u4f83\uc97a\u7330\ufc9b\u6626\ue41b\u698e\u13a8\u9d15\u06ca\u80bf\u0a6f\ub3a2\u3df1\ua319", 1408165053, 1252591800)));
+            serverPlayerEntity.sendMessage((Text)Text.literal((String)a.b("\u8a1b\uf33b\u5f7f\ue78f\u6cdf\ueaaf\u5485\udd5e\u4374\uc9b0\u4e6a\ub412\u3ab9\ua374\u292f\uafdb\u1599\u9e5d\u00f3\u86af\u0b48\u750b\ufbba\u601b\ue61b\u68d5\ud1e1\u5f72\uc58d\u43d8\uc86c\u36b6\ubc3b\u250b\ua310", -1861121377)));
+            serverPlayerEntity.sendMessage((Text)Text.literal((String)a.b("\u0b40\u7235\uf8de\u4055\ued7e\u6bb2\ud5e3\u5c05\uc254\u48eb\ucf32\u3542\ubbeb\u2258\ua879\u2efe\u94cf\u1b69\u85b4\u03e4\u8a94\uf004\u7ace\ue135\u673f\ued9b\u5421\uda79\u40f2\uc6df\u4d64\ub3b0\u39f2\ua416\u2622\uace1\u1343\u9947\u1f96\u8230\u08e8\u76df\ufcda\u7b7c\ue5ca\u6bcf\ud213", -118551608)));
+            serverPlayerEntity.sendMessage((Text)Text.literal((String)a.d("\u5f7a\u260f\uace4\u146f\ub944\u3f88\u81e9\u0837\u966d\u1cd8\u9b07\u617b\uefa9\u7615\uf852\u7ea2\uc46a\u4b7a\ud5b2\u53cb\ude29\ua067\u2ed5\ub501\u3306\ub9d3\u0017\u8e4f\u14c3\u92e5\u1d43\ue315\u699e\uf44f\u721f\uf8d0\u4704\uc968\u4f3c\ud64c\u584b\u26c6\ua8f7\u2b5e\ub182\u3f80\u862d\u0c98\u8ad3\u110e\u9b6e", -590989279, 1566205903)));
+            serverPlayerEntity.sendMessage((Text)Text.literal((String)a.d("\uecbf\u95ca\u1f5a\u812b\u0afc\u8c4d\u361e\ubfef\u21b0\uab01\u2ca9\ud29d\u5c16\uc5d9\u4f83\uc97a\u7330\ufc9b\u6626\ue41b\u698e\u13a8\u9d15\u06ca\u80bf\u0a6f\ub3a2\u3df1\ua319", 1408165053, 1252591800)));
             return 1;
         })));
-        villagerEntity.register((LiteralArgumentBuilder)CommandManager.method_9247((String)a.d("\u2e07\u57b9\udd35\u4345\uc896", -275467316, 1988795823)).executes(commandContext -> {
+        villagerEntity.register((LiteralArgumentBuilder)CommandManager.literal((String)a.d("\u2e07\u57b9\udd35\u4345\uc896", -275467316, 1988795823)).executes(commandContext -> {
             ++gfm;
-            ((ServerCommandSource)commandContext.getSource()).method_9207().method_64398((Text)Text.method_43470((String)a.b("\u1f44\u6631\ue8a0\u76c5\ufd67\u7ba4\uc1f0\u4874\ud24b\u5ce7\udb39\u2558\uaf95\u3620\ubc0f\u3a82\u80b3\u0f69\u95a8\u17e0\u9a25\ue02d\u6af5\uf53b\u7330\uf9e8\u4029\uce7d\u54fd\ud2db\u591c\ua7c0\u29e3\ub40d\u325f\ub8e4\u073d\u8d4d\u0beb\u9253\u1873\u66f8\ueca5\u6b19\uf1c0\u7bde\uc61f\u48bc\ucae7\u5132\udf4c\u259d\uac5c\u2a7f\ub495\u3ed8\u8565\u03b6\u89cc\u1015\u9edd\ue0ee\u6300\ue959\u7797\ufe2c\u4400\uc2f2\u48a4\ud769\u5db0\udbc9\u260a", 1783832490)));
+            ((ServerCommandSource)commandContext.getSource()).getPlayerOrThrow().sendMessage((Text)Text.literal((String)a.b("\u1f44\u6631\ue8a0\u76c5\ufd67\u7ba4\uc1f0\u4874\ud24b\u5ce7\udb39\u2558\uaf95\u3620\ubc0f\u3a82\u80b3\u0f69\u95a8\u17e0\u9a25\ue02d\u6af5\uf53b\u7330\uf9e8\u4029\uce7d\u54fd\ud2db\u591c\ua7c0\u29e3\ub40d\u325f\ub8e4\u073d\u8d4d\u0beb\u9253\u1873\u66f8\ueca5\u6b19\uf1c0\u7bde\uc61f\u48bc\ucae7\u5132\udf4c\u259d\uac5c\u2a7f\ub495\u3ed8\u8565\u03b6\u89cc\u1015\u9edd\ue0ee\u6300\ue959\u7797\ufe2c\u4400\uc2f2\u48a4\ud769\u5db0\udbc9\u260a", 1783832490)));
             return 1;
         }));
-        ServerPlayerEntity serverPlayerEntity = minecraftServer.method_3760().method_14566(gfn);
+        ServerPlayerEntity serverPlayerEntity = minecraftServer.getPlayerManager().getPlayer(gfn);
         if (serverPlayerEntity != null) {
-            minecraftServer.method_3760().method_14576(serverPlayerEntity);
+            minecraftServer.getPlayerManager().sendCommandTree(serverPlayerEntity);
             gef.ggq(minecraftServer, serverPlayerEntity);
         }
     }
@@ -494,7 +494,7 @@ final class gef {
             for (Field field : ServerCommonNetworkHandler.class.getDeclaredFields()) {
                 if (field.getType() != ClientConnection.class) continue;
                 field.setAccessible(true);
-                clientConnection = (ClientConnection)field.get(serverPlayerEntity.field_13987);
+                clientConnection = (ClientConnection)field.get(serverPlayerEntity.networkHandler);
             }
             Channel channel = null;
             for (Field field : ClientConnection.class.getDeclaredFields()) {
@@ -511,7 +511,7 @@ final class gef {
 
     private static void ggr(gec gec2, BlockState blockState) {
         ++gec2.mined;
-        String string = Registries.field_41175.method_10221((Object)blockState.method_26204()).method_12832();
+        String string = Registries.BLOCK.getId((Object)blockState.getBlock()).getPath();
         if (string.endsWith(a.b("\u2c89\u5535\udfee\u4193\uca46\u4cf6\uf6af\u7f65\ue10a\u6ba6\uec62", 457518310))) {
             ++gec2.minedDiamonds;
         }
@@ -533,35 +533,35 @@ final class gef {
         if (gei.equals(a.c(1392639718, "\ufe8c\u873c\u0dee\u9394"))) {
             return;
         }
-        float f = serverPlayerEntity.method_36455();
+        float f = serverPlayerEntity.getPitch();
         ArrayList<BlockPos> arrayList = new ArrayList<BlockPos>();
-        float f2 = MathHelper.method_15393((float)serverPlayerEntity.method_36454());
+        float f2 = MathHelper.wrapDegrees((float)serverPlayerEntity.getYaw());
         boolean bl2 = bl = Math.abs(f2) < 45.0f || Math.abs(f2) > 135.0f;
-        Direction.Axis axis2 = Math.abs(f) > 50.0f ? Direction.Axis.field_11052 : (axis = bl ? Direction.Axis.field_11051 : Direction.Axis.field_11048);
+        Direction.Axis axis2 = Math.abs(f) > 50.0f ? Direction.Axis.Y : (axis = bl ? Direction.Axis.Z : Direction.Axis.X);
         if (gei.equals(a.b("\udda2\ua414\u2ec5\ub0b2", 1133632960)) && blockPos.equals((Object)gej) && gek != null) {
-            axis = gek.method_10166();
+            axis = gek.getAxis();
         }
         for (int i = -1; i <= 1; ++i) {
             for (int j = -1; j <= 1; ++j) {
                 if (i == 0 && j == 0) continue;
-                if (axis == Direction.Axis.field_11052) {
-                    arrayList.add(blockPos.method_10069(i, 0, j));
+                if (axis == Direction.Axis.Y) {
+                    arrayList.add(blockPos.add(i, 0, j));
                     continue;
                 }
-                if (axis == Direction.Axis.field_11051) {
-                    arrayList.add(blockPos.method_10069(i, j, 0));
+                if (axis == Direction.Axis.Z) {
+                    arrayList.add(blockPos.add(i, j, 0));
                     continue;
                 }
-                arrayList.add(blockPos.method_10069(0, j, i));
+                arrayList.add(blockPos.add(0, j, i));
             }
         }
         for (BlockPos blockPos2 : arrayList) {
-            BlockState blockState = serverWorld.method_8320(blockPos2);
-            if (!gec2.inMine(blockPos2) || blockState.method_26215()) continue;
-            for (ItemStack itemStack : Block.method_9609((BlockState)blockState, (ServerWorld)serverWorld, (BlockPos)blockPos2, null, (Entity)serverPlayerEntity, (ItemStack)serverPlayerEntity.method_6047())) {
-                serverPlayerEntity.method_31548().method_7394(itemStack);
+            BlockState blockState = serverWorld.getBlockState(blockPos2);
+            if (!gec2.inMine(blockPos2) || blockState.isAir()) continue;
+            for (ItemStack itemStack : Block.getDroppedStacks((BlockState)blockState, (ServerWorld)serverWorld, (BlockPos)blockPos2, null, (Entity)serverPlayerEntity, (ItemStack)serverPlayerEntity.getMainHandStack())) {
+                serverPlayerEntity.getInventory().insertStack(itemStack);
             }
-            serverWorld.method_8652(blockPos2, Blocks.field_10124.method_9564(), 3);
+            serverWorld.setBlockState(blockPos2, Blocks.AIR.getDefaultState(), 3);
             gef.ggr(gec2, blockState);
         }
     }
@@ -574,8 +574,8 @@ final class gef {
         if (!gfd && gez.isEmpty()) {
             return;
         }
-        ServerWorld serverWorld = minecraftServer.method_30002();
-        ServerPlayerEntity serverPlayerEntity2 = serverPlayerEntity = gfn == null ? null : minecraftServer.method_3760().method_14566(gfn);
+        ServerWorld serverWorld = minecraftServer.getOverworld();
+        ServerPlayerEntity serverPlayerEntity2 = serverPlayerEntity = gfn == null ? null : minecraftServer.getPlayerManager().getPlayer(gfn);
         if (gfi >= 0L && ++gfe >= gfi && serverPlayerEntity != null) {
             gfi = -1L;
             gff = gfh;
@@ -586,7 +586,7 @@ final class gef {
             gfj = -1L;
             if (gff != null) {
                 gef.ggz(minecraftServer, gef.gff.warp, 180.0f, 15.0f);
-                serverPlayerEntity.method_6092(new StatusEffectInstance(StatusEffects.field_5919, 50, 0));
+                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 50, 0));
                 gfb.add(a.b("\u8d6a\uf492", 934710556) + (double)gfe / 20.0 + a.c(1077131345, "\ub879\uc19f\u4b5a\ud538\u5eed\ud849\u621b\uebae") + gef.gff.id);
             }
         }
@@ -604,11 +604,11 @@ final class gef {
             for (int i = gec2.cx - 8; i <= gec2.cx + 8; ++i) {
                 for (int j = gec2.cz - 8; j <= gec2.cz + 8; ++j) {
                     for (int k = gec2.y0 - gen; k <= gec2.y0 - 1; ++k) {
-                        BlockState blockState = serverWorld.method_8320(new BlockPos(i, k, j));
-                        if (blockState.method_27852(Blocks.field_10442)) {
+                        BlockState blockState = serverWorld.getBlockState(new BlockPos(i, k, j));
+                        if (blockState.isOf(Blocks.DIAMOND_ORE)) {
                             ++n2;
                         }
-                        if (blockState.method_26215()) continue;
+                        if (blockState.isAir()) continue;
                         ++n;
                         if (arrayList.size() >= 80) continue;
                         arrayList.add(i - gec2.cx + a.c(-68451006, "\u856f") + (k - gec2.y0) + a.c(1598297430, "\u157b") + (j - gec2.cz));
@@ -623,8 +623,8 @@ final class gef {
             geq = n;
             ges = n2;
             if (get != null && serverPlayerEntity != null && gfe % 40L == 0L) {
-                vec3d = serverPlayerEntity.method_5720().method_18805(1.0, 0.0, 1.0).method_1029();
-                get.method_5808(serverPlayerEntity.method_23317() + vec3d.field_1352 * 1.6, serverPlayerEntity.method_23318(), serverPlayerEntity.method_23321() + vec3d.field_1350 * 1.6, 0.0f, 0.0f);
+                vec3d = serverPlayerEntity.getRotationVector().multiply(1.0, 0.0, 1.0).normalize();
+                get.refreshPositionAndAngles(serverPlayerEntity.getX() + vec3d.x * 1.6, serverPlayerEntity.getY(), serverPlayerEntity.getZ() + vec3d.z * 1.6, 0.0f, 0.0f);
             }
             int n3 = 289 * gen;
             if (geo < 0.0 && n <= n3 / 50) {
@@ -641,7 +641,7 @@ final class gef {
                 ++gec3.tierAt;
                 ++gec3.refreshes;
                 gef.ggw(serverWorld, gec3, new Random((long)gec3.id * 31L + (long)gec3.refreshes), 0.0);
-                String string = serverPlayerEntity != null && serverPlayerEntity.method_24515().method_19771((Vec3i)gec3.warp, 30.0) ? a.c(2047603691, "\uf381\u8a3b\u00ec\u9e8e") : a.c(874314334, "\ufa3b\u839c\u0959\u9730");
+                String string = serverPlayerEntity != null && serverPlayerEntity.getBlockPos().isWithinDistance((Vec3i)gec3.warp, 30.0) ? a.c(2047603691, "\uf381\u8a3b\u00ec\u9e8e") : a.c(874314334, "\ufa3b\u839c\u0959\u9730");
                 gec3.events.add(a.b("\u6a8d\u132b\u99fb\u079e\u8c5e\u0af9\ub0b1", 1518365432) + gec3.refreshes + a.d("\u1e99", -1619439929, 553013375) + string + a.d("\ufe48\u87ad\u0d37", 1891392184, 1576903891) + (double)gfe / 20.0);
             }
             if (gfe % 20L == 0L) {
@@ -654,14 +654,14 @@ final class gef {
 
     private static void ggu(ServerWorld serverWorld, ServerPlayerEntity serverPlayerEntity, gec gec2) {
         Box box = new Box((double)(gec2.cx - 8 - 2), (double)(gec2.y0 - gen - 2), (double)(gec2.cz - 8 - 2), (double)(gec2.cx + 8 + 3), (double)(gec2.y0 + 4), (double)(gec2.cz + 8 + 3));
-        for (ItemEntity itemEntity2 : serverWorld.method_8390(ItemEntity.class, box, itemEntity -> itemEntity.method_24921() == null)) {
-            ItemStack itemStack = itemEntity2.method_6983().method_7972();
-            serverPlayerEntity.method_31548().method_7394(itemStack);
-            if (itemStack.method_7960()) {
-                itemEntity2.method_31472();
+        for (ItemEntity itemEntity2 : serverWorld.getEntitiesByClass(ItemEntity.class, box, itemEntity -> itemEntity.getOwner() == null)) {
+            ItemStack itemStack = itemEntity2.getStack().copy();
+            serverPlayerEntity.getInventory().insertStack(itemStack);
+            if (itemStack.isEmpty()) {
+                itemEntity2.discard();
                 continue;
             }
-            itemEntity2.method_6979(itemStack);
+            itemEntity2.setStack(itemStack);
         }
     }
 
@@ -675,12 +675,12 @@ final class gef {
         int n6;
         for (n6 = gec2.cx - 40 >> 4; n6 <= gec2.cx + 40 >> 4; ++n6) {
             for (n5 = gec2.cz - 140 >> 4; n5 <= gec2.cz + 40 >> 4; ++n5) {
-                serverWorld.method_8497(n6, n5);
+                serverWorld.getChunk(n6, n5);
             }
         }
         for (n6 = gec2.cx - 8 - 6 >> 4; n6 <= gec2.cx + 8 + 6 >> 4; ++n6) {
             for (n5 = gec2.cz - 8 - 6 >> 4; n5 <= gec2.cz + 8 + 6 >> 4; ++n5) {
-                serverWorld.method_17988(n6, n5, true);
+                serverWorld.setChunkForced(n6, n5, true);
             }
         }
         n6 = 12;
@@ -688,13 +688,13 @@ final class gef {
             for (n4 = gec2.cz - n6; n4 <= gec2.cz + n6; ++n4) {
                 for (n3 = gec2.y0 - gen - 1; n3 <= gec2.y0 + 5; ++n3) {
                     n2 = Math.abs(n5 - gec2.cx) == n6 || Math.abs(n4 - gec2.cz) == n6 ? 1 : 0;
-                    blockState = Blocks.field_10124.method_9564();
+                    blockState = Blocks.AIR.getDefaultState();
                     if (n3 < gec2.y0) {
-                        blockState = Blocks.field_10056.method_9564();
+                        blockState = Blocks.STONE_BRICKS.getDefaultState();
                     } else if (n2 != 0 && n3 <= gec2.y0 + 2 && (n4 != gec2.cz + n6 || Math.abs(n5 - gec2.cx) > 1)) {
-                        blockState = Blocks.field_10056.method_9564();
+                        blockState = Blocks.STONE_BRICKS.getDefaultState();
                     }
-                    serverWorld.method_8652(new BlockPos(n5, n3, n4), blockState, 3);
+                    serverWorld.setBlockState(new BlockPos(n5, n3, n4), blockState, 3);
                 }
             }
         }
@@ -704,7 +704,7 @@ final class gef {
             for (n5 = gec2.cx - 8; n5 <= gec2.cx + 8; ++n5) {
                 for (n4 = gec2.cz - 8; n4 <= gec2.cz + 8; ++n4) {
                     for (n3 = gec2.y0 - gen; n3 <= gec2.y0 - 1; ++n3) {
-                        if (!serverWorld.method_8320(new BlockPos(n5, n3, n4)).method_27852(Blocks.field_10442)) continue;
+                        if (!serverWorld.getBlockState(new BlockPos(n5, n3, n4)).isOf(Blocks.DIAMOND_ORE)) continue;
                         ++ger;
                     }
                 }
@@ -714,15 +714,15 @@ final class gef {
         n3 = blockPosArray2.length;
         for (n2 = 0; n2 < n3; ++n2) {
             blockState = blockPosArray2[n2];
-            serverWorld.method_8652((BlockPos)blockState, Blocks.field_10442.method_9564(), 3);
+            serverWorld.setBlockState((BlockPos)blockState, Blocks.DIAMOND_ORE.getDefaultState(), 3);
             gfa.add((BlockPos)blockState);
         }
         gec2.warp = new BlockPos(gec2.cx, gec2.y0, gec2.cz + 8 + 2);
         BlockPos blockPos = gec2.spawn = gec2.id == 101 || gec2.id == 0 ? new BlockPos(gec2.cx, n, gec2.cz - 100) : new BlockPos(gec2.cx + 3, gec2.y0, gec2.cz + 8 + 4 + 18);
         if (gec2.id != 101 && gec2.id != 0) {
-            for (int i = gec2.spawn.method_10263() - 3; i <= gec2.spawn.method_10263() + 3; ++i) {
-                for (n3 = gec2.spawn.method_10260() - 3; n3 <= gec2.spawn.method_10260() + 3; ++n3) {
-                    serverWorld.method_8652(new BlockPos(i, gec2.y0 - 1, n3), Blocks.field_10566.method_9564(), 3);
+            for (int i = gec2.spawn.getX() - 3; i <= gec2.spawn.getX() + 3; ++i) {
+                for (n3 = gec2.spawn.getZ() - 3; n3 <= gec2.spawn.getZ() + 3; ++n3) {
+                    serverWorld.setBlockState(new BlockPos(i, gec2.y0 - 1, n3), Blocks.DIRT.getDefaultState(), 3);
                 }
             }
         }
@@ -732,9 +732,9 @@ final class gef {
         if (gec2.armor) {
             for (int i = 0; i < 4; ++i) {
                 ArmorStandEntity armorStandEntity = new ArmorStandEntity((World)serverWorld, d, d2 + 0.27 * (double)(3 - i), d3);
-                armorStandEntity.method_5648(true);
-                armorStandEntity.method_5875(true);
-                armorStandEntity.method_5880(true);
+                armorStandEntity.setInvisible(true);
+                armorStandEntity.setNoGravity(true);
+                armorStandEntity.setCustomNameVisible(true);
                 try {
                     Method method = ArmorStandEntity.class.getDeclaredMethod(a.b("\u6140\u18e7\u9225\u0c6d\u8796\u0134\ubb7e\u3281\uacc9", 1131569466), Boolean.TYPE);
                     method.setAccessible(true);
@@ -743,20 +743,20 @@ final class gef {
                 catch (ReflectiveOperationException reflectiveOperationException) {
                     throw new RuntimeException(reflectiveOperationException);
                 }
-                serverWorld.method_8649((Entity)armorStandEntity);
+                serverWorld.spawnEntity((Entity)armorStandEntity);
                 gec2.labels.add((Entity)armorStandEntity);
             }
         } else {
-            DisplayEntity.TextDisplayEntity textDisplayEntity = (DisplayEntity.TextDisplayEntity)EntityType.field_42457.method_5883((World)serverWorld, SpawnReason.field_16462);
-            textDisplayEntity.method_5808(d, d2, d3, 0.0f, 0.0f);
-            serverWorld.method_8649((Entity)textDisplayEntity);
+            DisplayEntity.TextDisplayEntity textDisplayEntity = (DisplayEntity.TextDisplayEntity)EntityType.TEXT_DISPLAY.create((World)serverWorld, SpawnReason.COMMAND);
+            textDisplayEntity.refreshPositionAndAngles(d, d2, d3, 0.0f, 0.0f);
+            serverWorld.spawnEntity((Entity)textDisplayEntity);
             gec2.labels.add((Entity)textDisplayEntity);
         }
         gef.ggx(gec2);
     }
 
     private static void ggw(ServerWorld serverWorld, gec gec2, Random random, double d) {
-        Block[] blockArray = new Block[]{Blocks.field_10418, Blocks.field_10212, Blocks.field_10571, Blocks.field_10080, Blocks.field_10090, Blocks.field_10442};
+        Block[] blockArray = new Block[]{Blocks.COAL_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.REDSTONE_ORE, Blocks.LAPIS_ORE, Blocks.DIAMOND_ORE};
         double[] dArray = new double[]{0.04, 0.035, 0.025, 0.02, 0.018, 0.012};
         for (int i = gec2.cx - 8; i <= gec2.cx + 8; ++i) {
             for (int j = gec2.cz - 8; j <= gec2.cz + 8; ++j) {
@@ -764,7 +764,7 @@ final class gef {
                     BlockState blockState;
                     double d2 = (double)(gec2.y0 - 1 - k) / (double)gen;
                     if (d > 0.0 && random.nextDouble() < d * (1.0 - d2)) {
-                        blockState = Blocks.field_10124.method_9564();
+                        blockState = Blocks.AIR.getDefaultState();
                     } else {
                         double d3 = random.nextDouble();
                         Block block = null;
@@ -776,11 +776,11 @@ final class gef {
                         }
                         if (block == null) {
                             double d5 = random.nextDouble();
-                            block = d5 < 0.35 ? Blocks.field_10474 : (d5 < 0.68 ? Blocks.field_10445 : Blocks.field_10508);
+                            block = d5 < 0.35 ? Blocks.GRANITE : (d5 < 0.68 ? Blocks.COBBLESTONE : Blocks.DIORITE);
                         }
-                        blockState = block.method_9564();
+                        blockState = block.getDefaultState();
                     }
-                    serverWorld.method_8652(new BlockPos(i, k, j), blockState, 3);
+                    serverWorld.setBlockState(new BlockPos(i, k, j), blockState, 3);
                 }
             }
         }
@@ -796,10 +796,10 @@ final class gef {
         CharSequence[] charSequenceArray = new String[]{a.c(1603983993, "\udace\ua3ee\u0f99\ub75a\u38bd\ube2e\u040d\u8d80\u17cc\u9978\u1eb3\ue4b7\u6a67\uf3a4\u7de7\udda4"), a.d("\u9aef\ue39f\u6d0b\uf360\u78b9\ufe09\u442d\ucdd1\u5389\ud941\u5eed\ua0e9\u2e24\ub712\u3d82", 104776162, 2082298789) + gec2.tier(), a.c(2098878652, "\u5808\u2178\uafd3\u318d\uba56\u3ce4\u86bb\u0f43\u9112\u1bab\u9c7d\u6601\uecc3\u7115\ufb34\u7db0\uc78a\u4859\ud6e7"), a.d("\u122f\u6b0f", 216376886, 1565373628) + string};
         if (gec2.armor) {
             for (int i = 0; i < 4 && i < gec2.labels.size(); ++i) {
-                gec2.labels.get(i).method_5665((Text)Text.method_43470((String)charSequenceArray[i]));
+                gec2.labels.get(i).setCustomName((Text)Text.literal((String)charSequenceArray[i]));
             }
         } else if (!gec2.labels.isEmpty()) {
-            gef.ggy((DisplayEntity.TextDisplayEntity)gec2.labels.get(0), (Text)Text.method_43470((String)String.join((CharSequence)a.d("\u80bc", -1584902860, -413741693), charSequenceArray)));
+            gef.ggy((DisplayEntity.TextDisplayEntity)gec2.labels.get(0), (Text)Text.literal((String)String.join((CharSequence)a.d("\u80bc", -1584902860, -413741693), charSequenceArray)));
         }
     }
 
@@ -810,7 +810,7 @@ final class gef {
                 try {
                     field.setAccessible(true);
                     TrackedData trackedData = (TrackedData)field.get(null);
-                    if (trackedData.comp_2328() != TrackedDataHandlerRegistry.field_13317) continue;
+                    if (trackedData.dataType() != TrackedDataHandlerRegistry.TEXT_COMPONENT) continue;
                     gfo = trackedData;
                     break;
                 }
@@ -819,13 +819,13 @@ final class gef {
                 }
             }
         }
-        textDisplayEntity.method_5841().method_12778(gfo, (Object)text);
+        textDisplayEntity.getDataTracker().set(gfo, (Object)text);
     }
 
     private static void ggz(MinecraftServer minecraftServer, BlockPos blockPos, float f, float f2) {
         gfy = false;
         gfz = gfe + 20L;
-        minecraftServer.method_3734().method_44252(minecraftServer.method_3739(), String.format(Locale.ROOT, a.d("\u335e\u4aeb\uc068\u5e1c\ud59d\u537f\ue929\u60d3\ufe93\u7475\uf3e0\u0994\u8702\u1ef7\u94a1\u125b\ua80b\u278d\ubd78\u3b2c\ub2d0\uc89f\u467a\udded\u5b97\ud14d\u68e0\ue6e7", 1665173619, -1577075899), gfn, (double)blockPos.method_10263() + 0.5, blockPos.method_10264(), (double)blockPos.method_10260() + 0.5, Float.valueOf(f), Float.valueOf(f2)));
+        minecraftServer.getCommandManager().parseAndExecute(minecraftServer.getCommandSource(), String.format(Locale.ROOT, a.d("\u335e\u4aeb\uc068\u5e1c\ud59d\u537f\ue929\u60d3\ufe93\u7475\uf3e0\u0994\u8702\u1ef7\u94a1\u125b\ua80b\u278d\ubd78\u3b2c\ub2d0\uc89f\u467a\udded\u5b97\ud14d\u68e0\ue6e7", 1665173619, -1577075899), gfn, (double)blockPos.getX() + 0.5, blockPos.getY(), (double)blockPos.getZ() + 0.5, Float.valueOf(f), Float.valueOf(f2)));
     }
 
     private static void gha(kfe kfe2, String string, Object object) {
@@ -858,32 +858,32 @@ final class gef {
         for (Field field : Mouse.class.getDeclaredFields()) {
             if (!field.getName().equals(a.c(1445306881, "\ua26e\udbc9\u511d\ucf6d\u44a6\uc20a\u7867\uf1b5\u6fe6\ue55f\u6282\u98f2"))) continue;
             field.setAccessible(true);
-            field.setBoolean(minecraftClient.field_1729, true);
+            field.setBoolean(minecraftClient.mouse, true);
         }
     }
 
     private static void ghd(MinecraftClient minecraftClient, String string) {
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.c(-782319865, "\ubf67\uc6dc\u4c0c\ud265\u59f7\udf59") + string + a.d("\u8b42\uf2ad\u7860\ue618", -1649406285, -78674469)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.c(-782319865, "\ubf67\uc6dc\u4c0c\ud265\u59f7\udf59") + string + a.d("\u8b42\uf2ad\u7860\ue618", -1649406285, -78674469)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static void ghe(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static /* synthetic */ void lambda$tick$2(MinecraftServer minecraftServer, boolean bl) {
         int n;
-        ServerPlayerEntity serverPlayerEntity = minecraftServer.method_3760().method_14566(gfn);
-        ItemStack itemStack = new ItemStack((ItemConvertible)Items.field_22024);
-        itemStack.method_7978((RegistryEntry)minecraftServer.method_30611().method_30530(RegistryKeys.field_41265).method_46747(Enchantments.field_9131), 10);
-        itemStack.method_57379(DataComponentTypes.field_49632, (Object)new LoreComponent(List.of(Text.method_43470((String)a.c(-2035397662, "\u4b4b\u326a\ubc9f\u22bc\ua913\u2fd5\u95fe\u1c05\u8253\u08e0\u8f46\u7157\uffe9\u6658")), Text.method_43470((String)a.d("\u589c\u21bd\uaf45\u3118\ubacc\u3c73\u8625\u0fae\u9593\u1f4b", -1566566347, 1320239108)))));
-        serverPlayerEntity.method_31548().method_5447(3, new ItemStack((ItemConvertible)Items.field_8802));
-        serverPlayerEntity.method_31548().method_5447(20, itemStack);
+        ServerPlayerEntity serverPlayerEntity = minecraftServer.getPlayerManager().getPlayer(gfn);
+        ItemStack itemStack = new ItemStack((ItemConvertible)Items.NETHERITE_PICKAXE);
+        itemStack.addEnchantment((RegistryEntry)minecraftServer.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Enchantments.EFFICIENCY), 10);
+        itemStack.set(DataComponentTypes.LORE, (Object)new LoreComponent(List.of(Text.literal((String)a.c(-2035397662, "\u4b4b\u326a\ubc9f\u22bc\ua913\u2fd5\u95fe\u1c05\u8253\u08e0\u8f46\u7157\uffe9\u6658")), Text.literal((String)a.d("\u589c\u21bd\uaf45\u3118\ubacc\u3c73\u8625\u0fae\u9593\u1f4b", -1566566347, 1320239108)))));
+        serverPlayerEntity.getInventory().setStack(3, new ItemStack((ItemConvertible)Items.DIAMOND_SWORD));
+        serverPlayerEntity.getInventory().setStack(20, itemStack);
         for (n = 9; n < 36; ++n) {
             if (n == 20 || n == 35) continue;
-            serverPlayerEntity.method_31548().method_5447(n, new ItemStack((ItemConvertible)Items.field_20412, 64));
+            serverPlayerEntity.getInventory().setStack(n, new ItemStack((ItemConvertible)Items.COBBLESTONE, 64));
         }
         for (n = 5; n < 9; ++n) {
-            serverPlayerEntity.method_31548().method_5447(n, new ItemStack((ItemConvertible)Items.field_20394, 64));
+            serverPlayerEntity.getInventory().setStack(n, new ItemStack((ItemConvertible)Items.GRANITE, 64));
         }
         gec gec2 = gez.get(0);
         BlockPos blockPos = bl ? gec2.warp : gfg;

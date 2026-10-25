@@ -234,17 +234,17 @@ public final class qsw {
     public void stop(MinecraftClient minecraftClient) {
         this.qth.stop(minecraftClient);
         this.qwi(minecraftClient);
-        if (minecraftClient.field_1724 != null && minecraftClient.field_1755 instanceof HandledScreen) {
-            minecraftClient.field_1724.method_7346();
+        if (minecraftClient.player != null && minecraftClient.currentScreen instanceof HandledScreen) {
+            minecraftClient.player.closeHandledScreen();
         }
         this.qtm = qst.DONE;
         this.qty = null;
     }
 
     public void startTick(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        if (this.qtm == qst.REPAIR && this.quf == 3 && clientPlayerEntity.method_6047().method_31574(Items.field_8287) && minecraftClient.field_1755 == null && qsw.qwh(minecraftClient)) {
+        if (this.qtm == qst.REPAIR && this.quf == 3 && clientPlayerEntity.getMainHandStack().isOf(Items.EXPERIENCE_BOTTLE) && minecraftClient.currentScreen == null && qsw.qwh(minecraftClient)) {
             this.qth.releaseKeys(minecraftClient);
-            minecraftClient.field_1690.field_1904.method_23481(true);
+            minecraftClient.options.useKey.setPressed(true);
             this.qul = true;
             return;
         }
@@ -269,26 +269,26 @@ public final class qsw {
             if (this.qtm == qst.REPAIR) {
                 this.quf = 0;
                 this.qum = false;
-                if (clientPlayerEntity.method_6079().method_31573(ItemTags.field_42614) && !qof2.busy()) {
+                if (clientPlayerEntity.getOffHandStack().isIn(ItemTags.PICKAXES) && !qof2.busy()) {
                     qof2.swaps(this.qug, 40);
                 }
             }
             this.qut(l);
             return qsq.RUNNING;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         boolean bl = this.qty == null;
         switch (this.qtm.ordinal()) {
             case 0: {
                 this.qtx = a.c(-1064508966, "\ue5e9\u9c43\u1691\u88eb\u0338\u8187\u3bce\ub627\u2809\ua2b2\u2102\udf12\u51c7\uc808\u4252\uc4d4\u7ee2\uf131");
                 if (l - this.qto < 1500L) break;
-                this.quy((World)minecraftClient.field_1687, clientPlayerEntity);
+                this.quy((World)minecraftClient.world, clientPlayerEntity);
                 if (this.qtp != null && this.qtq != null && this.qtr != null) {
                     this.qut(l);
                     break;
                 }
                 if (l - this.qtn <= 4000L) break;
-                this.qvb((World)minecraftClient.field_1687, clientPlayerEntity);
+                this.qvb((World)minecraftClient.world, clientPlayerEntity);
                 this.qus(qst.SCAN, l);
                 break;
             }
@@ -308,7 +308,7 @@ public final class qsw {
                 int n = this.qvh(minecraftClient, clientPlayerEntity, tel2, qsp2, blockPos, l);
                 if (n == 0) break;
                 if (n > 0) {
-                    String string = qsw.role(minecraftClient.field_1755.method_25440().getString());
+                    String string = qsw.role(minecraftClient.currentScreen.getTitle().getString());
                     if (string != null) {
                         this.qtj.put(blockPos, string);
                         this.quz(string, blockPos, clientPlayerEntity);
@@ -370,7 +370,7 @@ public final class qsw {
                     break;
                 }
                 if (n <= 0) break;
-                Screen screen = minecraftClient.field_1755;
+                Screen screen = minecraftClient.currentScreen;
                 if (!(screen instanceof CraftingScreen)) {
                     this.quu(a.d("\u10ce\u6970\ue3df\u79b0\uf67a\u70c3\uce85\u4366\udd3e\u57fa\ud028\u2a5a\ua4ff\u3d44", -494824317, 40796174));
                     this.qvo(minecraftClient, l);
@@ -384,7 +384,7 @@ public final class qsw {
                     }
                     this.qti.plan(this.qtu, this.qwb(playerInventory));
                 }
-                if (!this.qti.tick(minecraftClient, clientPlayerEntity, (CraftingScreenHandler)(screen = (CraftingScreenHandler)craftingScreen.method_17577()))) break;
+                if (!this.qti.tick(minecraftClient, clientPlayerEntity, (CraftingScreenHandler)(screen = (CraftingScreenHandler)craftingScreen.getScreenHandler()))) break;
                 for (String string2 : this.qti.notes()) {
                     this.quu(string2);
                 }
@@ -394,7 +394,7 @@ public final class qsw {
             }
             case 6: {
                 this.qtx = a.d("\ud340\uaaea\u2038\ube42\u3591\ub72e\u0d67\u8087\u1edc\u9418\u13c8\uedda\u6713\ufea3\u7484\uf27c", 1680046254, 1190309855);
-                if (this.qtr == null || !this.qud && (!this.needsRepair(clientPlayerEntity) || this.qtt == 0 || qpw.count(playerInventory, Items.field_8287) >= this.qux(clientPlayerEntity))) {
+                if (this.qtr == null || !this.qud && (!this.needsRepair(clientPlayerEntity) || this.qtt == 0 || qpw.count(playerInventory, Items.EXPERIENCE_BOTTLE) >= this.qux(clientPlayerEntity))) {
                     this.qut(l);
                     break;
                 }
@@ -404,8 +404,8 @@ public final class qsw {
                     this.qut(l);
                     break;
                 }
-                if (n <= 0 || !this.qvp(minecraftClient, clientPlayerEntity, l) || !this.qvt(minecraftClient, clientPlayerEntity, Items.field_8287, this.qux(clientPlayerEntity))) break;
-                this.qtt = this.qvs(minecraftClient, clientPlayerEntity, Items.field_8287);
+                if (n <= 0 || !this.qvp(minecraftClient, clientPlayerEntity, l) || !this.qvt(minecraftClient, clientPlayerEntity, Items.EXPERIENCE_BOTTLE, this.qux(clientPlayerEntity))) break;
+                this.qtt = this.qvs(minecraftClient, clientPlayerEntity, Items.EXPERIENCE_BOTTLE);
                 this.qvo(minecraftClient, l);
                 break;
             }
@@ -420,7 +420,7 @@ public final class qsw {
             }
             case 8: {
                 this.qtx = a.c(2059140709, "\ufa56\u83fc\u092e\u9754\u1c87\u9e38\u2471\ua9e3\u37ce\ubd76\u3add\uc0dc\u4e75\ud3aa\u5de7\udb17\u612c\ueef4");
-                if (this.qtr == null || !this.qud && qpw.count(playerInventory, Items.field_8287) == 0) {
+                if (this.qtr == null || !this.qud && qpw.count(playerInventory, Items.EXPERIENCE_BOTTLE) == 0) {
                     this.qut(l);
                     break;
                 }
@@ -430,7 +430,7 @@ public final class qsw {
                     this.qut(l);
                     break;
                 }
-                if (n <= 0 || !this.qvp(minecraftClient, clientPlayerEntity, l) || !this.qvu(minecraftClient, clientPlayerEntity, itemStack -> itemStack.method_31574(Items.field_8287))) break;
+                if (n <= 0 || !this.qvp(minecraftClient, clientPlayerEntity, l) || !this.qvu(minecraftClient, clientPlayerEntity, itemStack -> itemStack.isOf(Items.EXPERIENCE_BOTTLE))) break;
                 this.qvo(minecraftClient, l);
                 break;
             }
@@ -455,9 +455,9 @@ public final class qsw {
                 if (qof2.busy()) break;
                 int n = qpw.emptySlot(playerInventory);
                 if (!this.qud) {
-                    qsw.log(a.d("\u4f0e\u36b6\ubc65\u221f\ua98c\u2f6d\u953c\u1cda\u8290\u086b\u8fa2\u759c\ufb42\u62f3\ue8fb", 975872081, -203034826) + clientPlayerEntity.method_6079() + a.c(-786578764, "\uc293\ubb6b\u31bf\uafe9\u2419\ua2b0\u18a8") + qpw.find(playerInventory, Items.field_8071) + a.d("\u717b\u088f\u8254\u1c38\u97eb\u1157\uab40", 1593586014, 707608578) + n + a.d("\uc037\ub9c0\u331a\uad6b\u26b7\ua05f", 593345382, -197821577) + qpw.food((PlayerEntity)clientPlayerEntity));
+                    qsw.log(a.d("\u4f0e\u36b6\ubc65\u221f\ua98c\u2f6d\u953c\u1cda\u8290\u086b\u8fa2\u759c\ufb42\u62f3\ue8fb", 975872081, -203034826) + clientPlayerEntity.getOffHandStack() + a.c(-786578764, "\uc293\ubb6b\u31bf\uafe9\u2419\ua2b0\u18a8") + qpw.find(playerInventory, Items.GOLDEN_CARROT) + a.d("\u717b\u088f\u8254\u1c38\u97eb\u1157\uab40", 1593586014, 707608578) + n + a.d("\uc037\ub9c0\u331a\uad6b\u26b7\ua05f", 593345382, -197821577) + qpw.food((PlayerEntity)clientPlayerEntity));
                     this.qud = true;
-                    if (this.qtq != null && qpw.food((PlayerEntity)clientPlayerEntity) < 64 && clientPlayerEntity.method_6079().method_31574(Items.field_8071) && qpw.find(playerInventory, Items.field_8071) < 0 && n >= 0) {
+                    if (this.qtq != null && qpw.food((PlayerEntity)clientPlayerEntity) < 64 && clientPlayerEntity.getOffHandStack().isOf(Items.GOLDEN_CARROT) && qpw.find(playerInventory, Items.GOLDEN_CARROT) < 0 && n >= 0) {
                         qof2.swaps(n, 40);
                         break;
                     }
@@ -485,7 +485,7 @@ public final class qsw {
             case 12: {
                 this.qtx = a.b("\u8fb5\uf61f\u7ccd\ue2b7\u6964\uebdb\u5192\udc03\u422c\uc8ec\u4f44\ub534\u3be8\ua25d\u2871\uaef9\u14b4\u9b1b\u05c6\u878f\u0e7d\u7423\ufa97\u614e\ue74e\u6ded\ud42e\u5a73", 19106696);
                 if (qof2.busy()) break;
-                if (minecraftClient.field_1755 != null) {
+                if (minecraftClient.currentScreen != null) {
                     this.qvn(minecraftClient);
                     break;
                 }
@@ -494,8 +494,8 @@ public final class qsw {
                     qof2.layout();
                     break;
                 }
-                if (playerInventory.method_5438(0).method_31573(ItemTags.field_42614)) {
-                    playerInventory.method_61496(0);
+                if (playerInventory.getStack(0).isIn(ItemTags.PICKAXES)) {
+                    playerInventory.setSelectedSlot(0);
                 }
                 this.qut(l);
                 break;
@@ -529,7 +529,7 @@ public final class qsw {
     }
 
     private void qut(long l) {
-        this.qvn(MinecraftClient.method_1551());
+        this.qvn(MinecraftClient.getInstance());
         this.qty = null;
         qst[] qstArray = qst.values();
         this.qus(qstArray[Math.min(qstArray.length - 1, this.qtm.ordinal() + 1)], l);
@@ -590,37 +590,37 @@ public final class qsw {
         List list;
         Object object;
         Object object2;
-        BlockPos blockPos = clientPlayerEntity.method_24515();
+        BlockPos blockPos = clientPlayerEntity.getBlockPos();
         double[] dArray = new double[]{Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE};
         BlockPos[] blockPosArray = new BlockPos[3];
-        for (int i = blockPos.method_10263() - 24 >> 4; i <= blockPos.method_10263() + 24 >> 4; ++i) {
-            for (int j = blockPos.method_10260() - 24 >> 4; j <= blockPos.method_10260() + 24 >> 4; ++j) {
-                object2 = world.method_8497(i, j);
-                object = new ArrayList(object2.method_12214().values()).iterator();
+        for (int i = blockPos.getX() - 24 >> 4; i <= blockPos.getX() + 24 >> 4; ++i) {
+            for (int j = blockPos.getZ() - 24 >> 4; j <= blockPos.getZ() + 24 >> 4; ++j) {
+                object2 = world.getChunk(i, j);
+                object = new ArrayList(object2.getBlockEntities().values()).iterator();
                 while (object.hasNext()) {
                     String string;
                     String string2;
                     BlockEntity blockEntity = (BlockEntity)object.next();
                     if (!(blockEntity instanceof SignBlockEntity)) continue;
                     SignBlockEntity signBlockEntity = (SignBlockEntity)blockEntity;
-                    if (!blockEntity.method_11016().method_19771((Vec3i)blockPos, 24.0) || (string2 = qsw.role(string = qsw.qvc(signBlockEntity))) == null) continue;
-                    BlockPos blockPos2 = qsw.qvd(world, signBlockEntity.method_11016(), world.method_8320(signBlockEntity.method_11016()));
+                    if (!blockEntity.getPos().isWithinDistance((Vec3i)blockPos, 24.0) || (string2 = qsw.role(string = qsw.qvc(signBlockEntity))) == null) continue;
+                    BlockPos blockPos2 = qsw.qvd(world, signBlockEntity.getPos(), world.getBlockState(signBlockEntity.getPos()));
                     qsw.qva(string2, blockPos2, blockPos, blockPosArray, dArray);
                 }
             }
         }
         if (world instanceof ClientWorld) {
             ClientWorld clientWorld = (ClientWorld)world;
-            list = clientWorld.method_18112();
+            list = clientWorld.getEntities();
         } else {
             list = List.of();
         }
         for (Entity entity : list) {
-            if (entity == clientPlayerEntity || !entity.method_24515().method_19771((Vec3i)blockPos, 24.0) || (object2 = pzw.lines(entity)).isEmpty() || (object = qsw.role(String.join((CharSequence)a.c(838377754, "\ua13b"), (Iterable<? extends CharSequence>)object2))) == null) continue;
-            qsw.qva((String)object, qsw.qve(world, entity.method_24515(), 2), blockPos, blockPosArray, dArray);
+            if (entity == clientPlayerEntity || !entity.getBlockPos().isWithinDistance((Vec3i)blockPos, 24.0) || (object2 = pzw.lines(entity)).isEmpty() || (object = qsw.role(String.join((CharSequence)a.c(838377754, "\ua13b"), (Iterable<? extends CharSequence>)object2))) == null) continue;
+            qsw.qva((String)object, qsw.qve(world, entity.getBlockPos(), 2), blockPos, blockPosArray, dArray);
         }
         for (Map.Entry entry : this.qtj.entrySet()) {
-            if (!qsw.qvg(world.method_8320((BlockPos)entry.getKey())) || !((BlockPos)entry.getKey()).method_19771((Vec3i)blockPos, 24.0)) continue;
+            if (!qsw.qvg(world.getBlockState((BlockPos)entry.getKey())) || !((BlockPos)entry.getKey()).isWithinDistance((Vec3i)blockPos, 24.0)) continue;
             qsw.qva((String)entry.getValue(), (BlockPos)entry.getKey(), blockPos, blockPosArray, dArray);
         }
         if (blockPosArray[0] != null) {
@@ -632,9 +632,9 @@ public final class qsw {
         if (blockPosArray[2] != null) {
             this.qtr = blockPosArray[2];
         }
-        BlockPos blockPos2 = this.qts = this.qtr != null ? qsw.qvf(world, this.qtr, 6, Blocks.field_9980) : null;
+        BlockPos blockPos2 = this.qts = this.qtr != null ? qsw.qvf(world, this.qtr, 6, Blocks.CRAFTING_TABLE) : null;
         if (this.qts == null) {
-            this.qts = qsw.qvf(world, blockPos, 12, Blocks.field_9980);
+            this.qts = qsw.qvf(world, blockPos, 12, Blocks.CRAFTING_TABLE);
         }
     }
 
@@ -642,21 +642,21 @@ public final class qsw {
         if (world == null) {
             return false;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        BlockPos blockPos = clientPlayerEntity.method_24515();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        BlockPos blockPos = clientPlayerEntity.getBlockPos();
         int n = (int)Math.ceil(d) + 1;
-        for (int i = blockPos.method_10263() - n >> 4; i <= blockPos.method_10263() + n >> 4; ++i) {
-            for (int j = blockPos.method_10260() - n >> 4; j <= blockPos.method_10260() + n >> 4; ++j) {
-                for (BlockEntity blockEntity : new ArrayList(world.method_8497(i, j).method_12214().values())) {
+        for (int i = blockPos.getX() - n >> 4; i <= blockPos.getX() + n >> 4; ++i) {
+            for (int j = blockPos.getZ() - n >> 4; j <= blockPos.getZ() + n >> 4; ++j) {
+                for (BlockEntity blockEntity : new ArrayList(world.getChunk(i, j).getBlockEntities().values())) {
                     if (!(blockEntity instanceof SignBlockEntity)) continue;
                     SignBlockEntity signBlockEntity = (SignBlockEntity)blockEntity;
-                    if (!(Vec3d.method_24953((Vec3i)blockEntity.method_11016()).method_1022(vec3d) <= d) || qsw.role(qsw.qvc(signBlockEntity)) == null) continue;
+                    if (!(Vec3d.ofCenter((Vec3i)blockEntity.getPos()).distanceTo(vec3d) <= d) || qsw.role(qsw.qvc(signBlockEntity)) == null) continue;
                     return true;
                 }
             }
         }
         for (Map.Entry<BlockPos, String> entry : this.qtj.entrySet()) {
-            if (!(Vec3d.method_24953((Vec3i)((Vec3i)entry.getKey())).method_1022(vec3d) <= d) || !qsw.qvg(world.method_8320(entry.getKey()))) continue;
+            if (!(Vec3d.ofCenter((Vec3i)((Vec3i)entry.getKey())).distanceTo(vec3d) <= d) || !qsw.qvg(world.getBlockState(entry.getKey()))) continue;
             return true;
         }
         return false;
@@ -728,18 +728,18 @@ public final class qsw {
 
     private void qvb(World world, ClientPlayerEntity clientPlayerEntity) {
         this.qtk.clear();
-        BlockPos blockPos = clientPlayerEntity.method_24515();
+        BlockPos blockPos = clientPlayerEntity.getBlockPos();
         ArrayList<BlockPos> arrayList = new ArrayList<BlockPos>();
-        for (BlockPos blockPos2 : BlockPos.method_25996((BlockPos)blockPos, (int)10, (int)4, (int)10)) {
-            if (!qsw.qvg(world.method_8320(blockPos2)) || blockPos2.equals((Object)this.qtp) || blockPos2.equals((Object)this.qtq) || blockPos2.equals((Object)this.qtr) || this.qtj.containsKey(blockPos2)) continue;
-            arrayList.add(blockPos2.method_10062());
+        for (BlockPos blockPos2 : BlockPos.iterateOutwards((BlockPos)blockPos, (int)10, (int)4, (int)10)) {
+            if (!qsw.qvg(world.getBlockState(blockPos2)) || blockPos2.equals((Object)this.qtp) || blockPos2.equals((Object)this.qtq) || blockPos2.equals((Object)this.qtr) || this.qtj.containsKey(blockPos2)) continue;
+            arrayList.add(blockPos2.toImmutable());
         }
         for (int i = 0; i < arrayList.size() && this.qtk.size() < 8; ++i) {
             BlockPos blockPos2;
             blockPos2 = (BlockPos)arrayList.get(i);
             boolean bl = false;
             for (BlockPos blockPos3 : this.qtk) {
-                if (blockPos3.method_19455((Vec3i)blockPos2) != 1 || !(world.method_8320(blockPos3).method_26204() instanceof ChestBlock)) continue;
+                if (blockPos3.getManhattanDistance((Vec3i)blockPos2) != 1 || !(world.getBlockState(blockPos3).getBlock() instanceof ChestBlock)) continue;
                 bl = true;
             }
             if (bl) continue;
@@ -764,7 +764,7 @@ public final class qsw {
     private static String qvc(SignBlockEntity signBlockEntity) {
         StringBuilder stringBuilder = new StringBuilder();
         for (boolean bl : new boolean[]{true, false}) {
-            for (Text text : signBlockEntity.method_49843(bl).method_49877(false)) {
+            for (Text text : signBlockEntity.getText(bl).getMessages(false)) {
                 stringBuilder.append(text.getString()).append(' ');
             }
         }
@@ -774,38 +774,38 @@ public final class qsw {
     private static BlockPos qvd(World world, BlockPos blockPos, BlockState blockState) {
         BlockPos blockPos2;
         Direction direction = null;
-        if (blockState.method_26204() instanceof WallSignBlock) {
-            direction = (Direction)blockState.method_11654((Property)WallSignBlock.field_11726);
-        } else if (blockState.method_26204() instanceof WallHangingSignBlock) {
-            direction = (Direction)blockState.method_11654((Property)WallHangingSignBlock.field_40319);
+        if (blockState.getBlock() instanceof WallSignBlock) {
+            direction = (Direction)blockState.get((Property)WallSignBlock.FACING);
+        } else if (blockState.getBlock() instanceof WallHangingSignBlock) {
+            direction = (Direction)blockState.get((Property)WallHangingSignBlock.FACING);
         }
-        if (direction != null && qsw.qvg(world.method_8320(blockPos2 = blockPos.method_10093(direction.method_10153())))) {
+        if (direction != null && qsw.qvg(world.getBlockState(blockPos2 = blockPos.offset(direction.getOpposite())))) {
             return blockPos2;
         }
-        if (qsw.qvg(world.method_8320(blockPos.method_10074()))) {
-            return blockPos.method_10074();
+        if (qsw.qvg(world.getBlockState(blockPos.down()))) {
+            return blockPos.down();
         }
         return qsw.qve(world, blockPos, 2);
     }
 
     private static BlockPos qve(World world, BlockPos blockPos, int n) {
-        for (BlockPos blockPos2 : BlockPos.method_25996((BlockPos)blockPos, (int)n, (int)n, (int)n)) {
-            if (!qsw.qvg(world.method_8320(blockPos2))) continue;
-            return blockPos2.method_10062();
+        for (BlockPos blockPos2 : BlockPos.iterateOutwards((BlockPos)blockPos, (int)n, (int)n, (int)n)) {
+            if (!qsw.qvg(world.getBlockState(blockPos2))) continue;
+            return blockPos2.toImmutable();
         }
         return null;
     }
 
     private static BlockPos qvf(World world, BlockPos blockPos, int n, Block block) {
-        for (BlockPos blockPos2 : BlockPos.method_25996((BlockPos)blockPos, (int)n, (int)n, (int)n)) {
-            if (!world.method_8320(blockPos2).method_27852(block)) continue;
-            return blockPos2.method_10062();
+        for (BlockPos blockPos2 : BlockPos.iterateOutwards((BlockPos)blockPos, (int)n, (int)n, (int)n)) {
+            if (!world.getBlockState(blockPos2).isOf(block)) continue;
+            return blockPos2.toImmutable();
         }
         return null;
     }
 
     private static boolean qvg(BlockState blockState) {
-        Block block = blockState.method_26204();
+        Block block = blockState.getBlock();
         return block instanceof ChestBlock || block instanceof BarrelBlock || block instanceof ShulkerBoxBlock;
     }
 
@@ -820,7 +820,7 @@ public final class qsw {
         }
         switch (this.qtz) {
             case 0: {
-                if (qsw.qvj(clientPlayerEntity, blockPos) <= 4.3 && qsw.qvk((World)minecraftClient.field_1687, clientPlayerEntity, blockPos) != null) {
+                if (qsw.qvj(clientPlayerEntity, blockPos) <= 4.3 && qsw.qvk((World)minecraftClient.world, clientPlayerEntity, blockPos) != null) {
                     this.qth.stop(minecraftClient);
                     this.qtz = 1;
                     this.qua = l;
@@ -828,7 +828,7 @@ public final class qsw {
                     return 0;
                 }
                 if (this.qth.status() == qdw.IDLE) {
-                    this.qth.park(pzc.empty(clientPlayerEntity.method_24515()), blockPos, false);
+                    this.qth.park(pzc.empty(clientPlayerEntity.getBlockPos()), blockPos, false);
                 } else if (this.qth.parked() || this.qth.parkLost() || this.qth.status() == qdw.FAR) {
                     if (qsw.qvj(clientPlayerEntity, blockPos) <= 5.3) {
                         this.qth.stop(minecraftClient);
@@ -850,14 +850,14 @@ public final class qsw {
             }
             case 1: {
                 BlockHitResult blockHitResult;
-                Vec3d vec3d = qsw.qvk((World)minecraftClient.field_1687, clientPlayerEntity, blockPos);
+                Vec3d vec3d = qsw.qvk((World)minecraftClient.world, clientPlayerEntity, blockPos);
                 qsp2.at(minecraftClient, clientPlayerEntity, this.quc, vec3d != null ? vec3d : qsw.qvl(clientPlayerEntity, blockPos));
-                minecraftClient.field_1773.method_3190(1.0f);
-                HitResult hitResult = minecraftClient.field_1765;
-                if (hitResult instanceof BlockHitResult && (blockHitResult = (BlockHitResult)hitResult).method_17783() == HitResult.Type.field_1332 && qsw.qvi((World)minecraftClient.field_1687, blockHitResult.method_17777(), blockPos)) {
-                    hitResult = minecraftClient.field_1761.method_2896(clientPlayerEntity, Hand.field_5808, blockHitResult);
-                    if (hitResult.method_23665()) {
-                        clientPlayerEntity.method_6104(Hand.field_5808);
+                minecraftClient.gameRenderer.updateCrosshairTarget(1.0f);
+                HitResult hitResult = minecraftClient.crosshairTarget;
+                if (hitResult instanceof BlockHitResult && (blockHitResult = (BlockHitResult)hitResult).getType() == HitResult.Type.BLOCK && qsw.qvi((World)minecraftClient.world, blockHitResult.getBlockPos(), blockPos)) {
+                    hitResult = minecraftClient.interactionManager.interactBlock(clientPlayerEntity, Hand.MAIN_HAND, blockHitResult);
+                    if (hitResult.isAccepted()) {
+                        clientPlayerEntity.swingHand(Hand.MAIN_HAND);
                     }
                     this.qtz = 2;
                     this.qua = l;
@@ -867,7 +867,7 @@ public final class qsw {
                 return 0;
             }
         }
-        if (minecraftClient.field_1755 instanceof HandledScreen) {
+        if (minecraftClient.currentScreen instanceof HandledScreen) {
             return 1;
         }
         if (l - this.qua > 2500L) {
@@ -885,37 +885,37 @@ public final class qsw {
         if (blockPos.equals((Object)blockPos2)) {
             return true;
         }
-        BlockState blockState = world.method_8320(blockPos);
-        return blockState.method_26204() instanceof ChestBlock && blockState.method_26204() == world.method_8320(blockPos2).method_26204() && blockPos.method_19455((Vec3i)blockPos2) == 1;
+        BlockState blockState = world.getBlockState(blockPos);
+        return blockState.getBlock() instanceof ChestBlock && blockState.getBlock() == world.getBlockState(blockPos2).getBlock() && blockPos.getManhattanDistance((Vec3i)blockPos2) == 1;
     }
 
     private static double qvj(ClientPlayerEntity clientPlayerEntity, BlockPos blockPos) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         Box box = new Box(blockPos);
-        double d = Math.max(0.0, Math.max(box.field_1323 - vec3d.field_1352, vec3d.field_1352 - box.field_1320));
-        double d2 = Math.max(0.0, Math.max(box.field_1322 - vec3d.field_1351, vec3d.field_1351 - box.field_1325));
-        double d3 = Math.max(0.0, Math.max(box.field_1321 - vec3d.field_1350, vec3d.field_1350 - box.field_1324));
+        double d = Math.max(0.0, Math.max(box.minX - vec3d.x, vec3d.x - box.maxX));
+        double d2 = Math.max(0.0, Math.max(box.minY - vec3d.y, vec3d.y - box.maxY));
+        double d3 = Math.max(0.0, Math.max(box.minZ - vec3d.z, vec3d.z - box.maxZ));
         return Math.sqrt(d * d + d2 * d2 + d3 * d3);
     }
 
     private static Vec3d qvk(World world, ClientPlayerEntity clientPlayerEntity, BlockPos blockPos) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = clientPlayerEntity.method_5828(1.0f);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = clientPlayerEntity.getRotationVec(1.0f);
         ArrayList<Vec3d> arrayList = new ArrayList<Vec3d>();
         arrayList.add(qsw.qvl(clientPlayerEntity, blockPos));
-        Vec3d vec3d3 = Vec3d.method_24953((Vec3i)blockPos);
+        Vec3d vec3d3 = Vec3d.ofCenter((Vec3i)blockPos);
         for (Object object : Direction.values()) {
-            double d = object == Direction.field_11036 ? 0.33 : 0.4;
-            arrayList.add(vec3d3.method_1031((double)object.method_10148() * d, (double)object.method_10164() * d, (double)object.method_10165() * d));
+            double d = object == Direction.UP ? 0.33 : 0.4;
+            arrayList.add(vec3d3.add((double)object.getOffsetX() * d, (double)object.getOffsetY() * d, (double)object.getOffsetZ() * d));
         }
         Vec3d vec3d4 = null;
         double d = Double.MAX_VALUE;
         for (Vec3d vec3d5 : arrayList) {
             double d2;
             BlockHitResult blockHitResult;
-            Vec3d vec3d6 = vec3d5.method_1020(vec3d);
-            double d3 = vec3d6.method_1033();
-            if (d3 > 4.7 || d3 < 0.001 || (blockHitResult = world.method_17742(new RaycastContext(vec3d, vec3d5.method_1019(vec3d6.method_1021(0.05 / d3)), RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity))).method_17783() != HitResult.Type.field_1332 || !qsw.qvi(world, blockHitResult.method_17777(), blockPos) || !((d2 = Math.acos(Math.max(-1.0, Math.min(1.0, vec3d6.method_1021(1.0 / d3).method_1026(vec3d2))))) < d)) continue;
+            Vec3d vec3d6 = vec3d5.subtract(vec3d);
+            double d3 = vec3d6.length();
+            if (d3 > 4.7 || d3 < 0.001 || (blockHitResult = world.raycast(new RaycastContext(vec3d, vec3d5.add(vec3d6.multiply(0.05 / d3)), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity))).getType() != HitResult.Type.BLOCK || !qsw.qvi(world, blockHitResult.getBlockPos(), blockPos) || !((d2 = Math.acos(Math.max(-1.0, Math.min(1.0, vec3d6.multiply(1.0 / d3).dotProduct(vec3d2))))) < d)) continue;
             d = d2;
             vec3d4 = vec3d5;
         }
@@ -923,8 +923,8 @@ public final class qsw {
     }
 
     private static Vec3d qvl(ClientPlayerEntity clientPlayerEntity, BlockPos blockPos) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        return new Vec3d(qsw.qvm(vec3d.field_1352, (double)blockPos.method_10263() + 0.3, (double)blockPos.method_10263() + 0.7), qsw.qvm(vec3d.field_1351, (double)blockPos.method_10264() + 0.3, (double)blockPos.method_10264() + 0.65), qsw.qvm(vec3d.field_1350, (double)blockPos.method_10260() + 0.3, (double)blockPos.method_10260() + 0.7));
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        return new Vec3d(qsw.qvm(vec3d.x, (double)blockPos.getX() + 0.3, (double)blockPos.getX() + 0.7), qsw.qvm(vec3d.y, (double)blockPos.getY() + 0.3, (double)blockPos.getY() + 0.65), qsw.qvm(vec3d.z, (double)blockPos.getZ() + 0.3, (double)blockPos.getZ() + 0.7));
     }
 
     private static double qvm(double d, double d2, double d3) {
@@ -932,8 +932,8 @@ public final class qsw {
     }
 
     private void qvn(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1724 != null && minecraftClient.field_1755 instanceof HandledScreen) {
-            minecraftClient.field_1724.method_7346();
+        if (minecraftClient.player != null && minecraftClient.currentScreen instanceof HandledScreen) {
+            minecraftClient.player.closeHandledScreen();
         }
     }
 
@@ -949,15 +949,15 @@ public final class qsw {
             this.qua = l;
             return false;
         }
-        return l - this.qua >= 250L && minecraftClient.field_1755 instanceof HandledScreen;
+        return l - this.qua >= 250L && minecraftClient.currentScreen instanceof HandledScreen;
     }
 
     private ScreenHandler qvq(MinecraftClient minecraftClient) {
         ScreenHandler screenHandler;
-        Screen screen = minecraftClient.field_1755;
+        Screen screen = minecraftClient.currentScreen;
         if (screen instanceof HandledScreen) {
             HandledScreen handledScreen = (HandledScreen)screen;
-            screenHandler = handledScreen.method_17577();
+            screenHandler = handledScreen.getScreenHandler();
         } else {
             screenHandler = null;
         }
@@ -970,15 +970,15 @@ public final class qsw {
             return true;
         }
         if (this.qtt < 0) {
-            this.qtt = this.qvs(minecraftClient, clientPlayerEntity, Items.field_8287);
+            this.qtt = this.qvs(minecraftClient, clientPlayerEntity, Items.EXPERIENCE_BOTTLE);
             this.qtu = this.qtt < this.xpStock;
             this.quu(a.c(1504251319, "\u0999\u7029\ufa8e\u64f6\uef53\u6df2\ud3b3\u5e50\uc46e\u4edd\uc970\u3308\ubda8\u2460\uae3c\u2cd8") + this.qtt + (this.qtu ? a.b("\u1bde\u425b\ue8bc\u72d1\uf90f\u7fb6\uc594\u4c61\ud243\u5ce7", 369236980) + this.xpStock + a.c(-688552617, "\u8572\ufccf\u727d\uec77\u67da\ue11b\u5b3c\ud2ce\u4c95") : ""));
         }
         if (this.qtu || !this.needsRepair(clientPlayerEntity)) {
             return true;
         }
-        if (this.qvt(minecraftClient, clientPlayerEntity, Items.field_8287, this.qux(clientPlayerEntity))) {
-            this.qtt = this.qvs(minecraftClient, clientPlayerEntity, Items.field_8287);
+        if (this.qvt(minecraftClient, clientPlayerEntity, Items.EXPERIENCE_BOTTLE, this.qux(clientPlayerEntity))) {
+            this.qtt = this.qvs(minecraftClient, clientPlayerEntity, Items.EXPERIENCE_BOTTLE);
             return true;
         }
         return false;
@@ -990,9 +990,9 @@ public final class qsw {
             return -1;
         }
         int n = 0;
-        for (Slot slot : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-            if (!slot.method_7677().method_31574(item)) continue;
-            n += slot.method_7677().method_7947();
+        for (Slot slot : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+            if (!slot.getStack().isOf(item)) continue;
+            n += slot.getStack().getCount();
         }
         return n;
     }
@@ -1007,15 +1007,15 @@ public final class qsw {
                 return true;
             }
             Slot slot = null;
-            for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-                if (!slot2.method_7677().method_31574(item)) continue;
+            for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+                if (!slot2.getStack().isOf(item)) continue;
                 slot = slot2;
                 break;
             }
-            if (slot == null || !vxl.hasRoom(screenHandler, clientPlayerEntity.method_31548(), slot.method_7677())) {
+            if (slot == null || !vxl.hasRoom(screenHandler, clientPlayerEntity.getInventory(), slot.getStack())) {
                 return true;
             }
-            vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7794);
+            vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.QUICK_MOVE);
         }
         return false;
     }
@@ -1027,17 +1027,17 @@ public final class qsw {
         }
         for (int i = 0; i < 2; ++i) {
             Slot slot = null;
-            for (Slot slot2 : screenHandler.field_7761) {
-                if (slot2.field_7871 != clientPlayerEntity.method_31548() || !predicate.test(slot2.method_7677())) continue;
+            for (Slot slot2 : screenHandler.slots) {
+                if (slot2.inventory != clientPlayerEntity.getInventory() || !predicate.test(slot2.getStack())) continue;
                 slot = slot2;
                 break;
             }
             if (slot == null || ++this.que > 80) {
                 return true;
             }
-            int n = slot.method_7677().method_7947();
-            vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7794);
-            if (slot.method_7677().method_7947() != n) continue;
+            int n = slot.getStack().getCount();
+            vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.QUICK_MOVE);
+            if (slot.getStack().getCount() != n) continue;
             this.quu(a.c(-1693978051, "\uf670\u8fc3\u056e\u9b16\u10b6\u967e\u2837\ua5d9\u3b87\ub133\u36e5\ucc97"));
             return true;
         }
@@ -1049,7 +1049,7 @@ public final class qsw {
         if (screenHandler == null) {
             return true;
         }
-        if (!screenHandler.method_34255().method_7960()) {
+        if (!screenHandler.getCursorStack().isEmpty()) {
             qbo.putBack(minecraftClient, clientPlayerEntity, screenHandler, -1);
             return false;
         }
@@ -1058,8 +1058,8 @@ public final class qsw {
             return true;
         }
         Slot object = null;
-        for (Slot object2 : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-            if (!object2.method_7677().method_31574(Items.field_8071)) continue;
+        for (Slot object2 : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+            if (!object2.getStack().isOf(Items.GOLDEN_CARROT)) continue;
             object = object2;
             break;
         }
@@ -1068,14 +1068,14 @@ public final class qsw {
             return true;
         }
         Slot slot = null;
-        for (Slot slot2 : screenHandler.field_7761) {
-            if (slot2.field_7871 != clientPlayerEntity.method_31548() || !slot2.method_7677().method_31574(Items.field_8071) || slot2.method_7677().method_7947() >= slot2.method_7677().method_7914()) continue;
+        for (Slot slot2 : screenHandler.slots) {
+            if (slot2.inventory != clientPlayerEntity.getInventory() || !slot2.getStack().isOf(Items.GOLDEN_CARROT) || slot2.getStack().getCount() >= slot2.getStack().getMaxCount()) continue;
             slot = slot2;
             break;
         }
         if (slot == null) {
-            for (Slot slot2 : screenHandler.field_7761) {
-                if (slot2.field_7871 != clientPlayerEntity.method_31548() || slot2.method_7681()) continue;
+            for (Slot slot2 : screenHandler.slots) {
+                if (slot2.inventory != clientPlayerEntity.getInventory() || slot2.hasStack()) continue;
                 slot = slot2;
                 break;
             }
@@ -1084,31 +1084,31 @@ public final class qsw {
             this.quu(a.d("\u2f9e\u5627\udc83\u4690\uc95b\u4fe3\uf5c4\u7c36\ue21b\u6cba\uef7d\u1503\u9ba0\u067e\u8831\u0ec2\ub4f3\u3b58\ua1ef\u27b2\uae4f", 976727690, -232487620));
             return true;
         }
-        vxl.click(minecraftClient, screenHandler, object.field_7874, 0, SlotActionType.field_7790);
+        vxl.click(minecraftClient, screenHandler, object.id, 0, SlotActionType.PICKUP);
         int n2 = 64 - n;
-        if (slot.method_7681() || screenHandler.method_34255().method_7947() <= n2 || n2 > 8) {
-            vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7790);
+        if (slot.hasStack() || screenHandler.getCursorStack().getCount() <= n2 || n2 > 8) {
+            vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.PICKUP);
         } else {
-            for (int i = 0; i < n2 && !screenHandler.method_34255().method_7960(); ++i) {
-                vxl.click(minecraftClient, screenHandler, slot.field_7874, 1, SlotActionType.field_7790);
+            for (int i = 0; i < n2 && !screenHandler.getCursorStack().isEmpty(); ++i) {
+                vxl.click(minecraftClient, screenHandler, slot.id, 1, SlotActionType.PICKUP);
             }
         }
-        if (!screenHandler.method_34255().method_7960()) {
-            vxl.click(minecraftClient, screenHandler, object.field_7874, 0, SlotActionType.field_7790);
+        if (!screenHandler.getCursorStack().isEmpty()) {
+            vxl.click(minecraftClient, screenHandler, object.id, 0, SlotActionType.PICKUP);
         }
         return false;
     }
 
     private static int[] qvw(PlayerInventory playerInventory) {
         for (int i = 0; i < 36; ++i) {
-            if (!qsw.dumpable(playerInventory.method_5438(i))) continue;
+            if (!qsw.dumpable(playerInventory.getStack(i))) continue;
             return new int[]{i, 0};
         }
         return null;
     }
 
     static boolean dumpable(ItemStack itemStack) {
-        return itemStack.method_31574(Items.field_8603) || itemStack.method_31574(Items.field_8494) || itemStack.method_31574(Items.field_22019) || itemStack.method_31574(Items.field_22021);
+        return itemStack.isOf(Items.DIAMOND_BLOCK) || itemStack.isOf(Items.GOLD_BLOCK) || itemStack.isOf(Items.ANCIENT_DEBRIS) || itemStack.isOf(Items.NETHERITE_SCRAP);
     }
 
     private static boolean qvx(PlayerInventory playerInventory) {
@@ -1120,8 +1120,8 @@ public final class qsw {
         if (screenHandler == null) {
             return true;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        if (!screenHandler.method_34255().method_7960()) {
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        if (!screenHandler.getCursorStack().isEmpty()) {
             if (!this.qvz(minecraftClient, clientPlayerEntity, screenHandler)) {
                 qbo.putBack(minecraftClient, clientPlayerEntity, screenHandler, -1);
                 this.quu(a.c(-368675, "\u5b88\u223b\ua896\u36ee\ubd4e\u3b86\u85cf\u0cb5\u9600\u1cc1\u9b63\u616c\uefc4\u728f\uf847\u7aa9\uc0e7\u4f33\ud585\u53d7"));
@@ -1137,34 +1137,34 @@ public final class qsw {
         if (n < 0) {
             return true;
         }
-        Slot slot = (Slot)screenHandler.field_7761.get(n);
-        int n2 = slot.method_7677().method_7947();
+        Slot slot = (Slot)screenHandler.slots.get(n);
+        int n2 = slot.getStack().getCount();
         if (nArray[1] == 0) {
-            vxl.click(minecraftClient, screenHandler, n, 0, SlotActionType.field_7794);
-            if (slot.method_7677().method_7947() == n2) {
+            vxl.click(minecraftClient, screenHandler, n, 0, SlotActionType.QUICK_MOVE);
+            if (slot.getStack().getCount() == n2) {
                 this.quu(a.d("\u3d76\u44c5\uce68\u5010\udbb0\u5d78\ue331\u6a4b\uf0fe\u7a3f\ufd9d\u0792\u893a\u1471\u9eb9\u1c57\ua619\u29cd\ub37b\u3529", 2068744132, -170672409));
                 return true;
             }
             return false;
         }
-        vxl.click(minecraftClient, screenHandler, n, 0, SlotActionType.field_7790);
+        vxl.click(minecraftClient, screenHandler, n, 0, SlotActionType.PICKUP);
         for (int i = 0; i < nArray[1]; ++i) {
-            vxl.click(minecraftClient, screenHandler, n, 1, SlotActionType.field_7790);
+            vxl.click(minecraftClient, screenHandler, n, 1, SlotActionType.PICKUP);
         }
         return false;
     }
 
     private boolean qvz(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, ScreenHandler screenHandler) {
-        ItemStack itemStack = screenHandler.method_34255();
+        ItemStack itemStack = screenHandler.getCursorStack();
         Slot slot = null;
-        for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-            if (!slot2.method_7681() || !ItemStack.method_31577((ItemStack)slot2.method_7677(), (ItemStack)itemStack) || slot2.method_7677().method_7947() >= slot2.method_7677().method_7914()) continue;
+        for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+            if (!slot2.hasStack() || !ItemStack.areItemsAndComponentsEqual((ItemStack)slot2.getStack(), (ItemStack)itemStack) || slot2.getStack().getCount() >= slot2.getStack().getMaxCount()) continue;
             slot = slot2;
             break;
         }
         if (slot == null) {
-            for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.method_31548())) {
-                if (slot2.method_7681()) continue;
+            for (Slot slot2 : vxl.own(screenHandler, clientPlayerEntity.getInventory())) {
+                if (slot2.hasStack()) continue;
                 slot = slot2;
                 break;
             }
@@ -1172,12 +1172,12 @@ public final class qsw {
         if (slot == null) {
             return false;
         }
-        vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7790);
+        vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.PICKUP);
         return true;
     }
 
     private boolean qwa(PlayerInventory playerInventory) {
-        return qpw.count(playerInventory, Items.field_8477) >= 25 || qpw.count(playerInventory, Items.field_8695) >= this.qwb(playerInventory) + 9 || qpw.count(playerInventory, Items.field_8397) >= 9;
+        return qpw.count(playerInventory, Items.DIAMOND) >= 25 || qpw.count(playerInventory, Items.GOLD_INGOT) >= this.qwb(playerInventory) + 9 || qpw.count(playerInventory, Items.GOLD_NUGGET) >= 9;
     }
 
     private int qwb(PlayerInventory playerInventory) {
@@ -1199,7 +1199,7 @@ public final class qsw {
                     this.qus(qst.XP_TAKE, l);
                     return;
                 }
-                if (this.qwd(clientPlayerEntity.method_31548())) {
+                if (this.qwd(clientPlayerEntity.getInventory())) {
                     ++this.quo;
                     this.quu(wap.s(a.d("\u78b6\u011b\u8bc5\u15f1\u9e64\u18d8\ua290\u2b61\ub526\u3f9e\ub85b\u4279\uccfc\u555e\udf02\u59bd\ue3bd\u6c76\uf6c4\u70c1\uf977\u8333\u0dd4", -1436902171, 1496704048), a.c(-871608073, "\u54de\u2d13\ua7b4\u39b9\ub265\u34d8\u8efd\u070e\u9d49\u13e2\u9435\u6e47\ue0ea\u7924\uf374\u7586\ucfb0\u406c\udeb3\u5cff\ud505\uab44")) + n + wap.s(a.d("\ud6b1\u8f34\u25d3\ubbe1\u3027\ub685\u0cd1\u8532\u1b70\u91c6\u161c\uec2a\u62b0\ufb03\u714d\uf7ab", 1155402103, 168484854), a.c(-1488204453, "\ucd76\u94f3\u3e14\ua47f\u2fd2\ua913\u1334\u9ac6\u049d\u8a4f\u0989\uf384\u7d4b")));
                     this.qtu = true;
@@ -1214,22 +1214,22 @@ public final class qsw {
     }
 
     private boolean qwd(PlayerInventory playerInventory) {
-        return this.qts != null && this.qup < 2 && !this.qti.xpFailed() && qpw.count(playerInventory, Items.field_8603) > 2;
+        return this.qts != null && this.qup < 2 && !this.qti.xpFailed() && qpw.count(playerInventory, Items.DIAMOND_BLOCK) > 2;
     }
 
     private boolean qwe(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, qof qof2, qsp qsp2, long l) {
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         switch (this.quf) {
             case 0: {
                 if (qof2.busy()) {
                     return false;
                 }
-                if (minecraftClient.field_1755 != null) {
+                if (minecraftClient.currentScreen != null) {
                     this.qvn(minecraftClient);
                     return false;
                 }
                 int n = qpw.pickaxe(playerInventory);
-                int n2 = qpw.find(playerInventory, Items.field_8287);
+                int n2 = qpw.find(playerInventory, Items.EXPERIENCE_BOTTLE);
                 if (!this.needsRepair(clientPlayerEntity) || n < 0 || n2 < 0) {
                     if (this.needsRepair(clientPlayerEntity) && n2 < 0 && n >= 0) {
                         if (this.qtt == 0 || this.qtr == null) {
@@ -1241,14 +1241,14 @@ public final class qsw {
                     return true;
                 }
                 this.qug = n;
-                int n3 = playerInventory.method_67532();
+                int n3 = playerInventory.getSelectedSlot();
                 if (n2 < 9 && n2 != n) {
-                    playerInventory.method_61496(n2);
+                    playerInventory.setSelectedSlot(n2);
                     qof2.swaps(n, 40);
                 } else {
                     if (n3 == n) {
                         n3 = n == 8 ? 7 : n + 1;
-                        playerInventory.method_61496(n3);
+                        playerInventory.setSelectedSlot(n3);
                     }
                     qof2.swaps(n, 40, n2, n3);
                 }
@@ -1260,64 +1260,64 @@ public final class qsw {
                 if (qof2.busy()) {
                     return false;
                 }
-                if (!clientPlayerEntity.method_6079().method_31573(ItemTags.field_42614) || !clientPlayerEntity.method_6047().method_31574(Items.field_8287)) {
+                if (!clientPlayerEntity.getOffHandStack().isIn(ItemTags.PICKAXES) || !clientPlayerEntity.getMainHandStack().isOf(Items.EXPERIENCE_BOTTLE)) {
                     this.quu(a.b("\u52e0\u2b59\ua59f\u3f8f\ub425\u3296\u88c8\u052a\u9f67\u15d3\u9278\u6804\ue6dd\u7b00\uf549\u73ba\uc98d\u4626\udcec\u5ede\ud33b\ua966\u23cb\ubc08\u3a07\ub0aa\u0967\u8735\u1dcf\u9ff0\u1023\ueef1\u64c7\ufd4f", 1220826879));
                     this.quf = 4;
                     return false;
                 }
                 this.quf = 2;
-                this.qui = qpw.durability(clientPlayerEntity.method_6079());
+                this.qui = qpw.durability(clientPlayerEntity.getOffHandStack());
                 this.quj = l;
                 this.quh = l;
                 this.quk = l;
                 break;
             }
             case 2: {
-                if (minecraftClient.field_1755 instanceof HandledScreen) {
+                if (minecraftClient.currentScreen instanceof HandledScreen) {
                     this.qvn(minecraftClient);
                     return false;
                 }
-                BlockPos blockPos = qsw.qwf((World)minecraftClient.field_1687, clientPlayerEntity);
-                qsp2.at(minecraftClient, clientPlayerEntity, this, blockPos == null ? clientPlayerEntity.method_73189().method_1031(0.0, -1.0, 0.0) : new Vec3d((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 0.95, (double)blockPos.method_10260() + 0.5));
-                minecraftClient.field_1773.method_3190(1.0f);
-                if (!(clientPlayerEntity.method_36455() >= 60.0f && qsw.qwh(minecraftClient)) && l - this.quk <= 3000L) break;
+                BlockPos blockPos = qsw.qwf((World)minecraftClient.world, clientPlayerEntity);
+                qsp2.at(minecraftClient, clientPlayerEntity, this, blockPos == null ? clientPlayerEntity.getEntityPos().add(0.0, -1.0, 0.0) : new Vec3d((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.95, (double)blockPos.getZ() + 0.5));
+                minecraftClient.gameRenderer.updateCrosshairTarget(1.0f);
+                if (!(clientPlayerEntity.getPitch() >= 60.0f && qsw.qwh(minecraftClient)) && l - this.quk <= 3000L) break;
                 this.quf = 3;
                 this.quj = l;
-                InputUtil.Key key = KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.field_1690.field_1904);
-                if (key.equals((Object)InputUtil.field_16237)) break;
-                KeyBinding.method_1420((InputUtil.Key)key);
+                InputUtil.Key key = KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.options.useKey);
+                if (key.equals((Object)InputUtil.UNKNOWN_KEY)) break;
+                KeyBinding.onKeyPressed((InputUtil.Key)key);
                 break;
             }
             case 3: {
-                if (minecraftClient.field_1755 instanceof HandledScreen || !qsw.qwh(minecraftClient)) {
+                if (minecraftClient.currentScreen instanceof HandledScreen || !qsw.qwh(minecraftClient)) {
                     this.qwi(minecraftClient);
                     this.qvn(minecraftClient);
                     this.quf = 2;
                     this.quk = l;
                     return false;
                 }
-                BlockPos blockPos = qsw.qwf((World)minecraftClient.field_1687, clientPlayerEntity);
-                qsp2.at(minecraftClient, clientPlayerEntity, this, blockPos == null ? clientPlayerEntity.method_73189().method_1031(0.0, -1.0, 0.0) : new Vec3d((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 0.95, (double)blockPos.method_10260() + 0.5));
-                int n = qpw.durability(clientPlayerEntity.method_6079());
+                BlockPos blockPos = qsw.qwf((World)minecraftClient.world, clientPlayerEntity);
+                qsp2.at(minecraftClient, clientPlayerEntity, this, blockPos == null ? clientPlayerEntity.getEntityPos().add(0.0, -1.0, 0.0) : new Vec3d((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.95, (double)blockPos.getZ() + 0.5));
+                int n = qpw.durability(clientPlayerEntity.getOffHandStack());
                 if (trace != null && (l - this.quh) % 1000L < 50L) {
-                    qsw.log(a.b("\u318b\u482d\uc2eb\u5c8b\ud754\u51fe\uebff\u6243\ufc10\u76a9\uf17d\u0b5f", -328584715) + clientPlayerEntity.method_6047() + a.c(-1027822192, "\uadb5\ud44b\u5e91\uc0e0\u4b6c") + clientPlayerEntity.method_6079() + a.b("\u92c5\ueb30\u61f2\uff84\u741c", 1642238688) + n + a.c(1344006376, "\ue8cf\u912e\u1be4\u8588\u0e48\u88f2\u32f4") + (int)clientPlayerEntity.method_36455() + a.d("\u2290\u5b74\ud1a1\u4fc6\uc449", 843570811, 1289223374) + minecraftClient.field_1690.field_1904.method_1434() + a.d("\ud9db\ua03f\u2aea\ub481\u3f51\ub9e9\u03e0", -1169222540, -1663382136) + clientPlayerEntity.method_6115());
+                    qsw.log(a.b("\u318b\u482d\uc2eb\u5c8b\ud754\u51fe\uebff\u6243\ufc10\u76a9\uf17d\u0b5f", -328584715) + clientPlayerEntity.getMainHandStack() + a.c(-1027822192, "\uadb5\ud44b\u5e91\uc0e0\u4b6c") + clientPlayerEntity.getOffHandStack() + a.b("\u92c5\ueb30\u61f2\uff84\u741c", 1642238688) + n + a.c(1344006376, "\ue8cf\u912e\u1be4\u8588\u0e48\u88f2\u32f4") + (int)clientPlayerEntity.getPitch() + a.d("\u2290\u5b74\ud1a1\u4fc6\uc449", 843570811, 1289223374) + minecraftClient.options.useKey.isPressed() + a.d("\ud9db\ua03f\u2aea\ub481\u3f51\ub9e9\u03e0", -1169222540, -1663382136) + clientPlayerEntity.isUsingItem());
                 }
                 if (n > this.qui) {
                     this.qui = n;
                     this.quj = l;
                 }
-                if (!clientPlayerEntity.method_6079().method_31573(ItemTags.field_42614) || n >= this.repairTo) {
+                if (!clientPlayerEntity.getOffHandStack().isIn(ItemTags.PICKAXES) || n >= this.repairTo) {
                     this.quf = 4;
                     return false;
                 }
-                if (!clientPlayerEntity.method_6047().method_31574(Items.field_8287)) {
-                    int n4 = qpw.find(playerInventory, Items.field_8287);
+                if (!clientPlayerEntity.getMainHandStack().isOf(Items.EXPERIENCE_BOTTLE)) {
+                    int n4 = qpw.find(playerInventory, Items.EXPERIENCE_BOTTLE);
                     if (n4 < 0) {
                         this.qum = true;
                         this.quf = 4;
                     } else if (!qof2.busy()) {
                         this.qwi(minecraftClient);
-                        qof2.swaps(n4, playerInventory.method_67532());
+                        qof2.swaps(n4, playerInventory.getSelectedSlot());
                         this.quf = 1;
                     }
                     return false;
@@ -1340,7 +1340,7 @@ public final class qsw {
                 if (qof2.busy()) {
                     return false;
                 }
-                if (clientPlayerEntity.method_6079().method_31573(ItemTags.field_42614)) {
+                if (clientPlayerEntity.getOffHandStack().isIn(ItemTags.PICKAXES)) {
                     qof2.swaps(this.qug, 40);
                 }
                 this.quf = 5;
@@ -1361,31 +1361,31 @@ public final class qsw {
     }
 
     private static BlockPos qwf(World world, ClientPlayerEntity clientPlayerEntity) {
-        BlockPos blockPos = clientPlayerEntity.method_24515().method_10074();
-        for (BlockPos blockPos2 : BlockPos.method_25996((BlockPos)blockPos, (int)1, (int)0, (int)1)) {
+        BlockPos blockPos = clientPlayerEntity.getBlockPos().down();
+        for (BlockPos blockPos2 : BlockPos.iterateOutwards((BlockPos)blockPos, (int)1, (int)0, (int)1)) {
             if (!qsw.qwg(world, blockPos2)) continue;
-            return blockPos2.method_10062();
+            return blockPos2.toImmutable();
         }
         return null;
     }
 
     private static boolean qwg(World world, BlockPos blockPos) {
-        BlockState blockState = world.method_8320(blockPos);
-        return blockState.method_26212((BlockView)world, blockPos) && !blockState.method_31709() && blockState.method_26196(world, blockPos) == null;
+        BlockState blockState = world.getBlockState(blockPos);
+        return blockState.isSolidBlock((BlockView)world, blockPos) && !blockState.hasBlockEntity() && blockState.createScreenHandlerFactory(world, blockPos) == null;
     }
 
     private static boolean qwh(MinecraftClient minecraftClient) {
         BlockHitResult blockHitResult;
-        HitResult hitResult = minecraftClient.field_1765;
-        if (!(hitResult instanceof BlockHitResult) || (blockHitResult = (BlockHitResult)hitResult).method_17783() != HitResult.Type.field_1332) {
+        HitResult hitResult = minecraftClient.crosshairTarget;
+        if (!(hitResult instanceof BlockHitResult) || (blockHitResult = (BlockHitResult)hitResult).getType() != HitResult.Type.BLOCK) {
             return true;
         }
-        return qsw.qwg((World)minecraftClient.field_1687, blockHitResult.method_17777());
+        return qsw.qwg((World)minecraftClient.world, blockHitResult.getBlockPos());
     }
 
     private void qwi(MinecraftClient minecraftClient) {
-        if (this.qul && minecraftClient.field_1690 != null && minecraftClient.method_22683() != null) {
-            minecraftClient.field_1690.field_1904.method_23481(vzz.isPhysicallyDown(minecraftClient, minecraftClient.field_1690.field_1904));
+        if (this.qul && minecraftClient.options != null && minecraftClient.getWindow() != null) {
+            minecraftClient.options.useKey.setPressed(vzz.isPhysicallyDown(minecraftClient, minecraftClient.options.useKey));
         }
         this.qul = false;
     }

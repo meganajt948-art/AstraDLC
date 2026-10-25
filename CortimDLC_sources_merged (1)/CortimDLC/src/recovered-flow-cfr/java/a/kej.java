@@ -133,16 +133,16 @@ public final class kej {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private static void ket(DrawContext drawContext, ClickableWidget clickableWidget, int n, int n2, float f, float f2) {
-        if (!clickableWidget.field_22764) {
+        if (!clickableWidget.visible) {
             return;
         }
-        float f3 = clickableWidget.method_75798();
-        clickableWidget.method_25350(0.0f);
+        float f3 = clickableWidget.getAlpha();
+        clickableWidget.setAlpha(0.0f);
         try {
-            clickableWidget.method_25394(drawContext, n, n2, f);
+            clickableWidget.render(drawContext, n, n2, f);
         }
         finally {
-            clickableWidget.method_25350(f3);
+            clickableWidget.setAlpha(f3);
         }
         kej.keu(drawContext, clickableWidget, n, n2, f3, f2);
     }
@@ -163,26 +163,26 @@ public final class kej {
         if (f5 <= 0.0f) {
             return;
         }
-        boolean bl2 = clickableWidget2.field_22763;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        boolean bl3 = clickableWidget2.method_25370() && minecraftClient.method_48186().method_48183();
-        float f6 = keg2.hover.step(bl2 && (clickableWidget2.method_49606() || bl3), f4);
-        boolean bl4 = bl = GLFW.glfwGetMouseButton((long)minecraftClient.method_22683().method_4490(), (int)0) == 1;
-        if (bl && !keg2.down && bl2 && clickableWidget2.method_49606()) {
+        boolean bl2 = clickableWidget2.active;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        boolean bl3 = clickableWidget2.isFocused() && minecraftClient.getNavigationType().isKeyboard();
+        float f6 = keg2.hover.step(bl2 && (clickableWidget2.isHovered() || bl3), f4);
+        boolean bl4 = bl = GLFW.glfwGetMouseButton((long)minecraftClient.getWindow().getHandle(), (int)0) == 1;
+        if (bl && !keg2.down && bl2 && clickableWidget2.isHovered()) {
             keg2.pressAt = f3;
-            keg2.px = n - clickableWidget2.method_46426();
+            keg2.px = n - clickableWidget2.getX();
         }
         keg2.down = bl;
         float f7 = vcq.clamp01((f3 - keg2.pressAt) / 0.5f);
         float f8 = f7 < 1.0f ? (float)Math.sin(Math.PI * (double)vcq.clamp01(f7 * 2.6f)) : 0.0f;
-        float f9 = clickableWidget2.method_25368();
-        float f10 = clickableWidget2.method_25364();
+        float f9 = clickableWidget2.getWidth();
+        float f10 = clickableWidget2.getHeight();
         float f11 = Math.min(f10 * 0.5f, 5.0f);
         int n3 = kbs.selected().accent;
         float f12 = 1.0f - 0.035f * f8;
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
-        matrix3x2fStack.translate((float)clickableWidget2.method_46426() + f9 * 0.5f, (float)clickableWidget2.method_46427() + f10 * 0.5f + (1.0f - f5) * 4.0f);
+        matrix3x2fStack.translate((float)clickableWidget2.getX() + f9 * 0.5f, (float)clickableWidget2.getY() + f10 * 0.5f + (1.0f - f5) * 4.0f);
         matrix3x2fStack.scale(f12, f12);
         matrix3x2fStack.translate(-f9 * 0.5f, -f10 * 0.5f);
         float f13 = f * f5;
@@ -235,7 +235,7 @@ public final class kej {
     }
 
     private static void kew(DrawContext drawContext, ClickableWidget clickableWidget, float f, float f2, float f3, boolean bl, float f4) {
-        Text text = clickableWidget.method_25369();
+        Text text = clickableWidget.getMessage();
         String string = text.getString();
         int n = bl ? kce.mix(15133683, 0xFFFFFF, f3) : 8028814;
         vdn vdn2 = veo.semibold(6.9f);
@@ -244,22 +244,22 @@ public final class kej {
             vdn2.drawCentered(drawContext, string2, f * 0.5f, vdn2.centerTop(f2 * 0.5f), kej.kez(n, 1.0f));
             return;
         }
-        TextRenderer textRenderer = MinecraftClient.method_1551().field_1772;
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         int n2 = Math.round(255.0f * Math.max(0.0f, Math.min(1.0f, f4)));
         if (n2 < 5) {
             return;
         }
-        int n3 = textRenderer.method_27525((StringVisitable)text);
+        int n3 = textRenderer.getWidth((StringVisitable)text);
         if ((float)n3 <= f - 6.0f) {
-            drawContext.method_51439(textRenderer, text, Math.round((f - (float)n3) * 0.5f), Math.round(f2 * 0.5f - 4.0f), n2 << 24 | 0xFFFFFF, false);
+            drawContext.drawText(textRenderer, text, Math.round((f - (float)n3) * 0.5f), Math.round(f2 * 0.5f - 4.0f), n2 << 24 | 0xFFFFFF, false);
         } else {
-            String string3 = textRenderer.method_27523(string, Math.max(0, Math.round(f - 6.0f) - textRenderer.method_1727(a.b("\u6cf3\u1542\u9f91", -825398050)))) + a.b("\u3b31\u4280\uc853", -478790884);
-            drawContext.method_51433(textRenderer, string3, Math.round((f - (float)textRenderer.method_1727(string3)) * 0.5f), Math.round(f2 * 0.5f - 4.0f), n2 << 24 | n & 0xFFFFFF, false);
+            String string3 = textRenderer.trimToWidth(string, Math.max(0, Math.round(f - 6.0f) - textRenderer.getWidth(a.b("\u6cf3\u1542\u9f91", -825398050)))) + a.b("\u3b31\u4280\uc853", -478790884);
+            drawContext.drawText(textRenderer, string3, Math.round((f - (float)textRenderer.getWidth(string3)) * 0.5f), Math.round(f2 * 0.5f - 4.0f), n2 << 24 | n & 0xFFFFFF, false);
         }
     }
 
     private static boolean kex(Text text) {
-        Optional optional = text.method_27658((style, string) -> style.method_10973() != null ? Optional.of(Boolean.TRUE) : Optional.empty(), Style.field_24360);
+        Optional optional = text.visit((style, string) -> style.getColor() != null ? Optional.of(Boolean.TRUE) : Optional.empty(), Style.EMPTY);
         return optional.isEmpty();
     }
 

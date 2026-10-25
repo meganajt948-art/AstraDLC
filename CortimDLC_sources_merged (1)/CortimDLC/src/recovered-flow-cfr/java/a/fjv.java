@@ -91,14 +91,14 @@ final class fjv {
                 field.setAccessible(true);
                 field.setFloat(null, Float.NaN);
             }
-            minecraftClient.method_1507((Screen)new hlc());
+            minecraftClient.setScreen((Screen)new hlc());
         }
         if (n == 20) {
             hrt.open();
         }
         if (n == 40) {
             fjv.fkl(minecraftClient, a.c(1696401020, "\u060f\u7fb2\uf562\u6b13\ue0cd\u667a\udc3e\u55d4\ucb96\u4178\uc6e3\u3c93\ub249\u2be5\ua1ad\u2741"));
-            minecraftClient.method_1507(null);
+            minecraftClient.setScreen(null);
         }
         if (n == 60) {
             String[] stringArray = fjv.fke();
@@ -113,13 +113,13 @@ final class fjv {
         if (n == 220) {
             fjv.fkk(minecraftClient);
         }
-        if (fkb > 0 && minecraftClient.field_1755 instanceof GameMenuScreen) {
-            minecraftClient.method_1507(null);
+        if (fkb > 0 && minecraftClient.currentScreen instanceof GameMenuScreen) {
+            minecraftClient.setScreen(null);
         }
         if (n > 60 && n % 100 == 0) {
-            System.out.println(a.c(-2021947974, "\u85c8\ufc75\u76a5\ue8d4\u630a\ue5bd\u5ff9\ud613\u4851\uc2b2\u4535\ubf55\u3194\ua822\u2225\ua480\u1e86") + n + a.d("\u3caa\u455a\ucf98\u51e9\uda22\u5c9a\ue6df\u6f60", -1049685970, -754111316) + fjv.fkf(minecraftClient, Items.field_8463) + a.b("\u3501\u4ce4\uc62c\u5846\ud380\u5539\uef74\u66cb", 1608332585) + fjv.fkf(minecraftClient, Items.field_8288) + a.c(1285554454, "\u013e\u78cc\uf210\u6c64\ue7b9\u6100\udb4b\u52f4") + fjz + a.b("\uf72b\u8ec9\u040c\u9a79\u11bd\u971d\u2d45\ua4b9\u3af0\ub00f", 1173812993) + fka);
+            System.out.println(a.c(-2021947974, "\u85c8\ufc75\u76a5\ue8d4\u630a\ue5bd\u5ff9\ud613\u4851\uc2b2\u4535\ubf55\u3194\ua822\u2225\ua480\u1e86") + n + a.d("\u3caa\u455a\ucf98\u51e9\uda22\u5c9a\ue6df\u6f60", -1049685970, -754111316) + fjv.fkf(minecraftClient, Items.GOLDEN_APPLE) + a.b("\u3501\u4ce4\uc62c\u5846\ud380\u5539\uef74\u66cb", 1608332585) + fjv.fkf(minecraftClient, Items.TOTEM_OF_UNDYING) + a.c(1285554454, "\u013e\u78cc\uf210\u6c64\ue7b9\u6100\udb4b\u52f4") + fjz + a.b("\uf72b\u8ec9\u040c\u9a79\u11bd\u971d\u2d45\ua4b9\u3af0\ub00f", 1173812993) + fka);
         }
-        boolean bl2 = bl = fjv.fkf(minecraftClient, Items.field_8463) >= 16 && fjv.fkf(minecraftClient, Items.field_8288) >= 1 && minecraftClient.field_1755 == null && mkl.collecting() == null;
+        boolean bl2 = bl = fjv.fkf(minecraftClient, Items.GOLDEN_APPLE) >= 16 && fjv.fkf(minecraftClient, Items.TOTEM_OF_UNDYING) >= 1 && minecraftClient.currentScreen == null && mkl.collecting() == null;
         if (fkb > 0 && (bl || n > 2460)) {
             for (String string : fjy) {
                 System.out.println(a.c(-1205244786, "\u6cfc\u1541\u9f91\u01e0\u8a3e\u0c89\ub6cd\u3f27\ua165\u2b86\uac17\u566b\ud8a6\u4105\ucb59\u4db4\uf7af") + string);
@@ -143,51 +143,51 @@ final class fjv {
     private static int fkf(MinecraftClient minecraftClient, Item item) {
         int n = 0;
         for (int i = 0; i < 41; ++i) {
-            ItemStack itemStack = minecraftClient.field_1724.method_31548().method_5438(i);
-            if (!itemStack.method_31574(item)) continue;
-            n += itemStack.method_7947();
+            ItemStack itemStack = minecraftClient.player.getInventory().getStack(i);
+            if (!itemStack.isOf(item)) continue;
+            n += itemStack.getCount();
         }
         return n;
     }
 
     private static void fkg(MinecraftClient minecraftClient) {
-        minecraftClient.field_1690.field_1837 = false;
+        minecraftClient.options.pauseOnLostFocus = false;
         fjw.clear();
-        fjw.add(List.of(new fjo(Items.field_8463, 16, 100, false), new fjo(Items.field_8463, 8, 90, false), new fjo(Items.field_8477, 1, 5, false)));
-        fjw.add(List.of(new fjo(Items.field_8463, 16, 80, false), new fjo(Items.field_8463, 64, 10, false)));
-        fjw.add(List.of(new fjo(Items.field_8463, 16, 50, false), new fjo(Items.field_8463, 16, 120, false)));
+        fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 100, false), new fjo(Items.GOLDEN_APPLE, 8, 90, false), new fjo(Items.DIAMOND, 1, 5, false)));
+        fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 80, false), new fjo(Items.GOLDEN_APPLE, 64, 10, false)));
+        fjw.add(List.of(new fjo(Items.GOLDEN_APPLE, 16, 50, false), new fjo(Items.GOLDEN_APPLE, 16, 120, false)));
         fjx.clear();
-        fjx.add(List.of(new fjo(Items.field_8288, 1, 5, true), new fjo(Items.field_8288, 1, 300, false)));
-        fjx.add(List.of(new fjo(Items.field_8288, 1, 200, false)));
+        fjx.add(List.of(new fjo(Items.TOTEM_OF_UNDYING, 1, 5, true), new fjo(Items.TOTEM_OF_UNDYING, 1, 300, false)));
+        fjx.add(List.of(new fjo(Items.TOTEM_OF_UNDYING, 1, 200, false)));
         fjy.clear();
-        minecraftClient.method_1576().execute(() -> minecraftClient.method_1576().method_3734().method_9235().register((LiteralArgumentBuilder)CommandManager.method_9247((String)a.c(-394057898, "\u2735\u5e8d")).then(CommandManager.method_9247((String)a.c(1943436757, "\u7da0\u0407\u8ed0\u10b2\u9b74\u1dce")).then(CommandManager.method_9244((String)a.b("\udf93", -140714013), (ArgumentType)StringArgumentType.greedyString()).executes(commandContext -> {
-            ServerPlayerEntity serverPlayerEntity = ((ServerCommandSource)commandContext.getSource()).method_9207();
+        minecraftClient.getServer().execute(() -> minecraftClient.getServer().getCommandManager().getDispatcher().register((LiteralArgumentBuilder)CommandManager.literal((String)a.c(-394057898, "\u2735\u5e8d")).then(CommandManager.literal((String)a.c(1943436757, "\u7da0\u0407\u8ed0\u10b2\u9b74\u1dce")).then(CommandManager.argument((String)a.b("\udf93", -140714013), (ArgumentType)StringArgumentType.greedyString()).executes(commandContext -> {
+            ServerPlayerEntity serverPlayerEntity = ((ServerCommandSource)commandContext.getSource()).getPlayerOrThrow();
             ++fka;
             String string = StringArgumentType.getString((CommandContext)commandContext, (String)a.b("\u73cf", -860523585));
             ArrayList arrayList = string.toLowerCase().contains(a.b("\ud87d\ua1b2\u2b6b\ub51f\u3ecc\ub879", -231809996)) ? fjw : (string.toLowerCase().contains(a.c(-307971912, "\ubcff\uc532\u4f9d\ud19b\u5a45")) ? fjx : new ArrayList());
             fjv.fkh(serverPlayerEntity, string, arrayList);
             return 1;
         })))));
-        minecraftClient.method_1562().method_45730(a.b("\udf80\ua637\u2ce8\ub291\u394e\ubffd\u05a5\u8c55\u124f\u98ad\u1f78\ue50e\u6bdd\uf273\u783f\ufed9\u449b", 1991761910));
-        minecraftClient.method_1562().method_45730(a.c(-1101271582, "\ued89\u9437\u1eed\u8098\u0b5c\u8dbf\u378c\ube4e"));
+        minecraftClient.getNetworkHandler().sendChatCommand(a.b("\udf80\ua637\u2ce8\ub291\u394e\ubffd\u05a5\u8c55\u124f\u98ad\u1f78\ue50e\u6bdd\uf273\u783f\ufed9\u449b", 1991761910));
+        minecraftClient.getNetworkHandler().sendChatCommand(a.c(-1101271582, "\ued89\u9437\u1eed\u8098\u0b5c\u8dbf\u378c\ube4e"));
     }
 
     private static void fkh(ServerPlayerEntity serverPlayerEntity, String string, List<List<fjo>> list) {
-        serverPlayerEntity.method_51469().method_8503().execute(() -> serverPlayerEntity.method_17355((NamedScreenHandlerFactory)new SimpleNamedScreenHandlerFactory((n, playerInventory, playerEntity) -> new fjf(n, playerInventory, string, list), (Text)Text.method_43470((String)(a.d("\ued0d\u94ef\u1e45\u8048\u0be1\u8d56\u3706\ube81\u24b5\uae9f\u29d7", 948621306, 1188898540) + string)))));
+        serverPlayerEntity.getEntityWorld().getServer().execute(() -> serverPlayerEntity.openHandledScreen((NamedScreenHandlerFactory)new SimpleNamedScreenHandlerFactory((n, playerInventory, playerEntity) -> new fjf(n, playerInventory, string, list), (Text)Text.literal((String)(a.d("\ued0d\u94ef\u1e45\u8048\u0be1\u8d56\u3706\ube81\u24b5\uae9f\u29d7", 948621306, 1188898540) + string)))));
     }
 
     private static ItemStack fki(fjo fjo2) {
         ItemStack itemStack = new ItemStack((ItemConvertible)fjo2.item(), fjo2.count());
-        itemStack.method_57379(DataComponentTypes.field_49632, (Object)new LoreComponent(List.of(Text.method_43470((String)a.d("\u93c7", -793090041, -862782495)), Text.method_43470((String)(a.d("\u858c\ufcac\u766d\ue818\u67c9\ue53b\u5b30\ud69d\u4899\uc232\u4566\ubfd5", 1343909004, -1735202389) + String.format(a.c(149046876, "\u467a\u3fc2\ub559"), fjo2.price() * fjo2.count()).replace(',', ' '))), Text.method_43470((String)a.d("\u129f\u6bbe\ue545\u7b6b\uf0c2\u7679\ucc2e\u45dd\udb85\u5147\ud2e8\u2883\ua627\u3fa0\ub5fa\u330b\u894d\u068b", 372596788, -494767586)))));
+        itemStack.set(DataComponentTypes.LORE, (Object)new LoreComponent(List.of(Text.literal((String)a.d("\u93c7", -793090041, -862782495)), Text.literal((String)(a.d("\u858c\ufcac\u766d\ue818\u67c9\ue53b\u5b30\ud69d\u4899\uc232\u4566\ubfd5", 1343909004, -1735202389) + String.format(a.c(149046876, "\u467a\u3fc2\ub559"), fjo2.price() * fjo2.count()).replace(',', ' '))), Text.literal((String)a.d("\u129f\u6bbe\ue545\u7b6b\uf0c2\u7679\ucc2e\u45dd\udb85\u5147\ud2e8\u2883\ua627\u3fa0\ub5fa\u330b\u894d\u068b", 372596788, -494767586)))));
         if (fjo2.glint()) {
-            itemStack.method_57379(DataComponentTypes.field_49641, (Object)true);
+            itemStack.set(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, (Object)true);
         }
         return itemStack;
     }
 
     private static ItemStack fkj(Item item, String string) {
         ItemStack itemStack = new ItemStack((ItemConvertible)item);
-        itemStack.method_57379(DataComponentTypes.field_49631, (Object)Text.method_43470((String)string));
+        itemStack.set(DataComponentTypes.CUSTOM_NAME, (Object)Text.literal((String)string));
         return itemStack;
     }
 
@@ -197,7 +197,7 @@ final class fjv {
 
     private static void fkl(MinecraftClient minecraftClient, String string) {
         System.out.println(a.d("\ub8cb\uc16c\u4bb6\ud5cd\u5e5c\ud8b9\u62fb\ueb1c\u7544\uffa1", -1257100161, -1836018483) + string);
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.c(1705350918, "\u9766\ueedd\u640d\ufa64\u71f6\uf758") + string + a.b("\ue0fe\u9911\u13dc\u8da4", -612441900)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.c(1705350918, "\u9766\ueedd\u640d\ufa64\u71f6\uf758") + string + a.b("\ue0fe\u9911\u13dc\u8da4", -612441900)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int pk(int n, int n2) {

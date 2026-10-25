@@ -269,8 +269,8 @@ extends kfe {
     }
 
     private void sff(MinecraftClient minecraftClient) {
-        minecraftClient.method_1483().method_4875(SoundEvents.field_14946.comp_3319(), SoundCategory.field_15252);
-        minecraftClient.method_1483().method_4875(SoundEvents.field_15020.comp_3319(), SoundCategory.field_15252);
+        minecraftClient.getSoundManager().stopSounds(SoundEvents.WEATHER_RAIN.id(), SoundCategory.WEATHER);
+        minecraftClient.getSoundManager().stopSounds(SoundEvents.WEATHER_RAIN_ABOVE.id(), SoundCategory.WEATHER);
         if (this.sex) {
             return;
         }
@@ -283,13 +283,13 @@ extends kfe {
                 }
             }
             for (Field field : this.sew) {
-                Object object2 = field.get(minecraftClient.field_1713);
+                Object object2 = field.get(minecraftClient.particleManager);
                 if (!(object2 instanceof Map)) continue;
                 Map map = (Map)object2;
                 for (Object v : map.values()) {
                     if (!(v instanceof ParticleRenderer)) continue;
                     ParticleRenderer particleRenderer = (ParticleRenderer)v;
-                    particleRenderer.method_74290().removeIf(particle -> particle.getClass() == RainSplashParticle.class);
+                    particleRenderer.getParticles().removeIf(particle -> particle.getClass() == RainSplashParticle.class);
                 }
             }
         }
@@ -304,19 +304,19 @@ extends kfe {
         if (sbp2 == null || !sbp2.isEnabled() || !sbp2.sev || worldRenderState == null) {
             return;
         }
-        worldRenderState.field_63085.field_63101.clear();
-        worldRenderState.field_63085.field_63102.clear();
-        worldRenderState.field_63085.field_63103 = 0.0f;
+        worldRenderState.weatherRenderState.rainPieces.clear();
+        worldRenderState.weatherRenderState.snowPieces.clear();
+        worldRenderState.weatherRenderState.intensity = 0.0f;
     }
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
         ++this.sdl;
-        ClientWorld clientWorld = minecraftClient.field_1687;
-        if (clientWorld == null || minecraftClient.field_1724 == null) {
+        ClientWorld clientWorld = minecraftClient.world;
+        if (clientWorld == null || minecraftClient.player == null) {
             return;
         }
-        if (this.sev && clientWorld.method_8430(1.0f) > 0.0f) {
+        if (this.sev && clientWorld.getRainGradient(1.0f) > 0.0f) {
             this.sff(minecraftClient);
         }
         long l = System.nanoTime();
@@ -330,19 +330,19 @@ extends kfe {
             return;
         }
         this.scs.clear();
-        for (PlayerEntity playerEntity : clientWorld.method_18456()) {
-            if (playerEntity.method_7325() || playerEntity.method_5858((Entity)minecraftClient.field_1724) > 2304.0) continue;
-            this.scs.add(playerEntity.method_5667());
-            this.sfg(playerEntity, l, playerEntity == minecraftClient.field_1724 ? 1.0f : 0.8f);
+        for (PlayerEntity playerEntity : clientWorld.getPlayers()) {
+            if (playerEntity.isSpectator() || playerEntity.squaredDistanceTo((Entity)minecraftClient.player) > 2304.0) continue;
+            this.scs.add(playerEntity.getUuid());
+            this.sfg(playerEntity, l, playerEntity == minecraftClient.player ? 1.0f : 0.8f);
         }
         this.scr.keySet().removeIf(uUID -> !this.scs.contains(uUID));
     }
 
     private void sfg(PlayerEntity playerEntity, long l, float f) {
-        sbh sbh2 = this.scr.computeIfAbsent(playerEntity.method_5667(), uUID -> new sbh());
-        double d = playerEntity.method_23317();
-        double d2 = playerEntity.method_23321();
-        boolean bl = playerEntity.method_24828();
+        sbh sbh2 = this.scr.computeIfAbsent(playerEntity.getUuid(), uUID -> new sbh());
+        double d = playerEntity.getX();
+        double d2 = playerEntity.getZ();
+        boolean bl = playerEntity.isOnGround();
         if (!sbh2.sbi) {
             sbh2.sbi = true;
             sbh2.sbk = d;
@@ -360,21 +360,21 @@ extends kfe {
             return;
         }
         if (bl && !sbh2.sbj) {
-            float f2 = playerEntity.method_36454() * ((float)Math.PI / 180);
+            float f2 = playerEntity.getYaw() * ((float)Math.PI / 180);
             float f3 = (float)(-Math.sin(f2));
             float f4 = (float)Math.cos(f2);
-            this.sfh(d, playerEntity.method_23318(), d2, f3, f4, 1.0f, l, f);
-            this.sfh(d, playerEntity.method_23318(), d2, f3, f4, -1.0f, l, f);
+            this.sfh(d, playerEntity.getY(), d2, f3, f4, 1.0f, l, f);
+            this.sfh(d, playerEntity.getY(), d2, f3, f4, -1.0f, l, f);
             sbh2.sbk = d;
             sbh2.sbl = d2;
         } else if (bl) {
             double d6;
-            double d7 = playerEntity.method_5715() ? 0.42 : (d6 = playerEntity.method_5624() ? 0.85 : 0.62);
+            double d7 = playerEntity.isSneaking() ? 0.42 : (d6 = playerEntity.isSprinting() ? 0.85 : 0.62);
             if (d5 >= d6) {
                 float f5 = (float)(d3 / d5);
                 float f6 = (float)(d4 / d5);
                 sbh2.sbm = -sbh2.sbm;
-                this.sfh(d, playerEntity.method_23318(), d2, f5, f6, sbh2.sbm, l, f);
+                this.sfh(d, playerEntity.getY(), d2, f5, f6, sbh2.sbm, l, f);
                 sbh2.sbk = d;
                 sbh2.sbl = d2;
             }
@@ -407,9 +407,9 @@ extends kfe {
         this.sek = false;
         this.sei = 0;
         this.sej = false;
-        ClientWorld clientWorld = minecraftClient.field_1687;
-        Camera camera = minecraftClient.field_1773.method_19418();
-        this.sds = clientWorld != null && clientWorld.method_8597().comp_5220() == DimensionType.Skybox.field_64386;
+        ClientWorld clientWorld = minecraftClient.world;
+        Camera camera = minecraftClient.gameRenderer.getCamera();
+        this.sds = clientWorld != null && clientWorld.getDimension().skybox() == DimensionType.Skybox.OVERWORLD;
         this.sev = false;
         vbb.wantEntityMask(!this.sfd() || this.sds);
         boolean bl = this.sds && this.sbs.is("Summer");
@@ -425,7 +425,7 @@ extends kfe {
             this.see.clear();
             this.sed.reset();
         }
-        if (clientWorld == null || minecraftClient.field_1724 == null || !camera.method_19332() || camera.method_19334() != CameraSubmersionType.field_27888) {
+        if (clientWorld == null || minecraftClient.player == null || !camera.isReady() || camera.getSubmersionType() != CameraSubmersionType.NONE) {
             this.sdm = 0L;
             this.sdb = null;
             return;
@@ -436,20 +436,20 @@ extends kfe {
         this.sdn = (this.sdn + f7) % 3600.0f;
         this.sdp = f7;
         this.sdt += (double)f7;
-        float f8 = minecraftClient.method_61966().method_60637(false);
-        Vec3d vec3d = camera.method_71156();
-        int n = (int)Math.floor(vec3d.field_1352);
-        int n2 = (int)Math.floor(vec3d.field_1351);
-        int n3 = (int)Math.floor(vec3d.field_1350);
+        float f8 = minecraftClient.getRenderTickCounter().getTickProgress(false);
+        Vec3d vec3d = camera.getCameraPos();
+        int n = (int)Math.floor(vec3d.x);
+        int n2 = (int)Math.floor(vec3d.y);
+        int n3 = (int)Math.floor(vec3d.z);
         int n4 = 64;
         if (!this.sdg || Math.abs(n - (this.sdj + n4)) > 24 || Math.abs(n3 - (this.sdk + n4)) > 24 || this.sdl >= 40) {
             this.sfs(clientWorld, n - n4, n3 - n4);
         }
-        this.scw.rotation((Quaternionfc)camera.method_23767());
-        EnvironmentAttributeInterpolator environmentAttributeInterpolator = camera.method_75756();
-        this.sdr = f6 = clientWorld.method_8430(f8);
+        this.scw.rotation((Quaternionfc)camera.getRotation());
+        EnvironmentAttributeInterpolator environmentAttributeInterpolator = camera.getEnvironmentAttributeInterpolator();
+        this.sdr = f6 = clientWorld.getRainGradient(f8);
         if (this.sds) {
-            object = (Float)environmentAttributeInterpolator.method_75689(EnvironmentAttributes.field_63748, f8);
+            object = (Float)environmentAttributeInterpolator.get(EnvironmentAttributes.CLOUD_HEIGHT_VISUAL, f8);
             this.sdq = object == null || ((Float)object).isNaN() ? 192.33f : ((Float)object).floatValue();
         }
         object = new float[]{0.0f, 1.0f, 0.0f, 0.0f};
@@ -457,8 +457,8 @@ extends kfe {
         float[] fArray2 = new float[]{0.5f, 0.65f, 0.9f};
         if (this.sds) {
             f5 = Math.max(0.0f, 1.0f - 0.85f * f6);
-            f4 = ((Float)environmentAttributeInterpolator.method_75689(EnvironmentAttributes.field_64340, f8)).floatValue() * ((float)Math.PI / 180);
-            f3 = ((Float)environmentAttributeInterpolator.method_75689(EnvironmentAttributes.field_64341, f8)).floatValue() * ((float)Math.PI / 180);
+            f4 = ((Float)environmentAttributeInterpolator.get(EnvironmentAttributes.SUN_ANGLE_VISUAL, f8)).floatValue() * ((float)Math.PI / 180);
+            f3 = ((Float)environmentAttributeInterpolator.get(EnvironmentAttributes.MOON_ANGLE_VISUAL, f8)).floatValue() * ((float)Math.PI / 180);
             f2 = (float)Math.cos(f4);
             f = (float)Math.cos(f3);
             if (f2 > -0.05f) {
@@ -469,15 +469,15 @@ extends kfe {
                 object = new float[]{(float)(-Math.sin(f3)), f, 0.0f, sbp.sfy(-0.05f, 0.15f, f) * f5 * 0.35f};
                 fArray = new float[]{0.6f, 0.7f, 1.0f};
             }
-            int n5 = (Integer)environmentAttributeInterpolator.method_75689(EnvironmentAttributes.field_63746, f8);
+            int n5 = (Integer)environmentAttributeInterpolator.get(EnvironmentAttributes.SKY_COLOR_VISUAL, f8);
             fArray2 = new float[]{(float)(n5 >> 16 & 0xFF) / 255.0f, (float)(n5 >> 8 & 0xFF) / 255.0f, (float)(n5 & 0xFF) / 255.0f};
         }
         f5 = this.sds ? uhs.daylight(minecraftClient) : 0.6f;
         f4 = uhs.boost(minecraftClient);
         f3 = uhs.light(minecraftClient);
-        f2 = (float)clientWorld.method_8314(LightType.field_9284, camera.method_19328()) / 15.0f;
+        f2 = (float)clientWorld.getLightLevel(LightType.SKY, camera.getBlockPos()) / 15.0f;
         this.sdo = this.sdo < 0.0f ? f2 : this.sdo + (f2 - this.sdo) * Math.min(1.0f, f7 * 2.0f);
-        f = Math.min((float)minecraftClient.field_1690.method_38521() * 16.0f, 200.0f);
+        f = Math.min((float)minecraftClient.options.getClampedViewDistance() * 16.0f, 200.0f);
         if (this.sfd()) {
             this.sfk(minecraftClient, clientWorld, camera, vec3d, n, n2, n3, l, f7, (float[])object, fArray, f4, f5, f);
         } else {
@@ -505,16 +505,16 @@ extends kfe {
         this.sdd = (this.sdd + d * d3) % 65536.0;
         this.sde = (this.sde + d2 * d3) % 65536.0;
         this.sdf = (this.sdf + 0.012 * (double)f8 * (double)f) % 64.0;
-        boolean bl2 = bl = this.sdb != null && this.sdb.method_1025(vec3d) < 64.0;
+        boolean bl2 = bl = this.sdb != null && this.sdb.squaredDistanceTo(vec3d) < 64.0;
         if (this.sdb == null) {
-            this.sda.set((Quaternionfc)camera.method_23767());
+            this.sda.set((Quaternionfc)camera.getRotation());
             this.sdb = vec3d;
         }
         this.scy.rotation((Quaternionfc)this.sda.conjugate(new Quaternionf()));
-        float f9 = (float)(vec3d.field_1352 - this.sdb.field_1352);
-        float f10 = (float)(vec3d.field_1351 - this.sdb.field_1351);
-        float f11 = (float)(vec3d.field_1350 - this.sdb.field_1350);
-        this.sda.set((Quaternionfc)camera.method_23767());
+        float f9 = (float)(vec3d.x - this.sdb.x);
+        float f10 = (float)(vec3d.y - this.sdb.y);
+        float f11 = (float)(vec3d.z - this.sdb.z);
+        this.sda.set((Quaternionfc)camera.getRotation());
         this.sdb = vec3d;
         float f12 = switch (this.sco.get()) {
             case "Low" -> {
@@ -550,8 +550,8 @@ extends kfe {
         };
         float f13 = this.sdq;
         float f14 = (float)this.sce.get() * 0.85f;
-        float f15 = sbp.sfw(vec3d.field_1352 - this.sdd, 8192.0);
-        float f16 = sbp.sfw(vec3d.field_1350 - this.sde, 8192.0);
+        float f15 = sbp.sfw(vec3d.x - this.sdd, 8192.0);
+        float f16 = sbp.sfw(vec3d.z - this.sde, 8192.0);
         float f17 = (float)(d * d3);
         float f18 = (float)(d2 * d3);
         boolean bl3 = fArray2[2] > fArray2[0];
@@ -569,7 +569,7 @@ extends kfe {
             std140Builder.putMat4f((Matrix4fc)this.scw);
             std140Builder.putMat4f((Matrix4fc)this.scy);
             std140Builder.putVec4(f9, f10, f11, 0.0f);
-            std140Builder.putVec4(f15, (float)vec3d.field_1351, f16, f22);
+            std140Builder.putVec4(f15, (float)vec3d.y, f16, f22);
             std140Builder.putVec4(fArray4[0], fArray4[1], fArray4[2], fArray4[3]);
             std140Builder.putVec4(fArray5[0], fArray5[1], fArray5[2], bl3 ? 1.0f : 0.0f);
             std140Builder.putVec4(fArray6[0], fArray6[1], fArray6[2], f3);
@@ -578,7 +578,7 @@ extends kfe {
             std140Builder.putVec4(f19 * (1.0f - 0.6f * f22), f5, 0.0016f, f20 * (1.0f - 0.7f * f22));
             std140Builder.putVec4(f21, 7000.0f, f12, 0.0f);
             std140Builder.putVec4((float)n8, (float)n9, 128.0f, bl4 ? 1.0f : 0.0f);
-            std140Builder.putVec4((float)(vec3d.field_1352 - (double)n), (float)(vec3d.field_1351 - (double)n2), (float)(vec3d.field_1350 - (double)n3), (float)n2);
+            std140Builder.putVec4((float)(vec3d.x - (double)n), (float)(vec3d.y - (double)n2), (float)(vec3d.z - (double)n3), (float)n2);
             std140Builder.putVec4((float)n7, (float)n6, (float)n5, (float)n4);
         });
     }
@@ -631,14 +631,14 @@ extends kfe {
         this.sdz += (d3 * 0.94 + d2 * 0.34) * d4 * 2.4;
         float f14 = n4 == 0 && this.sds ? (float)this.sca.get() : 0.0f;
         float f15 = n4 == 0 && bl3 ? (float)this.scd.get() : 0.0f;
-        float f16 = Math.max(this.sdq - (float)vec3d.field_1351, 40.0f);
+        float f16 = Math.max(this.sdq - (float)vec3d.y, 40.0f);
         float f17 = !this.sds ? -1.0f : (0.0012f + 0.0068f * f9) * (0.55f + 0.45f * f14) * (1.0f + 0.5f * this.sdr);
-        float f18 = sbp.sfw((vec3d.field_1352 - this.sdw) / 80.0, 256.0);
-        float f19 = sbp.sfw((vec3d.field_1350 - this.sdx) / 80.0, 256.0);
-        float f20 = sbp.sfw((vec3d.field_1352 - this.sdw) / 640.0, 256.0);
-        float f21 = sbp.sfw((vec3d.field_1350 - this.sdx) / 640.0, 256.0);
-        float f22 = sbp.sfw((vec3d.field_1352 - this.sdy) / 28.0, 256.0);
-        float f23 = sbp.sfw((vec3d.field_1350 - this.sdz) / 28.0, 256.0);
+        float f18 = sbp.sfw((vec3d.x - this.sdw) / 80.0, 256.0);
+        float f19 = sbp.sfw((vec3d.z - this.sdx) / 80.0, 256.0);
+        float f20 = sbp.sfw((vec3d.x - this.sdw) / 640.0, 256.0);
+        float f21 = sbp.sfw((vec3d.z - this.sdx) / 640.0, 256.0);
+        float f22 = sbp.sfw((vec3d.x - this.sdy) / 28.0, 256.0);
+        float f23 = sbp.sfw((vec3d.z - this.sdz) / 28.0, 256.0);
         this.sea = (this.sea + 0.55 * (double)f11 * (double)this.sdp) % 256.0;
         this.seb = (this.seb + 0.9 * (double)f11 * (double)this.sdp) % 256.0;
         float f24 = (float)this.sea;
@@ -677,7 +677,7 @@ extends kfe {
         int[] nArray6 = nArray;
         int n7 = Math.round((float)nArray6[0] * f9);
         int n8 = Math.round((float)nArray6[1] * f9);
-        this.scx.rotation((Quaternionfc)minecraftClient.field_1773.method_19418().method_23767().conjugate(this.scz));
+        this.scx.rotation((Quaternionfc)minecraftClient.gameRenderer.getCamera().getRotation().conjugate(this.scz));
         this.sct.clear();
         if (n4 == 0) {
             this.sct.addAll(this.scq);
@@ -733,47 +733,47 @@ extends kfe {
         this.sem = (this.sem + d3 * d4) % 491520.0;
         this.sen = (this.sen + d2 * d4 * 2.4) % 1000000.0;
         this.seo = (this.seo + d3 * d4 * 2.4) % 1000000.0;
-        float f12 = Math.max(80.0f, Math.min(600.0f, this.sdq - (float)vec3d.field_1351 + 60.0f));
-        float f13 = sbp.sfw((vec3d.field_1352 - this.sel) / 240.0, 2048.0);
-        float f14 = sbp.sfw((vec3d.field_1350 - this.sem) / 240.0, 2048.0);
-        float f15 = sbp.sfw((vec3d.field_1352 - this.sen) * 0.0042307692307692315, 256.0);
-        float f16 = sbp.sfw((vec3d.field_1350 - this.seo) * 0.0042307692307692315, 256.0);
+        float f12 = Math.max(80.0f, Math.min(600.0f, this.sdq - (float)vec3d.y + 60.0f));
+        float f13 = sbp.sfw((vec3d.x - this.sel) / 240.0, 2048.0);
+        float f14 = sbp.sfw((vec3d.z - this.sem) / 240.0, 2048.0);
+        float f15 = sbp.sfw((vec3d.x - this.sen) * 0.0042307692307692315, 256.0);
+        float f16 = sbp.sfw((vec3d.z - this.seo) * 0.0042307692307692315, 256.0);
         float f17 = 1.0f + 0.35f * (float)Math.sin(this.sdt * 0.31) + 0.2f * (float)Math.sin(this.sdt * 0.83 + 1.1);
         float f18 = (1.0f + 1.4f * f17) * (0.4f + 0.6f * f6);
         float f19 = (float)d2 * f18;
         float f20 = (float)d3 * f18;
         float f21 = 8.5f;
-        float f22 = minecraftClient.method_1493() ? 0.0f : f;
+        float f22 = minecraftClient.isPaused() ? 0.0f : f;
         this.sep = (this.sep + (double)(f21 * f22)) % 54912.0;
         this.set = (this.set + (double)(f19 * f22)) % 6864.0;
         this.seu = (this.seu + (double)(f20 * f22)) % 6864.0;
         float f23 = sbp.sfw(this.set, 6864.0);
         float f24 = sbp.sfw(this.seu, 6864.0);
-        float f25 = sbp.sfw(vec3d.field_1352, 6864.0);
-        float f26 = sbp.sfw(vec3d.field_1350, 6864.0);
-        this.sed.update(f22, (float)this.sbu.get() * (0.35f + 0.65f * f7), vec3d, f12, Math.min((double)clientWorld.method_8615(), vec3d.field_1351 - 40.0));
-        boolean bl = (Boolean)minecraftClient.field_1690.method_41784().method_41753();
+        float f25 = sbp.sfw(vec3d.x, 6864.0);
+        float f26 = sbp.sfw(vec3d.z, 6864.0);
+        this.sed.update(f22, (float)this.sbu.get() * (0.35f + 0.65f * f7), vec3d, f12, Math.min((double)clientWorld.getSeaLevel(), vec3d.y - 40.0));
+        boolean bl = (Boolean)minecraftClient.options.getHideLightningFlashes().getValue();
         float f27 = this.sed.brightness() * (bl ? 0.15f : 1.0f);
         float f28 = Math.max(1.0f, this.sed.distance());
         float f29 = f27 * sbp.sfx(1.25f - f28 / 2600.0f, 0.25f, 1.0f) * 0.5f * (0.1f + 0.9f * this.ser);
         float f30 = this.sed.boltBrightness() * (bl ? 0.4f : 1.6f);
         float f31 = f27 * sbp.sfx(1.3f - f28 / 2000.0f, 0.15f, 1.0f) * (0.2f + 0.8f * f10) * 0.7f;
-        float f32 = minecraftClient.field_1773.method_32796();
+        float f32 = minecraftClient.gameRenderer.getFarPlaneDistance();
         float f33 = this.sfm(vec3d);
         float f34 = Math.min(1.0f, f32 * 0.8f / Math.max(1.0f, f33));
         if (!bl && f27 > 0.5f && f28 < 1500.0f) {
-            clientWorld.method_8509(1);
+            clientWorld.setLightningTicksLeft(1);
         }
-        float f35 = minecraftClient.field_1690.method_71978(SoundCategory.field_15250) * minecraftClient.field_1690.method_71978(SoundCategory.field_15252);
-        float f36 = f5 = minecraftClient.method_1493() ? 0.0f : (float)this.sbw.get() * f35;
+        float f35 = minecraftClient.options.getSoundVolume(SoundCategory.MASTER) * minecraftClient.options.getSoundVolume(SoundCategory.WEATHER);
+        float f36 = f5 = minecraftClient.isPaused() ? 0.0f : (float)this.sbw.get() * f35;
         while ((sti2 = this.sed.nextThunder()) != null) {
             this.sfo(camera, vec3d, sti2, f5);
         }
         float f37 = this.ser + (1.0f - this.ser) * 0.7f * Math.max(this.sdo, 0.0f);
         float f38 = sbp.sfy(0.35f, 1.0f, f6);
-        vss.listener(camera.method_19330());
+        vss.listener(camera.getYaw());
         vss.rain(f5 * f37 * f38 * 0.9f, f5 * f37 * Math.min(1.0f, f6 * 2.2f) * (1.0f - 0.55f * f38) * 1.5f, 1.0f - this.ser, this.sfp(vec3d));
-        float f39 = sbp.sfx((-camera.method_19329() + 15.0f) / 55.0f, 0.0f, 1.0f);
+        float f39 = sbp.sfx((-camera.getPitch() + 15.0f) / 55.0f, 0.0f, 1.0f);
         this.see.update(f22, this.sbx.get() ? f6 * this.ser * f39 * 2.6f : 0.0f, 1.0f - this.ser);
         float f40 = n4 == 0 ? 0.45f : (n4 == 1 ? 0.75f : 1.0f);
         int n5 = Math.round(10000.0f * f6 * f40);
@@ -793,7 +793,7 @@ extends kfe {
         boolean bl4 = this.scc.get();
         float f49 = bl4 ? 0.55f + 0.45f * f8 : 0.0f;
         boolean bl5 = this.sbx.get() && this.see.any();
-        this.scx.rotation((Quaternionfc)camera.method_23767().conjugate(this.scz));
+        this.scx.rotation((Quaternionfc)camera.getRotation().conjugate(this.scz));
         this.sct.clear();
         this.sct.addAll(this.scq);
         float f50 = (float)this.scn.get();
@@ -801,16 +801,16 @@ extends kfe {
         boolean bl7 = this.sdg;
         int n9 = this.sdj - n;
         int n10 = this.sdk - n3;
-        float f51 = (float)(this.sed.x() - vec3d.field_1352);
-        float f52 = (float)(this.sed.y() - vec3d.field_1351);
-        float f53 = (float)(this.sed.z() - vec3d.field_1350);
+        float f51 = (float)(this.sed.x() - vec3d.x);
+        float f52 = (float)(this.sed.y() - vec3d.y);
+        float f53 = (float)(this.sed.z() - vec3d.z);
         int n11 = this.sed.segments();
         float[] fArray3 = this.sed.segA();
         float[] fArray4 = this.sed.segB();
         float[] fArray5 = this.sfl(fArray3, n11, f51, f52, f53);
         float[] fArray6 = this.sfl(fArray4, n11, f51, f52, f53);
         float f54 = bl3 ? 1.0f : 0.0f;
-        float f55 = 30.0f * (float)minecraftClient.method_1522().field_1481 / 1080.0f;
+        float f55 = 30.0f * (float)minecraftClient.getFramebuffer().textureHeight / 1080.0f;
         float f56 = this.ser;
         float f57 = this.sdn;
         boolean bl8 = uxx.upload(std140Builder -> {
@@ -818,7 +818,7 @@ extends kfe {
             std140Builder.putMat4f((Matrix4fc)this.scw);
             std140Builder.putMat4f((Matrix4fc)this.scx);
             std140Builder.putVec4((float)Math.floorMod(n, 4096), (float)n2, (float)Math.floorMod(n3, 4096), f57);
-            std140Builder.putVec4((float)(vec3d.field_1352 - (double)n), (float)(vec3d.field_1351 - (double)n2), (float)(vec3d.field_1350 - (double)n3), f6);
+            std140Builder.putVec4((float)(vec3d.x - (double)n), (float)(vec3d.y - (double)n2), (float)(vec3d.z - (double)n3), f6);
             std140Builder.putVec4(fArray[0], fArray[1], fArray[2], f42);
             std140Builder.putVec4(fArray2[0], fArray2[1], fArray2[2], f43);
             std140Builder.putVec4(f9, f2, f56, f54);
@@ -865,10 +865,10 @@ extends kfe {
     }
 
     public void testStrike(float f, boolean bl, double d, double d2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        Vec3d vec3d = minecraftClient.field_1773.method_19418().method_71156();
-        float f2 = Math.max(80.0f, Math.min(600.0f, this.sdq - (float)vec3d.field_1351 + 60.0f));
-        this.sed.strike(vec3d, f2, Math.min((double)minecraftClient.field_1687.method_8615(), vec3d.field_1351 - 40.0), f, bl, d);
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        Vec3d vec3d = minecraftClient.gameRenderer.getCamera().getCameraPos();
+        float f2 = Math.max(80.0f, Math.min(600.0f, this.sdq - (float)vec3d.y + 60.0f));
+        this.sed.strike(vec3d, f2, Math.min((double)minecraftClient.world.getSeaLevel(), vec3d.y - 40.0), f, bl, d);
         this.sed.freeze(d2);
     }
 
@@ -892,9 +892,9 @@ extends kfe {
         }
         float[] fArray = this.sed.segA();
         float[] fArray2 = this.sed.segB();
-        double d = this.sed.x() - vec3d.field_1352;
-        double d2 = this.sed.y() - vec3d.field_1351;
-        double d3 = this.sed.z() - vec3d.field_1350;
+        double d = this.sed.x() - vec3d.x;
+        double d2 = this.sed.y() - vec3d.y;
+        double d3 = this.sed.z() - vec3d.z;
         for (int i = 0; i < n; ++i) {
             f = Math.max(f, (float)Math.sqrt(sbp.sfn(d + (double)fArray[i * 4]) + sbp.sfn(d2 + (double)fArray[i * 4 + 1]) + sbp.sfn(d3 + (double)fArray[i * 4 + 2])));
             f = Math.max(f, (float)Math.sqrt(sbp.sfn(d + (double)fArray2[i * 4]) + sbp.sfn(d2 + (double)fArray2[i * 4 + 1]) + sbp.sfn(d3 + (double)fArray2[i * 4 + 2])));
@@ -907,8 +907,8 @@ extends kfe {
     }
 
     private void sfo(Camera camera, Vec3d vec3d, sti sti2, float f) {
-        vss.listener(camera.method_19330());
-        vss.thunder(sti2.distance(), sti2.bolt(), (float)(sti2.x() - vec3d.field_1352), (float)(sti2.z() - vec3d.field_1350), f);
+        vss.listener(camera.getYaw());
+        vss.thunder(sti2.distance(), sti2.bolt(), (float)(sti2.x() - vec3d.x), (float)(sti2.z() - vec3d.z), f);
     }
 
     private float[] sfp(Vec3d vec3d) {
@@ -918,8 +918,8 @@ extends kfe {
             return fArray;
         }
         int n = 128;
-        double d = vec3d.field_1351 + 0.6;
-        double d2 = vec3d.field_1351 + 2.0;
+        double d = vec3d.y + 0.6;
+        double d2 = vec3d.y + 2.0;
         for (int i = 0; i < 4; ++i) {
             double d3 = i == 0 || i == 3 ? 0.7071 : -0.7071;
             double d4 = i < 2 ? 0.7071 : -0.7071;
@@ -933,8 +933,8 @@ extends kfe {
                 for (int k = 1; k <= 8; ++k) {
                     float f4 = 1.0f / (1.0f + 0.2f * (float)k);
                     f2 += f4;
-                    int n2 = (int)Math.floor(vec3d.field_1352 + d6 * (double)k) - this.sdj;
-                    int n3 = (int)Math.floor(vec3d.field_1350 + d7 * (double)k) - this.sdk;
+                    int n2 = (int)Math.floor(vec3d.x + d6 * (double)k) - this.sdj;
+                    int n3 = (int)Math.floor(vec3d.z + d7 * (double)k) - this.sdk;
                     if (n2 < 0 || n3 < 0 || n2 >= n || n3 >= n) {
                         f += f3 * f4;
                         continue;
@@ -958,8 +958,8 @@ extends kfe {
             return 1.0f;
         }
         int n = 128;
-        int n2 = (int)Math.floor(vec3d.field_1352) - this.sdj;
-        int n3 = (int)Math.floor(vec3d.field_1350) - this.sdk;
+        int n2 = (int)Math.floor(vec3d.x) - this.sdj;
+        int n3 = (int)Math.floor(vec3d.z) - this.sdk;
         float f = 0.0f;
         float f2 = 0.0f;
         for (int i = -4; i <= 4; ++i) {
@@ -969,7 +969,7 @@ extends kfe {
                 if (n4 < 0 || n5 < 0 || n4 >= n || n5 >= n) continue;
                 float f3 = j == 0 && i == 0 ? 6.0f : 1.0f / (1.0f + 0.35f * (float)(j * j + i * i));
                 f2 += f3;
-                if (!((double)this.sef[n5 * n + n4] <= vec3d.field_1351 + 0.6)) continue;
+                if (!((double)this.sef[n5 * n + n4] <= vec3d.y + 0.6)) continue;
                 f += f3;
             }
         }
@@ -983,9 +983,9 @@ extends kfe {
         float f2 = 0.0f;
         float f3 = 0.0f;
         for (saw saw3 : list) {
-            f += (float)(saw3.sax - vec3d.field_1352);
-            f2 += (float)(saw3.say - vec3d.field_1351);
-            f3 += (float)(saw3.saz - vec3d.field_1350);
+            f += (float)(saw3.sax - vec3d.x);
+            f2 += (float)(saw3.say - vec3d.y);
+            f3 += (float)(saw3.saz - vec3d.z);
         }
         int n2 = Math.max(1, list.size());
         f /= (float)n2;
@@ -993,16 +993,16 @@ extends kfe {
         f3 /= (float)n2;
         float f4 = 0.0f;
         for (saw saw22 : list) {
-            float f5 = (float)(saw22.sax - vec3d.field_1352) - f;
-            float f6 = (float)(saw22.say - vec3d.field_1351) - f2;
-            float f7 = (float)(saw22.saz - vec3d.field_1350) - f3;
+            float f5 = (float)(saw22.sax - vec3d.x) - f;
+            float f6 = (float)(saw22.say - vec3d.y) - f2;
+            float f7 = (float)(saw22.saz - vec3d.z) - f3;
             f4 = Math.max(f4, (float)Math.sqrt(f5 * f5 + f6 * f6 + f7 * f7));
         }
         std140Builder.putVec4(f, f2, f3, list.isEmpty() ? 0.0f : f4 + 2.5f);
         for (n = 0; n < 32; ++n) {
             if (n < list.size()) {
                 saw22 = list.get(list.size() - 1 - n);
-                std140Builder.putVec4((float)(saw22.sax - vec3d.field_1352), (float)(saw22.say - vec3d.field_1351), (float)(saw22.saz - vec3d.field_1350), (float)(l - saw22.sbd) / 1.0E9f);
+                std140Builder.putVec4((float)(saw22.sax - vec3d.x), (float)(saw22.say - vec3d.y), (float)(saw22.saz - vec3d.z), (float)(l - saw22.sbd) / 1.0E9f);
                 continue;
             }
             std140Builder.putVec4(0.0f, -1000.0f, 0.0f, 1000.0f);
@@ -1019,28 +1019,28 @@ extends kfe {
 
     private void sfs(ClientWorld clientWorld, int n, int n2) {
         int n3 = 128;
-        int n4 = clientWorld.method_31607();
+        int n4 = clientWorld.getBottomY();
         boolean bl = false;
         for (int i = 0; i < n3; ++i) {
             for (int j = 0; j < n3; ++j) {
                 int n5;
                 int n6;
-                int n7 = clientWorld.method_8624(Heightmap.Type.field_13197, n + j, n2 + i);
+                int n7 = clientWorld.getTopY(Heightmap.Type.MOTION_BLOCKING, n + j, n2 + i);
                 if (n7 <= n4 && !bl) {
-                    bl = !clientWorld.method_2935().method_12123(n + j >> 4, n2 + i >> 4);
+                    bl = !clientWorld.getChunkManager().isChunkLoaded(n + j >> 4, n2 + i >> 4);
                 }
-                BlockState blockState = clientWorld.method_8320((BlockPos)this.scv.method_10103(n + j, n7 - 1, n2 + i));
+                BlockState blockState = clientWorld.getBlockState((BlockPos)this.scv.set(n + j, n7 - 1, n2 + i));
                 for (n6 = 0; n6 < 96 && n7 > n4 && !sbp.sft(blockState); ++n6) {
-                    blockState = clientWorld.method_8320((BlockPos)this.scv.method_10103(n + j, --n7 - 1, n2 + i));
+                    blockState = clientWorld.getBlockState((BlockPos)this.scv.set(n + j, --n7 - 1, n2 + i));
                 }
-                int n8 = n6 = !blockState.method_26227().method_15769() ? 1 : 0;
+                int n8 = n6 = !blockState.getFluidState().isEmpty() ? 1 : 0;
                 if (n6 == 0 && sbp.sfu(clientWorld, blockState, (BlockPos)this.scv)) {
                     --n7;
                 }
                 int n9 = Math.max(0, Math.min(65535, n7 + 64));
-                boolean bl2 = blockState.method_26164(BlockTags.field_15503);
-                int n10 = clientWorld.method_8314(LightType.field_9282, (BlockPos)this.scv.method_10103(n + j, n7, n2 + i)) * 17;
-                for (n5 = 0; n5 < 15 && sbp.sfv(clientWorld.method_8320((BlockPos)this.scv.method_10103(n + j, n7 + n5, n2 + i))); ++n5) {
+                boolean bl2 = blockState.isIn(BlockTags.LEAVES);
+                int n10 = clientWorld.getLightLevel(LightType.BLOCK, (BlockPos)this.scv.set(n + j, n7, n2 + i)) * 17;
+                for (n5 = 0; n5 < 15 && sbp.sfv(clientWorld.getBlockState((BlockPos)this.scv.set(n + j, n7 + n5, n2 + i))); ++n5) {
                 }
                 this.scu[i * n3 + j] = n10 << 24 | (n9 & 0xFF) << 16 | (n9 >> 8 & 0xFF) << 8 | (n6 != 0 ? 128 : 0) | (bl2 ? 64 : 0) | n5;
                 this.sef[i * n3 + j] = n7;
@@ -1054,19 +1054,19 @@ extends kfe {
     }
 
     private static boolean sft(BlockState blockState) {
-        if (!blockState.method_26227().method_15769()) {
+        if (!blockState.getFluidState().isEmpty()) {
             return true;
         }
-        return blockState.method_51366() && blockState.method_26217() != BlockRenderType.field_11455;
+        return blockState.blocksMovement() && blockState.getRenderType() != BlockRenderType.INVISIBLE;
     }
 
     private static boolean sfu(ClientWorld clientWorld, BlockState blockState, BlockPos blockPos) {
-        if (blockState.method_26164(BlockTags.field_15503)) {
+        if (blockState.isIn(BlockTags.LEAVES)) {
             return false;
         }
         try {
-            VoxelShape voxelShape = blockState.method_26220((BlockView)clientWorld, blockPos);
-            return !voxelShape.method_1110() && voxelShape.method_1105(Direction.Axis.field_11052) <= 0.55;
+            VoxelShape voxelShape = blockState.getCollisionShape((BlockView)clientWorld, blockPos);
+            return !voxelShape.isEmpty() && voxelShape.getMax(Direction.Axis.Y) <= 0.55;
         }
         catch (Throwable throwable) {
             return false;
@@ -1074,7 +1074,7 @@ extends kfe {
     }
 
     private static boolean sfv(BlockState blockState) {
-        Block block = blockState.method_26204();
+        Block block = blockState.getBlock();
         return block instanceof PlantBlock || block instanceof SugarCaneBlock;
     }
 
@@ -1096,7 +1096,7 @@ extends kfe {
         std140Builder.putMat4f((Matrix4fc)this.scw);
         std140Builder.putMat4f((Matrix4fc)this.scx);
         std140Builder.putVec4((float)Math.floorMod(n, 4096), (float)n2, (float)Math.floorMod(n3, 4096), this.sdn);
-        std140Builder.putVec4((float)(vec3d.field_1352 - (double)n), (float)(vec3d.field_1351 - (double)n2), (float)(vec3d.field_1350 - (double)n3), (float)n4);
+        std140Builder.putVec4((float)(vec3d.x - (double)n), (float)(vec3d.y - (double)n2), (float)(vec3d.z - (double)n3), (float)n4);
         std140Builder.putVec4(f, f2, bl ? 1.0f : 0.0f, f3);
         std140Builder.putVec4(f4, f5, f6, this.sdo);
         std140Builder.putVec4(fArray[0], fArray[1], fArray[2], fArray[3]);

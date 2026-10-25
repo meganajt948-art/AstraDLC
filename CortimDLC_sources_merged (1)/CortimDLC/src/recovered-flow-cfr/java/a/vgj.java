@@ -73,7 +73,7 @@ extends HeldItemRenderer {
     }
 
     public static void ensureInstalled(MinecraftClient minecraftClient) {
-        if (vgs || minecraftClient.field_1773 == null) {
+        if (vgs || minecraftClient.gameRenderer == null) {
             return;
         }
         try {
@@ -95,20 +95,20 @@ extends HeldItemRenderer {
                 field.setAccessible(true);
                 vgu = field;
             }
-            if ((object2 = field.get(minecraftClient.field_1773)) instanceof vgj) {
+            if ((object2 = field.get(minecraftClient.gameRenderer)) instanceof vgj) {
                 return;
             }
             vgj.vgz();
             HeldItemRenderer heldItemRenderer = (HeldItemRenderer)object2;
             ItemModelManager itemModelManager = (ItemModelManager)vgq.get(heldItemRenderer);
-            object = new vgj(minecraftClient, minecraftClient.method_1561(), itemModelManager);
+            object = new vgj(minecraftClient, minecraftClient.getEntityRenderDispatcher(), itemModelManager);
             for (Field field2 : HeldItemRenderer.class.getDeclaredFields()) {
                 int n = field2.getModifiers();
                 if (Modifier.isStatic(n) || Modifier.isFinal(n)) continue;
                 field2.setAccessible(true);
                 field2.set(object, field2.get(heldItemRenderer));
             }
-            field.set(minecraftClient.field_1773, object);
+            field.set(minecraftClient.gameRenderer, object);
             if (!vgt) {
                 vgt = true;
                 System.out.println("hand renderer ready (view model, hand shaders)");
@@ -167,52 +167,52 @@ extends HeldItemRenderer {
         vgr = MethodHandles.lookup().unreflect((Method)var2_5);
     }
 
-    public void method_22976(float f, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, ClientPlayerEntity clientPlayerEntity, int n) {
+    public void renderItem(float tickProgress, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, ClientPlayerEntity player, int light) {
         if (!vhu.changesHands()) {
-            super.method_22976(f, matrixStack, orderedRenderCommandQueue, clientPlayerEntity, n);
-            vhf.afterHands(clientPlayerEntity, f);
+            super.renderItem(tickProgress, matrices, orderedRenderCommandQueue, player, light);
+            vhf.afterHands(player, tickProgress);
             return;
         }
         try {
-            this.vha(f, matrixStack, orderedRenderCommandQueue, clientPlayerEntity, n);
+            this.vha(tickProgress, matrices, orderedRenderCommandQueue, player, light);
         }
         catch (Throwable throwable) {
             vgs = true;
             System.out.println("hand tweaks failed, back to the game's hands: " + throwable);
-            super.method_22976(f, matrixStack, orderedRenderCommandQueue, clientPlayerEntity, n);
+            super.renderItem(tickProgress, matrices, orderedRenderCommandQueue, player, light);
         }
-        vhf.afterHands(clientPlayerEntity, f);
+        vhf.afterHands(player, tickProgress);
     }
 
     private void vha(float f, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, ClientPlayerEntity clientPlayerEntity, int n) throws Throwable {
         float f2;
-        float f3 = clientPlayerEntity.method_6055(f);
-        Hand hand = clientPlayerEntity.field_6266 != null ? clientPlayerEntity.field_6266 : Hand.field_5808;
-        float f4 = clientPlayerEntity.method_61414(f);
-        float f5 = MathHelper.method_16439((float)f, (float)clientPlayerEntity.field_3914, (float)clientPlayerEntity.field_3916);
-        float f6 = MathHelper.method_16439((float)f, (float)clientPlayerEntity.field_3931, (float)clientPlayerEntity.field_3932);
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40714.rotationDegrees((clientPlayerEntity.method_5695(f) - f5) * 0.1f));
-        matrixStack.method_22907((Quaternionfc)RotationAxis.field_40716.rotationDegrees((clientPlayerEntity.method_5705(f) - f6) * 0.1f));
+        float f3 = clientPlayerEntity.getHandSwingProgress(f);
+        Hand hand = clientPlayerEntity.preferredHand != null ? clientPlayerEntity.preferredHand : Hand.MAIN_HAND;
+        float f4 = clientPlayerEntity.getLerpedPitch(f);
+        float f5 = MathHelper.lerp((float)f, (float)clientPlayerEntity.lastRenderPitch, (float)clientPlayerEntity.renderPitch);
+        float f6 = MathHelper.lerp((float)f, (float)clientPlayerEntity.lastRenderYaw, (float)clientPlayerEntity.renderYaw);
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_X.rotationDegrees((clientPlayerEntity.getPitch(f) - f5) * 0.1f));
+        matrixStack.multiply((Quaternionfc)RotationAxis.POSITIVE_Y.rotationDegrees((clientPlayerEntity.getYaw(f) - f6) * 0.1f));
         boolean[] blArray = vgj.vhc(clientPlayerEntity);
         ItemStack itemStack = (ItemStack)vgk.get((Object)this);
         ItemStack itemStack2 = (ItemStack)vgl.get((Object)this);
         if (blArray[0]) {
-            f2 = this.vgw.method_75483(itemStack) * (1.0f - MathHelper.method_16439((float)f, (float)vgn.getFloat((Object)this), (float)vgm.getFloat((Object)this)));
-            this.vhb((AbstractClientPlayerEntity)clientPlayerEntity, f, f4, Hand.field_5808, hand == Hand.field_5808 ? f3 : 0.0f, itemStack, f2, matrixStack, orderedRenderCommandQueue, n);
+            f2 = this.vgw.getSwapAnimationScale(itemStack) * (1.0f - MathHelper.lerp((float)f, (float)vgn.getFloat((Object)this), (float)vgm.getFloat((Object)this)));
+            this.vhb((AbstractClientPlayerEntity)clientPlayerEntity, f, f4, Hand.MAIN_HAND, hand == Hand.MAIN_HAND ? f3 : 0.0f, itemStack, f2, matrixStack, orderedRenderCommandQueue, n);
         }
         if (blArray[1]) {
-            f2 = this.vgw.method_75483(itemStack2) * (1.0f - MathHelper.method_16439((float)f, (float)vgp.getFloat((Object)this), (float)vgo.getFloat((Object)this)));
-            this.vhb((AbstractClientPlayerEntity)clientPlayerEntity, f, f4, Hand.field_5810, hand == Hand.field_5810 ? f3 : 0.0f, itemStack2, f2, matrixStack, orderedRenderCommandQueue, n);
+            f2 = this.vgw.getSwapAnimationScale(itemStack2) * (1.0f - MathHelper.lerp((float)f, (float)vgp.getFloat((Object)this), (float)vgo.getFloat((Object)this)));
+            this.vhb((AbstractClientPlayerEntity)clientPlayerEntity, f, f4, Hand.OFF_HAND, hand == Hand.OFF_HAND ? f3 : 0.0f, itemStack2, f2, matrixStack, orderedRenderCommandQueue, n);
         }
-        this.vgv.field_1773.method_72911().method_73002();
-        this.vgv.method_22940().method_23000().method_22993();
+        this.vgv.gameRenderer.getEntityRenderDispatcher().render();
+        this.vgv.getBufferBuilders().getEntityVertexConsumers().draw();
     }
 
     private void vhb(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float f2, Hand hand, float f3, ItemStack itemStack, float f4, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, int n) throws Throwable {
-        Arm arm = hand == Hand.field_5808 ? abstractClientPlayerEntity.method_6068() : abstractClientPlayerEntity.method_6068().method_5928();
-        boolean bl = itemStack.method_31574(Items.field_49814);
+        Arm arm = hand == Hand.MAIN_HAND ? abstractClientPlayerEntity.getMainArm() : abstractClientPlayerEntity.getMainArm().getOpposite();
+        boolean bl = itemStack.isOf(Items.MACE);
         boolean bl2 = vhu.swings(abstractClientPlayerEntity, hand, itemStack);
-        matrixStack.method_22903();
+        matrixStack.push();
         if (!bl) {
             vhu.viewModel(matrixStack, arm);
         }
@@ -220,32 +220,32 @@ extends HeldItemRenderer {
             vhu.swing(matrixStack, abstractClientPlayerEntity, arm, hand, f3, itemStack, f);
         }
         vgr.invoke(this, abstractClientPlayerEntity, f, f2, hand, bl2 ? 0.0f : f3, itemStack, bl2 && !bl ? 0.0f : f4, matrixStack, orderedRenderCommandQueue, n);
-        matrixStack.method_22909();
+        matrixStack.pop();
     }
 
     private static boolean[] vhc(ClientPlayerEntity clientPlayerEntity) {
         boolean bl;
-        ItemStack itemStack = clientPlayerEntity.method_6047();
-        ItemStack itemStack2 = clientPlayerEntity.method_6079();
-        boolean bl2 = itemStack.method_31574(Items.field_8102) || itemStack2.method_31574(Items.field_8102);
-        boolean bl3 = bl = itemStack.method_31574(Items.field_8399) || itemStack2.method_31574(Items.field_8399);
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
+        ItemStack itemStack2 = clientPlayerEntity.getOffHandStack();
+        boolean bl2 = itemStack.isOf(Items.BOW) || itemStack2.isOf(Items.BOW);
+        boolean bl3 = bl = itemStack.isOf(Items.CROSSBOW) || itemStack2.isOf(Items.CROSSBOW);
         if (!bl2 && !bl) {
             return new boolean[]{true, true};
         }
-        if (clientPlayerEntity.method_6115()) {
-            ItemStack itemStack3 = clientPlayerEntity.method_6030();
-            Hand hand = clientPlayerEntity.method_6058();
-            if (!itemStack3.method_31574(Items.field_8102) && !itemStack3.method_31574(Items.field_8399)) {
-                boolean bl4 = hand == Hand.field_5808 && vgj.vhd(itemStack2);
+        if (clientPlayerEntity.isUsingItem()) {
+            ItemStack itemStack3 = clientPlayerEntity.getActiveItem();
+            Hand hand = clientPlayerEntity.getActiveHand();
+            if (!itemStack3.isOf(Items.BOW) && !itemStack3.isOf(Items.CROSSBOW)) {
+                boolean bl4 = hand == Hand.MAIN_HAND && vgj.vhd(itemStack2);
                 return new boolean[]{true, !bl4};
             }
-            return new boolean[]{hand == Hand.field_5808, hand == Hand.field_5810};
+            return new boolean[]{hand == Hand.MAIN_HAND, hand == Hand.OFF_HAND};
         }
         return new boolean[]{true, !vgj.vhd(itemStack)};
     }
 
     private static boolean vhd(ItemStack itemStack) {
-        return itemStack.method_31574(Items.field_8399) && CrossbowItem.method_7781((ItemStack)itemStack);
+        return itemStack.isOf(Items.CROSSBOW) && CrossbowItem.isCharged((ItemStack)itemStack);
     }
 
     private static /* synthetic */ int deu(int n, int n2) {

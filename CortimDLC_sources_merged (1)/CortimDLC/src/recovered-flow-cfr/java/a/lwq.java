@@ -46,30 +46,30 @@ extends kfe {
         double d;
         double d2;
         this.lwv();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        PlayerAbilities playerAbilities = clientPlayerEntity.method_31549();
-        if (!playerAbilities.field_7479 || clientPlayerEntity.method_7325() || clientPlayerEntity.method_5765() || clientPlayerEntity.field_6235 > 0 || ovh.active() || lqq.busy()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        PlayerAbilities playerAbilities = clientPlayerEntity.getAbilities();
+        if (!playerAbilities.flying || clientPlayerEntity.isSpectator() || clientPlayerEntity.hasVehicle() || clientPlayerEntity.hurtTime > 0 || ovh.active() || lqq.busy()) {
             return;
         }
-        GameOptions gameOptions = minecraftClient.field_1690;
-        double d3 = lwq.lww(gameOptions.field_1894.method_1434(), gameOptions.field_1881.method_1434());
-        double d4 = lwq.lww(gameOptions.field_1913.method_1434(), gameOptions.field_1849.method_1434());
-        double d5 = lwq.lww(gameOptions.field_1903.method_1434(), gameOptions.field_1832.method_1434());
+        GameOptions gameOptions = minecraftClient.options;
+        double d3 = lwq.lww(gameOptions.forwardKey.isPressed(), gameOptions.backKey.isPressed());
+        double d4 = lwq.lww(gameOptions.leftKey.isPressed(), gameOptions.rightKey.isPressed());
+        double d5 = lwq.lww(gameOptions.jumpKey.isPressed(), gameOptions.sneakKey.isPressed());
         double d6 = 0.0;
         double d7 = 0.0;
         double d8 = Math.hypot(d3, d4);
         if (d8 > 0.0) {
             d2 = 2.0 / d8;
-            double d9 = Math.toRadians(clientPlayerEntity.method_36454());
+            double d9 = Math.toRadians(clientPlayerEntity.getYaw());
             double d10 = Math.sin(d9);
             double d11 = Math.cos(d9);
             d6 = (d4 * d11 - d3 * d10) * d2;
             d7 = (d3 * d11 + d4 * d10) * d2;
         }
-        clientPlayerEntity.method_18799((d = (vec3d = new Vec3d(d6, d2 = d5 * 25.0 / 20.0, d7)).method_1033()) > 9.5 ? vec3d.method_1021(9.5 / d) : vec3d);
+        clientPlayerEntity.setVelocity((d = (vec3d = new Vec3d(d6, d2 = d5 * 25.0 / 20.0, d7)).length()) > 9.5 ? vec3d.multiply(9.5 / d) : vec3d);
         this.lwr = playerAbilities;
-        this.lws = playerAbilities.method_7252();
-        playerAbilities.method_7248(0.0f);
+        this.lws = playerAbilities.getFlySpeed();
+        playerAbilities.setFlySpeed(0.0f);
     }
 
     @Override
@@ -79,7 +79,7 @@ extends kfe {
 
     private void lwv() {
         if (this.lwr != null) {
-            this.lwr.method_7248(this.lws);
+            this.lwr.setFlySpeed(this.lws);
             this.lwr = null;
         }
     }

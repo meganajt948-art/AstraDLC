@@ -135,11 +135,11 @@ extends kfe {
         int n2;
         int n3;
         float f7;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        ClientWorld clientWorld = minecraftClient.field_1687;
-        Camera camera = minecraftClient.field_1773.method_19418();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        ClientWorld clientWorld = minecraftClient.world;
+        Camera camera = minecraftClient.gameRenderer.getCamera();
         this.rzn(this.ryj.get());
-        if (clientPlayerEntity == null || clientWorld == null || !camera.method_19332() || camera.method_19334() != CameraSubmersionType.field_27888) {
+        if (clientPlayerEntity == null || clientWorld == null || !camera.isReady() || camera.getSubmersionType() != CameraSubmersionType.NONE) {
             this.ryx = 0L;
             this.ryw = null;
             return;
@@ -147,19 +147,19 @@ extends kfe {
         long l = System.nanoTime();
         float f8 = this.ryx == 0L ? 0.0f : Math.min(0.1f, (float)(l - this.ryx) / 1.0E9f);
         this.ryx = l;
-        float f9 = minecraftClient.method_61966().method_60637(false);
+        float f9 = minecraftClient.getRenderTickCounter().getTickProgress(false);
         float f10 = (float)this.ryg.get();
         this.ryy += f8 * f10;
         this.ryz += (double)(f8 * f10) * 0.55;
         this.rza += (double)(f8 * f10) * 0.16;
         this.rzb += (double)(f8 * f10) * 0.32;
-        Vec3d vec3d = clientPlayerEntity.method_30950(f9);
-        int n4 = clientWorld.method_8624(Heightmap.Type.field_13197, (int)Math.floor(vec3d.field_1352), (int)Math.floor(vec3d.field_1350));
-        double d = Math.min((double)n4, vec3d.field_1351) - 1.0;
+        Vec3d vec3d = clientPlayerEntity.getLerpedPos(f9);
+        int n4 = clientWorld.getTopY(Heightmap.Type.MOTION_BLOCKING, (int)Math.floor(vec3d.x), (int)Math.floor(vec3d.z));
+        double d = Math.min((double)n4, vec3d.y) - 1.0;
         this.rzc = Double.isNaN(this.rzc) || Math.abs(d - this.rzc) > 48.0 ? d : (this.rzc += (d - this.rzc) * (1.0 - Math.exp((double)(-f8) / 1.4)));
-        BlockPos blockPos = camera.method_19328();
-        float f11 = (float)clientWorld.method_8314(LightType.field_9284, blockPos) / 15.0f;
-        float f12 = (float)clientWorld.method_8314(LightType.field_9282, blockPos) / 15.0f;
+        BlockPos blockPos = camera.getBlockPos();
+        float f11 = (float)clientWorld.getLightLevel(LightType.SKY, blockPos) / 15.0f;
+        float f12 = (float)clientWorld.getLightLevel(LightType.BLOCK, blockPos) / 15.0f;
         if (this.rzd < 0.0f) {
             this.rzd = f11;
             this.rze = f12;
@@ -168,7 +168,7 @@ extends kfe {
             this.rzd += (f11 - this.rzd) * f7;
             this.rze += (f12 - this.rze) * f7;
         }
-        this.rzo(vec3d.method_1031(0.0, 0.9, 0.0), f8, l);
+        this.rzo(vec3d.add(0.0, 0.9, 0.0), f8, l);
         float f13 = switch (this.ryk.get()) {
             case "\u041d\u0438\u0437\u043a\u043e\u0435" -> {
                 f7 = 0.35f;
@@ -199,16 +199,16 @@ extends kfe {
                 yield 80.0f;
             }
         };
-        String string = camera.method_75756();
-        int n5 = clientWorld.method_8597().comp_5220() == DimensionType.Skybox.field_64386 ? 1 : 0;
+        String string = camera.getEnvironmentAttributeInterpolator();
+        int n5 = clientWorld.getDimension().skybox() == DimensionType.Skybox.OVERWORLD ? 1 : 0;
         float[] fArray = new float[]{0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
         float[] fArray2 = new float[]{0.0f, 0.0f, 0.0f, 0.0f};
         if (n5 != 0) {
-            f6 = clientWorld.method_8430(f9);
-            f5 = clientWorld.method_8478(f9);
+            f6 = clientWorld.getRainGradient(f9);
+            f5 = clientWorld.getThunderGradient(f9);
             f4 = Math.max(0.0f, 1.0f - 0.7f * f6 - 0.2f * f5);
-            f3 = ((Float)string.method_75689(EnvironmentAttributes.field_64340, f9)).floatValue() * ((float)Math.PI / 180);
-            f2 = ((Float)string.method_75689(EnvironmentAttributes.field_64341, f9)).floatValue() * ((float)Math.PI / 180);
+            f3 = ((Float)string.get(EnvironmentAttributes.SUN_ANGLE_VISUAL, f9)).floatValue() * ((float)Math.PI / 180);
+            f2 = ((Float)string.get(EnvironmentAttributes.MOON_ANGLE_VISUAL, f9)).floatValue() * ((float)Math.PI / 180);
             f = (float)Math.cos(f3);
             float f14 = (float)Math.cos(f2);
             float f15 = rxv.rzr(-0.06f, 0.18f, f) * f4 * 0.4f;
@@ -220,7 +220,7 @@ extends kfe {
             } else {
                 fArray = new float[]{(float)(-Math.sin(f2)), f14, 0.0f, f16 * f17, 0.52f, 0.62f, 0.95f};
             }
-            int n6 = (Integer)string.method_75689(EnvironmentAttributes.field_63746, f9);
+            int n6 = (Integer)string.get(EnvironmentAttributes.SKY_COLOR_VISUAL, f9);
             fArray2 = new float[]{(float)(n6 >> 16 & 0xFF) / 255.0f, (float)(n6 >> 8 & 0xFF) / 255.0f, (float)(n6 & 0xFF) / 255.0f, 0.3f};
         }
         f6 = uhs.boost(minecraftClient);
@@ -228,21 +228,21 @@ extends kfe {
         f4 = this.rze * 0.25f * (1.0f - 0.75f * this.rzd);
         f3 = n5 != 0 ? (0.13f + 0.55f * f6) * (1.0f - 0.8f * uhs.daylight(minecraftClient)) : 0.12f + 0.5f * f6;
         f2 = (float)(0.005 * Math.pow(80.0, this.rya.get()));
-        f = Math.max(128.0f, Math.min(1536.0f, (float)minecraftClient.field_1690.method_38521() * 24.0f));
+        f = Math.max(128.0f, Math.min(1536.0f, (float)minecraftClient.options.getClampedViewDistance() * 24.0f));
         int n7 = this.rxz.color();
         int n8 = this.rxz.color2();
-        Vec3d vec3d2 = camera.method_71156();
-        boolean bl2 = bl = this.ryw != null && this.ryw.method_1025(vec3d2) < 64.0;
+        Vec3d vec3d2 = camera.getCameraPos();
+        boolean bl2 = bl = this.ryw != null && this.ryw.squaredDistanceTo(vec3d2) < 64.0;
         if (this.ryw == null) {
-            this.ryv.set((Quaternionfc)camera.method_23767());
+            this.ryv.set((Quaternionfc)camera.getRotation());
             this.ryw = vec3d2;
         }
-        this.ryt.rotation((Quaternionfc)camera.method_23767());
+        this.ryt.rotation((Quaternionfc)camera.getRotation());
         this.ryu.rotation((Quaternionfc)this.ryv.conjugate(new Quaternionf()));
-        float f19 = (float)(vec3d2.field_1352 - this.ryw.field_1352);
-        float f20 = (float)(vec3d2.field_1351 - this.ryw.field_1351);
-        float f21 = (float)(vec3d2.field_1350 - this.ryw.field_1350);
-        this.ryv.set((Quaternionfc)camera.method_23767());
+        float f19 = (float)(vec3d2.x - this.ryw.x);
+        float f20 = (float)(vec3d2.y - this.ryw.y);
+        float f21 = (float)(vec3d2.z - this.ryw.z);
+        this.ryv.set((Quaternionfc)camera.getRotation());
         this.ryw = vec3d2;
         float[] fArray3 = fArray;
         float[] fArray4 = fArray2;
@@ -255,7 +255,7 @@ extends kfe {
             std140Builder.putMat4f((Matrix4fc)this.ryt);
             std140Builder.putMat4f((Matrix4fc)this.ryu);
             std140Builder.putVec4(f19, f20, f21, f23);
-            std140Builder.putVec4((float)vec3d.field_1352, (float)vec3d.field_1351, (float)vec3d.field_1350, f);
+            std140Builder.putVec4((float)vec3d.x, (float)vec3d.y, (float)vec3d.z, f);
             std140Builder.putVec4(fArray3[0], fArray3[1], fArray3[2], fArray3[3]);
             std140Builder.putVec4(fArray3[4], fArray3[5], fArray3[6], 0.0f);
             std140Builder.putVec4(fArray4[0], fArray4[1], fArray4[2], fArray4[3]);
@@ -276,10 +276,10 @@ extends kfe {
 
     private void rzo(Vec3d vec3d, float f, long l) {
         if (this.rzf != null && f > 0.0f) {
-            double d = (vec3d.field_1352 - this.rzf.field_1352) / (double)f;
-            double d2 = (vec3d.field_1351 - this.rzf.field_1351) / (double)f;
-            double d3 = (vec3d.field_1350 - this.rzf.field_1350) / (double)f;
-            if (this.rzf.method_1025(vec3d) > 36.0) {
+            double d = (vec3d.x - this.rzf.x) / (double)f;
+            double d2 = (vec3d.y - this.rzf.y) / (double)f;
+            double d3 = (vec3d.z - this.rzf.z) / (double)f;
+            if (this.rzf.squaredDistanceTo(vec3d) > 36.0) {
                 Arrays.fill(this.rys, 0L);
                 this.rzg = null;
                 d = 0.0;
@@ -292,7 +292,7 @@ extends kfe {
             this.rzj += (d3 - this.rzj) * d4;
         }
         this.rzf = vec3d;
-        if (this.rzg == null || this.rzg.method_1025(vec3d) > 0.64) {
+        if (this.rzg == null || this.rzg.squaredDistanceTo(vec3d) > 0.64) {
             for (int i = 6; i > 0; --i) {
                 this.rym[i] = this.rym[i - 1];
                 this.ryn[i] = this.ryn[i - 1];
@@ -302,9 +302,9 @@ extends kfe {
                 this.ryr[i] = this.ryr[i - 1];
                 this.rys[i] = this.rys[i - 1];
             }
-            this.rym[0] = vec3d.field_1352;
-            this.ryn[0] = vec3d.field_1351;
-            this.ryo[0] = vec3d.field_1350;
+            this.rym[0] = vec3d.x;
+            this.ryn[0] = vec3d.y;
+            this.ryo[0] = vec3d.z;
             this.ryp[0] = (float)this.rzh;
             this.ryq[0] = (float)this.rzi;
             this.ryr[0] = (float)this.rzj;
@@ -320,7 +320,7 @@ extends kfe {
         float[][] fArray = new float[8][4];
         float[][] fArray2 = new float[8][4];
         if (this.ryl.get() && this.rzf != null) {
-            fArray[0] = new float[]{(float)this.rzf.field_1352, (float)this.rzf.field_1351, (float)this.rzf.field_1350, 1.0f};
+            fArray[0] = new float[]{(float)this.rzf.x, (float)this.rzf.y, (float)this.rzf.z, 1.0f};
             fArray2[0] = rxv.rzq((float)this.rzh, (float)this.rzi, (float)this.rzj, 1.25f);
             for (int i = 0; i < 7; ++i) {
                 if (this.rys[i] == 0L) continue;

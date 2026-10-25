@@ -64,14 +64,14 @@ extends ClientPlayerEntity {
         return this.eil;
     }
 
-    public void method_7353(Text text, boolean bl) {
-        this.eil.onLocalMessage(text, bl);
+    public void sendMessage(Text message, boolean overlay) {
+        this.eil.onLocalMessage(message, overlay);
     }
 
-    public void method_7277(Entity entity) {
+    public void addCritParticles(Entity target) {
     }
 
-    public void method_7304(Entity entity) {
+    public void addEnchantedHitParticles(Entity target) {
     }
 
     private static /* synthetic */ int er(int n, int n2) {

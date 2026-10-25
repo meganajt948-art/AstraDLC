@@ -95,7 +95,7 @@ public final class wbu<T> {
             return this.wcc;
         }
         SimpleOption<T> simpleOption = this.wcg();
-        return (T)(simpleOption == null ? null : simpleOption.method_41753());
+        return (T)(simpleOption == null ? null : simpleOption.getValue());
     }
 
     /*
@@ -111,12 +111,12 @@ public final class wbu<T> {
     }
 
     public static boolean suspended(MinecraftClient minecraftClient) {
-        return minecraftClient.field_1755 instanceof GameOptionsScreen;
+        return minecraftClient.currentScreen instanceof GameOptionsScreen;
     }
 
     private SimpleOption<T> wcg() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        return minecraftClient == null || minecraftClient.field_1690 == null ? null : this.wbz.apply(minecraftClient);
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        return minecraftClient == null || minecraftClient.options == null ? null : this.wbz.apply(minecraftClient);
     }
 
     private boolean wch(SimpleOption<T> simpleOption) {
@@ -143,7 +143,7 @@ public final class wbu<T> {
             return;
         }
         try {
-            Codec codec = simpleOption.method_42404();
+            Codec codec = simpleOption.getCodec();
             wbx.set(simpleOption, new wbr(this, codec));
         }
         catch (ReflectiveOperationException | RuntimeException exception) {

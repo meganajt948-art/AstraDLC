@@ -94,7 +94,7 @@ final class flm {
     }
 
     static boolean crit(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (flm.fni(minecraftClient, false)) {
             return fmu == -1;
         }
@@ -124,11 +124,11 @@ final class flm {
             return true;
         }
         boolean bl = n3 == 1 || n3 == 3 || n3 == 5;
-        minecraftClient.field_1690.field_1903.method_23481(true);
-        minecraftClient.field_1690.field_1894.method_23481(bl);
+        minecraftClient.options.jumpKey.setPressed(true);
+        minecraftClient.options.forwardKey.setPressed(bl);
         float f = switch (n3) {
-            case 2 -> 60.0f * MathHelper.method_15374((double)((float)n2 * ((float)Math.PI * 2) / 12.0f));
-            case 3 -> 100.0f * MathHelper.method_15374((double)((float)n2 * ((float)Math.PI * 2) / 8.0f));
+            case 2 -> 60.0f * MathHelper.sin((double)((float)n2 * ((float)Math.PI * 2) / 12.0f));
+            case 3 -> 100.0f * MathHelper.sin((double)((float)n2 * ((float)Math.PI * 2) / 8.0f));
             case 4, 5 -> {
                 if (n2 % 3 == 0) {
                     fmy = fnd.nextFloat() < 0.5f ? 0.0f : (float)(fnd.nextBoolean() ? 1 : -1) * (40.0f + fnd.nextFloat() * 120.0f);
@@ -160,7 +160,7 @@ final class flm {
     }
 
     static boolean mace(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (flm.fni(minecraftClient, true)) {
             return fmu == -1;
         }
@@ -168,13 +168,13 @@ final class flm {
         flm.fnk(clientPlayerEntity, 0.0f);
         if (fmu < 140) {
             fmc = 0;
-            minecraftClient.field_1690.field_1903.method_23481(false);
+            minecraftClient.options.jumpKey.setPressed(false);
         } else if (fmu < 290) {
             fmc = 1;
-            minecraftClient.field_1690.field_1903.method_23481(true);
+            minecraftClient.options.jumpKey.setPressed(true);
         } else if (fmu < 300) {
             fmc = 15;
-            minecraftClient.field_1690.field_1903.method_23481(false);
+            minecraftClient.options.jumpKey.setPressed(false);
         } else {
             boolean bl;
             int n = (fmu - 300) / 80;
@@ -193,11 +193,11 @@ final class flm {
             boolean bl2 = bl = n == flv.length - 1;
             if (n2 == 0) {
                 if (bl) {
-                    clientPlayerEntity.method_31548().method_61496(1);
+                    clientPlayerEntity.getInventory().setSelectedSlot(1);
                 }
                 flm.fnp(minecraftClient, String.format(Locale.ROOT, a.c(-865372405, "\u7764\u0ed1\u8452\u1a43\u91a7\u1745\uad13\u24e9\ubaaa\u304f\ub7da\u4dae\uc372\u5adf\ud0d8\u566f\uec25\u63ff\uf950\u7f55\uf6e4\u8cb8\u021f\u99c7\u1fa8\u956f\u2cda"), fmv - 1.3, fmw + (double)flv[n], fmx));
             } else if (n2 == 2 && bl) {
-                clientPlayerEntity.method_31548().method_61496(0);
+                clientPlayerEntity.getInventory().setSelectedSlot(0);
             }
         }
         return false;
@@ -230,14 +230,14 @@ final class flm {
     }
 
     private static boolean fni(MinecraftClient minecraftClient, boolean bl) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         fmf = bl;
         flm.fnj();
         wcn.ensure(minecraftClient);
         if (++fmu == 1) {
-            int n = MathHelper.method_15357((double)clientPlayerEntity.method_23317());
-            int n2 = MathHelper.method_15357((double)clientPlayerEntity.method_23318());
-            int n3 = MathHelper.method_15357((double)clientPlayerEntity.method_23321());
+            int n = MathHelper.floor((double)clientPlayerEntity.getX());
+            int n2 = MathHelper.floor((double)clientPlayerEntity.getY());
+            int n3 = MathHelper.floor((double)clientPlayerEntity.getZ());
             fmv = (double)n + 2.8;
             fmw = n2;
             fmx = (double)n3 + 0.5;
@@ -256,12 +256,12 @@ final class flm {
             flm.fnp(minecraftClient, String.format(Locale.ROOT, a.b("\ua160\ud8d5\u5256\ucc47\u47a3\uc141\u7b17\uf2ed\u6cad\ue64b\u61de\u9baa\u153c\u8cc9\u069f\u8065\u3a35\ub5b3\u2f46\ua91a\u20f9\u5aa1\ud402\u4fc3", -1601396468), (double)n + 0.5, n2, (double)n3 + 0.5));
             flm.fnp(minecraftClient, String.format(Locale.ROOT, a.b("\uc6bb\ubf0c\u35c7\uabb6\u2063\ua6d3\u1cce\u9572\u0b29\u819f\u0647\ufc30\u72f6\ueb54\u6100\ue7e3\u5de2\ud260\u48c8\uce84\u4772\u3d12\ub399\u2840\uae3c\u24e4\u9d5f\u1343\u89b1\u0feb\u8444\u7ac1\uf0c8\u693c\uef2e\u65db\uda09\u5073\ud6bc\u4f59\uc540\ubbea\u318c\ub61c\u2ce5\ua29c\u1b3c\u9186\u179a\u8c05\u0209\uf8e2\u7150\uf708\u6df0\ue3bb\u584a\ude90\u54b0\ucd2f\u43e4\u3980\ube64\u3434\uaae1\u234a\u991e\u1ffe\u95a2\u0a1e\u80cb\u068d\uff65\u75c0\ueb97\u607a\ue636\u5c90\ud542\u4b6d\uc1a9\u47ab\u3c56\ub2ca\u28a8\ua179\u27cc\u9d86\u1272\u8834\u0e86\u8746\u7d27\uf3bf\u686d\uee1c\u64c1\udabd\u5330\uc999\u4f81\uc474\uba20\u309a\ua943\u2f23\ua5e3\u1a55\u9010\u16af\u8cab\u0516\ufbc0\u71b6\uf672\u6c2e\ue29d\u5b41\ud12a\u57e7\ucc12\u424d\u38f0\ubea2\u3707\uadc0\u23ec\u9836\u1e78\u94cb\u0d1e\u8375\u79bc\ufe40\u7433\ueab3\u6088\ud914\u5fc3\ud5bf\u4a70\uc0dd\u46dc\u3f26\ub568\u2bbb\ua00e\u260d\u9ce1", -1394162083), fmv, n2, fmx));
             flm.fnp(minecraftClient, a.c(-1625792642, "\u5f5f\u26ed\uac3e\u324c\ub99d\u3f3b\u853c\u0c8a\u92db\u1875\u9fb5\u6581\ueb36\u72a2\uf8cf\u7e11\uc453\u4b8b\ud12d\u5724\ude83\ua4d6\u2a62\ub1b8\u37c1\ubd01\u04a1\u8af7\u1012\u960d\u1ded\ue327\u6975\uf085\u76e7\ufc6e\u43b1\uc9c3\u4f19\ud6a0\u5ccf\u2243\ua842\u2fe4\ub525\u3b4e\u8287\u0831\u8e6b\u15b5\u9bcb\u611c\ue8ee\u6ef6\uf402\u7a5b\uc1eb\u473d\ucd49\u5485\uda23\ua037\u27d7\uad95\u330e\ubab9\u00ed\u860c"));
-            clientPlayerEntity.method_31548().method_61496(0);
+            clientPlayerEntity.getInventory().setSelectedSlot(0);
             return true;
         }
         if (fmu == 30) {
             Entity entity = null;
-            for (Entity entity2 : minecraftClient.field_1687.method_18112()) {
+            for (Entity entity2 : minecraftClient.world.getEntities()) {
                 if (!(entity2 instanceof IronGolemEntity)) continue;
                 entity = entity2;
             }
@@ -270,10 +270,10 @@ final class flm {
                 fmu = -1;
                 return true;
             }
-            fma = entity.method_5628();
-            fmv = entity.method_23317();
-            fmw = entity.method_23318();
-            fmx = entity.method_23321();
+            fma = entity.getId();
+            fmv = entity.getX();
+            fmw = entity.getY();
+            fmx = entity.getZ();
             flm.fno();
             return true;
         }
@@ -291,19 +291,19 @@ final class flm {
         fme = true;
         AttackEntityCallback.EVENT.register((playerEntity, world, hand, entity, entityHitResult) -> {
             int n;
-            if (world.method_8608() || !fmb || entity.method_5628() != fma) {
-                return ActionResult.field_5811;
+            if (world.isClient() || !fmb || entity.getId() != fma) {
+                return ActionResult.PASS;
             }
-            float f = playerEntity.method_7261(0.5f);
-            boolean bl = f > 0.9f && playerEntity.field_6017 > 0.0 && !playerEntity.method_24828() && !playerEntity.method_6101() && !playerEntity.method_5799() && !playerEntity.method_5765() && !playerEntity.method_5624();
-            boolean bl2 = playerEntity.method_6047().method_31574(Items.field_49814) && playerEntity.field_6017 > 1.5 && !playerEntity.method_6128();
+            float f = playerEntity.getAttackCooldownProgress(0.5f);
+            boolean bl = f > 0.9f && playerEntity.fallDistance > 0.0 && !playerEntity.isOnGround() && !playerEntity.isClimbing() && !playerEntity.isTouchingWater() && !playerEntity.hasVehicle() && !playerEntity.isSprinting();
+            boolean bl2 = playerEntity.getMainHandStack().isOf(Items.MACE) && playerEntity.fallDistance > 1.5 && !playerEntity.isGliding();
             int n2 = fmc;
             if (fmg[n2] == 0) {
                 flm.fmk[n2] = bl;
             }
             if (entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity)entity;
-                if (livingEntity.field_6008 > 10) {
+                if (livingEntity.timeUntilRegen > 10) {
                     int n3 = n2;
                     fmj[n3] = fmj[n3] + 1;
                 }
@@ -328,32 +328,32 @@ final class flm {
                 fmd = -1;
             }
             if (!bl || fmf) {
-                System.out.println(String.format(Locale.ROOT, a.d("\ue830\u9190\u1b58\u8534\u0eb7\u8855\u3210\ubbf6\u25ad\uaf0f\u28cb\ud2e8\u5c7e\uc5da\u4f89\uc96d\u7320\ufcf9\u6601\ue003\u69eb\u13b9\u9d11\u0689\u80ee\u0a7e\ub389\u3d81\ua732\u217b\uaac3\u540f\ude15\u47a2\uc1b7\u4b01\uf4db\u7eaa\uf828\u6181\uebd5\u9539\u1f3f\u98c8\u0258\u8c3c\u35f2\ubf59\u390d\ua2d6\u2cfc\ud635\u5fd4\ud9d6\u4376\ucd24\u7699\uf053\u7a27\ue3ec\u6d12\u175b\u90fe\u1afc\u8470\u0dca\ub790\u3172\ubb30\u2483\uae08\u2861\ud1b5\u5b19\uc51f\u4ea8\uc8ac\u7203\ufbdc\u65bf\uef6b\u696f\u12c4\u9c43\u0667\u8fbb\u091b\ub354\u3cae\ua6a9", 1981648075, 1198810306), n2, playerEntity.method_23318() - fmw, playerEntity.field_6017, playerEntity.method_24828(), playerEntity.method_5624(), Float.valueOf(f), bl2, bl ? a.d("\u436d\u3acd\ub005\u2e69", 1603297142, 395975772) : a.c(70411306, "\u6443\u1df3\u976f\u095d\u829b\u0431\ube7f")));
+                System.out.println(String.format(Locale.ROOT, a.d("\ue830\u9190\u1b58\u8534\u0eb7\u8855\u3210\ubbf6\u25ad\uaf0f\u28cb\ud2e8\u5c7e\uc5da\u4f89\uc96d\u7320\ufcf9\u6601\ue003\u69eb\u13b9\u9d11\u0689\u80ee\u0a7e\ub389\u3d81\ua732\u217b\uaac3\u540f\ude15\u47a2\uc1b7\u4b01\uf4db\u7eaa\uf828\u6181\uebd5\u9539\u1f3f\u98c8\u0258\u8c3c\u35f2\ubf59\u390d\ua2d6\u2cfc\ud635\u5fd4\ud9d6\u4376\ucd24\u7699\uf053\u7a27\ue3ec\u6d12\u175b\u90fe\u1afc\u8470\u0dca\ub790\u3172\ubb30\u2483\uae08\u2861\ud1b5\u5b19\uc51f\u4ea8\uc8ac\u7203\ufbdc\u65bf\uef6b\u696f\u12c4\u9c43\u0667\u8fbb\u091b\ub354\u3cae\ua6a9", 1981648075, 1198810306), n2, playerEntity.getY() - fmw, playerEntity.fallDistance, playerEntity.isOnGround(), playerEntity.isSprinting(), Float.valueOf(f), bl2, bl ? a.d("\u436d\u3acd\ub005\u2e69", 1603297142, 395975772) : a.c(70411306, "\u6443\u1df3\u976f\u095d\u829b\u0431\ube7f")));
             }
-            return ActionResult.field_5811;
+            return ActionResult.PASS;
         });
         wcn.listen(packet -> {
             EntityAnimationS2CPacket entityAnimationS2CPacket;
             EntityDamageS2CPacket entityDamageS2CPacket;
-            if (packet instanceof EntityDamageS2CPacket && (entityDamageS2CPacket = (EntityDamageS2CPacket)packet).comp_1267() == fma) {
+            if (packet instanceof EntityDamageS2CPacket && (entityDamageS2CPacket = (EntityDamageS2CPacket)packet).entityId() == fma) {
                 flj flj2;
                 flz = flj2 = new flj();
                 fly.add(flj2);
-            } else if (packet instanceof EntityAnimationS2CPacket && (entityAnimationS2CPacket = (EntityAnimationS2CPacket)packet).method_11269() == fma && entityAnimationS2CPacket.method_11267() == 4 && flz != null) {
+            } else if (packet instanceof EntityAnimationS2CPacket && (entityAnimationS2CPacket = (EntityAnimationS2CPacket)packet).getEntityId() == fma && entityAnimationS2CPacket.getAnimationId() == 4 && flz != null) {
                 flm.flz.crit = true;
             }
         });
     }
 
     private static void fnk(ClientPlayerEntity clientPlayerEntity, float f) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        double d = fmv - vec3d.field_1352;
-        double d2 = fmw + 1.35 - vec3d.field_1351;
-        double d3 = fmx - vec3d.field_1350;
-        float f2 = (float)(MathHelper.method_15349((double)d3, (double)d) * 57.2957763671875) - 90.0f;
-        float f3 = (float)(-(MathHelper.method_15349((double)d2, (double)Math.sqrt(d * d + d3 * d3)) * 57.2957763671875));
-        clientPlayerEntity.method_36456(f2 + f);
-        clientPlayerEntity.method_36457(f3);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        double d = fmv - vec3d.x;
+        double d2 = fmw + 1.35 - vec3d.y;
+        double d3 = fmx - vec3d.z;
+        float f2 = (float)(MathHelper.atan2((double)d3, (double)d) * 57.2957763671875) - 90.0f;
+        float f3 = (float)(-(MathHelper.atan2((double)d2, (double)Math.sqrt(d * d + d3 * d3)) * 57.2957763671875));
+        clientPlayerEntity.setYaw(f2 + f);
+        clientPlayerEntity.setPitch(f3);
     }
 
     private static void fnl() {
@@ -370,21 +370,21 @@ final class flm {
     }
 
     private static void fnm(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        boolean bl = clientPlayerEntity.method_24828();
-        if (fmz && !bl && clientPlayerEntity.method_18798().field_1351 > 0.0) {
+        boolean bl = clientPlayerEntity.isOnGround();
+        if (fmz && !bl && clientPlayerEntity.getVelocity().y > 0.0) {
             fna = fmu;
             fnc = ++fnb % 2 == 0 ? 5 + fnb / 2 % 6 : -1;
         }
         fmz = bl;
         if (fnc > 0 && fmu - fna == fnc - 1) {
             fmd = fnc;
-            KeyBinding.method_1420((InputUtil.Key)KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.field_1690.field_1886));
+            KeyBinding.onKeyPressed((InputUtil.Key)KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.options.attackKey));
         }
     }
 
     private static void fnn(MinecraftClient minecraftClient) {
-        minecraftClient.field_1690.field_1903.method_23481(false);
-        minecraftClient.field_1690.field_1894.method_23481(false);
+        minecraftClient.options.jumpKey.setPressed(false);
+        minecraftClient.options.forwardKey.setPressed(false);
     }
 
     /*
@@ -420,7 +420,7 @@ final class flm {
     }
 
     private static void fnp(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     static {

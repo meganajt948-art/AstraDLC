@@ -81,17 +81,17 @@ implements vhe {
     @Override
     public int[] colors(ClientPlayerEntity clientPlayerEntity) {
         int n;
-        if (this.rpv.get() && (n = rpt.rqe(clientPlayerEntity.method_6047().method_7960() ? clientPlayerEntity.method_6079() : clientPlayerEntity.method_6047())) != 0) {
+        if (this.rpv.get() && (n = rpt.rqe(clientPlayerEntity.getMainHandStack().isEmpty() ? clientPlayerEntity.getOffHandStack() : clientPlayerEntity.getMainHandStack())) != 0) {
             return new int[]{n, ujt.lerp(n, -1, 0.45f)};
         }
         return new int[]{this.rpu.color() | 0xFF000000, this.rpu.color2() | 0xFF000000};
     }
 
     private static int rqe(ItemStack itemStack) {
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return 0;
         }
-        String string = Registries.field_41178.method_10221((Object)itemStack.method_7909()).method_12832();
+        String string = Registries.ITEM.getId((Object)itemStack.getItem()).getPath();
         if (string.contains("netherite")) {
             return -7573584;
         }

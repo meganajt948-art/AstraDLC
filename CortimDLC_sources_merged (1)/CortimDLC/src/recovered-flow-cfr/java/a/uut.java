@@ -89,7 +89,7 @@ public final class uut {
 
     private static void uvi(GuiRenderState guiRenderState, SimpleGuiElementRenderState simpleGuiElementRenderState) {
         if (uve == 0) {
-            guiRenderState.method_70919(simpleGuiElementRenderState);
+            guiRenderState.addSimpleElement(simpleGuiElementRenderState);
             return;
         }
         if (uvf != guiRenderState) {
@@ -111,7 +111,7 @@ public final class uut {
         if (guiRenderState != null) {
             for (uhx uhx2 : uvd) {
                 if (uhx2.isEmpty()) continue;
-                guiRenderState.method_70919((SimpleGuiElementRenderState)uhx2);
+                guiRenderState.addSimpleElement((SimpleGuiElementRenderState)uhx2);
             }
         }
         uvd.clear();
@@ -120,7 +120,7 @@ public final class uut {
 
     public static void pushAlpha(float f) {
         uuw.push(Float.valueOf(uux));
-        uux *= MathHelper.method_15363((float)f, (float)0.0f, (float)1.0f);
+        uux *= MathHelper.clamp((float)f, (float)0.0f, (float)1.0f);
     }
 
     public static void popAlpha() {
@@ -140,21 +140,21 @@ public final class uut {
     }
 
     public static void pushScissor(DrawContext drawContext, float f, float f2, float f3, float f4) {
-        int n = MathHelper.method_15375((float)f);
-        int n2 = MathHelper.method_15375((float)f2);
-        int n3 = MathHelper.method_15386((float)(f + f3));
-        int n4 = MathHelper.method_15386((float)(f2 + f4));
-        ScreenRect screenRect = new ScreenRect(n, n2, Math.max(0, n3 - n), Math.max(0, n4 - n2)).method_71523((Matrix3x2fc)drawContext.method_51448());
+        int n = MathHelper.floor((float)f);
+        int n2 = MathHelper.floor((float)f2);
+        int n3 = MathHelper.ceil((float)(f + f3));
+        int n4 = MathHelper.ceil((float)(f2 + f4));
+        ScreenRect screenRect = new ScreenRect(n, n2, Math.max(0, n3 - n), Math.max(0, n4 - n2)).transformEachVertex((Matrix3x2fc)drawContext.getMatrices());
         ScreenRect screenRect2 = uuv.peek();
-        ScreenRect screenRect3 = screenRect2 == null ? screenRect : screenRect2.method_49701(screenRect);
+        ScreenRect screenRect3 = screenRect2 == null ? screenRect : screenRect2.intersection(screenRect);
         uuv.push(screenRect3 == null ? uuu : screenRect3);
-        drawContext.method_44379(n, n2, n3, n4);
+        drawContext.enableScissor(n, n2, n3, n4);
     }
 
     public static void popScissor(DrawContext drawContext) {
         if (!uuv.isEmpty()) {
             uuv.pop();
-            drawContext.method_44380();
+            drawContext.disableScissor();
         }
     }
 
@@ -182,23 +182,23 @@ public final class uut {
     }
 
     public static void rect(DrawContext drawContext, float f, float f2, float f3, float f4, int n) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, 0.0f, 0.0f, 0.0f, 0.0f, n, n, n, n, 0.0f, 0.0f);
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, 0.0f, 0.0f, 0.0f, 0.0f, n, n, n, n, 0.0f, 0.0f);
     }
 
     public static void round(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, int n) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f5, f5, f5, n, n, n, n, 0.0f, 0.0f);
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f5, f5, f5, n, n, n, n, 0.0f, 0.0f);
     }
 
     public static void round(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, int n) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f6, f7, f8, n, n, n, n, 0.0f, 0.0f);
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f6, f7, f8, n, n, n, n, 0.0f, 0.0f);
     }
 
     public static void gradient(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, int n, int n2, int n3, int n4) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f5, f5, f5, n, n2, n3, n4, 0.0f, 0.0f);
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f5, f5, f5, n, n2, n3, n4, 0.0f, 0.0f);
     }
 
     public static void gradient(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8, int n, int n2, int n3, int n4) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f6, f7, f8, n, n2, n3, n4, 0.0f, 0.0f);
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f6, f7, f8, n, n2, n3, n4, 0.0f, 0.0f);
     }
 
     public static void gradientH(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, int n, int n2) {
@@ -210,15 +210,15 @@ public final class uut {
     }
 
     public static void outline(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, int n) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f5, f5, f5, n, n, n, n, 0.0f, Math.max(0.05f, f6));
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f5, f5, f5, n, n, n, n, 0.0f, Math.max(0.05f, f6));
     }
 
     public static void outlineGradientH(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, int n, int n2) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f5, f5, f5, n, n2, n2, n, 0.0f, Math.max(0.05f, f6));
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f5, f5, f5, n, n2, n2, n, 0.0f, Math.max(0.05f, f6));
     }
 
     public static void outlineGradientV(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, int n, int n2) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5, f5, f5, f5, n, n, n2, n2, 0.0f, Math.max(0.05f, f6));
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5, f5, f5, f5, n, n, n2, n2, 0.0f, Math.max(0.05f, f6));
     }
 
     public static boolean arc(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, int n, int n2, int n3, int n4) {
@@ -238,7 +238,7 @@ public final class uut {
         float f7 = f5 - (float)Math.floor(f5);
         int n9 = Math.round(f7 * 65535.0f) & 0xFFFF;
         int n10 = Math.round(Math.min(1.0f, f6) * 65535.0f) & 0xFFFF;
-        return uut.uvo(drawContext, uvq.ARC, TextureSetup.method_70899(), f - f3, f2 - f3, f3 * 2.0f, f3 * 2.0f, n9, n10, n8, n7, n6, n5, 0.0f, utx.pad(0.0f), f4);
+        return uut.uvo(drawContext, uvq.ARC, TextureSetup.empty(), f - f3, f2 - f3, f3 * 2.0f, f3 * 2.0f, n9, n10, n8, n7, n6, n5, 0.0f, utx.pad(0.0f), f4);
     }
 
     public static boolean arc(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, int n) {
@@ -246,7 +246,7 @@ public final class uut {
     }
 
     public static void shadow(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, float f6, int n) {
-        uut.uvl(drawContext, uvq.RECT, TextureSetup.method_70899(), f, f2, f3, f4, f5 + f6 * 0.5f, f5 + f6 * 0.5f, f5 + f6 * 0.5f, f5 + f6 * 0.5f, n, n, n, n, Math.max(0.5f, f6), 0.0f);
+        uut.uvl(drawContext, uvq.RECT, TextureSetup.empty(), f, f2, f3, f4, f5 + f6 * 0.5f, f5 + f6 * 0.5f, f5 + f6 * 0.5f, f5 + f6 * 0.5f, n, n, n, n, Math.max(0.5f, f6), 0.0f);
     }
 
     public static void line(DrawContext drawContext, float f, float f2, float f3, float f4, float f5, int n) {
@@ -269,26 +269,26 @@ public final class uut {
         }
         RenderPipeline renderPipeline2 = renderPipeline = uuy ? uvq.RECT_ADD : uvq.RECT;
         if (uvq.ensure(renderPipeline)) {
-            Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.method_51448()).translate(f, f2);
+            Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.getMatrices()).translate(f, f2);
             if (f9 > 0.001f) {
                 matrix3x2f.rotate((float)Math.atan2(f8, f7));
             }
             float f11 = f6 > 0.0f ? Math.max(0.5f, f6) : 0.0f;
             float f12 = f10 + f11 * 0.5f;
-            uut.uvn(drawContext, matrix3x2f, renderPipeline, TextureSetup.method_70899(), -f10, -f10, f9 + f5, f5, f12, f12, f12, f12, n2, n2, n2, n2, f11, utx.pad(f11), 0.0f);
+            uut.uvn(drawContext, matrix3x2f, renderPipeline, TextureSetup.empty(), -f10, -f10, f9 + f5, f5, f12, f12, f12, f12, n2, n2, n2, n2, f11, utx.pad(f11), 0.0f);
             return;
         }
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f2);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f2);
         if (f9 > 0.001f) {
-            drawContext.method_51448().rotate((float)Math.atan2(f8, f7));
+            drawContext.getMatrices().rotate((float)Math.atan2(f8, f7));
         }
         if (f6 > 0.0f) {
             uut.shadow(drawContext, -f10, -f10, f9 + f5, f5, f10, f6, n);
         } else {
             uut.round(drawContext, -f10, -f10, f9 + f5, f5, f10, n);
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     public static void circle(DrawContext drawContext, float f, float f2, float f3, int n) {
@@ -307,14 +307,14 @@ public final class uut {
         if (gpuTextureView == null) {
             return false;
         }
-        float f7 = MathHelper.method_15363((float)(f6 * uux), (float)0.0f, (float)1.0f);
+        float f7 = MathHelper.clamp((float)(f6 * uux), (float)0.0f, (float)1.0f);
         if (f7 <= 0.002f || f3 <= 0.0f || f4 <= 0.0f) {
             return true;
         }
         if (!uvq.ensure(uvq.GLASS)) {
             return false;
         }
-        TextureSetup textureSetup = TextureSetup.method_70900((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+        TextureSetup textureSetup = TextureSetup.of((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
         return uut.uvm(drawContext, uvq.GLASS, textureSetup, f, f2, f3, f4, f5, f5, f5, f5, n, n, n, n, 0.0f, utx.pad(0.0f), f7);
     }
 
@@ -326,14 +326,14 @@ public final class uut {
         if (gpuTextureView == null) {
             return false;
         }
-        float f7 = MathHelper.method_15363((float)(f6 * uux), (float)0.0f, (float)1.0f);
+        float f7 = MathHelper.clamp((float)(f6 * uux), (float)0.0f, (float)1.0f);
         if (f7 <= 0.004f || f3 <= 0.0f || f4 <= 0.0f) {
             return true;
         }
         if (!uvq.ensure(uvq.LIQUID)) {
             return uut.glass(drawContext, gpuTextureView, f, f2, f3, f4, f5, n, f6);
         }
-        TextureSetup textureSetup = TextureSetup.method_70900((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+        TextureSetup textureSetup = TextureSetup.of((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
         float f8 = Math.min(f3, f4) * 0.5f;
         return uut.uvm(drawContext, uvq.LIQUID, textureSetup, f, f2, f3, f4, f5, f5, f5, f5, n, n, n, n, uoy2.packShape(f8), utx.pad(0.0f), uoy2.packLight(f7));
     }
@@ -345,7 +345,7 @@ public final class uut {
         if (n2 >>> 24 == 0 || f3 <= 0.0f || f4 <= 0.0f || !uvq.ensure(renderPipeline)) {
             return;
         }
-        TextureSetup textureSetup = TextureSetup.method_70900((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+        TextureSetup textureSetup = TextureSetup.of((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
         uut.uvm(drawContext, renderPipeline, textureSetup, f, f2, f3, f4, f5, f5, f5, f5, n2, n2, n2, n2, 0.0f, utx.pad(0.0f), 0.0f);
     }
 
@@ -358,7 +358,7 @@ public final class uut {
         int n4 = Math.max(0, Math.min(4095, Math.round(f7 * 4095.0f)));
         int n5 = Math.max(1, Math.min(4095, Math.round((f8 - f6) * 4095.0f)));
         int n6 = Math.max(1, Math.min(4095, Math.round((f9 - f7) * 4095.0f)));
-        TextureSetup textureSetup = TextureSetup.method_70900((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().method_75294(bl ? FilterMode.NEAREST : FilterMode.LINEAR));
+        TextureSetup textureSetup = TextureSetup.of((GpuTextureView)gpuTextureView, (GpuSampler)RenderSystem.getSamplerCache().get(bl ? FilterMode.NEAREST : FilterMode.LINEAR));
         uut.uvm(drawContext, uvq.IMAGE, textureSetup, f, f2, f3, f4, f5, f5, f5, f5, n2, n2, n2, n2, n3 << 12 | n4, utx.pad(0.0f), n5 << 12 | n6);
     }
 
@@ -375,7 +375,7 @@ public final class uut {
         if (guiRenderState == null || !uvq.ensure(renderPipeline)) {
             return;
         }
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         float f9 = matrix3x2fStack.m00() * f + matrix3x2fStack.m10() * f2 + matrix3x2fStack.m20();
         float f10 = matrix3x2fStack.m01() * f + matrix3x2fStack.m11() * f2 + matrix3x2fStack.m21();
         float f11 = matrix3x2fStack.m00() * f3 + matrix3x2fStack.m10() * f4 + matrix3x2fStack.m20();
@@ -384,16 +384,16 @@ public final class uut {
         float f14 = matrix3x2fStack.m01() * f5 + matrix3x2fStack.m11() * f6 + matrix3x2fStack.m21();
         float f15 = matrix3x2fStack.m00() * f7 + matrix3x2fStack.m10() * f8 + matrix3x2fStack.m20();
         float f16 = matrix3x2fStack.m01() * f7 + matrix3x2fStack.m11() * f8 + matrix3x2fStack.m21();
-        int n9 = MathHelper.method_15375((float)Math.min(Math.min(f9, f11), Math.min(f13, f15)));
-        int n10 = MathHelper.method_15375((float)Math.min(Math.min(f10, f12), Math.min(f14, f16)));
-        int n11 = MathHelper.method_15386((float)Math.max(Math.max(f9, f11), Math.max(f13, f15)));
-        int n12 = MathHelper.method_15386((float)Math.max(Math.max(f10, f12), Math.max(f14, f16)));
+        int n9 = MathHelper.floor((float)Math.min(Math.min(f9, f11), Math.min(f13, f15)));
+        int n10 = MathHelper.floor((float)Math.min(Math.min(f10, f12), Math.min(f14, f16)));
+        int n11 = MathHelper.ceil((float)Math.max(Math.max(f9, f11), Math.max(f13, f15)));
+        int n12 = MathHelper.ceil((float)Math.max(Math.max(f10, f12), Math.max(f14, f16)));
         if (n11 <= n9 || n12 <= n10) {
             return;
         }
         ScreenRect screenRect = uuv.peek();
         ScreenRect screenRect2 = new ScreenRect(n9, n10, n11 - n9, n12 - n10);
-        if (screenRect != null && (screenRect2 = screenRect.method_49701(screenRect2)) == null) {
+        if (screenRect != null && (screenRect2 = screenRect.intersection(screenRect2)) == null) {
             return;
         }
         uut.uvi(guiRenderState, new utf(renderPipeline, f9, f10, f11, f12, f13, f14, f15, f16, n8, n7, n6, n5, screenRect, screenRect2));
@@ -411,7 +411,7 @@ public final class uut {
         if (guiRenderState == null || !uvq.ensure(renderPipeline)) {
             return;
         }
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         float[] fArray2 = new float[20];
         float f3 = Float.MAX_VALUE;
         float f4 = Float.MAX_VALUE;
@@ -433,16 +433,16 @@ public final class uut {
             f5 = Math.max(f5, f9);
             f6 = Math.max(f6, f10);
         }
-        n6 = MathHelper.method_15375((float)f3);
-        n5 = MathHelper.method_15375((float)f4);
-        int n8 = MathHelper.method_15386((float)f5);
-        int n9 = MathHelper.method_15386((float)f6);
+        n6 = MathHelper.floor((float)f3);
+        n5 = MathHelper.floor((float)f4);
+        int n8 = MathHelper.ceil((float)f5);
+        int n9 = MathHelper.ceil((float)f6);
         if (n8 <= n6 || n9 <= n5) {
             return;
         }
         ScreenRect screenRect = uuv.peek();
         ScreenRect screenRect2 = new ScreenRect(n6, n5, n8 - n6, n9 - n5);
-        if (screenRect != null && (screenRect2 = screenRect.method_49701(screenRect2)) == null) {
+        if (screenRect != null && (screenRect2 = screenRect.intersection(screenRect2)) == null) {
             return;
         }
         float f11 = f2 % 3600.0f;
@@ -487,7 +487,7 @@ public final class uut {
             return false;
         }
         if (matrix3x2f == null) {
-            matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.method_51448());
+            matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.getMatrices());
         }
         if ((screenRect2 = uut.bounds(matrix3x2f, f - f10, f2 - f10, f + f3 + f10, f2 + f4 + f10, screenRect = uuv.peek())) == null) {
             return true;
@@ -503,7 +503,7 @@ public final class uut {
         if (guiRenderState == null) {
             return false;
         }
-        Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.method_51448());
+        Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.getMatrices());
         ScreenRect screenRect2 = uut.bounds(matrix3x2f, f - f6, f2 - f6, f + f3 + f6, f2 + f4 + f6, screenRect = uuv.peek());
         if (screenRect2 == null) {
             return true;
@@ -520,15 +520,15 @@ public final class uut {
     }
 
     public static @Nullable ScreenRect bounds(Matrix3x2f matrix3x2f, float f, float f2, float f3, float f4, @Nullable ScreenRect screenRect) {
-        int n = MathHelper.method_15375((float)f);
-        int n2 = MathHelper.method_15375((float)f2);
-        int n3 = MathHelper.method_15386((float)f3) - n;
-        int n4 = MathHelper.method_15386((float)f4) - n2;
+        int n = MathHelper.floor((float)f);
+        int n2 = MathHelper.floor((float)f2);
+        int n3 = MathHelper.ceil((float)f3) - n;
+        int n4 = MathHelper.ceil((float)f4) - n2;
         if (n3 <= 0 || n4 <= 0) {
             return null;
         }
-        ScreenRect screenRect2 = new ScreenRect(n, n2, n3, n4).method_71523((Matrix3x2fc)matrix3x2f);
-        return screenRect != null ? screenRect.method_49701(screenRect2) : screenRect2;
+        ScreenRect screenRect2 = new ScreenRect(n, n2, n3, n4).transformEachVertex((Matrix3x2fc)matrix3x2f);
+        return screenRect != null ? screenRect.intersection(screenRect2) : screenRect2;
     }
 
     private static void uvp(DrawContext drawContext, float f, float f2, float f3, float f4, int n, int n2, float f5) {
@@ -537,11 +537,11 @@ public final class uut {
         int n5 = Math.round(f + f3);
         int n6 = Math.round(f2 + f4);
         if (f5 > 0.0f) {
-            drawContext.method_73198(n3, n4, n5 - n3, n6 - n4, n);
+            drawContext.drawStrokedRectangle(n3, n4, n5 - n3, n6 - n4, n);
         } else if (n == n2) {
-            drawContext.method_25294(n3, n4, n5, n6, n);
+            drawContext.fill(n3, n4, n5, n6, n);
         } else {
-            drawContext.method_25296(n3, n4, n5, n6, n, n2);
+            drawContext.fillGradient(n3, n4, n5, n6, n, n2);
         }
     }
 

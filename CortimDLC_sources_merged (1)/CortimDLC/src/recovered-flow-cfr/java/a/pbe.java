@@ -56,7 +56,7 @@ extends kfe {
     private static final float pbl = 18.0f;
     private static final float pbm = 5.0f;
     private static final float pbn = 13.0f;
-    private final DefaultedList<ItemStack> pbo = DefaultedList.method_10213((int)27, (Object)ItemStack.field_8037);
+    private final DefaultedList<ItemStack> pbo = DefaultedList.ofSize((int)27, (Object)ItemStack.EMPTY);
     private static /* synthetic */ int pbp;
     private static /* synthetic */ int pbq;
 
@@ -84,30 +84,30 @@ extends kfe {
         int n4;
         int n5;
         BlockItem blockItem;
-        if (!handledScreen.method_17577().method_34255().method_7960()) {
+        if (!handledScreen.getScreenHandler().getCursorStack().isEmpty()) {
             return;
         }
         Slot slot = vxl.hovered(handledScreen);
-        if (slot == null || !slot.method_7681()) {
+        if (slot == null || !slot.hasStack()) {
             return;
         }
-        ItemStack itemStack = slot.method_7677();
-        Item item = itemStack.method_7909();
-        if (!(item instanceof BlockItem) || !((item = (blockItem = (BlockItem)item).method_7711()) instanceof ShulkerBoxBlock)) {
+        ItemStack itemStack = slot.getStack();
+        Item item = itemStack.getItem();
+        if (!(item instanceof BlockItem) || !((item = (blockItem = (BlockItem)item).getBlock()) instanceof ShulkerBoxBlock)) {
             return;
         }
         ShulkerBoxBlock shulkerBoxBlock = (ShulkerBoxBlock)item;
-        item = (ContainerComponent)itemStack.method_58694(DataComponentTypes.field_49622);
+        item = (ContainerComponent)itemStack.get(DataComponentTypes.CONTAINER);
         for (n5 = 0; n5 < this.pbo.size(); ++n5) {
-            this.pbo.set(n5, (Object)ItemStack.field_8037);
+            this.pbo.set(n5, (Object)ItemStack.EMPTY);
         }
         if (item != null) {
-            item.method_57492(this.pbo);
+            item.copyTo(this.pbo);
         }
         n5 = 0;
         int n6 = 0;
         for (n4 = 0; n4 < 27; ++n4) {
-            if (((ItemStack)this.pbo.get(n4)).method_7960()) continue;
+            if (((ItemStack)this.pbo.get(n4)).isEmpty()) continue;
             ++n5;
             n6 = n4 / 9;
         }
@@ -115,26 +115,26 @@ extends kfe {
         float f = 172.0f;
         float f2 = 18.0f + (float)n4 * 18.0f + 5.0f;
         float f3 = (float)this.pbg.get();
-        int n7 = drawContext.method_51421();
-        int n8 = drawContext.method_51443();
+        int n7 = drawContext.getScaledWindowWidth();
+        int n8 = drawContext.getScaledWindowHeight();
         float f4 = Math.max(2.0f, Math.min((float)n7 - f * f3 - 2.0f, (float)n + 10.0f));
         float f5 = (float)n2 - 18.0f - f2 * f3;
         if (f5 < 2.0f) {
             f5 = Math.min((float)n8 - f2 * f3 - 2.0f, (float)n2 + 22.0f);
         }
-        int n9 = (dyeColor = shulkerBoxBlock.method_10528()) != null ? 0xFF000000 | dyeColor.method_7787() : -6522701;
+        int n9 = (dyeColor = shulkerBoxBlock.getColor()) != null ? 0xFF000000 | dyeColor.getEntityColor() : -6522701;
         int n10 = this.pbh.get() ? ujt.lerp(-15592938, n9, 0.22f) : iov.window | 0xFF000000;
         int n11 = this.pbh.get() ? ujt.lerp(n9, -1, 0.25f) : iov.stroke;
         int n12 = ujt.withAlpha(ujt.lerp(n10, -1, 0.07f), 235);
         float f6 = 6.0f;
         uut.beginFrame();
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f4, f5);
-        drawContext.method_51448().scale(f3, f3);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f4, f5);
+        drawContext.getMatrices().scale(f3, f3);
         uut.shadow(drawContext, 0.0f, 2.0f, f, f2, f6, 10.0f, 0x70000000);
         uut.round(drawContext, 0.0f, 0.0f, f, f2, f6, ujt.withAlpha(n10, 245));
         uut.outline(drawContext, 0.0f, 0.0f, f, f2, f6, 1.0f, ujt.withAlpha(n11, 150));
-        String string = itemStack.method_7964().getString();
+        String string = itemStack.getName().getString();
         String string2 = n5 + a.b("\uc229\ubb85\u3153", -1330724347);
         pbj.draw(drawContext, pbj.ellipsize(string, f - 10.0f - pbk.width(string2) - 8.0f), 6.0f, pbj.centerTop(8.5f), -855307);
         pbk.draw(drawContext, string2, f - 5.0f - pbk.width(string2), pbk.centerTop(8.5f), ujt.withAlpha(n11, 220));
@@ -143,16 +143,16 @@ extends kfe {
                 uut.round(drawContext, 5.0f + (float)n3 * 18.0f + 0.5f, 18.0f + (float)i * 18.0f + 0.5f, 17.0f, 17.0f, 3.0f, n12);
             }
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         for (n3 = 0; n3 < n4 * 9; ++n3) {
             ItemStack itemStack2 = (ItemStack)this.pbo.get(n3);
-            if (itemStack2.method_7960()) continue;
+            if (itemStack2.isEmpty()) continue;
             int n13 = Math.round(5.0f + (float)(n3 % 9) * 18.0f + 1.0f);
             int n14 = Math.round(18.0f + (float)(n3 / 9) * 18.0f + 1.0f);
-            drawContext.method_51427(itemStack2, n13, n14);
-            drawContext.method_51431(minecraftClient.field_1772, itemStack2, n13, n14);
+            drawContext.drawItem(itemStack2, n13, n14);
+            drawContext.drawStackOverlay(minecraftClient.textRenderer, itemStack2, n13, n14);
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     static {

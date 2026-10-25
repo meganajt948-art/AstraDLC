@@ -138,9 +138,9 @@ extends kfe {
                 if (lsx2 == null || !lsx2.isEnabled() || !lsx2.ltq(text.getString())) {
                     return true;
                 }
-                MinecraftClient minecraftClient = MinecraftClient.method_1551();
-                Text text2 = parameters == null ? text : parameters.method_44837(text);
-                minecraftClient.field_1705.method_1743().method_1812(lsx.protect(text2));
+                MinecraftClient minecraftClient = MinecraftClient.getInstance();
+                Text text2 = parameters == null ? text : parameters.applyChatDecoration(text);
+                minecraftClient.inGameHud.getChatHud().addMessage(lsx.protect(text2));
                 return false;
             });
         }
@@ -160,11 +160,11 @@ extends kfe {
         if (lsx2 == null || !lsx2.isEnabled() || text == null || !lsx2.ltq(text.getString())) {
             return text;
         }
-        MutableText mutableText = Text.method_43473();
-        text.method_27658((style, string) -> {
-            mutableText.method_10852((Text)Text.method_43470((String)lsx2.ltr(string)).method_10862(style));
+        MutableText mutableText = Text.empty();
+        text.visit((style, string) -> {
+            mutableText.append((Text)Text.literal((String)lsx2.ltr(string)).setStyle(style));
             return Optional.empty();
-        }, Style.field_24360);
+        }, Style.EMPTY);
         return mutableText;
     }
 
@@ -188,8 +188,8 @@ extends kfe {
         if (pattern == null || string.isEmpty()) {
             return string;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        String string2 = minecraftClient.method_1548() == null ? "" : minecraftClient.method_1548().method_1676();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        String string2 = minecraftClient.getSession() == null ? "" : minecraftClient.getSession().getUsername();
         Matcher matcher = pattern.matcher(string);
         StringBuilder stringBuilder = null;
         while (matcher.find()) {
@@ -209,8 +209,8 @@ extends kfe {
 
     private Pattern lts() {
         int n;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        String string = minecraftClient.method_1548() == null ? "" : minecraftClient.method_1548().method_1676();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        String string = minecraftClient.getSession() == null ? "" : minecraftClient.getSession().getUsername();
         int n2 = n = this.lta.get() ? hhf.version() : -2;
         if (!string.equals(this.ltd) || n != this.ltf) {
             this.ltd = string;
@@ -237,25 +237,25 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
         if (clientPlayNetworkHandler == null) {
             return;
         }
-        for (PlayerListEntry playerListEntry : clientPlayNetworkHandler.method_2880()) {
+        for (PlayerListEntry playerListEntry : clientPlayNetworkHandler.getPlayerList()) {
             Text text;
-            String string = playerListEntry.method_2966().name();
-            if (!this.ltq(string) || (text = playerListEntry.method_2971()) != null && !this.ltq(text.getString())) continue;
-            this.ltg.putIfAbsent(playerListEntry.method_2966().id(), text);
-            playerListEntry.method_2962((Text)(text == null ? Text.method_43470((String)this.ltr(string)) : lsx.protect(text)));
+            String string = playerListEntry.getProfile().name();
+            if (!this.ltq(string) || (text = playerListEntry.getDisplayName()) != null && !this.ltq(text.getString())) continue;
+            this.ltg.putIfAbsent(playerListEntry.getProfile().id(), text);
+            playerListEntry.setDisplayName((Text)(text == null ? Text.literal((String)this.ltr(string)) : lsx.protect(text)));
         }
     }
 
     private void ltt() {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = this.mc.method_1562();
+        ClientPlayNetworkHandler clientPlayNetworkHandler = this.mc.getNetworkHandler();
         if (clientPlayNetworkHandler != null) {
-            for (PlayerListEntry playerListEntry : clientPlayNetworkHandler.method_2880()) {
-                if (!this.ltg.containsKey(playerListEntry.method_2966().id())) continue;
-                playerListEntry.method_2962(this.ltg.get(playerListEntry.method_2966().id()));
+            for (PlayerListEntry playerListEntry : clientPlayNetworkHandler.getPlayerList()) {
+                if (!this.ltg.containsKey(playerListEntry.getProfile().id())) continue;
+                playerListEntry.setDisplayName(this.ltg.get(playerListEntry.getProfile().id()));
             }
         }
         this.ltg.clear();
@@ -365,16 +365,16 @@ extends kfe {
         }
         IdentityHashMap<ClientBossBar, Text> identityHashMap = new IdentityHashMap<ClientBossBar, Text>();
         for (ClientBossBar clientBossBar : pjn.of(minecraftClient).values()) {
-            Text text = clientBossBar.method_5414();
+            Text text = clientBossBar.getName();
             if (text == null || !lsx2.ltq(text.getString())) continue;
             identityHashMap.put(clientBossBar, text);
-            clientBossBar.method_5413(lsx.protect(text));
+            clientBossBar.setName(lsx.protect(text));
         }
         try {
             runnable.run();
         }
         finally {
-            identityHashMap.forEach(BossBar::method_5413);
+            identityHashMap.forEach(BossBar::setName);
         }
     }
 
@@ -382,14 +382,14 @@ extends kfe {
         if (lti == null) {
             lti = lsx.ltz(InGameHud.class);
         }
-        lsx.lty(minecraftClient.field_1705, lti, runnable);
+        lsx.lty(minecraftClient.inGameHud, lti, runnable);
     }
 
     public static void playerList(MinecraftClient minecraftClient, Runnable runnable) {
         if (ltj == null) {
             ltj = lsx.ltz(PlayerListHud.class);
         }
-        lsx.lty(minecraftClient.field_1705 == null ? null : minecraftClient.field_1705.method_1750(), ltj, runnable);
+        lsx.lty(minecraftClient.inGameHud == null ? null : minecraftClient.inGameHud.getPlayerListHud(), ltj, runnable);
     }
 
     /*
@@ -450,62 +450,62 @@ extends kfe {
         int n2;
         ScoreboardDisplaySlot scoreboardDisplaySlot;
         lsx lsx2 = lsy;
-        if (lsx2 == null || !lsx2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null) {
+        if (lsx2 == null || !lsx2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null) {
             return false;
         }
-        Scoreboard scoreboard = minecraftClient.field_1687.method_8428();
+        Scoreboard scoreboard = minecraftClient.world.getScoreboard();
         ScoreboardObjective scoreboardObjective = null;
-        Team team = scoreboard.method_1164(minecraftClient.field_1724.method_5820());
-        if (team != null && (scoreboardDisplaySlot = ScoreboardDisplaySlot.method_52622((Formatting)team.method_1202())) != null) {
-            scoreboardObjective = scoreboard.method_1189(scoreboardDisplaySlot);
+        Team team = scoreboard.getScoreHolderTeam(minecraftClient.player.getNameForScoreboard());
+        if (team != null && (scoreboardDisplaySlot = ScoreboardDisplaySlot.fromFormatting((Formatting)team.getColor())) != null) {
+            scoreboardObjective = scoreboard.getObjectiveForSlot(scoreboardDisplaySlot);
         }
         if (scoreboardObjective == null) {
-            scoreboardObjective = scoreboard.method_1189(ScoreboardDisplaySlot.field_45157);
+            scoreboardObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.SIDEBAR);
         }
         if (scoreboardObjective == null) {
             return false;
         }
-        scoreboardDisplaySlot = scoreboardObjective.method_55380((NumberFormat)StyledNumberFormat.field_47567);
-        List<ScoreboardEntry> list = scoreboard.method_1184(scoreboardObjective).stream().filter(scoreboardEntry -> !scoreboardEntry.method_55385()).sorted(lsx.lua()).limit(15L).toList();
+        scoreboardDisplaySlot = scoreboardObjective.getNumberFormatOr((NumberFormat)StyledNumberFormat.RED);
+        List<ScoreboardEntry> list = scoreboard.getScoreboardEntries(scoreboardObjective).stream().filter(scoreboardEntry -> !scoreboardEntry.hidden()).sorted(lsx.lua()).limit(15L).toList();
         int n3 = list.size();
-        Text text = scoreboardObjective.method_1114();
+        Text text = scoreboardObjective.getDisplayName();
         Text[] textArray = new Text[n3];
         Text[] textArray2 = new Text[n3];
         boolean bl = lsx2.ltq(text.getString());
         for (int i = 0; i < n3; ++i) {
             ScoreboardEntry scoreboardEntry2 = list.get(i);
-            textArray[i] = Team.method_1142((AbstractTeam)scoreboard.method_1164(scoreboardEntry2.comp_2127()), (Text)scoreboardEntry2.method_55387());
-            textArray2[i] = scoreboardEntry2.method_55386((NumberFormat)scoreboardDisplaySlot);
+            textArray[i] = Team.decorateName((AbstractTeam)scoreboard.getScoreHolderTeam(scoreboardEntry2.owner()), (Text)scoreboardEntry2.name());
+            textArray2[i] = scoreboardEntry2.formatted((NumberFormat)scoreboardDisplaySlot);
             bl |= lsx2.ltq(textArray[i].getString()) || lsx2.ltq(textArray2[i].getString());
         }
         if (!bl) {
             return false;
         }
-        TextRenderer textRenderer = minecraftClient.field_1772;
+        TextRenderer textRenderer = minecraftClient.textRenderer;
         text = lsx.protect(text);
-        int n4 = n2 = textRenderer.method_27525((StringVisitable)text);
-        int n5 = textRenderer.method_1727(a.c(1642204628, "\u0dec\u7447"));
+        int n4 = n2 = textRenderer.getWidth((StringVisitable)text);
+        int n5 = textRenderer.getWidth(a.c(1642204628, "\u0dec\u7447"));
         int[] nArray = new int[n3];
         for (n = 0; n < n3; ++n) {
             textArray[n] = lsx.protect(textArray[n]);
             textArray2[n] = lsx.protect(textArray2[n]);
-            nArray[n] = textRenderer.method_27525((StringVisitable)textArray2[n]);
-            n4 = Math.max(n4, textRenderer.method_27525((StringVisitable)textArray[n]) + (nArray[n] > 0 ? n5 + nArray[n] : 0));
+            nArray[n] = textRenderer.getWidth((StringVisitable)textArray2[n]);
+            n4 = Math.max(n4, textRenderer.getWidth((StringVisitable)textArray[n]) + (nArray[n] > 0 ? n5 + nArray[n] : 0));
         }
-        drawContext.method_71048();
+        drawContext.createNewRootLayer();
         Objects.requireNonNull(textRenderer);
         n = 9;
-        int n6 = drawContext.method_51443() / 2 + n3 * n / 3;
-        int n7 = drawContext.method_51421() - n4 - 3;
-        int n8 = drawContext.method_51421() - 3 + 2;
+        int n6 = drawContext.getScaledWindowHeight() / 2 + n3 * n / 3;
+        int n7 = drawContext.getScaledWindowWidth() - n4 - 3;
+        int n8 = drawContext.getScaledWindowWidth() - 3 + 2;
         int n9 = n6 - n3 * n;
-        drawContext.method_25294(n7 - 2, n9 - n - 1, n8, n9 - 1, minecraftClient.field_1690.method_19345(0.4f));
-        drawContext.method_25294(n7 - 2, n9 - 1, n8, n6, minecraftClient.field_1690.method_19345(0.3f));
-        drawContext.method_51439(textRenderer, text, n7 + n4 / 2 - n2 / 2, n9 - n, -1, false);
+        drawContext.fill(n7 - 2, n9 - n - 1, n8, n9 - 1, minecraftClient.options.getTextBackgroundColor(0.4f));
+        drawContext.fill(n7 - 2, n9 - 1, n8, n6, minecraftClient.options.getTextBackgroundColor(0.3f));
+        drawContext.drawText(textRenderer, text, n7 + n4 / 2 - n2 / 2, n9 - n, -1, false);
         for (int i = 0; i < n3; ++i) {
             int n10 = n6 - (n3 - i) * n;
-            drawContext.method_51439(textRenderer, textArray[i], n7, n10, -1, false);
-            drawContext.method_51439(textRenderer, textArray2[i], n8 - nArray[i], n10, -1, false);
+            drawContext.drawText(textRenderer, textArray[i], n7, n10, -1, false);
+            drawContext.drawText(textRenderer, textArray2[i], n8 - nArray[i], n10, -1, false);
         }
         return true;
     }
@@ -522,7 +522,7 @@ extends kfe {
                 break;
             }
             if (ltl == null) {
-                ltl = Comparator.comparing(ScoreboardEntry::comp_2128, Comparator.reverseOrder()).thenComparing(ScoreboardEntry::comp_2127, String.CASE_INSENSITIVE_ORDER);
+                ltl = Comparator.comparing(ScoreboardEntry::value, Comparator.reverseOrder()).thenComparing(ScoreboardEntry::owner, String.CASE_INSENSITIVE_ORDER);
             }
         }
         return ltl;
@@ -533,14 +533,14 @@ extends kfe {
         if (lsx2 == null || !lsx2.isEnabled() || worldRenderState == null) {
             return;
         }
-        for (EntityRenderState entityRenderState : worldRenderState.field_61735) {
-            if (entityRenderState.field_53337 != null && lsx2.ltq(entityRenderState.field_53337.getString())) {
-                entityRenderState.field_53337 = lsx.protect(entityRenderState.field_53337);
+        for (EntityRenderState entityRenderState : worldRenderState.entityRenderStates) {
+            if (entityRenderState.displayName != null && lsx2.ltq(entityRenderState.displayName.getString())) {
+                entityRenderState.displayName = lsx.protect(entityRenderState.displayName);
             }
             if (!(entityRenderState instanceof PlayerEntityRenderState)) continue;
             PlayerEntityRenderState playerEntityRenderState = (PlayerEntityRenderState)entityRenderState;
-            if (playerEntityRenderState.field_53525 == null || !lsx2.ltq(playerEntityRenderState.field_53525.getString())) continue;
-            playerEntityRenderState.field_53525 = lsx.protect(playerEntityRenderState.field_53525);
+            if (playerEntityRenderState.playerName == null || !lsx2.ltq(playerEntityRenderState.playerName.getString())) continue;
+            playerEntityRenderState.playerName = lsx.protect(playerEntityRenderState.playerName);
         }
     }
 

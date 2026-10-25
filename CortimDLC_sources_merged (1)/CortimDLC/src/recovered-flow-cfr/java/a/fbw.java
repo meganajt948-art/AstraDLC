@@ -83,7 +83,7 @@ final class fbw {
     }
 
     static boolean tick(MinecraftClient minecraftClient, int n) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return false;
         }
@@ -121,10 +121,10 @@ final class fbw {
         fbw.fdo(minecraftClient, a.c(1132876923, "\u5403\u2dbc\ua770\u3912\ub280\u3451\u8e31\u0793\u9981\u1334\u94e0\u6e9a\ue04b\u79eb\uf3ab\u755d\ucf00\u409f\uda72\u5c2e\ud5d1\uaf8c\u213d\ubaed\u3c98\ub672\u0fed\u81b8\u1b57\u9d1b\u16be"));
         fci = vxr.find(Mouse.class, a.c(1301380534, "\u7dcf\u0475\u8eb7\u109c\u9b08\u1dbd\ua7e9\u2e13\ub04a\u3aea\ubd2a\u475c\uc999\u5072\uda6c\u5c92\ue6d0\u6913\uf3a0\u75dd\ufc46\u8615\u08a5"), a.b("\u748d\u0d33\u87ec\u1994\u924b\u14c1\uaefc\u270b\ub95b\u33e1", -1974373151), a.d("\uf2ad", -2038234296, -1778847298));
         fcj = vxr.find(MinecraftClient.class, a.c(68073431, "\ub7ae\uce14\u44d6\udafd\u5169\ud7dc\u6d88\ue472\u7a2b\uf08b\u774b\u8d3d\u03f8\u9a13\u100d\u96f3\u2cb1\ua372\u39c1\ubfbc\u3627\u4c74\uc2c6"), a.d("\u448d\u3d33\ub7ec\u2994\ua24b\u24c1\u9efc\u170a\u895a\u03e7", -789126292, -591812723), a.d("\u3798", -1857656419, 1284333150));
-        long l2 = minecraftClient.method_22683().method_4490();
+        long l2 = minecraftClient.getWindow().getHandle();
         GLFW.glfwSetCursorPosCallback((long)l2, (l, d, d2) -> {});
         GLFW.glfwSetMouseButtonCallback((long)l2, (l, n, n2, n3) -> {});
-        minecraftClient.field_1724.method_31548().method_61496(0);
+        minecraftClient.player.getInventory().setSelectedSlot(0);
         for (String string : new String[]{a.d("\u4461\u3df6\ub73e\u2941\ua296\u2425\u9e61\u17a0\u89d2\u0378", 2057064799, -1076357792), a.b("\u23ca\u5a53\ud084\u4ed9\uc53c\u438d\uf9c4\u702f\uee77", 180102018), a.c(-1782438086, "\u2773\u5ef6\ud424\u4a4e\uc1bb\u4726\ufd77\u7480"), a.d("\ud417\uad92\u2740\ub92a\u32c1\ub454\u0e11\u87f1", 1953805047, 575104681), a.d("\u1e65\u67ff\ued3c\u734a\uf880\u7e1f\uc464\u4d91", -1428883204, 416802527)}) {
             kfe kfe2 = Flow.getInstance().getModuleManager().getByName(string);
             if (kfe2 == null) continue;
@@ -170,23 +170,23 @@ final class fbw {
             fcp = fcc.nextInt(3) - 1;
         }
         fcd.clear();
-        fbw.fdg(minecraftClient.field_1690.field_1913, fcp < 0);
-        fbw.fdg(minecraftClient.field_1690.field_1849, fcp > 0);
-        fbw.fdg(minecraftClient.field_1690.field_1894, fcc.nextInt(4) == 0);
-        minecraftClient.field_1690.field_1903.method_23481(clientPlayerEntity.method_24828() && fcc.nextInt(25) == 0);
+        fbw.fdg(minecraftClient.options.leftKey, fcp < 0);
+        fbw.fdg(minecraftClient.options.rightKey, fcp > 0);
+        fbw.fdg(minecraftClient.options.forwardKey, fcc.nextInt(4) == 0);
+        minecraftClient.options.jumpKey.setPressed(clientPlayerEntity.isOnGround() && fcc.nextInt(25) == 0);
         vzz.simulated = fcd::contains;
     }
 
     private static void fdg(KeyBinding keyBinding, boolean bl) {
-        keyBinding.method_23481(bl);
+        keyBinding.setPressed(bl);
         if (bl) {
-            fcd.add(KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding).method_1444());
+            fcd.add(KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding).getCode());
         }
     }
 
     private static void fdh(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        float f = vxr.getFloat(fca, clientPlayerEntity, clientPlayerEntity.method_36454());
-        float f2 = vxr.getFloat(fcb, clientPlayerEntity, clientPlayerEntity.method_36455());
+        float f = vxr.getFloat(fca, clientPlayerEntity, clientPlayerEntity.getYaw());
+        float f2 = vxr.getFloat(fcb, clientPlayerEntity, clientPlayerEntity.getPitch());
         Entity entity = kwf.target();
         if (entity != fcx) {
             fcx = entity;
@@ -198,7 +198,7 @@ final class fbw {
             }
         }
         if (!Float.isNaN(fck) && entity != null) {
-            double d = MathHelper.method_15393((float)(f - fck));
+            double d = MathHelper.wrapDegrees((float)(f - fck));
             fcg.add(d);
             fch.add(Double.valueOf(f2 - fcl));
             ++fcn;
@@ -224,9 +224,9 @@ final class fbw {
     }
 
     private static double fdi(ClientPlayerEntity clientPlayerEntity, Entity entity, float f, float f2) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Box box = entity.method_5829();
-        if (!tbp.aim(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, (box.field_1323 + box.field_1320) * 0.5, box.field_1322, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, box.field_1325 - box.field_1322, 0.0, 0.5, fcr)) {
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Box box = entity.getBoundingBox();
+        if (!tbp.aim(vec3d.x, vec3d.y, vec3d.z, (box.minX + box.maxX) * 0.5, box.minY, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, box.maxY - box.minY, 0.0, 0.5, fcr)) {
             return 0.0;
         }
         return Math.hypot(tbp.wrap(fbw.fcr.yaw - (double)f), fbw.fcr.pitch - (double)f2);
@@ -234,9 +234,9 @@ final class fbw {
 
     private static void fdj(ClientPlayerEntity clientPlayerEntity, Entity entity, float f, double d) {
         double d2;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Box box = entity.method_5829();
-        if (!tbp.aim(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, (box.field_1323 + box.field_1320) * 0.5, box.field_1322, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, box.field_1325 - box.field_1322, 0.0, 0.5, fcr)) {
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Box box = entity.getBoundingBox();
+        if (!tbp.aim(vec3d.x, vec3d.y, vec3d.z, (box.minX + box.maxX) * 0.5, box.minY, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, box.maxY - box.minY, 0.0, 0.5, fcr)) {
             return;
         }
         double d3 = tbp.wrap((double)f - fbw.fcr.yaw);
@@ -257,10 +257,10 @@ final class fbw {
     }
 
     private static boolean fdk(ClientPlayerEntity clientPlayerEntity, Entity entity, float f, float f2) {
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = Vec3d.method_1030((float)f2, (float)f);
-        Box box = entity.method_5829().method_1014((double)entity.method_5871());
-        return box.method_992(vec3d, vec3d.method_1019(vec3d2.method_1021(8.0))).isPresent();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = Vec3d.fromPolar((float)f2, (float)f);
+        Box box = entity.getBoundingBox().expand((double)entity.getTargetingMargin());
+        return box.raycast(vec3d, vec3d.add(vec3d2.multiply(8.0))).isPresent();
     }
 
     private static void fdl() {
@@ -291,8 +291,8 @@ final class fbw {
 
     private static void fdn(MinecraftClient minecraftClient) {
         try {
-            if (fci != null && minecraftClient.field_1755 == null) {
-                fci.setBoolean(minecraftClient.field_1729, true);
+            if (fci != null && minecraftClient.currentScreen == null) {
+                fci.setBoolean(minecraftClient.mouse, true);
             }
             if (fcj != null) {
                 fcj.setBoolean(minecraftClient, true);
@@ -304,7 +304,7 @@ final class fbw {
     }
 
     private static void fdo(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     static {

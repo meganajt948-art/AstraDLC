@@ -53,11 +53,11 @@ public final class wcn {
     }
 
     public static void ensure(MinecraftClient minecraftClient) {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
         if (clientPlayNetworkHandler == null || wct || ejp.isActive()) {
             return;
         }
-        Channel channel = wcn.channel(clientPlayNetworkHandler.method_48296());
+        Channel channel = wcn.channel(clientPlayNetworkHandler.getConnection());
         if (channel == null || !channel.isOpen()) {
             return;
         }
@@ -98,7 +98,7 @@ public final class wcn {
     private static void wcw(Packet<?> packet) {
         if (packet instanceof BundlePacket) {
             BundlePacket bundlePacket = (BundlePacket)packet;
-            for (Packet packet2 : bundlePacket.method_48324()) {
+            for (Packet packet2 : bundlePacket.getPackets()) {
                 wcn.wcw(packet2);
             }
             return;

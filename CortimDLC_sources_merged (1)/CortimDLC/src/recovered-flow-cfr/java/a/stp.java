@@ -86,9 +86,9 @@ public final class stp {
 
     private void sul(Vec3d vec3d, float f, double d, float f2, boolean bl, double d2) {
         this.suh = f2;
-        this.sue = vec3d.field_1352 + Math.cos(d2) * (double)f2;
-        this.sug = vec3d.field_1350 + Math.sin(d2) * (double)f2;
-        this.suf = vec3d.field_1351 + (double)f + 30.0 + this.str.nextDouble() * 80.0;
+        this.sue = vec3d.x + Math.cos(d2) * (double)f2;
+        this.sug = vec3d.z + Math.sin(d2) * (double)f2;
+        this.suf = vec3d.y + (double)f + 30.0 + this.str.nextDouble() * 80.0;
         this.stz = bl;
         int n = bl ? 1 + this.str.nextInt(4) : 3 + this.str.nextInt(5);
         this.suc = new float[n];

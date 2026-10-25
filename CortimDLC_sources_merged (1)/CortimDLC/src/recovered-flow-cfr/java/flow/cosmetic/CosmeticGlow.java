@@ -77,7 +77,7 @@ final class CosmeticGlow {
     static final int VERTEX = 24;
     private static final int LEVELS = 5;
     private static final int UNIFORM_SIZE = 80;
-    private static final RenderPipeline MASK = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/cos_glow")).withVertexShader(uvq.id("core/cos_glow")).withFragmentShader(uvq.id("core/cos_glow")).withSampler("Sampler0").withUniform("Projection", UniformType.field_60031).withUniform("FlowGlow", UniformType.field_60031).withBlend(BlendFunction.ADDITIVE).withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST).withDepthWrite(false).withDepthBias(-1.0f, -4.0f).withCull(false).withVertexFormat(VertexFormats.field_1575, VertexFormat.DrawMode.field_27379).build();
+    private static final RenderPipeline MASK = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/cos_glow")).withVertexShader(uvq.id("core/cos_glow")).withFragmentShader(uvq.id("core/cos_glow")).withSampler("Sampler0").withUniform("Projection", UniformType.UNIFORM_BUFFER).withUniform("FlowGlow", UniformType.UNIFORM_BUFFER).withBlend(BlendFunction.ADDITIVE).withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST).withDepthWrite(false).withDepthBias(-1.0f, -4.0f).withCull(false).withVertexFormat(VertexFormats.POSITION_TEXTURE_COLOR, VertexFormat.DrawMode.TRIANGLES).build();
     private static final RenderPipeline DOWN = CosmeticGlow.screen("fx_down", null, false, "InSampler");
     private static final RenderPipeline UP = CosmeticGlow.screen("cos_up", null, false, "InSampler", "BaseSampler");
     private static final RenderPipeline COMPOSITE = CosmeticGlow.screen("cos_bloom", BlendFunction.ADDITIVE, true, "InSampler");
@@ -101,12 +101,12 @@ final class CosmeticGlow {
     }
 
     private static RenderPipeline screen(String fragment, BlendFunction blend, boolean uniform, String ... samplers) {
-        RenderPipeline.Builder b = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/cos_" + fragment)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/" + fragment)).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.field_60033, VertexFormat.DrawMode.field_27379);
+        RenderPipeline.Builder b = RenderPipeline.builder((RenderPipeline.Snippet[])new RenderPipeline.Snippet[0]).withLocation(uvq.id("pipeline/cos_" + fragment)).withVertexShader(uvq.id("core/blur")).withFragmentShader(uvq.id("core/" + fragment)).withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST).withDepthWrite(false).withCull(false).withVertexFormat(VertexFormats.EMPTY, VertexFormat.DrawMode.TRIANGLES);
         for (String s : samplers) {
             b.withSampler(s);
         }
         if (uniform) {
-            b.withUniform("FlowGlow", UniformType.field_60031);
+            b.withUniform("FlowGlow", UniformType.UNIFORM_BUFFER);
         }
         if (blend != null) {
             b.withBlend(blend);
@@ -170,31 +170,31 @@ final class CosmeticGlow {
             CosmeticGlow.begin();
             return;
         }
-        MinecraftClient mc = MinecraftClient.method_1551();
+        MinecraftClient mc = MinecraftClient.getInstance();
         try {
             int i;
             if (!(uvq.ensure(MASK) && uvq.ensure(DOWN) && uvq.ensure(UP) && uvq.ensure(COMPOSITE))) {
                 return;
             }
             GpuBufferSlice projection = RenderSystem.getProjectionMatrixBuffer();
-            Framebuffer fb = mc.method_1522();
-            GpuTextureView color = fb.method_71639();
-            GpuTextureView depth = fb.method_71640();
-            if (projection == null || color == null || depth == null || fb.field_1482 < 8 || fb.field_1481 < 8) {
+            Framebuffer fb = mc.getFramebuffer();
+            GpuTextureView color = fb.getColorAttachmentView();
+            GpuTextureView depth = fb.getDepthAttachmentView();
+            if (projection == null || color == null || depth == null || fb.textureWidth < 8 || fb.textureHeight < 8) {
                 return;
             }
             int bytes = vertices * 24;
             ByteBuffer data = staging.duplicate();
             data.position(0).limit(bytes);
             GpuDevice device = RenderSystem.getDevice();
-            CosmeticGlow.ensure(device, fb.field_1482, fb.field_1481, bytes);
+            CosmeticGlow.ensure(device, fb.textureWidth, fb.textureHeight, bytes);
             CommandEncoder encoder = device.createCommandEncoder();
             encoder.writeToBuffer(buffer.slice(0L, (long)bytes), data);
-            Camera camera = mc.field_1773.method_19418();
-            Matrix4f view = new Matrix4f().rotation((Quaternionfc)camera.method_23767().conjugate(new Quaternionf()));
+            Camera camera = mc.gameRenderer.getCamera();
+            Matrix4f view = new Matrix4f().rotation((Quaternionfc)camera.getRotation().conjugate(new Quaternionf()));
             float strength = (float)Cosmetics.GLOW.get();
             try (MemoryStack stack = MemoryStack.stackPush();){
-                encoder.writeToBuffer(uniforms.slice(), Std140Builder.onStack((MemoryStack)stack, (int)80).putMat4f((Matrix4fc)view).putVec4(strength, (float)fb.field_1482, (float)fb.field_1481, 0.0f).get());
+                encoder.writeToBuffer(uniforms.slice(), Std140Builder.onStack((MemoryStack)stack, (int)80).putMat4f((Matrix4fc)view).putVec4(strength, (float)fb.textureWidth, (float)fb.textureHeight, 0.0f).get());
             }
             try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 cosmetic glow", maskView, OptionalInt.of(0), depth, OptionalDouble.empty());){
                 pass.setPipeline(MASK);
@@ -204,7 +204,7 @@ final class CosmeticGlow {
                 for (Batch b : BATCHES) {
                     GpuTextureView tex = CosmeticGlow.texture(mc, b.texture);
                     if (tex == null) continue;
-                    pass.bindTexture("Sampler0", tex, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                    pass.bindTexture("Sampler0", tex, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                     pass.draw(b.first, b.count);
                 }
             }
@@ -219,7 +219,7 @@ final class CosmeticGlow {
             }
             try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 cosmetic bloom", color, OptionalInt.empty());){
                 pass.setPipeline(COMPOSITE);
-                pass.bindTexture("InSampler", last, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                pass.bindTexture("InSampler", last, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                 pass.setUniform("FlowGlow", uniforms);
                 pass.draw(0, 3);
             }
@@ -234,16 +234,16 @@ final class CosmeticGlow {
     }
 
     private static GpuTextureView texture(MinecraftClient mc, Identifier id) {
-        AbstractTexture t = mc.method_1531().method_4619(id);
-        return t == null ? null : t.method_71659();
+        AbstractTexture t = mc.getTextureManager().getTexture(id);
+        return t == null ? null : t.getGlTextureView();
     }
 
     private static void blur(CommandEncoder encoder, RenderPipeline pipeline, GpuTextureView in, GpuTextureView base, GpuTextureView out) {
         try (RenderPass pass = encoder.createRenderPass(() -> "Flow2 cosmetic bloom blur", out, OptionalInt.empty());){
             pass.setPipeline(pipeline);
-            pass.bindTexture("InSampler", in, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+            pass.bindTexture("InSampler", in, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             if (base != null) {
-                pass.bindTexture("BaseSampler", base, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                pass.bindTexture("BaseSampler", base, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             }
             pass.draw(0, 3);
         }

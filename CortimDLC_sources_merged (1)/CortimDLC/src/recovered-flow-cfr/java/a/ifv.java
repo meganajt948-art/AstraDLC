@@ -45,8 +45,8 @@ public final class ifv {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         float f;
         String string;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.options.hudHidden) {
             return;
         }
         unf.observe(drawContext);
@@ -77,7 +77,7 @@ public final class ifv {
         } else if (tcz.fightRecorder() != null && !tcz.fightRecorder().paused) {
             string2 = wap.s(a.b("\u61e1\u1847\u9292\u0c80\u8711\u01af\ubbf2\u320c\uac4f\u26f9\ua179\u5b08\ud548\u4c6e\uc63d\u4084\ufaca\u7506\uefb2\u69b0", 990339495), a.d("\u6155\u18f3\u9226\u0c34\u83f2\u054c\ubf19\u32f0\uacaf\u2689\ua1cd\u5bbc\ud108\u48ce\uc299\u4418\ufe5c\u75e6", -1797200319, 40732500)) + tcz.fightRecorder().hits;
             n = 2;
-        } else if (tcz.training() && minecraftClient.field_1755 == null) {
+        } else if (tcz.training() && minecraftClient.currentScreen == null) {
             var9_9 = tcz.job();
             string2 = wap.s(a.c(1071492648, "\uae75\ud7e2\u5d22\uc35b\u488b\uce3d\u7469\ufd91\u6389"), a.c(1429970535, "\u9a70\ue3ee\u694f\uf73a\u7c9f\ufa26\u4070\uc98c\u53c6")) + (((tct)var9_9).progress.epoch + 1) + a.b("\u3ab1\u430f\uc9d3", 2036808338) + ((tct)var9_9).progress.epochs;
             n = 3;
@@ -103,7 +103,7 @@ public final class ifv {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private static void igc(DrawContext drawContext, String string, int n, float f) {
-        float f2 = drawContext.method_51421();
+        float f2 = drawContext.getScaledWindowWidth();
         float f3 = n == 0 ? 0.0f : 9.0f;
         float f4 = 10.0f + f3 + irr.VALUE.width(string) + 10.0f;
         float f5 = (f2 - f4) * 0.5f;

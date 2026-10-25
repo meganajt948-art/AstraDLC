@@ -136,7 +136,7 @@ final class gkm {
     }
 
     private static void gmb(MinecraftClient minecraftClient) {
-        minecraftClient.field_1690.field_1837 = false;
+        minecraftClient.options.pauseOnLostFocus = false;
         gkm.gmj(minecraftClient, a.c(1377092853, "\uc483\ubd34\u37eb\ua992\u224d\ua4fe\u1ea6\u9756\u094c\u83ae\u047b\ufe0d\u70de\ue970\u633c\ue5da\u5f98"));
         gkm.gmj(minecraftClient, a.c(624971756, "\u4f95\u3639\ubcee\u2297\ua905\u2fe7\u95a2\u1c42\u8249\u08b6\u8f64\u7515\ufbc3"));
         gkm.gmj(minecraftClient, a.d("\u9fe8\ue65f\u6c80\uf2f9\u7939\uff8f\u45c5\ucc3d\u5227\ud8d2\u5f0a\ua550\u2ba2\ub20b\u384d\ubeb9\u04f8\u8b26\u1189\u97ef\u1e22\u6469\uead5\u710d\uf737\u7da0\uc414\u4a48\ud0a0\u56e7", 2059195844, -1422243243));
@@ -148,11 +148,11 @@ final class gkm {
         gkm.gmj(minecraftClient, a.c(1038854227, "\ua82b\ud194\u5b58\uc53a\u4ea8\uc879\u7219\ufbbb\u65a9\uef1c\u68c8\u92b2\u1c63\u85c3\u0f83\u8975\u3328\ubcb7\u265a\ua006\u29f9\u53a4\udd15\u46c5\uc0b0\u4a5a\uf3c5\u7d90\ue77f\u6133\uea96"));
         gkt = vxr.find(Mouse.class, a.d("\u8b9e\uf224\u78e6\ue6cd\u6d59\uebec\u51b8\ud842\u461b\uccbb\u4b7b\ub10d\u3fc8\ua623\u2c3d\uaac3\u1081\u9f42\u05f1\u838c\u0a17\u7044\ufef4", -1166656787, 1589227786), a.d("\u8796\ufe28\u74f7\uea8f\u6150\ue7da\u5de7\ud410\u4a40\uc0fa", -448739739, 1283867039), a.c(-1679076026, "\u551d"));
         gku = vxr.find(MinecraftClient.class, a.c(-347873512, "\udf61\ua6db\u2c19\ub232\u39a6\ubf13\u0547\u8cbd\u12e4\u9844\u1f84\ue5f2\u6b37\uf2dc\u78c2\ufe3c\u447e\ucbbd\u510e\ud773\u5ee8\u24bb\uaa09"), a.d("\u5c15\u25ab\uaf74\u310c\ubad3\u3c59\u8664\u0f92\u91c2\u1b7f", 1304887905, 1801215512), a.b("\u095a", -2046031615));
-        long l2 = minecraftClient.method_22683().method_4490();
+        long l2 = minecraftClient.getWindow().getHandle();
         GLFW.glfwSetCursorPosCallback((long)l2, (l, d, d2) -> {});
         GLFW.glfwSetMouseButtonCallback((long)l2, (l, n, n2, n3) -> {});
         GLFW.glfwSetScrollCallback((long)l2, (l, d, d2) -> {});
-        minecraftClient.field_1724.method_31548().method_61496(0);
+        minecraftClient.player.getInventory().setSelectedSlot(0);
         for (String string : new String[]{a.d("\ua805\ud192\u5b5a\uc525\u4ef2\uc841\u7205\ufbc4\u65b6\uef1c", 2048177307, -1097982784), a.c(-2135397586, "\u6b66\u12ff\u9828\u0675\u8d90\u0b21\ub168\u3883\ua6db"), a.d("\u93c8\uea4d\u609f\ufef5\u7500\uf39d\u49cc\uc03b", -1878356177, 712907950), a.b("\ufcc8\u854d\u0f9f\u91f5\u1a1e\u9c8b\u26ce\uaf2e", 1359150209)}) {
             kfe kfe2 = Flow.getInstance().getModuleManager().getByName(string);
             if (kfe2 == null) continue;
@@ -161,8 +161,8 @@ final class gkm {
     }
 
     private static void gmc(MinecraftClient minecraftClient) throws Exception {
-        if (gkt != null && minecraftClient.field_1755 == null) {
-            gkt.setBoolean(minecraftClient.field_1729, true);
+        if (gkt != null && minecraftClient.currentScreen == null) {
+            gkt.setBoolean(minecraftClient.mouse, true);
         }
         if (gku != null) {
             gku.setBoolean(minecraftClient, true);
@@ -208,7 +208,7 @@ final class gkm {
         if (list.isEmpty()) {
             return;
         }
-        if (glc == null || glc.method_31481() || --gld <= 0) {
+        if (glc == null || glc.isRemoved() || --gld <= 0) {
             tkx2 = list.get(gks.nextInt(list.size()));
             if (tkx2 != glc || glc == null) {
                 glc = tkx2;
@@ -220,10 +220,10 @@ final class gkm {
             }
             gld = 40 + gks.nextInt(70);
         }
-        tkx2 = clientPlayerEntity.method_33571();
-        Box box = glc.method_5829();
+        tkx2 = clientPlayerEntity.getEyePos();
+        Box box = glc.getBoundingBox();
         tbm tbm2 = new tbm();
-        if (!tbp.aim(((Vec3d)tkx2).field_1352, ((Vec3d)tkx2).field_1351, ((Vec3d)tkx2).field_1350, (box.field_1323 + box.field_1320) * 0.5, box.field_1322, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, box.field_1325 - box.field_1322, gle, glf, tbm2)) {
+        if (!tbp.aim(((Vec3d)tkx2).x, ((Vec3d)tkx2).y, ((Vec3d)tkx2).z, (box.minX + box.maxX) * 0.5, box.minY, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, box.maxY - box.minY, gle, glf, tbm2)) {
             return;
         }
         glg.addLast(new double[]{tbm2.yaw, tbm2.pitch});
@@ -234,8 +234,8 @@ final class gkm {
         double[] dArray2 = glg.size() >= 5 ? glg.get(glg.size() - 5) : dArray;
         double d2 = tbp.wrap(dArray[0] - dArray2[0]);
         double d3 = dArray[1] - dArray2[1];
-        double d4 = tbp.wrap(dArray[0] + d2 * 3.0 - (double)clientPlayerEntity.method_36454());
-        double d5 = dArray[1] + d3 * 3.0 - (double)clientPlayerEntity.method_36455();
+        double d4 = tbp.wrap(dArray[0] + d2 * 3.0 - (double)clientPlayerEntity.getYaw());
+        double d5 = dArray[1] + d3 * 3.0 - (double)clientPlayerEntity.getPitch();
         double d6 = 0.0;
         double d7 = 0.0;
         if (glk < glj) {
@@ -267,19 +267,19 @@ final class gkm {
         long l2 = (long)(glo += (d7 += glm) / d);
         gln -= (double)l;
         glo -= (double)l2;
-        float f = clientPlayerEntity.method_36454();
-        float f2 = clientPlayerEntity.method_36455();
-        clientPlayerEntity.method_5872((double)l * d / 0.15, (double)l2 * d / 0.15);
-        double d9 = clientPlayerEntity.method_36454() - f;
-        double d10 = clientPlayerEntity.method_36455() - f2;
+        float f = clientPlayerEntity.getYaw();
+        float f2 = clientPlayerEntity.getPitch();
+        clientPlayerEntity.changeLookDirection((double)l * d / 0.15, (double)l2 * d / 0.15);
+        double d9 = clientPlayerEntity.getYaw() - f;
+        double d10 = clientPlayerEntity.getPitch() - f2;
         boolean bl = gkm.gmg(clientPlayerEntity, box);
-        double d11 = tbp.wrap((double)clientPlayerEntity.method_36454() - tbm2.yaw);
+        double d11 = tbp.wrap((double)clientPlayerEntity.getYaw() - tbm2.yaw);
         gky.sample(d9, d10, bl, d11, tbm2.la, tbm2.ra, tbm2.bw, tbp.wrap(dArray[0] - dArray2[0]));
         boolean bl2 = false;
         for (tkx tkx3 : list) {
-            bl2 |= gkm.gmg(clientPlayerEntity, tkx3.method_5829());
+            bl2 |= gkm.gmg(clientPlayerEntity, tkx3.getBoundingBox());
         }
-        if (clientPlayerEntity.method_7261(0.5f) >= 0.9f && (bl && gks.nextDouble() < 0.75 || bl2 && gks.nextDouble() < 0.3) || gks.nextDouble() < 0.02) {
+        if (clientPlayerEntity.getAttackCooldownProgress(0.5f) >= 0.9f && (bl && gks.nextDouble() < 0.75 || bl2 && gks.nextDouble() < 0.3) || gks.nextDouble() < 0.02) {
             gkm.gmh(minecraftClient);
         }
     }
@@ -287,8 +287,8 @@ final class gkm {
     private static void gmf(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
         double d;
         double d2;
-        float f = clientPlayerEntity.method_36454();
-        float f2 = clientPlayerEntity.method_36455();
+        float f = clientPlayerEntity.getYaw();
+        float f2 = clientPlayerEntity.getPitch();
         if (gls) {
             d2 = f - glq;
             d = f2 - glr;
@@ -300,10 +300,10 @@ final class gkm {
                 ++gkm.gkz.offGrid;
             }
             if (entity != null) {
-                Box box = entity.method_5829();
-                Vec3d vec3d = clientPlayerEntity.method_33571();
+                Box box = entity.getBoundingBox();
+                Vec3d vec3d = clientPlayerEntity.getEyePos();
                 tbm tbm2 = new tbm();
-                if (tbp.aim(vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, (box.field_1323 + box.field_1320) * 0.5, box.field_1322, (box.field_1321 + box.field_1324) * 0.5, (box.field_1320 - box.field_1323) * 0.5, box.field_1325 - box.field_1322, 0.0, 0.7, tbm2)) {
+                if (tbp.aim(vec3d.x, vec3d.y, vec3d.z, (box.minX + box.maxX) * 0.5, box.minY, (box.minZ + box.maxZ) * 0.5, (box.maxX - box.minX) * 0.5, box.maxY - box.minY, 0.0, 0.7, tbm2)) {
                     boolean bl = gkm.gmg(clientPlayerEntity, box);
                     gkz.sample(d2, d, bl, tbp.wrap((double)f - tbm2.yaw), tbm2.la, tbm2.ra, tbm2.bw, 0.0);
                     gla.add(String.format(Locale.ROOT, a.d("\ud4e2\uad12\u2789\ub9f1\u322d\ub486\u0e87\u873c\u196a\u93d0\u1419\uee3a\u60a7\uf91f\u7347\uf5ab\u4fb1\uc02a\u5a90\udcca\u5520\u2f24\ua1dd\u3a05\ubc3b", -683513179, 510967419), gla.size(), d2, d, tbp.wrap(tbm2.yaw - (double)f), tbm2.pitch - (double)f2, bl ? 1 : 0));
@@ -315,7 +315,7 @@ final class gkm {
             d2 = (double)(gks.nextBoolean() ? 1 : -1) * (35.0 + gks.nextDouble() * 70.0);
             d = tcz.unit(minecraftClient);
             long l = Math.round(d2 / d);
-            clientPlayerEntity.method_5872((double)l * d / 0.15, 0.0);
+            clientPlayerEntity.changeLookDirection((double)l * d / 0.15, 0.0);
             gkz.episode();
         } else if (gkq) {
             gll = 0.85 * gll + gks.nextGaussian() * 0.9;
@@ -328,16 +328,16 @@ final class gkm {
             long l2 = (long)(glo += glm / d2);
             gln -= (double)l;
             glo -= (double)l2;
-            clientPlayerEntity.method_5872((double)l * d2 / 0.15, (double)l2 * d2 / 0.15);
+            clientPlayerEntity.changeLookDirection((double)l * d2 / 0.15, (double)l2 * d2 / 0.15);
         }
-        glq = clientPlayerEntity.method_36454();
-        glr = clientPlayerEntity.method_36455();
+        glq = clientPlayerEntity.getYaw();
+        glr = clientPlayerEntity.getPitch();
         gls = true;
         ++glt;
         Entity entity = tcz.stands().iterator();
         while (entity.hasNext()) {
             tkx tkx2 = entity.next();
-            if (!gkm.gmg(clientPlayerEntity, tkx2.method_5829())) continue;
+            if (!gkm.gmg(clientPlayerEntity, tkx2.getBoundingBox())) continue;
             ++glu;
             break;
         }
@@ -346,19 +346,19 @@ final class gkm {
             ++glv;
         }
         boolean bl = glw = entity != null;
-        if (clientPlayerEntity.method_7261(0.5f) >= 0.9f && minecraftClient.field_1692 instanceof tkx) {
+        if (clientPlayerEntity.getAttackCooldownProgress(0.5f) >= 0.9f && minecraftClient.targetedEntity instanceof tkx) {
             gkm.gmh(minecraftClient);
         }
     }
 
     private static boolean gmg(ClientPlayerEntity clientPlayerEntity, Box box) {
         Vec3d vec3d;
-        Vec3d vec3d2 = clientPlayerEntity.method_33571();
-        return box.method_992(vec3d2, vec3d = vec3d2.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(6.0))).isPresent() || box.method_1006(vec3d2);
+        Vec3d vec3d2 = clientPlayerEntity.getEyePos();
+        return box.raycast(vec3d2, vec3d = vec3d2.add(clientPlayerEntity.getRotationVec(1.0f).multiply(6.0))).isPresent() || box.contains(vec3d2);
     }
 
     private static void gmh(MinecraftClient minecraftClient) {
-        KeyBinding.method_1420((InputUtil.Key)KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.field_1690.field_1886));
+        KeyBinding.onKeyPressed((InputUtil.Key)KeyBindingHelper.getBoundKeyOf((KeyBinding)minecraftClient.options.attackKey));
     }
 
     private static double gmi(double d) {
@@ -367,12 +367,12 @@ final class gkm {
     }
 
     private static void gmj(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void gmk(MinecraftClient minecraftClient, String string) {
         System.out.println(a.b("\u64ab\u1d0c\u97d6\u09ad\u823c\u04d9\ube9b\u377c\ua924\u23c1", -367958830) + string);
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.c(1175503320, "\uc1b8\ub803\u32d3\uacba\u2728\ua186") + string + a.d("\u08d5\u713a\ufbf7\u658f", -475594086, -2036463003)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.c(1175503320, "\uc1b8\ub803\u32d3\uacba\u2728\ua186") + string + a.d("\u08d5\u713a\ufbf7\u658f", -475594086, -2036463003)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     static {

@@ -77,16 +77,16 @@ extends Camera {
             }
         }
         if (eub != 0.0f || euc != 0.0f) {
-            this.method_19325(this.method_19330() - eub, Math.max(-90.0f, Math.min(90.0f, this.method_19329() - euc)));
+            this.setRotation(this.getYaw() - eub, Math.max(-90.0f, Math.min(90.0f, this.getPitch() - euc)));
         }
     }
 
     public static void install(MinecraftClient minecraftClient) {
-        if (etx || etw != null || minecraftClient == null || minecraftClient.field_1773 == null || dry.armed()) {
+        if (etx || etw != null || minecraftClient == null || minecraftClient.gameRenderer == null || dry.armed()) {
             return;
         }
         try {
-            GameRenderer gameRenderer = minecraftClient.field_1773;
+            GameRenderer gameRenderer = minecraftClient.gameRenderer;
             Unsafe unsafe = ett.euk();
             long l = -1L;
             for (Field field : GameRenderer.class.getDeclaredFields()) {
@@ -112,11 +112,11 @@ extends Camera {
     }
 
     public static void uninstall(MinecraftClient minecraftClient) {
-        if (etw == null || minecraftClient == null || minecraftClient.field_1773 == null) {
+        if (etw == null || minecraftClient == null || minecraftClient.gameRenderer == null) {
             return;
         }
         try {
-            ett.euk().putObject(minecraftClient.field_1773, etv, etw);
+            ett.euk().putObject(minecraftClient.gameRenderer, etv, etw);
         }
         catch (Throwable throwable) {
             // empty catch block
@@ -125,53 +125,53 @@ extends Camera {
         ett.euj(minecraftClient, false);
     }
 
-    public void method_19321(World world, Entity entity, boolean bl, boolean bl2, float f) {
-        Entity entity2;
+    public void update(World area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickProgress) {
+        Entity entity;
         LivingEntity livingEntity;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (!bl || entity == null || dry.armed() || entity instanceof LivingEntity && (livingEntity = (LivingEntity)entity).method_6113()) {
-            this.eua = bl;
-            super.method_19321(world, entity, bl, bl2, f);
-            if (!bl && entity == minecraftClient.field_1724) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (!thirdPerson || focusedEntity == null || dry.armed() || focusedEntity instanceof LivingEntity && (livingEntity = (LivingEntity)focusedEntity).isSleeping()) {
+            this.eua = thirdPerson;
+            super.update(area, focusedEntity, thirdPerson, inverseView, tickProgress);
+            if (!thirdPerson && focusedEntity == minecraftClient.player) {
                 this.eui();
             }
             ett.euj(minecraftClient, false);
             return;
         }
-        super.method_19321(world, entity, false, bl2, f);
+        super.update(area, focusedEntity, false, inverseView, tickProgress);
         this.eua = true;
-        if (entity == minecraftClient.field_1724) {
+        if (focusedEntity == minecraftClient.player) {
             this.eui();
         }
-        if (bl2) {
-            this.method_19325(this.method_19330() + 180.0f, -this.method_19329());
+        if (inverseView) {
+            this.setRotation(this.getYaw() + 180.0f, -this.getPitch());
         }
-        float f2 = 4.0f;
-        float f3 = 1.0f;
-        if (entity instanceof LivingEntity) {
-            LivingEntity livingEntity2 = (LivingEntity)entity;
-            f3 = livingEntity2.method_55693();
-            f2 = (float)livingEntity2.method_45325(EntityAttributes.field_59674);
+        float f = 4.0f;
+        float f2 = 1.0f;
+        if (focusedEntity instanceof LivingEntity) {
+            LivingEntity livingEntity2 = (LivingEntity)focusedEntity;
+            f2 = livingEntity2.getScale();
+            f = (float)livingEntity2.getAttributeValue(EntityAttributes.CAMERA_DISTANCE);
         }
-        float f4 = f3;
-        float f5 = f2;
-        if (entity.method_5765() && (entity2 = entity.method_5854()) instanceof LivingEntity) {
-            LivingEntity livingEntity3 = (LivingEntity)entity2;
-            f4 = livingEntity3.method_55693();
-            f5 = (float)livingEntity3.method_45325(EntityAttributes.field_59674);
+        float f3 = f2;
+        float f4 = f;
+        if (focusedEntity.hasVehicle() && (entity = focusedEntity.getVehicle()) instanceof LivingEntity) {
+            LivingEntity livingEntity3 = (LivingEntity)entity;
+            f3 = livingEntity3.getScale();
+            f4 = (float)livingEntity3.getAttributeValue(EntityAttributes.CAMERA_DISTANCE);
         }
-        float f6 = Math.max(f3 * f2, f4 * f5);
-        this.method_19324(-(etz > 0.0f ? etz * f3 : f6), 0.0f, 0.0f);
-        boolean bl3 = false;
-        if (world != null) {
-            BlockPos blockPos = this.method_19328();
-            BlockState blockState = world.method_8320(blockPos);
-            bl3 = blockState.method_26216();
+        float f5 = Math.max(f2 * f, f3 * f4);
+        this.moveBy(-(etz > 0.0f ? etz * f2 : f5), 0.0f, 0.0f);
+        boolean bl = false;
+        if (area != null) {
+            BlockPos blockPos = this.getBlockPos();
+            BlockState blockState = area.getBlockState(blockPos);
+            bl = blockState.isOpaqueFullCube();
         }
-        ett.euj(minecraftClient, bl3);
+        ett.euj(minecraftClient, bl);
     }
 
-    public boolean method_19333() {
+    public boolean isThirdPerson() {
         return this.eua;
     }
 
@@ -181,10 +181,10 @@ extends Camera {
         }
         ety = bl;
         if (bl) {
-            euf = minecraftClient.field_1730;
-            minecraftClient.field_1730 = false;
+            euf = minecraftClient.chunkCullingEnabled;
+            minecraftClient.chunkCullingEnabled = false;
         } else {
-            minecraftClient.field_1730 = euf;
+            minecraftClient.chunkCullingEnabled = euf;
         }
     }
 

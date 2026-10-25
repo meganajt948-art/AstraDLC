@@ -53,16 +53,16 @@ final class grd {
     }
 
     static boolean tick(MinecraftClient minecraftClient, int n) {
-        if (minecraftClient.field_1724 == null) {
+        if (minecraftClient.player == null) {
             return false;
         }
         if (gri != 6 || n - grj < 41) {
-            minecraftClient.field_1724.method_36456(0.0f);
-            minecraftClient.field_1724.field_5982 = 0.0f;
+            minecraftClient.player.setYaw(0.0f);
+            minecraftClient.player.lastYaw = 0.0f;
         }
         if (gri < 6) {
-            minecraftClient.field_1724.method_36457(10.0f);
-            minecraftClient.field_1724.field_6004 = 10.0f;
+            minecraftClient.player.setPitch(10.0f);
+            minecraftClient.player.lastPitch = 10.0f;
         }
         switch (gri) {
             case 0: {
@@ -134,23 +134,23 @@ final class grd {
                 grd.grr(ubm2 != null && a.b("\u8a94\uf307\u79cf\ue7a5\u6c77\ueac6\u50a6\ud958\u4721\ucdb6", -141587755).equals(ubm2.name) && wlk.worldId().equals(ubm2.world), a.d("\u76f2\u0f57\u859f\u1be2\u903e\u1685\uac95\u2530\ubb3c\u31c8\ub610\u4c6c\uc2aa\u5b10\ud14a\u57bf\uede1\u6231\uf8c6\u7ec4\uf734\u8d70\u03d6\u9806\u1e7f\u94fd\u2d0a\ua35a\u39ab\ubfeb\u3453\uca8b\u40c0\ud920\u5f72\ud587\u6a58", 2088342378, 1091429851) + (ubm2 != null ? ubm2.name : null) + a.c(-988069135, "\u42d9"));
                 grd.grr(ucg.members().size() == 3, a.c(-739757558, "\u3257\u4bd4\uc115\u5f7f\ud4a1\u5251\ue848\u61bc\uffe5\u7553\uf28b\u08fb\u8668\u1fd1") + ucg.members().size() + a.b("\u09fc", 1381108180));
                 grd.grv(minecraftClient, a.b("\ua42a\udd8a\u574a\uc93d\u42e7\uc402\u7e11\uf7e8\u69bf\ue301\u64d5\u9eb3\u1065", -1954634665));
-                minecraftClient.method_1507(null);
-                minecraftClient.field_1690.method_42474().method_41748((Object)grm);
-                minecraftClient.method_15993();
+                minecraftClient.setScreen(null);
+                minecraftClient.options.getGuiScale().setValue((Object)grm);
+                minecraftClient.onResolutionChanged();
                 grd.gru(minecraftClient);
-                Vec3d vec3d = minecraftClient.field_1724.method_73189();
-                double d = Math.floor(vec3d.field_1351);
-                grf.mark(1, vec3d.field_1352 - 4.0, d, vec3d.field_1350 + 14.0, 0, null);
-                grf.mark(2, vec3d.field_1352 + 6.0, d, vec3d.field_1350 + 22.0, 1, null);
-                grf.mark(3, vec3d.field_1352 + 2.0, d, vec3d.field_1350 - 30.0, 0, null);
+                Vec3d vec3d = minecraftClient.player.getEntityPos();
+                double d = Math.floor(vec3d.y);
+                grf.mark(1, vec3d.x - 4.0, d, vec3d.z + 14.0, 0, null);
+                grf.mark(2, vec3d.x + 6.0, d, vec3d.z + 22.0, 1, null);
+                grf.mark(3, vec3d.x + 2.0, d, vec3d.z - 30.0, 0, null);
                 grd.grf.world = wlk.worldId().toUpperCase(Locale.ROOT);
-                grf.mark(4, grh.method_23317(), grh.method_23318(), grh.method_23321(), 0, a.d("\u8b9c\uf206\u78de\ue6a7\u6d64\uebf3\u51ce\ud83c\u4662", 1719492828, -972362996));
+                grf.mark(4, grh.getX(), grh.getY(), grh.getZ(), 0, a.d("\u8b9c\uf206\u78de\ue6a7\u6d64\uebf3\u51ce\ud83c\u4662", 1719492828, -972362996));
                 grd.grp(n);
                 break;
             }
             case 6: {
-                minecraftClient.field_1724.method_36457(18.0f);
-                minecraftClient.field_1724.field_6004 = 18.0f;
+                minecraftClient.player.setPitch(18.0f);
+                minecraftClient.player.lastPitch = 18.0f;
                 if (n - grj == 10) {
                     grd.grr(ucg.marks().size() == 3, a.d("\u73ef\u0a4d\u80d0\u1eaa\u956f\u13cc\ua989\u207f\ube74\u348a\ub350\u4967\uc7a4\u5e01\ud417\u52ed\ue8af\u676f\ufdd7\u7b8f\uf27c\u883c\u068e\u9d1b\u1b29\u91f4\u2854\ua61c\u3cf3\ubaf1\u3109\ucfd6\u458c\udc79\u5a7e\ud0c7", 1782170486, 1166192782) + ucg.marks().size() + a.d("\u8ce9", -807549251, 1513704060));
                     grd.grr(ucg.marks().stream().allMatch(ucg::visible), a.b("\ubc53\uc5ee\u4f2e\ud146\u5a89\udc6b\u666e\uef80\u71c5\ufb6e\u7cb6\u86c9\u0817\u91ef\u1bb0\u9d08\u2740\ua89c\u3220\ub433\u3dca\u47df\uc961\u52bf\ud4c0\u5e12\ue7b6\u69f0\uf30c\u7547\ufeec(\u8a3e\u1398\u95ce\u1f64\ua0ae\u2adf\uac1d\u35a7\ubfb6\uc106\u4b50\ucce1\u5620\ud846\u6183\ueb32", 1617411086));
@@ -165,8 +165,8 @@ final class grd {
                     ucg.markKey();
                 }
                 if (n - grj == 41) {
-                    minecraftClient.field_1724.method_36456(-25.0f);
-                    minecraftClient.field_1724.field_5982 = -25.0f;
+                    minecraftClient.player.setYaw(-25.0f);
+                    minecraftClient.player.lastYaw = -25.0f;
                 }
                 if (n - grj == 42) {
                     ucg.markKey();
@@ -182,8 +182,8 @@ final class grd {
                 break;
             }
             case 7: {
-                minecraftClient.field_1724.method_36456(160.0f);
-                minecraftClient.field_1724.field_5982 = 160.0f;
+                minecraftClient.player.setYaw(160.0f);
+                minecraftClient.player.lastYaw = 160.0f;
                 if (n - grj == 15) {
                     grd.grv(minecraftClient, a.d("\u8205\ufba5\u7165\uef12\u64c8\ue22d\u5836\ud1c6\u4f9a\uc529", 1530695197, -904917918));
                     grf.send(a.b("\u5f72\u269a\uac1f\u3238\ub9f7\u3f5e\u8543\u0cbb\u92e0\u1846\u9f86\u65b0\ueb38", 525229828));
@@ -199,8 +199,8 @@ final class grd {
             case 8: {
                 if (grd.grg.epoch == 2 && grd.grg.keyBoxes > 0) {
                     grd.grr(true, a.b("\u4fe3\u3660\ubca1\u22cb\ua915\u2fe5\u95f1\u1c08\u824c\u08a9\u8f2e\u7543\ufb99\u626d\ue870\u6e8a\ud4d7\u5b51\uc1a9\u47f6\uce1d\ub415\u3aae\ua132\u2758\uad96\u1429\u9a73\u00cc\u868f\u0d27\uf3ff\u79f6\ue013\u665d\uecee\u5374\ud950\u5f85", 13782935));
-                    minecraftClient.field_1724.method_36456(30.0f);
-                    minecraftClient.field_1724.field_5982 = 30.0f;
+                    minecraftClient.player.setYaw(30.0f);
+                    minecraftClient.player.lastYaw = 30.0f;
                     grd.grg.plain.clear();
                     ucg.markKey();
                     grd.grp(n);
@@ -216,8 +216,8 @@ final class grd {
                     grd.grg.keys.put(2, ufw.randomKey());
                     grd.grg.keyBoxes = 0;
                     grd.grg.plain.clear();
-                    Vec3d vec3d = minecraftClient.field_1724.method_73189();
-                    grg.mark(7, vec3d.field_1352 + 3.0, Math.floor(vec3d.field_1351), vec3d.field_1350 + 9.0, 0, null);
+                    Vec3d vec3d = minecraftClient.player.getEntityPos();
+                    grg.mark(7, vec3d.x + 3.0, Math.floor(vec3d.y), vec3d.z + 9.0, 0, null);
                     grd.grp(n);
                     break;
                 }
@@ -227,15 +227,15 @@ final class grd {
             case 10: {
                 if (grd.grg.keyBoxes > 0 && n - grj > 5 && n - grj < 100 && grd.grg.lastMarkAt == 0) {
                     grd.grr(true, a.c(-1500163963, "\u50d7\u296f\ua3b8\u3dcc\ub61a\u30bc\u8abd\u031c\u9d46\u17f1\u9039\u6a45\ue493\u7d66\uf761\u718c\ucbce\u445a\udebb\u58f1\ud108\uab56\u25f9\ube7c\u3848\ub297\u0b38\u8530\u1f93\u99d9\u1225\uec87\u66fa\uff19\u7951\uf3e9\u4c7f\uc64f\u409b\ud938\u5376\u2d90\ua791\u2068\ubab2\u34d4\u8d55\u07b1\u81e5\u1a28\u944c\u6e99\ue72b\u617f\ufb8f\u75d0\uce66\u48f2\uc2cc\u5b11\ud5b5\uaffd"));
-                    Vec3d vec3d = minecraftClient.field_1724.method_73189();
-                    grg.mark(8, vec3d.field_1352 - 3.0, Math.floor(vec3d.field_1351), vec3d.field_1350 + 9.0, 0, null);
+                    Vec3d vec3d = minecraftClient.player.getEntityPos();
+                    grg.mark(8, vec3d.x - 3.0, Math.floor(vec3d.y), vec3d.z + 9.0, 0, null);
                     grd.grg.lastMarkAt = n;
                 }
                 if (grd.grg.lastMarkAt > 0 && n - grd.grg.lastMarkAt == 20) {
                     grd.grr(ucg.marks().stream().anyMatch(ubj2 -> ubj2.id == 8), a.b("\u71fa\u0879\u82b8\u1cd2\u970c\u11fb\uabfc\u225e\ubc4c\u36f1\ub131\u4b59\uc5c5\u5c26\ud662\u5097\ueadd\u6509\uffb9\u79e6\uf018\u8a0c\u04fe\u9f28\u1945\u9385\u2a21\ua422\u3e81\ub8cc\u3372\ucde6\u47ef\ude11\u5853", -139169398));
                     grd.grr(ucg.marks().stream().noneMatch(ubj2 -> ubj2.id == 7), a.d("\ue80c\u91b0\u1b74\u8557\u0ec2\u8863\u322d\ubbd8\u2589\uaf33\u28ae\ud292\u5c49\uc5eb\u4fa1\uc91b\u7303\ufcc4\u6665\ue067\u69d4\u1393\u9d3d\u06f3\u808c\u0a48\ub3fa", 632354234, 858332613));
-                    minecraftClient.field_1724.method_36456(55.0f);
-                    minecraftClient.field_1724.field_5982 = 55.0f;
+                    minecraftClient.player.setYaw(55.0f);
+                    minecraftClient.player.lastYaw = 55.0f;
                     ucg.markKey();
                 }
                 if (grd.grg.lastMarkAt > 0 && n - grd.grg.lastMarkAt == 40) {
@@ -251,7 +251,7 @@ final class grd {
                 grf.close();
                 grg.close();
                 if (grh != null) {
-                    minecraftClient.field_1687.method_2945(grh.method_5628(), Entity.RemovalReason.field_26999);
+                    minecraftClient.world.removeEntity(grh.getId(), Entity.RemovalReason.DISCARDED);
                 }
                 if (grl == null) {
                     System.clearProperty(a.d("\ue5e9\u9c52\u1682\u88eb\u0379\u85d4\u3fd9\ub639\u2875\ua2c2\u251c\udf3a\u51b1\uc817\u424d\uc4b1\u7ee6", -479145804, -1809107670));
@@ -291,9 +291,9 @@ final class grd {
     }
 
     private static void grt(MinecraftClient minecraftClient) {
-        grm = (Integer)minecraftClient.field_1690.method_42474().method_41753();
-        minecraftClient.field_1690.method_42474().method_41748((Object)1);
-        minecraftClient.method_15993();
+        grm = (Integer)minecraftClient.options.getGuiScale().getValue();
+        minecraftClient.options.getGuiScale().setValue((Object)1);
+        minecraftClient.onResolutionChanged();
         try {
             Method method = hlc.class.getDeclaredMethod(a.c(-2092456402, "\ua654\udff3\u5531\ucb60\u4082\uc630\u7c4a\uf595\u6bd6"), String.class);
             method.setAccessible(true);
@@ -302,18 +302,18 @@ final class grd {
         catch (ReflectiveOperationException reflectiveOperationException) {
             grd.grs(a.c(261307740, "\u3d2b\u4498\uce44\u507c\udbf8\u5d1d\ue71e\u6ef6\uf0a3\u7a1a\ufd82\u07a7\u896c\u10d0\u9ac6\u1c63\ua639\u29eb\ub300\u354b") + reflectiveOperationException);
         }
-        minecraftClient.method_1507((Screen)new hlc());
+        minecraftClient.setScreen((Screen)new hlc());
     }
 
     private static void gru(MinecraftClient minecraftClient) {
-        grh = new OtherClientPlayerEntity(minecraftClient.field_1687, new GameProfile(UUID.randomUUID(), a.d("\u6435\u1daf\u9777\u090e\u82cd\u045a\ube67\u3795\ua9cb", 1445288478, 869875303)));
-        Vec3d vec3d = minecraftClient.field_1724.method_73189().method_1031(5.0, 0.0, 11.0);
-        grh.method_5808(vec3d.field_1352, minecraftClient.field_1724.method_23318(), vec3d.field_1350, 180.0f, 0.0f);
-        minecraftClient.field_1687.method_53875((Entity)grh);
+        grh = new OtherClientPlayerEntity(minecraftClient.world, new GameProfile(UUID.randomUUID(), a.d("\u6435\u1daf\u9777\u090e\u82cd\u045a\ube67\u3795\ua9cb", 1445288478, 869875303)));
+        Vec3d vec3d = minecraftClient.player.getEntityPos().add(5.0, 0.0, 11.0);
+        grh.refreshPositionAndAngles(vec3d.x, minecraftClient.player.getY(), vec3d.z, 180.0f, 0.0f);
+        minecraftClient.world.addEntity((Entity)grh);
     }
 
     private static void grv(MinecraftClient minecraftClient, String string) {
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.c(331466319, "\uc62f\ubf94\u3544\uab2d\u20bf\ua611") + string + a.d("\u403d\u39d2\ub31f\u2d67", 983932876, 2032132059)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.c(331466319, "\uc62f\ubf94\u3544\uab2d\u20bf\ua611") + string + a.d("\u403d\u39d2\ub31f\u2d67", 983932876, 2032132059)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     static {

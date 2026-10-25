@@ -9,14 +9,14 @@ package a;
 import net.minecraft.client.MinecraftClient;
 
 public final class lka {
-    private static final MinecraftClient lkb = MinecraftClient.method_1551();
+    private static final MinecraftClient lkb = MinecraftClient.getInstance();
     private double lkc;
     private double lkd;
     private static /* synthetic */ long lke;
     private static /* synthetic */ String lkf;
 
     private double lkg() {
-        double d = (Double)lka.lkb.field_1690.method_42495().method_41753();
+        double d = (Double)lka.lkb.options.getMouseSensitivity().getValue();
         double d2 = d * 0.6 + 0.2;
         double d3 = d2 * d2 * d2 * 1.2;
         return d3 * 0.15;

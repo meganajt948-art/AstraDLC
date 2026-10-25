@@ -69,8 +69,8 @@ public final class vdn {
     }
 
     public static void setRenderScaleStepped(float f) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        int n = minecraftClient.method_22683() != null ? Math.max(1, minecraftClient.method_22683().method_4495()) : 2;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        int n = minecraftClient.getWindow() != null ? Math.max(1, minecraftClient.getWindow().getScaleFactor()) : 2;
         float f2 = Math.max(0.5f, (float)Math.round(f * (float)n * 2.0f) / 2.0f);
         vdn.setRenderScale(f2 / (float)n);
     }
@@ -127,7 +127,7 @@ public final class vdn {
         }
         vfk vfk3 = vfk2 = RenderSystem.isOnRenderThread() ? this.vec(string) : this.ved();
         if (vfk2 == null) {
-            return vdn.vej().method_1727(string);
+            return vdn.vej().getWidth(string);
         }
         float f2 = 0.0f;
         int n = 0;
@@ -254,10 +254,10 @@ public final class vdn {
         if (n6 == 0) {
             return f + f4;
         }
-        Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.method_51448());
+        Matrix3x2f matrix3x2f = new Matrix3x2f((Matrix3x2fc)drawContext.getMatrices());
         vev2 = uut.bounds(matrix3x2f, f8, f9, f10, f11, screenRect = uut.scissor());
         if (vev2 != null) {
-            TextureSetup textureSetup = TextureSetup.method_70900((GpuTextureView)vfk2.view, (GpuSampler)RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+            TextureSetup textureSetup = TextureSetup.of((GpuTextureView)vfk2.view, (GpuSampler)RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
             uut.submit(drawContext, new vfw(textureSetup, matrix3x2f, fArray, nArray, n6, screenRect, (ScreenRect)vev2));
         }
         return f + f4;
@@ -327,8 +327,8 @@ public final class vdn {
     }
 
     private static float vef() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        int n = minecraftClient.method_22683() != null ? minecraftClient.method_22683().method_4495() : 2;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        int n = minecraftClient.getWindow() != null ? minecraftClient.getWindow().getScaleFactor() : 2;
         return (float)Math.max(1, n) * vdo;
     }
 
@@ -354,12 +354,12 @@ public final class vdn {
 
     private float vei(DrawContext drawContext, String string, float f, float f2, int n) {
         TextRenderer textRenderer = vdn.vej();
-        drawContext.method_51433(textRenderer, string, Math.round(f), Math.round(f2 + (this.height() - 8.0f) * 0.5f), uut.fade(n), false);
-        return f + (float)textRenderer.method_1727(string);
+        drawContext.drawText(textRenderer, string, Math.round(f), Math.round(f2 + (this.height() - 8.0f) * 0.5f), uut.fade(n), false);
+        return f + (float)textRenderer.getWidth(string);
     }
 
     private static TextRenderer vej() {
-        return MinecraftClient.method_1551().field_1772;
+        return MinecraftClient.getInstance().textRenderer;
     }
 
     private static /* synthetic */ int ddn(int n, int n2) {

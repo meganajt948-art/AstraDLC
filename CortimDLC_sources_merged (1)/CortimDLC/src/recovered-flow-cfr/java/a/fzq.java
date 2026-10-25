@@ -78,7 +78,7 @@ public final class fzq {
             System.out.println(a.c(1116441229, "\u8af1\uf343\u799c\ue7e5\u6c79\uea9c\u50de\ud939\u4761\ucd84\u4a31\ub047\u3e98\ua72c\u2d09\uabe2") + throwable);
             throwable.printStackTrace();
             fzr = 99;
-            minecraftClient.method_1592();
+            minecraftClient.scheduleStop();
         }
     }
 
@@ -86,11 +86,11 @@ public final class fzq {
         switch (fzr) {
             case 0: {
                 Screen screen;
-                if (minecraftClient.method_18506() == null && minecraftClient.field_1755 instanceof AccessibilityOnboardingScreen) {
-                    minecraftClient.field_1690.field_41785 = false;
-                    minecraftClient.method_1507((Screen)new TitleScreen());
+                if (minecraftClient.getOverlay() == null && minecraftClient.currentScreen instanceof AccessibilityOnboardingScreen) {
+                    minecraftClient.options.onboardAccessibility = false;
+                    minecraftClient.setScreen((Screen)new TitleScreen());
                 }
-                if (minecraftClient.method_18506() != null || !((screen = minecraftClient.field_1755) instanceof jte)) break;
+                if (minecraftClient.getOverlay() != null || !((screen = minecraftClient.currentScreen) instanceof jte)) break;
                 jte jte2 = (jte)screen;
                 if (fzs <= 20) break;
                 fzv = jte2;
@@ -109,17 +109,17 @@ public final class fzq {
                     break;
                 }
                 if (fzu != fArray.length) break;
-                fzq.gad((float)fzq.fzv.field_22789 * 0.5f, (float)fzq.fzv.field_22790 - 10.0f);
+                fzq.gad((float)fzq.fzv.width * 0.5f, (float)fzq.fzv.height - 10.0f);
                 fzq.fzz();
                 fzr = 2;
                 break;
             }
             case 2: {
-                float f = (float)fzq.fzv.field_22790 - 10.0f - Math.min(1.0f, fzq.fzy() / 0.4f) * (float)fzq.fzv.field_22790 * 0.12f;
-                fzq.gae((float)fzq.fzv.field_22789 * 0.5f, f);
+                float f = (float)fzq.fzv.height - 10.0f - Math.min(1.0f, fzq.fzy() / 0.4f) * (float)fzq.fzv.height * 0.12f;
+                fzq.gae((float)fzq.fzv.width * 0.5f, f);
                 if (fzq.fzy() > 0.45f && fzu == 0) {
                     fzq.gag(minecraftClient, a.b("\u6136\u1884\u925b\u0c22\u87b3\u011e\ubb4c\u32a0\uaca1\u2614\ua1d9\u5bb1\ud573\u4c8a\uc687\u4068\ufa2b\u75f7\uef44", -882155191));
-                    fzq.gaf((float)fzq.fzv.field_22789 * 0.5f, f);
+                    fzq.gaf((float)fzq.fzv.width * 0.5f, f);
                     ++fzu;
                     break;
                 }
@@ -128,7 +128,7 @@ public final class fzq {
                 if (!fzq.gac()) {
                     throw new IllegalStateException(a.c(-245255457, "\ub2a8\ucb58\u41d8\udfb2\u5462\ud2ce\u689b\ue13e\u7f32\uf587\u724a\u8822\u06e0\u9f14\u1512\u93f8\u29b5\ua667\u3cd8\uba81\u3378\u4928"));
                 }
-                fzv.method_25404(new KeyInput(32, 0, 0));
+                fzv.keyPressed(new KeyInput(32, 0, 0));
                 fzq.fzz();
                 fzr = 3;
                 break;
@@ -162,21 +162,21 @@ public final class fzq {
                 if (!fzq.gac()) {
                     throw new IllegalStateException(a.b("\u3e34\u4786\ucd59\u5320\ud8d2\u5e42\ue409\u6daf\uf3b4\u7908\ufed6\u04ad\u8a33\u13d1\u99d6\u1f6b\ua527\u2afa\ub041", 1509768779));
                 }
-                fzq.gad((float)fzq.fzv.field_22789 * 0.5f, (float)fzq.fzv.field_22790 * 0.7f);
+                fzq.gad((float)fzq.fzv.width * 0.5f, (float)fzq.fzv.height * 0.7f);
                 fzq.fzz();
                 fzr = 5;
                 break;
             }
             case 5: {
-                float f = (float)fzq.fzv.field_22790 * 0.7f - Math.min(1.0f, fzq.fzy() / 0.3f) * (float)fzq.fzv.field_22790 * 0.4f;
-                fzq.gae((float)fzq.fzv.field_22789 * 0.5f, f);
+                float f = (float)fzq.fzv.height * 0.7f - Math.min(1.0f, fzq.fzy() / 0.3f) * (float)fzq.fzv.height * 0.4f;
+                fzq.gae((float)fzq.fzv.width * 0.5f, f);
                 if (fzu == 0 && fzq.fzy() > 0.18f) {
                     fzq.gag(minecraftClient, a.b("\ue25b\u9be9\u1136\u8f4f\u04de\u8276\u3821\ub1cd\u2fcc\ua579\u22b4\ud8dc\u561e\ucfe7\u45f4\uc301\u7943", 1487987238));
                     ++fzu;
                     break;
                 }
                 if (fzu != 1 || !(fzq.fzy() > 0.32f)) break;
-                fzq.gaf((float)fzq.fzv.field_22789 * 0.5f, f);
+                fzq.gaf((float)fzq.fzv.width * 0.5f, f);
                 ++fzu;
                 fzq.fzz();
                 fzu = 2;
@@ -196,7 +196,7 @@ public final class fzq {
                 }
                 System.out.println(a.d("\ufc1f\u85ad\u0f72\u910b\u1a97\u9c72\u2630\uafd7\u318f\ubb6a\u3cc9\uc6a9\u486c\ud1dd", -985682515, -482651696));
                 fzr = 99;
-                minecraftClient.method_1592();
+                minecraftClient.scheduleStop();
                 break;
             }
         }
@@ -209,20 +209,20 @@ public final class fzq {
     }
 
     private static void gad(float f, float f2) {
-        fzv.method_25402(new Click((double)f, (double)f2, new MouseInput(0, 0)), false);
+        fzv.mouseClicked(new Click((double)f, (double)f2, new MouseInput(0, 0)), false);
     }
 
     private static void gae(float f, float f2) {
-        fzv.method_25403(new Click((double)f, (double)f2, new MouseInput(0, 0)), 0.0, 0.0);
+        fzv.mouseDragged(new Click((double)f, (double)f2, new MouseInput(0, 0)), 0.0, 0.0);
     }
 
     private static void gaf(float f, float f2) {
-        fzv.method_25406(new Click((double)f, (double)f2, new MouseInput(0, 0)));
+        fzv.mouseReleased(new Click((double)f, (double)f2, new MouseInput(0, 0)));
     }
 
     private static void gag(MinecraftClient minecraftClient, String string) {
-        System.out.println(a.b("\u110f\u68bd\ue262\u7c1b\uf787\u7162\ucb20\u42c7\udc9f\u567a", 1941639529) + string + a.b("\uae05\ud7d4\u5d67", 1010937382) + minecraftClient.method_47599() + a.c(1821759149, "\ud689\uaf7e\u25bb\ubbc9"));
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.d("\ub100\uc8bb\u426b\udc02\u5790\ud13e", -800622465, -670775009) + string + a.c(-2005816376, "\uabe2\ud20d\u58c0\uc6b8")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> {});
+        System.out.println(a.b("\u110f\u68bd\ue262\u7c1b\uf787\u7162\ucb20\u42c7\udc9f\u567a", 1941639529) + string + a.b("\uae05\ud7d4\u5d67", 1010937382) + minecraftClient.getCurrentFps() + a.c(1821759149, "\ud689\uaf7e\u25bb\ubbc9"));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.d("\ub100\uc8bb\u426b\udc02\u5790\ud13e", -800622465, -670775009) + string + a.c(-2005816376, "\uabe2\ud20d\u58c0\uc6b8")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> {});
     }
 
     private static /* synthetic */ int sq(int n, int n2) {

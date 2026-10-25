@@ -30,7 +30,7 @@ import net.minecraft.text.Text;
 public final class poi {
     private static final long poj = 1500L;
     private static final int pok = 9;
-    private static final EquipmentSlot[] pol = new EquipmentSlot[]{EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166};
+    private static final EquipmentSlot[] pol = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
     private static final long pom = 1000L;
     private static final long pon = 15000L;
     private static final int poo = 3;
@@ -58,20 +58,20 @@ public final class poi {
     }
 
     public static boolean inLobby(PlayerEntity playerEntity) {
-        PlayerInventory playerInventory = playerEntity.method_31548();
-        boolean bl = playerEntity.method_6079().method_31574(Items.field_8251);
-        int n = playerEntity.method_6079().method_7960() ? 0 : 1;
+        PlayerInventory playerInventory = playerEntity.getInventory();
+        boolean bl = playerEntity.getOffHandStack().isOf(Items.COMPASS);
+        int n = playerEntity.getOffHandStack().isEmpty() ? 0 : 1;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960()) continue;
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty()) continue;
             ++n;
-            bl |= itemStack.method_31574(Items.field_8251);
+            bl |= itemStack.isOf(Items.COMPASS);
         }
         if (!bl) {
             return false;
         }
         for (EquipmentSlot equipmentSlot : pol) {
-            if (playerEntity.method_6118(equipmentSlot).method_7960()) continue;
+            if (playerEntity.getEquippedStack(equipmentSlot).isEmpty()) continue;
             ++n;
         }
         return n <= 9;
@@ -115,7 +115,7 @@ public final class poi {
         String string = pfl.title(text.getString());
         if (string.contains(a.c(338120793, "\u5419\u2ddd\ua70d")) && (string.contains(a.b("\u72c5\u0b00\u81a6\u1fa5\u9475\u12b1", 1730311810)) || string.contains(a.d("\ucedf\ub76f\u3db6\ua3c9\u281f\uaedb\u1481", -208382017, 2071960920)) || string.contains(a.c(678453728, "\u65da\u1c66\u96c0\u08ca\u8317\u05aa\ubf83"))) || string.contains(a.d("\u9a9a\ue326\u69eb\uf78d\u7c5e\ufaea\u40a4\uc90c\u5710\uddad\u5a7f\ua00e\u2ed2\ub765\u3d21\ubbc1\u018f", -1334311888, -2130141478))) {
             this.ppa = true;
-            this.ppb = MinecraftClient.method_1551().field_1687;
+            this.ppb = MinecraftClient.getInstance().world;
         } else if (string.contains(a.b("\u1a1e\u63a7\ue975\u770e\ufca6\u7a14\uc046\u49cb", -638509525)) || string.contains(a.b("\uc7d5\ube6c\u30aa\uaab8\u2118\ua7ad\u1df5\u9401\u0a21\u809d\u0322\ufd4c\u739a\uea21\u607c\ue68c\u5cb6\ud36e", -799161350)) || string.contains(a.d("\ud5c8\uac78\u26b0\ub895\u3303\ub5a5\u0fe1\u8618\u1842\u92fe\u152e\uef51\u618f", 1422492475, 1200182928)) || string.contains(a.b("\u8cf0\uf54b\u7fed\ue1e9\u6a34\uec84\u56d2\udf25\u4172\ucbcb", -383285051)) || string.contains(a.c(1600547158, "\u6d63\u14d8\u9e7ez\u8baf\u0d19\ub749\u3ecb\ua097\u2a53"))) {
             this.poz = true;
         }
@@ -123,7 +123,7 @@ public final class poi {
 
     public boolean tick(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Object object, String string, long l) {
         String string2;
-        if (clientPlayerEntity == null || minecraftClient.method_1562() == null) {
+        if (clientPlayerEntity == null || minecraftClient.getNetworkHandler() == null) {
             return false;
         }
         if (!poi.inLobby((PlayerEntity)clientPlayerEntity)) {
@@ -141,7 +141,7 @@ public final class poi {
             this.ppd = "";
             return false;
         }
-        if (this.ppa && minecraftClient.field_1687 != this.ppb) {
+        if (this.ppa && minecraftClient.world != this.ppb) {
             this.ppa = false;
         }
         if (this.ppa) {
@@ -211,7 +211,7 @@ public final class poi {
         this.pot = l;
         this.poz = false;
         this.ppd = a.d("\udd22\ua4b6\u2e6a\ub01b\u3bc5\ub976\u033f\u8ed9\u1081\u9a45\u1ded\ue794\u6936\uf4e4\u7aaa\ufc56\u4209\uc9b9\u5371\ud521\u5cdd\u2688\uac2f", -1660041644, 1776361338) + this.pox + (this.pow > 0 ? a.d("\u56ff\u2f46\ua182\u3ff2\ub429\u32e8\u88c7\u0148\u9b77", 966225484, -167102310) + this.pow + a.b("\u4fde", -809611274) : "");
-        minecraftClient.method_1562().method_45730(a.d("\u16cd\u6f73", -1990197013, -282651067) + this.pox);
+        minecraftClient.getNetworkHandler().sendChatCommand(a.d("\u16cd\u6f73", -1990197013, -282651067) + this.pox);
     }
 
     private static /* synthetic */ int blz(int n, int n2) {

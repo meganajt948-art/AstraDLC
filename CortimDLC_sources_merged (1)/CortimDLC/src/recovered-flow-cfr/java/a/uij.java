@@ -78,8 +78,8 @@ public final class uij {
         unf.observe(drawContext);
         n = Math.max(0, Math.min(6, n));
         long l = unf.frame();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView3 = gpuTextureView2 = gpuTextureView != null ? gpuTextureView : framebuffer.method_71639();
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView3 = gpuTextureView2 = gpuTextureView != null ? gpuTextureView : framebuffer.getColorAttachmentView();
         if (this.uis == l && this.uit == n && this.uiu == gpuTextureView2 && this.uir != null) {
             return true;
         }
@@ -92,7 +92,7 @@ public final class uij {
             this.uiv = true;
             return true;
         }
-        if (gpuTextureView == null && this.uir != null && !this.uiv && !this.uiw && this.uis == l - 1L && this.uit == n && this.uiu == gpuTextureView2 && framebuffer.field_1482 == this.uip && framebuffer.field_1481 == this.uiq && this.ujh()) {
+        if (gpuTextureView == null && this.uir != null && !this.uiv && !this.uiw && this.uis == l - 1L && this.uit == n && this.uiu == gpuTextureView2 && framebuffer.textureWidth == this.uip && framebuffer.textureHeight == this.uiq && this.ujh()) {
             this.uis = l;
             this.uiw = true;
             return true;
@@ -100,16 +100,16 @@ public final class uij {
         this.uiw = false;
         this.uiv = false;
         this.uir = null;
-        if (gpuTextureView2 == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        if (gpuTextureView2 == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         if (!(uvq.ensure(uvq.BLUR_DOWN) && uvq.ensure(uvq.BLUR_UP) && uvq.ensure(uvq.BLUR_COPY) && uvq.ensure(uvq.GLASS))) {
             return false;
         }
         try {
-            this.ujj(framebuffer.field_1482, framebuffer.field_1481);
+            this.ujj(framebuffer.textureWidth, framebuffer.textureHeight);
             CommandEncoder commandEncoder = RenderSystem.getDevice().createCommandEncoder();
-            GpuSampler gpuSampler = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+            GpuSampler gpuSampler = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
             if (n == 0) {
                 if (this.uio == null) {
                     GpuDevice gpuDevice = RenderSystem.getDevice();
@@ -156,23 +156,23 @@ public final class uij {
     }
 
     private void ujg() {
-        Camera camera = MinecraftClient.method_1551().field_1773.method_19418();
-        Vec3d vec3d = camera.method_71156();
-        this.uix = vec3d.field_1352;
-        this.uiy = vec3d.field_1351;
-        this.uiz = vec3d.field_1350;
-        this.uja = camera.method_19330();
-        this.ujb = camera.method_19329();
+        Camera camera = MinecraftClient.getInstance().gameRenderer.getCamera();
+        Vec3d vec3d = camera.getCameraPos();
+        this.uix = vec3d.x;
+        this.uiy = vec3d.y;
+        this.uiz = vec3d.z;
+        this.uja = camera.getYaw();
+        this.ujb = camera.getPitch();
     }
 
     private boolean ujh() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1773 == null || minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.gameRenderer == null || minecraftClient.world == null) {
             return false;
         }
-        Camera camera = minecraftClient.field_1773.method_19418();
-        Vec3d vec3d = camera.method_71156();
-        return vec3d.method_1028(this.uix, this.uiy, this.uiz) < 1.0E-6 && Math.abs(camera.method_19330() - this.uja) < 0.01f && Math.abs(camera.method_19329() - this.ujb) < 0.01f;
+        Camera camera = minecraftClient.gameRenderer.getCamera();
+        Vec3d vec3d = camera.getCameraPos();
+        return vec3d.squaredDistanceTo(this.uix, this.uiy, this.uiz) < 1.0E-6 && Math.abs(camera.getYaw() - this.uja) < 0.01f && Math.abs(camera.getPitch() - this.ujb) < 0.01f;
     }
 
     public @Nullable GpuTextureView result(DrawContext drawContext) {

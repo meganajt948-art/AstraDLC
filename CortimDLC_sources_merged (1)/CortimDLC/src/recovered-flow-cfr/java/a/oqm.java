@@ -42,11 +42,11 @@ extends kfe {
         if (this.isMaintenance()) {
             return;
         }
-        if (this.mc.field_1755 instanceof BotScreen) {
-            this.mc.method_1507(null);
+        if (this.mc.currentScreen instanceof BotScreen) {
+            this.mc.setScreen(null);
             return;
         }
-        this.mc.method_1507((Screen)new BotScreen());
+        this.mc.setScreen((Screen)new BotScreen());
     }
 
     private static /* synthetic */ int beg(int n, int n2) {

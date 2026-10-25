@@ -55,7 +55,7 @@ extends imn {
         this.ien.clear();
         for (String string : this.iej.ids()) {
             ItemStack itemStack = ibf.iconOf(this.iej.kind(), string);
-            if (itemStack.method_7960()) continue;
+            if (itemStack.isEmpty()) continue;
             this.ien.add(itemStack);
             if (this.ien.size() < 5) continue;
             break;
@@ -84,11 +84,11 @@ extends imn {
         }
         float f11 = this.x + irr.LABEL.width(wap.t(this.setting.getName())) + 6.0f;
         for (int i = this.ien.size() - 1; i >= 0 && !((f4 = f10 - 14.0f) < f11); --i) {
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f4, f5 - 6.5f);
-            drawContext.method_51448().scale(0.8125f, 0.8125f);
-            drawContext.method_51427(this.ien.get(i), 0, 0);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f4, f5 - 6.5f);
+            drawContext.getMatrices().scale(0.8125f, 0.8125f);
+            drawContext.drawItem(this.ien.get(i), 0, 0);
+            drawContext.getMatrices().popMatrix();
             f10 = f4 - 1.5f;
         }
     }

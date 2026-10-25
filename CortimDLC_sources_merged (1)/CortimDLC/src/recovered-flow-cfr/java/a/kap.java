@@ -98,9 +98,9 @@ public final class kap {
         if (this.kbc || !uvq.ensure(uvq.MENU_SCENE)) {
             return false;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        int n = Math.max(4, minecraftClient.method_22683().method_4489());
-        int n2 = Math.max(4, minecraftClient.method_22683().method_4506());
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        int n = Math.max(4, minecraftClient.getWindow().getFramebufferWidth());
+        int n2 = Math.max(4, minecraftClient.getWindow().getFramebufferHeight());
         try {
             this.kbk(n, n2);
             GpuDevice gpuDevice = RenderSystem.getDevice();
@@ -142,7 +142,7 @@ public final class kap {
         memoryStack = commandEncoder.createRenderPass(() -> a.b("\u864f\uffd4\u7504\ueb6d\u60ff\ue65c\u5c42\ud5bb\u4bef\uc145\u46c3\ubce1\u3226\uab91\u21c9\ua733", -94927335), uok2.view, OptionalInt.empty());
         try {
             memoryStack.setPipeline(uvq.MENU_SCENE);
-            GpuSampler gpuSampler = RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR);
+            GpuSampler gpuSampler = RenderSystem.getSamplerCache().get(FilterMode.LINEAR);
             memoryStack.bindTexture(a.b("\uef1c\u968a\u1c64\u8227\u09fc\u8f50\u351f\ubce7\u22af", 1378676572), jza2.sharp().view, gpuSampler);
             memoryStack.bindTexture(a.d("\u85f2\ufc6d\u76a7\ue8d1\u6327\ue5a4\u5ffb\ud617\u4854\uc2ec\u4528", -2025718753, 1751873956), jza2.blur().view, gpuSampler);
             memoryStack.setUniform(a.b("\ua87d\ud1e6\u5b36\uc55f\u4eac\uc82d\u7278\ufb82\u65d6", -1281972174), gpuBuffer);

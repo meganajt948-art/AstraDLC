@@ -47,7 +47,7 @@ extends jcs {
     private static final int iya = -12595334;
     private static final int iyb = -865972;
     private static final int iyc = -1092784;
-    private static final EquipmentSlot[] iyd = new EquipmentSlot[]{EquipmentSlot.field_6169, EquipmentSlot.field_6174, EquipmentSlot.field_6172, EquipmentSlot.field_6166, EquipmentSlot.field_6173, EquipmentSlot.field_6171};
+    private static final EquipmentSlot[] iyd = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND};
     private final ItemStack[] iye = new ItemStack[iyd.length];
     private final int[] iyf = new int[iyd.length];
     private final vcj[] iyg = new vcj[iyd.length];
@@ -63,7 +63,7 @@ extends jcs {
     ixu() {
         super(a.c(1506693919, "\u537b\u2ad9\ua015\u3e66\ub5ac"), a.c(-1430329951, "\ue5e5\u9c67\u16ab\u88d8\u0312"), true, 1, 2, 152.0f, 3.0f);
         for (int i = 0; i < iyd.length; ++i) {
-            this.iye[i] = ItemStack.field_8037;
+            this.iye[i] = ItemStack.EMPTY;
             this.iyg[i] = new vcj(5.0f);
         }
     }
@@ -77,19 +77,19 @@ extends jcs {
     void update(float f, boolean bl) {
         int n;
         this.iyj = HANDS.get() ? 6 : 4;
-        ClientPlayerEntity clientPlayerEntity = MinecraftClient.method_1551().field_1724;
+        ClientPlayerEntity clientPlayerEntity = MinecraftClient.getInstance().player;
         boolean bl2 = false;
         if (clientPlayerEntity != null) {
             for (n = 0; n < 4; ++n) {
-                bl2 |= !clientPlayerEntity.method_6118(iyd[n]).method_7960();
+                bl2 |= !clientPlayerEntity.getEquippedStack(iyd[n]).isEmpty();
             }
         }
         this.iyl = !bl2 && bl;
         for (n = 0; n < iyd.length; ++n) {
             int n2;
-            ItemStack itemStack = n >= this.iyj ? ItemStack.field_8037 : (this.iyl ? ixu.iyp(n) : (clientPlayerEntity != null ? clientPlayerEntity.method_6118(iyd[n]) : ItemStack.field_8037));
-            int n3 = n2 = itemStack.method_7963() ? itemStack.method_7919() : 0;
-            if (!this.iyl && itemStack.method_7909() == this.iye[n].method_7909() && n2 > this.iyf[n]) {
+            ItemStack itemStack = n >= this.iyj ? ItemStack.EMPTY : (this.iyl ? ixu.iyp(n) : (clientPlayerEntity != null ? clientPlayerEntity.getEquippedStack(iyd[n]) : ItemStack.EMPTY));
+            int n3 = n2 = itemStack.isDamageable() ? itemStack.getDamage() : 0;
+            if (!this.iyl && itemStack.getItem() == this.iye[n].getItem() && n2 > this.iyf[n]) {
                 this.iyg[n].set(1.0f);
             }
             this.iye[n] = itemStack;
@@ -103,13 +103,13 @@ extends jcs {
 
     private static ItemStack iyp(int n) {
         if (iym == null) {
-            Item[] itemArray = new Item[]{Items.field_22027, Items.field_22028, Items.field_8348, Items.field_8285, Items.field_22022, Items.field_8288};
+            Item[] itemArray = new Item[]{Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, Items.NETHERITE_SWORD, Items.TOTEM_OF_UNDYING};
             float[] fArray = new float[]{0.06f, 0.31f, 0.64f, 0.9f, 0.15f, 0.0f};
             iym = new ItemStack[itemArray.length];
             for (int i = 0; i < itemArray.length; ++i) {
                 ItemStack itemStack = new ItemStack((ItemConvertible)itemArray[i]);
-                if (itemStack.method_7963()) {
-                    itemStack.method_7974(Math.round((float)itemStack.method_7936() * fArray[i]));
+                if (itemStack.isDamageable()) {
+                    itemStack.setDamage(Math.round((float)itemStack.getMaxDamage() * fArray[i]));
                 }
                 ixu.iym[i] = itemStack;
             }
@@ -176,7 +176,7 @@ extends jcs {
         if (n == 4) {
             uut.rect(drawContext, f - 0.75f - 0.5f, f2 + 2.0f, 1.0f, this.height() - 10.0f - 4.0f, ujt.mulAlpha(iov.textMuted, 0.3f));
         }
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             uut.circle(drawContext, f3, f2 + 6.0f, 1.3f, ujt.mulAlpha(iov.textMuted, 0.4f));
             return;
         }
@@ -196,7 +196,7 @@ extends jcs {
     private void iyu(DrawContext drawContext, int n, float f, float f2, float f3) {
         ItemStack itemStack = this.iye[n];
         float f4 = f2 + 6.0f + 0.5f;
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             uut.circle(drawContext, f + 6.0f, f4, 1.3f, ujt.mulAlpha(iov.textMuted, 0.4f));
             return;
         }
@@ -215,24 +215,24 @@ extends jcs {
     private static void iyv(DrawContext drawContext, ItemStack itemStack, float f, float f2) {
         float f3 = 0.75f * Math.min(1.0f, uut.alpha() * 2.5f);
         if (f3 > 0.02f) {
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f, f2);
-            drawContext.method_51448().scale(f3, f3);
-            drawContext.method_51427(itemStack, -8, -8);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f, f2);
+            drawContext.getMatrices().scale(f3, f3);
+            drawContext.drawItem(itemStack, -8, -8);
+            drawContext.getMatrices().popMatrix();
         }
     }
 
     private static float iyw(ItemStack itemStack) {
-        if (!itemStack.method_7963() || itemStack.method_7936() <= 0) {
+        if (!itemStack.isDamageable() || itemStack.getMaxDamage() <= 0) {
             return -1.0f;
         }
-        return Math.max(0.0f, 1.0f - (float)itemStack.method_7919() / (float)itemStack.method_7936());
+        return Math.max(0.0f, 1.0f - (float)itemStack.getDamage() / (float)itemStack.getMaxDamage());
     }
 
     private static String iyx(ItemStack itemStack, float f) {
         if (f < 0.0f) {
-            return itemStack.method_7947() > 1 ? a.b("\u93fc", 2119340933) + itemStack.method_7947() : "";
+            return itemStack.getCount() > 1 ? a.b("\u93fc", 2119340933) + itemStack.getCount() : "";
         }
         return Math.round(f * 100.0f) + a.d("\ud3ef", 471154364, 1698557303);
     }

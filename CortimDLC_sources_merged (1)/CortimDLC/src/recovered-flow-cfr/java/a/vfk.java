@@ -155,7 +155,7 @@ final class vfk {
                 int n5 = i * n2;
                 for (int j = 0; j < n2; ++j) {
                     int n6 = nArray[object[n5 + j] >>> 24 & 0xFF];
-                    nativeImage.method_61941(j, i, n6 << 24 | 0xFFFFFF);
+                    nativeImage.setColorArgb(j, i, n6 << 24 | 0xFFFFFF);
                 }
             }
             RenderSystem.getDevice().createCommandEncoder().writeToTexture(gpuTexture, nativeImage);

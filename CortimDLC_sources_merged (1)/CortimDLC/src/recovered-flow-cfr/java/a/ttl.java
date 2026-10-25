@@ -110,19 +110,19 @@ public final class ttl {
     }
 
     public void attack(MinecraftClient minecraftClient, BlockPos blockPos, Direction direction) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.field_1687 == null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.world == null) {
             return;
         }
-        BlockState blockState = minecraftClient.field_1687.method_8320(blockPos);
-        byte by = tsh.kind((World)minecraftClient.field_1687, blockPos, blockState);
+        BlockState blockState = minecraftClient.world.getBlockState(blockPos);
+        byte by = tsh.kind((World)minecraftClient.world, blockPos, blockState);
         if (!tpx.minable(by)) {
             return;
         }
         if (this.tua != null && !this.tua.contains(blockPos)) {
             by = 4;
         }
-        this.ttu.add(new tte(blockPos.method_10062(), direction, ttl.tuo(minecraftClient, clientPlayerEntity, blockPos, direction), by));
+        this.ttu.add(new tte(blockPos.toImmutable(), direction, ttl.tuo(minecraftClient, clientPlayerEntity, blockPos, direction), by));
     }
 
     public void broken(BlockState blockState) {
@@ -134,17 +134,17 @@ public final class ttl {
     private static Vec3d tuo(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, BlockPos blockPos, Direction direction) {
         Optional optional;
         BlockHitResult blockHitResult;
-        HitResult hitResult = minecraftClient.field_1765;
+        HitResult hitResult = minecraftClient.crosshairTarget;
         if (hitResult instanceof BlockHitResult) {
             blockHitResult = (BlockHitResult)hitResult;
-            if (hitResult.method_17783() == HitResult.Type.field_1332 && blockHitResult.method_17777().equals((Object)blockPos)) {
-                return blockHitResult.method_17784();
+            if (hitResult.getType() == HitResult.Type.BLOCK && blockHitResult.getBlockPos().equals((Object)blockPos)) {
+                return blockHitResult.getPos();
             }
         }
-        if ((optional = new Box(blockPos).method_992((Vec3d)(blockHitResult = clientPlayerEntity.method_33571()), blockHitResult.method_1019(clientPlayerEntity.method_5828(1.0f).method_1021(6.0)))).isPresent()) {
+        if ((optional = new Box(blockPos).raycast((Vec3d)(blockHitResult = clientPlayerEntity.getEyePos()), blockHitResult.add(clientPlayerEntity.getRotationVec(1.0f).multiply(6.0)))).isPresent()) {
             return (Vec3d)optional.get();
         }
-        return Vec3d.method_24953((Vec3i)blockPos).method_1031((double)direction.method_10148() * 0.5, (double)direction.method_10164() * 0.5, (double)direction.method_10165() * 0.5);
+        return Vec3d.ofCenter((Vec3i)blockPos).add((double)direction.getOffsetX() * 0.5, (double)direction.getOffsetY() * 0.5, (double)direction.getOffsetZ() * 0.5);
     }
 
     public void pause(String string) {
@@ -156,8 +156,8 @@ public final class ttl {
     }
 
     public void tick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        ClientWorld clientWorld = minecraftClient.field_1687;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        ClientWorld clientWorld = minecraftClient.world;
         if (clientPlayerEntity == null || clientWorld == null) {
             this.pause(a.b("\u9b9e\ue22e\u68f9\uf68d", -937255938));
             return;
@@ -169,38 +169,38 @@ public final class ttl {
             this.ttx = true;
             this.tuc = null;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         if (!this.ttw) {
             this.ttw = true;
-            this.ttt.ox = (int)Math.floor(vec3d.field_1352);
-            this.ttt.oy = (int)Math.floor(vec3d.field_1351);
-            this.ttt.oz = (int)Math.floor(vec3d.field_1350);
+            this.ttt.ox = (int)Math.floor(vec3d.x);
+            this.ttt.oy = (int)Math.floor(vec3d.y);
+            this.ttt.oz = (int)Math.floor(vec3d.z);
         }
         this.paused = false;
         this.pauseReason = "";
         int n = this.ttt.ticks.size();
         this.tup(minecraftClient, clientPlayerEntity, n);
-        GameOptions gameOptions = minecraftClient.field_1690;
-        int n2 = (gameOptions.field_1894.method_1434() ? 1 : 0) | (gameOptions.field_1881.method_1434() ? 2 : 0) | (gameOptions.field_1913.method_1434() ? 4 : 0) | (gameOptions.field_1849.method_1434() ? 8 : 0) | (gameOptions.field_1903.method_1434() ? 16 : 0) | (clientPlayerEntity.method_5624() ? 32 : 0) | (gameOptions.field_1832.method_1434() ? 64 : 0);
+        GameOptions gameOptions = minecraftClient.options;
+        int n2 = (gameOptions.forwardKey.isPressed() ? 1 : 0) | (gameOptions.backKey.isPressed() ? 2 : 0) | (gameOptions.leftKey.isPressed() ? 4 : 0) | (gameOptions.rightKey.isPressed() ? 8 : 0) | (gameOptions.jumpKey.isPressed() ? 16 : 0) | (clientPlayerEntity.isSprinting() ? 32 : 0) | (gameOptions.sneakKey.isPressed() ? 64 : 0);
         tuz tuz2 = new tuz();
-        tuz2.flags = 1 | (clientPlayerEntity.method_24828() ? 2 : 0) | (this.ttx ? 4 : 0) | (clientPlayerEntity.method_5624() ? 8 : 0) | (clientPlayerEntity.method_5715() ? 16 : 0) | ((n2 & 0x1F) != 0 ? 32 : 0) | (gameOptions.field_1886.method_1434() ? 64 : 0);
+        tuz2.flags = 1 | (clientPlayerEntity.isOnGround() ? 2 : 0) | (this.ttx ? 4 : 0) | (clientPlayerEntity.isSprinting() ? 8 : 0) | (clientPlayerEntity.isSneaking() ? 16 : 0) | ((n2 & 0x1F) != 0 ? 32 : 0) | (gameOptions.attackKey.isPressed() ? 64 : 0);
         tuz2.keys = n2;
         if (this.ttx) {
             this.tty = n;
             this.ttx = false;
             this.tuc = null;
         }
-        tuz2.yaw = clientPlayerEntity.method_36454();
-        tuz2.pitch = clientPlayerEntity.method_36455();
-        tuz2.x = (float)(vec3d.field_1352 - (double)this.ttt.ox);
-        tuz2.y = (float)(vec3d.field_1351 - (double)this.ttt.oy);
-        tuz2.z = (float)(vec3d.field_1350 - (double)this.ttt.oz);
-        tuz2.vx = (float)(clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014);
-        tuz2.vy = (float)(clientPlayerEntity.method_23318() - clientPlayerEntity.field_6036);
-        tuz2.vz = (float)(clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969);
-        tuz2.feetY = tsh.standing((World)clientWorld, clientPlayerEntity).method_10264() - this.ttt.oy;
-        tvn tvn2 = tsh.snap((World)clientWorld, clientPlayerEntity, clientPlayerEntity.method_24515(), this.tua, null, null);
-        trd.diff(this.tuc, tvn2, vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, this.ttv);
+        tuz2.yaw = clientPlayerEntity.getYaw();
+        tuz2.pitch = clientPlayerEntity.getPitch();
+        tuz2.x = (float)(vec3d.x - (double)this.ttt.ox);
+        tuz2.y = (float)(vec3d.y - (double)this.ttt.oy);
+        tuz2.z = (float)(vec3d.z - (double)this.ttt.oz);
+        tuz2.vx = (float)(clientPlayerEntity.getX() - clientPlayerEntity.lastX);
+        tuz2.vy = (float)(clientPlayerEntity.getY() - clientPlayerEntity.lastY);
+        tuz2.vz = (float)(clientPlayerEntity.getZ() - clientPlayerEntity.lastZ);
+        tuz2.feetY = tsh.standing((World)clientWorld, clientPlayerEntity).getY() - this.ttt.oy;
+        tvn tvn2 = tsh.snap((World)clientWorld, clientPlayerEntity, clientPlayerEntity.getBlockPos(), this.tua, null, null);
+        trd.diff(this.tuc, tvn2, vec3d.x, vec3d.y, vec3d.z, this.ttv);
         tuz2.farm = (short)Math.min(Short.MAX_VALUE, this.ttv[0]);
         tuz2.dia = (byte)Math.min(127, this.ttv[1]);
         this.farmed += this.ttv[0];
@@ -221,7 +221,7 @@ public final class ttl {
     }
 
     private void tup(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, int n) {
-        Vec3d vec3d = clientPlayerEntity.method_73189();
+        Vec3d vec3d = clientPlayerEntity.getEntityPos();
         if (this.tua != null) {
             if (this.tua.distanceTo(vec3d) <= 24.0) {
                 return;
@@ -245,13 +245,13 @@ public final class ttl {
         Object object;
         tuw tuw2 = new tuw();
         tuw2.tick = n;
-        tuw2.x = tte2.pos().method_10263() - this.ttt.ox;
-        tuw2.y = tte2.pos().method_10264() - this.ttt.oy;
-        tuw2.z = tte2.pos().method_10260() - this.ttt.oz;
+        tuw2.x = tte2.pos().getX() - this.ttt.ox;
+        tuw2.y = tte2.pos().getY() - this.ttt.oy;
+        tuw2.z = tte2.pos().getZ() - this.ttt.oz;
         tuw2.face = (byte)tte2.side().ordinal();
-        tuw2.px = (float)(tte2.point().field_1352 - (double)this.ttt.ox);
-        tuw2.py = (float)(tte2.point().field_1351 - (double)this.ttt.oy);
-        tuw2.pz = (float)(tte2.point().field_1350 - (double)this.ttt.oz);
+        tuw2.px = (float)(tte2.point().x - (double)this.ttt.ox);
+        tuw2.py = (float)(tte2.point().y - (double)this.ttt.oy);
+        tuw2.pz = (float)(tte2.point().z - (double)this.ttt.oz);
         tuw2.cell = tte2.cell();
         int n2 = this.ttt.hits.size();
         tuw tuw3 = n2 > 0 ? this.ttt.hits.get(n2 - 1) : null;

@@ -62,14 +62,14 @@ public final class wjw {
         ArrayList arrayList2 = new ArrayList();
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            text.method_27658((style, string) -> {
+            text.visit((style, string) -> {
                 if (!string.isEmpty()) {
                     arrayList.add(string);
                     arrayList2.add(style);
                     stringBuilder.append(string);
                 }
                 return Optional.empty();
-            }, Style.field_24360);
+            }, Style.EMPTY);
         }
         catch (RuntimeException runtimeException) {
             return text;
@@ -78,7 +78,7 @@ public final class wjw {
         if (list.isEmpty()) {
             return text;
         }
-        MutableText mutableText = Text.method_43473();
+        MutableText mutableText = Text.empty();
         boolean bl = false;
         int n = 0;
         for (int i = 0; i < arrayList.size(); ++i) {
@@ -99,11 +99,11 @@ public final class wjw {
                     n4 = wjq3.wjr;
                 }
                 String string3 = string2.substring(n3 - n, n4 - n);
-                if (wjq2 != null && style2.method_10970() == null) {
-                    mutableText.method_10852((Text)Text.method_43470((String)string3).method_10862(style2.method_10958(wjw.wkk(wjq2.wjt)).method_10949((HoverEvent)new HoverEvent.ShowText((Text)Text.method_43470((String)wap.s(a.c(-964489543, "\u0ee0\u777e\ufda8\u63d3\ue80c\u6eec\ud4a5\u5d15\uc34f\u49fe\uce69\u3459\ubacf\u2329\ua96c\u2f85\u95c3\u1a0d\u80b8\u06ee\u8f03\uf506\u7bfd\ue021\u6649\uec8f"), a.b("\u6709\u1e95\u9440\u0a3b\u81e8\u0723\ubd07\u30f9\uaebc\u2012\ua7c0\u5dce\ud31a\u4ad9\uc088\u4673\ufc46\u7399\ued46\u6f0b\ue6f5\u9cd3\u1218\u89b0\u0bac\u856a\u3cda\ub28a\u2809\uae55", 220226314))))).method_30938(Boolean.valueOf(true))));
+                if (wjq2 != null && style2.getClickEvent() == null) {
+                    mutableText.append((Text)Text.literal((String)string3).setStyle(style2.withClickEvent(wjw.wkk(wjq2.wjt)).withHoverEvent((HoverEvent)new HoverEvent.ShowText((Text)Text.literal((String)wap.s(a.c(-964489543, "\u0ee0\u777e\ufda8\u63d3\ue80c\u6eec\ud4a5\u5d15\uc34f\u49fe\uce69\u3459\ubacf\u2329\ua96c\u2f85\u95c3\u1a0d\u80b8\u06ee\u8f03\uf506\u7bfd\ue021\u6649\uec8f"), a.b("\u6709\u1e95\u9440\u0a3b\u81e8\u0723\ubd07\u30f9\uaebc\u2012\ua7c0\u5dce\ud31a\u4ad9\uc088\u4673\ufc46\u7399\ued46\u6f0b\ue6f5\u9cd3\u1218\u89b0\u0bac\u856a\u3cda\ub28a\u2809\uae55", 220226314))))).withUnderline(Boolean.valueOf(true))));
                     bl = true;
                 } else {
-                    mutableText.method_10852((Text)Text.method_43470((String)string3).method_10862(style2));
+                    mutableText.append((Text)Text.literal((String)string3).setStyle(style2));
                 }
                 n3 = n4;
             }
@@ -133,7 +133,7 @@ public final class wjw {
      */
     public static boolean click(Style style) {
         ClickEvent clickEvent;
-        ClickEvent clickEvent2 = clickEvent = style != null && !dry.armed() ? style.method_10970() : null;
+        ClickEvent clickEvent2 = clickEvent = style != null && !dry.armed() ? style.getClickEvent() : null;
         if (!(clickEvent instanceof ClickEvent.CopyToClipboard)) {
             return false;
         }
@@ -144,7 +144,7 @@ public final class wjw {
                 return false;
             }
         }
-        wjw.wkl(copyToClipboard.comp_3503());
+        wjw.wkl(copyToClipboard.value());
         return true;
     }
 
@@ -152,15 +152,15 @@ public final class wjw {
         int n;
         int n2;
         int n3;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.world == null) {
             return;
         }
         String[] stringArray = string.split(a.c(-1584130995, "\u146c"));
         try {
             n3 = Integer.parseInt(stringArray[0]);
             n2 = Integer.parseInt(stringArray[stringArray.length - 1]);
-            n = stringArray.length == 3 ? Integer.parseInt(stringArray[1]) : minecraftClient.field_1724.method_31478();
+            n = stringArray.length == 3 ? Integer.parseInt(stringArray[1]) : minecraftClient.player.getBlockY();
         }
         catch (RuntimeException runtimeException) {
             return;

@@ -86,15 +86,15 @@ public final class uxx {
         if (uym) {
             return false;
         }
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        if (framebuffer.method_71639() == null || framebuffer.field_1482 < 4 || framebuffer.field_1481 < 4) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        if (framebuffer.getColorAttachmentView() == null || framebuffer.textureWidth < 4 || framebuffer.textureHeight < 4) {
             return false;
         }
         try {
             GpuDevice gpuDevice = RenderSystem.getDevice();
-            uxx.uzc(gpuDevice, framebuffer.field_1482, framebuffer.field_1481);
+            uxx.uzc(gpuDevice, framebuffer.textureWidth, framebuffer.textureHeight);
             try (MemoryStack memoryStack = MemoryStack.stackPush();){
-                Std140Builder std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)4288).putVec4((float)framebuffer.field_1482, (float)framebuffer.field_1481, 1.0f / (float)framebuffer.field_1482, 1.0f / (float)framebuffer.field_1481);
+                Std140Builder std140Builder = Std140Builder.onStack((MemoryStack)memoryStack, (int)4288).putVec4((float)framebuffer.textureWidth, (float)framebuffer.textureHeight, 1.0f / (float)framebuffer.textureWidth, 1.0f / (float)framebuffer.textureHeight);
                 consumer.accept(std140Builder);
                 gpuDevice.createCommandEncoder().writeToBuffer(uya.slice(), std140Builder.get());
             }
@@ -115,10 +115,10 @@ public final class uxx {
             return;
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
-        if (gpuBufferSlice == null || gpuTextureView == null || gpuTextureView2 == null || uyi == null || framebuffer.field_1482 != uyj || framebuffer.field_1481 != uyk) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
+        if (gpuBufferSlice == null || gpuTextureView == null || gpuTextureView2 == null || uyi == null || framebuffer.textureWidth != uyj || framebuffer.textureHeight != uyk) {
             return;
         }
         try {
@@ -128,14 +128,14 @@ public final class uxx {
             GpuQuery gpuQuery = uxx.uyy(commandEncoder);
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm probe", uye, OptionalInt.empty());){
                 renderPass.setPipeline(uvq.STORM_PROBE);
-                renderPass.bindTexture("NoiseSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
+                renderPass.bindTexture("NoiseSampler", gpuTextureView3, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
                 renderPass.setUniform("FlowStorm", uya);
                 renderPass.draw(0, 3);
             }
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm probe blur", uyg, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.STORM_PROBE_BLUR);
-                renderPass.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
+                renderPass.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
                 renderPass.setUniform("FlowStorm", uya);
                 renderPass.draw(0, 3);
             }
@@ -147,8 +147,8 @@ public final class uxx {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm sky", uyi, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.STORM_SKY);
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("NoiseSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("NoiseSampler", gpuTextureView3, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowStorm", uya);
                 renderPass.draw(0, 3);
@@ -161,8 +161,8 @@ public final class uxx {
             renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm sky composite", gpuTextureView, OptionalInt.empty());
             try {
                 renderPass.setPipeline(uvq.STORM_SKY_COMPOSITE);
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("HalfSampler", uyi, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("HalfSampler", uyi, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowStorm", uya);
                 renderPass.draw(0, 3);
@@ -176,7 +176,7 @@ public final class uxx {
                 renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm bolt", gpuTextureView, OptionalInt.empty());
                 try {
                     renderPass.setPipeline(uvq.STORM_BOLT);
-                    renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                    renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                     renderPass.setUniform("Projection", gpuBufferSlice);
                     renderPass.setUniform("FlowStorm", uya);
                     renderPass.draw(0, 6);
@@ -200,11 +200,11 @@ public final class uxx {
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
         GpuBufferSlice gpuBufferSlice2 = RenderSystem.getShaderFog();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
         GpuTextureView gpuTextureView3 = vbb.heightView();
-        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || gpuTextureView3 == null || framebuffer.field_1482 != uyj || framebuffer.field_1481 != uyk) {
+        if (gpuBufferSlice == null || gpuBufferSlice2 == null || gpuTextureView == null || gpuTextureView2 == null || gpuTextureView3 == null || framebuffer.textureWidth != uyj || framebuffer.textureHeight != uyk) {
             return;
         }
         try {
@@ -216,14 +216,14 @@ public final class uxx {
             GpuTextureView gpuTextureView5 = bl ? vbb.entityDepthView() : null;
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm wet", gpuTextureView, OptionalInt.empty());){
                 renderPass.setPipeline(uvq.STORM_WET);
-                renderPass.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
-                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("NoiseSampler", vbb.noiseView(gpuDevice), RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                renderPass.bindTexture("ProbeBlurSampler", uyg, RenderSystem.getSamplerCache().method_75297(FilterMode.LINEAR));
-                renderPass.bindTexture("TerrainDepthSampler", gpuTextureView4 != null ? gpuTextureView4 : gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
-                renderPass.bindTexture("EntityDepthSampler", gpuTextureView5 != null ? gpuTextureView5 : gpuTextureView2, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
+                renderPass.bindTexture("DepthSampler", gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("NoiseSampler", vbb.noiseView(gpuDevice), RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("ProbeSampler", uye, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                renderPass.bindTexture("ProbeBlurSampler", uyg, RenderSystem.getSamplerCache().getRepeated(FilterMode.LINEAR));
+                renderPass.bindTexture("TerrainDepthSampler", gpuTextureView4 != null ? gpuTextureView4 : gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
+                renderPass.bindTexture("EntityDepthSampler", gpuTextureView5 != null ? gpuTextureView5 : gpuTextureView2, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("Fog", gpuBufferSlice2);
                 renderPass.setUniform("FlowStorm", uya);
@@ -242,9 +242,9 @@ public final class uxx {
             return;
         }
         GpuBufferSlice gpuBufferSlice = RenderSystem.getProjectionMatrixBuffer();
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        GpuTextureView gpuTextureView2 = framebuffer.method_71640();
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        GpuTextureView gpuTextureView2 = framebuffer.getDepthAttachmentView();
         GpuTextureView gpuTextureView3 = vbb.heightView();
         if (gpuBufferSlice == null || gpuTextureView == null || gpuTextureView2 == null || gpuTextureView3 == null) {
             return;
@@ -254,7 +254,7 @@ public final class uxx {
             GpuQuery gpuQuery = uxx.uyy(commandEncoder);
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 rain", gpuTextureView, OptionalInt.empty(), gpuTextureView2, OptionalDouble.empty());){
                 renderPass.setPipeline(uvq.RAIN);
-                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+                renderPass.bindTexture("HeightSampler", gpuTextureView3, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
                 renderPass.setUniform("Projection", gpuBufferSlice);
                 renderPass.setUniform("FlowStorm", uya);
                 renderPass.draw(0, n * 6);
@@ -278,9 +278,9 @@ public final class uxx {
         if (!(uyl && uvq.ensure(renderPipeline) && uvq.ensure(uvq.BLUR_COPY))) {
             return;
         }
-        Framebuffer framebuffer = MinecraftClient.method_1551().method_1522();
-        GpuTextureView gpuTextureView = framebuffer.method_71639();
-        if (gpuTextureView == null || framebuffer.field_1482 != uyj || framebuffer.field_1481 != uyk) {
+        Framebuffer framebuffer = MinecraftClient.getInstance().getFramebuffer();
+        GpuTextureView gpuTextureView = framebuffer.getColorAttachmentView();
+        if (gpuTextureView == null || framebuffer.textureWidth != uyj || framebuffer.textureHeight != uyk) {
             return;
         }
         try {
@@ -289,7 +289,7 @@ public final class uxx {
             uxx.uyx(commandEncoder, gpuTextureView);
             try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm " + string, gpuTextureView, OptionalInt.empty());){
                 renderPass.setPipeline(renderPipeline);
-                renderPass.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().method_75294(FilterMode.LINEAR));
+                renderPass.bindTexture("SceneSampler", uyc, RenderSystem.getSamplerCache().get(FilterMode.LINEAR));
                 renderPass.setUniform("FlowStorm", uya);
                 renderPass.draw(0, 3);
             }
@@ -303,7 +303,7 @@ public final class uxx {
     private static void uyx(CommandEncoder commandEncoder, GpuTextureView gpuTextureView) {
         try (RenderPass renderPass = commandEncoder.createRenderPass(() -> "Flow2 storm scene copy", uyc, OptionalInt.empty());){
             renderPass.setPipeline(uvq.BLUR_COPY);
-            renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().method_75294(FilterMode.NEAREST));
+            renderPass.bindTexture("InSampler", gpuTextureView, RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
             renderPass.draw(0, 3);
         }
     }

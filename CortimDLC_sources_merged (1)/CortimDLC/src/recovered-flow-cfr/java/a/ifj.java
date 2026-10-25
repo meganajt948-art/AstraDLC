@@ -43,16 +43,16 @@ extends imn {
     }
 
     private static List<PlayerEntity> ifs() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         ArrayList<PlayerEntity> arrayList = new ArrayList<PlayerEntity>();
-        if (minecraftClient.field_1687 == null || minecraftClient.field_1724 == null) {
+        if (minecraftClient.world == null || minecraftClient.player == null) {
             return arrayList;
         }
-        for (PlayerEntity playerEntity2 : minecraftClient.field_1687.method_18456()) {
-            if (playerEntity2 == minecraftClient.field_1724 || playerEntity2.method_7325()) continue;
+        for (PlayerEntity playerEntity2 : minecraftClient.world.getPlayers()) {
+            if (playerEntity2 == minecraftClient.player || playerEntity2.isSpectator()) continue;
             arrayList.add(playerEntity2);
         }
-        arrayList.sort(Comparator.comparingDouble(playerEntity -> playerEntity.method_5858((Entity)minecraftClient.field_1724)));
+        arrayList.sort(Comparator.comparingDouble(playerEntity -> playerEntity.squaredDistanceTo((Entity)minecraftClient.player)));
         return arrayList.size() > 6 ? arrayList.subList(0, 6) : arrayList;
     }
 

@@ -59,15 +59,15 @@ implements SimpleGuiElementRenderState {
         this.utu = screenRect2;
     }
 
-    public TextureSetup comp_4056() {
-        return TextureSetup.method_70899();
+    public TextureSetup textureSetup() {
+        return TextureSetup.empty();
     }
 
-    public void method_70917(VertexConsumer vertexConsumer) {
-        vertexConsumer.method_22912(this.uth, this.uti, 0.0f).method_39415(this.utp);
-        vertexConsumer.method_22912(this.utj, this.utk, 0.0f).method_39415(this.utq);
-        vertexConsumer.method_22912(this.utl, this.utm, 0.0f).method_39415(this.utr);
-        vertexConsumer.method_22912(this.utn, this.uto, 0.0f).method_39415(this.uts);
+    public void setupVertices(VertexConsumer vertices) {
+        vertices.vertex(this.uth, this.uti, 0.0f).color(this.utp);
+        vertices.vertex(this.utj, this.utk, 0.0f).color(this.utq);
+        vertices.vertex(this.utl, this.utm, 0.0f).color(this.utr);
+        vertices.vertex(this.utn, this.uto, 0.0f).color(this.uts);
     }
 
     @Override
@@ -85,7 +85,7 @@ implements SimpleGuiElementRenderState {
         return (boolean)ObjectMethods.bootstrap("equals", new MethodHandle[]{utf.class, "pipeline;x0;y0;x1;y1;x2;y2;x3;y3;c0;c1;c2;c3;scissorArea;bounds", "utg", "uth", "uti", "utj", "utk", "utl", "utm", "utn", "uto", "utp", "utq", "utr", "uts", "utt", "utu"}, this, object);
     }
 
-    public RenderPipeline comp_4055() {
+    public RenderPipeline pipeline() {
         return this.utg;
     }
 
@@ -137,11 +137,11 @@ implements SimpleGuiElementRenderState {
         return this.uts;
     }
 
-    public @Nullable ScreenRect comp_4069() {
+    public @Nullable ScreenRect scissorArea() {
         return this.utt;
     }
 
-    public @Nullable ScreenRect comp_4274() {
+    public @Nullable ScreenRect bounds() {
         return this.utu;
     }
 

@@ -76,7 +76,7 @@ public final class phm {
     }
 
     public String key() {
-        return this.phn != null ? this.phn.method_29177().toString() : this.pho;
+        return this.phn != null ? this.phn.getValue().toString() : this.pho;
     }
 
     public phj state() {
@@ -112,19 +112,19 @@ public final class phm {
         if (this.phn == null) {
             return a.c(1146396690, "\ua405\udd90\u5741\uc949\u42e4\uc45b\u7e00\uf7f4\u69a6").equals(this.pho) || a.c(1895414591, "\ubf24\uc6b7\u4c68\ud21a\u59ca\udf03\u6528\uecd6\u7282").equals(this.pho) ? 2 : 3;
         }
-        if (this.phn.equals((Object)Enchantments.field_9118)) {
+        if (this.phn.equals((Object)Enchantments.SHARPNESS)) {
             return 7;
         }
-        if (this.phn.equals((Object)Enchantments.field_9111) || this.phn.equals((Object)Enchantments.field_9119)) {
+        if (this.phn.equals((Object)Enchantments.PROTECTION) || this.phn.equals((Object)Enchantments.UNBREAKING)) {
             return 5;
         }
         Optional<RegistryEntry.Reference<Enchantment>> optional = this.phw();
-        return optional.map(reference -> Math.max(1, ((Enchantment)reference.comp_349()).method_8183())).orElse(Math.max(1, this.phr));
+        return optional.map(reference -> Math.max(1, ((Enchantment)reference.value()).getMaxLevel())).orElse(Math.max(1, this.phr));
     }
 
     public String label() {
         String string;
-        String string2 = string = this.pho != null ? this.pho : Text.method_43471((String)(a.c(857770670, "\u8ac7\uf37d\u79a3\ue7d9\u6c07\ueab9\u50f0\ud918\u474f\ucdf5\u4a3c\ub017") + this.phn.method_29177().method_12836() + a.d("\u50c2", -1870339655, -458116780) + this.phn.method_29177().method_12832().replace('/', '.'))).getString();
+        String string2 = string = this.pho != null ? this.pho : Text.translatable((String)(a.c(857770670, "\u8ac7\uf37d\u79a3\ue7d9\u6c07\ueab9\u50f0\ud918\u474f\ucdf5\u4a3c\ub017") + this.phn.getValue().getNamespace() + a.d("\u50c2", -1870339655, -458116780) + this.phn.getValue().getPath().replace('/', '.'))).getString();
         if (this.pht == 0) {
             return string;
         }
@@ -140,8 +140,8 @@ public final class phm {
             if (optional.isEmpty()) {
                 return this.phs == phj.DENY;
             }
-            ItemEnchantmentsComponent itemEnchantmentsComponent = (ItemEnchantmentsComponent)itemStack.method_58695(DataComponentTypes.field_49633, (Object)ItemEnchantmentsComponent.field_49385);
-            int n = itemEnchantmentsComponent.method_57536((RegistryEntry)optional.get());
+            ItemEnchantmentsComponent itemEnchantmentsComponent = (ItemEnchantmentsComponent)itemStack.getOrDefault(DataComponentTypes.ENCHANTMENTS, (Object)ItemEnchantmentsComponent.DEFAULT);
+            int n = itemEnchantmentsComponent.getLevel((RegistryEntry)optional.get());
             int n2 = Math.max(1, this.pht);
             return this.phs == phj.DENY ? n < n2 : n >= n2;
         }
@@ -156,12 +156,12 @@ public final class phm {
     }
 
     private Optional<RegistryEntry.Reference<Enchantment>> phw() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.world == null) {
             return Optional.empty();
         }
-        Registry registry = minecraftClient.field_1687.method_30349().method_30530(RegistryKeys.field_41265);
-        return registry.method_46746(this.phn);
+        Registry registry = minecraftClient.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+        return registry.getOptional(this.phn);
     }
 
     private static /* synthetic */ int bit(int n, int n2) {

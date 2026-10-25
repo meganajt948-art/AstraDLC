@@ -42,10 +42,10 @@ public final class qmh {
     }
 
     public double error(ClientPlayerEntity clientPlayerEntity, Vec3d vec3d) {
-        Vec3d vec3d2 = vec3d.method_1020(clientPlayerEntity.method_33571());
-        double d = tbp.yawTo(vec3d2.field_1352, vec3d2.field_1350);
-        double d2 = tbp.pitchTo(vec3d2.field_1351, Math.sqrt(vec3d2.field_1352 * vec3d2.field_1352 + vec3d2.field_1350 * vec3d2.field_1350));
-        return Math.hypot(MathHelper.method_15338((double)(d - (double)clientPlayerEntity.method_36454())), d2 - (double)clientPlayerEntity.method_36455());
+        Vec3d vec3d2 = vec3d.subtract(clientPlayerEntity.getEyePos());
+        double d = tbp.yawTo(vec3d2.x, vec3d2.z);
+        double d2 = tbp.pitchTo(vec3d2.y, Math.sqrt(vec3d2.x * vec3d2.x + vec3d2.z * vec3d2.z));
+        return Math.hypot(MathHelper.wrapDegrees((double)(d - (double)clientPlayerEntity.getYaw())), d2 - (double)clientPlayerEntity.getPitch());
     }
 
     public void aim(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, Object object, Vec3d vec3d) {
@@ -58,10 +58,10 @@ public final class qmh {
             this.qmm = object;
             this.qmn = (this.qmi.nextDouble() - 0.5) * 0.3;
         }
-        Vec3d vec3d2 = vec3d.method_1020(clientPlayerEntity.method_33571());
-        double d2 = Math.sqrt(vec3d2.field_1352 * vec3d2.field_1352 + vec3d2.field_1350 * vec3d2.field_1350);
-        double d3 = MathHelper.method_15338((double)(tbp.yawTo(vec3d2.field_1352, vec3d2.field_1350) - (double)clientPlayerEntity.method_36454()));
-        double d4 = Math.hypot(d3, d = tbp.pitchTo(vec3d2.field_1351, d2) - (double)clientPlayerEntity.method_36455());
+        Vec3d vec3d2 = vec3d.subtract(clientPlayerEntity.getEyePos());
+        double d2 = Math.sqrt(vec3d2.x * vec3d2.x + vec3d2.z * vec3d2.z);
+        double d3 = MathHelper.wrapDegrees((double)(tbp.yawTo(vec3d2.x, vec3d2.z) - (double)clientPlayerEntity.getYaw()));
+        double d4 = Math.hypot(d3, d = tbp.pitchTo(vec3d2.y, d2) - (double)clientPlayerEntity.getPitch());
         if (d4 < 0.25) {
             return;
         }
@@ -91,12 +91,12 @@ public final class qmh {
         if (l == 0L && l2 == 0L) {
             return;
         }
-        float f = clientPlayerEntity.field_5982;
-        float f2 = clientPlayerEntity.field_6004;
+        float f = clientPlayerEntity.lastYaw;
+        float f2 = clientPlayerEntity.lastPitch;
         double d4 = d3 / 0.15;
-        clientPlayerEntity.method_5872((double)l * d4, (double)l2 * d4);
-        clientPlayerEntity.field_5982 = f;
-        clientPlayerEntity.field_6004 = f2;
+        clientPlayerEntity.changeLookDirection((double)l * d4, (double)l2 * d4);
+        clientPlayerEntity.lastYaw = f;
+        clientPlayerEntity.lastPitch = f2;
     }
 
     private static /* synthetic */ int bsz(int n, int n2) {

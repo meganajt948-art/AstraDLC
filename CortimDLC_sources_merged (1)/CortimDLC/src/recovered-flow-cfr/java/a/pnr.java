@@ -62,8 +62,8 @@ public final class pnr {
     }
 
     public static void tick(MinecraftClient minecraftClient) {
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
-        if (clientPlayNetworkHandler == null || minecraftClient.field_1724 == null || minecraftClient.method_1542()) {
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
+        if (clientPlayNetworkHandler == null || minecraftClient.player == null || minecraftClient.isInSingleplayer()) {
             if (clientPlayNetworkHandler == null) {
                 pjd.leave(pjd.MAIN);
             }
@@ -78,7 +78,7 @@ public final class pnr {
             String string = pnu;
             pnu = null;
             izx.notify(a.c(-918229594, "\ue9bf\u9057\u1af6\u84f2\u0f50\u89e0\u33cb"), a.c(-1993731768, "\u155f\u6cc7\ue660\u7812\uf3b9\u7116\ucf58\u46a4\udceb\u561b\ud1c7") + pnv + a.d("\u8bce\uf661\u7ccd\ue2cf\u6914\uefaa\u55f6\udc0d\u425e\uc8ec\u4f3a\ub534\u3bee\ua633\u0c54\uaa91\u14c1\u9b1a\u01dc\u87f8\u0e7f\u7455\ufaee\u614a", -1130124162, 704849800));
-            clientPlayNetworkHandler.method_45730(string.startsWith(a.d("\uc333", -1469336528, -1251444947)) ? string.substring(1) : string);
+            clientPlayNetworkHandler.sendChatCommand(string.startsWith(a.d("\uc333", -1469336528, -1251444947)) ? string.substring(1) : string);
         }
     }
 

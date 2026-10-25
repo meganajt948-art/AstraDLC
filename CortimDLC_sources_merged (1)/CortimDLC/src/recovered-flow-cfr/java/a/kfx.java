@@ -249,7 +249,7 @@ public class kfx {
     }
 
     public void pollKeys(MinecraftClient minecraftClient) {
-        if (minecraftClient.method_22683() == null) {
+        if (minecraftClient.getWindow() == null) {
             return;
         }
         IntLinkedOpenHashSet intLinkedOpenHashSet = this.kgb;

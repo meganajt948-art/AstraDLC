@@ -82,7 +82,7 @@ extends imn {
         if (this.hyp != null && System.currentTimeMillis() > this.hyq) {
             this.hyp = null;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         float f5 = iov.r(6.0f);
         for (int i = 0; i < list.size(); ++i) {
             int n;
@@ -95,8 +95,8 @@ extends imn {
             boolean bl = hlc2.canHover() && irr.inside(f, f2, this.x, f6, this.w, 26.0f);
             float f8 = hyg2.hover.step(bl, f3);
             uut.pushAlpha(f7);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate((1.0f - f7) * 18.0f, 0.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate((1.0f - f7) * 18.0f, 0.0f);
             uut.round(drawContext, this.x, f6, this.w, 26.0f, f5, ujt.withAlpha(iov.hover, (int)((float)ujt.alpha(iov.hover) * (0.6f + 1.4f * f8))));
             float f9 = f6 + 13.0f;
             PlayerEntity playerEntity = hhf.inWorld(hhc2.name);
@@ -105,9 +105,9 @@ extends imn {
             float f10 = this.x + 5.0f + 16.0f + 7.0f;
             float f11 = this.hyu() - f10 - 4.0f;
             irr.CARD_TITLE.draw(drawContext, irr.CARD_TITLE.ellipsize(hhc2.name, f11), f10, irr.CARD_TITLE.centerTop(f9 - 4.0f), iov.text);
-            if (playerEntity != null && minecraftClient.field_1724 != null) {
-                double d = Math.sqrt(minecraftClient.field_1724.method_5858((Entity)playerEntity));
-                string2 = playerEntity == minecraftClient.field_1724 ? wap.s(a.b("\uef67\u96e0\u1c29", 189722429), a.d("\u8d82\uf46a", 1976972903, 737656821)) : wap.s(a.c(1935009727, "\ue7fe\u9e62\u14a6\u8ac0\u0152\u87e3\u3d27\ub441\u2a1e"), a.d("\uf2b1\u8b6f\u01c7\u9fbc\u1469\u96c4\u2c97\ua5f1\u3b39\ub188", -89447506, -1989290699)) + Math.round(d) + wap.unit(a.d("\u110a", 784601002, -1815666996));
+            if (playerEntity != null && minecraftClient.player != null) {
+                double d = Math.sqrt(minecraftClient.player.squaredDistanceTo((Entity)playerEntity));
+                string2 = playerEntity == minecraftClient.player ? wap.s(a.b("\uef67\u96e0\u1c29", 189722429), a.d("\u8d82\uf46a", 1976972903, 737656821)) : wap.s(a.c(1935009727, "\ue7fe\u9e62\u14a6\u8ac0\u0152\u87e3\u3d27\ub441\u2a1e"), a.d("\uf2b1\u8b6f\u01c7\u9fbc\u1469\u96c4\u2c97\ua5f1\u3b39\ub188", -89447506, -1989290699)) + Math.round(d) + wap.unit(a.d("\u110a", 784601002, -1815666996));
                 n = -11870592;
             } else if (bl2) {
                 string2 = wap.s(a.b("\ufd5a\u84ca\u0e1b\u906f\u1bbf\u9d05", 1460010259), a.d("\u025b\u7fd8\uf16a\u6f6f\ue4cf\u6204", 1713360781, 2099300802));
@@ -126,7 +126,7 @@ extends imn {
             if (bl4 && f8 > 0.5f) {
                 hlc2.hint(bl3 ? wap.s(a.b("\ucd17\ub489\u3e5f\ua024\u2bfb\uad01\u1713\u9ee4\u00bd\u8a04\u0dd0\uf7ef\u796c\ue0c6\u6ada\uec79\u5621\ud9f8\u4349\uc501\u4ce5\u36f1", -1223570110), a.d("\u8352\uface\u701b\uee60\u65b3\ue378\u595c\ud4b8\u4ef2\uc43f\u43f4\ubdf4\u3743\uae82\u24d6\ua63c\u1c7f\u97c9\u0d7f\u8b52\u02aa\u7881\uf259\u6deb\uebe3\u6136\ud88e\u56dc\ucc51\u4a0e\uc5d1", 906817708, -1380812804)) + hhc2.name : wap.s(a.b("\u7de1\u0467\u8ebc\u10cf\u9b01\u1da3\ua7b5\u2e02\ub049\u3ae5\ubd34\u4708\uc999\u503c\uda74\u5c89\ue6cd\u6916\uf3b2", 527072672), a.c(-796968597, "\u3d59\u44ff\uce28\u5052\udb86\u5d4d\ue710\u6a8d\uf0ca\u7a74\uf9b0\u07d5\u8976\u10c4\u9ae3\u1c10\ua653")));
             }
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             uut.popAlpha();
         }
     }

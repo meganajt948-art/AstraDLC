@@ -62,15 +62,15 @@ extends kfe {
         if (rfg) {
             return false;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1773 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.gameRenderer == null) {
             return false;
         }
         try {
             NativeImage nativeImage;
             int n2;
             NativeImageBackedTexture nativeImageBackedTexture;
-            OverlayTexture overlayTexture = minecraftClient.field_1773.method_22975();
+            OverlayTexture overlayTexture = minecraftClient.gameRenderer.getOverlayTexture();
             if (rff == null) {
                 nativeImageBackedTexture = OverlayTexture.class.getDeclaredFields();
                 int n3 = ((Field[])nativeImageBackedTexture).length;
@@ -85,15 +85,15 @@ extends kfe {
                     throw new IllegalStateException("overlay texture field not found");
                 }
             }
-            if ((nativeImage = (nativeImageBackedTexture = (NativeImageBackedTexture)rff.get(overlayTexture)).method_4525()) == null) {
+            if ((nativeImage = (nativeImageBackedTexture = (NativeImageBackedTexture)rff.get(overlayTexture)).getImage()) == null) {
                 return false;
             }
             for (n2 = 0; n2 < 8; ++n2) {
                 for (int i = 0; i < 16; ++i) {
-                    nativeImage.method_61941(i, n2, n);
+                    nativeImage.setColorArgb(i, n2, n);
                 }
             }
-            nativeImageBackedTexture.method_4524();
+            nativeImageBackedTexture.upload();
             return true;
         }
         catch (Throwable throwable) {

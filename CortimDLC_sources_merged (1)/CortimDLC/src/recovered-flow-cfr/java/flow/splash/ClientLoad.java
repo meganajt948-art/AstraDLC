@@ -67,8 +67,8 @@ implements ResourceReload {
         files.setDaemon(true);
         files.start();
         while (files.isAlive()) {
-            mc2 = MinecraftClient.method_1551();
-            if (overlay && mc2 != null && mc2.method_22683() != null && !shown && !fallback) {
+            mc2 = MinecraftClient.getInstance();
+            if (overlay && mc2 != null && mc2.getWindow() != null && !shown && !fallback) {
                 mc2.execute(() -> ClientLoad.show(mc2));
             }
             try {
@@ -91,7 +91,7 @@ implements ResourceReload {
         catch (Throwable t) {
             System.out.println("[Flow2] cosmetics list not ready: " + t);
         }
-        mc2 = MinecraftClient.method_1551();
+        mc2 = MinecraftClient.getInstance();
         for (int i = 0; mc2 == null && i < 1200; ++i) {
             try {
                 Thread.sleep(100L);
@@ -99,7 +99,7 @@ implements ResourceReload {
             catch (InterruptedException e) {
                 return;
             }
-            mc2 = MinecraftClient.method_1551();
+            mc2 = MinecraftClient.getInstance();
         }
         if (mc2 == null) {
             return;
@@ -132,12 +132,12 @@ implements ResourceReload {
         if (shown || fallback || phase == Phase.DONE) {
             return;
         }
-        Overlay current = mc.method_18506();
+        Overlay current = mc.getOverlay();
         if (current != null) {
             return;
         }
         shown = true;
-        mc.method_18502((Overlay)new FlowSplash(mc, INSTANCE, ClientLoad::ignore, true, true));
+        mc.setOverlay((Overlay)new FlowSplash(mc, INSTANCE, ClientLoad::ignore, true, true));
     }
 
     private static void ignore(Optional<Throwable> result) {
@@ -242,11 +242,11 @@ implements ResourceReload {
         };
     }
 
-    public CompletableFuture<?> method_18364() {
+    public CompletableFuture<?> whenComplete() {
         return DONE;
     }
 
-    public float method_18229() {
+    public float getProgress() {
         return ClientLoad.fraction();
     }
 

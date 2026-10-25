@@ -187,24 +187,24 @@ public final class pdr {
     }
 
     public boolean isPotion() {
-        return this.pds == Items.field_8574 || this.pds == Items.field_8436 || this.pds == Items.field_8150;
+        return this.pds == Items.POTION || this.pds == Items.SPLASH_POTION || this.pds == Items.LINGERING_POTION;
     }
 
     public boolean stackable() {
-        return this.peb.isEmpty() && (this.pds.method_7882() > 1 || this.pds == Items.field_8288 || this.isPotion());
+        return this.peb.isEmpty() && (this.pds.getMaxCount() > 1 || this.pds == Items.TOTEM_OF_UNDYING || this.isPotion());
     }
 
     public int maxCount() {
         if (!this.stackable()) {
             return 1;
         }
-        if (this.pds == Items.field_8574) {
+        if (this.pds == Items.POTION) {
             return 16;
         }
-        if (this.pds == Items.field_8288 || this.isPotion()) {
+        if (this.pds == Items.TOTEM_OF_UNDYING || this.isPotion()) {
             return 6;
         }
-        return this.pds.method_7882();
+        return this.pds.getMaxCount();
     }
 
     public boolean changed() {
@@ -231,7 +231,7 @@ public final class pdr {
     }
 
     public boolean matches(ItemStack itemStack, pey pey2) {
-        if (!itemStack.method_31574(this.pds)) {
+        if (!itemStack.isOf(this.pds)) {
             return false;
         }
         if (!this.peb.isEmpty() && !pim.attrs(itemStack, this.peb)) {
@@ -253,14 +253,14 @@ public final class pdr {
             ItemStack itemStack = new ItemStack((ItemConvertible)this.pds);
             if (this.pdz != null) {
                 gameProfile = new GameProfile(UUID.nameUUIDFromBytes(this.pdz.getBytes(StandardCharsets.UTF_8)), a.d("\u3ce1", -79550546, 1747458861) + Math.abs(this.pdt.hashCode() % 100000), new PropertyMap((Multimap)ImmutableMultimap.of((Object)a.b("\u546e\u2dce\ua700\u397d\ub2ab\u341d\u8e59\u07be", 2066895890), (Object)new Property(a.b("\u15b8\u6c18\ue6d6\u78ab\uf37d\u75cb\ucf8f\u4668", -399305276), this.pdz))));
-                itemStack.method_57379(DataComponentTypes.field_49617, (Object)ProfileComponent.method_73307((GameProfile)gameProfile));
+                itemStack.set(DataComponentTypes.PROFILE, (Object)ProfileComponent.ofStatic((GameProfile)gameProfile));
             }
             if (this.pdy != 0) {
                 gameProfile = new ArrayList();
                 for (pig pig2 : this.pec) {
                     gameProfile.add(new StatusEffectInstance(pig2.effect(), Math.max(1, pig2.duration()), Math.max(0, pig2.level() - 1)));
                 }
-                itemStack.method_57379(DataComponentTypes.field_49651, (Object)new PotionContentsComponent(Optional.empty(), Optional.of(this.pdy), gameProfile, Optional.empty()));
+                itemStack.set(DataComponentTypes.POTION_CONTENTS, (Object)new PotionContentsComponent(Optional.empty(), Optional.of(this.pdy), gameProfile, Optional.empty()));
             }
             this.pef = itemStack;
         }

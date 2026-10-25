@@ -27,7 +27,7 @@ extends ClientConnection {
     private static /* synthetic */ int fva;
 
     fux() {
-        super(NetworkSide.field_11941);
+        super(NetworkSide.SERVERBOUND);
         try {
             for (Field field : ClientConnection.class.getDeclaredFields()) {
                 if (Modifier.isStatic(field.getModifiers()) || field.getType() != Channel.class) continue;
@@ -44,16 +44,16 @@ extends ClientConnection {
         this.fuy.releaseOutbound();
     }
 
-    public <T extends PacketListener> void method_56330(NetworkState<T> networkState, T t) {
+    public <T extends PacketListener> void transitionInbound(NetworkState<T> state, T packetListener) {
     }
 
-    public void method_56329(NetworkState<?> networkState) {
+    public void transitionOutbound(NetworkState<?> newState) {
     }
 
-    public void method_10768() {
+    public void handleDisconnection() {
     }
 
-    public void method_10757() {
+    public void tryDisableAutoRead() {
     }
 
     private static /* synthetic */ int rd(int n, int n2) {

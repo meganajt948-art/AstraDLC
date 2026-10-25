@@ -78,7 +78,7 @@ extends kfe {
     private int nve = -1;
     private int nvf = -1;
     private int nvg = -1;
-    private ItemStack nvh = ItemStack.field_8037;
+    private ItemStack nvh = ItemStack.EMPTY;
     private boolean nvi;
     private int nvj;
     private int nvk = -1;
@@ -109,9 +109,9 @@ extends kfe {
     @Override
     protected void onDisable() {
         this.nwc();
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
         if (clientPlayerEntity != null && clientPlayerEntity == this.nvd && this.nvg >= 0 && wdq.canClick(clientPlayerEntity) && this.nwe(clientPlayerEntity)) {
-            this.nvx(clientPlayerEntity.method_31548());
+            this.nvx(clientPlayerEntity.getInventory());
         }
         this.nwd();
     }
@@ -119,7 +119,7 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         BlockState blockState;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity != this.nvd) {
             this.nvd = clientPlayerEntity;
             this.nwd();
@@ -131,12 +131,12 @@ extends kfe {
             this.nwc();
             return;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        if (this.nvf >= 0 && playerInventory.method_67532() != this.nvf) {
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        if (this.nvf >= 0 && playerInventory.getSelectedSlot() != this.nvf) {
             this.nvi = true;
         }
         int n = this.nvj = (blockState = this.nvs(clientPlayerEntity)) != null ? 0 : Math.min(this.nvj + 1, 1000);
-        if (!clientPlayerEntity.method_5805() || clientPlayerEntity.method_7325()) {
+        if (!clientPlayerEntity.isAlive() || clientPlayerEntity.isSpectator()) {
             this.nwd();
             return;
         }
@@ -185,7 +185,7 @@ extends kfe {
         if (this.nvk == -1) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (wdq.canClick(clientPlayerEntity) && this.nwe(clientPlayerEntity) && !oxw.busy() && !kvz.busy()) {
             int n = this.nvk;
             this.nvw(clientPlayerEntity, n);
@@ -204,11 +204,11 @@ extends kfe {
             boolean bl2 = this.nux.get() && (this.nwe(clientPlayerEntity) || !nuo.nwf(clientPlayerEntity));
             return this.nvt(clientPlayerEntity, blockState, bl2);
         }
-        if (this.nve < 0 || clientPlayerEntity.method_6115()) {
+        if (this.nve < 0 || clientPlayerEntity.isUsingItem()) {
             return -1;
         }
-        HitResult hitResult = this.mc.field_1765;
-        boolean bl3 = bl = hitResult != null && hitResult.method_17783() == HitResult.Type.field_1331;
+        HitResult hitResult = this.mc.crosshairTarget;
+        boolean bl3 = bl = hitResult != null && hitResult.getType() == HitResult.Type.ENTITY;
         if (!bl && this.nvj <= this.nuz.getInt()) {
             return -1;
         }
@@ -217,17 +217,17 @@ extends kfe {
 
     private BlockState nvs(ClientPlayerEntity clientPlayerEntity) {
         BlockHitResult blockHitResult;
-        if (this.mc.field_1755 != null || this.mc.field_1687 == null || clientPlayerEntity.method_68878() || clientPlayerEntity.method_7325() || clientPlayerEntity.method_6115() || !this.mc.field_1690.field_1886.method_1434()) {
+        if (this.mc.currentScreen != null || this.mc.world == null || clientPlayerEntity.isCreative() || clientPlayerEntity.isSpectator() || clientPlayerEntity.isUsingItem() || !this.mc.options.attackKey.isPressed()) {
             return null;
         }
-        this.mc.field_1773.method_3190(1.0f);
-        HitResult hitResult = this.mc.field_1765;
-        if (!(hitResult instanceof BlockHitResult) || (blockHitResult = (BlockHitResult)hitResult).method_17783() != HitResult.Type.field_1332) {
+        this.mc.gameRenderer.updateCrosshairTarget(1.0f);
+        HitResult hitResult = this.mc.crosshairTarget;
+        if (!(hitResult instanceof BlockHitResult) || (blockHitResult = (BlockHitResult)hitResult).getType() != HitResult.Type.BLOCK) {
             return null;
         }
-        hitResult = blockHitResult.method_17777();
-        BlockState blockState = this.mc.field_1687.method_8320((BlockPos)hitResult);
-        if (blockState.method_26215() || blockState.method_26214((BlockView)this.mc.field_1687, (BlockPos)hitResult) <= 0.0f) {
+        hitResult = blockHitResult.getBlockPos();
+        BlockState blockState = this.mc.world.getBlockState((BlockPos)hitResult);
+        if (blockState.isAir() || blockState.getHardness((BlockView)this.mc.world, (BlockPos)hitResult) <= 0.0f) {
             return null;
         }
         return blockState;
@@ -236,18 +236,18 @@ extends kfe {
     private int nvt(ClientPlayerEntity clientPlayerEntity, BlockState blockState, boolean bl) {
         float f;
         int n;
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        int n2 = playerInventory.method_67532();
-        float f2 = this.nvu(playerInventory.method_5438(n2), blockState);
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        int n2 = playerInventory.getSelectedSlot();
+        float f2 = this.nvu(playerInventory.getStack(n2), blockState);
         int n3 = -1;
         for (n = 0; n < 9; ++n) {
-            if (n == n2 || !((f = this.nvu(playerInventory.method_5438(n), blockState)) > f2 + 0.01f)) continue;
+            if (n == n2 || !((f = this.nvu(playerInventory.getStack(n), blockState)) > f2 + 0.01f)) continue;
             f2 = f;
             n3 = n;
         }
         if (bl) {
             for (n = 9; n < 36; ++n) {
-                f = this.nvu(playerInventory.method_5438(n), blockState);
+                f = this.nvu(playerInventory.getStack(n), blockState);
                 if (!(f > f2 + 0.01f) || !(f > 1.0f)) continue;
                 f2 = f;
                 n3 = n;
@@ -258,44 +258,44 @@ extends kfe {
 
     private float nvu(ItemStack itemStack, BlockState blockState) {
         int n;
-        if (this.nva.get() && itemStack.method_7963() && itemStack.method_7936() - itemStack.method_7919() <= 10) {
+        if (this.nva.get() && itemStack.isDamageable() && itemStack.getMaxDamage() - itemStack.getDamage() <= 10) {
             return -1.0f;
         }
-        float f = itemStack.method_7924(blockState);
+        float f = itemStack.getMiningSpeedMultiplier(blockState);
         if (f > 1.0f && (n = nuo.nvv(itemStack)) > 0) {
             f += (float)(n * n + 1);
         }
-        return !blockState.method_29291() || itemStack.method_7951(blockState) ? f : f * 0.3f;
+        return !blockState.isToolRequired() || itemStack.isSuitableFor(blockState) ? f : f * 0.3f;
     }
 
     private static int nvv(ItemStack itemStack) {
-        for (Object2IntMap.Entry entry : itemStack.method_58657().method_57539()) {
-            if (!((RegistryEntry)entry.getKey()).method_40225(Enchantments.field_9131)) continue;
+        for (Object2IntMap.Entry entry : itemStack.getEnchantments().getEnchantmentEntries()) {
+            if (!((RegistryEntry)entry.getKey()).matchesKey(Enchantments.EFFICIENCY)) continue;
             return entry.getIntValue();
         }
         return 0;
     }
 
     private void nvw(ClientPlayerEntity clientPlayerEntity, int n) {
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         if (n == -2) {
             this.nvx(playerInventory);
             return;
         }
         if (this.nve < 0) {
-            this.nve = playerInventory.method_67532();
+            this.nve = playerInventory.getSelectedSlot();
         }
         if (this.nvg >= 0 && this.nvz(playerInventory)) {
             wdq.click(this.mc, this.nvg, this.nve);
             if (n == this.nvg) {
                 this.nvg = -1;
-                this.nvh = ItemStack.field_8037;
+                this.nvh = ItemStack.EMPTY;
                 wdq.close(this.mc);
                 this.nvy(playerInventory, this.nve);
                 return;
             }
         }
-        this.nvh = playerInventory.method_5438(this.nve).method_7972();
+        this.nvh = playerInventory.getStack(this.nve).copy();
         wdq.click(this.mc, n, this.nve);
         this.nvg = n;
         wdq.close(this.mc);
@@ -306,48 +306,48 @@ extends kfe {
         if (this.nvg >= 0 && this.nvz(playerInventory)) {
             wdq.swap(this.mc, this.nvg, this.nve);
         }
-        if (!this.nvi && this.nve >= 0 && playerInventory.method_67532() == this.nvf && this.nvf != this.nve) {
-            playerInventory.method_61496(this.nve);
+        if (!this.nvi && this.nve >= 0 && playerInventory.getSelectedSlot() == this.nvf && this.nvf != this.nve) {
+            playerInventory.setSelectedSlot(this.nve);
         }
         this.nwd();
     }
 
     private void nvy(PlayerInventory playerInventory, int n) {
         if (this.nve < 0) {
-            this.nve = playerInventory.method_67532();
+            this.nve = playerInventory.getSelectedSlot();
         }
-        if (playerInventory.method_67532() != n) {
-            playerInventory.method_61496(n);
+        if (playerInventory.getSelectedSlot() != n) {
+            playerInventory.setSelectedSlot(n);
         }
         this.nvf = n;
     }
 
     private boolean nvz(PlayerInventory playerInventory) {
-        return ItemStack.method_31577((ItemStack)playerInventory.method_5438(this.nvg), (ItemStack)this.nvh);
+        return ItemStack.areItemsAndComponentsEqual((ItemStack)playerInventory.getStack(this.nvg), (ItemStack)this.nvh);
     }
 
     private void nwa(ClientPlayerEntity clientPlayerEntity) {
         this.nvc.hold(this.mc);
-        KeyBinding keyBinding = this.mc.field_1690.field_1886;
-        while (keyBinding.method_1436()) {
+        KeyBinding keyBinding = this.mc.options.attackKey;
+        while (keyBinding.wasPressed()) {
             this.nvm = true;
         }
-        keyBinding.method_23481(false);
+        keyBinding.setPressed(false);
         this.nvl = true;
-        if (clientPlayerEntity.method_6115()) {
-            this.mc.field_1761.method_2897((PlayerEntity)clientPlayerEntity);
+        if (clientPlayerEntity.isUsingItem()) {
+            this.mc.interactionManager.stopUsingItem((PlayerEntity)clientPlayerEntity);
         }
     }
 
     private void nwb() {
         if (this.nvl) {
             this.nvl = false;
-            if (this.mc.field_1690 != null && this.mc.method_22683() != null) {
+            if (this.mc.options != null && this.mc.getWindow() != null) {
                 InputUtil.Key key;
-                KeyBinding keyBinding = this.mc.field_1690.field_1886;
-                keyBinding.method_23481(vzz.isPhysicallyDown(this.mc, keyBinding));
-                if (this.nvm && !(key = KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding)).equals((Object)InputUtil.field_16237)) {
-                    KeyBinding.method_1420((InputUtil.Key)key);
+                KeyBinding keyBinding = this.mc.options.attackKey;
+                keyBinding.setPressed(vzz.isPhysicallyDown(this.mc, keyBinding));
+                if (this.nvm && !(key = KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding)).equals((Object)InputUtil.UNKNOWN_KEY)) {
+                    KeyBinding.onKeyPressed((InputUtil.Key)key);
                 }
             }
         }
@@ -368,25 +368,25 @@ extends kfe {
         this.nve = -1;
         this.nvf = -1;
         this.nvg = -1;
-        this.nvh = ItemStack.field_8037;
+        this.nvh = ItemStack.EMPTY;
         this.nvi = false;
     }
 
     private boolean nwe(ClientPlayerEntity clientPlayerEntity) {
-        return vyn.serverIdle(clientPlayerEntity) && !clientPlayerEntity.method_6115() && (this.mc.field_1761 == null || !this.mc.field_1761.method_2923());
+        return vyn.serverIdle(clientPlayerEntity) && !clientPlayerEntity.isUsingItem() && (this.mc.interactionManager == null || !this.mc.interactionManager.isBreakingBlock());
     }
 
     private static boolean nwf(ClientPlayerEntity clientPlayerEntity) {
         boolean bl;
-        boolean bl2 = bl = clientPlayerEntity.method_5715() || vyn.lastSent(clientPlayerEntity).comp_3164();
-        if (!bl || !clientPlayerEntity.method_24828()) {
+        boolean bl2 = bl = clientPlayerEntity.isSneaking() || vyn.lastSent(clientPlayerEntity).sneak();
+        if (!bl || !clientPlayerEntity.isOnGround()) {
             return false;
         }
-        Box box = clientPlayerEntity.method_5829();
-        Vec3d vec3d = clientPlayerEntity.method_18798();
-        double d = clientPlayerEntity.method_49476();
-        Box box2 = new Box(box.field_1323 + vec3d.field_1352 + 1.0E-7, box.field_1322 - d - 1.0E-7, box.field_1321 + vec3d.field_1350 + 1.0E-7, box.field_1320 + vec3d.field_1352 - 1.0E-7, box.field_1322, box.field_1324 + vec3d.field_1350 - 1.0E-7);
-        return clientPlayerEntity.method_73183().method_8587((Entity)clientPlayerEntity, box2);
+        Box box = clientPlayerEntity.getBoundingBox();
+        Vec3d vec3d = clientPlayerEntity.getVelocity();
+        double d = clientPlayerEntity.getStepHeight();
+        Box box2 = new Box(box.minX + vec3d.x + 1.0E-7, box.minY - d - 1.0E-7, box.minZ + vec3d.z + 1.0E-7, box.maxX + vec3d.x - 1.0E-7, box.minY, box.maxZ + vec3d.z - 1.0E-7);
+        return clientPlayerEntity.getEntityWorld().isSpaceEmpty((Entity)clientPlayerEntity, box2);
     }
 
     private static /* synthetic */ int bdf(int n, int n2) {

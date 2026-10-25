@@ -174,16 +174,16 @@ extends Screen {
     private float viewW;
     private float viewH;
     private boolean viewShown;
-    private ItemStack hoveredStack = ItemStack.field_8037;
+    private ItemStack hoveredStack = ItemStack.EMPTY;
     private Slot hoveredSlot;
     private ScreenHandler hoveredHandler;
     private ChatCache chatCache;
 
     public BotScreen() {
-        super((Text)Text.method_43470((String)"\u0411\u043e\u0442\u044b"));
+        super((Text)Text.literal((String)"\u0411\u043e\u0442\u044b"));
     }
 
-    protected void method_25426() {
+    protected void init() {
         if (this.addressField.text.isEmpty()) {
             this.addressField.setText(egq.get().suggestAddress());
         }
@@ -196,56 +196,56 @@ extends Screen {
         this.syncBotFields();
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public void method_25432() {
+    public void removed() {
         this.setControl(false);
         this.commitSettingFields();
     }
 
-    public void method_25420(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
         unf.observe(context);
         iov.update(unf.delta());
         float dim = (float)iov.DIM.get();
-        if (this.field_22787 != null && this.field_22787.field_1687 != null) {
+        if (this.client != null && this.client.world != null) {
             hyv.capture(context, iov.BG_BLUR.getInt(), 1.0f, null);
-            uut.gradientV(context, 0.0f, 0.0f, this.field_22789, this.field_22790, 0.0f, ujt.withAlpha(0, (int)(255.0f * dim * 0.65f)), ujt.withAlpha(0, (int)(255.0f * dim)));
+            uut.gradientV(context, 0.0f, 0.0f, this.width, this.height, 0.0f, ujt.withAlpha(0, (int)(255.0f * dim * 0.65f)), ujt.withAlpha(0, (int)(255.0f * dim)));
         } else {
             hyv.skip();
-            this.method_57728(context, delta);
-            uut.rect(context, 0.0f, 0.0f, this.field_22789, this.field_22790, ujt.withAlpha(0, (int)(255.0f * Math.max(0.3f, dim))));
+            this.renderPanoramaBackground(context, deltaTicks);
+            uut.rect(context, 0.0f, 0.0f, this.width, this.height, ujt.withAlpha(0, (int)(255.0f * Math.max(0.3f, dim))));
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext context, int realX, int realY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         this.ctx = context;
-        this.scale = Math.min(1.0f, Math.min(((float)this.field_22789 - 8.0f) / 600.0f, ((float)this.field_22790 - 8.0f) / 318.0f));
+        this.scale = Math.min(1.0f, Math.min(((float)this.width - 8.0f) / 600.0f, ((float)this.height - 8.0f) / 318.0f));
         this.scale = Math.max(0.3f, this.scale);
-        int mouseX = Math.round((float)realX / this.scale);
-        int mouseY = Math.round((float)realY / this.scale);
+        int mouseX2 = Math.round((float)mouseX / this.scale);
+        int mouseY2 = Math.round((float)mouseY / this.scale);
         this.zones.clear();
         this.viewShown = false;
-        this.hoveredStack = ItemStack.field_8037;
+        this.hoveredStack = ItemStack.EMPTY;
         this.hoveredSlot = null;
         this.hoveredHandler = null;
         this.captchaExpand = false;
         for (Field field : this.allFields()) {
             field.visible = false;
         }
-        float screenW = (float)this.field_22789 / this.scale;
-        float screenH = (float)this.field_22790 / this.scale;
+        float screenW = (float)this.width / this.scale;
+        float screenH = (float)this.height / this.scale;
         if (Float.isNaN(posX)) {
             posX = (screenW - 600.0f) / 2.0f;
             posY = (screenH - 318.0f) / 2.0f;
         }
-        posX = MathHelper.method_15363((float)posX, (float)0.0f, (float)Math.max(0.0f, screenW - 600.0f));
-        posY = MathHelper.method_15363((float)posY, (float)0.0f, (float)Math.max(0.0f, screenH - 318.0f));
+        posX = MathHelper.clamp((float)posX, (float)0.0f, (float)Math.max(0.0f, screenW - 600.0f));
+        posY = MathHelper.clamp((float)posY, (float)0.0f, (float)Math.max(0.0f, screenH - 318.0f));
         this.x = Math.round(posX);
         this.y = Math.round(posY);
         if (selected != null && !egq.get().getBots().contains(selected)) {
@@ -258,32 +258,32 @@ extends Screen {
             selected.getControl().setMovement(this.keyForward, this.keyBack, this.keyLeft, this.keyRight, this.keyJump, this.keySneak, this.keySprint);
         }
         vdn.setRenderScale(this.scale);
-        context.method_51448().pushMatrix();
-        context.method_51448().scale(this.scale, this.scale);
+        context.getMatrices().pushMatrix();
+        context.getMatrices().scale(this.scale, this.scale);
         try {
             this.renderShell();
-            this.renderList(mouseX, mouseY);
+            this.renderList(mouseX2, mouseY2);
             if (selected == null) {
                 this.renderEmpty();
             } else {
-                this.renderBot(selected, mouseX, mouseY);
+                this.renderBot(selected, mouseX2, mouseY2);
                 if (this.captchaExpand) {
                     this.renderCaptchaExpand(selected.getCaptcha());
                 }
             }
         }
         finally {
-            context.method_51448().popMatrix();
+            context.getMatrices().popMatrix();
             vdn.setRenderScale(1.0f);
         }
         if (selected != null) {
             ClientPlayerEntity player = selected.getPlayer();
-            if (player != null && !player.field_7512.method_34255().method_7960()) {
-                ItemStack cursor = player.field_7512.method_34255();
-                context.method_51427(cursor, realX - 8, realY - 8);
-                context.method_51431(this.field_22793, cursor, realX - 8, realY - 8);
-            } else if (!this.hoveredStack.method_7960()) {
-                context.method_51446(this.field_22793, this.hoveredStack, realX, realY);
+            if (player != null && !player.currentScreenHandler.getCursorStack().isEmpty()) {
+                ItemStack cursor = player.currentScreenHandler.getCursorStack();
+                context.drawItem(cursor, mouseX - 8, mouseY - 8);
+                context.drawStackOverlay(this.textRenderer, cursor, mouseX - 8, mouseY - 8);
+            } else if (!this.hoveredStack.isEmpty()) {
+                context.drawItemTooltip(this.textRenderer, this.hoveredStack, mouseX, mouseY);
             }
         }
         this.ctx = null;
@@ -312,7 +312,7 @@ extends Screen {
         this.text(BotScreen.medium(6.5f), count, this.x + 14.0f + bold.width("\u0411\u043e\u0442\u044b") + 8.0f, this.y + 10.0f, BotScreen.textDim());
         float closeX = this.x + 600.0f - 18.0f;
         this.centered(BotScreen.medium(7.0f), "x", closeX + 6.0f, this.y + 10.0f, BotScreen.textDim());
-        this.zone(closeX, this.y + 3.0f, 12.0f, 14.0f, b -> this.method_25419());
+        this.zone(closeX, this.y + 3.0f, 12.0f, 14.0f, b -> this.close());
     }
 
     private void renderEmpty() {
@@ -333,7 +333,7 @@ extends Screen {
         List<dtv> bots = egq.get().getBots();
         float content = (float)bots.size() * 33.0f;
         float visible = listBottom - top - 6.0f;
-        this.listScroll = MathHelper.method_15363((float)this.listScroll, (float)(-Math.max(0.0f, content - visible)), (float)0.0f);
+        this.listScroll = MathHelper.clamp((float)this.listScroll, (float)(-Math.max(0.0f, content - visible)), (float)0.0f);
         uut.pushScissor(this.ctx, left, top + 2.0f, 146.0f, listBottom - top - 4.0f);
         float rowY = top + 3.0f + this.listScroll;
         for (dtv bot : bots) {
@@ -386,7 +386,7 @@ extends Screen {
         ClientPlayerEntity player = bot.getPlayer();
         if (player != null && !hover) {
             float barW = 30.0f;
-            float ratio = MathHelper.method_15363((float)(player.method_6032() / Math.max(1.0f, player.method_6063())), (float)0.0f, (float)1.0f);
+            float ratio = MathHelper.clamp((float)(player.getHealth() / Math.max(1.0f, player.getMaxHealth())), (float)0.0f, (float)1.0f);
             uut.round(this.ctx, rx + rw - barW - 6.0f, ry + 7.5f, barW, 3.0f, 1.5f, iov.track);
             uut.round(this.ctx, rx + rw - barW - 6.0f, ry + 7.5f, Math.max(3.0f, barW * ratio), 3.0f, 1.5f, ratio > 0.5f ? -10758549 : (ratio > 0.25f ? -1526966 : -2073765));
         }
@@ -455,7 +455,7 @@ extends Screen {
         float contentBottom = this.y + 318.0f - 6.0f;
         float rightX = left + 226.0f + 6.0f;
         ClientPlayerEntity player = bot.getPlayer();
-        boolean container = player != null && player.field_7512 != player.field_7498;
+        boolean container = player != null && player.currentScreenHandler != player.playerScreenHandler;
         vlj picker = BotScreen.openPicker(bot);
         if (container) {
             this.renderContainer(bot, player, left, contentTop, 226.0f, contentBottom - contentTop, mouseX, mouseY);
@@ -483,10 +483,10 @@ extends Screen {
         if (player == null) {
             info = bot.getStatusText();
         } else {
-            BlockPos pos = player.method_24515();
+            BlockPos pos = player.getBlockPos();
             ClientWorld level = bot.getWorld();
-            String dim = level == null ? "?" : BotScreen.dimensionName(level.method_27983().method_29177().method_12832());
-            info = String.format(Locale.ROOT, "%.0f/%.0f hp   \u0435\u0434\u0430 %d   %s   %d %d %d   \u043f\u0438\u043d\u0433 %s   %.1f \u043c\u0441", Float.valueOf(player.method_6032()), Float.valueOf(player.method_6063()), player.method_7344().method_7586(), dim, pos.method_10263(), pos.method_10264(), pos.method_10260(), bot.getPing() < 0 ? "-" : String.valueOf(bot.getPing()), Float.valueOf(bot.getTickMillis()));
+            String dim = level == null ? "?" : BotScreen.dimensionName(level.getRegistryKey().getValue().getPath());
+            info = String.format(Locale.ROOT, "%.0f/%.0f hp   \u0435\u0434\u0430 %d   %s   %d %d %d   \u043f\u0438\u043d\u0433 %s   %.1f \u043c\u0441", Float.valueOf(player.getHealth()), Float.valueOf(player.getMaxHealth()), player.getHungerManager().getFoodLevel(), dim, pos.getX(), pos.getY(), pos.getZ(), bot.getPing() < 0 ? "-" : String.valueOf(bot.getPing()), Float.valueOf(bot.getTickMillis()));
         }
         this.text(font, BotScreen.trim(font, info, ix + iw - 6.0f - cursor), cursor, cy, BotScreen.textDim());
     }
@@ -563,8 +563,8 @@ extends Screen {
         radar.demand();
         elb texture = radar.texture();
         float scale = vw / 96.0f;
-        double offsetX = (player.method_23317() - ((double)radar.getCenterX() + 0.5)) * (double)scale;
-        double offsetZ = (player.method_23321() - ((double)radar.getCenterZ() + 0.5)) * (double)scale;
+        double offsetX = (player.getX() - ((double)radar.getCenterX() + 0.5)) * (double)scale;
+        double offsetZ = (player.getZ() - ((double)radar.getCenterZ() + 0.5)) * (double)scale;
         float cx = vx + vw / 2.0f;
         float cy = vy + vh / 2.0f;
         uut.pushScissor(this.ctx, vx + 1.0f, vy + 1.0f, vw - 2.0f, vh - 2.0f);
@@ -580,14 +580,14 @@ extends Screen {
             if (path != null) {
                 for (int i = Math.max(0, fE.getBotPathIndex()); i < path.size(); ++i) {
                     BlockPos node = path.get(i);
-                    float px = cx + (float)(((double)node.method_10263() + 0.5 - player.method_23317()) * (double)scale);
-                    pz = cy + (float)(((double)node.method_10260() + 0.5 - player.method_23321()) * (double)scale);
+                    float px = cx + (float)(((double)node.getX() + 0.5 - player.getX()) * (double)scale);
+                    pz = cy + (float)(((double)node.getZ() + 0.5 - player.getZ()) * (double)scale);
                     uut.round(this.ctx, px - 1.25f, pz - 1.25f, 2.5f, 2.5f, 1.0f, BotScreen.accent(200));
                 }
             }
             if ((target = fE.getBotTarget()) != null) {
-                float px = cx + (float)(((double)target.method_10263() + 0.5 - player.method_23317()) * (double)scale);
-                float pz2 = cy + (float)(((double)target.method_10260() + 0.5 - player.method_23321()) * (double)scale);
+                float px = cx + (float)(((double)target.getX() + 0.5 - player.getX()) * (double)scale);
+                float pz2 = cy + (float)(((double)target.getZ() + 0.5 - player.getZ()) * (double)scale);
                 uut.round(this.ctx, px - 4.0f, pz2 - 4.0f, 8.0f, 8.0f, 3.5f, BotScreen.accent(230));
                 uut.round(this.ctx, px - 2.5f, pz2 - 2.5f, 5.0f, 5.0f, 2.0f, -435681012);
             }
@@ -598,14 +598,14 @@ extends Screen {
             if (path != null) {
                 for (int i = Math.max(0, fW.getBotPathIndex()); i < path.size(); ++i) {
                     BlockPos node = path.get(i);
-                    float px = cx + (float)(((double)node.method_10263() + 0.5 - player.method_23317()) * (double)scale);
-                    float pz3 = cy + (float)(((double)node.method_10260() + 0.5 - player.method_23321()) * (double)scale);
+                    float px = cx + (float)(((double)node.getX() + 0.5 - player.getX()) * (double)scale);
+                    float pz3 = cy + (float)(((double)node.getZ() + 0.5 - player.getZ()) * (double)scale);
                     uut.round(this.ctx, px - 1.25f, pz3 - 1.25f, 2.5f, 2.5f, 1.0f, BotScreen.accent(200));
                 }
             }
             if ((target = fW.getBotTarget()) != null) {
-                float px = cx + (float)(((double)target.method_10263() + 0.5 - player.method_23317()) * (double)scale);
-                pz = cy + (float)(((double)target.method_10260() + 0.5 - player.method_23321()) * (double)scale);
+                float px = cx + (float)(((double)target.getX() + 0.5 - player.getX()) * (double)scale);
+                pz = cy + (float)(((double)target.getZ() + 0.5 - player.getZ()) * (double)scale);
                 uut.round(this.ctx, px - 4.0f, pz - 4.0f, 8.0f, 8.0f, 3.5f, -1526966);
                 uut.round(this.ctx, px - 2.5f, pz - 2.5f, 5.0f, 5.0f, 2.0f, -435681012);
             }
@@ -613,15 +613,15 @@ extends Screen {
         ClientWorld level = bot.getWorld();
         vdn font = BotScreen.medium(5.5f);
         if (level != null) {
-            for (Entity entity : level.method_18112()) {
+            for (Entity entity : level.getEntities()) {
                 if (entity == player) continue;
-                float px = cx + (float)((entity.method_23317() - player.method_23317()) * (double)scale);
-                float pz4 = cy + (float)((entity.method_23321() - player.method_23321()) * (double)scale);
+                float px = cx + (float)((entity.getX() - player.getX()) * (double)scale);
+                float pz4 = cy + (float)((entity.getZ() - player.getZ()) * (double)scale);
                 if (px < vx || px > vx + vw || pz4 < vy || pz4 > vy + vh) continue;
                 if (entity instanceof OtherClientPlayerEntity) {
                     OtherClientPlayerEntity other = (OtherClientPlayerEntity)entity;
                     uut.round(this.ctx, px - 2.5f, pz4 - 2.5f, 5.0f, 5.0f, 2.0f, -2073765);
-                    this.text(font, other.method_5477().getString(), px + 4.0f, pz4, -12080);
+                    this.text(font, other.getName().getString(), px + 4.0f, pz4, -12080);
                     continue;
                 }
                 if (entity instanceof ItemEntity) {
@@ -632,7 +632,7 @@ extends Screen {
                 uut.round(this.ctx, px - 2.0f, pz4 - 2.0f, 4.0f, 4.0f, 1.5f, -30147);
             }
         }
-        double yaw = Math.toRadians(player.method_36454());
+        double yaw = Math.toRadians(player.getYaw());
         float dx = (float)(-Math.sin(yaw));
         float dz = (float)Math.cos(yaw);
         for (int i = 1; i <= 3; ++i) {
@@ -689,8 +689,8 @@ extends Screen {
         }
         int imageW = Math.max(1, captcha.getWidth());
         int imageH = Math.max(1, captcha.getHeight());
-        float maxW = Math.min(580.0f, (float)this.field_22789 / this.scale - 10.0f);
-        float maxH = Math.min(298.0f, (float)this.field_22790 / this.scale - 10.0f);
+        float maxW = Math.min(580.0f, (float)this.width / this.scale - 10.0f);
+        float maxH = Math.min(298.0f, (float)this.height / this.scale - 10.0f);
         float scale = Math.min(maxW / (float)imageW, maxH / (float)imageH);
         float drawW = Math.round((float)imageW * scale);
         float drawH = Math.round((float)imageH * scale);
@@ -720,9 +720,9 @@ extends Screen {
             if (shown++ >= 2) break;
             float bw = 110.0f;
             float bx = vx + vw / 2.0f - bw / 2.0f;
-            this.styledCentered(bar.method_5414(), vx + vw / 2.0f, barY, 6.5f, bw + 60.0f);
+            this.styledCentered(bar.getName(), vx + vw / 2.0f, barY, 6.5f, bw + 60.0f);
             uut.round(this.ctx, bx, barY + 5.0f, bw, 3.0f, 1.5f, 0x32FFFFFF);
-            uut.round(this.ctx, bx, barY + 5.0f, Math.max(3.0f, bw * bar.method_5412()), 3.0f, 1.5f, -2039584);
+            uut.round(this.ctx, bx, barY + 5.0f, Math.max(3.0f, bw * bar.getPercent()), 3.0f, 1.5f, -2039584);
             barY += 15.0f;
         }
         if ((title = bot.getTitle()) != null) {
@@ -734,7 +734,7 @@ extends Screen {
         if ((actionBar = bot.getActionBar()) != null) {
             this.styledCentered(actionBar, vx + vw / 2.0f, vy + vh - (this.control ? 18.0f : 9.0f), 6.5f, vw - 10.0f);
         }
-        if (bot.getPlayer() != null && bot.getPlayer().method_29504()) {
+        if (bot.getPlayer() != null && bot.getPlayer().isDead()) {
             this.centered(BotScreen.semibold(7.0f), "\u0431\u043e\u0442 \u043f\u043e\u0433\u0438\u0431 - \u0432\u043e\u0437\u0440\u043e\u0436\u0434\u0435\u043d\u0438\u0435...", vx + vw / 2.0f, vy + vh / 2.0f + 22.0f, -2073765);
         }
         if (bot.getScreen() != null && !(bot.getScreen() instanceof DeathScreen)) {
@@ -749,7 +749,7 @@ extends Screen {
         if (player == null) {
             return;
         }
-        PlayerScreenHandler handler = player.field_7498;
+        PlayerScreenHandler handler = player.playerScreenHandler;
         float gridW = 180.0f;
         float gx = ix + (iw - gridW - 20.0f - 4.0f) / 2.0f + 20.0f + 4.0f;
         float gy = iy + 5.0f;
@@ -759,7 +759,7 @@ extends Screen {
             }
         }
         float hotbarY = gy + 60.0f + 4.0f;
-        int selectedSlot = player.method_31548().method_67532();
+        int selectedSlot = player.getInventory().getSelectedSlot();
         for (int col = 0; col < 9; ++col) {
             this.slot(bot, (ScreenHandler)handler, 36 + col, gx + (float)col * 20.0f, hotbarY, col == selectedSlot, mouseX, mouseY);
         }
@@ -772,12 +772,12 @@ extends Screen {
 
     private void renderContainer(dtv bot, ClientPlayerEntity player, float cx, float cy, float cw, float ch, int mouseX, int mouseY) {
         uut.round(this.ctx, cx, cy, cw, ch, 7.0f, iov.card);
-        ScreenHandler handler = player.field_7512;
+        ScreenHandler handler = player.currentScreenHandler;
         vdn bold = BotScreen.semibold(7.5f);
         String title = bot.getOpenedScreenTitle() == null ? "\u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440" : bot.getOpenedScreenTitle();
         this.text(bold, BotScreen.trim(bold, title, cw - 60.0f), cx + 7.0f, cy + 9.0f, BotScreen.text());
         this.smallButton(cx + cw - 50.0f, cy + 3.0f, 44.0f, 12.0f, "\u0437\u0430\u043a\u0440\u044b\u0442\u044c", mouseX, mouseY, b -> bot.closeScreen());
-        int total = handler.field_7761.size();
+        int total = handler.slots.size();
         int own = Math.min(36, total);
         int containerSlots = Math.max(0, total - own);
         int rows = (containerSlots + 8) / 9;
@@ -797,41 +797,41 @@ extends Screen {
     }
 
     private void slot(dtv bot, ScreenHandler handler, int index, float sx, float sy, boolean highlight, int mouseX, int mouseY) {
-        if (index < 0 || index >= handler.field_7761.size()) {
+        if (index < 0 || index >= handler.slots.size()) {
             return;
         }
-        Slot slot = (Slot)handler.field_7761.get(index);
+        Slot slot = (Slot)handler.slots.get(index);
         boolean hover = BotScreen.hovered(mouseX, mouseY, sx, sy, 19.0f, 19.0f);
         if (highlight) {
             uut.round(this.ctx, sx - 1.0f, sy - 1.0f, 21.0f, 21.0f, 5.0f, BotScreen.accent(200));
             uut.round(this.ctx, sx, sy, 19.0f, 19.0f, 4.5f, ujt.withAlpha(iov.window, 220));
         }
         uut.round(this.ctx, sx, sy, 19.0f, 19.0f, 4.5f, hover ? iov.fieldHover : iov.field);
-        ItemStack stack = slot.method_7677();
-        if (!stack.method_7960()) {
+        ItemStack stack = slot.getStack();
+        if (!stack.isEmpty()) {
             int ix = Math.round(sx + 1.5f);
             int iy = Math.round(sy + 1.5f);
-            this.ctx.method_51427(stack, ix, iy);
-            this.ctx.method_51431(this.field_22793, stack, ix, iy);
+            this.ctx.drawItem(stack, ix, iy);
+            this.ctx.drawStackOverlay(this.textRenderer, stack, ix, iy);
         }
         if (hover) {
             this.hoveredStack = stack;
             this.hoveredSlot = slot;
             this.hoveredHandler = handler;
         }
-        int syncId = handler.field_7763;
+        int syncId = handler.syncId;
         this.zone(sx, sy, 19.0f, 19.0f, button -> {
             boolean shift;
             ClientPlayerEntity owner = bot.getPlayer();
             if (owner == null) {
                 return;
             }
-            boolean bl = shift = this.field_22787 != null && this.field_22787.method_74187();
-            if (handler == owner.field_7498 && index >= 36 && index <= 44 && button == 0 && !shift && owner.field_7512 == handler && handler.method_34255().method_7960() && this.control) {
+            boolean bl = shift = this.client != null && this.client.isShiftPressed();
+            if (handler == owner.playerScreenHandler && index >= 36 && index <= 44 && button == 0 && !shift && owner.currentScreenHandler == handler && handler.getCursorStack().isEmpty() && this.control) {
                 bot.selectSlot(index - 36);
                 return;
             }
-            SlotActionType action = shift ? SlotActionType.field_7794 : SlotActionType.field_7790;
+            SlotActionType action = shift ? SlotActionType.QUICK_MOVE : SlotActionType.PICKUP;
             bot.clickSlot(syncId, index, button == 1 ? 1 : 0, action);
         });
     }
@@ -910,7 +910,7 @@ extends Screen {
         List<List<Seg>> lines = this.chatCache.lines;
         float content = (float)lines.size() * lineH;
         float visible = logBottom - logTop;
-        this.chatScroll = MathHelper.method_15363((float)this.chatScroll, (float)0.0f, (float)Math.max(0.0f, content - visible));
+        this.chatScroll = MathHelper.clamp((float)this.chatScroll, (float)0.0f, (float)Math.max(0.0f, content - visible));
         uut.pushScissor(this.ctx, cx, logTop, cw, visible);
         float lineY = logBottom - lineH / 2.0f + this.chatScroll;
         for (int i = lines.size() - 1; i >= 0 && !(lineY < logTop - lineH); lineY -= lineH, --i) {
@@ -1158,7 +1158,7 @@ extends Screen {
         float footer = 34.0f;
         int visibleRows = Math.max(1, (int)((ph - 19.0f - footer) / 20.0f));
         int rows = (entries.size() + cols - 1) / cols;
-        this.pickerRow = MathHelper.method_15340((int)this.pickerRow, (int)0, (int)Math.max(0, rows - visibleRows));
+        this.pickerRow = MathHelper.clamp((int)this.pickerRow, (int)0, (int)Math.max(0, rows - visibleRows));
         int first = this.pickerRow * cols;
         int last = Math.min(entries.size(), (this.pickerRow + visibleRows) * cols);
         for (int i = first; i < last; ++i) {
@@ -1175,7 +1175,7 @@ extends Screen {
             int fill = hover ? iov.fieldHover : (chosen ? ujt.lerp(iov.field, iov.accent(), 0.28f) : ujt.shade(iov.field, 0.6f));
             uut.round(this.ctx, sx, sy, 19.0f, 19.0f, 4.5f, fill);
             ItemStack icon = entry.icon();
-            this.ctx.method_51427(icon, Math.round(sx + 1.5f), Math.round(sy + 1.5f));
+            this.ctx.drawItem(icon, Math.round(sx + 1.5f), Math.round(sy + 1.5f));
             if (chosen) {
                 uut.round(this.ctx, sx + 20.0f - 8.0f, sy + 1.5f, 5.5f, 5.5f, 2.75f, BotScreen.accent());
             }
@@ -1527,10 +1527,10 @@ extends Screen {
         }
     }
 
-    public boolean method_25402(Click click, boolean doubled) {
-        double mouseX = click.comp_4798() / (double)this.scale;
-        double mouseY = click.comp_4799() / (double)this.scale;
-        int button = click.method_74245();
+    public boolean mouseClicked(Click click, boolean doubled) {
+        double mouseX = click.x() / (double)this.scale;
+        double mouseY = click.y() / (double)this.scale;
+        int button = click.button();
         Field previous = this.focused;
         this.focused = null;
         for (Field field : this.allFields()) {
@@ -1568,11 +1568,11 @@ extends Screen {
             this.dragY = mouseY - (double)posY;
             return true;
         }
-        return BotScreen.hovered(mouseX, mouseY, this.x, this.y, 600.0f, 318.0f) || super.method_25402(click, doubled);
+        return BotScreen.hovered(mouseX, mouseY, this.x, this.y, 600.0f, 318.0f) || super.mouseClicked(click, doubled);
     }
 
-    public boolean method_25406(Click click) {
-        int button = click.method_74245();
+    public boolean mouseReleased(Click click) {
+        int button = click.button();
         this.dragging = false;
         if (button == 2) {
             this.rotating = false;
@@ -1585,62 +1585,62 @@ extends Screen {
             }
             selected.getControl().setMouse(this.mouseAttack, this.mouseUse);
         }
-        return super.method_25406(click);
+        return super.mouseReleased(click);
     }
 
-    public boolean method_25403(Click click, double deltaX, double deltaY) {
+    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
         if (this.dragging) {
-            posX = (float)(click.comp_4798() / (double)this.scale - this.dragX);
-            posY = (float)(click.comp_4799() / (double)this.scale - this.dragY);
+            posX = (float)(click.x() / (double)this.scale - this.dragX);
+            posY = (float)(click.y() / (double)this.scale - this.dragY);
             return true;
         }
-        if (this.rotating && this.control && selected != null && this.field_22787 != null) {
-            double scale = this.field_22787.method_22683().method_4495();
-            selected.getControl().addLook(deltaX * scale, deltaY * scale);
+        if (this.rotating && this.control && selected != null && this.client != null) {
+            double scale = this.client.getWindow().getScaleFactor();
+            selected.getControl().addLook(offsetX * scale, offsetY * scale);
             return true;
         }
-        return super.method_25403(click, deltaX, deltaY);
+        return super.mouseDragged(click, offsetX, offsetY);
     }
 
-    public boolean method_25401(double realX, double realY, double horizontalAmount, double verticalAmount) {
-        double mouseX = realX / (double)this.scale;
-        double mouseY = realY / (double)this.scale;
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        double mouseX2 = mouseX / (double)this.scale;
+        double mouseY2 = mouseY / (double)this.scale;
         float listRight = this.x + 6.0f + 146.0f;
-        if (mouseX < (double)listRight && BotScreen.hovered(mouseX, mouseY, this.x, this.y, 600.0f, 318.0f)) {
+        if (mouseX2 < (double)listRight && BotScreen.hovered(mouseX2, mouseY2, this.x, this.y, 600.0f, 318.0f)) {
             this.listScroll += (float)verticalAmount * 20.0f;
             return true;
         }
         float middle = this.x + 6.0f + 146.0f + 6.0f;
-        if (BotScreen.openPicker(selected) != null && mouseX >= (double)middle && mouseX <= (double)(middle + 226.0f) && BotScreen.hovered(mouseX, mouseY, this.x, this.y, 600.0f, 318.0f)) {
+        if (BotScreen.openPicker(selected) != null && mouseX2 >= (double)middle && mouseX2 <= (double)(middle + 226.0f) && BotScreen.hovered(mouseX2, mouseY2, this.x, this.y, 600.0f, 318.0f)) {
             this.pickerRow -= (int)Math.signum(verticalAmount);
             return true;
         }
-        if ((tab == Tab.TAB_M || tab == Tab.TAB_D) && mouseX > (double)(this.x + 6.0f + 146.0f + 6.0f + 226.0f) && selected != null) {
+        if ((tab == Tab.TAB_M || tab == Tab.TAB_D) && mouseX2 > (double)(this.x + 6.0f + 146.0f + 6.0f + 226.0f) && selected != null) {
             int count = 0;
             for (vmo setting : tab == Tab.TAB_D ? selected.f3ref().botSettings() : selected.f2ref().botSettings()) {
                 if (!BotScreen.isVisible(setting)) continue;
                 ++count;
             }
-            this.mineScroll = MathHelper.method_15340((int)(this.mineScroll - (int)Math.signum(verticalAmount)), (int)0, (int)Math.max(0, count - 5));
+            this.mineScroll = MathHelper.clamp((int)(this.mineScroll - (int)Math.signum(verticalAmount)), (int)0, (int)Math.max(0, count - 5));
             return true;
         }
-        if (tab == Tab.CHAT && mouseX > (double)(this.x + 6.0f + 146.0f + 6.0f + 226.0f)) {
+        if (tab == Tab.CHAT && mouseX2 > (double)(this.x + 6.0f + 146.0f + 6.0f + 226.0f)) {
             this.chatScroll += (float)verticalAmount * 17.0f;
             return true;
         }
-        if (this.control && this.viewShown && selected != null && selected.getPlayer() != null && BotScreen.hovered(mouseX, mouseY, this.viewX, this.viewY, this.viewW, this.viewH)) {
-            int slot = selected.getPlayer().method_31548().method_67532();
+        if (this.control && this.viewShown && selected != null && selected.getPlayer() != null && BotScreen.hovered(mouseX2, mouseY2, this.viewX, this.viewY, this.viewW, this.viewH)) {
+            int slot = selected.getPlayer().getInventory().getSelectedSlot();
             slot = Math.floorMod(slot - (int)Math.signum(verticalAmount), 9);
             selected.selectSlot(slot);
             return true;
         }
-        return super.method_25401(realX, realY, horizontalAmount, verticalAmount);
+        return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
-    public boolean method_25404(KeyInput input) {
+    public boolean keyPressed(KeyInput input) {
         boolean ctrl;
-        int keyCode = input.comp_4795();
-        int modifiers = input.comp_4797();
+        int keyCode = input.key();
+        int modifiers = input.modifiers();
         if (this.focused != null) {
             if (keyCode == 256) {
                 this.focused.commit();
@@ -1659,7 +1659,7 @@ extends Screen {
             return true;
         }
         if (keyCode == 256) {
-            this.method_25419();
+            this.close();
             return true;
         }
         boolean bl = ctrl = (modifiers & 2) != 0;
@@ -1667,7 +1667,7 @@ extends Screen {
             if (keyCode >= 49 && keyCode <= 57) {
                 int index = keyCode - 49;
                 if (this.hoveredSlot != null && this.hoveredHandler != null) {
-                    selected.clickSlot(this.hoveredHandler.field_7763, this.hoveredHandler.field_7761.indexOf((Object)this.hoveredSlot), index, SlotActionType.field_7791);
+                    selected.clickSlot(this.hoveredHandler.syncId, this.hoveredHandler.slots.indexOf((Object)this.hoveredSlot), index, SlotActionType.SWAP);
                 } else if (this.control) {
                     selected.selectSlot(index);
                 }
@@ -1675,7 +1675,7 @@ extends Screen {
             }
             if (keyCode == 81) {
                 if (this.hoveredSlot != null && this.hoveredHandler != null) {
-                    selected.clickSlot(this.hoveredHandler.field_7763, this.hoveredHandler.field_7761.indexOf((Object)this.hoveredSlot), ctrl ? 1 : 0, SlotActionType.field_7795);
+                    selected.clickSlot(this.hoveredHandler.syncId, this.hoveredHandler.slots.indexOf((Object)this.hoveredSlot), ctrl ? 1 : 0, SlotActionType.THROW);
                     return true;
                 }
                 if (this.control) {
@@ -1707,46 +1707,46 @@ extends Screen {
             }
             return true;
         }
-        return super.method_25404(input);
+        return super.keyPressed(input);
     }
 
-    public boolean method_16803(KeyInput input) {
+    public boolean keyReleased(KeyInput input) {
         if (this.control && this.movementKey(input, false)) {
             return true;
         }
-        return super.method_16803(input);
+        return super.keyReleased(input);
     }
 
-    public boolean method_25400(CharInput input) {
+    public boolean charTyped(CharInput input) {
         if (this.focused != null) {
-            if (input.method_74227()) {
-                for (char c : input.method_74226().toCharArray()) {
+            if (input.isValidChar()) {
+                for (char c : input.asString().toCharArray()) {
                     this.focused.type(c);
                 }
             }
             return true;
         }
-        return super.method_25400(input);
+        return super.charTyped(input);
     }
 
     private boolean movementKey(KeyInput input, boolean down) {
-        if (this.field_22787 == null) {
+        if (this.client == null) {
             return false;
         }
-        GameOptions options = this.field_22787.field_1690;
-        if (options.field_1894.method_1417(input)) {
+        GameOptions options = this.client.options;
+        if (options.forwardKey.matchesKey(input)) {
             this.keyForward = down;
-        } else if (options.field_1881.method_1417(input)) {
+        } else if (options.backKey.matchesKey(input)) {
             this.keyBack = down;
-        } else if (options.field_1913.method_1417(input)) {
+        } else if (options.leftKey.matchesKey(input)) {
             this.keyLeft = down;
-        } else if (options.field_1849.method_1417(input)) {
+        } else if (options.rightKey.matchesKey(input)) {
             this.keyRight = down;
-        } else if (options.field_1903.method_1417(input)) {
+        } else if (options.jumpKey.matchesKey(input)) {
             this.keyJump = down;
-        } else if (options.field_1832.method_1417(input)) {
+        } else if (options.sneakKey.matchesKey(input)) {
             this.keySneak = down;
-        } else if (options.field_1867.method_1417(input)) {
+        } else if (options.sprintKey.matchesKey(input)) {
             this.keySprint = down;
         } else {
             return false;
@@ -1794,7 +1794,7 @@ extends Screen {
         if (this.sentHistory.isEmpty()) {
             return;
         }
-        this.historyIndex = MathHelper.method_15340((int)(this.historyIndex + direction), (int)-1, (int)(this.sentHistory.size() - 1));
+        this.historyIndex = MathHelper.clamp((int)(this.historyIndex + direction), (int)-1, (int)(this.sentHistory.size() - 1));
         field.setText(this.historyIndex < 0 ? "" : this.sentHistory.get(this.historyIndex));
     }
 
@@ -1845,12 +1845,12 @@ extends Screen {
 
     private static List<Seg> segments(Text text, int base) {
         ArrayList<Seg> out = new ArrayList<Seg>();
-        text.method_27658((style, string) -> {
-            TextColor color = style.method_10973();
-            int styleColor = color == null ? base : 0xFF000000 | color.method_27716();
+        text.visit((style, string) -> {
+            TextColor color = style.getColor();
+            int styleColor = color == null ? base : 0xFF000000 | color.getRgb();
             BotScreen.legacy(string, styleColor, out);
             return Optional.empty();
-        }, Style.field_24360);
+        }, Style.EMPTY);
         return out;
     }
 
@@ -2087,8 +2087,8 @@ extends Screen {
                 this.cursor = 0;
             } else if (keyCode == 269) {
                 this.cursor = this.text.length();
-            } else if (ctrl && keyCode == 86 && BotScreen.this.field_22787 != null) {
-                String clip = ((BotScreen)BotScreen.this).field_22787.field_1774.method_1460();
+            } else if (ctrl && keyCode == 86 && BotScreen.this.client != null) {
+                String clip = ((BotScreen)BotScreen.this).client.keyboard.getClipboard();
                 if (clip != null) {
                     for (char c : clip.toCharArray()) {
                         this.type(c);

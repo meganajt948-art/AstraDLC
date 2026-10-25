@@ -48,11 +48,11 @@ public final class fwl {
         try {
             if (fwo == null) {
                 Screen screen;
-                if (minecraftClient.method_18506() == null && minecraftClient.field_1755 instanceof AccessibilityOnboardingScreen) {
-                    minecraftClient.field_1690.field_41785 = false;
-                    minecraftClient.method_1507((Screen)new TitleScreen());
+                if (minecraftClient.getOverlay() == null && minecraftClient.currentScreen instanceof AccessibilityOnboardingScreen) {
+                    minecraftClient.options.onboardAccessibility = false;
+                    minecraftClient.setScreen((Screen)new TitleScreen());
                 }
-                if (minecraftClient.method_18506() == null && (screen = minecraftClient.field_1755) instanceof jte) {
+                if (minecraftClient.getOverlay() == null && (screen = minecraftClient.currentScreen) instanceof jte) {
                     jte jte2 = (jte)screen;
                     if (fwn > 60) {
                         fwo = jte2;
@@ -121,7 +121,7 @@ public final class fwl {
                 }
                 case 12: {
                     fwl.fwt(a.c(1210179599, "\ue075\u99dd\u1304\u8d7d\u06a4\u8002\u3a6c\ub3a2\u2de8\ua752"), false);
-                    minecraftClient.method_1521();
+                    minecraftClient.reloadResources();
                     fwn = 30;
                     break;
                 }
@@ -130,13 +130,13 @@ public final class fwl {
                     break;
                 }
                 default: {
-                    if (minecraftClient.method_18506() != null) {
+                    if (minecraftClient.getOverlay() != null) {
                         --fwm;
                         return;
                     }
                     kbm.reset();
                     System.out.println(a.c(1859703475, "\ud2c6\uab7d\u21ad\ubfc4\u3444\ub2b8\u08e3\u8119\u1f5d\u95b9\u123e\ue85e\u669f\uff29\u752e\uf3af\u49f1\uc632\u5c81"));
-                    minecraftClient.method_1592();
+                    minecraftClient.scheduleStop();
                     fwn = Integer.MIN_VALUE;
                     break;
                 }
@@ -145,7 +145,7 @@ public final class fwl {
         catch (Throwable throwable) {
             System.out.println(a.c(1722832086, "\u54a5\u2d1e\ua7ce\u39a7\ub227\u34db\u8e80\u077a\u993e\u13da\u945d\u6e3d\ue0fc\u794a\uf34d\u75da\ucf92\u404b\udafd\u5cda\ud537") + throwable);
             throwable.printStackTrace();
-            minecraftClient.method_1592();
+            minecraftClient.scheduleStop();
             fwn = Integer.MIN_VALUE;
         }
     }
@@ -164,7 +164,7 @@ public final class fwl {
 
     private static void fwu(MinecraftClient minecraftClient, String string) {
         System.out.println(a.b("\uf25a\u8be1\u0131\u9f58\u14d8\u9224\u287f\ua185\u3fc1\ub525\u32a2\uc8c2\u4603\udfb5\u55b2", 195752499) + string);
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.d("\u409a\u3921\ub3f1\u2d98\ua60a\u20a4", 1867066142, 771714020) + string + a.c(757021108, "\u399e\u4071\ucabc\u54c4")), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> {});
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.d("\u409a\u3921\ub3f1\u2d98\ua60a\u20a4", 1867066142, 771714020) + string + a.c(757021108, "\u399e\u4071\ucabc\u54c4")), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> {});
     }
 
     private static /* synthetic */ int ru(int n, int n2) {

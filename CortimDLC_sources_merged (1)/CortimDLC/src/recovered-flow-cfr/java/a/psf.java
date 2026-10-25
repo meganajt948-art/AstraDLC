@@ -71,9 +71,9 @@ public final class psf {
         }
         prw prw2 = new prw(world, entity, prz2);
         ArrayList<double[]> arrayList = new ArrayList<double[]>();
-        arrayList.add(new double[]{vec3d.field_1352, psf.psm(world, vec3d), vec3d.field_1350});
+        arrayList.add(new double[]{vec3d.x, psf.psm(world, vec3d), vec3d.z});
         for (BlockPos object32 : list) {
-            arrayList.add(new double[]{(double)object32.method_10263() + 0.5, pqx.getStandY((BlockView)world, object32), (double)object32.method_10260() + 0.5});
+            arrayList.add(new double[]{(double)object32.getX() + 0.5, pqx.getStandY((BlockView)world, object32), (double)object32.getZ() + 0.5});
         }
         ArrayList arrayList2 = new ArrayList();
         ArrayList<Byte> arrayList3 = new ArrayList<Byte>();
@@ -120,17 +120,17 @@ public final class psf {
             return null;
         }
         prw prw2 = new prw(world, entity, new prz());
-        double d = vec3d2.field_1352 - vec3d.field_1352;
-        double d2 = vec3d2.field_1350 - vec3d.field_1350;
+        double d = vec3d2.x - vec3d.x;
+        double d2 = vec3d2.z - vec3d.z;
         double d3 = Math.hypot(d, d2);
         double d4 = psf.psm(world, vec3d);
-        prw2.add(vec3d.field_1352, d4, vec3d.field_1350, (byte)0);
+        prw2.add(vec3d.x, d4, vec3d.z, (byte)0);
         int n = Math.max(1, (int)Math.ceil(d3 / 0.25));
         double d5 = d4;
         for (int i = 1; i <= n; ++i) {
             double d6 = (double)i / (double)n;
-            double d7 = vec3d.field_1352 + d * d6;
-            double d8 = vec3d.field_1350 + d2 * d6;
+            double d7 = vec3d.x + d * d6;
+            double d8 = vec3d.z + d2 * d6;
             double d9 = pua.standAt(world, d7, d5 + 0.6 + 0.65, d8, 2.5);
             byte by = 0;
             if (Double.isNaN(d9)) {
@@ -146,12 +146,12 @@ public final class psf {
             prw2.add(d7, d9, d8, by);
             d5 = d9;
         }
-        return psf.pss(prw2, List.of(), BlockPos.method_49638((Position)vec3d2), true);
+        return psf.pss(prw2, List.of(), BlockPos.ofFloored((Position)vec3d2), true);
     }
 
     private static double psm(World world, Vec3d vec3d) {
-        double d = pua.standAt(world, vec3d.field_1352, vec3d.field_1351 + 0.01, vec3d.field_1350, 3.0);
-        return Double.isNaN(d) ? vec3d.field_1351 : d;
+        double d = pua.standAt(world, vec3d.x, vec3d.y + 0.01, vec3d.z, 3.0);
+        return Double.isNaN(d) ? vec3d.y : d;
     }
 
     private static List<double[]> psn(prw prw2, List<double[]> list, double d) {
@@ -421,8 +421,8 @@ public final class psf {
     }
 
     private static double pst(BlockPos blockPos, double d, double d2) {
-        double d3 = (double)blockPos.method_10263() + 0.5 - d;
-        double d4 = (double)blockPos.method_10260() + 0.5 - d2;
+        double d3 = (double)blockPos.getX() + 0.5 - d;
+        double d4 = (double)blockPos.getZ() + 0.5 - d2;
         return d3 * d3 + d4 * d4;
     }
 

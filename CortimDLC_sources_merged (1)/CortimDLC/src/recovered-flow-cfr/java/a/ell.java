@@ -46,28 +46,28 @@ implements Recorder {
         }
     }
 
-    public void method_34770() {
-        this.eln.method_34770();
+    public void stop() {
+        this.eln.stop();
     }
 
-    public void method_41320() {
-        this.eln.method_41320();
+    public void forceStop() {
+        this.eln.forceStop();
     }
 
-    public void method_34771() {
-        this.eln.method_34771();
+    public void startTick() {
+        this.eln.startTick();
     }
 
-    public boolean method_34773() {
-        return this.eln.method_34773();
+    public boolean isActive() {
+        return this.eln.isActive();
     }
 
-    public Profiler method_34774() {
-        return this.eln.method_34774();
+    public Profiler getProfiler() {
+        return this.eln.getProfiler();
     }
 
-    public void method_34772() {
-        this.eln.method_34772();
+    public void endTick() {
+        this.eln.endTick();
         if (ejp.isActive()) {
             return;
         }

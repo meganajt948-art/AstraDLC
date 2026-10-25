@@ -64,11 +64,11 @@ public final class vzz {
     }
 
     public static boolean isDown(MinecraftClient minecraftClient, int n) {
-        if (n == -1 || minecraftClient.method_22683() == null) {
+        if (n == -1 || minecraftClient.getWindow() == null) {
             return false;
         }
         if (vzz.isMouse(n)) {
-            return GLFW.glfwGetMouseButton((long)minecraftClient.method_22683().method_4490(), (int)vzz.mouseButton(n)) == 1;
+            return GLFW.glfwGetMouseButton((long)minecraftClient.getWindow().getHandle(), (int)vzz.mouseButton(n)) == 1;
         }
         int n2 = vzz.mods(n);
         if ((n2 & 1) != 0 && !vzz.wag(minecraftClient, 340, 344) || (n2 & 2) != 0 && !vzz.wag(minecraftClient, 341, 345) || (n2 & 4) != 0 && !vzz.wag(minecraftClient, 342, 346)) {
@@ -79,18 +79,18 @@ public final class vzz {
         if (intPredicate != null && n3 > 0 && intPredicate.test(n3)) {
             return true;
         }
-        return n3 > 0 && InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)n3);
+        return n3 > 0 && InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)n3);
     }
 
     public static int heldMods(MinecraftClient minecraftClient) {
-        if (minecraftClient.method_22683() == null) {
+        if (minecraftClient.getWindow() == null) {
             return 0;
         }
         return (vzz.wag(minecraftClient, 340, 344) ? 1 : 0) | (vzz.wag(minecraftClient, 341, 345) ? 2 : 0) | (vzz.wag(minecraftClient, 342, 346) ? 4 : 0);
     }
 
     private static boolean wag(MinecraftClient minecraftClient, int n, int n2) {
-        return InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)n) || InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)n2);
+        return InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)n) || InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)n2);
     }
 
     public static boolean isPhysicallyDown(MinecraftClient minecraftClient, KeyBinding keyBinding) {
@@ -99,17 +99,17 @@ public final class vzz {
             return dtv2.heldByHuman(keyBinding);
         }
         InputUtil.Key key = KeyBindingHelper.getBoundKeyOf((KeyBinding)keyBinding);
-        if (key.equals((Object)InputUtil.field_16237)) {
+        if (key.equals((Object)InputUtil.UNKNOWN_KEY)) {
             return false;
         }
         IntPredicate intPredicate = simulated;
-        if (intPredicate != null && key.method_1442() == InputUtil.Type.field_1668 && intPredicate.test(key.method_1444())) {
+        if (intPredicate != null && key.getCategory() == InputUtil.Type.KEYSYM && intPredicate.test(key.getCode())) {
             return true;
         }
-        if (key.method_1442() == InputUtil.Type.field_1672) {
-            return GLFW.glfwGetMouseButton((long)minecraftClient.method_22683().method_4490(), (int)key.method_1444()) == 1;
+        if (key.getCategory() == InputUtil.Type.MOUSE) {
+            return GLFW.glfwGetMouseButton((long)minecraftClient.getWindow().getHandle(), (int)key.getCode()) == 1;
         }
-        return InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)key.method_1444());
+        return InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)key.getCode());
     }
 
     private static /* synthetic */ int dnk(int n, int n2) {

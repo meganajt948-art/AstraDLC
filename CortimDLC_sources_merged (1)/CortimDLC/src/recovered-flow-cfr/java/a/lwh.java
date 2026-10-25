@@ -40,8 +40,8 @@ extends kfe {
     }
 
     public static boolean wants(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        GameOptions gameOptions = minecraftClient.field_1690;
-        return (clientPlayerEntity.method_7344().method_7586() >= 7 || clientPlayerEntity.method_31549().field_7478) && vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1894) && !vzz.isPhysicallyDown(minecraftClient, gameOptions.field_1881) && !gameOptions.field_1832.method_1434();
+        GameOptions gameOptions = minecraftClient.options;
+        return (clientPlayerEntity.getHungerManager().getFoodLevel() >= 7 || clientPlayerEntity.getAbilities().allowFlying) && vzz.isPhysicallyDown(minecraftClient, gameOptions.forwardKey) && !vzz.isPhysicallyDown(minecraftClient, gameOptions.backKey) && !gameOptions.sneakKey.isPressed();
     }
 
     @Override
@@ -51,26 +51,26 @@ extends kfe {
 
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (minecraftClient.field_1755 != null || vyn.anyHeld() || oxw.busy() || kvz.busy()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (minecraftClient.currentScreen != null || vyn.anyHeld() || oxw.busy() || kvz.busy()) {
             return;
         }
-        if (!clientPlayerEntity.method_7325() && !clientPlayerEntity.method_5765() && lwh.wants(minecraftClient, clientPlayerEntity)) {
-            this.lwo(minecraftClient.field_1690);
+        if (!clientPlayerEntity.isSpectator() && !clientPlayerEntity.hasVehicle() && lwh.wants(minecraftClient, clientPlayerEntity)) {
+            this.lwo(minecraftClient.options);
         } else {
             this.lwp(minecraftClient);
         }
     }
 
     private void lwo(GameOptions gameOptions) {
-        KeyBinding keyBinding = gameOptions.field_1867;
-        if (((Boolean)gameOptions.method_42450().method_41753()).booleanValue()) {
-            if (!keyBinding.method_1434()) {
-                keyBinding.method_23481(true);
+        KeyBinding keyBinding = gameOptions.sprintKey;
+        if (((Boolean)gameOptions.getSprintToggled().getValue()).booleanValue()) {
+            if (!keyBinding.isPressed()) {
+                keyBinding.setPressed(true);
                 this.lwl = true;
             }
         } else {
-            keyBinding.method_23481(true);
+            keyBinding.setPressed(true);
         }
         this.lwk = true;
     }
@@ -80,17 +80,17 @@ extends kfe {
             return;
         }
         this.lwk = false;
-        if (minecraftClient == null || minecraftClient.field_1690 == null || minecraftClient.method_22683() == null) {
+        if (minecraftClient == null || minecraftClient.options == null || minecraftClient.getWindow() == null) {
             this.lwl = false;
             return;
         }
-        KeyBinding keyBinding = minecraftClient.field_1690.field_1867;
-        if (((Boolean)minecraftClient.field_1690.method_42450().method_41753()).booleanValue()) {
-            if (this.lwl && keyBinding.method_1434()) {
-                keyBinding.method_23481(true);
+        KeyBinding keyBinding = minecraftClient.options.sprintKey;
+        if (((Boolean)minecraftClient.options.getSprintToggled().getValue()).booleanValue()) {
+            if (this.lwl && keyBinding.isPressed()) {
+                keyBinding.setPressed(true);
             }
         } else {
-            keyBinding.method_23481(vzz.isPhysicallyDown(minecraftClient, keyBinding));
+            keyBinding.setPressed(vzz.isPhysicallyDown(minecraftClient, keyBinding));
         }
         this.lwl = false;
     }

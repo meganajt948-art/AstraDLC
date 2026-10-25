@@ -77,7 +77,7 @@ import net.minecraft.util.math.Vec3i;
 
 public class pbz
 extends kfe {
-    private static final Set<Block> pca = Set.of(Blocks.field_10153, Blocks.field_10614, Blocks.field_10480, Blocks.field_10505, Blocks.field_10462, Blocks.field_10266, Blocks.field_23880, Blocks.field_10006, Blocks.field_10295, Blocks.field_10541, Blocks.field_23152, Blocks.field_22108, Blocks.field_10087, Blocks.field_10458, Blocks.field_23151);
+    private static final Set<Block> pca = Set.of(Blocks.QUARTZ_BLOCK, Blocks.DEAD_TUBE_CORAL_BLOCK, Blocks.INFESTED_MOSSY_STONE_BRICKS, Blocks.PURPUR_PILLAR, Blocks.END_STONE_BRICKS, Blocks.NETHER_BRICKS, Blocks.GILDED_BLACKSTONE, Blocks.PRISMARINE_BRICKS, Blocks.ICE, Blocks.NETHER_WART_BLOCK, Blocks.RESPAWN_ANCHOR, Blocks.NETHERITE_BLOCK, Blocks.WHITE_STAINED_GLASS, Blocks.BLACK_CONCRETE, Blocks.POLISHED_BASALT);
     private static final int pcb = 2;
     private static final int pcc = 2;
     private static final long pcd = 200L;
@@ -107,9 +107,9 @@ extends kfe {
 
     @Override
     protected void onEnable() {
-        this.pcr = this.mc.field_1687;
+        this.pcr = this.mc.world;
         this.pcq = true;
-        if (this.mc.field_1687 != null) {
+        if (this.mc.world != null) {
             wcn.ensure(this.mc);
         }
     }
@@ -135,20 +135,20 @@ extends kfe {
         }
         if (packet instanceof ChunkDeltaUpdateS2CPacket) {
             ChunkDeltaUpdateS2CPacket chunkDeltaUpdateS2CPacket = (ChunkDeltaUpdateS2CPacket)packet;
-            chunkDeltaUpdateS2CPacket.method_30621(this::pcx);
+            chunkDeltaUpdateS2CPacket.visitUpdates(this::pcx);
         } else if (packet instanceof BlockUpdateS2CPacket) {
             BlockUpdateS2CPacket blockUpdateS2CPacket = (BlockUpdateS2CPacket)packet;
-            this.pcx(blockUpdateS2CPacket.method_11309(), blockUpdateS2CPacket.method_11308());
+            this.pcx(blockUpdateS2CPacket.getPos(), blockUpdateS2CPacket.getState());
         }
     }
 
     private void pcx(BlockPos blockPos, BlockState blockState) {
-        ClientWorld clientWorld = this.mc.field_1687;
-        if (clientWorld == null || !pca.contains(blockState.method_26204())) {
+        ClientWorld clientWorld = this.mc.world;
+        if (clientWorld == null || !pca.contains(blockState.getBlock())) {
             return;
         }
-        if (clientWorld.method_8393(blockPos.method_10263() >> 4, blockPos.method_10260() >> 4) && !pca.contains(clientWorld.method_8320(blockPos).method_26204())) {
-            this.pcn.add(blockPos.method_10062());
+        if (clientWorld.isChunkLoaded(blockPos.getX() >> 4, blockPos.getZ() >> 4) && !pca.contains(clientWorld.getBlockState(blockPos).getBlock())) {
+            this.pcn.add(blockPos.toImmutable());
         }
     }
 
@@ -156,9 +156,9 @@ extends kfe {
     public void onEndTick(MinecraftClient minecraftClient) {
         wcn.ensure(minecraftClient);
         ++this.pcs;
-        if (minecraftClient.field_1687 != this.pcr) {
+        if (minecraftClient.world != this.pcr) {
             this.pcv();
-            this.pcr = minecraftClient.field_1687;
+            this.pcr = minecraftClient.world;
         }
         Iterator<BlockPos> iterator = this.pcn.iterator();
         while (iterator.hasNext()) {
@@ -190,7 +190,7 @@ extends kfe {
                 for (int i = -2; i <= 2; ++i) {
                     for (int j = -2; j <= 2; ++j) {
                         for (int k = -2; k <= 2; ++k) {
-                            BlockPos blockPos3 = blockPos2.method_10069(i, j, k);
+                            BlockPos blockPos3 = blockPos2.add(i, j, k);
                             if (!hashSet.remove(blockPos3)) continue;
                             arrayDeque.add(blockPos3);
                         }
@@ -206,7 +206,7 @@ extends kfe {
     }
 
     private void pcz(List<BlockPos> list, long l) {
-        BlockBox blockBox = BlockBox.method_35411(list).orElse(null);
+        BlockBox blockBox = BlockBox.encompassPositions(list).orElse(null);
         if (blockBox == null) {
             return;
         }
@@ -226,11 +226,11 @@ extends kfe {
 
     private void pda(MinecraftClient minecraftClient) {
         long l = System.currentTimeMillis();
-        BlockPos blockPos = minecraftClient.field_1724.method_24515();
+        BlockPos blockPos = minecraftClient.player.getBlockPos();
         Iterator<pbw> iterator = this.pcp.iterator();
         while (iterator.hasNext()) {
             pbw pbw2 = iterator.next();
-            if (pbw2.deadAt == 0L && pbz.pdb(minecraftClient.field_1687, pbw2)) {
+            if (pbw2.deadAt == 0L && pbz.pdb(minecraftClient.world, pbw2)) {
                 pbw2.deadAt = l;
             }
             if (pbw2.left(l) <= 0L || pbw2.deadAt != 0L && l - pbw2.deadAt > 400L) {
@@ -238,7 +238,7 @@ extends kfe {
                 iterator.remove();
                 continue;
             }
-            if (pbw2.deadAt == 0L && pbw2.box.method_14662((Vec3i)blockPos)) {
+            if (pbw2.deadAt == 0L && pbw2.box.contains((Vec3i)blockPos)) {
                 pbz.pdc(pbw2, l);
                 continue;
             }
@@ -249,10 +249,10 @@ extends kfe {
     private static boolean pdb(ClientWorld clientWorld, pbw pbw2) {
         int n = 0;
         for (BlockPos blockPos : pbw2.blocks) {
-            if (!clientWorld.method_8393(blockPos.method_10263() >> 4, blockPos.method_10260() >> 4)) {
+            if (!clientWorld.isChunkLoaded(blockPos.getX() >> 4, blockPos.getZ() >> 4)) {
                 return false;
             }
-            if (pca.contains(clientWorld.method_8320(blockPos).method_26204())) continue;
+            if (pca.contains(clientWorld.getBlockState(blockPos).getBlock())) continue;
             ++n;
         }
         return n * 2 > pbw2.blocks.size();
@@ -264,15 +264,15 @@ extends kfe {
             return;
         }
         long l2 = Math.max(0L, pbw2.left(l));
-        MutableText mutableText = Text.method_43470((String)(wap.t(pbw2.kind.title) + a.c(131093714, "\u54f1\u0d74\ua793") + pbz.pdf(l2) + wap.s(a.b("3\u79d1", -857604079), a.c(1154097681, "\u2235\u5fe5\ud542\u4b3c"))));
+        MutableText mutableText = Text.literal((String)(wap.t(pbw2.kind.title) + a.c(131093714, "\u54f1\u0d74\ua793") + pbz.pdf(l2) + wap.s(a.b("3\u79d1", -857604079), a.c(1154097681, "\u2235\u5fe5\ud542\u4b3c"))));
         float f = Math.min(1.0f, (float)l2 / (float)pbw2.kind.duration);
         if (pbw2.bar == null) {
-            pbw2.bar = new ClientBossBar(UUID.randomUUID(), (Text)mutableText, f, BossBar.Color.field_5786, BossBar.Style.field_5795, false, false, false);
+            pbw2.bar = new ClientBossBar(UUID.randomUUID(), (Text)mutableText, f, BossBar.Color.WHITE, BossBar.Style.PROGRESS, false, false, false);
         } else {
-            pbw2.bar.method_5413((Text)mutableText);
-            pbw2.bar.method_5408(f);
+            pbw2.bar.setName((Text)mutableText);
+            pbw2.bar.setPercent(f);
         }
-        map.putIfAbsent(pbw2.bar.method_5407(), pbw2.bar);
+        map.putIfAbsent(pbw2.bar.getUuid(), pbw2.bar);
     }
 
     private static void pdd(pbw pbw2) {
@@ -281,14 +281,14 @@ extends kfe {
         }
         Map<UUID, ClientBossBar> map = pbz.pde();
         if (map != null) {
-            map.remove(pbw2.bar.method_5407());
+            map.remove(pbw2.bar.getUuid());
         }
         pbw2.bar = null;
     }
 
     private static Map<UUID, ClientBossBar> pde() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (pcm || minecraftClient.field_1705 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (pcm || minecraftClient.inGameHud == null) {
             return null;
         }
         try {
@@ -303,7 +303,7 @@ extends kfe {
                     throw new IllegalStateException(a.b("\uff62\u86de\u0c11\u9260\u19e4\u9f17\u2547\uaca5\u32a8\ub854\u3f8b\uc5eb\u4b6c\ud293\u58c1\ude2b\u6430\ueba7\u711d\uf756\u7eba\u04e1", 1754070806));
                 }
             }
-            return (Map)pcl.get(minecraftClient.field_1705.method_1740());
+            return (Map)pcl.get(minecraftClient.inGameHud.getBossBarHud());
         }
         catch (Throwable throwable) {
             pcm = true;
@@ -329,7 +329,7 @@ extends kfe {
         StringBuilder stringBuilder = new StringBuilder();
         long l = System.currentTimeMillis();
         for (pbw pbw2 : this.pcp) {
-            stringBuilder.append(pbw2.kind.name()).append('@').append(pbw2.box.method_22874().method_23854()).append(' ').append(pbz.pdf(Math.max(0L, pbw2.left(l)))).append(pbw2.bar != null ? a.b("\u45e6\u3c15\ub6c5\u28a7", -488553022) : "").append(pbw2.deadAt != 0L ? a.d("\u68d7\u1122\u9bf0\u0585\u8e57", -1429805639, -1315271349) : "").append(a.c(-1740534363, "\u8d9c\uf436"));
+            stringBuilder.append(pbw2.kind.name()).append('@').append(pbw2.box.getCenter().toShortString()).append(' ').append(pbz.pdf(Math.max(0L, pbw2.left(l)))).append(pbw2.bar != null ? a.b("\u45e6\u3c15\ub6c5\u28a7", -488553022) : "").append(pbw2.deadAt != 0L ? a.d("\u68d7\u1122\u9bf0\u0585\u8e57", -1429805639, -1315271349) : "").append(a.c(-1740534363, "\u8d9c\uf436"));
         }
         return stringBuilder.toString();
     }
@@ -337,17 +337,17 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         pbz pbz2 = pck;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (pbz2 == null || !pbz2.isEnabled() || pbz2.pcp.isEmpty() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (pbz2 == null || !pbz2.isEnabled() || pbz2.pcp.isEmpty() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden) {
             return;
         }
         unf.observe(drawContext);
         float f = unf.delta();
         iov.update(f * (float)iov.ANIMATION.get());
-        float f2 = drawContext.method_51421();
-        float f3 = drawContext.method_51443();
+        float f2 = drawContext.getScaledWindowWidth();
+        float f3 = drawContext.getScaledWindowHeight();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), f2, f3);
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), f2, f3);
         }
         catch (Throwable throwable) {
             return;
@@ -360,19 +360,19 @@ extends kfe {
         long l = System.currentTimeMillis();
         ArrayList<pbw> arrayList = new ArrayList<pbw>(pbz2.pcp);
         arrayList.sort((pbw2, pbw3) -> Double.compare(pbz.pdg(usn2, pbw3), pbz.pdg(usn2, pbw2)));
-        float f4 = Math.max(1, minecraftClient.method_22683().method_4495());
+        float f4 = Math.max(1, minecraftClient.getWindow().getScaleFactor());
         float[] fArray = new float[2];
         for (pbw pbw4 : arrayList) {
             float f5 = pbw4.shown.step(pbw4.deadAt == 0L && pbw4.left(l) > 200L, f);
-            BlockPos blockPos = pbw4.box.method_22874();
-            if (f5 < 0.01f || !usn2.project((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 0.5, (double)blockPos.method_10260() + 0.5, fArray)) continue;
+            BlockPos blockPos = pbw4.box.getCenter();
+            if (f5 < 0.01f || !usn2.project((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5, fArray)) continue;
             pbz.pdh(drawContext, pbw4, (float)Math.round(fArray[0] * f4) / f4, (float)Math.round(fArray[1] * f4) / f4, f5, l, gpuTextureView);
         }
     }
 
     private static double pdg(usn usn2, pbw pbw2) {
-        BlockPos blockPos = pbw2.box.method_22874();
-        return usn2.distance((double)blockPos.method_10263() + 0.5, (double)blockPos.method_10264() + 0.5, (double)blockPos.method_10260() + 0.5);
+        BlockPos blockPos = pbw2.box.getCenter();
+        return usn2.distance((double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5);
     }
 
     /*
@@ -385,10 +385,10 @@ extends kfe {
         float f5 = iov.r(4.0f);
         float f6 = vcq.outCubic(f3);
         float f7 = 0.8f + 0.2f * f6;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f2);
-        drawContext.method_51448().scale(f7, f7);
-        drawContext.method_51448().translate(-f4 * 0.5f, -6.5f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f2);
+        drawContext.getMatrices().scale(f7, f7);
+        drawContext.getMatrices().translate(-f4 * 0.5f, -6.5f);
         uut.pushAlpha(f3);
         try {
             float f8 = (float)izx.OPACITY.get();
@@ -399,11 +399,11 @@ extends kfe {
             uut.outline(drawContext, 0.0f, 0.0f, f4, 13.0f, f5, 1.0f, ujt.withAlpha(0xFFFFFF, Math.round(14.0f + 16.0f * iov.lightness())));
             float f9 = 6.5f;
             float f10 = 0.5625f * f6;
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(9.0f, f9);
-            drawContext.method_51448().scale(f10, f10);
-            drawContext.method_51427(pbw2.icon, -8, -8);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(9.0f, f9);
+            drawContext.getMatrices().scale(f10, f10);
+            drawContext.drawItem(pbw2.icon, -8, -8);
+            drawContext.getMatrices().popMatrix();
             pcf.draw(drawContext, string, 17.0f, pcf.centerTop(f9), iov.text);
             float f11 = f4 - f5 * 2.0f;
             float f12 = Math.min(1.0f, (float)l2 / (float)pbw2.kind.duration);
@@ -412,7 +412,7 @@ extends kfe {
         }
         finally {
             uut.popAlpha();
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
     }
 

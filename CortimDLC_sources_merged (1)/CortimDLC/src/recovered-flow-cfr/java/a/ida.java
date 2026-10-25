@@ -58,7 +58,7 @@ extends Screen {
     private static /* synthetic */ long idv;
 
     public ida(Screen screen) {
-        super((Text)Text.method_43470((String)a.b("\u3ae8\u4374\uc9a8\u57d0\udc15\u5ab0\ue0e5\u6916", -1252902228)));
+        super((Text)Text.literal((String)a.b("\u3ae8\u4374\uc9a8\u57d0\udc15\u5ab0\ue0e5\u6916", -1252902228)));
         this.idi = screen;
         this.idm = wap.ru() || !wap.chosen() ? 0 : 1;
         for (int i = 0; i < idh.length; ++i) {
@@ -75,9 +75,9 @@ extends Screen {
         this.idq = unf.delta() * (float)iov.ANIMATION.get();
         iov.update(this.idq);
         this.idj.update(this.idq);
-        if (this.idn && this.idj.finished() && !this.ido && this.field_22787 != null) {
+        if (this.idn && this.idj.finished() && !this.ido && this.client != null) {
             this.ido = true;
-            this.field_22787.method_63588(() -> this.field_22787.method_1507(this.idi));
+            this.client.send(() -> this.client.setScreen(this.idi));
         }
     }
 
@@ -86,45 +86,45 @@ extends Screen {
         return this.idn ? vcq.outCubic(f) : vcq.outQuint(f);
     }
 
-    public void method_25420(DrawContext drawContext, int n, int n2, float f) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
-        this.idw(drawContext);
-        float f2 = this.idx();
-        if (this.field_22787 != null && this.field_22787.field_1687 != null) {
-            hyv.capture(drawContext, Math.max(1, iov.BG_BLUR.getInt()), f2, null);
-            uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(140.0f * f2)));
+        this.idw(context);
+        float f = this.idx();
+        if (this.client != null && this.client.world != null) {
+            hyv.capture(context, Math.max(1, iov.BG_BLUR.getInt()), f, null);
+            uut.rect(context, 0.0f, 0.0f, this.width, this.height, ujt.withAlpha(0, Math.round(140.0f * f)));
         } else {
             hyv.skip();
-            this.method_57728(drawContext, f);
-            drawContext.method_71278();
-            uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, ujt.withAlpha(0, Math.round(120.0f * f2)));
+            this.renderPanoramaBackground(context, deltaTicks);
+            context.applyBlur();
+            uut.rect(context, 0.0f, 0.0f, this.width, this.height, ujt.withAlpha(0, Math.round(120.0f * f)));
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext drawContext, int n, int n2, float f) {
-        this.idw(drawContext);
-        float f2 = this.idx();
-        float f3 = Math.min(((float)this.field_22789 - 16.0f) / 240.0f, ((float)this.field_22790 - 16.0f) / 150.0f);
-        float f4 = Math.max(0.4f, Math.min((float)iov.SCALE.get() * 1.1f, f3));
-        this.idr = f4 * (0.96f + 0.04f * f2);
-        this.ids = (float)this.field_22789 * 0.5f - 120.0f * this.idr;
-        this.idt = (float)this.field_22790 * 0.5f - 75.0f * this.idr + (1.0f - f2) * 8.0f;
-        float f5 = ((float)n - this.ids) / this.idr;
-        float f6 = ((float)n2 - this.idt) / this.idr;
-        vdn.setRenderScale(f4);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(this.ids, this.idt);
-        drawContext.method_51448().scale(this.idr, this.idr);
-        uut.pushAlpha(f2);
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        this.idw(context);
+        float f = this.idx();
+        float f2 = Math.min(((float)this.width - 16.0f) / 240.0f, ((float)this.height - 16.0f) / 150.0f);
+        float f3 = Math.max(0.4f, Math.min((float)iov.SCALE.get() * 1.1f, f2));
+        this.idr = f3 * (0.96f + 0.04f * f);
+        this.ids = (float)this.width * 0.5f - 120.0f * this.idr;
+        this.idt = (float)this.height * 0.5f - 75.0f * this.idr + (1.0f - f) * 8.0f;
+        float f4 = ((float)mouseX - this.ids) / this.idr;
+        float f5 = ((float)mouseY - this.idt) / this.idr;
+        vdn.setRenderScale(f3);
+        context.getMatrices().pushMatrix();
+        context.getMatrices().translate(this.ids, this.idt);
+        context.getMatrices().scale(this.idr, this.idr);
+        uut.pushAlpha(f);
         try {
-            this.iea(drawContext, f5, f6);
+            this.iea(context, f4, f5);
         }
         finally {
             uut.popAlpha();
-            drawContext.method_51448().popMatrix();
+            context.getMatrices().popMatrix();
             vdn.setRenderScale(1.0f);
         }
     }
@@ -184,12 +184,12 @@ extends Screen {
             float f10 = f3 + f4 - 12.0f;
             float f11 = f7 + 12.0f;
             float f12 = vcq.outBack(f6);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f10, f11);
-            drawContext.method_51448().scale(f12, f12);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f10, f11);
+            drawContext.getMatrices().scale(f12, f12);
             uut.circle(drawContext, 0.0f, 0.0f, 5.5f, iov.accent());
             vjf.draw(drawContext, vhz.CHECK, 0.0f, 0.0f, 7.0f, iov.onAccent());
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         } else if (f5 > 0.01f) {
             uut.pushAlpha(f5);
             vjf.draw(drawContext, vhz.CHEVRON_RIGHT, f3 + f4 - 12.0f, f7 + 32.0f, 8.0f, iov.accent());
@@ -234,15 +234,15 @@ extends Screen {
         }
         wap.set(idh[n]);
         hyz.saveLater();
-        this.method_25419();
+        this.close();
     }
 
-    public boolean method_25402(Click click, boolean bl) {
-        if (this.idn || click.method_74245() != 0) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        if (this.idn || click.button() != 0) {
             return true;
         }
-        float f = (float)((click.comp_4798() - (double)this.ids) / (double)this.idr);
-        float f2 = (float)((click.comp_4799() - (double)this.idt) / (double)this.idr);
+        float f = (float)((click.x() - (double)this.ids) / (double)this.idr);
+        float f2 = (float)((click.y() - (double)this.idt) / (double)this.idr);
         for (int i = 0; i < idh.length; ++i) {
             if (!irr.inside(f, f2, this.idz(i), 52.0f, this.idy(), 64.0f)) continue;
             this.ied(i);
@@ -251,8 +251,8 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25404(KeyInput keyInput) {
-        int n = keyInput.comp_4795();
+    public boolean keyPressed(KeyInput input) {
+        int n = input.key();
         if (this.idn) {
             return true;
         }
@@ -275,29 +275,29 @@ extends Screen {
                 break;
             }
             case 256: {
-                this.method_25419();
+                this.close();
                 break;
             }
         }
         return true;
     }
 
-    public void method_25419() {
+    public void close() {
         if (!this.idn) {
             this.idn = true;
             this.idj.backward();
         }
     }
 
-    public void method_25432() {
+    public void removed() {
         vdn.setRenderScale(1.0f);
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public boolean method_25422() {
+    public boolean shouldCloseOnEsc() {
         return false;
     }
 

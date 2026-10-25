@@ -68,37 +68,37 @@ extends jeq<jht> {
 
     @Override
     List<jht> items(boolean bl) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         ArrayList<jht> arrayList = new ArrayList<jht>();
         HashSet<String> hashSet = new HashSet<String>();
-        if (minecraftClient.field_1724 != null) {
-            for (StatusEffectInstance statusEffectInstance : minecraftClient.field_1724.method_6026()) {
-                if (!statusEffectInstance.method_5592()) continue;
-                String string = statusEffectInstance.method_5579().method_55840();
+        if (minecraftClient.player != null) {
+            for (StatusEffectInstance statusEffectInstance : minecraftClient.player.getStatusEffects()) {
+                if (!statusEffectInstance.shouldShowIcon()) continue;
+                String string = statusEffectInstance.getEffectType().getIdAsString();
                 hashSet.add(string);
-                int n = statusEffectInstance.method_5584();
+                int n = statusEffectInstance.getDuration();
                 int n2 = Math.max(n, this.jih.getOrDefault(string, 0));
                 this.jih.put(string, n2);
-                arrayList.add(jie.jik(string, (RegistryEntry<StatusEffect>)statusEffectInstance.method_5579(), statusEffectInstance.method_5578(), n, statusEffectInstance.method_48559(), statusEffectInstance.method_48559() ? 1.0f : (float)n / (float)Math.max(1, n2)));
+                arrayList.add(jie.jik(string, (RegistryEntry<StatusEffect>)statusEffectInstance.getEffectType(), statusEffectInstance.getAmplifier(), n, statusEffectInstance.isInfinite(), statusEffectInstance.isInfinite() ? 1.0f : (float)n / (float)Math.max(1, n2)));
             }
         }
         this.jih.keySet().retainAll(hashSet);
         if (arrayList.isEmpty() && bl) {
-            arrayList.add(jie.jik(a.d("\ud1ec\ua85f\u229b\ubcf9\u3731\ub18c\u0bcd\u8271\u1c67\u96d5\u1113\ueb62\u65b4", -1872825723, 1786848020), (RegistryEntry<StatusEffect>)StatusEffects.field_5904, 1, 1640, false, 0.72f));
-            arrayList.add(jie.jik(a.b("\u8970\uf0c3\u7a07\ue465\u6fad\ue910\u5351\udaed\u44fb\uce4d\u4998\ub3fe\u3d22\ua49a\u2eda\ua837", -592672496), (RegistryEntry<StatusEffect>)StatusEffects.field_5910, 0, 780, false, 0.35f));
-            arrayList.add(jie.jik(a.c(-60203935, "\u5c1d\u25ae\uaf6a\u3108\ubac0\u3c7d\u863c\u0f80\u9183\u1b3d\u9cf5\u6693"), (RegistryEntry<StatusEffect>)StatusEffects.field_5918, 0, 150, false, 0.08f));
+            arrayList.add(jie.jik(a.d("\ud1ec\ua85f\u229b\ubcf9\u3731\ub18c\u0bcd\u8271\u1c67\u96d5\u1113\ueb62\u65b4", -1872825723, 1786848020), (RegistryEntry<StatusEffect>)StatusEffects.SPEED, 1, 1640, false, 0.72f));
+            arrayList.add(jie.jik(a.b("\u8970\uf0c3\u7a07\ue465\u6fad\ue910\u5351\udaed\u44fb\uce4d\u4998\ub3fe\u3d22\ua49a\u2eda\ua837", -592672496), (RegistryEntry<StatusEffect>)StatusEffects.STRENGTH, 0, 780, false, 0.35f));
+            arrayList.add(jie.jik(a.c(-60203935, "\u5c1d\u25ae\uaf6a\u3108\ubac0\u3c7d\u863c\u0f80\u9183\u1b3d\u9cf5\u6693"), (RegistryEntry<StatusEffect>)StatusEffects.FIRE_RESISTANCE, 0, 150, false, 0.08f));
         }
         arrayList.sort(Comparator.comparing(jht2 -> !jht2.jhy).thenComparing(jht2 -> -jht2.jhx));
         return arrayList;
     }
 
     private static jht jik(String string, RegistryEntry<StatusEffect> registryEntry, int n, int n2, boolean bl, float f) {
-        StatusEffect statusEffect = (StatusEffect)registryEntry.comp_349();
-        String string2 = statusEffect.method_5560().getString();
+        StatusEffect statusEffect = (StatusEffect)registryEntry.value();
+        String string2 = statusEffect.getName().getString();
         if (n > 0) {
             string2 = string2 + a.b("\uc78f", -1793538130) + jie.jil(n + 1);
         }
-        return new jht(string, registryEntry, string2, n2, bl, f, 0xFF000000 | statusEffect.method_5556(), statusEffect.method_18792() == StatusEffectCategory.field_18272);
+        return new jht(string, registryEntry, string2, n2, bl, f, 0xFF000000 | statusEffect.getColor(), statusEffect.getCategory() == StatusEffectCategory.HARMFUL);
     }
 
     private static String jil(int n) {
@@ -133,11 +133,11 @@ extends jeq<jht> {
         boolean bl = BARS.get();
         float f7 = f2 + (bl ? 6.0f : f4 * 0.5f);
         int n = ujt.withAlpha(0xFFFFFF, Math.round(255.0f * uut.alpha()));
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f, f7 - 5.0f);
-        drawContext.method_51448().scale(0.5555556f, 0.5555556f);
-        drawContext.method_52707(RenderPipelines.field_56883, InGameHud.method_71644(jht2.jhv), 0, 0, 18, 18, n);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f, f7 - 5.0f);
+        drawContext.getMatrices().scale(0.5555556f, 0.5555556f);
+        drawContext.drawGuiTexture(RenderPipelines.GUI_TEXTURED, InGameHud.getEffectTexture(jht2.jhv), 0, 0, 18, 18, n);
+        drawContext.getMatrices().popMatrix();
         float f8 = f + 10.0f + 4.0f;
         String string = jie.time(jht2.jhx, jht2.jhy);
         float f9 = izx.VALUE.width(string);

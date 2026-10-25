@@ -139,8 +139,8 @@ extends kfe {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         rnk rnk2 = rnl;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rnk2 == null || !rnk2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rnk2 == null || !rnk2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -148,7 +148,7 @@ extends kfe {
             return;
         }
         rnk2.ros = unf.frame();
-        rnk2.roy(drawContext, minecraftClient, renderTickCounter.method_60637(true));
+        rnk2.roy(drawContext, minecraftClient, renderTickCounter.getTickProgress(true));
     }
 
     /*
@@ -156,18 +156,18 @@ extends kfe {
      */
     private void roy(DrawContext drawContext, MinecraftClient minecraftClient, float f) {
         usn usn2;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        long l = minecraftClient.field_1687.method_75260();
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        long l = minecraftClient.world.getTime();
         if (l != this.roi) {
             this.roi = l;
             this.rpd(minecraftClient);
         }
         rnb rnb2 = null;
-        ItemStack itemStack = ItemStack.field_8037;
+        ItemStack itemStack = ItemStack.EMPTY;
         this.rod = false;
         this.roe = 1;
         for (Hand hand : Hand.values()) {
-            ItemStack itemStack2 = clientPlayerEntity.method_5998(hand);
+            ItemStack itemStack2 = clientPlayerEntity.getStackInHand(hand);
             rnb2 = this.rpc(clientPlayerEntity, itemStack2);
             if (rnb2 == null) continue;
             itemStack = itemStack2;
@@ -177,7 +177,7 @@ extends kfe {
             return;
         }
         try {
-            usn2 = usn.capture(f, drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(f, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -198,11 +198,11 @@ extends kfe {
             this.rpg(drawContext, usn2, rmy2, ujt.lerp(n, -1, 0.25f), 0.7f, 0);
         }
         if (rnb2 != null) {
-            Vec3d vec3d = clientPlayerEntity.method_5836(f).method_1023(0.0, 0.1, 0.0);
-            float f2 = clientPlayerEntity.method_36455();
-            float f3 = clientPlayerEntity.method_36454();
-            Vec3d vec3d2 = clientPlayerEntity.method_18798();
-            boolean bl = Objects.equals(rnb2, this.roj) && this.rok == this.rod && this.rol == this.roe && this.rom == this.roi && vec3d.equals((Object)this.ron) && vec3d2.equals((Object)this.roo) && f2 == this.rop && f3 == this.roq && this.ror == clientPlayerEntity.method_24828();
+            Vec3d vec3d = clientPlayerEntity.getCameraPosVec(f).subtract(0.0, 0.1, 0.0);
+            float f2 = clientPlayerEntity.getPitch();
+            float f3 = clientPlayerEntity.getYaw();
+            Vec3d vec3d2 = clientPlayerEntity.getVelocity();
+            boolean bl = Objects.equals(rnb2, this.roj) && this.rok == this.rod && this.rol == this.roe && this.rom == this.roi && vec3d.equals((Object)this.ron) && vec3d2.equals((Object)this.roo) && f2 == this.rop && f3 == this.roq && this.ror == clientPlayerEntity.isOnGround();
             this.roj = rnb2;
             this.rok = this.rod;
             this.rol = this.roe;
@@ -211,7 +211,7 @@ extends kfe {
             this.roo = vec3d2;
             this.rop = f2;
             this.roq = f3;
-            this.ror = clientPlayerEntity.method_24828();
+            this.ror = clientPlayerEntity.isOnGround();
             if (bl) {
                 for (int i = 0; i < (this.rod ? this.roe : 1); ++i) {
                     this.rpg(drawContext, usn2, this.rob[i], n, i == 0 ? 1.0f : 0.85f, 3);
@@ -223,14 +223,14 @@ extends kfe {
                 Vec3d vec3d4 = rnk.rpa(f2 - 90.0f, f3);
                 for (int i = 0; i < this.roe; ++i) {
                     Vec3d vec3d5 = rnk.rpb(vec3d3, vec3d4, roa[i] * ((float)Math.PI / 180));
-                    this.rpf((World)minecraftClient.field_1687, (Entity)clientPlayerEntity, vec3d, vec3d5.method_1021(rnb2.rnc), rnb2, this.rob[i]);
+                    this.rpf((World)minecraftClient.world, (Entity)clientPlayerEntity, vec3d, vec3d5.multiply(rnb2.rnc), rnb2, this.rob[i]);
                     this.rpg(drawContext, usn2, this.rob[i], n, i == 0 ? 1.0f : 0.85f, 3);
                 }
             } else {
                 Vec3d vec3d6 = rnk.rpe(f2 + rnb2.rng, f3, f2);
-                Vec3d vec3d7 = vec3d6.method_1021(rnb2.rnc);
-                vec3d7 = vec3d7.method_1031(vec3d2.field_1352, clientPlayerEntity.method_24828() ? 0.0 : vec3d2.field_1351, vec3d2.field_1350);
-                this.rpf((World)minecraftClient.field_1687, (Entity)clientPlayerEntity, vec3d, vec3d7, rnb2, this.rob[0]);
+                Vec3d vec3d7 = vec3d6.multiply(rnb2.rnc);
+                vec3d7 = vec3d7.add(vec3d2.x, clientPlayerEntity.isOnGround() ? 0.0 : vec3d2.y, vec3d2.z);
+                this.rpf((World)minecraftClient.world, (Entity)clientPlayerEntity, vec3d, vec3d7, rnb2, this.rob[0]);
                 this.rpg(drawContext, usn2, this.rob[0], n, 1.0f, 3);
             }
         }
@@ -240,10 +240,10 @@ extends kfe {
         float f3 = (float)Math.PI / 180;
         float f4 = f * f3;
         float f5 = -f2 * f3;
-        float f6 = MathHelper.method_15362((double)f5);
-        float f7 = MathHelper.method_15374((double)f5);
-        float f8 = MathHelper.method_15362((double)f4);
-        float f9 = MathHelper.method_15374((double)f4);
+        float f6 = MathHelper.cos((double)f5);
+        float f7 = MathHelper.sin((double)f5);
+        float f8 = MathHelper.cos((double)f4);
+        float f9 = MathHelper.sin((double)f4);
         return new Vec3d((double)(f7 * f8), (double)(-f9), (double)(f6 * f8));
     }
 
@@ -253,49 +253,49 @@ extends kfe {
         }
         double d = Math.cos(f);
         double d2 = Math.sin(f);
-        Vec3d vec3d3 = vec3d2.method_1036(vec3d);
-        return vec3d.method_1021(d).method_1019(vec3d3.method_1021(d2)).method_1019(vec3d2.method_1021(vec3d2.method_1026(vec3d) * (1.0 - d)));
+        Vec3d vec3d3 = vec3d2.crossProduct(vec3d);
+        return vec3d.multiply(d).add(vec3d3.multiply(d2)).add(vec3d2.multiply(vec3d2.dotProduct(vec3d) * (1.0 - d)));
     }
 
     private rnb rpc(ClientPlayerEntity clientPlayerEntity, ItemStack itemStack) {
-        if (itemStack.method_7960()) {
+        if (itemStack.isEmpty()) {
             return null;
         }
-        if (itemStack.method_7909() instanceof BowItem) {
-            if (!this.rnn.get() || !clientPlayerEntity.method_6115() || clientPlayerEntity.method_6030() != itemStack) {
+        if (itemStack.getItem() instanceof BowItem) {
+            if (!this.rnn.get() || !clientPlayerEntity.isUsingItem() || clientPlayerEntity.getActiveItem() != itemStack) {
                 return null;
             }
-            float f = BowItem.method_7722((int)clientPlayerEntity.method_6048());
+            float f = BowItem.getPullProgress((int)clientPlayerEntity.getItemUseTime());
             return f < 0.1f ? null : new rnb((double)f * 3.0, 0.05, 0.99, 0.6, 0.0f, true);
         }
-        if (itemStack.method_7909() instanceof CrossbowItem) {
-            if (!this.rnn.get() || !CrossbowItem.method_7781((ItemStack)itemStack)) {
+        if (itemStack.getItem() instanceof CrossbowItem) {
+            if (!this.rnn.get() || !CrossbowItem.isCharged((ItemStack)itemStack)) {
                 return null;
             }
-            ChargedProjectilesComponent chargedProjectilesComponent = (ChargedProjectilesComponent)itemStack.method_58694(DataComponentTypes.field_49649);
-            if (chargedProjectilesComponent != null && chargedProjectilesComponent.method_57438(Items.field_8639)) {
+            ChargedProjectilesComponent chargedProjectilesComponent = (ChargedProjectilesComponent)itemStack.get(DataComponentTypes.CHARGED_PROJECTILES);
+            if (chargedProjectilesComponent != null && chargedProjectilesComponent.contains(Items.FIREWORK_ROCKET)) {
                 return null;
             }
             this.rod = true;
-            this.roe = chargedProjectilesComponent != null && chargedProjectilesComponent.method_57437().size() >= 3 ? 3 : 1;
+            this.roe = chargedProjectilesComponent != null && chargedProjectilesComponent.getProjectiles().size() >= 3 ? 3 : 1;
             return new rnb(3.15, 0.05, 0.99, 0.6, 0.0f, true);
         }
-        if (itemStack.method_7909() instanceof TridentItem) {
-            return this.rno.get() && clientPlayerEntity.method_6115() && clientPlayerEntity.method_6030() == itemStack ? rnz : null;
+        if (itemStack.getItem() instanceof TridentItem) {
+            return this.rno.get() && clientPlayerEntity.isUsingItem() && clientPlayerEntity.getActiveItem() == itemStack ? rnz : null;
         }
-        if (itemStack.method_7909() instanceof EnderPearlItem) {
+        if (itemStack.getItem() instanceof EnderPearlItem) {
             return this.rnm.get() ? rnw : null;
         }
         if (!this.rnp.get()) {
             return null;
         }
-        if (itemStack.method_7909() instanceof SnowballItem || itemStack.method_7909() instanceof EggItem) {
+        if (itemStack.getItem() instanceof SnowballItem || itemStack.getItem() instanceof EggItem) {
             return rnw;
         }
-        if (itemStack.method_7909() instanceof ThrowablePotionItem) {
+        if (itemStack.getItem() instanceof ThrowablePotionItem) {
             return rnx;
         }
-        if (itemStack.method_7909() instanceof ExperienceBottleItem) {
+        if (itemStack.getItem() instanceof ExperienceBottleItem) {
             return rny;
         }
         return null;
@@ -306,16 +306,16 @@ extends kfe {
         this.rog.clear();
         this.roh.clear();
         this.rof.clear();
-        Box box = minecraftClient.field_1724.method_5829().method_1009(96.0, 64.0, 96.0);
-        for (Entity entity : minecraftClient.field_1687.method_8335((Entity)minecraftClient.field_1724, box)) {
-            if (entity instanceof LivingEntity && (object = (LivingEntity)entity).method_5805() && !entity.method_7325() && entity.method_5863()) {
+        Box box = minecraftClient.player.getBoundingBox().expand(96.0, 64.0, 96.0);
+        for (Entity entity : minecraftClient.world.getOtherEntities((Entity)minecraftClient.player, box)) {
+            if (entity instanceof LivingEntity && (object = (LivingEntity)entity).isAlive() && !entity.isSpectator() && entity.canHit()) {
                 this.rog.add(entity);
-                this.roh.add(entity.method_5829().method_1014(0.3));
+                this.roh.add(entity.getBoundingBox().expand(0.3));
                 continue;
             }
             if (!(entity instanceof EnderPearlEntity)) continue;
             EnderPearlEntity enderPearlEntity = (EnderPearlEntity)entity;
-            if (!this.rnq.get() || enderPearlEntity.method_31481()) continue;
+            if (!this.rnq.get() || enderPearlEntity.isRemoved()) continue;
             this.rof.add(enderPearlEntity);
         }
         while (this.roc.size() < this.rof.size()) {
@@ -327,32 +327,32 @@ extends kfe {
         for (int i = 0; i < this.rof.size(); ++i) {
             Entity entity;
             entity = this.rof.get(i);
-            object = new rnb(0.0, entity.method_56989(), 0.99, 0.8, 0.0f, false);
-            this.rpf((World)minecraftClient.field_1687, entity.method_24921(), entity.method_73189(), entity.method_18798(), (rnb)object, this.roc.get(i));
+            object = new rnb(0.0, entity.getFinalGravity(), 0.99, 0.8, 0.0f, false);
+            this.rpf((World)minecraftClient.world, entity.getOwner(), entity.getEntityPos(), entity.getVelocity(), (rnb)object, this.roc.get(i));
         }
     }
 
     private static Vec3d rpe(float f, float f2, float f3) {
         float f4 = (float)Math.PI / 180;
-        double d = -MathHelper.method_15374((double)(f2 * f4)) * MathHelper.method_15362((double)(f3 * f4));
-        double d2 = -MathHelper.method_15374((double)(f * f4));
-        double d3 = MathHelper.method_15362((double)(f2 * f4)) * MathHelper.method_15362((double)(f3 * f4));
-        return new Vec3d(d, d2, d3).method_1029();
+        double d = -MathHelper.sin((double)(f2 * f4)) * MathHelper.cos((double)(f3 * f4));
+        double d2 = -MathHelper.sin((double)(f * f4));
+        double d3 = MathHelper.cos((double)(f2 * f4)) * MathHelper.cos((double)(f3 * f4));
+        return new Vec3d(d, d2, d3).normalize();
     }
 
     private void rpf(World world, Entity entity, Vec3d vec3d, Vec3d vec3d2, rnb rnb2, rmy rmy2) {
         rmy2.n = 0;
-        rmy2.hit = HitResult.Type.field_1333;
+        rmy2.hit = HitResult.Type.MISS;
         rmy2.entity = null;
-        double d = vec3d.field_1352;
-        double d2 = vec3d.field_1351;
-        double d3 = vec3d.field_1350;
-        double d4 = vec3d2.field_1352;
-        double d5 = vec3d2.field_1351;
-        double d6 = vec3d2.field_1350;
+        double d = vec3d.x;
+        double d2 = vec3d.y;
+        double d3 = vec3d.z;
+        double d4 = vec3d2.x;
+        double d5 = vec3d2.y;
+        double d6 = vec3d2.z;
         rmy2.add(d, d2, d3);
         boolean bl = false;
-        int n = world.method_31607() - 32;
+        int n = world.getBottomY() - 32;
         for (int i = 1; i <= 240; ++i) {
             double d7;
             if (!rnb2.rnh) {
@@ -367,8 +367,8 @@ extends kfe {
             double d9 = d3 + d6;
             Vec3d vec3d3 = new Vec3d(d, d2, d3);
             Vec3d vec3d4 = new Vec3d(d7, d8, d9);
-            BlockHitResult blockHitResult = world.method_17742(entity == null ? new RaycastContext(vec3d3, vec3d4, RaycastContext.ShapeType.field_17558, RaycastContext.FluidHandling.field_1348, ShapeContext.method_16194()) : new RaycastContext(vec3d3, vec3d4, RaycastContext.ShapeType.field_17558, RaycastContext.FluidHandling.field_1348, entity));
-            double d10 = blockHitResult.method_17783() == HitResult.Type.field_1333 ? Double.MAX_VALUE : blockHitResult.method_17784().method_1025(vec3d3);
+            BlockHitResult blockHitResult = world.raycast(entity == null ? new RaycastContext(vec3d3, vec3d4, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, ShapeContext.absent()) : new RaycastContext(vec3d3, vec3d4, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity));
+            double d10 = blockHitResult.getType() == HitResult.Type.MISS ? Double.MAX_VALUE : blockHitResult.getPos().squaredDistanceTo(vec3d3);
             Entity entity2 = null;
             Vec3d vec3d5 = null;
             double d11 = Math.min(d, d7);
@@ -384,29 +384,29 @@ extends kfe {
                 Entity entity3 = this.rog.get(j);
                 if (entity3 == entity && i < 5) continue;
                 Box box = this.roh.get(j);
-                if (box.field_1320 < d11 || box.field_1323 > d14 || box.field_1325 < d12 || box.field_1322 > d15 || box.field_1324 < d13 || box.field_1321 > d16 || !(optional = box.method_992(vec3d3, vec3d4)).isPresent() || !((d17 = ((Vec3d)optional.get()).method_1025(vec3d3)) < d10)) continue;
+                if (box.maxX < d11 || box.minX > d14 || box.maxY < d12 || box.minY > d15 || box.maxZ < d13 || box.minZ > d16 || !(optional = box.raycast(vec3d3, vec3d4)).isPresent() || !((d17 = ((Vec3d)optional.get()).squaredDistanceTo(vec3d3)) < d10)) continue;
                 d10 = d17;
                 entity2 = entity3;
                 vec3d5 = (Vec3d)optional.get();
             }
             if (entity2 != null) {
-                rmy2.hit = HitResult.Type.field_1331;
+                rmy2.hit = HitResult.Type.ENTITY;
                 rmy2.entity = entity2;
-                rmy2.hx = vec3d5.field_1352;
-                rmy2.hy = vec3d5.field_1351;
-                rmy2.hz = vec3d5.field_1350;
-                rmy2.add(vec3d5.field_1352, vec3d5.field_1351, vec3d5.field_1350);
+                rmy2.hx = vec3d5.x;
+                rmy2.hy = vec3d5.y;
+                rmy2.hz = vec3d5.z;
+                rmy2.add(vec3d5.x, vec3d5.y, vec3d5.z);
                 rmy2.ticks = i;
                 return;
             }
-            if (blockHitResult.method_17783() != HitResult.Type.field_1333) {
-                Vec3d vec3d6 = blockHitResult.method_17784();
-                rmy2.hit = HitResult.Type.field_1332;
-                rmy2.hx = vec3d6.field_1352;
-                rmy2.hy = vec3d6.field_1351;
-                rmy2.hz = vec3d6.field_1350;
-                rmy2.face = blockHitResult.method_17780();
-                rmy2.add(vec3d6.field_1352, vec3d6.field_1351, vec3d6.field_1350);
+            if (blockHitResult.getType() != HitResult.Type.MISS) {
+                Vec3d vec3d6 = blockHitResult.getPos();
+                rmy2.hit = HitResult.Type.BLOCK;
+                rmy2.hx = vec3d6.x;
+                rmy2.hy = vec3d6.y;
+                rmy2.hz = vec3d6.z;
+                rmy2.face = blockHitResult.getSide();
+                rmy2.add(vec3d6.x, vec3d6.y, vec3d6.z);
                 rmy2.ticks = i;
                 return;
             }
@@ -421,7 +421,7 @@ extends kfe {
                 d6 *= d18;
                 d5 -= rnb2.rnd;
             }
-            bl = world.method_8316(BlockPos.method_49637((double)d, (double)d2, (double)d3)).method_15767(FluidTags.field_15517);
+            bl = world.getFluidState(BlockPos.ofFloored((double)d, (double)d2, (double)d3)).isIn(FluidTags.WATER);
             if (!(d2 < (double)n)) continue;
             return;
         }
@@ -436,14 +436,14 @@ extends kfe {
         if (this.rnr.get()) {
             this.rph(drawContext, usn2, rmy2, n, n2);
         }
-        if (rmy2.hit == HitResult.Type.field_1332) {
+        if (rmy2.hit == HitResult.Type.BLOCK) {
             this.rpi(drawContext, usn2, rmy2.hx, rmy2.hy, rmy2.hz, rmy2.face, 0.32, n);
-        } else if (rmy2.hit == HitResult.Type.field_1331 && rmy2.entity != null) {
-            object = rmy2.entity.method_73189();
+        } else if (rmy2.hit == HitResult.Type.ENTITY && rmy2.entity != null) {
+            object = rmy2.entity.getEntityPos();
             int n3 = ujt.lerp(n, -45730, 0.65f);
-            this.rpi(drawContext, usn2, object.field_1352, object.field_1351 + 0.02, object.field_1350, Direction.field_11036, (double)rmy2.entity.method_17681() * 0.5 + 0.25, n3);
+            this.rpi(drawContext, usn2, object.x, object.y + 0.02, object.z, Direction.UP, (double)rmy2.entity.getWidth() * 0.5 + 0.25, n3);
         }
-        if (this.rns.get() && rmy2.hit != HitResult.Type.field_1333 && usn2.project(rmy2.hx, rmy2.hy, rmy2.hz, this.rot)) {
+        if (this.rns.get() && rmy2.hit != HitResult.Type.MISS && usn2.project(rmy2.hx, rmy2.hy, rmy2.hz, this.rot)) {
             object = vxu.fixed((double)rmy2.ticks / 20.0, 1) + wap.unit("s");
             float f2 = rnv.width((String)object);
             rnv.draw(drawContext, (String)object, this.rot[0] - f2 * 0.5f + 0.5f, rnv.centerTop(this.rot[1] + 12.0f) + 0.5f, -1879048192);
@@ -480,8 +480,8 @@ extends kfe {
         double d10;
         double d11;
         double d12;
-        double d13 = switch (direction.method_10166()) {
-            case Direction.Axis.field_11052 -> {
+        double d13 = switch (direction.getAxis()) {
+            case Direction.Axis.Y -> {
                 d12 = 1.0;
                 d11 = 0.0;
                 d10 = 0.0;
@@ -489,7 +489,7 @@ extends kfe {
                 d8 = 0.0;
                 yield 1.0;
             }
-            case Direction.Axis.field_11051 -> {
+            case Direction.Axis.Z -> {
                 d12 = 1.0;
                 d11 = 0.0;
                 d10 = 0.0;
@@ -506,7 +506,7 @@ extends kfe {
                 yield 0.0;
             }
         };
-        float f = usn2.unitsPerBlock(d += (double)direction.method_10148() * 0.01, d2 += (double)direction.method_10164() * 0.01, d3 += (double)direction.method_10165() * 0.01);
+        float f = usn2.unitsPerBlock(d += (double)direction.getOffsetX() * 0.01, d2 += (double)direction.getOffsetY() * 0.01, d3 += (double)direction.getOffsetZ() * 0.01);
         if (f <= 0.0f) {
             return;
         }

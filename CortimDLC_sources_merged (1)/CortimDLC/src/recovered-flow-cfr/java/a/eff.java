@@ -15,7 +15,7 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 
 public final class eff {
-    private static final MinecraftClient efg = MinecraftClient.method_1551();
+    private static final MinecraftClient efg = MinecraftClient.getInstance();
     private boolean efh;
     private boolean efi;
     private boolean efj;
@@ -89,15 +89,15 @@ public final class eff {
     }
 
     void apply(dtv dtv2) {
-        if (eff.efg.field_1724 == null) {
+        if (eff.efg.player == null) {
             return;
         }
-        GameOptions gameOptions = eff.efg.field_1690;
+        GameOptions gameOptions = eff.efg.options;
         if (this.efi) {
             this.efi = false;
             if (!dtv2.isActive()) {
-                for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849, gameOptions.field_1903, gameOptions.field_1832, gameOptions.field_1867, gameOptions.field_1886, gameOptions.field_1904}) {
-                    keyBinding.method_23481(false);
+                for (KeyBinding keyBinding : new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey, gameOptions.jumpKey, gameOptions.sneakKey, gameOptions.sprintKey, gameOptions.attackKey, gameOptions.useKey}) {
+                    keyBinding.setPressed(false);
                 }
             }
         }
@@ -105,27 +105,27 @@ public final class eff {
             return;
         }
         boolean bl = !dtv2.isActive();
-        eff.efy(gameOptions.field_1894, this.efj, bl);
-        eff.efy(gameOptions.field_1881, this.efk, bl);
-        eff.efy(gameOptions.field_1913, this.efl, bl);
-        eff.efy(gameOptions.field_1849, this.efm, bl);
-        eff.efy(gameOptions.field_1903, this.efn, bl);
-        eff.efy(gameOptions.field_1832, this.efo, bl);
-        eff.efy(gameOptions.field_1867, this.efp, bl);
-        eff.efy(gameOptions.field_1886, this.efq, bl);
-        eff.efy(gameOptions.field_1904, this.efr, bl);
+        eff.efy(gameOptions.forwardKey, this.efj, bl);
+        eff.efy(gameOptions.backKey, this.efk, bl);
+        eff.efy(gameOptions.leftKey, this.efl, bl);
+        eff.efy(gameOptions.rightKey, this.efm, bl);
+        eff.efy(gameOptions.jumpKey, this.efn, bl);
+        eff.efy(gameOptions.sneakKey, this.efo, bl);
+        eff.efy(gameOptions.sprintKey, this.efp, bl);
+        eff.efy(gameOptions.attackKey, this.efq, bl);
+        eff.efy(gameOptions.useKey, this.efr, bl);
         while (this.efs > 0) {
-            edj.click(gameOptions.field_1886);
+            edj.click(gameOptions.attackKey);
             --this.efs;
         }
         while (this.eft > 0) {
-            edj.click(gameOptions.field_1904);
+            edj.click(gameOptions.useKey);
             --this.eft;
         }
         if (this.efu != 0.0 || this.efv != 0.0) {
             double d = dtv2.mouseMultiplier();
-            double d2 = (Boolean)gameOptions.method_42438().method_41753() != false ? -1.0 : 1.0;
-            eff.efg.field_1724.method_5872(this.efu * d, this.efv * d * d2);
+            double d2 = (Boolean)gameOptions.getInvertMouseY().getValue() != false ? -1.0 : 1.0;
+            eff.efg.player.changeLookDirection(this.efu * d, this.efv * d * d2);
             this.efu = 0.0;
             this.efv = 0.0;
         }
@@ -133,42 +133,42 @@ public final class eff {
 
     private static void efy(KeyBinding keyBinding, boolean bl, boolean bl2) {
         if (bl) {
-            keyBinding.method_23481(true);
+            keyBinding.setPressed(true);
         } else if (bl2) {
-            keyBinding.method_23481(false);
+            keyBinding.setPressed(false);
         }
     }
 
     boolean isHeld(KeyBinding keyBinding) {
-        if (!this.efh || keyBinding == null || eff.efg.field_1690 == null) {
+        if (!this.efh || keyBinding == null || eff.efg.options == null) {
             return false;
         }
-        GameOptions gameOptions = eff.efg.field_1690;
-        if (keyBinding == gameOptions.field_1894) {
+        GameOptions gameOptions = eff.efg.options;
+        if (keyBinding == gameOptions.forwardKey) {
             return this.efj;
         }
-        if (keyBinding == gameOptions.field_1881) {
+        if (keyBinding == gameOptions.backKey) {
             return this.efk;
         }
-        if (keyBinding == gameOptions.field_1913) {
+        if (keyBinding == gameOptions.leftKey) {
             return this.efl;
         }
-        if (keyBinding == gameOptions.field_1849) {
+        if (keyBinding == gameOptions.rightKey) {
             return this.efm;
         }
-        if (keyBinding == gameOptions.field_1903) {
+        if (keyBinding == gameOptions.jumpKey) {
             return this.efn;
         }
-        if (keyBinding == gameOptions.field_1832) {
+        if (keyBinding == gameOptions.sneakKey) {
             return this.efo;
         }
-        if (keyBinding == gameOptions.field_1867) {
+        if (keyBinding == gameOptions.sprintKey) {
             return this.efp;
         }
-        if (keyBinding == gameOptions.field_1886) {
+        if (keyBinding == gameOptions.attackKey) {
             return this.efq;
         }
-        return keyBinding == gameOptions.field_1904 && this.efr;
+        return keyBinding == gameOptions.useKey && this.efr;
     }
 
     private static /* synthetic */ int di(int n, int n2) {

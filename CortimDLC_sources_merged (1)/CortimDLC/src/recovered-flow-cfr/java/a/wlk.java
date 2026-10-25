@@ -88,13 +88,13 @@ public final class wlk {
     }
 
     private static wkq wlt(wkq wkq3) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1687 == null || !a.d("\uee80\u9735\u1de1\u839b\u084a\u8eea\u34aa\ubd5c\u2311\ua9ee\u2e68\ud400\u5ac4\uc362\u4934\ucfdd\u758f\ufa40\u60fb", 742262319, -1756239663).equals(wkq3.dimension) || minecraftClient.field_1687.method_8597().comp_646() <= 1.0) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.world == null || !a.d("\uee80\u9735\u1de1\u839b\u084a\u8eea\u34aa\ubd5c\u2311\ua9ee\u2e68\ud400\u5ac4\uc362\u4934\ucfdd\u758f\ufa40\u60fb", 742262319, -1756239663).equals(wkq3.dimension) || minecraftClient.world.getDimension().coordinateScale() <= 1.0) {
             return null;
         }
-        double d = minecraftClient.field_1687.method_8597().comp_646();
-        int n = minecraftClient.field_1687.method_31607();
-        int n2 = n + minecraftClient.field_1687.method_8597().comp_653() - 2;
+        double d = minecraftClient.world.getDimension().coordinateScale();
+        int n = minecraftClient.world.getBottomY();
+        int n2 = n + minecraftClient.world.getDimension().logicalHeight() - 2;
         wkq wkq4 = wlq.computeIfAbsent(wkq3, wkq2 -> new wkq());
         wkq4.name = wkq3.name + a.c(-672317879, "\u3e6c\u47dd\ucd99\u537f\ud8a8") + wlk.dimensionName(wkq3.dimension);
         wkq4.x = Math.floor(wkq3.x / d);
@@ -151,25 +151,25 @@ public final class wlk {
     }
 
     public static String worldId() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.world == null) {
             return null;
         }
         try {
-            if (minecraftClient.method_1542() && minecraftClient.method_1576() != null) {
-                return a.d("\u42c0\u3b72\ub1eb", -661889245, 1120214419) + minecraftClient.method_1576().method_27728().method_150();
+            if (minecraftClient.isInSingleplayer() && minecraftClient.getServer() != null) {
+                return a.d("\u42c0\u3b72\ub1eb", -661889245, 1120214419) + minecraftClient.getServer().getSaveProperties().getLevelName();
             }
         }
         catch (Throwable throwable) {
             // empty catch block
         }
-        ServerInfo serverInfo = minecraftClient.method_1558();
-        return serverInfo != null ? a.c(-1514144637, "\ufced\u8541\u0fd8") + serverInfo.field_3761 : a.d("\u8406\ufdac\u777a\ue90e\u62d8\ue471\u5e3b", 773352640, 315484340);
+        ServerInfo serverInfo = minecraftClient.getCurrentServerEntry();
+        return serverInfo != null ? a.c(-1514144637, "\ufced\u8541\u0fd8") + serverInfo.address : a.d("\u8406\ufdac\u777a\ue90e\u62d8\ue471\u5e3b", 773352640, 315484340);
     }
 
     public static String dimensionId() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        return minecraftClient.field_1687 == null ? null : minecraftClient.field_1687.method_27983().method_29177().toString();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        return minecraftClient.world == null ? null : minecraftClient.world.getRegistryKey().getValue().toString();
     }
 
     /*

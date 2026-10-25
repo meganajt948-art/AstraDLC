@@ -49,8 +49,8 @@ public final class upt {
         if (upx) {
             return null;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        float f2 = minecraftClient.method_22683() != null ? (float)Math.max(1, minecraftClient.method_22683().method_4495()) : 2.0f;
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        float f2 = minecraftClient.getWindow() != null ? (float)Math.max(1, minecraftClient.getWindow().getScaleFactor()) : 2.0f;
         int n = Math.max(8, Math.min(512, Math.round(f * f2 * vdn.renderScale())));
         uok uok2 = upv.get(n);
         if (uok2 != null) {

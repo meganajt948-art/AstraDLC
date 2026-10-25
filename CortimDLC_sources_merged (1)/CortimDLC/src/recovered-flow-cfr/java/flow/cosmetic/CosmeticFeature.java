@@ -30,7 +30,7 @@ extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
 
     public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         if (this.lead) {
-            Cosmetics.renderWorn((PlayerEntityModel)this.method_17165(), matrices, queue, light, state);
+            Cosmetics.renderWorn((PlayerEntityModel)this.getContextModel(), matrices, queue, light, state);
         } else {
             Cosmetics.restoreArms();
         }

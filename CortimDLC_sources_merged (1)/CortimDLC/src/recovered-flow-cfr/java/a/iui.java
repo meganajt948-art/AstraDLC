@@ -205,13 +205,13 @@ extends imn {
     }
 
     private void ivb() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null) {
             return;
         }
-        this.fx.setText(String.valueOf(minecraftClient.field_1724.method_31477()));
-        this.fy.setText(String.valueOf(minecraftClient.field_1724.method_31478()));
-        this.fz.setText(String.valueOf(minecraftClient.field_1724.method_31479()));
+        this.fx.setText(String.valueOf(minecraftClient.player.getBlockX()));
+        this.fy.setText(String.valueOf(minecraftClient.player.getBlockY()));
+        this.fz.setText(String.valueOf(minecraftClient.player.getBlockZ()));
     }
 
     void edit(wkq wkq2) {

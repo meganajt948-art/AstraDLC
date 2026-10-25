@@ -68,28 +68,28 @@ public final class vxl {
 
     public static List<Slot> own(ScreenHandler screenHandler, PlayerInventory playerInventory) {
         ArrayList<Slot> arrayList = new ArrayList<Slot>();
-        for (Slot slot : screenHandler.field_7761) {
-            if (slot.field_7871 == playerInventory) continue;
+        for (Slot slot : screenHandler.slots) {
+            if (slot.inventory == playerInventory) continue;
             arrayList.add(slot);
         }
         return arrayList;
     }
 
     public static Slot room(ScreenHandler screenHandler, PlayerInventory playerInventory, ItemStack itemStack, boolean bl) {
-        for (Slot slot : screenHandler.field_7761) {
+        for (Slot slot : screenHandler.slots) {
             ItemStack itemStack2;
-            if (slot.field_7871 != playerInventory || !vxl.vxq(slot, bl) || !slot.method_7681() || !ItemStack.method_31577((ItemStack)itemStack, (ItemStack)(itemStack2 = slot.method_7677())) || itemStack2.method_7947() >= itemStack2.method_7914()) continue;
+            if (slot.inventory != playerInventory || !vxl.vxq(slot, bl) || !slot.hasStack() || !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack, (ItemStack)(itemStack2 = slot.getStack())) || itemStack2.getCount() >= itemStack2.getMaxCount()) continue;
             return slot;
         }
-        for (Slot slot : screenHandler.field_7761) {
-            if (slot.field_7871 != playerInventory || !vxl.vxq(slot, bl) || slot.method_7681()) continue;
+        for (Slot slot : screenHandler.slots) {
+            if (slot.inventory != playerInventory || !vxl.vxq(slot, bl) || slot.hasStack()) continue;
             return slot;
         }
         return null;
     }
 
     private static boolean vxq(Slot slot, boolean bl) {
-        int n = slot.method_34266();
+        int n = slot.getIndex();
         return n >= 9 && n < 36 || bl && n >= 0 && n < 9;
     }
 
@@ -98,7 +98,7 @@ public final class vxl {
     }
 
     public static void click(MinecraftClient minecraftClient, ScreenHandler screenHandler, int n, int n2, SlotActionType slotActionType) {
-        minecraftClient.field_1761.method_2906(screenHandler.field_7763, n, n2, slotActionType, (PlayerEntity)minecraftClient.field_1724);
+        minecraftClient.interactionManager.clickSlot(screenHandler.syncId, n, n2, slotActionType, (PlayerEntity)minecraftClient.player);
     }
 
     private static /* synthetic */ int dlt(int n, int n2) {

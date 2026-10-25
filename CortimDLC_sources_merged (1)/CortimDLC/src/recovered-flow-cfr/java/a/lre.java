@@ -69,8 +69,8 @@ extends kfe {
         this.lrh.visibleWhen(this.lrg::get);
         try {
             ClientPlayConnectionEvents.JOIN.register((clientPlayNetworkHandler, packetSender, minecraftClient) -> minecraftClient.execute(() -> {
-                if (lre.lrw() && lre.lrf.lri.get() && minecraftClient.field_1705 != null) {
-                    minecraftClient.field_1705.method_1743().method_1817();
+                if (lre.lrw() && lre.lrf.lri.get() && minecraftClient.inGameHud != null) {
+                    minecraftClient.inGameHud.getChatHud().reset();
                 }
             }));
         }
@@ -90,8 +90,8 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        if (!lrp && minecraftClient.field_1705 != null && minecraftClient.field_1705.method_1743() != lrq) {
-            lre.lrx(minecraftClient.field_1705.method_1743());
+        if (!lrp && minecraftClient.inGameHud != null && minecraftClient.inGameHud.getChatHud() != lrq) {
+            lre.lrx(minecraftClient.inGameHud.getChatHud());
         }
     }
 
@@ -142,19 +142,19 @@ extends kfe {
     }
 
     private static void lrz(List<ChatHudLine.Visible> list, ChatHudLine chatHudLine) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        double d = (Double)minecraftClient.field_1690.method_42554().method_41753();
-        int n = MathHelper.method_15357((double)((double)ChatHud.method_1806((double)((Double)minecraftClient.field_1690.method_42556().method_41753())) / d));
-        List list2 = chatHudLine.method_75757(minecraftClient.field_1772, n);
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        double d = (Double)minecraftClient.options.getChatScale().getValue();
+        int n = MathHelper.floor((double)((double)ChatHud.getWidth((double)((Double)minecraftClient.options.getChatWidth().getValue())) / d));
+        List list2 = chatHudLine.breakLines(minecraftClient.textRenderer, n);
         for (int i = 0; i < list2.size(); ++i) {
-            list.addFirst(new ChatHudLine.Visible(chatHudLine.comp_892(), (OrderedText)list2.get(i), chatHudLine.comp_894(), i == list2.size() - 1));
+            list.addFirst(new ChatHudLine.Visible(chatHudLine.creationTick(), (OrderedText)list2.get(i), chatHudLine.indicator(), i == list2.size() - 1));
         }
     }
 
     private static String lsa(List<ChatHudLine.Visible> list, int n3) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = n3 - 1; i >= 0; --i) {
-            list.get(i).comp_896().accept((n, style, n2) -> {
+            list.get(i).content().accept((n, style, n2) -> {
                 stringBuilder.appendCodePoint(n2);
                 return true;
             });
@@ -167,11 +167,11 @@ extends kfe {
     }
 
     private static int lsc(List<ChatHudLine.Visible> list, int n) {
-        if (n >= list.size() || !list.get(n).comp_898()) {
+        if (n >= list.size() || !list.get(n).endOfEntry()) {
             return -1;
         }
         int n2 = 1;
-        while (n + n2 < list.size() && !list.get(n + n2).comp_898()) {
+        while (n + n2 < list.size() && !list.get(n + n2).endOfEntry()) {
             ++n2;
         }
         return n2;
@@ -182,37 +182,37 @@ extends kfe {
             return;
         }
         ScreenMouseEvents.allowMouseClick((Screen)screen2).register((screen, click) -> {
-            if (click.method_74245() == 0) {
-                return !wjw.click(lre.lse(click.comp_4798(), click.comp_4799()));
+            if (click.button() == 0) {
+                return !wjw.click(lre.lse(click.x(), click.y()));
             }
-            if (click.method_74245() != 1 || !lre.lrw() || !lre.lrf.lrk.get()) {
+            if (click.button() != 1 || !lre.lrw() || !lre.lrf.lrk.get()) {
                 return true;
             }
-            String string = lre.lsf(click.comp_4798(), click.comp_4799());
+            String string = lre.lsf(click.x(), click.y());
             if (string == null) {
                 return true;
             }
-            MinecraftClient.method_1551().field_1774.method_1455(string);
+            MinecraftClient.getInstance().keyboard.setClipboard(string);
             izx.alert(lrf.getName(), wap.s(a.d("\ua066\ud9fb\u5337\ucd5f\u4684\uc034", 629863611, 686970008), a.d("\ue9a6\u900c\u1adb\u84ab\u0f7b\u89b2\u339f\uba62\u243f\uae83\u2953", -2046083955, -360132351)), vhz.CHECK, true);
             return false;
         });
     }
 
     private static int lsd(List<ChatHudLine.Visible> list, ChatHud chatHud, double d, double d2) throws IllegalAccessException {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         int n = lro.getInt(chatHud);
-        double d3 = (Double)minecraftClient.field_1690.method_42554().method_41753();
-        double d4 = (Double)minecraftClient.field_1690.method_42546().method_41753();
+        double d3 = (Double)minecraftClient.options.getChatScale().getValue();
+        double d4 = (Double)minecraftClient.options.getChatLineSpacing().getValue();
         int n2 = (int)(9.0 * (d4 + 1.0));
-        int n3 = MathHelper.method_15357((double)((double)(minecraftClient.method_22683().method_4502() - 40) / d3));
+        int n3 = MathHelper.floor((double)((double)(minecraftClient.getWindow().getScaledHeight() - 40) / d3));
         double d5 = d / d3 - 4.0;
         double d6 = d2 / d3;
-        int n4 = MathHelper.method_15384((double)((double)ChatHud.method_1806((double)((Double)minecraftClient.field_1690.method_42556().method_41753())) / d3));
+        int n4 = MathHelper.ceil((double)((double)ChatHud.getWidth((double)((Double)minecraftClient.options.getChatWidth().getValue())) / d3));
         if (d5 < -4.0 || d5 > (double)n4 + 8.0 || d6 > (double)n3) {
             return -1;
         }
         int n5 = (int)Math.floor(((double)n3 - d6) / (double)n2);
-        if (n5 < 0 || n5 >= chatHud.method_1813()) {
+        if (n5 < 0 || n5 >= chatHud.getVisibleLineCount()) {
             return -1;
         }
         int n6 = n5 + n;
@@ -220,22 +220,22 @@ extends kfe {
     }
 
     private static Style lse(double d, double d2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (lrn == null || lro == null) {
             return null;
         }
         try {
-            ChatHud chatHud = minecraftClient.field_1705.method_1743();
+            ChatHud chatHud = minecraftClient.inGameHud.getChatHud();
             List list = (List)lrn.get(chatHud);
             int n3 = lre.lsd(list, chatHud, d, d2);
-            double d3 = d / (Double)minecraftClient.field_1690.method_42554().method_41753() - 4.0;
+            double d3 = d / (Double)minecraftClient.options.getChatScale().getValue() - 4.0;
             if (n3 < 0 || d3 < 0.0) {
                 return null;
             }
             float[] fArray = new float[]{0.0f};
             Style[] styleArray = new Style[]{null};
-            ((ChatHudLine.Visible)list.get(n3)).comp_896().accept((n, style, n2) -> {
-                float f = minecraftClient.field_1772.method_30880(OrderedText.method_30741((int)n2, (Style)style));
+            ((ChatHudLine.Visible)list.get(n3)).content().accept((n, style, n2) -> {
+                float f = minecraftClient.textRenderer.getWidth(OrderedText.styled((int)n2, (Style)style));
                 if (d3 < (double)(fArray[0] + f)) {
                     styleArray[0] = style;
                     return false;
@@ -251,8 +251,8 @@ extends kfe {
     }
 
     private static String lsf(double d, double d2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ChatHud chatHud = minecraftClient.field_1705.method_1743();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ChatHud chatHud = minecraftClient.inGameHud.getChatHud();
         if (lrn == null || lro == null) {
             return null;
         }
@@ -263,7 +263,7 @@ extends kfe {
             if (n4 < 0) {
                 return null;
             }
-            for (n3 = n4; n3 > 0 && !((ChatHudLine.Visible)list.get(n3)).comp_898(); --n3) {
+            for (n3 = n4; n3 > 0 && !((ChatHudLine.Visible)list.get(n3)).endOfEntry(); --n3) {
             }
             int n5 = lre.lsc(list, n3);
             if (n5 <= 0) {
@@ -271,7 +271,7 @@ extends kfe {
             }
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = n3 + n5 - 1; i >= n3; --i) {
-                ((ChatHudLine.Visible)list.get(i)).comp_896().accept((n, style, n2) -> {
+                ((ChatHudLine.Visible)list.get(i)).content().accept((n, style, n2) -> {
                     stringBuilder.appendCodePoint(n2);
                     return true;
                 });

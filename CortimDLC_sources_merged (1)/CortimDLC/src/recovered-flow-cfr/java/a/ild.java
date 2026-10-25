@@ -193,8 +193,8 @@ extends imn {
         boolean bl = hlc2.canHover() && irr.inside(f2, f3, this.x, f, this.w, 26.0f);
         float f6 = vcjArray[1].step(bl, f4);
         uut.pushAlpha(f5);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate((1.0f - f5) * 18.0f, 0.0f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate((1.0f - f5) * 18.0f, 0.0f);
         float f7 = iov.r(6.0f);
         uut.round(drawContext, this.x, f, this.w, 26.0f, f7, ujt.withAlpha(iov.hover, (int)((float)ujt.alpha(iov.hover) * (0.6f + 1.4f * f6))));
         float f8 = f + 13.0f;
@@ -209,7 +209,7 @@ extends imn {
             vjf.draw(drawContext, vhz.CROWN, f11 + 6.0f, f8 - 4.0f, 7.0f, -340971);
         }
         PlayerEntity playerEntity = hhf.inWorld(ubm2.name);
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         if (bl2) {
             string = wap.s(a.c(-378557454, "\uaba8\ud22f\u58e6"), a.d("\uae80\ud768", 414255808, -1320378288));
             n = -11870592;
@@ -219,8 +219,8 @@ extends imn {
         } else if (!ubm2.online) {
             string = wap.s(a.b("\ua488\udd10\u57c3\uc9b8\u426a\uc4dc\u7e84", 1468835008), a.b("\u40f5\u396c\ub7aa\u2dc9\ua20c\u20dc\u9afb\u137d\u8d58", 1529496801));
             n = iov.textMuted;
-        } else if (playerEntity != null && minecraftClient.field_1724 != null) {
-            string = wap.s(a.b("\u79a59\u8afd\u149b\u9f09\u19b8\ua37c\u2a1a\ub445", -1075021340), a.b("\u20a3\u597d\ud3d5\u4dae\uc67b\u44d6\ufe85\u77e3\ue92b\u639a", 1905468553)) + wkw.formatDistance(Math.sqrt(minecraftClient.field_1724.method_5858((Entity)playerEntity)));
+        } else if (playerEntity != null && minecraftClient.player != null) {
+            string = wap.s(a.b("\u79a59\u8afd\u149b\u9f09\u19b8\ua37c\u2a1a\ub445", -1075021340), a.b("\u20a3\u597d\ud3d5\u4dae\uc67b\u44d6\ufe85\u77e3\ue92b\u639a", 1905468553)) + wkw.formatDistance(Math.sqrt(minecraftClient.player.squaredDistanceTo((Entity)playerEntity)));
             n = -11870592;
         } else if (ucg.sameWorld(ubm2)) {
             string = wap.s(a.d("\ueefb\u976b\u1df6\u83d3\u0818\u8ea8\u34e1\ubd43\u234f\ua9e8\u2e2c\ud459\u5a9d\uc33b", 296163623, 1806104477), a.c(-1114316876, "\udba6\ua23a\u2cf9\ub6e5\u3d3d\ubbf0\u01a1\u8c4c\u1672\u9cb7\u1b11\ue112\u6fc2\uf606\u7c20"));
@@ -246,7 +246,7 @@ extends imn {
                 hlc2.hint(bl4 ? wap.s(a.c(-1966408401, "\ufd7a\u84e4\u0e32\u9049\u1b96\u9d6c\u277e\uae89\u30d0\uba69\u3dbd\uc782\u4901\ud0ab\u5ab7\udc14\u664c\ue995\u7324\uf56c\u7c88\u069c"), a.c(235409942, "\u161a\u6ff7\ue53c\u7f3c\uf08b\u764a\ucc1e\u41f4\udfa7\u5171\ud6a7\u2caa\ua272\u3bb9\ub581\u3768\u8d5e\u02f4\u9846\u1e62\u979c\uedb2\u637b\uf8a4\u7ab7")) + ubm2.name : wap.s(a.d("\udd4d\ua4cb\u2e10\ub063\u3bad\ubd0f\u0719\u8eae\u10e5\u9a49\u1d98\ue7a4\u6927\uf08a\u7ad4\ufc60\u467f\uc9bf\u531f\ud548\u5cb2", 1296676872, -534878974), a.c(130650745, "\u9670\uef98\u6530\ufb40\u70e2\uf65a\u4c76\uc5fd\u5bac\ud571\u56ba\uacc4\u2604\ubbaa\u31f6\ub775\u0d40")));
             }
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 

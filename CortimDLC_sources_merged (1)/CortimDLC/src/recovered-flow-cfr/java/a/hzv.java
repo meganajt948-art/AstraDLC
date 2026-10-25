@@ -93,14 +93,14 @@ public final class hzv {
     }
 
     private static void hzy() {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.world == null) {
             return;
         }
         int n = wlk.inWorld().size();
         String string = wap.s(a.d("\u5d96\u2411\uaeda\u30a2\ubb6a\u3ddd\u8789\u0e62\u9069", -1021880999, -672069487), a.c(-1194970411, "\u36cf\u4f57\uc5f3\u5bfa\ud027\u5286")) + (n + 1);
-        wlk.add(string, minecraftClient.field_1724.method_31477(), minecraftClient.field_1724.method_31478(), minecraftClient.field_1724.method_31479(), wlk.COLORS[n % wlk.COLORS.length]);
-        hzv.iaa(wap.s(a.d("\ub907\uc093\u4a40\ud430\u5fe6\ud913", -1115218932, -1284397748), a.b("\u3640\u4fdb\uc507\u5b77\ud0a2\u561a\uec47\u65be\ufbec\u754d", -1412222370)) + string + a.b("\u0feb\u765a", -1506013239) + minecraftClient.field_1724.method_31477() + a.d("\ud588", 1863008517, 1501009068) + minecraftClient.field_1724.method_31478() + a.d("\u6df1", 121919909, -471976843) + minecraftClient.field_1724.method_31479());
+        wlk.add(string, minecraftClient.player.getBlockX(), minecraftClient.player.getBlockY(), minecraftClient.player.getBlockZ(), wlk.COLORS[n % wlk.COLORS.length]);
+        hzv.iaa(wap.s(a.d("\ub907\uc093\u4a40\ud430\u5fe6\ud913", -1115218932, -1284397748), a.b("\u3640\u4fdb\uc507\u5b77\ud0a2\u561a\uec47\u65be\ufbec\u754d", -1412222370)) + string + a.b("\u0feb\u765a", -1506013239) + minecraftClient.player.getBlockX() + a.d("\ud588", 1863008517, 1501009068) + minecraftClient.player.getBlockY() + a.d("\u6df1", 121919909, -471976843) + minecraftClient.player.getBlockZ());
     }
 
     private static void hzz(String string, vkl vkl2) {

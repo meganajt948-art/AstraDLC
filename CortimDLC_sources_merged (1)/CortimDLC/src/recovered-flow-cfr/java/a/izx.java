@@ -127,14 +127,14 @@ public final class izx {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         float f;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1755 instanceof hlc || minecraftClient.field_1755 instanceof jbs) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.currentScreen instanceof hlc || minecraftClient.currentScreen instanceof jbs) {
             return;
         }
         uut.beginFrame();
-        boolean bl = minecraftClient.field_1755 instanceof ChatScreen;
-        float f2 = bl ? (float)minecraftClient.field_1729.method_68879(minecraftClient.method_22683()) : -1000.0f;
-        float f3 = f = bl ? (float)minecraftClient.field_1729.method_68883(minecraftClient.method_22683()) : -1000.0f;
+        boolean bl = minecraftClient.currentScreen instanceof ChatScreen;
+        float f2 = bl ? (float)minecraftClient.mouse.getScaledX(minecraftClient.getWindow()) : -1000.0f;
+        float f3 = f = bl ? (float)minecraftClient.mouse.getScaledY(minecraftClient.getWindow()) : -1000.0f;
         if (!bl) {
             izx.mouseReleased();
         }
@@ -163,15 +163,15 @@ public final class izx {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private static void jba(DrawContext drawContext, boolean bl, boolean bl2, float f, float f2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         unf.observe(drawContext);
         if (unf.frame() == jad) {
             return;
         }
         jad = unf.frame();
-        boolean bl3 = ENABLED.get() && minecraftClient.field_1724 != null && minecraftClient.field_1687 != null;
-        jgn.tick(bl3 && izx.WATERMARK.enabled.get() && jlx.MUSIC.get() || minecraftClient.field_1724 != null && minecraftClient.field_1687 != null && shx.wantsMusic());
-        if (!bl3 || minecraftClient.field_1690.field_1842) {
+        boolean bl3 = ENABLED.get() && minecraftClient.player != null && minecraftClient.world != null;
+        jgn.tick(bl3 && izx.WATERMARK.enabled.get() && jlx.MUSIC.get() || minecraftClient.player != null && minecraftClient.world != null && shx.wantsMusic());
+        if (!bl3 || minecraftClient.options.hudHidden) {
             return;
         }
         float f3 = unf.delta() * (float)iov.ANIMATION.get();
@@ -192,15 +192,15 @@ public final class izx {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private static void jbb(DrawContext drawContext, boolean bl, boolean bl2, float f) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         jae = null;
         if (jaf && BACKGROUND.is(a.c(-1330669848, "\u96aa\uef30\u65ee\ufb8d\u705a")) && hyv.ENABLED.get() && uij.HUD.capture(drawContext, hyv.FROST.getInt(), null)) {
             jae = uij.HUD.result(drawContext);
         }
         jaj = (float)SCALE.get();
-        float f2 = drawContext.method_51421();
-        float f3 = drawContext.method_51443();
-        float f4 = Math.max(1, minecraftClient.method_22683().method_4495());
+        float f2 = drawContext.getScaledWindowWidth();
+        float f3 = drawContext.getScaledWindowHeight();
+        float f4 = Math.max(1, minecraftClient.getWindow().getScaleFactor());
         float f5 = izx.jbe(minecraftClient, f2, f3);
         boolean bl3 = bl2 && ARRANGE.get();
         boolean bl4 = false;
@@ -226,18 +226,18 @@ public final class izx {
                 float f11 = (1.0f - f8) * 5.0f * (jcs2.ay == 2 ? 1.0f : -1.0f);
                 float f12 = jcs2.pivotX();
                 float f13 = jcs2.pivotY();
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(jcs2.x + f12, jcs2.y + f13 + f11);
-                drawContext.method_51448().scale(f9, f10);
-                drawContext.method_51448().translate(-f12, -f13);
-                drawContext.method_51448().scale(f6, f6);
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(jcs2.x + f12, jcs2.y + f13 + f11);
+                drawContext.getMatrices().scale(f9, f10);
+                drawContext.getMatrices().translate(-f12, -f13);
+                drawContext.getMatrices().scale(f6, f6);
                 uut.pushAlpha(f7 * (bl5 && jcs2.isSample() ? 0.4f : 1.0f));
                 try {
                     jcs2.draw(drawContext, f, bl);
                 }
                 finally {
                     uut.popAlpha();
-                    drawContext.method_51448().popMatrix();
+                    drawContext.getMatrices().popMatrix();
                 }
             }
         }
@@ -268,10 +268,10 @@ public final class izx {
             int n = iov.accent(170);
             float f5 = 1.0f / f2;
             if (!Float.isNaN(jan)) {
-                uut.rect(drawContext, jan - f5 * 0.5f, 0.0f, f5, drawContext.method_51443(), n);
+                uut.rect(drawContext, jan - f5 * 0.5f, 0.0f, f5, drawContext.getScaledWindowHeight(), n);
             }
             if (!Float.isNaN(jao)) {
-                uut.rect(drawContext, 0.0f, jao - f5 * 0.5f, drawContext.method_51421(), f5, n);
+                uut.rect(drawContext, 0.0f, jao - f5 * 0.5f, drawContext.getScaledWindowWidth(), f5, n);
             }
         }
     }
@@ -280,8 +280,8 @@ public final class izx {
         String string = bl ? Math.round(jcs2.size * 100.0f) + a.d("\u3805", -221134532, -1448937187) : (jcs2.size != 1.0f ? Math.round(jcs2.size * 100.0f) + wap.s(a.c(146640362, "\u8dd9\uf46d\u7ebe\ue058\u6b18\ueda9\u57a8\ude42\u4013\ucaad\u4d62\ub747\u39d4\ua073\u2a33\uacc4\u16d6\u991d\u03fd\u85b6\u0c52\u761c"), a.b("\uadde\ud46a\u5eb9\uc05f\u4b1f\ucdae\u73c2\ufa36\u646f\ueaf8\u6d31\u9320\u1d87\u8431\u0e69\u8891\u32ab", -2086752790)) : wap.s(a.b("\ubd52\uc4d8\u4e05\ud07b\u5bb0\udd55\u6742\ueea5\u70e9\ufa5e\u7dd0\u87bb\u093f\u9094\u1ad4\u9c3a", -1425031920), a.b("\u85cd\ufc79\u76ac\uece1\u673d\ue187\u5fb6\ud64a\u4867\uc2a8\u457a\ubf05\u35a4\uac0f\u223c\ua4bd\u1ef5\u912f\u0b95\u8db1", -1353743930)));
         float f2 = SMALL.width(string) + 10.0f;
         float f3 = 11.0f;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        float f4 = minecraftClient.method_22683().method_4486();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        float f4 = minecraftClient.getWindow().getScaledWidth();
         float f5 = Math.max(2.0f, Math.min(f4 - f2 - 2.0f, jcs2.x + (jcs2.w - f2) * 0.5f));
         boolean bl2 = jcs2.y < f3 + 8.0f;
         float f6 = bl2 ? jcs2.y + jcs2.h + 5.0f : jcs2.y - f3 - 5.0f;
@@ -304,7 +304,7 @@ public final class izx {
             ++n2;
             if (obj instanceof ClientBossBar) {
                 ClientBossBar clientBossBar = (ClientBossBar)obj;
-                f3 = Math.max(f3, (float)minecraftClient.field_1772.method_27525((StringVisitable)clientBossBar.method_5414()) * 0.5f);
+                f3 = Math.max(f3, (float)minecraftClient.textRenderer.getWidth((StringVisitable)clientBossBar.getName()) * 0.5f);
             }
             if (!((float)(n += 19) >= f2 / 3.0f)) continue;
             break;
@@ -314,11 +314,11 @@ public final class izx {
     }
 
     private static Map<?, ?> jbf(MinecraftClient minecraftClient) {
-        if (jar || minecraftClient.field_1705 == null) {
+        if (jar || minecraftClient.inGameHud == null) {
             return null;
         }
         try {
-            BossBarHud bossBarHud = minecraftClient.field_1705.method_1740();
+            BossBarHud bossBarHud = minecraftClient.inGameHud.getBossBarHud();
             if (jaq == null) {
                 for (Field field : BossBarHud.class.getDeclaredFields()) {
                     if (Modifier.isStatic(field.getModifiers()) || !Map.class.isAssignableFrom(field.getType())) continue;
@@ -403,17 +403,17 @@ public final class izx {
 
     public static boolean mouseDragged(double d, double d2) {
         if (jav != null) {
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
-            izx.resize((float)d, (float)d2, InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)342) || InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)346));
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
+            izx.resize((float)d, (float)d2, InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)342) || InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)346));
             return true;
         }
         if (jak == null) {
             return false;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        float f = minecraftClient.method_22683().method_4486();
-        float f2 = minecraftClient.method_22683().method_4502();
-        boolean bl = InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)342) || InputUtil.method_15987((Window)minecraftClient.method_22683(), (int)346);
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        float f = minecraftClient.getWindow().getScaledWidth();
+        float f2 = minecraftClient.getWindow().getScaledHeight();
+        boolean bl = InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)342) || InputUtil.isKeyPressed((Window)minecraftClient.getWindow(), (int)346);
         float[] fArray = izx.drag(jak, (float)d - jal, (float)d2 - jam, f, f2, bl);
         jan = fArray[0];
         jao = fArray[1];
@@ -534,16 +534,16 @@ public final class izx {
     }
 
     public static void moduleToggled(kfe kfe2) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null || kfe2.isAction() && !kfe2.isEnabled()) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (minecraftClient.player == null || minecraftClient.world == null || kfe2.isAction() && !kfe2.isEnabled()) {
             return;
         }
         WATERMARK.toggled(kfe2);
     }
 
     public static void alert(String string, String string2, vhz vhz2, boolean bl) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (!minecraftClient.method_18854()) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (!minecraftClient.isOnThread()) {
             minecraftClient.execute(() -> izx.alert(string, string2, vhz2, bl));
             return;
         }
@@ -557,7 +557,7 @@ public final class izx {
     }
 
     public static void openEditor() {
-        MinecraftClient.method_1551().method_1507((Screen)new jbs());
+        MinecraftClient.getInstance().setScreen((Screen)new jbs());
     }
 
     public static void resetLayout() {

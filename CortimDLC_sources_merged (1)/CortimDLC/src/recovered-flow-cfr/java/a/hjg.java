@@ -216,7 +216,7 @@ final class hjg {
         float f8 = this.height();
         float f9 = iov.r(7.0f);
         float f10 = iov.lightness();
-        drawContext.method_51448().pushMatrix();
+        drawContext.getMatrices().pushMatrix();
         ukf.shadow(drawContext, this.x, this.y, this.w, f8, f9, 0.3f, f10);
         int n = ujt.lerp(iov.card, iov.cardHover, f5);
         boolean bl2 = hyv.surface(drawContext, this.x, this.y, this.w, f8, f9, hyv.tint(iov.window, Math.min(0.95f, iov.windowTint())), n, 7.0f, hyv.CARDS);
@@ -238,11 +238,11 @@ final class hjg {
             f12 -= 23.0f;
         } else if (!this.rows.isEmpty()) {
             var18_20 = this.hju.get();
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f12 - 4.0f, f11);
-            drawContext.method_51448().rotate(-1.5707964f * (1.0f - var18_20));
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f12 - 4.0f, f11);
+            drawContext.getMatrices().rotate(-1.5707964f * (1.0f - var18_20));
             vjf.draw(drawContext, vhz.CHEVRON_DOWN, 0.0f, 0.0f, 7.0f, ujt.lerp(iov.textMuted, iov.textDim, Math.max(f5, var18_20 * 0.5f)));
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             f12 -= 14.0f;
         }
         if (this.hjr != null) {
@@ -288,7 +288,7 @@ final class hjg {
             uut.popScissor(drawContext);
             uut.popAlpha();
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     private float hkk(float f) {

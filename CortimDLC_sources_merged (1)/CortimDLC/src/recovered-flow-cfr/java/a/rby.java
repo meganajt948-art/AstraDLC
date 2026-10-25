@@ -59,7 +59,7 @@ extends kfe {
     private final vkl rcg = this.add(new vkl("Smooth", true));
     private final double[] rch = new double[6];
     private boolean rci;
-    private Direction rcj = Direction.field_11036;
+    private Direction rcj = Direction.UP;
     private final vcj rck = new vcj(14.0f);
     private long rcl = -1L;
     private final double[][] rcm = new double[8][3];
@@ -86,8 +86,8 @@ extends kfe {
 
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         rby rby2 = rbz;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (rby2 == null || !rby2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (rby2 == null || !rby2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             if (rby2 != null) {
                 rby2.rci = false;
                 rby2.rck.set(0.0f);
@@ -99,7 +99,7 @@ extends kfe {
             return;
         }
         rby2.rcl = unf.frame();
-        rby2.rcx(drawContext, minecraftClient, renderTickCounter.method_60637(true), unf.delta());
+        rby2.rcx(drawContext, minecraftClient, renderTickCounter.getTickProgress(true), unf.delta());
     }
 
     private void rcx(DrawContext drawContext, MinecraftClient minecraftClient, float f, float f2) {
@@ -109,10 +109,10 @@ extends kfe {
         BlockState blockState;
         BlockHitResult blockHitResult;
         Box box = null;
-        HitResult hitResult = minecraftClient.field_1765;
-        if (hitResult instanceof BlockHitResult && (blockHitResult = (BlockHitResult)hitResult).method_17783() == HitResult.Type.field_1332 && !(blockState = minecraftClient.field_1687.method_8320((BlockPos)(hitResult = blockHitResult.method_17777()))).method_26215() && minecraftClient.field_1687.method_8621().method_11952((BlockPos)hitResult) && !(voxelShape = blockState.method_26172((BlockView)minecraftClient.field_1687, (BlockPos)hitResult, ShapeContext.method_16195((Entity)minecraftClient.method_1560()))).method_1110()) {
-            box = voxelShape.method_1107().method_996((BlockPos)hitResult);
-            this.rcj = blockHitResult.method_17780();
+        HitResult hitResult = minecraftClient.crosshairTarget;
+        if (hitResult instanceof BlockHitResult && (blockHitResult = (BlockHitResult)hitResult).getType() == HitResult.Type.BLOCK && !(blockState = minecraftClient.world.getBlockState((BlockPos)(hitResult = blockHitResult.getBlockPos()))).isAir() && minecraftClient.world.getWorldBorder().contains((BlockPos)hitResult) && !(voxelShape = blockState.getOutlineShape((BlockView)minecraftClient.world, (BlockPos)hitResult, ShapeContext.of((Entity)minecraftClient.getCameraEntity()))).isEmpty()) {
+            box = voxelShape.getBoundingBox().offset((BlockPos)hitResult);
+            this.rcj = blockHitResult.getSide();
         }
         float f3 = this.rck.step(box != null, f2);
         if (box != null) {
@@ -120,12 +120,12 @@ extends kfe {
                 this.rdb(box);
             } else {
                 double d = 1.0 - Math.exp((double)(-f2) * 26.0);
-                this.rch[0] = this.rch[0] + (box.field_1323 - this.rch[0]) * d;
-                this.rch[1] = this.rch[1] + (box.field_1322 - this.rch[1]) * d;
-                this.rch[2] = this.rch[2] + (box.field_1321 - this.rch[2]) * d;
-                this.rch[3] = this.rch[3] + (box.field_1320 - this.rch[3]) * d;
-                this.rch[4] = this.rch[4] + (box.field_1325 - this.rch[4]) * d;
-                this.rch[5] = this.rch[5] + (box.field_1324 - this.rch[5]) * d;
+                this.rch[0] = this.rch[0] + (box.minX - this.rch[0]) * d;
+                this.rch[1] = this.rch[1] + (box.minY - this.rch[1]) * d;
+                this.rch[2] = this.rch[2] + (box.minZ - this.rch[2]) * d;
+                this.rch[3] = this.rch[3] + (box.maxX - this.rch[3]) * d;
+                this.rch[4] = this.rch[4] + (box.maxY - this.rch[4]) * d;
+                this.rch[5] = this.rch[5] + (box.maxZ - this.rch[5]) * d;
             }
             this.rci = true;
         }
@@ -134,7 +134,7 @@ extends kfe {
             return;
         }
         try {
-            usn2 = usn.capture(f, drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(f, drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -213,53 +213,53 @@ extends kfe {
     }
 
     private void rdb(Box box) {
-        this.rch[0] = box.field_1323;
-        this.rch[1] = box.field_1322;
-        this.rch[2] = box.field_1321;
-        this.rch[3] = box.field_1320;
-        this.rch[4] = box.field_1325;
-        this.rch[5] = box.field_1324;
+        this.rch[0] = box.minX;
+        this.rch[1] = box.minY;
+        this.rch[2] = box.minZ;
+        this.rch[3] = box.maxX;
+        this.rch[4] = box.maxY;
+        this.rch[5] = box.maxZ;
     }
 
     private boolean rdc(int n, Vec3d vec3d) {
         return switch (n) {
             case 0 -> {
-                if (vec3d.field_1351 < this.rch[1]) {
+                if (vec3d.y < this.rch[1]) {
                     yield true;
                 }
                 yield false;
             }
             case 1 -> {
-                if (vec3d.field_1351 > this.rch[4]) {
+                if (vec3d.y > this.rch[4]) {
                     yield true;
                 }
                 yield false;
             }
             case 2 -> {
-                if (vec3d.field_1350 < this.rch[2]) {
+                if (vec3d.z < this.rch[2]) {
                     yield true;
                 }
                 yield false;
             }
             case 3 -> {
-                if (vec3d.field_1350 > this.rch[5]) {
+                if (vec3d.z > this.rch[5]) {
                     yield true;
                 }
                 yield false;
             }
             case 4 -> {
-                if (vec3d.field_1352 < this.rch[0]) {
+                if (vec3d.x < this.rch[0]) {
                     yield true;
                 }
                 yield false;
             }
-            default -> vec3d.field_1352 > this.rch[3];
+            default -> vec3d.x > this.rch[3];
         };
     }
 
     static {
         rcs = new int[][]{{0, 1, 5, 4}, {2, 6, 7, 3}, {0, 2, 3, 1}, {4, 5, 7, 6}, {0, 4, 6, 2}, {1, 3, 7, 5}};
-        rct = new Direction[]{Direction.field_11033, Direction.field_11036, Direction.field_11043, Direction.field_11035, Direction.field_11039, Direction.field_11034};
+        rct = new Direction[]{Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
         rcu = new int[][]{{0, 1, 0, 2}, {2, 3, 1, 2}, {4, 5, 0, 3}, {6, 7, 1, 3}, {0, 2, 2, 4}, {1, 3, 2, 5}, {4, 6, 3, 4}, {5, 7, 3, 5}, {0, 4, 0, 4}, {1, 5, 0, 5}, {2, 6, 1, 4}, {3, 7, 1, 5}};
     }
 

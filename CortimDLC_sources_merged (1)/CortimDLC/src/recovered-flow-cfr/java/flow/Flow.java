@@ -174,8 +174,8 @@ implements ClientModInitializer {
             return;
         }
         ewk.init();
-        MinecraftClient client = MinecraftClient.method_1551();
-        boolean injection = client == null || !client.method_18854();
+        MinecraftClient client = MinecraftClient.getInstance();
+        boolean injection = client == null || !client.isOnThread();
         ClientLoad.start(this::boot, injection);
     }
 
@@ -323,31 +323,31 @@ implements ClientModInitializer {
         kfe.onToggle(lsg::toggled);
         boolean registry = false;
         try {
-            HudElementRegistry.addFirst((Identifier)Identifier.method_60655((String)"flow2", (String)"aspect_ratio"), qze::render);
-            HudElementRegistry.attachElementBefore((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"weather_drops"), sbp::hud);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"mace_charge"), rhf::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"party_marks"), ugg::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"waypoints"), wkw::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)new String(new char[]{'n', 't'})), swh::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"item_tags"), sus::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"structures"), pbz::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"target_esp"), ruv::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"arrows"), qyk::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"predictions"), rnk::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"soul_esp"), rrx::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"jump_circles"), rfy::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"player_esp"), rky::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"mob_esp"), rhs::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"block_esp"), rae::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"mine_xray"), qwo::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"route_line"), psu::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"debris_xray"), lvp::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"loot_marks"), oqv::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"warden_timers"), rzy::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"lyrics"), shx::render);
-            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.method_60655((String)"flow2", (String)"outline"), rby::render);
-            HudElementRegistry.attachElementBefore((Identifier)VanillaHudElements.CHAT, (Identifier)Identifier.method_60655((String)"flow2", (String)"hud"), izx::render);
-            HudElementRegistry.attachElementBefore((Identifier)VanillaHudElements.CHAT, (Identifier)Identifier.method_60655((String)"flow2", (String)"neuro"), ifv::render);
+            HudElementRegistry.addFirst((Identifier)Identifier.of((String)"flow2", (String)"aspect_ratio"), qze::render);
+            HudElementRegistry.attachElementBefore((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"weather_drops"), sbp::hud);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"mace_charge"), rhf::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"party_marks"), ugg::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"waypoints"), wkw::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)new String(new char[]{'n', 't'})), swh::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"item_tags"), sus::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"structures"), pbz::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"target_esp"), ruv::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"arrows"), qyk::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"predictions"), rnk::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"soul_esp"), rrx::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"jump_circles"), rfy::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"player_esp"), rky::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"mob_esp"), rhs::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"block_esp"), rae::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"mine_xray"), qwo::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"route_line"), psu::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"debris_xray"), lvp::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"loot_marks"), oqv::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"warden_timers"), rzy::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"lyrics"), shx::render);
+            HudElementRegistry.attachElementAfter((Identifier)VanillaHudElements.MISC_OVERLAYS, (Identifier)Identifier.of((String)"flow2", (String)"outline"), rby::render);
+            HudElementRegistry.attachElementBefore((Identifier)VanillaHudElements.CHAT, (Identifier)Identifier.of((String)"flow2", (String)"hud"), izx::render);
+            HudElementRegistry.attachElementBefore((Identifier)VanillaHudElements.CHAT, (Identifier)Identifier.of((String)"flow2", (String)"neuro"), ifv::render);
             registry = true;
         }
         catch (Throwable t) {
@@ -390,25 +390,25 @@ implements ClientModInitializer {
                     }
                 });
                 HudElementRegistry.replaceElement((Identifier)VanillaHudElements.SCOREBOARD, vanilla -> (ctx, tickCounter) -> {
-                    if (!rkh.hidesScoreboard() && !lsx.sidebar(ctx, MinecraftClient.method_1551())) {
+                    if (!rkh.hidesScoreboard() && !lsx.sidebar(ctx, MinecraftClient.getInstance())) {
                         vanilla.render(ctx, tickCounter);
                     }
                 });
                 HudElementRegistry.replaceElement((Identifier)VanillaHudElements.BOSS_BAR, vanilla -> (ctx, tickCounter) -> {
                     if (!rkh.hidesBossBar()) {
-                        lsx.bossBars(MinecraftClient.method_1551(), () -> vanilla.render(ctx, tickCounter));
+                        lsx.bossBars(MinecraftClient.getInstance(), () -> vanilla.render(ctx, tickCounter));
                     }
                 });
-                HudElementRegistry.replaceElement((Identifier)VanillaHudElements.TITLE_AND_SUBTITLE, vanilla -> (ctx, tickCounter) -> lsx.titles(MinecraftClient.method_1551(), () -> vanilla.render(ctx, tickCounter)));
-                HudElementRegistry.replaceElement((Identifier)VanillaHudElements.OVERLAY_MESSAGE, vanilla -> (ctx, tickCounter) -> lsx.titles(MinecraftClient.method_1551(), () -> vanilla.render(ctx, tickCounter)));
-                HudElementRegistry.replaceElement((Identifier)VanillaHudElements.PLAYER_LIST, vanilla -> (ctx, tickCounter) -> lsx.playerList(MinecraftClient.method_1551(), () -> vanilla.render(ctx, tickCounter)));
+                HudElementRegistry.replaceElement((Identifier)VanillaHudElements.TITLE_AND_SUBTITLE, vanilla -> (ctx, tickCounter) -> lsx.titles(MinecraftClient.getInstance(), () -> vanilla.render(ctx, tickCounter)));
+                HudElementRegistry.replaceElement((Identifier)VanillaHudElements.OVERLAY_MESSAGE, vanilla -> (ctx, tickCounter) -> lsx.titles(MinecraftClient.getInstance(), () -> vanilla.render(ctx, tickCounter)));
+                HudElementRegistry.replaceElement((Identifier)VanillaHudElements.PLAYER_LIST, vanilla -> (ctx, tickCounter) -> lsx.playerList(MinecraftClient.getInstance(), () -> vanilla.render(ctx, tickCounter)));
                 HudElementRegistry.replaceElement((Identifier)VanillaHudElements.AIR_BAR, vanilla -> (ctx, tickCounter) -> {
                     if (!rkh.hidesAir()) {
                         vanilla.render(ctx, tickCounter);
                     }
                 });
                 HudElementRegistry.replaceElement((Identifier)VanillaHudElements.MISC_OVERLAYS, vanilla -> (ctx, tickCounter) -> {
-                    if (!rkh.hidesPumpkin(MinecraftClient.method_1551())) {
+                    if (!rkh.hidesPumpkin(MinecraftClient.getInstance())) {
                         vanilla.render(ctx, tickCounter);
                     }
                 });
@@ -441,10 +441,10 @@ implements ClientModInitializer {
                     }
                     return;
                 }
-                if (screen instanceof TitleScreen && Splash.MENU && client.method_18506() == null) {
-                    client.method_63588(() -> {
-                        if (client.field_1755 == screen) {
-                            client.method_1507((Screen)new jte());
+                if (screen instanceof TitleScreen && Splash.MENU && client.getOverlay() == null) {
+                    client.send(() -> {
+                        if (client.currentScreen == screen) {
+                            client.setScreen((Screen)new jte());
                         }
                     });
                 }
@@ -458,8 +458,8 @@ implements ClientModInitializer {
                 oqv.attach(screen);
                 lre.attach(screen);
                 if (screen instanceof ChatScreen) {
-                    ScreenMouseEvents.allowMouseClick((Screen)screen).register((s, click) -> !izx.mouseClicked(click.comp_4798(), click.comp_4799(), click.method_74245()));
-                    ScreenMouseEvents.allowMouseDrag((Screen)screen).register((s, click, dx, dy) -> !izx.mouseDragged(click.comp_4798(), click.comp_4799()));
+                    ScreenMouseEvents.allowMouseClick((Screen)screen).register((s, click) -> !izx.mouseClicked(click.x(), click.y(), click.button()));
+                    ScreenMouseEvents.allowMouseDrag((Screen)screen).register((s, click, dx, dy) -> !izx.mouseDragged(click.x(), click.y()));
                     ScreenMouseEvents.allowMouseRelease((Screen)screen).register((s, click) -> !izx.mouseReleased());
                 }
             });
@@ -470,40 +470,40 @@ implements ClientModInitializer {
         try {
             AttackEntityCallback.EVENT.register((player, world, hand, entity, hit) -> {
                 if (ejp.isActive()) {
-                    return ActionResult.field_5811;
+                    return ActionResult.PASS;
                 }
-                if (world.method_8608()) {
+                if (world.isClient()) {
                     if (tcz.onAttack(player, entity, hit)) {
-                        return ActionResult.field_5814;
+                        return ActionResult.FAIL;
                     }
                     if (ovh.active() || lfu.blocks(entity)) {
-                        return ActionResult.field_5814;
+                        return ActionResult.FAIL;
                     }
                     jjx.onAttack(entity);
                     ruv.onAttack(entity);
                     rrx.onAttack(entity);
                     lsg.hit(entity);
                 }
-                return ActionResult.field_5811;
+                return ActionResult.PASS;
             });
         }
         catch (Throwable t) {
             System.out.println("[Flow2] attack event unavailable, the target HUD only follows the crosshair: " + t);
         }
         try {
-            AttackBlockCallback.EVENT.register((player, world, hand, pos, side) -> world.method_8608() && !ejp.isActive() && ovh.active() ? ActionResult.field_5814 : ActionResult.field_5811);
+            AttackBlockCallback.EVENT.register((player, world, hand, pos, side) -> world.isClient() && !ejp.isActive() && ovh.active() ? ActionResult.FAIL : ActionResult.PASS);
             UseBlockCallback.EVENT.register((player, world, hand, hit) -> {
-                if (!world.method_8608() || ejp.isActive()) {
-                    return ActionResult.field_5811;
+                if (!world.isClient() || ejp.isActive()) {
+                    return ActionResult.PASS;
                 }
                 if (ovh.active()) {
-                    return ActionResult.field_5814;
+                    return ActionResult.FAIL;
                 }
-                oqv.onUseBlock(hit.method_17777());
-                return ActionResult.field_5811;
+                oqv.onUseBlock(hit.getBlockPos());
+                return ActionResult.PASS;
             });
-            UseItemCallback.EVENT.register((player, world, hand) -> world.method_8608() && !ejp.isActive() && ovh.active() ? ActionResult.field_5814 : ActionResult.field_5811);
-            UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> world.method_8608() && !ejp.isActive() && ovh.active() ? ActionResult.field_5814 : ActionResult.field_5811);
+            UseItemCallback.EVENT.register((player, world, hand) -> world.isClient() && !ejp.isActive() && ovh.active() ? ActionResult.FAIL : ActionResult.PASS);
+            UseEntityCallback.EVENT.register((player, world, hand, entity, hit) -> world.isClient() && !ejp.isActive() && ovh.active() ? ActionResult.FAIL : ActionResult.PASS);
         }
         catch (Throwable t) {
             System.out.println("[Flow2] interaction events unavailable: " + t);
@@ -513,11 +513,11 @@ implements ClientModInitializer {
     private void onStartTick(MinecraftClient mc) {
         ell.ensure(mc);
         ett.install(mc);
-        if (this.moduleManager == null || mc.field_1724 == null || mc.field_1687 == null || dry.armed()) {
+        if (this.moduleManager == null || mc.player == null || mc.world == null || dry.armed()) {
             return;
         }
         pud.INSTANCE.begin(mc);
-        if (mc.field_1755 == null) {
+        if (mc.currentScreen == null) {
             this.moduleManager.onStartKeys(mc);
         }
         wdt.settle(mc);
@@ -533,27 +533,27 @@ implements ClientModInitializer {
         pnr.tick(mc);
         if (dry.armed()) {
             this.moduleManager.dropKeys();
-            if (dry.ours(mc.field_1755)) {
-                dry.shut(mc, mc.field_1755);
+            if (dry.ours(mc.currentScreen)) {
+                dry.shut(mc, mc.currentScreen);
             }
             return;
         }
         Splash.tick(mc);
         this.askLanguage(mc);
         wek.tick(mc);
-        boolean bl = down = mc.method_22683() != null && InputUtil.method_15987((Window)mc.method_22683(), (int)this.openGuiKey);
-        if (down && !this.openGuiKeyLast && mc.field_1755 == null) {
-            mc.method_1507((Screen)new hlc());
+        boolean bl = down = mc.getWindow() != null && InputUtil.isKeyPressed((Window)mc.getWindow(), (int)this.openGuiKey);
+        if (down && !this.openGuiKeyLast && mc.currentScreen == null) {
+            mc.setScreen((Screen)new hlc());
             lsg.menu(true);
         }
         this.openGuiKeyLast = down;
         jip.tick(mc);
         ucg.tick(mc);
-        if (mc.field_1724 == null || mc.field_1687 == null) {
+        if (mc.player == null || mc.world == null) {
             jgn.tick(false);
             return;
         }
-        if (mc.field_1755 == null) {
+        if (mc.currentScreen == null) {
             this.moduleManager.onKeys(mc);
         } else {
             this.moduleManager.dropKeys();
@@ -565,26 +565,26 @@ implements ClientModInitializer {
         if (this.languageAsked || wap.chosen() || Boolean.getBoolean("flow2.selftest")) {
             return;
         }
-        if (!this.initialized || Splash.pending() || mc.method_18506() != null) {
+        if (!this.initialized || Splash.pending() || mc.getOverlay() != null) {
             return;
         }
-        if (mc.field_1755 instanceof TitleScreen || mc.field_1755 instanceof jte) {
+        if (mc.currentScreen instanceof TitleScreen || mc.currentScreen instanceof jte) {
             this.languageAsked = true;
-            mc.method_1507((Screen)new kct(null));
-        } else if (mc.field_1755 instanceof kct) {
+            mc.setScreen((Screen)new kct(null));
+        } else if (mc.currentScreen instanceof kct) {
             this.languageAsked = true;
-        } else if (mc.field_1755 == null && mc.field_1724 != null) {
+        } else if (mc.currentScreen == null && mc.player != null) {
             this.languageAsked = true;
-            mc.method_1507((Screen)new ida(null));
+            mc.setScreen((Screen)new ida(null));
         }
     }
 
     private void onWorldRender() {
-        MinecraftClient mc = MinecraftClient.method_1551();
-        if (this.moduleManager == null || mc.field_1724 == null || mc.field_1687 == null || dry.armed()) {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (this.moduleManager == null || mc.player == null || mc.world == null || dry.armed()) {
             return;
         }
-        if (mc.field_1755 == null) {
+        if (mc.currentScreen == null) {
             this.moduleManager.pollKeys(mc);
         }
         this.moduleManager.onWorldRender(mc);

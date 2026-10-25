@@ -95,7 +95,7 @@ public final class lng {
     }
 
     public float cameraYaw(ClientPlayerEntity clientPlayerEntity) {
-        return this.loe ? this.lof : clientPlayerEntity.method_36454();
+        return this.loe ? this.lof : clientPlayerEntity.getYaw();
     }
 
     public double maxTurn() {
@@ -141,11 +141,11 @@ public final class lng {
     }
 
     public float serverYaw(ClientPlayerEntity clientPlayerEntity) {
-        return this.lnx && !this.loe ? (float)((double)clientPlayerEntity.method_36454() + this.loa) : clientPlayerEntity.method_36454();
+        return this.lnx && !this.loe ? (float)((double)clientPlayerEntity.getYaw() + this.loa) : clientPlayerEntity.getYaw();
     }
 
     public float serverPitch(ClientPlayerEntity clientPlayerEntity) {
-        return this.lnx && !this.loe ? MathHelper.method_15363((float)((float)((double)clientPlayerEntity.method_36455() + this.lob)), (float)-90.0f, (float)90.0f) : clientPlayerEntity.method_36455();
+        return this.lnx && !this.loe ? MathHelper.clamp((float)((float)((double)clientPlayerEntity.getPitch() + this.lob)), (float)-90.0f, (float)90.0f) : clientPlayerEntity.getPitch();
     }
 
     public void begin(ClientPlayerEntity clientPlayerEntity) {
@@ -153,8 +153,8 @@ public final class lng {
             return;
         }
         if (!this.loe && this.loo == clientPlayerEntity) {
-            double d = (double)(clientPlayerEntity.method_36454() - this.lop) - this.lor;
-            double d2 = (double)(clientPlayerEntity.method_36455() - this.loq) - this.los;
+            double d = (double)(clientPlayerEntity.getYaw() - this.lop) - this.lor;
+            double d2 = (double)(clientPlayerEntity.getPitch() - this.loq) - this.los;
             if (this.lnx) {
                 if ((this.loj || this.lol > 0) && !this.idle()) {
                     this.loa -= d;
@@ -173,8 +173,8 @@ public final class lng {
             return;
         }
         this.loy(clientPlayerEntity);
-        clientPlayerEntity.method_36456((float)((double)this.lof + this.loa));
-        clientPlayerEntity.method_36457(MathHelper.method_15363((float)((float)((double)this.log + this.lob)), (float)-90.0f, (float)90.0f));
+        clientPlayerEntity.setYaw((float)((double)this.lof + this.loa));
+        clientPlayerEntity.setPitch(MathHelper.clamp((float)((float)((double)this.log + this.lob)), (float)-90.0f, (float)90.0f));
     }
 
     public void end(ClientPlayerEntity clientPlayerEntity) {
@@ -185,14 +185,14 @@ public final class lng {
         if (clientPlayerEntity == null) {
             return;
         }
-        clientPlayerEntity.method_36456(this.lof);
-        clientPlayerEntity.method_36457(this.log);
-        clientPlayerEntity.field_5982 = this.lof;
-        clientPlayerEntity.field_6004 = this.log;
-        clientPlayerEntity.field_3931 = this.loh;
-        clientPlayerEntity.field_3914 = this.loi;
-        clientPlayerEntity.field_3932 = this.loh + (this.lof - this.loh) * 0.5f;
-        clientPlayerEntity.field_3916 = this.loi + (this.log - this.loi) * 0.5f;
+        clientPlayerEntity.setYaw(this.lof);
+        clientPlayerEntity.setPitch(this.log);
+        clientPlayerEntity.lastYaw = this.lof;
+        clientPlayerEntity.lastPitch = this.log;
+        clientPlayerEntity.lastRenderYaw = this.loh;
+        clientPlayerEntity.lastRenderPitch = this.loi;
+        clientPlayerEntity.renderYaw = this.loh + (this.lof - this.loh) * 0.5f;
+        clientPlayerEntity.renderPitch = this.loi + (this.log - this.loi) * 0.5f;
     }
 
     public void newTick(ClientPlayerEntity clientPlayerEntity) {
@@ -201,8 +201,8 @@ public final class lng {
         this.lor = 0.0;
         this.loo = clientPlayerEntity;
         if (clientPlayerEntity != null) {
-            this.lop = clientPlayerEntity.method_36454();
-            this.loq = clientPlayerEntity.method_36455();
+            this.lop = clientPlayerEntity.getYaw();
+            this.loq = clientPlayerEntity.getPitch();
         }
     }
 
@@ -210,7 +210,7 @@ public final class lng {
         float f = this.serverYaw(clientPlayerEntity);
         float f2 = this.serverPitch(clientPlayerEntity);
         if (!this.loj) {
-            double d = MathHelper.method_15393((float)(lpp2.yaw() - f));
+            double d = MathHelper.wrapDegrees((float)(lpp2.yaw() - f));
             double d2 = lpp2.pitch() - f2;
             if (lpp2.tick() > 10 && Math.sqrt(d * d + d2 * d2) < 8.0 * this.lny * (double)lpp2.tick()) {
                 return false;
@@ -222,8 +222,8 @@ public final class lng {
         Box box2 = lpp2.box();
         Vec3d vec3d = lpp2.eye();
         Vec3d vec3d2 = lpp2.aim();
-        double d = tbp.hitU(vec3d.field_1352, vec3d.field_1350, (box2.field_1323 + box2.field_1320) * 0.5, (box2.field_1321 + box2.field_1324) * 0.5, (box2.field_1320 - box2.field_1323) * 0.5, vec3d2.field_1352, vec3d2.field_1350);
-        double d3 = tbp.hitV(box2.field_1322, box2.field_1325 - box2.field_1322, vec3d2.field_1351);
+        double d = tbp.hitU(vec3d.x, vec3d.z, (box2.minX + box2.maxX) * 0.5, (box2.minZ + box2.maxZ) * 0.5, (box2.maxX - box2.minX) * 0.5, vec3d2.x, vec3d2.z);
+        double d3 = tbp.hitV(box2.minY, box2.maxY - box2.minY, vec3d2.y);
         if (this.lnu.steerAt(clientPlayerEntity, lpp2.target(), box, vec3d, d, d3, 1, f, f2, this.lnw)) {
             this.lov(minecraftClient, clientPlayerEntity);
         }
@@ -237,7 +237,7 @@ public final class lng {
         this.lok = null;
         this.lol = 0;
         this.lom = 0;
-        if (this.lnu.steer(clientPlayerEntity, entity, entity.method_5829(), clientPlayerEntity.method_33571(), n, f, f2, this.lnw)) {
+        if (this.lnu.steer(clientPlayerEntity, entity, entity.getBoundingBox(), clientPlayerEntity.getEyePos(), n, f, f2, this.lnw)) {
             this.lov(minecraftClient, clientPlayerEntity);
         }
     }
@@ -277,7 +277,7 @@ public final class lng {
         }
         ++this.lom;
         this.low(clientPlayerEntity);
-        double d = MathHelper.method_15350((double)(-this.loa), (double)-150.0, (double)150.0);
+        double d = MathHelper.clamp((double)(-this.loa), (double)-150.0, (double)150.0);
         double d2 = (double)f2 - this.lob;
         boolean bl = this.lnu.steerTo(clientPlayerEntity, lnt, (double)f + d, d2, 2, f, f2, this.lnw);
         if (this.lom > 12) {
@@ -300,16 +300,16 @@ public final class lng {
     }
 
     private void low(ClientPlayerEntity clientPlayerEntity) {
-        float f = clientPlayerEntity.method_36455();
-        this.lob = this.lnx ? (double)(MathHelper.method_15363((float)((float)((double)f + this.lob)), (float)-90.0f, (float)90.0f) - f) : (double)f - MathHelper.method_15350((double)((double)f - this.lob), (double)-90.0, (double)90.0);
+        float f = clientPlayerEntity.getPitch();
+        this.lob = this.lnx ? (double)(MathHelper.clamp((float)((float)((double)f + this.lob)), (float)-90.0f, (float)90.0f) - f) : (double)f - MathHelper.clamp((double)((double)f - this.lob), (double)-90.0, (double)90.0);
     }
 
     public void snap(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity, float f, float f2) {
         if (this.lnx && !this.loe) {
             this.loy(clientPlayerEntity);
         }
-        double d = MathHelper.method_15393((float)(f - clientPlayerEntity.method_36454()));
-        double d2 = f2 - clientPlayerEntity.method_36455();
+        double d = MathHelper.wrapDegrees((float)(f - clientPlayerEntity.getYaw()));
+        double d2 = f2 - clientPlayerEntity.getPitch();
         double d3 = Math.sqrt(d * d + d2 * d2);
         double d4 = Math.max(0.0, this.maxTurn() - this.lon);
         if (d3 < 1.0E-4 || d4 <= 0.0) {
@@ -329,10 +329,10 @@ public final class lng {
     }
 
     private void loy(ClientPlayerEntity clientPlayerEntity) {
-        this.lof = clientPlayerEntity.method_36454();
-        this.log = clientPlayerEntity.method_36455();
-        this.loh = clientPlayerEntity.field_3932;
-        this.loi = clientPlayerEntity.field_3916;
+        this.lof = clientPlayerEntity.getYaw();
+        this.log = clientPlayerEntity.getPitch();
+        this.loh = clientPlayerEntity.renderYaw;
+        this.loi = clientPlayerEntity.renderPitch;
         this.loe = true;
     }
 
@@ -364,20 +364,20 @@ public final class lng {
             d4 = (float)((double)l * d5) * 0.15f;
             d3 = (float)((double)l2 * d5) * 0.15f;
         } else {
-            float f = clientPlayerEntity.method_36454();
-            float f2 = clientPlayerEntity.method_36455();
-            float f3 = clientPlayerEntity.field_5982;
-            float f4 = clientPlayerEntity.field_6004;
-            clientPlayerEntity.method_5872((double)l * d5, (double)l2 * d5);
-            d4 = clientPlayerEntity.method_36454() - f;
-            d3 = clientPlayerEntity.method_36455() - f2;
+            float f = clientPlayerEntity.getYaw();
+            float f2 = clientPlayerEntity.getPitch();
+            float f3 = clientPlayerEntity.lastYaw;
+            float f4 = clientPlayerEntity.lastPitch;
+            clientPlayerEntity.changeLookDirection((double)l * d5, (double)l2 * d5);
+            d4 = clientPlayerEntity.getYaw() - f;
+            d3 = clientPlayerEntity.getPitch() - f2;
             if (!this.lnx) {
                 this.lor += d4;
                 this.los += d3;
             }
             if (bl) {
-                clientPlayerEntity.field_5982 = f3;
-                clientPlayerEntity.field_6004 = f4;
+                clientPlayerEntity.lastYaw = f3;
+                clientPlayerEntity.lastPitch = f4;
             }
         }
         this.loa += d4;
@@ -391,9 +391,9 @@ public final class lng {
     }
 
     private static double lpb(MinecraftClient minecraftClient, ClientPlayerEntity clientPlayerEntity) {
-        double d = (Double)minecraftClient.field_1690.method_42495().method_41753() * (double)0.6f + (double)0.2f;
+        double d = (Double)minecraftClient.options.getMouseSensitivity().getValue() * (double)0.6f + (double)0.2f;
         double d2 = d * d * d;
-        boolean bl = minecraftClient.field_1690.method_31044().method_31034() && clientPlayerEntity.method_31550();
+        boolean bl = minecraftClient.options.getPerspective().isFirstPerson() && clientPlayerEntity.isUsingSpyglass();
         return bl ? d2 : d2 * 8.0;
     }
 

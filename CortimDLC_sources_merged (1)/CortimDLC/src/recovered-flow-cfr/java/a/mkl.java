@@ -137,7 +137,7 @@ extends kfe {
     private double mmp = 6.0;
     private long mmq = System.currentTimeMillis();
     private int mmr = -1;
-    private SlotActionType mms = SlotActionType.field_7790;
+    private SlotActionType mms = SlotActionType.PICKUP;
     private boolean mmt;
     private int mmu;
     private int mmv;
@@ -147,7 +147,7 @@ extends kfe {
     private int mmz;
     private int mna;
     private int mnb;
-    private ItemStack mnc = ItemStack.field_8037;
+    private ItemStack mnc = ItemStack.EMPTY;
     private boolean mnd;
     private int mne;
     private boolean mnf;
@@ -213,7 +213,7 @@ extends kfe {
     }
 
     private void mnt() {
-        if (this.mc.field_1724 == null) {
+        if (this.mc.player == null) {
             return;
         }
         if (!this.isEnabled()) {
@@ -241,10 +241,10 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         this.mmg.release(minecraftClient);
-        if (minecraftClient.field_1724 == null) {
+        if (minecraftClient.player == null) {
             return;
         }
-        if (this.mmh != null && minecraftClient.field_1755 instanceof HandledScreen) {
+        if (this.mmh != null && minecraftClient.currentScreen instanceof HandledScreen) {
             this.mmg.hold(minecraftClient);
         }
         this.mnx(minecraftClient);
@@ -252,10 +252,10 @@ extends kfe {
 
     @Override
     public void onEndTick(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1724 == null || minecraftClient.field_1687 == null) {
+        if (minecraftClient.player == null || minecraftClient.world == null) {
             return;
         }
-        if (!(minecraftClient.field_1755 instanceof GenericContainerScreen)) {
+        if (!(minecraftClient.currentScreen instanceof GenericContainerScreen)) {
             this.mmy = -1;
             this.mmr = -1;
         }
@@ -267,7 +267,7 @@ extends kfe {
         if (this.mpk(minecraftClient)) {
             return;
         }
-        if (minecraftClient.field_1724.method_31548().method_7376() == -1) {
+        if (minecraftClient.player.getInventory().getEmptySlot() == -1) {
             this.mpl(wap.s(a.b("\u146a\u6dfa\ue766\u7951\uf292\u7434\uce67\u47d3\ud9c5\u5373\ud4b8\u2eda\ua006\u39ad\ub3e5\u3509\u8f4d\u00c5\u9a25\u1c6b\u959f\uefd5\u6161", -431287245), a.d("\u9893\ue10a\u6bae\uf1bd\u7e0b\uf8c9\u4296\ucb68\u5538\udf83\u5859\ua25e\u2c87\ub153\u3f61\ub9ea\u03a0\u8c0d\u16c2\u909f\u1d7a\u6339\ue998\u7651\uf02b\u7af5\uc341\u4d18\ud790\u51b3\uda70\u24d4", 446539183, 1534867713)), false);
             this.mpj();
             this.mpc();
@@ -279,29 +279,29 @@ extends kfe {
 
     @Override
     public void onWorldRender(MinecraftClient minecraftClient) {
-        if (this.mmh == null || minecraftClient.field_1724 == null) {
+        if (this.mmh == null || minecraftClient.player == null) {
             return;
         }
-        if (minecraftClient.method_61964() != null) {
-            minecraftClient.method_61964().method_61939();
+        if (minecraftClient.getInactivityFpsLimiter() != null) {
+            minecraftClient.getInactivityFpsLimiter().onInput();
         }
         this.mnv();
     }
 
     private void mnv() {
-        if (this.mmh == null || this.mmj.isEmpty() || this.mc.field_1724 == null || this.mc.method_1562() == null) {
+        if (this.mmh == null || this.mmj.isEmpty() || this.mc.player == null || this.mc.getNetworkHandler() == null) {
             return;
         }
-        Screen screen = this.mc.field_1755;
+        Screen screen = this.mc.currentScreen;
         if (screen instanceof GenericContainerScreen) {
             GenericContainerScreen genericContainerScreen = (GenericContainerScreen)screen;
             this.moa(genericContainerScreen);
             return;
         }
-        if (this.mc.field_1755 != null || this.mnj > 0) {
+        if (this.mc.currentScreen != null || this.mnj > 0) {
             return;
         }
-        if (this.mc.field_1724.field_6012 < 200 || !this.mme.ready()) {
+        if (this.mc.player.age < 200 || !this.mme.ready()) {
             return;
         }
         if (this.mmm >= 3) {
@@ -311,7 +311,7 @@ extends kfe {
         if (!this.mph()) {
             return;
         }
-        this.mc.method_1562().method_45730(a.b("\ueacd\u9375\u19ee\u87cc\u0c0d\u8ab8\u30f8\ub918\u274c\uadb5", -1430000986) + this.mmj);
+        this.mc.getNetworkHandler().sendChatCommand(a.b("\ueacd\u9375\u19ee\u87cc\u0c0d\u8ab8\u30f8\ub918\u274c\uadb5", -1430000986) + this.mmj);
         this.mme.arm(this.mlz.draw(4, this.mpi()));
         this.mml = 0;
         ++this.mmm;
@@ -342,7 +342,7 @@ extends kfe {
         if (this.mnj <= 0) {
             return;
         }
-        if (minecraftClient.field_1755 != null) {
+        if (minecraftClient.currentScreen != null) {
             this.mnj = 0;
             this.mny();
             return;
@@ -353,40 +353,40 @@ extends kfe {
             this.mnk = threadLocalRandom.nextInt(4, 12);
             this.mnl = threadLocalRandom.nextInt(5);
         }
-        KeyBinding[] keyBindingArray = mkl.mnz(minecraftClient.field_1690);
+        KeyBinding[] keyBindingArray = mkl.mnz(minecraftClient.options);
         for (int i = 0; i < keyBindingArray.length; ++i) {
-            keyBindingArray[i].method_23481(this.mnl == i);
+            keyBindingArray[i].setPressed(this.mnl == i);
         }
         this.mnm = this.mnm * 0.85f + (float)threadLocalRandom.nextGaussian() * 0.9f;
         this.mnn = this.mnn * 0.85f + (float)threadLocalRandom.nextGaussian() * 0.45f;
-        float f = minecraftClient.field_1724.method_36455();
+        float f = minecraftClient.player.getPitch();
         float f2 = f + this.mnn > 80.0f || f + this.mnn < -80.0f ? -this.mnn : this.mnn;
-        minecraftClient.field_1724.method_5872((double)this.mnm / 0.15, (double)f2 / 0.15);
+        minecraftClient.player.changeLookDirection((double)this.mnm / 0.15, (double)f2 / 0.15);
         if (this.mnj == 0) {
             this.mny();
         }
     }
 
     private void mny() {
-        if (this.mnl < 0 || this.mc.field_1690 == null || this.mc.method_22683() == null) {
+        if (this.mnl < 0 || this.mc.options == null || this.mc.getWindow() == null) {
             return;
         }
         this.mnl = -1;
-        for (KeyBinding keyBinding : mkl.mnz(this.mc.field_1690)) {
-            keyBinding.method_23481(vzz.isPhysicallyDown(this.mc, keyBinding));
+        for (KeyBinding keyBinding : mkl.mnz(this.mc.options)) {
+            keyBinding.setPressed(vzz.isPhysicallyDown(this.mc, keyBinding));
         }
     }
 
     private static KeyBinding[] mnz(GameOptions gameOptions) {
-        return new KeyBinding[]{gameOptions.field_1894, gameOptions.field_1881, gameOptions.field_1913, gameOptions.field_1849};
+        return new KeyBinding[]{gameOptions.forwardKey, gameOptions.backKey, gameOptions.leftKey, gameOptions.rightKey};
     }
 
     private void moa(GenericContainerScreen genericContainerScreen) {
         boolean bl;
-        ScreenHandler screenHandler = genericContainerScreen.method_17577();
-        String string = pfl.title(genericContainerScreen.method_25440().getString());
-        if (screenHandler.field_7763 != this.mmy) {
-            this.mmy = screenHandler.field_7763;
+        ScreenHandler screenHandler = genericContainerScreen.getScreenHandler();
+        String string = pfl.title(genericContainerScreen.getTitle().getString());
+        if (screenHandler.syncId != this.mmy) {
+            this.mmy = screenHandler.syncId;
             this.mmb.arm(this.mlz.draw(0));
             this.mmd.restart();
             if (this.mmr >= 0) {
@@ -397,7 +397,7 @@ extends kfe {
             }
             return;
         }
-        if (!vyn.serverIdle(this.mc.field_1724)) {
+        if (!vyn.serverIdle(this.mc.player)) {
             return;
         }
         if (mkl.mob(string)) {
@@ -415,7 +415,7 @@ extends kfe {
             if (this.mmb.ready() && this.mma.ready()) {
                 Slot slot = mkl.moj(mkl.mor(screenHandler), a.c(56465371, "\u93e7\uea2f\u6080\ufef6\u755b\uf3e4"));
                 if (slot != null) {
-                    this.mop(screenHandler, slot.field_7874, SlotActionType.field_7794);
+                    this.mop(screenHandler, slot.id, SlotActionType.QUICK_MOVE);
                     this.mnd = true;
                 } else if (++this.mne >= 4) {
                     this.mpl(wap.s(a.b("\ua2f1\udb61\u51fd\ucfce\u440e\uc2b3\u78b9\uf10a\u6f42\ue5f2\u6221\u984b\u169d\u8f62\u0578\u838e\u398f\ub60a\u2ca5\uaaf9\u234b\u5959\ud7e6\u4c36\uca41\u409f\uf937\u7779\uedc3\u6bc5\ue068\u1ebe\u94fb\u0d01\u8b4a", -1459379556), a.b("\uc0f8\ubd7b\u33b6\uadc3\u2613\ua0aa\u1eec\u9302\u0d5c\u87e7B\ufa43\u7493\ued57\u6772\ue181\u5bcf\ud416\u4ea0\uc886\u451e\u3b52\ub5e9\u2e4f\uac52\u2299\u9b2d\u157f\u8f89\u09dd\u826c\u78a5\uf6f5\u6f05\ue952\u639a\udc31\u5645\ud094", 1158071501)), false);
@@ -433,7 +433,7 @@ extends kfe {
         this.mnd = false;
         this.mne = 0;
         if (this.mnf) {
-            if (screenHandler.field_7763 == this.mng && !this.mma.elapsed(1400L)) {
+            if (screenHandler.syncId == this.mng && !this.mma.elapsed(1400L)) {
                 return;
             }
             this.mnf = false;
@@ -485,7 +485,7 @@ extends kfe {
 
     private static boolean moc(List<Slot> list) {
         for (Slot slot : list) {
-            if (slot.method_7677().method_7960()) continue;
+            if (slot.getStack().isEmpty()) continue;
             return true;
         }
         return false;
@@ -497,8 +497,8 @@ extends kfe {
         if (pfw2 == null) {
             if (this.mly.markPage(n)) {
                 for (Slot slot : mkl.mos(screenHandler)) {
-                    if (!this.mou(slot.method_7677())) continue;
-                    this.mly.offer(n, pfd.of(slot.method_7677()));
+                    if (!this.mou(slot.getStack())) continue;
+                    this.mly.offer(n, pfd.of(slot.getStack()));
                 }
             }
             if (!(n >= n3 || n >= 3 && this.mly.enough())) {
@@ -518,12 +518,12 @@ extends kfe {
             int n4 = Integer.MAX_VALUE;
             for (Slot slot2 : mkl.mos(screenHandler)) {
                 int n5;
-                if (!this.mou(slot2.method_7677()) || (n5 = pfd.of(slot2.method_7677())) > pfw2.price() || n5 >= n4) continue;
+                if (!this.mou(slot2.getStack()) || (n5 = pfd.of(slot2.getStack())) > pfw2.price() || n5 >= n4) continue;
                 slot = slot2;
                 n4 = n5;
             }
             if (slot != null) {
-                this.moo(screenHandler, slot.field_7874);
+                this.moo(screenHandler, slot.id);
                 return;
             }
             this.mpl(wap.s(a.d("\uea8c\u9301\u19df\u87eb\u0c70\u8ac2\u308a\ub92f\u2739\uad92\u2a12\ud024\u5efb\uc74b\u4d13\ucbab\u71e8\ufe6a\u64c9\ue29a\u6b62\u1133\u9f87\u0451\u8227\u08b1\ub143\u3f14\ua5e5\u23bc\ua808", -984192554, -808877295), a.d("\u46f3\u3f18\ub5cb\u2bcb\ua069\u22b8\u9cf4\u157a\u8b5b\u01eb\u8637\u7c4d\uf68d\u6f30\ue17c\u6787\uddbd\u5219\uc8de\u4ef4\uc709\ubd55\u33e3\ua84a\u2e36\ua4ea", 1913060220, -1564034677)), false);
@@ -541,7 +541,7 @@ extends kfe {
             Slot slot;
             ItemStack itemStack;
             Iterator<Slot> iterator = mkl.mot(screenHandler).iterator();
-            while (iterator.hasNext() && ((itemStack = (slot = iterator.next()).method_7677()).method_7960() || (nArray = mkl.mof(pfl.title(itemStack.method_7964().getString()))) == null)) {
+            while (iterator.hasNext() && ((itemStack = (slot = iterator.next()).getStack()).isEmpty() || (nArray = mkl.mof(pfl.title(itemStack.getName().getString()))) == null)) {
             }
         }
         if (nArray == null) {
@@ -578,7 +578,7 @@ extends kfe {
             this.mmr = -1;
             ++this.mmv;
             if (!this.mmt && ++this.mmu >= 2) {
-                this.mms = this.mms == SlotActionType.field_7790 ? SlotActionType.field_7794 : SlotActionType.field_7790;
+                this.mms = this.mms == SlotActionType.PICKUP ? SlotActionType.QUICK_MOVE : SlotActionType.PICKUP;
                 this.mmu = 0;
             }
             return false;
@@ -598,7 +598,7 @@ extends kfe {
             return;
         }
         this.mmx = 0;
-        this.mop(screenHandler, slot.field_7874, this.mms);
+        this.mop(screenHandler, slot.id, this.mms);
         this.mmr = n;
         this.mmc.restart();
         this.mma.arm(this.mlz.draw(2));
@@ -615,8 +615,8 @@ extends kfe {
 
     private static Slot moj(List<Slot> list, String string) {
         for (Slot slot : list) {
-            ItemStack itemStack = slot.method_7677();
-            if (itemStack.method_7960() || !pfl.title(itemStack.method_7964().getString()).contains(string)) continue;
+            ItemStack itemStack = slot.getStack();
+            if (itemStack.isEmpty() || !pfl.title(itemStack.getName().getString()).contains(string)) continue;
             return slot;
         }
         return null;
@@ -632,7 +632,7 @@ extends kfe {
         this.moq();
         Slot slot = this.mol(screenHandler);
         if (slot != null) {
-            this.moo(screenHandler, slot.field_7874);
+            this.moo(screenHandler, slot.id);
         } else {
             this.mom();
         }
@@ -642,8 +642,8 @@ extends kfe {
         Slot slot2;
         int n = Integer.MAX_VALUE;
         for (Slot slot2 : mkl.mos(screenHandler)) {
-            if (!this.mou(slot2.method_7677())) continue;
-            n = Math.min(n, pfd.of(slot2.method_7677()));
+            if (!this.mou(slot2.getStack())) continue;
+            n = Math.min(n, pfd.of(slot2.getStack()));
         }
         if (n == Integer.MAX_VALUE) {
             return null;
@@ -653,11 +653,11 @@ extends kfe {
         Slot slot3 = null;
         for (Slot slot4 : mkl.mos(screenHandler)) {
             int n3;
-            if (this.mov(slot4.method_7677()) != 0 || (n3 = pfd.of(slot4.method_7677())) > n * 2) continue;
-            if (slot3 == null || n3 < pfd.of(slot3.method_7677())) {
+            if (this.mov(slot4.getStack()) != 0 || (n3 = pfd.of(slot4.getStack())) > n * 2) continue;
+            if (slot3 == null || n3 < pfd.of(slot3.getStack())) {
                 slot3 = slot4;
             }
-            if (slot4.method_7677().method_7947() < n2 || slot2 != null && n3 >= pfd.of(slot2.method_7677())) continue;
+            if (slot4.getStack().getCount() < n2 || slot2 != null && n3 >= pfd.of(slot2.getStack())) continue;
             slot2 = slot4;
         }
         return slot2 != null ? slot2 : slot3;
@@ -666,7 +666,7 @@ extends kfe {
     private void mom() {
         this.moq();
         this.mpj();
-        String string = this.mmh.item().method_63680().getString();
+        String string = this.mmh.item().getName().getString();
         if (!(this.mml != 0 || this.mmk || this.mmh.hasQuery() || string.equalsIgnoreCase(this.mmj))) {
             this.mmk = true;
             this.mmj = string;
@@ -686,8 +686,8 @@ extends kfe {
     }
 
     private void moo(ScreenHandler screenHandler, int n) {
-        this.mop(screenHandler, n, SlotActionType.field_7794);
-        this.mng = screenHandler.field_7763;
+        this.mop(screenHandler, n, SlotActionType.QUICK_MOVE);
+        this.mng = screenHandler.syncId;
         this.mma.arm(this.mlz.draw(3));
         this.mme.arm(this.mlz.draw(6));
         this.moq();
@@ -697,7 +697,7 @@ extends kfe {
     }
 
     private void mop(ScreenHandler screenHandler, int n, SlotActionType slotActionType) {
-        this.mc.field_1761.method_2906(screenHandler.field_7763, n, 0, slotActionType, (PlayerEntity)this.mc.field_1724);
+        this.mc.interactionManager.clickSlot(screenHandler.syncId, n, 0, slotActionType, (PlayerEntity)this.mc.player);
     }
 
     private void moq() {
@@ -712,12 +712,12 @@ extends kfe {
         int n;
         if (screenHandler instanceof GenericContainerScreenHandler) {
             GenericContainerScreenHandler genericContainerScreenHandler = (GenericContainerScreenHandler)screenHandler;
-            n = genericContainerScreenHandler.method_17388() * 9;
+            n = genericContainerScreenHandler.getRows() * 9;
         } else {
-            n = screenHandler.field_7761.size();
+            n = screenHandler.slots.size();
         }
         int n2 = n;
-        return screenHandler.field_7761.subList(0, Math.min(Math.max(n2, 0), screenHandler.field_7761.size()));
+        return screenHandler.slots.subList(0, Math.min(Math.max(n2, 0), screenHandler.slots.size()));
     }
 
     private static List<Slot> mos(ScreenHandler screenHandler) {
@@ -732,7 +732,7 @@ extends kfe {
 
     private boolean mou(ItemStack itemStack) {
         int n = this.mov(itemStack);
-        if (this.mmh != null && itemStack.method_31574(this.mmh.item())) {
+        if (this.mmh != null && itemStack.isOf(this.mmh.item())) {
             int n2 = n;
             this.mnh[n2] = this.mnh[n2] + 1;
             ++this.mml;
@@ -741,10 +741,10 @@ extends kfe {
     }
 
     private int mov(ItemStack itemStack) {
-        if (itemStack.method_7960() || this.mmh == null || !this.mmh.matches(itemStack, new pey(itemStack))) {
+        if (itemStack.isEmpty() || this.mmh == null || !this.mmh.matches(itemStack, new pey(itemStack))) {
             return 1;
         }
-        if (!(this.mmh.hasEffects() || this.mnc.method_7960() || Objects.equals(itemStack.method_58694(DataComponentTypes.field_49651), this.mnc.method_58694(DataComponentTypes.field_49651)))) {
+        if (!(this.mmh.hasEffects() || this.mnc.isEmpty() || Objects.equals(itemStack.get(DataComponentTypes.POTION_CONTENTS), this.mnc.get(DataComponentTypes.POTION_CONTENTS)))) {
             return 2;
         }
         if (pfd.claimed(itemStack)) {
@@ -753,18 +753,18 @@ extends kfe {
         if (pfd.of(itemStack) <= 0) {
             return 4;
         }
-        if (itemStack.method_7947() > this.mnb) {
+        if (itemStack.getCount() > this.mnb) {
             return 7;
         }
-        if (this.mmh.item() == Items.field_8288 && !this.mmh.hasAttrs() && itemStack.method_7958()) {
+        if (this.mmh.item() == Items.TOTEM_OF_UNDYING && !this.mmh.hasAttrs() && itemStack.hasGlint()) {
             return 5;
         }
-        Integer n = (Integer)itemStack.method_58694(DataComponentTypes.field_49629);
-        int n2 = itemStack.method_7936();
+        Integer n = (Integer)itemStack.get(DataComponentTypes.DAMAGE);
+        int n2 = itemStack.getMaxDamage();
         if (n == null || n2 <= 0) {
             return 0;
         }
-        if (this.mmh.item() == Items.field_8833) {
+        if (this.mmh.item() == Items.ELYTRA) {
             return (float)(n2 - n) / (float)n2 >= 0.5f ? 0 : 6;
         }
         if (!mkl.mow(itemStack)) {
@@ -772,15 +772,15 @@ extends kfe {
         }
         boolean bl = false;
         for (phm phm2 : this.mmh.rules()) {
-            if (phm2.state() != phj.ON || !Enchantments.field_9101.method_29177().toString().equals(phm2.key())) continue;
+            if (phm2.state() != phj.ON || !Enchantments.MENDING.getValue().toString().equals(phm2.key())) continue;
             bl = true;
         }
         return bl || (float)(n2 - n) / (float)n2 >= 0.7f ? 0 : 6;
     }
 
     private static boolean mow(ItemStack itemStack) {
-        EquippableComponent equippableComponent = (EquippableComponent)itemStack.method_58694(DataComponentTypes.field_54196);
-        return equippableComponent != null && equippableComponent.comp_3174().method_46643();
+        EquippableComponent equippableComponent = (EquippableComponent)itemStack.get(DataComponentTypes.EQUIPPABLE);
+        return equippableComponent != null && equippableComponent.slot().isArmorSlot();
     }
 
     private String mox() {
@@ -867,7 +867,7 @@ extends kfe {
 
     private void mpd() {
         this.mpc();
-        this.mms = SlotActionType.field_7790;
+        this.mms = SlotActionType.PICKUP;
         this.mmt = false;
         this.mmu = 0;
         this.mne = 0;
@@ -880,7 +880,7 @@ extends kfe {
         this.mmz = 0;
         this.mna = 0;
         this.mnb = 0;
-        this.mnc = ItemStack.field_8037;
+        this.mnc = ItemStack.EMPTY;
         this.mno = false;
         this.mnp = false;
         this.mnq = false;
@@ -892,33 +892,33 @@ extends kfe {
         }
         this.mna = 4;
         this.mmz = this.mpf(this.mmh);
-        this.mnc = this.mmh.isPotion() && !this.mmh.hasEffects() ? this.mpg(this.mmh) : ItemStack.field_8037;
+        this.mnc = this.mmh.isPotion() && !this.mmh.hasEffects() ? this.mpg(this.mmh) : ItemStack.EMPTY;
         int n = this.mmh.count() + Math.round((float)this.mmh.count() * 0.2f);
         this.mnb = Math.max(n - this.mmz, this.mmh.count());
     }
 
     private int mpf(pdr pdr2) {
-        if (this.mc.field_1724 == null) {
+        if (this.mc.player == null) {
             return 0;
         }
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         int n = 0;
         for (int i = 0; i < 41; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960() || !pdr2.matches(itemStack)) continue;
-            n += itemStack.method_7947();
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty() || !pdr2.matches(itemStack)) continue;
+            n += itemStack.getCount();
         }
         return n;
     }
 
     private ItemStack mpg(pdr pdr2) {
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         for (int i = 0; i < 41; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960() || !pdr2.matches(itemStack)) continue;
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty() || !pdr2.matches(itemStack)) continue;
             return itemStack;
         }
-        return ItemStack.field_8037;
+        return ItemStack.EMPTY;
     }
 
     private boolean mph() {
@@ -940,15 +940,15 @@ extends kfe {
         this.mmr = -1;
         this.mmx = 0;
         this.mmy = -1;
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (clientPlayerEntity != null && this.mc.field_1755 instanceof GenericContainerScreen) {
-            clientPlayerEntity.method_7346();
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (clientPlayerEntity != null && this.mc.currentScreen instanceof GenericContainerScreen) {
+            clientPlayerEntity.closeHandledScreen();
         }
     }
 
     private boolean mpk(MinecraftClient minecraftClient) {
         boolean bl = vzz.isDown(minecraftClient, 256);
-        if (minecraftClient.field_1755 instanceof hlc) {
+        if (minecraftClient.currentScreen instanceof hlc) {
             this.mni = bl;
             return false;
         }

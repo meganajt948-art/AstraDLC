@@ -85,25 +85,25 @@ extends kfe {
     }
 
     private static String mjq(Text text, String string) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
-        if (clientPlayNetworkHandler == null || minecraftClient.field_1724 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
+        if (clientPlayNetworkHandler == null || minecraftClient.player == null) {
             return null;
         }
-        String string3 = minecraftClient.field_1724.method_5477().getString();
+        String string3 = minecraftClient.player.getName().getString();
         String[] stringArray = new String[1];
-        text.method_27658((style, string2) -> {
+        text.visit((style, string2) -> {
             String string3;
             Object object;
-            ClickEvent clickEvent = style.method_10970();
+            ClickEvent clickEvent = style.getClickEvent();
             if (clickEvent instanceof ClickEvent.RunCommand) {
                 ClickEvent.RunCommand runCommand = (ClickEvent.RunCommand)clickEvent;
-                v0 = runCommand.comp_3506();
+                v0 = runCommand.command();
             } else {
-                clickEvent = style.method_10970();
+                clickEvent = style.getClickEvent();
                 if (clickEvent instanceof ClickEvent.SuggestCommand) {
                     object = (ClickEvent.SuggestCommand)clickEvent;
-                    v0 = object.comp_3507();
+                    v0 = object.command();
                 } else {
                     v0 = string3 = null;
                 }
@@ -113,10 +113,10 @@ extends kfe {
                 return Optional.of(Boolean.TRUE);
             }
             return Optional.empty();
-        }, Style.field_24360);
+        }, Style.EMPTY);
         if (stringArray[0] != null) {
-            PlayerListEntry playerListEntry = clientPlayNetworkHandler.method_73471(stringArray[0]);
-            return playerListEntry != null ? playerListEntry.method_2966().name() : stringArray[0];
+            PlayerListEntry playerListEntry = clientPlayNetworkHandler.getCaseInsensitivePlayerInfo(stringArray[0]);
+            return playerListEntry != null ? playerListEntry.getProfile().name() : stringArray[0];
         }
         Matcher matcher = mjh.matcher(string);
         while (matcher.find()) {
@@ -125,9 +125,9 @@ extends kfe {
             if (hhf.isFriend(string4)) {
                 return string4;
             }
-            PlayerListEntry playerListEntry = clientPlayNetworkHandler.method_73471(string4);
+            PlayerListEntry playerListEntry = clientPlayNetworkHandler.getCaseInsensitivePlayerInfo(string4);
             if (playerListEntry == null) continue;
-            return playerListEntry.method_2966().name();
+            return playerListEntry.getProfile().name();
         }
         return null;
     }
@@ -139,7 +139,7 @@ extends kfe {
         }
         String string = this.mjk;
         this.mjk = null;
-        if (System.currentTimeMillis() - this.mjm < 1500L || minecraftClient.method_1562() == null) {
+        if (System.currentTimeMillis() - this.mjm < 1500L || minecraftClient.getNetworkHandler() == null) {
             return;
         }
         String string2 = this.mja.get().trim().replace(a.c(-152315449, "\ud9ba\ua01e\u2ac2\ub4bf\u3f60\ub9c9"), string);
@@ -148,9 +148,9 @@ extends kfe {
         }
         this.mjm = System.currentTimeMillis();
         if (string2.startsWith(a.c(1948725704, "\u31e6"))) {
-            minecraftClient.method_1562().method_45730(string2.substring(1));
+            minecraftClient.getNetworkHandler().sendChatCommand(string2.substring(1));
         } else {
-            minecraftClient.method_1562().method_45729(string2);
+            minecraftClient.getNetworkHandler().sendChatMessage(string2);
         }
         izx.alert(string.isEmpty() ? this.getName() : string, wap.s(a.c(283939839, "\u93ba\uea3a\u60e0\ufe98\u755a\uf3f4\u49ba\uc04d\u5e46\ud4b6\u5367\ua916\u27c7\ube63\u3434\ub2d4\u089a"), a.b("\uf193\u8835\u02e8\u9c97\u174a\u91fa\u2bd7\ua224\u3819\ub6b7\u311b\ucb12\u45c0\udc03\u565d", -2016348738)), vhz.FRIENDS, true);
     }

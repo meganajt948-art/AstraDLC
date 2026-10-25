@@ -40,7 +40,7 @@ public final class vvn {
     private int vvq;
     private int vvr;
     private int vvs = -1;
-    private ItemStack vvt = ItemStack.field_8037;
+    private ItemStack vvt = ItemStack.EMPTY;
     private boolean vvu;
     private static /* synthetic */ long vvv;
     private static /* synthetic */ String vvw;
@@ -50,19 +50,19 @@ public final class vvn {
     }
 
     public boolean cursorHeld(ClientPlayerEntity clientPlayerEntity) {
-        return this.vvu && !clientPlayerEntity.field_7498.method_34255().method_7960();
+        return this.vvu && !clientPlayerEntity.playerScreenHandler.getCursorStack().isEmpty();
     }
 
     public static BundleContentsComponent contents(ItemStack itemStack) {
-        return itemStack.method_7909() instanceof BundleItem ? (BundleContentsComponent)itemStack.method_58694(DataComponentTypes.field_49650) : null;
+        return itemStack.getItem() instanceof BundleItem ? (BundleContentsComponent)itemStack.get(DataComponentTypes.BUNDLE_CONTENTS) : null;
     }
 
     public static int[] locate(PlayerInventory playerInventory, Predicate<ItemStack> predicate) {
         for (int i = 0; i < 36; ++i) {
-            BundleContentsComponent bundleContentsComponent = vvn.contents(playerInventory.method_5438(i));
+            BundleContentsComponent bundleContentsComponent = vvn.contents(playerInventory.getStack(i));
             if (bundleContentsComponent == null) continue;
-            for (int j = 0; j < bundleContentsComponent.method_57426(); ++j) {
-                if (!predicate.test(bundleContentsComponent.method_57422(j))) continue;
+            for (int j = 0; j < bundleContentsComponent.size(); ++j) {
+                if (!predicate.test(bundleContentsComponent.get(j))) continue;
                 return new int[]{i, j};
             }
         }
@@ -71,26 +71,26 @@ public final class vvn {
 
     public static ItemStack peek(PlayerInventory playerInventory, Predicate<ItemStack> predicate) {
         int[] nArray = vvn.locate(playerInventory, predicate);
-        return nArray == null ? ItemStack.field_8037 : vvn.contents(playerInventory.method_5438(nArray[0])).method_57422(nArray[1]);
+        return nArray == null ? ItemStack.EMPTY : vvn.contents(playerInventory.getStack(nArray[0])).get(nArray[1]);
     }
 
     public static int count(PlayerInventory playerInventory, Predicate<ItemStack> predicate) {
         int n = 0;
         for (int i = 0; i < 36; ++i) {
-            BundleContentsComponent bundleContentsComponent = vvn.contents(playerInventory.method_5438(i));
+            BundleContentsComponent bundleContentsComponent = vvn.contents(playerInventory.getStack(i));
             if (bundleContentsComponent == null) continue;
-            for (ItemStack itemStack : bundleContentsComponent.method_57421()) {
+            for (ItemStack itemStack : bundleContentsComponent.iterate()) {
                 if (!predicate.test(itemStack)) continue;
-                n += itemStack.method_7947();
+                n += itemStack.getCount();
             }
         }
         return n;
     }
 
     public boolean take(MinecraftClient minecraftClient, Predicate<ItemStack> predicate, int n) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        if (clientPlayerEntity.field_7512 != clientPlayerEntity.field_7498 || !clientPlayerEntity.field_7498.method_34255().method_7960()) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        if (clientPlayerEntity.currentScreenHandler != clientPlayerEntity.playerScreenHandler || !clientPlayerEntity.playerScreenHandler.getCursorStack().isEmpty()) {
             return false;
         }
         int[] nArray = vvn.locate(playerInventory, predicate);
@@ -98,12 +98,12 @@ public final class vvn {
             return false;
         }
         int n2 = nArray[0];
-        ItemStack itemStack = vvn.contents(playerInventory.method_5438(n2)).method_57422(nArray[1]);
-        Fraction fraction = vvn.vwb(playerInventory.method_5438(n2)).add(vvn.vwc(itemStack));
-        ItemStack itemStack2 = playerInventory.method_5438(n);
+        ItemStack itemStack = vvn.contents(playerInventory.getStack(n2)).get(nArray[1]);
+        Fraction fraction = vvn.vwb(playerInventory.getStack(n2)).add(vvn.vwc(itemStack));
+        ItemStack itemStack2 = playerInventory.getStack(n);
         int n3 = -1;
         int n4 = -1;
-        if (itemStack2.method_7960()) {
+        if (itemStack2.isEmpty()) {
             n3 = n;
         } else {
             n3 = vvn.vwe(playerInventory, -1);
@@ -112,7 +112,7 @@ public final class vvn {
             }
             for (int i = 0; i < 2 && n3 < 0; ++i) {
                 for (int j = i == 0 ? 0 : 9; j < (i == 0 ? 9 : 36) && n3 < 0; ++j) {
-                    ItemStack itemStack3 = playerInventory.method_5438(j);
+                    ItemStack itemStack3 = playerInventory.getStack(j);
                     if (j == n || j == n2 || !vvn.vvy(itemStack3) || (n4 = vvn.vvz(playerInventory, itemStack3, j, n2, fraction)) < 0) continue;
                     n3 = j;
                 }
@@ -128,16 +128,16 @@ public final class vvn {
         this.vvq = n3;
         this.vvr = n;
         this.vvs = n4;
-        this.vvt = ItemStack.field_8037;
+        this.vvt = ItemStack.EMPTY;
         this.vvu = true;
         vvn.vwf(minecraftClient, n2, nArray[1]);
         vvn.vwg(minecraftClient, n2, 1);
         vvn.vwg(minecraftClient, n3, 0);
         if (n4 >= 0) {
-            this.vvt = clientPlayerEntity.field_7498.method_34255().method_7972();
+            this.vvt = clientPlayerEntity.playerScreenHandler.getCursorStack().copy();
             vvn.vwg(minecraftClient, n4, 0);
         }
-        if (n3 != n && clientPlayerEntity.field_7498.method_34255().method_7960()) {
+        if (n3 != n && clientPlayerEntity.playerScreenHandler.getCursorStack().isEmpty()) {
             wdq.click(minecraftClient, n3, n);
         }
         return true;
@@ -149,42 +149,42 @@ public final class vvn {
             return;
         }
         this.vvu = false;
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || clientPlayerEntity.field_7512 != clientPlayerEntity.field_7498) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || clientPlayerEntity.currentScreenHandler != clientPlayerEntity.playerScreenHandler) {
             return;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
-        if (this.vvq != this.vvr && vvn.vvx(clientPlayerEntity).method_7960()) {
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
+        if (this.vvq != this.vvr && vvn.vvx(clientPlayerEntity).isEmpty()) {
             wdq.click(minecraftClient, this.vvq, this.vvr);
         }
-        if (this.vvs >= 0 && vvn.vvx(clientPlayerEntity).method_7960()) {
+        if (this.vvs >= 0 && vvn.vvx(clientPlayerEntity).isEmpty()) {
             int n2;
-            BundleContentsComponent bundleContentsComponent = vvn.contents(playerInventory.method_5438(this.vvs));
+            BundleContentsComponent bundleContentsComponent = vvn.contents(playerInventory.getStack(this.vvs));
             int n3 = n2 = bundleContentsComponent == null ? -1 : vvn.vwa(bundleContentsComponent, this.vvt);
             if (n2 >= 0) {
                 vvn.vwf(minecraftClient, this.vvs, n2);
                 vvn.vwg(minecraftClient, this.vvs, 1);
             }
         }
-        if (!vvn.vvx(clientPlayerEntity).method_7960() || !playerInventory.method_5438(this.vvq).method_7960()) {
+        if (!vvn.vvx(clientPlayerEntity).isEmpty() || !playerInventory.getStack(this.vvq).isEmpty()) {
             vvn.vwg(minecraftClient, this.vvq, 0);
         }
-        if (!vvn.vvx(clientPlayerEntity).method_7960() && vvn.contents(playerInventory.method_5438(this.vvp)) != null) {
+        if (!vvn.vvx(clientPlayerEntity).isEmpty() && vvn.contents(playerInventory.getStack(this.vvp)) != null) {
             vvn.vwg(minecraftClient, this.vvp, 0);
         }
-        if (!vvn.vvx(clientPlayerEntity).method_7960() && (n = vvn.vwe(playerInventory, -1)) >= 0) {
+        if (!vvn.vvx(clientPlayerEntity).isEmpty() && (n = vvn.vwe(playerInventory, -1)) >= 0) {
             vvn.vwg(minecraftClient, n, 0);
         }
         this.vvs = -1;
-        this.vvt = ItemStack.field_8037;
+        this.vvt = ItemStack.EMPTY;
     }
 
     private static ItemStack vvx(ClientPlayerEntity clientPlayerEntity) {
-        return clientPlayerEntity.field_7498.method_34255();
+        return clientPlayerEntity.playerScreenHandler.getCursorStack();
     }
 
     private static boolean vvy(ItemStack itemStack) {
-        return BundleContentsComponent.method_61667((ItemStack)itemStack) && vvn.contents(itemStack) == null;
+        return BundleContentsComponent.canBeBundled((ItemStack)itemStack) && vvn.contents(itemStack) == null;
     }
 
     private static int vvz(PlayerInventory playerInventory, ItemStack itemStack, int n, int n2, Fraction fraction) {
@@ -193,7 +193,7 @@ public final class vvn {
         for (int i = 0; i < 36; ++i) {
             ItemStack itemStack2;
             BundleContentsComponent bundleContentsComponent;
-            if (i == n || (bundleContentsComponent = vvn.contents(itemStack2 = playerInventory.method_5438(i))) == null || (i == n2 ? fraction : vvn.vwb(itemStack2)).compareTo(fraction2) < 0) continue;
+            if (i == n || (bundleContentsComponent = vvn.contents(itemStack2 = playerInventory.getStack(i))) == null || (i == n2 ? fraction : vvn.vwb(itemStack2)).compareTo(fraction2) < 0) continue;
             if (vvn.vwa(bundleContentsComponent, itemStack) < 0) {
                 return i;
             }
@@ -204,54 +204,54 @@ public final class vvn {
     }
 
     private static int vwa(BundleContentsComponent bundleContentsComponent, ItemStack itemStack) {
-        for (int i = 0; i < bundleContentsComponent.method_57426(); ++i) {
-            if (!ItemStack.method_31577((ItemStack)bundleContentsComponent.method_57422(i), (ItemStack)itemStack)) continue;
+        for (int i = 0; i < bundleContentsComponent.size(); ++i) {
+            if (!ItemStack.areItemsAndComponentsEqual((ItemStack)bundleContentsComponent.get(i), (ItemStack)itemStack)) continue;
             return i;
         }
         return -1;
     }
 
     private static Fraction vwb(ItemStack itemStack) {
-        return Fraction.ONE.subtract(vvn.contents(itemStack).method_57428());
+        return Fraction.ONE.subtract(vvn.contents(itemStack).getOccupancy());
     }
 
     private static Fraction vwc(ItemStack itemStack) {
-        return vvn.vwd(itemStack).multiplyBy(Fraction.getFraction((int)itemStack.method_7947(), (int)1));
+        return vvn.vwd(itemStack).multiplyBy(Fraction.getFraction((int)itemStack.getCount(), (int)1));
     }
 
     private static Fraction vwd(ItemStack itemStack) {
-        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)itemStack.method_58694(DataComponentTypes.field_49650);
+        BundleContentsComponent bundleContentsComponent = (BundleContentsComponent)itemStack.get(DataComponentTypes.BUNDLE_CONTENTS);
         if (bundleContentsComponent != null) {
-            return vvo.add(bundleContentsComponent.method_57428());
+            return vvo.add(bundleContentsComponent.getOccupancy());
         }
-        if (!((BeesComponent)itemStack.method_58695(DataComponentTypes.field_49624, (Object)BeesComponent.field_56300)).comp_3585().isEmpty()) {
+        if (!((BeesComponent)itemStack.getOrDefault(DataComponentTypes.BEES, (Object)BeesComponent.DEFAULT)).bees().isEmpty()) {
             return Fraction.ONE;
         }
-        return Fraction.getFraction((int)1, (int)itemStack.method_7914());
+        return Fraction.getFraction((int)1, (int)itemStack.getMaxCount());
     }
 
     private static int vwe(PlayerInventory playerInventory, int n) {
         for (int i = 0; i < 36; ++i) {
-            if (i == n || !playerInventory.method_5438(i).method_7960()) continue;
+            if (i == n || !playerInventory.getStack(i).isEmpty()) continue;
             return i;
         }
         return -1;
     }
 
     private static void vwf(MinecraftClient minecraftClient, int n, int n2) {
-        ItemStack itemStack = minecraftClient.field_1724.method_31548().method_5438(n);
+        ItemStack itemStack = minecraftClient.player.getInventory().getStack(n);
         BundleContentsComponent bundleContentsComponent = vvn.contents(itemStack);
-        int n3 = bundleContentsComponent.method_61668();
-        if (n3 == n2 || n2 == 0 && (n3 < 0 || n3 >= bundleContentsComponent.method_57426())) {
+        int n3 = bundleContentsComponent.getSelectedStackIndex();
+        if (n3 == n2 || n2 == 0 && (n3 < 0 || n3 >= bundleContentsComponent.size())) {
             return;
         }
-        BundleItem.method_61637((ItemStack)itemStack, (int)n2);
-        minecraftClient.method_1562().method_52787((Packet)new BundleItemSelectedC2SPacket(wdq.slotId(n), n2));
+        BundleItem.setSelectedStackIndex((ItemStack)itemStack, (int)n2);
+        minecraftClient.getNetworkHandler().sendPacket((Packet)new BundleItemSelectedC2SPacket(wdq.slotId(n), n2));
     }
 
     private static void vwg(MinecraftClient minecraftClient, int n, int n2) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        minecraftClient.field_1761.method_2906(clientPlayerEntity.field_7498.field_7763, wdq.slotId(n), n2, SlotActionType.field_7790, (PlayerEntity)clientPlayerEntity);
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        minecraftClient.interactionManager.clickSlot(clientPlayerEntity.playerScreenHandler.syncId, wdq.slotId(n), n2, SlotActionType.PICKUP, (PlayerEntity)clientPlayerEntity);
     }
 
     private static /* synthetic */ int dlf(int n, int n2) {

@@ -754,19 +754,19 @@ final class CosmeticLoader {
                 bone.solid = CosmeticLoader.pack(solid);
                 bone.glass = CosmeticLoader.pack(glass);
             }
-            MinecraftClient mc = MinecraftClient.method_1551();
-            item.albedo = Identifier.method_60655((String)"flow2", (String)("cosmetic/" + item.id));
-            mc.method_1531().method_4616(item.albedo, (AbstractTexture)new NativeImageBackedTexture(() -> "Flow2 cosmetic " + item.id, albedo));
+            MinecraftClient mc = MinecraftClient.getInstance();
+            item.albedo = Identifier.of((String)"flow2", (String)("cosmetic/" + item.id));
+            mc.getTextureManager().registerTexture(item.albedo, (AbstractTexture)new NativeImageBackedTexture(() -> "Flow2 cosmetic " + item.id, albedo));
             if (item.emissivePath != null && (em = CosmeticLoader.image(item.emissivePath)) != null) {
-                item.emissive = Identifier.method_60655((String)"flow2", (String)("cosmetic/" + item.id + "_e"));
-                mc.method_1531().method_4616(item.emissive, (AbstractTexture)new NativeImageBackedTexture(() -> "Flow2 cosmetic glow " + item.id, em));
+                item.emissive = Identifier.of((String)"flow2", (String)("cosmetic/" + item.id + "_e"));
+                mc.getTextureManager().registerTexture(item.emissive, (AbstractTexture)new NativeImageBackedTexture(() -> "Flow2 cosmetic glow " + item.id, em));
             }
             if (item.video != null) {
                 int vw = Math.round(item.videoRect[4] > 0.0f ? item.videoRect[4] : 256.0f);
                 int vh = Math.round(item.videoRect[5] > 0.0f ? item.videoRect[5] : 256.0f);
-                item.videoTexture = new VideoTexture(item.video, vw, vh, mc.method_1531().method_4619(item.albedo));
-                item.videoId = Identifier.method_60655((String)"flow2", (String)("cosmetic/" + item.id + "_video"));
-                mc.method_1531().method_4616(item.videoId, (AbstractTexture)item.videoTexture);
+                item.videoTexture = new VideoTexture(item.video, vw, vh, mc.getTextureManager().getTexture(item.albedo));
+                item.videoId = Identifier.of((String)"flow2", (String)("cosmetic/" + item.id + "_video"));
+                mc.getTextureManager().registerTexture(item.videoId, (AbstractTexture)item.videoTexture);
             }
             item.loaded = true;
         }
@@ -781,7 +781,7 @@ final class CosmeticLoader {
         block8: {
             InputStream in = ezj.open(ROOT + name);
             try {
-                NativeImage nativeImage2 = nativeImage = in == null ? null : NativeImage.method_4309((InputStream)in);
+                NativeImage nativeImage2 = nativeImage = in == null ? null : NativeImage.read((InputStream)in);
                 if (in == null) break block8;
             }
             catch (Throwable throwable) {
@@ -810,19 +810,19 @@ final class CosmeticLoader {
         int y1;
         int x1;
         if (p.nu0 >= 0.0f) {
-            x0 = Math.max(0, (int)Math.floor(p.nu0 * (float)img.method_4307()));
-            y0 = Math.max(0, (int)Math.floor(p.nv0 * (float)img.method_4323()));
-            x1 = Math.min(img.method_4307(), (int)Math.ceil(p.nu1 * (float)img.method_4307()));
-            y1 = Math.min(img.method_4323(), (int)Math.ceil(p.nv1 * (float)img.method_4323()));
+            x0 = Math.max(0, (int)Math.floor(p.nu0 * (float)img.getWidth()));
+            y0 = Math.max(0, (int)Math.floor(p.nv0 * (float)img.getHeight()));
+            x1 = Math.min(img.getWidth(), (int)Math.ceil(p.nu1 * (float)img.getWidth()));
+            y1 = Math.min(img.getHeight(), (int)Math.ceil(p.nv1 * (float)img.getHeight()));
         } else {
             x0 = Math.max(0, p.u);
             y0 = Math.max(0, p.v);
-            x1 = Math.min(img.method_4307(), p.u + p.w);
-            y1 = Math.min(img.method_4323(), p.v + p.h);
+            x1 = Math.min(img.getWidth(), p.u + p.w);
+            y1 = Math.min(img.getHeight(), p.v + p.h);
         }
         for (int y = y0; y < y1; ++y) {
             for (int x = x0; x < x1; ++x) {
-                int a2 = img.method_61940(x, y) >>> 24;
+                int a2 = img.getColorArgb(x, y) >>> 24;
                 if (a2 <= 6 || a2 >= 248) continue;
                 return true;
             }

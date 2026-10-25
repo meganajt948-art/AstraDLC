@@ -90,19 +90,19 @@ extends kfe {
     @Override
     public void onWorldRenderLate(MinecraftClient minecraftClient) {
         int n;
-        Camera camera = minecraftClient.field_1773.method_19418();
-        if (minecraftClient.field_1687 == null || !camera.method_19332()) {
+        Camera camera = minecraftClient.gameRenderer.getCamera();
+        if (minecraftClient.world == null || !camera.isReady()) {
             this.rjv();
             return;
         }
         long l = System.nanoTime();
-        Quaternionf quaternionf = camera.method_23767();
-        Vec3d vec3d = camera.method_71156();
-        if (this.rjn == null || this.rjo != minecraftClient.field_1687 || l - this.rjp > 250000000L) {
+        Quaternionf quaternionf = camera.getRotation();
+        Vec3d vec3d = camera.getCameraPos();
+        if (this.rjn == null || this.rjo != minecraftClient.world || l - this.rjp > 250000000L) {
             this.rjv();
             this.rje.set((Quaternionfc)quaternionf);
             this.rjn = vec3d;
-            this.rjo = minecraftClient.field_1687;
+            this.rjo = minecraftClient.world;
             this.rjp = l;
             return;
         }
@@ -170,7 +170,7 @@ extends kfe {
         float f2 = (float)Math.sqrt(this.rjf.x * this.rjf.x + this.rjf.y * this.rjf.y + this.rjf.z * this.rjf.z);
         float f3 = 2.0f * (float)Math.atan2(f2, this.rjf.w);
         float f4 = (f2 > 1.0E-7f ? f3 / f2 : 2.0f) / f;
-        double d = vec3d.method_1022(this.rjn);
+        double d = vec3d.distanceTo(this.rjn);
         float f5 = 1.0f - (float)Math.exp(-2.0f * f / (0.015f + 0.05f * (float)this.rja.get()));
         if (f3 < 2.2f) {
             riv.rjx(this.rjj, this.rjk, this.rjf.x * f4, this.rjf.y * f4, this.rjf.z * f4, f5);
@@ -179,7 +179,7 @@ extends kfe {
             Arrays.fill(this.rjl, 0.0f);
             Arrays.fill(this.rjm, 0.0f);
         } else {
-            riv.rjx(this.rjl, this.rjm, (float)(vec3d.field_1352 - this.rjn.field_1352) / f, (float)(vec3d.field_1351 - this.rjn.field_1351) / f, (float)(vec3d.field_1350 - this.rjn.field_1350) / f, f5);
+            riv.rjx(this.rjl, this.rjm, (float)(vec3d.x - this.rjn.x) / f, (float)(vec3d.y - this.rjn.y) / f, (float)(vec3d.z - this.rjn.z) / f, f5);
         }
         this.rje.set((Quaternionfc)quaternionf);
         this.rjn = vec3d;

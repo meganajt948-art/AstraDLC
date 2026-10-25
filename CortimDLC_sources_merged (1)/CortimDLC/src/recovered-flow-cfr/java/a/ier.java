@@ -136,11 +136,11 @@ extends imn {
         irr.VALUE.draw(drawContext, string, this.ifa + 7.0f, irr.VALUE.centerTop(f3), ujt.lerp(iov.textDim, iov.text, 0.6f + f * 0.4f));
         float f4 = this.ifa + this.ifc - 8.5f;
         int n = ujt.lerp(iov.textMuted, iov.accent(), Math.max(f2, f * 0.5f));
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f4, f3);
-        drawContext.method_51448().rotate((float)Math.PI * f2);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f4, f3);
+        drawContext.getMatrices().rotate((float)Math.PI * f2);
         vjf.draw(drawContext, vhz.CHEVRON_DOWN, 0.0f, 0.0f, 7.0f, n);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
     }
 
     @Override

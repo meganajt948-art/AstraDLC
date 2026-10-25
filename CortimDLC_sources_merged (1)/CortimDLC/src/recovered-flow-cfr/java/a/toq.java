@@ -76,17 +76,17 @@ public final class toq {
     public void tick(World world, ClientPlayerEntity clientPlayerEntity, pzc pzc2) {
         this.tov[2] = this.tov[1];
         this.tov[1] = this.tov[0];
-        this.tov[0] = clientPlayerEntity.method_36454();
+        this.tov[0] = clientPlayerEntity.getYaw();
         this.tow[2] = this.tow[1];
         this.tow[1] = this.tow[0];
-        this.tow[0] = clientPlayerEntity.method_36455();
+        this.tow[0] = clientPlayerEntity.getPitch();
         ++this.tpb;
-        this.tpc = tsh.snap(world, clientPlayerEntity, clientPlayerEntity.method_24515(), pzc2, null, null);
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        trd.diff(this.tpd, this.tpc, vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, this.tox);
+        this.tpc = tsh.snap(world, clientPlayerEntity, clientPlayerEntity.getBlockPos(), pzc2, null, null);
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        trd.diff(this.tpd, this.tpc, vec3d.x, vec3d.y, vec3d.z, this.tox);
         this.farmed += (long)this.tox[0];
         this.farmedDia += (long)this.tox[1];
-        trd.reach(this.tpc, vec3d.field_1352, vec3d.field_1351, vec3d.field_1350, this.toy);
+        trd.reach(this.tpc, vec3d.x, vec3d.y, vec3d.z, this.toy);
         if (this.toy[0] >= 8) {
             double d = trd.value(this.tox[0], this.tox[1]);
             ++this.tpi;
@@ -118,22 +118,22 @@ public final class toq {
             return;
         }
         trg trg2 = new trg();
-        trg2.px = clientPlayerEntity.method_23317();
-        trg2.py = clientPlayerEntity.method_23318();
-        trg2.pz = clientPlayerEntity.method_23321();
-        trg2.eyeY = clientPlayerEntity.method_23320();
-        trg2.yaw = clientPlayerEntity.method_36454();
-        trg2.pitch = clientPlayerEntity.method_36455();
-        trg2.vx = clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014;
-        trg2.vy = clientPlayerEntity.method_23318() - clientPlayerEntity.field_6036;
-        trg2.vz = clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969;
-        trg2.ground = clientPlayerEntity.method_24828();
-        trg2.feetY = tsh.standing(world, clientPlayerEntity).method_10264();
+        trg2.px = clientPlayerEntity.getX();
+        trg2.py = clientPlayerEntity.getY();
+        trg2.pz = clientPlayerEntity.getZ();
+        trg2.eyeY = clientPlayerEntity.getEyeY();
+        trg2.yaw = clientPlayerEntity.getYaw();
+        trg2.pitch = clientPlayerEntity.getPitch();
+        trg2.vx = clientPlayerEntity.getX() - clientPlayerEntity.lastX;
+        trg2.vy = clientPlayerEntity.getY() - clientPlayerEntity.lastY;
+        trg2.vz = clientPlayerEntity.getZ() - clientPlayerEntity.lastZ;
+        trg2.ground = clientPlayerEntity.isOnGround();
+        trg2.feetY = tsh.standing(world, clientPlayerEntity).getY();
         if (blockPos != null) {
             trg2.hasTarget = true;
-            trg2.tx = blockPos.method_10263();
-            trg2.ty = blockPos.method_10264();
-            trg2.tz = blockPos.method_10260();
+            trg2.tx = blockPos.getX();
+            trg2.ty = blockPos.getY();
+            trg2.tz = blockPos.getZ();
         }
         trj.features(this.tpc, trg2, this.toz, 0);
         this.model.legs.decide(this.toz, this.tpa);
@@ -170,14 +170,14 @@ public final class toq {
 
     public long[] rank(World world, ClientPlayerEntity clientPlayerEntity, pzc pzc2, LongPredicate longPredicate, LongPredicate longPredicate2, BlockPos blockPos, int n3) {
         int n4;
-        tvn tvn2 = tsh.snap(world, clientPlayerEntity, clientPlayerEntity.method_24515(), pzc2, longPredicate, longPredicate2);
+        tvn tvn2 = tsh.snap(world, clientPlayerEntity, clientPlayerEntity.getBlockPos(), pzc2, longPredicate, longPredicate2);
         tra tra2 = new tra();
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        tra2.ex = vec3d.field_1352;
-        tra2.ey = vec3d.field_1351;
-        tra2.ez = vec3d.field_1350;
-        tra2.yaw = clientPlayerEntity.method_36454();
-        tra2.pitch = clientPlayerEntity.method_36455();
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        tra2.ex = vec3d.x;
+        tra2.ey = vec3d.y;
+        tra2.ez = vec3d.z;
+        tra2.yaw = clientPlayerEntity.getYaw();
+        tra2.pitch = clientPlayerEntity.getPitch();
         if (this.tpb >= 3) {
             tra2.vyaw = (float)(tbp.wrap(this.tov[0] - this.tov[2]) * 0.5);
             tra2.vpitch = (this.tow[0] - this.tow[2]) * 0.5f;
@@ -185,15 +185,15 @@ public final class toq {
             tra2.vyaw = (float)tbp.wrap(this.tov[0] - this.tov[1]);
             tra2.vpitch = this.tow[0] - this.tow[1];
         }
-        tra2.vx = clientPlayerEntity.method_23317() - clientPlayerEntity.field_6014;
-        tra2.vz = clientPlayerEntity.method_23321() - clientPlayerEntity.field_5969;
-        tra2.ground = clientPlayerEntity.method_24828();
-        tra2.feetY = tsh.standing(world, clientPlayerEntity).method_10264();
+        tra2.vx = clientPlayerEntity.getX() - clientPlayerEntity.lastX;
+        tra2.vz = clientPlayerEntity.getZ() - clientPlayerEntity.lastZ;
+        tra2.ground = clientPlayerEntity.isOnGround();
+        tra2.feetY = tsh.standing(world, clientPlayerEntity).getY();
         if (blockPos != null) {
             tra2.hasPrev = true;
-            tra2.px = blockPos.method_10263();
-            tra2.py = blockPos.method_10264();
-            tra2.pz = blockPos.method_10260();
+            tra2.px = blockPos.getX();
+            tra2.py = blockPos.getY();
+            tra2.pz = blockPos.getZ();
         }
         tpn tpn2 = tpn.of(tvn2, tra2);
         int n5 = tpn2.n;
@@ -232,12 +232,12 @@ public final class toq {
         Arrays.sort(integerArray, (n, n2) -> Double.compare(dArray[n2], dArray[n]));
         n4 = Math.min(n3, n5);
         long[] lArray = new long[n4];
-        lArray[0] = BlockPos.method_10064((int)tpn2.x[n7], (int)tpn2.y[n7], (int)tpn2.z[n7]);
+        lArray[0] = BlockPos.asLong((int)tpn2.x[n7], (int)tpn2.y[n7], (int)tpn2.z[n7]);
         int n8 = 1;
         for (int i = 0; i < n5 && n8 < n4; ++i) {
             int n9 = integerArray[i];
             if (n9 == n7) continue;
-            lArray[n8++] = BlockPos.method_10064((int)tpn2.x[n9], (int)tpn2.y[n9], (int)tpn2.z[n9]);
+            lArray[n8++] = BlockPos.asLong((int)tpn2.x[n9], (int)tpn2.y[n9], (int)tpn2.z[n9]);
         }
         return lArray;
     }

@@ -103,7 +103,7 @@ extends kfe {
     }
 
     public static boolean hidesPumpkin(MinecraftClient minecraftClient) {
-        return rki != null && rkh.rks(rkh.rki.pumpkin) && minecraftClient.field_1724 != null && minecraftClient.field_1690.method_31044().method_31034() && minecraftClient.field_1724.method_6118(EquipmentSlot.field_6169).method_31574(Items.field_17519);
+        return rki != null && rkh.rks(rkh.rki.pumpkin) && minecraftClient.player != null && minecraftClient.options.getPerspective().isFirstPerson() && minecraftClient.player.getEquippedStack(EquipmentSlot.HEAD).isOf(Items.CARVED_PUMPKIN);
     }
 
     @Override
@@ -122,7 +122,7 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         if (this.effects.get()) {
-            rkh.rkw(minecraftClient.field_1687);
+            rkh.rkw(minecraftClient.world);
         }
         this.rkt(minecraftClient);
     }
@@ -144,9 +144,9 @@ extends kfe {
         boolean bl = wbu.suspended(minecraftClient);
         rkh.rku(rkj, this.hurtShake.get() && !bl, 0.0);
         rkh.rku(rkk, this.walkShake.get() && !bl, false);
-        rkh.rku(rkl, this.attackIndicator.get() && !bl, AttackIndicator.field_18151);
+        rkh.rku(rkl, this.attackIndicator.get() && !bl, AttackIndicator.OFF);
         rkh.rku(rkm, this.darkness.get() && !bl, 0.0);
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return;
         }
@@ -154,15 +154,15 @@ extends kfe {
             rkh.rkv(minecraftClient);
         }
         if (this.nausea.get()) {
-            clientPlayerEntity.field_44911 = 0.0f;
-            clientPlayerEntity.field_44912 = 0.0f;
+            clientPlayerEntity.nauseaIntensity = 0.0f;
+            clientPlayerEntity.lastNauseaIntensity = 0.0f;
         }
-        if (this.rain.get() && minecraftClient.field_1687 != null) {
-            minecraftClient.field_1687.method_8519(0.0f);
-            minecraftClient.field_1687.method_8496(0.0f);
+        if (this.rain.get() && minecraftClient.world != null) {
+            minecraftClient.world.setRainGradient(0.0f);
+            minecraftClient.world.setThunderGradient(0.0f);
         }
         if (this.vignette.get()) {
-            minecraftClient.field_1705.field_2013 = 0.0f;
+            minecraftClient.inGameHud.vignetteDarkness = 0.0f;
         }
     }
 
@@ -175,8 +175,8 @@ extends kfe {
     }
 
     private static void rkv(MinecraftClient minecraftClient) {
-        if (minecraftClient.field_1724 != null && minecraftClient.field_1724.method_5809()) {
-            minecraftClient.field_1724.method_33572(false);
+        if (minecraftClient.player != null && minecraftClient.player.isOnFire()) {
+            minecraftClient.player.setOnFire(false);
         }
     }
 
@@ -197,10 +197,10 @@ extends kfe {
         if (rko == null) {
             return;
         }
-        for (Entity entity : clientWorld.method_18112()) {
+        for (Entity entity : clientWorld.getEntities()) {
             LivingEntity livingEntity;
-            if (!(entity instanceof LivingEntity) || ((List)(livingEntity = (LivingEntity)entity).method_5841().method_12789(rko)).isEmpty()) continue;
-            livingEntity.method_5841().method_12778(rko, List.of());
+            if (!(entity instanceof LivingEntity) || ((List)(livingEntity = (LivingEntity)entity).getDataTracker().get(rko)).isEmpty()) continue;
+            livingEntity.getDataTracker().set(rko, List.of());
         }
     }
 
@@ -208,8 +208,8 @@ extends kfe {
         if (rki == null || !rkh.rks(rkh.rki.glowing)) {
             return;
         }
-        for (EntityRenderState entityRenderState : worldRenderState.field_61735) {
-            entityRenderState.field_61821 = 0;
+        for (EntityRenderState entityRenderState : worldRenderState.entityRenderStates) {
+            entityRenderState.outlineColor = 0;
         }
     }
 
@@ -244,10 +244,10 @@ extends kfe {
     }
 
     static {
-        rkj = new wbu(minecraftClient -> minecraftClient.field_1690.method_48974());
-        rkk = new wbu(minecraftClient -> minecraftClient.field_1690.method_42448());
-        rkl = new wbu(minecraftClient -> minecraftClient.field_1690.method_42565());
-        rkm = new wbu(minecraftClient -> minecraftClient.field_1690.method_42472());
+        rkj = new wbu(minecraftClient -> minecraftClient.options.getDamageTiltStrength());
+        rkk = new wbu(minecraftClient -> minecraftClient.options.getBobView());
+        rkl = new wbu(minecraftClient -> minecraftClient.options.getAttackIndicator());
+        rkm = new wbu(minecraftClient -> minecraftClient.options.getDarknessEffectScale());
     }
 
     private static /* synthetic */ int bzl(int n, int n2) {

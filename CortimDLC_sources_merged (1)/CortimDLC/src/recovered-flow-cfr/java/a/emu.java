@@ -100,11 +100,11 @@ public final class emu {
     }
 
     public emu flat(RegistryEntry<EntityAttribute> registryEntry, double d) {
-        return this.attr(registryEntry, d, EntityAttributeModifier.Operation.field_6328);
+        return this.attr(registryEntry, d, EntityAttributeModifier.Operation.ADD_VALUE);
     }
 
     public emu scaled(RegistryEntry<EntityAttribute> registryEntry, double d) {
-        return this.attr(registryEntry, d, EntityAttributeModifier.Operation.field_6330);
+        return this.attr(registryEntry, d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE);
     }
 
     public emu ench(RegistryKey<Enchantment> registryKey, int n) {
@@ -160,18 +160,18 @@ public final class emu {
     }
 
     public boolean matches(ItemStack itemStack) {
-        return itemStack.method_31574(this.ena) && this.enj(itemStack) && this.enk(itemStack) && this.enl(itemStack) && this.enm(itemStack);
+        return itemStack.isOf(this.ena) && this.enj(itemStack) && this.enk(itemStack) && this.enl(itemStack) && this.enm(itemStack);
     }
 
     private boolean enj(ItemStack itemStack) {
         if (this.enb.isEmpty()) {
             return true;
         }
-        AttributeModifiersComponent attributeModifiersComponent = (AttributeModifiersComponent)itemStack.method_58695(DataComponentTypes.field_49636, (Object)AttributeModifiersComponent.field_49326);
+        AttributeModifiersComponent attributeModifiersComponent = (AttributeModifiersComponent)itemStack.getOrDefault(DataComponentTypes.ATTRIBUTE_MODIFIERS, (Object)AttributeModifiersComponent.DEFAULT);
         for (elw elw2 : this.enb) {
             boolean bl = false;
-            for (AttributeModifiersComponent.Entry entry : attributeModifiersComponent.comp_2393()) {
-                if (!entry.comp_2395().equals(elw2.attribute()) || !(Math.abs(entry.comp_2396().comp_2449() - elw2.amount()) < 9.9999942618434E-4) || entry.comp_2396().comp_2450() != elw2.operation()) continue;
+            for (AttributeModifiersComponent.Entry entry : attributeModifiersComponent.modifiers()) {
+                if (!entry.attribute().equals(elw2.attribute()) || !(Math.abs(entry.modifier().value() - elw2.amount()) < 9.9999942618434E-4) || entry.modifier().operation() != elw2.operation()) continue;
                 bl = true;
                 break;
             }
@@ -185,18 +185,18 @@ public final class emu {
         if (this.enc.isEmpty()) {
             return true;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        ItemEnchantmentsComponent itemEnchantmentsComponent = (ItemEnchantmentsComponent)itemStack.method_58695(DataComponentTypes.field_49633, (Object)ItemEnchantmentsComponent.field_49385);
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        ItemEnchantmentsComponent itemEnchantmentsComponent = (ItemEnchantmentsComponent)itemStack.getOrDefault(DataComponentTypes.ENCHANTMENTS, (Object)ItemEnchantmentsComponent.DEFAULT);
         for (emi emi2 : this.enc) {
             int n;
-            if (minecraftClient.field_1687 == null) {
+            if (minecraftClient.world == null) {
                 if (emi2.deny()) continue;
                 return false;
             }
-            Optional optional = minecraftClient.field_1687.method_30349().method_30530(RegistryKeys.field_41265).method_46746(emi2.key());
-            int n2 = optional.map(arg_0 -> ((ItemEnchantmentsComponent)itemEnchantmentsComponent).method_57536(arg_0)).orElse(0);
+            Optional optional = minecraftClient.world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOptional(emi2.key());
+            int n2 = optional.map(arg_0 -> ((ItemEnchantmentsComponent)itemEnchantmentsComponent).getLevel(arg_0)).orElse(0);
             int n3 = n = emi2.level() == 0 ? 1 : emi2.level();
-            if (!(emi2.deny() ? n2 >= n : itemEnchantmentsComponent.method_57543() || n2 < n)) continue;
+            if (!(emi2.deny() ? n2 >= n : itemEnchantmentsComponent.isEmpty() || n2 < n)) continue;
             return false;
         }
         return true;
@@ -207,9 +207,9 @@ public final class emu {
         if (this.end.isEmpty()) {
             return true;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         try {
-            string = itemStack.method_7950(Item.TooltipContext.field_51353, (PlayerEntity)minecraftClient.field_1724, (TooltipType)TooltipType.field_41070).stream().skip(1L).map(text -> emu.normalize(text.getString())).collect(Collectors.joining(a.c(-1628386956, "\uc97f")));
+            string = itemStack.getTooltip(Item.TooltipContext.DEFAULT, (PlayerEntity)minecraftClient.player, (TooltipType)TooltipType.BASIC).stream().skip(1L).map(text -> emu.normalize(text.getString())).collect(Collectors.joining(a.c(-1628386956, "\uc97f")));
         }
         catch (RuntimeException runtimeException) {
             return false;
@@ -226,16 +226,16 @@ public final class emu {
         if (this.ene.isEmpty()) {
             return true;
         }
-        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.method_58694(DataComponentTypes.field_49651);
+        PotionContentsComponent potionContentsComponent = (PotionContentsComponent)itemStack.get(DataComponentTypes.POTION_CONTENTS);
         if (potionContentsComponent == null) {
             return false;
         }
         for (emc emc2 : this.ene) {
-            boolean bl = StreamSupport.stream(potionContentsComponent.method_57397().spliterator(), false).anyMatch(statusEffectInstance -> statusEffectInstance.method_5579().equals(emc2.effect()) && statusEffectInstance.method_5578() + 1 == emc2.level() && statusEffectInstance.method_5584() >= emc2.duration());
+            boolean bl = StreamSupport.stream(potionContentsComponent.getEffects().spliterator(), false).anyMatch(statusEffectInstance -> statusEffectInstance.getEffectType().equals(emc2.effect()) && statusEffectInstance.getAmplifier() + 1 == emc2.level() && statusEffectInstance.getDuration() >= emc2.duration());
             if (bl) continue;
             return false;
         }
-        return StreamSupport.stream(potionContentsComponent.method_57397().spliterator(), false).count() == (long)this.ene.size();
+        return StreamSupport.stream(potionContentsComponent.getEffects().spliterator(), false).count() == (long)this.ene.size();
     }
 
     public ItemStack buildStack() {
@@ -246,11 +246,11 @@ public final class emu {
             for (emc emc2 : this.ene) {
                 gameProfile.add(new StatusEffectInstance(emc2.effect(), Math.max(1, emc2.duration()), Math.max(0, emc2.level() - 1)));
             }
-            itemStack.method_57379(DataComponentTypes.field_49651, (Object)new PotionContentsComponent(Optional.empty(), Optional.of(this.enf), gameProfile, Optional.empty()));
+            itemStack.set(DataComponentTypes.POTION_CONTENTS, (Object)new PotionContentsComponent(Optional.empty(), Optional.of(this.enf), gameProfile, Optional.empty()));
         }
         if (this.eng != null) {
             gameProfile = new GameProfile(UUID.nameUUIDFromBytes(this.eng.getBytes(StandardCharsets.UTF_8)), a.c(-437830553, "\u3c05") + Math.abs(this.emz.hashCode() % 100000), new PropertyMap((Multimap)ImmutableMultimap.of((Object)a.c(-818731191, "\u2735\u5e95\ud45b\u4a26\uc1f0\u4746\ufd02\u74e5"), (Object)new Property(a.c(-1673893696, "\u68bc\u111c\u9bd2\u05af\u8e79\u08cf\ub28b\u3b6c"), this.eng))));
-            itemStack.method_57379(DataComponentTypes.field_49617, (Object)ProfileComponent.method_73307((GameProfile)gameProfile));
+            itemStack.set(DataComponentTypes.PROFILE, (Object)ProfileComponent.ofStatic((GameProfile)gameProfile));
         }
         return itemStack;
     }

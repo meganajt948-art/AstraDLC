@@ -48,7 +48,7 @@ extends kfe {
     @Override
     protected void onDisable() {
         this.rdz = false;
-        this.ren(MinecraftClient.method_1551());
+        this.ren(MinecraftClient.getInstance());
     }
 
     @Override
@@ -64,7 +64,7 @@ extends kfe {
         if (!this.rdu.is("Toggle")) {
             this.rdz = false;
         }
-        boolean bl2 = minecraftClient.field_1755 == null && !ovh.active() && minecraftClient.field_1724 != null && (this.rdu.is("Toggle") ? this.rdz : vzz.isDown(minecraftClient, this.rdt.get())) ? true : (bl = false);
+        boolean bl2 = minecraftClient.currentScreen == null && !ovh.active() && minecraftClient.player != null && (this.rdu.is("Toggle") ? this.rdz : vzz.isDown(minecraftClient, this.rdt.get())) ? true : (bl = false);
         if (bl && !this.rdy) {
             this.rem(minecraftClient);
         } else if (!bl && this.rdy) {
@@ -74,22 +74,22 @@ extends kfe {
             Perspective perspective = this.rel();
             if (perspective != this.reh) {
                 this.reh = perspective;
-                minecraftClient.field_1690.method_31043(perspective);
+                minecraftClient.options.setPerspective(perspective);
             }
             ett.distance(this.rdv.is("First person") ? 0.0f : (float)this.rdw.get());
-            this.rek(minecraftClient.field_1724);
+            this.rek(minecraftClient.player);
         }
     }
 
     private void rek(ClientPlayerEntity clientPlayerEntity) {
         double d = this.rdx.get();
-        float f = clientPlayerEntity.method_36454();
-        float f2 = clientPlayerEntity.method_36455();
+        float f = clientPlayerEntity.getYaw();
+        float f2 = clientPlayerEntity.getPitch();
         if (d != 1.0) {
             f = this.ree + (float)((double)(f - this.ree) * d);
             f2 = Math.max(-90.0f, Math.min(90.0f, this.ref + (float)((double)(f2 - this.ref) * d)));
-            clientPlayerEntity.method_36456(f);
-            clientPlayerEntity.method_36457(f2);
+            clientPlayerEntity.setYaw(f);
+            clientPlayerEntity.setPitch(f2);
         }
         this.ree = f;
         this.ref = f2;
@@ -100,13 +100,13 @@ extends kfe {
         if (!this.rdy) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        this.rec = clientPlayerEntity.method_36454();
-        this.red = clientPlayerEntity.method_36455();
-        clientPlayerEntity.method_36456(this.rea);
-        clientPlayerEntity.method_36457(this.reb);
-        clientPlayerEntity.field_5982 = this.rea;
-        clientPlayerEntity.field_6004 = this.reb;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        this.rec = clientPlayerEntity.getYaw();
+        this.red = clientPlayerEntity.getPitch();
+        clientPlayerEntity.setYaw(this.rea);
+        clientPlayerEntity.setPitch(this.reb);
+        clientPlayerEntity.lastYaw = this.rea;
+        clientPlayerEntity.lastPitch = this.reb;
     }
 
     @Override
@@ -114,40 +114,40 @@ extends kfe {
         if (!this.rdy) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        this.rea = clientPlayerEntity.method_36454();
-        this.reb = clientPlayerEntity.method_36455();
-        clientPlayerEntity.method_36456(this.rec);
-        clientPlayerEntity.method_36457(this.red);
-        clientPlayerEntity.field_5982 = this.rec;
-        clientPlayerEntity.field_6004 = this.red;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        this.rea = clientPlayerEntity.getYaw();
+        this.reb = clientPlayerEntity.getPitch();
+        clientPlayerEntity.setYaw(this.rec);
+        clientPlayerEntity.setPitch(this.red);
+        clientPlayerEntity.lastYaw = this.rec;
+        clientPlayerEntity.lastPitch = this.red;
         this.ree = this.rec;
         this.ref = this.red;
     }
 
     private Perspective rel() {
         return switch (this.rdv.get()) {
-            case "Front" -> Perspective.field_26666;
-            case "First person" -> Perspective.field_26664;
-            default -> Perspective.field_26665;
+            case "Front" -> Perspective.THIRD_PERSON_FRONT;
+            case "First person" -> Perspective.FIRST_PERSON;
+            default -> Perspective.THIRD_PERSON_BACK;
         };
     }
 
     private void rem(MinecraftClient minecraftClient) {
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity == null) {
             return;
         }
         this.rdy = true;
-        this.rea = clientPlayerEntity.method_36454();
-        this.reb = clientPlayerEntity.method_36455();
+        this.rea = clientPlayerEntity.getYaw();
+        this.reb = clientPlayerEntity.getPitch();
         this.rec = this.rea;
         this.red = this.reb;
         this.ree = this.rea;
         this.ref = this.reb;
-        this.reg = minecraftClient.field_1690.method_31044();
+        this.reg = minecraftClient.options.getPerspective();
         this.reh = this.rel();
-        minecraftClient.field_1690.method_31043(this.reh);
+        minecraftClient.options.setPerspective(this.reh);
     }
 
     private void ren(MinecraftClient minecraftClient) {
@@ -156,15 +156,15 @@ extends kfe {
         }
         this.rdy = false;
         ett.distance(0.0f);
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
         if (clientPlayerEntity != null) {
-            clientPlayerEntity.method_36456(this.rea);
-            clientPlayerEntity.method_36457(this.reb);
-            clientPlayerEntity.field_5982 = this.rea;
-            clientPlayerEntity.field_6004 = this.reb;
+            clientPlayerEntity.setYaw(this.rea);
+            clientPlayerEntity.setPitch(this.reb);
+            clientPlayerEntity.lastYaw = this.rea;
+            clientPlayerEntity.lastPitch = this.reb;
         }
         if (this.reg != null) {
-            minecraftClient.field_1690.method_31043(this.reg);
+            minecraftClient.options.setPerspective(this.reg);
             this.reg = null;
         }
         this.reh = null;

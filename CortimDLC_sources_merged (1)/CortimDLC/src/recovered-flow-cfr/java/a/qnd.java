@@ -57,7 +57,7 @@ public final class qnd {
     static final double REACH = 4.2;
     static final double EYE = 1.62;
     static final double LOW = 0.25;
-    private static final Set<Block> qne = Set.of(Blocks.field_10036, Blocks.field_22089, Blocks.field_10092, Blocks.field_10029, Blocks.field_16999, Blocks.field_10343, Blocks.field_27879, Blocks.field_17350, Blocks.field_23860, Blocks.field_10606, Blocks.field_28048, Blocks.field_10164);
+    private static final Set<Block> qne = Set.of(Blocks.FIRE, Blocks.SOUL_FIRE, Blocks.MAGMA_BLOCK, Blocks.CACTUS, Blocks.SWEET_BERRY_BUSH, Blocks.COBWEB, Blocks.POWDER_SNOW, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE, Blocks.WITHER_ROSE, Blocks.POINTED_DRIPSTONE, Blocks.LAVA);
     public int x0;
     public int y0;
     public int z0;
@@ -99,20 +99,20 @@ public final class qnd {
     public void build(World world, ClientPlayerEntity clientPlayerEntity, pzc pzc2, Predicate<BlockState> predicate, LongSet longSet, List<Vec3d> list, BlockPos blockPos) {
         this.qnm = pzc2;
         this.qno = list;
-        BlockPos blockPos2 = clientPlayerEntity.method_24515();
-        int n = Math.min(pzc2.minX - 4, blockPos2.method_10263() - 3);
-        int n2 = Math.max(pzc2.maxX + 4, blockPos2.method_10263() + 3);
-        int n3 = Math.min(pzc2.minZ - 4, blockPos2.method_10260() - 3);
-        int n4 = Math.max(pzc2.maxZ + 4, blockPos2.method_10260() + 3);
-        int n5 = Math.min(pzc2.minY - 1, blockPos2.method_10264() - 4);
-        int n6 = Math.max(pzc2.maxY + 4, blockPos2.method_10264() + 3);
+        BlockPos blockPos2 = clientPlayerEntity.getBlockPos();
+        int n = Math.min(pzc2.minX - 4, blockPos2.getX() - 3);
+        int n2 = Math.max(pzc2.maxX + 4, blockPos2.getX() + 3);
+        int n3 = Math.min(pzc2.minZ - 4, blockPos2.getZ() - 3);
+        int n4 = Math.max(pzc2.maxZ + 4, blockPos2.getZ() + 3);
+        int n5 = Math.min(pzc2.minY - 1, blockPos2.getY() - 4);
+        int n6 = Math.max(pzc2.maxY + 4, blockPos2.getY() + 3);
         if (blockPos != null) {
-            n = Math.min(n, blockPos.method_10263() - 3);
-            n2 = Math.max(n2, blockPos.method_10263() + 3);
-            n3 = Math.min(n3, blockPos.method_10260() - 3);
-            n4 = Math.max(n4, blockPos.method_10260() + 3);
-            n5 = Math.min(n5, blockPos.method_10264() - 2);
-            n6 = Math.max(n6, blockPos.method_10264() + 3);
+            n = Math.min(n, blockPos.getX() - 3);
+            n2 = Math.max(n2, blockPos.getX() + 3);
+            n3 = Math.min(n3, blockPos.getZ() - 3);
+            n4 = Math.max(n4, blockPos.getZ() + 3);
+            n5 = Math.min(n5, blockPos.getY() - 2);
+            n6 = Math.max(n6, blockPos.getY() + 3);
         }
         this.x0 = n;
         this.y0 = n5;
@@ -134,7 +134,7 @@ public final class qnd {
             for (int j = 0; j < this.sz; ++j) {
                 int n8 = this.x0 + i;
                 int n9 = this.z0 + j;
-                boolean bl = world.method_8393(n8 >> 4, n9 >> 4);
+                boolean bl = world.isChunkLoaded(n8 >> 4, n9 >> 4);
                 for (int k = 0; k < this.sy; ++k) {
                     int n10 = (k * this.sz + j) * this.sx + i;
                     if (!bl) {
@@ -142,19 +142,19 @@ public final class qnd {
                         continue;
                     }
                     int n11 = this.y0 + k;
-                    mutable.method_10103(n8, n11, n9);
-                    BlockState blockState = world.method_8320((BlockPos)mutable);
+                    mutable.set(n8, n11, n9);
+                    BlockState blockState = world.getBlockState((BlockPos)mutable);
                     int n12 = 0;
-                    boolean bl2 = qne.contains(blockState.method_26204());
-                    if (!blockState.method_26227().method_15769()) {
+                    boolean bl2 = qne.contains(blockState.getBlock());
+                    if (!blockState.getFluidState().isEmpty()) {
                         n12 = (byte)(n12 | 0x20);
                     } else {
-                        VoxelShape voxelShape = blockState.method_26220((BlockView)world, (BlockPos)mutable);
-                        if (voxelShape.method_1110() || voxelShape.method_1105(Direction.Axis.field_11052) <= 0.25) {
+                        VoxelShape voxelShape = blockState.getCollisionShape((BlockView)world, (BlockPos)mutable);
+                        if (voxelShape.isEmpty() || voxelShape.getMax(Direction.Axis.Y) <= 0.25) {
                             n12 = (byte)(n12 | (bl2 ? 16 : 1));
                         } else {
                             n12 = (byte)(n12 | 2);
-                            double d = voxelShape.method_1105(Direction.Axis.field_11052);
+                            double d = voxelShape.getMax(Direction.Axis.Y);
                             if (bl2) {
                                 n12 = (byte)(n12 | 0x10);
                             } else if (d > 0.49 && d <= 1.01) {
@@ -162,10 +162,10 @@ public final class qnd {
                             }
                         }
                     }
-                    if (!blockState.method_26215() && (n12 & 0x20) == 0 && pzc2.contains(n8, n11, n9) && !longSet.contains(BlockPos.method_10064((int)n8, (int)n11, (int)n9))) {
+                    if (!blockState.isAir() && (n12 & 0x20) == 0 && pzc2.contains(n8, n11, n9) && !longSet.contains(BlockPos.asLong((int)n8, (int)n11, (int)n9))) {
                         float f;
-                        float f2 = blockState.method_26214((BlockView)world, (BlockPos)mutable);
-                        float f3 = f = f2 < 0.0f ? 0.0f : blockState.method_26165((PlayerEntity)clientPlayerEntity, (BlockView)world, (BlockPos)mutable);
+                        float f2 = blockState.getHardness((BlockView)world, (BlockPos)mutable);
+                        float f3 = f = f2 < 0.0f ? 0.0f : blockState.calcBlockBreakingDelta((PlayerEntity)clientPlayerEntity, (BlockView)world, (BlockPos)mutable);
                         if (f > 0.0f) {
                             n12 = (byte)(n12 | 8);
                             this.qng[n10] = (short)Math.min(600, Math.max(1, (int)Math.ceil(1.0f / f)));
@@ -247,10 +247,10 @@ public final class qnd {
         Arrays.fill(this.qnh, 0, n, Float.POSITIVE_INFINITY);
         Arrays.fill(this.qni, 0, n, -1);
         this.qnn.clear();
-        if (!this.inside(blockPos.method_10263(), blockPos.method_10264(), blockPos.method_10260())) {
+        if (!this.inside(blockPos.getX(), blockPos.getY(), blockPos.getZ())) {
             return;
         }
-        int n2 = this.index(blockPos.method_10263(), blockPos.method_10264(), blockPos.method_10260());
+        int n2 = this.index(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         this.qnh[n2] = 0.0f;
         this.qnn.push(0.0f, n2);
         block0: while (!this.qnn.isEmpty()) {
@@ -314,9 +314,9 @@ public final class qnd {
             return;
         }
         for (Vec3d vec3d : this.qno) {
-            double d = (double)n2 + 0.5 - vec3d.field_1352;
-            double d2 = (double)n4 + 0.5 - vec3d.field_1350;
-            double d3 = (double)n3 - vec3d.field_1351;
+            double d = (double)n2 + 0.5 - vec3d.x;
+            double d2 = (double)n4 + 0.5 - vec3d.z;
+            double d3 = (double)n3 - vec3d.y;
             if (!(d * d + d2 * d2 < 4.0) || !(Math.abs(d3) < 2.5)) continue;
             f += 25.0f;
             break;
@@ -330,7 +330,7 @@ public final class qnd {
 
     public long targetKey(int n) {
         int n2 = this.qnj[n];
-        return BlockPos.method_10064((int)this.wx(n2), (int)this.wy(n2), (int)this.wz(n2));
+        return BlockPos.asLong((int)this.wx(n2), (int)this.wy(n2), (int)this.wz(n2));
     }
 
     public qmx best(Vec3d vec3d, Vec3d vec3d2, LongSet longSet) {
@@ -343,10 +343,10 @@ public final class qnd {
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         for (int i = 0; i < this.qnl; ++i) {
             n3 = this.qnj[i];
-            if (longSet2 != null && !longSet2.contains(BlockPos.method_10064((int)this.wx(n3), (int)this.wy(n3), (int)this.wz(n3)))) continue;
-            double d = (double)this.wx(n3) + 0.5 - vec3d.field_1352;
-            double d2 = (double)this.wy(n3) + 0.5 - vec3d.field_1351;
-            double d3 = (double)this.wz(n3) + 0.5 - vec3d.field_1350;
+            if (longSet2 != null && !longSet2.contains(BlockPos.asLong((int)this.wx(n3), (int)this.wy(n3), (int)this.wz(n3)))) continue;
+            double d = (double)this.wx(n3) + 0.5 - vec3d.x;
+            double d2 = (double)this.wy(n3) + 0.5 - vec3d.y;
+            double d3 = (double)this.wz(n3) + 0.5 - vec3d.z;
             dArray[i] = d * d + d2 * d2 + d3 * d3;
             arrayList.add(i);
         }
@@ -363,12 +363,12 @@ public final class qnd {
             int n8 = this.qnj[integerArray[i]];
             float f3 = this.qnk[integerArray[i]];
             int n9 = this.wx(n8);
-            if (longSet.contains(BlockPos.method_10064((int)n9, (int)(n7 = this.wy(n8)), (int)(n6 = this.wz(n8))))) continue;
-            double d = (double)n9 + 0.5 - vec3d.field_1352;
-            double d4 = (double)n7 + 0.5 - vec3d.field_1351;
-            double d5 = (double)n6 + 0.5 - vec3d.field_1350;
+            if (longSet.contains(BlockPos.asLong((int)n9, (int)(n7 = this.wy(n8)), (int)(n6 = this.wz(n8))))) continue;
+            double d = (double)n9 + 0.5 - vec3d.x;
+            double d4 = (double)n7 + 0.5 - vec3d.y;
+            double d5 = (double)n6 + 0.5 - vec3d.z;
             double d6 = Math.sqrt(d * d + d4 * d4 + d5 * d5);
-            double d7 = d6 < 0.001 ? 1.0 : (d * vec3d2.field_1352 + d4 * vec3d2.field_1351 + d5 * vec3d2.field_1350) / d6;
+            double d7 = d6 < 0.001 ? 1.0 : (d * vec3d2.x + d4 * vec3d2.y + d5 * vec3d2.z) / d6;
             f3 -= (float)(Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, d7)))) / this.qnr);
             if (this.qns > 0.0f) {
                 f3 += this.qns * (float)this.qoa(n9, n7, n6);
@@ -469,8 +469,8 @@ public final class qnd {
             double d2;
             double d3;
             int n = this.qnj[i];
-            double d4 = (double)this.wx(n) + 0.5 - vec3d.field_1352;
-            if (!(d4 * d4 + (d3 = (double)this.wy(n) + 0.5 - vec3d.field_1351) * d3 + (d2 = (double)this.wz(n) + 0.5 - vec3d.field_1350) * d2 <= d * d)) continue;
+            double d4 = (double)this.wx(n) + 0.5 - vec3d.x;
+            if (!(d4 * d4 + (d3 = (double)this.wy(n) + 0.5 - vec3d.y) * d3 + (d2 = (double)this.wz(n) + 0.5 - vec3d.z) * d2 <= d * d)) continue;
             arrayList.add(new BlockPos(this.wx(n), this.wy(n), this.wz(n)));
         }
         return arrayList;
@@ -496,15 +496,15 @@ public final class qnd {
     public qmx toward(BlockPos blockPos, int n) {
         int n2 = -1;
         double d = Double.MAX_VALUE;
-        for (int i = blockPos.method_10264() - n; i <= blockPos.method_10264() + n; ++i) {
-            for (int j = blockPos.method_10263() - n; j <= blockPos.method_10263() + n; ++j) {
-                for (int k = blockPos.method_10260() - n; k <= blockPos.method_10260() + n; ++k) {
+        for (int i = blockPos.getY() - n; i <= blockPos.getY() + n; ++i) {
+            for (int j = blockPos.getX() - n; j <= blockPos.getX() + n; ++j) {
+                for (int k = blockPos.getZ() - n; k <= blockPos.getZ() + n; ++k) {
                     double d2;
                     double d3;
                     double d4;
                     double d5;
                     int n3;
-                    if (!this.inside(j, i, k) || this.qnh[n3 = this.index(j, i, k)] == Float.POSITIVE_INFINITY || !((d5 = ((d4 = (double)(j - blockPos.method_10263())) * d4 + (d3 = (double)(i - blockPos.method_10264())) * d3 * 2.0 + (d2 = (double)(k - blockPos.method_10260())) * d2) * 40.0 + (double)this.qnh[n3]) < d)) continue;
+                    if (!this.inside(j, i, k) || this.qnh[n3 = this.index(j, i, k)] == Float.POSITIVE_INFINITY || !((d5 = ((d4 = (double)(j - blockPos.getX())) * d4 + (d3 = (double)(i - blockPos.getY())) * d3 * 2.0 + (d2 = (double)(k - blockPos.getZ())) * d2) * 40.0 + (double)this.qnh[n3]) < d)) continue;
                     d = d5;
                     n2 = n3;
                 }
@@ -518,7 +518,7 @@ public final class qnd {
     }
 
     public static float value(BlockState blockState) {
-        String string = Registries.field_41175.method_10221((Object)blockState.method_26204()).method_12832();
+        String string = Registries.BLOCK.getId((Object)blockState.getBlock()).getPath();
         if (string.contains(a.d("\uc1a4\ub818\u32c3\uacbe\u276b\ua1db\u1b82", 1057647661, -675303958)) || string.contains(a.b("\uf949\u80f0\u0a2b\u944d\u1f89\u9935\u236e", 2106325291)) || string.contains(a.c(1450707397, "\u09aa\u7014\ufaca\u64b1\uef6a\u69d0\ud399\u5a43\uc427\u4e97\uc943\u3322\ubdee\u2445"))) {
             return 30.0f;
         }

@@ -36,11 +36,11 @@ public final class wdf {
         if (l <= 0L || ejp.isActive()) {
             return;
         }
-        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.method_1562();
+        ClientPlayNetworkHandler clientPlayNetworkHandler = minecraftClient.getNetworkHandler();
         if (clientPlayNetworkHandler == null) {
             return;
         }
-        Channel channel = wcn.channel(clientPlayNetworkHandler.method_48296());
+        Channel channel = wcn.channel(clientPlayNetworkHandler.getConnection());
         if (channel == null || !channel.isOpen()) {
             return;
         }

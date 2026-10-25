@@ -32,7 +32,7 @@ import net.minecraft.client.network.ServerInfo;
 public final class egq {
     private static final egq egr = new egq();
     private static final Pattern egs = Pattern.compile(a.d("\u7209\u0ba2\u811d\u1f1b\u94f7\u120a\ua80e\u21b5\ubff7\u3552\ub2e7\u4894\uc665\u5f9c\ud5d0\u533c\ue974\u66ee", -1684923850, -795318154));
-    private static final MinecraftClient egt = MinecraftClient.method_1551();
+    private static final MinecraftClient egt = MinecraftClient.getInstance();
     private static final long egu = 10000000L;
     private static final long egv = 2500L;
     private static final long egw = 20000L;
@@ -106,7 +106,7 @@ public final class egq {
     }
 
     private void ehj() {
-        if (this.ehd || !egt.method_18854() || egq.egt.field_1697 == null || egq.ehi() == null) {
+        if (this.ehd || !egt.isOnThread() || egq.egt.runDirectory == null || egq.ehi() == null) {
             return;
         }
         this.ehd = true;
@@ -300,9 +300,9 @@ public final class egq {
     }
 
     public String suggestAddress() {
-        ServerInfo serverInfo = egt.method_1558();
-        if (serverInfo != null && serverInfo.field_3761 != null && !serverInfo.field_3761.isBlank()) {
-            return serverInfo.field_3761;
+        ServerInfo serverInfo = egt.getCurrentServerEntry();
+        if (serverInfo != null && serverInfo.address != null && !serverInfo.address.isBlank()) {
+            return serverInfo.address;
         }
         return this.egx.isEmpty() ? "" : this.egx.get(this.egx.size() - 1).getAddress();
     }

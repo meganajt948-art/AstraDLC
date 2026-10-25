@@ -69,11 +69,11 @@ public final class vss {
         }
         vtl = System.nanoTime();
         try {
-            MinecraftClient minecraftClient = MinecraftClient.method_1551();
-            if (minecraftClient.field_1690 != null) {
-                String string = (String)minecraftClient.field_1690.method_42477().method_41753();
+            MinecraftClient minecraftClient = MinecraftClient.getInstance();
+            if (minecraftClient.options != null) {
+                String string = (String)minecraftClient.options.getSoundDevice().getValue();
                 vtm = string == null ? "" : string;
-                vtn = Boolean.TRUE.equals(minecraftClient.field_1690.method_42444().method_41753());
+                vtn = Boolean.TRUE.equals(minecraftClient.options.getDirectionalAudio().getValue());
             }
         }
         catch (Throwable throwable) {

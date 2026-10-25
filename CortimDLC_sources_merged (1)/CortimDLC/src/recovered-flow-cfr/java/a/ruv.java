@@ -100,7 +100,7 @@ extends kfe {
             block5: {
                 if (!(entity instanceof LivingEntity)) break block5;
                 LivingEntity livingEntity = (LivingEntity)entity;
-                if (entity != minecraftClient.field_1724 && livingEntity.method_5805() && !entity.method_31481() && !(entity instanceof ArmorStandEntity) && minecraftClient.field_1687.method_8469(entity.method_5628()) == entity && !entity.method_7325()) break block6;
+                if (entity != minecraftClient.player && livingEntity.isAlive() && !entity.isRemoved() && !(entity instanceof ArmorStandEntity) && minecraftClient.world.getEntityById(entity.getId()) == entity && !entity.isSpectator()) break block6;
             }
             return false;
         }
@@ -110,14 +110,14 @@ extends kfe {
         if (entity instanceof PlayerEntity && hhf.isFriend(entity)) {
             return false;
         }
-        return minecraftClient.field_1724.method_5858(entity) < 2304.0;
+        return minecraftClient.player.squaredDistanceTo(entity) < 2304.0;
     }
 
     private LivingEntity rwb(MinecraftClient minecraftClient) {
         if (rva != null && System.currentTimeMillis() - rvb < 3500L && this.rwa(minecraftClient, (Entity)rva)) {
             return rva;
         }
-        Entity entity = minecraftClient.field_1692;
+        Entity entity = minecraftClient.targetedEntity;
         return entity != null && this.rwa(minecraftClient, entity) ? (LivingEntity)entity : null;
     }
 
@@ -131,8 +131,8 @@ extends kfe {
         boolean bl;
         LivingEntity livingEntity;
         ruv ruv2 = ruw;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (ruv2 == null || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (ruv2 == null || minecraftClient.world == null || minecraftClient.player == null) {
             return;
         }
         if (!ruv2.isEnabled()) {
@@ -140,7 +140,7 @@ extends kfe {
             rvd.set(0.0f);
             return;
         }
-        if (minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        if (minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -154,7 +154,7 @@ extends kfe {
             rvc = livingEntity2;
             rvd.set(0.0f);
             rve.set(0.0f);
-            rvf = livingEntity2.field_6235;
+            rvf = livingEntity2.hurtTime;
             rvv = 0.0f;
         }
         if ((livingEntity = rvc) == null) {
@@ -166,22 +166,22 @@ extends kfe {
             rvc = null;
             return;
         }
-        boolean bl2 = bl = livingEntity.field_6235 > rvf;
+        boolean bl2 = bl = livingEntity.hurtTime > rvf;
         if (bl) {
             rve.set(1.0f);
             rvv = 0.0f;
         }
-        rvf = livingEntity.field_6235;
+        rvf = livingEntity.hurtTime;
         rve.step(0.0f, f);
         float f3 = (float)ruv2.speed.get();
         rvg += f * f3;
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
         }
-        Vec3d vec3d = livingEntity.method_30950(renderTickCounter.method_60637(true));
+        Vec3d vec3d = livingEntity.getLerpedPos(renderTickCounter.getTickProgress(true));
         rus rus2 = new rus(ruv2, vcq.outCubic(f2), vcq.outCubic(rve.get()));
         uut.beginFrame();
         uut.pushAlpha(rus2.vis * (float)ruv2.brightness.get());
@@ -242,11 +242,11 @@ extends kfe {
 
     private static void rwe(DrawContext drawContext, usn usn2, LivingEntity livingEntity, Vec3d vec3d, rus rus2) {
         GpuTextureView gpuTextureView = unm.view();
-        float f = livingEntity.method_17682();
-        double d = ((double)livingEntity.method_17681() * 0.55 + 0.35) * (double)rus2.size;
-        double d2 = vec3d.field_1351 + (double)f * 0.5;
-        float f2 = usn2.depth(vec3d.field_1352, d2, vec3d.field_1350);
-        float f3 = usn2.unitsPerBlock(vec3d.field_1352, d2, vec3d.field_1350);
+        float f = livingEntity.getHeight();
+        double d = ((double)livingEntity.getWidth() * 0.55 + 0.35) * (double)rus2.size;
+        double d2 = vec3d.y + (double)f * 0.5;
+        float f2 = usn2.depth(vec3d.x, d2, vec3d.z);
+        float f3 = usn2.unitsPerBlock(vec3d.x, d2, vec3d.z);
         if (f3 <= 0.0f) {
             return;
         }
@@ -258,8 +258,8 @@ extends kfe {
             for (int j = n2 - 1; j >= 0; --j) {
                 float f5 = rvg * 2.3f - (float)j * 0.055f;
                 float f6 = f5 + f4;
-                double d3 = vec3d.field_1352 + Math.cos(f6) * d;
-                double d4 = vec3d.field_1350 + Math.sin(f6) * d;
+                double d3 = vec3d.x + Math.cos(f6) * d;
+                double d4 = vec3d.z + Math.sin(f6) * d;
                 double d5 = d2 + Math.sin(f5 * 1.25f + f4 * 1.7f) * (double)f * 0.36;
                 if (!usn2.project(d3, d5, d4, rvi)) continue;
                 float f7 = 1.0f - (float)j / (float)n2;
@@ -289,10 +289,10 @@ extends kfe {
 
     private static void rwg(DrawContext drawContext, usn usn2, LivingEntity livingEntity, Vec3d vec3d, rus rus2, float f) {
         GpuTextureView gpuTextureView = unm.view();
-        float f2 = livingEntity.method_17682();
-        double d = ((double)livingEntity.method_17681() * 0.6 + 0.3) * (double)rus2.size;
-        float f3 = usn2.depth(vec3d.field_1352, vec3d.field_1351 + (double)f2 * 0.5, vec3d.field_1350);
-        float f4 = usn2.unitsPerBlock(vec3d.field_1352, vec3d.field_1351 + (double)f2 * 0.5, vec3d.field_1350);
+        float f2 = livingEntity.getHeight();
+        double d = ((double)livingEntity.getWidth() * 0.6 + 0.3) * (double)rus2.size;
+        float f3 = usn2.depth(vec3d.x, vec3d.y + (double)f2 * 0.5, vec3d.z);
+        float f4 = usn2.unitsPerBlock(vec3d.x, vec3d.y + (double)f2 * 0.5, vec3d.z);
         if (f4 <= 0.0f) {
             return;
         }
@@ -309,8 +309,8 @@ extends kfe {
                 fArray[0] = rvm.nextFloat() * ((float)Math.PI * 2);
             }
             double d4 = d * (double)fArray[1];
-            double d5 = vec3d.field_1352 + Math.cos(fArray[0]) * d4;
-            if (!usn2.project(d5, d3 = vec3d.field_1351 + ((double)fArray[2] * 1.1 - 0.05) * (double)f2, d2 = vec3d.field_1350 + Math.sin(fArray[0]) * d4, rvi)) continue;
+            double d5 = vec3d.x + Math.cos(fArray[0]) * d4;
+            if (!usn2.project(d5, d3 = vec3d.y + ((double)fArray[2] * 1.1 - 0.05) * (double)f2, d2 = vec3d.z + Math.sin(fArray[0]) * d4, rvi)) continue;
             float f7 = Math.min(1.0f, Math.min(fArray[2] / 0.15f, (1.0f - fArray[2]) / 0.2f));
             float f8 = 0.5f + 0.5f * (float)Math.sin(rvg * fArray[5] + fArray[4]);
             boolean bl = usn2.depth(d5, d3, d2) < f3;
@@ -323,15 +323,15 @@ extends kfe {
     }
 
     private static void rwh(DrawContext drawContext, usn usn2, LivingEntity livingEntity, Vec3d vec3d, rus rus2) {
-        float f = livingEntity.method_17682();
-        double d = ((double)livingEntity.method_17681() * 0.5 + 0.2) * (double)rus2.size;
+        float f = livingEntity.getHeight();
+        double d = ((double)livingEntity.getWidth() * 0.5 + 0.2) * (double)rus2.size;
         float f2 = rvg * 1.6f;
-        double d2 = vec3d.field_1351 + 0.05 + (double)ruv.rwd(f2) * ((double)f - 0.1);
+        double d2 = vec3d.y + 0.05 + (double)ruv.rwd(f2) * ((double)f - 0.1);
         boolean bl = Math.sin(f2) > 0.0;
         double d3 = 0.04 * (double)rus2.size;
         double d4 = 0.2 * (double)rus2.size * Math.min(1.0, Math.abs(Math.sin(f2)) * 1.6 + 0.25);
-        ruv.rwi(drawContext, usn2, vec3d.field_1352, d2, vec3d.field_1350, d, bl ? d4 : d3 * 1.4, bl ? d3 * 1.4 : d4, rus2, 1.0f, 44);
-        ruv.rwj(drawContext, usn2, vec3d.field_1352, d2, vec3d.field_1350, d, 44, rus2, 0.9f);
+        ruv.rwi(drawContext, usn2, vec3d.x, d2, vec3d.z, d, bl ? d4 : d3 * 1.4, bl ? d3 * 1.4 : d4, rus2, 1.0f, 44);
+        ruv.rwj(drawContext, usn2, vec3d.x, d2, vec3d.z, d, 44, rus2, 0.9f);
     }
 
     private static void rwi(DrawContext drawContext, usn usn2, double d, double d2, double d3, double d4, double d5, double d6, rus rus2, float f, int n) {
@@ -380,10 +380,10 @@ extends kfe {
     }
 
     private static void rwk(DrawContext drawContext, usn usn2, LivingEntity livingEntity, Vec3d vec3d, rus rus2) {
-        float f = livingEntity.method_17682();
-        double d = ((double)livingEntity.method_17681() * 0.5 + 0.28) * (double)rus2.size;
-        float f2 = usn2.depth(vec3d.field_1352, vec3d.field_1351 + (double)f * 0.5, vec3d.field_1350);
-        float f3 = usn2.unitsPerBlock(vec3d.field_1352, vec3d.field_1351 + (double)f * 0.5, vec3d.field_1350);
+        float f = livingEntity.getHeight();
+        double d = ((double)livingEntity.getWidth() * 0.5 + 0.28) * (double)rus2.size;
+        float f2 = usn2.depth(vec3d.x, vec3d.y + (double)f * 0.5, vec3d.z);
+        float f3 = usn2.unitsPerBlock(vec3d.x, vec3d.y + (double)f * 0.5, vec3d.z);
         if (f3 <= 0.0f) {
             return;
         }
@@ -398,12 +398,12 @@ extends kfe {
                 float f6 = rvg * 3.1f - (float)(j - 1) * 0.075f;
                 double d3 = f5 + f4;
                 double d4 = f6 + f4;
-                double d5 = vec3d.field_1351 + 0.1 + (double)ruv.rwd(f5 * 0.42f + f4) * ((double)f - 0.2);
-                double d6 = vec3d.field_1351 + 0.1 + (double)ruv.rwd(f6 * 0.42f + f4) * ((double)f - 0.2);
-                double d7 = vec3d.field_1352 + Math.cos(d3) * d;
-                double d8 = vec3d.field_1350 + Math.sin(d3) * d;
-                double d9 = vec3d.field_1352 + Math.cos(d4) * d;
-                double d10 = vec3d.field_1350 + Math.sin(d4) * d;
+                double d5 = vec3d.y + 0.1 + (double)ruv.rwd(f5 * 0.42f + f4) * ((double)f - 0.2);
+                double d6 = vec3d.y + 0.1 + (double)ruv.rwd(f6 * 0.42f + f4) * ((double)f - 0.2);
+                double d7 = vec3d.x + Math.cos(d3) * d;
+                double d8 = vec3d.z + Math.sin(d3) * d;
+                double d9 = vec3d.x + Math.cos(d4) * d;
+                double d10 = vec3d.z + Math.sin(d4) * d;
                 float f7 = 1.0f - (float)j / (float)n;
                 float f8 = 1.0f - (float)(j - 1) / (float)n;
                 double d11 = d2 * (double)f7;
@@ -416,9 +416,9 @@ extends kfe {
                 uut.quad(drawContext, rvi[0], rvi[1], n2, rvj[0], rvj[1], n3, rvk[0], rvk[1], n3, rvl[0], rvl[1], n2);
             }
             double d13 = rvg * 3.1f + f4;
-            double d14 = vec3d.field_1352 + Math.cos(d13) * d;
-            double d15 = vec3d.field_1350 + Math.sin(d13) * d;
-            double d16 = vec3d.field_1351 + 0.1 + (double)ruv.rwd(rvg * 3.1f * 0.42f + f4) * ((double)f - 0.2);
+            double d14 = vec3d.x + Math.cos(d13) * d;
+            double d15 = vec3d.z + Math.sin(d13) * d;
+            double d16 = vec3d.y + 0.1 + (double)ruv.rwd(rvg * 3.1f * 0.42f + f4) * ((double)f - 0.2);
             if (!usn2.project(d14, d16, d15, rvi)) continue;
             boolean bl = usn2.depth(d14, d16, d15) < f2;
             float f10 = Math.min(44.0f, f3 * 0.45f * rus2.size);
@@ -430,26 +430,26 @@ extends kfe {
 
     private static void rwl(DrawContext drawContext, usn usn2, LivingEntity livingEntity, Vec3d vec3d, rus rus2, float f) {
         int n;
-        float f2 = livingEntity.method_17682();
-        float f3 = usn2.unitsPerBlock(vec3d.field_1352, vec3d.field_1351 + (double)f2 * 0.5, vec3d.field_1350);
+        float f2 = livingEntity.getHeight();
+        float f3 = usn2.unitsPerBlock(vec3d.x, vec3d.y + (double)f2 * 0.5, vec3d.z);
         if (f3 <= 0.0f) {
             return;
         }
-        double d = ((double)livingEntity.method_17681() * 0.5 + 0.16) * (double)rus2.size;
-        double d2 = vec3d.field_1351 + 0.1 + (double)ruv.rwd(rvg * 1.3f) * ((double)f2 - 0.2);
+        double d = ((double)livingEntity.getWidth() * 0.5 + 0.16) * (double)rus2.size;
+        double d2 = vec3d.y + 0.1 + (double)ruv.rwd(rvg * 1.3f) * ((double)f2 - 0.2);
         if ((rvv -= f) <= 0.0f) {
             rvv = 0.07f;
             ruv.rwn(d, rus2.size, rus2.hit);
         }
         float f4 = Math.max(0.9f, Math.min(2.4f, f3 * 0.022f));
         float f5 = Math.min(8.0f, f3 * 0.09f);
-        float f6 = usn2.depth(vec3d.field_1352, d2, vec3d.field_1350);
+        float f6 = usn2.depth(vec3d.x, d2, vec3d.z);
         float f7 = 0.75f + 0.25f * (float)Math.sin(rvg * 40.0f);
         for (n = 0; n < 4; ++n) {
-            ruv.rwm(drawContext, usn2, vec3d.field_1352, d2, vec3d.field_1350, rvt[n], 11, f4, f5, rus2.at((float)n / 3.0f), f7 * (0.85f + 0.15f * rus2.hit), f6);
+            ruv.rwm(drawContext, usn2, vec3d.x, d2, vec3d.z, rvt[n], 11, f4, f5, rus2.at((float)n / 3.0f), f7 * (0.85f + 0.15f * rus2.hit), f6);
         }
         for (n = 0; n < 4; ++n) {
-            ruv.rwm(drawContext, usn2, vec3d.field_1352, d2, vec3d.field_1350, rvu[n], 4, f4 * 0.7f, f5 * 0.7f, rus2.c2, f7 * 0.7f, f6);
+            ruv.rwm(drawContext, usn2, vec3d.x, d2, vec3d.z, rvu[n], 4, f4 * 0.7f, f5 * 0.7f, rus2.c2, f7 * 0.7f, f6);
         }
     }
 

@@ -122,8 +122,8 @@ extends kfe {
     public static void render(DrawContext drawContext, RenderTickCounter renderTickCounter) {
         usn usn2;
         shx shx2 = shy;
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
-        if (shx2 == null || !shx2.isEnabled() || minecraftClient.field_1687 == null || minecraftClient.field_1724 == null || minecraftClient.field_1690.field_1842 || minecraftClient.field_1755 instanceof hlc) {
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
+        if (shx2 == null || !shx2.isEnabled() || minecraftClient.world == null || minecraftClient.player == null || minecraftClient.options.hudHidden || minecraftClient.currentScreen instanceof hlc) {
             return;
         }
         unf.observe(drawContext);
@@ -132,7 +132,7 @@ extends kfe {
         }
         shx2.sja = unf.frame();
         try {
-            usn2 = usn.capture(renderTickCounter.method_60637(true), drawContext.method_51421(), drawContext.method_51443());
+            usn2 = usn.capture(renderTickCounter.getTickProgress(true), drawContext.getScaledWindowWidth(), drawContext.getScaledWindowHeight());
         }
         catch (Throwable throwable) {
             return;
@@ -193,9 +193,9 @@ extends kfe {
             } else {
                 Vec3d vec3d2 = this.sjj(snp3);
                 float f3 = Math.min(1.0f, f * 2.2f);
-                snp3.x += (vec3d2.field_1352 - snp3.x) * (double)f3;
-                snp3.y += (vec3d2.field_1351 - snp3.y) * (double)f3;
-                snp3.z += (vec3d2.field_1350 - snp3.z) * (double)f3;
+                snp3.x += (vec3d2.x - snp3.x) * (double)f3;
+                snp3.y += (vec3d2.y - snp3.y) * (double)f3;
+                snp3.z += (vec3d2.z - snp3.z) * (double)f3;
             }
             boolean bl2 = !this.sij.get() && this.sjk(vec3d, snp3);
             snp3.hidden = snp3.hidden + ((bl2 ? 1.0f : 0.0f) - snp3.hidden) * f2;
@@ -269,10 +269,10 @@ extends kfe {
     }
 
     private void sji(snp snp2) {
-        Camera camera = this.mc.field_1773.method_19418();
-        Vec3d vec3d = camera.method_71156();
-        float f = camera.method_19330();
-        float f2 = MathHelper.method_15363((float)camera.method_19329(), (float)-50.0f, (float)50.0f);
+        Camera camera = this.mc.gameRenderer.getCamera();
+        Vec3d vec3d = camera.getCameraPos();
+        float f = camera.getYaw();
+        float f2 = MathHelper.clamp((float)camera.getPitch(), (float)-50.0f, (float)50.0f);
         float f3 = (float)this.sic.get();
         float f4 = -3.4028235E38f;
         float f5 = 0.0f;
@@ -282,12 +282,12 @@ extends kfe {
             float f8 = snp2.card ? -(10.0f + this.sis.nextFloat() * 6.0f * f3) : -(6.0f + this.sis.nextFloat() * 10.0f * f3);
             float f9 = 14.0f;
             for (snp snp3 : this.sir) {
-                double d = snp3.x - vec3d.field_1352;
-                double d2 = snp3.y - vec3d.field_1351;
-                double d3 = snp3.z - vec3d.field_1350;
-                float f10 = (float)(MathHelper.method_15349((double)d3, (double)d) * 57.2957763671875) - 90.0f;
-                float f11 = (float)(-(MathHelper.method_15349((double)d2, (double)Math.sqrt(d * d + d3 * d3)) * 57.2957763671875));
-                float f12 = MathHelper.method_15393((float)(f + f7 - f10));
+                double d = snp3.x - vec3d.x;
+                double d2 = snp3.y - vec3d.y;
+                double d3 = snp3.z - vec3d.z;
+                float f10 = (float)(MathHelper.atan2((double)d3, (double)d) * 57.2957763671875) - 90.0f;
+                float f11 = (float)(-(MathHelper.atan2((double)d2, (double)Math.sqrt(d * d + d3 * d3)) * 57.2957763671875));
+                float f12 = MathHelper.wrapDegrees((float)(f + f7 - f10));
                 float f13 = f2 + f8 - f11;
                 f9 = Math.min(f9, (float)Math.hypot(f12 * 0.3f, f13));
             }
@@ -301,9 +301,9 @@ extends kfe {
         snp2.pitchOff = f6;
         snp2.dist = (float)this.sia.get() * (0.9f + this.sis.nextFloat() * 0.2f);
         Vec3d vec3d2 = this.sjj(snp2);
-        snp2.x = vec3d2.field_1352;
-        snp2.y = vec3d2.field_1351;
-        snp2.z = vec3d2.field_1350;
+        snp2.x = vec3d2.x;
+        snp2.y = vec3d2.y;
+        snp2.z = vec3d2.z;
     }
 
     private Vec3d sjj(snp snp2) {
@@ -311,23 +311,23 @@ extends kfe {
         float f;
         Vec3d vec3d;
         Vec3d vec3d2;
-        Camera camera = this.mc.field_1773.method_19418();
-        Vec3d vec3d3 = camera.method_71156();
-        BlockHitResult blockHitResult = this.mc.field_1687.method_17742(new RaycastContext(vec3d3, vec3d2 = vec3d3.method_1019((vec3d = Vec3d.method_1030((float)(f = MathHelper.method_15363((float)camera.method_19329(), (float)-50.0f, (float)50.0f) + snp2.pitchOff), (float)(camera.method_19330() + snp2.yawOff))).method_1021(d = (double)snp2.dist)), RaycastContext.ShapeType.field_17558, RaycastContext.FluidHandling.field_1348, (Entity)this.mc.field_1724));
-        if (blockHitResult.method_17783() != HitResult.Type.field_1333) {
-            d = Math.max(1.6, blockHitResult.method_17784().method_1022(vec3d3) - 0.6);
+        Camera camera = this.mc.gameRenderer.getCamera();
+        Vec3d vec3d3 = camera.getCameraPos();
+        BlockHitResult blockHitResult = this.mc.world.raycast(new RaycastContext(vec3d3, vec3d2 = vec3d3.add((vec3d = Vec3d.fromPolar((float)(f = MathHelper.clamp((float)camera.getPitch(), (float)-50.0f, (float)50.0f) + snp2.pitchOff), (float)(camera.getYaw() + snp2.yawOff))).multiply(d = (double)snp2.dist)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, (Entity)this.mc.player));
+        if (blockHitResult.getType() != HitResult.Type.MISS) {
+            d = Math.max(1.6, blockHitResult.getPos().distanceTo(vec3d3) - 0.6);
         }
-        return vec3d3.method_1019(vec3d.method_1021(d));
+        return vec3d3.add(vec3d.multiply(d));
     }
 
     private boolean sjk(Vec3d vec3d, snp snp2) {
         Vec3d vec3d2 = new Vec3d(snp2.x, snp2.y, snp2.z);
-        double d = vec3d2.method_1022(vec3d);
+        double d = vec3d2.distanceTo(vec3d);
         if (d < 0.5) {
             return false;
         }
-        BlockHitResult blockHitResult = this.mc.field_1687.method_17742(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.field_23142, RaycastContext.FluidHandling.field_1348, (Entity)this.mc.field_1724));
-        return blockHitResult.method_17783() != HitResult.Type.field_1333 && blockHitResult.method_17784().method_1022(vec3d) < d - 0.3;
+        BlockHitResult blockHitResult = this.mc.world.raycast(new RaycastContext(vec3d, vec3d2, RaycastContext.ShapeType.VISUAL, RaycastContext.FluidHandling.NONE, (Entity)this.mc.player));
+        return blockHitResult.getType() != HitResult.Type.MISS && blockHitResult.getPos().distanceTo(vec3d) < d - 0.3;
     }
 
     private static /* synthetic */ int cdu(int n, int n2) {

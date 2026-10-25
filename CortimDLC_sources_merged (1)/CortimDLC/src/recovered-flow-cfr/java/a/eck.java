@@ -28,11 +28,11 @@ public final class eck {
     }
 
     void own(String string) {
-        this.ecq(new ech((Text)Text.method_43470((String)string).method_27692(Formatting.field_1068), ece.OWN));
+        this.ecq(new ech((Text)Text.literal((String)string).formatted(Formatting.WHITE), ece.OWN));
     }
 
     void system(String string) {
-        this.ecq(new ech((Text)Text.method_43470((String)string).method_27692(Formatting.field_1080), ece.SYSTEM));
+        this.ecq(new ech((Text)Text.literal((String)string).formatted(Formatting.GRAY), ece.SYSTEM));
     }
 
     private void ecq(ech ech2) {

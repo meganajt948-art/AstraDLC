@@ -155,7 +155,7 @@ extends imn {
                 hlc2.toast(wap.s(a.c(-1684667425, "\u038b\u7a1b\uf087\u6eb5\ue56e\u63d4\ud986\u5032\uce34\u4499\uc35b\u3964\ub7a9\u2e56\ua404\u22ee\u98f5\u1767\u8dd8\u0b88\u827f\uf825\u7690\ued56\u6b38\ue1e8"), a.d("\u7961\u00f4\u8a2d\u1458\u9b9f\u1931\ua363\u2a96\ub4c3\u3a62\ub9ac\u43d5\ucd75\u50bc\udaf5\u5819\ue25e\u6df8\uf329\u7119\uf89d\u82b1\u0c7a\u97a4", -1722530915, -1382400258)), vhz.INFO, true);
                 return true;
             }
-            MinecraftClient.method_1551().field_1774.method_1455(string);
+            MinecraftClient.getInstance().keyboard.setClipboard(string);
             this.ikl.set(1.0f);
             hlc2.toast(wap.s(a.b("\u95b2\uec2f\u66f7\uf887\u7315\uf5e7\u4fb8\uc656\u5810\ud2ad\u557f\uaf50\u219d", -401631748), a.c(725901426, "\u6478\u1ded\u9734\u0d51\u82e7\u042d\ube7a\u378a\ua9d2\u231b\ua4b6\u5ecb\ud01e\u49a2\uc7f6\u411d")) + string, vhz.COPY, false);
             return true;

@@ -60,30 +60,30 @@ extends kfe {
     }
 
     protected ClientPlayerEntity getPlayer() {
-        return this.mc.field_1724;
+        return this.mc.player;
     }
 
     protected ClientWorld getWorld() {
-        return this.mc.field_1687;
+        return this.mc.world;
     }
 
     protected ClientPlayNetworkHandler getNetworkHandler() {
-        return this.mc.method_1562();
+        return this.mc.getNetworkHandler();
     }
 
     protected ClientPlayerInteractionManager getInteractionManager() {
-        return this.mc.field_1761;
+        return this.mc.interactionManager;
     }
 
     protected boolean isNotInWorld() {
-        return this.mc.field_1724 == null || this.mc.field_1687 == null;
+        return this.mc.player == null || this.mc.world == null;
     }
 
     protected boolean heldByHuman(KeyBinding keyBinding) {
         if (this.driver != null) {
             return this.driver.heldByHuman(keyBinding);
         }
-        if (keyBinding == null || this.mc.method_22683() == null) {
+        if (keyBinding == null || this.mc.getWindow() == null) {
             return false;
         }
         try {
@@ -95,29 +95,29 @@ extends kfe {
     }
 
     protected void silenceMovement() {
-        GameOptions gameOptions = this.mc.field_1690;
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
+        GameOptions gameOptions = this.mc.options;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
         if (gameOptions == null || clientPlayerEntity == null) {
             return;
         }
-        gameOptions.field_1894.method_23481(false);
-        gameOptions.field_1881.method_23481(false);
-        gameOptions.field_1913.method_23481(false);
-        gameOptions.field_1849.method_23481(false);
-        gameOptions.field_1903.method_23481(false);
-        gameOptions.field_1867.method_23481(false);
-        if (clientPlayerEntity.method_5624()) {
-            clientPlayerEntity.method_5728(false);
+        gameOptions.forwardKey.setPressed(false);
+        gameOptions.backKey.setPressed(false);
+        gameOptions.leftKey.setPressed(false);
+        gameOptions.rightKey.setPressed(false);
+        gameOptions.jumpKey.setPressed(false);
+        gameOptions.sprintKey.setPressed(false);
+        if (clientPlayerEntity.isSprinting()) {
+            clientPlayerEntity.setSprinting(false);
         }
     }
 
     protected boolean isMovementSilent() {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (clientPlayerEntity == null || clientPlayerEntity.field_3913 == null) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (clientPlayerEntity == null || clientPlayerEntity.input == null) {
             return false;
         }
-        PlayerInput playerInput = clientPlayerEntity.field_3913.field_54155;
-        return !clientPlayerEntity.method_5624() && !playerInput.comp_3159() && !playerInput.comp_3160() && !playerInput.comp_3161() && !playerInput.comp_3162() && !playerInput.comp_3163() && !playerInput.comp_3165();
+        PlayerInput playerInput = clientPlayerEntity.input.playerInput;
+        return !clientPlayerEntity.isSprinting() && !playerInput.forward() && !playerInput.backward() && !playerInput.left() && !playerInput.right() && !playerInput.jump() && !playerInput.sprint();
     }
 
     protected void notifyUser(String string, boolean bl) {

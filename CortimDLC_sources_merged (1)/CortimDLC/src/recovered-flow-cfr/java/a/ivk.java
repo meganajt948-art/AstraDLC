@@ -75,7 +75,7 @@ extends imn {
         if (this.ivq != null && System.currentTimeMillis() > this.ivr) {
             this.ivq = null;
         }
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         String string = wlk.dimensionId();
         float f5 = iov.r(6.0f);
         for (int i = 0; i < list.size(); ++i) {
@@ -90,8 +90,8 @@ extends imn {
             float f9 = ivh2.shown.step(wkq4.visible, f3);
             int n = wlk.colorOf(wkq4);
             uut.pushAlpha(f7 * (0.5f + 0.5f * f9));
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate((1.0f - f7) * 18.0f, 0.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate((1.0f - f7) * 18.0f, 0.0f);
             uut.round(drawContext, this.x, f6, this.w, 30.0f, f5, ujt.withAlpha(iov.hover, (int)((float)ujt.alpha(iov.hover) * (0.6f + 1.4f * f8))));
             float f10 = f6 + 15.0f;
             wkw.pin(drawContext, this.x + 12.0f, f10 - 0.8f * f8, 15.0f, n, 0.5f + 0.5f * f8);
@@ -105,8 +105,8 @@ extends imn {
             }
             irr.SMALL.draw(drawContext, irr.SMALL.ellipsize(string2, f12), f11, irr.SMALL.centerTop(f10 + 5.5f), iov.textMuted);
             wkq wkq5 = wkq3 = bl ? wkq4 : wlk.here(wkq4);
-            if (f8 < 0.99f && wkq3 != null && minecraftClient.field_1724 != null) {
-                double d = Math.sqrt(minecraftClient.field_1724.method_5649(wkq3.cx(), wkq3.cy(), wkq3.cz()));
+            if (f8 < 0.99f && wkq3 != null && minecraftClient.player != null) {
+                double d = Math.sqrt(minecraftClient.player.squaredDistanceTo(wkq3.cx(), wkq3.cy(), wkq3.cz()));
                 uut.pushAlpha(1.0f - f8);
                 irr.drawChip(drawContext, wkw.formatDistance(d), this.x + this.w - 6.0f + f8 * 6.0f, f10, ujt.lerp(n, iov.text, 0.5f), ujt.withAlpha(n, 90), 0.0f);
                 uut.popAlpha();
@@ -123,7 +123,7 @@ extends imn {
                 if (!bl4 || !(f8 > 0.5f)) continue;
                 hlc2.hint(bl5 ? wap.s(a.b("\ud9c3\ua05d\u2a8b\ub4f0\u3f2f\ub9d5\u03c7\u8a30\u1469\u9ed0\u1904\ue33b\u6db8\uf412\u7e0e\uf8bb\u42f5\ucd2d\u5797\ud1d7\u5831\u2225\u8caa", -1241327209) + wkq4.name + a.c(533813574, "\u795a"), a.d("\uc7b0\ube2c\u34f9\uaa82\u2151\ua79a\u1dbe\u905a\u0a10\u80dd\u0716\uf916\u73a1\uea60\u6034\ue2de\u589d\ud32b\u499d\ucfb0\u4648\u3c63\ub6bb\u2909\uaf01\u25d4\u9c6c\u123e\u88b3\u0eec\u8133\u7f69", 1614911967, 1155881554) + wkq4.name + a.d("\u0aa2", -1919796334, -760401526)) : stringArray[j]);
             }
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             uut.popAlpha();
         }
     }

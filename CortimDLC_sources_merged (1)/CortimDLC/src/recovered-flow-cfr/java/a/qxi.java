@@ -121,28 +121,28 @@ extends kfe {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private static void qyd(DrawContext drawContext, RenderTickCounter renderTickCounter, HudElement hudElement) {
-        MinecraftClient minecraftClient = MinecraftClient.method_1551();
+        MinecraftClient minecraftClient = MinecraftClient.getInstance();
         long l = System.nanoTime();
         float f = qxq == 0L ? 0.0f : Math.min(0.1f, (float)(l - qxq) / 1.0E9f);
         qxq = l;
-        Scoreboard scoreboard = minecraftClient.field_1687.method_8428();
-        ScoreboardObjective scoreboardObjective = scoreboard.method_1189(ScoreboardDisplaySlot.field_45156);
-        int n = minecraftClient.field_1724.field_3944.method_45732().size();
-        boolean bl = minecraftClient.field_1690.field_1907.method_1434() && (!minecraftClient.method_1542() || n > 1 || scoreboardObjective != null);
+        Scoreboard scoreboard = minecraftClient.world.getScoreboard();
+        ScoreboardObjective scoreboardObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.LIST);
+        int n = minecraftClient.player.networkHandler.getListedPlayerListEntries().size();
+        boolean bl = minecraftClient.options.playerListKey.isPressed() && (!minecraftClient.isInSingleplayer() || n > 1 || scoreboardObjective != null);
         if ((qxp = vcq.clamp01(qxp + (bl ? f / qxi.qya(0.24f) : -f / qxi.qya(0.16f)))) <= 0.0f || qxp >= 1.0f && bl) {
             hudElement.render(drawContext, renderTickCounter);
             return;
         }
         float f2 = qxp * qxp * (3.0f - 2.0f * qxp);
-        int n2 = drawContext.method_51421();
+        int n2 = drawContext.getScaledWindowWidth();
         int n3 = n;
         int n4 = 1;
         while (n3 > 20) {
             n3 = (n + ++n4 - 1) / n4;
         }
         float f3 = 10.0f + (float)n3 * 9.0f + 50.0f;
-        drawContext.method_44379(0, 0, n2, Math.max(1, Math.round(4.0f + f2 * f3)));
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        drawContext.enableScissor(0, 0, n2, Math.max(1, Math.round(4.0f + f2 * f3)));
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         float f4 = 0.94f + 0.06f * f2;
         matrix3x2fStack.translate((float)n2 * 0.5f, 10.0f - (1.0f - f2) * 6.0f);
@@ -152,13 +152,13 @@ extends kfe {
             if (bl) {
                 hudElement.render(drawContext, renderTickCounter);
             } else {
-                drawContext.method_71048();
-                minecraftClient.field_1705.method_1750().method_1919(drawContext, n2, scoreboard, scoreboardObjective);
+                drawContext.createNewRootLayer();
+                minecraftClient.inGameHud.getPlayerListHud().render(drawContext, n2, scoreboard, scoreboardObjective);
             }
         }
         finally {
             matrix3x2fStack.popMatrix();
-            drawContext.method_44380();
+            drawContext.disableScissor();
         }
     }
 
@@ -170,7 +170,7 @@ extends kfe {
             }
             float f = 0.0f;
             try {
-                f = qxi.qyf(MinecraftClient.method_1551());
+                f = qxi.qyf(MinecraftClient.getInstance());
             }
             catch (Throwable throwable) {
                 qxs = true;
@@ -180,7 +180,7 @@ extends kfe {
                 hudElement.render(drawContext, renderTickCounter);
                 return;
             }
-            Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+            Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
             matrix3x2fStack.pushMatrix();
             matrix3x2fStack.translate(0.0f, f);
             try {
@@ -195,7 +195,7 @@ extends kfe {
     private static float qyf(MinecraftClient minecraftClient) throws IllegalAccessException {
         float f;
         Object object;
-        ChatHud chatHud = minecraftClient.field_1705.method_1743();
+        ChatHud chatHud = minecraftClient.inGameHud.getChatHud();
         if (qxr == null) {
             object = ChatHud.class.getDeclaredFields();
             int n = ((Field[])object).length;
@@ -222,8 +222,8 @@ extends kfe {
         if ((f = vcq.clamp01((float)(l - qxu) / 1.0E9f / qxi.qya(0.28f))) >= 1.0f) {
             return 0.0f;
         }
-        double d = (Double)minecraftClient.field_1690.method_42546().method_41753();
-        double d2 = (Double)minecraftClient.field_1690.method_42554().method_41753();
+        double d = (Double)minecraftClient.options.getChatLineSpacing().getValue();
+        double d2 = (Double)minecraftClient.options.getChatScale().getValue();
         float f2 = (float)(9.0 * (d + 1.0) * d2);
         return (1.0f - vcq.outCubic(f)) * f2;
     }
@@ -251,7 +251,7 @@ extends kfe {
         if (f >= 1.0f) {
             return;
         }
-        Matrix3x2fStack matrix3x2fStack = drawContext.method_51448();
+        Matrix3x2fStack matrix3x2fStack = drawContext.getMatrices();
         matrix3x2fStack.pushMatrix();
         qxw = true;
         if (bl) {
@@ -259,8 +259,8 @@ extends kfe {
             return;
         }
         float f2 = vcq.outBack(f);
-        int n = screen.field_22789;
-        int n2 = screen.field_22790;
+        int n = screen.width;
+        int n2 = screen.height;
         float f3 = 0.9f + 0.1f * f2;
         float f4 = (1.0f - vcq.outCubic(f)) * 10.0f;
         if (f3 < 1.0f) {
@@ -282,7 +282,7 @@ extends kfe {
         if (n3 <= n || n4 <= n2) {
             return;
         }
-        drawContext.method_25296(n, n2, n3, n4, qxi.qyi((float)n2 / (float)n5), qxi.qyi((float)n4 / (float)n5));
+        drawContext.fillGradient(n, n2, n3, n4, qxi.qyi((float)n2 / (float)n5), qxi.qyi((float)n4 / (float)n5));
     }
 
     private static int qyi(float f) {
@@ -293,7 +293,7 @@ extends kfe {
     private static void qyj(DrawContext drawContext) {
         if (qxw) {
             qxw = false;
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
         }
     }
 

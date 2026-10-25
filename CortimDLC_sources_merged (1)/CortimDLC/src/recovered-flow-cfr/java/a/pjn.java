@@ -45,12 +45,12 @@ public final class pjn {
 
     public static Map<UUID, ClientBossBar> of(MinecraftClient minecraftClient) {
         Field field = pjn.field();
-        if (field == null || minecraftClient.field_1705 == null) {
+        if (field == null || minecraftClient.inGameHud == null) {
             return Collections.emptyMap();
         }
         try {
             Map map;
-            Object object = field.get(minecraftClient.field_1705.method_1740());
+            Object object = field.get(minecraftClient.inGameHud.getBossBarHud());
             return object instanceof Map ? (map = (Map)object) : Collections.emptyMap();
         }
         catch (ReflectiveOperationException | RuntimeException exception) {
@@ -60,7 +60,7 @@ public final class pjn {
 
     public static boolean contains(MinecraftClient minecraftClient, String string) {
         for (ClientBossBar clientBossBar : pjn.of(minecraftClient).values()) {
-            if (!clientBossBar.method_5414().getString().contains(string)) continue;
+            if (!clientBossBar.getName().getString().contains(string)) continue;
             return true;
         }
         return false;
@@ -68,7 +68,7 @@ public final class pjn {
 
     public static int teleportSeconds(MinecraftClient minecraftClient, String string) {
         for (ClientBossBar clientBossBar : pjn.of(minecraftClient).values()) {
-            String string2 = clientBossBar.method_5414().getString();
+            String string2 = clientBossBar.getName().getString();
             if (!string2.contains(string)) continue;
             Matcher matcher = pjo.matcher(string2);
             if (matcher.find()) {

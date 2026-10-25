@@ -248,7 +248,7 @@ implements efz {
     dtv(String string, String string2) {
         nfl nfl2;
         this.dud = string;
-        this.due = Uuids.method_43344((String)string);
+        this.due = Uuids.getOfflinePlayerUuid((String)string);
         this.address = string2;
         this.dug = duc[this.duf.nextInt(duc.length)];
         this.duw = new mpq();
@@ -314,7 +314,7 @@ implements efz {
         this.dul = true;
         this.dxa(dts.CONNECTING, a.b("\u8746\ufef6\u742f\uea50\u6186\ue742\u5d18\ud49b\u4acc\uc078\u47a6", 162890610));
         String string = this.address;
-        Util.method_27958().execute(() -> this.dwg(string));
+        Util.getIoWorkerExecutor().execute(() -> this.dwg(string));
     }
 
     boolean isJoining() {
@@ -326,27 +326,27 @@ implements efz {
      */
     private void dwg(String string) {
         try {
-            ServerAddress serverAddress = ServerAddress.method_2950((String)string);
-            Optional<InetSocketAddress> optional = AllowedAddressResolver.field_33745.method_36907(serverAddress).map(Address::method_36902);
+            ServerAddress serverAddress = ServerAddress.parse((String)string);
+            Optional<InetSocketAddress> optional = AllowedAddressResolver.DEFAULT.resolve(serverAddress).map(Address::getInetSocketAddress);
             if (optional.isEmpty()) {
                 this.dwh(a.b("\ubb2b\uc2ee\u4848\ud64b\u5d9b\udb5f\u656c\ue880\u76d7\uf873\u7bbd\u81c1\u0f1f\u96a3\u1cf1\u9a08", -1664761990));
                 return;
             }
             InetSocketAddress inetSocketAddress = optional.get();
             edb edb2 = new edb(this);
-            ClientConnection.method_52271((InetSocketAddress)inetSocketAddress, (NetworkingBackend)NetworkingBackend.method_75867((boolean)dtv.dtw.field_1690.method_1639()), (ClientConnection)edb2).syncUninterruptibly();
+            ClientConnection.connect((InetSocketAddress)inetSocketAddress, (NetworkingBackend)NetworkingBackend.remote((boolean)dtv.dtw.options.shouldUseNativeTransport()), (ClientConnection)edb2).syncUninterruptibly();
             dtv dtv2 = this;
             synchronized (dtv2) {
                 this.dul = false;
                 if (this.duk) {
-                    edb2.method_10747((Text)Text.method_43471((String)a.d("\u0885\u712c\ufbe6\u658f\uee45\u68ed\ud2a2\u5b5e\uc519\u4fb4\uc870\u325d\ubcd7\u2561\uaf27\u29c3\u938d\u1c5a\u86b4\u00ba\u8949\uf304\u7daa\ue67b\u6019\ueacf\u5375", -1215154949, -482460664)));
+                    edb2.disconnect((Text)Text.translatable((String)a.d("\u0885\u712c\ufbe6\u658f\uee45\u68ed\ud2a2\u5b5e\uc519\u4fb4\uc870\u325d\ubcd7\u2561\uaf27\u29c3\u938d\u1c5a\u86b4\u00ba\u8949\uf304\u7daa\ue67b\u6019\ueacf\u5375", -1215154949, -482460664)));
                     this.dxa(dts.OFFLINE, a.c(1061586037, "\u8043\uf98e\u7325\ued55\u66f7\ue04f\u5a0a\ud397"));
                     return;
                 }
                 this.connection = edb2;
             }
-            edb2.method_56326(inetSocketAddress.getHostName(), inetSocketAddress.getPort(), LoginStates.field_48247, LoginStates.field_48248, (ClientPacketListener)new egf(this, edb2), false);
-            edb2.method_10743((Packet)new LoginHelloC2SPacket(this.dud, this.due));
+            edb2.connect(inetSocketAddress.getHostName(), inetSocketAddress.getPort(), LoginStates.C2S, LoginStates.S2C, (ClientPacketListener)new egf(this, edb2), false);
+            edb2.send((Packet)new LoginHelloC2SPacket(this.dud, this.due));
             this.dxa(dts.LOGIN, a.b("\ub9c7\uc001\u4aa9\ud4d2", -562709007));
         }
         catch (Throwable throwable) {
@@ -382,22 +382,22 @@ implements efz {
             }
             return;
         }
-        object.method_10747((Text)Text.method_43471((String)a.d("\ud97e\ua0d7\u2a1d\ub474\u3fbe\ub916\u0359\u8aa5\u14e2\u9e4f\u198b\ue3a6\u6d2c\uf49a\u7edc\uf838\u4276\ucda1\u574f\ud141\u58b2\u22ff\uac51\u3780\ub1e2\u3b34\u828e", 1921927102, 850894518)));
+        object.disconnect((Text)Text.translatable((String)a.d("\ud97e\ua0d7\u2a1d\ub474\u3fbe\ub916\u0359\u8aa5\u14e2\u9e4f\u198b\ue3a6\u6d2c\uf49a\u7edc\uf838\u4276\ucda1\u574f\ud141\u58b2\u22ff\uac51\u3780\ub1e2\u3b34\u828e", 1921927102, 850894518)));
     }
 
     ServerInfo serverInfo() {
-        ServerInfo serverInfo = new ServerInfo(this.dud, this.address, ServerInfo.ServerType.field_45611);
-        serverInfo.method_2995(ServerInfo.ResourcePackPolicy.field_3768);
+        ServerInfo serverInfo = new ServerInfo(this.dud, this.address, ServerInfo.ServerType.OTHER);
+        serverInfo.setResourcePackPolicy(ServerInfo.ResourcePackPolicy.ENABLED);
         return serverInfo;
     }
 
     SyncedClientOptions syncedOptions() {
         int n = 0;
         for (PlayerModelPart playerModelPart : PlayerModelPart.values()) {
-            n |= playerModelPart.method_7430();
+            n |= playerModelPart.getBitFlag();
         }
-        String string = dtv.dtw.field_1690 == null ? a.b("\u6a32\u1388\u996a\u0731\u8ce0", 317418066) : dtv.dtw.field_1690.field_1883;
-        return new SyncedClientOptions(string, egq.get().getViewDistance(), ChatVisibility.field_7538, true, n, Arm.field_6183, false, true, ParticlesMode.field_18197);
+        String string = dtv.dtw.options == null ? a.b("\u6a32\u1388\u996a\u0731\u8ce0", 317418066) : dtv.dtw.options.language;
+        return new SyncedClientOptions(string, egq.get().getViewDistance(), ChatVisibility.FULL, true, n, Arm.RIGHT, false, true, ParticlesMode.ALL);
     }
 
     void onLoginSuccess(GameProfile gameProfile) {
@@ -449,13 +449,13 @@ implements efz {
     }
 
     void onReconfigure() {
-        dtv.dtw.field_1724 = null;
-        dtv.dtw.field_1687 = null;
-        dtv.dtw.field_1761 = null;
-        dtv.dtw.field_1755 = null;
+        dtv.dtw.player = null;
+        dtv.dtw.world = null;
+        dtv.dtw.interactionManager = null;
+        dtv.dtw.currentScreen = null;
         edj.camera(null);
-        dtv.dtw.field_1765 = null;
-        dtv.dtw.field_1692 = null;
+        dtv.dtw.crosshairTarget = null;
+        dtv.dtw.targetedEntity = null;
         this.handler = null;
         this.bossBars.clear();
         this.dxa(dts.JOINING, a.b("\ud4be\uad05\u27a3\ub9a7\u327f\ub4ca\u0e9a\u8712\u1931\u938b\u1428\uee5a\u60fd\uf93a\u7317\uf591", 1981993105));
@@ -469,8 +469,8 @@ implements efz {
 
     void tickLoading(ehy ehy2) {
         boolean bl;
-        ClientPlayerEntity clientPlayerEntity = dtv.dtw.field_1724;
-        ClientWorld clientWorld = dtv.dtw.field_1687;
+        ClientPlayerEntity clientPlayerEntity = dtv.dtw.player;
+        ClientWorld clientWorld = dtv.dtw.world;
         if (clientPlayerEntity == null || clientWorld == null || ehy2.method_76760()) {
             return;
         }
@@ -480,8 +480,8 @@ implements efz {
         if (this.dvf != 1) {
             return;
         }
-        BlockPos blockPos = clientPlayerEntity.method_24515();
-        boolean bl2 = bl = clientWorld.method_31601(blockPos.method_10264()) || clientWorld.method_2935().method_12126(blockPos.method_10263() >> 4, blockPos.method_10260() >> 4, false) != null || clientPlayerEntity.method_7325() || !clientPlayerEntity.method_5805();
+        BlockPos blockPos = clientPlayerEntity.getBlockPos();
+        boolean bl2 = bl = clientWorld.isOutOfHeightLimit(blockPos.getY()) || clientWorld.getChunkManager().getWorldChunk(blockPos.getX() >> 4, blockPos.getZ() >> 4, false) != null || clientPlayerEntity.isSpectator() || !clientPlayerEntity.isAlive();
         if (bl) {
             this.dvf = 2;
             ehy2.markLoaded();
@@ -618,7 +618,7 @@ implements efz {
     void beforePacket(Packet<?> packet) {
         if (packet instanceof BundlePacket) {
             BundlePacket bundlePacket = (BundlePacket)packet;
-            for (Packet packet2 : bundlePacket.method_48324()) {
+            for (Packet packet2 : bundlePacket.getPackets()) {
                 this.beforePacket(packet2);
             }
             return;
@@ -694,13 +694,13 @@ implements efz {
             }
         }
         if (ejp.current() == this) {
-            dtv.dtw.field_1724 = null;
-            dtv.dtw.field_1687 = null;
-            dtv.dtw.field_1761 = null;
-            dtv.dtw.field_1755 = null;
+            dtv.dtw.player = null;
+            dtv.dtw.world = null;
+            dtv.dtw.interactionManager = null;
+            dtv.dtw.currentScreen = null;
             edj.camera(null);
-            dtv.dtw.field_1765 = null;
-            dtv.dtw.field_1692 = null;
+            dtv.dtw.crosshairTarget = null;
+            dtv.dtw.targetedEntity = null;
         }
         this.player = null;
         this.world = null;
@@ -766,7 +766,7 @@ implements efz {
             return;
         }
         try {
-            if (dtv.dtw.field_1724 != null && dtv.dtw.field_1687 != null && dtv.dtw.field_1761 != null) {
+            if (dtv.dtw.player != null && dtv.dtw.world != null && dtv.dtw.interactionManager != null) {
                 this.duy.onBotFrame();
             }
         }
@@ -807,10 +807,10 @@ implements efz {
             if (this.connection == null) {
                 return;
             }
-            if (dtv.dtw.field_1724 != null && dtv.dtw.field_1687 != null && dtv.dtw.field_1761 != null && this.handler != null) {
+            if (dtv.dtw.player != null && dtv.dtw.world != null && dtv.dtw.interactionManager != null && this.handler != null) {
                 this.dwm();
             } else {
-                edb2.method_10754();
+                edb2.tick();
             }
         }
         catch (Throwable throwable) {
@@ -834,7 +834,7 @@ implements efz {
         Runnable runnable;
         while ((runnable = this.dum.poll()) != null) {
             runnable.run();
-            if (dtv.dtw.field_1724 != null && dtv.dtw.field_1687 != null) continue;
+            if (dtv.dtw.player != null && dtv.dtw.world != null) continue;
             return;
         }
         if (this.duw.isEnabled()) {
@@ -849,56 +849,56 @@ implements efz {
         if (this.dvc.isEnabled()) {
             this.dvc.onStartTick(dtw);
         }
-        if (dtv.dtw.field_1724 == null || dtv.dtw.field_1687 == null) {
+        if (dtv.dtw.player == null || dtv.dtw.world == null) {
             return;
         }
-        ClientWorld clientWorld = dtv.dtw.field_1687;
-        clientWorld.method_54719().method_54755();
+        ClientWorld clientWorld = dtv.dtw.world;
+        clientWorld.getTickManager().step();
         int n = this.dwy();
         if (n > 0) {
             this.dwz(n - 1);
         }
         this.control.apply(this);
-        dtv.dtw.field_1773.method_3190(1.0f);
-        dtv.dtw.field_1761.method_2927();
-        if (this.connection == null || dtv.dtw.field_1724 == null || dtv.dtw.field_1687 == null) {
+        dtv.dtw.gameRenderer.updateCrosshairTarget(1.0f);
+        dtv.dtw.interactionManager.tick();
+        if (this.connection == null || dtv.dtw.player == null || dtv.dtw.world == null) {
             return;
         }
-        clientWorld = dtv.dtw.field_1687;
-        ClientPlayerEntity clientPlayerEntity = dtv.dtw.field_1724;
+        clientWorld = dtv.dtw.world;
+        ClientPlayerEntity clientPlayerEntity = dtv.dtw.player;
         this.dwo(clientPlayerEntity, this.duy.isEnabled());
-        if (dtv.dtw.field_1755 != null) {
+        if (dtv.dtw.currentScreen != null) {
             this.dvj = 10000;
             try {
-                dtv.dtw.field_1755.method_25393();
+                dtv.dtw.currentScreen.tick();
             }
             catch (Throwable throwable) {
                 // empty catch block
             }
         }
-        if (dtv.dtw.field_1755 == null) {
+        if (dtv.dtw.currentScreen == null) {
             this.dwq(clientPlayerEntity);
             if (this.dvj > 0) {
                 --this.dvj;
             }
         }
         this.dwn(clientWorld, clientPlayerEntity);
-        clientWorld.method_8441(() -> true);
-        clientWorld.method_38534();
-        clientWorld.method_2935().method_12130().method_15516();
+        clientWorld.tick(() -> true);
+        clientWorld.runQueuedChunkUpdates();
+        clientWorld.getChunkManager().getLightingProvider().doLightUpdates();
         if (this.handler != null) {
-            this.handler.method_52787((Packet)ClientTickEndC2SPacket.field_52333);
+            this.handler.sendPacket((Packet)ClientTickEndC2SPacket.INSTANCE);
         }
-        if (this.duw.isEnabled() && dtv.dtw.field_1724 != null) {
+        if (this.duw.isEnabled() && dtv.dtw.player != null) {
             this.duw.onEndTick(dtw);
         }
-        if (this.duy.isEnabled() && dtv.dtw.field_1724 != null) {
+        if (this.duy.isEnabled() && dtv.dtw.player != null) {
             this.duy.onEndTick(dtw);
         }
-        if (this.dva.isEnabled() && dtv.dtw.field_1724 != null) {
+        if (this.dva.isEnabled() && dtv.dtw.player != null) {
             this.dva.onEndTick(dtw);
         }
-        if (this.dvc.isEnabled() && dtv.dtw.field_1724 != null) {
+        if (this.dvc.isEnabled() && dtv.dtw.player != null) {
             this.dvc.onEndTick(dtw);
         }
         this.dwp();
@@ -907,34 +907,34 @@ implements efz {
     }
 
     private void dwn(ClientWorld clientWorld, ClientPlayerEntity clientPlayerEntity) {
-        Entity entity = clientPlayerEntity.method_5668();
-        if (!entity.method_31481()) {
-            clientWorld.method_18646(entity);
+        Entity entity = clientPlayerEntity.getRootVehicle();
+        if (!entity.isRemoved()) {
+            clientWorld.tickEntity(entity);
         }
-        for (Entity entity2 : clientWorld.method_18112()) {
-            if (entity2 == entity || entity2 == clientPlayerEntity || entity2.method_31481() || entity.method_5821(entity2)) continue;
-            if ((entity2 instanceof LivingEntity && !(entity2 instanceof PlayerEntity) || entity2 instanceof ItemEntity) && !entity2.method_5765() && entity2.method_5858((Entity)clientPlayerEntity) < 2304.0) {
+        for (Entity entity2 : clientWorld.getEntities()) {
+            if (entity2 == entity || entity2 == clientPlayerEntity || entity2.isRemoved() || entity.hasPassengerDeep(entity2)) continue;
+            if ((entity2 instanceof LivingEntity && !(entity2 instanceof PlayerEntity) || entity2 instanceof ItemEntity) && !entity2.hasVehicle() && entity2.squaredDistanceTo((Entity)clientPlayerEntity) < 2304.0) {
                 try {
-                    clientWorld.method_18646(entity2);
+                    clientWorld.tickEntity(entity2);
                 }
                 catch (Throwable throwable) {}
                 continue;
             }
-            entity2.method_22862();
-            PositionInterpolator positionInterpolator = entity2.method_66233();
-            if (positionInterpolator == null || !positionInterpolator.method_66270()) continue;
-            Vec3d vec3d = positionInterpolator.method_66265();
-            float f = positionInterpolator.method_66268();
-            float f2 = positionInterpolator.method_66269();
-            positionInterpolator.method_66272();
-            entity2.method_33574(vec3d);
-            entity2.method_36456(f);
-            entity2.method_36457(f2);
+            entity2.resetPosition();
+            PositionInterpolator positionInterpolator = entity2.getInterpolator();
+            if (positionInterpolator == null || !positionInterpolator.isInterpolating()) continue;
+            Vec3d vec3d = positionInterpolator.getLerpedPos();
+            float f = positionInterpolator.getLerpedYaw();
+            float f2 = positionInterpolator.getLerpedPitch();
+            positionInterpolator.clear();
+            entity2.setPosition(vec3d);
+            entity2.setYaw(f);
+            entity2.setPitch(f2);
         }
     }
 
     private void dwo(ClientPlayerEntity clientPlayerEntity, boolean bl) {
-        if (!clientPlayerEntity.method_29504()) {
+        if (!clientPlayerEntity.isDead()) {
             this.dvh = 0;
             return;
         }
@@ -942,7 +942,7 @@ implements efz {
             this.dvi = 30 + this.duf.nextInt(10);
         }
         if (!bl && this.dvh == this.dvi || this.dvh % 200 == 0) {
-            clientPlayerEntity.method_7331();
+            clientPlayerEntity.requestRespawn();
         }
     }
 
@@ -950,7 +950,7 @@ implements efz {
         if (this.dvx > 0 && --this.dvx == 0) {
             this.dvx = -1;
             if (this.dvw != null && this.handler != null) {
-                this.handler.method_45730(this.dvw.substring(1));
+                this.handler.sendChatCommand(this.dvw.substring(1));
                 this.chat.system(a.c(-433003123, "\ue18a\u981a\u12c5\u8cc4\u076f\u81a0\u3b8e\ub209\u2c24\ua28c\u214d\udb4b\u55e7\ucc5c\u421b\uc0f4\u7ac7\uf56b\u6fa7\ue986\u6073\u1a2b\u9496\u0f4f"));
             }
             if (this.dux || this.duz || this.dvb || this.dvd) {
@@ -959,16 +959,16 @@ implements efz {
         }
         if (this.dvz > 0 && --this.dvz == 0) {
             this.dvz = -1;
-            if (this.dux && !this.duw.isEnabled() && dtv.dtw.field_1724 != null) {
+            if (this.dux && !this.duw.isEnabled() && dtv.dtw.player != null) {
                 this.duw.setBotRunning(true);
                 this.chat.system(a.c(-1345598965, "\uca5f\ub3da\u3908\ua762\u2c9f\uaa05\u105c\u99e9\u03d7\u891a\u0eca\uf4b7\u7a62\ue7c3\u6987\uef71\u5531\uda9c\u4025\uc608\u4ff7"));
-            } else if (this.duz && !this.duy.isEnabled() && dtv.dtw.field_1724 != null) {
+            } else if (this.duz && !this.duy.isEnabled() && dtv.dtw.player != null) {
                 this.duy.setBotRunning(true);
                 this.chat.system(a.d("\uda02\ua387\u2955\ub73f\u3cd0\uba57\u0017\u89f0\u17ae\u9d14\u1a89\ue499\u6a32\uf380\u79df\uff2c\u4173\ucab5\u5001\ud65f\u5fd4\u258f\uab40\u3099", -165975432, -1921929181));
-            } else if (this.dvb && !this.dva.isEnabled() && dtv.dtw.field_1724 != null) {
+            } else if (this.dvb && !this.dva.isEnabled() && dtv.dtw.player != null) {
                 this.dva.setEnabledSilently(true);
                 this.chat.system(a.b("\ucf56\ub6d3\u3c01\ua26b\u299e\uaf0b\u155f\u9ca5\u02bf\u8c6f\u0bc0\uf1b2\u7f69\ue6da\u6899\uea7f\u5037\udfe9\u4526\uc37d\u4af6\u30af", 1023790849));
-            } else if (this.dvd && !this.dvc.isEnabled() && dtv.dtw.field_1724 != null) {
+            } else if (this.dvd && !this.dvc.isEnabled() && dtv.dtw.player != null) {
                 this.dvc.setBotRunning(true);
                 this.chat.system(a.b("\ua71e\ude80\u545e\uca25\u41fe\uc744\u7d0d\uf4ce\u6ab6\ue014\u67d8\u9da1\u1361\u8a82\u04b0\u823d\u3871\ub7ac\u2d1d\uaf5c\u22bc\u58ea\ud656\u4dfb\ucb8e\u4123\uf898", 1969334084));
             }
@@ -977,167 +977,167 @@ implements efz {
 
     private void dwq(ClientPlayerEntity clientPlayerEntity) {
         int n;
-        GameOptions gameOptions = dtv.dtw.field_1690;
+        GameOptions gameOptions = dtv.dtw.options;
         for (n = 0; n < 9; ++n) {
-            if (!gameOptions.field_1852[n].method_1436() || clientPlayerEntity.method_7325()) continue;
-            clientPlayerEntity.method_31548().method_61496(n);
+            if (!gameOptions.hotbarKeys[n].wasPressed() || clientPlayerEntity.isSpectator()) continue;
+            clientPlayerEntity.getInventory().setSelectedSlot(n);
         }
-        while (gameOptions.field_1831.method_1436()) {
-            if (clientPlayerEntity.method_7325() || this.handler == null) continue;
-            this.handler.method_52787((Packet)new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.field_12969, BlockPos.field_10980, Direction.field_11033));
+        while (gameOptions.swapHandsKey.wasPressed()) {
+            if (clientPlayerEntity.isSpectator() || this.handler == null) continue;
+            this.handler.sendPacket((Packet)new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
         }
-        while (gameOptions.field_1869.method_1436()) {
-            if (clientPlayerEntity.method_7325() || !clientPlayerEntity.method_7290(false)) continue;
-            clientPlayerEntity.method_6104(Hand.field_5808);
+        while (gameOptions.dropKey.wasPressed()) {
+            if (clientPlayerEntity.isSpectator() || !clientPlayerEntity.dropSelectedItem(false)) continue;
+            clientPlayerEntity.swingHand(Hand.MAIN_HAND);
         }
         n = 0;
-        if (clientPlayerEntity.method_6115()) {
-            if (!gameOptions.field_1904.method_1434()) {
-                dtv.dtw.field_1761.method_2897((PlayerEntity)clientPlayerEntity);
+        if (clientPlayerEntity.isUsingItem()) {
+            if (!gameOptions.useKey.isPressed()) {
+                dtv.dtw.interactionManager.stopUsingItem((PlayerEntity)clientPlayerEntity);
             }
-            while (gameOptions.field_1886.method_1436()) {
+            while (gameOptions.attackKey.wasPressed()) {
             }
-            while (gameOptions.field_1904.method_1436()) {
+            while (gameOptions.useKey.wasPressed()) {
             }
-            while (gameOptions.field_1871.method_1436()) {
+            while (gameOptions.pickItemKey.wasPressed()) {
             }
         } else {
-            while (gameOptions.field_1886.method_1436()) {
+            while (gameOptions.attackKey.wasPressed()) {
                 n |= this.dws(clientPlayerEntity);
             }
-            while (gameOptions.field_1904.method_1436()) {
+            while (gameOptions.useKey.wasPressed()) {
                 this.dwt(clientPlayerEntity);
             }
-            while (gameOptions.field_1871.method_1436()) {
+            while (gameOptions.pickItemKey.wasPressed()) {
             }
         }
-        if (gameOptions.field_1904.method_1434() && this.dwy() == 0 && !clientPlayerEntity.method_6115()) {
+        if (gameOptions.useKey.isPressed() && this.dwy() == 0 && !clientPlayerEntity.isUsingItem()) {
             this.dwt(clientPlayerEntity);
         }
-        this.dwr(clientPlayerEntity, dtv.dtw.field_1755 == null && n == 0 && gameOptions.field_1886.method_1434());
+        this.dwr(clientPlayerEntity, dtv.dtw.currentScreen == null && n == 0 && gameOptions.attackKey.isPressed());
     }
 
     private void dwr(ClientPlayerEntity clientPlayerEntity, boolean bl) {
         if (!bl) {
             this.dvj = 0;
         }
-        if (this.dvj > 0 || clientPlayerEntity.method_6115()) {
+        if (this.dvj > 0 || clientPlayerEntity.isUsingItem()) {
             return;
         }
-        if (clientPlayerEntity.method_5998(Hand.field_5808).method_57826(DataComponentTypes.field_63631)) {
+        if (clientPlayerEntity.getStackInHand(Hand.MAIN_HAND).contains(DataComponentTypes.PIERCING_WEAPON)) {
             return;
         }
-        if (bl && dtv.dtw.field_1765 != null && dtv.dtw.field_1765.method_17783() == HitResult.Type.field_1332) {
-            BlockHitResult blockHitResult = (BlockHitResult)dtv.dtw.field_1765;
-            BlockPos blockPos = blockHitResult.method_17777();
-            if (!dtv.dtw.field_1687.method_8320(blockPos).method_26215() && dtv.dtw.field_1761.method_2902(blockPos, blockHitResult.method_17780())) {
-                clientPlayerEntity.method_6104(Hand.field_5808);
+        if (bl && dtv.dtw.crosshairTarget != null && dtv.dtw.crosshairTarget.getType() == HitResult.Type.BLOCK) {
+            BlockHitResult blockHitResult = (BlockHitResult)dtv.dtw.crosshairTarget;
+            BlockPos blockPos = blockHitResult.getBlockPos();
+            if (!dtv.dtw.world.getBlockState(blockPos).isAir() && dtv.dtw.interactionManager.updateBlockBreakingProgress(blockPos, blockHitResult.getSide())) {
+                clientPlayerEntity.swingHand(Hand.MAIN_HAND);
             }
             return;
         }
-        dtv.dtw.field_1761.method_2925();
+        dtv.dtw.interactionManager.cancelBlockBreaking();
     }
 
     private boolean dws(ClientPlayerEntity clientPlayerEntity) {
         if (this.dvj > 0) {
             return false;
         }
-        if (dtv.dtw.field_1765 == null) {
-            if (dtv.dtw.field_1761.method_2924()) {
+        if (dtv.dtw.crosshairTarget == null) {
+            if (dtv.dtw.interactionManager.hasLimitedAttackSpeed()) {
                 this.dvj = 10;
             }
             return false;
         }
-        if (clientPlayerEntity.method_3144()) {
+        if (clientPlayerEntity.isRiding()) {
             return false;
         }
-        ItemStack itemStack = clientPlayerEntity.method_5998(Hand.field_5808);
-        if (!itemStack.method_45435(dtv.dtw.field_1687.method_45162())) {
+        ItemStack itemStack = clientPlayerEntity.getStackInHand(Hand.MAIN_HAND);
+        if (!itemStack.isItemEnabled(dtv.dtw.world.getEnabledFeatures())) {
             return false;
         }
-        if (clientPlayerEntity.method_75202(itemStack, 0)) {
+        if (clientPlayerEntity.isBelowMinimumAttackCharge(itemStack, 0)) {
             return false;
         }
-        PiercingWeaponComponent piercingWeaponComponent = (PiercingWeaponComponent)itemStack.method_58694(DataComponentTypes.field_63631);
-        if (piercingWeaponComponent != null && !dtv.dtw.field_1761.method_2928()) {
-            dtv.dtw.field_1761.method_75407(piercingWeaponComponent);
-            clientPlayerEntity.method_6104(Hand.field_5808);
+        PiercingWeaponComponent piercingWeaponComponent = (PiercingWeaponComponent)itemStack.get(DataComponentTypes.PIERCING_WEAPON);
+        if (piercingWeaponComponent != null && !dtv.dtw.interactionManager.isFlyingLocked()) {
+            dtv.dtw.interactionManager.attackWithPiercingWeapon(piercingWeaponComponent);
+            clientPlayerEntity.swingHand(Hand.MAIN_HAND);
             return true;
         }
         boolean bl = false;
-        switch (dtv.dtw.field_1765.method_17783()) {
-            case field_1331: {
-                AttackRangeComponent attackRangeComponent = (AttackRangeComponent)itemStack.method_58694(DataComponentTypes.field_64680);
-                if (attackRangeComponent != null && !attackRangeComponent.method_76736((LivingEntity)clientPlayerEntity, dtv.dtw.field_1765.method_17784())) break;
-                dtv.dtw.field_1761.method_2918((PlayerEntity)clientPlayerEntity, ((EntityHitResult)dtv.dtw.field_1765).method_17782());
+        switch (dtv.dtw.crosshairTarget.getType()) {
+            case ENTITY: {
+                AttackRangeComponent attackRangeComponent = (AttackRangeComponent)itemStack.get(DataComponentTypes.ATTACK_RANGE);
+                if (attackRangeComponent != null && !attackRangeComponent.isWithinRange((LivingEntity)clientPlayerEntity, dtv.dtw.crosshairTarget.getPos())) break;
+                dtv.dtw.interactionManager.attackEntity((PlayerEntity)clientPlayerEntity, ((EntityHitResult)dtv.dtw.crosshairTarget).getEntity());
                 break;
             }
-            case field_1332: {
-                BlockHitResult blockHitResult = (BlockHitResult)dtv.dtw.field_1765;
-                BlockPos blockPos = blockHitResult.method_17777();
-                if (!dtv.dtw.field_1687.method_8320(blockPos).method_26215()) {
-                    dtv.dtw.field_1761.method_2910(blockPos, blockHitResult.method_17780());
-                    if (!dtv.dtw.field_1687.method_8320(blockPos).method_26215()) break;
+            case BLOCK: {
+                BlockHitResult blockHitResult = (BlockHitResult)dtv.dtw.crosshairTarget;
+                BlockPos blockPos = blockHitResult.getBlockPos();
+                if (!dtv.dtw.world.getBlockState(blockPos).isAir()) {
+                    dtv.dtw.interactionManager.attackBlock(blockPos, blockHitResult.getSide());
+                    if (!dtv.dtw.world.getBlockState(blockPos).isAir()) break;
                     bl = true;
                     break;
                 }
             }
-            case field_1333: {
-                if (dtv.dtw.field_1761.method_2924()) {
+            case MISS: {
+                if (dtv.dtw.interactionManager.hasLimitedAttackSpeed()) {
                     this.dvj = 10;
                 }
-                clientPlayerEntity.method_7350();
+                clientPlayerEntity.resetTicksSince();
                 break;
             }
         }
-        if (!clientPlayerEntity.method_7325()) {
-            clientPlayerEntity.method_6104(Hand.field_5808);
+        if (!clientPlayerEntity.isSpectator()) {
+            clientPlayerEntity.swingHand(Hand.MAIN_HAND);
         }
         return bl;
     }
 
     private void dwt(ClientPlayerEntity clientPlayerEntity) {
-        if (dtv.dtw.field_1761.method_2923()) {
+        if (dtv.dtw.interactionManager.isBreakingBlock()) {
             return;
         }
         this.dwz(4);
-        if (clientPlayerEntity.method_3144()) {
+        if (clientPlayerEntity.isRiding()) {
             return;
         }
         for (Hand hand : Hand.values()) {
             Entity entity;
             EntityHitResult entityHitResult;
-            ItemStack itemStack = clientPlayerEntity.method_5998(hand);
-            if (!itemStack.method_45435(dtv.dtw.field_1687.method_45162())) {
+            ItemStack itemStack = clientPlayerEntity.getStackInHand(hand);
+            if (!itemStack.isItemEnabled(dtv.dtw.world.getEnabledFeatures())) {
                 return;
             }
-            HitResult hitResult = dtv.dtw.field_1765;
+            HitResult hitResult = dtv.dtw.crosshairTarget;
             if (hitResult != null) {
-                if (hitResult.method_17783() == HitResult.Type.field_1331) {
+                if (hitResult.getType() == HitResult.Type.ENTITY) {
                     entityHitResult = (EntityHitResult)hitResult;
-                    entity = entityHitResult.method_17782();
-                    if (!dtv.dtw.field_1687.method_8621().method_11952(entity.method_24515())) {
+                    entity = entityHitResult.getEntity();
+                    if (!dtv.dtw.world.getWorldBorder().contains(entity.getBlockPos())) {
                         return;
                     }
-                    if (clientPlayerEntity.method_56094(entity, 0.0)) {
-                        ActionResult actionResult = dtv.dtw.field_1761.method_2917((PlayerEntity)clientPlayerEntity, entity, entityHitResult, hand);
-                        if (!actionResult.method_23665()) {
-                            actionResult = dtv.dtw.field_1761.method_2905((PlayerEntity)clientPlayerEntity, entity, hand);
+                    if (clientPlayerEntity.canInteractWithEntity(entity, 0.0)) {
+                        ActionResult actionResult = dtv.dtw.interactionManager.interactEntityAtLocation((PlayerEntity)clientPlayerEntity, entity, entityHitResult, hand);
+                        if (!actionResult.isAccepted()) {
+                            actionResult = dtv.dtw.interactionManager.interactEntity((PlayerEntity)clientPlayerEntity, entity, hand);
                         }
                         if (actionResult instanceof ActionResult.Success) {
                             ActionResult.Success success = (ActionResult.Success)actionResult;
-                            if (success.comp_2909() == ActionResult.SwingSource.field_52427) {
-                                clientPlayerEntity.method_6104(hand);
+                            if (success.swingSource() == ActionResult.SwingSource.CLIENT) {
+                                clientPlayerEntity.swingHand(hand);
                             }
                             return;
                         }
                     }
-                } else if (hitResult.method_17783() == HitResult.Type.field_1332) {
-                    entityHitResult = dtv.dtw.field_1761.method_2896(clientPlayerEntity, hand, (BlockHitResult)hitResult);
+                } else if (hitResult.getType() == HitResult.Type.BLOCK) {
+                    entityHitResult = dtv.dtw.interactionManager.interactBlock(clientPlayerEntity, hand, (BlockHitResult)hitResult);
                     if (entityHitResult instanceof ActionResult.Success) {
                         entity = (ActionResult.Success)entityHitResult;
-                        if (entity.comp_2909() == ActionResult.SwingSource.field_52427) {
-                            clientPlayerEntity.method_6104(hand);
+                        if (entity.swingSource() == ActionResult.SwingSource.CLIENT) {
+                            clientPlayerEntity.swingHand(hand);
                         }
                         return;
                     }
@@ -1146,10 +1146,10 @@ implements efz {
                     }
                 }
             }
-            if (itemStack.method_7960() || !((entityHitResult = dtv.dtw.field_1761.method_2919((PlayerEntity)clientPlayerEntity, hand)) instanceof ActionResult.Success)) continue;
+            if (itemStack.isEmpty() || !((entityHitResult = dtv.dtw.interactionManager.interactItem((PlayerEntity)clientPlayerEntity, hand)) instanceof ActionResult.Success)) continue;
             entity = (ActionResult.Success)entityHitResult;
-            if (entity.comp_2909() == ActionResult.SwingSource.field_52427) {
-                clientPlayerEntity.method_6104(hand);
+            if (entity.swingSource() == ActionResult.SwingSource.CLIENT) {
+                clientPlayerEntity.swingHand(hand);
             }
             return;
         }
@@ -1161,7 +1161,7 @@ implements efz {
     }
 
     float partialTick() {
-        return MathHelper.method_15363((float)((float)(System.nanoTime() - this.dvo) / 5.0E7f), (float)0.0f, (float)1.0f);
+        return MathHelper.clamp((float)((float)(System.nanoTime() - this.dvo) / 5.0E7f), (float)0.0f, (float)1.0f);
     }
 
     double mouseMultiplier() {
@@ -1176,19 +1176,19 @@ implements efz {
 
     @Override
     public void look(float f, float f2) {
-        ClientPlayerEntity clientPlayerEntity = dtv.dtw.field_1724;
+        ClientPlayerEntity clientPlayerEntity = dtv.dtw.player;
         if (clientPlayerEntity == null || ejp.current() != this || !Float.isFinite(f) || !Float.isFinite(f2)) {
             return;
         }
         double d = this.mouseMultiplier();
-        float f3 = clientPlayerEntity.method_36454();
-        float f4 = clientPlayerEntity.method_36455();
+        float f3 = clientPlayerEntity.getYaw();
+        float f4 = clientPlayerEntity.getPitch();
         double d2 = (double)f - (double)f3;
         double d3 = Math.floor((d2 + 180.0) / 360.0) * 360.0;
         float f5 = (float)((double)f3 + d3) + prp.quantize(d2 - d3, d);
-        float f6 = MathHelper.method_15363((float)(f4 + prp.quantize((double)f2 - (double)f4, d)), (float)-90.0f, (float)90.0f);
-        clientPlayerEntity.method_36456(f5);
-        clientPlayerEntity.method_36457(f6);
+        float f6 = MathHelper.clamp((float)(f4 + prp.quantize((double)f2 - (double)f4, d)), (float)-90.0f, (float)90.0f);
+        clientPlayerEntity.setYaw(f5);
+        clientPlayerEntity.setPitch(f6);
     }
 
     @Override
@@ -1282,9 +1282,9 @@ implements efz {
             }
             this.dup = System.currentTimeMillis();
             if (string4.startsWith(a.b("\u6e46", -912626072))) {
-                this.handler.method_45730(string4.substring(1));
+                this.handler.sendChatCommand(string4.substring(1));
             } else {
-                this.handler.method_45729(string4);
+                this.handler.sendChatMessage(string4);
             }
         });
     }
@@ -1347,7 +1347,7 @@ implements efz {
             this.dvd = false;
         }
         this.post(() -> {
-            if (dtv.dtw.field_1724 == null) {
+            if (dtv.dtw.player == null) {
                 return;
             }
             if (bl) {
@@ -1379,7 +1379,7 @@ implements efz {
             this.dvd = false;
         }
         this.post(() -> {
-            if (dtv.dtw.field_1724 == null) {
+            if (dtv.dtw.player == null) {
                 return;
             }
             if (bl) {
@@ -1411,7 +1411,7 @@ implements efz {
             this.dvd = false;
         }
         this.post(() -> {
-            if (dtv.dtw.field_1724 == null) {
+            if (dtv.dtw.player == null) {
                 return;
             }
             if (bl) {
@@ -1446,7 +1446,7 @@ implements efz {
             this.dvb = false;
         }
         this.post(() -> {
-            if (dtv.dtw.field_1724 == null) {
+            if (dtv.dtw.player == null) {
                 return;
             }
             if (bl) {
@@ -1514,29 +1514,29 @@ implements efz {
 
     public void selectSlot(int n) {
         this.post(() -> {
-            if (dtv.dtw.field_1724 != null && n >= 0 && n < 9) {
-                dtv.dtw.field_1724.method_31548().method_61496(n);
+            if (dtv.dtw.player != null && n >= 0 && n < 9) {
+                dtv.dtw.player.getInventory().setSelectedSlot(n);
             }
         });
     }
 
     public void clickSlot(int n, int n2, int n3, SlotActionType slotActionType) {
         this.post(() -> {
-            if (dtv.dtw.field_1724 != null && dtv.dtw.field_1761 != null && dtv.dtw.field_1724.field_7512.field_7763 == n) {
-                dtv.dtw.field_1761.method_2906(n, n2, n3, slotActionType, (PlayerEntity)dtv.dtw.field_1724);
+            if (dtv.dtw.player != null && dtv.dtw.interactionManager != null && dtv.dtw.player.currentScreenHandler.syncId == n) {
+                dtv.dtw.interactionManager.clickSlot(n, n2, n3, slotActionType, (PlayerEntity)dtv.dtw.player);
             }
         });
     }
 
     public void closeScreen() {
         this.post(() -> {
-            if (dtv.dtw.field_1724 == null) {
+            if (dtv.dtw.player == null) {
                 return;
             }
-            if (dtv.dtw.field_1724.field_7512 != dtv.dtw.field_1724.field_7498) {
-                dtv.dtw.field_1724.method_7346();
-            } else if (dtv.dtw.field_1755 != null) {
-                dtw.method_1507(null);
+            if (dtv.dtw.player.currentScreenHandler != dtv.dtw.player.playerScreenHandler) {
+                dtv.dtw.player.closeHandledScreen();
+            } else if (dtv.dtw.currentScreen != null) {
+                dtw.setScreen(null);
             }
             this.duv = null;
         });
@@ -1544,16 +1544,16 @@ implements efz {
 
     public void dropSelected(boolean bl) {
         this.post(() -> {
-            if (dtv.dtw.field_1724 != null && !dtv.dtw.field_1724.method_7325() && dtv.dtw.field_1724.method_7290(bl)) {
-                dtv.dtw.field_1724.method_6104(Hand.field_5808);
+            if (dtv.dtw.player != null && !dtv.dtw.player.isSpectator() && dtv.dtw.player.dropSelectedItem(bl)) {
+                dtv.dtw.player.swingHand(Hand.MAIN_HAND);
             }
         });
     }
 
     public void swapHands() {
         this.post(() -> {
-            if (this.handler != null && dtv.dtw.field_1724 != null && !dtv.dtw.field_1724.method_7325()) {
-                this.handler.method_52787((Packet)new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.field_12969, BlockPos.field_10980, Direction.field_11033));
+            if (this.handler != null && dtv.dtw.player != null && !dtv.dtw.player.isSpectator()) {
+                this.handler.sendPacket((Packet)new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.SWAP_ITEM_WITH_OFFHAND, BlockPos.ORIGIN, Direction.DOWN));
             }
         });
     }
@@ -1561,15 +1561,15 @@ implements efz {
     void syncOptionsLive() {
         this.post(() -> {
             if (this.handler != null) {
-                this.handler.method_62149(this.syncedOptions());
+                this.handler.syncOptions(this.syncedOptions());
             }
         });
     }
 
     public void respawn() {
         this.post(() -> {
-            if (dtv.dtw.field_1724 != null && dtv.dtw.field_1724.method_29504()) {
-                dtv.dtw.field_1724.method_7331();
+            if (dtv.dtw.player != null && dtv.dtw.player.isDead()) {
+                dtv.dtw.player.requestRespawn();
             }
         });
     }
@@ -1627,7 +1627,7 @@ implements efz {
 
     void notifyHud(String string, boolean bl) {
         try {
-            dtw.method_63588(() -> {
+            dtw.send(() -> {
                 try {
                     izx.alert(this.dud, string, vhz.INFO, bl);
                 }
@@ -1823,8 +1823,8 @@ implements efz {
         if (ehy2 == null) {
             return -1;
         }
-        PlayerListEntry playerListEntry = ehy2.method_2871(this.due);
-        return playerListEntry == null ? -1 : playerListEntry.method_2959();
+        PlayerListEntry playerListEntry = ehy2.getPlayerListEntry(this.due);
+        return playerListEntry == null ? -1 : playerListEntry.getLatency();
     }
 
     public float takePeakTickMillis() {
@@ -1867,7 +1867,7 @@ implements efz {
 
     static {
         dtz = a.d("\u8e95\uf767\u7db7\ue3ce\u6817\ueea1\u54bc", -1482419073, -1385784638);
-        dtw = MinecraftClient.method_1551();
+        dtw = MinecraftClient.getInstance();
         dua = Pattern.compile(a.d("\u0973\u708c\ufa50\u6413\uefeb\u6903\ud352\u5ad7\uc4b0\u4e4e\uc99f\u339b\ubd63\u248b", -254349818, 1927997268), 2);
         duc = new double[]{0.5, 0.47, 0.43, 0.39, 0.52, 0.55, 0.36, 0.45, 0.41};
     }

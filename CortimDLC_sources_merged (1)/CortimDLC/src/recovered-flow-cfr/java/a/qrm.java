@@ -55,16 +55,16 @@ final class qrm {
         }
         if (packet instanceof BlockUpdateS2CPacket) {
             BlockUpdateS2CPacket blockUpdateS2CPacket = (BlockUpdateS2CPacket)packet;
-            this.qrw(blockUpdateS2CPacket.method_11309().method_10063());
+            this.qrw(blockUpdateS2CPacket.getPos().asLong());
         } else if (packet instanceof ChunkDeltaUpdateS2CPacket) {
             ChunkDeltaUpdateS2CPacket chunkDeltaUpdateS2CPacket = (ChunkDeltaUpdateS2CPacket)packet;
-            chunkDeltaUpdateS2CPacket.method_30621((blockPos, blockState) -> this.qrw(blockPos.method_10063()));
+            chunkDeltaUpdateS2CPacket.visitUpdates((blockPos, blockState) -> this.qrw(blockPos.asLong()));
         } else if (packet instanceof ChunkDataS2CPacket) {
             ChunkDataS2CPacket chunkDataS2CPacket = (ChunkDataS2CPacket)packet;
-            this.qrq.add(ChunkPos.method_8331((int)chunkDataS2CPacket.method_11523(), (int)chunkDataS2CPacket.method_11524()));
+            this.qrq.add(ChunkPos.toLong((int)chunkDataS2CPacket.getChunkX(), (int)chunkDataS2CPacket.getChunkZ()));
         } else if (packet instanceof BundlePacket) {
             BundlePacket bundlePacket = (BundlePacket)packet;
-            for (Packet packet2 : bundlePacket.method_48324()) {
+            for (Packet packet2 : bundlePacket.getPackets()) {
                 this.echo(packet2);
             }
         }
@@ -89,15 +89,15 @@ final class qrm {
             this.qry();
             this.qrr = world;
         }
-        long l = blockPos.method_10063();
-        BlockState blockState = world.method_8320(blockPos);
-        if (blockState.method_26215() || this.qrn.containsKey(l)) {
+        long l = blockPos.asLong();
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.isAir() || this.qrn.containsKey(l)) {
             return;
         }
-        BlockState blockState2 = world.method_8316(blockPos).method_15759();
+        BlockState blockState2 = world.getFluidState(blockPos).getBlockState();
         this.qrn.put(l, (Object)new qrh(blockState, n));
         this.qro.add(l);
-        world.method_8652(blockPos, blockState2, 11);
+        world.setBlockState(blockPos, blockState2, 11);
         ++this.qrs;
     }
 
@@ -115,13 +115,13 @@ final class qrm {
         while (objectIterator.hasNext()) {
             Long2ObjectMap.Entry entry = (Long2ObjectMap.Entry)objectIterator.next();
             if (((qrh)entry.getValue()).until() > n) continue;
-            BlockPos blockPos = BlockPos.method_10092((long)entry.getLongKey());
-            if (world.method_8320(blockPos).method_26215() && world.method_8393(blockPos.method_10263() >> 4, blockPos.method_10260() >> 4)) {
-                world.method_8652(blockPos, ((qrh)entry.getValue()).was(), 11);
+            BlockPos blockPos = BlockPos.fromLong((long)entry.getLongKey());
+            if (world.getBlockState(blockPos).isAir() && world.isChunkLoaded(blockPos.getX() >> 4, blockPos.getZ() >> 4)) {
+                world.setBlockState(blockPos, ((qrh)entry.getValue()).was(), 11);
                 ++this.qrt;
             }
             objectIterator.remove();
-            this.qro.remove(blockPos.method_10063());
+            this.qro.remove(blockPos.asLong());
         }
     }
 
@@ -136,7 +136,7 @@ final class qrm {
             ObjectIterator objectIterator = this.qrn.long2ObjectEntrySet().fastIterator();
             while (objectIterator.hasNext()) {
                 long l3 = ((Long2ObjectMap.Entry)objectIterator.next()).getLongKey();
-                if (ChunkPos.method_8331((int)(BlockPos.method_10061((long)l3) >> 4), (int)(BlockPos.method_10083((long)l3) >> 4)) != l2) continue;
+                if (ChunkPos.toLong((int)(BlockPos.unpackLongX((long)l3) >> 4), (int)(BlockPos.unpackLongZ((long)l3) >> 4)) != l2) continue;
                 objectIterator.remove();
                 this.qro.remove(l3);
             }
@@ -147,9 +147,9 @@ final class qrm {
         if (this.qrr == world && world != null) {
             this.qrx();
             for (Long2ObjectMap.Entry entry : this.qrn.long2ObjectEntrySet()) {
-                BlockPos blockPos = BlockPos.method_10092((long)entry.getLongKey());
-                if (!world.method_8320(blockPos).method_26215() || !world.method_8393(blockPos.method_10263() >> 4, blockPos.method_10260() >> 4)) continue;
-                world.method_8652(blockPos, ((qrh)entry.getValue()).was(), 11);
+                BlockPos blockPos = BlockPos.fromLong((long)entry.getLongKey());
+                if (!world.getBlockState(blockPos).isAir() || !world.isChunkLoaded(blockPos.getX() >> 4, blockPos.getZ() >> 4)) continue;
+                world.setBlockState(blockPos, ((qrh)entry.getValue()).was(), 11);
             }
         }
         this.qry();

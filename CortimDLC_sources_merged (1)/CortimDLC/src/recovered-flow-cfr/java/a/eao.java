@@ -50,7 +50,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public final class eao {
-    private static final MinecraftClient eap = MinecraftClient.method_1551();
+    private static final MinecraftClient eap = MinecraftClient.getInstance();
     private static final int eaq = 128;
     private static final int ear = 8;
     private static final long eas = 120000L;
@@ -144,8 +144,8 @@ public final class eao {
         if (++this.eay % 4 != 0) {
             return;
         }
-        ClientPlayerEntity clientPlayerEntity = eao.eap.field_1724;
-        ClientWorld clientWorld = eao.eap.field_1687;
+        ClientPlayerEntity clientPlayerEntity = eao.eap.player;
+        ClientWorld clientWorld = eao.eap.world;
         if (clientPlayerEntity == null || clientWorld == null) {
             return;
         }
@@ -174,25 +174,25 @@ public final class eao {
 
     private boolean ebx(List<ItemFrameEntity> list, ClientWorld clientWorld) {
         int n;
-        Direction direction = list.get(0).method_5735();
-        boolean bl = direction.method_10166() == Direction.Axis.field_11051;
-        boolean bl2 = direction == Direction.field_11043 || direction == Direction.field_11034;
+        Direction direction = list.get(0).getHorizontalFacing();
+        boolean bl = direction.getAxis() == Direction.Axis.Z;
+        boolean bl2 = direction == Direction.NORTH || direction == Direction.EAST;
         int n2 = Integer.MAX_VALUE;
         int n3 = Integer.MIN_VALUE;
         int n4 = Integer.MAX_VALUE;
         int n5 = Integer.MIN_VALUE;
         long l = direction.ordinal();
         for (ItemFrameEntity itemFrameEntity : list) {
-            BlockPos blockPos = itemFrameEntity.method_59940();
-            n = bl ? blockPos.method_10263() : blockPos.method_10260();
+            BlockPos blockPos = itemFrameEntity.getAttachedBlockPos();
+            n = bl ? blockPos.getX() : blockPos.getZ();
             n2 = Math.min(n2, n);
             n3 = Math.max(n3, n);
-            n4 = Math.min(n4, blockPos.method_10264());
-            n5 = Math.max(n5, blockPos.method_10264());
-            l = l * 31L + (long)itemFrameEntity.method_5628();
-            l = l * 31L + blockPos.method_10063();
-            l = l * 31L + (long)itemFrameEntity.method_6934();
-            l = l * 31L + (long)eao.ebz(itemFrameEntity.method_6940());
+            n4 = Math.min(n4, blockPos.getY());
+            n5 = Math.max(n5, blockPos.getY());
+            l = l * 31L + (long)itemFrameEntity.getId();
+            l = l * 31L + blockPos.asLong();
+            l = l * 31L + (long)itemFrameEntity.getRotation();
+            l = l * 31L + (long)eao.ebz(itemFrameEntity.getHeldItemStack());
         }
         int n6 = n3 - n2 + 1;
         int n7 = n5 - n4 + 1;
@@ -210,14 +210,14 @@ public final class eao {
         int[] nArray = new int[n8 * n];
         int n9 = 0;
         for (ItemFrameEntity itemFrameEntity : list) {
-            MapState mapState = FilledMapItem.method_8001((ItemStack)itemFrameEntity.method_6940(), (World)clientWorld);
-            if (mapState == null || mapState.field_122 == null || mapState.field_122.length != 16384) continue;
+            MapState mapState = FilledMapItem.getMapState((ItemStack)itemFrameEntity.getHeldItemStack(), (World)clientWorld);
+            if (mapState == null || mapState.colors == null || mapState.colors.length != 16384) continue;
             ++n9;
-            BlockPos blockPos = itemFrameEntity.method_59940();
-            int n10 = bl ? blockPos.method_10263() : blockPos.method_10260();
+            BlockPos blockPos = itemFrameEntity.getAttachedBlockPos();
+            int n10 = bl ? blockPos.getX() : blockPos.getZ();
             int n11 = (bl2 ? n3 - n10 : n10 - n2) * 128;
-            int n12 = (n5 - blockPos.method_10264()) * 128;
-            eao.eca(mapState.field_122, itemFrameEntity.method_6934() & 3, nArray, n8, n11, n12);
+            int n12 = (n5 - blockPos.getY()) * 128;
+            eao.eca(mapState.colors, itemFrameEntity.getRotation() & 3, nArray, n8, n11, n12);
         }
         if (n9 == list.size() && enq.seamRatio(nArray, n8, n) > 2.0) {
             this.ebc = l;
@@ -231,12 +231,12 @@ public final class eao {
     }
 
     private boolean eby(ClientPlayerEntity clientPlayerEntity, ClientWorld clientWorld) {
-        ItemStack itemStack = clientPlayerEntity.method_6047();
-        if (!(itemStack.method_7909() instanceof FilledMapItem)) {
+        ItemStack itemStack = clientPlayerEntity.getMainHandStack();
+        if (!(itemStack.getItem() instanceof FilledMapItem)) {
             return false;
         }
-        MapState mapState = FilledMapItem.method_8001((ItemStack)itemStack, (World)clientWorld);
-        if (mapState == null || mapState.field_122 == null || mapState.field_122.length != 16384) {
+        MapState mapState = FilledMapItem.getMapState((ItemStack)itemStack, (World)clientWorld);
+        if (mapState == null || mapState.colors == null || mapState.colors.length != 16384) {
             return false;
         }
         long l = 55150044793L + (long)eao.ebz(itemStack);
@@ -247,21 +247,21 @@ public final class eao {
         this.ebb = l;
         this.eba = false;
         int[] nArray = new int[16384];
-        eao.eca(mapState.field_122, 0, nArray, 128, 0, 0);
+        eao.eca(mapState.colors, 0, nArray, 128, 0, 0);
         this.ecb(nArray, 128, 128, 1, 1, bl);
         return true;
     }
 
     private static int ebz(ItemStack itemStack) {
-        MapIdComponent mapIdComponent = (MapIdComponent)itemStack.method_58694(DataComponentTypes.field_49646);
-        return mapIdComponent == null ? -1 : mapIdComponent.comp_2315();
+        MapIdComponent mapIdComponent = (MapIdComponent)itemStack.get(DataComponentTypes.MAP_ID);
+        return mapIdComponent == null ? -1 : mapIdComponent.id();
     }
 
     private static void eca(byte[] byArray, int n, int[] nArray, int n2, int n3, int n4) {
         for (int i = 0; i < 128; ++i) {
             for (int j = 0; j < 128; ++j) {
                 int n5 = byArray[i * 128 + j] & 0xFF;
-                int n6 = n5 < 4 ? 0 : MapColor.method_38480((int)n5);
+                int n6 = n5 < 4 ? 0 : MapColor.getRenderColor((int)n5);
                 switch (n) {
                     case 1: {
                         int n7 = 127 - i;

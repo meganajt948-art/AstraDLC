@@ -77,7 +77,7 @@ extends ijy {
     }
 
     public static void open() {
-        Screen screen = MinecraftClient.method_1551().field_1755;
+        Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen instanceof hlc) {
             hlc hlc2 = (hlc)screen;
             hlc2.openOverlay(new hrt(540.0f, 409.0f));
@@ -166,11 +166,11 @@ extends ijy {
         float f8 = iov.lightness();
         uut.round(drawContext, 0.0f, 0.0f, f4, f5, iov.r(12.0f), ujt.withAlpha(0, Math.round(110.0f * f6)));
         uut.pushAlpha(f6);
-        drawContext.method_51448().pushMatrix();
+        drawContext.getMatrices().pushMatrix();
         float f9 = 0.96f + 0.04f * f6;
-        drawContext.method_51448().translate(this.hse + 235.0f, this.hsf + 168.0f + (1.0f - f6) * 6.0f);
-        drawContext.method_51448().scale(f9, f9);
-        drawContext.method_51448().translate(-(this.hse + 235.0f), -(this.hsf + 168.0f));
+        drawContext.getMatrices().translate(this.hse + 235.0f, this.hsf + 168.0f + (1.0f - f6) * 6.0f);
+        drawContext.getMatrices().scale(f9, f9);
+        drawContext.getMatrices().translate(-(this.hse + 235.0f), -(this.hsf + 168.0f));
         uut.shadow(drawContext, this.hse, this.hsf + 4.0f, 470.0f, 336.0f, f7, 18.0f, iov.shadow);
         uut.round(drawContext, this.hse, this.hsf, 470.0f, 336.0f, f7, ujt.withAlpha(iov.window, 252));
         uut.round(drawContext, this.hse, this.hsf, 470.0f, 336.0f, f7, iov.card);
@@ -182,7 +182,7 @@ extends ijy {
         this.htc(drawContext, f, f2, f3);
         this.htd(drawContext, f, f2);
         this.hti(drawContext);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 
@@ -265,10 +265,10 @@ extends ijy {
             } else if (bl2) {
                 uut.outline(drawContext, f4, f11, 26.0f, 26.0f, f10, 1.0f, iov.accent(90));
             }
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(f4 + 5.0f, f11 + 5.0f);
-            drawContext.method_51427(pdr3.icon(), 0, 0);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(f4 + 5.0f, f11 + 5.0f);
+            drawContext.drawItem(pdr3.icon(), 0, 0);
+            drawContext.getMatrices().popMatrix();
             if (!bl2) {
                 uut.round(drawContext, f4, f11, 26.0f, 26.0f, f10, ujt.withAlpha(iov.window, 150));
             }
@@ -307,10 +307,10 @@ extends ijy {
         }
         float f7 = f3 + 8.0f;
         float f8 = f4 + 8.0f;
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f7, f8);
-        drawContext.method_51427(pdr2.icon(), 0, 0);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f7, f8);
+        drawContext.drawItem(pdr2.icon(), 0, 0);
+        drawContext.getMatrices().popMatrix();
         float f9 = f7 + 22.0f;
         irr.NAME.draw(drawContext, irr.NAME.ellipsize(pdr2.name(), f5 - 34.0f), f9, irr.NAME.centerTop(f8 + 4.0f), iov.text);
         String string = pdr2.hasQuery() ? wap.s(a.c(1489735870, "\u90c5\ue962\u63b5\ufdd7\u7611\uf0ab\u4aaa\uc341"), a.c(672438366, "\u9c66\ue5d6\u6f03\uf10b\u7aa7\uf816\u425f")) + pdr2.query() : (pdr2.deepScan() ? wap.s(a.d("\u5547\u2cfd\ua623\u3856\ub390\u3534\u8f71\u0687\u988c\u1272\u95a8\u6f9f\ue11c\u78b1\uf2ef\u745b\uce52\u418c\udb24\u5d74\ud484\uae81\u2062\ubba2\u3ddb\ub708\u0ead", 2030775095, -1811907064), a.b("\u5023\u2993\ua33d\u3d31\ub6e1\u3057\u8a08\u0388\u9da7\u1717\u94dd\u6acd\ue07b\u7dd5\uf78c\u7108\ucb35\u449d\ude20\u5c14\ud182\uabd0\u2561\ubec0\u38b2\ub266\u0bab", -1150200820)) : wap.s(a.d("\ua2aa\udb10\u51ce\ucfbb\u447d\uc2d9\u789c\uf16a\u6f61\ue59c\u624c\u9826", -1504627500, -1719233007), a.b("\uec33\u95f3\u1f2c\u812a\u0a8f\u8827\u3660\ubf90\u21b2\uab1a\u2caa\ud6a2\u5807\uc5af\u4be7\ucd13\u7720", -982390685)));
@@ -374,7 +374,7 @@ extends ijy {
         if (pdr2.hasEffects()) {
             f10 = this.htg(drawContext, wap.s(a.b("\ud483\uad11\u27c2\ub9b0\u3261\ub4c7\u0e93\u8731\u1966\u939e\u1440\uee31\u60aa\uf954\u730e\uf5b9\u4fa2\uc06f\u5ad1\udc88\u553e\u2f63\ua195\u3a59\ubc3f\u36ec\u8f48\u0101\u9be3\u1de2", 99734744), a.b("\u2fc6\u561e\udccd\u42cd\uc915\u4fdc\uf586\u781c\ue64b\u68e0\uef40\u1545\u9f8b\u0636\u8805\u0e8a\ub4c9\u3b17\ua1a7\u23e8\uae7d\ud45e\u5ae7\uc134\u4746\uc98b", 946023409)), f11, f10, f12);
             for (pig pig2 : pdr2.effects()) {
-                String string5 = ((StatusEffect)pig2.effect().comp_349()).method_5560().getString() + a.b("\u9ef2", -82207021) + pfl.roman(pig2.level());
+                String string5 = ((StatusEffect)pig2.effect().value()).getName().getString() + a.b("\u9ef2", -82207021) + pfl.roman(pig2.level());
                 String string6 = pig2.duration() > 0 ? hrt.htf(pig2.duration()) : "";
                 irr.LABEL.draw(drawContext, irr.LABEL.ellipsize(string5, f12 - 30.0f), f11 + 2.0f, irr.LABEL.centerTop(f10 + 7.0f), iov.textDim);
                 irr.SMALL.drawRight(drawContext, string6, f11 + f12, irr.SMALL.centerTop(f10 + 7.0f), iov.textMuted);
@@ -398,7 +398,7 @@ extends ijy {
     }
 
     private static int hte(pdr pdr2) {
-        long l = MinecraftClient.method_1551().method_22683().method_4490();
+        long l = MinecraftClient.getInstance().getWindow().getHandle();
         boolean bl = GLFW.glfwGetKey((long)l, (int)340) == 1 || GLFW.glfwGetKey((long)l, (int)344) == 1;
         return bl && pdr2.maxCount() > 16 ? 8 : 1;
     }

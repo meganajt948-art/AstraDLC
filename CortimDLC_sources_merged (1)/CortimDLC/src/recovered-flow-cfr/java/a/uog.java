@@ -31,7 +31,7 @@ public final class uog {
     public static boolean draw(DrawContext drawContext, AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float f2, float f3, float f4, int n) {
         SkinTextures skinTextures;
         try {
-            skinTextures = abstractClientPlayerEntity.method_52814();
+            skinTextures = abstractClientPlayerEntity.getSkin();
         }
         catch (Throwable throwable) {
             return false;
@@ -52,9 +52,9 @@ public final class uog {
 
     private static GpuTextureView uoj(SkinTextures skinTextures) {
         try {
-            Identifier identifier = skinTextures.comp_1626().comp_3627();
-            AbstractTexture abstractTexture = MinecraftClient.method_1551().method_1531().method_4619(identifier);
-            return abstractTexture != null ? abstractTexture.method_71659() : null;
+            Identifier identifier = skinTextures.body().texturePath();
+            AbstractTexture abstractTexture = MinecraftClient.getInstance().getTextureManager().getTexture(identifier);
+            return abstractTexture != null ? abstractTexture.getGlTextureView() : null;
         }
         catch (Throwable throwable) {
             return null;

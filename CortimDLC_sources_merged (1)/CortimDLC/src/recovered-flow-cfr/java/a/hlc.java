@@ -222,7 +222,7 @@ extends Screen {
     private static /* synthetic */ boolean hpe;
 
     public hlc() {
-        super((Text)Text.method_43470((String)a.d("\uc518\ubc83\u3653\ua83a\u23a8", -449570389, 2014764272)));
+        super((Text)Text.literal((String)a.d("\uc518\ubc83\u3653\ua83a\u23a8", -449570389, 2014764272)));
         evi.refresh();
         this.hod = hoa;
         this.hoe.text = hoa;
@@ -263,7 +263,7 @@ extends Screen {
         return 0.5562347f;
     }
 
-    protected void method_25426() {
+    protected void init() {
         int n;
         if (!this.hlz.isEmpty()) {
             this.hpj();
@@ -448,23 +448,23 @@ extends Screen {
     }
 
     private float hpi() {
-        float f = Math.min(((float)this.field_22789 - 16.0f) / 540.0f, ((float)this.field_22790 - 16.0f) / 409.0f);
+        float f = Math.min(((float)this.width - 16.0f) / 540.0f, ((float)this.height - 16.0f) / 409.0f);
         return Math.max(0.3f, Math.min((float)iov.SCALE.get(), f));
     }
 
     private void hpj() {
-        if (this.field_22789 < 64 || this.field_22790 < 64) {
+        if (this.width < 64 || this.height < 64) {
             return;
         }
         float f = this.hpi();
         float f2 = 540.0f * f;
         float f3 = 409.0f * f;
         if (Float.isNaN(hlp) || Float.isNaN(hlq)) {
-            hlp = ((float)this.field_22789 - f2) * 0.5f;
-            hlq = ((float)this.field_22790 - f3) * 0.5f;
+            hlp = ((float)this.width - f2) * 0.5f;
+            hlq = ((float)this.height - f3) * 0.5f;
         }
-        hlp = Math.max(60.0f - f2, Math.min((float)this.field_22789 - 60.0f, hlp));
-        hlq = Math.max(0.0f, Math.min((float)this.field_22790 - 30.0f, hlq));
+        hlp = Math.max(60.0f - f2, Math.min((float)this.width - 60.0f, hlp));
+        hlq = Math.max(0.0f, Math.min((float)this.height - 30.0f, hlq));
     }
 
     private static List<kfe> hpk(List<kfe> list) {
@@ -717,9 +717,9 @@ extends Screen {
             }
             this.hne = null;
         }
-        if (this.hmx && this.hmc.finished() && !this.hmy && this.field_22787 != null) {
+        if (this.hmx && this.hmc.finished() && !this.hmy && this.client != null) {
             this.hmy = true;
-            this.field_22787.method_63588(() -> hlc.super.method_25419());
+            this.client.send(() -> hlc.super.close());
         }
     }
 
@@ -728,32 +728,32 @@ extends Screen {
         return this.hmx ? vcq.outCubic(f) : vcq.outQuint(f);
     }
 
-    public void method_25420(DrawContext drawContext, int n, int n2, float f) {
+    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         uut.beginFrame();
-        this.hpu(drawContext);
-        float f2 = this.hpv();
-        float f3 = (float)iov.DIM.get();
-        if (this.field_22787 != null && this.field_22787.field_1687 != null) {
+        this.hpu(context);
+        float f = this.hpv();
+        float f2 = (float)iov.DIM.get();
+        if (this.client != null && this.client.world != null) {
             this.hpw();
-            float f4 = Math.max(1, this.field_22787.method_22683().method_4495());
-            float f5 = this.hpi();
-            this.how = isv.frame(Math.round(540.0f * f5 * f4), Math.round(409.0f * f5 * f4));
+            float f3 = Math.max(1, this.client.getWindow().getScaleFactor());
+            float f4 = this.hpi();
+            this.how = isv.frame(Math.round(540.0f * f4 * f3), Math.round(409.0f * f4 * f3));
             GpuTextureView gpuTextureView = null;
             if (this.how != null) {
-                gpuTextureView = ujw.worldWith(this.how, this.hos * f4, this.hot * f4, (this.hos + 540.0f * this.hoq) * f4, (this.hot + 409.0f * this.hor) * f4, f2, iov.photoTone());
+                gpuTextureView = ujw.worldWith(this.how, this.hos * f3, this.hot * f3, (this.hos + 540.0f * this.hoq) * f3, (this.hot + 409.0f * this.hor) * f3, f, iov.photoTone());
             }
-            hyv.capture(drawContext, iov.BG_BLUR.getInt(), f2, gpuTextureView);
-            uut.gradientV(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, 0.0f, ujt.withAlpha(0, (int)(255.0f * f3 * 0.65f * f2)), ujt.withAlpha(0, (int)(255.0f * f3 * f2)));
-            swh.renderInMenu(drawContext);
-            izx.renderInMenu(drawContext, this.hod.isEmpty() && this.hlz.get((int)hlc.hln).hkz == hks.HUD);
+            hyv.capture(context, iov.BG_BLUR.getInt(), f, gpuTextureView);
+            uut.gradientV(context, 0.0f, 0.0f, this.width, this.height, 0.0f, ujt.withAlpha(0, (int)(255.0f * f2 * 0.65f * f)), ujt.withAlpha(0, (int)(255.0f * f2 * f)));
+            swh.renderInMenu(context);
+            izx.renderInMenu(context, this.hod.isEmpty() && this.hlz.get((int)hlc.hln).hkz == hks.HUD);
         } else {
             this.how = null;
             hyv.skip();
-            this.method_57728(drawContext, f);
+            this.renderPanoramaBackground(context, deltaTicks);
             if (iov.BG_BLUR.getInt() > 0) {
-                drawContext.method_71278();
+                context.applyBlur();
             }
-            uut.rect(drawContext, 0.0f, 0.0f, this.field_22789, this.field_22790, ujt.withAlpha(0, (int)(255.0f * Math.max(0.3f, f3) * f2)));
+            uut.rect(context, 0.0f, 0.0f, this.width, this.height, ujt.withAlpha(0, (int)(255.0f * Math.max(0.3f, f2) * f)));
         }
     }
 
@@ -766,8 +766,8 @@ extends Screen {
         float f4 = hlq + 409.0f * f2 * 0.5f + (1.0f - f) * 10.0f;
         this.hos = f3 - 270.0f * this.hoq;
         this.hot = f4 - 204.5f * this.hor;
-        if (f >= 0.999f && f2 == 1.0f && this.field_22787 != null) {
-            float f5 = Math.max(1, this.field_22787.method_22683().method_4495());
+        if (f >= 0.999f && f2 == 1.0f && this.client != null) {
+            float f5 = Math.max(1, this.client.getWindow().getScaleFactor());
             this.hos = (float)Math.round(this.hos * f5) / f5;
             this.hot = (float)Math.round(this.hot * f5) / f5;
         }
@@ -776,24 +776,24 @@ extends Screen {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public void method_25394(DrawContext drawContext, int n, int n2, float f) {
-        this.hpu(drawContext);
-        float f2 = this.hpv();
-        float f3 = this.hpi();
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        this.hpu(context);
+        float f = this.hpv();
+        float f2 = this.hpi();
         this.hpw();
-        this.hou = this.hpx(n);
-        this.hov = this.hpy(n2);
-        vdn.setRenderScale(f3);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(this.hos, this.hot);
-        drawContext.method_51448().scale(this.hoq, this.hor);
-        uut.pushAlpha(f2);
+        this.hou = this.hpx(mouseX);
+        this.hov = this.hpy(mouseY);
+        vdn.setRenderScale(f2);
+        context.getMatrices().pushMatrix();
+        context.getMatrices().translate(this.hos, this.hot);
+        context.getMatrices().scale(this.hoq, this.hor);
+        uut.pushAlpha(f);
         try {
-            this.hpz(drawContext);
+            this.hpz(context);
         }
         finally {
             uut.popAlpha();
-            drawContext.method_51448().popMatrix();
+            context.getMatrices().popMatrix();
             vdn.setRenderScale(1.0f);
         }
     }
@@ -890,8 +890,8 @@ extends Screen {
             float f12 = this.hmh.get(i).step(bl3, this.hop);
             float f13 = i == hln && !bl ? 1.0f : 0.0f;
             uut.pushAlpha(f11);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate(-(1.0f - f11) * 10.0f, 0.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate(-(1.0f - f11) * 10.0f, 0.0f);
             if (f12 > 0.01f && f13 < 1.0f) {
                 uut.round(drawContext, 8.0f, f10, f6, 23.0f, f7, ujt.withAlpha(iov.hover, Math.round((float)ujt.alpha(iov.hover) * f12)));
             }
@@ -909,13 +909,13 @@ extends Screen {
             if (n > 0) {
                 String string = String.valueOf(n);
                 float f17 = 1.0f + 0.25f * f16;
-                drawContext.method_51448().pushMatrix();
-                drawContext.method_51448().translate(116.0f, f14);
-                drawContext.method_51448().scale(f17, f17);
+                drawContext.getMatrices().pushMatrix();
+                drawContext.getMatrices().translate(116.0f, f14);
+                drawContext.getMatrices().scale(f17, f17);
                 irr.SMALL.drawCentered(drawContext, string, 0.0f, irr.SMALL.centerTop(0.0f), ujt.lerp(iov.textMuted, iov.text, Math.max(f16, f13 * 0.6f)));
-                drawContext.method_51448().popMatrix();
+                drawContext.getMatrices().popMatrix();
             }
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             uut.popAlpha();
         }
         this.hqm(drawContext, f, f2);
@@ -1020,15 +1020,15 @@ extends Screen {
         float f7 = iov.r(6.0f);
         float f8 = f6 + f4 * 0.5f;
         uut.pushAlpha(f);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(0.0f, (1.0f - f) * 3.0f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(0.0f, (1.0f - f) * 3.0f);
         uut.shadow(drawContext, f5, f6 + 2.0f, f3, f4, f7, 12.0f, iov.shadow);
         hyv.surface(drawContext, f5, f6, f3, f4, f7, hyv.tint(iov.window, Math.min(1.0f, iov.windowTint() + 0.08f)), ujt.withAlpha(iov.cardHover, 250), 6.0f, hyv.POPUPS);
         uut.outline(drawContext, f5, f6, f3, f4, f7, 1.0f, iov.stroke);
         uut.circle(drawContext, f5 + 7.0f + 2.0f, f8, 2.0f, -1750963);
         irr.SUBTITLE.draw(drawContext, string, f5 + 7.0f + 9.0f, irr.SUBTITLE.centerTop(f8), iov.text);
         irr.SUBTITLE.draw(drawContext, string2, f5 + 7.0f + 9.0f + f2, irr.SUBTITLE.centerTop(f8), iov.textMuted);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 
@@ -1209,11 +1209,11 @@ extends Screen {
         uut.outline(drawContext, f11, f12, 46.0f, 20.0f, f10, 1.0f, ujt.lerp(iov.stroke, iov.accent(150), f9));
         ukf.rim(drawContext, f11, f12, 46.0f, 20.0f, f10, f8, 0.8f + 0.4f * f9);
         int n = ujt.lerp(iov.textDim, iov.text, f9);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f11 + 11.0f, f12 + 10.0f);
-        drawContext.method_51448().rotate(0.50265485f * f9);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f11 + 11.0f, f12 + 10.0f);
+        drawContext.getMatrices().rotate(0.50265485f * f9);
         vjf.draw(drawContext, vhz.GLOBE, 0.0f, 0.0f, 9.0f, n);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         irr.VALUE.draw(drawContext, wap.ru() ? a.c(-823456020, "\u0ebc\u770a") : a.c(1388713720, "\u16bf\u6f05"), f11 + 20.0f, irr.VALUE.centerTop(f12 + 10.0f), n);
         vjf.draw(drawContext, vhz.CHEVRON_DOWN, f11 + 46.0f - 8.0f, f12 + 10.0f + 0.5f, 6.0f, ujt.lerp(iov.textMuted, iov.accent(), f9));
         if (f9 > 0.5f) {
@@ -1299,10 +1299,10 @@ extends Screen {
             if (hjg3.y > 409.0f || hjg3.y + f4 < 46.0f) continue;
             if ((f3 = vcq.outCubic((f5 * 1.9f - (float)Math.min(n4++, 9) * 0.12f) / 0.8f)) <= 0.01f) continue;
             uut.pushAlpha(f3);
-            drawContext.method_51448().pushMatrix();
-            drawContext.method_51448().translate((1.0f - f3) * 16.0f * (float)this.hms, (1.0f - f3) * 10.0f);
+            drawContext.getMatrices().pushMatrix();
+            drawContext.getMatrices().translate((1.0f - f3) * 16.0f * (float)this.hms, (1.0f - f3) * 10.0f);
             hjg3.render(drawContext, this, f12, f13, this.hop);
-            drawContext.method_51448().popMatrix();
+            drawContext.getMatrices().popMatrix();
             uut.popAlpha();
         }
         n = System.nanoTime() - this.hmr < 900000000L ? 1 : 0;
@@ -1383,8 +1383,8 @@ extends Screen {
         f9 = Math.max(50.0f, Math.min(403.0f - f7, f9));
         float f10 = iov.r(6.0f);
         uut.pushAlpha(f3);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(0.0f, (1.0f - f3) * -3.0f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(0.0f, (1.0f - f3) * -3.0f);
         uut.shadow(drawContext, f8, f9 + 2.0f, f6, f7, f10, 12.0f, iov.shadow);
         hyv.surface(drawContext, f8, f9, f6, f7, f10, hyv.tint(iov.window, Math.min(1.0f, iov.windowTint() + 0.08f)), ujt.withAlpha(iov.cardHover, 250), 6.0f, hyv.POPUPS);
         uut.outline(drawContext, f8, f9, f6, f7, f10, 1.0f, iov.stroke);
@@ -1393,7 +1393,7 @@ extends Screen {
             float f11 = f9 + f5 + f4 * ((float)i + 0.5f);
             irr.SUBTITLE.draw(drawContext, this.hnw.get(i), f8 + 7.0f, irr.SUBTITLE.centerTop(f11), n);
         }
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 
@@ -1441,26 +1441,26 @@ extends Screen {
         float f6 = iov.r(7.0f);
         float f7 = 1.0f + 0.05f * this.hmo.step(0.0f, this.hop);
         uut.pushAlpha(f);
-        drawContext.method_51448().pushMatrix();
-        drawContext.method_51448().translate(f4 + f2 * 0.5f, f5 + f3 * 0.5f);
-        drawContext.method_51448().scale(f7, f7);
-        drawContext.method_51448().translate(-f2 * 0.5f, -f3 * 0.5f);
+        drawContext.getMatrices().pushMatrix();
+        drawContext.getMatrices().translate(f4 + f2 * 0.5f, f5 + f3 * 0.5f);
+        drawContext.getMatrices().scale(f7, f7);
+        drawContext.getMatrices().translate(-f2 * 0.5f, -f3 * 0.5f);
         uut.shadow(drawContext, 0.0f, 0.0f, f2, f3, f6, 12.0f, iov.shadow);
         hyv.surface(drawContext, 0.0f, 0.0f, f2, f3, f6, hyv.tint(iov.window, Math.min(1.0f, iov.windowTint() + 0.1f)), ujt.withAlpha(iov.cardHover, 250), f3 * 0.5f, hyv.POPUPS);
         uut.outline(drawContext, 0.0f, 0.0f, f2, f3, f6, 1.0f, ujt.withAlpha(n, 130));
         vjf.draw(drawContext, vhz2, 14.0f, f3 * 0.5f, 9.0f, n);
         irr.LABEL.draw(drawContext, irr.LABEL.ellipsize(string, f2 - 32.0f), 24.0f, irr.LABEL.centerTop(f3 * 0.5f), iov.text);
-        drawContext.method_51448().popMatrix();
+        drawContext.getMatrices().popMatrix();
         uut.popAlpha();
     }
 
-    public boolean method_25402(Click click, boolean bl) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         if (this.hmx) {
             return true;
         }
-        float f = this.hpx(click.comp_4798());
-        float f2 = this.hpy(click.comp_4799());
-        int n = click.method_74245();
+        float f = this.hpx(click.x());
+        float f2 = this.hpy(click.y());
+        int n = click.button();
         this.hnv = this.hns;
         if (this.hnf != null) {
             if (n >= 2 && this.hnf.clearable()) {
@@ -1505,14 +1505,14 @@ extends Screen {
         if (n == 0 && this.hqo(f, f2)) {
             this.hol.set(1.0f);
             dry.trigger();
-            if (this.field_22787 != null) {
-                this.field_22787.method_1507(null);
+            if (this.client != null) {
+                this.client.setScreen(null);
             }
             return true;
         }
         if (n == 0 && irr.inside(f, f2, this.hqs(), this.hqv(), 46.0f, 20.0f)) {
-            if (this.field_22787 != null) {
-                this.field_22787.method_1507((Screen)new ida(this));
+            if (this.client != null) {
+                this.client.setScreen((Screen)new ida(this));
             }
             return true;
         }
@@ -1523,8 +1523,8 @@ extends Screen {
         }
         if (n == 0 && (f2 < 46.0f || f < 136.0f && f2 < 46.0f)) {
             this.hmz = true;
-            this.hna = (float)click.comp_4798() - hlp;
-            this.hnb = (float)click.comp_4799() - hlq;
+            this.hna = (float)click.x() - hlp;
+            this.hnb = (float)click.y() - hlq;
             return true;
         }
         if (irr.inside(f, f2, 136.0f, 46.0f, 404.0f, 363.0f)) {
@@ -1536,55 +1536,55 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25406(Click click) {
+    public boolean mouseReleased(Click click) {
         this.hmz = false;
         this.hnc = null;
         return true;
     }
 
-    public boolean method_25403(Click click, double d, double d2) {
+    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
         if (this.hmz) {
-            hlp = (float)click.comp_4798() - this.hna;
-            hlq = (float)click.comp_4799() - this.hnb;
+            hlp = (float)click.x() - this.hna;
+            hlq = (float)click.y() - this.hnb;
             this.hpj();
             return true;
         }
         if (this.hnc != null) {
-            this.hnc.mouseDragged(this.hpx(click.comp_4798()), this.hpy(click.comp_4799()));
+            this.hnc.mouseDragged(this.hpx(click.x()), this.hpy(click.y()));
             return true;
         }
         return true;
     }
 
-    public boolean method_25401(double d, double d2, double d3, double d4) {
-        float f = this.hpx(d);
-        float f2 = this.hpy(d2);
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        float f = this.hpx(mouseX);
+        float f2 = this.hpy(mouseY);
         if (this.hne != null) {
-            this.hne.scrolled(d4);
+            this.hne.scrolled(verticalAmount);
             return true;
         }
         if (this.hpr()) {
             return true;
         }
         if (irr.inside(f, f2, 136.0f, 46.0f, 404.0f, 363.0f)) {
-            this.hmp -= (float)d4 * 32.0f;
+            this.hmp -= (float)verticalAmount * 32.0f;
             this.hmr = System.nanoTime();
         }
         return true;
     }
 
-    public boolean method_16803(KeyInput keyInput) {
-        if (this.hnf != null && this.hnh != -1 && keyInput.comp_4795() == this.hnh) {
+    public boolean keyReleased(KeyInput input) {
+        if (this.hnf != null && this.hnh != -1 && input.key() == this.hnh) {
             this.hnh = -1;
-            this.hpt(keyInput.comp_4795());
+            this.hpt(input.key());
             return true;
         }
-        return super.method_16803(keyInput);
+        return super.keyReleased(input);
     }
 
-    public boolean method_25404(KeyInput keyInput) {
+    public boolean keyPressed(KeyInput input) {
         boolean bl;
-        int n = keyInput.comp_4795();
+        int n = input.key();
         if (this.hmx) {
             return true;
         }
@@ -1595,7 +1595,7 @@ extends Screen {
                 if (this.hnf.clearable() && vzz.isModifier(n)) {
                     this.hnh = n;
                 } else {
-                    this.hpt(this.hnf.clearable() ? vzz.combo(n, keyInput.comp_4797() | vzz.heldMods(this.field_22787)) : n);
+                    this.hpt(this.hnf.clearable() ? vzz.combo(n, input.modifiers() | vzz.heldMods(this.client)) : n);
                 }
                 return true;
             }
@@ -1611,7 +1611,7 @@ extends Screen {
         }
         if (this.hne != null) {
             if (this.hps()) {
-                this.hne.keyPressed(this, n, keyInput.comp_4797());
+                this.hne.keyPressed(this, n, input.modifiers());
             }
             return true;
         }
@@ -1620,16 +1620,16 @@ extends Screen {
                 this.hoe.setText("");
                 return true;
             }
-            this.hof.keyPressed(this, n, keyInput.comp_4797());
+            this.hof.keyPressed(this, n, input.modifiers());
             return true;
         }
-        boolean bl4 = bl = (keyInput.comp_4797() & 2) != 0;
+        boolean bl4 = bl = (input.modifiers() & 2) != 0;
         if (bl && n == 70) {
             this.focus(this.hoe);
             return true;
         }
         if (n == 256 || n == Flow.getInstance().getOpenGuiKey()) {
-            this.method_25419();
+            this.close();
             return true;
         }
         if (n == 265 || n == 264) {
@@ -1640,11 +1640,11 @@ extends Screen {
         return true;
     }
 
-    public boolean method_25400(CharInput charInput) {
-        if (this.hmx || this.hnf != null || this.hof == null || !charInput.method_74227()) {
+    public boolean charTyped(CharInput input) {
+        if (this.hmx || this.hnf != null || this.hof == null || !input.isValidChar()) {
             return false;
         }
-        this.hof.charTyped(charInput.method_74226());
+        this.hof.charTyped(input.asString());
         return true;
     }
 
@@ -1685,7 +1685,7 @@ extends Screen {
         this.hpq();
     }
 
-    public void method_25419() {
+    public void close() {
         if (!this.hmx) {
             this.hmx = true;
             lsg.menu(false);
@@ -1699,18 +1699,18 @@ extends Screen {
         }
     }
 
-    public void method_25432() {
+    public void removed() {
         vdn.setRenderScale(1.0f);
         this.hpp();
         ConfigManager.autoSaveLater();
         hyz.saveLater();
     }
 
-    public boolean method_25421() {
+    public boolean shouldPause() {
         return false;
     }
 
-    public boolean method_25422() {
+    public boolean shouldCloseOnEsc() {
         return false;
     }
 

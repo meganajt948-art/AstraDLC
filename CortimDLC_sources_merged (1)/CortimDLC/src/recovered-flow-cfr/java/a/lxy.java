@@ -187,7 +187,7 @@ extends kfe {
     private int man;
     private int mao = 8;
     private boolean map;
-    private ItemStack maq = ItemStack.field_8037;
+    private ItemStack maq = ItemStack.EMPTY;
     private String mar = "";
     private String mas = "";
     private final Set<String> mat = new HashSet<String>();
@@ -258,7 +258,7 @@ extends kfe {
         this.mcg.reset();
         this.man = 0;
         this.mao = lxy.mfy();
-        this.mbd = this.mc.field_1724 == null ? -1 : this.mc.field_1724.method_31548().method_67532();
+        this.mbd = this.mc.player == null ? -1 : this.mc.player.getInventory().getSelectedSlot();
         long l = System.currentTimeMillis();
         this.mau.values().removeIf(lArray -> l - lArray[1] > 180000L);
         this.mah = l + 260L + ThreadLocalRandom.current().nextLong(0L, 340L);
@@ -273,8 +273,8 @@ extends kfe {
     @Override
     public void onStartTick(MinecraftClient minecraftClient) {
         this.mdy();
-        ClientPlayerEntity clientPlayerEntity = minecraftClient.field_1724;
-        if (clientPlayerEntity == null || minecraftClient.method_1562() == null) {
+        ClientPlayerEntity clientPlayerEntity = minecraftClient.player;
+        if (clientPlayerEntity == null || minecraftClient.getNetworkHandler() == null) {
             if (this.lzz != lxu.IDLE) {
                 this.mge();
             }
@@ -287,7 +287,7 @@ extends kfe {
             this.mdz();
         }
         if (this.lzz == lxu.IDLE) {
-            Screen screen = minecraftClient.field_1755;
+            Screen screen = minecraftClient.currentScreen;
             if (screen != null && !(screen instanceof HandledScreen)) {
                 return;
             }
@@ -386,20 +386,20 @@ extends kfe {
     }
 
     private boolean mco() {
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         for (int i = 0; i < 2; ++i) {
             int n = i == 0 ? 9 : 0;
             int n2 = i == 0 ? 36 : 9;
             for (int j = n; j < n2; ++j) {
                 String string;
                 ItemStack itemStack;
-                if (!this.mcp(j) || (itemStack = playerInventory.method_5438(j)).method_7960() || this.mat.contains(string = lxy.mfa(itemStack))) continue;
-                String string2 = lxy.cleanQuery(itemStack.method_7964().getString());
+                if (!this.mcp(j) || (itemStack = playerInventory.getStack(j)).isEmpty() || this.mat.contains(string = lxy.mfa(itemStack))) continue;
+                String string2 = lxy.cleanQuery(itemStack.getName().getString());
                 if (string2.isEmpty()) {
                     this.mat.add(string);
                     continue;
                 }
-                this.maq = itemStack.method_7972();
+                this.maq = itemStack.copy();
                 this.mar = string;
                 this.mas = string2;
                 this.mav = -1;
@@ -430,7 +430,7 @@ extends kfe {
         if (!this.mce[n]) {
             return false;
         }
-        if (this.mc.field_1724.method_31548().method_5438(n).method_7960()) {
+        if (this.mc.player.getInventory().getStack(n).isEmpty()) {
             this.mce[n] = false;
             return false;
         }
@@ -455,7 +455,7 @@ extends kfe {
         this.max = 0;
         this.mbm = 0;
         this.mbn = "";
-        this.maq = ItemStack.field_8037;
+        this.maq = ItemStack.EMPTY;
         this.mar = "";
         this.mas = "";
         this.mfq();
@@ -473,8 +473,8 @@ extends kfe {
         if (this.mfn()) {
             return;
         }
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
-        if (this.mcp(playerInventory.method_67532()) && lxy.mfb(this.mc.field_1724.method_6047(), this.maq)) {
+        PlayerInventory playerInventory = this.mc.player.getInventory();
+        if (this.mcp(playerInventory.getSelectedSlot()) && lxy.mfb(this.mc.player.getMainHandStack(), this.maq)) {
             this.mfq();
             this.mgd(lxu.SEARCH);
             return;
@@ -489,7 +489,7 @@ extends kfe {
             if (!this.mft()) {
                 return;
             }
-            playerInventory.method_61496(n);
+            playerInventory.setSelectedSlot(n);
             this.mgd(lxu.SEARCH);
             return;
         }
@@ -497,8 +497,8 @@ extends kfe {
             return;
         }
         int n2 = this.mfl();
-        boolean bl = !playerInventory.method_5438(n2).method_7960();
-        this.mfr(lxy.mfm(n), SlotActionType.field_7791, n2);
+        boolean bl = !playerInventory.getStack(n2).isEmpty();
+        this.mfr(lxy.mfm(n), SlotActionType.SWAP, n2);
         this.mba = n2;
         if (bl && this.mbb < 0) {
             this.mbb = n2;
@@ -513,7 +513,7 @@ extends kfe {
         if (this.mfn()) {
             return;
         }
-        String string = lxy.cleanQuery(this.mc.field_1724.method_6047().method_7964().getString());
+        String string = lxy.cleanQuery(this.mc.player.getMainHandStack().getName().getString());
         if (!string.isEmpty()) {
             this.mas = string;
         }
@@ -531,7 +531,7 @@ extends kfe {
         this.mbi = true;
         this.mbk = -1;
         this.mbl = 0L;
-        this.mbj = this.mc.field_1724.field_7512 == null ? -1 : this.mc.field_1724.field_7512.field_7763;
+        this.mbj = this.mc.player.currentScreenHandler == null ? -1 : this.mc.player.currentScreenHandler.syncId;
         this.mbm = 0;
         this.mfs(a.b("\u62f9\u1b41\u91da\u0ff8\u8439\u028c\ub8cc\u312c\uaf78\u2581", -1304665454) + this.mas);
         this.mgd(lxu.SCAN);
@@ -573,28 +573,28 @@ extends kfe {
     }
 
     private List<ItemStack> mcw() {
-        if (!this.mbi || !(this.mc.field_1755 instanceof HandledScreen)) {
+        if (!this.mbi || !(this.mc.currentScreen instanceof HandledScreen)) {
             return null;
         }
-        ScreenHandler screenHandler = this.mc.field_1724.field_7512;
-        if (!(screenHandler instanceof GenericContainerScreenHandler) || screenHandler.field_7763 == this.mbj) {
+        ScreenHandler screenHandler = this.mc.player.currentScreenHandler;
+        if (!(screenHandler instanceof GenericContainerScreenHandler) || screenHandler.syncId == this.mbj) {
             return null;
         }
-        int n = screenHandler.field_7761.size() - 36;
+        int n = screenHandler.slots.size() - 36;
         boolean bl = false;
         for (int i = 0; i < n && !bl; ++i) {
-            bl = !((Slot)screenHandler.field_7761.get(i)).method_7677().method_7960();
+            bl = !((Slot)screenHandler.slots.get(i)).getStack().isEmpty();
         }
         if (!bl) {
             return null;
         }
-        if (screenHandler.field_7763 != this.mbk) {
-            this.mbk = screenHandler.field_7763;
+        if (screenHandler.syncId != this.mbk) {
+            this.mbk = screenHandler.syncId;
             this.mbl = System.currentTimeMillis();
         }
-        ArrayList<ItemStack> arrayList = new ArrayList<ItemStack>(screenHandler.field_7761.size());
-        for (int i = 0; i < screenHandler.field_7761.size(); ++i) {
-            arrayList.add(((Slot)screenHandler.field_7761.get(i)).method_7677().method_7972());
+        ArrayList<ItemStack> arrayList = new ArrayList<ItemStack>(screenHandler.slots.size());
+        for (int i = 0; i < screenHandler.slots.size(); ++i) {
+            arrayList.add(((Slot)screenHandler.slots.get(i)).getStack().copy());
         }
         return arrayList;
     }
@@ -602,11 +602,11 @@ extends kfe {
     private void mcx(List<ItemStack> list, long l) {
         this.mcy(this.mar, this.mer(list, this.maq), l);
         String string = this.mas;
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         for (int i = 0; i < 36; ++i) {
             String string2;
             ItemStack itemStack;
-            if (!this.mcp(i) || (itemStack = playerInventory.method_5438(i)).method_7960() || itemStack.method_7909() != this.maq.method_7909() || (string2 = lxy.mfa(itemStack)).equals(this.mar) || this.mat.contains(string2) || !string.equals(lxy.cleanQuery(itemStack.method_7964().getString()))) continue;
+            if (!this.mcp(i) || (itemStack = playerInventory.getStack(i)).isEmpty() || itemStack.getItem() != this.maq.getItem() || (string2 = lxy.mfa(itemStack)).equals(this.mar) || this.mat.contains(string2) || !string.equals(lxy.cleanQuery(itemStack.getName().getString()))) continue;
             this.mcy(string2, this.mer(list, itemStack), l);
         }
     }
@@ -623,7 +623,7 @@ extends kfe {
     private void mda() {
         this.mfq();
         long l = System.currentTimeMillis();
-        if (l < this.mam && this.mc.field_1755 instanceof HandledScreen) {
+        if (l < this.mam && this.mc.currentScreen instanceof HandledScreen) {
             this.maa = l;
             return;
         }
@@ -644,7 +644,7 @@ extends kfe {
             return;
         }
         int n = (int)lArray[0];
-        ItemStack itemStack = this.mc.field_1724.method_6047();
+        ItemStack itemStack = this.mc.player.getMainHandStack();
         if (!lxy.mfb(itemStack, this.maq)) {
             if (++this.max > 2) {
                 this.mcr(a.c(-491171904, "\u4bf6\u325b\ub884\u26f7\uad50\u2f81\u91cd\u1843\u8662\u0cd2\u8b0e\u7174\ufbb8\u6611\uec4d\u6eab\ud084\u5f56\uc59c\u43cf"), false, true);
@@ -656,7 +656,7 @@ extends kfe {
         if (!this.mfv(l, 1)) {
             return;
         }
-        int n2 = Math.max(1, itemStack.method_7947());
+        int n2 = Math.max(1, itemStack.getCount());
         long l2 = (long)Math.floor((double)n * (1.0 - this.lzu.get() / 100.0));
         if (l2 >= (long)n) {
             l2 = (long)n - 1L;
@@ -711,26 +711,26 @@ extends kfe {
         if (this.mfn()) {
             return;
         }
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         if (this.mbb >= 0 && this.mbc >= 0) {
             boolean bl;
-            boolean bl2 = bl = !playerInventory.method_5438(this.mbc).method_7960() || !playerInventory.method_5438(this.mbb).method_7960();
+            boolean bl2 = bl = !playerInventory.getStack(this.mbc).isEmpty() || !playerInventory.getStack(this.mbb).isEmpty();
             if (bl) {
                 if (!this.mfo()) {
                     return;
                 }
-                this.mfr(lxy.mfm(this.mbc), SlotActionType.field_7791, this.mbb);
+                this.mfr(lxy.mfm(this.mbc), SlotActionType.SWAP, this.mbb);
             }
             this.mbb = -1;
             this.mbc = -1;
             return;
         }
         this.mfq();
-        if (this.mbd >= 0 && this.mbd < 9 && playerInventory.method_67532() != this.mbd) {
+        if (this.mbd >= 0 && this.mbd < 9 && playerInventory.getSelectedSlot() != this.mbd) {
             if (!this.mft()) {
                 return;
             }
-            playerInventory.method_61496(this.mbd);
+            playerInventory.setSelectedSlot(this.mbd);
         }
         this.mdd();
     }
@@ -788,7 +788,7 @@ extends kfe {
         if (n < 0 || !this.mdn() || !this.mfp()) {
             return;
         }
-        this.mfr(n, SlotActionType.field_7790, 0);
+        this.mfr(n, SlotActionType.PICKUP, 0);
         pdi.note(0);
         this.mgd(lxu.AH_RELIST);
     }
@@ -800,7 +800,7 @@ extends kfe {
         }
         int n2 = this.mdm();
         if (n2 > 0) {
-            this.mfr(n, SlotActionType.field_7790, 0);
+            this.mfr(n, SlotActionType.PICKUP, 0);
             pdi.note(0);
             this.mgf(a.d("\udf1d\ua686\u2c20\ub224\u39f4\ubf3c\u0565\u8c97\u12ba\u9809\u1fd3\ue5d6\u6b00\uf6c5\u7c8c", 1755457151, -1874920078) + n2, true);
         } else {
@@ -817,7 +817,7 @@ extends kfe {
         this.mag = 0L;
         this.mac = Math.max(this.mac, l + lxy.mfz(1600L, 0.35, 900L, 4000L));
         this.mab = l + 250L + ThreadLocalRandom.current().nextLong(0L, 350L);
-        this.mgd(this.maq.method_7960() ? lxu.IDLE : lxu.TAKE);
+        this.mgd(this.maq.isEmpty() ? lxu.IDLE : lxu.TAKE);
     }
 
     private boolean mdk() {
@@ -825,29 +825,29 @@ extends kfe {
     }
 
     private int mdl(String string) {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        ScreenHandler screenHandler = clientPlayerEntity.field_7512;
-        if (!(this.mc.field_1755 instanceof HandledScreen) || screenHandler == null || screenHandler == clientPlayerEntity.field_7498) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        ScreenHandler screenHandler = clientPlayerEntity.currentScreenHandler;
+        if (!(this.mc.currentScreen instanceof HandledScreen) || screenHandler == null || screenHandler == clientPlayerEntity.playerScreenHandler) {
             return -1;
         }
-        int n = screenHandler.field_7761.size() - 36;
+        int n = screenHandler.slots.size() - 36;
         if (n < 9) {
             return -1;
         }
         for (int i = n - 9; i < n; ++i) {
-            ItemStack itemStack = ((Slot)screenHandler.field_7761.get(i)).method_7677();
-            if (itemStack.method_7960() || !pfl.title(itemStack.method_7964().getString()).contains(string)) continue;
+            ItemStack itemStack = ((Slot)screenHandler.slots.get(i)).getStack();
+            if (itemStack.isEmpty() || !pfl.title(itemStack.getName().getString()).contains(string)) continue;
             return i;
         }
         return -1;
     }
 
     private int mdm() {
-        ScreenHandler screenHandler = this.mc.field_1724.field_7512;
-        int n = screenHandler.field_7761.size() - 36;
+        ScreenHandler screenHandler = this.mc.player.currentScreenHandler;
+        int n = screenHandler.slots.size() - 36;
         int n2 = 0;
         for (int i = 0; i < n - 9; ++i) {
-            if (((Slot)screenHandler.field_7761.get(i)).method_7677().method_7960()) continue;
+            if (((Slot)screenHandler.slots.get(i)).getStack().isEmpty()) continue;
             ++n2;
         }
         return n2;
@@ -869,8 +869,8 @@ extends kfe {
         if (!this.lzy.get()) {
             return false;
         }
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (clientPlayerEntity.method_5765() || !lxy.meq(clientPlayerEntity.method_31548()) || this.mee()) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (clientPlayerEntity.hasVehicle() || !lxy.meq(clientPlayerEntity.getInventory()) || this.mee()) {
             return false;
         }
         long l = System.currentTimeMillis();
@@ -890,7 +890,7 @@ extends kfe {
             return false;
         }
         this.mbp = blockPos;
-        this.mbq = lxy.mel((World)this.mc.field_1687, blockPos);
+        this.mbq = lxy.mel((World)this.mc.world, blockPos);
         this.mbr = this.meg(blockPos);
         this.mbv = 1 + threadLocalRandom.nextInt(4);
         this.mbw = 0L;
@@ -900,34 +900,34 @@ extends kfe {
     }
 
     private BlockPos mdp(long l) {
-        ClientWorld clientWorld = this.mc.field_1687;
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
+        ClientWorld clientWorld = this.mc.world;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
         double d = 28.09;
         BlockPos blockPos = null;
         double d2 = Double.MAX_VALUE;
-        int n = clientPlayerEntity.method_31477() >> 4;
-        int n2 = clientPlayerEntity.method_31479() >> 4;
+        int n = clientPlayerEntity.getBlockX() >> 4;
+        int n2 = clientPlayerEntity.getBlockZ() >> 4;
         for (int i = -1; i <= 1; ++i) {
             for (int j = -1; j <= 1; ++j) {
-                WorldChunk worldChunk = clientWorld.method_2935().method_12126(n + i, n2 + j, false);
+                WorldChunk worldChunk = clientWorld.getChunkManager().getWorldChunk(n + i, n2 + j, false);
                 if (worldChunk == null) continue;
-                for (BlockEntity blockEntity : worldChunk.method_12214().values()) {
+                for (BlockEntity blockEntity : worldChunk.getBlockEntities().values()) {
                     int n3;
                     BlockPos blockPos2;
                     Long l2;
                     BlockPos blockPos3;
-                    if (!(blockEntity instanceof ChestBlockEntity) && !(blockEntity instanceof BarrelBlockEntity) || vec3d.method_1025(Vec3d.method_24953((Vec3i)(blockPos3 = blockEntity.method_11016()))) > d || (l2 = this.mbo.get(blockPos2 = lxy.mel((World)clientWorld, blockPos3))) != null && l2 > l || (n3 = oqv.markState(clientWorld, blockPos3)) == 1 || n3 == 2 && l2 == null) continue;
+                    if (!(blockEntity instanceof ChestBlockEntity) && !(blockEntity instanceof BarrelBlockEntity) || vec3d.squaredDistanceTo(Vec3d.ofCenter((Vec3i)(blockPos3 = blockEntity.getPos()))) > d || (l2 = this.mbo.get(blockPos2 = lxy.mel((World)clientWorld, blockPos3))) != null && l2 > l || (n3 = oqv.markState(clientWorld, blockPos3)) == 1 || n3 == 2 && l2 == null) continue;
                     if (lxy.mem((World)clientWorld, blockPos3)) {
                         this.mbo.put(blockPos2, Long.MAX_VALUE);
                         continue;
                     }
                     Vec3d vec3d2 = this.meg(blockPos3);
-                    double d3 = vec3d2 == null ? Double.MAX_VALUE : vec3d.method_1025(vec3d2);
+                    double d3 = vec3d2 == null ? Double.MAX_VALUE : vec3d.squaredDistanceTo(vec3d2);
                     double d4 = d3;
                     if (!(d4 <= 18.49) || !(d4 < d2)) continue;
                     d2 = d4;
-                    blockPos = blockPos3.method_10062();
+                    blockPos = blockPos3.toImmutable();
                 }
             }
         }
@@ -935,10 +935,10 @@ extends kfe {
     }
 
     private void mdq() {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
         long l = System.currentTimeMillis();
-        ClientWorld clientWorld = this.mc.field_1687;
-        if (this.mbw > 0L && this.mc.field_1755 instanceof HandledScreen && this.mdr((World)clientWorld, clientPlayerEntity.field_7512, l)) {
+        ClientWorld clientWorld = this.mc.world;
+        if (this.mbw > 0L && this.mc.currentScreen instanceof HandledScreen && this.mdr((World)clientWorld, clientPlayerEntity.currentScreenHandler, l)) {
             this.mds(l);
             return;
         }
@@ -949,22 +949,22 @@ extends kfe {
             this.mdu(Long.MAX_VALUE, null, false, 0);
             return;
         }
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        if (this.mbr == null || vec3d.method_1022(this.mbr) > 4.3) {
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        if (this.mbr == null || vec3d.distanceTo(this.mbr) > 4.3) {
             this.mbr = this.meg(this.mbp);
-            if (this.mbr == null || vec3d.method_1022(this.mbr) > 4.3) {
+            if (this.mbr == null || vec3d.distanceTo(this.mbr) > 4.3) {
                 this.mdu(l + 60000L, null, false, 0);
                 return;
             }
         }
         this.mea();
-        float f = vxr.getFloat(lzr, clientPlayerEntity, clientPlayerEntity.method_36454());
-        float f2 = vxr.getFloat(lzs, clientPlayerEntity, clientPlayerEntity.method_36455());
+        float f = vxr.getFloat(lzr, clientPlayerEntity, clientPlayerEntity.getYaw());
+        float f2 = vxr.getFloat(lzs, clientPlayerEntity, clientPlayerEntity.getPitch());
         BlockHitResult blockHitResult = this.mdw(clientPlayerEntity, f, f2);
-        if (blockHitResult != null && this.mei((World)clientWorld, blockHitResult.method_17777())) {
+        if (blockHitResult != null && this.mei((World)clientWorld, blockHitResult.getBlockPos())) {
             if (this.mbv > 0) {
                 --this.mbv;
-            } else if (l - this.mbw > 1500L && !clientPlayerEntity.method_5715() && !clientPlayerEntity.method_6115() && vyn.serverIdle(clientPlayerEntity)) {
+            } else if (l - this.mbw > 1500L && !clientPlayerEntity.isSneaking() && !clientPlayerEntity.isUsingItem() && vyn.serverIdle(clientPlayerEntity)) {
                 this.mdx();
                 this.mbw = l;
             }
@@ -984,19 +984,19 @@ extends kfe {
             return false;
         }
         int n2 = n = lxy.mek(world, this.mbp) != null ? 6 : 3;
-        if (genericContainerScreenHandler.method_17388() != n) {
+        if (genericContainerScreenHandler.getRows() != n) {
             return false;
         }
-        String string = pfl.title(this.mc.field_1755.method_25440().getString());
+        String string = pfl.title(this.mc.currentScreen.getTitle().getString());
         return !string.contains(a.b("\u5847\u2185\uab2f\u3522\ube8b\u383c\u826c", 2133023856)) && !string.contains(a.c(-2092048698, "\uda8b\ua33f\u299c\ub7e0\u3c32\uba80\u00d0\u8950"));
     }
 
     private void mds(long l) {
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
-        this.mcc = this.mc.field_1724.field_7512.field_7763;
+        PlayerInventory playerInventory = this.mc.player.getInventory();
+        this.mcc = this.mc.player.currentScreenHandler.syncId;
         this.mcd = new ItemStack[9];
         for (int i = 0; i < 9; ++i) {
-            this.mcd[i] = playerInventory.method_5438(i).method_7972();
+            this.mcd[i] = playerInventory.getStack(i).copy();
         }
         this.mby = 0;
         this.mbz = 0;
@@ -1008,30 +1008,30 @@ extends kfe {
 
     private void mdt() {
         int n;
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
         long l = System.currentTimeMillis();
-        ScreenHandler screenHandler = clientPlayerEntity.field_7512;
-        if (!(this.mc.field_1755 instanceof HandledScreen) || !(screenHandler instanceof GenericContainerScreenHandler) || screenHandler.field_7763 != this.mcc) {
+        ScreenHandler screenHandler = clientPlayerEntity.currentScreenHandler;
+        if (!(this.mc.currentScreen instanceof HandledScreen) || !(screenHandler instanceof GenericContainerScreenHandler) || screenHandler.syncId != this.mcc) {
             this.mdu(l + 15000L, null, true, this.mbz > 0 ? 2 : 0);
             return;
         }
         if (l < this.mab || !vyn.serverIdle(clientPlayerEntity)) {
             return;
         }
-        PlayerInventory playerInventory = clientPlayerEntity.method_31548();
+        PlayerInventory playerInventory = clientPlayerEntity.getInventory();
         if (this.mby >= 4 && this.mby % 4 == 0 && lxy.men(playerInventory) <= this.mca) {
             this.mdv();
             this.mdu(Long.MAX_VALUE, a.d("\ue0cc\u991f\u13b2\u8dca\u066a\u80a2\u3eeb\ub307\u2d50\ua3f4\u2039\uda34\u5495\ucd20\u4712\uc1f0\u7fdd\uf41e\u6eaa\ue887\u6101", 779925535, 2105564391), false, 2);
             return;
         }
-        int n2 = screenHandler.field_7761.size() - 36;
+        int n2 = screenHandler.slots.size() - 36;
         int n3 = -1;
         double d = Double.MAX_VALUE;
         boolean bl = false;
         for (n = 0; n < n2; ++n) {
             double d2;
-            ItemStack itemStack = ((Slot)screenHandler.field_7761.get(n)).method_7677();
-            if (itemStack.method_7960() || this.mat.contains(lxy.mfa(itemStack)) || !oqv.wantsItem(itemStack.method_7909())) continue;
+            ItemStack itemStack = ((Slot)screenHandler.slots.get(n)).getStack();
+            if (itemStack.isEmpty() || this.mat.contains(lxy.mfa(itemStack)) || !oqv.wantsItem(itemStack.getItem())) continue;
             if (!lxy.mep(playerInventory, itemStack)) {
                 bl = true;
                 continue;
@@ -1047,7 +1047,7 @@ extends kfe {
             this.mdu(n != 0 ? 0L : Long.MAX_VALUE, this.mbz > 0 ? a.c(-459243703, "\u7b5d\u02c3\u8c07\u1617\u9dc2\u1b0d\ua157\u28d1\ub6f7\u3c4c\ubf95\u45fe") + this.mbz : null, true, n != 0 ? 2 : 1);
             return;
         }
-        this.mc.field_1761.method_2906(screenHandler.field_7763, n3, 0, SlotActionType.field_7794, (PlayerEntity)clientPlayerEntity);
+        this.mc.interactionManager.clickSlot(screenHandler.syncId, n3, 0, SlotActionType.QUICK_MOVE, (PlayerEntity)clientPlayerEntity);
         ++this.mbz;
         this.mcb = n3;
         this.mab = l + this.mcg.draw(this.mby++ == 0 ? 1 : 2);
@@ -1058,12 +1058,12 @@ extends kfe {
             this.mbo.put(this.mbq, l);
         }
         if (n != 0 && this.mbp != null) {
-            oqv.markFromOutside(this.mc.field_1687, this.mbp, n == 2);
+            oqv.markFromOutside(this.mc.world, this.mbp, n == 2);
         }
         if (bl && this.mcd != null) {
-            PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+            PlayerInventory playerInventory = this.mc.player.getInventory();
             for (int i = 0; i < 9; ++i) {
-                if (!this.mcd[i].method_7960() || playerInventory.method_5438(i).method_7960()) continue;
+                if (!this.mcd[i].isEmpty() || playerInventory.getStack(i).isEmpty()) continue;
                 this.mce[i] = true;
             }
         }
@@ -1082,26 +1082,26 @@ extends kfe {
     }
 
     private void mdv() {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (clientPlayerEntity.field_7512 != clientPlayerEntity.field_7498) {
-            clientPlayerEntity.method_7346();
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (clientPlayerEntity.currentScreenHandler != clientPlayerEntity.playerScreenHandler) {
+            clientPlayerEntity.closeHandledScreen();
         }
     }
 
     private BlockHitResult mdw(ClientPlayerEntity clientPlayerEntity, float f, float f2) {
         Vec3d vec3d;
         Vec3d vec3d2;
-        Vec3d vec3d3 = clientPlayerEntity.method_33571();
-        BlockHitResult blockHitResult = this.mc.field_1687.method_17742(new RaycastContext(vec3d3, vec3d2 = vec3d3.method_1019((vec3d = Vec3d.method_1030((float)f2, (float)f)).method_1021(clientPlayerEntity.method_55754())), RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-        return blockHitResult.method_17783() == HitResult.Type.field_1332 ? blockHitResult : null;
+        Vec3d vec3d3 = clientPlayerEntity.getEyePos();
+        BlockHitResult blockHitResult = this.mc.world.raycast(new RaycastContext(vec3d3, vec3d2 = vec3d3.add((vec3d = Vec3d.fromPolar((float)f2, (float)f)).multiply(clientPlayerEntity.getBlockInteractionRange())), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+        return blockHitResult.getType() == HitResult.Type.BLOCK ? blockHitResult : null;
     }
 
     private void mdx() {
-        GameOptions gameOptions = this.mc.field_1690;
+        GameOptions gameOptions = this.mc.options;
         if (gameOptions == null) {
             return;
         }
-        gameOptions.field_1904.method_23481(true);
+        gameOptions.useKey.setPressed(true);
         this.mbx = true;
     }
 
@@ -1110,19 +1110,19 @@ extends kfe {
             return;
         }
         this.mbx = false;
-        if (this.mc.field_1690 != null && this.mc.method_22683() != null) {
-            this.mc.field_1690.field_1904.method_23481(vzz.isPhysicallyDown(this.mc, this.mc.field_1690.field_1904));
+        if (this.mc.options != null && this.mc.getWindow() != null) {
+            this.mc.options.useKey.setPressed(vzz.isPhysicallyDown(this.mc, this.mc.options.useKey));
         }
     }
 
     private void mdz() {
-        GameOptions gameOptions = this.mc.field_1690;
+        GameOptions gameOptions = this.mc.options;
         if (gameOptions == null) {
             return;
         }
-        while (gameOptions.field_1886.method_1436()) {
+        while (gameOptions.attackKey.wasPressed()) {
         }
-        while (gameOptions.field_1904.method_1436()) {
+        while (gameOptions.useKey.wasPressed()) {
         }
     }
 
@@ -1136,12 +1136,12 @@ extends kfe {
     private void meb(ClientPlayerEntity clientPlayerEntity) {
         if (this.mci != clientPlayerEntity) {
             this.mci = clientPlayerEntity;
-            this.mch.personalize(lxy.mef(clientPlayerEntity.method_7334().name()));
+            this.mch.personalize(lxy.mef(clientPlayerEntity.getGameProfile().name()));
         }
         if (!this.mcj) {
             boolean bl = pud.INSTANCE.engaged();
-            float f = bl ? vxr.getFloat(lzr, clientPlayerEntity, clientPlayerEntity.method_36454()) : clientPlayerEntity.method_36454();
-            float f2 = bl ? vxr.getFloat(lzs, clientPlayerEntity, clientPlayerEntity.method_36455()) : clientPlayerEntity.method_36455();
+            float f = bl ? vxr.getFloat(lzr, clientPlayerEntity, clientPlayerEntity.getYaw()) : clientPlayerEntity.getYaw();
+            float f2 = bl ? vxr.getFloat(lzs, clientPlayerEntity, clientPlayerEntity.getPitch()) : clientPlayerEntity.getPitch();
             this.mch.reset(f, f2);
         }
     }
@@ -1150,7 +1150,7 @@ extends kfe {
         float[] fArray = prt.calculateAngle(vec3d);
         this.mch.setMouseStep(prp.step());
         this.mch.aim(fArray[0], fArray[1], d);
-        pud.INSTANCE.set(this, this.mch.getYaw(), MathHelper.method_15363((float)this.mch.getPitch(), (float)-90.0f, (float)90.0f));
+        pud.INSTANCE.set(this, this.mch.getYaw(), MathHelper.clamp((float)this.mch.getPitch(), (float)-90.0f, (float)90.0f));
         this.mcj = true;
     }
 
@@ -1158,7 +1158,7 @@ extends kfe {
         if (this.mcj) {
             this.mcj = false;
             this.mck = System.currentTimeMillis();
-            pud.INSTANCE.release(this.mc.field_1724);
+            pud.INSTANCE.release(this.mc.player);
         }
     }
 
@@ -1178,28 +1178,28 @@ extends kfe {
 
     private Vec3d meg(BlockPos blockPos) {
         Vec3d[] vec3dArray;
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        ClientWorld clientWorld = this.mc.field_1687;
-        Vec3d vec3d = clientPlayerEntity.method_33571();
-        Vec3d vec3d2 = Vec3d.method_24953((Vec3i)blockPos);
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        ClientWorld clientWorld = this.mc.world;
+        Vec3d vec3d = clientPlayerEntity.getEyePos();
+        Vec3d vec3d2 = Vec3d.ofCenter((Vec3i)blockPos);
         BlockPos blockPos2 = lxy.mek((World)clientWorld, blockPos);
-        for (Vec3d vec3d3 : vec3dArray = new Vec3d[]{vec3d2.method_1031(this.mbs, this.mbt, this.mbu), vec3d2.method_1031(0.0, 0.3, 0.0), vec3d2.method_1031(0.0, -0.2, 0.0), vec3d2.method_1031(0.3, 0.0, 0.0), vec3d2.method_1031(-0.3, 0.0, 0.0), vec3d2.method_1031(0.0, 0.0, 0.3), vec3d2.method_1031(0.0, 0.0, -0.3)}) {
-            BlockHitResult blockHitResult = clientWorld.method_17742(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.field_17559, RaycastContext.FluidHandling.field_1348, (Entity)clientPlayerEntity));
-            if (blockHitResult.method_17783() != HitResult.Type.field_1332 || !blockHitResult.method_17777().equals((Object)blockPos) && !blockHitResult.method_17777().equals((Object)blockPos2)) continue;
+        for (Vec3d vec3d3 : vec3dArray = new Vec3d[]{vec3d2.add(this.mbs, this.mbt, this.mbu), vec3d2.add(0.0, 0.3, 0.0), vec3d2.add(0.0, -0.2, 0.0), vec3d2.add(0.3, 0.0, 0.0), vec3d2.add(-0.3, 0.0, 0.0), vec3d2.add(0.0, 0.0, 0.3), vec3d2.add(0.0, 0.0, -0.3)}) {
+            BlockHitResult blockHitResult = clientWorld.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, (Entity)clientPlayerEntity));
+            if (blockHitResult.getType() != HitResult.Type.BLOCK || !blockHitResult.getBlockPos().equals((Object)blockPos) && !blockHitResult.getBlockPos().equals((Object)blockPos2)) continue;
             return vec3d3;
         }
         return null;
     }
 
     private double meh(World world, BlockPos blockPos, Vec3d vec3d) {
-        VoxelShape voxelShape = world.method_8320(blockPos).method_26218((BlockView)world, blockPos);
-        Box box = voxelShape.method_1110() ? new Box(blockPos) : voxelShape.method_1107().method_996(blockPos);
-        double d = Math.min(Math.min(Math.min(vec3d.field_1352 - box.field_1323, box.field_1320 - vec3d.field_1352), Math.min(vec3d.field_1351 - box.field_1322, box.field_1325 - vec3d.field_1351)), Math.min(vec3d.field_1350 - box.field_1321, box.field_1324 - vec3d.field_1350));
+        VoxelShape voxelShape = world.getBlockState(blockPos).getOutlineShape((BlockView)world, blockPos);
+        Box box = voxelShape.isEmpty() ? new Box(blockPos) : voxelShape.getBoundingBox().offset(blockPos);
+        double d = Math.min(Math.min(Math.min(vec3d.x - box.minX, box.maxX - vec3d.x), Math.min(vec3d.y - box.minY, box.maxY - vec3d.y)), Math.min(vec3d.z - box.minZ, box.maxZ - vec3d.z));
         if (d <= 0.02) {
             return 0.25;
         }
-        double d2 = Math.max(0.5, this.mc.field_1724.method_33571().method_1022(vec3d));
-        return MathHelper.method_15350((double)(Math.toDegrees(Math.atan2(d, d2)) * 0.55), (double)0.25, (double)4.0);
+        double d2 = Math.max(0.5, this.mc.player.getEyePos().distanceTo(vec3d));
+        return MathHelper.clamp((double)(Math.toDegrees(Math.atan2(d, d2)) * 0.55), (double)0.25, (double)4.0);
     }
 
     private boolean mei(World world, BlockPos blockPos) {
@@ -1210,37 +1210,37 @@ extends kfe {
     }
 
     private static boolean mej(World world, BlockPos blockPos) {
-        BlockEntity blockEntity = world.method_8321(blockPos);
+        BlockEntity blockEntity = world.getBlockEntity(blockPos);
         return blockEntity instanceof ChestBlockEntity || blockEntity instanceof BarrelBlockEntity;
     }
 
     private static BlockPos mek(World world, BlockPos blockPos) {
-        BlockState blockState = world.method_8320(blockPos);
-        if (blockState.method_26204() instanceof ChestBlock && blockState.method_28498((Property)ChestBlock.field_10770) && blockState.method_11654((Property)ChestBlock.field_10770) != ChestType.field_12569) {
-            return blockPos.method_10093(ChestBlock.method_9758((BlockState)blockState));
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.getBlock() instanceof ChestBlock && blockState.contains((Property)ChestBlock.CHEST_TYPE) && blockState.get((Property)ChestBlock.CHEST_TYPE) != ChestType.SINGLE) {
+            return blockPos.offset(ChestBlock.getFacing((BlockState)blockState));
         }
         return null;
     }
 
     private static BlockPos mel(World world, BlockPos blockPos) {
         BlockPos blockPos2 = lxy.mek(world, blockPos);
-        return (blockPos2 != null && blockPos2.method_10063() < blockPos.method_10063() ? blockPos2 : blockPos).method_10062();
+        return (blockPos2 != null && blockPos2.asLong() < blockPos.asLong() ? blockPos2 : blockPos).toImmutable();
     }
 
     private static boolean mem(World world, BlockPos blockPos) {
-        if (!(world.method_8320(blockPos).method_26204() instanceof ChestBlock)) {
+        if (!(world.getBlockState(blockPos).getBlock() instanceof ChestBlock)) {
             return false;
         }
         BlockPos blockPos2 = lxy.mek(world, blockPos);
-        return ChestBlock.method_9756((WorldAccess)world, (BlockPos)blockPos) || blockPos2 != null && ChestBlock.method_9756((WorldAccess)world, (BlockPos)blockPos2);
+        return ChestBlock.isChestBlocked((WorldAccess)world, (BlockPos)blockPos) || blockPos2 != null && ChestBlock.isChestBlocked((WorldAccess)world, (BlockPos)blockPos2);
     }
 
     private static int men(PlayerInventory playerInventory) {
         int n = 0;
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack = playerInventory.method_5438(i);
-            if (itemStack.method_7960() || !oqv.wantsItem(itemStack.method_7909())) continue;
-            n += itemStack.method_7947();
+            ItemStack itemStack = playerInventory.getStack(i);
+            if (itemStack.isEmpty() || !oqv.wantsItem(itemStack.getItem())) continue;
+            n += itemStack.getCount();
         }
         return n;
     }
@@ -1253,11 +1253,11 @@ extends kfe {
 
     private static boolean mep(PlayerInventory playerInventory, ItemStack itemStack) {
         for (int i = 0; i < 36; ++i) {
-            ItemStack itemStack2 = playerInventory.method_5438(i);
-            if (itemStack2.method_7960()) {
+            ItemStack itemStack2 = playerInventory.getStack(i);
+            if (itemStack2.isEmpty()) {
                 return true;
             }
-            if (itemStack2.method_7947() >= itemStack2.method_7914() || !ItemStack.method_31577((ItemStack)itemStack2, (ItemStack)itemStack)) continue;
+            if (itemStack2.getCount() >= itemStack2.getMaxCount() || !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack2, (ItemStack)itemStack)) continue;
             return true;
         }
         return false;
@@ -1265,7 +1265,7 @@ extends kfe {
 
     private static boolean meq(PlayerInventory playerInventory) {
         for (int i = 0; i < 36; ++i) {
-            if (!playerInventory.method_5438(i).method_7960()) continue;
+            if (!playerInventory.getStack(i).isEmpty()) continue;
             return true;
         }
         return false;
@@ -1287,13 +1287,13 @@ extends kfe {
         Object object;
         int n3;
         int n4 = Math.max(0, list.size() - 36);
-        String string = lxy.mfg(this.mc.field_1724.method_7334().name());
+        String string = lxy.mfg(this.mc.player.getGameProfile().name());
         Map<String, Integer> map = lxy.mfc(itemStack);
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         for (n3 = 0; n3 < n4; ++n3) {
             object = list.get(n3);
-            if (object == null || object.method_7960() || !this.met((ItemStack)object, itemStack, map, n) || (n2 = lxy.mew(lxy.mff((ItemStack)object), string)) <= 0) continue;
-            arrayList.add(Math.max(1, n2 / Math.max(1, object.method_7947())));
+            if (object == null || object.isEmpty() || !this.met((ItemStack)object, itemStack, map, n) || (n2 = lxy.mew(lxy.mff((ItemStack)object), string)) <= 0) continue;
+            arrayList.add(Math.max(1, n2 / Math.max(1, object.getCount())));
         }
         if (arrayList.isEmpty()) {
             return -1;
@@ -1310,11 +1310,11 @@ extends kfe {
     }
 
     private boolean met(ItemStack itemStack, ItemStack itemStack2, Map<String, Integer> map, int n) {
-        if (itemStack.method_7909() != itemStack2.method_7909()) {
+        if (itemStack.getItem() != itemStack2.getItem()) {
             return false;
         }
-        String string = lxy.cleanQuery(itemStack.method_7964().getString());
-        String string2 = lxy.cleanQuery(itemStack2.method_7964().getString());
+        String string = lxy.cleanQuery(itemStack.getName().getString());
+        String string2 = lxy.cleanQuery(itemStack2.getName().getString());
         if (string.isEmpty() || string2.isEmpty()) {
             return false;
         }
@@ -1417,24 +1417,24 @@ extends kfe {
     }
 
     private static String mfa(ItemStack itemStack) {
-        return String.valueOf(itemStack.method_7909()) + '|' + lxy.mfg(itemStack.method_7964().getString()) + '|' + lxy.mfe(itemStack);
+        return String.valueOf(itemStack.getItem()) + '|' + lxy.mfg(itemStack.getName().getString()) + '|' + lxy.mfe(itemStack);
     }
 
     private static boolean mfb(ItemStack itemStack, ItemStack itemStack2) {
-        if (itemStack == null || itemStack2 == null || itemStack.method_7960() || itemStack2.method_7960()) {
+        if (itemStack == null || itemStack2 == null || itemStack.isEmpty() || itemStack2.isEmpty()) {
             return false;
         }
-        return itemStack.method_7909() == itemStack2.method_7909() && lxy.mfa(itemStack).equals(lxy.mfa(itemStack2));
+        return itemStack.getItem() == itemStack2.getItem() && lxy.mfa(itemStack).equals(lxy.mfa(itemStack2));
     }
 
     private static Map<String, Integer> mfc(ItemStack itemStack) {
         TreeMap<String, Integer> treeMap = new TreeMap<String, Integer>();
-        if (itemStack == null || itemStack.method_7960()) {
+        if (itemStack == null || itemStack.isEmpty()) {
             return treeMap;
         }
         try {
-            lxy.mfd((ItemEnchantmentsComponent)itemStack.method_58694(DataComponentTypes.field_49633), treeMap);
-            lxy.mfd((ItemEnchantmentsComponent)itemStack.method_58694(DataComponentTypes.field_49643), treeMap);
+            lxy.mfd((ItemEnchantmentsComponent)itemStack.get(DataComponentTypes.ENCHANTMENTS), treeMap);
+            lxy.mfd((ItemEnchantmentsComponent)itemStack.get(DataComponentTypes.STORED_ENCHANTMENTS), treeMap);
         }
         catch (Throwable throwable) {
             // empty catch block
@@ -1443,13 +1443,13 @@ extends kfe {
     }
 
     private static void mfd(ItemEnchantmentsComponent itemEnchantmentsComponent, Map<String, Integer> map) {
-        if (itemEnchantmentsComponent == null || itemEnchantmentsComponent.method_57543()) {
+        if (itemEnchantmentsComponent == null || itemEnchantmentsComponent.isEmpty()) {
             return;
         }
-        for (RegistryEntry registryEntry : itemEnchantmentsComponent.method_57534()) {
-            String string = registryEntry.method_40230().map(registryKey -> registryKey.method_29177().method_12832()).orElse("");
+        for (RegistryEntry registryEntry : itemEnchantmentsComponent.getEnchantments()) {
+            String string = registryEntry.getKey().map(registryKey -> registryKey.getValue().getPath()).orElse("");
             if (string.isEmpty()) continue;
-            map.put(string, itemEnchantmentsComponent.method_57536(registryEntry));
+            map.put(string, itemEnchantmentsComponent.getLevel(registryEntry));
         }
     }
 
@@ -1464,10 +1464,10 @@ extends kfe {
     private static List<String> mff(ItemStack itemStack) {
         ArrayList<String> arrayList = new ArrayList<String>();
         try {
-            arrayList.add(lxy.mfg(itemStack.method_7964().getString()));
-            LoreComponent loreComponent = (LoreComponent)itemStack.method_58694(DataComponentTypes.field_49632);
+            arrayList.add(lxy.mfg(itemStack.getName().getString()));
+            LoreComponent loreComponent = (LoreComponent)itemStack.get(DataComponentTypes.LORE);
             if (loreComponent != null) {
-                for (Text text : loreComponent.comp_2400()) {
+                for (Text text : loreComponent.lines()) {
                     if (text == null) continue;
                     arrayList.add(lxy.mfg(text.getString()));
                 }
@@ -1534,25 +1534,25 @@ extends kfe {
     }
 
     private int mfj() {
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         int n = -1;
         int n2 = 0;
         for (int i = 0; i < 36; ++i) {
             ItemStack itemStack;
-            if (!this.mcp(i) || !lxy.mfb(itemStack = playerInventory.method_5438(i), this.maq) || itemStack.method_7947() <= n2) continue;
-            n2 = itemStack.method_7947();
+            if (!this.mcp(i) || !lxy.mfb(itemStack = playerInventory.getStack(i), this.maq) || itemStack.getCount() <= n2) continue;
+            n2 = itemStack.getCount();
             n = i;
         }
         return n;
     }
 
     private int mfk() {
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         int n = 0;
         for (int i = 0; i < 36; ++i) {
             ItemStack itemStack;
-            if (!this.mcp(i) || !lxy.mfb(itemStack = playerInventory.method_5438(i), this.maq)) continue;
-            n += itemStack.method_7947();
+            if (!this.mcp(i) || !lxy.mfb(itemStack = playerInventory.getStack(i), this.maq)) continue;
+            n += itemStack.getCount();
         }
         return n;
     }
@@ -1561,14 +1561,14 @@ extends kfe {
         if (this.mba >= 0) {
             return this.mba;
         }
-        PlayerInventory playerInventory = this.mc.field_1724.method_31548();
+        PlayerInventory playerInventory = this.mc.player.getInventory();
         ArrayList<Integer> arrayList = new ArrayList<Integer>();
         for (int i = 0; i < 9; ++i) {
-            if (!playerInventory.method_5438(i).method_7960()) continue;
+            if (!playerInventory.getStack(i).isEmpty()) continue;
             arrayList.add(i);
         }
         if (arrayList.isEmpty()) {
-            return playerInventory.method_67532();
+            return playerInventory.getSelectedSlot();
         }
         return (Integer)arrayList.get(ThreadLocalRandom.current().nextInt(arrayList.size()));
     }
@@ -1578,7 +1578,7 @@ extends kfe {
     }
 
     private boolean mfn() {
-        Screen screen = this.mc.field_1755;
+        Screen screen = this.mc.currentScreen;
         if (screen == null) {
             return false;
         }
@@ -1587,15 +1587,15 @@ extends kfe {
             return true;
         }
         if (this.mft()) {
-            this.mc.field_1724.method_7346();
+            this.mc.player.closeHandledScreen();
             this.mac = Math.max(this.mac, System.currentTimeMillis() + lxy.mfx());
         }
         return true;
     }
 
     private boolean mfo() {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (clientPlayerEntity.field_7512 != clientPlayerEntity.field_7498) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (clientPlayerEntity.currentScreenHandler != clientPlayerEntity.playerScreenHandler) {
             return false;
         }
         return this.mfp();
@@ -1612,7 +1612,7 @@ extends kfe {
             this.mbe = true;
             return false;
         }
-        return vyn.serverIdle(this.mc.field_1724);
+        return vyn.serverIdle(this.mc.player);
     }
 
     private void mfq() {
@@ -1623,24 +1623,24 @@ extends kfe {
     }
 
     private void mfr(int n, SlotActionType slotActionType, int n2) {
-        ClientPlayerEntity clientPlayerEntity = this.mc.field_1724;
-        if (clientPlayerEntity == null || this.mc.field_1761 == null) {
+        ClientPlayerEntity clientPlayerEntity = this.mc.player;
+        if (clientPlayerEntity == null || this.mc.interactionManager == null) {
             return;
         }
-        ScreenHandler screenHandler = clientPlayerEntity.field_7512;
-        if (screenHandler == null || n < 0 || n >= screenHandler.field_7761.size()) {
+        ScreenHandler screenHandler = clientPlayerEntity.currentScreenHandler;
+        if (screenHandler == null || n < 0 || n >= screenHandler.slots.size()) {
             return;
         }
-        this.mc.field_1761.method_2906(screenHandler.field_7763, n, n2, slotActionType, (PlayerEntity)clientPlayerEntity);
+        this.mc.interactionManager.clickSlot(screenHandler.syncId, n, n2, slotActionType, (PlayerEntity)clientPlayerEntity);
         this.mab = System.currentTimeMillis() + this.mfu();
     }
 
     private void mfs(String string) {
         long l;
-        if (this.mc.method_1562() == null) {
+        if (this.mc.getNetworkHandler() == null) {
             return;
         }
-        this.mc.method_1562().method_45730(string);
+        this.mc.getNetworkHandler().sendChatCommand(string);
         this.mag = l = System.currentTimeMillis();
         this.mad = l;
         this.mae = -1L;
@@ -1771,7 +1771,7 @@ extends kfe {
         this.mbi = false;
         this.mbm = 0;
         this.mbn = "";
-        this.maq = ItemStack.field_8037;
+        this.maq = ItemStack.EMPTY;
         this.mar = "";
         this.mas = "";
         this.mav = -1;

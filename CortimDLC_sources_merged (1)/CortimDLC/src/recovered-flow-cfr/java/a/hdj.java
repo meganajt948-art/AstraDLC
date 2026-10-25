@@ -68,9 +68,9 @@ final class hdj {
         }
         if (n == 18) {
             kfx2.getByName(a.c(1960988967, "\u5179\u28f3\ua227\u3c4e\ub7a7\u3131\u8b7a\u0294\u9cd1\u167a\u91a2\u6bdd\ue503")).setEnabled(false);
-            minecraftClient.field_1687.method_2945(hdl.method_5628(), Entity.RemovalReason.field_26999);
-            minecraftClient.field_1724.method_31548().method_61496(0);
-            minecraftClient.field_1724.method_31548().method_5447(0, new ItemStack((ItemConvertible)Items.field_8802));
+            minecraftClient.world.removeEntity(hdl.getId(), Entity.RemovalReason.DISCARDED);
+            minecraftClient.player.getInventory().setSelectedSlot(0);
+            minecraftClient.player.getInventory().setStack(0, new ItemStack((ItemConvertible)Items.DIAMOND_SWORD));
             kfx2.getByName(a.c(1310351504, "\u60cc\u1959\u9394\u0de2\u863c\u00ab\ubad7\u3321\uad7a\u27c7\ua001\u5a6d\ud4bc\u4d0c\uc742")).setEnabled(true);
         }
         if (n == 22) {
@@ -83,7 +83,7 @@ final class hdj {
                 continue;
             }
             if (n == n3 + 2) {
-                minecraftClient.field_1724.method_6104(Hand.field_5808);
+                minecraftClient.player.swingHand(Hand.MAIN_HAND);
                 continue;
             }
             if (n != n3 + 5) continue;
@@ -91,7 +91,7 @@ final class hdj {
         }
         n2 = 26 + hdk.length * 14 + 30;
         if (n == n2 - 28) {
-            minecraftClient.field_1724.method_31548().method_5447(0, new ItemStack((ItemConvertible)Items.field_49814));
+            minecraftClient.player.getInventory().setStack(0, new ItemStack((ItemConvertible)Items.MACE));
         }
         if (n == n2 - 2) {
             hdj.hds(minecraftClient, a.c(1319480217, "\uabe5\ud250\u589d\uc6eb\u4d35\ucbce\u71dd\uf820\u667d\uecca\u6b51\u917f\u1fbf\u8618\u0c4c"));
@@ -114,20 +114,20 @@ final class hdj {
     }
 
     private static Entity hdo(MinecraftClient minecraftClient, String string, double d) {
-        OtherClientPlayerEntity otherClientPlayerEntity = new OtherClientPlayerEntity(minecraftClient.field_1687, new GameProfile(UUID.randomUUID(), string));
-        Vec3d vec3d = minecraftClient.field_1724.method_73189().method_1031(0.0, 0.0, d);
-        otherClientPlayerEntity.method_5808(vec3d.field_1352, minecraftClient.field_1724.method_23318(), vec3d.field_1350, 180.0f, 0.0f);
-        otherClientPlayerEntity.method_5636(180.0f);
-        otherClientPlayerEntity.method_5847(180.0f);
-        otherClientPlayerEntity.field_6220 = 180.0f;
-        otherClientPlayerEntity.field_6259 = 180.0f;
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6169, new ItemStack((ItemConvertible)Items.field_8805));
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6174, new ItemStack((ItemConvertible)Items.field_8058));
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6172, new ItemStack((ItemConvertible)Items.field_8348));
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6166, new ItemStack((ItemConvertible)Items.field_8285));
-        otherClientPlayerEntity.method_5673(EquipmentSlot.field_6173, new ItemStack((ItemConvertible)Items.field_22022));
-        otherClientPlayerEntity.method_5648(true);
-        minecraftClient.field_1687.method_53875((Entity)otherClientPlayerEntity);
+        OtherClientPlayerEntity otherClientPlayerEntity = new OtherClientPlayerEntity(minecraftClient.world, new GameProfile(UUID.randomUUID(), string));
+        Vec3d vec3d = minecraftClient.player.getEntityPos().add(0.0, 0.0, d);
+        otherClientPlayerEntity.refreshPositionAndAngles(vec3d.x, minecraftClient.player.getY(), vec3d.z, 180.0f, 0.0f);
+        otherClientPlayerEntity.setBodyYaw(180.0f);
+        otherClientPlayerEntity.setHeadYaw(180.0f);
+        otherClientPlayerEntity.lastBodyYaw = 180.0f;
+        otherClientPlayerEntity.lastHeadYaw = 180.0f;
+        otherClientPlayerEntity.equipStack(EquipmentSlot.HEAD, new ItemStack((ItemConvertible)Items.DIAMOND_HELMET));
+        otherClientPlayerEntity.equipStack(EquipmentSlot.CHEST, new ItemStack((ItemConvertible)Items.DIAMOND_CHESTPLATE));
+        otherClientPlayerEntity.equipStack(EquipmentSlot.LEGS, new ItemStack((ItemConvertible)Items.DIAMOND_LEGGINGS));
+        otherClientPlayerEntity.equipStack(EquipmentSlot.FEET, new ItemStack((ItemConvertible)Items.DIAMOND_BOOTS));
+        otherClientPlayerEntity.equipStack(EquipmentSlot.MAINHAND, new ItemStack((ItemConvertible)Items.NETHERITE_SWORD));
+        otherClientPlayerEntity.setInvisible(true);
+        minecraftClient.world.addEntity((Entity)otherClientPlayerEntity);
         return otherClientPlayerEntity;
     }
 
@@ -140,19 +140,19 @@ final class hdj {
     }
 
     private static void hdq(MinecraftClient minecraftClient, float f, float f2) {
-        minecraftClient.field_1724.method_36456(f);
-        minecraftClient.field_1724.method_36457(f2);
-        minecraftClient.field_1724.field_5982 = f;
-        minecraftClient.field_1724.field_6004 = f2;
+        minecraftClient.player.setYaw(f);
+        minecraftClient.player.setPitch(f2);
+        minecraftClient.player.lastYaw = f;
+        minecraftClient.player.lastPitch = f2;
     }
 
     private static void hdr(MinecraftClient minecraftClient, String string) {
-        minecraftClient.method_1562().method_45730(string);
+        minecraftClient.getNetworkHandler().sendChatCommand(string);
     }
 
     private static void hds(MinecraftClient minecraftClient, String string) {
         System.out.println(a.c(-136605166, "\u926b\uebcc\u6116\uff6d\u74fc\uf219\u485b\uc1bc\u5fe4\ud501") + string);
-        ScreenshotRecorder.method_22690((File)minecraftClient.field_1697, (String)(a.c(954352280, "\u42f8\u3b43\ub193\u2ffa\ua468\u22c6") + string + a.d("\u519a\u2875\ua2b8\u3cc0", -1991321152, -537884560)), (Framebuffer)minecraftClient.method_1522(), (int)1, text -> System.out.println("" + text.getString()));
+        ScreenshotRecorder.saveScreenshot((File)minecraftClient.runDirectory, (String)(a.c(954352280, "\u42f8\u3b43\ub193\u2ffa\ua468\u22c6") + string + a.d("\u519a\u2875\ua2b8\u3cc0", -1991321152, -537884560)), (Framebuffer)minecraftClient.getFramebuffer(), (int)1, text -> System.out.println("" + text.getString()));
     }
 
     private static /* synthetic */ int yx(int n, int n2) {

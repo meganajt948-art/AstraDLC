@@ -129,15 +129,15 @@ extends SplashOverlay {
         }
     }
 
-    public void method_74217() {
-        if (this.completedAt >= 0.0f || !this.reload.method_18787()) {
+    public void tick() {
+        if (this.completedAt >= 0.0f || !this.reload.isComplete()) {
             return;
         }
         if (this.reloading && this.anim < 0.6f) {
             return;
         }
         try {
-            this.reload.method_18849();
+            this.reload.throwException();
             this.handler.accept(Optional.empty());
         }
         catch (Throwable t) {
@@ -145,12 +145,12 @@ extends SplashOverlay {
         }
         this.completedAt = this.anim;
         this.returning = wap.chosen();
-        if (this.mc.field_1755 != null) {
-            this.mc.field_1755.method_25423(this.mc.method_22683().method_4486(), this.mc.method_22683().method_4502());
+        if (this.mc.currentScreen != null) {
+            this.mc.currentScreen.init(this.mc.getWindow().getScaledWidth(), this.mc.getWindow().getScaledHeight());
         }
     }
 
-    public void method_25394(DrawContext ctx, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         float alpha;
         float out;
         ClientLoad.frame();
@@ -159,12 +159,12 @@ extends SplashOverlay {
         this.lastNanos = now;
         this.anim += dt;
         float age = this.anim;
-        float target = this.completedAt >= 0.0f ? 1.0f : Math.max(this.progress, this.reload.method_18229());
+        float target = this.completedAt >= 0.0f ? 1.0f : Math.max(this.progress, this.reload.getProgress());
         this.progress += (target - this.progress) * (1.0f - (float)Math.exp(-dt * 6.0f));
         if (this.completedAt >= 0.0f && this.doneAt < 0.0f && age >= 0.35f) {
             this.doneAt = age;
         }
-        if (this.injected && !this.introFailed && this.introFrame(ctx, mouseX, mouseY, delta, dt, now)) {
+        if (this.injected && !this.introFailed && this.introFrame(context, mouseX, mouseY, deltaTicks, dt, now)) {
             return;
         }
         if (this.injected && !this.returning) {
@@ -189,17 +189,17 @@ extends SplashOverlay {
             float in = this.reloading ? vcq.inOutCubic(age / 0.35f) : 1.0f;
             alpha = in * (1.0f - vcq.inOutCubic(out));
         }
-        if (alpha < 0.999f && this.mc.field_1755 != null) {
+        if (alpha < 0.999f && this.mc.currentScreen != null) {
             try {
-                this.mc.field_1755.method_47413(ctx, mouseX, mouseY, delta);
+                this.mc.currentScreen.renderWithTooltip(context, mouseX, mouseY, deltaTicks);
             }
             catch (Throwable throwable) {}
-            this.mc.field_1705.method_72738();
+            this.mc.inGameHud.renderDeferredSubtitles();
         }
-        ctx.method_71048();
+        context.createNewRootLayer();
         if (!this.broken) {
             try {
-                this.scene(ctx, mouseX, mouseY, age, dt, alpha, out);
+                this.scene(context, mouseX, mouseY, age, dt, alpha, out);
             }
             catch (Throwable t) {
                 this.broken = true;
@@ -208,15 +208,15 @@ extends SplashOverlay {
             }
         }
         if (this.broken) {
-            this.plain(ctx, alpha);
+            this.plain(context, alpha);
         }
         if (out >= 1.0f && !this.finished) {
             this.finished = true;
             if (this.injected && !this.returning) {
-                Screen back = this.mc.field_1687 != null ? this.mc.field_1755 : null;
-                this.mc.method_1507((Screen)new kct(back));
+                Screen back = this.mc.world != null ? this.mc.currentScreen : null;
+                this.mc.setScreen((Screen)new kct(back));
             }
-            this.mc.method_18502(null);
+            this.mc.setOverlay(null);
         }
     }
 
@@ -229,9 +229,9 @@ extends SplashOverlay {
                     this.introFailed = true;
                     return false;
                 }
-                if (this.mc.field_1755 != null) {
+                if (this.mc.currentScreen != null) {
                     try {
-                        this.mc.field_1755.method_47413(ctx, mouseX, mouseY, delta);
+                        this.mc.currentScreen.renderWithTooltip(ctx, mouseX, mouseY, delta);
                     }
                     catch (Throwable throwable) {}
                 }
@@ -245,26 +245,26 @@ extends SplashOverlay {
             this.handOver();
         }
         float f = fade = this.fadeIn ? vcq.inOutCubic(vcq.clamp01((float)(now - this.bornNanos) / 1.0E9f / 0.3f)) : 1.0f;
-        if (fade * this.intro.layer() < 0.999f && this.mc.field_1755 != null) {
+        if (fade * this.intro.layer() < 0.999f && this.mc.currentScreen != null) {
             try {
-                this.mc.field_1755.method_47413(ctx, mouseX, mouseY, delta);
+                this.mc.currentScreen.renderWithTooltip(ctx, mouseX, mouseY, delta);
             }
             catch (Throwable throwable) {}
-            this.mc.field_1705.method_72738();
+            this.mc.inGameHud.renderDeferredSubtitles();
         }
-        ctx.method_71048();
+        ctx.createNewRootLayer();
         uut.beginFrame();
         unf.observe(ctx);
         FlowSplash.collect();
-        int width = ctx.method_51421();
-        int height = ctx.method_51443();
+        int width = ctx.getScaledWindowWidth();
+        int height = ctx.getScaledWindowHeight();
         if (!this.intro.render(ctx, width, height, fade)) {
             this.intro.close();
             this.intro = null;
             this.introFailed = true;
             if (this.handedOver && !this.finished) {
                 this.finished = true;
-                this.mc.method_18502(null);
+                this.mc.setOverlay(null);
                 return true;
             }
             return false;
@@ -276,7 +276,7 @@ extends SplashOverlay {
         if (this.intro.finished() && !this.finished) {
             this.finished = true;
             this.intro.close();
-            this.mc.method_18502(null);
+            this.mc.setOverlay(null);
         }
         return true;
     }
@@ -284,10 +284,10 @@ extends SplashOverlay {
     private void handOver() {
         this.returning = wap.chosen();
         if (!this.returning) {
-            Screen back = this.mc.field_1687 != null ? this.mc.field_1755 : null;
-            this.mc.method_1507((Screen)new kct(back));
-        } else if (this.mc.field_1755 instanceof TitleScreen && Splash.MENU) {
-            this.mc.method_1507((Screen)new jte());
+            Screen back = this.mc.world != null ? this.mc.currentScreen : null;
+            this.mc.setScreen((Screen)new kct(back));
+        } else if (this.mc.currentScreen instanceof TitleScreen && Splash.MENU) {
+            this.mc.setScreen((Screen)new jte());
         }
     }
 
@@ -300,8 +300,8 @@ extends SplashOverlay {
             return;
         }
         float s = kbp.scale(width, height);
-        float y = (float)((double)this.intro.captionY() / Math.max(1.0, (double)this.mc.method_22683().method_4495())) / s;
-        Matrix3x2fStack m = ctx.method_51448();
+        float y = (float)((double)this.intro.captionY() / Math.max(1.0, (double)this.mc.getWindow().getScaleFactor())) / s;
+        Matrix3x2fStack m = ctx.getMatrices();
         m.pushMatrix();
         m.scale(s, s);
         vdn.setRenderScaleStepped(s);
@@ -334,8 +334,8 @@ extends SplashOverlay {
         uut.beginFrame();
         unf.observe(ctx);
         FlowSplash.collect();
-        int width = ctx.method_51421();
-        int height = ctx.method_51443();
+        int width = ctx.getScaledWindowWidth();
+        int height = ctx.getScaledWindowHeight();
         if (width <= 0 || height <= 0 || alpha <= 0.002f) {
             return;
         }
@@ -347,13 +347,13 @@ extends SplashOverlay {
             this.parX += ((float)mouseX / (float)width - 0.5f - this.parX) * k;
             this.parY += ((float)mouseY / (float)height - 0.5f - this.parY) * k;
         }
-        float ppu2 = s * Math.max(1.0f, (float)this.mc.method_22683().method_4495());
+        float ppu2 = s * Math.max(1.0f, (float)this.mc.getWindow().getScaleFactor());
         GpuTextureView glow = unm.view();
         if (scene == null) {
             scene = new kap();
         }
         uut.pushAlpha(alpha);
-        Matrix3x2fStack m = ctx.method_51448();
+        Matrix3x2fStack m = ctx.getMatrices();
         try {
             this.background(ctx, width, height, age, out);
             m.pushMatrix();
@@ -434,7 +434,7 @@ extends SplashOverlay {
             uut.shadow(ctx, cx - 134.0f, cy - 32.0f, 268.0f, 72.0f, 32.0f, 54.0f, FlowSplash.rgba(season.light ? 0xFFFFFF : 132363, 0.34f * vcq.clamp01(t / 0.6f)));
             FlowSplash.welcome(ctx, cx, cy - 27.0f, t, accent, face);
             Wordmark wm = FlowSplash.wordmark(ppu2);
-            Matrix3x2fStack m = ctx.method_51448();
+            Matrix3x2fStack m = ctx.getMatrices();
             m.pushMatrix();
             m.translate(cx, cy);
             float sc = (1.0f + 0.05f * o) * (1.0f + 0.03f * (1.0f - settle));
@@ -519,7 +519,7 @@ extends SplashOverlay {
                     }
                 }
                 if (tint >>> 24 == 0) continue;
-                Matrix3x2fStack m = ctx.method_51448();
+                Matrix3x2fStack m = ctx.getMatrices();
                 m.pushMatrix();
                 float dy = -(1.0f - vcq.outBack(p)) * 36.0f * 0.6f;
                 m.translate(ox + g.cx(), base + g.cy() + dy);
@@ -690,13 +690,13 @@ extends SplashOverlay {
         if (a2 < 4) {
             return;
         }
-        int width = ctx.method_51421();
-        int height = ctx.method_51443();
-        ctx.method_25294(0, 0, width, height, a2 << 24 | 0xA1222);
-        ctx.method_25300(this.mc.field_1772, vvi.get(), width / 2, height / 2 - 10, a2 << 24 | 0xFFFFFF);
+        int width = ctx.getScaledWindowWidth();
+        int height = ctx.getScaledWindowHeight();
+        ctx.fill(0, 0, width, height, a2 << 24 | 0xA1222);
+        ctx.drawCenteredTextWithShadow(this.mc.textRenderer, vvi.get(), width / 2, height / 2 - 10, a2 << 24 | 0xFFFFFF);
         int bar = 120;
-        ctx.method_25294(width / 2 - bar / 2, height / 2 + 6, width / 2 + bar / 2, height / 2 + 8, a2 / 5 << 24 | 0xFFFFFF);
-        ctx.method_25294(width / 2 - bar / 2, height / 2 + 6, width / 2 - bar / 2 + Math.round((float)bar * vcq.clamp01(this.progress)), height / 2 + 8, a2 << 24 | 0x8FCBFF);
+        ctx.fill(width / 2 - bar / 2, height / 2 + 6, width / 2 + bar / 2, height / 2 + 8, a2 / 5 << 24 | 0xFFFFFF);
+        ctx.fill(width / 2 - bar / 2, height / 2 + 6, width / 2 - bar / 2 + Math.round((float)bar * vcq.clamp01(this.progress)), height / 2 + 8, a2 << 24 | 0x8FCBFF);
     }
 
     private static Wordmark wordmark(float ppu2) {

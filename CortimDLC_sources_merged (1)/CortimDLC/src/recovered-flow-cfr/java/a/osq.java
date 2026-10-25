@@ -88,7 +88,7 @@ extends kfe {
         block10: {
             block9: {
                 boolean bl;
-                boolean bl2 = minecraftClient.field_1755 instanceof HandledScreen && vxl.isStorage(minecraftClient.field_1755);
+                boolean bl2 = minecraftClient.currentScreen instanceof HandledScreen && vxl.isStorage(minecraftClient.currentScreen);
                 boolean bl3 = bl = bl2 && this.oss.isBound() && vzz.isDown(minecraftClient, this.oss.get());
                 if (bl && !this.osy && !this.osz && !oqv.busy()) {
                     this.ote(minecraftClient);
@@ -97,22 +97,22 @@ extends kfe {
                 if (!this.osz) {
                     return;
                 }
-                screen = minecraftClient.field_1755;
+                screen = minecraftClient.currentScreen;
                 if (!(screen instanceof HandledScreen)) break block9;
                 handledScreen = (HandledScreen)screen;
-                if (handledScreen.method_17577().field_7763 == this.ota) break block10;
+                if (handledScreen.getScreenHandler().syncId == this.ota) break block10;
             }
             this.osz = false;
             return;
         }
-        screen = handledScreen.method_17577();
-        List<Slot> list = vxl.own((ScreenHandler)screen, minecraftClient.field_1724.method_31548());
+        screen = handledScreen.getScreenHandler();
+        List<Slot> list = vxl.own((ScreenHandler)screen, minecraftClient.player.getInventory());
         for (int i = 0; i < this.osv.getInt() && this.osz; ++i) {
             if (this.otb > 600) {
                 this.otf(wap.s(a.d("\ud509\uac84\u264a\ub83d\u33f7\ub541\u0f1b\u86ad\u18a1\u9217\u15df\uefb1\u6166\uf8c2\u7290", -1688094631, 1760455948), a.d("\u5660\u2fce\ua563\u3b10\ub0bd\u3674\u8c59\u05a4\u9bf3\u1148\u928b\u6ce4\ue24c\u7bfe\uf1df\u7723\ucd6f\u42b2\ud808\u5e57\ud7a8\uadf4", -2093576034, 800047817)), false);
                 return;
             }
-            if (!screen.method_34255().method_7960()) {
+            if (!screen.getCursorStack().isEmpty()) {
                 Slot slot = osq.oth(list);
                 if (slot == null) {
                     this.otf(wap.s(a.b("\ub5a7\ucc33\u46e1\ud8c4\u5347\ud5ea\u6fb4\ue600\u7816\uf2ba\u7578\u8f01\u019b\u9865\u1237\u9488\u2e93\ua15e\u3be0\ubdf4\u3440\u4e07\uc0b3\u5b63\udd00\u57cc\uee2d\u6038\ufac4\u7c8d\uf727", -240863768), a.b("\u403b\u3998\ub34f\u2d4b\ua6e4\u202f\u9a0b\u17ef\u8daf\u0761\u80c7\u7ab7\uf468\u6dd0\ue7f4\u6567\udb49\u50f9\uce50\u4878\uc18c\ubbdc\u3510\uaebf\u28b0", -1293335551)), false);
@@ -127,15 +127,15 @@ extends kfe {
     }
 
     private void ote(MinecraftClient minecraftClient) {
-        HandledScreen handledScreen = (HandledScreen)minecraftClient.field_1755;
-        if (!handledScreen.method_17577().method_34255().method_7960()) {
+        HandledScreen handledScreen = (HandledScreen)minecraftClient.currentScreen;
+        if (!handledScreen.getScreenHandler().getCursorStack().isEmpty()) {
             if (this.osw.get()) {
                 izx.alert(this.getName(), wap.s(a.d("\ucc29\ub5bd\u3f6f\ua14a\u2ac9\uac64\u163a\u9f8e\u0198\u8b34\u0cf6\uf68f\u7815\ue1eb\u6bb9\ued06\u571d\ud8d0\u426e\uc47a\u4dce\u3789\ub93d\u22ed\ua48e\u2e42\u97a3\u19b6\u834a\u0503\u8ea9\u7036\ufa3f\u63c1\ue589\u6f39\ud0e9", 2049591230, -731345950), a.d("\ucb33\ub29e\u3840\ua646\u2de6\uab5c\u1104\u9ce5\u06d9\u8c1a\u0bcd\uf1c9\u7f66\ue6ad\u6c89\uee6d\u503d\udf93\u4555\uc305\u4afa\u30a2\ube66\u21d5\ua3cb\u2d7b\u90d2\u1efa\u840e\u025e\u8992\u773d\ufd02", -619097225, -385115068)), vhz.INFO, false);
             }
             return;
         }
         this.osz = true;
-        this.ota = handledScreen.method_17577().field_7763;
+        this.ota = handledScreen.getScreenHandler().syncId;
         this.otb = 0;
     }
 
@@ -147,13 +147,13 @@ extends kfe {
     }
 
     private void otg(MinecraftClient minecraftClient, ScreenHandler screenHandler, Slot slot) {
-        vxl.click(minecraftClient, screenHandler, slot.field_7874, 0, SlotActionType.field_7790);
+        vxl.click(minecraftClient, screenHandler, slot.id, 0, SlotActionType.PICKUP);
         ++this.otb;
     }
 
     private static Slot oth(List<Slot> list) {
         for (Slot slot : list) {
-            if (slot.method_7681()) continue;
+            if (slot.hasStack()) continue;
             return slot;
         }
         return null;
@@ -161,14 +161,14 @@ extends kfe {
 
     private boolean oti(MinecraftClient minecraftClient, ScreenHandler screenHandler, List<Slot> list) {
         for (int i = 0; i < list.size(); ++i) {
-            ItemStack itemStack = list.get(i).method_7677();
-            if (itemStack.method_7960() || itemStack.method_7947() >= itemStack.method_7914()) continue;
+            ItemStack itemStack = list.get(i).getStack();
+            if (itemStack.isEmpty() || itemStack.getCount() >= itemStack.getMaxCount()) continue;
             for (int j = list.size() - 1; j > i; --j) {
-                ItemStack itemStack2 = list.get(j).method_7677();
-                if (itemStack2.method_7960() || itemStack2.method_7947() >= itemStack2.method_7914() || !ItemStack.method_31577((ItemStack)itemStack, (ItemStack)itemStack2)) continue;
+                ItemStack itemStack2 = list.get(j).getStack();
+                if (itemStack2.isEmpty() || itemStack2.getCount() >= itemStack2.getMaxCount() || !ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack, (ItemStack)itemStack2)) continue;
                 this.otg(minecraftClient, screenHandler, list.get(j));
                 this.otg(minecraftClient, screenHandler, list.get(i));
-                if (!screenHandler.method_34255().method_7960()) {
+                if (!screenHandler.getCursorStack().isEmpty()) {
                     this.otg(minecraftClient, screenHandler, list.get(j));
                 }
                 return true;
@@ -180,23 +180,23 @@ extends kfe {
     private boolean otj(MinecraftClient minecraftClient, ScreenHandler screenHandler, List<Slot> list) {
         ArrayList<ItemStack> arrayList = new ArrayList<ItemStack>();
         for (Slot slot : list) {
-            if (!slot.method_7681()) continue;
-            arrayList.add(slot.method_7677());
+            if (!slot.hasStack()) continue;
+            arrayList.add(slot.getStack());
         }
         arrayList.sort(this.otl());
         for (int i = 0; i < list.size(); ++i) {
             Slot slot;
-            slot = i < arrayList.size() ? (ItemStack)arrayList.get(i) : ItemStack.field_8037;
-            ItemStack itemStack = list.get(i).method_7677();
+            slot = i < arrayList.size() ? (ItemStack)arrayList.get(i) : ItemStack.EMPTY;
+            ItemStack itemStack = list.get(i).getStack();
             if (osq.otk(itemStack, (ItemStack)slot)) continue;
-            if (slot.method_7960()) {
+            if (slot.isEmpty()) {
                 return false;
             }
             for (int j = i + 1; j < list.size(); ++j) {
-                if (!osq.otk(list.get(j).method_7677(), (ItemStack)slot)) continue;
+                if (!osq.otk(list.get(j).getStack(), (ItemStack)slot)) continue;
                 this.otg(minecraftClient, screenHandler, list.get(j));
                 this.otg(minecraftClient, screenHandler, list.get(i));
-                if (!screenHandler.method_34255().method_7960()) {
+                if (!screenHandler.getCursorStack().isEmpty()) {
                     this.otg(minecraftClient, screenHandler, list.get(j));
                 }
                 return true;
@@ -207,10 +207,10 @@ extends kfe {
     }
 
     private static boolean otk(ItemStack itemStack, ItemStack itemStack2) {
-        if (itemStack.method_7960() || itemStack2.method_7960()) {
-            return itemStack.method_7960() == itemStack2.method_7960();
+        if (itemStack.isEmpty() || itemStack2.isEmpty()) {
+            return itemStack.isEmpty() == itemStack2.isEmpty();
         }
-        return itemStack.method_7947() == itemStack2.method_7947() && ItemStack.method_31577((ItemStack)itemStack, (ItemStack)itemStack2);
+        return itemStack.getCount() == itemStack2.getCount() && ItemStack.areItemsAndComponentsEqual((ItemStack)itemStack, (ItemStack)itemStack2);
     }
 
     /*
@@ -246,22 +246,22 @@ extends kfe {
     }
 
     private static int otm(ItemStack itemStack) {
-        Item item = itemStack.method_7909();
-        String string = Registries.field_41178.method_10221((Object)item).method_12832();
-        if (string.endsWith(a.b("\u2071\u59ec\ud33b\u4d52\uc698\u403f", 1796415528)) || string.endsWith(a.c(1408812133, "\uc43e\ubdb1\u377b\ua917")) || item == Items.field_49814 || item == Items.field_8547 || item == Items.field_8102 || item == Items.field_8399 || string.endsWith(a.b("\u516a\u28f7\ua227\u3c43\ub790\u3132", -700109))) {
+        Item item = itemStack.getItem();
+        String string = Registries.ITEM.getId((Object)item).getPath();
+        if (string.endsWith(a.b("\u2071\u59ec\ud33b\u4d52\uc698\u403f", 1796415528)) || string.endsWith(a.c(1408812133, "\uc43e\ubdb1\u377b\ua917")) || item == Items.MACE || item == Items.TRIDENT || item == Items.BOW || item == Items.CROSSBOW || string.endsWith(a.b("\u516a\u28f7\ua227\u3c43\ub790\u3132", -700109))) {
             return 0;
         }
-        if (string.endsWith(a.b("\u2eda\u5744\udd8e\u43f5\uc82a\u4e91\uf4db\u7d37", 1058877069)) || string.endsWith(a.c(1211581585, "\u44c9\u3d54\ub79c\u29ea\ua224\u2486\u9edc")) || string.endsWith(a.d("\ue3a0\u9a26\u10f2\u8e89", 1359669934, 59050325)) || item == Items.field_8868 || item == Items.field_8378 || item == Items.field_8884 || item == Items.field_42716) {
+        if (string.endsWith(a.b("\u2eda\u5744\udd8e\u43f5\uc82a\u4e91\uf4db\u7d37", 1058877069)) || string.endsWith(a.c(1211581585, "\u44c9\u3d54\ub79c\u29ea\ua224\u2486\u9edc")) || string.endsWith(a.d("\ue3a0\u9a26\u10f2\u8e89", 1359669934, 59050325)) || item == Items.SHEARS || item == Items.FISHING_ROD || item == Items.FLINT_AND_STEEL || item == Items.BRUSH) {
             return 1;
         }
-        EquippableComponent equippableComponent = (EquippableComponent)itemStack.method_58694(DataComponentTypes.field_54196);
-        if (equippableComponent != null && equippableComponent.comp_3174() != EquipmentSlot.field_6173 && equippableComponent.comp_3174() != EquipmentSlot.field_6171 || item == Items.field_8255 || item == Items.field_8288) {
+        EquippableComponent equippableComponent = (EquippableComponent)itemStack.get(DataComponentTypes.EQUIPPABLE);
+        if (equippableComponent != null && equippableComponent.slot() != EquipmentSlot.MAINHAND && equippableComponent.slot() != EquipmentSlot.OFFHAND || item == Items.SHIELD || item == Items.TOTEM_OF_UNDYING) {
             return 2;
         }
-        if (itemStack.method_57826(DataComponentTypes.field_50075)) {
+        if (itemStack.contains(DataComponentTypes.FOOD)) {
             return 3;
         }
-        if (itemStack.method_57826(DataComponentTypes.field_49651)) {
+        if (itemStack.contains(DataComponentTypes.POTION_CONTENTS)) {
             return 4;
         }
         if (item instanceof BlockItem) {
@@ -271,11 +271,11 @@ extends kfe {
     }
 
     private static /* synthetic */ int lambda$comparator$1(ItemStack itemStack) {
-        return Registries.field_41178.method_10206((Object)itemStack.method_7909());
+        return Registries.ITEM.getRawId((Object)itemStack.getItem());
     }
 
     private static /* synthetic */ String lambda$comparator$0(ItemStack itemStack) {
-        return itemStack.method_7964().getString().toLowerCase(Locale.ROOT);
+        return itemStack.getName().getString().toLowerCase(Locale.ROOT);
     }
 
     private static /* synthetic */ int bes(int n, int n2) {
