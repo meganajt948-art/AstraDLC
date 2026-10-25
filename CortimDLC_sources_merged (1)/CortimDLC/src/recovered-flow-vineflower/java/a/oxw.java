@@ -437,7 +437,7 @@ public class oxw extends kfe {
 
                      @Override
                      public List<ivx> slots() {
-                        ArrayList var1x = new ArrayList(var4.size());
+                        ArrayList<ivx> var1x = new ArrayList<>(var4.size());
                         ClientPlayerEntity var2x = var1.player;
 
                         for (oxf var4x : var4) {
