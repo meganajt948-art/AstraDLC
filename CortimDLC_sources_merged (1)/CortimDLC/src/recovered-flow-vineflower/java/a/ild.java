@@ -56,8 +56,8 @@ final class ild extends imn {
 
    @Override
    void render(DrawContext var1, hlc var2, float var3, float var4, float var5) {
-      List var6 = ilq();
-      List var7 = ilr();
+      List<ubg> var6 = ilq();
+      List<ubm> var7 = ilr();
       if (var6.isEmpty() && var7.isEmpty()) {
          this.ilk.clear();
          float var13 = this.x + this.w * 0.5F;
