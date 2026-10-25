@@ -548,7 +548,7 @@ public final class dtv implements efz {
             }
          }
       } else {
-         for (Packet var4 : var2.getPackets()) {
+         for (Packet<?> var4 : var2.getPackets()) {
             this.beforePacket(var4);
          }
       }
