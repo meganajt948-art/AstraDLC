@@ -1579,7 +1579,7 @@ def patchClickGuiHeaderLayout = { byte[] bytes ->
                     // The input's width and its empty-field hint offset must expand together.
                     if (value instanceof Float &&
                         Math.abs(((Float)value).floatValue() - 136.0f) < 0.001f) {
-                        value = 518.0f
+                        value = 450.0f
                         changed.widths = changed.widths + 1
                     }
                     super.visitLdcInsn(value)
@@ -3156,7 +3156,7 @@ sourceSets {
     }
 }
 
-// Build trigger: October 25 ClickGUI search width and bottom-left utility controls refresh.
+// Build trigger: October 25 reduce ClickGUI search width; keep bottom-left controls.
 
 // Build trigger: periodic walking jumps for AutoWarden and AutoEnd (24 October 2026).
 
