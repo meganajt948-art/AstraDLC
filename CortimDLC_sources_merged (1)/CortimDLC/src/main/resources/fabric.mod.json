@@ -2,16 +2,17 @@
   "schemaVersion": 1,
   "id": "albadlc",
   "version": "${version}",
-  "name": "AlbaDLC",
-  "description": "AlbaDLC Minecraft client",
+  "name": "AstraDLC",
+  "description": "AstraDLC Minecraft client",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "flow.Flow"
+    ]
+  },
   "depends": {
     "fabricloader": ">=${loader_version}",
     "minecraft": "${minecraft_version}",
     "java": ">=21"
-  },
-  "jars": [
-    {
-      "file": "META-INF/jars/flow.jar"
-    }
-  ]
+  }
 }
