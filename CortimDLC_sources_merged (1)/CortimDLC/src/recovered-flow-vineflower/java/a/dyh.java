@@ -165,7 +165,7 @@ public final class dyh {
    }
 
    void eae() {
-      List var1 = this.dyz;
+      List<Future<?>> var1 = this.dyz;
       if (var1 == null) {
          dyr.remove(this);
       } else {
