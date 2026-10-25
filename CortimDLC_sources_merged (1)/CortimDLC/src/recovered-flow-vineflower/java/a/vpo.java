@@ -63,7 +63,7 @@ public final class vpo {
    }
 
    public static synchronized boolean scan() {
-      ArrayList var0 = new ArrayList();
+      ArrayList<Path> var0 = new ArrayList<>();
       StringBuilder var1 = new StringBuilder();
       var0.sort((var0x, var1x) -> {
          int var2 = vqf(var0x).compareToIgnoreCase(vqf(var1x));
@@ -83,8 +83,8 @@ public final class vpo {
          return false;
       }
 
-      HashMap var16 = new HashMap();
-      ArrayList var4 = new ArrayList();
+      HashMap<String, vow> var16 = new HashMap<>();
+      ArrayList<String> var4 = new ArrayList<>();
 
       for (Path var6 : var0) {
          String var7 = vqf(var6);
