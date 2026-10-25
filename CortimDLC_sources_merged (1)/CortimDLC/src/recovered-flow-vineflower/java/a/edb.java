@@ -112,7 +112,7 @@ final class edb extends ClientConnection {
       return this.edd.size();
    }
 
-   static <T extends PacketListener> void edi(Packet<T> var0, PacketListener var1) {
+   static <T extends PacketListener> void edi(Packet<T> var0, T var1) {
       var0.apply(var1);
    }
 }
