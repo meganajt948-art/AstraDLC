@@ -261,7 +261,8 @@ public final class Cosmetics {
          installed = true;
          LivingEntityFeatureRendererRegistrationCallback.EVENT.register((LivingEntityFeatureRendererRegistrationCallback)(type, renderer, helper, context) -> {
             if (renderer instanceof PlayerEntityRenderer) {
-               FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> ctx = renderer;
+               @SuppressWarnings("unchecked")
+               FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> ctx = (FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel>)(FeatureRendererContext<?, ?>) renderer;
                CosmeticFeature lead = new CosmeticFeature(ctx, true);
                helper.register(lead);
                helper.register(new CosmeticFeature(ctx, false));
