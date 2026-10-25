@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -131,7 +132,7 @@ public final class erp {
       String var15 = null;
       double var17 = Double.NEGATIVE_INFINITY;
 
-      for (Map.Entry<String, double[]> var19 : var13.entrySet()) {
+      for (Entry<String, double[]> var19 : var13.entrySet()) {
          if (((double[])var19.getValue())[0] > var17) {
             var17 = ((double[])var19.getValue())[0];
             var15 = (String)var19.getKey();
