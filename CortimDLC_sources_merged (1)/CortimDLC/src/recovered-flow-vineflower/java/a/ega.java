@@ -20,7 +20,7 @@ final class ega {
                -561130067
             )
          );
-         ArrayList var1 = new ArrayList();
+         ArrayList<Field> var1 = new ArrayList<>();
 
          for (Field var5 : var0.getDeclaredFields()) {
             if (Modifier.isStatic(var5.getModifiers())
