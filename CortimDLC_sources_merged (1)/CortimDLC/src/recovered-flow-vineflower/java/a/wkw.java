@@ -97,11 +97,16 @@ public final class wkw {
    static void wlg(DrawContext var0, wkq var1, float var2, float var3, double var4, int var6, float var7) {
       String var8 = wlk.COORDS.get();
 
-      float var9 = switch (var8) {
-         case a.b("옿뾣㕫ꬌ\u20c3ꙸ", 171820664) -> 1.0F;
-         case a.d("ശ璦︻怋\uebd4浡", 1201546216, 195964567) -> vcq.outCubic(var7);
-         default -> 0.0F;
-      };
+      float var9;
+      if (var8.equals(a.b("옿뾣㕫ꬌ\u20c3ꙸ", 171820664))) {
+         var9 = 1.0F;
+      }
+      else if (var8.equals(a.d("ശ璦︻怋\uebd4浡", 1201546216, 195964567))) {
+         var9 = vcq.outCubic(var7);
+      }
+      else {
+         var9 = 0.0F;
+      }
       String var29 = var1.name;
       String var30 = wlk.DISTANCE.get() ? formatDistance(var4) : null;
       float var12 = wkx.width(var29);

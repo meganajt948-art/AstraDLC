@@ -188,12 +188,18 @@ public final class wlk {
       int var1 = var0.indexOf(58);
       String var2 = (var1 >= 0 ? var0.substring(var1 + 1) : var0).replace(a.c(-1869341246, "ᶲ搟\ueec1炊"), "").replace('_', ' ');
 
-      return switch (var2) {
-         case a.b("\uf65c迴Դ魒ႀ阩Ⱨꖈ㯟", -300157382) -> wap.s(var2, a.d("\uf711躧Ё驵ᇚ靮ⴼꃔ㪗뀢㞉", -226611629, 1407966587));
-         case a.d("瓟\u0d65螧\u19ca鈐ᒶ", 1410480448, -1545843209) -> wap.s(var2, a.d("롶쇏䬞항廏", 868819401, 1687657863));
-         case a.c(-2117466748, "ע籘\uf681") -> wap.s(var2, a.d("\udc84ꕅ⾟", -1848796671, 893862603));
-         default -> var2;
-      };
+      if (var2.equals(a.b("\uf65c迴Դ魒ႀ阩Ⱨꖈ㯟", -300157382))) {
+         return wap.s(var2, a.d("\uf711躧Ё驵ᇚ靮ⴼꃔ㪗뀢㞉", -226611629, 1407966587));
+      }
+      else if (var2.equals(a.d("瓟\u0d65螧\u19ca鈐ᒶ", 1410480448, -1545843209))) {
+         return wap.s(var2, a.d("롶쇏䬞항廏", 868819401, 1687657863));
+      }
+      else if (var2.equals(a.c(-2117466748, "ע籘\uf681"))) {
+         return wap.s(var2, a.d("\udc84ꕅ⾟", -1848796671, 893862603));
+      }
+      else {
+         return var2;
+      }
    }
 
    static void wlu() {
