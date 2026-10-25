@@ -38,4 +38,4 @@ jobs:
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle compileRecoveredJava --no-daemon --stacktrace
 
-# Compile check after safe parser-based normalization of dynamic switch labels.
+# Compile the latest source tree after top-level switch-label splitting.
