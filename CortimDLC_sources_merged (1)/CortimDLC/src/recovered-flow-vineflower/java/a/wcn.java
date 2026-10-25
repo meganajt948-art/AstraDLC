@@ -80,7 +80,7 @@ public final class wcn {
             wcw(var3);
          }
       } else {
-         for (Consumer var2 : wcq) {
+         for (Consumer<Packet<?>> var2 : wcq) {
             try {
                var2.accept(var0);
             } catch (Throwable var4) {
@@ -92,7 +92,7 @@ public final class wcn {
    static Packet<?> wcx(Packet<?> var0) {
       for (UnaryOperator<Packet<?>> var2 : wcr) {
          try {
-            Packet var3 = var2.apply(var0);
+            Packet<?> var3 = var2.apply(var0);
             if (var3 != null) {
                var0 = var3;
             }
