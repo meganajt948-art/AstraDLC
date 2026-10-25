@@ -71,7 +71,7 @@ final class vfk {
    static vfk build(String var0, Font var1, float var2, float var3, String var4, boolean var5) {
       Font var6 = var1.deriveFont(var2 * var3);
       FontRenderContext var7 = new FontRenderContext(null, true, true);
-      ArrayList var8 = new ArrayList();
+      ArrayList<vfh> var8 = new ArrayList<>();
       BitSet var9 = new BitSet();
       int var10 = 0;
 
