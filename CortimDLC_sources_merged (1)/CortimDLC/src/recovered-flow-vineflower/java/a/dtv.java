@@ -1525,7 +1525,7 @@ public final class dtv implements efz {
       });
    }
 
-   void syncOptionsLive() {
+   public void syncOptionsLive() {
       this.post(() -> {
          if (this.handler != null) {
             this.handler.syncOptions(this.syncedOptions());
