@@ -275,7 +275,7 @@ public class nfl extends kfe {
 
    public static List<ney> hudRows() {
       nfl var0 = ngu;
-      ArrayList var1 = new ArrayList();
+      ArrayList<ney> var1 = new ArrayList<>();
       if (var0 != null && var0.isEnabled()) {
          long var2 = System.currentTimeMillis();
 
