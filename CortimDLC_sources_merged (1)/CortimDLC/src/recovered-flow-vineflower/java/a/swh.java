@@ -177,7 +177,7 @@ public final class swh {
             }
 
             ArrayList var26 = new ArrayList();
-            ArrayList var28 = new ArrayList();
+            ArrayList<Integer> var28 = new ArrayList<>();
 
             for (Entry var11 : sxm.entrySet()) {
                svy var12 = (svy)var11.getValue();
