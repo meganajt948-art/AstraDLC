@@ -309,7 +309,7 @@ jobs:
                           if section["kind"] == "default":
                               output.append(indent + "else {")
                           else:
-                              labels = [label.strip() for label in split_case_labels(section["label"])]
+                              labels = [label.strip() for label in [section["label"]]]
                               condition = " || ".join("java.util.Objects.equals(" + selector + ", " + label + ")" for label in labels)
                               output.append(indent + ("if" if index == 0 else "else if") + " (" + condition + ") {")
                           if case_body:
