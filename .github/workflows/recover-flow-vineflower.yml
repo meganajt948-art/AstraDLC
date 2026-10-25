@@ -35,7 +35,6 @@ jobs:
           test -s tiny-remapper.jar
           test -s yarn-v2.tiny
           head -n 1 yarn-v2.tiny
-          grep -q 
       - name: Download CFR
         run: |
           curl -fL --retry 3 "https://www.benf.org/other/cfr/cfr-0.152.jar" -o cfr.jar
@@ -49,6 +48,9 @@ jobs:
             echo "Intermediary Minecraft imports remain after remapping; refusing to stage this source set."
             exit 1
           fi
+          echo "Direct intermediary member references remaining (expected 0):"
+          grep -R -n -m 1 -E '\.method_[0-9]+\(|\.field_[0-9]+' recovered-flow-cfr --include='*.java' | head -n 20 || true
+          echo "Count: $(grep -R -h -E '\.method_[0-9]+\(|\.field_[0-9]+' recovered-flow-cfr --include='*.java' | wc -l)"
       - name: Stage recovered Java sources in project
         shell: bash
         run: |
