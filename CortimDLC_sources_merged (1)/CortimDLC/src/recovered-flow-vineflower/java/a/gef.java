@@ -728,8 +728,8 @@ final class gef {
                      if (gef.geh && var2x instanceof PlayerActionC2SPacket var13) {
                         var0.execute(
                            () -> {
-                              ServerPlayerEntity var2x = var0.getPlayerManager().getPlayer(gef.gfn);
-                              BlockState var3x = var2x.getEntityWorld().getBlockState(var13.getPos());
+                              ServerPlayerEntity serverPlayer = var0.getPlayerManager().getPlayer(gef.gfn);
+                              BlockState var3x = serverPlayer.getEntityWorld().getBlockState(var13.getPos());
                               System.out
                                  .println(
                                     String.format(
@@ -738,10 +738,10 @@ final class gef {
                                        var13.getAction(),
                                        var13.getPos().toShortString(),
                                        gef.gfe,
-                                       var3x.calcBlockBreakingDelta(var2x, var2x.getEntityWorld(), var13.getPos()),
-                                       var2x.isOnGround(),
-                                       var2x.getMainHandStack().getItem(),
-                                       Math.sqrt(new Box(var13.getPos()).squaredMagnitude(var2x.getEyePos())),
+                                       var3x.calcBlockBreakingDelta(serverPlayer, serverPlayer.getEntityWorld(), var13.getPos()),
+                                       serverPlayer.isOnGround(),
+                                       serverPlayer.getMainHandStack().getItem(),
+                                       Math.sqrt(new Box(var13.getPos()).squaredMagnitude(serverPlayer.getEyePos())),
                                        var3x.getBlock()
                                     )
                                  );
