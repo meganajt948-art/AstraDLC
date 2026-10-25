@@ -293,7 +293,7 @@ public final class tiq {
             String var4 = a.b("嶒⑾", -375366174) + this.id() + a.d("菱", -1101908915, 1980681531);
             this.tji = eyn.list(var4).thenCompose(var2x -> {
                this.tjf = var2x.size();
-               ArrayList var3 = new ArrayList();
+               ArrayList<CompletableFuture<Void>> var3 = new ArrayList<>();
 
                for (eyg var5 : var2x) {
                   String var6x = var5.key().substring(var4.length());
