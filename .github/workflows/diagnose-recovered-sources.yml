@@ -37,3 +37,5 @@ jobs:
       - name: Compile the recovered source tree
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle compileRecoveredJava --no-daemon --stacktrace
+
+# Recheck the latest regenerated source tree after generalizing string-switch normalization.
