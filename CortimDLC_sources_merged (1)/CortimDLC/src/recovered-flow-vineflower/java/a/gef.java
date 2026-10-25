@@ -781,7 +781,7 @@ final class gef {
    static void ggs(ServerWorld var0, ServerPlayerEntity var1, gec var2, BlockPos var3) {
       if (!gei.equals(a.c(1392639718, "ﺌ蜼෮鎔"))) {
          float var4 = var1.getPitch();
-         ArrayList var5 = new ArrayList();
+         ArrayList<BlockPos> var5 = new ArrayList<>();
          float var6 = MathHelper.wrapDegrees(var1.getYaw());
          boolean var7 = Math.abs(var6) < 45.0F || Math.abs(var6) > 135.0F;
          Axis var8 = Math.abs(var4) > 50.0F ? Axis.Y : (var7 ? Axis.Z : Axis.X);
