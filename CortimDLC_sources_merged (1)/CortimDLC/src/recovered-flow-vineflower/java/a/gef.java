@@ -335,7 +335,7 @@ final class gef {
                ggf * 60.0 / Math.max(1.0, ggg)
             )
          );
-      ArrayList var25 = new ArrayList<>(gfu);
+      ArrayList<Double> var25 = new ArrayList<>(gfu);
       var25.sort(Double::compare);
       double var27 = var25.isEmpty() ? 0.0 : (Double)var25.get(var25.size() - 1);
       double var7 = var25.isEmpty() ? 0.0 : (Double)var25.get((int)(var25.size() * 0.95));
@@ -345,7 +345,7 @@ final class gef {
                Locale.ROOT, a.d("퉇꯲Ω뽜㓎눫ࡹ膏ῌ镠ዠ\ue899昅ﾻ痭\uf310䥔욟屸\uda7d厗⧌ꝷ㲾몛す觰߱鵏ᬒ邴湠\ue424緊\ufbce焹캣䓞숔寽톧꽝┑ꋷ㡦뙓ཱྀ蔲̵颿ᛑ\uec0a斵", 839865520, -652245329), var7, var27
             )
          );
-      ArrayList var9;
+      ArrayList<Double> var9;
       synchronized (gfv) {
          var9 = new ArrayList<>(gfv);
       }
