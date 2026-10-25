@@ -37,7 +37,7 @@ public final class izj extends jeq<izb> {
 
    @Override
    List<izb> items(boolean var1) {
-      ArrayList var2 = new ArrayList();
+      ArrayList<izb> var2 = new ArrayList<>();
       MinecraftClient var3 = MinecraftClient.getInstance();
       ClientPlayerEntity var4 = var3.player;
       if (var4 != null) {
@@ -56,7 +56,7 @@ public final class izj extends jeq<izb> {
          var2.add(izu(Items.WIND_CHARGE, 0.3F, 0.6F));
       }
 
-      var2.sort(Comparator.comparing(var0 -> -var0.izf));
+      var2.sort(Comparator.comparingDouble((izb var0) -> -var0.izf));
       return var2;
    }
 
@@ -99,7 +99,7 @@ public final class izj extends jeq<izb> {
             PlayerInventory var19 = var0.getInventory();
             long var20 = System.nanoTime();
 
-            for (Entry var10 : var17.entrySet()) {
+            for (Entry<?, ?> var10 : var17.entrySet()) {
                if (var10.getKey() instanceof Identifier var11 && var10.getValue() != null) {
                   if (izk == null) {
                      RecordComponent[] var21 = var10.getValue().getClass().getRecordComponents();
