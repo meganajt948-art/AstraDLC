@@ -140,7 +140,7 @@ jobs:
                   # The obfuscator flattened nestmate/bridge access into separate top-level
                   # source files. Package-private access restores the access allowed by the
                   # original nestmate bytecode and keeps the recovered implementation usable.
-                  source, access_count = re.subn(r"(?m)^(\\s*)private\\s+", r"\\1", source)
+                  source, access_count = re.subn(r"(?m)^(\s*)private\s+", r"\1", source)
                   if access_count:
                       widened_members += access_count
                       changed = True
