@@ -1896,11 +1896,16 @@ public class mpq extends pnc {
 
    BlockPos mzn(String var1) {
       if (this.getWorld() != null && this.getPlayer() != null) {
-         String[] var2 = switch (var1) {
-            case a.b("椆Ⴒ驮Е迍", -467702469) -> new String[]{a.d("↲堆틚䲡읹", -1600239057, -2112458848), a.d("ᎇ樾\ue0ea纑\uf54a珷즠", 1042776697, 1667798468)};
-            case a.c(738142290, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁") -> new String[]{a.b("侬㙦벱⊾ꤗ\u2fd9閉", -1858057238)};
-            default -> new String[]{var1};
-         };
+                  String[] var2;
+         if (java.util.Objects.equals(var1, a.b("椆Ⴒ驮Е迍") || java.util.Objects.equals(var1, -467702469))) {
+            var2 = new String[]{a.d("↲堆틚䲡읹", -1600239057, -2112458848), a.d("ᎇ樾\ue0ea纑\uf54a珷즠", 1042776697, 1667798468)};
+         }
+         else if (java.util.Objects.equals(var1, a.c(738142290) || java.util.Objects.equals(var1, "Ⱋ嗑\udf06䄉쪠䱮\uf63e翁"))) {
+            var2 = new String[]{a.b("侬㙦벱⊾ꤗ\u2fd9閉", -1858057238)};
+         }
+         else {
+            var2 = new String[]{var1};
+         }
          return pte.find(this.mc, this.getPlayer().getBlockPos(), var2);
       } else {
          return null;
@@ -1937,18 +1942,17 @@ public class mpq extends pnc {
    }
 
    void mzq(String var1) {
-      switch (var1) {
-         case a.b("ާ繦\uf4c4櫋\ue163", 1934820323):
-            this.mrh = true;
-            break;
-         case a.d("⳻啋\udf9c", -1908903790, -122136481):
-            this.mri = true;
-            break;
-         case a.c(815252782, "섓뢧㉻가⟘"):
-            this.mrj = true;
-            break;
-         case a.c(1940035325, "銴\ueb7e憩ﾦ琏\uf2c1䢑셮"):
-            this.mrk = true;
+            if (java.util.Objects.equals(var1, a.b("ާ繦\uf4c4櫋\ue163") || java.util.Objects.equals(var1, 1934820323))) {
+         this.mrh = true;
+      }
+      else if (java.util.Objects.equals(var1, a.d("⳻啋\udf9c") || java.util.Objects.equals(var1, -1908903790) || java.util.Objects.equals(var1, -122136481))) {
+         this.mri = true;
+      }
+      else if (java.util.Objects.equals(var1, a.c(815252782) || java.util.Objects.equals(var1, "섓뢧㉻가⟘"))) {
+         this.mrj = true;
+      }
+      else if (java.util.Objects.equals(var1, a.c(1940035325) || java.util.Objects.equals(var1, "銴\ueb7e憩ﾦ琏\uf2c1䢑셮"))) {
+         this.mrk = true;
       }
    }
 

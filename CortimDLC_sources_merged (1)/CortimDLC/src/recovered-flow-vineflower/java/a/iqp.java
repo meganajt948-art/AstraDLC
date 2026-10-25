@@ -62,16 +62,26 @@ final class iqp extends imn {
    }
 
    static String ire(String var0) {
-      return switch (var0) {
-         case a.c(1971397428, "⍶嫭퀽乔") -> wap.s(
+            if (java.util.Objects.equals(var0, a.c(1971397428) || java.util.Objects.equals(var0, "⍶嫭퀽乔"))) {
+         return wap.s(
             a.c(-1391901443, "䒩㴲럢⦋ꈋⒺ鹾\u1718襇κ葬縂\uf0c6椲\ue32d旟\udf98偁"), a.d("簑֊轚ᄳ骳ᰂꛆ⾠뇿㽘뢅䋾찥喓\udbd9夳\ue379沥\uf61b瀶僚菭", 325711077, -1366718300)
          );
-         case a.c(720793190, "渦ឲ鵲̚") -> wap.s(a.d("叺⩮ꂮ㻆", -232653056, -305484614), a.d("瓃ഁ螿\u19cf鉮ᒡ", 301992293, -382043774));
-         case a.c(-1815015356, "ခ榜\ue34c紾\uf6f3灅") -> wap.s(a.c(2021305364, "걑헌弜셮䪣찕"), a.d("霌\ueea9摽嗢燓\uf714䴹", 777457442, 1652923407));
-         case a.c(-424253658, "杯ỻ鐦\u0a58膓") -> wap.s(a.c(-115605172, "ą碑\uf24c氲\ue7f9"), a.c(655063855, "缉ګ豿ቹ駗\u1f16ꔻ"));
-         case a.c(933288361, "\ud9e8ꁼ⪡듟㼔맱Τ詓ᑋ黱\u192f\ue34c涛") -> wap.s(a.b("ㄵ䢡쉼専\ud7c9儬\ueb79抎ﲖ瘬\uf1f2\u0b91蕆", -2110443148), a.c(-41195568, "握ᩃ邗ຑ蔿Ͼ맓㐷깰⃙ꍫ夙ힹ万쑕䊡"));
-         default -> wap.s(a.c(-2130336089, "ꛢ\udf65喰쯆䀊욹"), a.c(314247318, "ಳ甑ￎ懎"));
-      };
+      }
+      else if (java.util.Objects.equals(var0, a.c(720793190) || java.util.Objects.equals(var0, "渦ឲ鵲̚"))) {
+         return wap.s(a.d("叺⩮ꂮ㻆", -232653056, -305484614), a.d("瓃ഁ螿\u19cf鉮ᒡ", 301992293, -382043774));
+      }
+      else if (java.util.Objects.equals(var0, a.c(-1815015356) || java.util.Objects.equals(var0, "ခ榜\ue34c紾\uf6f3灅"))) {
+         return wap.s(a.c(2021305364, "걑헌弜셮䪣찕"), a.d("霌\ueea9摽嗢燓\uf714䴹", 777457442, 1652923407));
+      }
+      else if (java.util.Objects.equals(var0, a.c(-424253658) || java.util.Objects.equals(var0, "杯ỻ鐦\u0a58膓"))) {
+         return wap.s(a.c(-115605172, "ą碑\uf24c氲\ue7f9"), a.c(655063855, "缉ګ豿ቹ駗\u1f16ꔻ"));
+      }
+      else if (java.util.Objects.equals(var0, a.c(933288361) || java.util.Objects.equals(var0, "\ud9e8ꁼ⪡듟㼔맱Τ詓ᑋ黱\u192f\ue34c涛"))) {
+         return wap.s(a.b("ㄵ䢡쉼専\ud7c9儬\ueb79抎ﲖ瘬\uf1f2\u0b91蕆", -2110443148), a.c(-41195568, "握ᩃ邗ຑ蔿Ͼ맓㐷깰⃙ꍫ夙ힹ万쑕䊡"));
+      }
+      else {
+         return wap.s(a.c(-2130336089, "ꛢ\udf65喰쯆䀊욹"), a.c(314247318, "ಳ甑ￎ懎"));
+      }
    }
 
    int irf() {

@@ -885,24 +885,29 @@ final class fpo {
       kfe var0 = Flow.getInstance().getModuleManager().getByName(a.d("훣꽴▼믃〔뚧ೣ蔢᭐釺", 974682502, 1151512379));
 
       for (vmo var2 : var0.getSettings()) {
-         switch (var2.getName()) {
-            case a.c(1880711168, "恆ᧆ錎ൢ蚲"):
-               ((vlv)var2).set(a.c(2121573387, "ꑝ\uddd2圍쥯䊾"));
-               break;
-            case a.c(1868850072, "描ᩜ邘\u0ee8蔲Ή맍"):
-            case a.d("껯흽嶬쏆䠖캽瓈ﴎ捇\ue9e0渢", -333356408, 1350159423):
-            case a.d("誀\uf312秃\ue7a9汹\uead2僕\ud976䜾춙䩜뀼", 1388699342, -804629487):
-            case a.d("ໞ睃ﶒ揥\ue804溋퓔崷썳", 412538188, -1201939498):
-            case a.d("청딠㿾ꆗ⩜곺ᚨ", 1076721374, -187909596):
-               ((vkl)var2).set(true);
-               break;
-            case a.c(1173227593, "ࠀ熓כֿ攭"):
-            case a.b("呖ⷐ꜅㥸늲㐕", -1771482110):
-               ((vkl)var2).set(false);
-               break;
-            case a.c(1152789733, "ⲿ唹\udfee䆝쩝䳱\uf6a4罔"):
-            case a.c(2103697344, "\udf81ꘑⳋ늷㥸"):
-               ((vmc)var2).set(0.0);
+                  if (java.util.Objects.equals(var2.getName(), a.c(1880711168) || java.util.Objects.equals(var2.getName(), "恆ᧆ錎ൢ蚲"))) {
+            ((vlv)var2).set(a.c(2121573387, "ꑝ\uddd2圍쥯䊾"));
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.c(1868850072) || java.util.Objects.equals(var2.getName(), "描ᩜ邘\u0ee8蔲Ή맍"))) {
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.d("껯흽嶬쏆䠖캽瓈ﴎ捇\ue9e0渢") || java.util.Objects.equals(var2.getName(), -333356408) || java.util.Objects.equals(var2.getName(), 1350159423))) {
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.d("誀\uf312秃\ue7a9汹\uead2僕\ud976䜾춙䩜뀼") || java.util.Objects.equals(var2.getName(), 1388699342) || java.util.Objects.equals(var2.getName(), -804629487))) {
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.d("ໞ睃ﶒ揥\ue804溋퓔崷썳") || java.util.Objects.equals(var2.getName(), 412538188) || java.util.Objects.equals(var2.getName(), -1201939498))) {
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.d("청딠㿾ꆗ⩜곺ᚨ") || java.util.Objects.equals(var2.getName(), 1076721374) || java.util.Objects.equals(var2.getName(), -187909596))) {
+            ((vkl)var2).set(true);
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.c(1173227593) || java.util.Objects.equals(var2.getName(), "ࠀ熓כֿ攭"))) {
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.b("呖ⷐ꜅㥸늲㐕") || java.util.Objects.equals(var2.getName(), -1771482110))) {
+            ((vkl)var2).set(false);
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.c(1152789733) || java.util.Objects.equals(var2.getName(), "ⲿ唹\udfee䆝쩝䳱\uf6a4罔"))) {
+         }
+         else if (java.util.Objects.equals(var2.getName(), a.c(2103697344) || java.util.Objects.equals(var2.getName(), "\udf81ꘑⳋ늷㥸"))) {
+            ((vmc)var2).set(0.0);
          }
       }
 
@@ -911,49 +916,51 @@ final class fpo {
          kfe var6 = Flow.getInstance().getModuleManager().getByName(a.b("娭⎾ꥨ㜙볣㩦耲\u09d0", 586439278));
 
          for (vmo var11 : var6.getSettings()) {
-            switch (var11.getName()) {
-               case a.b("豁\uf5cd缅\ue161檣\uec0f噚\udfaa", 1418365979):
-                  ((vlv)var11).set(a.d("授ᨶ郠ຝ蕁Ϫ", 1785558030, 1599281123).equals(fpu) ? a.c(1295193606, "ᙃ濝\ue50b筶\uf0aa瘁") : a.c(-320494210, "ꔫ\udca0噶젎䏒앹"));
-                  break;
-               case a.b("節ɀ袈ᛤ鴴", 2060745606):
-               case a.d("\uea12鎁᥋蜩\u0cbb詌【맰", -1442425588, -1078018213):
-               case a.b("職狀猤\ued4d暆\ue020婲", -1610448864):
-                  ((vkl)var11).set(true);
-                  break;
-               case a.b("薬ﰿ盡\ue881", -335837723):
-               case a.b("ぁ䧌쌅嵩횤倇\uea5b揢\ufdea睍\uf093ૢ萪", -1610403816):
-                  ((vkl)var11).set(false);
-                  break;
-               case a.d("⃒奋펜", -1278028333, -127077053):
-                  ((vlv)var11)
-                     .set(
-                        a.d("ᰉ斣\uef79焛\ufada", -1756913955, -689470814).equals(System.getenv(a.b("皸༃藓ᮺ逈ᛔ겜╼묳ㆋ뙋䰤싧孑턑埾\uedaf扶\uf8c1", 1377138413)))
-                           ? a.c(1091427018, "\uda9cꌖ⧌랮㱯")
-                           : a.b("煒ࣈ舋ᱽ鞹ᄅ", 1551593754)
-                     );
-                  break;
-               case a.b("㕣䳰옸塏펅唯\uef61暝", 1019098427):
-                  ((vlv)var11).set(a.b("뱬엲伨텒媌", -2028487640));
-                  break;
-               case a.b("ࠖ熚ﭘ攡\ueee8", -332265382):
-                  ((vlv)var11).set(a.c(1383453864, "퓸굻➬만㈄뒴\u0efa"));
-                  break;
-               case a.b("\udbcbꉉ⢍뛺㴰뮋ǚ蠦", -1290675307):
-                  ((vmc)var11).set(ftp(a.d("\u173c溇\ue457稾\uf18c睐촘䓸\udab7倏ퟏⶠꍣ㫕낕㙺谼Ͼ饚Ἅ雧\uecbc戍六", -952433355, 239866455), 1.0));
-                  break;
-               case a.c(1206453375, "д維\uf77a楆\ue2d9摥\ude3a埅즕䌸"):
-                  ((vlv)var11)
-                     .set(
-                        System.getenv(a.d("셮룕㈅걬⟞ꄂᭊ銪\u0ce5虝Ɲﯲ由\uec87曇\ue028婰햬伓쥌䂴㫹", 1988821749, 998884299)) == null
-                           ? a.c(225800798, "爖அ腝Ἥ铳")
-                           : a.b("㟮乩쒼嫊턆垵", -1597425749)
-                     );
-                  break;
-               case a.c(-1233694381, "儐⢌ꉓ㰬럴ㅙ譞˩鲢ᘎ釟"):
-                  ((vmc)var11).set(ftq(a.c(-1544565096, "컈띳㶣ꏊ⡸꺤ᓬ鴌̓觻\u0e3b\uf454窗\ue321楡\uef8e嗖\uda0a䂵웪伒㕟"), 0.45, 0));
-                  break;
-               case a.d("ୢ狾\uf821晞\ued86欫턬墉웍", 2025840971, -681711000):
-                  ((vmc)var11).set(ftq(a.d("긇ힼ嵬쌅䢷칫琣ﷃ掌\ue934滴钛ᩘ菮ম轁㔙뫅⁺꘥\u2fdd喐", 1305304896, 670036247), 0.85, 1));
+                        if (java.util.Objects.equals(var11.getName(), a.b("豁\uf5cd缅\ue161檣\uec0f噚\udfaa") || java.util.Objects.equals(var11.getName(), 1418365979))) {
+               ((vlv)var11).set(a.d("授ᨶ郠ຝ蕁Ϫ", 1785558030, 1599281123).equals(fpu) ? a.c(1295193606, "ᙃ濝\ue50b筶\uf0aa瘁") : a.c(-320494210, "ꔫ\udca0噶젎䏒앹"));
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("節ɀ袈ᛤ鴴") || java.util.Objects.equals(var11.getName(), 2060745606))) {
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.d("\uea12鎁᥋蜩\u0cbb詌【맰") || java.util.Objects.equals(var11.getName(), -1442425588) || java.util.Objects.equals(var11.getName(), -1078018213))) {
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("職狀猤\ued4d暆\ue020婲") || java.util.Objects.equals(var11.getName(), -1610448864))) {
+               ((vkl)var11).set(true);
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("薬ﰿ盡\ue881") || java.util.Objects.equals(var11.getName(), -335837723))) {
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("ぁ䧌쌅嵩횤倇\uea5b揢\ufdea睍\uf093ૢ萪") || java.util.Objects.equals(var11.getName(), -1610403816))) {
+               ((vkl)var11).set(false);
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.d("⃒奋펜") || java.util.Objects.equals(var11.getName(), -1278028333) || java.util.Objects.equals(var11.getName(), -127077053))) {
+               ((vlv)var11)
+                                    .set(
+                                       a.d("ᰉ斣\uef79焛\ufada", -1756913955, -689470814).equals(System.getenv(a.b("皸༃藓ᮺ逈ᛔ겜╼묳ㆋ뙋䰤싧孑턑埾\uedaf扶\uf8c1", 1377138413)))
+                                          ? a.c(1091427018, "\uda9cꌖ⧌랮㱯")
+                                          : a.b("煒ࣈ舋ᱽ鞹ᄅ", 1551593754)
+                                    );
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("㕣䳰옸塏펅唯\uef61暝") || java.util.Objects.equals(var11.getName(), 1019098427))) {
+               ((vlv)var11).set(a.b("뱬엲伨텒媌", -2028487640));
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("ࠖ熚ﭘ攡\ueee8") || java.util.Objects.equals(var11.getName(), -332265382))) {
+               ((vlv)var11).set(a.c(1383453864, "퓸굻➬만㈄뒴\u0efa"));
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.b("\udbcbꉉ⢍뛺㴰뮋ǚ蠦") || java.util.Objects.equals(var11.getName(), -1290675307))) {
+               ((vmc)var11).set(ftp(a.d("\u173c溇\ue457稾\uf18c睐촘䓸\udab7倏ퟏⶠꍣ㫕낕㙺谼Ͼ饚Ἅ雧\uecbc戍六", -952433355, 239866455), 1.0));
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.c(1206453375) || java.util.Objects.equals(var11.getName(), "д維\uf77a楆\ue2d9摥\ude3a埅즕䌸"))) {
+               ((vlv)var11)
+                                    .set(
+                                       System.getenv(a.d("셮룕㈅걬⟞ꄂᭊ銪\u0ce5虝Ɲﯲ由\uec87曇\ue028婰햬伓쥌䂴㫹", 1988821749, 998884299)) == null
+                                          ? a.c(225800798, "爖அ腝Ἥ铳")
+                                          : a.b("㟮乩쒼嫊턆垵", -1597425749)
+                                    );
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.c(-1233694381) || java.util.Objects.equals(var11.getName(), "儐⢌ꉓ㰬럴ㅙ譞˩鲢ᘎ釟"))) {
+               ((vmc)var11).set(ftq(a.c(-1544565096, "컈띳㶣ꏊ⡸꺤ᓬ鴌̓觻\u0e3b\uf454窗\ue321楡\uef8e嗖\uda0a䂵웪伒㕟"), 0.45, 0));
+            }
+            else if (java.util.Objects.equals(var11.getName(), a.d("ୢ狾\uf821晞\ued86欫턬墉웍") || java.util.Objects.equals(var11.getName(), 2025840971) || java.util.Objects.equals(var11.getName(), -681711000))) {
+               ((vmc)var11).set(ftq(a.d("긇ힼ嵬쌅䢷칫琣ﷃ掌\ue934滴钛ᩘ菮ম轁㔙뫅⁺꘥\u2fdd喐", 1305304896, 670036247), 0.85, 1));
             }
          }
 

@@ -358,12 +358,18 @@ public class kyn extends kfe {
    }
 
    boolean lbz(ItemStack var1) {
-      return switch (this.kyu.get()) {
-         case a.b("㙺俤씠", 1158100536) -> true;
-         case a.d("\ud91fꂊ⩁됭㿬륊", -1613187249, 961179141) -> var1.isIn(ItemTags.SWORDS);
-         case a.c(1324087958, "䀘荛ক韲") -> var1.isIn(ItemTags.AXES);
-         default -> var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
-      };
+            if (java.util.Objects.equals(this.kyu.get(), a.b("㙺俤씠") || java.util.Objects.equals(this.kyu.get(), 1158100536))) {
+         return true;
+      }
+      else if (java.util.Objects.equals(this.kyu.get(), a.d("\ud91fꂊ⩁됭㿬륊") || java.util.Objects.equals(this.kyu.get(), -1613187249) || java.util.Objects.equals(this.kyu.get(), 961179141))) {
+         return var1.isIn(ItemTags.SWORDS);
+      }
+      else if (java.util.Objects.equals(this.kyu.get(), a.c(1324087958) || java.util.Objects.equals(this.kyu.get(), "䀘荛ক韲"))) {
+         return var1.isIn(ItemTags.AXES);
+      }
+      else {
+         return var1.isIn(ItemTags.SWORDS) || var1.isIn(ItemTags.AXES) || var1.getItem() instanceof MaceItem || var1.getItem() instanceof TridentItem;
+      }
    }
 
    static lck lca() {

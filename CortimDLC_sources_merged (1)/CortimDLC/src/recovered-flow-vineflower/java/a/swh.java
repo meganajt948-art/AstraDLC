@@ -415,11 +415,16 @@ public final class swh {
       if (!var1.background.is(a.c(1139034866, "䪸㌨맺➀"))) {
          float var8 = (float)var1.opacity.get();
 
-         int var9 = switch (var1.tint.get()) {
-            case a.b("\udcc1ꕕ⾕뇽", -1104946047) -> -16119283;
-            case a.b("붭쐾仭킚孆\udded", 853786090) -> ujt.lerp(iov.accent(), -16777216, 0.55F) | 0xFF000000;
-            default -> ujt.lerp(iov.window, -16316661, 0.2F + 0.7F * iov.lightness()) | 0xFF000000;
-         };
+                  int var9;
+         if (java.util.Objects.equals(var1.tint.get(), a.b("\udcc1ꕕ⾕뇽") || java.util.Objects.equals(var1.tint.get(), -1104946047))) {
+            var9 = -16119283;
+         }
+         else if (java.util.Objects.equals(var1.tint.get(), a.b("붭쐾仭킚孆\udded") || java.util.Objects.equals(var1.tint.get(), 853786090))) {
+            var9 = ujt.lerp(iov.accent(), -16777216, 0.55F) | 0xFF000000;
+         }
+         else {
+            var9 = ujt.lerp(iov.window, -16316661, 0.2F + 0.7F * iov.lightness()) | 0xFF000000;
+         }
          ukf.shadow(var0, var3, var4, var5, var6, var7, 1.2F, 0.0F);
          boolean var12 = false;
          if (var2 != null) {

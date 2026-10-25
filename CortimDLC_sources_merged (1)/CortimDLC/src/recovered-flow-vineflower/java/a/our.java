@@ -94,10 +94,14 @@ public class our extends kfe {
          return false;
       }
 
-      return switch (this.out.get()) {
-         case a.b("寑≍ꢞ", -319071341) -> true;
-         case a.b("渕ដ鵚̧裸๑", -770740655) -> var1.getItem() instanceof BlockItem || var1.isOf(Items.EXPERIENCE_BOTTLE);
-         default -> var1.isOf(Items.EXPERIENCE_BOTTLE);
-      };
+            if (java.util.Objects.equals(this.out.get(), a.b("寑≍ꢞ") || java.util.Objects.equals(this.out.get(), -319071341))) {
+         return true;
+      }
+      else if (java.util.Objects.equals(this.out.get(), a.b("渕ដ鵚̧裸๑") || java.util.Objects.equals(this.out.get(), -770740655))) {
+         return var1.getItem() instanceof BlockItem || var1.isOf(Items.EXPERIENCE_BOTTLE);
+      }
+      else {
+         return var1.isOf(Items.EXPERIENCE_BOTTLE);
+      }
    }
 }

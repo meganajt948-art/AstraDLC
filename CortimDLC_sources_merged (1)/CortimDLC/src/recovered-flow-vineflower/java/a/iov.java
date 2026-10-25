@@ -851,15 +851,17 @@ public final class iov {
 
    static int[] accentPair(int var0, iom var1) {
       String var2 = ipe[Math.max(0, Math.min(ipe.length - 1, var0))];
-      switch (var2) {
-         case a.c(689249227, "ᮎ戉\ue8dc皪ﵦ篕"):
-            return customAccent();
-         case a.b("ㅤ䣡숳屙", -1080676063):
-            return var1.accent();
-         case a.b("쀂릑㍃괳", -1270169525):
-            return var1.light() ? ioy : iox;
-         default:
-            return ipf[var0];
+            if (java.util.Objects.equals(var2, a.c(689249227) || java.util.Objects.equals(var2, "ᮎ戉\ue8dc皪ﵦ篕"))) {
+         return customAccent();
+      }
+      else if (java.util.Objects.equals(var2, a.b("ㅤ䣡숳屙") || java.util.Objects.equals(var2, -1080676063))) {
+         return var1.accent();
+      }
+      else if (java.util.Objects.equals(var2, a.b("쀂릑㍃괳") || java.util.Objects.equals(var2, -1270169525))) {
+         return var1.light() ? ioy : iox;
+      }
+      else {
+         return ipf[var0];
       }
    }
 
@@ -888,11 +890,15 @@ public final class iov {
    }
 
    static String wallpaperOf(String var0) {
-      return switch (var0) {
-         case a.c(1967915595, "ȇ箜\uf14c漥\ue4a5扶\ud80b凷쾪䔓") -> a.b("䪍㌣맽➍걐⪴邻᥀蜜ඵ証瀄ﻖ杴\ued3e", 1113541364);
-         case a.d("箳Ȩ裸ᚑ鴑ᯗꆻ⡋똉㲩", 106724394, -1651636267) -> a.d("ꚨ\udf06嗘쮨䁵욑粞\uf565欹\ue190昙鰩ዻ譄Ę蟵", -414093818, 1911015624);
-         default -> null;
-      };
+            if (java.util.Objects.equals(var0, a.c(1967915595) || java.util.Objects.equals(var0, "ȇ箜\uf14c漥\ue4a5扶\ud80b凷쾪䔓"))) {
+         return a.b("䪍㌣맽➍걐⪴邻᥀蜜ඵ証瀄ﻖ杴\ued3e", 1113541364);
+      }
+      else if (java.util.Objects.equals(var0, a.d("箳Ȩ裸ᚑ鴑ᯗꆻ⡋똉㲩") || java.util.Objects.equals(var0, 106724394) || java.util.Objects.equals(var0, -1651636267))) {
+         return a.d("ꚨ\udf06嗘쮨䁵욑粞\uf565欹\ue190昙鰩ዻ譄Ę蟵", -414093818, 1911015624);
+      }
+      else {
+         return null;
+      }
    }
 
    static void toggleLight() {

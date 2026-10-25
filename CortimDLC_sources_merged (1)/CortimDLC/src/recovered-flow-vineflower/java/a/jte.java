@@ -376,11 +376,15 @@ public final class jte extends Screen {
    }
 
    float jwl() {
-      return switch (kbm.POSITION.get()) {
-         case a.c(51235075, "쥋냓㨃ꑠ") -> 34.0F;
-         case a.b("\ue4dc鵖ឋ觵Ⱦ", -655104885) -> this.jve - 34.0F - 138.0F;
-         default -> (this.jve - 138.0F) * 0.5F;
-      };
+            if (java.util.Objects.equals(kbm.POSITION.get(), a.c(51235075) || java.util.Objects.equals(kbm.POSITION.get(), "쥋냓㨃ꑠ"))) {
+         return 34.0F;
+      }
+      else if (java.util.Objects.equals(kbm.POSITION.get(), a.b("\ue4dc鵖ឋ觵Ⱦ") || java.util.Objects.equals(kbm.POSITION.get(), -655104885))) {
+         return this.jve - 34.0F - 138.0F;
+      }
+      else {
+         return (this.jve - 138.0F) * 0.5F;
+      }
    }
 
    void jwm(DrawContext var1, GpuTextureView var2, int var3, float var4, float var5, float var6, boolean var7) {
@@ -427,36 +431,35 @@ public final class jte extends Screen {
                this.jtt.frosted(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, var10, var13, this.jve, this.jvf, jyh(16777215, var23));
             }
 
-            switch (var21) {
-               case a.b("㺷䜣췣压", 1555906295):
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(658708, 0.8F - 0.12F * var15));
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(var20, 0.04F + 0.12F * var15));
-                  break;
-               case a.b("睨\u0efc萡\u1a5f醔", -1849133279):
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(16777215, 0.2F + 0.5F * var24 + 0.08F * var15));
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(var20, 0.06F + 0.12F * var15));
-                  break;
-               case a.d("훼꽷▥믌〞뚨\u0cf0", -209606814, -478514730):
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(790552, 16777215, var24), 0.1F + 0.12F * var15));
-                  break;
-               default:
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(790552, 16777215, var24), 0.34F - 0.12F * var15 + (0.24F + 0.2F * var15) * var24));
-                  uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(16777215, var20, 0.4F), 0.05F + 0.1F * var15));
-                  uut.gradient(
-                     var1,
-                     0.0F,
-                     0.0F,
-                     138.0F,
-                     12.5F,
-                     var19,
-                     var19,
-                     0.0F,
-                     0.0F,
-                     jyh(16777215, 0.09F),
-                     jyh(16777215, 0.09F),
-                     jyh(16777215, 0.0F),
-                     jyh(16777215, 0.0F)
-                  );
+                        if (java.util.Objects.equals(var21, a.b("㺷䜣췣压") || java.util.Objects.equals(var21, 1555906295))) {
+               uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(658708, 0.8F - 0.12F * var15));
+                                 uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(var20, 0.04F + 0.12F * var15));
+            }
+            else if (java.util.Objects.equals(var21, a.b("睨\u0efc萡\u1a5f醔") || java.util.Objects.equals(var21, -1849133279))) {
+               uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(16777215, 0.2F + 0.5F * var24 + 0.08F * var15));
+                                 uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(var20, 0.06F + 0.12F * var15));
+            }
+            else if (java.util.Objects.equals(var21, a.d("훼꽷▥믌〞뚨\u0cf0") || java.util.Objects.equals(var21, -209606814) || java.util.Objects.equals(var21, -478514730))) {
+               uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(790552, 16777215, var24), 0.1F + 0.12F * var15));
+            }
+            else {
+               uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(790552, 16777215, var24), 0.34F - 0.12F * var15 + (0.24F + 0.2F * var15) * var24));
+                                 uut.round(var1, 0.0F, 0.0F, 138.0F, 25.0F, var19, jyh(jyg(16777215, var20, 0.4F), 0.05F + 0.1F * var15));
+                                 uut.gradient(
+                                    var1,
+                                    0.0F,
+                                    0.0F,
+                                    138.0F,
+                                    12.5F,
+                                    var19,
+                                    var19,
+                                    0.0F,
+                                    0.0F,
+                                    jyh(16777215, 0.09F),
+                                    jyh(16777215, 0.09F),
+                                    jyh(16777215, 0.0F),
+                                    jyh(16777215, 0.0F)
+                                 );
             }
 
             if (var16 < 1.0F) {

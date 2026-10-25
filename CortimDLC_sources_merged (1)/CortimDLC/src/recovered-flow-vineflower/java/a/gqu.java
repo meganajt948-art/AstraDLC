@@ -178,51 +178,50 @@ final class gqu implements Listener {
    }
 
    void grc(JsonObject var1) {
-      switch (var1.get(a.d("싗", 51045068, -1407180690)).getAsString()) {
-         case a.c(-2046880061, "ᚮ漒\ue5c8箹\uf06d"):
-            this.code = var1.get(a.d("勺菊ऒ面", -901148505, 1856596663)).getAsString();
-            break;
-         case a.d("\uf745軱е", -540801502, -1071582956):
-            String var10 = var1.get(a.b("邂\ue93f揧ﶗ", -291925787)).getAsString();
-            JsonObject var12 = new JsonObject();
-            var12.addProperty(a.d("ᝐ", -1738727736, 1001130477), a.d("\uf63a辌Շ鬩უ陃", 804180212, 1635198625));
-            var12.addProperty(a.c(1804040746, "積ϰ褨\u1758"), var10);
-            var12.addProperty(a.c(1922785991, "抦ᬚ釞"), this.gra(var10, var1.get(a.d("\udd9aꐮ⻪", -1906812785, 19432806)).getAsString()));
-            new Thread(() -> this.send(var12.toString())).start();
-            break;
-         case a.c(-1812342966, "휥꺓\u2458먶ㇼ띜"):
-            this.pendingInvite = var1;
-            break;
-         case a.c(362697104, "凥⡅ꊅ㳲뜨"):
-            JsonElement var9 = var1.get(a.c(-519134740, "ꆇ\ud83b"));
-            this.party = var9 != null && !var9.isJsonNull() ? var9.getAsString() : null;
-            if (var1.has(a.b("뗹챀䚛\ud8e5匵햓濁", -224741997))) {
-               for (JsonElement var13 : var1.getAsJsonArray(a.d("䥽ツ먟②꾱⤗鍅", -1814073187, 2049718666))) {
-                  JsonObject var7 = var13.getAsJsonObject();
-                  if (var7.has(a.c(-1993025020, "\uda77ꏃ⤇")) && !var7.get(a.d("ྴ瘀ﳄ", 694997300, -310649101)).isJsonNull()) {
-                     this.pubs.put(var7.get(a.c(-1149277202, "殉ሴ飬ڜ")).getAsString(), var7.get(a.d("\u0cdb畯ﾫ", 1760809879, 495705919)).getAsString());
-                  }
-               }
-            }
-            break;
-         case a.c(1423508301, "̥窚\uf055"):
-            String var8 = var1.get(a.d("窶̓觝ឮ", 924207934, 1319907818)).getAsString();
-            JsonObject var5 = this.grb(var8, this.pubs.get(var8), var1.get(a.c(-1044277530, "隇\uef3b旿")).getAsString());
-            if (var5 != null) {
-               int var6 = var5.get(a.d("⍞", 230059673, -1770566237)).getAsInt();
-               this.keys.put(var6, ufw.unb64(var5.get(a.c(795055713, "阋")).getAsString()));
-               this.epoch = Math.max(this.epoch, var6);
-               this.keyBoxes++;
-            }
-            break;
-         case a.c(-1774961781, "㯥䉊좍"):
-            String var4 = this.gqz(
-               a.c(-1739553134, "蛻ｔ疓\uebf9") + this.party + a.d("셳", 1146297548, -909976126) + var1.get(a.b("ᮇ戢\ue8ec皟", -1608508443)).getAsString(),
-               var1.get(a.b("銧", -435252539)).getAsString()
-            );
-            if (var4 != null) {
-               this.plain.add(var4);
-            }
+            if (java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), a.c(-2046880061) || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), "ᚮ漒\ue5c8箹\uf06d"))) {
+         this.code = var1.get(a.d("勺菊ऒ面", -901148505, 1856596663)).getAsString();
+      }
+      else if (java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), a.d("\uf745軱е") || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), -540801502) || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), -1071582956))) {
+         String var10 = var1.get(a.b("邂\ue93f揧ﶗ", -291925787)).getAsString();
+                     JsonObject var12 = new JsonObject();
+                     var12.addProperty(a.d("ᝐ", -1738727736, 1001130477), a.d("\uf63a辌Շ鬩უ陃", 804180212, 1635198625));
+                     var12.addProperty(a.c(1804040746, "積ϰ褨\u1758"), var10);
+                     var12.addProperty(a.c(1922785991, "抦ᬚ釞"), this.gra(var10, var1.get(a.d("\udd9aꐮ⻪", -1906812785, 19432806)).getAsString()));
+                     new Thread(() -> this.send(var12.toString())).start();
+      }
+      else if (java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), a.c(-1812342966) || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), "휥꺓\u2458먶ㇼ띜"))) {
+         this.pendingInvite = var1;
+      }
+      else if (java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), a.c(362697104) || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), "凥⡅ꊅ㳲뜨"))) {
+         JsonElement var9 = var1.get(a.c(-519134740, "ꆇ\ud83b"));
+                     this.party = var9 != null && !var9.isJsonNull() ? var9.getAsString() : null;
+                     if (var1.has(a.b("뗹챀䚛\ud8e5匵햓濁", -224741997))) {
+                        for (JsonElement var13 : var1.getAsJsonArray(a.d("䥽ツ먟②꾱⤗鍅", -1814073187, 2049718666))) {
+                           JsonObject var7 = var13.getAsJsonObject();
+                           if (var7.has(a.c(-1993025020, "\uda77ꏃ⤇")) && !var7.get(a.d("ྴ瘀ﳄ", 694997300, -310649101)).isJsonNull()) {
+                              this.pubs.put(var7.get(a.c(-1149277202, "殉ሴ飬ڜ")).getAsString(), var7.get(a.d("\u0cdb畯ﾫ", 1760809879, 495705919)).getAsString());
+                           }
+                        }
+                     }
+      }
+      else if (java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), a.c(1423508301) || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), "̥窚\uf055"))) {
+         String var8 = var1.get(a.d("窶̓觝ឮ", 924207934, 1319907818)).getAsString();
+                     JsonObject var5 = this.grb(var8, this.pubs.get(var8), var1.get(a.c(-1044277530, "隇\uef3b旿")).getAsString());
+                     if (var5 != null) {
+                        int var6 = var5.get(a.d("⍞", 230059673, -1770566237)).getAsInt();
+                        this.keys.put(var6, ufw.unb64(var5.get(a.c(795055713, "阋")).getAsString()));
+                        this.epoch = Math.max(this.epoch, var6);
+                        this.keyBoxes++;
+                     }
+      }
+      else if (java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), a.c(-1774961781) || java.util.Objects.equals(var1.get(a.d("싗", 51045068, -1407180690)).getAsString(), "㯥䉊좍"))) {
+         String var4 = this.gqz(
+                        a.c(-1739553134, "蛻ｔ疓\uebf9") + this.party + a.d("셳", 1146297548, -909976126) + var1.get(a.b("ᮇ戢\ue8ec皟", -1608508443)).getAsString(),
+                        var1.get(a.b("銧", -435252539)).getAsString()
+                     );
+                     if (var4 != null) {
+                        this.plain.add(var4);
+                     }
       }
    }
 

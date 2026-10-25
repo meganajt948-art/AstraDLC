@@ -154,48 +154,52 @@ public final class tkx extends OtherClientPlayerEntity {
       double var22 = 0.0;
       double var24 = 0.0;
       boolean var26 = false;
-      switch (this.tlf) {
-         case a.c(-1479931684, "ࢊ焜\ufbd2斦\uee71"):
-            var22 = 0.0;
-            var24 = 0.0;
-            break;
-         case a.c(1149394098, "峡╦꾸㇎"):
-            if (!this.tlr || Math.hypot(this.tlp - this.getX(), this.tlq - this.getZ()) < 0.4) {
-               double var41 = this.tla.nextDouble() * Math.PI * 2.0;
-               double var44 = this.tlc + this.tla.nextDouble() * (this.tld - this.tlc);
-               this.tlp = var2 + Math.cos(var41) * var44;
-               this.tlq = var4 + Math.sin(var41) * var44;
-               this.tlr = true;
-            }
-
-            double var42 = this.tlp - this.getX();
-            double var45 = this.tlq - this.getZ();
-            double var47 = Math.max(0.001, Math.sqrt(var42 * var42 + var45 * var45));
-            var22 = var42 / var47;
-            var24 = var45 / var47;
-            var20 = 0.216;
-            break;
-         default:
-            double var29 = MathHelper.clamp((this.tln - var10) * 0.9, -1.0, 1.0);
-            var22 = var16 * this.tlk + var12 * var29;
-            var24 = var18 * this.tlk + var14 * var29;
-            double var31 = Math.sqrt(var22 * var22 + var24 * var24);
-            if (var31 > 1.0) {
-               var22 /= var31;
-               var24 /= var31;
-            }
-
-            var20 = this.tlf.equals(a.b("䣸ㅸ뮻◃", -197310280)) ? 0.28 : 0.216;
-            if (this.tlf.equals(a.d("餗\ue097橔\uf42c", 284568698, -1601129171)) && this.tlv > 0) {
-               var22 = var12 * 0.8 + var16 * this.tlk * 0.4;
-               var24 = var14 * 0.8 + var18 * this.tlk * 0.4;
-            }
-            double var33 = switch (this.tlf) {
-               case a.c(1063187964, "\uf5b3谽۶颚ፄ") -> 0.55;
-               case a.c(-519171975, "္榹\ue37a紂") -> var10 < 3.6 ? 0.2 : 0.04;
-               default -> 0.03;
-            };
-            var26 = this.tla.nextDouble() < var33;
+            if (java.util.Objects.equals(this.tlf, a.c(-1479931684) || java.util.Objects.equals(this.tlf, "ࢊ焜\ufbd2斦\uee71"))) {
+         var22 = 0.0;
+                     var24 = 0.0;
+      }
+      else if (java.util.Objects.equals(this.tlf, a.c(1149394098) || java.util.Objects.equals(this.tlf, "峡╦꾸㇎"))) {
+         if (!this.tlr || Math.hypot(this.tlp - this.getX(), this.tlq - this.getZ()) < 0.4) {
+                        double var41 = this.tla.nextDouble() * Math.PI * 2.0;
+                        double var44 = this.tlc + this.tla.nextDouble() * (this.tld - this.tlc);
+                        this.tlp = var2 + Math.cos(var41) * var44;
+                        this.tlq = var4 + Math.sin(var41) * var44;
+                        this.tlr = true;
+                     }
+         
+                     double var42 = this.tlp - this.getX();
+                     double var45 = this.tlq - this.getZ();
+                     double var47 = Math.max(0.001, Math.sqrt(var42 * var42 + var45 * var45));
+                     var22 = var42 / var47;
+                     var24 = var45 / var47;
+                     var20 = 0.216;
+      }
+      else {
+         double var29 = MathHelper.clamp((this.tln - var10) * 0.9, -1.0, 1.0);
+                     var22 = var16 * this.tlk + var12 * var29;
+                     var24 = var18 * this.tlk + var14 * var29;
+                     double var31 = Math.sqrt(var22 * var22 + var24 * var24);
+                     if (var31 > 1.0) {
+                        var22 /= var31;
+                        var24 /= var31;
+                     }
+         
+                     var20 = this.tlf.equals(a.b("䣸ㅸ뮻◃", -197310280)) ? 0.28 : 0.216;
+                     if (this.tlf.equals(a.d("餗\ue097橔\uf42c", 284568698, -1601129171)) && this.tlv > 0) {
+                        var22 = var12 * 0.8 + var16 * this.tlk * 0.4;
+                        var24 = var14 * 0.8 + var18 * this.tlk * 0.4;
+                     }
+                                 double var33;
+                     if (java.util.Objects.equals(this.tlf, a.c(1063187964) || java.util.Objects.equals(this.tlf, "\uf5b3谽۶颚ፄ"))) {
+                        var33 = 0.55;
+                     }
+                     else if (java.util.Objects.equals(this.tlf, a.c(-519171975) || java.util.Objects.equals(this.tlf, "္榹\ue37a紂"))) {
+                        var33 = var10 < 3.6 ? 0.2 : 0.04;
+                     }
+                     else {
+                        var33 = 0.03;
+                     }
+                     var26 = this.tla.nextDouble() < var33;
       }
 
       if (var10 > this.tld + 2.5) {

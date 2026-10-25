@@ -633,31 +633,35 @@ public final class qsw {
    }
 
    void quz(String var1, BlockPos var2, ClientPlayerEntity var3) {
-      switch (var1) {
-         case a.c(38664506, "讀胺\u0a31鑝"):
-            this.qtp = this.qtp == null ? var2 : this.qtp;
-            break;
-         case a.b("鼐\ue6a8汻\uf201", 1469095794):
-            this.qtq = this.qtq == null ? var2 : this.qtq;
-            break;
-         default:
-            if (this.qtr == null) {
-               this.qtr = var2;
-               BlockPos var6 = qvf(var3.getEntityWorld(), var2, 6, Blocks.CRAFTING_TABLE);
-               if (var6 != null) {
-                  this.qts = var6;
-               }
-            }
+            if (java.util.Objects.equals(var1, a.c(38664506) || java.util.Objects.equals(var1, "讀胺\u0a31鑝"))) {
+         this.qtp = this.qtp == null ? var2 : this.qtp;
+      }
+      else if (java.util.Objects.equals(var1, a.b("鼐\ue6a8汻\uf201") || java.util.Objects.equals(var1, 1469095794))) {
+         this.qtq = this.qtq == null ? var2 : this.qtq;
+      }
+      else {
+         if (this.qtr == null) {
+                        this.qtr = var2;
+                        BlockPos var6 = qvf(var3.getEntityWorld(), var2, 6, Blocks.CRAFTING_TABLE);
+                        if (var6 != null) {
+                           this.qts = var6;
+                        }
+                     }
       }
    }
 
    static void qva(String var0, BlockPos var1, BlockPos var2, BlockPos[] var3, double[] var4) {
       if (var1 != null) {
-         byte var5 = switch (var0) {
-            case a.c(1447178763, "㉫䯋섀彬") -> 0;
-            case a.c(1726920595, "럱칉䒚\udae0") -> 1;
-            default -> 2;
-         };
+                  byte var5;
+         if (java.util.Objects.equals(var0, a.c(1447178763) || java.util.Objects.equals(var0, "㉫䯋섀彬"))) {
+            var5 = 0;
+         }
+         else if (java.util.Objects.equals(var0, a.c(1726920595) || java.util.Objects.equals(var0, "럱칉䒚\udae0"))) {
+            var5 = 1;
+         }
+         else {
+            var5 = 2;
+         }
          double var8 = var1.getSquaredDistance(var2);
          if (var8 < var4[var5]) {
             var4[var5] = var8;

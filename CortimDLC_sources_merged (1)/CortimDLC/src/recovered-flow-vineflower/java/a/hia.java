@@ -63,17 +63,23 @@ public final class hia {
    }
 
    static String label(String var0) {
-      return switch (var0) {
-         case a.c(-1378603983, "ⱂ嗶\udf37") -> wap.s(a.b("⒣崷ퟶ", -625924880), a.d("︗螄ൖ鍙\u18f7鹄", 483765601, 1950504812));
-         case a.d("개햯彩", -1205532875, -1891783863) -> wap.s(a.b("刅\u2b96ꅘ㼩듯㉕", -1836428728), a.c(-1133846021, "\ue5e4鱱ᛞ裕̀"));
-         case a.c(-2057893101, "\u0b7f狖\uf81c") -> ownReady()
+            if (java.util.Objects.equals(var0, a.c(-1378603983) || java.util.Objects.equals(var0, "ⱂ嗶\udf37"))) {
+         return wap.s(a.b("⒣崷ퟶ", -625924880), a.d("︗螄ൖ鍙\u18f7鹄", 483765601, 1950504812));
+      }
+      else if (java.util.Objects.equals(var0, a.d("개햯彩") || java.util.Objects.equals(var0, -1205532875) || java.util.Objects.equals(var0, -1891783863))) {
+         return wap.s(a.b("刅\u2b96ꅘ㼩듯㉕", -1836428728), a.c(-1133846021, "\ue5e4鱱ᛞ裕̀"));
+      }
+      else if (java.util.Objects.equals(var0, a.c(-2057893101) || java.util.Objects.equals(var0, "\u0b7f狖\uf81c"))) {
+         return ownReady()
             ? wap.s(a.b("Ԋ粍\uf644栲\ue3e4", -679148202), a.d("ᣧ慅\ueb9a疚", -617669034, 303039124))
             : wap.s(
                a.b("粊ԍ迄ᆲ騷\u1cc9Ꚃ⽪녡㯊뱭䘏좿兌\udb12巸\ue7e3䦀\uf281璠ﵵ蜹ঃ鉝ᐧ黿✉裪㎯떟㸛생䪇퍣唣", 1560902896),
                a.d("䚮㼌뗓⯓ꑱ⋚飽ᄟ輪Ƈ虛籖\uf6e3仠\ue501柏\udddf剰좹五읠뵆㞙跺⨷ꓖᵇ錔\u0991農ѱ\ufada炟", 1443369616, -1814015938)
             );
-         default -> wap.s(a.c(-1891817786, "⚍弞헌䮸쁡䛌"), a.b("鯖\ue248梟\uf6ec絀ﯲ䇓젥噰", -547250239));
-      };
+      }
+      else {
+         return wap.s(a.c(-1891817786, "⚍弞헌䮸쁡䛌"), a.b("鯖\ue248梟\uf6ec絀ﯲ䇓젥噰", -547250239));
+      }
    }
 
    static void him() {
