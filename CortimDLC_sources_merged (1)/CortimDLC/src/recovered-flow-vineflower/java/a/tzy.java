@@ -66,7 +66,7 @@ public final class tzy {
 
       for (tzs var23 : var0) {
          int var24 = var23.ticks.size();
-         HashMap var25 = new HashMap();
+         HashMap<Integer, tvt> var25 = new HashMap<>();
          boolean[] var26 = new boolean[var24];
 
          for (int var27 = 1; var27 < var24; var27++) {
@@ -221,14 +221,14 @@ public final class tzy {
 
       Random var9 = new Random(var3);
       boolean[] var10 = new boolean[var8.n];
-      HashMap var11 = new HashMap();
+      HashMap<Integer, Boolean> var11 = new HashMap<>();
 
       for (int var12 = 0; var12 < var8.n; var12++) {
          var10[var12] = var11.computeIfAbsent(var8.block[var12], var1x -> var9.nextDouble() < 0.15);
       }
 
-      ArrayList var49 = new ArrayList();
-      ArrayList var13 = new ArrayList();
+      ArrayList<Integer> var49 = new ArrayList<>();
+      ArrayList<Integer> var13 = new ArrayList<>();
 
       for (int var14 = 0; var14 < var8.n; var14++) {
          (var10[var14] ? var13 : var49).add(var14);
