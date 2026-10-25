@@ -1169,15 +1169,15 @@ public final class dtv implements efz {
    void dwu() {
       if (!this.dun.isEmpty()) {
          long var1 = System.currentTimeMillis();
-         ArrayList var3 = null;
-         Iterator var4 = this.dun.iterator();
+         ArrayList<Runnable> var3 = null;
+         Iterator<dtn> var4 = this.dun.iterator();
 
          while (var4.hasNext()) {
             dtn var5 = (dtn)var4.next();
             if (var1 >= var5.at()) {
                var4.remove();
                if (var3 == null) {
-                  var3 = new ArrayList();
+                  var3 = new ArrayList<>();
                }
 
                var3.add(var5.action());
