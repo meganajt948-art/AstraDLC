@@ -36,4 +36,4 @@ jobs:
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle compileRecoveredJava --no-daemon --stacktrace
 
-# Retry compile with supported Loom modCompileOnly configuration.
+# Compile after IAS reflection bridge and dependency configuration repair.
