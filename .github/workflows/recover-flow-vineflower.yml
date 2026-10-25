@@ -39,9 +39,27 @@ jobs:
           test -s yarn-v2.tiny
           head -n 1 yarn-v2.tiny
 
-      - name: Remap client classes and members to Yarn names
+      - name: Download Minecraft intermediary classpath
         run: |
-          java -Xmx2g -jar tiny-remapper.jar flow.jar flow-named.jar yarn-v2.tiny intermediary named --resolveMissing
+          version_url="$(curl -fsSL https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r '.versions[] | select(.id == "1.21.11") | .url')"
+          test -n "$version_url"
+          client_url="$(curl -fsSL "$version_url" | jq -r '.downloads.client.url')"
+          test -n "$client_url"
+          curl -fL --retry 3 "$client_url" -o minecraft-official.jar
+          curl -fL --retry 3 "https://maven.fabricmc.net/net/fabricmc/intermediary/1.21.11/intermediary-1.21.11-v2.jar" -o intermediary-v2.jar
+          unzip -p intermediary-v2.jar mappings/mappings.tiny > intermediary.tiny
+          test -s minecraft-official.jar
+          test -s intermediary.tiny
+          head -n 1 intermediary.tiny
+
+      - name: Remap Minecraft client to intermediary namespace
+        run: |
+          java -Xmx3g -jar tiny-remapper.jar minecraft-official.jar minecraft-intermediary.jar intermediary.tiny official intermediary --ignoreConflicts
+          test -s minecraft-intermediary.jar
+
+      - name: Remap Flow classes and members to Yarn names
+        run: |
+          java -Xmx2g -jar tiny-remapper.jar flow.jar flow-named.jar yarn-v2.tiny intermediary named minecraft-intermediary.jar --resolveMissing
           test -s flow-named.jar
 
       - name: Download CFR
@@ -58,9 +76,13 @@ jobs:
             echo "Intermediary Minecraft imports remain after remapping."
             exit 1
           fi
-          echo "Direct intermediary member references remaining (expected 0):"
-          grep -R -n -m 1 -E '\\.method_[0-9]+\\(|\\.field_[0-9]+' recovered-flow-cfr --include='*.java' | head -n 20 || true
-          echo "Count: $(grep -R -h -E '\\.method_[0-9]+\\(|\\.field_[0-9]+' recovered-flow-cfr --include='*.java' | wc -l)"
+          echo "Checking direct intermediary member references:"
+          residual="$(grep -R -n -E '\\.method_[0-9]+\\(|\\.field_[0-9]+' recovered-flow-cfr --include='*.java' | head -n 20 || true)"
+          if [ -n "$residual" ]; then
+            printf '%s\n' "$residual"
+            echo "Unmapped intermediary member references remain."
+            exit 1
+          fi
 
       - name: Stage recovered Java sources in project
         shell: bash
