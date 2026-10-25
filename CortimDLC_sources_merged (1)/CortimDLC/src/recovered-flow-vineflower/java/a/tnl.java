@@ -91,7 +91,7 @@ public final class tnl {
          int var16 = Math.max(4, var1.epochs);
          var2.epochs = var16;
          ArrayList<tbx> var17 = new ArrayList<>();
-         ArrayList<Callable<Integer>> var18 = new ArrayList<>();
+         ArrayList<Float> var18 = new ArrayList<>();
          int var19 = 0;
 
          try {
