@@ -184,7 +184,7 @@ public final class egq {
          return 0;
       }
 
-      List var3 = this.ehl();
+      List<dtv> var3 = this.ehl();
       long var4 = 0L;
 
       for (dtv var7 : var3) {
@@ -207,7 +207,7 @@ public final class egq {
    }
 
    public int setF0All(boolean var1) {
-      List var2 = this.ehl();
+      List<dtv> var2 = this.ehl();
       long var3 = 0L;
       int var5 = 0;
 
