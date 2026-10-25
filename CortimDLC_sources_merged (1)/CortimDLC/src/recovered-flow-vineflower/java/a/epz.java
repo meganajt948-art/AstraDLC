@@ -16,7 +16,7 @@ final class epz {
 
    static epz read(epm var0) {
       epz var1 = new epz();
-      ArrayList var2 = new ArrayList();
+      ArrayList<Long> var2 = new ArrayList<>();
       int var3 = 0;
       byte[] var4 = null;
       ArrayList var5 = new ArrayList();
