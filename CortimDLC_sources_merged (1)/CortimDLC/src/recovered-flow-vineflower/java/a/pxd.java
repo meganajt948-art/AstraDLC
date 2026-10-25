@@ -213,7 +213,7 @@ public final class pxd {
             var7 = var7.stretch(0.0, -1.0E-5, 0.0);
          }
 
-         List var8 = this.pyb(var7);
+         List<VoxelShape> var8 = this.pyb(var7);
          FloatArraySet var9 = new FloatArraySet(4);
          float var10 = (float)var2.y;
 
