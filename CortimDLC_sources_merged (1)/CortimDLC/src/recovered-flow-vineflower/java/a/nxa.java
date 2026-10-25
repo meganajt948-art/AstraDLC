@@ -3308,7 +3308,7 @@ public class nxa extends pnc {
    void omu(long var1) {
       BlockPos var3 = this.getPlayer().getBlockPos();
       this.omt();
-      ArrayList var4 = new ArrayList();
+      ArrayList<BlockPos> var4 = new ArrayList<>();
 
       for (BlockPos var6 : this.omv(4)) {
          if (!this.nzk.contains(var6)) {
