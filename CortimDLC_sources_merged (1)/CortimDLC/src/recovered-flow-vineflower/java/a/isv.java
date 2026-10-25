@@ -138,7 +138,7 @@ public final class isv {
 
    static void rescan() {
       iti = true;
-      ArrayList var0 = new ArrayList<>(itg);
+      ArrayList<isn> var0 = new ArrayList<>(itg);
       itg.clear();
       itg.add(itu(var0, new isn(a.b("䑺㷓뜝⥲ꊭ", -721533944), a.c(1419028856, "ꤪ킣婭쐂保"), null, null)));
 
