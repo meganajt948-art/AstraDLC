@@ -55,7 +55,7 @@ public final class sle {
             }
          }
 
-         ArrayList var4 = new ArrayList();
+         ArrayList<Raw> var4 = new ArrayList<>();
 
          final class Raw {
             final long sks;
@@ -83,7 +83,7 @@ public final class sle {
 
          for (String var8 : var0.split("\r?\n")) {
             Matcher var9 = slf.matcher(var8);
-            ArrayList var10 = new ArrayList();
+            ArrayList<Long> var10 = new ArrayList<>();
 
             int var11;
             for (var11 = 0; var9.find() && var9.start() == var11; var11 = var9.end()) {
@@ -92,7 +92,7 @@ public final class sle {
 
             if (!var10.isEmpty()) {
                String var12 = var8.substring(var11);
-               ArrayList var13 = new ArrayList();
+               ArrayList<Long> var13 = new ArrayList<>();
                Matcher var14 = slg.matcher(var12);
 
                while (var14.find()) {
@@ -123,7 +123,7 @@ public final class sle {
          }
 
          var4.sort((var0x, var1x) -> Long.compare(var0x.sks, var1x.sks));
-         ArrayList var21 = new ArrayList(var4.size());
+         ArrayList<skx> var21 = new ArrayList<>(var4.size());
 
          for (int var22 = 0; var22 < var4.size(); var22++) {
             Raw var24 = (Raw)var4.get(var22);
