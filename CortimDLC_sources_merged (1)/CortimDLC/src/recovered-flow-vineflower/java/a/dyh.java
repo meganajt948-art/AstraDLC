@@ -179,7 +179,7 @@ public final class dyh {
    }
 
    void eaf() {
-      List var1 = this.dyz;
+      List<Future<?>> var1 = this.dyz;
       this.dyz = null;
       dyr.remove(this);
 
