@@ -91,12 +91,61 @@ jobs:
 
           root = Path("recovered-flow-vineflower")
           record_re = re.compile(r"\brecord\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:<[^{};]+>\s*)?\(")
+          def normalize_string_switches(source, file):
+              if file.name == "wkw.java":
+                  pattern = re.compile(r"(?m)^([ \t]*)float\s+(\w+)\s*=\s*switch\s*\((\w+)\)\s*\{(.*?)^\s*\};", re.S)
+              elif file.name == "wlk.java":
+                  pattern = re.compile(r"(?m)^([ \t]*)return\s+switch\s*\((\w+)\)\s*\{(.*?)^\s*\};", re.S)
+              else:
+                  return source
+
+              def convert(match):
+                  indent = match.group(1)
+                  if file.name == "wkw.java":
+                      target, switch_value, body = match.group(2), match.group(3), match.group(4)
+                  else:
+                      target, switch_value, body = None, match.group(2), match.group(3)
+                  cases = []
+                  default_value = None
+                  for line in body.splitlines():
+                      item = line.strip()
+                      if item.startswith("case ") and "->" in item:
+                          label, value = item[5:].split("->", 1)
+                          cases.append((label.strip(), value.strip().removesuffix(";").strip()))
+                      elif item.startswith("default") and "->" in item:
+                          default_value = item.split("->", 1)[1].strip().removesuffix(";").strip()
+                  if not cases or not any(re.match(r"a\.[bcd]\(", label) for label, _ in cases) or default_value is None:
+                      return match.group(0)
+
+                  output = []
+                  if target is not None:
+                      output.append(indent + "float " + target + ";")
+                  for index, (label, value) in enumerate(cases):
+                      keyword = "if" if index == 0 else "else if"
+                      output.append(indent + keyword + " (" + switch_value + ".equals(" + label + ")) {")
+                      if target is None:
+                          output.append(indent + "   return " + value + ";")
+                      else:
+                          output.append(indent + "   " + target + " = " + value + ";")
+                      output.append(indent + "}")
+                  output.append(indent + "else {")
+                  if target is None:
+                      output.append(indent + "   return " + default_value + ";")
+                  else:
+                      output.append(indent + "   " + target + " = " + default_value + ";")
+                  output.append(indent + "}")
+                  return "\n".join(output)
+
+              return pattern.sub(convert, source)
+
           converted = 0
           widened_members = 0
           for file in root.rglob("*.java"):
               source = file.read_text(encoding="utf-8")
+              original_source = source
+              source = normalize_string_switches(source, file)
               cursor = 0
-              changed = False
+              changed = source != original_source
               while True:
                   match = record_re.search(source, cursor)
                   if not match:
