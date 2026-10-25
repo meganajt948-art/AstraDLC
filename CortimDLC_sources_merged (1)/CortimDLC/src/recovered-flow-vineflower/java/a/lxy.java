@@ -1276,8 +1276,8 @@ public class lxy extends kfe {
    int mes(List<ItemStack> var1, ItemStack var2, int var3) {
       int var4 = Math.max(0, var1.size() - 36);
       String var5 = mfg(this.mc.player.getGameProfile().name());
-      Map var6 = mfc(var2);
-      ArrayList var7 = new ArrayList();
+      Map<String, Integer> var6 = mfc(var2);
+      ArrayList<Integer> var7 = new ArrayList<>();
 
       for (int var8 = 0; var8 < var4; var8++) {
          ItemStack var9 = (ItemStack)var1.get(var8);
@@ -1453,7 +1453,7 @@ public class lxy extends kfe {
    }
 
    static Map<String, Integer> mfc(ItemStack var0) {
-      TreeMap var1 = new TreeMap();
+      TreeMap<String, Integer> var1 = new TreeMap<>();
       if (var0 != null && !var0.isEmpty()) {
          try {
             mfd(var0.get(DataComponentTypes.ENCHANTMENTS), var1);
@@ -1469,7 +1469,7 @@ public class lxy extends kfe {
 
    static void mfd(ItemEnchantmentsComponent var0, Map<String, Integer> var1) {
       if (var0 != null && !var0.isEmpty()) {
-         for (RegistryEntry var3 : var0.getEnchantments()) {
+         for (RegistryEntry<Enchantment> var3 : var0.getEnchantments()) {
             String var4 = var3.getKey().map(var0x -> var0x.getValue().getPath()).orElse("");
             if (!var4.isEmpty()) {
                var1.put(var4, var0.getLevel(var3));
