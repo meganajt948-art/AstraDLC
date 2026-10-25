@@ -5,6 +5,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 final class whh implements Runnable {
+   private final whl this$0;
    final ArrayBlockingQueue<whe> ready;
    final ArrayBlockingQueue<whe> free;
    volatile boolean done;
