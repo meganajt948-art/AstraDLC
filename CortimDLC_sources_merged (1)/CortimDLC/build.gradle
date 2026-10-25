@@ -3150,9 +3150,18 @@ tasks.named("jar") {
  * Recovered decompiler source trees contain intermediary Minecraft symbols,
  * so this wrapper does not compile those copies.
  */
+/*
+ * Recovery milestone 1:
+ * Compile the existing Alba-owned Java implementation instead of producing a
+ * wrapper-only JAR. The decompiled Flow tree (package a/ and flow/) stays out
+ * of compilation until its intermediary Minecraft symbols and missing recovered
+ * classes have been resolved; keeping flow.jar bundled preserves the working
+ * runtime while those sources are brought back incrementally.
+ */
 sourceSets {
     main {
-        java.setSrcDirs([])
+        java.setSrcDirs(["src/main/java"])
+        java.include("dev/dj/cortim/**")
     }
 }
 
