@@ -92,7 +92,7 @@ public final class phm {
          if (this.phn.equals(Enchantments.SHARPNESS)) {
             return 7;
          } else if (!this.phn.equals(Enchantments.PROTECTION) && !this.phn.equals(Enchantments.UNBREAKING)) {
-            Optional<RegistryEntry<Enchantment>> var1 = this.phw();
+            Optional<? extends RegistryEntry<Enchantment>> var1 = this.phw();
             return var1.<Integer>map(var0 -> Math.max(1, ((Enchantment)var0.value()).getMaxLevel())).orElse(Math.max(1, this.phr));
          } else {
             return 5;
