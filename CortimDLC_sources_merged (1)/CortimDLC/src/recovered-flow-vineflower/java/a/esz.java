@@ -39,7 +39,7 @@ public final class esz {
 
       var4 = eti(var4, var1, var2, 4);
       int[] var20 = new int[var1 * var2];
-      List var6 = etj(var4, var1, var2, var20);
+      List<int[]> var6 = etj(var4, var1, var2, var20);
       var6.removeIf(var0x -> var0x[4] < 2000 || var0x[3] < 80 || var0x[3] > 220 || var0x[2] < 20 || var0x[2] > 150);
       if (var6.size() >= 3 && var6.size() <= 8) {
          int var7 = Integer.MAX_VALUE;
@@ -142,7 +142,7 @@ public final class esz {
 
    static boolean[] eti(boolean[] var0, int var1, int var2, int var3) {
       int var4 = var3 * var3;
-      ArrayList var5 = new ArrayList();
+      ArrayList<int[]> var5 = new ArrayList<>();
 
       for (int var6 = -var3; var6 <= var3; var6++) {
          for (int var7 = -var3; var7 <= var3; var7++) {
@@ -231,7 +231,7 @@ public final class esz {
          }
       }
 
-      HashMap var16 = new HashMap();
+      HashMap<Integer, int[]> var16 = new HashMap<>();
 
       for (int var17 = 0; var17 < var2; var17++) {
          for (int var19 = 0; var19 < var1; var19++) {
@@ -263,7 +263,7 @@ public final class esz {
          }
       }
 
-      ArrayList var18 = new ArrayList();
+      ArrayList<int[]> var18 = new ArrayList<>();
 
       for (int[] var22 : var16.values()) {
          var18.add(new int[]{var22[0], var22[1], var22[2] - var22[0] + 1, var22[3] - var22[1] + 1, var22[4], var22[5]});
@@ -417,7 +417,7 @@ public final class esz {
          a.c(875692957, "ϒ穂\uf09e滤\ue504掖\ud990倒칿䓁쌏")
       };
       HashSet var1 = new HashSet<>(Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
-      ArrayList var2 = new ArrayList();
+      ArrayList<Font> var2 = new ArrayList<>();
 
       for (String var6 : var0) {
          if (var1.contains(var6)) {
@@ -434,7 +434,7 @@ public final class esz {
          var15[var16] = Math.toRadians(-80 + var16 * 10);
       }
 
-      ArrayList var17 = new ArrayList(var2.size() * 10 * var15.length);
+      ArrayList<est> var17 = new ArrayList<>(var2.size() * 10 * var15.length);
 
       for (Font var19 : var2) {
          for (int var7 = 0; var7 < 10; var7++) {
