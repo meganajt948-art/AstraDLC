@@ -1,0 +1,37 @@
+name: Diagnose recovered AlbaDLC sources
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/alba-standalone-source-recovery
+    paths:
+      - '.github/workflows/diagnose-recovered-sources.yml'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/build.gradle'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/gradle.properties'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/src/recovered-flow-cfr/java/**'
+
+permissions:
+  contents: read
+
+jobs:
+  compile-recovered:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Verify existing AlbaDLC build
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: gradle build --no-daemon
+
+      - name: Compile the recovered source tree
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: gradle compileRecoveredJava --no-daemon --stacktrace
