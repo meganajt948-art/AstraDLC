@@ -338,7 +338,7 @@ public class lsx extends kfe {
    public static void bossBars(MinecraftClient var0, Runnable var1) {
       lsx var2 = lsy;
       if (var2 != null && var2.isEnabled()) {
-         IdentityHashMap<BossBar, Text> var3 = new IdentityHashMap<>();
+         IdentityHashMap<ClientBossBar, Text> var3 = new IdentityHashMap<>();
 
          for (ClientBossBar var5 : pjn.of(var0).values()) {
             Text var6 = var5.getName();
@@ -351,7 +351,7 @@ public class lsx extends kfe {
          try {
             var1.run();
          } finally {
-            var3.forEach(BossBar::setName);
+            var3.forEach(ClientBossBar::setName);
          }
       } else {
          var1.run();
