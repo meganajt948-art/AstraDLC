@@ -306,7 +306,7 @@ public final class tiq {
 
                   boolean var7 = a.b("乭㟘봌⍶", -118731260).equals(var5.meta().get(a.b("ꮀ툳壧욜", -1546867729)));
                   boolean var8 = a.d("Ԑ粷\uf669栟", -1482623788, 1593831863).equals(var5.meta().get(a.c(1178722652, "\ue133颀ቔ谯")));
-                  var3.add(eyn.get(var5.key()).thenAccept(var4x -> {
+                  CompletableFuture<Void> var10x = ((CompletableFuture<byte[]>)eyn.get(var5.key())).thenAccept(var4x -> {
                      try {
                         if (var7) {
                            tvc var5x = tvc.read(new ByteArrayInputStream(var4x));
@@ -328,7 +328,8 @@ public final class tiq {
                      }
 
                      this.tjg++;
-                  }).exceptionally(var0 -> null));
+                  });
+                  var3.add(var10x);
                }
 
                return CompletableFuture.allOf(var3.toArray(new CompletableFuture[0]));
