@@ -9,7 +9,7 @@ public final class pdi {
    public static final int SELL = 1;
    static final long pdj = 60000L;
    static final long pdk = 600000L;
-   static final ArrayDeque<Long>[] pdl = new ArrayDeque[]{new ArrayDeque(), new ArrayDeque()};
+   static final ArrayDeque<Long>[] pdl = new ArrayDeque[]{new ArrayDeque<Long>(), new ArrayDeque<Long>()};
    static int pdm;
    static long pdn;
 
