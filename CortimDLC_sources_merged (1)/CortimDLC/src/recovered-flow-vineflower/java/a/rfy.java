@@ -89,7 +89,7 @@ public class rfy extends kfe {
    }
 
    float[][] rgw() {
-      ArrayList var1 = new ArrayList();
+      ArrayList<float[]> var1 = new ArrayList<>();
       int var2 = 9 + this.rgj.nextInt(4);
       float var3 = this.rgj.nextFloat() * (float) (Math.PI * 2);
 
