@@ -25,7 +25,7 @@ final class iqp extends imn {
 
    iqp() {
       super(iov.PRESET);
-      ArrayList var1 = new ArrayList();
+      ArrayList<Integer> var1 = new ArrayList<>();
 
       for (String var5 : iqv) {
          if (var5.equals(a.b("\udfe6ꙡⲴ닂㤎뾽", -572334173))) {
