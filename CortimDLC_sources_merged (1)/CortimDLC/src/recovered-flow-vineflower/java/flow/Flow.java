@@ -738,3 +738,4 @@ public final class Flow implements ClientModInitializer {
       this.openGuiKey = openGuiKey;
    }
 }
+// AlbaDLC recovery: Vineflower 1.12.0 sources normalized for Java compilation.
