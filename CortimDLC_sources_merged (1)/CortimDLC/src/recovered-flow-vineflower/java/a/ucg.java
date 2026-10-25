@@ -1102,7 +1102,7 @@ public final class ucg {
 
    static void uer() {
       if (!ucw.isEmpty() && udl != null) {
-         ArrayList var0 = new ArrayList<>(ucw);
+         ArrayList<ubs> var0 = new ArrayList<>(ucw);
          ucw.clear();
 
          for (ubs var2 : var0) {
@@ -1262,7 +1262,7 @@ public final class ucg {
    static void uex() {
       if (!ucx.isEmpty()) {
          long var0 = System.currentTimeMillis();
-         ArrayList var2 = new ArrayList<>(ucx);
+         ArrayList<ubx> var2 = new ArrayList<>(ucx);
          ucx.clear();
 
          for (ubx var4 : var2) {
