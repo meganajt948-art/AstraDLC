@@ -69,7 +69,7 @@ public final class trs {
       double[] var30 = new double[11];
       double[] var31 = new double[var46.h1];
       double[] var32 = new double[var46.h2];
-      ArrayList<Double> var33 = new ArrayList<>();
+      ArrayList<Float> var33 = new ArrayList<>();
       var4.epochs = var1;
 
       for (int var34 = 0; var34 < var1; var34++) {
