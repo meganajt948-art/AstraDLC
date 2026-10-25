@@ -422,7 +422,7 @@ public final class izx {
    }
 
    static float[] jbh(jcs var0, float var1, float var2, float var3, boolean var4) {
-      ArrayList var5 = new ArrayList();
+      ArrayList<float[]> var5 = new ArrayList<>();
       var5.add(new float[]{4.0F, 4.0F});
       var5.add(new float[]{(var3 - var2) * 0.5F, var3 * 0.5F});
       var5.add(new float[]{var3 - var2 - 4.0F, var3 - 4.0F});
