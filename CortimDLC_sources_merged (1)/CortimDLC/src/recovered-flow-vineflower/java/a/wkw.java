@@ -22,7 +22,7 @@ public final class wkw {
    public static void render(DrawContext var0, RenderTickCounter var1) {
       MinecraftClient var2 = MinecraftClient.getInstance();
       if (wlk.ENABLED.get() && var2.world != null && var2.player != null && !var2.options.hudHidden && !dry.armed()) {
-         List var3 = wlk.drawable();
+         List<wkq> var3 = wlk.drawable();
          if (var3.isEmpty()) {
             wlc.clear();
          } else {
