@@ -91,6 +91,258 @@ jobs:
 
           root = Path("recovered-flow-vineflower")
           record_re = re.compile(r"\brecord\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*(?:<[^{};]+>\s*)?\(")
+
+          def matching_delimiter(source, start, opening, closing):
+              depth = 0
+              quote = None
+              escaped = False
+              line_comment = False
+              block_comment = False
+              i = start
+              while i < len(source):
+                  ch = source[i]
+                  nxt = source[i + 1] if i + 1 < len(source) else ""
+                  if line_comment:
+                      if ch == "\n":
+                          line_comment = False
+                  elif block_comment:
+                      if ch == "*" and nxt == "/":
+                          block_comment = False
+                          i += 1
+                  elif quote is not None:
+                      if escaped:
+                          escaped = False
+                      elif ch == "\\":
+                          escaped = True
+                      elif ch == quote:
+                          quote = None
+                  elif ch == "/" and nxt == "/":
+                      line_comment = True
+                      i += 1
+                  elif ch == "/" and nxt == "*":
+                      block_comment = True
+                      i += 1
+                  elif ch in ("'", '"'):
+                      quote = ch
+                  elif ch == opening:
+                      depth += 1
+                  elif ch == closing:
+                      depth -= 1
+                      if depth == 0:
+                          return i
+                  i += 1
+              return -1
+
+          def switch_case_sections(body):
+              labels = []
+              i = 0
+              brace_depth = 0
+              paren_depth = 0
+              bracket_depth = 0
+              quote = None
+              escaped = False
+              line_comment = False
+              block_comment = False
+              while i < len(body):
+                  ch = body[i]
+                  nxt = body[i + 1] if i + 1 < len(body) else ""
+                  if line_comment:
+                      if ch == "\n":
+                          line_comment = False
+                  elif block_comment:
+                      if ch == "*" and nxt == "/":
+                          block_comment = False
+                          i += 1
+                  elif quote is not None:
+                      if escaped:
+                          escaped = False
+                      elif ch == "\\":
+                          escaped = True
+                      elif ch == quote:
+                          quote = None
+                  elif ch == "/" and nxt == "/":
+                      line_comment = True
+                      i += 1
+                  elif ch == "/" and nxt == "*":
+                      block_comment = True
+                      i += 1
+                  elif ch in ("'", '"'):
+                      quote = ch
+                  elif brace_depth == 0 and paren_depth == 0 and bracket_depth == 0:
+                      match = re.match(r"(case|default)\b", body[i:])
+                      if match and (i == 0 or not (body[i - 1].isalnum() or body[i - 1] in "_$")):
+                          kind = match.group(1)
+                          label_start = i + len(kind)
+                          j = label_start
+                          lp = lb = lc = 0
+                          q = None
+                          esc = False
+                          line_c = block_c = False
+                          delimiter = None
+                          while j < len(body):
+                              c = body[j]
+                              nn = body[j + 1] if j + 1 < len(body) else ""
+                              if line_c:
+                                  if c == "\n": line_c = False
+                              elif block_c:
+                                  if c == "*" and nn == "/":
+                                      block_c = False
+                                      j += 1
+                              elif q is not None:
+                                  if esc: esc = False
+                                  elif c == "\\": esc = True
+                                  elif c == q: q = None
+                              elif c == "/" and nn == "/":
+                                  line_c = True
+                                  j += 1
+                              elif c == "/" and nn == "*":
+                                  block_c = True
+                                  j += 1
+                              elif c in ("'", '"'):
+                                  q = c
+                              elif c == "(": lp += 1
+                              elif c == ")": lp -= 1
+                              elif c == "[": lb += 1
+                              elif c == "]": lb -= 1
+                              elif c == "{": lc += 1
+                              elif c == "}": lc -= 1
+                              elif lp == 0 and lb == 0 and lc == 0 and c == ":":
+                                  delimiter = ":"
+                                  break
+                              elif lp == 0 and lb == 0 and lc == 0 and c == "-" and nn == ">":
+                                  delimiter = "->"
+                                  break
+                              j += 1
+                          if delimiter:
+                              labels.append((i, kind, body[label_start:j].strip(), delimiter, j + len(delimiter)))
+                              i = j + len(delimiter)
+                              continue
+                  if ch == "{": brace_depth += 1
+                  elif ch == "}": brace_depth -= 1
+                  elif ch == "(": paren_depth += 1
+                  elif ch == ")": paren_depth -= 1
+                  elif ch == "[": bracket_depth += 1
+                  elif ch == "]": bracket_depth -= 1
+                  i += 1
+
+              sections = []
+              for index, label in enumerate(labels):
+                  next_pos = labels[index + 1][0] if index + 1 < len(labels) else len(body)
+                  sections.append({
+                      "kind": label[1],
+                      "label": label[2],
+                      "delimiter": label[3],
+                      "body": body[label[4]:next_pos].strip()
+                  })
+              return sections
+
+          def normalize_dynamic_switches(source):
+              attempts = 0
+              while attempts < 200:
+                  attempts += 1
+                  candidates = []
+                  for match in re.finditer(r"\bswitch\s*\(", source):
+                      paren_open = source.find("(", match.start())
+                      paren_close = matching_delimiter(source, paren_open, "(", ")")
+                      if paren_close < 0:
+                          continue
+                      brace_open = source.find("{", paren_close + 1)
+                      if brace_open < 0:
+                          continue
+                      brace_close = matching_delimiter(source, brace_open, "{", "}")
+                      if brace_close < 0:
+                          continue
+                      body = source[brace_open + 1:brace_close]
+                      if not re.search(r"\bcase\s+a\.[A-Za-z_$][A-Za-z0-9_$]*\s*\(", body):
+                          continue
+                      sections = switch_case_sections(body)
+                      if sections and all(section["delimiter"] == "->" for section in sections):
+                          mode = "expression"
+                      elif sections and all(section["delimiter"] == ":" for section in sections):
+                          mode = "statement"
+                      else:
+                          continue
+                      candidates.append((match.start(), paren_open, paren_close, brace_open, brace_close, body, sections, mode))
+                  if not candidates:
+                      break
+                  sw_start, paren_open, paren_close, brace_open, brace_close, body, sections, mode = max(candidates, key=lambda item: item[0])
+                  selector = source[paren_open + 1:paren_close].strip()
+                  if not selector:
+                      break
+
+                  if mode == "statement":
+                      indent = re.match(r"[ \t]*", source[source.rfind("\n", 0, sw_start) + 1:sw_start]).group(0)
+                      output = []
+                      has_default = any(section["kind"] == "default" for section in sections)
+                      for index, section in enumerate(sections):
+                          case_body = re.sub(r"\bbreak\s*;\s*$", "", section["body"]).strip()
+                          if section["kind"] == "default":
+                              output.append(indent + "else {")
+                          else:
+                              labels = [label.strip() for label in section["label"].split(",")]
+                              condition = " || ".join("java.util.Objects.equals(" + selector + ", " + label + ")" for label in labels)
+                              output.append(indent + ("if" if index == 0 else "else if") + " (" + condition + ") {")
+                          if case_body:
+                              output.extend(indent + "   " + line for line in case_body.splitlines())
+                          output.append(indent + "}")
+                      if not has_default and not output:
+                          break
+                      replacement = "\n".join(output)
+                      source = source[:sw_start] + replacement + source[brace_close + 1:]
+                  else:
+                      prefix_start = max(source.rfind(";", 0, sw_start), source.rfind("{", 0, sw_start), source.rfind("}", 0, sw_start)) + 1
+                      prefix = source[prefix_start:sw_start]
+                      stripped_prefix = prefix.strip()
+                      indent_match = re.search(r"(?:^|\n)([ \t]*)\S", prefix)
+                      indent = indent_match.group(1) if indent_match else ""
+                      is_return = stripped_prefix == "return"
+                      declaration = None
+                      target = None
+                      if not is_return:
+                          eq = stripped_prefix.rfind("=")
+                          if eq < 0:
+                              break
+                          left = stripped_prefix[:eq].strip()
+                          if not left:
+                              break
+                          decl_match = re.fullmatch(r"(.+)\s+([A-Za-z_$][A-Za-z0-9_$]*)", left)
+                          if decl_match:
+                              typ, name = decl_match.group(1).strip(), decl_match.group(2)
+                              if typ[:1].isupper() or "[]" in typ or "<" in typ or typ in {"byte", "short", "int", "long", "float", "double", "boolean", "char", "var"}:
+                                  declaration = typ + " " + name + ";"
+                                  target = name
+                          if target is None:
+                              target = left
+
+                      output = []
+                      if declaration:
+                          output.append(indent + declaration)
+                      for index, section in enumerate(sections):
+                          expr = section["body"].strip()
+                          if not expr or "yield " in expr or expr.startswith("{"):
+                              output = []
+                              break
+                          expr = re.sub(r";\s*$", "", expr).strip()
+                          if section["kind"] == "default":
+                              output.append(indent + "else {")
+                          else:
+                              labels = [label.strip() for label in section["label"].split(",")]
+                              condition = " || ".join("java.util.Objects.equals(" + selector + ", " + label + ")" for label in labels)
+                              output.append(indent + ("if" if index == 0 else "else if") + " (" + condition + ") {")
+                          output.append(indent + "   " + ("return " + expr + ";" if is_return else target + " = " + expr + ";"))
+                          output.append(indent + "}")
+                      if not output:
+                          break
+                      replacement = "\n".join(output)
+                      replace_start = prefix_start + len(prefix) - len(prefix.lstrip())
+                      replace_end = brace_close + 1
+                      while replace_end < len(source) and source[replace_end].isspace():
+                          replace_end += 1
+                      if replace_end < len(source) and source[replace_end] == ";":
+                          replace_end += 1
+                      source = source[:replace_start] + replacement + source[replace_end:]
+              return source
+
           def normalize_string_switches(source, file):
               if file.name == "wkw.java":
                   pattern = re.compile(r"(?m)^([ \t]*)float\s+(\w+)\s*=\s*switch\s*\((\w+)\)\s*\{(.*?)^\s*\};", re.S)
@@ -143,6 +395,7 @@ jobs:
               source = file.read_text(encoding="utf-8")
               original_source = source
               source = normalize_string_switches(source, file)
+              source = normalize_dynamic_switches(source)
               cursor = 0
               changed = source != original_source
               while True:
