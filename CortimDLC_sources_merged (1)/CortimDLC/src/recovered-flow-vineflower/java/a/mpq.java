@@ -2678,7 +2678,7 @@ public class mpq extends pnc {
    BlockPos nbk() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       Mutable var2 = new Mutable();
-      ArrayList var3 = new ArrayList();
+      ArrayList<Vec3d> var3 = new ArrayList<>();
       if (this.getWorld() != null) {
          for (PlayerEntity var5 : this.getWorld().getPlayers()) {
             if (var5 != this.getPlayer()) {
@@ -3499,7 +3499,7 @@ public class mpq extends pnc {
    BlockPos nda() {
       BlockPos var1 = this.getPlayer().getBlockPos();
       Mutable var2 = new Mutable();
-      ArrayList var3 = new ArrayList();
+      ArrayList<Vec3d> var3 = new ArrayList<>();
 
       for (PlayerEntity var5 : this.getWorld().getPlayers()) {
          if (var5 != this.getPlayer()) {
