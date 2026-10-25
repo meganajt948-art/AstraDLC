@@ -177,7 +177,7 @@ public final class isv {
          );
       }
 
-      ArrayList var13 = new ArrayList();
+      ArrayList<String> var13 = new ArrayList<>();
 
       for (Path var22 : itw()) {
          if (Files.isDirectory(var22)) {
