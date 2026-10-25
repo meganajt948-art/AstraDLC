@@ -344,7 +344,7 @@ public final class hrt extends ijy {
             var13 += 17.0F;
          }
 
-         List var17 = var8.shownRules();
+         List<phm> var17 = var8.shownRules();
          if (!var17.isEmpty()) {
             var13 = this.htg(var1, wap.s(a.d("፯櫲\ue020繛\uf581猭쥣䂔\udeca呦", -405987232, 15741766), a.d("孴⊧ꠎ㙺붡㬚脾", -1962051645, 1551313043)), var14, var13, var15);
 
