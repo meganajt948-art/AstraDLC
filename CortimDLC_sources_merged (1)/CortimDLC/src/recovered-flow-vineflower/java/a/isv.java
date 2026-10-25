@@ -181,7 +181,7 @@ public final class isv {
 
       for (Path var22 : itw()) {
          if (Files.isDirectory(var22)) {
-            try (Stream var27 = Files.list(var22)) {
+            try (Stream<Path> var27 = Files.list(var22)) {
                var27.filter(isv::itv).sorted().forEach(var2 -> {
                   String var3 = var2.getFileName().toString();
                   if (!var13.contains(var3.toLowerCase(Locale.ROOT))) {
