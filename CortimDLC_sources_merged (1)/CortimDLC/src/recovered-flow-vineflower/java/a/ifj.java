@@ -25,7 +25,7 @@ final class ifj extends imn {
 
    static List<PlayerEntity> ifs() {
       MinecraftClient var0 = MinecraftClient.getInstance();
-      ArrayList var1 = new ArrayList();
+      ArrayList<PlayerEntity> var1 = new ArrayList<>();
       if (var0.world != null && var0.player != null) {
          for (PlayerEntity var3 : var0.world.getPlayers()) {
             if (var3 != var0.player && !var3.isSpectator()) {
