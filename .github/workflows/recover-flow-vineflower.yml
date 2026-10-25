@@ -82,6 +82,64 @@ jobs:
             exit 1
           fi
 
+      - name: Normalize record declarations for Java source compilation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path("recovered-flow-vineflower")
+          record_re = re.compile(r"\\brecord\\s+([A-Za-z_$][A-Za-z0-9_$]*)\\s*(?:<[^{};]+>\\s*)?\\(")
+          converted = 0
+          for file in root.rglob("*.java"):
+              source = file.read_text(encoding="utf-8")
+              cursor = 0
+              changed = False
+              while True:
+                  match = record_re.search(source, cursor)
+                  if not match:
+                      break
+                  open_paren = source.find("(", match.start(), match.end())
+                  depth = 0
+                  close_paren = -1
+                  for pos in range(open_paren, len(source)):
+                      char = source[pos]
+                      if char == "(":
+                          depth += 1
+                      elif char == ")":
+                          depth -= 1
+                          if depth == 0:
+                              close_paren = pos
+                              break
+                  if close_paren < 0:
+                      cursor = match.end()
+                      continue
+                  brace = source.find("{", close_paren + 1)
+                  if brace < 0:
+                      cursor = close_paren + 1
+                      continue
+                  body = source[brace + 1:brace + 900]
+                  first_blank = body.find("\\n\\n")
+                  initial_members = body if first_blank < 0 else body[:first_blank]
+                  # Vineflower 1.12 emits record components plus duplicate explicit instance fields.
+                  # javac rejects those duplicate fields in a record; converting only these
+                  # declarations to ordinary final classes preserves the recovered constructor
+                  # and accessor implementations while making the source structurally valid.
+                  has_duplicate_fields = re.search(r"(?m)^\\s*private\\s+final\\s+[^;\\n]+;\\s*$", initial_members) is not None
+                  if not has_duplicate_fields:
+                      cursor = close_paren + 1
+                      continue
+                  class_name = match.group(1)
+                  source = source[:match.start()] + "final class " + class_name + source[close_paren + 1:]
+                  cursor = match.start() + len("final class " + class_name)
+                  converted += 1
+                  changed = True
+              if changed:
+                  file.write_text(source, encoding="utf-8")
+          print("Normalized record declarations with duplicate component fields:", converted)
+          PY
+
       - name: Stage recovered Java sources in project
         shell: bash
         run: |
