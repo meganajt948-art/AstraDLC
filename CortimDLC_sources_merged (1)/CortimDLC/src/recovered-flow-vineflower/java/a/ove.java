@@ -5,6 +5,7 @@ import net.minecraft.entity.MarkerEntity;
 import net.minecraft.world.World;
 
 final class ove extends MarkerEntity {
+   private final ovh this$0;
    ove(ovh var1, World var2) {
       super(EntityType.MARKER, var2);
       this.this$0 = var1;
