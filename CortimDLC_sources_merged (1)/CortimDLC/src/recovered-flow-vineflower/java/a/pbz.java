@@ -356,7 +356,7 @@ public class pbz extends kfe {
          }
 
          long var9 = System.currentTimeMillis();
-         ArrayList var11 = new ArrayList<>(var2.pcp);
+         ArrayList<pbw> var11 = new ArrayList<>(var2.pcp);
          var11.sort((var1x, var2x) -> Double.compare(pdg(var7, var2x), pdg(var7, var1x)));
          float var12 = Math.max(1, var3.getWindow().getScaleFactor());
          float[] var13 = new float[2];
