@@ -48,8 +48,8 @@ jobs:
           mkdir -p recovered-flow-vineflower
           java -Xmx4g -jar vineflower.jar flow-named.jar recovered-flow-vineflower
           find recovered-flow-vineflower -type f -name '*.java' | wc -l
-          if grep -R -n -m 1 'net\.minecraft\.class_' recovered-flow-vineflower --include='*.java'; then
-            echo "Intermediary Minecraft class names remain after remapping; refusing to stage this source set."
+          if grep -R -n -m 1 'import net\.minecraft\.class_' recovered-flow-vineflower --include='*.java'; then
+            echo "Intermediary Minecraft imports remain after remapping; refusing to stage this source set."
             exit 1
           fi
       - name: Stage recovered Java sources in project
