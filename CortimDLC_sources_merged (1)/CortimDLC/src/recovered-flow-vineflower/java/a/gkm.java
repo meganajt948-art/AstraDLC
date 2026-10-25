@@ -362,10 +362,10 @@ final class gkm {
    }
 
    static void gme(MinecraftClient var0, ClientPlayerEntity var1) {
-      List var2 = tcz.stands();
+      List<tkx> var2 = tcz.stands();
       if (!var2.isEmpty()) {
          if (glc == null || glc.isRemoved() || --gld <= 0) {
-            tkx var3 = (tkx)var2.get(gks.nextInt(var2.size()));
+            tkx var3 = var2.get(gks.nextInt(var2.size()));
             if (var3 != glc || glc == null) {
                glc = var3;
                glg.clear();
