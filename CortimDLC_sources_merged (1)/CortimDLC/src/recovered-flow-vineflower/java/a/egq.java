@@ -244,7 +244,7 @@ public final class egq {
    }
 
    public int setF2All(boolean var1) {
-      List var2 = this.ehl();
+      List<dtv> var2 = this.ehl();
       long var3 = 0L;
       int var5 = 0;
 
@@ -260,7 +260,7 @@ public final class egq {
    }
 
    public int setF3All(boolean var1) {
-      List var2 = this.ehl();
+      List<dtv> var2 = this.ehl();
       long var3 = 0L;
       int var5 = 0;
 
