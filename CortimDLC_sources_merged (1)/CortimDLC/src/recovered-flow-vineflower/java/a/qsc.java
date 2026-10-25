@@ -91,7 +91,7 @@ public final class qsc {
       }
 
       if (!var13.isEmpty()) {
-         List var15 = qsl(var13);
+         List<qrz> var15 = qsl(var13);
 
          for (qrz var12 : var15) {
             this.qsg.addAll(var12.ores);
