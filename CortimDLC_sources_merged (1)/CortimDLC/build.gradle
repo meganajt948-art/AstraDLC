@@ -727,6 +727,58 @@ def patchOpaqueScreenBackground = { byte[] bytes ->
     }
     return writer.toByteArray()
 }
+
+/*
+ * The custom full-screen rectangle can be submitted through the unstable UI
+ * render pipeline and cover the whole frame with white on some drivers.
+ * Replace only that first background rectangle with Minecraft's normal fill;
+ * leave every other custom shape and the wallpaper layer intact.
+ */
+def patchVanillaBackdropRect = { byte[] bytes, String targetMethod, String targetDescriptor, int backgroundColor ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean foundMethod = false
+    boolean replacedRect = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != targetMethod || descriptor != targetDescriptor) return mv
+            foundMethod = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                    if (!replacedRect && callOwner == "a/uut" && callName == "rect" &&
+                        callDescriptor == "(Lnet/minecraft/class_332;FFFFI)V") {
+                        // Original stack: context, x, y, width, height, color.
+                        // Keep the coordinates, convert floats to integer pixels, and
+                        // submit a normal DrawContext.fill instead of the custom shader rect.
+                        super.visitInsn(Opcodes.POP)
+                        super.visitInsn(Opcodes.F2I)
+                        super.visitInsn(Opcodes.F2I)
+                        super.visitInsn(Opcodes.F2I)
+                        super.visitInsn(Opcodes.F2I)
+                        super.visitLdcInsn(backgroundColor)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_25294",
+                            "(IIIII)V", false)
+                        replacedRect = true
+                    } else {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!foundMethod || !replacedRect) {
+        throw new GradleException("Could not replace the custom full-screen backdrop rectangle in " +
+            new ClassReader(bytes).className + "." + targetMethod)
+    }
+    return writer.toByteArray()
+}
+
 def patchTitleScreenBackground = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
@@ -3213,6 +3265,11 @@ tasks.register("rebrandFlowNestedJar") {
                         if (isWelcomeScreenClass(originalBytes) ||
                             entry.name == "a/kct.class" || entry.name == "a/ida.class") {
                             patchedBytes = patchOpaqueScreenBackground(patchedBytes)
+                            if (entry.name == "a/kct.class") {
+                                patchedBytes = patchVanillaBackdropRect(patchedBytes, "method_25394",
+                                    "(Lnet/minecraft/class_332;IIF)V", -16315888)
+                                logger.lifecycle("Replaced language screen full-frame custom rectangle with vanilla DrawContext.fill")
+                            }
                             logger.lifecycle("Added vanilla opaque background guard to language screen " + entry.name)
                         } else if (isMenuSceneRendererClass(originalBytes)) {
                             patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
@@ -3248,6 +3305,9 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchOpaqueScreenBackground(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
+                            patchedBytes = patchVanillaBackdropRect(patchedBytes, "jwe",
+                                "(Lnet/minecraft/class_332;FF)V", -16118250)
+                            logger.lifecycle("Replaced main menu full-frame custom rectangle with vanilla DrawContext.fill")
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
