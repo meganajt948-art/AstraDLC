@@ -31,6 +31,34 @@ jobs:
         with:
           gradle-version: '9.2.1'
 
+      - name: Fix exit-label renderer descriptor
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("CortimDLC_sources_merged (1)/CortimDLC/build.gradle")
+          text = p.read_text(encoding="utf-8")
+          old = '''super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "draw",
+                              "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)'''
+          new = '''super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "draw",
+                              "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)
+                          super.visitInsn(Opcodes.POP)'''
+          if old in text:
+              text = text.replace(old, new, 1)
+              p.write_text(text, encoding="utf-8")
+              print("Corrected the custom font draw descriptor and discarded its float result.")
+          elif new in text:
+              print("Exit-label renderer descriptor is already corrected.")
+          else:
+              raise SystemExit("Expected exit-label draw invocation was not found; refusing to build an unpatched client.")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "CortimDLC_sources_merged (1)/CortimDLC/build.gradle"
+          if ! git diff --cached --quiet; then
+            git commit -m "Fix main-menu exit label renderer descriptor"
+            git push
+          fi
+
       - name: Build with original nested Flow runtime
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle clean build --no-daemon -PkeepNestedFlowJar
