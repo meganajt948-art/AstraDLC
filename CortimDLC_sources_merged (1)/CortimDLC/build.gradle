@@ -1443,7 +1443,7 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                             (fieldName == "DISCORD" || fieldName == "TELEGRAM")) {
                             super.visitInsn(Opcodes.POP)
                             super.visitLdcInsn(fieldName == "DISCORD"
-                                ? "https://discord.gg/6NZxdgRv"
+                                ? "https://discord.gg/aP9dpxM8"
                                 : "https://t.me/+avaPsqqI2Mw3MTRi")
                             found[fieldName == "DISCORD" ? "discordAssigned" : "telegramAssigned"] = true
                             super.visitFieldInsn(opcode, fieldOwner, fieldName, fieldDescriptor)
@@ -1457,7 +1457,7 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                 found.click = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override void visitLdcInsn(Object value) {
-                        if (value == "https://discord.gg/g4fmYmGeR") value = "https://discord.gg/6NZxdgRv"
+                        if (value == "https://discord.gg/aP9dpxM8") value = "https://discord.gg/aP9dpxM8"
                         super.visitLdcInsn(value)
                     }
                 }
@@ -2112,7 +2112,7 @@ def patchPeriodicJumpHooks = { byte[] bytes ->
 def patchDiscordInviteUrls = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, 0)
-    String desired = "https://discord.gg/6NZxdgRv"
+    String desired = "https://discord.gg/aP9dpxM8"
     boolean changed = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         private Object replaceInvite(Object value) {
@@ -2138,7 +2138,7 @@ def patchDiscordInviteUrls = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (changed) logger.lifecycle("Replaced stale Discord invite with https://discord.gg/6NZxdgRv in " + reader.className)
+    if (changed) logger.lifecycle("Replaced stale Discord invite with https://discord.gg/aP9dpxM8 in " + reader.className)
     return writer.toByteArray()
 }
 
