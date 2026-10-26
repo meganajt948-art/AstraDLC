@@ -61,6 +61,11 @@ java {
  */
 def flowNestedJar = layout.buildDirectory.file("flow-dependency/flow.jar")
 def rebrandedNestedJar = layout.buildDirectory.file("flow-dependency/albadlc-core.jar")
+def automaticRecoveredCandidateRoot = layout.buildDirectory.dir("recovered-candidate")
+def automaticRecoveredCandidateClasses = layout.buildDirectory.dir("recovered-candidate/classes")
+def useAutomaticRecoveredSources =
+    !providers.gradleProperty("recoveredCandidateDir").isPresent() &&
+    !providers.gradleProperty("keepNestedFlowJar").isPresent()
 def albaVideoFile = layout.buildDirectory.file("flow-dependency/alba-background.mp4")
 def albaSourceVideoFile = rootProject.file("../../video-data/alba-background.mp4")
 def albaLogoFile = layout.buildDirectory.file("flow-dependency/alba-logo.png")
@@ -3001,13 +3006,16 @@ tasks.register("rebrandFlowNestedJar") {
     def candidateDirForInputs = providers.gradleProperty("recoveredCandidateDir")
     if (candidateDirForInputs.isPresent()) {
         inputs.dir(file(candidateDirForInputs.get()))
+    } else if (useAutomaticRecoveredSources) {
+        inputs.dir(automaticRecoveredCandidateClasses)
     }
     outputs.file(rebrandedNestedJar)
     doLast {
         // Optional only: create a separate recovered-source candidate artifact without
         // putting those classes at the outer mod root. Normal builds leave this unset.
         File recoveredCandidateDir = project.findProperty("recoveredCandidateDir") != null
-            ? file(project.property("recoveredCandidateDir")) : null
+            ? file(project.property("recoveredCandidateDir"))
+            : (useAutomaticRecoveredSources ? automaticRecoveredCandidateClasses.get().asFile : null)
         int recoveredClassReplacements = 0
         def inputFile = flowNestedJar.get().asFile
         def outputFile = rebrandedNestedJar.get().asFile
@@ -3265,9 +3273,10 @@ sourceSets {
 }
 
 /*
- * Diagnostic source set for the 800 Vineflower-recovered classes.
- * It is deliberately not part of the production JAR yet: this lets CI expose
- * mapping/decompiler errors while the already working nested runtime remains intact.
+ * Vineflower-recovered source set for the original client. A normal local build
+ * compiles these classes, remaps them to Fabric intermediary names, and replaces
+ * the matching client classes before producing the standalone JAR. CI may pass
+ * -PrecoveredCandidateDir explicitly to reuse an already remapped class set.
  */
 sourceSets {
     recovered {
@@ -3279,6 +3288,192 @@ sourceSets {
 // IAS is an external runtime mod already required by the recovered account-switcher screens.
 dependencies {
     recoveredCompileOnly "maven.modrinth:cudtvDnd:MwO8YI2m"
+}
+
+/*
+ * Make the standalone source build self-contained. The recovered tree uses Yarn names
+ * for Minecraft references, while the bundled client uses Fabric intermediary names;
+ * compile first, then remap with TinyRemapper before the class-replacement step.
+ */
+if (useAutomaticRecoveredSources) {
+    tasks.register("prepareRecoveredCandidate") {
+        group = "build"
+        description = "Compile and remap recovered client sources for the standalone AlbaDLC JAR"
+        dependsOn("compileRecoveredJava")
+        mustRunAfter("clean")
+        inputs.dir(layout.buildDirectory.dir("classes/java/recovered"))
+        inputs.property("minecraftVersion", project.minecraft_version.toString())
+        inputs.property("yarnMappings", project.yarn_mappings.toString())
+        outputs.dir(automaticRecoveredCandidateRoot)
+
+        doLast {
+            File namedClasses = layout.buildDirectory.dir("classes/java/recovered").get().asFile
+            File candidateRoot = automaticRecoveredCandidateRoot.get().asFile
+            File toolsDir = new File(candidateRoot, "tools")
+            File classesDir = automaticRecoveredCandidateClasses.get().asFile
+            File namedClassesJar = new File(candidateRoot, "recovered-named.jar")
+            File intermediaryClassesJar = new File(candidateRoot, "recovered-intermediary.jar")
+            File remapperJar = new File(toolsDir, "tiny-remapper.jar")
+            File yarnJar = new File(toolsDir, "yarn-v2.jar")
+            File yarnTiny = new File(toolsDir, "yarn-v2.tiny")
+            File intermediaryJar = new File(toolsDir, "intermediary-v2.jar")
+            File intermediaryTiny = new File(toolsDir, "intermediary.tiny")
+            File officialMinecraftJar = new File(toolsDir, "minecraft-official.jar")
+            File intermediaryMinecraftJar = new File(toolsDir, "minecraft-intermediary.jar")
+            File namedMinecraftJar = new File(toolsDir, "minecraft-named.jar")
+            File versionManifestFile = new File(toolsDir, "version_manifest.json")
+            File versionMetadataFile = new File(toolsDir, "minecraft-version.json")
+
+            List<File> sourceClassFiles = []
+            if (!namedClasses.isDirectory()) {
+                throw new GradleException("Recovered source classes were not compiled: " + namedClasses)
+            }
+            namedClasses.eachFileRecurse(groovy.io.FileType.FILES) { File item ->
+                if (item.isFile() && item.name.endsWith(".class")) sourceClassFiles.add(item)
+            }
+            if (sourceClassFiles.size() < 500) {
+                throw new GradleException("Recovered source compilation produced only " +
+                    sourceClassFiles.size() + " class files")
+            }
+            candidateRoot.mkdirs()
+            toolsDir.mkdirs()
+            namedClassesJar.withOutputStream { OutputStream fileOut ->
+                java.util.zip.ZipOutputStream zip = new java.util.zip.ZipOutputStream(fileOut)
+                try {
+                    sourceClassFiles.sort { File left, File right -> left.absolutePath <=> right.absolutePath }.each { File item ->
+                        String relative = namedClasses.toPath().relativize(item.toPath()).toString()
+                            .replace(File.separatorChar, '/' as char)
+                        zip.putNextEntry(new java.util.zip.ZipEntry(relative))
+                        zip.write(item.bytes)
+                        zip.closeEntry()
+                    }
+                } finally {
+                    zip.close()
+                }
+            }
+            logger.lifecycle("Recovered source class files compiled: " + sourceClassFiles.size())
+
+            def download = { String address, File target, long minimumBytes ->
+                if (target.isFile() && target.length() >= minimumBytes) return
+                target.parentFile.mkdirs()
+                File temporary = new File(target.parentFile, target.name + ".download")
+                if (temporary.exists()) temporary.delete()
+                java.net.URLConnection connection = new java.net.URL(address).openConnection()
+                connection.setConnectTimeout(20000)
+                connection.setReadTimeout(120000)
+                connection.getInputStream().withCloseable { InputStream input ->
+                    temporary.withOutputStream { OutputStream output -> input.transferTo(output) }
+                }
+                if (!temporary.isFile() || temporary.length() < minimumBytes) {
+                    temporary.delete()
+                    throw new GradleException("Download was empty or truncated: " + address)
+                }
+                java.nio.file.Files.move(temporary.toPath(), target.toPath(),
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            }
+            def extractJarEntry = { File source, String entryName, File target ->
+                java.util.zip.ZipFile zip = new java.util.zip.ZipFile(source)
+                try {
+                    java.util.zip.ZipEntry entry = zip.getEntry(entryName)
+                    if (entry == null) {
+                        throw new GradleException("Missing " + entryName + " inside " + source.name)
+                    }
+                    target.parentFile.mkdirs()
+                    zip.getInputStream(entry).withCloseable { InputStream input ->
+                        target.withOutputStream { OutputStream output -> input.transferTo(output) }
+                    }
+                } finally {
+                    zip.close()
+                }
+            }
+
+            download("https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.15.0/tiny-remapper-0.15.0-fat.jar",
+                remapperJar, 100000)
+            String yarnVersion = project.yarn_mappings.toString()
+            String minecraftVersion = project.minecraft_version.toString()
+            download("https://maven.fabricmc.net/net/fabricmc/yarn/" + yarnVersion +
+                "/yarn-" + yarnVersion + "-v2.jar", yarnJar, 100000)
+            extractJarEntry(yarnJar, "mappings/mappings.tiny", yarnTiny)
+            download("https://maven.fabricmc.net/net/fabricmc/intermediary/" + minecraftVersion +
+                "/intermediary-" + minecraftVersion + "-v2.jar", intermediaryJar, 100000)
+            extractJarEntry(intermediaryJar, "mappings/mappings.tiny", intermediaryTiny)
+
+            download("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
+                versionManifestFile, 1000)
+            Map manifest = new groovy.json.JsonSlurper().parseText(
+                versionManifestFile.getText("UTF-8")) as Map
+            Map versionEntry = (manifest.versions as List).find {
+                it.id?.toString() == minecraftVersion
+            } as Map
+            if (versionEntry == null || !versionEntry.url) {
+                throw new GradleException("Minecraft version manifest has no entry for " + minecraftVersion)
+            }
+            download(versionEntry.url.toString(), versionMetadataFile, 1000)
+            Map versionMetadata = new groovy.json.JsonSlurper().parseText(
+                versionMetadataFile.getText("UTF-8")) as Map
+            String clientUrl = versionMetadata.downloads?.client?.url?.toString()
+            if (!clientUrl) throw new GradleException("Minecraft client download URL is missing")
+            download(clientUrl, officialMinecraftJar, 1000000)
+
+            String javaName = System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("win")
+                ? "java.exe" : "java"
+            File javaExecutable = new File(new File(System.getProperty("java.home"), "bin"), javaName)
+            if (!javaExecutable.isFile()) {
+                throw new GradleException("Java executable for remapping was not found: " + javaExecutable)
+            }
+            def runRemapper = { List<String> arguments ->
+                project.exec {
+                    executable = javaExecutable.absolutePath
+                    args(["-Xmx3g", "-jar", remapperJar.absolutePath] + arguments)
+                }
+            }
+
+            runRemapper([
+                officialMinecraftJar.absolutePath, intermediaryMinecraftJar.absolutePath,
+                intermediaryTiny.absolutePath, "official", "intermediary", "--ignoreConflicts"
+            ])
+            runRemapper([
+                intermediaryMinecraftJar.absolutePath, namedMinecraftJar.absolutePath,
+                yarnTiny.absolutePath, "intermediary", "named", "--ignoreConflicts"
+            ])
+            runRemapper([
+                namedClassesJar.absolutePath, intermediaryClassesJar.absolutePath,
+                yarnTiny.absolutePath, "named", "intermediary", namedMinecraftJar.absolutePath,
+                "--resolveMissing"
+            ])
+
+            if (classesDir.exists()) project.delete(classesDir)
+            classesDir.mkdirs()
+            java.util.zip.ZipFile remappedZip = new java.util.zip.ZipFile(intermediaryClassesJar)
+            int remappedCount = 0
+            try {
+                java.util.Enumeration<? extends java.util.zip.ZipEntry> entries = remappedZip.entries()
+                while (entries.hasMoreElements()) {
+                    java.util.zip.ZipEntry entry = entries.nextElement()
+                    if (entry.isDirectory() || !entry.name.endsWith(".class")) continue
+                    File target = new File(classesDir, entry.name)
+                    String canonicalRoot = classesDir.canonicalPath + File.separator
+                    if (!target.canonicalPath.startsWith(canonicalRoot)) {
+                        throw new GradleException("Unsafe class path in recovered archive: " + entry.name)
+                    }
+                    target.parentFile.mkdirs()
+                    remappedZip.getInputStream(entry).withCloseable { InputStream input ->
+                        target.withOutputStream { OutputStream output -> input.transferTo(output) }
+                    }
+                    remappedCount++
+                }
+            } finally {
+                remappedZip.close()
+            }
+            if (remappedCount < 500) {
+                throw new GradleException("Remapping produced only " + remappedCount + " recovered classes")
+            }
+            logger.lifecycle("Recovered classes remapped to intermediary names: " + remappedCount)
+        }
+    }
+    tasks.named("rebrandFlowNestedJar") {
+        dependsOn("prepareRecoveredCandidate")
+    }
 }
 
 // Build trigger: October 25 keep search clear of the header label; preserve bottom-left controls.
