@@ -2494,7 +2494,9 @@ def patchFlowIdentity = { byte[] bytes ->
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-            if (name == "NAME" && descriptor == "Ljava/lang/String;" && value == "Flow2") {
+            if (name == "NAME" && descriptor == "Ljava/lang/String;" && value instanceof String) {
+                // The general Constant_String rebranding pass may already have changed
+                // this ConstantValue from Flow2 to AlbaDLC before this identity check.
                 found = true
                 return super.visitField(access, name, descriptor, signature, "AlbaDLC")
             }
@@ -2503,7 +2505,7 @@ def patchFlowIdentity = { byte[] bytes ->
     }
     reader.accept(visitor, 0)
     if (!found) {
-        throw new GradleException("flow.Flow NAME constant not found; refusing to ship old runtime branding")
+        throw new GradleException("flow.Flow NAME constant not found; refusing to ship an unidentified runtime")
     }
     return writer.toByteArray()
 }
