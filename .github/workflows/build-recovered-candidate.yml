@@ -214,6 +214,18 @@ jobs:
                   for field in ("mixins", "jars", "provides", "authors", "contributors"):
                       if field in inner_metadata:
                           merged[field] = merge_list(merged.get(field), inner_metadata.get(field))
+                  # The outer metadata references the old nested client container. Once its
+                  # contents are flattened, remove that single now-invalid nested-JAR reference.
+                  if "jars" in merged:
+                      merged["jars"] = [
+                          item for item in merged["jars"]
+                          if not (
+                              (isinstance(item, dict) and item.get("file") == nested_path) or
+                              item == nested_path
+                          )
+                      ]
+                      if not merged["jars"]:
+                          merged.pop("jars")
                   if inner_id and inner_id != merged.get("id"):
                       merged["provides"] = merge_list(merged.get("provides"), [inner_id])
                   for field in ("languageAdapters", "custom"):
@@ -294,6 +306,10 @@ jobs:
                       root_metadata = json.loads(result.read("fabric.mod.json"))
                       if nested_path in result_names or any(name.endswith("/flow.jar") for name in result_names):
                           raise SystemExit("Standalone archive still contains flow.jar")
+                      for spec in root_metadata.get("jars", []):
+                          nested_file = spec.get("file") if isinstance(spec, dict) else spec
+                          if nested_file not in result_names:
+                              raise SystemExit("fabric.mod.json references a missing nested JAR: " + str(nested_file))
                       if not any(name.startswith("a/") and name.endswith(".class") for name in result_names):
                           raise SystemExit("No recovered package-a classes found at root")
                       if not any(name.startswith("flow/") and name.endswith(".class") for name in result_names):
