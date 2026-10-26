@@ -168,18 +168,16 @@ jobs:
               return result
 
           def merge_constraints(base, addition, field):
+              # Fabric arrays of version ranges mean OR, not AND. To avoid
+              # weakening the outer AlbaDLC target constraints, keep an existing
+              # outer value when both descriptors mention the same dependency.
               result = dict(base or {})
               for key, value in (addition or {}).items():
                   if key not in result:
                       result[key] = value
                   elif result[key] != value:
-                      values = as_list(result[key]) + as_list(value)
-                      unique = []
-                      for item in values:
-                          if item not in unique:
-                              unique.append(item)
-                      result[key] = unique
-                      print("Combined metadata constraints:", field, key, unique)
+                      print("Outer metadata wins duplicate constraint:", field, key,
+                            "outer=", result[key], "nested=", value)
               return result
 
           def merge_list(base, addition):
