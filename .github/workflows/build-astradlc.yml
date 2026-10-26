@@ -36,20 +36,28 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           p = Path("CortimDLC_sources_merged (1)/CortimDLC/build.gradle")
-          text = p.read_text(encoding="utf-8")
-          old = '''super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "draw",
-                              "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)'''
-          new = '''super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "draw",
-                              "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)
-                          super.visitInsn(Opcodes.POP)'''
-          if old in text:
-              text = text.replace(old, new, 1)
-              p.write_text(text, encoding="utf-8")
-              print("Corrected the custom font draw descriptor and discarded its float result.")
-          elif new in text:
-              print("Exit-label renderer descriptor is already corrected.")
-          else:
-              raise SystemExit("Expected exit-label draw invocation was not found; refusing to build an unpatched client.")
+          lines = p.read_text(encoding="utf-8").splitlines()
+          found = False
+          for index, line in enumerate(lines):
+              if '"(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)' in line:
+                  lines[index] = line.replace(
+                      '"(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)',
+                      '"(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)',
+                      1,
+                  )
+                  indent = lines[index - 1][:len(lines[index - 1]) - len(lines[index - 1].lstrip())]
+                  lines.insert(index + 1, indent + "super.visitInsn(Opcodes.POP)")
+                  found = True
+                  break
+              if '"(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)' in line:
+                  # It may already be fixed. Ensure POP immediately follows.
+                  if index + 1 < len(lines) and "Opcodes.POP" in lines[index + 1]:
+                      found = True
+                      break
+          if not found:
+              raise SystemExit("Could not locate exit-label renderer descriptor; aborting instead of building a crashing client.")
+          p.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          print("Exit label now calls vdn.draw with its float return descriptor and pops the result.")
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
