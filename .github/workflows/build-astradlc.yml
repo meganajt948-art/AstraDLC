@@ -33,6 +33,47 @@ jobs:
         run: gradle compileRecoveredJava --no-daemon --stacktrace
         continue-on-error: true
 
+      - name: Smoke-check runtime JAR structure
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: |
+          python3 - <<'PY'
+          import io
+          import json
+          import zipfile
+          from pathlib import Path
+
+          artifact = Path("build/libs/AlbaDLC-1.0.0.jar")
+          if not artifact.is_file() or artifact.stat().st_size < 1_000_000:
+              raise SystemExit(f"Built client JAR is missing or unexpectedly small: {artifact}")
+
+          with zipfile.ZipFile(artifact) as jar:
+              entries = set(jar.namelist())
+              nested_path = "META-INF/jars/flow.jar"
+              if nested_path not in entries:
+                  raise SystemExit("Runtime JAR is missing its nested Flow client")
+              duplicates = sorted(
+                  entry for entry in entries
+                  if entry.endswith(".class") and (
+                      entry.startswith("a/") or entry.startswith("flow/")
+                  )
+              )
+              if duplicates:
+                  preview = "\\n".join(duplicates[:20])
+                  raise SystemExit(
+                      "Unverified recovered classes leaked into the root runtime JAR; "
+                      "they can shadow the nested client:\\n" + preview
+                  )
+              with zipfile.ZipFile(io.BytesIO(jar.read(nested_path))) as nested:
+                  try:
+                      metadata = json.loads(nested.read("fabric.mod.json"))
+                  except (KeyError, json.JSONDecodeError) as exc:
+                      raise SystemExit(f"Nested client has invalid Fabric metadata: {exc}")
+                  print("Nested client id:", metadata.get("id"))
+                  print("Nested client name:", metadata.get("name"))
+                  print("Nested client entries:", len(nested.namelist()))
+          print("Runtime JAR smoke-check passed:", artifact.stat().st_size, "bytes")
+          PY
+
       - name: Upload build artifacts
         if: success()
         uses: actions/upload-artifact@v4
