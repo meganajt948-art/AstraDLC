@@ -2456,10 +2456,33 @@ def patchSplashController = { byte[] bytes ->
 }
 
 def patchClientLoadSplash = { byte[] bytes ->
-    // Keep ClientLoad.show intact so the player sees a real loading screen while
-    // assets are prefetched and the client boots. Suppressing the screen leaves
-    // a blank/white window on some systems and makes a slow prefetch look frozen.
-    return bytes
+    // Do not create FlowSplash at startup. Its optional GPU intro pipeline can
+    // fail before the splash renderer's own fallback runs, leaving a blank/white
+    // window on some drivers. Keep ClientLoad.run and all boot/preload work intact;
+    // Minecraft's native resource-loading screen remains visible.
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "show" && descriptor == "(Lnet/minecraft/class_310;)V") {
+                found = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 1)
+                out.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) {
+        throw new GradleException("ClientLoad.show method not found; refusing to ship an unpatched startup path")
+    }
+    return writer.toByteArray()
 }
 
 def patchEncryptedBranding = { byte[] bytes ->
@@ -3122,7 +3145,7 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Skipped Flow2's custom splash takeover; preserved the native Minecraft loading screen")
                         } else if (entry.name == "flow/splash/ClientLoad.class") {
                             patchedBytes = patchClientLoadSplash(patchedBytes)
-                            logger.lifecycle("Kept startup warming active without video splash or progress strip")
+                            logger.lifecycle("Kept startup warming active while bypassing the crash-prone custom GPU splash; native loading screen retained")
                         }
                         if (entry.name == "a/jte.class") {
                             patchedBytes = patchDiscordInviteUrls(patchedBytes)
