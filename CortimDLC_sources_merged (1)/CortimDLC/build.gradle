@@ -2666,16 +2666,53 @@ def patchSplashController = { byte[] bytes ->
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "tick" && descriptor == "(Lnet/minecraft/class_310;)V") {
                 found.tick = true
-                // Replace the unstable menu handoff completely. If FlowSplash is finished,
-                // clear it and restore vanilla TitleScreen. Also recover if startup completed
-                // with both the overlay and current screen null. Never interrupt a native
-                // resource-reload overlay, and never re-open the broken custom MenuScreen.
+                // Recover three known reconstructed title screens that can keep painting
+                // wallpaper with no controls: MenuScreen (a/jte), WelcomeScreen (a/kct),
+                // and LanguageScreen (a/ida). The earlier MENU flag is a guard, not enough:
+                // stale callbacks may still set one of these screens after the native title
+                // screen is restored. Only do this outside a world; leave in-world screens alone.
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
                 out.visitCode()
+                org.objectweb.asm.Label noCustomTitle = new org.objectweb.asm.Label()
+                org.objectweb.asm.Label restoreFromCustomTitle = new org.objectweb.asm.Label()
                 org.objectweb.asm.Label noFlowSplash = new org.objectweb.asm.Label()
                 org.objectweb.asm.Label setTitle = new org.objectweb.asm.Label()
                 org.objectweb.asm.Label finishTick = new org.objectweb.asm.Label()
 
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1687", "Lnet/minecraft/class_638;")
+                out.visitJumpInsn(Opcodes.IFNONNULL, noCustomTitle)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
+                    "Lnet/minecraft/class_437;")
+                out.visitTypeInsn(Opcodes.INSTANCEOF, "a/jte")
+                out.visitJumpInsn(Opcodes.IFNE, restoreFromCustomTitle)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
+                    "Lnet/minecraft/class_437;")
+                out.visitTypeInsn(Opcodes.INSTANCEOF, "a/kct")
+                out.visitJumpInsn(Opcodes.IFNE, restoreFromCustomTitle)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
+                    "Lnet/minecraft/class_437;")
+                out.visitTypeInsn(Opcodes.INSTANCEOF, "a/ida")
+                out.visitJumpInsn(Opcodes.IFNE, restoreFromCustomTitle)
+                out.visitJumpInsn(Opcodes.GOTO, noCustomTitle)
+
+                out.visitLabel(restoreFromCustomTitle)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
+                out.visitInsn(Opcodes.DUP)
+                out.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
+                    "(Lnet/minecraft/class_437;)V", false)
+                out.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
+                out.visitLdcInsn("[AlbaDLC] Recovered vanilla TitleScreen from a stuck custom title/welcome screen")
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
+                    "(Ljava/lang/String;)V", false)
+                out.visitJumpInsn(Opcodes.GOTO, finishTick)
+
+                out.visitLabel(noCustomTitle)
                 out.visitVarInsn(Opcodes.ALOAD, 0)
                 out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
                     "()Lnet/minecraft/class_4071;", false)
