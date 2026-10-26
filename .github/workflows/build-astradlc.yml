@@ -26,7 +26,7 @@ jobs:
           java-version: '21'
       - name: Build AstraDLC
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle build --no-daemon
+        run: gradle build --no-daemon -PkeepNestedFlowJar
 
       - name: Diagnose recovered source compilation (best effort)
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
