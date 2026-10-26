@@ -2988,8 +2988,10 @@ tasks.register("rebrandFlowNestedJar") {
         def outputZip = new java.util.zip.ZipOutputStream(new FileOutputStream(outputFile))
         try {
             def entries = inputZip.entries()
+            Set<String> originalEntryNames = new HashSet<>()
             while (entries.hasMoreElements()) {
                 def entry = entries.nextElement()
+                originalEntryNames.add(entry.name)
                 def entryNameLower = entry.name.toLowerCase(Locale.ROOT)
                 if (entry.name.endsWith(".mp4") || entry.name.endsWith(".webm") ||
                     entryNameLower.contains("wallpaper") || entryNameLower.contains("logo") ||
@@ -3151,6 +3153,22 @@ tasks.register("rebrandFlowNestedJar") {
                 }
                 outputZip.closeEntry()
             }
+            int recoveredExtraClasses = 0
+            if (recoveredCandidateDir != null) {
+                recoveredCandidateDir.eachFileRecurse { File candidateClass ->
+                    if (candidateClass.isFile() && candidateClass.name.endsWith(".class")) {
+                        String relative = recoveredCandidateDir.toPath().relativize(candidateClass.toPath())
+                            .toString().replace(File.separatorChar, '/' as char)
+                        if (!originalEntryNames.contains(relative)) {
+                            outputZip.putNextEntry(new java.util.zip.ZipEntry(relative))
+                            outputZip.write(candidateClass.bytes)
+                            outputZip.closeEntry()
+                            recoveredExtraClasses++
+                        }
+                    }
+                }
+            }
+
             def hopEntry = new java.util.zip.ZipEntry("a/AlbaPeriodicHop.class")
             outputZip.putNextEntry(hopEntry)
             outputZip.write(createAlbaPeriodicHopClass())
@@ -3165,6 +3183,7 @@ tasks.register("rebrandFlowNestedJar") {
             logger.lifecycle("Bundled Alba background video as assets/alba/alba-background.mp4")
             if (recoveredCandidateDir != null) {
                 logger.lifecycle("Recovered source class replacements applied: " + recoveredClassReplacements)
+                logger.lifecycle("Additional recovered compiler-generated classes added: " + recoveredExtraClasses)
                 if (recoveredClassReplacements < 500) {
                     throw new GradleException("Recovered candidate replacement count too low: " + recoveredClassReplacements)
                 }
