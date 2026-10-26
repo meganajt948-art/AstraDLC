@@ -2666,44 +2666,34 @@ def patchSplashController = { byte[] bytes ->
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "tick" && descriptor == "(Lnet/minecraft/class_310;)V") {
                 found.tick = true
+                // Replace the original tick rather than prepending a fallback to it.
+                // The original tail immediately converts TitleScreen into the custom
+                // MenuScreen, undoing a vanilla-screen recovery and re-triggering blank UI.
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
-                return new MethodVisitor(Opcodes.ASM9, out) {
-                    @Override
-                    void visitCode() {
-                        super.visitCode()
-                        // ClientLoad is complete, but the custom LoadingOverlay can remain
-                        // visible on top of the title screen if its animation never reaches
-                        // its release state. Clear only Alba's FlowSplash overlay, not any
-                        // vanilla resource-reload overlay, and leave the original cleanup
-                        // tick below intact.
-                        org.objectweb.asm.Label keepOverlay = new org.objectweb.asm.Label()
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
-                            "()Lnet/minecraft/class_4071;", false)
-                        super.visitTypeInsn(Opcodes.INSTANCEOF, "flow/splash/FlowSplash")
-                        super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
-                        super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitInsn(Opcodes.ACONST_NULL)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
-                            "(Lnet/minecraft/class_4071;)V", false)
-                        // This is the transform actually wired into the build. Restore a usable
-                        // screen immediately after removing FlowSplash; otherwise a null screen can
-                        // leave Minecraft showing a blank/white frame indefinitely.
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
-                        super.visitInsn(Opcodes.DUP)
-                        super.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
-                            "(Lnet/minecraft/class_437;)V", false)
-                        super.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
-                        super.visitLdcInsn("[AlbaDLC] Removed stale FlowSplash overlay and restored vanilla TitleScreen")
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
-                            "(Ljava/lang/String;)V", false)
-                        super.visitLabel(keepOverlay)
-                    }
-                }
+                out.visitCode()
+                org.objectweb.asm.Label keepCurrent = new org.objectweb.asm.Label()
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
+                    "()Lnet/minecraft/class_4071;", false)
+                out.visitTypeInsn(Opcodes.INSTANCEOF, "flow/splash/FlowSplash")
+                out.visitJumpInsn(Opcodes.IFEQ, keepCurrent)
+                out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
+                out.visitJumpInsn(Opcodes.IFEQ, keepCurrent)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitInsn(Opcodes.ACONST_NULL)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
+                    "(Lnet/minecraft/class_4071;)V", false)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
+                out.visitInsn(Opcodes.DUP)
+                out.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
+                    "(Lnet/minecraft/class_437;)V", false)
+                out.visitLabel(keepCurrent)
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 0)
+                out.visitEnd()
+                return null
             }
             if (name == "preview" && descriptor == "(Lnet/minecraft/class_310;FZ)V") {
                 found.preview = true
