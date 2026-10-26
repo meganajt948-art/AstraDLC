@@ -3415,9 +3415,22 @@ tasks.register("rebrandFlowNestedJar") {
                         byte[] originalBytes = stream.readAllBytes()
                         if (recoveredCandidateDir != null) {
                             File recoveredClass = new File(recoveredCandidateDir, entry.name)
-                            if (recoveredClass.isFile()) {
+                            // These nine classes define the legacy title menu, language welcome
+                            // flow, wallpaper renderer/cache, and loading overlay lifecycle. The
+                            // recovered CFR output is not byte-for-byte equivalent for them and
+                            // was the source of the persistent wallpaper-only/white-overlay screen.
+                            // Keep the runtime's original class files for these paths; every other
+                            // recovered class is still replaced by the newly compiled source.
+                            Set<String> legacyMenuClasses = [
+                                "a/ida.class", "a/isv.class", "a/jte.class", "a/jzh.class",
+                                "a/kap.class", "a/kbs.class", "a/kct.class",
+                                "flow/splash/ClientLoad.class", "flow/splash/Splash.class"
+                            ] as Set<String>
+                            if (recoveredClass.isFile() && !legacyMenuClasses.contains(entry.name)) {
                                 originalBytes = recoveredClass.bytes
                                 recoveredClassReplacements++
+                            } else if (recoveredClass.isFile()) {
+                                logger.lifecycle("Preserved original menu/startup class instead of recovered CFR output: " + entry.name)
                             }
                         }
                         if (entry.name == "a/isv.class" || entry.name == "a/isn.class" ||
