@@ -3141,8 +3141,9 @@ tasks.register("rebrandFlowNestedJar") {
 
 tasks.named("jar") {
     dependsOn("rebrandFlowNestedJar")
-    dependsOn("compileRecoveredJava")
-    from({ sourceSets.recovered.output })
+    // Keep the recovered source tree out of the runtime JAR until its output is
+    // verified equivalent to the original client. Duplicate a/ and flow/ classes
+    // can shadow the known-good nested runtime and prevent Minecraft from starting.
     from(rebrandedNestedJar) {
         into("META-INF/jars")
         rename { "flow.jar" }
