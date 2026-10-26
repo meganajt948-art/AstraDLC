@@ -683,7 +683,7 @@ def patchOpaqueScreenBackground = { byte[] bytes ->
         target.visitFieldInsn(Opcodes.GETFIELD, owner, "field_22789", "I")
         target.visitVarInsn(Opcodes.ALOAD, 0)
         target.visitFieldInsn(Opcodes.GETFIELD, owner, "field_22790", "I")
-        target.visitLdcInsn(0xFF0B101A)
+        target.visitLdcInsn(Integer.valueOf(-16052198))
         target.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_25294",
             "(IIIII)V", false)
     }
