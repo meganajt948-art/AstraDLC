@@ -28,7 +28,7 @@ import net.minecraft.class_332;
 
 public final class KeybindsWidget
 extends TimedWidget<jdz> {
-    public static final ModeSetting SHOW = new ModeSetting("Show", "All", "All", "Active");
+    public static final ModeSetting SHOW = new ModeSetting("Show", "Active", "Active");
     private static final float jeg = 13.0f;
     private static final float jeh = 9.5f;
     private final Map<String, Spring> jei = new HashMap<String, Spring>();
@@ -48,7 +48,7 @@ extends TimedWidget<jdz> {
     List<jdz> items(boolean bl) {
         ArrayList<jdz> arrayList = new ArrayList<jdz>();
         for (Module kfe2 : Flow.getInstance().getModuleManager().getModules()) {
-            if (kfe2.getKey() == -1 || !SHOW.is("All") && !kfe2.isEnabled()) continue;
+            if (kfe2.getKey() == -1 || !kfe2.isEnabled()) continue;
             arrayList.add(new jdz(kfe2.getDisplayName(), kfe2.getKey(), kfe2.isEnabled()));
         }
         return arrayList;
