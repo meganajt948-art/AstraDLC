@@ -548,6 +548,73 @@ def patchMenuArtCacheExecutor = { byte[] bytes ->
 }
 
 /*
+ * Avoid starting the native Windows Media Foundation video decoder while the title
+ * menu is resolving its background. The menu-art cache already has the bundled
+ * poster image, so retain the normal sharp/blur artwork and skip the animated frame
+ * only in this cache path. The wallpaper editor's direct video preview stays intact.
+ */
+def patchMenuWallpaperPosterFallback = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "jzw" && descriptor == "(Ljava/lang/String;La/jza;)La/jza;") {
+                found = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                mv.visitCode()
+                def noCatalogEntry = new org.objectweb.asm.Label()
+                def fillReady = new org.objectweb.asm.Label()
+                def hasFill = new org.objectweb.asm.Label()
+
+                // Resolve the selected wallpaper's fill setting as the non-video path does.
+                mv.visitVarInsn(Opcodes.ALOAD, 0)
+                mv.visitMethodInsn(Opcodes.INVOKESTATIC, "a/kbs", "byKey", "(Ljava/lang/String;)La/kbs;", false)
+                mv.visitVarInsn(Opcodes.ASTORE, 2)
+                mv.visitVarInsn(Opcodes.ALOAD, 2)
+                mv.visitJumpInsn(Opcodes.IFNULL, noCatalogEntry)
+                mv.visitVarInsn(Opcodes.ALOAD, 2)
+                mv.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "fill", "I")
+                mv.visitVarInsn(Opcodes.ISTORE, 3)
+                mv.visitJumpInsn(Opcodes.GOTO, fillReady)
+
+                mv.visitLabel(noCatalogEntry)
+                mv.visitInsn(Opcodes.ICONST_M1)
+                mv.visitVarInsn(Opcodes.ISTORE, 3)
+
+                mv.visitLabel(fillReady)
+                mv.visitVarInsn(Opcodes.ILOAD, 3)
+                mv.visitJumpInsn(Opcodes.IFGE, hasFill)
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitInsn(Opcodes.ARETURN)
+
+                mv.visitLabel(hasFill)
+                mv.visitTypeInsn(Opcodes.NEW, "a/jza")
+                mv.visitInsn(Opcodes.DUP)
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jza", "sharp", "()La/uok;", false)
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jza", "blur", "()La/uok;", false)
+                mv.visitInsn(Opcodes.ICONST_0)
+                mv.visitVarInsn(Opcodes.ILOAD, 3)
+                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/jza", "<init>", "(La/uok;La/uok;ZI)V", false)
+                mv.visitInsn(Opcodes.ARETURN)
+                mv.visitMaxs(0, 0)
+                mv.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Menu wallpaper cache method jzw was not found")
+    return writer.toByteArray()
+}
+
+/*
  * Warm the selected title wallpaper on every title-screen frame. Avoid installing
  * a second panorama renderer: the title screen owns its selected wallpaper layer.
  */
@@ -3295,7 +3362,8 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
                         } else if (entry.name == "a/jzh.class") {
                             patchedBytes = patchMenuArtCacheExecutor(patchedBytes)
-                            logger.lifecycle("Enabled three parallel menu-art workers to reduce wallpaper-switch delay")
+                            patchedBytes = patchMenuWallpaperPosterFallback(patchedBytes)
+                            logger.lifecycle("Enabled parallel menu-art workers and used poster frames in the title menu to avoid startup video decoding")
                         } else if (entry.name == "a/isv.class") {
                             patchedBytes = patchWallpaperCatalog(patchedBytes)
                             patchedBytes = patchClientBackgroundDefault(patchedBytes)
