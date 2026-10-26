@@ -1445,6 +1445,16 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override
+                    void visitCode() {
+                        super.visitCode()
+                        org.objectweb.asm.Label drawUtility = new org.objectweb.asm.Label()
+                        super.visitVarInsn(Opcodes.ILOAD, 3)
+                        super.visitInsn(Opcodes.ICONST_3)
+                        super.visitJumpInsn(Opcodes.IF_ICMPNE, drawUtility)
+                        super.visitInsn(Opcodes.RETURN)
+                        super.visitLabel(drawUtility)
+                    }
+                    @Override
                     void visitLdcInsn(Object value) {
                         if (value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
                             super.visitVarInsn(Opcodes.ALOAD, 0)
@@ -1515,7 +1525,7 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
             x.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jve", "F")
             x.visitLdcInsn(0.5f)
             x.visitInsn(Opcodes.FMUL)
-            x.visitLdcInsn(96.0f)
+            x.visitLdcInsn(61.0f)
             x.visitInsn(Opcodes.FADD)
             x.visitInsn(Opcodes.FRETURN)
             x.visitLabel(telegram)
@@ -1535,15 +1545,9 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
             y.visitInsn(Opcodes.ICONST_2)
             y.visitJumpInsn(Opcodes.IF_ICMPLT, social)
             y.visitVarInsn(Opcodes.ALOAD, 0)
-            y.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvf", "F")
-            y.visitLdcInsn(0.68f)
-            y.visitInsn(Opcodes.FMUL)
-            y.visitVarInsn(Opcodes.ILOAD, 1)
             y.visitInsn(Opcodes.ICONST_3)
-            y.visitJumpInsn(Opcodes.IF_ICMPEQ, power)
-            y.visitInsn(Opcodes.FRETURN)
-            y.visitLabel(power)
-            y.visitLdcInsn(27.0f)
+            y.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
+            y.visitLdcInsn(4.0f)
             y.visitInsn(Opcodes.FADD)
             y.visitInsn(Opcodes.FRETURN)
             y.visitLabel(social)
@@ -1614,6 +1618,321 @@ def patchButtonSkinQuitDetection = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+
+/* Add a real fifth central menu row for Quit Game, rendered and clicked by MenuScreen itself. */
+def patchMenuExitButton = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [render: false, click: false, action: false]
+    def clickMethod = [:]
+    def actionMethod = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                clickMethod.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalClick", descriptor, signature, exceptions)
+            }
+            if (name == "jyd" && descriptor == "(I)V") {
+                found.action = true
+                actionMethod.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalJyd", descriptor, signature, exceptions)
+            }
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found.render = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean inserted = false
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        if (!inserted && callOwner == ownerClass && callName == "jwp" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;)V") {
+                            inserted = true
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitVarInsn(Opcodes.ILOAD, 2)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaRenderQuitButton",
+                                "(Lnet/minecraft/class_332;II)V", false)
+                        }
+                    }
+                }
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            if (!found.render || !found.click || !found.action) {
+                throw new GradleException("Main menu Quit button patch points missing in " + ownerClass + ": " + found)
+            }
+
+            super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, "albaQuitHover", "La/Spring;", null, null).visitEnd()
+
+            // Lazy-create a small Spring so the accent hover tint animates smoothly.
+            MethodVisitor render = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaRenderQuitButton", "(Lnet/minecraft/class_332;II)V", null, null)
+            org.objectweb.asm.Label haveSpring = new org.objectweb.asm.Label()
+            render.visitCode()
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "albaQuitHover", "La/Spring;")
+            render.visitJumpInsn(Opcodes.IFNONNULL, haveSpring)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitTypeInsn(Opcodes.NEW, "a/Spring")
+            render.visitInsn(Opcodes.DUP)
+            render.visitLdcInsn(14.0f)
+            render.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/Spring", "<init>", "(F)V", false)
+            render.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "albaQuitHover", "La/Spring;")
+            render.visitLabel(haveSpring)
+
+            // Mouse coordinates are converted into the same logical scale as the other four buttons.
+            render.visitVarInsn(Opcodes.ILOAD, 2)
+            render.visitInsn(Opcodes.I2F)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            render.visitInsn(Opcodes.FDIV)
+            render.visitVarInsn(Opcodes.FSTORE, 4)
+            render.visitVarInsn(Opcodes.ILOAD, 3)
+            render.visitInsn(Opcodes.I2F)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            render.visitInsn(Opcodes.FDIV)
+            render.visitVarInsn(Opcodes.FSTORE, 5)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            render.visitVarInsn(Opcodes.FSTORE, 6)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitInsn(Opcodes.ICONST_4)
+            render.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
+            render.visitVarInsn(Opcodes.FSTORE, 7)
+
+            render.visitVarInsn(Opcodes.FLOAD, 4)
+            render.visitVarInsn(Opcodes.FLOAD, 5)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyf", "(FFFFFF)Z", false)
+            render.visitVarInsn(Opcodes.ISTORE, 8)
+
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "albaQuitHover", "La/Spring;")
+            render.visitVarInsn(Opcodes.ILOAD, 8)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvc", "F")
+            render.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/Spring", "step", "(ZF)F", false)
+            render.visitVarInsn(Opcodes.FSTORE, 9)
+
+            // Drop shadow and dark pill background, matching the other central menu rows.
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitLdcInsn(7.0f)
+            render.visitInsn(Opcodes.ICONST_0)
+            render.visitLdcInsn(0.24f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitLdcInsn(0.10f)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "shadow", "(Lnet/minecraft/class_332;FFFFFFI)V", false)
+
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitLdcInsn(790552)
+            render.visitLdcInsn(0.78f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round", "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+            render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+            render.visitLdcInsn(0.16f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round", "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+            // Accent outline animates in the same direction as the rest of the menu.
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitLdcInsn(0.7f)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+            render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+            render.visitLdcInsn(0.20f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitLdcInsn(0.55f)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+            render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+            render.visitLdcInsn(0.06f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitLdcInsn(0.28f)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "outlineGradientV",
+                "(Lnet/minecraft/class_332;FFFFFFII)V", false)
+
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitFieldInsn(Opcodes.GETSTATIC, "a/Icon", "POWER", "La/Icon;")
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitLdcInsn(16.0f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(12.5f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitLdcInsn(8.5f)
+            render.visitLdcInsn(0xFFFFFF)
+            render.visitLdcInsn(0.96f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/IconRenderer", "draw", "(Lnet/minecraft/class_332;La/Icon;FFFI)V", false)
+
+            render.visitLdcInsn(7.6f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Fonts", "semibold", "(F)La/FontFace;", false)
+            render.visitVarInsn(Opcodes.ASTORE, 10)
+            render.visitLdcInsn("Quit game")
+            render.visitLdcInsn("Выйти из игры")
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Lang", "s", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false)
+            render.visitVarInsn(Opcodes.ASTORE, 11)
+            render.visitVarInsn(Opcodes.ALOAD, 10)
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.ALOAD, 11)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitLdcInsn(69.0f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(12.5f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "centerTop", "(F)F", false)
+            render.visitLdcInsn(0xFFFFFF)
+            render.visitLdcInsn(0.96f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "drawCentered",
+                "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)
+            render.visitInsn(Opcodes.RETURN)
+            render.visitMaxs(0, 0)
+            render.visitEnd()
+
+            // If the fifth row is clicked, start the same delayed press animation and then quit.
+            MethodVisitor click = writer.visitMethod(clickMethod.access, "method_25402",
+                clickMethod.descriptor, clickMethod.signature, clickMethod.exceptions as String[])
+            org.objectweb.asm.Label delegateClick = new org.objectweb.asm.Label()
+            click.visitCode()
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_11909", "method_74245", "()I", false)
+            click.visitJumpInsn(Opcodes.IFNE, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "juq", "Z")
+            click.visitJumpInsn(Opcodes.IFNE, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jur", "Z")
+            click.visitJumpInsn(Opcodes.IFNE, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_11909", "comp_4798", "()D", false)
+            click.visitInsn(Opcodes.D2F)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            click.visitInsn(Opcodes.FDIV)
+            click.visitVarInsn(Opcodes.FSTORE, 3)
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_11909", "comp_4799", "()D", false)
+            click.visitInsn(Opcodes.D2F)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            click.visitInsn(Opcodes.FDIV)
+            click.visitVarInsn(Opcodes.FSTORE, 4)
+            click.visitVarInsn(Opcodes.FLOAD, 3)
+            click.visitVarInsn(Opcodes.FLOAD, 4)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitInsn(Opcodes.ICONST_4)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
+            click.visitLdcInsn(138.0f)
+            click.visitLdcInsn(25.0f)
+            click.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyf", "(FFFFFF)Z", false)
+            click.visitJumpInsn(Opcodes.IFEQ, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitInsn(Opcodes.ICONST_4)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "jus", "I")
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitMethodInsn(Opcodes.INVOKESTATIC, "a/MenuSceneRenderer", "clock", "()F", false)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "juv", "F")
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitVarInsn(Opcodes.FLOAD, 3)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            click.visitInsn(Opcodes.FSUB)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "juw", "F")
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitInsn(Opcodes.ICONST_4)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "jux", "I")
+            click.visitInsn(Opcodes.ICONST_1)
+            click.visitInsn(Opcodes.IRETURN)
+            click.visitLabel(delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitVarInsn(Opcodes.ILOAD, 2)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaOriginalClick",
+                clickMethod.descriptor, false)
+            click.visitInsn(Opcodes.IRETURN)
+            click.visitMaxs(0, 0)
+            click.visitEnd()
+
+            MethodVisitor action = writer.visitMethod(actionMethod.access, "jyd",
+                actionMethod.descriptor, actionMethod.signature, actionMethod.exceptions as String[])
+            org.objectweb.asm.Label delegateAction = new org.objectweb.asm.Label()
+            action.visitCode()
+            action.visitVarInsn(Opcodes.ILOAD, 1)
+            action.visitInsn(Opcodes.ICONST_4)
+            action.visitJumpInsn(Opcodes.IF_ICMPNE, delegateAction)
+            action.visitVarInsn(Opcodes.ALOAD, 0)
+            action.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "field_22787", "Lnet/minecraft/class_310;")
+            action.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1592", "()V", false)
+            action.visitInsn(Opcodes.RETURN)
+            action.visitLabel(delegateAction)
+            action.visitVarInsn(Opcodes.ALOAD, 0)
+            action.visitVarInsn(Opcodes.ILOAD, 1)
+            action.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaOriginalJyd", "(I)V", false)
+            action.visitInsn(Opcodes.RETURN)
+            action.visitMaxs(0, 0)
+            action.visitEnd()
+
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    logger.lifecycle("Added the fifth centered Quit Game pill with animated accent hover and a working quit action")
     return writer.toByteArray()
 }
 
@@ -3251,6 +3570,7 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
+                            patchedBytes = patchMenuExitButton(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
