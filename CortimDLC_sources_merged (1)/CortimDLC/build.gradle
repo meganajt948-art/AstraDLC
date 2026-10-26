@@ -3900,12 +3900,12 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchCompactWallpaperPanel(patchedBytes)
-                            // The earlier VerifyError came from the missing FRETURN in jws(),
-                            // which is now fixed. Re-enable the menu-only layout patch: it moves
-                            // the original Telegram/Discord controls to bottom-left and draws
-                            // the matching Exit button below the four central controls.
-                            patchedBytes = patchMainMenuBottomControls(patchedBytes)
-                            logger.lifecycle("Moved original Telegram/Discord icons to bottom-left and added matching Exit button below Settings")
+                            // Keep this runtime build boot-safe: the experimental jwo icon
+                            // renderer invokes a/vjf.draw with a descriptor absent from the
+                            // original runtime, causing NoSuchMethodError on the title screen.
+                            // Leave original Flow icon rendering and input handling untouched
+                            // until the icon method descriptor can be verified against the core JAR.
+                            logger.lifecycle("Kept original Flow main-menu icon renderer and controls (experimental overlay disabled)")
                             logger.lifecycle("Reduced wallpaper picker to a compact viewport with catalogue-only scrolling")
                         } else if (entry.name == "a/kbs.class") {
                             patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
