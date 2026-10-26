@@ -2527,10 +2527,9 @@ def patchSplashController = { byte[] bytes ->
 }
 
 def patchClientLoadSplash = { byte[] bytes ->
-    // Do not create FlowSplash at startup. Its optional GPU intro pipeline can
-    // fail before the splash renderer's own fallback runs, leaving a blank/white
-    // window on some drivers. Keep ClientLoad.run and all boot/preload work intact;
-    // Minecraft's native resource-loading screen remains visible.
+    // Skip the crash-prone custom GPU splash, but mark the request handled.
+    // Without setting shown=true, ClientLoad.run schedules Splash.requestAfterInject()
+    // and triggers an unnecessary reload/adopt fallback after boot.
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
     boolean found = false
@@ -2541,8 +2540,10 @@ def patchClientLoadSplash = { byte[] bytes ->
                 found = true
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
                 out.visitCode()
+                out.visitInsn(Opcodes.ICONST_1)
+                out.visitFieldInsn(Opcodes.PUTSTATIC, "flow/splash/ClientLoad", "shown", "Z")
                 out.visitInsn(Opcodes.RETURN)
-                out.visitMaxs(0, 1)
+                out.visitMaxs(1, 1)
                 out.visitEnd()
                 return null
             }
