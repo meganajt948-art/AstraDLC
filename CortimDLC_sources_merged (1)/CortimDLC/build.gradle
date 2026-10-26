@@ -2865,7 +2865,8 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitLdcInsn(0.95F)
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
                         super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "draw",
-                            "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)
+                            "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)
+                        super.visitInsn(Opcodes.POP)
                         super.visitInsn(Opcodes.RETURN)
                         super.visitLabel(drawRegularIcon)
                     }
