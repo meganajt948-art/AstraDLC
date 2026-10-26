@@ -2724,6 +2724,40 @@ def patchSplashMenuFlag = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * The language chooser previously hard-switched to the custom title screen,
+ * bypassing the MENU flag. Use vanilla TitleScreen after language selection too,
+ * so a broken custom renderer cannot take down the first usable frame.
+ */
+def patchWelcomeTransition = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                    if (opcode == Opcodes.INVOKESTATIC && owner == "a/jte" &&
+                        methodName == "afterWelcome" && methodDescriptor == "()La/jte;") {
+                        found = true
+                        super.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
+                        super.visitInsn(Opcodes.DUP)
+                        super.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
+                        return
+                    }
+                    super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Language chooser afterWelcome menu transition not found")
+    return writer.toByteArray()
+}
+
 def patchClientLoadSplash = { byte[] bytes ->
     // The splash is intentionally bypassed, but its one-shot flag must still
     // be closed so run() doesn't schedule the fallback reload.
@@ -3382,7 +3416,9 @@ tasks.register("rebrandFlowNestedJar") {
                             if (entry.name == "a/kct.class") {
                                 patchedBytes = patchVanillaBackdropRect(patchedBytes, "method_25394",
                                     "(Lnet/minecraft/class_332;IIF)V", -16315888)
+                                patchedBytes = patchWelcomeTransition(patchedBytes)
                                 logger.lifecycle("Replaced language screen full-frame custom rectangle with vanilla DrawContext.fill")
+                                logger.lifecycle("Routed welcome completion to the vanilla title screen for crash-safe startup")
                             }
                             logger.lifecycle("Added vanilla opaque background guard to language screen " + entry.name)
                         } else if (isMenuSceneRendererClass(originalBytes)) {
