@@ -2661,100 +2661,11 @@ def patchMainMenuSettings = { byte[] bytes ->
  */
 def patchSplashController = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
-        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
-    }
-    def found = [preview: false, adopt: false, tick: false]
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def found = [preview: false, adopt: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if (name == "tick" && descriptor == "(Lnet/minecraft/class_310;)V") {
-                found.tick = true
-                // Recover three known reconstructed title screens that can keep painting
-                // wallpaper with no controls: MenuScreen (a/jte), WelcomeScreen (a/kct),
-                // and LanguageScreen (a/ida). The earlier MENU flag is a guard, not enough:
-                // stale callbacks may still set one of these screens after the native title
-                // screen is restored. Only do this outside a world; leave in-world screens alone.
-                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
-                out.visitCode()
-                org.objectweb.asm.Label noCustomTitle = new org.objectweb.asm.Label()
-                org.objectweb.asm.Label restoreFromCustomTitle = new org.objectweb.asm.Label()
-                org.objectweb.asm.Label noFlowSplash = new org.objectweb.asm.Label()
-                org.objectweb.asm.Label setTitle = new org.objectweb.asm.Label()
-                org.objectweb.asm.Label finishTick = new org.objectweb.asm.Label()
-
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1687", "Lnet/minecraft/class_638;")
-                out.visitJumpInsn(Opcodes.IFNONNULL, noCustomTitle)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
-                    "Lnet/minecraft/class_437;")
-                out.visitTypeInsn(Opcodes.INSTANCEOF, "a/jte")
-                out.visitJumpInsn(Opcodes.IFNE, restoreFromCustomTitle)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
-                    "Lnet/minecraft/class_437;")
-                out.visitTypeInsn(Opcodes.INSTANCEOF, "a/kct")
-                out.visitJumpInsn(Opcodes.IFNE, restoreFromCustomTitle)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
-                    "Lnet/minecraft/class_437;")
-                out.visitTypeInsn(Opcodes.INSTANCEOF, "a/ida")
-                out.visitJumpInsn(Opcodes.IFNE, restoreFromCustomTitle)
-                out.visitJumpInsn(Opcodes.GOTO, noCustomTitle)
-
-                out.visitLabel(restoreFromCustomTitle)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
-                out.visitInsn(Opcodes.DUP)
-                out.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
-                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
-                    "(Lnet/minecraft/class_437;)V", false)
-                out.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
-                out.visitLdcInsn("[AlbaDLC] Recovered vanilla TitleScreen from a stuck custom title/welcome screen")
-                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
-                    "(Ljava/lang/String;)V", false)
-                out.visitJumpInsn(Opcodes.GOTO, finishTick)
-
-                out.visitLabel(noCustomTitle)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
-                    "()Lnet/minecraft/class_4071;", false)
-                out.visitTypeInsn(Opcodes.INSTANCEOF, "flow/splash/FlowSplash")
-                out.visitJumpInsn(Opcodes.IFEQ, noFlowSplash)
-                out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
-                out.visitJumpInsn(Opcodes.IFEQ, finishTick)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitInsn(Opcodes.ACONST_NULL)
-                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
-                    "(Lnet/minecraft/class_4071;)V", false)
-                out.visitJumpInsn(Opcodes.GOTO, setTitle)
-
-                out.visitLabel(noFlowSplash)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
-                    "()Lnet/minecraft/class_4071;", false)
-                out.visitJumpInsn(Opcodes.IFNONNULL, finishTick)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
-                    "Lnet/minecraft/class_437;")
-                out.visitJumpInsn(Opcodes.IFNONNULL, finishTick)
-                out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
-                out.visitJumpInsn(Opcodes.IFEQ, finishTick)
-
-                out.visitLabel(setTitle)
-                out.visitVarInsn(Opcodes.ALOAD, 0)
-                out.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
-                out.visitInsn(Opcodes.DUP)
-                out.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
-                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
-                    "(Lnet/minecraft/class_437;)V", false)
-                out.visitLabel(finishTick)
-                out.visitInsn(Opcodes.RETURN)
-                out.visitMaxs(0, 0)
-                out.visitEnd()
-                return null
-            }
             if (name == "preview" && descriptor == "(Lnet/minecraft/class_310;FZ)V") {
                 found.preview = true
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
@@ -2777,234 +2688,17 @@ def patchSplashController = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found.preview || !found.adopt || !found.tick) {
+    if (!found.preview || !found.adopt) {
         throw new GradleException("Splash controller methods not found: " + found)
     }
     return writer.toByteArray()
 }
 
-/*
- * Keep the custom title-screen renderer from taking over startup while it is
- * still unstable on some machines. The normal Minecraft TitleScreen is retained
- * so the game is usable; AlbaDLC modules and in-game screens are unaffected.
- */
-/*
- * Clear only the custom FlowSplash overlay after the client-load state reaches DONE.
- * Keep Splash.preview/adopt and the original title/wallpaper renderers untouched:
- * those methods own the normal startup handoff, while a stale overlay can keep
- * painting a pale frame over the already-loaded title screen indefinitely.
- */
-def patchClearStaleFlowSplashOverlay = { byte[] bytes ->
-    def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
-        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
-    }
-    boolean foundTick = false
-    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        @Override
-        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-            if (name != "tick" || descriptor != "(Lnet/minecraft/class_310;)V") return mv
-            foundTick = true
-            return new MethodVisitor(Opcodes.ASM9, mv) {
-                @Override
-                void visitCode() {
-                    super.visitCode()
-                    org.objectweb.asm.Label keepOverlay = new org.objectweb.asm.Label()
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
-                        "()Lnet/minecraft/class_4071;", false)
-                    super.visitTypeInsn(Opcodes.INSTANCEOF, "flow/splash/FlowSplash")
-                    super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
-                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
-                    super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
-                    // Remove the finished splash overlay AND explicitly restore the vanilla title screen.
-                    // Clearing the overlay alone can expose an uninitialized/null screen and leave a blank frame.
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitInsn(Opcodes.ACONST_NULL)
-                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
-                        "(Lnet/minecraft/class_4071;)V", false)
-                    super.visitVarInsn(Opcodes.ALOAD, 0)
-                    super.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
-                    super.visitInsn(Opcodes.DUP)
-                    super.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
-                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
-                        "(Lnet/minecraft/class_437;)V", false)
-                    super.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
-                    super.visitLdcInsn("[AlbaDLC] Cleared stale FlowSplash overlay and restored vanilla TitleScreen")
-                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
-                        "(Ljava/lang/String;)V", false)
-                    super.visitLabel(keepOverlay)
-                }
-            }
-        }
-    }
-    reader.accept(visitor, 0)
-    if (!foundTick) throw new GradleException("Splash.tick method not found; refusing to ship stale-overlay fix")
-    return writer.toByteArray()
-}
-
-def patchSplashMenuFlag = { byte[] bytes ->
-    def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
-    boolean found = false
-    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        @Override
-        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-            if (name != "<clinit>" || descriptor != "()V") return mv
-            return new MethodVisitor(Opcodes.ASM9, mv) {
-                @Override
-                void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
-                    if (opcode == Opcodes.PUTSTATIC && owner == "flow/splash/Splash" &&
-                        fieldName == "MENU" && fieldDescriptor == "Z") {
-                        found = true
-                        // Replace the initializer's computed value with false.
-                        super.visitInsn(Opcodes.POP)
-                        super.visitInsn(Opcodes.ICONST_0)
-                    }
-                    super.visitFieldInsn(opcode, owner, fieldName, fieldDescriptor)
-                }
-            }
-        }
-    }
-    reader.accept(visitor, 0)
-    if (!found) throw new GradleException("Splash.MENU static initializer not found")
-    return writer.toByteArray()
-}
-
-/*
- * The language chooser previously hard-switched to the custom title screen,
- * bypassing the MENU flag. Use vanilla TitleScreen after language selection too,
- * so a broken custom renderer cannot take down the first usable frame.
- */
-def patchWelcomeTransition = { byte[] bytes ->
-    def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
-    boolean found = false
-    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        @Override
-        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-            return new MethodVisitor(Opcodes.ASM9, mv) {
-                @Override
-                void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
-                    if (opcode == Opcodes.INVOKESTATIC && owner == "a/jte" &&
-                        methodName == "afterWelcome" && methodDescriptor == "()La/jte;") {
-                        found = true
-                        super.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
-                        super.visitInsn(Opcodes.DUP)
-                        super.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
-                        return
-                    }
-                    super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
-                }
-            }
-        }
-    }
-    reader.accept(visitor, 0)
-    if (!found) throw new GradleException("Language chooser afterWelcome menu transition not found")
-    return writer.toByteArray()
-}
-
 def patchClientLoadSplash = { byte[] bytes ->
-    // The splash is intentionally bypassed, but its one-shot flag must still
-    // be closed so run() doesn't schedule the fallback reload.
-    // Also skip startup warm-up: FontPreview.steps() synchronously prepares
-    // every font, wallpaper thumbnail and cosmetic on the render thread. On
-    // some drivers/resource configurations this blocks before the first frame.
-    // These assets are loaded lazily when the user opens the corresponding UI.
-    def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
-    boolean foundShow = false
-    boolean foundWarmUp = false
-    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        @Override
-        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if (name == "show" && descriptor == "(Lnet/minecraft/class_310;)V") {
-                foundShow = true
-                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
-                out.visitCode()
-                out.visitInsn(Opcodes.ICONST_1)
-                out.visitFieldInsn(Opcodes.PUTSTATIC, "flow/splash/ClientLoad", "shown", "Z")
-                out.visitInsn(Opcodes.RETURN)
-                out.visitMaxs(1, 1)
-                out.visitEnd()
-                return null
-            }
-            if (name == "warmUp" && descriptor == "()V") {
-                foundWarmUp = true
-                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
-                out.visitCode()
-                out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "finish", "()V", false)
-                out.visitInsn(Opcodes.RETURN)
-                out.visitMaxs(0, 0)
-                out.visitEnd()
-                return null
-            }
-            return super.visitMethod(access, name, descriptor, signature, exceptions)
-        }
-    }
-    reader.accept(visitor, 0)
-    if (!foundShow || !foundWarmUp) {
-        throw new GradleException("ClientLoad startup methods not found: show=" + foundShow + ", warmUp=" + foundWarmUp)
-    }
-    return writer.toByteArray()
-}
-def patchFlowIdentity = { byte[] bytes ->
-    // NAME is stored in the class-file ConstantValue attribute, not a CONSTANT_String,
-    // so the general branding string pass intentionally does not touch it.
-    def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, 0)
-    boolean found = false
-    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        @Override
-        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-            if (name == "NAME" && descriptor == "Ljava/lang/String;" && value instanceof String) {
-                // The general Constant_String rebranding pass may already have changed
-                // this ConstantValue from Flow2 to AlbaDLC before this identity check.
-                found = true
-                return super.visitField(access, name, descriptor, signature, "AlbaDLC")
-            }
-            return super.visitField(access, name, descriptor, signature, value)
-        }
-    }
-    reader.accept(visitor, 0)
-    if (!found) {
-        throw new GradleException("flow.Flow NAME constant not found; refusing to ship an unidentified runtime")
-    }
-    return writer.toByteArray()
-}
-
-
-/*
- * Temporarily bypass the reconstructed custom welcome/language screen during boot.
- * If no language preference has been saved, askLanguage() replaces the recovered
- * title screen with another custom screen that has the same missing-controls issue.
- * Vanilla Minecraft remains usable; language can still be changed in Minecraft options.
- */
-def patchDisableAutoWelcomeScreen = { byte[] bytes ->
-    def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
-    boolean found = false
-    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
-        @Override
-        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if (name == "askLanguage" && descriptor == "(Lnet/minecraft/class_310;)V") {
-                found = true
-                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
-                out.visitCode()
-                out.visitInsn(Opcodes.RETURN)
-                out.visitMaxs(0, 2)
-                out.visitEnd()
-                return null
-            }
-            return super.visitMethod(access, name, descriptor, signature, exceptions)
-        }
-    }
-    reader.accept(visitor, 0)
-    if (!found) throw new GradleException("Flow.askLanguage method not found; refusing to ship an unstable welcome-screen handoff")
-    return writer.toByteArray()
+    // Keep ClientLoad.show intact so the player sees a real loading screen while
+    // assets are prefetched and the client boots. Suppressing the screen leaves
+    // a blank/white window on some systems and makes a slow prefetch look frozen.
+    return bytes
 }
 
 def patchEncryptedBranding = { byte[] bytes ->
@@ -3616,8 +3310,6 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "flow/Flow.class") {
                             patchedBytes = patchFlowIdentity(patchedBytes)
                             logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
-                            patchedBytes = patchDisableAutoWelcomeScreen(patchedBytes)
-                            logger.lifecycle("Bypassed reconstructed auto-welcome screen until custom UI is stable")
                         } else if (entry.name == "flow/splash/Splash.class") {
                             // The client tick also registers a ScreenEvents hook that replaces
                             // every vanilla TitleScreen with MenuScreen when Splash.MENU is true.
