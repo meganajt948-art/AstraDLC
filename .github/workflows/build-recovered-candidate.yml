@@ -1,5 +1,7 @@
 name: Build recovered-source AlbaDLC candidate
 
+# Rebuild the standalone client after the keybind HUD empty-state fix.
+
 on:
   workflow_dispatch:
   push:
