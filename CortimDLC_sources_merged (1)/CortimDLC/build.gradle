@@ -2690,6 +2690,40 @@ def patchSplashController = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * Keep the custom title-screen renderer from taking over startup while it is
+ * still unstable on some machines. The normal Minecraft TitleScreen is retained
+ * so the game is usable; AlbaDLC modules and in-game screens are unaffected.
+ */
+def patchSplashMenuFlag = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "<clinit>" || descriptor != "()V") return mv
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
+                    if (opcode == Opcodes.PUTSTATIC && owner == "flow/splash/Splash" &&
+                        fieldName == "MENU" && fieldDescriptor == "Z") {
+                        found = true
+                        // Replace the initializer's computed value with false.
+                        super.visitInsn(Opcodes.POP)
+                        super.visitInsn(Opcodes.ICONST_0)
+                    }
+                    super.visitFieldInsn(opcode, owner, fieldName, fieldDescriptor)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Splash.MENU static initializer not found")
+    return writer.toByteArray()
+}
+
 def patchClientLoadSplash = { byte[] bytes ->
     // The splash is intentionally bypassed, but its one-shot flag must still
     // be closed so run() doesn't schedule the fallback reload.
@@ -3440,7 +3474,8 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
                         } else if (entry.name == "flow/splash/Splash.class") {
                             patchedBytes = patchSplashController(patchedBytes)
-                            logger.lifecycle("Skipped Flow2's custom splash takeover; preserved the native Minecraft loading screen")
+                            patchedBytes = patchSplashMenuFlag(patchedBytes)
+                            logger.lifecycle("Disabled the crash-prone custom title menu during startup; preserved the native Minecraft loading and title screens")
                         } else if (entry.name == "flow/splash/ClientLoad.class") {
                             patchedBytes = patchClientLoadSplash(patchedBytes)
                             logger.lifecycle("Kept startup warming active while bypassing the crash-prone custom GPU splash; native loading screen retained")
