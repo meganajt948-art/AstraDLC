@@ -21,7 +21,6 @@ import a.Setting;
 import flow.Flow;
 import flow.dev.StringDecryptor;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,24 +51,7 @@ extends TimedWidget<jdz> {
             if (kfe2.getKey() == -1 || !SHOW.is("All") && !kfe2.isEnabled()) continue;
             arrayList.add(new jdz(kfe2.getDisplayName(), kfe2.getKey(), kfe2.isEnabled()));
         }
-        if (arrayList.isEmpty() && bl) {
-            arrayList.add(new jdz(KeybindsWidget.jel(new char[]{'T', 'r', 'i', 'g', 'g', 'e', 'r', 'B', 'o', 't'}), 82, true));
-            arrayList.add(new jdz(KeybindsWidget.jel(new char[]{'A', 'i', 'm', 'A', 's', 's', 'i', 's', 't'}), 71, false));
-            arrayList.add(new jdz(KeybindsWidget.jel(new char[]{'A', 'u', 't', 'o', 'S', 'w', 'a', 'p'}), 88, false));
-        }
         return arrayList;
-    }
-
-    private static String jel(char[] cArray) {
-        StringBuilder stringBuilder = new StringBuilder(cArray.length * 2 - 1);
-        for (int i = 0; i < cArray.length; ++i) {
-            if (i > 0) {
-                stringBuilder.append('\u200c');
-            }
-            stringBuilder.append(cArray[i]);
-        }
-        Arrays.fill(cArray, '\u0000');
-        return stringBuilder.toString();
     }
 
     @Override
