@@ -1419,6 +1419,204 @@ def patchHudVisualPlacement = { byte[] bytes ->
 }
 
 
+
+/*
+ * Move title-screen utility icons to the marked positions. Render, hover and
+ * click hitboxes all call the same position helper so they cannot drift apart.
+ */
+def patchMenuUtilityIconLayout = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [x: false, draw: false, click: false]
+    def xMethod = null
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "jwn" && descriptor == "(I)F") {
+                found.x = true
+                xMethod = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
+            }
+            if (name == "jwo") {
+                found.draw = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            return
+                        }
+                        if (value instanceof Float && Math.abs(((Float)value).floatValue() - 38.0f) < 0.001f) {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            super.visitLdcInsn(-16.0f)
+                            super.visitInsn(Opcodes.FADD)
+                            return
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private int lastIntLoad = -1
+                    private boolean replaceUtilityY = false
+                    private int utilityIndex = -1
+                    @Override
+                    void visitVarInsn(int opcode, int var) {
+                        if (opcode == Opcodes.ILOAD) lastIntLoad = var
+                        super.visitVarInsn(opcode, var)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callName == "jwn" && callDescriptor == "(I)F") {
+                            replaceUtilityY = true
+                            utilityIndex = lastIntLoad
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (replaceUtilityY && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, utilityIndex)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            replaceUtilityY = false
+                            return
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+        @Override
+        void visitEnd() {
+            if (xMethod == null) throw new GradleException("Title utility X method jwn(I)F not found in " + ownerClass)
+            MethodVisitor x = writer.visitMethod(xMethod.access, "jwn", xMethod.descriptor, xMethod.signature, xMethod.exceptions as String[])
+            org.objectweb.asm.Label telegram = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label discord = new org.objectweb.asm.Label()
+            x.visitCode()
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitJumpInsn(Opcodes.IFEQ, telegram)
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitInsn(Opcodes.ICONST_1)
+            x.visitJumpInsn(Opcodes.IF_ICMPEQ, discord)
+            x.visitVarInsn(Opcodes.ALOAD, 0)
+            x.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jve", "F")
+            x.visitLdcInsn(0.5f)
+            x.visitInsn(Opcodes.FMUL)
+            x.visitLdcInsn(96.0f)
+            x.visitInsn(Opcodes.FADD)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(telegram)
+            x.visitLdcInsn(12.0f)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(discord)
+            x.visitLdcInsn(39.0f)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitMaxs(0, 0)
+            x.visitEnd()
+
+            MethodVisitor y = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, "albaUtilityY", "(I)F", null, null)
+            org.objectweb.asm.Label social = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label power = new org.objectweb.asm.Label()
+            y.visitCode()
+            y.visitVarInsn(Opcodes.ILOAD, 1)
+            y.visitInsn(Opcodes.ICONST_2)
+            y.visitJumpInsn(Opcodes.IF_ICMPLT, social)
+            y.visitVarInsn(Opcodes.ALOAD, 0)
+            y.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvf", "F")
+            y.visitLdcInsn(0.68f)
+            y.visitInsn(Opcodes.FMUL)
+            y.visitVarInsn(Opcodes.ILOAD, 1)
+            y.visitInsn(Opcodes.ICONST_3)
+            y.visitJumpInsn(Opcodes.IF_ICMPEQ, power)
+            y.visitInsn(Opcodes.FRETURN)
+            y.visitLabel(power)
+            y.visitLdcInsn(27.0f)
+            y.visitInsn(Opcodes.FADD)
+            y.visitInsn(Opcodes.FRETURN)
+            y.visitLabel(social)
+            y.visitVarInsn(Opcodes.ALOAD, 0)
+            y.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvf", "F")
+            y.visitLdcInsn(33.0f)
+            y.visitInsn(Opcodes.FSUB)
+            y.visitInsn(Opcodes.FRETURN)
+            y.visitMaxs(0, 0)
+            y.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.draw || !found.click) {
+        throw new GradleException("Title utility icon render/click methods not found in " + ownerClass + ": " + found)
+    }
+    logger.lifecycle("Moved Telegram/Discord to bottom-left and wallpaper/power beside the main-menu buttons; synchronized hover and click regions")
+    return writer.toByteArray()
+}
+
+/* Patch bundled bytecode directly: the decompiled src tree is excluded from compilation. */
+def patchButtonSkinQuitDetection = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [method: false]
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "kes" && descriptor == "(Lnet/minecraft/class_339;)Z") {
+                found.method = true
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalKes", descriptor, signature, exceptions)
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+        @Override
+        void visitEnd() {
+            if (!found.method) throw new GradleException("ButtonSkin.kes(widget) not found in " + ownerClass)
+            MethodVisitor mv = writer.visitMethod(original.access, "kes", original.descriptor, original.signature, original.exceptions as String[])
+            org.objectweb.asm.Label yes = new org.objectweb.asm.Label()
+            mv.visitCode()
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "albaOriginalKes", original.descriptor, false)
+            mv.visitJumpInsn(Opcodes.IFNE, yes)
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_339", "method_25369", "()Lnet/minecraft/class_2561;", false)
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_2561", "getString", "()Ljava/lang/String;", false)
+            mv.visitVarInsn(Opcodes.ASTORE, 1)
+            ["Quit Game", "Exit Game", "Quit", "Выйти из игры", "Выйти"].each { label ->
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitLdcInsn(label)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false)
+                mv.visitJumpInsn(Opcodes.IFNE, yes)
+            }
+            mv.visitInsn(Opcodes.ICONST_0)
+            mv.visitInsn(Opcodes.IRETURN)
+            mv.visitLabel(yes)
+            mv.visitInsn(Opcodes.ICONST_1)
+            mv.visitInsn(Opcodes.IRETURN)
+            mv.visitMaxs(0, 0)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
 /* Redesign the wallpaper picker while preserving its state, scrolling and clicks. */
 def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -3052,6 +3250,7 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
+                            patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
@@ -3059,6 +3258,9 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Preserved the original title-screen wallpaper/background renderer")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
 
+                        } else if (entry.name == "a/ButtonSkin.class") {
+                            patchedBytes = patchButtonSkinQuitDetection(patchedBytes)
+                            logger.lifecycle("Applied animated hover skin to the Quit Game button in the bundled client bytecode")
                         } else if (entry.name == "a/kfe.class") {
                             patchedBytes = patchModuleDisplayNames(patchedBytes)
                             logger.lifecycle("Renamed module labels AutoMace -> MaceHelper and KeyPearl -> ClickPearl")
