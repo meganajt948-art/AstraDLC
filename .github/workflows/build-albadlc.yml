@@ -50,11 +50,11 @@ jobs:
       - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-ui-fixes-2026-10-27
+          tag_name: albadlc-mainmenu-exit-fix-2026-10-27
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC UI and Discord link update (27 October 2026)
+          name: AlbaDLC main menu and Discord fix (27 October 2026)
           body: |
-            Includes the latest AlbaDLC client UI and Discord invite updates, alongside the existing AutoWarden/AutoEnd fixes.
+            Moves Telegram/Discord to the bottom-left, moves the wallpaper control beside the menu, adds a styled fifth Exit Game button, fixes hover behavior, and updates the Discord invite to https://discord.gg/aP9dpxM8. Includes the existing AutoWarden/AutoEnd fixes.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
