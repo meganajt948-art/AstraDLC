@@ -135,3 +135,192 @@ jobs:
             CortimDLC_sources_merged (1)/CortimDLC/recovered-candidate/recovered-intermediary.jar
           if-no-files-found: error
           compression-level: 0
+
+
+      - name: Flatten recovered client into a single standalone JAR
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import io
+          import json
+          import zipfile
+          from pathlib import Path
+
+          source = Path("build/libs/AlbaDLC-1.0.0.jar")
+          target = Path("recovered-candidate/AlbaDLC-standalone-1.0.0.jar")
+          nested_path = "META-INF/jars/flow.jar"
+
+          def as_list(value):
+              if value is None:
+                  return []
+              return value if isinstance(value, list) else [value]
+
+          def merge_entrypoints(base, addition):
+              result = dict(base or {})
+              for key, value in (addition or {}).items():
+                  values = as_list(result.get(key)) + as_list(value)
+                  unique = []
+                  for item in values:
+                      if item not in unique:
+                          unique.append(item)
+                  result[key] = unique
+              return result
+
+          def merge_constraints(base, addition, field):
+              result = dict(base or {})
+              for key, value in (addition or {}).items():
+                  if key not in result:
+                      result[key] = value
+                  elif result[key] != value:
+                      values = as_list(result[key]) + as_list(value)
+                      unique = []
+                      for item in values:
+                          if item not in unique:
+                              unique.append(item)
+                      result[key] = unique
+                      print("Combined metadata constraints:", field, key, unique)
+              return result
+
+          def merge_list(base, addition):
+              result = list(base or [])
+              for item in addition or []:
+                  if item not in result:
+                      result.append(item)
+              return result
+
+          with zipfile.ZipFile(source) as outer:
+              outer_names = set(outer.namelist())
+              if nested_path not in outer_names:
+                  raise SystemExit("Missing source nested client at " + nested_path)
+              outer_metadata = json.loads(outer.read("fabric.mod.json"))
+              inner_bytes = outer.read(nested_path)
+
+              with zipfile.ZipFile(io.BytesIO(inner_bytes)) as inner:
+                  inner_names = set(inner.namelist())
+                  if "fabric.mod.json" not in inner_names:
+                      raise SystemExit("Nested client has no fabric.mod.json")
+                  inner_metadata = json.loads(inner.read("fabric.mod.json"))
+                  inner_id = inner_metadata.get("id")
+                  print("Nested client metadata:")
+                  print(json.dumps(inner_metadata, ensure_ascii=False, indent=2))
+                  print("Nested class entries:", sum(n.endswith(".class") for n in inner_names))
+
+                  merged = dict(outer_metadata)
+                  for field in ("entrypoints",):
+                      merged[field] = merge_entrypoints(merged.get(field), inner_metadata.get(field))
+                  for field in ("depends", "recommends", "suggests", "breaks", "conflicts"):
+                      merged[field] = merge_constraints(merged.get(field), inner_metadata.get(field), field)
+                      if not merged[field]:
+                          merged.pop(field, None)
+                  for field in ("mixins", "jars", "provides", "authors", "contributors"):
+                      if field in inner_metadata:
+                          merged[field] = merge_list(merged.get(field), inner_metadata.get(field))
+                  if inner_id and inner_id != merged.get("id"):
+                      merged["provides"] = merge_list(merged.get("provides"), [inner_id])
+                  for field in ("languageAdapters", "custom"):
+                      addition = inner_metadata.get(field)
+                      if isinstance(addition, dict):
+                          current = dict(merged.get(field) or {})
+                          for key, value in addition.items():
+                              if key not in current:
+                                  current[key] = value
+                              elif current[key] != value:
+                                  print("Outer metadata wins duplicate field:", field, key)
+                          merged[field] = current
+                  for field in ("accessWidener", "icon", "license", "contact", "environment"):
+                      if field not in merged and field in inner_metadata:
+                          merged[field] = inner_metadata[field]
+                      elif field == "environment" and merged.get(field) == "*" and inner_metadata.get(field) in ("client", "server"):
+                          merged[field] = inner_metadata[field]
+                  if not merged.get("entrypoints"):
+                      raise SystemExit("No entrypoints remained after metadata merge")
+                  print("Merged root metadata summary:")
+                  print(json.dumps({
+                      "id": merged.get("id"),
+                      "name": merged.get("name"),
+                      "provides": merged.get("provides", []),
+                      "entrypointGroups": list(merged.get("entrypoints", {}).keys()),
+                      "depends": merged.get("depends", {}),
+                      "mixins": merged.get("mixins", []),
+                      "jars": merged.get("jars", [])
+                  }, ensure_ascii=False, indent=2))
+
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  seen = set()
+                  duplicates = []
+                  copied_classes = 0
+                  copied_resources = 0
+                  entrypoint_classes = []
+
+                  for group in merged["entrypoints"].values():
+                      for spec in as_list(group):
+                          if isinstance(spec, str):
+                              class_name = spec.split("::", 1)[0]
+                              if "." in class_name:
+                                  entrypoint_classes.append(class_name.replace(".", "/") + ".class")
+                          elif isinstance(spec, dict) and isinstance(spec.get("value"), str):
+                              class_name = spec["value"].split("::", 1)[0]
+                              if "." in class_name:
+                                  entrypoint_classes.append(class_name.replace(".", "/") + ".class")
+
+                  with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as output:
+                      for name in outer.namelist():
+                          if name == nested_path or name.endswith("/"):
+                              continue
+                          payload = json.dumps(merged, ensure_ascii=False, indent=2).encode("utf-8") if name == "fabric.mod.json" else outer.read(name)
+                          output.writestr(name, payload)
+                          seen.add(name)
+
+                      for name in inner.namelist():
+                          if name.endswith("/") or name == "fabric.mod.json" or name.upper() == "META-INF/MANIFEST.MF":
+                              continue
+                          upper = name.upper()
+                          if upper.startswith("META-INF/") and upper.endswith((".SF", ".RSA", ".DSA", ".EC")):
+                              continue
+                          payload = inner.read(name)
+                          if name in seen:
+                              duplicates.append(name)
+                              if name.endswith(".class"):
+                                  raise SystemExit("Class path collision while flattening: " + name)
+                              continue
+                          output.writestr(name, payload)
+                          seen.add(name)
+                          if name.endswith(".class"):
+                              copied_classes += 1
+                          else:
+                              copied_resources += 1
+
+                  with zipfile.ZipFile(target) as result:
+                      result_names = set(result.namelist())
+                      root_metadata = json.loads(result.read("fabric.mod.json"))
+                      if nested_path in result_names or any(name.endswith("/flow.jar") for name in result_names):
+                          raise SystemExit("Standalone archive still contains flow.jar")
+                      if not any(name.startswith("a/") and name.endswith(".class") for name in result_names):
+                          raise SystemExit("No recovered package-a classes found at root")
+                      if not any(name.startswith("flow/") and name.endswith(".class") for name in result_names):
+                          raise SystemExit("No flow package classes found at root")
+                      missing_entrypoints = [name for name in entrypoint_classes if name not in result_names]
+                      if missing_entrypoints:
+                          raise SystemExit("Missing Fabric entrypoint class files: " + ", ".join(missing_entrypoints))
+                      if root_metadata.get("id") != "albadlc":
+                          raise SystemExit("Outer mod ID changed unexpectedly")
+                      if any(name.startswith("META-INF/jars/") and name.endswith(".jar") for name in result_names):
+                          print("Note: additional nested dependencies remain:", [name for name in result_names if name.startswith("META-INF/jars/") and name.endswith(".jar")])
+                      print("Standalone candidate:", target)
+                      print("Total root class entries:", sum(name.endswith(".class") for name in result_names))
+                      print("Classes copied from nested client:", copied_classes)
+                      print("Resources copied from nested client:", copied_resources)
+                      print("Duplicate resource paths skipped (outer wins):", len(duplicates))
+                      print("Entrypoint classes verified:", entrypoint_classes)
+                      print("Standalone archive validation passed.")
+          PY
+
+      - name: Upload the single-file standalone candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlbaDLC-standalone-jar-candidate
+          path: |
+            CortimDLC_sources_merged (1)/CortimDLC/recovered-candidate/AlbaDLC-standalone-1.0.0.jar
+          if-no-files-found: error
+          compression-level: 0
