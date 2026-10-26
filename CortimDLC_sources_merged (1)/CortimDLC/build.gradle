@@ -2657,11 +2657,45 @@ def patchMainMenuSettings = { byte[] bytes ->
  */
 def patchSplashController = { byte[] bytes ->
     def reader = new ClassReader(bytes)
-    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
-    def found = [preview: false, adopt: false]
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [preview: false, adopt: false, tick: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "tick" && descriptor == "(Lnet/minecraft/class_310;)V") {
+                found.tick = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, out) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        // ClientLoad is complete, but the custom LoadingOverlay can remain
+                        // visible on top of the title screen if its animation never reaches
+                        // its release state. Clear only Alba's FlowSplash overlay, not any
+                        // vanilla resource-reload overlay, and leave the original cleanup
+                        // tick below intact.
+                        org.objectweb.asm.Label keepOverlay = new org.objectweb.asm.Label()
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
+                            "()Lnet/minecraft/class_4071;", false)
+                        super.visitTypeInsn(Opcodes.INSTANCEOF, "flow/splash/FlowSplash")
+                        super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
+                        super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitInsn(Opcodes.ACONST_NULL)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
+                            "(Lnet/minecraft/class_4071;)V", false)
+                        super.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
+                        super.visitLdcInsn("[AlbaDLC] Removed stale FlowSplash overlay after startup finished")
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
+                            "(Ljava/lang/String;)V", false)
+                        super.visitLabel(keepOverlay)
+                    }
+                }
+            }
             if (name == "preview" && descriptor == "(Lnet/minecraft/class_310;FZ)V") {
                 found.preview = true
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
@@ -2684,7 +2718,7 @@ def patchSplashController = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found.preview || !found.adopt) {
+    if (!found.preview || !found.adopt || !found.tick) {
         throw new GradleException("Splash controller methods not found: " + found)
     }
     return writer.toByteArray()
