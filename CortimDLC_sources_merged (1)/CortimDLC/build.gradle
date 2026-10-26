@@ -2846,6 +2846,14 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
                         super.visitLdcInsn(69.0F)
                         super.visitInsn(Opcodes.FADD)
+                        // The text renderer draws from the left edge; subtract half its width
+                        // so the Russian Exit label is truly centered inside the button.
+                        super.visitVarInsn(Opcodes.ALOAD, 7)
+                        super.visitLdcInsn("Выйти из игры")
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "width", "(Ljava/lang/String;)F", false)
+                        super.visitLdcInsn(2.0F)
+                        super.visitInsn(Opcodes.FDIV)
+                        super.visitInsn(Opcodes.FSUB)
                         super.visitVarInsn(Opcodes.ALOAD, 7)
                         super.visitVarInsn(Opcodes.ALOAD, 0)
                         super.visitInsn(Opcodes.ICONST_4)
