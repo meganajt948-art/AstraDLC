@@ -2935,6 +2935,37 @@ def patchFlowIdentity = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+
+/*
+ * Temporarily bypass the reconstructed custom welcome/language screen during boot.
+ * If no language preference has been saved, askLanguage() replaces the recovered
+ * title screen with another custom screen that has the same missing-controls issue.
+ * Vanilla Minecraft remains usable; language can still be changed in Minecraft options.
+ */
+def patchDisableAutoWelcomeScreen = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "askLanguage" && descriptor == "(Lnet/minecraft/class_310;)V") {
+                found = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 2)
+                out.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Flow.askLanguage method not found; refusing to ship an unstable welcome-screen handoff")
+    return writer.toByteArray()
+}
+
 def patchEncryptedBranding = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, 0)
@@ -3544,6 +3575,8 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "flow/Flow.class") {
                             patchedBytes = patchFlowIdentity(patchedBytes)
                             logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
+                            patchedBytes = patchDisableAutoWelcomeScreen(patchedBytes)
+                            logger.lifecycle("Bypassed reconstructed auto-welcome screen until custom UI is stable")
                         } else if (entry.name == "flow/splash/Splash.class") {
                             // The client tick also registers a ScreenEvents hook that replaces
                             // every vanilla TitleScreen with MenuScreen when Splash.MENU is true.
