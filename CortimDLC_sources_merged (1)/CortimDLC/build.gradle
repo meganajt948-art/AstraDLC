@@ -3003,6 +3003,34 @@ tasks.register("rebrandFlowNestedJar") {
                         logger.lifecycle("Replaced dark wallpaper preview with Alba A")
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
+                        if (entry.name == "a/jte.class") {
+                            logger.lifecycle("ALBA_TITLE_SCAN_BEGIN")
+                            try {
+                                new ClassReader(originalBytes).accept(new ClassVisitor(Opcodes.ASM9) {
+                                    String currentMethod = ""
+                                    @Override
+                                    MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                                        currentMethod = name + descriptor
+                                        logger.lifecycle("ALBA_TITLE_METHOD " + currentMethod)
+                                        return new MethodVisitor(Opcodes.ASM9) {
+                                            @Override void visitLdcInsn(Object value) {
+                                                if (value instanceof String || value instanceof Integer || value instanceof Float)
+                                                    logger.lifecycle("ALBA_TITLE_CONST " + currentMethod + " :: " + value)
+                                            }
+                                            @Override void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+                                                logger.lifecycle("ALBA_TITLE_CALL " + currentMethod + " :: " + owner + "." + name + descriptor)
+                                            }
+                                            @Override void visitFieldInsn(int opcode, String owner, String name, String descriptor) {
+                                                logger.lifecycle("ALBA_TITLE_FIELD " + currentMethod + " :: " + owner + "." + name + ":" + descriptor)
+                                            }
+                                        }
+                                    }
+                                }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+                            } catch (Throwable scanError) {
+                                logger.lifecycle("ALBA_TITLE_SCAN_ERROR " + scanError.toString())
+                            }
+                            logger.lifecycle("ALBA_TITLE_SCAN_END")
+                        }
                         if (entry.name == "a/isv.class" || entry.name == "a/isn.class" ||
                             entry.name == "flow/dev/a.class") {
                             try {
