@@ -29,72 +29,9 @@ jobs:
         with:
           gradle-version: '9.2.1'
 
-      - name: Compile the recovered AlbaDLC Java sources
+      - name: Build standalone AlbaDLC from recovered sources
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle clean compileRecoveredJava --no-daemon
-
-      - name: Package recovered class files
-        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: |
-          set -euo pipefail
-          project_dir="$PWD"
-          mkdir -p "$project_dir/recovered-candidate/tools" "$project_dir/recovered-candidate/classes"
-          count="$(find "$project_dir/build/classes/java/recovered" -type f -name '*.class' | wc -l)"
-          echo "Recovered compiled class files: $count"
-          test "$count" -gt 500
-          (cd "$project_dir/build/classes/java/recovered" && zip -qr "$project_dir/recovered-candidate/recovered-named.jar" .)
-
-      - name: Download Fabric remapper and Minecraft mappings
-        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: |
-          set -euo pipefail
-          tools="$PWD/recovered-candidate/tools"
-          curl -fL --retry 3 "https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.15.0/tiny-remapper-0.15.0-fat.jar" -o "$tools/tiny-remapper.jar"
-          curl -fL --retry 3 "https://maven.fabricmc.net/net/fabricmc/yarn/1.21.11+build.1/yarn-1.21.11+build.1-v2.jar" -o "$tools/yarn-v2.jar"
-          unzip -p "$tools/yarn-v2.jar" mappings/mappings.tiny > "$tools/yarn-v2.tiny"
-          curl -fsSL https://piston-meta.mojang.com/mc/game/version_manifest_v2.json -o "$tools/version_manifest.json"
-          version_url="$(jq -r '.versions[] | select(.id == "1.21.11") | .url' "$tools/version_manifest.json")"
-          test -n "$version_url"
-          curl -fsSL "$version_url" -o "$tools/minecraft-version.json"
-          client_url="$(jq -r '.downloads.client.url' "$tools/minecraft-version.json")"
-          test -n "$client_url"
-          curl -fL --retry 3 "$client_url" -o "$tools/minecraft-official.jar"
-          curl -fL --retry 3 "https://maven.fabricmc.net/net/fabricmc/intermediary/1.21.11/intermediary-1.21.11-v2.jar" -o "$tools/intermediary-v2.jar"
-          unzip -p "$tools/intermediary-v2.jar" mappings/mappings.tiny > "$tools/intermediary.tiny"
-          test -s "$tools/tiny-remapper.jar"
-          test -s "$tools/yarn-v2.tiny"
-          test -s "$tools/intermediary.tiny"
-
-      - name: Build Minecraft named classpath
-        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: |
-          set -euo pipefail
-          tools="$PWD/recovered-candidate/tools"
-          java -Xmx3g -jar "$tools/tiny-remapper.jar" \
-            "$tools/minecraft-official.jar" "$tools/minecraft-intermediary.jar" \
-            "$tools/intermediary.tiny" official intermediary --ignoreConflicts
-          java -Xmx3g -jar "$tools/tiny-remapper.jar" \
-            "$tools/minecraft-intermediary.jar" "$tools/minecraft-named.jar" \
-            "$tools/yarn-v2.tiny" intermediary named --ignoreConflicts
-          test -s "$tools/minecraft-named.jar"
-
-      - name: Remap recovered classes to Fabric intermediary names
-        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: |
-          set -euo pipefail
-          tools="$PWD/recovered-candidate/tools"
-          java -Xmx3g -jar "$tools/tiny-remapper.jar" \
-            "$PWD/recovered-candidate/recovered-named.jar" \
-            "$PWD/recovered-candidate/recovered-intermediary.jar" \
-            "$tools/yarn-v2.tiny" named intermediary "$tools/minecraft-named.jar" --resolveMissing
-          unzip -oq "$PWD/recovered-candidate/recovered-intermediary.jar" -d "$PWD/recovered-candidate/classes"
-          count="$(find "$PWD/recovered-candidate/classes" -type f -name '*.class' | wc -l)"
-          echo "Remapped recovered class files: $count"
-          test "$count" -gt 500
-
-      - name: Build standalone AlbaDLC with recovered classes
-        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle build --no-daemon -PrecoveredCandidateDir=recovered-candidate/classes
+        run: gradle clean build --no-daemon
 
       - name: Smoke-check standalone runtime JAR structure
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
