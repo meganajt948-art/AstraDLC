@@ -2758,6 +2758,44 @@ def patchWelcomeTransition = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+/*
+ * Emergency boot fallback for the two custom screens which can draw their
+ * wallpaper but fail to finish painting the first interactive frame.
+ * On first render switch directly to Minecraft's stable vanilla TitleScreen.
+ * This deliberately leaves the in-world AlbaDLC screens/modules untouched.
+ */
+def patchForceVanillaTitleScreen = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String owner = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean foundRender = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                foundRender = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_437", "field_22787", "Lnet/minecraft/class_310;")
+                out.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
+                out.visitInsn(Opcodes.DUP)
+                out.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
+                    "(Lnet/minecraft/class_437;)V", false)
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 0)
+                out.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!foundRender) throw new GradleException("Cannot install vanilla title fallback in " + owner)
+    return writer.toByteArray()
+}
+
 def patchClientLoadSplash = { byte[] bytes ->
     // The splash is intentionally bypassed, but its one-shot flag must still
     // be closed so run() doesn't schedule the fallback reload.
@@ -3518,6 +3556,10 @@ tasks.register("rebrandFlowNestedJar") {
                         }
                         if (entry.name == "a/jte.class") {
                             patchedBytes = patchDiscordInviteUrls(patchedBytes)
+                        }
+                        if (entry.name == "a/kct.class" || entry.name == "a/jte.class") {
+                            patchedBytes = patchForceVanillaTitleScreen(patchedBytes)
+                            logger.lifecycle("Installed vanilla title-screen startup fallback in " + entry.name)
                         }
                         outputZip.write(patchedBytes)
                     } else {
