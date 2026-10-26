@@ -1917,7 +1917,7 @@ def patchMenuExitButton = { byte[] bytes ->
             action.visitInsn(Opcodes.ICONST_4)
             action.visitJumpInsn(Opcodes.IF_ICMPNE, delegateAction)
             action.visitVarInsn(Opcodes.ALOAD, 0)
-            action.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "field_22787", "Lnet/minecraft/class_310;")
+            action.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_437", "field_22787", "Lnet/minecraft/class_310;")
             action.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1592", "()V", false)
             action.visitInsn(Opcodes.RETURN)
             action.visitLabel(delegateAction)
