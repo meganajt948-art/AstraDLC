@@ -3284,3 +3284,264 @@ dependencies {
 // Build trigger: AutoWarden and AutoEnd configured teleport commands plus periodic hops (24 October 2026).
 
 // Build trigger: ensure the command-fix release workflow runs with the updated release tag.
+
+
+/*
+ * Local/default builds should produce the same standalone client as the CI candidate
+ * workflow. Use -PkeepNestedFlowJar only in workflows that explicitly need to inspect
+ * the intermediate outer JAR before the recovered client is flattened into it.
+ */
+def flattenAlbaStandaloneJar = tasks.register("flattenAlbaStandaloneJar") {
+    group = "build"
+    description = "Flatten the rebranded client into AlbaDLC's main JAR and remove flow.jar"
+    doLast {
+        if (project.hasProperty("keepNestedFlowJar")) {
+            logger.lifecycle("Keeping the intermediate nested client because -PkeepNestedFlowJar was supplied")
+            return
+        }
+
+        File sourceFile = tasks.named("jar", org.gradle.api.tasks.bundling.Jar).get().archiveFile.get().asFile
+        if (!sourceFile.isFile()) {
+            throw new GradleException("Built AlbaDLC JAR is missing: " + sourceFile)
+        }
+        final String nestedPath = "META-INF/jars/flow.jar"
+        File tempFile = new File(sourceFile.parentFile, sourceFile.name + ".standalone.tmp")
+        if (tempFile.exists()) tempFile.delete()
+
+        def listify = { Object value ->
+            if (value == null) return []
+            if (value instanceof Collection) return new ArrayList(value as Collection)
+            return [value]
+        }
+        def mergeList = { Object base, Object addition ->
+            List result = listify(base)
+            for (Object item : listify(addition)) {
+                if (!result.contains(item)) result.add(item)
+            }
+            return result
+        }
+        def mergeEntryPoints = { Object base, Object addition ->
+            Map result = new LinkedHashMap((base instanceof Map) ? base as Map : [:])
+            Map more = (addition instanceof Map) ? addition as Map : [:]
+            more.each { key, value ->
+                result[key] = mergeList(result[key], value)
+            }
+            return result
+        }
+        def mergeConstraints = { Object base, Object addition, String fieldName ->
+            Map result = new LinkedHashMap((base instanceof Map) ? base as Map : [:])
+            Map more = (addition instanceof Map) ? addition as Map : [:]
+            more.each { key, value ->
+                if (!result.containsKey(key)) {
+                    result[key] = value
+                } else if (result[key] != value) {
+                    logger.lifecycle("Outer metadata wins duplicate constraint: " + fieldName + " " + key)
+                }
+            }
+            return result
+        }
+        def readEntry = { byte[] archiveBytes, String wantedName ->
+            java.util.zip.ZipInputStream input = new java.util.zip.ZipInputStream(
+                new java.io.ByteArrayInputStream(archiveBytes))
+            try {
+                java.util.zip.ZipEntry entry
+                while ((entry = input.nextEntry) != null) {
+                    if (entry.name == wantedName) return input.readAllBytes()
+                }
+            } finally {
+                input.close()
+            }
+            throw new GradleException("Missing " + wantedName + " in the nested client")
+        }
+
+        try {
+            java.util.zip.ZipFile outer = new java.util.zip.ZipFile(sourceFile)
+            try {
+                java.util.zip.ZipEntry nestedEntry = outer.getEntry(nestedPath)
+                if (nestedEntry == null) {
+                    throw new GradleException("Expected intermediate nested client at " + nestedPath)
+                }
+                byte[] innerBytes = outer.getInputStream(nestedEntry).withCloseable { it.readAllBytes() }
+                byte[] outerMetadataBytes = outer.getInputStream(outer.getEntry("fabric.mod.json")).withCloseable {
+                    it.readAllBytes()
+                }
+                Map outerMetadata = new groovy.json.JsonSlurper().parseText(new String(outerMetadataBytes, "UTF-8")) as Map
+                Map innerMetadata = new groovy.json.JsonSlurper().parseText(
+                    new String(readEntry(innerBytes, "fabric.mod.json"), "UTF-8")) as Map
+                String innerId = innerMetadata.id == null ? null : innerMetadata.id.toString()
+
+                Map merged = new LinkedHashMap(outerMetadata)
+                merged.entrypoints = mergeEntryPoints(merged.entrypoints, innerMetadata.entrypoints)
+                ["depends", "recommends", "suggests", "breaks", "conflicts"].each { String fieldName ->
+                    merged[fieldName] = mergeConstraints(merged[fieldName], innerMetadata[fieldName], fieldName)
+                    if (!merged[fieldName]) merged.remove(fieldName)
+                }
+                ["mixins", "jars", "provides", "authors", "contributors"].each { String fieldName ->
+                    if (innerMetadata.containsKey(fieldName)) {
+                        merged[fieldName] = mergeList(merged[fieldName], innerMetadata[fieldName])
+                    }
+                }
+                if (merged.jars != null) {
+                    List remainingJars = listify(merged.jars).findAll { Object item ->
+                        if (item instanceof Map) return item.file != nestedPath
+                        return item != nestedPath
+                    }
+                    if (remainingJars) merged.jars = remainingJars
+                    else merged.remove("jars")
+                }
+                if (innerId && innerId != merged.id) {
+                    merged.provides = mergeList(merged.provides, [innerId])
+                }
+                ["languageAdapters", "custom"].each { String fieldName ->
+                    if (innerMetadata[fieldName] instanceof Map) {
+                        Map result = new LinkedHashMap((merged[fieldName] instanceof Map) ? merged[fieldName] as Map : [:])
+                        (innerMetadata[fieldName] as Map).each { key, value ->
+                            if (!result.containsKey(key)) result[key] = value
+                            else if (result[key] != value) logger.lifecycle(
+                                "Outer metadata wins duplicate field: " + fieldName + " " + key)
+                        }
+                        merged[fieldName] = result
+                    }
+                }
+                ["accessWidener", "icon", "license", "contact", "environment"].each { String fieldName ->
+                    if (!merged.containsKey(fieldName) && innerMetadata.containsKey(fieldName)) {
+                        merged[fieldName] = innerMetadata[fieldName]
+                    } else if (fieldName == "environment" && merged[fieldName] == "*" &&
+                        innerMetadata[fieldName] in ["client", "server"]) {
+                        merged[fieldName] = innerMetadata[fieldName]
+                    }
+                }
+                if (!(merged.entrypoints instanceof Map) || merged.entrypoints.isEmpty()) {
+                    throw new GradleException("No Fabric entrypoints remain after metadata merge")
+                }
+                if (merged.id != "albadlc") {
+                    throw new GradleException("Unexpected root Fabric mod id: " + merged.id)
+                }
+
+                List<String> entrypointClasses = []
+                merged.entrypoints.values().each { Object group ->
+                    listify(group).each { Object spec ->
+                        String className = null
+                        if (spec instanceof String) className = (spec as String).split("::", 2)[0]
+                        else if (spec instanceof Map && spec.value instanceof String) {
+                            className = (spec.value as String).split("::", 2)[0]
+                        }
+                        if (className && className.contains(".")) {
+                            entrypointClasses.add(className.replace(".", "/") + ".class")
+                        }
+                    }
+                }
+
+                Set<String> seen = new LinkedHashSet<>()
+                List<String> skippedDuplicates = []
+                int copiedClasses = 0
+                int copiedResources = 0
+                byte[] mergedMetadataBytes = groovy.json.JsonOutput.prettyPrint(
+                    groovy.json.JsonOutput.toJson(merged)).getBytes("UTF-8")
+                java.util.zip.ZipOutputStream output = new java.util.zip.ZipOutputStream(
+                    new java.io.BufferedOutputStream(new FileOutputStream(tempFile)))
+                output.setLevel(6)
+                try {
+                    java.util.Enumeration outerEntries = outer.entries()
+                    while (outerEntries.hasMoreElements()) {
+                        java.util.zip.ZipEntry entry = outerEntries.nextElement() as java.util.zip.ZipEntry
+                        if (entry.name == nestedPath || entry.name.endsWith("/")) continue
+                        byte[] payload = entry.name == "fabric.mod.json" ? mergedMetadataBytes :
+                            outer.getInputStream(entry).withCloseable { it.readAllBytes() }
+                        java.util.zip.ZipEntry targetEntry = new java.util.zip.ZipEntry(entry.name)
+                        if (entry.time > 0) targetEntry.time = entry.time
+                        output.putNextEntry(targetEntry)
+                        output.write(payload)
+                        output.closeEntry()
+                        seen.add(entry.name)
+                    }
+
+                    java.util.zip.ZipInputStream inner = new java.util.zip.ZipInputStream(
+                        new java.io.ByteArrayInputStream(innerBytes))
+                    try {
+                        java.util.zip.ZipEntry entry
+                        while ((entry = inner.nextEntry) != null) {
+                            String name = entry.name
+                            if (name.endsWith("/") || name == "fabric.mod.json" ||
+                                name.toUpperCase(Locale.ROOT) == "META-INF/MANIFEST.MF") continue
+                            String upperName = name.toUpperCase(Locale.ROOT)
+                            if (upperName.startsWith("META-INF/") &&
+                                upperName.endsWith(".SF") || upperName.startsWith("META-INF/") &&
+                                upperName.endsWith(".RSA") || upperName.startsWith("META-INF/") &&
+                                upperName.endsWith(".DSA") || upperName.startsWith("META-INF/") &&
+                                upperName.endsWith(".EC")) continue
+
+                            byte[] payload = inner.readAllBytes()
+                            if (seen.contains(name)) {
+                                skippedDuplicates.add(name)
+                                if (name.endsWith(".class")) {
+                                    throw new GradleException("Class path collision while flattening: " + name)
+                                }
+                                continue
+                            }
+                            java.util.zip.ZipEntry targetEntry = new java.util.zip.ZipEntry(name)
+                            if (entry.time > 0) targetEntry.time = entry.time
+                            output.putNextEntry(targetEntry)
+                            output.write(payload)
+                            output.closeEntry()
+                            seen.add(name)
+                            if (name.endsWith(".class")) copiedClasses++
+                            else copiedResources++
+                        }
+                    } finally {
+                        inner.close()
+                    }
+                } finally {
+                    output.close()
+                }
+            } finally {
+                outer.close()
+            }
+
+            java.util.zip.ZipFile check = new java.util.zip.ZipFile(tempFile)
+            try {
+                Set<String> resultNames = new HashSet<>()
+                java.util.Enumeration entries = check.entries()
+                while (entries.hasMoreElements()) resultNames.add((entries.nextElement() as java.util.zip.ZipEntry).name)
+                if (resultNames.contains(nestedPath) || resultNames.any { it.endsWith("/flow.jar") }) {
+                    throw new GradleException("Standalone archive still contains flow.jar")
+                }
+                Map rootMetadata = new groovy.json.JsonSlurper().parseText(
+                    new String(check.getInputStream(check.getEntry("fabric.mod.json")).withCloseable {
+                        it.readAllBytes()
+                    }, "UTF-8")) as Map
+                for (Object item : listify(rootMetadata.jars)) {
+                    String nestedName = item instanceof Map ? item.file?.toString() : item?.toString()
+                    if (nestedName && !resultNames.contains(nestedName)) {
+                        throw new GradleException("Fabric metadata points to missing nested JAR: " + nestedName)
+                    }
+                }
+                if (!resultNames.any { it.startsWith("a/") && it.endsWith(".class") } ||
+                    !resultNames.any { it.startsWith("flow/") && it.endsWith(".class") }) {
+                    throw new GradleException("Standalone archive is missing client package classes")
+                }
+                List<String> missingEntrypoints = entrypointClasses.findAll { !resultNames.contains(it) }
+                if (missingEntrypoints) {
+                    throw new GradleException("Missing Fabric entrypoint classes: " + missingEntrypoints.join(", "))
+                }
+                logger.lifecycle("Standalone archive validation passed")
+                logger.lifecycle("Flattened client classes copied: " + copiedClasses)
+                logger.lifecycle("Flattened client resources copied: " + copiedResources)
+                logger.lifecycle("Duplicate resource paths skipped: " + skippedDuplicates.size())
+            } finally {
+                check.close()
+            }
+
+            java.nio.file.Files.move(tempFile.toPath(), sourceFile.toPath(),
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            logger.lifecycle("Built standalone AlbaDLC output: " + sourceFile)
+        } catch (Throwable throwable) {
+            tempFile.delete()
+            throw throwable
+        }
+    }
+}
+
+tasks.named("build") {
+    finalizedBy(flattenAlbaStandaloneJar)
+}
