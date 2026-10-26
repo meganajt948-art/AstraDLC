@@ -2666,30 +2666,49 @@ def patchSplashController = { byte[] bytes ->
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "tick" && descriptor == "(Lnet/minecraft/class_310;)V") {
                 found.tick = true
-                // Replace the original tick rather than prepending a fallback to it.
-                // The original tail immediately converts TitleScreen into the custom
-                // MenuScreen, undoing a vanilla-screen recovery and re-triggering blank UI.
+                // Replace the unstable menu handoff completely. If FlowSplash is finished,
+                // clear it and restore vanilla TitleScreen. Also recover if startup completed
+                // with both the overlay and current screen null. Never interrupt a native
+                // resource-reload overlay, and never re-open the broken custom MenuScreen.
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
                 out.visitCode()
-                org.objectweb.asm.Label keepCurrent = new org.objectweb.asm.Label()
+                org.objectweb.asm.Label noFlowSplash = new org.objectweb.asm.Label()
+                org.objectweb.asm.Label setTitle = new org.objectweb.asm.Label()
+                org.objectweb.asm.Label finishTick = new org.objectweb.asm.Label()
+
                 out.visitVarInsn(Opcodes.ALOAD, 0)
                 out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
                     "()Lnet/minecraft/class_4071;", false)
                 out.visitTypeInsn(Opcodes.INSTANCEOF, "flow/splash/FlowSplash")
-                out.visitJumpInsn(Opcodes.IFEQ, keepCurrent)
+                out.visitJumpInsn(Opcodes.IFEQ, noFlowSplash)
                 out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
-                out.visitJumpInsn(Opcodes.IFEQ, keepCurrent)
+                out.visitJumpInsn(Opcodes.IFEQ, finishTick)
                 out.visitVarInsn(Opcodes.ALOAD, 0)
                 out.visitInsn(Opcodes.ACONST_NULL)
                 out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
                     "(Lnet/minecraft/class_4071;)V", false)
+                out.visitJumpInsn(Opcodes.GOTO, setTitle)
+
+                out.visitLabel(noFlowSplash)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506",
+                    "()Lnet/minecraft/class_4071;", false)
+                out.visitJumpInsn(Opcodes.IFNONNULL, finishTick)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755",
+                    "Lnet/minecraft/class_437;")
+                out.visitJumpInsn(Opcodes.IFNONNULL, finishTick)
+                out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
+                out.visitJumpInsn(Opcodes.IFEQ, finishTick)
+
+                out.visitLabel(setTitle)
                 out.visitVarInsn(Opcodes.ALOAD, 0)
                 out.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
                 out.visitInsn(Opcodes.DUP)
                 out.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
                 out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
                     "(Lnet/minecraft/class_437;)V", false)
-                out.visitLabel(keepCurrent)
+                out.visitLabel(finishTick)
                 out.visitInsn(Opcodes.RETURN)
                 out.visitMaxs(0, 0)
                 out.visitEnd()
