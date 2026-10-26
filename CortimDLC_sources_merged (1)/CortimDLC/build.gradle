@@ -2999,11 +2999,9 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitLdcInsn(12.5F)
                         super.visitInsn(Opcodes.FADD)
                         super.visitLdcInsn(10.5F)
-                        super.visitLdcInsn(14541806)
                         super.visitLdcInsn(0.95F)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/vjf", "draw",
-                            "(Lnet/minecraft/class_332;La/vhz;FFFI)V", false)
+                            "(Lnet/minecraft/class_332;La/vhz;FFFF)V", false)
 
                         // Button label.
                         super.visitLdcInsn(8.4F)
