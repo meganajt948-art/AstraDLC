@@ -2729,6 +2729,8 @@ def patchCompactWallpaperPanel = { byte[] bytes ->
                 out.visitLdcInsn(6.0F)
                 out.visitInsn(Opcodes.FADD)
                 out.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "min", "(FF)F", false)
+                // jws() returns float; omitting FRETURN makes the generated class unverifiable.
+                out.visitInsn(Opcodes.FRETURN)
                 out.visitMaxs(0, 0)
                 out.visitEnd()
                 return null
