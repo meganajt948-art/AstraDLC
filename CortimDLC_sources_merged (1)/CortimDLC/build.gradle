@@ -3300,7 +3300,7 @@ def flattenAlbaStandaloneJar = tasks.register("flattenAlbaStandaloneJar") {
             return
         }
 
-        File sourceFile = tasks.named("jar", org.gradle.api.tasks.bundling.Jar).get().archiveFile.get().asFile
+        File sourceFile = layout.buildDirectory.file("libs/${project.archives_base_name}-${project.version}.jar").get().asFile
         if (!sourceFile.isFile()) {
             throw new GradleException("Built AlbaDLC JAR is missing: " + sourceFile)
         }
