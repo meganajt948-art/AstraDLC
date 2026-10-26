@@ -3898,9 +3898,12 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchCompactWallpaperPanel(patchedBytes)
-                            patchedBytes = patchMainMenuBottomControls(patchedBytes)
-                            logger.lifecycle("Centered main-menu navigation, fixed the AlbaDLC title, moved social icons bottom-left, and added a labeled Exit button")
-                            logger.lifecycle("Reduced wallpaper picker to a compact 3-column/two-row viewport with scrolling")
+                            // Do not run the experimental button/icon bytecode overlay.
+                            // It changed the verifier-sensitive jwo renderer and click handler,
+                            // hiding original icons and breaking return-to-title navigation with Escape.
+                            // Keep the original Flow menu icon rendering and its native controls intact.
+                            logger.lifecycle("Restored original Flow main-menu icon renderer and native controls")
+                            logger.lifecycle("Reduced wallpaper picker to a compact viewport with catalogue-only scrolling")
                         } else if (entry.name == "a/kbs.class") {
                             patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
                             logger.lifecycle("Removed the requested Dark Elf wallpaper and obsolete video entries")
