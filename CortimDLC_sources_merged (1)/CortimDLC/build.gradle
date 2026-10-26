@@ -2969,8 +2969,17 @@ tasks.register("rebrandFlowNestedJar") {
     dependsOn("downloadFlowNestedJar", "prepareAlbaUiAssets")
     inputs.file(flowNestedJar)
     inputs.files(albaVideoFile, albaLogoFile, albaLogoSilverFile, albaLogoInkFile, albaThumbnailFile)
+    def candidateDirForInputs = providers.gradleProperty("recoveredCandidateDir")
+    if (candidateDirForInputs.isPresent()) {
+        inputs.dir(file(candidateDirForInputs.get()))
+    }
     outputs.file(rebrandedNestedJar)
     doLast {
+        // Optional only: create a separate recovered-source candidate artifact without
+        // putting those classes at the outer mod root. Normal builds leave this unset.
+        File recoveredCandidateDir = project.findProperty("recoveredCandidateDir") != null
+            ? file(project.property("recoveredCandidateDir")) : null
+        int recoveredClassReplacements = 0
         def inputFile = flowNestedJar.get().asFile
         def outputFile = rebrandedNestedJar.get().asFile
         outputFile.parentFile.mkdirs()
@@ -3019,6 +3028,13 @@ tasks.register("rebrandFlowNestedJar") {
                         logger.lifecycle("Replaced dark wallpaper preview with Alba A")
                     } else if (entry.name.endsWith(".class")) {
                         byte[] originalBytes = stream.readAllBytes()
+                        if (recoveredCandidateDir != null) {
+                            File recoveredClass = new File(recoveredCandidateDir, entry.name)
+                            if (recoveredClass.isFile()) {
+                                originalBytes = recoveredClass.bytes
+                                recoveredClassReplacements++
+                            }
+                        }
                         if (entry.name == "a/isv.class" || entry.name == "a/isn.class" ||
                             entry.name == "flow/dev/a.class") {
                             try {
@@ -3147,6 +3163,12 @@ tasks.register("rebrandFlowNestedJar") {
             outputZip.write(videoBytes)
             outputZip.closeEntry()
             logger.lifecycle("Bundled Alba background video as assets/alba/alba-background.mp4")
+            if (recoveredCandidateDir != null) {
+                logger.lifecycle("Recovered source class replacements applied: " + recoveredClassReplacements)
+                if (recoveredClassReplacements < 500) {
+                    throw new GradleException("Recovered candidate replacement count too low: " + recoveredClassReplacements)
+                }
+            }
         } finally {
             outputZip.close()
             inputZip.close()
