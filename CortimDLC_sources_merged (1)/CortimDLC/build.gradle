@@ -2863,8 +2863,8 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                     }
                     @Override void visitVarInsn(int opcode, int var) {
                         super.visitVarInsn(opcode, var)
-                        // jwo() first computes the legacy icon's y-coordinate into local 8.
-                        if (firstY && opcode == Opcodes.FSTORE && var == 8) {
+                        // jwo() stores its computed y-coordinate in local 9 (local 8 is x).
+                        if (firstY && opcode == Opcodes.FSTORE && var == 9) {
                             firstY = false
                             org.objectweb.asm.Label keepOriginalY = new org.objectweb.asm.Label()
                             super.visitVarInsn(Opcodes.ILOAD, 3)
@@ -2880,7 +2880,7 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                             super.visitLdcInsn(8.0F)
                             super.visitInsn(Opcodes.FMUL)
                             super.visitInsn(Opcodes.FADD)
-                            super.visitVarInsn(Opcodes.FSTORE, 8)
+                            super.visitVarInsn(Opcodes.FSTORE, 9)
                             super.visitLabel(keepOriginalY)
                         }
                     }
