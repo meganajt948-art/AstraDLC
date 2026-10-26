@@ -3311,15 +3311,12 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchFlowIdentity(patchedBytes)
                             logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
                         } else if (entry.name == "flow/splash/Splash.class") {
-                            // The client tick also registers a ScreenEvents hook that replaces
-                            // every vanilla TitleScreen with MenuScreen when Splash.MENU is true.
-                            // Keep the white-screen recovery usable by turning off that handoff
-                            // until the custom screen's missing-controls bug is fixed.
-                            patchedBytes = patchSplashMenuFlag(patchedBytes)
-                            logger.lifecycle("Disabled automatic custom MenuScreen handoff; kept vanilla title controls as fallback")
-                            // The reconstructed splash lifecycle must not re-open FlowSplash.
+                            // Preserve the original Splash.MENU value so the original Flow
+                            // screen event can open the custom menu after Minecraft's TitleScreen.
+                            // The original nested runtime is retained; only its loading-overlay
+                            // preview/adoption calls are patched to avoid the obsolete splash swap.
                             patchedBytes = patchSplashController(patchedBytes)
-                            logger.lifecycle("Disabled FlowSplash preview/adoption and protected the vanilla screen")
+                            logger.lifecycle("Kept original custom-menu handoff; disabled obsolete splash preview/adoption")
                         } else if (entry.name == "flow/splash/ClientLoad.class") {
                             // Skip the optional custom splash and synchronous prewarming.
                             // Let Minecraft's native reload overlay finish, then render the
