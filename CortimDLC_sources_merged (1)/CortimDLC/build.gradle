@@ -3527,8 +3527,22 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchFlowIdentity(patchedBytes)
                             logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
                         } else if (entry.name == "flow/splash/Splash.class") {
-                            patchedBytes = patchClearStaleFlowSplashOverlay(patchedBytes)
-                            logger.lifecycle("Added stale FlowSplash-overlay cleanup after startup completes; preserved original splash handoff")
+                            // Keep the original compiled menu classes, but don't let the
+                            // reconstructed splash lifecycle place FlowSplash over the menu.
+                            patchedBytes = patchSplashController(patchedBytes)
+                            logger.lifecycle("Disabled FlowSplash preview/adoption while preserving the original main menu")
+                        } else if (entry.name == "flow/splash/ClientLoad.class") {
+                            // Skip the optional custom splash and synchronous prewarming.
+                            // Let Minecraft's native reload overlay finish, then render the
+                            // original title screen/menu and lazily load assets when used.
+                            patchedBytes = patchClientLoadSplash(patchedBytes)
+                            logger.lifecycle("Bypassed startup FlowSplash and blocking warm-up; retained native loading and original menu")
+                        } else if (entry.name == "a/jzh.class") {
+                            // Keep the legacy menu art/cache implementation, but render the
+                            // bundled poster for video wallpapers in the menu instead of
+                            // opening the native video decoder during startup.
+                            patchedBytes = patchMenuWallpaperPosterFallback(patchedBytes)
+                            logger.lifecycle("Used poster art for title-menu video wallpapers to avoid startup decoder failure")
                         } else if (entry.name == "a/kfa.class") {
                             patchedBytes = patchModuleCategoryOrder(patchedBytes)
                             logger.lifecycle("Reordered sidebar categories: Combat, Player, Visuals, Misc, Movement")
