@@ -352,6 +352,7 @@ jobs:
 
       - name: Publish standalone AlbaDLC release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true # GitHub integration may block Releases; artifacts are uploaded above.
         with:
           tag_name: albadlc-standalone-${{ github.run_number }}
           target_commitish: ${{ github.sha }}
