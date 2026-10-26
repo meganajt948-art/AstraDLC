@@ -1794,6 +1794,9 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                         if (!catalogBadgeAdded && callOwner == "a/vdn" && callName == "draw" &&
                             callDescriptor == "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F") {
                             catalogBadgeAdded = true
+                            // The original statement discards draw()'s float return after this injected block.
+                            // Pop that return now and leave a dummy float for the original POP instruction.
+                            super.visitInsn(Opcodes.POP)
                             // Compact capsule on the top-right of the drawer makes the redesigned panel read like a catalogue.
                             super.visitVarInsn(Opcodes.ALOAD, 1)
                             super.visitVarInsn(Opcodes.ALOAD, 0)
@@ -1854,7 +1857,8 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                             super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
                             super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "drawCentered",
                                 "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)
-                            super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.POP) 
+                            super.visitInsn(Opcodes.FCONST_0)
                         }
                     }
                 }
