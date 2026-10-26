@@ -2485,6 +2485,29 @@ def patchClientLoadSplash = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+def patchFlowIdentity = { byte[] bytes ->
+    // NAME is stored in the class-file ConstantValue attribute, not a CONSTANT_String,
+    // so the general branding string pass intentionally does not touch it.
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            if (name == "NAME" && descriptor == "Ljava/lang/String;" && value == "Flow2") {
+                found = true
+                return super.visitField(access, name, descriptor, signature, "AlbaDLC")
+            }
+            return super.visitField(access, name, descriptor, signature, value)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) {
+        throw new GradleException("flow.Flow NAME constant not found; refusing to ship old runtime branding")
+    }
+    return writer.toByteArray()
+}
+
 def patchEncryptedBranding = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, 0)
@@ -3071,6 +3094,9 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
                             logger.lifecycle("Patched encrypted client branding strings")
+                        } else if (entry.name == "flow/Flow.class") {
+                            patchedBytes = patchFlowIdentity(patchedBytes)
+                            logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
                         } else if (entry.name == "a/jzh.class") {
                             patchedBytes = patchMenuArtCacheExecutor(patchedBytes)
                             logger.lifecycle("Enabled three parallel menu-art workers to reduce wallpaper-switch delay")
