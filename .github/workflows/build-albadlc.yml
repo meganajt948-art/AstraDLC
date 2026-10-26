@@ -7,6 +7,7 @@ on:
     paths:
       - 'CortimDLC_sources_merged (1)/CortimDLC/build.gradle'
       - 'CortimDLC_sources_merged (1)/CortimDLC/gradle.properties'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/src/**'
       - 'video-data/**'
   workflow_dispatch:
 
