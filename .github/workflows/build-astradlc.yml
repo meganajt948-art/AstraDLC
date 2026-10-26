@@ -69,7 +69,7 @@ jobs:
 
       - name: Build with original nested Flow runtime
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle clean build --no-daemon -PkeepNestedFlowJar
+        run: gradle clean build --no-daemon -PkeepNestedFlowJar --stacktrace
 
       - name: Verify original runtime remains nested
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
