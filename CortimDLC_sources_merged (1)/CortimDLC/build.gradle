@@ -1457,7 +1457,7 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                 found.click = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override void visitLdcInsn(Object value) {
-                        if (value == "https://discord.gg/aP9dpxM8") value = "https://discord.gg/aP9dpxM8"
+                        if (value instanceof String && ((String)value).toLowerCase(java.util.Locale.ROOT).contains("discord.gg/")) value = "https://discord.gg/aP9dpxM8"
                         super.visitLdcInsn(value)
                     }
                 }
@@ -3109,9 +3109,10 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchClientLoadSplash(patchedBytes)
                             logger.lifecycle("Kept startup warming active without video splash or progress strip")
                         }
-                        if (entry.name == "a/jte.class") {
-                            patchedBytes = patchDiscordInviteUrls(patchedBytes)
-                        }
+                        // Rewrite invite literals in every nested class, not just the title-screen
+                        // class: secondary click handlers and alternate menu widgets may own their
+                        // own stale Discord URLs.
+                        patchedBytes = patchDiscordInviteUrls(patchedBytes)
                         outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
