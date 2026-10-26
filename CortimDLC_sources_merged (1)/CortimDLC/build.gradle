@@ -2711,6 +2711,8 @@ def patchCompactWallpaperPanel = { byte[] bytes ->
                 found.size = true
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
                 out.visitCode()
+                // Keep the original drawer layout, but cap the virtual content height so
+                // the catalogue scrolls inside its viewport rather than shrinking the entire window.
                 out.visitVarInsn(Opcodes.ALOAD, 0)
                 out.visitFieldInsn(Opcodes.GETFIELD, "a/jte", "jvf", "F")
                 out.visitVarInsn(Opcodes.ALOAD, 0)
@@ -2718,9 +2720,15 @@ def patchCompactWallpaperPanel = { byte[] bytes ->
                 out.visitInsn(Opcodes.FSUB)
                 out.visitLdcInsn(12.0F)
                 out.visitInsn(Opcodes.FSUB)
-                out.visitLdcInsn(164.0F)
+                out.visitLdcInsn(24.0F)
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jte", "jww", "()F", false)
+                out.visitLdcInsn(250.0F)
                 out.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "min", "(FF)F", false)
-                out.visitInsn(Opcodes.FRETURN)
+                out.visitInsn(Opcodes.FADD)
+                out.visitLdcInsn(6.0F)
+                out.visitInsn(Opcodes.FADD)
+                out.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "min", "(FF)F", false)
                 out.visitMaxs(0, 0)
                 out.visitEnd()
                 return null
@@ -2882,29 +2890,7 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitInsn(Opcodes.ICONST_3)
                         super.visitJumpInsn(Opcodes.IF_ICMPNE, drawRegularIcon)
 
-                        // Outer accent rim, positioned exactly where menu row 5 would sit.
-                        super.visitVarInsn(Opcodes.ALOAD, 1)
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
-                        super.visitLdcInsn(2.0F)
-                        super.visitInsn(Opcodes.FSUB)
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitInsn(Opcodes.ICONST_4)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwj", "(I)F", false)
-                        super.visitLdcInsn(2.0F)
-                        super.visitInsn(Opcodes.FSUB)
-                        super.visitLdcInsn(142.0F)
-                        super.visitLdcInsn(29.0F)
-                        super.visitLdcInsn(14.5F)
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/kbs;")
-                        super.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "accent", "I")
-                        super.visitLdcInsn(0.24F)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "round",
-                            "(Lnet/minecraft/class_332;FFFFFI)V", false)
-
-                        // Use the same soft drop shadow and fully rounded geometry as the main navigation buttons.
+                        // Standard navigation-button shadow and surface, matching the four primary menu buttons.
                         super.visitVarInsn(Opcodes.ALOAD, 1)
                         super.visitVarInsn(Opcodes.ALOAD, 0)
                         super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
@@ -2923,7 +2909,6 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "shadow",
                             "(Lnet/minecraft/class_332;FFFFFFI)V", false)
 
-                        // Button body.
                         super.visitVarInsn(Opcodes.ALOAD, 1)
                         super.visitVarInsn(Opcodes.ALOAD, 0)
                         super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
@@ -2933,11 +2918,85 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitLdcInsn(138.0F)
                         super.visitLdcInsn(25.0F)
                         super.visitLdcInsn(12.5F)
-                        super.visitLdcInsn(724759)
-                        super.visitLdcInsn(0.92F)
+                        super.visitInsn(Opcodes.DUP)
+                        super.visitInsn(Opcodes.POP)
+                        super.visitLdcInsn(790552)
+                        super.visitLdcInsn(0.34F)
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "round",
                             "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+                        // The same subtle white wash and top highlight used by the primary buttons.
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitInsn(Opcodes.ICONST_4)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwj", "(I)F", false)
+                        super.visitLdcInsn(138.0F)
+                        super.visitLdcInsn(25.0F)
+                        super.visitLdcInsn(12.5F)
+                        super.visitLdcInsn(16777215)
+                        super.visitLdcInsn(0.05F)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "round",
+                            "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitInsn(Opcodes.ICONST_4)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwj", "(I)F", false)
+                        super.visitLdcInsn(138.0F)
+                        super.visitLdcInsn(12.5F)
+                        super.visitLdcInsn(12.5F)
+                        super.visitLdcInsn(12.5F)
+                        super.visitInsn(Opcodes.FCONST_0)
+                        super.visitInsn(Opcodes.FCONST_0)
+                        super.visitLdcInsn(16777215)
+                        super.visitLdcInsn(0.09F)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+                        super.visitInsn(Opcodes.DUP)
+                        super.visitLdcInsn(0.0F)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+                        super.visitInsn(Opcodes.DUP_X2)
+                        super.visitInsn(Opcodes.POP)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "gradient",
+                            "(Lnet/minecraft/class_332;FFFFFFFFIIII)V", false)
+
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitInsn(Opcodes.ICONST_4)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwj", "(I)F", false)
+                        super.visitLdcInsn(138.0F)
+                        super.visitLdcInsn(25.0F)
+                        super.visitLdcInsn(12.5F)
+                        super.visitLdcInsn(0.7F)
+                        super.visitLdcInsn(16777215)
+                        super.visitLdcInsn(0.34F)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+                        super.visitLdcInsn(16777215)
+                        super.visitLdcInsn(0.08F)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "outlineGradientV",
+                            "(Lnet/minecraft/class_332;FFFFFFII)V", false)
+
+                        // Power icon on the left, like the icons in the other navigation buttons.
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitFieldInsn(Opcodes.GETSTATIC, "a/vhz", "POWER", "La/vhz;")
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
+                        super.visitLdcInsn(16.0F)
+                        super.visitInsn(Opcodes.FADD)
+                        super.visitLdcInsn(12.5F)
+                        super.visitLdcInsn(10.5F)
+                        super.visitLdcInsn(14541806)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/vjf", "draw",
+                            "(Lnet/minecraft/class_332;La/vhz;FFFI)V", false)
 
                         // Button label.
                         super.visitLdcInsn(8.4F)
