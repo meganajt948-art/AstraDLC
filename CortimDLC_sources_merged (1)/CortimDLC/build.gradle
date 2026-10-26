@@ -2941,7 +2941,7 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         }
                         if (callOwner == ownerClass && callName == "jye" && callDescriptor == "(Ljava/lang/String;)V") {
                             externalLinkCalls++
-                            if (externalLinkCalls == 2) {
+                            if (externalLinkCalls == 3) {
                                 super.visitInsn(Opcodes.POP)
                                 super.visitLdcInsn("https://discord.gg/aP9dpxM8")
                                 found.exitLink = true
@@ -3667,13 +3667,13 @@ tasks.register("rebrandFlowNestedJar") {
                         }
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
 
-                        // Keep the original recovered menu/startup rendering path.
-                        // The recent background, GPU-scene, and splash bytecode rewrites
-                        // repeatedly left the client stuck showing only its wallpaper.
-                        // Brand/menu-independent module patches remain below; the menu
-                        // screen, welcome screen, overlay lifecycle, and wallpaper renderer
-                        // are left as compiled from the recovered source tree.
-                        if (entry.name == "flow/dev/a.class") {
+                        // Keep the original menu/splash classes and patch only targeted rendering/UI methods.
+                        // The menu-scene renderer is changed at one draw method to avoid its
+                        // flickering GPU composition pass; navigation/world lifecycle remains untouched.
+                        if (isMenuSceneRendererClass(originalBytes)) {
+                            patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
+                            logger.lifecycle("Rendered selected wallpaper directly to avoid GPU-scene flicker")
+                        } else if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
                             logger.lifecycle("Patched encrypted client branding strings")
                         } else if (entry.name == "flow/Flow.class") {
@@ -3692,6 +3692,19 @@ tasks.register("rebrandFlowNestedJar") {
                             // original title screen/menu and lazily load assets when used.
                             patchedBytes = patchClientLoadSplash(patchedBytes)
                             logger.lifecycle("Bypassed startup FlowSplash and blocking warm-up; retained native loading and original menu")
+                        } else if (entry.name == "a/jte.class") {
+                            patchedBytes = patchMainMenuSettings(patchedBytes)
+                            patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
+                            patchedBytes = patchCompactWallpaperPanel(patchedBytes)
+                            patchedBytes = patchMainMenuBottomControls(patchedBytes)
+                            logger.lifecycle("Centered main-menu navigation, fixed the AlbaDLC title, moved social icons bottom-left, and added a labeled Exit button")
+                            logger.lifecycle("Reduced wallpaper picker to a compact 3-column/two-row viewport with scrolling")
+                        } else if (entry.name == "a/kbs.class") {
+                            patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
+                            logger.lifecycle("Removed the requested Dark Elf wallpaper and obsolete video entries")
+                        } else if (entry.name == "a/iov.class") {
+                            patchedBytes = patchThemePresets(patchedBytes)
+                            logger.lifecycle("Removed the Light theme and fixed dark Obsidian defaults")
                         } else if (entry.name == "a/jzh.class") {
                             // Keep the legacy menu art/cache implementation, but render the
                             // bundled poster for video wallpapers in the menu instead of
