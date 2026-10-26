@@ -102,7 +102,7 @@ jobs:
 
       - name: Build candidate with recovered classes inside the nested client
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle build --no-daemon -PrecoveredCandidateDir=recovered-candidate/classes
+        run: gradle build --no-daemon -PrecoveredCandidateDir=recovered-candidate/classes -PkeepNestedFlowJar
 
       - name: Verify candidate stays nested and has a Fabric mod descriptor
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
