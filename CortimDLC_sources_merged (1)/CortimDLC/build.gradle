@@ -3444,61 +3444,22 @@ tasks.register("rebrandFlowNestedJar") {
                             }
                         }
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
-                        if (isWelcomeScreenClass(originalBytes) ||
-                            entry.name == "a/kct.class" || entry.name == "a/ida.class") {
-                            patchedBytes = patchOpaqueScreenBackground(patchedBytes)
-                            if (entry.name == "a/kct.class") {
-                                patchedBytes = patchVanillaBackdropRect(patchedBytes, "method_25394",
-                                    "(Lnet/minecraft/class_332;IIF)V", -16315888)
-                                patchedBytes = patchWelcomeTransition(patchedBytes)
-                                logger.lifecycle("Replaced language screen full-frame custom rectangle with vanilla DrawContext.fill")
-                                logger.lifecycle("Routed welcome completion to the vanilla title screen for crash-safe startup")
-                            }
-                            logger.lifecycle("Added vanilla opaque background guard to language screen " + entry.name)
-                        } else if (isMenuSceneRendererClass(originalBytes)) {
-                            patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
-                            logger.lifecycle("Patched direct wallpaper drawing in " + new ClassReader(originalBytes).className + " to avoid the unstable scene shader")
-                        } else if (entry.name == "flow/dev/a.class") {
+
+                        // Keep the original recovered menu/startup rendering path.
+                        // The recent background, GPU-scene, and splash bytecode rewrites
+                        // repeatedly left the client stuck showing only its wallpaper.
+                        // Brand/menu-independent module patches remain below; the menu
+                        // screen, welcome screen, overlay lifecycle, and wallpaper renderer
+                        // are left as compiled from the recovered source tree.
+                        if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
                             logger.lifecycle("Patched encrypted client branding strings")
                         } else if (entry.name == "flow/Flow.class") {
                             patchedBytes = patchFlowIdentity(patchedBytes)
                             logger.lifecycle("Changed the core client's exposed NAME constant to AlbaDLC")
-                        } else if (entry.name == "a/jzh.class") {
-                            patchedBytes = patchMenuArtCacheExecutor(patchedBytes)
-                            patchedBytes = patchMenuWallpaperPosterFallback(patchedBytes)
-                            logger.lifecycle("Enabled parallel menu-art workers and used poster frames in the title menu to avoid startup video decoding")
-                        } else if (entry.name == "a/isv.class") {
-                            patchedBytes = patchWallpaperCatalog(patchedBytes)
-                            patchedBytes = patchClientBackgroundDefault(patchedBytes)
-                            logger.lifecycle("Kept the client wallpaper editor video-first; dark video is labelled Alba Video")
-                        } else if (entry.name == "a/kbs.class") {
-                            patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
-                            logger.lifecycle("Removed Alba White/Black from title wallpapers; kept remaining themes")
                         } else if (entry.name == "a/kfa.class") {
                             patchedBytes = patchModuleCategoryOrder(patchedBytes)
                             logger.lifecycle("Reordered sidebar categories: Combat, Player, Visuals, Misc, Movement")
-                        } else if (entry.name == "a/iov.class") {
-                            // Preserve the original Theme settings, presets, and editor behavior.
-                        } else if (entry.name == "a/jte.class") {
-                            // Always paint Minecraft's native title background first.
-                            // The custom menu wallpaper is layered above it; if that renderer
-                            // fails early, the window still has a visible fallback instead of white.
-                            patchedBytes = patchTitleScreenBackground(patchedBytes)
-                            patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
-                            patchedBytes = patchMainMenuSettings(patchedBytes)
-                            patchedBytes = patchOpaqueScreenBackground(patchedBytes)
-                            patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
-                            patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
-                            patchedBytes = patchVanillaBackdropRect(patchedBytes, "jwe",
-                                "(Lnet/minecraft/class_332;FF)V", -16118250)
-                            logger.lifecycle("Replaced main menu full-frame custom rectangle with vanilla DrawContext.fill")
-                            // Do not replace method_25420 with Minecraft's plain panorama renderer:
-                            // the original title-screen method owns the selected wallpaper layer.
-                            logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
-                            logger.lifecycle("Preserved the original title-screen wallpaper/background renderer")
-                            logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
-
                         } else if (entry.name == "a/kfe.class") {
                             patchedBytes = patchModuleDisplayNames(patchedBytes)
                             logger.lifecycle("Renamed module labels AutoMace -> MaceHelper and KeyPearl -> ClickPearl")
@@ -3542,14 +3503,9 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "flow/splash/Wordmark.class") {
                             patchedBytes = patchWordmark(patchedBytes)
                             logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
-                        } else if (entry.name == "flow/splash/Splash.class") {
-                            patchedBytes = patchSplashController(patchedBytes)
-                            patchedBytes = patchSplashMenuFlag(patchedBytes)
-                            logger.lifecycle("Disabled the crash-prone custom title menu during startup; preserved the native Minecraft loading and title screens")
-                        } else if (entry.name == "flow/splash/ClientLoad.class") {
-                            patchedBytes = patchClientLoadSplash(patchedBytes)
-                            logger.lifecycle("Kept startup warming active while bypassing the crash-prone custom GPU splash; native loading screen retained")
                         }
+
+                        // Keep the original menu's URLs branded without altering its render path.
                         if (entry.name == "a/jte.class") {
                             patchedBytes = patchDiscordInviteUrls(patchedBytes)
                         }
