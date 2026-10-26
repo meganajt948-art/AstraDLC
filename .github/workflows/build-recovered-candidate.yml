@@ -12,6 +12,7 @@ on:
       - 'CortimDLC_sources_merged (1)/CortimDLC/src/main/java/a/**'
       - 'CortimDLC_sources_merged (1)/CortimDLC/src/main/java/flow/**'
       - 'CortimDLC_sources_merged (1)/CortimDLC/src/main/resources/**'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/build.gradle'
 
 permissions:
   contents: write
