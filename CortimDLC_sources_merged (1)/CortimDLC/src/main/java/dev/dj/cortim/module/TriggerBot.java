@@ -100,8 +100,13 @@ public class TriggerBot extends Module {
 
         long now = System.currentTimeMillis();
 
-        Entity target = aim.get() == 1 ? findAuto(client, player) : findByCrosshair(client, player);
-        if (target == null && withAim.get()) target = findFromAimAssist(client, player);
+        // If AimAssist has a valid target, use that same target first. Do not require
+        // the current view ray to already intersect it: AimAssist rotates gradually,
+        // so that check caused TriggerBot to miss while the crosshair was catching up.
+        Entity target = withAim.get() ? findFromAimAssist(client, player) : null;
+        if (target == null) {
+            target = aim.get() == 1 ? findAuto(client, player) : findByCrosshair(client, player);
+        }
 
         if (target == null) {
             if (now - lastSeen > GRACE_MS) hardReset();
@@ -162,30 +167,33 @@ public class TriggerBot extends Module {
         return mobs.get();
     }
 
-    /** Цель аима: бьём, если луч прицела проходит рядом с хитбоксом (с небольшим запасом). */
+    /**
+     * Uses AimAssist's current target directly while it is within TriggerBot reach.
+     * We check the closest point on its hitbox and block visibility, but not whether
+     * the current camera ray already intersects it; that ray can lag behind smooth aim.
+     */
     private Entity findFromAimAssist(MinecraftClient client, ClientPlayerEntity player) {
         AimAssist assist = Cortim.getAimAssist();
         if (assist == null) return null;
 
-        LivingEntity t = assist.getTarget();
-        if (t == null || !allowed(t) || t.isSpectator()) return null;
+        LivingEntity target = assist.getTarget();
+        if (target == null || !allowed(target) || target.isSpectator() || !target.isAlive()) return null;
+
+        Vec3d eye = player.getEyePos();
+        Box box = target.getBoundingBox();
+        Vec3d closest = new Vec3d(
+                MathHelper.clamp(eye.x, box.minX, box.maxX),
+                MathHelper.clamp(eye.y, box.minY, box.maxY),
+                MathHelper.clamp(eye.z, box.minZ, box.maxZ));
 
         double r = range.get();
-        Vec3d start = player.getEyePos();
-        Vec3d end = start.add(player.getRotationVec(1.0f).multiply(r));
+        if (eye.squaredDistanceTo(closest) > r * r) return null;
 
-        var hit = t.getBoundingBox().expand(AIM_MARGIN).raycast(start, end);
-        if (hit.isEmpty()) return null;
-
-        // дальность до самой цели
-        if (start.squaredDistanceTo(hit.get()) > r * r) return null;
-
-        // стена между нами
-        HitResult block = client.world.raycast(new RaycastContext(start, hit.get(),
+        HitResult block = client.world.raycast(new RaycastContext(eye, closest,
                 RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
         if (block.getType() != HitResult.Type.MISS) return null;
 
-        return t;
+        return target;
     }
 
     private Entity findAuto(MinecraftClient client, ClientPlayerEntity player) {
