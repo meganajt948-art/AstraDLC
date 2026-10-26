@@ -2624,17 +2624,21 @@ def patchSplashController = { byte[] bytes ->
 }
 
 def patchClientLoadSplash = { byte[] bytes ->
-    // Skip the crash-prone custom GPU splash, but mark the request handled.
-    // Without setting shown=true, ClientLoad.run schedules Splash.requestAfterInject()
-    // and triggers an unnecessary reload/adopt fallback after boot.
+    // The splash is intentionally bypassed, but its one-shot flag must still
+    // be closed so run() doesn't schedule the fallback reload.
+    // Also skip startup warm-up: FontPreview.steps() synchronously prepares
+    // every font, wallpaper thumbnail and cosmetic on the render thread. On
+    // some drivers/resource configurations this blocks before the first frame.
+    // These assets are loaded lazily when the user opens the corresponding UI.
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
-    boolean found = false
+    boolean foundShow = false
+    boolean foundWarmUp = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "show" && descriptor == "(Lnet/minecraft/class_310;)V") {
-                found = true
+                foundShow = true
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
                 out.visitCode()
                 out.visitInsn(Opcodes.ICONST_1)
@@ -2644,16 +2648,25 @@ def patchClientLoadSplash = { byte[] bytes ->
                 out.visitEnd()
                 return null
             }
+            if (name == "warmUp" && descriptor == "()V") {
+                foundWarmUp = true
+                MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
+                out.visitCode()
+                out.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "finish", "()V", false)
+                out.visitInsn(Opcodes.RETURN)
+                out.visitMaxs(0, 0)
+                out.visitEnd()
+                return null
+            }
             return super.visitMethod(access, name, descriptor, signature, exceptions)
         }
     }
     reader.accept(visitor, 0)
-    if (!found) {
-        throw new GradleException("ClientLoad.show method not found; refusing to ship an unpatched startup path")
+    if (!foundShow || !foundWarmUp) {
+        throw new GradleException("ClientLoad startup methods not found: show=" + foundShow + ", warmUp=" + foundWarmUp)
     }
     return writer.toByteArray()
 }
-
 def patchFlowIdentity = { byte[] bytes ->
     // NAME is stored in the class-file ConstantValue attribute, not a CONSTANT_String,
     // so the general branding string pass intentionally does not touch it.
