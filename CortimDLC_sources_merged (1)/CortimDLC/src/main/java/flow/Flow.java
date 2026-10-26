@@ -148,7 +148,7 @@ import net.minecraft.class_4667;
 
 public final class Flow
 implements ClientModInitializer {
-    public static final String NAME = "Flow2";
+    public static final String NAME = "AlbaDLC";
     public static final String VERSION = "2.0.0";
     private static final Flow INSTANCE = new Flow();
     private static final AtomicBoolean STARTED = new AtomicBoolean(false);
