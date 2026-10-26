@@ -9,6 +9,9 @@ on:
       - fix/alba-standalone-source-recovery
     paths:
       - '.github/workflows/build-recovered-candidate.yml'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/src/main/java/a/**'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/src/main/java/flow/**'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/src/main/resources/**'
 
 permissions:
   contents: write
