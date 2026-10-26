@@ -3887,12 +3887,13 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchCompactWallpaperPanel(patchedBytes)
-                            // Keep this runtime build boot-safe: the experimental jwo icon
-                            // renderer invokes a/vjf.draw with a descriptor absent from the
-                            // original runtime, causing NoSuchMethodError on the title screen.
-                            // Leave original Flow icon rendering and input handling untouched
-                            // until the icon method descriptor can be verified against the core JAR.
-                            logger.lifecycle("Kept original Flow main-menu icon renderer and controls (experimental overlay disabled)")
+                            // Reposition the original Telegram/Discord controls at bottom-left,
+                            // move the picture/wallpaper control to the far top-right, and replace
+                            // the top-right power control with a matching Exit button under Settings.
+                            // This implementation intentionally draws no POWER glyph: the original
+                            // runtime's a/vjf.draw descriptor differs and must not be invoked here.
+                            patchedBytes = patchMainMenuBottomControls(patchedBytes)
+                            logger.lifecycle("Moved Telegram and Discord to bottom-left; placed Exit button under Settings")
                             logger.lifecycle("Reduced wallpaper picker to a compact viewport with catalogue-only scrolling")
                         } else if (entry.name == "a/kbs.class") {
                             patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
@@ -3954,10 +3955,9 @@ tasks.register("rebrandFlowNestedJar") {
                             logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
                         }
 
-                        // Keep the original menu's URLs branded without altering its render path.
-                        if (entry.name == "a/jte.class") {
-                            patchedBytes = patchDiscordInviteUrls(patchedBytes)
-                        }
+                        // Enforce the user's Discord invite in every class in the bundled runtime,
+                        // not just the title screen: older links can also live in separate click handlers.
+                        patchedBytes = patchDiscordInviteUrls(patchedBytes)
                         outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
