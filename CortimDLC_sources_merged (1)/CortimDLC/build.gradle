@@ -2759,12 +2759,20 @@ def patchClearStaleFlowSplashOverlay = { byte[] bytes ->
                     super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
                     super.visitMethodInsn(Opcodes.INVOKESTATIC, "flow/splash/ClientLoad", "done", "()Z", false)
                     super.visitJumpInsn(Opcodes.IFEQ, keepOverlay)
+                    // Remove the finished splash overlay AND explicitly restore the vanilla title screen.
+                    // Clearing the overlay alone can expose an uninitialized/null screen and leave a blank frame.
                     super.visitVarInsn(Opcodes.ALOAD, 0)
                     super.visitInsn(Opcodes.ACONST_NULL)
                     super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18502",
                         "(Lnet/minecraft/class_4071;)V", false)
+                    super.visitVarInsn(Opcodes.ALOAD, 0)
+                    super.visitTypeInsn(Opcodes.NEW, "net/minecraft/class_442")
+                    super.visitInsn(Opcodes.DUP)
+                    super.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_442", "<init>", "()V", false)
+                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507",
+                        "(Lnet/minecraft/class_437;)V", false)
                     super.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;")
-                    super.visitLdcInsn("[AlbaDLC] Cleared stale FlowSplash overlay after startup completed")
+                    super.visitLdcInsn("[AlbaDLC] Cleared stale FlowSplash overlay and restored vanilla TitleScreen")
                     super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println",
                         "(Ljava/lang/String;)V", false)
                     super.visitLabel(keepOverlay)
