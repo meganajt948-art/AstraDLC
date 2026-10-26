@@ -3165,9 +3165,10 @@ tasks.register("rebrandFlowNestedJar") {
                             }
                         }
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
-                        if (isWelcomeScreenClass(originalBytes)) {
+                        if (isWelcomeScreenClass(originalBytes) ||
+                            entry.name == "a/kct.class" || entry.name == "a/ida.class") {
                             patchedBytes = patchOpaqueScreenBackground(patchedBytes)
-                            logger.lifecycle("Added vanilla opaque background guard to the language WelcomeScreen")
+                            logger.lifecycle("Added vanilla opaque background guard to language screen " + entry.name)
                         } else if (isMenuSceneRendererClass(originalBytes)) {
                             patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
                             logger.lifecycle("Patched direct wallpaper drawing in " + new ClassReader(originalBytes).className + " to avoid the unstable scene shader")
