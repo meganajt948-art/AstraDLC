@@ -885,8 +885,23 @@ def patchClientPanelCleanup = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def found = [builder: false, footer: false, tabs: false]
+    def found = [builder: false, footer: false, tabs: false, mutableTabList: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            if (name == "hlz" && descriptor == "Ljava/util/List;") {
+                found.mutableTabList = true
+                // The recovered screen's tab list is updated during Screen.init().
+                // If the original field carries ACC_FINAL, the JVM throws IllegalAccessError
+                // when that init path assigns a replacement list. Its runtime role is mutable.
+                if ((access & Opcodes.ACC_FINAL) != 0) {
+                    logger.lifecycle("Removed ACC_FINAL from a/hlc.hlz to prevent GUI init IllegalAccessError")
+                    access = access & ~Opcodes.ACC_FINAL
+                }
+            }
+            return super.visitField(access, name, descriptor, signature, value)
+        }
+
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             if (name == "method_25426" && descriptor == "()V") {
@@ -1124,8 +1139,8 @@ def patchClientPanelCleanup = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found.builder || !found.footer || !found.tabs) {
-        throw new GradleException("Client panel cleanup methods not found: " + found)
+    if (!found.builder || !found.footer || !found.tabs || !found.mutableTabList) {
+        throw new GradleException("Client panel cleanup methods/hlz field not found: " + found)
     }
     return writer.toByteArray()
 }
