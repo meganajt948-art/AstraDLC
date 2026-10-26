@@ -1745,7 +1745,8 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                     private boolean firstPanelRadius = true
                     private boolean useDarkFillAlpha = false
                     private boolean accentLineAdded = false
-                    private boolean catalogBadgeAdded = false
+                    private boolean panelOutlineTopChanged = false
+                    private boolean panelOutlineBottomChanged = false
                     @Override void visitLdcInsn(Object value) {
                         if (value instanceof Integer && ((Integer)value).intValue() == 724759) {
                             value = 0x0B101A
@@ -1758,6 +1759,17 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                             Math.abs(((Float)value).floatValue() - 11.0f) < 0.001f) {
                             value = 14.0f
                             firstPanelRadius = false
+                        }
+                        // Give the glass panel a clearer gradient edge, without adding new drawing calls.
+                        if (!panelOutlineTopChanged && value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 0.3f) < 0.001f) {
+                            value = 0.42f
+                            panelOutlineTopChanged = true
+                        } else if (panelOutlineTopChanged && !panelOutlineBottomChanged &&
+                            value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 0.07f) < 0.001f) {
+                            value = 0.13f
+                            panelOutlineBottomChanged = true
                         }
                         super.visitLdcInsn(value)
                     }
@@ -1791,75 +1803,7 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                                 "(Lnet/minecraft/class_332;FFFFI)V", false)
                             accentLineAdded = true
                         }
-                        if (!catalogBadgeAdded && callOwner == "a/vdn" && callName == "draw" &&
-                            callDescriptor == "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F") {
-                            catalogBadgeAdded = true
-                            // The original statement discards draw()'s float return after this injected block.
-                            // Pop that return now and leave a dummy float for the original POP instruction.
-                            super.visitInsn(Opcodes.POP)
-                            // Compact capsule on the top-right of the drawer makes the redesigned panel read like a catalogue.
-                            super.visitVarInsn(Opcodes.ALOAD, 1)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwq", "()F", false)
-                            super.visitLdcInsn(186.0F)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwr", "()F", false)
-                            super.visitLdcInsn(6.0F)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitLdcInsn(56.0F)
-                            super.visitLdcInsn(13.0F)
-                            super.visitLdcInsn(6.5F)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/kbs;")
-                            super.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "accent", "I")
-                            super.visitLdcInsn(0.16F)
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "round",
-                                "(Lnet/minecraft/class_332;FFFFFI)V", false)
-                            super.visitVarInsn(Opcodes.ALOAD, 1)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwq", "()F", false)
-                            super.visitLdcInsn(186.0F)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwr", "()F", false)
-                            super.visitLdcInsn(6.0F)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitLdcInsn(56.0F)
-                            super.visitLdcInsn(13.0F)
-                            super.visitLdcInsn(6.5F)
-                            super.visitLdcInsn(0.65F)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/kbs;")
-                            super.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "accent", "I")
-                            super.visitLdcInsn(0.42F)
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "outline",
-                                "(Lnet/minecraft/class_332;FFFFFFI)V", false)
-                            super.visitLdcInsn(5.6F)
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/veo", "medium", "(F)La/vdn;", false)
-                            super.visitVarInsn(Opcodes.ASTORE, 100)
-                            super.visitVarInsn(Opcodes.ALOAD, 100)
-                            super.visitVarInsn(Opcodes.ALOAD, 1)
-                            super.visitLdcInsn("КАТАЛОГ")
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwq", "()F", false)
-                            super.visitLdcInsn(214.0F)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwr", "()F", false)
-                            super.visitLdcInsn(12.5F)
-                            super.visitInsn(Opcodes.FADD)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "centerTop", "(F)F", false)
-                            super.visitInsn(Opcodes.ICONST_M1)
-                            super.visitLdcInsn(0.95F)
-                            super.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/vdn", "drawCentered",
-                                "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)F", false)
-                            super.visitInsn(Opcodes.POP) 
-                            super.visitInsn(Opcodes.FCONST_0)
-                        }
+
                     }
                 }
             }
