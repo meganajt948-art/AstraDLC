@@ -3900,11 +3900,12 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchCompactWallpaperPanel(patchedBytes)
-                            // Do not run the experimental button/icon bytecode overlay.
-                            // It changed the verifier-sensitive jwo renderer and click handler,
-                            // hiding original icons and breaking return-to-title navigation with Escape.
-                            // Keep the original Flow menu icon rendering and its native controls intact.
-                            logger.lifecycle("Restored original Flow main-menu icon renderer and native controls")
+                            // The earlier VerifyError came from the missing FRETURN in jws(),
+                            // which is now fixed. Re-enable the menu-only layout patch: it moves
+                            // the original Telegram/Discord controls to bottom-left and draws
+                            // the matching Exit button below the four central controls.
+                            patchedBytes = patchMainMenuBottomControls(patchedBytes)
+                            logger.lifecycle("Moved original Telegram/Discord icons to bottom-left and added matching Exit button below Settings")
                             logger.lifecycle("Reduced wallpaper picker to a compact viewport with catalogue-only scrolling")
                         } else if (entry.name == "a/kbs.class") {
                             patchedBytes = patchTitleWallpaperCatalog(patchedBytes)
