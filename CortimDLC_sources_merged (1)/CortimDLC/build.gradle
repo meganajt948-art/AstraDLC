@@ -2988,22 +2988,9 @@ def patchMainMenuBottomControls = { byte[] bytes ->
                         super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/uut", "outlineGradientV",
                             "(Lnet/minecraft/class_332;FFFFFFII)V", false)
 
-                        // Power icon on the left, like the icons in the other navigation buttons.
-                        super.visitVarInsn(Opcodes.ALOAD, 1)
-                        super.visitFieldInsn(Opcodes.GETSTATIC, "a/vhz", "POWER", "La/vhz;")
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwk", "()F", false)
-                        super.visitLdcInsn(16.0F)
-                        super.visitInsn(Opcodes.FADD)
-                        super.visitVarInsn(Opcodes.ALOAD, 0)
-                        super.visitInsn(Opcodes.ICONST_4)
-                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwj", "(I)F", false)
-                        super.visitLdcInsn(12.5F)
-                        super.visitInsn(Opcodes.FADD)
-                        super.visitLdcInsn(10.5F)
-                        super.visitLdcInsn(0.95F)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/vjf", "draw",
-                            "(Lnet/minecraft/class_332;La/vhz;FFFF)V", false)
+                        // Intentionally omit the extra power-glyph call: the obfuscated
+                        // renderer signature differs in the original runtime. Keep the same
+                        // button surface and centered text, avoiding NoSuchMethodError.
 
                         // Button label.
                         super.visitLdcInsn(8.4F)
