@@ -1,39 +1,41 @@
-name: AlbaDLC build
-# Re-run packaging after branding constant comparison fix
-# Ensure the class-name-safe string rebrand is rebuilt
-# Rebuild exact-label-only branding patch
-# Refine wallpaper filtering to preserve unrequested sunset island wallpaper
+name: AlbaDLC build (original Flow runtime)
 
 on:
   workflow_dispatch:
   push:
-    branches: [astra-renaming, ui-cleanup-2026-10, fix/alba-standalone-source-recovery]
+    branches: [fix/alba-standalone-source-recovery]
     paths:
       - 'CortimDLC_sources_merged (1)/CortimDLC/**'
       - 'video-data/**'
       - '.github/workflows/build-astradlc.yml'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.2.1'
 
-      - name: Build standalone AlbaDLC from recovered sources
+      - name: Build with original nested Flow runtime
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
-        run: gradle clean build --no-daemon
+        run: gradle clean build --no-daemon -PkeepNestedFlowJar
 
-      - name: Smoke-check standalone runtime JAR structure
+      - name: Verify original runtime remains nested
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: |
           python3 - <<'PY'
@@ -44,56 +46,50 @@ jobs:
           artifact = Path("build/libs/AlbaDLC-1.0.0.jar")
           if not artifact.is_file() or artifact.stat().st_size < 1_000_000:
               raise SystemExit(f"Built client JAR is missing or unexpectedly small: {artifact}")
-
-          def as_list(value):
-              if value is None:
-                  return []
-              return value if isinstance(value, list) else [value]
-
           with zipfile.ZipFile(artifact) as jar:
               entries = set(jar.namelist())
-              nested_path = "META-INF/jars/flow.jar"
-              if nested_path in entries or any(name.endswith("/flow.jar") for name in entries):
-                  raise SystemExit("Standalone runtime still contains flow.jar")
-              try:
-                  metadata = json.loads(jar.read("fabric.mod.json"))
-              except (KeyError, json.JSONDecodeError) as exc:
-                  raise SystemExit(f"Standalone runtime has invalid Fabric metadata: {exc}")
+              nested = "META-INF/jars/flow.jar"
+              if nested not in entries:
+                  raise SystemExit("Original nested runtime is missing: " + nested)
+              metadata = json.loads(jar.read("fabric.mod.json"))
               if metadata.get("id") != "albadlc":
-                  raise SystemExit(f"Unexpected root Fabric mod id: {metadata.get('id')}")
-              if not any(name.startswith("a/") and name.endswith(".class") for name in entries):
-                  raise SystemExit("Standalone runtime is missing package-a classes")
-              if not any(name.startswith("flow/") and name.endswith(".class") for name in entries):
-                  raise SystemExit("Standalone runtime is missing recovered flow classes")
-              for item in as_list(metadata.get("jars")):
-                  nested = item.get("file") if isinstance(item, dict) else item
-                  if nested and nested not in entries:
-                      raise SystemExit(f"fabric.mod.json references missing nested JAR: {nested}")
-              for group in (metadata.get("entrypoints") or {}).values():
-                  for spec in as_list(group):
-                      if isinstance(spec, str):
-                          class_name = spec.split("::", 1)[0]
-                      elif isinstance(spec, dict) and isinstance(spec.get("value"), str):
-                          class_name = spec["value"].split("::", 1)[0]
-                      else:
-                          continue
-                      entrypoint = class_name.replace(".", "/") + ".class"
-                      if entrypoint not in entries:
-                          raise SystemExit("Missing Fabric entrypoint class: " + entrypoint)
-              print("Standalone Fabric id:", metadata.get("id"))
-              print("Standalone display name:", metadata.get("name"))
-              print("Root class entries:", sum(name.endswith(".class") for name in entries))
-          print("Standalone runtime JAR smoke-check passed:", artifact.stat().st_size, "bytes")
+                  raise SystemExit("Unexpected outer mod id: " + str(metadata.get("id")))
+              if any(name.startswith("a/") and name.endswith(".class") for name in entries):
+                  raise SystemExit("Recovered package-a classes leaked into the outer JAR and could shadow the nested runtime")
+              nested_bytes = jar.read(nested)
+              from io import BytesIO
+              with zipfile.ZipFile(BytesIO(nested_bytes)) as core:
+                  core_entries = set(core.namelist())
+                  if not any(name.startswith("a/") and name.endswith(".class") for name in core_entries):
+                      raise SystemExit("Nested original runtime has no package-a classes")
+                  if not any(name.startswith("flow/") and name.endswith(".class") for name in core_entries):
+                      raise SystemExit("Nested original runtime has no flow package classes")
+              print("Verified outer mod:", metadata.get("id"), metadata.get("name"))
+              print("Original nested Flow runtime:", nested, len(nested_bytes), "bytes")
+              print("Outer JAR entries:", len(entries))
+          print("Nested-runtime smoke-check passed:", artifact.stat().st_size, "bytes")
           PY
 
-      - name: Upload build artifacts
-        if: success()
+      - name: Upload AlbaDLC runtime JAR
         uses: actions/upload-artifact@v4
         with:
-          name: AlbaDLC-build
-          path: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/*.jar'
+          name: AlbaDLC-original-Flow-runtime
+          path: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar'
+          if-no-files-found: error
+          compression-level: 0
 
-# Rebuild Alba assets after fixing Java2D stroke argument types
-# Rebuild Wordmark static constants to replace FlowClient in the left menu header
-# Rebuild title-screen background separation and direct MP4 input
-# Keep client background editor video-first
+      - name: Publish downloadable build
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: albadlc-flow-runtime-${{ github.run_number }}
+          target_commitish: ${{ github.sha }}
+          name: AlbaDLC original Flow runtime build ${{ github.run_number }}
+          body: |
+            AlbaDLC for Minecraft 1.21.11, built with the original nested Flow runtime preserved.
+            Decompiled/recovered class overlays are disabled by default to avoid replacing working menu/startup classes.
+            The main-menu wallpaper panel and social-link URL patches remain in the build.
+            CI checks the archive structure; launch testing is still required to confirm runtime behavior.
+          prerelease: true
+          files: 'CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
