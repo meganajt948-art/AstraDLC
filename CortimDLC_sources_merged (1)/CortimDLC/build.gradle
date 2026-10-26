@@ -3115,6 +3115,10 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "a/iov.class") {
                             // Preserve the original Theme settings, presets, and editor behavior.
                         } else if (entry.name == "a/jte.class") {
+                            // Always paint Minecraft's native title background first.
+                            // The custom menu wallpaper is layered above it; if that renderer
+                            // fails early, the window still has a visible fallback instead of white.
+                            patchedBytes = patchTitleScreenBackground(patchedBytes)
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
