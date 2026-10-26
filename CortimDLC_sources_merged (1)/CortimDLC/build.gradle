@@ -3355,6 +3355,11 @@ def flattenAlbaStandaloneJar = tasks.register("flattenAlbaStandaloneJar") {
         }
 
         try {
+            // Share validation counters across the copy and post-copy validation blocks.
+            List<String> entrypointClasses = []
+            List<String> skippedDuplicates = []
+            int copiedClasses = 0
+            int copiedResources = 0
             java.util.zip.ZipFile outer = new java.util.zip.ZipFile(sourceFile)
             try {
                 java.util.zip.ZipEntry nestedEntry = outer.getEntry(nestedPath)
@@ -3418,7 +3423,6 @@ def flattenAlbaStandaloneJar = tasks.register("flattenAlbaStandaloneJar") {
                     throw new GradleException("Unexpected root Fabric mod id: " + merged.id)
                 }
 
-                List<String> entrypointClasses = []
                 merged.entrypoints.values().each { Object group ->
                     listify(group).each { Object spec ->
                         String className = null
@@ -3433,9 +3437,6 @@ def flattenAlbaStandaloneJar = tasks.register("flattenAlbaStandaloneJar") {
                 }
 
                 Set<String> seen = new LinkedHashSet<>()
-                List<String> skippedDuplicates = []
-                int copiedClasses = 0
-                int copiedResources = 0
                 byte[] mergedMetadataBytes = groovy.json.JsonOutput.prettyPrint(
                     groovy.json.JsonOutput.toJson(merged)).getBytes("UTF-8")
                 java.util.zip.ZipOutputStream output = new java.util.zip.ZipOutputStream(
