@@ -50,11 +50,11 @@ jobs:
       - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-menu-stability-hotfix-2026-10-27
+          tag_name: albadlc-menu-stability-hotfix-2-2026-10-27
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC menu stability hotfix (27 October 2026)
+          name: AlbaDLC menu stability hotfix 2 (27 October 2026)
           body: |
-            Hotfix: removes the unstable extra Exit Game render/click injection that could break the custom title screen. Keeps the utility icon positioning patch and replaces Discord invites with https://discord.gg/aP9dpxM8. Includes the existing AutoWarden/AutoEnd fixes.
+            Hotfix: removes the unstable extra Exit Game render/click injection and restores the fourth power utility icon while keeping the intended icon positions. Replaces Discord invites with https://discord.gg/aP9dpxM8. Includes the existing AutoWarden/AutoEnd fixes.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
