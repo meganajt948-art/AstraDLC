@@ -2982,10 +2982,9 @@ def patchForceCustomMainMenu = { byte[] bytes ->
                 void visitCode() {
                     super.visitCode()
                     org.objectweb.asm.Label skip = new org.objectweb.asm.Label()
-                    // Do not interfere with the emergency/panic shutdown flow.
-                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/PanicShutdown", "armed", "()Z", false)
-                    super.visitJumpInsn(Opcodes.IFNE, skip)
                     // Only replace the native TitleScreen when no overlay/loading screen is active.
+                    // Do not reference classes from the outer loader JAR here: this method is
+                    // running inside the nested flow.jar class loader.
                     super.visitVarInsn(Opcodes.ALOAD, 1)
                     super.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755", "Lnet/minecraft/class_437;")
                     super.visitTypeInsn(Opcodes.INSTANCEOF, "net/minecraft/class_442")
