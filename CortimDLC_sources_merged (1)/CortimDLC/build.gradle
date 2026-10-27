@@ -2964,6 +2964,7 @@ def patchMainMenuSettings = { byte[] bytes ->
  * vanilla title screen, never to world screens or AlbaDLC screens.
  */
 // Build marker: 2026-10-27 custom title-screen restore release.
+// Build marker: 2026-10-27 publish the startup classloader fix under its own release tag.
 def patchForceCustomMainMenu = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     String ownerClass = reader.className
