@@ -1445,16 +1445,6 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override
-                    void visitCode() {
-                        super.visitCode()
-                        org.objectweb.asm.Label drawUtility = new org.objectweb.asm.Label()
-                        super.visitVarInsn(Opcodes.ILOAD, 3)
-                        super.visitInsn(Opcodes.ICONST_3)
-                        super.visitJumpInsn(Opcodes.IF_ICMPNE, drawUtility)
-                        super.visitInsn(Opcodes.RETURN)
-                        super.visitLabel(drawUtility)
-                    }
-                    @Override
                     void visitLdcInsn(Object value) {
                         if (value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
                             super.visitVarInsn(Opcodes.ALOAD, 0)
