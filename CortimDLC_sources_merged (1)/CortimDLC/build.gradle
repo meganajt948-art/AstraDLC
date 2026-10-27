@@ -3560,17 +3560,14 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
-                            patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
+                            logger.lifecycle("Kept the original utility-icon layout to avoid custom title-screen regressions")
                             logger.lifecycle("Preserved the original title-screen wallpaper/background renderer")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
 
-                        } else if (entry.name == "a/ButtonSkin.class") {
-                            patchedBytes = patchButtonSkinQuitDetection(patchedBytes)
-                            logger.lifecycle("Applied animated hover skin to the Quit Game button in the bundled client bytecode")
                         } else if (entry.name == "a/kfe.class") {
                             patchedBytes = patchModuleDisplayNames(patchedBytes)
                             logger.lifecycle("Renamed module labels AutoMace -> MaceHelper and KeyPearl -> ClickPearl")
