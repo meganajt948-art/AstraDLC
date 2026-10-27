@@ -1551,7 +1551,6 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
 
             MethodVisitor y = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, "albaUtilityY", "(I)F", null, null)
             org.objectweb.asm.Label social = new org.objectweb.asm.Label()
-            org.objectweb.asm.Label power = new org.objectweb.asm.Label()
             y.visitCode()
             y.visitVarInsn(Opcodes.ILOAD, 1)
             y.visitInsn(Opcodes.ICONST_2)
@@ -2108,6 +2107,7 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
         !found.discordAssigned || !found.telegramAssigned) {
         throw new GradleException("Menu re-style/link patch points not found in " + ownerClass + ": " + found)
     }
+    logger.lifecycle("Updated main-menu Discord field and click handler to https://discord.gg/aP9dpxM8")
     return writer.toByteArray()
 }
 
@@ -2691,7 +2691,6 @@ def patchDiscordInviteUrls = { byte[] bytes ->
     }
     reader.accept(visitor, 0)
     if (changed) logger.lifecycle("Replaced stale Discord invite with https://discord.gg/aP9dpxM8 in " + reader.className)
-    logger.lifecycle("Updated title-screen Discord field and click handler to https://discord.gg/aP9dpxM8")
     return writer.toByteArray()
 }
 
