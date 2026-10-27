@@ -50,11 +50,11 @@ jobs:
       - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-custom-menu-restore-2026-10-27
+          tag_name: albadlc-startup-classloader-fix-2026-10-27
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC custom menu restore + icon positioning (27 October 2026)
+          name: AlbaDLC startup classloader fix + custom menu (27 October 2026)
           body: |
-            Restores forced activation of the custom AlbaDLC title menu if vanilla TitleScreen appears, keeps the four utility icons positioned with synchronized click hitboxes, and forces the Discord invite to https://discord.gg/aP9dpxM8 in bundled class string constants. Does not inject the unstable extra Exit Game renderer. Includes existing AutoWarden/AutoEnd fixes.
+            Fixes startup NoClassDefFoundError by removing a reference from the nested Flow class to outer-JAR class a/PanicShutdown. Keeps fallback activation of the custom AlbaDLC title screen, relocated four utility icons with synchronized click hitboxes, and Discord invite https://discord.gg/aP9dpxM8. Does not inject the unstable extra Exit Game renderer.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
