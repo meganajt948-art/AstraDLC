@@ -1444,19 +1444,23 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                 found.draw = true
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
                 return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean iconYChanged = false
+                    private boolean tooltipYChanged = false
                     @Override
                     void visitLdcInsn(Object value) {
-                        if (value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                        if (!iconYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            iconYChanged = true
                             super.visitVarInsn(Opcodes.ALOAD, 0)
                             super.visitVarInsn(Opcodes.ILOAD, 3)
                             super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
                             return
                         }
-                        if (value instanceof Float && Math.abs(((Float)value).floatValue() - 38.0f) < 0.001f) {
+                        if (!tooltipYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 38.0f) < 0.001f) {
+                            tooltipYChanged = true
                             super.visitVarInsn(Opcodes.ALOAD, 0)
                             super.visitVarInsn(Opcodes.ILOAD, 3)
                             super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
-                            super.visitLdcInsn(-16.0f)
+                            super.visitLdcInsn(26.0f)
                             super.visitInsn(Opcodes.FADD)
                             return
                         }
@@ -1511,6 +1515,25 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
             x.visitVarInsn(Opcodes.ILOAD, 1)
             x.visitInsn(Opcodes.ICONST_1)
             x.visitJumpInsn(Opcodes.IF_ICMPEQ, discord)
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitInsn(Opcodes.ICONST_2)
+            x.visitJumpInsn(Opcodes.IF_ICMPNE, discord)
+            x.visitVarInsn(Opcodes.ALOAD, 0)
+            x.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            x.visitLdcInsn(-31.0f)
+            x.visitInsn(Opcodes.FADD)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(discord)
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitInsn(Opcodes.ICONST_3)
+            org.objectweb.asm.Label exitX = new org.objectweb.asm.Label()
+            x.visitJumpInsn(Opcodes.IF_ICMPNE, exitX)
+            x.visitVarInsn(Opcodes.ALOAD, 0)
+            x.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            x.visitLdcInsn(148.0f)
+            x.visitInsn(Opcodes.FADD)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(exitX)
             x.visitVarInsn(Opcodes.ALOAD, 0)
             x.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jve", "F")
             x.visitLdcInsn(0.5f)
@@ -1537,7 +1560,7 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
             y.visitVarInsn(Opcodes.ALOAD, 0)
             y.visitInsn(Opcodes.ICONST_3)
             y.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
-            y.visitLdcInsn(4.0f)
+            y.visitLdcInsn(2.0f)
             y.visitInsn(Opcodes.FADD)
             y.visitInsn(Opcodes.FRETURN)
             y.visitLabel(social)
@@ -2647,6 +2670,7 @@ def patchDiscordInviteUrls = { byte[] bytes ->
     }
     reader.accept(visitor, 0)
     if (changed) logger.lifecycle("Replaced stale Discord invite with https://discord.gg/aP9dpxM8 in " + reader.className)
+    logger.lifecycle("Updated title-screen Discord field and click handler to https://discord.gg/aP9dpxM8")
     return writer.toByteArray()
 }
 
@@ -3560,6 +3584,7 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
+                            patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
