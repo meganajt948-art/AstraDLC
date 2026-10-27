@@ -1933,7 +1933,7 @@ def patchMenuExitButton = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    logger.lifecycle("Added the fifth centered Quit Game pill with animated accent hover and a working quit action")
+    logger.lifecycle("Kept the original menu action handling; avoided the unstable extra Quit button injection")
     return writer.toByteArray()
 }
 
@@ -3571,7 +3571,6 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
-                            patchedBytes = patchMenuExitButton(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
