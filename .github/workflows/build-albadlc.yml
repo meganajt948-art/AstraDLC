@@ -50,11 +50,11 @@ jobs:
       - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-startup-classloader-fix-2026-10-27
+          tag_name: albadlc-title-click-verify-fix-2026-10-28
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC startup classloader fix + custom menu (27 October 2026)
+          name: AlbaDLC title click verifier fix (28 October 2026)
           body: |
-            Fixes startup NoClassDefFoundError by removing a reference from the nested Flow class to outer-JAR class a/PanicShutdown. Keeps fallback activation of the custom AlbaDLC title screen, relocated four utility icons with synchronized click hitboxes, and Discord invite https://discord.gg/aP9dpxM8. Does not inject the unstable extra Exit Game renderer.
+            Fixes the latest startup crash, VerifyError in a/jte.method_25402, by no longer rewriting the title menu's click-handler bytecode for utility-icon repositioning. Keeps the earlier fix for the cross-classloader a/PanicShutdown reference, forces the AlbaDLC title screen when vanilla TitleScreen appears, and retains the Discord invite https://discord.gg/aP9dpxM8. Utility icons remain in their original positions for now, with their original hitboxes, to prioritize a launchable client. Does not inject the unstable extra Exit Game renderer.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
