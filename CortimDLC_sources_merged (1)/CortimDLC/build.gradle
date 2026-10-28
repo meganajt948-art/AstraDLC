@@ -1152,7 +1152,7 @@ def patchGuiUtilityButtonLayout = { byte[] bytes ->
         void visitEnd() {
             // hqs: language control X (off-screen); hqt: shared control size;
             // hqv: power control X (left inset); hqn: shared bottom-rail Y.
-            def replacements = [hqs: -10000.0F, hqt: 20.0F, hqv: 20.0F, hqn: 297.0F]
+            def replacements = [hqs: -10000.0F, hqt: 20.0F, hqv: 377.0F, hqn: 20.0F]
             replacements.each { methodName, value ->
                 def info = originals[methodName]
                 if (info == null) throw new GradleException("GUI utility-button coordinate method not found: " + methodName)
