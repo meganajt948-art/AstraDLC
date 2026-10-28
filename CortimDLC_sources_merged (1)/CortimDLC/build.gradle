@@ -1445,11 +1445,21 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     private boolean iconYChanged = false
+                    private boolean iconHitboxYChanged = false
                     private boolean tooltipYChanged = false
                     @Override
                     void visitLdcInsn(Object value) {
                         if (!iconYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            // Visual icon position; preserve the original fade-in offset applied after this value.
                             iconYChanged = true
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            return
+                        }
+                        if (!iconHitboxYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            // Hover detection must use the same vertical coordinate as the rendered icon.
+                            iconHitboxYChanged = true
                             super.visitVarInsn(Opcodes.ALOAD, 0)
                             super.visitVarInsn(Opcodes.ILOAD, 3)
                             super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
@@ -1462,6 +1472,15 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                             super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaTooltipY", "(I)F", false)
                             return
                         }
+                        // Use the selected wallpaper's accent for Quit, matching the same hover-color transition as other icons.
+                        if (value instanceof Integer && ((Integer)value).intValue() == 0xFF6B6B) {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+                            return
+                        }
+                        if (value instanceof String && ((String)value) == "Quit") value = "Quit Game"
+                        if (value instanceof String && ((String)value) == "Выйти") value = "Выйти из игры"
                         super.visitLdcInsn(value)
                     }
                 }
@@ -1470,19 +1489,17 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                 found.click = true
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
                 return new MethodVisitor(Opcodes.ASM9, mv) {
-                    private int lastIntLoad = -1
                     private boolean replaceUtilityY = false
                     private int utilityIndex = -1
-                    @Override
-                    void visitVarInsn(int opcode, int var) {
-                        if (opcode == Opcodes.ILOAD) lastIntLoad = var
-                        super.visitVarInsn(opcode, var)
-                    }
+                    private int utilityYCallCount = 0
                     @Override
                     void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
                         if (callName == "jwn" && callDescriptor == "(I)F") {
+                            // In this method the first jwn call is the wallpaper-panel toggle hitbox (index 2);
+                            // the second is inside the four-icon loop, where the loop index is local 5.
+                            utilityYCallCount++
+                            utilityIndex = utilityYCallCount == 1 ? 2 : 5
                             replaceUtilityY = true
-                            utilityIndex = lastIntLoad
                         }
                         super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
                     }
@@ -1490,7 +1507,11 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                     void visitLdcInsn(Object value) {
                         if (replaceUtilityY && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
                             super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitVarInsn(Opcodes.ILOAD, utilityIndex)
+                            if (utilityIndex == 2) {
+                                super.visitInsn(Opcodes.ICONST_2)
+                            } else {
+                                super.visitVarInsn(Opcodes.ILOAD, 5)
+                            }
                             super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
                             replaceUtilityY = false
                             return
@@ -3659,12 +3680,12 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
-                            // Keep the original click handler intact: utility-layout ASM caused VerifyError in method_25402.
+                            patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
-                            logger.lifecycle("Kept the original utility-icon layout to avoid custom title-screen regressions")
+                            logger.lifecycle("Moved Telegram/Discord to bottom-left; moved wallpaper/power beside menu buttons with matching hover and click hitboxes")
                             logger.lifecycle("Preserved the original title-screen wallpaper/background renderer")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
 
