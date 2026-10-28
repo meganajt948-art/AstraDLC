@@ -3055,28 +3055,47 @@ def patchDiscordInviteUrls = { byte[] bytes ->
     String desired = "https://discord.gg/aP9dpxM8"
     boolean changedInvite = false
     boolean changedLabel = false
+
     def replaceString = { Object value ->
-        if (!(value instanceof String)) return value
+        if (!(value instanceof String)) {
+            return value
+        }
         String text = (String)value
         String lower = text.trim().toLowerCase(java.util.Locale.ROOT)
+
         if (lower.contains("discord.gg/") || lower.contains("discord.com/invite/")) {
-            if (text != desired) changedInvite = true
+            if (text != desired) {
+                changedInvite = true
+            }
             return desired
         }
-        if (lower == "фон меню" || lower == "фон главного меню" || lower == "main menu background" ||
-            lower == "menu background" || lower == "background menu") {
-            String replacement = (lower == "main menu background" || lower == "menu background" || lower == "background menu")
-                ? "Main menu wallpapers" : "Обои в главном меню"
-            if (text != replacement) changedLabel = true
+
+        if (lower == "фон меню" || lower == "фон главного меню" ||
+            lower == "main menu background" || lower == "menu background" ||
+            lower == "background menu") {
+            String replacement
+            if (lower == "main menu background" || lower == "menu background" ||
+                lower == "background menu") {
+                replacement = "Main menu wallpapers"
+            } else {
+                replacement = "Обои в главном меню"
+            }
+            if (text != replacement) {
+                changedLabel = true
+            }
             return replacement
         }
+
         return value
     }
+
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
-            return super.visitField(access, name, descriptor, signature, replaceString(value))
+            Object newValue = replaceString(value)
+            return super.visitField(access, name, descriptor, signature, newValue)
         }
+
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
@@ -3085,18 +3104,17 @@ def patchDiscordInviteUrls = { byte[] bytes ->
                 void visitLdcInsn(Object value) {
                     super.visitLdcInsn(replaceString(value))
                 }
-                @Override
-                void visitInvokeDynamicInsn(String name, String descriptor, org.objectweb.asm.Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
-                    Object[] adjusted = bootstrapMethodArguments
-                    for (int i = 0; i < adjusted.length; i++) adjusted[i] = replaceString(adjusted[i])
-                    super.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, adjusted)
-                }
             }
         }
     }
+
     reader.accept(visitor, 0)
-    if (changedInvite) logger.lifecycle("Normalized Discord invite to https://discord.gg/aP9dpxM8 in " + reader.className)
-    if (changedLabel) logger.lifecycle("Changed wallpaper picker label to Обои в главном меню in " + reader.className)
+    if (changedInvite) {
+        logger.lifecycle("Normalized Discord invite to https://discord.gg/aP9dpxM8 in " + reader.className)
+    }
+    if (changedLabel) {
+        logger.lifecycle("Changed wallpaper picker label to Обои в главном меню in " + reader.className)
+    }
     return writer.toByteArray()
 }
 
