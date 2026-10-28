@@ -1431,7 +1431,7 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def found = [x: false, draw: false, click: false]
+    def found = [x: false, draw: false, click: false, wallpaperRef: false]
     def xMethod = null
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
@@ -1448,6 +1448,36 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                     private boolean iconYChanged = false
                     private boolean iconHitboxYChanged = false
                     private boolean tooltipYChanged = false
+                    @Override
+                    void visitFieldInsn(int opcode, String fieldOwner, String fieldName, String fieldDescriptor) {
+                        // WallpaperEntry is present only in the decompiled source tree, not in the shipped runtime.
+                        // Replace the selected wallpaper tint expression with a fixed accent without linking that class.
+                        if (opcode == Opcodes.GETFIELD && fieldOwner == ownerClass &&
+                            fieldName == "jug" && fieldDescriptor == "La/WallpaperEntry;") {
+                            found.wallpaperRef = true
+                            super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.ACONST_NULL)
+                            return
+                        }
+                        if (opcode == Opcodes.GETFIELD && fieldOwner == "a/WallpaperEntry" &&
+                            fieldName == "accent" && fieldDescriptor == "I") {
+                            found.wallpaperRef = true
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn(0xDAB45A)
+                            return
+                        }
+                        super.visitFieldInsn(opcode, fieldOwner, fieldName, fieldDescriptor)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (opcode == Opcodes.INVOKESTATIC && callOwner == "a/WallpaperEntry" &&
+                            callName == "selected" && callDescriptor == "()La/WallpaperEntry;") {
+                            found.wallpaperRef = true
+                            super.visitInsn(Opcodes.ACONST_NULL)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
                     @Override
                     void visitLdcInsn(Object value) {
                         if (!iconYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
@@ -1615,10 +1645,10 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
-    if (!found.draw || !found.click) {
-        throw new GradleException("Title utility icon render/click methods not found in " + ownerClass + ": " + found)
+    if (!found.draw || !found.click || !found.wallpaperRef) {
+        throw new GradleException("Title utility icon render/click or source-only WallpaperEntry reference not found in " + ownerClass + ": " + found)
     }
-    logger.lifecycle("Moved Telegram/Discord to bottom-left and wallpaper/power beside the main-menu buttons; synchronized hover and click regions")
+    logger.lifecycle("Moved Telegram/Discord to bottom-left and wallpaper/power beside the main-menu buttons; synchronized hitboxes and removed WallpaperEntry linkage from utility render")
     return writer.toByteArray()
 }
 
