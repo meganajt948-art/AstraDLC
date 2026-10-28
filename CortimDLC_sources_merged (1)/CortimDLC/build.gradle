@@ -1625,9 +1625,8 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
 
 
 /*
- * Keep wallpaper selection and menu-look settings in independent areas:
- * wallpaper thumbnails remain in the right popover; title settings render
- * permanently in a compact left panel and retain their original interactions.
+ * Keep the wallpaper selector focused on wallpapers only. Remove the separate
+ * persistent menu-look panel and all invisible interaction remapping for it.
  */
 def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -1648,14 +1647,7 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
                     @Override
                     void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
                         super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
-                        if (callOwner == ownerClass && callName == "jxd" && callDescriptor == "(Lnet/minecraft/class_332;FF)V") {
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitVarInsn(Opcodes.ALOAD, 1)
-                            super.visitVarInsn(Opcodes.ILOAD, 2)
-                            super.visitVarInsn(Opcodes.ILOAD, 3)
-                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaRenderPersistentSettingsRaw",
-                                "(Lnet/minecraft/class_332;II)V", false)
-                        }
+                        // Do not render the former persistent settings panel.
                     }
                 }
             }
@@ -1734,23 +1726,9 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
                 found.click = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
-                    private boolean inserted = false
                     @Override
                     void visitVarInsn(int opcode, int var) {
                         super.visitVarInsn(opcode, var)
-                        // Cursor locals f and f2 are slots 4 and 5 in this method.
-                        if (!inserted && opcode == Opcodes.FSTORE && var == 5) {
-                            inserted = true
-                            org.objectweb.asm.Label continueClick = new org.objectweb.asm.Label()
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitVarInsn(Opcodes.FLOAD, 4)
-                            super.visitVarInsn(Opcodes.FLOAD, 5)
-                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaHandlePersistentSettingsClick", "(FF)Z", false)
-                            super.visitJumpInsn(Opcodes.IFEQ, continueClick)
-                            super.visitInsn(Opcodes.ICONST_1)
-                            super.visitInsn(Opcodes.IRETURN)
-                            super.visitLabel(continueClick)
-                        }
                     }
                     @Override
                     void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
@@ -1768,14 +1746,6 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override
                     void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
-                        if (callOwner == ownerClass && callName == "jxz" && callDescriptor == "(IF)V") {
-                            // The slider is now on the left; map its X coordinate back to the original settings coordinate system.
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaSettingsTranslateX", "()F", false)
-                            super.visitInsn(Opcodes.FSUB)
-                            super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
-                            return
-                        }
                         super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
                     }
                 }
