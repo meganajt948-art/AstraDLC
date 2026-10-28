@@ -48,12 +48,12 @@ jobs:
           marker = "// Use the selected wallpaper's accent for Quit, matching the same hover-color transition as other icons."
           if marker not in source:
               raise SystemExit("Expected invalid WallpaperEntry color patch was not found; stopping before build.")
-          block_start = source.rfind("\\n", 0, source.index(marker)) + 1
+          block_start = source.rfind("\n", 0, source.index(marker)) + 1
           block_end = source.index('                        if (value instanceof String', block_start)
-          source = source[:block_start] + '                        // Keep the built-in power-icon color; WallpaperEntry is not present in runtime flow.jar.\\n' + source[block_end:]
+          source = source[:block_start] + "                        // Keep the built-in power-icon color; WallpaperEntry is not present in runtime flow.jar.\n" + source[block_end:]
 
           field_pattern = r'(?m)^[ ]*render\\.visitVarInsn\\(Opcodes\\.ALOAD, 0\\)\\n[ ]*render\\.visitFieldInsn\\(Opcodes\\.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;"\\)\\n[ ]*render\\.visitFieldInsn\\(Opcodes\\.GETFIELD, "a/WallpaperEntry", "accent", "I"\\)'
-          source, count = re.subn(field_pattern, '            render.visitLdcInsn(0xFF6B6B)', source)
+          field_pattern = r'(?m)^[ ]*render\.visitVarInsn\(Opcodes\.ALOAD, 0\)\n[ ]*render\.visitFieldInsn\(Opcodes\.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;"\)\n[ ]*render\.visitFieldInsn\(Opcodes\.GETFIELD, "a/WallpaperEntry", "accent", "I"\)'
           path.write_text(source, encoding="utf-8")
           print(f"Removed unavailable WallpaperEntry references; replaced {count} inactive helper field lookups.")
           PY
