@@ -1474,8 +1474,7 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
                         }
                         // Use the selected wallpaper's accent for Quit, matching the same hover-color transition as other icons.
                         if (value instanceof Integer && ((Integer)value).intValue() == 0xFF6B6B) {
-                            super.visitVarInsn(Opcodes.ALOAD, 0)
-                            super.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/WallpaperEntry", "selected", "()La/WallpaperEntry;", false)
                             super.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
                             return
                         }
