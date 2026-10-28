@@ -1424,6 +1424,7 @@ def patchHudVisualPlacement = { byte[] bytes ->
  * Move title-screen utility icons to the marked positions. Render, hover and
  * click hitboxes all call the same position helper so they cannot drift apart.
  */
+// Build marker: 2026-10-28 standalone release trigger for corrected exit accent lookup.
 def patchMenuUtilityIconLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     String ownerClass = reader.className
