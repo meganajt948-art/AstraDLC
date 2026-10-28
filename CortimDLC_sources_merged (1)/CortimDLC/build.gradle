@@ -3063,11 +3063,15 @@ def patchDiscordInviteUrls = { byte[] bytes ->
         String text = (String)value
         String lower = text.trim().toLowerCase(java.util.Locale.ROOT)
 
-        if (lower.contains("discord.gg/") || lower.contains("discord.com/invite/")) {
-            if (text != desired) {
-                changedInvite = true
-            }
-            return desired
+        // Match the URL inside both ordinary string constants and StringConcatFactory
+        // recipes; preserve any surrounding recipe characters/placeholders.
+        String quote = java.util.regex.Matcher.quoteReplacement(desired)
+        String rewritten = text
+            .replaceAll("(?i)https?://discord\\.com/invite/[A-Za-z0-9_-]+", quote)
+            .replaceAll("(?i)https?://discord\\.gg/[A-Za-z0-9_-]+", quote)
+        if (rewritten != text) {
+            changedInvite = true
+            return rewritten
         }
 
         if (lower == "фон меню" || lower == "фон главного меню" ||
@@ -3103,6 +3107,17 @@ def patchDiscordInviteUrls = { byte[] bytes ->
                 @Override
                 void visitLdcInsn(Object value) {
                     super.visitLdcInsn(replaceString(value))
+                }
+
+                @Override
+                void visitInvokeDynamicInsn(String indyName, String indyDescriptor,
+                                            org.objectweb.asm.Handle bootstrapMethodHandle,
+                                            Object... bootstrapMethodArguments) {
+                    Object[] adjusted = new Object[bootstrapMethodArguments.length]
+                    for (int i = 0; i < bootstrapMethodArguments.length; i++) {
+                        adjusted[i] = replaceString(bootstrapMethodArguments[i])
+                    }
+                    super.visitInvokeDynamicInsn(indyName, indyDescriptor, bootstrapMethodHandle, adjusted)
                 }
             }
         }
