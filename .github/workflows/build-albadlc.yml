@@ -52,8 +52,8 @@ jobs:
           block_end = source.index('                        if (value instanceof String', block_start)
           source = source[:block_start] + "                        // Keep the built-in power-icon color; WallpaperEntry is not present in runtime flow.jar.\n" + source[block_end:]
 
-          field_pattern = r'(?m)^[ ]*render\\.visitVarInsn\\(Opcodes\\.ALOAD, 0\\)\\n[ ]*render\\.visitFieldInsn\\(Opcodes\\.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;"\\)\\n[ ]*render\\.visitFieldInsn\\(Opcodes\\.GETFIELD, "a/WallpaperEntry", "accent", "I"\\)'
           field_pattern = r'(?m)^[ ]*render\.visitVarInsn\(Opcodes\.ALOAD, 0\)\n[ ]*render\.visitFieldInsn\(Opcodes\.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;"\)\n[ ]*render\.visitFieldInsn\(Opcodes\.GETFIELD, "a/WallpaperEntry", "accent", "I"\)'
+          source, count = re.subn(field_pattern, '            render.visitLdcInsn(0xFF6B6B)', source)
           path.write_text(source, encoding="utf-8")
           print(f"Removed unavailable WallpaperEntry references; replaced {count} inactive helper field lookups.")
           PY
