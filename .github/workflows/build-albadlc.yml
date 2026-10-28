@@ -50,11 +50,11 @@ jobs:
       - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-social-icons-exit-style-2026-10-28
+          tag_name: albadlc-exit-accent-field-fix-2026-10-28
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC social icon layout + exit hover style (28 October 2026)
+          name: AlbaDLC icon layout + exit accent field fix (28 October 2026)
           body: |
-            Keeps the launch and click-handler fixes while moving Telegram/Discord to the bottom-left and wallpaper/power icons beside the main buttons. Aligns rendering, hover detection and click hitboxes through one shared utility Y-position helper, corrects the Discord invite to https://discord.gg/aP9dpxM8, and gives the Quit/power icon the same accent-color hover animation as the other icons. Does not inject the unstable extra central Quit row.
+            Fixes a rendering crash by resolving the selected wallpaper through WallpaperEntry.selected() instead of referencing a nonexistent MenuScreen.jug field. Retains the launch and click-handler fixes, moves Telegram/Discord to bottom-left and wallpaper/power icons beside the main buttons, synchronizes their render/hover/click positions, fixes the Discord invite to https://discord.gg/aP9dpxM8, and uses the selected wallpaper accent for the Quit/power icon hover color. Does not inject the unstable extra central Quit row.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
