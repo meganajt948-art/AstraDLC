@@ -43,25 +43,19 @@ jobs:
           path = Path("build.gradle")
           source = path.read_text(encoding="utf-8")
 
-          old_color_block = '''                        // Use the selected wallpaper's accent for Quit, matching the same hover-color transition as other icons.
-                          if (value instanceof Integer && ((Integer)value).intValue() == 0xFF6B6B) {
-                              super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/WallpaperEntry", "selected", "()La/WallpaperEntry;", false)
-                              super.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
-                              return
-                          }
-          '''
-          if old_color_block not in source:
-              raise SystemExit("Expected invalid WallpaperEntry color patch was not found; stopping before build.")
-          source = source.replace(old_color_block, '''                        // Keep the built-in power-icon color; WallpaperEntry is not present in the runtime flow.jar.
-          ''', 1)
+          import re
 
-          old_field_sequence = '''            render.visitVarInsn(Opcodes.ALOAD, 0)
-                      render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
-                      render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")'''
-          count = source.count(old_field_sequence)
-          source = source.replace(old_field_sequence, '''            render.visitLdcInsn(0xFF6B6B)''')
+          marker = "// Use the selected wallpaper's accent for Quit, matching the same hover-color transition as other icons."
+          if marker not in source:
+              raise SystemExit("Expected invalid WallpaperEntry color patch was not found; stopping before build.")
+          block_start = source.rfind("\\n", 0, source.index(marker)) + 1
+          block_end = source.index('                        if (value instanceof String', block_start)
+          source = source[:block_start] + '                        // Keep the built-in power-icon color; WallpaperEntry is not present in runtime flow.jar.\\n' + source[block_end:]
+
+          field_pattern = r'(?m)^[ ]*render\\.visitVarInsn\\(Opcodes\\.ALOAD, 0\\)\\n[ ]*render\\.visitFieldInsn\\(Opcodes\\.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;"\\)\\n[ ]*render\\.visitFieldInsn\\(Opcodes\\.GETFIELD, "a/WallpaperEntry", "accent", "I"\\)'
+          source, count = re.subn(field_pattern, '            render.visitLdcInsn(0xFF6B6B)', source)
           path.write_text(source, encoding="utf-8")
-          print(f"Removed WallpaperEntry runtime references from menu patch; replaced {count} inactive helper field lookups.")
+          print(f"Removed unavailable WallpaperEntry references; replaced {count} inactive helper field lookups.")
           PY
 
       - name: Build AlbaDLC
