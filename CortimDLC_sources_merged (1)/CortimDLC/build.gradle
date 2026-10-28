@@ -1131,9 +1131,8 @@ def patchClientPanelCleanup = { byte[] bytes ->
 
 
 /*
- * Center the language selector and power button on the bottom rail, and align
- * the enlarged search field with the left inset. Drawing and hit-tests share
- * these coordinate methods, so both move together.
+ * Remove the language selector from the bottom rail and move the power control
+ * to the bottom-left. These getters feed both drawing and hit-testing.
  */
 def patchGuiUtilityButtonLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -1151,7 +1150,9 @@ def patchGuiUtilityButtonLayout = { byte[] bytes ->
 
         @Override
         void visitEnd() {
-            def replacements = [hqs: 234.0F, hqt: 20.0F, hqv: 377.0F, hqn: 297.0F]
+            // hqs: language control X (off-screen); hqt: shared control size;
+            // hqv: power control X (left inset); hqn: shared bottom-rail Y.
+            def replacements = [hqs: -10000.0F, hqt: 20.0F, hqv: 20.0F, hqn: 297.0F]
             replacements.each { methodName, value ->
                 def info = originals[methodName]
                 if (info == null) throw new GradleException("GUI utility-button coordinate method not found: " + methodName)
@@ -1167,6 +1168,7 @@ def patchGuiUtilityButtonLayout = { byte[] bytes ->
         }
     }
     reader.accept(visitor, 0)
+    logger.lifecycle("Removed language selector and moved power control to bottom-left")
     return writer.toByteArray()
 }
 
@@ -2374,58 +2376,105 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
     return writer.toByteArray()
 }
 
-/* Remove the centered category heading/count and widen search across almost the full header. */
+/* Hide the category heading, and place the search field only over the content area. */
 def patchClickGuiHeaderLayout = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
     boolean found = false
-    def changed = [title: false, subtitle: false, widths: 0]
+    def changed = [title: false, subtitle: false, widths: 0, xShift: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
             MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-            if (name != "hqx" || descriptor != "(Lnet/minecraft/class_332;FF)V") return mv
-            found = true
-            return new MethodVisitor(Opcodes.ASM9, mv) {
-                @Override
-                void visitLdcInsn(Object value) {
-                    // The input's width and its empty-field hint offset must expand together.
-                    if (value instanceof Float &&
-                        Math.abs(((Float)value).floatValue() - 136.0f) < 0.001f) {
-                        value = 496.0f
-                        changed.widths = changed.widths + 1
+            if (name == "hqx" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
+                found = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        // Instance method locals: 0=this, 1=DrawContext, 2=x, 3=y.
+                        // Add the sidebar width to x so the field begins immediately right
+                        // of the rail; reducing width by the same amount preserves the right edge.
+                        super.visitVarInsn(Opcodes.FLOAD, 2)
+                        super.visitLdcInsn(130.0f)
+                        super.visitInsn(Opcodes.FADD)
+                        super.visitVarInsn(Opcodes.FSTORE, 2)
+                        changed.xShift = true
                     }
-                    super.visitLdcInsn(value)
-                }
 
-                @Override
-                void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
-                    super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
-                    // Keep category state updated, but turn its displayed title into an empty string.
-                    if (opcode == Opcodes.INVOKESTATIC && callOwner == "a/wap" &&
-                        callName == "t" && callDescriptor == "(Ljava/lang/String;)Ljava/lang/String;") {
-                        super.visitInsn(Opcodes.POP)
-                        super.visitLdcInsn("")
-                        changed.title = true
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 136.0f) < 0.001f) {
+                            value = 366.0f
+                            changed.widths = changed.widths + 1
+                        }
+                        super.visitLdcInsn(value)
                     }
-                    // The subtitle is the old "0 of 6" category count below the heading.
-                    if (opcode == Opcodes.INVOKEVIRTUAL && callOwner == "a/hlc" &&
-                        callName == "hqw" && callDescriptor == "(La/hkv;FF)Ljava/lang/String;") {
-                        super.visitInsn(Opcodes.POP)
-                        super.visitLdcInsn("")
-                        changed.subtitle = true
+
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        if (opcode == Opcodes.INVOKESTATIC && callOwner == "a/wap" &&
+                            callName == "t" && callDescriptor == "(Ljava/lang/String;)Ljava/lang/String;") {
+                            // The title/category remains available for state; only its visible text is suppressed.
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn("")
+                            changed.title = true
+                        }
+                        if (opcode == Opcodes.INVOKEVIRTUAL && callOwner == "a/hlc" &&
+                            callName == "hqw" && callDescriptor == "(La/hkv;FF)Ljava/lang/String;") {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn("")
+                            changed.subtitle = true
+                        }
                     }
                 }
             }
+            return mv
         }
     }
     reader.accept(visitor, 0)
-    if (!found || !changed.title || !changed.subtitle || changed.widths < 2) {
+    if (!found || !changed.title || !changed.subtitle || changed.widths < 2 || !changed.xShift) {
         throw new GradleException("ClickGUI search/header patch points not found: method=" + found +
-            ", title=" + changed.title + ", subtitle=" + changed.subtitle + ", widths=" + changed.widths)
+            ", title=" + changed.title + ", subtitle=" + changed.subtitle +
+            ", widths=" + changed.widths + ", xShift=" + changed.xShift)
     }
+    logger.lifecycle("Aligned ClickGUI search field between sidebar and right edge; removed category heading/count")
+    return writer.toByteArray()
+}
+
+/* Force raw English UI labels and remove language-switch dependency from runtime translations. */
+def patchForceEnglishTranslations = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "t" && descriptor == "(Ljava/lang/String;)Ljava/lang/String;") {
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+        @Override
+        void visitEnd() {
+            if (original.isEmpty()) throw new GradleException("English translation method t(String) not found in " + reader.className)
+            MethodVisitor mv = writer.visitMethod(original.access, "t", original.descriptor,
+                original.signature, original.exceptions as String[])
+            mv.visitCode()
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitInsn(Opcodes.ARETURN)
+            mv.visitMaxs(1, 1)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    logger.lifecycle("Forced ClickGUI category labels to English")
     return writer.toByteArray()
 }
 
@@ -4006,6 +4055,8 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (isUiKitClass(originalBytes)) {
                             patchedBytes = patchUiKitSwitch(patchedBytes)
                             logger.lifecycle("Refined the native module-switch shape while preserving its original render logic")
+                        } else if (entry.name == "a/wap.class") {
+                            patchedBytes = patchForceEnglishTranslations(patchedBytes)
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
                             patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
