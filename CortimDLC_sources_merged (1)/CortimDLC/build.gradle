@@ -1885,79 +1885,37 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             MethodVisitor renderSettings = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
                 "albaRenderPersistentSettingsRaw", "(Lnet/minecraft/class_332;II)V", null, null)
             renderSettings.visitCode()
-            // Dark rounded panel at the left edge.
+            // Use Minecraft's own DrawContext primitives: the decompiled source-only
+            // helpers (DrawUtil/Fonts/FontFace/Lang) are not shipped in flow.jar.
             renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
-            renderSettings.visitLdcInsn(12.0f)
-            renderSettings.visitLdcInsn(40.0f)
-            renderSettings.visitLdcInsn(254.0f)
-            renderSettings.visitLdcInsn(218.0f)
-            renderSettings.visitLdcInsn(14.0f)
-            renderSettings.visitLdcInsn(24.0f)
-            renderSettings.visitInsn(Opcodes.ICONST_0)
-            renderSettings.visitLdcInsn(0.42f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "shadow",
-                "(Lnet/minecraft/class_332;FFFFFFI)V", false)
+            renderSettings.visitLdcInsn(12)
+            renderSettings.visitLdcInsn(40)
+            renderSettings.visitLdcInsn(266)
+            renderSettings.visitLdcInsn(258)
+            renderSettings.visitLdcInsn(-351596518) // ARGB 0xEB0B101A
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_25294",
+                "(IIIII)V", false)
 
+            // Section title and fine divider, rendered with vanilla text/draw APIs.
             renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
-            renderSettings.visitLdcInsn(12.0f)
-            renderSettings.visitLdcInsn(40.0f)
-            renderSettings.visitLdcInsn(254.0f)
-            renderSettings.visitLdcInsn(218.0f)
-            renderSettings.visitLdcInsn(14.0f)
-            renderSettings.visitLdcInsn(0x0B101A)
-            renderSettings.visitLdcInsn(0.92f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
-                "(Lnet/minecraft/class_332;FFFFFI)V", false)
-
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
-            renderSettings.visitLdcInsn(12.0f)
-            renderSettings.visitLdcInsn(40.0f)
-            renderSettings.visitLdcInsn(254.0f)
-            renderSettings.visitLdcInsn(218.0f)
-            renderSettings.visitLdcInsn(14.0f)
-            renderSettings.visitLdcInsn(0.7f)
-            renderSettings.visitLdcInsn(0xFFFFFF)
-            renderSettings.visitLdcInsn(0.28f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitLdcInsn(0xFFFFFF)
-            renderSettings.visitLdcInsn(0.07f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "outlineGradientV",
-                "(Lnet/minecraft/class_332;FFFFFFII)V", false)
-
-            // Compact section title and divider.
             renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
-            renderSettings.visitLdcInsn(7.6f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Fonts", "semibold", "(F)La/FontFace;", false)
-            renderSettings.visitVarInsn(Opcodes.ASTORE, 4)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 4)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
-            renderSettings.visitLdcInsn("Menu look")
+            renderSettings.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_437", "field_22793",
+                "Lnet/minecraft/class_327;")
             renderSettings.visitLdcInsn("Вид меню")
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Lang", "s",
-                "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false)
-            renderSettings.visitLdcInsn(24.0f)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 4)
-            renderSettings.visitLdcInsn(52.0f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "centerTop", "(F)F", false)
-            renderSettings.visitLdcInsn(0xFFFFFF)
-            renderSettings.visitLdcInsn(0.95f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "draw",
-                "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)
+            renderSettings.visitLdcInsn(139)
+            renderSettings.visitLdcInsn(50)
+            renderSettings.visitLdcInsn(-1)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_25300",
+                "(Lnet/minecraft/class_327;Ljava/lang/String;III)V", false)
 
             renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
-            renderSettings.visitLdcInsn(22.0f)
-            renderSettings.visitLdcInsn(66.5f)
-            renderSettings.visitLdcInsn(234.0f)
-            renderSettings.visitLdcInsn(0.5f)
-            renderSettings.visitLdcInsn(0xFFFFFF)
-            renderSettings.visitLdcInsn(0.1f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "rect",
-                "(Lnet/minecraft/class_332;FFFFI)V", false)
+            renderSettings.visitLdcInsn(22)
+            renderSettings.visitLdcInsn(68)
+            renderSettings.visitLdcInsn(256)
+            renderSettings.visitLdcInsn(69)
+            renderSettings.visitLdcInsn(620756991) // ARGB 0x24FFFFFF
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_25294",
+                "(IIIII)V", false)
 
             // Transform the existing setting rows to the left panel. The transform cancels
             // the wallpaper scroll offset so this panel remains fixed while the picker scrolls.
