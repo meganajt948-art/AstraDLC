@@ -1942,6 +1942,7 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitVarInsn(Opcodes.ALOAD, 4)
             renderSettings.visitLdcInsn(52.0f)
             renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "centerTop", "(F)F", false)
+            renderSettings.visitLdcInsn(0xFFFFFF)
             renderSettings.visitLdcInsn(0.95f)
             renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "draw",
