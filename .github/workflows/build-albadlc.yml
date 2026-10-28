@@ -33,6 +33,37 @@ jobs:
         with:
           gradle-version: '9.2.1'
 
+      - name: Remove unavailable WallpaperEntry references from menu bytecode patch
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("build.gradle")
+          source = path.read_text(encoding="utf-8")
+
+          old_color_block = '''                        // Use the selected wallpaper's accent for Quit, matching the same hover-color transition as other icons.
+                          if (value instanceof Integer && ((Integer)value).intValue() == 0xFF6B6B) {
+                              super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/WallpaperEntry", "selected", "()La/WallpaperEntry;", false)
+                              super.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+                              return
+                          }
+          '''
+          if old_color_block not in source:
+              raise SystemExit("Expected invalid WallpaperEntry color patch was not found; stopping before build.")
+          source = source.replace(old_color_block, '''                        // Keep the built-in power-icon color; WallpaperEntry is not present in the runtime flow.jar.
+          ''', 1)
+
+          old_field_sequence = '''            render.visitVarInsn(Opcodes.ALOAD, 0)
+                      render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+                      render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")'''
+          count = source.count(old_field_sequence)
+          source = source.replace(old_field_sequence, '''            render.visitLdcInsn(0xFF6B6B)''')
+          path.write_text(source, encoding="utf-8")
+          print(f"Removed WallpaperEntry runtime references from menu patch; replaced {count} inactive helper field lookups.")
+          PY
+
       - name: Build AlbaDLC
         working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
         run: gradle --no-daemon clean build
