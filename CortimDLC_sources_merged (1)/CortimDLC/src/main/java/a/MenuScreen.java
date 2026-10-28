@@ -1132,7 +1132,7 @@ extends class_437 {
                     break;
                 }
                 case 1: {
-                    MenuScreen.jye("https://discord.gg/aP9dpxM8");
+                    MenuScreen.jye(MenuScreen.DISCORD);
                     break;
                 }
                 case 2: {
