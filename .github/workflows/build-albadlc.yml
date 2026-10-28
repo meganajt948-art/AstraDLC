@@ -67,8 +67,8 @@ jobs:
         with:
           name: AlbaDLC-build
           path: |
-            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
-            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0-sources.jar
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.1.jar
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.1-sources.jar
           if-no-files-found: error
           compression-level: 0
 
@@ -77,12 +77,12 @@ jobs:
         with:
           tag_name: albadlc-no-wallpaperentry-crash-2026-10-28
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC icon layout crash fix (28 October 2026)
+          name: AlbaDLC 1.0.1 — menu and Discord fix (28 October 2026)
           body: |
-            Fixes a rendering crash by removing a runtime reference to a source-only WallpaperEntry class. Retains the launch and click-handler fixes, moves Telegram/Discord to bottom-left and wallpaper/power icons beside the main buttons, synchronizes render/hover/click positions, and fixes the Discord invite to https://discord.gg/aP9dpxM8. The power icon keeps a safe built-in color; no source-only classes are referenced by the runtime menu patch. Does not inject the unstable extra central Quit row.
+            AlbaDLC 1.0.1. Removes the unwanted persistent “Вид меню” panel from the main menu, keeps the wallpaper chooser focused on wallpapers only, and normalizes both discord.gg and discord.com/invite links to https://discord.gg/aP9dpxM8 in the menu click handler. This build has a distinct version and JAR filename, so it can be identified separately from the previous 1.0.0 build.
           prerelease: true
           files: |
-            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
-            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0-sources.jar
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.1.jar
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.1-sources.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

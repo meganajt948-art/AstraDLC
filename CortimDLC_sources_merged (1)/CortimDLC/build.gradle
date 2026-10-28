@@ -2391,7 +2391,12 @@ def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
                 found.click = true
                 return new MethodVisitor(Opcodes.ASM9, mv) {
                     @Override void visitLdcInsn(Object value) {
-                        if (value instanceof String && ((String)value).toLowerCase(java.util.Locale.ROOT).contains("discord.gg/")) value = "https://discord.gg/aP9dpxM8"
+                        if (value instanceof String) {
+                            String urlText = ((String)value).toLowerCase(java.util.Locale.ROOT)
+                            if (urlText.contains("discord.gg/") || urlText.contains("discord.com/invite/")) {
+                                value = "https://discord.gg/aP9dpxM8"
+                            }
+                        }
                         super.visitLdcInsn(value)
                     }
                 }

@@ -1132,7 +1132,7 @@ extends class_437 {
                     break;
                 }
                 case 1: {
-                    MenuScreen.jye("https://discord.gg/g4fmYmGeR");
+                    MenuScreen.jye("https://discord.gg/aP9dpxM8");
                     break;
                 }
                 case 2: {
@@ -1267,7 +1267,7 @@ extends class_437 {
     }
 
     static {
-        DISCORD = "https://discord.gg/g4fmYmGeR";
+        DISCORD = "https://discord.gg/aP9dpxM8";
         TELEGRAM = new String(new char[]{'h', 't', 't', 'p', 's', ':', '/', '/', 't', '.', 'm', 'e', '/', 'F', 'l', 'o', 'w', 'w', 'C', 'l', 'i', 'e', 'n', 't'});
     }
 
