@@ -1893,10 +1893,9 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitLdcInsn(218.0f)
             renderSettings.visitLdcInsn(14.0f)
             renderSettings.visitLdcInsn(24.0f)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
             renderSettings.visitInsn(Opcodes.ICONST_0)
             renderSettings.visitLdcInsn(0.42f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "shadow",
                 "(Lnet/minecraft/class_332;FFFFFFI)V", false)
 
@@ -1906,10 +1905,9 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitLdcInsn(254.0f)
             renderSettings.visitLdcInsn(218.0f)
             renderSettings.visitLdcInsn(14.0f)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
             renderSettings.visitLdcInsn(0x0B101A)
             renderSettings.visitLdcInsn(0.92f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
                 "(Lnet/minecraft/class_332;FFFFFI)V", false)
 
@@ -1920,14 +1918,12 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitLdcInsn(218.0f)
             renderSettings.visitLdcInsn(14.0f)
             renderSettings.visitLdcInsn(0.7f)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
             renderSettings.visitLdcInsn(0xFFFFFF)
             renderSettings.visitLdcInsn(0.28f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitLdcInsn(0xFFFFFF)
             renderSettings.visitLdcInsn(0.07f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "outlineGradientV",
                 "(Lnet/minecraft/class_332;FFFFFFII)V", false)
 
@@ -1946,9 +1942,8 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitVarInsn(Opcodes.ALOAD, 4)
             renderSettings.visitLdcInsn(52.0f)
             renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "centerTop", "(F)F", false)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
             renderSettings.visitLdcInsn(0.95f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "draw",
                 "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)
 
@@ -1957,10 +1952,9 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitLdcInsn(66.5f)
             renderSettings.visitLdcInsn(234.0f)
             renderSettings.visitLdcInsn(0.5f)
-            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
             renderSettings.visitLdcInsn(0xFFFFFF)
             renderSettings.visitLdcInsn(0.1f)
-            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
             renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "rect",
                 "(Lnet/minecraft/class_332;FFFFI)V", false)
 
