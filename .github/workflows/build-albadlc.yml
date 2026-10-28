@@ -50,11 +50,11 @@ jobs:
       - name: Publish a downloadable AutoWarden and AutoEnd update
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: albadlc-exit-accent-field-fix-2026-10-28
+          tag_name: albadlc-no-wallpaperentry-crash-2026-10-28
           target_commitish: ui-cleanup-2026-10
-          name: AlbaDLC icon layout + exit accent field fix (28 October 2026)
+          name: AlbaDLC icon layout crash fix (28 October 2026)
           body: |
-            Fixes a rendering crash by resolving the selected wallpaper through WallpaperEntry.selected() instead of referencing a nonexistent MenuScreen.jug field. Retains the launch and click-handler fixes, moves Telegram/Discord to bottom-left and wallpaper/power icons beside the main buttons, synchronizes their render/hover/click positions, fixes the Discord invite to https://discord.gg/aP9dpxM8, and uses the selected wallpaper accent for the Quit/power icon hover color. Does not inject the unstable extra central Quit row.
+            Fixes a rendering crash by removing a runtime reference to a source-only WallpaperEntry class. Retains the launch and click-handler fixes, moves Telegram/Discord to bottom-left and wallpaper/power icons beside the main buttons, synchronizes render/hover/click positions, and fixes the Discord invite to https://discord.gg/aP9dpxM8. The power icon keeps a safe built-in color; no source-only classes are referenced by the runtime menu patch. Does not inject the unstable extra central Quit row.
           prerelease: true
           files: |
             CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.0.jar
