@@ -1,0 +1,63 @@
+name: Build AlbaDLC
+
+on:
+  push:
+    branches:
+      - ui-cleanup-2026-10
+    paths:
+      - 'CortimDLC_sources_merged (1)/CortimDLC/build.gradle'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/gradle.properties'
+      - 'CortimDLC_sources_merged (1)/CortimDLC/src/**'
+      - 'video-data/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
+
+      - name: Build AlbaDLC
+        working-directory: 'CortimDLC_sources_merged (1)/CortimDLC'
+        run: gradle --no-daemon clean build
+
+      - name: Upload client JARs
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlbaDLC-build
+          path: |
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.5.jar
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.5-sources.jar
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: Publish a downloadable AutoWarden and AutoEnd update
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: albadlc-menu-crash-discord-fix-1-0-5-2026-10-28
+          target_commitish: ui-cleanup-2026-10
+          name: AlbaDLC 1.0.5 — menu launch and Discord fix (28 October 2026)
+          body: |
+            AlbaDLC 1.0.5. Removes the source-only WallpaperEntry class linkage from the title-screen utility render method and uses a built-in accent instead. Forces every Discord invite passed to the title-menu browser opener to https://discord.gg/aP9dpxM8, including invites that may have been assembled from encoded fragments. Keeps the separate menu-look settings panel removed and the wallpaper picker focused on wallpapers only. This is a distinct version and JAR filename.
+          prerelease: true
+          files: |
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.5.jar
+            CortimDLC_sources_merged (1)/CortimDLC/build/libs/AlbaDLC-1.0.5-sources.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

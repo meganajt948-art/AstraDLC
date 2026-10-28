@@ -139,9 +139,6 @@ def rebrandClassBytes = { byte[] bytes ->
                         .replace("Flow Чёрная", "Alba Видео")
                         .replace("Flow Черная", "Alba Черная")
                         .replace("Flow Белая", "Alba Белая")
-                        .replace("AstraDLC", "AlbaDLC")
-                        .replace("AstraUser", "AlbaUser")
-                        .replace("Astra", "Alba")
                         .replace("Flow2", "AlbaDLC")
                         .replace("[Flow2]", "[AlbaDLC]")
                 }
@@ -493,8 +490,60 @@ def patchClientBackgroundDefault = { byte[] bytes ->
 }
 
 /*
- * Warm the selected title wallpaper on every title-screen frame and ensure the
- * panorama hook gets a chance to install before the first visible frame.
+ * Keep main-menu art decoding responsive when the user changes wallpapers quickly.
+ * The original single worker serialized every wallpaper decode/resize/blur operation,
+ * so the newly selected wallpaper could wait behind an old one. Use a small bounded
+ * pool for menu artwork only; thumbnail loading already has its own pool.
+ */
+def patchMenuArtCacheExecutor = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean workerCountInjected = false
+    boolean executorReplaced = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "<clinit>" || descriptor != "()V") return mv
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitInvokeDynamicInsn(String indyName, String indyDescriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+                    // The first ThreadFactory lambda belongs to the menu-art executor.
+                    if (!workerCountInjected && indyDescriptor == "()Ljava/util/concurrent/ThreadFactory;") {
+                        super.visitInsn(Opcodes.ICONST_3)
+                        workerCountInjected = true
+                    }
+                    super.visitInvokeDynamicInsn(indyName, indyDescriptor, bootstrapMethodHandle, bootstrapMethodArguments)
+                }
+
+                @Override
+                void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                    if (!executorReplaced && workerCountInjected && opcode == Opcodes.INVOKESTATIC &&
+                        owner == "java/util/concurrent/Executors" && methodName == "newSingleThreadExecutor" &&
+                        methodDescriptor == "(Ljava/util/concurrent/ThreadFactory;)Ljava/util/concurrent/ExecutorService;") {
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, owner, "newFixedThreadPool",
+                            "(ILjava/util/concurrent/ThreadFactory;)Ljava/util/concurrent/ExecutorService;", false)
+                        executorReplaced = true
+                        return
+                    }
+                    super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!workerCountInjected || !executorReplaced) {
+        throw new GradleException("Could not parallelize menu-art loading (workerCountInjected=" +
+            workerCountInjected + ", executorReplaced=" + executorReplaced + ")")
+    }
+    return writer.toByteArray()
+}
+
+/*
+ * Warm the selected title wallpaper on every title-screen frame. Avoid installing
+ * a second panorama renderer: the title screen owns its selected wallpaper layer.
  */
 def patchTitleMenuRenderWarmup = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -515,19 +564,190 @@ def patchTitleMenuRenderWarmup = { byte[] bytes ->
                         super.visitVarInsn(Opcodes.ALOAD, 0)
                         super.visitFieldInsn(Opcodes.GETFIELD, "a/jte", "jug", "La/kbs;")
                         super.visitFieldInsn(Opcodes.GETFIELD, "a/kbs", "key", "Ljava/lang/String;")
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/jzh", "preload", "(Ljava/lang/String;)V", false)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "net/minecraft/class_310", "method_1551",
-                            "()Lnet/minecraft/class_310;", false)
-                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/jrr", "tick",
-                            "(Lnet/minecraft/class_310;)V", false)
+                        // Do not restart the video/image loader on every rendered frame.
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/jte", "albaPreloadWallpaper", "(Ljava/lang/String;)V", false)
+                        // The title screen already renders its selected wallpaper itself.
+                        // Do not install PanoramaHook into Minecraft's world panorama renderer:
+                        // that second renderer causes the title background to flicker between layers.
                     }
                 }
             }
             return mv
         }
+
+        @Override
+        void visitEnd() {
+            org.objectweb.asm.FieldVisitor cache = super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaLastPreloadedWallpaper", "Ljava/lang/String;", null, null)
+            cache.visitEnd()
+
+            MethodVisitor preload = super.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaPreloadWallpaper", "(Ljava/lang/String;)V", null, null)
+            preload.visitCode()
+            org.objectweb.asm.Label unchanged = new org.objectweb.asm.Label()
+            preload.visitVarInsn(Opcodes.ALOAD, 0)
+            preload.visitFieldInsn(Opcodes.GETSTATIC, "a/jte", "albaLastPreloadedWallpaper", "Ljava/lang/String;")
+            preload.visitMethodInsn(Opcodes.INVOKESTATIC, "java/util/Objects", "equals",
+                "(Ljava/lang/Object;Ljava/lang/Object;)Z", false)
+            preload.visitJumpInsn(Opcodes.IFNE, unchanged)
+            preload.visitVarInsn(Opcodes.ALOAD, 0)
+            preload.visitMethodInsn(Opcodes.INVOKESTATIC, "a/jzh", "preload", "(Ljava/lang/String;)V", false)
+            preload.visitVarInsn(Opcodes.ALOAD, 0)
+            preload.visitFieldInsn(Opcodes.PUTSTATIC, "a/jte", "albaLastPreloadedWallpaper", "Ljava/lang/String;")
+            preload.visitLabel(unchanged)
+            preload.visitInsn(Opcodes.RETURN)
+            preload.visitMaxs(0, 0)
+            preload.visitEnd()
+            super.visitEnd()
+        }
     }
     reader.accept(visitor, 0)
     if (!found) throw new GradleException("Title-screen render method not found for wallpaper warm-up")
+    return writer.toByteArray()
+}
+
+/*
+ * Restore the native title-screen background as a fallback layer. The custom
+ * wallpaper renderer still runs afterward, so the selected wallpaper covers it.
+ */
+def patchTitleScreenBackground = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "method_25420" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                mv.visitCode()
+                mv.visitVarInsn(Opcodes.ALOAD, 0)
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitVarInsn(Opcodes.ILOAD, 2)
+                mv.visitVarInsn(Opcodes.ILOAD, 3)
+                mv.visitVarInsn(Opcodes.FLOAD, 4)
+                mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "net/minecraft/class_437", "method_25420",
+                    "(Lnet/minecraft/class_332;IIF)V", false)
+                mv.visitInsn(Opcodes.RETURN)
+                mv.visitMaxs(5, 5)
+                mv.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Title-screen background method method_25420 not found")
+    return writer.toByteArray()
+}
+
+/*
+ * If the optional GPU scene pipeline is unavailable, draw the selected wallpaper
+ * texture directly instead of returning with a blank title-screen background.
+ * For video wallpapers, MenuArtCache supplies the current frame when available
+ * and the poster image as its fallback.
+ */
+/*
+ * Detect the menu-scene renderer by its method/field shape. The nested client
+ * obfuscates the class name, so do not rely on a source-file/class-file name.
+ */
+def isMenuSceneRendererClass = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def found = [draw: false, prepare: false, alpha: false, texture: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            if (name == "kav" && descriptor == "La/uok;") found.texture = true
+            return null
+        }
+
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "draw" && descriptor == "(Lnet/minecraft/class_332;La/jza;La/kam;FFFZ)Z") found.draw = true
+            if (name == "kbi" && descriptor == "(La/jza;La/kam;Z)Z") found.prepare = true
+            if (name == "kbl" && descriptor == "(F)I") found.alpha = true
+            return null
+        }
+    }
+    reader.accept(visitor, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    return found.draw && found.prepare && found.alpha && found.texture
+}
+
+/*
+ * If the optional GPU scene pipeline is unavailable, draw the selected wallpaper
+ * texture directly instead of returning with a blank title-screen background.
+ * Capture the original texture-draw helper from the class itself, so this patch
+ * works even when the client uses an obfuscated class/helper name.
+ */
+def patchMenuSceneRendererFallback = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String owner = reader.className
+    def drawHelper = [opcode: -1, owner: null, name: null, descriptor: "(Lnet/minecraft/class_332;Lcom/mojang/blaze3d/textures/GpuTextureView;FFFFFI)V", isInterface: false]
+    reader.accept(new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name != "draw" || descriptor != "(Lnet/minecraft/class_332;La/jza;La/kam;FFFZ)Z") return null
+            return new MethodVisitor(Opcodes.ASM9) {
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                    if (callDescriptor == drawHelper.descriptor &&
+                        (opcode == Opcodes.INVOKESTATIC || opcode == Opcodes.INVOKEINTERFACE || opcode == Opcodes.INVOKEVIRTUAL)) {
+                        drawHelper.opcode = opcode
+                        drawHelper.owner = callOwner
+                        drawHelper.name = callName
+                        drawHelper.isInterface = isInterface
+                    }
+                }
+            }
+        }
+    }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    if (drawHelper.opcode < 0 || drawHelper.owner == null || drawHelper.name == null) {
+        throw new GradleException("Could not discover the original GpuTextureView draw helper in " + owner)
+    }
+
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "draw" && descriptor == "(Lnet/minecraft/class_332;La/jza;La/kam;FFFZ)Z") {
+                found = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                mv.visitCode()
+                // Use the source frame/poster directly on every frame. The custom scene
+                // shader was intermittently flashing/blanking on some drivers even when its
+                // precompile call reported success. This avoids that off-screen GPU pass.
+                org.objectweb.asm.Label noTexture = new org.objectweb.asm.Label()
+                mv.visitVarInsn(Opcodes.ALOAD, 2)
+                mv.visitJumpInsn(Opcodes.IFNULL, noTexture)
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitVarInsn(Opcodes.ALOAD, 2)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/jza", "sharp", "()La/uok;", false)
+                mv.visitFieldInsn(Opcodes.GETFIELD, "a/uok", "view", "Lcom/mojang/blaze3d/textures/GpuTextureView;")
+                mv.visitInsn(Opcodes.FCONST_0)
+                mv.visitInsn(Opcodes.FCONST_0)
+                mv.visitVarInsn(Opcodes.FLOAD, 4)
+                mv.visitVarInsn(Opcodes.FLOAD, 5)
+                mv.visitInsn(Opcodes.FCONST_0)
+                mv.visitInsn(Opcodes.ICONST_M1)
+                mv.visitMethodInsn(drawHelper.opcode, drawHelper.owner, drawHelper.name,
+                    drawHelper.descriptor, drawHelper.isInterface)
+                mv.visitInsn(Opcodes.ICONST_1)
+                mv.visitInsn(Opcodes.IRETURN)
+                mv.visitLabel(noTexture)
+                mv.visitInsn(Opcodes.ICONST_0)
+                mv.visitInsn(Opcodes.IRETURN)
+                mv.visitMaxs(0, 0)
+                mv.visitEnd()
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Menu scene renderer draw method not found in " + owner)
     return writer.toByteArray()
 }
 
@@ -619,7 +839,7 @@ def patchModuleRegistration = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def excluded = ["ChestLooter", "ChestSorter", "SoulESP", "MotionBlur", "MobESP", "TransparentFriends", "AncientFarmer"]
+    def excluded = ["ChestLooter", "ChestStealer", "ChestSorter", "SoulESP", "MotionBlur", "MobESP", "TransparentFriends", "AncientFarmer", "DragonFly"]
     boolean found = false
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
@@ -664,16 +884,28 @@ def patchClientPanelCleanup = { byte[] bytes ->
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
         @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
     }
-    def found = [builder: false, footer: false]
+    def found = [builder: false, footer: false, tabs: false]
     def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
         @Override
         MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "method_25426" && descriptor == "()V") {
+                // Keep the original sidebar tabs, including Theme, untouched.
+                found.tabs = true
+                return super.visitMethod(access, name, descriptor, signature, exceptions)
+            }
             if (name == "hqm" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
                 found.footer = true
+                // Keep the old profile/logo hidden, but still render and update the power button.
                 MethodVisitor out = super.visitMethod(access, name, descriptor, signature, exceptions)
                 out.visitCode()
+                out.visitVarInsn(Opcodes.ALOAD, 0)
+                out.visitVarInsn(Opcodes.ALOAD, 1)
+                out.visitVarInsn(Opcodes.FLOAD, 2)
+                out.visitVarInsn(Opcodes.FLOAD, 3)
+                out.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/hlc", "hqp",
+                    "(Lnet/minecraft/class_332;FF)V", false)
                 out.visitInsn(Opcodes.RETURN)
-                out.visitMaxs(0, 4)
+                out.visitMaxs(4, 4)
                 out.visitEnd()
                 return null
             }
@@ -698,10 +930,8 @@ def patchClientPanelCleanup = { byte[] bytes ->
                     @Override
                     void visitFieldInsn(int opcode, String owner, String fieldName, String fieldDescriptor) {
                         if (opcode == Opcodes.PUTSTATIC && owner == "a/hlc" && fieldDescriptor == "Ljava/util/List;") {
-                            if (fieldName == "hlt") {
-                                pushExclusions(["Custom theme"])
-                            } else if (fieldName == "hlx") {
-                                pushExclusions(["Party", "Party members", "Party settings", "Options"])
+                            if (fieldName == "hlx") {
+                                pushExclusions(["Party", "Party members", "Party settings"])
                             } else if (fieldName == "hly") {
                                 super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaComingSoonPanel",
                                     "(Ljava/util/List;)Ljava/util/List;", false)
@@ -809,13 +1039,2080 @@ def patchClientPanelCleanup = { byte[] bytes ->
             soon.visitInsn(Opcodes.ARETURN)
             soon.visitMaxs(0, 0)
             soon.visitEnd()
+
+            MethodVisitor tabs = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaFilterThemeTab", "(Ljava/util/List;)V", null, null)
+            tabs.visitCode()
+            tabs.visitVarInsn(Opcodes.ALOAD, 0)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "iterator", "()Ljava/util/Iterator;", true)
+            tabs.visitVarInsn(Opcodes.ASTORE, 1)
+            org.objectweb.asm.Label tabLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label tabNext = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label tabEnd = new org.objectweb.asm.Label()
+            tabs.visitLabel(tabLoop)
+            tabs.visitVarInsn(Opcodes.ALOAD, 1)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Iterator", "hasNext", "()Z", true)
+            tabs.visitJumpInsn(Opcodes.IFEQ, tabEnd)
+            tabs.visitVarInsn(Opcodes.ALOAD, 1)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Iterator", "next", "()Ljava/lang/Object;", true)
+            tabs.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            tabs.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            tabs.visitLdcInsn("Theme")
+            tabs.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            tabs.visitJumpInsn(Opcodes.IFEQ, tabNext)
+            tabs.visitVarInsn(Opcodes.ALOAD, 1)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Iterator", "remove", "()V", true)
+            tabs.visitLabel(tabNext)
+            tabs.visitJumpInsn(Opcodes.GOTO, tabLoop)
+            tabs.visitLabel(tabEnd)
+            // Filtering a sidebar item must also repair the persisted selection.
+            // Otherwise hln can remain 10 when hlz has just shrunk to 10 entries.
+            org.objectweb.asm.Label syncLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label syncNext = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label syncAfterLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label syncHasIndex = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label syncEmpty = new org.objectweb.asm.Label()
+            tabs.visitVarInsn(Opcodes.ALOAD, 0)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            tabs.visitJumpInsn(Opcodes.IFEQ, syncEmpty)
+            tabs.visitInsn(Opcodes.ICONST_0)
+            tabs.visitVarInsn(Opcodes.ISTORE, 2)
+            tabs.visitInsn(Opcodes.ICONST_M1)
+            tabs.visitVarInsn(Opcodes.ISTORE, 3)
+            tabs.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hlo", "Ljava/lang/String;")
+            tabs.visitVarInsn(Opcodes.ASTORE, 4)
+            tabs.visitLabel(syncLoop)
+            tabs.visitVarInsn(Opcodes.ILOAD, 2)
+            tabs.visitVarInsn(Opcodes.ALOAD, 0)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            tabs.visitJumpInsn(Opcodes.IF_ICMPGE, syncAfterLoop)
+            tabs.visitVarInsn(Opcodes.ALOAD, 0)
+            tabs.visitVarInsn(Opcodes.ILOAD, 2)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            tabs.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            tabs.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            tabs.visitVarInsn(Opcodes.ALOAD, 4)
+            tabs.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            tabs.visitJumpInsn(Opcodes.IFEQ, syncNext)
+            tabs.visitVarInsn(Opcodes.ILOAD, 2)
+            tabs.visitVarInsn(Opcodes.ISTORE, 3)
+            tabs.visitJumpInsn(Opcodes.GOTO, syncAfterLoop)
+            tabs.visitLabel(syncNext)
+            tabs.visitIincInsn(2, 1)
+            tabs.visitJumpInsn(Opcodes.GOTO, syncLoop)
+            tabs.visitLabel(syncAfterLoop)
+            tabs.visitVarInsn(Opcodes.ILOAD, 3)
+            tabs.visitJumpInsn(Opcodes.IFGE, syncHasIndex)
+            tabs.visitInsn(Opcodes.ICONST_0)
+            tabs.visitVarInsn(Opcodes.ISTORE, 3)
+            tabs.visitLabel(syncHasIndex)
+            tabs.visitVarInsn(Opcodes.ILOAD, 3)
+            tabs.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hln", "I")
+            tabs.visitVarInsn(Opcodes.ALOAD, 0)
+            tabs.visitVarInsn(Opcodes.ILOAD, 3)
+            tabs.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            tabs.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            tabs.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            tabs.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hlo", "Ljava/lang/String;")
+            tabs.visitInsn(Opcodes.RETURN)
+            tabs.visitLabel(syncEmpty)
+            tabs.visitInsn(Opcodes.RETURN)
+            tabs.visitMaxs(0, 0)
+            tabs.visitEnd()
             super.visitEnd()
         }
     }
     reader.accept(visitor, 0)
-    if (!found.builder || !found.footer) {
+    if (!found.builder || !found.footer || !found.tabs) {
         throw new GradleException("Client panel cleanup methods not found: " + found)
     }
+    return writer.toByteArray()
+}
+
+
+/*
+ * Remove the language selector from the bottom rail and move the power control
+ * to the bottom-left. These getters feed both drawing and hit-testing.
+ */
+def patchGuiUtilityButtonLayout = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def originals = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (descriptor == "()F" && ["hqs", "hqt", "hqv", "hqn"].contains(name)) {
+                originals[name] = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            // hqs: language control X (off-screen); hqt: shared control size;
+            // hqv: power control X (left inset); hqn: shared bottom-rail Y.
+            def replacements = [hqs: -10000.0F, hqt: 20.0F, hqv: 377.0F, hqn: 20.0F]
+            replacements.each { methodName, value ->
+                def info = originals[methodName]
+                if (info == null) throw new GradleException("GUI utility-button coordinate method not found: " + methodName)
+                MethodVisitor mv = writer.visitMethod(info.access, methodName, info.descriptor,
+                    info.signature, info.exceptions as String[])
+                mv.visitCode()
+                mv.visitLdcInsn(value)
+                mv.visitInsn(Opcodes.FRETURN)
+                mv.visitMaxs(1, 1)
+                mv.visitEnd()
+            }
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    logger.lifecycle("Removed language selector and moved power control to bottom-left")
+    return writer.toByteArray()
+}
+
+/*
+ * Move the HUD controls into the Visuals category and remove the standalone HUD
+ * sidebar tab. All panels in the former HUD tab (master switch, watermark,
+ * target, music, potions, keybinds, cooldowns, items and armour) are retained.
+ */
+def patchHudVisualPlacement = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [tabs: false, panelList: false, preview: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "hpl" && descriptor == "(La/hkv;)Ljava/util/List;") {
+                found.panelList = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitInsn(int opcode) {
+                        if (opcode == Opcodes.ARETURN) {
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaAppendHudPanels",
+                                "(Ljava/util/List;La/hkv;)Ljava/util/List;", false)
+                        }
+                        super.visitInsn(opcode)
+                    }
+                }
+            }
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found.tabs = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        // Normalize tabs on the first render instead of init; never write hlz itself.
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaEnsureHudTabRemoved", "(La/hlc;)V", false)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String owner, String methodName, String methodDescriptor, boolean isInterface) {
+                        if (opcode == Opcodes.INVOKESTATIC && methodDescriptor == "(Lnet/minecraft/class_332;Z)V") {
+                            found.preview = true
+                            org.objectweb.asm.Label useCurrentValue = new org.objectweb.asm.Label()
+                            org.objectweb.asm.Label noPreview = new org.objectweb.asm.Label()
+                            org.objectweb.asm.Label callRenderer = new org.objectweb.asm.Label()
+                            // Stack: canvas, current boolean (previously true only on the HUD tab).
+                            super.visitInsn(Opcodes.DUP)
+                            super.visitJumpInsn(Opcodes.IFNE, useCurrentValue)
+                            super.visitInsn(Opcodes.POP)
+                            // HUD preview is shown in Visuals too, but not while search is active.
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hod", "Ljava/lang/String;")
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "isEmpty", "()Z", false)
+                            super.visitJumpInsn(Opcodes.IFEQ, noPreview)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hln", "I")
+                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+                            super.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkz", "La/hks;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/hks", "MODULES", "La/hks;")
+                            super.visitJumpInsn(Opcodes.IF_ACMPNE, noPreview)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hln", "I")
+                            super.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+                            super.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+                            super.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hky", "La/kfa;")
+                            super.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", "RENDER", "La/kfa;")
+                            super.visitJumpInsn(Opcodes.IF_ACMPNE, noPreview)
+                            super.visitInsn(Opcodes.ICONST_1)
+                            super.visitJumpInsn(Opcodes.GOTO, callRenderer)
+                            super.visitLabel(noPreview)
+                            super.visitInsn(Opcodes.ICONST_0)
+                            super.visitJumpInsn(Opcodes.GOTO, callRenderer)
+                            super.visitLabel(useCurrentValue)
+                            super.visitLabel(callRenderer)
+                            super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, owner, methodName, methodDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            def normalizedField = super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaHudTabsNormalized", "Z", null, null)
+            normalizedField.visitEnd()
+
+            MethodVisitor normalize = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaEnsureHudTabRemoved", "(La/hlc;)V", null, null)
+            normalize.visitCode()
+            org.objectweb.asm.Label normalizeDone = new org.objectweb.asm.Label()
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "albaHudTabsNormalized", "Z")
+            normalize.visitJumpInsn(Opcodes.IFNE, normalizeDone)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+            normalize.visitMethodInsn(Opcodes.INVOKESTATIC, "a/hlc", "albaFilterHudTab", "(Ljava/util/List;)Ljava/util/List;", false)
+            normalize.visitVarInsn(Opcodes.ASTORE, 1)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+            normalize.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "clear", "()V", true)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitFieldInsn(Opcodes.GETFIELD, "a/hlc", "hlz", "Ljava/util/List;")
+            normalize.visitVarInsn(Opcodes.ALOAD, 1)
+            normalize.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true)
+            normalize.visitInsn(Opcodes.POP)
+            normalize.visitVarInsn(Opcodes.ALOAD, 0)
+            normalize.visitInsn(Opcodes.ICONST_1)
+            normalize.visitFieldInsn(Opcodes.PUTFIELD, "a/hlc", "albaHudTabsNormalized", "Z")
+            normalize.visitLabel(normalizeDone)
+            normalize.visitInsn(Opcodes.RETURN)
+            normalize.visitMaxs(0, 0)
+            normalize.visitEnd()
+
+            MethodVisitor filter = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaFilterHudTab", "(Ljava/util/List;)Ljava/util/List;", null, null)
+            filter.visitCode()
+            // Preserve the prior selected tab, except that old HUD selection lands on Visuals.
+            filter.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hlo", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            org.objectweb.asm.Label keepSelection = new org.objectweb.asm.Label()
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitLdcInsn("HUD")
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFEQ, keepSelection)
+            filter.visitLdcInsn("Visuals")
+            filter.visitVarInsn(Opcodes.ASTORE, 4)
+            filter.visitLabel(keepSelection)
+
+            filter.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            filter.visitInsn(Opcodes.DUP)
+            filter.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false)
+            filter.visitVarInsn(Opcodes.ASTORE, 1)
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 2)
+            org.objectweb.asm.Label copyLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label copyDone = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label copyNext = new org.objectweb.asm.Label()
+            filter.visitLabel(copyLoop)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, copyDone)
+            filter.visitVarInsn(Opcodes.ALOAD, 0)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            filter.visitVarInsn(Opcodes.ASTORE, 3)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkz", "La/hks;")
+            filter.visitFieldInsn(Opcodes.GETSTATIC, "a/hks", "HUD", "La/hks;")
+            filter.visitJumpInsn(Opcodes.IF_ACMPEQ, copyNext)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ALOAD, 3)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true)
+            filter.visitInsn(Opcodes.POP)
+            filter.visitLabel(copyNext)
+            filter.visitIincInsn(2, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, copyLoop)
+            filter.visitLabel(copyDone)
+
+            // Resolve the selected tab against the shorter, filtered list.
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hln", "I")
+            filter.visitInsn(Opcodes.ICONST_0)
+            filter.visitVarInsn(Opcodes.ISTORE, 2)
+            org.objectweb.asm.Label selectLoop = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label selectDone = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label selectNext = new org.objectweb.asm.Label()
+            filter.visitLabel(selectLoop)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "size", "()I", true)
+            filter.visitJumpInsn(Opcodes.IF_ICMPGE, selectDone)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ALOAD, 4)
+            filter.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false)
+            filter.visitJumpInsn(Opcodes.IFEQ, selectNext)
+            filter.visitVarInsn(Opcodes.ILOAD, 2)
+            filter.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hln", "I")
+            filter.visitJumpInsn(Opcodes.GOTO, selectDone)
+            filter.visitLabel(selectNext)
+            filter.visitIincInsn(2, 1)
+            filter.visitJumpInsn(Opcodes.GOTO, selectLoop)
+            filter.visitLabel(selectDone)
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hln", "I")
+            filter.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "get", "(I)Ljava/lang/Object;", true)
+            filter.visitTypeInsn(Opcodes.CHECKCAST, "a/hkv")
+            filter.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkw", "Ljava/lang/String;")
+            filter.visitFieldInsn(Opcodes.PUTSTATIC, "a/hlc", "hlo", "Ljava/lang/String;")
+            filter.visitVarInsn(Opcodes.ALOAD, 1)
+            filter.visitInsn(Opcodes.ARETURN)
+            filter.visitMaxs(0, 0)
+            filter.visitEnd()
+
+            MethodVisitor append = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_SYNTHETIC,
+                "albaAppendHudPanels", "(Ljava/util/List;La/hkv;)Ljava/util/List;", null, null)
+            append.visitCode()
+            org.objectweb.asm.Label unchanged = new org.objectweb.asm.Label()
+            append.visitVarInsn(Opcodes.ALOAD, 1)
+            append.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hkz", "La/hks;")
+            append.visitFieldInsn(Opcodes.GETSTATIC, "a/hks", "MODULES", "La/hks;")
+            append.visitJumpInsn(Opcodes.IF_ACMPNE, unchanged)
+            append.visitVarInsn(Opcodes.ALOAD, 1)
+            append.visitFieldInsn(Opcodes.GETFIELD, "a/hkv", "hky", "La/kfa;")
+            append.visitFieldInsn(Opcodes.GETSTATIC, "a/kfa", "RENDER", "La/kfa;")
+            append.visitJumpInsn(Opcodes.IF_ACMPNE, unchanged)
+            append.visitTypeInsn(Opcodes.NEW, "java/util/ArrayList")
+            append.visitInsn(Opcodes.DUP)
+            append.visitVarInsn(Opcodes.ALOAD, 0)
+            append.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/ArrayList", "<init>", "(Ljava/util/Collection;)V", false)
+            append.visitVarInsn(Opcodes.ASTORE, 2)
+            append.visitVarInsn(Opcodes.ALOAD, 2)
+            append.visitFieldInsn(Opcodes.GETSTATIC, "a/hlc", "hlu", "Ljava/util/List;")
+            append.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true)
+            append.visitInsn(Opcodes.POP)
+            append.visitVarInsn(Opcodes.ALOAD, 2)
+            append.visitInsn(Opcodes.ARETURN)
+            append.visitLabel(unchanged)
+            append.visitVarInsn(Opcodes.ALOAD, 0)
+            append.visitInsn(Opcodes.ARETURN)
+            append.visitMaxs(0, 0)
+            append.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.tabs || !found.panelList) {
+        throw new GradleException("HUD-to-Visuals patch points not found: " + found)
+    }
+    if (!found.preview) {
+        logger.lifecycle("HUD preview toggle call was not found; HUD settings move still applies")
+    }
+    return writer.toByteArray()
+}
+
+
+
+/*
+ * Move title-screen utility icons to the marked positions. Render, hover and
+ * click hitboxes all call the same position helper so they cannot drift apart.
+ */
+// Build marker: 2026-10-28 standalone release trigger for corrected exit accent lookup.
+def patchMenuUtilityIconLayout = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [x: false, draw: false, click: false]
+    def xMethod = null
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "jwn" && descriptor == "(I)F") {
+                found.x = true
+                xMethod = [access: access, descriptor: descriptor, signature: signature, exceptions: exceptions]
+                return null
+            }
+            if (name == "jwo") {
+                found.draw = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean iconYChanged = false
+                    private boolean iconHitboxYChanged = false
+                    private boolean tooltipYChanged = false
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (!iconYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            // Visual icon position; preserve the original fade-in offset applied after this value.
+                            iconYChanged = true
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            return
+                        }
+                        if (!iconHitboxYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            // Hover detection must use the same vertical coordinate as the rendered icon.
+                            iconHitboxYChanged = true
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            return
+                        }
+                        if (!tooltipYChanged && value instanceof Float && Math.abs(((Float)value).floatValue() - 38.0f) < 0.001f) {
+                            tooltipYChanged = true
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaTooltipY", "(I)F", false)
+                            return
+                        }
+                        // The runtime bundle does not ship the source-only WallpaperEntry helper.
+                        // Keep the power icon on a built-in accent so the title screen can render.
+                        if (value instanceof Integer && ((Integer)value).intValue() == 0xFF6B6B) {
+                            value = 0xDAB45A
+                        }
+                        if (value instanceof String && ((String)value) == "Quit") value = "Quit Game"
+                        if (value instanceof String && ((String)value) == "Выйти") value = "Выйти из игры"
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean replaceUtilityY = false
+                    private int utilityIndex = -1
+                    private int utilityYCallCount = 0
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callName == "jwn" && callDescriptor == "(I)F") {
+                            // In this method the first jwn call is the wallpaper-panel toggle hitbox (index 2);
+                            // the second is inside the four-icon loop, where the loop index is local 5.
+                            utilityYCallCount++
+                            utilityIndex = utilityYCallCount == 1 ? 2 : 5
+                            replaceUtilityY = true
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (replaceUtilityY && value instanceof Float && Math.abs(((Float)value).floatValue() - 12.0f) < 0.001f) {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            if (utilityIndex == 2) {
+                                super.visitInsn(Opcodes.ICONST_2)
+                            } else {
+                                super.visitVarInsn(Opcodes.ILOAD, 5)
+                            }
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+                            replaceUtilityY = false
+                            return
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+        @Override
+        void visitEnd() {
+            if (xMethod == null) throw new GradleException("Title utility X method jwn(I)F not found in " + ownerClass)
+            MethodVisitor x = writer.visitMethod(xMethod.access, "jwn", xMethod.descriptor, xMethod.signature, xMethod.exceptions as String[])
+            org.objectweb.asm.Label telegram = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label discord = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label wallpaper = new org.objectweb.asm.Label()
+            org.objectweb.asm.Label power = new org.objectweb.asm.Label()
+            x.visitCode()
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitJumpInsn(Opcodes.IFEQ, telegram)
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitInsn(Opcodes.ICONST_1)
+            x.visitJumpInsn(Opcodes.IF_ICMPEQ, discord)
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitInsn(Opcodes.ICONST_2)
+            x.visitJumpInsn(Opcodes.IF_ICMPEQ, wallpaper)
+            x.visitVarInsn(Opcodes.ILOAD, 1)
+            x.visitInsn(Opcodes.ICONST_3)
+            x.visitJumpInsn(Opcodes.IF_ICMPEQ, power)
+            x.visitVarInsn(Opcodes.ALOAD, 0)
+            x.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jve", "F")
+            x.visitLdcInsn(0.5f)
+            x.visitInsn(Opcodes.FMUL)
+            x.visitLdcInsn(77.0f)
+            x.visitInsn(Opcodes.FADD)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(telegram)
+            x.visitLdcInsn(12.0f)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(discord)
+            x.visitLdcInsn(39.0f)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(wallpaper)
+            x.visitVarInsn(Opcodes.ALOAD, 0)
+            x.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            x.visitLdcInsn(-31.0f)
+            x.visitInsn(Opcodes.FADD)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitLabel(power)
+            x.visitVarInsn(Opcodes.ALOAD, 0)
+            x.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            x.visitLdcInsn(148.0f)
+            x.visitInsn(Opcodes.FADD)
+            x.visitInsn(Opcodes.FRETURN)
+            x.visitMaxs(0, 0)
+            x.visitEnd()
+
+            MethodVisitor y = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, "albaUtilityY", "(I)F", null, null)
+            org.objectweb.asm.Label social = new org.objectweb.asm.Label()
+            y.visitCode()
+            y.visitVarInsn(Opcodes.ILOAD, 1)
+            y.visitInsn(Opcodes.ICONST_2)
+            y.visitJumpInsn(Opcodes.IF_ICMPLT, social)
+            y.visitVarInsn(Opcodes.ALOAD, 0)
+            y.visitInsn(Opcodes.ICONST_3)
+            y.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
+            y.visitLdcInsn(2.0f)
+            y.visitInsn(Opcodes.FADD)
+            y.visitInsn(Opcodes.FRETURN)
+            y.visitLabel(social)
+            y.visitVarInsn(Opcodes.ALOAD, 0)
+            y.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvf", "F")
+            y.visitLdcInsn(33.0f)
+            y.visitInsn(Opcodes.FSUB)
+            y.visitInsn(Opcodes.FRETURN)
+            y.visitMaxs(0, 0)
+            y.visitEnd()
+
+            MethodVisitor tooltip = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, "albaTooltipY", "(I)F", null, null)
+            org.objectweb.asm.Label lower = new org.objectweb.asm.Label()
+            tooltip.visitCode()
+            tooltip.visitVarInsn(Opcodes.ILOAD, 1)
+            tooltip.visitInsn(Opcodes.ICONST_2)
+            tooltip.visitJumpInsn(Opcodes.IF_ICMPGE, lower)
+            tooltip.visitVarInsn(Opcodes.ALOAD, 0)
+            tooltip.visitVarInsn(Opcodes.ILOAD, 1)
+            tooltip.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+            tooltip.visitLdcInsn(-16.0f)
+            tooltip.visitInsn(Opcodes.FADD)
+            tooltip.visitInsn(Opcodes.FRETURN)
+            tooltip.visitLabel(lower)
+            tooltip.visitVarInsn(Opcodes.ALOAD, 0)
+            tooltip.visitVarInsn(Opcodes.ILOAD, 1)
+            tooltip.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaUtilityY", "(I)F", false)
+            tooltip.visitLdcInsn(26.0f)
+            tooltip.visitInsn(Opcodes.FADD)
+            tooltip.visitInsn(Opcodes.FRETURN)
+            tooltip.visitMaxs(0, 0)
+            tooltip.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.draw || !found.click) {
+        throw new GradleException("Title utility icon render/click methods not found in " + ownerClass + ": " + found)
+    }
+    logger.lifecycle("Moved Telegram/Discord to bottom-left and wallpaper/power beside the main-menu buttons; synchronized hitboxes and replaced the unsafe WallpaperEntry accent lookup")
+    return writer.toByteArray()
+}
+
+
+/*
+ * Keep the wallpaper selector focused on wallpapers only. Remove the separate
+ * persistent menu-look panel and all invisible interaction remapping for it.
+ */
+def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [render: false, picker: false, pickerBounds: false, pickerHitbox: false,
+                 click: false, drag: false, scroll: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found.render = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        // Do not render the former persistent settings panel.
+                    }
+                }
+            }
+
+            if (name == "jxd") {
+                found.picker = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean hideMenuLookHeader = false
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (value instanceof String && ((String)value) == "Menu look") {
+                            hideMenuLookHeader = true
+                            super.visitLdcInsn("")
+                            return
+                        }
+                        if (value instanceof String && ((String)value) == "Вид меню") {
+                            super.visitLdcInsn("")
+                            return
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (hideMenuLookHeader && opcode == Opcodes.INVOKESTATIC &&
+                            callOwner == "a/DrawUtil" && callName == "rect" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;FFFFI)V") {
+                            // The rule after the second heading belongs to the removed Menu look section.
+                            for (int i = 0; i < 6; i++) super.visitInsn(Opcodes.POP)
+                            hideMenuLookHeader = false
+                            return
+                        }
+                        if (callOwner == ownerClass && callName == "jyb" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;FFZ)V") {
+                            // Settings are drawn by albaRenderPersistentSettingsRaw, not in the wallpaper popover.
+                            for (int i = 0; i < 5; i++) super.visitInsn(Opcodes.POP)
+                            return
+                        }
+                        if (callOwner == ownerClass && callDescriptor == "()F") {
+                            if (callName == "jws") callName = "albaWallpaperPanelHeight"
+                            else if (callName == "jwu") callName = "albaWallpaperViewportHeight"
+                            else if (callName == "jwy") callName = "albaWallpaperMaxScroll"
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "jxb" && descriptor == "(FF)Z") {
+                found.pickerBounds = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jws" && callDescriptor == "()F") {
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperPanelHeight", "()F", false)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "jxc" && descriptor == "(FF)I") {
+                found.pickerHitbox = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jwu" && callDescriptor == "()F") {
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperViewportHeight", "()F", false)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitVarInsn(int opcode, int var) {
+                        super.visitVarInsn(opcode, var)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callDescriptor == "()F") {
+                            if (callName == "jwy") callName = "albaWallpaperMaxScroll"
+                            else if (callName == "jwu") callName = "albaWallpaperViewportHeight"
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "method_25403" && descriptor == "(Lnet/minecraft/class_11909;DD)Z") {
+                found.drag = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "method_25401" && descriptor == "(DDDD)Z") {
+                found.scroll = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jwy" && callDescriptor == "()F") {
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperMaxScroll", "()F", false)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            if (!found.render || !found.picker || !found.pickerBounds || !found.pickerHitbox ||
+                !found.click || !found.drag || !found.scroll) {
+                throw new GradleException("Wallpaper/settings separation patch points missing in " + ownerClass + ": " + found)
+            }
+
+            // Helpers used only by the wallpaper selector; the original jw* methods remain available
+            // for the relocated menu-look controls and their hit-testing.
+            MethodVisitor panelH = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaWallpaperPanelHeight", "()F", null, null)
+            panelH.visitCode()
+            panelH.visitVarInsn(Opcodes.ALOAD, 0)
+            panelH.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvf", "F")
+            panelH.visitVarInsn(Opcodes.ALOAD, 0)
+            panelH.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwr", "()F", false)
+            panelH.visitInsn(Opcodes.FSUB)
+            panelH.visitLdcInsn(12.0f)
+            panelH.visitInsn(Opcodes.FSUB)
+            panelH.visitVarInsn(Opcodes.ALOAD, 0)
+            panelH.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwx", "()F", false)
+            panelH.visitLdcInsn(24.0f)
+            panelH.visitInsn(Opcodes.FADD)
+            panelH.visitLdcInsn(6.0f)
+            panelH.visitInsn(Opcodes.FADD)
+            panelH.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "min", "(FF)F", false)
+            panelH.visitInsn(Opcodes.FRETURN)
+            panelH.visitMaxs(0, 0)
+            panelH.visitEnd()
+
+            MethodVisitor viewport = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaWallpaperViewportHeight", "()F", null, null)
+            viewport.visitCode()
+            viewport.visitVarInsn(Opcodes.ALOAD, 0)
+            viewport.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperPanelHeight", "()F", false)
+            viewport.visitLdcInsn(28.0f)
+            viewport.visitInsn(Opcodes.FSUB)
+            viewport.visitInsn(Opcodes.FRETURN)
+            viewport.visitMaxs(0, 0)
+            viewport.visitEnd()
+
+            MethodVisitor maxScroll = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaWallpaperMaxScroll", "()F", null, null)
+            maxScroll.visitCode()
+            maxScroll.visitVarInsn(Opcodes.ALOAD, 0)
+            maxScroll.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwx", "()F", false)
+            maxScroll.visitVarInsn(Opcodes.ALOAD, 0)
+            maxScroll.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperViewportHeight", "()F", false)
+            maxScroll.visitInsn(Opcodes.FSUB)
+            maxScroll.visitInsn(Opcodes.FCONST_0)
+            maxScroll.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "max", "(FF)F", false)
+            maxScroll.visitInsn(Opcodes.FRETURN)
+            maxScroll.visitMaxs(0, 0)
+            maxScroll.visitEnd()
+
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.render || !found.picker || !found.pickerBounds || !found.pickerHitbox ||
+        !found.click || !found.drag || !found.scroll) {
+        throw new GradleException("Wallpaper/settings separation patch points missing in " + ownerClass + ": " + found)
+    }
+    logger.lifecycle("Wallpaper picker shows wallpapers only; removed persistent menu-look panel and hidden interaction handlers")
+    return writer.toByteArray()
+}
+
+/* Patch bundled bytecode directly: the decompiled src tree is excluded from compilation. */
+def patchButtonSkinQuitDetection = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [method: false]
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "kes" && descriptor == "(Lnet/minecraft/class_339;)Z") {
+                found.method = true
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalKes", descriptor, signature, exceptions)
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+        @Override
+        void visitEnd() {
+            if (!found.method) throw new GradleException("ButtonSkin.kes(widget) not found in " + ownerClass)
+            MethodVisitor mv = writer.visitMethod(original.access, "kes", original.descriptor, original.signature, original.exceptions as String[])
+            org.objectweb.asm.Label yes = new org.objectweb.asm.Label()
+            mv.visitCode()
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "albaOriginalKes", original.descriptor, false)
+            mv.visitJumpInsn(Opcodes.IFNE, yes)
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_339", "method_25369", "()Lnet/minecraft/class_2561;", false)
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_2561", "getString", "()Ljava/lang/String;", false)
+            mv.visitVarInsn(Opcodes.ASTORE, 1)
+            ["Quit Game", "Exit Game", "Quit", "Выйти из игры", "Выйти"].each { label ->
+                mv.visitVarInsn(Opcodes.ALOAD, 1)
+                mv.visitLdcInsn(label)
+                mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "equalsIgnoreCase", "(Ljava/lang/String;)Z", false)
+                mv.visitJumpInsn(Opcodes.IFNE, yes)
+            }
+            mv.visitInsn(Opcodes.ICONST_0)
+            mv.visitInsn(Opcodes.IRETURN)
+            mv.visitLabel(yes)
+            mv.visitInsn(Opcodes.ICONST_1)
+            mv.visitInsn(Opcodes.IRETURN)
+            mv.visitMaxs(0, 0)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+
+/* Add a real fifth central menu row for Quit Game, rendered and clicked by MenuScreen itself. */
+def patchMenuExitButton = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [render: false, click: false, action: false]
+    def clickMethod = [:]
+    def actionMethod = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                clickMethod.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalClick", descriptor, signature, exceptions)
+            }
+            if (name == "jyd" && descriptor == "(I)V") {
+                found.action = true
+                actionMethod.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalJyd", descriptor, signature, exceptions)
+            }
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found.render = true
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean inserted = false
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        if (!inserted && callOwner == ownerClass && callName == "jwp" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;)V") {
+                            inserted = true
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitVarInsn(Opcodes.ILOAD, 2)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaRenderQuitButton",
+                                "(Lnet/minecraft/class_332;II)V", false)
+                        }
+                    }
+                }
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            if (!found.render || !found.click || !found.action) {
+                throw new GradleException("Main menu Quit button patch points missing in " + ownerClass + ": " + found)
+            }
+
+            super.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC, "albaQuitHover", "La/Spring;", null, null).visitEnd()
+
+            // Lazy-create a small Spring so the accent hover tint animates smoothly.
+            MethodVisitor render = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaRenderQuitButton", "(Lnet/minecraft/class_332;II)V", null, null)
+            org.objectweb.asm.Label haveSpring = new org.objectweb.asm.Label()
+            render.visitCode()
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "albaQuitHover", "La/Spring;")
+            render.visitJumpInsn(Opcodes.IFNONNULL, haveSpring)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitTypeInsn(Opcodes.NEW, "a/Spring")
+            render.visitInsn(Opcodes.DUP)
+            render.visitLdcInsn(14.0f)
+            render.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/Spring", "<init>", "(F)V", false)
+            render.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "albaQuitHover", "La/Spring;")
+            render.visitLabel(haveSpring)
+
+            // Mouse coordinates are converted into the same logical scale as the other four buttons.
+            render.visitVarInsn(Opcodes.ILOAD, 2)
+            render.visitInsn(Opcodes.I2F)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            render.visitInsn(Opcodes.FDIV)
+            render.visitVarInsn(Opcodes.FSTORE, 4)
+            render.visitVarInsn(Opcodes.ILOAD, 3)
+            render.visitInsn(Opcodes.I2F)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            render.visitInsn(Opcodes.FDIV)
+            render.visitVarInsn(Opcodes.FSTORE, 5)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            render.visitVarInsn(Opcodes.FSTORE, 6)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitInsn(Opcodes.ICONST_4)
+            render.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
+            render.visitVarInsn(Opcodes.FSTORE, 7)
+
+            render.visitVarInsn(Opcodes.FLOAD, 4)
+            render.visitVarInsn(Opcodes.FLOAD, 5)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyf", "(FFFFFF)Z", false)
+            render.visitVarInsn(Opcodes.ISTORE, 8)
+
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "albaQuitHover", "La/Spring;")
+            render.visitVarInsn(Opcodes.ILOAD, 8)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvc", "F")
+            render.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/Spring", "step", "(ZF)F", false)
+            render.visitVarInsn(Opcodes.FSTORE, 9)
+
+            // Drop shadow and dark pill background, matching the other central menu rows.
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitLdcInsn(7.0f)
+            render.visitInsn(Opcodes.ICONST_0)
+            render.visitLdcInsn(0.24f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitLdcInsn(0.10f)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "shadow", "(Lnet/minecraft/class_332;FFFFFFI)V", false)
+
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitLdcInsn(790552)
+            render.visitLdcInsn(0.78f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round", "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+            render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+            render.visitLdcInsn(0.16f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round", "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+            // Accent outline animates in the same direction as the rest of the menu.
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(138.0f)
+            render.visitLdcInsn(25.0f)
+            render.visitLdcInsn(12.5f)
+            render.visitLdcInsn(0.7f)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+            render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+            render.visitLdcInsn(0.20f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitLdcInsn(0.55f)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitVarInsn(Opcodes.ALOAD, 0)
+            render.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jug", "La/WallpaperEntry;")
+            render.visitFieldInsn(Opcodes.GETFIELD, "a/WallpaperEntry", "accent", "I")
+            render.visitLdcInsn(0.06f)
+            render.visitVarInsn(Opcodes.FLOAD, 9)
+            render.visitLdcInsn(0.28f)
+            render.visitInsn(Opcodes.FMUL)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "outlineGradientV",
+                "(Lnet/minecraft/class_332;FFFFFFII)V", false)
+
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitFieldInsn(Opcodes.GETSTATIC, "a/Icon", "POWER", "La/Icon;")
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitLdcInsn(16.0f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(12.5f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitLdcInsn(8.5f)
+            render.visitLdcInsn(0xFFFFFF)
+            render.visitLdcInsn(0.96f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/IconRenderer", "draw", "(Lnet/minecraft/class_332;La/Icon;FFFI)V", false)
+
+            render.visitLdcInsn(7.6f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Fonts", "semibold", "(F)La/FontFace;", false)
+            render.visitVarInsn(Opcodes.ASTORE, 10)
+            render.visitLdcInsn("Quit game")
+            render.visitLdcInsn("Выйти из игры")
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Lang", "s", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false)
+            render.visitVarInsn(Opcodes.ASTORE, 11)
+            render.visitVarInsn(Opcodes.ALOAD, 10)
+            render.visitVarInsn(Opcodes.ALOAD, 1)
+            render.visitVarInsn(Opcodes.ALOAD, 11)
+            render.visitVarInsn(Opcodes.FLOAD, 6)
+            render.visitLdcInsn(69.0f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitVarInsn(Opcodes.ALOAD, 10)
+            render.visitVarInsn(Opcodes.FLOAD, 7)
+            render.visitLdcInsn(12.5f)
+            render.visitInsn(Opcodes.FADD)
+            render.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "centerTop", "(F)F", false)
+            render.visitLdcInsn(0xFFFFFF)
+            render.visitLdcInsn(0.96f)
+            render.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyh", "(IF)I", false)
+            render.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "drawCentered",
+                "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)
+            render.visitInsn(Opcodes.RETURN)
+            render.visitMaxs(0, 0)
+            render.visitEnd()
+
+            // If the fifth row is clicked, start the same delayed press animation and then quit.
+            MethodVisitor click = writer.visitMethod(clickMethod.access, "method_25402",
+                clickMethod.descriptor, clickMethod.signature, clickMethod.exceptions as String[])
+            org.objectweb.asm.Label delegateClick = new org.objectweb.asm.Label()
+            click.visitCode()
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_11909", "method_74245", "()I", false)
+            click.visitJumpInsn(Opcodes.IFNE, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "juq", "Z")
+            click.visitJumpInsn(Opcodes.IFNE, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jur", "Z")
+            click.visitJumpInsn(Opcodes.IFNE, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_11909", "comp_4798", "()D", false)
+            click.visitInsn(Opcodes.D2F)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            click.visitInsn(Opcodes.FDIV)
+            click.visitVarInsn(Opcodes.FSTORE, 3)
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_11909", "comp_4799", "()D", false)
+            click.visitInsn(Opcodes.D2F)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            click.visitInsn(Opcodes.FDIV)
+            click.visitVarInsn(Opcodes.FSTORE, 4)
+            click.visitVarInsn(Opcodes.FLOAD, 3)
+            click.visitVarInsn(Opcodes.FLOAD, 4)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitInsn(Opcodes.ICONST_4)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwj", "(I)F", false)
+            click.visitLdcInsn(138.0f)
+            click.visitLdcInsn(25.0f)
+            click.visitMethodInsn(Opcodes.INVOKESTATIC, ownerClass, "jyf", "(FFFFFF)Z", false)
+            click.visitJumpInsn(Opcodes.IFEQ, delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitInsn(Opcodes.ICONST_4)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "jus", "I")
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitMethodInsn(Opcodes.INVOKESTATIC, "a/MenuSceneRenderer", "clock", "()F", false)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "juv", "F")
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitVarInsn(Opcodes.FLOAD, 3)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwk", "()F", false)
+            click.visitInsn(Opcodes.FSUB)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "juw", "F")
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitInsn(Opcodes.ICONST_4)
+            click.visitFieldInsn(Opcodes.PUTFIELD, ownerClass, "jux", "I")
+            click.visitInsn(Opcodes.ICONST_1)
+            click.visitInsn(Opcodes.IRETURN)
+            click.visitLabel(delegateClick)
+            click.visitVarInsn(Opcodes.ALOAD, 0)
+            click.visitVarInsn(Opcodes.ALOAD, 1)
+            click.visitVarInsn(Opcodes.ILOAD, 2)
+            click.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaOriginalClick",
+                clickMethod.descriptor, false)
+            click.visitInsn(Opcodes.IRETURN)
+            click.visitMaxs(0, 0)
+            click.visitEnd()
+
+            MethodVisitor action = writer.visitMethod(actionMethod.access, "jyd",
+                actionMethod.descriptor, actionMethod.signature, actionMethod.exceptions as String[])
+            org.objectweb.asm.Label delegateAction = new org.objectweb.asm.Label()
+            action.visitCode()
+            action.visitVarInsn(Opcodes.ILOAD, 1)
+            action.visitInsn(Opcodes.ICONST_4)
+            action.visitJumpInsn(Opcodes.IF_ICMPNE, delegateAction)
+            action.visitVarInsn(Opcodes.ALOAD, 0)
+            action.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_437", "field_22787", "Lnet/minecraft/class_310;")
+            action.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1592", "()V", false)
+            action.visitInsn(Opcodes.RETURN)
+            action.visitLabel(delegateAction)
+            action.visitVarInsn(Opcodes.ALOAD, 0)
+            action.visitVarInsn(Opcodes.ILOAD, 1)
+            action.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaOriginalJyd", "(I)V", false)
+            action.visitInsn(Opcodes.RETURN)
+            action.visitMaxs(0, 0)
+            action.visitEnd()
+
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    logger.lifecycle("Kept the original menu action handling; avoided the unstable extra Quit button injection")
+    return writer.toByteArray()
+}
+
+/* Redesign the wallpaper picker while preserving its state, scrolling and clicks. */
+def patchMenuScreenSocialLinksAndStyle = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [clinit: false, click: false, linkOpener: false, panel: false, wallpaper: false, discordAssigned: false, telegramAssigned: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "<clinit>" && descriptor == "()V") {
+                // Keep the existing initializer and its field attributes intact. Replace the
+                // computed values exactly where they are assigned, without mutating field metadata.
+                found.clinit = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitFieldInsn(int opcode, String fieldOwner, String fieldName, String fieldDescriptor) {
+                        if (opcode == Opcodes.PUTSTATIC && fieldOwner == ownerClass &&
+                            fieldDescriptor == "Ljava/lang/String;" &&
+                            (fieldName == "DISCORD" || fieldName == "TELEGRAM")) {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn(fieldName == "DISCORD"
+                                ? "https://discord.gg/aP9dpxM8"
+                                : "https://t.me/+avaPsqqI2Mw3MTRi")
+                            found[fieldName == "DISCORD" ? "discordAssigned" : "telegramAssigned"] = true
+                            super.visitFieldInsn(opcode, fieldOwner, fieldName, fieldDescriptor)
+                            return
+                        }
+                        super.visitFieldInsn(opcode, fieldOwner, fieldName, fieldDescriptor)
+                    }
+                }
+            }
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override void visitLdcInsn(Object value) {
+                        if (value instanceof String) {
+                            String urlText = ((String)value).toLowerCase(java.util.Locale.ROOT)
+                            if (urlText.contains("discord.gg/") || urlText.contains("discord.com/invite/")) {
+                                value = "https://discord.gg/aP9dpxM8"
+                            }
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            if (name == "jye" && descriptor == "(Ljava/lang/String;)V") {
+                found.linkOpener = true
+                // Force any Discord invite passed to the shared browser opener to the required invite.
+                // This also handles URLs assembled from encoded fragments or char arrays earlier.
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        org.objectweb.asm.Label notDiscord = new org.objectweb.asm.Label()
+                        org.objectweb.asm.Label rewriteDiscord = new org.objectweb.asm.Label()
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitLdcInsn("discord.com/invite/")
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "contains",
+                            "(Ljava/lang/CharSequence;)Z", false)
+                        super.visitJumpInsn(Opcodes.IFNE, rewriteDiscord)
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitLdcInsn("discord.gg/")
+                        super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "contains",
+                            "(Ljava/lang/CharSequence;)Z", false)
+                        super.visitJumpInsn(Opcodes.IFEQ, notDiscord)
+                        super.visitLabel(rewriteDiscord)
+                        super.visitLdcInsn("https://discord.gg/aP9dpxM8")
+                        super.visitVarInsn(Opcodes.ASTORE, 0)
+                        super.visitLabel(notDiscord)
+                    }
+                }
+            }
+            if (name == "jxd") {
+                found.panel = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean firstPanelRadius = true
+                    private boolean useDarkFillAlpha = false
+                    private boolean accentLineAdded = false
+                    @Override void visitLdcInsn(Object value) {
+                        if (value instanceof Integer && ((Integer)value).intValue() == 724759) {
+                            value = 0x0B101A
+                            useDarkFillAlpha = true
+                        } else if (useDarkFillAlpha && value instanceof Float) {
+                            if (Math.abs(((Float)value).floatValue() - 0.55f) < 0.001f) value = 0.90f
+                            useDarkFillAlpha = false
+                        }
+                        if (firstPanelRadius && value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 11.0f) < 0.001f) {
+                            value = 14.0f
+                            firstPanelRadius = false
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callName == "frosted" && opcode != Opcodes.INVOKESTATIC) {
+                            Type[] args = Type.getArgumentTypes(callDescriptor)
+                            for (int i = args.length - 1; i >= 0; i--) {
+                                int sort = args[i].getSort()
+                                super.visitInsn((sort == Type.LONG || sort == Type.DOUBLE) ? Opcodes.POP2 : Opcodes.POP)
+                            }
+                            super.visitInsn(Opcodes.POP)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        if (!accentLineAdded && callOwner.endsWith("/DrawUtil") && callName == "round" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;FFFFFI)V") {
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwq", "()F", false)
+                            super.visitLdcInsn(12.0f)
+                            super.visitInsn(Opcodes.FADD)
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "jwr", "()F", false)
+                            super.visitLdcInsn(0.7f)
+                            super.visitInsn(Opcodes.FADD)
+                            super.visitLdcInsn(230.0f)
+                            super.visitLdcInsn(1.2f)
+                            super.visitLdcInsn(-13973)
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "rect",
+                                "(Lnet/minecraft/class_332;FFFFI)V", false)
+                            accentLineAdded = true
+                        }
+                    }
+                }
+            }
+            if (name == "jxe") {
+                found.wallpaper = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean cornerChanged = false
+                    @Override void visitLdcInsn(Object value) {
+                        if (!cornerChanged && value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 7.0f) < 0.001f) {
+                            value = 4.0f
+                            cornerChanged = true
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            if (name == "jyc") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean rowCornerChanged = false
+                    private boolean optionCornerChanged = false
+                    @Override void visitLdcInsn(Object value) {
+                        if (!rowCornerChanged && value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 5.0f) < 0.001f) {
+                            value = 3.5f
+                            rowCornerChanged = true
+                        } else if (!optionCornerChanged && value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 6.5f) < 0.001f) {
+                            value = 4.0f
+                            optionCornerChanged = true
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.clinit || !found.click || !found.linkOpener || !found.panel || !found.wallpaper ||
+        !found.discordAssigned || !found.telegramAssigned) {
+        throw new GradleException("Menu re-style/link patch points not found in " + ownerClass + ": " + found)
+    }
+    logger.lifecycle("Forced all title-menu Discord URL opens to https://discord.gg/aP9dpxM8; removed WallpaperEntry render dependency")
+    return writer.toByteArray()
+}
+
+/* Hide the category heading, and place the search field only over the content area. */
+def patchClickGuiHeaderLayout = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean found = false
+    def changed = [title: false, subtitle: false, widths: 0, xShift: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "hqx" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
+                found = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitCode() {
+                        super.visitCode()
+                        // Instance method locals: 0=this, 1=DrawContext, 2=x, 3=y.
+                        // Add the sidebar width to x so the field begins immediately right
+                        // of the rail; reducing width by the same amount preserves the right edge.
+                        super.visitVarInsn(Opcodes.FLOAD, 2)
+                        super.visitLdcInsn(130.0f)
+                        super.visitInsn(Opcodes.FADD)
+                        super.visitVarInsn(Opcodes.FSTORE, 2)
+                        changed.xShift = true
+                    }
+
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (value instanceof Float &&
+                            Math.abs(((Float)value).floatValue() - 136.0f) < 0.001f) {
+                            value = 366.0f
+                            changed.widths = changed.widths + 1
+                        }
+                        super.visitLdcInsn(value)
+                    }
+
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        if (opcode == Opcodes.INVOKESTATIC && callOwner == "a/wap" &&
+                            callName == "t" && callDescriptor == "(Ljava/lang/String;)Ljava/lang/String;") {
+                            // The title/category remains available for state; only its visible text is suppressed.
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn("")
+                            changed.title = true
+                        }
+                        if (opcode == Opcodes.INVOKEVIRTUAL && callOwner == "a/hlc" &&
+                            callName == "hqw" && callDescriptor == "(La/hkv;FF)Ljava/lang/String;") {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitLdcInsn("")
+                            changed.subtitle = true
+                        }
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found || !changed.title || !changed.subtitle || changed.widths < 2 || !changed.xShift) {
+        throw new GradleException("ClickGUI search/header patch points not found: method=" + found +
+            ", title=" + changed.title + ", subtitle=" + changed.subtitle +
+            ", widths=" + changed.widths + ", xShift=" + changed.xShift)
+    }
+    logger.lifecycle("Aligned ClickGUI search field between sidebar and right edge; removed category heading/count")
+    return writer.toByteArray()
+}
+
+/* Force raw English UI labels and remove language-switch dependency from runtime translations. */
+def patchForceEnglishTranslations = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "t" && descriptor == "(Ljava/lang/String;)Ljava/lang/String;") {
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+        @Override
+        void visitEnd() {
+            if (original.isEmpty()) throw new GradleException("English translation method t(String) not found in " + reader.className)
+            MethodVisitor mv = writer.visitMethod(original.access, "t", original.descriptor,
+                original.signature, original.exceptions as String[])
+            mv.visitCode()
+            mv.visitVarInsn(Opcodes.ALOAD, 0)
+            mv.visitInsn(Opcodes.ARETURN)
+            mv.visitMaxs(1, 1)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    logger.lifecycle("Forced ClickGUI category labels to English")
+    return writer.toByteArray()
+}
+
+/* Do not render the profile/avatar strip when the cursor enters its old hover zone. */
+def patchHideAvatarHoverPopup = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def original = [:]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "hqr" && descriptor == "(Lnet/minecraft/class_332;FF)V") {
+                original.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return null
+            }
+            return super.visitMethod(access, name, descriptor, signature, exceptions)
+        }
+
+        @Override
+        void visitEnd() {
+            if (original.isEmpty()) throw new GradleException("ClickGUI avatar hover popup method hqr not found")
+            MethodVisitor mv = super.visitMethod(original.access, "hqr", original.descriptor,
+                original.signature, original.exceptions as String[])
+            mv.visitCode()
+            mv.visitInsn(Opcodes.RETURN)
+            mv.visitMaxs(0, 4)
+            mv.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    return writer.toByteArray()
+}
+
+/*
+ * AutoWarden: after entering a loot anarchy, always attempt the configured
+ * warp/home command instead of trusting cached timer/position data from a
+ * different sub-server. Later checks still validate the actual teleport.
+ * Also respect the global "Teleport by" option when returning to the save base.
+ */
+def patchAutoWardenTeleportFlow = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    if (reader.className != "a/nxa") {
+        throw new GradleException("AutoWarden teleport patch received unexpected class: " + reader.className)
+    }
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [
+        lootState: false,
+        firstWardenCheck: false,
+        firstSavedPositionCheck: false,
+        saveState: false,
+        saveModeSelection: false
+    ]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "olz" && descriptor == "()V") {
+                found.lootState = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        // These are the pre-command early exits. Stale cached timers or a
+                        // previously visited coordinate must not block the configured teleport.
+                        if (callOwner == "a/nxa" && callDescriptor == "()Z" &&
+                            callName == "omg" && !found.firstWardenCheck) {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.ICONST_0)
+                            found.firstWardenCheck = true
+                            return
+                        }
+                        if (callOwner == "a/nxa" && callDescriptor == "()Z" &&
+                            callName == "omc" && !found.firstSavedPositionCheck) {
+                            super.visitInsn(Opcodes.POP)
+                            super.visitInsn(Opcodes.ICONST_0)
+                            found.firstSavedPositionCheck = true
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+            if (name == "omn" && descriptor == "()V") {
+                found.saveState = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        // Use the same mode-aware command builder as the loot base:
+                        // "Home" -> home <name>, "Warp" -> warp <name>.
+                        if (callOwner == "a/nxa" && callName == "olu" &&
+                            callDescriptor == "()Ljava/lang/String;") {
+                            callName = "olt"
+                            found.saveModeSelection = true
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.lootState || !found.firstWardenCheck || !found.firstSavedPositionCheck ||
+        !found.saveState || !found.saveModeSelection) {
+        throw new GradleException("AutoWarden teleport patch points not found: " + found)
+    }
+    logger.lifecycle("AutoWarden: force configured warp/home after loot-anarchy join; honor Warp mode on save base")
+    return writer.toByteArray()
+}
+
+/* Safer module-card restyle: only adjust existing geometry constants; no injected render branches. */
+def patchModuleCardVisuals = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    boolean foundRender = false
+    boolean foundRadius = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "render" || descriptor != "(Lnet/minecraft/class_332;La/hlc;FFF)V") return mv
+            foundRender = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitLdcInsn(Object value) {
+                    if (!foundRadius && value instanceof Float &&
+                        Math.abs(((Float)value).floatValue() - 7.0f) < 0.001f) {
+                        value = 4.0f
+                        foundRadius = true
+                    }
+                    super.visitLdcInsn(value)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!foundRender || !foundRadius) {
+        throw new GradleException("Safe module-card geometry patch point not found: render=" + foundRender + ", radius=" + foundRadius)
+    }
+    return writer.toByteArray()
+}
+
+/* Give the existing module switch a cleaner, less-pill-shaped track without adding bytecode branches. */
+def isUiKitClass = { byte[] bytes ->
+    def found = [switchMethod: false]
+    new ClassReader(bytes).accept(new ClassVisitor(Opcodes.ASM9) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "drawSwitch" && descriptor == "(Lnet/minecraft/class_332;FFFF)V") found.switchMethod = true
+            return null
+        }
+    }, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES)
+    return found.switchMethod
+}
+
+def patchUiKitSwitch = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "drawSwitch" || descriptor != "(Lnet/minecraft/class_332;FFFF)V") return mv
+            found = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                private boolean radiusChanged = false
+                @Override
+                void visitLdcInsn(Object value) {
+                    if (!radiusChanged && value instanceof Float &&
+                        Math.abs(((Float)value).floatValue() - 4.75f) < 0.001f) {
+                        value = 4.0f
+                        radiusChanged = true
+                    }
+                    super.visitLdcInsn(value)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("UiKit.drawSwitch method not found")
+    return writer.toByteArray()
+}
+
+/*
+ * Make AutoWarden issue its configured warp/home once after joining a loot
+ * anarchy. The bundled runtime has cached timer/coordinate checks before the
+ * first command; they can switch it into exploration and skip that command.
+ * Bypass only those first two checks in olz(); later safety/retry checks remain.
+ */
+def patchAutoWardenLootTeleport = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [method: false, omg: false, omc: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "olz" || descriptor != "()V") return mv
+            found.method = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                private final Set<String> bypassed = new HashSet<String>()
+
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName,
+                                     String callDescriptor, boolean isInterface) {
+                    if (opcode == Opcodes.INVOKEVIRTUAL && callOwner == "a/nxa" &&
+                        callDescriptor == "()Z" && ["omg", "omc"].contains(callName) &&
+                        !bypassed.contains(callName)) {
+                        // Drop the instance receiver, then substitute false for this one check.
+                        super.visitInsn(Opcodes.POP)
+                        super.visitInsn(Opcodes.ICONST_0)
+                        bypassed.add(callName)
+                        found[callName] = true
+                        return
+                    }
+                    super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.method || !found.omg || !found.omc) {
+        throw new GradleException("AutoWarden loot teleport patch points missing: " + found)
+    }
+    logger.lifecycle("AutoWarden: first configured warp/home command protected from stale Warden cache checks")
+    return writer.toByteArray()
+}
+
+/*
+ * On AutoEnd's first visit to a loot anarchy, do not skip the configured portal
+ * command just because a cached coordinate check claims we're already at the
+ * portal. The same check is still used on later stages and retries.
+ */
+def patchAutoEndLootTeleport = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    if (reader.className != "a/mpq") {
+        throw new GradleException("AutoEnd teleport patch received unexpected class: " + reader.className)
+    }
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def found = [method: false, check: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "nao" || descriptor != "()V") return mv
+            found.method = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitMethodInsn(int opcode, String callOwner, String callName,
+                                     String callDescriptor, boolean isInterface) {
+                    if (!found.check && opcode == Opcodes.INVOKEVIRTUAL &&
+                        callOwner == "a/mpq" && callName == "mzh" && callDescriptor == "()Z") {
+                        // Replace the cached "already at target" result with false, preserving stack shape.
+                        super.visitInsn(Opcodes.POP)
+                        super.visitInsn(Opcodes.ICONST_0)
+                        found.check = true
+                        return
+                    }
+                    super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.method || !found.check) {
+        throw new GradleException("AutoEnd loot teleport patch point not found: " + found)
+    }
+    logger.lifecycle("AutoEnd: force configured home/warp after loot-anarchy switch instead of trusting cached coordinates")
+    return writer.toByteArray()
+}
+
+/*
+ * Periodic, brief hops while either automation module is already walking forward.
+ * The helper is inserted into the bundled client JAR, because the recovered Java
+ * source tree below is kept for reference and is not part of the regular source set.
+ */
+def createAlbaPeriodicHopClass = {
+    def writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    writer.visit(Opcodes.V17, Opcodes.ACC_PUBLIC | Opcodes.ACC_FINAL | Opcodes.ACC_SUPER,
+        "a/AlbaPeriodicHop", null, "java/lang/Object", null)
+    writer.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL,
+        "NEXT", "Ljava/util/Map;", null, null).visitEnd()
+    writer.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL,
+        "FORCED", "Ljava/util/Set;", null, null).visitEnd()
+    writer.visitField(Opcodes.ACC_PRIVATE | Opcodes.ACC_STATIC | Opcodes.ACC_FINAL,
+        "RANDOM", "Ljava/util/Random;", null, null).visitEnd()
+
+    MethodVisitor clinit = writer.visitMethod(Opcodes.ACC_STATIC, "<clinit>", "()V", null, null)
+    clinit.visitCode()
+    clinit.visitTypeInsn(Opcodes.NEW, "java/util/WeakHashMap")
+    clinit.visitInsn(Opcodes.DUP)
+    clinit.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/WeakHashMap", "<init>", "()V", false)
+    clinit.visitFieldInsn(Opcodes.PUTSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    clinit.visitTypeInsn(Opcodes.NEW, "java/util/WeakHashMap")
+    clinit.visitInsn(Opcodes.DUP)
+    clinit.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/WeakHashMap", "<init>", "()V", false)
+    clinit.visitMethodInsn(Opcodes.INVOKESTATIC, "java/util/Collections", "newSetFromMap",
+        "(Ljava/util/Map;)Ljava/util/Set;", false)
+    clinit.visitFieldInsn(Opcodes.PUTSTATIC, "a/AlbaPeriodicHop", "FORCED", "Ljava/util/Set;")
+    clinit.visitTypeInsn(Opcodes.NEW, "java/util/Random")
+    clinit.visitInsn(Opcodes.DUP)
+    clinit.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Random", "<init>", "()V", false)
+    clinit.visitFieldInsn(Opcodes.PUTSTATIC, "a/AlbaPeriodicHop", "RANDOM", "Ljava/util/Random;")
+    clinit.visitInsn(Opcodes.RETURN)
+    clinit.visitMaxs(0, 0)
+    clinit.visitEnd()
+
+    // Release only a jump that this helper pressed, before the module processes the next tick.
+    MethodVisitor before = writer.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+        "before", "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", null, null)
+    before.visitCode()
+    org.objectweb.asm.Label beforeDone = new org.objectweb.asm.Label()
+    before.visitVarInsn(Opcodes.ALOAD, 0)
+    before.visitJumpInsn(Opcodes.IFNULL, beforeDone)
+    before.visitVarInsn(Opcodes.ALOAD, 1)
+    before.visitJumpInsn(Opcodes.IFNULL, beforeDone)
+    before.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "FORCED", "Ljava/util/Set;")
+    before.visitVarInsn(Opcodes.ALOAD, 0)
+    before.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Set", "remove", "(Ljava/lang/Object;)Z", true)
+    before.visitJumpInsn(Opcodes.IFEQ, beforeDone)
+    before.visitVarInsn(Opcodes.ALOAD, 1)
+    before.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    before.visitJumpInsn(Opcodes.IFNULL, beforeDone)
+    before.visitVarInsn(Opcodes.ALOAD, 1)
+    before.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    before.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1903", "Lnet/minecraft/class_304;")
+    before.visitInsn(Opcodes.ICONST_0)
+    before.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_23481", "(Z)V", false)
+    before.visitLabel(beforeDone)
+    before.visitInsn(Opcodes.RETURN)
+    before.visitMaxs(0, 0)
+    before.visitEnd()
+
+    // Press jump for one tick every ~1.6–4.6 seconds while moving forward on solid ground.
+    MethodVisitor tick = writer.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC,
+        "tick", "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", null, null)
+    tick.visitCode()
+    org.objectweb.asm.Label done = new org.objectweb.asm.Label()
+    org.objectweb.asm.Label haveNext = new org.objectweb.asm.Label()
+    org.objectweb.asm.Label scheduleFirst = new org.objectweb.asm.Label()
+
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitTypeInsn(Opcodes.CHECKCAST, "a/kfe")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/kfe", "isEnabled", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFEQ, done)
+
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1724", "Lnet/minecraft/class_746;")
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755", "Lnet/minecraft/class_437;")
+    tick.visitJumpInsn(Opcodes.IFNONNULL, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitJumpInsn(Opcodes.IFNULL, done)
+
+    // Walk forward and be grounded; do not compete with a jump already requested by pathing.
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1894", "Lnet/minecraft/class_304;")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_1434", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFEQ, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1724", "Lnet/minecraft/class_746;")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_1297", "method_24828", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFEQ, done)
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1903", "Lnet/minecraft/class_304;")
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_1434", "()Z", false)
+    tick.visitJumpInsn(Opcodes.IFNE, done)
+
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "get", "(Ljava/lang/Object;)Ljava/lang/Object;", true)
+    tick.visitTypeInsn(Opcodes.CHECKCAST, "java/lang/Long")
+    tick.visitVarInsn(Opcodes.ASTORE, 2)
+    tick.visitVarInsn(Opcodes.ALOAD, 2)
+    tick.visitJumpInsn(Opcodes.IFNONNULL, haveNext)
+
+    // First hop is delayed after enabling to avoid an immediate startup jump.
+    tick.visitLabel(scheduleFirst)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false)
+    tick.visitLdcInsn(1600L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "RANDOM", "Ljava/util/Random;")
+    tick.visitIntInsn(Opcodes.SIPUSH, 3000)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Random", "nextInt", "(I)I", false)
+    tick.visitInsn(Opcodes.I2L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put",
+        "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
+    tick.visitInsn(Opcodes.POP)
+    tick.visitJumpInsn(Opcodes.GOTO, done)
+
+    tick.visitLabel(haveNext)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false)
+    tick.visitVarInsn(Opcodes.LSTORE, 3)
+    tick.visitVarInsn(Opcodes.LLOAD, 3)
+    tick.visitVarInsn(Opcodes.ALOAD, 2)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false)
+    tick.visitInsn(Opcodes.LCMP)
+    tick.visitJumpInsn(Opcodes.IFLT, done)
+
+    tick.visitVarInsn(Opcodes.ALOAD, 1)
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1690", "Lnet/minecraft/class_315;")
+    tick.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_315", "field_1903", "Lnet/minecraft/class_304;")
+    tick.visitInsn(Opcodes.ICONST_1)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_304", "method_23481", "(Z)V", false)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "FORCED", "Ljava/util/Set;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Set", "add", "(Ljava/lang/Object;)Z", true)
+    tick.visitInsn(Opcodes.POP)
+
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "NEXT", "Ljava/util/Map;")
+    tick.visitVarInsn(Opcodes.ALOAD, 0)
+    tick.visitVarInsn(Opcodes.LLOAD, 3)
+    tick.visitLdcInsn(1600L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitFieldInsn(Opcodes.GETSTATIC, "a/AlbaPeriodicHop", "RANDOM", "Ljava/util/Random;")
+    tick.visitIntInsn(Opcodes.SIPUSH, 3000)
+    tick.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Random", "nextInt", "(I)I", false)
+    tick.visitInsn(Opcodes.I2L)
+    tick.visitInsn(Opcodes.LADD)
+    tick.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", false)
+    tick.visitMethodInsn(Opcodes.INVOKEINTERFACE, "java/util/Map", "put",
+        "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true)
+    tick.visitInsn(Opcodes.POP)
+
+    tick.visitLabel(done)
+    tick.visitInsn(Opcodes.RETURN)
+    tick.visitMaxs(0, 0)
+    tick.visitEnd()
+
+    writer.visitEnd()
+    return writer.toByteArray()
+}
+
+/* Inject the helper without changing the existing movement logic or its control flow. */
+def patchPeriodicJumpHooks = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
+    def found = [start: false, end: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            boolean isStart = name == "onStartTick" && descriptor == "(Lnet/minecraft/class_310;)V"
+            boolean isEnd = name == "onEndTick" && descriptor == "(Lnet/minecraft/class_310;)V"
+            if (isStart) found.start = true
+            if (isEnd) found.end = true
+            if (!isStart && !isEnd) return mv
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitCode() {
+                    super.visitCode()
+                    if (isStart) {
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/AlbaPeriodicHop", "before",
+                            "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", false)
+                    }
+                }
+                @Override
+                void visitInsn(int opcode) {
+                    if (isEnd && opcode == Opcodes.RETURN) {
+                        super.visitVarInsn(Opcodes.ALOAD, 0)
+                        super.visitVarInsn(Opcodes.ALOAD, 1)
+                        super.visitMethodInsn(Opcodes.INVOKESTATIC, "a/AlbaPeriodicHop", "tick",
+                            "(Ljava/lang/Object;Lnet/minecraft/class_310;)V", false)
+                    }
+                    super.visitInsn(opcode)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.start || !found.end) {
+        throw new GradleException("Periodic-hop patch points missing: onStartTick=" + found.start + ", onEndTick=" + found.end)
+    }
+    return writer.toByteArray()
+}
+
+/* Normalize stale Discord invites and the wallpaper picker heading in every nested class. */
+def patchDiscordInviteUrls = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    def writer = new ClassWriter(reader, 0)
+    String desired = "https://discord.gg/aP9dpxM8"
+    boolean changedInvite = false
+    boolean changedLabel = false
+
+    def replaceString = { Object value ->
+        if (!(value instanceof String)) {
+            return value
+        }
+        String text = (String)value
+        String lower = text.trim().toLowerCase(java.util.Locale.ROOT)
+
+        // Match the URL inside both ordinary string constants and StringConcatFactory
+        // recipes; preserve any surrounding recipe characters/placeholders.
+        String quote = java.util.regex.Matcher.quoteReplacement(desired)
+        String rewritten = text
+            .replaceAll("(?i)https?://discord\\.com/invite/[A-Za-z0-9_-]+", quote)
+            .replaceAll("(?i)https?://discord\\.gg/[A-Za-z0-9_-]+", quote)
+        if (rewritten != text) {
+            changedInvite = true
+            return rewritten
+        }
+
+        if (lower == "фон меню" || lower == "фон главного меню" ||
+            lower == "main menu background" || lower == "menu background" ||
+            lower == "background menu") {
+            String replacement
+            if (lower == "main menu background" || lower == "menu background" ||
+                lower == "background menu") {
+                replacement = "Main menu wallpapers"
+            } else {
+                replacement = "Обои в главном меню"
+            }
+            if (text != replacement) {
+                changedLabel = true
+            }
+            return replacement
+        }
+
+        return value
+    }
+
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        org.objectweb.asm.FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
+            Object newValue = replaceString(value)
+            return super.visitField(access, name, descriptor, signature, newValue)
+        }
+
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitLdcInsn(Object value) {
+                    super.visitLdcInsn(replaceString(value))
+                }
+
+                @Override
+                void visitInvokeDynamicInsn(String indyName, String indyDescriptor,
+                                            org.objectweb.asm.Handle bootstrapMethodHandle,
+                                            Object... bootstrapMethodArguments) {
+                    Object[] adjusted = new Object[bootstrapMethodArguments.length]
+                    for (int i = 0; i < bootstrapMethodArguments.length; i++) {
+                        adjusted[i] = replaceString(bootstrapMethodArguments[i])
+                    }
+                    super.visitInvokeDynamicInsn(indyName, indyDescriptor, bootstrapMethodHandle, adjusted)
+                }
+            }
+        }
+    }
+
+    reader.accept(visitor, 0)
+    if (changedInvite) {
+        logger.lifecycle("Normalized Discord invite to https://discord.gg/aP9dpxM8 in " + reader.className)
+    }
+    if (changedLabel) {
+        logger.lifecycle("Changed wallpaper picker label to Обои в главном меню in " + reader.className)
+    }
+    return writer.toByteArray()
+}
+
+/* Remove only the Reset row from the main-menu wallpaper panel; leave the other controls unchanged. */
+def patchRemoveMenuBackgroundReset = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def rowInfo = [:]
+    boolean heightFound = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (name == "jxt" && descriptor == "(I)F") {
+                rowInfo.putAll([access: access, descriptor: descriptor, signature: signature, exceptions: exceptions])
+                return super.visitMethod(access, "albaOriginalBackgroundRowY", descriptor, signature, exceptions)
+            }
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name == "jww" && descriptor == "()F") {
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        // The previous layout maps three visible rows to 57px, excluding Reset.
+                        if (value instanceof Float && Math.abs(((Float)value).floatValue() - 76.0f) < 0.001f) {
+                            value = 57.0f
+                            heightFound = true
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                }
+            }
+            return mv
+        }
+        @Override
+        void visitEnd() {
+            if (rowInfo.isEmpty()) throw new GradleException("Background settings row-position method jxt(I)F not found")
+            def info = rowInfo
+            MethodVisitor row = writer.visitMethod(info.access, "jxt", info.descriptor, info.signature, info.exceptions as String[])
+            row.visitCode()
+            org.objectweb.asm.Label keep = new org.objectweb.asm.Label()
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitIntInsn(Opcodes.BIPUSH, 8)
+            row.visitJumpInsn(Opcodes.IF_ICMPNE, keep)
+            row.visitLdcInsn(-10000.0f)
+            row.visitInsn(Opcodes.FRETURN)
+            row.visitLabel(keep)
+            row.visitVarInsn(Opcodes.ALOAD, 0)
+            row.visitVarInsn(Opcodes.ILOAD, 1)
+            row.visitMethodInsn(Opcodes.INVOKEVIRTUAL, ownerClass, "albaOriginalBackgroundRowY", "(I)F", false)
+            row.visitInsn(Opcodes.FRETURN)
+            row.visitMaxs(0, 0)
+            row.visitEnd()
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!heightFound) throw new GradleException("Background settings content-height constant 76 not found")
     return writer.toByteArray()
 }
 
@@ -839,6 +3136,7 @@ def patchWatermark = { byte[] bytes ->
                     @Override
                     void visitLdcInsn(Object value) {
                         if (value instanceof Float && Math.abs(((Float)value) - 14.5F) < 0.001F) value = 0.0F
+                        if (value == "Flow") value = "AlbaDLC"
                         super.visitLdcInsn(value)
                     }
 
@@ -1021,6 +3319,61 @@ def patchMainMenuSettings = { byte[] bytes ->
  * loading UI. ClientLoad.show still marks its one-shot request handled, so boot
  * warming continues in the background and no fallback splash is scheduled.
  */
+
+/*
+ * Make the custom AlbaDLC title menu the authoritative screen. ScreenEvents and
+ * Splash.tick normally replace vanilla TitleScreen, but either hook can be skipped
+ * if a splash/backdrop helper fails. This end-tick fallback only reacts to the
+ * vanilla title screen, never to world screens or AlbaDLC screens.
+ */
+// Build marker: 2026-10-27 custom title-screen restore release.
+// Build marker: 2026-10-28 publish stable title click handler build.
+// Build marker: 2026-10-27 publish the startup classloader fix under its own release tag.
+def patchForceCustomMainMenu = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    boolean found = false
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+            if (name != "onEndTick" || descriptor != "(Lnet/minecraft/class_310;)V") return mv
+            found = true
+            return new MethodVisitor(Opcodes.ASM9, mv) {
+                @Override
+                void visitCode() {
+                    super.visitCode()
+                    org.objectweb.asm.Label skip = new org.objectweb.asm.Label()
+                    // Only replace the native TitleScreen when no overlay/loading screen is active.
+                    // Do not reference classes from the outer loader JAR here: this method is
+                    // running inside the nested flow.jar class loader.
+                    super.visitVarInsn(Opcodes.ALOAD, 1)
+                    super.visitFieldInsn(Opcodes.GETFIELD, "net/minecraft/class_310", "field_1755", "Lnet/minecraft/class_437;")
+                    super.visitTypeInsn(Opcodes.INSTANCEOF, "net/minecraft/class_442")
+                    super.visitJumpInsn(Opcodes.IFEQ, skip)
+                    super.visitVarInsn(Opcodes.ALOAD, 1)
+                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_18506", "()Lnet/minecraft/class_4071;", false)
+                    super.visitJumpInsn(Opcodes.IFNONNULL, skip)
+                    // a/jte is the bundled client's MenuScreen class.
+                    super.visitVarInsn(Opcodes.ALOAD, 1)
+                    super.visitTypeInsn(Opcodes.NEW, "a/jte")
+                    super.visitInsn(Opcodes.DUP)
+                    super.visitMethodInsn(Opcodes.INVOKESPECIAL, "a/jte", "<init>", "()V", false)
+                    super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_310", "method_1507", "(Lnet/minecraft/class_437;)V", false)
+                    super.visitLabel(skip)
+                }
+            }
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found) throw new GradleException("Flow.onEndTick(Class_310) not found; cannot guarantee custom title menu activation")
+    logger.lifecycle("Installed a fallback that replaces vanilla TitleScreen with AlbaDLC MenuScreen")
+    return writer.toByteArray()
+}
+
 def patchSplashController = { byte[] bytes ->
     def reader = new ClassReader(bytes)
     def writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS)
@@ -1134,9 +3487,6 @@ def patchEncryptedBranding = { byte[] bytes ->
                 ["Flow Чёрная", "Alba Видео"],
                 ["Flow Черная", "Alba Видео"],
                 ["Flow Белая", "Alba Белая"],
-                ["AstraDLC", "AlbaDLC"],
-                ["AstraUser", "AlbaUser"],
-                ["Astra", "Alba"],
                 ["Flow2", "AlbaDLC"],
                 ["[Flow2]", "[AlbaDLC]"],
                 ["Flow", "AlbaDLC"]
@@ -1297,8 +3647,6 @@ def patchWordmark = { byte[] bytes ->
                 void visitLdcInsn(Object value) {
                     if (value == "Flow") value = "Alba"
                     else if (value == "Client") value = "DLC"
-                    else if (value == "AstraDLC") value = "AlbaDLC"
-                    else if (value == "AstraUser") value = "AlbaUser"
                     super.visitLdcInsn(value)
                 }
             }
@@ -1606,7 +3954,7 @@ tasks.register("rebrandFlowNestedJar") {
                         metadata.authors = ["AlbaDLC"]
                         def json = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(metadata))
                         outputZip.write(json.getBytes("UTF-8"))
-                        logger.lifecycle("Set nested Fabric display name to AstraDLC (kept mod id '${metadata.id}')")
+                        logger.lifecycle("Set nested Fabric display name to AlbaDLC (kept mod id '${metadata.id}')")
                     } else if (entry.name == "flow/default-gui.properties") {
                         // Internal theme keys must stay original; only displayed labels are rebranded.
                         stream.transferTo(outputZip)
@@ -1649,9 +3997,15 @@ tasks.register("rebrandFlowNestedJar") {
                             }
                         }
                         byte[] patchedBytes = rebrandClassBytes(originalBytes)
-                        if (entry.name == "flow/dev/a.class") {
+                        if (isMenuSceneRendererClass(originalBytes)) {
+                            patchedBytes = patchMenuSceneRendererFallback(patchedBytes)
+                            logger.lifecycle("Patched direct wallpaper drawing in " + new ClassReader(originalBytes).className + " to avoid the unstable scene shader")
+                        } else if (entry.name == "flow/dev/a.class") {
                             patchedBytes = patchEncryptedBranding(patchedBytes)
                             logger.lifecycle("Patched encrypted client branding strings")
+                        } else if (entry.name == "a/jzh.class") {
+                            patchedBytes = patchMenuArtCacheExecutor(patchedBytes)
+                            logger.lifecycle("Enabled three parallel menu-art workers to reduce wallpaper-switch delay")
                         } else if (entry.name == "a/isv.class") {
                             patchedBytes = patchWallpaperCatalog(patchedBytes)
                             patchedBytes = patchClientBackgroundDefault(patchedBytes)
@@ -1663,13 +4017,21 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchModuleCategoryOrder(patchedBytes)
                             logger.lifecycle("Reordered sidebar categories: Combat, Player, Visuals, Misc, Movement")
                         } else if (entry.name == "a/iov.class") {
-                            patchedBytes = patchThemePresets(patchedBytes)
-                            logger.lifecycle("Applied Obsidian + Depth interface style; removed Alba Black/White presets")
+                            // Preserve the original Theme settings, presets, and editor behavior.
                         } else if (entry.name == "a/jte.class") {
                             patchedBytes = patchTitleMenuRenderWarmup(patchedBytes)
                             patchedBytes = patchMainMenuSettings(patchedBytes)
+                            patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
+                            patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
+                            patchedBytes = patchWallpaperPickerPersistentSettings(patchedBytes)
+                            patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
+                            // Do not replace method_25420 with Minecraft's plain panorama renderer:
+                            // the original title-screen method owns the selected wallpaper layer.
                             logger.lifecycle("Warmed the selected Minecraft title wallpaper before the first visible frame")
+                            logger.lifecycle("Moved Telegram/Discord to bottom-left; moved wallpaper/power beside menu buttons with matching hover and click hitboxes")
+                            logger.lifecycle("Preserved the original title-screen wallpaper/background renderer")
                             logger.lifecycle("Fixed main menu title, centered buttons, disabled blur/dimming, set corner rounding to 100%, and simplified settings")
+
                         } else if (entry.name == "a/kfe.class") {
                             patchedBytes = patchModuleDisplayNames(patchedBytes)
                             logger.lifecycle("Renamed module labels AutoMace -> MaceHelper and KeyPearl -> ClickPearl")
@@ -1679,9 +4041,33 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "a/kfx.class") {
                             patchedBytes = patchModuleRegistration(patchedBytes)
                             logger.lifecycle("Hidden ChestLooter, ChestSorter, SoulESP, MotionBlur, MobESP, TransparentFriends, and AncientFarmer from module registration; implementation classes retained")
+                        } else if (entry.name == "a/nxa.class") {
+                            patchedBytes = patchPeriodicJumpHooks(patchedBytes)
+                            patchedBytes = patchAutoWardenTeleportFlow(patchedBytes)
+                            logger.lifecycle("Added periodic walking jumps to AutoWarden")
+                        } else if (entry.name == "a/mpq.class") {
+                            patchedBytes = patchPeriodicJumpHooks(patchedBytes)
+                            patchedBytes = patchAutoEndLootTeleport(patchedBytes)
+                            logger.lifecycle("Added periodic walking jumps to AutoEnd")
+                        } else if (entry.name == "a/hjg.class") {
+                            patchedBytes = patchModuleCardVisuals(patchedBytes)
+                            logger.lifecycle("Safely restyled module card corners without injecting render-time control flow")
+                        } else if (isUiKitClass(originalBytes)) {
+                            patchedBytes = patchUiKitSwitch(patchedBytes)
+                            logger.lifecycle("Refined the native module-switch shape while preserving its original render logic")
+                        } else if (entry.name == "a/wap.class") {
+                            patchedBytes = patchForceEnglishTranslations(patchedBytes)
                         } else if (entry.name == "a/hlc.class") {
                             patchedBytes = patchClientPanelCleanup(patchedBytes)
-                            logger.lifecycle("Removed Custom theme and Party panels; replaced Cosmetics content with Coming Soon and hid the profile footer")
+                            patchedBytes = patchGuiUtilityButtonLayout(patchedBytes)
+                            patchedBytes = patchHudVisualPlacement(patchedBytes)
+                            patchedBytes = patchClickGuiHeaderLayout(patchedBytes)
+                            patchedBytes = patchHideAvatarHoverPopup(patchedBytes)
+                            logger.lifecycle("Removed the category heading/count and expanded search across the top header")
+                            logger.lifecycle("Disabled the account-avatar hover popup")
+                            logger.lifecycle("Centered language and power controls along the bottom")
+                            logger.lifecycle("Moved HUD panels into Visuals and removed the separate HUD tab")
+                            logger.lifecycle("Preserved Theme tab and Custom theme editor; removed Party panels; set Cosmetics to Coming Soon and kept the power button visible")
                         } else if (entry.name == "a/jlx.class") {
                             patchedBytes = patchWatermark(patchedBytes)
                             logger.lifecycle("Removed dog/logo and ProgramData account badge from the HUD watermark")
@@ -1691,6 +4077,9 @@ tasks.register("rebrandFlowNestedJar") {
                         } else if (entry.name == "flow/splash/Wordmark.class") {
                             patchedBytes = patchWordmark(patchedBytes)
                             logger.lifecycle("Rebranded splash wordmark to AlbaDLC")
+                        } else if (entry.name == "flow/Flow.class") {
+                            patchedBytes = patchForceCustomMainMenu(patchedBytes)
+                            logger.lifecycle("Ensured the custom AlbaDLC menu opens instead of vanilla TitleScreen")
                         } else if (entry.name == "flow/splash/Splash.class") {
                             patchedBytes = patchSplashController(patchedBytes)
                             logger.lifecycle("Skipped Flow2's custom splash takeover; preserved the native Minecraft loading screen")
@@ -1698,6 +4087,10 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchClientLoadSplash(patchedBytes)
                             logger.lifecycle("Kept startup warming active without video splash or progress strip")
                         }
+                        // Rewrite invite literals in every nested class, not just the title-screen
+                        // class: secondary click handlers and alternate menu widgets may own their
+                        // own stale Discord URLs.
+                        patchedBytes = patchDiscordInviteUrls(patchedBytes)
                         outputZip.write(patchedBytes)
                     } else {
                         stream.transferTo(outputZip)
@@ -1705,6 +4098,12 @@ tasks.register("rebrandFlowNestedJar") {
                 }
                 outputZip.closeEntry()
             }
+            def hopEntry = new java.util.zip.ZipEntry("a/AlbaPeriodicHop.class")
+            outputZip.putNextEntry(hopEntry)
+            outputZip.write(createAlbaPeriodicHopClass())
+            outputZip.closeEntry()
+            logger.lifecycle("Bundled shared periodic-hop helper for AutoWarden and AutoEnd")
+
             def videoBytes = albaVideoFile.get().asFile.bytes
             def videoEntry = new java.util.zip.ZipEntry("assets/alba/alba-background.mp4")
             outputZip.putNextEntry(videoEntry)
@@ -1735,3 +4134,13 @@ sourceSets {
         java.setSrcDirs([])
     }
 }
+
+// Build trigger: October 23 ClickGUI header and bottom-controls refresh.
+
+// Build trigger: periodic walking jumps for AutoWarden and AutoEnd (24 October 2026).
+
+// Build trigger: AutoWarden and AutoEnd configured teleport commands plus periodic hops (24 October 2026).
+
+// Build trigger: ensure the command-fix release workflow runs with the updated release tag.
+
+// CI release trigger: canonical Discord invite and wallpaper-only picker

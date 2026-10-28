@@ -222,7 +222,7 @@ extends class_437 {
     private static /* synthetic */ boolean hpe;
 
     public ClickGuiScreen() {
-        super((class_2561)class_2561.method_43470((String)"Flow2"));
+        super((class_2561)class_2561.method_43470((String)"AstraDLC"));
         AvatarCloud.refresh();
         this.hod = hoa;
         this.hoe.text = hoa;
@@ -277,7 +277,6 @@ extends class_437 {
             this.hlz.add(new hkv(kfa2.title(), ClickGuiScreen.iconFor(kfa2), kfa2, hks.MODULES));
         }
         this.hma = this.hlz.size();
-        this.hlz.add(new hkv("Theme", Icon.THEME, null, hks.THEME));
         this.hlz.add(new hkv("HUD", Icon.LAYOUT, null, hks.HUD));
         this.hlz.add(new hkv("Configs", Icon.LAYERS, null, hks.CONFIGS));
         this.hlz.add(new hkv("Waypoints", Icon.PIN, null, hks.WAYPOINTS));
@@ -311,7 +310,6 @@ extends class_437 {
     }
 
     private static void hpf() {
-        String[][] stringArrayArray;
         Object object;
         ModuleAccessGate hjg2 = new ModuleAccessGate("Theme", "Presets. Glass ones let the picture through").row(new ThemePicker());
         hjg2.wide = true;
@@ -402,23 +400,8 @@ extends class_437 {
         hjg27.home = 0;
         ModuleAccessGate hjg28 = new ModuleAccessGate("Friends", "Everywhere, by name. Hover one to remove it").row(new FriendsList());
         hjg28.home = 1;
-        ModuleAccessGate hjg29 = new ModuleAccessGate("Party", "Your code: send it to a friend. Or invite theirs").toggle(PartyClient.ENABLED).row(new PartyCodeCard()).row(new PartyInviteRow());
-        hjg29.home = 0;
-        ModuleAccessGate hjg30 = new ModuleAccessGate("Party members", "Invites and who is in. Marks: the mark key").row(new PartyMembersList());
-        hjg30.home = 1;
-        ModuleAccessGate hjg31 = new ModuleAccessGate("Party settings", "Marks. Double press: danger. Everything is end-to-end encrypted").settings(PartyClient.OPTIONS).row(new ClickRow("Mark key", HotkeyStore.partyMarkKey().bind));
-        hjg31.home = 1;
-        hlx = List.of(hjg29, hjg24, hjg26, hjg25, hjg27, hjg30, hjg28, hjg31);
-        ModuleAccessGate hjg32 = new ModuleAccessGate("Cosmetics", "Wings, pets, hats, backpacks and capes. Seen in F5, in the inventory and by your party").toggle(Cosmetics.ENABLED).settings(Cosmetics.OPTIONS).row(new ButtonSettingRow("Take everything off", Icon.RESET, Cosmetics::clearAll)).unfolded();
-        hjg32.wide = true;
-        ArrayList<ModuleAccessGate> arrayList = new ArrayList<ModuleAccessGate>();
-        arrayList.add(hjg32);
-        for (String[] stringArray : stringArrayArray = new String[][]{{"avatar", "Avatars", "Replaces your whole player model: animations, physics and particles"}, {"wings", "Wings", "Click to put on, click again to take off"}, {"pet", "Pets", "By your shoulder, or running after you on the ground: Pet mode above"}, {"hat", "Hats", "On your head, turns with it"}, {"face", "Glasses", "On your face, worn together with any hat"}, {"back", "Backpacks", "On your back, with wings or without"}, {"cape", "Capes", "Animated and live video capes, replace your own cape while worn"}}) {
-            ModuleAccessGate hjg33 = new ModuleAccessGate(stringArray[1], stringArray[2]).row(new CosmeticThumbCard(stringArray[0])).unfolded();
-            hjg33.wide = true;
-            arrayList.add(hjg33);
-        }
-        hly = List.copyOf(arrayList);
+        hlx = List.of(hjg24, hjg26, hjg25, hjg27, hjg28);
+        hly = List.of(new ModuleAccessGate("Coming Soon", "Cosmetics are temporarily unavailable"));
     }
 
     private static void hpg() {
@@ -900,7 +883,7 @@ extends class_437 {
             int n2 = ColorUtil.lerp(ColorUtil.lerp(Theme.textMuted, Theme.textDim, f12), Theme.text, f13);
             IconRenderer.draw(class_3322, hkv2.hkx, 25.0f + f12 * 0.5f, f14, 9.5f * (1.0f + 0.2f * f15), n2);
             UiKit.TAB.draw(class_3322, Lang.t(hkv2.hkw), 37.0f + f12 * 1.5f, UiKit.TAB.centerTop(f14), ColorUtil.lerp(Theme.textDim, Theme.text, Math.max(f13, f12)));
-            int n3 = hkv2.hky != null ? ClickGuiScreen.hph(hkv2.hky) : (hkv2.hkz == hks.WAYPOINTS ? Waypoints.inWorld().size() : (hkv2.hkz == hks.FRIENDS ? Friends.all().size() : (hkv2.hkz == hks.HUD ? Hud.enabledCount() : (n = hkv2.hkz == hks.COSMETICS ? Cosmetics.wornCount() : 0))));
+            int n3 = hkv2.hky != null ? ClickGuiScreen.hph(hkv2.hky) : (hkv2.hkz == hks.WAYPOINTS ? Waypoints.inWorld().size() : (hkv2.hkz == hks.FRIENDS ? Friends.all().size() : (hkv2.hkz == hks.HUD ? Hud.enabledCount() : 0)));
             if (n != this.hmk[i]) {
                 this.hmk[i] = n;
                 this.hmj.get(i).set(1.0f);
@@ -960,20 +943,17 @@ extends class_437 {
     private void hqm(class_332 class_3322, float f, float f2) {
         float f3 = this.hqd();
         DrawUtil.rect(class_3322, 14.0f, f3, 108.0f, 1.0f, Theme.divider);
-        String string = LoaderInfo.login();
         long l = LoaderInfo.uid();
-        String string2 = string.isEmpty() ? UserProfile.windowsUser() : string;
-        String string3 = l > 0L ? "UID " + l : "FlowUser";
+        String string2 = "AstraDLC";
+        String string3 = l > 0L ? "UID " + l : "Client";
         float f4 = this.hqe();
         float f5 = this.hqf();
         float f6 = this.hoh.get();
         float f7 = 18.0f + 1.5f * f6;
         float f8 = f7 * 0.5f;
         GlassDraw.shadow(class_3322, f4 - f7 * 0.5f, f5 - f7 * 0.5f, f7, f7, f8, 0.6f + 0.4f * f6, Theme.lightness());
-        if (!UserProfile.draw(class_3322, UserProfile.selected(), f4 - f7 * 0.5f, f5 - f7 * 0.5f, f7, 19.5f)) {
-            DrawUtil.round(class_3322, f4 - f7 * 0.5f, f5 - f7 * 0.5f, f7, f7, f8, Theme.field);
-            UiKit.AVATAR.drawCentered(class_3322, string2.substring(0, 1).toUpperCase(Locale.ROOT), f4, UiKit.AVATAR.centerTop(f5), Theme.textDim);
-        }
+        DrawUtil.round(class_3322, f4 - f7 * 0.5f, f5 - f7 * 0.5f, f7, f7, f8, Theme.field);
+        UiKit.AVATAR.drawCentered(class_3322, "A", f4, UiKit.AVATAR.centerTop(f5), Theme.textDim);
         DrawUtil.circleOutline(class_3322, f4, f5, f7 * 0.5f, 1.0f, ColorUtil.lerp(0x34FFFFFF, Theme.accent(200), f6));
         float f9 = this.hqn() - 9.0f - 5.0f - 41.0f;
         UiKit.NAME.draw(class_3322, UiKit.NAME.ellipsize(string2, f9), 41.0f, UiKit.NAME.centerTop(f5 - 4.0f), Theme.text);

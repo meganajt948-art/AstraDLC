@@ -134,7 +134,7 @@ extends Module {
     private static /* synthetic */ String kpb;
 
     public AutoMace() {
-        super("AutoMace", "Mace smash timed to your fall", ModuleCategory.COMBAT);
+        super("MaceHelper", "Mace smash timed to your fall", ModuleCategory.COMBAT);
         kng = this;
         this.kno.visibleWhen(this.knn::get);
         this.knq.visibleWhen(this.knn::get);

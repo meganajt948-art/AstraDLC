@@ -37,7 +37,9 @@ import a.Fonts;
 import a.Reflect;
 import flow.dev.StringDecryptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.WeakHashMap;
@@ -126,7 +128,35 @@ public final class ButtonSkin {
 
     private static boolean kes(class_339 class_3392) {
         Class<?> clazz = class_3392.getClass();
-        return clazz == class_4185.class_12231.class || clazz == class_5676.class || class_3392 instanceof class_357;
+        if (clazz == class_4185.class_12231.class || clazz == class_5676.class || class_3392 instanceof class_357) {
+            return true;
+        }
+
+        // The vanilla "Quit Game" button can be created as a different widget
+        // implementation than the other title-screen buttons. Detect it by its
+        // displayed text so it receives the exact same animated skin and hover tint.
+        try {
+            for (String getterName : new String[]{"getMessage", "method_25369"}) {
+                try {
+                    Method getter = clazz.getMethod(getterName);
+                    Object message = getter.invoke(class_3392);
+                    if (message == null) continue;
+                    Method getString = message.getClass().getMethod("getString");
+                    Object value = getString.invoke(message);
+                    if (!(value instanceof String)) continue;
+                    String label = ((String) value).toLowerCase(Locale.ROOT).trim();
+                    if (label.equals("quit game") || label.equals("exit game")
+                            || label.equals("выйти из игры") || label.equals("выйти")) {
+                        return true;
+                    }
+                } catch (ReflectiveOperationException ignored) {
+                    // Try the next mapped getter name.
+                }
+            }
+        } catch (Throwable ignored) {
+            // Keep normal widget handling intact if this runtime uses an unusual widget.
+        }
+        return false;
     }
 
     /*
