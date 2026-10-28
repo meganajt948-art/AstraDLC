@@ -1623,6 +1623,445 @@ def patchMenuUtilityIconLayout = { byte[] bytes ->
     return writer.toByteArray()
 }
 
+
+/*
+ * Keep wallpaper selection and menu-look settings in independent areas:
+ * wallpaper thumbnails remain in the right popover; title settings render
+ * permanently in a compact left panel and retain their original interactions.
+ */
+def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
+    def reader = new ClassReader(bytes)
+    String ownerClass = reader.className
+    def writer = new ClassWriter(reader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS) {
+        @Override protected String getCommonSuperClass(String type1, String type2) { return "java/lang/Object" }
+    }
+    def found = [render: false, picker: false, pickerBounds: false, pickerHitbox: false,
+                 click: false, drag: false, scroll: false]
+    def visitor = new ClassVisitor(Opcodes.ASM9, writer) {
+        @Override
+        MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+
+            if (name == "method_25394" && descriptor == "(Lnet/minecraft/class_332;IIF)V") {
+                found.render = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                        if (callOwner == ownerClass && callName == "jxd" && callDescriptor == "(Lnet/minecraft/class_332;FF)V") {
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.ALOAD, 1)
+                            super.visitVarInsn(Opcodes.ILOAD, 2)
+                            super.visitVarInsn(Opcodes.ILOAD, 3)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaRenderPersistentSettingsRaw",
+                                "(Lnet/minecraft/class_332;II)V", false)
+                        }
+                    }
+                }
+            }
+
+            if (name == "jxd") {
+                found.picker = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean hideMenuLookHeader = false
+                    @Override
+                    void visitLdcInsn(Object value) {
+                        if (value instanceof String && ((String)value) == "Menu look") {
+                            hideMenuLookHeader = true
+                            super.visitLdcInsn("")
+                            return
+                        }
+                        if (value instanceof String && ((String)value) == "Вид меню") {
+                            super.visitLdcInsn("")
+                            return
+                        }
+                        super.visitLdcInsn(value)
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (hideMenuLookHeader && opcode == Opcodes.INVOKESTATIC &&
+                            callOwner == "a/DrawUtil" && callName == "rect" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;FFFFI)V") {
+                            // The rule after the second heading belongs to the removed Menu look section.
+                            for (int i = 0; i < 6; i++) super.visitInsn(Opcodes.POP)
+                            hideMenuLookHeader = false
+                            return
+                        }
+                        if (callOwner == ownerClass && callName == "jyb" &&
+                            callDescriptor == "(Lnet/minecraft/class_332;FFZ)V") {
+                            // Settings are drawn by albaRenderPersistentSettingsRaw, not in the wallpaper popover.
+                            for (int i = 0; i < 5; i++) super.visitInsn(Opcodes.POP)
+                            return
+                        }
+                        if (callOwner == ownerClass && callDescriptor == "()F") {
+                            if (callName == "jws") callName = "albaWallpaperPanelHeight"
+                            else if (callName == "jwu") callName = "albaWallpaperViewportHeight"
+                            else if (callName == "jwy") callName = "albaWallpaperMaxScroll"
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "jxb" && descriptor == "(FF)Z") {
+                found.pickerBounds = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jws" && callDescriptor == "()F") {
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperPanelHeight", "()F", false)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "jxc" && descriptor == "(FF)I") {
+                found.pickerHitbox = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jwu" && callDescriptor == "()F") {
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperViewportHeight", "()F", false)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "method_25402" && descriptor == "(Lnet/minecraft/class_11909;Z)Z") {
+                found.click = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    private boolean inserted = false
+                    @Override
+                    void visitVarInsn(int opcode, int var) {
+                        super.visitVarInsn(opcode, var)
+                        // Cursor locals f and f2 are slots 4 and 5 in this method.
+                        if (!inserted && opcode == Opcodes.FSTORE && var == 5) {
+                            inserted = true
+                            org.objectweb.asm.Label continueClick = new org.objectweb.asm.Label()
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitVarInsn(Opcodes.FLOAD, 4)
+                            super.visitVarInsn(Opcodes.FLOAD, 5)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaHandlePersistentSettingsClick", "(FF)Z", false)
+                            super.visitJumpInsn(Opcodes.IFEQ, continueClick)
+                            super.visitInsn(Opcodes.ICONST_1)
+                            super.visitInsn(Opcodes.IRETURN)
+                            super.visitLabel(continueClick)
+                        }
+                    }
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callDescriptor == "()F") {
+                            if (callName == "jwy") callName = "albaWallpaperMaxScroll"
+                            else if (callName == "jwu") callName = "albaWallpaperViewportHeight"
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "method_25403" && descriptor == "(Lnet/minecraft/class_11909;DD)Z") {
+                found.drag = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jxz" && callDescriptor == "(IF)V") {
+                            // The slider is now on the left; map its X coordinate back to the original settings coordinate system.
+                            super.visitVarInsn(Opcodes.ALOAD, 0)
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaSettingsTranslateX", "()F", false)
+                            super.visitInsn(Opcodes.FSUB)
+                            super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+
+            if (name == "method_25401" && descriptor == "(DDDD)Z") {
+                found.scroll = true
+                return new MethodVisitor(Opcodes.ASM9, mv) {
+                    @Override
+                    void visitMethodInsn(int opcode, String callOwner, String callName, String callDescriptor, boolean isInterface) {
+                        if (callOwner == ownerClass && callName == "jwy" && callDescriptor == "()F") {
+                            super.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperMaxScroll", "()F", false)
+                            return
+                        }
+                        super.visitMethodInsn(opcode, callOwner, callName, callDescriptor, isInterface)
+                    }
+                }
+            }
+            return mv
+        }
+
+        @Override
+        void visitEnd() {
+            if (!found.render || !found.picker || !found.pickerBounds || !found.pickerHitbox ||
+                !found.click || !found.drag || !found.scroll) {
+                throw new GradleException("Wallpaper/settings separation patch points missing in " + ownerClass + ": " + found)
+            }
+
+            // Helpers used only by the wallpaper selector; the original jw* methods remain available
+            // for the relocated menu-look controls and their hit-testing.
+            MethodVisitor panelH = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaWallpaperPanelHeight", "()F", null, null)
+            panelH.visitCode()
+            panelH.visitVarInsn(Opcodes.ALOAD, 0)
+            panelH.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvf", "F")
+            panelH.visitVarInsn(Opcodes.ALOAD, 0)
+            panelH.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwr", "()F", false)
+            panelH.visitInsn(Opcodes.FSUB)
+            panelH.visitLdcInsn(12.0f)
+            panelH.visitInsn(Opcodes.FSUB)
+            panelH.visitVarInsn(Opcodes.ALOAD, 0)
+            panelH.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwx", "()F", false)
+            panelH.visitLdcInsn(24.0f)
+            panelH.visitInsn(Opcodes.FADD)
+            panelH.visitLdcInsn(6.0f)
+            panelH.visitInsn(Opcodes.FADD)
+            panelH.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "min", "(FF)F", false)
+            panelH.visitInsn(Opcodes.FRETURN)
+            panelH.visitMaxs(0, 0)
+            panelH.visitEnd()
+
+            MethodVisitor viewport = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaWallpaperViewportHeight", "()F", null, null)
+            viewport.visitCode()
+            viewport.visitVarInsn(Opcodes.ALOAD, 0)
+            viewport.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperPanelHeight", "()F", false)
+            viewport.visitLdcInsn(28.0f)
+            viewport.visitInsn(Opcodes.FSUB)
+            viewport.visitInsn(Opcodes.FRETURN)
+            viewport.visitMaxs(0, 0)
+            viewport.visitEnd()
+
+            MethodVisitor maxScroll = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaWallpaperMaxScroll", "()F", null, null)
+            maxScroll.visitCode()
+            maxScroll.visitVarInsn(Opcodes.ALOAD, 0)
+            maxScroll.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwx", "()F", false)
+            maxScroll.visitVarInsn(Opcodes.ALOAD, 0)
+            maxScroll.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaWallpaperViewportHeight", "()F", false)
+            maxScroll.visitInsn(Opcodes.FSUB)
+            maxScroll.visitInsn(Opcodes.FCONST_0)
+            maxScroll.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Math", "max", "(FF)F", false)
+            maxScroll.visitInsn(Opcodes.FRETURN)
+            maxScroll.visitMaxs(0, 0)
+            maxScroll.visitEnd()
+
+            MethodVisitor tx = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaSettingsTranslateX", "()F", null, null)
+            tx.visitCode()
+            tx.visitLdcInsn(12.0f)
+            tx.visitVarInsn(Opcodes.ALOAD, 0)
+            tx.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwq", "()F", false)
+            tx.visitInsn(Opcodes.FSUB)
+            tx.visitInsn(Opcodes.FRETURN)
+            tx.visitMaxs(0, 0)
+            tx.visitEnd()
+
+            MethodVisitor ty = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaSettingsTranslateY", "()F", null, null)
+            ty.visitCode()
+            ty.visitLdcInsn(78.0f)
+            ty.visitVarInsn(Opcodes.ALOAD, 0)
+            ty.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwt", "()F", false)
+            ty.visitInsn(Opcodes.FSUB)
+            ty.visitVarInsn(Opcodes.ALOAD, 0)
+            ty.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jwx", "()F", false)
+            ty.visitInsn(Opcodes.FSUB)
+            ty.visitLdcInsn(13.0f)
+            ty.visitInsn(Opcodes.FSUB)
+            ty.visitVarInsn(Opcodes.ALOAD, 0)
+            ty.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jut", "F")
+            ty.visitInsn(Opcodes.FADD)
+            ty.visitInsn(Opcodes.FRETURN)
+            ty.visitMaxs(0, 0)
+            ty.visitEnd()
+
+            MethodVisitor renderSettings = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaRenderPersistentSettingsRaw", "(Lnet/minecraft/class_332;II)V", null, null)
+            renderSettings.visitCode()
+            // Dark rounded panel at the left edge.
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitLdcInsn(12.0f)
+            renderSettings.visitLdcInsn(40.0f)
+            renderSettings.visitLdcInsn(254.0f)
+            renderSettings.visitLdcInsn(218.0f)
+            renderSettings.visitLdcInsn(14.0f)
+            renderSettings.visitLdcInsn(24.0f)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitInsn(Opcodes.ICONST_0)
+            renderSettings.visitLdcInsn(0.42f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "shadow",
+                "(Lnet/minecraft/class_332;FFFFFFI)V", false)
+
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitLdcInsn(12.0f)
+            renderSettings.visitLdcInsn(40.0f)
+            renderSettings.visitLdcInsn(254.0f)
+            renderSettings.visitLdcInsn(218.0f)
+            renderSettings.visitLdcInsn(14.0f)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitLdcInsn(0x0B101A)
+            renderSettings.visitLdcInsn(0.92f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "round",
+                "(Lnet/minecraft/class_332;FFFFFI)V", false)
+
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitLdcInsn(12.0f)
+            renderSettings.visitLdcInsn(40.0f)
+            renderSettings.visitLdcInsn(254.0f)
+            renderSettings.visitLdcInsn(218.0f)
+            renderSettings.visitLdcInsn(14.0f)
+            renderSettings.visitLdcInsn(0.7f)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitLdcInsn(0xFFFFFF)
+            renderSettings.visitLdcInsn(0.28f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitLdcInsn(0xFFFFFF)
+            renderSettings.visitLdcInsn(0.07f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "outlineGradientV",
+                "(Lnet/minecraft/class_332;FFFFFFII)V", false)
+
+            // Compact section title and divider.
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitLdcInsn(7.6f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Fonts", "semibold", "(F)La/FontFace;", false)
+            renderSettings.visitVarInsn(Opcodes.ASTORE, 4)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 4)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitLdcInsn("Menu look")
+            renderSettings.visitLdcInsn("Вид меню")
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/Lang", "s",
+                "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false)
+            renderSettings.visitLdcInsn(24.0f)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 4)
+            renderSettings.visitLdcInsn(52.0f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "centerTop", "(F)F", false)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitLdcInsn(0.95f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "a/FontFace", "draw",
+                "(Lnet/minecraft/class_332;Ljava/lang/String;FFI)V", false)
+
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitLdcInsn(22.0f)
+            renderSettings.visitLdcInsn(66.5f)
+            renderSettings.visitLdcInsn(234.0f)
+            renderSettings.visitLdcInsn(0.5f)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitLdcInsn(0xFFFFFF)
+            renderSettings.visitLdcInsn(0.1f)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyh", "(IF)I", false)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESTATIC, "a/DrawUtil", "rect",
+                "(Lnet/minecraft/class_332;FFFFI)V", false)
+
+            // Transform the existing setting rows to the left panel. The transform cancels
+            // the wallpaper scroll offset so this panel remains fixed while the picker scrolls.
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaSettingsTranslateX", "()F", false)
+            renderSettings.visitVarInsn(Opcodes.FSTORE, 5)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaSettingsTranslateY", "()F", false)
+            renderSettings.visitVarInsn(Opcodes.FSTORE, 6)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "net/minecraft/class_332", "method_51448",
+                "()Lorg/joml/Matrix3x2fStack;", false)
+            renderSettings.visitVarInsn(Opcodes.ASTORE, 7)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 7)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "pushMatrix",
+                "()Lorg/joml/Matrix3x2fStack;", false)
+            renderSettings.visitInsn(Opcodes.POP)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 7)
+            renderSettings.visitVarInsn(Opcodes.FLOAD, 5)
+            renderSettings.visitVarInsn(Opcodes.FLOAD, 6)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "translate",
+                "(FF)Lorg/joml/Matrix3x2fStack;", false)
+            renderSettings.visitInsn(Opcodes.POP)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
+            renderSettings.visitVarInsn(Opcodes.ILOAD, 2)
+            renderSettings.visitInsn(Opcodes.I2F)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            renderSettings.visitInsn(Opcodes.FDIV)
+            renderSettings.visitVarInsn(Opcodes.FLOAD, 5)
+            renderSettings.visitInsn(Opcodes.FSUB)
+            renderSettings.visitVarInsn(Opcodes.ILOAD, 3)
+            renderSettings.visitInsn(Opcodes.I2F)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
+            renderSettings.visitFieldInsn(Opcodes.GETFIELD, ownerClass, "jvd", "F")
+            renderSettings.visitInsn(Opcodes.FDIV)
+            renderSettings.visitVarInsn(Opcodes.FLOAD, 6)
+            renderSettings.visitInsn(Opcodes.FSUB)
+            renderSettings.visitInsn(Opcodes.ICONST_1)
+            renderSettings.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jyb",
+                "(Lnet/minecraft/class_332;FFZ)V", false)
+            renderSettings.visitVarInsn(Opcodes.ALOAD, 7)
+            renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "popMatrix",
+                "()Lorg/joml/Matrix3x2fStack;", false)
+            renderSettings.visitInsn(Opcodes.POP)
+            renderSettings.visitInsn(Opcodes.RETURN)
+            renderSettings.visitMaxs(0, 0)
+            renderSettings.visitEnd()
+
+            MethodVisitor handleClick = writer.visitMethod(Opcodes.ACC_PRIVATE | Opcodes.ACC_SYNTHETIC,
+                "albaHandlePersistentSettingsClick", "(FF)Z", null, null)
+            handleClick.visitCode()
+            handleClick.visitVarInsn(Opcodes.ALOAD, 0)
+            handleClick.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaSettingsTranslateX", "()F", false)
+            handleClick.visitVarInsn(Opcodes.FSTORE, 3)
+            handleClick.visitVarInsn(Opcodes.ALOAD, 0)
+            handleClick.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "albaSettingsTranslateY", "()F", false)
+            handleClick.visitVarInsn(Opcodes.FSTORE, 4)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 1)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 3)
+            handleClick.visitInsn(Opcodes.FSUB)
+            handleClick.visitVarInsn(Opcodes.FSTORE, 5)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 2)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 4)
+            handleClick.visitInsn(Opcodes.FSUB)
+            handleClick.visitVarInsn(Opcodes.FSTORE, 6)
+            handleClick.visitVarInsn(Opcodes.ALOAD, 0)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 5)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 6)
+            handleClick.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jxx", "(FF)I", false)
+            handleClick.visitVarInsn(Opcodes.ISTORE, 7)
+            org.objectweb.asm.Label outsideSettings = new org.objectweb.asm.Label()
+            handleClick.visitVarInsn(Opcodes.ILOAD, 7)
+            handleClick.visitJumpInsn(Opcodes.IFLT, outsideSettings)
+            handleClick.visitVarInsn(Opcodes.ALOAD, 0)
+            handleClick.visitVarInsn(Opcodes.ILOAD, 7)
+            handleClick.visitVarInsn(Opcodes.FLOAD, 5)
+            handleClick.visitMethodInsn(Opcodes.INVOKESPECIAL, ownerClass, "jxy", "(IF)V", false)
+            handleClick.visitInsn(Opcodes.ICONST_1)
+            handleClick.visitInsn(Opcodes.IRETURN)
+            handleClick.visitLabel(outsideSettings)
+            handleClick.visitInsn(Opcodes.ICONST_0)
+            handleClick.visitInsn(Opcodes.IRETURN)
+            handleClick.visitMaxs(0, 0)
+            handleClick.visitEnd()
+
+            super.visitEnd()
+        }
+    }
+    reader.accept(visitor, 0)
+    if (!found.render || !found.picker || !found.pickerBounds || !found.pickerHitbox ||
+        !found.click || !found.drag || !found.scroll) {
+        throw new GradleException("Wallpaper/settings separation patch points missing in " + ownerClass + ": " + found)
+    }
+    logger.lifecycle("Separated wallpaper selection from persistent menu settings; retained settings clicks and slider dragging")
+    return writer.toByteArray()
+}
+
 /* Patch bundled bytecode directly: the decompiled src tree is excluded from compilation. */
 def patchButtonSkinQuitDetection = { byte[] bytes ->
     def reader = new ClassReader(bytes)
@@ -3681,6 +4120,7 @@ tasks.register("rebrandFlowNestedJar") {
                             patchedBytes = patchMainMenuSettings(patchedBytes)
                             patchedBytes = patchMenuScreenSocialLinksAndStyle(patchedBytes)
                             patchedBytes = patchMenuUtilityIconLayout(patchedBytes)
+                            patchedBytes = patchWallpaperPickerPersistentSettings(patchedBytes)
                             patchedBytes = patchRemoveMenuBackgroundReset(patchedBytes)
                             // Do not replace method_25420 with Minecraft's plain panorama renderer:
                             // the original title-screen method owns the selected wallpaper layer.
