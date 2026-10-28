@@ -1937,7 +1937,7 @@ def patchWallpaperPickerPersistentSettings = { byte[] bytes ->
             renderSettings.visitVarInsn(Opcodes.FLOAD, 5)
             renderSettings.visitVarInsn(Opcodes.FLOAD, 6)
             renderSettings.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "org/joml/Matrix3x2fStack", "translate",
-                "(FF)Lorg/joml/Matrix3x2fStack;", false)
+                "(FF)Lorg/joml/Matrix3x2f;", false)
             renderSettings.visitInsn(Opcodes.POP)
             renderSettings.visitVarInsn(Opcodes.ALOAD, 0)
             renderSettings.visitVarInsn(Opcodes.ALOAD, 1)
